@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magic eSIM — Stay Connected Anywhere</title>
+  <meta name="description" content="Magic eSIM — интернет в путешествиях и бизнес-поездках. Stay Connected Anywhere." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #050713;
+      color: #fff;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .hero {
+      position: relative;
+      min-height: 760px;
+      padding: 32px 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 16% 20%, rgba(156, 28, 210, 0.38), transparent 32%),
+        radial-gradient(circle at 84% 36%, rgba(0, 224, 255, 0.24), transparent 34%),
+        linear-gradient(120deg, #13051c 0%, #050713 44%, #031821 100%);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.26;
+      background-image:
+        radial-gradient(circle, rgba(0, 229, 255, 0.65) 1.2px, transparent 1.4px),
+        radial-gradient(circle, rgba(172, 52, 255, 0.48) 1.2px, transparent 1.4px);
+      background-size: 12px 12px, 13px 13px;
+      background-position: 56% 34%, 15% 34%;
+      mask-image:
+        radial-gradient(ellipse at 24% 45%, black 0 27%, transparent 45%),
+        radial-gradient(ellipse at 73% 43%, black 0 35%, transparent 53%);
+      -webkit-mask-image:
+        radial-gradient(ellipse at 24% 45%, black 0 27%, transparent 45%),
+        radial-gradient(ellipse at 73% 43%, black 0 35%, transparent 53%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, transparent 0 8%, rgba(160, 38, 255, .55) 8.2%, transparent 8.6%),
+        linear-gradient(135deg, transparent 0 72%, rgba(0, 229, 255, .55) 72.2%, transparent 72.6%),
+        linear-gradient(135deg, transparent 0 88%, rgba(92, 94, 255, .5) 88.2%, transparent 88.6%);
+      pointer-events: none;
+      opacity: .8;
+    }
+    .nav {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #a83cff, #18e0ff);
+      box-shadow: 0 0 26px rgba(0, 224, 255, .22);
+    }
+    .neon-text {
+      background: linear-gradient(90deg, #b936ff 0%, #5668ff 42%, #08e8ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 28px rgba(15, 232, 255, 0.16);
+    }
+    .nav-cta, .button-primary, .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-weight: 900;
+      transition: .2s ease;
+    }
+    .nav-cta {
+      border: 1px solid rgba(103, 232, 249, .4);
+      background: rgba(103, 232, 249, .1);
+      padding: 10px 18px;
+      color: #cffafe;
+      font-size: 14px;
+    }
+    .nav-cta:hover { background: #67e8f9; color: #06101a; }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 96px 0 60px;
+      text-align: center;
+    }
+    .magic-logo {
+      width: min(320px, 74vw);
+      height: min(220px, 50vw);
+      margin: 0 auto 10px;
+      filter: drop-shadow(0 0 28px rgba(0, 232, 255, .22));
+    }
+    .circuit-line { stroke-linecap: round; stroke-linejoin: round; stroke-width: 10; fill: none; }
+    h1 {
+      font-size: clamp(56px, 10vw, 112px);
+      line-height: .95;
+      letter-spacing: -0.07em;
+      font-weight: 950;
+    }
+    .subtitle {
+      margin-top: 18px;
+      font-size: clamp(24px, 4vw, 42px);
+      font-weight: 300;
+      letter-spacing: .02em;
+      color: rgba(255,255,255,.92);
+    }
+    .hero-text {
+      max-width: 680px;
+      margin: 28px auto 0;
+      color: #cbd5e1;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 34px;
+    }
+    .button-primary {
+      padding: 16px 34px;
+      background: linear-gradient(90deg, #a83cff, #18e0ff);
+      color: #fff;
+      box-shadow: 0 18px 42px rgba(0, 224, 255, .18);
+    }
+    .button-secondary {
+      padding: 16px 34px;
+      border: 1px solid rgba(255,255,255,.15);
+      background: rgba(255,255,255,.05);
+      color: #fff;
+    }
+    .button-primary:hover, .button-secondary:hover { transform: translateY(-2px); }
+    .star {
+      position: absolute;
+      z-index: 1;
+      color: #22e7ff;
+      text-shadow: 0 0 18px currentColor;
+      animation: pulse 2.8s ease-in-out infinite;
+    }
+    .star.one { left: 43%; top: 27%; font-size: 42px; }
+    .star.two { left: 57%; top: 33%; font-size: 52px; animation-delay: .6s; }
+    .star.three { left: 62%; top: 45%; font-size: 32px; animation-delay: 1s; }
+    .orbit {
+      position: absolute;
+      z-index: 1;
+      border: 2px solid rgba(43, 221, 255, .5);
+      border-radius: 999px;
+      box-shadow: 0 0 18px rgba(43, 221, 255, .22);
+    }
+    .orbit.one { right: 10%; top: 12%; width: 26px; height: 26px; }
+    .orbit.two { left: 6%; bottom: 4%; width: 26px; height: 26px; border-color: rgba(168,60,255,.7); }
+    @keyframes pulse {
+      0%,100% { opacity: .45; transform: scale(.92); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+    section { padding: 72px 0; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 24px 80px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(18px);
+      border-radius: 30px;
+      padding: 32px;
+    }
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(168,60,255,.24), rgba(24,224,255,.24));
+      color: #a5f3fc;
+      font-size: 25px;
+    }
+    .glass h3 { font-size: 22px; margin-bottom: 10px; }
+    .muted { color: #94a3b8; }
+    .section-title { max-width: 720px; margin: 0 auto 44px; text-align: center; }
+    .section-title h2, .final h2 {
+      font-size: clamp(36px, 5vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      font-weight: 950;
+    }
+    .section-title p, .final p {
+      margin-top: 16px;
+      color: #94a3b8;
+      font-size: 18px;
+    }
+    .plan.featured {
+      background: linear-gradient(135deg, #a83cff 0%, #18e0ff 100%);
+      color: #06101a;
+      box-shadow: 0 20px 70px rgba(0, 224, 255, .22);
+    }
+    .plan-title { font-size: 20px; font-weight: 900; }
+    .plan-data { margin-top: 24px; font-size: 52px; line-height: 1; font-weight: 950; letter-spacing: -0.04em; }
+    .plan-price { margin-top: 28px; font-size: 32px; font-weight: 950; }
+    .plan button {
+      width: 100%;
+      margin-top: 26px;
+      padding: 16px 22px;
+      border: 1px solid rgba(103,232,249,.25);
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .plan.featured button { background: #050713; color: #fff; border-color: #050713; }
+    .plan button:hover { transform: translateY(-2px); }
+    .steps-box { max-width: 920px; margin: 0 auto; }
+    .step {
+      padding: 24px;
+      border-radius: 24px;
+      background: #090d1d;
+    }
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a83cff, #18e0ff);
+      color: #fff;
+      font-weight: 950;
+    }
+    .final { max-width: 780px; margin: 0 auto; text-align: center; }
+    .final-icon {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      border: 2px solid #67e8f9;
+      color: #67e8f9;
+      font-size: 30px;
+      box-shadow: 0 0 24px rgba(0,224,255,.2);
+    }
+    footer { padding: 28px 0 48px; color: #64748b; text-align: center; font-size: 14px; }
+    @media (max-width: 900px) {
+      .hero { min-height: auto; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .hero-content { padding-top: 72px; }
+    }
+    @media (max-width: 540px) {
+      .container { width: min(100% - 28px, 1180px); }
+      .actions { flex-direction: column; }
+      .actions a { width: 100%; }
+      .glass { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <span class="star one">✦</span>
+    <span class="star two">✦</span>
+    <span class="star three">✦</span>
+    <span class="orbit one"></span>
+    <span class="orbit two"></span>
+
+    <div class="container">
+      <nav class="nav">
+        <a class="brand" href="#">
+          <span class="brand-mark">M</span>
+          <span class="neon-text">Magic eSIM</span>
+        </a>
+        <a class="nav-cta" href="#plans">Выбрать тариф</a>
+      </nav>
+
+      <div class="hero-content">
+        <svg class="magic-logo" viewBox="0 0 420 260" aria-label="Magic eSIM logo" role="img">
+          <defs>
+            <linearGradient id="magicGradient" x1="40" y1="40" x2="380" y2="220" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#b936ff" />
+              <stop offset="0.52" stop-color="#626dff" />
+              <stop offset="1" stop-color="#08e8ff" />
+            </linearGradient>
+          </defs>
+          <path class="circuit-line" stroke="url(#magicGradient)" d="M90 190V92l82 82 82-82v98" />
+          <path class="circuit-line" stroke="url(#magicGradient)" d="M126 190V128l46 46 46-46v62" />
+          <path class="circuit-line" stroke="url(#magicGradient)" d="M64 110h42M64 150h42M64 190h42M296 150h58M296 190h58" />
+          <circle cx="55" cy="110" r="12" fill="#050713" stroke="#a83cff" stroke-width="8" />
+          <circle cx="55" cy="150" r="12" fill="#050713" stroke="#934dff" stroke-width="8" />
+          <circle cx="55" cy="190" r="12" fill="#050713" stroke="#7462ff" stroke-width="8" />
+          <circle cx="365" cy="150" r="12" fill="#050713" stroke="#08e8ff" stroke-width="8" />
+          <circle cx="365" cy="190" r="12" fill="#050713" stroke="#08e8ff" stroke-width="8" />
+          <rect x="164" y="150" width="92" height="76" rx="14" fill="#ffd978" stroke="#5a72ff" stroke-width="7" />
+          <path d="M164 188h92M210 150v76" stroke="#5a72ff" stroke-width="7" />
+          <circle cx="147" cy="129" r="7" fill="#050713" />
+          <circle cx="184" cy="166" r="7" fill="#050713" />
+          <circle cx="236" cy="166" r="7" fill="#050713" />
+        </svg>
+
+        <h1 class="neon-text">Magic eSIM</h1>
+        <p class="subtitle">Stay Connected Anywhere</p>
+        <p class="hero-text">
+          eSIM для путешествий и бизнеса: подключайтесь к интернету в разных странах без роуминга, очередей и физической SIM-карты.
+        </p>
+        <div class="actions">
+          <a class="button-primary" href="#plans">Купить eSIM</a>
+          <a class="button-secondary" href="#how">Как это работает</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container grid-3">
+      <article class="glass">
+        <div class="icon">✦</div>
+        <h3>Покрытие по всему миру</h3>
+        <p class="muted">Интернет в 120+ странах без роуминга и лишних SIM-карт.</p>
+      </article>
+      <article class="glass">
+        <div class="icon">⚡</div>
+        <h3>Быстрый старт</h3>
+        <p class="muted">Получите QR-код сразу после покупки и подключитесь за пару минут.</p>
+      </article>
+      <article class="glass">
+        <div class="icon">◈</div>
+        <h3>Надёжная связь</h3>
+        <p class="muted">Работает через партнёрские мобильные сети с поддержкой LTE и 5G.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="plans">
+    <div class="container">
+      <div class="section-title">
+        <h2>Популярные тарифы</h2>
+        <p>Выберите пакет данных под вашу поездку.</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="glass plan">
+          <p class="plan-title">Europe</p>
+          <p class="plan-data">10 GB</p>
+          <p class="muted">30 дней</p>
+          <p class="plan-price">€14.99</p>
+          <button type="button">Купить сейчас</button>
+        </article>
+        <article class="glass plan featured">
+          <p class="plan-title">Worldwide</p>
+          <p class="plan-data">20 GB</p>
+          <p>60+ стран</p>
+          <p class="plan-price">€29.99</p>
+          <button type="button">Купить сейчас</button>
+        </article>
+        <article class="glass plan">
+          <p class="plan-title">Business</p>
+          <p class="plan-data">50 GB</p>
+          <p class="muted">для команд</p>
+          <p class="plan-price">€59.99</p>
+          <button type="button">Купить сейчас</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="container">
+      <div class="glass steps-box">
+        <h2>Как подключиться</h2>
+        <div class="grid-3">
+          <article class="step">
+            <div class="step-number">1</div>
+            <h3>Выберите направление</h3>
+          </article>
+          <article class="step">
+            <div class="step-number">2</div>
+            <h3>Оплатите подходящий тариф</h3>
+          </article>
+          <article class="step">
+            <div class="step-number">3</div>
+            <h3>Сканируйте QR-код и подключайтесь</h3>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container final">
+      <div class="final-icon">✓</div>
+      <h2>Готовы оставаться онлайн в любой точке мира?</h2>
+      <p>Купите eSIM заранее и подключайтесь сразу после посадки.</p>
+      <div class="actions">
+        <a class="button-primary" href="#plans">Начать сейчас</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© 2026 Magic eSIM. Stay Connected Anywhere.</div>
+  </footer>
+</body>
+</html>
