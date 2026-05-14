@@ -353,7 +353,10 @@
   </div>
 </section>
 
-    <section id="global-pricing"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div><p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
+    
+    <div id="russiaApiStatus" class="packages-status reveal">Загружаем актуальные тарифы России...</div>
+    <div id="russiaApiPackagesGrid" class="packages-grid"></div>
+<section id="global-pricing"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div><p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
     <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Оставайтесь онлайн для работы, сервисов и поездок — даже там, где VPN нестабилен.</p><a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM →</a></div></div></section>
   </main>
   <footer><div class="container footer-inner"><div class="brand"><span class="company-name">Magic eSIM</span></div><a href="mailto:support@magicesim.com">support@magicesim.com</a></div></footer>
@@ -710,6 +713,78 @@ function renderPackages(){
   `).join('');
 }
 
+
+function isRussiaApiPackage(item){
+  const code=String(item.country_code||'').toUpperCase();
+  const region=String(item.region||'').toUpperCase();
+  const name=String(item.name||'').toLowerCase();
+  return code==='RU'||region.split(/[\s,;/|+]+/).includes('RU')||name.includes('russia')||name.includes('россия');
+}
+
+async function loadRussiaApiPackages(){
+  const grid=document.getElementById('russiaApiPackagesGrid');
+  const status=document.getElementById('russiaApiStatus');
+
+  if(!grid||!status){
+    return;
+  }
+
+  status.textContent='Загружаем актуальные тарифы России...';
+
+  try{
+    const data=await loadJson(`${API_BASE}/api/v1/retail/packages?country=RU&t=${Date.now()}`);
+    const packages=(Array.isArray(data.data)?data.data:[])
+      .filter(isRussiaApiPackage)
+      .sort((a,b)=>Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.price||0)-Number(b.price||0));
+
+    status.textContent=packages.length
+      ? `Актуальные тарифы из базы. Тарифов: ${packages.length}`
+      : 'Актуальные тарифы России не найдены. Напишите в поддержку — подберём вручную.';
+
+    grid.innerHTML=packages.map((item)=>`
+      <article class="package-card reveal visible">
+        <div class="package-availability">Тариф доступен</div>
+        <div class="package-title">${escapeHtml(item.name||'')}</div>
+
+        <div class="package-meta">
+          <div class="package-meta-item">
+            <div>
+              <div class="package-meta-label">Интернет</div>
+              <div class="package-meta-value">${escapeHtml(item.data_gb||'')} GB</div>
+            </div>
+          </div>
+          <div class="package-meta-item">
+            <div>
+              <div class="package-meta-label">Срок</div>
+              <div class="package-meta-value">${escapeHtml(item.validity_days||'')}d</div>
+            </div>
+          </div>
+          <div class="package-meta-item">
+            <div>
+              <div class="package-meta-label">Страна</div>
+              <div class="package-meta-value">${escapeHtml(item.coverage_flags||'🇷🇺')}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="package-info">
+          <strong>Покрытие:</strong> ${escapeHtml(item.coverage_flags||'🇷🇺')} Россия<br>
+          <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
+          <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
+          <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
+          <strong>Раздача интернета:</strong> доступна
+        </div>
+
+        <div class="package-price">${formatRub(item.price)}</div>
+        <a class="btn package-buy" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM</a>
+      </article>
+    `).join('');
+  }catch(error){
+    console.error('Russia package load failed',error);
+    status.textContent='Не удалось загрузить актуальные тарифы России. Напишите в поддержку — подберём тариф вручную.';
+  }
+}
+
 async function loadLandingPackages(){
   const status=document.getElementById('packagesStatus');
   if(!status){
@@ -740,7 +815,7 @@ if(packageSortInput){
   packageSortInput.addEventListener('change',renderPackages);
 }
 
-window.addEventListener('DOMContentLoaded',loadLandingPackages);
+window.addEventListener('DOMContentLoaded',()=>{ loadLandingPackages(); loadRussiaApiPackages(); });
 </script>
 </body>
 </html>
