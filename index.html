@@ -779,7 +779,9 @@ async function loadRussiaApiPackages(){
           <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
           <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
           <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
-          <strong>Раздача интернета:</strong> доступна
+          <strong>Раздача интернета:</strong> доступна<br>
+          <strong>После дневного пакета:</strong> интернет не отключается<br>
+          <strong>Скорость после лимита:</strong> до 512 Kbps
         </div>
 
         <div class="package-price">${formatRub(item.price)}</div>
