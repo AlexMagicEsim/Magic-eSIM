@@ -726,7 +726,7 @@ function isRussiaApiPackage(item){
 
 function isRussiaDailyApiPackage(item){
   const packageId=String(item.package_id||'');
-  return packageId.startsWith('EA-P0XZLMEV8-');
+  return packageId.startsWith('EA-P0XZLMEV8-') || packageId.startsWith('EA-PW9L2YOY1-');
 }
 
 async function loadRussiaApiPackages(){
