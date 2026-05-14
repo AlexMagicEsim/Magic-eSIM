@@ -946,12 +946,12 @@ function renderCountryChips(){
 function comparePackages(a,b){
   const sort=document.getElementById('packageSort')?.value||'country_price';
 
-  if(sort==='price_asc')return retailPrice(a)-retailPrice(b);
-  if(sort==='price_desc')return retailPrice(b)-retailPrice(a);
-  if(sort==='data_asc')return Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.validity_days||0)-Number(b.validity_days||0)||retailPrice(a)-retailPrice(b);
-  if(sort==='days_asc')return Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.data_gb||0)-Number(b.data_gb||0)||retailPrice(a)-retailPrice(b);
+  if(sort==='price_asc')return Number(a.price||0)-Number(b.price||0);
+  if(sort==='price_desc')return Number(b.price||0)-Number(a.price||0);
+  if(sort==='data_asc')return Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.price||0)-Number(b.price||0);
+  if(sort==='days_asc')return Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.price||0)-Number(b.price||0);
 
-  return countryName(countryCode(a)).localeCompare(countryName(countryCode(b)),'ru')||retailPrice(a)-retailPrice(b)||Number(a.data_gb||0)-Number(b.data_gb||0);
+  return countryName(countryCode(a)).localeCompare(countryName(countryCode(b)),'ru')||Number(a.price||0)-Number(b.price||0)||Number(a.data_gb||0)-Number(b.data_gb||0);
 }
 
 function renderPackages(){
@@ -1019,7 +1019,7 @@ function renderPackages(){
         <strong>Раздача интернета:</strong> доступна
       </div>
 
-      <div class="package-price">${formatRub(retailPrice(item))}</div>
+      <div class="package-price">${formatRub(item.price)}</div>
       <a class="btn package-buy" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM</a>
     </article>
   `).join('');
@@ -1034,7 +1034,7 @@ async function loadLandingPackages(){
   status.textContent='Загружаем тарифы...';
 
   try{
-    const data=await loadJson(`${API_BASE}/api/v1/packages?landing=1&t=${Date.now()}`);
+    const data=await loadJson(`${API_BASE}/api/v1/retail/packages?t=${Date.now()}`);
     allLandingPackages=Array.isArray(data.data)?data.data:[];
     window.allLandingPackages=allLandingPackages;
     renderCountryChips();
