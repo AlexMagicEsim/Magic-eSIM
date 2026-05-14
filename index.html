@@ -593,6 +593,13 @@ function renderCountryChips(){
       activeCountry=button.dataset.country||'ALL';
       renderCountryChips();
       renderPackages();
+
+      const grid=document.getElementById('packagesGrid');
+      if(grid){
+        setTimeout(()=>{
+          grid.scrollIntoView({behavior:'smooth',block:'start'});
+        },80);
+      }
     });
   });
 }
