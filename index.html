@@ -354,7 +354,7 @@
 </section>
 
     
-    <div id="russiaApiStatus" class="packages-status reveal">Загружаем актуальные тарифы России...</div>
+    <div id="russiaApiStatus" class="packages-status reveal">Загружаем актуальные суточные тарифы России...</div>
     <div id="russiaApiPackagesGrid" class="packages-grid"></div>
 <section id="global-pricing"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div><p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
     <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Оставайтесь онлайн для работы, сервисов и поездок — даже там, где VPN нестабилен.</p><a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM →</a></div></div></section>
@@ -721,6 +721,11 @@ function isRussiaApiPackage(item){
   return code==='RU'||region.split(/[\s,;/|+]+/).includes('RU')||name.includes('russia')||name.includes('россия');
 }
 
+function isRussiaDailyApiPackage(item){
+  const packageId=String(item.package_id||'');
+  return packageId.startsWith('EA-P0XZLMEV8-');
+}
+
 async function loadRussiaApiPackages(){
   const grid=document.getElementById('russiaApiPackagesGrid');
   const status=document.getElementById('russiaApiStatus');
@@ -729,16 +734,16 @@ async function loadRussiaApiPackages(){
     return;
   }
 
-  status.textContent='Загружаем актуальные тарифы России...';
+  status.textContent='Загружаем актуальные суточные тарифы России...';
 
   try{
     const data=await loadJson(`${API_BASE}/api/v1/retail/packages?country=RU&t=${Date.now()}`);
     const packages=(Array.isArray(data.data)?data.data:[])
-      .filter(isRussiaApiPackage)
+      .filter(isRussiaDailyApiPackage)
       .sort((a,b)=>Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.price||0)-Number(b.price||0));
 
     status.textContent=packages.length
-      ? `Актуальные тарифы из базы. Тарифов: ${packages.length}`
+      ? `Суточные тарифы России из базы. Тарифов: ${packages.length}`
       : 'Актуальные тарифы России не найдены. Напишите в поддержку — подберём вручную.';
 
     grid.innerHTML=packages.map((item)=>`
