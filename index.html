@@ -585,13 +585,13 @@ function formatDataLabel(item){
     return '';
   }
 
-  return `${gb:g} GB`.replace(':g','');
+  return `${Number.isInteger(gb)?gb:gb.toFixed(2).replace(/\.?0+$/,'')} GB`;
 }
 
 function publicPackageName(item){
   const original=String(item.name||'').trim();
   const lower=original.toLowerCase();
-  const data=`${Number(item.data_gb||0):g} GB`.replace(':g','');
+  const data=formatDataLabel(item);
   const days=Number(item.validity_days||0);
 
   if(lower.includes('vietnam plus')){
