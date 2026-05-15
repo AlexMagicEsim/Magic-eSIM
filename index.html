@@ -669,6 +669,10 @@ function publicPackageName(item){
     return `Греция, Кипр и Турция ${data}`;
   }
 
+  if(lower.includes('apac')){
+    return `Азия и Океания ${data}`;
+  }
+
   return original;
 }
 
