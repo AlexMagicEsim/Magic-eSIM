@@ -525,6 +525,37 @@ function countryCode(item){
   return /^[A-Z]{2}$/.test(first)?first:'OTHER';
 }
 
+
+function packageCoverageCodes(item){
+  const codes=Array.isArray(item.coverage_country_codes)
+    ? item.coverage_country_codes.map((code)=>String(code||'').trim().toUpperCase()).filter((code)=>/^[A-Z]{2}$/.test(code))
+    : [];
+
+  const direct=String(item.country_code||'').trim().toUpperCase();
+  if(/^[A-Z]{2}$/.test(direct)&&!codes.includes(direct)){
+    codes.unshift(direct);
+  }
+
+  String(item.region||'')
+    .toUpperCase()
+    .split(/[\s,;/|+]+/)
+    .map((code)=>code.trim())
+    .filter((code)=>/^[A-Z]{2}$/.test(code))
+    .forEach((code)=>{
+      if(!codes.includes(code)){
+        codes.push(code);
+      }
+    });
+
+  return codes;
+}
+
+function packageMatchesCountry(item, code){
+  const country=String(code||'').trim().toUpperCase();
+  if(!country||country==='ALL')return true;
+  return packageCoverageCodes(item).includes(country);
+}
+
 function countryName(code){
   return countryNames[code]||'Другое';
 }
@@ -663,17 +694,18 @@ function renderCountryChips(){
   const filterableCountries=new Set();
 
   packages.forEach((item)=>{
-    if(isCountrySpecificPackage(item)){
-      filterableCountries.add(countryCode(item));
-    }
+    packageCoverageCodes(item).forEach((code)=>{
+      filterableCountries.add(code);
+    });
   });
 
   const counts=new Map();
   packages.forEach((item)=>{
-    const code=countryCode(item);
-    if(filterableCountries.has(code)){
-      counts.set(code,(counts.get(code)||0)+1);
-    }
+    packageCoverageCodes(item).forEach((code)=>{
+      if(filterableCountries.has(code)){
+        counts.set(code,(counts.get(code)||0)+1);
+      }
+    });
   });
 
   const countries=[...counts.entries()].sort((a,b)=>countryName(a[0]).localeCompare(countryName(b[0]),'ru'));
@@ -728,9 +760,9 @@ function renderPackages(){
   let packages=basePackages();
 
   if(activeCountry==='ALL'){
-    packages=packages.filter((item)=>featuredAllCountries.includes(countryCode(item)));
+    packages=packages.filter((item)=>featuredAllCountries.some((code)=>packageMatchesCountry(item,code)));
   }else{
-    packages=packages.filter((item)=>countryCode(item)===activeCountry);
+    packages=packages.filter((item)=>packageMatchesCountry(item,activeCountry));
   }
 
   if(query){
@@ -772,7 +804,7 @@ function renderPackages(){
       </div>
 
       <div class="package-info">
-        <strong>Покрытие:</strong> ${escapeHtml(countryName(countryCode(item)))}<br>
+        <strong>Покрытие:</strong> ${escapeHtml(packageCoverageCodes(item).map(countryName).join(', ')||countryName(countryCode(item)))}<br>
         <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
         <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
         <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
