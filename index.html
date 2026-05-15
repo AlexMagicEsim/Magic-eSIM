@@ -577,6 +577,70 @@ function searchText(item){
   ].join(' ').toLowerCase();
 }
 
+
+function formatDataLabel(item){
+  const gb=Number(item.data_gb||0);
+
+  if(!Number.isFinite(gb)||gb<=0){
+    return '';
+  }
+
+  return `${gb:g} GB`.replace(':g','');
+}
+
+function publicPackageName(item){
+  const original=String(item.name||'').trim();
+  const lower=original.toLowerCase();
+  const data=`${Number(item.data_gb||0):g} GB`.replace(':g','');
+  const days=Number(item.validity_days||0);
+
+  if(lower.includes('vietnam plus')){
+    return `Asia Plus ${data}`;
+  }
+
+  if(lower.includes('latam')||lower.includes('latin america')){
+    return `LATAM ${data}`;
+  }
+
+  if(lower.includes('greater china')&&lower.includes('taiwan')){
+    return `Китай, Гонконг, Макао и Тайвань ${data}`;
+  }
+
+  if(lower.includes('china korea japan')){
+    return `Китай, Корея и Япония ${data}`;
+  }
+
+  if(lower.includes('singapore malaysia and thailand')){
+    return `Сингапур, Малайзия и Таиланд ${data}`;
+  }
+
+  if(lower.includes('europe and usa')){
+    return `Европа и США ${data}`;
+  }
+
+  if(lower.includes('euconnect unlimited')){
+    return days ? `Европа Unlimited ${days} дней` : `Европа Unlimited ${data}`;
+  }
+
+  if(lower.includes('eu ')&&lower.includes('unlimited calls')){
+    return `Европа ${data} + звонки`;
+  }
+
+  if(lower.includes('europe ')){
+    return `Европа ${data}`;
+  }
+
+  if(lower.includes('spain and portugal')){
+    return `Испания и Португалия ${data}`;
+  }
+
+  if(lower.includes('greece cyprus turkey')){
+    return `Греция, Кипр и Турция ${data}`;
+  }
+
+  return original;
+}
+
 function packageNetworkText(item){
   const networks=Array.isArray(item.networks)?item.networks:[];
   const names=networks
@@ -684,7 +748,7 @@ function renderPackages(){
   grid.innerHTML=packages.map((item)=>`
     <article class="package-card reveal visible">
       <div class="package-availability">Тариф доступен</div>
-      <div class="package-title">${escapeHtml(item.name||'')}</div>
+      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
 
       <div class="package-meta">
         <div class="package-meta-item">
