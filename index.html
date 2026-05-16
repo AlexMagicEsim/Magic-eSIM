@@ -685,6 +685,62 @@ function packageNetworkText(item){
   return names.slice(0,2).join(', ')||'по странам покрытия';
 }
 
+function compactCoverageLabel(item){
+  const codes=packageCoverageCodes(item);
+  const unique=[...new Set(codes)];
+
+  if(unique.length<=1){
+    return countryName(unique[0]||countryCode(item));
+  }
+
+  const title=publicPackageName(item).toLowerCase();
+
+  if(title.includes('азия и океания')||title.includes('apac')){
+    return `Азия и Океания, ${unique.length} стран`;
+  }
+
+  if(title.includes('asia plus')){
+    return `Asia Plus, ${unique.length} стран`;
+  }
+
+  if(title.includes('европа unlimited')){
+    return `Европа Unlimited, ${unique.length} стран`;
+  }
+
+  if(title.includes('европа и сша')){
+    return `Европа и США, ${unique.length} стран`;
+  }
+
+  if(title.includes('европа')){
+    return `Европа, ${unique.length} стран`;
+  }
+
+  if(title.includes('latam')||title.includes('латинская америка')){
+    return `Латинская Америка, ${unique.length} стран`;
+  }
+
+  if(title.includes('китай, гонконг, макао и тайвань')){
+    return `Китай, Гонконг, Макао и Тайвань`;
+  }
+
+  if(title.includes('китай, корея и япония')){
+    return `Китай, Корея и Япония`;
+  }
+
+  return `${unique.length} стран`;
+}
+
+function compactCoverageIcon(item){
+  const codes=packageCoverageCodes(item);
+  const unique=[...new Set(codes)];
+
+  if(unique.length<=1){
+    return item.coverage_flags||'🌍';
+  }
+
+  return '🌏';
+}
+
 function basePackages(){
   return allLandingPackages
     .filter((item)=>!isRussiaPackage(item))
@@ -803,13 +859,13 @@ function renderPackages(){
         <div class="package-meta-item">
           <div>
             <div class="package-meta-label">Страна</div>
-            <div class="package-meta-value">${escapeHtml(item.coverage_flags||'🌍')}</div>
+            <div class="package-meta-value">${escapeHtml(compactCoverageIcon(item))}</div>
           </div>
         </div>
       </div>
 
       <div class="package-info">
-        <strong>Покрытие:</strong> ${escapeHtml(packageCoverageCodes(item).map(countryName).join(', ')||countryName(countryCode(item)))}<br>
+        <strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br>
         <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
         <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
         <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
