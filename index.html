@@ -1257,8 +1257,14 @@ function isRussiaApiPackage(item){
 }
 
 function isRussiaDailyApiPackage(item){
-  const packageId=String(item.package_id||'');
-  return packageId.startsWith('EA-P0XZLMEV8-') || packageId.startsWith('EA-PW9L2YOY1-');
+  const name=String(item.name||'').toLowerCase();
+  const dataGb=Number(item.data_gb||0);
+  const validityDays=Number(item.validity_days||0);
+
+  return isRussiaApiPackage(item)
+    && validityDays===1
+    && dataGb>0
+    && (name.includes('daily')||name.includes('1 day')||name.includes('1day')||name.includes('день')||name.includes('суточ'));
 }
 
 async function loadRussiaApiPackages(){
