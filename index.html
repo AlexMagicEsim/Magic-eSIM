@@ -1168,15 +1168,60 @@ function renderCountryChips(){
 }
 
 
+
+function packageCoverageTypeRank(item){
+  if(activeCountry==='ALL'){
+    return 0;
+  }
+
+  const selected=String(activeCountry||'').trim().toUpperCase();
+  const direct=String(countryCode(item)||'').trim().toUpperCase();
+  const codes=[...new Set(packageCoverageCodes(item))];
+
+  // Сначала тарифы, которые напрямую относятся к выбранной стране.
+  if(direct===selected && codes.length<=1){
+    return 0;
+  }
+
+  // Потом тарифы, где выбранная страна основная, но есть дополнительное покрытие.
+  if(direct===selected){
+    return 1;
+  }
+
+  // Потом региональные/комбо тарифы, где выбранная страна входит в покрытие.
+  if(codes.includes(selected)){
+    return 2;
+  }
+
+  return 3;
+}
+
 function comparePackages(a,b){
-  const sort=document.getElementById('packageSort')?.value||'country_price';
+  const coverageRank=packageCoverageTypeRank(a)-packageCoverageTypeRank(b);
+  if(coverageRank!==0){
+    return coverageRank;
+  }
 
-  if(sort==='price_asc')return Number(a.price||0)-Number(b.price||0);
-  if(sort==='price_desc')return Number(b.price||0)-Number(a.price||0);
-  if(sort==='data_asc')return Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.price||0)-Number(b.price||0);
-  if(sort==='days_asc')return Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.price||0)-Number(b.price||0);
+  const gbA=Number(a.data_gb||0);
+  const gbB=Number(b.data_gb||0);
+  const daysA=Number(a.validity_days||0);
+  const daysB=Number(b.validity_days||0);
+  const priceA=Number(a.price||0);
+  const priceB=Number(b.price||0);
 
-  return countryName(countryCode(a)).localeCompare(countryName(countryCode(b)),'ru')||Number(a.price||0)-Number(b.price||0)||Number(a.data_gb||0)-Number(b.data_gb||0);
+  if(gbA!==gbB){
+    return gbA-gbB;
+  }
+
+  if(daysA!==daysB){
+    return daysA-daysB;
+  }
+
+  if(priceA!==priceB){
+    return priceA-priceB;
+  }
+
+  return publicPackageName(a).localeCompare(publicPackageName(b),'ru');
 }
 
 function renderPackages(){
