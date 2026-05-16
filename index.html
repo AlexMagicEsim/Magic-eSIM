@@ -839,7 +839,8 @@ function renderCountryChips(){
     .map((region)=>{
       const items=groups.get(region);
       const regionCount=items.reduce((sum,[,count])=>sum+count,0);
-      const open=activeCountry==='ALL'||items.some(([code])=>code===activeCountry);
+      const isMobile=window.matchMedia&&window.matchMedia('(max-width: 560px)').matches;
+      const open=items.some(([code])=>code===activeCountry)||(!isMobile&&activeCountry==='ALL');
       return `
         <details class="country-region" ${open?'open':''}>
           <summary>
