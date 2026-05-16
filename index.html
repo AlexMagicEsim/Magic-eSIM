@@ -898,7 +898,7 @@ function renderPackages(){
   let packages=basePackages();
 
   if(activeCountry==='ALL'){
-    packages=packages.filter((item)=>featuredAllCountries.some((code)=>packageMatchesCountry(item,code)));
+    packages=[];
   }else{
     packages=packages.filter((item)=>packageMatchesCountry(item,activeCountry));
   }
@@ -909,11 +909,9 @@ function renderPackages(){
 
   packages=packages.sort(comparePackages);
 
-  status.textContent=packages.length
-    ? (activeCountry==='ALL'
-      ? `Показаны популярные направления: Таиланд, Вьетнам, ОАЭ. Тарифов: ${packages.length}`
-      : `Показано тарифов: ${packages.length}`)
-    : 'Тарифы не найдены. Напишите в поддержку — подберём вручную.';
+  status.textContent=activeCountry==='ALL'
+    ? ''
+    : (packages.length ? `Показано тарифов: ${packages.length}` : 'Тарифы не найдены. Напишите в поддержку — подберём вручную.');
 
   grid.innerHTML=packages.map((item)=>`
     <article class="package-card reveal visible">
