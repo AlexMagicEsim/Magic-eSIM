@@ -35,6 +35,18 @@
 #countryChips{display:block}
 #countryChips>.country-chip-all{display:inline-flex;width:auto;min-height:auto;margin:0 0 14px 0;align-items:center;justify-content:center}
 #countryChips>.country-region-filters{clear:both}
+
+.install-guides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:26px}
+.install-guide-btn{display:flex;align-items:center;justify-content:center;text-align:center;min-height:68px;padding:16px 22px;border-radius:22px;border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));color:#f7f8ff;font-weight:950;font-size:17px;box-shadow:0 14px 42px rgba(0,0,0,.22);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.install-guide-btn:hover{transform:translateY(-3px);border-color:rgba(24,216,255,.45);box-shadow:0 20px 54px rgba(24,216,255,.18)}
+.install-section{scroll-margin-top:110px}
+.install-guide-content{display:grid;gap:18px;margin-top:20px}
+.install-guide-content h4{font-size:24px;margin:12px 0 6px}
+.install-guide-content h5{font-size:20px;margin:10px 0 4px;color:#fff}
+.install-guide-content p,.install-guide-content li{color:#dce3ff;line-height:1.65;font-size:16px}
+.install-guide-content ul,.install-guide-content ol{margin-top:8px;margin-bottom:8px;padding-left:24px}
+.install-note{border:1px solid rgba(255,225,119,.22);background:rgba(255,225,119,.08);border-radius:18px;padding:14px 16px;color:#fff}
+@media(max-width:720px){.install-guides{grid-template-columns:1fr}.install-guide-btn{min-height:62px;font-size:16px}}
 .packages-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.package-card{display:flex;flex-direction:column;min-height:520px;border:1px solid var(--border);border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.032));box-shadow:var(--shadow);padding:24px;overflow:hidden}.package-availability{align-self:flex-start;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.075);color:var(--muted);font-weight:900;margin-bottom:18px}.package-title{font-size:26px;line-height:1.12;letter-spacing:-.04em;font-weight:950;margin-bottom:24px}.package-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.package-meta-item{min-height:112px;display:grid;place-items:center;text-align:center;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);padding:12px}.package-meta-label{color:var(--muted);font-weight:800;margin-bottom:5px}.package-meta-value{font-size:22px;font-weight:950}.package-info{position:relative;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);padding:16px;margin-bottom:20px;color:#e9edff;line-height:1.5}.package-info strong{color:#fff}.package-price{font-size:38px;font-weight:950;color:var(--yellow);letter-spacing:-.04em;margin-top:auto;margin-bottom:16px}.package-buy{width:100%;min-height:52px}.packages-status{color:var(--muted);font-size:17px;line-height:1.6;margin:14px 0}.retail-note{color:var(--muted);font-size:15px;line-height:1.6;margin-top:14px}@keyframes navDrop{from{opacity:0;transform:translate(-50%,-18px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}@keyframes slowZoom{from{transform:scale(1.04) translateY(0)}to{transform:scale(1.1) translateY(-10px)}}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(24,216,255,.85)}70%{box-shadow:0 0 0 12px rgba(24,216,255,0)}100%{box-shadow:0 0 0 0 rgba(24,216,255,0)}}@keyframes shine{0%,45%{left:-120%}65%,100%{left:140%}}@media(max-width:920px){.packages-grid{grid-template-columns:1fr 1fr}.nav-links{display:none}.hero{min-height:auto;padding-top:132px}.problem-list,.problem-note,.solution-card,.benefit,.tech-text,.tech-points,.social-card{grid-column:span 12}.pricing-wrap{grid-template-columns:1fr}.daily-plans{grid-template-columns:1fr}.card{padding:24px}}@media(max-width:560px){.packages-grid{grid-template-columns:1fr}.package-card{min-height:auto}.package-meta{grid-template-columns:1fr}.container,.nav{width:min(100% - 28px,var(--max))}.nav .btn{min-height:42px;padding:0 14px;font-size:13px}.hero-actions .btn{width:100%}section{padding:68px 0}.price-row{align-items:flex-start;flex-direction:column}.cta-box{padding:46px 20px;border-radius:30px}}
   
 
@@ -386,10 +398,252 @@
       <div id="russiaApiStatus" class="packages-status reveal" style="display:none;"></div>
       <div id="russiaApiPackagesGrid" class="packages-grid"></div>
     </div>
-<section id="global-pricing"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div><p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
+<section id="global-pricing"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div>
+      <div class="card reveal visible" style="margin-top:28px">
+        <div class="section-kicker">Инструкции</div>
+        <h3 style="font-size:clamp(24px,3vw,36px);margin-bottom:10px">Как установить Magic eSIM</h3>
+        <p class="muted" style="margin-bottom:0">После покупки данные по eSIM приходят на вашу электронную почту. Выберите устройство и откройте пошаговую инструкцию.</p>
+
+        <div class="install-guides">
+          <a class="install-guide-btn" href="#iphone-install">Инструкция по установке Magic eSIM на iPhone</a>
+          <a class="install-guide-btn" href="#android-install">Инструкция по установке Magic eSIM на Android</a>
+        </div>
+      </div>
+<p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
     <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Оставайтесь онлайн для работы, сервисов и поездок — даже там, где VPN нестабилен.</p><a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM →</a></div></div></section>
   </main>
-  <footer><div class="container footer-inner"><div class="brand"><span class="company-name">Magic eSIM</span></div><a href="mailto:support@magicesim.com">support@magicesim.com</a></div></footer>
+  
+  <section id="iphone-install" class="install-section">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Инструкция</div>
+        <h2>📲 Установка и активация Magic eSIM</h2>
+        <p class="muted">После покупки данные по eSIM приходят на вашу электронную почту.</p>
+      </div>
+
+      <div class="card install-guide-content">
+        <h4>Что будет в письме</h4>
+        <ul>
+          <li>ссылка на установку eSIM;</li>
+          <li>QR-код для установки eSIM;</li>
+          <li>данные для ручной установки, если они предусмотрены тарифом;</li>
+          <li>информация по тарифу.</li>
+        </ul>
+        <p>Если письмо не пришло сразу, проверьте папки Спам, Промоакции, Рассылки или Нежелательная почта.</p>
+
+        <h4>🍎 Инструкция для iPhone</h4>
+
+        <h5>Перед установкой</h5>
+        <p>Убедитесь, что iPhone поддерживает eSIM, телефон не заблокирован под конкретного оператора, у вас есть стабильный интернет через Wi-Fi, и вы открыли письмо со ссылкой установки или QR-кодом.</p>
+        <div class="install-note">⚠️ QR-код eSIM обычно можно использовать только один раз. Не удаляйте eSIM после установки, если тариф ещё нужен.</div>
+
+        <h5>Установка eSIM по ссылке</h5>
+        <ol>
+          <li>Откройте письмо прямо на iPhone.</li>
+          <li>Нажмите на ссылку установки eSIM.</li>
+          <li>Подтвердите добавление eSIM.</li>
+          <li>Дождитесь завершения установки.</li>
+          <li>Назовите линию Magic eSIM.</li>
+          <li>Для звонков и SMS оставьте основной номер.</li>
+          <li>Для мобильных данных выберите Magic eSIM перед использованием тарифа.</li>
+        </ol>
+
+        <h5>Установка eSIM через QR-код</h5>
+        <ol>
+          <li>Откройте письмо с данными eSIM на другом устройстве: компьютере, планшете или втором телефоне.</li>
+          <li>На iPhone откройте Настройки.</li>
+          <li>Перейдите в Сотовая связь.</li>
+          <li>Нажмите Добавить eSIM.</li>
+          <li>Выберите Использовать QR-код.</li>
+          <li>Отсканируйте QR-код из письма.</li>
+          <li>Нажмите Продолжить.</li>
+          <li>Дождитесь завершения установки.</li>
+          <li>Назовите линию, например Magic eSIM или Travel.</li>
+          <li>Для звонков и SMS оставьте ваш основной номер.</li>
+          <li>Для мобильных данных выберите Magic eSIM только тогда, когда будете готовы пользоваться тарифом.</li>
+        </ol>
+
+        <h5>Как включить интернет через eSIM на iPhone</h5>
+        <ol>
+          <li>Откройте Настройки.</li>
+          <li>Перейдите в Сотовая связь.</li>
+          <li>Нажмите Сотовые данные.</li>
+          <li>Выберите Magic eSIM.</li>
+          <li>Вернитесь назад и откройте установленную eSIM.</li>
+          <li>Включите Эта линия.</li>
+          <li>Включите Роуминг данных.</li>
+        </ol>
+        <div class="install-note">⚠️ Для travel eSIM почти всегда нужно включать роуминг данных, иначе интернет может не работать.</div>
+
+        <h5>Что сделать по прилёте</h5>
+        <ol>
+          <li>Включите eSIM Magic eSIM.</li>
+          <li>Выберите её для Сотовых данных.</li>
+          <li>Включите Роуминг данных.</li>
+          <li>Подождите 1–5 минут.</li>
+          <li>Если сеть не появилась, включите и выключите Авиарежим.</li>
+          <li>Если интернет всё ещё не работает, перезагрузите iPhone.</li>
+        </ol>
+
+        <h5>Если интернет не работает на iPhone</h5>
+        <ul>
+          <li>eSIM установлена и включена;</li>
+          <li>Magic eSIM выбрана для сотовых данных;</li>
+          <li>включён роуминг данных;</li>
+          <li>вы находитесь в стране, где действует тариф;</li>
+          <li>отключён VPN;</li>
+          <li>телефон не в авиарежиме;</li>
+          <li>есть покрытие мобильной сети.</li>
+        </ul>
+        <ol>
+          <li>Перезагрузите iPhone.</li>
+          <li>Включите и выключите авиарежим.</li>
+          <li>Попробуйте выбрать сеть вручную: Настройки → Сотовая связь → Magic eSIM → Выбор сети → отключить “Автоматически” → выбрать доступную сеть.</li>
+          <li>Проверьте APN, если он указан в письме с eSIM.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="android-install" class="install-section">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Инструкция</div>
+        <h2>🤖 Установка Magic eSIM на Android</h2>
+        <p class="muted">Пункты меню могут немного отличаться в зависимости от производителя телефона.</p>
+      </div>
+
+      <div class="card install-guide-content">
+        <h4>Установка eSIM по ссылке на Android</h4>
+        <ol>
+          <li>Откройте письмо на телефоне Android.</li>
+          <li>Нажмите на ссылку установки eSIM.</li>
+          <li>Подтвердите добавление eSIM.</li>
+          <li>Дождитесь завершения установки.</li>
+          <li>Назовите eSIM Magic eSIM.</li>
+          <li>Перед использованием выберите её для мобильного интернета.</li>
+        </ol>
+
+        <h4>Установка eSIM через QR-код на Android</h4>
+        <ol>
+          <li>Откройте письмо с данными eSIM на другом устройстве: компьютере, планшете или втором телефоне.</li>
+          <li>На Android откройте Настройки.</li>
+          <li>Перейдите в раздел Сеть и интернет, Подключения или SIM-карты и мобильные сети.</li>
+          <li>Найдите пункт Добавить eSIM, Добавить SIM или Управление eSIM.</li>
+          <li>Выберите Сканировать QR-код.</li>
+          <li>Отсканируйте QR-код из письма.</li>
+          <li>Подтвердите добавление eSIM.</li>
+          <li>Дождитесь завершения установки.</li>
+          <li>Назовите eSIM, например Magic eSIM или Travel.</li>
+          <li>Для мобильных данных выберите Magic eSIM, когда будете готовы пользоваться тарифом.</li>
+        </ol>
+
+        <h4>Samsung</h4>
+        <ol>
+          <li>Откройте Настройки.</li>
+          <li>Перейдите в Подключения.</li>
+          <li>Откройте Диспетчер SIM-карт.</li>
+          <li>Нажмите Добавить eSIM.</li>
+          <li>Выберите Сканировать QR-код.</li>
+          <li>Отсканируйте QR-код из письма.</li>
+          <li>Подтвердите добавление тарифа.</li>
+          <li>После установки выберите Magic eSIM для мобильных данных.</li>
+          <li>Включите Роуминг данных.</li>
+        </ol>
+
+        <h4>Google Pixel</h4>
+        <ol>
+          <li>Откройте Настройки.</li>
+          <li>Перейдите в Сеть и интернет.</li>
+          <li>Нажмите SIM-карты или Мобильная сеть.</li>
+          <li>Выберите Добавить SIM.</li>
+          <li>Нажмите Скачать SIM-карту.</li>
+          <li>Отсканируйте QR-код из письма.</li>
+          <li>Подтвердите установку.</li>
+          <li>Выберите Magic eSIM для мобильных данных.</li>
+          <li>Включите Роуминг данных.</li>
+        </ol>
+
+        <h4>Xiaomi / Redmi / POCO</h4>
+        <ol>
+          <li>Откройте Настройки.</li>
+          <li>Перейдите в SIM-карты и мобильные сети.</li>
+          <li>Найдите пункт Управление eSIM или Добавить eSIM.</li>
+          <li>Выберите установку через QR-код.</li>
+          <li>Отсканируйте QR-код из письма.</li>
+          <li>Дождитесь добавления eSIM.</li>
+          <li>Выберите Magic eSIM для мобильных данных.</li>
+          <li>Включите Роуминг данных.</li>
+        </ol>
+        <div class="install-note">⚠️ На некоторых моделях Xiaomi, Redmi и POCO eSIM может не поддерживаться, даже если устройство новое.</div>
+
+        <h4>Как включить интернет через eSIM на Android</h4>
+        <ol>
+          <li>Откройте Настройки.</li>
+          <li>Перейдите в раздел SIM-карты, Мобильная сеть или Диспетчер SIM-карт.</li>
+          <li>Выберите Magic eSIM.</li>
+          <li>Включите eSIM.</li>
+          <li>Выберите Magic eSIM для мобильных данных.</li>
+          <li>Включите Роуминг данных.</li>
+        </ol>
+        <div class="install-note">⚠️ Для travel eSIM почти всегда нужно включать роуминг данных, иначе интернет может не работать.</div>
+
+        <h4>Что сделать по прилёте</h4>
+        <ol>
+          <li>Включите eSIM Magic eSIM.</li>
+          <li>Выберите её для мобильных данных.</li>
+          <li>Включите Роуминг данных.</li>
+          <li>Подождите 1–5 минут.</li>
+          <li>Если сеть не появилась, включите и выключите Авиарежим.</li>
+          <li>Если интернет всё ещё не работает, перезагрузите телефон.</li>
+        </ol>
+
+        <h4>Если интернет не работает на Android</h4>
+        <ul>
+          <li>eSIM установлена и включена;</li>
+          <li>Magic eSIM выбрана для мобильных данных;</li>
+          <li>включён роуминг данных;</li>
+          <li>вы находитесь в стране, где действует тариф;</li>
+          <li>отключён VPN;</li>
+          <li>телефон не в авиарежиме;</li>
+          <li>есть покрытие мобильной сети.</li>
+        </ul>
+        <ol>
+          <li>Перезагрузите телефон.</li>
+          <li>Включите и выключите авиарежим.</li>
+          <li>Попробуйте выбрать сеть вручную: Настройки → Мобильная сеть → Magic eSIM → Оператор сети → отключить автоматический выбор → выбрать доступную сеть.</li>
+          <li>Проверьте APN, если он указан в письме с eSIM.</li>
+        </ol>
+
+        <h4>📊 Проверка остатка трафика и даты окончания тарифа</h4>
+        <p>Клиент может проверить остаток трафика, дату окончания тарифа и статус тарифа через Telegram-бота Magic eSIM.</p>
+
+        <h4>❗ Важные правила</h4>
+        <ol>
+          <li>Устанавливайте eSIM только при стабильном интернете.</li>
+          <li>Не удаляйте eSIM, если тариф ещё нужен.</li>
+          <li>Не передавайте QR-код другим людям.</li>
+          <li>Один QR-код обычно устанавливается только на одно устройство.</li>
+          <li>Для работы eSIM почти всегда нужно включить роуминг данных.</li>
+          <li>Перед покупкой убедитесь, что телефон поддерживает eSIM.</li>
+          <li>Если письмо с eSIM не пришло, проверьте папки Спам, Промоакции и Рассылки.</li>
+        </ol>
+
+        <h4>🆘 Что отправить в поддержку</h4>
+        <ul>
+          <li>модель телефона;</li>
+          <li>страну, где вы находитесь;</li>
+          <li>номер заказа;</li>
+          <li>скриншот письма с данными eSIM без QR-кода или с закрытым QR-кодом;</li>
+          <li>скриншот настроек eSIM;</li>
+          <li>скриншот ошибки, если она появляется;</li>
+          <li>описание проблемы: не устанавливается eSIM, нет сети, нет интернета или не работает QR-код.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+<footer><div class="container footer-inner"><div class="brand"><span class="company-name">Magic eSIM</span></div><a href="mailto:support@magicesim.com">support@magicesim.com</a></div></footer>
   <script>
 const revealItems=document.querySelectorAll('.reveal');
 const io=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting)entry.target.classList.add('visible')})},{threshold:.14});
