@@ -36,6 +36,17 @@
 #countryChips>.country-chip-all{display:inline-flex;width:auto;min-height:auto;margin:0 0 14px 0;align-items:center;justify-content:center}
 #countryChips>.country-region-filters{clear:both}
 
+
+.install-accordion{scroll-margin-top:110px}
+.install-accordion details{border:1px solid var(--border);border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));box-shadow:var(--shadow);overflow:hidden}
+.install-accordion details+details{margin-top:18px}
+.install-accordion summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 26px;color:#fff;font-size:clamp(22px,3vw,34px);font-weight:950;letter-spacing:-.03em;list-style:none}
+.install-accordion summary::-webkit-details-marker{display:none}
+.install-accordion summary:after{content:"⌄";color:var(--cyan);font-size:24px;transition:transform .2s ease}
+.install-accordion details[open] summary:after{transform:rotate(180deg)}
+.install-accordion-body{padding:0 26px 26px}
+.install-accordion .install-guide-content{box-shadow:none;background:rgba(255,255,255,.035)}
+@media(max-width:720px){.install-accordion summary{padding:20px;font-size:22px}.install-accordion-body{padding:0 20px 20px}}
 .install-guides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:26px}
 .install-guide-btn{display:flex;align-items:center;justify-content:center;text-align:center;min-height:68px;padding:16px 22px;border-radius:22px;border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));color:#f7f8ff;font-weight:950;font-size:17px;box-shadow:0 14px 42px rgba(0,0,0,.22);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
 .install-guide-btn:hover{transform:translateY(-3px);border-color:rgba(24,216,255,.45);box-shadow:0 20px 54px rgba(24,216,255,.18)}
@@ -405,24 +416,28 @@
         <p class="muted" style="margin-bottom:0">После покупки данные по eSIM приходят на вашу электронную почту. Выберите устройство и откройте пошаговую инструкцию.</p>
 
         <div class="install-guides">
-          <a class="install-guide-btn" href="#iphone-install">Инструкция по установке Magic eSIM на iPhone</a>
-          <a class="install-guide-btn" href="#android-install">Инструкция по установке Magic eSIM на Android</a>
+          <a class="install-guide-btn" href="#install-guides-section" data-install-guide="iphone-install">Инструкция по установке Magic eSIM на iPhone</a>
+          <a class="install-guide-btn" href="#install-guides-section" data-install-guide="android-install">Инструкция по установке Magic eSIM на Android</a>
         </div>
       </div>
 <p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
     <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Оставайтесь онлайн для работы, сервисов и поездок — даже там, где VPN нестабилен.</p><a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM →</a></div></div></section>
   </main>
   
-  <section id="iphone-install" class="install-section">
+  
+  <section id="install-guides-section" class="install-section install-accordion">
     <div class="container">
       <div class="section-head">
-        <div class="section-kicker">Инструкция</div>
-        <h2>📲 Установка и активация Magic eSIM</h2>
-        <p class="muted">После покупки данные по eSIM приходят на вашу электронную почту.</p>
+        <div class="section-kicker">Инструкции</div>
+        <h2>Как установить Magic eSIM</h2>
+        <p class="muted">Выберите устройство — подробная инструкция раскроется по нажатию.</p>
       </div>
 
-      <div class="card install-guide-content">
-        <h4>Что будет в письме</h4>
+      <details id="iphone-install">
+        <summary>🍎 Инструкция по установке Magic eSIM на iPhone</summary>
+        <div class="install-accordion-body">
+          <div class="card install-guide-content">
+            <h4>Что будет в письме</h4>
         <ul>
           <li>ссылка на установку eSIM;</li>
           <li>QR-код для установки eSIM;</li>
@@ -501,20 +516,15 @@
           <li>Попробуйте выбрать сеть вручную: Настройки → Сотовая связь → Magic eSIM → Выбор сети → отключить “Автоматически” → выбрать доступную сеть.</li>
           <li>Проверьте APN, если он указан в письме с eSIM.</li>
         </ol>
-      </div>
-    </div>
-  </section>
+          </div>
+        </div>
+      </details>
 
-  <section id="android-install" class="install-section">
-    <div class="container">
-      <div class="section-head">
-        <div class="section-kicker">Инструкция</div>
-        <h2>🤖 Установка Magic eSIM на Android</h2>
-        <p class="muted">Пункты меню могут немного отличаться в зависимости от производителя телефона.</p>
-      </div>
-
-      <div class="card install-guide-content">
-        <h4>Установка eSIM по ссылке на Android</h4>
+      <details id="android-install">
+        <summary>🤖 Инструкция по установке Magic eSIM на Android</summary>
+        <div class="install-accordion-body">
+          <div class="card install-guide-content">
+            <h4>Установка eSIM по ссылке на Android</h4>
         <ol>
           <li>Откройте письмо на телефоне Android.</li>
           <li>Нажмите на ссылку установки eSIM.</li>
@@ -639,7 +649,9 @@
           <li>скриншот ошибки, если она появляется;</li>
           <li>описание проблемы: не устанавливается eSIM, нет сети, нет интернета или не работает QR-код.</li>
         </ul>
-      </div>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -1355,5 +1367,27 @@ if(packageSortInput){
 
 window.addEventListener('DOMContentLoaded',()=>{ loadLandingPackages(); loadRussiaApiPackages(); });
 </script>
+
+<script>
+document.addEventListener('click', function(event){
+  const link = event.target.closest('[data-install-guide]');
+  if(!link)return;
+
+  const targetId = link.getAttribute('data-install-guide');
+  const details = document.getElementById(targetId);
+  const section = document.getElementById('install-guides-section');
+
+  if(details){
+    details.open = true;
+  }
+
+  if(section){
+    setTimeout(function(){
+      section.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 40);
+  }
+});
+</script>
+
 </body>
 </html>
