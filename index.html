@@ -690,51 +690,57 @@ function publicPackageName(item){
   const days=Number(item.validity_days||0);
 
   if(lower.includes('vietnam plus')){
-    return `Азия Плюс ${data}`;
+    return `Азия Плюс ${data}`.trim();
   }
 
   if(lower.includes('latam')||lower.includes('latin america')){
-    return `LATAM ${data}`;
+    return `Латинская Америка ${data}`.trim();
   }
 
   if(lower.includes('greater china')&&lower.includes('taiwan')){
-    return `Китай, Гонконг, Макао и Тайвань ${data}`;
+    return `Китай, Гонконг, Макао и Тайвань ${data}`.trim();
   }
 
   if(lower.includes('china korea japan')){
-    return `Китай, Корея и Япония ${data}`;
+    return `Китай, Корея и Япония ${data}`.trim();
   }
 
   if(lower.includes('singapore malaysia and thailand')){
-    return `Сингапур, Малайзия и Таиланд ${data}`;
+    return `Сингапур, Малайзия и Таиланд ${data}`.trim();
   }
 
   if(lower.includes('europe and usa')){
-    return `Европа и США ${data}`;
+    return `Европа и США ${data}`.trim();
   }
 
   if(lower.includes('euconnect unlimited')){
-    return days ? `Европа Unlimited ${days} дней` : `Европа Unlimited ${data}`;
+    return days ? `Европа Unlimited ${days} дней` : `Европа Unlimited ${data}`.trim();
   }
 
   if(lower.includes('eu ')&&lower.includes('unlimited calls')){
-    return `Европа ${data} + звонки`;
+    return `Европа ${data} + звонки`.trim();
   }
 
   if(lower.includes('europe ')){
-    return `Европа ${data}`;
+    return `Европа ${data}`.trim();
   }
 
   if(lower.includes('spain and portugal')){
-    return `Испания и Португалия ${data}`;
+    return `Испания и Португалия ${data}`.trim();
   }
 
   if(lower.includes('greece cyprus turkey')){
-    return `Греция, Кипр и Турция ${data}`;
+    return `Греция, Кипр и Турция ${data}`.trim();
   }
 
   if(lower.includes('apac')){
-    return `Азия и Океания ${data}`;
+    return `Азия и Океания ${data}`.trim();
+  }
+
+  const codes=[...new Set(packageCoverageCodes(item))];
+
+  if(codes.length===1){
+    return `${countryName(codes[0])} ${data}`.trim();
   }
 
   return original;
