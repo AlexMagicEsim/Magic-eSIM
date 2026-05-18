@@ -1092,7 +1092,7 @@ function renderCountryChips(){
   const chips=document.getElementById('countryChips');
   if(!chips)return;
 
-  const packages=basePackages();
+  const packages=basePackages().filter((item)=>!isPublicGlobalPackage(item));
   const filterableCountries=new Set();
 
   packages.forEach((item)=>{
