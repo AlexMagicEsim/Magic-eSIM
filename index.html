@@ -1224,6 +1224,12 @@ function comparePackages(a,b){
   return publicPackageName(a).localeCompare(publicPackageName(b),'ru');
 }
 
+function isPublicGlobalPackage(item){
+  const name=String(item.name||'').toLowerCase();
+  const code=String(item.country_code||'').toUpperCase();
+  return code.startsWith('GL-') || name.includes('global');
+}
+
 function renderPackages(){
   const grid=document.getElementById('packagesGrid');
   const status=document.getElementById('packagesStatus');
@@ -1240,7 +1246,9 @@ function renderPackages(){
   if(activeCountry==='ALL'){
     packages=[];
   }else{
-    packages=packages.filter((item)=>packageMatchesCountry(item,activeCountry));
+    packages=packages
+      .filter((item)=>packageMatchesCountry(item,activeCountry))
+      .filter((item)=>!isPublicGlobalPackage(item));
   }
 
   if(query){
