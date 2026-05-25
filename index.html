@@ -1473,5 +1473,42 @@ document.addEventListener('click', function(event){
 </script>
 
 
+
+<script>
+(function () {
+  function jumpToSetupHash() {
+    var hash = window.location.hash;
+    if (!hash) return;
+
+    var id = decodeURIComponent(hash.replace(/^#/, ''));
+    var target = document.getElementById(id);
+    if (!target) return;
+
+    var header = document.querySelector('header, nav, .header, .navbar, .topbar');
+    var headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 24;
+
+    window.scrollTo(0, Math.max(0, y));
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    jumpToSetupHash();
+    setTimeout(jumpToSetupHash, 300);
+    setTimeout(jumpToSetupHash, 1000);
+    setTimeout(jumpToSetupHash, 1800);
+  });
+
+  window.addEventListener('load', function () {
+    jumpToSetupHash();
+    setTimeout(jumpToSetupHash, 500);
+  });
+
+  window.addEventListener('hashchange', function () {
+    jumpToSetupHash();
+    setTimeout(jumpToSetupHash, 300);
+  });
+})();
+</script>
+
 </body>
 </html>
