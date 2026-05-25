@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Настройка eSIM на iPhone — Magic eSIM</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --border: #e2e8f0;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 28px 18px 56px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 20px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .back {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #eff6ff, #ecfeff);
+      border: 1px solid #bfdbfe;
+      border-radius: 28px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.08;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, .06);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 10px 0;
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+    }
+
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top">
+      <a class="logo" href="./">Magic eSIM</a>
+      <a class="back" href="./">← Вернуться на лендинг</a>
+    </div>
+
+    <section class="hero">
+      <h1>Как установить eSIM на iPhone</h1>
+      <p class="lead">Перед установкой убедитесь, что iPhone поддерживает eSIM и подключён к Wi-Fi.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Через QR-код</h2>
+        <ol>
+          <li>Откройте <strong>Настройки</strong> → <strong>Сотовая связь</strong>.</li>
+          <li>Нажмите <strong>Добавить eSIM</strong>.</li>
+          <li>Выберите <strong>Использовать QR-код</strong>.</li>
+          <li>Отсканируйте QR-код из заказа.</li>
+          <li>Дождитесь добавления eSIM и включите новую линию.</li>
+          <li>Для поездки включите <strong>Роуминг данных</strong> на этой eSIM.</li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <h2>Вручную через LPA</h2>
+        <ol>
+          <li>Откройте <strong>Настройки</strong> → <strong>Сотовая связь</strong>.</li>
+          <li>Нажмите <strong>Добавить eSIM</strong> → <strong>Использовать QR-код</strong>.</li>
+          <li>Выберите <strong>Ввести данные вручную</strong>.</li>
+          <li>Введите <strong>SM-DP+ адрес</strong> и <strong>Activation Code</strong> из заказа.</li>
+          <li>Сохраните eSIM и дождитесь завершения установки.</li>
+          <li>Включите мобильные данные через новую eSIM.</li>
+        </ol>
+      </article>
+    </section>
+
+    <div class="note">
+      Если установка не начинается, проверьте подключение к Wi-Fi, поддержку eSIM на устройстве и отсутствие операторской блокировки.
+    </div>
+  </main>
+</body>
+</html>
