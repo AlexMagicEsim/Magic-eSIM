@@ -1440,26 +1440,38 @@ document.addEventListener('click', function(event){
 </script>
 
 
+
 <script>
   function scrollToHashTarget() {
-    if (!window.location.hash) return;
+    const hash = window.location.hash;
+    if (!hash) return;
 
-    const targetId = decodeURIComponent(window.location.hash.slice(1));
+    const targetId = decodeURIComponent(hash.slice(1));
     const target = document.getElementById(targetId);
-
     if (!target) return;
 
-    setTimeout(() => {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+    const header = document.querySelector('header');
+    const headerOffset = header ? header.offsetHeight + 20 : 90;
+
+    const scrollToTarget = () => {
+      const top = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top,
+        behavior: 'smooth'
       });
-    }, 250);
+    };
+
+    scrollToTarget();
+    setTimeout(scrollToTarget, 250);
+    setTimeout(scrollToTarget, 800);
+    setTimeout(scrollToTarget, 1500);
   }
 
+  window.addEventListener('DOMContentLoaded', scrollToHashTarget);
   window.addEventListener('load', scrollToHashTarget);
   window.addEventListener('hashchange', scrollToHashTarget);
 </script>
+
 
 </body>
 </html>
