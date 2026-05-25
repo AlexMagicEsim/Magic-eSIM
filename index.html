@@ -1428,26 +1428,7 @@ if(packageSortInput){
 window.addEventListener('DOMContentLoaded',()=>{ loadLandingPackages(); loadRussiaApiPackages(); });
 </script>
 
-<script>
-document.addEventListener('click', function(event){
-  const link = event.target.closest('[data-install-guide]');
-  if(!link)return;
 
-  const targetId = link.getAttribute('data-install-guide');
-  const details = document.getElementById(targetId);
-  const section = document.getElementById('install-guides-section');
-
-  if(details){
-    details.open = true;
-  }
-
-  if(section){
-    setTimeout(function(){
-      section.scrollIntoView({behavior:'smooth', block:'start'});
-    }, 40);
-  }
-});
-</script>
 
 
 
