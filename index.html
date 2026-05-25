@@ -1167,12 +1167,6 @@ function renderCountryChips(){
       renderCountryChips();
       renderPackages();
 
-      const grid=document.getElementById('packagesGrid');
-      if(grid){
-        setTimeout(()=>{
-          grid.scrollIntoView({behavior:'smooth',block:'start'});
-        },80);
-      }
     });
   });
 }
