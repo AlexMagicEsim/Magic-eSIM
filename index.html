@@ -1494,6 +1494,7 @@ function runPackageSearch(){
 
   if(foundCountry){
     activeCountry = foundCountry;
+    if(packageSearchInput) packageSearchInput.value = '';
     renderCountryChips();
   }
 
