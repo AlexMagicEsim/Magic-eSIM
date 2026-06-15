@@ -82,6 +82,17 @@
 
 </script>
 
+
+<style>
+/* Stable background for package search/results section */
+#global-pricing {
+  background:
+    linear-gradient(180deg, rgba(5,7,15,.96), rgba(5,7,15,.96)),
+    var(--bg) !important;
+  position: relative;
+}
+</style>
+
 </head>
 <body>
   <nav class="nav">
@@ -429,7 +440,7 @@
       <div id="russiaApiStatus" class="packages-status reveal" style="display:none;"></div>
       <div id="russiaApiPackagesGrid" class="packages-grid"></div>
     </div>
-<section id="global-pricing"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div>
+<section id="global-pricing" data-section="packages"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div>
       
 <p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
     <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Оставайтесь онлайн для работы, сервисов и поездок — даже там, где VPN нестабилен.</p><a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM →</a></div></div></section>
@@ -1474,43 +1485,6 @@ window.addEventListener('DOMContentLoaded', async () => {
       target.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }
-});
-
-
-// Connect top search field with package search after DOM is ready
-document.addEventListener('DOMContentLoaded', function(){
-  const packageInput =
-    document.getElementById('packageSearchInput') ||
-    document.querySelector('[data-package-search]');
-
-  if(!packageInput) return;
-
-  const candidates = Array.from(document.querySelectorAll(
-    'input[type="search"], input[placeholder*="стран"], input[placeholder*="Стран"], input[placeholder*="country"], input[placeholder*="Country"]'
-  ));
-
-  candidates.forEach((input)=>{
-    if(input === packageInput) return;
-
-    const syncSearch = ()=>{
-      packageInput.value = input.value || '';
-      if(typeof renderPackages === 'function') renderPackages();
-    };
-
-    input.addEventListener('input', syncSearch);
-    input.addEventListener('change', syncSearch);
-    input.addEventListener('keydown', (event)=>{
-      if(event.key === 'Enter'){
-        syncSearch();
-        const section =
-          document.getElementById('packages') ||
-          document.querySelector('#plans') ||
-          packageInput.closest('section');
-
-        if(section) section.scrollIntoView({behavior:'smooth', block:'start'});
-      }
-    });
-  });
 });
 
 </script>
