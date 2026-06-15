@@ -78,6 +78,8 @@
   if (window.__magicInitialHash === '#install-guides-section') {
     history.replaceState(null, '', window.location.pathname + window.location.search);
   }
+
+
 </script>
 
 </head>
@@ -772,6 +774,7 @@ const countryEnglish={
   SK:['slovakia'],
   TH:['thailand'],
   TN:['tunisia'],
+  TZ:['tanzania','танзания'],
   TR:['turkey'],
   TW:['taiwan'],
   UA:['ukraine'],
@@ -934,17 +937,45 @@ function isRussiaPackage(item){
   return code==='RU'||region.split(/[\s,;/|+]+/).includes('RU')||name.includes('россия')||name.includes('russia');
 }
 
+function normalizeSearch(value){
+  return String(value || '')
+    .toLowerCase()
+    .replace(/ё/g, 'е')
+    .replace(/[\s\-_]+/g, ' ')
+    .trim();
+}
+
 function searchText(item){
-  return [
-    item.name,
+  const codes = [
     item.country_code,
+    item.countryCode,
+    item.region,
+    ...(Array.isArray(item.coverage_country_codes) ? item.coverage_country_codes : []),
+    ...(Array.isArray(item.coverageCountries) ? item.coverageCountries : []),
+  ]
+    .filter(Boolean)
+    .flatMap((value) => String(value).split(','))
+    .map((value) => value.trim().toUpperCase())
+    .filter(Boolean);
+
+  const countryWords = codes
+    .flatMap((code) => [code, ...(countryNames[code] || [])])
+    .join(' ');
+
+  return normalizeSearch([
+    item.name,
+    item.package_code,
+    item.packageCode,
+    item.country_code,
+    item.countryCode,
     item.region,
     item.coverage_flags,
-    countryName(countryCode(item)),
-    item.data_gb,
-    item.validity_days,
-    item.speed
-  ].join(' ').toLowerCase();
+    `${item.data_gb || item.dataGb || ''}gb`,
+    `${item.data_gb || item.dataGb || ''} гб`,
+    `${item.validity_days || item.validityDays || ''}days`,
+    `${item.validity_days || item.validityDays || ''} дней`,
+    countryWords,
+  ].filter(Boolean).join(' '));
 }
 
 
@@ -1251,12 +1282,14 @@ function renderPackages(){
     return;
   }
 
-  const query=String(search?.value||'').trim().toLowerCase();
+  const query=normalizeSearch(search?.value || '');
 
   let packages=basePackages();
 
   if(activeCountry==='ALL'){
-    packages=[];
+    packages=query
+      ? packages.filter((item)=>!isPublicGlobalPackage(item))
+      : [];
   }else{
     packages=packages
       .filter((item)=>packageMatchesCountry(item,activeCountry))
@@ -1441,6 +1474,43 @@ window.addEventListener('DOMContentLoaded', async () => {
       target.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }
+});
+
+
+// Connect top search field with package search after DOM is ready
+document.addEventListener('DOMContentLoaded', function(){
+  const packageInput =
+    document.getElementById('packageSearchInput') ||
+    document.querySelector('[data-package-search]');
+
+  if(!packageInput) return;
+
+  const candidates = Array.from(document.querySelectorAll(
+    'input[type="search"], input[placeholder*="стран"], input[placeholder*="Стран"], input[placeholder*="country"], input[placeholder*="Country"]'
+  ));
+
+  candidates.forEach((input)=>{
+    if(input === packageInput) return;
+
+    const syncSearch = ()=>{
+      packageInput.value = input.value || '';
+      if(typeof renderPackages === 'function') renderPackages();
+    };
+
+    input.addEventListener('input', syncSearch);
+    input.addEventListener('change', syncSearch);
+    input.addEventListener('keydown', (event)=>{
+      if(event.key === 'Enter'){
+        syncSearch();
+        const section =
+          document.getElementById('packages') ||
+          document.querySelector('#plans') ||
+          packageInput.closest('section');
+
+        if(section) section.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
 });
 
 </script>
