@@ -967,8 +967,31 @@ function findCountryCodeBySearchQuery(query){
   const normalized = normalizeSearch(query);
   if(!normalized) return '';
 
-  for(const [code,names] of Object.entries(countryNames || {})){
-    const words = [code, ...(Array.isArray(names) ? names : [])]
+  const aliases = {
+    AE: ['оаэ','эмираты','uae','united arab emirates','emirates'],
+    TH: ['тайланд','таиланд','thailand'],
+    TZ: ['танзания','tanzania'],
+    RU: ['россия','russia'],
+    TR: ['турция','turkey'],
+  };
+
+  const codes = new Set([
+    ...Object.keys(countryNames || {}),
+    ...Object.keys(countryEnglish || {}),
+    ...Object.keys(aliases),
+  ]);
+
+  for(const code of codes){
+    const ruName = countryNames?.[code];
+    const enName = countryEnglish?.[code];
+    const extraNames = aliases?.[code];
+
+    const words = [
+      code,
+      ...(typeof ruName === 'string' ? [ruName] : Array.isArray(ruName) ? ruName : []),
+      ...(typeof enName === 'string' ? [enName] : Array.isArray(enName) ? enName : []),
+      ...(Array.isArray(extraNames) ? extraNames : []),
+    ]
       .map((value)=>normalizeSearch(value))
       .filter(Boolean);
 
@@ -994,7 +1017,16 @@ function searchText(item){
     .filter(Boolean);
 
   const countryWords = codes
-    .flatMap((code) => [code, ...(countryNames[code] || [])])
+    .flatMap((code) => {
+      const ruName = countryNames?.[code];
+      const enName = countryEnglish?.[code];
+
+      return [
+        code,
+        ...(typeof ruName === 'string' ? [ruName] : Array.isArray(ruName) ? ruName : []),
+        ...(typeof enName === 'string' ? [enName] : Array.isArray(enName) ? enName : []),
+      ];
+    })
     .join(' ');
 
   return normalizeSearch([
@@ -1005,14 +1037,13 @@ function searchText(item){
     item.countryCode,
     item.region,
     item.coverage_flags,
+    countryWords,
     `${item.data_gb || item.dataGb || ''}gb`,
     `${item.data_gb || item.dataGb || ''} гб`,
     `${item.validity_days || item.validityDays || ''}days`,
     `${item.validity_days || item.validityDays || ''} дней`,
-    countryWords,
   ].filter(Boolean).join(' '));
 }
-
 
 function formatDataLabel(item){
   const gb=Number(item.data_gb||0);
@@ -1488,6 +1519,67 @@ async function loadLandingPackages(){
 const packageSearchInput=document.getElementById('packageSearch');
 const packageSearchButton=document.getElementById('packageSearchButton');
 
+
+function renderPackagesForCountry(countryCode){
+  const grid=document.getElementById('packagesGrid');
+  const status=document.getElementById('packagesStatus');
+
+  if(!grid||!status){
+    return;
+  }
+
+  const code=String(countryCode||'').trim().toUpperCase();
+
+  let packages=basePackages()
+    .filter((item)=>packageMatchesCountry(item,code))
+    .filter((item)=>!isPublicGlobalPackage(item))
+    .sort(comparePackages);
+
+  status.textContent=packages.length
+    ? `Показано тарифов: ${packages.length}`
+    : 'Тарифы не найдены. Напишите в поддержку — подберём вручную.';
+
+  grid.innerHTML=packages.map((item)=>`
+    <article class="package-card reveal visible">
+      <div class="package-availability">Тариф доступен</div>
+      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+
+      <div class="package-meta">
+        <div class="package-meta-item">
+          <div>
+            <div class="package-meta-label">Интернет</div>
+            <div class="package-meta-value">${escapeHtml(item.data_gb||'')} GB</div>
+          </div>
+        </div>
+        <div class="package-meta-item">
+          <div>
+            <div class="package-meta-label">Срок</div>
+            <div class="package-meta-value">${escapeHtml(item.validity_days||'')}d</div>
+          </div>
+        </div>
+        <div class="package-meta-item">
+          <div>
+            <div class="package-meta-label">Страна</div>
+            <div class="package-meta-value">${escapeHtml(compactCoverageIcon(item))}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="package-info">
+        <span class="coverage-line"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}${coverageCountriesText(item)?` <span class="coverage-hint" tabindex="0" aria-label="Список стран">ⓘ</span><span class="coverage-tooltip">${escapeHtml(coverageCountriesText(item))}</span>`:''}</span><br>
+        <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
+        <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
+        <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
+        <strong>Цена для клиента:</strong> ${escapeHtml(item.retail_price_rub||item.price_rub||'')} ₽
+      </div>
+
+      <div class="package-actions">
+        <a class="btn" target="_blank" rel="noopener" href="${telegramOrderLink(item)}">Получить eSIM</a>
+      </div>
+    </article>
+  `).join('');
+}
+
 function runPackageSearch(){
   const query = packageSearchInput ? packageSearchInput.value : '';
   const foundCountry = findCountryCodeBySearchQuery(query);
@@ -1496,9 +1588,10 @@ function runPackageSearch(){
     activeCountry = foundCountry;
     if(packageSearchInput) packageSearchInput.value = '';
     renderCountryChips();
+    renderPackagesForCountry(foundCountry);
+  }else{
+    renderPackages();
   }
-
-  renderPackages();
 
   const section=document.getElementById('global-pricing');
   if(section){
