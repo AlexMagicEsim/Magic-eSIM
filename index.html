@@ -789,6 +789,7 @@ const countryEnglish={
   SI:['slovenia'],
   SK:['slovakia'],
   TH:['thailand'],
+  RU:['russia','россия'],
   TN:['tunisia'],
   TZ:['tanzania','танзания'],
   TR:['turkey'],
@@ -959,6 +960,24 @@ function normalizeSearch(value){
     .replace(/ё/g, 'е')
     .replace(/[\s\-_]+/g, ' ')
     .trim();
+}
+
+
+function findCountryCodeBySearchQuery(query){
+  const normalized = normalizeSearch(query);
+  if(!normalized) return '';
+
+  for(const [code,names] of Object.entries(countryNames || {})){
+    const words = [code, ...(Array.isArray(names) ? names : [])]
+      .map((value)=>normalizeSearch(value))
+      .filter(Boolean);
+
+    if(words.some((word)=>word === normalized || word.includes(normalized) || normalized.includes(word))){
+      return code;
+    }
+  }
+
+  return '';
 }
 
 function searchText(item){
@@ -1470,7 +1489,16 @@ const packageSearchInput=document.getElementById('packageSearch');
 const packageSearchButton=document.getElementById('packageSearchButton');
 
 function runPackageSearch(){
+  const query = packageSearchInput ? packageSearchInput.value : '';
+  const foundCountry = findCountryCodeBySearchQuery(query);
+
+  if(foundCountry){
+    activeCountry = foundCountry;
+    renderCountryChips();
+  }
+
   renderPackages();
+
   const section=document.getElementById('global-pricing');
   if(section){
     section.scrollIntoView({behavior:'smooth',block:'start'});
