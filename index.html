@@ -451,7 +451,7 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
         </ol>
 
         <h4>📊 Проверка остатка трафика и даты окончания тарифа</h4>
-        <p>Клиент может проверить остаток трафика, дату окончания тарифа и статус тарифа через Telegram-бота Magic eSIM.</p>
+        <p>Клиент может уточнить остаток трафика, дату окончания и статус тарифа в службе поддержки Magic eSIM по адресу support@magicesim.store.</p>
 
         <h4>❗ Важные правила</h4>
         <ol>
@@ -500,8 +500,8 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
         <label>Email для получения eSIM <span class="req">*</span>
           <input type="email" id="coEmail" required autocomplete="email" placeholder="you@example.com">
         </label>
-        <label>Telegram или телефон (необязательно)
-          <input type="text" id="coContact" autocomplete="off" placeholder="@username или +7…">
+        <label>Дополнительный контакт (необязательно)
+          <input type="text" id="coContact" autocomplete="off" placeholder="Необязательно">
         </label>
         <label class="checkout-consent">
           <input type="checkbox" id="coConsent" required>
@@ -737,7 +737,7 @@ function packageCoverageCodes(item){
       }
     });
 
-  return codes;
+  return codes.filter((code)=>!RESTRICTED_COUNTRY_CODES.includes(code));
 }
 
 function packageMatchesCountry(item, code){
@@ -1028,9 +1028,18 @@ function compactCoverageIcon(item){
   return '🌏';
 }
 
+const RESTRICTED_COUNTRY_CODES=['RU','UA'];
+function isRestrictedPackage(item){
+  const code=String(item.country_code||'').trim().toUpperCase();
+  if(RESTRICTED_COUNTRY_CODES.includes(code))return true;
+  const name=String(item.name||'').toLowerCase();
+  return name.includes('russia')||name.includes('россия')||name.includes('ukraine')||name.includes('украина');
+}
+
 function basePackages(){
   return allLandingPackages
     .filter((item)=>!isRussiaPackage(item))
+    .filter((item)=>!isRestrictedPackage(item))
     .filter((item)=>Number(item.price||0)>0);
 }
 
