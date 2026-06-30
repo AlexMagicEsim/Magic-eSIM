@@ -192,6 +192,41 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
   radial-gradient(700px circle at 18% 12%, rgba(122,111,176,.18), transparent 55%),
   radial-gradient(680px circle at 86% 28%, rgba(90,169,201,.14), transparent 55%),
   linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03))}
+
+/* Контакты поддержки в футере (email + Telegram) */
+.footer-support{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.footer-support a{color:var(--muted);font-size:14px}
+.footer-support a:hover{color:var(--cyan)}
+
+/* ===== Checkout на сайте (оформление заказа; оплата — заглушка) ===== */
+.checkout-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto;background:rgba(5,7,14,.72);backdrop-filter:blur(4px)}
+.checkout-overlay[hidden]{display:none}
+.checkout-modal{position:relative;width:min(480px,100%);margin:auto;border:1px solid var(--border);border-radius:18px;background:#10141f;box-shadow:0 24px 70px rgba(0,0,0,.5);padding:26px 24px 24px}
+.checkout-close{position:absolute;top:12px;right:14px;width:34px;height:34px;border:0;border-radius:10px;background:rgba(255,255,255,.06);color:var(--text);font-size:22px;line-height:1;cursor:pointer}
+.checkout-close:hover{background:rgba(255,255,255,.12)}
+.checkout-modal h3{margin:0 0 16px;font-size:22px;letter-spacing:-.02em}
+.checkout-summary{border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.035);padding:16px;margin-bottom:18px}
+.checkout-plan{font-size:17px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.checkout-rows{display:grid;gap:8px}
+.checkout-rows>div{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--muted)}
+.checkout-rows b{color:var(--text);font-weight:600}
+.checkout-total{padding-top:8px;margin-top:4px;border-top:1px solid var(--border)}
+.checkout-total b{font-size:18px}
+.checkout-form{display:grid;gap:14px}
+.checkout-form label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+.checkout-form input[type=email],.checkout-form input[type=text]{border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.05);color:var(--text);padding:11px 12px;font-size:15px;outline:none}
+.checkout-form input:focus{border-color:rgba(90,169,201,.5)}
+.checkout-consent{display:flex;flex-direction:row;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted)}
+.checkout-consent input{margin-top:2px}
+.checkout-consent a{color:var(--cyan)}
+.req{color:#e88}
+.checkout-error{margin:0;color:#ffb4b4;font-size:13px}
+.checkout-result{margin:0;padding:12px 14px;border:1px solid rgba(90,169,201,.3);border-radius:12px;background:rgba(90,169,201,.10);color:var(--text);font-size:13px;line-height:1.5}
+.checkout-result a{color:var(--cyan)}
+.checkout-pay{width:100%;min-height:50px}
+.checkout-note{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+.checkout-note a{color:var(--cyan)}
+@media(max-width:560px){.checkout-modal{padding:22px 16px 18px}}
 </style>
 
 </head>
@@ -199,19 +234,19 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
   <nav class="nav">
     <a class="brand" href="#top" aria-label="Magic eSIM"><span class="company-name">Magic eSIM</span></a>
     <div class="nav-links"><a href="#problem">Проблема</a><a href="#solution">Как работает</a><a href="#benefits">Преимущества</a><a href="#global-pricing">Тарифы</a><a href="#install-guides-section">Инструкции</a></div>
-    <a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM</a>
+    <a class="btn" href="#global-pricing">Получить eSIM</a>
   </nav>
-  <header class="hero" id="top"><div class="hero-bg" aria-hidden="true"></div><div class="container hero-content"><div class="eyebrow"><span class="pulse"></span> Stay Connected Anywhere</div><h1>Мобильный интернет <span class="gradient-text">для путешествий</span></h1><p class="lead">eSIM для поездок за границу: выберите страну, оплатите тариф и подключитесь за пару минут. Без роуминга и поиска местной SIM-карты.</p><div class="hero-actions"><a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM →</a><a class="btn secondary" href="#global-pricing">Смотреть тарифы</a></div></div></header>
+  <header class="hero" id="top"><div class="hero-bg" aria-hidden="true"></div><div class="container hero-content"><div class="eyebrow"><span class="pulse"></span> Stay Connected Anywhere</div><h1>Мобильный интернет <span class="gradient-text">для путешествий</span></h1><p class="lead">eSIM для поездок за границу: выберите страну, оплатите тариф и подключитесь за пару минут. Без роуминга и поиска местной SIM-карты.</p><div class="hero-actions"><a class="btn" href="#global-pricing">Получить eSIM →</a><a class="btn secondary" href="#global-pricing">Смотреть тарифы</a></div></div></header>
   <main>
     <section id="problem"><div class="container"><div class="section-head reveal"><div class="section-kicker">Проблема</div><h2>Знакомо?</h2></div><div class="grid"><div class="card problem-list reveal"><ul class="plain-list"><li>Роуминг съедает деньги за пару дней</li><li>В аэропорту и отеле приходится искать Wi-Fi</li><li>Местная SIM — очереди, документы и языковой барьер</li><li>Карты, такси и мессенджеры не работают без интернета</li></ul></div><div class="card problem-note reveal"><div class="icon">📡</div><h3>Почему так происходит</h3><p class="muted">Привычные способы связи в поездке либо дорогие, либо неудобные — а интернет нужен сразу по прилёте.</p></div></div></div></section>
     <section id="solution"><div class="container"><div class="section-head reveal"><div class="section-kicker">Решение</div><h2>Как это работает</h2><p class="muted">eSIM подключает ваш телефон к мобильному интернету за границей напрямую — без физической SIM-карты.</p></div><div class="grid"><div class="card solution-card reveal"><div class="icon">🌐</div><h3>Выберите страну</h3><p class="muted">Откройте каталог, найдите нужное направление и тариф по объёму и сроку.</p></div><div class="card solution-card reveal"><div class="icon">🛰️</div><h3>Оплатите тариф</h3><p class="muted">Оформление занимает пару минут — без документов и пластиковых SIM.</p></div><div class="card solution-card reveal"><div class="icon">✨</div><h3>Подключитесь сразу</h3><p class="muted">Установите eSIM по QR-коду и пользуйтесь интернетом по прилёте.</p></div></div></div></section>
     <section id="benefits"><div class="container"><div class="section-head reveal"><div class="section-kicker">Преимущества</div><h2>Почему eSIM удобно в поездке</h2></div><div class="grid"><div class="card benefit reveal"><div class="icon">⚡</div><h3>Интернет сразу по прилёте</h3><p class="muted">Не нужно искать Wi-Fi или местного оператора в чужой стране.</p></div><div class="card benefit reveal"><div class="icon">🌍</div><h3>Покрытие во многих странах</h3><p class="muted">Тарифы для популярных направлений и целых регионов.</p></div><div class="card benefit reveal"><div class="icon">🔒</div><h3>Без роуминга</h3><p class="muted">Стоимость известна заранее — никаких неожиданных счетов после поездки.</p></div><div class="card benefit reveal"><div class="icon">📲</div><h3>Работает сразу</h3><p class="muted">Установка занимает пару минут — и можно пользоваться интернетом.</p></div><div class="card benefit reveal"><div class="icon">🧠</div><h3>Просто для всех</h3><p class="muted">Подходит даже тем, кто не разбирается в технических настройках.</p></div><div class="card benefit reveal"><div class="icon">📶</div><h3>Можно раздавать</h3><p class="muted">Интернет можно раздать на другие устройства.</p></div></div></div></section>
     <section id="tech"><div class="container"><div class="section-head reveal"><div class="section-kicker">Простыми словами</div><h2>Немного технически</h2></div><div class="grid"><div class="card tech-text reveal"><p class="muted">Физическая SIM привязана к домашнему оператору, и в поездке за неё приходится платить роуминг или искать местную карту.</p><p class="muted">eSIM — это цифровая SIM: вы загружаете тариф нужной страны прямо в телефон и выходите в интернет через местного или международного оператора.</p></div><div class="card tech-points reveal"><ul class="check-list"><li>не нужна физическая SIM-карта</li><li>тариф выбирается под конкретную страну или регион</li><li>подключение занимает пару минут</li></ul></div></div></div></section>
     <section id="social"><div class="container"><div class="section-head reveal"><div class="section-kicker">Когда пригодится</div><h2>Когда нужен интернет в поездке</h2></div><div class="grid"><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">💼</div><h3>Для работы в поездках</h3></div><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">🗺️</div><h3>Карты, такси и бронирования</h3></div><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">✈️</div><h3>В путешествиях и отпуске</h3></div></div></div></section>
-<section id="global-pricing" data-section="packages"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета. Для покупки нажмите «Получить eSIM» и напишите нам в Telegram.</p></div><div class="landing-controls reveal"><div class="landing-search-wrap"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><button id="packageSearchButton" class="btn package-search-button" type="button">Найти</button></div><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div>
+<section id="global-pricing" data-section="packages"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета, затем оформите заказ прямо на сайте — нажмите «Оформить заказ» на нужном тарифе.</p></div><div class="landing-controls reveal"><div class="landing-search-wrap"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><button id="packageSearchButton" class="btn package-search-button" type="button">Найти</button></div><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div>
       
 <p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
-    <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Выберите страну, оплатите тариф и оставайтесь онлайн в поездке — карты, мессенджеры и сервисы всегда под рукой.</p><a class="btn" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM →</a></div></div></section>
+    <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Выберите страну, оплатите тариф и оставайтесь онлайн в поездке — карты, мессенджеры и сервисы всегда под рукой.</p><a class="btn" href="#global-pricing">Получить eSIM →</a></div></div></section>
   </main>
   
   
@@ -445,7 +480,41 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
     </div>
   </section>
 
-<footer><div class="container footer-inner"><div class="brand"><span class="company-name">Magic eSIM</span></div><nav class="footer-links"><a href="privacy.html">Политика конфиденциальности</a><a href="terms.html">Пользовательское соглашение</a></nav><a href="mailto:support@magicesim.store">support@magicesim.store</a></div></footer>
+<footer><div class="container footer-inner"><div class="brand"><span class="company-name">Magic eSIM</span></div><nav class="footer-links"><a href="privacy.html">Политика конфиденциальности</a><a href="terms.html">Пользовательское соглашение</a></nav><span class="footer-support"><a href="mailto:support@magicesim.store">support@magicesim.store</a><a href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Поддержка в Telegram</a></span></div></footer>
+
+  <!-- On-site checkout (оформление заказа на сайте; оплата — заглушка до подключения платёжной системы) -->
+  <div id="checkoutModal" class="checkout-overlay" hidden>
+    <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <button type="button" class="checkout-close" id="checkoutClose" aria-label="Закрыть">×</button>
+      <h3 id="checkoutTitle">Оформление заказа</h3>
+      <div class="checkout-summary">
+        <div class="checkout-plan" id="coPlanName">eSIM-тариф</div>
+        <div class="checkout-rows">
+          <div><span>Покрытие</span><b id="coCoverage">—</b></div>
+          <div><span>Интернет</span><b id="coData">—</b></div>
+          <div><span>Срок</span><b id="coDays">—</b></div>
+          <div class="checkout-total"><span>Итого</span><b id="coPrice">—</b></div>
+        </div>
+      </div>
+      <form class="checkout-form" id="checkoutForm" novalidate>
+        <label>Email для получения eSIM <span class="req">*</span>
+          <input type="email" id="coEmail" required autocomplete="email" placeholder="you@example.com">
+        </label>
+        <label>Telegram или телефон (необязательно)
+          <input type="text" id="coContact" autocomplete="off" placeholder="@username или +7…">
+        </label>
+        <label class="checkout-consent">
+          <input type="checkbox" id="coConsent" required>
+          <span>Я принимаю <a href="terms.html" target="_blank" rel="noopener">пользовательское соглашение</a> и <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span>
+        </label>
+        <p class="checkout-error" id="coError" hidden></p>
+        <p class="checkout-result" id="coResult" hidden>Оплата временно недоступна. Платёжная система находится на подключении. Для оформления заказа обратитесь в поддержку: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <button type="submit" class="btn checkout-pay" id="coPay">Перейти к оплате</button>
+        <p class="checkout-note">Картовая оплата подключается. Сейчас можно оформить заказ — менеджер свяжется с вами по указанному email.</p>
+      </form>
+    </div>
+  </div>
+
   <script>
 const revealItems=document.querySelectorAll('.reveal');
 const io=new IntersectionObserver((entries)=>{entries.forEach((entry)=>{if(entry.isIntersecting)entry.target.classList.add('visible')})},{threshold:.14});
@@ -1170,7 +1239,7 @@ function renderPackages(){
       </div>
 
       <div class="package-price">${formatRub(item.price)}</div>
-      <a class="btn package-buy" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM</a>
+      <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Оформить заказ</button>
     </article>
   `).join('');
 }
@@ -1250,7 +1319,7 @@ async function loadRussiaApiPackages(){
         </div>
 
         <div class="package-price">${formatRub(item.price)}</div>
-        <a class="btn package-buy" href="https://t.me/+mf3h5yAEM6EwMDMy" target="_blank" rel="noopener">Получить eSIM</a>
+        <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(item.name||'')}" data-coverage="Россия" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Оформить заказ</button>
       </article>
     `).join('');
   }catch(error){
@@ -1337,7 +1406,7 @@ function renderPackagesForCountry(countryCode){
       </div>
 
       <div class="package-actions">
-        <a class="btn" target="_blank" rel="noopener" href="${telegramOrderLink(item)}">Получить eSIM</a>
+        <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Оформить заказ</button>
       </div>
     </article>
   `).join('');
@@ -1395,6 +1464,47 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   }
 });
+
+// ===== On-site checkout modal (оформление заказа; оплата — заглушка до подключения платёжной системы) =====
+(function(){
+  const overlay=document.getElementById('checkoutModal');
+  if(!overlay)return;
+  const byId=(id)=>document.getElementById(id);
+  function openCheckout(d){
+    byId('coPlanName').textContent=d.name||'eSIM-тариф';
+    byId('coCoverage').textContent=d.coverage||'—';
+    byId('coData').textContent=d.data?`${d.data} GB`:'—';
+    byId('coDays').textContent=d.days?`${d.days} дн.`:'—';
+    byId('coPrice').textContent=d.price?`${Number(d.price).toLocaleString('ru-RU')} ₽`:'—';
+    overlay.dataset.packageId=d.packageId||'';
+    byId('coError').hidden=true;
+    byId('coResult').hidden=true;
+    const pay=byId('coPay');if(pay)pay.disabled=false;
+    overlay.hidden=false;
+    document.body.style.overflow='hidden';
+    setTimeout(()=>{const e=byId('coEmail');if(e)e.focus();},40);
+  }
+  function closeCheckout(){overlay.hidden=true;document.body.style.overflow='';}
+  document.addEventListener('click',(ev)=>{
+    const b=ev.target.closest('.js-buy');
+    if(!b)return;
+    ev.preventDefault();
+    openCheckout({packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,days:b.dataset.days,price:b.dataset.price});
+  });
+  const x=byId('checkoutClose');if(x)x.addEventListener('click',closeCheckout);
+  overlay.addEventListener('click',(ev)=>{if(ev.target===overlay)closeCheckout();});
+  document.addEventListener('keydown',(ev)=>{if(ev.key==='Escape'&&!overlay.hidden)closeCheckout();});
+  const form=byId('checkoutForm');
+  if(form){form.addEventListener('submit',(ev)=>{
+    ev.preventDefault();
+    const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError');
+    if(!email||!/.+@.+\..+/.test(email.value.trim())){err.textContent='Укажите корректный email для получения eSIM.';err.hidden=false;if(email)email.focus();return;}
+    if(consent&&!consent.checked){err.textContent='Подтвердите согласие с пользовательским соглашением и политикой конфиденциальности.';err.hidden=false;return;}
+    err.hidden=true;
+    const res=byId('coResult');if(res)res.hidden=false;
+    const pay=byId('coPay');if(pay)pay.disabled=true;
+  });}
+})();
 
 </script>
 
