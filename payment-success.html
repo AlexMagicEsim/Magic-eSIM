@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Проверяем оплату — Magic eSIM</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Проверка статуса оплаты Magic eSIM." />
+  <style>
+    :root{--bg:#0a0d16;--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--purple:#7a6fb0;--ok:#5ec98a;--warn:#e6c168;--border:rgba(255,255,255,.10);--max:640px}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);
+      background:
+        radial-gradient(900px circle at 12% -6%, rgba(95,114,196,.10), transparent 60%),
+        radial-gradient(820px circle at 100% 2%, rgba(90,169,201,.08), transparent 55%),
+        var(--bg);line-height:1.6}
+    a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+    .card{width:min(var(--max),100%);border:1px solid var(--border);border-radius:18px;background:rgba(255,255,255,.035);
+      padding:36px 32px 32px;text-align:center;backdrop-filter:blur(6px)}
+    .brand{font-size:20px;font-weight:700;letter-spacing:-.04em;margin-bottom:24px;
+      background:linear-gradient(90deg,#cfd6ff,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .icon{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;font-size:28px;
+      border:1px solid var(--border);background:rgba(255,255,255,.04)}
+    .spinner{width:44px;height:44px;border-radius:50%;border:3px solid rgba(255,255,255,.14);border-top-color:var(--cyan);
+      margin:0 auto 18px;animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    h1{font-size:clamp(22px,4vw,30px);letter-spacing:-.02em;margin:0 0 10px}
+    .msg{color:#d7ddf0;margin:0 auto 8px;max-width:460px}
+    .sub{color:var(--muted);font-size:14px;margin:14px auto 0;max-width:460px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-weight:700;font-size:15px}
+    .btn:hover{text-decoration:none;transform:translateY(-2px)}
+    .btn.secondary{background:rgba(255,255,255,.05);color:var(--text)}
+    .hide{display:none!important}
+    .ok .icon{color:var(--ok);border-color:rgba(94,201,138,.4);background:rgba(94,201,138,.10)}
+    .warn .icon{color:var(--warn);border-color:rgba(230,193,104,.4);background:rgba(230,193,104,.10)}
+    @media(max-width:560px){.card{padding:28px 20px 24px}}
+  </style>
+</head>
+<body>
+  <main class="card" id="card">
+    <div class="brand">Magic eSIM</div>
+    <div class="spinner" id="spinner"></div>
+    <div class="icon hide" id="icon">✓</div>
+    <h1 id="title">Проверяем оплату</h1>
+    <p class="msg" id="message">Не закрывайте страницу. Мы проверяем статус платежа.</p>
+    <p class="sub" id="sub">По вопросам оплаты — <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+    <div class="actions">
+      <a class="btn" href="index.html">Вернуться на главную</a>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var API_BASE = 'https://api.magicesim.store';
+      var params = new URLSearchParams(location.search);
+      var token = (params.get('token') || params.get('public_order_token') || '').trim();
+      if (!/^[A-Za-z0-9_-]{16,128}$/.test(token)) token = '';
+
+      var card = document.getElementById('card');
+      var spinner = document.getElementById('spinner');
+      var icon = document.getElementById('icon');
+      var titleEl = document.getElementById('title');
+      var msgEl = document.getElementById('message');
+
+      var STATES = {
+        processing: { title: 'Проверяем оплату', msg: 'Не закрывайте страницу. Мы проверяем статус платежа.', spin: true },
+        confirmed:  { title: 'Оплата подтверждена', msg: 'Спасибо! Платёж получен. Готовим вашу eSIM — данные придут на указанный email.', spin: true },
+        preparing:  { title: 'Подготавливаем eSIM', msg: 'Оплата подтверждена. Формируем вашу eSIM — это займёт немного времени.', spin: true },
+        done:       { title: 'eSIM готова', msg: 'eSIM отправлена на ваш email. Проверьте входящие и папку «Спам».', spin: false, cls: 'ok', ic: '✓' },
+        tech_error: { title: 'Оплата подтверждена', msg: 'Платёж получен, но при подготовке eSIM возникла техническая заминка. Мы уже разбираемся. Если eSIM не придёт в ближайшее время — напишите нам, мы поможем.', spin: false, cls: 'warn', ic: '!' },
+        canceled:   { title: 'Платёж не завершён', msg: 'Оплата не была завершена. Вы можете вернуться к тарифам и попробовать снова.', spin: false, cls: 'warn', ic: '!' },
+        fallback:   { title: 'Проверяем оплату', msg: 'Если вы завершили оплату, детали eSIM придут на указанный email. По вопросам — напишите в поддержку.', spin: false }
+      };
+
+      function render(key) {
+        var s = STATES[key] || STATES.fallback;
+        titleEl.textContent = s.title;
+        msgEl.textContent = s.msg;
+        card.classList.remove('ok', 'warn');
+        if (s.cls) card.classList.add(s.cls);
+        if (s.spin) { spinner.classList.remove('hide'); icon.classList.add('hide'); }
+        else { spinner.classList.add('hide'); if (s.ic) { icon.textContent = s.ic; icon.classList.remove('hide'); } }
+      }
+
+      render('processing');
+
+      // No token -> we cannot poll; show a safe neutral message.
+      if (!token) { render('fallback'); return; }
+
+      var TERMINAL = { completed: 'done', provider_failed: 'tech_error', canceled: 'canceled', refund_required: 'canceled' };
+      var attempts = 0, MAX = 40; // ~ up to 3–4 min
+
+      function mapView(view) {
+        var st = view && view.status;
+        if (TERMINAL[st]) return TERMINAL[st];
+        if (st === 'purchasing_esim') return 'preparing';
+        if (st === 'paid') return 'confirmed';
+        return 'processing'; // awaiting_payment / unknown
+      }
+
+      function poll() {
+        attempts++;
+        fetch(API_BASE + '/api/v1/public/retail-orders/' + encodeURIComponent(token) + '/status', { headers: { Accept: 'application/json' } })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (view) {
+            var key = view ? mapView(view) : 'processing';
+            render(key);
+            // Stop on terminal states. This page never confirms payment itself.
+            if (view && TERMINAL[view.status]) return;
+            if (attempts >= MAX) return; // stop polling; leave last known state
+            setTimeout(poll, 4000);
+          })
+          .catch(function () {
+            // Never show raw errors. Keep trying quietly, then fall back.
+            if (attempts >= MAX) { render('fallback'); return; }
+            setTimeout(poll, 5000);
+          });
+      }
+      poll();
+    })();
+  </script>
+</body>
+</html>
