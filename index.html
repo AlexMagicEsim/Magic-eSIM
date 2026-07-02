@@ -142,6 +142,7 @@
 
 /* CTA внутри карточки */
 .package-buy{min-height:46px;font-size:15px}
+.btn:disabled,.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* ===== Страны / регионы — спокойный единый стиль ===== */
 .country-chip{font-weight:600;padding:8px 13px;border:1px solid rgba(255,255,255,.10);
@@ -665,6 +666,25 @@ const featuredAllCountries=['TH','VN','AE'];
 
 function formatRub(value){
   return `${Number(value||0).toLocaleString('ru-RU')} ₽`;
+}
+
+// Single source of truth for the retail price shown on a card AND in the modal.
+// Retail price = API field `price` (already RUB). Never fall back to provider/dealer price.
+function getPackageRetailPrice(item){
+  const value = Number(item && item.price);
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
+function formatRetailPrice(item){
+  const price = getPackageRetailPrice(item);
+  return price === null ? 'Цена уточняется' : formatRub(price);
+}
+
+// Shared buy button: same price source; disabled (no checkout) when price is absent.
+function buyButtonHtml(item){
+  const price = getPackageRetailPrice(item);
+  const disabled = price === null ? ' disabled aria-disabled="true"' : '';
+  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>Оформить заказ</button>`;
 }
 
 function escapeHtml(value){
@@ -1247,8 +1267,8 @@ function renderPackages(){
         <strong>Раздача интернета:</strong> доступна
       </div>
 
-      <div class="package-price">${formatRub(item.price)}</div>
-      <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Оформить заказ</button>
+      <div class="package-price">${formatRetailPrice(item)}</div>
+      ${buyButtonHtml(item)}
     </article>
   `).join('');
 }
@@ -1411,11 +1431,12 @@ function renderPackagesForCountry(countryCode){
         <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
         <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
         <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
-        <strong>Цена для клиента:</strong> ${escapeHtml(item.retail_price_rub||item.price_rub||'')} ₽
+        <strong>Раздача интернета:</strong> доступна
       </div>
 
+      <div class="package-price">${formatRetailPrice(item)}</div>
       <div class="package-actions">
-        <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Оформить заказ</button>
+        ${buyButtonHtml(item)}
       </div>
     </article>
   `).join('');
