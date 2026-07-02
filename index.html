@@ -508,7 +508,7 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
           <span>Я принимаю <a href="terms.html" target="_blank" rel="noopener">пользовательское соглашение</a> и <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span>
         </label>
         <p class="checkout-error" id="coError" hidden></p>
-        <p class="checkout-result" id="coResult" hidden>Оплата временно недоступна. Платёжная система находится на подключении. Для оформления заказа обратитесь в поддержку: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <p class="checkout-result" id="coResult" hidden></p>
         <button type="submit" class="btn checkout-pay" id="coPay">Перейти к оплате</button>
         <p class="checkout-note">Картовая оплата подключается. Сейчас можно оформить заказ — менеджер свяжется с вами по указанному email.</p>
       </form>
@@ -1479,6 +1479,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const overlay=document.getElementById('checkoutModal');
   if(!overlay)return;
   const byId=(id)=>document.getElementById(id);
+  let submitting=false;
   function openCheckout(d){
     byId('coPlanName').textContent=d.name||'eSIM-тариф';
     byId('coCoverage').textContent=d.coverage||'—';
@@ -1488,7 +1489,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     overlay.dataset.packageId=d.packageId||'';
     byId('coError').hidden=true;
     byId('coResult').hidden=true;
-    const pay=byId('coPay');if(pay)pay.disabled=false;
+    submitting=false;
+    const pay=byId('coPay');if(pay){pay.disabled=false;pay.textContent='Перейти к оплате';}
     overlay.hidden=false;
     document.body.style.overflow='hidden';
     setTimeout(()=>{const e=byId('coEmail');if(e)e.focus();},40);
@@ -1503,15 +1505,49 @@ window.addEventListener('DOMContentLoaded', async () => {
   const x=byId('checkoutClose');if(x)x.addEventListener('click',closeCheckout);
   overlay.addEventListener('click',(ev)=>{if(ev.target===overlay)closeCheckout();});
   document.addEventListener('keydown',(ev)=>{if(ev.key==='Escape'&&!overlay.hidden)closeCheckout();});
+  function allowedRedirect(u){
+    try{const url=new URL(u);const host=url.host;return url.protocol==='https:'&&(/(^|\.)platega\.io$/i.test(host)||/(^|\.)magicesim\.store$/i.test(host));}catch(e){return false;}
+  }
   const form=byId('checkoutForm');
-  if(form){form.addEventListener('submit',(ev)=>{
+  if(form){form.addEventListener('submit',async (ev)=>{
     ev.preventDefault();
-    const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError');
+    if(submitting)return;                                  // guard against double submit
+    const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError'),contact=byId('coContact');
+    const pkgId=(overlay.dataset.packageId||'').trim();
     if(!email||!/.+@.+\..+/.test(email.value.trim())){err.textContent='Укажите корректный email для получения eSIM.';err.hidden=false;if(email)email.focus();return;}
     if(consent&&!consent.checked){err.textContent='Подтвердите согласие с пользовательским соглашением и политикой конфиденциальности.';err.hidden=false;return;}
+    if(!pkgId){err.textContent='Тариф не выбран. Закройте окно и выберите тариф заново.';err.hidden=false;return;}
     err.hidden=true;
-    const res=byId('coResult');if(res)res.hidden=false;
-    const pay=byId('coPay');if(pay)pay.disabled=true;
+    submitting=true;
+    let redirected=false;
+    const pay=byId('coPay');const payText=pay?pay.textContent:'Перейти к оплате';
+    if(pay){pay.disabled=true;pay.textContent='Создаём платёж…';}
+    try{
+      const resp=await fetch(API_BASE+'/api/v1/public/retail-orders',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({
+          package_id:pkgId,
+          email:email.value.trim(),
+          contact:(contact&&contact.value.trim())?contact.value.trim().slice(0,200):undefined,
+          termsAccepted:true
+        })
+      });
+      let data={};try{data=await resp.json();}catch(e){}
+      if(resp.ok&&data.redirect_url&&allowedRedirect(data.redirect_url)){
+        redirected=true;
+        window.location.assign(data.redirect_url);         // go to Platega payment page
+        return;
+      }
+      err.textContent=(data&&data.message)?data.message:'Не удалось создать платёж. Попробуйте позже или напишите в поддержку support@magicesim.store.';
+      err.hidden=false;
+    }catch(e){
+      err.textContent='Не удалось связаться с сервером. Проверьте соединение и попробуйте снова.';
+      err.hidden=false;
+    }finally{
+      // Re-enable only if we did NOT create a payment / redirect.
+      if(!redirected){submitting=false;if(pay){pay.disabled=false;pay.textContent=payText||'Перейти к оплате';}}
+    }
   });}
 })();
 
