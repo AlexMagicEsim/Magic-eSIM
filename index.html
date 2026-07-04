@@ -371,14 +371,11 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 .dest-name{font-weight:700;font-size:15px;color:var(--ink);line-height:1.2}
 @media(max-width:1024px){.dest-scroller{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:720px){
-  /* Horizontal swipe kept, but NO full-bleed negative margin (that caused a few px
-     of page overflow). Cards sit inside the container with a right padding so the
-     last card isn't glued to the edge, and the next card peeks as a swipe hint. */
-  .dest-scroller{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:12px;margin:0;padding:2px 16px 4px 2px;scroll-snap-type:x proximity;scroll-padding-inline:2px;scrollbar-width:none}
-  .dest-scroller::-webkit-scrollbar{display:none}
-  .dest-card{scroll-snap-align:start;flex:0 0 42%;max-width:168px;min-height:auto}
-  /* Trim the empty vertical gap after the row: the popular section no longer adds a
-     big bottom padding, so the next section follows with normal section spacing. */
+  /* Mobile: a plain 2-column grid (16 countries = 8 rows of 2). Full-width,
+     equal-height cards (grid-auto-rows:1fr from the base rule), gap 12px, no
+     horizontal scroll / scroll-snap / cut cards. Bottom padding trimmed so the
+     next section follows with normal spacing. */
+  .dest-scroller{grid-template-columns:repeat(2,1fr)}
   #popular.destinations{padding-top:30px;padding-bottom:0}
 }
 
