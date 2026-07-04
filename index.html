@@ -494,12 +494,11 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 .checkout-note a{color:var(--blue)}
 /* Payment-method logo inside checkout buttons: [logo][text]. .btn already provides
    display:inline-flex; align-items:center; justify-content:center; gap:10px. */
-.checkout-pay{gap:10px}
-.checkout-pay .pay-ico{flex:0 0 auto;display:block;pointer-events:none;height:auto}
-.checkout-pay .pay-ico--sbp{width:30px}
-.checkout-pay .pay-ico--mir{width:38px}
+.checkout-pay{gap:11px}
+.checkout-pay .pay-logo-badge{background:#fff;border-radius:9px;padding:5px 8px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:52px;height:32px;box-sizing:border-box}
+.checkout-pay .pay-logo-badge .pay-ico{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;pointer-events:none}
 .checkout-pay .pay-label{white-space:nowrap}
-@media(max-width:560px){.checkout-pay .pay-ico--sbp{width:24px}.checkout-pay .pay-ico--mir{width:30px}}
+@media(max-width:560px){.checkout-pay .pay-logo-badge{width:46px;height:28px}}
 
 /* ---- Keyframes ---- */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
@@ -867,8 +866,8 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
         <p class="checkout-error" id="coError" hidden></p>
         <p class="checkout-result" id="coResult" hidden></p>
         <div class="checkout-pay-buttons" style="display:flex;flex-direction:column;gap:10px">
-          <button type="button" class="btn checkout-pay" id="coPaySbp" style="width:100%"><img class="pay-ico pay-ico--sbp" src="assets/payment/sbp.svg" alt="" aria-hidden="true"><span class="pay-label">Оплатить по СБП</span></button>
-          <button type="button" class="btn checkout-pay" id="coPayCard" style="width:100%"><img class="pay-ico pay-ico--mir" src="assets/payment/mir.svg" alt="" aria-hidden="true"><span class="pay-label">Оплатить картой</span></button>
+          <button type="button" class="btn checkout-pay" id="coPaySbp" style="width:100%"><span class="pay-logo-badge"><img class="pay-ico" src="assets/payment/sbp.svg" alt="" aria-hidden="true"></span><span class="pay-label">Оплатить по СБП</span></button>
+          <button type="button" class="btn checkout-pay" id="coPayCard" style="width:100%"><span class="pay-logo-badge"><img class="pay-ico" src="assets/payment/mir.svg" alt="" aria-hidden="true"></span><span class="pay-label">Оплатить картой</span></button>
         </div>
         <p class="checkout-note">Оплата через Platega: СБП или банковская карта. Данные eSIM придут на указанный email.</p>
       </form>
