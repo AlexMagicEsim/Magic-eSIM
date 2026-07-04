@@ -38,6 +38,20 @@
     .warn .icon{color:var(--warn);border-color:rgba(230,193,104,.4);background:rgba(230,193,104,.10)}
     @media(max-width:560px){.card{padding:28px 20px 24px}}
   </style>
+  <!-- Light theme (redesign 2026-07): re-skin only, no markup/script change -->
+  <style>
+    :root{--bg:#F7F9FC;--text:#111827;--muted:#667085;--cyan:#4267E8;--blue:#4267E8;--border:#E6EAF2}
+    body{background:#F7F9FC!important}
+    .card{background:#fff!important;box-shadow:0 8px 24px rgba(17,24,39,.06);backdrop-filter:none}
+    .brand{background:linear-gradient(135deg,#8A16C7,#3866D9,#00C7DF)!important;-webkit-background-clip:text;background-clip:text;color:transparent}
+    .msg{color:#334155!important}
+    .btn{background:#4267E8!important;border:0!important;color:#fff!important;border-radius:999px}
+    .btn.secondary{background:#fff!important;color:#111827!important;border:1px solid #E6EAF2!important}
+    .icon{background:#F1F4FA!important;border-color:#E6EAF2!important}
+    .spinner{border-color:#E6EAF2!important;border-top-color:#4267E8!important}
+    .ok .icon{color:#15803d!important;background:rgba(22,163,74,.10)!important;border-color:rgba(22,163,74,.35)!important}
+    .warn .icon{color:#8a5a00!important;background:rgba(244,183,64,.12)!important;border-color:rgba(244,183,64,.35)!important}
+  </style>
 </head>
 <body>
   <main class="card" id="card">
