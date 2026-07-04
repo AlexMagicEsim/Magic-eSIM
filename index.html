@@ -371,10 +371,15 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 .dest-name{font-weight:700;font-size:15px;color:var(--ink);line-height:1.2}
 @media(max-width:1024px){.dest-scroller{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:720px){
-  .dest-scroller{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:12px;padding-bottom:8px;margin:0 -16px;padding-left:16px;padding-right:16px}
+  /* Horizontal swipe kept, but NO full-bleed negative margin (that caused a few px
+     of page overflow). Cards sit inside the container with a right padding so the
+     last card isn't glued to the edge, and the next card peeks as a swipe hint. */
+  .dest-scroller{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:12px;margin:0;padding:2px 16px 4px 2px;scroll-snap-type:x proximity;scroll-padding-inline:2px;scrollbar-width:none}
   .dest-scroller::-webkit-scrollbar{display:none}
-  .dest-scroller{scrollbar-width:none}
-  .dest-card{scroll-snap-align:start;flex:0 0 44%;max-width:180px}
+  .dest-card{scroll-snap-align:start;flex:0 0 42%;max-width:168px;min-height:auto}
+  /* Trim the empty vertical gap after the row: the popular section no longer adds a
+     big bottom padding, so the next section follows with normal section spacing. */
+  #popular.destinations{padding-top:30px;padding-bottom:0}
 }
 
 /* ---- Tariff sub-sections (local vs regional) ---- */
