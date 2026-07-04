@@ -6,6 +6,36 @@
   <title>Оплата не завершена — Magic eSIM</title>
   <meta name="robots" content="noindex" />
   <meta name="description" content="Оплата Magic eSIM не была завершена." />
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(110393848,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  <script>
+  /* Safe Metrika goal wrapper — allowlisted goal names + param keys, no PII, never throws. */
+  (function(){
+    var CID=110393848;
+    var GOALS={payment_success:['payment_type','price_rub'],payment_failed:['payment_type']};
+    function safe(k,v){
+      if(v===undefined||v===null||v==='')return undefined;
+      if(typeof v==='object'||typeof v==='function')return undefined;
+      if(k==='payment_type'){v=String(v);return /^(sbp|card)$/.test(v)?v:undefined;}
+      if(k==='price_rub'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
+      return undefined;
+    }
+    window.magicMetrikaGoal=function(name,params){
+      try{
+        if(typeof window.ym!=='function')return;
+        var allow=GOALS[name];if(!allow)return;
+        var out={},has=false;
+        if(params&&typeof params==='object'){for(var i=0;i<allow.length;i++){var vv=safe(allow[i],params[allow[i]]);if(vv!==undefined){out[allow[i]]=vv;has=true;}}}
+        if(has){window.ym(CID,'reachGoal',name,out);}else{window.ym(CID,'reachGoal',name);}
+      }catch(e){}
+    };
+  })();
+  </script>
   <style>
     :root{--bg:#0a0d16;--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--warn:#e6c168;--border:rgba(255,255,255,.10);--max:640px}
     *{box-sizing:border-box}
@@ -57,5 +87,16 @@
       <a class="btn secondary" href="mailto:support@magicesim.store">Связаться с поддержкой</a>
     </div>
   </main>
+  <script>
+  /* payment_failed: landing on this page (Platega redirect on a not-completed payment)
+     is itself the reliable signal → fire once on load. safe_error_code is omitted (no
+     source on this static page). payment_type comes from the same-origin bridge if
+     present; otherwise the goal still fires without params. Then the bridge is cleared. */
+  (function(){
+    var ctx={};try{ctx=JSON.parse(sessionStorage.getItem('magic_pay_ctx')||'{}')||{};}catch(e){}
+    if(window.magicMetrikaGoal)window.magicMetrikaGoal('payment_failed',{payment_type:ctx.payment_type});
+    try{sessionStorage.removeItem('magic_pay_ctx');}catch(e){}
+  })();
+  </script>
 </body>
 </html>

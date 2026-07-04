@@ -5,6 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Magic eSIM — мобильный интернет для путешествий</title>
   <meta name="description" content="Magic eSIM — подключение eSIM за 2 минуты для стабильного интернета." />
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(110393848,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  <script>
+  /* Safe Metrika goal wrapper — allowlisted goal names + param keys, strict per-key
+     validation, no PII, never throws (ym absent/blocked -> silent no-op). */
+  (function(){
+    var CID=110393848;
+    var GOALS={country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['payment_type','price_rub'],payment_failed:['payment_type']};
+    function safe(k,v){
+      if(v===undefined||v===null||v==='')return undefined;
+      if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
+      if(k==='country_code'){v=String(v).toUpperCase();return /^[A-Z]{2}$/.test(v)?v:undefined;}
+      if(k==='package_id'){v=String(v);return /^[A-Za-z0-9_-]{1,64}$/.test(v)?v:undefined;}
+      if(k==='payment_type'){v=String(v);return /^(sbp|card)$/.test(v)?v:undefined;}
+      if(k==='tariff_type'){v=String(v);return /^(local|regional)$/.test(v)?v:undefined;}
+      if(k==='price_rub'||k==='data_gb'||k==='validity_days'||k==='local_count'||k==='regional_count'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
+      return undefined;
+    }
+    window.magicMetrikaGoal=function(name,params){
+      try{
+        if(typeof window.ym!=='function')return;
+        var allow=GOALS[name];if(!allow)return;
+        var out={},has=false;
+        if(params&&typeof params==='object'){for(var i=0;i<allow.length;i++){var vv=safe(allow[i],params[allow[i]]);if(vv!==undefined){out[allow[i]]=vv;has=true;}}}
+        if(has){window.ym(CID,'reachGoal',name,out);}else{window.ym(CID,'reachGoal',name);}
+      }catch(e){}
+    };
+    /* UTM -> sessionStorage only (short-lived; no permanent localStorage; never sent to Platega/provider). */
+    try{
+      var qs=new URLSearchParams(location.search),ks=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'],f={},any=false;
+      ks.forEach(function(k){var v=qs.get(k);if(v){f[k]=String(v).slice(0,200);any=true;}});
+      if(any){f._ts=Date.now();try{sessionStorage.setItem('magic_utm',JSON.stringify(f));}catch(e){}}
+    }catch(e){}
+  })();
+  </script>
   <style>
     :root{--bg:#0a0d16;--card:rgba(18,22,38,.72);--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--purple:#7a6fb0;--yellow:#e6cd8a;--border:rgba(255,255,255,.10);--shadow:0 12px 34px rgba(0,0,0,.30);--radius:18px;--max:1180px}*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 16% 12%,rgba(168,60,255,.34),transparent 32%),radial-gradient(circle at 84% 24%,rgba(24,216,255,.25),transparent 34%),var(--bg);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#000,transparent 82%);z-index:-2}a{color:inherit;text-decoration:none}.container{width:min(var(--max),calc(100% - 40px));margin:0 auto}.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(var(--max),calc(100% - 40px));z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid var(--border);border-radius:999px;background:rgba(5,7,15,.72);backdrop-filter:blur(18px);box-shadow:0 16px 50px rgba(0,0,0,.25);animation:navDrop .9s ease both}.brand{display:flex;align-items:center;gap:10px;font-weight:800}.company-name{font-size:24px;font-weight:700;letter-spacing:-.05em;background:linear-gradient(90deg,#b43bff,#5d7cff,#18d8ff);-webkit-background-clip:text;color:transparent}.nav-links{display:flex;gap:22px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--cyan)}.btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(135deg,var(--purple),var(--blue) 48%,var(--cyan));color:white;font-weight:800;box-shadow:0 16px 44px rgba(24,216,255,.22),0 10px 34px rgba(168,60,255,.20);transition:transform .25s ease,box-shadow .25s ease;position:relative;overflow:hidden}.btn:after{content:"";position:absolute;top:0;left:-120%;width:80%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:none}.btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 22px 60px rgba(24,216,255,.30),0 14px 44px rgba(168,60,255,.26)}.btn.secondary{background:rgba(255,255,255,.06);box-shadow:none}.hero{position:relative;min-height:100vh;display:grid;align-items:center;padding:140px 0 80px;overflow:hidden}.hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 18% 28%,rgba(168,60,255,.34),transparent 34%),radial-gradient(circle at 82% 34%,rgba(24,216,255,.28),transparent 36%),linear-gradient(90deg,rgba(5,7,15,.96),rgba(8,12,26,.82) 48%,rgba(5,7,15,.94));opacity:.5;transform:scale(1.04);animation:none}.hero-content{position:relative;z-index:2;max-width:780px;animation:fadeUp .9s ease both}.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.06);color:#dce3ff;margin-bottom:22px;backdrop-filter:blur(14px)}.pulse{width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(24,216,255,.85);animation:pulse 1.7s infinite}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(42px,7vw,82px);line-height:.98;letter-spacing:-.06em;margin-bottom:24px}.gradient-text{background:linear-gradient(90deg,#fff,#9eaaff 38%,var(--cyan));-webkit-background-clip:text;color:transparent}.lead{font-size:clamp(18px,2.2vw,24px);line-height:1.55;color:#d7ddf5;max-width:690px;margin-bottom:34px}.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}section{padding:92px 0}.section-head{max-width:760px;margin-bottom:36px}.section-kicker{color:var(--cyan);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:13px;margin-bottom:12px}h2{font-size:clamp(32px,4vw,54px);line-height:1.05;letter-spacing:-.04em;margin-bottom:16px}.muted{color:var(--muted);line-height:1.75;font-size:17px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}.card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(18px);position:relative;overflow:hidden;transition:transform .3s ease,border-color .3s ease}.card:hover{transform:translateY(-6px);border-color:rgba(24,216,255,.36)}.problem-list{grid-column:span 7}.problem-note{grid-column:span 5}.solution-card,.benefit,.social-card{grid-column:span 4}.tech-text,.tech-points{grid-column:span 6}.check-list,.plain-list{display:grid;gap:14px;padding:0;margin:0;list-style:none}.plain-list li,.check-list li{display:flex;gap:12px;color:#e8ecff;line-height:1.5;font-size:18px}.plain-list li:before{content:"—";color:var(--cyan);font-weight:900}.check-list li:before{content:"✓";flex:0 0 24px;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:rgba(24,216,255,.14);color:var(--cyan);font-weight:900;margin-top:2px}.icon{width:54px;height:54px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(135deg,rgba(168,60,255,.24),rgba(24,216,255,.18));border:1px solid rgba(255,255,255,.12);font-size:26px;margin-bottom:18px}.pricing-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:start}.price-table{display:grid;gap:12px;margin-top:22px}.price-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(255,255,255,.045)}.price-row strong{font-size:20px}.price-row span:last-child{color:var(--yellow);font-weight:900;white-space:nowrap}.daily-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;align-items:stretch}.daily-plan{min-height:100%;padding:54px 20px 20px;border:1px solid rgba(255,255,255,.12);border-radius:24px;background:rgba(255,255,255,.045);position:relative;display:flex;flex-direction:column}.daily-plan h4{min-height:56px;display:flex;align-items:flex-start;font-size:22px;margin-bottom:16px;letter-spacing:-.02em;padding-right:6px}.daily-plan .price-table{margin-top:auto}.daily-plan .price-row{padding:14px 15px}.daily-plan.hit{border-color:rgba(255,225,119,.55);background:linear-gradient(180deg,rgba(255,225,119,.14),rgba(255,255,255,.045));box-shadow:0 18px 54px rgba(255,225,119,.10)}.hit-badge{position:absolute;top:18px;left:20px;margin:0;background:linear-gradient(135deg,#ffe177,#ffb800);border:0;color:#080a12;box-shadow:0 10px 28px rgba(255,225,119,.28);letter-spacing:.04em}.badge{display:inline-flex;padding:7px 12px;border-radius:999px;background:rgba(24,216,255,.12);color:#bff5ff;border:1px solid rgba(24,216,255,.22);font-size:13px;font-weight:800;margin-bottom:16px}.cta{padding:108px 0}.cta-box{text-align:center;border-radius:40px;padding:64px 28px;background:radial-gradient(circle at 18% 20%,rgba(168,60,255,.36),transparent 35%),radial-gradient(circle at 82% 35%,rgba(24,216,255,.32),transparent 36%),linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.16);box-shadow:var(--shadow)}footer{padding:34px 0 48px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}.reveal.visible{opacity:1;transform:translateY(0)}.landing-controls{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
 .landing-search-wrap{display:flex;gap:12px;flex:1;min-width:min(100%,360px)}
@@ -854,10 +894,10 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
       </div>
       <form class="checkout-form" id="checkoutForm" novalidate>
         <label>Email для получения eSIM <span class="req">*</span>
-          <input type="email" id="coEmail" required autocomplete="email" placeholder="you@example.com">
+          <input type="email" id="coEmail" class="ym-hide-content" required autocomplete="email" placeholder="you@example.com">
         </label>
         <label>Дополнительный контакт (необязательно)
-          <input type="text" id="coContact" autocomplete="off" placeholder="Необязательно">
+          <input type="text" id="coContact" class="ym-hide-content" autocomplete="off" placeholder="Необязательно">
         </label>
         <label class="checkout-consent">
           <input type="checkbox" id="coConsent" required>
@@ -1488,6 +1528,7 @@ function renderCountryChips(){
   chips.querySelectorAll('.country-chip').forEach((button)=>{
     button.addEventListener('click',()=>{
       // Region-list chips use the SAME flow as popular tiles / search → scroll to cards.
+      if((button.dataset.country||'')&&(button.dataset.country||'')!=='ALL')magicMetrikaGoal('regional_country_click',{country_code:button.dataset.country});
       selectCountry(button.dataset.country||'ALL');
     });
   });
@@ -1655,6 +1696,12 @@ function renderCountrySplit(){
     localBlock.hidden=true;regionalBlock.hidden=true;
     if(status)status.textContent=`Для «${cName}» тарифы не найдены. Напишите в поддержку — подберём вручную.`;
   }
+  // Analytics: fire once per (country + result counts); re-render/sort of the same
+  // result does not re-fire (dedupe key), so no duplicate goals.
+  try{
+    const _trk=code+'|'+local.length+'|'+regional.length;
+    if(window.__magicLastTariffsKey!==_trk){window.__magicLastTariffsKey=_trk;magicMetrikaGoal('tariffs_rendered',{country_code:code,local_count:local.length,regional_count:regional.length});}
+  }catch(e){}
 }
 
 function flashFirstCard(){
@@ -1714,6 +1761,7 @@ document.addEventListener('click',(e)=>{
   const d=e.target.closest('.dest-card');
   if(!d)return;
   e.preventDefault();
+  if((d.dataset.country||'')&&(d.dataset.country||'')!=='ALL')magicMetrikaGoal('popular_country_click',{country_code:d.dataset.country});
   selectCountry(d.dataset.country||'ALL',{scroll:true});
 });
 
@@ -1960,6 +2008,7 @@ function runPackageSearch(){
 
   if(foundCountry){
     if(packageSearchInput) packageSearchInput.value = '';
+    magicMetrikaGoal('country_search',{country_code:foundCountry});
     selectCountry(foundCountry,{scroll:true});
     return;
   }
@@ -2023,6 +2072,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     byId('coDays').textContent=d.days?`${d.days} дн.`:'—';
     byId('coPrice').textContent=d.price?`${Number(d.price).toLocaleString('ru-RU')} ₽`:'—';
     overlay.dataset.packageId=d.packageId||'';
+    overlay.dataset.priceRub=(d.price!=null&&d.price!=='')?String(Number(d.price)):'';
+    magicMetrikaGoal('checkout_open',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:d.packageId,price_rub:d.price});
     byId('coError').hidden=true;
     byId('coResult').hidden=true;
     submitting=false;
@@ -2036,6 +2087,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const b=ev.target.closest('.js-buy');
     if(!b)return;
     ev.preventDefault();
+    magicMetrikaGoal('tariff_buy_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:b.dataset.packageId,price_rub:b.dataset.price,data_gb:b.dataset.data,validity_days:b.dataset.days,tariff_type:b.closest('#regionalGrid')?'regional':'local'});
     openCheckout({packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,days:b.dataset.days,price:b.dataset.price});
   });
   const x=byId('checkoutClose');if(x)x.addEventListener('click',closeCheckout);
@@ -2055,6 +2107,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     if(!pkgId){err.textContent='Тариф не выбран. Закройте окно и выберите тариф заново.';err.hidden=false;return;}
     err.hidden=true;
     submitting=true;
+    // Analytics (safe wrapper; no PII). Fires once per initiation — the submitting
+    // guard above prevents a double click from creating a second goal. Only
+    // payment_type + price_rub are stored (no email/token/order id/package data)
+    // for the same-origin success/failed pages; cleared there after the goal fires.
+    try{
+      const _pr=overlay.dataset.priceRub;
+      magicMetrikaGoal(paymentType==='sbp'?'payment_sbp_click':'payment_card_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:pkgId,price_rub:_pr});
+      sessionStorage.setItem('magic_pay_ctx',JSON.stringify({payment_type:(paymentType==='sbp'||paymentType==='card')?paymentType:undefined,price_rub:(_pr!==''&&isFinite(Number(_pr)))?Number(_pr):undefined,_ts:Date.now()}));
+    }catch(e){}
     let redirected=false;
     const sbpBtn=byId('coPaySbp'),cardBtn=byId('coPayCard');
     const label=btn?btn.querySelector('.pay-label'):null;   // loading swaps only the label text, the logo stays

@@ -6,6 +6,37 @@
   <title>Проверяем оплату — Magic eSIM</title>
   <meta name="robots" content="noindex" />
   <meta name="description" content="Проверка статуса оплаты Magic eSIM." />
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(110393848,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+  <script>
+  /* Safe Metrika goal wrapper — allowlisted goal names + param keys, strict per-key
+     validation, no PII, never throws (ym absent/blocked -> silent no-op). */
+  (function(){
+    var CID=110393848;
+    var GOALS={payment_success:['payment_type','price_rub'],payment_failed:['payment_type']};
+    function safe(k,v){
+      if(v===undefined||v===null||v==='')return undefined;
+      if(typeof v==='object'||typeof v==='function')return undefined;
+      if(k==='payment_type'){v=String(v);return /^(sbp|card)$/.test(v)?v:undefined;}
+      if(k==='price_rub'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
+      return undefined;
+    }
+    window.magicMetrikaGoal=function(name,params){
+      try{
+        if(typeof window.ym!=='function')return;
+        var allow=GOALS[name];if(!allow)return;
+        var out={},has=false;
+        if(params&&typeof params==='object'){for(var i=0;i<allow.length;i++){var vv=safe(allow[i],params[allow[i]]);if(vv!==undefined){out[allow[i]]=vv;has=true;}}}
+        if(has){window.ym(CID,'reachGoal',name,out);}else{window.ym(CID,'reachGoal',name);}
+      }catch(e){}
+    };
+  })();
+  </script>
   <style>
     :root{--bg:#0a0d16;--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--purple:#7a6fb0;--ok:#5ec98a;--warn:#e6c168;--border:rgba(255,255,255,.10);--max:640px}
     *{box-sizing:border-box}
@@ -99,6 +130,15 @@
         else { spinner.classList.add('hide'); if (s.ic) { icon.textContent = s.ic; icon.classList.remove('hide'); } }
       }
 
+      // Analytics: fire payment_success ONCE, only when the status poll confirms a
+      // received payment (paid / purchasing_esim / completed). Never on page-open.
+      var paidFired = false;
+      function firePaymentSuccess(){
+        var ctx = {}; try { ctx = JSON.parse(sessionStorage.getItem('magic_pay_ctx') || '{}') || {}; } catch (e) {}
+        if (window.magicMetrikaGoal) window.magicMetrikaGoal('payment_success', { payment_type: ctx.payment_type, price_rub: ctx.price_rub });
+        try { sessionStorage.removeItem('magic_pay_ctx'); } catch (e) {}
+      }
+
       render('processing');
 
       // No token -> we cannot poll; show a safe neutral message.
@@ -122,6 +162,7 @@
           .then(function (view) {
             var key = view ? mapView(view) : 'processing';
             render(key);
+            if (!paidFired && (key === 'confirmed' || key === 'preparing' || key === 'done')) { paidFired = true; firePaymentSuccess(); }
             // Stop on terminal states. This page never confirms payment itself.
             if (view && TERMINAL[view.status]) return;
             if (attempts >= MAX) return; // stop polling; leave last known state
