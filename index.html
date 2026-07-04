@@ -1687,8 +1687,13 @@ function updateCountryUrl(code){
 // Select a country (search / chip / popular tile / URL): render split, sync URL, scroll, highlight.
 function selectCountry(code,opts){
   opts=opts||{};
-  activeCountry=String(code||'ALL').toUpperCase();
+  const req=String(code||'ALL').toUpperCase();
+  activeCountry=req;
   renderCountryChips();
+  // renderCountryChips() resets activeCountry→'ALL' if the country isn't in the chip
+  // list; restore it so a country with no tariffs still shows the «не найдены»
+  // message (and scrolls to it) instead of a blank result.
+  if(req!=='ALL')activeCountry=req;
   renderPackages();
   updateCountryUrl(activeCountry);
   if(opts.scroll!==false)scrollToRenderedTariffs();
