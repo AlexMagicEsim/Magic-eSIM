@@ -492,6 +492,14 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 .checkout-result a{color:var(--blue)}
 .checkout-note{color:var(--muted)}
 .checkout-note a{color:var(--blue)}
+/* Payment-method logo inside checkout buttons: [logo][text]. .btn already provides
+   display:inline-flex; align-items:center; justify-content:center; gap:10px. */
+.checkout-pay{gap:10px}
+.checkout-pay .pay-ico{flex:0 0 auto;display:block;pointer-events:none;height:auto}
+.checkout-pay .pay-ico--sbp{width:30px}
+.checkout-pay .pay-ico--mir{width:38px}
+.checkout-pay .pay-label{white-space:nowrap}
+@media(max-width:560px){.checkout-pay .pay-ico--sbp{width:24px}.checkout-pay .pay-ico--mir{width:30px}}
 
 /* ---- Keyframes ---- */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
@@ -859,8 +867,8 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
         <p class="checkout-error" id="coError" hidden></p>
         <p class="checkout-result" id="coResult" hidden></p>
         <div class="checkout-pay-buttons" style="display:flex;flex-direction:column;gap:10px">
-          <button type="button" class="btn checkout-pay" id="coPaySbp" style="width:100%">Оплатить по СБП</button>
-          <button type="button" class="btn checkout-pay" id="coPayCard" style="width:100%">Оплатить картой</button>
+          <button type="button" class="btn checkout-pay" id="coPaySbp" style="width:100%"><img class="pay-ico pay-ico--sbp" src="assets/payment/sbp.svg" alt="" aria-hidden="true"><span class="pay-label">Оплатить по СБП</span></button>
+          <button type="button" class="btn checkout-pay" id="coPayCard" style="width:100%"><img class="pay-ico pay-ico--mir" src="assets/payment/mir.svg" alt="" aria-hidden="true"><span class="pay-label">Оплатить картой</span></button>
         </div>
         <p class="checkout-note">Оплата через Platega: СБП или банковская карта. Данные eSIM придут на указанный email.</p>
       </form>
@@ -2050,9 +2058,10 @@ window.addEventListener('DOMContentLoaded', async () => {
     submitting=true;
     let redirected=false;
     const sbpBtn=byId('coPaySbp'),cardBtn=byId('coPayCard');
-    const oldText=btn?btn.textContent:'';
+    const label=btn?btn.querySelector('.pay-label'):null;   // loading swaps only the label text, the logo stays
+    const oldText=label?label.textContent:(btn?btn.textContent:'');
     if(sbpBtn)sbpBtn.disabled=true; if(cardBtn)cardBtn.disabled=true;   // block both while one is in flight
-    if(btn)btn.textContent='Создаём платёж…';                          // loader only on the clicked button
+    if(label){label.textContent='Создаём платёж…';}else if(btn){btn.textContent='Создаём платёж…';}  // loader only on the clicked button
     try{
       const resp=await fetch(API_BASE+'/api/v1/public/retail-orders',{
         method:'POST',
@@ -2077,7 +2086,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       err.textContent='Не удалось связаться с сервером. Проверьте соединение и попробуйте снова.';
       err.hidden=false;
     }finally{
-      if(!redirected){submitting=false;if(sbpBtn)sbpBtn.disabled=false;if(cardBtn)cardBtn.disabled=false;if(btn)btn.textContent=oldText;}
+      if(!redirected){submitting=false;if(sbpBtn)sbpBtn.disabled=false;if(cardBtn)cardBtn.disabled=false;if(label){label.textContent=oldText;}else if(btn){btn.textContent=oldText;}}
     }
   }
   const sbpBtnEl=byId('coPaySbp'),cardBtnEl=byId('coPayCard');
