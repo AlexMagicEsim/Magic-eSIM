@@ -230,21 +230,319 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
 @media(max-width:560px){.checkout-modal{padding:22px 16px 18px}}
 </style>
 
+<!-- ===== LIGHT PREMIUM TRAVEL-TECH DESIGN SYSTEM (redesign 2026-07; appended last so it overrides the legacy dark theme via the cascade) ===== -->
+<style id="light-theme">
+:root{
+  --bg:#F7F9FC;--card:#FFFFFF;--ink:#111827;--text:#111827;--muted:#667085;
+  --blue:#4267E8;--blue-600:#3457c9;--cyan:#00C7DF;--purple:#8A16C7;--yellow:#F4B740;
+  --line:#E6EAF2;--border:#E6EAF2;--soft:#F1F4FA;
+  --grad:linear-gradient(135deg,#8A16C7 0%,#3866D9 52%,#00C7DF 100%);
+  --shadow:0 8px 24px rgba(17,24,39,.06);--shadow-lg:0 18px 44px rgba(17,24,39,.10);
+  --radius:20px;--r-sm:14px;--r-pill:999px;--max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+body:before{display:none!important}                 /* remove neon grid overlay */
+a{color:inherit;text-decoration:none}
+.container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
+img{max-width:100%}
+
+/* ---- Nav ---- */
+.nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(var(--max),calc(100% - 32px));z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 12px 10px 16px;border:1px solid var(--line);border-radius:var(--r-pill);background:rgba(255,255,255,.86);backdrop-filter:saturate(1.4) blur(12px);box-shadow:var(--shadow);animation:none}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800}
+.brand-logo{height:30px;width:auto;display:block}
+.company-name{font-size:20px;font-weight:800;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:22px;color:var(--muted);font-size:14px;font-weight:600}
+.nav-links a:hover{color:var(--blue)}
+
+/* ---- Buttons ---- */
+.btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 22px;border-radius:var(--r-pill);border:0;background:var(--blue);color:#fff;font-weight:700;font-size:15px;box-shadow:0 6px 16px rgba(66,103,232,.24);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.btn:after{display:none!important}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(66,103,232,.30);background:var(--blue-600)}
+.btn:active{transform:translateY(0)}
+.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
+.btn.secondary:hover{background:var(--soft);color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--blue);box-shadow:none}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ---- Hero ---- */
+.hero{position:relative;min-height:auto;display:grid;align-items:center;padding:150px 0 40px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;opacity:1;transform:none;animation:none;background:
+  radial-gradient(760px circle at 12% 4%,rgba(138,22,199,.07),transparent 60%),
+  radial-gradient(720px circle at 96% 0%,rgba(0,199,223,.08),transparent 58%),
+  var(--bg)}
+.hero-content{position:relative;z-index:2;max-width:820px;margin:0 auto;text-align:center;animation:fadeUp .7s ease both}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border:1px solid var(--line);border-radius:var(--r-pill);background:#fff;color:var(--muted);font-weight:600;font-size:13px;margin-bottom:22px;box-shadow:var(--shadow)}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(0,199,223,.6);animation:pulse 2s infinite}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(34px,5.4vw,60px);line-height:1.05;letter-spacing:-.03em;margin-bottom:18px;color:var(--ink);font-weight:800}
+.gradient-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(17px,2vw,21px);line-height:1.55;color:var(--muted);max-width:640px;margin:0 auto 30px}
+.hero-content .lead{margin-left:auto;margin-right:auto}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center}
+
+/* ---- Sections / cards ---- */
+section{padding:74px 0}
+.section-head{max-width:760px;margin-bottom:30px}
+.section-kicker{color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px;margin-bottom:10px}
+h2{font-size:clamp(26px,3.4vw,42px);line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;color:var(--ink);font-weight:800}
+h3{color:var(--ink);font-weight:700}
+.muted{color:var(--muted);line-height:1.7;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{border:1px solid var(--line);background:var(--card);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);backdrop-filter:none;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:#d6def0}
+.plain-list li,.check-list li{color:var(--ink);font-size:16px}
+.plain-list li:before{content:"";width:7px;height:7px;margin-top:9px;border-radius:50%;background:var(--blue);flex:0 0 7px}
+.check-list li:before{content:"";flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:rgba(66,103,232,.12);color:var(--blue);font-weight:800}
+.check-list li:after{content:"";position:absolute}
+.icon{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;background:rgba(66,103,232,.08);border:1px solid var(--line);font-size:22px;margin-bottom:16px;color:var(--blue)}
+.badge{display:inline-flex;padding:6px 12px;border-radius:var(--r-pill);background:rgba(66,103,232,.10);color:var(--blue);border:1px solid rgba(66,103,232,.18);font-size:12px;font-weight:700;margin-bottom:14px}
+
+/* ---- CTA ---- */
+.cta{padding:80px 0}
+.cta-box{text-align:center;border-radius:28px;padding:56px 28px;color:#fff;border:0;background:var(--grad);box-shadow:0 24px 60px rgba(56,102,217,.28)}
+.cta-box .section-kicker{color:rgba(255,255,255,.85)}
+.cta-box h2,.cta-box .lead{color:#fff}
+.cta-box .btn{background:#fff;color:var(--blue)}
+.cta-box .btn:hover{background:#f3f5ff}
+
+/* ---- Footer ---- */
+footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);background:#fff}
+.footer-inner{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+.footer-links{display:flex;gap:18px}
+.footer-links a,.footer-support a{color:var(--muted);font-size:14px}
+.footer-links a:hover,.footer-support a:hover{color:var(--blue)}
+
+/* ---- Reveal (motion-safe) ---- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ---- Search / controls ---- */
+.landing-controls{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 22px}
+.landing-search-wrap{display:flex;gap:10px;flex:1;min-width:min(100%,360px)}
+.landing-search{flex:1;min-width:0;border:1px solid var(--line);border-radius:var(--r-sm);background:#fff;color:var(--ink);padding:15px 16px;font-size:16px;outline:none;box-shadow:var(--shadow)}
+.landing-search::placeholder{color:#98a2b3}
+.landing-search:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(66,103,232,.12)}
+.package-search-button{min-height:54px;padding:0 26px;white-space:nowrap}
+@media(max-width:720px){.landing-search-wrap{width:100%;flex-direction:column}.package-search-button{width:100%}}
+
+/* ---- Country chips ---- */
+.country-chips{display:block;margin-bottom:18px}
+.country-chip{cursor:pointer;border:1px solid var(--line);border-radius:var(--r-pill);background:#fff;color:var(--muted);padding:9px 14px;font-weight:600;font-size:14px;transition:.15s}
+.country-chip:hover{border-color:#cdd6ea;color:var(--ink)}
+.country-chip.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.country-chip-all{margin:0 0 14px}
+.country-region-filters{display:grid;gap:12px;margin-bottom:20px}
+.country-region{border:1px solid var(--line);border-radius:var(--radius);background:#fff;overflow:hidden;box-shadow:var(--shadow)}
+.country-region summary{cursor:pointer;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;padding:15px 18px;color:var(--ink);font-weight:700;list-style:none}
+.country-region summary::-webkit-details-marker{display:none}
+.country-region summary:after{content:"⌄";color:var(--blue);font-size:16px;transition:transform .2s}
+.country-region[open] summary:after{transform:rotate(180deg)}
+.country-region-title{font-size:17px}
+.country-region-count{color:var(--muted);font-size:13px;font-weight:600}
+.country-region-chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 18px}
+@media(max-width:560px){.country-region summary{grid-template-columns:1fr auto;padding:14px 16px}.country-region-count{grid-column:1/-1;font-size:13px}.country-region-chips{padding:0 16px 16px}}
+
+/* ---- Popular destinations (swipe on mobile, colored soft tiles) ---- */
+.destinations{padding-top:36px}
+.dest-scroller{display:grid;grid-template-columns:repeat(8,1fr);gap:12px}
+.dest-card{cursor:pointer;border:1px solid var(--line);border-radius:var(--radius);background:var(--dest-bg,#EEF2FF);padding:16px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-height:104px;transition:transform .18s ease,box-shadow .18s ease;text-align:left}
+.dest-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.dest-card:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.dest-flag{width:34px;height:24px;border-radius:5px;box-shadow:0 1px 3px rgba(17,24,39,.18);object-fit:cover;display:block}
+.dest-name{font-weight:700;font-size:15px;color:var(--ink);line-height:1.2}
+@media(max-width:1024px){.dest-scroller{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:720px){
+  .dest-scroller{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:12px;padding-bottom:8px;margin:0 -16px;padding-left:16px;padding-right:16px}
+  .dest-scroller::-webkit-scrollbar{display:none}
+  .dest-scroller{scrollbar-width:none}
+  .dest-card{scroll-snap-align:start;flex:0 0 44%;max-width:180px}
+}
+
+/* ---- Tariff sub-sections (local vs regional) ---- */
+.tariff-block{scroll-margin-top:96px}
+.tariff-block+.tariff-block{margin-top:44px}
+.tariff-subhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.tariff-subhead h3{font-size:clamp(20px,2.4vw,28px);letter-spacing:-.02em;margin:0}
+.tariff-subhead .count{color:var(--muted);font-size:14px;font-weight:600}
+.tariff-empty{border:1px dashed #cdd6ea;border-radius:var(--radius);background:#fff;padding:18px 20px;color:var(--muted);font-size:15px;margin-bottom:8px}
+
+/* ---- Package cards (unified, light, equal height) ---- */
+.packages-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.package-card{display:flex;flex-direction:column;min-height:auto;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);padding:22px;overflow:visible;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;position:relative}
+.package-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:#d6def0}
+.package-card.is-best{border-color:rgba(66,103,232,.5);box-shadow:0 12px 30px rgba(66,103,232,.14)}
+.package-flash{animation:flash 1.4s ease}
+.package-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;min-height:26px}
+.package-availability{align-self:flex-start;padding:6px 11px;border-radius:var(--r-pill);background:rgba(22,163,74,.10);color:#15803d;font-weight:700;font-size:12px;margin:0}
+.package-best{padding:6px 11px;border-radius:var(--r-pill);background:var(--grad);color:#fff;font-weight:700;font-size:12px}
+.package-title{font-size:20px;line-height:1.2;letter-spacing:-.02em;font-weight:800;margin-bottom:16px;color:var(--ink)}
+.package-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.package-meta-item{min-height:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:var(--r-sm);background:var(--soft);border:1px solid var(--line);padding:12px 8px}
+.package-meta-label{color:var(--muted);font-weight:600;font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.package-meta-value{font-size:16px;font-weight:800;color:var(--ink)}
+.package-info{position:relative;border-radius:var(--r-sm);background:var(--soft);border:1px solid var(--line);padding:14px;margin-bottom:16px;color:var(--muted);line-height:1.55;font-size:13px}
+.package-info strong{color:var(--ink);font-weight:600}
+.package-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.package-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:var(--r-pill);background:var(--soft);border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:600}
+.package-tag svg{width:13px;height:13px}
+.package-price{font-size:30px;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-top:auto;margin-bottom:14px;line-height:1}
+.package-price small{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0;margin-top:6px}
+.package-actions{display:flex;flex-direction:column;gap:8px}
+.package-buy{width:100%;min-height:50px}
+.package-coverage-btn{width:100%;min-height:44px;background:transparent;color:var(--blue);border:1px solid var(--line);box-shadow:none;font-weight:600;font-size:14px}
+.package-coverage-btn:hover{background:var(--soft);color:var(--blue);transform:none;box-shadow:none}
+.packages-status{color:var(--muted);font-size:15px;line-height:1.6;margin:12px 0}
+.retail-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:16px}
+
+/* legacy coverage tooltip → hidden (moved into modal) */
+.coverage-hint,.coverage-tooltip{display:none!important}
+
+/* ---- Coverage & conditions modal / bottom-sheet ---- */
+.cov-overlay{position:fixed;inset:0;z-index:210;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(17,24,39,.45);backdrop-filter:blur(3px)}
+.cov-overlay[hidden]{display:none}
+.cov-modal{position:relative;width:min(460px,100%);max-height:86vh;overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px rgba(17,24,39,.25);padding:24px 22px}
+.cov-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border:0;border-radius:10px;background:var(--soft);color:var(--ink);font-size:20px;line-height:1;cursor:pointer}
+.cov-close:hover{background:#e7ecf6}
+.cov-modal h3{margin:0 0 6px;font-size:20px;letter-spacing:-.02em}
+.cov-modal .cov-sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+.cov-rows{display:grid;gap:0}
+.cov-row{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid var(--line);font-size:14px}
+.cov-row:first-child{border-top:0}
+.cov-row .k{color:var(--muted)}
+.cov-row .v{color:var(--ink);font-weight:600;text-align:right;max-width:64%}
+.cov-countries{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.cov-countries .k{color:var(--muted);font-size:13px;margin-bottom:6px}
+.cov-countries .v{color:var(--ink);font-size:14px;line-height:1.55}
+@media(max-width:560px){
+  .cov-overlay{align-items:flex-end;padding:0}
+  .cov-modal{width:100%;max-height:88vh;border-radius:22px 22px 0 0}
+}
+
+/* ---- РФ daily plans / price table (light) ---- */
+.pricing-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:16px;align-items:start}
+.price-table{display:grid;gap:10px;margin-top:20px}
+.price-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-sm);background:#fff}
+.price-row strong{font-size:18px;color:var(--ink)}
+.price-row span:last-child{color:var(--blue);font-weight:800;white-space:nowrap}
+.daily-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;align-items:stretch}
+.daily-plan{min-height:100%;padding:48px 18px 18px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;position:relative;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.daily-plan h4{min-height:52px;display:flex;align-items:flex-start;font-size:19px;margin-bottom:14px;letter-spacing:-.01em;color:var(--ink)}
+.daily-plan .price-table{margin-top:auto}
+.daily-plan.hit{border-color:rgba(66,103,232,.5);box-shadow:0 12px 30px rgba(66,103,232,.14)}
+.hit-badge{position:absolute;top:16px;left:18px;margin:0;background:var(--grad);border:0;color:#fff;letter-spacing:.02em}
+
+/* ---- Install accordion (light) ---- */
+.install-section{background:#fff;border-top:1px solid var(--line)}
+.install-accordion details{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.install-accordion details+details{margin-top:14px}
+.install-accordion summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 24px;color:var(--ink);font-size:clamp(18px,2.4vw,24px);font-weight:700;letter-spacing:-.01em;list-style:none}
+.install-accordion summary::-webkit-details-marker{display:none}
+.install-accordion summary:after{content:"⌄";color:var(--blue);font-size:22px;transition:transform .2s}
+.install-accordion details[open] summary:after{transform:rotate(180deg)}
+.install-accordion-body{padding:0 24px 24px}
+.install-guide-content{display:grid;gap:16px;margin-top:16px;box-shadow:none;background:var(--soft);border:1px solid var(--line)}
+.install-guide-content h4{font-size:20px;margin:10px 0 4px;color:var(--ink)}
+.install-guide-content h5{font-size:17px;margin:8px 0 2px;color:var(--ink)}
+.install-guide-content p,.install-guide-content li{color:var(--muted);line-height:1.6;font-size:15px}
+.install-guide-content ul,.install-guide-content ol{margin:6px 0;padding-left:22px}
+.install-note{border:1px solid rgba(244,183,64,.35);background:rgba(244,183,64,.10);border-radius:var(--r-sm);padding:13px 15px;color:#8a5a00}
+@media(max-width:720px){.install-accordion summary{padding:18px;font-size:18px}.install-accordion-body{padding:0 18px 18px}}
+
+/* ---- Checkout modal (light) ---- */
+#global-pricing{background:var(--bg)!important}
+.checkout-overlay{background:rgba(17,24,39,.45);backdrop-filter:blur(3px)}
+.checkout-modal{border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:0 30px 80px rgba(17,24,39,.25)}
+.checkout-close{background:var(--soft);color:var(--ink)}
+.checkout-close:hover{background:#e7ecf6}
+.checkout-modal h3{color:var(--ink)}
+.checkout-summary{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--soft)}
+.checkout-plan{color:var(--ink)}
+.checkout-rows>div{color:var(--muted)}
+.checkout-rows b{color:var(--ink)}
+.checkout-total{border-top:1px solid var(--line)}
+.checkout-form label{color:var(--muted)}
+.checkout-form input[type=email],.checkout-form input[type=text]{border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+.checkout-form input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(66,103,232,.12)}
+.checkout-consent{color:var(--muted)}
+.checkout-consent a{color:var(--blue)}
+.req{color:#e5484d}
+.checkout-error{color:#e5484d}
+.checkout-result{border:1px solid rgba(66,103,232,.3);background:rgba(66,103,232,.08);color:var(--ink)}
+.checkout-result a{color:var(--blue)}
+.checkout-note{color:var(--muted)}
+.checkout-note a{color:var(--blue)}
+
+/* ---- Keyframes ---- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,199,223,.55)}70%{box-shadow:0 0 0 10px rgba(0,199,223,0)}100%{box-shadow:0 0 0 0 rgba(0,199,223,0)}}
+@keyframes flash{0%{box-shadow:0 0 0 0 rgba(66,103,232,.0)}18%{box-shadow:0 0 0 4px rgba(66,103,232,.28)}100%{box-shadow:0 12px 30px rgba(66,103,232,.14)}}
+
+/* ---- Responsive grids ---- */
+@media(max-width:920px){
+  .packages-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .problem-list,.problem-note,.solution-card,.benefit,.tech-text,.tech-points,.social-card{grid-column:span 12}
+  .pricing-wrap{grid-template-columns:1fr}
+  .daily-plans{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .packages-grid{grid-template-columns:1fr}
+  .package-meta{grid-template-columns:repeat(3,1fr)}
+  .container,.nav{width:min(100% - 24px,var(--max))}
+  .nav .btn{min-height:40px;padding:0 14px;font-size:13px}
+  .hero{padding-top:120px}
+  .hero-actions .btn{width:100%}
+  section{padding:56px 0}
+  .package-buy,.package-coverage-btn{width:100%}
+}
+
+/* ---- Reduced motion ---- */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+
 </head>
 <body>
   <nav class="nav">
-    <a class="brand" href="#top" aria-label="Magic eSIM"><span class="company-name">Magic eSIM</span></a>
-    <div class="nav-links"><a href="#problem">Проблема</a><a href="#solution">Как работает</a><a href="#benefits">Преимущества</a><a href="#global-pricing">Тарифы</a><a href="#install-guides-section">Инструкции</a></div>
-    <a class="btn" href="#global-pricing">Получить eSIM</a>
+    <a class="brand" href="#top" aria-label="Magic eSIM"><img class="brand-logo" src="assets/magic-esim-logo.png" alt="Magic eSIM" width="120" height="30"><span class="company-name" style="display:none">Magic eSIM</span></a>
+    <div class="nav-links"><a href="#popular">Направления</a><a href="#solution">Как работает</a><a href="#benefits">Преимущества</a><a href="#global-pricing">Тарифы</a><a href="#install-guides-section">Инструкции</a></div>
+    <a class="btn" href="#global-pricing">Выбрать тариф</a>
   </nav>
-  <header class="hero" id="top"><div class="hero-bg" aria-hidden="true"></div><div class="container hero-content"><div class="eyebrow"><span class="pulse"></span> Stay Connected Anywhere</div><h1>Мобильный интернет <span class="gradient-text">для путешествий</span></h1><p class="lead">eSIM для поездок за границу: выберите страну, оплатите тариф и подключитесь за пару минут. Без роуминга и поиска местной SIM-карты.</p><div class="hero-actions"><a class="btn" href="#global-pricing">Получить eSIM →</a><a class="btn secondary" href="#global-pricing">Смотреть тарифы</a></div></div></header>
+  <header class="hero" id="top"><div class="hero-bg" aria-hidden="true"></div><div class="container hero-content">
+    <div class="eyebrow"><span class="pulse"></span> eSIM для путешествий</div>
+    <h1>Интернет в путешествии <span class="gradient-text">без роуминга</span></h1>
+    <p class="lead">Выберите страну, оплатите удобным способом и получите eSIM на email за несколько минут.</p>
+    <div class="landing-search-wrap hero-search"><input id="packageSearch" class="landing-search" type="search" placeholder="Куда едете? Например: Турция" autocomplete="off" aria-label="Поиск страны"><button id="packageSearchButton" class="btn package-search-button" type="button">Найти тарифы</button></div>
+    <p class="muted" style="font-size:14px;margin-top:14px">Или выберите популярное направление ниже</p>
+  </div></header>
+  <section id="popular" class="destinations"><div class="container">
+    <div class="section-head reveal"><div class="section-kicker">Направления</div><h2>Популярные направления</h2><p class="muted">Нажмите на страну — покажем тарифы для неё.</p></div>
+    <div class="dest-scroller reveal" id="destScroller">
+      <button type="button" class="dest-card" data-country="TR" style="--dest-bg:#FFF1F0"><img class="dest-flag" src="assets/flags/tr.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Турция</span></button>
+      <button type="button" class="dest-card" data-country="TH" style="--dest-bg:#EEF6FF"><img class="dest-flag" src="assets/flags/th.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Таиланд</span></button>
+      <button type="button" class="dest-card" data-country="VN" style="--dest-bg:#FFF7E6"><img class="dest-flag" src="assets/flags/vn.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Вьетнам</span></button>
+      <button type="button" class="dest-card" data-country="EG" style="--dest-bg:#FEF3F2"><img class="dest-flag" src="assets/flags/eg.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Египет</span></button>
+      <button type="button" class="dest-card" data-country="MV" style="--dest-bg:#EFFCF6"><img class="dest-flag" src="assets/flags/mv.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Мальдивы</span></button>
+      <button type="button" class="dest-card" data-country="LK" style="--dest-bg:#F5F3FF"><img class="dest-flag" src="assets/flags/lk.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Шри-Ланка</span></button>
+      <button type="button" class="dest-card" data-country="CN" style="--dest-bg:#FFF1EB"><img class="dest-flag" src="assets/flags/cn.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Китай</span></button>
+      <button type="button" class="dest-card" data-country="IT" style="--dest-bg:#F0FDF4"><img class="dest-flag" src="assets/flags/it.png" alt="" width="34" height="24" loading="lazy"><span class="dest-name">Италия</span></button>
+    </div>
+  </div></section>
   <main>
     <section id="problem"><div class="container"><div class="section-head reveal"><div class="section-kicker">Проблема</div><h2>Знакомо?</h2></div><div class="grid"><div class="card problem-list reveal"><ul class="plain-list"><li>Роуминг съедает деньги за пару дней</li><li>В аэропорту и отеле приходится искать Wi-Fi</li><li>Местная SIM — очереди, документы и языковой барьер</li><li>Карты, такси и мессенджеры не работают без интернета</li></ul></div><div class="card problem-note reveal"><div class="icon">📡</div><h3>Почему так происходит</h3><p class="muted">Привычные способы связи в поездке либо дорогие, либо неудобные — а интернет нужен сразу по прилёте.</p></div></div></div></section>
     <section id="solution"><div class="container"><div class="section-head reveal"><div class="section-kicker">Решение</div><h2>Как это работает</h2><p class="muted">eSIM подключает ваш телефон к мобильному интернету за границей напрямую — без физической SIM-карты.</p></div><div class="grid"><div class="card solution-card reveal"><div class="icon">🌐</div><h3>Выберите страну</h3><p class="muted">Откройте каталог, найдите нужное направление и тариф по объёму и сроку.</p></div><div class="card solution-card reveal"><div class="icon">🛰️</div><h3>Оплатите тариф</h3><p class="muted">Оформление занимает пару минут — без документов и пластиковых SIM.</p></div><div class="card solution-card reveal"><div class="icon">✨</div><h3>Подключитесь сразу</h3><p class="muted">Установите eSIM по QR-коду и пользуйтесь интернетом по прилёте.</p></div></div></div></section>
     <section id="benefits"><div class="container"><div class="section-head reveal"><div class="section-kicker">Преимущества</div><h2>Почему eSIM удобно в поездке</h2></div><div class="grid"><div class="card benefit reveal"><div class="icon">⚡</div><h3>Интернет сразу по прилёте</h3><p class="muted">Не нужно искать Wi-Fi или местного оператора в чужой стране.</p></div><div class="card benefit reveal"><div class="icon">🌍</div><h3>Покрытие во многих странах</h3><p class="muted">Тарифы для популярных направлений и целых регионов.</p></div><div class="card benefit reveal"><div class="icon">🔒</div><h3>Без роуминга</h3><p class="muted">Стоимость известна заранее — никаких неожиданных счетов после поездки.</p></div><div class="card benefit reveal"><div class="icon">📲</div><h3>Работает сразу</h3><p class="muted">Установка занимает пару минут — и можно пользоваться интернетом.</p></div><div class="card benefit reveal"><div class="icon">🧠</div><h3>Просто для всех</h3><p class="muted">Подходит даже тем, кто не разбирается в технических настройках.</p></div><div class="card benefit reveal"><div class="icon">📶</div><h3>Можно раздавать</h3><p class="muted">Интернет можно раздать на другие устройства.</p></div></div></div></section>
     <section id="tech"><div class="container"><div class="section-head reveal"><div class="section-kicker">Простыми словами</div><h2>Немного технически</h2></div><div class="grid"><div class="card tech-text reveal"><p class="muted">Физическая SIM привязана к домашнему оператору, и в поездке за неё приходится платить роуминг или искать местную карту.</p><p class="muted">eSIM — это цифровая SIM: вы загружаете тариф нужной страны прямо в телефон и выходите в интернет через местного или международного оператора.</p></div><div class="card tech-points reveal"><ul class="check-list"><li>не нужна физическая SIM-карта</li><li>тариф выбирается под конкретную страну или регион</li><li>подключение занимает пару минут</li></ul></div></div></div></section>
     <section id="social"><div class="container"><div class="section-head reveal"><div class="section-kicker">Когда пригодится</div><h2>Когда нужен интернет в поездке</h2></div><div class="grid"><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">💼</div><h3>Для работы в поездках</h3></div><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">🗺️</div><h3>Карты, такси и бронирования</h3></div><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">✈️</div><h3>В путешествиях и отпуске</h3></div></div></div></section>
-<section id="global-pricing" data-section="packages"><div class="container"><div class="section-head reveal"><div class="section-kicker">Другие страны</div><h2>Популярные eSIM тарифы</h2><p class="muted">Выберите страну и подходящий пакет интернета, затем оформите заказ прямо на сайте — нажмите «Оформить заказ» на нужном тарифе.</p></div><div class="landing-controls reveal"><div class="landing-search-wrap"><input id="packageSearch" class="landing-search" type="search" placeholder="Поиск: страна, объём, срок" autocomplete="off"><button id="packageSearchButton" class="btn package-search-button" type="button">Найти</button></div><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Загружаем тарифы...</div><div id="packagesGrid" class="packages-grid"></div>
+<section id="global-pricing" data-section="packages"><div class="container"><div class="section-head reveal"><div class="section-kicker">Каталог</div><h2 id="pricingHead">Тарифы eSIM</h2><p class="muted">Выберите страну поиском или на карточках направлений — покажем локальные тарифы страны и региональные тарифы с её покрытием.</p></div><div class="landing-controls reveal"><select id="packageSort" class="landing-search" style="max-width:280px"><option value="country_price">Страна + цена</option><option value="price_asc">Цена: сначала дешевле</option><option value="price_desc">Цена: сначала дороже</option><option value="data_asc">Интернет: меньше → больше</option><option value="days_asc">Срок: меньше → больше</option></select></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Выберите страну, чтобы увидеть тарифы.</div>
+<div id="localBlock" class="tariff-block" hidden><div class="tariff-subhead"><h3 id="localHead">Тарифы</h3><span class="count" id="localCount"></span></div><div id="localEmpty" class="tariff-empty" hidden>Для этой страны доступны региональные тарифы.</div><div id="localGrid" class="packages-grid"></div></div>
+<div id="regionalBlock" class="tariff-block" hidden><div class="tariff-subhead"><h3 id="regionalHead">Региональные тарифы</h3><span class="count" id="regionalCount"></span></div><div id="regionalGrid" class="packages-grid"></div></div>
+<div id="packagesGrid" class="packages-grid"></div>
       
 <p class="retail-note reveal">Не нашли нужную страну или объём? Напишите в поддержку — подберём подходящий тариф вручную.</p></div></section>
     <section class="cta"><div class="container"><div class="cta-box reveal"><div class="section-kicker">Старт за 2 минуты</div><h2>Подключите eSIM без документов и сложных настроек</h2><p class="lead" style="margin-left:auto;margin-right:auto;">Выберите страну, оплатите тариф и оставайтесь онлайн в поездке — карты, мессенджеры и сервисы всегда под рукой.</p><a class="btn" href="#global-pricing">Получить eSIM →</a></div></div></section>
@@ -483,6 +781,27 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
 
 <footer><div class="container footer-inner"><div class="brand"><span class="company-name">Magic eSIM</span></div><nav class="footer-links"><a href="privacy.html">Политика конфиденциальности</a><a href="terms.html">Пользовательское соглашение</a></nav><span class="footer-support"><a href="mailto:support@magicesim.store">support@magicesim.store</a></span></div></footer>
 
+  <!-- Coverage & conditions modal / bottom-sheet -->
+  <div id="coverageModal" class="cov-overlay" hidden>
+    <div class="cov-modal" role="dialog" aria-modal="true" aria-labelledby="covTitle">
+      <button type="button" class="cov-close" id="coverageClose" aria-label="Закрыть">×</button>
+      <h3 id="covTitle">Покрытие и условия</h3>
+      <p class="cov-sub" id="covPlan">—</p>
+      <div class="cov-rows">
+        <div class="cov-row"><span class="k">Объём трафика</span><span class="v" id="covData">—</span></div>
+        <div class="cov-row"><span class="k">Срок действия</span><span class="v" id="covDays">—</span></div>
+        <div class="cov-row"><span class="k">Начало срока</span><span class="v">с активации / первого подключения к сети</span></div>
+        <div class="cov-row"><span class="k">Сеть</span><span class="v" id="covSpeed">—</span></div>
+        <div class="cov-row"><span class="k">Пополнение</span><span class="v" id="covTopup">—</span></div>
+        <div class="cov-row"><span class="k">Раздача интернета</span><span class="v">доступна</span></div>
+      </div>
+      <div class="cov-countries" id="covCountriesWrap" hidden>
+        <div class="k">Страны покрытия</div>
+        <div class="v" id="covCountries">—</div>
+      </div>
+    </div>
+  </div>
+
   <!-- On-site checkout (оформление заказа на сайте; оплата — заглушка до подключения платёжной системы) -->
   <div id="checkoutModal" class="checkout-overlay" hidden>
     <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
@@ -687,7 +1006,7 @@ function formatRetailPrice(item){
 function buyButtonHtml(item){
   const price = getPackageRetailPrice(item);
   const disabled = price === null ? ' disabled aria-disabled="true"' : '';
-  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>Оформить заказ</button>`;
+  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>Купить</button>`;
 }
 
 function escapeHtml(value){
@@ -1051,7 +1370,7 @@ function compactCoverageIcon(item){
   return '🌏';
 }
 
-const RESTRICTED_COUNTRY_CODES=['RU','UA'];
+const RESTRICTED_COUNTRY_CODES=['RU','UA','BY'];
 function isRestrictedPackage(item){
   const code=String(item.country_code||'').trim().toUpperCase();
   if(RESTRICTED_COUNTRY_CODES.includes(code))return true;
@@ -1132,10 +1451,7 @@ function renderCountryChips(){
 
   chips.querySelectorAll('.country-chip').forEach((button)=>{
     button.addEventListener('click',()=>{
-      activeCountry=button.dataset.country||'ALL';
-      renderCountryChips();
-      renderPackages();
-
+      selectCountry(button.dataset.country||'ALL',{scroll:false});
     });
   });
 }
@@ -1203,6 +1519,149 @@ function isPublicGlobalPackage(item){
   return code.startsWith('GL-') || name.includes('global');
 }
 
+// ===== Redesign: unified card + local/regional split + coverage modal + country selection =====
+const byIdG=(id)=>document.getElementById(id);
+const ICON_BOLT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>';
+const ICON_REFRESH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
+
+function packageSpeedLabel(item){
+  const s=String(item.speed||'').toUpperCase();
+  const m=s.match(/[345]G/g);
+  return m&&m.length?[...new Set(m)].join('/'):'';
+}
+
+// One source of truth for a tariff card (used by local, regional and generic grids).
+function renderPackageCard(item,best){
+  const speed=packageSpeedLabel(item);
+  const topup=!!item.topup_available;
+  const data=formatDataLabel(item)||`${item.data_gb||''} GB`;
+  const tags=[];
+  if(speed)tags.push(`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`);
+  if(topup)tags.push(`<span class="package-tag">${ICON_REFRESH}Пополнение</span>`);
+  return `
+    <article class="package-card reveal visible">
+      <div class="package-topline"><span class="package-availability">В наличии</span>${best?'<span class="package-best">Оптимальный выбор</span>':''}</div>
+      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+      <div class="package-meta">
+        <div class="package-meta-item"><div class="package-meta-label">Интернет</div><div class="package-meta-value">${escapeHtml(data)}</div></div>
+        <div class="package-meta-item"><div class="package-meta-label">Срок</div><div class="package-meta-value">${escapeHtml(String(item.validity_days||''))} дн.</div></div>
+        <div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed||'4G')}</div></div>
+      </div>
+      ${tags.length?`<div class="package-tags">${tags.join('')}</div>`:''}
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br><strong>Активация:</strong> установка по QR, срок — с первого подключения к сети.</div>
+      <div class="package-price">${formatRetailPrice(item)}<small>розничная цена</small></div>
+      <div class="package-actions">
+        ${buyButtonHtml(item)}
+        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(item.speed||'4G/5G')}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
+      </div>
+    </article>`;
+}
+
+// «Оптимальный выбор» = local tariff with the lowest price per GB (single badge).
+function bestLocalPackageId(local){
+  let id=null,best=Infinity;
+  local.forEach((i)=>{
+    const p=getPackageRetailPrice(i),gb=Number(i.data_gb||0);
+    if(p&&gb>0){const v=p/gb;if(v<best){best=v;id=i.package_id||null;}}
+  });
+  return id;
+}
+
+// Split the selected country's tariffs: local first, regional (multi-country/global) after.
+function renderCountrySplit(){
+  const status=byIdG('packagesStatus');
+  const localBlock=byIdG('localBlock'),regionalBlock=byIdG('regionalBlock');
+  const localGrid=byIdG('localGrid'),regionalGrid=byIdG('regionalGrid'),genericGrid=byIdG('packagesGrid');
+  if(!localBlock||!regionalBlock||!localGrid||!regionalGrid)return;
+  if(genericGrid)genericGrid.innerHTML='';
+  const code=String(activeCountry||'').toUpperCase();
+  const cName=countryName(code);
+  const list=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
+  const local=list.filter((i)=>!isMultiCountryPackage(i)).sort(comparePackages);
+  const regional=list.filter((i)=>isMultiCountryPackage(i)).sort(comparePackages);
+  if(status)status.textContent='';
+  byIdG('localHead').textContent=`Тарифы для ${cName}`;
+  byIdG('regionalHead').textContent=`Региональные тарифы с покрытием ${cName}`;
+  const bestId=local.length?bestLocalPackageId(local):null;
+  // Local block (req 6/7). If empty (req 8): show the note, not an empty grid.
+  byIdG('localCount').textContent=local.length?`${local.length} тарифов`:'';
+  byIdG('localEmpty').hidden=local.length>0;
+  localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId)).join('');
+  localBlock.hidden=false;
+  // Regional block (req 6): regional/continental/global.
+  if(regional.length){
+    byIdG('regionalCount').textContent=`${regional.length} тарифов`;
+    regionalGrid.innerHTML=regional.map((i)=>renderPackageCard(i,false)).join('');
+    regionalBlock.hidden=false;
+  }else{
+    regionalGrid.innerHTML='';regionalBlock.hidden=true;
+  }
+  if(!local.length&&!regional.length){
+    localBlock.hidden=true;regionalBlock.hidden=true;
+    if(status)status.textContent=`Для «${cName}» тарифы не найдены. Напишите в поддержку — подберём вручную.`;
+  }
+}
+
+function flashFirstCard(){
+  requestAnimationFrame(()=>{
+    const first=document.querySelector('#localGrid .package-card, #regionalGrid .package-card, #packagesGrid .package-card');
+    if(first){first.classList.add('package-flash');setTimeout(()=>{first.classList.remove('package-flash');},1500);}
+  });
+}
+
+function updateCountryUrl(code){
+  try{
+    const u=new URL(window.location.href);
+    if(code&&code!=='ALL')u.searchParams.set('country',code);else u.searchParams.delete('country');
+    history.replaceState(null,'',u.pathname+(u.search||'')+(u.hash||''));
+  }catch(e){}
+}
+
+// Select a country (search / chip / popular tile / URL): render split, sync URL, scroll, highlight.
+function selectCountry(code,opts){
+  opts=opts||{};
+  activeCountry=String(code||'ALL').toUpperCase();
+  renderCountryChips();
+  renderPackages();
+  updateCountryUrl(activeCountry);
+  if(opts.scroll!==false){
+    const s=document.getElementById('global-pricing');
+    if(s)s.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  if(activeCountry!=='ALL')flashFirstCard();
+}
+
+// Popular destination tiles → select country.
+document.addEventListener('click',(e)=>{
+  const d=e.target.closest('.dest-card');
+  if(!d)return;
+  e.preventDefault();
+  selectCountry(d.dataset.country||'ALL',{scroll:true});
+});
+
+// Coverage & conditions modal (client-facing fields only; no provider/internal data).
+(function(){
+  const overlay=document.getElementById('coverageModal');
+  if(!overlay)return;
+  const g=(id)=>document.getElementById(id);
+  function open(d){
+    g('covPlan').textContent=d.name||'eSIM-тариф';
+    g('covData').textContent=d.data||'—';
+    g('covDays').textContent=d.days?`${d.days} дн.`:'—';
+    g('covSpeed').textContent=d.speed||'—';
+    g('covTopup').textContent=(d.topup==='1')?'доступно':'недоступно';
+    const wrap=g('covCountriesWrap');
+    if(d.countries&&String(d.countries).trim()){g('covCountries').textContent=d.countries;wrap.hidden=false;}
+    else{g('covCountries').textContent='';wrap.hidden=true;}
+    overlay.hidden=false;document.body.style.overflow='hidden';
+  }
+  function close(){overlay.hidden=true;document.body.style.overflow='';}
+  document.addEventListener('click',(e)=>{const b=e.target.closest('.js-coverage');if(!b)return;e.preventDefault();open(b.dataset);});
+  const x=g('coverageClose');if(x)x.addEventListener('click',close);
+  overlay.addEventListener('click',(e)=>{if(e.target===overlay)close();});
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&!overlay.hidden)close();});
+})();
+
 function renderPackages(){
   const grid=document.getElementById('packagesGrid');
   const status=document.getElementById('packagesStatus');
@@ -1211,6 +1670,15 @@ function renderPackages(){
   if(!grid||!status){
     return;
   }
+
+  const localBlock=document.getElementById('localBlock');
+  const regionalBlock=document.getElementById('regionalBlock');
+  if(activeCountry!=='ALL'){
+    renderCountrySplit();
+    return;
+  }
+  if(localBlock)localBlock.hidden=true;
+  if(regionalBlock)regionalBlock.hidden=true;
 
   const query=normalizeSearch(search?.value || '');
 
@@ -1236,44 +1704,7 @@ function renderPackages(){
     ? ''
     : (packages.length ? `Показано тарифов: ${packages.length}` : 'Тарифы не найдены. Напишите в поддержку — подберём вручную.');
 
-  grid.innerHTML=packages.map((item)=>`
-    <article class="package-card reveal visible">
-      <div class="package-availability">Тариф доступен</div>
-      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
-
-      <div class="package-meta">
-        <div class="package-meta-item">
-          <div>
-            <div class="package-meta-label">Интернет</div>
-            <div class="package-meta-value">${escapeHtml(item.data_gb||'')} GB</div>
-          </div>
-        </div>
-        <div class="package-meta-item">
-          <div>
-            <div class="package-meta-label">Срок</div>
-            <div class="package-meta-value">${escapeHtml(item.validity_days||'')}d</div>
-          </div>
-        </div>
-        <div class="package-meta-item">
-          <div>
-            <div class="package-meta-label">Страна</div>
-            <div class="package-meta-value">${escapeHtml(compactCoverageIcon(item))}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="package-info">
-        <span class="coverage-line"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}${coverageCountriesText(item)?` <span class="coverage-hint" tabindex="0" aria-label="Список стран">ⓘ</span><span class="coverage-tooltip">${escapeHtml(coverageCountriesText(item))}</span>`:''}</span><br>
-        <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
-        <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
-        <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
-        <strong>Раздача интернета:</strong> доступна
-      </div>
-
-      <div class="package-price">${formatRetailPrice(item)}</div>
-      ${buyButtonHtml(item)}
-    </article>
-  `).join('');
+  grid.innerHTML=packages.map((item)=>renderPackageCard(item,false)).join('');
 }
 
 
@@ -1351,7 +1782,7 @@ async function loadRussiaApiPackages(){
         </div>
 
         <div class="package-price">${formatRub(item.price)}</div>
-        <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(item.name||'')}" data-coverage="Россия" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Оформить заказ</button>
+        <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(item.name||'')}" data-coverage="Россия" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Купить</button>
       </article>
     `).join('');
   }catch(error){
@@ -1450,14 +1881,14 @@ function runPackageSearch(){
   const foundCountry = findCountryCodeBySearchQuery(query);
 
   if(foundCountry){
-    activeCountry = foundCountry;
     if(packageSearchInput) packageSearchInput.value = '';
-    renderCountryChips();
-    renderPackagesForCountry(foundCountry);
-  }else{
-    renderPackages();
+    selectCountry(foundCountry,{scroll:true});
+    return;
   }
 
+  // Free-text (not a country) → text filter across all countries in the generic grid.
+  activeCountry='ALL';
+  renderPackages();
   const section=document.getElementById('global-pricing');
   if(section){
     section.scrollIntoView({behavior:'smooth',block:'start'});
@@ -1488,6 +1919,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     loadLandingPackages(),
     loadRussiaApiPackages()
   ]);
+
+  // Deep-link: ?country=TR selects a country and scrolls to its tariffs.
+  try{
+    const c=(new URLSearchParams(window.location.search).get('country')||'').trim().toUpperCase();
+    if(/^[A-Z]{2}$/.test(c)){ selectCountry(c,{scroll:true}); }
+  }catch(e){}
 
   if (window.__magicInitialHash === '#install-guides-section') {
     const target = document.getElementById('install-guides-section');
