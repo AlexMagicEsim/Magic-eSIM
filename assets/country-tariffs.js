@@ -685,6 +685,21 @@ function applySort(list){
 }
 
 // Split the selected country's tariffs: local first, regional (multi-country/global) after.
+// Explicit genitive forms for country-page headings («Тарифы для Таиланда»,
+// «...с покрытием Таиланда»). A dictionary, not a heuristic; falls back to the
+// nominative name for any other code so nothing breaks for non-listed countries.
+const COUNTRY_NAMES_GENITIVE = {
+  TH: 'Таиланда',
+  TR: 'Турции',
+  CN: 'Китая',
+  AE: 'ОАЭ',
+  VN: 'Вьетнама'
+};
+function countryNameGenitive(code){
+  const c=String(code||'').toUpperCase();
+  return COUNTRY_NAMES_GENITIVE[c] || countryName(c);
+}
+
 function renderCountrySplit(){
   const status=byIdG('packagesStatus');
   const localBlock=byIdG('localBlock'),regionalBlock=byIdG('regionalBlock');
@@ -692,7 +707,7 @@ function renderCountrySplit(){
   if(!localBlock||!regionalBlock||!localGrid||!regionalGrid)return;
   if(genericGrid)genericGrid.innerHTML='';
   const code=String(activeCountry||'').toUpperCase();
-  const cName=countryName(code);
+  const cName=countryNameGenitive(code);
   const list=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
   const local=applySort(list.filter((i)=>!isMultiCountryPackage(i)));
   const regional=applySort(list.filter((i)=>isMultiCountryPackage(i)));
