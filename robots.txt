@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+
+Sitemap: https://magicesim.store/sitemap.xml
