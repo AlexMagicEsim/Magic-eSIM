@@ -1,0 +1,807 @@
+/* country-tariffs.js — read-only tariff renderer for /esim/<country>/ pages.
+   Helpers + local/regional split + «Оптимальный выбор» badge are lifted
+   VERBATIM from index.html so rendering is identical. The ONLY behavioural
+   change vs. the landing: the buy action is a deep-link to the existing
+   checkout on "/?country=XX#global-pricing" (no checkout/payment code here).
+   Prices always come from the API; no prices are baked into static HTML.
+   Source ranges copied from index.html: 924-1466, 1541-1707, 1770-1791. */
+
+const API_BASE='https://api.magicesim.store';
+const countryNames={
+  AE:'ОАЭ',AL:'Албания',AM:'Армения',AR:'Аргентина',AT:'Австрия',AU:'Австралия',AZ:'Азербайджан',
+  BA:'Босния и Герцеговина',BD:'Бангладеш',BE:'Бельгия',BG:'Болгария',BH:'Бахрейн',BR:'Бразилия',
+  CA:'Канада',CH:'Швейцария',CL:'Чили',CN:'Китай',CO:'Колумбия',CR:'Коста-Рика',CY:'Кипр',CZ:'Чехия',
+  DE:'Германия',DK:'Дания',DO:'Доминикана',EC:'Эквадор',EE:'Эстония',EG:'Египет',ES:'Испания',FI:'Финляндия',FR:'Франция',
+  GB:'Великобритания',GE:'Грузия',GF:'Французская Гвиана',GR:'Греция',GU:'Гуам',HK:'Гонконг',HR:'Хорватия',HU:'Венгрия',ID:'Индонезия',
+  IE:'Ирландия',IL:'Израиль',IN:'Индия',IS:'Исландия',IT:'Италия',JO:'Иордания',JP:'Япония',KH:'Камбоджа',KR:'Южная Корея',
+  KG:'Киргизия',KW:'Кувейт',KZ:'Казахстан',LA:'Лаос',LI:'Лихтенштейн',LK:'Шри-Ланка',LT:'Литва',LU:'Люксембург',LV:'Латвия',MA:'Марокко',
+  MD:'Молдова',ME:'Черногория',MK:'Северная Македония',MO:'Макао',MP:'Северные Марианские острова',MT:'Мальта',MV:'Мальдивы',MX:'Мексика',
+  MY:'Малайзия',NL:'Нидерланды',NO:'Норвегия',NZ:'Новая Зеландия',OM:'Оман',PE:'Перу',PH:'Филиппины',
+  PL:'Польша',PT:'Португалия',QA:'Катар',RO:'Румыния',RS:'Сербия',SA:'Саудовская Аравия',SC:'Сейшелы',
+  SE:'Швеция',SG:'Сингапур',SM:'Сан-Марино',SI:'Словения',SK:'Словакия',SV:'Сальвадор',TH:'Таиланд',TN:'Тунис',TR:'Турция',TW:'Тайвань',
+  AG:'Антигуа и Барбуда',AI:'Ангилья',AW:'Аруба',BB:'Барбадос',BF:'Буркина-Фасо',BJ:'Бенин',BL:'Сен-Бартелеми',BM:'Бермуды',BO:'Боливия',BQ:'Бонэйр, Синт-Эстатиус и Саба',BS:'Багамы',BW:'Ботсвана',
+  CD:'ДР Конго',CF:'Центральноафриканская Республика',CG:'Республика Конго',CI:'Кот-д’Ивуар',CM:'Камерун',CW:'Кюрасао',DM:'Доминика',DZ:'Алжир',GA:'Габон',GD:'Гренада',GH:'Гана',GI:'Гибралтар',
+  GT:'Гватемала',GW:'Гвинея-Бисау',GY:'Гайана',HN:'Гондурас',HT:'Гаити',JM:'Ямайка',KE:'Кения',KN:'Сент-Китс и Невис',KY:'Каймановы острова',LC:'Сент-Люсия',LR:'Либерия',
+  MG:'Мадагаскар',ML:'Мали',MQ:'Мартиника',MS:'Монтсеррат',MU:'Маврикий',MW:'Малави',NE:'Нигер',NG:'Нигерия',NI:'Никарагуа',PA:'Панама',PK:'Пакистан',PY:'Парагвай',
+  RE:'Реюньон',RW:'Руанда',SD:'Судан',SN:'Сенегал',SR:'Суринам',SX:'Синт-Мартен',SZ:'Эсватини',TC:'Теркс и Кайкос',TD:'Чад',TT:'Тринидад и Тобаго',TZ:'Танзания',
+  UG:'Уганда',VC:'Сент-Винсент и Гренадины',VE:'Венесуэла',VG:'Британские Виргинские острова',VI:'Виргинские острова США',XK:'Косово',YT:'Майотта',
+  GP:'Гваделупа',MF:'Сен-Мартен',PR:'Пуэрто-Рико',ZM:'Замбия',
+  UA:'Украина',US:'США',VA:'Ватикан',UZ:'Узбекистан',UY:'Уругвай',VN:'Вьетнам',ZA:'ЮАР',OTHER:'Другие страны'
+};
+
+const countryEnglish={
+  AE:['uae','united arab emirates'],
+  AL:['albania'],
+  AM:['armenia'],
+  AR:['argentina'],
+  AT:['austria'],
+  AU:['australia'],
+  AZ:['azerbaijan'],
+  BA:['bosnia'],
+  BD:['bangladesh'],
+  BE:['belgium'],
+  BG:['bulgaria'],
+  BH:['bahrain'],
+  BR:['brazil'],
+  CA:['canada'],
+  CH:['switzerland'],
+  CL:['chile'],
+  CN:['china'],
+  CO:['colombia'],
+  CR:['costa rica'],
+  CY:['cyprus'],
+  CZ:['czech'],
+  DE:['germany'],
+  DK:['denmark'],
+  DO:['dominican'],
+  EE:['estonia'],
+  EG:['egypt'],
+  ES:['spain'],
+  FI:['finland'],
+  FR:['france'],
+  GB:['united kingdom','uk','great britain'],
+  GE:['georgia'],
+  GR:['greece'],
+  HK:['hong kong'],
+  HR:['croatia'],
+  HU:['hungary'],
+  ID:['indonesia'],
+  IE:['ireland'],
+  IL:['israel'],
+  IN:['india'],
+  IS:['iceland'],
+  IT:['italy'],
+  JO:['jordan'],
+  JP:['japan'],
+  KR:['south korea','korea'],
+  KW:['kuwait'],
+  KZ:['kazakhstan'],
+  LK:['sri lanka'],
+  LT:['lithuania'],
+  LU:['luxembourg'],
+  LV:['latvia'],
+  MA:['morocco'],
+  MD:['moldova'],
+  ME:['montenegro'],
+  MK:['macedonia'],
+  MO:['macao','macau'],
+  MT:['malta'],
+  MV:['maldives'],
+  MX:['mexico'],
+  MY:['malaysia'],
+  NL:['netherlands'],
+  NO:['norway'],
+  NZ:['new zealand'],
+  OM:['oman'],
+  PE:['peru'],
+  PH:['philippines'],
+  PL:['poland'],
+  PT:['portugal'],
+  QA:['qatar'],
+  RO:['romania'],
+  RS:['serbia'],
+  SA:['saudi arabia'],
+  SC:['seychelles'],
+  SE:['sweden'],
+  SG:['singapore'],
+  SI:['slovenia'],
+  SK:['slovakia'],
+  TH:['thailand'],
+  RU:['russia','россия'],
+  TN:['tunisia'],
+  TZ:['tanzania','танзания'],
+  TR:['turkey'],
+  TW:['taiwan'],
+  UA:['ukraine'],
+  US:['usa','united states'],
+  UY:['uruguay'],
+  VN:['vietnam'],
+  ZA:['south africa']
+};
+
+const countryRegions={
+  // Европа
+  AL:'Европа',AD:'Европа',AT:'Европа',AZ:'Европа',BA:'Европа',BE:'Европа',BG:'Европа',BY:'Европа',CH:'Европа',CY:'Европа',CZ:'Европа',DE:'Европа',DK:'Европа',EE:'Европа',ES:'Европа',FI:'Европа',FR:'Европа',GB:'Европа',GE:'Европа',GI:'Европа',GR:'Европа',HR:'Европа',HU:'Европа',IE:'Европа',IS:'Европа',IT:'Европа',LI:'Европа',LT:'Европа',LU:'Европа',LV:'Европа',MD:'Европа',ME:'Европа',MK:'Европа',MT:'Европа',NL:'Европа',NO:'Европа',PL:'Европа',PT:'Европа',RO:'Европа',RS:'Европа',SE:'Европа',SI:'Европа',SK:'Европа',SM:'Европа',TR:'Европа',UA:'Европа',VA:'Европа',XK:'Европа',
+
+  // Азия
+  AE:'Азия',AM:'Азия',BH:'Азия',BD:'Азия',BN:'Азия',CN:'Азия',HK:'Азия',ID:'Азия',IL:'Азия',IN:'Азия',IQ:'Азия',JO:'Азия',JP:'Азия',KH:'Азия',KR:'Азия',KW:'Азия',KZ:'Азия',KG:'Азия',LA:'Азия',LK:'Азия',MO:'Азия',MV:'Азия',MY:'Азия',NP:'Азия',OM:'Азия',PH:'Азия',PK:'Азия',QA:'Азия',SA:'Азия',SG:'Азия',TH:'Азия',TW:'Азия',TJ:'Азия',UZ:'Азия',VN:'Азия',
+
+  // Северная Америка и Карибы
+  AG:'Северная Америка',AI:'Северная Америка',AW:'Северная Америка',BB:'Северная Америка',BL:'Северная Америка',BM:'Северная Америка',BQ:'Северная Америка',BS:'Северная Америка',BZ:'Северная Америка',CA:'Северная Америка',CR:'Северная Америка',CW:'Северная Америка',DM:'Северная Америка',DO:'Северная Америка',GD:'Северная Америка',GP:'Северная Америка',GT:'Северная Америка',HN:'Северная Америка',HT:'Северная Америка',JM:'Северная Америка',KN:'Северная Америка',KY:'Северная Америка',LC:'Северная Америка',MF:'Северная Америка',MQ:'Северная Америка',MS:'Северная Америка',MX:'Северная Америка',NI:'Северная Америка',PA:'Северная Америка',PR:'Северная Америка',SV:'Северная Америка',SX:'Северная Америка',TC:'Северная Америка',TT:'Северная Америка',US:'Северная Америка',VC:'Северная Америка',VG:'Северная Америка',VI:'Северная Америка',
+
+  // Южная Америка
+  AR:'Южная Америка',BO:'Южная Америка',BR:'Южная Америка',CL:'Южная Америка',CO:'Южная Америка',EC:'Южная Америка',GF:'Южная Америка',GY:'Южная Америка',PE:'Южная Америка',PY:'Южная Америка',SR:'Южная Америка',UY:'Южная Америка',VE:'Южная Америка',
+
+  // Океания
+  AU:'Океания',FJ:'Океания',GU:'Океания',MP:'Океания',NC:'Океания',NZ:'Океания',PF:'Океания',TO:'Океания',VU:'Океания',
+
+  // Африка
+  BF:'Африка',BJ:'Африка',BW:'Африка',CD:'Африка',CF:'Африка',CG:'Африка',CI:'Африка',CM:'Африка',CV:'Африка',DZ:'Африка',EG:'Африка',GA:'Африка',GH:'Африка',GN:'Африка',GW:'Африка',KE:'Африка',LR:'Африка',LS:'Африка',MA:'Африка',MG:'Африка',ML:'Африка',MU:'Африка',MW:'Африка',MZ:'Африка',NE:'Африка',NG:'Африка',RE:'Африка',RW:'Африка',SC:'Африка',SD:'Африка',SN:'Африка',SZ:'Африка',TD:'Африка',TG:'Африка',TN:'Африка',TZ:'Африка',UG:'Африка',YT:'Африка',ZA:'Африка',ZM:'Африка'
+};
+
+const countryRegionOrder=['Европа','Азия','Северная Америка','Южная Америка','Океания','Африка','Другие'];
+
+function countryRegion(code){
+  return countryRegions[String(code||'').trim().toUpperCase()]||'Другие';
+}
+
+let allLandingPackages=[];
+let activeCountry='ALL';
+const featuredAllCountries=['TH','VN','AE'];
+
+function formatRub(value){
+  return `${Number(value||0).toLocaleString('ru-RU')} ₽`;
+}
+
+// Single source of truth for the retail price shown on a card AND in the modal.
+// Retail price = API field `price` (already RUB). Never fall back to provider/dealer price.
+function getPackageRetailPrice(item){
+  const value = Number(item && item.price);
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
+function formatRetailPrice(item){
+  const price = getPackageRetailPrice(item);
+  return price === null ? 'Цена уточняется' : formatRub(price);
+}
+
+// Shared buy button: same price source; disabled (no checkout) when price is absent.
+// Country pages do NOT run checkout locally. The buy action deep-links to the
+// existing landing checkout with the country pre-selected. Price is only used to
+// gate availability; it is never written into static page HTML.
+function buyButtonHtml(item){
+  const price = getPackageRetailPrice(item);
+  if(price === null){
+    return `<span class="btn package-buy" aria-disabled="true" style="opacity:.5;pointer-events:none">Нет в наличии</span>`;
+  }
+  const code = String(activeCountry||'').toUpperCase();
+  const href = `/?country=${encodeURIComponent(code)}#global-pricing`;
+  return `<a class="btn package-buy js-buy-link" href="${href}" data-package-id="${escapeHtml(item.package_id||'')}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(String(price))}">Выбрать тариф</a>`;
+}
+
+function escapeHtml(value){
+  return String(value??'').replace(/[&<>"']/g,(m)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function loadJson(url){
+  return new Promise((resolve,reject)=>{
+    const xhr=new XMLHttpRequest();
+    xhr.open('GET',url,true);
+    xhr.timeout=20000;
+    xhr.onload=()=>{
+      if(xhr.status>=200&&xhr.status<300){
+        try{resolve(JSON.parse(xhr.responseText));}
+        catch(error){reject(error);}
+      }else{
+        reject(new Error(`HTTP ${xhr.status}`));
+      }
+    };
+    xhr.onerror=()=>reject(new Error('Network request failed'));
+    xhr.ontimeout=()=>reject(new Error('Network timeout'));
+    xhr.send();
+  });
+}
+
+function retailPrice(item){
+  const dealerPrice=Number(item.price||0);
+  const gb=Number(item.data_gb||0);
+  let multiplier=1.20;
+
+  if(gb<=3||dealerPrice<700){
+    multiplier=1.25;
+  }else if(gb<=10||dealerPrice<2000){
+    multiplier=1.23;
+  }
+
+  const raw=dealerPrice*multiplier;
+  const step=raw<1000?50:100;
+  return Math.ceil(raw/step)*step;
+}
+
+function countryCode(item){
+  const code=String(item.country_code||'').trim().toUpperCase();
+  if(/^[A-Z]{2}$/.test(code))return code;
+
+  const codes=Array.isArray(item.coverage_country_codes)?item.coverage_country_codes:[];
+  const first=String(codes[0]||'').trim().toUpperCase();
+  return /^[A-Z]{2}$/.test(first)?first:'OTHER';
+}
+
+
+function packageCoverageCodes(item){
+  const codes=Array.isArray(item.coverage_country_codes)
+    ? item.coverage_country_codes.map((code)=>String(code||'').trim().toUpperCase()).filter((code)=>/^[A-Z]{2}$/.test(code))
+    : [];
+
+  const direct=String(item.country_code||'').trim().toUpperCase();
+  if(/^[A-Z]{2}$/.test(direct)&&!codes.includes(direct)){
+    codes.unshift(direct);
+  }
+
+  String(item.region||'')
+    .toUpperCase()
+    .split(/[\s,;/|+]+/)
+    .map((code)=>code.trim())
+    .filter((code)=>/^[A-Z]{2}$/.test(code))
+    .forEach((code)=>{
+      if(!codes.includes(code)){
+        codes.push(code);
+      }
+    });
+
+  return codes.filter((code)=>!RESTRICTED_COUNTRY_CODES.includes(code));
+}
+
+function packageMatchesCountry(item, code){
+  const country=String(code||'').trim().toUpperCase();
+  if(!country||country==='ALL')return true;
+  return packageCoverageCodes(item).includes(country);
+}
+
+function countryName(code){
+  const normalized=String(code||'').trim().toUpperCase();
+  return countryNames[normalized]||normalized||'Другое';
+}
+
+function isMultiCountryPackage(item){
+  const codes=Array.isArray(item.coverage_country_codes)
+    ? item.coverage_country_codes.map((code)=>String(code||'').trim().toUpperCase()).filter((code)=>/^[A-Z]{2}$/.test(code))
+    : [];
+
+  if(new Set(codes).size>1)return true;
+
+  const name=String(item.name||'').toLowerCase();
+  const regionalWords=[
+    'europe','global','world','asia','balkans','caribbean','latin america','middle east',
+    'unlimited','euconnect','europe and usa','greater china','china korea japan',
+    'singapore malaysia and thailand','spain and portugal','greece cyprus turkey',
+    'vietnam plus'
+  ];
+
+  return regionalWords.some((word)=>name.includes(word));
+}
+
+function isCountrySpecificPackage(item){
+  if(isMultiCountryPackage(item))return false;
+
+  const code=countryCode(item);
+  const aliases=countryEnglish[code]||[];
+  const name=String(item.name||'').toLowerCase();
+
+  return aliases.some((alias)=>name.includes(alias));
+}
+
+function isRussiaPackage(item){
+  const code=String(item.country_code||'').toUpperCase();
+  const region=String(item.region||'').toUpperCase();
+  const name=String(item.name||'').toLowerCase();
+  return code==='RU'||region.split(/[\s,;/|+]+/).includes('RU')||name.includes('россия')||name.includes('russia');
+}
+
+function normalizeSearch(value){
+  return String(value || '')
+    .toLowerCase()
+    .replace(/ё/g, 'е')
+    .replace(/[\s\-_]+/g, ' ')
+    .trim();
+}
+
+
+function findCountryCodeBySearchQuery(query){
+  const normalized = normalizeSearch(query);
+  if(!normalized) return '';
+
+  const aliases = {
+    AE: ['оаэ','эмираты','uae','united arab emirates','emirates'],
+    TH: ['тайланд','таиланд','thailand'],
+    TZ: ['танзания','tanzania'],
+    RU: ['россия','russia'],
+    TR: ['турция','turkey'],
+  };
+
+  const codes = new Set([
+    ...Object.keys(countryNames || {}),
+    ...Object.keys(countryEnglish || {}),
+    ...Object.keys(aliases),
+  ]);
+
+  for(const code of codes){
+    const ruName = countryNames?.[code];
+    const enName = countryEnglish?.[code];
+    const extraNames = aliases?.[code];
+
+    const words = [
+      code,
+      ...(typeof ruName === 'string' ? [ruName] : Array.isArray(ruName) ? ruName : []),
+      ...(typeof enName === 'string' ? [enName] : Array.isArray(enName) ? enName : []),
+      ...(Array.isArray(extraNames) ? extraNames : []),
+    ]
+      .map((value)=>normalizeSearch(value))
+      .filter(Boolean);
+
+    if(words.some((word)=>word === normalized || word.includes(normalized) || normalized.includes(word))){
+      return code;
+    }
+  }
+
+  return '';
+}
+
+function searchText(item){
+  const codes = [
+    item.country_code,
+    item.countryCode,
+    item.region,
+    ...(Array.isArray(item.coverage_country_codes) ? item.coverage_country_codes : []),
+    ...(Array.isArray(item.coverageCountries) ? item.coverageCountries : []),
+  ]
+    .filter(Boolean)
+    .flatMap((value) => String(value).split(','))
+    .map((value) => value.trim().toUpperCase())
+    .filter(Boolean);
+
+  const countryWords = codes
+    .flatMap((code) => {
+      const ruName = countryNames?.[code];
+      const enName = countryEnglish?.[code];
+
+      return [
+        code,
+        ...(typeof ruName === 'string' ? [ruName] : Array.isArray(ruName) ? ruName : []),
+        ...(typeof enName === 'string' ? [enName] : Array.isArray(enName) ? enName : []),
+      ];
+    })
+    .join(' ');
+
+  return normalizeSearch([
+    item.name,
+    item.package_code,
+    item.packageCode,
+    item.country_code,
+    item.countryCode,
+    item.region,
+    item.coverage_flags,
+    countryWords,
+    `${item.data_gb || item.dataGb || ''}gb`,
+    `${item.data_gb || item.dataGb || ''} гб`,
+    `${item.validity_days || item.validityDays || ''}days`,
+    `${item.validity_days || item.validityDays || ''} дней`,
+  ].filter(Boolean).join(' '));
+}
+
+function formatDataLabel(item){
+  const gb=Number(item.data_gb||0);
+
+  if(!Number.isFinite(gb)||gb<=0){
+    return '';
+  }
+
+  return `${Number.isInteger(gb)?gb:gb.toFixed(2).replace(/\.?0+$/,'')} GB`;
+}
+
+function publicPackageName(item){
+  const original=String(item.name||'').trim();
+  const lower=original.toLowerCase();
+  const data=formatDataLabel(item);
+  const days=Number(item.validity_days||0);
+
+  if(lower.includes('vietnam plus')){
+    return `Азия Плюс ${data}`.trim();
+  }
+
+  if(lower.includes('latam')||lower.includes('latin america')){
+    return `Латинская Америка ${data}`.trim();
+  }
+
+  if(lower.includes('greater china')&&lower.includes('taiwan')){
+    return `Китай, Гонконг, Макао и Тайвань ${data}`.trim();
+  }
+
+  if(lower.includes('china korea japan')){
+    return `Китай, Корея и Япония ${data}`.trim();
+  }
+
+  if(lower.includes('singapore malaysia and thailand')){
+    return `Сингапур, Малайзия и Таиланд ${data}`.trim();
+  }
+
+  if(lower.includes('europe and usa')){
+    return `Европа и США ${data}`.trim();
+  }
+
+  if(lower.includes('euconnect unlimited')){
+    return days ? `Европа Unlimited ${days} дней` : `Европа Unlimited ${data}`.trim();
+  }
+
+  if(lower.includes('eu ')&&lower.includes('unlimited calls')){
+    return `Европа ${data} + звонки`.trim();
+  }
+
+  if(lower.includes('europe ')){
+    return `Европа ${data}`.trim();
+  }
+
+  if(lower.includes('spain and portugal')){
+    return `Испания и Португалия ${data}`.trim();
+  }
+
+  if(lower.includes('greece cyprus turkey')){
+    return `Греция, Кипр и Турция ${data}`.trim();
+  }
+
+  if(lower.includes('apac')){
+    return `Азия и Океания ${data}`.trim();
+  }
+
+  const codes=[...new Set(packageCoverageCodes(item))];
+
+  if(codes.length===1){
+    return `${countryName(codes[0])} ${data}`.trim();
+  }
+
+  return original;
+}
+
+function packageNetworkText(item){
+  const networks=Array.isArray(item.networks)?item.networks:[];
+  const names=networks
+    .map((network)=>`${network.operator||''} ${network.type||''}`.trim())
+    .filter(Boolean);
+  return names.slice(0,2).join(', ')||'по странам покрытия';
+}
+
+function compactCoverageLabel(item){
+  const codes=packageCoverageCodes(item);
+  const unique=[...new Set(codes)];
+
+  if(unique.length<=1){
+    return countryName(unique[0]||countryCode(item));
+  }
+
+  const title=publicPackageName(item).toLowerCase();
+
+  if(title.includes('азия и океания')||title.includes('apac')){
+    return `Азия и Океания, ${unique.length} стран`;
+  }
+
+  if(title.includes('азия плюс')){
+    return `Азия Плюс, ${unique.length} стран`;
+  }
+
+  if(title.includes('европа unlimited')){
+    return `Европа Unlimited, ${unique.length} стран`;
+  }
+
+  if(title.includes('европа и сша')){
+    return `Европа и США, ${unique.length} стран`;
+  }
+
+  if(title.includes('европа')){
+    return `Европа, ${unique.length} стран`;
+  }
+
+  if(title.includes('latam')||title.includes('латинская америка')){
+    return `Латинская Америка, ${unique.length} стран`;
+  }
+
+  if(title.includes('китай, гонконг, макао и тайвань')){
+    return `Китай, Гонконг, Макао и Тайвань`;
+  }
+
+  if(title.includes('китай, корея и япония')){
+    return `Китай, Корея и Япония`;
+  }
+
+  return `${unique.length} стран`;
+}
+
+
+function coverageCountriesText(item){
+  const codes=[...new Set(packageCoverageCodes(item))];
+
+  if(codes.length<=1){
+    return '';
+  }
+
+  return codes
+    .map(countryName)
+    .sort((a,b)=>a.localeCompare(b,'ru'))
+    .join(', ');
+}
+
+function compactCoverageIcon(item){
+  const codes=packageCoverageCodes(item);
+  const unique=[...new Set(codes)];
+
+  if(unique.length<=1){
+    return item.coverage_flags||'🌍';
+  }
+
+  return '🌏';
+}
+
+const RESTRICTED_COUNTRY_CODES=['RU','UA','BY'];
+function isRestrictedPackage(item){
+  const code=String(item.country_code||'').trim().toUpperCase();
+  if(RESTRICTED_COUNTRY_CODES.includes(code))return true;
+  const name=String(item.name||'').toLowerCase();
+  return name.includes('russia')||name.includes('россия')||name.includes('ukraine')||name.includes('украина');
+}
+
+function basePackages(){
+  return allLandingPackages
+    .filter((item)=>!isRussiaPackage(item))
+    .filter((item)=>!isRestrictedPackage(item))
+    .filter((item)=>Number(item.price||0)>0);
+}
+
+
+
+function packageCoverageTypeRank(item){
+  if(activeCountry==='ALL'){
+    return 0;
+  }
+
+  const selected=String(activeCountry||'').trim().toUpperCase();
+  const direct=String(countryCode(item)||'').trim().toUpperCase();
+  const codes=[...new Set(packageCoverageCodes(item))];
+
+  // Сначала тарифы, которые напрямую относятся к выбранной стране.
+  if(direct===selected && codes.length<=1){
+    return 0;
+  }
+
+  // Потом тарифы, где выбранная страна основная, но есть дополнительное покрытие.
+  if(direct===selected){
+    return 1;
+  }
+
+  // Потом региональные/комбо тарифы, где выбранная страна входит в покрытие.
+  if(codes.includes(selected)){
+    return 2;
+  }
+
+  return 3;
+}
+
+function comparePackages(a,b){
+  const coverageRank=packageCoverageTypeRank(a)-packageCoverageTypeRank(b);
+  if(coverageRank!==0){
+    return coverageRank;
+  }
+
+  const gbA=Number(a.data_gb||0);
+  const gbB=Number(b.data_gb||0);
+  const daysA=Number(a.validity_days||0);
+  const daysB=Number(b.validity_days||0);
+  const priceA=Number(a.price||0);
+  const priceB=Number(b.price||0);
+
+  if(gbA!==gbB){
+    return gbA-gbB;
+  }
+
+  if(daysA!==daysB){
+    return daysA-daysB;
+  }
+
+  if(priceA!==priceB){
+    return priceA-priceB;
+  }
+
+  return publicPackageName(a).localeCompare(publicPackageName(b),'ru');
+}
+
+function isPublicGlobalPackage(item){
+  const name=String(item.name||'').toLowerCase();
+  const code=String(item.country_code||'').toUpperCase();
+  return code.startsWith('GL-') || name.includes('global');
+}
+
+// ===== Redesign: unified card + local/regional split + coverage modal + country selection =====
+const byIdG=(id)=>document.getElementById(id);
+const ICON_BOLT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>';
+const ICON_REFRESH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
+
+function packageSpeedLabel(item){
+  const s=String(item.speed||'').toUpperCase();
+  const m=s.match(/[345]G/g);
+  return m&&m.length?[...new Set(m)].join('/'):'';
+}
+
+// One source of truth for a tariff card (used by local, regional and generic grids).
+function renderPackageCard(item,best){
+  const speed=packageSpeedLabel(item);
+  const topup=!!item.topup_available;
+  const data=formatDataLabel(item)||`${item.data_gb||''} GB`;
+  const tags=[];
+  if(speed)tags.push(`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`);
+  if(topup)tags.push(`<span class="package-tag">${ICON_REFRESH}Пополнение</span>`);
+  return `
+    <article class="package-card reveal visible">
+      <div class="package-topline"><span class="package-availability">В наличии</span>${best?'<span class="package-best">Оптимальный выбор</span>':''}</div>
+      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+      <div class="package-meta">
+        <div class="package-meta-item"><div class="package-meta-label">Интернет</div><div class="package-meta-value">${escapeHtml(data)}</div></div>
+        <div class="package-meta-item"><div class="package-meta-label">Срок</div><div class="package-meta-value">${escapeHtml(String(item.validity_days||''))} дн.</div></div>
+        <div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed||'4G')}</div></div>
+      </div>
+      ${tags.length?`<div class="package-tags">${tags.join('')}</div>`:''}
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br><strong>Активация:</strong> установка по QR, срок — с первого подключения к сети.</div>
+      <div class="package-price">${formatRetailPrice(item)}</div>
+      <div class="package-actions">
+        ${buyButtonHtml(item)}
+        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(item.speed||'4G/5G')}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
+      </div>
+    </article>`;
+}
+
+// «Оптимальный выбор» — единственный бейдж, только на ЛОКАЛЬНЫЙ тариф объёмом
+// 10 GB (приоритет) или 20 GB со сроком 7–30 дней. На 3 / 5 / 50 GB и на
+// региональные тарифы бейдж не ставится. Среди тарифов одного объёма — лучшая
+// цена за 1 GB, затем меньшая итоговая цена. Нет подходящих 10/20 GB — бейджа нет.
+function bestLocalPackageId(local){
+  const gbRank=(gb)=>gb===10?0:gb===20?1:2;
+  const eligible=local.map((i)=>{
+    const gb=Number(i.data_gb||0),d=Number(i.validity_days||0),p=getPackageRetailPrice(i);
+    return {id:i.package_id||null,gb,d,p};
+  }).filter((x)=>x.id&&x.p!=null&&x.p>0&&(x.gb===10||x.gb===20)&&x.d>=7&&x.d<=30);
+  if(!eligible.length)return null;
+  eligible.sort((a,b)=>gbRank(a.gb)-gbRank(b.gb)||(a.p/a.gb)-(b.p/b.gb)||a.p-b.p);
+  return eligible[0].id;
+}
+
+// Sort a package list by the toolbar selection; unknown/empty falls back to the
+// existing comparePackages order (so default behaviour is unchanged).
+function applySort(list){
+  const sel=document.getElementById('packageSort');
+  const v=sel?sel.value:'';
+  const price=(x)=>{const p=getPackageRetailPrice(x);return p==null?Infinity:p;};
+  const arr=list.slice();
+  if(v==='price_asc')return arr.sort((a,b)=>price(a)-price(b));
+  if(v==='data_desc')return arr.sort((a,b)=>Number(b.data_gb||0)-Number(a.data_gb||0)||price(a)-price(b));
+  if(v==='days_desc')return arr.sort((a,b)=>Number(b.validity_days||0)-Number(a.validity_days||0)||price(a)-price(b));
+  return arr.sort(comparePackages);
+}
+
+// Split the selected country's tariffs: local first, regional (multi-country/global) after.
+function renderCountrySplit(){
+  const status=byIdG('packagesStatus');
+  const localBlock=byIdG('localBlock'),regionalBlock=byIdG('regionalBlock');
+  const localGrid=byIdG('localGrid'),regionalGrid=byIdG('regionalGrid'),genericGrid=byIdG('packagesGrid');
+  if(!localBlock||!regionalBlock||!localGrid||!regionalGrid)return;
+  if(genericGrid)genericGrid.innerHTML='';
+  const code=String(activeCountry||'').toUpperCase();
+  const cName=countryName(code);
+  const list=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
+  const local=applySort(list.filter((i)=>!isMultiCountryPackage(i)));
+  const regional=applySort(list.filter((i)=>isMultiCountryPackage(i)));
+  if(status)status.textContent='';
+  byIdG('localHead').textContent=`Тарифы для ${cName}`;
+  byIdG('regionalHead').textContent=`Региональные тарифы с покрытием ${cName}`;
+  const bestId=local.length?bestLocalPackageId(local):null;
+  // Local block (req 6/7). If empty (req 8): show the note, not an empty grid.
+  byIdG('localCount').textContent=local.length?`${local.length} тарифов`:'';
+  byIdG('localEmpty').hidden=local.length>0;
+  localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId)).join('');
+  localBlock.hidden=false;
+  // Regional block (req 6): regional/continental/global.
+  if(regional.length){
+    byIdG('regionalCount').textContent=`${regional.length} тарифов`;
+    regionalGrid.innerHTML=regional.map((i)=>renderPackageCard(i,false)).join('');
+    regionalBlock.hidden=false;
+  }else{
+    regionalGrid.innerHTML='';regionalBlock.hidden=true;
+  }
+  if(!local.length&&!regional.length){
+    localBlock.hidden=true;regionalBlock.hidden=true;
+    if(status)status.textContent=`Для «${cName}» тарифы не найдены. Напишите в поддержку — подберём вручную.`;
+  }
+  // Analytics: fire once per (country + result counts); re-render/sort of the same
+  // result does not re-fire (dedupe key), so no duplicate goals.
+  try{
+    const _trk=code+'|'+local.length+'|'+regional.length;
+    if(window.__magicLastTariffsKey!==_trk){window.__magicLastTariffsKey=_trk;magicMetrikaGoal('tariffs_rendered',{country_code:code,local_count:local.length,regional_count:regional.length});}
+  }catch(e){}
+}
+
+// Coverage & conditions modal (client-facing fields only; no provider/internal data).
+(function(){
+  const overlay=document.getElementById('coverageModal');
+  if(!overlay)return;
+  const g=(id)=>document.getElementById(id);
+  function open(d){
+    g('covPlan').textContent=d.name||'eSIM-тариф';
+    g('covData').textContent=d.data||'—';
+    g('covDays').textContent=d.days?`${d.days} дн.`:'—';
+    g('covSpeed').textContent=d.speed||'—';
+    g('covTopup').textContent=(d.topup==='1')?'доступно':'недоступно';
+    const wrap=g('covCountriesWrap');
+    if(d.countries&&String(d.countries).trim()){g('covCountries').textContent=d.countries;wrap.hidden=false;}
+    else{g('covCountries').textContent='';wrap.hidden=true;}
+    overlay.hidden=false;document.body.style.overflow='hidden';
+  }
+  function close(){overlay.hidden=true;document.body.style.overflow='';}
+  document.addEventListener('click',(e)=>{const b=e.target.closest('.js-coverage');if(!b)return;e.preventDefault();open(b.dataset);});
+  const x=g('coverageClose');if(x)x.addEventListener('click',close);
+  overlay.addEventListener('click',(e)=>{if(e.target===overlay)close();});
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&!overlay.hidden)close();});
+})();
+
+/* ===== Country-page bootstrap =====================================================
+   1) fetch the same public catalog used by the landing;
+   2) pre-select this page's country (from <section data-country-page="XX">);
+   3) render the local/regional split (badge + current sort preserved);
+   4) re-render on sort change;
+   5) fire the EXISTING tariff_buy_click goal on a deep-link buy (no new goals).
+   If the API is unavailable, the static SEO content stays; only the tariff grid
+   shows a support fallback message. */
+(function(){
+  function pageCountryCode(){
+    const s=document.querySelector('[data-country-page]');
+    const c=s?String(s.getAttribute('data-country-page')||'').trim().toUpperCase():'';
+    return /^[A-Z]{2}$/.test(c)?c:'';
+  }
+  async function loadCountryPackages(){
+    const status=document.getElementById('packagesStatus');
+    const code=pageCountryCode();
+    if(!code)return;
+    if(status)status.textContent='Загружаем тарифы...';
+    try{
+      const data=await loadJson(`${API_BASE}/api/v1/retail/packages?t=${Date.now()}`);
+      allLandingPackages=Array.isArray(data.data)?data.data:[];
+      window.allLandingPackages=allLandingPackages;
+      activeCountry=code;
+      renderCountrySplit();
+    }catch(err){
+      console.error('Package load failed',err);
+      if(status)status.textContent='Не удалось загрузить тарифы. Напишите в поддержку — подберём тариф вручную.';
+    }
+  }
+  function wire(){
+    const sort=document.getElementById('packageSort');
+    if(sort)sort.addEventListener('change',()=>{ if(/^[A-Z]{2}$/.test(String(activeCountry||''))) renderCountrySplit(); });
+    // Deep-link buy → reuse the existing tariff_buy_click goal. tariff_type derived
+    // from the grid the card sits in. No PII/QR/ICCID/order data is ever sent.
+    document.addEventListener('click',(e)=>{
+      const a=e.target.closest('a.js-buy-link');
+      if(!a)return;
+      const tt=a.closest('#regionalGrid')?'regional':(a.closest('#localGrid')?'local':undefined);
+      try{
+        if(window.magicMetrikaGoal){
+          window.magicMetrikaGoal('tariff_buy_click',{
+            country_code:activeCountry,
+            package_id:a.dataset.packageId,
+            price_rub:a.dataset.price,
+            data_gb:a.dataset.data,
+            validity_days:a.dataset.days,
+            tariff_type:tt
+          });
+        }
+      }catch(_){/* analytics must never block navigation */}
+    });
+    loadCountryPackages();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);
+  else wire();
+})();
