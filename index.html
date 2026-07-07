@@ -254,6 +254,23 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
 .checkout-rows b{color:var(--text);font-weight:600}
 .checkout-total{padding-top:8px;margin-top:4px;border-top:1px solid var(--border)}
 .checkout-total b{font-size:18px}
+.co-disc-row b{font-weight:600}
+.co-disc-row.co-disc-neg b{color:#1f9d57}
+.checkout-summary.co-has-promo #coPrice{color:#1f9d57}
+.checkout-promo{margin-top:14px}
+.co-promo-row{display:flex;gap:8px}
+.co-promo-input{flex:1;min-width:0;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card,#fff);color:var(--text);font-size:14px;text-transform:uppercase}
+.co-promo-input::placeholder{text-transform:none;color:var(--muted)}
+.co-promo-input:focus{outline:none;border-color:#4267E8;box-shadow:0 0 0 3px rgba(66,103,232,.15)}
+.co-promo-apply{flex:0 0 auto;padding:11px 16px;font-size:14px;white-space:nowrap}
+.co-promo-apply[disabled]{opacity:.6;cursor:progress}
+.co-promo-msg{margin:8px 0 0;font-size:13px;line-height:1.4}
+.co-promo-msg.co-err{color:#d5493f}
+.co-promo-msg.co-ok{color:#1f9d57}
+.co-promo-applied{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding:8px 12px;border:1px solid #bfe6cf;background:rgba(31,157,87,.08);border-radius:10px}
+.co-promo-tag{font-size:13px;color:var(--text);font-weight:600}
+.co-promo-remove{border:0;background:transparent;color:#d5493f;font-size:13px;cursor:pointer;padding:2px 4px;text-decoration:underline}
+@media (max-width:430px){.co-promo-apply{padding:11px 12px}}
 .checkout-form{display:grid;gap:14px}
 .checkout-form label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
 .checkout-form input[type=email],.checkout-form input[type=text]{border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.05);color:var(--text);padding:11px 12px;font-size:15px;outline:none}
@@ -905,7 +922,20 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
           <div><span>Покрытие</span><b id="coCoverage">—</b></div>
           <div><span>Интернет</span><b id="coData">—</b></div>
           <div><span>Срок</span><b id="coDays">—</b></div>
+          <div class="co-disc-row" id="coOrigRow" hidden><span>Стоимость</span><b id="coOrigPrice">—</b></div>
+          <div class="co-disc-row co-disc-neg" id="coDiscRow" hidden><span>Скидка по промокоду</span><b id="coDiscAmount">—</b></div>
           <div class="checkout-total"><span>Итого</span><b id="coPrice">—</b></div>
+        </div>
+      </div>
+      <div class="checkout-promo" id="coPromoWrap">
+        <div class="co-promo-row">
+          <input type="text" id="coPromoInput" class="co-promo-input ym-hide-content" autocomplete="off" spellcheck="false" placeholder="Промокод" maxlength="32" aria-label="Промокод">
+          <button type="button" class="btn co-promo-apply" id="coPromoApply">Применить</button>
+        </div>
+        <p class="co-promo-msg" id="coPromoMsg" hidden role="status" aria-live="polite"></p>
+        <div class="co-promo-applied" id="coPromoApplied" hidden>
+          <span class="co-promo-tag" id="coPromoAppliedText"></span>
+          <button type="button" class="co-promo-remove" id="coPromoRemove">Удалить</button>
         </div>
       </div>
       <form class="checkout-form" id="checkoutForm" novalidate>
@@ -2081,6 +2111,61 @@ window.addEventListener('DOMContentLoaded', async () => {
   if(!overlay)return;
   const byId=(id)=>document.getElementById(id);
   let submitting=false;
+  // ---- Promo code (Phase 2). Backend is authoritative: the client only sends the
+  // code + package; the discount/final are always recomputed server-side. ----
+  let appliedPromo=null;      // { code, original, discount, final }
+  let promoDisabled=false;    // backend reported PROMO_CODES_DISABLED -> hide the field
+  let quoting=false;
+  const PROMO_MSG={PROMO_CODES_DISABLED:'Промокоды сейчас недоступны.',PROMO_CODE_INVALID:'Проверьте формат промокода.',PROMO_CODE_NOT_FOUND:'Промокод не найден.',PROMO_CODE_NOT_ACTIVE:'Промокод недоступен.',PROMO_CODE_NOT_STARTED:'Промокод ещё не действует.',PROMO_CODE_EXPIRED:'Срок действия промокода истёк.',PROMO_CODE_LIMIT_REACHED:'Лимит использований промокода исчерпан.',PROMO_CODE_EMAIL_LIMIT_REACHED:'Этот промокод уже использован для этого email.',PROMO_CODE_FIRST_PURCHASE_ONLY:'Промокод действует только для первой покупки.',PROMO_CODE_MIN_ORDER:'Сумма заказа меньше необходимой для этого промокода.',PROMO_CODE_NOT_APPLICABLE:'Этот промокод нельзя применить к выбранному тарифу.',PROMO_CODE_NOT_AVAILABLE:'Этот промокод недоступен.',RATE_LIMITED:'Слишком много попыток. Попробуйте чуть позже.'};
+  const rub=(n)=>`${Number(n).toLocaleString('ru-RU')} ₽`;
+  function basePrice(){const p=overlay.dataset.priceRub;return (p!==''&&isFinite(Number(p)))?Number(p):null;}
+  function currentPrice(){return appliedPromo?appliedPromo.final:basePrice();}
+  function promoMsg(text,kind){const m=byId('coPromoMsg');if(!m)return;if(!text){m.hidden=true;m.textContent='';return;}m.textContent=text;m.className='co-promo-msg'+(kind?(' '+kind):'');m.hidden=false;}
+  function renderPrice(){
+    const base=basePrice(),summary=overlay.querySelector('.checkout-summary');
+    const origRow=byId('coOrigRow'),discRow=byId('coDiscRow'),applied=byId('coPromoApplied');
+    if(appliedPromo){
+      byId('coOrigPrice').textContent=rub(appliedPromo.original);origRow.hidden=false;
+      byId('coDiscAmount').textContent='−'+rub(appliedPromo.discount);discRow.hidden=false;
+      byId('coPrice').textContent=rub(appliedPromo.final);
+      byId('coPromoAppliedText').textContent=`Промокод ${appliedPromo.code} применён`;
+      applied.hidden=false;if(summary)summary.classList.add('co-has-promo');
+    }else{
+      if(origRow)origRow.hidden=true;if(discRow)discRow.hidden=true;if(applied)applied.hidden=true;
+      byId('coPrice').textContent=(base!=null)?rub(base):'—';
+      if(summary)summary.classList.remove('co-has-promo');
+    }
+  }
+  // Drop any applied promo and force a fresh quote (package/email change, or a
+  // rejected order-create). Never leaves a stale discount on screen.
+  function resetPromo(msg){appliedPromo=null;const inp=byId('coPromoInput');if(inp&&msg==null)inp.value='';promoMsg(msg||'',msg?'co-err':null);renderPrice();}
+  async function applyPromo(){
+    if(quoting||promoDisabled)return;
+    const inp=byId('coPromoInput');const code=((inp&&inp.value)||'').trim().toUpperCase();
+    const pkgId=(overlay.dataset.packageId||'').trim();
+    if(inp)inp.value=code;
+    if(!code){promoMsg('Введите промокод.','co-err');return;}
+    if(!pkgId){promoMsg('Сначала выберите тариф.','co-err');return;}
+    const btn=byId('coPromoApply');quoting=true;if(btn){btn.disabled=true;btn.textContent='Проверяем…';}
+    promoMsg('',null);
+    try{
+      const emailEl=byId('coEmail');const email=(emailEl&&/.+@.+\..+/.test(emailEl.value.trim()))?emailEl.value.trim():undefined;
+      const resp=await fetch(API_BASE+'/api/v1/retail/promo/quote',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({promo_code:code,package_id:pkgId,email:email})});
+      let data={};try{data=await resp.json();}catch(e){}
+      if(resp.ok&&data&&data.valid){
+        appliedPromo={code:data.promo_code||code,original:Number(data.original_amount_rub),discount:Number(data.discount_amount_rub),final:Number(data.final_amount_rub)};
+        renderPrice();
+        try{magicMetrikaGoal('promo_apply_success',{});}catch(e){}
+      }else if(data&&data.error==='PROMO_CODES_DISABLED'){
+        promoDisabled=true;const w=byId('coPromoWrap');if(w)w.hidden=true;resetPromo();
+      }else{
+        appliedPromo=null;renderPrice();
+        promoMsg((data&&(PROMO_MSG[data.error]||data.message))||'Не удалось применить промокод.','co-err');
+        try{magicMetrikaGoal('promo_apply_error',{});}catch(e){}
+      }
+    }catch(e){promoMsg('Не удалось проверить промокод. Попробуйте позже.','co-err');}
+    finally{quoting=false;if(btn){btn.disabled=false;btn.textContent='Применить';}}
+  }
   function openCheckout(d){
     byId('coPlanName').textContent=d.name||'eSIM-тариф';
     byId('coCoverage').textContent=d.coverage||'—';
@@ -2089,6 +2174,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     byId('coPrice').textContent=d.price?`${Number(d.price).toLocaleString('ru-RU')} ₽`:'—';
     overlay.dataset.packageId=d.packageId||'';
     overlay.dataset.priceRub=(d.price!=null&&d.price!=='')?String(Number(d.price)):'';
+    resetPromo();  // package changed -> drop any prior promo, show base price
     magicMetrikaGoal('checkout_open',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:d.packageId,price_rub:d.price});
     byId('coError').hidden=true;
     byId('coResult').hidden=true;
@@ -2128,7 +2214,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     // payment_type + price_rub are stored (no email/token/order id/package data)
     // for the same-origin success/failed pages; cleared there after the goal fires.
     try{
-      const _pr=overlay.dataset.priceRub;
+      const _pr=(currentPrice()!=null)?String(currentPrice()):overlay.dataset.priceRub;
       magicMetrikaGoal(paymentType==='sbp'?'payment_sbp_click':'payment_card_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:pkgId,price_rub:_pr});
       sessionStorage.setItem('magic_pay_ctx',JSON.stringify({payment_type:(paymentType==='sbp'||paymentType==='card')?paymentType:undefined,price_rub:(_pr!==''&&isFinite(Number(_pr)))?Number(_pr):undefined,_ts:Date.now()}));
     }catch(e){}
@@ -2147,7 +2233,8 @@ window.addEventListener('DOMContentLoaded', async () => {
           email:email.value.trim(),
           contact:(contact&&contact.value.trim())?contact.value.trim().slice(0,200):undefined,
           termsAccepted:true,
-          payment_type:paymentType                                     // "sbp" | "card"
+          payment_type:paymentType,                                    // "sbp" | "card"
+          promo_code:appliedPromo?appliedPromo.code:undefined          // code only; server recomputes
         })
       });
       let data={};try{data=await resp.json();}catch(e){}
@@ -2156,7 +2243,15 @@ window.addEventListener('DOMContentLoaded', async () => {
         window.location.assign(data.redirect_url);         // go to Platega payment page
         return;
       }
-      err.textContent=(data&&data.message)?data.message:'Не удалось создать платёж. Попробуйте позже или напишите в поддержку support@magicesim.store.';
+      // Promo rejected at order-create (disabled/expired/limit/margin/etc.): drop the
+      // discount, revert to the base price and require an explicit re-confirm — never
+      // auto-redirect on a stale amount.
+      if(data&&typeof data.error==='string'&&data.error.indexOf('PROMO')===0){
+        resetPromo();
+        err.textContent=(PROMO_MSG[data.error]||data.message||'Промокод недоступен. Проверьте итоговую сумму и повторите оплату.');
+      }else{
+        err.textContent=(data&&data.message)?data.message:'Не удалось создать платёж. Попробуйте позже или напишите в поддержку support@magicesim.store.';
+      }
       err.hidden=false;
     }catch(e){
       err.textContent='Не удалось связаться с сервером. Проверьте соединение и попробуйте снова.';
@@ -2168,6 +2263,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   const sbpBtnEl=byId('coPaySbp'),cardBtnEl=byId('coPayCard');
   if(sbpBtnEl)sbpBtnEl.addEventListener('click',(e)=>coStartPayment('sbp',e.currentTarget));
   if(cardBtnEl)cardBtnEl.addEventListener('click',(e)=>coStartPayment('card',e.currentTarget));
+  // Promo controls: Apply / Remove / Enter-to-apply (never submits the form). Email
+  // change drops an applied promo (email affects per-email / first-purchase limits).
+  const paBtn=byId('coPromoApply'); if(paBtn)paBtn.addEventListener('click',applyPromo);
+  const prBtn=byId('coPromoRemove'); if(prBtn)prBtn.addEventListener('click',()=>{resetPromo();try{magicMetrikaGoal('promo_removed',{});}catch(e){}});
+  const piEl=byId('coPromoInput'); if(piEl)piEl.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();applyPromo();}});
+  const emEl=byId('coEmail'); if(emEl)emEl.addEventListener('change',()=>{if(appliedPromo)resetPromo('Email изменён — примените промокод заново.');});
   const coForm=byId('checkoutForm'); if(coForm)coForm.addEventListener('submit',(e)=>e.preventDefault());
 })();
 
