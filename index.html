@@ -270,6 +270,11 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
 .co-promo-applied{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding:8px 12px;border:1px solid #bfe6cf;background:rgba(31,157,87,.08);border-radius:10px}
 .co-promo-tag{font-size:13px;color:var(--text);font-weight:600}
 .co-promo-remove{border:0;background:transparent;color:#d5493f;font-size:13px;cursor:pointer;padding:2px 4px;text-decoration:underline}
+.checkout-method{display:flex;gap:8px;margin-top:14px}
+.co-method{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card,#fff);color:var(--text);font-size:14px;font-weight:600;cursor:pointer}
+.co-method .pay-ico{height:18px;width:auto}
+.co-method[aria-checked="true"]{border-color:#4267E8;box-shadow:0 0 0 2px rgba(66,103,232,.18);background:rgba(66,103,232,.06)}
+.co-method:focus-visible{outline:2px solid #4267E8;outline-offset:2px}
 @media (max-width:430px){.co-promo-apply{padding:11px 12px}}
 .checkout-form{display:grid;gap:14px}
 .checkout-form label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
@@ -927,6 +932,10 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
           <div class="checkout-total"><span>Итого</span><b id="coPrice">—</b></div>
         </div>
       </div>
+      <div class="checkout-method" role="radiogroup" aria-label="Способ оплаты">
+        <button type="button" class="co-method" id="coMethodSbp" data-method="sbp" role="radio" aria-checked="true"><img class="pay-ico" src="assets/payment/sbp.svg" alt="" aria-hidden="true"><span>СБП</span></button>
+        <button type="button" class="co-method" id="coMethodCard" data-method="card" role="radio" aria-checked="false"><img class="pay-ico" src="assets/payment/mir.svg" alt="" aria-hidden="true"><span>Карта</span></button>
+      </div>
       <div class="checkout-promo" id="coPromoWrap">
         <div class="co-promo-row">
           <input type="text" id="coPromoInput" class="co-promo-input ym-hide-content" autocomplete="off" spellcheck="false" placeholder="Промокод" maxlength="32" aria-label="Промокод">
@@ -951,10 +960,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
         </label>
         <p class="checkout-error" id="coError" hidden></p>
         <p class="checkout-result" id="coResult" hidden></p>
-        <div class="checkout-pay-buttons" style="display:flex;flex-direction:column;gap:10px">
-          <button type="button" class="btn checkout-pay" id="coPaySbp" style="width:100%"><span class="pay-logo-badge"><img class="pay-ico" src="assets/payment/sbp.svg" alt="" aria-hidden="true"></span><span class="pay-label">Оплатить по СБП</span></button>
-          <button type="button" class="btn checkout-pay" id="coPayCard" style="width:100%"><span class="pay-logo-badge"><img class="pay-ico" src="assets/payment/mir.svg" alt="" aria-hidden="true"></span><span class="pay-label">Оплатить картой</span></button>
-        </div>
+        <button type="button" class="btn checkout-pay" id="coPay" style="width:100%"><span class="pay-logo-badge"><img class="pay-ico" id="coPayIco" src="assets/payment/sbp.svg" alt="" aria-hidden="true"></span><span class="pay-label" id="coPayLabel">Оплатить по СБП</span></button>
         <p class="checkout-note">Оплата через Platega: СБП или банковская карта. Данные eSIM придут на указанный email.</p>
       </form>
     </div>
@@ -2150,7 +2156,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     promoMsg('',null);
     try{
       const emailEl=byId('coEmail');const email=(emailEl&&/.+@.+\..+/.test(emailEl.value.trim()))?emailEl.value.trim():undefined;
-      const resp=await fetch(API_BASE+'/api/v1/retail/promo/quote',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({promo_code:code,package_id:pkgId,email:email})});
+      const resp=await fetch(API_BASE+'/api/v1/retail/promo/quote',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({promo_code:code,package_id:pkgId,payment_type:selectedMethod,email:email})});
       let data={};try{data=await resp.json();}catch(e){}
       if(resp.ok&&data&&data.valid){
         appliedPromo={code:data.promo_code||code,original:Number(data.original_amount_rub),discount:Number(data.discount_amount_rub),final:Number(data.final_amount_rub)};
@@ -2179,7 +2185,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     byId('coError').hidden=true;
     byId('coResult').hidden=true;
     submitting=false;
-    const pay=byId('coPay');if(pay){pay.disabled=false;pay.textContent='Перейти к оплате';}
+    const pay=byId('coPay');if(pay)pay.disabled=false;setMethod('sbp'); // reset to default method on open
     overlay.hidden=false;
     document.body.style.overflow='hidden';
     setTimeout(()=>{const e=byId('coEmail');if(e)e.focus();},40);
@@ -2219,11 +2225,11 @@ window.addEventListener('DOMContentLoaded', async () => {
       sessionStorage.setItem('magic_pay_ctx',JSON.stringify({payment_type:(paymentType==='sbp'||paymentType==='card')?paymentType:undefined,price_rub:(_pr!==''&&isFinite(Number(_pr)))?Number(_pr):undefined,_ts:Date.now()}));
     }catch(e){}
     let redirected=false;
-    const sbpBtn=byId('coPaySbp'),cardBtn=byId('coPayCard');
-    const label=btn?btn.querySelector('.pay-label'):null;   // loading swaps only the label text, the logo stays
-    const oldText=label?label.textContent:(btn?btn.textContent:'');
-    if(sbpBtn)sbpBtn.disabled=true; if(cardBtn)cardBtn.disabled=true;   // block both while one is in flight
-    if(label){label.textContent='Создаём платёж…';}else if(btn){btn.textContent='Создаём платёж…';}  // loader only on the clicked button
+    const payBtn=byId('coPay'),mSbp=byId('coMethodSbp'),mCard=byId('coMethodCard');
+    const label=payBtn?payBtn.querySelector('.pay-label'):null;   // loading swaps only the label text, the logo stays
+    const oldText=label?label.textContent:'';
+    if(payBtn)payBtn.disabled=true; if(mSbp)mSbp.disabled=true; if(mCard)mCard.disabled=true;   // block during flight
+    if(label)label.textContent='Создаём платёж…';
     try{
       const resp=await fetch(API_BASE+'/api/v1/public/retail-orders',{
         method:'POST',
@@ -2257,12 +2263,28 @@ window.addEventListener('DOMContentLoaded', async () => {
       err.textContent='Не удалось связаться с сервером. Проверьте соединение и попробуйте снова.';
       err.hidden=false;
     }finally{
-      if(!redirected){submitting=false;if(sbpBtn)sbpBtn.disabled=false;if(cardBtn)cardBtn.disabled=false;if(label){label.textContent=oldText;}else if(btn){btn.textContent=oldText;}}
+      if(!redirected){submitting=false;if(payBtn)payBtn.disabled=false;if(mSbp)mSbp.disabled=false;if(mCard)mCard.disabled=false;if(label)label.textContent=oldText;}
     }
   }
-  const sbpBtnEl=byId('coPaySbp'),cardBtnEl=byId('coPayCard');
-  if(sbpBtnEl)sbpBtnEl.addEventListener('click',(e)=>coStartPayment('sbp',e.currentTarget));
-  if(cardBtnEl)cardBtnEl.addEventListener('click',(e)=>coStartPayment('card',e.currentTarget));
+  // Payment method selector = single source of truth for payment_type. The promo
+  // quote uses the selected method's rate; changing the method invalidates an applied
+  // promo (it must be re-quoted for the new method's margin).
+  let selectedMethod='sbp';
+  function setMethod(m){
+    if(m!=='sbp'&&m!=='card')return;
+    const changed=(m!==selectedMethod);selectedMethod=m;
+    const sb=byId('coMethodSbp'),cb=byId('coMethodCard');
+    if(sb)sb.setAttribute('aria-checked',String(m==='sbp'));
+    if(cb)cb.setAttribute('aria-checked',String(m==='card'));
+    const lab=byId('coPayLabel'),ico=byId('coPayIco');
+    if(lab)lab.textContent=(m==='sbp'?'Оплатить по СБП':'Оплатить картой');
+    if(ico)ico.src=(m==='sbp'?'assets/payment/sbp.svg':'assets/payment/mir.svg');
+    if(changed&&appliedPromo)resetPromo('Способ оплаты изменён — примените промокод заново.');
+  }
+  const mSbpEl=byId('coMethodSbp'),mCardEl=byId('coMethodCard');
+  if(mSbpEl)mSbpEl.addEventListener('click',()=>setMethod('sbp'));
+  if(mCardEl)mCardEl.addEventListener('click',()=>setMethod('card'));
+  const payEl=byId('coPay'); if(payEl)payEl.addEventListener('click',()=>coStartPayment(selectedMethod));
   // Promo controls: Apply / Remove / Enter-to-apply (never submits the form). Email
   // change drops an applied promo (email affects per-email / first-purchase limits).
   const paBtn=byId('coPromoApply'); if(paBtn)paBtn.addEventListener('click',applyPromo);
