@@ -267,9 +267,16 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
 .co-promo-msg{margin:8px 0 0;font-size:13px;line-height:1.4}
 .co-promo-msg.co-err{color:#d5493f}
 .co-promo-msg.co-ok{color:#1f9d57}
-.co-promo-applied{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding:8px 12px;border:1px solid #bfe6cf;background:rgba(31,157,87,.08);border-radius:10px}
-.co-promo-tag{font-size:13px;color:var(--text);font-weight:600}
-.co-promo-remove{border:0;background:transparent;color:#d5493f;font-size:13px;cursor:pointer;padding:2px 4px;text-decoration:underline}
+.co-promo-applied{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-top:8px;padding:10px 12px;border:1px solid #bfe6cf;background:rgba(31,157,87,.08);border-radius:12px}
+.co-promo-tag{font-size:13px;color:var(--text);font-weight:600;flex:1 1 auto;min-width:0}
+.co-promo-remove{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 14px;border:1px solid #f0b4ad;border-radius:13px;background:#fdecea;color:#c5372b;font-size:14px;font-weight:600;line-height:1;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .15s}
+.co-promo-remove svg{width:14px;height:14px;flex:0 0 auto}
+.co-promo-remove:hover{background:#fbddd8}
+.co-promo-remove:active{background:#f6c7bf}
+.co-promo-remove:focus-visible{outline:2px solid #c5372b;outline-offset:2px}
+/* Safety: these rows use display:flex from other rules, which overrides the [hidden]
+   attribute's display:none. Force-hide when hidden so a removed promo never lingers. */
+.checkout-rows>div[hidden],.co-promo-applied[hidden]{display:none!important}
 .checkout-method{display:flex;gap:8px;margin-top:14px}
 .co-method{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card,#fff);color:var(--text);font-size:14px;font-weight:600;cursor:pointer}
 .co-method .pay-ico{height:18px;width:auto}
@@ -944,7 +951,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
         <p class="co-promo-msg" id="coPromoMsg" hidden role="status" aria-live="polite"></p>
         <div class="co-promo-applied" id="coPromoApplied" hidden>
           <span class="co-promo-tag" id="coPromoAppliedText"></span>
-          <button type="button" class="co-promo-remove" id="coPromoRemove">Удалить</button>
+          <button type="button" class="co-promo-remove" id="coPromoRemove" aria-label="Удалить промокод"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span>Удалить</span></button>
         </div>
       </div>
       <form class="checkout-form" id="checkoutForm" novalidate>
@@ -2127,24 +2134,31 @@ window.addEventListener('DOMContentLoaded', async () => {
   function basePrice(){const p=overlay.dataset.priceRub;return (p!==''&&isFinite(Number(p)))?Number(p):null;}
   function currentPrice(){return appliedPromo?appliedPromo.final:basePrice();}
   function promoMsg(text,kind){const m=byId('coPromoMsg');if(!m)return;if(!text){m.hidden=true;m.textContent='';return;}m.textContent=text;m.className='co-promo-msg'+(kind?(' '+kind):'');m.hidden=false;}
+  // Single source of truth for the promo rows: shown ONLY when a promo is really
+  // applied with a positive discount. Toggle inline display (not just [hidden]) because
+  // .checkout-rows>div / .co-promo-applied set display:flex, which would otherwise
+  // override [hidden] and leave a stale "−115 ₽" row / applied block on screen.
+  function showRow(el,visible){ if(!el)return; el.hidden=!visible; el.style.display=visible?'':'none'; }
   function renderPrice(){
     const base=basePrice(),summary=overlay.querySelector('.checkout-summary');
     const origRow=byId('coOrigRow'),discRow=byId('coDiscRow'),applied=byId('coPromoApplied');
-    if(appliedPromo){
-      byId('coOrigPrice').textContent=rub(appliedPromo.original);origRow.hidden=false;
-      byId('coDiscAmount').textContent='−'+rub(appliedPromo.discount);discRow.hidden=false;
+    const promoActive=!!(appliedPromo && Number(appliedPromo.discount)>0);
+    if(promoActive){
+      byId('coOrigPrice').textContent=rub(appliedPromo.original);
+      byId('coDiscAmount').textContent='−'+rub(appliedPromo.discount);
       byId('coPrice').textContent=rub(appliedPromo.final);
       byId('coPromoAppliedText').textContent=`Промокод ${appliedPromo.code} применён`;
-      applied.hidden=false;if(summary)summary.classList.add('co-has-promo');
+      showRow(origRow,true); showRow(discRow,true); showRow(applied,true);
+      if(summary)summary.classList.add('co-has-promo');
     }else{
-      if(origRow)origRow.hidden=true;if(discRow)discRow.hidden=true;if(applied)applied.hidden=true;
+      showRow(origRow,false); showRow(discRow,false); showRow(applied,false);
       byId('coPrice').textContent=(base!=null)?rub(base):'—';
       if(summary)summary.classList.remove('co-has-promo');
     }
   }
   // Drop any applied promo and force a fresh quote (package/email change, or a
   // rejected order-create). Never leaves a stale discount on screen.
-  function resetPromo(msg){appliedPromo=null;const inp=byId('coPromoInput');if(inp&&msg==null)inp.value='';promoMsg(msg||'',msg?'co-err':null);renderPrice();}
+  function resetPromo(msg){appliedPromo=null;const inp=byId('coPromoInput');if(inp&&msg==null)inp.value='';const btn=byId('coPromoApply');if(btn){btn.disabled=false;btn.textContent='Применить';}promoMsg(msg||'',msg?'co-err':null);renderPrice();}
   async function applyPromo(){
     if(quoting||promoDisabled)return;
     const inp=byId('coPromoInput');const code=((inp&&inp.value)||'').trim().toUpperCase();
