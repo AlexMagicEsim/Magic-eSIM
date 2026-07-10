@@ -2192,6 +2192,33 @@ window.addEventListener('DOMContentLoaded', async () => {
     }catch(e){promoMsg('Не удалось проверить промокод. Попробуйте позже.','co-err');}
     finally{quoting=false;if(btn){btn.disabled=false;btn.textContent='Применить';}}
   }
+  // Silent re-validation of the ALREADY-applied promo (e.g. after the email changes,
+  // since per-email/first-purchase limits depend on it). Keeps the discount if still
+  // valid; removes it with a clear message if the email makes it ineligible. On a
+  // network error we keep the current promo — the backend re-validates again at
+  // order creation, so the charged amount can never disagree with a stale UI.
+  async function revalidatePromo(){
+    if(!appliedPromo||quoting||promoDisabled)return;
+    const code=appliedPromo.code;
+    const pkgId=(overlay.dataset.packageId||'').trim();
+    if(!pkgId)return;
+    const emailEl=byId('coEmail');const email=(emailEl&&/.+@.+\..+/.test(emailEl.value.trim()))?emailEl.value.trim():undefined;
+    try{
+      const resp=await fetch(API_BASE+'/api/v1/retail/promo/quote',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({promo_code:code,package_id:pkgId,payment_type:selectedMethod,email:email})});
+      let data={};try{data=await resp.json();}catch(e){}
+      if(resp.ok&&data&&data.valid){
+        appliedPromo={code:data.promo_code||code,original:Number(data.original_amount_rub),discount:Number(data.discount_amount_rub),final:Number(data.final_amount_rub)};
+        promoMsg('',null);renderPrice();
+      }else if(data&&data.error==='PROMO_CODES_DISABLED'){
+        promoDisabled=true;const w=byId('coPromoWrap');if(w)w.hidden=true;resetPromo();
+      }else{
+        // Ineligible for this email (per-email limit / first-purchase): drop the
+        // discount + show why. The code stays in the field, so the pay guard blocks
+        // checkout until the user removes it or fixes the email.
+        resetPromo((data&&(PROMO_MSG[data.error]||data.message))||'Промокод недоступен для этого email.');
+      }
+    }catch(e){/* network error: keep the applied promo; backend re-validates at payment */}
+  }
   function openCheckout(d){
     byId('coPlanName').textContent=d.name||'eSIM-тариф';
     byId('coCoverage').textContent=d.coverage||'—';
@@ -2233,6 +2260,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     if(!email||!/.+@.+\..+/.test(email.value.trim())){err.textContent='Укажите корректный email для получения eSIM.';err.hidden=false;if(email)email.focus();return;}
     if(consent&&!consent.checked){err.textContent='Подтвердите согласие с пользовательским соглашением и политикой конфиденциальности.';err.hidden=false;return;}
     if(!pkgId){err.textContent='Тариф не выбран. Закройте окно и выберите тариф заново.';err.hidden=false;return;}
+    // Block checkout if a promo code is sitting in the field but is NOT applied
+    // (e.g. it was just dropped by an email re-validation, or typed without pressing
+    // «Применить»). Prevents paying the base price while a code looks entered.
+    const _pi=byId('coPromoInput');const _pending=((_pi&&_pi.value)||'').trim();
+    if(_pending&&!appliedPromo&&!promoDisabled){err.textContent='Промокод введён, но не применён. Нажмите «Применить» или удалите его, затем оплатите.';err.hidden=false;if(_pi)_pi.focus();return;}
     err.hidden=true;
     submitting=true;
     // Analytics (safe wrapper; no PII). Fires once per initiation — the submitting
@@ -2310,7 +2342,13 @@ window.addEventListener('DOMContentLoaded', async () => {
   const paBtn=byId('coPromoApply'); if(paBtn)paBtn.addEventListener('click',applyPromo);
   const prBtn=byId('coPromoRemove'); if(prBtn)prBtn.addEventListener('click',()=>{resetPromo();try{magicMetrikaGoal('promo_removed',{});}catch(e){}});
   const piEl=byId('coPromoInput'); if(piEl)piEl.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();applyPromo();}});
-  const emEl=byId('coEmail'); if(emEl)emEl.addEventListener('change',()=>{if(appliedPromo)resetPromo('Email изменён — примените промокод заново.');});
+  // Email affects per-email / first-purchase promo limits. Instead of dropping the
+  // applied promo (forcing a manual re-apply), silently re-validate it against the
+  // new email: keep the discount if still valid, or remove it with a clear message
+  // if the email makes it ineligible. Debounced; skipped when no promo is applied.
+  let revalTimer=null;
+  const scheduleReval=()=>{ if(!appliedPromo)return; if(revalTimer)clearTimeout(revalTimer); revalTimer=setTimeout(revalidatePromo,350); };
+  const emEl=byId('coEmail'); if(emEl){emEl.addEventListener('change',scheduleReval);emEl.addEventListener('blur',scheduleReval);}
   const coForm=byId('checkoutForm'); if(coForm)coForm.addEventListener('submit',(e)=>e.preventDefault());
 })();
 
