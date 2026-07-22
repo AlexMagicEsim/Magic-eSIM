@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Оплата</title>
+  <!-- Payment link pages must never be indexed and must not leak a referrer.
+       (Header-level X-Robots-Tag / Referrer-Policy / CSP are enforced by the API;
+       GitHub Pages cannot set headers, so meta equivalents are used here.) -->
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <style>
+    :root{
+      --bg:#f4f6fb; --card:#ffffff; --text:#1a2230; --muted:#66707f;
+      --line:#e6eaf2; --accent:#3457c9; --accent-press:#2a469f;
+      --ok:#1f8a4c; --err:#b42318;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{ --bg:#0f131a; --card:#171d27; --text:#e7ebf2; --muted:#9aa4b2;
+             --line:#252d3a; --accent:#5b7be8; --accent-press:#4767d6; }
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      background:var(--bg); color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+    }
+    .card{
+      width:100%; max-width:420px; background:var(--card); border:1px solid var(--line);
+      border-radius:18px; padding:30px 26px; box-shadow:0 6px 30px rgba(20,30,50,.06);
+    }
+    .eyebrow{font-size:13px; color:var(--muted); letter-spacing:.02em; margin:0 0 6px}
+    h1{font-size:20px; margin:0 0 18px; font-weight:700}
+    .desc{font-size:15px; color:var(--muted); margin:0 0 20px; line-height:1.5; word-break:break-word}
+    .amount{font-size:38px; font-weight:800; letter-spacing:-.01em; margin:0 0 24px}
+    .amount span{font-size:22px; font-weight:700; color:var(--muted); margin-left:4px}
+    button{
+      width:100%; border:0; border-radius:12px; background:var(--accent); color:#fff;
+      font-size:16px; font-weight:700; padding:15px 18px; cursor:pointer; transition:.15s;
+    }
+    button:hover{background:var(--accent-press)}
+    button[disabled]{opacity:.6; cursor:not-allowed}
+    .state{font-size:16px; line-height:1.55; text-align:center; padding:10px 0}
+    .state.ok{color:var(--ok)} .state.err{color:var(--err)}
+    .state .ico{font-size:34px; display:block; margin-bottom:10px}
+    .muted{color:var(--muted); font-size:13px; text-align:center; margin-top:18px}
+    .spinner{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--accent);
+      border-radius:50%; animation:spin .8s linear infinite; margin:24px auto}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    a.home{color:var(--accent); text-decoration:none}
+    .hidden{display:none !important}
+  </style>
+</head>
+<body>
+  <main class="card" id="card" role="main">
+    <div class="spinner" id="spinner"></div>
+  </main>
+
+  <script>
+  (function(){
+    'use strict';
+    var API_BASE = 'https://api.magicesim.store';
+    var card = document.getElementById('card');
+
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+    function money(n){ try{ return Number(n).toLocaleString('ru-RU'); }catch(e){ return String(n); } }
+
+    // Redirect is allowed ONLY to the payment provider (platega.io) or our own domain.
+    function allowedRedirect(u){
+      try{ var url=new URL(u); return url.protocol==='https:' &&
+        (/(^|\.)platega\.io$/i.test(url.host) || /(^|\.)magicesim\.store$/i.test(url.host)); }
+      catch(e){ return false; }
+    }
+
+    function showUnavailable(){
+      card.innerHTML = '<p class="eyebrow">Оплата</p><h1>Ссылка недоступна</h1>'
+        + '<div class="state">Эта ссылка недействительна, уже оплачена или срок её действия истёк.</div>'
+        + '<p class="muted">Если это ошибка, запросите новую ссылку у отправителя.</p>';
+    }
+    function showSuccess(){
+      card.innerHTML = '<p class="eyebrow">Оплата</p>'
+        + '<div class="state ok"><span class="ico">✓</span>Оплата успешно выполнена</div>';
+    }
+    function showFailed(){
+      card.innerHTML = '<p class="eyebrow">Оплата</p>'
+        + '<div class="state err"><span class="ico">×</span>Оплата не завершена</div>'
+        + '<p class="muted">Попробуйте открыть ссылку ещё раз или свяжитесь с отправителем.</p>';
+    }
+    function showNotFound(){
+      card.innerHTML = '<h1>Страница не найдена</h1>'
+        + '<p class="desc">Проверьте адрес ссылки.</p>'
+        + '<p class="muted"><a class="home" href="/">На главную</a></p>';
+    }
+    function showError(msg){
+      card.innerHTML = '<p class="eyebrow">Оплата</p><h1>Не удалось загрузить</h1>'
+        + '<div class="state err">'+esc(msg||'Попробуйте позже.')+'</div>';
+    }
+
+    function renderPayable(data, token){
+      card.innerHTML = ''
+        + '<p class="eyebrow">Оплата заказа</p>'
+        + '<h1>'+esc(data.description||'Оплата цифровой услуги')+'</h1>'
+        + '<div class="amount">'+money(data.amountRub)+'<span>₽</span></div>'
+        + '<button id="payBtn" type="button">Оплатить</button>'
+        + '<p class="muted" id="payErr"></p>';
+      var btn = document.getElementById('payBtn');
+      var errEl = document.getElementById('payErr');
+      var busy = false;
+      btn.addEventListener('click', function(){
+        if(busy) return; busy = true;
+        btn.disabled = true; btn.textContent = 'Создаём платёж…'; errEl.textContent='';
+        fetch(API_BASE+'/api/v1/public/private-payments/'+encodeURIComponent(token)+'/start', {
+          method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:'{}'
+        }).then(function(res){
+          return res.json().catch(function(){return {};}).then(function(j){ return {status:res.status, body:j}; });
+        }).then(function(r){
+          if((r.status===201||r.status===200) && r.body && r.body.paymentUrl && allowedRedirect(r.body.paymentUrl)){
+            window.location.href = r.body.paymentUrl; return;
+          }
+          if(r.status===410){ showUnavailable(); return; }
+          if(r.status===503){ // payments temporarily off (launch stage) — neutral message, keep the page
+            busy=false; btn.disabled=false; btn.textContent='Оплатить';
+            errEl.textContent = 'Оплата временно недоступна. Попробуйте позже.';
+            return;
+          }
+          busy=false; btn.disabled=false; btn.textContent='Оплатить';
+          errEl.textContent = (r.body && r.body.message) ? r.body.message : 'Не удалось создать платёж. Попробуйте позже.';
+        }).catch(function(){
+          busy=false; btn.disabled=false; btn.textContent='Оплатить';
+          errEl.textContent = 'Нет связи с сервером. Проверьте соединение и попробуйте снова.';
+        });
+      });
+    }
+
+    function loadLink(token){
+      fetch(API_BASE+'/api/v1/public/private-payments/'+encodeURIComponent(token), {
+        method:'GET', headers:{'Accept':'application/json'}
+      }).then(function(res){
+        return res.json().catch(function(){return {};}).then(function(j){ return {status:res.status, body:j}; });
+      }).then(function(r){
+        if(r.status===200 && r.body && r.body.canPay){ renderPayable(r.body, token); return; }
+        if(r.status===410 || r.status===404){ showUnavailable(); return; }
+        showError((r.body && r.body.message) || 'Попробуйте позже.');
+      }).catch(function(){ showError('Нет связи с сервером.'); });
+    }
+
+    // --- routing: only /pay/<token> is a payment page; everything else is a 404 ---
+    var path = location.pathname || '';
+    var m = path.match(/^\/pay\/([A-Za-z0-9_-]{20,})\/?$/);
+    var qp = new URLSearchParams(location.search || '');
+    var result = qp.get('result'); // optional return marker (success|failed)
+
+    if(m){
+      if(result==='success'){ showSuccess(); }
+      else if(result==='failed'){ showFailed(); }
+      else { loadLink(m[1]); }
+    } else if(/^\/pay\/?$/.test(path)){
+      showUnavailable();
+    } else {
+      showNotFound();
+    }
+  })();
+  </script>
+</body>
+</html>
