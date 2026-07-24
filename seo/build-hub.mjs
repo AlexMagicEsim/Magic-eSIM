@@ -161,6 +161,22 @@ ${regionsHtml}
       </div>
     </section>
 
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Полезное</div>
+          <h2>Инструкции и помощь</h2>
+        </div>
+        <div class="links-wrap">
+          <a class="country-link" href="../iphone.html">📱 Установка eSIM на iPhone</a>
+          <a class="country-link" href="../android.html">🤖 Установка eSIM на Android</a>
+          <a class="country-link" href="compatibility/">✅ Проверка совместимости</a>
+          <a class="country-link" href="activation-before-travel/">🛫 Активация до поездки</a>
+          <a class="country-link" href="not-working/">🛠️ Если eSIM не работает</a>
+        </div>
+      </div>
+    </section>
+
     <section id="hub-faq">
       <div class="container">
         <div class="section-head">

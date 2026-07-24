@@ -1,167 +1,256 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Настройка eSIM на iPhone — Magic eSIM</title>
-  <meta name="description" content="Пошаговая инструкция по установке и активации eSIM на iPhone: как добавить тариф Magic eSIM, включить передачу данных и что делать, если интернет не работает." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Как установить eSIM на iPhone — пошаговая инструкция | Magic eSIM</title>
+  <meta name="description" content="Установка eSIM на iPhone по QR-коду или вручную: проверка поддержки, настройка до поездки, включение линии и роуминга данных после прилёта, частые проблемы." />
   <link rel="canonical" href="https://magicesim.store/iphone.html" />
-  <style>
-    :root {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --accent: #2563eb;
-      --border: #e2e8f0;
-    }
+  <meta name="robots" content="index, follow" />
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-    }
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Magic eSIM" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:title" content="Как установить eSIM на iPhone — пошаговая инструкция" />
+  <meta property="og:description" content="Установка eSIM на iPhone по QR-коду или вручную: проверка поддержки, настройка до поездки, включение линии и роуминга данных после прилёта, частые проблемы." />
+  <meta property="og:url" content="https://magicesim.store/iphone.html" />
+  <meta property="og:image" content="https://magicesim.store/assets/magic-esim-logo.png" />
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Как установить eSIM на iPhone — пошаговая инструкция" />
+  <meta name="twitter:description" content="Установка eSIM на iPhone по QR-коду или вручную: проверка поддержки, настройка до поездки, включение линии и роуминга данных после прилёта, частые проблемы." />
+  <meta name="twitter:image" content="https://magicesim.store/assets/magic-esim-logo.png" />
 
-    .wrap {
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 28px 18px 56px;
-    }
+  <link rel="icon" href="assets/magic-esim-logo.png" type="image/png" />
+  <link rel="preconnect" href="https://mc.yandex.ru" />
+  <link rel="stylesheet" href="assets/country-pages.css" />
 
-    .top {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 28px;
-    }
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(110393848,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
+  <!-- /Yandex.Metrika counter -->
 
-    .logo {
-      font-weight: 800;
-      font-size: 20px;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .back {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #eff6ff, #ecfeff);
-      border: 1px solid #bfdbfe;
-      border-radius: 28px;
-      padding: 28px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 5vw, 44px);
-      line-height: 1.08;
-    }
-
-    .lead {
-      color: var(--muted);
-      font-size: 18px;
-      margin: 0;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 14px 35px rgba(15, 23, 42, .06);
-    }
-
-    h2 {
-      margin: 0 0 12px;
-      font-size: 22px;
-    }
-
-    ol {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    li {
-      margin: 10px 0;
-    }
-
-    .note {
-      margin-top: 18px;
-      padding: 16px 18px;
-      border-radius: 18px;
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      color: #9a3412;
-    }
-
-    @media (max-width: 760px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .top {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-    }
-  </style>
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://magicesim.store/"},{"@type":"ListItem","position":2,"name":"iPhone","item":"https://magicesim.store/iphone.html"}]}
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Как установить eSIM на iPhone — пошаговая инструкция",
+    "url":"https://magicesim.store/iphone.html",
+    "description":"Установка eSIM на iPhone по QR-коду или вручную: проверка поддержки, настройка до поездки, включение линии и роуминга данных после прилёта, частые проблемы.",
+    "inLanguage":"ru",
+    "isPartOf":{"@type":"WebSite","name":"Magic eSIM","url":"https://magicesim.store/"},
+    "publisher":{"@type":"Organization","name":"Magic eSIM","url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Нужен ли Wi-Fi для установки eSIM на iPhone?","acceptedAnswer":{"@type":"Answer","text":"Для загрузки профиля нужно подключение к интернету, удобнее всего — Wi-Fi. Устанавливайте eSIM дома до вылета, чтобы не зависеть от сети в аэропорту."}},
+      {"@type":"Question","name":"Можно ли установить eSIM, если письмо с QR-кодом открыто на этом же iPhone?","acceptedAnswer":{"@type":"Answer","text":"Да — используйте ручной ввод: в письме есть адрес SM-DP+ и код активации, их можно ввести в настройках вместо сканирования."}},
+      {"@type":"Question","name":"Когда включать линию eSIM — сразу или в поездке?","acceptedAnswer":{"@type":"Answer","text":"Установить профиль лучше заранее, а включение линии зависит от условий тарифа: у многих тарифов срок стартует при первом подключении к сети. Проверьте условия в карточке тарифа и письме заказа."}},
+      {"@type":"Question","name":"Что произойдёт с моим основным номером?","acceptedAnswer":{"@type":"Answer","text":"Он остаётся активным: звонки и SMS приходят на основную SIM по условиям роуминга вашего оператора, а интернет идёт через eSIM."}},
+      {"@type":"Question","name":"Почему нужно включать роуминг данных на eSIM?","acceptedAnswer":{"@type":"Answer","text":"Travel-тарифы обычно работают в гостевых сетях, и телефон считает такое подключение роумингом. Включение роуминга данных на eSIM — штатная настройка; на основной SIM его можно выключить."}},
+      {"@type":"Question","name":"Можно ли удалить eSIM и установить заново?","acceptedAnswer":{"@type":"Answer","text":"Не спешите удалять профиль: QR-код часто одноразовый. Если что-то не работает, сначала пройдите проверку по нашей странице «eSIM не работает», а при сомнениях напишите в поддержку."}}
+    ]
+  }
+  </script>
 </head>
 <body>
-  <main class="wrap">
-    <div class="top">
-      <a class="logo" href="./">Magic eSIM</a>
-      <a class="back" href="./">← Вернуться на лендинг</a>
-    </div>
+  <nav class="nav">
+    <a class="brand" href="./" aria-label="Magic eSIM"><img class="brand-logo" src="assets/magic-esim-logo-header.png" alt="Magic eSIM" width="66" height="50"></a>
+    <div class="nav-links"><a href="#faq">Вопросы</a><a href="esim/">Направления</a><a href="./#global-pricing">Тарифы</a><a href="./">На главную</a></div>
+    <a class="btn" href="esim/">Выбрать направление</a>
+  </nav>
 
-    <section class="hero">
+  <main>
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs"><div class="container">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="./">Главная</a><span class="sep">/</span>
+        <span aria-current="page">iPhone</span>
+      </nav>
+    </div></div>
+
+    <!-- Hero -->
+    <header class="cp-hero"><div class="container">
+      <span class="eyebrow"><span class="pulse"></span> Инструкции Magic eSIM</span>
       <h1>Как установить eSIM на iPhone</h1>
-      <p class="lead">Перед установкой убедитесь, что iPhone поддерживает eSIM и подключён к Wi-Fi.</p>
+      <p class="lead">Установка занимает несколько минут и удобнее всего делается дома по Wi-Fi, до вылета. Ниже — весь путь: от проверки поддержки eSIM до включения интернета после посадки.</p>
+      <div class="hero-actions">
+        <a class="btn" href="esim/">Выбрать направление</a>
+        <a class="btn secondary" href="#faq">Частые вопросы</a>
+      </div>
+    </div></header>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Шаг 0</div>
+          <h2>Проверьте, что iPhone поддерживает eSIM</h2>
+        </div>
+        <div class="prose">
+                  <p>Быстрый способ: откройте <strong>Настройки → Сотовая связь</strong>. Если там есть пункт «Добавить eSIM» (в старых версиях iOS — «Добавить сотовый тариф»), устройство поддерживает eSIM. Поддержка зависит от модели, региона продажи и настроек оператора — надёжнее всего проверить в настройках устройства и в официальной документации Apple.</p>
+                  <p>Также важно, чтобы iPhone не был заблокирован под конкретного оператора («залочен»): такие устройства могут не принимать сторонние eSIM. Подробнее — на странице <a href="esim/compatibility/">проверки совместимости</a>.</p>
+                </div>
+      </div>
     </section>
 
-    <section class="grid">
-      <article class="card">
-        <h2>Через QR-код</h2>
-        <ol>
-          <li>Откройте <strong>Настройки</strong> → <strong>Сотовая связь</strong>.</li>
-          <li>Нажмите <strong>Добавить eSIM</strong>.</li>
-          <li>Выберите <strong>Использовать QR-код</strong>.</li>
-          <li>Отсканируйте QR-код из заказа.</li>
-          <li>Дождитесь добавления eSIM и включите новую линию.</li>
-          <li>Для поездки включите <strong>Роуминг данных</strong> на этой eSIM.</li>
-        </ol>
-      </article>
-
-      <article class="card">
-        <h2>Вручную через LPA</h2>
-        <ol>
-          <li>Откройте <strong>Настройки</strong> → <strong>Сотовая связь</strong>.</li>
-          <li>Нажмите <strong>Добавить eSIM</strong> → <strong>Использовать QR-код</strong>.</li>
-          <li>Выберите <strong>Ввести данные вручную</strong>.</li>
-          <li>Введите <strong>SM-DP+ адрес</strong> и <strong>Activation Code</strong> из заказа.</li>
-          <li>Сохраните eSIM и дождитесь завершения установки.</li>
-          <li>Включите мобильные данные через новую eSIM.</li>
-        </ol>
-      </article>
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Установка</div>
+          <h2>Способ 1 — по QR-коду из письма</h2>
+        </div>
+        <ol class="ol-steps">
+                  <li>Откройте письмо Magic eSIM с QR-кодом на другом экране: компьютере, планшете или втором телефоне.</li>
+                  <li>На iPhone откройте <strong>Настройки → Сотовая связь → Добавить eSIM</strong>.</li>
+                  <li>Выберите сканирование QR-кода и наведите камеру на код из письма.</li>
+                  <li>Подтвердите добавление тарифа и дождитесь окончания установки.</li>
+                  <li>Назовите линию, например «Magic eSIM» или «Поездка», чтобы не путать её с основной SIM.</li>
+                </ol>
+                <p class="muted">Названия пунктов могут немного отличаться в зависимости от версии iOS. Для установки нужно подключение к интернету — удобнее всего Wi-Fi.</p>
+      </div>
     </section>
 
-    <div class="note">
-      Если установка не начинается, проверьте подключение к Wi-Fi, поддержку eSIM на устройстве и отсутствие операторской блокировки.
-    </div>
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Установка</div>
+          <h2>Способ 2 — вручную (SM-DP+ и код активации)</h2>
+        </div>
+        <ol class="ol-steps">
+                  <li>В письме с заказом найдите данные для ручного ввода: адрес SM-DP+ и код активации.</li>
+                  <li>Откройте <strong>Настройки → Сотовая связь → Добавить eSIM</strong> и выберите ручной ввод данных.</li>
+                  <li>Введите SM-DP+ адрес и код активации из письма.</li>
+                  <li>Сохраните профиль и дождитесь завершения установки.</li>
+                </ol>
+                <p class="muted">Этот способ выручает, когда нечем отсканировать QR-код — например, если письмо открыто на том же iPhone.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">До поездки</div>
+          <h2>Что настроить заранее</h2>
+        </div>
+        <ul class="check-list">
+                  <li>Установите eSIM дома по Wi-Fi — в аэропорту это делать неудобно.</li>
+                  <li>Саму линию до поездки можно не включать: когда начинает действовать тариф, зависит от его условий — проверьте карточку тарифа и письмо заказа. Подробнее — <a href="esim/activation-before-travel/">когда устанавливать и включать eSIM</a>.</li>
+                  <li>Убедитесь, что письмо с QR-кодом под рукой (на случай переустановки).</li>
+                </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">После прилёта</div>
+          <h2>Включение интернета в поездке</h2>
+        </div>
+        <ol class="ol-steps">
+                  <li>Включите линию eSIM в разделе «Сотовая связь», если она была выключена.</li>
+                  <li>Выберите eSIM как линию для <strong>сотовых данных</strong> (интернета). Основную SIM можно оставить активной для звонков и SMS.</li>
+                  <li>На линии eSIM включите <strong>роуминг данных</strong> — для travel-тарифов это обычно необходимо, поскольку они работают в гостевых сетях.</li>
+                  <li>На основной SIM роуминг данных можно выключить, чтобы случайно не потратить деньги на операторский роуминг.</li>
+                  <li>Подождите пару минут: телефон должен зарегистрироваться в местной сети.</li>
+                </ol>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Две SIM</div>
+          <h2>eSIM вместе с основной SIM-картой</h2>
+        </div>
+        <div class="prose">
+                  <p>iPhone может использовать физическую SIM и eSIM одновременно: интернет идёт через eSIM, а основная карта остаётся доступной для звонков и входящих SMS. Обратите внимание: приём звонков и SMS на основную SIM за границей происходит по условиям роуминга вашего оператора — уточняйте их у своего оператора связи.</p>
+                  <p>Travel-тарифы Magic eSIM предназначены для мобильного интернета. Звонить при этом удобно через интернет-сервисы (мессенджеры), которые работают поверх любого подключения.</p>
+                </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Проблемы</div>
+          <h2>Если что-то пошло не так</h2>
+        </div>
+        <div class="prose">
+                  <p>Чаще всего помогает простая проверка: включены ли передача данных и роуминг данных именно на eSIM, выбрана ли она линией для интернета, перезагружался ли телефон. Полный разбор типовых ситуаций — на странице <a href="esim/not-working/">«eSIM не работает — что делать»</a>.</p>
+                  <p>Не удаляйте профиль eSIM при неполадках: во многих случаях QR-код одноразовый, и переустановка может быть невозможна без поддержки.</p>
+                </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Вопросы и ответы</div>
+          <h2>Частые вопросы</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item"><p class="faq-q">Нужен ли Wi-Fi для установки eSIM на iPhone?</p><p class="faq-a">Для загрузки профиля нужно подключение к интернету, удобнее всего — Wi-Fi. Устанавливайте eSIM дома до вылета, чтобы не зависеть от сети в аэропорту.</p></div>
+          <div class="faq-item"><p class="faq-q">Можно ли установить eSIM, если письмо с QR-кодом открыто на этом же iPhone?</p><p class="faq-a">Да — используйте ручной ввод: в письме есть адрес SM-DP+ и код активации, их можно ввести в настройках вместо сканирования.</p></div>
+          <div class="faq-item"><p class="faq-q">Когда включать линию eSIM — сразу или в поездке?</p><p class="faq-a">Установить профиль лучше заранее, а включение линии зависит от условий тарифа: у многих тарифов срок стартует при первом подключении к сети. Проверьте условия в карточке тарифа и письме заказа.</p></div>
+          <div class="faq-item"><p class="faq-q">Что произойдёт с моим основным номером?</p><p class="faq-a">Он остаётся активным: звонки и SMS приходят на основную SIM по условиям роуминга вашего оператора, а интернет идёт через eSIM.</p></div>
+          <div class="faq-item"><p class="faq-q">Почему нужно включать роуминг данных на eSIM?</p><p class="faq-a">Travel-тарифы обычно работают в гостевых сетях, и телефон считает такое подключение роумингом. Включение роуминга данных на eSIM — штатная настройка; на основной SIM его можно выключить.</p></div>
+          <div class="faq-item"><p class="faq-q">Можно ли удалить eSIM и установить заново?</p><p class="faq-a">Не спешите удалять профиль: QR-код часто одноразовый. Если что-то не работает, сначала пройдите проверку по нашей странице «eSIM не работает», а при сомнениях напишите в поддержку.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related -->
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Полезное</div>
+          <h2>Смотрите также</h2>
+        </div>
+        <div class="links-wrap">
+          <a class="country-link" href="esim/compatibility/">Проверка совместимости телефона</a>
+          <a class="country-link" href="esim/activation-before-travel/">Когда устанавливать и включать eSIM</a>
+          <a class="country-link" href="esim/not-working/">eSIM не работает — что делать</a>
+          <a class="country-link" href="android.html">Инструкция для Android</a>
+        </div>
+        <div class="links-wrap" style="margin-top:10px">
+          <a class="country-link" href="esim/thailand/"><img src="assets/flags/th.png" alt="Флаг: Таиланд" width="30" height="21"> eSIM для Таиланда</a>
+          <a class="country-link" href="esim/turkey/"><img src="assets/flags/tr.png" alt="Флаг: Турция" width="30" height="21"> eSIM для Турции</a>
+          <a class="country-link" href="esim/uae/"><img src="assets/flags/ae.png" alt="Флаг: ОАЭ" width="30" height="21"> eSIM для ОАЭ</a>
+          <a class="country-link" href="esim/japan/"><img src="assets/flags/jp.png" alt="Флаг: Япония" width="30" height="21"> eSIM для Японии</a>
+          <a class="country-link" href="esim/">Все направления</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Готовы к поездке?</h2>
+          <p class="lead">Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
+          <a class="btn" href="esim/">Выбрать направление</a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer><div class="container footer-inner">
+    <div class="brand"><span class="company-name">Magic eSIM</span></div>
+    <nav class="footer-links"><a href="./">Главная</a><a href="privacy.html">Политика конфиденциальности</a><a href="terms.html">Пользовательское соглашение</a></nav>
+    <span class="footer-support"><a href="mailto:support@magicesim.store">support@magicesim.store</a></span>
+  </div></footer>
 </body>
 </html>
