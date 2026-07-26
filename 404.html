@@ -78,9 +78,52 @@
         + '<div class="state">Эта ссылка недействительна, уже оплачена или срок её действия истёк.</div>'
         + '<p class="muted">Если это ошибка, запросите новую ссылку у отправителя.</p>';
     }
-    function showSuccess(){
+    // Final PRIVATE-link success screen: confirmation + amount + reference only.
+    // Deliberately NO contacts and NO «Вернуться на главную» — this variant is
+    // used exclusively by private payment links (retail success pages are separate).
+    function showSuccess(data){
+      var details = '';
+      if(data && data.amountRub != null){
+        details += '<div class="amount" style="margin:14px 0 4px;text-align:center">'+money(data.amountRub)+'<span>₽</span></div>';
+      }
+      if(data && data.reference){
+        details += '<p class="muted" style="text-align:center">Номер платежа: <b>'+esc(data.reference)+'</b></p>';
+      }
       card.innerHTML = '<p class="eyebrow">Оплата</p>'
-        + '<div class="state ok"><span class="ico">✓</span>Оплата успешно выполнена</div>';
+        + '<div class="state ok"><span class="ico">✓</span>Оплата успешно выполнена</div>'
+        + details
+        + '<p class="muted" style="text-align:center;margin-top:14px">Эту страницу можно закрыть.</p>';
+    }
+    // Verify the payment before confirming: right after the redirect the webhook
+    // may lag a few seconds, so poll the private-payments status briefly.
+    // Never an endless spinner: after the timeout a neutral final screen is shown.
+    function verifySuccess(token){
+      var attempts = 0, MAX = 20; // ~60 seconds
+      function tick(){
+        attempts++;
+        fetch(API_BASE+'/api/v1/public/private-payments/'+encodeURIComponent(token), {headers:{'Accept':'application/json'}})
+          .then(function(res){ return res.json().catch(function(){return {};}).then(function(j){ return {status:res.status, body:j}; }); })
+          .then(function(r){
+            if(r.status===410 && r.body && r.body.status==='paid'){ showSuccess(r.body); return; }
+            if(r.status===404){ showUnavailable(); return; }
+            if(attempts >= MAX){ showProcessing(); return; }
+            setTimeout(tick, 3000);
+          })
+          .catch(function(){
+            if(attempts >= MAX){ showProcessing(); return; }
+            setTimeout(tick, 4000);
+          });
+      }
+      card.innerHTML = '<p class="eyebrow">Оплата</p><h1>Проверяем оплату</h1><div class="spinner"></div>'
+        + '<p class="muted" style="text-align:center">Обычно это занимает несколько секунд.</p>';
+      tick();
+    }
+    // Neutral final state when confirmation hasn't arrived within the window:
+    // no spinner, no contacts, no navigation — the page can simply be closed.
+    function showProcessing(){
+      card.innerHTML = '<p class="eyebrow">Оплата</p>'
+        + '<div class="state">Платёж обрабатывается</div>'
+        + '<p class="muted" style="text-align:center">Если средства списаны, оплата будет подтверждена автоматически. Эту страницу можно закрыть.</p>';
     }
     function showFailed(){
       card.innerHTML = '<p class="eyebrow">Оплата</p>'
@@ -152,7 +195,7 @@
     var result = qp.get('result'); // optional return marker (success|failed)
 
     if(m){
-      if(result==='success'){ showSuccess(); }
+      if(result==='success'){ verifySuccess(m[1]); }
       else if(result==='failed'){ showFailed(); }
       else { loadLink(m[1]); }
     } else if(/^\/pay\/?$/.test(path)){
