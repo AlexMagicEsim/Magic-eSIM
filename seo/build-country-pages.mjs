@@ -71,7 +71,11 @@ function page(c) {
   <meta name="twitter:description" content="${esc(c.description)}" />
   <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
 
-  <link rel="icon" href="../../assets/magic-esim-logo.png" type="image/png" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://api.magicesim.store" crossorigin />
   <link rel="preconnect" href="https://mc.yandex.ru" />
   <link rel="stylesheet" href="../../assets/country-pages.css" />
@@ -268,8 +272,6 @@ ${relatedLinks(c)}
           <a href="../../">На главную Magic eSIM</a>
           <a href="../../iphone.html">Настройка на iPhone</a>
           <a href="../../android.html">Настройка на Android</a>
-          <a href="../../privacy.html">Политика конфиденциальности</a>
-          <a href="../../terms.html">Пользовательское соглашение</a>
         </div>
       </div>
     </section>

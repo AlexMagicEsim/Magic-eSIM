@@ -78,7 +78,11 @@ ${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '        ')}
   <meta name="twitter:description" content="${esc(g.description)}" />
   <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
 
-  <link rel="icon" href="${P}assets/magic-esim-logo.png" type="image/png" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://mc.yandex.ru" />
   <link rel="stylesheet" href="${P}assets/country-pages.css" />
 
