@@ -702,14 +702,14 @@ function renderPackageCard(item,best){
       <div class="package-meta">
         <div class="package-meta-item"><div class="package-meta-label">Интернет</div><div class="package-meta-value">${escapeHtml(data)}</div></div>
         <div class="package-meta-item"><div class="package-meta-label">Срок</div><div class="package-meta-value">${escapeHtml(String(item.validity_days||''))} дн.</div></div>
-        <div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed||'4G')}</div></div>
+        ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
       </div>
       ${tags.length?`<div class="package-tags">${tags.join('')}</div>`:''}
-      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br><strong>Активация:</strong> установка по QR, срок — с первого подключения к сети.</div>
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.</div>
       <div class="package-price">${formatRetailPrice(item)}</div>
       <div class="package-actions">
         ${buyButtonHtml(item)}
-        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(item.speed||'4G/5G')}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
+        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
       </div>
     </article>`;
 }
@@ -837,12 +837,28 @@ function renderCountrySplit(){
   const overlay=document.getElementById('coverageModal');
   if(!overlay)return;
   const g=(id)=>document.getElementById(id);
+  const setCovText=(id,text)=>{const el=g(id);if(el)el.textContent=text;};
+  /* Optional rows: shown only when the provider actually sent a value. */
+  const setCovRow=(rowId,valId,text)=>{
+    const row=g(rowId),val=g(valId);
+    if(!row||!val)return;
+    const s=String(text||'').trim();
+    if(s){val.textContent=s;row.hidden=false;}
+    else{val.textContent='';row.hidden=true;}
+  };
   function open(d){
     g('covPlan').textContent=d.name||'eSIM-тариф';
     g('covData').textContent=d.data||'—';
     g('covDays').textContent=d.days?`${d.days} дн.`:'—';
     g('covSpeed').textContent=d.speed||'—';
     g('covTopup').textContent=(d.topup==='1')?'доступно':'недоступно';
+    /* Pre-mapped in data-* by the card renderer. A card rendered before this
+       change (cached HTML) has no such attribute -> neutral wording, never a
+       promise. */
+    setCovText('covStart',d.activation||TARIFF_ACTIVATION_UNKNOWN);
+    setCovText('covHotspot',d.hotspot||TARIFF_HOTSPOT_UNKNOWN);
+    setCovRow('covNoteRow','covNote',d.note);
+    setCovRow('covFupRow','covFup',d.fup);
     const wrap=g('covCountriesWrap');
     if(d.countries&&String(d.countries).trim()){g('covCountries').textContent=d.countries;wrap.hidden=false;}
     else{g('covCountries').textContent='';wrap.hidden=true;}
