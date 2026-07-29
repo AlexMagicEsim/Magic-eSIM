@@ -724,6 +724,16 @@ function countryNameGenitive(code){
   return COUNTRY_NAMES_GENITIVE[c] || countryName(c);
 }
 
+// Русская плюрализация: 1 тариф / 2-4 тарифа / 5-20 тарифов, с учётом
+// исключения 11-14 ("11 тарифов", не "11 тариф").
+function pluralRu(n,one,few,many){
+  const n10=n%10,n100=n%100;
+  if(n10===1&&n100!==11)return one;
+  if(n10>=2&&n10<=4&&(n100<12||n100>14))return few;
+  return many;
+}
+function tariffCount(n){return `${n} ${pluralRu(n,'тариф','тарифа','тарифов')}`;}
+
 function renderCountrySplit(){
   const status=byIdG('packagesStatus');
   const localBlock=byIdG('localBlock'),regionalBlock=byIdG('regionalBlock');
@@ -740,13 +750,13 @@ function renderCountrySplit(){
   byIdG('regionalHead').textContent=`Региональные тарифы с покрытием ${cName}`;
   const bestId=local.length?bestLocalPackageId(local):null;
   // Local block (req 6/7). If empty (req 8): show the note, not an empty grid.
-  byIdG('localCount').textContent=local.length?`${local.length} тарифов`:'';
+  byIdG('localCount').textContent=local.length?tariffCount(local.length):'';
   byIdG('localEmpty').hidden=local.length>0;
   localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId)).join('');
   localBlock.hidden=false;
   // Regional block (req 6): regional/continental/global.
   if(regional.length){
-    byIdG('regionalCount').textContent=`${regional.length} тарифов`;
+    byIdG('regionalCount').textContent=tariffCount(regional.length);
     regionalGrid.innerHTML=regional.map((i)=>renderPackageCard(i,false)).join('');
     regionalBlock.hidden=false;
   }else{
