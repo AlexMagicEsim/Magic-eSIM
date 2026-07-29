@@ -100,6 +100,45 @@ for (const p of pages) {
     try { JSON.parse(m[1]); } catch (e) { critical.push(`${rel}: невалидный JSON-LD (${e.message.slice(0, 60)})`); }
   }
 
+  // Разметка должна совпадать с ВИДИМЫМ контентом (Google/Яндекс: structured data
+  // must match what the user sees). Пока только warnings — повышение до critical
+  // делается отдельным согласованным коммитом после чистого прогона.
+  const norm = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&nbsp;| /g, ' ')
+    .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+    .replace(/\s+/g, ' ').trim();
+  const ldObjs = [];
+  for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    try { ldObjs.push(JSON.parse(m[1])); } catch { /* синтаксис уже учтён выше */ }
+  }
+  const flatLd = ldObjs.flatMap((o) => (o && o['@graph']) ? o['@graph'] : [o]).filter(Boolean);
+
+  // FAQPage <-> видимые .faq-q
+  const faqLd = flatLd.find((o) => o['@type'] === 'FAQPage');
+  if (faqLd) {
+    const ldQ = (faqLd.mainEntity || []).map((q) => norm(String(q.name || '')));
+    const visQ = [...h.matchAll(/class="faq-q"[^>]*>([\s\S]*?)<\//g)].map((m) => norm(m[1]));
+    if (ldQ.length !== visQ.length) {
+      warnings.push(`${rel}: FAQ — в разметке ${ldQ.length}, видимых на странице ${visQ.length}`);
+    }
+    for (const q of ldQ) {
+      if (!visQ.includes(q)) warnings.push(`${rel}: FAQ-вопрос из разметки не найден на странице: "${q.slice(0, 60)}"`);
+    }
+    for (const q of visQ) {
+      if (!ldQ.includes(q)) warnings.push(`${rel}: видимый FAQ-вопрос отсутствует в разметке: "${q.slice(0, 60)}"`);
+    }
+  }
+
+  // BreadcrumbList <-> видимые .crumbs
+  const bcLd = flatLd.find((o) => o['@type'] === 'BreadcrumbList');
+  if (bcLd) {
+    const ldB = (bcLd.itemListElement || []).map((i) => norm(String(i.name || '')));
+    const crumbsHtml = (h.match(/<nav class="crumbs"[\s\S]*?<\/nav>/) || [''])[0];
+    const visB = [...crumbsHtml.matchAll(/>([^<>]+)</g)].map((m) => norm(m[1])).filter(Boolean);
+    for (const n of ldB) {
+      if (!visB.includes(n)) warnings.push(`${rel}: крошка "${n}" есть в BreadcrumbList, но не видна на странице`);
+    }
+  }
+
   // Local link targets exist (href not starting with http/#/mailto).
   for (const m of h.matchAll(/href="([^"#]+?)(?:#[^"]*)?"/g)) {
     const href = m[1];
