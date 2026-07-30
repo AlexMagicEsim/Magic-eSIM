@@ -2090,13 +2090,6 @@ function renderPackages(){
 }
 
 
-function isRussiaApiPackage(item){
-  const code=String(item.country_code||'').toUpperCase();
-  const region=String(item.region||'').toUpperCase();
-  const name=String(item.name||'').toLowerCase();
-  return code==='RU'||region.split(/[\s,;/|+]+/).includes('RU')||name.includes('russia')||name.includes('россия');
-}
-
 async function loadLandingPackages(){
   const status=document.getElementById('packagesStatus');
   if(!status){
