@@ -2033,7 +2033,9 @@ document.addEventListener('click',(e)=>{
        the whole row is dropped instead of showing a vague caveat. */
     setCovRow('covHotspotRow','covHotspot',d.hotspot);
     setCovRow('covNoteRow','covNote',d.note);
-    setCovRow('covFupRow','covFup',d.fup);
+    /* Some MobiMatter plans describe the same limit in both SPEED and
+       SPEED_LONG, so note and fup arrive identical - show it once. */
+    setCovRow('covFupRow','covFup',String(d.fup||'')===String(d.note||'')?'':d.fup);
     const wrap=g('covCountriesWrap');
     if(d.countries&&String(d.countries).trim()){g('covCountries').textContent=d.countries;wrap.hidden=false;}
     else{g('covCountries').textContent='';wrap.hidden=true;}
