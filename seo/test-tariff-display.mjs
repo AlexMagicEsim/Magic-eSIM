@@ -102,6 +102,10 @@ test('every provider string the live catalogues return has a Russian translation
     'No daily limits. Speed restricted to 2 Mbps if total consumption exceeds 60 GB',
     'No daily limits. Speed restricted to 2 Mbps if total consumption exceeds 90 GB',
     '512 Kbps', '1 Mbps', '384 Kbps', '500 Kbps', '128 Kbps', '256 Kbps', '384Kbps', '1Mbps',
+    // Not returned today; covered ahead of a provider-side wording change.
+    'No speed restrictions', 'Unlimited at reduced speed', 'No throttling',
+    'Fair usage policy applies', 'Unlimited', 'High speed', 'Reduced speed',
+    'Data only', 'Daily limit', 'No daily limits',
   ];
   // Deliberately empty: explicit "no data" markers.
   const RENDER_AS_EMPTY = new Set(['N/A']);

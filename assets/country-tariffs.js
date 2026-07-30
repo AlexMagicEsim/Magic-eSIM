@@ -666,11 +666,26 @@ var TARIFF_TEXT_RU={
   'no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb':'Без ежедневных лимитов. При расходе свыше 30 ГБ скорость снижается до 2 Мбит/с.',
   'no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb':'Без ежедневных лимитов. При расходе свыше 60 ГБ скорость снижается до 2 Мбит/с.',
   'no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb':'Без ежедневных лимитов. При расходе свыше 90 ГБ скорость снижается до 2 Мбит/с.',
-  // Wordings seen elsewhere in provider catalogues
+  // Wordings not currently returned by either catalogue, added ahead of time so
+  // a provider-side change cannot leak English into the UI.
   'no speed restrictions':'Без ограничений скорости.',
+  'no speed restriction':'Без ограничений скорости.',
   'unlimited at reduced speed':'После исчерпания лимита скорость снижается.',
+  'unlimited data at reduced speed':'После исчерпания лимита скорость снижается.',
   'no throttling':'Скорость не снижается.',
+  'throttled after limit':'После исчерпания лимита скорость снижается.',
   'fair usage policy applies':'Действует политика справедливого использования.',
+  'fair usage policy':'Действует политика справедливого использования.',
+  'unlimited':'Безлимитный трафик.',
+  'unlimited data':'Безлимитный трафик.',
+  'high speed':'Высокая скорость.',
+  'high-speed data':'Трафик на высокой скорости.',
+  'reduced speed':'Сниженная скорость.',
+  'data only':'Только мобильный интернет, без звонков и SMS.',
+  'data-only':'Только мобильный интернет, без звонков и SMS.',
+  'daily limit':'Действует дневной лимит трафика.',
+  'no daily limits':'Без ежедневных лимитов трафика.',
+  'no daily limit':'Без ежедневных лимитов трафика.',
   // Explicit "no data" markers - never shown
   'n/a':'',
   'unknown':'',
