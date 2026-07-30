@@ -624,23 +624,77 @@ const ICON_BOLT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 const ICON_REFRESH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
 
 /* --- TARIFF DISPLAY MAPPERS (identical copy in index.html) ----------------
-   Fed straight from the public API. Every field may be ABSENT (today's
-   production API still returns 15 keys), null (the provider sent no data) or
-   false (the provider explicitly said no). Those are three different things
-   and must never collapse into one.
-   Nothing here invents a value: with no data the caller shows either nothing
-   or an explicitly conditional wording. --------------------------------- */
+   Fed straight from the public API. Every field may be ABSENT (an older API
+   build returns only the 15 legacy keys), null (the provider sent no data) or
+   false (the provider explicitly said no).
+   The UI is Russian-only: nothing here ever renders a raw provider value or an
+   English string to the user. Anything unrecognised is hidden or falls back to
+   settled Russian wording. ---------------------------------------------- */
 var TARIFF_ACTIVATION_LABELS={
-  first_data_usage:'начинается при первом использовании интернета',
-  first_network_connection:'начинается при первом подключении к поддерживаемой сети',
-  network_connection:'начинается при первом подключении к поддерживаемой сети',
-  upon_installation:'начинается после установки eSIM',
-  installation:'начинается после установки eSIM',
-  upon_purchase:'начинается после покупки',
-  purchase:'начинается после покупки'
+  first_data_usage:'с первого использования интернета',
+  first_network_connection:'с первого подключения к сети',
+  network_connection:'с первого подключения к сети',
+  upon_installation:'после установки eSIM',
+  installation:'после установки eSIM',
+  upon_purchase:'после покупки',
+  purchase:'после покупки'
 };
-var TARIFF_ACTIVATION_UNKNOWN='зависит от условий конкретного тарифа';
-var TARIFF_HOTSPOT_UNKNOWN='зависит от условий конкретного тарифа и устройства';
+/* Used when the provider sends nothing or an unrecognised policy. This is the
+   common case across the catalogue, so it states the usual behaviour rather
+   than a vague "depends on the plan". */
+var TARIFF_ACTIVATION_FALLBACK='с первого подключения к сети';
+
+/* Russian wording for provider free-text. Keys are lowercased and whitespace-
+   collapsed. Every string the two providers currently return is covered:
+   MobiMatter SPEED (8 distinct) and SPEED_LONG (8 distinct), eSIM Access
+   fupPolicy (8 distinct, all bare speeds - handled by TARIFF_SPEED_ONLY_RE).
+   An unknown English string is NEVER shown; add a new entry here instead. */
+var TARIFF_TEXT_RU={
+  // MobiMatter SPEED
+  'unrestricted':'Без ограничений скорости.',
+  'limited':'Действуют ограничения скорости.',
+  '3gb/day at 20mbps. 1mbps afterwards.':'3 ГБ в день на скорости до 20 Мбит/с, далее до 1 Мбит/с.',
+  '3gb/day high speed. 1mbps afterwards.':'3 ГБ в день на высокой скорости, далее до 1 Мбит/с.',
+  'total 30 gb at full speed, 2mbps speed cap afterwards':'30 ГБ на полной скорости, далее до 2 Мбит/с.',
+  'total 60 gb at full speed, 2mbps speed cap afterwards':'60 ГБ на полной скорости, далее до 2 Мбит/с.',
+  'total 90 gb at full speed, 2mbps speed cap afterwards':'90 ГБ на полной скорости, далее до 2 Мбит/с.',
+  // MobiMatter SPEED_LONG
+  'full data speeds - no daily limits, no throttling':'Полная скорость без ежедневных лимитов и снижения скорости.',
+  '3gb/day at 20mbps high speed. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.':'3 ГБ в день на скорости до 20 Мбит/с, далее до 1 Мбит/с. Лимит обновляется каждые 24 часа, действует политика справедливого использования.',
+  '3gb/day without a speed limit. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.':'3 ГБ в день без ограничения скорости, далее до 1 Мбит/с. Лимит обновляется каждые 24 часа, действует политика справедливого использования.',
+  'in case of exceeding daily 1 gb high-speed allowance, speed will be limited to 512 kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.':'При расходе более 1 ГБ в день скорость снижается до 512 Кбит/с до конца суток. Это может повлиять на видео и другие ресурсоёмкие сервисы.',
+  'no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb':'Без ежедневных лимитов. При расходе свыше 30 ГБ скорость снижается до 2 Мбит/с.',
+  'no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb':'Без ежедневных лимитов. При расходе свыше 60 ГБ скорость снижается до 2 Мбит/с.',
+  'no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb':'Без ежедневных лимитов. При расходе свыше 90 ГБ скорость снижается до 2 Мбит/с.',
+  // Wordings not currently returned by either catalogue, added ahead of time so
+  // a provider-side change cannot leak English into the UI.
+  'no speed restrictions':'Без ограничений скорости.',
+  'no speed restriction':'Без ограничений скорости.',
+  'unlimited at reduced speed':'После исчерпания лимита скорость снижается.',
+  'unlimited data at reduced speed':'После исчерпания лимита скорость снижается.',
+  'no throttling':'Скорость не снижается.',
+  'throttled after limit':'После исчерпания лимита скорость снижается.',
+  'fair usage policy applies':'Действует политика справедливого использования.',
+  'fair usage policy':'Действует политика справедливого использования.',
+  'unlimited':'Безлимитный трафик.',
+  'unlimited data':'Безлимитный трафик.',
+  'high speed':'Высокая скорость.',
+  'high-speed data':'Трафик на высокой скорости.',
+  'reduced speed':'Сниженная скорость.',
+  'data only':'Только мобильный интернет, без звонков и SMS.',
+  'data-only':'Только мобильный интернет, без звонков и SMS.',
+  'daily limit':'Действует дневной лимит трафика.',
+  'no daily limits':'Без ежедневных лимитов трафика.',
+  'no daily limit':'Без ежедневных лимитов трафика.',
+  // Explicit "no data" markers - never shown
+  'n/a':'',
+  'unknown':'',
+  '-':''
+};
+
+/* eSIM Access sends fupPolicy as a bare speed: "512 Kbps", "1 Mbps", "384Kbps". */
+var TARIFF_SPEED_ONLY_RE=/^(\d+(?:[.,]\d+)?)\s*(kbps|mbps|gbps)$/i;
+var TARIFF_SPEED_UNITS_RU={kbps:'Кбит/с',mbps:'Мбит/с',gbps:'Гбит/с'};
 
 /* Network generations ONLY. Priority: the normalized array, then the legacy
    `speed` string - but only when it really carries generations. MobiMatter's
@@ -663,27 +717,47 @@ function tariffNetworkLabel(item){
   return out.sort().join('/');
 }
 
-/* Tri-state. Absent field and null both mean "unknown", never "no". */
+/* Tri-state. true/false are stated plainly; no data means the row is dropped
+   entirely rather than shown with a vague caveat - the caller checks for ''. */
 function tariffHotspotLabel(item){
   var v=(item||{}).hotspot_supported;
   if(v===true)return 'поддерживается';
   if(v===false)return 'не поддерживается';
-  return TARIFF_HOTSPOT_UNKNOWN;
+  return '';
 }
 
-/* Whitelist mapper: an unrecognised provider value degrades to the neutral
-   wording instead of being printed raw. */
+/* Whitelist mapper: an unrecognised provider value falls back to the usual
+   behaviour instead of being printed raw. */
 function tariffActivationLabel(item){
   var key=String((item||{}).activation_policy||'').trim().toLowerCase();
   return Object.prototype.hasOwnProperty.call(TARIFF_ACTIVATION_LABELS,key)
     ? TARIFF_ACTIVATION_LABELS[key]
-    : TARIFF_ACTIVATION_UNKNOWN;
+    : TARIFF_ACTIVATION_FALLBACK;
 }
 
-/* Free-text fields: rendered only when the provider actually sent something. */
+/* Translates a provider free-text value to Russian.
+   Order: already-Russian passthrough -> exact dictionary hit -> bare-speed
+   pattern -> '' (hidden). An untranslated English string is never rendered. */
+function tariffTextRu(raw){
+  var s=String(raw==null?'':raw).replace(/\s+/g,' ').trim();
+  if(!s)return '';
+  if(/[а-яё]/i.test(s))return s;
+
+  var key=s.toLowerCase();
+  if(Object.prototype.hasOwnProperty.call(TARIFF_TEXT_RU,key))return TARIFF_TEXT_RU[key];
+
+  var m=s.match(TARIFF_SPEED_ONLY_RE);
+  if(m){
+    var unit=TARIFF_SPEED_UNITS_RU[m[2].toLowerCase()];
+    if(unit)return 'После исчерпания лимита скорость снижается до '+m[1]+' '+unit+'.';
+  }
+  return '';
+}
+
+/* Free-text fields, already translated. Rendered only when non-empty. */
 function tariffText(item,key){
   var v=(item||{})[key];
-  return typeof v==='string'?v.trim():'';
+  return tariffTextRu(typeof v==='string'?v:'');
 }
 /* --- END TARIFF DISPLAY MAPPERS ---------------------------------------- */
 
@@ -853,12 +927,16 @@ function renderCountrySplit(){
     g('covSpeed').textContent=d.speed||'—';
     g('covTopup').textContent=(d.topup==='1')?'доступно':'недоступно';
     /* Pre-mapped in data-* by the card renderer. A card rendered before this
-       change (cached HTML) has no such attribute -> neutral wording, never a
-       promise. */
-    setCovText('covStart',d.activation||TARIFF_ACTIVATION_UNKNOWN);
-    setCovText('covHotspot',d.hotspot||TARIFF_HOTSPOT_UNKNOWN);
+       change (cached HTML) has no such attribute -> settled fallback wording,
+       never a raw provider value. */
+    setCovText('covStart',d.activation||TARIFF_ACTIVATION_FALLBACK);
+    /* Tethering: stated only when the provider actually answered. With no data
+       the whole row is dropped instead of showing a vague caveat. */
+    setCovRow('covHotspotRow','covHotspot',d.hotspot);
     setCovRow('covNoteRow','covNote',d.note);
-    setCovRow('covFupRow','covFup',d.fup);
+    /* Some MobiMatter plans describe the same limit in both SPEED and
+       SPEED_LONG, so note and fup arrive identical - show it once. */
+    setCovRow('covFupRow','covFup',String(d.fup||'')===String(d.note||'')?'':d.fup);
     const wrap=g('covCountriesWrap');
     if(d.countries&&String(d.countries).trim()){g('covCountries').textContent=d.countries;wrap.hidden=false;}
     else{g('covCountries').textContent='';wrap.hidden=true;}
