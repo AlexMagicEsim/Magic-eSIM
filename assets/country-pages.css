@@ -136,6 +136,8 @@ h3{color:var(--ink);font-weight:700}
 .cov-rows{display:grid;gap:0}
 .cov-row{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid var(--line);font-size:14px}
 .cov-row:first-child{border-top:0}
+/* Safety: .cov-row is display:flex, which overrides [hidden]. */
+.cov-row[hidden]{display:none!important}
 .cov-row .k{color:var(--muted)}
 .cov-row .v{color:var(--ink);font-weight:600;text-align:right;max-width:64%}
 .cov-countries{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}

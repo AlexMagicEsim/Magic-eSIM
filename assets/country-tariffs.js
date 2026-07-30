@@ -623,15 +623,73 @@ const byIdG=(id)=>document.getElementById(id);
 const ICON_BOLT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>';
 const ICON_REFRESH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
 
-function packageSpeedLabel(item){
-  const s=String(item.speed||'').toUpperCase();
-  const m=s.match(/[345]G/g);
-  return m&&m.length?[...new Set(m)].join('/'):'';
+/* --- TARIFF DISPLAY MAPPERS (identical copy in index.html) ----------------
+   Fed straight from the public API. Every field may be ABSENT (today's
+   production API still returns 15 keys), null (the provider sent no data) or
+   false (the provider explicitly said no). Those are three different things
+   and must never collapse into one.
+   Nothing here invents a value: with no data the caller shows either nothing
+   or an explicitly conditional wording. --------------------------------- */
+var TARIFF_ACTIVATION_LABELS={
+  first_data_usage:'начинается при первом использовании интернета',
+  first_network_connection:'начинается при первом подключении к поддерживаемой сети',
+  network_connection:'начинается при первом подключении к поддерживаемой сети',
+  upon_installation:'начинается после установки eSIM',
+  installation:'начинается после установки eSIM',
+  upon_purchase:'начинается после покупки',
+  purchase:'начинается после покупки'
+};
+var TARIFF_ACTIVATION_UNKNOWN='зависит от условий конкретного тарифа';
+var TARIFF_HOTSPOT_UNKNOWN='зависит от условий конкретного тарифа и устройства';
+
+/* Network generations ONLY. Priority: the normalized array, then the legacy
+   `speed` string - but only when it really carries generations. MobiMatter's
+   SPEED says "Unrestricted" (throughput), which must never become a fake 4G. */
+function tariffNetworkLabel(item){
+  var src=item||{};
+  var list=Array.isArray(src.network_technologies)&&src.network_technologies.length
+    ? src.network_technologies
+    : String(src.speed||'').split(/[^0-9A-Za-z]+/);
+  var seen={};
+  var out=[];
+  for(var i=0;i<list.length;i++){
+    var t=String(list[i]||'').toUpperCase();
+    if(t==='LTE')t='4G';
+    if(!/^[2345]G$/.test(t))continue;
+    if(seen[t])continue;
+    seen[t]=1;
+    out.push(t);
+  }
+  return out.sort().join('/');
 }
+
+/* Tri-state. Absent field and null both mean "unknown", never "no". */
+function tariffHotspotLabel(item){
+  var v=(item||{}).hotspot_supported;
+  if(v===true)return 'поддерживается';
+  if(v===false)return 'не поддерживается';
+  return TARIFF_HOTSPOT_UNKNOWN;
+}
+
+/* Whitelist mapper: an unrecognised provider value degrades to the neutral
+   wording instead of being printed raw. */
+function tariffActivationLabel(item){
+  var key=String((item||{}).activation_policy||'').trim().toLowerCase();
+  return Object.prototype.hasOwnProperty.call(TARIFF_ACTIVATION_LABELS,key)
+    ? TARIFF_ACTIVATION_LABELS[key]
+    : TARIFF_ACTIVATION_UNKNOWN;
+}
+
+/* Free-text fields: rendered only when the provider actually sent something. */
+function tariffText(item,key){
+  var v=(item||{})[key];
+  return typeof v==='string'?v.trim():'';
+}
+/* --- END TARIFF DISPLAY MAPPERS ---------------------------------------- */
 
 // One source of truth for a tariff card (used by local, regional and generic grids).
 function renderPackageCard(item,best){
-  const speed=packageSpeedLabel(item);
+  const speed=tariffNetworkLabel(item);
   const topup=!!item.topup_available;
   const data=formatDataLabel(item)||`${item.data_gb||''} GB`;
   const tags=[];
@@ -644,14 +702,14 @@ function renderPackageCard(item,best){
       <div class="package-meta">
         <div class="package-meta-item"><div class="package-meta-label">Интернет</div><div class="package-meta-value">${escapeHtml(data)}</div></div>
         <div class="package-meta-item"><div class="package-meta-label">Срок</div><div class="package-meta-value">${escapeHtml(String(item.validity_days||''))} дн.</div></div>
-        <div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed||'4G')}</div></div>
+        ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
       </div>
       ${tags.length?`<div class="package-tags">${tags.join('')}</div>`:''}
-      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br><strong>Активация:</strong> установка по QR, срок — с первого подключения к сети.</div>
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.</div>
       <div class="package-price">${formatRetailPrice(item)}</div>
       <div class="package-actions">
         ${buyButtonHtml(item)}
-        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(item.speed||'4G/5G')}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
+        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
       </div>
     </article>`;
 }
@@ -779,12 +837,28 @@ function renderCountrySplit(){
   const overlay=document.getElementById('coverageModal');
   if(!overlay)return;
   const g=(id)=>document.getElementById(id);
+  const setCovText=(id,text)=>{const el=g(id);if(el)el.textContent=text;};
+  /* Optional rows: shown only when the provider actually sent a value. */
+  const setCovRow=(rowId,valId,text)=>{
+    const row=g(rowId),val=g(valId);
+    if(!row||!val)return;
+    const s=String(text||'').trim();
+    if(s){val.textContent=s;row.hidden=false;}
+    else{val.textContent='';row.hidden=true;}
+  };
   function open(d){
     g('covPlan').textContent=d.name||'eSIM-тариф';
     g('covData').textContent=d.data||'—';
     g('covDays').textContent=d.days?`${d.days} дн.`:'—';
     g('covSpeed').textContent=d.speed||'—';
     g('covTopup').textContent=(d.topup==='1')?'доступно':'недоступно';
+    /* Pre-mapped in data-* by the card renderer. A card rendered before this
+       change (cached HTML) has no such attribute -> neutral wording, never a
+       promise. */
+    setCovText('covStart',d.activation||TARIFF_ACTIVATION_UNKNOWN);
+    setCovText('covHotspot',d.hotspot||TARIFF_HOTSPOT_UNKNOWN);
+    setCovRow('covNoteRow','covNote',d.note);
+    setCovRow('covFupRow','covFup',d.fup);
     const wrap=g('covCountriesWrap');
     if(d.countries&&String(d.countries).trim()){g('covCountries').textContent=d.countries;wrap.hidden=false;}
     else{g('covCountries').textContent='';wrap.hidden=true;}
