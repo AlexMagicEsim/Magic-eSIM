@@ -2127,71 +2127,6 @@ function isRussiaDailyApiPackage(item){
     && (name.includes('daily')||name.includes('1 day')||name.includes('1day')||name.includes('день')||name.includes('суточ'));
 }
 
-async function loadRussiaApiPackages(){
-  const grid=document.getElementById('russiaApiPackagesGrid');
-  const status=document.getElementById('russiaApiStatus');
-
-  if(!grid||!status){
-    return;
-  }
-
-  status.textContent='Загружаем актуальные суточные тарифы России...';
-
-  try{
-    const data=await loadJson(`${API_BASE}/api/v1/retail/packages?country=RU&t=${Date.now()}`);
-    const packages=(Array.isArray(data.data)?data.data:[])
-      .filter(isRussiaDailyApiPackage)
-      .sort((a,b)=>Number(a.data_gb||0)-Number(b.data_gb||0)||Number(a.validity_days||0)-Number(b.validity_days||0)||Number(a.price||0)-Number(b.price||0));
-
-    status.textContent='';
-    status.style.display='none';
-
-    grid.innerHTML=packages.map((item)=>`
-      <article class="package-card reveal visible">
-        <div class="package-availability">Тариф доступен</div>
-        <div class="package-title">${escapeHtml(item.name||'')}</div>
-
-        <div class="package-meta">
-          <div class="package-meta-item">
-            <div>
-              <div class="package-meta-label">Интернет</div>
-              <div class="package-meta-value">${escapeHtml(item.data_gb||'')} GB</div>
-            </div>
-          </div>
-          <div class="package-meta-item">
-            <div>
-              <div class="package-meta-label">Срок</div>
-              <div class="package-meta-value">${escapeHtml(item.validity_days||'')}d</div>
-            </div>
-          </div>
-          <div class="package-meta-item">
-            <div>
-              <div class="package-meta-label">Страна</div>
-              <div class="package-meta-value">${escapeHtml(item.coverage_flags||'🇷🇺')}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="package-info">
-          <strong>Покрытие:</strong> ${escapeHtml(item.coverage_flags||'🇷🇺')} Россия<br>
-          <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
-          <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
-          <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
-          <strong>Раздача интернета:</strong> доступна<br>
-          <strong>После дневного пакета:</strong> интернет не отключается<br>
-          <strong>Скорость после лимита:</strong> до 512 Kbps
-        </div>
-
-        <div class="package-price">${formatRub(item.price)}</div>
-        <button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(item.name||'')}" data-coverage="Россия" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(item.price||'')}">Купить</button>
-      </article>
-    `).join('');
-  }catch(error){
-    console.error('Russia package load failed',error);
-    status.textContent='Не удалось загрузить актуальные тарифы России. Напишите в поддержку — подберём тариф вручную.';
-  }
-}
-
 async function loadLandingPackages(){
   const status=document.getElementById('packagesStatus');
   if(!status){
@@ -2215,67 +2150,6 @@ async function loadLandingPackages(){
 const packageSearchInput=document.getElementById('packageSearch');
 const packageSearchButton=document.getElementById('packageSearchButton');
 
-
-function renderPackagesForCountry(countryCode){
-  const grid=document.getElementById('packagesGrid');
-  const status=document.getElementById('packagesStatus');
-
-  if(!grid||!status){
-    return;
-  }
-
-  const code=String(countryCode||'').trim().toUpperCase();
-
-  let packages=basePackages()
-    .filter((item)=>packageMatchesCountry(item,code))
-    .filter((item)=>!isPublicGlobalPackage(item))
-    .sort(comparePackages);
-
-  status.textContent=packages.length
-    ? `Показано тарифов: ${packages.length}`
-    : 'Тарифы не найдены. Напишите в поддержку — подберём вручную.';
-
-  grid.innerHTML=packages.map((item)=>`
-    <article class="package-card reveal visible">
-      <div class="package-availability">Тариф доступен</div>
-      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
-
-      <div class="package-meta">
-        <div class="package-meta-item">
-          <div>
-            <div class="package-meta-label">Интернет</div>
-            <div class="package-meta-value">${escapeHtml(item.data_gb||'')} GB</div>
-          </div>
-        </div>
-        <div class="package-meta-item">
-          <div>
-            <div class="package-meta-label">Срок</div>
-            <div class="package-meta-value">${escapeHtml(item.validity_days||'')}d</div>
-          </div>
-        </div>
-        <div class="package-meta-item">
-          <div>
-            <div class="package-meta-label">Страна</div>
-            <div class="package-meta-value">${escapeHtml(compactCoverageIcon(item))}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="package-info">
-        <span class="coverage-line"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}${coverageCountriesText(item)?` <span class="coverage-hint" tabindex="0" aria-label="Список стран">ⓘ</span><span class="coverage-tooltip">${escapeHtml(coverageCountriesText(item))}</span>`:''}</span><br>
-        <strong>Операторы:</strong> ${escapeHtml(packageNetworkText(item))}<br>
-        <strong>Скорость:</strong> ${escapeHtml(item.speed||'3G/4G/5G')}<br>
-        <strong>Пополнение:</strong> ${item.topup_available?'доступно':'недоступно'}<br>
-        <strong>Раздача интернета:</strong> доступна
-      </div>
-
-      <div class="package-price">${formatRetailPrice(item)}</div>
-      <div class="package-actions">
-        ${buyButtonHtml(item)}
-      </div>
-    </article>
-  `).join('');
-}
 
 function runPackageSearch(){
   const query = packageSearchInput ? packageSearchInput.value : '';
@@ -2315,8 +2189,7 @@ if(packageSortInput){
 
 window.addEventListener('DOMContentLoaded', async () => {
   await Promise.allSettled([
-    loadLandingPackages(),
-    loadRussiaApiPackages()
+    loadLandingPackages()
   ]);
 
   // Deep-link: ?country=TR selects a country and scrolls to its tariffs.
