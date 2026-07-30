@@ -1491,14 +1491,6 @@ function publicPackageName(item){
   return original;
 }
 
-function packageNetworkText(item){
-  const networks=Array.isArray(item.networks)?item.networks:[];
-  const names=networks
-    .map((network)=>`${network.operator||''} ${network.type||''}`.trim())
-    .filter(Boolean);
-  return names.slice(0,2).join(', ')||'по странам покрытия';
-}
-
 function compactCoverageLabel(item){
   const codes=packageCoverageCodes(item);
   const unique=[...new Set(codes)];
@@ -1556,17 +1548,6 @@ function coverageCountriesText(item){
     .map(countryName)
     .sort((a,b)=>a.localeCompare(b,'ru'))
     .join(', ');
-}
-
-function compactCoverageIcon(item){
-  const codes=packageCoverageCodes(item);
-  const unique=[...new Set(codes)];
-
-  if(unique.length<=1){
-    return item.coverage_flags||'🌍';
-  }
-
-  return '🌏';
 }
 
 const RESTRICTED_COUNTRY_CODES=['RU','UA','BY'];
@@ -2114,17 +2095,6 @@ function isRussiaApiPackage(item){
   const region=String(item.region||'').toUpperCase();
   const name=String(item.name||'').toLowerCase();
   return code==='RU'||region.split(/[\s,;/|+]+/).includes('RU')||name.includes('russia')||name.includes('россия');
-}
-
-function isRussiaDailyApiPackage(item){
-  const name=String(item.name||'').toLowerCase();
-  const dataGb=Number(item.data_gb||0);
-  const validityDays=Number(item.validity_days||0);
-
-  return isRussiaApiPackage(item)
-    && validityDays===1
-    && dataGb>0
-    && (name.includes('daily')||name.includes('1 day')||name.includes('1day')||name.includes('день')||name.includes('суточ'));
 }
 
 async function loadLandingPackages(){
