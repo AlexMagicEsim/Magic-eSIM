@@ -37,29 +37,13 @@ test('the two copies of the mapper block are byte-identical', () => {
   assert.equal(a, b, 'index.html and assets/country-tariffs.js must carry the same mappers');
 });
 
-// Two homepage renderers are unreachable legacy (see the reachability test
-// below) and still carry the old fabricated strings. Removing them is a
-// separate refactor, deliberately kept out of this release, so the guard below
-// checks the code that can actually run and skips exactly these two bodies.
-const KNOWN_UNREACHABLE = ['async function loadRussiaApiPackages(){', 'function renderPackagesForCountry(countryCode){'];
-
-// Strips a top-level `function ...(){ ... }` block that starts at column 0 and
-// ends at the first column-0 closing brace.
-function stripBlock(src, signature) {
-  const start = src.indexOf(signature);
-  if (start === -1) return src;
-  const end = src.indexOf('\n}', start);
-  if (end === -1) return src;
-  return src.slice(0, start) + src.slice(end + 2);
-}
-
+// The two unreachable renderers that used to carry these strings were deleted,
+// so the guards below now scan each file whole - no exemptions.
 function activeSource(file) {
-  let src = readFileSync(file, 'utf8');
-  for (const signature of KNOWN_UNREACHABLE) src = stripBlock(src, signature);
-  return src;
+  return readFileSync(file, 'utf8');
 }
 
-test('no invented network fallback survives in code that can run', () => {
+test('no invented network fallback survives anywhere', () => {
   // The exact substitutions that used to fabricate a technology, plus the
   // unconditional tethering promise.
   const FORBIDDEN = ["speed||'4G'", "speed || '4G'", "item.speed||'4G/5G'", "speed||'3G/4G/5G'",
@@ -67,7 +51,7 @@ test('no invented network fallback survives in code that can run', () => {
   for (const [name, file] of Object.entries(SOURCES)) {
     const src = activeSource(file);
     for (const needle of FORBIDDEN) {
-      assert.ok(!src.includes(needle), `${name} still contains ${needle} in reachable code`);
+      assert.ok(!src.includes(needle), `${name} still contains ${needle}`);
     }
   }
 });
@@ -126,18 +110,18 @@ test('every provider string the live catalogues return has a Russian translation
   }
 });
 
-test('the skipped legacy renderers really are unreachable', () => {
-  // If this ever fails, the fabricated strings inside those bodies became live
-  // and the guard above stopped covering them.
+test('the deleted legacy renderers stay deleted', () => {
+  // They generated fabricated speed/FUP/tethering values and were unreachable.
+  // If a name reappears, the fabricated strings can come back with it.
   const src = readFileSync(SOURCES['index.html'], 'utf8');
-
-  // loadRussiaApiPackages() bails out unless BOTH elements exist; neither does.
-  for (const id of ['russiaApiPackagesGrid', 'russiaApiStatus']) {
-    assert.equal(src.split(`id="${id}"`).length - 1, 0, `#${id} must not exist in the markup`);
+  for (const name of ['loadRussiaApiPackages', 'renderPackagesForCountry',
+                      'isRussiaDailyApiPackage', 'isRussiaApiPackage']) {
+    assert.equal(src.includes(name), false, `${name} must not come back`);
   }
-  // renderPackagesForCountry is declared and never called.
-  assert.equal(src.split('renderPackagesForCountry').length - 1, 1,
-    'renderPackagesForCountry must appear exactly once (its declaration)');
+  // The elements it waited for never existed; re-adding them would be a smell.
+  for (const id of ['russiaApiPackagesGrid', 'russiaApiStatus']) {
+    assert.equal(src.includes(`id="${id}"`), false, `#${id} must not exist in the markup`);
+  }
 });
 
 for (const [name, file] of Object.entries(SOURCES)) {
