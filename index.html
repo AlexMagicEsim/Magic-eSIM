@@ -1869,7 +1869,7 @@ function renderPackageCard(item,best){
       <div class="package-price">${formatRetailPrice(item)}</div>
       <div class="package-actions">
         ${buyButtonHtml(item)}
-        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
+        <button type="button" class="btn package-coverage-btn js-coverage" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
       </div>
     </article>`;
 }
@@ -2041,7 +2041,15 @@ document.addEventListener('click',(e)=>{
     overlay.hidden=false;document.body.style.overflow='hidden';
   }
   function close(){overlay.hidden=true;document.body.style.overflow='';}
-  document.addEventListener('click',(e)=>{const b=e.target.closest('.js-coverage');if(!b)return;e.preventDefault();open(b.dataset);});
+  /* One goal per actual opening of the modal: the listener only runs on a real
+     click on a coverage button, so scrolling past a card or a re-render never
+     counts. Reopening the same tariff is a genuine second look and is reported
+     as one. */
+  document.addEventListener('click',(e)=>{
+    const b=e.target.closest('.js-coverage');if(!b)return;e.preventDefault();
+    open(b.dataset);
+    try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('coverage_modal_open',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:b.dataset.packageId});}catch(_){/* analytics must never block the modal */}
+  });
   const x=g('coverageClose');if(x)x.addEventListener('click',close);
   overlay.addEventListener('click',(e)=>{if(e.target===overlay)close();});
   document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&!overlay.hidden)close();});
@@ -2230,13 +2238,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       if(resp.ok&&data&&data.valid){
         appliedPromo={code:data.promo_code||code,original:Number(data.original_amount_rub),discount:Number(data.discount_amount_rub),final:Number(data.final_amount_rub)};
         renderPrice();
-        try{magicMetrikaGoal('promo_apply_success',{});}catch(e){}
+        try{magicMetrikaGoal('promo_apply_success',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:(overlay&&overlay.dataset?overlay.dataset.packageId:undefined),promo_code:appliedPromo?appliedPromo.code:undefined,discount_amount:(appliedPromo&&isFinite(Number(appliedPromo.discount)))?Number(appliedPromo.discount):undefined});}catch(e){}
       }else if(data&&data.error==='PROMO_CODES_DISABLED'){
         promoDisabled=true;const w=byId('coPromoWrap');if(w)w.hidden=true;resetPromo();
       }else{
         appliedPromo=null;renderPrice();
         promoMsg((data&&(PROMO_MSG[data.error]||data.message))||'Не удалось применить промокод.','co-err');
-        try{magicMetrikaGoal('promo_apply_error',{});}catch(e){}
+        try{magicMetrikaGoal('promo_apply_error',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:(overlay&&overlay.dataset?overlay.dataset.packageId:undefined)});}catch(e){}
       }
     }catch(e){promoMsg('Не удалось проверить промокод. Попробуйте позже.','co-err');}
     finally{quoting=false;if(btn){btn.disabled=false;btn.textContent='Применить';}}
@@ -2413,7 +2421,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   // Promo controls: Apply / Remove / Enter-to-apply (never submits the form). Email
   // change drops an applied promo (email affects per-email / first-purchase limits).
   const paBtn=byId('coPromoApply'); if(paBtn)paBtn.addEventListener('click',applyPromo);
-  const prBtn=byId('coPromoRemove'); if(prBtn)prBtn.addEventListener('click',()=>{resetPromo();try{magicMetrikaGoal('promo_removed',{});}catch(e){}});
+  const prBtn=byId('coPromoRemove'); if(prBtn)prBtn.addEventListener('click',()=>{resetPromo();try{magicMetrikaGoal('promo_removed',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:(overlay&&overlay.dataset?overlay.dataset.packageId:undefined)});}catch(e){}});
   const piEl=byId('coPromoInput'); if(piEl)piEl.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();applyPromo();}});
   // Email affects per-email / first-purchase promo limits. Instead of dropping the
   // applied promo (forcing a manual re-apply), silently re-validate it against the
