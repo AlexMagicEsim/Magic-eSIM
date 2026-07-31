@@ -2317,13 +2317,25 @@ window.addEventListener('DOMContentLoaded', async () => {
     err.hidden=true;
     submitting=true;
     // Analytics (safe wrapper; no PII). Fires once per initiation — the submitting
-    // guard above prevents a double click from creating a second goal. Only
-    // payment_type + price_rub are stored (no email/token/order id/package data)
-    // for the same-origin success/failed pages; cleared there after the goal fires.
+    // guard above prevents a double click from creating a second goal.
+    //
+    // The bridge to the same-origin result pages carries what the order status API
+    // does not return: package, promo, payment method. It deliberately holds no
+    // email, no contact, no order token — only the 6-char order reference, added
+    // below once the server answers. price_rub is the amount we *expect*; the
+    // result page ignores it for revenue and uses the server's own figure.
     try{
       const _pr=(currentPrice()!=null)?String(currentPrice()):overlay.dataset.priceRub;
       magicMetrikaGoal(paymentType==='sbp'?'payment_sbp_click':'payment_card_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:pkgId,price_rub:_pr});
-      sessionStorage.setItem('magic_pay_ctx',JSON.stringify({payment_type:(paymentType==='sbp'||paymentType==='card')?paymentType:undefined,price_rub:(_pr!==''&&isFinite(Number(_pr)))?Number(_pr):undefined,_ts:Date.now()}));
+      sessionStorage.setItem('magic_pay_ctx',JSON.stringify({
+        payment_type:(paymentType==='sbp'||paymentType==='card')?paymentType:undefined,
+        price_rub:(_pr!==''&&isFinite(Number(_pr)))?Number(_pr):undefined,
+        country_code:(typeof activeCountry!=='undefined'&&activeCountry)?activeCountry:undefined,
+        package_id:pkgId||undefined,
+        promo_code:appliedPromo?appliedPromo.code:undefined,
+        discount_amount:(appliedPromo&&isFinite(Number(appliedPromo.discount)))?Number(appliedPromo.discount):undefined,
+        _ts:Date.now()
+      }));
     }catch(e){}
     let redirected=false;
     const payBtn=byId('coPay'),mSbp=byId('coMethodSbp'),mCard=byId('coMethodCard');
@@ -2346,6 +2358,18 @@ window.addEventListener('DOMContentLoaded', async () => {
       });
       let data={};try{data=await resp.json();}catch(e){}
       if(resp.ok&&data.redirect_url&&allowedRedirect(data.redirect_url)){
+        // Bind the bridge to this exact order so a result page can tell a fresh
+        // context from one left over by an earlier attempt. Only the last 6 chars
+        // are kept — the reference the partner portal already shows — never the
+        // full token, which still reads order status.
+        try{
+          const _tok=String(data.public_order_token||'');
+          if(_tok){
+            const _c=JSON.parse(sessionStorage.getItem('magic_pay_ctx')||'{}')||{};
+            _c.order_ref=_tok.slice(-6);
+            sessionStorage.setItem('magic_pay_ctx',JSON.stringify(_c));
+          }
+        }catch(e){}
         redirected=true;
         window.location.assign(data.redirect_url);         // go to Platega payment page
         return;

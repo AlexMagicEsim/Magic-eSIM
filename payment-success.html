@@ -136,13 +136,66 @@
         else { spinner.classList.add('hide'); if (s.ic) { icon.textContent = s.ic; icon.classList.remove('hide'); } }
       }
 
-      // Analytics: fire payment_success ONCE, only when the status poll confirms a
-      // received payment (paid / purchasing_esim / completed). Never on page-open.
-      var paidFired = false;
-      function firePaymentSuccess(){
-        var ctx = {}; try { ctx = JSON.parse(sessionStorage.getItem('magic_pay_ctx') || '{}') || {}; } catch (e) {}
-        if (window.magicMetrikaGoal) window.magicMetrikaGoal('payment_success', { payment_type: ctx.payment_type, price_rub: ctx.price_rub });
-        try { sessionStorage.removeItem('magic_pay_ctx'); } catch (e) {}
+      // Analytics. Money figures come from the polled order - the server's own
+      // record - never from the DOM or from whichever tariff card the user last
+      // looked at, so a promo, a price change or a stale card cannot skew revenue.
+      // sessionStorage only fills in what the status view does not carry (package,
+      // promo, payment method), and only when it provably belongs to THIS order.
+      var PAY_CTX_MAX_AGE_MS = 6 * 60 * 60 * 1000;
+      var FIRED_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+
+      // The partner portal already identifies orders by right(public_order_token, 6);
+      // reusing it keeps Metrika joinable with those reports and keeps the token
+      // itself - which still reads order status - out of analytics.
+      function orderRef(t){ return String(t || '').slice(-6); }
+
+      function readPayCtx(){
+        var ctx = null;
+        try { ctx = JSON.parse(sessionStorage.getItem('magic_pay_ctx') || 'null'); } catch (e) { return null; }
+        if (!ctx || typeof ctx !== 'object') return null;
+        var age = Date.now() - Number(ctx._ts || 0);
+        if (!isFinite(age) || age < 0 || age > PAY_CTX_MAX_AGE_MS) return null;  // stale
+        if (ctx.order_ref && ctx.order_ref !== orderRef(token)) return null;     // a different order
+        return ctx;
+      }
+      function clearPayCtx(){ try { sessionStorage.removeItem('magic_pay_ctx'); } catch (e) {} }
+
+      // Cross-reload and cross-tab guard: each goal is recorded at most once per
+      // order, so reopening this link tomorrow cannot inflate conversions or
+      // revenue. sessionStorage would not survive a new tab; localStorage does.
+      function alreadyFired(key){
+        try {
+          var raw = JSON.parse(localStorage.getItem('magic_fired_goals') || '[]');
+          if (!Array.isArray(raw)) raw = [];
+          var now = Date.now();
+          var keep = raw.filter(function (e) { return e && typeof e.k === 'string' && (now - Number(e.ts || 0)) < FIRED_TTL_MS; });
+          if (keep.some(function (e) { return e.k === key; })) return true;
+          keep.push({ k: key, ts: now });
+          localStorage.setItem('magic_fired_goals', JSON.stringify(keep.slice(-100)));
+          return false;
+        } catch (e) { return false; }   // storage blocked -> the in-page guard still holds
+      }
+
+      var firedThisPage = {};
+      function fireOrderGoal(name, view){
+        if (firedThisPage[name]) return;
+        firedThisPage[name] = true;
+        var ref = orderRef(token);
+        if (alreadyFired(name + ':' + ref)) return;
+        var ctx = readPayCtx() || {};
+        var payload = {
+          order_id: ref,
+          country_code: (view && view.country) || ctx.country_code,
+          package_id: ctx.package_id,
+          promo_code: ctx.promo_code,
+          discount_amount: ctx.discount_amount,
+          payment_method: ctx.payment_type
+        };
+        if (name === 'payment_success') {
+          payload.order_price = (view && isFinite(Number(view.amountRub))) ? Number(view.amountRub) : undefined;
+          payload.currency = (view && view.currency) || 'RUB';
+        }
+        if (window.magicMetrikaGoal) window.magicMetrikaGoal(name, payload);
       }
 
       render('processing');
@@ -168,9 +221,15 @@
           .then(function (view) {
             var key = view ? mapView(view) : 'processing';
             render(key);
-            if (!paidFired && (key === 'confirmed' || key === 'preparing' || key === 'done')) { paidFired = true; firePaymentSuccess(); }
+            // tech_error counts as a payment too: provider_failed means the money
+            // arrived and only the eSIM hand-off broke, which is what the page
+            // itself tells the user. Revenue is booked; the failure is reported
+            // separately so it can be alerted on without denting the conversion.
+            if (key === 'confirmed' || key === 'preparing' || key === 'done' || key === 'tech_error') fireOrderGoal('payment_success', view);
+            if (key === 'tech_error') fireOrderGoal('payment_tech_error', view);
+            if (key === 'canceled') fireOrderGoal('payment_canceled', view);
             // Stop on terminal states. This page never confirms payment itself.
-            if (view && TERMINAL[view.status]) return;
+            if (view && TERMINAL[view.status]) { clearPayCtx(); return; }
             if (attempts >= MAX) return; // stop polling; leave last known state
             setTimeout(poll, 4000);
           })
