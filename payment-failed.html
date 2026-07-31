@@ -94,14 +94,33 @@
     </div>
   </main>
   <script>
-  /* payment_failed: landing on this page (Platega redirect on a not-completed payment)
-     is itself the reliable signal → fire once on load. safe_error_code is omitted (no
-     source on this static page). payment_type comes from the same-origin bridge if
-     present; otherwise the goal still fires without params. Then the bridge is cleared. */
+  /* payment_failed. Platega sends the user here on a payment it did not complete,
+     but that is not enough on its own: this URL carries no token, so simply
+     opening it - directly, from history, by a crawler, or on a refresh - used to
+     count as a failed payment and quietly inflated the goal.
+
+     The only evidence available on this page is magic_pay_ctx, written by our own
+     checkout the moment a payment is initiated. So the goal now requires it: a
+     context that exists, is well-formed, is younger than six hours, and names a
+     payment method we actually offer. Anything else fires nothing at all.
+
+     The context is cleared right after, so a refresh cannot produce a second goal.
+     order_ref is present only for payments created after this change; it is
+     reported when known and simply omitted otherwise. */
   (function(){
-    var ctx={};try{ctx=JSON.parse(sessionStorage.getItem('magic_pay_ctx')||'{}')||{};}catch(e){}
-    if(window.magicMetrikaGoal)window.magicMetrikaGoal('payment_failed',{payment_type:ctx.payment_type});
-    try{sessionStorage.removeItem('magic_pay_ctx');}catch(e){}
+    var MAX_AGE_MS=6*60*60*1000;
+    var ctx=null;try{ctx=JSON.parse(sessionStorage.getItem('magic_pay_ctx')||'null');}catch(e){return;}
+    if(!ctx||typeof ctx!=='object')return;                                  // never started a payment here
+    var age=Date.now()-Number(ctx._ts||0);
+    if(!isFinite(age)||age<0||age>MAX_AGE_MS)return;                        // stale or forged timestamp
+    if(!/^(sbp|card)$/.test(String(ctx.payment_type||'')))return;           // not a context our checkout wrote
+    try{sessionStorage.removeItem('magic_pay_ctx');}catch(e){}              // clear first: a refresh must not re-fire
+    if(window.magicMetrikaGoal)window.magicMetrikaGoal('payment_failed',{
+      order_id:ctx.order_ref,
+      country_code:ctx.country_code,
+      package_id:ctx.package_id,
+      payment_method:ctx.payment_type
+    });
   })();
   </script>
 </body>
