@@ -783,7 +783,7 @@ function renderPackageCard(item,best){
       <div class="package-price">${formatRetailPrice(item)}</div>
       <div class="package-actions">
         ${buyButtonHtml(item)}
-        <button type="button" class="btn package-coverage-btn js-coverage" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
+        <button type="button" class="btn package-coverage-btn js-coverage" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
       </div>
     </article>`;
 }
@@ -943,7 +943,15 @@ function renderCountrySplit(){
     overlay.hidden=false;document.body.style.overflow='hidden';
   }
   function close(){overlay.hidden=true;document.body.style.overflow='';}
-  document.addEventListener('click',(e)=>{const b=e.target.closest('.js-coverage');if(!b)return;e.preventDefault();open(b.dataset);});
+  /* One goal per actual opening of the modal: the listener only runs on a real
+     click on a coverage button, so scrolling past a card or a re-render never
+     counts. Reopening the same tariff is a genuine second look and is reported
+     as one. */
+  document.addEventListener('click',(e)=>{
+    const b=e.target.closest('.js-coverage');if(!b)return;e.preventDefault();
+    open(b.dataset);
+    try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('coverage_modal_open',{country_code:activeCountry,package_id:b.dataset.packageId});}catch(_){/* analytics must never block the modal */}
+  });
   const x=g('coverageClose');if(x)x.addEventListener('click',close);
   overlay.addEventListener('click',(e)=>{if(e.target===overlay)close();});
   document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&!overlay.hidden)close();});
@@ -982,15 +990,20 @@ function renderCountrySplit(){
   function wire(){
     const sort=document.getElementById('packageSort');
     if(sort)sort.addEventListener('change',()=>{ if(/^[A-Z]{2}$/.test(String(activeCountry||''))) renderCountrySplit(); });
-    // Deep-link buy → reuse the existing tariff_buy_click goal. tariff_type derived
-    // from the grid the card sits in. No PII/QR/ICCID/order data is ever sent.
+    // «Выбрать тариф» on a country page is a deep link to /?country=XX, not a
+    // purchase: it carries no package, so the visitor still has to pick a tariff
+    // and press «Купить» on the landing. Firing tariff_buy_click here counted that
+    // one journey twice and made the goal mean two different things depending on
+    // where it came from. It is country_tariff_click now — entering the catalogue —
+    // and tariff_buy_click is left to mean intent to buy a specific tariff.
+    // tariff_type comes from the grid the card sits in. No PII/QR/ICCID/order data.
     document.addEventListener('click',(e)=>{
       const a=e.target.closest('a.js-buy-link');
       if(!a)return;
       const tt=a.closest('#regionalGrid')?'regional':(a.closest('#localGrid')?'local':undefined);
       try{
         if(window.magicMetrikaGoal){
-          window.magicMetrikaGoal('tariff_buy_click',{
+          window.magicMetrikaGoal('country_tariff_click',{
             country_code:activeCountry,
             package_id:a.dataset.packageId,
             price_rub:a.dataset.price,
