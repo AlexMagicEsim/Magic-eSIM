@@ -971,20 +971,99 @@ function renderCountrySplit(){
     const c=s?String(s.getAttribute('data-country-page')||'').trim().toUpperCase():'';
     return /^[A-Z]{2}$/.test(c)?c:'';
   }
+  /* Same live-then-cache rules as the landing, from the same module, so the two
+     cannot drift. Country pages only ever link into the catalogue — no checkout
+     lives here — so a cached price is displayed but never paid against on this
+     page; the landing re-validates before opening checkout. */
+  let catalogSource=null;
+  let catalogRetryInFlight=false;
+
+  function noticeEl(){
+    let el=document.getElementById('catalogNotice');
+    if(el)return el;
+    const anchor=document.getElementById('packagesStatus')||document.getElementById('localGrid');
+    if(!anchor||!anchor.parentNode)return null;
+    el=document.createElement('div');
+    el.id='catalogNotice';
+    el.className='catalog-notice';
+    el.hidden=true;
+    anchor.parentNode.insertBefore(el,anchor);
+    return el;
+  }
+
+  function renderNotice(text,buttonLabel){
+    const el=noticeEl();
+    if(!el)return;
+    el.innerHTML='';
+    const t=document.createElement('span');
+    t.className='catalog-notice-text';
+    t.textContent=text;
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='btn secondary catalog-notice-btn';
+    btn.id='catalogRetryBtn';
+    btn.textContent=buttonLabel;
+    btn.addEventListener('click',retryLive);
+    el.appendChild(t);
+    el.appendChild(btn);
+    el.hidden=false;
+  }
+
+  function hideNotice(){const el=document.getElementById('catalogNotice');if(el)el.hidden=true;}
+
+  async function retryLive(){
+    if(catalogRetryInFlight)return;
+    catalogRetryInFlight=true;
+    const btn=document.getElementById('catalogRetryBtn');
+    const label=btn?btn.textContent:'';
+    if(btn){btn.disabled=true;btn.textContent='Загружаем…';}
+    try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_retry_clicked',{page_type:'country'});}catch(_){}
+    try{
+      const packages=await window.MagicCatalog.loadLive();
+      allLandingPackages=packages;
+      window.allLandingPackages=allLandingPackages;
+      catalogSource='live';
+      hideNotice();
+      renderCountrySplit();
+      try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_retry_succeeded',{page_type:'country',source:'live'});}catch(_){}
+    }catch(err){
+      // Never drop a cached catalogue because a retry failed.
+      if(btn){btn.textContent='Пока не получилось — попробуйте позже';
+        setTimeout(()=>{if(btn)btn.textContent=label;},4000);}
+      try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_retry_failed',{page_type:'country',error_type:String((err&&err.errorType)||'unknown').slice(0,32)});}catch(_){}
+    }finally{
+      catalogRetryInFlight=false;
+      if(btn)btn.disabled=false;
+    }
+  }
+
   async function loadCountryPackages(){
     const status=document.getElementById('packagesStatus');
     const code=pageCountryCode();
     if(!code)return;
     if(status)status.textContent='Загружаем тарифы...';
     try{
-      const data=await loadJson(`${API_BASE}/api/v1/retail/packages?t=${Date.now()}`);
-      allLandingPackages=Array.isArray(data.data)?data.data:[];
+      const result=await window.MagicCatalog.load();
+      allLandingPackages=Array.isArray(result.packages)?result.packages:[];
       window.allLandingPackages=allLandingPackages;
+      catalogSource=result.source;
       activeCountry=code;
+      if(result.source==='cache'){
+        const age=window.MagicCatalog.cacheAgeHours(result.generatedAt);
+        const when=(age!=null&&age<72)?` Обновлено: ${age===0?'меньше часа назад':age+' ч назад'}.`:'';
+        renderNotice('Каталог загружен из резервной копии из-за временных ограничений сети. Актуальная цена и доступность будут проверены перед оплатой.'+when,'Повторить загрузку');
+        try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_cache_loaded',{page_type:'country',source:'cache',country_code:code,error_type:String(result.liveError||'unknown').slice(0,32),cache_age_hours:age});}catch(_){}
+      }else{
+        hideNotice();
+        try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_live_loaded',{page_type:'country',source:'live',country_code:code});}catch(_){}
+      }
       renderCountrySplit();
     }catch(err){
       console.error('Package load failed',err);
-      if(status)status.textContent='Не удалось загрузить тарифы. Напишите в поддержку — подберём тариф вручную.';
+      catalogSource=null;
+      if(status)status.textContent='';
+      renderNotice('Не удалось загрузить тарифы. Это может быть связано с временными ограничениями сети. Попробуйте другую сеть, включите VPN или повторите попытку позже.','Повторить');
+      try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_load_failed',{page_type:'country',country_code:code,error_type:String((err&&err.liveError)||'unknown').slice(0,32)});}catch(_){}
     }
   }
   function wire(){

@@ -203,3 +203,4 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
   html{scroll-behavior:auto}
   *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
+.catalog-notice{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:0 0 18px;padding:14px 16px;border:1px solid rgba(230,205,138,.34);border-radius:14px;background:rgba(230,205,138,.09);color:#e8ecff;line-height:1.5;font-size:15px}.catalog-notice[hidden]{display:none}.catalog-notice-text{flex:1;min-width:min(100%,260px)}.catalog-notice-btn{min-height:42px;padding:0 18px;white-space:nowrap}@media(max-width:600px){.catalog-notice-btn{width:100%}}

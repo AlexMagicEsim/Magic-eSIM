@@ -317,6 +317,7 @@ ${relatedLinks(c)}
     </div>
   </div>
 
+  <script src="/assets/catalog-loader.js" defer></script>
   <script src="../../assets/country-tariffs.js" defer></script>
 </body>
 </html>

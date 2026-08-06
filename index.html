@@ -52,12 +52,13 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
   <!-- /Yandex.Metrika counter -->
+  <script src="/assets/catalog-loader.js" defer></script>
   <script>
   /* Safe Metrika goal wrapper — allowlisted goal names + param keys, strict per-key
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={catalog_live_loaded:['page_type','source'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -67,8 +68,11 @@
       if(k==='promo_code'){v=String(v).toUpperCase();return /^[A-Z0-9_-]{1,32}$/.test(v)?v:undefined;}
       if(k==='currency'){v=String(v).toUpperCase();return v==='RUB'?v:undefined;}
       if(k==='payment_method'){v=String(v);return /^(sbp|card)$/.test(v)?v:undefined;}
+      if(k==='page_type'){v=String(v);return /^(landing|country)$/.test(v)?v:undefined;}
+      if(k==='source'){v=String(v);return /^(live|cache)$/.test(v)?v:undefined;}
+      if(k==='error_type'){v=String(v);return /^[a-z0-9_]{1,32}$/i.test(v)?v:undefined;}
       if(k==='tariff_type'){v=String(v);return /^(local|regional)$/.test(v)?v:undefined;}
-      if(k==='order_price'||k==='discount_amount'||k==='price_rub'||k==='data_gb'||k==='validity_days'||k==='local_count'||k==='regional_count'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
+      if(k==='cache_age_hours'||k==='order_price'||k==='discount_amount'||k==='price_rub'||k==='data_gb'||k==='validity_days'||k==='local_count'||k==='regional_count'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
       return undefined;
     }
     window.magicMetrikaGoal=function(name,params){
@@ -89,7 +93,8 @@
   })();
   </script>
   <style>
-    :root{--bg:#0a0d16;--card:rgba(18,22,38,.72);--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--purple:#7a6fb0;--yellow:#e6cd8a;--border:rgba(255,255,255,.10);--shadow:0 12px 34px rgba(0,0,0,.30);--radius:18px;--max:1180px}*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 16% 12%,rgba(168,60,255,.34),transparent 32%),radial-gradient(circle at 84% 24%,rgba(24,216,255,.25),transparent 34%),var(--bg);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#000,transparent 82%);z-index:-2}a{color:inherit;text-decoration:none}.container{width:min(var(--max),calc(100% - 40px));margin:0 auto}.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(var(--max),calc(100% - 40px));z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid var(--border);border-radius:999px;background:rgba(5,7,15,.72);backdrop-filter:blur(18px);box-shadow:0 16px 50px rgba(0,0,0,.25);animation:navDrop .9s ease both}.brand{display:flex;align-items:center;gap:10px;font-weight:800}.company-name{font-size:24px;font-weight:700;letter-spacing:-.05em;background:linear-gradient(90deg,#b43bff,#5d7cff,#18d8ff);-webkit-background-clip:text;color:transparent}.nav-links{display:flex;gap:22px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--cyan)}.btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(135deg,var(--purple),var(--blue) 48%,var(--cyan));color:white;font-weight:800;box-shadow:0 16px 44px rgba(24,216,255,.22),0 10px 34px rgba(168,60,255,.20);transition:transform .25s ease,box-shadow .25s ease;position:relative;overflow:hidden}.btn:after{content:"";position:absolute;top:0;left:-120%;width:80%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:none}.btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 22px 60px rgba(24,216,255,.30),0 14px 44px rgba(168,60,255,.26)}.btn.secondary{background:rgba(255,255,255,.06);box-shadow:none}.hero{position:relative;min-height:100vh;display:grid;align-items:center;padding:140px 0 80px;overflow:hidden}.hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 18% 28%,rgba(168,60,255,.34),transparent 34%),radial-gradient(circle at 82% 34%,rgba(24,216,255,.28),transparent 36%),linear-gradient(90deg,rgba(5,7,15,.96),rgba(8,12,26,.82) 48%,rgba(5,7,15,.94));opacity:.5;transform:scale(1.04);animation:none}.hero-content{position:relative;z-index:2;max-width:780px;animation:fadeUp .9s ease both}.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.06);color:#dce3ff;margin-bottom:22px;backdrop-filter:blur(14px)}.pulse{width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(24,216,255,.85);animation:pulse 1.7s infinite}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(42px,7vw,82px);line-height:.98;letter-spacing:-.06em;margin-bottom:24px}.gradient-text{background:linear-gradient(90deg,#fff,#9eaaff 38%,var(--cyan));-webkit-background-clip:text;color:transparent}.lead{font-size:clamp(18px,2.2vw,24px);line-height:1.55;color:#d7ddf5;max-width:690px;margin-bottom:34px}.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}section{padding:92px 0}.section-head{max-width:760px;margin-bottom:36px}.section-kicker{color:var(--cyan);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:13px;margin-bottom:12px}h2{font-size:clamp(32px,4vw,54px);line-height:1.05;letter-spacing:-.04em;margin-bottom:16px}.muted{color:var(--muted);line-height:1.75;font-size:17px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}.card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(18px);position:relative;overflow:hidden;transition:transform .3s ease,border-color .3s ease}.card:hover{transform:translateY(-6px);border-color:rgba(24,216,255,.36)}.problem-list{grid-column:span 7}.problem-note{grid-column:span 5}.solution-card,.benefit,.social-card{grid-column:span 4}.tech-text,.tech-points{grid-column:span 6}.check-list,.plain-list{display:grid;gap:14px;padding:0;margin:0;list-style:none}.plain-list li,.check-list li{display:flex;gap:12px;color:#e8ecff;line-height:1.5;font-size:18px}.plain-list li:before{content:"—";color:var(--cyan);font-weight:900}.check-list li:before{content:"✓";flex:0 0 24px;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:rgba(24,216,255,.14);color:var(--cyan);font-weight:900;margin-top:2px}.icon{width:54px;height:54px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(135deg,rgba(168,60,255,.24),rgba(24,216,255,.18));border:1px solid rgba(255,255,255,.12);font-size:26px;margin-bottom:18px}.pricing-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:start}.price-table{display:grid;gap:12px;margin-top:22px}.price-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(255,255,255,.045)}.price-row strong{font-size:20px}.price-row span:last-child{color:var(--yellow);font-weight:900;white-space:nowrap}.daily-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;align-items:stretch}.daily-plan{min-height:100%;padding:54px 20px 20px;border:1px solid rgba(255,255,255,.12);border-radius:24px;background:rgba(255,255,255,.045);position:relative;display:flex;flex-direction:column}.daily-plan h4{min-height:56px;display:flex;align-items:flex-start;font-size:22px;margin-bottom:16px;letter-spacing:-.02em;padding-right:6px}.daily-plan .price-table{margin-top:auto}.daily-plan .price-row{padding:14px 15px}.daily-plan.hit{border-color:rgba(255,225,119,.55);background:linear-gradient(180deg,rgba(255,225,119,.14),rgba(255,255,255,.045));box-shadow:0 18px 54px rgba(255,225,119,.10)}.hit-badge{position:absolute;top:18px;left:20px;margin:0;background:linear-gradient(135deg,#ffe177,#ffb800);border:0;color:#080a12;box-shadow:0 10px 28px rgba(255,225,119,.28);letter-spacing:.04em}.badge{display:inline-flex;padding:7px 12px;border-radius:999px;background:rgba(24,216,255,.12);color:#bff5ff;border:1px solid rgba(24,216,255,.22);font-size:13px;font-weight:800;margin-bottom:16px}.cta{padding:108px 0}.cta-box{text-align:center;border-radius:40px;padding:64px 28px;background:radial-gradient(circle at 18% 20%,rgba(168,60,255,.36),transparent 35%),radial-gradient(circle at 82% 35%,rgba(24,216,255,.32),transparent 36%),linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.16);box-shadow:var(--shadow)}footer{padding:34px 0 48px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}.reveal.visible{opacity:1;transform:translateY(0)}.landing-controls{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+    :root{--bg:#0a0d16;--card:rgba(18,22,38,.72);--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--purple:#7a6fb0;--yellow:#e6cd8a;--border:rgba(255,255,255,.10);--shadow:0 12px 34px rgba(0,0,0,.30);--radius:18px;--max:1180px}*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 16% 12%,rgba(168,60,255,.34),transparent 32%),radial-gradient(circle at 84% 24%,rgba(24,216,255,.25),transparent 34%),var(--bg);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#000,transparent 82%);z-index:-2}a{color:inherit;text-decoration:none}.container{width:min(var(--max),calc(100% - 40px));margin:0 auto}.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(var(--max),calc(100% - 40px));z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid var(--border);border-radius:999px;background:rgba(5,7,15,.72);backdrop-filter:blur(18px);box-shadow:0 16px 50px rgba(0,0,0,.25);animation:navDrop .9s ease both}.brand{display:flex;align-items:center;gap:10px;font-weight:800}.company-name{font-size:24px;font-weight:700;letter-spacing:-.05em;background:linear-gradient(90deg,#b43bff,#5d7cff,#18d8ff);-webkit-background-clip:text;color:transparent}.nav-links{display:flex;gap:22px;color:var(--muted);font-size:14px}.nav-links a:hover{color:var(--cyan)}.btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(135deg,var(--purple),var(--blue) 48%,var(--cyan));color:white;font-weight:800;box-shadow:0 16px 44px rgba(24,216,255,.22),0 10px 34px rgba(168,60,255,.20);transition:transform .25s ease,box-shadow .25s ease;position:relative;overflow:hidden}.btn:after{content:"";position:absolute;top:0;left:-120%;width:80%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:none}.btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 22px 60px rgba(24,216,255,.30),0 14px 44px rgba(168,60,255,.26)}.btn.secondary{background:rgba(255,255,255,.06);box-shadow:none}.hero{position:relative;min-height:100vh;display:grid;align-items:center;padding:140px 0 80px;overflow:hidden}.hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 18% 28%,rgba(168,60,255,.34),transparent 34%),radial-gradient(circle at 82% 34%,rgba(24,216,255,.28),transparent 36%),linear-gradient(90deg,rgba(5,7,15,.96),rgba(8,12,26,.82) 48%,rgba(5,7,15,.94));opacity:.5;transform:scale(1.04);animation:none}.hero-content{position:relative;z-index:2;max-width:780px;animation:fadeUp .9s ease both}.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.06);color:#dce3ff;margin-bottom:22px;backdrop-filter:blur(14px)}.pulse{width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(24,216,255,.85);animation:pulse 1.7s infinite}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(42px,7vw,82px);line-height:.98;letter-spacing:-.06em;margin-bottom:24px}.gradient-text{background:linear-gradient(90deg,#fff,#9eaaff 38%,var(--cyan));-webkit-background-clip:text;color:transparent}.lead{font-size:clamp(18px,2.2vw,24px);line-height:1.55;color:#d7ddf5;max-width:690px;margin-bottom:34px}.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}section{padding:92px 0}.section-head{max-width:760px;margin-bottom:36px}.section-kicker{color:var(--cyan);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:13px;margin-bottom:12px}h2{font-size:clamp(32px,4vw,54px);line-height:1.05;letter-spacing:-.04em;margin-bottom:16px}.muted{color:var(--muted);line-height:1.75;font-size:17px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}.card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(18px);position:relative;overflow:hidden;transition:transform .3s ease,border-color .3s ease}.card:hover{transform:translateY(-6px);border-color:rgba(24,216,255,.36)}.problem-list{grid-column:span 7}.problem-note{grid-column:span 5}.solution-card,.benefit,.social-card{grid-column:span 4}.tech-text,.tech-points{grid-column:span 6}.check-list,.plain-list{display:grid;gap:14px;padding:0;margin:0;list-style:none}.plain-list li,.check-list li{display:flex;gap:12px;color:#e8ecff;line-height:1.5;font-size:18px}.plain-list li:before{content:"—";color:var(--cyan);font-weight:900}.check-list li:before{content:"✓";flex:0 0 24px;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:rgba(24,216,255,.14);color:var(--cyan);font-weight:900;margin-top:2px}.icon{width:54px;height:54px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(135deg,rgba(168,60,255,.24),rgba(24,216,255,.18));border:1px solid rgba(255,255,255,.12);font-size:26px;margin-bottom:18px}.pricing-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:start}.price-table{display:grid;gap:12px;margin-top:22px}.price-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(255,255,255,.045)}.price-row strong{font-size:20px}.price-row span:last-child{color:var(--yellow);font-weight:900;white-space:nowrap}.daily-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;align-items:stretch}.daily-plan{min-height:100%;padding:54px 20px 20px;border:1px solid rgba(255,255,255,.12);border-radius:24px;background:rgba(255,255,255,.045);position:relative;display:flex;flex-direction:column}.daily-plan h4{min-height:56px;display:flex;align-items:flex-start;font-size:22px;margin-bottom:16px;letter-spacing:-.02em;padding-right:6px}.daily-plan .price-table{margin-top:auto}.daily-plan .price-row{padding:14px 15px}.daily-plan.hit{border-color:rgba(255,225,119,.55);background:linear-gradient(180deg,rgba(255,225,119,.14),rgba(255,255,255,.045));box-shadow:0 18px 54px rgba(255,225,119,.10)}.hit-badge{position:absolute;top:18px;left:20px;margin:0;background:linear-gradient(135deg,#ffe177,#ffb800);border:0;color:#080a12;box-shadow:0 10px 28px rgba(255,225,119,.28);letter-spacing:.04em}.badge{display:inline-flex;padding:7px 12px;border-radius:999px;background:rgba(24,216,255,.12);color:#bff5ff;border:1px solid rgba(24,216,255,.22);font-size:13px;font-weight:800;margin-bottom:16px}.cta{padding:108px 0}.cta-box{text-align:center;border-radius:40px;padding:64px 28px;background:radial-gradient(circle at 18% 20%,rgba(168,60,255,.36),transparent 35%),radial-gradient(circle at 82% 35%,rgba(24,216,255,.32),transparent 36%),linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.16);box-shadow:var(--shadow)}footer{padding:34px 0 48px;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}.reveal.visible{opacity:1;transform:translateY(0)}.catalog-notice{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:0 0 18px;padding:14px 16px;border:1px solid rgba(230,205,138,.34);border-radius:14px;background:rgba(230,205,138,.09);color:#e8ecff;line-height:1.5;font-size:15px}.catalog-notice[hidden]{display:none}.catalog-notice-text{flex:1;min-width:min(100%,260px)}.catalog-notice-btn{min-height:42px;padding:0 18px;white-space:nowrap}@media(max-width:600px){.catalog-notice-btn{width:100%}}
+.landing-controls{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
 .landing-search-wrap{display:flex;gap:12px;flex:1;min-width:min(100%,360px)}
 .landing-search-wrap .landing-search{flex:1;min-width:0}
 .package-search-button{min-height:58px;padding:0 28px;white-space:nowrap}
@@ -2101,6 +2106,103 @@ function renderPackages(){
 }
 
 
+/* Where the catalogue came from on this page: 'live', 'cache' or null before the
+   first load. Checkout reads it — a card built from the cache must have its price
+   and availability confirmed against the backend before anyone can pay. */
+let catalogSource=null;
+let catalogGeneratedAt=null;
+let catalogRetryInFlight=false;
+
+/* The fallback notice lives above the tariff grid. Built once, then shown or
+   hidden; it never replaces the catalogue, so the user can still browse. */
+function catalogNoticeEl(){
+  let el=document.getElementById('catalogNotice');
+  if(el)return el;
+  const anchor=document.getElementById('countryChips')||document.getElementById('packagesStatus');
+  if(!anchor)return null;
+  el=document.createElement('div');
+  el.id='catalogNotice';
+  el.className='catalog-notice';
+  el.hidden=true;
+  anchor.parentNode.insertBefore(el,anchor);
+  return el;
+}
+
+function hideCatalogNotice(){const el=document.getElementById('catalogNotice');if(el)el.hidden=true;}
+
+function showCacheNotice(generatedAt){
+  const el=catalogNoticeEl();
+  if(!el)return;
+  const age=window.MagicCatalog?window.MagicCatalog.cacheAgeHours(generatedAt):null;
+  const when=(age!=null&&age<72)?` Обновлено: ${age===0?'меньше часа назад':age+' ч назад'}.`:'';
+  el.innerHTML='';
+  const text=document.createElement('span');
+  text.className='catalog-notice-text';
+  text.textContent='Каталог загружен из резервной копии из-за временных ограничений сети. Актуальная цена и доступность будут проверены перед оплатой.'+when;
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='btn secondary catalog-notice-btn';
+  btn.id='catalogRetryBtn';
+  btn.textContent='Повторить загрузку';
+  btn.addEventListener('click',retryLiveCatalog);
+  el.appendChild(text);
+  el.appendChild(btn);
+  el.hidden=false;
+}
+
+function showCatalogFailure(){
+  const el=catalogNoticeEl();
+  const status=document.getElementById('packagesStatus');
+  if(status)status.textContent='';
+  if(!el)return;
+  el.innerHTML='';
+  const text=document.createElement('span');
+  text.className='catalog-notice-text';
+  text.textContent='Не удалось загрузить тарифы. Это может быть связано с временными ограничениями сети. Попробуйте другую сеть, включите VPN или повторите попытку позже.';
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='btn secondary catalog-notice-btn';
+  btn.id='catalogRetryBtn';
+  btn.textContent='Повторить';
+  btn.addEventListener('click',retryLiveCatalog);
+  el.appendChild(text);
+  el.appendChild(btn);
+  el.hidden=false;
+}
+
+/* Retry always starts a fresh request — a rejected promise is never reused. The
+   button is disabled while one is in flight so repeated clicks cannot multiply
+   requests. The current country/search selection is preserved by re-rendering
+   rather than reloading the page. */
+async function retryLiveCatalog(){
+  if(catalogRetryInFlight)return;
+  catalogRetryInFlight=true;
+  const btn=document.getElementById('catalogRetryBtn');
+  const label=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='Загружаем…';}
+  try{magicMetrikaGoal('catalog_retry_clicked',{page_type:'landing'});}catch(e){}
+  try{
+    const packages=await window.MagicCatalog.loadLive();
+    allLandingPackages=packages;
+    window.allLandingPackages=allLandingPackages;
+    catalogSource='live';
+    catalogGeneratedAt=null;
+    hideCatalogNotice();
+    renderCountryChips();
+    renderPackages();
+    try{magicMetrikaGoal('catalog_retry_succeeded',{page_type:'landing',source:'live'});}catch(e){}
+  }catch(err){
+    // Keep whatever is on screen: losing a cached catalogue on a failed retry
+    // would be strictly worse than the state the user already had.
+    if(btn){btn.textContent='Пока не получилось — попробуйте позже';
+      setTimeout(()=>{if(btn)btn.textContent=label;},4000);}
+    try{magicMetrikaGoal('catalog_retry_failed',{page_type:'landing',error_type:String((err&&err.errorType)||'unknown').slice(0,32)});}catch(e){}
+  }finally{
+    catalogRetryInFlight=false;
+    if(btn)btn.disabled=false;
+  }
+}
+
 async function loadLandingPackages(){
   const status=document.getElementById('packagesStatus');
   if(!status){
@@ -2110,14 +2212,25 @@ async function loadLandingPackages(){
   status.textContent='Загружаем тарифы...';
 
   try{
-    const data=await loadJson(`${API_BASE}/api/v1/retail/packages?t=${Date.now()}`);
-    allLandingPackages=Array.isArray(data.data)?data.data:[];
+    const result=await window.MagicCatalog.load();
+    allLandingPackages=Array.isArray(result.packages)?result.packages:[];
     window.allLandingPackages=allLandingPackages;
+    catalogSource=result.source;
+    catalogGeneratedAt=result.generatedAt;
+    if(result.source==='cache'){
+      showCacheNotice(result.generatedAt);
+      try{magicMetrikaGoal('catalog_cache_loaded',{page_type:'landing',source:'cache',error_type:String(result.liveError||'unknown').slice(0,32),cache_age_hours:window.MagicCatalog.cacheAgeHours(result.generatedAt)});}catch(e){}
+    }else{
+      hideCatalogNotice();
+      try{magicMetrikaGoal('catalog_live_loaded',{page_type:'landing',source:'live'});}catch(e){}
+    }
     renderCountryChips();
     renderPackages();
   }catch(error){
     console.error('Package load failed',error);
-    status.textContent='Не удалось загрузить тарифы. Напишите в поддержку — подберём тариф вручную.';
+    catalogSource=null;
+    showCatalogFailure();
+    try{magicMetrikaGoal('catalog_load_failed',{page_type:'landing',error_type:String((error&&error.liveError)||'unknown').slice(0,32)});}catch(e){}
   }
 }
 
@@ -2295,13 +2408,74 @@ window.addEventListener('DOMContentLoaded', async () => {
     setTimeout(()=>{const e=byId('coEmail');if(e)e.focus();},40);
   }
   function closeCheckout(){overlay.hidden=true;document.body.style.overflow='';}
-  document.addEventListener('click',(ev)=>{
+  document.addEventListener('click',async (ev)=>{
     const b=ev.target.closest('.js-buy');
     if(!b)return;
     ev.preventDefault();
     magicMetrikaGoal('tariff_buy_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:b.dataset.packageId,price_rub:b.dataset.price,data_gb:b.dataset.data,validity_days:b.dataset.days,tariff_type:b.closest('#regionalGrid')?'regional':'local'});
-    openCheckout({packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,days:b.dataset.days,price:b.dataset.price});
+
+    const d={packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,days:b.dataset.days,price:b.dataset.price};
+
+    // A card rendered from the live API is already current — open as before.
+    if(catalogSource!=='cache'){openCheckout(d);return;}
+
+    /* From the cache the price and availability are provisional, so confirm both
+       against the backend before anything can be paid. No cache fallback here on
+       purpose: if the backend cannot be reached, an order cannot be created, so
+       checkout must not open at all. The catalogue itself stays on screen. */
+    const label=b.textContent;
+    b.disabled=true;b.textContent='Проверяем цену…';
+    try{
+      const check=await window.MagicCatalog.revalidatePackage(d.packageId,Number(d.price));
+      if(!check.ok){
+        showCheckoutBlocked(check.reason);
+        return;
+      }
+      // The live list came back with this request — take the whole thing, so the
+      // page stops being stale the moment the network recovers.
+      allLandingPackages=check.packages;
+      window.allLandingPackages=allLandingPackages;
+      catalogSource='live';
+      catalogGeneratedAt=null;
+      hideCatalogNotice();
+      renderCountryChips();
+      renderPackages();
+
+      d.price=String(check.pkg.price);
+      d.name=check.pkg.name||d.name;
+      openCheckout(d);
+      if(check.priceChanged)showPriceChanged(check.previousPrice,Number(check.pkg.price));
+    }finally{
+      b.disabled=false;b.textContent=label;
+    }
   });
+
+  /* Checkout could not be opened. Says which of the two things went wrong rather
+     than a generic failure, and never claims the tariff does not exist. */
+  function showCheckoutBlocked(reason){
+    const el=(typeof catalogNoticeEl==='function')?catalogNoticeEl():null;
+    const msg=reason==='gone'
+      ? 'Этот тариф больше недоступен. Обновите каталог и выберите другой — мы не начали оформление.'
+      : 'Оформление сейчас недоступно: нет связи с сервером. Каталог показан из резервной копии. Попробуйте другую сеть, включите VPN или повторите позже.';
+    if(el){
+      el.innerHTML='';
+      const t=document.createElement('span');t.className='catalog-notice-text';t.textContent=msg;
+      const btn=document.createElement('button');btn.type='button';btn.className='btn secondary catalog-notice-btn';btn.id='catalogRetryBtn';btn.textContent='Повторить загрузку';
+      btn.addEventListener('click',retryLiveCatalog);
+      el.appendChild(t);el.appendChild(btn);el.hidden=false;
+      el.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+    try{magicMetrikaGoal('catalog_load_failed',{page_type:'landing',error_type:reason==='gone'?'package_gone':'checkout_unreachable'});}catch(e){}
+  }
+
+  /* The cached figure differed from the server's. The user sees the real amount
+     in the checkout before paying; this only explains why it moved. */
+  function showPriceChanged(oldPrice,newPrice){
+    const err=byId('coError');
+    if(!err)return;
+    err.textContent=`Цена этого тарифа изменилась: было ${Number(oldPrice).toLocaleString('ru-RU')} ₽, актуальная — ${Number(newPrice).toLocaleString('ru-RU')} ₽. К оплате будет актуальная сумма.`;
+    err.hidden=false;
+  }
   const x=byId('checkoutClose');if(x)x.addEventListener('click',closeCheckout);
   overlay.addEventListener('click',(ev)=>{if(ev.target===overlay)closeCheckout();});
   document.addEventListener('keydown',(ev)=>{if(ev.key==='Escape'&&!overlay.hidden)closeCheckout();});
