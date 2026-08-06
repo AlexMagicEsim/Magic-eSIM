@@ -96,7 +96,11 @@ test('every goal called anywhere in the code is allowlisted', () => {
   for (const f of ['index.html', 'assets/country-tariffs.js', 'payment-success.html', 'payment-failed.html']) {
     const s = read(f);
     for (const m of s.matchAll(/magicMetrikaGoal\(\s*['"]([\w]+)['"]/g)) called.add(m[1]);
-    for (const m of s.matchAll(/magicMetrikaGoal\([^)]*\?\s*['"](\w+)['"]\s*:\s*['"](\w+)['"]/g)) { called.add(m[1]); called.add(m[2]); }
+    // A ternary counts only when it IS the first argument — anchored right after
+    // the opening paren. Matching any ternary inside the call also picked up ones
+    // in the params object (e.g. error_type: cond ? 'a' : 'b') and reported those
+    // values as undeclared goal names.
+    for (const m of s.matchAll(/magicMetrikaGoal\(\s*[^,()]*\?\s*['"](\w+)['"]\s*:\s*['"](\w+)['"]\s*,/g)) { called.add(m[1]); called.add(m[2]); }
   }
   // fireOrderGoal passes the name through a variable; assert those explicitly.
   for (const n of ['payment_success', 'payment_tech_error', 'payment_canceled']) called.add(n);

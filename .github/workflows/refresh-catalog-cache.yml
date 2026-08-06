@@ -1,0 +1,85 @@
+name: Refresh static catalog cache
+
+# Keeps assets/catalog.json — the fallback the landing serves when the API is
+# unreachable — close to the live catalogue.
+#
+# This lives in the landing repo rather than alongside the provider sync in
+# esim-backend on purpose. The sync workflow would need write access to *this*
+# repository to commit the file, which means a cross-repo Personal Access Token
+# stored as a secret. Running here instead needs no secret at all: the job only
+# reads the public catalogue endpoint and commits with the built-in GITHUB_TOKEN.
+#
+# No loop is possible. There is no `push` trigger, so the commit this job makes
+# cannot start it again. (GitHub additionally refuses to trigger workflows from
+# pushes made with GITHUB_TOKEN — this file does not rely on that, it simply has
+# nothing to re-trigger.) The commit does publish through the Pages build, which
+# is the point.
+#
+# Timed 20 minutes after each provider price sync in esim-backend
+# (00/06/09/12/15/21 UTC), so the API has already been refreshed when we read it.
+
+on:
+  schedule:
+    - cron: "20 0 * * *"
+    - cron: "20 6 * * *"
+    - cron: "20 9 * * *"
+    - cron: "20 12 * * *"
+    - cron: "20 15 * * *"
+    - cron: "20 21 * * *"
+  workflow_dispatch:
+
+# Only what is needed to commit one file back to this repository.
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-catalog-cache
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # The generator refuses to overwrite a good cache with a bad one: it needs
+      # HTTP 200, valid JSON, at least 100 packages and at least 70% of the
+      # previous count, and it validates the temp file re-read from disk before
+      # the atomic rename. A non-zero exit here means the existing catalog.json
+      # was left exactly as it was.
+      - name: Rebuild catalog cache
+        run: node scripts/update-catalog-cache.mjs
+
+      # Independent re-validation of whatever is now on disk. Belt and braces:
+      # if this fails we would rather stop than commit a file the browser will
+      # reject at runtime.
+      - name: Validate catalog cache
+        run: node scripts/update-catalog-cache.mjs --check
+
+      # Commit only when the catalogue actually changed. The generator leaves the
+      # file byte-identical (generated_at included) when nothing moved, so an
+      # unchanged run produces no commit and no Pages deploy.
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- assets/catalog.json; then
+            echo "каталог не изменился — коммит не нужен"
+            exit 0
+          fi
+
+          count=$(node -e "console.log(JSON.parse(require('fs').readFileSync('assets/catalog.json','utf8')).package_count)")
+          echo "каталог изменился, пакетов: $count"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Explicitly this one path — never `git add .`, so an unrelated stray
+          # file in the runner cannot ride along.
+          git add assets/catalog.json
+          git commit -m "chore: refresh static catalog cache ($count packages)"
+          git push
