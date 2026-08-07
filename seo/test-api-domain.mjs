@@ -12,12 +12,19 @@
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
+
+// The allowlist and CORS policy live in the proxy's code, so exercise them
+// rather than pattern-matching the file.
+const proxy = createRequire(import.meta.url)(
+  join(ROOT, 'infra/yandex-api-gateway/proxy-function/index.js'),
+)._internal;
 
 const API_DOMAIN = 'https://api.magicesim.store';
 const RENDER_RE = /[a-z0-9-]+\.onrender\.com/i;
@@ -43,10 +50,9 @@ test('no active frontend file mentions the Render hostname', () => {
     `these would bypass the gateway: ${offenders.join(', ')}`);
 });
 
-test('the gateway spec is the only place the Render origin is named', () => {
-  // The upstream belongs in server-side config, never in anything a browser loads.
-  const spec = read('infra/yandex-api-gateway/retail-proxy.yaml');
-  assert.match(spec, RENDER_RE, 'the spec must pin the upstream explicitly');
+test('the origin is named only in the proxy, never in anything a browser loads', () => {
+  assert.equal(proxy.UPSTREAM, 'https://esim-backend-3wmu.onrender.com',
+    'the proxy must pin the upstream explicitly');
   for (const f of ACTIVE_FRONTEND) {
     assert.ok(!RENDER_RE.test(read(f)), `${f} must not name the origin`);
   }
@@ -105,49 +111,77 @@ test('both pages wire retry to the shared loader rather than their own URL', () 
 
 /* ------------------------------------------------- allowlist matches real calls */
 
-test('every endpoint the frontend calls is declared in the gateway allowlist', () => {
-  const spec = read('infra/yandex-api-gateway/retail-proxy.yaml');
-  const declared = [...spec.matchAll(/^ {2}(\/[^:\n]+):$/gm)].map((m) => m[1]);
-
-  // Paths the storefront actually requests, with {token} normalised.
+test('every endpoint the frontend calls is accepted by the proxy', () => {
   const required = [
-    '/api/v1/retail/packages',
-    '/api/v1/retail/promo/quote',
-    '/api/v1/public/retail-orders',
-    '/api/v1/public/retail-orders/{token}/status',
+    ['GET', '/api/v1/retail/packages'],
+    ['POST', '/api/v1/retail/promo/quote'],
+    ['POST', '/api/v1/public/retail-orders'],
+    ['POST', '/api/v1/public/retail-orders/abc123/pay'],
+    ['GET', '/api/v1/public/retail-orders/abc123/status'],
   ];
-  for (const r of required) {
-    assert.ok(declared.includes(r), `gateway is missing ${r}, which the storefront calls`);
+  for (const [method, path] of required) {
+    assert.ok(proxy.matchRoute(method, path), `the storefront calls ${method} ${path}`);
   }
 });
 
-test('the allowlist excludes admin, dealer, partner and the payment webhook', () => {
-  const spec = read('infra/yandex-api-gateway/retail-proxy.yaml');
-  const declared = [...spec.matchAll(/^ {2}(\/[^:\n]+):$/gm)].map((m) => m[1]);
-  for (const forbidden of ['/api/v1/admin', '/api/v1/dealer', '/api/v1/partner', '/api/v1/payments']) {
-    const leaked = declared.filter((d) => d.startsWith(forbidden));
-    assert.deepEqual(leaked, [], `${forbidden} must not be proxied: ${leaked.join(', ')}`);
+test('the proxy refuses admin, dealer, partner, payments and private links', () => {
+  const forbidden = [
+    ['GET', '/api/v1/admin/packages'],
+    ['POST', '/api/v1/admin/providers/sync'],
+    ['GET', '/api/v1/dealer/balance'],
+    ['GET', '/api/v1/partner/orders'],
+    ['POST', '/api/v1/payments/platega/callback'],
+    ['GET', '/api/v1/public/private-payments/tok'],
+    ['GET', '/'],
+  ];
+  for (const [method, path] of forbidden) {
+    assert.equal(proxy.matchRoute(method, path), null, `${method} ${path} must not be proxied`);
   }
 });
 
-test('the gateway pins its upstream and never derives it from the request', () => {
-  const spec = read('infra/yandex-api-gateway/retail-proxy.yaml');
-  const integrations = (spec.match(/x-yc-apigateway-integration:/g) || []).length;
-  const pinned = (spec.match(/url: https:\/\/esim-backend-3wmu\.onrender\.com/g) || []).length;
-  assert.equal(integrations, pinned, 'every integration must carry a literal upstream URL');
-  assert.ok(integrations >= 6, `expected at least 6 routes, found ${integrations}`);
-  // No templating that could let a client choose the target.
-  assert.ok(!/url:\s*\{/.test(spec), 'the upstream must never be templated from input');
+test('an allowed path is not reachable with a method it does not declare', () => {
+  for (const m of ['DELETE', 'PUT', 'PATCH', 'POST']) {
+    assert.equal(proxy.matchRoute(m, '/api/v1/retail/packages'), null,
+      `${m} on the catalogue must be refused`);
+  }
+  assert.equal(proxy.matchRoute('GET', '/api/v1/public/retail-orders'), null);
 });
 
-test('CORS on the gateway allows only the storefront origin', () => {
-  const spec = read('infra/yandex-api-gateway/retail-proxy.yaml');
-  assert.match(spec, /origin: "https:\/\/magicesim\.store"/);
-  assert.ok(!/origin: ["']?\*/.test(spec), 'a wildcard origin would undo the backend policy');
-  for (const m of ['GET', 'POST', 'OPTIONS']) {
-    assert.match(spec, new RegExp(`- ${m}\\b`), `${m} must be allowed`);
+test('a path parameter cannot escape its segment or smuggle a new one', () => {
+  const hostile = [
+    '/api/v1/public/retail-orders/../../admin/packages/status',
+    '/api/v1/public/retail-orders/a/b/status',
+    '/api/v1/public/retail-orders//status',
+    '/api/v1/public/retail-orders/tok%2Fadmin/status',
+    `/api/v1/public/retail-orders/${'x'.repeat(200)}/status`,
+  ];
+  for (const path of hostile) {
+    assert.equal(proxy.matchRoute('GET', path), null, `${path} must not match`);
   }
-  assert.ok(!/- (PUT|DELETE|PATCH)\b/.test(spec), 'only GET/POST/OPTIONS belong here');
+});
+
+test('the proxy forwards no credential-bearing header in either direction', () => {
+  for (const h of ['authorization', 'cookie', 'x-api-key']) {
+    assert.ok(!proxy.REQUEST_HEADERS.includes(h), `${h} must not travel upstream`);
+  }
+  assert.ok(!proxy.RESPONSE_HEADERS.includes('set-cookie'), 'set-cookie must not come back');
+});
+
+test('CORS names the storefront and nothing else', () => {
+  const h = proxy.corsHeaders();
+  assert.equal(h['Access-Control-Allow-Origin'], 'https://magicesim.store');
+  assert.equal(h['Access-Control-Allow-Methods'], 'GET, POST, OPTIONS');
+  assert.ok(!/[*]/.test(JSON.stringify(h)), 'a wildcard would undo the backend policy');
+  assert.ok(!('Access-Control-Allow-Credentials' in h), 'the storefront sends no credentials');
+});
+
+test('the gateway spec hands everything to the function and pins nothing itself', () => {
+  // The security boundary must be the code, not the YAML: if the spec ever grows
+  // its own http integration, requests would bypass the allowlist above.
+  const spec = read('infra/yandex-api-gateway/retail-proxy.yaml');
+  assert.ok(!/type:\s*http\b/.test(spec), 'the spec must not proxy directly to any host');
+  assert.match(spec, /type: cloud_functions/);
+  assert.ok(!RENDER_RE.test(spec), 'the upstream belongs in the function, not the spec');
 });
 
 /* ------------------------------------------------------------- no secrets leak */
@@ -187,4 +221,14 @@ test('the gateway spec stores no credentials either', () => {
   for (const re of ASSIGNMENTS) {
     assert.ok(!re.test(values), `the spec must hold no credential (${re})`);
   }
+});
+
+/* ------------------------------------------------ a retry must never charge twice */
+
+test('a POST is never retried once any byte reached the upstream', () => {
+  // /retail-orders creates an order and /pay starts a payment; repeating one the
+  // backend already received would bill a customer twice for one checkout.
+  assert.equal(proxy.isRetrySafe('POST', true), false);
+  assert.equal(proxy.isRetrySafe('POST', false), true, 'a failed connect is safe to retry');
+  assert.equal(proxy.isRetrySafe('GET', true), true, 'reads are idempotent');
 });

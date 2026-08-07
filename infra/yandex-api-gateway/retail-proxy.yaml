@@ -1,164 +1,50 @@
-# Magic eSIM — retail API reverse proxy (Yandex Cloud API Gateway)
+# Magic eSIM — retail API reverse proxy (Yandex Cloud API Gateway → Cloud Function)
 #
 # Why this exists: the backend runs on Render, whose IP range (216.24.57.0/24,
 # AS397273) is unreachable from many Russian networks. Measured from three
-# Russian probes: Render 0/3, Yandex Cloud 3/3 at 35–74 ms. The landing already
-# calls https://api.magicesim.store exclusively — no Render hostname appears in
-# the frontend at all — so the fix is entirely at the DNS/edge layer: point that
-# hostname at this gateway, which forwards to Render from inside Russia.
+# Russian probes: Render 0/3 with 6-16s timeouts, Yandex Cloud 3/3 at 35-74ms.
+# The landing already calls https://api.magicesim.store exclusively, so the fix
+# is at the DNS/edge layer: point that hostname here.
 #
-# This is a NARROW allowlist, not an open proxy. Only the routes declared below
-# are forwarded; the gateway answers 404 for anything else, and the upstream URL
-# is fixed here in configuration — a client can never influence the target.
+# Why a function rather than the gateway's built-in `http` integration: that
+# integration silently drops POST bodies for this upstream. A diagnostic route
+# pointed at an echo service received the body intact; the identical route
+# pointed at Render arrived body-less, so order creation returned
+# `terms_not_accepted`. Reproduced with and without `requestBody`, with and
+# without an explicit `method`. The forwarding is therefore explicit, in
+# proxy-function/index.js, which also carries the route allowlist and strips
+# Render's own response headers.
+#
+# The gateway here is only a front door: one catch-all that hands every request
+# to the function. The security boundary — allowlist, header filtering, fixed
+# upstream — lives in the function, in code that can be read and tested.
 #
 # Deploy:
-#   yc serverless api-gateway create --name magic-esim-retail --spec=retail-proxy.yaml
+#   yc serverless function version create --function-name magic-esim-retail-proxy \
+#     --runtime nodejs18 --entrypoint index.handler --memory 128m \
+#     --execution-timeout 30s --source-path proxy-function/
 #   yc serverless api-gateway update --name magic-esim-retail --spec=retail-proxy.yaml
-#
-# NOTE ON SCOPE — read before pointing DNS here.
-# api.magicesim.store today serves more than retail: the admin panel (93 calls),
-# dealer and partner APIs, and — critically — the Platega payment callback.
-# Moving the hostname moves all of them. This spec deliberately covers ONLY the
-# routes a customer's browser needs. Everything else must keep a direct path to
-# Render on a separate hostname BEFORE the DNS switch, or it breaks. See
-# README.md in this directory for the exact order of operations.
 
 openapi: 3.0.0
 
 info:
   title: magic-esim-retail-proxy
-  version: "1.0.0"
+  version: "2.0.0"
   description: >
-    Read/write proxy for the public retail endpoints only. No admin, no dealer,
-    no partner, no payment webhook. Upstream is fixed to the Render origin.
-
-x-yc-apigateway:
-  cors:
-    # Only the production storefront. A different Origin gets no permissive
-    # CORS header, matching the backend's own behaviour today.
-    origin: "https://magicesim.store"
-    methods:
-      - GET
-      - POST
-      - OPTIONS
-    allowedHeaders:
-      - Content-Type
-      - Accept
-    maxAge: 600
+    Front door for the public retail endpoints. Routing, allowlisting and header
+    filtering are done by the function; see proxy-function/index.js.
 
 paths:
-
-  # ── Catalogue ────────────────────────────────────────────────────────────
-  # The single request the whole storefront is built from: countries, regions,
-  # search and package details are all derived client-side from this response.
-  /api/v1/retail/packages:
-    get:
-      summary: Public tariff catalogue
+  /{proxy+}:
+    x-yc-apigateway-any-method:
       x-yc-apigateway-integration:
-        type: http
-        method: GET
-        url: https://esim-backend-3wmu.onrender.com/api/v1/retail/packages
-        timeouts:
-          connect: 5s
-          read: 25s
-
-  # ── Promo codes ──────────────────────────────────────────────────────────
-  # Quote only. The discount is computed by the backend; the client never sends
-  # or receives an authoritative amount from anywhere else.
-  /api/v1/retail/promo/quote:
-    post:
-      summary: Quote a promo code against a package
-      x-yc-apigateway-integration:
-        type: http
-        method: POST
-        url: https://esim-backend-3wmu.onrender.com/api/v1/retail/promo/quote
-        timeouts:
-          connect: 5s
-          read: 20s
-
-  # ── Orders and payment ───────────────────────────────────────────────────
-  # Order creation. The request body carries package_id, email, contact,
-  # termsAccepted, payment_type and promo_code — never a price. The backend
-  # reads the amount from the database, so the proxy carries no pricing trust.
-  /api/v1/public/retail-orders:
-    post:
-      summary: Create a retail order and its payment
-      x-yc-apigateway-integration:
-        type: http
-        method: POST
-        url: https://esim-backend-3wmu.onrender.com/api/v1/public/retail-orders
-        timeouts:
-          connect: 5s
-          read: 30s
-
-  # Additional payment attempt for an existing unpaid order.
-  /api/v1/public/retail-orders/{token}/pay:
-    post:
-      summary: Start another payment for an existing order
+        type: cloud_functions
+        function_id: d4efkm54irej9kvrlt2s
+        tag: $latest
+        service_account_id: ajelvh4in2asfsrjg7uf
       parameters:
-        - name: token
+        - name: proxy
           in: path
           required: true
           schema:
             type: string
-      x-yc-apigateway-integration:
-        type: http
-        method: POST
-        url: https://esim-backend-3wmu.onrender.com/api/v1/public/retail-orders/{token}/pay
-        timeouts:
-          connect: 5s
-          read: 30s
-
-  # Status polling on the success page. Read-only and safe by design: the
-  # response carries no eSIM secrets, only status plus the order's own amount.
-  /api/v1/public/retail-orders/{token}/status:
-    get:
-      summary: Safe public order status by token
-      parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
-      x-yc-apigateway-integration:
-        type: http
-        method: GET
-        url: https://esim-backend-3wmu.onrender.com/api/v1/public/retail-orders/{token}/status
-        timeouts:
-          connect: 5s
-          read: 20s
-
-  # ── Health ───────────────────────────────────────────────────────────────
-  # Used by monitoring and by us to tell "proxy is up" from "origin is up".
-  /health:
-    get:
-      summary: Upstream health passthrough
-      x-yc-apigateway-integration:
-        type: http
-        method: GET
-        url: https://esim-backend-3wmu.onrender.com/health
-        timeouts:
-          connect: 5s
-          read: 10s
-
-# ── DELIBERATELY NOT PROXIED ───────────────────────────────────────────────
-#
-#   /api/v1/payments/platega/callback   payment webhook, server-to-server.
-#                                       Keep direct to Render: putting the
-#                                       payment-confirmation path behind a new
-#                                       dependency risks orders that are paid
-#                                       but never fulfilled.
-#   /api/v1/admin/**                    admin panel, 101 routes, bearer auth
-#   /api/v1/dealer/**                   dealer API, 11 routes
-#   /api/v1/partner/**                  partner portal, 14 routes
-#   /api/v1/public/private-payments/**  private payment links (/pay/<token>).
-#                                       Browser-facing and therefore affected by
-#                                       the same Russian reachability problem —
-#                                       a candidate for a later, separate step,
-#                                       kept out here to keep this change small.
-#   /api/v1/public/retail-esim/{token}/qr.png
-#                                       QR image delivery — not called by the
-#                                       storefront; served from email links.
-#
-# Anything not listed under `paths` returns 404 from the gateway. That is the
-# allowlist: it is enforced by the absence of a route, not by a deny rule.
