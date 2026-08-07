@@ -1,0 +1,50 @@
+# Magic eSIM — retail API reverse proxy (Yandex Cloud API Gateway → Cloud Function)
+#
+# Why this exists: the backend runs on Render, whose IP range (216.24.57.0/24,
+# AS397273) is unreachable from many Russian networks. Measured from three
+# Russian probes: Render 0/3 with 6-16s timeouts, Yandex Cloud 3/3 at 35-74ms.
+# The landing already calls https://api.magicesim.store exclusively, so the fix
+# is at the DNS/edge layer: point that hostname here.
+#
+# Why a function rather than the gateway's built-in `http` integration: that
+# integration silently drops POST bodies for this upstream. A diagnostic route
+# pointed at an echo service received the body intact; the identical route
+# pointed at Render arrived body-less, so order creation returned
+# `terms_not_accepted`. Reproduced with and without `requestBody`, with and
+# without an explicit `method`. The forwarding is therefore explicit, in
+# proxy-function/index.js, which also carries the route allowlist and strips
+# Render's own response headers.
+#
+# The gateway here is only a front door: one catch-all that hands every request
+# to the function. The security boundary — allowlist, header filtering, fixed
+# upstream — lives in the function, in code that can be read and tested.
+#
+# Deploy:
+#   yc serverless function version create --function-name magic-esim-retail-proxy \
+#     --runtime nodejs18 --entrypoint index.handler --memory 128m \
+#     --execution-timeout 30s --source-path proxy-function/
+#   yc serverless api-gateway update --name magic-esim-retail --spec=retail-proxy.yaml
+
+openapi: 3.0.0
+
+info:
+  title: magic-esim-retail-proxy
+  version: "2.0.0"
+  description: >
+    Front door for the public retail endpoints. Routing, allowlisting and header
+    filtering are done by the function; see proxy-function/index.js.
+
+paths:
+  /{proxy+}:
+    x-yc-apigateway-any-method:
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: d4efkm54irej9kvrlt2s
+        tag: $latest
+        service_account_id: ajelvh4in2asfsrjg7uf
+      parameters:
+        - name: proxy
+          in: path
+          required: true
+          schema:
+            type: string
