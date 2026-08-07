@@ -52,13 +52,26 @@ const ROUTES = [
   { method: 'POST', pattern: '/api/v1/public/retail-orders' },
   { method: 'POST', pattern: '/api/v1/public/retail-orders/{token}/pay' },
   { method: 'GET', pattern: '/api/v1/public/retail-orders/{token}/status' },
+  // The QR image for a delivered eSIM. This one is not optional: its URL is
+  // baked into every order email already in customers' inboxes, it names
+  // api.magicesim.store, and the token does not expire. Leaving it out would
+  // stop past customers from opening the QR they already paid for.
+  { method: 'GET', pattern: '/api/v1/public/retail-esim/{token}/qr.png' },
 ];
 
 /** Only these travel upstream. Cookies and Authorization deliberately absent. */
 const REQUEST_HEADERS = ['content-type', 'accept', 'accept-language'];
 
-/** Only these come back. Render's own headers (rndr-id, x-render-origin-server) are dropped. */
-const RESPONSE_HEADERS = ['content-type', 'cache-control', 'etag', 'retry-after'];
+/**
+ * Only these come back. Render's own headers (rndr-id, x-render-origin-server)
+ * are dropped.
+ *
+ * `pragma` and `expires` are here for the QR route alone: that response is the
+ * eSIM install secret itself, and the backend deliberately marks it
+ * `private, no-store` plus those two legacy headers. Forwarding only part of
+ * that set would let this proxy weaken a decision the backend made on purpose.
+ */
+const RESPONSE_HEADERS = ['content-type', 'cache-control', 'pragma', 'expires', 'etag', 'retry-after'];
 
 const SEGMENT = /^[A-Za-z0-9._~-]{1,128}$/;
 
@@ -220,7 +233,9 @@ function attempt(target, method, headers, body) {
         done = true;
         clearTimeout(connectTimer);
         clearTimeout(readTimer);
-        resolve({ status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks).toString('utf8') });
+        // Kept as bytes. Decoding here would corrupt the QR PNG and would risk
+        // mangling multi-byte UTF-8 in JSON error messages.
+        resolve({ status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks) });
       });
     });
 
@@ -342,9 +357,13 @@ module.exports.handler = async function (event) {
     // reason a package or promo code was refused.
     console.log(JSON.stringify({
       evt: 'proxied', method, path, status: res.status, attempts: res.attempts,
-      upstream_ms: Date.now() - t0, total_ms: Date.now() - started,
+      bytes: res.body.length, upstream_ms: Date.now() - t0, total_ms: Date.now() - started,
     }));
-    return { statusCode: res.status, headers: out, body: res.body };
+    // Always base64, always flagged. The gateway decodes it back to the exact
+    // bytes the backend produced, which is the only representation that is
+    // correct for both a PNG and a JSON body — the QR image in every eSIM email
+    // we have ever sent is served through this path.
+    return { statusCode: res.status, headers: out, body: res.body.toString('base64'), isBase64Encoded: true };
   } catch (err) {
     const kind = err && err.reason === 'read_timeout' ? 'timeout' : 'upstream_unreachable';
     // Never surface the upstream host or the raw error to the client.

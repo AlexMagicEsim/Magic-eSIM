@@ -124,6 +124,29 @@ test('every endpoint the frontend calls is accepted by the proxy', () => {
   }
 });
 
+test('the QR path baked into past order emails still matches the allowlist', () => {
+  // lib/retailEmail.js builds this URL against api.magicesim.store and the token
+  // never expires, so every eSIM email already delivered depends on it. The
+  // token charset is the backend's own: /^[A-Za-z0-9_-]{16,64}$/.
+  const samples = ['a'.repeat(16), 'b'.repeat(64), 'Aa0_-Zz9' + 'x'.repeat(12)];
+  for (const token of samples) {
+    assert.ok(proxy.matchRoute('GET', `/api/v1/public/retail-esim/${token}/qr.png`),
+      `a delivered email links to this token shape`);
+  }
+  // and it stays a read: nothing else on that prefix is exposed
+  assert.equal(proxy.matchRoute('POST', '/api/v1/public/retail-esim/' + 'a'.repeat(16) + '/qr.png'), null);
+  assert.equal(proxy.matchRoute('GET', '/api/v1/public/retail-esim/' + 'a'.repeat(16)), null);
+});
+
+test('the QR response can survive being proxied at all', () => {
+  // The image is PNG, so the body must never be treated as text, and the
+  // backend's anti-caching headers must come back intact: that response is the
+  // eSIM install secret itself.
+  for (const h of ['cache-control', 'pragma', 'expires', 'content-type']) {
+    assert.ok(proxy.RESPONSE_HEADERS.includes(h), `${h} must be forwarded for the QR route`);
+  }
+});
+
 test('the proxy refuses admin, dealer, partner, payments and private links', () => {
   const forbidden = [
     ['GET', '/api/v1/admin/packages'],

@@ -76,6 +76,8 @@ upstream — живёт в `proxy-function/index.js`, в коде, которы�
 |---|---|---|
 | Витрина (браузер) | 6 retail-маршрутов | ✅ в allowlist, работает |
 | Кеш каталога (GH Actions) | `/api/v1/retail/packages` | ✅ в allowlist, работает |
+| **QR в письмах клиентам** | `/api/v1/public/retail-esim/{token}/qr.png` | ✅ **добавлен в allowlist** — см. ниже |
+| **Telegram client webhook** | `/api/v1/telegram/client-webhook` | ❌ **сломается** — переносится на `origin.` |
 | **Админка** | 93 вызова `/api/v1/admin/**` | ❌ **сломается** |
 | Dealer API | 11 маршрутов | ❌ сломается |
 | Partner portal | 14 маршрутов | ❌ сломается |
@@ -86,11 +88,54 @@ upstream — живёт в `proxy-function/index.js`, в коде, которы�
 Последний пункт критичен: если вебхук перестанет доходить, платежи будут
 списываться, но заказы не будут подтверждаться и eSIM не будет выдаваться.
 
-**Перед переключением обязательно проверить в Render → Environment фактическое
-значение `PLATEGA_CALLBACK_URL`.** В `.env.platega.example` оно указано как
-`https://api.magicesim.store/...`, но реальное значение живёт в Render и может
-отличаться. Если там уже `esim-backend-3wmu.onrender.com` — вебхук не затронут
-и шаг 2 ниже не нужен.
+### QR в уже отправленных письмах
+
+`lib/retailEmail.js:67` зашивает в письмо ссылку
+`https://api.magicesim.store/api/v1/public/retail-esim/{clientToken}/qr.png`.
+Адрес захардкожен, токен не истекает — значит эта ссылка живёт во **всех уже
+доставленных** письмах с купленными eSIM. Правка шаблона чинит только будущие
+письма, поэтому маршрут добавлен в allowlist шлюза.
+
+Ответ бинарный (`image/png`) и несёт сам секрет установки eSIM, поэтому в
+функции:
+
+- тело нигде не декодируется в текст — от Render до ответа шлюза это `Buffer`,
+  наружу уходит base64 с `isBase64Encoded: true`;
+- пробрасываются `Cache-Control: private, no-store, max-age=0`, `Pragma` и
+  `Expires` — backend ставит их намеренно (`lib/sensitiveHeaders.js`), и прокси
+  не имеет права ослабить это решение.
+
+Проверено на обоих реальных заказах с выданной eSIM: PNG побайтово идентичен
+прямому Render (sha256 совпадает, сигнатура и маркер `IEND` на месте), 404-кейсы
+совпадают, JSON от base64-обёртки не пострадал.
+
+### Telegram client webhook
+
+`@magic_esim_support_bot` зарегистрирован через `setWebhook` на
+`https://api.magicesim.store/api/v1/telegram/client-webhook`. В allowlist шлюза
+не добавляется — переносится на `origin.magicesim.store` вместе с Platega.
+
+При перерегистрации **обязательно** передать `secret_token` со значением
+`TELEGRAM_WEBHOOK_SECRET`: проверка в `lib/telegramWebhookAuth.js` fail-closed,
+и без секрета все апдейты будут отклоняться с 401.
+
+`@magic_esim_bot` (админский/алерты) вебхука не имеет — миграции не требует.
+
+### Platega webhook: env-переменная тут ни при чём
+
+`PLATEGA_CALLBACK_URL` **не управляет** адресом уведомлений. Она читается в
+`getConfig()` (`lib/platega.js:65`) и оттуда попадает только в `safeConfig()` —
+представление конфига для логов. `buildCreateTransactionBody()` отправляет в
+Platega лишь `paymentDetails`, `description`, `return`, `failedUrl`, `payload`,
+`paymentMethod`, `metadata`; поля `callbackUrl` в теле нет, и других
+потребителей у переменной в коде тоже нет.
+
+Адрес, куда Platega шлёт callback, зарегистрирован **в кабинете Platega**.
+Менять надо там; значение в Render стоит привести в соответствие, чтобы
+переменная не расходилась с действительностью, но на поведение это не влияет.
+
+Подтверждено: в production она указывает на `api.magicesim.store`, то есть
+вебхук переехать обязан.
 
 ## Порядок развёртывания
 
@@ -103,9 +148,20 @@ Type: CNAME   Host: origin   Value: esim-backend-3wmu.onrender.com   TTL: 300
 ```
 
 **2. Перевести не-retail потребителей на `origin.magicesim.store`**
-   - Render → Environment: `PLATEGA_CALLBACK_URL` (только если сейчас указывает на `api.`)
+   - **Кабинет Platega** — адрес уведомлений на
+     `https://origin.magicesim.store/api/v1/payments/platega/callback`
+     (это и есть настоящий рычаг, см. выше)
+   - Render → Environment: `PLATEGA_CALLBACK_URL` — то же значение, для согласованности
+   - **Telegram** — перерегистрировать вебхук клиентского бота, обязательно с
+     `secret_token` = `TELEGRAM_WEBHOOK_SECRET`:
+     ```
+     POST https://api.telegram.org/bot<TELEGRAM_CLIENT_BOT_TOKEN>/setWebhook
+     url=https://origin.magicesim.store/api/v1/telegram/client-webhook
+     secret_token=<TELEGRAM_WEBHOOK_SECRET>
+     ```
    - `~/magicesim-frontend`: `API_BASE`
    - `~/esim-backend/.github/workflows/sync-provider-prices.yml`: `API_BASE` ×2
+   - `~/esim-backend/.env.platega.example:30` — привести пример в соответствие
    - Проверить, что админка и sync работают на новом хосте
 
 **3. Развернуть функцию и шлюз**
@@ -126,7 +182,7 @@ yc serverless api-gateway get --name magic-esim-retail --format json | jq -r .do
 `--concurrency 16` и один прогретый инстанс нужны не ради скорости, а чтобы
 keep-alive пул жил и большинство запросов не платили за установку соединения.
 
-**4. Проверить шлюз по временному домену** — все 6 маршрутов против Render:
+**4. Проверить шлюз по временному домену** — все 7 маршрутов против Render:
 статус, тело побайтово, CORS, OPTIONS, allowlist, нагрузка. POST — только
 безопасные сценарии (несуществующие package_id и токены), реальные заказы не
 создаются.
