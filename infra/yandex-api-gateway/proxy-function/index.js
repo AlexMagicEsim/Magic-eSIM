@@ -57,6 +57,13 @@ const ROUTES = [
   // api.magicesim.store, and the token does not expire. Leaving it out would
   // stop past customers from opening the QR they already paid for.
   { method: 'GET', pattern: '/api/v1/public/retail-esim/{token}/qr.png' },
+  // Private payment links. These are browser calls too — 404.html serves /pay/
+  // and reads them from the storefront — so they suffer exactly the Russian
+  // unreachability this proxy exists to fix, and a link was live when this was
+  // added. The admin side lives under /api/v1/admin/private-payment-links and
+  // stays out.
+  { method: 'GET', pattern: '/api/v1/public/private-payments/{token}' },
+  { method: 'POST', pattern: '/api/v1/public/private-payments/{token}/start' },
 ];
 
 /** Only these travel upstream. Cookies and Authorization deliberately absent. */

@@ -147,19 +147,34 @@ test('the QR response can survive being proxied at all', () => {
   }
 });
 
-test('the proxy refuses admin, dealer, partner, payments and private links', () => {
+test('the proxy refuses admin, dealer, partner and both webhooks', () => {
   const forbidden = [
     ['GET', '/api/v1/admin/packages'],
     ['POST', '/api/v1/admin/providers/sync'],
+    ['GET', '/api/v1/admin/private-payment-links'],
+    ['POST', '/api/v1/admin/private-payment-links/1/disable'],
     ['GET', '/api/v1/dealer/balance'],
     ['GET', '/api/v1/partner/orders'],
+    // Both webhooks stay direct-to-Render on origin.magicesim.store: a payment
+    // confirmation should not depend on one more hop.
     ['POST', '/api/v1/payments/platega/callback'],
-    ['GET', '/api/v1/public/private-payments/tok'],
+    ['POST', '/api/v1/telegram/client-webhook'],
     ['GET', '/'],
   ];
   for (const [method, path] of forbidden) {
     assert.equal(proxy.matchRoute(method, path), null, `${method} ${path} must not be proxied`);
   }
+});
+
+test('the public side of private payment links is proxied, the admin side is not', () => {
+  // 404.html serves /pay/ and calls these from the browser, so they hit the same
+  // Russian unreachability as the storefront.
+  assert.ok(proxy.matchRoute('GET', '/api/v1/public/private-payments/tok123'));
+  assert.ok(proxy.matchRoute('POST', '/api/v1/public/private-payments/tok123/start'));
+  // Creating, listing and disabling links is admin work and must stay off.
+  assert.equal(proxy.matchRoute('POST', '/api/v1/admin/private-payment-links'), null);
+  assert.equal(proxy.matchRoute('POST', '/api/v1/public/private-payments/tok123/disable'), null);
+  assert.equal(proxy.matchRoute('POST', '/api/v1/public/private-payments/tok123'), null);
 });
 
 test('an allowed path is not reachable with a method it does not declare', () => {
