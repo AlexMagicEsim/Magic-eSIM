@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-07T01:03:14.558Z",
+  "generated_at": "2026-08-08T15:46:27.759Z",
   "source": "production-public-api",
-  "package_count": 240,
+  "package_count": 238,
   "packages": [
     {
       "package_id": "006376b7-bd69-402d-9442-56ff8e33bb95",
@@ -436,31 +436,6 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
-    },
-    {
-      "package_id": "0d279baf-cf63-49fc-ab8f-0a16b8cb269b",
-      "name": "Australia and NZ 100 GB",
-      "country_code": "AU",
-      "region": "AU, NZ",
-      "coverage_country_codes": [
-        "AU",
-        "NZ"
-      ],
-      "coverage_flags": "🇦🇺 🇳🇿",
-      "data_gb": 100,
-      "validity_days": 30,
-      "price": 8050,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
       "topup_available": true
     },
     {
@@ -1405,6 +1380,31 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
+      "topup_available": true
+    },
+    {
+      "package_id": "309701c1-0781-40a4-8024-2faede1295bf",
+      "name": "Australia and NZ 5 GB",
+      "country_code": "AU",
+      "region": "AU, NZ",
+      "coverage_country_codes": [
+        "AU",
+        "NZ"
+      ],
+      "coverage_flags": "🇦🇺 🇳🇿",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 900,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
       "topup_available": true
     },
     {
@@ -3538,31 +3538,6 @@
       "topup_available": false
     },
     {
-      "package_id": "82fb519f-23d6-4b93-88bf-c30acc823667",
-      "name": "Australia and NZ 10 GB",
-      "country_code": "AU",
-      "region": "AU, NZ",
-      "coverage_country_codes": [
-        "AU",
-        "NZ"
-      ],
-      "coverage_flags": "🇦🇺 🇳🇿",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 1500,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true
-    },
-    {
       "package_id": "83d865a2-05a2-4a41-9edf-63a2c258467e",
       "name": "Armenia 3GB 30Days",
       "country_code": "AM",
@@ -3946,31 +3921,6 @@
       "hotspot_supported": true,
       "activation_policy": "network_connection",
       "topup_available": false
-    },
-    {
-      "package_id": "887e6c83-48c3-4c95-91b5-b1007479cad9",
-      "name": "Australia and NZ 5 GB",
-      "country_code": "AU",
-      "region": "AU, NZ",
-      "coverage_country_codes": [
-        "AU",
-        "NZ"
-      ],
-      "coverage_flags": "🇦🇺 🇳🇿",
-      "data_gb": 5,
-      "validity_days": 30,
-      "price": 1100,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true
     },
     {
       "package_id": "88dc206e-43fc-4682-8d17-3ee6d1e6ead0",
@@ -8392,6 +8342,31 @@
       "topup_available": false
     },
     {
+      "package_id": "d215c0cd-3e67-4b05-b20b-86268b97ca84",
+      "name": "Australia and NZ 20 GB",
+      "country_code": "AU",
+      "region": "AU, NZ",
+      "coverage_country_codes": [
+        "AU",
+        "NZ"
+      ],
+      "coverage_flags": "🇦🇺 🇳🇿",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 2400,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true
+    },
+    {
       "package_id": "d3e8896d-f8b2-413f-879c-b28fb3fe2faf",
       "name": "South Korea 30 GB",
       "country_code": "KR",
@@ -8606,31 +8581,6 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
-    },
-    {
-      "package_id": "e0175585-b928-4818-9ec5-2ee7bb12ffc8",
-      "name": "Australia and NZ 50 GB",
-      "country_code": "AU",
-      "region": "AU, NZ",
-      "coverage_country_codes": [
-        "AU",
-        "NZ"
-      ],
-      "coverage_flags": "🇦🇺 🇳🇿",
-      "data_gb": 50,
-      "validity_days": 30,
-      "price": 4600,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
       "topup_available": true
     },
     {
@@ -9993,6 +9943,31 @@
       "topup_available": false
     },
     {
+      "package_id": "e7bea14b-0de2-44e4-b015-7341fcc66d0d",
+      "name": "Australia and NZ 12 GB",
+      "country_code": "AU",
+      "region": "AU, NZ",
+      "coverage_country_codes": [
+        "AU",
+        "NZ"
+      ],
+      "coverage_flags": "🇦🇺 🇳🇿",
+      "data_gb": 12,
+      "validity_days": 30,
+      "price": 1450,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true
+    },
+    {
       "package_id": "e9236ff8-75e0-428a-9de8-c88487bb5fb7",
       "name": "Maldives 20GB 30Days",
       "country_code": "MV",
@@ -10575,31 +10550,6 @@
       "hotspot_supported": true,
       "activation_policy": "network_connection",
       "topup_available": false
-    },
-    {
-      "package_id": "fc24a4e3-9ab4-4b4a-9241-4bfe6d70d8e2",
-      "name": "Australia and NZ 20 GB",
-      "country_code": "AU",
-      "region": "AU, NZ",
-      "coverage_country_codes": [
-        "AU",
-        "NZ"
-      ],
-      "coverage_flags": "🇦🇺 🇳🇿",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 2350,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true
     },
     {
       "package_id": "fc5290cf-25df-4513-a7a7-2fc7fa2a885f",
