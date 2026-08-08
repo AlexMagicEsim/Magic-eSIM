@@ -169,9 +169,12 @@ Type: CNAME   Host: origin   Value: esim-backend-3wmu.onrender.com   TTL: 300
 ```bash
 cd infra/yandex-api-gateway
 yc serverless function create --name magic-esim-retail-proxy
+# --service-account-id обязателен: без него логов не будет, см. «Наблюдаемость»
 yc serverless function version create --function-name magic-esim-retail-proxy \
   --runtime nodejs18 --entrypoint index.handler --memory 512m \
-  --execution-timeout 30s --concurrency 16 --source-path proxy-function/
+  --execution-timeout 30s --concurrency 16 \
+  --service-account-id <sa-с-ролью-logging.writer> \
+  --source-path proxy-function/
 yc serverless function set-scaling-policy magic-esim-retail-proxy \
   --tag '$latest' --provisioned-instances-count 1
 
@@ -231,24 +234,93 @@ Fallback на `/assets/catalog.json` продолжает работать бе�
 
 ## Наблюдаемость
 
-Функция пишет по одной структурной строке JSON на запрос — без тела, без email,
-без токенов:
+### Обязательное условие: сервисный аккаунт
+
+**Без сервисного аккаунта у версии функции её `console.log` в Cloud Logging не
+попадает.** В логах видны только строки сборки, и выглядит это как «логирование
+работает» — пока не попробуешь найти конкретный запрос. Первая рабочая версия
+прокси была развёрнута без аккаунта, и трое суток наблюдаемости фактически не
+было; обнаружилось это только при разборе 502.
+
+Нужен отдельный аккаунт ровно с одной ролью:
+
+```bash
+yc iam service-account create --name magic-esim-retail-proxy-logger
+yc resource-manager folder add-access-binding <folder-id> \
+  --role logging.writer --service-account-id <sa-id>
+```
+
+`logging.writer` достаточно. `editor`/`admin` не нужны и не должны выдаваться.
+Аккаунт указывается при создании версии — см. шаг 3 порядка развёртывания.
+
+Проверить, что он на месте:
+
+```bash
+yc serverless function version list --function-name magic-esim-retail-proxy \
+  --format json | jq -r '.[0].service_account_id'
+```
+
+Пусто — логов не будет.
+
+### Что пишется
+
+По одной структурной строке JSON на запрос:
 
 ```json
-{"evt":"proxied","method":"GET","path":"/api/v1/retail/packages","status":200,"attempts":1,"upstream_ms":331,"total_ms":338}
+{"evt":"proxied","method":"GET","path":"/api/v1/retail/packages","status":200,"attempts":1,"bytes":180280,"upstream_ms":237,"total_ms":237}
+{"evt":"rejected","method":"GET","path":"/api/v1/admin/packages","status":404}
 {"evt":"error","method":"GET","path":"/health","kind":"upstream_unreachable","reason":"connect_timeout","attempts":4,"total_ms":12043}
 ```
 
-Что смотреть:
+- `attempts` > 1 — первое соединение с Render не встало, спасал повтор. Это
+  штатная работа гонки соединений, но рост доли — сигнал деградации связности;
+- `evt: error` — запрос не дошёл; витрина в этот момент показывает статический
+  каталог;
+- `evt: rejected` — попадание мимо allowlist.
 
-```bash
-yc logging read --resource-ids <function-id> --since 1h --limit 500
+Тела запросов и ответов не логируются, заголовки тоже.
+
+### ⚠️ Токен попадает в лог
+
+`path` пишется целиком, а у трёх маршрутов токен лежит **в самом пути**:
+
+```
+/api/v1/public/retail-esim/{client_token}/qr.png
+/api/v1/public/retail-orders/{client_token}/status
+/api/v1/public/private-payments/{public_token}
 ```
 
-- рост `attempts` > 1 — деградация связности Yandex Cloud → Render;
-- `evt: error` — запросы, которые не дошли; витрина в этот момент показывает
-  статический каталог;
-- `evt: rejected` — попадания мимо allowlist.
+Значит в Cloud Logging оседают настоящие токены заказов и приватных ссылок. Токен
+QR — это доступ к секрету установки eSIM, и он не истекает. Retention группы
+`default` — 3 суток; прочитать может любой с ролью `logging.viewer` на каталог.
+
+Не исправлено. Минимальная правка — маскировать сегмент перед логированием,
+оставляя маршрут узнаваемым:
+
+```js
+const logPath = path.replace(
+  /(\/retail-esim\/|\/retail-orders\/|\/private-payments\/)[^/]+/,
+  '$1{token}');
+```
+
+### Как читать
+
+```bash
+yc logging read --group-name default \
+  --since 2026-08-08T07:04:00Z --until 2026-08-08T07:07:00Z \
+  --limit 50 --format json
+```
+
+Две особенности CLI, на которых легко потерять час:
+
+- записи отдаются **от старых к новым**, и `--limit` обрезает окно с начала.
+  `--since 1h --limit 50` вернёт первые 50 записей часа — обычно это логи
+  сборки, а не то, что искали. Читать надо узкими окнами по времени;
+- при `--limit` больше ~50 команда стабильно подвисает. Окно лучше делить на
+  куски по 15–30 секунд.
+
+Доставка запаздывает: запись с меткой 07:12 становится читаемой через несколько
+минут. Пустой ответ сразу после запроса ещё ничего не значит.
 
 ## Стоимость
 
