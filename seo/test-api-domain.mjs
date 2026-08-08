@@ -26,6 +26,10 @@ const proxy = createRequire(import.meta.url)(
   join(ROOT, 'infra/yandex-api-gateway/proxy-function/index.js'),
 )._internal;
 
+const { handler } = createRequire(import.meta.url)(
+  join(ROOT, 'infra/yandex-api-gateway/proxy-function/index.js'),
+);
+
 const API_DOMAIN = 'https://api.magicesim.store';
 const RENDER_RE = /[a-z0-9-]+\.onrender\.com/i;
 
@@ -269,4 +273,116 @@ test('a POST is never retried once any byte reached the upstream', () => {
   assert.equal(proxy.isRetrySafe('POST', true), false);
   assert.equal(proxy.isRetrySafe('POST', false), true, 'a failed connect is safe to retry');
   assert.equal(proxy.isRetrySafe('GET', true), true, 'reads are idempotent');
+});
+
+/* ------------------------------------------- tokens must not reach the logs */
+
+test('a real token never survives into a log line', () => {
+  // /retail-esim/{token}/qr.png is the eSIM install secret and does not expire;
+  // the other two identify an order and a payment link. Cloud Logging has its
+  // own retention and its own readers, so none of them belong there.
+  const REAL = 'Kx7bQ2mNp9vT4wY8sL1cR6dF3hJ0zA5e';
+  const paths = [
+    `/api/v1/public/retail-esim/${REAL}/qr.png`,
+    `/api/v1/public/retail-orders/${REAL}/status`,
+    `/api/v1/public/private-payments/${REAL}`,
+  ];
+  for (const path of paths) {
+    const route = proxy.matchRoute('GET', path);
+    assert.ok(route, `${path} should be a live route`);
+    const logged = proxy.logPath(path, route);
+    assert.ok(!logged.includes(REAL), `${path} leaked its token as "${logged}"`);
+    assert.match(logged, /\{token\}/);
+  }
+});
+
+test('the masked path still identifies which route was hit', () => {
+  const t = 'a'.repeat(32);
+  const cases = [
+    ['GET', `/api/v1/public/retail-esim/${t}/qr.png`, '/api/v1/public/retail-esim/{token}/qr.png'],
+    ['GET', `/api/v1/public/retail-orders/${t}/status`, '/api/v1/public/retail-orders/{token}/status'],
+    ['GET', `/api/v1/public/private-payments/${t}`, '/api/v1/public/private-payments/{token}'],
+    ['POST', `/api/v1/public/private-payments/${t}/start`, '/api/v1/public/private-payments/{token}/start'],
+    ['POST', `/api/v1/public/retail-orders/${t}/pay`, '/api/v1/public/retail-orders/{token}/pay'],
+  ];
+  for (const [method, path, expected] of cases) {
+    assert.equal(proxy.logPath(path, proxy.matchRoute(method, path)), expected);
+  }
+});
+
+test('token-free routes are logged exactly as they are', () => {
+  for (const [method, path] of [['GET', '/health'], ['GET', '/api/v1/retail/packages'],
+                                ['POST', '/api/v1/retail/promo/quote'], ['POST', '/api/v1/public/retail-orders']]) {
+    assert.equal(proxy.logPath(path, proxy.matchRoute(method, path)), path);
+  }
+});
+
+test('a rejected path is masked too, since it is arbitrary client input', () => {
+  const REAL = 'Zq8wE3rT7yU1iO5pA9sD2fG6hJ4kL0mN';
+  // A refused request can still carry a live token — a wrong method on a real
+  // link, or a route that has since been removed. Every token-bearing prefix
+  // has to be covered here, because this is the branch where the pattern is not
+  // available to fall back on.
+  const refused = [
+    [`/api/v1/public/retail-esim/${REAL}/qr.png/extra`, '/api/v1/public/retail-esim/{token}/qr.png/extra'],
+    [`/api/v1/public/retail-orders/${REAL}/refund`, '/api/v1/public/retail-orders/{token}/refund'],
+    [`/api/v1/public/private-payments/${REAL}/disable`, '/api/v1/public/private-payments/{token}/disable'],
+  ];
+  for (const [path, expected] of refused) {
+    const logged = proxy.logPath(path, null);
+    assert.ok(!logged.includes(REAL), `${path} leaked its token`);
+    assert.equal(logged, expected);
+  }
+  // and an unrelated unknown path is left readable
+  assert.equal(proxy.logPath('/totally/unknown', null), '/totally/unknown');
+});
+
+test('the handler logs the masked path, not the raw one', async () => {
+  // Exercised through the real handler: a test that only calls logPath() would
+  // still pass if a call site went back to logging `path` directly. The refused
+  // branch returns before any network call, so this stays offline.
+  const REAL = 'L1veT0ken9876543210abcdefABCDEF';
+  const lines = [];
+  const original = console.log;
+  console.log = (...args) => lines.push(args.join(' '));
+  try {
+    await handler({
+      httpMethod: 'GET',
+      url: `/api/v1/public/retail-esim/${REAL}/qr.png/nope`,
+      headers: {},
+    });
+  } finally {
+    console.log = original;
+  }
+  assert.ok(lines.length, 'the handler logged nothing at all');
+  const blob = lines.join('\n');
+  assert.ok(!blob.includes(REAL), `the token reached the log: ${blob}`);
+  assert.match(blob, /\{token\}/);
+});
+
+test('every logging site goes through logPath', () => {
+  // Belt and braces for the call sites the offline handler test cannot reach —
+  // `proxied` and `error` both need a live upstream to fire.
+  const src = read('infra/yandex-api-gateway/proxy-function/index.js');
+  const sites = [...src.matchAll(/console\.log\(JSON\.stringify\(\{[\s\S]{0,220}?\}\)\)/g)].map((m) => m[0]);
+  assert.ok(sites.length >= 4, `expected at least 4 logging sites, found ${sites.length}`);
+  for (const site of sites) {
+    if (!/\bpath\b/.test(site)) continue;
+    assert.match(site, /path: logPath\(/,
+      `a logging site writes path without masking it:\n${site}`);
+    assert.ok(!/[,{]\s*path\s*[,}]/.test(site),
+      `a logging site passes bare path via shorthand:\n${site}`);
+  }
+});
+
+test('masking is driven by the allowlist, so the two cannot drift apart', () => {
+  // Any route whose pattern carries {token} must log that pattern verbatim.
+  const withToken = proxy.ROUTES.filter((r) => r.pattern.includes('{token}'));
+  assert.ok(withToken.length >= 3, 'expected the token-bearing routes to still exist');
+  for (const r of withToken) {
+    const concrete = r.pattern.replace('{token}', 'S3cr3tT0k3nValue1234567890');
+    const logged = proxy.logPath(concrete, proxy.matchRoute(r.method, concrete));
+    assert.equal(logged, r.pattern);
+    assert.ok(!logged.includes('S3cr3t'));
+  }
 });

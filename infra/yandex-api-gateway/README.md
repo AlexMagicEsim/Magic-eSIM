@@ -179,6 +179,9 @@ yc serverless function set-scaling-policy magic-esim-retail-proxy \
   --tag '$latest' --provisioned-instances-count 1
 
 yc serverless api-gateway create --name magic-esim-retail --spec=retail-proxy.yaml
+# INFO-строки доступа шлюза содержат путь целиком, а в трёх маршрутах путь несёт
+# токен — см. «Наблюдаемость»
+yc serverless api-gateway update --name magic-esim-retail --min-log-level warn
 yc serverless api-gateway get --name magic-esim-retail --format json | jq -r .domain
 ```
 
@@ -280,9 +283,9 @@ yc serverless function version list --function-name magic-esim-retail-proxy \
 
 Тела запросов и ответов не логируются, заголовки тоже.
 
-### ⚠️ Токен попадает в лог
+### Токены в путях замаскированы
 
-`path` пишется целиком, а у трёх маршрутов токен лежит **в самом пути**:
+У трёх маршрутов токен лежит **в самом пути**:
 
 ```
 /api/v1/public/retail-esim/{client_token}/qr.png
@@ -290,17 +293,34 @@ yc serverless function version list --function-name magic-esim-retail-proxy \
 /api/v1/public/private-payments/{public_token}
 ```
 
-Значит в Cloud Logging оседают настоящие токены заказов и приватных ссылок. Токен
-QR — это доступ к секрету установки eSIM, и он не истекает. Retention группы
-`default` — 3 суток; прочитать может любой с ролью `logging.viewer` на каталог.
+Токен QR — это доступ к секрету установки eSIM, и он не истекает. В Cloud
+Logging с его собственным retention и своим кругом читателей такому не место.
 
-Не исправлено. Минимальная правка — маскировать сегмент перед логированием,
-оставляя маршрут узнаваемым:
+Закрыто в двух местах, потому что пишут двое:
 
-```js
-const logPath = path.replace(
-  /(\/retail-esim\/|\/retail-orders\/|\/private-payments\/)[^/]+/,
-  '$1{token}');
+**1. Функция** — `logPath()` в `proxy-function/index.js`. Для совпавшего
+маршрута в лог идёт сам шаблон из `ROUTES`, поэтому лог токен-безопасен по
+построению и не может разойтись с allowlist. Для отклонённого пути (это
+произвольный ввод клиента) те же сегменты затираются регуляркой.
+
+**2. Шлюз** — писал собственную access-строку `GET /api/v1/... 404` с **полным**
+путём. Маскирование в функции на неё не влияет. Поэтому у шлюза поднят
+минимальный уровень:
+
+```bash
+yc serverless api-gateway update --name magic-esim-retail --min-log-level warn
+```
+
+INFO-строки доступа уходят, предупреждения и ошибки шлюза остаются. Ничего не
+теряется: функция и так пишет метод, путь, статус и латентность по каждому
+запросу, только с маскированием. Настройка живёт в конфигурации шлюза, а не в
+`retail-proxy.yaml` — при пересоздании шлюза её надо выставить заново.
+
+Проверить, что уровень на месте:
+
+```bash
+yc serverless api-gateway get --name magic-esim-retail --format json | jq .log_options
+# {"folder_id":"...","min_level":"WARN"}
 ```
 
 ### Как читать

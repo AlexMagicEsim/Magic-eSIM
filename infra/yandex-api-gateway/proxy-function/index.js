@@ -82,6 +82,27 @@ const RESPONSE_HEADERS = ['content-type', 'cache-control', 'pragma', 'expires', 
 
 const SEGMENT = /^[A-Za-z0-9._~-]{1,128}$/;
 
+/**
+ * The path as it goes into a log line — never the one used for routing or sent
+ * upstream.
+ *
+ * Three routes carry a token in the path itself, and `/retail-esim/{token}/qr.png`
+ * is the eSIM install secret and does not expire. Writing those into Cloud
+ * Logging would put a live credential in a store with its own retention and its
+ * own set of readers.
+ *
+ * For a matched route the allowlist pattern is logged directly, so the log is
+ * token-free by construction and cannot drift out of step with ROUTES. An
+ * unmatched path is arbitrary client input, so the same segments are blanked
+ * defensively there too.
+ */
+const TOKEN_BEARING = /(\/(?:retail-esim|retail-orders|private-payments)\/)[^/]+/g;
+
+function logPath(path, route) {
+  if (route) return route.pattern;
+  return String(path).replace(TOKEN_BEARING, '$1{token}');
+}
+
 function matchRoute(method, path) {
   for (const route of ROUTES) {
     if (route.method !== method) continue;
@@ -289,7 +310,7 @@ async function send(target, method, headers, body) {
  * Exposed so the test suite can exercise routing and CORS directly rather than
  * grepping this file. Not part of the function's contract with the gateway.
  */
-module.exports._internal = { ROUTES, UPSTREAM, matchRoute, corsHeaders, isRetrySafe, REQUEST_HEADERS, RESPONSE_HEADERS };
+module.exports._internal = { ROUTES, UPSTREAM, matchRoute, logPath, corsHeaders, isRetrySafe, REQUEST_HEADERS, RESPONSE_HEADERS };
 
 module.exports.handler = async function (event) {
   const started = Date.now();
@@ -316,7 +337,7 @@ module.exports.handler = async function (event) {
   if (!route) {
     // Same shape for unknown path and disallowed method: reveals nothing about
     // what else exists upstream.
-    console.log(JSON.stringify({ evt: 'rejected', method, path, status: 404 }));
+    console.log(JSON.stringify({ evt: 'rejected', method, path: logPath(path, null), status: 404 }));
     return json(404, { error: 'not_found' }, cors);
   }
 
@@ -339,7 +360,7 @@ module.exports.handler = async function (event) {
       ? Buffer.from(event.body, 'base64').toString('utf8')
       : (event.body || '');
     if (Buffer.byteLength(body, 'utf8') > MAX_BODY_BYTES) {
-      console.log(JSON.stringify({ evt: 'too_large', path, status: 413 }));
+      console.log(JSON.stringify({ evt: 'too_large', path: logPath(path, route), status: 413 }));
       return json(413, { error: 'payload_too_large' }, cors);
     }
     if (!headers['content-type']) headers['content-type'] = 'application/json';
@@ -363,7 +384,7 @@ module.exports.handler = async function (event) {
     // the backend must stay that 4xx, so the storefront keeps showing the real
     // reason a package or promo code was refused.
     console.log(JSON.stringify({
-      evt: 'proxied', method, path, status: res.status, attempts: res.attempts,
+      evt: 'proxied', method, path: logPath(path, route), status: res.status, attempts: res.attempts,
       bytes: res.body.length, upstream_ms: Date.now() - t0, total_ms: Date.now() - started,
     }));
     // Always base64, always flagged. The gateway decodes it back to the exact
@@ -375,7 +396,7 @@ module.exports.handler = async function (event) {
     const kind = err && err.reason === 'read_timeout' ? 'timeout' : 'upstream_unreachable';
     // Never surface the upstream host or the raw error to the client.
     console.log(JSON.stringify({
-      evt: 'error', method, path, kind, reason: err && err.reason,
+      evt: 'error', method, path: logPath(path, route), kind, reason: err && err.reason,
       attempts: err && err.attempts, total_ms: Date.now() - started,
     }));
     return json(kind === 'timeout' ? 504 : 502, { error: kind }, cors);
