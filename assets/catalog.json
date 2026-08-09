@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-08T15:46:27.759Z",
+  "generated_at": "2026-08-09T07:19:22.183Z",
   "source": "production-public-api",
-  "package_count": 238,
+  "package_count": 239,
   "packages": [
     {
       "package_id": "006376b7-bd69-402d-9442-56ff8e33bb95",
@@ -2808,6 +2808,44 @@
         },
         {
           "operator": "Claro",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true
+    },
+    {
+      "package_id": "65ea9bb8-5145-4b05-84cf-0aabcee5001c",
+      "name": "Vietnam 500MB 7Days",
+      "country_code": "VN",
+      "region": "VN",
+      "coverage_country_codes": [
+        "VN"
+      ],
+      "coverage_flags": "🇻🇳",
+      "data_gb": 0.49,
+      "validity_days": 7,
+      "price": 100,
+      "networks": [
+        {
+          "operator": "Viettel Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "MobiFone",
+          "type": "4G"
+        },
+        {
+          "operator": "Vinaphone",
           "type": "5G"
         }
       ],
