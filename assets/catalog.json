@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T08:07:22.733Z",
+  "generated_at": "2026-08-10T10:38:23.677Z",
   "source": "production-public-api",
-  "package_count": 239,
+  "package_count": 244,
   "packages": [
     {
       "package_id": "006376b7-bd69-402d-9442-56ff8e33bb95",
@@ -1582,6 +1582,35 @@
         "5G"
       ],
       "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true
+    },
+    {
+      "package_id": "3352f8ff-6677-4362-8070-942ae277070a",
+      "name": "Kyrgyzstan 3GB 30Days",
+      "country_code": "KG",
+      "region": "KG",
+      "coverage_country_codes": [
+        "KG"
+      ],
+      "coverage_flags": "🇰🇬",
+      "data_gb": 3,
+      "validity_days": 30,
+      "price": 350,
+      "networks": [
+        {
+          "operator": "Beeline",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
@@ -3260,6 +3289,35 @@
       "topup_available": false
     },
     {
+      "package_id": "72c8ace6-d477-4aca-a621-0eb87f43a98c",
+      "name": "Kyrgyzstan 20GB 30Days",
+      "country_code": "KG",
+      "region": "KG",
+      "coverage_country_codes": [
+        "KG"
+      ],
+      "coverage_flags": "🇰🇬",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 1650,
+      "networks": [
+        {
+          "operator": "Beeline",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true
+    },
+    {
       "package_id": "73b962a8-cd92-4cef-9aa0-5a5933dd564c",
       "name": "Malaysia 5GB 30Days",
       "country_code": "MY",
@@ -3518,6 +3576,35 @@
         "5G"
       ],
       "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true
+    },
+    {
+      "package_id": "807ae73a-4d07-4139-81fc-54e7620a1b18",
+      "name": "Kyrgyzstan 3GB 15Days",
+      "country_code": "KG",
+      "region": "KG",
+      "coverage_country_codes": [
+        "KG"
+      ],
+      "coverage_flags": "🇰🇬",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 300,
+      "networks": [
+        {
+          "operator": "Beeline",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
@@ -5096,6 +5183,35 @@
       "fup_policy": "",
       "hotspot_supported": true,
       "activation_policy": "first_data_usage",
+      "topup_available": true
+    },
+    {
+      "package_id": "8a555829-6d70-4dff-86fe-c5ddedd5f14a",
+      "name": "Kyrgyzstan 10GB 30Days",
+      "country_code": "KG",
+      "region": "KG",
+      "coverage_country_codes": [
+        "KG"
+      ],
+      "coverage_flags": "🇰🇬",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 950,
+      "networks": [
+        {
+          "operator": "Beeline",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
       "topup_available": true
     },
     {
@@ -10235,6 +10351,35 @@
       "fup_policy": "",
       "hotspot_supported": true,
       "activation_policy": "first_data_usage",
+      "topup_available": true
+    },
+    {
+      "package_id": "f0ba6094-74d4-40a8-bea0-688762f54945",
+      "name": "Kyrgyzstan 5GB 30Days",
+      "country_code": "KG",
+      "region": "KG",
+      "coverage_country_codes": [
+        "KG"
+      ],
+      "coverage_flags": "🇰🇬",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 500,
+      "networks": [
+        {
+          "operator": "Beeline",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
       "topup_available": true
     },
     {
