@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T10:38:23.677Z",
+  "generated_at": "2026-08-10T17:05:03.942Z",
   "source": "production-public-api",
   "package_count": 244,
   "packages": [
@@ -2338,12 +2338,12 @@
       "price": 900,
       "networks": [
         {
-          "operator": "Movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         },
         {
-          "operator": "Claro",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -8844,12 +8844,12 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "Movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         },
         {
-          "operator": "Claro",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
