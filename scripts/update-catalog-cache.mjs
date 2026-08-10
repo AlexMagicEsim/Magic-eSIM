@@ -28,8 +28,33 @@ const OUT = join(ROOT, 'assets', 'catalog.json');
 const TMP = join(ROOT, 'assets', '.catalog.json.tmp');
 
 const API = process.env.CATALOG_API_BASE || 'https://api.magicesim.store';
-const ENDPOINT = `${API}/api/v1/retail/packages`;
+// Per-request budget. Six of these bound the worst case — see CATALOG_SOURCES.
 const FETCH_TIMEOUT_MS = 30_000;
+
+// Sources, in order of preference. The primary sits behind the Yandex Cloud
+// load balancer; `origin` is the same application reached through Cloudflare →
+// Render, i.e. one hop fewer.
+//
+// Why the fallback exists: on 2026-08-10 the balancer began intermittently
+// answering {"error":"upstream_unreachable"} with HTTP 502 after ~13.9 s, in
+// bursts — measured 5 failures in 6 requests, then 2 in 10, then 0 in 24 within
+// half an hour. It is not load-related: the tiny /health endpoint fails with the
+// same signature as the 182 kB catalogue. Meanwhile `origin` answered 200 on
+// every one of those attempts, and both hosts return an identical catalogue.
+//
+// One deliberate limitation: this only covers the balancer failing. If the
+// application itself is down, both sources fail, and that is correct — we must
+// not publish a catalogue nobody can serve.
+export const CATALOG_SOURCES = [
+  { name: 'api', base: API },
+  { name: 'origin', base: process.env.CATALOG_API_FALLBACK || 'https://origin.magicesim.store' },
+];
+
+// Three attempts per source. At the 20 % failure rate measured during a burst,
+// three independent attempts leave roughly a 1 % chance of losing a source; at
+// the worst observed 83 % it still helps, and the fallback covers the rest.
+export const FETCH_ATTEMPTS = 3;
+const RETRY_BACKOFF_MS = [500, 1500];   // between attempts 1→2 and 2→3
 
 export const SCHEMA_VERSION = 1;
 
@@ -172,11 +197,15 @@ export function readExistingCatalog() {
   try { return JSON.parse(readFileSync(OUT, 'utf8')); } catch { return null; }
 }
 
-async function fetchLiveCatalogue() {
+// One request to one source. Unchanged rules: only HTTP 200 counts, the body
+// must parse, and it must carry a non-empty `data` array. A malformed or empty
+// payload is a failure, never a success — publishing it would overwrite a good
+// cache with a broken one.
+export async function fetchCatalogueOnce(base, { fetchImpl = globalThis.fetch, timeoutMs = FETCH_TIMEOUT_MS } = {}) {
   const ac = new AbortController();
-  const timer = setTimeout(() => ac.abort(), FETCH_TIMEOUT_MS);
+  const timer = setTimeout(() => ac.abort(), timeoutMs);
   try {
-    const res = await fetch(`${ENDPOINT}?t=${Date.now()}`, {
+    const res = await fetchImpl(`${base}/api/v1/retail/packages?t=${Date.now()}`, {
       signal: ac.signal,
       headers: { Accept: 'application/json' },
     });
@@ -190,6 +219,42 @@ async function fetchLiveCatalogue() {
   } finally {
     clearTimeout(timer);
   }
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Tries each source up to FETCH_ATTEMPTS times before moving to the next one.
+// Returns the packages together with the source that produced them, so the log
+// says which host the published catalogue actually came from.
+//
+// Only host names are logged. There are no credentials anywhere in this path —
+// the endpoint is public and the request carries no auth header — so there is
+// nothing to redact, and nothing here should ever grow one.
+export async function fetchLiveCatalogue({
+  fetchImpl = globalThis.fetch,
+  sources = CATALOG_SOURCES,
+  attempts = FETCH_ATTEMPTS,
+  backoff = RETRY_BACKOFF_MS,
+  log = console.error,
+} = {}) {
+  const failures = [];
+  for (const source of sources) {
+    for (let attempt = 1; attempt <= attempts; attempt += 1) {
+      try {
+        const data = await fetchCatalogueOnce(source.base, { fetchImpl });
+        return { packages: data, source: source.name, base: source.base, attempt };
+      } catch (e) {
+        failures.push(`${source.name} #${attempt}: ${e.message}`);
+        log(`  ✗ ${source.name}, попытка ${attempt}/${attempts}: ${e.message}`);
+        if (attempt < attempts) await sleep(backoff[attempt - 1] ?? backoff[backoff.length - 1] ?? 0);
+      }
+    }
+  }
+  // Every source exhausted. The caller leaves catalog.json alone — that is the
+  // whole point of failing here rather than returning something.
+  const err = new Error(`все источники недоступны (${failures.length} попыток)`);
+  err.failures = failures;
+  throw err;
 }
 
 function cleanupTmp() {
@@ -224,14 +289,19 @@ async function runUpdate() {
   const previous = readExistingCatalog();
   const previousCount = previous && Array.isArray(previous.packages) ? previous.packages.length : null;
   console.log(`── обновление кеша каталога ──`);
-  console.log(`  источник: ${ENDPOINT}`);
+  // What we are willing to try, in order. Which one actually produced the
+  // catalogue is logged below, once it is known — the two must not be confused.
+  console.log(`  источники: ${CATALOG_SOURCES.map((s) => `${s.name} (${s.base})`).join(' → ')}`);
   console.log(`  предыдущий кеш: ${previousCount == null ? 'отсутствует' : previousCount + ' пакетов'}`);
 
   let rawPackages;
   try {
-    rawPackages = await fetchLiveCatalogue();
+    const fetched = await fetchLiveCatalogue();
+    rawPackages = fetched.packages;
+    console.log(`  использован: ${fetched.source} (${fetched.base}), попытка ${fetched.attempt}`);
   } catch (e) {
     console.error(`✗ загрузка не удалась: ${e.message}`);
+    for (const f of e.failures || []) console.error(`    - ${f}`);
     console.error('  существующий catalog.json НЕ ТРОНУТ');
     cleanupTmp();
     return 1;
