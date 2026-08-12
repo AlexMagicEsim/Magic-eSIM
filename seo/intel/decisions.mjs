@@ -81,7 +81,7 @@ export function needsImprovement(page, corpus = {}) {
   }
   if (b.available && b.pageviews >= SAMPLE.pageviews) {
     if (Number.isFinite(b.bounce_rate) && b.bounce_rate > 0.7) flags.push(`отказы ${Math.round(b.bounce_rate * 100)}%`);
-    if (Number.isFinite(b.time_on_page_sec) && b.time_on_page_sec < 30) flags.push(`${Math.round(b.time_on_page_sec)} с на странице`);
+    if (Number.isFinite(b.avg_visit_duration_sec) && b.avg_visit_duration_sec < 30) flags.push(`${Math.round(b.avg_visit_duration_sec)} с на визит`);
     if (Number.isFinite(b.scroll_depth) && b.scroll_depth < 0.3) flags.push(`дочитывают до ${Math.round(b.scroll_depth * 100)}%`);
   }
   if (Number(corpus.totalOrders) >= SAMPLE.orders_corpus && c.available && b.pageviews >= SAMPLE.pageviews) {

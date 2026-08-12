@@ -64,28 +64,94 @@ function searchByPage(gsc) {
   return { available: true, reason: null, pages };
 }
 
-function behaviourByPage(metrika) {
-  if (!metrika || !metrika.available) return { available: false, reason: metrika?.reason || 'нет данных', pages: new Map() };
-  const pages = new Map();
-  for (const row of metrika.data.data || []) {
-    const url = row.dimensions?.[0]?.name;
-    const slug = slugFromUrl(url);
+// Имена целей, которые сайт отправляет через reachGoal. Их роль в воронке
+// зафиксирована здесь один раз, чтобы дальше по коду не гадать, что считать
+// кликом в checkout, а что — покупкой.
+export const FUNNEL = Object.freeze({
+  entry: ['country_tariff_click'],                       // клик по тарифу на странице страны
+  intent: ['tariff_buy_click'],                          // клик «купить» в карточке
+  checkout: ['checkout_open'],                           // открылась форма оформления
+  payment_attempt: ['payment_sbp_click', 'payment_card_click'],
+  purchase: ['payment_success'],
+  failure: ['payment_failed', 'payment_canceled', 'payment_tech_error'],
+});
+
+/** Строка ответа Метрики → { slug, metrics[] }. Не-страны отбрасываются. */
+function rowsBySlug(block) {
+  const out = new Map();
+  for (const row of (block && block.data) || []) {
+    const slug = slugFromUrl(row.dimensions?.[0]?.name);
     if (!slug) continue;
-    const [pageviews, users, avgSeconds, bounce, ...goalReaches] = row.metrics || [];
-    const cols = metrika.data.goal_columns || [];
+    // Один slug может встретиться дважды (с параметрами и без) — суммируем.
+    const prev = out.get(slug);
+    if (!prev) out.set(slug, row.metrics.slice());
+    else prev.forEach((v, i) => { prev[i] = (v || 0) + (row.metrics[i] || 0); });
+  }
+  return out;
+}
+
+/** Тестовый вход к разбору ответа Метрики: парсер должен проверяться отдельно
+ *  от файловой системы и от каталога. */
+export function behaviourFixtureCheck(metrika) {
+  return behaviourByPage(metrika).pages;
+}
+
+function behaviourByPage(metrika) {
+  if (!metrika || !metrika.available) {
+    return { available: false, reason: metrika?.reason || 'нет данных', pages: new Map() };
+  }
+  const d = metrika.data;
+  const goalOrder = d.goal_order || [];
+  const visits = rowsBySlug(d.visits);
+  const views = rowsBySlug(d.pageviews);
+  const exits = rowsBySlug(d.exits);
+
+  const pages = new Map();
+  const slugs = new Set([...visits.keys(), ...views.keys(), ...exits.keys()]);
+  for (const slug of slugs) {
+    const v = visits.get(slug);
+    const pv = views.get(slug);
+    const ex = exits.get(slug);
+
+    // Цели идут после пяти базовых метрик, в порядке запроса.
+    const goals = {};
+    if (v) {
+      goalOrder.forEach((g, i) => {
+        const key = g.event || g.name;
+        goals[key] = v[5 + i] ?? null;
+      });
+    }
+    const sumOf = (names) => {
+      const vals = names.map((n) => goals[n]).filter((x) => Number.isFinite(x));
+      return vals.length ? vals.reduce((a, b) => a + b, 0) : null;
+    };
+
     pages.set(slug, {
-      pageviews: pageviews ?? null,
-      users: users ?? null,
-      time_on_page_sec: avgSeconds ?? null,
-      bounce_rate: Number.isFinite(bounce) ? bounce / 100 : null,
-      scroll_depth: null,       // требует отдельного отчёта по скроллу
+      visits: v ? v[0] : null,
+      users: v ? v[1] : null,
+      bounce_rate: v && Number.isFinite(v[2]) ? v[2] / 100 : null,
+      // Честное имя: это длительность ВИЗИТА, а не время на этой странице.
+      // Времени на конкретной странице в отчётном API нет вообще.
+      avg_visit_duration_sec: v ? v[3] : null,
+      page_depth: v ? v[4] : null,
+      pageviews: pv ? pv[0] : null,
+      pageview_users: pv ? pv[1] : null,
+      exits: ex ? ex[0] : null,
+      // Метрик, которых в API не существует, здесь нет и не будет нуля.
+      scroll_depth: null,
       internal_clicks: null,
-      exits: null,
-      checkout_clicks: cols.includes('checkout_clicks') ? goalReaches[cols.indexOf('checkout_clicks')] ?? null : null,
-      purchases: cols.includes('purchases') ? goalReaches[cols.indexOf('purchases')] ?? null : null,
+      goals,
+      funnel: {
+        entry: sumOf(FUNNEL.entry),
+        intent: sumOf(FUNNEL.intent),
+        checkout: sumOf(FUNNEL.checkout),
+        payment_attempt: sumOf(FUNNEL.payment_attempt),
+        purchase: sumOf(FUNNEL.purchase),
+        failure: sumOf(FUNNEL.failure),
+      },
     });
   }
-  return { available: true, reason: null, pages };
+  return { available: true, reason: null, pages, goalOrder, unavailable: d.unavailable_metrics || {} };
 }
 
 /** @returns {{pages: object[], sources: object}} */
@@ -124,11 +190,13 @@ export function buildPages({ asOf = new Date().toISOString() } = {}) {
         : { available: false, reason: behaviour.reason || 'страница не встречалась в выгрузке' },
       commerce: m
         ? { available: true, granularity: 'country', ...m,
-            // Клики в checkout приходят из Метрики (цели уже настроены на
-            // сайте), а заказы и деньги — из базы. Источники разные, поэтому
-            // сходиться в ноль они не обязаны.
-            checkout_clicks: b?.checkout_clicks ?? null,
-            checkout_starts: b?.purchases ?? null }
+            // Клики в checkout приходят из Метрики (цели визита, разложенные по
+            // странице входа), а заказы и деньги — из базы. Источники разные и
+            // считают разное: Метрика меряет визиты, база — оплаченные заказы.
+            // Сходиться они не обязаны, и подгонять их друг под друга нельзя.
+            checkout_clicks: b?.funnel?.entry ?? null,
+            checkout_starts: b?.funnel?.checkout ?? null,
+            metrika_purchases: b?.funnel?.purchase ?? null }
         : { available: false, granularity: 'country',
             reason: commerceOk ? 'по этой стране заказов не было' : 'нет снимка продаж' },
       content: {

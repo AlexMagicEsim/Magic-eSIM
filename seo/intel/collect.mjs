@@ -8,13 +8,31 @@
 // недоступный — с причиной, а не пропускается молча.
 
 import { execFileSync } from 'node:child_process';
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { homedir } from 'node:os';
-import { fetchSearchConsole, fetchYandexWebmaster, fetchMetrika } from './sources.mjs';
+import { fetchSearchConsole, fetchYandexWebmaster, fetchMetrika, fetchMetrikaGoals } from './sources.mjs';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
+// Локальный .env, который в .gitignore. Читается вручную, а не через пакет:
+// одна зависимость ради пятнадцати строк — плохой обмен, а значения отсюда
+// попадают только в process.env и никуда больше.
+function loadDotEnv() {
+  const file = join(ROOT_DIR, '.env');
+  if (!existsSync(file)) return 0;
+  let n = 0;
+  for (const line of readFileSync(file, 'utf8').split('\n')) {
+    const m = line.match(/^\s*([A-Z_0-9]+)\s*=\s*(.*)$/);
+    if (!m) continue;
+    const value = m[2].trim().replace(/^["']|["']$/g, '');
+    if (!value) continue;
+    if (process.env[m[1]] === undefined) { process.env[m[1]] = value; n += 1; }
+  }
+  return n;
+}
+
+const ROOT_DIR = join(dirname(fileURLToPath(import.meta.url)), '../..');
+const ROOT = ROOT_DIR;
 const DATA = join(ROOT, 'seo/intel/data');
 mkdirSync(DATA, { recursive: true });
 
@@ -65,9 +83,13 @@ function collectCommerce() {
   };
 }
 
+// Переменные подхватываются до первого обращения к источникам.
+const loaded = loadDotEnv();
+
 const only = process.argv.slice(2);
 const want = (name) => only.length === 0 || only.includes(`--${name}`);
 const report = [];
+if (loaded) report.push(`.env: подхвачено переменных — ${loaded} (значения не выводятся)`);
 
 if (want('commerce')) {
   try {
@@ -83,12 +105,30 @@ if (want('commerce')) {
 for (const [name, fn, file] of [
   ['search', fetchSearchConsole, 'search-console.json'],
   ['webmaster', fetchYandexWebmaster, 'yandex-webmaster.json'],
-  ['metrika', fetchMetrika, 'yandex-metrika.json'],
 ]) {
   if (!want(name)) continue;
   const res = await fn();
   writeFileSync(join(DATA, file), `${JSON.stringify(res, null, 2)}\n`);
   report.push(`${name}: ${res.available ? 'собрано' : `недоступно — ${res.reason}`}`);
+}
+
+// Метрика собирается в два шага: сначала настоящие id целей из Management API,
+// потом отчёт с этими id. Наоборот нельзя — отчётный API имён целей не знает,
+// а захардкоженный id рано или поздно начнёт молча считать не ту цель.
+if (want('metrika')) {
+  const goalsRes = await fetchMetrikaGoals();
+  writeFileSync(join(DATA, 'yandex-metrika-goals.json'), `${JSON.stringify(goalsRes, null, 2)}\n`);
+  const goals = goalsRes.available ? goalsRes.data.goals : [];
+  report.push(`цели Метрики: ${goalsRes.available ? `${goals.length} шт.` : `недоступны — ${goalsRes.reason}`}`);
+
+  const res = await fetchMetrika({ goals });
+  writeFileSync(join(DATA, 'yandex-metrika.json'), `${JSON.stringify(res, null, 2)}\n`);
+  if (res.available) {
+    const rows = (res.data.visits?.data || []).length;
+    report.push(`метрика: собрано, ${rows} строк по страницам входа, ${goals.length} целей в разрезе`);
+  } else {
+    report.push(`метрика: недоступно — ${res.reason}`);
+  }
 }
 
 console.log(report.join('\n'));

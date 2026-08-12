@@ -143,7 +143,10 @@ export function performanceScore(page, corpus = {}) {
   // ---- Вовлечённость -----------------------------------------------------
   if (behaviour.available && Number.isFinite(pageviews) && pageviews >= SAMPLE.pageviews) {
     const scroll = Number(behaviour.scroll_depth);       // 0..1
-    const time = Number(behaviour.time_on_page_sec);
+    // Длительность ВИЗИТА, а не время на этой странице: времени на конкретной
+    // странице в API Метрики нет. Для вовлечённости это приемлемая замена, но
+    // называть её временем на странице — значит обещать точность, которой нет.
+    const time = Number(behaviour.avg_visit_duration_sec);
     const bounce = Number(behaviour.bounce_rate);         // 0..1
     const bits = [];
     if (Number.isFinite(scroll)) bits.push(clamp01(scroll / 0.75));

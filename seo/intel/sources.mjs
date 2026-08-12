@@ -154,58 +154,152 @@ export async function fetchYandexWebmaster({ days = 28 } = {}) {
 }
 
 // ---------------------------------------------------------------------------
-// Яндекс Метрика — Reporting API
+// Яндекс Метрика — Reporting API + Management API
 // ---------------------------------------------------------------------------
 //
-//   YANDEX_METRIKA_TOKEN, YANDEX_METRIKA_COUNTER (счётчик сайта: 110393848)
+//   YANDEX_METRIKA_TOKEN      OAuth-токен со scope metrika:read
+//   YANDEX_METRIKA_COUNTER    счётчик сайта (по умолчанию 110393848)
 //
-// Behaviour metrics per URL, плюс достижения целей по URL, если заданы их
-// числовые идентификаторы.
+// ДВА ПРОСТРАНСТВА ИМЁН, КОТОРЫЕ НЕЛЬЗЯ СМЕШИВАТЬ
 //
-// Цели на сайте УЖЕ настроены — country_tariff_click, tariff_buy_click,
-// checkout_open и другие (см. attribution.mjs). Значит Checkout Analytics на
-// страницу считается штатным отчётом Метрики, без новой разметки. Не хватает
-// только двух вещей: токена и числовых id целей из интерфейса счётчика —
-// имена целей в API не принимаются.
+//   ym:s:*   визиты (session). Визит — это последовательность действий одного
+//            посетителя. У визита есть страница входа, страница выхода,
+//            длительность, отказ и достигнутые цели.
+//   ym:pv:*  просмотры (pageview). Просмотр — это одна загрузка страницы.
 //
-//   YANDEX_METRIKA_GOAL_CHECKOUT  id цели country_tariff_click / tariff_buy_click
-//   YANDEX_METRIKA_GOAL_PURCHASE  id цели успешной оплаты
+// API отказывается обрабатывать запрос, в котором смешаны префиксы. Это не
+// придирка формата: у визита и у просмотра разные единицы измерения, и
+// «отказы на просмотр страницы» — величина, которой не существует.
+//
+// ПОЧЕМУ ВОРОНКА СТРОИТСЯ ПО startURL
+//
+// Разложить цели по ym:pv:URLPathFull бесполезно. Клик по тарифу происходит на
+// странице страны, а оплата — на лендинге и на payment-success. По URL просмотра
+// они окажутся в разных строках и со страницей страны не свяжутся.
+//
+// А по ym:s:startURLPathFull — свяжутся все шаги сразу, потому что страница
+// входа это свойство ВИЗИТА, и все цели визита относятся к ней. Это и есть
+// page-level attribution без единой правки базы.
+//
+// Ограничение честное: если посетитель зашёл на лендинг, а страницу страны
+// открыл потом, визит запишется лендингу. Метрика меряет вход, а не влияние.
 
 export const METRIKA_COUNTER = '110393848';
+const METRIKA_API = 'https://api-metrika.yandex.net';
 
-export async function fetchMetrika({ days = 28, limit = 1000 } = {}) {
-  const { YANDEX_METRIKA_TOKEN } = process.env;
-  const counter = process.env.YANDEX_METRIKA_COUNTER || METRIKA_COUNTER;
-  if (!YANDEX_METRIKA_TOKEN) {
-    return unavailable('yandex-metrika', 'нет доступа: задай YANDEX_METRIKA_TOKEN');
+function metrikaAuth() {
+  const token = process.env.YANDEX_METRIKA_TOKEN;
+  if (!token) return null;
+  return { authorization: `OAuth ${token}` };
+}
+
+async function metrikaGet(path, params, timeout = 120000) {
+  const headers = metrikaAuth();
+  if (!headers) throw new Error('нет токена');
+  const url = `${METRIKA_API}${path}${params ? `?${params}` : ''}`;
+  const res = await fetch(url, { headers, signal: AbortSignal.timeout(timeout) });
+  if (!res.ok) {
+    // Тело ошибки Метрики полезно (какая метрика не принята), а токен в нём не
+    // встречается — он уходит только в заголовке.
+    let detail = '';
+    try { detail = (await res.text()).slice(0, 300); } catch { /* тела может не быть */ }
+    throw new Error(`API ${res.status}${detail ? `: ${detail}` : ''}`);
   }
+  return res.json();
+}
+
+/**
+ * Все цели счётчика с их настоящими числовыми идентификаторами.
+ *
+ * Имена целей в отчётный API не принимаются — только id. Поэтому список
+ * забирается из Management API и сопоставляется с именами, которые сайт
+ * отправляет через reachGoal. Захардкоженный id рано или поздно разойдётся с
+ * реальностью и будет молча считать не ту цель.
+ */
+export async function fetchMetrikaGoals() {
+  if (!metrikaAuth()) return unavailable('yandex-metrika', 'нет доступа: задай YANDEX_METRIKA_TOKEN');
+  const counter = process.env.YANDEX_METRIKA_COUNTER || METRIKA_COUNTER;
+  try {
+    const body = await metrikaGet(`/management/v1/counter/${counter}/goals`, 'useDeleted=false', 60000);
+    const goals = (body.goals || []).map((g) => ({
+      id: g.id,
+      name: g.name,
+      type: g.type,
+      // Имя, которое сайт передаёт в reachGoal, у целей типа "javascript"
+      // лежит в conditions[].url — Метрика хранит идентификатор события там.
+      event: (g.conditions || []).map((c) => c.url).find(Boolean) || null,
+    }));
+    return ok('yandex-metrika-goals', { counter, goals });
+  } catch (e) {
+    return unavailable('yandex-metrika-goals', `цели не получены: ${e.message}`);
+  }
+}
+
+/**
+ * Данные по страницам.
+ *
+ * Три запроса, потому что три разных вопроса и два разных пространства имён:
+ *
+ *   visits    ym:s:* по странице ВХОДА — визиты, посетители, отказы,
+ *             длительность, глубина и достижения всех целей
+ *   pageviews ym:pv:* по URL просмотра — сколько раз страницу открыли
+ *             вообще, независимо от того, с чего начался визит
+ *   exits     ym:s:* по странице ВЫХОДА — на скольких визитах она последняя
+ *
+ * @param {object} opts
+ * @param {Array<{id:number,name:string,event:string|null}>} opts.goals
+ */
+export async function fetchMetrika({ days = 28, limit = 5000, goals = [] } = {}) {
+  if (!metrikaAuth()) return unavailable('yandex-metrika', 'нет доступа: задай YANDEX_METRIKA_TOKEN');
+  const counter = process.env.YANDEX_METRIKA_COUNTER || METRIKA_COUNTER;
+
   const end = new Date();
   const start = new Date(end.getTime() - days * 86400000);
   const iso = (d) => d.toISOString().slice(0, 10);
-  const metrics = ['ym:pv:pageviews', 'ym:pv:users', 'ym:s:avgVisitDurationSeconds', 'ym:s:bounceRate'];
-  const goals = [];
-  if (process.env.YANDEX_METRIKA_GOAL_CHECKOUT) {
-    metrics.push(`ym:s:goal${process.env.YANDEX_METRIKA_GOAL_CHECKOUT}reaches`);
-    goals.push('checkout_clicks');
-  }
-  if (process.env.YANDEX_METRIKA_GOAL_PURCHASE) {
-    metrics.push(`ym:s:goal${process.env.YANDEX_METRIKA_GOAL_PURCHASE}reaches`);
-    goals.push('purchases');
-  }
-  const params = new URLSearchParams({
-    ids: counter,
-    metrics: metrics.join(','),
-    dimensions: 'ym:pv:URLPathFull',
-    date1: iso(start), date2: iso(end),
-    limit: String(limit), accuracy: 'full',
-  });
+  const common = { ids: counter, date1: iso(start), date2: iso(end), limit: String(limit), accuracy: 'full' };
+
+  const goalMetrics = goals.map((g) => `ym:s:goal${g.id}reaches`);
+
   try {
-    const res = await fetch(`https://api-metrika.yandex.net/stat/v1/data?${params}`, {
-      headers: { authorization: `OAuth ${YANDEX_METRIKA_TOKEN}` },
-      signal: AbortSignal.timeout(60000),
+    const visits = await metrikaGet('/stat/v1/data', new URLSearchParams({
+      ...common,
+      dimensions: 'ym:s:startURLPathFull',
+      metrics: [
+        'ym:s:visits', 'ym:s:users', 'ym:s:bounceRate',
+        'ym:s:avgVisitDurationSeconds', 'ym:s:pageDepth',
+        ...goalMetrics,
+      ].join(','),
+      sort: '-ym:s:visits',
+    }));
+
+    const pageviews = await metrikaGet('/stat/v1/data', new URLSearchParams({
+      ...common,
+      dimensions: 'ym:pv:URLPathFull',
+      metrics: 'ym:pv:pageviews,ym:pv:users',
+      sort: '-ym:pv:pageviews',
+    }));
+
+    const exits = await metrikaGet('/stat/v1/data', new URLSearchParams({
+      ...common,
+      dimensions: 'ym:s:endURLPathFull',
+      metrics: 'ym:s:visits',
+      sort: '-ym:s:visits',
+    }));
+
+    return ok('yandex-metrika', {
+      counter, days,
+      // Порядок колонок целей запоминается здесь: в ответе они идут после
+      // пяти базовых метрик ровно в том порядке, в каком были запрошены.
+      goal_order: goals.map((g) => ({ id: g.id, name: g.name, event: g.event })),
+      visits, pageviews, exits,
+      // Чего в API нет вообще — записано в самих данных, чтобы потребитель не
+      // искал это в другом месте и не подставил вместо них ноль.
+      unavailable_metrics: {
+        time_on_page: 'в API нет времени на конкретной странице; ym:s:avgVisitDurationSeconds — длительность ВИЗИТА',
+        scroll_depth: 'в отчётном API нет метрики глубины скролла',
+        internal_clicks: 'метрики кликов по внутренним ссылкам не существует; нужна отдельная цель',
+      },
     });
-    if (!res.ok) return unavailable('yandex-metrika', `API ${res.status}`);
-    return ok('yandex-metrika', { ...(await res.json()), days, counter, goal_columns: goals });
   } catch (e) {
     return unavailable('yandex-metrika', `запрос не прошёл: ${e.message}`);
   }

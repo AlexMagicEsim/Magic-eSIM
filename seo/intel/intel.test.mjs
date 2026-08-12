@@ -59,7 +59,7 @@ test('мало показов — CTR и позиция не участвуют'
 test('конверсия отключена, пока в корпусе мало заказов', () => {
   const p = page({
     search: strongSearch,
-    behaviour: { available: true, pageviews: 500, bounce_rate: 0.4, time_on_page_sec: 90, scroll_depth: 0.6 },
+    behaviour: { available: true, pageviews: 500, bounce_rate: 0.4, avg_visit_duration_sec: 90, scroll_depth: 0.6 },
     commerce: { available: true, completed_orders: 1, revenue_rub: 50 },
   });
   const r = performanceScore(p, { totalOrders: 5, medianConversion: 0, maxRevenue: 650 });
@@ -176,7 +176,7 @@ test('на живом корпусе топ по выручке защищает
 test('запрет не отменяет рекомендации, а только автоприменение', () => {
   const p = page({
     search: { available: true, impressions: 4000, clicks: 20, ctr: 0.005, position: 6, top_queries: [] },
-    behaviour: { available: true, pageviews: 400, bounce_rate: 0.85, time_on_page_sec: 15, scroll_depth: 0.2 },
+    behaviour: { available: true, pageviews: 400, bounce_rate: 0.85, avg_visit_duration_sec: 15, scroll_depth: 0.2 },
     commerce: { available: true, completed_orders: 30, revenue_rub: 90000 },
     content: { ...page().content, locked: true },
   });
@@ -217,7 +217,7 @@ test('без источников рекомендация — подключи�
 test('хорошая позиция и низкая конверсия → переработать CTA', () => {
   const p = page({
     search: { available: true, impressions: 4000, clicks: 200, ctr: 0.05, position: 4, top_queries: [] },
-    behaviour: { available: true, pageviews: 800, bounce_rate: 0.4, time_on_page_sec: 90, scroll_depth: 0.6 },
+    behaviour: { available: true, pageviews: 800, bounce_rate: 0.4, avg_visit_duration_sec: 90, scroll_depth: 0.6 },
     commerce: { available: true, completed_orders: 1, revenue_rub: 500 },
   });
   const ids = recommend(p, strongCorpus, {}).recommendations.map((r) => r.id);
@@ -302,4 +302,86 @@ test('corpusStats не считает конверсию по страницам
   assert.equal(s.sampleSize, 1, `страница с ${SAMPLE.pageviews > 10 ? '10' : ''} просмотрами не даёт конверсии`);
   assert.equal(s.maxRevenue, 5000);
   assert.equal(s.totalOrders, 15);
+});
+
+// ---------------------------------------------------------------------------
+// Разбор ответов Метрики
+// ---------------------------------------------------------------------------
+//
+// Токена ещё нет, поэтому парсер проверяется на записанной ФОРМЕ ответа. Форма
+// взята из контракта API: /stat/v1/data отдаёт data[].dimensions[].name и
+// data[].metrics[] в порядке запрошенных метрик. Ошибиться здесь легко и
+// незаметно: перепутанный индекс превратит глубину просмотра в отказы.
+
+import { behaviourFixtureCheck } from './metrics.mjs';
+
+const metrikaFixture = {
+  available: true,
+  data: {
+    counter: '110393848', days: 28,
+    goal_order: [
+      { id: 111, name: 'Клик по тарифу', event: 'country_tariff_click' },
+      { id: 222, name: 'Открытие оформления', event: 'checkout_open' },
+      { id: 333, name: 'Оплата', event: 'payment_success' },
+    ],
+    visits: { data: [
+      // visits, users, bounceRate(%), avgDuration, pageDepth, goal111, goal222, goal333
+      { dimensions: [{ name: '/esim/thailand/' }], metrics: [420, 380, 41.5, 96, 2.3, 55, 18, 4] },
+      { dimensions: [{ name: '/esim/japan/' }], metrics: [120, 110, 68.0, 34, 1.4, 6, 1, 0] },
+      { dimensions: [{ name: '/' }], metrics: [900, 800, 30.0, 150, 3.1, 0, 40, 12] },
+    ] },
+    pageviews: { data: [
+      { dimensions: [{ name: '/esim/thailand/' }], metrics: [1010, 640] },
+      { dimensions: [{ name: '/esim/japan/' }], metrics: [180, 140] },
+    ] },
+    exits: { data: [
+      { dimensions: [{ name: '/esim/thailand/' }], metrics: [140] },
+    ] },
+    unavailable_metrics: { time_on_page: 'нет', scroll_depth: 'нет', internal_clicks: 'нет' },
+  },
+};
+
+test('разбор ответа Метрики: метрики не перепутаны местами', () => {
+  const b = behaviourFixtureCheck(metrikaFixture).get('thailand');
+  assert.equal(b.visits, 420);
+  assert.equal(b.users, 380);
+  assert.equal(b.bounce_rate, 0.415, 'проценты приводятся к доле');
+  assert.equal(b.avg_visit_duration_sec, 96);
+  assert.equal(b.page_depth, 2.3);
+  assert.equal(b.pageviews, 1010, 'из отдельного запроса по хитам');
+  assert.equal(b.exits, 140, 'из отдельного запроса по страницам выхода');
+});
+
+test('цели раскладываются по именам событий, а не по позиции в отчёте', () => {
+  const b = behaviourFixtureCheck(metrikaFixture).get('thailand');
+  assert.equal(b.goals.country_tariff_click, 55);
+  assert.equal(b.goals.checkout_open, 18);
+  assert.equal(b.goals.payment_success, 4);
+  assert.equal(b.funnel.entry, 55);
+  assert.equal(b.funnel.checkout, 18);
+  assert.equal(b.funnel.purchase, 4);
+});
+
+test('лендинг не попадает в страницы стран', () => {
+  const pages = behaviourFixtureCheck(metrikaFixture);
+  assert.equal(pages.has('thailand'), true);
+  assert.equal(pages.size, 2, 'строка "/" — это лендинг, а не страна');
+});
+
+test('несуществующие в API метрики остаются null, а не нулём', () => {
+  const b = behaviourFixtureCheck(metrikaFixture).get('thailand');
+  assert.equal(b.scroll_depth, null);
+  assert.equal(b.internal_clicks, null);
+});
+
+test('страница без просмотров и выходов не выдумывает нули', () => {
+  const b = behaviourFixtureCheck(metrikaFixture).get('japan');
+  assert.equal(b.visits, 120);
+  assert.equal(b.exits, null, 'в отчёте по выходам этой страницы нет');
+  assert.equal(b.funnel.purchase, 0, 'а вот цель запрошена и вернула ноль — это измерение');
+});
+
+test('недоступная Метрика не создаёт пустых страниц', () => {
+  const r = behaviourFixtureCheck({ available: false, reason: 'нет токена' });
+  assert.equal(r.size, 0);
 });

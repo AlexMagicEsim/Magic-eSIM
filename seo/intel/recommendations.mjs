@@ -85,6 +85,8 @@ export function recommend(page, corpus = {}, tops = {}) {
         'поднять важное выше: тарифы и ответ на главный вопрос до первого скролла',
         'рост глубины просмотра'));
     }
+    // internal_clicks в API Метрики не существует — правило сработает только
+    // если такую цель заведут отдельно. До тех пор оно молчит, а не считает ноль.
     if (Number.isFinite(b.internal_clicks) && b.internal_clicks / b.pageviews < 0.05) {
       out.push(rec('internal-links', SEVERITY.LOW,
         'почти не кликают по внутренним ссылкам',
