@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-12T07:55:17.123Z",
+  "generated_at": "2026-08-12T10:28:21.737Z",
   "source": "production-public-api",
-  "package_count": 244,
+  "package_count": 240,
   "packages": [
     {
       "package_id": "006376b7-bd69-402d-9442-56ff8e33bb95",
@@ -15,7 +15,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 750,
+      "price": 950,
       "networks": [
         {
           "operator": "Vodafone",
@@ -47,50 +47,11 @@
       "coverage_flags": "🇨🇾 🇬🇷 🇹🇷",
       "data_gb": 7,
       "validity_days": 30,
-      "price": 1400,
+      "price": 1600,
       "networks": [],
       "network_technologies": [
         "4G",
         "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true
-    },
-    {
-      "package_id": "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
-      "name": "Latin America 10 GB",
-      "country_code": "AR",
-      "region": "AR, BO, BR, CL, CO, CR, EC, SV, GT, HN, MX, NI, PA, PY, PE, UY, VE",
-      "coverage_country_codes": [
-        "AR",
-        "BO",
-        "BR",
-        "CL",
-        "CO",
-        "CR",
-        "EC",
-        "SV",
-        "GT",
-        "HN",
-        "MX",
-        "NI",
-        "PA",
-        "PY",
-        "PE",
-        "UY",
-        "VE"
-      ],
-      "coverage_flags": "🇦🇷 🇧🇴 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇬🇹 🇭🇳 🇲🇽 🇳🇮 🇵🇦 🇵🇾 🇵🇪 🇺🇾 🇻🇪",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 4900,
-      "networks": [],
-      "network_technologies": [
-        "4G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -112,7 +73,7 @@
       "coverage_flags": "🇨🇾 🇬🇷 🇹🇷",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 2350,
+      "price": 2600,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -146,7 +107,7 @@
       "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇬🇫 🇲🇽 🇵🇪 🇺🇾",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 20100,
+      "price": 22100,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -169,7 +130,7 @@
       "coverage_flags": "🇰🇿",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 450,
       "networks": [
         {
           "operator": "Beeline",
@@ -206,7 +167,7 @@
       "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
       "data_gb": 7,
       "validity_days": 30,
-      "price": 2900,
+      "price": 3250,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -229,7 +190,7 @@
       "coverage_flags": "🇬🇪",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 650,
+      "price": 600,
       "networks": [
         {
           "operator": "Magti",
@@ -258,7 +219,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1250,
+      "price": 1500,
       "networks": [
         {
           "operator": "Vodafone",
@@ -288,7 +249,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 500,
+      "price": 350,
       "networks": [
         {
           "operator": "Vodafone",
@@ -338,7 +299,7 @@
       "coverage_flags": "🇦🇺 🇧🇩 🇰🇭 🇨🇳 🇬🇺 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇳🇿 🇲🇵 🇵🇭 🇸🇬 🇰🇷 🇱🇰 🇹🇼 🇹🇭 🇻🇳",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 2750,
+      "price": 3650,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -361,7 +322,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 900,
+      "price": 1050,
       "networks": [
         {
           "operator": "Du",
@@ -391,7 +352,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "NTT docomo",
@@ -420,7 +381,7 @@
       "coverage_flags": "🇬🇪",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2550,
+      "price": 2950,
       "networks": [
         {
           "operator": "Magti",
@@ -449,7 +410,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1000,
+      "price": 1100,
       "networks": [
         {
           "operator": "Du",
@@ -479,7 +440,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1150,
+      "price": 1600,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -503,7 +464,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 400,
       "networks": [
         {
           "operator": "Maxis",
@@ -537,7 +498,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5050,
+      "price": 3400,
       "networks": [
         {
           "operator": "NTT docomo",
@@ -607,7 +568,7 @@
       "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1750,
+      "price": 2400,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -631,7 +592,7 @@
       "coverage_flags": "🇹🇭",
       "data_gb": 50,
       "validity_days": 10,
-      "price": 3150,
+      "price": 1700,
       "networks": [
         {
           "operator": "True Move",
@@ -661,7 +622,7 @@
       "coverage_flags": "🇮🇹",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 350,
       "networks": [
         {
           "operator": "TIM",
@@ -699,7 +660,7 @@
       "coverage_flags": "🇻🇳",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1500,
+      "price": 2100,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -723,7 +684,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5050,
+      "price": 3400,
       "networks": [
         {
           "operator": "Smartfren",
@@ -761,7 +722,7 @@
       "coverage_flags": "🇵🇭",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 800,
       "networks": [
         {
           "operator": "SMART",
@@ -836,7 +797,7 @@
       "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
       "data_gb": 18,
       "validity_days": 30,
-      "price": 2050,
+      "price": 2800,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -860,7 +821,7 @@
       "coverage_flags": "🇦🇺",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1500,
+      "price": 1750,
       "networks": [
         {
           "operator": "Optus",
@@ -894,7 +855,7 @@
       "coverage_flags": "🇦🇲",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 3150,
+      "price": 3550,
       "networks": [
         {
           "operator": "Vivacell",
@@ -925,7 +886,7 @@
       "coverage_flags": "🇨🇾 🇬🇷 🇹🇷",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5650,
+      "price": 6100,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -949,7 +910,7 @@
       "coverage_flags": "🇳🇿",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 500,
+      "price": 600,
       "networks": [
         {
           "operator": "One NZ",
@@ -978,7 +939,7 @@
       "coverage_flags": "🇳🇿",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1400,
+      "price": 1650,
       "networks": [
         {
           "operator": "One NZ",
@@ -1007,7 +968,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1050,
       "networks": [
         {
           "operator": "Smartfren",
@@ -1045,7 +1006,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5050,
+      "price": 3400,
       "networks": [
         {
           "operator": "SKTelecom",
@@ -1099,7 +1060,7 @@
       "coverage_flags": "🇦🇺 🇧🇩 🇰🇭 🇨🇳 🇬🇺 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇳🇿 🇲🇵 🇵🇭 🇸🇬 🇰🇷 🇱🇰 🇹🇼 🇹🇭 🇻🇳",
       "data_gb": 7,
       "validity_days": 30,
-      "price": 1700,
+      "price": 2350,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -1122,7 +1083,7 @@
       "coverage_flags": "🇰🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2050,
+      "price": 2400,
       "networks": [
         {
           "operator": "Beeline",
@@ -1178,7 +1139,7 @@
       "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
       "data_gb": 53,
       "validity_days": 7,
-      "price": 1500,
+      "price": 2100,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -1201,7 +1162,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 25,
       "validity_days": 30,
-      "price": 2800,
+      "price": 3700,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -1224,7 +1185,7 @@
       "coverage_flags": "🇰🇿",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1150,
+      "price": 1350,
       "networks": [
         {
           "operator": "Beeline",
@@ -1253,7 +1214,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "SKTelecom",
@@ -1306,7 +1267,7 @@
       "coverage_flags": "🇩🇿 🇹🇩 🇨🇩 🇪🇬 🇬🇦 🇬🇭 🇰🇪 🇲🇬 🇲🇼 🇲🇺 🇲🇦 🇳🇪 🇳🇬 🇷🇼 🇷🇪 🇸🇨 🇹🇿 🇹🇳 🇺🇬 🇿🇲",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1750,
+      "price": 2000,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -1329,7 +1290,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4100,
+      "price": 4550,
       "networks": [
         {
           "operator": "Vodafone",
@@ -1359,7 +1320,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5050,
+      "price": 3400,
       "networks": [
         {
           "operator": "CTM",
@@ -1394,7 +1355,7 @@
       "coverage_flags": "🇦🇺 🇳🇿",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 1300,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -1418,7 +1379,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 750,
+      "price": 550,
       "networks": [
         {
           "operator": "Vodafone",
@@ -1449,7 +1410,7 @@
       "coverage_flags": "🇵🇹 🇪🇸",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1650,
+      "price": 2300,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -1473,7 +1434,7 @@
       "coverage_flags": "🇹🇭",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1500,
+      "price": 1050,
       "networks": [
         {
           "operator": "TrueMove H",
@@ -1507,7 +1468,7 @@
       "coverage_flags": "🇹🇭",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5550,
+      "price": 5800,
       "networks": [
         {
           "operator": "TrueMove H",
@@ -1541,7 +1502,7 @@
       "coverage_flags": "🇻🇳",
       "data_gb": 10,
       "validity_days": 15,
-      "price": 850,
+      "price": 1200,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -1565,7 +1526,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 400,
       "networks": [
         {
           "operator": "CTM",
@@ -1599,7 +1560,7 @@
       "coverage_flags": "🇰🇬",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 350,
+      "price": 500,
       "networks": [
         {
           "operator": "Beeline",
@@ -1628,7 +1589,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1050,
       "networks": [
         {
           "operator": "Maxis",
@@ -1662,7 +1623,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 4000,
+      "price": 4350,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -1686,7 +1647,7 @@
       "coverage_flags": "🇹🇭",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 750,
+      "price": 600,
       "networks": [
         {
           "operator": "TrueMove H",
@@ -1720,7 +1681,7 @@
       "coverage_flags": "🇪🇸",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "Orange",
@@ -1783,7 +1744,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "CTM",
@@ -1817,7 +1778,7 @@
       "coverage_flags": "🇸🇦",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2300,
+      "price": 3100,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -1841,7 +1802,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1150,
+      "price": 700,
       "networks": [
         {
           "operator": "Vodafone",
@@ -1871,7 +1832,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 450,
       "networks": [
         {
           "operator": "China Mobile",
@@ -1923,7 +1884,7 @@
       "coverage_flags": "🇩🇿 🇧🇯 🇧🇼 🇨🇲 🇪🇬 🇬🇭 🇬🇼 🇨🇮 🇱🇷 🇲🇬 🇲🇱 🇲🇺 🇾🇹 🇲🇦 🇳🇬 🇨🇬 🇷🇼 🇷🇪 🇸🇳 🇿🇦 🇸🇿 🇹🇳 🇺🇬",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2150,
+      "price": 2500,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -1946,7 +1907,7 @@
       "coverage_flags": "🇪🇸",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 350,
       "networks": [
         {
           "operator": "Orange",
@@ -1980,7 +1941,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "NTT docomo",
@@ -2011,7 +1972,7 @@
       "coverage_flags": "🇨🇳 🇯🇵 🇰🇷",
       "data_gb": 25,
       "validity_days": 30,
-      "price": 2550,
+      "price": 3400,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2035,7 +1996,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 750,
+      "price": 850,
       "networks": [
         {
           "operator": "TIM",
@@ -2107,7 +2068,7 @@
       "coverage_flags": "🇻🇳",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 650,
+      "price": 550,
       "networks": [
         {
           "operator": "Viettel Mobile",
@@ -2145,7 +2106,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1450,
+      "price": 1700,
       "networks": [
         {
           "operator": "Du",
@@ -2197,7 +2158,7 @@
       "coverage_flags": "🇩🇿 🇧🇯 🇧🇼 🇨🇲 🇪🇬 🇬🇭 🇬🇼 🇨🇮 🇱🇷 🇲🇬 🇲🇱 🇲🇺 🇾🇹 🇲🇦 🇳🇬 🇨🇬 🇷🇼 🇷🇪 🇸🇳 🇿🇦 🇸🇿 🇹🇳 🇺🇬",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5200,
+      "price": 5450,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -2220,7 +2181,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 2400,
+      "price": 3250,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2244,7 +2205,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 2800,
+      "price": 3650,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2268,7 +2229,7 @@
       "coverage_flags": "🇱🇰",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2850,
+      "price": 3150,
       "networks": [
         {
           "operator": "Mobitel",
@@ -2297,7 +2258,7 @@
       "coverage_flags": "🇮🇹",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5050,
+      "price": 3400,
       "networks": [
         {
           "operator": "TIM",
@@ -2335,15 +2296,15 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 900,
+      "price": 1100,
       "networks": [
         {
-          "operator": "Movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         },
         {
-          "operator": "Claro",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -2368,7 +2329,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "Smartfren",
@@ -2406,7 +2367,7 @@
       "coverage_flags": "🇸🇦",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 3700,
+      "price": 4900,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2430,7 +2391,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1050,
       "networks": [
         {
           "operator": "CTM",
@@ -2464,7 +2425,7 @@
       "coverage_flags": "🇮🇹",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "TIM",
@@ -2502,7 +2463,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 5250,
+      "price": 5500,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2526,7 +2487,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 400,
       "networks": [
         {
           "operator": "Smartfren",
@@ -2564,7 +2525,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 100,
       "validity_days": 30,
-      "price": 21800,
+      "price": 17350,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2588,7 +2549,7 @@
       "coverage_flags": "🇪🇸",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 950,
       "networks": [
         {
           "operator": "Orange",
@@ -2622,7 +2583,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1050,
       "networks": [
         {
           "operator": "NTT docomo",
@@ -2651,7 +2612,7 @@
       "coverage_flags": "🇬🇪",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 550,
       "networks": [
         {
           "operator": "Magti",
@@ -2680,7 +2641,7 @@
       "coverage_flags": "🇭🇰",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 2250,
+      "price": 3050,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2704,7 +2665,7 @@
       "coverage_flags": "🇦🇲",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1600,
+      "price": 1900,
       "networks": [
         {
           "operator": "Vivacell",
@@ -2738,7 +2699,7 @@
       "coverage_flags": "🇮🇩 🇲🇾 🇸🇬 🇰🇷 🇹🇭 🇻🇳",
       "data_gb": 60,
       "validity_days": 60,
-      "price": 4900,
+      "price": 6400,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2762,7 +2723,7 @@
       "coverage_flags": "🇮🇹",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 350,
       "networks": [
         {
           "operator": "TIM",
@@ -2805,7 +2766,7 @@
       "coverage_flags": "🇮🇩 🇲🇾 🇸🇬 🇰🇷 🇹🇭 🇻🇳",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1050,
+      "price": 1450,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -2829,7 +2790,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2050,
+      "price": 2350,
       "networks": [
         {
           "operator": "TIM",
@@ -2837,44 +2798,6 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true
-    },
-    {
-      "package_id": "65ea9bb8-5145-4b05-84cf-0aabcee5001c",
-      "name": "Vietnam 500MB 7Days",
-      "country_code": "VN",
-      "region": "VN",
-      "coverage_country_codes": [
-        "VN"
-      ],
-      "coverage_flags": "🇻🇳",
-      "data_gb": 0.49,
-      "validity_days": 7,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "Viettel Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "4G"
-        },
-        {
-          "operator": "Vinaphone",
           "type": "5G"
         }
       ],
@@ -2901,7 +2824,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1850,
+      "price": 2150,
       "networks": [
         {
           "operator": "Airtel",
@@ -2930,7 +2853,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1050,
       "networks": [
         {
           "operator": "SKTelecom",
@@ -2964,7 +2887,7 @@
       "coverage_flags": "🇲🇻",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 3350,
+      "price": 3750,
       "networks": [
         {
           "operator": "Dhiraagu",
@@ -2993,7 +2916,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 1200,
+      "price": 1700,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -3018,7 +2941,7 @@
       "coverage_flags": "🇨🇳 🇯🇵 🇰🇷",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 1500,
+      "price": 2000,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -3042,7 +2965,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2550,
+      "price": 2950,
       "networks": [
         {
           "operator": "Claro",
@@ -3075,7 +2998,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1450,
+      "price": 1900,
       "networks": [
         {
           "operator": "Airtel",
@@ -3103,7 +3026,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1250,
+      "price": 1300,
       "networks": [
         {
           "operator": "China Mobile",
@@ -3133,7 +3056,7 @@
       "coverage_flags": "🇬🇪",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1400,
+      "price": 1650,
       "networks": [
         {
           "operator": "Magti",
@@ -3162,7 +3085,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1500,
+      "price": 1750,
       "networks": [
         {
           "operator": "Claro",
@@ -3195,7 +3118,7 @@
       "coverage_flags": "🇵🇭",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 2650,
+      "price": 3500,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -3219,7 +3142,7 @@
       "coverage_flags": "🇳🇿",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 750,
+      "price": 950,
       "networks": [
         {
           "operator": "One NZ",
@@ -3276,7 +3199,7 @@
       "coverage_flags": "🇦🇮 🇦🇬 🇦🇼 🇧🇸 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇬🇫 🇬🇩 🇬🇵 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇽 🇸🇷 🇹🇹 🇹🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6050,
+      "price": 6300,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -3299,7 +3222,7 @@
       "coverage_flags": "🇰🇬",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1650,
+      "price": 2300,
       "networks": [
         {
           "operator": "Beeline",
@@ -3328,7 +3251,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 600,
       "networks": [
         {
           "operator": "Maxis",
@@ -3362,7 +3285,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 600,
       "networks": [
         {
           "operator": "SKTelecom",
@@ -3396,7 +3319,7 @@
       "coverage_flags": "🇲🇻",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2900,
+      "price": 3850,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -3420,7 +3343,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4500,
+      "price": 5050,
       "networks": [
         {
           "operator": "Claro",
@@ -3453,7 +3376,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3200,
+      "price": 3550,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -3477,7 +3400,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 5,
       "validity_days": 15,
-      "price": 2350,
+      "price": 2650,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -3501,7 +3424,7 @@
       "coverage_flags": "🇲🇻",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 5500,
+      "price": 6000,
       "networks": [
         {
           "operator": "Dhiraagu",
@@ -3530,7 +3453,7 @@
       "coverage_flags": "🇱🇰",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 1050,
       "networks": [
         {
           "operator": "Mobitel",
@@ -3559,7 +3482,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "SKTelecom",
@@ -3593,7 +3516,7 @@
       "coverage_flags": "🇰🇬",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 300,
+      "price": 450,
       "networks": [
         {
           "operator": "Beeline",
@@ -3650,7 +3573,7 @@
       "coverage_flags": "🇦🇮 🇦🇬 🇦🇼 🇧🇸 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇬🇫 🇬🇩 🇬🇵 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇽 🇸🇷 🇹🇹 🇹🇨",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2400,
+      "price": 2700,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -3702,7 +3625,7 @@
       "coverage_flags": "🇹🇭",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "TrueMove H",
@@ -3761,7 +3684,7 @@
       "coverage_flags": "🇦🇮 🇦🇬 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇸🇻 🇬🇫 🇬🇩 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇷 🇹🇹 🇹🇨",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3250,
+      "price": 3500,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -3784,7 +3707,7 @@
       "coverage_flags": "🇮🇳",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 3000,
+      "price": 3950,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -3836,7 +3759,7 @@
       "coverage_flags": "🇧🇫 🇱🇷 🇹🇿 🇸🇨 🇸🇩 🇺🇬 🇲🇦 🇧🇼 🇲🇬 🇬🇦 🇰🇪 🇸🇳 🇲🇱 🇨🇩 🇬🇭 🇪🇬 🇨🇫 🇨🇬 🇨🇮 🇿🇦 🇸🇿 🇲🇼 🇹🇩 🇬🇼 🇷🇪 🇿🇲 🇳🇪 🇳🇬 🇹🇳",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3750,
+      "price": 4100,
       "networks": [
         {
           "operator": "Mascom",
@@ -4034,7 +3957,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 10,
       "validity_days": 15,
-      "price": 750,
+      "price": 1050,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -4175,7 +4098,7 @@
       "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇲🇴 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6150,
+      "price": 6400,
       "networks": [
         {
           "operator": "One Albania",
@@ -5115,7 +5038,7 @@
       "coverage_flags": "🇮🇹 🇸🇲 🇻🇦",
       "data_gb": 7,
       "validity_days": 30,
-      "price": 900,
+      "price": 1250,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -5141,7 +5064,7 @@
       "coverage_flags": "🇨🇾 🇬🇷 🇹🇷",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 3850,
+      "price": 4150,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -5173,7 +5096,7 @@
       "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1450,
+      "price": 1700,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -5196,7 +5119,7 @@
       "coverage_flags": "🇰🇬",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 950,
+      "price": 1300,
       "networks": [
         {
           "operator": "Beeline",
@@ -5225,7 +5148,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 850,
+      "price": 1000,
       "networks": [
         {
           "operator": "Vodafone",
@@ -5255,7 +5178,7 @@
       "coverage_flags": "🇹🇳",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 600,
       "networks": [
         {
           "operator": "OOREDOO TN",
@@ -5284,7 +5207,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 1450,
+      "price": 2000,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -5425,7 +5348,7 @@
       "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇲🇴 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2100,
+      "price": 2350,
       "networks": [
         {
           "operator": "One Albania",
@@ -6365,7 +6288,7 @@
       "coverage_flags": "🇲🇾 🇸🇬 🇹🇭",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 1500,
+      "price": 2050,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -6389,7 +6312,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1200,
+      "price": 1400,
       "networks": [
         {
           "operator": "TIM",
@@ -6423,7 +6346,7 @@
       "coverage_flags": "🇹🇭",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 650,
+      "price": 400,
       "networks": [
         {
           "operator": "TrueMove H",
@@ -6457,7 +6380,7 @@
       "coverage_flags": "🇭🇰",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1050,
       "networks": [
         {
           "operator": "csl",
@@ -6493,7 +6416,7 @@
       "coverage_flags": "🇮🇹 🇸🇲 🇻🇦",
       "data_gb": 25,
       "validity_days": 30,
-      "price": 2300,
+      "price": 3100,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -6517,7 +6440,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2150,
+      "price": 2450,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -6541,7 +6464,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2400,
+      "price": 3050,
       "networks": [
         {
           "operator": "Airtel",
@@ -6569,7 +6492,7 @@
       "coverage_flags": "🇦🇲",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 1100,
       "networks": [
         {
           "operator": "Vivacell",
@@ -6606,7 +6529,7 @@
       "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2200,
+      "price": 2500,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -6629,7 +6552,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "CTM",
@@ -6663,7 +6586,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 600,
       "networks": [
         {
           "operator": "NTT docomo",
@@ -6694,7 +6617,7 @@
       "coverage_flags": "🇮🇹 🇸🇲 🇻🇦",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 1300,
+      "price": 1800,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -6718,7 +6641,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 10,
       "validity_days": 15,
-      "price": 1000,
+      "price": 1400,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -6744,7 +6667,7 @@
       "coverage_flags": "🇲🇾 🇸🇬 🇹🇭",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1150,
+      "price": 1600,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -6768,7 +6691,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2350,
+      "price": 2150,
       "networks": [
         {
           "operator": "China Mobile",
@@ -6798,7 +6721,7 @@
       "coverage_flags": "🇭🇰",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "csl",
@@ -6861,7 +6784,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2100,
+      "price": 1400,
       "networks": [
         {
           "operator": "Vodafone",
@@ -6891,7 +6814,7 @@
       "coverage_flags": "🇪🇸",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5050,
+      "price": 3400,
       "networks": [
         {
           "operator": "Orange",
@@ -6925,7 +6848,7 @@
       "coverage_flags": "🇭🇰",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 600,
       "networks": [
         {
           "operator": "csl",
@@ -6959,7 +6882,7 @@
       "coverage_flags": "🇮🇳",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 950,
+      "price": 1150,
       "networks": [
         {
           "operator": "Jio",
@@ -7023,7 +6946,7 @@
       "coverage_flags": "🇭🇰",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5050,
+      "price": 3400,
       "networks": [
         {
           "operator": "csl",
@@ -7057,7 +6980,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 3550,
+      "price": 4650,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -7081,7 +7004,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 600,
       "networks": [
         {
           "operator": "CTM",
@@ -7115,7 +7038,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1150,
+      "price": 1600,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -7139,7 +7062,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 4800,
+      "price": 3150,
       "networks": [
         {
           "operator": "Vodafone",
@@ -7169,7 +7092,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 400,
+      "price": 350,
       "networks": [
         {
           "operator": "Vodafone",
@@ -7199,7 +7122,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1650,
+      "price": 1850,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -7223,7 +7146,7 @@
       "coverage_flags": "🇲🇻",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 10400,
+      "price": 9900,
       "networks": [
         {
           "operator": "Dhiraagu",
@@ -7252,7 +7175,7 @@
       "coverage_flags": "🇰🇿",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 650,
+      "price": 750,
       "networks": [
         {
           "operator": "Beeline",
@@ -7281,7 +7204,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2300,
+      "price": 2650,
       "networks": [
         {
           "operator": "Vodafone",
@@ -7311,7 +7234,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "Maxis",
@@ -7345,7 +7268,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 400,
       "networks": [
         {
           "operator": "SKTelecom",
@@ -7384,7 +7307,7 @@
       "coverage_flags": "🇮🇩 🇲🇾 🇸🇬 🇰🇷 🇹🇭 🇻🇳",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1850,
+      "price": 2500,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -7408,7 +7331,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 9000,
+      "price": 9500,
       "networks": [
         {
           "operator": "TIM",
@@ -7445,7 +7368,7 @@
       "coverage_flags": "🇨🇳 🇭🇰 🇲🇴 🇹🇼",
       "data_gb": 3,
       "validity_days": 7,
-      "price": 500,
+      "price": 700,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -7469,7 +7392,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "Smartfren",
@@ -7507,7 +7430,7 @@
       "coverage_flags": "🇪🇸",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 350,
       "networks": [
         {
           "operator": "Orange",
@@ -7541,7 +7464,7 @@
       "coverage_flags": "🇮🇹",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 950,
       "networks": [
         {
           "operator": "TIM",
@@ -7579,7 +7502,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 4100,
+      "price": 5200,
       "networks": [
         {
           "operator": "Airtel",
@@ -7607,7 +7530,7 @@
       "coverage_flags": "🇻🇳",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 3000,
+      "price": 3950,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -7631,7 +7554,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 10,
       "validity_days": 60,
-      "price": 2800,
+      "price": 3050,
       "networks": [
         {
           "operator": "Du",
@@ -7662,7 +7585,7 @@
       "coverage_flags": "🇦🇺 🇳🇿",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 850,
+      "price": 1000,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -7723,7 +7646,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5550,
+      "price": 6050,
       "networks": [
         {
           "operator": "Airtel",
@@ -7785,7 +7708,7 @@
       "coverage_flags": "🇦🇩 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇬🇧 🇻🇦",
       "data_gb": 60,
       "validity_days": 30,
-      "price": 4650,
+      "price": 6150,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -7808,7 +7731,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 9550,
+      "price": 10150,
       "networks": [
         {
           "operator": "Vodafone",
@@ -7838,7 +7761,7 @@
       "coverage_flags": "🇬🇪",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 700,
+      "price": 850,
       "networks": [
         {
           "operator": "Magti",
@@ -7867,7 +7790,7 @@
       "coverage_flags": "🇪🇸",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 550,
       "networks": [
         {
           "operator": "Orange",
@@ -7901,7 +7824,7 @@
       "coverage_flags": "🇮🇳",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2650,
+      "price": 3000,
       "networks": [
         {
           "operator": "Jio",
@@ -7960,7 +7883,7 @@
       "coverage_flags": "🇦🇮 🇦🇬 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇸🇻 🇬🇫 🇬🇩 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇷 🇹🇹 🇹🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4950,
+      "price": 5200,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -7983,7 +7906,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 10350,
+      "price": 10900,
       "networks": [
         {
           "operator": "Airtel",
@@ -8012,7 +7935,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 12950,
+      "price": 13000,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8036,7 +7959,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 10,
       "validity_days": 15,
-      "price": 800,
+      "price": 1150,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8060,7 +7983,7 @@
       "coverage_flags": "🇱🇰",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1700,
       "networks": [
         {
           "operator": "Mobitel",
@@ -8089,7 +8012,7 @@
       "coverage_flags": "🇻🇳",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 2000,
+      "price": 2700,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8113,7 +8036,7 @@
       "coverage_flags": "🇦🇺",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 500,
+      "price": 600,
       "networks": [
         {
           "operator": "Optus",
@@ -8155,7 +8078,7 @@
       "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 6450,
+      "price": 6700,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -8178,7 +8101,7 @@
       "coverage_flags": "🇱🇰",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 700,
       "networks": [
         {
           "operator": "Mobitel",
@@ -8207,7 +8130,7 @@
       "coverage_flags": "🇦🇺",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 900,
+      "price": 1050,
       "networks": [
         {
           "operator": "Optus",
@@ -8241,7 +8164,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 600,
       "networks": [
         {
           "operator": "Smartfren",
@@ -8279,7 +8202,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1200,
+      "price": 1700,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8332,7 +8255,7 @@
       "coverage_flags": "🇹🇭",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "TrueMove H",
@@ -8399,7 +8322,7 @@
       "coverage_flags": "🇦🇩 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇬🇧 🇻🇦",
       "data_gb": 120,
       "validity_days": 30,
-      "price": 5850,
+      "price": 7750,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -8441,7 +8364,7 @@
       "coverage_flags": "🇩🇿 🇹🇩 🇨🇩 🇪🇬 🇬🇦 🇬🇭 🇰🇪 🇲🇬 🇲🇼 🇲🇺 🇲🇦 🇳🇪 🇳🇬 🇷🇼 🇷🇪 🇸🇨 🇹🇿 🇹🇳 🇺🇬 🇿🇲",
       "data_gb": 10,
       "validity_days": 15,
-      "price": 4350,
+      "price": 4650,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -8494,7 +8417,7 @@
       "coverage_flags": "🇮🇳",
       "data_gb": 5,
       "validity_days": 15,
-      "price": 1100,
+      "price": 1550,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8519,7 +8442,7 @@
       "coverage_flags": "🇦🇺 🇳🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2400,
+      "price": 3250,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8543,7 +8466,7 @@
       "coverage_flags": "🇰🇷",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 1500,
+      "price": 2050,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8567,7 +8490,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 2150,
+      "price": 2950,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8591,7 +8514,7 @@
       "coverage_flags": "🇳🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2550,
+      "price": 3400,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8615,7 +8538,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1600,
+      "price": 2150,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -8639,7 +8562,7 @@
       "coverage_flags": "🇦🇺",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 3100,
+      "price": 3400,
       "networks": [
         {
           "operator": "Optus",
@@ -8673,7 +8596,7 @@
       "coverage_flags": "🇮🇳",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1450,
+      "price": 1700,
       "networks": [
         {
           "operator": "Jio",
@@ -8707,7 +8630,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 7,
       "validity_days": 30,
-      "price": 1050,
+      "price": 1450,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -8730,7 +8653,7 @@
       "coverage_flags": "🇭🇰",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 400,
       "networks": [
         {
           "operator": "csl",
@@ -8793,7 +8716,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 500,
+      "price": 450,
       "networks": [
         {
           "operator": "China Mobile",
@@ -8823,7 +8746,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 750,
+      "price": 850,
       "networks": [
         {
           "operator": "TIM",
@@ -8857,15 +8780,15 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1100,
+      "price": 1300,
       "networks": [
         {
-          "operator": "Movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         },
         {
-          "operator": "Claro",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -8890,7 +8813,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2850,
+      "price": 3250,
       "networks": [
         {
           "operator": "Airtel",
@@ -9036,7 +8959,7 @@
       "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇲🇴 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3250,
+      "price": 3600,
       "networks": [
         {
           "operator": "One Albania",
@@ -9974,7 +9897,7 @@
       "coverage_flags": "🇮🇩",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 1900,
+      "price": 2650,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -9998,7 +9921,7 @@
       "coverage_flags": "🇮🇳",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 4100,
+      "price": 5350,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10022,7 +9945,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 8150,
+      "price": 10200,
       "networks": [
         {
           "operator": "Airtel",
@@ -10050,7 +9973,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 1450,
+      "price": 2050,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -10100,7 +10023,7 @@
       "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
       "data_gb": 66,
       "validity_days": 10,
-      "price": 1950,
+      "price": 2700,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -10124,7 +10047,7 @@
       "coverage_flags": "🇦🇺 🇳🇿",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 1450,
+      "price": 2050,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10148,7 +10071,7 @@
       "coverage_flags": "🇲🇻",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 18850,
+      "price": 18600,
       "networks": [
         {
           "operator": "Dhiraagu",
@@ -10177,7 +10100,7 @@
       "coverage_flags": "🇵🇭",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2050,
+      "price": 2800,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10201,7 +10124,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 400,
       "networks": [
         {
           "operator": "NTT docomo",
@@ -10230,7 +10153,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 3800,
+      "price": 4300,
       "networks": [
         {
           "operator": "TIM",
@@ -10264,7 +10187,7 @@
       "coverage_flags": "🇵🇭",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1200,
+      "price": 1700,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10317,7 +10240,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1350,
+      "price": 1850,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10331,45 +10254,6 @@
       "topup_available": false
     },
     {
-      "package_id": "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
-      "name": "Latin America 20 GB",
-      "country_code": "AR",
-      "region": "AR, BO, BR, CL, CO, CR, EC, SV, GT, HN, MX, NI, PA, PY, PE, UY, VE",
-      "coverage_country_codes": [
-        "AR",
-        "BO",
-        "BR",
-        "CL",
-        "CO",
-        "CR",
-        "EC",
-        "SV",
-        "GT",
-        "HN",
-        "MX",
-        "NI",
-        "PA",
-        "PY",
-        "PE",
-        "UY",
-        "VE"
-      ],
-      "coverage_flags": "🇦🇷 🇧🇴 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇬🇹 🇭🇳 🇲🇽 🇳🇮 🇵🇦 🇵🇾 🇵🇪 🇺🇾 🇻🇪",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 7900,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true
-    },
-    {
       "package_id": "f0ba6094-74d4-40a8-bea0-688762f54945",
       "name": "Kyrgyzstan 5GB 30Days",
       "country_code": "KG",
@@ -10380,7 +10264,7 @@
       "coverage_flags": "🇰🇬",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 500,
+      "price": 750,
       "networks": [
         {
           "operator": "Beeline",
@@ -10414,7 +10298,7 @@
       "coverage_flags": "🇮🇩 🇲🇾 🇸🇬 🇰🇷 🇹🇭 🇻🇳",
       "data_gb": 3,
       "validity_days": 7,
-      "price": 450,
+      "price": 700,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10446,7 +10330,7 @@
       "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 4000,
+      "price": 4350,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -10469,7 +10353,7 @@
       "coverage_flags": "🇮🇳",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 950,
+      "price": 1150,
       "networks": [
         {
           "operator": "Jio",
@@ -10508,7 +10392,7 @@
       "coverage_flags": "🇮🇩 🇲🇾 🇸🇬 🇰🇷 🇹🇭 🇻🇳",
       "data_gb": 5,
       "validity_days": 15,
-      "price": 600,
+      "price": 900,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10532,7 +10416,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2650,
+      "price": 2950,
       "networks": [
         {
           "operator": "Du",
@@ -10564,7 +10448,7 @@
       "coverage_flags": "🇨🇳 🇯🇵 🇰🇷",
       "data_gb": 35,
       "validity_days": 30,
-      "price": 3550,
+      "price": 4350,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10613,7 +10497,7 @@
       "coverage_flags": "🇦🇮 🇦🇬 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇸🇻 🇬🇫 🇬🇩 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇷 🇹🇹 🇹🇨",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 11800,
+      "price": 11850,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -10636,7 +10520,7 @@
       "coverage_flags": "🇭🇰",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2750,
+      "price": 1750,
       "networks": [
         {
           "operator": "csl",
@@ -10660,45 +10544,6 @@
       "topup_available": true
     },
     {
-      "package_id": "faff2b8c-6ea9-4950-8ad3-13ed91f2f926",
-      "name": "Latin America 3 GB",
-      "country_code": "AR",
-      "region": "AR, BO, BR, CL, CO, CR, EC, SV, GT, HN, MX, NI, PA, PY, PE, UY, VE",
-      "coverage_country_codes": [
-        "AR",
-        "BO",
-        "BR",
-        "CL",
-        "CO",
-        "CR",
-        "EC",
-        "SV",
-        "GT",
-        "HN",
-        "MX",
-        "NI",
-        "PA",
-        "PY",
-        "PE",
-        "UY",
-        "VE"
-      ],
-      "coverage_flags": "🇦🇷 🇧🇴 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇬🇹 🇭🇳 🇲🇽 🇳🇮 🇵🇦 🇵🇾 🇵🇪 🇺🇾 🇻🇪",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 2200,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true
-    },
-    {
       "package_id": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
       "name": "Seychelles 3GB 15Days",
       "country_code": "SC",
@@ -10709,7 +10554,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1750,
+      "price": 2000,
       "networks": [
         {
           "operator": "Airtel",
@@ -10741,7 +10586,7 @@
       "coverage_flags": "🇨🇳 🇭🇰 🇲🇴 🇹🇼",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 2850,
+      "price": 3800,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -10765,7 +10610,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1000,
+      "price": 1400,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -10788,7 +10633,7 @@
       "coverage_flags": "🇮🇹",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 550,
       "networks": [
         {
           "operator": "TIM",
@@ -10845,7 +10690,7 @@
       "coverage_flags": "🇩🇿 🇹🇩 🇨🇩 🇪🇬 🇬🇦 🇬🇭 🇰🇪 🇲🇬 🇲🇼 🇲🇺 🇲🇦 🇳🇪 🇳🇬 🇷🇼 🇷🇪 🇸🇨 🇹🇿 🇹🇳 🇺🇬 🇿🇲",
       "data_gb": 5,
       "validity_days": 15,
-      "price": 2700,
+      "price": 3050,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -10868,7 +10713,7 @@
       "coverage_flags": "🇦🇲",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 600,
+      "price": 650,
       "networks": [
         {
           "operator": "Vivacell",
@@ -10897,7 +10742,7 @@
       "coverage_flags": "🇦🇺",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 400,
+      "price": 450,
       "networks": [
         {
           "operator": "Optus",
