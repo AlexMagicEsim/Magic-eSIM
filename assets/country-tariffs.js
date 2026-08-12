@@ -175,7 +175,11 @@ function buyButtonHtml(item){
     return `<span class="btn package-buy" aria-disabled="true" style="opacity:.5;pointer-events:none">Нет в наличии</span>`;
   }
   const code = String(activeCountry||'').toUpperCase();
-  const href = `/?country=${encodeURIComponent(code)}#global-pricing`;
+  // Метка происхождения. Лендинг незнакомые параметры игнорирует, поэтому это
+  // безопасно уже сейчас; когда заказ научится их сохранять, выручку можно
+  // будет считать на страницу, а не только на страну.
+  const slug = (location.pathname.split('/').filter(Boolean).pop()||'');
+  const href = `/?country=${encodeURIComponent(code)}&src=country-page&from=${encodeURIComponent(slug)}#global-pricing`;
   return `<a class="btn package-buy js-buy-link" href="${href}" data-package-id="${escapeHtml(item.package_id||'')}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(String(price))}">Выбрать тариф</a>`;
 }
 

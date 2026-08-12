@@ -23,6 +23,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadCached } from './catalogue-source.mjs';
 import { loadProfile } from './content-profile.mjs';
+import { CLIENT_SNIPPET } from './intel/attribution.mjs';
 import { ALL as EDITORIAL, SITE } from './countries.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -134,7 +135,15 @@ function page(c, all, profile) {
 
   // Editorial questions come first when a person wrote them; the factual ones
   // remain, because they are the answers the catalogue can guarantee.
-  const items = [...(Array.isArray(p.faq) ? p.faq.filter((f) => f && f.q && f.a) : []), ...faq(c)];
+  //
+  // But not all of them. The catalogue questions are the same five questions on
+  // two hundred pages with different numbers substituted in — which is exactly
+  // the pattern that makes a corpus read as generated. On a page that already
+  // carries its own FAQ, only the two that state country-specific counts are
+  // kept; the rest is repetition wearing a country's name.
+  const own = Array.isArray(p.faq) ? p.faq.filter((f) => f && f.q && f.a) : [];
+  const generated = faq(c);
+  const items = [...own, ...(own.length >= 4 ? generated.slice(0, 2) : generated)];
   const links = nearby(c, all);
   const url = `${SITE}/esim/${c.slug}/`;
 
@@ -152,8 +161,21 @@ function page(c, all, profile) {
           { '@type': 'ListItem', position: 3, name: c.nameRu, item: url },
         ],
       },
-      // Only the FAQ that is actually rendered below, and only answers derived
-      // from catalogue data.
+      {
+        '@type': 'WebPage',
+        name: title,
+        url,
+        description: desc,
+        inLanguage: 'ru',
+        isPartOf: { '@type': 'WebSite', name: 'Magic eSIM', url: `${SITE}/` },
+        publisher: {
+          '@type': 'Organization',
+          name: 'Magic eSIM',
+          url: `${SITE}/`,
+          logo: `${SITE}/assets/magic-esim-logo.png`,
+        },
+      },
+      // Only the FAQ that is actually rendered below.
       {
         '@type': 'FAQPage',
         mainEntity: items.map((f) => ({
@@ -277,17 +299,24 @@ ${links.map((r) => `        <a class="country-link" href="../${r.slug}/"><span a
 
   <script src="/assets/catalog-loader.js" defer></script>
   <script src="../../assets/country-tariffs.js" defer></script>
+${CLIENT_SNIPPET}
 </body>
 </html>
 `;
 }
 
-let written = 0; let skipped = 0; let withProfile = 0;
+let written = 0; let skipped = 0; let withProfile = 0; let replaced = 0;
 const allWarnings = [];
 for (const c of countries) {
-  if (editorialSlugs.has(c.slug)) { skipped++; continue; }
   const { profile, warnings } = loadProfile(c.slug);
   allWarnings.push(...warnings);
+  // The hand-written pages were protected because a generated page would have
+  // been worse than them. Once a country has a reviewed profile that is no
+  // longer true: the profile went through research, fact-checking against the
+  // catalogue and a corpus-wide duplication check, and the page it produces is
+  // the audited one. Without a profile the protection still stands.
+  if (editorialSlugs.has(c.slug) && !profile) { skipped++; continue; }
+  if (editorialSlugs.has(c.slug)) replaced++;
   if (profile) withProfile++;
   const dir = join(ROOT, 'esim', c.slug);
   mkdirSync(dir, { recursive: true });
@@ -300,4 +329,5 @@ if (allWarnings.length) {
 }
 console.log(`С авторским профилем: ${withProfile}`);
 console.log(`Сгенерировано: ${written} страниц; пропущено (есть авторский текст): ${skipped}`);
+if (replaced) console.log(`Заменено профилем поверх старой авторской страницы: ${replaced}`);
 console.log(`Всего страниц стран: ${written + skipped}`);

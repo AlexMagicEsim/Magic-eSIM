@@ -55,8 +55,18 @@ export const EDITORIAL_KEYS = Object.freeze([
 ]);
 
 // Keys a profile may carry for the pipeline's own bookkeeping. Never rendered.
+//
+// These exist so the dashboard can answer "what state is this page in and who
+// touched it last" without opening the file. None of them reaches the HTML —
+// a reader has no use for a quality score, and a search engine has no use for
+// an editor's note.
 const META_KEYS = Object.freeze([
-  'status', 'reviewed_by', 'reviewed_at', 'search_intent', 'sources', 'notes',
+  'status', 'priority', 'quality_score', 'traffic_bucket',
+  'search_intent', 'paa', 'related_topics', 'faq_candidates', 'sources',
+  'reviewed_by', 'reviewed_at', 'last_reviewed', 'next_review',
+  'editor_notes', 'notes', 'research_method',
+  // Решение человека, которое никакая метрика не отменяет.
+  'locked', 'locked_by', 'locked_reason', 'ab_test',
 ]);
 
 // Anything resembling a catalogue fact. A profile containing one of these is
@@ -95,9 +105,18 @@ export function loadProfile(slug) {
     .filter((k) => !EDITORIAL_KEYS.includes(k) && !META_KEYS.includes(k) && !FORBIDDEN.includes(k));
   if (unknown.length) warnings.push(`${slug}: неизвестные поля профиля (${unknown.join(', ')}) — проигнорированы`);
 
+  // QA has to look at the real page, not at a description of it — and the real
+  // page only exists once the profile is merged in. So a preview build renders
+  // unpublished profiles, loudly. It is an environment variable rather than a
+  // flag in the file because the file is what gets committed: a page cannot go
+  // live by preview simply because someone forgot to change it back.
+  const preview = process.env.CONTENT_PREVIEW === '1';
   if (raw.status !== 'published') {
-    warnings.push(`${slug}: статус "${raw.status || 'нет'}" — на сайт не идёт`);
-    return { profile: null, warnings };
+    if (!preview) {
+      warnings.push(`${slug}: статус "${raw.status || 'нет'}" — на сайт не идёт`);
+      return { profile: null, warnings };
+    }
+    warnings.push(`${slug}: ПРЕВЬЮ статуса "${raw.status || 'нет'}" — публиковать эту сборку нельзя`);
   }
 
   const profile = {};

@@ -8,3 +8,23 @@ tmp/
 
 # Local Magic eSIM promo/affiliate context
 PROJECT_CONTEXT.md
+
+# ---------------------------------------------------------------------------
+# Content Intelligence
+# ---------------------------------------------------------------------------
+# Репозиторий ПУБЛИЧНЫЙ и раздаётся целиком через GitHub Pages: любой файл здесь
+# — это публичный URL. Поэтому внутренние измерения в git не попадают вообще.
+#
+# seo/intel/data/       выручка, прибыль, заказы по странам, снимки, отчёты
+# seo/intel/data-demo/  синтетика для проверки механики — не должна иметь ни
+#                       одного способа оказаться рядом с боевыми данными
+seo/intel/data/
+seo/intel/data-demo/
+
+# Панель Content Intelligence Center собирается ВНЕ репозитория; это на случай,
+# если кто-то переопределит INTEL_OUT и промахнётся.
+content-intelligence/
+seo/intel/report/
+
+# Старый отчёт прежнего Quality Score — заменён на seo/intel/data/dashboard.json
+seo/content-dashboard.json
