@@ -67,32 +67,32 @@ function faq(c) {
 
   if (c.local_count > 0) {
     items.push({
-      q: `Есть ли локальные тарифы для ${c.nameRu}?`,
+      q: `${c.nameRu} — есть ли локальные тарифы?`,
       a: `Да. Сейчас доступно ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')} `
         + `именно для этой страны. Они показаны первым блоком на этой странице.`,
     });
   } else {
     items.push({
-      q: `Есть ли локальные тарифы для ${c.nameRu}?`,
-      a: `Локальных тарифов для этой страны сейчас нет. Доступны региональные тарифы, покрытие которых включает ${c.nameRu} — они показаны ниже.`,
+      q: `${c.nameRu} — есть ли локальные тарифы?`,
+      a: `Локальных тарифов для этой страны сейчас нет. Доступны региональные тарифы, покрытие которых включает эту страну — они показаны ниже.`,
     });
   }
   if (c.regional_count > 0) {
     items.push({
       q: `Что такое региональные тарифы?`,
-      a: `Это тарифы, покрытие которых включает несколько стран, в том числе ${c.nameRu}. `
+      a: `Это тарифы, покрытие которых включает несколько стран, в том числе эту. `
         + `Сейчас таких ${c.regional_count}. Они подходят, если поездка захватывает не одну страну; полный список стран покрытия указан в карточке каждого тарифа.`,
     });
   }
   if (volumeText) {
     items.push({
-      q: `Какие объёмы трафика доступны для ${c.nameRu}?`,
+      q: `${c.nameRu} — какие объёмы трафика доступны?`,
       a: `Сейчас доступны тарифы на ${volumeText}. Точный срок действия указан в карточке каждого тарифа.`,
     });
   }
   if (c.min_price_rub !== null) {
     items.push({
-      q: `Сколько стоит eSIM для ${c.nameRu}?`,
+      q: `${c.nameRu} — сколько стоит eSIM?`,
       a: `Цены начинаются от ${money(c.min_price_rub)} ₽. Оплата в рублях российской картой или через СБП; актуальная цена каждого тарифа показана на этой странице.`,
     });
   }
@@ -111,18 +111,22 @@ function page(c, all, profile) {
   // A profile may only ADD prose. Every number below still comes from the
   // catalogue, and the merge cannot reach any of them.
   const p = profile || {};
-  const title = p.title || `eSIM для ${c.nameRu} — купить за рубли | Magic eSIM`;
+  // Nominative everywhere. Russian wants the genitive after "для", and a
+  // rules-based declension of 202 names is wrong for the indeclinable ones
+  // (Перу, Монако, Гаити) and for the irregular fleeting vowels. A profile may
+  // override any of these with a properly declined sentence.
+  const title = p.title || `${c.nameRu} — eSIM с оплатой рублями | Magic eSIM`;
   const desc = p.description ? p.description : c.local_count > 0
-    ? `eSIM для ${c.nameRu}: ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')}`
+    ? `${c.nameRu} — eSIM: ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')}`
       + (c.regional_count ? ` и ${c.regional_count} ${plural(c.regional_count, 'региональный', 'региональных', 'региональных')}` : '')
       + `${c.min_price_rub !== null ? `, от ${money(c.min_price_rub)} ₽` : ''}. Оплата рублями, QR-код на почту, установка до вылета.`
-    : `eSIM для ${c.nameRu}: ${c.regional_count} ${plural(c.regional_count, 'региональный тариф', 'региональных тарифа', 'региональных тарифов')} с покрытием этой страны`
+    : `${c.nameRu} — eSIM: ${c.regional_count} ${plural(c.regional_count, 'региональный тариф', 'региональных тарифа', 'региональных тарифов')} с покрытием этой страны`
       + `${c.min_price_rub !== null ? `, от ${money(c.min_price_rub)} ₽` : ''}. Оплата рублями, QR-код на почту.`;
 
   // An editorial "why" block replaces nothing factual — it is added above the
   // generic one only when a person wrote it.
   const whyBlock = Array.isArray(p.why) && p.why.length
-    ? `<section class="why"><h2>Почему eSIM в ${esc(c.nameRu)}</h2><div class="why-cards">`
+    ? `<section class="why"><h2>Почему eSIM: ${esc(c.nameRu)}</h2><div class="why-cards">`
       + p.why.filter((w) => w && w.h && w.p).map((w) =>
         `<div class="why-card"><span class="ico" aria-hidden="true">${esc(w.icon || '')}</span><h3>${esc(w.h)}</h3><p>${esc(w.p)}</p></div>`).join('')
       + '</div></section>'
@@ -142,7 +146,10 @@ function page(c, all, profile) {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/` },
           { '@type': 'ListItem', position: 2, name: 'Страны', item: `${SITE}/esim/` },
-          { '@type': 'ListItem', position: 3, name: `eSIM для ${c.nameRu}`, item: url },
+          // Matches the visible breadcrumb, which shows the country name
+          // alone. A crumb that disagrees with the page is the one thing
+          // structured data must never do.
+          { '@type': 'ListItem', position: 3, name: c.nameRu, item: url },
         ],
       },
       // Only the FAQ that is actually rendered below, and only answers derived
@@ -197,8 +204,8 @@ ${METRIKA}
 
   <main>
     <section class="hero">
-      <h1><span class="flag" aria-hidden="true">${c.flagEmoji}</span> ${esc(p.h1 || `eSIM для ${c.nameRu}`)}</h1>
-      <p class="lead">${esc(p.lead || `Мобильный интернет для поездки в ${c.nameRu}: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
+      <h1><span class="flag" aria-hidden="true">${c.flagEmoji}</span> ${esc(p.h1 || `${c.nameRu} — eSIM для поездки`)}</h1>
+      <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
       ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n      ') : ''}
       <p class="facts">
         ${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}
@@ -209,14 +216,14 @@ ${METRIKA}
       <div id="packagesStatus" class="packages-status">Загружаем тарифы…</div>
 
       <div id="localBlock" class="packages-block">
-        <h2 id="localHead">Локальные тарифы для ${esc(c.nameRu)}</h2>
+        <h2 id="localHead">Локальные тарифы: ${esc(c.nameRu)}</h2>
         <p class="block-sub">Тарифы, рассчитанные именно на эту страну.</p>
         <div id="localGrid" class="packages-grid"></div>
         ${c.local_count === 0 ? '<p class="block-empty">Локальные тарифы пока отсутствуют.</p>' : ''}
       </div>
 
       <div id="regionalBlock" class="packages-block">
-        <h2 id="regionalHead">Региональные тарифы с покрытием ${esc(c.nameRu)}</h2>
+        <h2 id="regionalHead">Региональные тарифы с покрытием этой страны</h2>
         <p class="block-sub">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
         <div id="regionalGrid" class="packages-grid"></div>
       </div>
@@ -251,7 +258,7 @@ ${METRIKA}
     </section>
 
     <section class="faq">
-      <h2>Вопросы о eSIM для ${esc(c.nameRu)}</h2>
+      <h2>Вопросы о eSIM: ${esc(c.nameRu)}</h2>
       ${items.map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('\n      ')}
     </section>
 
