@@ -156,10 +156,19 @@ const CHECKS = `(() => {
 
   // local / regional blocks
   const text = doc.body.innerText;
+  //
+  // Проверяется НАЛИЧИЕ блоков в разметке, а не их видимость. Скрипт прячет
+  // блок, в котором нечего показать: у страны без региональных тарифов
+  // regionalBlock скрывается, и слово «Региональные» исчезает из innerText.
+  // Это правильное поведение, и требовать его наличия — значит требовать
+  // пустой заголовок.
+  if (!doc.getElementById('localBlock')) problems.push('нет блока локальных тарифов');
+  if (!doc.getElementById('regionalBlock')) problems.push('нет блока региональных тарифов');
   const hasLocal = /Локальные тарифы|Тарифы для|локальн/i.test(text);
   const hasRegional = /Региональн/i.test(text);
-  if (!hasLocal) problems.push('нет блока локальных тарифов');
-  if (!hasRegional) problems.push('нет упоминания региональных тарифов');
+  const regionalCards = doc.querySelectorAll('#regionalGrid .package-card').length;
+  if (regionalCards > 0 && !hasRegional) problems.push('региональные тарифы отрисованы, но заголовок не виден');
+  if (!hasLocal && !hasRegional) problems.push('на странице не видно ни локальных, ни региональных тарифов');
 
   // Тарифы должны быть НЕ ПРОСТО ЗАГОЛОВКОМ, а отрисованными карточками.
   //
@@ -174,16 +183,14 @@ const CHECKS = `(() => {
     problems.push('data-country-page=\"' + marker.getAttribute('data-country-page') + '\" — нужен ISO из двух букв');
   }
   //
-  // Сама отрисовка проверяется только там, где каталог реально доступен.
-  // API отдаёт CORS только для боевого origin, поэтому с локального сервера
-  // запрос отваливается по ERR_ABORTED, и «карточек 0» означало бы не поломку
-  // страницы, а отсутствие доступа. Локально проверяется каркас, на проде —
-  // результат: QA_EXPECT_TARIFFS=1.
+  // Отрисовка проверяется и локально. API отдаёт CORS только боевому origin,
+  // но при неудаче загрузчик падает на резервный /assets/catalog.json, который
+  // лежит в репозитории, — и карточки всё равно строятся. Так что пустая сетка
+  // здесь означает поломку страницы, а не стенда.
   const cards = doc.querySelectorAll('#localGrid .package-card, #regionalGrid .package-card, .js-buy-link').length;
   const status = (doc.getElementById('packagesStatus') || {}).textContent || '';
   const failed = /не удалось|попробуйте/i.test(doc.body.innerText);
-  const expectTariffs = EXPECT_TARIFFS;
-  if (cards === 0 && !failed && expectTariffs) {
+  if (cards === 0 && !failed) {
     problems.push('тарифы не отрисовались (карточек 0, статус «' + status.trim().slice(0, 40) + '»)');
   }
   const rendered = { cards, status: status.trim().slice(0, 40), failed };
@@ -247,14 +254,29 @@ async function load(url) {
     const { result } = await cdp.send('Runtime.evaluate', { expression: 'document.readyState', returnByValue: true });
     if (result.value === 'complete') break;
   }
-  // Каталог грузится из API уже после readyState=complete: без этой паузы
-  // проверка отрисованных тарифов всегда видела бы пустую сетку.
-  await new Promise((r) => setTimeout(r, 4000));
+  // Каталог грузится уже после readyState=complete, и сколько это займёт —
+  // неизвестно: сначала пробуется живой API, и только когда он не отвечает,
+  // загрузчик падает на резервный catalog.json. Фиксированная пауза здесь
+  // делает проверку то зелёной, то красной на одних и тех же страницах,
+  // поэтому ждём СОБЫТИЯ: появления карточек или сообщения об ошибке.
+  const DEADLINE = Date.now() + 25000;
+  while (Date.now() < DEADLINE) {
+    const { result } = await cdp.send('Runtime.evaluate', {
+      returnByValue: true,
+      expression: `(() => {
+        const cards = document.querySelectorAll('#localGrid .package-card, #regionalGrid .package-card, .js-buy-link').length;
+        const failed = /не удалось|попробуйте/i.test(document.body.innerText);
+        return cards > 0 || failed;
+      })()`,
+    });
+    if (result.value === true) break;
+    await new Promise((r) => setTimeout(r, 500));
+  }
+  await new Promise((r) => setTimeout(r, 250));
 }
 
 let failed = 0;
 const linkTargets = new Set();
-const rendersUnknown = new Set();
 
 for (const slug of slugs) {
   const found = [];
@@ -267,7 +289,7 @@ for (const slug of slugs) {
     const r = result.value;
     if (!r) { found.push(`${vp.name}: страница не отдала результат`); continue; }
     for (const p of r.problems) found.push(`${vp.name}: ${p}`);
-    if (!EXPECT && r.rendered && r.rendered.cards === 0) rendersUnknown.add(slug);
+
     for (const l of r.internal) linkTargets.add(l);
   }
   const errs = cdp.events.filter((e) => e.method === 'Log.entryAdded'
@@ -284,10 +306,6 @@ for (const slug of slugs) {
 }
 
 // --- internal links resolve ------------------------------------------------
-if (rendersUnknown.size) {
-  console.log(`\nОтрисовка тарифов не проверена (${rendersUnknown.size}): каталог отдаёт CORS только боевому origin.`);
-  console.log('  Каркас (data-country-page, сетки) проверен. Для проверки результата: QA_EXPECT_TARIFFS=1 против прода.');
-}
 console.log(`\nПерелинковка: ${linkTargets.size} уникальных внутренних ссылок`);
 const broken = [];
 for (const href of linkTargets) {
