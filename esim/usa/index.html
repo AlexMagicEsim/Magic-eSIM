@@ -84,7 +84,12 @@
       </p>
     </section>
 
-    <section class="packages" id="tariffs">
+    <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
+         страну грузить (pageCountryCode() ищет именно этот атрибут). Без него
+         загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
+         экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
+         эту роль не выполняет. -->
+    <section class="packages" id="tariffs" data-country-page="US">
       <div id="packagesStatus" class="packages-status">Загружаем тарифы…</div>
 
       <div id="localBlock" class="packages-block">

@@ -103,7 +103,9 @@ function connect(wsUrl) {
 }
 
 // --- the checks ------------------------------------------------------------
+const EXPECT = process.env.QA_EXPECT_TARIFFS === '1';
 const CHECKS = `(() => {
+  const EXPECT_TARIFFS = ${EXPECT};
   const problems = [];
   const doc = document;
   const url = location.href;
@@ -124,16 +126,24 @@ const CHECKS = `(() => {
   else if (!h1[0].textContent.trim()) problems.push('H1 пустой');
 
   // json-ld
-  let ld = null;
+  // Узлы собираются со ВСЕХ блоков, а не с первого. Старые страницы кладут
+  // BreadcrumbList, WebPage и FAQPage тремя отдельными <script>, и проверка по
+  // первому блоку объявляла бы у них отсутствующим то, что просто лежит рядом.
   const scripts = [...doc.querySelectorAll('script[type="application/ld+json"]')];
   if (!scripts.length) problems.push('нет JSON-LD');
+  const graph = [];
   for (const s of scripts) {
-    try { const j = JSON.parse(s.textContent); ld = ld || j; }
-    catch (e) { problems.push('JSON-LD не разбирается: ' + e.message); }
+    try {
+      const j = JSON.parse(s.textContent);
+      graph.push(...(j['@graph'] || [j]));
+    } catch (e) { problems.push('JSON-LD не разбирается: ' + e.message); }
   }
-  const graph = ld && (ld['@graph'] || [ld]) || [];
   const faqNode = graph.find((n) => n['@type'] === 'FAQPage');
-  const visibleQ = [...doc.querySelectorAll('.faq-item summary, details summary')].map((x) => x.textContent.trim());
+  // Две разметки FAQ: сгенерированные страницы используют <details><summary>,
+  // старые авторские — <p class="faq-q">. Проверка обязана понимать обе, иначе
+  // объявит отсутствующим то, что читатель прекрасно видит.
+  const visibleQ = [...doc.querySelectorAll('.faq-item summary, details summary, .faq-q')]
+    .map((x) => x.textContent.trim()).filter(Boolean);
   if (faqNode) {
     const marked = (faqNode.mainEntity || []).map((q) => (q.name || '').trim());
     const missing = marked.filter((q) => !visibleQ.includes(q));
@@ -150,6 +160,38 @@ const CHECKS = `(() => {
   const hasRegional = /Региональн/i.test(text);
   if (!hasLocal) problems.push('нет блока локальных тарифов');
   if (!hasRegional) problems.push('нет упоминания региональных тарифов');
+
+  // Тарифы должны быть НЕ ПРОСТО ЗАГОЛОВКОМ, а отрисованными карточками.
+  //
+  // Ровно этой проверки не хватило в прошлый раз: заголовок «Локальные тарифы»
+  // лежит в статическом HTML и присутствует всегда, поэтому проверка по тексту
+  // проходила, пока сетка была пуста. Сто девяносто страниц уехали в продакшн
+  // с вечным «Загружаем тарифы…» и без единой кнопки покупки.
+  const marker = doc.querySelector('[data-country-page]');
+  if (!marker) {
+    problems.push('нет [data-country-page] — country-tariffs.js не поймёт, какую страну грузить');
+  } else if (!/^[A-Z]{2}$/.test(marker.getAttribute('data-country-page') || '')) {
+    problems.push('data-country-page=\"' + marker.getAttribute('data-country-page') + '\" — нужен ISO из двух букв');
+  }
+  //
+  // Сама отрисовка проверяется только там, где каталог реально доступен.
+  // API отдаёт CORS только для боевого origin, поэтому с локального сервера
+  // запрос отваливается по ERR_ABORTED, и «карточек 0» означало бы не поломку
+  // страницы, а отсутствие доступа. Локально проверяется каркас, на проде —
+  // результат: QA_EXPECT_TARIFFS=1.
+  const cards = doc.querySelectorAll('#localGrid .package-card, #regionalGrid .package-card, .js-buy-link').length;
+  const status = (doc.getElementById('packagesStatus') || {}).textContent || '';
+  const failed = /не удалось|попробуйте/i.test(doc.body.innerText);
+  const expectTariffs = EXPECT_TARIFFS;
+  if (cards === 0 && !failed && expectTariffs) {
+    problems.push('тарифы не отрисовались (карточек 0, статус «' + status.trim().slice(0, 40) + '»)');
+  }
+  const rendered = { cards, status: status.trim().slice(0, 40), failed };
+
+  // Ссылка покупки обязана нести метку происхождения
+  const buys = [...doc.querySelectorAll('.js-buy-link')];
+  const unmarked = buys.filter((a) => !String(a.getAttribute('href') || '').includes('src=country-page'));
+  if (buys.length && unmarked.length) problems.push(unmarked.length + ' из ' + buys.length + ' ссылок покупки без метки происхождения');
 
   // CTA
   const ctas = [...doc.querySelectorAll('a,button')].filter((el) => {
@@ -176,7 +218,7 @@ const CHECKS = `(() => {
     : [];
   if (overflow) problems.push('горизонтальная прокрутка (' + de.scrollWidth + ' > ' + de.clientWidth + '): ' + wide.join(', '));
 
-  return { problems, internal: [...new Set(internal)], questions: visibleQ.length, title: doc.title, url };
+  return { problems, rendered, internal: [...new Set(internal)], questions: visibleQ.length, title: doc.title, url };
 })()`;
 
 // --- run -------------------------------------------------------------------
@@ -205,11 +247,14 @@ async function load(url) {
     const { result } = await cdp.send('Runtime.evaluate', { expression: 'document.readyState', returnByValue: true });
     if (result.value === 'complete') break;
   }
-  await new Promise((r) => setTimeout(r, 250));
+  // Каталог грузится из API уже после readyState=complete: без этой паузы
+  // проверка отрисованных тарифов всегда видела бы пустую сетку.
+  await new Promise((r) => setTimeout(r, 4000));
 }
 
 let failed = 0;
 const linkTargets = new Set();
+const rendersUnknown = new Set();
 
 for (const slug of slugs) {
   const found = [];
@@ -222,11 +267,15 @@ for (const slug of slugs) {
     const r = result.value;
     if (!r) { found.push(`${vp.name}: страница не отдала результат`); continue; }
     for (const p of r.problems) found.push(`${vp.name}: ${p}`);
+    if (!EXPECT && r.rendered && r.rendered.cards === 0) rendersUnknown.add(slug);
     for (const l of r.internal) linkTargets.add(l);
   }
   const errs = cdp.events.filter((e) => e.method === 'Log.entryAdded'
     && e.params.entry.level === 'error'
-    && !/favicon|404 \(Not Found\).*(png|ico)/i.test(e.params.entry.text));
+    && !/favicon|404 \(Not Found\).*(png|ico)/i.test(e.params.entry.text)
+    // Локально каталог всегда отвечает CORS-отказом: боевой origin в белом
+    // списке, 127.0.0.1 — нет. Это условие стенда, а не дефект страницы.
+    && !(!EXPECT && /Access to fetch|CORS|api\.magicesim\.store|net::ERR_FAILED/i.test(e.params.entry.text)));
   cdp.events.length = 0;
   if (errs.length) found.push(`${errs.length} ошибк(и) в консоли: ${errs[0].params.entry.text.slice(0, 90)}`);
 
@@ -235,6 +284,10 @@ for (const slug of slugs) {
 }
 
 // --- internal links resolve ------------------------------------------------
+if (rendersUnknown.size) {
+  console.log(`\nОтрисовка тарифов не проверена (${rendersUnknown.size}): каталог отдаёт CORS только боевому origin.`);
+  console.log('  Каркас (data-country-page, сетки) проверен. Для проверки результата: QA_EXPECT_TARIFFS=1 против прода.');
+}
 console.log(`\nПерелинковка: ${linkTargets.size} уникальных внутренних ссылок`);
 const broken = [];
 for (const href of linkTargets) {
