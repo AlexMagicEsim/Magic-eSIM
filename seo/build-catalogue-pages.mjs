@@ -242,21 +242,54 @@ ${METRIKA}
     <section class="packages" id="tariffs" data-country-page="${c.iso}">
       <div id="packagesStatus" class="packages-status">Загружаем тарифы…</div>
 
+      <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
+           оформление. renderCountrySplit() обращается к localCount, localEmpty и
+           regionalCount напрямую, без проверки на null: если их нет, функция
+           падает на первом же обращении, исключение съедается общим catch, и
+           страница остаётся с пустой сеткой без единого сообщения. Именно так
+           190 страниц уехали в продакшн без тарифов. -->
       <div id="localBlock" class="packages-block">
         <h2 id="localHead">Локальные тарифы: ${esc(c.nameRu)}</h2>
+        <span class="count" id="localCount"></span>
         <p class="block-sub">Тарифы, рассчитанные именно на эту страну.</p>
+        <div id="localEmpty" class="block-empty" hidden>Локальных тарифов для этой страны нет — ниже региональные, покрытие которых её включает.</div>
         <div id="localGrid" class="packages-grid"></div>
-        ${c.local_count === 0 ? '<p class="block-empty">Локальные тарифы пока отсутствуют.</p>' : ''}
       </div>
 
       <div id="regionalBlock" class="packages-block">
         <h2 id="regionalHead">Региональные тарифы с покрытием этой страны</h2>
+        <span class="count" id="regionalCount"></span>
         <p class="block-sub">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
         <div id="regionalGrid" class="packages-grid"></div>
       </div>
 
       <div id="packagesGrid" class="packages-grid"></div>
     </section>
+
+    <!-- Карточка тарифа рендерит кнопку «Покрытие и условия», а её обработчик
+         выходит на первой строке, если оверлея нет. Без этого блока кнопка на
+         странице есть, но не делает ничего. -->
+    <div id="coverageModal" class="cov-overlay" hidden>
+      <div class="cov-modal" role="dialog" aria-modal="true" aria-labelledby="covTitle">
+        <button type="button" class="cov-close" id="coverageClose" aria-label="Закрыть">×</button>
+        <h3 id="covTitle">Покрытие и условия</h3>
+        <p class="cov-sub" id="covPlan">—</p>
+        <div class="cov-rows">
+          <div class="cov-row"><span class="k">Объём трафика</span><span class="v" id="covData">—</span></div>
+          <div class="cov-row"><span class="k">Срок действия</span><span class="v" id="covDays">—</span></div>
+          <div class="cov-row"><span class="k">Начало срока</span><span class="v" id="covStart">—</span></div>
+          <div class="cov-row"><span class="k">Сеть</span><span class="v" id="covSpeed">—</span></div>
+          <div class="cov-row"><span class="k">Пополнение</span><span class="v" id="covTopup">—</span></div>
+          <div class="cov-row" id="covHotspotRow" hidden><span class="k">Раздача интернета</span><span class="v" id="covHotspot">—</span></div>
+          <div class="cov-row" id="covNoteRow" hidden><span class="k">Скорость</span><span class="v" id="covNote">—</span></div>
+          <div class="cov-row" id="covFupRow" hidden><span class="k">После лимита</span><span class="v" id="covFup">—</span></div>
+        </div>
+        <div class="cov-countries" id="covCountriesWrap" hidden>
+          <div class="k">Страны покрытия</div>
+          <div class="v" id="covCountries">—</div>
+        </div>
+      </div>
+    </div>
 
     ${whyBlock}
 
