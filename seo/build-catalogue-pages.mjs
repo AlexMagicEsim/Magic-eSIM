@@ -1,0 +1,296 @@
+#!/usr/bin/env node
+// Generates a factual /esim/<slug>/ page for every country the CATALOGUE
+// supports and that has no hand-written page.
+//
+// TWO RULES DECIDE EVERYTHING HERE
+//
+//   1. Hand-written pages are never touched. Twenty-six countries carry real
+//      editorial copy — why the country needs an eSIM, what to expect at the
+//      airport, six answered questions. Replacing that with a template would
+//      be a regression dressed up as coverage.
+//
+//   2. Nothing is invented. This template states what the catalogue knows:
+//      how many tariffs, which volumes, what they cost, whether they are local
+//      or regional. There are no travel tips, no claims about coverage quality,
+//      no "best time to visit". Where a fact is unknown, the page says nothing
+//      rather than guessing.
+//
+// Tariffs themselves are hydrated at runtime by assets/country-tariffs.js from
+// the same API, so a price on a page can never be staler than the catalogue.
+
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { loadCached } from './catalogue-source.mjs';
+import { loadProfile } from './content-profile.mjs';
+import { ALL as EDITORIAL, SITE } from './countries.mjs';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+
+const METRIKA = readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8')
+  .match(/<!-- Yandex\.Metrika counter -->[\s\S]*?<\/script>\n(?=\n|  <!-- Structured data -->)/)[0];
+
+const { countries } = loadCached();
+const editorialSlugs = new Set(EDITORIAL.map((c) => c.slug));
+
+const money = (v) => (v === null || v === undefined ? null : Math.round(Number(v)).toLocaleString('ru-RU'));
+const plural = (n, one, few, many) => {
+  const a = Math.abs(n) % 100; const b = a % 10;
+  if (a > 10 && a < 20) return many;
+  if (b > 1 && b < 5) return few;
+  if (b === 1) return one;
+  return many;
+};
+
+// Neighbours by name, purely so every page has outgoing links and none is
+// orphaned. Not a claim that the countries are related.
+function nearby(country, all) {
+  const i = all.findIndex((c) => c.iso === country.iso);
+  const out = [];
+  for (const step of [-3, -2, -1, 1, 2, 3]) {
+    const n = all[i + step];
+    if (n) out.push(n);
+  }
+  return out.slice(0, 5);
+}
+
+function faq(c) {
+  // Every answer is derived from the catalogue row. A question the data cannot
+  // answer is not asked.
+  const items = [];
+  const volumes = c.volumes.filter((v) => v > 0);
+  const volumeText = volumes.length
+    ? volumes.map((v) => `${v % 1 === 0 ? v : v.toFixed(1)} ГБ`).join(', ')
+    : null;
+
+  if (c.local_count > 0) {
+    items.push({
+      q: `Есть ли локальные тарифы для ${c.nameRu}?`,
+      a: `Да. Сейчас доступно ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')} `
+        + `именно для этой страны. Они показаны первым блоком на этой странице.`,
+    });
+  } else {
+    items.push({
+      q: `Есть ли локальные тарифы для ${c.nameRu}?`,
+      a: `Локальных тарифов для этой страны сейчас нет. Доступны региональные тарифы, покрытие которых включает ${c.nameRu} — они показаны ниже.`,
+    });
+  }
+  if (c.regional_count > 0) {
+    items.push({
+      q: `Что такое региональные тарифы?`,
+      a: `Это тарифы, покрытие которых включает несколько стран, в том числе ${c.nameRu}. `
+        + `Сейчас таких ${c.regional_count}. Они подходят, если поездка захватывает не одну страну; полный список стран покрытия указан в карточке каждого тарифа.`,
+    });
+  }
+  if (volumeText) {
+    items.push({
+      q: `Какие объёмы трафика доступны для ${c.nameRu}?`,
+      a: `Сейчас доступны тарифы на ${volumeText}. Точный срок действия указан в карточке каждого тарифа.`,
+    });
+  }
+  if (c.min_price_rub !== null) {
+    items.push({
+      q: `Сколько стоит eSIM для ${c.nameRu}?`,
+      a: `Цены начинаются от ${money(c.min_price_rub)} ₽. Оплата в рублях российской картой или через СБП; актуальная цена каждого тарифа показана на этой странице.`,
+    });
+  }
+  items.push({
+    q: `Когда устанавливать eSIM?`,
+    a: `eSIM можно установить заранее, дома по Wi-Fi: после оплаты QR-код приходит на почту. Срок действия тарифа отсчитывается с момента подключения к сети в поездке, а не с момента покупки.`,
+  });
+  items.push({
+    q: `Останется ли российский номер?`,
+    a: `Да. eSIM добавляется второй линией и не заменяет физическую SIM — российский номер остаётся в телефоне и работает отдельно.`,
+  });
+  return items;
+}
+
+function page(c, all, profile) {
+  // A profile may only ADD prose. Every number below still comes from the
+  // catalogue, and the merge cannot reach any of them.
+  const p = profile || {};
+  const title = p.title || `eSIM для ${c.nameRu} — купить за рубли | Magic eSIM`;
+  const desc = p.description ? p.description : c.local_count > 0
+    ? `eSIM для ${c.nameRu}: ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')}`
+      + (c.regional_count ? ` и ${c.regional_count} ${plural(c.regional_count, 'региональный', 'региональных', 'региональных')}` : '')
+      + `${c.min_price_rub !== null ? `, от ${money(c.min_price_rub)} ₽` : ''}. Оплата рублями, QR-код на почту, установка до вылета.`
+    : `eSIM для ${c.nameRu}: ${c.regional_count} ${plural(c.regional_count, 'региональный тариф', 'региональных тарифа', 'региональных тарифов')} с покрытием этой страны`
+      + `${c.min_price_rub !== null ? `, от ${money(c.min_price_rub)} ₽` : ''}. Оплата рублями, QR-код на почту.`;
+
+  // An editorial "why" block replaces nothing factual — it is added above the
+  // generic one only when a person wrote it.
+  const whyBlock = Array.isArray(p.why) && p.why.length
+    ? `<section class="why"><h2>Почему eSIM в ${esc(c.nameRu)}</h2><div class="why-cards">`
+      + p.why.filter((w) => w && w.h && w.p).map((w) =>
+        `<div class="why-card"><span class="ico" aria-hidden="true">${esc(w.icon || '')}</span><h3>${esc(w.h)}</h3><p>${esc(w.p)}</p></div>`).join('')
+      + '</div></section>'
+    : '';
+
+  // Editorial questions come first when a person wrote them; the factual ones
+  // remain, because they are the answers the catalogue can guarantee.
+  const items = [...(Array.isArray(p.faq) ? p.faq.filter((f) => f && f.q && f.a) : []), ...faq(c)];
+  const links = nearby(c, all);
+  const url = `${SITE}/esim/${c.slug}/`;
+
+  const jsonld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: 'Страны', item: `${SITE}/esim/` },
+          { '@type': 'ListItem', position: 3, name: `eSIM для ${c.nameRu}`, item: url },
+        ],
+      },
+      // Only the FAQ that is actually rendered below, and only answers derived
+      // from catalogue data.
+      {
+        '@type': 'FAQPage',
+        mainEntity: items.map((f) => ({
+          '@type': 'Question', name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      },
+    ],
+  };
+
+  return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(desc)}" />
+  <link rel="canonical" href="${url}" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:title" content="${esc(title)}" />
+  <meta property="og:description" content="${esc(desc)}" />
+  <meta property="og:image" content="${SITE}/magic-esim-banner.png" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${esc(title)}" />
+  <meta name="twitter:description" content="${esc(desc)}" />
+  <meta name="twitter:image" content="${SITE}/magic-esim-banner.png" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="../../assets/country-pages.css" />
+  <link rel="preconnect" href="https://api.magicesim.store" crossorigin />
+${METRIKA}
+  <!-- Structured data -->
+  <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
+</head>
+<body data-country-iso="${c.iso}" data-country-name="${esc(c.nameRu)}">
+  <header class="site-head">
+    <a class="brand" href="/">Magic eSIM</a>
+    <nav class="head-nav"><a href="/esim/">Все страны</a><a href="/#tariffs">Тарифы</a></nav>
+  </header>
+
+  <nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <a href="/">Главная</a> <span aria-hidden="true">›</span>
+    <a href="/esim/">Страны</a> <span aria-hidden="true">›</span>
+    <span aria-current="page">${esc(c.nameRu)}</span>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1><span class="flag" aria-hidden="true">${c.flagEmoji}</span> ${esc(p.h1 || `eSIM для ${c.nameRu}`)}</h1>
+      <p class="lead">${esc(p.lead || `Мобильный интернет для поездки в ${c.nameRu}: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
+      ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n      ') : ''}
+      <p class="facts">
+        ${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}
+      </p>
+    </section>
+
+    <section class="packages" id="tariffs">
+      <div id="packagesStatus" class="packages-status">Загружаем тарифы…</div>
+
+      <div id="localBlock" class="packages-block">
+        <h2 id="localHead">Локальные тарифы для ${esc(c.nameRu)}</h2>
+        <p class="block-sub">Тарифы, рассчитанные именно на эту страну.</p>
+        <div id="localGrid" class="packages-grid"></div>
+        ${c.local_count === 0 ? '<p class="block-empty">Локальные тарифы пока отсутствуют.</p>' : ''}
+      </div>
+
+      <div id="regionalBlock" class="packages-block">
+        <h2 id="regionalHead">Региональные тарифы с покрытием ${esc(c.nameRu)}</h2>
+        <p class="block-sub">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
+        <div id="regionalGrid" class="packages-grid"></div>
+      </div>
+
+      <div id="packagesGrid" class="packages-grid"></div>
+    </section>
+
+    ${whyBlock}
+
+    <section class="why">
+      <h2>Что даёт eSIM</h2>
+      <ul class="why-list">
+        <li><b>Интернет с прилёта.</b> Тариф куплен и установлен до вылета — по прилёте достаточно включить передачу данных.</li>
+        <li><b>Оплата в рублях.</b> Российская карта или СБП, без поиска обменника и местного салона связи.</li>
+        <li><b>Российский номер остаётся.</b> eSIM работает второй линией и не заменяет физическую SIM.</li>
+      </ul>
+    </section>
+
+    <section class="compat">
+      <h2>Совместимость</h2>
+      <p>eSIM работает на телефонах с поддержкой eSIM, не заблокированных под оператора. Проверить свою модель: <a href="/esim/compatibility/">список совместимых устройств</a>, инструкции для <a href="/iphone.html">iPhone</a> и <a href="/android.html">Android</a>.</p>
+    </section>
+
+    <section class="howto">
+      <h2>Как подключить</h2>
+      <ol class="howto-list">
+        <li>Выберите тариф на этой странице и оплатите — картой или через СБП.</li>
+        <li>QR-код придёт на почту сразу после оплаты.</li>
+        <li>Отсканируйте его дома по Wi-Fi: <a href="/esim/activation-before-travel/">как установить до вылета</a>.</li>
+        <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/esim/not-working/">что проверить</a>.</li>
+      </ol>
+    </section>
+
+    <section class="faq">
+      <h2>Вопросы о eSIM для ${esc(c.nameRu)}</h2>
+      ${items.map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('\n      ')}
+    </section>
+
+    <section class="related">
+      <h2>Другие направления</h2>
+      <div class="country-links">
+${links.map((r) => `        <a class="country-link" href="../${r.slug}/"><span aria-hidden="true">${r.flagEmoji}</span> ${esc(r.nameRu)}</a>`).join('\n')}
+        <a class="country-link" href="../">Все направления</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <a href="/terms.html">Условия</a> · <a href="/privacy.html">Конфиденциальность</a> · <a href="/esim/">Все страны</a>
+  </footer>
+
+  <script src="/assets/catalog-loader.js" defer></script>
+  <script src="../../assets/country-tariffs.js" defer></script>
+</body>
+</html>
+`;
+}
+
+let written = 0; let skipped = 0; let withProfile = 0;
+const allWarnings = [];
+for (const c of countries) {
+  if (editorialSlugs.has(c.slug)) { skipped++; continue; }
+  const { profile, warnings } = loadProfile(c.slug);
+  allWarnings.push(...warnings);
+  if (profile) withProfile++;
+  const dir = join(ROOT, 'esim', c.slug);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, 'index.html'), page(c, countries, profile));
+  written++;
+}
+if (allWarnings.length) {
+  console.error('\nПРОФИЛИ:');
+  for (const w of allWarnings) console.error(`  ${w}`);
+}
+console.log(`С авторским профилем: ${withProfile}`);
+console.log(`Сгенерировано: ${written} страниц; пропущено (есть авторский текст): ${skipped}`);
+console.log(`Всего страниц стран: ${written + skipped}`);

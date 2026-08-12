@@ -4,7 +4,13 @@
 import { writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ALL, SITE } from './countries.mjs';
+import { SITE } from './countries.mjs';
+import { loadCached } from './catalogue-source.mjs';
+
+// The catalogue decides which country pages exist. A hand-kept list is
+// guaranteed to drift: a country added stays out of the sitemap, and one
+// dropped keeps an entry pointing at a page that sells nothing.
+const { countries: ALL } = loadCached();
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const TODAY = process.env.SITEMAP_DATE || new Date().toISOString().slice(0, 10);
 const urls = [

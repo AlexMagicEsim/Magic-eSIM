@@ -1,0 +1,3896 @@
+{
+  "countries": [
+    {
+      "iso": "AU",
+      "slug": "australia",
+      "nameRu": "Австралия",
+      "flagEmoji": "🇦🇺",
+      "local_count": 7,
+      "regional_count": 11,
+      "total_count": 18,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AT",
+      "slug": "austria",
+      "nameRu": "Австрия",
+      "flagEmoji": "🇦🇹",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AZ",
+      "slug": "azerbaijan",
+      "nameRu": "Азербайджан",
+      "flagEmoji": "🇦🇿",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 1050,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AX",
+      "slug": "aland-islands",
+      "nameRu": "Аландские острова",
+      "flagEmoji": "🇦🇽",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AL",
+      "slug": "albania",
+      "nameRu": "Албания",
+      "flagEmoji": "🇦🇱",
+      "local_count": 5,
+      "regional_count": 9,
+      "total_count": 14,
+      "min_price_rub": 550,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "DZ",
+      "slug": "algeria",
+      "nameRu": "Алжир",
+      "flagEmoji": "🇩🇿",
+      "local_count": 5,
+      "regional_count": 7,
+      "total_count": 12,
+      "min_price_rub": 600,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "VI",
+      "slug": "us-virgin-islands",
+      "nameRu": "Американские Виргинские острова",
+      "flagEmoji": "🇻🇮",
+      "local_count": 0,
+      "regional_count": 2,
+      "total_count": 2,
+      "min_price_rub": 3100,
+      "volumes": [
+        3,
+        10
+      ],
+      "strategy": "REGIONAL"
+    },
+    {
+      "iso": "AI",
+      "slug": "anguilla",
+      "nameRu": "Ангилья",
+      "flagEmoji": "🇦🇮",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AO",
+      "slug": "angola",
+      "nameRu": "Ангола",
+      "flagEmoji": "🇦🇴",
+      "local_count": 3,
+      "regional_count": 0,
+      "total_count": 3,
+      "min_price_rub": 4800,
+      "volumes": [
+        3,
+        5,
+        10
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AD",
+      "slug": "andorra",
+      "nameRu": "Андорра",
+      "flagEmoji": "🇦🇩",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 1250,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        60,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AG",
+      "slug": "antigua-and-barbuda",
+      "nameRu": "Антигуа и Барбуда",
+      "flagEmoji": "🇦🇬",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AR",
+      "slug": "argentina",
+      "nameRu": "Аргентина",
+      "flagEmoji": "🇦🇷",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 1100,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AM",
+      "slug": "armenia",
+      "nameRu": "Армения",
+      "flagEmoji": "🇦🇲",
+      "local_count": 6,
+      "regional_count": 5,
+      "total_count": 11,
+      "min_price_rub": 650,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AW",
+      "slug": "aruba",
+      "nameRu": "Аруба",
+      "flagEmoji": "🇦🇼",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AF",
+      "slug": "afghanistan",
+      "nameRu": "Афганистан",
+      "flagEmoji": "🇦🇫",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 2450,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BS",
+      "slug": "bahamas",
+      "nameRu": "Багамы",
+      "flagEmoji": "🇧🇸",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BD",
+      "slug": "bangladesh",
+      "nameRu": "Бангладеш",
+      "flagEmoji": "🇧🇩",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 550,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BB",
+      "slug": "barbados",
+      "nameRu": "Барбадос",
+      "flagEmoji": "🇧🇧",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BH",
+      "slug": "bahrain",
+      "nameRu": "Бахрейн",
+      "flagEmoji": "🇧🇭",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 850,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BY",
+      "slug": "belarus",
+      "nameRu": "Беларусь",
+      "flagEmoji": "🇧🇾",
+      "local_count": 0,
+      "regional_count": 4,
+      "total_count": 4,
+      "min_price_rub": 2150,
+      "volumes": [
+        3,
+        10,
+        12,
+        30
+      ],
+      "strategy": "REGIONAL"
+    },
+    {
+      "iso": "BZ",
+      "slug": "belize",
+      "nameRu": "Белиз",
+      "flagEmoji": "🇧🇿",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 4450,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BE",
+      "slug": "belgium",
+      "nameRu": "Бельгия",
+      "flagEmoji": "🇧🇪",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BJ",
+      "slug": "benin",
+      "nameRu": "Бенин",
+      "flagEmoji": "🇧🇯",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 2200,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BM",
+      "slug": "bermuda",
+      "nameRu": "Бермуды",
+      "flagEmoji": "🇧🇲",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BG",
+      "slug": "bulgaria",
+      "nameRu": "Болгария",
+      "flagEmoji": "🇧🇬",
+      "local_count": 7,
+      "regional_count": 13,
+      "total_count": 20,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        100,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BO",
+      "slug": "bolivia",
+      "nameRu": "Боливия",
+      "flagEmoji": "🇧🇴",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BQ",
+      "slug": "bonaire",
+      "nameRu": "Бонайре",
+      "flagEmoji": "🇧🇶",
+      "local_count": 0,
+      "regional_count": 7,
+      "total_count": 7,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "REGIONAL"
+    },
+    {
+      "iso": "BA",
+      "slug": "bosnia-and-herzegovina",
+      "nameRu": "Босния и Герцеговина",
+      "flagEmoji": "🇧🇦",
+      "local_count": 5,
+      "regional_count": 7,
+      "total_count": 12,
+      "min_price_rub": 900,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BW",
+      "slug": "botswana",
+      "nameRu": "Ботсвана",
+      "flagEmoji": "🇧🇼",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BR",
+      "slug": "brazil",
+      "nameRu": "Бразилия",
+      "flagEmoji": "🇧🇷",
+      "local_count": 6,
+      "regional_count": 11,
+      "total_count": 17,
+      "min_price_rub": 850,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "VG",
+      "slug": "british-virgin-islands",
+      "nameRu": "Британские Виргинские острова",
+      "flagEmoji": "🇻🇬",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BN",
+      "slug": "brunei",
+      "nameRu": "Бруней",
+      "flagEmoji": "🇧🇳",
+      "local_count": 3,
+      "regional_count": 2,
+      "total_count": 5,
+      "min_price_rub": 1600,
+      "volumes": [
+        3,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BF",
+      "slug": "burkina-faso",
+      "nameRu": "Буркина-Фасо",
+      "flagEmoji": "🇧🇫",
+      "local_count": 4,
+      "regional_count": 1,
+      "total_count": 5,
+      "min_price_rub": 1000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BT",
+      "slug": "bhutan",
+      "nameRu": "Бутан",
+      "flagEmoji": "🇧🇹",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 1450,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "VU",
+      "slug": "vanuatu",
+      "nameRu": "Вануату",
+      "flagEmoji": "🇻🇺",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 1600,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "VA",
+      "slug": "vatican",
+      "nameRu": "Ватикан",
+      "flagEmoji": "🇻🇦",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        18,
+        20,
+        25,
+        60,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GB",
+      "slug": "united-kingdom",
+      "nameRu": "Великобритания",
+      "flagEmoji": "🇬🇧",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "HU",
+      "slug": "hungary",
+      "nameRu": "Венгрия",
+      "flagEmoji": "🇭🇺",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "VE",
+      "slug": "venezuela",
+      "nameRu": "Венесуэла",
+      "flagEmoji": "🇻🇪",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TL",
+      "slug": "timor-leste",
+      "nameRu": "Восточный Тимор",
+      "flagEmoji": "🇹🇱",
+      "local_count": 1,
+      "regional_count": 0,
+      "total_count": 1,
+      "min_price_rub": 2150,
+      "volumes": [
+        3
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "VN",
+      "slug": "vietnam",
+      "nameRu": "Вьетнам",
+      "flagEmoji": "🇻🇳",
+      "local_count": 7,
+      "regional_count": 9,
+      "total_count": 16,
+      "min_price_rub": 500,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        30,
+        50,
+        60
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GA",
+      "slug": "gabon",
+      "nameRu": "Габон",
+      "flagEmoji": "🇬🇦",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "HT",
+      "slug": "haiti",
+      "nameRu": "Гаити",
+      "flagEmoji": "🇭🇹",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GY",
+      "slug": "guyana",
+      "nameRu": "Гайана",
+      "flagEmoji": "🇬🇾",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2500,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GM",
+      "slug": "gambia",
+      "nameRu": "Гамбия",
+      "flagEmoji": "🇬🇲",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 3250,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GH",
+      "slug": "ghana",
+      "nameRu": "Гана",
+      "flagEmoji": "🇬🇭",
+      "local_count": 4,
+      "regional_count": 11,
+      "total_count": 15,
+      "min_price_rub": 1050,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GP",
+      "slug": "guadeloupe",
+      "nameRu": "Гваделупа",
+      "flagEmoji": "🇬🇵",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GT",
+      "slug": "guatemala",
+      "nameRu": "Гватемала",
+      "flagEmoji": "🇬🇹",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1200,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GN",
+      "slug": "guinea",
+      "nameRu": "Гвинея",
+      "flagEmoji": "🇬🇳",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 2400,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GW",
+      "slug": "guinea-bissau",
+      "nameRu": "Гвинея-Бисау",
+      "flagEmoji": "🇬🇼",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "DE",
+      "slug": "germany",
+      "nameRu": "Германия",
+      "flagEmoji": "🇩🇪",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GG",
+      "slug": "guernsey",
+      "nameRu": "Гернси",
+      "flagEmoji": "🇬🇬",
+      "local_count": 3,
+      "regional_count": 3,
+      "total_count": 6,
+      "min_price_rub": 1300,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GI",
+      "slug": "gibraltar",
+      "nameRu": "Гибралтар",
+      "flagEmoji": "🇬🇮",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 450,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "HN",
+      "slug": "honduras",
+      "nameRu": "Гондурас",
+      "flagEmoji": "🇭🇳",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1100,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "HK",
+      "slug": "hong-kong",
+      "nameRu": "Гонконг",
+      "flagEmoji": "🇭🇰",
+      "local_count": 7,
+      "regional_count": 9,
+      "total_count": 16,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GD",
+      "slug": "grenada",
+      "nameRu": "Гренада",
+      "flagEmoji": "🇬🇩",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GL",
+      "slug": "greenland",
+      "nameRu": "Гренландия",
+      "flagEmoji": "🇬🇱",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 1550,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GR",
+      "slug": "greece",
+      "nameRu": "Греция",
+      "flagEmoji": "🇬🇷",
+      "local_count": 7,
+      "regional_count": 17,
+      "total_count": 24,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GE",
+      "slug": "georgia",
+      "nameRu": "Грузия",
+      "flagEmoji": "🇬🇪",
+      "local_count": 5,
+      "regional_count": 4,
+      "total_count": 9,
+      "min_price_rub": 550,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GU",
+      "slug": "guam",
+      "nameRu": "Гуам",
+      "flagEmoji": "🇬🇺",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1450,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "DK",
+      "slug": "denmark",
+      "nameRu": "Дания",
+      "flagEmoji": "🇩🇰",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "JE",
+      "slug": "jersey",
+      "nameRu": "Джерси",
+      "flagEmoji": "🇯🇪",
+      "local_count": 4,
+      "regional_count": 3,
+      "total_count": 7,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "DM",
+      "slug": "dominica",
+      "nameRu": "Доминика",
+      "flagEmoji": "🇩🇲",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "DO",
+      "slug": "dominican-republic",
+      "nameRu": "Доминикана",
+      "flagEmoji": "🇩🇴",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 1050,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CD",
+      "slug": "dr-congo",
+      "nameRu": "ДР Конго",
+      "flagEmoji": "🇨🇩",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 1650,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "EG",
+      "slug": "egypt",
+      "nameRu": "Египет",
+      "flagEmoji": "🇪🇬",
+      "local_count": 8,
+      "regional_count": 11,
+      "total_count": 19,
+      "min_price_rub": 850,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        25
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ZM",
+      "slug": "zambia",
+      "nameRu": "Замбия",
+      "flagEmoji": "🇿🇲",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ZW",
+      "slug": "zimbabwe",
+      "nameRu": "Зимбабве",
+      "flagEmoji": "🇿🇼",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 1200,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "IL",
+      "slug": "israel",
+      "nameRu": "Израиль",
+      "flagEmoji": "🇮🇱",
+      "local_count": 7,
+      "regional_count": 7,
+      "total_count": 14,
+      "min_price_rub": 600,
+      "volumes": [
+        3,
+        5,
+        10,
+        15,
+        18,
+        20,
+        30,
+        50,
+        100
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "IN",
+      "slug": "india",
+      "nameRu": "Индия",
+      "flagEmoji": "🇮🇳",
+      "local_count": 11,
+      "regional_count": 7,
+      "total_count": 18,
+      "min_price_rub": 1000,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ID",
+      "slug": "indonesia",
+      "nameRu": "Индонезия",
+      "flagEmoji": "🇮🇩",
+      "local_count": 9,
+      "regional_count": 12,
+      "total_count": 21,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        20,
+        30,
+        50,
+        60
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "JO",
+      "slug": "jordan",
+      "nameRu": "Иордания",
+      "flagEmoji": "🇯🇴",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1100,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "IQ",
+      "slug": "iraq",
+      "nameRu": "Ирак",
+      "flagEmoji": "🇮🇶",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 850,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "IE",
+      "slug": "ireland",
+      "nameRu": "Ирландия",
+      "flagEmoji": "🇮🇪",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "IS",
+      "slug": "iceland",
+      "nameRu": "Исландия",
+      "flagEmoji": "🇮🇸",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        60,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ES",
+      "slug": "spain",
+      "nameRu": "Испания",
+      "flagEmoji": "🇪🇸",
+      "local_count": 6,
+      "regional_count": 14,
+      "total_count": 20,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "IT",
+      "slug": "italy",
+      "nameRu": "Италия",
+      "flagEmoji": "🇮🇹",
+      "local_count": 6,
+      "regional_count": 16,
+      "total_count": 22,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        18,
+        20,
+        25,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CV",
+      "slug": "cape-verde",
+      "nameRu": "Кабо-Верде",
+      "flagEmoji": "🇨🇻",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 4550,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KZ",
+      "slug": "kazakhstan",
+      "nameRu": "Казахстан",
+      "flagEmoji": "🇰🇿",
+      "local_count": 5,
+      "regional_count": 9,
+      "total_count": 14,
+      "min_price_rub": 450,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KY",
+      "slug": "cayman-islands",
+      "nameRu": "Каймановы острова",
+      "flagEmoji": "🇰🇾",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KH",
+      "slug": "cambodia",
+      "nameRu": "Камбоджа",
+      "flagEmoji": "🇰🇭",
+      "local_count": 5,
+      "regional_count": 4,
+      "total_count": 9,
+      "min_price_rub": 550,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CM",
+      "slug": "cameroon",
+      "nameRu": "Камерун",
+      "flagEmoji": "🇨🇲",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2150,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CA",
+      "slug": "canada",
+      "nameRu": "Канада",
+      "flagEmoji": "🇨🇦",
+      "local_count": 5,
+      "regional_count": 5,
+      "total_count": 10,
+      "min_price_rub": 800,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "QA",
+      "slug": "qatar",
+      "nameRu": "Катар",
+      "flagEmoji": "🇶🇦",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 900,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KE",
+      "slug": "kenya",
+      "nameRu": "Кения",
+      "flagEmoji": "🇰🇪",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 1150,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CY",
+      "slug": "cyprus",
+      "nameRu": "Кипр",
+      "flagEmoji": "🇨🇾",
+      "local_count": 5,
+      "regional_count": 17,
+      "total_count": 22,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KG",
+      "slug": "kyrgyzstan",
+      "nameRu": "Киргизия",
+      "flagEmoji": "🇰🇬",
+      "local_count": 5,
+      "regional_count": 9,
+      "total_count": 14,
+      "min_price_rub": 450,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CN",
+      "slug": "china",
+      "nameRu": "Китай",
+      "flagEmoji": "🇨🇳",
+      "local_count": 10,
+      "regional_count": 12,
+      "total_count": 22,
+      "min_price_rub": 450,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        20,
+        25,
+        30,
+        35,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CO",
+      "slug": "colombia",
+      "nameRu": "Колумбия",
+      "flagEmoji": "🇨🇴",
+      "local_count": 4,
+      "regional_count": 11,
+      "total_count": 15,
+      "min_price_rub": 1150,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CG",
+      "slug": "congo",
+      "nameRu": "Конго",
+      "flagEmoji": "🇨🇬",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "XK",
+      "slug": "kosovo",
+      "nameRu": "Косово",
+      "flagEmoji": "🇽🇰",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CR",
+      "slug": "costa-rica",
+      "nameRu": "Коста-Рика",
+      "flagEmoji": "🇨🇷",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 1200,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CI",
+      "slug": "ivory-coast",
+      "nameRu": "Кот-д’Ивуар",
+      "flagEmoji": "🇨🇮",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KW",
+      "slug": "kuwait",
+      "nameRu": "Кувейт",
+      "flagEmoji": "🇰🇼",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 800,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CW",
+      "slug": "curacao",
+      "nameRu": "Кюрасао",
+      "flagEmoji": "🇨🇼",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2550,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LA",
+      "slug": "laos",
+      "nameRu": "Лаос",
+      "flagEmoji": "🇱🇦",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 800,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LV",
+      "slug": "latvia",
+      "nameRu": "Латвия",
+      "flagEmoji": "🇱🇻",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LR",
+      "slug": "liberia",
+      "nameRu": "Либерия",
+      "flagEmoji": "🇱🇷",
+      "local_count": 2,
+      "regional_count": 8,
+      "total_count": 10,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LY",
+      "slug": "libya",
+      "nameRu": "Ливия",
+      "flagEmoji": "🇱🇾",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 3800,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LT",
+      "slug": "lithuania",
+      "nameRu": "Литва",
+      "flagEmoji": "🇱🇹",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LI",
+      "slug": "liechtenstein",
+      "nameRu": "Лихтенштейн",
+      "flagEmoji": "🇱🇮",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        60,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LU",
+      "slug": "luxembourg",
+      "nameRu": "Люксембург",
+      "flagEmoji": "🇱🇺",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MU",
+      "slug": "mauritius",
+      "nameRu": "Маврикий",
+      "flagEmoji": "🇲🇺",
+      "local_count": 9,
+      "regional_count": 10,
+      "total_count": 19,
+      "min_price_rub": 1300,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MR",
+      "slug": "mauritania",
+      "nameRu": "Мавритания",
+      "flagEmoji": "🇲🇷",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 4100,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MG",
+      "slug": "madagascar",
+      "nameRu": "Мадагаскар",
+      "flagEmoji": "🇲🇬",
+      "local_count": 3,
+      "regional_count": 11,
+      "total_count": 14,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "YT",
+      "slug": "mayotte",
+      "nameRu": "Майотта",
+      "flagEmoji": "🇾🇹",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MO",
+      "slug": "macau",
+      "nameRu": "Макао",
+      "flagEmoji": "🇲🇴",
+      "local_count": 6,
+      "regional_count": 9,
+      "total_count": 15,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MW",
+      "slug": "malawi",
+      "nameRu": "Малави",
+      "flagEmoji": "🇲🇼",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MY",
+      "slug": "malaysia",
+      "nameRu": "Малайзия",
+      "flagEmoji": "🇲🇾",
+      "local_count": 8,
+      "regional_count": 14,
+      "total_count": 22,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        20,
+        30,
+        50,
+        60
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ML",
+      "slug": "mali",
+      "nameRu": "Мали",
+      "flagEmoji": "🇲🇱",
+      "local_count": 1,
+      "regional_count": 8,
+      "total_count": 9,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MV",
+      "slug": "maldives",
+      "nameRu": "Мальдивы",
+      "flagEmoji": "🇲🇻",
+      "local_count": 5,
+      "regional_count": 0,
+      "total_count": 5,
+      "min_price_rub": 3750,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MT",
+      "slug": "malta",
+      "nameRu": "Мальта",
+      "flagEmoji": "🇲🇹",
+      "local_count": 4,
+      "regional_count": 13,
+      "total_count": 17,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MA",
+      "slug": "morocco",
+      "nameRu": "Марокко",
+      "flagEmoji": "🇲🇦",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MQ",
+      "slug": "martinique",
+      "nameRu": "Мартиника",
+      "flagEmoji": "🇲🇶",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MX",
+      "slug": "mexico",
+      "nameRu": "Мексика",
+      "flagEmoji": "🇲🇽",
+      "local_count": 6,
+      "regional_count": 6,
+      "total_count": 12,
+      "min_price_rub": 1000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MZ",
+      "slug": "mozambique",
+      "nameRu": "Мозамбик",
+      "flagEmoji": "🇲🇿",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MD",
+      "slug": "moldova",
+      "nameRu": "Молдова",
+      "flagEmoji": "🇲🇩",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MC",
+      "slug": "monaco",
+      "nameRu": "Монако",
+      "flagEmoji": "🇲🇨",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 1050,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MN",
+      "slug": "mongolia",
+      "nameRu": "Монголия",
+      "flagEmoji": "🇲🇳",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 1050,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MS",
+      "slug": "montserrat",
+      "nameRu": "Монтсеррат",
+      "flagEmoji": "🇲🇸",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NR",
+      "slug": "nauru",
+      "nameRu": "Науру",
+      "flagEmoji": "🇳🇷",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 1200,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NP",
+      "slug": "nepal",
+      "nameRu": "Непал",
+      "flagEmoji": "🇳🇵",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 1150,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NE",
+      "slug": "niger",
+      "nameRu": "Нигер",
+      "flagEmoji": "🇳🇪",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NG",
+      "slug": "nigeria",
+      "nameRu": "Нигерия",
+      "flagEmoji": "🇳🇬",
+      "local_count": 4,
+      "regional_count": 11,
+      "total_count": 15,
+      "min_price_rub": 1600,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NL",
+      "slug": "netherlands",
+      "nameRu": "Нидерланды",
+      "flagEmoji": "🇳🇱",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NI",
+      "slug": "nicaragua",
+      "nameRu": "Никарагуа",
+      "flagEmoji": "🇳🇮",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1100,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NZ",
+      "slug": "new-zealand",
+      "nameRu": "Новая Зеландия",
+      "flagEmoji": "🇳🇿",
+      "local_count": 7,
+      "regional_count": 11,
+      "total_count": 18,
+      "min_price_rub": 550,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "NO",
+      "slug": "norway",
+      "nameRu": "Норвегия",
+      "flagEmoji": "🇳🇴",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        60,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "AE",
+      "slug": "uae",
+      "nameRu": "ОАЭ",
+      "flagEmoji": "🇦🇪",
+      "local_count": 10,
+      "regional_count": 7,
+      "total_count": 17,
+      "min_price_rub": 1050,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30,
+        50,
+        100
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "OM",
+      "slug": "oman",
+      "nameRu": "Оман",
+      "flagEmoji": "🇴🇲",
+      "local_count": 6,
+      "regional_count": 5,
+      "total_count": 11,
+      "min_price_rub": 950,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "IM",
+      "slug": "isle-of-man",
+      "nameRu": "Остров Мэн",
+      "flagEmoji": "🇮🇲",
+      "local_count": 4,
+      "regional_count": 3,
+      "total_count": 7,
+      "min_price_rub": 650,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PK",
+      "slug": "pakistan",
+      "nameRu": "Пакистан",
+      "flagEmoji": "🇵🇰",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 500,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PA",
+      "slug": "panama",
+      "nameRu": "Панама",
+      "flagEmoji": "🇵🇦",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1800,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PG",
+      "slug": "papua-new-guinea",
+      "nameRu": "Папуа — Новая Гвинея",
+      "flagEmoji": "🇵🇬",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 1600,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PY",
+      "slug": "paraguay",
+      "nameRu": "Парагвай",
+      "flagEmoji": "🇵🇾",
+      "local_count": 4,
+      "regional_count": 5,
+      "total_count": 9,
+      "min_price_rub": 1200,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PE",
+      "slug": "peru",
+      "nameRu": "Перу",
+      "flagEmoji": "🇵🇪",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 1150,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PL",
+      "slug": "poland",
+      "nameRu": "Польша",
+      "flagEmoji": "🇵🇱",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PT",
+      "slug": "portugal",
+      "nameRu": "Португалия",
+      "flagEmoji": "🇵🇹",
+      "local_count": 5,
+      "regional_count": 14,
+      "total_count": 19,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PR",
+      "slug": "puerto-rico",
+      "nameRu": "Пуэрто-Рико",
+      "flagEmoji": "🇵🇷",
+      "local_count": 2,
+      "regional_count": 5,
+      "total_count": 7,
+      "min_price_rub": 1000,
+      "volumes": [
+        3,
+        5,
+        10
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "RE",
+      "slug": "reunion",
+      "nameRu": "Реюньон",
+      "flagEmoji": "🇷🇪",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "RU",
+      "slug": "russia",
+      "nameRu": "Россия",
+      "flagEmoji": "🇷🇺",
+      "local_count": 0,
+      "regional_count": 4,
+      "total_count": 4,
+      "min_price_rub": 2150,
+      "volumes": [
+        3,
+        10,
+        12,
+        30
+      ],
+      "strategy": "REGIONAL"
+    },
+    {
+      "iso": "RW",
+      "slug": "rwanda",
+      "nameRu": "Руанда",
+      "flagEmoji": "🇷🇼",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "RO",
+      "slug": "romania",
+      "nameRu": "Румыния",
+      "flagEmoji": "🇷🇴",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SV",
+      "slug": "el-salvador",
+      "nameRu": "Сальвадор",
+      "flagEmoji": "🇸🇻",
+      "local_count": 2,
+      "regional_count": 14,
+      "total_count": 16,
+      "min_price_rub": 1450,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "WS",
+      "slug": "samoa",
+      "nameRu": "Самоа",
+      "flagEmoji": "🇼🇸",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 1600,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SM",
+      "slug": "san-marino",
+      "nameRu": "Сан-Марино",
+      "flagEmoji": "🇸🇲",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        18,
+        20,
+        25
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SA",
+      "slug": "saudi-arabia",
+      "nameRu": "Саудовская Аравия",
+      "flagEmoji": "🇸🇦",
+      "local_count": 7,
+      "regional_count": 5,
+      "total_count": 12,
+      "min_price_rub": 950,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MK",
+      "slug": "north-macedonia",
+      "nameRu": "Северная Македония",
+      "flagEmoji": "🇲🇰",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 700,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MP",
+      "slug": "northern-mariana-islands",
+      "nameRu": "Северные Марианские острова",
+      "flagEmoji": "🇲🇵",
+      "local_count": 0,
+      "regional_count": 2,
+      "total_count": 2,
+      "min_price_rub": 2350,
+      "volumes": [
+        7,
+        12
+      ],
+      "strategy": "REGIONAL"
+    },
+    {
+      "iso": "SC",
+      "slug": "seychelles",
+      "nameRu": "Сейшелы",
+      "flagEmoji": "🇸🇨",
+      "local_count": 5,
+      "regional_count": 9,
+      "total_count": 14,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "BL",
+      "slug": "saint-barthelemy",
+      "nameRu": "Сен-Бартелеми",
+      "flagEmoji": "🇧🇱",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "MF",
+      "slug": "saint-martin",
+      "nameRu": "Сен-Мартен",
+      "flagEmoji": "🇲🇫",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SN",
+      "slug": "senegal",
+      "nameRu": "Сенегал",
+      "flagEmoji": "🇸🇳",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 1350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "VC",
+      "slug": "saint-vincent-and-the-grenadines",
+      "nameRu": "Сент-Винсент и Гренадины",
+      "flagEmoji": "🇻🇨",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KN",
+      "slug": "saint-kitts-and-nevis",
+      "nameRu": "Сент-Китс и Невис",
+      "flagEmoji": "🇰🇳",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LC",
+      "slug": "saint-lucia",
+      "nameRu": "Сент-Люсия",
+      "flagEmoji": "🇱🇨",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "RS",
+      "slug": "serbia",
+      "nameRu": "Сербия",
+      "flagEmoji": "🇷🇸",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 500,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SG",
+      "slug": "singapore",
+      "nameRu": "Сингапур",
+      "flagEmoji": "🇸🇬",
+      "local_count": 7,
+      "regional_count": 14,
+      "total_count": 21,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        20,
+        30,
+        50,
+        60
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SX",
+      "slug": "sint-maarten",
+      "nameRu": "Синт-Мартен",
+      "flagEmoji": "🇸🇽",
+      "local_count": 0,
+      "regional_count": 4,
+      "total_count": 4,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        10
+      ],
+      "strategy": "REGIONAL"
+    },
+    {
+      "iso": "SK",
+      "slug": "slovakia",
+      "nameRu": "Словакия",
+      "flagEmoji": "🇸🇰",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SI",
+      "slug": "slovenia",
+      "nameRu": "Словения",
+      "flagEmoji": "🇸🇮",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SD",
+      "slug": "sudan",
+      "nameRu": "Судан",
+      "flagEmoji": "🇸🇩",
+      "local_count": 2,
+      "regional_count": 1,
+      "total_count": 3,
+      "min_price_rub": 2650,
+      "volumes": [
+        3,
+        5
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SR",
+      "slug": "suriname",
+      "nameRu": "Суринам",
+      "flagEmoji": "🇸🇷",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2300,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "US",
+      "slug": "usa",
+      "nameRu": "США",
+      "flagEmoji": "🇺🇸",
+      "local_count": 7,
+      "regional_count": 9,
+      "total_count": 16,
+      "min_price_rub": 500,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        100
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SL",
+      "slug": "sierra-leone",
+      "nameRu": "Сьерра-Леоне",
+      "flagEmoji": "🇸🇱",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 3100,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TJ",
+      "slug": "tajikistan",
+      "nameRu": "Таджикистан",
+      "flagEmoji": "🇹🇯",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 850,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TH",
+      "slug": "thailand",
+      "nameRu": "Таиланд",
+      "flagEmoji": "🇹🇭",
+      "local_count": 7,
+      "regional_count": 14,
+      "total_count": 21,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        20,
+        30,
+        50,
+        60
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TW",
+      "slug": "taiwan",
+      "nameRu": "Тайвань",
+      "flagEmoji": "🇹🇼",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 700,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TZ",
+      "slug": "tanzania",
+      "nameRu": "Танзания",
+      "flagEmoji": "🇹🇿",
+      "local_count": 7,
+      "regional_count": 9,
+      "total_count": 16,
+      "min_price_rub": 1700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TC",
+      "slug": "turks-and-caicos",
+      "nameRu": "Тёркс и Кайкос",
+      "flagEmoji": "🇹🇨",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TO",
+      "slug": "tonga",
+      "nameRu": "Тонга",
+      "flagEmoji": "🇹🇴",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 1600,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TT",
+      "slug": "trinidad-and-tobago",
+      "nameRu": "Тринидад и Тобаго",
+      "flagEmoji": "🇹🇹",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2650,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TN",
+      "slug": "tunisia",
+      "nameRu": "Тунис",
+      "flagEmoji": "🇹🇳",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 600,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TR",
+      "slug": "turkey",
+      "nameRu": "Турция",
+      "flagEmoji": "🇹🇷",
+      "local_count": 9,
+      "regional_count": 13,
+      "total_count": 22,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "UG",
+      "slug": "uganda",
+      "nameRu": "Уганда",
+      "flagEmoji": "🇺🇬",
+      "local_count": 4,
+      "regional_count": 11,
+      "total_count": 15,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "UZ",
+      "slug": "uzbekistan",
+      "nameRu": "Узбекистан",
+      "flagEmoji": "🇺🇿",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 450,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "UA",
+      "slug": "ukraine",
+      "nameRu": "Украина",
+      "flagEmoji": "🇺🇦",
+      "local_count": 0,
+      "regional_count": 7,
+      "total_count": 7,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        15,
+        18
+      ],
+      "strategy": "REGIONAL"
+    },
+    {
+      "iso": "UY",
+      "slug": "uruguay",
+      "nameRu": "Уругвай",
+      "flagEmoji": "🇺🇾",
+      "local_count": 4,
+      "regional_count": 11,
+      "total_count": 15,
+      "min_price_rub": 1400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "FO",
+      "slug": "faroe-islands",
+      "nameRu": "Фарерские острова",
+      "flagEmoji": "🇫🇴",
+      "local_count": 4,
+      "regional_count": 4,
+      "total_count": 8,
+      "min_price_rub": 600,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "FJ",
+      "slug": "fiji",
+      "nameRu": "Фиджи",
+      "flagEmoji": "🇫🇯",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 1000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PH",
+      "slug": "philippines",
+      "nameRu": "Филиппины",
+      "flagEmoji": "🇵🇭",
+      "local_count": 8,
+      "regional_count": 7,
+      "total_count": 15,
+      "min_price_rub": 500,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        30,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "FI",
+      "slug": "finland",
+      "nameRu": "Финляндия",
+      "flagEmoji": "🇫🇮",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "FR",
+      "slug": "france",
+      "nameRu": "Франция",
+      "flagEmoji": "🇫🇷",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "GF",
+      "slug": "french-guiana",
+      "nameRu": "Французская Гвиана",
+      "flagEmoji": "🇬🇫",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "PF",
+      "slug": "french-polynesia",
+      "nameRu": "Французская Полинезия",
+      "flagEmoji": "🇵🇫",
+      "local_count": 4,
+      "regional_count": 2,
+      "total_count": 6,
+      "min_price_rub": 3100,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "HR",
+      "slug": "croatia",
+      "nameRu": "Хорватия",
+      "flagEmoji": "🇭🇷",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CF",
+      "slug": "central-african-republic",
+      "nameRu": "ЦАР",
+      "flagEmoji": "🇨🇫",
+      "local_count": 2,
+      "regional_count": 4,
+      "total_count": 6,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "TD",
+      "slug": "chad",
+      "nameRu": "Чад",
+      "flagEmoji": "🇹🇩",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2000,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ME",
+      "slug": "montenegro",
+      "nameRu": "Черногория",
+      "flagEmoji": "🇲🇪",
+      "local_count": 4,
+      "regional_count": 9,
+      "total_count": 13,
+      "min_price_rub": 550,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CZ",
+      "slug": "czechia",
+      "nameRu": "Чехия",
+      "flagEmoji": "🇨🇿",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CL",
+      "slug": "chile",
+      "nameRu": "Чили",
+      "flagEmoji": "🇨🇱",
+      "local_count": 4,
+      "regional_count": 11,
+      "total_count": 15,
+      "min_price_rub": 1100,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "CH",
+      "slug": "switzerland",
+      "nameRu": "Швейцария",
+      "flagEmoji": "🇨🇭",
+      "local_count": 5,
+      "regional_count": 11,
+      "total_count": 16,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        60,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SE",
+      "slug": "sweden",
+      "nameRu": "Швеция",
+      "flagEmoji": "🇸🇪",
+      "local_count": 4,
+      "regional_count": 13,
+      "total_count": 17,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "LK",
+      "slug": "sri-lanka",
+      "nameRu": "Шри-Ланка",
+      "flagEmoji": "🇱🇰",
+      "local_count": 5,
+      "regional_count": 7,
+      "total_count": 12,
+      "min_price_rub": 700,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "EC",
+      "slug": "ecuador",
+      "nameRu": "Эквадор",
+      "flagEmoji": "🇪🇨",
+      "local_count": 4,
+      "regional_count": 11,
+      "total_count": 15,
+      "min_price_rub": 1150,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        20,
+        50
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "SZ",
+      "slug": "eswatini",
+      "nameRu": "Эсватини",
+      "flagEmoji": "🇸🇿",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 2350,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "EE",
+      "slug": "estonia",
+      "nameRu": "Эстония",
+      "flagEmoji": "🇪🇪",
+      "local_count": 5,
+      "regional_count": 13,
+      "total_count": 18,
+      "min_price_rub": 350,
+      "volumes": [
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        30,
+        50,
+        53,
+        60,
+        66,
+        120
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ET",
+      "slug": "ethiopia",
+      "nameRu": "Эфиопия",
+      "flagEmoji": "🇪🇹",
+      "local_count": 4,
+      "regional_count": 0,
+      "total_count": 4,
+      "min_price_rub": 2050,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "ZA",
+      "slug": "south-africa",
+      "nameRu": "ЮАР",
+      "flagEmoji": "🇿🇦",
+      "local_count": 4,
+      "regional_count": 8,
+      "total_count": 12,
+      "min_price_rub": 750,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "KR",
+      "slug": "south-korea",
+      "nameRu": "Южная Корея",
+      "flagEmoji": "🇰🇷",
+      "local_count": 9,
+      "regional_count": 15,
+      "total_count": 24,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        20,
+        25,
+        30,
+        35,
+        50,
+        60
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "JM",
+      "slug": "jamaica",
+      "nameRu": "Ямайка",
+      "flagEmoji": "🇯🇲",
+      "local_count": 4,
+      "regional_count": 7,
+      "total_count": 11,
+      "min_price_rub": 2700,
+      "volumes": [
+        3,
+        5,
+        10,
+        20
+      ],
+      "strategy": "LOCAL"
+    },
+    {
+      "iso": "JP",
+      "slug": "japan",
+      "nameRu": "Япония",
+      "flagEmoji": "🇯🇵",
+      "local_count": 15,
+      "regional_count": 10,
+      "total_count": 25,
+      "min_price_rub": 400,
+      "volumes": [
+        3,
+        5,
+        7,
+        10,
+        12,
+        15,
+        20,
+        25,
+        30,
+        35,
+        50
+      ],
+      "strategy": "LOCAL"
+    }
+  ],
+  "unnamed": [],
+  "fetched_at": "2026-08-12T16:19:22.888Z",
+  "source": "https://origin.magicesim.store/api/v1/packages?limit=3000"
+}

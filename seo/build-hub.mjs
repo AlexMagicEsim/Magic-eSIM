@@ -1,236 +1,197 @@
 #!/usr/bin/env node
-// Regenerates the /esim/ hub from seo/countries.mjs: region-grouped links to
-// every country page, popular row, honest guidance, FAQ (+FAQPage LD), and a
-// CollectionPage hasPart list. Run: node seo/build-hub.mjs
+// Builds /esim/ — the country index — from the CATALOGUE.
+//
+// Previously this listed twenty-six hand-kept countries. The catalogue now
+// covers two hundred, and any list maintained beside it is wrong the moment
+// either changes. So the page is generated: a country appears here when it has
+// a sellable tariff and disappears when it does not.
+//
+// The three numbers beside each country — how many tariffs, whether any are
+// local, the cheapest price — come from the same fetch the pages use, so the
+// index can never promise something a country page does not have.
 
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ALL, SITE } from './countries.mjs';
+import { loadCached } from './catalogue-source.mjs';
+import { SITE } from './countries.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-const jstr = (s) => JSON.stringify(String(s));
-const bySlug = Object.fromEntries(ALL.map((c) => [c.slug, c]));
+const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
-const REGIONS = [
-  { name: 'Юго-Восточная Азия', slugs: ['thailand', 'vietnam', 'indonesia', 'malaysia', 'singapore'] },
-  { name: 'Восточная Азия', slugs: ['china', 'japan', 'south-korea'] },
-  { name: 'Южная Азия и острова', slugs: ['india', 'sri-lanka', 'maldives'] },
-  { name: 'Ближний Восток и Африка', slugs: ['uae', 'egypt'] },
-  { name: 'Кавказ и Центральная Азия', slugs: ['georgia', 'armenia', 'kazakhstan'] },
-  { name: 'Европа и Средиземноморье', slugs: ['turkey', 'italy', 'spain', 'france', 'germany', 'greece', 'cyprus'] },
-  { name: 'Америка', slugs: ['usa', 'mexico', 'brazil'] },
-];
-const POPULAR = ['thailand', 'turkey', 'uae', 'vietnam', 'georgia', 'italy'];
+const METRIKA = readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8')
+  .match(/<!-- Yandex\.Metrika counter -->[\s\S]*?<\/script>\n(?=\n|  <!-- Structured data -->)/)[0];
 
-const HUB_FAQ = [
-  { q: 'Чем eSIM отличается от обычной SIM-карты?', a: 'eSIM — цифровая SIM, встроенная в телефон: её не нужно вставлять физически. Тариф устанавливается по QR-коду из письма, а основная SIM остаётся в телефоне и продолжает работать.' },
-  { q: 'Когда устанавливать eSIM — до поездки или на месте?', a: 'Удобнее до поездки, дома по Wi-Fi. У большинства тарифов срок действия начинается при первом подключении к сети страны поездки, поэтому ранняя установка дни не расходует.' },
-  { q: 'Сохранится ли мой российский номер?', a: 'Российская SIM остаётся в телефоне и работает отдельно от eSIM. Если на ней подключён международный роуминг и оператор обслуживает её в стране поездки, звонки и SMS приходят на основной номер — включая коды банков, когда их доставку поддерживают оператор и сам сервис. Интернет при этом идёт через eSIM.' },
-  { q: 'Как выбрать объём трафика?', a: 'Для карт, мессенджеров и такси обычно достаточно 1 ГБ на 1–2 дня поездки. Видеозвонки, сторис и раздача интернета заметно увеличивают расход — берите тариф с запасом или с пополнением.' },
-  { q: 'Чем travel eSIM отличается от роуминга оператора?', a: 'Travel eSIM — это отдельный пакет мобильного интернета для страны поездки, который вы покупаете заранее и ставите второй линией. Основная SIM остаётся отдельной линией для номера, SMS и звонков. Обычный роуминг — услуга вашего домашнего оператора со своими ценами и условиями. Итоговые условия в обоих случаях зависят от конкретного тарифа и оператора.' },
-  { q: 'Моей страны нет в списке — что делать?', a: 'Загляните в полный каталог на главной странице: там собраны тарифы для 150+ стран. Списки на этой странице — только самые популярные направления.' },
-];
+const { countries, fetched_at: fetchedAt } = loadCached();
+const money = (v) => (v === null ? null : Math.round(Number(v)).toLocaleString('ru-RU'));
+const withLocal = countries.filter((c) => c.strategy === 'LOCAL');
 
-function link(slug) {
-  const c = bySlug[slug];
-  const flag = c.flagImg
-    ? `<img src="../assets/flags/${c.flagImg}" alt="Флаг: ${esc(c.nameRu)}" width="30" height="21">`
-    : `<span aria-hidden="true">${c.flagEmoji}</span>`;
-  return `          <a class="country-link" href="${c.slug}/">${flag} ${esc(c.nameRu)}</a>`;
-}
+const title = `eSIM для поездок за границу — ${countries.length} стран | Magic eSIM`;
+const description = `Выберите страну поездки: ${countries.length} направлений с реальными тарифами, `
+  + `${withLocal.length} из них с локальными тарифами. Оплата рублями, QR-код на почту, установка до вылета.`;
 
-const hasPart = ALL.map((c) =>
-  `    {"@type":"WebPage","name":${jstr('eSIM для ' + c.nameGen)},"url":"${SITE}/esim/${c.slug}/"}`).join(',\n');
-const faqLd = HUB_FAQ.map((f) =>
-  `    {"@type":"Question","name":${jstr(f.q)},"acceptedAnswer":{"@type":"Answer","text":${jstr(f.a)}}}`).join(',\n');
+// Only what is rendered: an ItemList of the countries actually on the page.
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Страны', item: `${SITE}/esim/` },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      numberOfItems: countries.length,
+      itemListElement: countries.map((c, i) => ({
+        '@type': 'ListItem', position: i + 1, name: `eSIM для ${c.nameRu}`,
+        url: `${SITE}/esim/${c.slug}/`,
+      })),
+    },
+  ],
+};
 
-const regionsHtml = REGIONS.map((r) => `        <h3 class="region-head">${esc(r.name)}</h3>
-        <div class="links-wrap">
-${r.slugs.map(link).join('\n')}
-        </div>`).join('\n');
+const card = (c) => `      <a class="c-card" href="${c.slug}/" data-name="${esc(c.nameRu.toLowerCase())}" data-slug="${c.slug}" data-iso="${c.iso}" data-count="${c.total_count}" data-price="${c.min_price_rub === null ? '' : c.min_price_rub}" data-local="${c.local_count > 0 ? '1' : '0'}">
+        <span class="c-flag" aria-hidden="true">${c.flagEmoji}</span>
+        <span class="c-name">${esc(c.nameRu)}</span>
+        <span class="c-meta">${c.total_count} ${c.total_count === 1 ? 'тариф' : (c.total_count < 5 ? 'тарифа' : 'тарифов')}${c.min_price_rub === null ? '' : ` · от ${money(c.min_price_rub)} ₽`}</span>
+        ${c.local_count > 0 ? '<span class="c-badge">локальные</span>' : '<span class="c-badge c-badge--reg">региональные</span>'}
+      </a>`;
 
 const html = `<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>eSIM для поездок за границу — ${ALL.length} направлений | Magic eSIM</title>
-  <meta name="description" content="Выберите страну поездки — eSIM с реальными тарифами: Таиланд, Турция, ОАЭ, Япония, Грузия, Италия и ещё ${ALL.length - 6} направлений. Оплата рублями, установка по QR-коду до вылета." />
+  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(description)}" />
   <link rel="canonical" href="${SITE}/esim/" />
   <meta name="robots" content="index, follow" />
-
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Magic eSIM" />
-  <meta property="og:locale" content="ru_RU" />
-  <meta property="og:title" content="eSIM для поездок за границу — направления Magic eSIM" />
-  <meta property="og:description" content="${ALL.length} направлений с реальными тарифами: выберите страну, оплатите рублями и установите eSIM до вылета." />
   <meta property="og:url" content="${SITE}/esim/" />
-  <meta property="og:image" content="${SITE}/assets/magic-esim-logo.png" />
+  <meta property="og:title" content="${esc(title)}" />
+  <meta property="og:description" content="${esc(description)}" />
+  <meta property="og:image" content="${SITE}/magic-esim-banner.png" />
+  <meta property="og:locale" content="ru_RU" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="eSIM для поездок за границу — направления Magic eSIM" />
-  <meta name="twitter:description" content="${ALL.length} направлений с реальными тарифами: выберите страну и установите eSIM до вылета." />
-  <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
-
+  <meta name="twitter:title" content="${esc(title)}" />
+  <meta name="twitter:description" content="${esc(description)}" />
+  <meta name="twitter:image" content="${SITE}/magic-esim-banner.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="shortcut icon" href="/favicon.ico" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://mc.yandex.ru" />
   <link rel="stylesheet" href="../assets/country-pages.css" />
-  <style>.region-head{font-size:17px;margin:26px 0 4px;color:var(--text,#1a2230)}</style>
-
-  <!-- Yandex.Metrika counter -->
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-    ym(110393848,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
-  <!-- /Yandex.Metrika counter -->
-
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Главная","item":"${SITE}/"},
-    {"@type":"ListItem","position":2,"name":"eSIM","item":"${SITE}/esim/"}
-  ]}
-  </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"CollectionPage","name":"eSIM для поездок за границу — направления","url":"${SITE}/esim/","description":"Направления eSIM Magic eSIM для поездок за границу с оплатой российской картой или через СБП.","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Magic eSIM","url":"${SITE}/"},"hasPart":[
-${hasPart}
-  ]}
-  </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-${faqLd}
-  ]}
-  </script>
+  <style>
+    .hub-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+    .hub-search{flex:1 1 260px;padding:10px 14px;border:1px solid #d7d7dd;border-radius:10px;font-size:16px}
+    .hub-sort{padding:10px 12px;border:1px solid #d7d7dd;border-radius:10px;font-size:15px}
+    .hub-count{color:#666;font-size:14px}
+    .c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+    .c-card{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid #e4e4ea;border-radius:12px;text-decoration:none;color:inherit;background:#fff}
+    .c-card:hover{border-color:#b9b9c6;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+    .c-flag{font-size:22px;line-height:1}
+    .c-name{font-weight:600}
+    .c-meta{color:#666;font-size:13px}
+    .c-badge{align-self:flex-start;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:999px;background:#e8f5ec;color:#15803d}
+    .c-badge--reg{background:#eef2f7;color:#475569}
+    .hub-empty{color:#666;padding:16px 0}
+  </style>
+  <link rel="preconnect" href="https://api.magicesim.store" crossorigin />
+${METRIKA}
+  <!-- Structured data -->
+  <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 </head>
 <body>
-  <nav class="nav">
-    <a class="brand" href="../" aria-label="Magic eSIM"><img class="brand-logo" src="../assets/magic-esim-logo-header.png" alt="Magic eSIM" width="66" height="50"></a>
-    <div class="nav-links"><a href="#directions">Направления</a><a href="#hub-faq">Вопросы</a><a href="../#global-pricing">Все тарифы</a><a href="../">На главную</a></div>
-    <a class="btn" href="../#global-pricing">Выбрать тариф</a>
+  <header class="site-head">
+    <a class="brand" href="/">Magic eSIM</a>
+    <nav class="head-nav"><a href="/esim/">Все страны</a><a href="/#tariffs">Тарифы</a></nav>
+  </header>
+
+  <nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <a href="/">Главная</a> <span aria-hidden="true">›</span>
+    <span aria-current="page">Страны</span>
   </nav>
 
   <main>
-    <div class="breadcrumbs"><div class="container">
-      <nav class="crumbs" aria-label="Хлебные крошки">
-        <a href="../">Главная</a><span class="sep">/</span>
-        <span aria-current="page">eSIM</span>
-      </nav>
-    </div></div>
-
-    <header class="cp-hero"><div class="container">
-      <span class="eyebrow"><span class="pulse"></span> eSIM для поездок за границу</span>
-      <h1>eSIM для поездок — <span class="gradient-text">выберите направление</span></h1>
-      <p class="lead">Magic eSIM — мобильный интернет для зарубежных поездок с оплатой российской картой или через СБП. Ниже — ${ALL.length} направлений со страницами тарифов; полный каталог на главной охватывает 150+ стран.</p>
-      <div class="hero-actions">
-        <a class="btn" href="#directions">Выбрать страну</a>
-        <a class="btn secondary" href="../#global-pricing">Все тарифы</a>
-      </div>
-    </div></header>
-
-    <section id="directions">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Направления</div>
-          <h2>Страны, куда чаще всего берут eSIM</h2>
-          <p class="muted">На странице каждой страны — реальные тарифы из каталога с покрытием этой страны, советы по объёму трафика, инструкции по подключению и ответы на частые вопросы.</p>
-        </div>
-        <h3 class="region-head">Популярное сейчас</h3>
-        <div class="links-wrap">
-${POPULAR.map(link).join('\n')}
-        </div>
-${regionsHtml}
-      </div>
+    <section class="hero">
+      <h1>eSIM по странам</h1>
+      <p class="lead">${countries.length} ${countries.length % 10 === 1 && countries.length % 100 !== 11 ? 'направление' : 'направлений'} с реальными тарифами из каталога. У ${withLocal.length} есть локальные тарифы — они на странице страны идут первым блоком; региональные показываются отдельно и остаются доступны всегда.</p>
     </section>
 
     <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Как это работает</div>
-          <h2>Почему eSIM удобна в поездке</h2>
-        </div>
-        <div class="prose">
-          <p>eSIM — это встроенная SIM-карта, которую не нужно вставлять физически. Вы покупаете тариф на нужную страну, устанавливаете eSIM заранее дома по Wi-Fi, а по прилёте включаете на ней передачу данных — и телефон подключается к местной сети. Не нужно стоять в очереди за туристической SIM в аэропорту и менять свою карту.</p>
-          <p>Основная российская SIM при этом может оставаться в телефоне и работает отдельно от eSIM: при подключённом международном роуминге на неё приходят звонки и входящие SMS, включая коды банков, — насколько это поддерживают ваш оператор и сам сервис. Мобильный интернет пойдёт через eSIM. Оплатить тариф можно российской картой или через СБП, в рублях, до поездки — это удобно, когда за границей привычные способы оплаты работают не всегда.</p>
-          <p>Мы не обещаем «интернет везде» и конкретную скорость: доступность сети зависит от страны, тарифа и покрытия оператора. На странице каждого направления мы честно описываем, чего ожидать, и показываем актуальные тарифы из каталога.</p>
-        </div>
-        <div class="link-row">
-          <a href="../iphone.html">Настройка eSIM на iPhone →</a>
-          <a href="../android.html">Настройка eSIM на Android →</a>
-          <a href="../#global-pricing">Все тарифы и страны →</a>
-        </div>
+      <div class="hub-tools">
+        <input class="hub-search" id="hubSearch" type="search" placeholder="Найти страну…" aria-label="Поиск страны" autocomplete="off" />
+        <select class="hub-sort" id="hubSort" aria-label="Сортировка">
+          <option value="name">По алфавиту</option>
+          <option value="price">Сначала дешевле</option>
+          <option value="count">Больше тарифов</option>
+        </select>
+        <span class="hub-count" id="hubCount">${countries.length}</span>
       </div>
+      <div class="c-grid" id="hubGrid">
+${countries.map(card).join('\n')}
+      </div>
+      <p class="hub-empty" id="hubEmpty" hidden>Ничего не нашлось. Попробуйте другое написание.</p>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Полезное</div>
-          <h2>Инструкции и помощь</h2>
-        </div>
-        <div class="links-wrap">
-          <a class="country-link" href="../iphone.html">📱 Установка eSIM на iPhone</a>
-          <a class="country-link" href="../android.html">🤖 Установка eSIM на Android</a>
-          <a class="country-link" href="compatibility/">✅ Проверка совместимости</a>
-          <a class="country-link" href="activation-before-travel/">🛫 Активация до поездки</a>
-          <a class="country-link" href="not-working/">🛠️ Если eSIM не работает</a>
-          <a class="country-link" href="dual-sim-sms/">📞 Основной номер, SMS и звонки</a>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Сравнение</div>
-          <h2>eSIM или роуминг оператора</h2>
-        </div>
-        <div class="prose">
-          <p>Travel eSIM даёт отдельный, заранее оплаченный пакет мобильного интернета для страны поездки — вы знаете его объём и стоимость ещё до вылета. Основная SIM при этом может оставаться в телефоне для номера, SMS и звонков.</p>
-          <p>Обычный роуминг — услуга вашего домашнего оператора: его стоимость и условия зависят от вашего тарифа и направления, уточнять их нужно у оператора. Скорость и покрытие в обоих случаях зависят от доступной местной сети и не гарантируются.</p>
-        </div>
-        <div class="hero-actions" style="margin-top:16px">
-          <a class="btn" href="#directions">Выбрать eSIM</a>
-          <a class="btn secondary" href="dual-sim-sms/">Как сохранить основной номер</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="hub-faq">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Вопросы и ответы</div>
-          <h2>Частые вопросы об eSIM для поездок</h2>
-        </div>
-        <div class="faq-list">
-${HUB_FAQ.map((f) => `          <div class="faq-item"><p class="faq-q">${esc(f.q)}</p><p class="faq-a">${esc(f.a)}</p></div>`).join('\n')}
-        </div>
-      </div>
-    </section>
-
-    <section class="cta">
-      <div class="container">
-        <div class="cta-box">
-          <h2>Готовитесь к поездке?</h2>
-          <p class="lead">Выберите страну, оплатите российской картой или через СБП и установите eSIM до вылета.</p>
-          <a class="btn" href="#directions">Выбрать направление</a>
-        </div>
-      </div>
+    <section class="compat">
+      <h2>Перед покупкой</h2>
+      <p><a href="/esim/compatibility/">Совместимость устройств</a> · <a href="/esim/activation-before-travel/">Установка до вылета</a> · <a href="/esim/not-working/">Если интернет не появился</a> · <a href="/esim/dual-sim-sms/">Две SIM и SMS от банков</a></p>
     </section>
   </main>
 
-  <footer><div class="container footer-inner">
-    <div class="brand"><span class="company-name">Magic eSIM</span></div>
-    <nav class="footer-links"><a href="../">Главная</a><a href="../privacy.html">Политика конфиденциальности</a><a href="../terms.html">Пользовательское соглашение</a></nav>
-    <span class="footer-support"><a href="mailto:support@magicesim.store">support@magicesim.store</a></span>
-  </div></footer>
+  <footer class="site-foot">
+    <a href="/terms.html">Условия</a> · <a href="/privacy.html">Конфиденциальность</a> · <a href="/">Главная</a>
+  </footer>
+
+  <script>
+  (function(){
+    // Search and sort run over the rendered cards. No second API call: the
+    // numbers are already in the markup, which keeps the page fast and keeps it
+    // working when the API is briefly unreachable.
+    var grid=document.getElementById('hubGrid');
+    var search=document.getElementById('hubSearch');
+    var sort=document.getElementById('hubSort');
+    var count=document.getElementById('hubCount');
+    var empty=document.getElementById('hubEmpty');
+    var cards=[].slice.call(grid.querySelectorAll('.c-card'));
+
+    function norm(s){return String(s||'').toLowerCase().replace(/ё/g,'е').trim();}
+    function apply(){
+      var q=norm(search.value);
+      var shown=0;
+      cards.forEach(function(el){
+        var hit=!q||norm(el.dataset.name).indexOf(q)>=0||el.dataset.slug.indexOf(q)>=0||norm(el.dataset.iso)===q;
+        el.hidden=!hit; if(hit)shown++;
+      });
+      count.textContent=shown;
+      empty.hidden=shown>0;
+    }
+    function reorder(){
+      var mode=sort.value;
+      var sorted=cards.slice().sort(function(a,b){
+        if(mode==='price'){
+          // A country with no price sorts last rather than first: an empty
+          // value must not look like the cheapest option.
+          var pa=a.dataset.price===''?Infinity:Number(a.dataset.price);
+          var pb=b.dataset.price===''?Infinity:Number(b.dataset.price);
+          if(pa!==pb)return pa-pb;
+        }
+        if(mode==='count'){
+          var ca=Number(a.dataset.count||0),cb=Number(b.dataset.count||0);
+          if(ca!==cb)return cb-ca;
+        }
+        return a.dataset.name.localeCompare(b.dataset.name,'ru');
+      });
+      sorted.forEach(function(el){grid.appendChild(el);});
+    }
+    search.addEventListener('input',apply);
+    sort.addEventListener('change',function(){reorder();apply();});
+  })();
+  </script>
 </body>
 </html>
 `;
 
-writeFileSync(join(ROOT, 'esim', 'index.html'), html);
-console.log(`Hub rebuilt: ${ALL.length} countries in ${REGIONS.length} regions, ${HUB_FAQ.length} FAQ`);
+writeFileSync(join(ROOT, 'esim/index.html'), html);
+console.log(`/esim/: ${countries.length} стран (LOCAL ${withLocal.length}), данные каталога от ${fetchedAt}`);
