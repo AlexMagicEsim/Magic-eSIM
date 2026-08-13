@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-13T07:56:43.255Z",
+  "generated_at": "2026-08-13T13:51:57.655Z",
   "source": "production-public-api",
   "package_count": 973,
   "packages": [
@@ -4434,8 +4434,7 @@
       "price": 7150,
       "networks": [],
       "network_technologies": [
-        "4G",
-        "5G"
+        "4G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -9147,12 +9146,12 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "Movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         },
         {
-          "operator": "Claro",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -15983,7 +15982,7 @@
       "package_id": "88dc206e-43fc-4682-8d17-3ee6d1e6ead0",
       "name": "Global (120+ areas) 10GB 30Days",
       "country_code": "GL-120",
-      "region": "PR,HK,PT,HN,PY,HR,HU,QA,ID,IE,IL,AE,IN,ZA,IS,IT,AL,AM,AR,AT,ZM,AU,AZ,RO,BA,RS,BE,BG,JO,JP,BO,SA,BR,SC,SE,SG,BW,SI,SK,KE,SN,KG,CA,CD,SV,CF,CG,CH,CI,KR,SZ,CL,CM,CN,KW,CO,CR,KZ,TD,TH,CY,CZ,TN,LI,TR,LK,DE,TW,LR,TZ,DK,LT,LU,LV,UA,UG,MA,MD,ME,MG,US,EC,MK,ML,EE,MO,EG,UY,UZ,MT,MU,MW,MX,MY,ES,NE,NG,NI,NL,NO,FI,FR,NZ,GA,GB,OM,GH,GI,GR,GT,GU,GW,PA,XK,PE,PH,PK,PL",
+      "region": "PR,HK,PT,HN,PY,HR,HU,QA,ID,IE,IL,AE,IN,ZA,IS,IT,AL,AM,AR,AT,ZM,AU,AZ,RO,BA,RS,BE,BG,JO,JP,BO,SA,BR,SC,SE,SG,BW,SI,SK,KE,SN,KG,CA,CD,SV,CF,CG,CH,CI,KR,SZ,CL,CM,CN,KW,CO,CR,KZ,TD,TH,CY,CZ,TN,LI,TR,LK,DE,TW,LR,TZ,DK,LT,LU,LV,UA,UG,MA,MD,ME,MG,US,EC,MK,ML,EE,EG,UY,UZ,MT,MU,MW,MX,MY,ES,NE,NG,NI,NL,NO,FI,FR,NZ,GA,GB,OM,GH,GI,GR,GT,GU,GW,PA,XK,PE,PH,PK,PL",
       "coverage_country_codes": [
         "PR",
         "HK",
@@ -16070,7 +16069,6 @@
         "MK",
         "ML",
         "EE",
-        "MO",
         "EG",
         "UY",
         "UZ",
@@ -16104,7 +16102,7 @@
         "PK",
         "PL"
       ],
-      "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇲🇴 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
+      "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
       "data_gb": 10,
       "validity_days": 30,
       "price": 6400,
@@ -16588,10 +16586,6 @@
         {
           "operator": "POST",
           "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "4G"
         },
         {
           "operator": "Airtel",
@@ -17665,7 +17659,7 @@
       "package_id": "8d7ee1f0-1aac-49e1-8149-51cc4a157e4a",
       "name": "Global (120+ areas) 3GB 30Days",
       "country_code": "GL-120",
-      "region": "PR,HK,PT,HN,PY,HR,HU,QA,ID,IE,IL,AE,IN,ZA,IS,IT,AL,AM,AR,AT,ZM,AU,AZ,RO,BA,RS,BE,BG,JO,JP,BO,SA,BR,SC,SE,SG,BW,SI,SK,KE,SN,KG,CA,CD,SV,CF,CG,CH,CI,KR,SZ,CL,CM,CN,KW,CO,CR,KZ,TD,TH,CY,CZ,TN,LI,TR,LK,DE,TW,LR,TZ,DK,LT,LU,LV,UA,UG,MA,MD,ME,MG,US,EC,MK,ML,EE,MO,EG,UY,UZ,MT,MU,MW,MX,MY,ES,NE,NG,NI,NL,NO,FI,FR,NZ,GA,GB,OM,GH,GI,GR,GT,GU,GW,PA,XK,PE,PH,PK,PL",
+      "region": "PR,HK,PT,HN,PY,HR,HU,QA,ID,IE,IL,AE,IN,ZA,IS,IT,AL,AM,AR,AT,ZM,AU,AZ,RO,BA,RS,BE,BG,JO,JP,BO,SA,BR,SC,SE,SG,BW,SI,SK,KE,SN,KG,CA,CD,SV,CF,CG,CH,CI,KR,SZ,CL,CM,CN,KW,CO,CR,KZ,TD,TH,CY,CZ,TN,LI,TR,LK,DE,TW,LR,TZ,DK,LT,LU,LV,UA,UG,MA,MD,ME,MG,US,EC,MK,ML,EE,EG,UY,UZ,MT,MU,MW,MX,MY,ES,NE,NG,NI,NL,NO,FI,FR,NZ,GA,GB,OM,GH,GI,GR,GT,GU,GW,PA,XK,PE,PH,PK,PL",
       "coverage_country_codes": [
         "PR",
         "HK",
@@ -17752,7 +17746,6 @@
         "MK",
         "ML",
         "EE",
-        "MO",
         "EG",
         "UY",
         "UZ",
@@ -17786,7 +17779,7 @@
         "PK",
         "PL"
       ],
-      "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇲🇴 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
+      "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
       "data_gb": 3,
       "validity_days": 30,
       "price": 2350,
@@ -18270,10 +18263,6 @@
         {
           "operator": "POST",
           "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "4G"
         },
         {
           "operator": "Airtel",
@@ -29092,12 +29081,12 @@
       "price": 1300,
       "networks": [
         {
-          "operator": "Movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         },
         {
-          "operator": "Claro",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -29269,7 +29258,7 @@
       "package_id": "e4f7cb03-1a92-4450-91c6-d00aecf2b9c3",
       "name": "Global (120+ areas) 5GB 30Days",
       "country_code": "GL-120",
-      "region": "PR,HK,PT,HN,PY,HR,HU,QA,ID,IE,IL,AE,IN,ZA,IS,IT,AL,AM,AR,AT,ZM,AU,AZ,RO,BA,RS,BE,BG,JO,JP,BO,SA,BR,SC,SE,SG,BW,SI,SK,KE,SN,KG,CA,CD,SV,CF,CG,CH,CI,KR,SZ,CL,CM,CN,KW,CO,CR,KZ,TD,TH,CY,CZ,TN,LI,TR,LK,DE,TW,LR,TZ,DK,LT,LU,LV,UA,UG,MA,MD,ME,MG,US,EC,MK,ML,EE,MO,EG,UY,UZ,MT,MU,MW,MX,MY,ES,NE,NG,NI,NL,NO,FI,FR,NZ,GA,GB,OM,GH,GI,GR,GT,GU,GW,PA,XK,PE,PH,PK,PL",
+      "region": "PR,HK,PT,HN,PY,HR,HU,QA,ID,IE,IL,AE,IN,ZA,IS,IT,AL,AM,AR,AT,ZM,AU,AZ,RO,BA,RS,BE,BG,JO,JP,BO,SA,BR,SC,SE,SG,BW,SI,SK,KE,SN,KG,CA,CD,SV,CF,CG,CH,CI,KR,SZ,CL,CM,CN,KW,CO,CR,KZ,TD,TH,CY,CZ,TN,LI,TR,LK,DE,TW,LR,TZ,DK,LT,LU,LV,UA,UG,MA,MD,ME,MG,US,EC,MK,ML,EE,EG,UY,UZ,MT,MU,MW,MX,MY,ES,NE,NG,NI,NL,NO,FI,FR,NZ,GA,GB,OM,GH,GI,GR,GT,GU,GW,PA,XK,PE,PH,PK,PL",
       "coverage_country_codes": [
         "PR",
         "HK",
@@ -29356,7 +29345,6 @@
         "MK",
         "ML",
         "EE",
-        "MO",
         "EG",
         "UY",
         "UZ",
@@ -29390,7 +29378,7 @@
         "PK",
         "PL"
       ],
-      "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇲🇴 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
+      "coverage_flags": "🇵🇷 🇭🇰 🇵🇹 🇭🇳 🇵🇾 🇭🇷 🇭🇺 🇶🇦 🇮🇩 🇮🇪 🇮🇱 🇦🇪 🇮🇳 🇿🇦 🇮🇸 🇮🇹 🇦🇱 🇦🇲 🇦🇷 🇦🇹 🇿🇲 🇦🇺 🇦🇿 🇷🇴 🇧🇦 🇷🇸 🇧🇪 🇧🇬 🇯🇴 🇯🇵 🇧🇴 🇸🇦 🇧🇷 🇸🇨 🇸🇪 🇸🇬 🇧🇼 🇸🇮 🇸🇰 🇰🇪 🇸🇳 🇰🇬 🇨🇦 🇨🇩 🇸🇻 🇨🇫 🇨🇬 🇨🇭 🇨🇮 🇰🇷 🇸🇿 🇨🇱 🇨🇲 🇨🇳 🇰🇼 🇨🇴 🇨🇷 🇰🇿 🇹🇩 🇹🇭 🇨🇾 🇨🇿 🇹🇳 🇱🇮 🇹🇷 🇱🇰 🇩🇪 🇹🇼 🇱🇷 🇹🇿 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇺🇦 🇺🇬 🇲🇦 🇲🇩 🇲🇪 🇲🇬 🇺🇸 🇪🇨 🇲🇰 🇲🇱 🇪🇪 🇪🇬 🇺🇾 🇺🇿 🇲🇹 🇲🇺 🇲🇼 🇲🇽 🇲🇾 🇪🇸 🇳🇪 🇳🇬 🇳🇮 🇳🇱 🇳🇴 🇫🇮 🇫🇷 🇳🇿 🇬🇦 🇬🇧 🇴🇲 🇬🇭 🇬🇮 🇬🇷 🇬🇹 🇬🇺 🇬🇼 🇵🇦 🇽🇰 🇵🇪 🇵🇭 🇵🇰 🇵🇱",
       "data_gb": 5,
       "validity_days": 30,
       "price": 3600,
@@ -29874,10 +29862,6 @@
         {
           "operator": "POST",
           "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "4G"
         },
         {
           "operator": "Airtel",
