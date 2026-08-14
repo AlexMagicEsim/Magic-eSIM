@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T07:53:47.728Z",
+  "generated_at": "2026-08-14T13:47:57.961Z",
   "source": "production-public-api",
   "package_count": 959,
   "packages": [
@@ -574,7 +574,7 @@
       "package_id": "06121835-e264-47cb-97de-1f5067a66486",
       "name": "LATAM 7 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -583,10 +583,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 7,
       "validity_days": 30,
       "price": 3250,
@@ -16497,7 +16498,7 @@
       "package_id": "89e8d664-aff5-4505-a60c-b0e748356444",
       "name": "LATAM 3 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -16506,10 +16507,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 3,
       "validity_days": 30,
       "price": 1700,
@@ -18801,7 +18803,7 @@
       "package_id": "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
       "name": "LATAM 5 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -18810,10 +18812,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 5,
       "validity_days": 30,
       "price": 2500,
@@ -24496,7 +24499,7 @@
       "package_id": "c470d468-d150-4421-9bcc-66bafe173463",
       "name": "LATAM 20 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -24505,10 +24508,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 20,
       "validity_days": 30,
       "price": 6700,
@@ -31156,7 +31160,7 @@
       "package_id": "f28d095b-1578-4bb0-bf87-962bf9fc0fd9",
       "name": "LATAM 10 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -31165,10 +31169,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 10,
       "validity_days": 30,
       "price": 4350,
