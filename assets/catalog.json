@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-13T22:07:07.302Z",
+  "generated_at": "2026-08-14T07:53:47.728Z",
   "source": "production-public-api",
   "package_count": 959,
   "packages": [
@@ -3852,7 +3852,12 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 23250,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Mattel",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -4058,7 +4063,12 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 19850,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Madar",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -5092,7 +5102,12 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 6000,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Madar",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -6225,7 +6240,12 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 900,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Banglalink",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -8323,7 +8343,12 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 11550,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Mattel",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -8743,7 +8768,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1100,
+      "price": 1050,
       "networks": [
         {
           "operator": "Claro",
@@ -11762,7 +11787,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2950,
+      "price": 2900,
       "networks": [
         {
           "operator": "Claro",
@@ -12184,7 +12209,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1700,
       "networks": [
         {
           "operator": "Claro",
@@ -14087,7 +14112,12 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 1550,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Banglalink",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -14263,7 +14293,12 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 10550,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Madar",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -14687,7 +14722,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 550,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Banglalink",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -16372,7 +16412,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 4100,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Mattel",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -28332,7 +28377,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1300,
+      "price": 1150,
       "networks": [
         {
           "operator": "Claro",
@@ -29594,7 +29639,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 3800,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Madar",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -30910,7 +30960,12 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 6550,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Mattel",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -31627,7 +31682,12 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 2700,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Banglalink",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
