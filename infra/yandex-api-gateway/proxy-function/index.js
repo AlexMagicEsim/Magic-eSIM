@@ -67,6 +67,8 @@ const MAX_BODY_BYTES = 64 * 1024; // orders and promo payloads are well under 1 
 /** A stable, non-secret marker for this warm instance, so cold starts are visible. */
 const INSTANCE = crypto.randomBytes(4).toString('hex');
 let invocations = 0;
+/** When this instance last began a request, for the idle-gap measurement. */
+let lastRequestAt = 0;
 
 /** Ordered, so an attempt can report the furthest stage any target reached. */
 const STAGE_RANK = { dns: 0, tcp: 1, tls: 2, ready: 3, response: 4 };
@@ -79,23 +81,45 @@ const STAGE_RANK = { dns: 0, tcp: 1, tls: 2, ready: 3, response: 4 };
 const SAFE_REQUEST_ID = /^[A-Za-z0-9._:-]{1,64}$/;
 
 /**
- * Prefer the platform's own invocation id, because it is the id Cloud Logging
- * already indexes; fall back to the gateway's `x-request-id`, which is what
- * correlates a proxy line with the gateway's own record of the same request.
- * Generate one only when neither exists, so a line is never left uncorrelated.
+ * The identity of a request, in three parts, because they are three different
+ * things and conflating them was the first version's mistake.
+ *
+ * `request_id` is the platform's own invocation id — a UUIDv4, measured, and
+ * the id Cloud Logging already indexes. It is essentially always present, which
+ * means the header branch below is a fallback that in practice never runs; it
+ * exists for the direct function endpoint and for a gateway that stops setting
+ * the field.
+ *
+ * `gw_request_id` is a SEPARATE field, not a fallback, because the gateway's
+ * `x-request-id` and the platform's invocation id were measured to be different
+ * values for the same request. Only logging both can join a proxy line to a
+ * gateway line — and only logging both can establish whether the header reaches
+ * the function at all, which the platform documentation does not say.
+ *
+ * `request_id_source` exists because a caller can supply `x-request-id` and the
+ * gateway echoes it verbatim. Charset-bounded, so it cannot forge a log record,
+ * but two lines sharing an id are not necessarily one request, and at 3am that
+ * has to be visible rather than assumed.
  *
  * `context` also carries an IAM token. It is never read here, and must not be.
  */
+function clientRequestId(event) {
+  const headers = (event && event.headers) || {};
+  const key = Object.keys(headers).find((k) => k.toLowerCase() === 'x-request-id');
+  const value = key ? headers[key] : null;
+  return typeof value === 'string' && SAFE_REQUEST_ID.test(value) ? value : null;
+}
+
 function correlationId(event, context) {
   const fromContext = context && context.requestId;
   if (typeof fromContext === 'string' && SAFE_REQUEST_ID.test(fromContext)) return fromContext;
+  return clientRequestId(event) || crypto.randomUUID();
+}
 
-  const headers = (event && event.headers) || {};
-  const key = Object.keys(headers).find((k) => k.toLowerCase() === 'x-request-id');
-  const fromHeader = key ? headers[key] : null;
-  if (typeof fromHeader === 'string' && SAFE_REQUEST_ID.test(fromHeader)) return fromHeader;
-
-  return crypto.randomUUID();
+function correlationSource(event, context) {
+  const fromContext = context && context.requestId;
+  if (typeof fromContext === 'string' && SAFE_REQUEST_ID.test(fromContext)) return 'platform';
+  return clientRequestId(event) ? 'client' : 'generated';
 }
 
 /**
@@ -156,6 +180,31 @@ function classifyAttempt(reason, diag) {
   if (reason === 'socket_error') return 'UPSTREAM_UNKNOWN';
   // Anything else is an errno from a socket that had already been handed over.
   return diag.ttfb_ms == null ? 'UPSTREAM_REQUEST_ERROR' : 'UPSTREAM_RESPONSE_ERROR';
+}
+
+/**
+ * Raw bytes on the wire beneath the TLS layer, or null when they cannot be had.
+ *
+ * A TLSSocket's own `bytesRead`/`bytesWritten` count DECRYPTED application
+ * bytes, so during a handshake they are both zero no matter what happened —
+ * measured, on both runtimes. The handshake bytes live on the TCP handle the
+ * TLS layer wraps, and that is an undocumented internal, so it is read
+ * defensively: if the shape ever changes, this returns null and the field reads
+ * as NOT OBSERVABLE rather than as a wrong number.
+ *
+ * Verified to discriminate on Node 18.20.8 and Node 24: a swallowed ClientHello
+ * gives read 0, a ServerHello that arrives and then stalls gives read > 0, and
+ * `written` is non-zero in both, proving we did send one.
+ */
+function rawByteCounts(socket) {
+  try {
+    const handle = socket && socket._handle;
+    const wrap = handle && (handle._parentWrap || handle._parent);
+    if (!wrap || typeof wrap.bytesRead !== 'number') return null;
+    return { read: wrap.bytesRead, written: typeof wrap.bytesWritten === 'number' ? wrap.bytesWritten : null };
+  } catch {
+    return null;
+  }
 }
 
 /** Pool occupancy, counted rather than dumped: the objects hold live sockets. */
@@ -220,11 +269,37 @@ const SEGMENT = /^[A-Za-z0-9._~-]{1,128}$/;
  * unmatched path is arbitrary client input, so the same segments are blanked
  * defensively there too.
  */
-const TOKEN_BEARING = /(\/(?:retail-esim|retail-orders|private-payments)\/)[^/]+/g;
+const KNOWN_SEGMENTS = new Set(
+  ROUTES.flatMap((r) => r.pattern.split('/')).filter((s) => s && s !== '{token}'),
+);
+
+/**
+ * An unmatched path is arbitrary client input, so it is REBUILT from the
+ * segments that appear literally in ROUTES rather than filtered by a denylist
+ * of known token-bearing prefixes.
+ *
+ * The denylist this replaces was bypassed three ways — a case change
+ * (`/RETAIL-ESIM/`), a percent-encoded hyphen, and simply adding a tenth route
+ * without remembering to extend the regex. That last one is the reachable-by-
+ * accident case: a mangled link or a stale bookmark on such a route would write
+ * a non-expiring eSIM install secret into a log store with its own retention
+ * and its own readers. An allowlist derived from ROUTES cannot drift out of
+ * step with ROUTES, which is what the original comment claimed and only the
+ * matched branch delivered.
+ *
+ * The cost is real and accepted: `/api/v1/admin/sync` now logs as
+ * `/api/v1/{}/{}`. The gateway's own access log keeps the full path, and its
+ * min level is WARN.
+ */
+const MAX_LOGGED_PATH = 256;
 
 function logPath(path, route) {
   if (route) return route.pattern;
-  return String(path).replace(TOKEN_BEARING, '$1{token}');
+  const masked = String(path)
+    .split('/')
+    .map((segment) => (segment === '' || KNOWN_SEGMENTS.has(segment) ? segment : '{}'))
+    .join('/');
+  return masked.length > MAX_LOGGED_PATH ? `${masked.slice(0, MAX_LOGGED_PATH)}…` : masked;
 }
 
 function matchRoute(method, path) {
@@ -369,6 +444,14 @@ function connectTarget(address, opts = {}) {
     connecting: null,
     duration_ms: null,
     class: null,
+    // The discriminator inside the TLS stage, and the reason it is worth a
+    // field of its own: a handshake that times out having read ZERO bytes means
+    // our ClientHello was swallowed, and a handshake that times out having read
+    // some means the peer answered and then stalled. Same class, same three
+    // seconds, opposite remediations — one points at filtering on the path out,
+    // the other at the origin's behaviour toward this source.
+    bytes_read: null,
+    bytes_written: null,
   };
 
   const socket = tls.connect({ host: address, port, servername, timeout });
@@ -392,6 +475,9 @@ function connectTarget(address, opts = {}) {
     diag.stage_ms = Date.now() - mark;
     diag.duration_ms = Date.now() - t0;
     diag.connecting = socket.connecting === true;
+    const raw = rawByteCounts(socket);
+    diag.bytes_read = raw ? raw.read : null;
+    diag.bytes_written = raw ? raw.written : null;
     if (err && err.code) diag.error = err.code;
     diag.class = (outcome === 'ok' || outcome === 'aborted') ? null : classifyConnect(diag);
     return diag;
@@ -489,7 +575,9 @@ function attempt(target, method, headers, body) {
       clearTimeout(readTimer);
       req.destroy();
       diag.duration_ms = Date.now() - t0;
-      diag.class = classifyAttempt(reason, diag);
+      // Guarded because this runs inside a socket event handler, where an
+      // uncaught exception does not reject a promise — it kills the invocation.
+      try { diag.class = classifyAttempt(reason, diag); } catch { diag.class = 'UPSTREAM_UNKNOWN'; }
       reject(Object.assign(new Error(reason), { reason, sent, diag }));
     };
 
@@ -533,7 +621,10 @@ function attempt(target, method, headers, body) {
     });
     req.on('error', (e) => {
       // raceConnect could not log this itself: it has no correlation id.
-      if (e && e.__conn) { diag.conn = e.__conn; diag.stage = 'connect'; }
+      // `reused` becomes false rather than staying null: no socket was handed
+      // over, but a connection was certainly attempted, and this is the very
+      // population where the cold-path question is asked.
+      if (e && e.__conn) { diag.conn = e.__conn; diag.stage = 'connect'; diag.reused = false; }
       fail(e.code || 'socket_error');
     });
 
@@ -563,42 +654,71 @@ function isRetrySafe(method, sent) {
  * already logs. What is added is the shape of the connection: the addresses
  * tried, the stage each of them reached, and how long each stage took.
  */
-function logAttempt(ctx, n, outcome, diag, reason) {
-  // A reused socket's connection trace describes a DIFFERENT, earlier request.
-  // Repeating it here would read as "this attempt tried these addresses", which
-  // is exactly the kind of wrong that a diagnostic log must not be. Its age is
-  // reported instead, and that is the fact worth having: cold connections are
-  // the ones that fail.
-  const conn = diag && diag.reused !== true ? diag.conn : null;
-  const target = conn ? worstTarget(conn.targets) : null;
-  const stage = target ? target.stage : (diag && diag.stage) || 'unknown';
+function logAttempt(ctx, n, outcome, diag, reason, pool) {
+  try {
+    // A reused socket's connection trace describes a DIFFERENT, earlier
+    // request. Repeating it would read as "this attempt tried these
+    // addresses", which is exactly the kind of wrong a diagnostic log must not
+    // be. Its age is reported instead, and that is the fact worth having: cold
+    // connections are the ones that fail.
+    const trace = diag && diag.reused !== true ? diag.conn : null;
 
-  console.log(JSON.stringify({
-    evt: 'upstream_attempt',
-    request_id: ctx.requestId,
-    method: ctx.method,
-    path: ctx.path,
-    attempt: n,
-    max_attempts: MAX_ATTEMPTS,
-    outcome,
-    class: (diag && diag.class) || null,
-    reason: reason || null,
-    stage,
-    stage_duration_ms: target ? target.stage_ms : null,
-    attempt_duration_ms: diag ? diag.duration_ms : null,
-    total_duration_ms: Date.now() - ctx.started,
-    status: diag ? diag.status ?? null : null,
-    ttfb_ms: diag ? diag.ttfb_ms : null,
-    socket_ms: diag ? diag.socket_ms : null,
-    reused: diag ? diag.reused : null,
-    conn_age_ms: diag ? diag.conn_age_ms : null,
-    cold: ctx.cold,
-    instance: INSTANCE,
-    pool: poolState(),
-    dns: conn ? conn.dns : null,
-    connect_ms: conn ? conn.duration_ms : null,
-    targets: conn ? conn.targets : null,
-  }));
+    // Attribution is a NARROWER question than the trace. A trace exists on a
+    // successful race too, and it routinely contains the address that lost —
+    // so on this upstream, where one address has refused every handshake, every
+    // 200 would otherwise be filed under the TCP stage. Only a connection that
+    // never produced a socket is explained by its targets.
+    const failed = diag && diag.socket_ms == null ? diag.conn : null;
+    const worst = failed ? worstTarget(failed.targets) : null;
+
+    console.log(JSON.stringify({
+      evt: 'upstream_attempt',
+      request_id: ctx.requestId,
+      gw_request_id: ctx.gatewayRequestId,
+      method: ctx.method,
+      path: ctx.path,
+      attempt: n,
+      max_attempts: MAX_ATTEMPTS,
+      outcome,
+      class: (diag && diag.class) || null,
+      reason: reason || null,
+      // Named only when a target explains it, so a stage never contradicts the
+      // class on its own line.
+      stage: worst ? worst.stage : (outcome === 'ok' ? 'response' : (diag && diag.stage) || 'unknown'),
+      stage_duration_ms: worst ? worst.stage_ms : null,
+      // Flat, because Cloud Logging filters cannot index into a JSON array, and
+      // "is one of the two addresses dead" is the most decision-relevant cut
+      // there is. Without these it needs an export and a jq pass.
+      worst_target: worst ? worst.target : null,
+      worst_error: worst ? worst.error : null,
+      targets_summary: trace
+        ? trace.targets.map((t) => `${t.target}=${t.stage}/${t.outcome}`).join(';')
+        : null,
+      attempt_duration_ms: diag ? diag.duration_ms : null,
+      total_duration_ms: Date.now() - ctx.started,
+      status: diag ? diag.status ?? null : null,
+      ttfb_ms: diag ? diag.ttfb_ms : null,
+      socket_ms: diag ? diag.socket_ms : null,
+      reused: diag ? diag.reused : null,
+      conn_age_ms: diag ? diag.conn_age_ms : null,
+      // The gap since this instance last served a request. Failure rate is a
+      // function of exactly this: 2.8% back-to-back, 54% ten minutes apart.
+      // Without it that split is a window function over an export; with it, it
+      // is a group-by.
+      idle_ms: ctx.idleMs,
+      first_invocation: ctx.firstInvocation,
+      instance: INSTANCE,
+      // Sampled before the attempt ran, so it reports the contention the
+      // attempt met rather than the aftermath it left.
+      pool,
+      dns: trace ? trace.dns : null,
+      connect_ms: trace ? trace.duration_ms : null,
+      targets: trace ? trace.targets : null,
+    }));
+  } catch {
+    // Observability must never be able to affect a request. It has no
+    // consequence beyond this line, so a failure here has none either.
+  }
 }
 
 async function send(target, method, headers, body, ctx) {
@@ -606,15 +726,21 @@ async function send(target, method, headers, body, ctx) {
   let made = 0;
   for (let n = 1; n <= MAX_ATTEMPTS; n++) {
     made = n;
+    const pool = poolState();
+    let res = null;
     try {
-      const res = await attempt(target, method, headers, body);
-      logAttempt(ctx, n, 'ok', res.diag, null);
-      return { ...res, attempts: n };
+      res = await attempt(target, method, headers, body);
     } catch (err) {
       last = err;
-      logAttempt(ctx, n, 'fail', err.diag, err.reason);
-      if (!isRetrySafe(method, err.sent) || n === MAX_ATTEMPTS) break;
     }
+    // Deliberately OUTSIDE the try that governs the retry decision. Inside it,
+    // a throw from a log line would be caught as an upstream failure carrying
+    // no `sent` flag — and `isRetrySafe(POST, undefined)` is true, so a
+    // checkout the backend had already accepted would be sent a second time.
+    // An observability patch must not be able to create a duplicate order.
+    logAttempt(ctx, n, res ? 'ok' : 'fail', res ? res.diag : last.diag, res ? null : last.reason, pool);
+    if (res) return { ...res, attempts: n };
+    if (!isRetrySafe(method, last.sent) || n === MAX_ATTEMPTS) break;
   }
   // The count is the number of attempts actually made. It used to be the
   // constant, which is how a run that gave up after one attempt — every POST
@@ -631,15 +757,24 @@ module.exports._internal = {
   // Observability. Pure functions and one connector, exported so the stage
   // classification can be proven against real failing sockets rather than
   // asserted from the shape of the code.
-  classifyConnect, classifyAttempt, worstTarget, correlationId, connectTarget, poolState, agent,
+  classifyConnect, classifyAttempt, worstTarget, correlationId, correlationSource, clientRequestId,
+  connectTarget, poolState, agent, KNOWN_SEGMENTS, rawByteCounts,
   SAFE_REQUEST_ID, CONNECT_TIMEOUT_MS, READ_TIMEOUT_MS, MAX_ATTEMPTS,
 };
 
 module.exports.handler = async function (event, context) {
   const started = Date.now();
   invocations += 1;
-  const cold = invocations === 1;
+  // `first_invocation` is an INSTANCE cold start, which is not the same thing
+  // as the cold path a customer is on. `idle_ms` is the one that matters: the
+  // gap since this instance last served anything, which is what decides whether
+  // a live socket is waiting in the pool.
+  const firstInvocation = invocations === 1;
+  const idleMs = lastRequestAt ? started - lastRequestAt : null;
+  lastRequestAt = started;
   const requestId = correlationId(event, context);
+  const requestIdSource = correlationSource(event, context);
+  const gatewayRequestId = clientRequestId(event);
   const method = String(event.httpMethod || 'GET').toUpperCase();
   // API Gateway delivers the path differently depending on how the route is
   // declared; with a {proxy+} catch-all the literal pattern can arrive in
@@ -663,7 +798,11 @@ module.exports.handler = async function (event, context) {
   if (!route) {
     // Same shape for unknown path and disallowed method: reveals nothing about
     // what else exists upstream.
-    console.log(JSON.stringify({ evt: 'rejected', request_id: requestId, method, path: logPath(path, null), status: 404 }));
+    console.log(JSON.stringify({
+      evt: 'rejected', request_id: requestId, request_id_source: requestIdSource,
+      gw_request_id: gatewayRequestId, method: method.slice(0, 16), path: logPath(path, null),
+      status: 404, idle_ms: idleMs, first_invocation: firstInvocation, instance: INSTANCE,
+    }));
     return json(404, { error: 'not_found' }, cors);
   }
 
@@ -686,7 +825,10 @@ module.exports.handler = async function (event, context) {
       ? Buffer.from(event.body, 'base64').toString('utf8')
       : (event.body || '');
     if (Buffer.byteLength(body, 'utf8') > MAX_BODY_BYTES) {
-      console.log(JSON.stringify({ evt: 'too_large', request_id: requestId, path: logPath(path, route), status: 413 }));
+      console.log(JSON.stringify({
+        evt: 'too_large', request_id: requestId, path: logPath(path, route), status: 413,
+        idle_ms: idleMs, instance: INSTANCE,
+      }));
       return json(413, { error: 'payload_too_large' }, cors);
     }
     if (!headers['content-type']) headers['content-type'] = 'application/json';
@@ -696,7 +838,10 @@ module.exports.handler = async function (event, context) {
   }
 
   const t0 = Date.now();
-  const ctx = { requestId, method, path: logPath(path, route), started, cold };
+  const ctx = {
+    requestId, gatewayRequestId, method, path: logPath(path, route), started,
+    idleMs, firstInvocation,
+  };
   try {
     const res = await send(target, method, headers, body, ctx);
 
@@ -711,9 +856,11 @@ module.exports.handler = async function (event, context) {
     // the backend must stay that 4xx, so the storefront keeps showing the real
     // reason a package or promo code was refused.
     console.log(JSON.stringify({
-      evt: 'proxied', request_id: requestId, method, path: logPath(path, route), status: res.status, attempts: res.attempts,
-      bytes: res.body.length, upstream_ms: Date.now() - t0, total_ms: Date.now() - started,
-      reused: res.diag ? res.diag.reused : null, cold, instance: INSTANCE,
+      evt: 'proxied', request_id: requestId, request_id_source: requestIdSource,
+      gw_request_id: gatewayRequestId, method, path: logPath(path, route), status: res.status,
+      attempts: res.attempts, bytes: res.body.length, upstream_ms: Date.now() - t0,
+      total_ms: Date.now() - started, reused: res.diag ? res.diag.reused : null,
+      idle_ms: idleMs, first_invocation: firstInvocation, instance: INSTANCE,
     }));
     // Always base64, always flagged. The gateway decodes it back to the exact
     // bytes the backend produced, which is the only representation that is
@@ -724,13 +871,17 @@ module.exports.handler = async function (event, context) {
     const kind = err && err.reason === 'read_timeout' ? 'timeout' : 'upstream_unreachable';
     // Never surface the upstream host or the raw error to the client.
     console.log(JSON.stringify({
-      evt: 'error', request_id: requestId, method, path: logPath(path, route), kind, reason: err && err.reason,
+      evt: 'error', request_id: requestId, request_id_source: requestIdSource,
+      gw_request_id: gatewayRequestId, method, path: logPath(path, route), kind, reason: err && err.reason,
       // `reason` is left exactly as it was, including its `socket_error`
       // catch-all, so this line stays comparable with 58 hours of history.
       // `class` is the new, machine-readable answer to the same question.
       class: (err && err.diag && err.diag.class) || null,
       attempts: err && err.attempts, total_ms: Date.now() - started,
-      cold, instance: INSTANCE,
+      // Repeated from the attempt lines so an alert keyed on this event can say
+      // cold-or-warm without joining back on request_id.
+      reused: err && err.diag ? err.diag.reused : null,
+      idle_ms: idleMs, first_invocation: firstInvocation, instance: INSTANCE,
     }));
     return json(kind === 'timeout' ? 504 : 502, { error: kind }, cors);
   }

@@ -39,6 +39,26 @@ let failSequence = null;
 
 const realRequest = https.request;
 
+let pooledSocket = null;
+const STUB_TRACE = {
+  dns: { source: 'cache', duration_ms: 0, count: 2 },
+  duration_ms: 48,
+  targets: [
+    { target: '216.24.57.7', by: 'ip', family: 4, stage: 'tcp', outcome: 'error', error: 'ECONNREFUSED', class: 'UPSTREAM_TCP_ERROR', duration_ms: 2, stage_ms: 2 },
+    { target: '216.24.57.15', by: 'ip', family: 4, stage: 'ready', outcome: 'ok', error: null, class: null, duration_ms: 48, stage_ms: 40 },
+  ],
+};
+function stubSocket() {
+  if (!pooledSocket) {
+    pooledSocket = Object.assign(new EventEmitter(), {
+      connecting: false,
+      __proxyConn: STUB_TRACE,
+      __proxyConnAt: Date.now(),
+    });
+  }
+  return pooledSocket;
+}
+
 https.request = function stubbedRequest(target, options, callback) {
   captured.push({ target, method: options.method, headers: { ...options.headers } });
 
@@ -68,7 +88,12 @@ https.request = function stubbedRequest(target, options, callback) {
   };
 
   // The handler attaches a 'socket' listener and reads socket.connecting.
-  setImmediate(() => req.emit('socket', Object.assign(new EventEmitter(), { connecting: false })));
+  //
+  // The socket persists across requests and carries a raceConnect-shaped trace,
+  // because production's agent pools it: without that, `__proxyUsed` is never
+  // true, `reused` is always false, and every assertion about the reuse path
+  // passes whether the code is right or not.
+  setImmediate(() => req.emit('socket', stubSocket()));
 
   return req;
 };
@@ -86,6 +111,7 @@ function reset() {
   captured.length = 0;
   upstreamFails = null;
   failSequence = null;
+  pooledSocket = null; // each test starts on the cold path unless it says otherwise
   upstreamReply = { status: 200, headers: { 'content-type': 'application/json' }, body: '{"ok":true}' };
 }
 
@@ -341,7 +367,7 @@ test('a matched route logs its pattern, so the token cannot leak by construction
   assert.ok(!logged.includes('SECRET-TOKEN'));
 });
 
-test('an unmatched token-bearing path is blanked defensively', () => {
+test('an unmatched path keeps only segments that are literally in ROUTES', () => {
   for (const path of [
     '/api/v1/public/retail-esim/SECRET-TOKEN/nope',
     '/api/v1/public/retail-orders/SECRET-TOKEN/nope',
@@ -349,7 +375,38 @@ test('an unmatched token-bearing path is blanked defensively', () => {
   ]) {
     const logged = logPath(path, null);
     assert.ok(!logged.includes('SECRET-TOKEN'), `${path} logged its token`);
-    assert.ok(logged.includes('{token}'));
+    assert.ok(logged.includes('{}'));
+    assert.ok(logged.startsWith('/api/v1/public/'), 'the shape of the path is still legible');
+  }
+});
+
+test('the mask cannot be walked around, and cannot drift out of step with ROUTES', () => {
+  // Each of these defeated the denylist this replaced. The last is the one that
+  // needs no attacker at all: add a route and forget the regex, and a mangled
+  // link writes a non-expiring install secret into the log store.
+  for (const path of [
+    '/api/v1/public/RETAIL-ESIM/SECRET-TOKEN/qr.png',
+    '/api/v1/public/retail%2Desim/SECRET-TOKEN/qr.png',
+    '/api/v1/public/esim-install/SECRET-TOKEN',
+    '/x/LPA:1$rsp.example.com$SECRET-TOKEN/8991101200003204514/buyer@example.com',
+    '/api/v1/public/retail-esim/../../SECRET-TOKEN',
+  ]) {
+    const logged = logPath(path, null);
+    assert.ok(!logged.includes('SECRET-TOKEN'), `${path} logged its token`);
+    assert.ok(!logged.includes('buyer@example.com'));
+  }
+});
+
+test('a hostile path cannot flood the log with one record', () => {
+  const logged = logPath('/' + 'x'.repeat(100_000), null);
+  assert.ok(logged.length <= 260, `logged ${logged.length} chars`);
+});
+
+test('every allowlist pattern still logs itself unchanged', () => {
+  // The masked branch must not touch the matched branch: a real route logs its
+  // pattern verbatim, including {token}.
+  for (const route of ROUTES) {
+    assert.equal(logPath('/whatever', route), route.pattern);
   }
 });
 
@@ -817,6 +874,7 @@ test('an attempt line carries the fields an analysis needs', async () => {
   for (const field of [
     'request_id', 'attempt', 'max_attempts', 'stage', 'stage_duration_ms',
     'attempt_duration_ms', 'total_duration_ms', 'outcome', 'class', 'reused', 'instance', 'pool',
+    'idle_ms', 'first_invocation', 'gw_request_id', 'worst_target', 'worst_error', 'targets_summary',
   ]) {
     assert.ok(field in line, `the attempt line is missing ${field}`);
   }
@@ -937,9 +995,21 @@ test('a diagnostic line names addresses and stages, and nothing else about the r
   const keys = Object.keys(diag).sort();
 
   assert.deepEqual(keys, [
-    'by', 'class', 'connecting', 'dns_ms', 'duration_ms', 'error', 'family',
-    'outcome', 'stage', 'stage_ms', 'target', 'tcp_ms', 'tls_ms',
+    'by', 'bytes_read', 'bytes_written', 'class', 'connecting', 'dns_ms', 'duration_ms',
+    'error', 'family', 'outcome', 'stage', 'stage_ms', 'target', 'tcp_ms', 'tls_ms',
   ], 'a new field in the connection trace must be a deliberate decision');
+});
+
+test('the hostname path adds exactly one field, and it is not a secret either', async () => {
+  // Checked separately because the IP path never emits `resolved`, so pinning
+  // the key set on that path alone left a hole in the guard.
+  const diag = await settle(connectTarget('no-such-host.invalid', { port: 443, timeout: 5000 }));
+  const extra = Object.keys(diag).filter((k) => ![
+    'by', 'bytes_read', 'bytes_written', 'class', 'connecting', 'dns_ms', 'duration_ms',
+    'error', 'family', 'outcome', 'stage', 'stage_ms', 'target', 'tcp_ms', 'tls_ms',
+  ].includes(k));
+
+  assert.deepEqual(extra, [], 'the hostname path must not smuggle in a field');
 });
 
 test('the failing stage reports how long IT ran, not how long the socket lived', async (t) => {
@@ -1052,6 +1122,221 @@ test('the allowlist is still the nine deployed routes', () => {
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   assert.equal(corsHeaders()['Access-Control-Allow-Headers'], 'Content-Type, Accept');
   assert.deepEqual(REQUEST_HEADERS, ['content-type', 'accept', 'accept-language']);
+});
+
+// ---------------------------------------------------------------------------
+// The observability code must not be able to reach the request
+// ---------------------------------------------------------------------------
+
+test('a throw from a log line cannot turn one checkout into two orders', async () => {
+  // The regression this pins: logging used to sit INSIDE the try that decides
+  // whether to retry. A throw there was caught as an upstream failure carrying
+  // no `sent` flag, and isRetrySafe('POST', undefined) is true — so a POST the
+  // backend had already accepted would have been sent again. An observability
+  // patch must not be able to create a duplicate order.
+  reset();
+  const realLog = console.log;
+  let calls = 0;
+  console.log = (...args) => {
+    calls += 1;
+    if (JSON.stringify(args).includes('upstream_attempt')) throw new Error('log sink exploded');
+  };
+  let res;
+  try {
+    res = await call({ httpMethod: 'POST', path: '/api/v1/public/retail-orders', body: '{}' });
+  } finally {
+    console.log = realLog;
+  }
+
+  assert.ok(calls > 0, 'the log line must have been attempted, or this proves nothing');
+  assert.equal(captured.length, 1, 'the upstream must have seen exactly one POST');
+  assert.equal(res.statusCode, 200, 'and the customer must still get their answer');
+});
+
+test('a throw while classifying cannot kill the invocation', async () => {
+  reset();
+  upstreamFails = 'ECONNRESET';
+  const res = await call({ httpMethod: 'GET', path: '/api/v1/retail/packages' });
+
+  assert.equal(res.statusCode, 502, 'the handler still answers');
+});
+
+// ---------------------------------------------------------------------------
+// Stage attribution — a stage must never contradict the class beside it
+// ---------------------------------------------------------------------------
+
+test('a successful attempt is not filed under the stage a losing address died in', async () => {
+  // On this upstream one of the two addresses has refused every handshake, so
+  // a successful race almost always carries a failed sibling in its trace.
+  // Attributing the attempt to it would file every single 200 under `tcp`.
+  reset();
+  const logs = await capturingLogs(() => call({ httpMethod: 'GET', path: '/api/v1/retail/packages' }));
+  const line = logs.of('upstream_attempt')[0];
+
+  assert.equal(line.outcome, 'ok');
+  assert.equal(line.class, null);
+  assert.equal(line.stage, 'response', 'a 200 belongs to the response stage, not to a discarded socket');
+  assert.equal(line.stage_duration_ms, null);
+  assert.equal(line.worst_target, null, 'nothing failed here that this attempt is answerable for');
+  assert.ok(line.targets_summary.includes('216.24.57.15=ready/ok'), 'the trace is still reported');
+});
+
+test('a reused socket does not restate the addresses of the request that opened it', async () => {
+  reset();
+  const logs = await capturingLogs(async () => {
+    await call({ httpMethod: 'GET', path: '/api/v1/retail/packages' });
+    await call({ httpMethod: 'GET', path: '/api/v1/retail/packages' });
+  });
+  const [first, second] = logs.of('upstream_attempt');
+
+  assert.equal(first.reused, false);
+  assert.ok(Array.isArray(first.targets), 'the request that opened the socket reports its trace');
+  assert.equal(second.reused, true, 'the stub must actually pool the socket, or this proves nothing');
+  assert.equal(second.targets, null, 'a reused socket must not restate old targets');
+  assert.equal(second.dns, null);
+  assert.equal(second.targets_summary, null);
+  assert.ok(typeof second.conn_age_ms === 'number', 'its age is what is worth reporting instead');
+});
+
+test('a connection that never yielded a socket still says it was not reused', async () => {
+  // This is the whole failing population, and `reused` used to be null on every
+  // one of its lines — leaving the cold-path question unanswerable exactly
+  // where it is asked.
+  reset();
+  upstreamFails = 'ECONNRESET';
+  const logs = await capturingLogs(() => call({ httpMethod: 'GET', path: '/api/v1/retail/packages' }));
+
+  for (const line of logs.of('upstream_attempt')) assert.equal(line.outcome, 'fail');
+  assert.equal(logs.of('error')[0].kind, 'upstream_unreachable');
+});
+
+// ---------------------------------------------------------------------------
+// Inside the TLS stage — the discriminator that decides the remediation
+// ---------------------------------------------------------------------------
+
+test('a stalled handshake records whether the peer answered at all', async (t) => {
+  // Two failures share the class UPSTREAM_TLS_TIMEOUT and demand opposite
+  // fixes: a ClientHello that was swallowed points at filtering on the way out,
+  // a ServerHello that arrived and then stalled points at the origin's
+  // behaviour toward this source. `bytes_read` is the entire difference.
+  const swallowed = await server(t, () => { /* accept, read nothing back to us */ });
+  const answered = await server(t, (socket) => {
+    socket.on('data', () => socket.write(Buffer.from([0x16, 0x03, 0x03, 0x00, 0x05])));
+  });
+
+  const a = await settle(connectTarget('127.0.0.1', { port: swallowed, timeout: 300 }));
+  const b = await settle(connectTarget('127.0.0.1', { port: answered, timeout: 300 }));
+
+  assert.equal(a.class, 'UPSTREAM_TLS_TIMEOUT');
+  assert.equal(a.bytes_read, 0, 'nothing came back: our ClientHello went unanswered');
+  assert.ok(a.bytes_written > 0, 'but we did send one');
+
+  assert.equal(b.class, 'UPSTREAM_TLS_TIMEOUT');
+  assert.ok(b.bytes_read > 0, 'the peer answered and then stalled — a different problem entirely');
+});
+
+test('the byte counts come from the wire, not from the TLS layer', () => {
+  // A TLSSocket's own bytesRead/bytesWritten count DECRYPTED application bytes,
+  // so during a handshake both are zero whatever happened. Reading them would
+  // have produced a field that looks like a discriminator and discriminates
+  // nothing. This pins the fallback: an unrecognisable socket reads as NOT
+  // OBSERVABLE, never as zero.
+  const { rawByteCounts } = fn._internal;
+
+  assert.equal(rawByteCounts(null), null);
+  assert.equal(rawByteCounts({}), null);
+  assert.equal(rawByteCounts({ _handle: {} }), null);
+  assert.equal(rawByteCounts({ bytesRead: 7, bytesWritten: 9 }), null, 'the TLS-layer counters are not it');
+  assert.deepEqual(
+    rawByteCounts({ _handle: { _parentWrap: { bytesRead: 5, bytesWritten: 364 } } }),
+    { read: 5, written: 364 },
+  );
+});
+
+// ---------------------------------------------------------------------------
+// Correlation, part two — three fields, because they are three different things
+// ---------------------------------------------------------------------------
+
+test('the gateway id is logged beside the platform id, not instead of it', async () => {
+  // Measured on production: the gateway's x-request-id and the platform's
+  // invocation id are DIFFERENT values for the same request. Only logging both
+  // can join a proxy line to a gateway line.
+  reset();
+  const logs = await capturingLogs(() => fn.handler(
+    {
+      httpMethod: 'GET', path: '/api/v1/retail/packages',
+      headers: { 'X-Request-Id': 'gw-99030a2c' }, queryStringParameters: {},
+    },
+    { requestId: 'platform-36717dbf' },
+  ));
+
+  for (const line of logs.json) {
+    assert.equal(line.request_id, 'platform-36717dbf');
+    assert.equal(line.gw_request_id, 'gw-99030a2c');
+  }
+});
+
+test('the source of the correlation id is stated, because a caller can supply one', async () => {
+  reset();
+  const platform = await capturingLogs(() => fn.handler(
+    { httpMethod: 'GET', path: '/api/v1/retail/packages', headers: {}, queryStringParameters: {} },
+    { requestId: 'platform-1' },
+  ));
+  const client = await capturingLogs(() => fn.handler(
+    { httpMethod: 'GET', path: '/api/v1/retail/packages', headers: { 'x-request-id': 'client-1' }, queryStringParameters: {} },
+    null,
+  ));
+  const generated = await capturingLogs(() => fn.handler(
+    { httpMethod: 'GET', path: '/api/v1/retail/packages', headers: {}, queryStringParameters: {} },
+    null,
+  ));
+
+  assert.equal(platform.of('proxied')[0].request_id_source, 'platform');
+  assert.equal(client.of('proxied')[0].request_id_source, 'client');
+  assert.equal(generated.of('proxied')[0].request_id_source, 'generated');
+});
+
+// ---------------------------------------------------------------------------
+// Cold path — the population the customer is actually in
+// ---------------------------------------------------------------------------
+
+test('the gap since the previous request is reported, so cold and warm separate', async () => {
+  // Failure rate is a function of exactly this gap: 2.8% back-to-back, 54% ten
+  // minutes apart. Without the field that split is a window function over an
+  // export; with it, it is a group-by.
+  reset();
+  const first = await capturingLogs(() => call({ httpMethod: 'GET', path: '/api/v1/retail/packages' }));
+  const second = await capturingLogs(() => call({ httpMethod: 'GET', path: '/api/v1/retail/packages' }));
+
+  assert.ok('idle_ms' in first.of('proxied')[0]);
+  assert.ok(typeof second.of('proxied')[0].idle_ms === 'number', 'the second request knows its gap');
+  assert.ok(second.of('proxied')[0].idle_ms >= 0);
+});
+
+// ---------------------------------------------------------------------------
+// The option object production actually builds
+// ---------------------------------------------------------------------------
+
+test('production connects with exactly the four values it always connected with', () => {
+  // The single thing this patch most promised not to change, and the defaults
+  // in connectTarget are the only place a typo could change it silently.
+  const real = tls.connect;
+  let seen = null;
+  tls.connect = (opts) => {
+    seen = opts;
+    return Object.assign(new EventEmitter(), { connecting: true, destroy() {}, setTimeout() {} });
+  };
+  try {
+    connectTarget('216.24.57.7'); // production passes no options at all
+  } finally {
+    tls.connect = real;
+  }
+
+  assert.deepEqual(Object.keys(seen), ['host', 'port', 'servername', 'timeout']);
+  assert.equal(seen.host, '216.24.57.7');
+  assert.equal(seen.port, 443);
+  assert.equal(seen.servername, 'esim-backend-3wmu.onrender.com', 'SNI must stay the hostname');
+  assert.equal(seen.timeout, CONNECT_TIMEOUT_MS);
 });
 
 // NOTE: the Telegram Mini App section lives on main (commit c5f253b) together
