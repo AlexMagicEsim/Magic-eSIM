@@ -60,6 +60,27 @@ jobs:
       - name: Validate catalog cache
         run: node scripts/update-catalog-cache.mjs --check
 
+      # The dictionary the storefront renders with is generated from
+      # seo/country-names.mjs into index.html and assets/country-tariffs.js. If
+      # either copy has been edited by hand it no longer matches its source, and
+      # the check below would be testing something other than what ships.
+      - name: Country dictionary is generated, not hand-edited
+        run: node seo/build-country-dictionary.mjs --check
+
+      # THE INVARIANT. A destination the provider adds arrives here entirely
+      # without human involvement, and until this step existed the name it was
+      # displayed under did not: `countryName()` fails soft and returns the code
+      # itself, so 34 countries had been rendering as "BN 10 GB" for as long as
+      # nobody happened to look.
+      #
+      # This runs BEFORE the commit on purpose. A catalogue carrying a country we
+      # cannot name stops here, and the storefront keeps serving the previous
+      # cache — which is a stale price at worst, against a broken name for every
+      # visitor at best. The fix is to add the name to seo/country-names.mjs and
+      # rerun the generator; the job tells you exactly which code is missing.
+      - name: No destination reaches the storefront unnamed
+        run: node seo/check-country-coverage.mjs
+
       # Commit only when the catalogue actually changed. The generator leaves the
       # file byte-identical (generated_at included) when nothing moved, so an
       # unchanged run produces no commit and no Pages deploy.

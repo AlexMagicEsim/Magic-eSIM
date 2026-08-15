@@ -320,21 +320,33 @@ test('token-free routes are logged exactly as they are', () => {
 test('a rejected path is masked too, since it is arbitrary client input', () => {
   const REAL = 'Zq8wE3rT7yU1iO5pA9sD2fG6hJ4kL0mN';
   // A refused request can still carry a live token — a wrong method on a real
-  // link, or a route that has since been removed. Every token-bearing prefix
-  // has to be covered here, because this is the branch where the pattern is not
-  // available to fall back on.
+  // link, or a route that has since been removed. This is the branch where the
+  // allowlist pattern is not available to fall back on.
+  //
+  // The mask is now an ALLOWLIST: a segment survives only if it appears
+  // literally in ROUTES, everything else becomes {}. The denylist it replaced
+  // was walked around three ways — a case change, a percent-encoded hyphen, and
+  // simply adding a tenth route without extending the regex — and that last one
+  // needs no attacker at all. The cost is accepted and asserted below: an
+  // unrelated path is no longer readable in the log.
   const refused = [
-    [`/api/v1/public/retail-esim/${REAL}/qr.png/extra`, '/api/v1/public/retail-esim/{token}/qr.png/extra'],
-    [`/api/v1/public/retail-orders/${REAL}/refund`, '/api/v1/public/retail-orders/{token}/refund'],
-    [`/api/v1/public/private-payments/${REAL}/disable`, '/api/v1/public/private-payments/{token}/disable'],
+    [`/api/v1/public/retail-esim/${REAL}/qr.png/extra`, '/api/v1/public/retail-esim/{}/qr.png/{}'],
+    [`/api/v1/public/retail-orders/${REAL}/refund`, '/api/v1/public/retail-orders/{}/{}'],
+    [`/api/v1/public/private-payments/${REAL}/disable`, '/api/v1/public/private-payments/{}/{}'],
+    // the three bypasses of the old denylist
+    [`/api/v1/public/RETAIL-ESIM/${REAL}/qr.png`, '/api/v1/public/{}/{}/qr.png'],
+    [`/api/v1/public/retail%2Desim/${REAL}/qr.png`, '/api/v1/public/{}/{}/qr.png'],
+    [`/api/v1/public/esim-install/${REAL}`, '/api/v1/public/{}/{}'],
   ];
   for (const [path, expected] of refused) {
     const logged = proxy.logPath(path, null);
     assert.ok(!logged.includes(REAL), `${path} leaked its token`);
     assert.equal(logged, expected);
   }
-  // and an unrelated unknown path is left readable
-  assert.equal(proxy.logPath('/totally/unknown', null), '/totally/unknown');
+  // The accepted cost: an unknown path keeps its shape, not its words.
+  assert.equal(proxy.logPath('/totally/unknown', null), '/{}/{}');
+  // And it cannot be used to flood one log record.
+  assert.ok(proxy.logPath('/' + 'x'.repeat(100000), null).length <= 260);
 });
 
 test('the handler logs the masked path, not the raw one', async () => {
@@ -357,18 +369,47 @@ test('the handler logs the masked path, not the raw one', async () => {
   assert.ok(lines.length, 'the handler logged nothing at all');
   const blob = lines.join('\n');
   assert.ok(!blob.includes(REAL), `the token reached the log: ${blob}`);
-  assert.match(blob, /\{token\}/);
+  assert.match(blob, /\{\}/, 'the unmatched segments must be masked');
 });
 
 test('every logging site goes through logPath', () => {
   // Belt and braces for the call sites the offline handler test cannot reach —
   // `proxied` and `error` both need a live upstream to fire.
   const src = read('infra/yandex-api-gateway/proxy-function/index.js');
-  const sites = [...src.matchAll(/console\.log\(JSON\.stringify\(\{[\s\S]{0,220}?\}\)\)/g)].map((m) => m[0]);
+  // Extracted by matching braces rather than by a length bound: the previous
+  // bound was 220 characters and silently stopped seeing four of the five call
+  // sites the moment the log lines grew, which is the one failure mode a guard
+  // like this must not have.
+  const sites = [];
+  const OPEN = 'console.log(JSON.stringify({';
+  for (let at = src.indexOf(OPEN); at !== -1; at = src.indexOf(OPEN, at + 1)) {
+    let depth = 0;
+    for (let i = src.indexOf('{', at); i < src.length; i++) {
+      if (src[i] === '{') depth += 1;
+      else if (src[i] === '}') {
+        depth -= 1;
+        if (depth === 0) { sites.push(src.slice(at, i + 1)); break; }
+      }
+    }
+  }
   assert.ok(sites.length >= 4, `expected at least 4 logging sites, found ${sites.length}`);
+  // One site logs the masked path indirectly, through the per-request context,
+  // because it runs per upstream ATTEMPT and no longer has the matched route in
+  // scope. That is allowed only because the context field is provably the output
+  // of logPath and of nothing else — asserted here rather than assumed, so the
+  // indirection cannot become a hole.
+  const ctxAssignments = [...src.matchAll(/path: ([^,\n]+)/g)]
+    .map((m) => m[1].trim())
+    .filter((value) => !value.startsWith('ctx.'));
+  assert.ok(ctxAssignments.length > 0, 'no direct path assignment found at all');
+  for (const value of ctxAssignments) {
+    assert.match(value, /^logPath\(/,
+      `a path value reaches a log without masking: ${value}`);
+  }
+
   for (const site of sites) {
     if (!/\bpath\b/.test(site)) continue;
-    assert.match(site, /path: logPath\(/,
+    assert.match(site, /path: (logPath\(|ctx\.path\b)/,
       `a logging site writes path without masking it:\n${site}`);
     assert.ok(!/[,{]\s*path\s*[,}]/.test(site),
       `a logging site passes bare path via shorthand:\n${site}`);
