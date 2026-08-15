@@ -64,10 +64,39 @@ const ROUTES = [
   // stays out.
   { method: 'GET', pattern: '/api/v1/public/private-payments/{token}' },
   { method: 'POST', pattern: '/api/v1/public/private-payments/{token}/start' },
+
+  // Telegram Mini App (Phase B). Only the routes that have a handler upstream.
+  //
+  // The remaining twelve of the fourteen in the architecture arrive with their
+  // own stages. An allowlisted path with no handler is not a hole, but it is not
+  // free either: it reaches the backend, matches nothing, and falls into an
+  // application-wide admin catch-all that answers 401 ADMIN_AUTH_REQUIRED —
+  // which is precisely the misleading diagnosis the proxy-before-frontend rule
+  // exists to prevent.
+  //
+  // Neither route authorises by a token in the URL, and none ever will: that is
+  // rule R17. The legacy client_token paths — /api/v1/client/esim/:token and the
+  // QR image — are not part of this contour.
+  { method: 'POST', pattern: '/api/v1/tma/session' },
+  { method: 'POST', pattern: '/api/v1/tma/session/revoke' },
 ];
 
-/** Only these travel upstream. Cookies and Authorization deliberately absent. */
-const REQUEST_HEADERS = ['content-type', 'accept', 'accept-language'];
+/**
+ * Only these travel upstream. Cookies stay absent by construction: the gateway
+ * does not return set-cookie, so a cookie session is impossible here, which is
+ * why the Mini App session is a bearer.
+ *
+ * `authorization` was added for that session, and only after measuring it.
+ * Yandex Cloud Functions document Authorization among the headers REMOVED from
+ * a request, and that is true — of the direct function endpoint, where the
+ * platform claims the header for its own IAM. Through the API Gateway it
+ * arrives intact: 37 characters of 37, six requests out of six, across GET,
+ * POST with a body, and a lowercase header name.
+ *
+ * The VALUE is never logged. This function logs no header at all, and that is a
+ * property to keep, not an accident.
+ */
+const REQUEST_HEADERS = ['content-type', 'accept', 'accept-language', 'authorization'];
 
 /**
  * Only these come back. Render's own headers (rndr-id, x-render-origin-server)
@@ -96,7 +125,8 @@ const SEGMENT = /^[A-Za-z0-9._~-]{1,128}$/;
  * unmatched path is arbitrary client input, so the same segments are blanked
  * defensively there too.
  */
-const TOKEN_BEARING = /(\/(?:retail-esim|retail-orders|private-payments)\/)[^/]+/g;
+const TOKEN_BEARING =
+  /(\/(?:retail-esim|retail-orders|private-payments|tma\/orders|tma\/esims)\/)[^/]+/g;
 
 function logPath(path, route) {
   if (route) return route.pattern;
@@ -135,7 +165,7 @@ function corsHeaders() {
   return {
     'Access-Control-Allow-Origin': STOREFRONT,
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Accept',
+    'Access-Control-Allow-Headers': 'Content-Type, Accept, Authorization',
     'Access-Control-Max-Age': '600',
   };
 }

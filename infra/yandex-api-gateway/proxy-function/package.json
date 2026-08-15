@@ -2,5 +2,8 @@
   "name": "magic-esim-retail-proxy",
   "version": "1.0.0",
   "main": "index.js",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test": "node --test proxy.test.js"
+  }
 }
