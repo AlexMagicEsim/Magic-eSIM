@@ -46,6 +46,12 @@ info:
     Front door for the public retail endpoints. Routing, allowlisting and header
     filtering are done by the function; see proxy-function/index.js.
 
+# The live gateway carries this block; a spec applied without it would remove
+# it. Keep it in sync with `yc serverless api-gateway get-spec`.
+servers:
+- url: https://d5d0a19ld72tudd9o07g.sax5b7yq.apigw.yandexcloud.net
+- url: https://api.magicesim.store
+
 paths:
   /{proxy+}:
     x-yc-apigateway-any-method:
