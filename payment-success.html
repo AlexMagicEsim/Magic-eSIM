@@ -29,7 +29,12 @@
       if(k==='currency'){v=String(v).toUpperCase();return v==='RUB'?v:undefined;}
       if(k==='payment_method'){v=String(v);return /^(sbp|card)$/.test(v)?v:undefined;}
       if(k==='tariff_type'){v=String(v);return /^(local|regional)$/.test(v)?v:undefined;}
-      if(k==='order_price'||k==='discount_amount'||k==='price_rub'||k==='data_gb'||k==='validity_days'||k==='local_count'||k==='regional_count'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
+      if(k==='page_type'){v=String(v);return /^(landing|country)$/.test(v)?v:undefined;}
+      if(k==='source'){v=String(v);return /^(live|cache)$/.test(v)?v:undefined;}
+      if(k==='error_type'){v=String(v);return /^[a-z0-9_]{1,32}$/i.test(v)?v:undefined;}
+      if(k==='fallback_triggered'||k==='stale'){v=String(v);return /^(yes|no)$/.test(v)?v:undefined;}
+      if(k==='api_latency_ms'||k==='deadline_ms'||k==='static_age_ms'){var n2=Number(v);return (isFinite(n2)&&n2>=0&&n2<1e9)?n2:undefined;}
+      if(k==='order_price'||k==='discount_amount'||k==='price_rub'||k==='data_gb'||k==='validity_days'||k==='local_count'||k==='regional_count'||k==='cache_age_hours'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
       return undefined;
     }
     window.magicMetrikaGoal=function(name,params){
