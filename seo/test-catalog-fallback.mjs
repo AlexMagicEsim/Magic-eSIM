@@ -529,3 +529,17 @@ test('H10 the production deadline stays in the measured sweet spot', () => {
   assert.ok(v >= 800 && v <= 2000,
     `deadline ${v}ms: below 800ms healthy cold responses (~1.1s p50) lose en masse; above 2000ms the fallback stops feeling fast`);
 });
+
+test('H11 cache slower than deadline while live fails meanwhile: the REAL live error is reported', async () => {
+  // Interleaving: deadline fires at 50ms and starts the cache fetch (2.5s);
+  // live fails definitively at ~1.2-1.6s (two instant failures + retry sleep);
+  // cache then resolves fresh. The result must carry the live verdict, not the
+  // deadline that merely started the fetch — and whenLive must be settled null.
+  const { api } = loadLoader((u) =>
+    (isLive(u) ? netFail() : delayed(2500, () => ok(catalogDoc([pkg()]))).then((x) => x)));
+  const r = await api.load({ deadlineMs: 50 });
+  assert.equal(r.source, 'cache');
+  assert.equal(r.liveError, 'network', 'the deadline must not mask a definitive live failure');
+  assert.equal(await r.whenLive, null);
+  assert.equal(typeof r.metrics.apiLatencyMs, 'number', 'live settled — latency is known');
+});

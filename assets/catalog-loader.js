@@ -210,6 +210,10 @@
       var settled = false;
       var timer = null;
       var cachePromise = null;
+      // Set the moment live DEFINITIVELY fails, so a deadline handler whose
+      // cache fetch outlived the failure reports the real error, not the
+      // deadline that merely started the fetch.
+      var liveFailedType = null;
 
       // The cache is fetched at most once, and only when needed: at the
       // deadline, or the moment the live API definitively fails. A fast live
@@ -256,6 +260,7 @@
         function (liveErr) {
           // Live is definitively down — the snapshot, fresh or stale, beats an
           // empty page. This does not wait for the deadline.
+          liveFailedType = liveErr.errorType || 'unknown';
           startCache().then(
             function (c) { settle(resolve, cacheResult(c, liveErr.errorType || 'unknown', false)); },
             function (cacheErr) {
@@ -278,7 +283,11 @@
           // Only a FRESH snapshot may pre-empt a still-running live request; a
           // stale one waits for the live verdict (the failure path above).
           if (ageMs != null && ageMs <= staleMaxMs) {
-            settle(resolve, cacheResult(c, 'race_deadline', true));
+            // Live may have failed while the cache fetch was in flight; report
+            // the real verdict then, not the deadline that started the fetch.
+            settle(resolve, liveFailedType
+              ? cacheResult(c, liveFailedType, false)
+              : cacheResult(c, 'race_deadline', true));
           }
         }, function () { /* cache broken: the live request stays the only hope */ });
       }, deadlineMs);
