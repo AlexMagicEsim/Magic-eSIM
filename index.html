@@ -2455,6 +2455,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     byId('coPrice').textContent=d.price?`${Number(d.price).toLocaleString('ru-RU')} ₽`:'—';
     overlay.dataset.packageId=d.packageId||'';
     overlay.dataset.priceRub=(d.price!=null&&d.price!=='')?String(Number(d.price)):'';
+    coIdemNewSession(); // a freshly opened checkout is a NEW intent, never a replay
     resetPromo();  // package changed -> drop any prior promo, show base price
     magicMetrikaGoal('checkout_open',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:d.packageId,price_rub:d.price});
     byId('coError').hidden=true;
@@ -2540,6 +2541,30 @@ window.addEventListener('DOMContentLoaded', async () => {
   function allowedRedirect(u){
     try{const url=new URL(u);const host=url.host;return url.protocol==='https:'&&(/(^|\.)platega\.io$/i.test(host)||/(^|\.)magicesim\.store$/i.test(host));}catch(e){return false;}
   }
+  /* Checkout idempotency key (TD-08). One purchase INTENT -> one key: a double
+     tap, a network timeout and a retry after an error all resend the SAME key,
+     so the backend returns the first order instead of creating a second one.
+     The key is regenerated when the intent itself changes — a different
+     package, payment method, email or promo (exactly the fields the backend
+     fingerprints) — and when the checkout modal is opened fresh, so buying the
+     same tariff twice ON PURPOSE is two intents, not one replay.
+     The key is random, never derived from the email or anything personal. */
+  let coIdem=null; // {tuple, key} for the current modal session
+  function coIdemNewSession(){coIdem=null;}
+  function coIdemKeyFor(pkgId,method,email,promo){
+    const tuple=[pkgId,method,String(email||'').trim().toLowerCase(),String(promo||'').trim().toUpperCase()].join('|');
+    if(!coIdem||coIdem.tuple!==tuple){
+      let key='';
+      try{if(window.crypto&&crypto.randomUUID)key=crypto.randomUUID();}catch(e){}
+      if(!key){
+        const a=new Uint8Array(16);
+        try{crypto.getRandomValues(a);}catch(e){for(let i=0;i<16;i++)a[i]=Math.floor(Math.random()*256);}
+        for(let i=0;i<a.length;i++)key+=(a[i]+256).toString(16).slice(1);
+      }
+      coIdem={tuple,key};
+    }
+    return coIdem.key;
+  }
   // Two payment methods (СБП / карта). payment_type is resolved server-side to a
   // whitelisted Platega method; the client never sends a numeric method or amount.
   async function coStartPayment(paymentType, btn){
@@ -2593,7 +2618,10 @@ window.addEventListener('DOMContentLoaded', async () => {
           contact:(contact&&contact.value.trim())?contact.value.trim().slice(0,200):undefined,
           termsAccepted:true,
           payment_type:paymentType,                                    // "sbp" | "card"
-          promo_code:appliedPromo?appliedPromo.code:undefined          // code only; server recomputes
+          promo_code:appliedPromo?appliedPromo.code:undefined,         // code only; server recomputes
+          // Same key across retries of this same intent; new key when the
+          // intent (package/method/email/promo) or the modal session changes.
+          idempotency_key:coIdemKeyFor(pkgId,paymentType,email.value,appliedPromo?appliedPromo.code:'')
         })
       });
       let data={};try{data=await resp.json();}catch(e){}
