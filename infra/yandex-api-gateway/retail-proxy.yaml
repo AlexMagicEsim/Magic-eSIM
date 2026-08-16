@@ -19,10 +19,22 @@
 # to the function. The security boundary — allowlist, header filtering, fixed
 # upstream — lives in the function, in code that can be read and tested.
 #
-# Deploy:
-#   yc serverless function version create --function-name magic-esim-retail-proxy \
-#     --runtime nodejs18 --entrypoint index.handler --memory 128m \
-#     --execution-timeout 30s --source-path proxy-function/
+# Deploy: DO NOT deploy the function from a command written here.
+#
+# There used to be one, and it was the trap that caused the 2026-08-15 incident:
+# it passed --memory 128m and omitted --concurrency and --service-account-id.
+# `yc serverless function version create` INHERITS NOTHING from the previous
+# version — every flag you leave out silently becomes a default — so that
+# command dropped memory 512→128, concurrency 16→1, and lost the service
+# account, which we no longer have the IAM right to restore.
+#
+# The one permitted form of the deploy and rollback commands, with every
+# non-inherited parameter spelled out, lives in the private backend repository:
+#   docs/operations/PROXY_FUNCTION_DEPLOY_MANIFEST.md §3 and §4
+# Use it whole, never abbreviated. Deploy from a staging directory holding only
+# index.js and package.json, so the test file does not ship into the image.
+#
+# The gateway spec itself is safe to apply from here:
 #   yc serverless api-gateway update --name magic-esim-retail --spec=retail-proxy.yaml
 
 openapi: 3.0.0
