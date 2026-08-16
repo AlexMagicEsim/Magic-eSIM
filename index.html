@@ -2552,7 +2552,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   let coIdem=null; // {tuple, key} for the current modal session
   function coIdemNewSession(){coIdem=null;}
   function coIdemKeyFor(pkgId,method,email,promo){
-    const tuple=[pkgId,method,String(email||'').trim().toLowerCase(),promo||''].join('|');
+    const tuple=[pkgId,method,String(email||'').trim().toLowerCase(),String(promo||'').trim().toUpperCase()].join('|');
     if(!coIdem||coIdem.tuple!==tuple){
       let key='';
       try{if(window.crypto&&crypto.randomUUID)key=crypto.randomUUID();}catch(e){}
