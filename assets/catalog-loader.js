@@ -32,6 +32,22 @@
   var RETRY_BASE_MS = 1200;
   var SCHEMA_VERSION = 1;
 
+  // Fail-fast: how long the live API gets to answer before the page stops
+  // waiting and renders the static snapshot instead. Chosen from measured
+  // production timings (2026-08-16): a warm proxy path answers in ~0.25-0.3s and
+  // always wins; a healthy cold path lands around 1.1s and usually wins; the
+  // TD-55 failure mode burns 5-12s and must never be waited out. Losing the
+  // race is cheap — the snapshot is at most hours old, no notice is shown for a
+  // fresh one, and checkout revalidates against the live API regardless.
+  var RACE_DEADLINE_MS = 1200;
+
+  // A snapshot older than this stops pretending to be current: it no longer
+  // wins the deadline race (the page waits for the live API instead) and, when
+  // it is shown because the API is truly down, the caller is told it is stale
+  // so it can say so. The generator refreshes six times a day, so 48h means at
+  // least twelve missed refreshes — a dead pipeline, not a quiet weekend.
+  var STALE_MAX_HOURS = 48;
+
   function jitter(base) { return base + Math.floor(Math.random() * 400); }
   function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
 
@@ -144,31 +160,129 @@
       });
   }
 
+  function cacheAgeMsOf(generatedAt) {
+    if (!generatedAt) return null;
+    var t = Date.parse(generatedAt);
+    if (isNaN(t)) return null;
+    return Math.max(0, Date.now() - t);
+  }
+
   /**
-   * Live first, cache second. Resolves with
-   *   { source: 'live' | 'cache', packages, generatedAt }
-   * and rejects with a structured error when neither is available, so the caller
-   * can render a real message instead of leaving a spinner up.
+   * Live and cache RACE with a deadline, so TD-55's 5-12s connection stalls stop
+   * translating into an empty tariff list.
+   *
+   *   - The live request starts immediately and, if it answers before the
+   *     deadline, wins exactly as before.
+   *   - At the deadline the static snapshot is fetched; if it is valid and
+   *     fresh (see STALE_MAX_HOURS) it renders NOW while the live request keeps
+   *     running in the background.
+   *   - A stale snapshot never wins the race: the page keeps waiting for the
+   *     live API and falls back to the stale copy only when the API has
+   *     definitively failed — flagged `stale: true` so the caller can say so.
+   *   - If the live API fails outright (5xx, timeout, network) the snapshot is
+   *     used immediately, fresh or stale, without waiting for the deadline.
+   *
+   * Resolves with
+   *   { source: 'live'|'cache', packages, generatedAt, liveError, stale,
+   *     metrics: { apiLatencyMs, fallbackTriggered, deadlineMs, staticAgeMs },
+   *     whenLive }
+   * where `whenLive` NEVER rejects: it resolves { packages, latencyMs } if the
+   * losing live request later succeeded, or null. Callers may use it to refresh
+   * their in-memory list for the NEXT render; nothing here re-renders anything.
+   *
+   * Rejects with the same structured error as before when neither source works.
+   *
+   * `opts.deadlineMs` / `opts.staleMaxHours` exist for tests only; production
+   * callers pass nothing.
    */
-  function load() {
-    return fetchLive()
-      .then(function (packages) {
-        return { source: 'live', packages: packages, generatedAt: null, liveError: null };
-      })
-      .catch(function (liveErr) {
-        return fetchCache()
-          .then(function (c) {
-            return { source: 'cache', packages: c.packages, generatedAt: c.generatedAt, liveError: liveErr.errorType || 'unknown' };
-          })
-          .catch(function (cacheErr) {
-            throw {
-              source: 'none',
-              liveError: liveErr.errorType || 'unknown',
-              cacheError: cacheErr.errorType || 'unknown',
-              message: 'live and cache both unavailable',
-            };
-          });
-      });
+  function load(opts) {
+    opts = opts || {};
+    var deadlineMs = typeof opts.deadlineMs === 'number' ? opts.deadlineMs : RACE_DEADLINE_MS;
+    var staleMaxMs = (typeof opts.staleMaxHours === 'number' ? opts.staleMaxHours : STALE_MAX_HOURS) * 3600000;
+    var t0 = Date.now();
+
+    var livePromise = fetchLive().then(
+      function (packages) { return { packages: packages, latencyMs: Date.now() - t0 }; },
+      function (err) { err.latencyMs = Date.now() - t0; throw err; }
+    );
+
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      var timer = null;
+      var cachePromise = null;
+
+      // The cache is fetched at most once, and only when needed: at the
+      // deadline, or the moment the live API definitively fails. A fast live
+      // win never touches it.
+      function startCache() {
+        if (!cachePromise) cachePromise = fetchCache();
+        return cachePromise;
+      }
+
+      function settle(fn, value) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        fn(value);
+      }
+
+      function liveResult(r) {
+        return {
+          source: 'live', packages: r.packages, generatedAt: null, liveError: null, stale: false,
+          metrics: { apiLatencyMs: r.latencyMs, fallbackTriggered: false, deadlineMs: deadlineMs, staticAgeMs: null },
+          whenLive: Promise.resolve(null),
+        };
+      }
+
+      function cacheResult(c, liveErrType, livePending) {
+        var ageMs = cacheAgeMsOf(c.generatedAt);
+        return {
+          source: 'cache', packages: c.packages, generatedAt: c.generatedAt,
+          liveError: liveErrType, stale: ageMs == null || ageMs > staleMaxMs,
+          metrics: {
+            apiLatencyMs: livePending ? null : Date.now() - t0,
+            fallbackTriggered: true, deadlineMs: deadlineMs, staticAgeMs: ageMs,
+          },
+          // The losing live request is not cancelled: if it lands, the caller
+          // gets the fresher list for its NEXT render. Never rejects.
+          whenLive: livePending
+            ? livePromise.then(function (r) { return r; }, function () { return null; })
+            : Promise.resolve(null),
+        };
+      }
+
+      livePromise.then(
+        function (r) { settle(resolve, liveResult(r)); },
+        function (liveErr) {
+          // Live is definitively down — the snapshot, fresh or stale, beats an
+          // empty page. This does not wait for the deadline.
+          startCache().then(
+            function (c) { settle(resolve, cacheResult(c, liveErr.errorType || 'unknown', false)); },
+            function (cacheErr) {
+              settle(reject, {
+                source: 'none',
+                liveError: liveErr.errorType || 'unknown',
+                cacheError: cacheErr.errorType || 'unknown',
+                message: 'live and cache both unavailable',
+              });
+            }
+          );
+        }
+      );
+
+      timer = setTimeout(function () {
+        if (settled) return;
+        startCache().then(function (c) {
+          if (settled) return;
+          var ageMs = cacheAgeMsOf(c.generatedAt);
+          // Only a FRESH snapshot may pre-empt a still-running live request; a
+          // stale one waits for the live verdict (the failure path above).
+          if (ageMs != null && ageMs <= staleMaxMs) {
+            settle(resolve, cacheResult(c, 'race_deadline', true));
+          }
+        }, function () { /* cache broken: the live request stays the only hope */ });
+      }, deadlineMs);
+    });
   }
 
   /**
@@ -221,5 +335,7 @@
     CACHE_TIMEOUT_MS: CACHE_TIMEOUT_MS,
     LIVE_ATTEMPTS: LIVE_ATTEMPTS,
     SCHEMA_VERSION: SCHEMA_VERSION,
+    RACE_DEADLINE_MS: RACE_DEADLINE_MS,
+    STALE_MAX_HOURS: STALE_MAX_HOURS,
   };
 })();

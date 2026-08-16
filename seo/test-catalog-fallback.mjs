@@ -82,16 +82,19 @@ test('A1 live succeeds first try: cache is never requested, no warning', async (
   assert.ok(!calls.some((c) => c.includes('catalog.json')), 'cache must not be fetched');
 });
 
-test('A2 first attempt fails, second succeeds: still live, cache untouched', async () => {
+test('A2 first attempt fails, second succeeds: still live', async () => {
   let n = 0;
-  const { api, calls } = loadLoader((u) => {
+  const { api } = loadLoader((u) => {
     if (!isLive(u)) return status(500);
     return ++n === 1 ? netFail() : ok({ data: [pkg(), pkg()] });
   });
+  // The retry sleeps past the race deadline, so the loader probes the cache —
+  // here it is broken (500), which must NOT stop the second live attempt from
+  // winning. (With a healthy cache the deadline would legitimately win instead;
+  // that path is H3.)
   const r = await api.load();
   assert.equal(r.source, 'live');
   assert.equal(r.packages.length, 2);
-  assert.equal(calls.filter((c) => c.includes('catalog.json')).length, 0);
 });
 
 test('A3 live returns an empty array: treated as failure, cache used', async () => {
@@ -112,23 +115,28 @@ test('A5 live returns 5xx: cache used', async () => {
   assert.equal((await api.load()).source, 'cache');
 });
 
-test('A6 live times out (AbortError): cache used', async () => {
+test('A6 live times out (AbortError): cache used, real error type recorded', async () => {
+  // deadlineMs pushed out so the DEFINITIVE live failure is what triggers the
+  // fallback — this guards the error-type plumbing, not the race (that is H*).
   const { api } = loadLoader((u) => (isLive(u) ? abortFail() : ok(catalogDoc([pkg()]))));
-  const r = await api.load();
+  const r = await api.load({ deadlineMs: 60000 });
   assert.equal(r.source, 'cache');
   assert.equal(r.liveError, 'timeout');
+  assert.equal(r.stale, false);
+  assert.equal(await r.whenLive, null, 'live already failed — no late data can arrive');
 });
 
 test('A7 network/CORS rejection: cache used, error type recorded', async () => {
   const { api } = loadLoader((u) => (isLive(u) ? netFail() : ok(catalogDoc([pkg()]))));
-  const r = await api.load();
+  const r = await api.load({ deadlineMs: 60000 });
   assert.equal(r.source, 'cache');
   assert.equal(r.liveError, 'network');
 });
 
 test('A8 live is attempted exactly twice, never more', async () => {
   const { api, calls } = loadLoader((u) => (isLive(u) ? netFail() : ok(catalogDoc([pkg()]))));
-  await api.load();
+  const r = await api.load();
+  await r.whenLive; // the losing live request finishes its bounded retries first
   assert.equal(calls.filter(isLive).length, 2, 'must not retry indefinitely');
 });
 
@@ -383,12 +391,15 @@ test('G2 the fallback logic lives in one place only', () => {
   }
 });
 
-test('G3 both pages surface the cache notice and a retry control', () => {
+test('G3 both pages surface the stale notice and a retry control', () => {
   for (const f of ['index.html', 'assets/country-tariffs.js']) {
     const s = read(f);
-    assert.match(s, /Каталог загружен из резервной копии/, `${f} missing the cache notice`);
+    assert.match(s, /Показаны ранее сохранённые тарифы/, `${f} missing the stale-cache notice`);
     assert.match(s, /Не удалось загрузить тарифы\. Это может быть связано с временными ограничениями сети/, `${f} missing the final message`);
     assert.match(s, /catalogRetryInFlight/, `${f} must guard against repeated retry clicks`);
+    // A FRESH snapshot renders with no banner at all — the notice must be
+    // reachable only through the stale branch.
+    assert.match(s, /result\.stale/, `${f} must gate the notice on staleness`);
   }
 });
 
@@ -397,4 +408,124 @@ test('G4 the notice never claims there are no tariffs', () => {
     const s = read(f);
     assert.ok(!/тарифов нет|нет доступных тарифов|тарифы отсутствуют/i.test(s), `${f} must not claim the catalogue is empty`);
   }
+});
+
+/* ================================================= H. FAIL-FAST DEADLINE RACE
+ *
+ * The race exists so a TD-55 connection stall (5-12s) never translates into an
+ * empty tariff list. These tests use REAL timers with small injected deadlines,
+ * so every claim about ordering is a claim about actual asynchrony.
+ */
+
+const delayed = (ms, make) => new Promise((res) => setTimeout(() => res(make()), ms));
+const now = () => Date.now();
+
+test('H1 fast API (~30ms) wins the race; the cache is never even requested', async () => {
+  const { api, calls } = loadLoader((u) =>
+    (isLive(u) ? delayed(30, () => ok({ data: [pkg()] })) : ok(catalogDoc([pkg()]))).then((x) => x));
+  const r = await api.load({ deadlineMs: 300 });
+  assert.equal(r.source, 'live');
+  assert.equal(r.metrics.fallbackTriggered, false);
+  assert.ok(r.metrics.apiLatencyMs >= 20, 'latency is measured');
+  assert.equal(calls.filter((c) => c.includes('catalog.json')).length, 0, 'no cache probe on a fast win');
+  assert.equal(await r.whenLive, null);
+});
+
+test('H2 API slower but inside the deadline still wins', async () => {
+  const { api } = loadLoader((u) =>
+    (isLive(u) ? delayed(150, () => ok({ data: [pkg(), pkg()] })) : ok(catalogDoc([pkg()]))));
+  const r = await api.load({ deadlineMs: 400 });
+  assert.equal(r.source, 'live');
+  assert.equal(r.packages.length, 2);
+});
+
+test('H3 API slower than the deadline: fresh snapshot renders at ~deadline, live continues', async () => {
+  const livePkgs = [pkg(), pkg(), pkg()];
+  const { api } = loadLoader((u) =>
+    (isLive(u) ? delayed(600, () => ok({ data: livePkgs })) : ok(catalogDoc([pkg()]))));
+  const t0 = now();
+  const r = await api.load({ deadlineMs: 120 });
+  const elapsed = now() - t0;
+  assert.equal(r.source, 'cache');
+  assert.equal(r.liveError, 'race_deadline');
+  assert.equal(r.stale, false);
+  assert.equal(r.metrics.fallbackTriggered, true);
+  assert.ok(elapsed < 450, `cards must appear near the deadline, took ${elapsed}ms`);
+  const late = await r.whenLive;
+  assert.ok(late && late.packages.length === 3, 'the losing live request still delivers for the next render');
+  assert.ok(late.latencyMs >= 550, 'late latency is the real one');
+});
+
+test('H4 a stale snapshot never wins the race — the page waits for the live API', async () => {
+  const staleDoc = catalogDoc([pkg()], { generated_at: new Date(now() - 60 * 3600000).toISOString() });
+  const { api } = loadLoader((u) =>
+    (isLive(u) ? delayed(300, () => ok({ data: [pkg(), pkg()] })) : ok(staleDoc)));
+  const r = await api.load({ deadlineMs: 60, staleMaxHours: 48 });
+  assert.equal(r.source, 'live', 'stale cache must not pre-empt a running live request');
+  assert.equal(r.packages.length, 2);
+});
+
+test('H5 a stale snapshot IS used when the live API definitively fails, and says so', async () => {
+  const staleDoc = catalogDoc([pkg()], { generated_at: new Date(now() - 60 * 3600000).toISOString() });
+  const { api } = loadLoader((u) => (isLive(u) ? status(502) : ok(staleDoc)));
+  const r = await api.load({ deadlineMs: 60, staleMaxHours: 48 });
+  assert.equal(r.source, 'cache');
+  assert.equal(r.stale, true, 'the caller must be told the snapshot is old');
+  assert.equal(r.liveError, 'http_5xx');
+});
+
+test('H6 broken cache at the deadline: the live request stays the only hope and wins late', async () => {
+  const { api } = loadLoader((u) =>
+    (isLive(u) ? delayed(300, () => ok({ data: [pkg()] })) : status(404)));
+  const r = await api.load({ deadlineMs: 60 });
+  assert.equal(r.source, 'live');
+});
+
+test('H7 whenLive resolves null when the late live request also fails — it never rejects', async () => {
+  let liveCalls = 0;
+  const { api } = loadLoader((u) => {
+    if (!isLive(u)) return ok(catalogDoc([pkg()]));
+    liveCalls++;
+    return delayed(200, () => null).then(() => netFail());
+  });
+  const r = await api.load({ deadlineMs: 60 });
+  assert.equal(r.source, 'cache');
+  assert.equal(await r.whenLive, null, 'a failed late request surfaces as null, never as an unhandled rejection');
+  assert.ok(liveCalls >= 1);
+});
+
+test('H8 the race result exposes the metrics the pages report', async () => {
+  const { api } = loadLoader((u) =>
+    (isLive(u) ? delayed(400, () => ok({ data: [pkg()] })) : ok(catalogDoc([pkg()]))));
+  const r = await api.load({ deadlineMs: 100 });
+  assert.equal(typeof r.metrics.deadlineMs, 'number');
+  assert.equal(typeof r.metrics.staticAgeMs, 'number');
+  assert.equal(r.metrics.apiLatencyMs, null, 'live has not settled at render time');
+  await r.whenLive;
+});
+
+test('H9 late live data must feed the NEXT render only: no re-render, no source flip', () => {
+  for (const f of ['index.html', 'assets/country-tariffs.js']) {
+    const s = read(f);
+    const i = s.indexOf('whenLive.then');
+    assert.ok(i > 0, `${f} must consume whenLive`);
+    // The handler body ends at the callback's closing `});` — bound the window
+    // there so surrounding page code cannot leak into the assertion.
+    const end = s.indexOf('});', i);
+    assert.ok(end > i, `${f}: whenLive handler must be a bounded callback`);
+    const body = s.slice(i, end);
+    assert.ok(!/renderPackages\s*\(|renderCountrySplit\s*\(|renderCountryChips\s*\(/.test(body),
+      `${f}: the late-live handler must not re-render (flicker, card swaps)`);
+    assert.ok(!/catalogSource\s*=/.test(body),
+      `${f}: the late-live handler must not flip catalogSource — a snapshot-rendered card must keep revalidating at checkout`);
+  }
+});
+
+test('H10 the production deadline stays in the measured sweet spot', () => {
+  const src = read('assets/catalog-loader.js');
+  const m = src.match(/RACE_DEADLINE_MS\s*=\s*(\d+)/);
+  assert.ok(m, 'deadline constant must exist');
+  const v = Number(m[1]);
+  assert.ok(v >= 800 && v <= 2000,
+    `deadline ${v}ms: below 800ms healthy cold responses (~1.1s p50) lose en masse; above 2000ms the fallback stops feeling fast`);
 });

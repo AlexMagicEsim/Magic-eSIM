@@ -1093,14 +1093,32 @@ function renderCountrySplit(){
       window.allLandingPackages=allLandingPackages;
       catalogSource=result.source;
       activeCountry=code;
+      const m=result.metrics||{};
       if(result.source==='cache'){
         const age=window.MagicCatalog.cacheAgeHours(result.generatedAt);
-        const when=(age!=null&&age<72)?` Обновлено: ${age===0?'меньше часа назад':age+' ч назад'}.`:'';
-        renderNotice('Каталог загружен из резервной копии из-за временных ограничений сети. Актуальная цена и доступность будут проверены перед оплатой.'+when,'Повторить загрузку');
-        try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_cache_loaded',{page_type:'country',source:'cache',country_code:code,error_type:String(result.liveError||'unknown').slice(0,32),cache_age_hours:age});}catch(_){}
+        // A fresh snapshot is just the catalogue — no notice. Only a stale one
+        // (the API is down AND the snapshot pipeline is old) says so.
+        if(result.stale){
+          const when=(age!=null&&age<72)?` Обновлено: ${age===0?'меньше часа назад':age+' ч назад'}.`:'';
+          renderNotice('Показаны ранее сохранённые тарифы — обновить каталог пока не получилось. Актуальная цена и доступность будут проверены перед оплатой.'+when,'Повторить загрузку');
+        }else{
+          hideNotice();
+        }
+        try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_cache_loaded',{page_type:'country',source:'cache',country_code:code,error_type:String(result.liveError||'unknown').slice(0,32),cache_age_hours:age,fallback_triggered:'yes',api_latency_ms:m.apiLatencyMs==null?'':m.apiLatencyMs,deadline_ms:m.deadlineMs,static_age_ms:m.staticAgeMs==null?'':m.staticAgeMs,stale:result.stale?'yes':'no'});}catch(_){}
+        /* Late live data feeds the NEXT render only; the cards on screen stay
+           put, and catalogSource stays 'cache' so a buy from a snapshot card
+           still revalidates against the live API (deep link opens the landing,
+           which re-checks there). */
+        if(result.whenLive)result.whenLive.then((late)=>{
+          if(late&&Array.isArray(late.packages)&&late.packages.length){
+            allLandingPackages=late.packages;
+            window.allLandingPackages=allLandingPackages;
+            try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_late_live',{page_type:'country',country_code:code,api_latency_ms:late.latencyMs});}catch(_){}
+          }
+        });
       }else{
         hideNotice();
-        try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_live_loaded',{page_type:'country',source:'live',country_code:code});}catch(_){}
+        try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_live_loaded',{page_type:'country',source:'live',country_code:code,fallback_triggered:'no',api_latency_ms:m.apiLatencyMs==null?'':m.apiLatencyMs,deadline_ms:m.deadlineMs});}catch(_){}
       }
       renderCountrySplit();
     }catch(err){

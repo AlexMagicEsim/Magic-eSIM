@@ -58,7 +58,7 @@
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={catalog_live_loaded:['page_type','source'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -71,6 +71,8 @@
       if(k==='page_type'){v=String(v);return /^(landing|country)$/.test(v)?v:undefined;}
       if(k==='source'){v=String(v);return /^(live|cache)$/.test(v)?v:undefined;}
       if(k==='error_type'){v=String(v);return /^[a-z0-9_]{1,32}$/i.test(v)?v:undefined;}
+      if(k==='fallback_triggered'||k==='stale'){v=String(v);return /^(yes|no)$/.test(v)?v:undefined;}
+      if(k==='api_latency_ms'||k==='deadline_ms'||k==='static_age_ms'){var n2=Number(v);return (isFinite(n2)&&n2>=0&&n2<1e9)?n2:undefined;}
       if(k==='tariff_type'){v=String(v);return /^(local|regional)$/.test(v)?v:undefined;}
       if(k==='cache_age_hours'||k==='order_price'||k==='discount_amount'||k==='price_rub'||k==='data_gb'||k==='validity_days'||k==='local_count'||k==='regional_count'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
       return undefined;
@@ -2179,7 +2181,7 @@ function showCacheNotice(generatedAt){
   el.innerHTML='';
   const text=document.createElement('span');
   text.className='catalog-notice-text';
-  text.textContent='Каталог загружен из резервной копии из-за временных ограничений сети. Актуальная цена и доступность будут проверены перед оплатой.'+when;
+  text.textContent='Показаны ранее сохранённые тарифы — обновить каталог пока не получилось. Актуальная цена и доступность будут проверены перед оплатой.'+when;
   const btn=document.createElement('button');
   btn.type='button';
   btn.className='btn secondary catalog-notice-btn';
@@ -2258,12 +2260,27 @@ async function loadLandingPackages(){
     window.allLandingPackages=allLandingPackages;
     catalogSource=result.source;
     catalogGeneratedAt=result.generatedAt;
+    const m=result.metrics||{};
     if(result.source==='cache'){
-      showCacheNotice(result.generatedAt);
-      try{magicMetrikaGoal('catalog_cache_loaded',{page_type:'landing',source:'cache',error_type:String(result.liveError||'unknown').slice(0,32),cache_age_hours:window.MagicCatalog.cacheAgeHours(result.generatedAt)});}catch(e){}
+      // A fresh snapshot renders like a normal catalogue — the user sees
+      // tariffs, not infrastructure. Only a genuinely stale one says so.
+      if(result.stale){showCacheNotice(result.generatedAt);}else{hideCatalogNotice();}
+      try{magicMetrikaGoal('catalog_cache_loaded',{page_type:'landing',source:'cache',error_type:String(result.liveError||'unknown').slice(0,32),cache_age_hours:window.MagicCatalog.cacheAgeHours(result.generatedAt),fallback_triggered:'yes',api_latency_ms:m.apiLatencyMs==null?'':m.apiLatencyMs,deadline_ms:m.deadlineMs,static_age_ms:m.staticAgeMs==null?'':m.staticAgeMs,stale:result.stale?'yes':'no'});}catch(e){}
+      /* The losing live request keeps running; if it lands, its list becomes the
+         data for the NEXT render (a chip click, a search). Nothing re-renders
+         here, so no flicker and no card the user is looking at changes — and
+         catalogSource stays 'cache', so buying from a snapshot-rendered card
+         still revalidates price and availability against the live API first. */
+      if(result.whenLive)result.whenLive.then((late)=>{
+        if(late&&Array.isArray(late.packages)&&late.packages.length){
+          allLandingPackages=late.packages;
+          window.allLandingPackages=allLandingPackages;
+          try{magicMetrikaGoal('catalog_late_live',{page_type:'landing',api_latency_ms:late.latencyMs});}catch(e){}
+        }
+      });
     }else{
       hideCatalogNotice();
-      try{magicMetrikaGoal('catalog_live_loaded',{page_type:'landing',source:'live'});}catch(e){}
+      try{magicMetrikaGoal('catalog_live_loaded',{page_type:'landing',source:'live',fallback_triggered:'no',api_latency_ms:m.apiLatencyMs==null?'':m.apiLatencyMs,deadline_ms:m.deadlineMs});}catch(e){}
     }
     renderCountryChips();
     renderPackages();
@@ -2497,7 +2514,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const el=(typeof catalogNoticeEl==='function')?catalogNoticeEl():null;
     const msg=reason==='gone'
       ? 'Этот тариф больше недоступен. Обновите каталог и выберите другой — мы не начали оформление.'
-      : 'Оформление сейчас недоступно: нет связи с сервером. Каталог показан из резервной копии. Попробуйте другую сеть, включите VPN или повторите позже.';
+      : 'Оформление сейчас недоступно: нет связи с сервером. Попробуйте другую сеть, включите VPN или повторите позже.';
     if(el){
       el.innerHTML='';
       const t=document.createElement('span');t.className='catalog-notice-text';t.textContent=msg;
