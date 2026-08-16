@@ -543,3 +543,37 @@ test('H11 cache slower than deadline while live fails meanwhile: the REAL live e
   assert.equal(await r.whenLive, null);
   assert.equal(typeof r.metrics.apiLatencyMs, 'number', 'live settled — latency is known');
 });
+
+/* ====================================================== I. IDEMPOTENCY KEY */
+
+test('I1 the order payload carries an idempotency key from the session helper', () => {
+  const s = read('index.html');
+  const post = s.indexOf("'/api/v1/public/retail-orders'");
+  assert.ok(post > 0);
+  const body = s.slice(post, post + 900);
+  assert.match(body, /idempotency_key\s*:\s*coIdemKeyFor\(/,
+    'the key must come from the intent-scoped helper, not be inlined');
+});
+
+test('I2 one intent — one key: the tuple pins exactly what the backend fingerprints', () => {
+  const s = read('index.html');
+  const i = s.indexOf('function coIdemKeyFor');
+  assert.ok(i > 0, 'helper must exist');
+  const fn = s.slice(i, s.indexOf('return coIdem.key', i));
+  // package, method, email, promo — the same fields the backend fingerprint
+  // pins. A tuple change regenerates the key; the same tuple reuses it, so a
+  // double tap or a retry after a timeout resends the SAME key.
+  assert.match(fn, /\[pkgId,\s*method,\s*String\(email[^\]]*promo[^\]]*\]/, 'tuple must be [pkgId, method, email, promo]');
+  assert.match(fn, /coIdem\.tuple!==tuple/, 'a changed intent must mint a new key');
+  // Randomness only — never derived from the email or any personal field.
+  assert.match(fn, /randomUUID|getRandomValues/, 'key must be random');
+  assert.ok(!/sha|hash|email/.test(fn.slice(fn.indexOf('let key'))), 'key must not be derived from personal data');
+});
+
+test('I3 opening the checkout modal starts a NEW intent', () => {
+  const s = read('index.html');
+  const i = s.indexOf('function openCheckout');
+  const body = s.slice(i, i + 700);
+  assert.match(body, /coIdemNewSession\(\)/,
+    'a deliberate second purchase must be two intents, not one replay');
+});
