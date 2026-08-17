@@ -273,6 +273,32 @@ const ROUTES = [
   { method: 'GET', pattern: '/api/v1/tma/orders/{token}/status' },
   { method: 'GET', pattern: '/api/v1/tma/esims' },
   { method: 'GET', pattern: '/api/v1/tma/esims/{token}' },
+
+  // B-7 write wave. Three POSTs, and they are the three the backend actually
+  // registers — taken from router.post() in lib/tmaRoutes.js rather than from a
+  // plan, because a pattern with no handler behind it is not a hole but it is
+  // not free either: it reaches the backend, matches nothing, and falls into the
+  // application-wide admin catch-all that answers 401 ADMIN_AUTH_REQUIRED, which
+  // is exactly the misleading diagnosis this ordering rule exists to prevent.
+  //
+  // All three sit behind the same bearer session as the reads. Without it the
+  // backend answers 401 SESSION_INVALID — not the proxy's 404, and not
+  // ADMIN_AUTH_REQUIRED. Those three answers mean three different things and the
+  // smoke test checks for the middle one.
+  //
+  // `{token}` is again the only placeholder matchRoute knows, and here it sits in
+  // the MIDDLE of the path rather than at the end. That works — the matcher
+  // compares segment by segment and only cares that the counts line up — but it
+  // means `activation`, `usage`, `refresh` and `orders` now enter KNOWN_SEGMENTS
+  // and stop being masked in logs. That is safe and was checked rather than
+  // assumed: all four are fixed structural words. The eSIM id in the middle is
+  // still masked, because a MATCHED route logs its PATTERN.
+  //
+  // Deliberately still absent: top-up (no provider-safe recharge exists — Р-4),
+  // identity/email (Stage E), and anything admin.
+  { method: 'POST', pattern: '/api/v1/tma/orders' },
+  { method: 'POST', pattern: '/api/v1/tma/esims/{token}/activation' },
+  { method: 'POST', pattern: '/api/v1/tma/esims/{token}/usage/refresh' },
 ];
 
 /**

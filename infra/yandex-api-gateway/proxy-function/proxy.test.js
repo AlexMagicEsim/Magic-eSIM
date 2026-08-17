@@ -181,6 +181,9 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'POST /api/v1/public/retail-orders',
     'POST /api/v1/public/retail-orders/{token}/pay',
     'POST /api/v1/retail/promo/quote',
+    'POST /api/v1/tma/esims/{token}/activation',
+    'POST /api/v1/tma/esims/{token}/usage/refresh',
+    'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
   ]);
@@ -536,10 +539,14 @@ test('B6: the session routes match, POST only, and reach the upstream', () => {
 });
 
 test('B6: no other tma path rides in on the prefix', () => {
+  // `/api/v1/tma/orders` left this list in the B-7 write wave, which opened it
+  // deliberately as POST. Everything else here is still a path that must not
+  // exist: a bare prefix, a trailing slash, an extra segment on a real route, and
+  // a lookalike prefix.
   for (const p of [
-    '/api/v1/tma', '/api/v1/tma/', '/api/v1/tma/orders', '/api/v1/tma/esims',
+    '/api/v1/tma', '/api/v1/tma/', '/api/v1/tma/esims',
     '/api/v1/tma/session/extra', '/api/v1/tma/session/revoke/extra',
-    '/api/v1/tmax/session',
+    '/api/v1/tmax/session', '/api/v1/tma/orders/extra',
   ]) {
     assert.equal(matchRoute('POST', p), null, `${p} must not match`);
   }
@@ -1190,11 +1197,11 @@ test('the error line keeps its original reason alongside the new class', async (
   assert.ok('class' in line);
 });
 
-test('the allowlist is the nine deployed routes, the two B-6 ones, and the six B-7 reads', () => {
+test('the allowlist is the nine deployed routes, the two B-6 ones, the six B-7 reads and the three B-7 writes', () => {
   // Restated so a merge cannot quietly widen the surface: nine legacy routes
-  // survive untouched, B-6 adds the two Mini App session routes — POST only —
-  // and B-7 adds six reads, GET only. Nothing else rides along.
-  assert.equal(ROUTES.length, 17);
+  // survive untouched, B-6 adds the two Mini App session routes, B-7 adds six
+  // reads (GET only) and then three writes (POST only). Nothing else rides along.
+  assert.equal(ROUTES.length, 20);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
@@ -1204,6 +1211,9 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, and the six B
     'GET /api/v1/tma/me/orders',
     'GET /api/v1/tma/me/orders/active',
     'GET /api/v1/tma/orders/{token}/status',
+    'POST /api/v1/tma/esims/{token}/activation',
+    'POST /api/v1/tma/esims/{token}/usage/refresh',
+    'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
   ]);
@@ -1217,11 +1227,9 @@ test('the read wave opens six GETs and leaves the later waves shut', () => {
   // expose it the moment it ships, with no second decision point.
   for (const path of [
     '/api/v1/tma/esims/abc/activate',
-    '/api/v1/tma/esims/abc/activation',
     '/api/v1/tma/esims/abc/qr',
     '/api/v1/tma/esims/abc/qr.png',
     '/api/v1/tma/esims/abc/usage',
-    '/api/v1/tma/esims/abc/usage/refresh',
     '/api/v1/tma/esims/abc/topup',
     '/api/v1/tma/esims/abc/top-up',
     '/api/v1/tma/me/identity',
@@ -1229,6 +1237,15 @@ test('the read wave opens six GETs and leaves the later waves shut', () => {
   ]) {
     assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
     assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
+  }
+
+  // The two the write wave opened are GET-shut and POST-open. Listing them here
+  // rather than deleting them keeps the method boundary asserted: opening a write
+  // must not have opened a read of the same path, and an install secret is
+  // exactly the thing that must not be reachable by a URL somebody can share.
+  for (const path of ['/api/v1/tma/esims/abc/activation', '/api/v1/tma/esims/abc/usage/refresh']) {
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+    assert.ok(matchRoute('POST', path), `POST ${path} must be open`);
   }
 
   // The read wave is GET-only: opening /tma/me must not open a write to it.
@@ -1240,8 +1257,10 @@ test('the read wave opens six GETs and leaves the later waves shut', () => {
     assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
   }
 
-  // A purchase route does not become reachable by living under an open prefix.
-  assert.ok(!matchRoute('POST', '/api/v1/tma/orders'));
+  // Purchase was opened by the B-7 write wave — as POST, and only as POST. The
+  // GET half still matters: `/tma/orders` must never become a way to LIST orders
+  // by URL, which is what a reader would reach for next.
+  assert.ok(matchRoute('POST', '/api/v1/tma/orders'));
   assert.ok(!matchRoute('GET', '/api/v1/tma/orders'));
 });
 
@@ -1548,3 +1567,122 @@ test('production connects with exactly the four values it always connected with'
 // NOTE: the Telegram Mini App section lives on main (commit c5f253b) together
 // with the routes it tests. This branch is the code that is actually deployed,
 // so that it can carry observability to production without also carrying B-6.
+
+// ---------------------------------------------------------------------------
+// B-7 write wave — three POSTs, and everything they must not drag in
+// ---------------------------------------------------------------------------
+
+test('the write wave opens exactly three POSTs, taken from the backend router', () => {
+  // These are the three router.post() paths lib/tmaRoutes.js actually registers,
+  // beyond session/revoke. A pattern with no handler behind it would reach the
+  // backend, match nothing, and answer 401 ADMIN_AUTH_REQUIRED — the misleading
+  // diagnosis the backend-before-proxy rule exists to prevent.
+  for (const path of [
+    '/api/v1/tma/orders',
+    '/api/v1/tma/esims/9f1c8a2e-0000-4000-8000-000000000000/activation',
+    '/api/v1/tma/esims/9f1c8a2e-0000-4000-8000-000000000000/usage/refresh',
+  ]) {
+    assert.ok(matchRoute('POST', path), `POST ${path} must be open`);
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+  }
+});
+
+test('the write wave drags in no neighbour', () => {
+  // Everything one segment away from what was opened, in both methods.
+  for (const path of [
+    '/api/v1/tma/esims/abc/activation/extra',
+    '/api/v1/tma/esims/abc/usage',
+    '/api/v1/tma/esims/abc/usage/refresh/extra',
+    '/api/v1/tma/orders/abc',
+    '/api/v1/tma/orders/abc/pay',
+    '/api/v1/tma/esims/abc/topup',
+    '/api/v1/tma/esims/abc/top-up/create',
+    '/api/v1/tma/identity/email/request',
+    '/api/v1/admin/providers/health/scan',
+    '/api/v1/admin/replacements/abc/apply',
+  ]) {
+    assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+  }
+
+  // `/api/v1/tma/esims/activation` is NOT in that list, and the reason is worth
+  // writing down: it matches the pre-existing GET /tma/esims/{token} with the
+  // token literally being the word "activation". That is the read wave doing
+  // exactly what it should — the backend then answers 404 because it is not a
+  // uuid. What must stay shut is the WRITE.
+  assert.ok(matchRoute('GET', '/api/v1/tma/esims/activation'));
+  assert.ok(!matchRoute('POST', '/api/v1/tma/esims/activation'));
+});
+
+test('a mid-path dynamic segment still cannot grow into a path', () => {
+  // The write wave is the first time {token} sits in the MIDDLE rather than at
+  // the end, so the segment discipline is re-asserted for that shape.
+  for (const bad of [
+    '/api/v1/tma/esims/a/b/activation',
+    '/api/v1/tma/esims//activation',
+    '/api/v1/tma/esims/a%2Fb/activation',
+    '/api/v1/tma/esims/a/usage/refresh/b',
+  ]) {
+    assert.ok(!matchRoute('POST', bad), `${bad} must not match`);
+  }
+  assert.ok(matchRoute('POST', '/api/v1/tma/esims/abc-123_x.y~z/activation'));
+});
+
+test('the eSIM id is never written to a log line by the write routes', async () => {
+  // The id is not an install secret the way an LPA is, but it is the customer's
+  // and it is not ours to put in a log store with its own retention and readers.
+  for (const [path, pattern] of [
+    ['/api/v1/tma/esims/ESIM-SECRET-ID/activation', '/api/v1/tma/esims/{token}/activation'],
+    ['/api/v1/tma/esims/ESIM-SECRET-ID/usage/refresh', '/api/v1/tma/esims/{token}/usage/refresh'],
+  ]) {
+    const route = matchRoute('POST', path);
+    assert.equal(logPath(path, route), pattern);
+  }
+
+  // And an UNMATCHED path of the same shape is masked defensively too.
+  const masked = logPath('/api/v1/tma/esims/ESIM-SECRET-ID/topup', null);
+  assert.ok(!masked.includes('ESIM-SECRET-ID'), `id leaked into a log line: ${masked}`);
+});
+
+test('the write routes forward the session bearer and a JSON body', async () => {
+  reset();
+  const res = await call({
+    httpMethod: 'POST',
+    path: '/api/v1/tma/orders',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer SESSION-BEARER-XYZ' },
+    body: JSON.stringify({ package_id: 'p1', idempotency_key: 'k1' }),
+    queryStringParameters: {},
+  });
+
+  assert.equal(res.statusCode, 200);
+  const sent = captured[0];
+  assert.equal(sent.headers.authorization, 'Bearer SESSION-BEARER-XYZ',
+    'without the bearer every write would be a 401 the customer cannot fix');
+  assert.equal(sent.headers['content-type'], 'application/json');
+  assert.equal(sent.body, JSON.stringify({ package_id: 'p1', idempotency_key: 'k1' }));
+  // Explicit length, because this upstream rejects a chunked request.
+  assert.ok(sent.headers['content-length']);
+});
+
+test('the session bearer never reaches a log line on a write route', async () => {
+  reset();
+  const logs = await capturingLogs(() => call({
+    httpMethod: 'POST',
+    path: '/api/v1/tma/esims/abc/activation',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer SESSION-BEARER-XYZ' },
+    body: '{}',
+    queryStringParameters: {},
+  }));
+
+  assert.ok(logs.raw.length > 0, 'nothing was logged, so this proves nothing');
+  assert.ok(!logs.raw.includes('SESSION-BEARER-XYZ'), 'the bearer reached a log line');
+  assert.ok(!logs.raw.includes('abc'), 'the eSIM id reached a log line');
+});
+
+test('a write route body is not retried after the upstream has seen it', () => {
+  // The rule that keeps one tap from becoming two orders at the PROXY layer:
+  // isRetrySafe must refuse a POST the upstream already received. The backend's
+  // idempotency key is the second line of defence, not the first.
+  assert.equal(isRetrySafe('POST', true), false);
+  assert.equal(isRetrySafe('GET', true), true);
+});
