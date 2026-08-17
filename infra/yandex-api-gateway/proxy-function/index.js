@@ -250,6 +250,29 @@ const ROUTES = [
   // The legacy client_token paths are not part of this contour.
   { method: 'POST', pattern: '/api/v1/tma/session' },
   { method: 'POST', pattern: '/api/v1/tma/session/revoke' },
+
+  // B-7 read wave. Six GETs, every one of them behind the same bearer session
+  // the two routes above issue and revoke: without it the backend answers 401
+  // SESSION_INVALID, which is the shape to expect here and NOT the proxy's own
+  // 404. The distinction is the whole point of opening them — before this, an
+  // unallowlisted /tma/me returned the proxy 404, and once allowlisted a missing
+  // handler would have returned the application-wide 401 ADMIN_AUTH_REQUIRED.
+  // All three answers are 401-or-404 and mean entirely different things.
+  //
+  // The dynamic segment is spelled '{token}' in both patterns because that is
+  // the only placeholder matchRoute knows (§13); '{id}' would be compared as a
+  // literal segment, never match, and — worse — enter KNOWN_SEGMENTS and stop
+  // being masked in logs. The eSIM id is not a credential the way the qr.png
+  // token is, but neither is it ours to write into Cloud Logging.
+  //
+  // Deliberately absent, each waiting on its own wave: activation, QR, live
+  // usage/refresh, top-up, purchase, identity/email.
+  { method: 'GET', pattern: '/api/v1/tma/me' },
+  { method: 'GET', pattern: '/api/v1/tma/me/orders' },
+  { method: 'GET', pattern: '/api/v1/tma/me/orders/active' },
+  { method: 'GET', pattern: '/api/v1/tma/orders/{token}/status' },
+  { method: 'GET', pattern: '/api/v1/tma/esims' },
+  { method: 'GET', pattern: '/api/v1/tma/esims/{token}' },
 ];
 
 /**

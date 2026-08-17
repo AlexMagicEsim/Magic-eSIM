@@ -170,6 +170,12 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'GET /api/v1/public/retail-esim/{token}/qr.png',
     'GET /api/v1/public/retail-orders/{token}/status',
     'GET /api/v1/retail/packages',
+    'GET /api/v1/tma/esims',
+    'GET /api/v1/tma/esims/{token}',
+    'GET /api/v1/tma/me',
+    'GET /api/v1/tma/me/orders',
+    'GET /api/v1/tma/me/orders/active',
+    'GET /api/v1/tma/orders/{token}/status',
     'GET /health',
     'POST /api/v1/public/private-payments/{token}/start',
     'POST /api/v1/public/retail-orders',
@@ -1184,19 +1190,144 @@ test('the error line keeps its original reason alongside the new class', async (
   assert.ok('class' in line);
 });
 
-test('the allowlist is the nine deployed routes plus exactly the two B-6 ones', () => {
+test('the allowlist is the nine deployed routes, the two B-6 ones, and the six B-7 reads', () => {
   // Restated so a merge cannot quietly widen the surface: nine legacy routes
-  // survive untouched, and B-6 adds the two Mini App session routes — POST
-  // only, no {token} segment, nothing else rides along.
-  assert.equal(ROUTES.length, 11);
+  // survive untouched, B-6 adds the two Mini App session routes — POST only —
+  // and B-7 adds six reads, GET only. Nothing else rides along.
+  assert.equal(ROUTES.length, 17);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
+    'GET /api/v1/tma/esims',
+    'GET /api/v1/tma/esims/{token}',
+    'GET /api/v1/tma/me',
+    'GET /api/v1/tma/me/orders',
+    'GET /api/v1/tma/me/orders/active',
+    'GET /api/v1/tma/orders/{token}/status',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
   ]);
   assert.equal(corsHeaders()['Access-Control-Allow-Headers'], 'Content-Type, Accept, Authorization');
   assert.deepEqual(REQUEST_HEADERS, ['content-type', 'accept', 'accept-language', 'authorization']);
+});
+
+test('the read wave opens six GETs and leaves the later waves shut', () => {
+  // The routes whose absence IS the security property of this wave. Each one
+  // has, or will have, a handler upstream; allowlisting any of them early would
+  // expose it the moment it ships, with no second decision point.
+  for (const path of [
+    '/api/v1/tma/esims/abc/activate',
+    '/api/v1/tma/esims/abc/activation',
+    '/api/v1/tma/esims/abc/qr',
+    '/api/v1/tma/esims/abc/qr.png',
+    '/api/v1/tma/esims/abc/usage',
+    '/api/v1/tma/esims/abc/usage/refresh',
+    '/api/v1/tma/esims/abc/topup',
+    '/api/v1/tma/esims/abc/top-up',
+    '/api/v1/tma/me/identity',
+    '/api/v1/tma/me/email',
+  ]) {
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+    assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
+  }
+
+  // The read wave is GET-only: opening /tma/me must not open a write to it.
+  for (const path of [
+    '/api/v1/tma/me', '/api/v1/tma/me/orders', '/api/v1/tma/me/orders/active',
+    '/api/v1/tma/esims', '/api/v1/tma/esims/abc', '/api/v1/tma/orders/abc/status',
+  ]) {
+    assert.ok(matchRoute('GET', path), `GET ${path} must be open`);
+    assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
+  }
+
+  // A purchase route does not become reachable by living under an open prefix.
+  assert.ok(!matchRoute('POST', '/api/v1/tma/orders'));
+  assert.ok(!matchRoute('GET', '/api/v1/tma/orders'));
+});
+
+test('a single dynamic segment cannot grow into a path', () => {
+  // '{token}' is one segment, and SEGMENT is what keeps it one: an added
+  // segment, an encoded separator, and an empty segment all miss the allowlist
+  // entirely rather than being cleaned up and let through.
+  for (const bad of [
+    '/api/v1/tma/esims/a/b', '/api/v1/tma/esims/a%2Fb', '/api/v1/tma/esims/',
+    '/api/v1/tma/orders/a/b/status', '/api/v1/tma/orders//status',
+    '/api/v1/tma/orders/a/status/extra',
+  ]) {
+    assert.ok(!matchRoute('GET', bad), `${bad} must not match`);
+  }
+  assert.ok(matchRoute('GET', '/api/v1/tma/esims/abc-123_x.y~z'));
+});
+
+test('a dot-segment stays one segment, exactly as on the deployed token routes', () => {
+  // Documented, not introduced: SEGMENT permits '.', so a lone '..' matches as
+  // ONE segment. This is the behaviour the three already-deployed {token}
+  // routes have shipped with, so it is pinned here rather than changed inside a
+  // read wave. It is not an escalation: '..' cannot add a segment, and upstream
+  // it normalises DOWN to /api/v1/tma/, a path with no handler that falls into
+  // the admin catch-all. Escaping the prefix is what must stay impossible.
+  assert.ok(matchRoute('GET', '/api/v1/tma/esims/..'));
+  assert.ok(matchRoute('GET', '/api/v1/public/private-payments/..'));
+
+  // The property that actually matters: no dot-segment reaches a DIFFERENT route.
+  for (const bad of [
+    '/api/v1/tma/esims/../../admin', '/api/v1/tma/esims/../me',
+    '/api/v1/tma/orders/../../../health',
+  ]) {
+    assert.ok(!matchRoute('GET', bad), `${bad} must not match`);
+  }
+
+  // And it is never logged, dot-segment or not.
+  const r = matchRoute('GET', '/api/v1/tma/esims/..');
+  assert.equal(logPath('/api/v1/tma/esims/..', r), '/api/v1/tma/esims/{token}');
+});
+
+test('paging on /me/orders survives the trip upstream', async () => {
+  // §13 asks for this explicitly: /me/orders is paged with limit+cursor, and a
+  // proxy that dropped the query would silently serve page one forever.
+  reset();
+  await call({
+    httpMethod: 'GET',
+    path: '/api/v1/tma/me/orders',
+    queryStringParameters: { limit: '20', cursor: 'OPAQUE-CURSOR' },
+  });
+
+  assert.equal(captured.length, 1);
+  const url = new URL(captured[0].target);
+  assert.equal(url.pathname, '/api/v1/tma/me/orders');
+  assert.equal(url.searchParams.get('limit'), '20');
+  assert.equal(url.searchParams.get('cursor'), 'OPAQUE-CURSOR');
+});
+
+test('a cursor is not written to a log line either', async () => {
+  // The cursor is opaque to the client but it is still the customer's paging
+  // state, and logPath never sees a query string. Pinned because the natural
+  // "just log the full URL" patch would break it.
+  reset();
+  const logs = await capturingLogs(() => call({
+    httpMethod: 'GET',
+    path: '/api/v1/tma/me/orders',
+    queryStringParameters: { cursor: 'SECRET-CURSOR-VALUE' },
+  }));
+
+  assert.ok(logs.raw.length > 0, 'nothing was logged, so this proves nothing');
+  assert.ok(!logs.raw.includes('SECRET-CURSOR-VALUE'), 'the cursor reached a log line');
+});
+
+test('the eSIM id and the order token never reach a log line', () => {
+  // Same rule the qr.png token already lives under: a matched route logs its
+  // PATTERN, so the dynamic segment cannot appear even by accident.
+  const esim = matchRoute('GET', '/api/v1/tma/esims/esim-secret-id');
+  assert.equal(logPath('/api/v1/tma/esims/esim-secret-id', esim), '/api/v1/tma/esims/{token}');
+  const order = matchRoute('GET', '/api/v1/tma/orders/order-secret-token/status');
+  assert.equal(logPath('/api/v1/tma/orders/order-secret-token/status', order), '/api/v1/tma/orders/{token}/status');
+
+  // And unmatched input on the same shape is masked too.
+  const masked = logPath('/api/v1/tma/esims/leaky-id/usage', null);
+  assert.ok(!masked.includes('leaky-id'), 'an unmatched id must be masked');
+
+  // '{token}' must not have entered the literal-segment set.
+  assert.ok(!logPath('/api/v1/tma/esims/{token}', null).includes('{token}'));
 });
 
 // ---------------------------------------------------------------------------
