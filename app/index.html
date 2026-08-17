@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- viewport-fit=cover so env(safe-area-inset-*) reports real values; without it
+     the bottom of the app sits under the home indicator on modern iPhones. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Magic eSIM</title>
+
+<!--
+  CSP, inline rather than a header because this is served by GitHub Pages and
+  there is no server to set one.
+
+  What each directive is actually for:
+
+    default-src 'none'   — nothing loads unless named below.
+    connect-src          — the GATEWAY ONLY. Not the Render origin: RU networks
+                           reach api.magicesim.store 3/3 and the origin 0/3, and
+                           a CSP that permitted both would let a future edit
+                           quietly add a fallback that breaks those customers.
+    script-src           — own files plus telegram.org for the WebApp bridge.
+                           No 'unsafe-inline' and no 'unsafe-eval': there is no
+                           inline script on this page, which is why the boot code
+                           lives in ui.js.
+    img-src 'self' data: — data: is required, and it is the QR. The activation
+                           response carries the code as inline base64 precisely so
+                           it never becomes a URL that could be cached or
+                           forwarded.
+    form-action 'none'   — nothing on this page submits anywhere.
+-->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'none';
+  connect-src https://api.magicesim.store;
+  script-src 'self' https://telegram.org;
+  style-src 'self';
+  img-src 'self' data:;
+  font-src 'self';
+  base-uri 'none';
+  form-action 'none';
+  frame-ancestors https://web.telegram.org https://telegram.org;
+">
+
+<link rel="stylesheet" href="mini.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<!-- Screens are all present and toggled with [data-active]. A Mini App has no URL
+     bar and no reloads worth having, so routing is state rather than navigation —
+     and Telegram's own BackButton drives the stack. -->
+
+<main>
+  <!-- 1. Home ---------------------------------------------------------- -->
+  <section class="screen" id="screen-home" aria-label="Каталог">
+    <h1>Интернет в поездке</h1>
+    <p class="muted small">eSIM без роуминга. Выберите страну.</p>
+
+    <div class="search">
+      <input id="search" type="search" inputmode="search" autocomplete="off"
+             placeholder="Поиск страны" aria-label="Поиск страны">
+    </div>
+
+    <div id="home-mine" class="stack"></div>
+
+    <h2>Страны</h2>
+    <div id="home-countries" class="stack"></div>
+
+    <p class="small muted" style="margin-top:18px">
+      Цены в рублях. Оплата картой или через СБП.
+    </p>
+  </section>
+
+  <!-- 2. Country ------------------------------------------------------- -->
+  <section class="screen" id="screen-country" aria-label="Тарифы страны">
+    <h1 id="country-title">Тарифы</h1>
+    <div id="country-list" class="stack"></div>
+  </section>
+
+  <!-- 3. Checkout ------------------------------------------------------ -->
+  <section class="screen" id="screen-checkout" aria-label="Оформление">
+    <h1>Оформление</h1>
+    <div id="checkout-summary" class="stack"></div>
+
+    <h2>E-mail для eSIM</h2>
+    <div class="search" style="position:static">
+      <!-- type=email for the right keyboard; validation is still done in JS and
+           again on the server, because a browser hint is not a guarantee. -->
+      <input id="checkout-email" type="email" inputmode="email" autocomplete="email"
+             placeholder="you@example.com" aria-label="E-mail">
+    </div>
+    <p class="small muted">Отправим QR-код и данные установки на этот адрес.</p>
+
+    <div id="checkout-error"></div>
+
+    <button id="checkout-pay" class="btn">Оплатить</button>
+    <p class="small muted" style="margin-top:10px">
+      Оплата откроется в браузере. После оплаты вернитесь в Telegram — eSIM появится в «Мои eSIM».
+    </p>
+  </section>
+
+  <!-- 4. My eSIMs ------------------------------------------------------ -->
+  <section class="screen" id="screen-esims" aria-label="Мои eSIM">
+    <h1>Мои eSIM</h1>
+    <div id="esims-list" class="stack"></div>
+  </section>
+
+  <!-- 5. eSIM detail --------------------------------------------------- -->
+  <section class="screen" id="screen-esim" aria-label="eSIM">
+    <div id="esim-detail" class="stack"></div>
+  </section>
+
+  <!-- 6. Installation -------------------------------------------------- -->
+  <section class="screen" id="screen-install" aria-label="Установка">
+    <h1>Установка</h1>
+    <div id="install-body" class="stack"></div>
+  </section>
+
+  <!-- 7. Error / outside Telegram -------------------------------------- -->
+  <section class="screen" id="screen-error" aria-label="Ошибка"></section>
+</main>
+
+<nav class="row" style="gap:8px;padding:14px 16px calc(14px + var(--safe-b))">
+  <button id="nav-home" class="btn btn--ghost">Каталог</button>
+  <button id="nav-esims" class="btn btn--ghost">Мои eSIM</button>
+</nav>
+
+<script src="core.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
