@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-15T13:01:40.947Z",
+  "generated_at": "2026-08-17T07:18:44.123Z",
   "source": "production-public-api",
   "package_count": 959,
   "packages": [
@@ -8772,12 +8772,12 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Movistar",
           "type": "4G"
         },
         {
-          "operator": "Movistar",
-          "type": "4G"
+          "operator": "Personal",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -11791,12 +11791,12 @@
       "price": 2900,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Movistar",
           "type": "4G"
         },
         {
-          "operator": "Movistar",
-          "type": "4G"
+          "operator": "Personal",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -12213,12 +12213,12 @@
       "price": 1700,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Movistar",
           "type": "4G"
         },
         {
-          "operator": "Movistar",
-          "type": "4G"
+          "operator": "Personal",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -13049,12 +13049,12 @@
       "price": 5050,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Movistar",
           "type": "4G"
         },
         {
-          "operator": "Movistar",
-          "type": "4G"
+          "operator": "Personal",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -22470,10 +22470,6 @@
       "price": 700,
       "networks": [
         {
-          "operator": "IAM",
-          "type": "4G"
-        },
-        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -28384,12 +28380,12 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Movistar",
           "type": "4G"
         },
         {
-          "operator": "Movistar",
-          "type": "4G"
+          "operator": "Personal",
+          "type": "5G"
         }
       ],
       "network_technologies": [
