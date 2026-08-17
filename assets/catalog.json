@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-17T07:18:44.123Z",
+  "generated_at": "2026-08-17T10:00:28.406Z",
   "source": "production-public-api",
   "package_count": 959,
   "packages": [
@@ -80,12 +80,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 950,
-      "networks": [
-        {
-          "operator": "Vodafone",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -16702,12 +16697,7 @@
       "data_gb": 3,
       "validity_days": 30,
       "price": 1000,
-      "networks": [
-        {
-          "operator": "Vodafone",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
