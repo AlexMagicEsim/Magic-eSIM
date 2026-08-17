@@ -47,6 +47,11 @@ const READ_BACKOFF_MS = [400, 1200];
 const WRITE_ATTEMPTS_WITH_KEY = 2;
 const WRITE_BACKOFF_MS = [700];
 
+// The session mint gets a read's budget, because the whole app is blocked behind
+// it and a cold gateway reliably burns the first attempt. See openSession.
+const SESSION_ATTEMPTS = 3;
+const SESSION_BACKOFF_MS = [600, 1500];
+
 // Longer than the gateway's own ~12s retry budget would take to exhaust, so a
 // slow-but-alive request is not abandoned by the client first; short enough that
 // a hung one does not become a spinner nobody can dismiss.
@@ -307,14 +312,45 @@ function createApi(deps = {}) {
 
   /* ---- session ---- */
 
+  /**
+   * Mint a session from initData.
+   *
+   * This is the one request the entire app waits on, and until 2026-08-17 it was
+   * the only one in the file with no retry at all — `once`, one shot. A cold
+   * gateway (TD-55) answers the first call after an idle period with a 502 about
+   * twelve seconds in; measured 2026-08-17, five of six cold probes did exactly
+   * that while the same instance then served 401s in 0.2s. One such 502 killed
+   * the Mini App outright: no session, no catalogue, nothing to tap (R-44).
+   *
+   * Reads get three attempts for weaker reasons. So does this now.
+   *
+   * Retrying is safe: minting is not a purchase. It writes a session row and
+   * touches no order, payment or provider, so the worst case of a retried cold
+   * start is two short-lived rows where one was wanted.
+   */
   async function openSession(initData) {
-    const out = await once('/api/v1/tma/session', {
-      method: 'POST', body: { init_data: initData }, auth: false,
-    });
-    sessionToken = out.session_token;
-    sessionExpiresAt = now() + (Number(out.expires_in) || 0) * 1000;
+    let lastError = null;
 
-    return out;
+    for (let attempt = 0; attempt < SESSION_ATTEMPTS; attempt += 1) {
+      try {
+        const out = await once('/api/v1/tma/session', {
+          method: 'POST', body: { init_data: initData }, auth: false,
+        });
+        sessionToken = out.session_token;
+        sessionExpiresAt = now() + (Number(out.expires_in) || 0) * 1000;
+
+        return out;
+      } catch (err) {
+        lastError = err;
+        // A rejected initData is a verdict, not a blip: 401 and 403 mean the
+        // signature did not check out, and asking again cannot change that.
+        if (!err.isTransport || attempt === SESSION_ATTEMPTS - 1) throw err;
+
+        await wait(SESSION_BACKOFF_MS[Math.min(attempt, SESSION_BACKOFF_MS.length - 1)]);
+      }
+    }
+
+    throw lastError;
   }
 
   const hasSession = () => Boolean(sessionToken) && now() < sessionExpiresAt;
@@ -570,7 +606,7 @@ const CORE = {
   byCountry, pickBestValue, searchCountries,
   ESIM_STATUS_TEXT, ORDER_STATUS_TEXT, activationPolicyText,
   memoryStorage,
-  READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, REQUEST_TIMEOUT_MS,
+  READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, SESSION_ATTEMPTS, REQUEST_TIMEOUT_MS,
 };
 
 if (typeof module !== 'undefined' && module.exports) module.exports = CORE;

@@ -66,7 +66,7 @@
     <h2>Страны</h2>
     <div id="home-countries" class="stack"></div>
 
-    <p class="small muted" style="margin-top:18px">
+    <p class="small muted gap-top-lg">
       Цены в рублях. Оплата картой или через СБП.
     </p>
   </section>
@@ -83,7 +83,7 @@
     <div id="checkout-summary" class="stack"></div>
 
     <h2>E-mail для eSIM</h2>
-    <div class="search" style="position:static">
+    <div class="search search--static">
       <!-- type=email for the right keyboard; validation is still done in JS and
            again on the server, because a browser hint is not a guarantee. -->
       <input id="checkout-email" type="email" inputmode="email" autocomplete="email"
@@ -94,7 +94,7 @@
     <div id="checkout-error"></div>
 
     <button id="checkout-pay" class="btn">Оплатить</button>
-    <p class="small muted" style="margin-top:10px">
+    <p class="small muted gap-top-sm">
       Оплата откроется в браузере. После оплаты вернитесь в Telegram — eSIM появится в «Мои eSIM».
     </p>
   </section>
@@ -118,9 +118,19 @@
 
   <!-- 7. Error / outside Telegram -------------------------------------- -->
   <section class="screen" id="screen-error" aria-label="Ошибка"></section>
+
+  <!-- Shown from the first frame, before the session round-trip. Until R-44 the
+       app rendered nothing at all while that request was in flight, so a cold
+       gateway looked identical to a broken app. -->
+  <section class="screen" id="screen-loading" aria-label="Загрузка" data-active>
+    <div class="empty stack">
+      <h1>Magic eSIM</h1>
+      <p class="muted">Подключаемся…</p>
+    </div>
+  </section>
 </main>
 
-<nav class="row" style="gap:8px;padding:14px 16px calc(14px + var(--safe-b))">
+<nav class="row tabbar">
   <button id="nav-home" class="btn btn--ghost">Каталог</button>
   <button id="nav-esims" class="btn btn--ghost">Мои eSIM</button>
 </nav>

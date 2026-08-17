@@ -301,3 +301,19 @@ button.card:active { transform: scale(.995); }
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+
+/* -----------------------------------------------------------------------
+ * Rules that used to be style="" attributes in index.html.
+ *
+ * They were not cosmetic losses. Our own CSP sends style-src 'self', which
+ * blocks a style attribute outright, so every one of these silently did
+ * nothing in production. The nav was the costly one: it lost
+ * padding-bottom: calc(14px + safe-area-inset-bottom) and computed to 0,
+ * which on an iPhone drops both buttons into the home-indicator swipe zone
+ * where the system takes the touch before the page ever sees it (R-44).
+ * ----------------------------------------------------------------------- */
+
+.tabbar { gap: 8px; padding: 14px 16px calc(14px + var(--safe-b)); }
+.search--static { position: static; }
+.gap-top-lg { margin-top: 18px; }
+.gap-top-sm { margin-top: 10px; }

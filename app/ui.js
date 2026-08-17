@@ -38,6 +38,11 @@
       if (k === 'class') node.className = v;
       else if (k === 'text') node.textContent = String(v);
       else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2), v);
+      // Through the CSSOM, never through the attribute. Our own CSP says
+      // style-src 'self', which blocks a style ATTRIBUTE outright — measured on
+      // production 2026-08-17, that is why the usage gauge always drew empty.
+      // The property setter is not covered by style-src and applies normally.
+      else if (k === 'style') node.style.cssText = String(v);
       else node.setAttribute(k, v === true ? '' : String(v));
     }
     for (const c of [].concat(children)) {
@@ -111,7 +116,12 @@
 
   let api = null;
   const state = {
-    screen: 'home',
+    // 'loading' until boot says otherwise: the markup ships with that screen
+    // active so the first paint is never blank.
+    screen: 'loading',
+    // False until a session exists. The nav is live before that point, but the
+    // screens behind it are not — see nudge().
+    ready: false,
     countries: [],
     country: null,
     esims: [],
@@ -123,7 +133,7 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'checkout', 'esims', 'esim', 'install', 'error'];
+  const SCREENS = ['home', 'country', 'checkout', 'esims', 'esim', 'install', 'error', 'loading'];
   const history = [];
 
   function show(name, { push = true } = {}) {
@@ -682,33 +692,92 @@
       reauthenticate: () => authenticate(),
     });
 
+    // Wire the chrome BEFORE the network, and keep a screen on display the whole
+    // time. This ordering is the fix for R-44: <nav> lives outside <main>, so the
+    // two buttons are painted the instant the HTML parses, but they used to stay
+    // inert until a session round-trip finished. On a cold gateway that is twelve
+    // seconds — sometimes a 502 — of an app that looks fully rendered and ignores
+    // every tap. Reported from an iPhone on 2026-08-17 as "neither button works".
+    bindChrome();
+    show('loading', { push: false });
+
     try {
       await authenticate();
     } catch (err) {
-      const box = $('#screen-error');
-      clear(box);
-      box.appendChild(el('div', { class: 'empty stack' }, [
-        el('h1', { text: 'Откройте приложение в Telegram' }),
-        el('p', {
-          class: 'muted',
-          text: err.code === 'NO_TELEGRAM'
-            ? 'Эта страница работает только внутри Telegram.'
-            : 'Не удалось подтвердить вход. Закройте и откройте приложение заново.',
-        }),
-      ]));
-      show('error', { push: false });
+      showAuthError(err);
       return;
     }
 
+    state.ready = true;
+    show('home', { push: false });
+    await renderHome();
+  }
+
+  /** Every listener the app owns, attached once and never dependent on a session. */
+  function bindChrome() {
     $('#search').addEventListener('input', (e) => {
       paintCountryList(C.searchCountries(state.countries, e.target.value));
     });
     $('#checkout-pay').addEventListener('click', pay);
-    $('#nav-esims').addEventListener('click', () => { show('esims'); renderEsims(); });
-    $('#nav-home').addEventListener('click', () => show('home'));
+    $('#nav-esims').addEventListener('click', () => {
+      if (!state.ready) return nudge();
+      show('esims');
+      renderEsims();
+    });
+    $('#nav-home').addEventListener('click', () => {
+      if (!state.ready) return nudge();
+      show('home');
+    });
+  }
 
-    show('home', { push: false });
-    await renderHome();
+  /**
+   * A tap that arrives before the session does. Doing nothing is what caused the
+   * bug report, so acknowledge it: send the customer back to whichever screen is
+   * actually telling them something — the retry, or the progress note.
+   */
+  function nudge() {
+    show(state.screen === 'error' ? 'error' : 'loading', { push: false });
+  }
+
+  function showAuthError(err) {
+    const outsideTelegram = err && err.code === 'NO_TELEGRAM';
+    const box = $('#screen-error');
+    clear(box);
+
+    const parts = [
+      el('h1', { text: outsideTelegram ? 'Откройте приложение в Telegram' : 'Не удалось войти' }),
+      el('p', {
+        class: 'muted',
+        text: outsideTelegram
+          ? 'Эта страница работает только внутри Telegram.'
+          : 'Сеть не ответила. Обычно помогает повторить попытку.',
+      }),
+    ];
+
+    // Outside Telegram there is nothing to retry — no initData will ever appear.
+    // Inside it, a failed mint is usually a cold gateway, so offer the retry
+    // instead of the old dead end that told people to close the app.
+    if (!outsideTelegram) {
+      parts.push(el('button', {
+        class: 'btn',
+        text: 'Повторить',
+        onclick: async () => {
+          show('loading', { push: false });
+          try {
+            await authenticate();
+          } catch (again) {
+            showAuthError(again);
+            return;
+          }
+          state.ready = true;
+          show('home', { push: false });
+          await renderHome();
+        },
+      }));
+    }
+
+    box.appendChild(el('div', { class: 'empty stack' }, parts));
+    show('error', { push: false });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

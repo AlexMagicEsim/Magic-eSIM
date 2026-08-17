@@ -474,3 +474,59 @@ test('every eSIM status the architecture defines has customer-facing text', () =
     assert.ok(C.ESIM_STATUS_TEXT[s], `${s} needs a label`);
   }
 });
+
+/* --------------------------------------------------------------------------
+ * R-44: the session mint must survive the cold start it always meets first
+ *
+ * Measured on production 2026-08-17: five of six cold probes of
+ * POST /api/v1/tma/session returned 502 after ~12s, while the warmed instance
+ * answered in 0.2s. openSession used `once` — one attempt — so that first 502
+ * took the whole Mini App down: no session, no catalogue, nothing to tap.
+ * ----------------------------------------------------------------------- */
+
+test('the session survives a cold-start 502 and mints on the retry', async () => {
+  const { client, fetchStub } = api([
+    GATEWAY_DROP,
+    OK({ session_token: 'warm', expires_in: 1800 }),
+  ]);
+
+  const out = await client.openSession('init');
+
+  assert.equal(out.session_token, 'warm');
+  assert.equal(fetchStub.calls.length, 2, 'the 502 was retried, not surfaced');
+  assert.equal(client.hasSession(), true);
+});
+
+test('the session gives up after three attempts, like a read', async () => {
+  const { client, fetchStub } = api([GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP]);
+
+  await assert.rejects(client.openSession('init'), (err) => {
+    assert.equal(err.status, 502);
+    assert.equal(err.isTransport, true);
+    return true;
+  });
+  assert.equal(fetchStub.calls.length, C.SESSION_ATTEMPTS);
+  assert.equal(client.hasSession(), false);
+});
+
+test('a rejected initData is not retried — it is a verdict, not a blip', async () => {
+  const { client, fetchStub } = api([{ status: 401, body: { error: 'bad_init_data' } }]);
+
+  await assert.rejects(client.openSession('forged'), (err) => {
+    assert.equal(err.status, 401);
+    return true;
+  });
+  assert.equal(fetchStub.calls.length, 1, 'a forged signature must not be hammered');
+});
+
+test('a transport failure with no response at all is retried too', async () => {
+  const { client, fetchStub } = api([
+    { throw: new TypeError('Load failed') },
+    OK({ session_token: 'second', expires_in: 1800 }),
+  ]);
+
+  const out = await client.openSession('init');
+
+  assert.equal(out.session_token, 'second');
+  assert.equal(fetchStub.calls.length, 2);
+});
