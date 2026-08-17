@@ -57,6 +57,16 @@ function mock() {
       window.__sessionHits += 1;
       if (mode === 'slow') return new Promise(function () { /* never settles */ });
       if (mode === 'fail') return json({ error: 'upstream_unreachable' }, 502);
+      // What the owner actually hit on 2026-08-17: the request arrives, the
+      // server verifies the signature and refuses. Retrying cannot help.
+      if (mode === 'badauth') {
+        return json({
+          error: 'INIT_DATA_INVALID',
+          message: 'Не удалось подтвердить вход через Telegram. Откройте приложение заново.',
+        }, 401);
+      }
+      // A dead radio: fetch rejects instead of answering.
+      if (mode === 'offline') return Promise.reject(new TypeError('Load failed'));
       // The measured production profile: the first call after idle 502s, the
       // instance is warm by the second.
       if (mode === 'coldstart' && window.__sessionHits === 1) {
@@ -140,6 +150,25 @@ async function run() {
     await page.evaluate(() => window.__sessionHits), 3);
   check('the customer gets a retry, not a dead end',
     await page.$eval('#screen-error', (n) => n.innerText.includes('Повторить')), true);
+
+  console.log('\n[badauth] the server refuses the signature — R-42 diagnosis, 2026-08-17');
+  await page.goto(`${base}?badauth`);
+  await page.waitForSelector('#screen-error[data-active]', { timeout: 20000 });
+  check('a 401 is NOT retried — it is a verdict, not a blip',
+    await page.evaluate(() => window.__sessionHits), 1);
+  const refusedText = await page.$eval('#screen-error', (n) => n.innerText);
+  check('the server\'s own reason is shown',
+    refusedText.includes('Telegram'), true);
+  check('the app does NOT blame the network for a server refusal',
+    refusedText.includes('Сеть не ответила'), false);
+
+  console.log('\n[offline] the radio is dead — fetch rejects');
+  await page.goto(`${base}?offline`);
+  await page.waitForSelector('#screen-error[data-active]', { timeout: 25000 });
+  check('a transport failure IS retried to the full budget',
+    await page.evaluate(() => window.__sessionHits), 3);
+  check('and it does say the network failed',
+    (await page.$eval('#screen-error', (n) => n.innerText)).includes('Сеть не ответила'), true);
 
   console.log('\n[ok] warm gateway');
   await page.goto(`${base}?ok`);

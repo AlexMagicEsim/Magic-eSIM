@@ -739,19 +739,41 @@
     show(state.screen === 'error' ? 'error' : 'loading', { push: false });
   }
 
+  /**
+   * Three different failures, three different sentences.
+   *
+   * This used to say "Сеть не ответила" for anything that was not NO_TELEGRAM,
+   * and on 2026-08-17 that cost real time: the owner's session was being
+   * rejected by the server with a perfectly clear 401 INIT_DATA_INVALID, the app
+   * reported a network problem, and the gateway logs had to be read to find out
+   * the requests had arrived in 70ms and were answered. A client must not invent
+   * a diagnosis the server did not give.
+   */
   function showAuthError(err) {
     const outsideTelegram = err && err.code === 'NO_TELEGRAM';
+    // status 0/502/503/504 — the request never reached a verdict.
+    const transport = Boolean(err && err.isTransport);
+    // The server answered and refused. Its own message is the accurate one.
+    const refused = Boolean(err && err.status && !transport);
+
     const box = $('#screen-error');
     clear(box);
 
+    let heading = 'Не удалось войти';
+    let detail = 'Сеть не ответила. Обычно помогает повторить попытку.';
+
+    if (outsideTelegram) {
+      heading = 'Откройте приложение в Telegram';
+      detail = 'Эта страница работает только внутри Telegram.';
+    } else if (refused) {
+      // Prefer what the server actually said; fall back only if it said nothing.
+      detail = (err && err.message)
+        || 'Telegram не подтвердил вход. Откройте приложение заново из бота.';
+    }
+
     const parts = [
-      el('h1', { text: outsideTelegram ? 'Откройте приложение в Telegram' : 'Не удалось войти' }),
-      el('p', {
-        class: 'muted',
-        text: outsideTelegram
-          ? 'Эта страница работает только внутри Telegram.'
-          : 'Сеть не ответила. Обычно помогает повторить попытку.',
-      }),
+      el('h1', { text: heading }),
+      el('p', { class: 'muted', text: detail }),
     ];
 
     // Outside Telegram there is nothing to retry — no initData will ever appear.
