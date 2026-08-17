@@ -202,8 +202,13 @@ test('a path parameter cannot escape its segment or smuggle a new one', () => {
   }
 });
 
-test('the proxy forwards no credential-bearing header in either direction', () => {
-  for (const h of ['authorization', 'cookie', 'x-api-key']) {
+test('the proxy forwards no credential-bearing header except the Mini App bearer', () => {
+  // B-6 adds exactly ONE credential header: `authorization`, the Mini App
+  // session bearer — deliberate, measured, and pinned by the proxy's own
+  // suite. Cookies and API keys still cannot travel in either direction, and
+  // set-cookie still cannot come back, so a cookie session stays impossible.
+  assert.ok(proxy.REQUEST_HEADERS.includes('authorization'), 'the session bearer must travel');
+  for (const h of ['cookie', 'x-api-key', 'x-telegram-init-data']) {
     assert.ok(!proxy.REQUEST_HEADERS.includes(h), `${h} must not travel upstream`);
   }
   assert.ok(!proxy.RESPONSE_HEADERS.includes('set-cookie'), 'set-cookie must not come back');

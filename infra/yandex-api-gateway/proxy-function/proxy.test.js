@@ -175,6 +175,8 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'POST /api/v1/public/retail-orders',
     'POST /api/v1/public/retail-orders/{token}/pay',
     'POST /api/v1/retail/promo/quote',
+    'POST /api/v1/tma/session',
+    'POST /api/v1/tma/session/revoke',
   ]);
 });
 
@@ -350,8 +352,8 @@ test('CORS headers are present on refusals too, not just on success', async () =
   }
 });
 
-test('the Allow-Headers list is exactly what the storefront sends', () => {
-  assert.equal(corsHeaders()['Access-Control-Allow-Headers'], 'Content-Type, Accept');
+test('the Allow-Headers list is exactly what the storefront and Mini App send', () => {
+  assert.equal(corsHeaders()['Access-Control-Allow-Headers'], 'Content-Type, Accept, Authorization');
 });
 
 // ---------------------------------------------------------------------------
@@ -510,7 +512,74 @@ test('an unreachable upstream answers 502 without naming the host', async () => 
 // ---------------------------------------------------------------------------
 
 test('the request header allowlist is exactly what it is meant to be', () => {
-  assert.deepEqual(REQUEST_HEADERS, ['content-type', 'accept', 'accept-language']);
+  // `authorization` is the ONE header B-6 adds — the Mini App session bearer.
+  // Cookies remain absent by construction; nothing else was widened.
+  assert.deepEqual(REQUEST_HEADERS, ['content-type', 'accept', 'accept-language', 'authorization']);
+});
+
+// ===========================================================================
+// B-6 — the two Mini App session routes and the one header they ride on
+// ===========================================================================
+
+test('B6: the session routes match, POST only, and reach the upstream', () => {
+  assert.ok(matchRoute('POST', '/api/v1/tma/session'));
+  assert.ok(matchRoute('POST', '/api/v1/tma/session/revoke'));
+  // Method discipline: GET on a POST-only route is refused before any network.
+  assert.equal(matchRoute('GET', '/api/v1/tma/session'), null);
+  assert.equal(matchRoute('GET', '/api/v1/tma/session/revoke'), null);
+});
+
+test('B6: no other tma path rides in on the prefix', () => {
+  for (const p of [
+    '/api/v1/tma', '/api/v1/tma/', '/api/v1/tma/orders', '/api/v1/tma/esims',
+    '/api/v1/tma/session/extra', '/api/v1/tma/session/revoke/extra',
+    '/api/v1/tmax/session',
+  ]) {
+    assert.equal(matchRoute('POST', p), null, `${p} must not match`);
+  }
+});
+
+test('B6: the authorization VALUE is forwarded upstream and never logged', async () => {
+  reset();
+  const logs = await capturingLogs(async () => {
+    await call({
+      httpMethod: 'POST',
+      path: '/api/v1/tma/session',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer SECRET-SESSION-TOKEN' },
+      body: JSON.stringify({ init_data: 'x' }),
+    });
+  });
+  assert.equal(captured.length, 1);
+  assert.equal(captured[0].headers.authorization, 'Bearer SECRET-SESSION-TOKEN',
+    'the bearer must reach the backend');
+  assert.ok(!logs.raw.includes('SECRET-SESSION-TOKEN'), 'the bearer must never reach a log line');
+});
+
+test('B6: cookies still do not travel, even next to an authorization header', async () => {
+  reset();
+  await call({
+    httpMethod: 'POST',
+    path: '/api/v1/tma/session/revoke',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer t0k3n-t0k3n-t0k3n',
+      Cookie: 'session=SHOULD-NOT-TRAVEL',
+      'X-Telegram-Init-Data': 'user=SHOULD-NOT-TRAVEL',
+    },
+    body: '{}',
+  });
+  assert.equal(captured.length, 1);
+  const sent = captured[0].headers;
+  assert.equal(sent.authorization, 'Bearer t0k3n-t0k3n-t0k3n');
+  assert.equal(sent.cookie, undefined);
+  assert.equal(sent['x-telegram-init-data'], undefined);
+  assert.ok(!JSON.stringify(sent).includes('SHOULD-NOT-TRAVEL'));
+});
+
+test('B6: preflight now allows Authorization, and only for the storefront origin', () => {
+  const h = corsHeaders();
+  assert.equal(h['Access-Control-Allow-Headers'], 'Content-Type, Accept, Authorization');
+  assert.match(h['Access-Control-Allow-Origin'], /magicesim\.store/);
 });
 
 // ===========================================================================
@@ -1115,13 +1184,19 @@ test('the error line keeps its original reason alongside the new class', async (
   assert.ok('class' in line);
 });
 
-test('the allowlist is still the nine deployed routes', () => {
-  // Restated here so that merging observability and B-6 later cannot quietly
-  // widen the surface: this branch must reach production with nine.
-  assert.equal(ROUTES.length, 9);
+test('the allowlist is the nine deployed routes plus exactly the two B-6 ones', () => {
+  // Restated so a merge cannot quietly widen the surface: nine legacy routes
+  // survive untouched, and B-6 adds the two Mini App session routes — POST
+  // only, no {token} segment, nothing else rides along.
+  assert.equal(ROUTES.length, 11);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
-  assert.equal(corsHeaders()['Access-Control-Allow-Headers'], 'Content-Type, Accept');
-  assert.deepEqual(REQUEST_HEADERS, ['content-type', 'accept', 'accept-language']);
+  const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
+  assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
+    'POST /api/v1/tma/session',
+    'POST /api/v1/tma/session/revoke',
+  ]);
+  assert.equal(corsHeaders()['Access-Control-Allow-Headers'], 'Content-Type, Accept, Authorization');
+  assert.deepEqual(REQUEST_HEADERS, ['content-type', 'accept', 'accept-language', 'authorization']);
 });
 
 // ---------------------------------------------------------------------------
