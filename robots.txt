@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /app/
 Disallow: /payment-success.html
 Disallow: /payment-failed.html
 
