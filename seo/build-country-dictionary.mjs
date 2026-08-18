@@ -36,6 +36,13 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const TARGETS = [
   join(ROOT, 'index.html'),
   join(ROOT, 'assets', 'country-tariffs.js'),
+  // The Telegram Mini App. Added 2026-08-18: it shipped a country list of raw
+  // ISO codes — "AD · AE · AF · AF-29" — because the catalogue DTO carries no
+  // readable name and the app had no dictionary at all. It is a third copy for
+  // the same reason the first two exist (no bundler), and it is generated for
+  // the same reason: a hand-maintained copy is the link in the chain that goes
+  // stale the moment a new destination appears.
+  join(ROOT, 'app', 'core.js'),
 ];
 
 export const BLOCK_RE =

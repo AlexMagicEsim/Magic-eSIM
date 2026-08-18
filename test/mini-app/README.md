@@ -40,3 +40,33 @@ Two independent causes, both in this repo, neither in the backend or the proxy:
 `openSession` also had no retry at all while every read had three, so a single
 cold-start 502 killed the session permanently. That part is covered in
 `app/core.test.js`.
+
+## ui.e2e.js — the design contract
+
+```sh
+node test/mini-app/ui.e2e.js                       # bundled fixture
+node test/mini-app/ui.e2e.js /tmp/catalogue.json   # a real production snapshot
+```
+
+WebKit **and** Chromium, iPhone viewport, light **and** dark Telegram themes.
+It asserts what the Product Blueprint requires and what the 2026-08-18 review
+found missing:
+
+- **no raw ISO or technical codes** anywhere a customer can read. The catalogue
+  DTO carries no readable name — `coverage_countries` is empty on all 973
+  packages, `name` is English, there is no `country` field — so the app listed
+  `AD · AE · AF · AF-29`. Names now come from `seo/country-names.mjs` through
+  `seo/build-country-dictionary.mjs`, which also `--check`s for drift in CI.
+- **the catalogue renders with no session** (§9 S1 is public; only «Мои eSIM»,
+  purchase, activation and usage need identity)
+- **no horizontal scroll** — `.stack` is a grid and a grid item's `min-width`
+  defaults to `auto`, so a long destination name widened the card past the
+  viewport and clipped the price
+- **the oferta gates payment** (§9 S4: acceptance is an act; `terms_accepted`
+  was hardcoded `true`)
+- correct Russian plurals, both catalogue sections, and the theme actually
+  applied
+
+Telegram sets `--tg-theme-*` through the CSSOM, and the harness does the same:
+injecting a `<style>` element instead is refused by our own `style-src 'self'`,
+which is the CSP working rather than a bug.

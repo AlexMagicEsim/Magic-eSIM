@@ -119,10 +119,17 @@
     // 'loading' until boot says otherwise: the markup ships with that screen
     // active so the first paint is never blank.
     screen: 'loading',
-    // False until a session exists. The nav is live before that point, but the
-    // screens behind it are not — see nudge().
+    // False until a session exists. The catalogue does not wait for it — only
+    // «Мои eSIM», purchase, activation and usage do.
     ready: false,
+    authError: null,
     countries: [],
+    // Regional and global offers, kept apart from countries: they are a
+    // different thing to buy and the Blueprint lists them separately.
+    regions: [],
+    query: '',
+    // Never defaults to true. §9 S4: acceptance is an act, not a default.
+    termsAccepted: false,
     country: null,
     esims: [],
     intent: null,
@@ -213,65 +220,123 @@
    * Screen: home
    * ------------------------------------------------------------------ */
 
-  async function renderHome() {
+  /**
+   * The catalogue. Deliberately NOT gated on the session.
+   *
+   * /api/v1/retail/packages is public — it is the same endpoint the website
+   * calls, with `auth: false` — so making the customer wait for a session before
+   * seeing a price was a self-inflicted delay. On a cold gateway that session
+   * costs about twelve seconds and sometimes fails outright, and the catalogue
+   * is what most people opened the app to see. It now renders as soon as the
+   * network answers; the session lands separately and only unlocks «Мои eSIM»,
+   * purchase, activation and usage.
+   */
+  async function renderCatalogue() {
     const list = $('#home-countries');
-    const mine = $('#home-mine');
     clear(list);
-    list.appendChild(skeletonCards(4));
+    list.appendChild(skeletonCards(5));
 
     const out = await C.readThrough(cache, 'catalogue', () => api.catalogue());
     clear(list);
 
     if (!out.value) {
-      list.appendChild(errorNotice('Не удалось загрузить тарифы.', renderHome));
+      list.appendChild(errorNotice('Не удалось загрузить тарифы.', renderCatalogue));
       return;
     }
-    if (out.stale) list.appendChild(staleNotice(renderHome));
+    if (out.stale) list.appendChild(staleNotice(renderCatalogue));
 
-    state.countries = C.byCountry(out.value.data || []);
+    const grouped = C.groupCatalogue(out.value.data || []);
+    state.countries = grouped.countries;
+    state.regions = grouped.regions;
     paintCountryList(state.countries);
+  }
 
-    // The customer's own eSIMs, if they have any. Failure here is quiet: the
-    // catalogue is the reason most people opened the app.
+  /**
+   * The return block — Blueprint §9 S1 puts it FIRST when it exists, because a
+   * customer who already bought is far more likely to have opened the app for
+   * an eSIM they own than for a new one (P2).
+   *
+   * Needs a session, so it arrives after the catalogue and never blocks it.
+   * Failure is quiet by design: no session simply means no block.
+   */
+  async function renderMine() {
+    const mine = $('#home-mine');
+    if (!state.ready) return;
+
     try {
       const own = await api.esims();
       state.esims = own.items || [];
-      clear(mine);
-      if (state.esims.length) {
-        mine.appendChild(el('h2', { text: 'Мои eSIM' }));
-        for (const e of state.esims.slice(0, 3)) mine.appendChild(esimCard(e));
-        if (state.esims.length > 3) {
-          mine.appendChild(el('button', {
-            class: 'btn btn--ghost', text: `Все eSIM (${state.esims.length})`,
-            onclick: () => { show('esims'); renderEsims(); },
-          }));
-        }
-      }
     } catch {
       clear(mine);
+
+      return;
     }
+
+    clear(mine);
+    if (!state.esims.length) return;
+
+    mine.appendChild(el('h2', { text: 'Мои eSIM' }));
+    for (const e of state.esims.slice(0, 3)) mine.appendChild(esimCard(e));
+    if (state.esims.length > 3) {
+      mine.appendChild(el('button', {
+        class: 'btn btn--ghost', text: `Все eSIM · ${state.esims.length}`,
+        onclick: () => { show('esims'); renderEsims(); },
+      }));
+    }
+  }
+
+  async function renderHome() {
+    await renderCatalogue();
+    await renderMine();
+  }
+
+  /** One destination row: flag, name, how many tariffs, cheapest price. */
+  function destinationRow(g) {
+    return el('button', { class: 'card card--row', onclick: () => openCountry(g) }, [
+      el('span', { class: 'card__flag', text: g.flag || '' }),
+      el('span', { class: 'card__body' }, [
+        el('span', { class: 'card__title', text: g.country }),
+        el('span', {
+          class: 'card__meta',
+          text: g.regional
+            ? `${C.countryWord(g.coverage.length)} · ${C.tariffWord(g.items.length)}`
+            : C.tariffWord(g.items.length),
+        }),
+      ]),
+      el('span', { class: 'card__price tabular', text: g.from === null ? '' : `от ${C.money(g.from)}` }),
+      el('span', { class: 'card__chevron', 'aria-hidden': 'true', text: '›' }),
+    ]);
   }
 
   function paintCountryList(groups) {
     const list = $('#home-countries');
     clear(list);
-    if (!groups.length) {
-      list.appendChild(el('div', { class: 'empty', text: 'Ничего не найдено.' }));
+
+    const regions = state.regions || [];
+    const searching = Boolean(state.query);
+
+    if (!groups.length && !regions.length) {
+      list.appendChild(el('div', { class: 'empty stack' }, [
+        el('p', { text: searching ? 'Такой страны не нашлось.' : 'Тарифы не загрузились.' }),
+        searching ? el('button', {
+          class: 'btn btn--quiet', text: 'Показать все страны',
+          onclick: () => { $('#search').value = ''; state.query = ''; paintCountryList(state.countries); },
+        }) : null,
+      ]));
       return;
     }
 
-    for (const g of groups.slice(0, 60)) {
-      list.appendChild(el('button', {
-        class: 'card', onclick: () => openCountry(g),
-      }, [
-        el('div', { class: 'row row--between' }, [
-          el('div', {}, [
-            el('div', { class: 'card__title', text: g.country }),
-            el('div', { class: 'card__meta', text: `${g.items.length} тарифов` }),
-          ]),
-          el('div', { class: 'tabular', text: g.from === null ? '' : `от ${C.money(g.from)}` }),
-        ]),
-      ]));
+    // Blueprint §9 S1 item 5: regional and global offers are their own section.
+    // They are not countries, and filing them under one member country is what
+    // put "Vietnam Plus" (six countries) under Indonesia.
+    if (regions.length) {
+      list.appendChild(el('h2', { class: 'section', text: 'Регионы и весь мир' }));
+      for (const r of regions) list.appendChild(destinationRow(r));
+    }
+
+    if (groups.length) {
+      list.appendChild(el('h2', { class: 'section', text: 'Страны' }));
+      for (const g of groups) list.appendChild(destinationRow(g));
     }
   }
 
@@ -279,25 +344,58 @@
    * Screen: country
    * ------------------------------------------------------------------ */
 
+  /** TariffCard (§12.3): volume, term, price, and the one badge worth having. */
+  function tariffCard(p, group) {
+    const isBest = group && group.best && group.best.package_id === p.package_id;
+    const days = Number(p.validity_days);
+
+    return el('button', { class: 'card stack', onclick: () => openCheckout(p, group) }, [
+      el('div', { class: 'row row--between' }, [
+        el('div', { class: 'row tariff__head' }, [
+          el('span', { class: 'card__title', text: p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ` }),
+          isBest ? el('span', { class: 'badge badge--best', text: 'Оптимальный выбор' }) : null,
+        ]),
+        el('div', { class: 'card__price tabular', text: C.money(p.price) }),
+      ]),
+      el('div', {
+        class: 'card__meta',
+        text: `${days} ${C.plural(days, 'день', 'дня', 'дней')}`
+          + (p.hotspot_supported === true ? ' · раздача интернета' : ''),
+      }),
+    ]);
+  }
+
   function openCountry(group) {
     state.country = group;
     $('#country-title').textContent = group.country;
     const list = $('#country-list');
     clear(list);
 
-    for (const p of group.items) {
-      const isBest = group.best && group.best.package_id === p.package_id;
-      list.appendChild(el('button', { class: 'card', onclick: () => openCheckout(p) }, [
-        el('div', { class: 'row row--between' }, [
-          el('div', {}, [
-            el('div', { class: 'row', style: 'gap:8px' }, [
-              el('span', { class: 'card__title', text: `${p.data_gb} ГБ` }),
-              isBest ? el('span', { class: 'badge badge--best', text: 'Выгодно' }) : null,
-            ]),
-            el('div', { class: 'card__meta', text: `${p.validity_days} дней` }),
-          ]),
-          el('div', { class: 'tabular', text: C.money(p.price) }),
-        ]),
+    if (group.regional) {
+      list.appendChild(el('p', {
+        class: 'small muted',
+        text: `Один тариф на ${C.countryWord(group.coverage.length)}.`,
+      }));
+    }
+
+    for (const p of group.items) list.appendChild(tariffCard(p, group));
+
+    // Blueprint §9 S2: a country is never a dead end. Regional offers that
+    // cover it are shown underneath — and if it has no local tariff at all,
+    // they are the only thing standing between the customer and a blank screen.
+    const alternatives = group.regional ? [] : C.regionsCovering(state.regions, group.country_code);
+    if (alternatives.length) {
+      list.appendChild(el('h2', {
+        class: 'section',
+        text: group.items.length ? 'Также подойдут' : 'Подойдут региональные тарифы',
+      }));
+      for (const r of alternatives) list.appendChild(destinationRow(r));
+    }
+
+    if (!group.items.length && !alternatives.length) {
+      list.appendChild(el('div', { class: 'empty stack' }, [
+        el('p', { text: 'Для этой страны пока нет тарифов.' }),
+        el('button', { class: 'btn btn--quiet', text: 'Выбрать другую страну', onclick: () => show('home') }),
       ]));
     }
 
@@ -308,28 +406,52 @@
    * Screen: checkout
    * ------------------------------------------------------------------ */
 
-  function openCheckout(pkg) {
+  function openCheckout(pkg, group) {
+    // `pkg.country` does not exist in the catalogue DTO, so this line used to
+    // render " · 3 ГБ" with an empty space where the destination should be. The
+    // name comes from the group the customer navigated through, or from the
+    // dictionary as a fallback.
+    const where = (group && group.country) || C.countryLabel(pkg.country_code);
+    const days = Number(pkg.validity_days);
+
     state.intent = {
       package_id: pkg.package_id,
       payment_type: 'card',
       email: '',
       expected_amount_rub: Number(pkg.price),
       _pkg: pkg,
+      _where: where,
     };
+    state.termsAccepted = false;
 
     $('#checkout-summary').replaceChildren(
       el('div', { class: 'card stack' }, [
-        el('div', { class: 'card__title', text: `${pkg.country || ''} · ${pkg.data_gb} ГБ` }),
-        el('div', { class: 'card__meta', text: `${pkg.validity_days} дней` }),
+        el('div', { class: 'row' }, [
+          el('span', { class: 'card__flag', text: (group && group.flag) || C.flagFor(pkg.country_code, pkg) }),
+          el('span', { class: 'card__body' }, [
+            el('span', { class: 'card__title', text: where }),
+            el('span', {
+              class: 'card__meta',
+              text: `${pkg.unlimited ? 'Безлимит' : `${pkg.data_gb} ГБ`}`
+                + ` · ${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
+            }),
+          ]),
+        ]),
         el('div', { class: 'row row--between' }, [
           el('span', { class: 'muted', text: 'К оплате' }),
           el('strong', { class: 'tabular', text: C.money(pkg.price) }),
         ]),
       ])
     );
+
+    // Blueprint §9 S4: «Согласие с офертой — обязательно. Явное действие.
+    // Предустановленной галочки быть не может.» The app was sending
+    // terms_accepted: true unconditionally, which is an acceptance nobody made.
+    const terms = $('#checkout-terms');
+    terms.checked = false;
     $('#checkout-error').replaceChildren();
     $('#checkout-email').value = '';
-    setPayEnabled(true);
+    setPayEnabled(false, `Оплатить ${C.money(pkg.price)}`);
     show('checkout');
   }
 
@@ -354,12 +476,17 @@
       errBox.appendChild(errorNotice('Укажите e-mail — на него придёт eSIM.'));
       return;
     }
+    if (state.termsAccepted !== true) {
+      errBox.appendChild(errorNotice('Примите оферту, чтобы продолжить.'));
+      return;
+    }
 
     // The guard against the second tap. The idempotency key makes a repeat safe
     // on the server; disabling the button is what stops the customer having to
     // find out.
     setPayEnabled(false);
     state.intent.email = email;
+    state.intent.terms_accepted = state.termsAccepted === true;
     haptic('medium');
 
     try {
@@ -699,44 +826,77 @@
     // seconds — sometimes a 502 — of an app that looks fully rendered and ignores
     // every tap. Reported from an iPhone on 2026-08-17 as "neither button works".
     bindChrome();
-    show('loading', { push: false });
+    applyTelegramTheme();
 
-    try {
-      await authenticate();
-    } catch (err) {
-      showAuthError(err);
-      return;
-    }
-
-    state.ready = true;
+    // The catalogue is public, so the app opens on it immediately and the
+    // session is minted alongside rather than in front. Before this, a cold
+    // gateway meant twelve seconds of "Подключаемся…" in front of a price list
+    // that needed no session at all.
     show('home', { push: false });
-    await renderHome();
+    const catalogue = renderCatalogue();
+
+    const session = authenticate().then(
+      () => { state.ready = true; state.authError = null; },
+      (err) => { state.ready = false; state.authError = err; }
+    );
+
+    await Promise.all([catalogue, session]);
+
+    // Only the customer's own things waited for it.
+    if (state.ready) await renderMine();
+    else markSignedOut();
+  }
+
+  /**
+   * Telegram hands its palette in as --tg-theme-* custom properties, which
+   * mini.css already consumes. What it does not do is colour the native chrome
+   * above and below our page, so the header stayed light while the app went
+   * dark. Both calls are guarded: they are recent Bot API additions and an old
+   * client simply keeps its default.
+   */
+  function applyTelegramTheme() {
+    if (!tg) return;
+    const paint = () => {
+      try {
+        const bg = (tg.themeParams && tg.themeParams.bg_color) || null;
+        if (bg && tg.setBackgroundColor) tg.setBackgroundColor(bg);
+        if (bg && tg.setHeaderColor) tg.setHeaderColor(bg);
+        document.documentElement.setAttribute('data-tg-scheme', tg.colorScheme || 'light');
+      } catch { /* an older client keeps its own chrome; nothing breaks */ }
+    };
+    paint();
+    try { if (tg.onEvent) tg.onEvent('themeChanged', paint); } catch { /* */ }
+  }
+
+  /**
+   * The session failed but the catalogue did not. Say so where it matters —
+   * inside «Мои eSIM» — instead of taking the whole app down for it.
+   */
+  function markSignedOut() {
+    const mine = $('#home-mine');
+    clear(mine);
   }
 
   /** Every listener the app owns, attached once and never dependent on a session. */
   function bindChrome() {
     $('#search').addEventListener('input', (e) => {
-      paintCountryList(C.searchCountries(state.countries, e.target.value));
+      state.query = e.target.value;
+      paintCountryList(C.searchCountries(state.countries, state.query));
     });
     $('#checkout-pay').addEventListener('click', pay);
-    $('#nav-esims').addEventListener('click', () => {
-      if (!state.ready) return nudge();
-      show('esims');
-      renderEsims();
+    // The pay button stays disabled until the oferta is accepted. The gate is
+    // here rather than inside pay() so the customer can see the requirement
+    // instead of discovering it by being refused.
+    $('#checkout-terms').addEventListener('change', (e) => {
+      state.termsAccepted = Boolean(e.target.checked);
+      const price = state.intent ? C.money(state.intent.expected_amount_rub) : '';
+      setPayEnabled(state.termsAccepted, price ? `Оплатить ${price}` : 'Оплатить');
     });
-    $('#nav-home').addEventListener('click', () => {
-      if (!state.ready) return nudge();
-      show('home');
-    });
-  }
-
-  /**
-   * A tap that arrives before the session does. Doing nothing is what caused the
-   * bug report, so acknowledge it: send the customer back to whichever screen is
-   * actually telling them something — the retry, or the progress note.
-   */
-  function nudge() {
-    show(state.screen === 'error' ? 'error' : 'loading', { push: false });
+    // The catalogue is public: this tab must work whether or not a session ever
+    // arrives, and it is the reason most people opened the app.
+    $('#nav-home').addEventListener('click', () => show('home'));
+    // «Мои eSIM» is the one tab that genuinely needs the customer's identity.
+    $('#nav-esims').addEventListener('click', () => { show('esims'); renderEsims(); });
   }
 
   /**

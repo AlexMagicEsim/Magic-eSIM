@@ -75,7 +75,31 @@ function mock() {
 
       return json({ session_token: 'mock', expires_in: 1800 });
     }
-    if (u.indexOf('/retail/packages') !== -1) return json({ packages: [] });
+    // The REAL catalogue envelope: {status, count, currency, data}. It was
+    // {packages: []} here, which is a shape the app has never received — the
+    // suite was asserting against an empty screen and calling it a pass.
+    if (u.indexOf('/retail/packages') !== -1) {
+      return json({
+        status: 'success', count: 4, currency: 'RUB',
+        data: [
+          { package_id: 'p1', name: 'Thailand 3GB 15Days', data_gb: 3, validity_days: 15,
+            country_code: 'TH', price: 690, currency: 'RUB',
+            coverage_country_codes: ['TH'], coverage_flags: '🇹🇭' },
+          { package_id: 'p2', name: 'Thailand 10GB 30Days', data_gb: 10, validity_days: 30,
+            country_code: 'TH', price: 1490, currency: 'RUB',
+            coverage_country_codes: ['TH'], coverage_flags: '🇹🇭' },
+          { package_id: 'p3', name: 'Netherlands 3GB 15Days', data_gb: 3, validity_days: 15,
+            country_code: 'NL', price: 350, currency: 'RUB',
+            coverage_country_codes: ['NL'], coverage_flags: '🇳🇱' },
+          // Regional: filed under one member country, six countries wide. This
+          // is the row that used to read "Индонезия" on the catalogue screen.
+          { package_id: 'p4', name: 'Vietnam Plus 3 GB', data_gb: 3, validity_days: 30,
+            country_code: 'ID', price: 1900, currency: 'RUB',
+            coverage_country_codes: ['ID', 'MY', 'SG', 'KR', 'TH', 'VN'],
+            coverage_flags: '🇮🇩🇲🇾🇸🇬🇰🇷🇹🇭🇻🇳' },
+        ],
+      });
+    }
 
     return json({ items: [] });
   };
@@ -126,10 +150,17 @@ async function run() {
 
   console.log('\n[slow] the session never answers — the state the owner tapped into');
   await page.goto(`${base}?slow`);
-  check('a screen is visible, not a blank app', await active(page), ['screen-loading']);
+  // The contract changed on 2026-08-18 and is now STRONGER. It used to be "a
+  // loading screen is visible"; the catalogue is public, so it is now "the
+  // catalogue is visible and usable while the session is still in flight".
+  await page.waitForSelector('#screen-home[data-active]', { timeout: 15000 });
+  check('the catalogue is on screen without a session', await active(page), ['screen-home']);
+  check('and it has real destinations in it',
+    await page.$$eval('#home-countries .card--row', (n) => n.length > 0), true);
   await page.tap('#nav-esims');
+  check('taps do not fall into a void', await active(page), ['screen-esims']);
   await page.tap('#nav-home');
-  check('taps before the session do not fall into a void', await active(page), ['screen-loading']);
+  check('and the catalogue tab still works', await active(page), ['screen-home']);
   check('nav keeps its safe-area padding (a style attribute would be CSP-blocked)',
     await page.$eval('nav', (n) => getComputedStyle(n).paddingBottom !== '0px'), true);
 
@@ -137,38 +168,44 @@ async function run() {
   await page.goto(`${base}?coldstart`);
   await page.waitForSelector('#screen-home[data-active]', { timeout: 15000 });
   check('the cold-start 502 is absorbed', await active(page), ['screen-home']);
-  check('it took two session calls', await page.evaluate(() => window.__sessionHits), 2);
+  // The session now runs alongside the catalogue rather than in front of it, so
+  // wait for it to settle before counting its attempts.
+  await page.waitForFunction(() => window.__sessionHits >= 2, { timeout: 15000 });
+  check('the 502 was retried, not surfaced', await page.evaluate(() => window.__sessionHits), 2);
   await page.tap('#nav-esims');
   check('TAP «Мои eSIM» opens the eSIM screen', await active(page), ['screen-esims']);
   await page.tap('#nav-home');
   check('TAP «Каталог» opens the catalogue', await active(page), ['screen-home']);
 
-  console.log('\n[fail] every attempt 502s');
+  console.log('\n[fail] the session 502s on every attempt — the catalogue must survive it');
   await page.goto(`${base}?fail`);
-  await page.waitForSelector('#screen-error[data-active]', { timeout: 20000 });
+  await page.waitForSelector('#screen-home[data-active]', { timeout: 20000 });
+  await page.waitForFunction(() => window.__sessionHits >= 3, { timeout: 20000 });
   check('three attempts were made before giving up',
     await page.evaluate(() => window.__sessionHits), 3);
-  check('the customer gets a retry, not a dead end',
-    await page.$eval('#screen-error', (n) => n.innerText.includes('Повторить')), true);
+  // A dead session used to take the whole app down. It buys nothing: the
+  // catalogue needs no session, and a customer who cannot sign in can still be
+  // shown what is for sale.
+  check('the catalogue is still on screen', await active(page), ['screen-home']);
+  check('and still has destinations',
+    await page.$$eval('#home-countries .card--row', (n) => n.length > 0), true);
+  await page.tap('#nav-esims');
+  check('«Мои eSIM» still responds', await active(page), ['screen-esims']);
 
   console.log('\n[badauth] the server refuses the signature — R-42 diagnosis, 2026-08-17');
   await page.goto(`${base}?badauth`);
-  await page.waitForSelector('#screen-error[data-active]', { timeout: 20000 });
+  await page.waitForSelector('#screen-home[data-active]', { timeout: 20000 });
+  await page.waitForFunction(() => window.__sessionHits >= 1, { timeout: 20000 });
   check('a 401 is NOT retried — it is a verdict, not a blip',
     await page.evaluate(() => window.__sessionHits), 1);
-  const refusedText = await page.$eval('#screen-error', (n) => n.innerText);
-  check('the server\'s own reason is shown',
-    refusedText.includes('Telegram'), true);
-  check('the app does NOT blame the network for a server refusal',
-    refusedText.includes('Сеть не ответила'), false);
+  check('a refused session still leaves the catalogue usable', await active(page), ['screen-home']);
 
   console.log('\n[offline] the radio is dead — fetch rejects');
   await page.goto(`${base}?offline`);
-  await page.waitForSelector('#screen-error[data-active]', { timeout: 25000 });
+  await page.waitForSelector('#screen-home[data-active]', { timeout: 25000 });
+  await page.waitForFunction(() => window.__sessionHits >= 3, { timeout: 25000 });
   check('a transport failure IS retried to the full budget',
     await page.evaluate(() => window.__sessionHits), 3);
-  check('and it does say the network failed',
-    (await page.$eval('#screen-error', (n) => n.innerText)).includes('Сеть не ответила'), true);
 
   console.log('\n[ok] warm gateway');
   await page.goto(`${base}?ok`);

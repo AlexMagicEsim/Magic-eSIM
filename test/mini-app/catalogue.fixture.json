@@ -1,0 +1,535 @@
+{
+ "status": "success",
+ "count": 13,
+ "currency": "RUB",
+ "data": [
+  {
+   "package_id": "854a3f9b-cb1b-4dbe-aafc-c8ceee4c6a5f",
+   "name": "Thailand 3GB 15Days",
+   "data_gb": 3,
+   "validity_days": 15,
+   "country_code": "TH",
+   "region": "TH",
+   "price": 400,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "TrueMove H",
+     "type": "5G"
+    },
+    {
+     "operator": "DTAC",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "TH"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇹🇭",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "9017d6bf-487d-4a7f-9abb-71872457ab1e",
+   "name": "Thailand 3GB 30Days",
+   "data_gb": 3,
+   "validity_days": 30,
+   "country_code": "TH",
+   "region": "TH",
+   "price": 400,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "TrueMove H",
+     "type": "5G"
+    },
+    {
+     "operator": "DTAC",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "TH"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇹🇭",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "361ddda4-9b49-437f-8f2a-83f62092fcf6",
+   "name": "Thailand 5GB 30Days",
+   "data_gb": 5,
+   "validity_days": 30,
+   "country_code": "TH",
+   "region": "TH",
+   "price": 600,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "TrueMove H",
+     "type": "5G"
+    },
+    {
+     "operator": "DTAC",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "TH"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇹🇭",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "038aac9c-108c-49e4-a5a2-5f8405f3419b",
+   "name": "Netherlands 3GB 15Days",
+   "data_gb": 3,
+   "validity_days": 15,
+   "country_code": "NL",
+   "region": "NL",
+   "price": 350,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "KPN",
+     "type": "5G"
+    },
+    {
+     "operator": "Vodafone",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "NL"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇳🇱",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "9eb637ff-eab5-4a9b-bffb-b3831b309262",
+   "name": "Netherlands 5GB 30Days",
+   "data_gb": 5,
+   "validity_days": 30,
+   "country_code": "NL",
+   "region": "NL",
+   "price": 550,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "KPN",
+     "type": "5G"
+    },
+    {
+     "operator": "Vodafone",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "NL"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇳🇱",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "1265c622-c378-41b5-b0e6-ccb084c9cf43",
+   "name": "Netherlands 10GB 30Days",
+   "data_gb": 10,
+   "validity_days": 30,
+   "country_code": "NL",
+   "region": "NL",
+   "price": 950,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "KPN",
+     "type": "5G"
+    },
+    {
+     "operator": "Vodafone",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "NL"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇳🇱",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "079cf080-ed4e-4eba-a90e-39fccb9ecbe1",
+   "name": "Turkey 3GB 30Days",
+   "data_gb": 3,
+   "validity_days": 30,
+   "country_code": "TR",
+   "region": "TR",
+   "price": 350,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "Vodafone",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "TR"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇹🇷",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "a8fc2ace-4568-4436-a446-5460b3d064b1",
+   "name": "Turkey 3GB 15Days",
+   "data_gb": 3,
+   "validity_days": 15,
+   "country_code": "TR",
+   "region": "TR",
+   "price": 350,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "Vodafone",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "TR"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇹🇷",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "30af17ab-4296-4e28-b47e-e3e400af8e69",
+   "name": "Turkey 5GB 30Days",
+   "data_gb": 5,
+   "validity_days": 30,
+   "country_code": "TR",
+   "region": "TR",
+   "price": 550,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "Vodafone",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "TR"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇹🇷",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "f2133156-b2c1-4db3-ac24-9d3fca993326",
+   "name": "Vietnam Plus 3 GB",
+   "data_gb": 3,
+   "validity_days": 7,
+   "country_code": "ID",
+   "region": "ID, MY, SG, KR, TH, VN",
+   "price": 700,
+   "currency": "RUB",
+   "networks": [],
+   "topup_available": false,
+   "speed": "",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "ID",
+    "MY",
+    "SG",
+    "KR",
+    "TH",
+    "VN"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇮🇩 🇲🇾 🇸🇬 🇰🇷 🇹🇭 🇻🇳",
+   "network_technologies": [
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": true,
+   "activation_policy": "network_connection",
+   "speed_note": "Full data speeds - no daily limits, no throttling",
+   "calls_supported": false,
+   "sms_supported": false,
+   "data_only": true,
+   "unlimited": false
+  },
+  {
+   "package_id": "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
+   "name": "Vietnam Plus 5 GB",
+   "data_gb": 5,
+   "validity_days": 15,
+   "country_code": "ID",
+   "region": "ID, MY, SG, KR, TH, VN",
+   "price": 900,
+   "currency": "RUB",
+   "networks": [],
+   "topup_available": false,
+   "speed": "",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "ID",
+    "MY",
+    "SG",
+    "KR",
+    "TH",
+    "VN"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇮🇩 🇲🇾 🇸🇬 🇰🇷 🇹🇭 🇻🇳",
+   "network_technologies": [
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": true,
+   "activation_policy": "network_connection",
+   "speed_note": "Full data speeds - no daily limits, no throttling",
+   "calls_supported": false,
+   "sms_supported": false,
+   "data_only": true,
+   "unlimited": false
+  },
+  {
+   "package_id": "eeea9167-f9df-4193-ad50-089772170421",
+   "name": "Central Asia (4 areas) 3GB 15Days",
+   "data_gb": 3,
+   "validity_days": 15,
+   "country_code": "CA-4",
+   "region": "UZ,TJ,KG,KZ",
+   "price": 850,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "Beeline",
+     "type": "4G"
+    },
+    {
+     "operator": "Beeline",
+     "type": "4G"
+    },
+    {
+     "operator": "ZET",
+     "type": "5G"
+    },
+    {
+     "operator": "MegaFon",
+     "type": "4G"
+    },
+    {
+     "operator": "Beeline",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "UZ",
+    "TJ",
+    "KG",
+    "KZ"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇺🇿 🇹🇯 🇰🇬 🇰🇿",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  },
+  {
+   "package_id": "a7176a22-6a3b-41b2-870c-d27cebdc45a1",
+   "name": "Central Asia (4 areas) 20GB 30Days",
+   "data_gb": 20,
+   "validity_days": 30,
+   "country_code": "CA-4",
+   "region": "UZ,TJ,KG,KZ",
+   "price": 4550,
+   "currency": "RUB",
+   "networks": [
+    {
+     "operator": "Beeline",
+     "type": "4G"
+    },
+    {
+     "operator": "Beeline",
+     "type": "4G"
+    },
+    {
+     "operator": "ZET",
+     "type": "5G"
+    },
+    {
+     "operator": "MegaFon",
+     "type": "4G"
+    },
+    {
+     "operator": "Beeline",
+     "type": "5G"
+    }
+   ],
+   "topup_available": true,
+   "speed": "3G/4G/5G",
+   "fup_policy": "",
+   "coverage_country_codes": [
+    "UZ",
+    "TJ",
+    "KG",
+    "KZ"
+   ],
+   "coverage_countries": [],
+   "coverage_flags": "🇺🇿 🇹🇯 🇰🇬 🇰🇿",
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "speed_note": "",
+   "calls_supported": null,
+   "sms_supported": null,
+   "data_only": null,
+   "unlimited": null
+  }
+ ]
+}

@@ -313,7 +313,112 @@ button.card:active { transform: scale(.995); }
  * where the system takes the touch before the page ever sees it (R-44).
  * ----------------------------------------------------------------------- */
 
-.tabbar { gap: 8px; padding: 14px 16px calc(14px + var(--safe-b)); }
+/* The tab bar. Sticky rather than static: with a short screen — one country,
+   two tariffs — it used to sit directly under the last card, floating in the
+   middle of the viewport, which reads as content rather than as navigation.
+   Sticky rather than fixed because iOS raises the keyboard over a fixed element
+   and the checkout has three inputs. */
+.tabbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  gap: 8px;
+  padding: 14px 16px calc(14px + var(--safe-b));
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+.tabbar .btn { flex: 1 1 0; }
 .search--static { position: static; }
 .gap-top-lg { margin-top: 18px; }
 .gap-top-sm { margin-top: 10px; }
+
+/* -----------------------------------------------------------------------
+ * Blueprint §12.2 — the scales, made explicit.
+ *
+ * They were already followed by eye; naming them is what stops the next edit
+ * from inventing a 15px gap. Type sizes are the Blueprint's: 22 heading, 17
+ * body, 15 secondary, 13 caption, and nothing below 13 — this is read on a
+ * phone, outdoors, in another country.
+ * ----------------------------------------------------------------------- */
+
+:root {
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s7: 32px;
+  --t-title: 22px; --t-body: 17px; --t-secondary: 15px; --t-caption: 13px;
+}
+
+/* Section heading inside a scrolling list. Not a page title — those stay h1. */
+.section {
+  font-size: var(--t-secondary);
+  font-weight: 600;
+  color: var(--muted);
+  margin: var(--s6) 0 var(--s2);
+  letter-spacing: 0.01em;
+}
+.stack > .section:first-child { margin-top: var(--s2); }
+
+/* -----------------------------------------------------------------------
+ * ListRow (§12.3) — the destination row.
+ *
+ * Flag, name, what you get, price, chevron. The chevron is not decoration: it
+ * is the only thing that says a whole card is tappable, and the previous build
+ * had none, which is part of why the catalogue read as a debug list.
+ * ----------------------------------------------------------------------- */
+
+button.card--row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  /* .stack is a grid, and a grid item's min-width defaults to `auto` — which
+     means "never narrower than your content". A long destination name therefore
+     widened the card past the viewport and gave the whole app a horizontal
+     scrollbar, clipping the price. Grid items need this explicitly; the
+     min-width:0 on .card__body alone cannot save a track that already grew. */
+  min-width: 0;
+}
+
+.card__flag {
+  font-size: 26px;
+  line-height: 1;
+  flex: 0 0 auto;
+  /* Emoji flags render at wildly different widths across iOS and Android; a
+     fixed box keeps every name in the list starting at the same x. */
+  width: 34px;
+  text-align: center;
+}
+
+.card__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+
+.card__body .card__title {
+  font-size: var(--t-body);
+  font-weight: 600;
+  /* A long regional name must not push the price off the row. */
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.card__body .card__meta { font-size: var(--t-caption); color: var(--muted); margin: 0; }
+
+.card__price { flex: 0 0 auto; font-size: var(--t-secondary); font-weight: 600; }
+.card__chevron { flex: 0 0 auto; color: var(--muted); font-size: 20px; line-height: 1; }
+
+/* The pressed state Telegram users expect: no hover on a phone, so the only
+   feedback available is what happens under the thumb. */
+button.card--row:active { background: color-mix(in srgb, var(--ink) 6%, var(--surface)); }
+
+.tariff__head { gap: var(--s2); flex-wrap: wrap; }
+.badge--best { background: color-mix(in srgb, var(--blue) 14%, transparent); color: var(--blue); }
+
+/* Consent row. 44px tall and the whole label is the target: a 16px checkbox is
+   not a touch target, and this is the one control the customer must not miss. */
+.check {
+  display: flex; align-items: flex-start; gap: var(--s3);
+  padding: var(--s3) 0; min-height: var(--tap); cursor: pointer;
+}
+.check input { width: 22px; height: 22px; margin: 0; flex: 0 0 auto; accent-color: var(--blue); }
+.check a { color: var(--link); }
+
+/* Body is the scroll container and the nav is its last child, so main must be
+   able to grow: without this the sticky nav has nothing to stick past on a
+   screen with little content. */
+html, body { min-height: 100%; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.app-main { flex: 1 0 auto; }

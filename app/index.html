@@ -50,7 +50,7 @@
      bar and no reloads worth having, so routing is state rather than navigation —
      and Telegram's own BackButton drives the stack. -->
 
-<main>
+<main class="app-main">
   <!-- 1. Home ---------------------------------------------------------- -->
   <section class="screen" id="screen-home" aria-label="Каталог">
     <h1>Интернет в поездке</h1>
@@ -63,7 +63,8 @@
 
     <div id="home-mine" class="stack"></div>
 
-    <h2>Страны</h2>
+    <!-- Section headings are emitted by paintCountryList: the catalogue has two
+         sections (regions, then countries) and either can be empty. -->
     <div id="home-countries" class="stack"></div>
 
     <p class="small muted gap-top-lg">
@@ -93,7 +94,14 @@
 
     <div id="checkout-error"></div>
 
-    <button id="checkout-pay" class="btn">Оплатить</button>
+    <!-- §9 S4: explicit acceptance. A pre-ticked box is not an acceptance, and
+         the app previously sent terms_accepted: true regardless. -->
+    <label class="check" for="checkout-terms">
+      <input id="checkout-terms" type="checkbox">
+      <span class="small">Я принимаю <a href="https://magicesim.store/oferta.html" target="_blank" rel="noopener">оферту</a> и согласен на обработку данных</span>
+    </label>
+
+    <button id="checkout-pay" class="btn" disabled>Оплатить</button>
     <p class="small muted gap-top-sm">
       Оплата откроется в браузере. После оплаты вернитесь в Telegram — eSIM появится в «Мои eSIM».
     </p>
