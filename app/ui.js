@@ -1300,12 +1300,19 @@
 
   function gauge(esim) {
     const fraction = C.remainingFraction(esim);
+    // §9 S9: the time is not decoration and it is not conditional. A remaining
+    // balance is a number the provider owns and we relayed — possibly hours
+    // ago — and without a time beside it the app is promising something it does
+    // not control. It sits under BOTH branches for the same reason.
+    const when = el('div', { class: 'small muted', text: C.syncedAgo(esim && esim.last_usage_sync_at) });
+
     if (fraction === null) {
       // Unknown, and it must not look like empty. The hatched bar plus the word
       // is the whole point.
       return el('div', { class: 'stack', style: 'gap:4px' }, [
         el('div', { class: 'gauge gauge--unknown' }),
         el('div', { class: 'small muted', text: 'Остаток неизвестен — обновите данные' }),
+        when,
       ]);
     }
     const cls = fraction === 0 ? 'gauge__fill--empty' : (fraction < 0.15 ? 'gauge__fill--low' : '');
@@ -1315,6 +1322,7 @@
         el('div', { class: `gauge__fill ${cls}`.trim(), style: `width:${Math.round(fraction * 100)}%` }),
       ]),
       el('div', { class: 'small muted tabular', text: `${esim.remaining_gb} из ${esim.total_gb} ГБ` }),
+      when,
     ]);
   }
 
@@ -1370,16 +1378,33 @@
    * Screen: eSIM detail
    * ------------------------------------------------------------------ */
 
+  /**
+   * §9 S9: «Открывается меньше чем за 2 секунды (P5): сначала кэш, затем
+   * асинхронное обновление.»
+   *
+   * The list the customer just tapped already holds everything this screen
+   * shows except `status_detail`, so it is drawn from that first and the
+   * request runs behind it. The number is dated either way — `syncedAgo` under
+   * the gauge says how old it is — so showing it a second early costs nothing
+   * and a skeleton in an airport costs the whole point of the screen.
+   */
   async function openEsim(id) {
     show('esim');
     const box = $('#esim-detail');
+    const known = (state.esims || []).find((x) => x && x.id === id) || null;
+
     clear(box);
-    box.appendChild(el('div', { class: 'skel skel--card' }));
+    if (known) paintEsim(box, known, id);
+    else box.appendChild(el('div', { class: 'skel skel--card' }));
 
     let e = null;
     try {
       e = await api.esim(id);
     } catch (err) {
+      // A failed refresh over data already on screen is not worth replacing it
+      // with an error — the timestamp under the gauge already says how old it
+      // is. With nothing on screen there is nothing to keep.
+      if (known) return;
       clear(box);
       box.appendChild(errorNotice(
         err.status === 404 ? 'eSIM не найдена.' : 'Не удалось загрузить eSIM.',
@@ -1388,7 +1413,13 @@
       return;
     }
 
+    // The customer may have moved on while the request was in flight.
+    if (state.screen !== 'esim') return;
     clear(box);
+    paintEsim(box, e, id);
+  }
+
+  function paintEsim(box, e, id) {
     box.appendChild(el('div', { class: 'card stack' }, [
       el('div', { class: 'row row--between' }, [
         el('h1', { text: ownedLabel(e) }),
@@ -1515,7 +1546,11 @@
     tabs.appendChild(el('button', { 'data-os': 'android', text: 'Android', onclick: () => paint('android') }));
     box.appendChild(tabs);
     box.appendChild(steps);
-    paint(/iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios' : 'android');
+    // §9 S10: Telegram knows which client it is; inside a WebView the user
+    // agent only describes the engine. The tabs above remain, because
+    // detection is allowed to be wrong and a customer stuck on the wrong
+    // instructions is not.
+    paint(C.installPlatform(tg && tg.platform, navigator.userAgent));
 
     box.appendChild(el('h2', { text: 'Ввод вручную' }));
     box.appendChild(el('div', { class: 'stack' }, [

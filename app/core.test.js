@@ -1139,3 +1139,56 @@ test('what happens after payment is three lines, one each', () => {
     assert.ok(!s.includes('\n'), s);
   }
 });
+
+/* ==========================================================================
+ * S9 · a number with no time next to it is a promise we do not control.
+ * ======================================================================== */
+
+test('a usage figure always says when it was taken', () => {
+  const now = Date.parse('2026-08-18T20:00:00Z');
+  assert.match(C.syncedAgo('2026-08-18T19:59:40Z', now), /только что/);
+  assert.match(C.syncedAgo('2026-08-18T19:58:00Z', now), /2 минуты назад/);
+  assert.match(C.syncedAgo('2026-08-18T19:00:00Z', now), /1 час назад/);
+  assert.match(C.syncedAgo('2026-08-18T15:00:00Z', now), /5 часов назад/);
+  assert.match(C.syncedAgo('2026-08-16T20:00:00Z', now), /2 дня назад/);
+});
+
+test('never having asked is stated, not blank and not "0"', () => {
+  assert.equal(C.syncedAgo(null), 'данные ещё не запрашивались');
+  assert.equal(C.syncedAgo(''), 'данные ещё не запрашивались');
+  assert.equal(C.syncedAgo(undefined), 'данные ещё не запрашивались');
+  assert.equal(C.syncedAgo('not a date'), 'время последней проверки неизвестно');
+  // Whatever it says, it is never empty — the row must not vanish.
+  for (const v of [null, '', 'nonsense', '2026-08-18T19:00:00Z']) {
+    assert.ok(C.syncedAgo(v).length > 0);
+  }
+});
+
+test('a clock ahead of ours does not print a negative age', () => {
+  const now = Date.parse('2026-08-18T20:00:00Z');
+  assert.equal(C.syncedAgo('2026-08-18T20:05:00Z', now), 'только что');
+});
+
+/* ==========================================================================
+ * S10 · which instructions to open on.
+ * ======================================================================== */
+
+test('Telegram is asked which client it is, not the user agent', () => {
+  assert.equal(C.installPlatform('ios', 'Mozilla/5.0 (Linux; Android 13)'), 'ios');
+  assert.equal(C.installPlatform('android', 'Mozilla/5.0 (iPhone)'), 'android');
+  assert.equal(C.installPlatform('android_x', ''), 'android');
+  assert.equal(C.installPlatform('macos', ''), 'ios');
+});
+
+test('a client Telegram has not taught us about falls back to the browser', () => {
+  for (const p of ['tdesktop', 'weba', 'webk', 'unknown', '', null, undefined]) {
+    assert.equal(C.installPlatform(p, 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0)'), 'ios', String(p));
+    assert.equal(C.installPlatform(p, 'Mozilla/5.0 (Linux; Android 13)'), 'android', String(p));
+  }
+});
+
+test('there is always an answer — the screen never opens on neither', () => {
+  for (const p of [null, 'nonsense', 42, {}]) {
+    assert.ok(['ios', 'android'].includes(C.installPlatform(p, '')), String(p));
+  }
+});

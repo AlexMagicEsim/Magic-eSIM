@@ -1143,6 +1143,57 @@ function popularGroups(countryGroups) {
   return popularCountries.map((code) => byCode.get(code)).filter(Boolean);
 }
 
+/**
+ * §9 S9: «Отметка времени обязательна ВСЕГДА — и когда данные свежие тоже.»
+ *
+ * "Осталось 3.2 ГБ" is a claim about a number the provider owns and we merely
+ * relayed, possibly hours ago. Without a time next to it, the product is
+ * making a promise it does not control. With one, the same number is a fact
+ * about when we asked — which is true, and is what a traveller checking their
+ * balance in an airport actually needs to know.
+ *
+ * Relative, because the absolute time answers the wrong question: nobody cares
+ * that it was 14:02, only that it was ten minutes ago.
+ */
+function syncedAgo(iso, now = Date.now()) {
+  if (!iso) return 'данные ещё не запрашивались';
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return 'время последней проверки неизвестно';
+
+  const mins = Math.floor((now - t) / 60000);
+  if (mins < 0) return 'только что';
+  if (mins < 1) return 'обновлено только что';
+  if (mins < 60) return `обновлено ${mins} ${plural(mins, 'минуту', 'минуты', 'минут')} назад`;
+
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `обновлено ${hours} ${plural(hours, 'час', 'часа', 'часов')} назад`;
+
+  const days = Math.floor(hours / 24);
+
+  return `обновлено ${days} ${plural(days, 'день', 'дня', 'дней')} назад`;
+}
+
+/**
+ * Which set of installation steps to open on.
+ *
+ * §9 S10 asks for `Telegram.WebApp.platform` rather than the user agent, and
+ * the reason is concrete: inside a WebView the UA describes the engine, so an
+ * Android tablet running a WebKit-flavoured browser, or any client Telegram
+ * has not taught us about, lands on the wrong instructions. Telegram knows
+ * which client it is. The manual switch stays either way — detection is
+ * allowed to be wrong, a customer stuck on the wrong steps is not.
+ */
+function installPlatform(tgPlatform, userAgent) {
+  const p = String(tgPlatform || '').toLowerCase();
+  if (p === 'ios' || p === 'macos') return 'ios';
+  if (p === 'android' || p === 'android_x') return 'android';
+  // 'tdesktop', 'weba', 'webk', 'unknown' and anything new: Telegram is not
+  // telling us about a phone, so fall back to what the browser says.
+  if (/iPhone|iPad|iPod/i.test(String(userAgent || ''))) return 'ios';
+
+  return 'android';
+}
+
 /* --------------------------------------------------------------------------
  * S3 · what a tariff actually is
  * ----------------------------------------------------------------------- */
@@ -1457,6 +1508,7 @@ const CORE = {
   destinationTitle, isOrderReady, isOrderDead,
   isAllowedPaymentUrl, PAYMENT_HOSTS,
   sortOwnedEsims, isSpentEsim, SPENT_ESIM_STATUSES,
+  syncedAgo, installPlatform,
   tariffFacts, tariffNetworks, tariffHotspot, tariffActivation, tariffTextRu,
   AFTER_PAYMENT_STEPS,
   memoryStorage,
