@@ -530,3 +530,98 @@ test('a transport failure with no response at all is retried too', async () => {
   assert.equal(out.session_token, 'second');
   assert.equal(fetchStub.calls.length, 2);
 });
+
+/* --------------------------------------------------------------------------
+ * Search and popular destinations
+ *
+ * Reported from production 2026-08-18: "поиск стран не работает". It did fire —
+ * 213 rows became 19 — but 18 of those 19 were regional rows the filter never
+ * touched, so the one real match sat below a screenful of globes. These tests
+ * pin both halves: that the right thing matches, and that it is offered FIRST.
+ * ----------------------------------------------------------------------- */
+
+const GROUPS = ['TH', 'TR', 'CN', 'AE', 'VN', 'FR', 'JP', 'TW', 'TJ', 'EG', 'IT']
+  .map((code) => ({ country_code: code, country: C.countryLabel(code), items: [], from: 100 }));
+
+const found = (q) => C.searchCountries(GROUPS, q).map((g) => g.country);
+
+test('search finds a country by its Russian name', () => {
+  assert.deepEqual(found('Таиланд'), ['Таиланд']);
+  assert.deepEqual(found('Турция'), ['Турция']);
+  assert.deepEqual(found('Китай'), ['Китай']);
+  assert.deepEqual(found('ОАЭ'), ['ОАЭ']);
+  assert.deepEqual(found('Вьетнам'), ['Вьетнам']);
+});
+
+test('search finds a country by its Latin name', () => {
+  assert.deepEqual(found('thailand'), ['Таиланд']);
+  assert.deepEqual(found('turkey'), ['Турция']);
+  assert.deepEqual(found('china'), ['Китай']);
+  assert.deepEqual(found('uae'), ['ОАЭ']);
+  assert.deepEqual(found('vietnam'), ['Вьетнам']);
+});
+
+test('«тай» offers Thailand FIRST, though Ки-тай contains it too', () => {
+  // The country is spelled «Таиланд» — та-и, no й — so a naive substring match
+  // finds «Китай» and misses Thailand entirely. This is the exact case that
+  // made search look broken.
+  const r = found('тай');
+  assert.equal(r[0], 'Таиланд', `expected Таиланд first, got ${JSON.stringify(r)}`);
+  assert.ok(r.includes('Китай'), 'Китай is a legitimate match and should still appear');
+});
+
+test('the common misspelling «Тайланд» also finds Thailand', () => {
+  assert.equal(found('тайланд')[0], 'Таиланд');
+});
+
+test('search is case, space and ё-insensitive', () => {
+  assert.deepEqual(found('  ТАИЛАНД '), ['Таиланд']);
+  assert.deepEqual(found('таиланд'), found('Таиланд'));
+});
+
+test('no match returns nothing at all, not everything', () => {
+  assert.deepEqual(found('несуществующая страна'), []);
+  assert.deepEqual(found('zzzz'), []);
+});
+
+test('an empty query returns the list untouched', () => {
+  assert.equal(C.searchCountries(GROUPS, '').length, GROUPS.length);
+  assert.equal(C.searchCountries(GROUPS, '   ').length, GROUPS.length);
+});
+
+test('a regional group is found by a country it covers', () => {
+  const region = {
+    country_code: 'ID', country: 'Вьетнам и Юго-Восточная Азия', regional: true,
+    coverage: ['ID', 'MY', 'SG', 'KR', 'TH', 'VN'], items: [], from: 1900,
+  };
+  const r = C.searchCountries([...GROUPS, region], 'сингапур').map((g) => g.country);
+  assert.ok(r.includes('Вьетнам и Юго-Восточная Азия'),
+    'a traveller searching Singapore should be shown the region that covers it');
+});
+
+test('an exact country still outranks a region that merely covers it', () => {
+  const region = {
+    country_code: 'ID', country: 'Вьетнам и Юго-Восточная Азия', regional: true,
+    coverage: ['ID', 'MY', 'SG', 'KR', 'TH', 'VN'], items: [], from: 1900,
+  };
+  assert.equal(C.searchCountries([...GROUPS, region], 'таиланд')[0].country, 'Таиланд');
+});
+
+test('popular destinations are the storefront list, in the storefront order', () => {
+  // Parsed out of index.html by seo/build-country-dictionary.mjs — never retyped.
+  assert.deepEqual(C.popularCountries,
+    ['TR', 'TH', 'VN', 'EG', 'MV', 'LK', 'CN', 'IT', 'AE', 'ID', 'JP', 'KR', 'ES', 'FR', 'GR', 'CY']);
+});
+
+test('popularGroups keeps that order and drops what is not on sale', () => {
+  const out = C.popularGroups(GROUPS).map((g) => g.country_code);
+  assert.deepEqual(out, ['TR', 'TH', 'VN', 'EG', 'CN', 'IT', 'AE', 'JP', 'FR']);
+  assert.ok(!out.includes('TW'), 'Taiwan is on sale but is not a popular tile');
+});
+
+test('every popular destination has a Russian name and a Latin alias', () => {
+  for (const code of C.popularCountries) {
+    assert.ok(C.countryLabel(code) !== code, `${code} has no Russian name`);
+    assert.ok(C.countryLatin[code], `${code} has no Latin alias`);
+  }
+});

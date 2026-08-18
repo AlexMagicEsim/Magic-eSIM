@@ -35,3 +35,6 @@ seo/intel/report/
 
 # Старый отчёт прежнего Quality Score — заменён на seo/intel/data/dashboard.json
 seo/content-dashboard.json
+
+# Playwright screenshots from test/mini-app/ui.e2e.js — artefacts, not source.
+test/mini-app/.shots/

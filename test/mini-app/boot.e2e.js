@@ -25,7 +25,7 @@ const path = require('path');
 const { webkit, devices } = require('playwright');
 
 const APP_DIR = path.join(__dirname, '..', '..', 'app');
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css' };
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 /* -------------------------------------------------------------------------- *
  * The fake Telegram + gateway, injected before any page script runs.
@@ -119,8 +119,11 @@ const active = (page) => page.$$eval('.screen[data-active]', (n) => n.map((x) =>
 
 async function serve() {
   const server = http.createServer((req, res) => {
-    const name = (req.url.split('?')[0] === '/' ? '/index.html' : req.url.split('?')[0]);
-    const file = path.join(APP_DIR, path.normalize(name).replace(/^(\.\.[/\\])+/, ''));
+    const url = req.url.split('?')[0];
+    const name = url === '/' ? '/index.html' : url;
+    // The popular tiles use the storefront's own flag PNGs, one level above app/.
+    const root = name.startsWith('/assets/') ? path.join(APP_DIR, '..') : APP_DIR;
+    const file = path.join(root, path.normalize(name).replace(/^(\.\.[/\\])+/, ''));
     fs.readFile(file, (err, buf) => {
       if (err) { res.writeHead(404).end(); return; }
       res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream' });
@@ -155,8 +158,10 @@ async function run() {
   // catalogue is visible and usable while the session is still in flight".
   await page.waitForSelector('#screen-home[data-active]', { timeout: 15000 });
   check('the catalogue is on screen without a session', await active(page), ['screen-home']);
+  // Tiles on the start screen, rows once the full list is expanded or a search
+  // is running — either is "the customer can see something to buy".
   check('and it has real destinations in it',
-    await page.$$eval('#home-countries .card--row', (n) => n.length > 0), true);
+    await page.$$eval('#home-countries .tile, #home-countries .card--row', (n) => n.length > 0), true);
   await page.tap('#nav-esims');
   check('taps do not fall into a void', await active(page), ['screen-esims']);
   await page.tap('#nav-home');
@@ -188,7 +193,7 @@ async function run() {
   // shown what is for sale.
   check('the catalogue is still on screen', await active(page), ['screen-home']);
   check('and still has destinations',
-    await page.$$eval('#home-countries .card--row', (n) => n.length > 0), true);
+    await page.$$eval('#home-countries .tile, #home-countries .card--row', (n) => n.length > 0), true);
   await page.tap('#nav-esims');
   check('«Мои eSIM» still responds', await active(page), ['screen-esims']);
 

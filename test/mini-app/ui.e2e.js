@@ -25,7 +25,7 @@ const CAT = (() => {
   return JSON.parse(fs.readFileSync(path.join(__dirname, 'catalogue.fixture.json'), 'utf8'));
 })();
 const OUT = process.env.UI_SHOTS || path.join(__dirname, '.shots');
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css' };
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 // Raw technical codes a customer must never see. Two-letter ISO codes as a
 // standalone word, plus the three invented regional ones.
@@ -51,7 +51,7 @@ function mock(c) {
   window.fetch = (u) => {
     u = String(u);
     if (u.includes('/tma/session')) return j({ session_token: 'm', expires_in: 1800 });
-    if (u.includes('/retail/packages')) return j(c);
+    if (u.includes('/retail/packages')) { window.__lastCatalogue = c.data; return j(c); }
     return j({ items: [] });
   };
 }
@@ -64,8 +64,12 @@ const ok = (label, cond, detail = '') => {
 
 async function serve() {
   const s = http.createServer((q, r) => {
-    const n = q.url.split('?')[0] === '/' ? '/index.html' : q.url.split('?')[0];
-    fs.readFile(path.join(APP, n), (e, b) => {
+    const url = q.url.split('?')[0];
+    const n = url === '/' ? '/index.html' : url;
+    // /assets/** comes from the repo root: the popular tiles use the
+    // storefront's own flag PNGs, which live one level above app/.
+    const root = n.startsWith('/assets/') ? path.join(APP, '..') : APP;
+    fs.readFile(path.join(root, n), (e, b) => {
       if (e) return r.writeHead(404).end();
       r.writeHead(200, { 'content-type': TYPES[path.extname(n)] || 'text/plain' });
       r.end(b);
@@ -115,12 +119,58 @@ async function runOne(engineName, scheme) {
   console.log(`\n── ${engineName} · ${scheme} ──`);
   const t0 = Date.now();
   await page.goto(base);
-  await page.waitForSelector('#home-countries .card--row', { timeout: 20000 });
+  await page.waitForSelector('#home-countries .tile', { timeout: 20000 });
   const tCat = Date.now() - t0;
   console.log(`   time to visible catalogue: ${tCat} ms`);
 
   await page.waitForTimeout(400);
   await page.screenshot({ path: `${OUT}/${engineName}-${scheme}-home.png` });
+
+  // ---- start screen: popular first, not the A-Z wall ----------------------
+  const tiles = await page.$$eval('.tile .tile__name', (n) => n.map((x) => x.innerText.trim()));
+  ok('the start screen opens on popular destinations', tiles.length > 0, `${tiles.length} tiles`);
+  ok('popular order matches the storefront exactly',
+    JSON.stringify(tiles) === JSON.stringify(await page.evaluate(
+      () => window.MagicCore.popularGroups(
+        window.MagicCore.groupCatalogue(window.__lastCatalogue || []).countries
+      ).map((g) => g.country))),
+    tiles.slice(0, 4).join(', '));
+  ok('the full A-Z list is NOT the initial view',
+    (await page.$$('#home-countries .card--row')).length === 0);
+  ok('and it is one tap away',
+    (await page.$$eval('#home-countries .btn--wide', (n) => n.length)) === 1);
+
+  // ---- search --------------------------------------------------------------
+  const type = async (q) => {
+    await page.fill('#search', q);
+    await page.waitForTimeout(120);
+    return page.$$eval('#home-countries .card--row .card__title', (n) => n.map((x) => x.innerText.trim()));
+  };
+
+  for (const [q, expect] of [
+    ['Таиланд', 'Таиланд'], ['тай', 'Таиланд'], ['thailand', 'Таиланд'],
+    ['Турция', 'Турция'], ['turkey', 'Турция'],
+    ['ОАЭ', 'ОАЭ'], ['uae', 'ОАЭ'],
+    ['китай', 'Китай'], ['china', 'Китай'],
+    ['вьетнам', 'Вьетнам'], ['vietnam', 'Вьетнам'],
+  ]) {
+    const r = await type(q);
+    ok(`search ${JSON.stringify(q)} -> ${expect} first`, r[0] === expect, `got ${JSON.stringify(r.slice(0, 3))}`);
+  }
+
+  ok('searching hides the popular tiles',
+    (await page.$$('.tile')).length === 0);
+
+  const none = await type('несуществующая страна');
+  ok('no match shows a stated empty state, not a blank screen',
+    none.length === 0
+      && (await page.$eval('#home-countries', (n) => n.innerText)).includes('Страна не найдена'));
+
+  await page.fill('#search', '');
+  await page.dispatchEvent('#search', 'input');
+  await page.waitForTimeout(150);
+  ok('clearing the field brings the popular tiles back',
+    (await page.$$('.tile')).length > 0);
 
   const homeText = await page.$eval('#screen-home', (n) => n.innerText);
   const m = homeText.match(RAW);
@@ -129,8 +179,17 @@ async function runOne(engineName, scheme) {
     await page.evaluate(() => getComputedStyle(document.querySelector('nav')).paddingBottom !== '0px'));
   ok('no horizontal scroll',
     await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
-  ok('both sections present',
-    homeText.includes('Регионы и весь мир') && homeText.includes('Страны'));
+  // Open the full list so the raw-code sweep covers every row, not just tiles.
+  await page.evaluate(() => {
+    const b = document.querySelector('#home-countries .btn--wide');
+    if (b) b.click();
+  });
+  await page.waitForTimeout(250);
+  const fullText = await page.$eval('#screen-home', (n) => n.innerText);
+  ok('both sections present once expanded',
+    fullText.includes('Регионы и весь мир') && fullText.includes('Все страны'));
+  const fm = fullText.match(RAW);
+  ok('no raw codes in the FULL list either', !fm, fm ? `found ${JSON.stringify(fm[0])}` : '');
   ok('plural forms are correct (no "1 тарифов")', !/\b1 тарифов\b/.test(homeText));
 
   // Drill: country -> tariffs -> checkout

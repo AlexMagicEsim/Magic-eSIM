@@ -422,3 +422,46 @@ button.card--row:active { background: color-mix(in srgb, var(--ink) 6%, var(--su
 html, body { min-height: 100%; }
 body { display: flex; flex-direction: column; min-height: 100vh; }
 .app-main { flex: 1 0 auto; }
+
+/* -----------------------------------------------------------------------
+ * Popular destinations — the shop window.
+ *
+ * A two-column grid rather than the site's horizontal scroller: a swipe lane
+ * hides half its contents on a 390px screen, and this is the first thing the
+ * customer sees. Same sixteen, same order, same flags.
+ * ----------------------------------------------------------------------- */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s3);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s1);
+  min-height: 88px;
+  padding: var(--s3);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+.tile:active { background: color-mix(in srgb, var(--ink) 6%, var(--surface)); }
+
+.tile__flag { width: 34px; height: 24px; border-radius: 3px; object-fit: cover; }
+.tile__name {
+  font-size: var(--t-secondary);
+  font-weight: 600;
+  align-self: stretch;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.tile__from { font-size: var(--t-caption); color: var(--muted); }
+
+.btn--wide { width: 100%; margin-top: var(--s4); }

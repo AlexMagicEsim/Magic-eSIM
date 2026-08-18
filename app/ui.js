@@ -128,6 +128,9 @@
     // different thing to buy and the Blueprint lists them separately.
     regions: [],
     query: '',
+    // The full A-Z list is behind one tap. Opening on 213 rows was the reported
+    // "весь каталог алфавитом".
+    showAll: false,
     // Never defaults to true. §9 S4: acceptance is an act, not a default.
     termsAccepted: false,
     country: null,
@@ -248,7 +251,7 @@
     const grouped = C.groupCatalogue(out.value.data || []);
     state.countries = grouped.countries;
     state.regions = grouped.regions;
-    paintCountryList(state.countries);
+    paintCountryList();
   }
 
   /**
@@ -308,36 +311,119 @@
     ]);
   }
 
-  function paintCountryList(groups) {
+  /**
+   * A popular destination, as a tile.
+   *
+   * The flag is the storefront's own PNG — same file, same artwork — rather than
+   * an emoji, because these sixteen are the ones the site presents as its shop
+   * window and they should not look different here. Emoji stays for the long
+   * tail, where sixteen extra requests would not be worth it and many of those
+   * countries have no asset anyway.
+   */
+  function popularTile(g) {
+    const code = g.country_code.toLowerCase();
+
+    return el('button', { class: 'tile', onclick: () => openCountry(g) }, [
+      el('img', {
+        class: 'tile__flag', src: `../assets/flags/${code}.png`,
+        width: '34', height: '24', alt: '', loading: 'lazy',
+        // An asset that 404s must not leave a broken-image glyph on the tile.
+        onerror: (e) => { e.target.remove(); },
+      }),
+      el('span', { class: 'tile__name', text: g.country }),
+      el('span', { class: 'tile__from tabular', text: g.from === null ? '' : `от ${C.money(g.from)}` }),
+    ]);
+  }
+
+  /** One destination row: flag, name, what you get, price, chevron. */
+  function destinationRow(g) {
+    return el('button', { class: 'card card--row', onclick: () => openCountry(g) }, [
+      el('span', { class: 'card__flag', text: g.flag || '' }),
+      el('span', { class: 'card__body' }, [
+        el('span', { class: 'card__title', text: g.country }),
+        el('span', {
+          class: 'card__meta',
+          text: g.regional
+            ? `${C.countryWord(g.coverage.length)} · ${C.tariffWord(g.items.length)}`
+            : C.tariffWord(g.items.length),
+        }),
+      ]),
+      el('span', { class: 'card__price tabular', text: g.from === null ? '' : `от ${C.money(g.from)}` }),
+      el('span', { class: 'card__chevron', 'aria-hidden': 'true', text: '›' }),
+    ]);
+  }
+
+  /**
+   * The catalogue screen has two completely different jobs and used to try to do
+   * both at once: browsing, and finding. Browsing opens on sixteen popular
+   * destinations — the storefront's own set, in the storefront's own order —
+   * with everything else behind one tap. Finding replaces all of it with ranked
+   * matches.
+   *
+   * The previous version rendered 213 rows on open and, while searching, left
+   * all 23 regional rows unfiltered above the matches. Typing "Таиланд" left
+   * nineteen rows on screen of which eighteen were regions, which is why this
+   * was reported as "search does not work": it did work, and you could not see
+   * that it had.
+   */
+  function paintCountryList() {
     const list = $('#home-countries');
     clear(list);
 
+    const q = state.query;
+    const countries = state.countries || [];
     const regions = state.regions || [];
-    const searching = Boolean(state.query);
 
-    if (!groups.length && !regions.length) {
-      list.appendChild(el('div', { class: 'empty stack' }, [
-        el('p', { text: searching ? 'Такой страны не нашлось.' : 'Тарифы не загрузились.' }),
-        searching ? el('button', {
-          class: 'btn btn--quiet', text: 'Показать все страны',
-          onclick: () => { $('#search').value = ''; state.query = ''; paintCountryList(state.countries); },
-        }) : null,
-      ]));
+    if (q) {
+      const matches = C.searchCountries([...countries, ...regions], q);
+      if (!matches.length) {
+        list.appendChild(el('div', { class: 'empty stack' }, [
+          el('p', { text: 'Страна не найдена.' }),
+          el('p', { class: 'small muted', text: 'Попробуйте другое название — например, «Таиланд» или «Turkey».' }),
+          el('button', { class: 'btn btn--quiet', text: 'Показать популярные', onclick: clearSearch }),
+        ]));
+        return;
+      }
+      list.appendChild(el('h2', { class: 'section', text: `Найдено · ${matches.length}` }));
+      for (const g of matches) list.appendChild(destinationRow(g));
+
       return;
     }
 
-    // Blueprint §9 S1 item 5: regional and global offers are their own section.
-    // They are not countries, and filing them under one member country is what
-    // put "Vietnam Plus" (six countries) under Indonesia.
+    const popular = C.popularGroups(countries);
+    if (popular.length) {
+      list.appendChild(el('h2', { class: 'section', text: 'Популярные направления' }));
+      list.appendChild(el('div', { class: 'tiles' }, popular.map(popularTile)));
+    }
+
+    if (!state.showAll) {
+      const rest = countries.length - popular.length + regions.length;
+      if (rest > 0) {
+        list.appendChild(el('button', {
+          class: 'btn btn--ghost btn--wide',
+          text: `Все страны и регионы · ${rest}`,
+          onclick: () => { state.showAll = true; paintCountryList(); },
+        }));
+      }
+
+      return;
+    }
+
     if (regions.length) {
       list.appendChild(el('h2', { class: 'section', text: 'Регионы и весь мир' }));
       for (const r of regions) list.appendChild(destinationRow(r));
     }
-
-    if (groups.length) {
-      list.appendChild(el('h2', { class: 'section', text: 'Страны' }));
-      for (const g of groups) list.appendChild(destinationRow(g));
+    if (countries.length) {
+      list.appendChild(el('h2', { class: 'section', text: 'Все страны' }));
+      for (const g of countries) list.appendChild(destinationRow(g));
     }
+  }
+
+  function clearSearch() {
+    const input = $('#search');
+    input.value = '';
+    state.query = '';
+    paintCountryList();
   }
 
   /* ------------------------------------------------------------------ *
@@ -879,9 +965,20 @@
 
   /** Every listener the app owns, attached once and never dependent on a session. */
   function bindChrome() {
+    // `input`, not `change` or Enter: results must follow the keystroke. No
+    // debounce — the whole catalogue is already in memory, the match is a string
+    // compare over ~200 rows, and a delay here would be felt as lag rather than
+    // read as care.
     $('#search').addEventListener('input', (e) => {
       state.query = e.target.value;
-      paintCountryList(C.searchCountries(state.countries, state.query));
+      paintCountryList();
+    });
+    // iOS renders a native clear button inside type=search and fires `search`,
+    // not `input`, when it is tapped. Without this the field empties and the
+    // results stay behind.
+    $('#search').addEventListener('search', (e) => {
+      state.query = e.target.value;
+      paintCountryList();
     });
     $('#checkout-pay').addEventListener('click', pay);
     // The pay button stays disabled until the oferta is accepted. The gate is
