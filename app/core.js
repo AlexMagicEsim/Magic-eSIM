@@ -1144,6 +1144,35 @@ function popularGroups(countryGroups) {
 }
 
 /**
+ * §9 S2: «Сортировка: по умолчанию цена по возрастанию; переключатели по цене
+ * и по объёму.»
+ *
+ * Two axes, because they answer two different questions. Price first is the
+ * right default — it is what the list is scanned for — but a customer who
+ * knows they need 20 GB is looking for volume and should not have to read
+ * every card to find where it starts.
+ *
+ * Unlimited sorts above every finite volume rather than as some large number:
+ * it is not a bigger amount, it is a different promise. Ties fall back to
+ * price so the order is total and the list never reshuffles on a redraw.
+ */
+const TARIFF_SORTS = Object.freeze({
+  price: { label: 'По цене', key: (p) => Number(p.price) || 0 },
+  volume: { label: 'По объёму', key: (p) => (p.unlimited ? Infinity : Number(p.data_gb) || 0) },
+});
+
+function sortTariffs(items, sort = 'price') {
+  const spec = TARIFF_SORTS[sort] || TARIFF_SORTS.price;
+  const list = Array.isArray(items) ? items.slice() : [];
+  // Volume descending (more is what is being looked for), price ascending.
+  const dir = sort === 'volume' ? -1 : 1;
+
+  return list.sort((a, b) => (dir * (spec.key(a) - spec.key(b)))
+    || (Number(a.price) - Number(b.price))
+    || String(a.package_id).localeCompare(String(b.package_id)));
+}
+
+/**
  * §9 S9: «Отметка времени обязательна ВСЕГДА — и когда данные свежие тоже.»
  *
  * "Осталось 3.2 ГБ" is a claim about a number the provider owns and we merely
@@ -1508,7 +1537,7 @@ const CORE = {
   destinationTitle, isOrderReady, isOrderDead,
   isAllowedPaymentUrl, PAYMENT_HOSTS,
   sortOwnedEsims, isSpentEsim, SPENT_ESIM_STATUSES,
-  syncedAgo, installPlatform,
+  syncedAgo, installPlatform, sortTariffs, TARIFF_SORTS,
   tariffFacts, tariffNetworks, tariffHotspot, tariffActivation, tariffTextRu,
   AFTER_PAYMENT_STEPS,
   memoryStorage,

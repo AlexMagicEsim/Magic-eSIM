@@ -236,8 +236,15 @@ async function runOne(engineName, scheme) {
 
   // Drill: country -> tariffs -> checkout
   await page.evaluate(() => {
+    // The EXACT country, not the first row whose text contains its name: with
+    // a real catalogue the regions are listed first, so `includes('Таиланд')`
+    // opened «Сингапур, Малайзия и Таиланд» — a regional group with one or two
+    // tariffs — and every assertion below was then made about the wrong screen.
     const rows = [...document.querySelectorAll('#home-countries .card--row')];
-    const th = rows.find((r) => r.innerText.includes('Таиланд')) || rows[rows.length - 1];
+    const title = (r) => (r.querySelector('.card__title') || r).innerText.trim();
+    const th = rows.find((r) => title(r) === 'Таиланд')
+      || rows.find((r) => title(r).includes('Таиланд'))
+      || rows[rows.length - 1];
     th.click();
   });
   await page.waitForTimeout(400);
@@ -246,6 +253,38 @@ async function runOne(engineName, scheme) {
   const cm = cText.match(RAW);
   ok('no raw codes on the country screen', !cm, cm ? `found ${JSON.stringify(cm[0])}` : '');
   ok('tariff cards rendered', (await page.$$('#country-list .card')).length > 0);
+
+  // ---- S2 · sorting --------------------------------------------------------
+  // Scoped to tariff cards: the «Также подойдут» rows underneath are
+  // destinations, not tariffs, and they carry the same generic classes.
+  const prices = () => page.$$eval('#country-list .card--tariff .card__price',
+    (n) => n.map((x) => Number(x.innerText.replace(/[^0-9]/g, ''))));
+  const volumes = () => page.$$eval('#country-list .card--tariff .card__title',
+    (n) => n.map((x) => (/Безлимит/.test(x.innerText) ? Infinity : parseFloat(x.innerText))));
+  const sortBox = await page.$('#country-list .segmented--sort');
+  if (sortBox) {
+    const byPrice = await prices();
+    ok('tariffs open sorted by price ascending',
+      byPrice.every((v, i) => i === 0 || byPrice[i - 1] <= v), byPrice.join(','));
+    ok('the default axis is marked as chosen',
+      await page.$eval('#country-list [data-sort="price"]', (b) => b.getAttribute('aria-checked')) === 'true');
+
+    await page.tap('#country-list [data-sort="volume"]');
+    await page.waitForTimeout(200);
+    const byVol = await volumes();
+    ok('switching to volume puts the largest first',
+      byVol.every((v, i) => i === 0 || byVol[i - 1] >= v), byVol.join(','));
+    ok('and the same number of tariffs is still on screen',
+      (await prices()).length === byPrice.length);
+    // Back to price, so the rest of the drill starts where it always did.
+    await page.tap('#country-list [data-sort="price"]');
+    await page.waitForTimeout(200);
+    ok('switching back restores the price order',
+      (await prices()).join(',') === byPrice.join(','));
+  } else {
+    ok('sort switch is omitted for a list too short to reorder',
+      (await page.$$('#country-list .card--tariff')).length <= 2);
+  }
 
   // ---- S3 · tariff detail --------------------------------------------------
   // A tariff card now opens the tariff, not the payment form. §9 S3 is the
@@ -325,7 +364,9 @@ async function runOne(engineName, scheme) {
   await page.waitForTimeout(200);
   await page.evaluate(() => {
     const rows = [...document.querySelectorAll('#home-countries .card--row')];
-    (rows.find((r) => r.innerText.includes('Таиланд')) || rows[0]).click();
+    const title = (r) => (r.querySelector('.card__title') || r).innerText.trim();
+    (rows.find((r) => title(r) === 'Таиланд')
+      || rows.find((r) => title(r).includes('Таиланд')) || rows[0]).click();
   });
   await page.waitForTimeout(250);
   await page.evaluate(() => document.querySelector('#country-list .card').click());

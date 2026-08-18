@@ -1192,3 +1192,53 @@ test('there is always an answer — the screen never opens on neither', () => {
     assert.ok(['ios', 'android'].includes(C.installPlatform(p, '')), String(p));
   }
 });
+
+/* ==========================================================================
+ * S2 · the two axes a tariff list is read along.
+ * ======================================================================== */
+
+const TARIFFS = [
+  { package_id: 'a', price: 700, data_gb: 10 },
+  { package_id: 'b', price: 350, data_gb: 3 },
+  { package_id: 'c', price: 1400, data_gb: 20 },
+  { package_id: 'd', price: 550, data_gb: 5 },
+];
+
+test('price ascending is the default the Blueprint asks for', () => {
+  assert.deepEqual(C.sortTariffs(TARIFFS).map((p) => p.price), [350, 550, 700, 1400]);
+  assert.deepEqual(C.sortTariffs(TARIFFS, 'price').map((p) => p.price), [350, 550, 700, 1400]);
+  // An unknown axis is not an empty list.
+  assert.equal(C.sortTariffs(TARIFFS, 'nonsense').length, 4);
+});
+
+test('by volume, more comes first — that is what is being looked for', () => {
+  assert.deepEqual(C.sortTariffs(TARIFFS, 'volume').map((p) => p.data_gb), [20, 10, 5, 3]);
+});
+
+test('unlimited is not a big number, it is a different promise', () => {
+  const withUnlimited = [...TARIFFS, { package_id: 'u', price: 2000, unlimited: true, data_gb: 0 }];
+  assert.equal(C.sortTariffs(withUnlimited, 'volume')[0].package_id, 'u');
+  // And it does not distort the price axis.
+  assert.equal(C.sortTariffs(withUnlimited, 'price')[0].price, 350);
+});
+
+test('the order is total, so a redraw never reshuffles the list', () => {
+  const tied = [
+    { package_id: 'z', price: 500, data_gb: 5 },
+    { package_id: 'a', price: 500, data_gb: 5 },
+  ];
+  assert.deepEqual(C.sortTariffs(tied, 'volume').map((p) => p.package_id), ['a', 'z']);
+  assert.deepEqual(C.sortTariffs(tied, 'price').map((p) => p.package_id), ['a', 'z']);
+});
+
+test('sorting never loses or invents a tariff', () => {
+  for (const axis of ['price', 'volume']) {
+    assert.equal(C.sortTariffs(TARIFFS, axis).length, TARIFFS.length);
+  }
+  assert.deepEqual(C.sortTariffs([], 'price'), []);
+  assert.deepEqual(C.sortTariffs(null, 'price'), []);
+  // The input is not mutated — the group keeps the order byCountry gave it.
+  const before = TARIFFS.map((p) => p.package_id);
+  C.sortTariffs(TARIFFS, 'volume');
+  assert.deepEqual(TARIFFS.map((p) => p.package_id), before);
+});

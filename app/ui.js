@@ -145,6 +145,10 @@
     // Never defaults to true. §9 S4: acceptance is an act, not a default.
     termsAccepted: false,
     country: null,
+    // §9 S2. Price ascending is the default the Blueprint asks for; the choice
+    // is remembered across countries within a session, because a customer who
+    // sorts by volume once is usually shopping by volume.
+    sort: 'price',
     // The package S3 is showing. Held so checkout is opened from the same
     // object the customer read, not from a fresh lookup that might differ.
     tariff: null,
@@ -530,7 +534,7 @@
     // §9 S3: a tariff card opens the tariff, not the payment form. Going
     // straight to checkout skipped the one screen whose job is to answer
     // "will this work on my phone, and what am I actually buying".
-    return el('button', { class: 'card stack', onclick: () => openTariff(p, group) }, [
+    return el('button', { class: 'card stack card--tariff', onclick: () => openTariff(p, group) }, [
       el('div', { class: 'row row--between' }, [
         el('div', { class: 'row tariff__head' }, [
           el('span', { class: 'card__title', text: p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ` }),
@@ -546,7 +550,30 @@
     ]);
   }
 
-  function openCountry(group) {
+  /** The two axes a tariff list is read along: what it costs, and how much. */
+  function sortToggle(group) {
+    const box = el('div', { class: 'segmented segmented--sort', role: 'radiogroup' });
+    for (const [key, spec] of Object.entries(C.TARIFF_SORTS)) {
+      box.appendChild(el('button', {
+        class: 'segmented__opt',
+        'data-sort': key,
+        role: 'radio',
+        'aria-checked': String(state.sort === key),
+        text: spec.label,
+        onclick: () => {
+          if (state.sort === key) return;
+          state.sort = key;
+          // Redrawn in place: re-entering the screen would push a second copy
+          // onto the back stack and make BackButton feel broken.
+          openCountry(group, { push: false });
+        },
+      }));
+    }
+
+    return box;
+  }
+
+  function openCountry(group, { push = true } = {}) {
     state.country = group;
     $('#country-title').textContent = group.country;
     const list = $('#country-list');
@@ -559,7 +586,13 @@
       }));
     }
 
-    for (const p of group.items) list.appendChild(tariffCard(p, group));
+    // §9 S2: price ascending by default, with a switch to volume. Only worth
+    // drawing when there is something to reorder — two cards sort themselves.
+    if (group.items.length > 2) list.appendChild(sortToggle(group));
+
+    for (const p of C.sortTariffs(group.items, state.sort)) {
+      list.appendChild(tariffCard(p, group));
+    }
 
     // Blueprint §9 S2: a country is never a dead end. Regional offers that
     // cover it are shown underneath — and if it has no local tariff at all,
@@ -580,7 +613,7 @@
       ]));
     }
 
-    show('country');
+    show('country', { push });
   }
 
   /* ------------------------------------------------------------------ *
