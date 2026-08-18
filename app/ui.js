@@ -838,7 +838,7 @@
       $('#order-title').textContent = stage ? stage.title : 'Заказ';
 
       body.appendChild(el('div', { class: 'card stack' }, [
-        el('div', { class: 'card__title', text: order.package_name || order.country || 'Заказ' }),
+        el('div', { class: 'card__title', text: C.countryLabel(order.country_code) || order.country || 'Заказ' }),
         order.amount_rub ? el('div', { class: 'row row--between' }, [
           el('span', { class: 'muted', text: 'Сумма' }),
           el('strong', { class: 'tabular', text: C.money(order.amount_rub) }),
@@ -895,7 +895,7 @@
         stopOrderPoll();
         await refreshEsimsQuietly();
         paint(state.esims.length
-          ? { display_status: 'completed', package_name: state.esims[0].country || 'eSIM' }
+          ? { display_status: 'completed', country_code: state.esims[0].country_code }
           : null);
 
         return;
@@ -982,14 +982,32 @@
     ]);
   }
 
+  /**
+   * What to call something the customer owns.
+   *
+   * NOT `package_name`. That is the provider's own string — "Algeria 100MB
+   * 7Days" — and it is English, contains the volume twice once the meta line is
+   * drawn, and falls back to a bare ISO code. Found while verifying the first
+   * real purchase: the eSIM the customer had just paid for would have appeared
+   * in «Мои eSIM» as "Algeria 100MB 7Days". Same P3 rule as the catalogue: the
+   * customer never sees an internal technical entity.
+   */
+  const ownedLabel = (e) => C.countryLabel(e && e.country_code);
+
   function esimCard(e) {
     const days = C.daysLeft(e.expires_at);
 
     return el('button', { class: 'card stack', onclick: () => openEsim(e.id) }, [
       el('div', { class: 'row row--between' }, [
-        el('div', {}, [
-          el('div', { class: 'card__title', text: e.package_name || e.country_code || 'eSIM' }),
-          el('div', { class: 'card__meta', text: days === null ? '' : `${days} дней осталось` }),
+        el('div', { class: 'row' }, [
+          el('span', { class: 'card__flag', text: C.flagFor(e.country_code) }),
+          el('span', { class: 'card__body' }, [
+            el('span', { class: 'card__title', text: ownedLabel(e) }),
+            el('span', {
+              class: 'card__meta',
+              text: days === null ? '' : `${days} ${C.plural(days, 'день', 'дня', 'дней')} осталось`,
+            }),
+          ]),
         ]),
         statusBadge(e.status),
       ]),
@@ -1022,7 +1040,7 @@
     clear(box);
     box.appendChild(el('div', { class: 'card stack' }, [
       el('div', { class: 'row row--between' }, [
-        el('h1', { text: e.package_name || 'eSIM' }),
+        el('h1', { text: ownedLabel(e) }),
         statusBadge(e.status),
       ]),
       gauge(e),
