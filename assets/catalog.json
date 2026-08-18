@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-18T07:08:16.254Z",
+  "generated_at": "2026-08-18T13:12:07.438Z",
   "source": "production-public-api",
-  "package_count": 973,
+  "package_count": 974,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -82,8 +82,8 @@
       "price": 950,
       "networks": [
         {
-          "operator": "Omantel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -2827,6 +2827,35 @@
       "fup_policy": "",
       "hotspot_supported": true,
       "activation_policy": "first_data_usage",
+      "topup_available": true
+    },
+    {
+      "package_id": "1798186b-e953-4d44-92bc-83d9974b5593",
+      "name": "Algeria 100MB 7Days",
+      "country_code": "DZ",
+      "region": "DZ",
+      "coverage_country_codes": [
+        "DZ"
+      ],
+      "coverage_flags": "🇩🇿",
+      "data_gb": 0.1,
+      "validity_days": 7,
+      "price": 50,
+      "networks": [
+        {
+          "operator": "Mobilis",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
       "topup_available": true
     },
     {
@@ -6134,7 +6163,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1050,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "AirtelTigo",
+          "type": "3G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -11182,7 +11216,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 700,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Telekom.mk",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -17414,8 +17453,8 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Omantel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -20788,6 +20827,10 @@
       "validity_days": 15,
       "price": 350,
       "networks": [
+        {
+          "operator": "Sunrise",
+          "type": "5G"
+        },
         {
           "operator": "Salt",
           "type": "5G"
@@ -25684,7 +25727,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Hutch",
+          "operator": "Mobitel",
           "type": "4G"
         }
       ],
@@ -31304,7 +31347,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 500,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Telenor",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
