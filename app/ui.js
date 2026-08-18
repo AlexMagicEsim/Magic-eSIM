@@ -114,6 +114,11 @@
 
   const cache = C.createCache(storage);
 
+  // Exposed for the browser suite only: it needs to assert that what the
+  // selector SHOWS and what the intent WILL SEND are the same thing, and a
+  // discrepancy between those two is exactly the bug this guards.
+  if (typeof window !== 'undefined') window.__state = null;
+
   let api = null;
   const state = {
     // 'loading' until boot says otherwise: the markup ships with that screen
@@ -140,6 +145,8 @@
     intent: null,
     stale: {},
   };
+
+  if (typeof window !== 'undefined') window.__state = state;
 
   /* ------------------------------------------------------------------ *
    * Navigation
@@ -567,7 +574,10 @@
 
     state.intent = {
       package_id: pkg.package_id,
-      payment_type: 'card',
+      // §9 S4: sbp or card, nothing else. SBP is the default on both surfaces
+      // and is the cheaper rail; it was hard-coded to 'card' here with no way
+      // to see or change it.
+      payment_type: 'sbp',
       email: '',
       expected_amount_rub: Number(pkg.price),
       _pkg: pkg,
@@ -598,6 +608,9 @@
     // Blueprint §9 S4: «Согласие с офертой — обязательно. Явное действие.
     // Предустановленной галочки быть не может.» The app was sending
     // terms_accepted: true unconditionally, which is an acceptance nobody made.
+    // A fresh intent starts on SBP every time, however the last one ended.
+    setPaymentMethod('sbp');
+
     const terms = $('#checkout-terms');
     terms.checked = false;
     $('#checkout-error').replaceChildren();
@@ -606,16 +619,41 @@
     show('checkout');
   }
 
-  function setPayEnabled(enabled, label) {
+  /**
+   * Choose the rail, and show it.
+   *
+   * Changing the method changes the intent, and purchaseIntentKey already has
+   * payment_type in its scope — so a switch derives a NEW key while retrying
+   * the same choice reuses the existing one. Nothing here has to manage that;
+   * it only has to keep state.intent honest.
+   */
+  function setPaymentMethod(method) {
+    const chosen = method === 'card' ? 'card' : 'sbp';
+    if (state.intent) state.intent.payment_type = chosen;
+
+    for (const btn of document.querySelectorAll('#checkout-methods .segmented__opt')) {
+      btn.setAttribute('aria-checked', String(btn.dataset.method === chosen));
+    }
+  }
+
+  /**
+   * Two different reasons a pay button is disabled, and they must not look the
+   * same.
+   *
+   * `busy` means an order is being created and a spinner is the truth. Merely
+   * NOT YET ALLOWED — the oferta is unticked — is not work in progress, and
+   * showing a spinner for it says the app is doing something when it is waiting
+   * for the customer. That is what shipped when the consent gate started
+   * reusing this function, which had only ever had the one meaning.
+   */
+  function setPayEnabled(enabled, label, { busy = false } = {}) {
     const btn = $('#checkout-pay');
     btn.disabled = !enabled;
     clear(btn);
-    if (enabled) {
-      btn.appendChild(document.createTextNode(label || 'Оплатить'));
-    } else {
-      btn.appendChild(el('span', { class: 'btn__spinner' }));
-      btn.appendChild(document.createTextNode(label || 'Создаём заказ…'));
-    }
+    if (!enabled && busy) btn.appendChild(el('span', { class: 'btn__spinner' }));
+    btn.appendChild(document.createTextNode(
+      label || (enabled ? 'Оплатить' : (busy ? 'Создаём заказ…' : 'Оплатить'))
+    ));
   }
 
   async function pay() {
@@ -635,7 +673,7 @@
     // The guard against the second tap. The idempotency key makes a repeat safe
     // on the server; disabling the button is what stops the customer having to
     // find out.
-    setPayEnabled(false);
+    setPayEnabled(false, null, { busy: true });
     state.intent.email = email;
     state.intent.terms_accepted = state.termsAccepted === true;
     haptic('medium');
@@ -647,7 +685,7 @@
       api.forgetIntent(state.intent);
 
       if (out.redirect_url) {
-        setPayEnabled(false, 'Открываем оплату…');
+        setPayEnabled(false, 'Открываем оплату…', { busy: true });
         openExternal(out.redirect_url);
         // The app stays on this screen deliberately: the customer returns here
         // from the browser, and "waiting for payment" is the honest state.
@@ -1063,6 +1101,12 @@
       paintCountryList();
     });
     $('#checkout-pay').addEventListener('click', pay);
+    for (const btn of document.querySelectorAll('#checkout-methods .segmented__opt')) {
+      btn.addEventListener('click', () => {
+        setPaymentMethod(btn.dataset.method);
+        haptic('light');
+      });
+    }
     // The pay button stays disabled until the oferta is accepted. The gate is
     // here rather than inside pay() so the customer can see the requirement
     // instead of discovering it by being refused.

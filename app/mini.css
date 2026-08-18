@@ -498,3 +498,42 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 /* Loading and error, where the logo IS the heading and there is nothing to
    compete with. Both screens were bare text before. */
 .brand--lg { height: 56px; margin: 0 auto var(--s3); }
+
+/* -----------------------------------------------------------------------
+ * Segmented control — the payment method.
+ *
+ * Two options, both always visible, the chosen one obvious without reading:
+ * a customer must know which rail they are about to pay on BEFORE the button,
+ * not discover it on Platega's page. Sized to the 44px tap floor.
+ * ----------------------------------------------------------------------- */
+
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s2);
+}
+
+.segmented__opt {
+  min-height: var(--tap);
+  padding: var(--s3) var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--t-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 0;
+}
+
+/* Chosen. Brand accent rather than a Telegram colour, so the selection reads
+   the same in both themes and does not borrow the button colour that varies
+   per client. */
+.segmented__opt[aria-checked="true"] {
+  border-color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 14%, transparent);
+  color: var(--blue);
+}
+
+.segmented__opt:active { background: color-mix(in srgb, var(--ink) 6%, var(--surface)); }

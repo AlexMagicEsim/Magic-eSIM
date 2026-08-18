@@ -111,6 +111,19 @@
     </div>
     <p class="small muted">Отправим QR-код и данные установки на этот адрес.</p>
 
+    <h2>Способ оплаты</h2>
+    <!-- §9 S4 lists the payment method as REQUIRED and offers exactly two. The
+         app had neither control nor display: it sent payment_type:'card'
+         hard-coded, which is both an invisible default and the dearer of the
+         two rails (card 9.5% against SBP 8.5%). SBP is first and selected,
+         matching the website's own selector. -->
+    <div class="segmented" id="checkout-methods" role="radiogroup" aria-label="Способ оплаты">
+      <button type="button" class="segmented__opt" data-method="sbp"
+              role="radio" aria-checked="true">СБП</button>
+      <button type="button" class="segmented__opt" data-method="card"
+              role="radio" aria-checked="false">Карта</button>
+    </div>
+
     <div id="checkout-error"></div>
 
     <!-- §9 S4: explicit acceptance. A pre-ticked box is not an acceptance, and

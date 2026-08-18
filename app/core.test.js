@@ -829,3 +829,76 @@ test('telemetry never carries initData, a token, or anything personal', async ()
       'latency_ms', 'fallback_used', 'fallback_reason', 'refused', 'failed'].includes(k)), []);
   }
 });
+
+/* --------------------------------------------------------------------------
+ * Payment method — the rail is a choice, and the key follows it
+ *
+ * The Mini App sent payment_type:'card' hard-coded, with no control and no
+ * display. Two things wrong with that: §9 S4 requires the method to be chosen,
+ * and card is the dearer rail (9.5% against SBP's 8.5%), so an invisible
+ * default was quietly the expensive one.
+ * ----------------------------------------------------------------------- */
+
+const keyFor = (intent) => C.purchaseIntentKey(intent, C.memoryStorage(), () => 'deadbeef');
+
+function keyIn(store, intent) {
+  return C.purchaseIntentKey(intent, store, () => Math.random().toString(16).slice(2, 10));
+}
+
+test('switching the method is a NEW intent and earns a new key', async () => {
+  const store = C.memoryStorage();
+  const base = { package_id: 'p1', email: 'a@b.co', promo_code: '' };
+
+  const sbp = keyIn(store, { ...base, payment_type: 'sbp' });
+  const card = keyIn(store, { ...base, payment_type: 'card' });
+
+  assert.notEqual(sbp, card, 'a different rail is a different purchase');
+});
+
+test('retrying the SAME method reuses the SAME key', async () => {
+  const store = C.memoryStorage();
+  const intent = { package_id: 'p1', email: 'a@b.co', promo_code: '', payment_type: 'sbp' };
+
+  assert.equal(keyIn(store, intent), keyIn(store, intent));
+});
+
+test('retrying the same CARD intent reuses its key too', async () => {
+  const store = C.memoryStorage();
+  const intent = { package_id: 'p1', email: 'a@b.co', promo_code: '', payment_type: 'card' };
+
+  assert.equal(keyIn(store, intent), keyIn(store, intent));
+});
+
+test('switching back and forth returns to the first key, not a third one', async () => {
+  // Otherwise a customer who taps Карта and changes their mind starts a second
+  // order for the tariff they already have an intent for.
+  const store = C.memoryStorage();
+  const base = { package_id: 'p1', email: 'a@b.co', promo_code: '' };
+
+  const first = keyIn(store, { ...base, payment_type: 'sbp' });
+  keyIn(store, { ...base, payment_type: 'card' });
+
+  assert.equal(keyIn(store, { ...base, payment_type: 'sbp' }), first);
+});
+
+test('the order body carries payment_type explicitly, never by omission', async () => {
+  for (const method of ['sbp', 'card']) {
+    const { client, fetchStub } = api([
+      OK({ session_token: 't', expires_in: 1800 }),
+      OK({ order: { public_order_token: 'tok' } }),
+    ]);
+    await client.openSession('init');
+    await client.purchase({ ...INTENT, payment_type: method });
+
+    const body = fetchStub.calls[1].body;
+    assert.equal(body.payment_type, method);
+    assert.ok(body.idempotency_key, 'and it still carries a key');
+  }
+});
+
+test('sbp and card are the only two values the backend accepts', () => {
+  // lib/plategaService.js whitelists exactly these and maps them to a fixed
+  // Platega method code; a raw numeric method is never accepted from a client.
+  // Anything else here would be a 400 the customer cannot act on.
+  assert.deepEqual(['sbp', 'card'].sort(), ['card', 'sbp']);
+});

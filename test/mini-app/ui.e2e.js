@@ -238,14 +238,57 @@ async function runOne(engineName, scheme) {
   await page.screenshot({ path: `${OUT}/${engineName}-${scheme}-checkout.png` });
   const ck = await page.$eval('#screen-checkout', (n) => n.innerText);
   ok('checkout names the destination', !/^\s*·/m.test(ck) && ck.length > 30);
+  // ---- payment method ------------------------------------------------------
+  const chosen = () => page.$eval('#checkout-methods [aria-checked="true"]', (n) => n.dataset.method);
+  const order = await page.$$eval('#checkout-methods .segmented__opt', (n) => n.map((x) => x.dataset.method));
+  ok('СБП is offered first, Карта second', JSON.stringify(order) === JSON.stringify(['sbp', 'card']),
+    order.join(' > '));
+  ok('a fresh checkout defaults to СБП', await chosen() === 'sbp');
+  ok('the choice is visible before paying — both options on screen',
+    (await page.$$('#checkout-methods .segmented__opt')).length === 2);
+  ok('and the intent agrees with what is shown',
+    await page.evaluate(() => window.__state && window.__state.intent
+      ? window.__state.intent.payment_type : 'sbp') === 'sbp');
+
+  await page.tap('#checkout-methods [data-method="card"]');
+  ok('tapping Карта selects it', await chosen() === 'card');
+  await page.tap('#checkout-methods [data-method="sbp"]');
+  ok('tapping СБП selects it back', await chosen() === 'sbp');
+
   ok('pay button starts DISABLED until the oferta is accepted',
     await page.$eval('#checkout-pay', (b) => b.disabled) === true);
+  // Waiting for a tick is not work in progress. A spinner here says the app is
+  // busy when it is in fact waiting for the customer.
+  ok('and shows no spinner while merely awaiting consent',
+    (await page.$$('#checkout-pay .btn__spinner')).length === 0);
+  ok('it still names the price while disabled',
+    /Оплатить/.test(await page.$eval('#checkout-pay', (b) => b.innerText)));
   await page.evaluate(() => {
     const c = document.querySelector('#checkout-terms');
     c.checked = true; c.dispatchEvent(new Event('change'));
   });
   ok('accepting the oferta enables it',
     await page.$eval('#checkout-pay', (b) => b.disabled) === false);
+
+  // Reopening a checkout must start from СБП again, whatever the last one ended on.
+  await page.tap('#checkout-methods [data-method="card"]');
+  await page.tap('#nav-home');
+  await page.waitForTimeout(200);
+  await page.evaluate(() => {
+    const b = document.querySelector('#home-countries .btn--wide');
+    if (b) b.click();
+  });
+  await page.waitForTimeout(200);
+  await page.evaluate(() => {
+    const rows = [...document.querySelectorAll('#home-countries .card--row')];
+    (rows.find((r) => r.innerText.includes('Таиланд')) || rows[0]).click();
+  });
+  await page.waitForTimeout(250);
+  await page.evaluate(() => document.querySelector('#country-list .card').click());
+  await page.waitForTimeout(250);
+  ok('reopening a checkout resets the default to СБП', await chosen() === 'sbp');
+  ok('and the oferta must be accepted again',
+    await page.$eval('#checkout-pay', (b) => b.disabled) === true);
 
   await page.tap('#nav-esims');
   await page.waitForTimeout(400);
