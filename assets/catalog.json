@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-17T13:09:52.515Z",
+  "generated_at": "2026-08-18T07:08:16.254Z",
   "source": "production-public-api",
   "package_count": 973,
   "packages": [
@@ -82,8 +82,8 @@
       "price": 950,
       "networks": [
         {
-          "operator": "Vodafone",
-          "type": "5G"
+          "operator": "Omantel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -6134,12 +6134,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1050,
-      "networks": [
-        {
-          "operator": "AirtelTigo",
-          "type": "3G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -11187,12 +11182,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 700,
-      "networks": [
-        {
-          "operator": "Telekom.mk",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -17424,8 +17414,8 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Vodafone",
-          "type": "5G"
+          "operator": "Omantel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -20799,10 +20789,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Sunrise",
-          "type": "5G"
-        },
-        {
           "operator": "Salt",
           "type": "5G"
         }
@@ -23190,10 +23176,6 @@
       "price": 700,
       "networks": [
         {
-          "operator": "IAM",
-          "type": "4G"
-        },
-        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -23575,10 +23557,6 @@
       "validity_days": 30,
       "price": 3150,
       "networks": [
-        {
-          "operator": "IAM",
-          "type": "4G"
-        },
         {
           "operator": "Orange Morocco",
           "type": "5G"
@@ -25706,7 +25684,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Mobitel",
+          "operator": "Hutch",
           "type": "4G"
         }
       ],
@@ -26478,10 +26456,6 @@
       "validity_days": 30,
       "price": 1100,
       "networks": [
-        {
-          "operator": "IAM",
-          "type": "4G"
-        },
         {
           "operator": "Orange Morocco",
           "type": "5G"
@@ -27547,10 +27521,6 @@
       "validity_days": 30,
       "price": 5900,
       "networks": [
-        {
-          "operator": "IAM",
-          "type": "4G"
-        },
         {
           "operator": "Orange Morocco",
           "type": "5G"
@@ -31074,10 +31044,6 @@
       "price": 1850,
       "networks": [
         {
-          "operator": "IAM",
-          "type": "4G"
-        },
-        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -31338,12 +31304,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 500,
-      "networks": [
-        {
-          "operator": "Telenor",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
