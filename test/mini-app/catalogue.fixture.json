@@ -1,6 +1,6 @@
 {
  "status": "success",
- "count": 13,
+ "count": 16,
  "currency": "RUB",
  "data": [
   {
@@ -530,6 +530,103 @@
    "sms_supported": null,
    "data_only": null,
    "unlimited": null
+  },
+  {
+   "package_id": "096d1bf0-282f-4e55-97da-d9ccccc57694",
+   "name": "United Arab Emirates 3GB 15Days",
+   "country_code": "AE",
+   "region": "AE",
+   "coverage_country_codes": [
+    "AE"
+   ],
+   "coverage_flags": "🇦🇪",
+   "data_gb": 3,
+   "validity_days": 15,
+   "price": 1050,
+   "networks": [
+    {
+     "operator": "Du",
+     "type": "5G"
+    }
+   ],
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "speed": "3G/4G/5G",
+   "speed_note": "",
+   "fup_policy": "",
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "topup_available": true
+  },
+  {
+   "package_id": "3de9b6ba-f557-4b25-886c-713fec8d46cc",
+   "name": "China 3GB 15Days",
+   "country_code": "CN",
+   "region": "CN",
+   "coverage_country_codes": [
+    "CN"
+   ],
+   "coverage_flags": "🇨🇳",
+   "data_gb": 3,
+   "validity_days": 15,
+   "price": 450,
+   "networks": [
+    {
+     "operator": "China Mobile",
+     "type": "5G"
+    }
+   ],
+   "network_technologies": [
+    "3G",
+    "4G",
+    "5G"
+   ],
+   "speed": "3G/4G/5G",
+   "speed_note": "",
+   "fup_policy": "",
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "topup_available": true
+  },
+  {
+   "package_id": "b4f4a4d1-a468-44bb-92ec-79db1b28f69f",
+   "name": "Vietnam 3GB 15Days",
+   "country_code": "VN",
+   "region": "VN",
+   "coverage_country_codes": [
+    "VN"
+   ],
+   "coverage_flags": "🇻🇳",
+   "data_gb": 3,
+   "validity_days": 15,
+   "price": 500,
+   "networks": [
+    {
+     "operator": "Viettel Mobile",
+     "type": "5G"
+    },
+    {
+     "operator": "MobiFone",
+     "type": "4G"
+    },
+    {
+     "operator": "Vinaphone",
+     "type": "5G"
+    }
+   ],
+   "network_technologies": [
+    "3G",
+    "4G"
+   ],
+   "speed": "3G/4G",
+   "speed_note": "",
+   "fup_policy": "",
+   "hotspot_supported": null,
+   "activation_policy": "unknown",
+   "topup_available": true
   }
  ]
 }

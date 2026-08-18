@@ -161,6 +161,10 @@
 
   function show(name, { push = true } = {}) {
     if (push && state.screen !== name) history.push(state.screen);
+    // Leaving S6 stops its poll. Without this the timer outlived the screen,
+    // kept asking the gateway, rewrote a hidden container and could fire the
+    // success haptic while the customer was somewhere else entirely.
+    if (state.screen === 'order' && name !== 'order') stopOrderPoll();
     state.screen = name;
     for (const s of SCREENS) {
       const node = document.getElementById(`screen-${s}`);
@@ -301,7 +305,16 @@
     if (first.ok) paint(first.value, { stale: first.value.generated_at != null });
 
     const settled = await live;
-    if (settled.ok) {
+    // An EMPTY live answer is not a fresher catalogue, it is an incident. It
+    // used to satisfy `ok` and repaint over a perfectly good snapshot, leaving
+    // a blank shop window with no tiles, no «Все страны» and no error to
+    // explain it. The storefront has always had this guard; the Mini App did
+    // not. Treated as a failure so the snapshot path below takes over.
+    const liveHasRows = settled.ok
+      && Array.isArray(settled.value && settled.value.data)
+      && settled.value.data.length > 0;
+
+    if (liveHasRows) {
       // Fresh beats everything, and the notice goes with it.
       paint(settled.value, { stale: false });
       cache.write('catalogue', settled.value);
@@ -774,6 +787,36 @@
   }
 
   /* ------------------------------------------------------------------ *
+   * S11 · Support — a handover, not a second support channel
+   * ------------------------------------------------------------------ */
+
+  // §9 S11: «Mini App не содержит собственного чата.» The client bot already
+  // has AI answers, escalation to a live operator and an operator-reply
+  // bridge; a second, worse channel inside the Mini App would be a downgrade
+  // dressed as a feature. All this does is open that bot with enough context
+  // that the customer does not have to re-describe what they bought.
+  //
+  // Only the last six characters of the public token travel — the same ref the
+  // return deep-link already carries, and never the whole bearer (R10).
+  const SUPPORT_BOT = 'https://t.me/magic_esim_support_bot';
+
+  function supportUrl(order) {
+    const ref = order && order.public_order_token
+      ? String(order.public_order_token).slice(-6)
+      : (state.orderRef ? String(state.orderRef).slice(-6) : '');
+
+    return ref ? `${SUPPORT_BOT}?start=order_${encodeURIComponent(ref)}` : SUPPORT_BOT;
+  }
+
+  function supportButton(order, { wide = true } = {}) {
+    return el('button', {
+      class: wide ? 'btn btn--ghost btn--wide' : 'btn btn--ghost',
+      text: 'Написать в поддержку',
+      onclick: () => openExternal(supportUrl(order)),
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
    * S6 · Order status — the screen the Blueprint calls the most important
    * one in the product, and the one a real paid purchase proved missing.
    * ------------------------------------------------------------------ */
@@ -784,12 +827,36 @@
   // battery complaint. After this the customer gets a manual refresh.
   const ORDER_POLL_MS = [2000, 3000, 5000, 5000, 8000, 8000, 10000, 10000, 15000, 15000, 20000, 20000];
 
+  /**
+   * The five states §6.3 allows, keyed on what the BACKEND sends.
+   *
+   * `display_status` is produced by ORDER_DISPLAY_STATUS in lib/tmaProjection.js
+   * and its entire vocabulary is: awaiting_payment · paid · provisioning ·
+   * ready · failed · canceled · unknown. This table was keyed on the INTERNAL
+   * retail_orders.status names instead — `purchasing_esim`, `completed`,
+   * `cancelled` with two Ls, `refunded` — so four of seven keys could never
+   * match anything the server says.
+   *
+   * The two that mattered were the two that broke: fulfilment in progress fell
+   * through to a card titled «Заказ» with an empty note, and a finished order
+   * never satisfied `done`, so «Открыть eSIM» never appeared. The e2e suite did
+   * not catch it because its fixture invented `display_status: 'purchasing_esim'`
+   * — a value production has never emitted.
+   *
+   * Internal names are kept as aliases, not deleted: a miss here is silent, and
+   * silence is precisely the failure being fixed.
+   */
   const ORDER_STAGE = Object.freeze({
     awaiting_payment: { title: 'Ждём оплату', note: 'Завершите оплату в браузере. Мы сами узнаем, когда она пройдёт.', spin: true },
     paid: { title: 'Оплата получена', note: 'Готовим eSIM. Обычно это занимает меньше минуты.', spin: true },
+    provisioning: { title: 'Готовим eSIM', note: 'Выпускаем профиль у оператора.', spin: true },
+    ready: { title: 'eSIM готова', note: 'Профиль выпущен и доступен в «Мои eSIM».', spin: false },
+    failed: { title: 'Нужна помощь с заказом', note: 'Мы не смогли выпустить eSIM. Деньги не списаны или будут возвращены — напишите нам, разберёмся.', spin: false },
+    canceled: { title: 'Заказ отменён', note: 'Оплата не прошла. Можно попробовать ещё раз.', spin: false },
+
+    // Aliases for the internal vocabulary.
     purchasing_esim: { title: 'Готовим eSIM', note: 'Выпускаем профиль у оператора.', spin: true },
     completed: { title: 'eSIM готова', note: 'Профиль выпущен и доступен в «Мои eSIM».', spin: false },
-    failed: { title: 'Что-то пошло не так', note: 'Деньги не списаны или будут возвращены. Напишите нам, мы разберёмся.', spin: false },
     cancelled: { title: 'Заказ отменён', note: 'Оплата не прошла. Можно попробовать ещё раз.', spin: false },
     refunded: { title: 'Возврат', note: 'Средства возвращены.', spin: false },
   });
@@ -821,32 +888,53 @@
       clear(body);
 
       if (!order) {
-        $('#order-title').textContent = 'Заказ не найден';
+        $('#order-title').textContent = stale ? 'Не удалось проверить заказ' : 'Заказ не найден';
         body.appendChild(el('p', { class: 'muted', text: stale
-          ? 'Не удалось получить статус. Попробуйте ещё раз.'
-          : 'Активных заказов нет. Возможно, eSIM уже готова.' }));
+          ? 'Связь с сервером пропала. Статус заказа не изменился от того, что мы его не увидели — попробуйте ещё раз.'
+          : 'Мы не нашли такой заказ. Если оплата прошла, он появится в «Мои eSIM» — а если нет, напишите нам.' }));
+        body.appendChild(el('button', {
+          class: 'btn btn--ghost btn--wide', text: 'Повторить',
+          onclick: () => { attempt = 0; tick(); },
+        }));
         body.appendChild(el('button', {
           class: 'btn btn--wide', text: 'Открыть «Мои eSIM»',
           onclick: () => { stopOrderPoll(); show('esims'); renderEsims(); },
         }));
+        body.appendChild(supportButton(null));
 
         return;
       }
 
-      const stage = ORDER_STAGE[order.display_status] || ORDER_STAGE[order.status] || null;
-      const done = order.display_status === 'completed' || order.status === 'completed';
-      $('#order-title').textContent = stage ? stage.title : 'Заказ';
+      const st = order.display_status || order.status;
+      const stage = ORDER_STAGE[st] || null;
+      const done = C.isOrderReady(st);
+      const dead = C.isOrderDead(st);
+      $('#order-title').textContent = stage ? stage.title : 'Проверяем заказ';
 
       body.appendChild(el('div', { class: 'card stack' }, [
-        el('div', { class: 'card__title', text: C.countryLabel(order.country_code) || order.country || 'Заказ' }),
+        el('div', {
+          class: 'card__title',
+          text: C.destinationTitle(order.package_name, order.country_code),
+        }),
         order.amount_rub ? el('div', { class: 'row row--between' }, [
           el('span', { class: 'muted', text: 'Сумма' }),
           el('strong', { class: 'tabular', text: C.money(order.amount_rub) }),
         ]) : null,
-        el('div', { class: 'card__meta', text: stage ? stage.note : '' }),
+        el('div', {
+          class: 'card__meta',
+          // An unmapped status is not a blank card. §16: the state is always
+          // carried in words, never only by the absence of them.
+          text: stage ? stage.note : 'Мы уточняем статус заказа. Если он не изменится, напишите нам.',
+        }),
       ]));
 
-      if (stage && stage.spin) {
+      if (stale) {
+        body.appendChild(el('div', { class: 'notice' }, [
+          el('span', { text: 'Не удалось обновить статус — показано последнее известное состояние.' }),
+        ]));
+      }
+
+      if (stage && stage.spin && !stale) {
         // A shaped, finite progress note — never an open-ended spinner.
         body.appendChild(el('div', { class: 'notice' }, [
           el('span', { class: 'btn__spinner' }),
@@ -856,9 +944,15 @@
 
       if (done) {
         notifySuccess();
+        // The order carries `esim_id`, so this opens THE eSIM that was just
+        // paid for rather than a list the customer then has to search.
         body.appendChild(el('button', {
           class: 'btn btn--wide', text: 'Открыть eSIM',
-          onclick: () => { stopOrderPoll(); show('esims'); renderEsims(); },
+          onclick: () => {
+            stopOrderPoll();
+            if (order.esim_id) openEsim(order.esim_id);
+            else { show('esims'); renderEsims(); }
+          },
         }));
       } else {
         body.appendChild(el('button', {
@@ -866,13 +960,59 @@
           onclick: () => { attempt = 0; tick(); },
         }));
       }
+
+      // §9 S6 and §9 S11: the failure copy tells the customer to write to us,
+      // so it has to be possible to write to us. The Mini App runs no chat of
+      // its own — the existing client bot already has AI answers, escalation
+      // and an operator bridge — this only hands the conversation over with
+      // enough context that nobody has to re-describe their purchase.
+      if (dead || !stage) body.appendChild(supportButton(order));
     };
 
+    /** The ref is a HINT. It selects among orders the SERVER gave us, never more. */
+    const matchRef = (orders) => (state.orderRef
+      ? orders.find((o) => String(o.public_order_token || '').slice(-6)
+          === String(state.orderRef).slice(-6))
+      : null);
+
+    /**
+     * Find this order, wherever it now lives.
+     *
+     * `/me/orders/active` only carries the three NON-terminal statuses
+     * (ACTIVE_ORDER_STATUSES in lib/tmaRepo.js), so the moment an order
+     * succeeds, fails or is cancelled it drops out of that list entirely.
+     *
+     * What used to happen then was the bug this function exists to remove: an
+     * empty active list was read as success, and the screen printed «eSIM
+     * готова» plus a success haptic if the customer owned ANY eSIM — naming
+     * whichever one happened to be first. For a repeat customer whose payment
+     * had just FAILED, the product congratulated them on a purchase that did
+     * not happen. Completion was inferred from a proxy instead of being read.
+     *
+     * `/me/orders` returns every order with its true terminal `display_status`
+     * and the `esim_id` it produced. It is one extra request, and only on the
+     * transition — which is the one moment worth being right about.
+     */
+    async function findOrder() {
+      const active = await api.activeOrders();
+      const list = (active && (active.items || active.orders)) || [];
+      const hit = matchRef(list);
+      if (hit) return { order: hit, terminal: false };
+
+      // No ref and something is in flight: the newest active order is the one
+      // the customer is most plausibly looking at.
+      if (!state.orderRef && list[0]) return { order: list[0], terminal: false };
+
+      const all = await api.orders();
+      const items = (all && all.items) || [];
+
+      return { order: matchRef(items) || (state.orderRef ? null : items[0]) || null, terminal: true };
+    }
+
     async function tick() {
-      let orders = null;
+      let found = null;
       try {
-        const out = await api.activeOrders();
-        orders = (out && (out.items || out.orders)) || [];
+        found = await findOrder();
       } catch {
         // A failed poll is not new information; keep what is on screen and let
         // the customer retry rather than replacing a real status with an error.
@@ -881,27 +1021,27 @@
         return;
       }
 
-      // The ref is a HINT, checked against what the server gave us. No match
-      // means show the first active order — never trust the URL to pick.
-      const byRef = state.orderRef
-        ? orders.find((o) => String(o.public_order_token || '').slice(-6) === String(state.orderRef).slice(-6))
-        : null;
-      const order = byRef || orders[0] || null;
-      state.lastOrder = order;
+      const order = found.order;
+      state.lastOrder = order || state.lastOrder;
 
       if (!order) {
-        // Nothing active: either it completed while we watched, or there never
-        // was one. Either way the answer lives in «Мои eSIM».
+        // The server knows of no such order. Say that, and do not invent one.
         stopOrderPoll();
-        await refreshEsimsQuietly();
-        paint(state.esims.length
-          ? { display_status: 'completed', country_code: state.esims[0].country_code }
-          : null);
+        paint(null);
 
         return;
       }
 
       paint(order);
+
+      // A terminal order will not change by being asked again.
+      if (C.isOrderReady(order.display_status) || C.isOrderDead(order.display_status)) {
+        stopOrderPoll();
+        // «Мои eSIM» is about to be opened from here; keep it warm and correct.
+        if (C.isOrderReady(order.display_status)) await refreshEsimsQuietly();
+
+        return;
+      }
 
       if (attempt < ORDER_POLL_MS.length) {
         const wait = ORDER_POLL_MS[attempt];
@@ -944,9 +1084,17 @@
 
     state.esims = out.value.items || [];
     if (!state.esims.length) {
+      // §9 S8: "Не «нет данных», а два предложения". The second one the
+      // Blueprint asks for — linking purchases made on the site — needs the
+      // three /tma/identity/email/* endpoints, which are not written and 404 at
+      // the gateway. Promising it here would be a button that cannot work, so
+      // the honest half is stated instead: a site purchase is not lost, and
+      // support can find it today.
       list.appendChild(el('div', { class: 'empty' }, [
         el('p', { text: 'Пока нет ни одной eSIM.' }),
         el('button', { class: 'btn', text: 'Выбрать тариф', onclick: () => show('home') }),
+        el('p', { class: 'small muted', text: 'Покупали на сайте? Эти eSIM пока не подключаются к приложению автоматически — напишите нам, и мы поможем.' }),
+        supportButton(null),
       ]));
       return;
     }
@@ -954,7 +1102,9 @@
   }
 
   function statusBadge(status) {
-    const text = C.ESIM_STATUS_TEXT[status] || status || '—';
+    // Never the raw enum: an unmapped status is our gap, not a word a customer
+    // should have to read. RAW CODES = 0 covers status vocabularies too.
+    const text = C.ESIM_STATUS_TEXT[status] || 'Статус уточняется';
     const tone = status === 'active' || status === 'ready' ? 'badge--good'
       : (status === 'depleted' || status === 'expired' || status === 'failed' ? 'badge--bad'
         : (status === 'suspended' ? 'badge--warn' : ''));
@@ -991,8 +1141,16 @@
    * real purchase: the eSIM the customer had just paid for would have appeared
    * in «Мои eSIM» as "Algeria 100MB 7Days". Same P3 rule as the catalogue: the
    * customer never sees an internal technical entity.
+   *
+   * Nor is it `countryLabel(country_code)` alone, which was the second half of
+   * the same mistake: the owned DTO has no coverage list, so a regional pack
+   * files under one arbitrary member country and «Best World 10 GB» came out
+   * as «Албания» (53 of 59 regionals in the 2026-08-18 catalogue), while
+   * GL-120 / CA-4 / AF-29 have no Russian name at all and rendered as the bare
+   * code. `destinationTitle` reads the provider family name to tell those
+   * apart — used, never shown — and never answers with a code.
    */
-  const ownedLabel = (e) => C.countryLabel(e && e.country_code);
+  const ownedLabel = (e) => C.destinationTitle(e && e.package_name, e && e.country_code);
 
   function esimCard(e) {
     const days = C.daysLeft(e.expires_at);
@@ -1052,6 +1210,10 @@
         id: 'esim-refresh', class: 'btn btn--ghost', text: 'Обновить остаток',
         onclick: (ev) => refreshUsage(id, ev.target),
       }),
+      // §9 S9 lists four actions and this is the fourth. An eSIM that will not
+      // connect is the moment a customer most needs a person, and until now the
+      // app had no way to reach one from anywhere.
+      supportButton(null, { wide: false }),
       // No top-up button, and its absence is deliberate: recharge is unsafe at
       // BOTH providers (architecture Р-4 — the call carries no ICCID and would
       // likely create a second eSIM, and its transaction id is random per
@@ -1244,19 +1406,62 @@
 
     await Promise.all([catalogue, session]);
 
-    // Only the customer's own things waited for it.
-    if (!state.ready) { markSignedOut(); return; }
-
-    await renderMine();
-
     // §8.4: a launch that came back from payment opens on the order, not on the
     // catalogue. The ref may come from startapp or from what we stored before
     // leaving; either way the STATUS comes from the server.
+    //
+    // Resolved BEFORE the session check on purpose. It used to sit after an
+    // early `return`, so a customer coming back from a completed payment onto
+    // a cold gateway — the exact condition that makes the session fail — was
+    // dropped onto the catalogue with no sign their order existed. That is the
+    // one moment in the product where saying nothing is most expensive.
     const ref = launchOrderRef();
+
+    if (!state.ready) {
+      markSignedOut();
+      if (ref) { clearPendingOrder(); await showReturnWithoutSession(ref); }
+
+      return;
+    }
+
+    await renderMine();
+
     if (ref) {
       clearPendingOrder();
       await showOrderStatus(ref);
     }
+  }
+
+  /**
+   * Came back from payment, but the session did not come up.
+   *
+   * The status cannot be read without one, and guessing is the failure this
+   * whole screen exists to prevent — so it says exactly that, and offers the
+   * only two things that can actually help: try again, or talk to a human.
+   */
+  async function showReturnWithoutSession(ref) {
+    state.orderRef = ref;
+    show('order', { push: false });
+    $('#order-title').textContent = 'Не удалось проверить оплату';
+    const body = $('#order-body');
+    clear(body);
+    body.appendChild(el('p', { class: 'muted', text:
+      'Мы не смогли связаться с сервером. Это не влияет на оплату: '
+      + 'если она прошла, заказ уже принят и eSIM появится в «Мои eSIM».' }));
+    body.appendChild(el('button', {
+      class: 'btn btn--wide',
+      text: 'Проверить ещё раз',
+      onclick: async () => {
+        try {
+          await authenticate();
+          state.ready = true;
+          state.authError = null;
+          await renderMine();
+          await showOrderStatus(ref);
+        } catch { /* the screen already says what is wrong */ }
+      },
+    }));
+    body.appendChild(supportButton(null));
   }
 
   /**

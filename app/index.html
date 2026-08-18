@@ -130,7 +130,11 @@
          the app previously sent terms_accepted: true regardless. -->
     <label class="check" for="checkout-terms">
       <input id="checkout-terms" type="checkbox">
-      <span class="small">Я принимаю <a href="https://magicesim.store/oferta.html" target="_blank" rel="noopener">оферту</a> и согласен на обработку данных</span>
+      <!-- terms.html, not oferta.html: the latter has never existed on the site
+           and answered 404, so the one document a customer is REQUIRED to accept
+           was unreachable from the one screen that requires it. Both links are
+           the storefront's own (index.html consent row), not Mini-App copies. -->
+      <span class="small">Я принимаю <a href="https://magicesim.store/terms.html" target="_blank" rel="noopener">оферту</a> и <a href="https://magicesim.store/privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span>
     </label>
 
     <button id="checkout-pay" class="btn" disabled>Оплатить</button>

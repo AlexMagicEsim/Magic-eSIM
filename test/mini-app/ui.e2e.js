@@ -21,8 +21,22 @@ const APP = path.join(__dirname, '..', '..', 'app');
 // fixture that still exercises both sections. Pass a path as argv[2].
 const CAT = (() => {
   const given = process.argv[2];
-  if (given && fs.existsSync(given)) return JSON.parse(fs.readFileSync(given, 'utf8'));
-  return JSON.parse(fs.readFileSync(path.join(__dirname, 'catalogue.fixture.json'), 'utf8'));
+  const raw = JSON.parse(fs.readFileSync(
+    given && fs.existsSync(given) ? given : path.join(__dirname, 'catalogue.fixture.json'),
+    'utf8'
+  ));
+
+  // Two envelopes are in circulation and the README invites both: the live API
+  // answers `{status,count,currency,data}`, while assets/catalog.json — the
+  // production snapshot a reviewer actually has to hand — is
+  // `{schema_version,generated_at,package_count,packages}`. Reading only
+  // `.data` meant the documented "pass a real snapshot" path fed the app an
+  // undefined list and the suite died on a selector timeout.
+  const data = Array.isArray(raw.data) ? raw.data
+    : Array.isArray(raw.packages) ? raw.packages
+    : Array.isArray(raw) ? raw : [];
+
+  return { status: 'success', currency: 'RUB', ...raw, data, count: data.length };
 })();
 const OUT = process.env.UI_SHOTS || path.join(__dirname, '.shots');
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.json': 'application/json' };

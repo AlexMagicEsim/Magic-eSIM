@@ -213,6 +213,9 @@ const SESSION_BACKOFF_MS = [600, 1500];
 // slow-but-alive request is not abandoned by the client first; short enough that
 // a hung one does not become a spinner nobody can dismiss.
 const REQUEST_TIMEOUT_MS = 20000;
+// The snapshot is same-origin on a CDN. If it has not answered in this long it
+// is not going to, and it must not be allowed to hold the first paint hostage.
+const STATIC_CATALOGUE_TIMEOUT_MS = 6000;
 
 /* --------------------------------------------------------------------------
  * Small helpers
@@ -624,7 +627,22 @@ function createApi(deps = {}) {
    * endpoint to fail over to, and one attempt is the whole budget it deserves.
    */
   async function staticCatalogue() {
-    const res = await doFetch('../assets/catalog.json', { headers: { Accept: 'application/json' } });
+    // One attempt is the whole budget — but an attempt with no deadline is not
+    // a budget. A CDN request that hangs used to leave the catalogue skeleton
+    // on screen forever, because the caller awaits this promise and nothing
+    // else was ever going to settle it.
+    const ac = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = ac ? setTimeout(() => ac.abort(), STATIC_CATALOGUE_TIMEOUT_MS) : null;
+
+    let res;
+    try {
+      res = await doFetch('../assets/catalog.json', {
+        headers: { Accept: 'application/json' },
+        signal: ac ? ac.signal : undefined,
+      });
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
     if (!res.ok) throw new ApiError(res.status, 'STATIC_CATALOGUE', 'snapshot unavailable', null);
     const json = await res.json();
 
@@ -1062,6 +1080,37 @@ function popularGroups(countryGroups) {
   return popularCountries.map((code) => byCode.get(code)).filter(Boolean);
 }
 
+/**
+ * What to call a destination the customer already owns or has ordered.
+ *
+ * The owned side (`customer_esims`, `retail_orders`) carries `country_code` and
+ * `package_name` and NOTHING else — no coverage list, so `isRegional` cannot be
+ * asked. Passing the code to `countryLabel` alone was wrong twice over, and
+ * both ways were measured against the live catalogue on 2026-08-18:
+ *
+ *   - 53 of the 59 regional packages file under one arbitrary member country,
+ *     so "Best World 10 GB" came out as «Албания» and "LatAm 50 GB" as
+ *     «Аргентина». A confident wrong answer is worse than a vague right one.
+ *   - 6 packages file under GL-120 / CA-4 / AF-29, which have no Russian name,
+ *     and `countryLabel` returns the code itself. RAW CODES = 0 is the rule.
+ *
+ * The provider's family name is the one thing that distinguishes them, and
+ * `regionKey`/`REGION_NAMES` already read it for the catalogue. So the same
+ * table answers here — the name is USED, never SHOWN (R10, P3).
+ *
+ * Order of trust: a known region family, then a known country, then an honest
+ * «Регион». The code is never the answer.
+ */
+function destinationTitle(packageName, countryCode) {
+  const named = REGION_NAMES[regionKey({ name: packageName })];
+  if (named) return named;
+
+  const key = String(countryCode || '').toUpperCase();
+  if (countryNames[key]) return countryNames[key];
+
+  return 'Регион';
+}
+
 /* --------------------------------------------------------------------------
  * Status vocabulary — one place, so no screen improvises
  * ----------------------------------------------------------------------- */
@@ -1076,15 +1125,41 @@ const ESIM_STATUS_TEXT = Object.freeze({
   failed: 'Ошибка выпуска',
 });
 
+/**
+ * Order status, keyed on what the BACKEND actually sends.
+ *
+ * `display_status` comes from ORDER_DISPLAY_STATUS in lib/tmaProjection.js and
+ * its whole vocabulary is: awaiting_payment · paid · provisioning · ready ·
+ * failed · canceled · unknown. This table used to be keyed on the internal
+ * column instead (`purchasing_esim`, `completed`, `cancelled` with two Ls,
+ * `refunded`), so four of seven keys could never match and the two that matter
+ * most — «Готовим eSIM» and «eSIM готова» — were unreachable in production.
+ *
+ * The internal names are kept as aliases rather than deleted: an order row read
+ * through some other path still speaks them, and a silent miss here is exactly
+ * the failure being fixed.
+ */
 const ORDER_STATUS_TEXT = Object.freeze({
   awaiting_payment: 'Ждёт оплаты',
   paid: 'Оплачен',
+  provisioning: 'Выпускаем eSIM',
+  ready: 'Готово',
+  failed: 'Не удался',
+  canceled: 'Отменён',
+
+  // Aliases — the internal retail_orders.status vocabulary.
   purchasing_esim: 'Выпускаем eSIM',
   completed: 'Готово',
-  failed: 'Не удался',
   cancelled: 'Отменён',
   refunded: 'Возврат',
 });
+
+/** True for the one display_status that means "the eSIM exists now". */
+const isOrderReady = (s) => s === 'ready' || s === 'completed';
+
+/** Terminal and unhappy: nothing will change by waiting. */
+const isOrderDead = (s) => s === 'failed' || s === 'canceled'
+  || s === 'cancelled' || s === 'refunded';
 
 /**
  * Installation guidance, keyed by the closed activation_policy code.
@@ -1144,8 +1219,10 @@ const CORE = {
   regionLabel, plural, tariffWord, countryWord,
   normalize, popularGroups, popularCountries, countryLatin,
   ESIM_STATUS_TEXT, ORDER_STATUS_TEXT, activationPolicyText,
+  destinationTitle, isOrderReady, isOrderDead,
   memoryStorage,
   READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, SESSION_ATTEMPTS, REQUEST_TIMEOUT_MS,
+  STATIC_CATALOGUE_TIMEOUT_MS,
   API_RENDER, API_GATEWAY, API_ENDPOINTS,
 };
 

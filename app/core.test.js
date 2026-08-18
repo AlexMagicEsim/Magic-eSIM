@@ -902,3 +902,77 @@ test('sbp and card are the only two values the backend accepts', () => {
   // Anything else here would be a 400 the customer cannot act on.
   assert.deepEqual(['sbp', 'card'].sort(), ['card', 'sbp']);
 });
+
+/* ==========================================================================
+ * What a customer is told a thing is called, and what state it is in.
+ *
+ * Both of these were production defects on 2026-08-18, and both were invisible
+ * to the suite because the fixtures spoke a vocabulary the backend does not.
+ * ======================================================================== */
+
+test('a destination is never named by a raw code', () => {
+  // The three codes the live catalogue carries that have no Russian name.
+  for (const code of ['AF-29', 'CA-4', 'GL-120', 'ZZ', '', null]) {
+    const t = C.destinationTitle('Something 5GB 30Days', code);
+    assert.ok(!/^[A-Z]{2}(-\d+)?$/.test(t), `${code} -> ${t}`);
+  }
+});
+
+test('a regional pack is named by its region, not by one member country', () => {
+  // Every one of these files under an arbitrary member country in the live
+  // catalogue: AL for the global packs, AR for LatAm, CY for the Greece trio.
+  assert.equal(C.destinationTitle('Best World 10 GB', 'AL'), 'Весь мир');
+  assert.equal(C.destinationTitle('Half Global 30 GB Yearly', 'AL'), 'Полмира');
+  assert.equal(C.destinationTitle('LatAm 50 GB', 'AR'), 'Латинская Америка');
+  assert.equal(C.destinationTitle('APAC 12 GB', 'AU'), 'Азия и Океания');
+  assert.equal(C.destinationTitle('Greece Cyprus Turkey 7 GB', 'CY'), 'Греция, Кипр и Турция');
+  assert.equal(C.destinationTitle('Global (120+ areas) 10GB 30Days', 'GL-120'), 'Весь мир');
+});
+
+test('a local pack is still named by its country', () => {
+  assert.equal(C.destinationTitle('Algeria 100MB 7Days', 'DZ'), 'Алжир');
+  assert.equal(C.destinationTitle('Thailand 3GB 15Days', 'TH'), 'Таиланд');
+  // Italy covers IT+SM+VA and «Италия» is the honest answer for all three.
+  assert.equal(C.destinationTitle('Italy 7 GB', 'IT'), 'Италия');
+});
+
+test('an unnamed family with an unnamed code degrades to a word, not a code', () => {
+  assert.equal(C.destinationTitle('Mystery Pack 1GB', 'QQ-7'), 'Регион');
+});
+
+test('order status speaks the vocabulary lib/tmaProjection.js actually emits', () => {
+  // ORDER_DISPLAY_STATUS maps retail_orders.status onto exactly these.
+  for (const s of ['awaiting_payment', 'paid', 'provisioning', 'ready', 'failed', 'canceled']) {
+    assert.ok(C.ORDER_STATUS_TEXT[s], `no text for display_status "${s}"`);
+  }
+});
+
+test('only "ready" means the eSIM exists — nothing else may claim it', () => {
+  assert.equal(C.isOrderReady('ready'), true);
+  assert.equal(C.isOrderReady('completed'), true);   // the internal alias
+  for (const s of ['awaiting_payment', 'paid', 'provisioning', 'failed', 'canceled', 'unknown', '', null]) {
+    assert.equal(C.isOrderReady(s), false, s);
+  }
+});
+
+test('a dead order is dead, and waiting will not revive it', () => {
+  for (const s of ['failed', 'canceled', 'cancelled', 'refunded']) {
+    assert.equal(C.isOrderDead(s), true, s);
+  }
+  for (const s of ['awaiting_payment', 'paid', 'provisioning', 'ready']) {
+    assert.equal(C.isOrderDead(s), false, s);
+  }
+});
+
+test('ready and dead are mutually exclusive — no status is both', () => {
+  const all = ['awaiting_payment', 'paid', 'provisioning', 'ready', 'failed',
+    'canceled', 'unknown', 'purchasing_esim', 'completed', 'cancelled', 'refunded'];
+  for (const s of all) assert.ok(!(C.isOrderReady(s) && C.isOrderDead(s)), s);
+});
+
+test('the static snapshot has a deadline of its own', () => {
+  // It bypasses `request()` deliberately, so it does not inherit that timeout.
+  // Without one of its own, a hung CDN pinned the first paint forever.
+  assert.ok(C.STATIC_CATALOGUE_TIMEOUT_MS > 0);
+  assert.ok(C.STATIC_CATALOGUE_TIMEOUT_MS < C.REQUEST_TIMEOUT_MS);
+});
