@@ -145,6 +145,9 @@
     // Never defaults to true. §9 S4: acceptance is an act, not a default.
     termsAccepted: false,
     country: null,
+    // The package S3 is showing. Held so checkout is opened from the same
+    // object the customer read, not from a fresh lookup that might differ.
+    tariff: null,
     esims: [],
     intent: null,
     stale: {},
@@ -156,7 +159,7 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'checkout', 'esims', 'esim', 'install', 'error', 'loading', 'order'];
+  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'error', 'loading', 'order'];
   const history = [];
 
   function show(name, { push = true } = {}) {
@@ -524,7 +527,10 @@
     const isBest = group && group.best && group.best.package_id === p.package_id;
     const days = Number(p.validity_days);
 
-    return el('button', { class: 'card stack', onclick: () => openCheckout(p, group) }, [
+    // §9 S3: a tariff card opens the tariff, not the payment form. Going
+    // straight to checkout skipped the one screen whose job is to answer
+    // "will this work on my phone, and what am I actually buying".
+    return el('button', { class: 'card stack', onclick: () => openTariff(p, group) }, [
       el('div', { class: 'row row--between' }, [
         el('div', { class: 'row tariff__head' }, [
           el('span', { class: 'card__title', text: p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ` }),
@@ -575,6 +581,131 @@
     }
 
     show('country');
+  }
+
+  /* ------------------------------------------------------------------ *
+   * S3 · Tariff detail — the last doubts, before the money
+   * ------------------------------------------------------------------ */
+
+  /**
+   * Answered entirely from the package already in memory.
+   *
+   * §9 S3 is explicit that this screen makes NO request: the list the customer
+   * just tapped holds every field, and a spinner between a price and a buy
+   * button is a reason to leave.
+   */
+  function openTariff(p, group) {
+    state.tariff = { pkg: p, group };
+    show('tariff');
+    const box = $('#tariff-body');
+    clear(box);
+
+    const days = Number(p.validity_days);
+    const title = (group && group.country)
+      || C.destinationTitle(p.name, p.country_code);
+
+    // 1. Header — what, how much, for how long, for how many.
+    box.appendChild(el('div', { class: 'card stack' }, [
+      el('div', { class: 'row' }, [
+        el('span', { class: 'card__flag', text: C.flagFor(p.country_code, p) }),
+        el('h1', { text: title }),
+      ]),
+      el('div', { class: 'row row--between' }, [
+        el('span', { class: 'card__title', text: p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ` }),
+        el('strong', { class: 'card__price tabular', text: C.money(p.price) }),
+      ]),
+      el('div', {
+        class: 'card__meta',
+        text: `${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
+      }),
+    ]));
+
+    // 2. Coverage — for a regional pack the country list IS the product, and
+    // a customer buying "Европа" needs to see their destination in it.
+    const coverage = Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [];
+    if (coverage.length > 1) box.appendChild(coverageBlock(coverage));
+
+    // 3. Characteristics — only the fields the provider actually filled in.
+    const facts = C.tariffFacts(p);
+    if (facts.length) {
+      box.appendChild(el('div', { class: 'card stack' }, [
+        el('h2', { class: 'section', text: 'Характеристики' }),
+        ...facts.map((f) => el('div', { class: 'row row--between fact' }, [
+          el('span', { class: 'muted', text: f.label }),
+          el('span', { class: 'fact__value', text: f.value }),
+        ])),
+      ]));
+    }
+
+    // 4. Compatibility — a sheet that opens in place. §9 S3 and decision Р6:
+    // «Отдельный экран не создаётся, S12 упразднён.»
+    box.appendChild(compatibilitySheet());
+
+    // 5. What happens after payment — three lines, so the next twenty minutes
+    // hold no surprises.
+    box.appendChild(el('div', { class: 'card stack' }, [
+      el('h2', { class: 'section', text: 'Что будет после оплаты' }),
+      ...C.AFTER_PAYMENT_STEPS.map((t, i) => el('div', { class: 'row step' }, [
+        el('span', { class: 'step__n', text: String(i + 1) }),
+        el('span', { class: 'small', text: t }),
+      ])),
+    ]));
+
+    box.appendChild(el('button', {
+      class: 'btn btn--wide',
+      text: `Купить за ${C.money(p.price)}`,
+      onclick: () => openCheckout(p, group),
+    }));
+  }
+
+  /** The countries a regional pack covers, named and flagged like everywhere else. */
+  function coverageBlock(codes) {
+    const names = codes
+      .map((c) => ({ code: c, name: C.countryLabel(c), flag: C.flagFor(c) }))
+      // A code with no Russian name is dropped rather than shown raw: the list
+      // is reassurance, and an unreadable entry is the opposite of that.
+      .filter((x) => x.name !== String(x.code).toUpperCase())
+      .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+
+    const body = el('div', { class: 'chips' },
+      names.map((x) => el('span', { class: 'chip', text: `${x.flag} ${x.name}` })));
+
+    return el('details', { class: 'card sheet' }, [
+      el('summary', { class: 'sheet__head', text: `Покрытие · ${C.countryWord(codes.length)}` }),
+      names.length
+        ? body
+        : el('p', { class: 'small muted', text: `Тариф действует в ${C.countryWord(codes.length)}.` }),
+    ]);
+  }
+
+  /**
+   * «Подойдёт ли мой телефон» — the sheet, not a screen.
+   *
+   * The wording is the site's own (iphone.html / android.html), shortened to
+   * the check a customer can make in thirty seconds. Both pages are linked for
+   * the rest, because they are maintained and this is not a place to grow a
+   * second, staler copy of them (P8).
+   */
+  function compatibilitySheet() {
+    return el('details', { class: 'card sheet' }, [
+      el('summary', { class: 'sheet__head', text: 'Подойдёт ли мой телефон' }),
+      el('p', { class: 'small', text:
+        'iPhone: Настройки → Сотовая связь. Если есть «Добавить eSIM» — телефон подходит.' }),
+      el('p', { class: 'small', text:
+        'Android: настройки SIM-карт. Пункт «Добавить eSIM» или «Загрузить SIM» означает то же самое.' }),
+      el('p', { class: 'small muted', text:
+        'Поддержка зависит и от региональной версии устройства, поэтому проверка в настройках надёжнее списка моделей. Телефон не должен быть заблокирован под одного оператора.' }),
+      el('div', { class: 'row' }, [
+        el('button', {
+          class: 'btn btn--quiet', text: 'Инструкция для iPhone',
+          onclick: () => openExternal('https://magicesim.store/iphone.html'),
+        }),
+        el('button', {
+          class: 'btn btn--quiet', text: 'Для Android',
+          onclick: () => openExternal('https://magicesim.store/android.html'),
+        }),
+      ]),
+    ]);
   }
 
   /* ------------------------------------------------------------------ *

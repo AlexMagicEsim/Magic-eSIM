@@ -547,3 +547,39 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
    make colour the only carrier of meaning (§16). */
 .card--spent { opacity: .55; }
 .card--spent .card__title { color: var(--muted); }
+
+/* --- S3 · tariff detail --------------------------------------------------
+   A sheet is <details>: it opens in place, keeps the customer on one screen
+   (§9 S3 — «лист на S3, не экран»), and needs no JS to do it. */
+.sheet { padding: 0; }
+.sheet__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 14px 16px; min-height: var(--tap);
+  font-weight: 600; cursor: pointer; list-style: none;
+}
+.sheet__head::-webkit-details-marker { display: none; }
+.sheet__head::after {
+  content: '⌄'; color: var(--muted); font-size: 18px; line-height: 1;
+  transition: transform .15s ease;
+}
+.sheet[open] .sheet__head::after { transform: rotate(180deg); }
+.sheet > :not(summary) { padding: 0 16px; }
+.sheet > :last-child { padding-bottom: 14px; }
+
+.fact { gap: 12px; align-items: baseline; }
+/* The value is the answer, so it takes the space and wraps rather than being
+   cut off — a truncated "поддерживается" reads as "поддержив…". */
+.fact__value { text-align: right; min-width: 0; overflow-wrap: anywhere; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  border-radius: 999px; padding: 4px 10px; font-size: 13px; white-space: nowrap;
+}
+
+.step { gap: 10px; align-items: flex-start; }
+.step__n {
+  flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 12px; font-weight: 700;
+  background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--muted);
+}

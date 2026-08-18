@@ -247,7 +247,37 @@ async function runOne(engineName, scheme) {
   ok('no raw codes on the country screen', !cm, cm ? `found ${JSON.stringify(cm[0])}` : '');
   ok('tariff cards rendered', (await page.$$('#country-list .card')).length > 0);
 
+  // ---- S3 · tariff detail --------------------------------------------------
+  // A tariff card now opens the tariff, not the payment form. §9 S3 is the
+  // screen that answers "will this work on my phone" before money moves.
   await page.evaluate(() => document.querySelector('#country-list .card').click());
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: `${OUT}/${engineName}-${scheme}-tariff.png` });
+  const active = (await page.$$eval('.screen[data-active]', (n) => n.map((x) => x.id)))[0];
+  ok('a tariff card opens the tariff, not the checkout', active === 'screen-tariff', active);
+
+  const tText = await page.$eval('#screen-tariff', (n) => n.innerText);
+  const tm = tText.match(RAW);
+  ok('no raw codes on the tariff screen', !tm, tm ? `found ${JSON.stringify(tm[0])}` : '');
+  ok('it names the destination and the price',
+    /Таиланд|Turkey|Турция/.test(tText) && /₽/.test(tText));
+  ok('it says what happens after payment',
+    /Что будет после оплаты/.test(tText) && (await page.$$('#tariff-body .step')).length === 3);
+  ok('the compatibility answer is a sheet on this screen, not a screen of its own',
+    (await page.$$eval('#tariff-body details summary',
+      (n) => n.map((x) => x.innerText))).some((t) => /Подойдёт ли мой телефон/.test(t)));
+  // §9 S3: only non-empty fields. Never a label with nothing after it.
+  const emptyFacts = await page.$$eval('#tariff-body .fact',
+    (n) => n.filter((x) => !x.querySelector('.fact__value').innerText.trim()).length);
+  ok('every characteristic shown has a value', emptyFacts === 0, String(emptyFacts));
+  // The SMS row must not appear unless the provider explicitly said true, and
+  // it must never promise that a bank's codes will arrive.
+  ok('nothing on this screen promises bank SMS', !/банк/i.test(tText) || /не гарантируется/.test(tText));
+
+  const buy = await page.$eval('#tariff-body .btn--wide', (b) => b.innerText);
+  ok('the action names the price', /Купить за/.test(buy) && /₽/.test(buy), buy);
+
+  await page.tap('#tariff-body .btn--wide');
   await page.waitForTimeout(300);
   await page.screenshot({ path: `${OUT}/${engineName}-${scheme}-checkout.png` });
   const ck = await page.$eval('#screen-checkout', (n) => n.innerText);
@@ -299,6 +329,8 @@ async function runOne(engineName, scheme) {
   });
   await page.waitForTimeout(250);
   await page.evaluate(() => document.querySelector('#country-list .card').click());
+  await page.waitForTimeout(250);
+  await page.tap('#tariff-body .btn--wide');
   await page.waitForTimeout(250);
   ok('reopening a checkout resets the default to СБП', await chosen() === 'sbp');
   ok('and the oferta must be accepted again',

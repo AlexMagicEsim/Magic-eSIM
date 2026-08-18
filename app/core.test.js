@@ -1045,3 +1045,97 @@ test('the poll follows the Blueprint cadence and still ends', () => {
   assert.equal(fast * 3000, 30000, 'the first 30 s are polled every 3 s');
   assert.equal(fast * 3000 + slow * 10000, 300000, 'and it stops at five minutes');
 });
+
+/* ==========================================================================
+ * S3 · the characteristics block. The rule for every row is the same: a fact
+ * the provider actually sent, in Russian, or no row.
+ * ======================================================================== */
+
+test('an untranslated English string is never shown to a customer', () => {
+  assert.equal(C.tariffTextRu('Some policy we have never seen before'), '');
+  assert.equal(C.tariffTextRu('Unrestricted'), 'Без ограничений скорости.');
+  assert.equal(C.tariffTextRu(''), '');
+  assert.equal(C.tariffTextRu(null), '');
+});
+
+test('a bare speed becomes a sentence rather than being dropped', () => {
+  assert.match(C.tariffTextRu('1Mbps'), /1 Мбит\/с/);
+  assert.match(C.tariffTextRu('512 kbps'), /512 Кбит\/с/);
+});
+
+test('Russian already written by the site passes through untouched', () => {
+  assert.equal(C.tariffTextRu('Скорость не ограничена.'), 'Скорость не ограничена.');
+});
+
+test('throughput is never promoted to a network generation', () => {
+  // MobiMatter's `speed` says "Unrestricted". Turning that into a fake 4G
+  // would invent a claim about the network being sold.
+  assert.equal(C.tariffNetworks({ speed: 'Unrestricted' }), '');
+  assert.equal(C.tariffNetworks({ speed: '3G/4G/5G' }), '3G/4G/5G');
+  assert.equal(C.tariffNetworks({ network_technologies: ['LTE', '5G'] }), '4G/5G');
+  assert.equal(C.tariffNetworks({ network_technologies: ['4G', '4G'] }), '4G');
+});
+
+test('hotspot is tri-state and silence drops the row', () => {
+  assert.equal(C.tariffHotspot({ hotspot_supported: true }), 'поддерживается');
+  assert.equal(C.tariffHotspot({ hotspot_supported: false }), 'не поддерживается');
+  assert.equal(C.tariffHotspot({ hotspot_supported: null }), '');
+  assert.equal(C.tariffHotspot({}), '');
+});
+
+test('an unrecognised activation policy states the usual behaviour, not the code', () => {
+  assert.equal(C.tariffActivation({ activation_policy: 'first_data_usage' }),
+    'с первого использования интернета');
+  assert.equal(C.tariffActivation({ activation_policy: 'unknown' }),
+    'с первого подключения к сети');
+  assert.equal(C.tariffActivation({}), 'с первого подключения к сети');
+});
+
+test('SMS and calls appear only on an explicit true', () => {
+  // §9 S3. They are null on every package in the live catalogue, so these rows
+  // do not appear at all today — which is the correct outcome, not a gap.
+  const label = (p) => C.tariffFacts(p).map((f) => f.label);
+  assert.ok(!label({ sms_supported: null }).includes('SMS'));
+  assert.ok(!label({ sms_supported: false }).includes('SMS'));
+  assert.ok(!label({}).includes('SMS'));
+  assert.ok(label({ sms_supported: true }).includes('SMS'));
+  assert.ok(!label({ calls_supported: null }).includes('Звонки'));
+});
+
+test('the SMS row does not promise what we cannot deliver', () => {
+  const sms = C.tariffFacts({ sms_supported: true }).find((f) => f.label === 'SMS');
+  assert.match(sms.value, /не гарантируется/);
+});
+
+test('no characteristic is ever drawn with an empty value', () => {
+  for (const p of [{}, { speed: '' }, { speed_note: 'Untranslatable English' }, null]) {
+    for (const f of C.tariffFacts(p)) {
+      assert.ok(String(f.value).trim().length > 0, JSON.stringify(f));
+      assert.ok(String(f.label).trim().length > 0, JSON.stringify(f));
+    }
+  }
+});
+
+test('every live package produces at least one true thing to say', () => {
+  const cat = require('../assets/catalog.json').packages;
+  const silent = cat.filter((p) => C.tariffFacts(p).length === 0);
+  assert.equal(silent.length, 0, `${silent.length} packages would show an empty S3`);
+});
+
+test('and nothing in an S3 fact is English', () => {
+  const cat = require('../assets/catalog.json').packages;
+  for (const p of cat) {
+    for (const f of C.tariffFacts(p)) {
+      assert.ok(!/[A-Za-z]{4,}/.test(f.value.replace(/\d+[GM]?B|[2345]G|eSIM|SIM|SMS|Мбит|Кбит/g, '')),
+        `${p.name}: ${f.label} = ${f.value}`);
+    }
+  }
+});
+
+test('what happens after payment is three lines, one each', () => {
+  assert.equal(C.AFTER_PAYMENT_STEPS.length, 3);
+  for (const s of C.AFTER_PAYMENT_STEPS) {
+    assert.ok(s.length > 20 && s.length < 120, s);
+    assert.ok(!s.includes('\n'), s);
+  }
+});
