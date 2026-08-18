@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Magic eSIM — canary</title>
+
+<!--
+  DIAGNOSTIC PAGE. Not part of the Mini App and not linked from it.
+
+  Its whole reason to exist is the one measurement nobody can take from a
+  developer's machine: how the two API endpoints behave from inside the real
+  Telegram WebView, on the owner's phone, over the owner's VPN. Latency measured
+  anywhere else answers a different question.
+
+  This page's CSP deliberately permits BOTH hosts, which the Mini App's own CSP
+  does not and must not until this measurement says it should. Widening it here
+  costs nothing: this page reads, it never buys.
+-->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'none';
+  connect-src https://api.magicesim.store https://esim-backend-3wmu.onrender.com;
+  script-src 'self' https://telegram.org;
+  style-src 'self';
+  img-src 'self' data:;
+  base-uri 'none';
+  form-action 'none';
+  frame-ancestors https://web.telegram.org https://telegram.org;
+">
+
+<link rel="stylesheet" href="mini.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<main class="app-main">
+  <section class="screen" data-active>
+    <h1>Canary</h1>
+    <p class="muted small" id="env">…</p>
+
+    <button id="run" class="btn">Запустить замер</button>
+    <p class="small muted">Ничего не покупается. Только чтение и вход.</p>
+
+    <div id="out" class="stack"></div>
+
+    <div id="verdict"></div>
+
+    <button id="copy" class="btn btn--ghost btn--wide" hidden>Скопировать результат</button>
+  </section>
+</main>
+
+<script src="canary.js"></script>
+</body>
+</html>
