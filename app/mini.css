@@ -537,3 +537,6 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 .segmented__opt:active { background: color-mix(in srgb, var(--ink) 6%, var(--surface)); }
+
+/* S6 progress note: a spinner INSIDE a stated message, never a bare one. */
+.notice .btn__spinner { flex: 0 0 auto; }

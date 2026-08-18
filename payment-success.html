@@ -103,8 +103,8 @@
     <h1 id="title">Проверяем оплату</h1>
     <p class="msg" id="message">Не закрывайте страницу. Мы проверяем статус платежа.</p>
     <p class="sub" id="sub">По вопросам оплаты — <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
-    <div class="actions">
-      <a class="btn" href="index.html">Вернуться на главную</a>
+    <div class="actions" id="actions">
+      <a class="btn" id="actionHome" href="index.html">Вернуться на главную</a>
     </div>
   </main>
 
@@ -153,6 +153,35 @@
       // reusing it keeps Metrika joinable with those reports and keeps the token
       // itself - which still reads order status - out of analytics.
       function orderRef(t){ return String(t || '').slice(-6); }
+
+      // §8.4 — a purchase that began in the Mini App goes back to the Mini App.
+      //
+      // Only when the return URL says so. Without src=tma this block does
+      // nothing at all and the page behaves exactly as it always has, which is
+      // the point: the website's return must not change because Telegram
+      // acquired one.
+      //
+      // startapp carries the SIX-CHARACTER ref, never the 43-character token —
+      // the full token would end up on Telegram's servers and in chat history.
+      // The ref grants nothing: the Mini App uses it only to decide which of the
+      // orders the SERVER already gave it to highlight, and falls back to the
+      // first active one when it does not match.
+      (function () {
+        if ((params.get('src') || '') !== 'tma') return;
+        var ref = orderRef(token);
+        if (!ref) return;
+
+        var back = document.createElement('a');
+        back.className = 'btn';
+        back.id = 'actionTelegram';
+        back.href = 'https://t.me/magic_esim_support_bot?startapp=o_' + encodeURIComponent(ref);
+        back.textContent = 'Вернуться в Telegram';
+
+        var actions = document.getElementById('actions');
+        actions.insertBefore(back, actions.firstChild);
+        var home = document.getElementById('actionHome');
+        if (home) home.textContent = 'Остаться на сайте';
+      })();
 
       function readPayCtx(){
         var ctx = null;

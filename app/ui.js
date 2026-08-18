@@ -135,6 +135,10 @@
     query: '',
     // The last few endpoint decisions, for diagnosis during a live test.
     apiTrace: [],
+    // §8.4: the six-character order ref that came back through startapp. A hint
+    // for which order to highlight, never a claim about it.
+    orderRef: null,
+    lastOrder: null,
     // The full A-Z list is behind one tap. Opening on 213 rows was the reported
     // "весь каталог алфавитом".
     showAll: false,
@@ -152,7 +156,7 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'checkout', 'esims', 'esim', 'install', 'error', 'loading'];
+  const SCREENS = ['home', 'country', 'checkout', 'esims', 'esim', 'install', 'error', 'loading', 'order'];
   const history = [];
 
   function show(name, { push = true } = {}) {
@@ -684,15 +688,20 @@
       // same tariff is a NEW order rather than a replay of this one.
       api.forgetIntent(state.intent);
 
+      // §9 S5: the token is kept BEFORE leaving for payment, so a return that
+      // lands anywhere still knows which order this was. The architecture does
+      // not depend on it — /tma/me/orders/active finds the order on any later
+      // launch because the link was made when the order was created — but it
+      // makes the immediate return instant instead of a lookup.
+      rememberPendingOrder(out.public_order_token);
+
       if (out.redirect_url) {
         setPayEnabled(false, 'Открываем оплату…', { busy: true });
         openExternal(out.redirect_url);
-        // The app stays on this screen deliberately: the customer returns here
-        // from the browser, and "waiting for payment" is the honest state.
-        showAwaitingPayment(out.public_order_token);
-      } else {
-        showAwaitingPayment(out.public_order_token);
       }
+      // Either way the customer lands on the status screen rather than on a
+      // checkout form they have already submitted.
+      await showOrderStatus(String(out.public_order_token || '').slice(-6));
     } catch (err) {
       setPayEnabled(true);
 
@@ -725,25 +734,194 @@
     }
   }
 
-  function showAwaitingPayment(token) {
-    $('#checkout-error').replaceChildren(
-      el('div', { class: 'notice' }, [
-        el('span', { text: 'Заказ создан. Завершите оплату в браузере — eSIM появится в «Мои eSIM».' }),
-        el('button', {
-          class: 'btn btn--quiet', text: 'Проверить',
-          onclick: async () => {
-            try {
-              const st = await api.orderStatus(token);
-              const text = C.ORDER_STATUS_TEXT[st.display_status] || st.display_status || '—';
-              $('#checkout-error').replaceChildren(el('div', { class: 'notice', text: `Статус: ${text}` }));
-              if (st.esim_id) { show('esims'); renderEsims(); }
-            } catch {
-              /* leave the notice as it was: a failed check is not new information */
-            }
-          },
-        }),
-      ])
-    );
+
+  const PENDING_ORDER_KEY = 'mesim.pending_order_ref';
+
+  /** Keep only the six-character ref — never the whole token. */
+  function rememberPendingOrder(token) {
+    try {
+      const ref = String(token || '').slice(-6);
+      if (ref) storage.setItem(PENDING_ORDER_KEY, ref);
+    } catch { /* private mode: the server-side lookup still works */ }
+  }
+
+  function readPendingOrder() {
+    try { return storage.getItem(PENDING_ORDER_KEY) || null; } catch { return null; }
+  }
+
+  function clearPendingOrder() {
+    try { storage.removeItem(PENDING_ORDER_KEY); } catch { /* */ }
+  }
+
+  /**
+   * §8.4: `startapp=o_<ref>` arrives as initDataUnsafe.start_param.
+   *
+   * It is a hint and nothing else — six characters that say which order to
+   * highlight among the ones the server has already agreed belong to this
+   * customer. It cannot assert payment, cannot name another customer's order,
+   * and is discarded when it matches nothing.
+   */
+  function launchOrderRef() {
+    let param = '';
+    try {
+      param = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || '';
+    } catch { param = ''; }
+
+    const m = /^o_([A-Za-z0-9_-]{4,16})$/.exec(String(param));
+    if (m) return m[1];
+
+    return readPendingOrder();
+  }
+
+  /* ------------------------------------------------------------------ *
+   * S6 · Order status — the screen the Blueprint calls the most important
+   * one in the product, and the one a real paid purchase proved missing.
+   * ------------------------------------------------------------------ */
+
+  // Bounded on purpose. A fulfilment that has not finished in about two minutes
+  // is not going to finish while somebody watches, and an unbounded poll on a
+  // gateway that drops a third of requests is how a Mini App turns into a
+  // battery complaint. After this the customer gets a manual refresh.
+  const ORDER_POLL_MS = [2000, 3000, 5000, 5000, 8000, 8000, 10000, 10000, 15000, 15000, 20000, 20000];
+
+  const ORDER_STAGE = Object.freeze({
+    awaiting_payment: { title: 'Ждём оплату', note: 'Завершите оплату в браузере. Мы сами узнаем, когда она пройдёт.', spin: true },
+    paid: { title: 'Оплата получена', note: 'Готовим eSIM. Обычно это занимает меньше минуты.', spin: true },
+    purchasing_esim: { title: 'Готовим eSIM', note: 'Выпускаем профиль у оператора.', spin: true },
+    completed: { title: 'eSIM готова', note: 'Профиль выпущен и доступен в «Мои eSIM».', spin: false },
+    failed: { title: 'Что-то пошло не так', note: 'Деньги не списаны или будут возвращены. Напишите нам, мы разберёмся.', spin: false },
+    cancelled: { title: 'Заказ отменён', note: 'Оплата не прошла. Можно попробовать ещё раз.', spin: false },
+    refunded: { title: 'Возврат', note: 'Средства возвращены.', spin: false },
+  });
+
+  let orderPollTimer = null;
+
+  function stopOrderPoll() {
+    if (orderPollTimer) { clearTimeout(orderPollTimer); orderPollTimer = null; }
+  }
+
+  /**
+   * Show the status of one order, refreshed from the SERVER and only from it.
+   *
+   * Nothing in a URL is evidence here. The return from Platega carries a
+   * six-character ref and no claim about payment; the truth is the webhook that
+   * reached the origin, and this screen learns it by asking under the customer's
+   * own session. `paid=true` in a query string would be worth exactly nothing
+   * and is never read.
+   */
+  async function showOrderStatus(ref) {
+    stopOrderPoll();
+    state.orderRef = ref || state.orderRef || null;
+    show('order', { push: false });
+
+    let attempt = 0;
+
+    const paint = (order, { stale = false } = {}) => {
+      const body = $('#order-body');
+      clear(body);
+
+      if (!order) {
+        $('#order-title').textContent = 'Заказ не найден';
+        body.appendChild(el('p', { class: 'muted', text: stale
+          ? 'Не удалось получить статус. Попробуйте ещё раз.'
+          : 'Активных заказов нет. Возможно, eSIM уже готова.' }));
+        body.appendChild(el('button', {
+          class: 'btn btn--wide', text: 'Открыть «Мои eSIM»',
+          onclick: () => { stopOrderPoll(); show('esims'); renderEsims(); },
+        }));
+
+        return;
+      }
+
+      const stage = ORDER_STAGE[order.display_status] || ORDER_STAGE[order.status] || null;
+      const done = order.display_status === 'completed' || order.status === 'completed';
+      $('#order-title').textContent = stage ? stage.title : 'Заказ';
+
+      body.appendChild(el('div', { class: 'card stack' }, [
+        el('div', { class: 'card__title', text: order.package_name || order.country || 'Заказ' }),
+        order.amount_rub ? el('div', { class: 'row row--between' }, [
+          el('span', { class: 'muted', text: 'Сумма' }),
+          el('strong', { class: 'tabular', text: C.money(order.amount_rub) }),
+        ]) : null,
+        el('div', { class: 'card__meta', text: stage ? stage.note : '' }),
+      ]));
+
+      if (stage && stage.spin) {
+        // A shaped, finite progress note — never an open-ended spinner.
+        body.appendChild(el('div', { class: 'notice' }, [
+          el('span', { class: 'btn__spinner' }),
+          el('span', { text: 'Обновляем статус автоматически' }),
+        ]));
+      }
+
+      if (done) {
+        notifySuccess();
+        body.appendChild(el('button', {
+          class: 'btn btn--wide', text: 'Открыть eSIM',
+          onclick: () => { stopOrderPoll(); show('esims'); renderEsims(); },
+        }));
+      } else {
+        body.appendChild(el('button', {
+          class: 'btn btn--ghost btn--wide', text: 'Обновить',
+          onclick: () => { attempt = 0; tick(); },
+        }));
+      }
+    };
+
+    async function tick() {
+      let orders = null;
+      try {
+        const out = await api.activeOrders();
+        orders = (out && (out.items || out.orders)) || [];
+      } catch {
+        // A failed poll is not new information; keep what is on screen and let
+        // the customer retry rather than replacing a real status with an error.
+        paint(state.lastOrder || null, { stale: true });
+
+        return;
+      }
+
+      // The ref is a HINT, checked against what the server gave us. No match
+      // means show the first active order — never trust the URL to pick.
+      const byRef = state.orderRef
+        ? orders.find((o) => String(o.public_order_token || '').slice(-6) === String(state.orderRef).slice(-6))
+        : null;
+      const order = byRef || orders[0] || null;
+      state.lastOrder = order;
+
+      if (!order) {
+        // Nothing active: either it completed while we watched, or there never
+        // was one. Either way the answer lives in «Мои eSIM».
+        stopOrderPoll();
+        await refreshEsimsQuietly();
+        paint(state.esims.length
+          ? { display_status: 'completed', package_name: state.esims[0].country || 'eSIM' }
+          : null);
+
+        return;
+      }
+
+      paint(order);
+
+      if (attempt < ORDER_POLL_MS.length) {
+        const wait = ORDER_POLL_MS[attempt];
+        attempt += 1;
+        orderPollTimer = setTimeout(tick, wait);
+      }
+    }
+
+    $('#order-title').textContent = 'Проверяем оплату';
+    clear($('#order-body'));
+    $('#order-body').appendChild(skeletonCards(1));
+    await tick();
+  }
+
+  /** Refresh the eSIM list without drawing anything, for the completion check. */
+  async function refreshEsimsQuietly() {
+    try {
+      const out = await api.esims();
+      state.esims = (out && out.items) || [];
+    } catch { /* the list keeps whatever it had */ }
   }
 
   /* ------------------------------------------------------------------ *
@@ -1049,8 +1227,18 @@
     await Promise.all([catalogue, session]);
 
     // Only the customer's own things waited for it.
-    if (state.ready) await renderMine();
-    else markSignedOut();
+    if (!state.ready) { markSignedOut(); return; }
+
+    await renderMine();
+
+    // §8.4: a launch that came back from payment opens on the order, not on the
+    // catalogue. The ref may come from startapp or from what we stored before
+    // leaving; either way the STATUS comes from the server.
+    const ref = launchOrderRef();
+    if (ref) {
+      clearPendingOrder();
+      await showOrderStatus(ref);
+    }
   }
 
   /**
