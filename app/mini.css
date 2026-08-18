@@ -465,3 +465,36 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 .tile__from { font-size: var(--t-caption); color: var(--muted); }
 
 .btn--wide { width: 100%; margin-top: var(--s4); }
+
+/* -----------------------------------------------------------------------
+ * Brand
+ *
+ * assets/magic-esim-logo-header.png — the same file the website's own header
+ * uses, not a copy and not a redraw (§13.4: the logo is only ever the real
+ * asset). 185x140 RGBA, 27.7KB, transparent, and bright enough in cyan and
+ * purple to hold up on both Telegram backgrounds.
+ *
+ * Sized by HEIGHT with width:auto, and the intrinsic width/height are on the
+ * element, so the browser reserves the right box from the first layout pass and
+ * nothing below the logo moves when the bytes land.
+ * ----------------------------------------------------------------------- */
+
+.brand {
+  display: block;
+  width: auto;
+  object-fit: contain;
+  /* The intrinsic ratio, stated, so the reserved box is right even if the
+     attributes are ever dropped. */
+  aspect-ratio: 185 / 140;
+}
+
+/* Home. A header, not a splash — but not so small that the wordmark inside the
+   artwork drops below the 13px floor §12.2 sets for text. The wordmark occupies
+   roughly the lower third of the asset, so 40px of logo puts it at about 14px;
+   at 28px it rendered near 10px and was legible only if you already knew what
+   it said. Total cost to the screen is ~48px including the gap. */
+.brand--sm { height: 40px; margin-bottom: var(--s2); }
+
+/* Loading and error, where the logo IS the heading and there is nothing to
+   compete with. Both screens were bare text before. */
+.brand--lg { height: 56px; margin: 0 auto var(--s3); }

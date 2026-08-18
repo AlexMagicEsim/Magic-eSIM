@@ -116,6 +116,14 @@ async function runOne(engineName, scheme) {
   await ctx.addInitScript(mock, CAT);
 
   const page = await ctx.newPage();
+  await page.addInitScript(() => {
+    window.__cls = 0;
+    try {
+      new PerformanceObserver((l) => {
+        for (const e of l.getEntries()) if (!e.hadRecentInput) window.__cls += e.value;
+      }).observe({ type: 'layout-shift', buffered: true });
+    } catch { /* not every engine reports it */ }
+  });
   const errs = [];
   page.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
   page.on('pageerror', (e) => errs.push('PAGEERROR: ' + e.message));
@@ -129,6 +137,22 @@ async function runOne(engineName, scheme) {
 
   await page.waitForTimeout(400);
   await page.screenshot({ path: `${OUT}/${engineName}-${scheme}-home.png` });
+
+  // ---- branding ------------------------------------------------------------
+  const brand = await page.$eval('#screen-home .brand', (n) => ({
+    natural: n.naturalWidth, height: n.getBoundingClientRect().height, src: n.currentSrc,
+  }));
+  ok('the real header asset is used, not a redraw',
+    /assets\/magic-esim-logo-header\.png$/.test(brand.src) && brand.natural === 185,
+    `${brand.natural}px intrinsic`);
+  ok('the logo is a header, not a banner', brand.height > 0 && brand.height <= 44,
+    `${Math.round(brand.height)}px`);
+  ok('an image with intrinsic size causes no layout shift',
+    (await page.evaluate(() => window.__cls || 0)) < 0.02,
+    `CLS=${(await page.evaluate(() => window.__cls || 0)).toFixed(4)}`);
+  ok('the mark is on the entry screens only, not on every screen',
+    (await page.$$('.screen .brand')).length <= 3,
+    `${(await page.$$('.screen .brand')).length}`);
 
   // ---- start screen: popular first, not the A-Z wall ----------------------
   const tiles = await page.$$eval('.tile .tile__name', (n) => n.map((x) => x.innerText.trim()));

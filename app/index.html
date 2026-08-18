@@ -63,6 +63,11 @@
 <main class="app-main">
   <!-- 1. Home ---------------------------------------------------------- -->
   <section class="screen" id="screen-home" aria-label="Каталог">
+    <!-- The real header asset the site itself uses, at a size that adds ~36px
+         to the screen rather than a banner. width/height are set so the box is
+         reserved before the bytes arrive and nothing below it moves. -->
+    <img class="brand brand--sm" src="../assets/magic-esim-logo-header.png"
+         alt="Magic eSIM" width="185" height="140" fetchpriority="high">
     <h1>Интернет в поездке</h1>
     <p class="muted small">eSIM без роуминга. Выберите страну.</p>
 
@@ -146,7 +151,8 @@
        gateway looked identical to a broken app. -->
   <section class="screen" id="screen-loading" aria-label="Загрузка" data-active>
     <div class="empty stack">
-      <h1>Magic eSIM</h1>
+      <img class="brand brand--lg" src="../assets/magic-esim-logo-header.png"
+           alt="Magic eSIM" width="185" height="140" fetchpriority="high">
       <p class="muted">Подключаемся…</p>
     </div>
   </section>

@@ -1111,6 +1111,13 @@
     }
 
     const parts = [
+      // The third and last screen that carries the mark. A customer who cannot
+      // get in should still be able to see whose app refused them — and this
+      // screen was the barest one in the product.
+      el('img', {
+        class: 'brand brand--lg', src: '../assets/magic-esim-logo-header.png',
+        alt: 'Magic eSIM', width: '185', height: '140',
+      }),
       el('h1', { text: heading }),
       el('p', { class: 'muted', text: detail }),
     ];
