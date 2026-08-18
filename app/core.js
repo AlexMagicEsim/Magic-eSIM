@@ -1080,6 +1080,40 @@ function popularGroups(countryGroups) {
   return popularCountries.map((code) => byCode.get(code)).filter(Boolean);
 }
 
+/* --------------------------------------------------------------------------
+ * Where a customer may be sent
+ * ----------------------------------------------------------------------- */
+
+/**
+ * §9 S5: «Backend возвращает redirect_url на домене platega.io — проверка
+ * домена на клиенте обязательна.»
+ *
+ * The URL arrives from our own backend over TLS, so this is depth rather than
+ * a hole being plugged. It is still the cheapest control in the product: the
+ * one thing this app does is walk a customer out of Telegram to type card
+ * details, and the check that they are typing them at the payment provider
+ * costs four lines. Every one of the 30 real payments to date redirected to
+ * exactly `pay.platega.io`.
+ *
+ * Subdomains of platega.io are accepted, anything else is not — including a
+ * lookalike like `platega.io.evil.tld`, which is why the test is on the host
+ * SUFFIX with a leading dot and not on `includes`.
+ */
+const PAYMENT_HOSTS = Object.freeze(['platega.io']);
+
+function isAllowedPaymentUrl(url) {
+  let u;
+  try {
+    u = new URL(String(url || ''));
+  } catch {
+    return false;
+  }
+  if (u.protocol !== 'https:') return false;
+  const host = u.hostname.toLowerCase();
+
+  return PAYMENT_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+}
+
 /**
  * What to call a destination the customer already owns or has ordered.
  *
@@ -1220,6 +1254,7 @@ const CORE = {
   normalize, popularGroups, popularCountries, countryLatin,
   ESIM_STATUS_TEXT, ORDER_STATUS_TEXT, activationPolicyText,
   destinationTitle, isOrderReady, isOrderDead,
+  isAllowedPaymentUrl, PAYMENT_HOSTS,
   memoryStorage,
   READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, SESSION_ATTEMPTS, REQUEST_TIMEOUT_MS,
   STATIC_CATALOGUE_TIMEOUT_MS,

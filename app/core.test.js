@@ -976,3 +976,25 @@ test('the static snapshot has a deadline of its own', () => {
   assert.ok(C.STATIC_CATALOGUE_TIMEOUT_MS > 0);
   assert.ok(C.STATIC_CATALOGUE_TIMEOUT_MS < C.REQUEST_TIMEOUT_MS);
 });
+
+test('a customer is only ever walked out to the payment provider', () => {
+  // Every real payment to date redirected to exactly this host.
+  assert.equal(C.isAllowedPaymentUrl('https://pay.platega.io?id=abc&mh=def'), true);
+  assert.equal(C.isAllowedPaymentUrl('https://app.platega.io/x'), true);
+  assert.equal(C.isAllowedPaymentUrl('https://platega.io/'), true);
+});
+
+test('a lookalike domain is not the payment provider', () => {
+  for (const bad of [
+    'https://platega.io.evil.tld/pay',   // suffix, not host
+    'https://evilplatega.io/pay',        // no dot before the allowed host
+    'https://pay.platega.io.co/x',
+    'http://pay.platega.io/x',           // plaintext
+    'javascript:alert(1)',
+    'data:text/html,<script>',
+    'https://magicesim.store/pay',
+    '', null, undefined, 'not a url',
+  ]) {
+    assert.equal(C.isAllowedPaymentUrl(bad), false, String(bad));
+  }
+});

@@ -709,8 +709,18 @@
       rememberPendingOrder(out.public_order_token);
 
       if (out.redirect_url) {
-        setPayEnabled(false, 'Открываем оплату…', { busy: true });
-        openExternal(out.redirect_url);
+        // §9 S5: the destination is checked before the customer is sent to it.
+        // Refusing is safe here — the order already exists on the server, so
+        // nothing is lost by not opening, and S6 below will show its state.
+        if (!C.isAllowedPaymentUrl(out.redirect_url)) {
+          errBox.appendChild(errorNotice(
+            'Не удалось открыть безопасную страницу оплаты. Заказ сохранён — напишите нам, и мы поможем завершить его.'
+          ));
+          errBox.appendChild(supportButton({ public_order_token: out.public_order_token }));
+        } else {
+          setPayEnabled(false, 'Открываем оплату…', { busy: true });
+          openExternal(out.redirect_url);
+        }
       }
       // Either way the customer lands on the status screen rather than on a
       // checkout form they have already submitted.
