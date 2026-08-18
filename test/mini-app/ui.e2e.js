@@ -25,7 +25,7 @@ const CAT = (() => {
   return JSON.parse(fs.readFileSync(path.join(__dirname, 'catalogue.fixture.json'), 'utf8'));
 })();
 const OUT = process.env.UI_SHOTS || path.join(__dirname, '.shots');
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.json': 'application/json' };
 
 // Raw technical codes a customer must never see. Two-letter ISO codes as a
 // standalone word, plus the three invented regional ones.
@@ -51,6 +51,10 @@ function mock(c) {
   window.fetch = (u) => {
     u = String(u);
     if (u.includes('/tma/session')) return j({ session_token: 'm', expires_in: 1800 });
+    if (u.includes('catalog.json')) {
+      return j({ schema_version: 1, generated_at: '2026-08-18T07:08:16.254Z',
+        source: 'production-public-api', package_count: c.data.length, packages: c.data });
+    }
     if (u.includes('/retail/packages')) { window.__lastCatalogue = c.data; return j(c); }
     return j({ items: [] });
   };

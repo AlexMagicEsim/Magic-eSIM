@@ -72,9 +72,12 @@ test('a read retries a 502 and succeeds on the second attempt', async () => {
   assert.equal(fetchStub.calls.length, 3, 'session + failed read + retried read');
 });
 
-test('a read gives up after three attempts, and says it was transport', async () => {
+test('a read gives up after its full budget ON BOTH endpoints, and says it was transport', async () => {
+  // Three attempts at Render, then three at the gateway, then it stops. The
+  // budget is bounded twice: per endpoint, and by there being exactly two.
   const { client, fetchStub } = api([
     OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
     GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
   ]);
   await client.openSession('init');
@@ -85,7 +88,7 @@ test('a read gives up after three attempts, and says it was transport', async ()
     assert.equal(err.isTransport, true);
     return true;
   });
-  assert.equal(fetchStub.calls.length, 1 + C.READ_ATTEMPTS);
+  assert.equal(fetchStub.calls.length, 1 + C.READ_ATTEMPTS * 2);
 });
 
 test('a thrown fetch — offline, DNS, abort — is transport, not a crash', async () => {
@@ -254,15 +257,16 @@ test('a purchase retried after a gateway drop reuses the key, and is tried twice
     'the retry must be the SAME request, or it is a second order');
 });
 
-test('a purchase does not retry a third time, even with a key', async () => {
+test('a keyed purchase is bounded per endpoint and then stops', async () => {
   const { client, fetchStub } = api([
     OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP, GATEWAY_DROP,
     GATEWAY_DROP, GATEWAY_DROP,
   ]);
   await client.openSession('init');
 
   await assert.rejects(client.purchase(INTENT));
-  assert.equal(fetchStub.calls.length, 1 + C.WRITE_ATTEMPTS_WITH_KEY);
+  assert.equal(fetchStub.calls.length, 1 + C.WRITE_ATTEMPTS_WITH_KEY * 2);
 });
 
 test('a write WITHOUT a key is never retried', async () => {
@@ -297,7 +301,11 @@ test('a 409 AMOUNT_CHANGED is surfaced with the real amount, not retried', async
  * Everything goes through the gateway
  * ----------------------------------------------------------------------- */
 
-test('every request goes to the gateway, never to the Render origin', async () => {
+test('a healthy primary is the ONLY endpoint touched — the gateway is never called', async () => {
+  // The old form of this test asserted the opposite, and correctly so at the
+  // time: measured through a plain RU browser the origin answered 0/3. Inside
+  // Telegram's WebView on a system-wide VPN it answers 8/8 while the gateway
+  // manages 2/8, which is a different network and therefore a different answer.
   const { client, fetchStub } = api([
     OK({ session_token: 't', expires_in: 1800 }),
     OK({ items: [] }), OK({ data: [] }),
@@ -306,10 +314,9 @@ test('every request goes to the gateway, never to the Render origin', async () =
   await client.esims();
   await client.catalogue();
 
+  assert.equal(fetchStub.calls.length, 3, 'no endpoint should have been tried twice');
   for (const c of fetchStub.calls) {
-    assert.ok(c.url.startsWith('https://api.magicesim.store'), c.url);
-    assert.ok(!/onrender\.com|origin\.magicesim\.store/.test(c.url),
-      'RU networks reach the origin 0/3 — a direct fallback would break the customers this app is for');
+    assert.ok(c.url.startsWith('https://esim-backend-3wmu.onrender.com'), c.url);
   }
 });
 
@@ -497,15 +504,18 @@ test('the session survives a cold-start 502 and mints on the retry', async () =>
   assert.equal(client.hasSession(), true);
 });
 
-test('the session gives up after three attempts, like a read', async () => {
-  const { client, fetchStub } = api([GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP]);
+test('the session gives up only after both endpoints have been tried', async () => {
+  const { client, fetchStub } = api([
+    GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
+    GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
+  ]);
 
   await assert.rejects(client.openSession('init'), (err) => {
     assert.equal(err.status, 502);
     assert.equal(err.isTransport, true);
     return true;
   });
-  assert.equal(fetchStub.calls.length, C.SESSION_ATTEMPTS);
+  assert.equal(fetchStub.calls.length, C.SESSION_ATTEMPTS * 2);
   assert.equal(client.hasSession(), false);
 });
 
@@ -623,5 +633,199 @@ test('every popular destination has a Russian name and a Latin alias', () => {
   for (const code of C.popularCountries) {
     assert.ok(C.countryLabel(code) !== code, `${code} has no Russian name`);
     assert.ok(C.countryLatin[code], `${code} has no Latin alias`);
+  }
+});
+
+/* --------------------------------------------------------------------------
+ * Dual endpoint — failover, and the far more important question of when NOT to
+ *
+ * Measured on the owner's iPhone inside Telegram's WebView on a system-wide VPN
+ * (2026-08-18): /health Render 8/8 p50 237ms against Yandex 2/8 p50 12239ms;
+ * catalogue Render p50 654ms against 1720ms. So Render leads and the gateway
+ * catches. Both terminate at the same backend, so the danger is never "the
+ * fallback cannot serve it" — it is asking a settled question twice.
+ * ----------------------------------------------------------------------- */
+
+const RENDER = C.API_RENDER;
+const YANDEX = C.API_GATEWAY;
+const hosts = (stub) => stub.calls.map((c) => (c.url.startsWith(RENDER) ? 'render' : 'yandex'));
+
+function dual(script, extra = {}) {
+  const events = [];
+  const out = api(script, { telemetry: (e) => events.push(e), ...extra });
+  out.events = events;
+
+  return out;
+}
+
+test('1. Render healthy — the gateway is never called at all', async () => {
+  const { client, fetchStub, events } = dual([
+    OK({ session_token: 't', expires_in: 1800 }), OK({ items: [] }),
+  ]);
+  await client.openSession('init');
+  await client.esims();
+
+  assert.deepEqual(hosts(fetchStub), ['render', 'render']);
+  assert.ok(events.every((e) => e.api_route === 'render'));
+  assert.ok(events.every((e) => e.fallback_used === false));
+});
+
+test('2. Render times out — the gateway answers', async () => {
+  const { client, fetchStub, events } = dual([
+    OK({ session_token: 't', expires_in: 1800 }),
+    { throw: new TypeError('Load failed') },
+    { throw: new TypeError('Load failed') },
+    { throw: new TypeError('Load failed') },
+    OK({ items: [{ id: 'e1' }] }),
+  ]);
+  await client.openSession('init');
+
+  assert.deepEqual(await client.esims(), { items: [{ id: 'e1' }] });
+  assert.deepEqual(hosts(fetchStub), ['render', 'render', 'render', 'render', 'yandex']);
+  const served = events.filter((e) => e.path === '/api/v1/tma/esims').pop();
+  assert.equal(served.api_route, 'yandex_fallback');
+  assert.equal(served.fallback_used, true);
+  assert.equal(served.fallback_reason, 'NETWORK');
+});
+
+test('3. Render 502 — the gateway answers', async () => {
+  const { client, fetchStub, events } = dual([
+    OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
+    OK({ items: [] }),
+  ]);
+  await client.openSession('init');
+  await client.esims();
+
+  assert.equal(hosts(fetchStub).pop(), 'yandex');
+  // The server's own code when it gave one, `http_<status>` when it did not.
+  // Either names the cause; neither carries anything about the customer.
+  assert.equal(events.pop().fallback_reason, 'upstream_unreachable');
+});
+
+test('4. Render 401/409/422 — NEVER failed over', async () => {
+  for (const status of [401, 409, 422, 400, 403, 404]) {
+    const { client, fetchStub } = dual([
+      OK({ session_token: 't', expires_in: 1800 }),
+      { status, body: { error: 'REFUSED' } },
+      // A gateway answer is scripted but must not be consumed: reaching it
+      // would mean a settled question was asked twice.
+      OK({ items: [{ id: 'must-not-be-reached' }] }),
+    ], { reauthenticate: null });
+    await client.openSession('init');
+
+    await assert.rejects(client.esims(), (err) => err.status === status);
+    assert.deepEqual(hosts(fetchStub), ['render', 'render'],
+      `${status} must be final on the primary`);
+  }
+});
+
+test('4b. a refused SESSION is not re-asked at the gateway either', async () => {
+  const { client, fetchStub } = dual([{ status: 401, body: { error: 'INIT_DATA_INVALID' } }]);
+
+  await assert.rejects(client.openSession('forged'), (err) => err.status === 401);
+  assert.deepEqual(hosts(fetchStub), ['render']);
+});
+
+test('5. both endpoints fail — one controlled error, nothing invented', async () => {
+  const { client, fetchStub, events } = dual([
+    OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
+    GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
+  ]);
+  await client.openSession('init');
+
+  await assert.rejects(client.esims(), (err) => {
+    assert.equal(err.isTransport, true);
+    return true;
+  });
+  assert.equal(fetchStub.calls.length, 1 + C.READ_ATTEMPTS * 2);
+  const last = events.pop();
+  assert.equal(last.api_route, 'none');
+  assert.equal(last.failed, true);
+});
+
+test('6. a purchase that times out on Render carries the SAME key to the gateway', async () => {
+  const { client, fetchStub } = dual([
+    OK({ session_token: 't', expires_in: 1800 }),
+    { throw: new TypeError('Load failed') },
+    { throw: new TypeError('Load failed') },
+    OK({ order: { public_order_token: 'tok' } }),
+  ]);
+  await client.openSession('init');
+  await client.purchase(INTENT);
+
+  const keys = fetchStub.calls.slice(1).map((c) => c.body.idempotency_key);
+  assert.equal(new Set(keys).size, 1, `one intent must mean one key, saw ${JSON.stringify(keys)}`);
+  assert.equal(hosts(fetchStub).pop(), 'yandex');
+});
+
+test('7. a duplicate purchase is impossible: the key survives the endpoint change', async () => {
+  // The key is derived from the intent and persisted, so it does not depend on
+  // which host answered — and (scope, idempotency_key) is unique in the one
+  // database both endpoints share.
+  const { client, fetchStub } = dual([
+    OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP, GATEWAY_DROP,
+    GATEWAY_DROP, OK({ order: { public_order_token: 'tok' } }),
+  ]);
+  await client.openSession('init');
+  await client.purchase(INTENT);
+
+  const keys = fetchStub.calls.slice(1).map((c) => c.body.idempotency_key);
+  assert.equal(new Set(keys).size, 1);
+  assert.ok(keys[0], 'a purchase must always carry a key');
+});
+
+test('7b. a write with NO key is never repeated — not even on the other endpoint', async () => {
+  const { client, fetchStub } = dual([
+    OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP,
+    OK({ ok: true }),
+  ]);
+  await client.openSession('init');
+
+  await assert.rejects(client.refreshUsage('esim-1'));
+  assert.deepEqual(hosts(fetchStub), ['render', 'render'],
+    'an unkeyed write may already have been applied; the other endpoint is the same database');
+});
+
+test('8. a session minted on either endpoint is used on whichever answers next', async () => {
+  // Both hosts terminate at the same backend, and customer_sessions binds a
+  // token to a customer and an expiry — not to an IP, a user agent or an
+  // origin. So a token is a token wherever it arrives.
+  const { client, fetchStub } = dual([
+    GATEWAY_DROP, GATEWAY_DROP, GATEWAY_DROP,
+    OK({ session_token: 'minted-at-yandex', expires_in: 1800 }),
+    { throw: new TypeError('Load failed') },
+    { throw: new TypeError('Load failed') },
+    { throw: new TypeError('Load failed') },
+    OK({ items: [] }),
+  ]);
+  await client.openSession('init');
+  assert.equal(hosts(fetchStub)[3], 'yandex', 'the session came from the fallback');
+
+  await client.esims();
+  const authed = fetchStub.calls.filter((c) => c.opts && c.opts.headers && c.opts.headers.Authorization);
+  assert.ok(authed.length > 0);
+  for (const c of authed) {
+    assert.equal(c.opts.headers.Authorization, 'Bearer minted-at-yandex',
+      'the same token must be presented to whichever endpoint answers');
+  }
+});
+
+test('telemetry never carries initData, a token, or anything personal', async () => {
+  const { client, events } = dual([
+    OK({ session_token: 'secret-token', expires_in: 1800 }), OK({ items: [] }),
+  ]);
+  await client.openSession('init-data-secret');
+  await client.esims();
+
+  const blob = JSON.stringify(events);
+  assert.ok(!blob.includes('secret-token'), 'a session token must never reach telemetry');
+  assert.ok(!blob.includes('init-data-secret'), 'initData must never reach telemetry');
+  for (const e of events) {
+    assert.deepEqual(Object.keys(e).sort().filter((k) => !['api_route', 'path', 'primary_latency_ms',
+      'latency_ms', 'fallback_used', 'fallback_reason', 'refused', 'failed'].includes(k)), []);
   }
 });

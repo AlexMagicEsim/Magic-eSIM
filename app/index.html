@@ -15,10 +15,20 @@
   What each directive is actually for:
 
     default-src 'none'   — nothing loads unless named below.
-    connect-src          — the GATEWAY ONLY. Not the Render origin: RU networks
-                           reach api.magicesim.store 3/3 and the origin 0/3, and
-                           a CSP that permitted both would let a future edit
-                           quietly add a fallback that breaks those customers.
+    connect-src          — 'self' for the static catalogue snapshot, then the
+                           two API endpoints. This directive used to name the
+                           gateway ALONE, and said so emphatically: measured
+                           through a plain RU browser the Render origin answered
+                           0/3 while the gateway answered 3/3.
+                           That measurement still holds for the website. It does
+                           not describe this surface. Inside Telegram's WebView
+                           on a system-wide VPN — measured on the owner's iPhone
+                           2026-08-18 — Render answers 8/8 at p50 237ms and the
+                           gateway 2/8 at p50 12239ms, so here the gateway is
+                           the fallback. Both terminate at the same Render
+                           backend, so widening this adds no reachable surface
+                           that was not already public; it only lets the client
+                           choose the faster road first.
     script-src           — own files plus telegram.org for the WebApp bridge.
                            No 'unsafe-inline' and no 'unsafe-eval': there is no
                            inline script on this page, which is why the boot code
@@ -31,7 +41,7 @@
 -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'none';
-  connect-src https://api.magicesim.store;
+  connect-src 'self' https://api.magicesim.store https://esim-backend-3wmu.onrender.com;
   script-src 'self' https://telegram.org;
   style-src 'self';
   img-src 'self' data:;
@@ -62,6 +72,10 @@
     </div>
 
     <div id="home-mine" class="stack"></div>
+
+    <!-- Its own element, because paintCountryList() clears #home-countries on
+         every keystroke and would take the notice with it. -->
+    <div id="home-notice"></div>
 
     <!-- Section headings are emitted by paintCountryList: the catalogue has two
          sections (regions, then countries) and either can be empty. -->

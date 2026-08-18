@@ -128,6 +128,8 @@
     // different thing to buy and the Blueprint lists them separately.
     regions: [],
     query: '',
+    // The last few endpoint decisions, for diagnosis during a live test.
+    apiTrace: [],
     // The full A-Z list is behind one tap. Opening on 213 rows was the reported
     // "весь каталог алфавитом".
     showAll: false,
@@ -234,24 +236,87 @@
    * network answers; the session lands separately and only unlocks «Мои eSIM»,
    * purchase, activation and usage.
    */
+  /** Turn a catalogue envelope into the two lists the screen renders. */
+  function adoptCatalogue(payload) {
+    const grouped = C.groupCatalogue((payload && payload.data) || []);
+    state.countries = grouped.countries;
+    state.regions = grouped.regions;
+  }
+
+  /**
+   * The catalogue. It waits for neither endpoint.
+   *
+   * Three sources, in the order they can possibly arrive: whatever is already
+   * in this session's cache, the static snapshot that ships with the site, and
+   * the live API. The first two are drawn immediately and marked as such; the
+   * live answer replaces them when it lands. On a phone in another country the
+   * difference between "instant, four hours old, and says so" and "three
+   * seconds of skeleton" is the whole experience.
+   *
+   * §9 S1 is explicit that stale data may never be presented as fresh, so the
+   * snapshot always carries its notice until the live answer overwrites it.
+   */
   async function renderCatalogue() {
     const list = $('#home-countries');
+    let painted = false;
+
+    const notice = $('#home-notice');
+    const paint = (payload, { stale, retry } = {}) => {
+      adoptCatalogue(payload);
+      clear(notice);
+      // Blueprint §9 S1: a snapshot may be shown, but never as if it were fresh.
+      // The notice lives outside #home-countries because paintCountryList()
+      // clears that container on every keystroke and would erase it.
+      if (stale) notice.appendChild(staleNotice(retry || renderCatalogue));
+      paintCountryList();
+      painted = true;
+    };
+
     clear(list);
     list.appendChild(skeletonCards(5));
 
-    const out = await C.readThrough(cache, 'catalogue', () => api.catalogue());
-    clear(list);
+    // The snapshot races the network. Whichever lands first is shown; a live
+    // answer always wins afterwards.
+    const live = api.catalogue().then(
+      (v) => ({ ok: true, value: v }),
+      (err) => ({ ok: false, err })
+    );
+    const snapshot = api.staticCatalogue().then(
+      (v) => ({ ok: true, value: v }),
+      (err) => ({ ok: false, err })
+    );
 
-    if (!out.value) {
-      list.appendChild(errorNotice('Не удалось загрузить тарифы.', renderCatalogue));
+    const first = await Promise.race([live, snapshot]);
+    if (first.ok) paint(first.value, { stale: first.value.generated_at != null });
+
+    const settled = await live;
+    if (settled.ok) {
+      // Fresh beats everything, and the notice goes with it.
+      paint(settled.value, { stale: false });
+      cache.write('catalogue', settled.value);
+
       return;
     }
-    if (out.stale) list.appendChild(staleNotice(renderCatalogue));
 
-    const grouped = C.groupCatalogue(out.value.data || []);
-    state.countries = grouped.countries;
-    state.regions = grouped.regions;
-    paintCountryList();
+    if (painted) return;                       // the snapshot is already on screen
+
+    const fallback = await snapshot;
+    if (fallback.ok) {
+      paint(fallback.value, { stale: true });
+
+      return;
+    }
+
+    // Nothing reached us at all — say so once, with a way out.
+    const cached = cache.read('catalogue');
+    if (cached && cached.value) {
+      paint(cached.value, { stale: true });
+
+      return;
+    }
+    clear(list);
+    clear(notice);
+    list.appendChild(errorNotice('Не удалось загрузить тарифы.', renderCatalogue));
   }
 
   /**
@@ -900,6 +965,23 @@
     api = C.createApi({
       fetch: window.fetch.bind(window),
       storage,
+      // Which road each request took, and why. Kept in memory and surfaced to
+      // Telegram's own metrics if the client offers them; never sent anywhere
+      // ourselves, and it carries no token, no initData and nothing about the
+      // customer — the shape is asserted in core.test.js.
+      telemetry: (e) => {
+        state.apiTrace.push(e);
+        if (state.apiTrace.length > 50) state.apiTrace.shift();
+        if (e.fallback_used || e.failed) {
+          // A fallback is not an error, but it IS the signal that the primary
+          // is having a bad minute, and it is worth being able to see that in a
+          // console during a live test.
+          try {
+            console.info('api', e.api_route, e.path, 'fallback', e.fallback_reason || '-',
+              'primary_ms', e.primary_latency_ms);
+          } catch { /* */ }
+        }
+      },
       // Re-mint on a 401 without telling anybody: a 30-minute session expiring
       // while the app sits open is the likeliest failure here.
       reauthenticate: () => authenticate(),

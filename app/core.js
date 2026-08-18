@@ -152,11 +152,47 @@ const popularCountries=['TR','TH','VN','EG','MV','LK','CN','IT','AE','ID','JP','
  * Configuration
  * ----------------------------------------------------------------------- */
 
-// The gateway, always. Never the Render origin directly: RU networks reach
-// api.magicesim.store 3/3 and the origin 0/3 (measured 2026-08-16), which is the
-// entire reason the proxy exists. A "temporary" direct fallback here would be
-// invisible in testing and broken for exactly the customers this app is for.
-const API_BASE = 'https://api.magicesim.store';
+/* --------------------------------------------------------------------------
+ * The two endpoints
+ *
+ * This used to be one constant and a comment saying a second one must never be
+ * added: RU networks reached api.magicesim.store 3/3 and the origin 0/3, so a
+ * direct fallback would have been invisible in testing and broken for exactly
+ * the customers this app serves.
+ *
+ * That measurement was taken through a browser on a plain RU connection. The
+ * Mini App is not that. It runs inside Telegram's WebView on a phone whose VPN
+ * is system-wide, so the WebView's traffic takes the tunnel too — and measured
+ * there, on the owner's iPhone on 2026-08-18, the picture inverts:
+ *
+ *              /health              catalogue 604KB
+ *   Render     8/8  p50   237ms     4/4  p50  654ms
+ *   Yandex     2/8  p50 12239ms     4/4  p50 1720ms   (AbortError / 502)
+ *
+ * So for THIS surface the gateway is the fallback, not the road. The storefront
+ * keeps the old arrangement, because a browser on a plain connection is still
+ * the network the old measurement describes.
+ *
+ * Both hosts terminate at the same Render backend — /api/v1/status reports the
+ * same commit through either — so there is one database, one session table and
+ * one set of rules. A token minted through one is valid at the other because it
+ * is the same row, and the TMA limiters key on identity (initData fingerprint,
+ * telegram user, customer) rather than on IP, so which road it arrives by
+ * changes nothing about them.
+ * ----------------------------------------------------------------------- */
+
+const API_RENDER = 'https://esim-backend-3wmu.onrender.com';
+const API_GATEWAY = 'https://api.magicesim.store';
+
+// Ordered. The client walks this list and stops at the first endpoint that
+// returns a VERDICT — not the first that returns success. See shouldFailOver.
+const API_ENDPOINTS = [
+  { name: 'render', base: API_RENDER },
+  { name: 'yandex_fallback', base: API_GATEWAY },
+];
+
+// Kept for the storefront and for anything that still expects one base.
+const API_BASE = API_GATEWAY;
 
 // Reads: three attempts total. The first retry catches a dropped connection, the
 // second catches a bad few seconds. A third would mostly add latency to an
@@ -352,14 +388,18 @@ function createApi(deps = {}) {
   const now = deps.now || (() => Date.now());
   const wait = deps.sleep || sleep;
   const randomHex = deps.randomHex || defaultRandomHex;
-  const base = deps.base || API_BASE;
+  // A single `base` still works (the storefront passes one); otherwise the
+  // ordered endpoint list drives failover.
+  const endpoints = deps.endpoints
+    || (deps.base ? [{ name: 'custom', base: deps.base }] : API_ENDPOINTS);
+  const telemetry = typeof deps.telemetry === 'function' ? deps.telemetry : () => {};
 
   // Held in memory only. Writing a bearer to localStorage would leave it on the
   // device after the app closes, and it is re-mintable from initData for free.
   let sessionToken = null;
   let sessionExpiresAt = 0;
 
-  async function once(path, { method = 'GET', body = null, auth = true } = {}) {
+  async function once(path, { method = 'GET', body = null, auth = true, base = endpoints[0].base } = {}) {
     const controller = typeof AbortController === 'function' ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS) : null;
 
@@ -400,6 +440,31 @@ function createApi(deps = {}) {
    * expiring while the app sits open is the single most likely failure here, and
    * making the customer notice it would be pointless.
    */
+  /**
+   * May this failure be carried to the other endpoint?
+   *
+   * ONLY a transport failure — status 0 (abort, DNS, TLS, offline), 502, 503,
+   * 504 — means "this road did not reach a verdict". Everything else is an
+   * answer, and an answer must be honoured wherever it came from.
+   *
+   * This is the whole safety of the design. A 401 re-asked at the other host is
+   * still a 401 and merely doubles the delay; a 409 or a 422 re-asked is worse,
+   * because the second host may be a moment behind and give a different reply to
+   * a question already settled. Both endpoints are the same database — asking it
+   * twice does not make the answer truer.
+   */
+  function shouldFailOver(err) {
+    return Boolean(err && err.isTransport);
+  }
+
+  /**
+   * One logical request, across the endpoint list.
+   *
+   * Bounded twice over: each endpoint gets its own small attempt budget, and
+   * there are exactly two endpoints. Worst case is attempts×endpoints requests
+   * and then a thrown error — never a loop that keeps a customer waiting on a
+   * network that is not coming back.
+   */
   async function request(path, opts = {}) {
     const isWrite = opts.method && opts.method !== 'GET';
     const retryable = !isWrite || Boolean(opts.idempotent);
@@ -410,23 +475,67 @@ function createApi(deps = {}) {
 
     let lastError = null;
     let reauthed = false;
+    let primaryMs = null;
 
-    for (let attempt = 0; attempt < attempts; attempt += 1) {
-      try {
-        return await once(path, opts);
-      } catch (err) {
-        lastError = err;
+    for (let e = 0; e < endpoints.length; e += 1) {
+      const endpoint = endpoints[e];
+      const startedAt = now();
 
-        if (err.isAuthFailure && !reauthed && opts.auth !== false && deps.reauthenticate) {
-          reauthed = true;
-          await deps.reauthenticate();
-          continue;                      // does not consume an attempt
+      for (let attempt = 0; attempt < attempts; attempt += 1) {
+        try {
+          const out = await once(path, { ...opts, base: endpoint.base });
+          telemetry({
+            api_route: endpoint.name,
+            path,
+            primary_latency_ms: primaryMs,
+            latency_ms: now() - startedAt,
+            fallback_used: e > 0,
+            fallback_reason: e > 0 ? (lastError && (lastError.code || `http_${lastError.status}`)) : null,
+          });
+
+          return out;
+        } catch (err) {
+          lastError = err;
+
+          if (err.isAuthFailure && !reauthed && opts.auth !== false && deps.reauthenticate) {
+            reauthed = true;
+            await deps.reauthenticate();
+            continue;                      // does not consume an attempt
+          }
+
+          // An answer, not an outage: stop everywhere, not just here.
+          if (!shouldFailOver(err)) {
+            telemetry({
+              api_route: endpoint.name,
+              path,
+              primary_latency_ms: primaryMs,
+              latency_ms: now() - startedAt,
+              fallback_used: e > 0,
+              fallback_reason: null,
+              refused: err.status || 0,
+            });
+            throw err;
+          }
+
+          // A write with no key may not be repeated anywhere — not on this
+          // endpoint and not on the other one. It may already have been applied.
+          if (!retryable) throw err;
+
+          if (attempt < attempts - 1) await wait(backoff[Math.min(attempt, backoff.length - 1)]);
         }
-        if (!err.isTransport || !retryable || attempt === attempts - 1) throw err;
-
-        await wait(backoff[Math.min(attempt, backoff.length - 1)]);
       }
+
+      if (e === 0) primaryMs = now() - startedAt;
     }
+
+    telemetry({
+      api_route: 'none',
+      path,
+      primary_latency_ms: primaryMs,
+      fallback_used: endpoints.length > 1,
+      fallback_reason: lastError && (lastError.code || `http_${lastError.status}`),
+      failed: true,
+    });
 
     throw lastError;
   }
@@ -451,24 +560,44 @@ function createApi(deps = {}) {
    */
   async function openSession(initData) {
     let lastError = null;
+    let primaryMs = null;
 
-    for (let attempt = 0; attempt < SESSION_ATTEMPTS; attempt += 1) {
-      try {
-        const out = await once('/api/v1/tma/session', {
-          method: 'POST', body: { init_data: initData }, auth: false,
-        });
-        sessionToken = out.session_token;
-        sessionExpiresAt = now() + (Number(out.expires_in) || 0) * 1000;
+    for (let e = 0; e < endpoints.length; e += 1) {
+      const endpoint = endpoints[e];
+      const startedAt = now();
 
-        return out;
-      } catch (err) {
-        lastError = err;
-        // A rejected initData is a verdict, not a blip: 401 and 403 mean the
-        // signature did not check out, and asking again cannot change that.
-        if (!err.isTransport || attempt === SESSION_ATTEMPTS - 1) throw err;
+      for (let attempt = 0; attempt < SESSION_ATTEMPTS; attempt += 1) {
+        try {
+          const out = await once('/api/v1/tma/session', {
+            method: 'POST', body: { init_data: initData }, auth: false, base: endpoint.base,
+          });
+          sessionToken = out.session_token;
+          sessionExpiresAt = now() + (Number(out.expires_in) || 0) * 1000;
+          telemetry({
+            api_route: endpoint.name,
+            path: '/api/v1/tma/session',
+            primary_latency_ms: primaryMs,
+            latency_ms: now() - startedAt,
+            fallback_used: e > 0,
+            fallback_reason: e > 0 ? (lastError && (lastError.code || `http_${lastError.status}`)) : null,
+          });
 
-        await wait(SESSION_BACKOFF_MS[Math.min(attempt, SESSION_BACKOFF_MS.length - 1)]);
+          return out;
+        } catch (err) {
+          lastError = err;
+          // A rejected initData is a verdict, not a blip: 401 means the
+          // signature did not check out, and the other endpoint verifies it
+          // against the same bot token and the same clock. Asking twice only
+          // doubles the wait before telling the customer the same thing.
+          if (!shouldFailOver(err)) throw err;
+
+          if (attempt < SESSION_ATTEMPTS - 1) {
+            await wait(SESSION_BACKOFF_MS[Math.min(attempt, SESSION_BACKOFF_MS.length - 1)]);
+          }
+        }
       }
+
+      if (e === 0) primaryMs = now() - startedAt;
     }
 
     throw lastError;
@@ -481,6 +610,33 @@ function createApi(deps = {}) {
   // The same endpoint the website uses. §8.3 rejected a TMA twin of it, so this
   // is deliberately not a Mini-App-specific catalogue.
   const catalogue = () => request('/api/v1/retail/packages', { auth: false });
+
+  /**
+   * The catalogue snapshot that ships with the site.
+   *
+   * Same origin, served by the Pages CDN, refreshed six times a day by CI — so
+   * it neither waits for Render nor for the gateway, and it is the one path
+   * that still works when both are unreachable. Prices in it are up to four
+   * hours old, which is why anything drawn from it must say so (§9 S1: showing
+   * a stale catalogue as fresh is not acceptable, because a price is a promise).
+   *
+   * Deliberately NOT routed through `request`: it is not an API call, it has no
+   * endpoint to fail over to, and one attempt is the whole budget it deserves.
+   */
+  async function staticCatalogue() {
+    const res = await doFetch('../assets/catalog.json', { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new ApiError(res.status, 'STATIC_CATALOGUE', 'snapshot unavailable', null);
+    const json = await res.json();
+
+    // Normalised to the live envelope so no caller has to know where it came from.
+    return {
+      status: 'success',
+      count: json.package_count || (json.packages || []).length,
+      currency: 'RUB',
+      data: json.packages || [],
+      generated_at: json.generated_at || null,
+    };
+  }
 
   /* ---- the customer's own things ---- */
 
@@ -534,7 +690,7 @@ function createApi(deps = {}) {
   }
 
   return {
-    openSession, hasSession, catalogue, me, orders, activeOrders, orderStatus,
+    openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },
@@ -990,6 +1146,7 @@ const CORE = {
   ESIM_STATUS_TEXT, ORDER_STATUS_TEXT, activationPolicyText,
   memoryStorage,
   READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, SESSION_ATTEMPTS, REQUEST_TIMEOUT_MS,
+  API_RENDER, API_GATEWAY, API_ENDPOINTS,
 };
 
 if (typeof module !== 'undefined' && module.exports) module.exports = CORE;

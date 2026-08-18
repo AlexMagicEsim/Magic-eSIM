@@ -25,7 +25,7 @@ const path = require('path');
 const { webkit, devices } = require('playwright');
 
 const APP_DIR = path.join(__dirname, '..', '..', 'app');
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.json': 'application/json' };
 
 /* -------------------------------------------------------------------------- *
  * The fake Telegram + gateway, injected before any page script runs.
@@ -33,6 +33,22 @@ const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
  * -------------------------------------------------------------------------- */
 function mock() {
   var mode = location.search.replace('?', '') || 'ok';
+
+  var PACKAGES = [
+    { package_id: 'p1', name: 'Thailand 3GB 15Days', data_gb: 3, validity_days: 15,
+      country_code: 'TH', price: 690, currency: 'RUB',
+      coverage_country_codes: ['TH'], coverage_flags: '🇹🇭' },
+    { package_id: 'p2', name: 'Thailand 10GB 30Days', data_gb: 10, validity_days: 30,
+      country_code: 'TH', price: 1490, currency: 'RUB',
+      coverage_country_codes: ['TH'], coverage_flags: '🇹🇭' },
+    { package_id: 'p3', name: 'Netherlands 3GB 15Days', data_gb: 3, validity_days: 15,
+      country_code: 'NL', price: 350, currency: 'RUB',
+      coverage_country_codes: ['NL'], coverage_flags: '🇳🇱' },
+    { package_id: 'p4', name: 'Vietnam Plus 3 GB', data_gb: 3, validity_days: 30,
+      country_code: 'ID', price: 1900, currency: 'RUB',
+      coverage_country_codes: ['ID', 'MY', 'SG', 'KR', 'TH', 'VN'],
+      coverage_flags: '🇮🇩🇲🇾🇸🇬🇰🇷🇹🇭🇻🇳' },
+  ];
 
   window.Telegram = {
     WebApp: {
@@ -75,10 +91,22 @@ function mock() {
 
       return json({ session_token: 'mock', expires_in: 1800 });
     }
+    // The static snapshot that ships with the site. Same packages, snapshot
+    // envelope. It is the path that must work when BOTH endpoints are down, so
+    // the failure modes below are only honest if it is served here too.
+    if (u.indexOf('catalog.json') !== -1) {
+      return json({
+        schema_version: 1, generated_at: '2026-08-18T07:08:16.254Z',
+        source: 'production-public-api', package_count: 4, packages: PACKAGES,
+      });
+    }
     // The REAL catalogue envelope: {status, count, currency, data}. It was
     // {packages: []} here, which is a shape the app has never received — the
     // suite was asserting against an empty screen and calling it a pass.
     if (u.indexOf('/retail/packages') !== -1) {
+      return json({ status: 'success', count: 4, currency: 'RUB', data: PACKAGES });
+    }
+    if (false) {
       return json({
         status: 'success', count: 4, currency: 'RUB',
         data: [
@@ -176,7 +204,9 @@ async function run() {
   // The session now runs alongside the catalogue rather than in front of it, so
   // wait for it to settle before counting its attempts.
   await page.waitForFunction(() => window.__sessionHits >= 2, { timeout: 15000 });
-  check('the 502 was retried, not surfaced', await page.evaluate(() => window.__sessionHits), 2);
+  await page.waitForTimeout(300);
+  check('the 502 was retried on the SAME endpoint, not escalated', 
+    await page.evaluate(() => window.__sessionHits), 2);
   await page.tap('#nav-esims');
   check('TAP «Мои eSIM» opens the eSIM screen', await active(page), ['screen-esims']);
   await page.tap('#nav-home');
@@ -185,9 +215,11 @@ async function run() {
   console.log('\n[fail] the session 502s on every attempt — the catalogue must survive it');
   await page.goto(`${base}?fail`);
   await page.waitForSelector('#screen-home[data-active]', { timeout: 20000 });
-  await page.waitForFunction(() => window.__sessionHits >= 3, { timeout: 20000 });
-  check('three attempts were made before giving up',
-    await page.evaluate(() => window.__sessionHits), 3);
+  // Three attempts on the primary, then three on the fallback, then it stops.
+  await page.waitForFunction(() => window.__sessionHits >= 6, { timeout: 25000 });
+  await page.waitForTimeout(500);              // prove it does not keep going
+  check('the budget is spent on BOTH endpoints and then stops',
+    await page.evaluate(() => window.__sessionHits), 6);
   // A dead session used to take the whole app down. It buys nothing: the
   // catalogue needs no session, and a customer who cannot sign in can still be
   // shown what is for sale.
@@ -208,9 +240,10 @@ async function run() {
   console.log('\n[offline] the radio is dead — fetch rejects');
   await page.goto(`${base}?offline`);
   await page.waitForSelector('#screen-home[data-active]', { timeout: 25000 });
-  await page.waitForFunction(() => window.__sessionHits >= 3, { timeout: 25000 });
-  check('a transport failure IS retried to the full budget',
-    await page.evaluate(() => window.__sessionHits), 3);
+  await page.waitForFunction(() => window.__sessionHits >= 6, { timeout: 30000 });
+  await page.waitForTimeout(500);
+  check('a transport failure IS retried to the full budget, on both endpoints',
+    await page.evaluate(() => window.__sessionHits), 6);
 
   console.log('\n[ok] warm gateway');
   await page.goto(`${base}?ok`);
