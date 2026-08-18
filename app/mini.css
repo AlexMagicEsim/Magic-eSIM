@@ -540,3 +540,10 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 
 /* S6 progress note: a spinner INSIDE a stated message, never a bare one. */
 .notice .btn__spinner { flex: 0 0 auto; }
+
+/* §9 S8: an expired or spent eSIM is still the customer's, so it stays in the
+   list and stays tappable — it is dimmed, not hidden and not disabled. The
+   status badge states the same thing in words, because dimming alone would
+   make colour the only carrier of meaning (§16). */
+.card--spent { opacity: .55; }
+.card--spent .card__title { color: var(--muted); }

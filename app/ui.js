@@ -164,7 +164,7 @@
     // Leaving S6 stops its poll. Without this the timer outlived the screen,
     // kept asking the gateway, rewrote a hidden container and could fire the
     // success haptic while the customer was somewhere else entirely.
-    if (state.screen === 'order' && name !== 'order') stopOrderPoll();
+    if (state.screen === 'order' && name !== 'order') { stopOrderPoll(); resumeOnReturn = null; }
     state.screen = name;
     for (const s of SCREENS) {
       const node = document.getElementById(`screen-${s}`);
@@ -831,11 +831,23 @@
    * one in the product, and the one a real paid purchase proved missing.
    * ------------------------------------------------------------------ */
 
-  // Bounded on purpose. A fulfilment that has not finished in about two minutes
-  // is not going to finish while somebody watches, and an unbounded poll on a
-  // gateway that drops a third of requests is how a Mini App turns into a
-  // battery complaint. After this the customer gets a manual refresh.
-  const ORDER_POLL_MS = [2000, 3000, 5000, 5000, 8000, 8000, 10000, 10000, 15000, 15000, 20000, 20000];
+  /**
+   * §9 S6: 3 s for the first 30 s, then 10 s, stopping at five minutes.
+   *
+   * The old schedule ran out after about two minutes, which was defensible
+   * when every request went through a gateway that dropped a third of them.
+   * Render is primary now and answers in well under a second, so the Blueprint
+   * cadence is affordable — and two minutes is shorter than a card payment
+   * with a 3-D Secure step, which is exactly the customer who most needs the
+   * screen to still be watching when they come back.
+   *
+   * Bounded remains non-negotiable: after five minutes the customer gets a
+   * manual refresh and the promise of an email, not an unbounded poll.
+   */
+  const ORDER_POLL_MS = Object.freeze([
+    ...Array.from({ length: 10 }, () => 3000),   // 30 s
+    ...Array.from({ length: 27 }, () => 10000),  // to 5 min
+  ]);
 
   /**
    * The five states §6.3 allows, keyed on what the BACKEND sends.
@@ -1060,17 +1072,50 @@
       }
     }
 
+    // Coming back from the payment browser is the moment the answer is most
+    // likely to have changed, and it is also the moment the schedule above is
+    // most likely to have run out — the customer spent the whole budget paying.
+    // Without this a slow payer returned to a stale «Ждём оплату» and had to
+    // find the refresh button themselves.
+    resumeOnReturn = () => {
+      if (state.screen !== 'order') return;
+      if (state.lastOrder && (C.isOrderReady(state.lastOrder.display_status)
+        || C.isOrderDead(state.lastOrder.display_status))) return;
+      stopOrderPoll();
+      attempt = 0;
+      void tick();
+    };
+
     $('#order-title').textContent = 'Проверяем оплату';
     clear($('#order-body'));
     $('#order-body').appendChild(skeletonCards(1));
     await tick();
   }
 
+  /**
+   * Set by the S6 screen while it is the one on display. Held outside it so
+   * the listeners below can be attached once, at boot, rather than being added
+   * again on every visit to the screen.
+   */
+  let resumeOnReturn = null;
+
+  function bindReturnToApp() {
+    const fire = () => { if (typeof resumeOnReturn === 'function') resumeOnReturn(); };
+    try {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') fire();
+      });
+      window.addEventListener('focus', fire);
+      // Bot API 6.1+. Guarded: an older client simply keeps the two above.
+      if (tg && tg.onEvent) tg.onEvent('activated', fire);
+    } catch { /* an environment without these is an environment without S6 */ }
+  }
+
   /** Refresh the eSIM list without drawing anything, for the completion check. */
   async function refreshEsimsQuietly() {
     try {
       const out = await api.esims();
-      state.esims = (out && out.items) || [];
+      state.esims = C.sortOwnedEsims((out && out.items) || []);
     } catch { /* the list keeps whatever it had */ }
   }
 
@@ -1092,7 +1137,7 @@
     }
     if (out.stale) list.appendChild(staleNotice(renderEsims));
 
-    state.esims = out.value.items || [];
+    state.esims = C.sortOwnedEsims(out.value.items || []);
     if (!state.esims.length) {
       // §9 S8: "Не «нет данных», а два предложения". The second one the
       // Blueprint asks for — linking purchases made on the site — needs the
@@ -1165,7 +1210,14 @@
   function esimCard(e) {
     const days = C.daysLeft(e.expires_at);
 
-    return el('button', { class: 'card stack', onclick: () => openEsim(e.id) }, [
+    return el('button', {
+      // §9 S8: spent eSIMs stay in the list — a customer looks for what they
+      // bought, not only for what still works — but they are dimmed so the
+      // live one is found without reading. Never dimming alone: `statusBadge`
+      // carries the same fact in words (§16 — colour is never the only signal).
+      class: C.isSpentEsim(e) ? 'card stack card--spent' : 'card stack',
+      onclick: () => openEsim(e.id),
+    }, [
       el('div', { class: 'row row--between' }, [
         el('div', { class: 'row' }, [
           el('span', { class: 'card__flag', text: C.flagFor(e.country_code) }),
@@ -1400,6 +1452,7 @@
     // seconds — sometimes a 502 — of an app that looks fully rendered and ignores
     // every tap. Reported from an iPhone on 2026-08-17 as "neither button works".
     bindChrome();
+    bindReturnToApp();
     applyTelegramTheme();
 
     // The catalogue is public, so the app opens on it immediately and the

@@ -1080,6 +1080,29 @@ function popularGroups(countryGroups) {
   return popularCountries.map((code) => byCode.get(code)).filter(Boolean);
 }
 
+/**
+ * §9 S8: «активные сверху, истёкшие ниже и приглушены».
+ *
+ * The server returns newest-first, which is the wrong axis: a customer opens
+ * this list on a trip, and the eSIM they are travelling on is the one that
+ * must be at the top even if it was bought a year before the souvenir one.
+ *
+ * Stable within each band — the server's order is preserved — so this only
+ * ever moves spent eSIMs down, never shuffles live ones among themselves.
+ */
+const SPENT_ESIM_STATUSES = Object.freeze(['expired', 'depleted', 'failed']);
+
+const isSpentEsim = (e) => SPENT_ESIM_STATUSES.includes(e && e.status);
+
+function sortOwnedEsims(items) {
+  const list = Array.isArray(items) ? items.slice() : [];
+
+  return list
+    .map((e, i) => ({ e, i }))
+    .sort((a, b) => (Number(isSpentEsim(a.e)) - Number(isSpentEsim(b.e))) || (a.i - b.i))
+    .map((x) => x.e);
+}
+
 /* --------------------------------------------------------------------------
  * Where a customer may be sent
  * ----------------------------------------------------------------------- */
@@ -1255,6 +1278,7 @@ const CORE = {
   ESIM_STATUS_TEXT, ORDER_STATUS_TEXT, activationPolicyText,
   destinationTitle, isOrderReady, isOrderDead,
   isAllowedPaymentUrl, PAYMENT_HOSTS,
+  sortOwnedEsims, isSpentEsim, SPENT_ESIM_STATUSES,
   memoryStorage,
   READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, SESSION_ATTEMPTS, REQUEST_TIMEOUT_MS,
   STATIC_CATALOGUE_TIMEOUT_MS,

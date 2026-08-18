@@ -45,6 +45,12 @@ function mock(cfg){
     // and the app is required to come here rather than guess from the eSIM list.
     if(u.includes('/me/orders')){window.__historyCalls=(window.__historyCalls||0)+1;
       return j({items:cfg.history||[],next_cursor:null});}
+    // GET /tma/esims/:id — the detail the CTA must land on.
+    if(/\/tma\/esims\/[^/?]+$/.test(u.split('?')[0])){
+      const id=u.split('?')[0].split('/').pop();
+      const hit=(cfg.esims||[]).find(x=>x.id===id);
+      window.__detailOpened=id;
+      return hit?j(hit):j({error:'NOT_FOUND'},404);}
     if(u.includes('/tma/esims'))return j({items:cfg.esims||[]});
     return j({items:[]});};
 }
@@ -128,7 +134,17 @@ for (const eng of ['webkit','chromium']) {
       const bodyText=await p.$eval('#order-body',n=>n.innerText).catch(()=>'');
       ok(sc.name, screen==='screen-order'&&title===sc.expectTitle, `${screen} / "${title}"`);
       if (sc.expectCard) ok('  the card names the destination sold', bodyText.includes(sc.expectCard), sc.expectCard);
-      if (sc.expectTitle==='eSIM готова') ok('  CTA «Открыть eSIM» present', cta.some(t=>t.includes('Открыть eSIM')), cta.join('|'));
+      if (sc.expectTitle==='eSIM готова') {
+        ok('  CTA «Открыть eSIM» present', cta.some(t=>t.includes('Открыть eSIM')), cta.join('|'));
+        // And it opens THE eSIM that was bought, not a list to search through.
+        // The order carries esim_id; using it is the whole point of reading the
+        // order instead of guessing from the eSIM list.
+        await p.getByRole('button',{name:/Открыть eSIM/}).click();
+        await p.waitForTimeout(900);
+        const after=(await p.$$eval('.screen[data-active]',n=>n.map(x=>x.id)))[0];
+        const opened=await p.evaluate(()=>window.__detailOpened||null);
+        ok('  it opens that eSIM, not the list', after==='screen-esim'&&opened==='e1', `${after} / ${opened}`);
+      }
       if (sc.expectTitle==='Не удалось проверить оплату')
         ok('  it offers a retry and a human', cta.some(t=>t.includes('Проверить'))&&cta.some(t=>t.includes('поддержку')), cta.join('|'));
       if (sc.expectTitle==='Нужна помощь с заказом'||sc.expectTitle==='Заказ не найден')

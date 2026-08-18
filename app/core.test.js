@@ -998,3 +998,50 @@ test('a lookalike domain is not the payment provider', () => {
     assert.equal(C.isAllowedPaymentUrl(bad), false, String(bad));
   }
 });
+
+test('the eSIM travelled on is above the ones already spent', () => {
+  const list = [
+    { id: 'a', status: 'expired' },
+    { id: 'b', status: 'active' },
+    { id: 'c', status: 'depleted' },
+    { id: 'd', status: 'ready' },
+    { id: 'e', status: 'failed' },
+    { id: 'f', status: 'provisioning' },
+  ];
+  assert.deepEqual(C.sortOwnedEsims(list).map((x) => x.id), ['b', 'd', 'f', 'a', 'c', 'e']);
+});
+
+test('sorting is stable — the server order survives inside each band', () => {
+  const list = [
+    { id: '1', status: 'active' }, { id: '2', status: 'active' },
+    { id: '3', status: 'expired' }, { id: '4', status: 'expired' },
+  ];
+  assert.deepEqual(C.sortOwnedEsims(list).map((x) => x.id), ['1', '2', '3', '4']);
+});
+
+test('an unknown status is treated as live, never quietly buried', () => {
+  // A status we have no opinion about is not evidence the eSIM is spent, and
+  // dimming a working profile is the more expensive mistake.
+  assert.equal(C.isSpentEsim({ status: 'something_new' }), false);
+  assert.equal(C.isSpentEsim({}), false);
+  assert.equal(C.isSpentEsim(null), false);
+});
+
+test('nothing is lost by sorting', () => {
+  const list = [{ id: 'a', status: 'expired' }, { id: 'b', status: 'active' }];
+  assert.equal(C.sortOwnedEsims(list).length, 2);
+  assert.deepEqual(C.sortOwnedEsims([]), []);
+  assert.deepEqual(C.sortOwnedEsims(null), []);
+});
+
+test('the poll follows the Blueprint cadence and still ends', () => {
+  // §9 S6: 3 s for the first 30 s, then 10 s, stopping at five minutes.
+  // Read off the same array the screen uses, so a change to one fails here.
+  const ui = require('node:fs').readFileSync(`${__dirname}/ui.js`, 'utf8');
+  const m = ui.match(/const ORDER_POLL_MS = Object\.freeze\(\[([\s\S]*?)\]\);/);
+  assert.ok(m, 'ORDER_POLL_MS not found');
+  const fast = Number((m[1].match(/length: (\d+) \}, \(\) => 3000/) || [])[1]);
+  const slow = Number((m[1].match(/length: (\d+) \}, \(\) => 10000/) || [])[1]);
+  assert.equal(fast * 3000, 30000, 'the first 30 s are polled every 3 s');
+  assert.equal(fast * 3000 + slow * 10000, 300000, 'and it stops at five minutes');
+});
