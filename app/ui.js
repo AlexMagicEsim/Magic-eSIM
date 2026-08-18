@@ -144,6 +144,8 @@
     showAll: false,
     // Never defaults to true. §9 S4: acceptance is an act, not a default.
     termsAccepted: false,
+    // Which of the two catalogue tabs is lit. See TAB_FOR_SCREEN.
+    catalogueTab: 'nav-home',
     country: null,
     // §9 S2. Price ascending is the default the Blueprint asks for; the choice
     // is remembered across countries within a session, because a customer who
@@ -163,7 +165,28 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'error', 'loading', 'order'];
+  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'help', 'error', 'loading', 'order'];
+
+  // Which bottom tab is lit for a given screen. A tab bar that never highlights
+  // is decoration; one that highlights the wrong thing is worse. Screens
+  // reached from a tab keep that tab lit, so «Мои eSIM» stays selected while
+  // the customer reads an eSIM or its installation steps.
+  // `catalogue` is not a tab id: Главная and Купить are the same screen seen
+  // two ways, so which of them is lit cannot be read off the screen name. It
+  // is whichever the customer last chose, remembered in state.catalogueTab —
+  // and the shopping screens that hang off the catalogue follow it, so tapping
+  // Купить and drilling into a tariff does not silently light Главная.
+  const TAB_FOR_SCREEN = Object.freeze({
+    home: 'catalogue',
+    country: 'catalogue',
+    tariff: 'catalogue',
+    checkout: 'catalogue',
+    order: 'catalogue',
+    esims: 'nav-esims',
+    esim: 'nav-esims',
+    install: 'nav-esims',
+    help: 'nav-help',
+  });
   const history = [];
 
   function show(name, { push = true } = {}) {
@@ -178,6 +201,11 @@
       if (!node) continue;
       if (s === name) node.setAttribute('data-active', '');
       else node.removeAttribute('data-active');
+    }
+    const mapped = TAB_FOR_SCREEN[name] || null;
+    const lit = mapped === 'catalogue' ? state.catalogueTab : mapped;
+    for (const tab of document.querySelectorAll('.tabbar .tab')) {
+      tab.setAttribute('aria-selected', String(tab.id === lit));
     }
     window.scrollTo(0, 0);
     setBackButton(history.length > 0, goBack);
@@ -617,6 +645,100 @@
   }
 
   /* ------------------------------------------------------------------ *
+   * S11 · Помощь — answer what can be answered, hand over the rest
+   * ------------------------------------------------------------------ */
+
+  /**
+   * §9 S11: «Mini App не содержит собственного чата.»
+   *
+   * The bot already has AI answers, escalation to a live operator and an
+   * operator-reply bridge. Rebuilding any of that here would be a second,
+   * worse channel. So this screen does two things the bot cannot do better:
+   * it answers the handful of questions that need no person at all, and it
+   * hands over the ones that do — with the customer's order already named, so
+   * nobody has to re-describe what they bought.
+   *
+   * Deliberately session-free. The customer most likely to open it is the one
+   * whose session just failed.
+   */
+  const HELP_TOPICS = Object.freeze([
+    {
+      q: 'Как установить eSIM?',
+      a: 'Откройте «Мои eSIM» → нужную eSIM → «Установка и QR». Там есть QR-код, '
+        + 'пошаговая инструкция для вашего телефона и поля для ручного ввода.',
+    },
+    {
+      q: 'Подойдёт ли мой телефон?',
+      a: 'iPhone: Настройки → Сотовая связь. Android: настройки SIM-карт. Если есть '
+        + '«Добавить eSIM» или «Загрузить SIM» — подойдёт. Телефон не должен быть '
+        + 'заблокирован под одного оператора.',
+    },
+    {
+      q: 'Когда начнётся срок действия?',
+      a: 'Зависит от тарифа — точная формулировка указана в карточке тарифа в строке '
+        + '«Начало срока». Чаще всего отсчёт идёт с первого подключения к сети за границей.',
+    },
+    {
+      q: 'Оплатил, но eSIM не появилась',
+      a: 'Обычно выпуск занимает меньше минуты. Статус заказа виден сразу после оплаты, '
+        + 'и мы продублируем eSIM письмом на указанную почту. Если прошло больше '
+        + 'нескольких минут — напишите нам, заказ уже у нас и никуда не денется.',
+    },
+    {
+      q: 'Интернет не работает за границей',
+      a: 'Проверьте, что для eSIM включён роуминг данных и что она выбрана как линия '
+        + 'для сотовых данных. Помогает также выбор сети вручную в настройках оператора.',
+    },
+    {
+      q: 'Можно ли вернуть деньги?',
+      a: 'Если eSIM не была установлена и не использовалась — напишите нам, разберёмся '
+        + 'индивидуально. Условия описаны в оферте.',
+    },
+  ]);
+
+  function renderHelp() {
+    const box = $('#help-body');
+    clear(box);
+
+    box.appendChild(el('p', { class: 'muted', text:
+      'Ответы на частые вопросы — здесь. Всё остальное — живому человеку в поддержке.' }));
+
+    box.appendChild(el('div', { class: 'stack' },
+      HELP_TOPICS.map((t) => el('details', { class: 'card sheet' }, [
+        el('summary', { class: 'sheet__head', text: t.q }),
+        el('p', { class: 'small', text: t.a }),
+      ]))));
+
+    box.appendChild(el('h2', { class: 'section', text: 'Инструкции по установке' }));
+    box.appendChild(el('div', { class: 'row' }, [
+      el('button', {
+        class: 'btn btn--quiet', text: 'Для iPhone',
+        onclick: () => openExternal('https://magicesim.store/iphone.html'),
+      }),
+      el('button', {
+        class: 'btn btn--quiet', text: 'Для Android',
+        onclick: () => openExternal('https://magicesim.store/android.html'),
+      }),
+    ]));
+
+    box.appendChild(el('h2', { class: 'section', text: 'Не нашли ответ?' }));
+    // The order ref rides along when there is one, so the operator opens the
+    // conversation already knowing which purchase it is about.
+    box.appendChild(supportButton(state.lastOrder || null));
+
+    box.appendChild(el('div', { class: 'stack gap-top-lg' }, [
+      el('button', {
+        class: 'btn btn--quiet', text: 'Оферта',
+        onclick: () => openExternal('https://magicesim.store/terms.html'),
+      }),
+      el('button', {
+        class: 'btn btn--quiet', text: 'Политика конфиденциальности',
+        onclick: () => openExternal('https://magicesim.store/privacy.html'),
+      }),
+    ]));
+  }
+
+  /* ------------------------------------------------------------------ *
    * S3 · Tariff detail — the last doubts, before the money
    * ------------------------------------------------------------------ */
 
@@ -653,22 +775,27 @@
       }),
     ]));
 
-    // 2. Coverage — for a regional pack the country list IS the product, and
-    // a customer buying "Европа" needs to see their destination in it.
+    // 2 & 3. Coverage and characteristics — the same sheet the site shows, in
+    // the same order and under the same labels («Покрытие и условия»).
     const coverage = Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [];
-    if (coverage.length > 1) box.appendChild(coverageBlock(coverage));
-
-    // 3. Characteristics — only the fields the provider actually filled in.
     const facts = C.tariffFacts(p);
     if (facts.length) {
       box.appendChild(el('div', { class: 'card stack' }, [
-        el('h2', { class: 'section', text: 'Характеристики' }),
+        el('h2', { class: 'section', text: 'Покрытие и условия' }),
+        el('div', { class: 'row row--between fact' }, [
+          el('span', { class: 'muted', text: 'Покрытие' }),
+          el('span', { class: 'fact__value', text: C.coverageSummary(p) }),
+        ]),
         ...facts.map((f) => el('div', { class: 'row row--between fact' }, [
           el('span', { class: 'muted', text: f.label }),
           el('span', { class: 'fact__value', text: f.value }),
         ])),
       ]));
     }
+
+    // The full country list for a regional pack, one tap under the summary: a
+    // customer buying «Европа» has to be able to find their own destination.
+    if (coverage.length > 1) box.appendChild(coverageBlock(coverage));
 
     // 4. Compatibility — a sheet that opens in place. §9 S3 and decision Р6:
     // «Отдельный экран не создаётся, S12 упразднён.»
@@ -1549,43 +1676,89 @@
       }));
     }
 
-    // Platform tabs. Both sets of steps are real device flows, not a generic
-    // "scan the code" — the settings paths differ and that is where people get
-    // stuck.
-    const tabs = el('div', { class: 'tabs' });
-    const steps = el('div', {});
+    // ---- the device picker --------------------------------------------
+    //
+    // Two real choices, stated as such. The old version was a pair of thin
+    // ghost tabs above a list, which read as a filter rather than as the first
+    // decision on the screen — and it is the first decision: every settings
+    // path below it differs. They are large, labelled, and one of them is
+    // already chosen, so a customer who is holding the right phone does
+    // nothing at all.
     const IOS = [
-      'Откройте «Настройки» → «Сотовая связь».',
-      'Нажмите «Добавить eSIM».',
-      'Выберите «Использовать QR-код» и отсканируйте код выше.',
-      'Если камеры нет под рукой — «Ввести данные вручную» и вставьте значения ниже.',
+      'Откройте «Настройки» → «Сотовая связь» (или «Мобильная связь»).',
+      'Нажмите «Добавить eSIM» → «Использовать QR-код».',
+      'Наведите камеру на QR выше. Если QR на этом же экране — нажмите «Ввести данные вручную» и вставьте значения ниже.',
+      'Дайте профилю имя, например «Поездка», и завершите настройку.',
+      'В поездке включите для этой линии передачу данных и роуминг данных.',
     ];
     const ANDROID = [
-      'Откройте «Настройки» → «Сеть и интернет» → «SIM-карты».',
-      'Нажмите «Добавить eSIM» или «Загрузить SIM-карту».',
-      'Отсканируйте код выше.',
-      'Если сканер недоступен — введите данные вручную из полей ниже.',
+      'Откройте «Настройки» → «Сеть и Интернет» → «SIM-карты».',
+      'Нажмите «Добавить eSIM» / «Загрузить SIM-карту» (на Samsung — «Добавить тарифный план»).',
+      'Отсканируйте QR выше. Если сканер недоступен — «Ввести код вручную» и вставьте значения ниже.',
+      'Дождитесь загрузки профиля и включите его.',
+      'В поездке включите для этой линии мобильные данные и роуминг данных.',
     ];
+
+    const picker = el('div', { class: 'devices', role: 'radiogroup', 'aria-label': 'Тип телефона' });
+    const steps = el('div', {});
+    const oneTap = el('div', { class: 'stack' });
 
     const paint = (which) => {
       clear(steps);
       const list = el('ol', { class: 'steps' });
-      for (const s of (which === 'ios' ? IOS : ANDROID)) list.appendChild(el('li', { text: s }));
+      for (const line of (which === 'ios' ? IOS : ANDROID)) list.appendChild(el('li', { text: line }));
       steps.appendChild(list);
-      for (const b of tabs.children) b.setAttribute('aria-selected', String(b.dataset.os === which));
+      for (const b of picker.children) {
+        b.setAttribute('aria-checked', String(b.dataset.os === which));
+      }
+
+      // Apple's own provisioning link installs the profile without the camera,
+      // which is the whole problem with a QR shown on the phone that is meant
+      // to scan it. iOS 17.4+; older versions open a page that explains itself,
+      // so the manual fields below stay regardless.
+      //
+      // Android has no equivalent universal link — its flow is an OS intent a
+      // web page cannot start — so nothing is offered there rather than a
+      // button that silently does nothing.
+      clear(oneTap);
+      if (which === 'ios' && act.lpa) {
+        oneTap.appendChild(el('button', {
+          class: 'btn btn--wide',
+          text: 'Установить на этом iPhone',
+          onclick: () => openExternal(
+            `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=${encodeURIComponent(act.lpa)}`
+          ),
+        }));
+        oneTap.appendChild(el('p', { class: 'small muted', text:
+          'Откроется системная установка. Работает на iOS 17.4 и новее — если ничего не произошло, установите по QR или вручную.' }));
+      }
     };
 
-    tabs.appendChild(el('button', { 'data-os': 'ios', text: 'iPhone', onclick: () => paint('ios') }));
-    tabs.appendChild(el('button', { 'data-os': 'android', text: 'Android', onclick: () => paint('android') }));
-    box.appendChild(tabs);
+    const device = (os, label, hint) => el('button', {
+      class: 'device',
+      'data-os': os,
+      role: 'radio',
+      'aria-checked': 'false',
+      onclick: () => { paint(os); haptic('light'); },
+    }, [
+      el('span', { class: 'device__name', text: label }),
+      el('span', { class: 'device__hint', text: hint }),
+    ]);
+
+    box.appendChild(el('h2', { class: 'section', text: 'Какой у вас телефон?' }));
+    picker.appendChild(device('ios', 'iPhone', 'iOS'));
+    picker.appendChild(device('android', 'Android', 'Samsung, Pixel, Xiaomi…'));
+    box.appendChild(picker);
+    box.appendChild(oneTap);
     box.appendChild(steps);
+
     // §9 S10: Telegram knows which client it is; inside a WebView the user
-    // agent only describes the engine. The tabs above remain, because
+    // agent only describes the engine. The picker above remains, because
     // detection is allowed to be wrong and a customer stuck on the wrong
     // instructions is not.
     paint(C.installPlatform(tg && tg.platform, navigator.userAgent));
 
-    box.appendChild(el('h2', { text: 'Ввод вручную' }));
+    box.appendChild(el('h2', { class: 'section', text: 'Ввод вручную' }));
     box.appendChild(el('div', { class: 'stack' }, [
       copyField('SM-DP+ адрес', act.smdp_address),
       copyField('Код активации', act.activation_code),
@@ -1594,6 +1767,7 @@
     ]));
 
     box.appendChild(el('p', { class: 'small muted', text: 'Устанавливайте eSIM при работающем интернете. Удалить и установить повторно тот же профиль нельзя.' }));
+    box.appendChild(supportButton(null));
   }
 
   /* ------------------------------------------------------------------ *
@@ -1788,11 +1962,40 @@
       const price = state.intent ? C.money(state.intent.expected_amount_rub) : '';
       setPayEnabled(state.termsAccepted, price ? `Оплатить ${price}` : 'Оплатить');
     });
-    // The catalogue is public: this tab must work whether or not a session ever
-    // arrives, and it is the reason most people opened the app.
-    $('#nav-home').addEventListener('click', () => show('home'));
+    // The catalogue is public: these tabs must work whether or not a session
+    // ever arrives, and they are the reason most people opened the app.
+    //
+    // «Главная» and «Купить» are the same screen seen two ways, and that is
+    // deliberate rather than lazy. Главная is where a customer who already
+    // bought something lands — the return block and the sixteen destinations
+    // most people want. Купить is for somebody who knows where they are going
+    // and wants the whole list, so it opens the A-Z section directly. One
+    // screen, because splitting the catalogue in two would mean a destination
+    // that exists on one tab and not the other.
+    $('#nav-home').addEventListener('click', () => {
+      state.catalogueTab = 'nav-home';
+      state.showAll = false;
+      clearSearch();
+      show('home');
+    });
+    $('#nav-buy').addEventListener('click', () => {
+      state.catalogueTab = 'nav-buy';
+      state.showAll = true;
+      paintCountryList();
+      show('home');
+      // Past the popular strip, onto the list this tab exists for. Guarded:
+      // scrollIntoView is not universal in every webview Telegram ships.
+      try {
+        const list = document.querySelector('#home-countries .section');
+        if (list && list.scrollIntoView) list.scrollIntoView({ block: 'start' });
+      } catch { /* the list is on screen either way */ }
+    });
     // «Мои eSIM» is the one tab that genuinely needs the customer's identity.
     $('#nav-esims').addEventListener('click', () => { show('esims'); renderEsims(); });
+    // «Помощь» answers what it can without a person, and hands over what it
+    // cannot. It needs no session, which is the point: the customer most in
+    // need of it is often the one whose session just failed.
+    $('#nav-help').addEventListener('click', () => { show('help'); renderHelp(); });
   }
 
   /**

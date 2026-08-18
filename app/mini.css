@@ -322,12 +322,45 @@ button.card:active { transform: scale(.995); }
   position: sticky;
   bottom: 0;
   z-index: 5;
-  gap: 8px;
-  padding: 14px 16px calc(14px + var(--safe-b));
+  gap: 2px;
+  /* Was 14px 16px, sized for two wide buttons. Four tabs need the width, and
+     the bottom half of the padding is the safe area — that part does not
+     shrink. */
+  padding: 6px 4px calc(10px + var(--safe-b));
   background: var(--bg);
   border-top: 1px solid var(--line);
 }
-.tabbar .btn { flex: 1 1 0; }
+/* Four tabs, icon over label. The bar itself keeps the safe-area padding that
+   R-44 was about: on iPhone this row sits directly above the home indicator,
+   and losing that padding put both buttons inside the system swipe zone. */
+.tabbar { display: flex; }
+.tab {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: var(--tap);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 4px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.2;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab__i { width: 24px; height: 24px; flex: 0 0 auto; }
+/* The label never truncates into a stub: four words have to fit at 360pt. */
+.tab__t { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Selected is carried by BOTH colour and weight — §16 forbids colour as the
+   only signal, and aria-selected carries it to assistive tech besides. */
+.tab[aria-selected='true'] { color: var(--link); }
+.tab[aria-selected='true'] .tab__t { font-weight: 650; }
+.tab:active { opacity: .6; }
 .search--static { position: static; }
 .gap-top-lg { margin-top: 18px; }
 .gap-top-sm { margin-top: 10px; }
@@ -589,3 +622,32 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
    a refinement of a list rather than a decision about money. */
 .segmented--sort { margin-bottom: 4px; }
 .segmented--sort .segmented__opt { font-size: 14px; padding: 8px 10px; }
+
+/* --- Installation · the device picker ------------------------------------
+   The first decision on the screen, so it looks like one. The old pair of
+   thin tabs read as a filter over a list; every settings path below differs
+   by device, and getting it wrong is the single most common way somebody
+   ends up stuck with an eSIM they have paid for. */
+.devices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 8px 0 14px; }
+.device {
+  min-width: 0;
+  min-height: 62px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  padding: 10px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.device__name { font-weight: 650; font-size: 16px; }
+.device__hint { font-size: 12px; color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Chosen carries in the border, the fill AND the weight — never colour alone. */
+.device[aria-checked='true'] {
+  border-color: var(--link);
+  background: color-mix(in srgb, var(--link) 10%, transparent);
+}
+.device[aria-checked='true'] .device__name { color: var(--link); }
+.device:active { opacity: .7; }

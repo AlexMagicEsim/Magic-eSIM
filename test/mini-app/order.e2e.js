@@ -45,6 +45,11 @@ function mock(cfg){
     // and the app is required to come here rather than guess from the eSIM list.
     if(u.includes('/me/orders')){window.__historyCalls=(window.__historyCalls||0)+1;
       return j({items:cfg.history||[],next_cursor:null});}
+    // POST /tma/esims/:id/activation — the install secret.
+    if(/\/tma\/esims\/[^/?]+\/activation$/.test(u.split('?')[0])){
+      return j(cfg.activation||{lpa:'LPA:1$rsp.truphone.com$K2-1AB2C3-4D5E6F',
+        smdp_address:'rsp.truphone.com',activation_code:'K2-1AB2C3-4D5E6F',
+        iccid:'8944478000000123456',qr_url:null,expires_at:null,activation_policy:'ON_FIRST_DATA'});}
     // GET /tma/esims/:id — the detail the CTA must land on.
     if(/\/tma\/esims\/[^/?]+$/.test(u.split('?')[0])){
       const id=u.split('?')[0].split('/').pop();
@@ -154,6 +159,76 @@ for (const eng of ['webkit','chromium']) {
     }
     await ctx.close();
   }
+  // ---- the installation screen -------------------------------------------
+  // Walked into from the S6 CTA, because that is the real route a customer
+  // takes: they have just paid and the next thing they need is a working
+  // profile on the phone in their hand.
+  {
+    const ctx=await br.newContext({...pw.devices['iPhone 13']});
+    await ctx.route('https://telegram.org/**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
+    await ctx.addInitScript(mock,{startParam:'o_AB12cd',sequence:[[]],
+      history:[ORDER('ready',{esim_id:'e1'})],
+      esims:[{id:'e1',country_code:'DZ',package_name:'Algeria 100MB 7Days',status:'ready'}]});
+    const p=await ctx.newPage(); await p.goto(base);
+    await p.waitForTimeout(2200);
+    await p.getByRole('button',{name:/Открыть eSIM/}).click();
+    await p.waitForTimeout(700);
+    await p.getByRole('button',{name:/Установка и QR/}).click();
+    await p.waitForTimeout(900);
+
+    const screen=(await p.$$eval('.screen[data-active]',n=>n.map(x=>x.id)))[0];
+    ok('the install screen opens from the eSIM', screen==='screen-install', screen);
+
+    const devices=await p.$$eval('.devices .device',
+      n=>n.map(x=>({os:x.dataset.os,name:x.querySelector('.device__name').innerText.trim(),
+        chosen:x.getAttribute('aria-checked')==='true',h:x.getBoundingClientRect().height})));
+    ok('the first decision is which phone, and it is asked as one',
+      devices.length===2&&devices[0].name==='iPhone'&&devices[1].name==='Android',
+      devices.map(d=>d.name).join('|'));
+    ok('both device buttons clear the 44pt tap floor',
+      devices.every(d=>d.h>=44), devices.map(d=>Math.round(d.h)).join('|'));
+    ok('one device is already chosen, so the right phone needs no tap',
+      devices.filter(d=>d.chosen).length===1);
+
+    // Telegram said 'ios' through the mock, so iOS must be the one chosen —
+    // §9 S10 asks for the client, not the user agent.
+    ok('Telegram decides which instructions open',
+      devices.find(d=>d.os==='ios').chosen===true);
+    ok('and iOS offers the one-tap install Apple actually supports',
+      (await p.$$eval('#install-body button',n=>n.map(b=>b.innerText)))
+        .some(t=>/Установить на этом iPhone/.test(t)));
+
+    await p.getByRole('radio',{name:/Android/}).click();
+    await p.waitForTimeout(250);
+    const afterAndroid=await p.$$eval('.devices .device',
+      n=>n.map(x=>({os:x.dataset.os,chosen:x.getAttribute('aria-checked')==='true'})));
+    ok('choosing Android switches the instructions',
+      afterAndroid.find(d=>d.os==='android').chosen===true
+      && afterAndroid.find(d=>d.os==='ios').chosen===false);
+    // Android has no universal link, so nothing is offered rather than a
+    // button that silently does nothing.
+    ok('and Android is not offered a one-tap install that does not exist',
+      !(await p.$$eval('#install-body button',n=>n.map(b=>b.innerText)))
+        .some(t=>/Установить на этом iPhone/.test(t)));
+
+    const steps=await p.$$eval('#install-body .steps li',n=>n.map(x=>x.innerText));
+    ok('the steps are a real device flow, not "scan the code"', steps.length>=4, String(steps.length));
+    const body=await p.$eval('#install-body',n=>n.innerText);
+    ok('manual entry is always available', /SM-DP\+/.test(body)&&/Код активации/.test(body));
+    ok('and a person is reachable from here too', /Написать в поддержку/.test(body));
+    // The QR is a secret, and no screen may render it as a link to fetch.
+    ok('the QR travels as bytes, never as a URL',
+      (await p.$$eval('#install-body img',n=>n.map(x=>x.src)))
+        .every(src=>src.startsWith('data:image/')||src===''));
+
+    // No horizontal overflow with a long LPA on the narrowest supported width.
+    await p.setViewportSize({width:360,height:780});
+    await p.waitForTimeout(200);
+    ok('no horizontal scroll at 360pt',
+      await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1));
+    await ctx.close();
+  }
+
   // bounded polling: it must stop, not run forever
   const ctx=await br.newContext({...pw.devices['iPhone 13']});
   await ctx.route('https://telegram.org/**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));

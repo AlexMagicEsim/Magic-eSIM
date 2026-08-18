@@ -105,6 +105,15 @@
     <div id="tariff-body" class="stack"></div>
   </section>
 
+  <!-- 2c. Help (S11) ----------------------------------------------------
+       §9 S11: the Mini App runs no chat of its own — the client bot already
+       has AI answers, escalation and an operator bridge. This screen answers
+       what can be answered without a person, and hands over what cannot. -->
+  <section class="screen" id="screen-help" aria-label="Помощь">
+    <h1>Помощь</h1>
+    <div id="help-body" class="stack"></div>
+  </section>
+
   <!-- 3. Checkout ------------------------------------------------------ -->
   <section class="screen" id="screen-checkout" aria-label="Оформление">
     <h1>Оформление</h1>
@@ -193,9 +202,32 @@
   </section>
 </main>
 
-<nav class="row tabbar">
-  <button id="nav-home" class="btn btn--ghost">Каталог</button>
-  <button id="nav-esims" class="btn btn--ghost">Мои eSIM</button>
+<!-- Four destinations, not two. «Каталог» and «Мои eSIM» left the two things
+     a customer most often arrives for — starting a purchase and finding help —
+     with no address at all: help existed only as a line of copy telling them to
+     write to us, with nowhere to write.
+
+     The icons are inline SVG with presentation attributes. Our own style-src
+     'self' blocks a style ATTRIBUTE (this is what broke the nav on iPhone in
+     R-44), but fill/stroke are not style, and an inline <svg> needs no request.
+     Each tab keeps its label: an icon alone is a guess. -->
+<nav class="tabbar" role="tablist" aria-label="Разделы">
+  <button id="nav-home" class="tab" role="tab" aria-selected="true">
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>
+    <span class="tab__t">Главная</span>
+  </button>
+  <button id="nav-buy" class="tab" role="tab" aria-selected="false">
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+    <span class="tab__t">Купить</span>
+  </button>
+  <button id="nav-esims" class="tab" role="tab" aria-selected="false">
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M9.5 7.5h5M9.5 11h5"/><circle cx="12" cy="16.5" r="1.2"/></svg>
+    <span class="tab__t">Мои eSIM</span>
+  </button>
+  <button id="nav-help" class="tab" role="tab" aria-selected="false">
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.3 2.4c-.6.2-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r="1.1" fill="currentColor" stroke="none"/></svg>
+    <span class="tab__t">Помощь</span>
+  </button>
 </nav>
 
 <script src="core.js"></script>

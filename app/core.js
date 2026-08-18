@@ -1316,11 +1316,23 @@ function tariffFacts(pkg) {
   const rows = [];
   const push = (label, value) => { if (value) rows.push({ label, value }); };
 
-  push('Сети', tariffNetworks(p));
+  // The site's own «Покрытие и условия» sheet, row for row and label for
+  // label (index.html #coverageModal). Two shops describing one tariff with
+  // two different vocabularies is how a customer comes to believe they are
+  // looking at two different products.
+  const gb = Number(p.data_gb);
+  push('Объём трафика', p.unlimited ? 'безлимит'
+    : (Number.isFinite(gb) && gb > 0 ? `${Number.isInteger(gb) ? gb : String(gb)} ГБ` : ''));
+
+  const days = Number(p.validity_days);
+  push('Срок действия', Number.isFinite(days) && days > 0
+    ? `${days} ${plural(days, 'день', 'дня', 'дней')}` : '');
+
+  push('Начало срока', tariffActivation(p));
+  push('Сеть', tariffNetworks(p));
   push('Раздача интернета', tariffHotspot(p));
-  push('Отсчёт срока', tariffActivation(p));
   push('Скорость', tariffTextRu(p.speed_note));
-  push('Ограничения', tariffTextRu(p.fup_policy));
+  push('После лимита', tariffTextRu(p.fup_policy));
 
   if (p.calls_supported === true) push('Звонки', 'поддерживаются');
   if (p.sms_supported === true) {
@@ -1329,6 +1341,21 @@ function tariffFacts(pkg) {
   if (p.data_only === true) push('Только интернет', 'звонков и SMS нет');
 
   return rows;
+}
+
+/**
+ * The site puts «Покрытие» at the top of the same sheet, as one line rather
+ * than a country list — «Азия и Океания, 34 страны» reads in a second where
+ * thirty-four chips do not. The full list stays one tap away underneath.
+ */
+function coverageSummary(pkg) {
+  const p = pkg || {};
+  const codes = [...new Set(Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [])];
+  if (codes.length <= 1) return countryLabel(codes[0] || p.country_code);
+
+  const named = REGION_NAMES[regionKey(p)];
+
+  return named ? `${named}, ${countryWord(codes.length)}` : countryWord(codes.length);
 }
 
 /** §9 S3: «что произойдёт после оплаты» — three steps, one line each. */
@@ -1539,6 +1566,7 @@ const CORE = {
   sortOwnedEsims, isSpentEsim, SPENT_ESIM_STATUSES,
   syncedAgo, installPlatform, sortTariffs, TARIFF_SORTS,
   tariffFacts, tariffNetworks, tariffHotspot, tariffActivation, tariffTextRu,
+  coverageSummary,
   AFTER_PAYMENT_STEPS,
   memoryStorage,
   READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, SESSION_ATTEMPTS, REQUEST_TIMEOUT_MS,

@@ -381,6 +381,57 @@ async function runOne(engineName, scheme) {
   await page.waitForTimeout(400);
   await page.screenshot({ path: `${OUT}/${engineName}-${scheme}-esims.png` });
 
+  // ---- the bottom navigation ----------------------------------------------
+  const tabs = await page.$$eval('.tabbar .tab',
+    (n) => n.map((x) => ({ id: x.id, label: x.querySelector('.tab__t').innerText.trim() })));
+  ok('four destinations, in order', tabs.map((t) => t.label).join('|')
+    === 'Главная|Купить|Мои eSIM|Помощь', tabs.map((t) => t.label).join('|'));
+
+  // Every tap target has to clear 44pt, and no label may be clipped to a stub.
+  const tapBoxes = await page.$$eval('.tabbar .tab', (n) => n.map((x) => {
+    const r = x.getBoundingClientRect();
+    const t = x.querySelector('.tab__t');
+
+    return { h: r.height, w: r.width, clipped: t.scrollWidth > t.clientWidth + 1 };
+  }));
+  ok('every tab clears the 44pt tap floor',
+    tapBoxes.every((b) => b.h >= 44), JSON.stringify(tapBoxes.map((b) => Math.round(b.h))));
+  ok('no tab label is clipped at this width',
+    tapBoxes.every((b) => !b.clipped), JSON.stringify(tapBoxes.map((b) => b.clipped)));
+  ok('«Мои eSIM» is lit while its own screen is open',
+    await page.$eval('#nav-esims', (b) => b.getAttribute('aria-selected')) === 'true');
+  ok('and exactly one tab is lit at a time',
+    (await page.$$('.tabbar .tab[aria-selected="true"]')).length === 1);
+
+  // ---- Купить -------------------------------------------------------------
+  await page.tap('#nav-buy');
+  await page.waitForTimeout(300);
+  ok('«Купить» opens the catalogue on the full list',
+    (await page.$$eval('.screen[data-active]', (n) => n.map((x) => x.id)))[0] === 'screen-home'
+    && (await page.$$('#home-countries .card--row')).length > 0);
+  ok('and «Купить» is the lit tab',
+    await page.$eval('#nav-buy', (b) => b.getAttribute('aria-selected')) === 'true');
+
+  // ---- Помощь -------------------------------------------------------------
+  await page.tap('#nav-help');
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: `${OUT}/${engineName}-${scheme}-help.png` });
+  const helpScreen = (await page.$$eval('.screen[data-active]', (n) => n.map((x) => x.id)))[0];
+  ok('«Помощь» opens a real screen, not an external link', helpScreen === 'screen-help', helpScreen);
+  ok('it answers questions without a person',
+    (await page.$$('#help-body details')).length >= 5);
+  const helpText = await page.$eval('#screen-help', (n) => n.innerText);
+  ok('and it offers a person for the rest', /Написать в поддержку/.test(helpText));
+  // §9 S11: no second chat inside the Mini App.
+  ok('the Mini App does not grow a chat of its own',
+    (await page.$$('#help-body textarea, #help-body input[type="text"]')).length === 0);
+  // The help screen must survive with no session — it is what a signed-out
+  // customer is most likely to need.
+  ok('help needs no session', !/Не удалось|Ошибка/.test(helpText.slice(0, 200)));
+
+  await page.tap('#nav-home');
+  await page.waitForTimeout(250);
+
   // Theme actually applied?
   const bgc = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
   ok(`body background follows the ${scheme} theme`,
