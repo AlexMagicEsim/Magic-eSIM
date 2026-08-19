@@ -644,6 +644,87 @@
     show('country', { push });
   }
 
+  /**
+   * Top-up options for one eSIM.
+   *
+   * Deliberately quiet about failure. This is an extra on a screen whose job
+   * is showing an eSIM the customer already owns: if discovery is unavailable,
+   * or the eSIM has no compatible top-up, or the provider does not support one,
+   * the right outcome is the screen the customer came for — not an error about
+   * a feature they may not have been looking for.
+   */
+  async function renderTopups(esimId) {
+    const box = $('#esim-topup');
+    if (!box) return;
+    clear(box);
+
+    let out = null;
+    try {
+      out = await api.topups(esimId);
+    } catch {
+      return;   // silent: see above
+    }
+    if (!out || out.topup_available !== true) return;
+
+    const options = Array.isArray(out.topup_options) ? out.topup_options : [];
+    if (!options.length) return;
+
+    box.appendChild(el('button', {
+      class: 'btn btn--ghost',
+      text: 'Пополнить',
+      onclick: () => openTopupOptions(esimId, out),
+    }));
+  }
+
+  /**
+   * The options, and an honest statement about what can be done with them.
+   *
+   * `purchase_enabled` comes from the server and is the only thing that decides
+   * whether a payment CTA is drawn. The client does not hold that switch, and
+   * could not usefully lie about it — the write routes are closed at the
+   * gateway regardless.
+   */
+  function openTopupOptions(esimId, discovery) {
+    const box = $('#esim-topup');
+    clear(box);
+
+    const list = el('div', { class: 'stack' }, [
+      el('h2', { class: 'section', text: 'Пополнить eSIM' }),
+      ...discovery.topup_options.map((o) => el('div', { class: 'card row row--between topup-opt' }, [
+        el('span', { class: 'card__body' }, [
+          el('span', {
+            class: 'card__title',
+            text: o.data_gb ? `${o.data_gb} ГБ` : 'Пакет',
+          }),
+          el('span', {
+            class: 'card__meta',
+            text: o.validity_days
+              ? `+${o.validity_days} ${C.plural(o.validity_days, 'день', 'дня', 'дней')}`
+              : '',
+          }),
+        ]),
+        el('strong', { class: 'card__price tabular', text: C.money(o.price_rub) }),
+      ])),
+    ]);
+
+    if (discovery.purchase_enabled === true) {
+      // Not reachable today: the server sends false while the purchase path is
+      // closed, and the routes it would call are not in the gateway allowlist.
+      list.appendChild(el('button', {
+        class: 'btn btn--wide', text: 'Выбрать и оплатить',
+        onclick: () => { /* wired when the purchase path opens */ },
+      }));
+    } else {
+      list.appendChild(el('p', { class: 'small muted', text:
+        'Пополнение скоро заработает. Пока можно посмотреть, что будет доступно для этой eSIM.' }));
+    }
+
+    list.appendChild(el('button', {
+      class: 'btn btn--quiet', text: 'Скрыть', onclick: () => renderTopups(esimId),
+    }));
+    box.appendChild(list);
+  }
+
   /* ------------------------------------------------------------------ *
    * S11 · Помощь — answer what can be answered, hand over the rest
    * ------------------------------------------------------------------ */
@@ -1598,12 +1679,23 @@
       // connect is the moment a customer most needs a person, and until now the
       // app had no way to reach one from anywhere.
       supportButton(null, { wide: false }),
-      // No top-up button, and its absence is deliberate: recharge is unsafe at
-      // BOTH providers (architecture Р-4 — the call carries no ICCID and would
-      // likely create a second eSIM, and its transaction id is random per
-      // attempt so a retry charges twice). A disabled button would promise
-      // something that does not exist.
+      // The top-up affordance, if this eSIM actually has one.
+      //
+      // The comment that used to sit here said recharge was unsafe at both
+      // providers and that a disabled button would promise something that does
+      // not exist. The first half was wrong — it described a defect in our
+      // client, not a limit of either provider — but the second half still
+      // governs this line, and is why nothing is drawn until the SERVER has
+      // said, for this specific eSIM, that compatible top-ups exist.
+      //
+      // Never from a catalogue flag, never from the provider name, and never a
+      // greyed-out button: an eSIM with no top-up shows nothing at all.
+      el('div', { id: 'esim-topup' }),
     ]));
+
+    // Asked after the card is on screen, so a slow provider call cannot hold
+    // up the eSIM the customer opened this screen to see.
+    void renderTopups(id);
   }
 
   async function refreshUsage(id, button) {

@@ -57,6 +57,10 @@ function mock(cfg){
       const hit=(cfg.esims||[]).find(x=>x.id===id);
       window.__detailOpened=id;
       return hit?j(hit):j({error:'NOT_FOUND'},404);}
+    // GET /tma/esims/:id/topups — discovery. Read-only on the server too.
+    if(/\/tma\/esims\/[^/?]+\/topups$/.test(u.split('?')[0])){
+      window.__topupCalls=(window.__topupCalls||0)+1;
+      return j(cfg.topups||{topup_available:false,reason:'NO_COMPATIBLE_ADDONS',topup_options:[],purchase_enabled:false});}
     if(u.includes('/tma/esims'))return j({items:cfg.esims||[]});
     return j({items:[]});};
 }
@@ -262,6 +266,47 @@ for (const eng of ['webkit','chromium']) {
     const androidBtn=(await p.$$eval('#install-body button',n=>n.map(b=>b.innerText)))
       .some(t=>/Установить на этом Android/.test(t));
     ok('Android one-click is offered too, which it never was before', androidBtn);
+    await ctx.close();
+  }
+
+  // ---- top-up options, hidden unless the server offers them ---------------
+  for (const sc of [
+    {name:'no compatible top-up: nothing is shown at all', topups:null, expectButton:false},
+    {name:'options exist: «Пополнить» appears', expectButton:true,
+     topups:{topup_available:true,reason:null,purchase_enabled:false,
+       topup_options:[{option_id:'opt1',data_gb:5,validity_days:15,price_rub:530,currency:'RUB'},
+                      {option_id:'opt2',data_gb:10,validity_days:30,price_rub:990,currency:'RUB'}]}},
+  ]) {
+    const ctx=await br.newContext({...pw.devices['iPhone 13']});
+    await ctx.route('https://telegram.org/**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
+    await ctx.addInitScript(mock,{startParam:'o_AB12cd',sequence:[[]],
+      history:[ORDER('ready',{esim_id:'e1'})],
+      esims:[{id:'e1',country_code:'DZ',package_name:'Algeria 100MB 7Days',status:'ready'}],
+      topups:sc.topups});
+    const p=await ctx.newPage(); await p.goto(base);
+    await p.waitForTimeout(2200);
+    await p.getByRole('button',{name:/Открыть eSIM/}).click();
+    await p.waitForTimeout(1200);
+
+    const btns=await p.$$eval('#esim-detail button',n=>n.map(b=>b.innerText.trim()));
+    const has=btns.some(t=>/^Пополнить$/.test(t));
+    ok(sc.name, has===sc.expectButton, btns.join('|'));
+
+    if (sc.expectButton) {
+      await p.getByRole('button',{name:/^Пополнить$/}).click();
+      await p.waitForTimeout(400);
+      const body=await p.$eval('#esim-topup',n=>n.innerText);
+      ok('  the options list their data, validity and price',
+        /5 ГБ/.test(body)&&/15 дней/.test(body)&&/530/.test(body), body.slice(0,80).replace(/\n/g,' '));
+      // purchase_enabled is false, so no payment CTA may be drawn.
+      const optBtns=await p.$$eval('#esim-topup button',n=>n.map(b=>b.innerText.trim()));
+      ok('  no payment CTA while the purchase path is closed',
+        !optBtns.some(t=>/оплатить|Выбрать и оплатить/i.test(t)), optBtns.join('|'));
+      ok('  and it says so plainly', /скоро заработает/i.test(body));
+      // Nothing about the provider reaches the screen.
+      ok('  the screen names no provider, product or family',
+        !/mobimatter|esim_addon|productFamily|a1\b/i.test(body), body.slice(0,60).replace(/\n/g,' '));
+    }
     await ctx.close();
   }
 

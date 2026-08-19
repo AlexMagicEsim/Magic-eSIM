@@ -724,6 +724,20 @@ function createApi(deps = {}) {
   const me = () => request('/api/v1/tma/me');
   const orders = (params = '') => request(`/api/v1/tma/me/orders${params}`);
   const activeOrders = () => request('/api/v1/tma/me/orders/active');
+
+  /**
+   * What this eSIM could be topped up with.
+   *
+   * A GET, and read-only on the server too: it creates no intent and calls no
+   * provider write. The answer carries `purchase_enabled`, which is how the
+   * app learns that real options exist while buying one is not open yet — the
+   * client is told rather than finding out at a payment step that refuses.
+   *
+   * A 404 here is an eSIM that is not ours or does not exist; the server
+   * answers both identically on purpose, so this does not try to tell them
+   * apart either.
+   */
+  const topups = (esimId) => request(`/api/v1/tma/esims/${encodeURIComponent(esimId)}/topups`);
   const orderStatus = (token) => request(`/api/v1/tma/orders/${encodeURIComponent(token)}/status`);
   const esims = () => request('/api/v1/tma/esims');
   const esim = (id) => request(`/api/v1/tma/esims/${encodeURIComponent(id)}`);
@@ -772,6 +786,7 @@ function createApi(deps = {}) {
 
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
+    topups,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },

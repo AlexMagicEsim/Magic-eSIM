@@ -273,6 +273,14 @@ const ROUTES = [
   { method: 'GET', pattern: '/api/v1/tma/orders/{token}/status' },
   { method: 'GET', pattern: '/api/v1/tma/esims' },
   { method: 'GET', pattern: '/api/v1/tma/esims/{token}' },
+  // Top-up discovery — READ ONLY, added 2026-08-19.
+  //
+  // What a customer could add to an eSIM they already own. Deliberately the
+  // only top-up route in this list: creating an intent, paying for one and
+  // executing it against the provider are all still closed at the gateway, so
+  // even if a handler existed and TOPUP_PURCHASE_ENABLED were flipped, nothing
+  // outside could reach it. R8's order — proxy before frontend — cuts both ways.
+  { method: 'GET', pattern: '/api/v1/tma/esims/{token}/topups' },
 
   // B-7 write wave. Three POSTs, and they are the three the backend actually
   // registers — taken from router.post() in lib/tmaRoutes.js rather than from a

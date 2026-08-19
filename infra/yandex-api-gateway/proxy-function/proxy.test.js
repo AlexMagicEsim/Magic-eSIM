@@ -172,6 +172,7 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'GET /api/v1/retail/packages',
     'GET /api/v1/tma/esims',
     'GET /api/v1/tma/esims/{token}',
+    'GET /api/v1/tma/esims/{token}/topups',
     'GET /api/v1/tma/me',
     'GET /api/v1/tma/me/orders',
     'GET /api/v1/tma/me/orders/active',
@@ -1197,16 +1198,18 @@ test('the error line keeps its original reason alongside the new class', async (
   assert.ok('class' in line);
 });
 
-test('the allowlist is the nine deployed routes, the two B-6 ones, the six B-7 reads and the three B-7 writes', () => {
+test('the allowlist is the nine deployed routes, the two B-6 ones, the seven reads and the three writes', () => {
   // Restated so a merge cannot quietly widen the surface: nine legacy routes
   // survive untouched, B-6 adds the two Mini App session routes, B-7 adds six
-  // reads (GET only) and then three writes (POST only). Nothing else rides along.
-  assert.equal(ROUTES.length, 20);
+  // reads (GET only) and then three writes (POST only), and top-up discovery
+  // adds a SEVENTH read on 2026-08-19. Nothing else rides along.
+  assert.equal(ROUTES.length, 21);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
     'GET /api/v1/tma/esims',
     'GET /api/v1/tma/esims/{token}',
+    'GET /api/v1/tma/esims/{token}/topups',
     'GET /api/v1/tma/me',
     'GET /api/v1/tma/me/orders',
     'GET /api/v1/tma/me/orders/active',
@@ -1685,4 +1688,48 @@ test('a write route body is not retried after the upstream has seen it', () => {
   // idempotency key is the second line of defence, not the first.
   assert.equal(isRetrySafe('POST', true), false);
   assert.equal(isRetrySafe('GET', true), true);
+});
+
+/* ==========================================================================
+ * Top-up at the gateway: one read open, every write shut.
+ * ======================================================================== */
+
+test('top-up discovery reaches the backend, for any eSIM id', () => {
+  assert.ok(matchRoute('GET', '/api/v1/tma/esims/bbbbbbbb-2222-4222-8222-bbbbbbbbbbbb/topups'));
+  assert.ok(matchRoute('GET', '/api/v1/tma/esims/anything/topups'));
+});
+
+test('the id cannot escape its segment', () => {
+  // A path parameter is one segment. Without that, `{token}` would be a way to
+  // reach any path under /api/v1/.
+  assert.ok(!matchRoute('GET', '/api/v1/tma/esims/a/b/topups'));
+  assert.ok(!matchRoute('GET', '/api/v1/tma/esims/../admin/topups'));
+  assert.ok(!matchRoute('GET', '/api/v1/tma/esims//topups'));
+});
+
+test('EVERY top-up write is closed at the gateway', () => {
+  // The security property of this wave is what is ABSENT. Even if a handler
+  // existed and TOPUP_PURCHASE_ENABLED were flipped, nothing outside could
+  // reach it — R8's "proxy before frontend" cuts both ways.
+  const closed = [
+    ['POST', '/api/v1/tma/esims/x/topups'],
+    ['POST', '/api/v1/tma/topups'],
+    ['POST', '/api/v1/tma/topups/quote'],
+    ['POST', '/api/v1/tma/esims/x/topup'],
+    ['POST', '/api/v1/tma/topups/x/pay'],
+    ['PUT', '/api/v1/tma/esims/x/topups'],
+    ['DELETE', '/api/v1/tma/esims/x/topups'],
+    // The dealer and admin surfaces were never open and stay that way.
+    ['POST', '/api/v1/dealer/orders/x/topup'],
+    ['GET', '/api/v1/dealer/orders/x/topup-packages'],
+    ['POST', '/api/v1/admin/providers/mobimatter/sync-addons'],
+  ];
+  for (const [method, path] of closed) {
+    assert.ok(!matchRoute(method, path), `${method} ${path} must NOT be reachable`);
+  }
+});
+
+test('the method is part of the match for the new route too', () => {
+  assert.ok(!matchRoute('POST', '/api/v1/tma/esims/x/topups'));
+  assert.ok(!matchRoute('HEAD', '/api/v1/tma/esims/x/topups'));
 });

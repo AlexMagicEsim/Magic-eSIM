@@ -651,3 +651,10 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 .device[aria-checked='true'] .device__name { color: var(--link); }
 .device:active { opacity: .7; }
+
+/* --- Top-up options -------------------------------------------------------
+   Shown only when the SERVER has said this specific eSIM has compatible
+   top-ups. There is no disabled state on purpose: an eSIM without one shows
+   nothing at all rather than a greyed promise. */
+.topup-opt { align-items: center; gap: 12px; }
+.topup-opt .card__body { min-width: 0; }
