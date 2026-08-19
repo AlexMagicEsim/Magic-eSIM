@@ -1712,25 +1712,40 @@
         b.setAttribute('aria-checked', String(b.dataset.os === which));
       }
 
-      // Apple's own provisioning link installs the profile without the camera,
-      // which is the whole problem with a QR shown on the phone that is meant
-      // to scan it. iOS 17.4+; older versions open a page that explains itself,
-      // so the manual fields below stay regardless.
+      // A one-tap install, using the PROVIDER's own link where there is one.
       //
-      // Android has no equivalent universal link — its flow is an OS intent a
-      // web page cannot start — so nothing is offered there rather than a
-      // button that silently does nothing.
+      // This used to build the Apple URL here from `act.lpa`, and offered
+      // nothing at all on Android on the stated grounds that Android has no
+      // equivalent link. That was wrong, and it was our gap rather than
+      // Android's: MobiMatter returns oneClickInstall.ios AND
+      // oneClickInstall.android on every completed order, builds both from the
+      // LPA itself, and we were discarding them. The backend now keeps them
+      // and serves them under ownership as `install`.
+      //
+      // Preferring the provider's link over one we assemble matters beyond
+      // tidiness: they know their own provisioning host, and a deep link we
+      // invent is a link we cannot support when it stops working.
+      //
+      // The locally-built Apple URL stays as the fallback for providers that
+      // send no link — it is Apple's documented format, not a guess — but
+      // nothing equivalent is invented for Android.
       clear(oneTap);
-      if (which === 'ios' && act.lpa) {
+      const install = act.install || {};
+      const providerUrl = which === 'ios' ? install.ios_url : install.android_url;
+      const fallbackIos = which === 'ios' && act.lpa
+        ? `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=${encodeURIComponent(act.lpa)}`
+        : null;
+      const url = providerUrl || fallbackIos;
+
+      if (url) {
         oneTap.appendChild(el('button', {
           class: 'btn btn--wide',
-          text: 'Установить на этом iPhone',
-          onclick: () => openExternal(
-            `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=${encodeURIComponent(act.lpa)}`
-          ),
+          text: which === 'ios' ? 'Установить на этом iPhone' : 'Установить на этом Android',
+          onclick: () => openExternal(url),
         }));
-        oneTap.appendChild(el('p', { class: 'small muted', text:
-          'Откроется системная установка. Работает на iOS 17.4 и новее — если ничего не произошло, установите по QR или вручную.' }));
+        oneTap.appendChild(el('p', { class: 'small muted', text: which === 'ios'
+          ? 'Откроется системная установка. Работает на iOS 17.4 и новее — если ничего не произошло, установите по QR или вручную.'
+          : 'Откроется системная установка. Поддерживается не всеми моделями — если ничего не произошло, установите по QR или вручную.' }));
       }
     };
 

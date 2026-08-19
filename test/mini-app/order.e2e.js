@@ -49,7 +49,8 @@ function mock(cfg){
     if(/\/tma\/esims\/[^/?]+\/activation$/.test(u.split('?')[0])){
       return j(cfg.activation||{lpa:'LPA:1$rsp.truphone.com$K2-1AB2C3-4D5E6F',
         smdp_address:'rsp.truphone.com',activation_code:'K2-1AB2C3-4D5E6F',
-        iccid:'8944478000000123456',qr_url:null,expires_at:null,activation_policy:'ON_FIRST_DATA'});}
+        iccid:'8944478000000123456',qr_url:null,expires_at:null,activation_policy:'ON_FIRST_DATA',
+        install:{ios_url:null,android_url:null,qr_available:false,manual_available:true}});}
     // GET /tma/esims/:id — the detail the CTA must land on.
     if(/\/tma\/esims\/[^/?]+$/.test(u.split('?')[0])){
       const id=u.split('?')[0].split('/').pop();
@@ -207,9 +208,9 @@ for (const eng of ['webkit','chromium']) {
       && afterAndroid.find(d=>d.os==='ios').chosen===false);
     // Android has no universal link, so nothing is offered rather than a
     // button that silently does nothing.
-    ok('and Android is not offered a one-tap install that does not exist',
+    ok('and Android is offered nothing when the provider sent no link',
       !(await p.$$eval('#install-body button',n=>n.map(b=>b.innerText)))
-        .some(t=>/Установить на этом iPhone/.test(t)));
+        .some(t=>/Установить на этом/.test(t)));
 
     const steps=await p.$$eval('#install-body .steps li',n=>n.map(x=>x.innerText));
     ok('the steps are a real device flow, not "scan the code"', steps.length>=4, String(steps.length));
@@ -226,6 +227,41 @@ for (const eng of ['webkit','chromium']) {
     await p.waitForTimeout(200);
     ok('no horizontal scroll at 360pt',
       await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1));
+    await ctx.close();
+  }
+
+  // ---- provider-supplied install links -----------------------------------
+  // MobiMatter returns oneClickInstall for BOTH platforms and builds them from
+  // the LPA itself. We discarded them until 2026-08-19, which is the only
+  // reason Android had no one-click install — not a limitation of Android.
+  {
+    const ctx=await br.newContext({...pw.devices['iPhone 13']});
+    await ctx.route('https://telegram.org/**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
+    await ctx.addInitScript(mock,{startParam:'o_AB12cd',sequence:[[]],
+      history:[ORDER('ready',{esim_id:'e1'})],
+      esims:[{id:'e1',country_code:'DZ',package_name:'Algeria 100MB 7Days',status:'ready'}],
+      activation:{lpa:'LPA:1$rsp.example.com$K2-ABC',smdp_address:'rsp.example.com',
+        activation_code:'K2-ABC',iccid:'8944478000000123456',qr_url:null,expires_at:null,
+        activation_policy:'ON_FIRST_DATA',
+        install:{ios_url:'https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=PROVIDER_IOS',
+          android_url:'https://esimsetup.android.com/esim_qrcode_provisioning?carddata=PROVIDER_ANDROID',
+          qr_available:true,manual_available:true}}});
+    const p=await ctx.newPage(); await p.goto(base);
+    await p.waitForTimeout(2200);
+    await p.getByRole('button',{name:/Открыть eSIM/}).click();
+    await p.waitForTimeout(700);
+    await p.getByRole('button',{name:/Установка и QR/}).click();
+    await p.waitForTimeout(900);
+
+    const iosBtn=(await p.$$eval('#install-body button',n=>n.map(b=>b.innerText)))
+      .some(t=>/Установить на этом iPhone/.test(t));
+    ok('iOS one-click is offered from the provider link', iosBtn);
+
+    await p.getByRole('radio',{name:/Android/}).click();
+    await p.waitForTimeout(300);
+    const androidBtn=(await p.$$eval('#install-body button',n=>n.map(b=>b.innerText)))
+      .some(t=>/Установить на этом Android/.test(t));
+    ok('Android one-click is offered too, which it never was before', androidBtn);
     await ctx.close();
   }
 
