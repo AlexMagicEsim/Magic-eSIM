@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-18T15:46:46.163Z",
+  "generated_at": "2026-08-19T01:56:52.128Z",
   "source": "production-public-api",
   "package_count": 974,
   "packages": [
@@ -2055,7 +2055,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "117f7410-3ca3-4364-b451-90ea62a02a27",
@@ -3426,7 +3426,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "1d67cdbf-553b-46ce-97ef-18b9b6a7f465",
@@ -8846,7 +8846,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "4a8f4d79-713a-4da1-a871-1bf92d73b374",
@@ -11179,7 +11179,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "609b67de-be72-4f99-88b6-f7f546d18998",
@@ -13698,7 +13698,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "78dd5c72-de89-4e0f-a82c-2f412c67cdd6",
@@ -13731,7 +13731,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "78dea40c-b6ea-47b4-8398-5d0eafa48c31",
@@ -13793,7 +13793,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "793c8c25-36bd-4072-85ae-143f04a8d4aa",
@@ -25623,7 +25623,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true
+      "topup_available": false
     },
     {
       "package_id": "c77869f7-c339-48f4-b145-4dd210a835a4",
