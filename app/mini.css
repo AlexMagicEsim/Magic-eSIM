@@ -658,3 +658,30 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
    nothing at all rather than a greyed promise. */
 .topup-opt { align-items: center; gap: 12px; }
 .topup-opt .card__body { min-width: 0; }
+
+/* --- S13 · the code field -------------------------------------------------
+   Wide, spaced and monospaced: six digits typed from a notification are read
+   back character by character, and a proportional font makes that harder than
+   it needs to be. */
+.input--code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 24px;
+  letter-spacing: 8px;
+  text-align: center;
+}
+
+/* The text field, shared by the email and the code. 16px is not a taste: any
+   smaller and iOS zooms the whole page on focus. */
+.input {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+}
+.input:focus { outline: 2px solid var(--link); outline-offset: 1px; }
+.input::placeholder { color: var(--muted); }

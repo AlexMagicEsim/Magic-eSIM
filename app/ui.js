@@ -165,7 +165,7 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'help', 'error', 'loading', 'order'];
+  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'claim', 'help', 'error', 'loading', 'order'];
 
   // Which bottom tab is lit for a given screen. A tab bar that never highlights
   // is decoration; one that highlights the wrong thing is worse. Screens
@@ -185,6 +185,7 @@
     esims: 'nav-esims',
     esim: 'nav-esims',
     install: 'nav-esims',
+    claim: 'nav-esims',
     help: 'nav-help',
   });
   const history = [];
@@ -1511,21 +1512,177 @@
 
     state.esims = C.sortOwnedEsims(out.value.items || []);
     if (!state.esims.length) {
-      // §9 S8: "Не «нет данных», а два предложения". The second one the
-      // Blueprint asks for — linking purchases made on the site — needs the
-      // three /tma/identity/email/* endpoints, which are not written and 404 at
-      // the gateway. Promising it here would be a button that cannot work, so
-      // the honest half is stated instead: a site purchase is not lost, and
-      // support can find it today.
+      // §9 S8: «Не «нет данных», а два предложения» — begin a first purchase,
+      // AND connect the ones already made on the site. Both are real now: the
+      // second used to be a support handover because the three endpoints it
+      // needs did not exist.
       list.appendChild(el('div', { class: 'empty' }, [
         el('p', { text: 'Пока нет ни одной eSIM.' }),
         el('button', { class: 'btn', text: 'Выбрать тариф', onclick: () => show('home') }),
-        el('p', { class: 'small muted', text: 'Покупали на сайте? Эти eSIM пока не подключаются к приложению автоматически — напишите нам, и мы поможем.' }),
-        supportButton(null),
+        el('p', { class: 'small muted', text: 'Покупали на сайте? Подключите те покупки сюда.' }),
+        el('button', { class: 'btn btn--ghost', text: 'Добавить покупки с сайта', onclick: openClaim }),
       ]));
       return;
     }
     for (const e of state.esims) list.appendChild(esimCard(e));
+
+    // The same door, kept small for somebody who already has eSIMs here: they
+    // may still have older ones bought on the site.
+    list.appendChild(el('button', {
+      class: 'btn btn--quiet gap-top-lg',
+      text: 'Добавить покупки с сайта',
+      onclick: openClaim,
+    }));
+  }
+
+  /* ------------------------------------------------------------------ *
+   * S13 · Purchases made on the website
+   *
+   * The words a customer reads are the customer's: an address they used, a
+   * code we sent, purchases we found. Nothing says "identity", "link",
+   * "customer" or "order token" — those are our words for our problem.
+   * ------------------------------------------------------------------ */
+
+  function openClaim() {
+    show('claim');
+    paintClaimEmail();
+  }
+
+  const claimBox = () => $('#claim-body');
+
+  const claimNotice = (text, bad) =>
+    el('div', { class: bad ? 'notice notice--bad' : 'notice' }, [el('span', { text })]);
+
+  function setBusy(btn, busy, text) {
+    btn.disabled = busy;
+    clear(btn);
+    if (busy) btn.appendChild(el('span', { class: 'btn__spinner' }));
+    btn.appendChild(el('span', { text }));
+  }
+
+  function paintClaimEmail(prefill = '', error = null) {
+    const box = claimBox();
+    clear(box);
+    $('#claim-title').textContent = 'Покупки с сайта';
+
+    box.appendChild(el('p', { class: 'muted', text:
+      'Подключим покупки, сделанные на magicesim.store. Отправим код на вашу почту — так мы убедимся, что адрес ваш.' }));
+
+    // Every assist off: a field that autocapitalises and autocorrects an email
+    // is a field that fights the customer on a phone.
+    const input = el('input', {
+      id: 'claim-email', class: 'input', type: 'email', value: prefill,
+      placeholder: 'адрес, который вы указывали при покупке',
+      autocomplete: 'email', autocapitalize: 'none', autocorrect: 'off',
+      spellcheck: 'false', inputmode: 'email',
+    });
+    box.appendChild(input);
+    if (error) box.appendChild(claimNotice(error, true));
+
+    const send = el('button', { class: 'btn btn--wide' });
+    setBusy(send, false, 'Отправить код');
+    send.addEventListener('click', async () => {
+      const email = String(input.value || '').trim();
+      if (!/.+@.+\..+/.test(email)) { paintClaimEmail(email, 'Похоже, в адресе опечатка.'); return; }
+
+      setBusy(send, true, 'Отправляем…');
+      try {
+        await api.requestEmailCode(email);
+      } catch { /* the server answers the same way regardless; move on */ }
+      setBusy(send, false, 'Отправить код');
+      paintClaimCode(email);
+    });
+    box.appendChild(send);
+  }
+
+  function paintClaimCode(email, error = null, attemptsLeft = null) {
+    const box = claimBox();
+    clear(box);
+    $('#claim-title').textContent = 'Введите код';
+
+    box.appendChild(el('p', { class: 'muted', text:
+      'Если этот адрес использовался при покупке, мы отправили на него код. Он действует 10 минут.' }));
+    box.appendChild(el('p', { class: 'small muted', text: email }));
+
+    // `one-time-code` lets iOS and Android offer the code straight from the
+    // notification; `inputmode: numeric` shows digits rather than a keyboard.
+    const input = el('input', {
+      id: 'claim-code', class: 'input input--code', type: 'text',
+      placeholder: '000000', maxlength: '6', inputmode: 'numeric',
+      pattern: '[0-9]*', autocomplete: 'one-time-code',
+      autocapitalize: 'none', autocorrect: 'off', spellcheck: 'false',
+    });
+    box.appendChild(input);
+
+    if (error) box.appendChild(claimNotice(error, true));
+    if (attemptsLeft != null && attemptsLeft > 0) {
+      box.appendChild(el('p', { class: 'small muted', text: `Осталось попыток: ${attemptsLeft}` }));
+    }
+
+    const confirm = el('button', { class: 'btn btn--wide' });
+    setBusy(confirm, false, 'Подтвердить');
+    confirm.addEventListener('click', async () => {
+      const code = String(input.value || '').replace(/\D/g, '');
+      if (code.length !== 6) { paintClaimCode(email, 'Код состоит из шести цифр.'); return; }
+
+      setBusy(confirm, true, 'Проверяем…');
+      let out = null;
+      try {
+        out = await api.confirmEmailCode(email, code);
+      } catch (err) {
+        setBusy(confirm, false, 'Подтвердить');
+        const body = (err && err.body) || {};
+        paintClaimCode(email, body.message || 'Не удалось проверить код. Попробуйте ещё раз.', body.attempts_left);
+        return;
+      }
+      setBusy(confirm, false, 'Подтвердить');
+
+      // The list is different now, so refresh before showing the result: the
+      // customer taps through to something already correct.
+      await refreshEsimsQuietly();
+      paintClaimDone(out);
+    });
+    box.appendChild(confirm);
+
+    box.appendChild(el('button', {
+      class: 'btn btn--quiet', text: 'Отправить код ещё раз',
+      onclick: () => paintClaimEmail(email),
+    }));
+  }
+
+  function paintClaimDone(out) {
+    const box = claimBox();
+    clear(box);
+
+    const found = Number((out && out.linked_count) || 0);
+    const already = Number((out && out.already_linked_count) || 0);
+    $('#claim-title').textContent = found ? 'Покупки добавлены' : 'Адрес подтверждён';
+
+    if (found) {
+      box.appendChild(claimNotice(
+        `Нашли ${found} ${C.plural(found, 'покупку', 'покупки', 'покупок')} и добавили в «Мои eSIM».`));
+      for (const p of (out.purchases || [])) {
+        box.appendChild(el('div', { class: 'card row row--between' }, [
+          el('span', { class: 'card__body' }, [
+            el('span', { class: 'card__title', text: C.destinationTitle(p.package_name, p.country_code) }),
+            el('span', { class: 'card__meta', text: p.data_gb ? `${p.data_gb} ГБ` : '' }),
+          ]),
+          el('span', { class: 'small muted', text: p.has_esim ? 'eSIM готова' : 'без eSIM' }),
+        ]));
+      }
+    } else if (already) {
+      box.appendChild(claimNotice('Эти покупки уже были добавлены.'));
+    } else {
+      // §9 S13: "успех без покупок" is not an error. The address is proven, and
+      // future purchases from it attach by themselves.
+      box.appendChild(claimNotice(
+        'Адрес подтверждён. Покупок с него не нашлось — возможно, вы покупали с другого адреса.'));
+    }
+
+    box.appendChild(el('button', {
+      class: 'btn btn--wide', text: 'Открыть «Мои eSIM»',
+      onclick: () => { show('esims'); renderEsims(); },
+    }));
   }
 
   function statusBadge(status) {

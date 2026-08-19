@@ -738,6 +738,26 @@ function createApi(deps = {}) {
    * apart either.
    */
   const topups = (esimId) => request(`/api/v1/tma/esims/${encodeURIComponent(esimId)}/topups`);
+
+  /* ---- S13: purchases made on the website ---- */
+
+  /**
+   * Ask for a code. The answer is the SAME whatever happened — sent, rate
+   * limited, malformed, already someone else's — so this function has nothing
+   * to branch on and deliberately offers none.
+   */
+  const requestEmailCode = (email) => request('/api/v1/tma/identity/email/request', {
+    method: 'POST', body: { email },
+  });
+
+  /**
+   * Confirm it. This one CAN fail meaningfully: the person holding the session
+   * already proved they asked, so «wrong code» and «expired» are worth telling
+   * apart — one means retype, the other means start over.
+   */
+  const confirmEmailCode = (email, code) => request('/api/v1/tma/identity/email/confirm', {
+    method: 'POST', body: { email, code },
+  });
   const orderStatus = (token) => request(`/api/v1/tma/orders/${encodeURIComponent(token)}/status`);
   const esims = () => request('/api/v1/tma/esims');
   const esim = (id) => request(`/api/v1/tma/esims/${encodeURIComponent(id)}`);
@@ -786,7 +806,7 @@ function createApi(deps = {}) {
 
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
-    topups,
+    topups, requestEmailCode, confirmEmailCode,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },
