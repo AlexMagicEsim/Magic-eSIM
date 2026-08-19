@@ -177,12 +177,14 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'GET /api/v1/tma/me/orders',
     'GET /api/v1/tma/me/orders/active',
     'GET /api/v1/tma/orders/{token}/status',
+    'GET /api/v1/tma/topups/{token}/status',
     'GET /health',
     'POST /api/v1/public/private-payments/{token}/start',
     'POST /api/v1/public/retail-orders',
     'POST /api/v1/public/retail-orders/{token}/pay',
     'POST /api/v1/retail/promo/quote',
     'POST /api/v1/tma/esims/{token}/activation',
+    'POST /api/v1/tma/esims/{token}/topups/quote',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
@@ -190,6 +192,7 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
+    'POST /api/v1/tma/topups/{token}/checkout',
   ]);
 });
 
@@ -1201,13 +1204,14 @@ test('the error line keeps its original reason alongside the new class', async (
   assert.ok('class' in line);
 });
 
-test('the allowlist is the nine deployed routes, the two B-6 ones, the seven reads and the six writes', () => {
+test('the allowlist is the nine deployed routes, the two B-6 ones, the eight reads and the eight writes', () => {
   // Restated so a merge cannot quietly widen the surface: nine legacy routes
   // survive untouched, B-6 adds the two Mini App session routes, B-7 adds six
   // reads (GET only) and then three writes (POST only), top-up discovery adds a
-  // SEVENTH read on 2026-08-19, and S13 adds three more writes (POST only) the
-  // same day. Nothing else rides along.
-  assert.equal(ROUTES.length, 24);
+  // SEVENTH read on 2026-08-19, S13 adds three more writes (POST only) the same
+  // day, and the top-up PURCHASE wave adds two writes and an EIGHTH read on
+  // 2026-08-19. Nothing else rides along.
+  assert.equal(ROUTES.length, 27);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
@@ -1218,7 +1222,9 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the seven rea
     'GET /api/v1/tma/me/orders',
     'GET /api/v1/tma/me/orders/active',
     'GET /api/v1/tma/orders/{token}/status',
+    'GET /api/v1/tma/topups/{token}/status',
     'POST /api/v1/tma/esims/{token}/activation',
+    'POST /api/v1/tma/esims/{token}/topups/quote',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
@@ -1226,6 +1232,7 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the seven rea
     'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
+    'POST /api/v1/tma/topups/{token}/checkout',
   ]);
   assert.equal(corsHeaders()['Access-Control-Allow-Headers'], 'Content-Type, Accept, Authorization');
   assert.deepEqual(REQUEST_HEADERS, ['content-type', 'accept', 'accept-language', 'authorization']);
@@ -1757,10 +1764,16 @@ test('the id cannot escape its segment', () => {
   assert.ok(!matchRoute('GET', '/api/v1/tma/esims//topups'));
 });
 
-test('EVERY top-up write is closed at the gateway', () => {
-  // The security property of this wave is what is ABSENT. Even if a handler
-  // existed and TOPUP_PURCHASE_ENABLED were flipped, nothing outside could
-  // reach it — R8's "proxy before frontend" cuts both ways.
+test('every top-up write EXCEPT the three of the purchase wave is closed', () => {
+  // The security property of this wave is still what is ABSENT. Three routes
+  // were opened on 2026-08-19 — quote, checkout, status — and they are the
+  // three lib/tmaRoutes.js actually registers. Everything else a reader would
+  // reach for next stays shut, in every method.
+  //
+  // Note what is NOT here and never will be: a provider execution endpoint. It
+  // has no route at all. The only thing that can trigger a provider top-up is
+  // the verified Platega callback, which arrives at the backend's own origin
+  // and never passes through this gateway.
   const closed = [
     ['POST', '/api/v1/tma/esims/x/topups'],
     ['POST', '/api/v1/tma/topups'],
@@ -1782,4 +1795,140 @@ test('EVERY top-up write is closed at the gateway', () => {
 test('the method is part of the match for the new route too', () => {
   assert.ok(!matchRoute('POST', '/api/v1/tma/esims/x/topups'));
   assert.ok(!matchRoute('HEAD', '/api/v1/tma/esims/x/topups'));
+});
+
+/* ==========================================================================
+ * W3 — the top-up PURCHASE wave at the gateway.
+ *
+ * Three routes and no more. The property being asserted is the shape of the
+ * hole, not the behaviour behind it: what a gateway allowlist can guarantee is
+ * that nothing ELSE is reachable, and that is checked here one segment at a
+ * time in both methods.
+ * ======================================================================== */
+
+test('the purchase wave opens exactly three routes, taken from the backend router', () => {
+  // These are the three lib/tmaRoutes.js registers. A pattern with no handler
+  // behind it would reach the backend, match nothing, and answer 401
+  // ADMIN_AUTH_REQUIRED — the misleading diagnosis backend-before-proxy exists
+  // to prevent, and the reason the backend shipped first.
+  const esim = '9f1c8a2e-0000-4000-8000-000000000000';
+
+  assert.ok(matchRoute('POST', `/api/v1/tma/esims/${esim}/topups/quote`));
+  assert.ok(matchRoute('POST', '/api/v1/tma/topups/tu_abc123/checkout'));
+  assert.ok(matchRoute('GET', '/api/v1/tma/topups/tu_abc123/status'));
+});
+
+test('each of the three is open in ONE method only', () => {
+  const esim = '9f1c8a2e-0000-4000-8000-000000000000';
+
+  // A quote creates an intent and makes a live provider discovery call. A GET
+  // half would make it cacheable and shareable, and a link somebody forwards
+  // must not be able to mint a priced intent.
+  assert.ok(!matchRoute('GET', `/api/v1/tma/esims/${esim}/topups/quote`));
+
+  // A checkout creates a payment. There is no readable half of that.
+  assert.ok(!matchRoute('GET', '/api/v1/tma/topups/tu_abc123/checkout'));
+
+  // Status is a read and stays one: a POST half would be a way to make the
+  // status endpoint do something.
+  assert.ok(!matchRoute('POST', '/api/v1/tma/topups/tu_abc123/status'));
+
+  for (const m of ['PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']) {
+    assert.ok(!matchRoute(m, `/api/v1/tma/esims/${esim}/topups/quote`), `${m} quote`);
+    assert.ok(!matchRoute(m, '/api/v1/tma/topups/tu_abc123/checkout'), `${m} checkout`);
+    assert.ok(!matchRoute(m, '/api/v1/tma/topups/tu_abc123/status'), `${m} status`);
+  }
+});
+
+test('the purchase wave drags in no neighbour', () => {
+  // Everything one segment away from what was opened, in both methods. The list
+  // is the shapes a reader — or an attacker — reaches for next.
+  for (const path of [
+    // The prefix itself, and a collection under it.
+    '/api/v1/tma/topups',
+    '/api/v1/tma/topups/',
+    '/api/v1/tma/topups/tu_abc123',
+    // Verbs that would be the obvious next thing to add.
+    '/api/v1/tma/topups/tu_abc123/pay',
+    '/api/v1/tma/topups/tu_abc123/cancel',
+    '/api/v1/tma/topups/tu_abc123/confirm',
+    '/api/v1/tma/topups/tu_abc123/execute',
+    '/api/v1/tma/topups/tu_abc123/retry',
+    '/api/v1/tma/topups/tu_abc123/reconcile',
+    '/api/v1/tma/topups/tu_abc123/refund',
+    // A generic provider route, which is exactly what must never exist.
+    '/api/v1/tma/topups/execute',
+    '/api/v1/tma/topups/provider',
+    '/api/v1/tma/provider/topup',
+    '/api/v1/tma/esims/x/topups/execute',
+    '/api/v1/tma/esims/x/topups/checkout',
+    '/api/v1/tma/esims/x/topups/quote/extra',
+    '/api/v1/tma/esims/x/topups/tu_abc/status',
+    // Deeper, and the dealer/admin surfaces that were never open.
+    '/api/v1/tma/topups/tu_abc123/status/extra',
+    '/api/v1/dealer/orders/x/topup',
+    '/api/v1/admin/topups',
+  ]) {
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+    assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
+  }
+});
+
+test('there is no provider execution route to allowlist, and none is allowlisted', () => {
+  // The strongest property of this wave, stated as a test so a future one has
+  // to argue with it: the provider call is reachable ONLY from the verified
+  // Platega callback, which arrives at the backend's origin. Nothing here
+  // forwards to a provider, and no pattern in the whole allowlist names one.
+  for (const r of ROUTES) {
+    assert.ok(!/esimaccess|mobimatter|provider|execute|fulfil/i.test(r.pattern),
+      `the allowlist names a provider surface: ${r.method} ${r.pattern}`);
+  }
+});
+
+test('the dynamic segments of the purchase wave cannot grow into a path', () => {
+  for (const bad of [
+    '/api/v1/tma/esims/a/b/topups/quote',
+    '/api/v1/tma/esims//topups/quote',
+    '/api/v1/tma/esims/a%2Fb/topups/quote',
+    '/api/v1/tma/topups/a/b/checkout',
+    '/api/v1/tma/topups//checkout',
+    '/api/v1/tma/topups/a%2Fb/status',
+  ]) {
+    assert.ok(!matchRoute('POST', bad), `POST ${bad} must not match`);
+    assert.ok(!matchRoute('GET', bad), `GET ${bad} must not match`);
+  }
+});
+
+test('neither the eSIM id nor the intent token reaches a log line', () => {
+  // A matched route logs its PATTERN, so the values in the middle are masked.
+  // The intent token is not an install secret — it authorises nothing without
+  // the session — but it is the customer's and it is not ours to put in a log
+  // store with its own retention and readers.
+  for (const [method, path, pattern] of [
+    ['POST', '/api/v1/tma/esims/ESIM-SECRET-ID/topups/quote', '/api/v1/tma/esims/{token}/topups/quote'],
+    ['POST', '/api/v1/tma/topups/TU-SECRET-TOKEN/checkout', '/api/v1/tma/topups/{token}/checkout'],
+    ['GET', '/api/v1/tma/topups/TU-SECRET-TOKEN/status', '/api/v1/tma/topups/{token}/status'],
+  ]) {
+    const route = matchRoute(method, path);
+    assert.ok(route, `${method} ${path} should match`);
+    assert.equal(logPath(path, route), pattern);
+  }
+
+  // And an UNMATCHED path of the same shape is masked defensively too.
+  for (const path of [
+    '/api/v1/tma/topups/TU-SECRET-TOKEN/execute',
+    '/api/v1/tma/esims/ESIM-SECRET-ID/topups/execute',
+  ]) {
+    const masked = logPath(path, null);
+    assert.ok(!masked.includes('TU-SECRET-TOKEN') && !masked.includes('ESIM-SECRET-ID'),
+      `an identifier leaked into a log line: ${masked}`);
+  }
+});
+
+test('a purchase write is never retried after the upstream has seen it', () => {
+  // The rule that keeps one tap from becoming two payments at the PROXY layer.
+  // The backend's own guards — the conditional attach and the conditional claim
+  // — are the second and third lines of defence, not the first.
+  assert.equal(isRetrySafe('POST', true), false);
+  assert.equal(isRetrySafe('GET', true), true);
 });

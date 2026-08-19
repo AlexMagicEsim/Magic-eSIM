@@ -325,6 +325,38 @@ const ROUTES = [
   { method: 'POST', pattern: '/api/v1/tma/identity/email/request' },
   { method: 'POST', pattern: '/api/v1/tma/identity/email/confirm' },
   { method: 'POST', pattern: '/api/v1/tma/identity/email/revoke' },
+
+  // Top-up PURCHASE, added 2026-08-19 (W3). Exactly three routes, taken from
+  // router.post()/router.get() in lib/tmaRoutes.js rather than from a plan, and
+  // deployed only after the backend that answers them.
+  //
+  // The provider execution endpoint is NOT here and never will be. It has no
+  // route of its own: the only thing that can trigger a provider top-up is the
+  // verified Platega callback, which arrives at the backend's own origin and
+  // does not pass through this gateway at all. There is nothing outside to
+  // allowlist, which is a stronger property than allowlisting it carefully.
+  //
+  // Both write routes fail CLOSED behind two server-side flags
+  // (TOPUP_PURCHASE_ENABLED and ESIMACCESS_TOPUP_PURCHASE_ENABLED, both
+  // currently off), so opening them at the gateway does not open the purchase.
+  // R8's order — proxy before frontend — cuts both ways: the Mini App may not
+  // ship a button whose route 404s, and the gateway may not open a route whose
+  // backend does not exist.
+  //
+  // No wildcard and no generic provider route. `{token}` is again the only
+  // placeholder matchRoute knows; in the quote it sits in the MIDDLE of the
+  // path, which works because the matcher compares segment by segment — and it
+  // means `topups`, `quote`, `checkout` and `status` enter KNOWN_SEGMENTS and
+  // stop being masked in logs. Checked rather than assumed: all four are fixed
+  // structural words. The eSIM id and the intent token in the middle are still
+  // masked, because a MATCHED route logs its PATTERN.
+  //
+  // The intent token is not a bearer: /topups/{token}/status authorises by the
+  // session, and the token only names which of the caller's OWN intents to read
+  // (R17). That is why it may sit in a URL at all, unlike an install secret.
+  { method: 'POST', pattern: '/api/v1/tma/esims/{token}/topups/quote' },
+  { method: 'POST', pattern: '/api/v1/tma/topups/{token}/checkout' },
+  { method: 'GET', pattern: '/api/v1/tma/topups/{token}/status' },
 ];
 
 /**

@@ -1242,3 +1242,181 @@ test('sorting never loses or invents a tariff', () => {
   C.sortTariffs(TARIFFS, 'volume');
   assert.deepEqual(TARIFFS.map((p) => p.package_id), before);
 });
+
+/* --------------------------------------------------------------------------
+ * W4 — the top-up purchase, from the client's side
+ *
+ * What is under test is what the client SENDS and what it does with what comes
+ * back. Nothing here renders; the three properties that matter are that the
+ * request carries no provider anything, that a checkout is never turned into a
+ * second payment, and that an uncertain outcome is never called a failure.
+ * ----------------------------------------------------------------------- */
+
+test('a quote sends the option id, the method and the consent — and nothing else', async () => {
+  const { client, fetchStub } = api([
+    OK({ session_token: 't', expires_in: 1800 }),
+    OK({ public_token: 'tu_abc', price_rub: 200, data_gb: 1, validity_days: 7 }),
+  ]);
+  await client.openSession('init');
+
+  await client.topupQuote('esim-1', {
+    option_id: 'a1b2c3d4e5f6a1b2c3d4e5f6',
+    payment_type: 'sbp',
+    terms_accepted: true,
+  });
+
+  const sent = fetchStub.calls[1];
+  assert.match(sent.url, /\/api\/v1\/tma\/esims\/esim-1\/topups\/quote$/);
+  assert.deepEqual(Object.keys(sent.body).sort(), ['option_id', 'payment_type', 'terms_accepted']);
+  // The three things a client is allowed to say. Everything the server needs to
+  // price the top-up — the package, the cost, the ICCID, the provider — is
+  // re-derived server-side and appears nowhere in this request.
+  assert.equal(sent.body.option_id, 'a1b2c3d4e5f6a1b2c3d4e5f6');
+});
+
+test('a quote never asserts consent the customer did not give', async () => {
+  const { client, fetchStub } = api([
+    OK({ session_token: 't', expires_in: 1800 }),
+    OK({ public_token: 'tu_abc' }),
+  ]);
+  await client.openSession('init');
+
+  // Anything that is not exactly `true` travels as false. A truthy string is
+  // the shape a form produces, and it is not an acceptance.
+  await client.topupQuote('esim-1', { option_id: 'x', payment_type: 'sbp', terms_accepted: 'true' });
+
+  assert.equal(fetchStub.calls[1].body.terms_accepted, false);
+});
+
+test('a quote is NOT retried: a repeat that crossed with the first would leave two intents', async () => {
+  const { client, fetchStub } = api([
+    OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP,
+  ]);
+  await client.openSession('init');
+
+  await assert.rejects(
+    () => client.topupQuote('esim-1', { option_id: 'x', payment_type: 'sbp', terms_accepted: true })
+  );
+  assert.equal(fetchStub.calls.length, 2, 'session + one attempt, and no repeat');
+});
+
+test('a checkout sends an EMPTY body — there is nothing left to tamper with', async () => {
+  const { client, fetchStub } = api([
+    OK({ session_token: 't', expires_in: 1800 }),
+    OK({ public_token: 'tu_abc', redirect_url: 'https://platega.io/pay/1', payment_type: 'sbp', amount_rub: 200 }),
+  ]);
+  await client.openSession('init');
+
+  await client.topupCheckout('tu_abc');
+
+  const sent = fetchStub.calls[1];
+  assert.match(sent.url, /\/api\/v1\/tma\/topups\/tu_abc\/checkout$/);
+  assert.deepEqual(sent.body, {});
+});
+
+test('a checkout MAY be retried, because the server keys on the intent', async () => {
+  // Safe for a better reason than a client key would be: a repeat finds the
+  // order this intent already has and returns the SAME link, rather than asking
+  // Platega for a second transaction.
+  const { client, fetchStub } = api([
+    OK({ session_token: 't', expires_in: 1800 }),
+    GATEWAY_DROP,
+    OK({ public_token: 'tu_abc', redirect_url: 'https://platega.io/pay/1' }),
+  ]);
+  await client.openSession('init');
+
+  const out = await client.topupCheckout('tu_abc');
+  assert.equal(out.redirect_url, 'https://platega.io/pay/1');
+  assert.equal(fetchStub.calls.length, 3, 'session + failed write + retried write');
+});
+
+test('the status route is a GET and carries no body', async () => {
+  const { client, fetchStub } = api([
+    OK({ session_token: 't', expires_in: 1800 }),
+    OK({ public_token: 'tu_abc', status: 'paid', status_text: 'Оплата получена', is_final: false }),
+  ]);
+  await client.openSession('init');
+
+  await client.topupStatus('tu_abc');
+
+  const sent = fetchStub.calls[1];
+  assert.match(sent.url, /\/api\/v1\/tma\/topups\/tu_abc\/status$/);
+  assert.ok(!sent.opts.method || sent.opts.method === 'GET');
+  assert.equal(sent.body, null);
+});
+
+test('an intent token is URL-encoded, so it cannot escape its segment', async () => {
+  const { client, fetchStub } = api([
+    OK({ session_token: 't', expires_in: 1800 }),
+    OK({ status: 'paid' }),
+  ]);
+  await client.openSession('init');
+
+  await client.topupStatus('../../admin/secrets');
+
+  assert.ok(!fetchStub.calls[1].url.includes('/admin/'), 'the token escaped its segment');
+});
+
+/* ---- the status vocabulary ---- */
+
+test('the server\'s own words are what gets drawn', () => {
+  assert.equal(
+    C.topupStatusText({ status: 'verifying', status_text: 'Проверяем состояние пополнения' }),
+    'Проверяем состояние пополнения'
+  );
+});
+
+test('a state this build has never seen still produces a sentence, and a cautious one', () => {
+  assert.equal(C.topupStatusText({ status: 'something_new_next_year' }), 'Проверяем состояние пополнения');
+  // And it is NOT final: the app keeps asking rather than deciding on its own
+  // that nothing more will happen.
+  assert.equal(C.isTopupFinal({ status: 'something_new_next_year' }), false);
+});
+
+test('an uncertain top-up is never called a failure', () => {
+  const text = C.TOPUP_STATUS_TEXT.verifying;
+  assert.equal(text, 'Проверяем состояние пополнения');
+  assert.equal(text.includes('не удалось'), false);
+  // A customer told a top-up failed while it may be on their eSIM buys a second
+  // one. That is the specific bug this wording exists to prevent.
+  assert.equal(C.isTopupDone({ status: 'verifying' }), false);
+});
+
+test('the six required labels are exactly the wording asked for', () => {
+  assert.equal(C.TOPUP_STATUS_TEXT.awaiting_payment, 'Ожидаем оплату');
+  assert.equal(C.TOPUP_STATUS_TEXT.paid, 'Оплата получена');
+  assert.equal(C.TOPUP_STATUS_TEXT.in_progress, 'Пополняем eSIM');
+  assert.equal(C.TOPUP_STATUS_TEXT.completed, 'Пополнение выполнено');
+  assert.equal(C.TOPUP_STATUS_TEXT.verifying, 'Проверяем состояние пополнения');
+  assert.equal(C.TOPUP_STATUS_TEXT.needs_review, 'Требуется дополнительная проверка');
+});
+
+test('a failed top-up reads as money owed, and is final', () => {
+  assert.equal(C.TOPUP_STATUS_TEXT.refund_pending, 'Пополнение не выполнено. Вернём деньги');
+  assert.equal(C.isTopupFinal('refund_pending'), true);
+  assert.equal(C.isTopupDone('refund_pending'), false);
+});
+
+test('the server owns the state machine: is_final wins over the local list', () => {
+  // A build that predates a state must not decide on its own that the story is
+  // over. When the server says so, that is the answer.
+  assert.equal(C.isTopupFinal({ status: 'in_progress', is_final: true }), true);
+  assert.equal(C.isTopupFinal({ status: 'completed', is_final: false }), false);
+});
+
+test('polling stops on exactly three states and no others', () => {
+  assert.deepEqual([...C.TOPUP_FINAL].sort(), ['completed', 'needs_review', 'refund_pending']);
+  for (const live of ['awaiting_payment', 'paid', 'in_progress', 'verifying']) {
+    assert.equal(C.isTopupFinal(live), false, `${live} must keep polling`);
+  }
+});
+
+test('a payment link is only ever opened when it is Platega\'s', () => {
+  // The same guard the eSIM checkout uses. A status body that arrived with a
+  // lookalike host must not be turned into a tap.
+  assert.equal(C.isAllowedPaymentUrl('https://platega.io/pay/1'), true);
+  assert.equal(C.isAllowedPaymentUrl('https://pay.platega.io/x'), true);
+  assert.equal(C.isAllowedPaymentUrl('https://platega.io.evil.tld/x'), false);
+  assert.equal(C.isAllowedPaymentUrl('http://platega.io/x'), false);
+});

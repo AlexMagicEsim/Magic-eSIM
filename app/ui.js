@@ -156,6 +156,11 @@
     tariff: null,
     esims: [],
     intent: null,
+    // The top-up being watched, and the last answer the server gave about it.
+    // Held so a return from the payment browser resumes THIS one rather than
+    // starting another — «не создавать новый» is the requirement.
+    topupToken: null,
+    lastTopup: null,
     stale: {},
   };
 
@@ -165,7 +170,7 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'claim', 'help', 'error', 'loading', 'order'];
+  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'claim', 'help', 'error', 'loading', 'order', 'topup'];
 
   // Which bottom tab is lit for a given screen. A tab bar that never highlights
   // is decoration; one that highlights the wrong thing is worse. Screens
@@ -186,6 +191,10 @@
     esim: 'nav-esims',
     install: 'nav-esims',
     claim: 'nav-esims',
+    // A top-up starts and ends inside «Мои eSIM». Lighting Купить would tell
+    // the customer they are shopping for a new eSIM, which is the one thing a
+    // top-up is not.
+    topup: 'nav-esims',
     help: 'nav-help',
   });
   const history = [];
@@ -196,6 +205,10 @@
     // kept asking the gateway, rewrote a hidden container and could fire the
     // success haptic while the customer was somewhere else entirely.
     if (state.screen === 'order' && name !== 'order') { stopOrderPoll(); resumeOnReturn = null; }
+    // The same discipline for the top-up status screen: a timer that outlives
+    // its screen keeps asking the gateway, rewrites a hidden container, and can
+    // fire a success haptic while the customer is somewhere else entirely.
+    if (state.screen === 'topup' && name !== 'topup') { stopTopupPoll(); resumeOnReturn = null; }
     state.screen = name;
     for (const s of SCREENS) {
       const node = document.getElementById(`screen-${s}`);
@@ -659,13 +672,33 @@
     if (!box) return;
     clear(box);
 
+    // A top-up already under way outranks the option list. Offering options
+    // while one is in flight offers something the server will refuse — and,
+    // worse, invites a customer who has already paid to pay again.
+    const pending = readPendingTopup();
+    if (pending) {
+      box.appendChild(el('button', {
+        class: 'btn btn--wide',
+        text: 'Показать статус пополнения',
+        onclick: () => { void showTopupStatus(pending); },
+      }));
+    }
+
     let out = null;
     try {
       out = await api.topups(esimId);
     } catch {
       return;   // silent: see above
     }
-    if (!out || out.topup_available !== true) return;
+    if (!out || out.topup_available !== true) {
+      // `in_progress` is not an absence of options — it is one already running.
+      if (out && out.in_progress && !pending) {
+        box.appendChild(el('p', { class: 'small muted', text:
+          'Пополнение этой eSIM уже выполняется. Дождитесь результата.' }));
+      }
+
+      return;
+    }
 
     const options = Array.isArray(out.topup_options) ? out.topup_options : [];
     if (!options.length) return;
@@ -691,31 +724,10 @@
 
     const list = el('div', { class: 'stack' }, [
       el('h2', { class: 'section', text: 'Пополнить eSIM' }),
-      ...discovery.topup_options.map((o) => el('div', { class: 'card row row--between topup-opt' }, [
-        el('span', { class: 'card__body' }, [
-          el('span', {
-            class: 'card__title',
-            text: o.data_gb ? `${o.data_gb} ГБ` : 'Пакет',
-          }),
-          el('span', {
-            class: 'card__meta',
-            text: o.validity_days
-              ? `+${o.validity_days} ${C.plural(o.validity_days, 'день', 'дня', 'дней')}`
-              : '',
-          }),
-        ]),
-        el('strong', { class: 'card__price tabular', text: C.money(o.price_rub) }),
-      ])),
+      ...discovery.topup_options.map((o) => optionCard(esimId, discovery, o)),
     ]);
 
-    if (discovery.purchase_enabled === true) {
-      // Not reachable today: the server sends false while the purchase path is
-      // closed, and the routes it would call are not in the gateway allowlist.
-      list.appendChild(el('button', {
-        class: 'btn btn--wide', text: 'Выбрать и оплатить',
-        onclick: () => { /* wired when the purchase path opens */ },
-      }));
-    } else {
+    if (discovery.purchase_enabled !== true) {
       list.appendChild(el('p', { class: 'small muted', text:
         'Пополнение скоро заработает. Пока можно посмотреть, что будет доступно для этой eSIM.' }));
     }
@@ -724,6 +736,422 @@
       class: 'btn btn--quiet', text: 'Скрыть', onclick: () => renderTopups(esimId),
     }));
     box.appendChild(list);
+  }
+
+  /**
+   * One option, tappable only when the SERVER says buying is open.
+   *
+   * `purchase_enabled` is the only thing that decides. The client does not hold
+   * that switch and could not usefully lie about it: the write routes refuse on
+   * two server-side flags and the gateway forwards nothing else.
+   */
+  function optionCard(esimId, discovery, o) {
+    const body = el('span', { class: 'card__body' }, [
+      el('span', { class: 'card__title', text: o.data_gb ? `${o.data_gb} ГБ` : 'Пакет' }),
+      el('span', {
+        class: 'card__meta',
+        text: o.validity_days
+          ? `+${o.validity_days} ${C.plural(o.validity_days, 'день', 'дня', 'дней')}`
+          : '',
+      }),
+    ]);
+    const price = el('strong', { class: 'card__price tabular', text: C.money(o.price_rub) });
+
+    if (discovery.purchase_enabled !== true) {
+      return el('div', { class: 'card row row--between topup-opt' }, [body, price]);
+    }
+
+    return el('button', {
+      class: 'card row row--between topup-opt',
+      onclick: () => openTopupCheckout(esimId, o),
+    }, [body, price]);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Top-up checkout — вариант → способ оплаты → условия → Оплатить
+   * ------------------------------------------------------------------ */
+
+  /**
+   * The three things a customer chooses, and nothing else.
+   *
+   * There is no field here for a price, a package or an ICCID, and there is
+   * nowhere to put one: the quote call carries an OPAQUE option id and the
+   * server re-derives everything else from a live provider list. What the
+   * customer sees is what the server priced a moment ago; if it moved, the
+   * quote is refused rather than sold at the old number.
+   */
+  function openTopupCheckout(esimId, option) {
+    const box = $('#esim-topup');
+    clear(box);
+
+    // §9 S4, and the same default as the eSIM checkout: СБП unless the customer
+    // deliberately chooses a card.
+    const choice = { payment_type: 'sbp', terms_accepted: false };
+
+    const err = el('div', { class: 'stack' });
+    const pay = el('button', { class: 'btn btn--wide', disabled: true, text: `Оплатить ${C.money(option.price_rub)}` });
+
+    const methodButton = (type, label) => el('button', {
+      class: 'btn btn--quiet topup-method',
+      'data-method': type,
+      'aria-pressed': String(choice.payment_type === type),
+      text: label,
+      onclick: () => {
+        choice.payment_type = type;
+        for (const b of box.querySelectorAll('.topup-method')) {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-method') === type));
+        }
+      },
+    });
+
+    const terms = el('input', { type: 'checkbox', id: 'topup-terms' });
+    // Never checked by default. §9 S4 and §14.6: acceptance is an act, and a
+    // pre-ticked box is expressly not one. The storefront has shipped that bug.
+    terms.checked = false;
+    terms.addEventListener('change', () => {
+      choice.terms_accepted = Boolean(terms.checked);
+      pay.disabled = !choice.terms_accepted;
+    });
+
+    pay.addEventListener('click', () => payTopup(esimId, option, choice, { pay, err }));
+
+    box.appendChild(el('div', { class: 'stack' }, [
+      el('h2', { class: 'section', text: 'Пополнение eSIM' }),
+      el('div', { class: 'card stack' }, [
+        el('div', { class: 'row row--between' }, [
+          el('span', { text: option.data_gb ? `${option.data_gb} ГБ` : 'Пакет' }),
+          el('strong', { class: 'tabular', text: C.money(option.price_rub) }),
+        ]),
+        option.validity_days
+          ? el('p', { class: 'small muted', text:
+            `Срок действия: ${option.validity_days} ${C.plural(option.validity_days, 'день', 'дня', 'дней')}` })
+          : el('span'),
+        el('p', { class: 'small muted', text: 'Пакет добавится к этой eSIM. Новая eSIM не выпускается.' }),
+      ]),
+      el('h3', { class: 'section', text: 'Способ оплаты' }),
+      el('div', { class: 'row' }, [
+        methodButton('sbp', 'СБП'),
+        methodButton('card', 'Банковская карта'),
+      ]),
+      el('label', { class: 'row topup-terms-row' }, [
+        terms,
+        el('span', { class: 'small' }, [
+          document.createTextNode('Я принимаю '),
+          el('a', {
+            href: '#', text: 'условия оферты',
+            onclick: (e) => { e.preventDefault(); openExternal('https://magicesim.store/terms.html'); },
+          }),
+        ]),
+      ]),
+      err,
+      pay,
+      el('button', { class: 'btn btn--quiet', text: 'Назад', onclick: () => renderTopups(esimId) }),
+    ]));
+  }
+
+  /**
+   * Quote, then pay.
+   *
+   * Two calls behind one tap, and the split is the server's contract rather
+   * than a UI choice: the quote prices the option against a LIVE provider list
+   * and mints the intent; the checkout turns that intent into a payment. The
+   * app never sees a package code, a provider or a cost in either direction.
+   */
+  async function payTopup(esimId, option, choice, { pay, err }) {
+    clear(err);
+
+    if (choice.terms_accepted !== true) {
+      err.appendChild(errorNotice('Примите условия, чтобы продолжить.'));
+
+      return;
+    }
+
+    // The guard against the second tap. The server makes a repeat safe — the
+    // intent owns at most one order and one payment — but disabling the button
+    // is what stops the customer having to find that out.
+    pay.disabled = true;
+    clear(pay);
+    pay.appendChild(el('span', { class: 'btn__spinner' }));
+    pay.appendChild(document.createTextNode('Готовим оплату…'));
+    haptic('medium');
+
+    let intent = null;
+    try {
+      intent = await api.topupQuote(esimId, {
+        option_id: option.option_id,
+        payment_type: choice.payment_type,
+        terms_accepted: choice.terms_accepted === true,
+      });
+    } catch (e) {
+      resetPayButton(pay, option);
+      err.appendChild(errorNotice(topupErrorText(e)));
+
+      return;
+    }
+
+    // Kept BEFORE leaving for payment, so a return that lands anywhere resumes
+    // THIS top-up instead of starting another. The token is not a bearer — the
+    // status route authorises by the session and this only says which of the
+    // caller's own intents to read — so keeping it whole is safe, and keeping
+    // it is what makes «не создавать новый» true rather than hoped for.
+    rememberPendingTopup(intent.public_token);
+
+    let checkout = null;
+    try {
+      checkout = await api.topupCheckout(intent.public_token);
+    } catch (e) {
+      resetPayButton(pay, option);
+      if (e && e.code === 'TOPUP_CHECKOUT_IN_PROGRESS') {
+        // Another tap is already creating the payment. Not an error, and above
+        // all not a reason to ask for a second one.
+        await showTopupStatus(intent.public_token);
+
+        return;
+      }
+      err.appendChild(errorNotice(topupErrorText(e)));
+
+      return;
+    }
+
+    if (checkout.redirect_url) {
+      // The destination is checked before the customer is sent to it. Refusing
+      // is safe: the intent and its order already exist on the server, so
+      // nothing is lost, and the status screen below shows where it stands.
+      if (!C.isAllowedPaymentUrl(checkout.redirect_url)) {
+        err.appendChild(errorNotice(
+          'Не удалось открыть безопасную страницу оплаты. Пополнение сохранено — напишите нам, и мы поможем его завершить.'
+        ));
+        resetPayButton(pay, option);
+      } else {
+        openExternal(checkout.redirect_url);
+      }
+    }
+
+    await showTopupStatus(intent.public_token);
+  }
+
+  function resetPayButton(pay, option) {
+    pay.disabled = false;
+    clear(pay);
+    pay.appendChild(document.createTextNode(`Оплатить ${C.money(option.price_rub)}`));
+  }
+
+  /**
+   * A refusal, in words a customer can act on.
+   *
+   * A closed map. The server already speaks a closed vocabulary and sends its
+   * own Russian sentence; this exists so a code THIS build does not know still
+   * produces something useful, and so nothing technical is ever echoed.
+   */
+  function topupErrorText(e) {
+    const code = (e && e.code) || '';
+    if (code === 'TOPUP_PURCHASE_DISABLED' || code === 'TOPUP_PROVIDER_DISABLED') {
+      return 'Пополнение пока недоступно.';
+    }
+    if (code === 'TOPUP_IN_PROGRESS') return 'Одно пополнение этой eSIM уже выполняется. Дождитесь результата.';
+    if (code === 'TOPUP_QUOTE_EXPIRED' || code === 'OPTION_STALE') {
+      return 'Этот вариант больше не актуален. Выберите его заново.';
+    }
+    if (code === 'TERMS_REQUIRED') return 'Примите условия, чтобы продолжить.';
+    if (e && e.isTransport) {
+      return 'Связь прервалась. Повторите — лишнего пополнения не создастся.';
+    }
+
+    return (e && e.message) || 'Не удалось начать пополнение.';
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Top-up status
+   * ------------------------------------------------------------------ */
+
+  const PENDING_TOPUP_KEY = 'mesim.pending_topup';
+
+  function rememberPendingTopup(token) {
+    try { if (token) storage.setItem(PENDING_TOPUP_KEY, String(token)); }
+    catch { /* private mode: «Мои eSIM» still shows the result */ }
+  }
+
+  function readPendingTopup() {
+    try { return storage.getItem(PENDING_TOPUP_KEY) || null; } catch { return null; }
+  }
+
+  function clearPendingTopup() {
+    try { storage.removeItem(PENDING_TOPUP_KEY); } catch { /* */ }
+  }
+
+  /**
+   * The same bounded schedule S6 uses, and for the same reasons: often at
+   * first, then slowly, then a manual refresh rather than an unbounded poll.
+   */
+  const TOPUP_POLL_MS = Object.freeze([
+    ...Array.from({ length: 10 }, () => 3000),   // 30 s
+    ...Array.from({ length: 27 }, () => 10000),  // to 5 min
+  ]);
+
+  let topupPollTimer = null;
+
+  function stopTopupPoll() {
+    if (topupPollTimer) { clearTimeout(topupPollTimer); topupPollTimer = null; }
+  }
+
+  /**
+   * Where the top-up stands, asked of the server and only of the server.
+   *
+   * Coming back from the payment browser proves nothing. The return URL carries
+   * no payment claim and this screen makes none: it re-asks under the app's own
+   * session and renders what the server says.
+   */
+  async function showTopupStatus(publicToken) {
+    stopTopupPoll();
+    state.topupToken = publicToken;
+    show('topup', { push: true });
+
+    let attempt = 0;
+
+    async function tick() {
+      let out = null;
+      try {
+        out = await api.topupStatus(publicToken);
+      } catch (e) {
+        renderTopupStatusError(e, publicToken);
+        // A read that failed is not a top-up that failed. Keep asking.
+        if (attempt < TOPUP_POLL_MS.length) {
+          topupPollTimer = setTimeout(tick, TOPUP_POLL_MS[attempt]);
+          attempt += 1;
+        }
+
+        return;
+      }
+
+      state.lastTopup = out;
+      renderTopupStatus(out);
+
+      if (C.isTopupFinal(out)) {
+        stopTopupPoll();
+        clearPendingTopup();
+        if (C.isTopupDone(out)) {
+          notifySuccess();
+          // The eSIM's own numbers move on the provider's schedule, not ours.
+          // Refreshing quietly means «Мои eSIM» is right when the customer gets
+          // there, and a stale reading is never presented as a failed top-up.
+          await refreshEsimsQuietly();
+        }
+
+        return;
+      }
+
+      if (attempt < TOPUP_POLL_MS.length) {
+        topupPollTimer = setTimeout(tick, TOPUP_POLL_MS[attempt]);
+        attempt += 1;
+      }
+    }
+
+    // Coming back from the payment browser is the moment the answer is most
+    // likely to have changed and the schedule most likely to have run out.
+    resumeOnReturn = () => {
+      if (state.screen !== 'topup') return;
+      if (state.lastTopup && C.isTopupFinal(state.lastTopup)) return;
+      stopTopupPoll();
+      attempt = 0;
+      void tick();
+    };
+
+    $('#topup-title').textContent = 'Пополнение';
+    clear($('#topup-body'));
+    $('#topup-body').appendChild(skeletonCards(1));
+    await tick();
+  }
+
+  /**
+   * What the customer reads.
+   *
+   * The server's own words, because it owns the state machine and its
+   * vocabulary is provider-neutral by construction. Nothing technical is drawn:
+   * no provider, no package code, no error class, no attempt count — the status
+   * body does not contain any of them, and a test asserts that.
+   */
+  function renderTopupStatus(out) {
+    const body = $('#topup-body');
+    clear(body);
+
+    const title = C.topupStatusText(out);
+    $('#topup-title').textContent = title;
+
+    const card = el('div', { class: 'card stack' }, [
+      el('strong', { class: 'card__title', text: title }),
+      out.status_detail ? el('p', { class: 'small muted', text: out.status_detail }) : el('span'),
+    ]);
+
+    if (out.data_gb || out.price_rub) {
+      card.appendChild(el('div', { class: 'row row--between small muted' }, [
+        el('span', { text: out.data_gb ? `${out.data_gb} ГБ` : 'Пакет' }),
+        el('span', { class: 'tabular', text: out.price_rub ? C.money(out.price_rub) : '' }),
+      ]));
+    }
+    body.appendChild(card);
+
+    // Still payable: the way back to the payment page, from the server's own
+    // link and never from anything this screen invented.
+    if (out.status === 'awaiting_payment' && out.payment_url && C.isAllowedPaymentUrl(out.payment_url)) {
+      body.appendChild(el('button', {
+        class: 'btn btn--wide', text: 'Перейти к оплате',
+        onclick: () => openExternal(out.payment_url),
+      }));
+    }
+
+    if (out.status === 'completed') {
+      body.appendChild(el('button', {
+        class: 'btn btn--wide', text: 'К моим eSIM',
+        onclick: () => { void renderEsims(); show('esims'); },
+      }));
+    }
+
+    if (out.status === 'needs_review' || out.status === 'refund_pending') {
+      // The same button the order screen uses, so there is one support route
+      // and one bot username rather than two that can drift. It carries no
+      // order ref: a top-up has no public order token the customer holds, and
+      // the operator finds the intent from the customer's own account.
+      body.appendChild(supportButton(null));
+    }
+
+    if (!C.isTopupFinal(out)) {
+      body.appendChild(el('button', {
+        class: 'btn btn--quiet', text: 'Обновить',
+        onclick: () => { void showTopupStatus(out.public_token); },
+      }));
+    }
+  }
+
+  /**
+   * The read failed. Deliberately says nothing about the top-up itself.
+   *
+   * A gateway that will not answer tells us nothing about whether a payment was
+   * taken or a top-up applied, and saying otherwise in either direction is the
+   * mistake this screen exists to avoid.
+   */
+  function renderTopupStatusError(e, publicToken) {
+    const body = $('#topup-body');
+    clear(body);
+    $('#topup-title').textContent = 'Проверяем состояние пополнения';
+
+    if (e && e.status === 404) {
+      clearPendingTopup();
+      body.appendChild(el('p', { class: 'muted', text: 'Это пополнение не найдено.' }));
+      body.appendChild(el('button', {
+        class: 'btn btn--wide', text: 'К моим eSIM',
+        onclick: () => { void renderEsims(); show('esims'); },
+      }));
+
+      return;
+    }
+
+    body.appendChild(el('p', { class: 'muted', text:
+      'Не удалось связаться с сервером. Это ничего не говорит об оплате: '
+      + 'если она прошла, пополнение уже принято. Повторно платить не нужно.' }));
+    body.appendChild(el('button', {
+      class: 'btn btn--wide', text: 'Проверить ещё раз',
+      onclick: () => { void showTopupStatus(publicToken); },
+    }));
   }
 
   /* ------------------------------------------------------------------ *
@@ -2129,7 +2557,17 @@
     if (ref) {
       clearPendingOrder();
       await showOrderStatus(ref);
+
+      return;
     }
+
+    // A top-up we left mid-payment. Resuming the SAME intent is the whole
+    // point: a fresh quote here would mint a second intent, and the customer
+    // could end up paying for two. The token names one of this customer's own
+    // intents and authorises nothing — the session does that — so the server
+    // still decides what, if anything, to show.
+    const pendingTopup = readPendingTopup();
+    if (pendingTopup) await showTopupStatus(pendingTopup);
   }
 
   /**

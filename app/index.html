@@ -195,6 +195,18 @@
     <div id="order-body" class="stack"></div>
   </section>
 
+  <!-- 6c. Top-up status ----------------------------------------------------
+       The second screen a customer can be holding when their money has left
+       and nothing visible has happened yet. It exists for the same reason S6
+       does, and it has one extra job S6 does not: an UNCERTAIN outcome must
+       read as «проверяем», never as «не удалось». A customer told a top-up
+       failed while it may be on their eSIM buys a second one.
+  -->
+  <section class="screen" id="screen-topup" aria-label="Статус пополнения">
+    <h1 id="topup-title">Пополнение</h1>
+    <div id="topup-body" class="stack"></div>
+  </section>
+
   <!-- 7. Error / outside Telegram -------------------------------------- -->
   <section class="screen" id="screen-error" aria-label="Ошибка"></section>
 

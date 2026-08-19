@@ -659,6 +659,44 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 .topup-opt { align-items: center; gap: 12px; }
 .topup-opt .card__body { min-width: 0; }
 
+/* A tappable option is a real <button>, so the keyboard and screen readers get
+   it for free — the same reasoning as the tappable tariff card above. It has to
+   be told to look like the card it replaces, because a button does not. */
+button.topup-opt {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Способ оплаты. Two buttons rather than a <select>: a two-item dropdown hides
+   the choice behind a tap and reads badly at 44px. The pressed one is marked
+   with aria-pressed, so the visual state and the accessible state are the same
+   state rather than two that can drift. */
+.topup-method {
+  flex: 1 1 0;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+}
+.topup-method[aria-pressed="true"] {
+  border-color: var(--blue);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* The consent row. The label wraps the checkbox, so the whole sentence is the
+   target — a 16px checkbox on its own is below the 44px floor this file keeps
+   everywhere else. */
+.topup-terms-row {
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 2px;
+}
+.topup-terms-row input { width: 20px; height: 20px; flex: 0 0 auto; margin-top: 1px; }
+
 /* --- S13 · the code field -------------------------------------------------
    Wide, spaced and monospaced: six digits typed from a notification are read
    back character by character, and a proportional font makes that harder than

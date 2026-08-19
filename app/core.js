@@ -739,6 +739,63 @@ function createApi(deps = {}) {
    */
   const topups = (esimId) => request(`/api/v1/tma/esims/${encodeURIComponent(esimId)}/topups`);
 
+  /**
+   * Price one top-up option and mint the intent behind it.
+   *
+   * What travels is the whole security model, and it is deliberately almost
+   * nothing: the eSIM's own id, an OPAQUE option id that came from `topups`
+   * above, a payment method and a real acceptance. There is no field here for a
+   * price, a package code, an ICCID or a provider — the server re-derives all of
+   * it from a live provider list, so the screen cannot sell something the
+   * provider has withdrawn and cannot name a price of its own.
+   *
+   * NOT idempotent-retryable: a quote creates a row, and a repeat that crossed
+   * with the first would leave two. A failed quote is safe to re-tap by hand —
+   * the customer has paid nothing.
+   */
+  const topupQuote = (esimId, choice) => request(
+    `/api/v1/tma/esims/${encodeURIComponent(esimId)}/topups/quote`,
+    {
+      method: 'POST',
+      body: {
+        option_id: choice.option_id,
+        payment_type: choice.payment_type,
+        // Reported, never asserted. The pay button stays disabled until the box
+        // is ticked, so a `false` here means something went wrong and the
+        // server should refuse — which it does.
+        terms_accepted: choice.terms_accepted === true,
+      },
+    }
+  );
+
+  /**
+   * Turn a quote into a payment link.
+   *
+   * NO BODY AT ALL, and that is the contract rather than an omission: the
+   * option, the price, the method and the consent were settled at quote time
+   * and live on the intent. There is nothing left for this call to get wrong.
+   *
+   * `idempotent: true` without a key, and it is safe for a better reason than
+   * a key would be: the server keys on the INTENT. A repeat finds the order
+   * this intent already has and returns the SAME payment link rather than
+   * asking Platega for a second transaction.
+   */
+  const topupCheckout = (publicToken) => request(
+    `/api/v1/tma/topups/${encodeURIComponent(publicToken)}/checkout`,
+    { method: 'POST', idempotent: true, body: {} }
+  );
+
+  /**
+   * Where a top-up stands.
+   *
+   * The ONLY source of that answer. Coming back from the payment browser proves
+   * nothing — the return URL is not payment truth — so the app re-asks under
+   * its own session and shows what the server says.
+   */
+  const topupStatus = (publicToken) => request(
+    `/api/v1/tma/topups/${encodeURIComponent(publicToken)}/status`
+  );
+
   /* ---- S13: purchases made on the website ---- */
 
   /**
@@ -806,7 +863,7 @@ function createApi(deps = {}) {
 
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
-    topups, requestEmailCode, confirmEmailCode,
+    topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },
@@ -1442,6 +1499,67 @@ function sortOwnedEsims(items) {
  * lookalike like `platega.io.evil.tld`, which is why the test is on the host
  * SUFFIX with a leading dot and not on `includes`.
  */
+/* --------------------------------------------------------------------------
+ * Top-up status, in the customer's language
+ * ----------------------------------------------------------------------- */
+
+/**
+ * The seven states a top-up can be in, and what each one is called.
+ *
+ * The server sends `status_text` and `status_detail` and they are what gets
+ * rendered — this map is the FALLBACK, for a client whose build predates a
+ * state. It exists so an unknown answer degrades to a sentence rather than to a
+ * blank screen or, worse, to an optimistic one.
+ *
+ * Note the two that are easy to get wrong. `verifying` must never say «не
+ * удалось»: the top-up may well be on the eSIM, and a customer told it failed
+ * buys a second one. `refund_pending` must never be hidden: the customer has
+ * paid and is owed money back.
+ */
+const TOPUP_STATUS_TEXT = Object.freeze({
+  awaiting_payment: 'Ожидаем оплату',
+  paid: 'Оплата получена',
+  in_progress: 'Пополняем eSIM',
+  completed: 'Пополнение выполнено',
+  verifying: 'Проверяем состояние пополнения',
+  needs_review: 'Требуется дополнительная проверка',
+  refund_pending: 'Пополнение не выполнено. Вернём деньги',
+});
+
+/** States the app stops polling on. */
+const TOPUP_FINAL = Object.freeze(['completed', 'needs_review', 'refund_pending']);
+
+/**
+ * Is this the end of the story?
+ *
+ * Read from the SERVER's `is_final` when it is present, because the server owns
+ * the state machine; the list above is only the fallback for an older answer.
+ * An unknown state is NOT final — the app keeps asking rather than deciding on
+ * its own that nothing more will happen.
+ */
+function isTopupFinal(status) {
+  if (status && typeof status === 'object') {
+    if (typeof status.is_final === 'boolean') return status.is_final;
+
+    return TOPUP_FINAL.includes(String(status.status || ''));
+  }
+
+  return TOPUP_FINAL.includes(String(status || ''));
+}
+
+/** Did it end well? Used only to pick a haptic and whether to refresh the eSIM. */
+const isTopupDone = (status) => String(
+  (status && typeof status === 'object' ? status.status : status) || ''
+) === 'completed';
+
+/** The label to draw. The server's words first, ours only if it sent none. */
+function topupStatusText(status) {
+  if (status && typeof status === 'object' && status.status_text) return String(status.status_text);
+  const key = String((status && typeof status === 'object' ? status.status : status) || '');
+
+  return TOPUP_STATUS_TEXT[key] || 'Проверяем состояние пополнения';
+}
+
 const PAYMENT_HOSTS = Object.freeze(['platega.io']);
 
 function isAllowedPaymentUrl(url) {
@@ -1597,6 +1715,7 @@ const CORE = {
   normalize, popularGroups, popularCountries, countryLatin,
   ESIM_STATUS_TEXT, ORDER_STATUS_TEXT, activationPolicyText,
   destinationTitle, isOrderReady, isOrderDead,
+  TOPUP_STATUS_TEXT, TOPUP_FINAL, isTopupFinal, isTopupDone, topupStatusText,
   isAllowedPaymentUrl, PAYMENT_HOSTS,
   sortOwnedEsims, isSpentEsim, SPENT_ESIM_STATUSES,
   syncedAgo, installPlatform, sortTariffs, TARIFF_SORTS,
