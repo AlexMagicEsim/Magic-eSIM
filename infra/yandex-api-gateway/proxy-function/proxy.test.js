@@ -184,6 +184,9 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'POST /api/v1/retail/promo/quote',
     'POST /api/v1/tma/esims/{token}/activation',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
+    'POST /api/v1/tma/identity/email/confirm',
+    'POST /api/v1/tma/identity/email/request',
+    'POST /api/v1/tma/identity/email/revoke',
     'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
@@ -1198,12 +1201,13 @@ test('the error line keeps its original reason alongside the new class', async (
   assert.ok('class' in line);
 });
 
-test('the allowlist is the nine deployed routes, the two B-6 ones, the seven reads and the three writes', () => {
+test('the allowlist is the nine deployed routes, the two B-6 ones, the seven reads and the six writes', () => {
   // Restated so a merge cannot quietly widen the surface: nine legacy routes
   // survive untouched, B-6 adds the two Mini App session routes, B-7 adds six
-  // reads (GET only) and then three writes (POST only), and top-up discovery
-  // adds a SEVENTH read on 2026-08-19. Nothing else rides along.
-  assert.equal(ROUTES.length, 21);
+  // reads (GET only) and then three writes (POST only), top-up discovery adds a
+  // SEVENTH read on 2026-08-19, and S13 adds three more writes (POST only) the
+  // same day. Nothing else rides along.
+  assert.equal(ROUTES.length, 24);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
@@ -1216,6 +1220,9 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the seven rea
     'GET /api/v1/tma/orders/{token}/status',
     'POST /api/v1/tma/esims/{token}/activation',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
+    'POST /api/v1/tma/identity/email/confirm',
+    'POST /api/v1/tma/identity/email/request',
+    'POST /api/v1/tma/identity/email/revoke',
     'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
@@ -1265,6 +1272,34 @@ test('the read wave opens six GETs and leaves the later waves shut', () => {
   // by URL, which is what a reader would reach for next.
   assert.ok(matchRoute('POST', '/api/v1/tma/orders'));
   assert.ok(!matchRoute('GET', '/api/v1/tma/orders'));
+
+  // S13 opened three, as POST and only as POST. The GET half is the property:
+  // a verification code exists in one email body, and a route that returned one
+  // — or merely confirmed a challenge exists — by URL would be reachable by
+  // anything that shares a link. Revoke is POST for a duller reason: the gateway
+  // forwards only GET and POST, so a DELETE pattern would never match at all.
+  for (const path of [
+    '/api/v1/tma/identity/email/request',
+    '/api/v1/tma/identity/email/confirm',
+    '/api/v1/tma/identity/email/revoke',
+  ]) {
+    assert.ok(matchRoute('POST', path), `POST ${path} must be open`);
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+    assert.ok(!matchRoute('DELETE', path), `DELETE ${path} must stay shut`);
+  }
+
+  // The prefix itself, and the shapes a reader would try next, stay shut.
+  for (const path of [
+    '/api/v1/tma/identity',
+    '/api/v1/tma/identity/email',
+    '/api/v1/tma/identity/email/',
+    '/api/v1/tma/identity/email/request/extra',
+    '/api/v1/tma/identity/email/verify',
+    '/api/v1/tma/me/identity/email/request',
+  ]) {
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+    assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
+  }
 });
 
 test('a single dynamic segment cannot grow into a path', () => {
@@ -1600,9 +1635,24 @@ test('the write wave drags in no neighbour', () => {
     '/api/v1/tma/orders/abc/pay',
     '/api/v1/tma/esims/abc/topup',
     '/api/v1/tma/esims/abc/top-up/create',
-    '/api/v1/tma/identity/email/request',
     '/api/v1/admin/providers/health/scan',
     '/api/v1/admin/replacements/abc/apply',
+  ]) {
+    assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
+    assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);
+  }
+
+  // `/api/v1/tma/identity/email/request` was in that list until 2026-08-19, when
+  // S13 opened it as a POST. It is not deleted from this test but moved, because
+  // the neighbour discipline still applies to it: the write is open, the read is
+  // not, and nothing one segment away came along with it.
+  assert.ok(matchRoute('POST', '/api/v1/tma/identity/email/request'));
+  assert.ok(!matchRoute('GET', '/api/v1/tma/identity/email/request'));
+  for (const path of [
+    '/api/v1/tma/identity/email/request/extra',
+    '/api/v1/tma/identity/email/resend',
+    '/api/v1/tma/identity/phone/request',
+    '/api/v1/tma/identity/abc/email/request',
   ]) {
     assert.ok(!matchRoute('POST', path), `POST ${path} must stay shut`);
     assert.ok(!matchRoute('GET', path), `GET ${path} must stay shut`);

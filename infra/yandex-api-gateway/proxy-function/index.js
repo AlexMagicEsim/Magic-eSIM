@@ -303,10 +303,28 @@ const ROUTES = [
   // still masked, because a MATCHED route logs its PATTERN.
   //
   // Deliberately still absent: top-up (no provider-safe recharge exists — Р-4),
-  // identity/email (Stage E), and anything admin.
+  // and anything admin.
   { method: 'POST', pattern: '/api/v1/tma/orders' },
   { method: 'POST', pattern: '/api/v1/tma/esims/{token}/activation' },
   { method: 'POST', pattern: '/api/v1/tma/esims/{token}/usage/refresh' },
+
+  // S13 — linking website purchases by email, added 2026-08-19. Three POSTs,
+  // taken from router.post() in lib/tmaRoutes.js rather than from the plan, and
+  // all three behind the same bearer session as everything above: without it the
+  // backend answers 401 SESSION_INVALID, verified against production before this
+  // list was touched.
+  //
+  // Revoke is a POST and not a DELETE because the gateway forwards only GET and
+  // POST. A DELETE pattern here would be unreachable, which is a worse kind of
+  // wrong than an ugly verb: it would look allowlisted and never match.
+  //
+  // No GET half for any of them, and that is the security property. A challenge
+  // code lives in exactly one email body; a route that returned one — or merely
+  // confirmed a challenge exists — by URL would undo the whole design, and a URL
+  // is the thing somebody shares by accident.
+  { method: 'POST', pattern: '/api/v1/tma/identity/email/request' },
+  { method: 'POST', pattern: '/api/v1/tma/identity/email/confirm' },
+  { method: 'POST', pattern: '/api/v1/tma/identity/email/revoke' },
 ];
 
 /**
