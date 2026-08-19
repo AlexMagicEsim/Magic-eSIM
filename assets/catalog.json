@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-19T07:08:33.500Z",
+  "generated_at": "2026-08-19T13:12:46.273Z",
   "source": "production-public-api",
   "package_count": 974,
   "packages": [
@@ -82,7 +82,7 @@
       "price": 950,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Omantel",
           "type": "5G"
         }
       ],
@@ -1096,7 +1096,7 @@
       "price": 1500,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Omantel",
           "type": "5G"
         }
       ],
@@ -5294,7 +5294,7 @@
       "price": 4550,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Omantel",
           "type": "5G"
         }
       ],
@@ -6163,7 +6163,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1050,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "AirtelTigo",
+          "type": "3G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -17448,7 +17453,7 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Omantel",
           "type": "5G"
         }
       ],
@@ -22313,7 +22318,7 @@
       "price": 2650,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Omantel",
           "type": "5G"
         }
       ],
@@ -23869,7 +23874,7 @@
       "price": 10150,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Omantel",
           "type": "5G"
         }
       ],
@@ -25722,7 +25727,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Hutch",
+          "operator": "Mobitel",
           "type": "4G"
         }
       ],
