@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-20T09:52:23.127Z",
+  "generated_at": "2026-08-20T13:14:05.476Z",
   "source": "production-public-api",
-  "package_count": 974,
+  "package_count": 972,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -4073,56 +4073,6 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true
-    },
-    {
-      "package_id": "23fe9fb3-867b-4820-8aef-7645f5b112f9",
-      "name": "EUconnect Unlimited 7 Days",
-      "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB",
-      "coverage_country_codes": [
-        "AT",
-        "BE",
-        "BG",
-        "HR",
-        "CY",
-        "CZ",
-        "DK",
-        "EE",
-        "FI",
-        "FR",
-        "DE",
-        "GR",
-        "HU",
-        "IE",
-        "IT",
-        "LV",
-        "LT",
-        "LU",
-        "MT",
-        "NL",
-        "PL",
-        "PT",
-        "RO",
-        "SK",
-        "SI",
-        "ES",
-        "SE",
-        "GB"
-      ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
-      "data_gb": 53,
-      "validity_days": 7,
-      "price": 2100,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "fup_policy": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false
     },
     {
       "package_id": "242e69a2-de32-435a-97b5-3472d4a7d6b6",
@@ -25731,7 +25681,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Hutch",
+          "operator": "Mobitel",
           "type": "4G"
         }
       ],
@@ -30719,56 +30669,6 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true
-    },
-    {
-      "package_id": "e7a26aef-a352-4031-b379-68bba8ca1a30",
-      "name": "EUconnect Unlimited 10 Days",
-      "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB",
-      "coverage_country_codes": [
-        "AT",
-        "BE",
-        "BG",
-        "HR",
-        "CY",
-        "CZ",
-        "DK",
-        "EE",
-        "FI",
-        "FR",
-        "DE",
-        "GR",
-        "HU",
-        "IE",
-        "IT",
-        "LV",
-        "LT",
-        "LU",
-        "MT",
-        "NL",
-        "PL",
-        "PT",
-        "RO",
-        "SK",
-        "SI",
-        "ES",
-        "SE",
-        "GB"
-      ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
-      "data_gb": 66,
-      "validity_days": 10,
-      "price": 2700,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "fup_policy": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false
     },
     {
       "package_id": "e7bea14b-0de2-44e4-b015-7341fcc66d0d",
