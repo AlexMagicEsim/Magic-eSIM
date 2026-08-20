@@ -14,9 +14,27 @@
  * ========================================================================= */
 
 :root {
-  /* Telegram-driven, with the brand's light palette as the fallback. */
-  --bg: var(--tg-theme-bg-color, #F7F9FC);
-  --surface: var(--tg-theme-secondary-bg-color, #FFFFFF);
+  /* Telegram-driven, with the brand's light palette as the fallback.
+   *
+   * THE PAGE IS `secondary_bg_color` AND A CARD IS `bg_color`, which reads
+   * backwards until you look at what Telegram actually does: in a grouped list
+   * — the pattern this whole screen is — iOS paints the ground #efeff4 and the
+   * CELLS #ffffff. `bg_color` is the cell.
+   *
+   * It was mapped the other way, and the result is visible in any screenshot
+   * taken before 2026-08-20: a pure white page with grey-tinted cards punched
+   * into it, which is the inverse of a card sitting on a ground, and in dark it
+   * left every card within a step or two of the page with only a 1px line to
+   * say where it ended. The fallbacks beside these lines were always the right
+   * way round — #F7F9FC ground, #FFFFFF card — so outside Telegram the app
+   * already looked the way it was meant to and inside it did not.
+   *
+   * Clients that send no `secondary_bg_color` fall back to #F7F9FC and are
+   * correct. Clients that send both equal get cards defined by `--line` alone —
+   * exactly what every client did before this change, so no client is worse
+   * off. */
+  --bg: var(--tg-theme-secondary-bg-color, #F7F9FC);
+  --surface: var(--tg-theme-bg-color, #FFFFFF);
   --ink: var(--tg-theme-text-color, #111827);
   --muted: var(--tg-theme-hint-color, #667085);
   --link: var(--tg-theme-link-color, #4267E8);
@@ -41,6 +59,33 @@
   --safe-t: env(safe-area-inset-top, 0px);
 }
 
+/* -----------------------------------------------------------------------
+ * Dark, on the hook that already existed.
+ *
+ * `applyTelegramTheme()` has been writing `data-tg-scheme` onto <html> since
+ * the app shipped and NOTHING read it. These are the four places where a value
+ * tuned on a white page is wrong on a dark one.
+ *
+ * NOTE the line this does not cross. `--blue`, `--cyan` and `--purple` are
+ * BRAND and stay theme-independent — the mark should look like itself in both.
+ * `--good`/`--warn`/`--bad` are STATE, not brand: they exist to be read, and a
+ * green that scores 2.7:1 on Telegram's dark card is not being read. On the
+ * eSIM card the badge is the only thing carrying the profile's state, so this
+ * is legibility, not decoration.
+ * ----------------------------------------------------------------------- */
+:root[data-tg-scheme='dark'] {
+  --good: #4ADE80;
+  --warn: #FBBF24;
+  --bad:  #F87171;
+
+  /* A card in dark was defined by a 12% hairline and nothing else. */
+  --line: color-mix(in srgb, var(--ink) 20%, transparent);
+}
+
+/* An 8% wash of near-white on a dark page is not a placeholder, it is a smudge
+   — and a cold gateway can leave it on screen for twelve seconds. */
+:root[data-tg-scheme='dark'] .skel { background: color-mix(in srgb, var(--ink) 15%, transparent); }
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 html, body {
@@ -54,7 +99,15 @@ html, body {
   overscroll-behavior-y: none;
 }
 
-body { padding-bottom: calc(16px + var(--safe-b)); }
+/* ZERO, and the safe area is not forgotten — it is owned by `.tabbar`, which is
+   body's LAST child. This padding therefore sat BELOW the bar, so on an iPhone
+   the nav floated above a 50px band of empty background (34px inset + 16px)
+   instead of resting on the bottom edge. Measured: the gap under the bar was
+   exactly body's padding-bottom.
+   The bar is in the markup on every screen and nothing ever hides it — if a
+   screen without one is ever added, the safe-area padding belongs on THAT
+   screen, not back here where it double-counts. */
+body { padding-bottom: 0; }
 
 /* --------------------------------------------------------------------------
  * Layout
@@ -111,23 +164,72 @@ button.card:active { transform: scale(.995); }
   top: var(--safe-t);
   z-index: 5;
   background: var(--bg);
-  padding: 8px 0 10px;
+  /* Bleeds into the screen's 16px gutters and pays it back as padding, so the
+     bar's background spans the full width. Inset, its fill stopped 16px short
+     on each side and tile corners slid past it in the margins while scrolling.
+     A negative margin that exactly cancels the parent's padding cannot widen
+     the box, so this cannot cause horizontal overflow — verified at 390px. */
+  margin: 0 -16px;
+  padding: 8px 16px 10px;
+  /* Something for content to disappear UNDER. It was --bg on --bg with no edge
+     at all, so tiles scrolled into nothing. */
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+}
+
+/* The checkout's copy is static and lives inside a normal block; it must not
+   inherit the bleed. */
+.search--static { margin-inline: 0; border-bottom: 0; }
+
+/* The icon sits INSIDE the field, so the wrapper has to be the positioning
+   context. `position: relative` on a sticky element is fine — sticky already
+   establishes one — but it is stated for the row below rather than inherited by
+   luck. */
+.search__row { position: relative; display: block; }
+
+.search__icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;   /* the tap belongs to the field under it */
 }
 
 .search input {
   width: 100%;
   min-height: var(--tap);
-  padding: 0 14px;
+  /* Left padding clears the icon; right padding stays even so the field does
+     not look lopsided when empty. */
+  padding: 0 14px 0 42px;
   border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   background: var(--surface);
   color: var(--ink);
   /* 16px minimum: iOS zooms the whole webview on focus below that, and a zoomed
      Mini App does not zoom back. */
   font-size: 16px;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color .15s ease, background-color .15s ease;
 }
 
+/* Focus is a real state, not a removed outline: the border takes the brand
+   colour and a soft ring appears. Both, because a ring alone disappears against
+   Telegram's dark surface on some clients. */
+.search input:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--blue) 55%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 14%, transparent);
+}
+.search input:focus + .search__icon,
+.search__row:focus-within .search__icon { color: var(--blue); }
+
 .search input::placeholder { color: var(--muted); }
+
+/* iOS draws its own clear/decoration widgets in a type=search field; they sit
+   at odd sizes and clash with the icon we placed deliberately. */
+.search input::-webkit-search-decoration,
+.search input::-webkit-search-cancel-button { -webkit-appearance: none; }
 
 /* --------------------------------------------------------------------------
  * Buttons
@@ -167,9 +269,25 @@ button.card:active { transform: scale(.995); }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* Content arriving, once, briefly.
+   Opacity plus a 4px lift: `transform` is a paint-time property, so nothing
+   below moves and no measurement taken after 220ms sees anything different.
+   A screen switch is the only trigger — there is no looping or ambient motion
+   anywhere in this app, and there should not be. */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.screen[data-active] { animation: fade-in .22s ease both; }
+
 @media (prefers-reduced-motion: reduce) {
   .btn__spinner { animation-duration: 2.4s; }
   button.card:active { transform: none; }
+  .tile:active { transform: none; }
+  /* Not merely shorter — gone. The customer asked for no motion. */
+  .screen[data-active] { animation: none; }
+  .search input, .tile { transition: none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -195,6 +313,19 @@ button.card:active { transform: scale(.995); }
   color: #fff;
 }
 
+/* The card variant. Outline rather than filled: beside a destination name, a
+   solid pill wins the eye no matter how small it is, and «Готова к установке»
+   is not what somebody opened the card to read. Same words, same colour, less
+   volume. `currentColor` at 30% keeps it legible on both themes without a
+   dark-mode branch. */
+.badge--sm {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+
 /* --------------------------------------------------------------------------
  * The data gauge
  *
@@ -203,7 +334,50 @@ button.card:active { transform: scale(.995); }
  * left" and the other means "we could not ask".
  * ----------------------------------------------------------------------- */
 
-.gauge { height: 8px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
+/* -----------------------------------------------------------------------
+ * «Мои eSIM» card
+ *
+ * Four bands, in the order a traveller reads them: WHERE, HOW MUCH IS LEFT,
+ * the bar that shows it at a glance, and when the number was last true.
+ * ----------------------------------------------------------------------- */
+
+.esim-card { display: grid; gap: var(--s3); padding: var(--s4); }
+
+/* The row must be allowed to shrink or a long destination pushes the badge off
+   the card instead of ellipsing. */
+.esim-card__head { gap: var(--s2); align-items: center; }
+.esim-card__id { min-width: 0; gap: var(--s2); flex: 1 1 auto; }
+
+.esim-card__name {
+  font-size: var(--t-body);
+  font-weight: 650;
+  min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.esim-card__metrics { gap: var(--s3); align-items: baseline; }
+
+/* Number and unit on one baseline: «2.1 ГБ из 3» reads as one fact, whereas
+   two separate spans at the same size read as two. */
+.esim-card__metric { display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+.esim-card__metric--end { margin-left: auto; }
+
+.esim-card__big {
+  font-size: 21px;
+  font-weight: 680;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.esim-card__of { font-size: var(--t-caption); color: var(--muted); }
+
+/* Said once, at reading size rather than as a caption: "we do not know" is
+   information, not a footnote. The hatched bar below repeats it visually. */
+.esim-card__unknown { font-size: var(--t-secondary); color: var(--muted); }
+
+.esim-card__synced { font-size: var(--t-caption); color: var(--muted); }
+.esim-card__synced:empty { display: none; }
+
+.gauge { height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
 .gauge__fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--blue)); }
 .gauge__fill--low { background: var(--warn); }
 .gauge__fill--empty { background: var(--bad); }
@@ -531,7 +705,14 @@ button.card--row:active { background: color-mix(in srgb, var(--ink) 6%, var(--su
    able to grow: without this the sticky nav has nothing to stick past on a
    screen with little content. */
 html, body { min-height: 100%; }
-body { display: flex; flex-direction: column; min-height: 100vh; }
+/* `100vh` is not the height of a Telegram webview: the visible area is shorter
+   in the collapsed state and on clients that draw their own chrome, which is
+   exactly how a sticky bottom bar ends up below the fold. Telegram publishes
+   the real one on <html>. STABLE rather than plain viewport-height: it ignores
+   the keyboard, which is what a bar the customer must still be able to reach
+   on the checkout screen needs. Clients that do not publish it fall back to
+   today's behaviour unchanged. */
+body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stable-height, 100vh); }
 .app-main { flex: 1 0 auto; }
 
 /* -----------------------------------------------------------------------
@@ -549,12 +730,16 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 .tile {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--s1);
-  min-height: 88px;
-  padding: var(--s3);
+  min-height: 96px;
+  /* Was a flat --s3 (12px) all round, which left the flag and the price sharing
+     the same crowded box. The extra 2px and the auto margin below give the
+     price its own band without making the tile taller than a thumb reach. */
+  padding: var(--s4) var(--s3) var(--s3);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -563,8 +748,38 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
   text-align: left;
   cursor: pointer;
   min-width: 0;
+  overflow: hidden;
+  transition: transform .12s ease, background-color .12s ease, border-color .12s ease;
 }
-.tile:active { background: color-mix(in srgb, var(--ink) 6%, var(--surface)); }
+
+/* One accent, the same on every tile.
+   Deliberately NOT a colour per country: sixteen tinted boxes is a circus, and
+   the flag already carries the identity. A single faint brand sheen in the
+   top-right corner is enough to stop the grid reading as plain boxes, and being
+   identical everywhere is what keeps it calm. */
+.tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80% 60% at 100% 0%,
+    color-mix(in srgb, var(--blue) 9%, transparent) 0%, transparent 62%);
+  pointer-events: none;
+}
+
+/* Press, not hover: there is no hover on a phone, and the only feedback
+   available is what happens under the thumb. The scale is tiny on purpose —
+   enough to feel, not enough to see as movement. */
+.tile:active {
+  background: color-mix(in srgb, var(--ink) 6%, var(--surface));
+  border-color: color-mix(in srgb, var(--blue) 30%, var(--line));
+  transform: scale(.985);
+}
+
+/* Desktop and Telegram Web do have a pointer; the same accent, held slightly
+   longer. Guarded so it cannot fire on a touch device's emulated hover. */
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover { border-color: color-mix(in srgb, var(--blue) 24%, var(--line)); }
+}
 
 .tile__flag { width: 34px; height: 24px; border-radius: 3px; object-fit: cover; }
 .tile__name {
@@ -573,7 +788,22 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
   align-self: stretch;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.tile__from { font-size: var(--t-caption); color: var(--muted); }
+/* The price is the second reason anyone looks at this tile, and it was caption
+   grey — the same weight as "last synced" elsewhere in the app. It keeps the
+   muted "от" so it still reads as a starting price, not a fixed one, but the
+   number itself is now ink at reading size.
+   `margin-top: auto` pins it to the bottom, so prices line up across a row
+   whatever a country name does. */
+.tile__from {
+  margin-top: auto;
+  font-size: var(--t-secondary);
+  font-weight: 600;
+  color: var(--ink);
+}
+.tile__from .tile__prefix { color: var(--muted); font-weight: 500; font-size: var(--t-caption); }
+
+/* The flag needs to sit ON the tile, above the accent sheen. */
+.tile__flag, .tile__name, .tile__from { position: relative; }
 
 .btn--wide { width: 100%; margin-top: var(--s4); }
 
@@ -601,10 +831,73 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 
 /* Home. A header, not a splash — but not so small that the wordmark inside the
    artwork drops below the 13px floor §12.2 sets for text. The wordmark occupies
-   roughly the lower third of the asset, so 40px of logo puts it at about 14px;
+   roughly the lower third of the asset, so 40px of logo put it at about 14px;
    at 28px it rendered near 10px and was legible only if you already knew what
-   it said. Total cost to the screen is ~48px including the gap. */
-.brand--sm { height: 40px; margin-bottom: var(--s2); }
+   it said.
+   Raised to 52px: inside the hero panel it now has a surface to sit on, so the
+   extra 12px reads as composition rather than as a bigger stray asset, and it
+   puts the wordmark near 18px. The panel absorbs the height — the hero costs
+   the screen about the same as before. */
+.brand--sm { height: 52px; margin-bottom: var(--s2); }
+
+/* -----------------------------------------------------------------------
+ * Hero
+ *
+ * The problem it solves: the logo, the headline and the line under it were
+ * three unrelated elements on a flat page, and the mark in particular read as
+ * something left at the top-left by accident rather than as the app's header.
+ *
+ * The fix is a surface, not more content. One panel, a very light brand wash,
+ * and the three things sit inside it as one composition. No photograph and no
+ * heavy asset: this loads on a foreign network, and Telegram already draws its
+ * own chrome above it.
+ *
+ * The wash is built from the brand tokens over `--surface`, so it inherits the
+ * customer's Telegram theme automatically and needs no dark-mode branch: on a
+ * light client it is a pale blue-cyan tint, on a dark one the same mix over a
+ * dark surface, which is a deep tint rather than a bright patch.
+ * ----------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: var(--s2);
+  padding: var(--s5) var(--s4) var(--s5);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--blue) 14%, var(--line));
+  background:
+    radial-gradient(120% 90% at 88% 0%, color-mix(in srgb, var(--cyan) 20%, transparent) 0%, transparent 60%),
+    radial-gradient(110% 100% at 0% 100%, color-mix(in srgb, var(--purple) 14%, transparent) 0%, transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--blue) 8%, var(--surface)) 0%, var(--surface) 100%);
+}
+
+/* The glow. A single soft ellipse behind the mark, so the logo has something to
+   sit in and the top-right corner of the panel is not dead space. `-1` keeps it
+   under the text; `isolate` on the parent stops it escaping into the page. */
+.hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -46px; right: -34px;
+  width: 190px; height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--cyan) 26%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero h1 { margin: 0; font-size: var(--t-title); line-height: 1.2; }
+
+/* The subtitle was `.muted .small` — 13px, the caption size, for a line that is
+   the product's whole promise. At 15px with a measure it reads as a sentence
+   somebody wrote rather than as a footnote. */
+.hero__sub {
+  margin: var(--s1) 0 0;
+  color: var(--muted);
+  font-size: var(--t-secondary);
+  line-height: 1.45;
+  max-width: 30ch;
+}
 
 /* Loading and error, where the logo IS the heading and there is nothing to
    compete with. Both screens were bare text before. */
@@ -801,3 +1094,16 @@ button.topup-opt {
 }
 .input:focus { outline: 2px solid var(--link); outline-offset: 1px; }
 .input::placeholder { color: var(--muted); }
+
+/* Used by the home screen to take the owned-eSIM block out of the flow while a
+   search is active. Hidden rather than emptied: `renderMine()` rebuilds that
+   block on the session's schedule, and clearing it here would race that. */
+.is-hidden { display: none !important; }
+
+/* The owned-eSIM placeholder. 112px is the MEASURED height of a real
+   `.esim-card` at 390px — head row, metric row, bar, caption and padding — not
+   an estimate. No margin: `#home-mine` is a `.stack` grid and its own 10px gap
+   already spaces these, exactly as it spaces the cards that replace them. A
+   margin here would double it and turn the fix into a smaller version of the
+   shift it exists to remove. */
+.skel--esim { height: 112px; border-radius: var(--radius); }

@@ -159,7 +159,13 @@ async function runOne(engineName, scheme) {
   ok('the real header asset is used, not a redraw',
     /assets\/magic-esim-logo-header\.png$/.test(brand.src) && brand.natural === 185,
     `${brand.natural}px intrinsic`);
-  ok('the logo is a header, not a banner', brand.height > 0 && brand.height <= 44,
+  // The ceiling moved 44 -> 56 on 2026-08-20, when the logo gained a hero panel
+  // to sit in. The rule this guards has not changed and is the reason for the
+  // ceiling at all: a header, never a splash. What changed is that the mark now
+  // has a surface, so 52px reads as composition rather than as a bigger stray
+  // asset — and the panel absorbs the height, so the screen pays about what it
+  // did. 56 leaves room for exactly that and nothing like a banner.
+  ok('the logo is a header, not a banner', brand.height > 0 && brand.height <= 56,
     `${Math.round(brand.height)}px`);
   ok('an image with intrinsic size causes no layout shift',
     (await page.evaluate(() => window.__cls || 0)) < 0.02,
@@ -432,10 +438,42 @@ async function runOne(engineName, scheme) {
   await page.tap('#nav-home');
   await page.waitForTimeout(250);
 
-  // Theme actually applied?
-  const bgc = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  ok(`body background follows the ${scheme} theme`,
-    scheme === 'dark' ? bgc === 'rgb(23, 33, 43)' : bgc !== 'rgb(23, 33, 43)', bgc);
+  // Theme actually applied — and applied to the right ROLES.
+  //
+  // UPDATED 2026-08-20. This used to assert body === `bg_color` (#17212B). That
+  // pinned the mapping the wrong way round: in a grouped list — which this whole
+  // screen is — Telegram paints the GROUND with `secondary_bg_color` and the
+  // CELLS with `bg_color`. Mapped the old way the app rendered white pages with
+  // grey cards punched into them, and in dark left every card a step from the
+  // page with a 1px line to say where it ended.
+  //
+  // The assertion is now the RELATIONSHIP rather than a literal colour: the page
+  // takes the ground, a card takes the cell, and they differ. That survives a
+  // client sending a different palette, which a hardcoded hex does not.
+  const surfaces = await page.evaluate(() => ({
+    body: getComputedStyle(document.body).backgroundColor,
+    card: (() => {
+      const c = document.querySelector('#screen-home .tile, #screen-home .card');
+      return c ? getComputedStyle(c).backgroundColor : null;
+    })(),
+  }));
+  // The relationship holds in BOTH schemes, and it is the part that matters: a
+  // card must be a different surface from the page it sits on, or it is not a
+  // card. In light this run supplies no themeParams, so the stylesheet's own
+  // fallbacks answer — #F7F9FC ground, #FFFFFF card — which were always the
+  // right way round and are what the swap brought Telegram into line with.
+  ok(`a card is a different surface from the page in ${scheme}`,
+    Boolean(surfaces.card) && surfaces.card !== surfaces.body,
+    `card ${surfaces.card} on page ${surfaces.body}`);
+
+  // In dark the client DOES supply a palette, so the exact role mapping can be
+  // pinned: ground = secondary_bg_color (#232E3C), cell = bg_color (#17212B).
+  if (scheme === 'dark') {
+    ok('the page takes Telegram\'s GROUND colour (secondary_bg_color)',
+      surfaces.body === 'rgb(35, 46, 60)', surfaces.body);
+    ok('and a card takes the CELL colour (bg_color)',
+      surfaces.card === 'rgb(23, 33, 43)', surfaces.card);
+  }
 
   // Two known non-app sources are filtered, and nothing else:
   //   - frame-ancestors in a <meta> CSP is ignored by every engine, always logs;

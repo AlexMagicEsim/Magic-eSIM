@@ -63,17 +63,39 @@
 <main class="app-main">
   <!-- 1. Home ---------------------------------------------------------- -->
   <section class="screen" id="screen-home" aria-label="Каталог">
-    <!-- The real header asset the site itself uses, at a size that adds ~36px
-         to the screen rather than a banner. width/height are set so the box is
-         reserved before the bytes arrive and nothing below it moves. -->
-    <img class="brand brand--sm" src="../assets/magic-esim-logo-header.png"
-         alt="Magic eSIM" width="185" height="140" fetchpriority="high">
-    <h1>Интернет в поездке</h1>
-    <p class="muted small">eSIM без роуминга. Выберите страну.</p>
+    <!-- The hero is one composition rather than three stacked elements.
+         Before this, the logo sat alone at the top-left of a white page and
+         read as a stray asset above unrelated text. The panel is what makes
+         it a header: the mark, the line and the promise share one surface.
+         Its background is a very light brand wash — see .hero in mini.css —
+         and NOT an image: a photograph here would cost bytes on a hotel
+         connection and look wrong inside Telegram's own chrome. -->
+    <div class="hero">
+      <!-- The real header asset the site itself uses. width/height are set so
+           the box is reserved before the bytes arrive and nothing below it
+           moves. -->
+      <img class="brand brand--sm" src="../assets/magic-esim-logo-header.png"
+           alt="Magic eSIM" width="185" height="140" fetchpriority="high">
+      <h1>Интернет в поездке</h1>
+      <p class="hero__sub">eSIM без роуминга. Выберите страну.</p>
+    </div>
 
     <div class="search">
-      <input id="search" type="search" inputmode="search" autocomplete="off"
-             placeholder="Поиск страны" aria-label="Поиск страны">
+      <div class="search__row">
+        <!-- The placeholder asks the customer's question, not ours. The
+             accessible name stays "Поиск страны" — that is what the control
+             DOES, and it is what a screen reader should say. -->
+        <input id="search" type="search" inputmode="search" autocomplete="off"
+               placeholder="Куда едете?" aria-label="Поиск страны">
+        <!-- After the input, so `input:focus + .search__icon` can reach it.
+             Decorative: the field already has an accessible name, and a second
+             announcement of "search" would only repeat it. -->
+        <svg class="search__icon" viewBox="0 0 24 24" width="20" height="20"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path>
+        </svg>
+      </div>
     </div>
 
     <div id="home-mine" class="stack"></div>

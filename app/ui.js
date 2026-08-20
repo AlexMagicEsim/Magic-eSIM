@@ -432,13 +432,58 @@
    * Needs a session, so it arrives after the catalogue and never blocks it.
    * Failure is quiet by design: no session simply means no block.
    */
+  /**
+   * How many owned-eSIM cards to reserve room for before the session answers.
+   *
+   * THE PROBLEM. `#home-mine` sits above the catalogue, and the catalogue paints
+   * first — it is public and needs no session, which is a deliberate and good
+   * decision. The session then lands seconds later (twelve, on a cold gateway)
+   * and injects the owned block ABOVE the shop window. Measured at 390px: the
+   * first destination tile jumped from y=285 to y=444 with one eSIM, and to
+   * y=742 with three. The customer reaches for Turkey and Turkey moves.
+   *
+   * WHAT IS STORED: one integer, capped at 2. Not an id, not a country, not a
+   * status — nothing about any eSIM, only how tall a hole to leave. It is read
+   * exactly once, to size a placeholder, and it gates nothing: ownership,
+   * visibility and every list still come from the server on this very request.
+   * A wrong count costs a smaller shift in one direction or the other, which is
+   * strictly better than the whole block arriving at once.
+   */
+  const MINE_SLOTS_KEY = 'mine-slots';
+  // THREE, because that is what `renderMine()` actually draws — it slices to 3.
+  // Reserving two left the third card to arrive as a 175px jump, which is the
+  // same defect in miniature. A customer who owns three eSIMs is going to see
+  // three cards; holding the space for them is honest, not wasteful.
+  const MINE_SLOTS_MAX = 3;
+
+  function reserveMineSpace() {
+    const mine = $('#home-mine');
+    // Never over a live search — the block is hidden there on purpose.
+    if (state.query || state.esims.length) return;
+
+    const cached = cache.read(MINE_SLOTS_KEY);
+    const slots = Math.min(MINE_SLOTS_MAX, Math.max(0, Number(cached && cached.value) || 0));
+    if (!slots) return;
+
+    clear(mine);
+    mine.appendChild(el('h2', { class: 'section', text: 'Мои eSIM' }));
+    for (let i = 0; i < slots; i += 1) mine.appendChild(el('div', { class: 'skel skel--esim' }));
+  }
+
   async function renderMine() {
     const mine = $('#home-mine');
-    if (!state.ready) return;
+    if (!state.ready) {
+      // No session, so no owned block is coming. Anything reserved for one must
+      // go, or the placeholder becomes a permanent grey box.
+      clear(mine);
+
+      return;
+    }
 
     try {
       const own = await api.esims();
       state.esims = own.items || [];
+      cache.write(MINE_SLOTS_KEY, Math.min(MINE_SLOTS_MAX, state.esims.length));
     } catch {
       clear(mine);
 
@@ -446,9 +491,19 @@
     }
 
     clear(mine);
+    // The session can land mid-search — it takes seconds on a cold gateway —
+    // and this block must not reappear over the results when it does. The query
+    // is the authority, read here rather than remembered from when the request
+    // went out.
+    mine.classList.toggle('is-hidden', Boolean(state.query));
     if (!state.esims.length) return;
 
-    mine.appendChild(el('h2', { text: 'Мои eSIM' }));
+    // `.section`, the same heading idiom «Популярные направления» uses eight
+    // pixels below it. It was a bare `h2` — 17px, 650, full ink — against the
+    // catalogue's 15px, 600, muted, so one screen carried two typographic
+    // systems for the same kind of thing. The block's position already makes it
+    // the first thing read; the heading does not also have to shout.
+    mine.appendChild(el('h2', { class: 'section', text: 'Мои eSIM' }));
     for (const e of state.esims.slice(0, 3)) mine.appendChild(esimCard(e));
     if (state.esims.length > 3) {
       mine.appendChild(el('button', {
@@ -463,23 +518,7 @@
     await renderMine();
   }
 
-  /** One destination row: flag, name, how many tariffs, cheapest price. */
-  function destinationRow(g) {
-    return el('button', { class: 'card card--row', onclick: () => openCountry(g) }, [
-      el('span', { class: 'card__flag', text: g.flag || '' }),
-      el('span', { class: 'card__body' }, [
-        el('span', { class: 'card__title', text: g.country }),
-        el('span', {
-          class: 'card__meta',
-          text: g.regional
-            ? `${C.countryWord(g.coverage.length)} · ${C.tariffWord(g.items.length)}`
-            : C.tariffWord(g.items.length),
-        }),
-      ]),
-      el('span', { class: 'card__price tabular', text: g.from === null ? '' : `от ${C.money(g.from)}` }),
-      el('span', { class: 'card__chevron', 'aria-hidden': 'true', text: '›' }),
-    ]);
-  }
+
 
   /**
    * A popular destination, as a tile.
@@ -501,7 +540,15 @@
         onerror: (e) => { e.target.remove(); },
       }),
       el('span', { class: 'tile__name', text: g.country }),
-      el('span', { class: 'tile__from tabular', text: g.from === null ? '' : `от ${C.money(g.from)}` }),
+      // «от» stays muted and small while the number takes reading weight: it is
+      // a qualifier on the price, not part of it. Same string, same order, same
+      // C.money() — only the emphasis moved.
+      g.from === null
+        ? el('span', { class: 'tile__from' })
+        : el('span', { class: 'tile__from tabular' }, [
+            el('span', { class: 'tile__prefix', text: 'от ' }),
+            el('span', { text: C.money(g.from) }),
+          ]),
     ]);
   }
 
@@ -541,6 +588,22 @@
     clear(list);
 
     const q = state.query;
+
+    /*
+     * While searching, the owned-eSIM block gets out of the way.
+     *
+     * `#home-mine` sits ABOVE `#home-countries` and this function only ever
+     * cleared the latter, so typing «Таиланд» left the heading plus up to three
+     * cards — measured at 172px — wedged between the field and the answer, and
+     * the first match landed at y=456 on an 844px screen. The customer had to
+     * scroll past what they already own to see what they were looking for.
+     *
+     * Hidden, not emptied: the block is rebuilt by `renderMine()` on its own
+     * schedule, and clearing it here would race that. `clearSearch()` and every
+     * other route back to an empty query comes through this function, so there
+     * is one place that decides.
+     */
+    $('#home-mine').classList.toggle('is-hidden', Boolean(q));
     const countries = state.countries || [];
     const regions = state.regions || [];
 
@@ -2215,7 +2278,7 @@
     }));
   }
 
-  function statusBadge(status) {
+  function statusBadge(status, { small = false } = {}) {
     // Never the raw enum: an unmapped status is our gap, not a word a customer
     // should have to read. RAW CODES = 0 covers status vocabularies too.
     const text = C.ESIM_STATUS_TEXT[status] || 'Статус уточняется';
@@ -2223,7 +2286,33 @@
       : (status === 'depleted' || status === 'expired' || status === 'failed' ? 'badge--bad'
         : (status === 'suspended' ? 'badge--warn' : ''));
 
-    return el('span', { class: `badge ${tone}`.trim(), text });
+    // `small` is an OUTLINE variant, not just fewer pixels. On a card the
+    // destination has to win, and a filled pill beside a country name reads as
+    // the more important of the two whatever size it is. The words and the
+    // colour are unchanged, so nothing is lost for anyone reading it.
+    return el('span', { class: `badge ${tone} ${small ? 'badge--sm' : ''}`.trim().replace(/\s+/g, ' '), text });
+  }
+
+  /**
+   * The bar alone — no words.
+   *
+   * Split out of `gauge()` so the card can put the numbers where its own
+   * hierarchy wants them instead of taking the stacked block the detail screen
+   * needs. One function still decides what a fraction LOOKS like, so the two
+   * surfaces cannot drift into disagreeing about what "low" is.
+   *
+   * Unknown keeps the hatching. It must not read as empty, and hatching is a
+   * second signal beside the word — §16: colour is never the only one.
+   */
+  function gaugeBar(esim) {
+    const fraction = C.remainingFraction(esim);
+    if (fraction === null) return el('div', { class: 'gauge gauge--unknown' });
+
+    const cls = fraction === 0 ? 'gauge__fill--empty' : (fraction < 0.15 ? 'gauge__fill--low' : '');
+
+    return el('div', { class: 'gauge' }, [
+      el('div', { class: `gauge__fill ${cls}`.trim(), style: `width:${Math.round(fraction * 100)}%` }),
+    ]);
   }
 
   function gauge(esim) {
@@ -2235,20 +2324,15 @@
     const when = el('div', { class: 'small muted', text: C.syncedAgo(esim && esim.last_usage_sync_at) });
 
     if (fraction === null) {
-      // Unknown, and it must not look like empty. The hatched bar plus the word
-      // is the whole point.
       return el('div', { class: 'stack', style: 'gap:4px' }, [
-        el('div', { class: 'gauge gauge--unknown' }),
+        gaugeBar(esim),
         el('div', { class: 'small muted', text: 'Остаток неизвестен — обновите данные' }),
         when,
       ]);
     }
-    const cls = fraction === 0 ? 'gauge__fill--empty' : (fraction < 0.15 ? 'gauge__fill--low' : '');
 
     return el('div', { class: 'stack', style: 'gap:4px' }, [
-      el('div', { class: 'gauge' }, [
-        el('div', { class: `gauge__fill ${cls}`.trim(), style: `width:${Math.round(fraction * 100)}%` }),
-      ]),
+      gaugeBar(esim),
       el('div', { class: 'small muted tabular', text: `${esim.remaining_gb} из ${esim.total_gb} ГБ` }),
       when,
     ]);
@@ -2277,28 +2361,73 @@
   function esimCard(e) {
     const days = C.daysLeft(e.expires_at);
 
+    const fraction = C.remainingFraction(e);
+
+    /*
+     * THE HIERARCHY, which is what changed here.
+     *
+     * The card used to put the destination and a filled green «Готова к
+     * установке» pill side by side at the same weight, so the loudest thing on
+     * a card about Turkey was a piece of workflow state. The days remaining sat
+     * as grey caption under the name, the balance was a caption under the bar,
+     * and an unknown balance spent two full lines saying so twice.
+     *
+     * Now: the destination is the heading, the two numbers a traveller actually
+     * opens this for — data left and days left — are the second row at reading
+     * size, and the status is a quiet outline pill that says the same words
+     * without shouting them.
+     *
+     * Order of the two numbers is deliberate: data first, because that is the
+     * one that runs out unexpectedly. Days are predictable.
+     */
     return el('button', {
       // §9 S8: spent eSIMs stay in the list — a customer looks for what they
       // bought, not only for what still works — but they are dimmed so the
       // live one is found without reading. Never dimming alone: `statusBadge`
       // carries the same fact in words (§16 — colour is never the only signal).
-      class: C.isSpentEsim(e) ? 'card stack card--spent' : 'card stack',
+      class: C.isSpentEsim(e) ? 'card esim-card card--spent' : 'card esim-card',
       onclick: () => openEsim(e.id),
     }, [
-      el('div', { class: 'row row--between' }, [
-        el('div', { class: 'row' }, [
+      el('div', { class: 'row row--between esim-card__head' }, [
+        el('span', { class: 'row esim-card__id' }, [
           el('span', { class: 'card__flag', text: C.flagFor(e.country_code) }),
-          el('span', { class: 'card__body' }, [
-            el('span', { class: 'card__title', text: ownedLabel(e) }),
-            el('span', {
-              class: 'card__meta',
-              text: days === null ? '' : `${days} ${C.plural(days, 'день', 'дня', 'дней')} осталось`,
-            }),
-          ]),
+          el('span', { class: 'esim-card__name', text: ownedLabel(e) }),
         ]),
-        statusBadge(e.status),
+        statusBadge(e.status, { small: true }),
       ]),
-      gauge(e),
+
+      el('div', { class: 'row row--between esim-card__metrics' }, [
+        fraction === null
+          // Said ONCE, and the hatched bar under it says it a second way.
+          ? el('span', { class: 'esim-card__unknown', text: 'Остаток неизвестен' })
+          : el('span', { class: 'esim-card__metric' }, [
+              el('span', { class: 'esim-card__big tabular', text: `${e.remaining_gb} ГБ` }),
+              el('span', { class: 'esim-card__of tabular', text: `из ${e.total_gb}` }),
+            ]),
+        days === null ? null : el('span', { class: 'esim-card__metric esim-card__metric--end' }, [
+          el('span', { class: 'esim-card__big tabular', text: String(days) }),
+          el('span', { class: 'esim-card__of', text: C.plural(days, 'день', 'дня', 'дней') }),
+        ]),
+      ]),
+
+      gaugeBar(e),
+
+      /*
+       * The timestamp §9 S9 requires beside any relayed balance — one caption
+       * line at the foot rather than a second paragraph in the middle.
+       *
+       * SUPPRESSED in exactly one case: no balance AND no timestamp. There
+       * «Остаток неизвестен» and «данные ещё не запрашивались» are the same
+       * sentence written twice, and they were the two tallest lines on the home
+       * screen. The rule the timestamp exists for is about a NUMBER we relayed
+       * — with no number there is nothing for it to qualify.
+       *
+       * Every other combination keeps it, including a known balance with no
+       * timestamp, which is precisely the case the rule was written for.
+       */
+      (fraction === null && !(e && e.last_usage_sync_at))
+        ? null
+        : el('span', { class: 'esim-card__synced', text: C.syncedAgo(e && e.last_usage_sync_at) }),
     ]);
   }
 
@@ -2627,6 +2756,10 @@
     // gateway meant twelve seconds of "Подключаемся…" in front of a price list
     // that needed no session at all.
     show('home', { push: false });
+    // Before the catalogue paints, not after: the hole has to exist by the time
+    // the tiles land, or reserving it becomes a second shift instead of the
+    // cure for the first.
+    reserveMineSpace();
     const catalogue = renderCatalogue();
 
     const session = authenticate().then(
