@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-19T13:12:46.273Z",
+  "generated_at": "2026-08-20T07:09:22.758Z",
   "source": "production-public-api",
   "package_count": 974,
   "packages": [
@@ -25727,7 +25727,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Mobitel",
+          "operator": "Hutch",
           "type": "4G"
         }
       ],
