@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-20T07:09:22.758Z",
+  "generated_at": "2026-08-20T09:52:23.127Z",
   "source": "production-public-api",
   "package_count": 974,
   "packages": [
@@ -8280,6 +8280,10 @@
         {
           "operator": "Orange",
           "type": "4G"
+        },
+        {
+          "operator": "Malitel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -10204,7 +10208,7 @@
       "price": 8750,
       "networks": [
         {
-          "operator": "Mobility",
+          "operator": "One",
           "type": "4G"
         }
       ],
@@ -23412,7 +23416,7 @@
       "price": 4600,
       "networks": [
         {
-          "operator": "Mobility",
+          "operator": "One",
           "type": "4G"
         }
       ],
@@ -29113,7 +29117,7 @@
       "price": 16000,
       "networks": [
         {
-          "operator": "Mobility",
+          "operator": "One",
           "type": "4G"
         }
       ],
@@ -31151,7 +31155,7 @@
       "price": 2900,
       "networks": [
         {
-          "operator": "Mobility",
+          "operator": "One",
           "type": "4G"
         }
       ],
