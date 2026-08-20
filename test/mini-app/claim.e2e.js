@@ -16,7 +16,8 @@ let bad=0; const ok=(l,c,d='')=>{if(!c)bad++;console.log(`   ${c?'ok  ':'FAIL'} 
 function mock(cfg){
   window.__requests=[];
   window.Telegram={WebApp:{initData:'user=%7B%22id%22%3A1%7D&auth_date=1&hash=x',
-    initDataUnsafe:{},ready(){},expand(){},close(){},colorScheme:cfg.scheme||'light',
+    initDataUnsafe:cfg.startParam?{start_param:cfg.startParam}:{},
+    ready(){},expand(){},close(){},colorScheme:cfg.scheme||'light',
     themeParams:cfg.scheme==='dark'?{bg_color:'#17212b'}:{},
     setBackgroundColor(){},setHeaderColor(){},onEvent(){},
     BackButton:{show(){},hide(){},onClick(){},offClick(){}},
@@ -30,7 +31,9 @@ function mock(cfg){
     if(u.includes('/tma/session'))return j({session_token:'m',expires_in:1800});
     if(u.includes('/retail/packages'))return j({status:'success',count:1,currency:'RUB',data:PKG});
     if(u.includes('/identity/email/request'))
-      return j({status:'sent',message:'Если этот адрес использовался при покупке, мы отправили на него код.'});
+      return cfg.alreadyVerified
+        ? j({status:'already_verified',message:'Этот адрес уже подтверждён. Мы обновили список ваших покупок.'})
+        : j({status:'sent',message:'Если этот адрес использовался при покупке, мы отправили на него код.'});
     if(u.includes('/identity/email/confirm')){
       const step=cfg.confirm||{ok:true};
       if(step.fail)return j({error:step.fail,message:step.message,attempts_left:step.attempts_left},step.status||400);
@@ -161,6 +164,70 @@ for (const eng of ['webkit','chromium']) {
       ok('the address goes in the POST body, never in the URL',
         reqs.length===1&&reqs[0].body.email==='buyer@example.com'&&!reqs[0].url.includes('buyer'),
         reqs[0]&&reqs[0].url.split('/api')[1]);
+      await ctx.close();
+    }
+
+    // --- an address already proven does NOT strand them on the code screen
+    //
+    // The dead end this replaced: the server denied the request (nothing left
+    // to prove), answered "мы отправили код", sent none, and the app painted
+    // the code screen. The customer waited for a mail that was never coming.
+    {
+      const ctx=await br.newContext({...pw.devices['iPhone 13'],colorScheme:scheme});
+      await ctx.route('https://telegram.org/**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
+      await ctx.addInitScript(mock,{scheme,esims:[],alreadyVerified:true});
+      const p=await ctx.newPage(); await p.goto(base); await p.waitForTimeout(2000);
+      await openClaim(p);
+      await p.fill('#claim-email','buyer@example.com');
+      await p.getByRole('button',{name:/Отправить код/}).click();
+      await p.waitForTimeout(500);
+
+      const title=await p.$eval('#claim-title',n=>n.textContent);
+      ok('an already-proven address never asks for a code', title==='Адрес уже подтверждён', title);
+      ok('there is no code field to wait at', (await p.$('#claim-code'))===null);
+
+      const body=await p.$eval('#claim-body',n=>n.innerText);
+      ok('it says the list was refreshed', /обновили список/i.test(body), body.split('\n')[0]);
+      ok('and offers the way on', /Открыть «Мои eSIM»/.test(body));
+
+      // The list is refreshed BEFORE the screen paints, so tapping through
+      // lands on something already correct.
+      const esimCalls=await p.evaluate(()=>window.__requests.filter(r=>/\/tma\/esims(\?|$)/.test(r.url)).length);
+      ok('the eSIM list was re-read before showing the result', esimCalls>=2, `${esimCalls} reads`);
+      await ctx.close();
+    }
+
+    // --- arriving from the purchase email --------------------------------
+    //
+    // `startapp=e_<ref>` is a HINT about which screen to open. It proves
+    // nothing, and the two branches below are the whole of what it can do.
+    {
+      // Owner: the eSIM is already theirs, so land on the list.
+      const ctx=await br.newContext({...pw.devices['iPhone 13'],colorScheme:scheme});
+      await ctx.route('https://telegram.org/**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
+      await ctx.addInitScript(mock,{scheme,startParam:'e_abc123',esims:[
+        {id:'e1',status:'ready',package_name:'Turkey 3GB 15Days',country_code:'TR',data_gb:3,validity_days:15}]});
+      const p=await ctx.newPage(); await p.goto(base); await p.waitForTimeout(2500);
+
+      const screen=(await p.$$eval('.screen[data-active]',n=>n.map(x=>x.id)))[0];
+      ok('the email button lands on «Мои eSIM», not the catalogue', screen==='screen-esims', screen);
+      await ctx.close();
+    }
+    {
+      // Stranger, or an owner who has not proven the mailbox: the list is
+      // empty, so open the one thing that can help — proving it properly.
+      const ctx=await br.newContext({...pw.devices['iPhone 13'],colorScheme:scheme});
+      await ctx.route('https://telegram.org/**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
+      await ctx.addInitScript(mock,{scheme,startParam:'e_abc123',esims:[]});
+      const p=await ctx.newPage(); await p.goto(base); await p.waitForTimeout(2500);
+
+      const screen=(await p.$$eval('.screen[data-active]',n=>n.map(x=>x.id)))[0];
+      ok('nothing owned -> the claim screen, not a dead end', screen==='screen-claim', screen);
+
+      // And the arrival granted nothing: no eSIM appeared, and the app asked
+      // for no ownership beyond the session it already had.
+      const claimed=await p.evaluate(()=>window.__requests.some(r=>/link|claim|attach|own/i.test(r.url)));
+      ok('the deep link asserts no ownership of its own', !claimed);
       await ctx.close();
     }
     await br.close();

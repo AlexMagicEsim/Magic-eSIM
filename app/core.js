@@ -799,9 +799,16 @@ function createApi(deps = {}) {
   /* ---- S13: purchases made on the website ---- */
 
   /**
-   * Ask for a code. The answer is the SAME whatever happened — sent, rate
-   * limited, malformed, already someone else's — so this function has nothing
-   * to branch on and deliberately offers none.
+   * Ask for a code.
+   *
+   * The answer is the same whatever happened to somebody ELSE'S address — sent,
+   * rate limited, malformed, already another customer's — so there is nothing
+   * to branch on there and this function offers none.
+   *
+   * The ONE exception is `status: 'already_verified'`: an address this customer
+   * has themselves proven. That is a fact about their own account, not an
+   * oracle, and it has to be distinguishable or the screen sends them to wait
+   * for a code the server deliberately never sent.
    */
   const requestEmailCode = (email) => request('/api/v1/tma/identity/email/request', {
     method: 'POST', body: { email },

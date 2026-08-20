@@ -1585,16 +1585,43 @@
    * customer. It cannot assert payment, cannot name another customer's order,
    * and is discarded when it matches nothing.
    */
-  function launchOrderRef() {
-    let param = '';
+  function startParam() {
     try {
-      param = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || '';
-    } catch { param = ''; }
+      return String((tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || '');
+    } catch { return ''; }
+  }
 
-    const m = /^o_([A-Za-z0-9_-]{4,16})$/.exec(String(param));
+  function launchOrderRef() {
+    const m = /^o_([A-Za-z0-9_-]{4,16})$/.exec(startParam());
     if (m) return m[1];
 
     return readPendingOrder();
+  }
+
+  /**
+   * `startapp=e_<ref>` — «this person tapped the button in their eSIM email».
+   *
+   * The same kind of thing `o_` is and nothing more: six characters of a PUBLIC
+   * order token, which the server has to agree belong to this customer before
+   * they mean anything. It cannot assert a purchase, cannot name somebody
+   * else's eSIM, and is discarded when it matches nothing this session owns.
+   *
+   * `startapp=esims` is the same arrival with no usable ref — the email had no
+   * order token to shorten — and lands on the list rather than nowhere.
+   *
+   * WHY IT IS SAFE TO ACT ON AT ALL: acting on it means choosing a SCREEN. The
+   * eSIM behind that screen still comes from `GET /tma/esims`, which is scoped
+   * to the customer id of a verified Telegram session. Forward the mail to
+   * anybody and the link opens their app, their own list, and the offer to
+   * prove a mailbox they do not have.
+   */
+  function launchFromEmail() {
+    const param = startParam();
+    if (param === 'esims') return { fromEmail: true, ref: null };
+
+    const m = /^e_([A-Za-z0-9_-]{4,16})$/.exec(param);
+
+    return m ? { fromEmail: true, ref: m[1] } : null;
   }
 
   /* ------------------------------------------------------------------ *
@@ -2014,13 +2041,52 @@
       if (!/.+@.+\..+/.test(email)) { paintClaimEmail(email, 'Похоже, в адресе опечатка.'); return; }
 
       setBusy(send, true, 'Отправляем…');
+      let out = null;
       try {
-        await api.requestEmailCode(email);
+        out = await api.requestEmailCode(email);
       } catch { /* the server answers the same way regardless; move on */ }
       setBusy(send, false, 'Отправить код');
+
+      // Already theirs. The server sent no code — it re-checked their purchases
+      // instead — so sending them to the code screen would be a wait with no
+      // end. Show what actually happened and refresh the list behind it.
+      if (out && out.status === 'already_verified') {
+        await refreshEsimsQuietly();
+        paintClaimAlreadyVerified(email);
+        return;
+      }
+
       paintClaimCode(email);
     });
     box.appendChild(send);
+  }
+
+  /**
+   * The address was already proven by this customer.
+   *
+   * No code, no second proof, no dead end. The server re-ran the link when it
+   * answered, so by the time this paints, «Мои eSIM» already holds anything
+   * that address covers — which is why the list is refreshed BEFORE this shows
+   * rather than after the customer taps through to it.
+   */
+  function paintClaimAlreadyVerified(email) {
+    const box = claimBox();
+    clear(box);
+    $('#claim-title').textContent = 'Адрес уже подтверждён';
+
+    box.appendChild(claimNotice('Этот адрес уже подтверждён. Мы обновили список ваших покупок.'));
+    box.appendChild(el('p', { class: 'small muted', text: email }));
+    box.appendChild(el('p', { class: 'small muted', text:
+      'Покупки с этого адреса добавляются сами — подтверждать его заново не нужно.' }));
+
+    box.appendChild(el('button', {
+      class: 'btn btn--wide', text: 'Открыть «Мои eSIM»',
+      onclick: () => { show('esims'); renderEsims(); },
+    }));
+    box.appendChild(el('button', {
+      class: 'btn btn--quiet', text: 'Указать другой адрес',
+      onclick: () => paintClaimEmail(''),
+    }));
   }
 
   function paintClaimCode(email, error = null, attemptsLeft = null) {
@@ -2102,9 +2168,13 @@
       box.appendChild(claimNotice('Эти покупки уже были добавлены.'));
     } else {
       // §9 S13: "успех без покупок" is not an error. The address is proven, and
-      // future purchases from it attach by themselves.
+      // future purchases from it now genuinely do attach by themselves — the
+      // server reconciles at fulfilment and again on every «Мои eSIM» read.
+      // This sentence used to be a promise the code did not keep.
       box.appendChild(claimNotice(
         'Адрес подтверждён. Покупок с него не нашлось — возможно, вы покупали с другого адреса.'));
+      box.appendChild(el('p', { class: 'small muted', text:
+        'Новые покупки с этого адреса появятся здесь сами.' }));
     }
 
     box.appendChild(el('button', {
@@ -2557,6 +2627,25 @@
     if (ref) {
       clearPendingOrder();
       await showOrderStatus(ref);
+
+      return;
+    }
+
+    // Arrived from the eSIM email. Land them where they were promised — their
+    // eSIMs — instead of on the catalogue with the thing they just bought
+    // nowhere in sight.
+    //
+    // `renderEsims()` reconciles server-side before it answers, so a purchase
+    // covered by an address they have already proven is in the list by the time
+    // it paints. If it is still empty, the reason is that nobody has proven the
+    // mailbox yet, and the one useful next step is the one we open: the claim
+    // screen. That screen proves ownership properly, with a code to the
+    // mailbox — the link itself proved nothing and never could.
+    const email = launchFromEmail();
+    if (email) {
+      show('esims');
+      await renderEsims();
+      if (!state.esims.length) openClaim();
 
       return;
     }
