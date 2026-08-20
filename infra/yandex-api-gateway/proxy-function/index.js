@@ -272,7 +272,26 @@ const ROUTES = [
   { method: 'GET', pattern: '/api/v1/tma/me/orders/active' },
   { method: 'GET', pattern: '/api/v1/tma/orders/{token}/status' },
   { method: 'GET', pattern: '/api/v1/tma/esims' },
+
+  // The eSIMs the customer has put aside.
+  //
+  // BEFORE '/api/v1/tma/esims/{token}' for the same reason the backend router
+  // registers it first: `hidden` is a literal segment and `{token}` matches
+  // anything, so behind it this would be read as an eSIM whose id is the word
+  // "hidden". matchRoute takes the first match, so order is the control.
+  { method: 'GET', pattern: '/api/v1/tma/esims/hidden' },
+
   { method: 'GET', pattern: '/api/v1/tma/esims/{token}' },
+
+  // Display settings on an eSIM the customer already owns: their own name for
+  // it, and whether it appears in their main list.
+  //
+  // NOTHING IS DELETED by either, which is why neither is a DELETE — and the
+  // gateway forwards only GET and POST in any case. Both are write routes on a
+  // resource the backend proves ownership of inside the statement that writes,
+  // so an id belonging to somebody else answers the same 404 a missing one does.
+  { method: 'POST', pattern: '/api/v1/tma/esims/{token}/name' },
+  { method: 'POST', pattern: '/api/v1/tma/esims/{token}/visibility' },
   // Top-up discovery — READ ONLY, added 2026-08-19.
   //
   // What a customer could add to an eSIM they already own. Deliberately the

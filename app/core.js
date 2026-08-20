@@ -824,6 +824,24 @@ function createApi(deps = {}) {
   });
   const orderStatus = (token) => request(`/api/v1/tma/orders/${encodeURIComponent(token)}/status`);
   const esims = () => request('/api/v1/tma/esims');
+  const hiddenEsims = () => request('/api/v1/tma/esims/hidden');
+
+  /**
+   * The customer's own name for their own eSIM, and whether it shows in the
+   * main list. Both are POST because the gateway forwards only GET and POST —
+   * and DELETE would be the wrong verb for `visibility` in any case: nothing is
+   * deleted by either call.
+   *
+   * An empty `name` clears the custom one. The server decides that, not this
+   * function: it sends what the customer typed.
+   */
+  const renameEsim = (id, name) => request(
+    `/api/v1/tma/esims/${encodeURIComponent(id)}/name`, { method: 'POST', body: { name } }
+  );
+  const setEsimVisibility = (id, hidden) => request(
+    `/api/v1/tma/esims/${encodeURIComponent(id)}/visibility`,
+    { method: 'POST', body: { hidden: Boolean(hidden) } }
+  );
   const esim = (id) => request(`/api/v1/tma/esims/${encodeURIComponent(id)}`);
 
   // POST, but it creates nothing — see the route comment. Retryable as a read is
@@ -871,6 +889,7 @@ function createApi(deps = {}) {
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
+    hiddenEsims, renameEsim, setEsimVisibility,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },

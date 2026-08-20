@@ -171,6 +171,7 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'GET /api/v1/public/retail-orders/{token}/status',
     'GET /api/v1/retail/packages',
     'GET /api/v1/tma/esims',
+    'GET /api/v1/tma/esims/hidden',
     'GET /api/v1/tma/esims/{token}',
     'GET /api/v1/tma/esims/{token}/topups',
     'GET /api/v1/tma/me',
@@ -184,8 +185,10 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'POST /api/v1/public/retail-orders/{token}/pay',
     'POST /api/v1/retail/promo/quote',
     'POST /api/v1/tma/esims/{token}/activation',
+    'POST /api/v1/tma/esims/{token}/name',
     'POST /api/v1/tma/esims/{token}/topups/quote',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
+    'POST /api/v1/tma/esims/{token}/visibility',
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
     'POST /api/v1/tma/identity/email/revoke',
@@ -1209,13 +1212,16 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the eight rea
   // survive untouched, B-6 adds the two Mini App session routes, B-7 adds six
   // reads (GET only) and then three writes (POST only), top-up discovery adds a
   // SEVENTH read on 2026-08-19, S13 adds three more writes (POST only) the same
-  // day, and the top-up PURCHASE wave adds two writes and an EIGHTH read on
-  // 2026-08-19. Nothing else rides along.
-  assert.equal(ROUTES.length, 27);
+  // day, the top-up PURCHASE wave adds two writes and an EIGHTH read on
+  // 2026-08-19, and eSIM display settings add a NINTH read plus two writes on
+  // 2026-08-20 — `name` and `visibility`, neither of which deletes anything.
+  // Nothing else rides along.
+  assert.equal(ROUTES.length, 30);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
     'GET /api/v1/tma/esims',
+    'GET /api/v1/tma/esims/hidden',
     'GET /api/v1/tma/esims/{token}',
     'GET /api/v1/tma/esims/{token}/topups',
     'GET /api/v1/tma/me',
@@ -1224,8 +1230,10 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the eight rea
     'GET /api/v1/tma/orders/{token}/status',
     'GET /api/v1/tma/topups/{token}/status',
     'POST /api/v1/tma/esims/{token}/activation',
+    'POST /api/v1/tma/esims/{token}/name',
     'POST /api/v1/tma/esims/{token}/topups/quote',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
+    'POST /api/v1/tma/esims/{token}/visibility',
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
     'POST /api/v1/tma/identity/email/revoke',

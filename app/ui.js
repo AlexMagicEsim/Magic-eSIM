@@ -62,6 +62,18 @@
    * is how it gets developed and how a broken Telegram build gets diagnosed.
    * ------------------------------------------------------------------ */
 
+  /**
+   * Diagnostics for us, never for the customer.
+   *
+   * The console is where a state worth knowing goes when it is not worth a
+   * screen — "the catalogue came from the snapshot", say. It is behind a guard
+   * because a Mini App has no devtools on a phone and this must never be able
+   * to throw its way into the render path.
+   */
+  const log = (...args) => {
+    try { if (console && console.info) console.info('[mesim]', ...args); } catch { /* */ }
+  };
+
   const haptic = (style) => {
     // Used only on outcomes a customer would want confirmed — a purchase
     // starting, a copy succeeding. Buzzing on navigation is noise.
@@ -357,13 +369,32 @@
     let painted = false;
 
     const notice = $('#home-notice');
-    const paint = (payload, { stale, retry } = {}) => {
+    const paint = (payload, { stale, retry } = {}) => {   // eslint-disable-line no-unused-vars
       adoptCatalogue(payload);
       clear(notice);
-      // Blueprint §9 S1: a snapshot may be shown, but never as if it were fresh.
-      // The notice lives outside #home-countries because paintCountryList()
-      // clears that container on every keystroke and would erase it.
-      if (stale) notice.appendChild(staleNotice(retry || renderCatalogue));
+
+      /*
+       * The staleness is TRACKED and not SHOWN — on this screen only.
+       *
+       * The mechanism is untouched: the snapshot still races the network, a
+       * live answer still overwrites it, an empty live answer is still treated
+       * as an incident, the cache is still the last resort, and every one of
+       * those paths still runs. What is gone is the card that told the customer
+       * about it.
+       *
+       * The reasoning: on the shop window the distinction does not change what
+       * anyone can do. Prices from the snapshot are the prices; the live answer
+       * replaces them by itself, seconds later, with no tap. The card asked the
+       * customer to think about our network conditions and offered a «Обновить»
+       * that the page was already performing.
+       *
+       * WHERE IT STAYS: «Мои eSIM» (`renderEsims`). There the number on screen
+       * is a balance, staleness is a fact about THEIR data, and §9 S1's rule —
+       * a snapshot may be shown but never as if it were fresh — has real
+       * consequences. A catalogue price and a remaining-data figure are not the
+       * same kind of claim.
+       */
+      if (stale) log('catalogue: painted from snapshot/cache');
       paintCountryList();
       painted = true;
     };
@@ -2072,6 +2103,11 @@
         el('p', { class: 'small muted', text: 'Покупали на сайте? Подключите те покупки сюда.' }),
         el('button', { class: 'btn btn--ghost', text: 'Добавить покупки с сайта', onclick: openClaim }),
       ]));
+      // Somebody who hid ALL of their eSIMs has an empty main list and is
+      // exactly the person who needs the hidden section most. Returning here
+      // without it would tell them they own nothing.
+      await renderHiddenEsims(list);
+
       return;
     }
     for (const e of state.esims) list.appendChild(esimCard(e));
@@ -2083,6 +2119,32 @@
       text: 'Добавить покупки с сайта',
       onclick: openClaim,
     }));
+
+    await renderHiddenEsims(list);
+  }
+
+  /**
+   * The eSIMs the customer put aside.
+   *
+   * DRAWN ONLY WHEN THERE ARE ANY. An empty «Скрытые eSIM» heading on every
+   * visit would be a permanent reminder of a feature most people will never
+   * use — and it would be the second heading on a screen whose first one is the
+   * point.
+   *
+   * Best-effort: a failure here leaves the main list exactly as it was. Nothing
+   * on this screen depends on the answer.
+   */
+  async function renderHiddenEsims(list) {
+    let items = [];
+    try {
+      items = ((await api.hiddenEsims()) || {}).items || [];
+    } catch { return; }
+    if (!items.length) return;
+
+    list.appendChild(el('h2', { class: 'section', text: 'Скрытые eSIM' }));
+    list.appendChild(el('p', { class: 'small muted', text:
+      'Они работают как обычно и не показываются в списке выше. Откройте, чтобы вернуть.' }));
+    for (const e of items) list.appendChild(esimCard(e));
   }
 
   /* ------------------------------------------------------------------ *
@@ -2356,7 +2418,35 @@
    * code. `destinationTitle` reads the provider family name to tell those
    * apart — used, never shown — and never answers with a code.
    */
-  const ownedLabel = (e) => C.destinationTitle(e && e.package_name, e && e.country_code);
+  const derivedLabel = (e) => C.destinationTitle(e && e.package_name, e && e.country_code);
+
+  /**
+   * The title, which the customer may have written themselves.
+   *
+   * A custom name WINS, and the derived one survives underneath — see
+   * `esimSubtitle`. It is never destroyed and never overwritten: renaming an
+   * eSIM «Рабочая» must not make it impossible to see that it is the Turkish
+   * one. The server sends both fields for exactly this reason.
+   *
+   * The name is a LABEL and nothing more. Nothing looks an eSIM up by it, it is
+   * not unique, and it reaches no provider — so it can be any words at all
+   * without any of that mattering.
+   */
+  const ownedLabel = (e) => (e && e.display_name) || derivedLabel(e);
+
+  /**
+   * What the eSIM actually is, shown under a name the customer chose.
+   *
+   * Empty when they have not renamed it — the title is already the derived
+   * name, and repeating it would be noise.
+   */
+  const esimSubtitle = (e) => {
+    if (!e || !e.display_name) return '';
+    const parts = [derivedLabel(e)];
+    if (e.total_gb != null) parts.push(`${e.total_gb} ГБ`);
+
+    return parts.filter(Boolean).join(' · ');
+  };
 
   function esimCard(e) {
     const days = C.daysLeft(e.expires_at);
@@ -2391,7 +2481,14 @@
       el('div', { class: 'row row--between esim-card__head' }, [
         el('span', { class: 'row esim-card__id' }, [
           el('span', { class: 'card__flag', text: C.flagFor(e.country_code) }),
-          el('span', { class: 'esim-card__name', text: ownedLabel(e) }),
+          // Title over subtitle when the customer named it; a single line when
+          // they did not. The derived name is never lost — only demoted.
+          el('span', { class: 'esim-card__titles' }, [
+            el('span', { class: 'esim-card__name', text: ownedLabel(e) }),
+            esimSubtitle(e)
+              ? el('span', { class: 'esim-card__sub', text: esimSubtitle(e) })
+              : null,
+          ]),
         ]),
         statusBadge(e.status, { small: true }),
       ]),
@@ -2476,12 +2573,261 @@
     paintEsim(box, e, id);
   }
 
+  /* ------------------------------------------------------------------ *
+   * Managing an eSIM you own: a name of your own, and getting it out of
+   * the way. Neither deletes anything.
+   * ------------------------------------------------------------------ */
+
+  const ESIM_NAME_MAX = 60;   // the same number the column's CHECK enforces
+
+  /* ------------------------------------------------------------------ *
+   * A bottom sheet, and a confirmation built out of one.
+   *
+   * NOT `window.confirm` or `window.prompt`. A native dialog inside a Telegram
+   * WebView is a different shape on every client, cannot follow the customer's
+   * theme, and — the part that decides it — BLOCKS the webview: while one is
+   * open the page receives no events at all, which on iOS has been enough to
+   * strand a Mini App entirely.
+   *
+   * Not `tg.showConfirm` either, which exists but is unavailable on older
+   * clients and would need this fallback anyway. One implementation is easier
+   * to reason about than two, and this one is testable in a plain browser.
+   * ------------------------------------------------------------------ */
+
+  let sheetEl = null;
+
+  function closeSheet() {
+    if (!sheetEl) return;
+    const node = sheetEl;
+    sheetEl = null;
+    try { node.remove(); } catch { /* */ }
+    document.body.classList.remove('sheet-open');
+  }
+
+  function openSheet(title, children) {
+    closeSheet();
+
+    const panel = el('div', {
+      class: 'sheetm__panel', role: 'dialog', 'aria-modal': 'true', 'aria-label': title,
+    }, [
+      el('div', { class: 'sheetm__grip', 'aria-hidden': 'true' }),
+      el('h2', { class: 'sheetm__title', text: title }),
+      el('div', { class: 'stack' }, children.filter(Boolean)),
+    ]);
+
+    sheetEl = el('div', { class: 'sheetm' }, [
+      // The backdrop closes. A sheet that can only be dismissed by its own
+      // button is a sheet somebody gets stuck in.
+      el('div', { class: 'sheetm__scrim', onclick: closeSheet }),
+      panel,
+    ]);
+
+    document.body.appendChild(sheetEl);
+    document.body.classList.add('sheet-open');
+
+    return closeSheet;
+  }
+
+  /**
+   * Ask, and resolve to what they chose.
+   *
+   * The default is NO: the scrim, the cancel button and any dismissal all
+   * resolve false, so the only route to true is a deliberate tap on the
+   * confirm button.
+   */
+  function confirmSheet(message, { confirmText = 'Продолжить', tone = '' } = {}) {
+    return new Promise((resolve) => {
+      let answered = false;
+      const finish = (value) => { if (answered) return; answered = true; closeSheet(); resolve(value); };
+
+      openSheet('Подтвердите', [
+        el('p', { class: 'muted', text: message }),
+        el('button', {
+          class: `btn btn--wide ${tone}`.trim(), text: confirmText,
+          onclick: () => finish(true),
+        }),
+        el('button', { class: 'btn btn--quiet', text: 'Отмена', onclick: () => finish(false) }),
+      ]);
+
+      // Dismissing by the scrim must answer too, or the promise never settles
+      // and the caller waits forever.
+      sheetEl.querySelector('.sheetm__scrim').addEventListener('click', () => finish(false));
+    });
+  }
+
+  /** A short, self-dismissing message. Used only where a failure needs no decision. */
+  function toast(text) {
+    const node = el('div', { class: 'toast', role: 'status' }, [el('span', { text })]);
+    document.body.appendChild(node);
+    setTimeout(() => { try { node.remove(); } catch { /* */ } }, 2600);
+  }
+
+  /**
+   * The rename sheet.
+   *
+   * Built here rather than as a `prompt()`: a system prompt in a Telegram
+   * WebView is inconsistent across clients, cannot be styled to the customer's
+   * theme, and on iOS steals focus in a way that occasionally leaves the app
+   * scrolled somewhere else. This is a small bottom sheet with one field.
+   *
+   * Empty is a legitimate answer and means «go back to the standard name» —
+   * which is why the primary button stays enabled on an empty field and the
+   * hint says so. Making the customer find a separate «Сбросить» for something
+   * they can express by clearing the box would be a worse screen.
+   */
+  function openRenameSheet(esim, onSaved) {
+    const current = (esim && esim.display_name) || '';
+
+    const input = el('input', {
+      class: 'input', type: 'text', value: current,
+      maxlength: String(ESIM_NAME_MAX),
+      placeholder: derivedLabel(esim) || 'Например: Отпуск в Турции',
+      autocapitalize: 'sentences', autocorrect: 'off', spellcheck: 'false',
+      'aria-label': 'Название eSIM',
+    });
+
+    const err = el('div', { class: 'small', style: 'display:none' });
+    const save = el('button', { class: 'btn btn--wide' });
+    setBusy(save, false, 'Сохранить');
+
+    const close = openSheet('Название eSIM', [
+      el('p', { class: 'small muted', text:
+        'Своё название видите только вы. Данные eSIM, трафик и пополнение не меняются.' }),
+      input,
+      err,
+      save,
+      el('button', {
+        class: 'btn btn--quiet', text: current ? 'Вернуть стандартное название' : 'Отмена',
+        onclick: () => { if (current) { input.value = ''; save.click(); } else closeSheet(); },
+      }),
+    ]);
+
+    save.addEventListener('click', async () => {
+      const name = String(input.value || '').trim();
+      if (name.length > ESIM_NAME_MAX) {
+        err.textContent = `Не длиннее ${ESIM_NAME_MAX} символов.`;
+        err.style.display = '';
+        err.className = 'small';
+        err.style.color = 'var(--bad)';
+
+        return;
+      }
+      setBusy(save, true, 'Сохраняем…');
+      try {
+        await api.renameEsim(esim.id, name);
+        haptic('light');
+        notifySuccess();
+        close();
+        await onSaved();
+      } catch (ex) {
+        setBusy(save, false, 'Сохранить');
+        err.textContent = (ex && ex.body && ex.body.message) || 'Не удалось сохранить название.';
+        err.style.display = '';
+        err.style.color = 'var(--bad)';
+      }
+    });
+
+    setTimeout(() => { try { input.focus(); } catch { /* */ } }, 60);
+  }
+
+  /**
+   * Hide, or bring back.
+   *
+   * The confirmation before hiding is deliberately unalarming, because the
+   * action is: it says what happens and that it is reversible. There is no
+   * «Удалить» anywhere in this flow and there is nothing behind it that could
+   * honestly be called one — the row, the order, the ICCID, the activation
+   * data, the usage snapshot and the top-up history all survive untouched.
+   *
+   * Restoring asks nothing. Undoing something reversible should not need a
+   * second decision.
+   */
+  async function setEsimHidden(esim, hidden, onDone) {
+    if (hidden) {
+      const ok = await confirmSheet(
+        'Скрыть эту eSIM из списка? Вы сможете вернуть её позже.',
+        { confirmText: 'Скрыть' }
+      );
+      if (!ok) return;
+    }
+
+    try {
+      await api.setEsimVisibility(esim.id, hidden);
+      haptic('light');
+      notifySuccess();
+      await onDone();
+    } catch {
+      toast('Не удалось изменить. Попробуйте ещё раз.');
+    }
+  }
+
+  function esimManageSheet(e, id) {
+    /*
+     * A CAPABILITY CHECK, not a feature flag.
+     *
+     * The server sends `hidden` on every eSIM once it can store one — always a
+     * boolean, never absent. A backend that predates the display-settings
+     * migration sends neither field, and drawing «Переименовать» / «Скрыть»
+     * against it would offer two buttons that answer 404.
+     *
+     * So the block appears when the server says it is there, and the app can be
+     * deployed ahead of the backend without lying to anybody. It lights up by
+     * itself the moment the other side lands — no second release, no flag to
+     * remember to flip.
+     */
+    if (!e || typeof e.hidden !== 'boolean') return null;
+
+    const refresh = async () => {
+      /*
+       * Both lists change, and so does the screen the customer is standing on.
+       *
+       * The cache is deliberately NOT cleared: `renderEsims` goes through
+       * `readThrough`, which always asks the network first and only falls back
+       * to the cache when that fails — so a fresh list arrives anyway, and
+       * writing a null into the cache would leave a poisoned entry for the next
+       * failure to serve.
+       */
+      await openEsim(id);
+      await renderMine();
+    };
+
+    return el('details', { class: 'sheet card gap-top-sm' }, [
+      el('summary', { class: 'sheet__head', text: 'Управление' }),
+      el('div', { class: 'stack' }, [
+        el('button', {
+          class: 'btn btn--ghost', text: 'Переименовать',
+          onclick: () => openRenameSheet(e, refresh),
+        }),
+        e.hidden
+          ? el('button', {
+              class: 'btn btn--ghost', text: 'Вернуть в мои eSIM',
+              onclick: () => setEsimHidden(e, false, async () => { await refresh(); show('esims'); await renderEsims(); }),
+            })
+          : el('button', {
+              class: 'btn btn--quiet', text: 'Скрыть eSIM',
+              onclick: () => setEsimHidden(e, true, async () => { show('esims'); await renderEsims(); }),
+            }),
+        el('p', { class: 'small muted', text:
+          'Скрытая eSIM продолжает работать. Её данные, история и пополнение сохраняются — она просто не показывается в основном списке.' }),
+      ]),
+    ]);
+  }
+
   function paintEsim(box, e, id) {
     box.appendChild(el('div', { class: 'card stack' }, [
       el('div', { class: 'row row--between' }, [
-        el('h1', { text: ownedLabel(e) }),
+        el('span', { class: 'esim-card__titles' }, [
+          el('h1', { class: 'esim-detail__title', text: ownedLabel(e) }),
+          esimSubtitle(e) ? el('span', { class: 'esim-card__sub', text: esimSubtitle(e) }) : null,
+        ]),
         statusBadge(e.status),
       ]),
+      // A hidden eSIM says so, once, where the customer opened it — otherwise
+      // finding it in «Скрытые» and then seeing a screen identical to any other
+      // leaves them unsure whether the tap did anything.
+      e.hidden ? el('div', { class: 'notice' }, [
+        el('span', { text: 'Эта eSIM скрыта из основного списка. Она работает как обычно.' }),
+      ]) : null,
       gauge(e),
       el('div', { class: 'small muted', text: e.expires_at ? `Действует до ${new Date(e.expires_at).toLocaleDateString('ru-RU')}` : '' }),
       el('button', {
@@ -2507,6 +2853,18 @@
       // Never from a catalogue flag, never from the provider name, and never a
       // greyed-out button: an eSIM with no top-up shows nothing at all.
       el('div', { id: 'esim-topup' }),
+
+      // Management, kept out of the way.
+      //
+      // A <details> — the same `.sheet` idiom the tariff screen already uses —
+      // rather than four more full-width buttons. Renaming and hiding are things
+      // a customer does once, if ever; the actions they came for (install, top
+      // up, refresh, support) must not have to share weight with them.
+      //
+      // NOTHING HERE DELETES ANYTHING, and the words say so. «Скрыть» is not a
+      // softened «Удалить» — the eSIM keeps working, keeps its ICCID, its order,
+      // its usage and its top-up history, and the customer can bring it back.
+      esimManageSheet(e, id),
     ]));
 
     // Asked after the card is on screen, so a slow provider call cannot hold

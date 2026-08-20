@@ -899,6 +899,15 @@ body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stab
   max-width: 30ch;
 }
 
+/* The slogan reads as a brand line rather than as a caption: a touch more
+   weight and a little letter-spacing, which is what stops four English words
+   under a Russian headline from looking like a stray string. Size and colour
+   are unchanged, so it still sits below the title in the hierarchy. */
+.hero__sub--slogan {
+  font-weight: 550;
+  letter-spacing: 0.01em;
+}
+
 /* Loading and error, where the logo IS the heading and there is nothing to
    compete with. Both screens were bare text before. */
 .brand--lg { height: 56px; margin: 0 auto var(--s3); }
@@ -1107,3 +1116,71 @@ button.topup-opt {
    margin here would double it and turn the fix into a smaller version of the
    shift it exists to remove. */
 .skel--esim { height: 112px; border-radius: var(--radius); }
+
+/* Title over subtitle inside the eSIM card's identity block. `min-width: 0` on
+   both so a long custom name ellipses instead of pushing the badge off the row. */
+.esim-card__titles { display: flex; flex-direction: column; min-width: 0; gap: 1px; }
+.esim-card__sub {
+  font-size: var(--t-caption);
+  color: var(--muted);
+  min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* -----------------------------------------------------------------------
+ * Bottom sheet + toast
+ *
+ * Replaces window.confirm / window.prompt, which block a Telegram WebView
+ * outright: while a native dialog is open the page receives no events, and on
+ * iOS that has been enough to strand a Mini App. This is ours, follows the
+ * customer's theme, and can be driven by a test.
+ * ----------------------------------------------------------------------- */
+
+.sheetm { position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-end; }
+.sheetm__scrim { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+
+.sheetm__panel {
+  position: relative;
+  width: 100%;
+  max-height: 88%;
+  overflow-y: auto;
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--radius) var(--radius) 0 0;
+  /* The home indicator sits under this, exactly as it does under the tab bar. */
+  padding: var(--s2) var(--s4) calc(var(--s4) + var(--safe-b));
+  animation: sheet-up .2s ease both;
+}
+
+/* The grab handle every iOS sheet has. Decorative, and aria-hidden in the
+   markup — it is a shape that says "this slides", not information. */
+.sheetm__grip {
+  width: 36px; height: 4px; margin: 6px auto var(--s2);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.sheetm__title { margin: 0 0 var(--s2); font-size: var(--t-body); font-weight: 650; }
+
+@keyframes sheet-up { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* The page must not scroll behind an open sheet. */
+body.sheet-open { overflow: hidden; }
+
+.toast {
+  position: fixed;
+  left: 50%; bottom: calc(84px + var(--safe-b));
+  transform: translateX(-50%);
+  z-index: 60;
+  max-width: calc(100% - 32px);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  color: var(--bg);
+  font-size: var(--t-caption);
+  animation: fade-in .18s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheetm__panel, .toast { animation: none; }
+}
