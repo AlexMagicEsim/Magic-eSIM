@@ -251,25 +251,103 @@ button.card:active { transform: scale(.995); }
   padding: 10px;
 }
 
+/* -----------------------------------------------------------------------
+ * CopyField — a value you can read, and a button that takes it.
+ *
+ * THE BUG THIS SHAPE EXISTS TO PREVENT. On a real iPhone the SM-DP+ address
+ * and the activation code rendered as tall narrow towers, one character per
+ * line. Measured at 390px, in both engines: the `code` box was **0px wide and
+ * 377px tall** for a twenty-character host, and 1285px tall for an LPA.
+ *
+ * Three rules had to meet for that, and no one of them is wrong alone:
+ *
+ *   1. `.btn { width: 100% }` — every button in this app is full-width, which
+ *      is right everywhere except inside a flex ROW. As a flex item that
+ *      `width` becomes the button's flex-basis: 100% of the field.
+ *   2. `code { flex: 1 }` is `flex: 1 1 0%` — a flex-basis of ZERO. Negative
+ *      free space is shared out in proportion to shrink-factor × basis, and
+ *      anything times zero is zero, so the code absorbed NONE of the overflow
+ *      and the button kept its 332 of the 340 available pixels.
+ *   3. `min-width: 0` removed the automatic minimum that would have stopped the
+ *      collapse, and `overflow-wrap: anywhere` — unlike `break-word` — lets a
+ *      box's min-content shrink to a SINGLE CHARACTER. Nothing was left to
+ *      push back, so the text wrapped every character.
+ *
+ * All three are fixed below rather than one of them papered over: the button no
+ * longer claims the row's whole width, the value is laid out on one line, and
+ * the per-character break opportunity is gone.
+ * ----------------------------------------------------------------------- */
+
 .copyfield {
   display: flex;
   gap: 8px;
   align-items: center;
-  padding: 10px 12px;
+  padding: 6px 8px 6px 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
+
+  /* The field sits in a `.stack`, which is a GRID, and a grid item's automatic
+     minimum is its min-content width. With a `nowrap` value inside, that
+     min-content is the whole string — so the track grew to 684px on a 390px
+     phone and took the PAGE sideways with it. Measured; caught before it
+     shipped, while fixing the towers.
+     `min-width: 0` is what lets the field be as narrow as the screen, which is
+     the precondition for the value scrolling inside it instead of the page
+     scrolling under it. */
+  min-width: 0;
 }
 
 .copyfield code {
-  flex: 1;
+  /* `1 1 auto`, NOT `1 1 0%`. The basis is the text's own width, so this is the
+     item with something to give when the row is too narrow — which is what makes
+     it, and not the button, absorb the shrink. */
+  flex: 1 1 auto;
   min-width: 0;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 13px;
-  /* Long codes must be readable, not truncated: somebody is typing this by hand
-     into a settings screen. */
-  overflow-wrap: anywhere;
+
+  /* ONE LINE. `nowrap` alone would push the row wide enough to scroll the whole
+     page sideways, so the overflow is contained HERE: the value scrolls inside
+     its own field and the page never does.
+
+     `overflow-wrap` and `word-break` are stated explicitly rather than left to
+     the cascade — they are what used to break this, and a future rule that
+     re-introduces either would bring the towers straight back. */
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* iOS paints overlay scrollbars that vanish when idle; on desktop a visible
+     bar inside a 32px field is just noise. The value is still scrollable, and
+     the button next to it is the path most people take anyway. */
+  scrollbar-width: none;
 }
+
+.copyfield code::-webkit-scrollbar { display: none; }
+
+/* The copy button, and the ONE declaration that matters: `width: auto`, undoing
+   the app-wide `.btn { width: 100% }` that started all this.
+   `flex: 0 0 auto` says it neither grows nor shrinks — it is exactly as wide as
+   its label, and the value gets everything else.
+   `min-width` reserves room for «Скопировано», which is longer than
+   «Копировать», so the field does not jolt sideways when it is tapped. */
+.copyfield__copy {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 108px;
+  min-height: 32px;
+  padding: 0 10px;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+/* Tapped. A colour change rather than only a word, because on a small screen the
+   word is easy to miss and the whole point is a confirmation you cannot doubt. */
+.copyfield__copy[data-copied='1'] { color: var(--good); font-weight: 650; }
 
 .tabs { display: flex; gap: 8px; margin: 10px 0; }
 .tabs button {

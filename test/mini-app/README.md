@@ -10,6 +10,7 @@ usable while the network is still deciding.
 npm i -D playwright        # not vendored — this repo has no package.json by design
 npx playwright install webkit
 node test/mini-app/boot.e2e.js
+node test/mini-app/install.e2e.js   # S10 layout, at 390px, both themes
 ```
 
 WebKit specifically, on an iPhone viewport, with real touch events. iOS Telegram
@@ -70,3 +71,43 @@ found missing:
 Telegram sets `--tg-theme-*` through the CSSOM, and the harness does the same:
 injecting a `<style>` element instead is refused by our own `style-src 'self'`,
 which is the CSP working rather than a bug.
+
+## S10 — the installation screen (`install.e2e.js`)
+
+Reported from a real iPhone: the SM-DP+ address and the activation code rendered
+as tall narrow towers, one character per line.
+
+Measured at 390px in both engines before the fix — the `code` box was **0px wide
+and 377px tall** for a twenty-character host, and **1285px tall** for an LPA.
+
+Three rules had to meet, and not one of them is wrong on its own:
+
+1. `.btn { width: 100% }` — right for every full-width button in the app, and
+   wrong inside a flex ROW, where that `width` becomes the button's flex-basis:
+   100% of the field.
+2. `code { flex: 1 }` is `flex: 1 1 0%` — basis **zero**. Negative free space is
+   shared in proportion to shrink-factor × basis, and anything times zero is
+   zero, so the value absorbed none of the overflow. The button kept 332 of the
+   340 available pixels.
+3. `min-width: 0` removed the automatic minimum that would have stopped the
+   collapse, and `overflow-wrap: anywhere` — unlike `break-word` — lets a box's
+   min-content shrink to a **single character**.
+
+Fixing only one would have hidden it. All three are addressed in the CopyField
+block in `mini.css`, and this suite asserts the outcome rather than the rules:
+one line per value, real width, a compact field, a button that takes its own
+width, no per-character break opportunity in the computed style, and no
+horizontal overflow of the page — for short values and long ones, in WebKit and
+Chromium, light and dark.
+
+While fixing it, `nowrap` briefly took the page sideways instead: `.stack` is a
+grid, and a grid item's automatic minimum is its min-content width, so the track
+grew to 684px on a 390px phone. `min-width: 0` on `.copyfield` is what contains
+the overflow inside the field. The suite would have caught that too.
+
+It also checks the rest of the screen is made of real controls: the device
+picker, one-click install (the PROVIDER's URL when there is one, Apple's
+documented format as the iOS fallback, and **nothing invented for Android**),
+the numbered instructions for both platforms, support, and one copy button per
+value. Copying is asserted verbatim — the value comes from the closure, never
+read back out of the DOM — and a refused clipboard must NOT claim «Скопировано».

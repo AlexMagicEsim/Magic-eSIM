@@ -254,34 +254,66 @@
   }
 
   /** A copyable value. The copy is the point: nobody retypes an LPA by choice. */
+  /**
+   * A value to read, and a button that takes it.
+   *
+   * The value is COPIED VERBATIM. `value` is captured in this closure and
+   * handed to the clipboard directly — never read back out of the DOM, where
+   * the browser's own line-breaking, selection or a stray zero-width character
+   * could change what the customer ends up pasting into a settings screen.
+   *
+   * The layout that keeps this on one line lives in `.copyfield` — see the CSS,
+   * which explains the three-rule interaction that used to render these as
+   * one-character-per-line towers.
+   */
   function copyField(label, value) {
     if (!value) return null;
 
+    const code = el('code', { text: value });
+    const btn = el('button', { class: 'btn btn--quiet copyfield__copy', text: 'Копировать' });
+
+    // Held on the element, so a second tap while the first is still showing
+    // «Скопировано» restarts the window instead of reverting the label early.
+    let revert = null;
+    const flash = () => {
+      btn.textContent = 'Скопировано';
+      btn.dataset.copied = '1';
+      if (revert) clearTimeout(revert);
+      revert = setTimeout(() => {
+        btn.textContent = 'Копировать';
+        delete btn.dataset.copied;
+        revert = null;
+      }, 1600);
+    };
+
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(value);
+        haptic('light');
+        notifySuccess();
+        flash();
+      } catch {
+        // The clipboard is permission-gated in some webviews, and in an
+        // iOS WebView it can reject outright. Selecting the text is a worse but
+        // working fallback — and it still says «Скопировано» is NOT what
+        // happened, because claiming a copy that did not occur is how somebody
+        // pastes the previous thing into their phone settings.
+        try {
+          const range = document.createRange();
+          range.selectNodeContents(code);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          btn.textContent = 'Выделено';
+          if (revert) clearTimeout(revert);
+          revert = setTimeout(() => { btn.textContent = 'Копировать'; revert = null; }, 1600);
+        } catch { /* nothing left to try; the value is on screen and selectable */ }
+      }
+    });
+
     return el('div', { class: 'stack' }, [
       el('div', { class: 'small muted', text: label }),
-      el('div', { class: 'copyfield' }, [
-        el('code', { text: value }),
-        el('button', {
-          class: 'btn btn--quiet',
-          text: 'Копировать',
-          onclick: async (e) => {
-            try {
-              await navigator.clipboard.writeText(value);
-              e.target.textContent = 'Скопировано';
-              notifySuccess();
-              setTimeout(() => { e.target.textContent = 'Копировать'; }, 1600);
-            } catch {
-              // Clipboard is permission-gated in some webviews. Selecting the
-              // text is a worse but working fallback.
-              const range = document.createRange();
-              range.selectNodeContents(e.target.closest('.copyfield').querySelector('code'));
-              const sel = window.getSelection();
-              sel.removeAllRanges();
-              sel.addRange(range);
-            }
-          },
-        }),
-      ]),
+      el('div', { class: 'copyfield' }, [code, btn]),
     ]);
   }
 
