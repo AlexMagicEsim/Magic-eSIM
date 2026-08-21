@@ -888,6 +888,41 @@ body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stab
 
 .hero h1 { margin: 0; font-size: var(--t-title); line-height: 1.2; }
 
+/* The settings gear, top-right of the hero panel.
+   Sits in the corner the glow already occupies — visually the quietest part of
+   the composition, and the one place a phone user reaches for settings. The
+   full --tap square is the target while the visible disc is smaller, so it
+   clears the 44px floor without becoming a button that competes with the
+   title. Transparent until touched: this is a way out of the screen, not an
+   action on it. */
+.hero__settings {
+  position: absolute;
+  top: var(--s3); right: var(--s3);
+  width: var(--tap); height: var(--tap);
+  display: grid; place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .15s ease, color .15s ease;
+}
+.hero__settings:hover { color: var(--text); }
+.hero__settings:active {
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  color: var(--text);
+}
+/* Keyboard users get a real ring; pointer users get none. */
+.hero__settings:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  color: var(--text);
+}
+/* The title must not run under the gear on a narrow screen. */
+.hero h1, .hero__sub { padding-right: calc(var(--tap) - var(--s2)); }
+
 /* The subtitle was `.muted .small` — 13px, the caption size, for a line that is
    the product's whole promise. At 15px with a measure it reads as a sentence
    somebody wrote rather than as a footnote. */

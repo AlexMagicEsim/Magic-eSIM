@@ -3715,6 +3715,14 @@
       state.query = e.target.value;
       paintCountryList();
     });
+    // The hero gear. Same destination as the button at the foot of Помощь —
+    // one screen, one renderer, two doors. The switches behind it govern real
+    // sends, so the door being findable is part of the feature working.
+    $('#open-settings').addEventListener('click', () => {
+      haptic('light');
+      show('settings');
+      void renderSettings();
+    });
     $('#checkout-pay').addEventListener('click', pay);
     for (const btn of document.querySelectorAll('#checkout-methods .segmented__opt')) {
       btn.addEventListener('click', () => {
