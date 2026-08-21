@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-21T07:10:43.865Z",
+  "generated_at": "2026-08-21T13:14:16.545Z",
   "source": "production-public-api",
   "package_count": 972,
   "packages": [
@@ -6113,7 +6113,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1050,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "AirtelTigo",
+          "type": "3G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -25676,7 +25681,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Hutch",
+          "operator": "Mobitel",
           "type": "4G"
         }
       ],
