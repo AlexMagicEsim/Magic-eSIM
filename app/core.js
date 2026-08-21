@@ -937,6 +937,18 @@ function createApi(deps = {}) {
    * server still scopes the write to the session's customer, so the id
    * authorises nothing on its own.
    */
+  /**
+   * Turn one notification type on or off.
+   *
+   * Only the switch that changed is sent. An absent field means "leave it
+   * alone" on the server, so the two toggles cannot overwrite each other —
+   * which matters because they are rendered from one payload and tapped one at
+   * a time.
+   */
+  const setNotificationPrefs = (patch) => request('/api/v1/tma/notifications/prefs', {
+    method: 'POST', body: patch,
+  });
+
   const revokeEmail = (identityId) => request('/api/v1/tma/identity/email/revoke', {
     method: 'POST', body: { identity_id: identityId },
   });
@@ -1007,7 +1019,7 @@ function createApi(deps = {}) {
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
-    hiddenEsims, renameEsim, setEsimVisibility, revokeEmail, promoQuote,
+    hiddenEsims, renameEsim, setEsimVisibility, revokeEmail, promoQuote, setNotificationPrefs,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },

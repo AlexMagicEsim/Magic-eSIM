@@ -192,6 +192,7 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
     'POST /api/v1/tma/identity/email/revoke',
+    'POST /api/v1/tma/notifications/prefs',
     'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',
@@ -1214,9 +1215,10 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the eight rea
   // SEVENTH read on 2026-08-19, S13 adds three more writes (POST only) the same
   // day, the top-up PURCHASE wave adds two writes and an EIGHTH read on
   // 2026-08-19, and eSIM display settings add a NINTH read plus two writes on
-  // 2026-08-20 — `name` and `visibility`, neither of which deletes anything.
+  // 2026-08-20 — `name` and `visibility`, neither of which deletes anything —
+  // and the notification switches add one more write on 2026-08-21.
   // Nothing else rides along.
-  assert.equal(ROUTES.length, 30);
+  assert.equal(ROUTES.length, 31);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
@@ -1237,6 +1239,7 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the eight rea
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
     'POST /api/v1/tma/identity/email/revoke',
+    'POST /api/v1/tma/notifications/prefs',
     'POST /api/v1/tma/orders',
     'POST /api/v1/tma/session',
     'POST /api/v1/tma/session/revoke',

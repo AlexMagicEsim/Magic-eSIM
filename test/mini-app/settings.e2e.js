@@ -32,7 +32,8 @@ function mock(cfg){
     BackButton:{show(){},hide(){},onClick(){},offClick(){}},
     HapticFeedback:{impactOccurred(){},notificationOccurred(){}},openLink(u){window.__opened=u;}}};
 
-  const store={emails:cfg.emails===undefined
+  window.__prefCalls=[];
+  const store={prefs:cfg.prefs||{low_data:true,expiry:true},emails:cfg.emails===undefined
     ? [{id:'11111111-2222-4333-8444-555555555555',masked:'b***r@example.com',verified_at:'2026-08-19T08:54:02.000Z'}]
     : cfg.emails};
 
@@ -48,8 +49,17 @@ function mock(cfg){
       store.emails=store.emails.filter((e)=>e.id!==(body&&body.identity_id));
       return j({ok:true,revoked:true});
     }
+    if(/\/notifications\/prefs$/.test(p)){
+      if(cfg.prefsFails)return j({error:'INTERNAL_ERROR',message:'нет'},500);
+      // Only the field that was sent changes — exactly what the server does.
+      if(body&&typeof body.low_data==='boolean')store.prefs.low_data=body.low_data;
+      if(body&&typeof body.expiry==='boolean')store.prefs.expiry=body.expiry;
+      window.__prefCalls.push(body);
+      return j({...store.prefs});
+    }
     if(/\/tma\/me$/.test(p))return j({customer:{created_at:'2026-08-18T00:00:00.000Z'},
-      emails:store.emails,counts:{orders:3,active_orders:0,esims:1}});
+      emails:store.emails,counts:{orders:3,active_orders:0,esims:1},
+      notifications:{...store.prefs}});
     if(u.includes('/tma/esims'))return j({items:[]});
     if(u.includes('/me/orders'))return j({items:[]});
     return j({items:[]});};
@@ -99,15 +109,23 @@ for (const eng of ['webkit','chromium']) {
       ok('and it says when it was proven', /подтверждён/i.test(body));
       ok('with an explanation of what the address does', /автоматически/i.test(body));
 
-      // The two controls that must NOT exist, and the truth that replaces them.
+      // NO language picker, still. The app has no second language: a picker
+      // with one option that changes nothing is a control that lies.
       ok('NO language picker — the app has no second language',
         !/язык|language/i.test(body), (body.match(/язык[^\n]*/i)||[])[0]||'');
-      ok('NO notifications toggle — nothing is ever pushed',
-        (await p.$$('#screen-settings input[type=checkbox], #screen-settings select')).length===0);
-      ok('instead it states where things actually arrive',
-        /на почту, указанную при покупке/i.test(body)&&/в чат с ботом/i.test(body));
-      ok('and says plainly that there is nothing to switch off',
-        /Рассылок мы не отправляем/i.test(body));
+
+      // The notification switches, on the other hand, are REAL now — there is a
+      // delivery engine behind them. When this screen first shipped they were
+      // deliberately absent, because there was not.
+      ok('the two notification switches exist',
+        (await p.$$('#screen-settings input[type=checkbox]')).length===2);
+      ok('and each says what it governs',
+        /Интернет заканчивается/.test(body)&&/20% и 10%/.test(body)
+        &&/Срок действия истекает/.test(body)&&/За 3 дня и за сутки/.test(body));
+      ok('it still says where things arrive',
+        /на почту, указанную при покупке/i.test(body)&&/в этот чат/i.test(body));
+      ok('and that there is no marketing to switch off',
+        /Рекламных рассылок мы не отправляем/i.test(body));
 
       ok('account facts come from the server, not invented',
         /Покупок/.test(body)&&/3/.test(body)&&/eSIM/.test(body));
@@ -115,6 +133,49 @@ for (const eng of ['webkit','chromium']) {
       const of=await p.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
       ok('no horizontal overflow', !of);
       await p.screenshot({path:`/private/tmp/claude-501/-Users-xxx-Desktop-eSim/292faf93-883b-4959-b678-8b7cdaf41e6e/scratchpad/home/settings-${eng}-${scheme}.png`,fullPage:true});
+      await ctx.close();
+    }
+
+    // ---- the switches actually switch ---------------------------------
+    {
+      const ctx=await ctxFor({}); const p=await ctx.newPage();
+      await p.goto(base); await p.waitForTimeout(2200);
+      await openSettings(p);
+
+      const low=p.locator('#notify-low_data');
+      const exp=p.locator('#notify-expiry');
+      ok('[switch] both start ON — service messages default to on',
+        (await low.isChecked())&&(await exp.isChecked()));
+
+      await low.click(); await p.waitForTimeout(700);
+      ok('[switch] turning one off sticks', (await low.isChecked())===false);
+      ok('[switch] and the other is untouched', (await exp.isChecked())===true);
+
+      const calls=await p.evaluate(()=>window.__prefCalls);
+      ok('[switch] ONLY the changed field is sent',
+        calls.length===1&&calls[0].low_data===false&&!('expiry' in calls[0]),
+        JSON.stringify(calls[0]));
+
+      // Reopen: the server's answer is what survives, not the tap.
+      await p.tap('#nav-home'); await p.waitForTimeout(400);
+      await openSettings(p);
+      ok('[switch] the state survives a reload of the screen',
+        (await p.locator('#notify-low_data').isChecked())===false
+        &&(await p.locator('#notify-expiry').isChecked())===true);
+      await ctx.close();
+    }
+
+    // ---- a refused write must not lie ---------------------------------
+    {
+      const ctx=await ctxFor({prefsFails:true}); const p=await ctx.newPage();
+      await p.goto(base); await p.waitForTimeout(2200);
+      await openSettings(p);
+
+      const low=p.locator('#notify-low_data');
+      await low.click(); await p.waitForTimeout(800);
+
+      ok('[switch] a failed save puts the switch BACK', (await low.isChecked())===true);
+      ok('[switch] and says so', (await p.$$('.toast')).length===1);
       await ctx.close();
     }
 

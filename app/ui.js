@@ -1393,16 +1393,26 @@
       for (const m of emails) box.appendChild(emailRow(m));
     }
 
-    /* ---- where things actually arrive ------------------------------ */
+    /* ---- notifications, now that they are real ---------------------- */
+    //
+    // These toggles were deliberately NOT drawn when this screen shipped: there
+    // was nothing behind them. Every message the bot sent was a reply, so a
+    // switch would have governed messages that were never sent. They exist now
+    // because the delivery engine does.
     box.appendChild(el('h2', { class: 'section', text: 'Уведомления' }));
+
+    const prefs = (me && me.notifications) || { low_data: true, expiry: true };
     box.appendChild(el('div', { class: 'card stack' }, [
-      el('p', { class: 'small', text:
-        'Данные eSIM и чек приходят на почту, указанную при покупке.' }),
-      el('p', { class: 'small', text:
-        'Ответы поддержки приходят сюда, в чат с ботом Magic eSIM.' }),
-      el('p', { class: 'small muted', text:
-        'Рассылок мы не отправляем, поэтому и отключать нечего.' }),
+      notifyToggle('low_data', prefs.low_data,
+        'Интернет заканчивается', 'При остатке 20% и 10%'),
+      el('div', { class: 'settings__sep' }),
+      notifyToggle('expiry', prefs.expiry,
+        'Срок действия истекает', 'За 3 дня и за сутки'),
     ]));
+
+    box.appendChild(el('p', { class: 'small muted', text:
+      'Приходят в этот чат. Данные eSIM и чек — на почту, указанную при покупке. '
+      + 'Рекламных рассылок мы не отправляем.' }));
 
     /* ---- account --------------------------------------------------- */
     if (me && me.customer && me.customer.created_at) {
@@ -1422,6 +1432,52 @@
         ]),
       ]));
     }
+  }
+
+  /**
+   * One notification switch.
+   *
+   * A real checkbox, not a styled div: it is focusable, it announces its own
+   * state, and it works with a keyboard on Telegram Desktop for free.
+   *
+   * OPTIMISTIC, then corrected. The switch moves immediately because a control
+   * that waits for a round trip before responding feels broken on a phone; if
+   * the server refuses, it moves back and says so. What it must never do is
+   * show one thing while the server believes another.
+   */
+  function notifyToggle(key, initial, title, hint) {
+    const input = el('input', {
+      type: 'checkbox', class: 'switch__input', id: `notify-${key}`,
+      'aria-describedby': `notify-${key}-hint`,
+    });
+    input.checked = initial !== false;
+
+    input.addEventListener('change', async () => {
+      const want = input.checked;
+      input.disabled = true;
+      try {
+        // ONLY the switch that changed. The other one is absent from the body,
+        // which the server reads as "leave it alone".
+        const out = await api.setNotificationPrefs({ [key]: want });
+        // Believe the server, not the tap: if it answered something else, that
+        // is what is true.
+        input.checked = out && typeof out[key] === 'boolean' ? out[key] : want;
+        haptic('light');
+      } catch {
+        input.checked = !want;
+        toast('Не удалось сохранить. Попробуйте ещё раз.');
+      } finally {
+        input.disabled = false;
+      }
+    });
+
+    return el('label', { class: 'switch', for: `notify-${key}` }, [
+      el('span', { class: 'switch__body' }, [
+        el('span', { class: 'switch__title', text: title }),
+        el('span', { class: 'switch__hint', id: `notify-${key}-hint`, text: hint }),
+      ]),
+      input,
+    ]);
   }
 
   /**

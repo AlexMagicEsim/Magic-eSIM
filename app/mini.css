@@ -1255,3 +1255,72 @@ body.sheet-open { overflow: hidden; }
 .checkout-total { padding-top: var(--s2); border-top: 1px solid var(--line); }
 
 .promo-applied .card__title { color: var(--good); }
+
+/* -----------------------------------------------------------------------
+ * Switch — one notification type, on or off.
+ *
+ * A real <input type=checkbox>, restyled. Not a div with a click handler: this
+ * way it is focusable, it announces its own state to a screen reader, and it
+ * works from a keyboard on Telegram Desktop without a line of JavaScript.
+ * ----------------------------------------------------------------------- */
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: var(--tap);
+  cursor: pointer;
+}
+
+.switch__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+.switch__title { font-size: var(--t-secondary); font-weight: 600; }
+.switch__hint { font-size: var(--t-caption); color: var(--muted); }
+
+/* The track. `appearance: none` then drawn by hand, because the native control
+   is a different size and colour on every platform this runs on and none of
+   them match the app. */
+.switch__input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  flex: 0 0 auto;
+  width: 50px;
+  height: 30px;
+  margin: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  transition: background-color .18s ease;
+  cursor: pointer;
+}
+
+/* The knob. */
+.switch__input::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.28);
+  transition: transform .18s ease;
+}
+
+.switch__input:checked { background: var(--good); }
+.switch__input:checked::after { transform: translateX(20px); }
+
+/* Disabled is a real state here: it is what the control looks like for the
+   moment its change is in flight, and a tap that lands then would race. */
+.switch__input:disabled { opacity: .5; cursor: default; }
+
+.switch__input:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+/* A hairline between two switches inside one card — quieter than a second card
+   and clearer than nothing. */
+.settings__sep { height: 1px; background: var(--line); margin: var(--s1) 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .switch__input, .switch__input::after { transition: none; }
+}

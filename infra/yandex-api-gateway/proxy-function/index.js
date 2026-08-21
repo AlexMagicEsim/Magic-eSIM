@@ -341,6 +341,11 @@ const ROUTES = [
   // code lives in exactly one email body; a route that returned one — or merely
   // confirmed a challenge exists — by URL would undo the whole design, and a URL
   // is the thing somebody shares by accident.
+  // Notification switches. A write, POST like every other one here, and it
+  // carries two booleans and nothing else — the customer it applies to comes
+  // from the session, never from the body.
+  { method: 'POST', pattern: '/api/v1/tma/notifications/prefs' },
+
   { method: 'POST', pattern: '/api/v1/tma/identity/email/request' },
   { method: 'POST', pattern: '/api/v1/tma/identity/email/confirm' },
   { method: 'POST', pattern: '/api/v1/tma/identity/email/revoke' },
