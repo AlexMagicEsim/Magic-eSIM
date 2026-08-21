@@ -822,6 +822,17 @@ function createApi(deps = {}) {
   const confirmEmailCode = (email, code) => request('/api/v1/tma/identity/email/confirm', {
     method: 'POST', body: { email, code },
   });
+  /**
+   * Disconnect a proven address.
+   *
+   * POST, not DELETE — the gateway forwards only GET and POST, which is also
+   * why the backend route is a POST. The identity id names WHICH address; the
+   * server still scopes the write to the session's customer, so the id
+   * authorises nothing on its own.
+   */
+  const revokeEmail = (identityId) => request('/api/v1/tma/identity/email/revoke', {
+    method: 'POST', body: { identity_id: identityId },
+  });
   const orderStatus = (token) => request(`/api/v1/tma/orders/${encodeURIComponent(token)}/status`);
   const esims = () => request('/api/v1/tma/esims');
   const hiddenEsims = () => request('/api/v1/tma/esims/hidden');
@@ -889,7 +900,7 @@ function createApi(deps = {}) {
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
-    hiddenEsims, renameEsim, setEsimVisibility,
+    hiddenEsims, renameEsim, setEsimVisibility, revokeEmail,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },

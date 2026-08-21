@@ -182,7 +182,7 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'claim', 'help', 'error', 'loading', 'order', 'topup'];
+  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'claim', 'help', 'settings', 'error', 'loading', 'order', 'topup'];
 
   // Which bottom tab is lit for a given screen. A tab bar that never highlights
   // is decoration; one that highlights the wrong thing is worse. Screens
@@ -1332,6 +1332,136 @@
     },
   ]);
 
+  /* ------------------------------------------------------------------ *
+   * Screen: account settings
+   *
+   * WHAT IS HERE, and just as deliberately what is NOT.
+   *
+   * The proven addresses are here because they are the one account-level thing
+   * a customer owns, can act on, and until now could not reach: `revoke` has
+   * been implemented on the backend and open at the gateway since S13 shipped,
+   * with no interface anywhere. Somebody who connected a mailbox could not
+   * disconnect it.
+   *
+   * There is NO language control. The app has no localisation of any kind —
+   * every string is a Russian literal and the only `locale` in the codebase is
+   * `localeCompare(…, 'ru')` for sorting. A picker with one option that changes
+   * nothing is a control that lies, which is the same rule that keeps a
+   * greyed-out top-up button off an eSIM that has none.
+   *
+   * There is NO notifications toggle. Every message the client bot sends is a
+   * REPLY to something the customer sent it — there is no proactive push to a
+   * customer anywhere in this system, and `customer_sessions.telegram_chat_id`
+   * is a delivery address nothing delivers to. A switch over messages that are
+   * never sent would be the same lie in a different shape.
+   *
+   * What replaces them is the truth: a short statement of where things actually
+   * arrive. That is what a customer wanted to know when they went looking for a
+   * notification setting.
+   * ------------------------------------------------------------------ */
+
+  async function renderSettings() {
+    const box = $('#settings-body');
+    clear(box);
+    box.appendChild(el('div', { class: 'skel skel--card' }));
+
+    let me = null;
+    try {
+      me = await api.me();
+    } catch {
+      clear(box);
+      box.appendChild(errorNotice('Не удалось загрузить настройки.', renderSettings));
+
+      return;
+    }
+
+    clear(box);
+
+    /* ---- connected addresses --------------------------------------- */
+    box.appendChild(el('h2', { class: 'section', text: 'Почта' }));
+
+    const emails = (me && me.emails) || [];
+    if (!emails.length) {
+      box.appendChild(el('p', { class: 'small muted', text:
+        'Подтверждённых адресов нет. Подключите почту, чтобы покупки с сайта появились здесь.' }));
+      box.appendChild(el('button', {
+        class: 'btn btn--ghost', text: 'Добавить покупки с сайта', onclick: openClaim,
+      }));
+    } else {
+      box.appendChild(el('p', { class: 'small muted', text:
+        'Покупки с сайта на эти адреса появляются в «Мои eSIM» автоматически.' }));
+      for (const m of emails) box.appendChild(emailRow(m));
+    }
+
+    /* ---- where things actually arrive ------------------------------ */
+    box.appendChild(el('h2', { class: 'section', text: 'Уведомления' }));
+    box.appendChild(el('div', { class: 'card stack' }, [
+      el('p', { class: 'small', text:
+        'Данные eSIM и чек приходят на почту, указанную при покупке.' }),
+      el('p', { class: 'small', text:
+        'Ответы поддержки приходят сюда, в чат с ботом Magic eSIM.' }),
+      el('p', { class: 'small muted', text:
+        'Рассылок мы не отправляем, поэтому и отключать нечего.' }),
+    ]));
+
+    /* ---- account --------------------------------------------------- */
+    if (me && me.customer && me.customer.created_at) {
+      box.appendChild(el('h2', { class: 'section', text: 'Аккаунт' }));
+      box.appendChild(el('div', { class: 'card stack' }, [
+        el('div', { class: 'row row--between' }, [
+          el('span', { class: 'small muted', text: 'Вы с нами с' }),
+          el('span', { class: 'small', text: new Date(me.customer.created_at).toLocaleDateString('ru-RU') }),
+        ]),
+        el('div', { class: 'row row--between' }, [
+          el('span', { class: 'small muted', text: 'Покупок' }),
+          el('span', { class: 'small tabular', text: String((me.counts && me.counts.orders) || 0) }),
+        ]),
+        el('div', { class: 'row row--between' }, [
+          el('span', { class: 'small muted', text: 'eSIM' }),
+          el('span', { class: 'small tabular', text: String((me.counts && me.counts.esims) || 0) }),
+        ]),
+      ]));
+    }
+  }
+
+  /**
+   * One proven address, with the one thing that can be done to it.
+   *
+   * The warning before disconnecting is exact rather than soothing: revoking
+   * does NOT unlink the purchases that address already authorised, and a
+   * customer who expected it to would be surprised in the wrong direction. It
+   * stops FUTURE purchases from attaching by themselves.
+   */
+  function emailRow(m) {
+    return el('div', { class: 'card row row--between settings__row' }, [
+      el('span', { class: 'card__body' }, [
+        el('span', { class: 'card__title', text: m.masked }),
+        el('span', { class: 'card__meta', text: m.verified_at
+          ? `подтверждён ${new Date(m.verified_at).toLocaleDateString('ru-RU')}`
+          : 'подтверждён' }),
+      ]),
+      el('button', {
+        class: 'btn btn--quiet settings__act', text: 'Отключить',
+        onclick: async () => {
+          const ok = await confirmSheet(
+            'Отключить этот адрес? Покупки, которые уже добавлены, останутся — '
+            + 'новые с этого адреса просто перестанут появляться сами.',
+            { confirmText: 'Отключить' }
+          );
+          if (!ok) return;
+          try {
+            await api.revokeEmail(m.id);
+            haptic('light');
+            notifySuccess();
+            await renderSettings();
+          } catch {
+            toast('Не удалось отключить. Попробуйте ещё раз.');
+          }
+        },
+      }),
+    ]);
+  }
+
   function renderHelp() {
     const box = $('#help-body');
     clear(box);
@@ -1356,6 +1486,15 @@
         onclick: () => openExternal('https://magicesim.store/android.html'),
       }),
     ]));
+
+    // Account settings. Placed here rather than as a fifth tab: four tabs are
+    // already tight at 390px, and mini.css warns in as many words that a fifth
+    // starts truncating labels.
+    box.appendChild(el('h2', { class: 'section', text: 'Аккаунт' }));
+    box.appendChild(el('button', {
+      class: 'btn btn--ghost', text: 'Настройки',
+      onclick: () => { show('settings'); void renderSettings(); },
+    }));
 
     box.appendChild(el('h2', { class: 'section', text: 'Не нашли ответ?' }));
     // The order ref rides along when there is one, so the operator opens the

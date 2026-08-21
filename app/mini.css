@@ -1184,3 +1184,37 @@ body.sheet-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .sheetm__panel, .toast { animation: none; }
 }
+
+/* -----------------------------------------------------------------------
+ * Settings row: a value and the one action on it.
+ *
+ * The SAME trap the copy fields fell into: `.btn { width: 100% }` is right for
+ * every full-width button in this app and wrong inside a flex ROW, where that
+ * width becomes the button's flex-basis and squeezes the value beside it. It
+ * showed as «b***r@exa...» — a masked address truncated past the point of being
+ * the thing the row exists to show.
+ * ----------------------------------------------------------------------- */
+.settings__act {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 32px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+/* The address must be readable WHOLE — it is the thing the row exists to show —
+   so it wraps rather than ellipsing.
+   `break-word`, deliberately NOT `anywhere`: `anywhere` lets a box's min-content
+   collapse to a single character, which is exactly how the copy fields became
+   one-character-per-line towers. `break-word` splits a long token without
+   touching intrinsic sizing, and `min-width: 0` on the body is what lets the
+   flex item be narrow enough for that to matter — together they contain a
+   44-character address inside the card instead of pushing the page sideways. */
+.settings__row .card__title {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: break-word;
+  line-height: 1.3;
+}
+.settings__row .card__body { min-width: 0; }
