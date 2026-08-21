@@ -1665,28 +1665,22 @@
       expected_amount_rub: Number(pkg.price),
       _pkg: pkg,
       _where: where,
+      // Kept so the summary can be rebuilt when a promo changes the total —
+      // the flag and the destination name come from the group the customer
+      // navigated through, not from the package DTO.
+      _group: group,
     };
     state.termsAccepted = false;
 
-    $('#checkout-summary').replaceChildren(
-      el('div', { class: 'card stack' }, [
-        el('div', { class: 'row' }, [
-          el('span', { class: 'card__flag', text: (group && group.flag) || C.flagFor(pkg.country_code, pkg) }),
-          el('span', { class: 'card__body' }, [
-            el('span', { class: 'card__title', text: where }),
-            el('span', {
-              class: 'card__meta',
-              text: `${pkg.unlimited ? 'Безлимит' : `${pkg.data_gb} ГБ`}`
-                + ` · ${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
-            }),
-          ]),
-        ]),
-        el('div', { class: 'row row--between' }, [
-          el('span', { class: 'muted', text: 'К оплате' }),
-          el('strong', { class: 'tabular', text: C.money(pkg.price) }),
-        ]),
-      ])
-    );
+    // A fresh checkout is a fresh intent: any code applied to the previous
+    // tariff is dropped, never carried over. Applying a promo to a package the
+    // customer is no longer buying is how a discount ends up on the wrong
+    // order.
+    state.promo = null;
+    state.promoDisabled = false;
+
+    renderCheckoutSummary(pkg, group, where, days);
+    renderPromoBlock();
 
     // Blueprint §9 S4: «Согласие с офертой — обязательно. Явное действие.
     // Предустановленной галочки быть не может.» The app was sending
@@ -1710,13 +1704,262 @@
    * the same choice reuses the existing one. Nothing here has to manage that;
    * it only has to keep state.intent honest.
    */
+  /* ------------------------------------------------------------------ *
+   * Checkout price, and the promo code that may change it
+   *
+   * ONE RULE GOVERNS EVERYTHING BELOW: the client never computes a price. Every
+   * number on this screen is either the catalogue's own or one the server
+   * returned from /api/v1/retail/promo/quote — the SAME endpoint the website
+   * calls, which is the only place that knows about validity windows, usage and
+   * per-email limits, first-purchase rules, country and package restrictions
+   * and the minimum-margin guard.
+   *
+   * `expected_amount_rub` then carries the server's number back to the order,
+   * where `onOrderCreated` compares it against what the checkout independently
+   * recomputed inside the transaction and aborts on a mismatch. So the case the
+   * brief warns about — intent created at 500, promo applied, Platega still
+   * charged 500 — cannot occur: the order would refuse rather than charge the
+   * wrong amount.
+   * ------------------------------------------------------------------ */
+
+  function renderCheckoutSummary(pkg, group, where, days) {
+    const promo = state.promo;
+    const base = Number(pkg.price);
+
+    const rows = [
+      el('div', { class: 'row' }, [
+        el('span', { class: 'card__flag', text: (group && group.flag) || C.flagFor(pkg.country_code, pkg) }),
+        el('span', { class: 'card__body' }, [
+          el('span', { class: 'card__title', text: where }),
+          el('span', {
+            class: 'card__meta',
+            text: `${pkg.unlimited ? 'Безлимит' : `${pkg.data_gb} ГБ`}`
+              + ` · ${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
+          }),
+        ]),
+      ]),
+    ];
+
+    // The two extra lines appear ONLY with a real discount, so an ordinary
+    // purchase still reads as one price rather than as arithmetic.
+    if (promo) {
+      rows.push(el('div', { class: 'row row--between' }, [
+        el('span', { class: 'small muted', text: 'Тариф' }),
+        el('span', { class: 'small tabular muted', text: C.money(promo.original) }),
+      ]));
+      rows.push(el('div', { class: 'row row--between' }, [
+        el('span', { class: 'small muted', text: `Промокод ${promo.code}` }),
+        el('span', { class: 'small tabular co-discount', text: `−${C.money(promo.discount)}` }),
+      ]));
+    }
+
+    rows.push(el('div', { class: 'row row--between checkout-total' }, [
+      el('span', { class: 'muted', text: 'К оплате' }),
+      el('strong', { class: 'tabular', text: C.money(promo ? promo.final : base) }),
+    ]));
+
+    $('#checkout-summary').replaceChildren(el('div', { class: 'card stack' }, rows));
+
+    // The amount the order will be checked against — the SERVER's number when a
+    // promo is applied, the catalogue's otherwise. Never arithmetic done here.
+    if (state.intent) state.intent.expected_amount_rub = promo ? promo.final : base;
+  }
+
+  const repaintCheckout = () => {
+    const i = state.intent;
+    if (!i || !i._pkg) return;
+    renderCheckoutSummary(i._pkg, i._group, i._where,
+      Number(i._pkg.validity_days));
+  };
+
+  /**
+   * The promo block, in its three states: closed, open, applied.
+   *
+   * Removed entirely when the backend answers PROMO_CODES_DISABLED — a field
+   * that cannot succeed is worse than no field, and that is the same signal the
+   * website acts on.
+   */
+  function renderPromoBlock(message) {
+    const box = $('#checkout-promo');
+    if (!box) return;
+    clear(box);
+    if (state.promoDisabled) return;
+
+    const promo = state.promo;
+
+    if (promo) {
+      box.appendChild(el('div', { class: 'card row row--between promo-applied' }, [
+        el('span', { class: 'card__body' }, [
+          el('span', { class: 'card__title', text: 'Промокод применён' }),
+          el('span', { class: 'card__meta', text: `${promo.code} · −${C.money(promo.discount)}` }),
+        ]),
+        el('button', {
+          class: 'btn btn--quiet promo__act', text: 'Удалить',
+          onclick: () => {
+            // Dropping the code restores the catalogue price by RE-READING it,
+            // not by adding the discount back — the same rule as everywhere
+            // else on this screen.
+            state.promo = null;
+            state.promoOpen = true;
+            repaintCheckout();
+            renderPromoBlock();
+          },
+        }),
+      ]));
+
+      return;
+    }
+
+    if (!state.promoOpen) {
+      box.appendChild(el('button', {
+        class: 'btn btn--quiet promo__toggle', text: 'Есть промокод?',
+        onclick: () => { state.promoOpen = true; renderPromoBlock(); },
+      }));
+
+      return;
+    }
+
+    const input = el('input', {
+      class: 'input', type: 'text', id: 'checkout-promo-input',
+      placeholder: 'Промокод', value: state.promoDraft || '',
+      autocapitalize: 'characters', autocorrect: 'off', spellcheck: 'false',
+      'aria-label': 'Промокод',
+    });
+    const apply = el('button', { class: 'btn btn--ghost promo__act' });
+    setBusy(apply, false, 'Применить');
+
+    const run = async () => {
+      const code = C.normalisePromoCode(input.value);
+      state.promoDraft = code;
+      input.value = code;
+      if (!code) { renderPromoBlock('Введите промокод.'); return; }
+
+      setBusy(apply, true, 'Проверяем…');
+      const out = await quotePromo(code);
+      setBusy(apply, false, 'Применить');
+
+      if (out.ok) { state.promoDraft = ''; repaintCheckout(); renderPromoBlock(); return; }
+      if (state.promoDisabled) { renderPromoBlock(); return; }
+      renderPromoBlock(out.message);
+    };
+
+    apply.addEventListener('click', run);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') run(); });
+
+    box.appendChild(el('div', { class: 'promo__row' }, [input, apply]));
+    if (message) box.appendChild(el('p', { class: 'small promo__err', text: message }));
+  }
+
+  /**
+   * Ask the server what a code is worth. The ONLY place a discount comes from.
+   *
+   * A network failure is reported as a failure rather than guessed at: there is
+   * no local rule that could stand in for the one on the server, and inventing
+   * one is how an app shows a discount the payment does not honour.
+   */
+  async function quotePromo(code) {
+    const i = state.intent;
+    if (!i) return { ok: false, message: C.promoMessage('') };
+
+    let data = null;
+    try {
+      data = await api.promoQuote({
+        code,
+        packageId: i.package_id,
+        paymentType: i.payment_type,
+        email: String($('#checkout-email').value || '').trim(),
+      });
+    } catch (err) {
+      const body = (err && err.body) || {};
+
+      if (body.error === 'PROMO_CODES_DISABLED') {
+        state.promoDisabled = true;
+        state.promo = null;
+        repaintCheckout();
+
+        return { ok: false, message: C.promoMessage('PROMO_CODES_DISABLED') };
+      }
+
+      /*
+       * A REFUSAL and a FAILURE are not the same thing, and the difference
+       * decides whether a discount survives.
+       *
+       * A body with an `error` code is the server having looked and said no —
+       * 409 PROMO_CODE_EMAIL_LIMIT_REACHED is exactly that, and it arrives here
+       * rather than below because a 409 throws. The discount must go: leaving
+       * «−75 ₽» on screen after the server refused the code is a price the
+       * payment will not honour, and the customer would find out at Platega.
+       * A test caught this — the discount stayed.
+       *
+       * No body is a NETWORK failure, and there the applied code is kept on
+       * purpose: we have not been told anything, and the order re-validates in
+       * its own transaction anyway, so a stale screen can cost a refused order
+       * but never a wrong charge.
+       */
+      if (body.error) {
+        state.promo = null;
+        repaintCheckout();
+
+        return { ok: false, message: C.promoMessage(body.error) };
+      }
+
+      return { ok: false, message: 'Не удалось проверить промокод. Попробуйте позже.' };
+    }
+
+    if (data && data.error === 'PROMO_CODES_DISABLED') {
+      state.promoDisabled = true;
+      state.promo = null;
+      repaintCheckout();
+
+      return { ok: false, message: C.promoMessage('PROMO_CODES_DISABLED') };
+    }
+
+    const quote = C.readPromoQuote(data, code);
+    if (!quote) {
+      state.promo = null;
+      repaintCheckout();
+
+      return { ok: false, message: C.promoMessage(data && data.error) };
+    }
+
+    state.promo = quote;
+
+    return { ok: true };
+  }
+
+  /**
+   * Re-check an APPLIED code when something it depends on changes.
+   *
+   * The payment type and the email both feed the server's answer — per-email
+   * and first-purchase limits cannot be evaluated without an address, and the
+   * quote takes the payment type. A stale discount on screen would be a price
+   * the payment does not honour.
+   *
+   * A network error deliberately KEEPS the current promo: the order re-validates
+   * inside its own transaction and aborts on a mismatch, so a stale screen can
+   * cost a refused order but never a wrong charge.
+   */
+  async function revalidatePromo() {
+    if (!state.promo || state.promoDisabled) return;
+    const out = await quotePromo(state.promo.code);
+    repaintCheckout();
+    renderPromoBlock(out.ok ? undefined : out.message);
+  }
+
   function setPaymentMethod(method) {
     const chosen = method === 'card' ? 'card' : 'sbp';
+    const changed = state.intent && state.intent.payment_type !== chosen;
     if (state.intent) state.intent.payment_type = chosen;
 
     for (const btn of document.querySelectorAll('#checkout-methods .segmented__opt')) {
       btn.setAttribute('aria-checked', String(btn.dataset.method === chosen));
     }
+
+    // The quote takes the payment type, so a switch has to be re-priced. It
+    // also mints a NEW idempotency key by itself — the fingerprint in
+    // purchaseIntentKey already spans package, payment type, promo and email —
+    // so changing rails cannot replay the previous intent's amount.
+    if (changed) void revalidatePromo();
   }
 
   /**
@@ -1759,6 +2002,22 @@
     setPayEnabled(false, null, { busy: true });
     state.intent.email = email;
     state.intent.terms_accepted = state.termsAccepted === true;
+
+    /*
+     * The promo travels as a CODE, never as a discount.
+     *
+     * `expected_amount_rub` is the server's own number from the quote — set by
+     * renderCheckoutSummary, never computed here. The checkout re-validates the
+     * code and recomputes the price inside the order transaction and aborts on
+     * a mismatch (AMOUNT_CHANGED), so a stale screen costs a refused order and
+     * never a wrong charge.
+     *
+     * It is also part of the idempotency fingerprint — purchaseIntentKey spans
+     * package, payment type, promo and email — so applying, changing or
+     * removing a code mints a new key by itself. The intent created at the full
+     * price cannot be replayed at the discounted one, or the reverse.
+     */
+    state.intent.promo_code = state.promo ? state.promo.code : undefined;
     haptic('medium');
 
     try {
@@ -3410,6 +3669,20 @@
     // The pay button stays disabled until the oferta is accepted. The gate is
     // here rather than inside pay() so the customer can see the requirement
     // instead of discovering it by being refused.
+    /*
+     * The email feeds the promo answer.
+     *
+     * Per-email and first-purchase limits cannot be evaluated without an
+     * address, so a code that was valid with no email may stop being valid once
+     * one is typed — and the customer must see that before paying, not as a
+     * refused order afterwards.
+     *
+     * On `change`, not on every keystroke: the quote endpoint is rate-limited,
+     * and re-pricing on each letter of an address would spend that budget on
+     * nothing.
+     */
+    $('#checkout-email').addEventListener('change', () => { void revalidatePromo(); });
+
     $('#checkout-terms').addEventListener('change', (e) => {
       state.termsAccepted = Boolean(e.target.checked);
       const price = state.intent ? C.money(state.intent.expected_amount_rub) : '';

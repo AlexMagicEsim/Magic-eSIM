@@ -370,6 +370,81 @@ function remainingFraction(esim) {
  * so it survives the Mini App being backgrounded mid-payment — which is exactly
  * what happens, because paying leaves Telegram for a browser and comes back.
  */
+/* --------------------------------------------------------------------------
+ * Promo codes
+ * ----------------------------------------------------------------------- */
+
+/**
+ * What a customer reads when a code is refused.
+ *
+ * The SAME map the storefront uses, copied deliberately rather than imported —
+ * the site is one HTML file with no module system to import from — and kept
+ * byte-identical so one code produces one sentence on both surfaces. A customer
+ * who tries FRIENDS10 on the site and in the app must not be told two different
+ * things about it.
+ *
+ * An unmapped code falls back to a generic line, never to the backend's own
+ * string: a raw error is our vocabulary, not theirs.
+ */
+const PROMO_MESSAGES = Object.freeze({
+  PROMO_CODES_DISABLED: 'Промокоды сейчас недоступны.',
+  PROMO_CODE_INVALID: 'Проверьте формат промокода.',
+  PROMO_CODE_NOT_FOUND: 'Промокод не найден.',
+  PROMO_CODE_NOT_ACTIVE: 'Промокод недоступен.',
+  PROMO_CODE_NOT_STARTED: 'Промокод ещё не действует.',
+  PROMO_CODE_EXPIRED: 'Срок действия промокода истёк.',
+  PROMO_CODE_LIMIT_REACHED: 'Лимит использований промокода исчерпан.',
+  PROMO_CODE_EMAIL_LIMIT_REACHED: 'Этот промокод уже использован для этого email.',
+  PROMO_CODE_FIRST_PURCHASE_ONLY: 'Промокод действует только для первой покупки.',
+  PROMO_CODE_MIN_ORDER: 'Сумма заказа меньше необходимой для этого промокода.',
+  PROMO_CODE_NOT_APPLICABLE: 'Этот промокод нельзя применить к выбранному тарифу.',
+  PROMO_CODE_NOT_AVAILABLE: 'Этот промокод недоступен.',
+  RATE_LIMITED: 'Слишком много попыток. Попробуйте чуть позже.',
+});
+
+function promoMessage(code) {
+  return PROMO_MESSAGES[String(code || '')] || 'Не удалось применить промокод.';
+}
+
+/**
+ * How a typed code becomes the code that is sent.
+ *
+ * Trim and upper-case, which is what the storefront does and therefore what the
+ * backend has always received. Doing anything cleverer here — stripping spaces
+ * in the middle, folding lookalike characters — would make the app accept codes
+ * the site rejects, and the backend is the authority on what exists.
+ */
+function normalisePromoCode(raw) {
+  return String(raw == null ? '' : raw).trim().toUpperCase();
+}
+
+/**
+ * Read a quote answer, and refuse to invent anything from it.
+ *
+ * Returns null unless the server said `valid` AND gave three finite numbers.
+ * A partial answer is not a discount: without a server-computed final amount
+ * there is nothing to show and nothing to send back as `expected_amount_rub`,
+ * and guessing would be the client pricing the order.
+ */
+function readPromoQuote(data, fallbackCode) {
+  if (!data || data.valid !== true) return null;
+
+  const original = Number(data.original_amount_rub);
+  const discount = Number(data.discount_amount_rub);
+  const final = Number(data.final_amount_rub);
+  if (![original, discount, final].every((n) => Number.isFinite(n))) return null;
+  // A "discount" that costs more, or one that is not a discount at all, is an
+  // answer we do not understand — so we do not act on it.
+  if (discount <= 0 || final > original || final < 0) return null;
+
+  return {
+    code: normalisePromoCode(data.promo_code || fallbackCode),
+    original,
+    discount,
+    final,
+  };
+}
+
 function purchaseIntentKey(intent, storage, randomHex) {
   const scope = [
     'buy',
@@ -678,6 +753,38 @@ function createApi(deps = {}) {
   const catalogue = () => request('/api/v1/retail/packages', { auth: false });
 
   /**
+   * Price a promo code, server-side.
+   *
+   * THE SAME ENDPOINT THE WEBSITE USES — `/api/v1/retail/promo/quote`, already
+   * allowlisted at the gateway, already rate-limited, already the one place
+   * that knows about validity windows, usage limits, per-email limits,
+   * first-purchase rules, country and package restrictions and the minimum
+   * margin guard. The Mini App does not get its own promo system and must not:
+   * two implementations of "is this code allowed" is two answers.
+   *
+   * `auth: false` because the route is public, exactly as it is for the site.
+   * The session is irrelevant to what a code is worth.
+   *
+   * WHAT TRAVELS: the code, the package, the payment type and — only when it is
+   * a real address — the email, because per-email and first-purchase limits
+   * cannot be evaluated without it. NEVER an amount, a discount, a rate or a
+   * cost. The client has nothing to say about price.
+   */
+  const promoQuote = ({ code, packageId, paymentType, email }) => request(
+    '/api/v1/retail/promo/quote',
+    {
+      method: 'POST',
+      auth: false,
+      body: {
+        promo_code: code,
+        package_id: packageId,
+        payment_type: paymentType,
+        ...(email && /.+@.+\..+/.test(email) ? { email } : {}),
+      },
+    }
+  );
+
+  /**
    * The catalogue snapshot that ships with the site.
    *
    * Same origin, served by the Pages CDN, refreshed six times a day by CI — so
@@ -900,7 +1007,7 @@ function createApi(deps = {}) {
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
-    hiddenEsims, renameEsim, setEsimVisibility, revokeEmail,
+    hiddenEsims, renameEsim, setEsimVisibility, revokeEmail, promoQuote,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },
@@ -1744,6 +1851,7 @@ function defaultRandomHex(bytes) {
 
 const CORE = {
   API_BASE, ApiError, createApi, createCache, readThrough,
+  PROMO_MESSAGES, promoMessage, normalisePromoCode, readPromoQuote,
   gb, money, daysLeft, remainingFraction,
   purchaseIntentKey, clearIntentKey, hash32,
   byCountry, pickBestValue, searchCountries,

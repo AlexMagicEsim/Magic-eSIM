@@ -161,6 +161,12 @@
     <h1>Оформление</h1>
     <div id="checkout-summary" class="stack"></div>
 
+    <!-- Promo. Collapsed by default: most purchases have no code, and a field
+         that is always open asks every customer a question only some of them
+         can answer. The whole block is removed — not disabled — when the
+         backend says promo codes are off. -->
+    <div id="checkout-promo" class="stack"></div>
+
     <h2>E-mail для eSIM</h2>
     <div class="search search--static">
       <!-- type=email for the right keyboard; validation is still done in JS and

@@ -1218,3 +1218,40 @@ body.sheet-open { overflow: hidden; }
   line-height: 1.3;
 }
 .settings__row .card__body { min-width: 0; }
+
+/* -----------------------------------------------------------------------
+ * Promo code at checkout
+ *
+ * Collapsed to one quiet line by default: most purchases have no code, and a
+ * field that is always open asks every customer a question only some of them
+ * can answer.
+ * ----------------------------------------------------------------------- */
+
+.promo__toggle { justify-content: flex-start; padding: 0; min-height: 36px; }
+
+.promo__row { display: flex; gap: var(--s2); align-items: stretch; }
+.promo__row .input { flex: 1 1 auto; min-width: 0; text-transform: uppercase; }
+
+/* The SAME trap as the copy fields and the settings row: `.btn { width: 100% }`
+   inside a flex ROW becomes the button's flex-basis and squeezes the field
+   beside it. Third time, so it is worth naming — a button that shares a row
+   always needs its width back. */
+.promo__act {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: var(--tap);
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+.promo__err { color: var(--bad); margin: var(--s1) 0 0; }
+
+/* A discount is good news and is allowed to say so, but it is still a number in
+   a price list — same size and weight as the row it belongs to. */
+.co-discount { color: var(--good); }
+
+/* The total is the line somebody actually reads. It gets a rule above it once
+   there are rows to separate it from. */
+.checkout-total { padding-top: var(--s2); border-top: 1px solid var(--line); }
+
+.promo-applied .card__title { color: var(--good); }

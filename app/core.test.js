@@ -1420,3 +1420,103 @@ test('a payment link is only ever opened when it is Platega\'s', () => {
   assert.equal(C.isAllowedPaymentUrl('https://platega.io.evil.tld/x'), false);
   assert.equal(C.isAllowedPaymentUrl('http://platega.io/x'), false);
 });
+
+/* ==========================================================================
+ * Promo codes — the pure half
+ *
+ * The client's ONLY job is to normalise what was typed and to refuse to read a
+ * quote it does not understand. Every number comes from the server.
+ * ======================================================================== */
+
+test('promo: a typed code is trimmed and upper-cased, exactly as the site does', () => {
+  for (const [raw, want] of [
+    ['  friends10  ', 'FRIENDS10'],
+    ['Friends10', 'FRIENDS10'],
+    ['FRIENDS10', 'FRIENDS10'],
+    ['', ''],
+    [null, ''],
+    [undefined, ''],
+  ]) {
+    assert.equal(C.normalisePromoCode(raw), want, JSON.stringify(raw));
+  }
+  // NOT cleverer than the site: an inner space is preserved, because the
+  // backend is the authority on which codes exist and the two surfaces must
+  // send the same string.
+  assert.equal(C.normalisePromoCode(' a b '), 'A B');
+});
+
+test('promo: a quote is read only when the server said valid AND gave three numbers', () => {
+  const good = { valid: true, promo_code: 'friends10', original_amount_rub: 750,
+    discount_amount_rub: 75, final_amount_rub: 675 };
+  assert.deepEqual(C.readPromoQuote(good, 'x'),
+    { code: 'FRIENDS10', original: 750, discount: 75, final: 675 });
+
+  // Everything that must NOT become a discount.
+  for (const [label, data] of [
+    ['no answer', null],
+    ['valid missing', { original_amount_rub: 750, discount_amount_rub: 75, final_amount_rub: 675 }],
+    ['valid false', { ...good, valid: false }],
+    ['final missing', { valid: true, original_amount_rub: 750, discount_amount_rub: 75 }],
+    ['discount not a number', { ...good, discount_amount_rub: 'семьдесят пять' }],
+    ['zero discount', { ...good, discount_amount_rub: 0 }],
+    ['negative discount', { ...good, discount_amount_rub: -75 }],
+    ['final above original', { ...good, final_amount_rub: 800 }],
+    ['final below zero', { ...good, final_amount_rub: -1 }],
+  ]) {
+    assert.equal(C.readPromoQuote(data, 'x'), null, label);
+  }
+});
+
+test('promo: the code falls back to what was typed when the server echoes none', () => {
+  const out = C.readPromoQuote(
+    { valid: true, original_amount_rub: 100, discount_amount_rub: 10, final_amount_rub: 90 },
+    ' friends10 '
+  );
+  assert.equal(out.code, 'FRIENDS10');
+});
+
+test('promo: every refusal has a sentence, and an unknown one does not leak the raw code', () => {
+  assert.equal(C.promoMessage('PROMO_CODE_NOT_FOUND'), 'Промокод не найден.');
+  assert.equal(C.promoMessage('PROMO_CODE_EXPIRED'), 'Срок действия промокода истёк.');
+  assert.equal(C.promoMessage('PROMO_CODE_NOT_APPLICABLE'),
+    'Этот промокод нельзя применить к выбранному тарифу.');
+
+  for (const unknown of ['SOMETHING_NEW', '23505', '', null, undefined]) {
+    assert.equal(C.promoMessage(unknown), 'Не удалось применить промокод.', String(unknown));
+  }
+  // Checked separately, and only for codes that are actually a string: an empty
+  // string is a substring of everything, so folding it into the loop above
+  // would make the assertion vacuous rather than strict.
+  for (const unknown of ['SOMETHING_NEW', '23505', 'relation "x" does not exist']) {
+    assert.ok(!C.promoMessage(unknown).includes(unknown),
+      'a backend code must not reach the customer');
+  }
+});
+
+test('promo: applying, changing or removing a code mints a DIFFERENT idempotency key', () => {
+  // The invariant the brief asks about: an intent created at the full price must
+  // never be replayed at the discounted one, or the reverse. It holds because
+  // the fingerprint already spans the promo.
+  const store = new Map();
+  const storage = {
+    getItem: (k) => (store.has(k) ? store.get(k) : null),
+    setItem: (k, v) => store.set(k, v),
+    removeItem: (k) => store.delete(k),
+  };
+  let n = 0;
+  const rnd = () => `r${n += 1}`;
+  const base = { package_id: 'p1', payment_type: 'sbp', email: 'a@b.io' };
+
+  const none = C.purchaseIntentKey({ ...base }, storage, rnd);
+  const promoA = C.purchaseIntentKey({ ...base, promo_code: 'FRIENDS10' }, storage, rnd);
+  const promoB = C.purchaseIntentKey({ ...base, promo_code: 'OTHER5' }, storage, rnd);
+  const card = C.purchaseIntentKey({ ...base, promo_code: 'FRIENDS10', payment_type: 'card' }, storage, rnd);
+
+  assert.equal(new Set([none, promoA, promoB, card]).size, 4, 'all four are distinct intents');
+  // And each is STABLE, so a double tap on the same state is still one order.
+  assert.equal(C.purchaseIntentKey({ ...base, promo_code: 'FRIENDS10' }, storage, rnd), promoA);
+  // Removing the code returns to the no-promo intent rather than inventing a fifth.
+  assert.equal(C.purchaseIntentKey({ ...base }, storage, rnd), none);
+  // Case and whitespace do not fork the key either.
+  assert.equal(C.purchaseIntentKey({ ...base, promo_code: ' friends10 ' }, storage, rnd), promoA);
+});
