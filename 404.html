@@ -9,6 +9,7 @@
        GitHub Pages cannot set headers, so meta equivalents are used here.) -->
   <meta name="robots" content="noindex, nofollow, noarchive" />
   <meta name="referrer" content="no-referrer" />
+  <script src="/assets/magic-net.js"></script>
   <style>
     :root{
       --bg:#f4f6fb; --card:#ffffff; --text:#1a2230; --muted:#66707f;
@@ -72,7 +73,6 @@ body{
   <script>
   (function(){
     'use strict';
-    var API_BASE = 'https://api.magicesim.store';
     var card = document.getElementById('card');
 
     function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
@@ -113,8 +113,9 @@ body{
       var attempts = 0, MAX = 20; // ~60 seconds
       function tick(){
         attempts++;
-        fetch(API_BASE+'/api/v1/public/private-payments/'+encodeURIComponent(token), {headers:{'Accept':'application/json'}})
-          .then(function(res){ return res.json().catch(function(){return {};}).then(function(j){ return {status:res.status, body:j}; }); })
+        MagicNet.request('/api/v1/public/private-payments/'+encodeURIComponent(token),
+          {kind:'status', headers:{'Accept':'application/json'}})
+          .then(function(r){ return {status:r.status, body:r.body||{}}; })
           .then(function(r){
             if(r.status===410 && r.body && r.body.status==='paid'){ showSuccess(r.body); return; }
             if(r.status===404){ showUnavailable(); return; }
@@ -165,10 +166,18 @@ body{
       btn.addEventListener('click', function(){
         if(busy) return; busy = true;
         btn.disabled = true; btn.textContent = 'Создаём платёж…'; errEl.textContent='';
-        fetch(API_BASE+'/api/v1/public/private-payments/'+encodeURIComponent(token)+'/start', {
-          method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:'{}'
-        }).then(function(res){
-          return res.json().catch(function(){return {};}).then(function(j){ return {status:res.status, body:j}; });
+        /* PRIMARY ONLY, deliberately. This POST creates a payment and carries no
+           idempotency key, so a retry on the second endpoint could produce a
+           second payment for the same link — exactly the duplicate the retail
+           checkout is protected against by its key. `idempotent` is therefore
+           NOT set: MagicNet will not carry it, and a transport failure surfaces
+           as the honest "no connection" message below. Giving this route a key
+           is a backend change and belongs in its own task. */
+        MagicNet.request('/api/v1/public/private-payments/'+encodeURIComponent(token)+'/start', {
+          method:'POST', kind:'write',
+          headers:{'Content-Type':'application/json','Accept':'application/json'}, body:'{}'
+        }).then(function(r){
+          return {status:r.status, body:r.body||{}};
         }).then(function(r){
           if((r.status===201||r.status===200) && r.body && r.body.paymentUrl && allowedRedirect(r.body.paymentUrl)){
             window.location.href = r.body.paymentUrl; return;
@@ -189,10 +198,10 @@ body{
     }
 
     function loadLink(token){
-      fetch(API_BASE+'/api/v1/public/private-payments/'+encodeURIComponent(token), {
-        method:'GET', headers:{'Accept':'application/json'}
-      }).then(function(res){
-        return res.json().catch(function(){return {};}).then(function(j){ return {status:res.status, body:j}; });
+      MagicNet.request('/api/v1/public/private-payments/'+encodeURIComponent(token), {
+        method:'GET', kind:'read', headers:{'Accept':'application/json'}
+      }).then(function(r){
+        return {status:r.status, body:r.body||{}};
       }).then(function(r){
         if(r.status===200 && r.body && r.body.canPay){ renderPayable(r.body, token); return; }
         if(r.status===410 || r.status===404){ showUnavailable(); return; }

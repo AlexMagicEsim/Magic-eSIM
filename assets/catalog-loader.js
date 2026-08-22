@@ -20,8 +20,16 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.magicesim.store';
-  var LIVE_URL = API_BASE + '/api/v1/retail/packages';
+  // The endpoint list, primary first. Taken from MagicNet when it is present so
+  // there is ONE definition of "where the API lives" in the storefront; the
+  // literals below are the same pair and exist only so this file still works if
+  // it is ever loaded on a page that forgot the script tag.
+  var BASES = (window.MagicNet && window.MagicNet.ENDPOINTS)
+    ? window.MagicNet.ENDPOINTS.map(function (e) { return e.base; })
+    : ['https://esim-backend-3wmu.onrender.com', 'https://api.magicesim.store'];
+  var API_BASE = BASES[0];
+  var LIVE_PATH = '/api/v1/retail/packages';
+  var LIVE_URL = API_BASE + LIVE_PATH;
   var CACHE_URL = '/assets/catalog.json';
 
   // 7s: long enough for a slow-but-working mobile connection, short enough that a
@@ -89,11 +97,20 @@
     return 'http_' + status;
   }
 
-  /** One live attempt. Resolves with the package array or throws a tagged error. */
-  function fetchLiveOnce() {
-    return fetchWithTimeout(LIVE_URL + '?t=' + Date.now(), LIVE_TIMEOUT_MS)
+  /** One live attempt against ONE endpoint. Resolves with the package array. */
+  function fetchLiveOnce(base) {
+    return fetchWithTimeout((base || API_BASE) + LIVE_PATH + '?t=' + Date.now(), LIVE_TIMEOUT_MS)
       .then(function (res) {
-        if (res.status !== 200) throw tagged(httpErrorType(res.status), 'HTTP ' + res.status);
+        if (res.status !== 200) {
+          // `errorType` stays coarse because analytics is built on it — 5xx has
+          // always collapsed to 'http_5xx'. The exact status rides alongside so
+          // endpoint failover can be precise about which failures reached no
+          // verdict; classifying on errorType alone silently never fell over,
+          // because 'http_502' is a value this function has never produced.
+          var e = tagged(httpErrorType(res.status), 'HTTP ' + res.status);
+          e.httpStatus = res.status;
+          throw e;
+        }
         return res.text();
       })
       .then(function (text) {
@@ -107,17 +124,41 @@
       });
   }
 
-  /** Live API with a bounded number of attempts. Never loops indefinitely. */
+  /**
+   * Only a failure that reached NO VERDICT may be carried to the second
+   * endpoint. A 404 or a 403 is an answer and would be the same answer there;
+   * re-asking it just spends another second of somebody's morning.
+   */
+  function carriesToNextEndpoint(err) {
+    if (!err) return false;
+    var t = err.errorType;
+    if (t === 'timeout' || t === 'network') return true;
+    var st = err.httpStatus;
+    return st === 502 || st === 503 || st === 504;
+  }
+
+  /**
+   * Live API, bounded twice over: LIVE_ATTEMPTS against the primary, then ONE
+   * attempt against the fallback. Three requests worst case, then the caller
+   * falls through to the static snapshot exactly as before — this changes which
+   * roads are tried, not what happens when they all fail.
+   */
   function fetchLive() {
     var lastErr = null;
-    function attempt(n) {
-      return fetchLiveOnce().catch(function (err) {
+    function onPrimary(n) {
+      return fetchLiveOnce(BASES[0]).catch(function (err) {
         lastErr = err;
-        if (n + 1 >= LIVE_ATTEMPTS) throw lastErr;
-        return sleep(jitter(RETRY_BASE_MS)).then(function () { return attempt(n + 1); });
+        if (n + 1 >= LIVE_ATTEMPTS) throw err;
+        return sleep(jitter(RETRY_BASE_MS)).then(function () { return onPrimary(n + 1); });
       });
     }
-    return attempt(0);
+    return onPrimary(0).catch(function (err) {
+      if (BASES.length < 2 || !carriesToNextEndpoint(err)) throw err;
+      return fetchLiveOnce(BASES[1]).catch(function (err2) {
+        // Report the PRIMARY's failure: it is the one that describes the outage.
+        throw lastErr || err2;
+      });
+    });
   }
 
   /**

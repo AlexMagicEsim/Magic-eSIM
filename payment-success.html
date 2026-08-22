@@ -18,7 +18,7 @@
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method'],api_failover:['outcome','endpoint_class']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -30,6 +30,8 @@
       if(k==='payment_method'){v=String(v);return /^(sbp|card)$/.test(v)?v:undefined;}
       if(k==='tariff_type'){v=String(v);return /^(local|regional)$/.test(v)?v:undefined;}
       if(k==='page_type'){v=String(v);return /^(landing|country)$/.test(v)?v:undefined;}
+      if(k==='outcome'){v=String(v);return /^(primary_ok|fallback_ok|both_failed|no_failover_unsafe_write)$/.test(v)?v:undefined;}
+      if(k==='endpoint_class'){v=String(v);return /^(read|write|status)$/.test(v)?v:undefined;}
       if(k==='source'){v=String(v);return /^(live|cache)$/.test(v)?v:undefined;}
       if(k==='error_type'){v=String(v);return /^[a-z0-9_]{1,32}$/i.test(v)?v:undefined;}
       if(k==='fallback_triggered'||k==='stale'){v=String(v);return /^(yes|no)$/.test(v)?v:undefined;}
@@ -48,6 +50,10 @@
     };
   })();
   </script>
+  <!-- Render primary, api.magicesim.store fallback. Same layer as the rest of
+       the storefront; this page polls a payment status and must not depend on
+       the single road that measured 48% success. -->
+  <script src="/assets/magic-net.js"></script>
   <style>
     :root{--bg:#0a0d16;--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--purple:#7a6fb0;--ok:#5ec98a;--warn:#e6c168;--border:rgba(255,255,255,.10);--max:640px}
     *{box-sizing:border-box}
@@ -139,7 +145,6 @@ body{
 
   <script>
     (function () {
-      var API_BASE = 'https://api.magicesim.store';
       var params = new URLSearchParams(location.search);
       var token = (params.get('token') || params.get('public_order_token') || '').trim();
       if (!/^[A-Za-z0-9_-]{16,128}$/.test(token)) token = '';
@@ -303,8 +308,14 @@ body{
 
       function poll() {
         attempts++;
-        fetch(API_BASE + '/api/v1/public/retail-orders/' + encodeURIComponent(token) + '/status', { headers: { Accept: 'application/json' } })
-          .then(function (r) { return r.ok ? r.json() : null; })
+        /* Render first, gateway second. The polling itself is unchanged: the
+           SERVER's status is still the only thing that decides what this page
+           says, the return URL still proves nothing, and a status this page
+           cannot read still shows the neutral fallback rather than a guess.
+           Only the road changed. */
+        MagicNet.request('/api/v1/public/retail-orders/' + encodeURIComponent(token) + '/status',
+          { kind: 'status', headers: { Accept: 'application/json' } })
+          .then(function (r) { return r.ok ? r.body : null; })
           .then(function (view) {
             var key = view ? mapView(view) : 'processing';
             render(key);

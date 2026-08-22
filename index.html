@@ -52,13 +52,17 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
   <!-- /Yandex.Metrika counter -->
+  <!-- One network strategy for every storefront page: Render first,
+       api.magicesim.store as the second road. Loaded before the catalogue
+       loader, which uses it. -->
+  <script src="/assets/magic-net.js"></script>
   <script src="/assets/catalog-loader.js" defer></script>
   <script>
   /* Safe Metrika goal wrapper — allowlisted goal names + param keys, strict per-key
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -69,6 +73,8 @@
       if(k==='currency'){v=String(v).toUpperCase();return v==='RUB'?v:undefined;}
       if(k==='payment_method'){v=String(v);return /^(sbp|card)$/.test(v)?v:undefined;}
       if(k==='page_type'){v=String(v);return /^(landing|country)$/.test(v)?v:undefined;}
+      if(k==='outcome'){v=String(v);return /^(primary_ok|fallback_ok|both_failed|no_failover_unsafe_write)$/.test(v)?v:undefined;}
+      if(k==='endpoint_class'){v=String(v);return /^(read|write|status)$/.test(v)?v:undefined;}
       if(k==='source'){v=String(v);return /^(live|cache)$/.test(v)?v:undefined;}
       if(k==='error_type'){v=String(v);return /^[a-z0-9_]{1,32}$/i.test(v)?v:undefined;}
       if(k==='fallback_triggered'||k==='stale'){v=String(v);return /^(yes|no)$/.test(v)?v:undefined;}
@@ -2478,8 +2484,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     promoMsg('',null);
     try{
       const emailEl=byId('coEmail');const email=(emailEl&&/.+@.+\..+/.test(emailEl.value.trim()))?emailEl.value.trim():undefined;
-      const resp=await fetch(API_BASE+'/api/v1/retail/promo/quote',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({promo_code:code,package_id:pkgId,payment_type:selectedMethod,email:email})});
-      let data={};try{data=await resp.json();}catch(e){}
+      /* A POST, but semantically a READ: the server computes a preview and the
+         only row it writes is a funnel attempt for analytics. So it carries the
+         read timeout and may be re-asked on the second endpoint — the worst a
+         repeat can cost is one extra analytics row. The discount itself is
+         still whatever the SERVER says; nothing here recomputes a price. */
+      const resp=await MagicNet.request('/api/v1/retail/promo/quote',{
+        method:'POST',kind:'read',idempotent:true,
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({promo_code:code,package_id:pkgId,payment_type:selectedMethod,email:email})});
+      const data=resp.body||{};
       if(resp.ok&&data&&data.valid){
         appliedPromo={code:data.promo_code||code,original:Number(data.original_amount_rub),discount:Number(data.discount_amount_rub),final:Number(data.final_amount_rub)};
         renderPrice();
@@ -2506,8 +2520,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     if(!pkgId)return;
     const emailEl=byId('coEmail');const email=(emailEl&&/.+@.+\..+/.test(emailEl.value.trim()))?emailEl.value.trim():undefined;
     try{
-      const resp=await fetch(API_BASE+'/api/v1/retail/promo/quote',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({promo_code:code,package_id:pkgId,payment_type:selectedMethod,email:email})});
-      let data={};try{data=await resp.json();}catch(e){}
+      const resp=await MagicNet.request('/api/v1/retail/promo/quote',{
+        method:'POST',kind:'read',idempotent:true,
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({promo_code:code,package_id:pkgId,payment_type:selectedMethod,email:email})});
+      const data=resp.body||{};
       if(resp.ok&&data&&data.valid){
         appliedPromo={code:data.promo_code||code,original:Number(data.original_amount_rub),discount:Number(data.discount_amount_rub),final:Number(data.final_amount_rub)};
         promoMsg('',null);renderPrice();
@@ -2683,10 +2700,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     if(payBtn)payBtn.disabled=true; if(mSbp)mSbp.disabled=true; if(mCard)mCard.disabled=true;   // block during flight
     if(label)label.textContent='Создаём платёж…';
     try{
-      const resp=await fetch(API_BASE+'/api/v1/public/retail-orders',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body:JSON.stringify({
+      /* THE ONE REQUEST THAT MUST NOT BE SENT TWICE AS TWO PURCHASES.
+         The body — including idempotency_key — is built ONCE, here, and the
+         same string is handed to both roads. MagicNet forwards it byte for
+         byte and never regenerates anything: a new key between primary and
+         fallback is the single mistake that would turn a network blip into two
+         orders. Proven safe in
+         test/integration/crossOriginIdempotency.test.js — a retry under the
+         same key through the other origin returns the FIRST order (200,
+         idempotent_replay), leaving one retail order and one payment. */
+      const orderBody=JSON.stringify({
           package_id:pkgId,
           email:email.value.trim(),
           termsAccepted:true,
@@ -2695,9 +2718,12 @@ window.addEventListener('DOMContentLoaded', async () => {
           // Same key across retries of this same intent; new key when the
           // intent (package/method/email/promo) or the modal session changes.
           idempotency_key:coIdemKeyFor(pkgId,paymentType,email.value,appliedPromo?appliedPromo.code:'')
-        })
       });
-      let data={};try{data=await resp.json();}catch(e){}
+      const resp=await MagicNet.request('/api/v1/public/retail-orders',{
+        method:'POST',kind:'write',idempotent:true,
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:orderBody});
+      const data=resp.body||{};
       if(resp.ok&&data.redirect_url&&allowedRedirect(data.redirect_url)){
         // Bind the bridge to this exact order so a result page can tell a fresh
         // context from one left over by an earlier attempt. Only the last 6 chars
@@ -2721,6 +2747,12 @@ window.addEventListener('DOMContentLoaded', async () => {
       if(data&&typeof data.error==='string'&&data.error.indexOf('PROMO')===0){
         resetPromo();
         err.textContent=(PROMO_MSG[data.error]||data.message||'Промокод недоступен. Проверьте итоговую сумму и повторите оплату.');
+      }else if(resp.transportFailure){
+        /* Neither road reached a verdict. Say so plainly rather than inventing a
+           reason — and do NOT claim the payment failed, because a request that
+           reached no verdict may still have been received. Retrying is safe:
+           the same key comes back, and the backend replays the first order. */
+        err.textContent='Сервис оплаты сейчас не отвечает. Подождите минуту и нажмите «Оплатить» ещё раз — повторное нажатие не создаст второй заказ.';
       }else{
         err.textContent=(data&&data.message)?data.message:'Не удалось создать платёж. Попробуйте позже или напишите в поддержку support@magicesim.store.';
       }
