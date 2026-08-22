@@ -695,7 +695,7 @@
    * ------------------------------------------------------------------ */
 
   /** TariffCard (§12.3): volume, term, price, and the one badge worth having. */
-  function tariffCard(p, group) {
+  function tariffCard(p, group, distinct) {
     const isBest = group && group.best && group.best.package_id === p.package_id;
     const days = Number(p.validity_days);
 
@@ -715,7 +715,25 @@
         text: `${days} ${C.plural(days, 'день', 'дня', 'дней')}`
           + (p.hotspot_supported === true ? ' · раздача интернета' : ''),
       }),
+      // What makes THIS card different from the one beside it. Drawn only when
+      // something actually varies among tariffs of the same coverage, volume
+      // and validity — so most countries show nothing here, and the two Japan
+      // cards that used to read as one row duplicated stop doing that.
+      chipsFor(p, distinct),
     ]);
+  }
+
+  /** The differentiator row, or nothing at all when there is nothing to say. */
+  function chipsFor(p, distinct) {
+    const labels = (distinct && distinct.get(String(p.package_id || ''))) || [];
+    if (!labels.length) return null;
+
+    return el('div', { class: 'tariff__distinct' }, labels.map((label) => el('span', {
+      // The exit country is the one that changes a decision, so it is the one
+      // that gets colour; the rest stay quiet.
+      class: 'tariff__chip' + (label.startsWith('IP: ') ? ' tariff__chip--ip' : ''),
+      text: label,
+    })));
   }
 
   /** The two axes a tariff list is read along: what it costs, and how much. */
@@ -758,8 +776,11 @@
     // drawing when there is something to reorder — two cards sort themselves.
     if (group.items.length > 2) list.appendChild(sortToggle(group));
 
+    // Computed over the whole group, once, because "what is different" is a
+    // property of the set rather than of any one card.
+    const distinct = C.tariffDistinguishers(group.items);
     for (const p of C.sortTariffs(group.items, state.sort)) {
-      list.appendChild(tariffCard(p, group));
+      list.appendChild(tariffCard(p, group, distinct));
     }
 
     // Blueprint §9 S2: a country is never a dead end. Regional offers that

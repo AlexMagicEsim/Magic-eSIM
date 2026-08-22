@@ -81,6 +81,12 @@ export const ALLOWED_PACKAGE_FIELDS = [
   'hotspot_supported',
   'activation_policy',
   'topup_available',
+  // The exit country as ISO codes. Needed because the storefront's own
+  // differentiator chips are computed from it, and a snapshot without it makes
+  // two identically priced tariffs look identical again the moment the live API
+  // loses the deadline race. Codes only — no cost, no provider id; the
+  // FORBIDDEN patterns below still apply to it like everything else.
+  'ip_export',
 ];
 
 /**

@@ -366,3 +366,24 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 @media(max-width:380px){
   .links-wrap{grid-template-columns:1fr}
 }
+
+/* Chips that say what makes this tariff different from the one beside it.
+   Rendered only when something actually varies within the same volume and
+   validity, so most cards never show them and none becomes a spec sheet. */
+.package-distinct{display:flex;flex-wrap:wrap;gap:6px;margin:-10px 0 16px}
+.package-distinct__chip{
+  display:inline-flex;align-items:center;
+  padding:4px 10px;border-radius:999px;
+  font-size:12.5px;font-weight:650;line-height:1.35;
+  background:var(--soft);color:var(--muted);
+  border:1px solid var(--line);
+  /* A long operator name wraps inside its own chip rather than widening the
+     card — "Vodafone Idea Limited" is a real value in this catalogue. */
+  min-width:0;overflow-wrap:anywhere;
+}
+/* The exit country is the one that changes a purchase decision, so it reads as
+   information rather than as another grey pill. */
+.package-distinct__chip--ip{
+  background:rgba(66,103,232,.08);color:var(--blue);border-color:rgba(66,103,232,.22);
+}
+@media(max-width:560px){ .package-distinct{gap:5px} .package-distinct__chip{font-size:12px} }

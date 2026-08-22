@@ -808,6 +808,38 @@ function tariffText(item,key){
 }
 /* --- END TARIFF DISPLAY MAPPERS ---------------------------------------- */
 
+
+/* Differences that actually distinguish two tariffs — computed from the data by
+   MagicCatalog.distinguishers(), never hardcoded per country. Local and
+   regional grids are scoped SEPARATELY: a local tariff and a regional one that
+   happens to cover the same country are not alternatives to each other, so they
+   must not be compared as siblings. */
+var __distinct = {};
+function computeDistinct(list){
+  try{
+    __distinct = (window.MagicCatalog && window.MagicCatalog.distinguishers)
+      ? window.MagicCatalog.distinguishers(list, {
+          countryName: countryName,
+          pluralNetworks: function(n){ return n + ' ' + (n>=2&&n<=4 ? 'сети' : 'сетей'); }
+        })
+      : {};
+  }catch(e){ __distinct = {}; }
+}
+function distinctChipsHtml(item){
+  var all = __distinct[String((item||{}).package_id||'')] || [];
+  /* The generation is dropped HERE and only here: this card already prints the
+     network twice — the «СЕТЬ» cell and the ⚡ tag below it — so a third «5G»
+     would be noise. The Mini App keeps it, because its list card shows volume,
+     price and days and nothing else. */
+  var chips = all.filter(function(c){ return c.kind !== 'gen'; });
+  if(!chips.length) return '';
+  return '<div class="package-distinct">'
+    + chips.map(function(c){
+        return '<span class="package-distinct__chip package-distinct__chip--'+c.kind+'">'
+          + escapeHtml(c.label) + '</span>';
+      }).join('')
+    + '</div>';
+}
 // One source of truth for a tariff card (used by local, regional and generic grids).
 function renderPackageCard(item,best){
   const speed=tariffNetworkLabel(item);
@@ -820,6 +852,7 @@ function renderPackageCard(item,best){
     <article class="package-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span>${best?'<span class="package-best">Оптимальный выбор</span>':''}</div>
       <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+      ${distinctChipsHtml(item)}
       <div class="package-meta">
         <div class="package-meta-item"><div class="package-meta-label">Интернет</div><div class="package-meta-value">${escapeHtml(data)}</div></div>
         <div class="package-meta-item"><div class="package-meta-label">Срок</div><div class="package-meta-value">${escapeHtml(String(item.validity_days||''))} дн.</div></div>
@@ -931,11 +964,13 @@ function renderCountrySplit(){
   // Local block (req 6/7). If empty (req 8): show the note, not an empty grid.
   byIdG('localCount').textContent=local.length?tariffCount(local.length):'';
   byIdG('localEmpty').hidden=local.length>0;
+  computeDistinct(local);
   localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId)).join('');
   localBlock.hidden=false;
   // Regional block (req 6): regional/continental/global.
   if(regional.length){
     byIdG('regionalCount').textContent=tariffCount(regional.length);
+    computeDistinct(regional);
     regionalGrid.innerHTML=regional.map((i)=>renderPackageCard(i,false)).join('');
     regionalBlock.hidden=false;
   }else{

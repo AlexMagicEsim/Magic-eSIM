@@ -1559,6 +1559,110 @@ function tariffTextRu(raw) {
  * must not leave this screen believing a bank's SMS will arrive on a foreign
  * profile: that is not ours to promise, and the wording below does not.
  */
+
+/* =======================================================================
+ * What tells two tariffs apart, when the list would otherwise show the same
+ * card twice.
+ *
+ * Mirrors assets/catalog-loader.js `distinguishers()` — same rule, same
+ * wording — for the same reason tariffFacts mirrors the site's «Покрытие и
+ * условия» sheet: two shops describing one catalogue in two vocabularies is
+ * how a customer comes to believe they are looking at two different products.
+ *
+ * Nothing here is country-specific. It compares siblings — same coverage, same
+ * volume, same validity — and reports only what actually varies, so a country
+ * where nothing varies gets no extra text at all. A value we do not have
+ * produces no chip: nothing ever renders the word Unknown.
+ * ==================================================================== */
+
+const TARIFF_GENERATIONS = ['5G', '4G', '3G', '2G'];
+
+function tariffIpCodes(pkg) {
+  const v = (pkg || {}).ip_export;
+  // eSIM Access writes "UK"; ISO-3166 says "GB", and countryNames is keyed by
+  // the ISO code. Without this the row would read «Выход в интернет: UK».
+  return Array.isArray(v)
+    ? v.filter(Boolean).map((c) => (String(c).toUpperCase() === 'UK' ? 'GB' : String(c).toUpperCase()))
+    : [];
+}
+
+function tariffOperators(pkg) {
+  const list = Array.isArray((pkg || {}).networks) ? pkg.networks : [];
+  const out = [];
+  for (const n of list) {
+    const name = String((n || {}).operator || '').trim();
+    if (name && !out.includes(name)) out.push(name);
+  }
+  return out;
+}
+
+function tariffTopGeneration(pkg) {
+  const techs = Array.isArray((pkg || {}).network_technologies) ? pkg.network_technologies : [];
+  const upper = techs.map((t) => String(t || '').toUpperCase());
+  return TARIFF_GENERATIONS.find((g) => upper.includes(g)) || '';
+}
+
+/** «IP: Япония» — only when the exit country is actually known. */
+function tariffIpLabel(pkg) {
+  const codes = tariffIpCodes(pkg);
+  if (!codes.length) return '';
+
+  return codes.map(countryLabel).join(', ');
+}
+
+function tariffSiblingKey(pkg) {
+  const p = pkg || {};
+  const codes = Array.isArray(p.coverage_country_codes)
+    ? p.coverage_country_codes.map((c) => String(c || '').toUpperCase()).sort().join('+')
+    : String(p.country_code || '').toUpperCase();
+
+  return [codes, p.unlimited ? 'U' : `D${Number(p.data_gb)}`, `V${Number(p.validity_days)}`].join('|');
+}
+
+/**
+ * @param {Array} list packages for one country/region
+ * @returns {Map<string, string[]>} package_id -> short labels, most decisive first
+ */
+function tariffDistinguishers(list) {
+  const packages = Array.isArray(list) ? list : [];
+  const groups = new Map();
+  for (const p of packages) {
+    const k = tariffSiblingKey(p);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(p);
+  }
+
+  const out = new Map();
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+
+    const ipVaries = new Set(group.map((p) => tariffIpCodes(p).join('+'))).size > 1;
+    const netVaries = new Set(group.map((p) => tariffOperators(p).slice().sort().join('|'))).size > 1;
+    const genVaries = new Set(group.map((p) => tariffTopGeneration(p))).size > 1;
+    if (!ipVaries && !netVaries && !genVaries) continue;
+
+    for (const p of group) {
+      const chips = [];
+      if (ipVaries) {
+        const ip = tariffIpLabel(p);
+        if (ip) chips.push(`IP: ${ip}`);
+      }
+      if (netVaries) {
+        const ops = tariffOperators(p);
+        if (ops.length === 1) chips.push(ops[0]);
+        else if (ops.length > 1) chips.push(`${ops.length} ${plural(ops.length, 'сеть', 'сети', 'сетей')}`);
+      }
+      if (genVaries) {
+        const gen = tariffTopGeneration(p);
+        if (gen) chips.push(gen);
+      }
+      if (chips.length) out.set(String(p.package_id || ''), chips);
+    }
+  }
+
+  return out;
+}
+
 function tariffFacts(pkg) {
   const p = pkg || {};
   const rows = [];
@@ -1578,6 +1682,13 @@ function tariffFacts(pkg) {
 
   push('Начало срока', tariffActivation(p));
   push('Сеть', tariffNetworks(p));
+  // Operator names, when the catalogue carries them. Two tariffs on one screen
+  // can differ by nothing else, and «NTT docomo» says more than «4G» does.
+  const ops = tariffOperators(p);
+  push('Операторы', ops.length ? ops.slice(0, 4).join(', ') : '');
+  // Where the traffic leaves the internet. The reason the Japanese-IP tariffs
+  // exist, and previously invisible everywhere.
+  push('Выход в интернет', tariffIpLabel(p));
   push('Раздача интернета', tariffHotspot(p));
   push('Скорость', tariffTextRu(p.speed_note));
   push('После лимита', tariffTextRu(p.fup_policy));
@@ -1877,6 +1988,7 @@ const CORE = {
   sortOwnedEsims, isSpentEsim, SPENT_ESIM_STATUSES,
   syncedAgo, installPlatform, sortTariffs, TARIFF_SORTS,
   tariffFacts, tariffNetworks, tariffHotspot, tariffActivation, tariffTextRu,
+  tariffDistinguishers, tariffIpLabel, tariffOperators,
   coverageSummary,
   AFTER_PAYMENT_STEPS,
   memoryStorage,

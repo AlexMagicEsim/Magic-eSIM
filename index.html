@@ -714,6 +714,27 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 /* Nothing inside the page should apply the gutter a second time. */
 .container .container{ padding-inline:0; max-width:none; }
 
+
+/* Chips that say what makes this tariff different from the one beside it.
+   Rendered only when something actually varies within the same volume and
+   validity, so most cards never show them and none becomes a spec sheet. */
+.package-distinct{display:flex;flex-wrap:wrap;gap:6px;margin:-10px 0 16px}
+.package-distinct__chip{
+  display:inline-flex;align-items:center;
+  padding:4px 10px;border-radius:999px;
+  font-size:12.5px;font-weight:650;line-height:1.35;
+  background:var(--soft);color:var(--muted);
+  border:1px solid var(--line);
+  /* A long operator name wraps inside its own chip rather than widening the
+     card — "Vodafone Idea Limited" is a real value in this catalogue. */
+  min-width:0;overflow-wrap:anywhere;
+}
+/* The exit country is the one that changes a purchase decision, so it reads as
+   information rather than as another grey pill. */
+.package-distinct__chip--ip{
+  background:rgba(66,103,232,.08);color:var(--blue);border-color:rgba(66,103,232,.22);
+}
+@media(max-width:560px){ .package-distinct{gap:5px} .package-distinct__chip{font-size:12px} }
 </style>
 
 </head>
@@ -1967,6 +1988,38 @@ function tariffText(item,key){
 }
 /* --- END TARIFF DISPLAY MAPPERS ---------------------------------------- */
 
+
+/* Differences that actually distinguish two tariffs — computed from the data by
+   MagicCatalog.distinguishers(), never hardcoded per country. Local and
+   regional grids are scoped SEPARATELY: a local tariff and a regional one that
+   happens to cover the same country are not alternatives to each other, so they
+   must not be compared as siblings. */
+var __distinct = {};
+function computeDistinct(list){
+  try{
+    __distinct = (window.MagicCatalog && window.MagicCatalog.distinguishers)
+      ? window.MagicCatalog.distinguishers(list, {
+          countryName: countryName,
+          pluralNetworks: function(n){ return n + ' ' + (n>=2&&n<=4 ? 'сети' : 'сетей'); }
+        })
+      : {};
+  }catch(e){ __distinct = {}; }
+}
+function distinctChipsHtml(item){
+  var all = __distinct[String((item||{}).package_id||'')] || [];
+  /* The generation is dropped HERE and only here: this card already prints the
+     network twice — the «СЕТЬ» cell and the ⚡ tag below it — so a third «5G»
+     would be noise. The Mini App keeps it, because its list card shows volume,
+     price and days and nothing else. */
+  var chips = all.filter(function(c){ return c.kind !== 'gen'; });
+  if(!chips.length) return '';
+  return '<div class="package-distinct">'
+    + chips.map(function(c){
+        return '<span class="package-distinct__chip package-distinct__chip--'+c.kind+'">'
+          + escapeHtml(c.label) + '</span>';
+      }).join('')
+    + '</div>';
+}
 // One source of truth for a tariff card (used by local, regional and generic grids).
 function renderPackageCard(item,best){
   const speed=tariffNetworkLabel(item);
@@ -1979,6 +2032,7 @@ function renderPackageCard(item,best){
     <article class="package-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span>${best?'<span class="package-best">Оптимальный выбор</span>':''}</div>
       <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+      ${distinctChipsHtml(item)}
       <div class="package-meta">
         <div class="package-meta-item"><div class="package-meta-label">Интернет</div><div class="package-meta-value">${escapeHtml(data)}</div></div>
         <div class="package-meta-item"><div class="package-meta-label">Срок</div><div class="package-meta-value">${escapeHtml(String(item.validity_days||''))} дн.</div></div>
@@ -2041,11 +2095,13 @@ function renderCountrySplit(){
   // Local block (req 6/7). If empty (req 8): show the note, not an empty grid.
   byIdG('localCount').textContent=local.length?`${local.length} тарифов`:'';
   byIdG('localEmpty').hidden=local.length>0;
+  computeDistinct(local);
   localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId)).join('');
   localBlock.hidden=false;
   // Regional block (req 6): regional/continental/global.
   if(regional.length){
     byIdG('regionalCount').textContent=`${regional.length} тарифов`;
+    computeDistinct(regional);
     regionalGrid.innerHTML=regional.map((i)=>renderPackageCard(i,false)).join('');
     regionalBlock.hidden=false;
   }else{
@@ -2228,6 +2284,7 @@ function renderPackages(){
     ? ''
     : (packages.length ? `Показано тарифов: ${packages.length}` : 'Тарифы не найдены. Напишите в поддержку — подберём вручную.');
 
+  computeDistinct(packages);
   grid.innerHTML=packages.map((item)=>renderPackageCard(item,false)).join('');
 }
 

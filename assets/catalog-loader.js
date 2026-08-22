@@ -366,6 +366,163 @@
     });
   }
 
+
+  /* =====================================================================
+   * What actually tells two tariffs apart.
+   * ---------------------------------------------------------------------
+   * eSIM Access sells Japan twice at one price: same volume, same validity,
+   * same wholesale cost. One exits the internet in Hong Kong over four
+   * operators on 5G; the other exits in JAPAN over NTT docomo on 4G. Both
+   * rendered as «Япония 3 GB · 400 ₽», and the customer had no way to learn
+   * which was which — so the useful one was invisible rather than redundant.
+   *
+   * This computes, per package, the attributes that VARY among its siblings —
+   * the packages with the same volume and the same validity. Only differences
+   * are returned, so a country where nothing varies gets no extra text and no
+   * card turns into a spec sheet.
+   *
+   * NOT Japan-specific and contains no country list: it compares whatever the
+   * data says, so the moment any other country ships two tariffs with
+   * different exits or different operators, the same labels appear there.
+   *
+   * Silence beats a placeholder: a package whose exit country is unknown
+   * (MobiMatter has no such field; eSIM Access sometimes says "Europe", which
+   * is not a country code) contributes no chip at all. Nothing renders the
+   * word Unknown.
+   * ================================================================== */
+
+  var GENERATIONS = ['5G', '4G', '3G', '2G'];
+
+  // eSIM Access writes "UK"; ISO-3166 says "GB", and every name map in this
+  // project is keyed by the ISO code. Without this the chip would read
+  // «IP: UK» — a raw code shown to a customer, which is the placeholder this
+  // design set out to avoid. 201 packages carry a UK exit today.
+  function toIsoCode(code) {
+    var c = String(code || '').toUpperCase();
+    return c === 'UK' ? 'GB' : c;
+  }
+
+  function ipCodes(item) {
+    return Array.isArray(item && item.ip_export)
+      ? item.ip_export.filter(Boolean).map(toIsoCode)
+      : [];
+  }
+
+  function operatorNames(item) {
+    var list = Array.isArray(item && item.networks) ? item.networks : [];
+    var out = [];
+    for (var i = 0; i < list.length; i++) {
+      var name = String((list[i] || {}).operator || '').trim();
+      if (name && out.indexOf(name) === -1) out.push(name);
+    }
+    return out;
+  }
+
+  function topGeneration(item) {
+    var techs = Array.isArray(item && item.network_technologies) ? item.network_technologies : [];
+    var upper = techs.map(function (t) { return String(t || '').toUpperCase(); });
+    for (var i = 0; i < GENERATIONS.length; i++) {
+      if (upper.indexOf(GENERATIONS[i]) !== -1) return GENERATIONS[i];
+    }
+    return '';
+  }
+
+  /**
+   * Siblings share COVERAGE, volume and validity.
+   *
+   * Coverage belongs in this key and leaving it out was a real defect, caught
+   * on the Japan page: «Китай, Корея и Япония 12 GB» and «Азия и Океания 12 GB»
+   * were compared as alternatives and each grew a chip explaining how it
+   * differed from the other. They are not alternatives — they cover different
+   * countries at different prices, and the label implied a choice that was not
+   * being offered. A local tariff and a regional one that happens to include
+   * the same country are likewise never siblings.
+   */
+  function siblingKey(item) {
+    var codes = Array.isArray((item || {}).coverage_country_codes)
+      ? item.coverage_country_codes.map(function (c) { return String(c || '').toUpperCase(); }).sort().join('+')
+      : String((item || {}).country_code || '').toUpperCase();
+    return [
+      codes,
+      item && item.unlimited ? 'U' : 'D' + Number((item || {}).data_gb),
+      'V' + Number((item || {}).validity_days)
+    ].join('|');
+  }
+
+  /**
+   * @param {Array} list      packages as the public API returns them
+   * @param {object} [opts]
+   *   countryName(code)      -> human name; falls back to the code itself
+   *   pluralNetworks(n)      -> e.g. "4 сети"; omit to fall back to "N сетей"
+   * @returns {object} package_id -> [{kind:'ip'|'net'|'gen', label:string}]
+   */
+  function distinguishers(list, opts) {
+    var packages = Array.isArray(list) ? list : [];
+    var options = opts || {};
+    var nameOf = typeof options.countryName === 'function'
+      ? options.countryName
+      : function (code) { return code; };
+    var netsWord = typeof options.pluralNetworks === 'function'
+      ? options.pluralNetworks
+      : function (n) { return n + ' сетей'; };
+
+    var groups = {};
+    for (var i = 0; i < packages.length; i++) {
+      var k = siblingKey(packages[i]);
+      (groups[k] = groups[k] || []).push(packages[i]);
+    }
+
+    var out = {};
+    for (var key in groups) {
+      if (!Object.prototype.hasOwnProperty.call(groups, key)) continue;
+      var group = groups[key];
+      if (group.length < 2) continue;   // nothing to tell apart
+
+      var ipValues = {}, netValues = {}, genValues = {};
+      for (var g = 0; g < group.length; g++) {
+        ipValues[ipCodes(group[g]).join('+')] = true;
+        netValues[operatorNames(group[g]).slice().sort().join('|')] = true;
+        genValues[topGeneration(group[g])] = true;
+      }
+      var ipVaries = Object.keys(ipValues).length > 1;
+      var netVaries = Object.keys(netValues).length > 1;
+      var genVaries = Object.keys(genValues).length > 1;
+      if (!ipVaries && !netVaries && !genVaries) continue;
+
+      for (var j = 0; j < group.length; j++) {
+        var item = group[j];
+        var chips = [];
+
+        if (ipVaries) {
+          var codes = ipCodes(item);
+          // Only when we know. One exit reads as a country; several read as a
+          // list, because "IP: Нидерланды, Франция" is still information.
+          if (codes.length) {
+            chips.push({
+              kind: 'ip',
+              label: 'IP: ' + codes.map(nameOf).join(', ')
+            });
+          }
+        }
+
+        if (netVaries) {
+          var ops = operatorNames(item);
+          if (ops.length === 1) chips.push({ kind: 'net', label: ops[0] });
+          else if (ops.length > 1) chips.push({ kind: 'net', label: netsWord(ops.length) });
+        }
+
+        if (genVaries) {
+          var gen = topGeneration(item);
+          if (gen) chips.push({ kind: 'gen', label: gen });
+        }
+
+        if (chips.length) out[String(item.package_id || '')] = chips;
+      }
+    }
+
+    return out;
+  }
+
   function cacheAgeHours(generatedAt) {
     if (!generatedAt) return null;
     var t = Date.parse(generatedAt);
@@ -379,6 +536,7 @@
     revalidatePackage: revalidatePackage,
     validateCache: validateCache,
     cacheAgeHours: cacheAgeHours,
+    distinguishers: distinguishers,
     CACHE_URL: CACHE_URL,
     LIVE_URL: LIVE_URL,
     LIVE_TIMEOUT_MS: LIVE_TIMEOUT_MS,

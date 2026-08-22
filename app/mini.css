@@ -1359,3 +1359,33 @@ body.sheet-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .switch__input, .switch__input::after { transition: none; }
 }
+
+
+/* ---- What tells two tariffs apart ------------------------------------
+   A country usually shows none of this. It appears only where the catalogue
+   genuinely offers two tariffs of the same coverage, volume and validity that
+   differ in where the traffic exits, which operators carry it, or which
+   generation it reaches — the case that previously rendered as the same card
+   twice at the same price. */
+.tariff__distinct{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-top:var(--s2);
+}
+.tariff__chip{
+  display:inline-flex;align-items:center;
+  padding:3px 9px;
+  border-radius:var(--r-pill);
+  border:1px solid var(--line);
+  background:var(--soft);
+  color:var(--muted);
+  font-size:12px;font-weight:600;line-height:1.4;
+  /* A long operator name wraps inside its own chip instead of widening the
+     card — this catalogue really does contain «Vodafone Idea Limited». */
+  min-width:0;overflow-wrap:anywhere;text-align:left;
+}
+/* The exit country is the one that changes a purchase decision. */
+.tariff__chip--ip{
+  background:color-mix(in srgb, var(--link) 10%, transparent);
+  border-color:color-mix(in srgb, var(--link) 26%, transparent);
+  color:var(--link);
+}
