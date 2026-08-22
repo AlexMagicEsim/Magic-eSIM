@@ -1098,9 +1098,6 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
         <label><span class="co-label-text">Email для получения eSIM&nbsp;<span class="req">*</span></span>
           <input type="email" id="coEmail" class="ym-hide-content" required autocomplete="email" placeholder="you@example.com">
         </label>
-        <label><span class="co-label-text">Дополнительный контакт (необязательно)</span>
-          <input type="text" id="coContact" class="ym-hide-content" autocomplete="off" placeholder="Необязательно">
-        </label>
         <label class="checkout-consent">
           <input type="checkbox" id="coConsent" required>
           <span>Я принимаю <a href="terms.html" target="_blank" rel="noopener">пользовательское соглашение</a> и <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span>
@@ -2646,7 +2643,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   // whitelisted Platega method; the client never sends a numeric method or amount.
   async function coStartPayment(paymentType, btn){
     if(submitting)return;                                  // guard against double click (both buttons)
-    const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError'),contact=byId('coContact');
+    const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError');
     const pkgId=(overlay.dataset.packageId||'').trim();
     if(!email||!/.+@.+\..+/.test(email.value.trim())){err.textContent='Укажите корректный email для получения eSIM.';err.hidden=false;if(email)email.focus();return;}
     if(consent&&!consent.checked){err.textContent='Подтвердите согласие с пользовательским соглашением и политикой конфиденциальности.';err.hidden=false;return;}
@@ -2692,7 +2689,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         body:JSON.stringify({
           package_id:pkgId,
           email:email.value.trim(),
-          contact:(contact&&contact.value.trim())?contact.value.trim().slice(0,200):undefined,
           termsAccepted:true,
           payment_type:paymentType,                                    // "sbp" | "card"
           promo_code:appliedPromo?appliedPromo.code:undefined,         // code only; server recomputes
