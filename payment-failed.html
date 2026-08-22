@@ -84,7 +84,19 @@
     .btn.secondary{background:#fff!important;color:#111827!important;border:1px solid #E6EAF2!important}
     .icon{background:#F1F4FA!important;border-color:#E6EAF2!important}
     .warn .icon,.err .icon{color:#b42318!important;background:rgba(217,45,32,.10)!important;border-color:rgba(217,45,32,.30)!important}
-  </style>
+  
+/* One page gutter, matching assets/country-pages.css and index.html, so the
+   outer edge of this page lines up with every other page on the storefront.
+   The card keeps its own interior padding — that is card geometry, not the
+   page edge. max() so a notched phone in landscape cannot clip the corner. */
+:root{ --gutter:16px; }
+@media(min-width:768px){ :root{ --gutter:20px; } }
+body{
+  padding-inline:max(var(--gutter),env(safe-area-inset-left)) max(var(--gutter),env(safe-area-inset-right));
+}
+.card,.card *{min-width:0;overflow-wrap:anywhere}
+
+</style>
 </head>
 <body>
   <main class="card">

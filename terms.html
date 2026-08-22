@@ -61,7 +61,26 @@
     .intro,p,.accept-note{color:#334155!important}
     li{color:#475467!important}
     .contacts{border-color:rgba(66,103,232,.22)!important;background:rgba(66,103,232,.06)!important}
-  </style>
+  
+/* One page gutter, matching assets/country-pages.css and index.html, so the
+   outer edge of this page lines up with every other page on the storefront.
+   The card keeps its own interior padding — that is card geometry, not the
+   page edge. max() so a notched phone in landscape cannot clip the corner. */
+:root{ --gutter:16px; }
+@media(min-width:768px){ :root{ --gutter:20px; } }
+.wrap{
+  width:100%;
+  max-width:calc(var(--max) + 2 * var(--gutter));
+  margin-inline:auto;
+  padding-inline:max(var(--gutter),env(safe-area-inset-left)) max(var(--gutter),env(safe-area-inset-right));
+}
+.wrap p,.wrap li,.wrap td,.wrap a{overflow-wrap:anywhere}
+/* Headings too: «Политика конфиденциальности» is one 18-character word and at
+   320px it was the whole 4px overflow. `anywhere` rather than a smaller font —
+   the type size is not the thing that was wrong. */
+.wrap h1,.wrap h2,.wrap h3{overflow-wrap:anywhere}
+
+</style>
 </head>
 <body>
   <div class="wrap">
