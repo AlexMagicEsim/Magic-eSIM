@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-24T13:16:59.534Z",
+  "generated_at": "2026-08-24T21:49:33.509Z",
   "source": "production-public-api",
   "package_count": 970,
   "packages": [
@@ -3318,10 +3318,6 @@
       "networks": [
         {
           "operator": "Optus",
-          "type": "5G"
-        },
-        {
-          "operator": "Telstra",
           "type": "5G"
         }
       ],
@@ -15139,10 +15135,6 @@
       "networks": [
         {
           "operator": "Optus",
-          "type": "5G"
-        },
-        {
-          "operator": "Telstra",
           "type": "5G"
         }
       ],
@@ -27123,10 +27115,6 @@
         {
           "operator": "Optus",
           "type": "5G"
-        },
-        {
-          "operator": "Telstra",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28225,10 +28213,6 @@
       "networks": [
         {
           "operator": "Optus",
-          "type": "5G"
-        },
-        {
-          "operator": "Telstra",
           "type": "5G"
         }
       ],
@@ -30110,10 +30094,6 @@
       "networks": [
         {
           "operator": "Optus",
-          "type": "5G"
-        },
-        {
-          "operator": "Telstra",
           "type": "5G"
         }
       ],
@@ -35871,10 +35851,6 @@
       "networks": [
         {
           "operator": "Optus",
-          "type": "5G"
-        },
-        {
-          "operator": "Telstra",
           "type": "5G"
         }
       ],
