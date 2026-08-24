@@ -1,0 +1,55 @@
+# Storefront — the gateway proxy function's tests.
+#
+# WHY THIS EXISTS
+#
+#   Audit finding 18: no CI in any repository ran a test. This one has a
+#   workflow already, but it refreshes the catalog cache — it does not test
+#   anything.
+#
+#   The proxy function is the storefront's write-failover path. It is what
+#   carries a checkout retry to the second origin, and the whole failover design
+#   rests on that retry landing on the FIRST order rather than creating a second.
+#   107 tests cover its header forwarding, its status handling and its body
+#   passthrough, and until now nothing ran them.
+#
+# WHAT IT NEEDS: NOTHING.
+#
+#   Pure offline unit tests over the function's request/response shaping. No
+#   network, no credential, no Yandex Cloud access.
+#
+#   NOTE: this repository is PUBLIC. Every job here must stay credential-free
+#   for that reason alone — a workflow that needed a secret would expose it to
+#   any fork's pull request.
+
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  proxy-function:
+    name: gateway proxy function (offline)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: infra/yandex-api-gateway/proxy-function
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The function has no dependencies to install; it is plain Node.
+      - name: Proxy tests
+        run: node --test proxy.test.js
