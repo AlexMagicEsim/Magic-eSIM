@@ -38,3 +38,29 @@ seo/content-dashboard.json
 
 # Playwright screenshots from test/mini-app/ui.e2e.js — artefacts, not source.
 test/mini-app/.shots/
+
+# ---------------------------------------------------------------------------
+# Local tooling artefacts — moved here so the protection TRAVELS.
+# ---------------------------------------------------------------------------
+# These three were ignored only by rules that are not part of the repository:
+# `.git/info/exclude`, which is never cloned and never pushed, and the
+# user-global `~/.config/git/ignore`, which exists on one machine for one
+# account. A clone therefore arrived with NO protection for them at all, and on
+# any second checkout a plain `git add -A` would have staged them into a PUBLIC
+# repository (run-2 R2-10).
+#
+# `.claude/settings.local.json` is the one that matters: Claude Code recreates
+# it automatically, so it reappears on every machine without anyone deciding to
+# create it.
+#
+# `*RENDER_API_KEY*` matches no file today and is kept as forward-looking
+# insurance: deployment credentials have no business in a public repository, and
+# a pattern costs nothing.
+#
+# NOT `.claude/` wholesale, deliberately: `.claude/skills/**` is tracked on
+# purpose (project-scoped agent skills, shared through the repo). A broad rule
+# would leave the existing ten tracked while hiding any new one from `git add`,
+# which is the most confusing state available.
+.claude/settings.local.json
+.claude/RESUME.md
+*RENDER_API_KEY*
