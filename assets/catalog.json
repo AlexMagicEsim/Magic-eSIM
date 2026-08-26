@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-26T07:11:13.468Z",
+  "generated_at": "2026-08-26T10:00:06.999Z",
   "source": "production-public-api",
   "package_count": 970,
   "packages": [
@@ -202,7 +202,12 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 5550,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -1030,7 +1035,12 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 1150,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "vip",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -5517,7 +5527,12 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 850,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "VIP",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -6621,7 +6636,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1050,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -8904,7 +8924,12 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 2400,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "VIP",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -11322,7 +11347,12 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 1500,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "VIP",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -11500,7 +11530,12 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 3750,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "vip",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -12143,7 +12178,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 700,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "vip",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -22768,7 +22808,12 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 3150,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -24030,7 +24075,12 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 2000,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "vip",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -30678,7 +30728,12 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 1650,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
@@ -33705,7 +33760,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 500,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "VIP",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G"
