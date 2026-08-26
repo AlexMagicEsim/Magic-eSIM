@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-24T21:49:33.509Z",
+  "generated_at": "2026-08-26T07:11:13.468Z",
   "source": "production-public-api",
   "package_count": 970,
   "packages": [
@@ -202,12 +202,7 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 5550,
-      "networks": [
-        {
-          "operator": "AirtelTigo",
-          "type": "3G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -219,7 +214,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -1035,12 +1030,7 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 1150,
-      "networks": [
-        {
-          "operator": "Telekom.mk",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -1053,7 +1043,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -2357,6 +2347,10 @@
         {
           "operator": "XL",
           "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -3891,6 +3885,10 @@
         {
           "operator": "XL",
           "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -5519,12 +5517,7 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 850,
-      "networks": [
-        {
-          "operator": "Telenor",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -5536,7 +5529,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -6628,12 +6621,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1050,
-      "networks": [
-        {
-          "operator": "AirtelTigo",
-          "type": "3G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -6645,7 +6633,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -8916,12 +8904,7 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 2400,
-      "networks": [
-        {
-          "operator": "Telenor",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -8933,7 +8916,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -10008,6 +9991,10 @@
         {
           "operator": "XL",
           "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -10615,6 +10602,10 @@
         {
           "operator": "XL",
           "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -11331,12 +11322,7 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 1500,
-      "networks": [
-        {
-          "operator": "Telenor",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -11348,7 +11334,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -11514,12 +11500,7 @@
       "data_gb": 20,
       "validity_days": 30,
       "price": 3750,
-      "networks": [
-        {
-          "operator": "Telekom.mk",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -11532,7 +11513,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -12162,12 +12143,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 700,
-      "networks": [
-        {
-          "operator": "Telekom.mk",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -12180,7 +12156,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -17909,7 +17885,7 @@
           "type": "5G"
         },
         {
-          "operator": "Indosat Ooredoo",
+          "operator": "Indosat",
           "type": "5G"
         },
         {
@@ -19651,7 +19627,7 @@
           "type": "5G"
         },
         {
-          "operator": "Indosat Ooredoo",
+          "operator": "Indosat",
           "type": "5G"
         },
         {
@@ -22792,12 +22768,7 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 3150,
-      "networks": [
-        {
-          "operator": "AirtelTigo",
-          "type": "3G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -22809,7 +22780,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -24059,12 +24030,7 @@
       "data_gb": 10,
       "validity_days": 30,
       "price": 2000,
-      "networks": [
-        {
-          "operator": "Telekom.mk",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -24077,7 +24043,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -24536,6 +24502,10 @@
         {
           "operator": "XL",
           "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28120,7 +28090,7 @@
       "coverage_flags": "🇬🇬 🇮🇲 🇯🇪",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1300,
+      "price": 1150,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -28255,6 +28225,10 @@
         {
           "operator": "XL",
           "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -30704,12 +30678,7 @@
       "data_gb": 5,
       "validity_days": 30,
       "price": 1650,
-      "networks": [
-        {
-          "operator": "AirtelTigo",
-          "type": "3G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -30721,7 +30690,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
@@ -32151,7 +32120,7 @@
           "type": "5G"
         },
         {
-          "operator": "Indosat Ooredoo",
+          "operator": "Indosat",
           "type": "5G"
         },
         {
@@ -33736,12 +33705,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 500,
-      "networks": [
-        {
-          "operator": "Telenor",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -33753,7 +33717,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ]
     },
     {
