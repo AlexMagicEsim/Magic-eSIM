@@ -87,6 +87,25 @@ export const ALLOWED_PACKAGE_FIELDS = [
   // loses the deadline race. Codes only — no cost, no provider id; the
   // FORBIDDEN patterns below still apply to it like everything else.
   'ip_export',
+  // Daily plans. A per-day allowance is a different product from a volume, and
+  // without these the three surfaces that read this file would render a daily
+  // tariff as an ordinary one with a blank where the offer should be.
+  //
+  // `daily_gb` is a PER-DAY allowance and never a total — no consumer may add
+  // it up. `daily_throttle_continues` and `daily_reset_confirmed` are the two
+  // flags that decide whether a card may say more than "the speed becomes X";
+  // they are computed on the backend from the provider payload and are carried
+  // here rather than re-derived, so the snapshot and the live API cannot
+  // disagree about what we promise.
+  'plan_type',
+  'daily_gb',
+  'daily_term_mode',
+  'daily_throttle_label',
+  'daily_throttle_continues',
+  'daily_reset_confirmed',
+  // The terms a per-day plan may be bought for. Repeated verbatim by the
+  // client, which never invents a term and never prices one.
+  'sellable_days',
 ];
 
 /**
