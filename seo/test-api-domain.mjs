@@ -124,6 +124,37 @@ test('both of them name the same pair, in the same order, and no third host', ()
 
 /* ------------------------------------------------------ every call is on-domain */
 
+test('the connection a page warms is the road it actually takes first', () => {
+  // A preconnect is a promise about which host the page is about to talk to.
+  // Every country page pointed it at the gateway — the FALLBACK — so the road
+  // taken 97.6% of the time was opened cold on every visit while a socket was
+  // warmed for the one taken almost never. Pinned to the canonical primary so
+  // the hint cannot drift away from the strategy again, which is exactly how it
+  // got there: it was correct when the gateway was primary and nothing failed
+  // when that stopped being true.
+  const PRIMARY = 'https://esim-backend-3wmu.onrender.com';
+  const pages = ACTIVE_FRONTEND.filter((f) => f.endsWith('.html'));
+  const wrong = [];
+
+  for (const f of pages) {
+    for (const m of read(f).matchAll(/<link\b[^>]*rel=["']preconnect["'][^>]*>/gi)) {
+      const href = (m[0].match(/href=["']([^"']+)["']/) || [])[1] || '';
+      if (/onrender\.com|magicesim\.store/i.test(href) && href !== PRIMARY) {
+        wrong.push(`${f}: ${href}`);
+      }
+    }
+  }
+
+  assert.deepEqual(wrong, [], `preconnect must warm the primary road: ${wrong.join(', ')}`);
+});
+
+test('the generator ships the same hint, so new pages are not born stale', () => {
+  const gen = read('seo/build-catalogue-pages.mjs');
+  const hint = (gen.match(/<link[^>]*rel="preconnect"[^>]*>/) || [])[0] || '';
+  assert.match(hint, /esim-backend-3wmu\.onrender\.com/,
+    'a page built tomorrow must warm the road it will use');
+});
+
 test('no page declares an API base of its own', () => {
   // Stricter than the rule this replaces. That one accepted any number of
   // scattered API_BASE constants so long as they agreed; agreement between

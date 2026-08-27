@@ -207,7 +207,12 @@ function page(c, all, profile) {
   <meta name="twitter:image" content="${SITE}/magic-esim-banner.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="stylesheet" href="../../assets/country-pages.css" />
-  <link rel="preconnect" href="https://api.magicesim.store" crossorigin />
+  <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
+       сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
+       (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
+       подавляющем большинстве загрузок не используется, а тот, что
+       используется, приходилось открывать с нуля. -->
+  <link rel="preconnect" href="https://esim-backend-3wmu.onrender.com" crossorigin />
 ${METRIKA}
   <!-- Structured data -->
   <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
