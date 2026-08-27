@@ -695,6 +695,44 @@
    * ------------------------------------------------------------------ */
 
   /** TariffCard (§12.3): volume, term, price, and the one badge worth having. */
+  /* ========================================================================
+   * Daily tariffs — «Трафик на каждый день».
+   *
+   * A per-day allowance is a different product from a volume, so it gets its
+   * own card and its own section. Showing «1 ГБ» on a daily plan next to «1 ГБ»
+   * on a volume one, both sorted by price, is a comparison that means nothing.
+   *
+   * Every line of copy is the shared module's, the same one the storefront and
+   * the country pages use. If it did not load, no daily card is drawn at all:
+   * a daily plan shown without its terms reads as a volume plan, which is the
+   * confusion the section exists to prevent.
+   * ===================================================================== */
+  function dailyCard(p, group) {
+    const D = C.dailyCopy();
+    if (!D) return null;
+    const lines = D.lines(p);
+    if (!lines.length) return null;
+
+    const terms = C.dailyTerms(p);
+    // The cheapest offered term, shown as «от», so the card carries a real
+    // number without pretending the customer has chosen yet. A plan with no
+    // priced ladder shows no price and cannot be opened for purchase.
+    const from = terms.length ? terms[0] : null;
+
+    return el('button', { class: 'card stack card--tariff', onclick: () => openTariff(p, group) }, [
+      el('div', { class: 'row row--between' }, [
+        el('div', { class: 'row tariff__head' }, [
+          el('span', { class: 'card__title', text: `${D.formatAllowance(p.daily_gb)} в день` }),
+        ]),
+        el('div', {
+          class: 'card__price tabular',
+          text: from ? `от ${C.money(from.price)}` : '—',
+        }),
+      ]),
+      el('div', { class: 'card__meta', text: lines.map((l) => l.text).slice(1).join(' · ') || ' ' }),
+    ]);
+  }
+
   function tariffCard(p, group, distinct) {
     const isBest = group && group.best && group.best.package_id === p.package_id;
     const days = Number(p.validity_days);
@@ -774,13 +812,31 @@
 
     // §9 S2: price ascending by default, with a switch to volume. Only worth
     // drawing when there is something to reorder — two cards sort themselves.
-    if (group.items.length > 2) list.appendChild(sortToggle(group));
+    // Counted on the volume pool: the toggle reorders that grid and nothing
+    // else, so a country whose only tariffs are daily must not grow one.
+    if (C.partitionDaily(group.items).volume.length > 2) list.appendChild(sortToggle(group));
+
+    // Daily plans leave the pool BEFORE it is sorted. Ranking them against
+    // fixed volumes by price would let a per-day figure decide which volume
+    // card looks best, and the two are not comparable.
+    const split = C.partitionDaily(group.items);
+    const volume = split.volume;
+    const daily = split.daily;
 
     // Computed over the whole group, once, because "what is different" is a
     // property of the set rather than of any one card.
-    const distinct = C.tariffDistinguishers(group.items);
-    for (const p of C.sortTariffs(group.items, state.sort)) {
+    const distinct = C.tariffDistinguishers(volume);
+    for (const p of C.sortTariffs(volume, state.sort)) {
       list.appendChild(tariffCard(p, group, distinct));
+    }
+
+    // Above nothing and below the volumes: a customer scanning for a volume
+    // should not have to pass this, and one who wants it finds it in one place.
+    const dailyCards = daily.map((p) => dailyCard(p, group)).filter(Boolean);
+    if (dailyCards.length) {
+      const D = C.dailyCopy();
+      list.appendChild(el('h2', { class: 'section', text: D ? D.BLOCK_TITLE : '' }));
+      for (const card of dailyCards) list.appendChild(card);
     }
 
     // Blueprint §9 S2: a country is never a dead end. Regional offers that
@@ -1611,6 +1667,14 @@
     const title = (group && group.country)
       || C.destinationTitle(p.name, p.country_code);
 
+    const D = C.dailyCopy();
+    const isDaily = !!(D && D.isDaily(p));
+    const terms = isDaily ? C.dailyTerms(p) : [];
+    // The term is the product, so it is chosen here rather than assumed. The
+    // first is preselected: a screen that can be in a "nothing chosen" state is
+    // a screen you cannot buy from.
+    state.dailyTerm = terms.length ? terms[0] : null;
+
     // 1. Header — what, how much, for how long, for how many.
     box.appendChild(el('div', { class: 'card stack' }, [
       el('div', { class: 'row' }, [
@@ -1618,14 +1682,36 @@
         el('h1', { text: title }),
       ]),
       el('div', { class: 'row row--between' }, [
-        el('span', { class: 'card__title', text: p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ` }),
-        el('strong', { class: 'card__price tabular', text: C.money(p.price) }),
+        el('span', {
+          class: 'card__title',
+          text: isDaily
+            ? `${D.formatAllowance(p.daily_gb)} в день`
+            : (p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ`),
+        }),
+        el('strong', {
+          class: 'card__price tabular',
+          id: 'tariff-price',
+          text: isDaily
+            ? (state.dailyTerm ? C.money(state.dailyTerm.price) : '—')
+            : C.money(p.price),
+        }),
       ]),
-      el('div', {
-        class: 'card__meta',
-        text: `${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
-      }),
+      isDaily
+        // Every line from the shared module; the screen composes none of its
+        // own. The validity line is absent for a per-day plan because the row
+        // has no term until one is chosen below.
+        ? el('div', { class: 'stack' }, D.lines(p).slice(1).map((l) => el('div', {
+          class: 'card__meta', text: l.text,
+        })))
+        : el('div', {
+          class: 'card__meta',
+          text: `${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
+        }),
     ]));
+
+    // 1b. The term, and what it costs. Prices are the server's finished
+    // `term_prices`; nothing here multiplies anything.
+    if (isDaily && terms.length) box.appendChild(dailyTermPicker(p, terms));
 
     // 2 & 3. Coverage and characteristics — the same sheet the site shows, in
     // the same order and under the same labels («Покрытие и условия»).
@@ -1663,11 +1749,60 @@
       ])),
     ]));
 
+    // A daily plan with no priced ladder cannot be bought: a term we cannot
+    // price is a term we cannot sell, and inventing one here would be the app
+    // deciding what somebody pays.
+    if (isDaily && !terms.length) {
+      box.appendChild(el('p', {
+        class: 'small muted',
+        text: 'Этот тариф сейчас нельзя оформить. Попробуйте позже.',
+      }));
+      return;
+    }
+
     box.appendChild(el('button', {
       class: 'btn btn--wide',
-      text: `Купить за ${C.money(p.price)}`,
-      onclick: () => openCheckout(p, group),
+      id: 'tariff-buy',
+      text: `Купить за ${C.money(isDaily ? state.dailyTerm.price : p.price)}`,
+      onclick: () => openCheckout(p, group, isDaily ? state.dailyTerm : null),
     }));
+  }
+
+  /**
+   * The term chooser. A radio group, because picking one unpicks the others and
+   * exactly one is always picked.
+   *
+   * Selecting a term rewrites the header price and the buy button in place, so
+   * what the screen says and what the next screen charges cannot disagree.
+   */
+  function dailyTermPicker(pkg, terms) {
+    const D = C.dailyCopy();
+    const rows = terms.map((t) => el('button', {
+      class: 'row row--between daily-term' + (t === terms[0] ? ' is-selected' : ''),
+      role: 'radio',
+      'aria-checked': t === terms[0] ? 'true' : 'false',
+      onclick: (ev) => {
+        state.dailyTerm = t;
+        const groupEl = ev.currentTarget.parentNode;
+        for (const child of groupEl.children) {
+          const on = child === ev.currentTarget;
+          child.classList.toggle('is-selected', on);
+          child.setAttribute('aria-checked', on ? 'true' : 'false');
+        }
+        const price = $('#tariff-price');
+        if (price) price.textContent = C.money(t.price);
+        const buy = $('#tariff-buy');
+        if (buy) buy.textContent = `Купить за ${C.money(t.price)}`;
+      },
+    }, [
+      el('span', { class: 'muted', text: `${t.days} ${D.pluralDays(t.days)}` }),
+      el('span', { class: 'fact__value tabular', text: C.money(t.price) }),
+    ]));
+
+    return el('div', { class: 'card stack' }, [
+      el('h2', { class: 'section', text: 'Срок' }),
+      el('div', { class: 'stack', role: 'radiogroup', 'aria-label': 'Срок' }, rows),
+    ]);
   }
 
   /** The countries a regional pack covers, named and flagged like everywhere else. */
@@ -1724,22 +1859,31 @@
    * Screen: checkout
    * ------------------------------------------------------------------ */
 
-  function openCheckout(pkg, group) {
+  function openCheckout(pkg, group, dailyTerm) {
     // `pkg.country` does not exist in the catalogue DTO, so this line used to
     // render " · 3 ГБ" with an empty space where the destination should be. The
     // name comes from the group the customer navigated through, or from the
     // dictionary as a fallback.
     const where = (group && group.country) || C.countryLabel(pkg.country_code);
-    const days = Number(pkg.validity_days);
+    // For a tariff sold by the day the term came from the previous screen; the
+    // catalogue row has none. Everything below — the summary, the amount the
+    // server is told to expect, the idempotency scope — reads this one value,
+    // so there is no path by which the screen and the order disagree.
+    const days = dailyTerm ? Number(dailyTerm.days) : Number(pkg.validity_days);
 
     state.intent = {
       package_id: pkg.package_id,
+      // Sent only for daily plans. The server validates it against its own
+      // ladder and computes the amount.
+      days: dailyTerm ? Number(dailyTerm.days) : undefined,
       // §9 S4: sbp or card, nothing else. SBP is the default on both surfaces
       // and is the cheaper rail; it was hard-coded to 'card' here with no way
       // to see or change it.
       payment_type: 'sbp',
       email: '',
-      expected_amount_rub: Number(pkg.price),
+      // An assertion about what was SHOWN, and for a daily plan what was shown
+      // is the chosen term's price — never the row's, which is one day.
+      expected_amount_rub: Number(dailyTerm ? dailyTerm.price : pkg.price),
       _pkg: pkg,
       _where: where,
       // Kept so the summary can be rebuilt when a promo changes the total —
@@ -1801,7 +1945,11 @@
 
   function renderCheckoutSummary(pkg, group, where, days) {
     const promo = state.promo;
-    const base = Number(pkg.price);
+    const D = C.dailyCopy();
+    const isDaily = !!(D && D.isDaily(pkg));
+    // For a daily plan the row's own price is the price of ONE DAY, so the
+    // amount the summary shows is the intent's — the term the customer chose.
+    const base = Number(isDaily && state.intent ? state.intent.expected_amount_rub : pkg.price);
 
     const rows = [
       el('div', { class: 'row' }, [
@@ -1810,7 +1958,11 @@
           el('span', { class: 'card__title', text: where }),
           el('span', {
             class: 'card__meta',
-            text: `${pkg.unlimited ? 'Безлимит' : `${pkg.data_gb} ГБ`}`
+            // «1 ГБ в день · 7 дней», never «null ГБ»: data_gb is meaningless on
+            // a daily row and the allowance is the offer.
+            text: (isDaily
+              ? `${D.formatAllowance(pkg.daily_gb)} в день`
+              : (pkg.unlimited ? 'Безлимит' : `${pkg.data_gb} ГБ`))
               + ` · ${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
           }),
         ]),

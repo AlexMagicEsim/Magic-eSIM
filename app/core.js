@@ -445,14 +445,70 @@ function readPromoQuote(data, fallbackCode) {
   };
 }
 
-function purchaseIntentKey(intent, storage, randomHex) {
-  const scope = [
+/* ==========================================================================
+ * Daily plans — a per-day allowance is a different product from a volume.
+ *
+ * The Mini App does not get its own opinion about these. The wording comes
+ * from assets/daily-plan-copy.js, the same module the storefront and the
+ * country pages load, and the prices come from the server's `term_prices`.
+ * A third implementation of either would be a third place for the promise to
+ * stop being true.
+ * ======================================================================== */
+
+/** The shared copy module, or null if it did not load. Never a fallback. */
+function dailyCopy() {
+  const root = typeof window !== 'undefined' ? window : globalThis;
+  return (root && root.MagicDailyPlan) || null;
+}
+
+/** Split a country's tariffs into the two blocks the screen shows. */
+function partitionDaily(items) {
+  const D = dailyCopy();
+  if (!D) return { daily: [], volume: Array.isArray(items) ? items : [] };
+  return D.partition(items);
+}
+
+/**
+ * The terms a per-day plan is sold for, priced BY THE SERVER.
+ *
+ * Returns [] when the ladder is missing, and the screen then offers no
+ * purchase at all — a term we cannot price is a term we cannot sell, and
+ * guessing one here would be the browser deciding what someone pays.
+ */
+function dailyTerms(pkg) {
+  const list = Array.isArray(pkg && pkg.term_prices) ? pkg.term_prices : [];
+  return list
+    .filter((t) => t && Number(t.days) > 0 && Number(t.price) > 0)
+    .map((t) => ({ days: Number(t.days), price: Number(t.price) }));
+}
+
+/**
+ * What makes two purchases the same intent.
+ *
+ * ONE builder, used by both the mint and the clear. They were separate copies
+ * of the same five lines, which is fine right up until one of them grows a
+ * sixth: a scope that disagrees hashes to a different slot, so minting would
+ * store a key that clearing could never find — and the stale key would be
+ * reused by a later, different purchase.
+ *
+ * `days` is that sixth line. Two terms of one daily tariff are two different
+ * orders for two different amounts; without it, choosing 30 days after 7 would
+ * reuse the first intent's key and the backend would correctly return the
+ * FIRST order — a customer charged for a week and shown a month.
+ */
+function purchaseIntentScope(intent) {
+  return [
     'buy',
     String((intent && intent.package_id) || ''),
     String((intent && intent.payment_type) || ''),
     String((intent && intent.promo_code) || '').trim().toUpperCase(),
     String((intent && intent.email) || '').trim().toLowerCase(),
+    String((intent && intent.days) || ''),
   ].join('|');
+}
+
+function purchaseIntentKey(intent, storage, randomHex) {
+  const scope = purchaseIntentScope(intent);
 
   const slot = `mesim.idem.${hash32(scope)}`;
   const existing = storage && storage.getItem ? storage.getItem(slot) : null;
@@ -466,13 +522,7 @@ function purchaseIntentKey(intent, storage, randomHex) {
 
 /** Forget an intent's key, so the next purchase of the same tariff is a new one. */
 function clearIntentKey(intent, storage) {
-  const scope = [
-    'buy',
-    String((intent && intent.package_id) || ''),
-    String((intent && intent.payment_type) || ''),
-    String((intent && intent.promo_code) || '').trim().toUpperCase(),
-    String((intent && intent.email) || '').trim().toLowerCase(),
-  ].join('|');
+  const scope = purchaseIntentScope(intent);
   if (storage && storage.removeItem) storage.removeItem(`mesim.idem.${hash32(scope)}`);
 }
 
@@ -1008,6 +1058,10 @@ function createApi(deps = {}) {
         // false here means something went wrong and the server should refuse.
         terms_accepted: intent.terms_accepted === true,
         promo_code: intent.promo_code || undefined,
+        // Only for tariffs sold by the day. The server checks the term against
+        // its own ladder and computes the amount; this is a person's choice,
+        // not a price — the app still calculates nothing.
+        days: intent.days || undefined,
         // An assertion about what was shown, never an instruction. The server
         // prices the order and refuses if this disagrees.
         expected_amount_rub: intent.expected_amount_rub,
@@ -1976,7 +2030,8 @@ const CORE = {
   API_BASE, ApiError, createApi, createCache, readThrough,
   PROMO_MESSAGES, promoMessage, normalisePromoCode, readPromoQuote,
   gb, money, daysLeft, remainingFraction,
-  purchaseIntentKey, clearIntentKey, hash32,
+  purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
+  dailyCopy, partitionDaily, dailyTerms,
   byCountry, pickBestValue, searchCountries,
   groupCatalogue, regionsCovering, countryLabel, flagFor, isRegional,
   regionLabel, plural, tariffWord, countryWord,

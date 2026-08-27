@@ -178,3 +178,74 @@ test('the block has styles in the stylesheet BOTH surfaces load', () => {
     assert.ok(css.includes(cls), `${cls} is not styled in the shared stylesheet`);
   }
 });
+
+// ---------------------------------------------------------------------------
+// The Mini App is the third surface, and behaves like the other two
+// ---------------------------------------------------------------------------
+
+test('the Mini App loads the shared copy module, before the code that reads it', () => {
+  const html = read('app/index.html');
+  // Compared on the SCRIPT TAGS, not on the first mention of each name: the
+  // comment above the tag names core.js too, and matching that made this fail
+  // while the load order was in fact correct.
+  const tag = (src) => html.indexOf(`<script src="${src}"`);
+  assert.ok(tag('/assets/daily-plan-copy.js') > 0, 'the Mini App does not load the module');
+  assert.ok(tag('core.js') > 0);
+  assert.ok(tag('/assets/daily-plan-copy.js') < tag('core.js'),
+    'the module must load before core.js');
+});
+
+test('the Mini App splits the two products before sorting, like the storefront', () => {
+  const s = read('app/ui.js');
+  const split = s.indexOf('C.partitionDaily(group.items)');
+  const sort = s.indexOf('C.sortTariffs(volume');
+  assert.ok(split > 0, 'daily plans are not partitioned out');
+  assert.ok(sort > split, 'the split must happen before the ranking');
+  // The volume sort must no longer see the whole group.
+  assert.ok(!/C\.sortTariffs\(group\.items/.test(s),
+    'sorting the whole group would rank daily plans against volumes');
+});
+
+test('the Mini App composes no copy of its own about a daily plan', () => {
+  const s = read('app/ui.js');
+  assert.match(s, /C\.dailyCopy\(\)/);
+  assert.ok(!/в день на максимальной/.test(s),
+    'card copy must come from assets/daily-plan-copy.js');
+  const daily = s.slice(s.indexOf('function dailyCard'), s.indexOf('function tariffCard'));
+  assert.ok(!/безлимит/i.test(daily), 'a daily card must not promise unlimited traffic');
+  assert.match(daily, /if \(!D\) return null/, 'no module, no card');
+});
+
+test('the Mini App prices nothing: the ladder comes from the server', () => {
+  const core = read('app/core.js');
+  const fn = core.slice(core.indexOf('function dailyTerms'), core.indexOf('function dailyTerms') + 600);
+  assert.match(fn, /term_prices/);
+  assert.ok(!/[*/]\s*days|days\s*[*/]/.test(fn), 'the app must not multiply a price by a term');
+});
+
+test('the Mini App order carries the term, and the term is part of the intent', () => {
+  const core = read('app/core.js');
+  const body = core.slice(core.indexOf("request('/api/v1/tma/orders'"), core.indexOf("request('/api/v1/tma/orders'") + 1400);
+  assert.match(body, /days:\s*intent\.days\s*\|\|\s*undefined/,
+    'a per-day order must say how many days');
+
+  const scope = core.slice(core.indexOf('function purchaseIntentScope'), core.indexOf('function purchaseIntentScope') + 700);
+  assert.match(scope, /intent\.days/, 'two terms must be two intents');
+
+  // One builder for both the mint and the clear — a second copy is how the two
+  // start hashing to different slots.
+  assert.equal((core.match(/function purchaseIntentScope/g) || []).length, 1);
+  assert.match(core, /function clearIntentKey[\s\S]{0,200}purchaseIntentScope\(intent\)/);
+});
+
+test('the Mini App asserts the price it SHOWED, which for a daily plan is the term\'s', () => {
+  const s = read('app/ui.js');
+  assert.match(s, /expected_amount_rub: Number\(dailyTerm \? dailyTerm\.price : pkg\.price\)/,
+    'sending the row price would assert one day against a month');
+});
+
+test('a daily plan with no priced ladder cannot be bought in the Mini App', () => {
+  const s = read('app/ui.js');
+  assert.match(s, /isDaily && !terms\.length/);
+  assert.match(s, /нельзя оформить/);
+});
