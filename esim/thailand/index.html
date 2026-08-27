@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://magicesim.store/magic-esim-banner.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="stylesheet" href="../../assets/country-pages.css" />
-  <link rel="preconnect" href="https://api.magicesim.store" crossorigin />
+  <link rel="preconnect" href="https://esim-backend-3wmu.onrender.com" crossorigin />
 <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
@@ -32,7 +32,7 @@
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -201,6 +201,7 @@
   </footer>
 
   <script src="/assets/catalog-loader.js" defer></script>
+  <script src="/assets/daily-plan-copy.js" defer></script>
   <script src="../../assets/country-tariffs.js" defer></script>
 
 <script>

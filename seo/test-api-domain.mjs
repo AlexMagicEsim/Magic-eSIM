@@ -1,14 +1,34 @@
-/* Guards for the single public API domain.
+/* Guards for where the storefront is allowed to send a request.
  *
- * The storefront must reach the backend only through https://api.magicesim.store.
- * That hostname is what DNS points at the Yandex Cloud gateway; a stray direct
- * call to the Render hostname would bypass the gateway and reintroduce exactly
- * the Russian-network failure this migration exists to fix.
+ * THIS FILE ONCE ASSERTED THE OPPOSITE, and the reversal is the point.
  *
- * These tests do not need the gateway to exist — they pin the frontend side, so
- * the property holds before, during and after the DNS switch.
+ * It used to require that the backend be reached ONLY through
+ * https://api.magicesim.store, on the grounds that naming Render directly
+ * «would bypass the gateway and reintroduce exactly the Russian-network failure
+ * this migration exists to fix». That premise was measured and found to be
+ * backwards. From assets/magic-net.js, 126 cold samples per host on 2026-08-22:
  *
- * Run: node seo/test-api-domain.mjs
+ *              success   p50      p95       502   timeouts
+ *   gateway     48.4%   1983ms   20844ms    16      49
+ *   render      97.6%    422ms    3247ms     0       3
+ *
+ * The gateway is the road that fails (TD-55), so the storefront now does what
+ * the Mini App always did: Render first, gateway as the second road. Four tests
+ * here went red the day that landed and stayed red, because they were pinning a
+ * hostname rather than the property that hostname was standing in for.
+ *
+ * WHAT IS PINNED NOW is stricter than what was pinned before:
+ *
+ *   * no page declares an API base of its own — every one goes through MagicNet,
+ *     where the old rule merely required every scattered declaration to agree;
+ *   * exactly two files name a backend host, and both name the SAME canonical
+ *     pair in the SAME order;
+ *   * the order is Render first. Reversing it silently would reintroduce TD-55,
+ *     which is the failure the original rule was actually about;
+ *   * no third host appears anywhere a browser loads;
+ *   * the catalogue cache stays same-origin.
+ *
+ * Run: node --test seo/test-api-domain.mjs
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -48,35 +68,116 @@ const ACTIVE_FRONTEND = [
 
 /* ------------------------------------------------- no Render in the frontend */
 
-test('no active frontend file mentions the Render hostname', () => {
-  const offenders = ACTIVE_FRONTEND.filter((f) => RENDER_RE.test(read(f)));
+// The two files allowed to name a backend host: the strategy itself, and the
+// loader whose literals are its documented last-resort copy.
+const ENDPOINT_OWNERS = ['assets/magic-net.js', 'assets/catalog-loader.js'];
+
+/**
+ * A backend host named where a REQUEST could be built from it.
+ *
+ * `<link rel="preconnect">` is excluded deliberately: it opens a socket, it
+ * cannot send anything, and every country page carries one. Including it made
+ * this test report 190 pages as if each had grown its own endpoint.
+ */
+function namesHostInCode(source) {
+  const withoutLinkTags = source.replace(/<link\b[^>]*>/gi, '');
+  return RENDER_RE.test(withoutLinkTags) || withoutLinkTags.includes(API_DOMAIN);
+}
+
+test('only the network strategy and its fallback copy name a backend host', () => {
+  const offenders = ACTIVE_FRONTEND
+    .filter((f) => !ENDPOINT_OWNERS.includes(f))
+    .filter((f) => namesHostInCode(read(f)));
+
   assert.deepEqual(offenders, [],
-    `these would bypass the gateway: ${offenders.join(', ')}`);
+    `a host named outside the strategy is a road nobody is measuring: ${offenders.join(', ')}`);
 });
 
-test('the origin is named only in the proxy, never in anything a browser loads', () => {
-  assert.equal(proxy.UPSTREAM, 'https://esim-backend-3wmu.onrender.com',
-    'the proxy must pin the upstream explicitly');
-  for (const f of ACTIVE_FRONTEND) {
-    assert.ok(!RENDER_RE.test(read(f)), `${f} must not name the origin`);
+test('both of them name the same pair, in the same order, and no third host', () => {
+  // Render first. The order is the whole finding of TD-55, and a silent swap
+  // would put every Russian visitor back on the road that answered 48% of the
+  // time — while every other test in this file still passed.
+  const CANONICAL = ['https://esim-backend-3wmu.onrender.com', 'https://api.magicesim.store'];
+
+  // Read from the ENDPOINT LIST, not from the file. Both files open with a
+  // comment recounting the measurement that put Render first, and that prose
+  // names the gateway before it names Render — so scanning the whole text
+  // reported the order as reversed while the array was perfectly correct. The
+  // same trap as reading a script tag's position from a comment about it.
+  for (const f of ENDPOINT_OWNERS) {
+    const src = read(f);
+    const listStart = Math.max(src.indexOf('ENDPOINTS = ['), src.indexOf('BASES = ('));
+    assert.ok(listStart > 0, `${f}: no endpoint list found`);
+    const list = src.slice(listStart, listStart + 400);
+
+    const hosts = [...list.matchAll(/https:\/\/[a-z0-9.-]+\.(?:onrender\.com|magicesim\.store)/gi)]
+      .map((m) => m[0].toLowerCase());
+    const unique = [...new Set(hosts)];
+    assert.deepEqual(unique, CANONICAL,
+      `${f} must name exactly the canonical pair, primary first — found ${unique.join(', ')}`);
   }
+
+  // And the proxy still pins its upstream explicitly: it is the one thing that
+  // legitimately talks to the origin from outside a browser.
+  assert.equal(proxy.UPSTREAM, CANONICAL[0], 'the proxy must pin the upstream explicitly');
 });
 
 /* ------------------------------------------------------ every call is on-domain */
 
-test('every API base constant is the public domain', () => {
-  const bases = [];
-  for (const f of ['index.html', 'assets/country-tariffs.js', 'payment-success.html', '404.html']) {
-    for (const m of read(f).matchAll(/API_BASE\s*=\s*'([^']+)'/g)) bases.push({ f, url: m[1] });
+test('the connection a page warms is the road it actually takes first', () => {
+  // A preconnect is a promise about which host the page is about to talk to.
+  // Every country page pointed it at the gateway — the FALLBACK — so the road
+  // taken 97.6% of the time was opened cold on every visit while a socket was
+  // warmed for the one taken almost never. Pinned to the canonical primary so
+  // the hint cannot drift away from the strategy again, which is exactly how it
+  // got there: it was correct when the gateway was primary and nothing failed
+  // when that stopped being true.
+  const PRIMARY = 'https://esim-backend-3wmu.onrender.com';
+  const pages = ACTIVE_FRONTEND.filter((f) => f.endsWith('.html'));
+  const wrong = [];
+
+  for (const f of pages) {
+    for (const m of read(f).matchAll(/<link\b[^>]*rel=["']preconnect["'][^>]*>/gi)) {
+      const href = (m[0].match(/href=["']([^"']+)["']/) || [])[1] || '';
+      if (/onrender\.com|magicesim\.store/i.test(href) && href !== PRIMARY) {
+        wrong.push(`${f}: ${href}`);
+      }
+    }
   }
-  assert.ok(bases.length >= 4, `expected at least 4 API_BASE declarations, found ${bases.length}`);
-  for (const b of bases) assert.equal(b.url, API_DOMAIN, `${b.f} points at ${b.url}`);
+
+  assert.deepEqual(wrong, [], `preconnect must warm the primary road: ${wrong.join(', ')}`);
 });
 
-test('the shared loader uses the public domain for live and a same-origin cache', () => {
+test('the generator ships the same hint, so new pages are not born stale', () => {
+  const gen = read('seo/build-catalogue-pages.mjs');
+  const hint = (gen.match(/<link[^>]*rel="preconnect"[^>]*>/) || [])[0] || '';
+  assert.match(hint, /esim-backend-3wmu\.onrender\.com/,
+    'a page built tomorrow must warm the road it will use');
+});
+
+test('no page declares an API base of its own', () => {
+  // Stricter than the rule this replaces. That one accepted any number of
+  // scattered API_BASE constants so long as they agreed; agreement between
+  // copies is a thing that holds until it does not. There is now one definition
+  // of where the API lives, and the pages go through it.
+  const declarers = ['index.html', 'assets/country-tariffs.js', 'payment-success.html', '404.html']
+    .filter((f) => /API_BASE\s*=\s*'/.test(read(f)));
+
+  assert.deepEqual(declarers, [],
+    `these carry their own endpoint instead of using MagicNet: ${declarers.join(', ')}`);
+});
+
+test('the loader derives its endpoints from the strategy, and keeps the cache same-origin', () => {
   const s = read('assets/catalog-loader.js');
-  assert.match(s, new RegExp(`API_BASE = '${API_DOMAIN.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
-  // The cache must stay relative: it is served by Pages, which Russian networks reach.
+
+  // One definition, taken at runtime; the literals beside it are the documented
+  // fallback for a page that forgot the script tag, not a second opinion.
+  assert.match(s, /window\.MagicNet && window\.MagicNet\.ENDPOINTS/,
+    'the loader must take the endpoint list from MagicNet');
+  assert.match(s, /var API_BASE = BASES\[0\]/, 'and treat the first as primary');
+
+  // The cache must stay relative: it is served by Pages, which Russian networks
+  // reach even when both API roads are having a bad day.
   assert.match(s, /CACHE_URL = '\/assets\/catalog\.json'/);
   assert.ok(!/https?:\/\/[^'"]*catalog\.json/.test(s), 'the cache must not be fetched cross-origin');
 });

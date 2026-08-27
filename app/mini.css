@@ -1389,3 +1389,16 @@ body.sheet-open { overflow: hidden; }
   border-color:color-mix(in srgb, var(--link) 26%, transparent);
   color:var(--link);
 }
+
+/* Срок у тарифа с дневным лимитом. Радиогруппа: ровно один вариант выбран
+   всегда, потому что срок — это и есть продукт, и экрана «ничего не выбрано»
+   у него быть не должно. */
+.daily-term{
+  width:100%;text-align:left;background:none;border:1px solid var(--line,#2a2f3a);
+  border-radius:10px;padding:10px 12px;cursor:pointer;color:inherit;font:inherit;
+}
+.daily-term.is-selected{
+  border-color:var(--accent,#3b82f6);
+  box-shadow:inset 0 0 0 1px var(--accent,#3b82f6);
+}
+.daily-term.is-selected .fact__value{font-weight:600;}

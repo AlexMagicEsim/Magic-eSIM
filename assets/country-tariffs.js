@@ -946,6 +946,81 @@ function pluralRu(n,one,few,many){
 }
 function tariffCount(n){return `${n} ${pluralRu(n,'тариф','тарифа','тарифов')}`;}
 
+/* =====================================================================
+ * Daily tariffs — «Трафик на каждый день».
+ * ---------------------------------------------------------------------
+ * A per-day allowance is a different product from a volume, so it gets
+ * its own block rather than a badge on a card in the volume grid. Mixing
+ * them would put «1 ГБ в день» and «1 ГБ всего» side by side sorted by
+ * price, which is a comparison that means nothing.
+ *
+ * THE MARKUP IS CREATED HERE, NOT IN THE PAGES. There are ~190 generated
+ * country pages; adding a block to each would mean regenerating all of
+ * them, and a regeneration touches prices and copy that have nothing to
+ * do with this change. The block is built once, on demand, and inserted
+ * above the volume blocks — so a page that has no daily tariffs never
+ * grows one.
+ *
+ * Every line of copy comes from assets/daily-plan-copy.js, the one place
+ * allowed to decide what we promise about these products. If that module
+ * failed to load the block does not render at all: showing the card
+ * without its terms would be showing a daily plan as though it were a
+ * volume one, which is the exact confusion the block exists to prevent.
+ * ================================================================== */
+
+function dailyCopy(){
+  return (typeof window!=='undefined' && window.MagicDailyPlan) || null;
+}
+
+/** Найти блок или создать его перед блоком локальных тарифов. */
+function ensureDailyBlock(){
+  let el=document.getElementById('dailyBlock');
+  if(el) return el;
+  const anchor=document.getElementById('localBlock');
+  if(!anchor||!anchor.parentNode) return null;
+  el=document.createElement('div');
+  el.id='dailyBlock';
+  el.className='tariff-block';
+  el.hidden=true;
+  el.innerHTML='<div class="tariff-subhead"><h3 id="dailyHead"></h3>'
+    +'<span class="count" id="dailyCount"></span></div>'
+    +'<div id="dailyGrid" class="packages-grid"></div>';
+  anchor.parentNode.insertBefore(el, anchor);
+  return el;
+}
+
+/**
+ * Что стоит выбранный срок. Цены приходят с сервера готовыми
+ * (`term_prices`); клиент ничего не умножает и не округляет.
+ */
+function dailyTermsHtml(item){
+  const list=Array.isArray(item.term_prices)?item.term_prices:[];
+  if(!list.length) return '';
+  const D=dailyCopy();
+  const rows=list.map((t)=>`<li class="daily-term"><span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
+    +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></li>`).join('');
+  return `<ul class="daily-terms">${rows}</ul>`;
+}
+
+function renderDailyCard(item){
+  const D=dailyCopy();
+  if(!D) return '';
+  const lines=D.lines(item);
+  if(!lines.length) return '';
+  const speed=tariffNetworkLabel(item);
+  const terms=dailyTermsHtml(item);
+  return `
+    <article class="package-card daily-card reveal visible">
+      <div class="package-topline"><span class="package-availability">В наличии</span></div>
+      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+      <ul class="daily-lines">${lines.map((l)=>`<li class="daily-line daily-line--${escapeHtml(l.kind)}">${escapeHtml(l.text)}</li>`).join('')}</ul>
+      ${terms}
+      ${speed?`<div class="package-tags"><span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span></div>`:''}
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}</div>
+      <div class="package-actions">${buyButtonHtml(item)}</div>
+    </article>`;
+}
+
 function renderCountrySplit(){
   const status=byIdG('packagesStatus');
   const localBlock=byIdG('localBlock'),regionalBlock=byIdG('regionalBlock');
@@ -954,7 +1029,14 @@ function renderCountrySplit(){
   if(genericGrid)genericGrid.innerHTML='';
   const code=String(activeCountry||'').toUpperCase();
   const cName=countryNameGenitive(code);
-  const list=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
+  const all=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
+  // Daily plans leave the volume pool BEFORE it is split and sorted. They must
+  // never be ranked against a fixed volume: «1 ГБ в день» and «1 ГБ всего» are
+  // not two prices for the same thing.
+  const D=dailyCopy();
+  const split=D?D.partition(all):{daily:[],volume:all};
+  const list=split.volume;
+  const daily=split.daily;
   const local=applySort(list.filter((i)=>!isMultiCountryPackage(i)));
   const regional=applySort(list.filter((i)=>isMultiCountryPackage(i)));
   if(status)status.textContent='';
@@ -976,7 +1058,23 @@ function renderCountrySplit(){
   }else{
     regionalGrid.innerHTML='';regionalBlock.hidden=true;
   }
-  if(!local.length&&!regional.length){
+  // The daily block, above the volume ones: it answers a different question and
+  // a customer who wants it should not have to scroll past twenty volumes.
+  const dailyBlock=ensureDailyBlock();
+  if(dailyBlock){
+    const grid=document.getElementById('dailyGrid');
+    const cards=daily.map(renderDailyCard).filter(Boolean);
+    if(cards.length){
+      document.getElementById('dailyHead').textContent=D?D.BLOCK_TITLE:'';
+      document.getElementById('dailyCount').textContent=tariffCount(cards.length);
+      grid.innerHTML=cards.join('');
+      dailyBlock.hidden=false;
+    }else{
+      grid.innerHTML='';dailyBlock.hidden=true;
+    }
+  }
+
+  if(!local.length&&!regional.length&&!daily.length){
     localBlock.hidden=true;regionalBlock.hidden=true;
     if(status)status.textContent=`Для «${cName}» тарифы не найдены. Напишите в поддержку — подберём вручную.`;
   }

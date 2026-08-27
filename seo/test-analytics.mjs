@@ -43,7 +43,7 @@ function fakeStorage(seed) {
 // payment-success.html: the analytics helpers, wired to fake storage and a
 // recording goal sink. `token` is injected the way the page derives it from the
 // query string.
-function successAnalytics({ token, session = {}, local = {} } = {}) {
+function successAnalytics({ token, session = {}, local = {}, search = '' } = {}) {
   const src = read('payment-success.html');
   const block = src.match(/var PAY_CTX_MAX_AGE_MS[\s\S]*?window\.magicMetrikaGoal\(name, payload\);\s*\n\s*\}/);
   assert.ok(block, 'payment-success.html: analytics block not found');
@@ -51,10 +51,17 @@ function successAnalytics({ token, session = {}, local = {} } = {}) {
   const win = { magicMetrikaGoal: (name, params) => goals.push({ name, params }) };
   const sessionStorage = fakeStorage(session);
   const localStorage = fakeStorage(local);
+  // `params` is injected for the same reason `token` is: the page derives both
+  // from the query string above this block, and the block has since grown an
+  // IIFE that reads `params.get('src')` for the Mini App deep link. Without it
+  // the extracted code throws ReferenceError and every assertion below it fails
+  // for a reason that has nothing to do with what it was testing — which is
+  // exactly what had happened to eleven of these tests.
+  const params = new URLSearchParams(search);
   const api = new Function(
-    'window', 'sessionStorage', 'localStorage', 'token',
+    'window', 'sessionStorage', 'localStorage', 'token', 'params',
     `${block[0]}\nreturn {fireOrderGoal:fireOrderGoal, readPayCtx:readPayCtx, orderRef:orderRef, clearPayCtx:clearPayCtx};`,
-  )(win, sessionStorage, localStorage, token);
+  )(win, sessionStorage, localStorage, token, params);
   return { ...api, goals, sessionStorage, localStorage };
 }
 

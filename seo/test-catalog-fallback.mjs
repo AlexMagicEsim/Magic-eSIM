@@ -133,11 +133,20 @@ test('A7 network/CORS rejection: cache used, error type recorded', async () => {
   assert.equal(r.liveError, 'network');
 });
 
-test('A8 live is attempted exactly twice, never more', async () => {
+test('A8 live is attempted three times worst case, never more', async () => {
+  // Two, not three, until the storefront gained a second road. The loader's own
+  // rule (assets/catalog-loader.js, fetchLive) is «LIVE_ATTEMPTS against the
+  // primary, then ONE attempt against the fallback. Three requests worst case»,
+  // so the count this test pins moved with the architecture while the property
+  // it protects — bounded, never indefinite — did not.
+  //
+  // Written as primary + fallback rather than as the literal 3 so that changing
+  // LIVE_ATTEMPTS updates the expectation instead of breaking the test.
   const { api, calls } = loadLoader((u) => (isLive(u) ? netFail() : ok(catalogDoc([pkg()]))));
   const r = await api.load();
   await r.whenLive; // the losing live request finishes its bounded retries first
-  assert.equal(calls.filter(isLive).length, 2, 'must not retry indefinitely');
+  const expected = api.LIVE_ATTEMPTS + 1;
+  assert.equal(calls.filter(isLive).length, expected, 'must not retry indefinitely');
 });
 
 /* =================================================================== B. CACHE */
@@ -239,7 +248,15 @@ test('D1 the order request carries package_id and no price', () => {
   const s = read('index.html');
   const at = s.indexOf('/api/v1/public/retail-orders');
   assert.ok(at > 0, 'order endpoint call not found');
-  const start = s.indexOf('body:JSON.stringify({', at);
+  // The payload used to be written inline at the call as
+  // `body:JSON.stringify({...})` and is now built into `orderBody` above it.
+  // Both shapes are accepted, because what this test is about is WHAT the
+  // checkout sends, not where the object literal happens to sit — and pinning
+  // the position is what made it fail for a year without the property ever
+  // having changed.
+  const start = [s.indexOf('const orderBody=JSON.stringify({'), s.indexOf('body:JSON.stringify({', at)]
+    .filter((i) => i > 0)
+    .sort((a, b) => a - b)[0];
   assert.ok(start > 0, 'order payload not found');
   // Take the object literal by brace balance rather than guessing at whitespace.
   let depth = 0, end = start;
@@ -550,7 +567,11 @@ test('I1 the order payload carries an idempotency key from the session helper', 
   const s = read('index.html');
   const post = s.indexOf("'/api/v1/public/retail-orders'");
   assert.ok(post > 0);
-  const body = s.slice(post, post + 900);
+  // Same relocation as D1: the payload is now assembled into `orderBody` above
+  // the call rather than inline at it, so a window taken forwards from the
+  // endpoint no longer contains it. The property under test is unchanged.
+  const built = s.indexOf('const orderBody=JSON.stringify({');
+  const body = built > 0 ? s.slice(built, built + 900) : s.slice(post, post + 900);
   assert.match(body, /idempotency_key\s*:\s*coIdemKeyFor\(/,
     'the key must come from the intent-scoped helper, not be inlined');
 });

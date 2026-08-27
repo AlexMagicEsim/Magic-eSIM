@@ -1123,9 +1123,19 @@ test('every live package produces at least one true thing to say', () => {
 });
 
 test('and nothing in an S3 fact is English', () => {
+  // Operator names are excluded, and that is not a loosening. «Nova», «Síminn»,
+  // «NTT docomo» are PROPER NOUNS: they are what the network is called, they
+  // are what the phone will show, and transliterating them would make the fact
+  // less true rather than more Russian. Every other fact is prose we wrote and
+  // must be in Russian.
+  //
+  // This test was red on main for exactly this reason — Iceland's operators
+  // tripped a Latin-run check aimed at untranslated English sentences.
+  const PROPER_NOUN_LABELS = new Set(['Операторы']);
   const cat = require('../assets/catalog.json').packages;
   for (const p of cat) {
     for (const f of C.tariffFacts(p)) {
+      if (PROPER_NOUN_LABELS.has(f.label)) continue;
       assert.ok(!/[A-Za-z]{4,}/.test(f.value.replace(/\d+[GM]?B|[2345]G|eSIM|SIM|SMS|Мбит|Кбит/g, '')),
         `${p.name}: ${f.label} = ${f.value}`);
     }
@@ -1519,4 +1529,103 @@ test('promo: applying, changing or removing a code mints a DIFFERENT idempotency
   assert.equal(C.purchaseIntentKey({ ...base }, storage, rnd), none);
   // Case and whitespace do not fork the key either.
   assert.equal(C.purchaseIntentKey({ ...base, promo_code: ' friends10 ' }, storage, rnd), promoA);
+});
+
+/* ==========================================================================
+ * S14 · a per-day allowance is a different product from a volume.
+ *
+ * The Mini App has no opinion of its own about these: the wording comes from
+ * assets/daily-plan-copy.js — the module the storefront and the country pages
+ * also load — and the prices come from the server's `term_prices`. What is
+ * tested here is that it uses both and invents neither.
+ * ======================================================================== */
+
+require('../assets/daily-plan-copy.js'); // sets the shared module on globalThis
+
+const GB = 1024 * 1024 * 1024;
+const dailyPkg = (over = {}) => ({
+  package_id: 'pkg-daily', plan_type: 'DAILY', daily_term_mode: 'PER_DAY',
+  daily_gb: 1, daily_throttle_label: '384 Kbps', daily_throttle_continues: false,
+  daily_reset_confirmed: false, validity_days: null,
+  sellable_days: [3, 7, 30],
+  term_prices: [{ days: 3, price: 700 }, { days: 7, price: 1500 }, { days: 30, price: 5700 }],
+  ...over,
+});
+const volumePkg = (over = {}) => ({
+  package_id: 'pkg-volume', plan_type: 'FIXED_VOLUME', data_gb: 5,
+  validity_days: 30, price: 900, ...over,
+});
+
+test('the two products are separated before anything is ranked', () => {
+  const { daily, volume } = C.partitionDaily([volumePkg(), dailyPkg(), volumePkg({ package_id: 'v2' })]);
+  assert.equal(daily.length, 1);
+  assert.equal(volume.length, 2);
+  assert.equal(daily[0].package_id, 'pkg-daily');
+});
+
+test('the offered terms are the server\'s, repeated and not computed', () => {
+  assert.deepEqual(C.dailyTerms(dailyPkg()), [
+    { days: 3, price: 700 }, { days: 7, price: 1500 }, { days: 30, price: 5700 },
+  ]);
+});
+
+test('a term with no usable price is dropped, and an empty ladder stays empty', () => {
+  // A term we cannot price is a term we cannot sell. The screen then offers no
+  // purchase at all rather than inventing a number.
+  assert.deepEqual(C.dailyTerms(dailyPkg({ term_prices: [{ days: 7, price: 0 }] })), []);
+  assert.deepEqual(C.dailyTerms(dailyPkg({ term_prices: [{ days: 0, price: 700 }] })), []);
+  assert.deepEqual(C.dailyTerms(dailyPkg({ term_prices: null })), []);
+  assert.deepEqual(C.dailyTerms(volumePkg()), []);
+});
+
+test('an ordinary package produces no daily copy', () => {
+  const D = C.dailyCopy();
+  assert.ok(D, 'the shared module must be loaded');
+  assert.deepEqual(D.lines(volumePkg()), []);
+  assert.equal(D.isDaily(volumePkg()), false);
+});
+
+test('the app never promises unlimited traffic for a daily plan', () => {
+  const text = C.dailyCopy().lines(dailyPkg()).map((l) => l.text).join(' ');
+  assert.ok(!/безлимит/i.test(text));
+  assert.match(text, /1 ГБ в день на максимальной скорости/);
+  assert.match(text, /Далее — до 384 Кбит\/с/);
+});
+
+test('TWO TERMS ARE TWO ORDERS: the term is part of the purchase intent', () => {
+  // Without this, choosing 30 days after 7 would reuse the first intent's
+  // idempotency key and the backend would correctly return the FIRST order —
+  // a customer charged for a week and shown a month.
+  const base = { package_id: 'pkg-daily', payment_type: 'sbp', email: 'a@b.c' };
+  const seven = C.purchaseIntentKey({ ...base, days: 7 }, C.memoryStorage(), () => 'aaaaaaaa');
+  const thirty = C.purchaseIntentKey({ ...base, days: 30 }, C.memoryStorage(), () => 'aaaaaaaa');
+  assert.notEqual(seven, thirty);
+
+  // And the same term is the same intent, which is what makes a retry safe.
+  const store = C.memoryStorage();
+  const first = C.purchaseIntentKey({ ...base, days: 7 }, store, () => 'aaaaaaaa');
+  const again = C.purchaseIntentKey({ ...base, days: 7 }, store, () => 'bbbbbbbb');
+  assert.equal(first, again);
+});
+
+test('minting and clearing an intent key agree on what the intent is', () => {
+  // They used to be two hand-written copies of the same tuple. A scope that
+  // disagrees hashes to a different slot, so a mint would store a key the clear
+  // could never find — and that stale key would be reused by a later purchase.
+  const intent = { package_id: 'p', payment_type: 'sbp', email: 'a@b.c', promo_code: 'X', days: 7 };
+  const store = C.memoryStorage();
+  const key = C.purchaseIntentKey(intent, store, () => 'aaaaaaaa');
+  assert.equal(store.getItem(`mesim.idem.${C.hash32(C.purchaseIntentScope(intent))}`), key);
+
+  C.clearIntentKey(intent, store);
+  const fresh = C.purchaseIntentKey(intent, store, () => 'bbbbbbbb');
+  assert.notEqual(fresh, key, 'clearing must actually forget the key it minted');
+});
+
+test('an ordinary purchase intent is unchanged by any of this', () => {
+  const base = { package_id: 'p', payment_type: 'sbp', email: 'a@b.c' };
+  const store = C.memoryStorage();
+  const a = C.purchaseIntentKey(base, store, () => 'aaaaaaaa');
+  const b = C.purchaseIntentKey({ ...base, days: undefined }, store, () => 'bbbbbbbb');
+  assert.equal(a, b, 'no term means the same intent as before terms existed');
 });
