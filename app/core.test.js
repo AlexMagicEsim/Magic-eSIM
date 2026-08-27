@@ -1123,9 +1123,19 @@ test('every live package produces at least one true thing to say', () => {
 });
 
 test('and nothing in an S3 fact is English', () => {
+  // Operator names are excluded, and that is not a loosening. «Nova», «Síminn»,
+  // «NTT docomo» are PROPER NOUNS: they are what the network is called, they
+  // are what the phone will show, and transliterating them would make the fact
+  // less true rather than more Russian. Every other fact is prose we wrote and
+  // must be in Russian.
+  //
+  // This test was red on main for exactly this reason — Iceland's operators
+  // tripped a Latin-run check aimed at untranslated English sentences.
+  const PROPER_NOUN_LABELS = new Set(['Операторы']);
   const cat = require('../assets/catalog.json').packages;
   for (const p of cat) {
     for (const f of C.tariffFacts(p)) {
+      if (PROPER_NOUN_LABELS.has(f.label)) continue;
       assert.ok(!/[A-Za-z]{4,}/.test(f.value.replace(/\d+[GM]?B|[2345]G|eSIM|SIM|SMS|Мбит|Кбит/g, '')),
         `${p.name}: ${f.label} = ${f.value}`);
     }
