@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-26T16:34:29.047Z",
+  "generated_at": "2026-08-27T09:58:36.468Z",
   "source": "production-public-api",
   "package_count": 970,
   "packages": [
@@ -3386,7 +3386,7 @@
       "price": 2400,
       "networks": [
         {
-          "operator": "Zain",
+          "operator": "STC",
           "type": "5G"
         }
       ],
@@ -3401,7 +3401,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": []
+      "ip_export": [
+        "BE"
+      ]
     },
     {
       "package_id": "1a6094c7-2b0f-42e3-8603-7f49aac69e82",
@@ -4085,7 +4087,7 @@
       "price": 950,
       "networks": [
         {
-          "operator": "Zain",
+          "operator": "STC",
           "type": "5G"
         }
       ],
@@ -4100,7 +4102,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": []
+      "ip_export": [
+        "BE"
+      ]
     },
     {
       "package_id": "2108a79f-b877-4a9e-87ad-153ed7c2dac1",
@@ -4592,11 +4596,11 @@
       "price": 1300,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -8279,11 +8283,11 @@
       "price": 5350,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -13414,11 +13418,11 @@
       "price": 750,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -13869,8 +13873,8 @@
       "price": 350,
       "networks": [
         {
-          "operator": "PrimeTel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         },
         {
           "operator": "Epic",
@@ -13889,8 +13893,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "FR",
-        "NL"
+        "US"
       ]
     },
     {
@@ -16566,8 +16569,8 @@
       "price": 5400,
       "networks": [
         {
-          "operator": "PrimeTel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         },
         {
           "operator": "Epic",
@@ -16586,8 +16589,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "FR",
-        "NL"
+        "US"
       ]
     },
     {
@@ -16739,8 +16741,8 @@
       "price": 2000,
       "networks": [
         {
-          "operator": "PrimeTel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         },
         {
           "operator": "Epic",
@@ -16759,8 +16761,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "FR",
-        "NL"
+        "US"
       ]
     },
     {
@@ -18976,8 +18977,8 @@
       "price": 950,
       "networks": [
         {
-          "operator": "PrimeTel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         },
         {
           "operator": "Epic",
@@ -18996,8 +18997,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "FR",
-        "NL"
+        "US"
       ]
     },
     {
@@ -20354,8 +20354,8 @@
       "price": 550,
       "networks": [
         {
-          "operator": "PrimeTel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         },
         {
           "operator": "Epic",
@@ -20374,8 +20374,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "FR",
-        "NL"
+        "US"
       ]
     },
     {
@@ -20950,11 +20949,11 @@
       "price": 500,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -26691,7 +26690,7 @@
       "price": 1550,
       "networks": [
         {
-          "operator": "Zain",
+          "operator": "STC",
           "type": "5G"
         }
       ],
@@ -26706,7 +26705,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": []
+      "ip_export": [
+        "BE"
+      ]
     },
     {
       "package_id": "bfd90e67-f53b-445e-8224-dc4de87a8030",
@@ -32942,11 +32943,11 @@
       "price": 2400,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -34008,7 +34009,7 @@
       "price": 3850,
       "networks": [
         {
-          "operator": "Zain",
+          "operator": "STC",
           "type": "5G"
         }
       ],
@@ -34023,7 +34024,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": []
+      "ip_export": [
+        "BE"
+      ]
     },
     {
       "package_id": "ef331bf6-2a36-4fa4-8288-b3374ea896bf",
