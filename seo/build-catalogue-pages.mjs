@@ -336,6 +336,10 @@ ${links.map((r) => `        <a class="country-link" href="../${r.slug}/"><span a
   </footer>
 
   <script src="/assets/catalog-loader.js" defer></script>
+  <!-- The one copy of what a daily tariff card may say. Loaded before
+       country-tariffs.js, which reads it; absolute so the depth of the page
+       does not matter. -->
+  <script src="/assets/daily-plan-copy.js" defer></script>
   <script src="../../assets/country-tariffs.js" defer></script>
 ${CLIENT_SNIPPET}
 </body>

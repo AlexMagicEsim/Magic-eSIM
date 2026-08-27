@@ -387,3 +387,55 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
   background:rgba(66,103,232,.08);color:var(--blue);border-color:rgba(66,103,232,.22);
 }
 @media(max-width:560px){ .package-distinct{gap:5px} .package-distinct__chip{font-size:12px} }
+
+/* =====================================================================
+ * Daily tariffs — «Трафик на каждый день».
+ *
+ * The block reuses .package-card so a daily tariff sits in the same grid
+ * rhythm as a volume one and nothing about the page layout has to move.
+ * What differs is what is INSIDE the card: a volume card answers "how
+ * much and for how long", a daily one answers "how much per day, and
+ * what happens after" — which is a list of statements, not a meta grid.
+ *
+ * Lives in this file and not in a page, because assets/country-pages.css
+ * is the stylesheet both the landing and the ~190 generated country
+ * pages load. A rule added anywhere else reaches one of them and not the
+ * other, which is how 190 pages once rendered without their layout.
+ * ================================================================== */
+
+.daily-lines{
+  list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;
+}
+.daily-line{
+  position:relative;padding-left:18px;font-size:14px;line-height:1.45;color:#1f2937;
+}
+.daily-line::before{
+  content:'';position:absolute;left:0;top:8px;width:6px;height:6px;
+  border-radius:50%;background:#2563eb;
+}
+/* The allowance is the offer; the rest qualifies it. */
+.daily-line--allowance{font-weight:600;color:#0f172a;}
+.daily-line--throttle,
+.daily-line--reset{color:#475569;}
+
+.daily-terms{
+  list-style:none;margin:14px 0 0;padding:10px 0 0;display:grid;gap:4px;
+  border-top:1px solid #e5e7eb;
+}
+.daily-term{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-size:14px;color:#334155;
+}
+.daily-term-days{color:#64748b;}
+.daily-term-price{font-weight:600;color:#0f172a;font-variant-numeric:tabular-nums;}
+
+@media (prefers-color-scheme:dark){
+  .daily-line{color:#cbd5e1;}
+  .daily-line--allowance{color:#f1f5f9;}
+  .daily-line--throttle,
+  .daily-line--reset{color:#94a3b8;}
+  .daily-terms{border-top-color:#334155;}
+  .daily-term{color:#cbd5e1;}
+  .daily-term-days{color:#94a3b8;}
+  .daily-term-price{color:#f1f5f9;}
+}

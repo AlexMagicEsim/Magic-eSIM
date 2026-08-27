@@ -57,6 +57,7 @@
        loader, which uses it. -->
   <script src="/assets/magic-net.js"></script>
   <script src="/assets/catalog-loader.js" defer></script>
+  <script src="/assets/daily-plan-copy.js" defer></script>
   <script>
   /* Safe Metrika goal wrapper — allowlisted goal names + param keys, strict per-key
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
@@ -798,6 +799,10 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
     <section id="social"><div class="container"><div class="section-head reveal"><div class="section-kicker">Когда пригодится</div><h2>Когда нужен интернет в поездке</h2></div><div class="grid"><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">💼</div><h3>Для работы в поездках</h3></div><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">🗺️</div><h3>Карты, такси и бронирования</h3></div><div class="card social-card reveal"><div class="icon" style="margin-left:auto;margin-right:auto;">✈️</div><h3>В путешествиях и отпуске</h3></div></div></div></section>
 <section id="global-pricing" data-section="packages"><div class="container"><div class="section-head reveal"><div class="section-kicker">Каталог</div><h2 id="pricingHead">Тарифы eSIM</h2><p class="muted">Выберите страну поиском или на карточках направлений — покажем локальные тарифы страны и региональные тарифы с её покрытием.</p></div><div class="sort-bar reveal"><label class="sort-field" for="packageSort"><span class="sort-label">Сортировка</span><span class="sort-select-wrap"><select id="packageSort" class="sort-select"><option value="price_asc">Сначала дешевле</option><option value="data_desc">Сначала больше трафика</option><option value="days_desc">Сначала дольше срок</option></select><svg class="sort-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></label></div><div id="countryChips" class="country-chips reveal"></div><div id="packagesStatus" class="packages-status reveal">Выберите страну, чтобы увидеть тарифы.</div>
 <div id="localBlock" class="tariff-block" hidden><div class="tariff-subhead"><h3 id="localHead">Тарифы</h3><span class="count" id="localCount"></span></div><div id="localEmpty" class="tariff-empty" hidden>Для этой страны доступны региональные тарифы.</div><div id="localGrid" class="packages-grid"></div></div>
+<!-- Трафик на каждый день. Отдельный блок, а не значок на карточке: тариф с
+     дневным лимитом отвечает на другой вопрос, и ранжировать «1 ГБ в день»
+     рядом с «1 ГБ всего» по цене — сравнение, которое ничего не значит. -->
+<div id="dailyBlock" class="tariff-block" hidden><div class="tariff-subhead"><h3 id="dailyHead">Трафик на каждый день</h3><span class="count" id="dailyCount"></span></div><div id="dailyGrid" class="packages-grid"></div></div>
 <div id="regionalBlock" class="tariff-block" hidden><div class="tariff-subhead"><h3 id="regionalHead">Региональные тарифы</h3><span class="count" id="regionalCount"></span></div><div id="regionalGrid" class="packages-grid"></div></div>
 <div id="packagesGrid" class="packages-grid"></div>
       
@@ -1334,7 +1339,7 @@ function formatRetailPrice(item){
 function buyButtonHtml(item){
   const price = getPackageRetailPrice(item);
   const disabled = price === null ? ' disabled aria-disabled="true"' : '';
-  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>Купить</button>`;
+  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-plan-type="${escapeHtml(item.plan_type||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>Купить</button>`;
 }
 
 function escapeHtml(value){
@@ -2076,6 +2081,74 @@ function applySort(list){
   return arr.sort(comparePackages);
 }
 
+// --- Трафик на каждый день ------------------------------------------------
+// Вся формулировка — из assets/daily-plan-copy.js, единственного места,
+// которое решает, что мы обещаем про такие тарифы. Если модуль не загрузился,
+// блок не рисуется вовсе: показать карточку без её условий — значит показать
+// дневной тариф как обычный, ровно та путаница, ради которой блок и заведён.
+function dailyCopy(){return (typeof window!=='undefined'&&window.MagicDailyPlan)||null;}
+
+// Цены на сроки приходят с сервера готовыми (`term_prices`). Клиент ничего не
+// умножает: иначе браузер стал бы вторым мнением о сумме, которую человек платит.
+function dailyTermsHtml(item){
+  const list=Array.isArray(item.term_prices)?item.term_prices:[];
+  if(!list.length)return '';
+  const D=dailyCopy();
+  // Радиогруппа, а не список: срок — это и есть продукт, поэтому он выбирается
+  // до оплаты, а не после. Первый вариант выбран заранее, чтобы карточка не
+  // умела состояния «ничего не выбрано», из которого нельзя купить.
+  return `<div class="daily-terms" role="radiogroup" aria-label="Срок">${list.map((t,i)=>
+    `<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}" role="radio" aria-checked="${i===0?'true':'false'}" data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
+    +`<span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
+    +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></button>`).join('')}</div>`;
+}
+
+// Выбор срока меняет и цену, и то, что уедет в заказ. Делегируется на документ,
+// потому что карточки перерисовываются целиком при каждой сортировке.
+document.addEventListener('click',function(ev){
+  const btn=ev.target.closest&&ev.target.closest('.js-daily-term');
+  if(!btn)return;
+  const card=btn.closest('.daily-card');
+  if(!card)return;
+  card.querySelectorAll('.js-daily-term').forEach(function(b){
+    const on=b===btn;
+    b.classList.toggle('is-selected',on);
+    b.setAttribute('aria-checked',on?'true':'false');
+  });
+  const buy=card.querySelector('.js-buy');
+  if(buy){buy.dataset.days=btn.dataset.days;buy.dataset.price=btn.dataset.price;}
+});
+
+function renderDailyCard(item){
+  const D=dailyCopy();
+  if(!D)return '';
+  const lines=D.lines(item);
+  if(!lines.length)return '';
+  const speed=tariffNetworkLabel(item);
+  return `
+    <article class="package-card daily-card reveal visible">
+      <div class="package-topline"><span class="package-availability">В наличии</span></div>
+      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+      <ul class="daily-lines">${lines.map((l)=>`<li class="daily-line daily-line--${escapeHtml(l.kind)}">${escapeHtml(l.text)}</li>`).join('')}</ul>
+      ${dailyTermsHtml(item)}
+      ${speed?`<div class="package-tags"><span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span></div>`:''}
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}</div>
+      <div class="package-actions">${dailyBuyButtonHtml(item)}</div>
+    </article>`;
+}
+
+// Та же кнопка, что у обычной карточки, но её data-days/data-price описывают
+// ВЫБРАННЫЙ срок, а не строку каталога: у PER_DAY-тарифа в каталоге срока нет.
+function dailyBuyButtonHtml(item){
+  const first=(Array.isArray(item.term_prices)?item.term_prices:[])[0];
+  const html=buyButtonHtml(Object.assign({},item,{
+    validity_days:first?first.days:'',
+    price:first?first.price:item.price,
+    retail_price_rub:first?first.price:item.retail_price_rub,
+  }));
+  return html;
+}
+
 // Split the selected country's tariffs: local first, regional (multi-country/global) after.
 function renderCountrySplit(){
   const status=byIdG('packagesStatus');
@@ -2085,7 +2158,13 @@ function renderCountrySplit(){
   if(genericGrid)genericGrid.innerHTML='';
   const code=String(activeCountry||'').toUpperCase();
   const cName=countryName(code);
-  const list=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
+  const all=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
+  // Дневные тарифы уходят из пула ДО разделения и сортировки: их нельзя
+  // ранжировать против фиксированного объёма.
+  const D=dailyCopy();
+  const split=D?D.partition(all):{daily:[],volume:all};
+  const list=split.volume;
+  const daily=split.daily;
   const local=applySort(list.filter((i)=>!isMultiCountryPackage(i)));
   const regional=applySort(list.filter((i)=>isMultiCountryPackage(i)));
   if(status)status.textContent='';
@@ -2107,7 +2186,21 @@ function renderCountrySplit(){
   }else{
     regionalGrid.innerHTML='';regionalBlock.hidden=true;
   }
-  if(!local.length&&!regional.length){
+  // Блок дневных тарифов — над объёмными: он отвечает на другой вопрос, и тому,
+  // кому нужен именно он, не должно приходиться пролистывать двадцать объёмов.
+  const dailyBlock=byIdG('dailyBlock');
+  if(dailyBlock){
+    const cards=daily.map(renderDailyCard).filter(Boolean);
+    if(cards.length){
+      byIdG('dailyCount').textContent=`${cards.length} тарифов`;
+      byIdG('dailyGrid').innerHTML=cards.join('');
+      dailyBlock.hidden=false;
+    }else{
+      byIdG('dailyGrid').innerHTML='';dailyBlock.hidden=true;
+    }
+  }
+
+  if(!local.length&&!regional.length&&!daily.length){
     localBlock.hidden=true;regionalBlock.hidden=true;
     if(status)status.textContent=`Для «${cName}» тарифы не найдены. Напишите в поддержку — подберём вручную.`;
   }
@@ -2606,6 +2699,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     byId('coPrice').textContent=d.price?`${Number(d.price).toLocaleString('ru-RU')} ₽`:'—';
     overlay.dataset.packageId=d.packageId||'';
     overlay.dataset.priceRub=(d.price!=null&&d.price!=='')?String(Number(d.price)):'';
+    // Срок хранится только для тарифов с дневным лимитом; у обычного пакета
+    // его нет, и в заказ он не уедет.
+    overlay.dataset.days=d.planType==='DAILY'&&d.days?String(d.days):'';
     coIdemNewSession(); // a freshly opened checkout is a NEW intent, never a replay
     resetPromo();  // package changed -> drop any prior promo, show base price
     magicMetrikaGoal('checkout_open',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:d.packageId,price_rub:d.price});
@@ -2624,7 +2720,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     ev.preventDefault();
     magicMetrikaGoal('tariff_buy_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:b.dataset.packageId,price_rub:b.dataset.price,data_gb:b.dataset.data,validity_days:b.dataset.days,tariff_type:b.closest('#regionalGrid')?'regional':'local'});
 
-    const d={packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,days:b.dataset.days,price:b.dataset.price};
+    const d={packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,days:b.dataset.days,price:b.dataset.price,planType:b.dataset.planType};
 
     // A card rendered from the live API is already current — open as before.
     if(catalogSource!=='cache'){openCheckout(d);return;}
@@ -2702,8 +2798,12 @@ window.addEventListener('DOMContentLoaded', async () => {
      The key is random, never derived from the email or anything personal. */
   let coIdem=null; // {tuple, key} for the current modal session
   function coIdemNewSession(){coIdem=null;}
-  function coIdemKeyFor(pkgId,method,email,promo){
-    const tuple=[pkgId,method,String(email||'').trim().toLowerCase(),String(promo||'').trim().toUpperCase()].join('|');
+  function coIdemKeyFor(pkgId,method,email,promo,days){
+    // `days` входит в кортеж, и это не украшение: два срока одного тарифа —
+    // два разных заказа на разные суммы. Без него выбор 30 дней после 7
+    // переиспользовал бы ключ первого намерения, и бэкенд справедливо вернул
+    // бы первый заказ вместо нового.
+    const tuple=[pkgId,method,String(email||'').trim().toLowerCase(),String(promo||'').trim().toUpperCase(),String(days||'')].join('|');
     if(!coIdem||coIdem.tuple!==tuple){
       let key='';
       try{if(window.crypto&&crypto.randomUUID)key=crypto.randomUUID();}catch(e){}
@@ -2722,6 +2822,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     if(submitting)return;                                  // guard against double click (both buttons)
     const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError');
     const pkgId=(overlay.dataset.packageId||'').trim();
+      // Выбранный срок, если тариф продаётся по дням. Пусто для обычных пакетов.
+      const coDays=overlay.dataset.days||'';
     if(!email||!/.+@.+\..+/.test(email.value.trim())){err.textContent='Укажите корректный email для получения eSIM.';err.hidden=false;if(email)email.focus();return;}
     if(consent&&!consent.checked){err.textContent='Подтвердите согласие с пользовательским соглашением и политикой конфиденциальности.';err.hidden=false;return;}
     if(!pkgId){err.textContent='Тариф не выбран. Закройте окно и выберите тариф заново.';err.hidden=false;return;}
@@ -2771,13 +2873,17 @@ window.addEventListener('DOMContentLoaded', async () => {
          idempotent_replay), leaving one retail order and one payment. */
       const orderBody=JSON.stringify({
           package_id:pkgId,
+          // Только для тарифов с дневным лимитом. Сервер проверяет срок по
+          // своему же списку и сам считает сумму — здесь это выбор человека,
+          // а не цена: браузер по-прежнему ничего не считает.
+          days:coDays||undefined,
           email:email.value.trim(),
           termsAccepted:true,
           payment_type:paymentType,                                    // "sbp" | "card"
           promo_code:appliedPromo?appliedPromo.code:undefined,         // code only; server recomputes
           // Same key across retries of this same intent; new key when the
           // intent (package/method/email/promo) or the modal session changes.
-          idempotency_key:coIdemKeyFor(pkgId,paymentType,email.value,appliedPromo?appliedPromo.code:'')
+          idempotency_key:coIdemKeyFor(pkgId,paymentType,email.value,appliedPromo?appliedPromo.code:'',coDays)
       });
       const resp=await MagicNet.request('/api/v1/public/retail-orders',{
         method:'POST',kind:'write',idempotent:true,
