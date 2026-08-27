@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-27T09:58:36.468Z",
+  "generated_at": "2026-08-27T17:40:37.040Z",
   "source": "production-public-api",
   "package_count": 970,
   "packages": [
@@ -3064,20 +3064,25 @@
         {
           "operator": "Mobilis",
           "type": "4G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ]
     },
     {
@@ -3956,20 +3961,25 @@
         {
           "operator": "Mobilis",
           "type": "4G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ]
     },
     {
@@ -6444,20 +6454,25 @@
         {
           "operator": "Mobilis",
           "type": "4G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ]
     },
     {
@@ -7621,10 +7636,6 @@
       "networks": [
         {
           "operator": "ooredoo",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -8891,10 +8902,6 @@
         {
           "operator": "ooredoo",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -9429,20 +9436,25 @@
         {
           "operator": "Mobilis",
           "type": "4G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ]
     },
     {
@@ -9535,20 +9547,25 @@
         {
           "operator": "Mobilis",
           "type": "4G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ]
     },
     {
@@ -12478,20 +12495,25 @@
         {
           "operator": "Mobilis",
           "type": "4G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ]
     },
     {
@@ -24348,10 +24370,6 @@
         {
           "operator": "ooredoo",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -25124,10 +25142,6 @@
       "networks": [
         {
           "operator": "ooredoo",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         }
       ],
