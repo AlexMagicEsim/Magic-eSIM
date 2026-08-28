@@ -1665,7 +1665,7 @@
 
     const days = Number(p.validity_days);
     const title = (group && group.country)
-      || C.destinationTitle(p.name, p.country_code);
+      || C.destinationTitle(p.name, p.country_code, p);
 
     const D = C.dailyCopy();
     const isDaily = !!(D && D.isDaily(p));

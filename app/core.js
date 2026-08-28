@@ -1917,12 +1917,26 @@ function isAllowedPaymentUrl(url) {
  * Order of trust: a known region family, then a known country, then an honest
  * «Регион». The code is never the answer.
  */
-function destinationTitle(packageName, countryCode) {
+function destinationTitle(packageName, countryCode, pkg) {
   const named = REGION_NAMES[regionKey({ name: packageName })];
   if (named) return named;
 
   const key = String(countryCode || '').toUpperCase();
   if (countryNames[key]) return countryNames[key];
+
+  // Daily plans never reach either table above: regionKey strips «5GB 30Days»
+  // and «(120+ areas)», but a daily product is named «Europe(30+ areas)
+  // 300MB/Day», and country_code «EU-39» is not a country. 91 of them landed
+  // on the placeholder «Регион» — Европа, Центральная Азия, Северная Америка,
+  // «Сингапур, Малайзия и Таиланд» all shown as nothing at all.
+  //
+  // The storefront already resolves these, so this asks THAT module rather
+  // than growing a second vocabulary here to drift against it.
+  const D = dailyCopy();
+  if (D && pkg && D.isDaily(pkg)) {
+    const place = D.placeName(pkg, countryLabel);
+    if (place) return place;
+  }
 
   return 'Регион';
 }

@@ -938,6 +938,29 @@ test('a local pack is still named by its country', () => {
 
 test('an unnamed family with an unnamed code degrades to a word, not a code', () => {
   assert.equal(C.destinationTitle('Mystery Pack 1GB', 'QQ-7'), 'Регион');
+
+  // Daily plans reach neither table above: regionKey strips «5GB 30Days» and
+  // «(120+ areas)», but these are named «Europe(30+ areas) 300MB/Day», and
+  // «EU-39» is not a country. 91 production rows showed the placeholder.
+  const daily = (name, cc, codes) => ({
+    plan_type: 'DAILY', daily_term_mode: 'PER_DAY', daily_gb: 0.49,
+    name, country_code: cc, coverage_country_codes: codes,
+  });
+  const title = (p) => C.destinationTitle(p.name, p.country_code, p);
+
+  assert.equal(title(daily('Europe(30+ areas) 300MB/Day', 'EU-39', Array(39).fill('XX'))), 'Европа');
+  assert.equal(title(daily('Central Asia 500MB/Day', 'CA-5', Array(5).fill('XX'))), 'Центральная Азия');
+  assert.equal(title(daily('North America 500MB/Day', 'NA-3', ['US', 'CA', 'MX'])), 'Северная Америка');
+  assert.equal(title(daily('Singapore & Malaysia & Thailand 500MB/Day', 'AS-3', ['SG', 'MY', 'TH'])),
+    'Сингапур, Малайзия и Таиланд');
+
+  // Without the package — the call shape every other caller still uses — the
+  // answer is exactly what it was before this fallback existed.
+  assert.equal(C.destinationTitle('Central Asia 500MB/Day', 'CA-5'), 'Регион');
+
+  // And the extra argument must not change an ordinary package's answer.
+  assert.equal(C.destinationTitle('Mystery Pack 1GB', 'QQ-7',
+    { plan_type: 'ORDINARY', name: 'Mystery Pack 1GB', country_code: 'QQ-7' }), 'Регион');
 });
 
 test('order status speaks the vocabulary lib/tmaProjection.js actually emits', () => {

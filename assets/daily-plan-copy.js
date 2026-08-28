@@ -137,8 +137,136 @@
     return { daily: daily, volume: volume };
   }
 
+  /* ===================================================================
+   * Русское имя тарифа.
+   *
+   * Провайдер называет товар по-своему и по-английски: «Europe(30+ areas)
+   * 300MB/Day», «Singapore & Malaysia & Thailand 500MB/Day». Показывать это
+   * покупателю нельзя, а тупой replace по словам сломает названия — «Asia»
+   * встречается и как регион, и внутри «Central Asia».
+   *
+   * Поэтому имя собирается ЗАНОВО из структурных полей: покрытие даёт место,
+   * daily_gb — объём. Сырое имя провайдера читается только там, где оно
+   * действительно единственный источник, — чтобы отличить «Балканы» от
+   * «Европы» и «Центральную Азию» от «Азии»: у обоих одинаковый префикс
+   * country_code, и по коду их не различить.
+   * ================================================================ */
+
+  // Порядок значим: «Central Asia» должна проверяться раньше «Asia», иначе
+  // Центральная Азия станет Азией. Якорь ^ не ставим — у части названий
+  // впереди идёт страна-владелец, но паттерны достаточно специфичны.
+  var KNOWN_PLACES = [
+    [/\bcentral\s+asia\b/i,            'Центральная Азия'],
+    [/\bbalkans?\b/i,                   'Балканы'],
+    [/\bnorth\s+america\b/i,           'Северная Америка'],
+    [/\bsouth\s+america\b/i,           'Южная Америка'],
+    [/\blatin\s+america\b|\blatam\b/i, 'Латинская Америка'],
+    [/\bcaribbean\b/i,                  'Карибы'],
+    [/\bgulf\s+region\b|\bgcc\b/i,     'Страны Персидского залива'],
+    [/\bmiddle\s+east\b/i,             'Ближний Восток'],
+    [/\bglobal\b/i,                     'Весь мир'],
+    [/\beurope\b/i,                     'Европа'],
+    [/\basia\s*[-–]?\s*pacific\b|\bapac\b/i, 'Азия и Океания'],
+    [/\basia\b/i,                       'Азия'],
+    [/\bafrica\b/i,                     'Африка'],
+  ];
+
+  // Последний рубеж: префикс country_code («EU-35», «AS-7»). Собран по
+  // фактическому каталогу, а не по догадке — CA здесь Центральная Азия,
+  // потому что так называются все пакеты с этим префиксом, и AR — Латинская
+  // Америка по той же причине.
+  var REGION_BY_PREFIX = {
+    EU: 'Европа', AS: 'Азия', NA: 'Северная Америка', SA: 'Южная Америка',
+    CA: 'Центральная Азия', ME: 'Ближний Восток', CB: 'Карибы',
+    GL: 'Весь мир', AR: 'Латинская Америка', AF: 'Африка',
+  };
+
+  /** «Сингапур, Малайзия и Таиланд» — из КОДОВ, а не из английского текста. */
+  function joinCountries(names) {
+    if (names.length === 1) return names[0];
+    return names.slice(0, -1).join(', ') + ' и ' + names[names.length - 1];
+  }
+
+  function pluralCountries(n) {
+    var v = Math.abs(n) % 100; var d = v % 10;
+    if (v > 10 && v < 20) return 'стран';
+    if (d > 1 && d < 5) return 'страны';
+    if (d === 1) return 'страна';
+    return 'стран';
+  }
+
+  /**
+   * Место, к которому относится тариф.
+   *
+   * @param {object} pkg
+   * @param {function} countryName  код -> русское имя, либо сам код, если имени нет
+   */
+  function placeName(pkg, countryName) {
+    var codes = Array.isArray(pkg && pkg.coverage_country_codes) ? pkg.coverage_country_codes : [];
+    var name = typeof countryName === 'function' ? countryName : function (c) { return c; };
+    var named = function (c) { var r = name(c); return r && r !== String(c).toUpperCase() ? r : null; };
+
+    if (codes.length <= 1) {
+      var one = named(codes[0] || (pkg && pkg.country_code) || '');
+      return one || '';
+    }
+
+    // Известное имя раньше перечисления: «Северная Америка» понятнее, чем
+    // «США, Канада и Мексика», и это то, как продукт называется.
+    // Подчёркивание — словесный символ, поэтому \b после «Balkans» в
+    // «Balkans_500MB/Day» не срабатывает и место уезжает в fallback по
+    // префиксу EU, то есть в «Европу». Сегодня поставщик шлёт пробелы, но
+    // цена ошибки — неверная страна в заголовке, а цена защиты — одна замена.
+    var raw = String((pkg && pkg.name) || '').replace(/[_/]+/g, ' ');
+    for (var i = 0; i < KNOWN_PLACES.length; i++) {
+      if (KNOWN_PLACES[i][0].test(raw)) return KNOWN_PLACES[i][1];
+    }
+
+    // Небольшой набор — перечисляем. Пять имён ещё читаются, шесть уже нет.
+    if (codes.length <= 5) {
+      var list = codes.map(named);
+      if (list.every(Boolean)) return joinCountries(list);
+    }
+
+    var prefix = String((pkg && pkg.country_code) || '').replace(/[-–]?\d+\+?$/, '').toUpperCase();
+    if (REGION_BY_PREFIX[prefix]) return REGION_BY_PREFIX[prefix];
+
+    return codes.length + ' ' + pluralCountries(codes.length);
+  }
+
+  /** «Европа — 300 МБ в день». Пустая строка, если места назвать не смогли. */
+  function displayName(pkg, countryName) {
+    if (!isDaily(pkg)) return '';
+    var allowance = formatAllowance(pkg && pkg.daily_gb);
+    if (!allowance) return '';
+    var place = placeName(pkg, countryName);
+    var base = place ? place + ' — ' + allowance + ' в день' : allowance + ' в день';
+    // «Dubai Unlimited 1/3/5/7/10/15 Days» — шесть продуктов, у которых
+    // совпадает всё, кроме срока. Без срока в заголовке страница ОАЭ
+    // показывает шесть карточек с одним и тем же названием и выглядит как
+    // дубликаты. У PER_DAY срок выбирает покупатель, поэтому там его в
+    // названии быть не должно.
+    var fixedDays = Number(pkg && pkg.validity_days);
+    if (pkg && pkg.daily_term_mode === 'FIXED_TERM' && isFinite(fixedDays) && fixedDays > 0) {
+      return base + ', ' + fixedDays + ' ' + pluralDays(fixedDays);
+    }
+    return base;
+  }
+
+  /** «Покрытие: 34 страны» или «Покрытие: Ирландия». */
+  function coverageLine(pkg, countryName) {
+    var codes = Array.isArray(pkg && pkg.coverage_country_codes) ? pkg.coverage_country_codes : [];
+    if (codes.length > 1) return codes.length + ' ' + pluralCountries(codes.length);
+    var name = typeof countryName === 'function' ? countryName : function (c) { return c; };
+    return name(codes[0] || (pkg && pkg.country_code) || '') || '';
+  }
+
   var api = {
     BLOCK_TITLE: BLOCK_TITLE,
+    placeName: placeName,
+    displayName: displayName,
+    coverageLine: coverageLine,
+    pluralCountries: pluralCountries,
     isDaily: isDaily,
     formatAllowance: formatAllowance,
     formatSpeed: formatSpeed,

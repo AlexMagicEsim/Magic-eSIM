@@ -316,28 +316,73 @@ test('no surface computes a price for a term', () => {
 // Alignment
 // ---------------------------------------------------------------------------
 
-test('the daily card aligns its rows and puts the button on one bottom line', () => {
-  // The grid already stretches cards to equal height; what drifted was the rows
-  // INSIDE them — a 500 MB card whose description wraps to two lines pushed its
-  // terms, network, coverage and button above its neighbour's.
+test('the daily card is a six-row grid, so its sections cannot drift', () => {
+  // This replaced a min-height per block. Reserving heights meant guessing one
+  // that fits any text, and it was wrong the moment a description ran to four
+  // lines. A grid does not guess: the description row takes 1fr and absorbs the
+  // difference, so everything below it — terms, network, coverage, button —
+  // starts at the same offset on every card in the row.
   const css = read('assets/country-pages.css');
+  const at = css.indexOf('.daily-card{');
+  assert.ok(at > 0, '.daily-card must be styled');
+  const rule = css.slice(at, at + 400);
 
-  for (const rule of ['.daily-lines', '.daily-terms']) {
-    const at = css.indexOf(rule + '{');
-    assert.ok(at > 0, `${rule} is not styled`);
-    assert.match(css.slice(at, at + 400), /min-height:/, `${rule} must reserve its row`);
+  assert.match(rule, /display:grid/);
+  assert.match(rule, /grid-template-areas:'top' 'title' 'desc' 'terms' 'net' 'cov' 'buy'/,
+    'the six sections must be named and ordered');
+  assert.match(rule, /grid-template-rows:auto auto 1fr auto/,
+    'the description is the row that absorbs the difference');
+
+  // Every section is placed, and the button is the LAST row — which is what
+  // puts it on one bottom line without a margin hack.
+  for (const [sel, area] of [
+    ['.daily-card__title', 'title'],
+    ['.daily-card .daily-lines', 'desc'],
+    ['.daily-card .daily-terms-block', 'terms'],
+    ['.daily-card__network', 'net'],
+    ['.daily-card__coverage', 'cov'],
+    ['.daily-card .package-actions', 'buy'],
+  ]) {
+    const i = css.indexOf(sel + '{');
+    assert.ok(i > 0, `${sel} is not styled`);
+    assert.match(css.slice(i, i + 160), new RegExp(`grid-area:${area}`), `${sel} must own the ${area} row`);
   }
+});
 
-  for (const rule of ['.daily-card .package-title', '.daily-card .package-tags', '.daily-card .package-info']) {
-    const at = css.indexOf(rule + '{');
-    assert.ok(at > 0, `${rule} is not styled`);
-    assert.match(css.slice(at, at + 200), /min-height:/, `${rule} must reserve its row`);
+test('the term block is always rendered, even empty, so it holds its row', () => {
+  // A card with no ladder used to render nothing there and pull its network,
+  // coverage and button up relative to the card beside it.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2000);
+    assert.match(fn, /return '<div class="daily-terms-block"><\/div>'/,
+      `${f}: an empty term block must still occupy the row`);
   }
+});
 
-  const actions = css.indexOf('.daily-card .package-actions{');
-  assert.ok(actions > 0);
-  assert.match(css.slice(actions, actions + 120), /margin-top:auto/,
-    'the button must sit on the bottom line however much text is above it');
+test('the selector announces itself and separates the term from the price', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2000);
+    assert.match(fn, /Выберите срок:/, `${f}: the chooser needs a label`);
+    assert.match(fn, /daily-term-dot/, `${f}: «3 дня300 ₽» is not a price`);
+  }
+  // A single fixed term is not a choice, so it is labelled as a fact.
+  const s = read('assets/country-tariffs.js');
+  assert.match(s, /single\?'Срок:':'Выберите срок:'/);
+});
+
+test('the selected chip is solid brand blue on white, not a tint', () => {
+  const css = read('assets/country-pages.css');
+  const at = css.indexOf('.daily-term.is-selected{');
+  assert.ok(at > 0);
+  const rule = css.slice(at, at + 200);
+  assert.match(rule, /background:var\(--blue\)/, 'a tint is invisible on a phone in sunlight');
+  assert.match(rule, /color:#fff/);
+
+  const base = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 400);
+  assert.match(base, /cursor:pointer/, 'it has to look clickable on desktop');
+  assert.match(base, /border:1px solid/, 'and unselected chips keep a border');
 });
 
 test('the chips wrap instead of shrinking, and the selection survives a dark theme', () => {
@@ -356,11 +401,14 @@ test('the chips wrap instead of shrinking, and the selection survives a dark the
   assert.match(dark, /\.daily-term\.is-selected\{/, 'and the selection stays visible in it');
 });
 
-test('mobile drops the reserved heights, because there is nothing to align against', () => {
+test('mobile stops stretching the description and widens the chips', () => {
+  // One column has no neighbour to line up against, so the 1fr row would only
+  // add blank space; and a chip a thumb has to hit wants half the width.
   const css = read('assets/country-pages.css');
   const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
-  assert.match(mobile, /\.daily-terms\{min-height:0/, 'one column needs no reserved rows');
-  assert.match(mobile, /\.daily-term\{flex:1 1 calc\(50%/, 'two chips per row on a phone');
+  assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto auto;?\}/,
+    'no stretching row on a phone');
+  assert.match(mobile, /\.daily-term\{flex:1 1 calc\(50% - 4px\)/, 'two chips per row');
 });
 
 test('a fixed-term plan shows its price too, and reserves the same row', () => {
@@ -387,3 +435,107 @@ test('a fixed-term plan is buyable, and an unpriceable one still is not', () => 
     assert.match(s, /Временно недоступен/);
   }
 });
+
+// ---------------------------------------------------------------------------
+// RENDERING IT, not reading it.
+//
+// Every test above matches source text, and a matched string proves only that
+// the string is there. It cannot see that `${buy}` refers to a variable the
+// function never declares — which is exactly what shipped into index.html
+// while all 30 text assertions stayed green. A daily card that throws on
+// render is not a layout bug, it is an empty block.
+//
+// So this pulls the real functions out of each surface and CALLS them.
+
+function extractFns(file, names) {
+  const src = read(file);
+  const out = [];
+  for (const n of names) {
+    const at = src.indexOf(`function ${n}(`);
+    assert.ok(at > 0, `${file}: function ${n} not found`);
+    // Brace-match the body rather than guessing a length, so this cannot rot
+    // into covering half a function the way a fixed window does.
+    let i = src.indexOf('{', at), depth = 0, end = -1;
+    for (let j = i; j < src.length; j++) {
+      const c = src[j];
+      if (c === '{') depth++;
+      else if (c === '}') { depth--; if (depth === 0) { end = j + 1; break; } }
+    }
+    assert.ok(end > 0, `${file}: could not delimit ${n}`);
+    out.push(src.slice(at, end));
+  }
+  return out.join('\n');
+}
+
+const SAMPLE = {
+  package_id: 'p1', name: 'Japan 500MB/Day (IIJ)', plan_type: 'DAILY',
+  daily_term_mode: 'PER_DAY', daily_gb: 0.49, daily_throttle_label: '256 Kbps',
+  daily_throttle_continues: false, daily_reset_confirmed: false,
+  validity_days: null, country_code: 'JP', coverage_country_codes: ['JP'],
+  data_gb: 0, price: 150, retail_price_rub: 150,
+  network_technologies: ['3G', '4G'], speed: '3G/4G',
+  term_prices: [{ days: 3, price: 350 }, { days: 7, price: 800 }, { days: 30, price: 3000 }],
+};
+
+function renderer(file) {
+  const copy = read('assets/daily-plan-copy.js');
+  const body = extractFns(file, ['dailyTermsHtml', 'renderDailyCard']);
+  const buyName = file === 'index.html' ? 'dailyBuyButtonHtml' : null;
+  const extra = buyName ? extractFns(file, ['dailyBuyButtonHtmlInner', 'dailyBuyButtonHtml']) : '';
+  return new Function('window', `
+    ${copy}
+    const D = window.MagicDailyPlan;
+    const dailyCopy = () => D;
+    const escapeHtml = (v) => String(v ?? '').replace(/[&<>"']/g,
+      (m) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    const ICON_BOLT = '';
+    const countryName = (c) => (String(c).toUpperCase() === 'JP' ? 'Япония' : String(c).toUpperCase());
+    const tariffNetworkLabel = (p) => (p.network_technologies || []).join('/');
+    const buyButtonHtml = (p) =>
+      '<a class="btn package-buy js-buy" data-days="' + escapeHtml(p.validity_days)
+      + '" data-price="' + escapeHtml(p.price) + '">Купить</a>';
+    ${extra}
+    ${body}
+    return renderDailyCard;
+  `)({});
+}
+
+for (const file of SURFACES) {
+  test(`${file}: renderDailyCard actually runs and returns a whole card`, () => {
+    const html = renderer(file)(SAMPLE);
+
+    // The failure this exists for: an undeclared identifier throws above, and
+    // an empty string means the card silently vanished.
+    assert.ok(html && html.length > 200, 'the renderer produced nothing');
+
+    // Every section the grid places must be present, or a row collapses.
+    for (const cls of ['daily-card__title', 'daily-lines', 'daily-terms-block',
+      'daily-card__network', 'daily-card__coverage', 'package-actions']) {
+      assert.ok(html.includes(cls), `${cls} is missing from the rendered card`);
+    }
+
+    // Built name, not the provider's.
+    assert.ok(html.includes('Япония — 500 МБ в день'), 'the built Russian name is not on the card');
+    assert.ok(!/Japan|IIJ|MB\/Day/.test(html), 'a raw provider name reached the card');
+
+    // A real chooser: three chips, the first one selected, price beside term.
+    assert.equal((html.match(/js-daily-term/g) || []).length, 3);
+    assert.equal((html.match(/is-selected/g) || []).length, 1, 'exactly one term starts selected');
+    assert.ok(html.includes('Выберите срок:'));
+    assert.ok(html.includes('>3 дня<') || html.includes('3 дня'), 'the term is spelled in Russian');
+    assert.ok(html.includes('350 ₽'), 'the chip must carry its own price');
+
+    // And a button that can be bought, priced at the term that starts selected.
+    assert.ok(html.includes('js-buy'), 'no buy control');
+    assert.ok(/data-days="3"/.test(html), 'the button must start on the selected term');
+  });
+
+  test(`${file}: a daily plan with no priced ladder renders no buy button`, () => {
+    // A term we cannot price is a term we cannot sell. The card may still
+    // describe the plan; it must not offer a purchase it cannot honour.
+    const html = renderer(file)({ ...SAMPLE, term_prices: [] });
+    assert.ok(html.includes('daily-terms-block'), 'the empty block still holds its row');
+    assert.ok(!/js-buy"/.test(html) || /aria-disabled/.test(html),
+      'an unpriceable plan must not offer a live buy button');
+  });
+}

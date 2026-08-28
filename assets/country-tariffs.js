@@ -1001,20 +1001,26 @@ function dailyTermsHtml(item){
   // выбирать нечего. Но цена у него всё равно должна быть видна — без этой
   // ветки такая карточка не показывала цену НИГДЕ, — и высота блока должна
   // совпадать с соседней, иначе всё ниже разъезжается.
+  let single=false;
   if(!list.length && String(item.daily_term_mode||'')==='FIXED_TERM'
      && Number(item.validity_days)>0 && Number(item.price)>0){
     list=[{days:Number(item.validity_days),price:Number(item.price)}];
+    single=true;
   }
-  if(!list.length) return '';
-  // Радиогруппа из кнопок, а не список цен. Срок — это и есть продукт, и
-  // покупатель должен видеть, что его выбирают, и какой выбран сейчас.
-  // Первый выбран заранее: состояния «ничего не выбрано» у карточки нет.
+  // Блок рисуется всегда, даже пустым: он держит свой ряд, чтобы сеть,
+  // покрытие и кнопка у соседних карточек стояли на одной высоте.
+  if(!list.length) return '<div class="daily-terms-block"></div>';
+
   const chips=list.map((t,i)=>`<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}"`
     +` role="radio" aria-checked="${i===0?'true':'false'}"`
     +` data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
     +`<span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
+    +`<span class="daily-term-dot" aria-hidden="true">·</span>`
     +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></button>`).join('');
-  return `<div class="daily-terms" role="radiogroup" aria-label="Срок">${chips}</div>`;
+
+  return `<div class="daily-terms-block">`
+    +`<div class="daily-terms-label">${single?'Срок:':'Выберите срок:'}</div>`
+    +`<div class="daily-terms" role="radiogroup" aria-label="Срок">${chips}</div></div>`;
 }
 
 // Выбор срока. Делегируется на документ, потому что карточки перерисовываются
@@ -1067,11 +1073,11 @@ function renderDailyCard(item){
   return `
     <article class="package-card daily-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span></div>
-      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
+      <h3 class="package-title daily-card__title">${escapeHtml(D.displayName(item,countryName))}</h3>
       <ul class="daily-lines">${lines.map((l)=>`<li class="daily-line daily-line--${escapeHtml(l.kind)}">${escapeHtml(l.text)}</li>`).join('')}</ul>
-      ${terms}
-      ${speed?`<div class="package-tags"><span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span></div>`:''}
-      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}</div>
+      ${dailyTermsHtml(item)}
+      <div class="daily-card__network">${speed?`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`:''}</div>
+      <div class="daily-card__coverage"><span class="daily-card__coverage-label">Покрытие:</span> ${escapeHtml(D.coverageLine(item,countryName))}</div>
       <div class="package-actions">${buy}</div>
     </article>`;
 }
