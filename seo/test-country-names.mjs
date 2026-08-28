@@ -125,9 +125,14 @@ test('the Brunei card is titled "Бруней 10 GB", and the heading matches', 
   }
 });
 
-test('all three live Brunei packages are named', () => {
+test('every live Brunei package is named, however many there are', () => {
+  // This used to pin the count at exactly three. That was a brittle hold on
+  // live data: the daily rollout took Brunei to seven, and a test that fails
+  // because the shop gained products is a test that will be silenced rather
+  // than read. The claim being defended is «no raw code reaches a customer»,
+  // so assert that — and keep a floor so an empty catalogue cannot pass.
   const bn = PACKAGES.filter((p) => (p.coverage_country_codes || []).join() === 'BN');
-  assert.equal(bn.length, 3, 'the catalogue should still carry exactly three Brunei packages');
+  assert.ok(bn.length >= 3, `expected Brunei packages in the catalogue, found ${bn.length}`);
   for (const p of bn) {
     for (const r of Object.values(RENDERERS)) {
       assert.match(r.publicPackageName(p), /^Бруней /, `still raw: ${r.publicPackageName(p)}`);

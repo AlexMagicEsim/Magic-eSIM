@@ -106,6 +106,12 @@ export const ALLOWED_PACKAGE_FIELDS = [
   // The terms a per-day plan may be bought for. Repeated verbatim by the
   // client, which never invents a term and never prices one.
   'sellable_days',
+  // …and what each of those terms costs. Without it a cache-rendered daily card
+  // has no ladder at all: dailyTermsHtml() emits an empty block and the button
+  // becomes «Временно недоступен». The client prints these roubles and never
+  // computes one, so the snapshot must carry them or the plan is unbuyable
+  // whenever the live API loses the deadline race.
+  'term_prices',
 ];
 
 /**
@@ -193,8 +199,35 @@ export function validateCatalog(doc, { previousCount = null } = {}) {
 
     if (typeof p.name !== 'string' || !p.name.trim()) fail(`${at}.name is missing`);
     if (!isFiniteNumber(p.price) || p.price <= 0) fail(`${at}.price is not a positive number`);
-    if (!isFiniteNumber(p.data_gb) || p.data_gb <= 0) fail(`${at}.data_gb is not a positive number`);
-    if (!isFiniteNumber(p.validity_days) || p.validity_days <= 0) fail(`${at}.validity_days is not a positive number`);
+
+    // A daily plan has no total volume and, when sold per day, no term: the
+    // buyer picks the term at checkout. Requiring data_gb > 0 and
+    // validity_days > 0 of EVERY row is what froze this cache — one daily row
+    // failed, the whole document failed, and the generator correctly refused to
+    // overwrite a good file with a rejected one. The snapshot then sat at its
+    // pre-daily state for a day while six scheduled runs aborted in a row, and
+    // every visitor served from cache saw no daily plans at all.
+    if (String(p.plan_type) === 'DAILY') {
+      if (!isFiniteNumber(p.daily_gb) || p.daily_gb <= 0) fail(`${at}.daily_gb is not a positive number`);
+      if (String(p.daily_term_mode) === 'PER_DAY') {
+        // Sold by the day: the ladder IS the product, so a row without one is
+        // an unbuyable card and must not reach the snapshot.
+        if (!Array.isArray(p.term_prices) || p.term_prices.length === 0) fail(`${at}.term_prices is empty for a PER_DAY plan`);
+        else p.term_prices.forEach((t, j) => {
+          if (!t || !isFiniteNumber(t.days) || t.days <= 0) fail(`${at}.term_prices[${j}].days is not a positive number`);
+          if (!isFiniteNumber(t.price) || t.price <= 0) fail(`${at}.term_prices[${j}].price is not a positive number`);
+          for (const k of Object.keys(t)) {
+            if (k !== 'days' && k !== 'price') fail(`${at}.term_prices[${j}].${k} is not allowed`);
+          }
+        });
+      } else if (!isFiniteNumber(p.validity_days) || p.validity_days <= 0) {
+        // A fixed-term daily plan does carry its own term.
+        fail(`${at}.validity_days is not a positive number`);
+      }
+    } else {
+      if (!isFiniteNumber(p.data_gb) || p.data_gb <= 0) fail(`${at}.data_gb is not a positive number`);
+      if (!isFiniteNumber(p.validity_days) || p.validity_days <= 0) fail(`${at}.validity_days is not a positive number`);
+    }
 
     for (const k of Object.keys(p)) {
       if (!ALLOWED_PACKAGE_FIELDS.includes(k)) fail(`${at}.${k} is not in the allowlist`);

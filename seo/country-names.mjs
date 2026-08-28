@@ -11,6 +11,7 @@ export const COUNTRY_NAMES = Object.freeze({
   AF: { ru: "Афганистан", slug: "afghanistan" },
   AG: { ru: "Антигуа и Барбуда", slug: "antigua-and-barbuda" },
   AI: { ru: "Ангилья", slug: "anguilla" },
+  AN: { ru: 'Нидерландские Антильские острова', slug: 'netherlands-antilles' },
   AL: { ru: "Албания", slug: "albania" },
   AM: { ru: "Армения", slug: "armenia" },
   AO: { ru: "Ангола", slug: "angola" },

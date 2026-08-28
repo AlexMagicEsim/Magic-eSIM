@@ -522,21 +522,106 @@ test('H8 the race result exposes the metrics the pages report', async () => {
   await r.whenLive;
 });
 
-test('H9 late live data must feed the NEXT render only: no re-render, no source flip', () => {
-  for (const f of ['index.html', 'assets/country-tariffs.js']) {
+test('H9 late live data re-renders, exactly once, on both surfaces', () => {
+  // REVERSAL, on purpose. This used to assert the opposite — that the late
+  // handler must never re-render and never flip catalogSource — so that no card
+  // moved under the reader. That trade stopped being worth it when the snapshot
+  // could be missing a whole product category: a cache render with no daily
+  // plans hid «Трафик на каждый день» until the visitor reloaded, and nothing
+  // on screen admitted it. A moment of movement beats an absent category.
+  //
+  // `whenLive` settles once, so a single handler cannot fire twice; what this
+  // pins is that the handler does the full promotion rather than half of it,
+  // which is how a live list would end up rendered under a «snapshot» notice.
+  for (const [f, render] of [['index.html', 'renderPackages'], ['assets/country-tariffs.js', 'renderCountrySplit']]) {
     const s = read(f);
     const i = s.indexOf('whenLive.then');
     assert.ok(i > 0, `${f} must consume whenLive`);
-    // The handler body ends at the callback's closing `});` — bound the window
-    // there so surrounding page code cannot leak into the assertion.
     const end = s.indexOf('});', i);
     assert.ok(end > i, `${f}: whenLive handler must be a bounded callback`);
     const body = s.slice(i, end);
-    assert.ok(!/renderPackages\s*\(|renderCountrySplit\s*\(|renderCountryChips\s*\(/.test(body),
-      `${f}: the late-live handler must not re-render (flicker, card swaps)`);
-    assert.ok(!/catalogSource\s*=/.test(body),
-      `${f}: the late-live handler must not flip catalogSource — a snapshot-rendered card must keep revalidating at checkout`);
+
+    assert.ok(new RegExp(`${render}\\s*\\(`).test(body), `${f}: late live must re-render`);
+    assert.match(body, /catalogSource\s*=\s*'live'/, `${f}: and the source must stop claiming to be a snapshot`);
+    assert.match(body, /catalogGeneratedAt\s*=\s*null/, `${f}: a live list has no snapshot timestamp`);
+    assert.match(body, /hide(CatalogNotice|Notice)\s*\(/, `${f}: the «snapshot» notice must come down with it`);
+    // Guarded on real data: an empty late list must not blank the page.
+    assert.match(body, /Array\.isArray\(late\.packages\)&&late\.packages\.length/, `${f}: empty late data must be ignored`);
   }
+  // The landing has a second grid to refresh, and forgetting it would leave the
+  // country chips counting the snapshot.
+  const landing = read('index.html');
+  const h = landing.slice(landing.indexOf('whenLive.then'), landing.indexOf('});', landing.indexOf('whenLive.then')));
+  assert.match(h, /renderCountryChips\s*\(/, 'the landing must refresh its chips too');
+});
+
+test('H9a a cache that HAS daily plans shows them immediately', async () => {
+  // The first of the four scenarios: no live data at all, and the block must
+  // still be complete — that is the whole point of fixing the snapshot.
+  const daily = { ...pkg(), package_id: 'd1', plan_type: 'DAILY', daily_gb: 0.49,
+    daily_term_mode: 'PER_DAY', validity_days: null, term_prices: [{ days: 3, price: 200 }] };
+  const { api } = loadLoader((u) => (isLive(u) ? Promise.reject(new Error('down')) : ok(catalogDoc([pkg(), daily]))));
+  const r = await api.load({ deadlineMs: 50 });
+  assert.equal(r.source, 'cache');
+  assert.equal(r.packages.filter((p) => p.plan_type === 'DAILY').length, 1,
+    'the snapshot must carry daily plans, or a cache-only visitor sees none');
+  assert.equal(await r.whenLive, null, 'live failed — nothing arrives later');
+});
+
+test('H9b the shipped snapshot really does carry buyable daily plans', () => {
+  // Guards the generator, not the loader: assets/catalog.json is what a
+  // cache-only visitor gets. It sat for a day with zero daily rows because the
+  // validator demanded data_gb > 0 and validity_days > 0 of every package, one
+  // daily row failed, and the whole document was correctly refused.
+  const daily = CACHE.packages.filter((p) => p.plan_type === 'DAILY');
+  assert.ok(daily.length > 100, `the snapshot carries ${daily.length} daily plans`);
+  const perDay = daily.filter((p) => p.daily_term_mode === 'PER_DAY');
+  assert.ok(perDay.length > 0);
+  for (const p of perDay.slice(0, 50)) {
+    assert.ok(Array.isArray(p.term_prices) && p.term_prices.length,
+      `${p.name}: a per-day plan without term_prices renders as «Временно недоступен»`);
+    assert.ok(p.daily_gb > 0, `${p.name}: no per-day allowance`);
+    for (const t of p.term_prices) {
+      assert.ok(t.days > 0 && t.price > 0, `${p.name}: a term must have a day count and a price`);
+      assert.deepEqual(Object.keys(t).sort(), ['days', 'price'], `${p.name}: nothing else may ride along`);
+    }
+  }
+});
+
+test('H9c live wins later: the block appears without a reload', async () => {
+  // Cache first (no daily), live arrives after the deadline WITH daily. The
+  // loader must hand the late list over; the page handler pinned in H9 is what
+  // turns that into a render.
+  const daily = { ...pkg(), package_id: 'd2', plan_type: 'DAILY', daily_gb: 1,
+    daily_term_mode: 'PER_DAY', validity_days: null, term_prices: [{ days: 7, price: 800 }] };
+  const { api } = loadLoader((u) =>
+    (isLive(u) ? delayed(300, () => ok({ data: [pkg(), daily] })) : ok(catalogDoc([pkg()]))));
+  const r = await api.load({ deadlineMs: 50 });
+  assert.equal(r.source, 'cache');
+  assert.equal(r.packages.filter((p) => p.plan_type === 'DAILY').length, 0, 'the snapshot has none');
+  const late = await r.whenLive;
+  assert.ok(late && late.packages, 'the late list must arrive');
+  assert.equal(late.packages.filter((p) => p.plan_type === 'DAILY').length, 1,
+    'and it must be the one that carries the daily plan');
+});
+
+test('H9d live failure leaves the cache in place, and nothing arrives later', async () => {
+  const { api } = loadLoader((u) => (isLive(u) ? Promise.reject(new Error('down')) : ok(catalogDoc([pkg(), pkg('b')]))));
+  const r = await api.load({ deadlineMs: 50 });
+  assert.equal(r.source, 'cache');
+  assert.equal(r.packages.length, 2, 'the snapshot is served whole');
+  assert.equal(await r.whenLive, null, 'a failed live request must never blank the page');
+});
+
+test('H9e a live win settles once and never consults the cache', async () => {
+  // The no-duplicate half of the requirement: on a fast live win the cache is
+  // never fetched and whenLive is already null, so there is nothing to render
+  // a second time.
+  const { api, calls } = loadLoader((u) => (isLive(u) ? ok({ data: [pkg()] }) : ok(catalogDoc([pkg()]))));
+  const r = await api.load({ deadlineMs: 200 });
+  assert.equal(r.source, 'live');
+  assert.equal(calls.filter((c) => c.includes('catalog.json')).length, 0, 'no cache probe on a live win');
+  assert.equal(await r.whenLive, null, 'a live win has no late data, so no second render');
 });
 
 test('H10 the production deadline stays in the measured sweet spot', () => {
