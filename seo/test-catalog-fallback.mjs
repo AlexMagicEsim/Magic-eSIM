@@ -392,7 +392,8 @@ test('F1 the refresh workflow cannot retrigger itself and needs no secret', () =
 /* ================================================== G. PAGES WIRED CORRECTLY */
 
 test('G1 landing and every country page load the shared loader', () => {
-  assert.match(read('index.html'), /<script src="\/assets\/catalog-loader\.js" defer><\/script>/);
+  // ?v=<content hash> is part of every asset URL now — see seo/asset-version.mjs.
+  assert.match(read('index.html'), /<script src="\/assets\/catalog-loader\.js(\?v=[0-9a-f]{8})?" defer><\/script>/);
   for (const slug of ['thailand', 'turkey', 'china', 'uae', 'vietnam', 'france', 'egypt', 'japan']) {
     assert.match(read(`esim/${slug}/index.html`), /catalog-loader\.js/, `${slug} must load the loader`);
   }

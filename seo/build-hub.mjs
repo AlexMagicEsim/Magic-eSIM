@@ -15,6 +15,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadCached } from './catalogue-source.mjs';
 import { SITE } from './countries.mjs';
+import { stampUrl } from './asset-version.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
@@ -80,7 +81,7 @@ const html = `<!DOCTYPE html>
   <meta name="twitter:description" content="${esc(description)}" />
   <meta name="twitter:image" content="${SITE}/magic-esim-banner.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="stylesheet" href="../assets/country-pages.css" />
+  <link rel="stylesheet" href="${stampUrl('../assets/country-pages.css')}" />
   <style>
     .hub-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
     .hub-search{flex:1 1 260px;padding:10px 14px;border:1px solid #d7d7dd;border-radius:10px;font-size:16px}

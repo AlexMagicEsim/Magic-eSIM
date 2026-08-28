@@ -7,4 +7,8 @@ run('fetch-catalogue.mjs');   // the single source of truth
 run('build-catalogue-pages.mjs');
 run('build-hub.mjs');
 run('build-sitemap.mjs');
+// Последним: страницы генераторов рождаются проштампованными, но index.html,
+// app/index.html и статические страницы никто не генерирует — их версии
+// обновляет только этот проход.
+run('stamp-assets.mjs');
 console.log('\nГотово.');

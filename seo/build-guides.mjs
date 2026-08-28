@@ -9,6 +9,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GUIDES } from './guides.mjs';
 import { ALL, SITE } from './countries.mjs';
+import { stampUrl } from './asset-version.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -84,7 +85,7 @@ ${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '        ')}
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://mc.yandex.ru" />
-  <link rel="stylesheet" href="${P}assets/country-pages.css" />
+  <link rel="stylesheet" href="${stampUrl(P + 'assets/country-pages.css')}" />
 
   ${METRIKA}
 

@@ -166,7 +166,14 @@ test('the generator ships the module too, so new pages are not born broken', () 
   const gen = read('seo/build-catalogue-pages.mjs');
   assert.match(gen, /daily-plan-copy\.js/);
   // Before country-tariffs.js, which reads it.
-  assert.ok(gen.indexOf('daily-plan-copy.js') < gen.indexOf('country-tariffs.js" defer'),
+  // Anchored on the SCRIPT TAGS, not on the first mention of each name: the
+  // generator's own prose names country-tariffs.js on line 18, long before it
+  // emits either tag, and matching that made this fail while the emitted order
+  // was correct. The src now carries ?v=<hash>, so match the stampUrl() call.
+  const tag = (name) => gen.search(new RegExp(`<script src="\\$\\{stampUrl\\('[^']*${name.replace(/[.]/g, '\\.')}'\\)\\}"`));
+  assert.ok(tag('daily-plan-copy.js') > 0, 'the generator emits no tag for the module');
+  assert.ok(tag('country-tariffs.js') > 0, 'the generator emits no tag for the renderer');
+  assert.ok(tag('daily-plan-copy.js') < tag('country-tariffs.js'),
     'the module must load before the renderer that uses it');
 });
 
@@ -188,7 +195,8 @@ test('the Mini App loads the shared copy module, before the code that reads it',
   // Compared on the SCRIPT TAGS, not on the first mention of each name: the
   // comment above the tag names core.js too, and matching that made this fail
   // while the load order was in fact correct.
-  const tag = (src) => html.indexOf(`<script src="${src}"`);
+  // The src carries ?v=<content hash>, so match up to the quote, not through it.
+  const tag = (src) => html.search(new RegExp(`<script src="${src.replace(/[./]/g, '\\$&')}(\\?v=[0-9a-f]{8})?"`));
   assert.ok(tag('/assets/daily-plan-copy.js') > 0, 'the Mini App does not load the module');
   assert.ok(tag('core.js') > 0);
   assert.ok(tag('/assets/daily-plan-copy.js') < tag('core.js'),

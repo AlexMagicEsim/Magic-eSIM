@@ -25,6 +25,7 @@ import { loadCached } from './catalogue-source.mjs';
 import { loadProfile } from './content-profile.mjs';
 import { CLIENT_SNIPPET } from './intel/attribution.mjs';
 import { ALL as EDITORIAL, SITE } from './countries.mjs';
+import { stampUrl } from './asset-version.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
@@ -206,7 +207,7 @@ function page(c, all, profile) {
   <meta name="twitter:description" content="${esc(desc)}" />
   <meta name="twitter:image" content="${SITE}/magic-esim-banner.png" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="stylesheet" href="../../assets/country-pages.css" />
+  <link rel="stylesheet" href="${stampUrl('../../assets/country-pages.css')}" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
        (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
@@ -340,12 +341,12 @@ ${links.map((r) => `        <a class="country-link" href="../${r.slug}/"><span a
     <a href="/terms.html">Условия</a> · <a href="/privacy.html">Конфиденциальность</a> · <a href="/esim/">Все страны</a>
   </footer>
 
-  <script src="/assets/catalog-loader.js" defer></script>
+  <script src="${stampUrl('/assets/catalog-loader.js')}" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
-  <script src="/assets/daily-plan-copy.js" defer></script>
-  <script src="../../assets/country-tariffs.js" defer></script>
+  <script src="${stampUrl('/assets/daily-plan-copy.js')}" defer></script>
+  <script src="${stampUrl('../../assets/country-tariffs.js')}" defer></script>
 ${CLIENT_SNIPPET}
 </body>
 </html>
