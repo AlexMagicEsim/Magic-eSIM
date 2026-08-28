@@ -1461,7 +1461,7 @@ function formatRetailPrice(item){
 function buyButtonHtml(item){
   const price = getPackageRetailPrice(item);
   const disabled = price === null ? ' disabled aria-disabled="true"' : '';
-  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-plan-type="${escapeHtml(item.plan_type||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>Купить</button>`;
+  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-daily-gb="${escapeHtml(item.daily_gb??'')}" data-days="${escapeHtml(item.validity_days||'')}" data-plan-type="${escapeHtml(item.plan_type||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>Купить</button>`;
 }
 
 function escapeHtml(value){
@@ -2843,10 +2843,32 @@ window.addEventListener('DOMContentLoaded', async () => {
       }
     }catch(e){/* network error: keep the applied promo; backend re-validates at payment */}
   }
+  /**
+   * Что стоит в строке «Интернет».
+   *
+   * У дневного тарифа data_gb равен NULL — это не пропуск, а модель: объём
+   * задан на СУТКИ, и общий объём зависит от выбранного срока, поэтому
+   * колонка пуста намеренно. Сводка читала только data_gb и показывала «—»
+   * там, где дневной объём прекрасно известен.
+   *
+   * Формат берётся из общего модуля, а не собирается здесь: «500 МБ в день»
+   * на карточке и в чеке должны читаться одинаково, и 0.49 ГБ поставщика
+   * округляет один и тот же код.
+   */
+  function checkoutDataLabel(d){
+    if(d&&d.planType==='DAILY'){
+      const D=dailyCopy();
+      const gb=Number(d.dailyGb);
+      if(D&&isFinite(gb)&&gb>0) return `${D.formatAllowance(gb)} в день`;
+      return '—';
+    }
+    return d&&d.data?`${d.data} GB`:'—';
+  }
+
   function openCheckout(d){
     byId('coPlanName').textContent=d.name||'eSIM-тариф';
     byId('coCoverage').textContent=d.coverage||'—';
-    byId('coData').textContent=d.data?`${d.data} GB`:'—';
+    byId('coData').textContent=checkoutDataLabel(d);
     byId('coDays').textContent=d.days?`${d.days} дн.`:'—';
     byId('coPrice').textContent=d.price?`${Number(d.price).toLocaleString('ru-RU')} ₽`:'—';
     overlay.dataset.packageId=d.packageId||'';
@@ -2872,7 +2894,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     ev.preventDefault();
     magicMetrikaGoal('tariff_buy_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:b.dataset.packageId,price_rub:b.dataset.price,data_gb:b.dataset.data,validity_days:b.dataset.days,tariff_type:b.closest('#regionalGrid')?'regional':'local'});
 
-    const d={packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,days:b.dataset.days,price:b.dataset.price,planType:b.dataset.planType};
+    const d={packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,dailyGb:b.dataset.dailyGb,days:b.dataset.days,price:b.dataset.price,planType:b.dataset.planType};
 
     // A card rendered from the live API is already current — open as before.
     if(catalogSource!=='cache'){openCheckout(d);return;}

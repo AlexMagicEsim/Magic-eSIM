@@ -578,3 +578,85 @@ for (const file of SURFACES) {
       'an unpriceable plan must not offer a live buy button');
   });
 }
+
+// ---------------------------------------------------------------------------
+// THE CHECKOUT SUMMARY.
+//
+// «Интернет: —» in the order modal for a daily tariff. data_gb is NULL on a
+// daily row and that is the model, not a gap: the allowance is per DAY and the
+// total depends on the term the customer picks, so the column is deliberately
+// empty. The summary read only data_gb, so it printed a dash for a number the
+// page had all along — right next to «Срок: 10 дн.» and «Итого: 700 ₽».
+
+function checkoutLabelFn() {
+  const s = read('index.html');
+  const at = s.indexOf('function checkoutDataLabel');
+  assert.ok(at > 0, 'index.html has no checkoutDataLabel');
+  let i = s.indexOf('{', at), depth = 0, end = -1;
+  for (let j = i; j < s.length; j++) {
+    const c = s[j];
+    if (c === '{') depth++;
+    else if (c === '}') { depth--; if (depth === 0) { end = j + 1; break; } }
+  }
+  const copy = read('assets/daily-plan-copy.js');
+  const w = {};
+  new Function('window', copy)(w);
+  return new Function('dailyCopy', s.slice(at, end) + '; return checkoutDataLabel;')(() => w.MagicDailyPlan);
+}
+
+test('checkout states the daily allowance instead of a dash', () => {
+  const label = checkoutLabelFn();
+  // The three the report named, in the units the card already uses. 0.49 is
+  // what the provider sends for «500MB/Day».
+  assert.equal(label({ planType: 'DAILY', dailyGb: '0.49', data: '' }), '500 МБ в день');
+  assert.equal(label({ planType: 'DAILY', dailyGb: '1', data: '' }), '1 ГБ в день');
+  assert.equal(label({ planType: 'DAILY', dailyGb: '2', data: '' }), '2 ГБ в день');
+  // A fixed-term daily plan is still sold by the day — same line, its own term.
+  assert.equal(label({ planType: 'DAILY', dailyGb: '1', data: '', days: '3' }), '1 ГБ в день');
+});
+
+test('an ordinary package keeps the volume line it always had', () => {
+  const label = checkoutLabelFn();
+  assert.equal(label({ planType: 'ORDINARY', data: '5' }), '5 GB');
+  assert.equal(label({ planType: '', data: '10' }), '10 GB');
+  assert.equal(label({ planType: 'ORDINARY', data: '' }), '—');
+});
+
+test('a dash survives only where the allowance is genuinely unknown', () => {
+  const label = checkoutLabelFn();
+  for (const gb of ['', null, undefined, '0', 'abc']) {
+    assert.equal(label({ planType: 'DAILY', dailyGb: gb, data: '' }), '—', String(gb));
+  }
+});
+
+test('and the summary row is actually filled from it', () => {
+  // Pinning the helper alone was not enough: reverting just the CALL SITE back
+  // to `d.data ? … : '—'` left every test above green while production showed
+  // the dash again. The wiring is the thing that ships.
+  const s = read('index.html');
+  assert.match(s, /byId\('coData'\)\.textContent=checkoutDataLabel\(d\);/,
+    'the Интернет row must come from checkoutDataLabel');
+  assert.ok(!/byId\('coData'\)\.textContent=d\.data/.test(s),
+    'the data_gb-only version must not come back');
+});
+
+test('the buy button carries the allowance the summary needs', () => {
+  // The summary can only state what the button hands it, and data_gb is empty
+  // on a daily row.
+  const s = read('index.html');
+  const at = s.indexOf('function buyButtonHtml');
+  const body = s.slice(at, at + 900);
+  assert.match(body, /data-daily-gb="\$\{escapeHtml\(item\.daily_gb\?\?''\)\}"/,
+    'the daily allowance must reach the checkout');
+  assert.match(body, /data-plan-type=/, 'and so must the kind of plan');
+  // …and the click handler must forward it, not drop it on the floor.
+  assert.match(s, /dailyGb:b\.dataset\.dailyGb/, 'the handler must pass the allowance through');
+});
+
+test('the Mini App already states it, and still does', () => {
+  // app/ui.js built this line correctly from the start; pinned so the two
+  // surfaces cannot drift to different answers for the same order.
+  const ui = read('app/ui.js');
+  assert.match(ui, /\$\{D\.formatAllowance\(pkg\.daily_gb\)\} в день/);
+  assert.ok(!/\$\{pkg\.data_gb\} ГБ`\s*\)\s*$/.test(ui), 'the ordinary branch must stay conditional');
+});
