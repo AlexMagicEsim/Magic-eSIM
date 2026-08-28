@@ -316,42 +316,88 @@ test('no surface computes a price for a term', () => {
 // Alignment
 // ---------------------------------------------------------------------------
 
-test('the daily card is a six-row grid, so its sections cannot drift', () => {
-  // This replaced a min-height per block. Reserving heights meant guessing one
-  // that fits any text, and it was wrong the moment a description ran to four
-  // lines. A grid does not guess: the description row takes 1fr and absorbs the
-  // difference, so everything below it — terms, network, coverage, button —
-  // starts at the same offset on every card in the row.
-  const css = read('assets/country-pages.css');
-  const at = css.indexOf('.daily-card{');
-  assert.ok(at > 0, '.daily-card must be styled');
-  const rule = css.slice(at, at + 400);
+// ---------------------------------------------------------------------------
+// THE STYLESHEET NOBODY LOADS.
+//
+// The daily CSS lived only in assets/country-pages.css, under a comment saying
+// the landing loads it too. The landing loads NO external stylesheet at all —
+// document.styleSheets on production was []. So the storefront shipped daily
+// cards with no styling: .daily-card was display:flex with no grid, and every
+// chip was an unpainted browser button, rgb(239,239,239) on black, the selected
+// one indistinguishable from the rest. The country pages looked correct, which
+// is why checking one surface passed.
+//
+// The block is therefore duplicated and pinned byte-for-byte, the same way the
+// TARIFF DISPLAY MAPPERS block is.
 
-  assert.match(rule, /display:grid/);
-  assert.match(rule, /grid-template-areas:'top' 'title' 'desc' 'terms' 'net' 'cov' 'buy'/,
-    'the six sections must be named and ordered');
-  assert.match(rule, /grid-template-rows:auto auto 1fr auto/,
-    'the description is the row that absorbs the difference');
+const CSS_SURFACES = { 'index.html': 'index.html', 'assets/country-pages.css': 'assets/country-pages.css' };
+const BLOCK_START = '/* === DAILY CARD BLOCK';
+const BLOCK_END = '/* === END DAILY CARD BLOCK === */';
 
-  // Every section is placed, and the button is the LAST row — which is what
-  // puts it on one bottom line without a margin hack.
-  for (const [sel, area] of [
-    ['.daily-card__title', 'title'],
-    ['.daily-card .daily-lines', 'desc'],
-    ['.daily-card .daily-terms-block', 'terms'],
-    ['.daily-card__network', 'net'],
-    ['.daily-card__coverage', 'cov'],
-    ['.daily-card .package-actions', 'buy'],
-  ]) {
-    const i = css.indexOf(sel + '{');
-    assert.ok(i > 0, `${sel} is not styled`);
-    assert.match(css.slice(i, i + 160), new RegExp(`grid-area:${area}`), `${sel} must own the ${area} row`);
+function dailyCss(file) {
+  const s = read(file);
+  const a = s.indexOf(BLOCK_START);
+  assert.ok(a >= 0, `${file} carries no daily CSS block — its daily cards would render unstyled`);
+  const b = s.indexOf(BLOCK_END, a);
+  assert.ok(b > a, `${file}: the daily CSS block is not terminated`);
+  return s.slice(a, b + BLOCK_END.length);
+}
+
+test('both surfaces carry the daily CSS, byte for byte', () => {
+  const [a, b] = Object.values(CSS_SURFACES).map(dailyCss);
+  assert.equal(a, b, 'the landing and the country pages must style a daily card identically');
+});
+
+test('every surface paints the selected term brand blue on white', () => {
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    const at = css.indexOf('.daily-term.is-selected{');
+    assert.ok(at > 0, `${file}: no selected-chip rule`);
+    const rule = css.slice(at, at + 200);
+    assert.match(rule, /background:var\(--blue\)/, `${file}: a tint is invisible in sunlight`);
+    assert.match(rule, /color:#fff/, `${file}: the selected chip needs white text`);
+
+    const base = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 400);
+    assert.match(base, /cursor:pointer/, `${file}: it has to look clickable`);
+    assert.match(base, /border:1px solid/, `${file}: unselected chips keep a border`);
+  }
+});
+
+test('the card aligns by subgrid, not by one row absorbing the slack', () => {
+  // Giving `desc` 1fr made ONE section absorb every difference: a card with a
+  // single fixed term stretched its description to 247px while its neighbours
+  // sat at 47px, so «Выберите срок», the network badge and the coverage line
+  // all started lower. Only the button matched, because it is the last row.
+  // Subgrid hands the row heights to the parent, so each section is as tall as
+  // the tallest one beside it and every section starts on the same Y.
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    assert.match(css, /@supports \(grid-template-rows:subgrid\)/, `${file}: no subgrid path`);
+    assert.match(css, /#dailyGrid > \.daily-card\{[\s\S]{0,120}grid-template-rows:subgrid/,
+      `${file}: the card must take its rows from the grid`);
+    assert.match(css, /grid-row:span 7/, `${file}: the card must span all seven rows`);
+    // row-gap would otherwise fall BETWEEN a card's own sections.
+    assert.match(css, /#dailyGrid\{row-gap:0/, `${file}: the parent gap must not split the card`);
+    assert.match(css, /margin-bottom:16px/, `${file}: and the gap between rows must come back`);
+
+    // The fallback still names all seven sections in order.
+    assert.match(css, /grid-template-areas:'top' 'title' 'desc' 'terms' 'net' 'cov' 'buy'/, file);
+    for (const [sel, area] of [
+      ['.daily-card__title', 'title'],
+      ['.daily-card .daily-lines', 'desc'],
+      ['.daily-card .daily-terms-block', 'terms'],
+      ['.daily-card__network', 'net'],
+      ['.daily-card__coverage', 'cov'],
+      ['.daily-card .package-actions', 'buy'],
+    ]) {
+      const i = css.indexOf(sel + '{');
+      assert.ok(i > 0, `${file}: ${sel} is not styled`);
+      assert.match(css.slice(i, i + 160), new RegExp(`grid-area:${area}`), `${file}: ${sel} must own ${area}`);
+    }
   }
 });
 
 test('the term block is always rendered, even empty, so it holds its row', () => {
-  // A card with no ladder used to render nothing there and pull its network,
-  // coverage and button up relative to the card beside it.
   for (const f of SURFACES) {
     const s = read(f);
     const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2000);
@@ -367,22 +413,8 @@ test('the selector announces itself and separates the term from the price', () =
     assert.match(fn, /Выберите срок:/, `${f}: the chooser needs a label`);
     assert.match(fn, /daily-term-dot/, `${f}: «3 дня300 ₽» is not a price`);
   }
-  // A single fixed term is not a choice, so it is labelled as a fact.
   const s = read('assets/country-tariffs.js');
   assert.match(s, /single\?'Срок:':'Выберите срок:'/);
-});
-
-test('the selected chip is solid brand blue on white, not a tint', () => {
-  const css = read('assets/country-pages.css');
-  const at = css.indexOf('.daily-term.is-selected{');
-  assert.ok(at > 0);
-  const rule = css.slice(at, at + 200);
-  assert.match(rule, /background:var\(--blue\)/, 'a tint is invisible on a phone in sunlight');
-  assert.match(rule, /color:#fff/);
-
-  const base = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 400);
-  assert.match(base, /cursor:pointer/, 'it has to look clickable on desktop');
-  assert.match(base, /border:1px solid/, 'and unselected chips keep a border');
 });
 
 test('the chips wrap instead of shrinking, and the selection survives a dark theme', () => {
@@ -402,13 +434,12 @@ test('the chips wrap instead of shrinking, and the selection survives a dark the
 });
 
 test('mobile stops stretching the description and widens the chips', () => {
-  // One column has no neighbour to line up against, so the 1fr row would only
-  // add blank space; and a chip a thumb has to hit wants half the width.
-  const css = read('assets/country-pages.css');
-  const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
-  assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto auto;?\}/,
-    'no stretching row on a phone');
-  assert.match(mobile, /\.daily-term\{flex:1 1 calc\(50% - 4px\)/, 'two chips per row');
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
+    assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto auto;?\}/, file);
+    assert.match(mobile, /\.daily-term\{flex:1 1 calc\(50% - 4px\)/, `${file}: two chips per row`);
+  }
 });
 
 test('a fixed-term plan shows its price too, and reserves the same row', () => {

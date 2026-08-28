@@ -388,20 +388,23 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 }
 @media(max-width:560px){ .package-distinct{gap:5px} .package-distinct__chip{font-size:12px} }
 
-/* =====================================================================
- * Daily tariffs — «Трафик на каждый день».
+/* === DAILY CARD BLOCK — keep byte-identical in index.html and assets/country-pages.css ===
  *
- * The block reuses .package-card so a daily tariff sits in the same grid
- * rhythm as a volume one and nothing about the page layout has to move.
- * What differs is what is INSIDE the card: a volume card answers "how
- * much and for how long", a daily one answers "how much per day, and
- * what happens after" — which is a list of statements, not a meta grid.
+ * Дневные тарифы — «Трафик на каждый день».
  *
- * Lives in this file and not in a page, because assets/country-pages.css
- * is the stylesheet both the landing and the ~190 generated country
- * pages load. A rule added anywhere else reaches one of them and not the
- * other, which is how 190 pages once rendered without their layout.
- * ================================================================== */
+ * ЭТОТ БЛОК ДУБЛИРУЕТСЯ. Раньше здесь стояло, что assets/country-pages.css
+ * грузят и лендинг, и ~190 сгенерированных страниц. Про лендинг это неправда:
+ * index.html не подключает ни одного внешнего стиля (document.styleSheets на
+ * проде — пустой список), весь его CSS встроенный. Из-за этого допущения
+ * карточки на витрине приехали в прод вообще без стилей: .daily-card был
+ * display:flex без сетки, а чипы — некрашеными кнопками браузера,
+ * rgb(239,239,239) с чёрным текстом, где выбранный неотличим от остальных.
+ *
+ * Поэтому блок лежит в двух местах и пинится побайтово тестом, как блок
+ * TARIFF DISPLAY MAPPERS. Правка в одном файле без второго — регрессия.
+ * Токены (--blue, --line, --ink, --muted, --soft, --r-pill) определены на
+ * обеих поверхностях с одинаковыми значениями; это проверено на проде.
+ */
 
 .daily-lines{list-style:none;margin:0;padding:0;display:grid;gap:6px;align-content:start;}
 .daily-line{position:relative;padding-left:18px;font-size:14px;line-height:1.45;color:#1f2937;}
@@ -410,20 +413,20 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 .daily-line--throttle,
 .daily-line--reset{color:#475569;}
 
-/* =====================================================================
- * КАРТОЧКА ДНЕВНОГО ТАРИФА — шесть секций в строгом порядке.
+/* ---------------------------------------------------------------------
+ * КАРТОЧКА — семь именованных секций в строгом порядке.
  *
- * Раньше высоту каждой секции задавал её текст, поэтому карточка с двумя
- * строками описания поднимала свои сроки, сеть, покрытие и кнопку выше
- * соседней с четырьмя. Резервировать высоты через min-height получалось
- * хрупко: угадать её для любого текста нельзя.
+ * Fallback (без subgrid): ряд `desc` берёт 1fr. Этого мало — слак
+ * поглощает ОДНА секция, поэтому у карточки с одним сроком описание
+ * растягивалось на 247px, а «Выберите срок», сеть и покрытие уезжали
+ * вниз относительно соседей. Совпадали только кнопки, потому что они в
+ * последнем ряду.
  *
- * Теперь карточка — grid из шести именованных рядов. Ряд `desc` получает
- * 1fr и растягивается до самой высокой карточки в РЯДУ, потому что
- * .packages-grid уже выравнивает карточки по высоте, а `auto`-ряды ниже
- * него встают на одинаковый уровень сами. Кнопка в последнем ряду — значит
- * строго по нижней линии, без margin-top:auto и без подгонки.
- * ================================================================== */
+ * Основной путь — subgrid: ряды задаёт РОДИТЕЛЬ, и каждая секция получает
+ * высоту самой высокой одноимённой секции в ряду. Тогда title, описание,
+ * сроки, сеть, покрытие и кнопка стоят на одной Y по построению, а не
+ * потому что тексты совпали по длине.
+ * ------------------------------------------------------------------ */
 .daily-card{
   display:grid;
   grid-template-rows:auto auto 1fr auto auto auto auto;
@@ -439,15 +442,24 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 .daily-card__coverage-label{color:var(--ink);font-weight:600;}
 .daily-card .package-actions{grid-area:buy;}
 
+@supports (grid-template-rows:subgrid){
+  /* row-gap обнуляется, потому что при span 7 он встал бы МЕЖДУ секциями
+     одной карточки. Промежуток между рядами карточек возвращает margin. */
+  #dailyGrid{row-gap:0;margin-bottom:-16px;}
+  #dailyGrid > .daily-card{
+    grid-row:span 7;
+    grid-template-rows:subgrid;
+    margin-bottom:16px;
+  }
+}
+
 /* ---------------------------------------------------------------------
  * ВЫБОР СРОКА.
  *
  * Срок — это и есть продукт, поэтому у него есть подпись и он выглядит
- * кнопкой. Раньше это был список: цены видно, а что по ним кликают и что
- * один уже выбран — нет.
- *
- * Выбранный чип — сплошной фирменный синий с белым текстом. Не оттенок:
- * разницу в фоне на телефоне под солнцем не видно, а залитую кнопку видно.
+ * кнопкой. Выбранный чип — сплошной фирменный синий с белым текстом. Не
+ * оттенок: разницу в фоне на телефоне под солнцем не видно, а залитую
+ * кнопку видно.
  * ------------------------------------------------------------------ */
 .daily-terms-block{margin-bottom:14px;}
 .daily-terms-label{
@@ -488,11 +500,12 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 }
 
 @media (max-width:560px){
-  /* Один столбец — выравнивать не с чем, поэтому растягивающийся ряд
-     описания не нужен: карточка становится обычным потоком. */
+  /* Один столбец — выравнивать не с чем; subgrid сам становится
+     тождественным, а fallback-ряду 1fr тянуться незачем. */
   .daily-card{grid-template-rows:auto auto auto auto auto auto auto;}
   .daily-card__network{min-height:0;}
   .daily-card__title{font-size:18px;}
   /* Чипы во всю ширину по два в ряд: палец попадает, текст не жмётся. */
   .daily-term{flex:1 1 calc(50% - 4px);justify-content:center;padding:11px 10px;}
 }
+/* === END DAILY CARD BLOCK === */
