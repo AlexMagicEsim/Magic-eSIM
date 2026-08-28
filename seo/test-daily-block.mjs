@@ -356,34 +356,34 @@ test('both surfaces carry the daily CSS, byte for byte', () => {
   assert.equal(a, b, 'the landing and the country pages must style a daily card identically');
 });
 
-test('exactly one filled brand-blue element per card — the CTA', () => {
-  // The first version filled the selected chip with rgb(66,103,232), the same
-  // blue as «Купить», so a card carried two primary-looking actions and the
-  // subordinate one had the LARGER type (16px chip vs 15px button). The
-  // selection is now a tint plus blue text; the only solid blue left is the
-  // call to action.
+test('the selected term is a solid brand fill, and the CTA still leads by mass', () => {
+  // History: the first version filled the chip with brand blue; it was removed
+  // so the selector would not compete with «Купить»; a ring at 2px replaced it
+  // and, on the real screen, read as «could be chosen» rather than «is chosen».
+  // The fill is back BY DECISION, and the CTA keeps priority through size
+  // instead of colour — a full-width pill against a cell one sixth as wide.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    const at = css.indexOf('.daily-term.is-selected{');
+    const at = css.indexOf('.daily-term.is-selected,');
     assert.ok(at > 0, `${file}: the selected state must be styled`);
-    const rule = css.slice(at, at + 220);
+    const rule = css.slice(at, at + 260);
+    assert.match(rule, /background:var\(--blue\)/, `${file}: selection is a fill, not a hint`);
+    assert.match(css, /\.daily-term\.is-selected \.daily-term-price,\s*\n\.daily-term\.is-selected \.daily-term-days\{color:#fff;\}/,
+      `${file}: both the day and the price go white on the fill`);
+    // Hover must not repaint the chosen cell back to a light one.
+    assert.match(rule, /\.daily-term\.is-selected:hover/, `${file}: the fill survives hover`);
 
-    assert.ok(!/background:var\(--blue\)/.test(rule), `${file}: the chip must not repaint itself as a CTA`);
-    assert.match(rule, /background:rgba\(66,103,232,\.08\)/, `${file}: selection is a tint, not a fill`);
-    // A 2px SOLID brand-blue ring. The first version used 1px at 30% opacity,
-    // and the selected cell measured as the palest thing on the card.
-    assert.match(rule, /box-shadow:inset 0 0 0 2px var\(--blue\)/, `${file}: the ring is what makes it obvious`);
-    assert.match(css, /\.daily-term\.is-selected \.daily-term-price\{color:#2563eb/,
-      `${file}: and the chosen price reads as chosen`);
+    // Unselected stays light with a border you can actually see — never the
+    // dark plates this block started from.
+    const base = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 420);
+    assert.match(base, /background:#fff/, `${file}: unselected cells are light`);
+    assert.match(base, /border:1px solid #cbd5e1/, `${file}: and carry a visible edge`);
+    assert.match(base, /cursor:pointer/, `${file}: it has to look clickable`);
 
-    // The control must not out-shout the button it leads to.
-    const price = css.slice(css.indexOf('.daily-term-price{'), css.indexOf('.daily-term-price{') + 200);
+    // The cell must not out-type the button it leads to.
+    const price = css.slice(css.indexOf('.daily-term-price{'), css.indexOf('.daily-term-price{') + 220);
     const size = Number(price.match(/font-size:(\d+(?:\.\d+)?)px/)[1]);
     assert.ok(size <= 15, `${file}: the term price is ${size}px — no larger than the CTA`);
-
-    const base = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 400);
-    assert.match(base, /cursor:pointer/, `${file}: it has to look clickable`);
-    assert.match(base, /border:0/, `${file}: six boxed pills were the thing that overloaded the card`);
   }
 });
 
@@ -463,7 +463,8 @@ test('the terms are a three-column table, so the prices line up', () => {
 
     assert.ok(css.includes('prefers-color-scheme:dark'), `${file}: the card has a dark theme`);
     const dark = css.slice(css.indexOf('@media (prefers-color-scheme:dark)'));
-    assert.match(dark, /\.daily-term\.is-selected\{/, `${file}: and the selection stays visible in it`);
+    assert.match(dark, /\.daily-term\.is-selected,[\s\S]{0,120}background:var\(--blue\)/,
+      `${file}: and the selection is the same fill in it`);
   }
 });
 
@@ -765,19 +766,12 @@ function overWhite(hex, alpha) {
 const CARD = '#ffffff';
 const AA = 4.5;
 
-test('the selected term clears AA against the tint it sits on', () => {
+test('white on the brand fill clears AA', () => {
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    const rule = css.slice(css.indexOf('.daily-term.is-selected{'), css.indexOf('.daily-term.is-selected{') + 220);
-    const alpha = Number(rule.match(/background:rgba\(66,103,232,(\.\d+)\)/)[1]);
-    const bg = overWhite('#4267E8', alpha);
-    const text = css.match(/\.daily-term\.is-selected \.daily-term-price\{color:(#[0-9a-f]{6})/)[1];
-    const r = contrast(text, bg);
-    assert.ok(r >= AA, `${file}: selected price is ${r.toFixed(2)}:1 on ${bg} — needs ${AA}`);
-
-    // …and the ring has to be visible against the card, or the tint is the
-    // only signal that anything is chosen.
-    assert.ok(contrast('#4267E8', CARD) >= 3, `${file}: the ring must read against the card`);
+    assert.match(css, /\.daily-term\.is-selected,[\s\S]{0,120}background:var\(--blue\)/, file);
+    const r = contrast('#ffffff', '#4267E8');
+    assert.ok(r >= AA, `white on the brand blue is ${r.toFixed(2)}:1`);
   }
 });
 
@@ -797,7 +791,9 @@ test('the quiet text is quiet, not faint', () => {
       ['.daily-card__meta{', 'the coverage line'],
     ]) {
       const r = contrast(resolved(grab(sel)), CARD);
-      assert.ok(r >= 7, `${file}: ${what} is ${r.toFixed(2)}:1 — it was 4.97 and read as faint`);
+      // 7.58:1 still read as faint on a real screen, so the floor is the next
+      // step of the ramp rather than the AA minimum.
+      assert.ok(r >= 9, `${file}: ${what} is ${r.toFixed(2)}:1 — it read as disabled`);
     }
 
     // The price stays the strongest thing in the cell.
@@ -814,7 +810,22 @@ test('coverage is no fainter than the badge sitting next to it', () => {
     const css = dailyCss(file);
     const meta = css.slice(css.indexOf('.daily-card__meta{'), css.indexOf('.daily-card__meta{') + 260);
     const colour = meta.match(/color:(#[0-9a-f]{6})/)[1];
-    assert.ok(contrast(colour, CARD) >= 7,
+    assert.ok(contrast(colour, CARD) >= 12,
       `${file}: coverage at ${contrast(colour, CARD).toFixed(2)}:1 still disappears beside the badge`);
   }
+});
+
+test('the Mini App marks the chosen term the same way, not with a ring', () => {
+  // Its picker is a different component — a full-width «day · price» row — but
+  // it carried the same weak signal: a 1px accent border. A ring that reads as
+  // «could be chosen» is wrong on both surfaces.
+  const css = readFileSync(join(ROOT, 'app/mini.css'), 'utf8');
+  const at = css.indexOf('.daily-term.is-selected{');
+  assert.ok(at > 0, 'the Mini App must style the selected term');
+  const rule = css.slice(at, at + 200);
+  assert.match(rule, /background:var\(--blue\)/, 'a fill, like the storefront');
+  assert.ok(!/box-shadow:inset 0 0 0 1px/.test(rule), 'the 1px ring is what was too quiet');
+  // Both halves of the row have to survive the fill.
+  assert.match(css, /\.daily-term\.is-selected \.muted,\s*\n\.daily-term\.is-selected \.fact__value\{color:#fff;\}/,
+    'the day and the price must both go white on the fill');
 });

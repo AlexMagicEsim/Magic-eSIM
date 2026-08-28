@@ -768,6 +768,14 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
  * сплошным двухпиксельным кольцом бренд-синего и текстом #2563eb. Оба цвета
  * уже живут в этом блоке, новых не заведено.
  *
+ *
+ * ЗАЛИВКА ВЫБРАННОГО — решение владельца, и оно отменяет прежнее моё. Я убирал
+ * сплошной синий, чтобы ячейка не спорила с кнопкой; на живом экране кольцо
+ * оказалось недостаточно очевидным. Приоритет CTA держится теперь массой, а не
+ * цветом: кнопка — залитая пилюля во всю ширину карточки, ячейка — одна из
+ * шести шириной ~110px. Формальные коэффициенты этого не показывали: бледный
+ * вариант проходил AA и всё равно читался как выключенный.
+ *
  * ================================================================== */
 
 .daily-lines{list-style:none;margin:0;padding:0;display:grid;gap:6px;align-content:start;}
@@ -775,7 +783,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 .daily-line::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:#2563eb;}
 .daily-line--allowance{font-weight:600;color:#0f172a;}
 .daily-line--throttle,
-.daily-line--reset{color:#475569;}
+.daily-line--reset{color:#334155;}
 
 /* ---------------------------------------------------------------------
  * КАРТОЧКА — шесть именованных секций в строгом порядке.
@@ -802,9 +810,12 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
    двумя строками он забирал внимание у цены и кнопки. */
 .daily-card__meta{
   grid-area:meta;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;
-  margin-bottom:14px;font-size:13px;color:#475569;line-height:1.5;
+  margin-bottom:14px;font-size:13px;color:#1f2937;line-height:1.5;
 }
 .daily-card__coverage-label{color:var(--ink);font-weight:600;}
+/* Вторичный, но не выцветший: плашка остаётся, темнеет только текст, и правило
+   ограничено дневной карточкой, чтобы обычные тарифы не поехали. */
+.daily-card__meta .package-tag{color:#475569;}
 .daily-card .package-actions{grid-area:buy;}
 
 @supports (grid-template-rows:subgrid){
@@ -826,35 +837,38 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
  * взглядом. Ни рамок, ни заливок: выбранное — подсветка и синий текст.
  * ------------------------------------------------------------------ */
 .daily-terms-block{margin-bottom:14px;}
-.daily-terms-label{font-size:13px;color:#475569;margin-bottom:6px;}
+.daily-terms-label{font-size:13px;font-weight:600;color:#334155;margin-bottom:6px;}
 .daily-terms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;}
 .daily-term{
   display:flex;flex-direction:column;align-items:flex-start;gap:1px;
-  padding:7px 8px;border:0;border-radius:10px;background:transparent;
+  padding:7px 9px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;
   color:var(--ink);font:inherit;text-align:left;cursor:pointer;
-  transition:background .15s ease;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
 }
-.daily-term:hover{background:var(--soft);}
+.daily-term:hover{background:#f1f5f9;border-color:#94a3b8;}
 .daily-term:focus-visible{outline:2px solid var(--blue);outline-offset:1px;}
-.daily-term-days{font-size:12px;line-height:1.2;color:#475569;white-space:nowrap;}
+.daily-term-days{font-size:12px;line-height:1.2;font-weight:600;color:#334155;white-space:nowrap;}
 .daily-term-price{font-size:15px;line-height:1.25;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
-.daily-term.is-selected{background:rgba(66,103,232,.08);box-shadow:inset 0 0 0 2px var(--blue);}
-.daily-term.is-selected .daily-term-price{color:#2563eb;}
-.daily-term.is-selected .daily-term-days{color:#2563eb;}
+.daily-term.is-selected,
+.daily-term.is-selected:hover{background:var(--blue);border-color:var(--blue);}
+.daily-term.is-selected .daily-term-price,
+.daily-term.is-selected .daily-term-days{color:#fff;}
 
 @media (prefers-color-scheme:dark){
   .daily-line{color:#cbd5e1;}
   .daily-line--allowance{color:#f1f5f9;}
   .daily-line--throttle,
   .daily-line--reset{color:#94a3b8;}
-  .daily-terms-label{color:#cbd5e1;}
-  .daily-term{color:#e2e8f0;}
+  .daily-terms-label{color:#e2e8f0;}
+  .daily-term{background:#0f172a;border-color:#475569;color:#f1f5f9;}
   .daily-term-days{color:#cbd5e1;}
-  .daily-term:hover{background:#1e293b;}
-  .daily-term.is-selected{background:rgba(96,143,255,.16);box-shadow:inset 0 0 0 2px #608fff;}
+  .daily-term:hover{background:#1e293b;border-color:#64748b;}
+  .daily-term.is-selected,
+  .daily-term.is-selected:hover{background:var(--blue);border-color:var(--blue);}
   .daily-term.is-selected .daily-term-price,
-  .daily-term.is-selected .daily-term-days{color:#c7d9ff;}
-  .daily-card__meta{color:#cbd5e1;}
+  .daily-term.is-selected .daily-term-days{color:#fff;}
+  .daily-card__meta .package-tag{color:#cbd5e1;}
+  .daily-card__meta{color:#e2e8f0;}
   .daily-card__coverage-label{color:#e2e8f0;}
 }
 
