@@ -135,7 +135,14 @@ test('every live Brunei package is named, however many there are', () => {
   assert.ok(bn.length >= 3, `expected Brunei packages in the catalogue, found ${bn.length}`);
   for (const p of bn) {
     for (const r of Object.values(RENDERERS)) {
-      assert.match(r.publicPackageName(p), /^Бруней /, `still raw: ${r.publicPackageName(p)}`);
+      const name = r.publicPackageName(p);
+      // «Бруней 3 GB» for a volume plan, plain «Бруней» for a daily one — it has
+      // no total volume, so the mapper has nothing to append. This used to read
+      // /^Бруней / for every row and passed only because data_gb had drifted
+      // onto daily rows; the storefront titles those from the shared module
+      // («Бруней — 500 МБ в день») and never from this mapper.
+      const expected = p.plan_type === 'DAILY' ? /^Бруней$/ : /^Бруней /;
+      assert.match(name, expected, `still raw: ${name}`);
     }
   }
 });
