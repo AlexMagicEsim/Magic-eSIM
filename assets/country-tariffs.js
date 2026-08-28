@@ -1015,15 +1015,20 @@ function dailyTermsHtml(item){
   // Ячейка, а не пилюля: день сверху, цена снизу. Читается столбцами, поэтому
   // шесть цен сравниваются взглядом, и ни одна из них не спорит с кнопкой.
   const cells=list.map((t,i)=>`<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}"`
-    +` role="radio" aria-checked="${i===0?'true':'false'}"`
+    +` role="radio" aria-checked="${i===0?'true':'false'}" tabindex="${i===0?'0':'-1'}"`
     +` aria-label="${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))} за ${escapeHtml(String(t.price))} рублей"`
     +` data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
     +`<span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
     +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></button>`).join('');
 
+  // Имя группы = НАЗВАНИЕ ТАРИФА + подпись. На странице страны таких групп
+  // два десятка, и «группа, радиокнопка, 3 дня за 200 рублей, 1 из 6» без
+  // тарифа не говорит, к чему относится выбор. Два id склеиваются в одну
+  // фразу: «Турция — 500 МБ в день Выберите срок».
+  const gid=escapeHtml(String(item.package_id||''));
   return `<div class="daily-terms-block">`
-    +`<div class="daily-terms-label">${single?'Срок:':'Выберите срок:'}</div>`
-    +`<div class="daily-terms" role="radiogroup" aria-label="Срок">${cells}</div></div>`;
+    +`<div class="daily-terms-label" id="dl-${gid}">${single?'Срок:':'Выберите срок:'}</div>`
+    +`<div class="daily-terms" role="radiogroup" aria-labelledby="dt-${gid} dl-${gid}">${cells}</div></div>`;
 }
 
 // Выбор срока. Делегируется на документ, потому что карточки перерисовываются
@@ -1036,6 +1041,11 @@ function dailyTermsHtml(item){
 document.addEventListener('click',function(ev){
   const btn=ev.target.closest&&ev.target.closest('.js-daily-term');
   if(!btn)return;
+  selectDailyTerm(btn);
+});
+
+/* Один путь для мыши и клавиатуры — см. ту же функцию на витрине. */
+function selectDailyTerm(btn){
   const card=btn.closest('.daily-card');
   if(!card)return;
 
@@ -1043,6 +1053,7 @@ document.addEventListener('click',function(ev){
     const on=b===btn;
     b.classList.toggle('is-selected',on);
     b.setAttribute('aria-checked',on?'true':'false');
+    b.setAttribute('tabindex',on?'0':'-1');
   });
 
   const link=card.querySelector('.js-buy-link');
@@ -1050,7 +1061,37 @@ document.addEventListener('click',function(ev){
     link.dataset.days=btn.dataset.days;
     link.dataset.price=btn.dataset.price;
   }
-});
+}
+
+/* Клавиатура для радиогруппы срока.
+ *
+ * ARIA-контракт radiogroup: у ВСЕЙ группы одна точка табуляции, а стрелки
+ * переносят и фокус, и выбор. До этого шесть ячеек были обычными кнопками с
+ * табуляцией по умолчанию — на странице Турции это 138 табстопов, и стрелки
+ * не делали ничего, хотя именно их пробует скринридер в forms mode. */
+function dailyTermsKeydown(ev){
+  const btn=ev.target&&ev.target.closest&&ev.target.closest('.js-daily-term');
+  if(!btn)return;
+  const group=btn.closest('.daily-terms');
+  if(!group)return;
+  const items=Array.prototype.slice.call(group.querySelectorAll('.js-daily-term'));
+  const i=items.indexOf(btn);
+  if(i<0)return;
+  let next=null;
+  switch(ev.key){
+    case 'ArrowRight': case 'ArrowDown': next=items[(i+1)%items.length]; break;
+    case 'ArrowLeft':  case 'ArrowUp':   next=items[(i-1+items.length)%items.length]; break;
+    case 'Home': next=items[0]; break;
+    case 'End':  next=items[items.length-1]; break;
+    default: return;
+  }
+  if(!next)return;
+  ev.preventDefault();
+  selectDailyTerm(next);
+  next.focus();
+}
+document.addEventListener('keydown',dailyTermsKeydown);
+
 
 function renderDailyCard(item){
   const D=dailyCopy();
@@ -1076,7 +1117,7 @@ function renderDailyCard(item){
   return `
     <article class="package-card daily-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span></div>
-      <h3 class="package-title daily-card__title">${escapeHtml(D.displayName(item,countryName))}</h3>
+      <h3 class="package-title daily-card__title" id="dt-${escapeHtml(String(item.package_id||''))}">${escapeHtml(D.displayName(item,countryName))}</h3>
       <ul class="daily-lines">${lines.slice(1).map((l)=>`<li class="daily-line daily-line--${escapeHtml(l.kind)}">${escapeHtml(l.text)}</li>`).join('')}</ul>
       ${dailyTermsHtml(item)}
       <div class="daily-card__meta">${speed?`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`:''}<span><span class="daily-card__coverage-label">Покрытие:</span> ${escapeHtml(D.coverageLine(item,countryName))}</span></div>

@@ -96,8 +96,19 @@ test('the landing lets a customer choose the term, and the choice moves the buy 
   assert.match(s, /role="radiogroup"/, 'the term is chosen before payment, not after');
   assert.match(s, /js-daily-term/);
   // Selecting a term must update what the buy button will send, or the customer
-  // pays for one term and is quoted another.
-  const handler = s.slice(s.indexOf("closest('.js-daily-term')"), s.indexOf("closest('.js-daily-term')") + 700);
+  // pays for one term and is quoted another. Bounded on the FUNCTION that does
+  // it, not on a character window: the click handler now delegates to
+  // selectDailyTerm so the keyboard takes the same path, and a fixed window
+  // stopped covering the code it was meant to defend.
+  const at = s.indexOf('function selectDailyTerm');
+  assert.ok(at > 0, 'index.html must route selection through one function');
+  let i = s.indexOf('{', at), depth = 0, end = -1;
+  for (let j = i; j < s.length; j++) {
+    const c = s[j];
+    if (c === '{') depth++;
+    else if (c === '}') { depth--; if (depth === 0) { end = j + 1; break; } }
+  }
+  const handler = s.slice(at, end);
   assert.match(handler, /buy\.dataset\.days\s*=/, 'the selected term must reach the buy button');
   assert.match(handler, /buy\.dataset\.price\s*=/);
 });
@@ -877,4 +888,63 @@ test('the order screen names a daily plan the way the card does', () => {
     'and the button must prefer it');
   // An ordinary package still names itself the way it always did.
   assert.match(s, /function buyButtonHtml\(item,label,name\)\{/);
+});
+
+// ---------------------------------------------------------------------------
+// KEYBOARD AND SCREEN READER.
+//
+// role="radio" inside role="radiogroup" is a contract: ONE tab stop for the
+// whole group, arrows move focus and selection, Home/End jump. Six plain
+// buttons with default tabindex meant six tab stops per card — 138 on the
+// Turkey page — and arrow keys did nothing, which is exactly what a screen
+// reader tries in forms mode.
+
+test('the term group takes one tab stop, not six', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    assert.match(fn, /tabindex="\$\{i===0\?'0':'-1'\}"/, `${f}: roving tabindex on render`);
+
+    const at = s.indexOf('function selectDailyTerm');
+    assert.ok(at > 0, `${f}: selection must run through one function`);
+    const body = s.slice(at, at + 900);
+    assert.match(body, /setAttribute\('tabindex',on\?'0':'-1'\)/, `${f}: and it must rove on selection`);
+    assert.match(body, /setAttribute\('aria-checked',on\?'true':'false'\)/, `${f}: aria-checked moves with it`);
+  }
+});
+
+test('arrows and Home/End move the choice, and the mouse takes the same path', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const at = s.indexOf('function dailyTermsKeydown');
+    assert.ok(at > 0, `${f}: no keyboard handler`);
+    const body = s.slice(at, at + 1200);
+    for (const key of ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End']) {
+      assert.ok(body.includes(`'${key}'`), `${f}: ${key} is not handled`);
+    }
+    assert.match(body, /ev\.preventDefault\(\)/, `${f}: arrows must not also scroll the page`);
+    assert.match(body, /selectDailyTerm\(next\)/, `${f}: the keyboard must select, not just focus`);
+    assert.match(body, /next\.focus\(\)/, `${f}: …and move focus with the selection`);
+    // Wrapping, so End→ArrowRight does not dead-end.
+    assert.match(body, /\(i\+1\)%items\.length/, `${f}: forward must wrap`);
+    assert.match(body, /\(i-1\+items\.length\)%items\.length/, `${f}: backward must wrap`);
+    // One path for both inputs.
+    assert.match(s, /closest\('\.js-daily-term'\);\s*\n\s*if\(!btn\)return;\s*\n\s*selectDailyTerm\(btn\);/,
+      `${f}: the click handler must delegate to the same function`);
+  }
+});
+
+test('the group is named by its tariff, not by the word «Срок»', () => {
+  // A country page carries two dozen of these groups. «группа, радиокнопка,
+  // 3 дня за 200 рублей, 1 из 6» says nothing about WHICH plan is being
+  // chosen; the two ids concatenate into «Турция — 500 МБ в день Выберите
+  // срок».
+  for (const f of SURFACES) {
+    const s = read(f);
+    assert.ok(!/role="radiogroup" aria-label="Срок"/.test(s), `${f}: the anonymous group name must be gone`);
+    assert.match(s, /role="radiogroup" aria-labelledby="dt-\$\{gid\} dl-\$\{gid\}"/, `${f}: named by title + label`);
+    assert.match(s, /<div class="daily-terms-label" id="dl-\$\{gid\}"/, `${f}: the label needs its id`);
+    assert.match(s, /class="package-title daily-card__title" id="dt-\$\{escapeHtml\(String\(item\.package_id\|\|''\)\)\}"/,
+      `${f}: the card title needs the matching id`);
+  }
 });
