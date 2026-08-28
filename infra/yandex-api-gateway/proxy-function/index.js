@@ -237,6 +237,20 @@ const ROUTES = [
   // stays out.
   { method: 'GET', pattern: '/api/v1/public/private-payments/{token}' },
   { method: 'POST', pattern: '/api/v1/public/private-payments/{token}/start' },
+  // Self-serve pay page (/pay/s/<secret>). Same reasoning as the links above:
+  // browser calls from 404.html, so they need the same Russian-reachability
+  // fallback.
+  //
+  // The link secret is spelled '{token}', not '{secret}', and that is
+  // load-bearing rather than cosmetic: matchRoute knows exactly ONE placeholder
+  // (see below), so any other spelling is compared LITERALLY — the route would
+  // never match, the fallback would fail silently, and the word would enter
+  // KNOWN_SEGMENTS and stop masking that position in logs. The secret is the
+  // one path segment on this whole surface that most needs masking.
+  { method: 'GET', pattern: '/api/v1/public/pay-link/{token}' },
+  { method: 'POST', pattern: '/api/v1/public/pay-link/{token}/charge' },
+  { method: 'GET', pattern: '/api/v1/public/pay-charge/{token}' },
+  { method: 'GET', pattern: '/api/v1/public/pay-charge/{token}/qr.png' },
 
   // Telegram Mini App (Phase B / B-6). Only the routes that have a handler
   // upstream. The remaining routes of the architecture arrive with their own

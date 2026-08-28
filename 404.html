@@ -51,6 +51,50 @@
     @keyframes spin{to{transform:rotate(360deg)}}
     a.home{color:var(--accent); text-decoration:none}
     .hidden{display:none !important}
+
+    /* Amount entry. Deliberately plain: this page has no brand of its own and
+       borrows none — the card, the type scale and the accent above are the
+       whole vocabulary. */
+    .field{margin:0 0 18px}
+    .field label{display:block; font-size:13px; color:var(--muted); margin:0 0 8px}
+    .field .wrap{position:relative; display:flex; align-items:center}
+    .field input{
+      width:100%; font:inherit; font-size:26px; font-weight:700; letter-spacing:-.01em;
+      color:var(--text); background:transparent; border:1px solid var(--line);
+      border-radius:12px; padding:14px 46px 14px 16px; outline:none; transition:.15s;
+      -moz-appearance:textfield;
+    }
+    .field input::-webkit-outer-spin-button,
+    .field input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+    .field input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(52,87,201,.14)}
+    .field input[aria-invalid="true"]{border-color:var(--err)}
+    .field .cur{position:absolute; right:16px; font-size:20px; font-weight:700; color:var(--muted); pointer-events:none}
+    .field .hint{font-size:12px; color:var(--muted); margin:8px 0 0}
+    .field .hint.err{color:var(--err)}
+
+    /* Payment code. White plate in both themes — scanner legibility beats
+       theme consistency. */
+    .qr{
+      background:#fff; border-radius:14px; padding:14px; margin:0 auto 16px;
+      width:236px; max-width:100%; line-height:0;
+    }
+    .qr img{width:100%; height:auto; display:block; border-radius:4px}
+    .qr-cap{font-size:13px; color:var(--muted); text-align:center; margin:0 0 18px; line-height:1.5}
+    .sum{font-size:32px; font-weight:800; text-align:center; margin:0 0 4px}
+    .sum span{font-size:19px; font-weight:700; color:var(--muted); margin-left:3px}
+    .sum-cap{font-size:13px; color:var(--muted); text-align:center; margin:0 0 20px}
+    .status{
+      display:flex; align-items:center; justify-content:center; gap:9px;
+      font-size:15px; padding:12px; border:1px solid var(--line); border-radius:12px; margin:0 0 16px;
+    }
+    .dot{width:9px; height:9px; border-radius:50%; background:var(--accent); flex:none; animation:pulse 1.5s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .btn-alt{
+      display:block; width:100%; text-align:center; text-decoration:none;
+      border:1px solid var(--line); background:transparent; color:var(--text);
+      border-radius:12px; font-size:15px; font-weight:600; padding:14px 18px; transition:.15s;
+    }
+    .btn-alt:hover{border-color:var(--accent); color:var(--accent)}
   
 /* One page gutter, matching assets/country-pages.css and index.html, so the
    outer edge of this page lines up with every other page on the storefront.
@@ -197,6 +241,232 @@ body{
       });
     }
 
+    /* ====================================================================
+       Self-serve payment page: ONE permanent secret link, amount typed by
+       the payer, SBP only.
+
+         /pay/s/<secret>          the amount form
+         /pay/s/r/<chargeToken>   one created payment (status + code)
+
+       Creating a payment REPLACES the history entry with the /r/ URL, so a
+       refresh re-reads that payment instead of ever creating a second one.
+       The amount form itself creates nothing until the button is pressed.
+
+       On the code shown here — measured against a real PENDING transaction
+       on 2026-08-28: the provider returns "qr": null before payment and
+       mints the SBP code only behind a captcha on its own page. So unless
+       `qrKind` comes back as 'sbp', what is drawn is a link to the official
+       payment page and is captioned as exactly that. Nothing on this page
+       ever calls an SBP payload something it is not.
+       ==================================================================== */
+    var PAY_API = '/api/v1/public/';
+    var PAY_SECRET = '';
+
+    function payHead(){ return '<p class="eyebrow">Оплата</p>'; }
+
+    function newIdemKey(){
+      try{
+        var b = new Uint8Array(24); crypto.getRandomValues(b);
+        var s=''; for(var i=0;i<b.length;i++){ s += ('0'+b[i].toString(16)).slice(-2); }
+        return s;
+      }catch(e){
+        return String(Date.now())+'-'+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2);
+      }
+    }
+
+    function renderAmountForm(secret, bounds){
+      var min = (bounds && bounds.minRub) || 100;
+      var max = (bounds && bounds.maxRub) || 100000;
+      card.innerHTML = payHead()
+        + '<h1>Оплата</h1>'
+        + '<form id="payForm" novalidate>'
+        +   '<div class="field">'
+        +     '<label for="amt">Сумма, ₽</label>'
+        +     '<div class="wrap">'
+        +       '<input id="amt" name="amt" type="number" inputmode="numeric" pattern="[0-9]*" '
+        +         'min="'+min+'" max="'+max+'" step="1" autocomplete="off" '
+        +         'aria-describedby="amtHint" placeholder="0" />'
+        +       '<span class="cur" aria-hidden="true">₽</span>'
+        +     '</div>'
+        +     '<p class="hint" id="amtHint">От '+money(min)+' до '+money(max)+' ₽, целое число</p>'
+        +   '</div>'
+        +   '<button id="payBtn" type="submit">Оплатить через СБП</button>'
+        + '</form>';
+
+      var form = document.getElementById('payForm');
+      var input = document.getElementById('amt');
+      var hint = document.getElementById('amtHint');
+      var btn = document.getElementById('payBtn');
+      var busy = false;
+      /* One key per filled-in form. A retry after a transport error reuses it,
+         so a payment that was in fact created is adopted rather than doubled. */
+      var idemKey = newIdemKey();
+
+      function fail(msg){
+        hint.textContent = msg; hint.className = 'hint err';
+        input.setAttribute('aria-invalid','true');
+      }
+      function clearFail(){
+        hint.textContent = 'От '+money(min)+' до '+money(max)+' ₽, целое число';
+        hint.className = 'hint'; input.removeAttribute('aria-invalid');
+      }
+      input.addEventListener('input', clearFail);
+
+      form.addEventListener('submit', function(ev){
+        ev.preventDefault();
+        if(busy) return;
+        var raw = String(input.value || '').trim();
+        /* Client-side checks are courtesy only — the server validates the
+           amount again and is the only thing that decides it. */
+        if(!/^\d{1,9}$/.test(raw)){ fail('Введите сумму целым числом рублей.'); input.focus(); return; }
+        var amount = parseInt(raw, 10);
+        if(amount < min){ fail('Минимальная сумма — '+money(min)+' ₽.'); input.focus(); return; }
+        if(amount > max){ fail('Максимальная сумма — '+money(max)+' ₽.'); input.focus(); return; }
+
+        busy = true; btn.disabled = true; input.disabled = true;
+        btn.textContent = 'Создаём платёж…'; clearFail();
+
+        MagicNet.request(PAY_API+'pay-link/'+encodeURIComponent(secret)+'/charge', {
+          method:'POST', kind:'write',
+          headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body: JSON.stringify({ amountRub: amount, idempotencyKey: idemKey })
+        }).then(function(r){ return {status:r.status, body:r.body||{}}; })
+          .then(function(r){
+            if((r.status===201||r.status===200) && r.body && r.body.chargeToken){
+              /* Replace, not push: the form URL must not sit behind this in
+                 history where Back would re-offer a submit. */
+              try{ history.replaceState(null,'','/pay/s/r/'+r.body.chargeToken); }catch(e){}
+              showCharge(r.body.chargeToken, r.body);
+              return;
+            }
+            if(r.status===404){ showUnavailable(); return; }
+            busy=false; btn.disabled=false; input.disabled=false;
+            btn.textContent='Оплатить через СБП';
+            fail((r.body && r.body.message) ? r.body.message : 'Не удалось создать платёж. Попробуйте позже.');
+          })
+          .catch(function(){
+            busy=false; btn.disabled=false; input.disabled=false;
+            btn.textContent='Оплатить через СБП';
+            fail('Нет связи с сервером. Проверьте соединение и попробуйте снова.');
+          });
+      });
+      setTimeout(function(){ try{ input.focus(); }catch(e){} }, 60);
+    }
+
+    function renderPaid(data){
+      card.innerHTML = payHead()
+        + '<div class="state ok"><span class="ico">✓</span>Оплата получена</div>'
+        + '<div class="sum">'+money(data.amountRub)+'<span>₽</span></div>'
+        + '<p class="sum-cap">Эту страницу можно закрыть.</p>';
+    }
+
+    function renderClosed(data){
+      var label = data && data.status === 'expired' ? 'Время оплаты истекло'
+        : data && data.status === 'canceled' ? 'Платёж отменён'
+        : 'Платёж не завершён';
+      card.innerHTML = payHead()
+        + '<div class="state err"><span class="ico">×</span>'+esc(label)+'</div>'
+        + (data && data.amountRub != null
+            ? '<div class="sum">'+money(data.amountRub)+'<span>₽</span></div><p class="sum-cap">Сумма не списана.</p>'
+            : '')
+        + (PAY_SECRET ? '<button id="againBtn" type="button">Создать новый платёж</button>' : '');
+      var b = document.getElementById('againBtn');
+      if(b) b.addEventListener('click', function(){
+        /* Back to the permanent link, where a new amount is entered by hand.
+           Nothing is created by arriving there. */
+        window.location.href = '/pay/s/' + PAY_SECRET;
+      });
+    }
+
+    /* The created payment: amount, code, live status. */
+    function showCharge(token, data){
+      var qrKind = data && data.qrKind;
+      var payUrl = data && data.paymentUrl;
+      var qrSrc = '';
+      try{ qrSrc = (MagicNet.primaryBase || '') + PAY_API + 'pay-charge/' + encodeURIComponent(token) + '/qr.png'; }catch(e){}
+
+      var qrBlock = '';
+      if(qrSrc){
+        qrBlock = '<div class="qr"><img alt="" src="'+esc(qrSrc)+'" width="208" height="208" /></div>'
+          + '<p class="qr-cap">'
+          + (qrKind === 'sbp'
+              ? 'Отсканируйте код в приложении банка'
+              : 'Отсканируйте камерой телефона, чтобы открыть оплату')
+          + '</p>';
+      }
+
+      card.innerHTML = payHead()
+        + '<div class="sum">'+money(data.amountRub)+'<span>₽</span></div>'
+        + '<p class="sum-cap">К оплате</p>'
+        + qrBlock
+        + '<div class="status" id="stat"><span class="dot"></span><span id="statText">Ожидаем оплату</span></div>'
+        + (payUrl && allowedRedirect(payUrl)
+            ? '<a class="btn-alt" id="openPay" href="'+esc(payUrl)+'" rel="noopener noreferrer">Открыть оплату</a>'
+            : '');
+
+      pollCharge(token);
+    }
+
+    function pollCharge(token){
+      var tries = 0, MAX = 220; // ~11 minutes at 3s
+      function tick(){
+        tries++;
+        /* Ask the server to re-check for an official code a few times early on,
+           in case the provider mints one after the payer starts. Cheap, bounded,
+           and never required for the page to work. */
+        var q = (tries > 1 && tries <= 5) ? '?refreshQr=1' : '';
+        MagicNet.request(PAY_API+'pay-charge/'+encodeURIComponent(token)+q, {
+          method:'GET', kind:'status', headers:{'Accept':'application/json'}
+        }).then(function(r){ return {status:r.status, body:r.body||{}}; })
+          .then(function(r){
+            if(r.status===404){ showUnavailable(); return; }
+            var st = r.body && r.body.status;
+            if(st === 'paid'){ renderPaid(r.body); return; }
+            if(st === 'expired' || st === 'canceled' || st === 'failed' || st === 'chargebacked'){
+              renderClosed(r.body); return;
+            }
+            if(tries >= MAX){ showProcessing(); return; }
+            setTimeout(tick, 3000);
+          })
+          .catch(function(){
+            if(tries >= MAX){ showProcessing(); return; }
+            setTimeout(tick, 4000);
+          });
+      }
+      setTimeout(tick, 2500);
+    }
+
+    /* Landing straight on /pay/s/r/<token> — a refresh, a return from the
+       provider, or a bookmark. Reads the existing payment; creates nothing. */
+    function loadCharge(token){
+      MagicNet.request(PAY_API+'pay-charge/'+encodeURIComponent(token), {
+        method:'GET', kind:'read', headers:{'Accept':'application/json'}
+      }).then(function(r){ return {status:r.status, body:r.body||{}}; })
+        .then(function(r){
+          if(r.status===404){ showUnavailable(); return; }
+          var st = r.body && r.body.status;
+          if(st === 'paid'){ renderPaid(r.body); return; }
+          if(st === 'pending'){ showCharge(token, r.body); return; }
+          renderClosed(r.body);
+        })
+        .catch(function(){ showError('Нет связи с сервером.'); });
+    }
+
+    /* The permanent link. Validates the secret server-side before drawing a
+       form; a wrong secret is a plain 404 with nothing else said. */
+    function loadPayLink(secret){
+      PAY_SECRET = secret;
+      MagicNet.request(PAY_API+'pay-link/'+encodeURIComponent(secret), {
+        method:'GET', kind:'read', headers:{'Accept':'application/json'}
+      }).then(function(r){ return {status:r.status, body:r.body||{}}; })
+        .then(function(r){
+          if(r.status===200 && r.body){ renderAmountForm(secret, r.body); return; }
+          if(r.status===404){ showNotFound(); return; }
+          showError((r.body && r.body.message) || 'Попробуйте позже.');
+        })
+        .catch(function(){ showError('Нет связи с сервером.'); });
+    }
+
     function loadLink(token){
       MagicNet.request('/api/v1/public/private-payments/'+encodeURIComponent(token), {
         method:'GET', kind:'read', headers:{'Accept':'application/json'}
@@ -228,13 +498,30 @@ body{
       }catch(e){}
     }
 
-    // --- routing: only /pay/<token> is a payment page; everything else is a 404 ---
+    // --- routing: only a payment path is a payment page; everything else is a 404 ---
+    //
+    // Order matters. The self-serve paths carry TWO segments after /pay/ and are
+    // matched first; the older single-segment link route below would otherwise
+    // never see them, and a two-segment path would fall through to a plain 404.
     var path = location.pathname || '';
+    var mSelf   = path.match(/^\/pay\/s\/([A-Za-z0-9_-]{16,})\/?$/);
+    var mCharge = path.match(/^\/pay\/s\/r\/([A-Za-z0-9_-]{20,})\/?$/);
     var m = path.match(/^\/pay\/([A-Za-z0-9_-]{20,})\/?$/);
     var qp = new URLSearchParams(location.search || '');
     var result = qp.get('result'); // optional return marker (success|failed)
 
-    if(m){
+    if(mCharge){
+      // A created payment. Always read from the server: `result` in the query is
+      // only the provider's hint about how the payer left its page, never
+      // evidence that money moved.
+      loadCharge(mCharge[1]);
+    } else if(mSelf){
+      loadPayLink(mSelf[1]);
+    } else if(/^\/pay\/s\/?$/.test(path) || /^\/pay\/s\/r\/?$/.test(path)){
+      // A truncated payment link. Shown, never counted: nothing under /pay/
+      // reaches Metrika, because the path is the capability.
+      showUnavailable();
+    } else if(m){
       if(result==='success'){ verifySuccess(m[1]); }
       else if(result==='failed'){ showFailed(); }
       else { loadLink(m[1]); }

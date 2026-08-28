@@ -405,9 +405,32 @@ test('404.html counts not-found but never a private payment link', () => {
   assert.match(s, /ym\(110393848,"init"/);
   assert.equal((s.match(/loadMetrika\(\);/g) || []).length, 1, 'counter must load from exactly one branch');
   assert.match(s, /showNotFound\(\);\s*\n\s*loadMetrika\(\);/, 'counter must sit on the not-found branch');
+  // Structural, not a fixed-length window. The previous form sliced between
+  // `if(m){` and the first `} else if`, which silently inverted (end before
+  // start) the moment a branch was added ahead of it and asserted nothing at
+  // all from then on. The invariant is stronger and simpler than the window
+  // was: NO payment branch may reach the counter, because on these routes the
+  // URL path IS the capability. So the single permitted call must sit on the
+  // not-found branch, and no line that dispatches a /pay/ route may carry it.
   const routing = s.slice(s.indexOf('// --- routing'));
-  const payBranch = routing.slice(routing.indexOf('if(m){'), routing.indexOf('} else if'));
-  assert.ok(!payBranch.includes('loadMetrika'), '/pay/<token> must stay untracked');
+  assert.ok(routing.length > 0, 'routing block not found');
+  for (const line of routing.split('\n')) {
+    if (!line.includes('loadMetrika')) continue;
+    assert.ok(
+      !/\bload(PayLink|Charge|Link)\s*\(|verifySuccess\s*\(|showCharge\s*\(/.test(line),
+      `counter shares a line with a payment dispatch: ${line.trim()}`
+    );
+  }
+  for (const fn of ['loadLink', 'loadPayLink', 'loadCharge', 'verifySuccess', 'showCharge', 'renderAmountForm']) {
+    const at = s.indexOf(`function ${fn}(`);
+    if (at < 0) continue;
+    // Body = from the signature to the next top-level `\n    function ` at the
+    // same indentation, found by structure rather than by a byte offset.
+    const rest = s.slice(at + 1);
+    const nextFn = rest.indexOf('\n    function ');
+    const body = nextFn < 0 ? rest : rest.slice(0, nextFn);
+    assert.ok(!body.includes('loadMetrika'), `${fn} must not load the counter`);
+  }
   // and the counter must not be in <head>, where it would run before routing
   assert.ok(!/<head>[\s\S]*mc\.yandex\.ru\/metrika\/tag\.js[\s\S]*<\/head>/.test(s),
     'a head-level counter would send the payment URL to Metrika');

@@ -282,6 +282,20 @@ test('the public side of private payment links is proxied, the admin side is not
   assert.equal(proxy.matchRoute('POST', '/api/v1/public/private-payments/tok123'), null);
 });
 
+test('the self-serve pay page is proxied on exactly its four public routes', () => {
+  // Same reason as the links above: 404.html calls these from the browser.
+  assert.ok(proxy.matchRoute('GET', '/api/v1/public/pay-link/sec123'));
+  assert.ok(proxy.matchRoute('POST', '/api/v1/public/pay-link/sec123/charge'));
+  assert.ok(proxy.matchRoute('GET', '/api/v1/public/pay-charge/tok123'));
+  assert.ok(proxy.matchRoute('GET', '/api/v1/public/pay-charge/tok123/qr.png'));
+  // Nothing adjacent, and no method the routes do not declare.
+  assert.equal(proxy.matchRoute('POST', '/api/v1/public/pay-link/sec123'), null);
+  assert.equal(proxy.matchRoute('GET', '/api/v1/public/pay-link/sec123/charge'), null);
+  assert.equal(proxy.matchRoute('POST', '/api/v1/public/pay-charge/tok123'), null);
+  assert.equal(proxy.matchRoute('POST', '/api/v1/public/pay-charge/tok123/refund'), null);
+  assert.equal(proxy.matchRoute('GET', '/api/v1/public/pay-link'), null);
+});
+
 test('an allowed path is not reachable with a method it does not declare', () => {
   for (const m of ['DELETE', 'PUT', 'PATCH', 'POST']) {
     assert.equal(proxy.matchRoute(m, '/api/v1/retail/packages'), null,
@@ -410,6 +424,12 @@ test('the masked path still identifies which route was hit', () => {
     ['GET', `/api/v1/public/private-payments/${t}`, '/api/v1/public/private-payments/{token}'],
     ['POST', `/api/v1/public/private-payments/${t}/start`, '/api/v1/public/private-payments/{token}/start'],
     ['POST', `/api/v1/public/retail-orders/${t}/pay`, '/api/v1/public/retail-orders/{token}/pay'],
+    // The link secret is a live capability sitting in the path; masking it is
+    // the whole reason its placeholder is spelled '{token}'.
+    ['GET', `/api/v1/public/pay-link/${t}`, '/api/v1/public/pay-link/{token}'],
+    ['POST', `/api/v1/public/pay-link/${t}/charge`, '/api/v1/public/pay-link/{token}/charge'],
+    ['GET', `/api/v1/public/pay-charge/${t}`, '/api/v1/public/pay-charge/{token}'],
+    ['GET', `/api/v1/public/pay-charge/${t}/qr.png`, '/api/v1/public/pay-charge/{token}/qr.png'],
   ];
   for (const [method, path, expected] of cases) {
     assert.equal(proxy.logPath(path, proxy.matchRoute(method, path)), expected);
@@ -439,6 +459,8 @@ test('a rejected path is masked too, since it is arbitrary client input', () => 
     [`/api/v1/public/retail-esim/${REAL}/qr.png/extra`, '/api/v1/public/retail-esim/{}/qr.png/{}'],
     [`/api/v1/public/retail-orders/${REAL}/refund`, '/api/v1/public/retail-orders/{}/{}'],
     [`/api/v1/public/private-payments/${REAL}/disable`, '/api/v1/public/private-payments/{}/{}'],
+    [`/api/v1/public/pay-link/${REAL}/refund`, '/api/v1/public/pay-link/{}/{}'],
+    [`/api/v1/public/pay-charge/${REAL}/cancel`, '/api/v1/public/pay-charge/{}/{}'],
     // the three bypasses of the old denylist
     [`/api/v1/public/RETAIL-ESIM/${REAL}/qr.png`, '/api/v1/public/{}/{}/qr.png'],
     [`/api/v1/public/retail%2Desim/${REAL}/qr.png`, '/api/v1/public/{}/{}/qr.png'],

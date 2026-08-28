@@ -148,6 +148,10 @@ const LEGACY_ROUTES = [
   ['GET', '/api/v1/public/retail-esim/tok_abc123/qr.png'],
   ['GET', '/api/v1/public/private-payments/tok_abc123'],
   ['POST', '/api/v1/public/private-payments/tok_abc123/start'],
+  ['GET', '/api/v1/public/pay-link/sec-abc123456789012345'],
+  ['POST', '/api/v1/public/pay-link/sec-abc123456789012345/charge'],
+  ['GET', '/api/v1/public/pay-charge/tok_abc123'],
+  ['GET', '/api/v1/public/pay-charge/tok_abc123/qr.png'],
 ];
 
 // ---------------------------------------------------------------------------
@@ -166,6 +170,9 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
   const listed = ROUTES.map((r) => `${r.method} ${r.pattern}`).sort();
 
   assert.deepEqual(listed, [
+    'GET /api/v1/public/pay-charge/{token}',
+    'GET /api/v1/public/pay-charge/{token}/qr.png',
+    'GET /api/v1/public/pay-link/{token}',
     'GET /api/v1/public/private-payments/{token}',
     'GET /api/v1/public/retail-esim/{token}/qr.png',
     'GET /api/v1/public/retail-orders/{token}/status',
@@ -180,6 +187,7 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'GET /api/v1/tma/orders/{token}/status',
     'GET /api/v1/tma/topups/{token}/status',
     'GET /health',
+    'POST /api/v1/public/pay-link/{token}/charge',
     'POST /api/v1/public/private-payments/{token}/start',
     'POST /api/v1/public/retail-orders',
     'POST /api/v1/public/retail-orders/{token}/pay',
@@ -394,6 +402,8 @@ test('an unmatched path keeps only segments that are literally in ROUTES', () =>
     '/api/v1/public/retail-esim/SECRET-TOKEN/nope',
     '/api/v1/public/retail-orders/SECRET-TOKEN/nope',
     '/api/v1/public/private-payments/SECRET-TOKEN/nope',
+    '/api/v1/public/pay-link/SECRET-TOKEN/nope',
+    '/api/v1/public/pay-charge/SECRET-TOKEN/nope',
   ]) {
     const logged = logPath(path, null);
     assert.ok(!logged.includes('SECRET-TOKEN'), `${path} logged its token`);
@@ -1216,9 +1226,11 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the eight rea
   // day, the top-up PURCHASE wave adds two writes and an EIGHTH read on
   // 2026-08-19, and eSIM display settings add a NINTH read plus two writes on
   // 2026-08-20 — `name` and `visibility`, neither of which deletes anything —
-  // and the notification switches add one more write on 2026-08-21.
+  // and the notification switches add one more write on 2026-08-21, and the
+  // self-serve pay page adds FOUR public routes on 2026-08-28 (one link read,
+  // one charge create, one charge status, one charge QR image).
   // Nothing else rides along.
-  assert.equal(ROUTES.length, 31);
+  assert.equal(ROUTES.length, 35);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
@@ -1942,4 +1954,50 @@ test('a purchase write is never retried after the upstream has seen it', () => {
   // — are the second and third lines of defence, not the first.
   assert.equal(isRetrySafe('POST', true), false);
   assert.equal(isRetrySafe('GET', true), true);
+});
+
+
+// The self-serve pay routes exist, match, and mask their secret in logs. The
+// secret is a live capability sitting in a path segment, so the placeholder
+// spelling is the thing under test: matchRoute understands only '{token}', and
+// any other spelling would both fail to match and un-mask that position.
+test('self-serve pay routes match and never log the secret or charge token', () => {
+  const SEC = 'Zx9-_aBcDeFgHiJkLmNoPqRsTuVwXyZ0123456789';
+  const TOK = 'Qq7-_zYxWvUtSrQpOnMlKjIhGfEdCbA9876543210';
+
+  assert.ok(matchRoute('GET', `/api/v1/public/pay-link/${SEC}`));
+  assert.ok(matchRoute('POST', `/api/v1/public/pay-link/${SEC}/charge`));
+  assert.ok(matchRoute('GET', `/api/v1/public/pay-charge/${TOK}`));
+  assert.ok(matchRoute('GET', `/api/v1/public/pay-charge/${TOK}/qr.png`));
+
+  // Method is part of the match: the create route is POST-only, and nothing
+  // here may be reached with a method it was not allowlisted for.
+  assert.equal(matchRoute('POST', `/api/v1/public/pay-link/${SEC}`), null);
+  assert.equal(matchRoute('GET', `/api/v1/public/pay-link/${SEC}/charge`), null);
+  assert.equal(matchRoute('POST', `/api/v1/public/pay-charge/${TOK}`), null);
+  // Admin-ish neighbours and made-up sub-paths stay out.
+  assert.equal(matchRoute('POST', `/api/v1/public/pay-charge/${TOK}/refund`), null);
+  assert.equal(matchRoute('GET', `/api/v1/public/pay-link/${SEC}/charges`), null);
+
+  // A matched route logs its PATTERN, so neither capability reaches the log.
+  for (const [method, path] of [
+    ['GET', `/api/v1/public/pay-link/${SEC}`],
+    ['POST', `/api/v1/public/pay-link/${SEC}/charge`],
+    ['GET', `/api/v1/public/pay-charge/${TOK}`],
+    ['GET', `/api/v1/public/pay-charge/${TOK}/qr.png`],
+  ]) {
+    const logged = logPath(path, matchRoute(method, path));
+    assert.ok(!logged.includes(SEC), `${path} logged the link secret`);
+    assert.ok(!logged.includes(TOK), `${path} logged the charge token`);
+    assert.ok(logged.includes('{token}'));
+  }
+
+  // '{secret}' must never appear as a literal: matchRoute would compare it
+  // literally and KNOWN_SEGMENTS would stop masking that position.
+  assert.equal(ROUTES.filter((r) => r.pattern.includes('{secret}')).length, 0);
+  for (const r of ROUTES) {
+    for (const seg of r.pattern.split('/')) {
+      if (seg.startsWith('{')) assert.equal(seg, '{token}', `unknown placeholder ${seg}`);
+    }
+  }
 });
