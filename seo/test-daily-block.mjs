@@ -443,16 +443,17 @@ test('the card aligns by subgrid, and its sections are the ordinary ones', () =>
     const css = dailyCss(file);
     assert.match(css, /@supports \(grid-template-rows:subgrid\)/, `${file}: no subgrid path`);
     assert.match(css, /#dailyGrid > \.daily-card\{[\s\S]{0,120}grid-template-rows:subgrid/, file);
-    assert.match(css, /grid-row:span 7/, `${file}: seven rows, seven areas`);
+    assert.match(css, /grid-row:span 8/, `${file}: eight rows, eight areas`);
     assert.match(css, /#dailyGrid\{row-gap:0/, `${file}: the parent gap must not split the card`);
     assert.match(css, /margin-bottom:16px/, `${file}: and the gap between rows must come back`);
 
     // The order an ordinary card uses: the term selector stands where its price
     // does, because choosing a term IS choosing the price.
-    assert.match(css, /grid-template-areas:'top' 'title' 'meta' 'tags' 'info' 'terms' 'buy'/, file);
+    assert.match(css, /grid-template-areas:'top' 'title' 'distinct' 'meta' 'tags' 'info' 'terms' 'buy'/, file);
     for (const [sel, area] of [
       ['.daily-card .package-topline', 'top'],
       ['.daily-card .package-title', 'title'],
+      ['.daily-card .package-distinct', 'distinct'],
       ['.daily-card > .package-meta', 'meta'],
       ['.daily-card .package-tags', 'tags'],
       ['.daily-card .package-info', 'info'],
@@ -1131,5 +1132,79 @@ test('chips appear only where two similar plans actually differ', () => {
     const alone = renderer(file, {});
     assert.ok(!/package-distinct/.test(alone(SAMPLE)),
       `${file}: a plan with no twin must print no chips at all`);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Каждый ребёнок карточки обязан иметь свою область сетки
+//
+// Проверка выше перечисляет области руками, и именно поэтому она пропустила
+// баг: чипы отличий добавили в разметку, а в список — нет. Ребёнок без
+// grid-area не исчезает и не ломает сборку. Он авторазмещается в неявный ряд
+// и рисуется поверх соседней секции: на проде это были огромные
+// полупрозрачные овалы под кнопкой «Выбрать тариф» — те самые чипы, растянутые
+// на высоту ряда, со своим border-radius:999px.
+//
+// Поэтому тест не сверяется со списком, а РЕНДЕРИТ карточку и спрашивает у
+// разметки, какие дети у неё есть на самом деле.
+// ---------------------------------------------------------------------------
+
+// Классы верхнего уровня в отрендеренной карточке. Разметка генерится нами и
+// отформатирована предсказуемо, поэтому глубина считается по тегам.
+function topLevelChildClasses(html) {
+  const inner = html.slice(html.indexOf('>') + 1);
+  const classes = [];
+  let depth = 0;
+  const tagRe = /<(\/?)([a-z0-9]+)([^>]*)>/gi;
+  let m;
+  while ((m = tagRe.exec(inner))) {
+    const closing = m[1] === '/';
+    const attrs = m[3] || '';
+    const selfClosing = attrs.trim().endsWith('/') || /^(br|img|input|hr)$/i.test(m[2]);
+    if (!closing && depth === 0) {
+      const cls = (attrs.match(/class="([^"]*)"/) || [])[1];
+      if (cls) classes.push(cls.split(/\s+/)[0]);
+    }
+    if (selfClosing) continue;
+    depth += closing ? -1 : 1;
+    if (depth < 0) break;
+  }
+  return [...new Set(classes)];
+}
+
+test('every child the card renders owns a grid area', () => {
+  // Карточка С отличиями: без них чипы не печатаются и дыра не видна.
+  const distinct = { p1: [
+    { kind: 'ip', label: 'IP: Нидерланды' },
+    { kind: 'net', label: 'Vodafone' },
+  ] };
+
+  for (const file of SURFACES) {
+    const html = renderer(file, distinct)(SAMPLE);
+    const children = topLevelChildClasses(html);
+    assert.ok(children.length >= 6, `${file}: разметка карточки не разобралась`);
+    assert.ok(children.includes('package-distinct'),
+      `${file}: чипы отличий не попали в карточку — тест проверяет не то`);
+
+    // Витринный JS и его стили лежат в разных файлах: у index.html блок
+    // инлайновый, у country-tariffs.js — в общей таблице страниц.
+    const css = dailyCss(file === 'index.html' ? 'index.html' : 'assets/country-pages.css');
+    const areas = (css.match(/grid-template-areas:([^;]+);/) || [])[1] || '';
+    for (const cls of children) {
+      const i = css.indexOf(`.daily-card .${cls}{`);
+      const j = css.indexOf(`.daily-card > .${cls}{`);
+      const at = i >= 0 ? i : j;
+      assert.ok(at >= 0, `${file}: .${cls} — ребёнок карточки без правила размещения`);
+      const area = (css.slice(at, at + 80).match(/grid-area:([a-z-]+)/) || [])[1];
+      assert.ok(area, `${file}: .${cls} размещён, но без grid-area`);
+      assert.ok(areas.includes(`'${area}'`),
+        `${file}: .${cls} занимает область ${area}, которой нет в grid-template-areas`);
+    }
+
+    // Число областей и span обязаны совпадать: лишний span оставляет пустой
+    // ряд, недостающий — отправляет секцию в неявный.
+    const count = (areas.match(/'/g) || []).length / 2;
+    const span = Number((css.match(/grid-row:span (\d+)/) || [])[1]);
+    assert.equal(span, count, `${file}: span ${span} против ${count} областей`);
   }
 });

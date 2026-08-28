@@ -774,12 +774,18 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
    карточки его забирает .package-price{margin-top:auto}. */
 .daily-card{
   display:grid;
-  grid-template-rows:auto auto auto auto 1fr auto auto;
-  grid-template-areas:'top' 'title' 'meta' 'tags' 'info' 'terms' 'buy';
+  grid-template-rows:auto auto auto auto auto 1fr auto auto;
+  grid-template-areas:'top' 'title' 'distinct' 'meta' 'tags' 'info' 'terms' 'buy';
   gap:0;
 }
 .daily-card .package-topline{grid-area:top;}
 .daily-card .package-title{grid-area:title;}
+/* Каждый ребёнок карточки обязан иметь СВОЮ область. Ребёнок без grid-area
+   не исчезает — он авторазмещается в неявный ряд, и на проде это выглядело
+   как огромные полупрозрачные овалы под «Выбрать тариф»: чипы отличий,
+   растянутые на высоту ряда (124x96) со своим border-radius:999px. Карточка
+   без отличий чипы не печатает вовсе, поэтому ряд у неё нулевой. */
+.daily-card .package-distinct{grid-area:distinct;}
 .daily-card > .package-meta{grid-area:meta;}
 .daily-card .package-tags{grid-area:tags;}
 .daily-card .package-info{grid-area:info;}
@@ -787,11 +793,11 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 .daily-card .package-actions{grid-area:buy;}
 
 @supports (grid-template-rows:subgrid){
-  /* row-gap обнуляется: при span 6 он встал бы МЕЖДУ секциями одной карточки.
+  /* row-gap обнуляется: при span 8 он встал бы МЕЖДУ секциями одной карточки.
      Промежуток между рядами карточек возвращает margin. */
   #dailyGrid{row-gap:0;margin-bottom:-16px;}
   #dailyGrid > .daily-card{
-    grid-row:span 7;
+    grid-row:span 8;
     grid-template-rows:subgrid;
     margin-bottom:16px;
   }
