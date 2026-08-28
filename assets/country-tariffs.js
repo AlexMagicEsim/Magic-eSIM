@@ -1190,6 +1190,7 @@ function renderDailyCard(item){
     <article class="package-card daily-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span></div>
       <h3 class="package-title" id="dt-${escapeHtml(String(item.package_id||''))}">${escapeHtml(D.displayName(item,countryName))}</h3>
+      ${distinctChipsHtml(item)}
       <div class="package-meta">
         <div class="package-meta-item"><div class="package-meta-label">В день</div><div class="package-meta-value">${escapeHtml(D.formatAllowance(item.daily_gb))}</div></div>
         ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
@@ -1244,7 +1245,17 @@ function renderCountrySplit(){
   // a customer who wants it should not have to scroll past twenty volumes.
   const dailyBlock=ensureDailyBlock();
   if(dailyBlock){
+    /* Тот же различитель, что у объёмных карточек, и вызван по тому же
+       правилу: computeDistinct перезаписывает общий map, поэтому стоит
+       НЕПОСРЕДСТВЕННО перед отрисовкой своей группы. Поставить его выше —
+       значит стереть чипы local/regional, которые уже отрисованы.
+
+       Зачем: «Турция — 1 ГБ в день» существует дважды с одинаковыми видимыми
+       характеристиками и разной ценой, и различают их страна выхода (UK/NL) и
+       набор операторов (Avea+Vodafone против одного Vodafone). Механизм для
+       этого в проекте уже есть — он просто не был подключён к дневным. */
     const grid=document.getElementById('dailyGrid');
+    computeDistinct(daily);
     const cards=daily.map(renderDailyCard).filter(Boolean);
     if(cards.length){
       document.getElementById('dailyHead').textContent=D?D.BLOCK_TITLE:'';

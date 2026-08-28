@@ -586,13 +586,13 @@ const SAMPLE = {
   term_prices: [{ days: 3, price: 350 }, { days: 7, price: 800 }, { days: 30, price: 3000 }],
 };
 
-function renderer(file) {
+function renderer(file, distinctMap = {}) {
   const copy = read('assets/daily-plan-copy.js');
   const body = extractFns(file, ['dailyTermsHtml', 'dailyTagsHtml', 'dailyExtraInfoHtml',
-    'dailyTermRangeLabel', 'dailyCoverageButtonHtml', 'renderDailyCard']);
+    'dailyTermRangeLabel', 'dailyCoverageButtonHtml', 'distinctChipsHtml', 'renderDailyCard']);
   const buyName = file === 'index.html' ? 'dailyBuyButtonHtml' : null;
   const extra = buyName ? extractFns(file, ['dailyBuyButtonHtmlInner', 'dailyBuyButtonHtml']) : '';
-  return new Function('window', `
+  return new Function('window', '__distinct', `
     ${copy}
     const D = window.MagicDailyPlan;
     const dailyCopy = () => D;
@@ -614,7 +614,7 @@ function renderer(file) {
     ${extra}
     ${body}
     return renderDailyCard;
-  `)({});
+  `)({}, distinctMap);
 }
 
 for (const file of SURFACES) {
@@ -1070,5 +1070,66 @@ test('activation moved to the modal and left the card', () => {
     assert.ok(!/Активация/.test(fn), `${f}: activation must not be on the card any more`);
     assert.match(s, /data-activation="\$\{escapeHtml\(tariffActivationLabel\(item\)\)\}"/,
       `${f}: …but the modal must still receive it`);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// «Чем эти два отличаются» — the mechanism the volume cards already have.
+//
+// «Турция — 1 ГБ в день» exists twice with the same visible characteristics and
+// different prices: 450/700/950/1350/1950/3700 against 350/550/800/1100/1600/
+// 3050. They genuinely differ — exit country UK vs NL, operators Avea+Vodafone
+// vs Vodafone alone — and the provider charges $0.62/day against $0.50. The
+// site has had the answer since the volume cards were built; the daily grid
+// simply never called it.
+
+test('the daily grid asks the same distinguisher, at the same moment', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    // computeDistinct overwrites ONE shared map, so every call sits directly
+    // before the render that consumes it. Ordering is the whole contract:
+    // hoisting the daily call would blank the chips already rendered above.
+    const iLocal = s.indexOf('computeDistinct(local)');
+    const iRegional = s.indexOf('computeDistinct(regional)');
+    const iDaily = s.indexOf('computeDistinct(daily)');
+    assert.ok(iDaily > 0, `${f}: the daily grid must ask for distinguishers`);
+    assert.ok(iLocal < iRegional && iRegional < iDaily,
+      `${f}: each call must come after the previous group has been rendered`);
+
+    // …and immediately before the daily render, with nothing in between that
+    // could consume the map.
+    const between = s.slice(iDaily, s.indexOf('daily.map(renderDailyCard)', iDaily));
+    assert.ok(!/computeDistinct\(/.test(between.slice(1)),
+      `${f}: nothing may overwrite the map between the call and the render`);
+  }
+});
+
+test('a daily card prints the chips where a volume card prints them', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2600);
+    // Same helper, same place: directly under the title.
+    assert.match(fn, /class="package-title"[^\n]*<\/h3>\s*\n\s*\$\{distinctChipsHtml\(item\)\}/,
+      `${f}: the chips belong under the title, as on a volume card`);
+  }
+});
+
+test('chips appear only where two similar plans actually differ', () => {
+  // The real pair, by package_id, with the distinguisher's real output.
+  const A = 'pkg-premium', B = 'pkg-plain';
+  const map = {
+    [A]: [{ kind: 'ip', label: 'IP: GB' }, { kind: 'net', label: '2 сети' }],
+    [B]: [{ kind: 'ip', label: 'IP: NL' }, { kind: 'net', label: 'Vodafone' }],
+  };
+  for (const file of SURFACES) {
+    const withChips = renderer(file, map);
+    const a = withChips({ ...SAMPLE, package_id: A });
+    assert.match(a, /package-distinct__chip--ip[^>]*>IP: GB</, `${file}: the exit country must show`);
+    assert.match(a, /package-distinct__chip--net[^>]*>2 сети</, `${file}: and the operator count`);
+
+    // A plan with nothing to distinguish gets nothing — no empty container.
+    const alone = renderer(file, {});
+    assert.ok(!/package-distinct/.test(alone(SAMPLE)),
+      `${file}: a plan with no twin must print no chips at all`);
   }
 });
