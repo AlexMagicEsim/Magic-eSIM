@@ -744,97 +744,50 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
  * ЭТОТ БЛОК ДУБЛИРУЕТСЯ. index.html не подключает ни одного внешнего стиля
  * (document.styleSheets на проде — пустой список), весь его CSS встроенный.
  * Пока правило жило только в country-pages.css, витрина показывала карточки
- * вообще без стилей, а чипы — некрашеными кнопками браузера. Поэтому блок
- * лежит в двух местах и пинится побайтово тестом, как TARIFF DISPLAY MAPPERS.
+ * вообще без стилей. Блок пинится побайтово тестом, как TARIFF DISPLAY MAPPERS.
  *
- * ЧТО ЗДЕСЬ ЗА ДИЗАЙН
+ * У КАРТОЧКИ НЕТ СОБСТВЕННОГО ВИДА.
  *
- *   Первая версия рисовала срок шестью залитыми пилюлями. Замеры на проде:
- *   блок срока — 146px из 468, 31% карточки и её самая крупная секция; шрифт
- *   чипа 16px против 15px у кнопки «Купить»; выбранный чип — тот же
- *   rgb(66,103,232), что и CTA. То есть подчинённый контрол был крупнее
- *   главного действия и одного с ним цвета, а цены стояли на трёх разных
- *   иксах и не сканировались взглядом.
+ *   Замер на проде: у обычной карточки шесть поверхностей на --soft и семь
+ *   рамок на --line, у дневной — ноль и ноль, плюс собственный радиус 10px,
+ *   которого нет больше нигде, и собственная шкала серых. Отсюда и ощущение
+ *   отдельного виджета — блок не пользовался словарём карточки.
  *
- *   Теперь это тихая таблица 3×2: день сверху, цена снизу, цены выстроены в
- *   колонки. Заливка осталась ровно одна на карточку — у CTA; выбранный срок
- *   помечается подсветкой и синим текстом, а не второй синей кнопкой.
+ *   Нужный компонент уже существовал: .package-meta-item — плитка «подпись
+ *   сверху, значение снизу» («ИНТЕРНЕТ / 3 GB»). Ячейка срока — «3 ДНЯ /
+ *   200 ₽», ровно та же форма. Поэтому плитки, серый блок, подписи, значения
+ *   и кнопка теперь .package-meta-item, .package-info, .package-meta-label,
+ *   .package-meta-value и .package-buy — без единого нового значения.
  *
- * КОНТРАСТ. Замерено на проде: подпись, день и покрытие стояли на #667085 —
- * 4.97:1, а выбранная ячейка оказалась САМЫМ бледным местом карточки: синий
- * текст на 10% подложке даёт 4.21:1 и не проходит AA. Цену трогать было
- * нечем — #111827 на белом это 17.74:1, потолок; поэтому поднято всё вокруг
- * неё: #475569 (7.4:1) у дня, подписи и покрытия, а выбранное помечено
- * сплошным двухпиксельным кольцом бренд-синего и текстом #2563eb. Оба цвета
- * уже живут в этом блоке, новых не заведено.
+ *   Тёмной темы здесь больше нет. Во всём сторфронте prefers-color-scheme
+ *   встречался ровно в этом блоке: дневная карточка была единственным
+ *   компонентом, который сам себя перекрашивал на светлом сайте.
  *
- *
- * ВЕС, А НЕ ЦВЕТ. Блок дважды переделывали по цвету — сначала он был бледным,
- * потом стал тяжёлым, — потому что чинили не то. Замер на проде: 7 обведённых
- * элементов на карточку и 9 жирных текстовых узлов, из них ШЕСТЬ цен. При
- * gap:2px и рамке 1px у соседей шов между ячейками получался 4px, а всего
- * рёбер — 24 на карточку. Карточка читалась как таблица кнопок, и «Выберите
- * срок», покрытие и бейдж казались бледными не сами по себе, а на их фоне.
- *
- * Поэтому: шесть боксов -> ОДНА таблица с волосяными разделителями, у ячеек
- * нет ни рамки, ни скругления (скругление и делало их похожими на вторую
- * кнопку), а внутри ячейки ведёт ДЕНЬ — цена стала ровной приглушённой
- * подписью. Шесть одинаково громких цен не читаются как ответ ни одна;
- * приглушив их, мы возвращаем ответ туда, где он один: белая цена на синем
- * у выбранного и цена в самой кнопке.
- *
- * Заливка выбранного — сплошной бренд-синий, это решение владельца и его не
- * переоткрывать. Белый на #4267E8 = 4.84:1, поэтому он НЕ ослабляется до 85%:
- * это увело бы подпись ниже AA.
- *
+ *   Остаётся только то, чего у обычной карточки нет: выравнивание секций
+ *   между карточками ряда и плитка, которая является КНОПКОЙ.
  * ================================================================== */
 
-.daily-lines{list-style:none;margin:0;padding:0;display:grid;gap:6px;align-content:start;}
-.daily-line{position:relative;padding-left:18px;font-size:14px;line-height:1.45;color:#1f2937;}
-.daily-line::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:#2563eb;}
-.daily-line--allowance{font-weight:600;color:#0f172a;}
-.daily-line--throttle,
-.daily-line--reset{color:#334155;}
-
-/* ---------------------------------------------------------------------
- * КАРТОЧКА — шесть именованных секций в строгом порядке.
- *
- * Fallback (без subgrid): ряд `desc` берёт 1fr. Этого мало — слак поглощает
- * ОДНА секция, поэтому у карточки с одним сроком описание растягивалось на
- * 247px, а всё ниже уезжало относительно соседей.
- *
- * Основной путь — subgrid: ряды задаёт РОДИТЕЛЬ, и каждая секция получает
- * высоту самой высокой одноимённой секции в ряду. Тогда всё стоит на одной
- * Y по построению, а не потому что тексты совпали по длине.
- * ------------------------------------------------------------------ */
+/* Порядок секций — как у обычной карточки: плашка, заголовок, плитки фактов,
+   серый блок справки, затем выбор срока ТАМ, ГДЕ У ОБЫЧНОЙ СТОИТ ЦЕНА, и
+   кнопка. Выбор срока и есть выбор цены, поэтому место то же.
+   Fallback без subgrid: слак забирает справка — так же, как у обычной
+   карточки его забирает .package-price{margin-top:auto}. */
 .daily-card{
   display:grid;
-  grid-template-rows:auto auto 1fr auto auto auto;
-  grid-template-areas:'top' 'title' 'desc' 'terms' 'meta' 'buy';
+  grid-template-rows:auto auto auto 1fr auto auto;
+  grid-template-areas:'top' 'title' 'meta' 'info' 'terms' 'buy';
   gap:0;
 }
 .daily-card .package-topline{grid-area:top;}
-.daily-card__title{grid-area:title;margin:0 0 10px;font-size:19px;line-height:1.25;}
-.daily-card .daily-lines{grid-area:desc;margin-bottom:14px;}
+.daily-card .package-title{grid-area:title;}
+.daily-card > .package-meta{grid-area:meta;}
+.daily-card .package-info{grid-area:info;}
 .daily-card .daily-terms-block{grid-area:terms;}
-/* Сеть и покрытие — один ряд, а не два: это справочный низ карточки, и
-   двумя строками он забирал внимание у цены и кнопки. */
-.daily-card__meta{
-  grid-area:meta;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;
-  margin-bottom:14px;font-size:13px;color:#475569;line-height:1.5;
-}
-.daily-card__coverage-label{color:#334155;font-weight:600;}
-/* Плашка снята: 3G/4G/5G — справочный текст, а не контрол, и пятый бокс на
-   карточке был частью той же перегрузки. Правило ограничено дневной
-   карточкой, чтобы обычные тарифы не поехали. */
-.daily-card__meta .package-tag{
-  border:0;background:none;padding:0;color:#475569;font-size:13px;font-weight:600;
-}
 .daily-card .package-actions{grid-area:buy;}
 
 @supports (grid-template-rows:subgrid){
-  /* row-gap обнуляется, потому что при span 6 он встал бы МЕЖДУ секциями
-     одной карточки. Промежуток между рядами карточек возвращает margin. */
+  /* row-gap обнуляется: при span 6 он встал бы МЕЖДУ секциями одной карточки.
+     Промежуток между рядами карточек возвращает margin. */
   #dailyGrid{row-gap:0;margin-bottom:-16px;}
   #dailyGrid > .daily-card{
     grid-row:span 6;
@@ -844,84 +797,47 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 }
 
 /* ---------------------------------------------------------------------
- * ВЫБОР СРОКА — таблица, а не шесть кнопок.
- *
- * День и цена стоят друг под другом, ячейки выстроены в три колонки,
- * поэтому шесть цен читаются вертикальными столбцами и сравниваются
- * взглядом. Ни рамок, ни заливок: выбранное — подсветка и синий текст.
+ * ВЫБОР СРОКА. Геометрия ячейки — .package-meta-item, та же плитка, что
+ * «ИНТЕРНЕТ / 3 GB» у соседней карточки. Ниже только то, что делает её
+ * кнопкой, и состояние «выбрано».
  * ------------------------------------------------------------------ */
-.daily-terms-block{margin-bottom:12px;}
-.daily-terms-label{font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;}
-
-/* Одна таблица, а не шесть кнопок: рамка и скругление живут на контейнере,
-   ячейки разделены волосяными линиями и не имеют собственного бокса. */
-.daily-terms{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
-  border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#fff;
-}
+.daily-terms-block .package-meta{margin-bottom:0;}
 .daily-term{
-  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:1px;
-  min-height:52px;padding:8px 10px;
-  border:0;border-right:1px solid #eef2f7;border-bottom:1px solid #eef2f7;border-radius:0;
-  background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer;
-  transition:background .15s ease,color .15s ease;
+  -webkit-appearance:none;appearance:none;
+  font:inherit;text-align:center;cursor:pointer;
+  min-height:52px;
+  transition:background .15s ease,border-color .15s ease;
 }
-/* Лестница всегда либо 6 сроков, либо 1 (FIXED_TERM) — крайние рёбра гасим по
-   позиции, чтобы у контейнера не было двойной линии. */
-.daily-term:nth-child(3n),
-.daily-term:last-child{border-right:0;}
-.daily-term:nth-last-child(-n+3){border-bottom:0;}
-/* :hover залипает на iOS после тапа, и соседняя ячейка выглядит полувыбранной. */
+/* .package-meta-value рвёт длинное слово в любом месте — цене это не нужно,
+   а шесть цен в колонках сравниваются только моноширинными цифрами. */
+.daily-term .package-meta-value{
+  font-variant-numeric:tabular-nums;white-space:nowrap;overflow-wrap:normal;
+}
+/* :hover залипает на iOS после тапа, и соседняя плитка выглядит полувыбранной. */
 @media (hover:hover) and (pointer:fine){
-  .daily-term:hover:not(.is-selected){background:#f1f5f9;}
+  .daily-term:hover:not(.is-selected){background:#e7ecf6;}
 }
-.daily-term:active{background:#e2e8f0;}
-.daily-term:focus-visible{outline:2px solid var(--blue);outline-offset:-2px;}
+.daily-term:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
 
-/* День ведёт, цена поддерживает. */
-.daily-term-days{font-size:13px;line-height:1.25;font-weight:600;color:#0f172a;white-space:nowrap;}
-.daily-term-price{font-size:13px;line-height:1.25;font-weight:500;color:#64748b;font-variant-numeric:tabular-nums;white-space:nowrap;}
-
+/* Заливка выбранного — сплошной бренд-синий, решение владельца. Белый на
+   #4267E8 = 4.84:1, поэтому он НЕ ослабляется до полупрозрачного. */
 .daily-term.is-selected,
-.daily-term.is-selected:hover{background:var(--blue);border-color:transparent;}
-.daily-term.is-selected .daily-term-days,
-.daily-term.is-selected .daily-term-price{color:#fff;}
+.daily-term.is-selected:hover{background:var(--blue);border-color:var(--blue);}
+.daily-term.is-selected .package-meta-label,
+.daily-term.is-selected .package-meta-value{color:#fff;}
 
 /* В режиме высокой контрастности фон вырезается, и выбор пропал бы совсем:
-   все шесть ячеек стали бы одинаковыми. Рамка и outline переживают его. */
+   все шесть плиток стали бы одинаковыми. Рамка и outline переживают его. */
 @media (forced-colors:active){
   .daily-term{border:1px solid ButtonBorder;}
   .daily-term.is-selected{outline:3px solid Highlight;outline-offset:-3px;}
 }
 
-@media (prefers-color-scheme:dark){
-  .daily-line{color:#cbd5e1;}
-  .daily-line--allowance{color:#f1f5f9;}
-  .daily-line--throttle,
-  .daily-line--reset{color:#cbd5e1;}
-  .daily-terms-label{color:#cbd5e1;}
-  .daily-terms{border-color:#334155;background:#0f172a;}
-  .daily-term{border-right-color:#1e293b;border-bottom-color:#1e293b;}
-  .daily-term-days{color:#f1f5f9;}
-  .daily-term-price{color:#94a3b8;}
-  .daily-term:hover:not(.is-selected){background:#1e293b;}
-  .daily-term:active{background:#334155;}
-  .daily-term.is-selected,
-  .daily-term.is-selected:hover{background:var(--blue);}
-  .daily-term.is-selected .daily-term-days,
-  .daily-term.is-selected .daily-term-price{color:#fff;}
-  .daily-card__meta,
-  .daily-card__meta .package-tag{color:#cbd5e1;}
-  .daily-card__coverage-label{color:#e2e8f0;}
-}
-
 @media (max-width:560px){
-  /* Один столбец — выравнивать не с чем; fallback-ряду 1fr тянуться незачем. */
+  /* Один столбец карточек — выравнивать не с чем, ряду справки тянуться
+     незачем. Плитки остаются тремя в ряд: это поведение .package-meta,
+     унаследованное как есть. */
   .daily-card{grid-template-rows:auto auto auto auto auto auto;}
-  .daily-card__title{font-size:18px;}
-  /* Рамки у ячеек ушли, поэтому ширины хватает без уменьшения шрифта:
-     «30 дней» и «5150 ₽» умещаются на 390px в полном размере. */
-  .daily-term{padding:8px 7px;}
 }
 /* === END DAILY CARD BLOCK === */
 </style>
@@ -2299,12 +2215,17 @@ function dailyTermsHtml(item){
 
   // Ячейка, а не пилюля: день сверху, цена снизу. Читается столбцами, поэтому
   // шесть цен сравниваются взглядом, и ни одна из них не спорит с кнопкой.
-  const cells=list.map((t,i)=>`<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}"`
+  // Плитка обычной карточки, а не свой виджет: .package-meta-item уже показывает
+  // «подпись сверху, значение снизу» («Интернет / 3 GB»), а «3 дня / 200 ₽» —
+  // та же форма. Классы daily-* остаются как JS-хуки и точки стилизации выбора.
+  // span, а не div: <button> принимает только phrasing content. Плитка —
+  // flex-колонка, поэтому спаны ведут себя как блоки и margin у подписи работает.
+  const cells=list.map((t,i)=>`<button type="button" class="package-meta-item daily-term js-daily-term${i===0?' is-selected':''}"`
     +` role="radio" aria-checked="${i===0?'true':'false'}" tabindex="${i===0?'0':'-1'}"`
     +` aria-label="${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))} за ${escapeHtml(String(t.price))} рублей"`
     +` data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
-    +`<span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
-    +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></button>`).join('');
+    +`<span class="package-meta-label">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
+    +`<span class="package-meta-value">${escapeHtml(String(t.price))} ₽</span></button>`).join('');
 
   // Имя группы = НАЗВАНИЕ ТАРИФА + подпись. На странице страны таких групп
   // два десятка, и «группа, радиокнопка, 3 дня за 200 рублей, 1 из 6» без
@@ -2312,8 +2233,8 @@ function dailyTermsHtml(item){
   // фразу: «Турция — 500 МБ в день Выберите срок».
   const gid=escapeHtml(String(item.package_id||''));
   return `<div class="daily-terms-block">`
-    +`<div class="daily-terms-label" id="dl-${gid}">${single?'Срок:':'Выберите срок:'}</div>`
-    +`<div class="daily-terms" role="radiogroup" aria-labelledby="dt-${gid} dl-${gid}">${cells}</div></div>`;
+    +`<div class="package-meta-label" id="dl-${gid}">${single?'Срок:':'Выберите срок:'}</div>`
+    +`<div class="package-meta" role="radiogroup" aria-labelledby="dt-${gid} dl-${gid}">${cells}</div></div>`;
 }
 
 // Кнопка покупки дневного тарифа. data-days и data-price описывают ВЫБРАННЫЙ
@@ -2385,7 +2306,9 @@ function selectDailyTerm(btn){
 function dailyTermsKeydown(ev){
   const btn=ev.target&&ev.target.closest&&ev.target.closest('.js-daily-term');
   if(!btn)return;
-  const group=btn.closest('.daily-terms');
+  // Цепляемся за РОЛЬ, а не за оформительский класс: .daily-terms больше нет,
+  // и молчаливо сломанные стрелки — худший вид поломки.
+  const group=btn.closest('[role="radiogroup"]');
   if(!group)return;
   const items=Array.prototype.slice.call(group.querySelectorAll('.js-daily-term'));
   const i=items.indexOf(btn);
@@ -2415,10 +2338,13 @@ function renderDailyCard(item){
   return `
     <article class="package-card daily-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span></div>
-      <h3 class="package-title daily-card__title" id="dt-${escapeHtml(String(item.package_id||''))}">${escapeHtml(D.displayName(item,countryName))}</h3>
-      <ul class="daily-lines">${lines.slice(1).map((l)=>`<li class="daily-line daily-line--${escapeHtml(l.kind)}">${escapeHtml(l.text)}</li>`).join('')}</ul>
+      <h3 class="package-title" id="dt-${escapeHtml(String(item.package_id||''))}">${escapeHtml(D.displayName(item,countryName))}</h3>
+      <div class="package-meta">
+        <div class="package-meta-item"><div class="package-meta-label">В день</div><div class="package-meta-value">${escapeHtml(D.formatAllowance(item.daily_gb))}</div></div>
+        ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
+      </div>
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}${lines.slice(1).map((l)=>`<br>${escapeHtml(l.text)}`).join('')}</div>
       ${dailyTermsHtml(item)}
-      <div class="daily-card__meta">${speed?`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`:''}<span><span class="daily-card__coverage-label">Покрытие:</span> ${escapeHtml(D.coverageLine(item,countryName))}</span></div>
       <div class="package-actions">${dailyBuyButtonHtml(item)}</div>
     </article>`;
 }

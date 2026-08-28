@@ -189,17 +189,15 @@ test('the generator ships the module too, so new pages are not born broken', () 
 });
 
 test('the block has styles in the stylesheet BOTH surfaces load', () => {
-  // 190 country pages once rendered without their layout because a rule lived
-  // in the wrong file. assets/country-pages.css is the one both load.
-  const css = read('assets/country-pages.css');
-  for (const cls of ['.daily-lines', '.daily-line', '.daily-terms', '.daily-term']) {
-    assert.ok(css.includes(cls), `${cls} is not styled in the shared stylesheet`);
+  // The landing loads no external stylesheet at all, so a rule that lives only
+  // in country-pages.css reaches the country pages and nothing else.
+  for (const f of ['assets/country-pages.css', 'index.html']) {
+    const css = read(f);
+    assert.ok(css.includes('/* === DAILY CARD BLOCK'), `${f} carries no daily CSS`);
+    assert.match(css, /\.daily-card\{/, `${f}: the card must be laid out`);
+    assert.match(css, /\.daily-term\.is-selected,/, `${f}: the selected state must be styled`);
   }
 });
-
-// ---------------------------------------------------------------------------
-// The Mini App is the third surface, and behaves like the other two
-// ---------------------------------------------------------------------------
 
 test('the Mini App loads the shared copy module, before the code that reads it', () => {
   const html = read('app/index.html');
@@ -274,27 +272,31 @@ test('a daily plan with no priced ladder cannot be bought in the Mini App', () =
 // ---------------------------------------------------------------------------
 
 test('both surfaces render the term as a clickable radio, not a price list', () => {
-  // It used to be a <ul> of <li> on the country pages: the prices were visible
-  // and the fact that one could be chosen — and that one already was — was not.
+  // It used to be a <ul> of <li>: the prices were visible and the fact that one
+  // could be chosen — and that one already was — was not.
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
     assert.match(fn, /role="radiogroup"/, `${f}: the group must announce itself`);
-    assert.match(fn, /<button type="button" class="daily-term js-daily-term/, `${f}: each term is a button`);
+    assert.match(fn, /<button type="button" class="package-meta-item daily-term js-daily-term/,
+      `${f}: each term is a button — and wears the ordinary card's tile`);
     assert.match(fn, /aria-checked="\$\{i===0\?'true':'false'\}"/, `${f}: exactly one is checked`);
     assert.match(fn, /i===0\?' is-selected':''/, `${f}: the first is selected by default`);
     assert.ok(!/<li class="daily-term"/.test(fn), `${f}: no list rows left`);
   }
 });
 
-test('a chip shows the term AND its price, both from the server', () => {
+test('a cell shows the term AND its price, both from the server', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
-    assert.match(fn, /daily-term-days/);
-    assert.match(fn, /daily-term-price/);
-    assert.match(fn, /t\.price/, 'the price is the server\'s');
-    assert.match(fn, /pluralDays/, 'and the day word comes from the shared module');
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    assert.match(fn, /<span class="package-meta-label">/, `${f}: the day is the tile's label`);
+    assert.match(fn, /<span class="package-meta-value">/, `${f}: the price is its value`);
+    assert.match(fn, /t\.price/, `${f}: the price is the server's`);
+    assert.match(fn, /pluralDays/, `${f}: and the day word comes from the shared module`);
+    // <button> takes phrasing content only.
+    assert.ok(!/<div class="package-meta-label">\$\{escapeHtml\(String\(t\.days/.test(fn),
+      `${f}: a div inside a button is invalid`);
   }
 });
 
@@ -367,25 +369,43 @@ test('both surfaces carry the daily CSS, byte for byte', () => {
   assert.equal(a, b, 'the landing and the country pages must style a daily card identically');
 });
 
-test('the terms are one table, not six buttons', () => {
-  // Measured on production: 7 bordered elements per card and 24 border edges,
-  // because every cell owned a 1px border and gap:2px turned each seam into
-  // 4px. That lattice — not the colours — is what read as heavy, and the
-  // per-cell radius is what made the selected one look like a second CTA.
+test('THE DAILY CARD HAS NO LOOK OF ITS OWN', () => {
+  // Measured before this change: the ordinary card put six surfaces on --soft
+  // and seven borders on --line; the daily card used ZERO of either, plus a
+  // 10px radius found nowhere else and its own grey ramp. That — not the
+  // colours — is what made it read as a foreign widget.
+  //
+  // .package-meta-item already is «label above, value below» («ИНТЕРНЕТ /
+  // 3 GB»); a term cell is «3 ДНЯ / 200 ₽», the same shape. So the tiles, the
+  // grey plate, the labels and the values are now the ordinary card's classes
+  // and this block adds no new values.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    const grid = css.slice(css.indexOf('.daily-terms{'), css.indexOf('.daily-terms{') + 320);
-    assert.match(grid, /gap:0/, `${file}: no seam between cells`);
-    assert.match(grid, /border:1px solid #e2e8f0/, `${file}: the border belongs to the container`);
-    assert.match(grid, /border-radius:10px/, `${file}: and so does the radius`);
 
-    const cell = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 480);
-    assert.match(cell, /border:0/, `${file}: a cell owns no box`);
-    assert.match(cell, /border-radius:0/, `${file}: a rounded cell imitates the CTA`);
-    assert.match(cell, /background:transparent/, `${file}: unselected cells are not plates`);
-    assert.match(cell, /border-right:1px solid #eef2f7/, `${file}: hairline dividers instead`);
-    assert.match(cell, /cursor:pointer/, `${file}: it still has to look clickable`);
-    assert.match(cell, /min-height:52px/, `${file}: and stay a comfortable tap target`);
+    // The bespoke vocabulary is deleted, not overridden.
+    for (const gone of ['.daily-terms{', '.daily-term-days{', '.daily-term-price{',
+      '.daily-lines{', '.daily-line{', '.daily-card__meta{', '.daily-card__title{',
+      '.daily-terms-label{', '.daily-card__coverage-label{']) {
+      assert.ok(!css.includes(gone), `${file}: ${gone} should be gone — an existing class does that job`);
+    }
+    // No private palette, no private radius.
+    assert.ok(!/#(0f172a|1f2937|334155|64748b|94a3b8|cbd5e1|e2e8f0|eef2f7|2563eb)/i.test(css),
+      `${file}: the block must not carry its own grey ramp`);
+    assert.ok(!/border-radius:10px/.test(css), `${file}: 10px is a radius nothing else uses`);
+    // And it must not dark-theme itself: nowhere else in this storefront does.
+    // The RULE, not the word: the comment above explains why it is gone.
+    assert.ok(!/@media\s*\(prefers-color-scheme/.test(css),
+      `${file}: the daily card was the only component with its own dark theme`);
+  }
+
+  // The markup reuses the classes rather than restating their values.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2400);
+    assert.match(fn, /class="package-title"/, `${f}: the title is the ordinary title`);
+    assert.match(fn, /class="package-meta"/, `${f}: facts sit in the ordinary meta grid`);
+    assert.match(fn, /class="package-meta-item"/, `${f}: as ordinary tiles`);
+    assert.match(fn, /class="package-info"/, `${f}: and the prose in the ordinary plate`);
   }
 });
 
@@ -394,18 +414,15 @@ test('the selected term is a solid brand fill, at full white', () => {
     const css = dailyCss(file);
     const at = css.indexOf('.daily-term.is-selected,');
     assert.ok(at > 0, `${file}: the selected state must be styled`);
-    assert.match(css.slice(at, at + 200), /background:var\(--blue\)/, `${file}: a fill, not a hint`);
-    assert.match(css, /\.daily-term\.is-selected \.daily-term-days,\s*\n\.daily-term\.is-selected \.daily-term-price\{color:#fff;\}/,
-      `${file}: both lines go white`);
-    // White on #4267E8 is 4.84:1 — fading it to 85% lands near 3.9 and fails.
+    assert.match(css.slice(at, at + 220), /background:var\(--blue\)/, `${file}: a fill, not a hint`);
+    assert.match(css, /\.daily-term\.is-selected \.package-meta-label,\s*\n\.daily-term\.is-selected \.package-meta-value\{color:#fff;\}/,
+      `${file}: both lines of the tile go white`);
+    // White on #4267E8 is 4.84:1 — fading it lands near 3.9 and fails.
     assert.ok(!/is-selected[\s\S]{0,200}rgba\(255,255,255,\.\d/.test(css),
-      `${file}: the white must not be faded on the fill`);
+      `${file}: the white must not be faded`);
     assert.ok(contrast('#ffffff', '#4267E8') >= AA);
-
-    // The fill must survive a hover, and hover must not fire on touch, where
-    // it sticks after a tap and makes a neighbour look half-selected.
     assert.match(css, /\.daily-term\.is-selected:hover\{background:var\(--blue\)/, file);
-    assert.match(css, /@media \(hover:hover\) and \(pointer:fine\)/, `${file}: hover is gated`);
+    assert.match(css, /@media \(hover:hover\) and \(pointer:fine\)/, `${file}: hover is gated for touch`);
   }
 });
 
@@ -421,35 +438,29 @@ test('the selection survives forced-colors, where the fill does not', () => {
   }
 });
 
-test('the card aligns by subgrid, not by one row absorbing the slack', () => {
-  // Giving `desc` 1fr made ONE section absorb every difference: a card with a
-  // single fixed term stretched its description to 247px while its neighbours
-  // sat at 47px, so «Выберите срок», the network badge and the coverage line
-  // all started lower. Only the button matched, because it is the last row.
-  // Subgrid hands the row heights to the parent, so each section is as tall as
-  // the tallest one beside it and every section starts on the same Y.
+test('the card aligns by subgrid, and its sections are the ordinary ones', () => {
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
     assert.match(css, /@supports \(grid-template-rows:subgrid\)/, `${file}: no subgrid path`);
-    assert.match(css, /#dailyGrid > \.daily-card\{[\s\S]{0,120}grid-template-rows:subgrid/,
-      `${file}: the card must take its rows from the grid`);
-    assert.match(css, /grid-row:span 6/, `${file}: the card must span all six rows`);
-    // row-gap would otherwise fall BETWEEN a card's own sections.
+    assert.match(css, /#dailyGrid > \.daily-card\{[\s\S]{0,120}grid-template-rows:subgrid/, file);
+    assert.match(css, /grid-row:span 6/, `${file}: six rows, six areas`);
     assert.match(css, /#dailyGrid\{row-gap:0/, `${file}: the parent gap must not split the card`);
     assert.match(css, /margin-bottom:16px/, `${file}: and the gap between rows must come back`);
 
-    // The fallback still names all seven sections in order.
-    assert.match(css, /grid-template-areas:'top' 'title' 'desc' 'terms' 'meta' 'buy'/, file);
+    // The order an ordinary card uses: the term selector stands where its price
+    // does, because choosing a term IS choosing the price.
+    assert.match(css, /grid-template-areas:'top' 'title' 'meta' 'info' 'terms' 'buy'/, file);
     for (const [sel, area] of [
-      ['.daily-card__title', 'title'],
-      ['.daily-card .daily-lines', 'desc'],
+      ['.daily-card .package-topline', 'top'],
+      ['.daily-card .package-title', 'title'],
+      ['.daily-card > .package-meta', 'meta'],
+      ['.daily-card .package-info', 'info'],
       ['.daily-card .daily-terms-block', 'terms'],
-      ['.daily-card__meta', 'meta'],
       ['.daily-card .package-actions', 'buy'],
     ]) {
       const i = css.indexOf(sel + '{');
-      assert.ok(i > 0, `${file}: ${sel} is not styled`);
-      assert.match(css.slice(i, i + 160), new RegExp(`grid-area:${area}`), `${file}: ${sel} must own ${area}`);
+      assert.ok(i > 0, `${file}: ${sel} is not placed`);
+      assert.match(css.slice(i, i + 60), new RegExp(`grid-area:${area}`), `${file}: ${sel} must own ${area}`);
     }
   }
 });
@@ -463,53 +474,48 @@ test('the term block is always rendered, even empty, so it holds its row', () =>
   }
 });
 
-test('the selector announces itself, and each cell states a term and a price', () => {
+test('the selector announces itself with the ordinary card\'s label', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
     assert.match(fn, /Выберите срок:/, `${f}: the chooser needs a label`);
-    // The dot separator went with the pill: day and price now sit on two lines,
-    // which is what lets the six prices line up in scannable columns.
-    assert.ok(!/daily-term-dot/.test(fn), `${f}: the inline separator is gone`);
-    assert.match(fn, /daily-term-days[\s\S]{0,200}daily-term-price/, `${f}: day above, price below`);
-    // A screen reader gets the pair as one phrase, not two orphan spans.
+    assert.match(fn, /<div class="package-meta-label" id="dl-\$\{gid\}">/,
+      `${f}: and it is the same small label the ordinary tiles use`);
     assert.match(fn, /aria-label="\$\{escapeHtml\(String\(t\.days\)\)\}[^"]*за \$\{escapeHtml\(String\(t\.price\)\)\}/,
-      `${f}: the cell must read as «N дней за M рублей»`);
+      `${f}: a cell must read as «N дней за M рублей»`);
   }
   const s = read('assets/country-tariffs.js');
   assert.match(s, /single\?'Срок:':'Выберите срок:'/);
 });
 
-test('the terms are a three-column table, so the prices line up', () => {
-  // Wrapped pills put the six prices on three different x positions (300/500,
-  // 700/1000, 1450/2800), so «is 30 days better value» could not be read at a
-  // glance. A fixed three-column grid gives two scannable price columns.
+test('the three columns are inherited from .package-meta, not restated', () => {
+  // Wrapped pills once put the six prices on three different x positions. The
+  // ordinary meta grid is already three columns — and stays three on a phone —
+  // so reusing it gives the alignment for free. Restating the numbers here is
+  // how the two drift apart.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    const terms = css.slice(css.indexOf('.daily-terms{'), css.indexOf('.daily-terms{') + 300);
-    assert.match(terms, /display:grid/, `${file}: a table, not a wrap`);
-    assert.match(terms, /grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/, `${file}: three equal columns`);
-    assert.ok(!/flex-wrap:wrap/.test(terms), `${file}: wrapping is what misaligned the prices`);
-
-    // Digits must line up vertically, or the columns buy nothing.
-    const price = css.slice(css.indexOf('.daily-term-price{'), css.indexOf('.daily-term-price{') + 220);
-    assert.match(price, /font-variant-numeric:tabular-nums/, `${file}: prices need tabular figures`);
-
-    assert.ok(css.includes('prefers-color-scheme:dark'), `${file}: the card has a dark theme`);
-    const dark = css.slice(css.indexOf('@media (prefers-color-scheme:dark)'));
-    assert.match(dark, /\.daily-term\.is-selected,[\s\S]{0,120}background:var\(--blue\)/,
-      `${file}: and the selection is the same fill in it`);
+    assert.ok(!/grid-template-columns/.test(css),
+      `${file}: the block must not declare its own columns`);
+    assert.match(css, /\.daily-terms-block \.package-meta\{margin-bottom:0/,
+      `${file}: only the trailing margin is adjusted`);
+    // Tabular figures are genuinely ours: nowhere else stacks six numbers.
+    assert.match(css, /font-variant-numeric:tabular-nums/, `${file}: prices need tabular figures`);
+  }
+  // …and the source of those columns is the ordinary rule, in both files.
+  for (const file of Object.values(CSS_SURFACES)) {
+    assert.match(read(file), /\.package-meta\{display:grid;grid-template-columns:repeat\(3,1fr\)/, file);
   }
 });
 
-test('mobile keeps the three columns and only tightens them', () => {
+test('mobile inherits the ordinary tiles unchanged', () => {
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
     const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
     assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto;?\}/, file);
-    // The three columns are kept on a phone — «10 дней» / «1450 ₽» still fit —
-    // and only the padding tightens.
-    assert.match(mobile, /\.daily-term\{padding:/, `${file}: the cell tightens rather than reflowing`);
+    // No font or padding overrides: .package-meta-item already survives 390px.
+    assert.ok(!/font-size/.test(mobile), `${file}: the tile must not be re-tuned for mobile`);
+    assert.ok(!/padding/.test(mobile), `${file}: nor re-padded`);
   }
 });
 
@@ -611,8 +617,9 @@ for (const file of SURFACES) {
     assert.ok(html && html.length > 200, 'the renderer produced nothing');
 
     // Every section the grid places must be present, or a row collapses.
-    for (const cls of ['daily-card__title', 'daily-lines', 'daily-terms-block',
-      'daily-card__meta', 'package-actions']) {
+    for (const cls of ['package-title', 'package-meta', 'package-meta-item',
+      'package-meta-label', 'package-meta-value', 'package-info',
+      'daily-terms-block', 'package-actions']) {
       assert.ok(html.includes(cls), `${cls} is missing from the rendered card`);
     }
 
@@ -626,8 +633,8 @@ for (const file of SURFACES) {
     assert.ok(html.includes('Выберите срок:'));
     assert.ok(html.includes('3 дня'), 'the term is spelled in Russian');
     assert.ok(html.includes('350 ₽'), 'the cell must carry its own price');
-    // Day above, price below — the shape that lets the columns line up.
-    assert.match(html, /daily-term-days[\s\S]{0,120}daily-term-price/);
+    // Day above, price below — the ordinary tile's own shape.
+    assert.match(html, /package-meta-label[\s\S]{0,140}package-meta-value/);
     assert.ok(!html.includes('daily-term-dot'), 'the inline separator belonged to the pill');
 
     // And a button that can be bought, priced at the term that starts selected.
@@ -809,54 +816,30 @@ test('white on the brand fill clears AA', () => {
   }
 });
 
-test('the day leads and the price supports, both readable', () => {
-  // Six equally loud prices meant none of them read as the answer — which is
-  // what «цены теряются» actually was. The price is now one calm caption in
-  // every cell; the answer lives where there is exactly one of it: white on
-  // the selected fill, and again in the CTA.
+test('the tile text is the ordinary card\'s, so its contrast is too', () => {
+  // The block no longer sets these colours at all — .package-meta-label is
+  // --muted #667085 and .package-meta-value is --ink #111827, the same values
+  // the tile beside it uses. Pinning them here would re-introduce the drift.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    const grab = (sel) => {
-      const at = css.indexOf(sel);
-      assert.ok(at > 0, `${file}: ${sel} not found`);
-      const rule = css.slice(at, at + 260);
-      return {
-        colour: rule.match(/color:(#[0-9a-f]{6})/)[1],
-        size: Number(rule.match(/font-size:(\d+(?:\.\d+)?)px/)[1]),
-        weight: Number((rule.match(/font-weight:(\d+)/) || [0, 400])[1]),
-      };
-    };
-    const day = grab('.daily-term-days{');
-    const price = grab('.daily-term-price{');
-
-    // Both must be comfortably readable…
-    assert.ok(contrast(day.colour, CARD) >= 12, `${file}: day at ${contrast(day.colour, CARD).toFixed(2)}:1`);
-    assert.ok(contrast(price.colour, CARD) >= 4.5, `${file}: price at ${contrast(price.colour, CARD).toFixed(2)}:1`);
-    // …and the order between them must be unambiguous.
-    assert.ok(contrast(day.colour, CARD) > contrast(price.colour, CARD) * 1.5,
-      `${file}: the day must clearly lead the price`);
-    assert.ok(day.weight > price.weight, `${file}: and carry the heavier weight`);
-    assert.ok(price.size <= 15, `${file}: the price must never out-size the CTA`);
+    assert.ok(!/\.daily-term[^{]*\{[^}]*color:#/.test(css.replace(/is-selected[\s\S]*?\}/g, '')),
+      `${file}: the block must not restate tile colours`);
   }
+  // The tokens themselves stay legible on the plate.
+  assert.ok(contrast('#667085', '#F1F4FA') >= 4.5, 'the label on the plate');
+  assert.ok(contrast('#111827', '#F1F4FA') >= 12, 'the value on the plate');
 });
 
-test('coverage is no fainter than the badge sitting next to it', () => {
-  // «Покрытие: 34 страны» measured 4.97:1 against the badge's 4.52:1 and still
-  // read as weaker, because the badge has a plate under it and the text does
-  // not. Plain text next to a chip has to be darker to look equally present.
-  for (const file of Object.values(CSS_SURFACES)) {
-    const css = dailyCss(file);
-    const meta = css.slice(css.indexOf('.daily-card__meta{'), css.indexOf('.daily-card__meta{') + 260);
-    const colour = meta.match(/color:(#[0-9a-f]{6})/)[1];
-    // It reads as secondary by design now, so the bar is «clearly legible»,
-    // not «as dark as possible» — the heaviness beside it is what is gone.
-    assert.ok(contrast(colour, CARD) >= 7,
-      `${file}: coverage at ${contrast(colour, CARD).toFixed(2)}:1`);
-    // And the network label lost its pill: a fifth boxed container per card
-    // was part of the same overload.
-    const badge = css.slice(css.indexOf('.daily-card__meta .package-tag{'), css.indexOf('.daily-card__meta .package-tag{') + 200);
-    assert.match(badge, /border:0;background:none/, `${file}: the badge is text, not a control`);
+test('coverage sits in the ordinary grey plate', () => {
+  // It was a bare text row that read as an afterthought. .package-info is the
+  // plate the ordinary card keeps «Покрытие: …» and «Активация: …» in.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2400);
+    assert.match(fn, /<div class="package-info"><strong>Покрытие:<\/strong>/, `${f}: same plate, same strong`);
+    assert.match(fn, /D\.coverageLine\(item,countryName\)/, `${f}: still the shared module's line`);
   }
+  assert.ok(contrast('#667085', '#F1F4FA') >= 4.5, 'the plate keeps its text legible');
 });
 
 test('the Mini App marks the chosen term the same way, not with a ring', () => {
@@ -935,16 +918,13 @@ test('arrows and Home/End move the choice, and the mouse takes the same path', (
 });
 
 test('the group is named by its tariff, not by the word «Срок»', () => {
-  // A country page carries two dozen of these groups. «группа, радиокнопка,
-  // 3 дня за 200 рублей, 1 из 6» says nothing about WHICH plan is being
-  // chosen; the two ids concatenate into «Турция — 500 МБ в день Выберите
-  // срок».
   for (const f of SURFACES) {
     const s = read(f);
-    assert.ok(!/role="radiogroup" aria-label="Срок"/.test(s), `${f}: the anonymous group name must be gone`);
+    assert.ok(!/role="radiogroup" aria-label="Срок"/.test(s), `${f}: the anonymous name must be gone`);
     assert.match(s, /role="radiogroup" aria-labelledby="dt-\$\{gid\} dl-\$\{gid\}"/, `${f}: named by title + label`);
-    assert.match(s, /<div class="daily-terms-label" id="dl-\$\{gid\}"/, `${f}: the label needs its id`);
-    assert.match(s, /class="package-title daily-card__title" id="dt-\$\{escapeHtml\(String\(item\.package_id\|\|''\)\)\}"/,
+    assert.match(s, /<div class="package-meta-label" id="dl-\$\{gid\}"/, `${f}: the label needs its id`);
+    assert.match(s, /class="package-title" id="dt-\$\{escapeHtml\(String\(item\.package_id\|\|''\)\)\}"/,
       `${f}: the card title needs the matching id`);
   }
 });
+
