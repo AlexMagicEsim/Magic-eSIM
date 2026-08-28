@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-28T15:44:00.810Z",
+  "generated_at": "2026-08-28T18:41:15.232Z",
   "source": "production-public-api",
-  "package_count": 2299,
+  "package_count": 2298,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -14846,50 +14846,6 @@
       "activation_policy": "first_data_usage",
       "topup_available": true,
       "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "1798186b-e953-4d44-92bc-83d9974b5593",
-      "name": "Algeria 100MB 7Days",
-      "country_code": "DZ",
-      "region": "DZ",
-      "coverage_country_codes": [
-        "DZ"
-      ],
-      "coverage_flags": "🇩🇿",
-      "data_gb": 0.1,
-      "validity_days": 7,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "Mobilis",
-          "type": "4G"
-        },
-        {
-          "operator": "Ooredoo",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
