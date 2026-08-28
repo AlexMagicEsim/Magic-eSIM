@@ -1395,7 +1395,11 @@ body.sheet-open { overflow: hidden; }
    у него быть не должно. */
 .daily-term{
   width:100%;text-align:left;background:none;border:1px solid var(--line,#2a2f3a);
-  border-radius:10px;padding:10px 12px;cursor:pointer;color:inherit;font:inherit;
+  /* --radius-sm и есть 10px; литерал был единственным голым радиусом в файле
+     при существующем токене. Коробка у селектора нужна — среди статичных
+     .fact-строк он должен читаться как кликабельный, — но берётся она из
+     словаря приложения, а не заводится своя. */
+  border-radius:var(--radius-sm);padding:10px 12px;cursor:pointer;color:inherit;font:inherit;
 }
 /* Заливка, а не рамка. Кольцо в 1px читалось как «может быть выбрано», и на
    витрине это же место пришлось переделывать по той же причине. Срок — это
