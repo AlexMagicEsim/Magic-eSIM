@@ -369,9 +369,11 @@ test('exactly one filled brand-blue element per card — the CTA', () => {
     const rule = css.slice(at, at + 220);
 
     assert.ok(!/background:var\(--blue\)/.test(rule), `${file}: the chip must not repaint itself as a CTA`);
-    assert.match(rule, /background:rgba\(66,103,232,\.10\)/, `${file}: selection is a tint`);
-    assert.match(rule, /box-shadow:inset 0 0 0 1px/, `${file}: with a ring, so a tint alone is not the only signal`);
-    assert.match(css, /\.daily-term\.is-selected \.daily-term-price\{color:var\(--blue\)/,
+    assert.match(rule, /background:rgba\(66,103,232,\.08\)/, `${file}: selection is a tint, not a fill`);
+    // A 2px SOLID brand-blue ring. The first version used 1px at 30% opacity,
+    // and the selected cell measured as the palest thing on the card.
+    assert.match(rule, /box-shadow:inset 0 0 0 2px var\(--blue\)/, `${file}: the ring is what makes it obvious`);
+    assert.match(css, /\.daily-term\.is-selected \.daily-term-price\{color:#2563eb/,
       `${file}: and the chosen price reads as chosen`);
 
     // The control must not out-shout the button it leads to.
@@ -724,5 +726,95 @@ test('the title carries the allowance, so the description does not repeat it', (
     const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 1800);
     assert.match(fn, /lines\.slice\(1\)/, `${f}: the first line is already the title`);
     assert.match(fn, /D\.displayName\(item,countryName\)/, `${f}: and the title is the built name`);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// CONTRAST, as a number.
+//
+// Measured on production before this was pinned: the label, the day and the
+// coverage line all sat on #667085 — 4.97:1 — and the SELECTED cell was the
+// palest thing on the card, brand blue on a 10% tint at 4.21:1, under the 4.5
+// AA floor for text this size. The unselected price was already #111827 at
+// 17.74:1, the ceiling on a white card, so it is everything AROUND the price
+// that had to move.
+//
+// These assert ratios rather than hex codes, so the rule survives a palette
+// change instead of quietly becoming decoration.
+
+function relLuminance(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function contrast(a, b) {
+  const [hi, lo] = [relLuminance(a), relLuminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+/** What an alpha tint of `hex` actually composites to over a white card. */
+function overWhite(hex, alpha) {
+  const n = parseInt(hex.slice(1), 16);
+  const f = [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+    .map((v) => Math.round(v * alpha + 255 * (1 - alpha)));
+  return '#' + f.map((v) => v.toString(16).padStart(2, '0')).join('');
+}
+
+const CARD = '#ffffff';
+const AA = 4.5;
+
+test('the selected term clears AA against the tint it sits on', () => {
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    const rule = css.slice(css.indexOf('.daily-term.is-selected{'), css.indexOf('.daily-term.is-selected{') + 220);
+    const alpha = Number(rule.match(/background:rgba\(66,103,232,(\.\d+)\)/)[1]);
+    const bg = overWhite('#4267E8', alpha);
+    const text = css.match(/\.daily-term\.is-selected \.daily-term-price\{color:(#[0-9a-f]{6})/)[1];
+    const r = contrast(text, bg);
+    assert.ok(r >= AA, `${file}: selected price is ${r.toFixed(2)}:1 on ${bg} — needs ${AA}`);
+
+    // …and the ring has to be visible against the card, or the tint is the
+    // only signal that anything is chosen.
+    assert.ok(contrast('#4267E8', CARD) >= 3, `${file}: the ring must read against the card`);
+  }
+});
+
+test('the quiet text is quiet, not faint', () => {
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    const grab = (sel, prop = 'color') => {
+      const at = css.indexOf(sel);
+      assert.ok(at > 0, `${file}: ${sel} not found`);
+      return css.slice(at, at + 260).match(new RegExp(`${prop}:(#[0-9a-f]{6}|var\\(--[a-z]+\\))`))[1];
+    };
+    const resolved = (v) => (v === 'var(--ink)' ? '#111827' : v);
+
+    for (const [sel, what] of [
+      ['.daily-terms-label{', 'the «Выберите срок:» label'],
+      ['.daily-term-days{', 'the day of an unselected term'],
+      ['.daily-card__meta{', 'the coverage line'],
+    ]) {
+      const r = contrast(resolved(grab(sel)), CARD);
+      assert.ok(r >= 7, `${file}: ${what} is ${r.toFixed(2)}:1 — it was 4.97 and read as faint`);
+    }
+
+    // The price stays the strongest thing in the cell.
+    const price = contrast(resolved(grab('.daily-term-price{')), CARD);
+    assert.ok(price > 15, `${file}: the term price is ${price.toFixed(2)}:1`);
+  }
+});
+
+test('coverage is no fainter than the badge sitting next to it', () => {
+  // «Покрытие: 34 страны» measured 4.97:1 against the badge's 4.52:1 and still
+  // read as weaker, because the badge has a plate under it and the text does
+  // not. Plain text next to a chip has to be darker to look equally present.
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    const meta = css.slice(css.indexOf('.daily-card__meta{'), css.indexOf('.daily-card__meta{') + 260);
+    const colour = meta.match(/color:(#[0-9a-f]{6})/)[1];
+    assert.ok(contrast(colour, CARD) >= 7,
+      `${file}: coverage at ${contrast(colour, CARD).toFixed(2)}:1 still disappears beside the badge`);
   }
 });
