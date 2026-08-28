@@ -443,17 +443,18 @@ test('the card aligns by subgrid, and its sections are the ordinary ones', () =>
     const css = dailyCss(file);
     assert.match(css, /@supports \(grid-template-rows:subgrid\)/, `${file}: no subgrid path`);
     assert.match(css, /#dailyGrid > \.daily-card\{[\s\S]{0,120}grid-template-rows:subgrid/, file);
-    assert.match(css, /grid-row:span 6/, `${file}: six rows, six areas`);
+    assert.match(css, /grid-row:span 7/, `${file}: seven rows, seven areas`);
     assert.match(css, /#dailyGrid\{row-gap:0/, `${file}: the parent gap must not split the card`);
     assert.match(css, /margin-bottom:16px/, `${file}: and the gap between rows must come back`);
 
     // The order an ordinary card uses: the term selector stands where its price
     // does, because choosing a term IS choosing the price.
-    assert.match(css, /grid-template-areas:'top' 'title' 'meta' 'info' 'terms' 'buy'/, file);
+    assert.match(css, /grid-template-areas:'top' 'title' 'meta' 'tags' 'info' 'terms' 'buy'/, file);
     for (const [sel, area] of [
       ['.daily-card .package-topline', 'top'],
       ['.daily-card .package-title', 'title'],
       ['.daily-card > .package-meta', 'meta'],
+      ['.daily-card .package-tags', 'tags'],
       ['.daily-card .package-info', 'info'],
       ['.daily-card .daily-terms-block', 'terms'],
       ['.daily-card .package-actions', 'buy'],
@@ -512,7 +513,7 @@ test('mobile inherits the ordinary tiles unchanged', () => {
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
     const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
-    assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto;?\}/, file);
+    assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto auto;?\}/, file);
     // No font or padding overrides: .package-meta-item already survives 390px.
     assert.ok(!/font-size/.test(mobile), `${file}: the tile must not be re-tuned for mobile`);
     assert.ok(!/padding/.test(mobile), `${file}: nor re-padded`);
@@ -587,7 +588,7 @@ const SAMPLE = {
 
 function renderer(file) {
   const copy = read('assets/daily-plan-copy.js');
-  const body = extractFns(file, ['dailyTermsHtml', 'renderDailyCard']);
+  const body = extractFns(file, ['dailyTermsHtml', 'dailyTagsHtml', 'dailyExtraInfoHtml', 'renderDailyCard']);
   const buyName = file === 'index.html' ? 'dailyBuyButtonHtml' : null;
   const extra = buyName ? extractFns(file, ['dailyBuyButtonHtmlInner', 'dailyBuyButtonHtml']) : '';
   return new Function('window', `
@@ -599,6 +600,11 @@ function renderer(file) {
     const ICON_BOLT = '';
     const countryName = (c) => (String(c).toUpperCase() === 'JP' ? 'Япония' : String(c).toUpperCase());
     const tariffNetworkLabel = (p) => (p.network_technologies || []).join('/');
+    const ICON_REFRESH = '';
+    const tariffHotspotLabel = (p) => (p.hotspot_supported === true ? 'поддерживается'
+      : p.hotspot_supported === false ? 'не поддерживается' : '');
+    const tariffActivationLabel = (p) => (p.activation_policy === 'first_data_usage'
+      ? 'с первого использования интернета' : 'с первого подключения к сети');
     const buyButtonHtml = (p) =>
       '<a class="btn package-buy js-buy" data-days="' + escapeHtml(p.validity_days)
       + '" data-price="' + escapeHtml(p.price) + '">Купить</a>';
@@ -765,7 +771,7 @@ test('the title carries the allowance, so the description does not repeat it', (
   // максимальной скорости» said the same thing twice within 40px.
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 1800);
+    const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2600);
     assert.match(fn, /lines\.slice\(1\)/, `${f}: the first line is already the title`);
     assert.match(fn, /D\.displayName\(item,countryName\)/, `${f}: and the title is the built name`);
   }
@@ -928,3 +934,55 @@ test('the group is named by its tariff, not by the word «Срок»', () => {
   }
 });
 
+
+// ---------------------------------------------------------------------------
+// WHAT THE CARD MAY CLAIM.
+//
+// Measured over all 1373 daily rows in production: topup_available is
+// determinate on 100% (84% true, 16% false), networks / FUP / coverage on
+// 100% — and hotspot_supported is known on 2% and is NEVER false. The other
+// 98% are null: «unknown», not «no». So tethering may be stated where the
+// provider states it and must be silent everywhere else, in both directions.
+
+test('the card states tethering only where the provider states it', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const at = s.indexOf('function dailyExtraInfoHtml');
+    assert.ok(at > 0, `${f}: no extra-info builder`);
+    const fn = s.slice(at, at + 700);
+    // Routed through the shared mapper, which returns '' for null.
+    assert.match(fn, /tariffHotspotLabel\(item\)/, `${f}: the mapper decides, not the card`);
+    assert.match(fn, /if\(hotspot\)/, `${f}: an unknown value prints nothing at all`);
+    // …and the card must not invent the negative either.
+    assert.ok(!/Раздача[^<]*не поддерживается/.test(fn),
+      `${f}: «not supported» must come from the mapper, never be hardcoded`);
+  }
+});
+
+test('top-up is a tag only when the provider says true', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const at = s.indexOf('function dailyTagsHtml');
+    assert.ok(at > 0, `${f}: no tag builder`);
+    const fn = s.slice(at, at + 500);
+    assert.match(fn, /item\.topup_available===true/, `${f}: strict true, not truthiness`);
+    assert.match(fn, /class="package-tag">\$\{ICON_REFRESH\}Пополнение/,
+      `${f}: the ordinary card's own tag, not a new one`);
+  }
+});
+
+test('the term selector keeps its air above the CTA', () => {
+  // The bottom row of tiles was sitting flush against «Купить». The block
+  // stands where .package-price stands on an ordinary card, so it takes the
+  // same 14px the price leaves before the button.
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    assert.match(css, /\.daily-terms-block\{margin-bottom:14px;\}/, `${file}: no air before the CTA`);
+    assert.match(css, /\.daily-terms-block \.package-meta\{margin-bottom:0;\}/,
+      `${file}: and the inner grid must not add a second gap`);
+  }
+  // The rhythm it borrows is the ordinary card's own.
+  for (const file of Object.values(CSS_SURFACES)) {
+    assert.match(read(file), /\.package-price\{[^}]*margin-bottom:14px/, `${file}: the price sets that rhythm`);
+  }
+});

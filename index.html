@@ -774,13 +774,14 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
    карточки его забирает .package-price{margin-top:auto}. */
 .daily-card{
   display:grid;
-  grid-template-rows:auto auto auto 1fr auto auto;
-  grid-template-areas:'top' 'title' 'meta' 'info' 'terms' 'buy';
+  grid-template-rows:auto auto auto auto 1fr auto auto;
+  grid-template-areas:'top' 'title' 'meta' 'tags' 'info' 'terms' 'buy';
   gap:0;
 }
 .daily-card .package-topline{grid-area:top;}
 .daily-card .package-title{grid-area:title;}
 .daily-card > .package-meta{grid-area:meta;}
+.daily-card .package-tags{grid-area:tags;}
 .daily-card .package-info{grid-area:info;}
 .daily-card .daily-terms-block{grid-area:terms;}
 .daily-card .package-actions{grid-area:buy;}
@@ -790,7 +791,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
      Промежуток между рядами карточек возвращает margin. */
   #dailyGrid{row-gap:0;margin-bottom:-16px;}
   #dailyGrid > .daily-card{
-    grid-row:span 6;
+    grid-row:span 7;
     grid-template-rows:subgrid;
     margin-bottom:16px;
   }
@@ -801,6 +802,9 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
  * «ИНТЕРНЕТ / 3 GB» у соседней карточки. Ниже только то, что делает её
  * кнопкой, и состояние «выбрано».
  * ------------------------------------------------------------------ */
+/* Тот же ритм, что у .package-price, которую этот блок собой заменяет: 14px
+   воздуха перед кнопкой. Без него нижний ряд плиток прилипал к CTA. */
+.daily-terms-block{margin-bottom:14px;}
 .daily-terms-block .package-meta{margin-bottom:0;}
 .daily-term{
   -webkit-appearance:none;appearance:none;
@@ -837,7 +841,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
   /* Один столбец карточек — выравнивать не с чем, ряду справки тянуться
      незачем. Плитки остаются тремя в ряд: это поведение .package-meta,
      унаследованное как есть. */
-  .daily-card{grid-template-rows:auto auto auto auto auto auto;}
+  .daily-card{grid-template-rows:auto auto auto auto auto auto auto;}
 }
 /* === END DAILY CARD BLOCK === */
 </style>
@@ -2329,6 +2333,32 @@ function dailyTermsKeydown(ev){
 document.addEventListener('keydown',dailyTermsKeydown);
 
 
+/* Что ещё можно честно сказать о дневном тарифе.
+ *
+ * Замер по 1373 строкам прода: topup_available определён у 100% (84% «да»,
+ * 16% «нет»), network_technologies и fup_policy — у 100%, покрытие — у 100%.
+ * А hotspot_supported известен лишь у 2% и НИ У ОДНОЙ строки не равен false:
+ * остальные 98% — null, то есть «неизвестно», а не «нет». Поэтому раздача
+ * показывается только там, где провайдер её подтвердил, и нигде не
+ * отрицается. activation_policy назван у тех же 2%; у остальных печатается та
+ * же формулировка, что сайт много лет печатает на обычных карточках, — это
+ * утверждение о том, как работает eSIM, а не о возможностях тарифа.
+ *
+ * Теги и строки справки — компоненты обычной карточки, свои не заводятся. */
+function dailyTagsHtml(item){
+  const tags=[];
+  if(item&&item.topup_available===true)tags.push(`<span class="package-tag">${ICON_REFRESH}Пополнение</span>`);
+  return tags.join('');
+}
+
+function dailyExtraInfoHtml(item){
+  const out=[];
+  const hotspot=tariffHotspotLabel(item);
+  if(hotspot)out.push(`<br><strong>Раздача интернета:</strong> ${escapeHtml(hotspot)}`);
+  out.push(`<br><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.`);
+  return out.join('');
+}
+
 function renderDailyCard(item){
   const D=dailyCopy();
   if(!D)return '';
@@ -2343,7 +2373,8 @@ function renderDailyCard(item){
         <div class="package-meta-item"><div class="package-meta-label">В день</div><div class="package-meta-value">${escapeHtml(D.formatAllowance(item.daily_gb))}</div></div>
         ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
       </div>
-      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}${lines.slice(1).map((l)=>`<br>${escapeHtml(l.text)}`).join('')}</div>
+      <div class="package-tags">${dailyTagsHtml(item)}</div>
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}${lines.slice(1).map((l)=>`<br>${escapeHtml(l.text)}`).join('')}${dailyExtraInfoHtml(item)}</div>
       ${dailyTermsHtml(item)}
       <div class="package-actions">${dailyBuyButtonHtml(item)}</div>
     </article>`;

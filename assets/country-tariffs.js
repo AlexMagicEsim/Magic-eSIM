@@ -1100,6 +1100,32 @@ function dailyTermsKeydown(ev){
 document.addEventListener('keydown',dailyTermsKeydown);
 
 
+/* Что ещё можно честно сказать о дневном тарифе.
+ *
+ * Замер по 1373 строкам прода: topup_available определён у 100% (84% «да»,
+ * 16% «нет»), network_technologies и fup_policy — у 100%, покрытие — у 100%.
+ * А hotspot_supported известен лишь у 2% и НИ У ОДНОЙ строки не равен false:
+ * остальные 98% — null, то есть «неизвестно», а не «нет». Поэтому раздача
+ * показывается только там, где провайдер её подтвердил, и нигде не
+ * отрицается. activation_policy назван у тех же 2%; у остальных печатается та
+ * же формулировка, что сайт много лет печатает на обычных карточках, — это
+ * утверждение о том, как работает eSIM, а не о возможностях тарифа.
+ *
+ * Теги и строки справки — компоненты обычной карточки, свои не заводятся. */
+function dailyTagsHtml(item){
+  const tags=[];
+  if(item&&item.topup_available===true)tags.push(`<span class="package-tag">${ICON_REFRESH}Пополнение</span>`);
+  return tags.join('');
+}
+
+function dailyExtraInfoHtml(item){
+  const out=[];
+  const hotspot=tariffHotspotLabel(item);
+  if(hotspot)out.push(`<br><strong>Раздача интернета:</strong> ${escapeHtml(hotspot)}`);
+  out.push(`<br><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.`);
+  return out.join('');
+}
+
 function renderDailyCard(item){
   const D=dailyCopy();
   if(!D) return '';
@@ -1129,7 +1155,8 @@ function renderDailyCard(item){
         <div class="package-meta-item"><div class="package-meta-label">В день</div><div class="package-meta-value">${escapeHtml(D.formatAllowance(item.daily_gb))}</div></div>
         ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
       </div>
-      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}${lines.slice(1).map((l)=>`<br>${escapeHtml(l.text)}`).join('')}</div>
+      <div class="package-tags">${dailyTagsHtml(item)}</div>
+      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}${lines.slice(1).map((l)=>`<br>${escapeHtml(l.text)}`).join('')}${dailyExtraInfoHtml(item)}</div>
       ${dailyTermsHtml(item)}
       <div class="package-actions">${buy}</div>
     </article>`;

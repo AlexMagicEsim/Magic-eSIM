@@ -425,13 +425,14 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
    карточки его забирает .package-price{margin-top:auto}. */
 .daily-card{
   display:grid;
-  grid-template-rows:auto auto auto 1fr auto auto;
-  grid-template-areas:'top' 'title' 'meta' 'info' 'terms' 'buy';
+  grid-template-rows:auto auto auto auto 1fr auto auto;
+  grid-template-areas:'top' 'title' 'meta' 'tags' 'info' 'terms' 'buy';
   gap:0;
 }
 .daily-card .package-topline{grid-area:top;}
 .daily-card .package-title{grid-area:title;}
 .daily-card > .package-meta{grid-area:meta;}
+.daily-card .package-tags{grid-area:tags;}
 .daily-card .package-info{grid-area:info;}
 .daily-card .daily-terms-block{grid-area:terms;}
 .daily-card .package-actions{grid-area:buy;}
@@ -441,7 +442,7 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
      Промежуток между рядами карточек возвращает margin. */
   #dailyGrid{row-gap:0;margin-bottom:-16px;}
   #dailyGrid > .daily-card{
-    grid-row:span 6;
+    grid-row:span 7;
     grid-template-rows:subgrid;
     margin-bottom:16px;
   }
@@ -452,6 +453,9 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
  * «ИНТЕРНЕТ / 3 GB» у соседней карточки. Ниже только то, что делает её
  * кнопкой, и состояние «выбрано».
  * ------------------------------------------------------------------ */
+/* Тот же ритм, что у .package-price, которую этот блок собой заменяет: 14px
+   воздуха перед кнопкой. Без него нижний ряд плиток прилипал к CTA. */
+.daily-terms-block{margin-bottom:14px;}
 .daily-terms-block .package-meta{margin-bottom:0;}
 .daily-term{
   -webkit-appearance:none;appearance:none;
@@ -488,6 +492,6 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
   /* Один столбец карточек — выравнивать не с чем, ряду справки тянуться
      незачем. Плитки остаются тремя в ряд: это поведение .package-meta,
      унаследованное как есть. */
-  .daily-card{grid-template-rows:auto auto auto auto auto auto;}
+  .daily-card{grid-template-rows:auto auto auto auto auto auto auto;}
 }
 /* === END DAILY CARD BLOCK === */
