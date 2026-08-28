@@ -1011,16 +1011,18 @@ function dailyTermsHtml(item){
   // покрытие и кнопка у соседних карточек стояли на одной высоте.
   if(!list.length) return '<div class="daily-terms-block"></div>';
 
-  const chips=list.map((t,i)=>`<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}"`
+  // Ячейка, а не пилюля: день сверху, цена снизу. Читается столбцами, поэтому
+  // шесть цен сравниваются взглядом, и ни одна из них не спорит с кнопкой.
+  const cells=list.map((t,i)=>`<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}"`
     +` role="radio" aria-checked="${i===0?'true':'false'}"`
+    +` aria-label="${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))} за ${escapeHtml(String(t.price))} рублей"`
     +` data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
     +`<span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
-    +`<span class="daily-term-dot" aria-hidden="true">·</span>`
     +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></button>`).join('');
 
   return `<div class="daily-terms-block">`
     +`<div class="daily-terms-label">${single?'Срок:':'Выберите срок:'}</div>`
-    +`<div class="daily-terms" role="radiogroup" aria-label="Срок">${chips}</div></div>`;
+    +`<div class="daily-terms" role="radiogroup" aria-label="Срок">${cells}</div></div>`;
 }
 
 // Выбор срока. Делегируется на документ, потому что карточки перерисовываются
@@ -1074,10 +1076,9 @@ function renderDailyCard(item){
     <article class="package-card daily-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span></div>
       <h3 class="package-title daily-card__title">${escapeHtml(D.displayName(item,countryName))}</h3>
-      <ul class="daily-lines">${lines.map((l)=>`<li class="daily-line daily-line--${escapeHtml(l.kind)}">${escapeHtml(l.text)}</li>`).join('')}</ul>
+      <ul class="daily-lines">${lines.slice(1).map((l)=>`<li class="daily-line daily-line--${escapeHtml(l.kind)}">${escapeHtml(l.text)}</li>`).join('')}</ul>
       ${dailyTermsHtml(item)}
-      <div class="daily-card__network">${speed?`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`:''}</div>
-      <div class="daily-card__coverage"><span class="daily-card__coverage-label">Покрытие:</span> ${escapeHtml(D.coverageLine(item,countryName))}</div>
+      <div class="daily-card__meta">${speed?`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`:''}<span><span class="daily-card__coverage-label">Покрытие:</span> ${escapeHtml(D.coverageLine(item,countryName))}</span></div>
       <div class="package-actions">${buy}</div>
     </article>`;
 }

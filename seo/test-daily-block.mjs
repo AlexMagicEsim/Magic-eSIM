@@ -267,7 +267,7 @@ test('both surfaces render the term as a clickable radio, not a price list', () 
   // and the fact that one could be chosen — and that one already was — was not.
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 1600);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
     assert.match(fn, /role="radiogroup"/, `${f}: the group must announce itself`);
     assert.match(fn, /<button type="button" class="daily-term js-daily-term/, `${f}: each term is a button`);
     assert.match(fn, /aria-checked="\$\{i===0\?'true':'false'\}"/, `${f}: exactly one is checked`);
@@ -279,7 +279,7 @@ test('both surfaces render the term as a clickable radio, not a price list', () 
 test('a chip shows the term AND its price, both from the server', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 1600);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
     assert.match(fn, /daily-term-days/);
     assert.match(fn, /daily-term-price/);
     assert.match(fn, /t\.price/, 'the price is the server\'s');
@@ -356,18 +356,32 @@ test('both surfaces carry the daily CSS, byte for byte', () => {
   assert.equal(a, b, 'the landing and the country pages must style a daily card identically');
 });
 
-test('every surface paints the selected term brand blue on white', () => {
+test('exactly one filled brand-blue element per card — the CTA', () => {
+  // The first version filled the selected chip with rgb(66,103,232), the same
+  // blue as «Купить», so a card carried two primary-looking actions and the
+  // subordinate one had the LARGER type (16px chip vs 15px button). The
+  // selection is now a tint plus blue text; the only solid blue left is the
+  // call to action.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
     const at = css.indexOf('.daily-term.is-selected{');
-    assert.ok(at > 0, `${file}: no selected-chip rule`);
-    const rule = css.slice(at, at + 200);
-    assert.match(rule, /background:var\(--blue\)/, `${file}: a tint is invisible in sunlight`);
-    assert.match(rule, /color:#fff/, `${file}: the selected chip needs white text`);
+    assert.ok(at > 0, `${file}: the selected state must be styled`);
+    const rule = css.slice(at, at + 220);
+
+    assert.ok(!/background:var\(--blue\)/.test(rule), `${file}: the chip must not repaint itself as a CTA`);
+    assert.match(rule, /background:rgba\(66,103,232,\.10\)/, `${file}: selection is a tint`);
+    assert.match(rule, /box-shadow:inset 0 0 0 1px/, `${file}: with a ring, so a tint alone is not the only signal`);
+    assert.match(css, /\.daily-term\.is-selected \.daily-term-price\{color:var\(--blue\)/,
+      `${file}: and the chosen price reads as chosen`);
+
+    // The control must not out-shout the button it leads to.
+    const price = css.slice(css.indexOf('.daily-term-price{'), css.indexOf('.daily-term-price{') + 200);
+    const size = Number(price.match(/font-size:(\d+(?:\.\d+)?)px/)[1]);
+    assert.ok(size <= 15, `${file}: the term price is ${size}px — no larger than the CTA`);
 
     const base = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 400);
     assert.match(base, /cursor:pointer/, `${file}: it has to look clickable`);
-    assert.match(base, /border:1px solid/, `${file}: unselected chips keep a border`);
+    assert.match(base, /border:0/, `${file}: six boxed pills were the thing that overloaded the card`);
   }
 });
 
@@ -383,19 +397,18 @@ test('the card aligns by subgrid, not by one row absorbing the slack', () => {
     assert.match(css, /@supports \(grid-template-rows:subgrid\)/, `${file}: no subgrid path`);
     assert.match(css, /#dailyGrid > \.daily-card\{[\s\S]{0,120}grid-template-rows:subgrid/,
       `${file}: the card must take its rows from the grid`);
-    assert.match(css, /grid-row:span 7/, `${file}: the card must span all seven rows`);
+    assert.match(css, /grid-row:span 6/, `${file}: the card must span all six rows`);
     // row-gap would otherwise fall BETWEEN a card's own sections.
     assert.match(css, /#dailyGrid\{row-gap:0/, `${file}: the parent gap must not split the card`);
     assert.match(css, /margin-bottom:16px/, `${file}: and the gap between rows must come back`);
 
     // The fallback still names all seven sections in order.
-    assert.match(css, /grid-template-areas:'top' 'title' 'desc' 'terms' 'net' 'cov' 'buy'/, file);
+    assert.match(css, /grid-template-areas:'top' 'title' 'desc' 'terms' 'meta' 'buy'/, file);
     for (const [sel, area] of [
       ['.daily-card__title', 'title'],
       ['.daily-card .daily-lines', 'desc'],
       ['.daily-card .daily-terms-block', 'terms'],
-      ['.daily-card__network', 'net'],
-      ['.daily-card__coverage', 'cov'],
+      ['.daily-card__meta', 'meta'],
       ['.daily-card .package-actions', 'buy'],
     ]) {
       const i = css.indexOf(sel + '{');
@@ -414,39 +427,52 @@ test('the term block is always rendered, even empty, so it holds its row', () =>
   }
 });
 
-test('the selector announces itself and separates the term from the price', () => {
+test('the selector announces itself, and each cell states a term and a price', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2000);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
     assert.match(fn, /Выберите срок:/, `${f}: the chooser needs a label`);
-    assert.match(fn, /daily-term-dot/, `${f}: «3 дня300 ₽» is not a price`);
+    // The dot separator went with the pill: day and price now sit on two lines,
+    // which is what lets the six prices line up in scannable columns.
+    assert.ok(!/daily-term-dot/.test(fn), `${f}: the inline separator is gone`);
+    assert.match(fn, /daily-term-days[\s\S]{0,200}daily-term-price/, `${f}: day above, price below`);
+    // A screen reader gets the pair as one phrase, not two orphan spans.
+    assert.match(fn, /aria-label="\$\{escapeHtml\(String\(t\.days\)\)\}[^"]*за \$\{escapeHtml\(String\(t\.price\)\)\}/,
+      `${f}: the cell must read as «N дней за M рублей»`);
   }
   const s = read('assets/country-tariffs.js');
   assert.match(s, /single\?'Срок:':'Выберите срок:'/);
 });
 
-test('the chips wrap instead of shrinking, and the selection survives a dark theme', () => {
-  const css = read('assets/country-pages.css');
-  const terms = css.slice(css.indexOf('.daily-terms{'), css.indexOf('.daily-terms{') + 400);
-  assert.match(terms, /flex-wrap:wrap/, 'two readable rows beat six unreadable chips');
+test('the terms are a three-column table, so the prices line up', () => {
+  // Wrapped pills put the six prices on three different x positions (300/500,
+  // 700/1000, 1450/2800), so «is 30 days better value» could not be read at a
+  // glance. A fixed three-column grid gives two scannable price columns.
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    const terms = css.slice(css.indexOf('.daily-terms{'), css.indexOf('.daily-terms{') + 300);
+    assert.match(terms, /display:grid/, `${file}: a table, not a wrap`);
+    assert.match(terms, /grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/, `${file}: three equal columns`);
+    assert.ok(!/flex-wrap:wrap/.test(terms), `${file}: wrapping is what misaligned the prices`);
 
-  const selected = css.indexOf('.daily-term.is-selected{');
-  assert.ok(selected > 0, 'the selected state must be styled');
-  // A border, not just a tint: a background difference is invisible on a phone
-  // in sunlight.
-  assert.match(css.slice(selected, selected + 200), /border-color:/);
+    // Digits must line up vertically, or the columns buy nothing.
+    const price = css.slice(css.indexOf('.daily-term-price{'), css.indexOf('.daily-term-price{') + 220);
+    assert.match(price, /font-variant-numeric:tabular-nums/, `${file}: prices need tabular figures`);
 
-  assert.ok(css.includes('prefers-color-scheme:dark'), 'the card has a dark theme');
-  const dark = css.slice(css.indexOf('@media (prefers-color-scheme:dark)'));
-  assert.match(dark, /\.daily-term\.is-selected\{/, 'and the selection stays visible in it');
+    assert.ok(css.includes('prefers-color-scheme:dark'), `${file}: the card has a dark theme`);
+    const dark = css.slice(css.indexOf('@media (prefers-color-scheme:dark)'));
+    assert.match(dark, /\.daily-term\.is-selected\{/, `${file}: and the selection stays visible in it`);
+  }
 });
 
-test('mobile stops stretching the description and widens the chips', () => {
+test('mobile keeps the three columns and only tightens them', () => {
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
     const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
-    assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto auto;?\}/, file);
-    assert.match(mobile, /\.daily-term\{flex:1 1 calc\(50% - 4px\)/, `${file}: two chips per row`);
+    assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto;?\}/, file);
+    // The three columns are kept on a phone — «10 дней» / «1450 ₽» still fit —
+    // and only the padding tightens.
+    assert.match(mobile, /\.daily-term\{padding:/, `${file}: the cell tightens rather than reflowing`);
   }
 });
 
@@ -457,7 +483,7 @@ test('a fixed-term plan shows its price too, and reserves the same row', () => {
   // empty, so everything below it sat higher than on the card beside it.
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 1600);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
     assert.match(fn, /daily_term_mode\|\|''\)==='FIXED_TERM'/, `${f}: must handle the fixed term`);
     assert.match(fn, /days:Number\(item\.validity_days\),price:Number\(item\.price\)/,
       `${f}: from the row's own term and price`);
@@ -549,7 +575,7 @@ for (const file of SURFACES) {
 
     // Every section the grid places must be present, or a row collapses.
     for (const cls of ['daily-card__title', 'daily-lines', 'daily-terms-block',
-      'daily-card__network', 'daily-card__coverage', 'package-actions']) {
+      'daily-card__meta', 'package-actions']) {
       assert.ok(html.includes(cls), `${cls} is missing from the rendered card`);
     }
 
@@ -561,8 +587,11 @@ for (const file of SURFACES) {
     assert.equal((html.match(/js-daily-term/g) || []).length, 3);
     assert.equal((html.match(/is-selected/g) || []).length, 1, 'exactly one term starts selected');
     assert.ok(html.includes('Выберите срок:'));
-    assert.ok(html.includes('>3 дня<') || html.includes('3 дня'), 'the term is spelled in Russian');
-    assert.ok(html.includes('350 ₽'), 'the chip must carry its own price');
+    assert.ok(html.includes('3 дня'), 'the term is spelled in Russian');
+    assert.ok(html.includes('350 ₽'), 'the cell must carry its own price');
+    // Day above, price below — the shape that lets the columns line up.
+    assert.match(html, /daily-term-days[\s\S]{0,120}daily-term-price/);
+    assert.ok(!html.includes('daily-term-dot'), 'the inline separator belonged to the pill');
 
     // And a button that can be bought, priced at the term that starts selected.
     assert.ok(html.includes('js-buy'), 'no buy control');
@@ -659,4 +688,41 @@ test('the Mini App already states it, and still does', () => {
   const ui = read('app/ui.js');
   assert.match(ui, /\$\{D\.formatAllowance\(pkg\.daily_gb\)\} в день/);
   assert.ok(!/\$\{pkg\.data_gb\} ГБ`\s*\)\s*$/.test(ui), 'the ordinary branch must stay conditional');
+});
+
+test('the storefront CTA states the price of the selected term', () => {
+  // The card lost its only price accent when the selected chip stopped being a
+  // filled blue block — deliberately, because that block competed with «Купить».
+  // The price moved INTO the button, which is now the one filled element and
+  // also the one that says what it costs.
+  const s = read('index.html');
+  assert.match(s, /`Купить за \$\{first\.price\} ₽`/, 'the button must open on the first term\'s price');
+  assert.match(s, /buy\.textContent=`Купить за \$\{btn\.dataset\.price\} ₽`/,
+    'and follow the selection');
+
+  // Still the server's rouble in both places — no arithmetic on the client.
+  const handler = s.slice(s.indexOf("closest('.js-daily-term')"), s.indexOf("closest('.js-daily-term')") + 700);
+  assert.ok(!/[*/+]\s*(?:days|Number\(btn)/.test(handler), 'the client must not compute a price');
+
+  // An ordinary card keeps the plain label.
+  assert.match(s, /escapeHtml\(label\|\|'Купить'\)/, 'ordinary packages keep «Купить»');
+});
+
+test('the country pages keep their own CTA, because it does not buy', () => {
+  // There the button navigates to the catalogue rather than opening checkout,
+  // so putting a price on it would promise a purchase it does not make.
+  const s = read('assets/country-tariffs.js');
+  assert.match(s, />Выбрать тариф</);
+  assert.ok(!/Купить за/.test(s), 'the country page must not claim to buy');
+});
+
+test('the title carries the allowance, so the description does not repeat it', () => {
+  // «Турция — 500 МБ в день» followed by the bullet «500 МБ в день на
+  // максимальной скорости» said the same thing twice within 40px.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 1800);
+    assert.match(fn, /lines\.slice\(1\)/, `${f}: the first line is already the title`);
+    assert.match(fn, /D\.displayName\(item,countryName\)/, `${f}: and the title is the built name`);
+  }
 });
