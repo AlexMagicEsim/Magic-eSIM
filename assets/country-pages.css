@@ -420,12 +420,23 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
  * уже живут в этом блоке, новых не заведено.
  *
  *
- * ЗАЛИВКА ВЫБРАННОГО — решение владельца, и оно отменяет прежнее моё. Я убирал
- * сплошной синий, чтобы ячейка не спорила с кнопкой; на живом экране кольцо
- * оказалось недостаточно очевидным. Приоритет CTA держится теперь массой, а не
- * цветом: кнопка — залитая пилюля во всю ширину карточки, ячейка — одна из
- * шести шириной ~110px. Формальные коэффициенты этого не показывали: бледный
- * вариант проходил AA и всё равно читался как выключенный.
+ * ВЕС, А НЕ ЦВЕТ. Блок дважды переделывали по цвету — сначала он был бледным,
+ * потом стал тяжёлым, — потому что чинили не то. Замер на проде: 7 обведённых
+ * элементов на карточку и 9 жирных текстовых узлов, из них ШЕСТЬ цен. При
+ * gap:2px и рамке 1px у соседей шов между ячейками получался 4px, а всего
+ * рёбер — 24 на карточку. Карточка читалась как таблица кнопок, и «Выберите
+ * срок», покрытие и бейдж казались бледными не сами по себе, а на их фоне.
+ *
+ * Поэтому: шесть боксов -> ОДНА таблица с волосяными разделителями, у ячеек
+ * нет ни рамки, ни скругления (скругление и делало их похожими на вторую
+ * кнопку), а внутри ячейки ведёт ДЕНЬ — цена стала ровной приглушённой
+ * подписью. Шесть одинаково громких цен не читаются как ответ ни одна;
+ * приглушив их, мы возвращаем ответ туда, где он один: белая цена на синем
+ * у выбранного и цена в самой кнопке.
+ *
+ * Заливка выбранного — сплошной бренд-синий, это решение владельца и его не
+ * переоткрывать. Белый на #4267E8 = 4.84:1, поэтому он НЕ ослабляется до 85%:
+ * это увело бы подпись ниже AA.
  *
  * ================================================================== */
 
@@ -460,13 +471,16 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 /* Сеть и покрытие — один ряд, а не два: это справочный низ карточки, и
    двумя строками он забирал внимание у цены и кнопки. */
 .daily-card__meta{
-  grid-area:meta;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;
-  margin-bottom:14px;font-size:13px;color:#1f2937;line-height:1.5;
+  grid-area:meta;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;
+  margin-bottom:14px;font-size:13px;color:#475569;line-height:1.5;
 }
-.daily-card__coverage-label{color:var(--ink);font-weight:600;}
-/* Вторичный, но не выцветший: плашка остаётся, темнеет только текст, и правило
-   ограничено дневной карточкой, чтобы обычные тарифы не поехали. */
-.daily-card__meta .package-tag{color:#475569;}
+.daily-card__coverage-label{color:#334155;font-weight:600;}
+/* Плашка снята: 3G/4G/5G — справочный текст, а не контрол, и пятый бокс на
+   карточке был частью той же перегрузки. Правило ограничено дневной
+   карточкой, чтобы обычные тарифы не поехали. */
+.daily-card__meta .package-tag{
+  border:0;background:none;padding:0;color:#475569;font-size:13px;font-weight:600;
+}
 .daily-card .package-actions{grid-area:buy;}
 
 @supports (grid-template-rows:subgrid){
@@ -487,39 +501,68 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
  * поэтому шесть цен читаются вертикальными столбцами и сравниваются
  * взглядом. Ни рамок, ни заливок: выбранное — подсветка и синий текст.
  * ------------------------------------------------------------------ */
-.daily-terms-block{margin-bottom:14px;}
-.daily-terms-label{font-size:13px;font-weight:600;color:#334155;margin-bottom:6px;}
-.daily-terms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;}
-.daily-term{
-  display:flex;flex-direction:column;align-items:flex-start;gap:1px;
-  padding:7px 9px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;
-  color:var(--ink);font:inherit;text-align:left;cursor:pointer;
-  transition:background .15s ease,border-color .15s ease,color .15s ease;
+.daily-terms-block{margin-bottom:12px;}
+.daily-terms-label{font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;}
+
+/* Одна таблица, а не шесть кнопок: рамка и скругление живут на контейнере,
+   ячейки разделены волосяными линиями и не имеют собственного бокса. */
+.daily-terms{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+  border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#fff;
 }
-.daily-term:hover{background:#f1f5f9;border-color:#94a3b8;}
-.daily-term:focus-visible{outline:2px solid var(--blue);outline-offset:1px;}
-.daily-term-days{font-size:12px;line-height:1.2;font-weight:600;color:#334155;white-space:nowrap;}
-.daily-term-price{font-size:15px;line-height:1.25;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.daily-term{
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:1px;
+  min-height:52px;padding:8px 10px;
+  border:0;border-right:1px solid #eef2f7;border-bottom:1px solid #eef2f7;border-radius:0;
+  background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer;
+  transition:background .15s ease,color .15s ease;
+}
+/* Лестница всегда либо 6 сроков, либо 1 (FIXED_TERM) — крайние рёбра гасим по
+   позиции, чтобы у контейнера не было двойной линии. */
+.daily-term:nth-child(3n),
+.daily-term:last-child{border-right:0;}
+.daily-term:nth-last-child(-n+3){border-bottom:0;}
+/* :hover залипает на iOS после тапа, и соседняя ячейка выглядит полувыбранной. */
+@media (hover:hover) and (pointer:fine){
+  .daily-term:hover:not(.is-selected){background:#f1f5f9;}
+}
+.daily-term:active{background:#e2e8f0;}
+.daily-term:focus-visible{outline:2px solid var(--blue);outline-offset:-2px;}
+
+/* День ведёт, цена поддерживает. */
+.daily-term-days{font-size:13px;line-height:1.25;font-weight:600;color:#0f172a;white-space:nowrap;}
+.daily-term-price{font-size:13px;line-height:1.25;font-weight:500;color:#64748b;font-variant-numeric:tabular-nums;white-space:nowrap;}
+
 .daily-term.is-selected,
-.daily-term.is-selected:hover{background:var(--blue);border-color:var(--blue);}
-.daily-term.is-selected .daily-term-price,
-.daily-term.is-selected .daily-term-days{color:#fff;}
+.daily-term.is-selected:hover{background:var(--blue);border-color:transparent;}
+.daily-term.is-selected .daily-term-days,
+.daily-term.is-selected .daily-term-price{color:#fff;}
+
+/* В режиме высокой контрастности фон вырезается, и выбор пропал бы совсем:
+   все шесть ячеек стали бы одинаковыми. Рамка и outline переживают его. */
+@media (forced-colors:active){
+  .daily-term{border:1px solid ButtonBorder;}
+  .daily-term.is-selected{outline:3px solid Highlight;outline-offset:-3px;}
+}
 
 @media (prefers-color-scheme:dark){
   .daily-line{color:#cbd5e1;}
   .daily-line--allowance{color:#f1f5f9;}
   .daily-line--throttle,
-  .daily-line--reset{color:#94a3b8;}
-  .daily-terms-label{color:#e2e8f0;}
-  .daily-term{background:#0f172a;border-color:#475569;color:#f1f5f9;}
-  .daily-term-days{color:#cbd5e1;}
-  .daily-term:hover{background:#1e293b;border-color:#64748b;}
+  .daily-line--reset{color:#cbd5e1;}
+  .daily-terms-label{color:#cbd5e1;}
+  .daily-terms{border-color:#334155;background:#0f172a;}
+  .daily-term{border-right-color:#1e293b;border-bottom-color:#1e293b;}
+  .daily-term-days{color:#f1f5f9;}
+  .daily-term-price{color:#94a3b8;}
+  .daily-term:hover:not(.is-selected){background:#1e293b;}
+  .daily-term:active{background:#334155;}
   .daily-term.is-selected,
-  .daily-term.is-selected:hover{background:var(--blue);border-color:var(--blue);}
-  .daily-term.is-selected .daily-term-price,
-  .daily-term.is-selected .daily-term-days{color:#fff;}
+  .daily-term.is-selected:hover{background:var(--blue);}
+  .daily-term.is-selected .daily-term-days,
+  .daily-term.is-selected .daily-term-price{color:#fff;}
+  .daily-card__meta,
   .daily-card__meta .package-tag{color:#cbd5e1;}
-  .daily-card__meta{color:#e2e8f0;}
   .daily-card__coverage-label{color:#e2e8f0;}
 }
 
@@ -527,8 +570,8 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
   /* Один столбец — выравнивать не с чем; fallback-ряду 1fr тянуться незачем. */
   .daily-card{grid-template-rows:auto auto auto auto auto auto;}
   .daily-card__title{font-size:18px;}
-  /* Три колонки держатся и на 390px: «10 дней» и «1450 ₽» умещаются. */
-  .daily-term{padding:8px 6px;}
-  .daily-term-days{font-size:11.5px;}
+  /* Рамки у ячеек ушли, поэтому ширины хватает без уменьшения шрифта:
+     «30 дней» и «5150 ₽» умещаются на 390px в полном размере. */
+  .daily-term{padding:8px 7px;}
 }
 /* === END DAILY CARD BLOCK === */

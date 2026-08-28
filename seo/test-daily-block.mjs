@@ -356,34 +356,57 @@ test('both surfaces carry the daily CSS, byte for byte', () => {
   assert.equal(a, b, 'the landing and the country pages must style a daily card identically');
 });
 
-test('the selected term is a solid brand fill, and the CTA still leads by mass', () => {
-  // History: the first version filled the chip with brand blue; it was removed
-  // so the selector would not compete with «Купить»; a ring at 2px replaced it
-  // and, on the real screen, read as «could be chosen» rather than «is chosen».
-  // The fill is back BY DECISION, and the CTA keeps priority through size
-  // instead of colour — a full-width pill against a cell one sixth as wide.
+test('the terms are one table, not six buttons', () => {
+  // Measured on production: 7 bordered elements per card and 24 border edges,
+  // because every cell owned a 1px border and gap:2px turned each seam into
+  // 4px. That lattice — not the colours — is what read as heavy, and the
+  // per-cell radius is what made the selected one look like a second CTA.
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    const grid = css.slice(css.indexOf('.daily-terms{'), css.indexOf('.daily-terms{') + 320);
+    assert.match(grid, /gap:0/, `${file}: no seam between cells`);
+    assert.match(grid, /border:1px solid #e2e8f0/, `${file}: the border belongs to the container`);
+    assert.match(grid, /border-radius:10px/, `${file}: and so does the radius`);
+
+    const cell = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 480);
+    assert.match(cell, /border:0/, `${file}: a cell owns no box`);
+    assert.match(cell, /border-radius:0/, `${file}: a rounded cell imitates the CTA`);
+    assert.match(cell, /background:transparent/, `${file}: unselected cells are not plates`);
+    assert.match(cell, /border-right:1px solid #eef2f7/, `${file}: hairline dividers instead`);
+    assert.match(cell, /cursor:pointer/, `${file}: it still has to look clickable`);
+    assert.match(cell, /min-height:52px/, `${file}: and stay a comfortable tap target`);
+  }
+});
+
+test('the selected term is a solid brand fill, at full white', () => {
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
     const at = css.indexOf('.daily-term.is-selected,');
     assert.ok(at > 0, `${file}: the selected state must be styled`);
-    const rule = css.slice(at, at + 260);
-    assert.match(rule, /background:var\(--blue\)/, `${file}: selection is a fill, not a hint`);
-    assert.match(css, /\.daily-term\.is-selected \.daily-term-price,\s*\n\.daily-term\.is-selected \.daily-term-days\{color:#fff;\}/,
-      `${file}: both the day and the price go white on the fill`);
-    // Hover must not repaint the chosen cell back to a light one.
-    assert.match(rule, /\.daily-term\.is-selected:hover/, `${file}: the fill survives hover`);
+    assert.match(css.slice(at, at + 200), /background:var\(--blue\)/, `${file}: a fill, not a hint`);
+    assert.match(css, /\.daily-term\.is-selected \.daily-term-days,\s*\n\.daily-term\.is-selected \.daily-term-price\{color:#fff;\}/,
+      `${file}: both lines go white`);
+    // White on #4267E8 is 4.84:1 — fading it to 85% lands near 3.9 and fails.
+    assert.ok(!/is-selected[\s\S]{0,200}rgba\(255,255,255,\.\d/.test(css),
+      `${file}: the white must not be faded on the fill`);
+    assert.ok(contrast('#ffffff', '#4267E8') >= AA);
 
-    // Unselected stays light with a border you can actually see — never the
-    // dark plates this block started from.
-    const base = css.slice(css.indexOf('.daily-term{'), css.indexOf('.daily-term{') + 420);
-    assert.match(base, /background:#fff/, `${file}: unselected cells are light`);
-    assert.match(base, /border:1px solid #cbd5e1/, `${file}: and carry a visible edge`);
-    assert.match(base, /cursor:pointer/, `${file}: it has to look clickable`);
+    // The fill must survive a hover, and hover must not fire on touch, where
+    // it sticks after a tap and makes a neighbour look half-selected.
+    assert.match(css, /\.daily-term\.is-selected:hover\{background:var\(--blue\)/, file);
+    assert.match(css, /@media \(hover:hover\) and \(pointer:fine\)/, `${file}: hover is gated`);
+  }
+});
 
-    // The cell must not out-type the button it leads to.
-    const price = css.slice(css.indexOf('.daily-term-price{'), css.indexOf('.daily-term-price{') + 220);
-    const size = Number(price.match(/font-size:(\d+(?:\.\d+)?)px/)[1]);
-    assert.ok(size <= 15, `${file}: the term price is ${size}px — no larger than the CTA`);
+test('the selection survives forced-colors, where the fill does not', () => {
+  // In Windows High Contrast the background is stripped. With selection
+  // signalled only by a fill, all six cells would render identically and the
+  // chosen term would be invisible — state loss, not a cosmetic issue.
+  for (const file of Object.values(CSS_SURFACES)) {
+    const css = dailyCss(file);
+    assert.match(css, /@media \(forced-colors:active\)/, `${file}: no forced-colors fallback`);
+    const fc = css.slice(css.indexOf('@media (forced-colors:active)'));
+    assert.match(fc, /\.daily-term\.is-selected\{outline:3px solid Highlight/, `${file}: the outline is what survives`);
   }
 });
 
@@ -775,30 +798,34 @@ test('white on the brand fill clears AA', () => {
   }
 });
 
-test('the quiet text is quiet, not faint', () => {
+test('the day leads and the price supports, both readable', () => {
+  // Six equally loud prices meant none of them read as the answer — which is
+  // what «цены теряются» actually was. The price is now one calm caption in
+  // every cell; the answer lives where there is exactly one of it: white on
+  // the selected fill, and again in the CTA.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    const grab = (sel, prop = 'color') => {
+    const grab = (sel) => {
       const at = css.indexOf(sel);
       assert.ok(at > 0, `${file}: ${sel} not found`);
-      return css.slice(at, at + 260).match(new RegExp(`${prop}:(#[0-9a-f]{6}|var\\(--[a-z]+\\))`))[1];
+      const rule = css.slice(at, at + 260);
+      return {
+        colour: rule.match(/color:(#[0-9a-f]{6})/)[1],
+        size: Number(rule.match(/font-size:(\d+(?:\.\d+)?)px/)[1]),
+        weight: Number((rule.match(/font-weight:(\d+)/) || [0, 400])[1]),
+      };
     };
-    const resolved = (v) => (v === 'var(--ink)' ? '#111827' : v);
+    const day = grab('.daily-term-days{');
+    const price = grab('.daily-term-price{');
 
-    for (const [sel, what] of [
-      ['.daily-terms-label{', 'the «Выберите срок:» label'],
-      ['.daily-term-days{', 'the day of an unselected term'],
-      ['.daily-card__meta{', 'the coverage line'],
-    ]) {
-      const r = contrast(resolved(grab(sel)), CARD);
-      // 7.58:1 still read as faint on a real screen, so the floor is the next
-      // step of the ramp rather than the AA minimum.
-      assert.ok(r >= 9, `${file}: ${what} is ${r.toFixed(2)}:1 — it read as disabled`);
-    }
-
-    // The price stays the strongest thing in the cell.
-    const price = contrast(resolved(grab('.daily-term-price{')), CARD);
-    assert.ok(price > 15, `${file}: the term price is ${price.toFixed(2)}:1`);
+    // Both must be comfortably readable…
+    assert.ok(contrast(day.colour, CARD) >= 12, `${file}: day at ${contrast(day.colour, CARD).toFixed(2)}:1`);
+    assert.ok(contrast(price.colour, CARD) >= 4.5, `${file}: price at ${contrast(price.colour, CARD).toFixed(2)}:1`);
+    // …and the order between them must be unambiguous.
+    assert.ok(contrast(day.colour, CARD) > contrast(price.colour, CARD) * 1.5,
+      `${file}: the day must clearly lead the price`);
+    assert.ok(day.weight > price.weight, `${file}: and carry the heavier weight`);
+    assert.ok(price.size <= 15, `${file}: the price must never out-size the CTA`);
   }
 });
 
@@ -810,8 +837,14 @@ test('coverage is no fainter than the badge sitting next to it', () => {
     const css = dailyCss(file);
     const meta = css.slice(css.indexOf('.daily-card__meta{'), css.indexOf('.daily-card__meta{') + 260);
     const colour = meta.match(/color:(#[0-9a-f]{6})/)[1];
-    assert.ok(contrast(colour, CARD) >= 12,
-      `${file}: coverage at ${contrast(colour, CARD).toFixed(2)}:1 still disappears beside the badge`);
+    // It reads as secondary by design now, so the bar is «clearly legible»,
+    // not «as dark as possible» — the heaviness beside it is what is gone.
+    assert.ok(contrast(colour, CARD) >= 7,
+      `${file}: coverage at ${contrast(colour, CARD).toFixed(2)}:1`);
+    // And the network label lost its pill: a fifth boxed container per card
+    // was part of the same overload.
+    const badge = css.slice(css.indexOf('.daily-card__meta .package-tag{'), css.indexOf('.daily-card__meta .package-tag{') + 200);
+    assert.match(badge, /border:0;background:none/, `${file}: the badge is text, not a control`);
   }
 });
 
