@@ -21,6 +21,8 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { stampHtml, stampUrl, assetVersion, assetRefRe, hasAssetRef } from './asset-version.mjs';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SKIP = new Set(['node_modules', '.git', '.playwright-mcp', 'Magic-eSIM-github-2']);
@@ -42,7 +44,7 @@ test('every page asks for the asset version it was built against', () => {
   const stale = [];
   for (const file of htmlFiles()) {
     const src = readFileSync(file, 'utf8');
-    if (stampHtml(src) !== src) stale.push(relative(ROOT, file));
+    if (stampHtml(src, dirname(file)) !== src) stale.push(relative(ROOT, file));
   }
   assert.deepEqual(stale.slice(0, 12), [],
     `${stale.length} pages reference a stale asset version — run: node seo/stamp-assets.mjs`);
@@ -52,10 +54,32 @@ test('no asset reference is left unversioned', () => {
   const bare = [];
   for (const file of htmlFiles()) {
     for (const m of readFileSync(file, 'utf8').matchAll(assetRefRe())) {
-      if (!/\?v=[0-9a-f]{8}\b/.test(m[2])) bare.push(`${relative(ROOT, file)} → ${m[2]}`);
+      const url = m[2];
+      // A file we do not serve cannot be versioned: telegram-web-app.js is on
+      // Telegram's origin, and a ref to something absent is a broken link, not
+      // a caching problem.
+      if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(url) || url.startsWith('//')) continue;
+      const path = url.split('?')[0];
+      const local = path.startsWith('/') ? join(ROOT, path.slice(1)) : resolve(dirname(file), path);
+      if (!existsSync(local)) continue;
+      if (!/\?v=[0-9a-f]{8}\b/.test(url)) bare.push(`${relative(ROOT, file)} → ${url}`);
     }
   }
   assert.deepEqual(bare.slice(0, 12), [], 'these would be served from a stale cache after a deploy');
+});
+
+test('the Mini App is versioned too, not just assets/', () => {
+  // It loads mini.css, core.js and ui.js from its own directory, and those were
+  // left bare when only assets/ was covered — the same HTML↔CSS mismatch this
+  // whole mechanism exists to prevent, on the surface that ships a Telegram
+  // app.
+  const html = readFileSync(join(ROOT, 'app/index.html'), 'utf8');
+  for (const name of ['mini.css', 'core.js', 'ui.js']) {
+    assert.match(html, new RegExp(`(?:href|src)="${name.replace('.', '\\.')}\\?v=[0-9a-f]{8}"`),
+      `app/index.html must version ${name}`);
+  }
+  // …and Telegram's own script must be left alone.
+  assert.match(html, /src="https:\/\/telegram\.org\/js\/telegram-web-app\.js"/);
 });
 
 test('the pages that hydrate tariffs are actually covered', () => {
@@ -67,10 +91,11 @@ test('the pages that hydrate tariffs are actually covered', () => {
 test('the version is the content hash, so an untouched asset keeps its URL', () => {
   // A build-time stamp would expire every asset on every deploy, including the
   // four that did not change.
-  const v = assetVersion('country-pages.css');
+  const v = assetVersion('assets/country-pages.css');
   assert.match(v, /^[0-9a-f]{8}$/);
-  assert.equal(v, assetVersion('country-pages.css'));
-  assert.notEqual(v, assetVersion('country-tariffs.js'), 'different files, different versions');
+  assert.equal(v, assetVersion('assets/country-pages.css'));
+  assert.notEqual(v, assetVersion('assets/country-tariffs.js'), 'different files, different versions');
+  assert.notEqual(v, assetVersion('app/mini.css'), 'and the Mini App has its own');
 });
 
 test('stamping is idempotent and leaves other hosts alone', () => {
@@ -84,6 +109,8 @@ test('stamping is idempotent and leaves other hosts alone', () => {
   }
   // Data is not an asset: catalog.json is refreshed by a bot on its own cadence.
   assert.equal(stampUrl('/assets/catalog.json'), '/assets/catalog.json');
+  // Neither is a reference to a file that is not there.
+  assert.equal(stampUrl('/assets/does-not-exist.js'), '/assets/does-not-exist.js');
 });
 
 test('the generators stamp their own output, rather than being repaired later', () => {

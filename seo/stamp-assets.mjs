@@ -36,7 +36,7 @@ let changed = 0;
 
 for (const file of htmlFiles()) {
   const before = readFileSync(file, 'utf8');
-  const after = stampHtml(before);
+  const after = stampHtml(before, dirname(file));
   if (before === after) continue;
   stale.push(relative(ROOT, file));
   if (!checkOnly) { writeFileSync(file, after); changed++; }

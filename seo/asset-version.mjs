@@ -20,36 +20,45 @@
 
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { join, dirname, basename } from 'node:path';
+import { join, dirname, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const cache = new Map();
 
-/** Восемь hex от sha256 файла. Коллизия на пяти файлах невозможна на практике. */
+/**
+ * Восемь hex от sha256 файла.
+ *
+ * `name` — путь от корня репозитория: «assets/country-pages.css», «app/mini.css».
+ * Сначала версионировались только assets/, и Mini App остался с
+ * `href="mini.css"` без версии — то есть ровно с тем рассинхроном
+ * HTML↔CSS, ради которого всё это делалось.
+ */
 export function assetVersion(name) {
   if (cache.has(name)) return cache.get(name);
-  const file = join(ROOT, 'assets', name);
-  if (!existsSync(file)) throw new Error(`assets/${name} не существует — ссылку некуда версионировать`);
+  const file = join(ROOT, name);
+  if (!existsSync(file)) throw new Error(`${name} не существует — ссылку некуда версионировать`);
   const v = createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 8);
   cache.set(name, v);
   return v;
 }
 
 /**
- * Любая ссылка на assets/<файл>.css|js -> та же ссылка с ?v=<хеш>.
- * Префикс не важен: «/assets/x.js», «../assets/x.js», «../../assets/x.js».
- * Уже проставленная версия заменяется, поэтому вызов идемпотентен.
+ * Локальная ссылка на .css/.js -> та же ссылка с ?v=<хеш>.
+ *
+ * `from` — каталог, относительно которого читается ссылка: для «mini.css» из
+ * app/index.html это app/. Абсолютные пути («/assets/x.js») считаются от корня.
+ * Уже проставленная версия заменяется, поэтому вызов идемпотентен. Чужой хост
+ * и несуществующий файл возвращаются как есть: версионировать нечего.
  */
-export function stampUrl(url) {
+export function stampUrl(url, from = ROOT) {
   const s = String(url);
-  // Только свой origin. «https://cdn.example.com/assets/x.js» тоже содержит
-  // «assets/», но версионировать чужой файл мы не можем и не должны — до
-  // этой проверки такой адрес валил сборку.
   if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(s) || s.startsWith('//')) return url;
-  const m = s.match(/^([^?#]*assets\/([A-Za-z0-9._-]+\.(?:css|js)))(?:\?[^#]*)?(#.*)?$/);
+  const m = s.match(/^([^?#]*\.(?:css|js))(?:\?[^#]*)?(#.*)?$/);
   if (!m) return url;
-  return `${m[1]}?v=${assetVersion(basename(m[2]))}${m[3] || ''}`;
+  const file = m[1].startsWith('/') ? join(ROOT, m[1].slice(1)) : resolve(from, m[1]);
+  if (!existsSync(file)) return url;
+  return `${m[1]}?v=${assetVersion(relative(ROOT, file))}${m[2] || ''}`;
 }
 
 /**
@@ -59,7 +68,7 @@ export function stampUrl(url) {
  * lastIndex, поэтому `.test()` в цикле пропускает совпадения через одно —
  * на этом уже один раз ложно упала проверка покрытия.
  */
-export const assetRefRe = () => /((?:href|src)=")([^"]*assets\/[A-Za-z0-9._-]+\.(?:css|js)(?:\?[^"]*)?)(")/g;
+export const assetRefRe = () => /((?:href|src)=")([^"]*\.(?:css|js)(?:\?[^"]*)?)(")/g;
 
 /** Есть ли в тексте хоть одна ссылка на наш ассет. */
 export function hasAssetRef(html) {
@@ -67,6 +76,6 @@ export function hasAssetRef(html) {
 }
 
 /** Проштамповать весь HTML-текст. Возвращает новый текст. */
-export function stampHtml(html) {
-  return html.replace(assetRefRe(), (all, a, url, z) => a + stampUrl(url) + z);
+export function stampHtml(html, from = ROOT) {
+  return html.replace(assetRefRe(), (all, a, url, z) => a + stampUrl(url, from) + z);
 }
