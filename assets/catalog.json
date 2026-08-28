@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-28T11:08:57.458Z",
+  "generated_at": "2026-08-28T15:44:00.810Z",
   "source": "production-public-api",
-  "package_count": 2343,
+  "package_count": 2299,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -89,83 +89,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "004daab6-1f78-4426-836e-e71b104876a1",
-      "name": "South Korea 500MB/Day (nonhkip)",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 150,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 350
-        },
-        {
-          "days": 5,
-          "price": 550
-        },
-        {
-          "days": 7,
-          "price": 750
-        },
-        {
-          "days": 10,
-          "price": 1050
-        },
-        {
-          "days": 15,
-          "price": 1550
-        },
-        {
-          "days": 30,
-          "price": 2950
-        }
-      ]
     },
     {
       "package_id": "004dbfe8-81d0-49ce-8ea4-1ecfafe7f962",
@@ -3517,77 +3440,6 @@
         {
           "days": 30,
           "price": 6700
-        }
-      ]
-    },
-    {
-      "package_id": "0598670a-b899-4f85-b076-c672160bafd4",
-      "name": "France 3GB/Day",
-      "country_code": "FR",
-      "region": "FR",
-      "coverage_country_codes": [
-        "FR"
-      ],
-      "coverage_flags": "🇫🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 400,
-      "networks": [
-        {
-          "operator": "Orange",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1200
-        },
-        {
-          "days": 5,
-          "price": 1900
-        },
-        {
-          "days": 7,
-          "price": 2600
-        },
-        {
-          "days": 10,
-          "price": 3550
-        },
-        {
-          "days": 15,
-          "price": 5150
-        },
-        {
-          "days": 30,
-          "price": 9800
         }
       ]
     },
@@ -7486,83 +7338,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "0b6ac243-1931-4f47-8719-bee71da445a1",
-      "name": "United States 2GB/Day",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 350,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1050
-        },
-        {
-          "days": 5,
-          "price": 1700
-        },
-        {
-          "days": 7,
-          "price": 2300
-        },
-        {
-          "days": 10,
-          "price": 3250
-        },
-        {
-          "days": 15,
-          "price": 4600
-        },
-        {
-          "days": 30,
-          "price": 8750
-        }
-      ]
-    },
-    {
       "package_id": "0b7a8953-2b7b-4944-bd78-9ad39898b404",
       "name": "Czech Republic 5GB/Day",
       "country_code": "CZ",
@@ -7976,83 +7751,6 @@
         {
           "days": 30,
           "price": 5400
-        }
-      ]
-    },
-    {
-      "package_id": "0c44caef-6009-4917-a1d7-0d7ba03c04ce",
-      "name": "Hong Kong 1GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "HK",
-      "region": "HK",
-      "coverage_country_codes": [
-        "HK"
-      ],
-      "coverage_flags": "🇭🇰",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "csl",
-          "type": "5G"
-        },
-        {
-          "operator": "SmarTone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 600
-        },
-        {
-          "days": 5,
-          "price": 950
-        },
-        {
-          "days": 7,
-          "price": 1350
-        },
-        {
-          "days": 10,
-          "price": 1850
-        },
-        {
-          "days": 15,
-          "price": 2700
-        },
-        {
-          "days": 30,
-          "price": 5000
         }
       ]
     },
@@ -9155,91 +8853,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "0f2114bd-e76a-4800-a7f1-8df437b90677",
-      "name": "Indonesia 2GB/Day FUP1Mbps",
-      "country_code": "ID",
-      "region": "ID",
-      "coverage_country_codes": [
-        "ID"
-      ],
-      "coverage_flags": "🇮🇩",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 450,
-      "networks": [
-        {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
-          "operator": "Telkomsel",
-          "type": "5G"
-        },
-        {
-          "operator": "XL",
-          "type": "4G"
-        },
-        {
-          "operator": "Indosat",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1250
-        },
-        {
-          "days": 5,
-          "price": 2000
-        },
-        {
-          "days": 7,
-          "price": 2750
-        },
-        {
-          "days": 10,
-          "price": 3750
-        },
-        {
-          "days": 15,
-          "price": 5400
-        },
-        {
-          "days": 30,
-          "price": 10400
-        }
-      ]
-    },
-    {
       "package_id": "0f3e4596-f50c-46e4-8003-a712db1da5e1",
       "name": "Honduras 5GB 30Days",
       "country_code": "HN",
@@ -9277,91 +8890,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "0f623835-55ec-41d9-9ae6-459c74a06c77",
-      "name": "Indonesia 10GB/Day",
-      "country_code": "ID",
-      "region": "ID",
-      "coverage_country_codes": [
-        "ID"
-      ],
-      "coverage_flags": "🇮🇩",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1250,
-      "networks": [
-        {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
-          "operator": "Telkomsel",
-          "type": "5G"
-        },
-        {
-          "operator": "XL",
-          "type": "4G"
-        },
-        {
-          "operator": "Indosat",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 10,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 3500
-        },
-        {
-          "days": 5,
-          "price": 5500
-        },
-        {
-          "days": 7,
-          "price": 7500
-        },
-        {
-          "days": 10,
-          "price": 10550
-        },
-        {
-          "days": 15,
-          "price": 15600
-        },
-        {
-          "days": 30,
-          "price": 30750
-        }
-      ]
     },
     {
       "package_id": "0f9cfdbf-b18e-4078-a067-88ff7b11aab8",
@@ -13459,79 +12987,6 @@
         {
           "days": 30,
           "price": 16100
-        }
-      ]
-    },
-    {
-      "package_id": "14772f47-25ed-43d8-9c9f-052d2d68e5eb",
-      "name": "Australia 10GB/Day (nonhkip)",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1600,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 10,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 4350
-        },
-        {
-          "days": 5,
-          "price": 6950
-        },
-        {
-          "days": 7,
-          "price": 9550
-        },
-        {
-          "days": 10,
-          "price": 13500
-        },
-        {
-          "days": 15,
-          "price": 20000
-        },
-        {
-          "days": 30,
-          "price": 39500
         }
       ]
     },
@@ -20053,79 +19508,6 @@
       ]
     },
     {
-      "package_id": "1ec3a421-25f5-4c33-915f-f39ec624e5c8",
-      "name": "Australia 2GB/Day",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 450,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1300
-        },
-        {
-          "days": 5,
-          "price": 2100
-        },
-        {
-          "days": 7,
-          "price": 2850
-        },
-        {
-          "days": 10,
-          "price": 3950
-        },
-        {
-          "days": 15,
-          "price": 5700
-        },
-        {
-          "days": 30,
-          "price": 10900
-        }
-      ]
-    },
-    {
       "package_id": "1ed6190c-d293-4d4e-a47c-7665896a2490",
       "name": "Moldova 3GB/Day FUP1Mbps",
       "country_code": "MD",
@@ -20772,12 +20154,12 @@
       "price": 1200,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -21175,83 +20557,6 @@
         {
           "days": 30,
           "price": 4650
-        }
-      ]
-    },
-    {
-      "package_id": "2095fe12-654c-46f8-81d0-b2885ce9dc6d",
-      "name": "Malaysia 3GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 650,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1850
-        },
-        {
-          "days": 5,
-          "price": 3000
-        },
-        {
-          "days": 7,
-          "price": 4000
-        },
-        {
-          "days": 10,
-          "price": 5500
-        },
-        {
-          "days": 15,
-          "price": 8050
-        },
-        {
-          "days": 30,
-          "price": 15650
         }
       ]
     },
@@ -22561,12 +21866,12 @@
       "price": 750,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28091,83 +27396,6 @@
         {
           "days": 30,
           "price": 21850
-        }
-      ]
-    },
-    {
-      "package_id": "2e901ca3-1b48-4e1c-967d-fa7bbd829e0a",
-      "name": "Laos 1GB/Day FUP1Mbps Premium",
-      "country_code": "LA",
-      "region": "LA",
-      "coverage_country_codes": [
-        "LA"
-      ],
-      "coverage_flags": "🇱🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "Lao Telecom",
-          "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1500
-        },
-        {
-          "days": 5,
-          "price": 2400
-        },
-        {
-          "days": 7,
-          "price": 3250
-        },
-        {
-          "days": 10,
-          "price": 4500
-        },
-        {
-          "days": 15,
-          "price": 6500
-        },
-        {
-          "days": 30,
-          "price": 12500
         }
       ]
     },
@@ -36024,83 +35252,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "3aabcfd5-3fea-4209-acc5-c3ae86854c2d",
-      "name": "South Korea 1GB/Day (nonhkip)",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 550
-        },
-        {
-          "days": 5,
-          "price": 950
-        },
-        {
-          "days": 7,
-          "price": 1250
-        },
-        {
-          "days": 10,
-          "price": 1750
-        },
-        {
-          "days": 15,
-          "price": 2550
-        },
-        {
-          "days": 30,
-          "price": 4800
-        }
-      ]
-    },
-    {
       "package_id": "3af8cfa2-3437-4ea1-a3b4-f3a0728b0155",
       "name": "Dominican Republic 2GB/Day FUP1Mbps",
       "country_code": "DO",
@@ -36528,79 +35679,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "3c0b638d-ac29-4817-b827-0f733ef5f5d9",
-      "name": "Australia 500MB/Day (nonhkip)",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 150,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 450
-        },
-        {
-          "days": 5,
-          "price": 700
-        },
-        {
-          "days": 7,
-          "price": 950
-        },
-        {
-          "days": 10,
-          "price": 1350
-        },
-        {
-          "days": 15,
-          "price": 1950
-        },
-        {
-          "days": 30,
-          "price": 3700
-        }
-      ]
     },
     {
       "package_id": "3c24646e-98f4-4695-931a-29a2acc1f04d",
@@ -39858,83 +38936,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "41c88db7-7393-434b-9461-8244c72f9385",
-      "name": "Hong Kong 2GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "HK",
-      "region": "HK",
-      "coverage_country_codes": [
-        "HK"
-      ],
-      "coverage_flags": "🇭🇰",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 400,
-      "networks": [
-        {
-          "operator": "csl",
-          "type": "5G"
-        },
-        {
-          "operator": "SmarTone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1100
-        },
-        {
-          "days": 5,
-          "price": 1750
-        },
-        {
-          "days": 7,
-          "price": 2400
-        },
-        {
-          "days": 10,
-          "price": 3350
-        },
-        {
-          "days": 15,
-          "price": 4750
-        },
-        {
-          "days": 30,
-          "price": 9050
-        }
-      ]
-    },
-    {
       "package_id": "41cdb020-06f5-462c-b39a-996b4d668011",
       "name": "Aland Islands 3GB 15Days",
       "country_code": "AX",
@@ -42061,83 +41062,6 @@
         {
           "days": 30,
           "price": 8800
-        }
-      ]
-    },
-    {
-      "package_id": "451494e3-abf6-4005-9d7a-634794a24350",
-      "name": "Hong Kong 10GB/Day (nonhkip)",
-      "country_code": "HK",
-      "region": "HK",
-      "coverage_country_codes": [
-        "HK"
-      ],
-      "coverage_flags": "🇭🇰",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1250,
-      "networks": [
-        {
-          "operator": "csl",
-          "type": "5G"
-        },
-        {
-          "operator": "SmarTone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 10,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 3400
-        },
-        {
-          "days": 5,
-          "price": 5350
-        },
-        {
-          "days": 7,
-          "price": 7300
-        },
-        {
-          "days": 10,
-          "price": 10250
-        },
-        {
-          "days": 15,
-          "price": 15150
-        },
-        {
-          "days": 30,
-          "price": 29850
         }
       ]
     },
@@ -44436,12 +43360,12 @@
       "price": 250,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -45899,79 +44823,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "4a9b9499-1ce9-42f2-a1e3-395d4a8808b6",
-      "name": "Australia 1GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 550
-        },
-        {
-          "days": 5,
-          "price": 950
-        },
-        {
-          "days": 7,
-          "price": 1250
-        },
-        {
-          "days": 10,
-          "price": 1750
-        },
-        {
-          "days": 15,
-          "price": 2550
-        },
-        {
-          "days": 30,
-          "price": 4800
-        }
-      ]
     },
     {
       "package_id": "4a9cd284-c021-4844-ac84-fb0d0dfcce99",
@@ -49249,83 +48100,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "52e0e5f7-6f1f-4f74-a288-d27a01c94d0e",
-      "name": "South Korea 2GB/Day",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 350,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1050
-        },
-        {
-          "days": 5,
-          "price": 1700
-        },
-        {
-          "days": 7,
-          "price": 2350
-        },
-        {
-          "days": 10,
-          "price": 3250
-        },
-        {
-          "days": 15,
-          "price": 4650
-        },
-        {
-          "days": 30,
-          "price": 8800
-        }
-      ]
-    },
-    {
       "package_id": "52f5dfd6-c19c-40e7-a366-64c781ae5542",
       "name": "Romania 5GB/Day",
       "country_code": "RO",
@@ -50385,79 +49159,6 @@
         {
           "days": 30,
           "price": 43850
-        }
-      ]
-    },
-    {
-      "package_id": "54c397bd-1cfa-4c2d-97a0-b54f807ced3e",
-      "name": "Australia 1GB/Day (nonhkip)",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 250,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 700
-        },
-        {
-          "days": 5,
-          "price": 1150
-        },
-        {
-          "days": 7,
-          "price": 1600
-        },
-        {
-          "days": 10,
-          "price": 2200
-        },
-        {
-          "days": 15,
-          "price": 3250
-        },
-        {
-          "days": 30,
-          "price": 6000
         }
       ]
     },
@@ -52992,91 +51693,6 @@
       ]
     },
     {
-      "package_id": "58ef9739-1daf-437c-bedc-b509ca0dd4c0",
-      "name": "Indonesia 1GB/Day FUP1Mbps",
-      "country_code": "ID",
-      "region": "ID",
-      "coverage_country_codes": [
-        "ID"
-      ],
-      "coverage_flags": "🇮🇩",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 250,
-      "networks": [
-        {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
-          "operator": "Telkomsel",
-          "type": "5G"
-        },
-        {
-          "operator": "XL",
-          "type": "4G"
-        },
-        {
-          "operator": "Indosat",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 700
-        },
-        {
-          "days": 5,
-          "price": 1100
-        },
-        {
-          "days": 7,
-          "price": 1500
-        },
-        {
-          "days": 10,
-          "price": 2100
-        },
-        {
-          "days": 15,
-          "price": 3050
-        },
-        {
-          "days": 30,
-          "price": 5700
-        }
-      ]
-    },
-    {
       "package_id": "58f94543-3b79-4d91-b04b-982b57f78a21",
       "name": "Martinique 5GB 30Days",
       "country_code": "MQ",
@@ -54022,83 +52638,6 @@
         {
           "days": 30,
           "price": 15700
-        }
-      ]
-    },
-    {
-      "package_id": "59b873e9-0359-4bb9-9f95-258a1a0b8853",
-      "name": "South Korea 3GB/Day",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1550
-        },
-        {
-          "days": 5,
-          "price": 2500
-        },
-        {
-          "days": 7,
-          "price": 3400
-        },
-        {
-          "days": 10,
-          "price": 4650
-        },
-        {
-          "days": 15,
-          "price": 6700
-        },
-        {
-          "days": 30,
-          "price": 13000
         }
       ]
     },
@@ -55954,83 +54493,6 @@
         {
           "days": 30,
           "price": 7850
-        }
-      ]
-    },
-    {
-      "package_id": "5d7d0315-445d-4891-8500-59c68d7e6329",
-      "name": "United States 10GB/Day (USIP)",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1200,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 10,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 3350
-        },
-        {
-          "days": 5,
-          "price": 5250
-        },
-        {
-          "days": 7,
-          "price": 7200
-        },
-        {
-          "days": 10,
-          "price": 10100
-        },
-        {
-          "days": 15,
-          "price": 14900
-        },
-        {
-          "days": 30,
-          "price": 29350
         }
       ]
     },
@@ -59026,12 +57488,12 @@
       "price": 2850,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -69038,83 +67500,6 @@
       ]
     },
     {
-      "package_id": "750e9dcf-b211-4bf8-b9e3-85619df05b40",
-      "name": "South Korea 10GB/Day",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1100,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 10,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 3050
-        },
-        {
-          "days": 5,
-          "price": 4800
-        },
-        {
-          "days": 7,
-          "price": 6550
-        },
-        {
-          "days": 10,
-          "price": 9150
-        },
-        {
-          "days": 15,
-          "price": 13500
-        },
-        {
-          "days": 30,
-          "price": 26550
-        }
-      ]
-    },
-    {
       "package_id": "7515b78b-b84f-4b91-b177-ece7c9b30f19",
       "name": "Dubai Unlimited 5 Days",
       "country_code": "AE",
@@ -69884,12 +68269,12 @@
       "price": 500,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -76334,12 +74719,12 @@
       "price": 900,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -78631,79 +77016,6 @@
         {
           "days": 30,
           "price": 4650
-        }
-      ]
-    },
-    {
-      "package_id": "869b7633-3351-4584-a947-b813b8ccba87",
-      "name": "Australia 5GB/Day (nonhkip)",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 900,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2450
-        },
-        {
-          "days": 5,
-          "price": 3900
-        },
-        {
-          "days": 7,
-          "price": 5300
-        },
-        {
-          "days": 10,
-          "price": 7350
-        },
-        {
-          "days": 15,
-          "price": 10800
-        },
-        {
-          "days": 30,
-          "price": 21150
         }
       ]
     },
@@ -81317,83 +79629,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "88e413c0-916f-445e-9563-a6e72d7d61f1",
-      "name": "Malaysia 1GB/Day (nonhkip)",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 550
-        },
-        {
-          "days": 5,
-          "price": 900
-        },
-        {
-          "days": 7,
-          "price": 1200
-        },
-        {
-          "days": 10,
-          "price": 1700
-        },
-        {
-          "days": 15,
-          "price": 2450
-        },
-        {
-          "days": 30,
-          "price": 4600
-        }
-      ]
-    },
-    {
       "package_id": "88fc30bf-12f4-44e6-9350-6faf5ff36016",
       "name": "Italy 7 GB",
       "country_code": "IT",
@@ -83608,83 +81843,6 @@
         {
           "days": 30,
           "price": 11150
-        }
-      ]
-    },
-    {
-      "package_id": "8c3e33b0-08e7-4981-a2f0-6ec1c8cec336",
-      "name": "South Korea 3GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 700,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1950
-        },
-        {
-          "days": 5,
-          "price": 3150
-        },
-        {
-          "days": 7,
-          "price": 4250
-        },
-        {
-          "days": 10,
-          "price": 5900
-        },
-        {
-          "days": 15,
-          "price": 8600
-        },
-        {
-          "days": 30,
-          "price": 16750
         }
       ]
     },
@@ -89073,12 +87231,12 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -91001,91 +89159,6 @@
         {
           "days": 30,
           "price": 14150
-        }
-      ]
-    },
-    {
-      "package_id": "970a7891-e741-4281-bd80-a3a66ceba8eb",
-      "name": "Indonesia 5GB/Day",
-      "country_code": "ID",
-      "region": "ID",
-      "coverage_country_codes": [
-        "ID"
-      ],
-      "coverage_flags": "🇮🇩",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 650,
-      "networks": [
-        {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
-          "operator": "Telkomsel",
-          "type": "5G"
-        },
-        {
-          "operator": "XL",
-          "type": "4G"
-        },
-        {
-          "operator": "Indosat",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1850
-        },
-        {
-          "days": 5,
-          "price": 3000
-        },
-        {
-          "days": 7,
-          "price": 4000
-        },
-        {
-          "days": 10,
-          "price": 5550
-        },
-        {
-          "days": 15,
-          "price": 8100
-        },
-        {
-          "days": 30,
-          "price": 15700
         }
       ]
     },
@@ -93883,83 +91956,6 @@
       ]
     },
     {
-      "package_id": "9b240e1c-f752-46f1-803b-2c5de4fbcd69",
-      "name": "United States 3GB/Day FUP1Mbps",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1600
-        },
-        {
-          "days": 5,
-          "price": 2600
-        },
-        {
-          "days": 7,
-          "price": 3500
-        },
-        {
-          "days": 10,
-          "price": 4800
-        },
-        {
-          "days": 15,
-          "price": 7000
-        },
-        {
-          "days": 30,
-          "price": 13500
-        }
-      ]
-    },
-    {
       "package_id": "9b799839-3617-47fc-9438-50ff23e2c03d",
       "name": "Gabon 2GB/Day FUP1Mbps",
       "country_code": "GA",
@@ -96221,12 +94217,12 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -96781,83 +94777,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "a0e61b4f-1084-4039-a78d-ed5389f58582",
-      "name": "Malaysia 5GB/Day",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 650,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1850
-        },
-        {
-          "days": 5,
-          "price": 3000
-        },
-        {
-          "days": 7,
-          "price": 4000
-        },
-        {
-          "days": 10,
-          "price": 5550
-        },
-        {
-          "days": 15,
-          "price": 8100
-        },
-        {
-          "days": 30,
-          "price": 15700
-        }
-      ]
     },
     {
       "package_id": "a0ea5f0f-f6f8-452a-85d5-120b6e835609",
@@ -100645,83 +98564,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "a7542bfd-c105-4344-95e3-8d35c3e7e19e",
-      "name": "Hong Kong 3GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "HK",
-      "region": "HK",
-      "coverage_country_codes": [
-        "HK"
-      ],
-      "coverage_flags": "🇭🇰",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "csl",
-          "type": "5G"
-        },
-        {
-          "operator": "SmarTone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1500
-        },
-        {
-          "days": 5,
-          "price": 2400
-        },
-        {
-          "days": 7,
-          "price": 3300
-        },
-        {
-          "days": 10,
-          "price": 4550
-        },
-        {
-          "days": 15,
-          "price": 6550
-        },
-        {
-          "days": 30,
-          "price": 12650
-        }
-      ]
-    },
-    {
       "package_id": "a7b4b777-37ab-4899-b8b5-71464d26ff30",
       "name": "Mexico 1GB/Day",
       "country_code": "MX",
@@ -103846,79 +101688,6 @@
       ]
     },
     {
-      "package_id": "ad427a59-1613-49a2-a220-03cdd266fa56",
-      "name": "Australia 3GB/Day FUP1Mbps(nonhkip)",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 850,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2350
-        },
-        {
-          "days": 5,
-          "price": 3700
-        },
-        {
-          "days": 7,
-          "price": 5000
-        },
-        {
-          "days": 10,
-          "price": 6950
-        },
-        {
-          "days": 15,
-          "price": 10200
-        },
-        {
-          "days": 30,
-          "price": 20000
-        }
-      ]
-    },
-    {
       "package_id": "ad4bd46b-38b3-4868-b22d-622205eaf4b9",
       "name": "Malaysia 3GB 15Days",
       "country_code": "MY",
@@ -104035,79 +101804,6 @@
         {
           "days": 30,
           "price": 20700
-        }
-      ]
-    },
-    {
-      "package_id": "ad8f524a-f382-44e0-8efc-e60a58df89b8",
-      "name": "Australia 2GB/Day FUP1Mbps",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 350,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1050
-        },
-        {
-          "days": 5,
-          "price": 1700
-        },
-        {
-          "days": 7,
-          "price": 2350
-        },
-        {
-          "days": 10,
-          "price": 3250
-        },
-        {
-          "days": 15,
-          "price": 4650
-        },
-        {
-          "days": 30,
-          "price": 8800
         }
       ]
     },
@@ -105202,160 +102898,6 @@
       ]
     },
     {
-      "package_id": "aedfb98e-c5e0-4de4-b5a6-1779a2cfde01",
-      "name": "Malaysia 1GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 550
-        },
-        {
-          "days": 5,
-          "price": 950
-        },
-        {
-          "days": 7,
-          "price": 1250
-        },
-        {
-          "days": 10,
-          "price": 1750
-        },
-        {
-          "days": 15,
-          "price": 2550
-        },
-        {
-          "days": 30,
-          "price": 4800
-        }
-      ]
-    },
-    {
-      "package_id": "af135696-dc9b-4465-b97e-76ba6a3630e3",
-      "name": "South Korea 1GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 550
-        },
-        {
-          "days": 5,
-          "price": 950
-        },
-        {
-          "days": 7,
-          "price": 1250
-        },
-        {
-          "days": 10,
-          "price": 1750
-        },
-        {
-          "days": 15,
-          "price": 2550
-        },
-        {
-          "days": 30,
-          "price": 4800
-        }
-      ]
-    },
-    {
       "package_id": "af2ebded-4737-45ec-922e-1a83f39d1178",
       "name": "Benin 3GB/Day FUP1Mbps",
       "country_code": "BJ",
@@ -105424,91 +102966,6 @@
         {
           "days": 30,
           "price": 66550
-        }
-      ]
-    },
-    {
-      "package_id": "af3979ea-da08-4aa5-9d93-6c17f21fd8a9",
-      "name": "Indonesia 3GB/Day FUP1Mbps",
-      "country_code": "ID",
-      "region": "ID",
-      "coverage_country_codes": [
-        "ID"
-      ],
-      "coverage_flags": "🇮🇩",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 800,
-      "networks": [
-        {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
-          "operator": "Telkomsel",
-          "type": "5G"
-        },
-        {
-          "operator": "XL",
-          "type": "4G"
-        },
-        {
-          "operator": "Indosat",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2200
-        },
-        {
-          "days": 5,
-          "price": 3500
-        },
-        {
-          "days": 7,
-          "price": 4700
-        },
-        {
-          "days": 10,
-          "price": 6550
-        },
-        {
-          "days": 15,
-          "price": 9550
-        },
-        {
-          "days": 30,
-          "price": 18700
         }
       ]
     },
@@ -109284,83 +106741,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "b47aba03-284f-4dcb-a092-9eeb6a4a819a",
-      "name": "United States 500MB/Day",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 600
-        },
-        {
-          "days": 5,
-          "price": 950
-        },
-        {
-          "days": 7,
-          "price": 1300
-        },
-        {
-          "days": 10,
-          "price": 1800
-        },
-        {
-          "days": 15,
-          "price": 2650
-        },
-        {
-          "days": 30,
-          "price": 4950
-        }
-      ]
-    },
-    {
       "package_id": "b4bab183-d58f-4a76-987d-11f6249c3166",
       "name": "Romania 500MB/Day",
       "country_code": "RO",
@@ -112482,83 +109862,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "ba715c75-6b16-4ba8-ae80-8ff4b31f7deb",
-      "name": "Laos 3GB/Day FUP1Mbps Premium",
-      "country_code": "LA",
-      "region": "LA",
-      "coverage_country_codes": [
-        "LA"
-      ],
-      "coverage_flags": "🇱🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1350,
-      "networks": [
-        {
-          "operator": "Lao Telecom",
-          "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 3700
-        },
-        {
-          "days": 5,
-          "price": 5900
-        },
-        {
-          "days": 7,
-          "price": 8050
-        },
-        {
-          "days": 10,
-          "price": 11300
-        },
-        {
-          "days": 15,
-          "price": 16700
-        },
-        {
-          "days": 30,
-          "price": 33000
-        }
-      ]
-    },
-    {
       "package_id": "baa696a7-45fe-4031-9044-579ab07d4f60",
       "name": "Aland Islands 1GB/Day",
       "country_code": "AX",
@@ -113774,12 +111077,12 @@
       "price": 14450,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -115115,12 +112418,12 @@
       "price": 3000,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -116272,83 +113575,6 @@
         {
           "days": 30,
           "price": 23450
-        }
-      ]
-    },
-    {
-      "package_id": "c093f26b-fb9d-4ef0-b228-99fdbab530b3",
-      "name": "South Korea 2GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 350,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1050
-        },
-        {
-          "days": 5,
-          "price": 1700
-        },
-        {
-          "days": 7,
-          "price": 2300
-        },
-        {
-          "days": 10,
-          "price": 3200
-        },
-        {
-          "days": 15,
-          "price": 4600
-        },
-        {
-          "days": 30,
-          "price": 8700
         }
       ]
     },
@@ -122729,83 +119955,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "cda01ec8-2588-46a1-b1d3-e69fb2200598",
-      "name": "United States 2GB/Day FUP1Mbps (USIP)",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 400,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1150
-        },
-        {
-          "days": 5,
-          "price": 1850
-        },
-        {
-          "days": 7,
-          "price": 2500
-        },
-        {
-          "days": 10,
-          "price": 3500
-        },
-        {
-          "days": 15,
-          "price": 5000
-        },
-        {
-          "days": 30,
-          "price": 9550
-        }
-      ]
-    },
-    {
       "package_id": "cdaa6079-f2b1-4f14-ae56-b39366532771",
       "name": "EU 120 GB Unlimited Calls",
       "country_code": "AD",
@@ -123062,79 +120211,6 @@
         {
           "days": 30,
           "price": 17900
-        }
-      ]
-    },
-    {
-      "package_id": "ce02f81f-4df3-468c-9405-30cabeac7320",
-      "name": "Australia 3GB/Day",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 650,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1800
-        },
-        {
-          "days": 5,
-          "price": 2900
-        },
-        {
-          "days": 7,
-          "price": 3950
-        },
-        {
-          "days": 10,
-          "price": 5400
-        },
-        {
-          "days": 15,
-          "price": 7900
-        },
-        {
-          "days": 30,
-          "price": 15350
         }
       ]
     },
@@ -123458,83 +120534,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "cead92c2-d45f-4b1f-97b8-2c3720d53a0a",
-      "name": "South Korea 5GB/Day",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 850,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2400
-        },
-        {
-          "days": 5,
-          "price": 3850
-        },
-        {
-          "days": 7,
-          "price": 5200
-        },
-        {
-          "days": 10,
-          "price": 7250
-        },
-        {
-          "days": 15,
-          "price": 10650
-        },
-        {
-          "days": 30,
-          "price": 20800
-        }
-      ]
     },
     {
       "package_id": "ceb65320-5f92-4c6d-913c-516088c1f432",
@@ -133644,12 +130643,12 @@
       "price": 1700,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -136073,83 +133072,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "e09d834d-84bb-4e88-aa5b-ea6cf9766485",
-      "name": "Malaysia 2GB/Day FUP1Mbps (nonhkip)",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 350,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1050
-        },
-        {
-          "days": 5,
-          "price": 1700
-        },
-        {
-          "days": 7,
-          "price": 2300
-        },
-        {
-          "days": 10,
-          "price": 3200
-        },
-        {
-          "days": 15,
-          "price": 4600
-        },
-        {
-          "days": 30,
-          "price": 8700
-        }
-      ]
     },
     {
       "package_id": "e0b73a88-b0c6-4eb0-8d45-98617691d1cd",
@@ -140866,83 +137788,6 @@
       ]
     },
     {
-      "package_id": "e77c393b-c2eb-4d44-92ea-5c55d3a464cd",
-      "name": "Malaysia 2GB/Day (nonhkip)",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 350,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1000
-        },
-        {
-          "days": 5,
-          "price": 1600
-        },
-        {
-          "days": 7,
-          "price": 2200
-        },
-        {
-          "days": 10,
-          "price": 3050
-        },
-        {
-          "days": 15,
-          "price": 4350
-        },
-        {
-          "days": 30,
-          "price": 8250
-        }
-      ]
-    },
-    {
       "package_id": "e784ed94-0a89-44a0-983b-9a6b385ab9f1",
       "name": "Egypt 12 GB",
       "country_code": "EG",
@@ -143403,83 +140248,6 @@
         {
           "days": 30,
           "price": 103800
-        }
-      ]
-    },
-    {
-      "package_id": "ea3db5ce-a117-44c5-980f-069c53a7f721",
-      "name": "United States 1GB/Day (USIP)",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 550
-        },
-        {
-          "days": 5,
-          "price": 850
-        },
-        {
-          "days": 7,
-          "price": 1200
-        },
-        {
-          "days": 10,
-          "price": 1650
-        },
-        {
-          "days": 15,
-          "price": 2400
-        },
-        {
-          "days": 30,
-          "price": 4550
         }
       ]
     },
@@ -148744,12 +145512,12 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
         },
         {
-          "operator": "AirTel",
-          "type": "4G"
+          "operator": "VI-India",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -151110,83 +147878,6 @@
         {
           "days": 30,
           "price": 9650
-        }
-      ]
-    },
-    {
-      "package_id": "f789b427-4e3d-4ed9-bf30-36679d185d51",
-      "name": "Hong Kong 5GB/Day (nonhkip)",
-      "country_code": "HK",
-      "region": "HK",
-      "coverage_country_codes": [
-        "HK"
-      ],
-      "coverage_flags": "🇭🇰",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 800,
-      "networks": [
-        {
-          "operator": "csl",
-          "type": "5G"
-        },
-        {
-          "operator": "SmarTone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2250
-        },
-        {
-          "days": 5,
-          "price": 3650
-        },
-        {
-          "days": 7,
-          "price": 4900
-        },
-        {
-          "days": 10,
-          "price": 6800
-        },
-        {
-          "days": 15,
-          "price": 9950
-        },
-        {
-          "days": 30,
-          "price": 19450
         }
       ]
     },
@@ -153969,83 +150660,6 @@
         {
           "days": 30,
           "price": 13500
-        }
-      ]
-    },
-    {
-      "package_id": "fb152541-871e-44b8-81a4-53e3fea715bb",
-      "name": "United States 1GB/Day FUP1Mbps (USIP)",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 250,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 650
-        },
-        {
-          "days": 5,
-          "price": 1050
-        },
-        {
-          "days": 7,
-          "price": 1400
-        },
-        {
-          "days": 10,
-          "price": 1950
-        },
-        {
-          "days": 15,
-          "price": 2850
-        },
-        {
-          "days": 30,
-          "price": 5250
         }
       ]
     },
