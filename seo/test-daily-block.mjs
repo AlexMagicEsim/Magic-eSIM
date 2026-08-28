@@ -829,3 +829,19 @@ test('the Mini App marks the chosen term the same way, not with a ring', () => {
   assert.match(css, /\.daily-term\.is-selected \.muted,\s*\n\.daily-term\.is-selected \.fact__value\{color:#fff;\}/,
     'the day and the price must both go white on the fill');
 });
+
+test('the order screen names a daily plan the way the card does', () => {
+  // publicPackageName glues the country to formatDataLabel(data_gb), so the
+  // checkout title read «Турция 0.49 GB» — the provider's raw number, on the
+  // screen where the customer commits, while the card beside it said
+  // «Турция — 500 МБ в день». (data_gb is populated on daily rows in
+  // production despite the model saying it should be NULL; the storefront must
+  // not depend on that either way.)
+  const s = read('index.html');
+  assert.match(s, /const name=D\?D\.displayName\(item,countryName\):'';/,
+    'the daily buy button must carry the built name');
+  assert.match(s, /data-name="\$\{escapeHtml\(name\|\|publicPackageName\(item\)\)\}"/,
+    'and the button must prefer it');
+  // An ordinary package still names itself the way it always did.
+  assert.match(s, /function buyButtonHtml\(item,label,name\)\{/);
+});

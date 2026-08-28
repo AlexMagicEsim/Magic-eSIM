@@ -1481,10 +1481,10 @@ function formatRetailPrice(item){
 }
 
 // Shared buy button: same price source; disabled (no checkout) when price is absent.
-function buyButtonHtml(item,label){
+function buyButtonHtml(item,label,name){
   const price = getPackageRetailPrice(item);
   const disabled = price === null ? ' disabled aria-disabled="true"' : '';
-  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-daily-gb="${escapeHtml(item.daily_gb??'')}" data-days="${escapeHtml(item.validity_days||'')}" data-plan-type="${escapeHtml(item.plan_type||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>${escapeHtml(label||'Купить')}</button>`;
+  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(name||publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-daily-gb="${escapeHtml(item.daily_gb??'')}" data-days="${escapeHtml(item.validity_days||'')}" data-plan-type="${escapeHtml(item.plan_type||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>${escapeHtml(label||'Купить')}</button>`;
 }
 
 function escapeHtml(value){
@@ -2283,11 +2283,18 @@ function dailyBuyButtonHtmlInner(item){
   // акцента — раньше его роль играл залитый синий чип, который спорил с CTA;
   // теперь единственная заливка на карточке и есть цена. Число приходит с
   // сервера (term_prices), здесь оно только печатается.
+  // Имя для чека берётся у общего модуля, а не у publicPackageName: тот
+  // склеивает страну с formatDataLabel(data_gb), и на экране оплаты выходило
+  // «Турция 0.49 GB» — сырое число поставщика, которого у дневного тарифа
+  // быть не должно. На карточке в этот момент написано «Турция — 500 МБ в
+  // день»; в заказе должно стоять то же самое.
+  const D=dailyCopy();
+  const name=D?D.displayName(item,countryName):'';
   return buyButtonHtml(Object.assign({},item,{
     validity_days:first.days,
     price:first.price,
     retail_price_rub:first.price,
-  }),`Купить за ${first.price} ₽`);
+  }),`Купить за ${first.price} ₽`,name);
 }
 
 // Выбор срока меняет и цену, и то, что уедет в заказ. Делегируется на документ,
