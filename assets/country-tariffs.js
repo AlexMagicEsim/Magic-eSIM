@@ -994,13 +994,54 @@ function ensureDailyBlock(){
  * (`term_prices`); клиент ничего не умножает и не округляет.
  */
 function dailyTermsHtml(item){
-  const list=Array.isArray(item.term_prices)?item.term_prices:[];
-  if(!list.length) return '';
   const D=dailyCopy();
-  const rows=list.map((t)=>`<li class="daily-term"><span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
-    +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></li>`).join('');
-  return `<ul class="daily-terms">${rows}</ul>`;
+  let list=Array.isArray(item.term_prices)?item.term_prices:[];
+
+  // Тариф с фиксированным сроком (MobiMatter) лестницы не имеет: срок один и
+  // выбирать нечего. Но цена у него всё равно должна быть видна — без этой
+  // ветки такая карточка не показывала цену НИГДЕ, — и высота блока должна
+  // совпадать с соседней, иначе всё ниже разъезжается.
+  if(!list.length && String(item.daily_term_mode||'')==='FIXED_TERM'
+     && Number(item.validity_days)>0 && Number(item.price)>0){
+    list=[{days:Number(item.validity_days),price:Number(item.price)}];
+  }
+  if(!list.length) return '';
+  // Радиогруппа из кнопок, а не список цен. Срок — это и есть продукт, и
+  // покупатель должен видеть, что его выбирают, и какой выбран сейчас.
+  // Первый выбран заранее: состояния «ничего не выбрано» у карточки нет.
+  const chips=list.map((t,i)=>`<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}"`
+    +` role="radio" aria-checked="${i===0?'true':'false'}"`
+    +` data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
+    +`<span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
+    +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></button>`).join('');
+  return `<div class="daily-terms" role="radiogroup" aria-label="Срок">${chips}</div>`;
 }
+
+// Выбор срока. Делегируется на документ, потому что карточки перерисовываются
+// целиком при каждой сортировке и смене страны.
+//
+// На страновой странице оформления нет: кнопка ведёт на лендинг, где тариф и
+// срок выбираются заново. Поэтому выбор здесь меняет то, что видно на карточке,
+// и НЕ дописывается в ссылку: параметр, который выглядит как перенос выбора, но
+// лендингом не читается, — обещание, которого никто не выполняет.
+document.addEventListener('click',function(ev){
+  const btn=ev.target.closest&&ev.target.closest('.js-daily-term');
+  if(!btn)return;
+  const card=btn.closest('.daily-card');
+  if(!card)return;
+
+  card.querySelectorAll('.js-daily-term').forEach(function(b){
+    const on=b===btn;
+    b.classList.toggle('is-selected',on);
+    b.setAttribute('aria-checked',on?'true':'false');
+  });
+
+  const link=card.querySelector('.js-buy-link');
+  if(link){
+    link.dataset.days=btn.dataset.days;
+    link.dataset.price=btn.dataset.price;
+  }
+});
 
 function renderDailyCard(item){
   const D=dailyCopy();
@@ -1009,6 +1050,20 @@ function renderDailyCard(item){
   if(!lines.length) return '';
   const speed=tariffNetworkLabel(item);
   const terms=dailyTermsHtml(item);
+  let priced=Array.isArray(item.term_prices)?item.term_prices:[];
+  if(!priced.length && String(item.daily_term_mode||'')==='FIXED_TERM'
+     && Number(item.validity_days)>0 && Number(item.price)>0){
+    priced=[{days:Number(item.validity_days),price:Number(item.price)}];
+  }
+  // Срок, который нельзя оценить, — срок, который нельзя продать. Без лестницы
+  // кнопки покупки нет вовсе, а не есть кнопка, ведущая в никуда.
+  const buy=priced.length
+    ? buyButtonHtml(Object.assign({},item,{
+        validity_days:priced[0].days,
+        price:priced[0].price,
+        retail_price_rub:priced[0].price,
+      }))
+    : '<span class="btn package-buy" aria-disabled="true" style="opacity:.5;pointer-events:none">Временно недоступен</span>';
   return `
     <article class="package-card daily-card reveal visible">
       <div class="package-topline"><span class="package-availability">В наличии</span></div>
@@ -1017,7 +1072,7 @@ function renderDailyCard(item){
       ${terms}
       ${speed?`<div class="package-tags"><span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span></div>`:''}
       <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}</div>
-      <div class="package-actions">${buyButtonHtml(item)}</div>
+      <div class="package-actions">${buy}</div>
     </article>`;
 }
 

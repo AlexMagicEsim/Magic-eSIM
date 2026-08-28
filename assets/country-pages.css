@@ -405,6 +405,11 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 
 .daily-lines{
   list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;
+  /* Три строки максимум — allowance, throttle, reset. Резервируем высоту под
+     все три, чтобы карточка с двумя строками не поднимала свои сроки, сеть,
+     покрытие и кнопку выше соседней с тремя. Текст длиннее переносится и
+     блок растёт — выравнивание держит min-height, а не обрезка. */
+  min-height:66px;
 }
 .daily-line{
   position:relative;padding-left:18px;font-size:14px;line-height:1.45;color:#1f2937;
@@ -418,16 +423,57 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
 .daily-line--throttle,
 .daily-line--reset{color:#475569;}
 
+/* ---------------------------------------------------------------------
+ * Выбор срока.
+ *
+ * Срок — это и есть продукт, поэтому он выбирается кнопкой, а не читается
+ * строкой прайса. Раньше это был список: цены видно, а что по ним можно
+ * кликнуть и что один из них уже выбран — нет.
+ *
+ * Кнопки переносятся (flex-wrap), а не сжимаются: на узком экране лучше
+ * два ряда читаемых чипов, чем шесть нечитаемых.
+ * ------------------------------------------------------------------ */
 .daily-terms{
-  list-style:none;margin:14px 0 0;padding:10px 0 0;display:grid;gap:4px;
-  border-top:1px solid #e5e7eb;
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin:14px 0 0;padding:12px 0 0;border-top:1px solid #e5e7eb;
+  /* Две строки чипов, чтобы у карточки с шестью сроками и у карточки с
+     одним (фиксированный срок MobiMatter) следующий блок начинался на
+     одной высоте. */
+  min-height:92px;align-content:flex-start;
 }
 .daily-term{
-  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-  font-size:14px;color:#334155;
+  flex:1 1 auto;min-width:96px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-sm);
+  background:#fff;color:inherit;font:inherit;cursor:pointer;
+  transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
 }
-.daily-term-days{color:#64748b;}
-.daily-term-price{font-weight:600;color:#0f172a;font-variant-numeric:tabular-nums;}
+.daily-term:hover{border-color:#c7d2fe;background:#f8fafc;}
+.daily-term:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+/* Выбранный срок — не оттенок, а явная рамка: на телефоне под солнцем
+   разницу в фоне не видно, а обводку видно. */
+.daily-term.is-selected{
+  border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue);background:#eef2ff;
+}
+.daily-term-days{font-size:12px;color:#64748b;white-space:nowrap;}
+.daily-term.is-selected .daily-term-days{color:#3730a3;}
+.daily-term-price{
+  font-size:15px;font-weight:700;color:#0f172a;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+
+/* Карточка дневного тарифа: одинаковые ряды и кнопка по нижней линии.
+   .packages-grid уже растягивает карточки на равную высоту; выравнивать
+   нужно ряды ВНУТРИ них. */
+.daily-card .package-title{
+  /* Две строки заголовка: «Япония 1 ГБ/день» и «Ireland 500MB/Day FUP1Mbps»
+     не должны сдвигать друг другу всё, что ниже. */
+  min-height:48px;display:flex;align-items:flex-start;
+}
+.daily-card .package-tags{min-height:32px;align-items:flex-start;}
+.daily-card .package-info{min-height:64px;}
+/* Кнопка прижата к низу независимо от того, сколько текста выше. */
+.daily-card .package-actions{margin-top:auto;}
 
 @media (prefers-color-scheme:dark){
   .daily-line{color:#cbd5e1;}
@@ -435,7 +481,21 @@ body > footer.site-foot{padding-block:26px 34px;margin-top:10px;border-top:1px s
   .daily-line--throttle,
   .daily-line--reset{color:#94a3b8;}
   .daily-terms{border-top-color:#334155;}
-  .daily-term{color:#cbd5e1;}
+  .daily-term{background:transparent;border-color:#334155;}
+  .daily-term:hover{background:#1e293b;border-color:#475569;}
+  .daily-term.is-selected{background:#1e1b4b;border-color:#818cf8;box-shadow:inset 0 0 0 1px #818cf8;}
   .daily-term-days{color:#94a3b8;}
+  .daily-term.is-selected .daily-term-days{color:#c7d2fe;}
   .daily-term-price{color:#f1f5f9;}
+}
+
+@media (max-width:560px){
+  /* На телефоне карточки идут в один столбец, выравнивать между соседями
+     нечего — резервированную высоту снимаем, чтобы не было пустот. */
+  .daily-lines,
+  .daily-terms{min-height:0;}
+  .daily-card .package-title{min-height:0;}
+  .daily-card .package-tags,
+  .daily-card .package-info{min-height:0;}
+  .daily-term{flex:1 1 calc(50% - 4px);min-width:0;}
 }

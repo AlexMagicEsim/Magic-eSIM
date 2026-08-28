@@ -2091,9 +2091,18 @@ function dailyCopy(){return (typeof window!=='undefined'&&window.MagicDailyPlan)
 // Цены на сроки приходят с сервера готовыми (`term_prices`). Клиент ничего не
 // умножает: иначе браузер стал бы вторым мнением о сумме, которую человек платит.
 function dailyTermsHtml(item){
-  const list=Array.isArray(item.term_prices)?item.term_prices:[];
-  if(!list.length)return '';
   const D=dailyCopy();
+  let list=Array.isArray(item.term_prices)?item.term_prices:[];
+
+  // Тариф с фиксированным сроком (MobiMatter) лестницы не имеет: срок один и
+  // выбирать нечего. Но цена у него всё равно должна быть видна — без этой
+  // ветки такая карточка не показывала цену НИГДЕ, — и высота блока должна
+  // совпадать с соседней, иначе всё ниже разъезжается.
+  if(!list.length && String(item.daily_term_mode||'')==='FIXED_TERM'
+     && Number(item.validity_days)>0 && Number(item.price)>0){
+    list=[{days:Number(item.validity_days),price:Number(item.price)}];
+  }
+  if(!list.length)return '';
   // Радиогруппа, а не список: срок — это и есть продукт, поэтому он выбирается
   // до оплаты, а не после. Первый вариант выбран заранее, чтобы карточка не
   // умела состояния «ничего не выбрано», из которого нельзя купить.
@@ -2101,6 +2110,25 @@ function dailyTermsHtml(item){
     `<button type="button" class="daily-term js-daily-term${i===0?' is-selected':''}" role="radio" aria-checked="${i===0?'true':'false'}" data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
     +`<span class="daily-term-days">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
     +`<span class="daily-term-price">${escapeHtml(String(t.price))} ₽</span></button>`).join('')}</div>`;
+}
+
+// Кнопка покупки дневного тарифа. data-days и data-price описывают ВЫБРАННЫЙ
+// срок, а не строку каталога: у PER_DAY-тарифа срока в каталоге нет.
+// Без лестницы цен кнопки нет вовсе — срок, который нельзя оценить, нельзя и
+// продать, и вести человека в оформление, где он получит отказ, незачем.
+function dailyBuyButtonHtmlInner(item){
+  let first=(Array.isArray(item.term_prices)?item.term_prices:[])[0];
+  // Как и в лестнице выше: у фиксированного срока её нет, но продукт есть.
+  if(!first && String(item.daily_term_mode||'')==='FIXED_TERM'
+     && Number(item.validity_days)>0 && Number(item.price)>0){
+    first={days:Number(item.validity_days),price:Number(item.price)};
+  }
+  if(!first) return '<span class="btn package-buy" aria-disabled="true" style="opacity:.5;pointer-events:none">Временно недоступен</span>';
+  return buyButtonHtml(Object.assign({},item,{
+    validity_days:first.days,
+    price:first.price,
+    retail_price_rub:first.price,
+  }));
 }
 
 // Выбор срока меняет и цену, и то, что уедет в заказ. Делегируется на документ,
@@ -2140,13 +2168,7 @@ function renderDailyCard(item){
 // Та же кнопка, что у обычной карточки, но её data-days/data-price описывают
 // ВЫБРАННЫЙ срок, а не строку каталога: у PER_DAY-тарифа в каталоге срока нет.
 function dailyBuyButtonHtml(item){
-  const first=(Array.isArray(item.term_prices)?item.term_prices:[])[0];
-  const html=buyButtonHtml(Object.assign({},item,{
-    validity_days:first?first.days:'',
-    price:first?first.price:item.price,
-    retail_price_rub:first?first.price:item.retail_price_rub,
-  }));
-  return html;
+  return dailyBuyButtonHtmlInner(item);
 }
 
 // Split the selected country's tariffs: local first, regional (multi-country/global) after.

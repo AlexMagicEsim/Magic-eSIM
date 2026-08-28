@@ -249,3 +249,141 @@ test('a daily plan with no priced ladder cannot be bought in the Mini App', () =
   assert.match(s, /isDaily && !terms\.length/);
   assert.match(s, /нельзя оформить/);
 });
+
+// ---------------------------------------------------------------------------
+// The term selector, and the row alignment it has to sit inside
+// ---------------------------------------------------------------------------
+
+test('both surfaces render the term as a clickable radio, not a price list', () => {
+  // It used to be a <ul> of <li> on the country pages: the prices were visible
+  // and the fact that one could be chosen — and that one already was — was not.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 1600);
+    assert.match(fn, /role="radiogroup"/, `${f}: the group must announce itself`);
+    assert.match(fn, /<button type="button" class="daily-term js-daily-term/, `${f}: each term is a button`);
+    assert.match(fn, /aria-checked="\$\{i===0\?'true':'false'\}"/, `${f}: exactly one is checked`);
+    assert.match(fn, /i===0\?' is-selected':''/, `${f}: the first is selected by default`);
+    assert.ok(!/<li class="daily-term"/.test(fn), `${f}: no list rows left`);
+  }
+});
+
+test('a chip shows the term AND its price, both from the server', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 1600);
+    assert.match(fn, /daily-term-days/);
+    assert.match(fn, /daily-term-price/);
+    assert.match(fn, /t\.price/, 'the price is the server\'s');
+    assert.match(fn, /pluralDays/, 'and the day word comes from the shared module');
+  }
+});
+
+test('choosing a term moves the selection and what the buy button will send', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const at = s.indexOf("closest('.js-daily-term')");
+    assert.ok(at > 0, `${f}: no handler for the chips`);
+    const handler = s.slice(at, at + 900);
+    assert.match(handler, /classList\.toggle\('is-selected'/, `${f}: the selection must be visible`);
+    assert.match(handler, /setAttribute\('aria-checked'/, `${f}: and announced`);
+    assert.match(handler, /dataset\.days\s*=/, `${f}: the chosen term must reach the buy control`);
+    assert.match(handler, /dataset\.price\s*=/);
+  }
+});
+
+test('a plan with no priced ladder cannot be bought on either surface', () => {
+  // A term we cannot price is a term we cannot sell, and a button that leads to
+  // a refusal is worse than no button.
+  for (const f of SURFACES) {
+    const s = read(f);
+    assert.match(s, /Временно недоступен/, `${f}: must refuse rather than offer`);
+    assert.match(s, /aria-disabled="true"/);
+  }
+});
+
+test('no surface computes a price for a term', () => {
+  for (const f of SURFACES) {
+    const region = dailyRegion(read(f));
+    for (const op of ['\\*', '/']) {
+      assert.ok(!new RegExp(`price\\s*${op}`).test(region), `${f}: no arithmetic on a price`);
+      assert.ok(!new RegExp(`${op}\\s*days`).test(region), `${f}: no arithmetic on a term`);
+    }
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Alignment
+// ---------------------------------------------------------------------------
+
+test('the daily card aligns its rows and puts the button on one bottom line', () => {
+  // The grid already stretches cards to equal height; what drifted was the rows
+  // INSIDE them — a 500 MB card whose description wraps to two lines pushed its
+  // terms, network, coverage and button above its neighbour's.
+  const css = read('assets/country-pages.css');
+
+  for (const rule of ['.daily-lines', '.daily-terms']) {
+    const at = css.indexOf(rule + '{');
+    assert.ok(at > 0, `${rule} is not styled`);
+    assert.match(css.slice(at, at + 400), /min-height:/, `${rule} must reserve its row`);
+  }
+
+  for (const rule of ['.daily-card .package-title', '.daily-card .package-tags', '.daily-card .package-info']) {
+    const at = css.indexOf(rule + '{');
+    assert.ok(at > 0, `${rule} is not styled`);
+    assert.match(css.slice(at, at + 200), /min-height:/, `${rule} must reserve its row`);
+  }
+
+  const actions = css.indexOf('.daily-card .package-actions{');
+  assert.ok(actions > 0);
+  assert.match(css.slice(actions, actions + 120), /margin-top:auto/,
+    'the button must sit on the bottom line however much text is above it');
+});
+
+test('the chips wrap instead of shrinking, and the selection survives a dark theme', () => {
+  const css = read('assets/country-pages.css');
+  const terms = css.slice(css.indexOf('.daily-terms{'), css.indexOf('.daily-terms{') + 400);
+  assert.match(terms, /flex-wrap:wrap/, 'two readable rows beat six unreadable chips');
+
+  const selected = css.indexOf('.daily-term.is-selected{');
+  assert.ok(selected > 0, 'the selected state must be styled');
+  // A border, not just a tint: a background difference is invisible on a phone
+  // in sunlight.
+  assert.match(css.slice(selected, selected + 200), /border-color:/);
+
+  assert.ok(css.includes('prefers-color-scheme:dark'), 'the card has a dark theme');
+  const dark = css.slice(css.indexOf('@media (prefers-color-scheme:dark)'));
+  assert.match(dark, /\.daily-term\.is-selected\{/, 'and the selection stays visible in it');
+});
+
+test('mobile drops the reserved heights, because there is nothing to align against', () => {
+  const css = read('assets/country-pages.css');
+  const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
+  assert.match(mobile, /\.daily-terms\{min-height:0/, 'one column needs no reserved rows');
+  assert.match(mobile, /\.daily-term\{flex:1 1 calc\(50%/, 'two chips per row on a phone');
+});
+
+test('a fixed-term plan shows its price too, and reserves the same row', () => {
+  // MobiMatter sells a finished product: one term, nothing to choose. It has no
+  // ladder, and without this branch such a card showed its price NOWHERE — the
+  // chips are the only place a daily card carries one — and left the terms row
+  // empty, so everything below it sat higher than on the card beside it.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 1600);
+    assert.match(fn, /daily_term_mode\|\|''\)==='FIXED_TERM'/, `${f}: must handle the fixed term`);
+    assert.match(fn, /days:Number\(item\.validity_days\),price:Number\(item\.price\)/,
+      `${f}: from the row's own term and price`);
+  }
+});
+
+test('a fixed-term plan is buyable, and an unpriceable one still is not', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    // The buy control falls back to the row's own term for a fixed-term plan…
+    assert.match(s, /FIXED_TERM'\s*\n?\s*&& Number\(item\.validity_days\)>0 && Number\(item\.price\)>0/,
+      `${f}: fixed-term plans must remain sellable`);
+    // …and still refuses when there is neither a ladder nor a term.
+    assert.match(s, /Временно недоступен/);
+  }
+});
