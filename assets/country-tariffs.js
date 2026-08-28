@@ -1112,18 +1112,57 @@ document.addEventListener('keydown',dailyTermsKeydown);
  * утверждение о том, как работает eSIM, а не о возможностях тарифа.
  *
  * Теги и строки справки — компоненты обычной карточки, свои не заводятся. */
+/* Диапазон сроков для строки «Срок действия» в модалке.
+ *
+ * У PER_DAY-тарифа фиксированного срока нет — его выбирает покупатель, — но
+ * «—» в этой строке ничего не сообщает. Диапазон берётся из той же серверной
+ * лестницы, что и цены: ничего не вычисляется и не выдумывается. У FIXED_TERM
+ * лестница из одного срока, и min === max даёт одно число.
+ */
+function dailyTermRangeLabel(item){
+  const list=(Array.isArray(item&&item.term_prices)&&item.term_prices.length)
+    ? item.term_prices.map((t)=>Number(t.days))
+    : (Array.isArray(item&&item.sellable_days)?item.sellable_days.map(Number):[]);
+  const days=list.filter((n)=>Number.isFinite(n)&&n>0);
+  if(!days.length)return String((item&&item.validity_days)||'');
+  const min=Math.min.apply(null,days),max=Math.max.apply(null,days);
+  return min===max?String(min):`${min}–${max}`;
+}
+
+/* Кнопка «Покрытие и условия» — ТА ЖЕ, что у обычной карточки: тот же класс,
+ * тот же делегат `.js-coverage`, та же модалка. Здесь только раскладываются
+ * data-* конкретного дневного тарифа, и каждое значение проходит через
+ * существующий маппер, поэтому неизвестное остаётся неизвестным:
+ * tariffHotspotLabel возвращает '' для null, и модалка прячет строку целиком.
+ */
+function dailyCoverageButtonHtml(item,name,speed){
+  const D=dailyCopy();
+  return `<button type="button" class="btn package-coverage-btn js-coverage"`
+    +` data-package-id="${escapeHtml(item.package_id||'')}"`
+    +` data-name="${escapeHtml(name||'')}"`
+    +` data-data="${escapeHtml(D?`${D.formatAllowance(item.daily_gb)} в день`:'')}"`
+    +` data-days="${escapeHtml(dailyTermRangeLabel(item))}"`
+    +` data-speed="${escapeHtml(speed||'')}"`
+    +` data-hotspot="${escapeHtml(tariffHotspotLabel(item))}"`
+    +` data-activation="${escapeHtml(tariffActivationLabel(item))}"`
+    +` data-note="${escapeHtml(tariffText(item,'speed_note'))}"`
+    +` data-fup="${escapeHtml(tariffText(item,'fup_policy'))}"`
+    +` data-topup="${item.topup_available===true?'1':'0'}"`
+    +` data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>`;
+}
+
 function dailyTagsHtml(item){
   const tags=[];
   if(item&&item.topup_available===true)tags.push(`<span class="package-tag">${ICON_REFRESH}Пополнение</span>`);
   return tags.join('');
 }
 
+/* Раздача — только там, где провайдер её подтвердил. Активация и остальные
+ * условия переехали в «Покрытие и условия»: у 98% дневных строк это одна и та
+ * же фраза, и на карточке она лишь отодвигала лестницу сроков от кнопки. */
 function dailyExtraInfoHtml(item){
-  const out=[];
   const hotspot=tariffHotspotLabel(item);
-  if(hotspot)out.push(`<br><strong>Раздача интернета:</strong> ${escapeHtml(hotspot)}`);
-  out.push(`<br><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.`);
-  return out.join('');
+  return hotspot?`<br><strong>Раздача интернета:</strong> ${escapeHtml(hotspot)}`:'';
 }
 
 function renderDailyCard(item){
@@ -1158,7 +1197,9 @@ function renderDailyCard(item){
       <div class="package-tags">${dailyTagsHtml(item)}</div>
       <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}${lines.slice(1).map((l)=>`<br>${escapeHtml(l.text)}`).join('')}${dailyExtraInfoHtml(item)}</div>
       ${dailyTermsHtml(item)}
-      <div class="package-actions">${buy}</div>
+      <div class="package-actions">${buy}
+        ${dailyCoverageButtonHtml(item,D.displayName(item,countryName),speed)}
+      </div>
     </article>`;
 }
 

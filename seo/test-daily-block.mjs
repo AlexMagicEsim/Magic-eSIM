@@ -588,7 +588,8 @@ const SAMPLE = {
 
 function renderer(file) {
   const copy = read('assets/daily-plan-copy.js');
-  const body = extractFns(file, ['dailyTermsHtml', 'dailyTagsHtml', 'dailyExtraInfoHtml', 'renderDailyCard']);
+  const body = extractFns(file, ['dailyTermsHtml', 'dailyTagsHtml', 'dailyExtraInfoHtml',
+    'dailyTermRangeLabel', 'dailyCoverageButtonHtml', 'renderDailyCard']);
   const buyName = file === 'index.html' ? 'dailyBuyButtonHtml' : null;
   const extra = buyName ? extractFns(file, ['dailyBuyButtonHtmlInner', 'dailyBuyButtonHtml']) : '';
   return new Function('window', `
@@ -605,6 +606,8 @@ function renderer(file) {
       : p.hotspot_supported === false ? 'не поддерживается' : '');
     const tariffActivationLabel = (p) => (p.activation_policy === 'first_data_usage'
       ? 'с первого использования интернета' : 'с первого подключения к сети');
+    const tariffText = (p, k) => String(p[k] || '');
+    const coverageCountriesText = (p) => (p.coverage_country_codes || []).join(', ');
     const buyButtonHtml = (p) =>
       '<a class="btn package-buy js-buy" data-days="' + escapeHtml(p.validity_days)
       + '" data-price="' + escapeHtml(p.price) + '">Купить</a>';
@@ -952,7 +955,17 @@ test('the card states tethering only where the provider states it', () => {
     const fn = s.slice(at, at + 700);
     // Routed through the shared mapper, which returns '' for null.
     assert.match(fn, /tariffHotspotLabel\(item\)/, `${f}: the mapper decides, not the card`);
-    assert.match(fn, /if\(hotspot\)/, `${f}: an unknown value prints nothing at all`);
+    // Behaviour, not spelling: run it. Pinning `if(hotspot)` broke the moment
+    // the same rule was written as a ternary.
+    const run = new Function('tariffHotspotLabel', 'escapeHtml',
+      `${fn.slice(0, fn.indexOf('\n}') + 2)}; return dailyExtraInfoHtml;`)(
+      (p) => (p.hotspot_supported === true ? 'поддерживается'
+        : p.hotspot_supported === false ? 'не поддерживается' : ''),
+      (v) => String(v));
+    assert.equal(run({ hotspot_supported: null }), '', `${f}: unknown prints nothing`);
+    assert.equal(run({}), '', `${f}: absent prints nothing`);
+    assert.match(run({ hotspot_supported: true }), /Раздача интернета:<\/strong> поддерживается/,
+      `${f}: a confirmed yes is stated`);
     // …and the card must not invent the negative either.
     assert.ok(!/Раздача[^<]*не поддерживается/.test(fn),
       `${f}: «not supported» must come from the mapper, never be hardcoded`);
@@ -984,5 +997,78 @@ test('the term selector keeps its air above the CTA', () => {
   // The rhythm it borrows is the ordinary card's own.
   for (const file of Object.values(CSS_SURFACES)) {
     assert.match(read(file), /\.package-price\{[^}]*margin-bottom:14px/, `${file}: the price sets that rhythm`);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// «Покрытие и условия» — the ordinary card's button, not a copy of it.
+//
+// The modal is generic: a document-level delegate on .js-coverage reads the
+// clicked button's data-* and fills the rows. So a daily card needs no new
+// component, no new CSS and no new handler — only the same button with its own
+// values, each one routed through a mapper that already exists.
+
+test('the daily card reuses the coverage button, class for class', () => {
+  for (const f of SURFACES) {
+    const s = read(f);
+    const at = s.indexOf('function dailyCoverageButtonHtml');
+    assert.ok(at > 0, `${f}: no coverage button for daily`);
+    const fn = s.slice(at, at + 1400);
+
+    // Same class list as the ordinary card's — that is what makes it identical
+    // visually AND what the existing delegate listens for.
+    assert.match(fn, /class="btn package-coverage-btn js-coverage"/, `${f}: the same button`);
+    // Every slot the modal fills, and every one through the existing mapper.
+    for (const [attr, src] of [
+      ['data-hotspot', /tariffHotspotLabel\(item\)/],
+      ['data-activation', /tariffActivationLabel\(item\)/],
+      ['data-note', /tariffText\(item,'speed_note'\)/],
+      ['data-fup', /tariffText\(item,'fup_policy'\)/],
+      ['data-countries', /coverageCountriesText\(item\)/],
+    ]) {
+      assert.ok(fn.includes(attr), `${f}: ${attr} is missing`);
+      assert.match(fn, src, `${f}: ${attr} must come from the shared mapper`);
+    }
+    // Top-up is a strict true, so an unknown never renders as «доступно».
+    assert.match(fn, /item\.topup_available===true\?'1':'0'/, `${f}: strict true`);
+    // And the button sits in the same .package-actions the ordinary card uses,
+    // which is where its 8px gap comes from — no new spacing rule.
+    assert.match(s, /<div class="package-actions">[\s\S]{0,120}dailyCoverageButtonHtml\(item/,
+      `${f}: the button must live in the ordinary actions block`);
+  }
+  // The spacing really is the ordinary card's.
+  for (const file of Object.values(CSS_SURFACES)) {
+    assert.match(read(file), /\.package-actions\{display:flex;flex-direction:column;gap:8px\}/, file);
+  }
+});
+
+test('the term range in the modal comes from the server ladder', () => {
+  // «Срок действия» would otherwise read «—» on a per-day plan, which says
+  // nothing. The range is read off term_prices — the same rouble ladder the
+  // card prints — and never computed.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const at = s.indexOf('function dailyTermRangeLabel');
+    assert.ok(at > 0, `${f}: no range helper`);
+    const range = new Function(`${s.slice(at, s.indexOf('\n}', at) + 2)}; return dailyTermRangeLabel;`)();
+    assert.equal(range({ term_prices: [{ days: 3 }, { days: 7 }, { days: 30 }] }), '3–30');
+    assert.equal(range({ term_prices: [{ days: 5 }] }), '5', 'a single term is not a range');
+    assert.equal(range({ sellable_days: [3, 10] }), '3–10', 'falls back to the sellable list');
+    assert.equal(range({ validity_days: 7 }), '7', 'and to a fixed term when there is no ladder');
+    assert.equal(range({}), '', 'nothing known means nothing claimed');
+  }
+});
+
+test('activation moved to the modal and left the card', () => {
+  // It is the same sentence on 98% of daily rows; on the card it only pushed
+  // the term ladder away from the CTA. The modal still shows it, and so does
+  // the ordinary card — nothing was lost, only de-duplicated.
+  for (const f of SURFACES) {
+    const s = read(f);
+    const at = s.indexOf('function dailyExtraInfoHtml');
+    const fn = s.slice(at, at + 600);
+    assert.ok(!/Активация/.test(fn), `${f}: activation must not be on the card any more`);
+    assert.match(s, /data-activation="\$\{escapeHtml\(tariffActivationLabel\(item\)\)\}"/,
+      `${f}: …but the modal must still receive it`);
   }
 });
