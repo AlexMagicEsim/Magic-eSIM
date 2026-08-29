@@ -484,6 +484,60 @@ function dailyTerms(pkg) {
 }
 
 /**
+ * The cheapest price this package can ACTUALLY be bought at — or null when it
+ * cannot be bought at all.
+ *
+ * WHY THIS EXISTS. The country card's «от X ₽» used to be `min(item.price)`
+ * over every package. For a PER_DAY plan `price` is the rate for ONE DAY, and
+ * no such plan is sold for one day — the shortest term is three. So Turkey
+ * advertised «от 100 ₽» while the cheapest thing anyone could put in a basket
+ * cost 200 ₽. Sixteen of sixteen popular countries were wrong, and 183 of 196
+ * across the catalogue.
+ *
+ * The ladder is read through `dailyTerms`, the same function the country screen
+ * and the tariff card already use, so the card and the screen can never again
+ * disagree about what a plan costs — there is one reader of `term_prices`, not
+ * two.
+ *
+ * The three cases, and why each is what it is:
+ *   - DAILY with a priced ladder  -> the cheapest term in the ladder. This is
+ *     the number the buyer sees when the plan opens.
+ *   - DAILY, mode PER_DAY, no ladder -> null. `dailyCard` shows «—» and
+ *     refuses to open such a plan, so it is not on sale and must not set a
+ *     price the card promises. Zero rows today; the branch is here so a future
+ *     data defect degrades to "no price" rather than back to "a lie".
+ *   - anything else (FIXED_TERM daily, FIXED_VOLUME) -> `price`, which for
+ *     those IS the whole-purchase price.
+ */
+function sellableFrom(pkg) {
+  if (!pkg || typeof pkg !== 'object') return null;
+
+  if (String(pkg.plan_type || '') === 'DAILY') {
+    const terms = dailyTerms(pkg);
+    if (terms.length) return Math.min(...terms.map((t) => t.price));
+    if (String(pkg.daily_term_mode || '') === 'PER_DAY') return null;
+  }
+
+  const n = Number(pkg.price);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/**
+ * The «от» for a group of packages: the cheapest one anybody can buy.
+ *
+ * Deliberately NOT `items[0].price` after the sort. The sort orders the list
+ * the screen renders and is left alone; the price shown on the card is a
+ * different question, and answering it from the sort is what tied the two
+ * together and produced the wrong number.
+ */
+function groupFrom(items) {
+  const prices = (Array.isArray(items) ? items : [])
+    .map(sellableFrom)
+    .filter((n) => n !== null);
+  return prices.length ? Math.min(...prices) : null;
+}
+
+/**
  * What makes two purchases the same intent.
  *
  * ONE builder, used by both the mint and the clear. They were separate copies
@@ -1267,7 +1321,7 @@ function byCountry(packages) {
 
   for (const group of map.values()) {
     group.items.sort((a, b) => Number(a.price) - Number(b.price));
-    group.from = group.items.length ? Number(group.items[0].price) : null;
+    group.from = groupFrom(group.items);
     group.best = pickBestValue(group.items);
   }
 
@@ -1315,7 +1369,7 @@ function groupCatalogue(packages) {
 
   const finish = (g) => {
     g.items.sort((a, b) => Number(a.price) - Number(b.price));
-    g.from = g.items.length ? Number(g.items[0].price) : null;
+    g.from = groupFrom(g.items);
     g.best = pickBestValue(g.items);
 
     return g;
@@ -2046,7 +2100,7 @@ const CORE = {
   PROMO_MESSAGES, promoMessage, normalisePromoCode, readPromoQuote,
   gb, money, daysLeft, remainingFraction,
   purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
-  dailyCopy, partitionDaily, dailyTerms,
+  dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,
   byCountry, pickBestValue, searchCountries,
   groupCatalogue, regionsCovering, countryLabel, flagFor, isRegional,
   regionLabel, plural, tariffWord, countryWord,

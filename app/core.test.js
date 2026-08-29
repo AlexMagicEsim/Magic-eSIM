@@ -1652,3 +1652,89 @@ test('an ordinary purchase intent is unchanged by any of this', () => {
   const b = C.purchaseIntentKey({ ...base, days: undefined }, store, () => 'bbbbbbbb');
   assert.equal(a, b, 'no term means the same intent as before terms existed');
 });
+
+/* --------------------------------------------------------------------------
+ * «от X ₽» — the price on the card must be one a person can actually pay
+ *
+ * The bug this pins: the card took min(item.price) over every package, and for
+ * a PER_DAY plan `price` is the rate for ONE DAY. No such plan is sold for one
+ * day — the shortest term is three. Turkey advertised «от 100 ₽» while the
+ * cheapest purchase was 200 ₽. Sixteen of sixteen popular countries were wrong.
+ * ----------------------------------------------------------------------- */
+
+const PER_DAY = (over) => ({
+  package_id: 'd1', country_code: 'TR', plan_type: 'DAILY', daily_term_mode: 'PER_DAY',
+  daily_gb: 1, price: 100,
+  term_prices: [{ days: 3, price: 200 }, { days: 5, price: 350 }, { days: 7, price: 500 }],
+  ...over,
+});
+
+test('a per-day plan contributes its cheapest TERM, never its per-day rate', () => {
+  const tr = C.byCountry([PER_DAY()]).find((g) => g.country_code === 'TR');
+
+  assert.equal(tr.from, 200, 'the three-day term, which is the shortest sold');
+  assert.notEqual(tr.from, 100, 'the per-day rate is not a purchasable price');
+});
+
+test('a cheap per-day rate cannot undercut a real volume price', () => {
+  // 100/day looks cheapest and is unbuyable; the 150 ₽ volume plan is the
+  // cheapest thing anyone can actually put in a basket.
+  const tr = C.byCountry([
+    PER_DAY(),
+    { package_id: 'v1', country_code: 'TR', price: 150 },
+  ]).find((g) => g.country_code === 'TR');
+
+  assert.equal(tr.from, 150);
+});
+
+test('a per-day plan with no priced ladder sets no price at all', () => {
+  // dailyCard shows «—» for it and refuses to open it, so it is not on sale.
+  // Falling back to `price` here would put the per-day rate straight back.
+  const only = C.byCountry([PER_DAY({ term_prices: [] })]).find((g) => g.country_code === 'TR');
+  assert.equal(only.from, null);
+
+  const withVolume = C.byCountry([
+    PER_DAY({ term_prices: [] }),
+    { package_id: 'v1', country_code: 'TR', price: 900 },
+  ]).find((g) => g.country_code === 'TR');
+  assert.equal(withVolume.from, 900, 'the unsellable plan is ignored, not preferred');
+});
+
+test('a fixed-term daily plan is priced by its own price, not a ladder', () => {
+  // FIXED_TERM carries the whole-term price in `price` and has no term_prices.
+  const tr = C.byCountry([{
+    package_id: 'f1', country_code: 'TR', plan_type: 'DAILY',
+    daily_term_mode: 'FIXED_TERM', daily_gb: 1, validity_days: 5, price: 640,
+  }]).find((g) => g.country_code === 'TR');
+
+  assert.equal(tr.from, 640);
+});
+
+test('regional groups price the same way as countries', () => {
+  const { regions } = C.groupCatalogue([
+    PER_DAY({ package_id: 'r1', country_code: 'EU', coverage_country_codes: ['FR', 'DE', 'IT'] }),
+  ]);
+
+  assert.equal(regions.length, 1);
+  assert.equal(regions[0].from, 200, 'the ladder, not the per-day rate');
+});
+
+test('the from-price is computed apart from the sort, which is left alone', () => {
+  // The sort orders the list the screen renders; the card price is a different
+  // question. Answering it from items[0] is what tied them together.
+  const tr = C.byCountry([
+    { package_id: 'v2', country_code: 'TR', price: 800 },
+    PER_DAY(),
+  ]).find((g) => g.country_code === 'TR');
+
+  assert.equal(tr.items[0].price, 100, 'raw sort order is unchanged');
+  assert.equal(tr.from, 200, 'but the price shown is the cheapest purchasable one');
+});
+
+test('sellableFrom answers for a single package', () => {
+  assert.equal(C.sellableFrom(PER_DAY()), 200);
+  assert.equal(C.sellableFrom(PER_DAY({ term_prices: [] })), null);
+  assert.equal(C.sellableFrom({ price: 300 }), 300);
+  assert.equal(C.sellableFrom({ price: 0 }), null, 'a zero price is not a price');
+  assert.equal(C.sellableFrom(null), null);
+});
