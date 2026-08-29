@@ -233,24 +233,93 @@ test('the page only ever navigates to the provider or to itself', () => {
   assert.match(s, /Открыть оплату/);
 });
 
-test('the QR is captioned for what it actually is', () => {
-  const s = payScript();
-  // Measured: the provider returns qr:null before payment, so unless the server
-  // reports qrKind === 'sbp', the code is a link and must not be called an SBP
-  // code. Both captions must exist and the SBP one must be conditional.
-  assert.match(s, /qrKind === 'sbp'/);
-  assert.match(s, /Отсканируйте код в приложении банка/);
-  assert.match(s, /Отсканируйте камерой телефона, чтобы открыть оплату/);
-  // The image comes from our own backend, never a third-party QR service.
-  assert.match(s, /MagicNet\.primaryBase/);
-  assert.match(s, /pay-charge\/' \+ encodeURIComponent\(token\) \+ '\/qr\.png/);
-  for (const svc of ['api.qrserver', 'chart.googleapis', 'quickchart', 'qrcode.show']) {
-    assert.ok(!PAGE.includes(svc), `no third-party QR service (${svc})`);
+// Helper: the body of one top-level function in the page script, found by
+// structure (next same-indent `function `) rather than by a byte offset — a
+// fixed-length window silently stops asserting the moment the code around it
+// moves, which has already happened once in this file's history.
+function fnBody(src, name) {
+  const at = src.indexOf(`function ${name}(`);
+  assert.ok(at > 0, `${name} exists`);
+  const rest = src.slice(at + 1);
+  const next = rest.indexOf('\n    function ');
+  return next < 0 ? rest : rest.slice(0, next);
+}
+
+// Strings the page actually renders, taken from the ONE function that renders
+// the created-payment screen. Comments are stripped first: the file documents
+// what was removed, and a comment must never satisfy — or break — an assertion
+// about what is drawn.
+function renderedText(body) {
+  const code = body.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
+  return code;
+}
+
+test('the created-payment screen is the amount and ONE action, nothing else', () => {
+  const body = renderedText(fnBody(payScript(), 'showCharge'));
+
+  // Present: the amount, and the single action that pays it.
+  assert.match(body, /money\(data\.amountRub\)/, 'the amount is rendered');
+  assert.match(body, /Открыть оплату/, 'the one action is present');
+  assert.match(body, /class="btn-primary"/, 'and it is the PRIMARY control, not a secondary link');
+
+  // Absent, deliberately (owner decision 2026-08-29). Each of these was on the
+  // screen before and must not drift back without a decision.
+  for (const gone of [
+    ['a QR image', /<img|qr\.png|class="qr/],
+    ['a scan instruction', /Отсканируйте/],
+    ['the «К оплате» label', /К оплате/],
+    ['a status row', /Ожидаем оплату|class="status"|class="dot"/],
+    ['a secondary button', /btn-alt/],
+  ]) {
+    assert.ok(!gone[1].test(body), `${gone[0]} must not be on this screen`);
   }
+
+  // Exactly one clickable thing.
+  assert.equal((body.match(/<a /g) || []).length, 1, 'exactly one link element');
+  assert.equal((body.match(/<button/g) || []).length, 0, 'no button element besides it');
 });
 
-test('the status wording matches the two states the owner specified', () => {
+test('that one action opens the provider URL for THIS payment', () => {
+  const body = renderedText(fnBody(payScript(), 'showCharge'));
+  assert.match(body, /data\.paymentUrl/, 'the href comes from the charge, not a constant');
+  assert.match(body, /allowedRedirect\(payUrl\)/, 'and only after the host allowlist accepts it');
+  assert.match(body, /rel="noopener noreferrer"/);
+  // A charge whose URL is missing or refused must not render a bare amount with
+  // no way forward.
+  assert.match(body, /canOpen\s*\?/, 'the no-URL case is handled');
+});
+
+test('removing the status ROW did not remove the status FLOW', () => {
+  // The owner removed a visible element, not the mechanism: polling is what
+  // carries this screen to «Оплата получена» once the webhook confirms, and the
+  // status flow was explicitly out of scope for that change.
+  const body = fnBody(payScript(), 'showCharge');
+  assert.match(body, /pollCharge\(token\)/, 'the screen still starts polling');
+
+  const poll = fnBody(payScript(), 'pollCharge');
+  assert.match(poll, /pay-charge\/'\+encodeURIComponent\(token\)/, 'it reads the charge status');
+  assert.match(poll, /st === 'paid'/);
+  assert.match(poll, /renderPaid\(r\.body\)/, 'paid still switches the screen');
+  assert.match(poll, /renderClosed\(r\.body\)/, 'terminal states still switch the screen');
+  assert.ok(!/method:'POST'/.test(poll), 'polling stays read-only');
+  // The QR refresh went with the QR: it made the server call the provider for
+  // something no screen displays.
+  assert.ok(!/refreshQr/.test(renderedText(poll)), 'no QR refresh is requested any more');
+});
+
+test('the paid and closed screens still say what the owner specified', () => {
+  const paid = renderedText(fnBody(payScript(), 'renderPaid'));
+  assert.match(paid, /Оплата получена/);
+  assert.match(paid, /money\(data\.amountRub\)/, 'the paid screen shows the amount');
+
+  const closed = renderedText(fnBody(payScript(), 'renderClosed'));
+  assert.match(closed, /Создать новый платёж/, 'a failed payment can be retried by hand');
+});
+
+test('nothing anywhere on the page renders a QR any more', () => {
   const s = payScript();
-  assert.match(s, /Ожидаем оплату/);
-  assert.match(s, /Оплата получена/);
+  const code = s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
+  assert.ok(!/qr\.png/.test(code), 'the QR image endpoint is no longer called');
+  assert.ok(!/<img/.test(code), 'no image element is rendered at all');
+  assert.ok(!/qrKind|qrUrl/.test(code), 'the QR fields are no longer read');
 });

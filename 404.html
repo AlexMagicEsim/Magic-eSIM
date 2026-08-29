@@ -72,29 +72,21 @@
     .field .hint{font-size:12px; color:var(--muted); margin:8px 0 0}
     .field .hint.err{color:var(--err)}
 
-    /* Payment code. White plate in both themes — scanner legibility beats
-       theme consistency. */
-    .qr{
-      background:#fff; border-radius:14px; padding:14px; margin:0 auto 16px;
-      width:236px; max-width:100%; line-height:0;
-    }
-    .qr img{width:100%; height:auto; display:block; border-radius:4px}
-    .qr-cap{font-size:13px; color:var(--muted); text-align:center; margin:0 0 18px; line-height:1.5}
     .sum{font-size:32px; font-weight:800; text-align:center; margin:0 0 4px}
     .sum span{font-size:19px; font-weight:700; color:var(--muted); margin-left:3px}
     .sum-cap{font-size:13px; color:var(--muted); text-align:center; margin:0 0 20px}
-    .status{
-      display:flex; align-items:center; justify-content:center; gap:9px;
-      font-size:15px; padding:12px; border:1px solid var(--line); border-radius:12px; margin:0 0 16px;
-    }
-    .dot{width:9px; height:9px; border-radius:50%; background:var(--accent); flex:none; animation:pulse 1.5s ease-in-out infinite}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .btn-alt{
+    /* The created-payment screen carries the amount and one action, nothing
+       else, so the amount needs the bottom margin the caption used to supply. */
+    .sum.only{margin-bottom:26px}
+    /* Same shape as the form's submit: this IS the primary action of its screen,
+       and an <a> only because it navigates. Sharing the rule rather than
+       restyling keeps one button vocabulary on the page. */
+    .btn-primary{
       display:block; width:100%; text-align:center; text-decoration:none;
-      border:1px solid var(--line); background:transparent; color:var(--text);
-      border-radius:12px; font-size:15px; font-weight:600; padding:14px 18px; transition:.15s;
+      border:0; border-radius:12px; background:var(--accent); color:#fff;
+      font-size:16px; font-weight:700; padding:15px 18px; transition:.15s;
     }
-    .btn-alt:hover{border-color:var(--accent); color:var(--accent)}
+    .btn-primary:hover{background:var(--accent-press); color:#fff}
   
 /* One page gutter, matching assets/country-pages.css and index.html, so the
    outer edge of this page lines up with every other page on the storefront.
@@ -246,18 +238,21 @@ body{
        the payer, SBP only.
 
          /pay/s/<secret>          the amount form
-         /pay/s/r/<chargeToken>   one created payment (status + code)
+         /pay/s/r/<chargeToken>   one created payment: amount + one action
 
        Creating a payment REPLACES the history entry with the /r/ URL, so a
        refresh re-reads that payment instead of ever creating a second one.
        The amount form itself creates nothing until the button is pressed.
 
-       On the code shown here — measured against a real PENDING transaction
-       on 2026-08-28: the provider returns "qr": null before payment and
-       mints the SBP code only behind a captcha on its own page. So unless
-       `qrKind` comes back as 'sbp', what is drawn is a link to the official
-       payment page and is captioned as exactly that. Nothing on this page
-       ever calls an SBP payload something it is not.
+       NO QR IS DRAWN ANYWHERE, and that is a decision rather than an omission.
+       Measured against a real PENDING transaction on 2026-08-28/29: the
+       provider returns "qr": null before payment and mints the NSPK code only
+       once the method is set on its own hosted page. A code rendered here could
+       therefore only ever encode the payment URL — the very thing the button
+       already opens — so it was removed on 2026-08-29 rather than kept as
+       decoration. If a real SBP payload ever becomes available up front (it
+       needs the provider's H2H mode, which is not enabled), that is a new
+       decision, not a revert of this one.
        ==================================================================== */
     var PAY_API = '/api/v1/public/';
     var PAY_SECRET = '';
@@ -379,30 +374,28 @@ body{
     }
 
     /* The created payment: amount, code, live status. */
+    /* The created payment. Deliberately two things and nothing else: the amount,
+       and the one action that pays it.
+       What was removed on purpose (2026-08-29) and should not drift back:
+       the QR image and its caption, the «К оплате» label, and the
+       «Ожидаем оплату» status row. The QR was never an SBP code — the provider
+       does not mint one before payment — so it encoded the same URL this button
+       already opens, and a code that merely repeats the button earns no space.
+       The POLLING BELOW STAYS: only the visible status row went. It is what
+       carries the screen to «Оплата получена» when the webhook confirms, and
+       the status flow itself is unchanged. */
     function showCharge(token, data){
-      var qrKind = data && data.qrKind;
       var payUrl = data && data.paymentUrl;
-      var qrSrc = '';
-      try{ qrSrc = (MagicNet.primaryBase || '') + PAY_API + 'pay-charge/' + encodeURIComponent(token) + '/qr.png'; }catch(e){}
-
-      var qrBlock = '';
-      if(qrSrc){
-        qrBlock = '<div class="qr"><img alt="" src="'+esc(qrSrc)+'" width="208" height="208" /></div>'
-          + '<p class="qr-cap">'
-          + (qrKind === 'sbp'
-              ? 'Отсканируйте код в приложении банка'
-              : 'Отсканируйте камерой телефона, чтобы открыть оплату')
-          + '</p>';
-      }
+      var canOpen = payUrl && allowedRedirect(payUrl);
 
       card.innerHTML = payHead()
-        + '<div class="sum">'+money(data.amountRub)+'<span>₽</span></div>'
-        + '<p class="sum-cap">К оплате</p>'
-        + qrBlock
-        + '<div class="status" id="stat"><span class="dot"></span><span id="statText">Ожидаем оплату</span></div>'
-        + (payUrl && allowedRedirect(payUrl)
-            ? '<a class="btn-alt" id="openPay" href="'+esc(payUrl)+'" rel="noopener noreferrer">Открыть оплату</a>'
-            : '');
+        + '<div class="sum'+(canOpen ? ' only' : '')+'">'+money(data.amountRub)+'<span>₽</span></div>'
+        + (canOpen
+            ? '<a class="btn-primary" id="openPay" href="'+esc(payUrl)+'" rel="noopener noreferrer">Открыть оплату</a>'
+            /* Degenerate case only: a charge whose provider URL is missing or
+               fails the host allowlist. Leaving a bare amount with no action
+               would read as a broken page, so one neutral line stands in. */
+            : '<p class="sum-cap">Платёж создан. Обновите страницу через минуту.</p>');
 
       pollCharge(token);
     }
@@ -411,11 +404,11 @@ body{
       var tries = 0, MAX = 220; // ~11 minutes at 3s
       function tick(){
         tries++;
-        /* Ask the server to re-check for an official code a few times early on,
-           in case the provider mints one after the payer starts. Cheap, bounded,
-           and never required for the page to work. */
-        var q = (tries > 1 && tries <= 5) ? '?refreshQr=1' : '';
-        MagicNet.request(PAY_API+'pay-charge/'+encodeURIComponent(token)+q, {
+        /* Plain status read. `?refreshQr=1` was dropped together with the QR it
+           existed to feed: it made the server call the provider's status API on
+           the early ticks, and nothing on this screen displays the result any
+           more. The backend still accepts the flag — it simply has no caller. */
+        MagicNet.request(PAY_API+'pay-charge/'+encodeURIComponent(token), {
           method:'GET', kind:'status', headers:{'Accept':'application/json'}
         }).then(function(r){ return {status:r.status, body:r.body||{}}; })
           .then(function(r){
