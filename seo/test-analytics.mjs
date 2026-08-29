@@ -6,7 +6,7 @@
  *
  * Run: node seo/test-analytics.mjs
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
@@ -434,4 +434,49 @@ test('404.html counts not-found but never a private payment link', () => {
   // and the counter must not be in <head>, where it would run before routing
   assert.ok(!/<head>[\s\S]*mc\.yandex\.ru\/metrika\/tag\.js[\s\S]*<\/head>/.test(s),
     'a head-level counter would send the payment URL to Metrika');
+});
+
+// ---------------------------------------------------------------------------
+// Страница «Оплата рублями»: подтверждение региона для Яндекс Вебмастера
+// ---------------------------------------------------------------------------
+//
+// Регион подтверждается ВИДИМЫМ текстом страницы. Формулировка ушла в прод как
+// основание регионального признака, поэтому она пинится: правка, которая уберёт
+// упоминание России или рублей, обязана уронить тест, а не тихо снять основание.
+
+test('страница оплаты рублями существует и канонична сама на себя', () => {
+  const p = join(ROOT, 'esim/payment-rubles/index.html');
+  assert.ok(existsSync(p), 'esim/payment-rubles/index.html должен быть собран');
+  const h = readFileSync(p, 'utf8');
+  assert.match(h, /<link rel="canonical" href="https:\/\/magicesim\.store\/esim\/payment-rubles\/"/);
+  assert.match(h, /<h1[^>]*>Оплата eSIM рублями/);
+  assert.ok(!/noindex/.test(h), 'страница обязана быть индексируемой');
+});
+
+test('видимый текст называет Россию, рубли и СБП', () => {
+  const h = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
+  const visible = h
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ');
+  assert.match(visible, /путешественникам из России|путешественников из России/,
+    'основание регионального признака — упоминание России в видимом тексте');
+  assert.match(visible, /цены указаны в рублях/);
+  assert.match(visible, /СБП/);
+});
+
+test('страница в sitemap и в блоке «Перед покупкой» на хабе', () => {
+  assert.match(readFileSync(join(ROOT, 'sitemap.xml'), 'utf8'),
+    /<loc>https:\/\/magicesim\.store\/esim\/payment-rubles\/<\/loc>/);
+  assert.match(readFileSync(join(ROOT, 'esim/index.html'), 'utf8'),
+    /href="\/esim\/payment-rubles\/"/);
+});
+
+test('карта упомянута без пошаговой инструкции', () => {
+  // Карточная ветка не проходит у провайдера (см. handoff §6.8). Страница
+  // называет карту доступным способом, но не ведёт по ней шагами — иначе текст
+  // обещал бы то, что сегодня не срабатывает.
+  const h = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
+  assert.ok(!/Оплатить картой/.test(h), 'нет кнопочной инструкции по карте');
+  assert.match(h, /если оплата картой не проходит, воспользуйтесь СБП/);
 });

@@ -97,7 +97,11 @@ const html = `<!DOCTYPE html>
     .c-badge--reg{background:#eef2f7;color:#475569}
     .hub-empty{color:#666;padding:16px 0}
   </style>
-  <link rel="preconnect" href="https://api.magicesim.store" crossorigin />
+  <!-- Первичный origin, а не шлюз: assets/magic-net.js держит render первым
+       (ENDPOINTS[0]), а api.magicesim.store — резервом. Здесь стоял шлюз —
+       генератор отстал от переключения, и пересборка хаба вернула бы
+       preconnect к резерву. Страницы стран уже preconnect-ят к render. -->
+  <link rel="preconnect" href="https://esim-backend-3wmu.onrender.com" crossorigin />
 ${METRIKA}
   <!-- Structured data -->
   <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
@@ -137,7 +141,7 @@ ${countries.map(card).join('\n')}
 
     <section class="compat">
       <h2>Перед покупкой</h2>
-      <p><a href="/esim/compatibility/">Совместимость устройств</a> · <a href="/esim/activation-before-travel/">Установка до вылета</a> · <a href="/esim/not-working/">Если интернет не появился</a> · <a href="/esim/dual-sim-sms/">Две SIM и SMS от банков</a></p>
+      <p><a href="/esim/compatibility/">Совместимость устройств</a> · <a href="/esim/activation-before-travel/">Установка до вылета</a> · <a href="/esim/not-working/">Если интернет не появился</a> · <a href="/esim/dual-sim-sms/">Две SIM и SMS от банков</a> · <a href="/esim/payment-rubles/">Оплата рублями и СБП</a></p>
     </section>
   </main>
 

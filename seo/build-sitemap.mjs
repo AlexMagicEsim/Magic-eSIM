@@ -21,6 +21,7 @@ const urls = [
   { loc: `${SITE}/esim/activation-before-travel/`, prio: '0.7', freq: 'monthly' },
   { loc: `${SITE}/esim/not-working/`, prio: '0.7', freq: 'monthly' },
   { loc: `${SITE}/esim/dual-sim-sms/`, prio: '0.7', freq: 'monthly' },
+  { loc: `${SITE}/esim/payment-rubles/`, prio: '0.7', freq: 'monthly' },
   { loc: `${SITE}/iphone.html`, prio: '0.7', freq: 'monthly' },
   { loc: `${SITE}/android.html`, prio: '0.7', freq: 'monthly' },
   { loc: `${SITE}/terms.html`, prio: '0.3', freq: 'yearly' },
