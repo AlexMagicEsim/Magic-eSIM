@@ -1738,3 +1738,65 @@ test('sellableFrom answers for a single package', () => {
   assert.equal(C.sellableFrom({ price: 0 }), null, 'a zero price is not a price');
   assert.equal(C.sellableFrom(null), null);
 });
+
+/* --------------------------------------------------------------------------
+ * The wait that would otherwise not end
+ *
+ * The request endpoint answers identically whether it mailed a code or
+ * deliberately did not — rate limited, malformed, or an address another
+ * customer has already proven (HELD_BY_ANOTHER). That sameness is the
+ * anti-enumeration property. It also means someone can sit on the code screen
+ * waiting for mail that was never sent, which is what happened in production
+ * on 2026-08-29.
+ *
+ * The fix is one line of guidance that names NO cause. These tests pin both
+ * halves: that the line is there, and that it stays silent about why.
+ * ----------------------------------------------------------------------- */
+
+const UI_SRC = require('node:fs').readFileSync(`${__dirname}/ui.js`, 'utf8');
+
+function claimCodeScreenSource() {
+  const start = UI_SRC.indexOf('function paintClaimCode(');
+  assert.ok(start > 0, 'paintClaimCode not found');
+  const end = UI_SRC.indexOf('function paintClaimDone(', start);
+  assert.ok(end > start, 'paintClaimDone not found after paintClaimCode');
+  return UI_SRC.slice(start, end);
+}
+
+test('the code screen offers a way out when no mail arrives', () => {
+  const src = claimCodeScreenSource();
+
+  assert.match(src, /Если письмо не пришло за пару минут — проверьте адрес и попробуйте другой\./,
+    'the hint lives on the code screen, where the waiting happens');
+  // Quiet by construction: the same class the email line and the attempt
+  // counter use, so it reads as a note rather than as an error.
+  assert.match(src, /class: 'small muted', text:\s*\n?\s*'Если письмо не пришло/,
+    'and it is a quiet note, not a notice or a warning');
+});
+
+test('the hint never says WHY a code did not arrive', () => {
+  // Naming the cause would turn the form into a lookup for whether an address
+  // is registered. Every word below would do that, in the phrasings a Russian
+  // screen would plausibly use.
+  const src = claimCodeScreenSource();
+  const leaks = [
+    'занят', 'занята', 'уже используется', 'уже зарегистрирован',
+    'другим аккаунтом', 'другому аккаунту', 'другой аккаунт',
+    'привязан', 'существует', 'не найден', 'уже подтверждён',
+    'HELD_BY_ANOTHER', 'held_by_another',
+  ];
+  for (const word of leaks) {
+    assert.ok(!src.toLowerCase().includes(word.toLowerCase()),
+      `the code screen must not say «${word}» — it would confirm the address exists`);
+  }
+});
+
+test('the code screen still promises nothing it cannot keep', () => {
+  // The intro was already conditional before this change and must stay so:
+  // «Если этот адрес использовался при покупке, мы отправили…» never claims a
+  // code was sent. A future edit that turns it into a promise contradicts the
+  // hint added below it.
+  const src = claimCodeScreenSource();
+  assert.match(src, /Если этот адрес использовался при покупке/,
+    'the intro stays conditional');
+});

@@ -2926,6 +2926,22 @@
       class: 'btn btn--quiet', text: 'Отправить код ещё раз',
       onclick: () => paintClaimEmail(email),
     }));
+
+    // The way out of a wait that will not end.
+    //
+    // The server answers a request identically whether it mailed a code or
+    // deliberately did not — rate limited, malformed, or an address somebody
+    // else has already proven. That sameness is the anti-enumeration property
+    // and must not be weakened: a screen that said «this address is taken»
+    // would turn the form into a lookup for whether an address is registered.
+    //
+    // So this line names no cause. It is the same advice whatever happened,
+    // and it is useful in every one of those cases: check the address, try
+    // another. Someone waiting on a code that was never sent gets a next step
+    // instead of a spinner, and someone who simply mistyped gets the same
+    // nudge — which is exactly why it gives nothing away.
+    box.appendChild(el('p', { class: 'small muted', text:
+      'Если письмо не пришло за пару минут — проверьте адрес и попробуйте другой.' }));
   }
 
   function paintClaimDone(out) {
