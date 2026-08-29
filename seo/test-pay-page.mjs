@@ -116,38 +116,74 @@ test('no payment path is advertised in the sitemap or robots.txt', () => {
 // The form
 // --------------------------------------------------------------------------
 
-test('the form is one amount field and one SBP button — no method choice', () => {
-  const s = payScript();
-  assert.match(s, /Сумма, ₽/, 'the field is labelled in roubles');
-  assert.match(s, /Оплатить через СБП/, 'the button names SBP');
+test('screen 1 offers exactly two methods and creates nothing', () => {
+  const body = payScript();
+  const fn = body.slice(body.indexOf('function renderMethodChoice('), body.indexOf('function renderAmountForm('));
+  assert.match(fn, /Оплата по СБП/);
+  assert.match(fn, /Оплата картой/);
+  assert.match(fn, /data-method="/, 'each control carries the word the API expects');
+  // The choice screen must not be able to create anything: no write call at all.
+  assert.ok(!/pay-link\/.*charge/.test(fn), 'the choice screen never calls the create endpoint');
+  assert.ok(!/method:'POST'/.test(fn));
+  // Choosing hands off to the amount screen with the chosen method.
+  assert.match(fn, /renderAmountForm\(secret, bounds, b\.getAttribute\('data-method'\)\)/);
+});
 
-  // No card option anywhere a payer can see it.
-  //
-  // Two scopes, each chosen so the assertion cannot be satisfied by accident:
-  //   * page TEXT (tags stripped) for the generic word "карт", which would be a
-  //     label if it appeared at all;
-  //   * the WHOLE file for terms that cannot be an identifier in this codebase —
-  //     a scheme name or a method-picker phrase.
-  // English `card` is deliberately NOT checked: `class="card"` and
-  // getElementById('card') name the panel this page draws itself on, and a
-  // regex over source cannot tell that apart from prose without lying.
-  const text = PAGE
-    .replace(/<style>[\s\S]*?<\/style>/g, '')
-    .replace(/<script[\s\S]*?<\/script>/g, '')
-    .replace(/<[^>]+>/g, ' ');
-  for (const needle of ['карт', 'банковск', '\\bмир\\b']) {
-    assert.ok(!new RegExp(needle, 'i').test(text), `page text must not offer "${needle}"`);
-  }
-  for (const needle of ['visa', 'mastercard', 'банковская карта', 'способ оплаты', 'выберите способ', 'оплатить картой']) {
-    assert.ok(!new RegExp(needle, 'i').test(PAGE), `nothing may offer "${needle}"`);
-  }
+test('screen 2 is the amount for the chosen method, and can go back', () => {
+  const body = payScript();
+  assert.match(body, /function renderAmountForm\(secret, bounds, method\)/, 'the method reaches screen 2');
+  assert.match(body, /METHOD_CTA = \{ sbp:'Оплатить через СБП', card:'Оплатить картой' \}/);
+  assert.match(body, /id="backBtn"/, 'a way back to the choice');
+  assert.match(body, /backBtn.*renderMethodChoice\(secret, bounds\)/s, 'back returns to screen 1');
+  // Still one amount field, integer, numeric.
+  assert.match(body, /Сумма, ₽/);
+  assert.match(body, /type="number"/);
+  assert.match(body, /step="1"/);
+});
 
-  // And there is exactly one submit control on the form.
-  assert.equal((s.match(/type="submit"/g) || []).length, 1);
+test('going back mints a FRESH idempotency key — the method cannot be crossed', () => {
+  // The hazard this closes: the key wins on the server and every other field of
+  // a repeat is ignored, so reusing it after switching method would send the
+  // payer to the OTHER method's checkout, silently. The key is minted inside
+  // renderAmountForm, which back-then-choose re-enters.
+  const body = payScript();
+  const fn = body.slice(body.indexOf('function renderAmountForm('), body.indexOf('function renderPaid('));
+  assert.match(fn, /var idemKey = newIdemKey\(\);/, 'the key is minted per entry to this screen');
+  const mint = (fn.match(/newIdemKey\(\)/g) || []).length;
+  assert.equal(mint, 1, 'exactly once per entry — not per submit, not per page');
+  // And the server-side half is expected too.
+  assert.match(fn, /r\.status===409/, 'a method mismatch from the server is handled');
+});
 
-  assert.match(s, /type="number"/);
-  assert.match(s, /step="1"/);
-  assert.match(s, /inputmode="numeric"/);
+test('the chosen method travels with the request', () => {
+  const body = payScript();
+  assert.match(body, /body: JSON\.stringify\(\{ amountRub: amount, method: method, idempotencyKey: idemKey \}\)/);
+});
+
+test('a created payment goes STRAIGHT to the provider — no screen of ours between', () => {
+  const body = payScript();
+  const fn = body.slice(body.indexOf('function renderAmountForm('), body.indexOf('function renderPaid('));
+  const ok = fn.slice(fn.indexOf('r.body.chargeToken'));
+  assert.match(ok, /window\.location\.href = r\.body\.paymentUrl/, 'redirect, not render');
+  assert.match(ok, /allowedRedirect\(r\.body\.paymentUrl\)/, 'and only to an allowlisted host');
+  // history is REPLACED before leaving, so Back from the provider lands on the
+  // charge and never on a form that would re-offer a submit.
+  const replaceAt = ok.indexOf('history.replaceState');
+  const goAt = ok.indexOf('window.location.href');
+  assert.ok(replaceAt > 0 && replaceAt < goAt, 'the URL is replaced before navigating away');
+  assert.ok(!/showCharge\(/.test(ok), 'the old intermediate screen is not on this path');
+});
+
+test('showCharge survives only as a RECOVERY screen, never on the happy path', () => {
+  // Reachable when someone lands on /pay/s/r/<token> for a charge that is still
+  // pending — Back from the provider, or a bookmark. Leaving them a blank page
+  // would be worse than showing the amount and a way to resume.
+  const body = payScript();
+  const callers = [...body.matchAll(/([A-Za-z]+)\([^)]*\)\s*;?[^\n]*\n?[^\n]*showCharge\(/g)];
+  const load = body.slice(body.indexOf('function loadCharge('), body.indexOf('function loadPayLink('));
+  assert.match(load, /st === 'pending'.*showCharge\(token, r\.body\)/s, 'only from a pending read');
+  const submit = body.slice(body.indexOf("form.addEventListener('submit'"), body.indexOf('function renderPaid('));
+  assert.ok(!/showCharge\(/.test(submit), 'never from the submit path');
 });
 
 test('the client checks the amount but never decides it', () => {

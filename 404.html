@@ -52,6 +52,27 @@
     a.home{color:var(--accent); text-decoration:none}
     .hidden{display:none !important}
 
+    /* Method choice. Two stacked full-width controls in the SAME shape as the
+       submit button, because they are the same kind of thing: the one action of
+       their screen. The second is outlined rather than solid so the pair reads
+       as a choice and not as a primary/secondary ranking — neither method is
+       recommended over the other. */
+    .methods{display:flex; flex-direction:column; gap:10px; margin:4px 0 0}
+    .method{
+      width:100%; text-align:center; font:inherit; font-size:16px; font-weight:700;
+      padding:15px 18px; border-radius:12px; cursor:pointer; transition:.15s;
+      border:1px solid var(--accent); background:var(--accent); color:#fff;
+    }
+    .method:hover{background:var(--accent-press); border-color:var(--accent-press)}
+    .method--alt{background:transparent; color:var(--text); border-color:var(--line)}
+    .method--alt:hover{background:transparent; color:var(--accent); border-color:var(--accent)}
+    /* A quiet way back to the choice. Not a button: it competes with nothing. */
+    .back{
+      display:block; width:100%; margin-top:12px; padding:8px; border:0; background:none;
+      color:var(--muted); font:inherit; font-size:13px; cursor:pointer; text-align:center;
+    }
+    .back:hover{color:var(--accent)}
+
     /* Amount entry. Deliberately plain: this page has no brand of its own and
        borrows none — the card, the type scale and the accent above are the
        whole vocabulary. */
@@ -269,9 +290,34 @@ body{
       }
     }
 
-    function renderAmountForm(secret, bounds){
+    /* SCREEN 1 — how to pay. Nothing is created here; it only decides which
+       label and which `method` the next screen will send. */
+    function renderMethodChoice(secret, bounds){
+      var list = (bounds && bounds.methods && bounds.methods.length)
+        ? bounds.methods
+        : [{type:'sbp', label:'СБП'}, {type:'card', label:'Банковская карта'}];
+      var LABELS = { sbp:'Оплата по СБП', card:'Оплата картой' };
+      card.innerHTML = payHead()
+        + '<h1>Оплата</h1>'
+        + '<div class="methods">'
+        +   list.map(function(m,i){
+              return '<button type="button" class="method'+(i?' method--alt':'')+'" data-method="'
+                + esc(m.type)+'">'+esc(LABELS[m.type] || m.label)+'</button>';
+            }).join('')
+        + '</div>';
+      [].forEach.call(card.querySelectorAll('.method'), function(b){
+        b.addEventListener('click', function(){
+          renderAmountForm(secret, bounds, b.getAttribute('data-method'));
+        });
+      });
+    }
+
+    /* SCREEN 2 — the amount, for the method already chosen. `Назад` returns to
+       screen 1 and is safe by construction: nothing exists until submit. */
+    function renderAmountForm(secret, bounds, method){
       var min = (bounds && bounds.minRub) || 100;
       var max = (bounds && bounds.maxRub) || 100000;
+      var METHOD_CTA = { sbp:'Оплатить через СБП', card:'Оплатить картой' };
       card.innerHTML = payHead()
         + '<h1>Оплата</h1>'
         + '<form id="payForm" novalidate>'
@@ -285,16 +331,24 @@ body{
         +     '</div>'
         +     '<p class="hint" id="amtHint">От '+money(min)+' до '+money(max)+' ₽, целое число</p>'
         +   '</div>'
-        +   '<button id="payBtn" type="submit">Оплатить через СБП</button>'
-        + '</form>';
+        +   '<button id="payBtn" type="submit">'+esc(METHOD_CTA[method] || 'Оплатить')+'</button>'
+        + '</form>'
+        + '<button type="button" class="back" id="backBtn">← Другой способ оплаты</button>';
+      var backBtn = document.getElementById('backBtn');
+      if(backBtn) backBtn.addEventListener('click', function(){ renderMethodChoice(secret, bounds); });
 
       var form = document.getElementById('payForm');
       var input = document.getElementById('amt');
       var hint = document.getElementById('amtHint');
       var btn = document.getElementById('payBtn');
       var busy = false;
-      /* One key per filled-in form. A retry after a transport error reuses it,
-         so a payment that was in fact created is adopted rather than doubled. */
+      /* One key per filled-in form FOR THIS METHOD. A retry after a transport
+         error reuses it, so a payment that was in fact created is adopted rather
+         than doubled. Going back and choosing the other method re-enters this
+         function and mints a FRESH key — otherwise the server would answer the
+         old key with the old method's payment and quietly send the payer to the
+         wrong checkout. The backend refuses that case outright (409
+         method_mismatch); this is the layer that keeps it from arising. */
       var idemKey = newIdemKey();
 
       function fail(msg){
@@ -324,24 +378,42 @@ body{
         MagicNet.request(PAY_API+'pay-link/'+encodeURIComponent(secret)+'/charge', {
           method:'POST', kind:'write',
           headers:{'Content-Type':'application/json','Accept':'application/json'},
-          body: JSON.stringify({ amountRub: amount, idempotencyKey: idemKey })
+          body: JSON.stringify({ amountRub: amount, method: method, idempotencyKey: idemKey })
         }).then(function(r){ return {status:r.status, body:r.body||{}}; })
           .then(function(r){
             if((r.status===201||r.status===200) && r.body && r.body.chargeToken){
-              /* Replace, not push: the form URL must not sit behind this in
-                 history where Back would re-offer a submit. */
+              /* Straight to the provider's checkout. There is no screen of ours
+                 in between any more: the old one showed the amount and a button
+                 that did exactly this, which is a tap asking permission for
+                 something the payer already asked for.
+
+                 replaceState first, so the entry BEHIND the provider page is the
+                 charge — coming back lands on «Оплата получена» or the live
+                 status, never on a form that would re-offer a submit. */
               try{ history.replaceState(null,'','/pay/s/r/'+r.body.chargeToken); }catch(e){}
-              showCharge(r.body.chargeToken, r.body);
+              if(r.body.paymentUrl && allowedRedirect(r.body.paymentUrl)){
+                window.location.href = r.body.paymentUrl;
+                return;
+              }
+              /* Degenerate only: a charge with no usable provider URL. Fall back
+                 to reading it rather than leaving a dead screen. */
+              loadCharge(r.body.chargeToken);
+              return;
+            }
+            if(r.status===409){
+              busy=false; btn.disabled=false; input.disabled=false;
+              btn.textContent=METHOD_CTA[method] || 'Оплатить';
+              fail('Способ оплаты изменился. Выберите способ ещё раз.');
               return;
             }
             if(r.status===404){ showUnavailable(); return; }
             busy=false; btn.disabled=false; input.disabled=false;
-            btn.textContent='Оплатить через СБП';
+            btn.textContent=METHOD_CTA[method] || 'Оплатить';
             fail((r.body && r.body.message) ? r.body.message : 'Не удалось создать платёж. Попробуйте позже.');
           })
           .catch(function(){
             busy=false; btn.disabled=false; input.disabled=false;
-            btn.textContent='Оплатить через СБП';
+            btn.textContent=METHOD_CTA[method] || 'Оплатить';
             fail('Нет связи с сервером. Проверьте соединение и попробуйте снова.');
           });
       });
@@ -453,7 +525,7 @@ body{
         method:'GET', kind:'read', headers:{'Accept':'application/json'}
       }).then(function(r){ return {status:r.status, body:r.body||{}}; })
         .then(function(r){
-          if(r.status===200 && r.body){ renderAmountForm(secret, r.body); return; }
+          if(r.status===200 && r.body){ renderMethodChoice(secret, r.body); return; }
           if(r.status===404){ showNotFound(); return; }
           showError((r.body && r.body.message) || 'Попробуйте позже.');
         })
