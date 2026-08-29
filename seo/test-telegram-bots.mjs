@@ -72,3 +72,42 @@ test('the three bots are never conflated', () => {
   // The ADMIN alert bot must appear nowhere on a customer-facing page.
   assert.ok(!/t\.me\/magic_esim_bot/.test(index), 'the admin bot is not a customer surface');
 });
+
+test('the channel CTA sits AFTER the purchase CTA, not before it', () => {
+  // Placement is the whole change here, so it is the thing asserted. It used to
+  // be the last section before the footer, where nobody reached it. It now
+  // follows the purchase block: a reader who is ready to buy meets the buy CTA
+  // first, and only someone who scrolls past it is offered the channel instead.
+  // Putting it BEFORE the purchase CTA would have been the obvious move and the
+  // wrong one — a distraction placed at the conversion moment.
+  const s = read('index.html');
+  const buy = s.indexOf('<section class="cta">');
+  const channel = s.indexOf('class="tg-cta"');
+  const footer = s.indexOf('<footer');
+  assert.ok(buy > 0 && channel > 0 && footer > 0);
+  assert.ok(channel > buy, 'the channel must not precede the purchase CTA');
+  assert.ok(channel < footer, 'and must not be back down in the footer');
+
+  // And it must still be above the tail of the page it was moved out of.
+  const guides = s.indexOf('id="install-guides-section"');
+  assert.ok(channel < guides, 'the channel now sits above the install guides');
+});
+
+test('moving the section did not change what it says', () => {
+  const s = read('index.html');
+  const at = s.indexOf('class="tg-cta"');
+  const block = s.slice(s.lastIndexOf('<section', at), s.indexOf('</section>', at));
+  assert.match(block, /Подписывайтесь на наш Telegram/);
+  assert.match(block, /промокоды/);
+  assert.match(block, new RegExp(`href="https://t\\.me/magicesim"`));
+  assert.match(block, /class="btn"/, 'still the shared button component');
+  assert.match(block, /class="tg-box reveal"/, 'still the shared reveal animation');
+});
+
+test('the Mini App entry stays in the hero, where it already was', () => {
+  const s = read('index.html');
+  const hero = s.indexOf('class="hero-tg"');
+  const buy = s.indexOf('<section class="cta">');
+  assert.ok(hero > 0 && hero < buy, 'the Mini App CTA is above the fold, not moved');
+  assert.match(s.slice(hero, hero + 400), new RegExp(`https://t\\.me/${MAIN}\\?startapp`));
+});
