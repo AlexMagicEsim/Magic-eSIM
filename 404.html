@@ -278,6 +278,10 @@ body{
     var PAY_API = '/api/v1/public/';
     var PAY_SECRET = '';
 
+    /* The small overline. Used ONLY by screens that have no <h1> of their own —
+       the paid, closed, and recovery screens — where it is the whole heading.
+       The two entry screens dropped it on 2026-08-29: they already carry
+       <h1>Оплата</h1>, and the pair read as the same word printed twice. */
     function payHead(){ return '<p class="eyebrow">Оплата</p>'; }
 
     function newIdemKey(){
@@ -297,8 +301,7 @@ body{
         ? bounds.methods
         : [{type:'sbp', label:'СБП'}, {type:'card', label:'Банковская карта'}];
       var LABELS = { sbp:'Оплата по СБП', card:'Оплата картой' };
-      card.innerHTML = payHead()
-        + '<h1>Оплата</h1>'
+      card.innerHTML = '<h1>Оплата</h1>'
         + '<div class="methods">'
         +   list.map(function(m,i){
               return '<button type="button" class="method'+(i?' method--alt':'')+'" data-method="'
@@ -318,8 +321,7 @@ body{
       var min = (bounds && bounds.minRub) || 100;
       var max = (bounds && bounds.maxRub) || 100000;
       var METHOD_CTA = { sbp:'Оплатить через СБП', card:'Оплатить картой' };
-      card.innerHTML = payHead()
-        + '<h1>Оплата</h1>'
+      card.innerHTML = '<h1>Оплата</h1>'
         + '<form id="payForm" novalidate>'
         +   '<div class="field">'
         +     '<label for="amt">Сумма, ₽</label>'
