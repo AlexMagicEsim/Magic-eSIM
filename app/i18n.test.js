@@ -616,6 +616,8 @@ test('the frozen list covers every Russian key, not just the ones present when i
     'errors.promoFallback', 'errors.topupTransport', 'errors.topupFallback',
     'errors.orderFallback', 'errors.codeCheckFallback', 'errors.renameFallback',
     'errors.loginFallback',
+    // The eSIM's expiry line, which used to hardcode toLocaleDateString('ru-RU').
+    'esim.validUntil',
   ];
 
   assert.deepEqual(

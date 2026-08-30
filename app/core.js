@@ -263,6 +263,95 @@ const TARIFF_TEXT_RU = {
 const TARIFF_SPEED_UNITS_RU = {kbps:'Кбит/с',mbps:'Мбит/с',gbps:'Гбит/с'};
 /* --- END TARIFF WORDING --- */
 
+/**
+ * The same tariff wording in English — Mini App only, and NOT generated.
+ *
+ * TARIFF_TEXT_RU is written into this file from assets/country-tariffs.js,
+ * where the storefront maintains it. This table cannot live there: the
+ * storefront is Russian and adding an English literal to one of its files
+ * would change a file that has no use for it. So it sits outside the generated
+ * block, and a test asserts its keys match TARIFF_TEXT_RU's exactly — drift is
+ * caught rather than trusted not to happen.
+ *
+ * NOT the provider's raw phrase, even though the key IS the provider's raw
+ * phrase. The raw text is inconsistently cased and punctuated
+ * ("3gb/day at 20mbps. 1mbps afterwards.") because it was written for a
+ * datasheet, not for a customer. These read the way the Russian ones read.
+ */
+const TARIFF_TEXT_EN = {
+  'unrestricted': 'No speed limits.',
+  'limited': 'Speed limits apply.',
+  '3gb/day at 20mbps. 1mbps afterwards.': '3 GB a day at up to 20 Mbps, then up to 1 Mbps.',
+  '3gb/day high speed. 1mbps afterwards.': '3 GB a day at high speed, then up to 1 Mbps.',
+  'total 30 gb at full speed, 2mbps speed cap afterwards': '30 GB at full speed, then up to 2 Mbps.',
+  'total 60 gb at full speed, 2mbps speed cap afterwards': '60 GB at full speed, then up to 2 Mbps.',
+  'total 90 gb at full speed, 2mbps speed cap afterwards': '90 GB at full speed, then up to 2 Mbps.',
+  'full data speeds - no daily limits, no throttling': 'Full speed, with no daily limits and no throttling.',
+  '3gb/day at 20mbps high speed. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.': '3 GB a day at up to 20 Mbps, then up to 1 Mbps. The limit resets every 24 hours; a fair usage policy applies.',
+  '3gb/day without a speed limit. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.': '3 GB a day with no speed limit, then up to 1 Mbps. The limit resets every 24 hours; a fair usage policy applies.',
+  'in case of exceeding daily 1 gb high-speed allowance, speed will be limited to 512 kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.': 'Above 1 GB a day the speed drops to 512 Kbps for the rest of the day. This may affect video and other data-heavy apps.',
+  'no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb': 'No daily limits. Above 30 GB the speed drops to 2 Mbps.',
+  'no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb': 'No daily limits. Above 60 GB the speed drops to 2 Mbps.',
+  'no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb': 'No daily limits. Above 90 GB the speed drops to 2 Mbps.',
+  'no speed restrictions': 'No speed limits.',
+  'no speed restriction': 'No speed limits.',
+  'unlimited at reduced speed': 'After the limit, the speed drops.',
+  'unlimited data at reduced speed': 'After the limit, the speed drops.',
+  'no throttling': 'The speed is not reduced.',
+  'throttled after limit': 'After the limit, the speed drops.',
+  'fair usage policy applies': 'A fair usage policy applies.',
+  'fair usage policy': 'A fair usage policy applies.',
+  // «Безлимитный трафик» — and the storefront has a standing test that the word
+  // «безлимит» never appears in DAILY copy, because repeating a number is
+  // honest and promising endless traffic is not. That rule is about DAILY
+  // plans; here the provider is describing a genuinely unlimited volume, and
+  // the Russian says so too.
+  'unlimited': 'Unlimited data.',
+  'unlimited data': 'Unlimited data.',
+  'high speed': 'High speed.',
+  'high-speed data': 'High-speed data.',
+  'reduced speed': 'Reduced speed.',
+  'data only': 'Mobile data only — no calls or SMS.',
+  'data-only': 'Mobile data only — no calls or SMS.',
+  'daily limit': 'A daily data limit applies.',
+  'no daily limits': 'No daily data limits.',
+  'no daily limit': 'No daily data limits.',
+  'n/a': '',
+  'unknown': '',
+  '-': '',
+};
+
+const TARIFF_SPEED_UNITS_EN = { kbps: 'Kbps', mbps: 'Mbps', gbps: 'Gbps' };
+
+/** When the plan's clock starts. Same keys as the Russian table, by test. */
+const TARIFF_ACTIVATION_LABELS_EN = {
+  first_data_usage: 'when you first use data',
+  first_network_connection: 'when you first connect to a network',
+  network_connection: 'when you first connect to a network',
+  upon_installation: 'once the eSIM is installed',
+  installation: 'once the eSIM is installed',
+  upon_purchase: 'at purchase',
+  purchase: 'at purchase',
+};
+const TARIFF_ACTIVATION_FALLBACK_EN = 'when you first connect to a network';
+
+/** The row labels of the coverage-and-conditions sheet. */
+const TARIFF_FACT_LABELS_EN = {
+  'Объём трафика': 'Data',
+  'Срок действия': 'Valid for',
+  'Начало срока': 'Starts',
+  'Сеть': 'Network',
+  'Операторы': 'Operators',
+  'Выход в интернет': 'Exits to the internet in',
+  'Раздача интернета': 'Hotspot',
+  'Скорость': 'Speed',
+  'После лимита': 'After the limit',
+  'Звонки': 'Calls',
+  'SMS': 'SMS',
+  'Только интернет': 'Data only',
+};
+
+
 /* --------------------------------------------------------------------------
  * Configuration
  * ----------------------------------------------------------------------- */
@@ -1807,39 +1896,62 @@ function tariffNetworks(pkg) {
 }
 
 /** Tri-state. No data drops the row — '' is the caller's signal to omit it. */
-function tariffHotspot(pkg) {
+function tariffHotspot(pkg, lang) {
   const v = (pkg || {}).hotspot_supported;
-  if (v === true) return 'поддерживается';
-  if (v === false) return 'не поддерживается';
+  if (v === true) return lang === 'en' ? 'supported' : 'поддерживается';
+  if (v === false) return lang === 'en' ? 'not supported' : 'не поддерживается';
 
   return '';
 }
 
 /** Whitelist. An unrecognised policy falls back to the usual behaviour. */
-function tariffActivation(pkg) {
+function tariffActivation(pkg, lang) {
   const key = String((pkg || {}).activation_policy || '').trim().toLowerCase();
+  const en = lang === 'en';
+  const table = en ? TARIFF_ACTIVATION_LABELS_EN : TARIFF_ACTIVATION_LABELS;
 
-  return Object.prototype.hasOwnProperty.call(TARIFF_ACTIVATION_LABELS, key)
-    ? TARIFF_ACTIVATION_LABELS[key]
-    : TARIFF_ACTIVATION_FALLBACK;
+  return Object.prototype.hasOwnProperty.call(table, key)
+    ? table[key]
+    : (en ? TARIFF_ACTIVATION_FALLBACK_EN : TARIFF_ACTIVATION_FALLBACK);
 }
 
 /** Russian, or nothing. An untranslated English string is never rendered. */
-function tariffTextRu(raw) {
+function tariffText(raw, lang) {
   const s = String(raw == null ? '' : raw).replace(/\s+/g, ' ').trim();
   if (!s) return '';
+
+  // The provider occasionally sends Russian already. There is nothing to look
+  // up and nothing better to show — this IS the content — so it passes through
+  // in either language. It is the one place an English screen can still show a
+  // Russian sentence, and it is provider data rather than our copy.
   if (/[а-яё]/i.test(s)) return s;
 
+  const en = lang === 'en';
+  const table = en ? TARIFF_TEXT_EN : TARIFF_TEXT_RU;
   const key = s.toLowerCase();
-  if (Object.prototype.hasOwnProperty.call(TARIFF_TEXT_RU, key)) return TARIFF_TEXT_RU[key];
+  // Falls back to the Russian table, never to the raw provider phrase: an
+  // unknown phrase renders NOTHING in Russian today, and English must not start
+  // showing a row Russian hides — the two screens would describe the same
+  // tariff differently.
+  if (Object.prototype.hasOwnProperty.call(table, key)) return table[key];
+  if (en && Object.prototype.hasOwnProperty.call(TARIFF_TEXT_RU, key)) return TARIFF_TEXT_RU[key];
 
   const m = s.match(TARIFF_SPEED_ONLY_RE);
   if (m) {
-    const unit = TARIFF_SPEED_UNITS_RU[m[2].toLowerCase()];
-    if (unit) return `После исчерпания лимита скорость снижается до ${m[1]} ${unit}.`;
+    const unit = (en ? TARIFF_SPEED_UNITS_EN : TARIFF_SPEED_UNITS_RU)[m[2].toLowerCase()];
+    if (unit) {
+      return en
+        ? `After the limit the speed drops to ${m[1]} ${unit}.`
+        : `После исчерпания лимита скорость снижается до ${m[1]} ${unit}.`;
+    }
   }
 
   return '';
+}
+
+/** The Russian-only name this had before there were two languages. */
+function tariffTextRu(raw) {
+  return tariffText(raw, 'ru');
 }
 
 /**
@@ -1900,11 +2012,11 @@ function tariffTopGeneration(pkg) {
 }
 
 /** «IP: Япония» — only when the exit country is actually known. */
-function tariffIpLabel(pkg) {
+function tariffIpLabel(pkg, lang) {
   const codes = tariffIpCodes(pkg);
   if (!codes.length) return '';
 
-  return codes.map(countryLabel).join(', ');
+  return codes.map((c) => countryLabel(c, lang)).join(', ');
 }
 
 function tariffSiblingKey(pkg) {
@@ -1960,24 +2072,32 @@ function tariffDistinguishers(list) {
   return out;
 }
 
-function tariffFacts(pkg) {
+function tariffFacts(pkg, lang) {
   const p = pkg || {};
+  const en = lang === 'en';
   const rows = [];
-  const push = (label, value) => { if (value) rows.push({ label, value }); };
+  // The labels are written in Russian at every call below and translated on the
+  // way out, so the two languages cannot fall out of step by someone editing
+  // one list and not the other — there is only one list.
+  const push = (label, value) => {
+    if (value) rows.push({ label: en ? (TARIFF_FACT_LABELS_EN[label] || label) : label, value });
+  };
 
   // The site's own «Покрытие и условия» sheet, row for row and label for
   // label (index.html #coverageModal). Two shops describing one tariff with
   // two different vocabularies is how a customer comes to believe they are
   // looking at two different products.
   const gb = Number(p.data_gb);
-  push('Объём трафика', p.unlimited ? 'безлимит'
-    : (Number.isFinite(gb) && gb > 0 ? `${Number.isInteger(gb) ? gb : String(gb)} ГБ` : ''));
+  push('Объём трафика', p.unlimited ? (en ? 'unlimited' : 'безлимит')
+    : (Number.isFinite(gb) && gb > 0
+      ? `${Number.isInteger(gb) ? gb : String(gb)} ${en ? 'GB' : 'ГБ'}` : ''));
 
   const days = Number(p.validity_days);
   push('Срок действия', Number.isFinite(days) && days > 0
-    ? `${days} ${plural(days, 'день', 'дня', 'дней')}` : '');
+    ? (en ? `${days} ${pluralEn(days, 'day', 'days')}`
+      : `${days} ${plural(days, 'день', 'дня', 'дней')}`) : '');
 
-  push('Начало срока', tariffActivation(p));
+  push('Начало срока', tariffActivation(p, lang));
   push('Сеть', tariffNetworks(p));
   // Operator names, when the catalogue carries them. Two tariffs on one screen
   // can differ by nothing else, and «NTT docomo» says more than «4G» does.
@@ -1985,16 +2105,20 @@ function tariffFacts(pkg) {
   push('Операторы', ops.length ? ops.slice(0, 4).join(', ') : '');
   // Where the traffic leaves the internet. The reason the Japanese-IP tariffs
   // exist, and previously invisible everywhere.
-  push('Выход в интернет', tariffIpLabel(p));
-  push('Раздача интернета', tariffHotspot(p));
-  push('Скорость', tariffTextRu(p.speed_note));
-  push('После лимита', tariffTextRu(p.fup_policy));
+  push('Выход в интернет', tariffIpLabel(p, lang));
+  push('Раздача интернета', tariffHotspot(p, lang));
+  push('Скорость', tariffText(p.speed_note, lang));
+  push('После лимита', tariffText(p.fup_policy, lang));
 
-  if (p.calls_supported === true) push('Звонки', 'поддерживаются');
+  if (p.calls_supported === true) push('Звонки', en ? 'supported' : 'поддерживаются');
   if (p.sms_supported === true) {
-    push('SMS', 'приём SMS поддерживается оператором. Доставка кодов от банков не гарантируется');
+    // Says exactly as little as the Russian does. The promise withheld here —
+    // that a bank's code will arrive — is the whole point of the sentence.
+    push('SMS', en
+      ? 'the operator supports receiving SMS. Delivery of bank codes is not guaranteed'
+      : 'приём SMS поддерживается оператором. Доставка кодов от банков не гарантируется');
   }
-  if (p.data_only === true) push('Только интернет', 'звонков и SMS нет');
+  if (p.data_only === true) push('Только интернет', en ? 'no calls or SMS' : 'звонков и SMS нет');
 
   return rows;
 }
@@ -2004,14 +2128,17 @@ function tariffFacts(pkg) {
  * than a country list — «Азия и Океания, 34 страны» reads in a second where
  * thirty-four chips do not. The full list stays one tap away underneath.
  */
-function coverageSummary(pkg) {
+function coverageSummary(pkg, lang) {
   const p = pkg || {};
+  const en = lang === 'en';
   const codes = [...new Set(Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [])];
-  if (codes.length <= 1) return countryLabel(codes[0] || p.country_code);
+  if (codes.length <= 1) return countryLabel(codes[0] || p.country_code, lang);
 
-  const named = REGION_NAMES[regionKey(p)];
+  const key = regionKey(p);
+  const named = en ? (REGION_NAMES_EN[key] || REGION_NAMES[key]) : REGION_NAMES[key];
+  const count = en ? countryWordEn(codes.length) : countryWord(codes.length);
 
-  return named ? `${named}, ${countryWord(codes.length)}` : countryWord(codes.length);
+  return named ? `${named}, ${count}` : count;
 }
 
 /** §9 S3: «что произойдёт после оплаты» — three steps, one line each. */
@@ -2287,6 +2414,7 @@ const CORE = {
   API_BASE, ApiError, createApi, createCache, readThrough,
   PROMO_MESSAGES, promoMessage, normalisePromoCode, readPromoQuote,
   KNOWN_ERROR_CODES, errorKey, SERVER_ERRORS, errorText,
+  tariffText, TARIFF_TEXT_EN, TARIFF_ACTIVATION_LABELS_EN, TARIFF_FACT_LABELS_EN,
   gb, money, daysLeft, remainingFraction,
   purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
   dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,

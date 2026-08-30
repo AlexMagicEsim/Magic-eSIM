@@ -113,6 +113,8 @@
      * The Russian values below are byte-identical to the fallbacks that ship
      * today, so adding English cannot move a single Russian pixel.
      * ------------------------------------------------------------------ */
+    'esim.validUntil': 'Действует до {date}',
+
     'errors.promoFallback': 'Не удалось применить промокод.',
 
     'errors.topupTransport': 'Связь прервалась. Повторите — лишнего пополнения не создастся.',
@@ -166,6 +168,9 @@
     // Plural on purpose: an English row labelled "eSIM" beside a number reads
     // as a heading rather than a count.
     'settings.account.esims': 'eSIMs',
+
+
+    'esim.validUntil': 'Valid until {date}',
 
     'errors.promoFallback': 'Couldn’t apply the promo code.',
 

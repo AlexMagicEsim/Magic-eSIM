@@ -1905,13 +1905,13 @@
     // 2 & 3. Coverage and characteristics — the same sheet the site shows, in
     // the same order and under the same labels («Покрытие и условия»).
     const coverage = Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [];
-    const facts = C.tariffFacts(p);
+    const facts = C.tariffFacts(p, I.lang());
     if (facts.length) {
       box.appendChild(el('div', { class: 'card stack' }, [
         el('h2', { class: 'section', text: 'Покрытие и условия' }),
         el('div', { class: 'row row--between fact' }, [
           el('span', { class: 'muted', text: 'Покрытие' }),
-          el('span', { class: 'fact__value', text: C.coverageSummary(p) }),
+          el('span', { class: 'fact__value', text: C.coverageSummary(p, I.lang()) }),
         ]),
         ...facts.map((f) => el('div', { class: 'row row--between fact' }, [
           el('span', { class: 'muted', text: f.label }),
@@ -3670,7 +3670,13 @@
         el('span', { text: 'Эта eSIM скрыта из основного списка. Она работает как обычно.' }),
       ]) : null,
       gauge(e),
-      el('div', { class: 'small muted', text: e.expires_at ? `Действует до ${new Date(e.expires_at).toLocaleDateString('ru-RU')}` : '' }),
+      // I.formatDate, not toLocaleDateString('ru-RU'): the engine formats by
+      // hand precisely because ICU differs across the WebViews this app runs
+      // in, and a hardcoded locale would have kept this date Russian in English.
+      el('div', {
+        class: 'small muted',
+        text: e.expires_at ? t('esim.validUntil', { date: I.formatDate(e.expires_at) }) : '',
+      }),
       el('button', {
         class: 'btn', text: 'Установка и QR', onclick: () => openInstall(id, e),
       }),
