@@ -604,8 +604,19 @@ test('the frozen list covers every Russian key, not just the ones present when i
   // Without this the snapshot decays: a key added later escapes it forever and
   // the guarantee quietly shrinks. The only keys allowed to be outside it are
   // the ones that did not exist before — the language block itself.
-  const introduced = ['settings.language.section', 'settings.language.hint',
-    'settings.language.ru', 'settings.language.en'];
+  const introduced = [
+    // Phase 1 — the language block itself.
+    'settings.language.section', 'settings.language.hint',
+    'settings.language.ru', 'settings.language.en',
+    // Phase 2 — what to say when a request fails and the server named a code
+    // this build has never heard of. Each is the fallback for ONE screen; the
+    // sentences the server picks BY CODE are not here, they are SERVER_ERRORS
+    // in core.js, because a code is data and t() may never be handed a
+    // computed key.
+    'errors.promoFallback', 'errors.topupTransport', 'errors.topupFallback',
+    'errors.orderFallback', 'errors.codeCheckFallback', 'errors.renameFallback',
+    'errors.loginFallback',
+  ];
 
   assert.deepEqual(
     Object.keys(RU).sort(),

@@ -35,6 +35,42 @@
   const I = window.MagicI18n;
   const t = (key, vars) => I.t(key, vars);
 
+  /**
+   * The sentence for a server error — ENGLISH ONLY.
+   *
+   * Returns null in Russian, on purpose. Every call site below then keeps the
+   * exact expression it shipped with, so the Russian diff for this whole phase
+   * is empty and no already-trusted error copy needs re-testing.
+   *
+   * The backend writes `message` in Russian. Echoing that to somebody who chose
+   * English is the same failure as showing an untranslated English string to a
+   * Russian customer, which app/i18n.js already forbids — so the English branch
+   * never reads the wire string at all. It answers from the closed vocabulary
+   * `C.errorKey()` recognises, and falls to `fallbackKey` when the server names
+   * a code this build has never heard of.
+   */
+  function serverErrorText(e) {
+    if (I.lang() !== 'en') return null;
+
+    return C.errorText(e && e.code, 'en');
+  }
+
+  /**
+   * In English: the mapped sentence, or this screen's own fallback — never the
+   * server's Russian wire string, which is what the `||` chains below would
+   * otherwise reach next. In Russian: null, so those chains run untouched.
+   *
+   * Takes the fallback as TEXT rather than as a key, so that every t() call in
+   * this file still spells its key out literally. A computed key is invisible
+   * to the scanner that proves the dictionary has no dead entries, and that
+   * scanner's failure mode is somebody deleting a live key to make it green.
+   */
+  function enOr(text, fallbackText) {
+    if (I.lang() !== 'en') return null;
+
+    return text || fallbackText;
+  }
+
   /* ------------------------------------------------------------------ *
    * Tiny DOM helpers
    * ------------------------------------------------------------------ */
@@ -1157,7 +1193,30 @@
    * own Russian sentence; this exists so a code THIS build does not know still
    * produces something useful, and so nothing technical is ever echoed.
    */
+  /**
+   * The promo sentence, in the customer's language.
+   *
+   * In Russian this is exactly C.promoMessage() — the same closed map, the same
+   * fallback — so the Russian promo screen is byte-for-byte what it was.
+   */
+  function promoText(code) {
+    if (I.lang() !== 'en') return C.promoMessage(code);
+
+    return C.errorText(code, 'en') || t('errors.promoFallback');
+  }
+
   function topupErrorText(e) {
+    if (I.lang() === 'en') {
+      const known = C.errorText(e && e.code, 'en');
+      if (known) return known;
+      // The transport sentence is a PROMISE — that a dropped connection has not
+      // created a second top-up — so it survives into English as itself rather
+      // than collapsing into the generic apology.
+      if (e && e.isTransport) return t('errors.topupTransport');
+
+      return t('errors.topupFallback');
+    }
+
     const code = (e && e.code) || '';
     if (code === 'TOPUP_PURCHASE_DISABLED' || code === 'TOPUP_PROVIDER_DISABLED') {
       return 'Пополнение пока недоступно.';
@@ -2218,7 +2277,7 @@
    */
   async function quotePromo(code) {
     const i = state.intent;
-    if (!i) return { ok: false, message: C.promoMessage('') };
+    if (!i) return { ok: false, message: promoText('') };
 
     let data = null;
     try {
@@ -2236,7 +2295,7 @@
         state.promo = null;
         repaintCheckout();
 
-        return { ok: false, message: C.promoMessage('PROMO_CODES_DISABLED') };
+        return { ok: false, message: promoText('PROMO_CODES_DISABLED') };
       }
 
       /*
@@ -2259,7 +2318,7 @@
         state.promo = null;
         repaintCheckout();
 
-        return { ok: false, message: C.promoMessage(body.error) };
+        return { ok: false, message: promoText(body.error) };
       }
 
       return { ok: false, message: 'Не удалось проверить промокод. Попробуйте позже.' };
@@ -2270,7 +2329,7 @@
       state.promo = null;
       repaintCheckout();
 
-      return { ok: false, message: C.promoMessage('PROMO_CODES_DISABLED') };
+      return { ok: false, message: promoText('PROMO_CODES_DISABLED') };
     }
 
     const quote = C.readPromoQuote(data, code);
@@ -2278,7 +2337,7 @@
       state.promo = null;
       repaintCheckout();
 
-      return { ok: false, message: C.promoMessage(data && data.error) };
+      return { ok: false, message: promoText(data && data.error) };
     }
 
     state.promo = quote;
@@ -2437,7 +2496,10 @@
         ));
         return;
       }
-      errBox.appendChild(errorNotice(err.message || 'Не удалось создать заказ.'));
+      errBox.appendChild(errorNotice(
+        enOr(serverErrorText(err), t('errors.orderFallback'))
+        || err.message || 'Не удалось создать заказ.'
+      ));
     }
   }
 
@@ -3040,7 +3102,12 @@
       } catch (err) {
         setBusy(confirm, false, 'Подтвердить');
         const body = (err && err.body) || {};
-        paintClaimCode(email, body.message || 'Не удалось проверить код. Попробуйте ещё раз.', body.attempts_left);
+        paintClaimCode(
+          email,
+          enOr(serverErrorText(err), t('errors.codeCheckFallback'))
+            || body.message || 'Не удалось проверить код. Попробуйте ещё раз.',
+          body.attempts_left
+        );
         return;
       }
       setBusy(confirm, false, 'Подтвердить');
@@ -3494,7 +3561,8 @@
         await onSaved();
       } catch (ex) {
         setBusy(save, false, 'Сохранить');
-        err.textContent = (ex && ex.body && ex.body.message) || 'Не удалось сохранить название.';
+        err.textContent = enOr(serverErrorText(ex), t('errors.renameFallback'))
+          || (ex && ex.body && ex.body.message) || 'Не удалось сохранить название.';
         err.style.display = '';
         err.style.color = 'var(--bad)';
       }
@@ -4167,7 +4235,8 @@
       detail = 'Эта страница работает только внутри Telegram.';
     } else if (refused) {
       // Prefer what the server actually said; fall back only if it said nothing.
-      detail = (err && err.message)
+      detail = enOr(serverErrorText(err), t('errors.loginFallback'))
+        || (err && err.message)
         || 'Telegram не подтвердил вход. Откройте приложение заново из бота.';
     }
 

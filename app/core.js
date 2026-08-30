@@ -459,6 +459,85 @@ function promoMessage(code) {
 }
 
 /**
+ * The closed vocabulary of server error codes this build can name.
+ *
+ * WHY A LIST HERE AND THE SENTENCES IN locales.js. `t()` returns THE KEY when
+ * it misses, so a screen that did `t('errors.' + code)` on an unknown code
+ * would print «errors.WIDGET_EXPLODED» to a customer. Asking this list first
+ * makes an unknown code fall to `errors.generic` instead — which is precisely
+ * the case the generic sentence exists for.
+ *
+ * The list and the dictionary are kept in step by a test, not by discipline:
+ * app/core.test.js asserts the two agree in both directions.
+ */
+const SERVER_ERRORS = Object.freeze({
+  PROMO_CODES_DISABLED: { ru: 'Промокоды сейчас недоступны.', en: 'Promo codes are unavailable right now.' },
+  PROMO_CODE_INVALID: { ru: 'Проверьте формат промокода.', en: 'Check the promo code format.' },
+  PROMO_CODE_NOT_FOUND: { ru: 'Промокод не найден.', en: 'Promo code not found.' },
+  PROMO_CODE_NOT_ACTIVE: { ru: 'Промокод недоступен.', en: 'This promo code is unavailable.' },
+  PROMO_CODE_NOT_STARTED: { ru: 'Промокод ещё не действует.', en: 'This promo code isn\u2019t active yet.' },
+  PROMO_CODE_EXPIRED: { ru: 'Срок действия промокода истёк.', en: 'This promo code has expired.' },
+  PROMO_CODE_LIMIT_REACHED: { ru: 'Лимит использований промокода исчерпан.', en: 'This promo code has reached its usage limit.' },
+  PROMO_CODE_EMAIL_LIMIT_REACHED: { ru: 'Этот промокод уже использован для этого email.', en: 'This promo code has already been used with this email.' },
+  PROMO_CODE_FIRST_PURCHASE_ONLY: { ru: 'Промокод действует только для первой покупки.', en: 'This promo code is for a first purchase only.' },
+  PROMO_CODE_MIN_ORDER: { ru: 'Сумма заказа меньше необходимой для этого промокода.', en: 'The order total is below the minimum for this promo code.' },
+  PROMO_CODE_NOT_APPLICABLE: { ru: 'Этот промокод нельзя применить к выбранному тарифу.', en: 'This promo code can\u2019t be applied to the selected plan.' },
+  PROMO_CODE_NOT_AVAILABLE: { ru: 'Этот промокод недоступен.', en: 'This promo code is unavailable.' },
+  RATE_LIMITED: { ru: 'Слишком много попыток. Попробуйте чуть позже.', en: 'Too many attempts. Please try again shortly.' },
+
+  TOPUP_PURCHASE_DISABLED: { ru: 'Пополнение пока недоступно.', en: 'Top-ups aren\u2019t available yet.' },
+  TOPUP_PROVIDER_DISABLED: { ru: 'Пополнение пока недоступно.', en: 'Top-ups aren\u2019t available yet.' },
+  TOPUP_IN_PROGRESS: { ru: 'Одно пополнение этой eSIM уже выполняется. Дождитесь результата.', en: 'A top-up for this eSIM is already in progress. Please wait for it to finish.' },
+  TOPUP_QUOTE_EXPIRED: { ru: 'Этот вариант больше не актуален. Выберите его заново.', en: 'This option is no longer current. Please choose it again.' },
+  OPTION_STALE: { ru: 'Этот вариант больше не актуален. Выберите его заново.', en: 'This option is no longer current. Please choose it again.' },
+  TERMS_REQUIRED: { ru: 'Примите условия, чтобы продолжить.', en: 'Please accept the terms to continue.' },
+});
+
+/**
+ * The sentence for a server error code, or null if this build has never heard
+ * of that code.
+ *
+ * NULL, not a fallback sentence: the caller knows which screen it is on and
+ * therefore which fallback reads best there, and every one of those is a
+ * literal key in the dictionary. Answering with a generic here would take that
+ * choice away and hide the difference between "we know this" and "we do not".
+ *
+ * English falls back to the Russian sentence before it gives up, the same rule
+ * app/i18n.js holds everywhere: a known Russian sentence beats a generic
+ * English apology, because it at least says what went wrong.
+ */
+function errorText(code, lang) {
+  const entry = SERVER_ERRORS[String(code || '')];
+  if (!entry) return null;
+
+  return (lang === 'en' ? entry.en : entry.ru) || entry.ru;
+}
+
+const KNOWN_ERROR_CODES = Object.freeze([
+  'PROMO_CODES_DISABLED', 'PROMO_CODE_INVALID', 'PROMO_CODE_NOT_FOUND',
+  'PROMO_CODE_NOT_ACTIVE', 'PROMO_CODE_NOT_STARTED', 'PROMO_CODE_EXPIRED',
+  'PROMO_CODE_LIMIT_REACHED', 'PROMO_CODE_EMAIL_LIMIT_REACHED',
+  'PROMO_CODE_FIRST_PURCHASE_ONLY', 'PROMO_CODE_MIN_ORDER',
+  'PROMO_CODE_NOT_APPLICABLE', 'PROMO_CODE_NOT_AVAILABLE', 'RATE_LIMITED',
+  'TOPUP_PURCHASE_DISABLED', 'TOPUP_PROVIDER_DISABLED', 'TOPUP_IN_PROGRESS',
+  'TOPUP_QUOTE_EXPIRED', 'OPTION_STALE', 'TERMS_REQUIRED',
+]);
+
+/**
+ * The dictionary key for a server error code, or null if this build has never
+ * heard of it.
+ *
+ * Deliberately does NOT return a sentence: the sentences live in the two
+ * dictionaries, and core.js has no `t()`. This returns the key and lets the
+ * caller — which does have one — render it.
+ */
+function errorKey(code) {
+  const key = String(code || '');
+
+  return KNOWN_ERROR_CODES.indexOf(key) >= 0 ? `errors.${key}` : null;
+}
+
+/**
  * How a typed code becomes the code that is sent.
  *
  * Trim and upper-case, which is what the storefront does and therefore what the
@@ -1293,9 +1372,51 @@ const REGION_NAMES = Object.freeze({
   'ITALY': 'Италия',
 });
 
-/** Russian country name, or the code if we somehow have none. Never blank. */
-function countryLabel(code) {
+/**
+ * The same regions in English.
+ *
+ * BEST WORLD, HALF GLOBAL and GLOBAL keep the provider's own tier names rather
+ * than being translated from the Russian. That is a deliberate decision and it
+ * was measured before it was made: BEST WORLD covers 173 countries, GLOBAL 117
+ * and HALF GLOBAL 50 — so «Полмира» is a marketing name, not a coverage claim,
+ * and rendering it as "Half the world" would put a number-shaped promise in
+ * front of an English reader that the packages do not keep. Everything else is
+ * an ordinary translation.
+ */
+const REGION_NAMES_EN = Object.freeze({
+  'EU': 'Europe',
+  'EUCONNECT': 'Europe',
+  'EUROPE AND USA': 'Europe and the USA',
+  'AFRICA': 'Africa',
+  'CARIBBEAN': 'Caribbean',
+  'BEST WORLD': 'Best World',
+  'HALF GLOBAL': 'Half Global',
+  'GLOBAL': 'Global',
+  'LATAM': 'Latin America',
+  'APAC': 'Asia-Pacific',
+  'AUSTRALIA AND NZ': 'Australia and New Zealand',
+  'CENTRAL ASIA': 'Central Asia',
+  'CHINA KOREA JAPAN': 'China, Korea and Japan',
+  'GREATER CHINA AND TAIWAN PREMIUM': 'Greater China and Taiwan',
+  'GREECE CYPRUS TURKEY': 'Greece, Cyprus and Turkey',
+  'JERSEY GUERNSEY AND IOM': 'Jersey, Guernsey and the Isle of Man',
+  'VIETNAM PLUS': 'Vietnam and Southeast Asia',
+  'SINGAPORE MALAYSIA AND THAILAND': 'Singapore, Malaysia and Thailand',
+  'SPAIN AND PORTUGAL': 'Spain and Portugal',
+  'ITALY': 'Italy',
+});
+
+/**
+ * A country name in the asked-for language. Never blank.
+ *
+ * English falls back to RUSSIAN before it falls back to the bare code, which is
+ * the same rule app/i18n.js holds for every other string: «Бруней» is worse
+ * than "Brunei" for an English reader, but it is far better than "BN".
+ */
+function countryLabel(code, lang) {
   const key = String(code || '').toUpperCase();
+  if (lang === 'en') return countryNamesEn[key] || countryNames[key] || key;
+
   return countryNames[key] || key;
 }
 
@@ -1332,6 +1453,20 @@ function plural(n, one, few, many) {
 const tariffWord = (n) => `${n} ${plural(n, 'тариф', 'тарифа', 'тарифов')}`;
 const countryWord = (n) => `${n} ${plural(n, 'страна', 'страны', 'стран')}`;
 
+/**
+ * English has two forms, not three, so it gets its own selector rather than
+ * being squeezed through plural()'s (one, few, many).
+ *
+ * Only 1 is singular. Zero is plural in English — "0 countries", not
+ * "0 country" — which is the one case a naive `n > 1` gets wrong.
+ */
+function pluralEn(n, one, many) {
+  return Math.abs(Number(n) || 0) === 1 ? one : many;
+}
+
+const tariffWordEn = (n) => `${n} ${pluralEn(n, 'plan', 'plans')}`;
+const countryWordEn = (n) => `${n} ${pluralEn(n, 'country', 'countries')}`;
+
 /** The provider's family name, normalised to a REGION_NAMES key. */
 function regionKey(pkg) {
   return String((pkg && pkg.name) || '')
@@ -1343,10 +1478,12 @@ function regionKey(pkg) {
     .toUpperCase();
 }
 
-function regionLabel(pkg) {
-  const named = REGION_NAMES[regionKey(pkg)];
+function regionLabel(pkg, lang) {
+  const key = regionKey(pkg);
+  const named = lang === 'en' ? (REGION_NAMES_EN[key] || REGION_NAMES[key]) : REGION_NAMES[key];
   if (named) return named;
   const n = (pkg && pkg.coverage_country_codes && pkg.coverage_country_codes.length) || 0;
+  if (lang === 'en') return n ? `Region · ${countryWordEn(n)}` : 'Region';
 
   return n ? `Регион · ${countryWord(n)}` : 'Регион';
 }
@@ -2149,12 +2286,15 @@ function defaultRandomHex(bytes) {
 const CORE = {
   API_BASE, ApiError, createApi, createCache, readThrough,
   PROMO_MESSAGES, promoMessage, normalisePromoCode, readPromoQuote,
+  KNOWN_ERROR_CODES, errorKey, SERVER_ERRORS, errorText,
   gb, money, daysLeft, remainingFraction,
   purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
   dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,
   byCountry, pickBestValue, searchCountries,
   groupCatalogue, regionsCovering, countryLabel, flagFor, isRegional,
   regionLabel, plural, tariffWord, countryWord,
+  REGION_NAMES, REGION_NAMES_EN, countryNames, countryNamesEn,
+  pluralEn, tariffWordEn, countryWordEn,
   normalize, popularGroups, popularCountries, countryLatin,
   ESIM_STATUS_TEXT, ORDER_STATUS_TEXT, activationPolicyText,
   destinationTitle, isOrderReady, isOrderDead,

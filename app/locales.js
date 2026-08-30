@@ -98,6 +98,30 @@
     'settings.account.since': 'Вы с нами с',
     'settings.account.orders': 'Покупок',
     'settings.account.esims': 'eSIM',
+
+    /* ------------------------------------------------------------------ *
+     * What to say when a request failed.
+     *
+     * ONLY the sentences addressed by a LITERAL key live here. The ones the
+     * server picks by CODE do not: a code is data, `t()` would have to be
+     * called with a computed key, and this project forbids that outright —
+     * a computed key is invisible to the scanner that proves every key is
+     * used, and the scanner's failure mode is somebody deleting a live key to
+     * make it green. Those sentences live in SERVER_ERRORS in core.js, beside
+     * PROMO_MESSAGES, which is where the Russian ones already were.
+     *
+     * The Russian values below are byte-identical to the fallbacks that ship
+     * today, so adding English cannot move a single Russian pixel.
+     * ------------------------------------------------------------------ */
+    'errors.promoFallback': 'Не удалось применить промокод.',
+
+    'errors.topupTransport': 'Связь прервалась. Повторите — лишнего пополнения не создастся.',
+    'errors.topupFallback': 'Не удалось начать пополнение.',
+
+    'errors.orderFallback': 'Не удалось создать заказ.',
+    'errors.codeCheckFallback': 'Не удалось проверить код. Попробуйте ещё раз.',
+    'errors.renameFallback': 'Не удалось сохранить название.',
+    'errors.loginFallback': 'Telegram не подтвердил вход. Откройте приложение заново из бота.',
   };
 
   const en = {
@@ -142,6 +166,18 @@
     // Plural on purpose: an English row labelled "eSIM" beside a number reads
     // as a heading rather than a count.
     'settings.account.esims': 'eSIMs',
+
+    'errors.promoFallback': 'Couldn’t apply the promo code.',
+
+    // Says the same reassuring thing the Russian does: a dropped connection is
+    // not a second charge. That promise is the point of the sentence.
+    'errors.topupTransport': 'The connection dropped. Try again — this won’t create a duplicate top-up.',
+    'errors.topupFallback': 'Couldn’t start the top-up.',
+
+    'errors.orderFallback': 'Couldn’t create the order.',
+    'errors.codeCheckFallback': 'Couldn’t check the code. Please try again.',
+    'errors.renameFallback': 'Couldn’t save the name.',
+    'errors.loginFallback': 'Telegram didn’t confirm the sign-in. Please reopen the app from the bot.',
   };
 
   const LOCALES = { ru: ru, en: en };

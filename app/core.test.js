@@ -1861,3 +1861,143 @@ test('a refused confirmation leaves the address alone and the button usable', ()
   assert.ok(bail > asked && bail < sent,
     'cancel must return before anything is sent');
 });
+
+/* ==========================================================================
+ * Phase 2 — the language-aware data layer.
+ *
+ * These guard the DATA, not the rendering: that every country has an English
+ * name, that a region does, that the closed error vocabulary and the two
+ * dictionaries cannot drift apart, and — the one that matters most — that
+ * adding English did not move a single Russian byte.
+ * ======================================================================== */
+
+const LOCALES = require('./locales.js');
+
+test('every country the Russian dictionary names, the English one names too', () => {
+  const ru = Object.keys(C.countryNames || {});
+  const missing = ru.filter((code) => !C.countryNamesEn[code]);
+
+  assert.equal(missing.length, 0,
+    `codes with no English name: ${missing.join(', ')}`);
+  assert.ok(ru.length >= 235, `expected the full dictionary, got ${ru.length}`);
+});
+
+test('no English country name is a bare ISO code', () => {
+  // The failure this repository has already had once, in Russian: 130 cards
+  // titled "BN 10 GB". A name that equals its own key is not a name.
+  const raw = Object.entries(C.countryNamesEn).filter(([code, name]) => code === name);
+
+  assert.deepEqual(raw, []);
+});
+
+test('the withdrawn code AN says the same thing in both languages', () => {
+  // CLDR resolves AN to "Curaçao" — a DIFFERENT territory from the one the
+  // Russian name describes. Generating it blindly would have made one code
+  // mean two things. It is live: Caribbean bundles carry it.
+  assert.equal(C.countryNamesEn.AN, 'Netherlands Antilles');
+  assert.match(C.countryNames.AN, /Антильские/);
+});
+
+test('an English country name falls back to Russian before it falls back to a code', () => {
+  // «Бруней» is worse than "Brunei" for an English reader. "BN" is worse than
+  // both, and that is the one this rule exists to prevent.
+  assert.equal(C.countryLabel('AE', 'en'), 'United Arab Emirates');
+  assert.equal(C.countryLabel('AE'), 'ОАЭ');
+  assert.equal(C.countryLabel('ZZ', 'en'), 'ZZ');
+  assert.equal(C.countryLabel('', 'en'), '');
+});
+
+test('asking for a language nobody has still answers in Russian', () => {
+  // countryLabel is called from render paths that may hand it anything.
+  assert.equal(C.countryLabel('AE', 'de'), 'ОАЭ');
+  assert.equal(C.countryLabel('AE', null), 'ОАЭ');
+  assert.equal(C.countryLabel('AE', undefined), 'ОАЭ');
+});
+
+test('every named region has both languages, and the marketing tiers keep their names', () => {
+  for (const key of Object.keys(C.REGION_NAMES_EN)) {
+    assert.ok(C.REGION_NAMES_EN[key], `no English for region ${key}`);
+  }
+  // Measured, not assumed: BEST WORLD covers 173 countries and HALF GLOBAL 50.
+  // «Полмира» is a tier name, so English must not turn it into a coverage
+  // claim like "Half the world" that the packages do not keep.
+  assert.equal(C.REGION_NAMES_EN['HALF GLOBAL'], 'Half Global');
+  assert.equal(C.REGION_NAMES_EN['BEST WORLD'], 'Best World');
+});
+
+test('English pluralises on one, and zero is plural', () => {
+  // The case a naive `n > 1` gets wrong.
+  assert.equal(C.pluralEn(0, 'country', 'countries'), 'countries');
+  assert.equal(C.pluralEn(1, 'country', 'countries'), 'country');
+  assert.equal(C.pluralEn(2, 'country', 'countries'), 'countries');
+  assert.equal(C.countryWordEn(1), '1 country');
+  assert.equal(C.countryWordEn(11), '11 countries');
+  // Russian's three forms must be untouched by any of this.
+  assert.equal(C.countryWord(1), '1 страна');
+  assert.equal(C.countryWord(2), '2 страны');
+  assert.equal(C.countryWord(5), '5 стран');
+});
+
+test('every server error code this build knows has both languages', () => {
+  for (const [code, entry] of Object.entries(C.SERVER_ERRORS)) {
+    assert.ok(entry.ru, `no Russian sentence for ${code}`);
+    assert.ok(entry.en, `no English sentence for ${code}`);
+    assert.notEqual(entry.en, entry.ru, `${code} was never translated`);
+  }
+  assert.deepEqual(
+    Object.keys(C.SERVER_ERRORS).sort(), C.KNOWN_ERROR_CODES.slice().sort(),
+    'the code list and the sentence map disagree'
+  );
+});
+
+test('no server error sentence hides in the UI dictionary, where t() could not reach it', () => {
+  // Codes are DATA. Reaching them through t() would mean a computed key, which
+  // this project forbids because a computed key is invisible to the scanner
+  // that proves no dictionary entry is dead.
+  const shouted = Object.keys(LOCALES.ru)
+    .filter((k) => k.startsWith('errors.'))
+    .map((k) => k.slice('errors.'.length))
+    .filter((k) => /^[A-Z_]+$/.test(k));
+
+  assert.deepEqual(shouted, [], 'code-addressed sentences belong in SERVER_ERRORS');
+});
+
+test('an unknown code gets null, so each screen picks its own fallback', () => {
+  assert.equal(C.errorText('PROMO_CODE_EXPIRED', 'en'), 'This promo code has expired.');
+  assert.equal(C.errorText('PROMO_CODE_EXPIRED', 'ru'), 'Срок действия промокода истёк.');
+  assert.equal(C.errorText('WIDGET_EXPLODED', 'en'), null);
+  assert.equal(C.errorText('', 'en'), null);
+  assert.equal(C.errorText(null, 'en'), null);
+  // A language nobody has still answers, in Russian.
+  assert.equal(C.errorText('RATE_LIMITED', 'de'), 'Слишком много попыток. Попробуйте чуть позже.');
+});
+
+test('an unknown error code has no key, so it can never be printed as one', () => {
+  // t() returns THE KEY when it misses. Without this, a code this build has
+  // not heard of would render «errors.WIDGET_EXPLODED» to a customer.
+  assert.equal(C.errorKey('PROMO_CODE_EXPIRED'), 'errors.PROMO_CODE_EXPIRED');
+  assert.equal(C.errorKey('WIDGET_EXPLODED'), null);
+  assert.equal(C.errorKey(''), null);
+  assert.equal(C.errorKey(null), null);
+  assert.equal(C.errorKey(undefined), null);
+});
+
+test('the Russian error sentences are the ones that already ship, byte for byte', () => {
+  // The whole safety argument for this phase: English was ADDED, Russian was
+  // not rewritten. Compared against PROMO_MESSAGES itself, not against a copy.
+  for (const [code, sentence] of Object.entries(C.PROMO_MESSAGES)) {
+    assert.equal(C.SERVER_ERRORS[code].ru, sentence, `Russian wording for ${code} moved`);
+  }
+  // …and promoMessage(), the function the promo screen already calls, still
+  // answers exactly what it answered before any of this.
+  assert.equal(C.promoMessage('PROMO_CODE_EXPIRED'), 'Срок действия промокода истёк.');
+  assert.equal(C.promoMessage('NOPE'), 'Не удалось применить промокод.');
+});
+
+test('both dictionaries answer for every key the other has', () => {
+  const ru = Object.keys(LOCALES.ru).sort();
+  const en = Object.keys(LOCALES.en).sort();
+
+  assert.deepEqual(ru.filter((k) => !LOCALES.en[k]), [], 'keys with no English');
+  assert.deepEqual(en.filter((k) => !LOCALES.ru[k]), [], 'keys with no Russian');
+});
