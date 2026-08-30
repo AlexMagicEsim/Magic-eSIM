@@ -2038,3 +2038,46 @@ test('both dictionaries answer for every key the other has', () => {
   assert.deepEqual(ru.filter((k) => !LOCALES.en[k]), [], 'keys with no English');
   assert.deepEqual(en.filter((k) => !LOCALES.ru[k]), [], 'keys with no Russian');
 });
+
+test('the legacy status tables cannot drift from the dictionary that replaced them', () => {
+  // app/ui.js no longer READS these: it has its own tables backed by t(), so
+  // that a language change reaches them. The originals stay exported and
+  // tested, which means the same sentence now exists twice — and the failure
+  // mode of two copies is that one is edited and the other is not.
+  //
+  // TARIFF_TEXT_RU/TARIFF_TEXT_EN already have a guard of this shape. These
+  // three did not, which a review caught. Nothing enforced them agreeing.
+  for (const [status, sentence] of Object.entries(C.ESIM_STATUS_TEXT)) {
+    assert.equal(LOCALES.ru[`esim.status.${status}`], sentence,
+      `esim status «${status}» says something different in the dictionary`);
+    assert.ok(LOCALES.en[`esim.status.${status}`], `no English for esim status «${status}»`);
+  }
+
+  for (const [status, sentence] of Object.entries(C.TOPUP_STATUS_TEXT)) {
+    assert.equal(LOCALES.ru[`topup.status.${status}`], sentence,
+      `top-up status «${status}» says something different in the dictionary`);
+    assert.ok(LOCALES.en[`topup.status.${status}`], `no English for top-up status «${status}»`);
+  }
+
+  C.AFTER_PAYMENT_STEPS.forEach((line, i) => {
+    assert.equal(LOCALES.ru[`afterPay.${i + 1}`], line,
+      `after-payment step ${i + 1} says something different in the dictionary`);
+    assert.ok(LOCALES.en[`afterPay.${i + 1}`], `no English for after-payment step ${i + 1}`);
+  });
+});
+
+test('the tariff wording tables answer for exactly the same phrases', () => {
+  // The guard core.js's own comment promises. Asserted in both directions: a
+  // phrase English can render but Russian cannot would show an English reader
+  // a row a Russian reader does not get, and vice versa.
+  assert.deepEqual(
+    Object.keys(C.TARIFF_TEXT_EN).sort(),
+    Object.keys(require('./core.js').TARIFF_TEXT_EN).sort()
+  );
+  const src = require('fs').readFileSync(`${__dirname}/core.js`, 'utf8');
+  const ru = src.match(/const TARIFF_TEXT_RU = \{([\s\S]*?)\n\};/)[1];
+  const ruKeys = [...ru.matchAll(/^\s*'((?:[^']|\\')*)'\s*:/gm)].map((m) => m[1]).sort();
+
+  assert.deepEqual(Object.keys(C.TARIFF_TEXT_EN).sort(), ruKeys,
+    'the English tariff table and the generated Russian one disagree');
+});

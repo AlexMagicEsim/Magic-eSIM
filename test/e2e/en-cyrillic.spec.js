@@ -143,6 +143,68 @@ test.describe('an English customer never meets Russian', () => {
     expect(await cyrillicOn(page, '#screen-claim', ALLOWED)).toEqual([]);
   });
 
+  test('the plan sheet, which carries the densest translation in the app', async ({ page }) => {
+    // Provider wording, activation policy, operators, hotspot, the coverage
+    // summary and the conditions table all land here. If any of them missed a
+    // language argument, this is where it shows.
+    await english(page);
+    await openApp(page);
+    await page.locator('#screen-home .tile').first().click();
+    await page.locator('#screen-country[data-active]').waitFor();
+    expect(await cyrillicOn(page, '#screen-country', ALLOWED)).toEqual([]);
+
+    await page.locator('#screen-country .card').first().click();
+    await page.locator('#screen-tariff[data-active]').waitFor();
+    // Open the collapsed conditions and compatibility sheets: their text is the
+    // point of this check.
+    for (const d of await page.locator('#screen-tariff details').all()) {
+      await d.evaluate((n) => { n.open = true; });
+    }
+    await page.waitForTimeout(200);
+
+    expect(await cyrillicOn(page, '#screen-tariff', ALLOWED)).toEqual([]);
+  });
+
+  test('checkout, including the consent row and the pay button', async ({ page }) => {
+    await english(page);
+    await openApp(page);
+    await page.locator('#screen-home .tile').first().click();
+    await page.locator('#screen-country[data-active]').waitFor();
+    await page.locator('#screen-country .card').first().click();
+    await page.locator('#screen-tariff[data-active]').waitFor();
+
+    // `.btn--wide` alone: a comma-selector matches in DOM order, so adding
+    // `.btn` picked up the iPhone guide button that sits above the buy button.
+    await page.locator('#screen-tariff .btn--wide').first().click();
+    await page.locator('#screen-checkout[data-active]').waitFor();
+    await page.waitForTimeout(200);
+
+    expect(await cyrillicOn(page, '#screen-checkout', ALLOWED)).toEqual([]);
+
+    // The promo block is collapsed by default and is a screen of its own.
+    const promo = page.locator('.promo__toggle');
+    if (await promo.count()) {
+      await promo.first().click();
+      await page.waitForTimeout(150);
+      expect(await cyrillicOn(page, '#screen-checkout', ALLOWED)).toEqual([]);
+    }
+  });
+
+  test('the top-up and order screens, which a buyer reaches after paying', async ({ page }) => {
+    // Rendered directly rather than walked to: reaching them for real needs a
+    // payment, and this suite creates none. What is under test is the copy on
+    // them, which does not depend on how the screen was opened.
+    await english(page);
+    await openApp(page);
+
+    for (const screen of ['#screen-topup', '#screen-order']) {
+      const text = await page.locator(screen).textContent();
+      expect(text || '', `${screen} static copy`).not.toMatch(CYRILLIC);
+      const label = await page.locator(screen).getAttribute('aria-label');
+      expect(label || '', `${screen} aria-label`).not.toMatch(CYRILLIC);
+    }
+  });
+
   test('the loading screen, whose copy ships in the HTML rather than from a render', async ({ page }) => {
     await english(page);
     await openApp(page);
