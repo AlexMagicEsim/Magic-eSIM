@@ -1766,18 +1766,26 @@ function claimCodeScreenSource() {
 test('the code screen offers a way out when no mail arrives', () => {
   const src = claimCodeScreenSource();
 
-  assert.match(src, /Если письмо не пришло за пару минут — проверьте адрес и попробуйте другой\./,
-    'the hint lives on the code screen, where the waiting happens');
-  // Quiet by construction: the same class the email line and the attempt
-  // counter use, so it reads as a note rather than as an error.
-  assert.match(src, /class: 'small muted', text:\s*\n?\s*'Если письмо не пришло/,
-    'and it is a quiet note, not a notice or a warning');
+  // The sentence moved into the dictionary when the Mini App learned a second
+  // language. Both halves of the original guarantee are still checked: the hint
+  // is asked for ON THE CODE SCREEN, where the waiting happens, and it is still
+  // the quiet class the email line and the attempt counter use — a note rather
+  // than an error. What changed is only where the words live.
+  assert.match(src, /class: 'small muted', text:\s*\n?\s*t\('claim\.noMail'\)/,
+    'the hint lives on the code screen, as a quiet note');
+  assert.match(LOCALES.ru['claim.noMail'],
+    /Если письмо не пришло за пару минут — проверьте адрес и попробуйте другой\./);
+  assert.ok(LOCALES.en['claim.noMail'], 'and it exists in English too');
 });
 
 test('the hint never says WHY a code did not arrive', () => {
   // Naming the cause would turn the form into a lookup for whether an address
   // is registered. Every word below would do that, in the phrasings a Russian
   // screen would plausibly use.
+  // The words moved into the dictionary, so this checks the DICTIONARY as well
+  // as the source. Reading only the source would have made this guard pass
+  // trivially the moment the sentences were keyed — a false green on the one
+  // test here that protects a customer's privacy rather than their experience.
   const src = claimCodeScreenSource();
   const leaks = [
     'занят', 'занята', 'уже используется', 'уже зарегистрирован',
@@ -1785,9 +1793,28 @@ test('the hint never says WHY a code did not arrive', () => {
     'привязан', 'существует', 'не найден', 'уже подтверждён',
     'HELD_BY_ANOTHER', 'held_by_another',
   ];
+  const leaksEn = [
+    'taken', 'already in use', 'already registered', 'another account',
+    'belongs to', 'linked to', 'exists', 'not found', 'already confirmed',
+    'held_by_another',
+  ];
+  // Every key the code screen actually asks for, and both of its languages.
+  const keys = [...src.matchAll(/t\('([^']+)'/g)].map((m) => m[1]);
+  assert.ok(keys.length >= 4, 'expected the code screen to ask for several keys');
+
   for (const word of leaks) {
     assert.ok(!src.toLowerCase().includes(word.toLowerCase()),
       `the code screen must not say «${word}» — it would confirm the address exists`);
+    for (const key of keys) {
+      assert.ok(!String(LOCALES.ru[key] || '').toLowerCase().includes(word.toLowerCase()),
+        `${key} (ru) must not say «${word}»`);
+    }
+  }
+  for (const word of leaksEn) {
+    for (const key of keys) {
+      assert.ok(!String(LOCALES.en[key] || '').toLowerCase().includes(word.toLowerCase()),
+        `${key} (en) must not say “${word}”`);
+    }
   }
 });
 
@@ -1797,8 +1824,12 @@ test('the code screen still promises nothing it cannot keep', () => {
   // code was sent. A future edit that turns it into a promise contradicts the
   // hint added below it.
   const src = claimCodeScreenSource();
-  assert.match(src, /Если этот адрес использовался при покупке/,
-    'the intro stays conditional');
+  assert.match(src, /t\('claim\.codeIntro'\)/, 'the intro is the keyed one');
+  // …and the sentence itself is still conditional, in BOTH languages. This is
+  // the half that matters: the key could be right while the words silently
+  // became a promise.
+  assert.match(LOCALES.ru['claim.codeIntro'], /^Если этот адрес использовался при покупке/);
+  assert.match(LOCALES.en['claim.codeIntro'], /^If this address was used/);
 });
 
 /* --------------------------------------------------------------------------

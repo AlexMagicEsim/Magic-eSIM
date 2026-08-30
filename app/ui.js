@@ -65,6 +65,57 @@
     return I.lang() === 'en' ? C.countryWordEn(n) : C.countryWord(n);
   }
 
+  /**
+   * An eSIM's status, in words.
+   *
+   * The keys are spelled out one by one rather than composed from the status,
+   * because t() may never be handed a computed key — the scanner that proves no
+   * dictionary entry is dead cannot see a key that is built at runtime.
+   * An unknown status falls to the same honest sentence it always did.
+   */
+  const ESIM_STATUS = {
+    provisioning: () => t('esim.status.provisioning'),
+    ready: () => t('esim.status.ready'),
+    active: () => t('esim.status.active'),
+    depleted: () => t('esim.status.depleted'),
+    expired: () => t('esim.status.expired'),
+    suspended: () => t('esim.status.suspended'),
+    failed: () => t('esim.status.failed'),
+  };
+
+  function esimStatusText(status) {
+    const fn = ESIM_STATUS[status];
+
+    return fn ? fn() : t('esim.statusUnknown');
+  }
+
+  /** A top-up's status, same shape and for the same reason. */
+  const TOPUP_STATUS = {
+    awaiting_payment: () => t('topup.status.awaiting_payment'),
+    paid: () => t('topup.status.paid'),
+    in_progress: () => t('topup.status.in_progress'),
+    completed: () => t('topup.status.completed'),
+    verifying: () => t('topup.status.verifying'),
+    needs_review: () => t('topup.status.needs_review'),
+    refund_pending: () => t('topup.status.refund_pending'),
+  };
+
+  /**
+   * The top-up's status line.
+   *
+   * In Russian this is C.topupStatusText() untouched, INCLUDING its preference
+   * for the server's own `status_text`. In English that preference is dropped:
+   * `status_text` is written by the backend in Russian, and the whole point of
+   * this phase is that an English reader is never handed one.
+   */
+  function topupStatusLine(out) {
+    if (I.lang() !== 'en') return C.topupStatusText(out);
+    const key = String((out && typeof out === 'object' ? out.status : out) || '');
+    const fn = TOPUP_STATUS[key];
+
+    return fn ? fn() : t('topup.checkingState');
+  }
+
   function serverErrorText(e) {
     if (I.lang() !== 'en') return null;
 
@@ -1363,7 +1414,7 @@
     const body = $('#topup-body');
     clear(body);
 
-    const title = C.topupStatusText(out);
+    const title = topupStatusLine(out);
     $('#topup-title').textContent = title;
 
     const card = el('div', { class: 'card stack' }, [
@@ -2041,7 +2092,7 @@
       el('p', { class: 'small', text:
         t('compat.android') }),
       el('p', { class: 'small muted', text:
-        'Поддержка зависит и от региональной версии устройства, поэтому проверка в настройках надёжнее списка моделей. Телефон не должен быть заблокирован под одного оператора.' }),
+        t('compat.note') }),
       el('div', { class: 'row' }, [
         el('button', {
           class: 'btn btn--quiet', text: t('tariff.iphoneGuide'),
@@ -2728,11 +2779,11 @@
           ? t('order.staleNote')
           : t('order.notFoundNote') }));
         body.appendChild(el('button', {
-          class: 'btn btn--ghost btn--wide', text: 'Повторить',
+          class: 'btn btn--ghost btn--wide', text: t('common.retryAction'),
           onclick: () => { attempt = 0; tick(); },
         }));
         body.appendChild(el('button', {
-          class: 'btn btn--wide', text: 'Открыть «Мои eSIM»',
+          class: 'btn btn--wide', text: t('common.openMyEsims'),
           onclick: () => { stopOrderPoll(); show('esims'); renderEsims(); },
         }));
         body.appendChild(supportButton(null));
@@ -2744,7 +2795,7 @@
       const stage = orderStage(st);
       const done = C.isOrderReady(st);
       const dead = C.isOrderDead(st);
-      $('#order-title').textContent = stage ? stage.title : 'Проверяем заказ';
+      $('#order-title').textContent = stage ? stage.title : t('order.checkingOrder');
 
       body.appendChild(el('div', { class: 'card stack' }, [
         el('div', {
@@ -2752,20 +2803,20 @@
           text: C.destinationTitle(order.package_name, order.country_code),
         }),
         order.amount_rub ? el('div', { class: 'row row--between' }, [
-          el('span', { class: 'muted', text: 'Сумма' }),
+          el('span', { class: 'muted', text: t('order.amount') }),
           el('strong', { class: 'tabular', text: C.money(order.amount_rub) }),
         ]) : null,
         el('div', {
           class: 'card__meta',
           // An unmapped status is not a blank card. §16: the state is always
           // carried in words, never only by the absence of them.
-          text: stage ? stage.note : 'Мы уточняем статус заказа. Если он не изменится, напишите нам.',
+          text: stage ? stage.note : t('order.unknownNote'),
         }),
       ]));
 
       if (stale) {
         body.appendChild(el('div', { class: 'notice' }, [
-          el('span', { text: 'Не удалось обновить статус — показано последнее известное состояние.' }),
+          el('span', { text: t('order.staleStatus') }),
         ]));
       }
 
@@ -2773,7 +2824,7 @@
         // A shaped, finite progress note — never an open-ended spinner.
         body.appendChild(el('div', { class: 'notice' }, [
           el('span', { class: 'btn__spinner' }),
-          el('span', { text: 'Обновляем статус автоматически' }),
+          el('span', { text: t('order.autoRefresh') }),
         ]));
       }
 
@@ -2782,7 +2833,7 @@
         // The order carries `esim_id`, so this opens THE eSIM that was just
         // paid for rather than a list the customer then has to search.
         body.appendChild(el('button', {
-          class: 'btn btn--wide', text: 'Открыть eSIM',
+          class: 'btn btn--wide', text: t('order.openEsim'),
           onclick: () => {
             stopOrderPoll();
             if (order.esim_id) openEsim(order.esim_id);
@@ -2899,7 +2950,7 @@
       void tick();
     };
 
-    $('#order-title').textContent = 'Проверяем оплату';
+    $('#order-title').textContent = t('order.checking');
     clear($('#order-body'));
     $('#order-body').appendChild(skeletonCards(1));
     await tick();
@@ -2945,7 +2996,7 @@
     clear(list);
 
     if (!out.value) {
-      list.appendChild(errorNotice('Не удалось загрузить ваши eSIM.', renderEsims));
+      list.appendChild(errorNotice(t('esims.loadFailed'), renderEsims));
       return;
     }
     if (out.stale) list.appendChild(staleNotice(renderEsims));
@@ -2957,10 +3008,10 @@
       // second used to be a support handover because the three endpoints it
       // needs did not exist.
       list.appendChild(el('div', { class: 'empty' }, [
-        el('p', { text: 'Пока нет ни одной eSIM.' }),
-        el('button', { class: 'btn', text: 'Выбрать тариф', onclick: () => show('home') }),
-        el('p', { class: 'small muted', text: 'Покупали на сайте? Подключите те покупки сюда.' }),
-        el('button', { class: 'btn btn--ghost', text: 'Добавить покупки с сайта', onclick: openClaim }),
+        el('p', { text: t('esims.empty') }),
+        el('button', { class: 'btn', text: t('esims.pickPlan'), onclick: () => show('home') }),
+        el('p', { class: 'small muted', text: t('esims.boughtOnSite') }),
+        el('button', { class: 'btn btn--ghost', text: t('settings.email.add'), onclick: openClaim }),
       ]));
       // Somebody who hid ALL of their eSIMs has an empty main list and is
       // exactly the person who needs the hidden section most. Returning here
@@ -2975,7 +3026,7 @@
     // may still have older ones bought on the site.
     list.appendChild(el('button', {
       class: 'btn btn--quiet gap-top-lg',
-      text: 'Добавить покупки с сайта',
+      text: t('settings.email.add'),
       onclick: openClaim,
     }));
 
@@ -3000,9 +3051,9 @@
     } catch { return; }
     if (!items.length) return;
 
-    list.appendChild(el('h2', { class: 'section', text: 'Скрытые eSIM' }));
+    list.appendChild(el('h2', { class: 'section', text: t('esims.hidden') }));
     list.appendChild(el('p', { class: 'small muted', text:
-      'Они работают как обычно и не показываются в списке выше. Откройте, чтобы вернуть.' }));
+      t('esims.hiddenNote') }));
     for (const e of items) list.appendChild(esimCard(e));
   }
 
@@ -3034,16 +3085,16 @@
   function paintClaimEmail(prefill = '', error = null) {
     const box = claimBox();
     clear(box);
-    $('#claim-title').textContent = 'Покупки с сайта';
+    $('#claim-title').textContent = t('claim.title');
 
     box.appendChild(el('p', { class: 'muted', text:
-      'Подключим покупки, сделанные на magicesim.store. Отправим код на вашу почту — так мы убедимся, что адрес ваш.' }));
+      t('claim.intro') }));
 
     // Every assist off: a field that autocapitalises and autocorrects an email
     // is a field that fights the customer on a phone.
     const input = el('input', {
       id: 'claim-email', class: 'input', type: 'email', value: prefill,
-      placeholder: 'адрес, который вы указывали при покупке',
+      placeholder: t('claim.placeholder'),
       autocomplete: 'email', autocapitalize: 'none', autocorrect: 'off',
       spellcheck: 'false', inputmode: 'email',
     });
@@ -3051,17 +3102,17 @@
     if (error) box.appendChild(claimNotice(error, true));
 
     const send = el('button', { class: 'btn btn--wide' });
-    setBusy(send, false, 'Отправить код');
+    setBusy(send, false, t('claim.sendCode'));
     send.addEventListener('click', async () => {
       const email = String(input.value || '').trim();
-      if (!/.+@.+\..+/.test(email)) { paintClaimEmail(email, 'Похоже, в адресе опечатка.'); return; }
+      if (!/.+@.+\..+/.test(email)) { paintClaimEmail(email, t('claim.badEmail')); return; }
 
-      setBusy(send, true, 'Отправляем…');
+      setBusy(send, true, t('claim.sending'));
       let out = null;
       try {
         out = await api.requestEmailCode(email);
       } catch { /* the server answers the same way regardless; move on */ }
-      setBusy(send, false, 'Отправить код');
+      setBusy(send, false, t('claim.sendCode'));
 
       // Already theirs. The server sent no code — it re-checked their purchases
       // instead — so sending them to the code screen would be a wait with no
@@ -3088,19 +3139,19 @@
   function paintClaimAlreadyVerified(email) {
     const box = claimBox();
     clear(box);
-    $('#claim-title').textContent = 'Адрес уже подтверждён';
+    $('#claim-title').textContent = t('claim.already');
 
-    box.appendChild(claimNotice('Этот адрес уже подтверждён. Мы обновили список ваших покупок.'));
+    box.appendChild(claimNotice(t('claim.alreadyNote')));
     box.appendChild(el('p', { class: 'small muted', text: email }));
     box.appendChild(el('p', { class: 'small muted', text:
-      'Покупки с этого адреса добавляются сами — подтверждать его заново не нужно.' }));
+      t('claim.alreadyAuto') }));
 
     box.appendChild(el('button', {
-      class: 'btn btn--wide', text: 'Открыть «Мои eSIM»',
+      class: 'btn btn--wide', text: t('common.openMyEsims'),
       onclick: () => { show('esims'); renderEsims(); },
     }));
     box.appendChild(el('button', {
-      class: 'btn btn--quiet', text: 'Указать другой адрес',
+      class: 'btn btn--quiet', text: t('claim.otherAddress'),
       onclick: () => paintClaimEmail(''),
     }));
   }
@@ -3108,10 +3159,10 @@
   function paintClaimCode(email, error = null, attemptsLeft = null) {
     const box = claimBox();
     clear(box);
-    $('#claim-title').textContent = 'Введите код';
+    $('#claim-title').textContent = t('claim.enterCode');
 
     box.appendChild(el('p', { class: 'muted', text:
-      'Если этот адрес использовался при покупке, мы отправили на него код. Он действует 10 минут.' }));
+      t('claim.codeIntro') }));
     box.appendChild(el('p', { class: 'small muted', text: email }));
 
     // `one-time-code` lets iOS and Android offer the code straight from the
@@ -3126,31 +3177,31 @@
 
     if (error) box.appendChild(claimNotice(error, true));
     if (attemptsLeft != null && attemptsLeft > 0) {
-      box.appendChild(el('p', { class: 'small muted', text: `Осталось попыток: ${attemptsLeft}` }));
+      box.appendChild(el('p', { class: 'small muted', text: t('claim.attemptsLeft', { n: attemptsLeft }) }));
     }
 
     const confirm = el('button', { class: 'btn btn--wide' });
-    setBusy(confirm, false, 'Подтвердить');
+    setBusy(confirm, false, t('claim.confirm'));
     confirm.addEventListener('click', async () => {
       const code = String(input.value || '').replace(/\D/g, '');
-      if (code.length !== 6) { paintClaimCode(email, 'Код состоит из шести цифр.'); return; }
+      if (code.length !== 6) { paintClaimCode(email, t('claim.sixDigits')); return; }
 
-      setBusy(confirm, true, 'Проверяем…');
+      setBusy(confirm, true, t('promo.checking'));
       let out = null;
       try {
         out = await api.confirmEmailCode(email, code);
       } catch (err) {
-        setBusy(confirm, false, 'Подтвердить');
+        setBusy(confirm, false, t('claim.confirm'));
         const body = (err && err.body) || {};
         paintClaimCode(
           email,
           enOr(serverErrorText(err), t('errors.codeCheckFallback'))
-            || body.message || 'Не удалось проверить код. Попробуйте ещё раз.',
+            || body.message || t('errors.codeCheckFallback'),
           body.attempts_left
         );
         return;
       }
-      setBusy(confirm, false, 'Подтвердить');
+      setBusy(confirm, false, t('claim.confirm'));
 
       // The list is different now, so refresh before showing the result: the
       // customer taps through to something already correct.
@@ -3160,7 +3211,7 @@
     box.appendChild(confirm);
 
     box.appendChild(el('button', {
-      class: 'btn btn--quiet', text: 'Отправить код ещё раз',
+      class: 'btn btn--quiet', text: t('claim.resend'),
       onclick: () => paintClaimEmail(email),
     }));
 
@@ -3178,7 +3229,7 @@
     // instead of a spinner, and someone who simply mistyped gets the same
     // nudge — which is exactly why it gives nothing away.
     box.appendChild(el('p', { class: 'small muted', text:
-      'Если письмо не пришло за пару минут — проверьте адрес и попробуйте другой.' }));
+      t('claim.noMail') }));
   }
 
   function paintClaimDone(out) {
@@ -3187,7 +3238,7 @@
 
     const found = Number((out && out.linked_count) || 0);
     const already = Number((out && out.already_linked_count) || 0);
-    $('#claim-title').textContent = found ? 'Покупки добавлены' : 'Адрес подтверждён';
+    $('#claim-title').textContent = found ? t('claim.added') : t('claim.confirmed');
 
     if (found) {
       box.appendChild(claimNotice(
@@ -3196,26 +3247,26 @@
         box.appendChild(el('div', { class: 'card row row--between' }, [
           el('span', { class: 'card__body' }, [
             el('span', { class: 'card__title', text: C.destinationTitle(p.package_name, p.country_code) }),
-            el('span', { class: 'card__meta', text: p.data_gb ? `${p.data_gb} ГБ` : '' }),
+            el('span', { class: 'card__meta', text: p.data_gb ? t('plan.gb', { n: p.data_gb }) : '' }),
           ]),
-          el('span', { class: 'small muted', text: p.has_esim ? 'eSIM готова' : 'без eSIM' }),
+          el('span', { class: 'small muted', text: p.has_esim ? t('claim.esimReady') : t('claim.noEsim') }),
         ]));
       }
     } else if (already) {
-      box.appendChild(claimNotice('Эти покупки уже были добавлены.'));
+      box.appendChild(claimNotice(t('claim.alreadyAddedAll')));
     } else {
       // §9 S13: "успех без покупок" is not an error. The address is proven, and
       // future purchases from it now genuinely do attach by themselves — the
       // server reconciles at fulfilment and again on every «Мои eSIM» read.
       // This sentence used to be a promise the code did not keep.
       box.appendChild(claimNotice(
-        'Адрес подтверждён. Покупок с него не нашлось — возможно, вы покупали с другого адреса.'));
+        t('claim.noneFound')));
       box.appendChild(el('p', { class: 'small muted', text:
-        'Новые покупки с этого адреса появятся здесь сами.' }));
+        t('claim.futureAuto') }));
     }
 
     box.appendChild(el('button', {
-      class: 'btn btn--wide', text: 'Открыть «Мои eSIM»',
+      class: 'btn btn--wide', text: t('common.openMyEsims'),
       onclick: () => { show('esims'); renderEsims(); },
     }));
   }
@@ -3223,7 +3274,7 @@
   function statusBadge(status, { small = false } = {}) {
     // Never the raw enum: an unmapped status is our gap, not a word a customer
     // should have to read. RAW CODES = 0 covers status vocabularies too.
-    const text = C.ESIM_STATUS_TEXT[status] || 'Статус уточняется';
+    const text = esimStatusText(status);
     const tone = status === 'active' || status === 'ready' ? 'badge--good'
       : (status === 'depleted' || status === 'expired' || status === 'failed' ? 'badge--bad'
         : (status === 'suspended' ? 'badge--warn' : ''));
@@ -3268,14 +3319,14 @@
     if (fraction === null) {
       return el('div', { class: 'stack', style: 'gap:4px' }, [
         gaugeBar(esim),
-        el('div', { class: 'small muted', text: 'Остаток неизвестен — обновите данные' }),
+        el('div', { class: 'small muted', text: t('esim.remainingUnknownRefresh') }),
         when,
       ]);
     }
 
     return el('div', { class: 'stack', style: 'gap:4px' }, [
       gaugeBar(esim),
-      el('div', { class: 'small muted tabular', text: `${esim.remaining_gb} из ${esim.total_gb} ГБ` }),
+      el('div', { class: 'small muted tabular', text: t('esim.remainingOf', { left: esim.remaining_gb, total: esim.total_gb }) }),
       when,
     ]);
   }
@@ -3323,7 +3374,7 @@
   const esimSubtitle = (e) => {
     if (!e || !e.display_name) return '';
     const parts = [derivedLabel(e)];
-    if (e.total_gb != null) parts.push(`${e.total_gb} ГБ`);
+    if (e.total_gb != null) parts.push(t('plan.gb', { n: e.total_gb }));
 
     return parts.filter(Boolean).join(' · ');
   };
@@ -3376,14 +3427,14 @@
       el('div', { class: 'row row--between esim-card__metrics' }, [
         fraction === null
           // Said ONCE, and the hatched bar under it says it a second way.
-          ? el('span', { class: 'esim-card__unknown', text: 'Остаток неизвестен' })
+          ? el('span', { class: 'esim-card__unknown', text: t('esim.remainingUnknown') })
           : el('span', { class: 'esim-card__metric' }, [
-              el('span', { class: 'esim-card__big tabular', text: `${e.remaining_gb} ГБ` }),
-              el('span', { class: 'esim-card__of tabular', text: `из ${e.total_gb}` }),
+              el('span', { class: 'esim-card__big tabular', text: t('plan.gb', { n: e.remaining_gb }) }),
+              el('span', { class: 'esim-card__of tabular', text: t('esim.ofTotal', { total: e.total_gb }) }),
             ]),
         days === null ? null : el('span', { class: 'esim-card__metric esim-card__metric--end' }, [
           el('span', { class: 'esim-card__big tabular', text: String(days) }),
-          el('span', { class: 'esim-card__of', text: C.plural(days, 'день', 'дня', 'дней') }),
+          el('span', { class: 'esim-card__of', text: dayWord(days) }),
         ]),
       ]),
 
