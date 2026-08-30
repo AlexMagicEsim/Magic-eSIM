@@ -264,7 +264,13 @@ test('the Mini App asserts the price it SHOWED, which for a daily plan is the te
 test('a daily plan with no priced ladder cannot be bought in the Mini App', () => {
   const s = read('app/ui.js');
   assert.match(s, /isDaily && !terms\.length/);
-  assert.match(s, /нельзя оформить/);
+  // The sentence itself moved into the dictionary when the Mini App learned a
+  // second language. Follow it there rather than drop the assertion: what
+  // matters is that the customer is told, in whichever language they read.
+  assert.match(s, /t\('tariff\.unavailable'\)/);
+  const dict = read('app/locales.js');
+  assert.match(dict, /'tariff\.unavailable': 'Этот тариф сейчас нельзя оформить[^']*'/);
+  assert.match(dict, /'tariff\.unavailable': '[^']*can’t be ordered[^']*'/);
 });
 
 // ---------------------------------------------------------------------------

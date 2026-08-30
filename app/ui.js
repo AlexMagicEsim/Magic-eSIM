@@ -49,6 +49,22 @@
    * `C.errorKey()` recognises, and falls to `fallbackKey` when the server names
    * a code this build has never heard of.
    */
+  /**
+   * «дня» / "days" — the word only, so the NUMBER stays a substitution and the
+   * sentence around it stays in the dictionary. Russian needs three forms and
+   * English two, which is why this cannot be one shared call.
+   */
+  function dayWord(n) {
+    return I.lang() === 'en'
+      ? C.pluralEn(n, 'day', 'days')
+      : C.plural(n, 'день', 'дня', 'дней');
+  }
+
+  /** "34 countries" / «34 страны» — number and word together, as one phrase. */
+  function countryCount(n) {
+    return I.lang() === 'en' ? C.countryWordEn(n) : C.countryWord(n);
+  }
+
   function serverErrorText(e) {
     if (I.lang() !== 'en') return null;
 
@@ -296,8 +312,8 @@
   /** A stale-data notice with a retry. Never silent: see core.readThrough. */
   function staleNotice(onRetry) {
     return el('div', { class: 'notice' }, [
-      el('span', { text: 'Показаны сохранённые данные — сеть недоступна.' }),
-      el('button', { class: 'btn btn--quiet', text: 'Обновить', onclick: onRetry }),
+      el('span', { text: t('stale.notice') }),
+      el('button', { class: 'btn btn--quiet', text: t('common.refresh'), onclick: onRetry }),
     ]);
   }
 
@@ -499,7 +515,7 @@
     }
     clear(list);
     clear(notice);
-    list.appendChild(errorNotice('Не удалось загрузить тарифы.', renderCatalogue));
+    list.appendChild(errorNotice(t('home.loadFailed'), renderCatalogue));
   }
 
   /**
@@ -544,7 +560,7 @@
     if (!slots) return;
 
     clear(mine);
-    mine.appendChild(el('h2', { class: 'section', text: 'Мои eSIM' }));
+    mine.appendChild(el('h2', { class: 'section', text: t('home.myEsims') }));
     for (let i = 0; i < slots; i += 1) mine.appendChild(el('div', { class: 'skel skel--esim' }));
   }
 
@@ -581,11 +597,11 @@
     // catalogue's 15px, 600, muted, so one screen carried two typographic
     // systems for the same kind of thing. The block's position already makes it
     // the first thing read; the heading does not also have to shout.
-    mine.appendChild(el('h2', { class: 'section', text: 'Мои eSIM' }));
+    mine.appendChild(el('h2', { class: 'section', text: t('home.myEsims') }));
     for (const e of state.esims.slice(0, 3)) mine.appendChild(esimCard(e));
     if (state.esims.length > 3) {
       mine.appendChild(el('button', {
-        class: 'btn btn--ghost', text: `Все eSIM · ${state.esims.length}`,
+        class: 'btn btn--ghost', text: t('home.allEsims', { n: state.esims.length }),
         onclick: () => { show('esims'); renderEsims(); },
       }));
     }
@@ -624,7 +640,7 @@
       g.from === null
         ? el('span', { class: 'tile__from' })
         : el('span', { class: 'tile__from tabular' }, [
-            el('span', { class: 'tile__prefix', text: 'от ' }),
+            el('span', { class: 'tile__prefix', text: `${t('tile.fromWord')} ` }),
             el('span', { text: C.money(g.from) }),
           ]),
     ]);
@@ -643,7 +659,7 @@
             : C.tariffWord(g.items.length),
         }),
       ]),
-      el('span', { class: 'card__price tabular', text: g.from === null ? '' : `от ${C.money(g.from)}` }),
+      el('span', { class: 'card__price tabular', text: g.from === null ? '' : t('tile.from', { price: C.money(g.from) }) }),
       el('span', { class: 'card__chevron', 'aria-hidden': 'true', text: '›' }),
     ]);
   }
@@ -689,13 +705,13 @@
       const matches = C.searchCountries([...countries, ...regions], q);
       if (!matches.length) {
         list.appendChild(el('div', { class: 'empty stack' }, [
-          el('p', { text: 'Страна не найдена.' }),
-          el('p', { class: 'small muted', text: 'Попробуйте другое название — например, «Таиланд» или «Turkey».' }),
-          el('button', { class: 'btn btn--quiet', text: 'Показать популярные', onclick: clearSearch }),
+          el('p', { text: t('search.notFound') }),
+          el('p', { class: 'small muted', text: t('search.tryAnother') }),
+          el('button', { class: 'btn btn--quiet', text: t('search.showPopular'), onclick: clearSearch }),
         ]));
         return;
       }
-      list.appendChild(el('h2', { class: 'section', text: `Найдено · ${matches.length}` }));
+      list.appendChild(el('h2', { class: 'section', text: t('search.found', { n: matches.length }) }));
       for (const g of matches) list.appendChild(destinationRow(g));
 
       return;
@@ -703,7 +719,7 @@
 
     const popular = C.popularGroups(countries);
     if (popular.length) {
-      list.appendChild(el('h2', { class: 'section', text: 'Популярные направления' }));
+      list.appendChild(el('h2', { class: 'section', text: t('list.popular') }));
       list.appendChild(el('div', { class: 'tiles' }, popular.map(popularTile)));
     }
 
@@ -712,7 +728,7 @@
       if (rest > 0) {
         list.appendChild(el('button', {
           class: 'btn btn--ghost btn--wide',
-          text: `Все страны и регионы · ${rest}`,
+          text: t('list.allCountries', { n: rest }),
           onclick: () => { state.showAll = true; paintCountryList(); },
         }));
       }
@@ -721,11 +737,11 @@
     }
 
     if (regions.length) {
-      list.appendChild(el('h2', { class: 'section', text: 'Регионы и весь мир' }));
+      list.appendChild(el('h2', { class: 'section', text: t('list.regions') }));
       for (const r of regions) list.appendChild(destinationRow(r));
     }
     if (countries.length) {
-      list.appendChild(el('h2', { class: 'section', text: 'Все страны' }));
+      list.appendChild(el('h2', { class: 'section', text: t('list.countries') }));
       for (const g of countries) list.appendChild(destinationRow(g));
     }
   }
@@ -790,15 +806,15 @@
     return el('button', { class: 'card stack card--tariff', onclick: () => openTariff(p, group) }, [
       el('div', { class: 'row row--between' }, [
         el('div', { class: 'row tariff__head' }, [
-          el('span', { class: 'card__title', text: p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ` }),
-          isBest ? el('span', { class: 'badge badge--best', text: 'Оптимальный выбор' }) : null,
+          el('span', { class: 'card__title', text: p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb }) }),
+          isBest ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
         ]),
         el('div', { class: 'card__price tabular', text: C.money(p.price) }),
       ]),
       el('div', {
         class: 'card__meta',
-        text: `${days} ${C.plural(days, 'день', 'дня', 'дней')}`
-          + (p.hotspot_supported === true ? ' · раздача интернета' : ''),
+        text: `${days} ${dayWord(days)}`
+          + (p.hotspot_supported === true ? ` · ${t('plan.hotspot')}` : ''),
       }),
       // What makes THIS card different from the one beside it. Drawn only when
       // something actually varies among tariffs of the same coverage, volume
@@ -853,7 +869,7 @@
     if (group.regional) {
       list.appendChild(el('p', {
         class: 'small muted',
-        text: `Один тариф на ${C.countryWord(group.coverage.length)}.`,
+        text: t('country.onePlan', { countries: countryCount(group.coverage.length) }),
       }));
     }
 
@@ -893,15 +909,15 @@
     if (alternatives.length) {
       list.appendChild(el('h2', {
         class: 'section',
-        text: group.items.length ? 'Также подойдут' : 'Подойдут региональные тарифы',
+        text: group.items.length ? t('country.alsoFit') : t('country.regionalFit'),
       }));
       for (const r of alternatives) list.appendChild(destinationRow(r));
     }
 
     if (!group.items.length && !alternatives.length) {
       list.appendChild(el('div', { class: 'empty stack' }, [
-        el('p', { text: 'Для этой страны пока нет тарифов.' }),
-        el('button', { class: 'btn btn--quiet', text: 'Выбрать другую страну', onclick: () => show('home') }),
+        el('p', { text: t('country.none') }),
+        el('button', { class: 'btn btn--quiet', text: t('country.pickAnother'), onclick: () => show('home') }),
       ]));
     }
 
@@ -1169,7 +1185,7 @@
       // nothing is lost, and the status screen below shows where it stands.
       if (!C.isAllowedPaymentUrl(checkout.redirect_url)) {
         err.appendChild(errorNotice(
-          'Не удалось открыть безопасную страницу оплаты. Пополнение сохранено — напишите нам, и мы поможем его завершить.'
+          t('topup.payFailed')
         ));
         resetPayButton(pay, option);
       } else {
@@ -1389,7 +1405,7 @@
 
     if (!C.isTopupFinal(out)) {
       body.appendChild(el('button', {
-        class: 'btn btn--quiet', text: 'Обновить',
+        class: 'btn btn--quiet', text: t('common.refresh'),
         onclick: () => { void showTopupStatus(out.public_token); },
       }));
     }
@@ -1804,7 +1820,7 @@
         onclick: () => openExternal('https://magicesim.store/iphone.html'),
       }),
       el('button', {
-        class: 'btn btn--quiet', text: 'Для Android',
+        class: 'btn btn--quiet', text: t('tariff.androidGuide'),
         onclick: () => openExternal('https://magicesim.store/android.html'),
       }),
     ]));
@@ -1908,9 +1924,9 @@
     const facts = C.tariffFacts(p, I.lang());
     if (facts.length) {
       box.appendChild(el('div', { class: 'card stack' }, [
-        el('h2', { class: 'section', text: 'Покрытие и условия' }),
+        el('h2', { class: 'section', text: t('tariff.coverageConditions') }),
         el('div', { class: 'row row--between fact' }, [
-          el('span', { class: 'muted', text: 'Покрытие' }),
+          el('span', { class: 'muted', text: t('tariff.coverage') }),
           el('span', { class: 'fact__value', text: C.coverageSummary(p, I.lang()) }),
         ]),
         ...facts.map((f) => el('div', { class: 'row row--between fact' }, [
@@ -1931,7 +1947,7 @@
     // 5. What happens after payment — three lines, so the next twenty minutes
     // hold no surprises.
     box.appendChild(el('div', { class: 'card stack' }, [
-      el('h2', { class: 'section', text: 'Что будет после оплаты' }),
+      el('h2', { class: 'section', text: t('tariff.afterPayment') }),
       ...C.AFTER_PAYMENT_STEPS.map((t, i) => el('div', { class: 'row step' }, [
         el('span', { class: 'step__n', text: String(i + 1) }),
         el('span', { class: 'small', text: t }),
@@ -1944,7 +1960,7 @@
     if (isDaily && !terms.length) {
       box.appendChild(el('p', {
         class: 'small muted',
-        text: 'Этот тариф сейчас нельзя оформить. Попробуйте позже.',
+        text: t('tariff.unavailable'),
       }));
       return;
     }
@@ -1952,7 +1968,7 @@
     box.appendChild(el('button', {
       class: 'btn btn--wide',
       id: 'tariff-buy',
-      text: `Купить за ${C.money(isDaily ? state.dailyTerm.price : p.price)}`,
+      text: t('tariff.buyFor', { price: C.money(isDaily ? state.dailyTerm.price : p.price) }),
       onclick: () => openCheckout(p, group, isDaily ? state.dailyTerm : null),
     }));
   }
@@ -1981,7 +1997,7 @@
         const price = $('#tariff-price');
         if (price) price.textContent = C.money(t.price);
         const buy = $('#tariff-buy');
-        if (buy) buy.textContent = `Купить за ${C.money(t.price)}`;
+        if (buy) buy.textContent = t('tariff.buyFor', { price: C.money(t.price) });
       },
     }, [
       el('span', { class: 'muted', text: `${t.days} ${D.pluralDays(t.days)}` }),
@@ -1989,8 +2005,8 @@
     ]));
 
     return el('div', { class: 'card stack' }, [
-      el('h2', { class: 'section', text: 'Срок' }),
-      el('div', { class: 'stack', role: 'radiogroup', 'aria-label': 'Срок' }, rows),
+      el('h2', { class: 'section', text: t('tariff.term') }),
+      el('div', { class: 'stack', role: 'radiogroup', 'aria-label': t('tariff.term') }, rows),
     ]);
   }
 
@@ -2007,10 +2023,10 @@
       names.map((x) => el('span', { class: 'chip', text: `${x.flag} ${x.name}` })));
 
     return el('details', { class: 'card sheet' }, [
-      el('summary', { class: 'sheet__head', text: `Покрытие · ${C.countryWord(codes.length)}` }),
+      el('summary', { class: 'sheet__head', text: t('tariff.coverageCount', { countries: countryCount(codes.length) }) }),
       names.length
         ? body
-        : el('p', { class: 'small muted', text: `Тариф действует в ${C.countryWord(codes.length)}.` }),
+        : el('p', { class: 'small muted', text: t('tariff.worksIn', { countries: countryCount(codes.length) }) }),
     ]);
   }
 
@@ -2024,7 +2040,7 @@
    */
   function compatibilitySheet() {
     return el('details', { class: 'card sheet' }, [
-      el('summary', { class: 'sheet__head', text: 'Подойдёт ли мой телефон' }),
+      el('summary', { class: 'sheet__head', text: t('tariff.willItWork') }),
       el('p', { class: 'small', text:
         'iPhone: Настройки → Сотовая связь. Если есть «Добавить eSIM» — телефон подходит.' }),
       el('p', { class: 'small', text:
@@ -2033,11 +2049,11 @@
         'Поддержка зависит и от региональной версии устройства, поэтому проверка в настройках надёжнее списка моделей. Телефон не должен быть заблокирован под одного оператора.' }),
       el('div', { class: 'row' }, [
         el('button', {
-          class: 'btn btn--quiet', text: 'Инструкция для iPhone',
+          class: 'btn btn--quiet', text: t('tariff.iphoneGuide'),
           onclick: () => openExternal('https://magicesim.store/iphone.html'),
         }),
         el('button', {
-          class: 'btn btn--quiet', text: 'Для Android',
+          class: 'btn btn--quiet', text: t('tariff.androidGuide'),
           onclick: () => openExternal('https://magicesim.store/android.html'),
         }),
       ]),
@@ -2162,17 +2178,17 @@
     // purchase still reads as one price rather than as arithmetic.
     if (promo) {
       rows.push(el('div', { class: 'row row--between' }, [
-        el('span', { class: 'small muted', text: 'Тариф' }),
+        el('span', { class: 'small muted', text: t('checkout.plan') }),
         el('span', { class: 'small tabular muted', text: C.money(promo.original) }),
       ]));
       rows.push(el('div', { class: 'row row--between' }, [
-        el('span', { class: 'small muted', text: `Промокод ${promo.code}` }),
+        el('span', { class: 'small muted', text: t('promo.withCode', { code: promo.code }) }),
         el('span', { class: 'small tabular co-discount', text: `−${C.money(promo.discount)}` }),
       ]));
     }
 
     rows.push(el('div', { class: 'row row--between checkout-total' }, [
-      el('span', { class: 'muted', text: 'К оплате' }),
+      el('span', { class: 'muted', text: t('checkout.total') }),
       el('strong', { class: 'tabular', text: C.money(promo ? promo.final : base) }),
     ]));
 
@@ -2208,11 +2224,11 @@
     if (promo) {
       box.appendChild(el('div', { class: 'card row row--between promo-applied' }, [
         el('span', { class: 'card__body' }, [
-          el('span', { class: 'card__title', text: 'Промокод применён' }),
+          el('span', { class: 'card__title', text: t('promo.applied') }),
           el('span', { class: 'card__meta', text: `${promo.code} · −${C.money(promo.discount)}` }),
         ]),
         el('button', {
-          class: 'btn btn--quiet promo__act', text: 'Удалить',
+          class: 'btn btn--quiet promo__act', text: t('promo.remove'),
           onclick: () => {
             // Dropping the code restores the catalogue price by RE-READING it,
             // not by adding the discount back — the same rule as everywhere
@@ -2230,7 +2246,7 @@
 
     if (!state.promoOpen) {
       box.appendChild(el('button', {
-        class: 'btn btn--quiet promo__toggle', text: 'Есть промокод?',
+        class: 'btn btn--quiet promo__toggle', text: t('promo.have'),
         onclick: () => { state.promoOpen = true; renderPromoBlock(); },
       }));
 
@@ -2239,22 +2255,22 @@
 
     const input = el('input', {
       class: 'input', type: 'text', id: 'checkout-promo-input',
-      placeholder: 'Промокод', value: state.promoDraft || '',
+      placeholder: t('promo.label'), value: state.promoDraft || '',
       autocapitalize: 'characters', autocorrect: 'off', spellcheck: 'false',
-      'aria-label': 'Промокод',
+      'aria-label': t('promo.label'),
     });
     const apply = el('button', { class: 'btn btn--ghost promo__act' });
-    setBusy(apply, false, 'Применить');
+    setBusy(apply, false, t('promo.apply'));
 
     const run = async () => {
       const code = C.normalisePromoCode(input.value);
       state.promoDraft = code;
       input.value = code;
-      if (!code) { renderPromoBlock('Введите промокод.'); return; }
+      if (!code) { renderPromoBlock(t('promo.enter')); return; }
 
-      setBusy(apply, true, 'Проверяем…');
+      setBusy(apply, true, t('promo.checking'));
       const out = await quotePromo(code);
-      setBusy(apply, false, 'Применить');
+      setBusy(apply, false, t('promo.apply'));
 
       if (out.ok) { state.promoDraft = ''; repaintCheckout(); renderPromoBlock(); return; }
       if (state.promoDisabled) { renderPromoBlock(); return; }
@@ -2321,7 +2337,7 @@
         return { ok: false, message: promoText(body.error) };
       }
 
-      return { ok: false, message: 'Не удалось проверить промокод. Попробуйте позже.' };
+      return { ok: false, message: t('promo.checkFailed') };
     }
 
     if (data && data.error === 'PROMO_CODES_DISABLED') {
@@ -2396,7 +2412,7 @@
     clear(btn);
     if (!enabled && busy) btn.appendChild(el('span', { class: 'btn__spinner' }));
     btn.appendChild(document.createTextNode(
-      label || (enabled ? 'Оплатить' : (busy ? 'Создаём заказ…' : 'Оплатить'))
+      label || (enabled ? t('checkout.pay') : (busy ? t('checkout.creating') : t('checkout.pay')))
     ));
   }
 
@@ -2406,11 +2422,11 @@
     errBox.replaceChildren();
 
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      errBox.appendChild(errorNotice('Укажите e-mail — на него придёт eSIM.'));
+      errBox.appendChild(errorNotice(t('checkout.needEmail')));
       return;
     }
     if (state.termsAccepted !== true) {
-      errBox.appendChild(errorNotice('Примите оферту, чтобы продолжить.'));
+      errBox.appendChild(errorNotice(t('checkout.needTerms')));
       return;
     }
 
@@ -2457,11 +2473,11 @@
         // nothing is lost by not opening, and S6 below will show its state.
         if (!C.isAllowedPaymentUrl(out.redirect_url)) {
           errBox.appendChild(errorNotice(
-            'Не удалось открыть безопасную страницу оплаты. Заказ сохранён — напишите нам, и мы поможем завершить его.'
+            t('checkout.payFailed')
           ));
           errBox.appendChild(supportButton({ public_order_token: out.public_order_token }));
         } else {
-          setPayEnabled(false, 'Открываем оплату…', { busy: true });
+          setPayEnabled(false, t('checkout.opening'), { busy: true });
           openExternal(out.redirect_url);
         }
       }
@@ -2474,8 +2490,8 @@
       if (err.code === 'AMOUNT_CHANGED') {
         const actual = err.body && err.body.actual_amount_rub;
         errBox.appendChild(errorNotice(
-          actual ? `Цена изменилась: теперь ${C.money(actual)}. Подтвердите заново.`
-            : 'Цена изменилась. Обновите тариф.'
+          actual ? t('checkout.priceChanged', { price: C.money(actual) })
+            : t('checkout.priceChangedPlain')
         ));
         if (actual) {
           state.intent.expected_amount_rub = Number(actual);
@@ -2484,21 +2500,21 @@
         return;
       }
       if (err.code === 'PROMO_REJECTED') {
-        errBox.appendChild(errorNotice('Промокод не применён. Продолжите без него.'));
+        errBox.appendChild(errorNotice(t('checkout.promoDropped')));
         return;
       }
       if (err.isTransport) {
         // The order may or may not exist. Saying so is better than guessing, and
         // the key means retrying cannot double-charge.
         errBox.appendChild(errorNotice(
-          'Не удалось подтвердить заказ — связь прервалась. Нажмите «Оплатить» ещё раз: повторный заказ не создастся.',
+          t('checkout.confirmLost'),
           null
         ));
         return;
       }
       errBox.appendChild(errorNotice(
         enOr(serverErrorText(err), t('errors.orderFallback'))
-        || err.message || 'Не удалось создать заказ.'
+        || err.message || t('errors.orderFallback')
       ));
     }
   }
@@ -2751,7 +2767,7 @@
         }));
       } else {
         body.appendChild(el('button', {
-          class: 'btn btn--ghost btn--wide', text: 'Обновить',
+          class: 'btn btn--ghost btn--wide', text: t('common.refresh'),
           onclick: () => { attempt = 0; tick(); },
         }));
       }

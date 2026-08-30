@@ -608,17 +608,10 @@ test('the frozen list covers every Russian key, not just the ones present when i
     // Phase 1 — the language block itself.
     'settings.language.section', 'settings.language.hint',
     'settings.language.ru', 'settings.language.en',
-    // Phase 2 — what a screen says when a request failed and the server named
-    // a code this build has never heard of. The sentences the server picks BY
-    // CODE are NOT here: they are SERVER_ERRORS in core.js, because a code is
-    // data and t() may never be handed a computed key.
-    'errors.promoFallback', 'errors.topupTransport',
-    'errors.topupFallback', 'errors.orderFallback',
-    'errors.codeCheckFallback', 'errors.renameFallback',
-    'errors.loginFallback',
-    // Phase 2 — the shell: screens, tabs, and the copy index.html ships so the
-    // first paint is right with no flash. Hooked with data-i18n, which the
-    // markup/dictionary agreement test then keeps honest.
+    // Phase 2 — every key added while making the whole customer-facing app
+    // speak two languages. Sentences the server picks BY CODE are NOT here:
+    // they are SERVER_ERRORS in core.js, because a code is data and t() may
+    // never be handed a computed key.
     'nav.sections', 'nav.home', 'nav.buy',
     'nav.esims', 'nav.help', 'home.aria',
     'home.title', 'home.payNote', 'search.placeholder',
@@ -631,7 +624,28 @@ test('the frozen list covers every Russian key, not just the ones present when i
     'esims.title', 'install.aria', 'install.title',
     'order.aria', 'order.checking', 'topup.aria',
     'topup.title', 'error.aria', 'loading.aria',
-    'loading.text', 'esim.validUntil',
+    'loading.text', 'home.myEsims', 'home.allEsims',
+    'home.loadFailed', 'search.notFound', 'search.tryAnother',
+    'search.showPopular', 'search.found', 'list.popular',
+    'list.allCountries', 'list.regions', 'list.countries',
+    'tile.from', 'stale.notice', 'common.refresh',
+    'tile.fromWord', 'plan.unlimited', 'plan.gb',
+    'plan.best', 'plan.hotspot', 'country.onePlan',
+    'country.alsoFit', 'country.regionalFit', 'country.none',
+    'country.pickAnother', 'tariff.coverageConditions', 'tariff.coverage',
+    'tariff.afterPayment', 'tariff.unavailable', 'tariff.term',
+    'tariff.willItWork', 'tariff.iphoneGuide', 'tariff.androidGuide',
+    'tariff.buyFor', 'tariff.coverageCount', 'tariff.worksIn',
+    'checkout.plan', 'checkout.total', 'checkout.creating',
+    'checkout.needEmail', 'checkout.needTerms', 'checkout.opening',
+    'checkout.payFailed', 'checkout.priceChanged', 'checkout.priceChangedPlain',
+    'checkout.promoDropped', 'checkout.confirmLost', 'promo.applied',
+    'promo.remove', 'promo.have', 'promo.label',
+    'promo.apply', 'promo.enter', 'promo.checking',
+    'promo.checkFailed', 'promo.withCode', 'topup.payFailed',
+    'esim.validUntil', 'errors.promoFallback', 'errors.topupTransport',
+    'errors.topupFallback', 'errors.orderFallback', 'errors.codeCheckFallback',
+    'errors.renameFallback', 'errors.loginFallback',
   ];
 
   assert.deepEqual(
