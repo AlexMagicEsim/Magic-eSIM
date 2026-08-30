@@ -53,3 +53,49 @@ jobs:
       # The function has no dependencies to install; it is plain Node.
       - name: Proxy tests
         run: node --test proxy.test.js
+
+  browser:
+    name: Mini App browser tests (Chromium, 390 + 320)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # `npm ci` rather than `npm install`: the lockfile is the point. The site
+      # itself still has no build step and no runtime dependency — this installs
+      # the test runner and nothing else (four packages, one of them optional
+      # and darwin-only).
+      - name: Install the test runner
+        run: npm ci
+
+      # Chromium only, matching playwright.config.js. `--with-deps` pulls the
+      # system libraries the browser needs on a bare runner; it is the browser
+      # that is downloaded here, not another dependency of the site.
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Runs both viewport projects: 390x844 and 320x568, 27 cases each.
+      #
+      # NOTHING REAL IS TOUCHED, which is why this job needs no secret and can
+      # safely run on a fork's pull request: the web server is a static file
+      # server over this repository and every API call is fulfilled from a
+      # fixture inside the browser. No backend, no Platega, no order.
+      - name: Browser tests
+        run: npx playwright test
+
+      # Only on failure, and only the report: a trace is the difference between
+      # "flaky" and "here is what the page was doing", and it is the one thing a
+      # CI failure cannot be re-created from locally.
+      - name: Keep the report when something failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
