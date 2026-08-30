@@ -1738,9 +1738,48 @@
       onclick: () => {
         if (code === I.lang()) return;
         haptic('light');
+        // The app changes language FIRST and tells the server afterwards.
+        //
+        // That order is the whole point: the switch is a local preference the
+        // Mini App already honours without any server at all, and making it
+        // wait on a round trip would turn an instant control into a laggy one —
+        // or a broken one, on the aeroplane wifi this product is sold for.
         I.setLang(code);
+        rememberLanguage(code);
       },
     });
+  }
+
+  /**
+   * Tell the server which language the customer chose. Fire-and-forget.
+   *
+   * ONLY FROM THE SWITCHER. Detection — what Telegram says the client is set to
+   * — must never reach here: that is an attribute of a person, and the backend
+   * refuses to store one. What is sent is a choice somebody made by tapping.
+   *
+   * EVERY FAILURE IS IGNORED, DELIBERATELY, and the reasons are worth stating
+   * because a silent catch usually is not:
+   *
+   *   The language has ALREADY changed by the time this runs. Nothing here can
+   *   make the app more correct; it can only make it slower or noisier.
+   *
+   *   During the rollout the backend does not know this route yet and answers
+   *   404. That is a planned few minutes, not a fault, and it must not surface
+   *   as a failed toggle.
+   *
+   *   A customer with no session — the catalogue does not need one — has
+   *   nothing to save against, and a 401 here is the ordinary case rather than
+   *   an error.
+   *
+   * The consequence is honest and small: the app is English and the emails stay
+   * Russian until the next successful switch. The alternative — blocking or
+   * warning — would be worse for a control that has already done its job.
+   */
+  function rememberLanguage(code) {
+    try {
+      const p = api && typeof api.setLanguage === 'function' ? api.setLanguage(code) : null;
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    } catch { /* an older core, or no api at all */ }
   }
 
   function languagePicker() {

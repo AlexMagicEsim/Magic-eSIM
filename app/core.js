@@ -1273,6 +1273,17 @@ function createApi(deps = {}) {
     method: 'POST', body: patch,
   });
 
+  /**
+   * Record the language the customer just CHOSE.
+   *
+   * Called only from the switcher, never from detection: what Telegram says a
+   * client is set to is a guess about a person, and the backend deliberately
+   * refuses to store one.
+   */
+  const setLanguage = (lang) => request('/api/v1/tma/settings/language', {
+    method: 'POST', body: { lang },
+  });
+
   const revokeEmail = (identityId) => request('/api/v1/tma/identity/email/revoke', {
     method: 'POST', body: { identity_id: identityId },
   });
@@ -1348,6 +1359,7 @@ function createApi(deps = {}) {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
     hiddenEsims, renameEsim, setEsimVisibility, revokeEmail, promoQuote, setNotificationPrefs,
+    setLanguage,
     esims, esim, activation, refreshUsage, purchase,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },
