@@ -116,6 +116,23 @@
     return fn ? fn() : t('topup.checkingState');
   }
 
+  /** «3 покупки» / "3 purchases" — number and word, in the reader's language. */
+  function purchaseCount(n) {
+    return I.lang() === 'en'
+      ? `${n} ${C.pluralEn(n, 'purchase', 'purchases')}`
+      : `${n} ${C.plural(n, 'покупку', 'покупки', 'покупок')}`;
+  }
+
+  /**
+   * The three lines of «что будет после оплаты».
+   *
+   * Functions rather than the frozen array in core.js, so they are read when
+   * the screen is drawn instead of when the module loaded.
+   */
+  const AFTER_PAYMENT_STEPS = [
+    () => t('afterPay.1'), () => t('afterPay.2'), () => t('afterPay.3'),
+  ];
+
   function serverErrorText(e) {
     if (I.lang() !== 'en') return null;
 
@@ -824,7 +841,7 @@
   function dailyCard(p, group) {
     const D = C.dailyCopy();
     if (!D) return null;
-    const lines = D.lines(p);
+    const lines = D.lines(p, I.lang());
     if (!lines.length) return null;
 
     const terms = C.dailyTerms(p);
@@ -836,7 +853,7 @@
     return el('button', { class: 'card stack card--tariff', onclick: () => openTariff(p, group) }, [
       el('div', { class: 'row row--between' }, [
         el('div', { class: 'row tariff__head' }, [
-          el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb) }) }),
+          el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, I.lang()) }) }),
         ]),
         el('div', {
           class: 'card__price tabular',
@@ -949,7 +966,7 @@
     const dailyCards = daily.map((p) => dailyCard(p, group)).filter(Boolean);
     if (dailyCards.length) {
       const D = C.dailyCopy();
-      list.appendChild(el('h2', { class: 'section', text: D ? D.BLOCK_TITLE : '' }));
+      list.appendChild(el('h2', { class: 'section', text: D ? D.blockTitle(I.lang()) : '' }));
       for (const card of dailyCards) list.appendChild(card);
     }
 
@@ -1916,7 +1933,7 @@
 
     const days = Number(p.validity_days);
     const title = (group && group.country)
-      || C.destinationTitle(p.name, p.country_code, p);
+      || C.destinationTitle(p.name, p.country_code, p, I.lang());
 
     const D = C.dailyCopy();
     const isDaily = !!(D && D.isDaily(p));
@@ -1936,7 +1953,7 @@
         el('span', {
           class: 'card__title',
           text: isDaily
-            ? t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb) })
+            ? t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, I.lang()) })
             : (p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb })),
         }),
         el('strong', {
@@ -1951,7 +1968,7 @@
         // Every line from the shared module; the screen composes none of its
         // own. The validity line is absent for a per-day plan because the row
         // has no term until one is chosen below.
-        ? el('div', { class: 'stack' }, D.lines(p).slice(1).map((l) => el('div', {
+        ? el('div', { class: 'stack' }, D.lines(p, I.lang()).slice(1).map((l) => el('div', {
           class: 'card__meta', text: l.text,
         })))
         : el('div', {
@@ -1994,9 +2011,9 @@
     // hold no surprises.
     box.appendChild(el('div', { class: 'card stack' }, [
       el('h2', { class: 'section', text: t('tariff.afterPayment') }),
-      ...C.AFTER_PAYMENT_STEPS.map((t, i) => el('div', { class: 'row step' }, [
+      ...AFTER_PAYMENT_STEPS.map((step, i) => el('div', { class: 'row step' }, [
         el('span', { class: 'step__n', text: String(i + 1) }),
-        el('span', { class: 'small', text: t }),
+        el('span', { class: 'small', text: step() }),
       ])),
     ]));
 
@@ -2046,7 +2063,7 @@
         if (buy) buy.textContent = t('tariff.buyFor', { price: C.money(t.price) });
       },
     }, [
-      el('span', { class: 'muted', text: `${t.days} ${D.pluralDays(t.days)}` }),
+      el('span', { class: 'muted', text: `${t.days} ${D.pluralDays(t.days, I.lang())}` }),
       el('span', { class: 'fact__value tabular', text: C.money(t.price) }),
     ]));
 
@@ -2212,7 +2229,7 @@
             // «1 ГБ в день · 7 дней», never «null ГБ»: data_gb is meaningless on
             // a daily row and the allowance is the offer.
             text: (isDaily
-              ? t('daily.perDay', { allowance: D.formatAllowance(pkg.daily_gb) })
+              ? t('daily.perDay', { allowance: D.formatAllowance(pkg.daily_gb, I.lang()) })
               : (pkg.unlimited ? t('plan.unlimited') : t('plan.gb', { n: pkg.data_gb })))
               + ` · ${days} ${dayWord(days)}`,
           }),
@@ -2800,7 +2817,7 @@
       body.appendChild(el('div', { class: 'card stack' }, [
         el('div', {
           class: 'card__title',
-          text: C.destinationTitle(order.package_name, order.country_code),
+          text: C.destinationTitle(order.package_name, order.country_code, null, I.lang()),
         }),
         order.amount_rub ? el('div', { class: 'row row--between' }, [
           el('span', { class: 'muted', text: t('order.amount') }),
@@ -3242,11 +3259,11 @@
 
     if (found) {
       box.appendChild(claimNotice(
-        `Нашли ${found} ${C.plural(found, 'покупку', 'покупки', 'покупок')} и добавили в «Мои eSIM».`));
+        t('claim.foundAdded', { n: purchaseCount(found) })));
       for (const p of (out.purchases || [])) {
         box.appendChild(el('div', { class: 'card row row--between' }, [
           el('span', { class: 'card__body' }, [
-            el('span', { class: 'card__title', text: C.destinationTitle(p.package_name, p.country_code) }),
+            el('span', { class: 'card__title', text: C.destinationTitle(p.package_name, p.country_code, null, I.lang()) }),
             el('span', { class: 'card__meta', text: p.data_gb ? t('plan.gb', { n: p.data_gb }) : '' }),
           ]),
           el('span', { class: 'small muted', text: p.has_esim ? t('claim.esimReady') : t('claim.noEsim') }),
@@ -3349,7 +3366,7 @@
    * code. `destinationTitle` reads the provider family name to tell those
    * apart — used, never shown — and never answers with a code.
    */
-  const derivedLabel = (e) => C.destinationTitle(e && e.package_name, e && e.country_code);
+  const derivedLabel = (e) => C.destinationTitle(e && e.package_name, e && e.country_code, null, I.lang());
 
   /**
    * The title, which the customer may have written themselves.
@@ -3492,7 +3509,7 @@
       if (known) return;
       clear(box);
       box.appendChild(errorNotice(
-        err.status === 404 ? 'eSIM не найдена.' : 'Не удалось загрузить eSIM.',
+        err.status === 404 ? t('esim.notFound') : t('esim.loadFailed'),
         err.status === 404 ? null : () => openEsim(id)
       ));
       return;
@@ -3612,23 +3629,23 @@
     const input = el('input', {
       class: 'input', type: 'text', value: current,
       maxlength: String(ESIM_NAME_MAX),
-      placeholder: derivedLabel(esim) || 'Например: Отпуск в Турции',
+      placeholder: derivedLabel(esim) || t('rename.placeholder'),
       autocapitalize: 'sentences', autocorrect: 'off', spellcheck: 'false',
-      'aria-label': 'Название eSIM',
+      'aria-label': t('rename.label'),
     });
 
     const err = el('div', { class: 'small', style: 'display:none' });
     const save = el('button', { class: 'btn btn--wide' });
-    setBusy(save, false, 'Сохранить');
+    setBusy(save, false, t('common.save'));
 
-    const close = openSheet('Название eSIM', [
+    const close = openSheet(t('rename.label'), [
       el('p', { class: 'small muted', text:
-        'Своё название видите только вы. Данные eSIM, трафик и пополнение не меняются.' }),
+        t('rename.note') }),
       input,
       err,
       save,
       el('button', {
-        class: 'btn btn--quiet', text: current ? 'Вернуть стандартное название' : 'Отмена',
+        class: 'btn btn--quiet', text: current ? t('rename.reset') : t('common.cancel'),
         onclick: () => { if (current) { input.value = ''; save.click(); } else closeSheet(); },
       }),
     ]);
@@ -3636,14 +3653,14 @@
     save.addEventListener('click', async () => {
       const name = String(input.value || '').trim();
       if (name.length > ESIM_NAME_MAX) {
-        err.textContent = `Не длиннее ${ESIM_NAME_MAX} символов.`;
+        err.textContent = t('rename.tooLong', { n: ESIM_NAME_MAX });
         err.style.display = '';
         err.className = 'small';
         err.style.color = 'var(--bad)';
 
         return;
       }
-      setBusy(save, true, 'Сохраняем…');
+      setBusy(save, true, t('common.saving'));
       try {
         await api.renameEsim(esim.id, name);
         haptic('light');
@@ -3651,7 +3668,7 @@
         close();
         await onSaved();
       } catch (ex) {
-        setBusy(save, false, 'Сохранить');
+        setBusy(save, false, t('common.save'));
         err.textContent = enOr(serverErrorText(ex), t('errors.renameFallback'))
           || (ex && ex.body && ex.body.message) || 'Не удалось сохранить название.';
         err.style.display = '';
@@ -3677,8 +3694,8 @@
   async function setEsimHidden(esim, hidden, onDone) {
     if (hidden) {
       const ok = await confirmSheet(
-        'Скрыть эту eSIM из списка? Вы сможете вернуть её позже.',
-        { confirmText: 'Скрыть' }
+        t('hide.confirm'),
+        { confirmText: t('common.hide') }
       );
       if (!ok) return;
     }
@@ -3689,7 +3706,7 @@
       notifySuccess();
       await onDone();
     } catch {
-      toast('Не удалось изменить. Попробуйте ещё раз.');
+      toast(t('hide.failed'));
     }
   }
 
@@ -3724,23 +3741,23 @@
     };
 
     return el('details', { class: 'sheet card gap-top-sm' }, [
-      el('summary', { class: 'sheet__head', text: 'Управление' }),
+      el('summary', { class: 'sheet__head', text: t('manage.title') }),
       el('div', { class: 'stack' }, [
         el('button', {
-          class: 'btn btn--ghost', text: 'Переименовать',
+          class: 'btn btn--ghost', text: t('manage.rename'),
           onclick: () => openRenameSheet(e, refresh),
         }),
         e.hidden
           ? el('button', {
-              class: 'btn btn--ghost', text: 'Вернуть в мои eSIM',
+              class: 'btn btn--ghost', text: t('manage.unhide'),
               onclick: () => setEsimHidden(e, false, async () => { await refresh(); show('esims'); await renderEsims(); }),
             })
           : el('button', {
-              class: 'btn btn--quiet', text: 'Скрыть eSIM',
+              class: 'btn btn--quiet', text: t('manage.hide'),
               onclick: () => setEsimHidden(e, true, async () => { show('esims'); await renderEsims(); }),
             }),
         el('p', { class: 'small muted', text:
-          'Скрытая eSIM продолжает работать. Её данные, история и пополнение сохраняются — она просто не показывается в основном списке.' }),
+          t('manage.hiddenNote') }),
       ]),
     ]);
   }
@@ -3758,7 +3775,7 @@
       // finding it in «Скрытые» and then seeing a screen identical to any other
       // leaves them unsure whether the tap did anything.
       e.hidden ? el('div', { class: 'notice' }, [
-        el('span', { text: 'Эта eSIM скрыта из основного списка. Она работает как обычно.' }),
+        el('span', { text: t('esim.isHidden') }),
       ]) : null,
       gauge(e),
       // I.formatDate, not toLocaleDateString('ru-RU'): the engine formats by
@@ -3769,10 +3786,10 @@
         text: e.expires_at ? t('esim.validUntil', { date: I.formatDate(e.expires_at) }) : '',
       }),
       el('button', {
-        class: 'btn', text: 'Установка и QR', onclick: () => openInstall(id, e),
+        class: 'btn', text: t('esim.installQr'), onclick: () => openInstall(id, e),
       }),
       el('button', {
-        id: 'esim-refresh', class: 'btn btn--ghost', text: 'Обновить остаток',
+        id: 'esim-refresh', class: 'btn btn--ghost', text: t('esim.refreshData'),
         onclick: (ev) => refreshUsage(id, ev.target),
       }),
       // §9 S9 lists four actions and this is the fourth. An eSIM that will not
@@ -3813,7 +3830,7 @@
   async function refreshUsage(id, button) {
     const original = button.textContent;
     button.disabled = true;
-    button.textContent = 'Обновляем…';
+    button.textContent = t('esim.refreshing');
     try {
       const fresh = await api.refreshUsage(id);
       await openEsim(id);
@@ -3825,13 +3842,13 @@
       const box = $('#esim-detail');
       if (err.code === 'REFRESH_TOO_SOON') {
         const secs = (err.body && err.body.retry_after) || 60;
-        box.appendChild(el('div', { class: 'notice', text: `Данные уже свежие. Повторите через ${secs} с.` }));
+        box.appendChild(el('div', { class: 'notice', text: t('esim.tooSoon', { secs }) }));
         return;
       }
       box.appendChild(errorNotice(
         err.code === 'PROVIDER_UNAVAILABLE'
-          ? 'Оператор не ответил. Остаток показан по последним известным данным.'
-          : 'Не удалось обновить остаток.'
+          ? t('esim.providerQuiet')
+          : t('esim.refreshFailed')
       ));
     }
   }
@@ -3852,7 +3869,7 @@
     } catch (err) {
       clear(box);
       box.appendChild(errorNotice(
-        err.status === 404 ? 'Данные установки не найдены.' : 'Не удалось получить данные установки.',
+        err.status === 404 ? t('install.notFound') : t('install.loadFailed'),
         err.status === 404 ? null : () => openInstall(id, esim)
       ));
       return;
@@ -3865,7 +3882,7 @@
     // rather than shown as "not found".
     if (!act.lpa && !act.activation_code) {
       box.appendChild(el('div', { class: 'notice' }, [
-        el('span', { text: 'eSIM ещё выпускается. Загляните через пару минут.' }),
+        el('span', { text: t('install.stillIssuing') }),
       ]));
       return;
     }
@@ -3875,7 +3892,7 @@
     if (act.qr_png_base64) {
       box.appendChild(el('img', {
         class: 'qr',
-        alt: 'QR-код для установки eSIM',
+        alt: t('install.qrAlt'),
         src: `data:image/png;base64,${act.qr_png_base64}`,
       }));
     }
@@ -3889,28 +3906,22 @@
     // already chosen, so a customer who is holding the right phone does
     // nothing at all.
     const IOS = [
-      'Откройте «Настройки» → «Сотовая связь» (или «Мобильная связь»).',
-      'Нажмите «Добавить eSIM» → «Использовать QR-код».',
-      'Наведите камеру на QR выше. Если QR на этом же экране — нажмите «Ввести данные вручную» и вставьте значения ниже.',
-      'Дайте профилю имя, например «Поездка», и завершите настройку.',
-      'В поездке включите для этой линии передачу данных и роуминг данных.',
+      () => t('install.ios1'), () => t('install.ios2'), () => t('install.ios3'),
+      () => t('install.ios4'), () => t('install.ios5'),
     ];
     const ANDROID = [
-      'Откройте «Настройки» → «Сеть и Интернет» → «SIM-карты».',
-      'Нажмите «Добавить eSIM» / «Загрузить SIM-карту» (на Samsung — «Добавить тарифный план»).',
-      'Отсканируйте QR выше. Если сканер недоступен — «Ввести код вручную» и вставьте значения ниже.',
-      'Дождитесь загрузки профиля и включите его.',
-      'В поездке включите для этой линии мобильные данные и роуминг данных.',
+      () => t('install.and1'), () => t('install.and2'), () => t('install.and3'),
+      () => t('install.and4'), () => t('install.and5'),
     ];
 
-    const picker = el('div', { class: 'devices', role: 'radiogroup', 'aria-label': 'Тип телефона' });
+    const picker = el('div', { class: 'devices', role: 'radiogroup', 'aria-label': t('install.phoneType') });
     const steps = el('div', {});
     const oneTap = el('div', { class: 'stack' });
 
     const paint = (which) => {
       clear(steps);
       const list = el('ol', { class: 'steps' });
-      for (const line of (which === 'ios' ? IOS : ANDROID)) list.appendChild(el('li', { text: line }));
+      for (const line of (which === 'ios' ? IOS : ANDROID)) list.appendChild(el('li', { text: line() }));
       steps.appendChild(list);
       for (const b of picker.children) {
         b.setAttribute('aria-checked', String(b.dataset.os === which));
@@ -3944,12 +3955,12 @@
       if (url) {
         oneTap.appendChild(el('button', {
           class: 'btn btn--wide',
-          text: which === 'ios' ? 'Установить на этом iPhone' : 'Установить на этом Android',
+          text: which === 'ios' ? t('install.oneTapIos') : t('install.oneTapAnd'),
           onclick: () => openExternal(url),
         }));
         oneTap.appendChild(el('p', { class: 'small muted', text: which === 'ios'
-          ? 'Откроется системная установка. Работает на iOS 17.4 и новее — если ничего не произошло, установите по QR или вручную.'
-          : 'Откроется системная установка. Поддерживается не всеми моделями — если ничего не произошло, установите по QR или вручную.' }));
+          ? t('install.oneTapIosNote')
+          : t('install.oneTapAndNote') }));
       }
     };
 
@@ -3964,7 +3975,7 @@
       el('span', { class: 'device__hint', text: hint }),
     ]);
 
-    box.appendChild(el('h2', { class: 'section', text: 'Какой у вас телефон?' }));
+    box.appendChild(el('h2', { class: 'section', text: t('install.whichPhone') }));
     picker.appendChild(device('ios', 'iPhone', 'iOS'));
     picker.appendChild(device('android', 'Android', 'Samsung, Pixel, Xiaomi…'));
     box.appendChild(picker);
@@ -3977,15 +3988,15 @@
     // instructions is not.
     paint(C.installPlatform(tg && tg.platform, navigator.userAgent));
 
-    box.appendChild(el('h2', { class: 'section', text: 'Ввод вручную' }));
+    box.appendChild(el('h2', { class: 'section', text: t('install.manual') }));
     box.appendChild(el('div', { class: 'stack' }, [
-      copyField('SM-DP+ адрес', act.smdp_address),
-      copyField('Код активации', act.activation_code),
-      copyField('LPA (одной строкой)', act.lpa),
+      copyField(t('install.smdp'), act.smdp_address),
+      copyField(t('install.code'), act.activation_code),
+      copyField(t('install.lpa'), act.lpa),
       act.iccid ? copyField('ICCID', act.iccid) : null,
     ]));
 
-    box.appendChild(el('p', { class: 'small muted', text: 'Устанавливайте eSIM при работающем интернете. Удалить и установить повторно тот же профиль нельзя.' }));
+    box.appendChild(el('p', { class: 'small muted', text: t('install.note') }));
     box.appendChild(supportButton(null));
   }
 
@@ -4141,15 +4152,14 @@
   async function showReturnWithoutSession(ref) {
     state.orderRef = ref;
     show('order', { push: false });
-    $('#order-title').textContent = 'Не удалось проверить оплату';
+    $('#order-title').textContent = t('order.payCheckFailed');
     const body = $('#order-body');
     clear(body);
     body.appendChild(el('p', { class: 'muted', text:
-      'Мы не смогли связаться с сервером. Это не влияет на оплату: '
-      + 'если она прошла, заказ уже принят и eSIM появится в «Мои eSIM».' }));
+      t('order.payCheckNote') }));
     body.appendChild(el('button', {
       class: 'btn btn--wide',
-      text: 'Проверить ещё раз',
+      text: t('topup.checkAgain'),
       onclick: async () => {
         try {
           await authenticate();
@@ -4266,7 +4276,7 @@
     $('#checkout-terms').addEventListener('change', (e) => {
       state.termsAccepted = Boolean(e.target.checked);
       const price = state.intent ? C.money(state.intent.expected_amount_rub) : '';
-      setPayEnabled(state.termsAccepted, price ? `Оплатить ${price}` : 'Оплатить');
+      setPayEnabled(state.termsAccepted, price ? t('topup.payFor', { price }) : t('checkout.pay'));
     });
     // The catalogue is public: these tabs must work whether or not a session
     // ever arrives, and they are the reason most people opened the app.
@@ -4324,12 +4334,12 @@
     const box = $('#screen-error');
     clear(box);
 
-    let heading = 'Не удалось войти';
-    let detail = 'Сеть не ответила. Обычно помогает повторить попытку.';
+    let heading = t('login.failed');
+    let detail = t('login.network');
 
     if (outsideTelegram) {
-      heading = 'Откройте приложение в Telegram';
-      detail = 'Эта страница работает только внутри Telegram.';
+      heading = t('login.outside');
+      detail = t('login.outsideNote');
     } else if (refused) {
       // Prefer what the server actually said; fall back only if it said nothing.
       detail = enOr(serverErrorText(err), t('errors.loginFallback'))
@@ -4355,7 +4365,7 @@
     if (!outsideTelegram) {
       parts.push(el('button', {
         class: 'btn',
-        text: 'Повторить',
+        text: t('common.retryAction'),
         onclick: async () => {
           show('loading', { push: false });
           try {

@@ -218,7 +218,7 @@
            and answered 404, so the one document a customer is REQUIRED to accept
            was unreachable from the one screen that requires it. Both links are
            the storefront's own (index.html consent row), not Mini-App copies. -->
-      <span class="small">Я принимаю <a href="https://magicesim.store/terms.html" target="_blank" rel="noopener">оферту</a> и <a href="https://magicesim.store/privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span>
+      <span class="small"><span data-i18n="terms.iAccept">Я принимаю</span> <a href="https://magicesim.store/terms.html" target="_blank" rel="noopener" data-i18n="terms.offer">оферту</a> <span data-i18n="terms.andWord">и</span> <a href="https://magicesim.store/privacy.html" target="_blank" rel="noopener" data-i18n="terms.privacy">политику конфиденциальности</a></span>
     </label>
 
     <button id="checkout-pay" class="btn" data-i18n="checkout.pay" disabled>Оплатить</button>
@@ -312,7 +312,7 @@
 <!-- The one copy of what a daily tariff card may say, shared with the
      storefront and the country pages. Loaded before core.js, which
      reads it. -->
-<script src="/assets/daily-plan-copy.js?v=ffba84a1"></script>
+<script src="/assets/daily-plan-copy.js?v=ae5df21d"></script>
 <!-- The two dictionaries, then the engine that reads them, then the app. The
      order is load-bearing: i18n.js builds its default instance at parse time
      and reads window.MagicLocales while doing it, and ui.js reads
@@ -322,9 +322,9 @@
      DOMContentLoaded listener — boot() calls apply() itself, so the moment the
      shell is translated is stated in the code rather than inferred from which
      script's listener was registered first. -->
-<script src="locales.js?v=eef624f8"></script>
+<script src="locales.js?v=8a636988"></script>
 <script src="i18n.js?v=852a0bb6"></script>
-<script src="core.js?v=0036eaf1"></script>
-<script src="ui.js?v=d00132db"></script>
+<script src="core.js?v=fa0aa7be"></script>
+<script src="ui.js?v=04a715ab"></script>
 </body>
 </html>

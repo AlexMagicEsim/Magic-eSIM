@@ -2287,12 +2287,13 @@ function isAllowedPaymentUrl(url) {
  * Order of trust: a known region family, then a known country, then an honest
  * «Регион». The code is never the answer.
  */
-function destinationTitle(packageName, countryCode, pkg) {
-  const named = REGION_NAMES[regionKey({ name: packageName })];
+function destinationTitle(packageName, countryCode, pkg, lang) {
+  const rk = regionKey({ name: packageName });
+  const named = lang === 'en' ? (REGION_NAMES_EN[rk] || REGION_NAMES[rk]) : REGION_NAMES[rk];
   if (named) return named;
 
   const key = String(countryCode || '').toUpperCase();
-  if (countryNames[key]) return countryNames[key];
+  if (countryNames[key]) return countryLabel(key, lang);
 
   // Daily plans never reach either table above: regionKey strips «5GB 30Days»
   // and «(120+ areas)», but a daily product is named «Europe(30+ areas)
@@ -2304,11 +2305,11 @@ function destinationTitle(packageName, countryCode, pkg) {
   // than growing a second vocabulary here to drift against it.
   const D = dailyCopy();
   if (D && pkg && D.isDaily(pkg)) {
-    const place = D.placeName(pkg, countryLabel);
+    const place = D.placeName(pkg, (c) => countryLabel(c, lang), lang);
     if (place) return place;
   }
 
-  return 'Регион';
+  return lang === 'en' ? 'Region' : 'Регион';
 }
 
 /* --------------------------------------------------------------------------
