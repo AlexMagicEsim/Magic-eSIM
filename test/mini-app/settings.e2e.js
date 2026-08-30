@@ -40,12 +40,18 @@ const RAW='buyer@example.com';
 // rendered screen, and against the screen as it stood before there were two
 // languages it differs by exactly one thing — the six lines of the language
 // block, which is what this change added. Every other byte is what shipped.
+//
+// Phase 2 edit: the hint lost its second sentence («Часть экранов пока только
+// на русском»), because it is no longer true. That is the ONLY byte of this
+// oracle Phase 2 moved — the whole point of the phase was to add English
+// without touching the Russian screen, and this snapshot is where that claim
+// is checked rather than asserted.
 const RU_SETTINGS=`Настройки
 Язык
 Русский
 English
 
-Меняет язык приложения. Часть экранов пока только на русском.
+Меняет язык приложения.
 
 Почта
 
@@ -175,8 +181,11 @@ for (const eng of ['webkit','chromium']) {
       ok('and the unselected one says so, rather than saying nothing',
         (await p.$$eval('#settings-language [data-lang]',
           ns=>ns.map(n=>n.getAttribute('aria-checked')))).join()==='true,false');
-      ok('the picker is honest that the rest of the app is still Russian',
-        /Часть экранов пока только на русском/.test(body));
+      // Phase 2 localised every customer-facing screen, so the Phase 1 caveat
+      // came out. Asserted as an absence for the same reason it was once
+      // asserted as a presence: the sentence must match what the app does.
+      ok('the picker no longer apologises for screens it does not change',
+        /Меняет язык приложения\./.test(body) && !/пока только на русском/.test(body));
 
       // The notification switches, on the other hand, are REAL now — there is a
       // delivery engine behind them. When this screen first shipped they were

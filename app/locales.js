@@ -64,11 +64,13 @@
     'settings.language.section': 'Язык',
     'settings.language.ru': 'Русский',
     'settings.language.en': 'English',
-    // The second sentence is what keeps this control honest while the rest of
-    // the app is still Russian. Delete it when it stops being true, and not
-    // before: a switch that claims to change the app and changes one screen is
-    // exactly the control `renderSettings`' own comment forbids.
-    'settings.language.hint': 'Меняет язык приложения. Часть экранов пока только на русском.',
+    // Phase 1 carried a second sentence here — «Часть экранов пока только на
+    // русском» — because the switch changed one screen and claiming otherwise
+    // would have been untrue. It was removed in Phase 2, and only after the
+    // English Cyrillic audit (test/e2e/en-cyrillic.spec.js) walked the app in
+    // English and found nothing Russian left on any customer-facing screen.
+    // Put it back the moment that stops being so.
+    'settings.language.hint': 'Меняет язык приложения.',
 
     'settings.email.section': 'Почта',
     'settings.email.none': 'Подтверждённых адресов нет. Подключите почту, чтобы покупки с сайта появились здесь.',
@@ -417,7 +419,7 @@
     'settings.language.section': 'Language',
     'settings.language.ru': 'Русский',
     'settings.language.en': 'English',
-    'settings.language.hint': 'Changes the app language. Some screens are still Russian only.',
+    'settings.language.hint': 'Changes the language of the app.',
 
     'settings.email.section': 'Email',
     'settings.email.none': 'No confirmed addresses yet. Connect your email so website purchases show up here.',

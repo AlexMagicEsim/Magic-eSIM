@@ -91,12 +91,18 @@ test.describe('the language control', () => {
     await expect(page.locator('#settings-language [data-lang="en"]')).toHaveAttribute('aria-checked', 'false');
   });
 
-  test('the control is honest that the rest of the app is still Russian', async ({ page }) => {
+  test('the control no longer apologises for screens it does not change', async ({ page }) => {
+    // Phase 1's caveat — «Часть экранов пока только на русском» — was true then
+    // and would be a lie now. It came out only after the English audit found no
+    // Russian left on any customer-facing screen. This asserts the ABSENCE so
+    // that a half-finished screen cannot quietly reintroduce the situation the
+    // sentence used to describe without anybody noticing the sentence is gone.
     await installMiniApp(page, { languageCode: 'ru' });
     await openApp(page);
     await openSettings(page);
 
-    await expect(page.locator('#screen-settings')).toContainText('Часть экранов пока только на русском');
+    await expect(page.locator('#screen-settings')).toContainText('Меняет язык приложения.');
+    await expect(page.locator('#screen-settings')).not.toContainText('пока только на русском');
   });
 
   test('the gear keeps its icon when its label changes language', async ({ page }) => {
