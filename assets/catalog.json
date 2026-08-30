@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-30T14:27:12.898Z",
+  "generated_at": "2026-08-30T23:36:48.463Z",
   "source": "production-public-api",
-  "package_count": 2298,
+  "package_count": 2295,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -77583,37 +77583,6 @@
       ]
     },
     {
-      "package_id": "8781442d-902e-48d3-a13e-e638c5ba7816",
-      "name": "Madagascar 3 GB",
-      "country_code": "MG",
-      "region": "MG",
-      "coverage_country_codes": [
-        "MG"
-      ],
-      "coverage_flags": "🇲🇬",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 2350,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "878c4306-7b5c-429b-b06b-f68363692d1d",
       "name": "Montenegro 10GB 30Days",
       "country_code": "ME",
@@ -86167,37 +86136,6 @@
           "price": 73800
         }
       ]
-    },
-    {
-      "package_id": "92c6f48a-e58e-44d4-a0ce-ad122610b2cc",
-      "name": "Madagascar 5 GB",
-      "country_code": "MG",
-      "region": "MG",
-      "coverage_country_codes": [
-        "MG"
-      ],
-      "coverage_flags": "🇲🇬",
-      "data_gb": 5,
-      "validity_days": 30,
-      "price": 3250,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "92c70a61-81d6-4bbb-8f9c-efab92dbb2bd",
@@ -109867,37 +109805,6 @@
           "price": 7150
         }
       ]
-    },
-    {
-      "package_id": "bab8ff54-57f9-4dbf-bdcb-b9d0c4e9f89c",
-      "name": "Madagascar 10 GB",
-      "country_code": "MG",
-      "region": "MG",
-      "coverage_country_codes": [
-        "MG"
-      ],
-      "coverage_flags": "🇲🇬",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 5350,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "bad84629-6265-4abf-85eb-8e23f0ceee05",
