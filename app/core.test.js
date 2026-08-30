@@ -1793,9 +1793,15 @@ test('the hint never says WHY a code did not arrive', () => {
     'привязан', 'существует', 'не найден', 'уже подтверждён',
     'HELD_BY_ANOTHER', 'held_by_another',
   ];
+  // Deliberately WIDER than a translation of the Russian list. Russian says
+  // «занят» in one word; English has a dozen ways to say the same thing, and a
+  // sentence like "already registered elsewhere" or "in use by someone else"
+  // would leak just as much while matching none of the obvious pairs. The list
+  // is matched as substrings, so the short forms cover the long ones.
   const leaksEn = [
-    'taken', 'already in use', 'already registered', 'another account',
-    'belongs to', 'linked to', 'exists', 'not found', 'already confirmed',
+    'taken', 'in use', 'registered', 'another account', 'a different account',
+    'someone else', 'belongs to', 'linked to', 'associated with', 'claimed',
+    'exists', 'not found', 'already confirmed', 'already verified',
     'held_by_another',
   ];
   // Every key the code screen actually asks for, and both of its languages.

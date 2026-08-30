@@ -277,6 +277,9 @@
     ready: false,
     authError: null,
     countries: [],
+    // The catalogue rows as they arrived, kept so a language change can rebuild
+    // the grouping without going back to the network.
+    catalogueRows: [],
     // Regional and global offers, kept apart from countries: they are a
     // different thing to buy and the Blueprint lists them separately.
     regions: [],
@@ -482,7 +485,17 @@
    */
   /** Turn a catalogue envelope into the two lists the screen renders. */
   function adoptCatalogue(payload) {
-    const grouped = C.groupCatalogue((payload && payload.data) || [], I.lang());
+    // The ROWS are kept, not only the grouping built from them. Country and
+    // region names are resolved once, at grouping time, so without the rows a
+    // language change could never move them and the catalogue would keep its
+    // first language for the life of the session.
+    state.catalogueRows = (payload && payload.data) || [];
+    regroupCatalogue();
+  }
+
+  /** Rebuild the two lists from the rows already in hand. Never re-fetches. */
+  function regroupCatalogue() {
+    const grouped = C.groupCatalogue(state.catalogueRows, I.lang());
     state.countries = grouped.countries;
     state.regions = grouped.regions;
   }
@@ -4219,11 +4232,36 @@
    * Nothing else is redrawn, because nothing else is translated yet. When a
    * screen joins, it joins here.
    */
+  /**
+   * Repaint everything the new language changed.
+   *
+   * I.apply() only reaches the STATIC markup — the shell, the tab bar, the
+   * screens' own headings. Every list on this app is built in JavaScript, and
+   * the catalogue is worse than merely stale: its country and region names are
+   * resolved once, when the rows are grouped, so without regrouping them
+   * «Япония» sits under an English heading for the rest of the session. That is
+   * a real bug this repaints, found by a browser test rather than by reading.
+   *
+   * Repaints only. It never re-fetches and never renavigates: the customer
+   * changed a language, not their mind about where they are.
+   */
   function applyLanguage() {
     I.apply(document);
 
-    const settings = $('#screen-settings');
-    if (settings && settings.hasAttribute('data-active') && lastMe) paintSettings(lastMe);
+    if (state.catalogueRows && state.catalogueRows.length) {
+      regroupCatalogue();
+      paintCountryList();
+    }
+
+    const active = (id) => {
+      const node = $(id);
+
+      return !!(node && node.hasAttribute('data-active'));
+    };
+
+    if (active('#screen-settings') && lastMe) paintSettings(lastMe);
+    // Help is built from constants and a session is not needed to draw it.
+    if (active('#screen-help')) renderHelp();
   }
 
   /** Every listener the app owns, attached once and never dependent on a session. */
