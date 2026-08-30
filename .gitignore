@@ -40,6 +40,20 @@ seo/content-dashboard.json
 test/mini-app/.shots/
 
 # ---------------------------------------------------------------------------
+# Node modules and browser-test artefacts
+# ---------------------------------------------------------------------------
+# This matters more here than in an ordinary repository. Pages serves this repo
+# WHOLESALE and `.nojekyll` disables every default exclusion, so anything
+# committed becomes a public URL — an 18 MB dependency tree included. The site
+# itself still has no build step and no runtime dependency; `package.json`
+# exists only to pin the browser test runner.
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+.playwright-mcp/
+
+# ---------------------------------------------------------------------------
 # Local tooling artefacts — moved here so the protection TRAVELS.
 # ---------------------------------------------------------------------------
 # These three were ignored only by rules that are not part of the repository:

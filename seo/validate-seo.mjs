@@ -10,7 +10,14 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
 
 // Collect pages, skipping backups / nested repo copy / assets.
-const SKIP_DIRS = new Set(['assets', 'Magic-eSIM-github-2', 'seo', '.git', '.claude']);
+// `node_modules` and the Playwright artefact directories are listed for the
+// same reason as `.git`: they are not the site. Without them this walker
+// wanders into the dependency tree and reports its HTML fixtures as pages of
+// magicesim.store. They are gitignored, so they exist only on a machine that
+// has installed the browser test runner — which is exactly where this tool is
+// run by hand.
+const SKIP_DIRS = new Set(['assets', 'Magic-eSIM-github-2', 'seo', '.git', '.claude',
+  'node_modules', 'test-results', 'playwright-report', 'blob-report', '.playwright-mcp']);
 function collect(dir, out = []) {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);

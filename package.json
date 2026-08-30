@@ -1,0 +1,15 @@
+{
+  "name": "magic-esim-storefront",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Storefront and Telegram Mini App. The site itself has no build step and no runtime dependencies — this manifest exists only to pin the browser test runner.",
+  "scripts": {
+    "test": "node --test seo/test-*.mjs app/core.test.js app/i18n.test.js",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}
