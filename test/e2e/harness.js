@@ -49,6 +49,48 @@ const LONG_EMAIL = {
 const RAW_EMAIL = 'buyer@example.com';
 
 /**
+ * One eSIM and one plan, enough to reach every screen that needs them.
+ *
+ * Shaped from the real catalogue's own fields so the screens render what they
+ * would render in production — a DAILY plan in particular, because its copy
+ * comes from the shared assets/daily-plan-copy.js and is exactly the kind of
+ * text that would stay Russian if a language argument were missed.
+ */
+const ESIM = {
+  id: 'aaaaaaaa-1111-4222-8333-444444444444',
+  iccid: '89000000000000000001',
+  status: 'active',
+  package_name: 'Japan 5GB 30Days',
+  country_code: 'JP',
+  total_gb: 5,
+  remaining_gb: 3.2,
+  expires_at: '2026-12-31T00:00:00.000Z',
+  last_usage_sync_at: '2026-08-30T10:00:00.000Z',
+  hidden: false,
+};
+
+const PACKAGE = {
+  package_id: 'pkg-jp-5',
+  name: 'Japan 5GB 30Days',
+  country_code: 'JP',
+  region: 'JP',
+  coverage_country_codes: ['JP'],
+  data_gb: 5,
+  validity_days: 30,
+  price: 1150,
+  networks: [{ operator: 'NTT docomo', type: '5G' }],
+  speed: '3G/4G/5G',
+  speed_note: 'unrestricted',
+  fup_policy: 'no daily limits',
+  hotspot_supported: true,
+  activation_policy: 'first_data_usage',
+  topup_available: true,
+  ip_export: ['JP'],
+  plan_type: 'FIXED_VOLUME',
+  sellable_days: [],
+};
+
+/**
  * The Telegram surface, as a string evaluated in the page before it loads.
  *
  * `initDataUnsafe` is deliberately shaped by the caller: the language tests are
@@ -91,7 +133,12 @@ async function installMiniApp(page, options = {}) {
     revokeFails = false,
   } = options;
 
-  const state = { calls: [], emails: emails.slice() };
+  const state = {
+    calls: [],
+    emails: emails.slice(),
+    esims: options.esims || [],
+    packages: options.packages || [],
+  };
   const json = (route, body, status = 200) => route.fulfill({
     status,
     contentType: 'application/json',
@@ -126,7 +173,9 @@ async function installMiniApp(page, options = {}) {
       }
 
       if (at.endsWith('/api/v1/retail/packages')) {
-        return json(route, { status: 'success', count: 0, currency: 'RUB', data: [] });
+        return json(route, {
+          status: 'success', count: state.packages.length, currency: 'RUB', data: state.packages,
+        });
       }
 
       if (at.endsWith('/api/v1/tma/me')) {
@@ -162,9 +211,9 @@ async function installMiniApp(page, options = {}) {
         return json(route, { status: 'sent' });
       }
 
-      if (at.endsWith('/api/v1/tma/esims') || at.endsWith('/api/v1/tma/esims/hidden')) {
-        return json(route, { items: [] });
-      }
+      if (at.endsWith('/api/v1/tma/esims/hidden')) return json(route, { items: [] });
+      if (at.endsWith('/api/v1/tma/esims')) return json(route, { items: state.esims });
+      if (at.includes('/api/v1/tma/esims/')) return json(route, state.esims[0] || {});
 
       if (at.includes('/api/v1/tma/me/orders')) {
         return json(route, { items: [] });
@@ -218,5 +267,5 @@ const CYRILLIC = /[Ѐ-ӿ]/;
 
 module.exports = {
   installMiniApp, openApp, openSettings, callsTo, overflowingInside,
-  EMAIL, LONG_EMAIL, RAW_EMAIL, CYRILLIC, API_HOSTS,
+  EMAIL, LONG_EMAIL, RAW_EMAIL, CYRILLIC, API_HOSTS, ESIM, PACKAGE,
 };

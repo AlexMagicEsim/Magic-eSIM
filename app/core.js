@@ -1577,7 +1577,7 @@ function regionLabel(pkg, lang) {
   return n ? `Регион · ${countryWord(n)}` : 'Регион';
 }
 
-function byCountry(packages) {
+function byCountry(packages, lang) {
   const map = new Map();
   for (const p of (Array.isArray(packages) ? packages : [])) {
     // A catalogue is external input. One malformed row must cost that row, not
@@ -1588,7 +1588,7 @@ function byCountry(packages) {
     if (!map.has(code)) {
       map.set(code, {
         country_code: code,
-        country: countryLabel(code),
+        country: countryLabel(code, lang),
         flag: flagFor(code, p),
         items: [],
       });
@@ -1613,14 +1613,14 @@ function byCountry(packages) {
  * filed under one member country, so "Vietnam Plus" — six countries — appeared
  * as an Indonesian tariff, and "EU" (34 countries) as an Andorran one.
  */
-function groupCatalogue(packages) {
+function groupCatalogue(packages, lang) {
   const rows = (Array.isArray(packages) ? packages : []).filter((p) => p && typeof p === 'object');
   const local = rows.filter((p) => !isRegional(p));
   const wide = rows.filter(isRegional);
 
   const regions = new Map();
   for (const p of wide) {
-    const label = regionLabel(p);
+    const label = regionLabel(p, lang);
     if (!regions.has(label)) {
       regions.set(label, {
         country_code: String(p.country_code || '').toUpperCase(),
@@ -1653,7 +1653,7 @@ function groupCatalogue(packages) {
   };
 
   return {
-    countries: byCountry(local),
+    countries: byCountry(local, lang),
     regions: [...regions.values()].map(finish)
       .sort((a, b) => (b.coverage.length - a.coverage.length)),
   };
@@ -1818,22 +1818,33 @@ function sortTariffs(items, sort = 'price') {
  * Relative, because the absolute time answers the wrong question: nobody cares
  * that it was 14:02, only that it was ten minutes ago.
  */
-function syncedAgo(iso, now = Date.now()) {
-  if (!iso) return 'данные ещё не запрашивались';
+function syncedAgo(iso, now = Date.now(), lang) {
+  const en = lang === 'en';
+  if (!iso) return en ? 'not requested yet' : 'данные ещё не запрашивались';
   const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return 'время последней проверки неизвестно';
+  if (!Number.isFinite(t)) return en ? 'last checked at an unknown time' : 'время последней проверки неизвестно';
 
   const mins = Math.floor((now - t) / 60000);
-  if (mins < 0) return 'только что';
-  if (mins < 1) return 'обновлено только что';
-  if (mins < 60) return `обновлено ${mins} ${plural(mins, 'минуту', 'минуты', 'минут')} назад`;
+  if (mins < 0) return en ? 'just now' : 'только что';
+  if (mins < 1) return en ? 'updated just now' : 'обновлено только что';
+  if (mins < 60) {
+    return en
+      ? `updated ${mins} ${pluralEn(mins, 'minute', 'minutes')} ago`
+      : `обновлено ${mins} ${plural(mins, 'минуту', 'минуты', 'минут')} назад`;
+  }
 
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `обновлено ${hours} ${plural(hours, 'час', 'часа', 'часов')} назад`;
+  if (hours < 24) {
+    return en
+      ? `updated ${hours} ${pluralEn(hours, 'hour', 'hours')} ago`
+      : `обновлено ${hours} ${plural(hours, 'час', 'часа', 'часов')} назад`;
+  }
 
   const days = Math.floor(hours / 24);
 
-  return `обновлено ${days} ${plural(days, 'день', 'дня', 'дней')} назад`;
+  return en
+    ? `updated ${days} ${pluralEn(days, 'day', 'days')} ago`
+    : `обновлено ${days} ${plural(days, 'день', 'дня', 'дней')} назад`;
 }
 
 /**

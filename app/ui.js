@@ -60,6 +60,11 @@
       : C.plural(n, 'день', 'дня', 'дней');
   }
 
+  /** "3 plans" / «3 тарифа» — number and word together, as one phrase. */
+  function tariffCount(n) {
+    return I.lang() === 'en' ? C.tariffWordEn(n) : C.tariffWord(n);
+  }
+
   /** "34 countries" / «34 страны» — number and word together, as one phrase. */
   function countryCount(n) {
     return I.lang() === 'en' ? C.countryWordEn(n) : C.countryWord(n);
@@ -477,7 +482,7 @@
    */
   /** Turn a catalogue envelope into the two lists the screen renders. */
   function adoptCatalogue(payload) {
-    const grouped = C.groupCatalogue((payload && payload.data) || []);
+    const grouped = C.groupCatalogue((payload && payload.data) || [], I.lang());
     state.countries = grouped.countries;
     state.regions = grouped.regions;
   }
@@ -723,8 +728,8 @@
         el('span', {
           class: 'card__meta',
           text: g.regional
-            ? `${C.countryWord(g.coverage.length)} · ${C.tariffWord(g.items.length)}`
-            : C.tariffWord(g.items.length),
+            ? `${countryCount(g.coverage.length)} · ${tariffCount(g.items.length)}`
+            : tariffCount(g.items.length),
         }),
       ]),
       el('span', { class: 'card__price tabular', text: g.from === null ? '' : t('tile.from', { price: C.money(g.from) }) }),
@@ -2076,7 +2081,7 @@
   /** The countries a regional pack covers, named and flagged like everywhere else. */
   function coverageBlock(codes) {
     const names = codes
-      .map((c) => ({ code: c, name: C.countryLabel(c), flag: C.flagFor(c) }))
+      .map((c) => ({ code: c, name: C.countryLabel(c, I.lang()), flag: C.flagFor(c) }))
       // A code with no Russian name is dropped rather than shown raw: the list
       // is reassurance, and an unreadable entry is the opposite of that.
       .filter((x) => x.name !== String(x.code).toUpperCase())
@@ -2132,7 +2137,7 @@
     // render " · 3 ГБ" with an empty space where the destination should be. The
     // name comes from the group the customer navigated through, or from the
     // dictionary as a fallback.
-    const where = (group && group.country) || C.countryLabel(pkg.country_code);
+    const where = (group && group.country) || C.countryLabel(pkg.country_code, I.lang());
     // For a tariff sold by the day the term came from the previous screen; the
     // catalogue row has none. Everything below — the summary, the amount the
     // server is told to expect, the idempotency scope — reads this one value,
@@ -3331,7 +3336,7 @@
     // balance is a number the provider owns and we relayed — possibly hours
     // ago — and without a time beside it the app is promising something it does
     // not control. It sits under BOTH branches for the same reason.
-    const when = el('div', { class: 'small muted', text: C.syncedAgo(esim && esim.last_usage_sync_at) });
+    const when = el('div', { class: 'small muted', text: C.syncedAgo(esim && esim.last_usage_sync_at, Date.now(), I.lang()) });
 
     if (fraction === null) {
       return el('div', { class: 'stack', style: 'gap:4px' }, [
@@ -3472,7 +3477,7 @@
        */
       (fraction === null && !(e && e.last_usage_sync_at))
         ? null
-        : el('span', { class: 'esim-card__synced', text: C.syncedAgo(e && e.last_usage_sync_at) }),
+        : el('span', { class: 'esim-card__synced', text: C.syncedAgo(e && e.last_usage_sync_at, Date.now(), I.lang()) }),
     ]);
   }
 
