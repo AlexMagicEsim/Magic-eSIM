@@ -345,17 +345,17 @@
     if (!value) return null;
 
     const code = el('code', { text: value });
-    const btn = el('button', { class: 'btn btn--quiet copyfield__copy', text: 'Копировать' });
+    const btn = el('button', { class: 'btn btn--quiet copyfield__copy', text: t('copy.copy') });
 
     // Held on the element, so a second tap while the first is still showing
     // «Скопировано» restarts the window instead of reverting the label early.
     let revert = null;
     const flash = () => {
-      btn.textContent = 'Скопировано';
+      btn.textContent = t('copy.copied');
       btn.dataset.copied = '1';
       if (revert) clearTimeout(revert);
       revert = setTimeout(() => {
-        btn.textContent = 'Копировать';
+        btn.textContent = t('copy.copy');
         delete btn.dataset.copied;
         revert = null;
       }, 1600);
@@ -379,9 +379,9 @@
           const sel = window.getSelection();
           sel.removeAllRanges();
           sel.addRange(range);
-          btn.textContent = 'Выделено';
+          btn.textContent = t('copy.selected');
           if (revert) clearTimeout(revert);
-          revert = setTimeout(() => { btn.textContent = 'Копировать'; revert = null; }, 1600);
+          revert = setTimeout(() => { btn.textContent = t('copy.copy'); revert = null; }, 1600);
         } catch { /* nothing left to try; the value is on screen and selectable */ }
       }
     });
@@ -785,11 +785,11 @@
     return el('button', { class: 'card stack card--tariff', onclick: () => openTariff(p, group) }, [
       el('div', { class: 'row row--between' }, [
         el('div', { class: 'row tariff__head' }, [
-          el('span', { class: 'card__title', text: `${D.formatAllowance(p.daily_gb)} в день` }),
+          el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb) }) }),
         ]),
         el('div', {
           class: 'card__price tabular',
-          text: from ? `от ${C.money(from.price)}` : '—',
+          text: from ? t('tile.from', { price: C.money(from.price) }) : '—',
         }),
       ]),
       el('div', { class: 'card__meta', text: lines.map((l) => l.text).slice(1).join(' · ') || ' ' }),
@@ -945,7 +945,7 @@
     if (pending) {
       box.appendChild(el('button', {
         class: 'btn btn--wide',
-        text: 'Показать статус пополнения',
+        text: t('topup.showStatus'),
         onclick: () => { void showTopupStatus(pending); },
       }));
     }
@@ -960,7 +960,7 @@
       // `in_progress` is not an absence of options — it is one already running.
       if (out && out.in_progress && !pending) {
         box.appendChild(el('p', { class: 'small muted', text:
-          'Пополнение этой eSIM уже выполняется. Дождитесь результата.' }));
+          t('topup.alreadyRunning') }));
       }
 
       return;
@@ -971,7 +971,7 @@
 
     box.appendChild(el('button', {
       class: 'btn btn--ghost',
-      text: 'Пополнить',
+      text: t('topup.action'),
       onclick: () => openTopupOptions(esimId, out),
     }));
   }
@@ -989,17 +989,17 @@
     clear(box);
 
     const list = el('div', { class: 'stack' }, [
-      el('h2', { class: 'section', text: 'Пополнить eSIM' }),
+      el('h2', { class: 'section', text: t('topup.sectionTitle') }),
       ...discovery.topup_options.map((o) => optionCard(esimId, discovery, o)),
     ]);
 
     if (discovery.purchase_enabled !== true) {
       list.appendChild(el('p', { class: 'small muted', text:
-        'Пополнение скоро заработает. Пока можно посмотреть, что будет доступно для этой eSIM.' }));
+        t('topup.soon') }));
     }
 
     list.appendChild(el('button', {
-      class: 'btn btn--quiet', text: 'Скрыть', onclick: () => renderTopups(esimId),
+      class: 'btn btn--quiet', text: t('common.hide'), onclick: () => renderTopups(esimId),
     }));
     box.appendChild(list);
   }
@@ -1013,11 +1013,11 @@
    */
   function optionCard(esimId, discovery, o) {
     const body = el('span', { class: 'card__body' }, [
-      el('span', { class: 'card__title', text: o.data_gb ? `${o.data_gb} ГБ` : 'Пакет' }),
+      el('span', { class: 'card__title', text: o.data_gb ? t('plan.gb', { n: o.data_gb }) : t('topup.package') }),
       el('span', {
         class: 'card__meta',
         text: o.validity_days
-          ? `+${o.validity_days} ${C.plural(o.validity_days, 'день', 'дня', 'дней')}`
+          ? `+${o.validity_days} ${dayWord(o.validity_days)}`
           : '',
       }),
     ]);
@@ -1055,7 +1055,7 @@
     const choice = { payment_type: 'sbp', terms_accepted: false };
 
     const err = el('div', { class: 'stack' });
-    const pay = el('button', { class: 'btn btn--wide', disabled: true, text: `Оплатить ${C.money(option.price_rub)}` });
+    const pay = el('button', { class: 'btn btn--wide', disabled: true, text: t('topup.payFor', { price: C.money(option.price_rub) }) });
 
     const methodButton = (type, label) => el('button', {
       class: 'btn btn--quiet topup-method',
@@ -1082,36 +1082,36 @@
     pay.addEventListener('click', () => payTopup(esimId, option, choice, { pay, err }));
 
     box.appendChild(el('div', { class: 'stack' }, [
-      el('h2', { class: 'section', text: 'Пополнение eSIM' }),
+      el('h2', { class: 'section', text: t('topup.confirmTitle') }),
       el('div', { class: 'card stack' }, [
         el('div', { class: 'row row--between' }, [
-          el('span', { text: option.data_gb ? `${option.data_gb} ГБ` : 'Пакет' }),
+          el('span', { text: option.data_gb ? t('plan.gb', { n: option.data_gb }) : t('topup.package') }),
           el('strong', { class: 'tabular', text: C.money(option.price_rub) }),
         ]),
         option.validity_days
           ? el('p', { class: 'small muted', text:
-            `Срок действия: ${option.validity_days} ${C.plural(option.validity_days, 'день', 'дня', 'дней')}` })
+            t('topup.validFor', { n: option.validity_days, word: dayWord(option.validity_days) }) })
           : el('span'),
-        el('p', { class: 'small muted', text: 'Пакет добавится к этой eSIM. Новая eSIM не выпускается.' }),
+        el('p', { class: 'small muted', text: t('topup.addsTo') }),
       ]),
-      el('h3', { class: 'section', text: 'Способ оплаты' }),
+      el('h3', { class: 'section', text: t('checkout.method') }),
       el('div', { class: 'row' }, [
-        methodButton('sbp', 'СБП'),
-        methodButton('card', 'Банковская карта'),
+        methodButton('sbp', t('checkout.sbp')),
+        methodButton('card', t('topup.card')),
       ]),
       el('label', { class: 'row topup-terms-row' }, [
         terms,
         el('span', { class: 'small' }, [
-          document.createTextNode('Я принимаю '),
+          document.createTextNode(`${t('terms.iAccept')} `),
           el('a', {
-            href: '#', text: 'условия оферты',
+            href: '#', text: t('terms.offerConditions'),
             onclick: (e) => { e.preventDefault(); openExternal('https://magicesim.store/terms.html'); },
           }),
         ]),
       ]),
       err,
       pay,
-      el('button', { class: 'btn btn--quiet', text: 'Назад', onclick: () => renderTopups(esimId) }),
+      el('button', { class: 'btn btn--quiet', text: t('common.back'), onclick: () => renderTopups(esimId) }),
     ]));
   }
 
@@ -1127,7 +1127,7 @@
     clear(err);
 
     if (choice.terms_accepted !== true) {
-      err.appendChild(errorNotice('Примите условия, чтобы продолжить.'));
+      err.appendChild(errorNotice(t('checkout.needTerms')));
 
       return;
     }
@@ -1138,7 +1138,7 @@
     pay.disabled = true;
     clear(pay);
     pay.appendChild(el('span', { class: 'btn__spinner' }));
-    pay.appendChild(document.createTextNode('Готовим оплату…'));
+    pay.appendChild(document.createTextNode(t('topup.preparing')));
     haptic('medium');
 
     let intent = null;
@@ -1199,7 +1199,7 @@
   function resetPayButton(pay, option) {
     pay.disabled = false;
     clear(pay);
-    pay.appendChild(document.createTextNode(`Оплатить ${C.money(option.price_rub)}`));
+    pay.appendChild(document.createTextNode(t('topup.payFor', { price: C.money(option.price_rub) })));
   }
 
   /**
@@ -1345,7 +1345,7 @@
       void tick();
     };
 
-    $('#topup-title').textContent = 'Пополнение';
+    $('#topup-title').textContent = t('topup.title');
     clear($('#topup-body'));
     $('#topup-body').appendChild(skeletonCards(1));
     await tick();
@@ -1373,7 +1373,7 @@
 
     if (out.data_gb || out.price_rub) {
       card.appendChild(el('div', { class: 'row row--between small muted' }, [
-        el('span', { text: out.data_gb ? `${out.data_gb} ГБ` : 'Пакет' }),
+        el('span', { text: out.data_gb ? t('plan.gb', { n: out.data_gb }) : t('topup.package') }),
         el('span', { class: 'tabular', text: out.price_rub ? C.money(out.price_rub) : '' }),
       ]));
     }
@@ -1383,14 +1383,14 @@
     // link and never from anything this screen invented.
     if (out.status === 'awaiting_payment' && out.payment_url && C.isAllowedPaymentUrl(out.payment_url)) {
       body.appendChild(el('button', {
-        class: 'btn btn--wide', text: 'Перейти к оплате',
+        class: 'btn btn--wide', text: t('topup.goToPayment'),
         onclick: () => openExternal(out.payment_url),
       }));
     }
 
     if (out.status === 'completed') {
       body.appendChild(el('button', {
-        class: 'btn btn--wide', text: 'К моим eSIM',
+        class: 'btn btn--wide', text: t('topup.toMyEsims'),
         onclick: () => { void renderEsims(); show('esims'); },
       }));
     }
@@ -1421,13 +1421,13 @@
   function renderTopupStatusError(e, publicToken) {
     const body = $('#topup-body');
     clear(body);
-    $('#topup-title').textContent = 'Проверяем состояние пополнения';
+    $('#topup-title').textContent = t('topup.checkingState');
 
     if (e && e.status === 404) {
       clearPendingTopup();
-      body.appendChild(el('p', { class: 'muted', text: 'Это пополнение не найдено.' }));
+      body.appendChild(el('p', { class: 'muted', text: t('topup.notFound') }));
       body.appendChild(el('button', {
-        class: 'btn btn--wide', text: 'К моим eSIM',
+        class: 'btn btn--wide', text: t('topup.toMyEsims'),
         onclick: () => { void renderEsims(); show('esims'); },
       }));
 
@@ -1435,10 +1435,9 @@
     }
 
     body.appendChild(el('p', { class: 'muted', text:
-      'Не удалось связаться с сервером. Это ничего не говорит об оплате: '
-      + 'если она прошла, пополнение уже принято. Повторно платить не нужно.' }));
+      t('topup.noServer') }));
     body.appendChild(el('button', {
-      class: 'btn btn--wide', text: 'Проверить ещё раз',
+      class: 'btn btn--wide', text: t('topup.checkAgain'),
       onclick: () => { void showTopupStatus(publicToken); },
     }));
   }
@@ -1462,36 +1461,28 @@
    */
   const HELP_TOPICS = Object.freeze([
     {
-      q: 'Как установить eSIM?',
-      a: 'Откройте «Мои eSIM» → нужную eSIM → «Установка и QR». Там есть QR-код, '
-        + 'пошаговая инструкция для вашего телефона и поля для ручного ввода.',
+      q: () => t('faq.install.q'),
+      a: () => t('faq.install.a'),
     },
     {
-      q: 'Подойдёт ли мой телефон?',
-      a: 'iPhone: Настройки → Сотовая связь. Android: настройки SIM-карт. Если есть '
-        + '«Добавить eSIM» или «Загрузить SIM» — подойдёт. Телефон не должен быть '
-        + 'заблокирован под одного оператора.',
+      q: () => t('faq.phone.q'),
+      a: () => t('faq.phone.a'),
     },
     {
-      q: 'Когда начнётся срок действия?',
-      a: 'Зависит от тарифа — точная формулировка указана в карточке тарифа в строке '
-        + '«Начало срока». Чаще всего отсчёт идёт с первого подключения к сети за границей.',
+      q: () => t('faq.term.q'),
+      a: () => t('faq.term.a'),
     },
     {
-      q: 'Оплатил, но eSIM не появилась',
-      a: 'Обычно выпуск занимает меньше минуты. Статус заказа виден сразу после оплаты, '
-        + 'и мы продублируем eSIM письмом на указанную почту. Если прошло больше '
-        + 'нескольких минут — напишите нам, заказ уже у нас и никуда не денется.',
+      q: () => t('faq.paid.q'),
+      a: () => t('faq.paid.a'),
     },
     {
-      q: 'Интернет не работает за границей',
-      a: 'Проверьте, что для eSIM включён роуминг данных и что она выбрана как линия '
-        + 'для сотовых данных. Помогает также выбор сети вручную в настройках оператора.',
+      q: () => t('faq.noNet.q'),
+      a: () => t('faq.noNet.a'),
     },
     {
-      q: 'Можно ли вернуть деньги?',
-      a: 'Если eSIM не была установлена и не использовалась — напишите нам, разберёмся '
-        + 'индивидуально. Условия описаны в оферте.',
+      q: () => t('faq.refund.q'),
+      a: () => t('faq.refund.a'),
     },
   ]);
 
@@ -1802,21 +1793,25 @@
     clear(box);
 
     box.appendChild(el('p', { class: 'muted', text:
-      'Ответы на частые вопросы — здесь. Всё остальное — живому человеку в поддержке.' }));
+      t('help.intro') }));
 
     box.appendChild(el('div', { class: 'stack' },
       // `topic`, not `t`: `t` is the translation function in this file now, and
       // a loop parameter shadowing it would make a `t('…')` call inside this
       // callback silently mean something else.
       HELP_TOPICS.map((topic) => el('details', { class: 'card sheet' }, [
-        el('summary', { class: 'sheet__head', text: topic.q }),
-        el('p', { class: 'small', text: topic.a }),
+        // Called, not read: each topic holds a FUNCTION so the question and
+        // answer are resolved at render time and follow a language change.
+        // A frozen table of strings would have been captured in whichever
+        // language happened to be active when the module loaded.
+        el('summary', { class: 'sheet__head', text: topic.q() }),
+        el('p', { class: 'small', text: topic.a() }),
       ]))));
 
-    box.appendChild(el('h2', { class: 'section', text: 'Инструкции по установке' }));
+    box.appendChild(el('h2', { class: 'section', text: t('help.installGuides') }));
     box.appendChild(el('div', { class: 'row' }, [
       el('button', {
-        class: 'btn btn--quiet', text: 'Для iPhone',
+        class: 'btn btn--quiet', text: t('help.iphone'),
         onclick: () => openExternal('https://magicesim.store/iphone.html'),
       }),
       el('button', {
@@ -1828,24 +1823,24 @@
     // Account settings. Placed here rather than as a fifth tab: four tabs are
     // already tight at 390px, and mini.css warns in as many words that a fifth
     // starts truncating labels.
-    box.appendChild(el('h2', { class: 'section', text: 'Аккаунт' }));
+    box.appendChild(el('h2', { class: 'section', text: t('help.account') }));
     box.appendChild(el('button', {
-      class: 'btn btn--ghost', text: 'Настройки',
+      class: 'btn btn--ghost', text: t('settings.title'),
       onclick: () => { show('settings'); void renderSettings(); },
     }));
 
-    box.appendChild(el('h2', { class: 'section', text: 'Не нашли ответ?' }));
+    box.appendChild(el('h2', { class: 'section', text: t('help.noAnswer') }));
     // The order ref rides along when there is one, so the operator opens the
     // conversation already knowing which purchase it is about.
     box.appendChild(supportButton(state.lastOrder || null));
 
     box.appendChild(el('div', { class: 'stack gap-top-lg' }, [
       el('button', {
-        class: 'btn btn--quiet', text: 'Оферта',
+        class: 'btn btn--quiet', text: t('help.offer'),
         onclick: () => openExternal('https://magicesim.store/terms.html'),
       }),
       el('button', {
-        class: 'btn btn--quiet', text: 'Политика конфиденциальности',
+        class: 'btn btn--quiet', text: t('help.privacy'),
         onclick: () => openExternal('https://magicesim.store/privacy.html'),
       }),
     ]));
@@ -1890,8 +1885,8 @@
         el('span', {
           class: 'card__title',
           text: isDaily
-            ? `${D.formatAllowance(p.daily_gb)} в день`
-            : (p.unlimited ? 'Безлимит' : `${p.data_gb} ГБ`),
+            ? t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb) })
+            : (p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb })),
         }),
         el('strong', {
           class: 'card__price tabular',
@@ -1910,7 +1905,7 @@
         })))
         : el('div', {
           class: 'card__meta',
-          text: `${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
+          text: `${days} ${dayWord(days)}`,
         }),
     ]));
 
@@ -2042,9 +2037,9 @@
     return el('details', { class: 'card sheet' }, [
       el('summary', { class: 'sheet__head', text: t('tariff.willItWork') }),
       el('p', { class: 'small', text:
-        'iPhone: Настройки → Сотовая связь. Если есть «Добавить eSIM» — телефон подходит.' }),
+        t('compat.iphone') }),
       el('p', { class: 'small', text:
-        'Android: настройки SIM-карт. Пункт «Добавить eSIM» или «Загрузить SIM» означает то же самое.' }),
+        t('compat.android') }),
       el('p', { class: 'small muted', text:
         'Поддержка зависит и от региональной версии устройства, поэтому проверка в настройках надёжнее списка моделей. Телефон не должен быть заблокирован под одного оператора.' }),
       el('div', { class: 'row' }, [
@@ -2118,7 +2113,7 @@
     terms.checked = false;
     $('#checkout-error').replaceChildren();
     $('#checkout-email').value = '';
-    setPayEnabled(false, `Оплатить ${C.money(pkg.price)}`);
+    setPayEnabled(false, t('topup.payFor', { price: C.money(pkg.price) }));
     show('checkout');
   }
 
@@ -2166,9 +2161,9 @@
             // «1 ГБ в день · 7 дней», never «null ГБ»: data_gb is meaningless on
             // a daily row and the allowance is the offer.
             text: (isDaily
-              ? `${D.formatAllowance(pkg.daily_gb)} в день`
-              : (pkg.unlimited ? 'Безлимит' : `${pkg.data_gb} ГБ`))
-              + ` · ${days} ${C.plural(days, 'день', 'дня', 'дней')}`,
+              ? t('daily.perDay', { allowance: D.formatAllowance(pkg.daily_gb) })
+              : (pkg.unlimited ? t('plan.unlimited') : t('plan.gb', { n: pkg.data_gb })))
+              + ` · ${days} ${dayWord(days)}`,
           }),
         ]),
       ]),
@@ -2610,7 +2605,7 @@
   function supportButton(order, { wide = true } = {}) {
     return el('button', {
       class: wide ? 'btn btn--ghost btn--wide' : 'btn btn--ghost',
-      text: 'Написать в поддержку',
+      text: t('support.write'),
       onclick: () => openExternal(supportUrl(order)),
     });
   }
@@ -2658,19 +2653,48 @@
    * silence is precisely the failure being fixed.
    */
   const ORDER_STAGE = Object.freeze({
-    awaiting_payment: { title: 'Ждём оплату', note: 'Завершите оплату в браузере. Мы сами узнаем, когда она пройдёт.', spin: true },
-    paid: { title: 'Оплата получена', note: 'Готовим eSIM. Обычно это занимает меньше минуты.', spin: true },
-    provisioning: { title: 'Готовим eSIM', note: 'Выпускаем профиль у оператора.', spin: true },
-    ready: { title: 'eSIM готова', note: 'Профиль выпущен и доступен в «Мои eSIM».', spin: false },
-    failed: { title: 'Нужна помощь с заказом', note: 'Мы не смогли выпустить eSIM. Деньги не списаны или будут возвращены — напишите нам, разберёмся.', spin: false },
-    canceled: { title: 'Заказ отменён', note: 'Оплата не прошла. Можно попробовать ещё раз.', spin: false },
+    awaiting_payment: { key: 'awaiting', spin: true },
+    paid: { key: 'paid', spin: true },
+    provisioning: { key: 'provisioning', spin: true },
+    ready: { key: 'ready', spin: false },
+    failed: { key: 'failed', spin: false },
+    canceled: { key: 'canceled', spin: false },
 
     // Aliases for the internal vocabulary.
-    purchasing_esim: { title: 'Готовим eSIM', note: 'Выпускаем профиль у оператора.', spin: true },
-    completed: { title: 'eSIM готова', note: 'Профиль выпущен и доступен в «Мои eSIM».', spin: false },
-    cancelled: { title: 'Заказ отменён', note: 'Оплата не прошла. Можно попробовать ещё раз.', spin: false },
-    refunded: { title: 'Возврат', note: 'Средства возвращены.', spin: false },
+    purchasing_esim: { key: 'provisioning', spin: true },
+    completed: { key: 'ready', spin: false },
+    cancelled: { key: 'canceled', spin: false },
+    refunded: { key: 'refunded', spin: false },
   });
+
+  /**
+   * The title and note for a stage, resolved when it is rendered.
+   *
+   * The table above holds a KEY rather than a sentence so that the aliases stay
+   * visibly the same stage — `completed` and `ready` point at one entry instead
+   * of at two copies of a sentence that could drift apart. The seven titles are
+   * spelled out here, literally, because t() may never be handed a computed
+   * key: a computed key is invisible to the scanner that proves the dictionary
+   * has no dead entries.
+   */
+  const ORDER_STAGE_TEXT = {
+    awaiting: () => ({ title: t('order.awaiting.title'), note: t('order.awaiting.note') }),
+    paid: () => ({ title: t('order.paid.title'), note: t('order.paid.note') }),
+    provisioning: () => ({ title: t('order.provisioning.title'), note: t('order.provisioning.note') }),
+    ready: () => ({ title: t('order.ready.title'), note: t('order.ready.note') }),
+    failed: () => ({ title: t('order.failed.title'), note: t('order.failed.note') }),
+    canceled: () => ({ title: t('order.canceled.title'), note: t('order.canceled.note') }),
+    refunded: () => ({ title: t('order.refunded.title'), note: t('order.refunded.note') }),
+  };
+
+  /** A stage with its words filled in, or null when the status is unknown. */
+  function orderStage(status) {
+    const row = ORDER_STAGE[status] || null;
+    if (!row) return null;
+    const words = ORDER_STAGE_TEXT[row.key]();
+
+    return { title: words.title, note: words.note, spin: row.spin };
+  }
 
   let orderPollTimer = null;
 
@@ -2699,10 +2723,10 @@
       clear(body);
 
       if (!order) {
-        $('#order-title').textContent = stale ? 'Не удалось проверить заказ' : 'Заказ не найден';
+        $('#order-title').textContent = stale ? t('order.checkFailed') : t('order.notFound');
         body.appendChild(el('p', { class: 'muted', text: stale
-          ? 'Связь с сервером пропала. Статус заказа не изменился от того, что мы его не увидели — попробуйте ещё раз.'
-          : 'Мы не нашли такой заказ. Если оплата прошла, он появится в «Мои eSIM» — а если нет, напишите нам.' }));
+          ? t('order.staleNote')
+          : t('order.notFoundNote') }));
         body.appendChild(el('button', {
           class: 'btn btn--ghost btn--wide', text: 'Повторить',
           onclick: () => { attempt = 0; tick(); },
@@ -2717,7 +2741,7 @@
       }
 
       const st = order.display_status || order.status;
-      const stage = ORDER_STAGE[st] || null;
+      const stage = orderStage(st);
       const done = C.isOrderReady(st);
       const dead = C.isOrderDead(st);
       $('#order-title').textContent = stage ? stage.title : 'Проверяем заказ';

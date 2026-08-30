@@ -746,8 +746,15 @@ test('the Mini App already states it, and still does', () => {
   // app/ui.js built this line correctly from the start; pinned so the two
   // surfaces cannot drift to different answers for the same order.
   const ui = read('app/ui.js');
-  assert.match(ui, /\$\{D\.formatAllowance\(pkg\.daily_gb\)\} в день/);
-  assert.ok(!/\$\{pkg\.data_gb\} ГБ`\s*\)\s*$/.test(ui), 'the ordinary branch must stay conditional');
+  // The sentence moved into app/locales.js when the Mini App learned a second
+  // language, so the pin follows it: ui.js must still build the line from the
+  // ALLOWANCE, and the dictionary must still phrase it per day, in both
+  // languages. What is being protected is that the two surfaces cannot give
+  // different answers for the same order.
+  assert.match(ui, /t\('daily\.perDay', \{ allowance: D\.formatAllowance\(pkg\.daily_gb\) \}\)/);
+  const dict = read('app/locales.js');
+  assert.match(dict, /'daily\.perDay': '\{allowance\} в день'/);
+  assert.match(dict, /'daily\.perDay': '\{allowance\} a day'/);
 });
 
 test('the storefront CTA states the price of the selected term', () => {
