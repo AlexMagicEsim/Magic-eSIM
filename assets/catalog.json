@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-30T11:59:19.092Z",
+  "generated_at": "2026-08-30T14:27:12.898Z",
   "source": "production-public-api",
   "package_count": 2298,
   "packages": [
@@ -70579,27 +70579,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3400
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 5350
+          "price": 4450
         },
         {
           "days": 7,
-          "price": 7300
+          "price": 6000
         },
         {
           "days": 10,
-          "price": 10250
+          "price": 8400
         },
         {
           "days": 15,
-          "price": 15150
+          "price": 12350
         },
         {
           "days": 30,
-          "price": 29850
+          "price": 24250
         }
       ]
     },
@@ -145962,27 +145962,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3250
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 5100
+          "price": 4450
         },
         {
           "days": 7,
-          "price": 6950
+          "price": 6000
         },
         {
           "days": 10,
-          "price": 9700
+          "price": 8400
         },
         {
           "days": 15,
-          "price": 14350
+          "price": 12350
         },
         {
           "days": 30,
-          "price": 28250
+          "price": 24250
         }
       ]
     },
