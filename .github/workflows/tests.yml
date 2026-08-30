@@ -99,3 +99,28 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+
+  unit:
+    name: storefront + Mini App unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # No `npm ci`, deliberately: these are plain `node --test` files with no
+      # dependency of any kind. They ran green in this repository long before a
+      # package.json existed, and adding an install step would invent a reason
+      # for them to fail.
+      #
+      # `npm test` rather than the command spelled out again, so the glob lives
+      # in ONE place. That matters more than it looks: `seo/*.mjs` would match
+      # the page GENERATORS as well as the tests, and running them rewrites 202
+      # HTML pages on disk. The script says `seo/test-*.mjs` for that reason —
+      # never widen it.
+      - name: Unit tests
+        run: npm test
