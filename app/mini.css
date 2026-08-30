@@ -1237,6 +1237,19 @@ body.sheet-open { overflow: hidden; }
   white-space: nowrap;
 }
 
+/* The same fix, for the same reason, as `button.card--row` above — and it was
+   missing here.
+   `#settings-body` is a .stack, so this card is a GRID ITEM, and a grid item's
+   automatic minimum is its min-content: never narrower than the widest thing
+   inside it. The masked address is one unbreakable token, so the row's
+   min-content was the address (162px) plus the gap plus the action button plus
+   the padding — 304px inside a 288px track at 320px. It did not reach the
+   viewport, because `.card__body` already has `min-width: 0`, but the comment
+   on `button.card--row` says exactly why that is not enough on its own: it
+   cannot save a track that has already grown.
+   Measured at 320px: 304 → 288, and the row stops overflowing its own column. */
+.settings__row { min-width: 0; }
+
 /* The address must be readable WHOLE — it is the thing the row exists to show —
    so it wraps rather than ellipsing.
    `break-word`, deliberately NOT `anywhere`: `anywhere` lets a box's min-content

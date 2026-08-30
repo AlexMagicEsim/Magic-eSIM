@@ -1800,3 +1800,64 @@ test('the code screen still promises nothing it cannot keep', () => {
   assert.match(src, /Если этот адрес использовался при покупке/,
     'the intro stays conditional');
 });
+
+/* --------------------------------------------------------------------------
+ * S13 · disconnecting a proven address — exactly once per intention
+ *
+ * Two windows were open on this button, and the second is the reason the guard
+ * sits before the question rather than around the request.
+ *
+ * The request window is the obvious one: the confirmation closes, `revokeEmail`
+ * is in flight, and a live button can ask for the same revoke again.
+ *
+ * The dialog window is the expensive one. There is ONE sheet element in ui.js
+ * and `openSheet` closes whatever is open before opening anything, so a second
+ * entry while the first confirmation is up removes the DOM that the first
+ * `confirmSheet` promise resolves from — and that promise then never settles at
+ * all. A scrim stops a finger; it does not stop a keyboard, because focus is
+ * not trapped.
+ *
+ * Source assertions rather than behaviour: ui.js is a bare IIFE with no export,
+ * and the behavioural half of this lives in the browser suite, which CI does
+ * not run. This is the half that runs on every `node --test`.
+ * ----------------------------------------------------------------------- */
+
+function emailRowSource() {
+  const start = UI_SRC.indexOf('function emailRow(');
+  assert.ok(start > 0, 'emailRow not found');
+  const end = UI_SRC.indexOf('function renderHelp(', start);
+  assert.ok(end > start, 'renderHelp not found after emailRow');
+
+  return UI_SRC.slice(start, end);
+}
+
+test('disconnecting an address cannot be asked for twice', () => {
+  const src = emailRowSource();
+
+  // The guard is real, and it is a refusal rather than a hope.
+  assert.match(src, /if \(btn\.disabled\) return;/,
+    'a second entry must return, not queue');
+  assert.match(src, /btn\.disabled = true;/, 'the button is closed on the way in');
+  assert.match(src, /finally \{\s*\n\s*btn\.disabled = false;/,
+    'and reopened however the flow ends, including on cancel');
+
+  // ORDER is the whole point: closed BEFORE the question, or the dialog window
+  // stays open and a second sheet can strand the first promise forever.
+  const closed = src.indexOf('btn.disabled = true;');
+  const asked = src.indexOf('await confirmSheet(');
+  const sent = src.indexOf('await api.revokeEmail(');
+
+  assert.ok(closed > 0 && asked > closed,
+    'the button must be closed before the confirmation is raised, not after it');
+  assert.ok(sent > asked, 'and the request still follows the answer');
+});
+
+test('a refused confirmation leaves the address alone and the button usable', () => {
+  const src = emailRowSource();
+  const asked = src.indexOf('await confirmSheet(');
+  const bail = src.indexOf('if (!ok) return;', asked);
+  const sent = src.indexOf('await api.revokeEmail(', asked);
+
+  assert.ok(bail > asked && bail < sent,
+    'cancel must return before anything is sent');
+});

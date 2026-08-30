@@ -48,7 +48,12 @@ test('the support button in the Mini App still opens the SUPPORT bot', () => {
 });
 
 test('no ?startapp anywhere still names the support bot', () => {
-  for (const f of ['index.html', 'payment-success.html', 'payment-failed.html', '404.html', 'app/ui.js', 'app/core.js']) {
+  // `app/locales.js` is on this list because it is customer-facing copy in a
+  // file that did not exist when the list was written: a support sentence
+  // carrying a `t.me/…?startapp` link would otherwise escape this guard
+  // entirely, and the guard is the thing that keeps the support bot from being
+  // used as a Mini App entry point.
+  for (const f of ['index.html', 'payment-success.html', 'payment-failed.html', '404.html', 'app/ui.js', 'app/core.js', 'app/locales.js']) {
     let src;
     try { src = code(read(f)); } catch { continue; }
     assert.ok(

@@ -74,7 +74,13 @@ test('the Mini App is versioned too, not just assets/', () => {
   // whole mechanism exists to prevent, on the surface that ships a Telegram
   // app.
   const html = readFileSync(join(ROOT, 'app/index.html'), 'utf8');
-  for (const name of ['mini.css', 'core.js', 'ui.js']) {
+  // `locales.js` and `i18n.js` are named here rather than left to the generic
+  // sweep above for the same reason the first three are: when a locale string
+  // is edited the file's hash moves, and an unversioned tag would serve the old
+  // dictionary against the new markup for up to ten minutes — the exact
+  // HTML↔asset mismatch this mechanism exists to prevent, on the one pair of
+  // files that will be edited most often from here on.
+  for (const name of ['mini.css', 'locales.js', 'i18n.js', 'core.js', 'ui.js']) {
     assert.match(html, new RegExp(`(?:href|src)="${name.replace('.', '\\.')}\\?v=[0-9a-f]{8}"`),
       `app/index.html must version ${name}`);
   }

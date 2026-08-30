@@ -6,13 +6,21 @@
  * with no interface anywhere — a customer who connected a mailbox could not
  * disconnect it.
  *
- * It deliberately does NOT contain a language picker or a notifications toggle,
- * and these tests pin that. The app has no localisation at all (every string is
- * a Russian literal; the only `locale` in the codebase is a sort comparator),
- * and every message the client bot sends is a reply — there is no proactive
- * push to a customer anywhere in this system. A control over either would be a
- * control that lies, which is the same rule that keeps a greyed-out top-up
- * button off an eSIM that has none.
+ * It carries three things now, and pins all of them. The rule governing each is
+ * the same one it has always been — a control here may not lie — and each
+ * arrived only once that rule was satisfied.
+ *
+ * The notification switches were absent while every message the bot sent was a
+ * reply to something the customer sent it; they exist because the delivery
+ * engine does. The language picker was absent while the app had one language,
+ * because a picker with one option offers a choice that does nothing; it exists
+ * because there are two complete dictionaries. What these tests assert is that
+ * each is WHOLE: a switch that moves only when the server agrees, and a
+ * language that leaves no Russian behind on an English screen.
+ *
+ * The earlier revision of this file asserted the ABSENCE of both. Those
+ * assertions were inverted rather than deleted — what they protected is still
+ * worth protecting.
  *
  *   node test/mini-app/settings.e2e.js
  */
@@ -23,6 +31,44 @@ const T={'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'i
 let bad=0; const ok=(l,c,d='')=>{if(!c)bad++;console.log(`   ${c?'ok  ':'FAIL'} ${l}${d?'  — '+d:''}`);};
 
 const RAW='buyer@example.com';
+
+// The Russian settings screen, exactly as it renders.
+//
+// This is the oracle for "Russian did not change", and it is deliberately kept
+// HERE rather than derived from app/locales.js: a test that builds its expected
+// value out of the file under test asserts nothing. It was taken from the
+// rendered screen, and against the screen as it stood before there were two
+// languages it differs by exactly one thing — the six lines of the language
+// block, which is what this change added. Every other byte is what shipped.
+const RU_SETTINGS=`Настройки
+Язык
+Русский
+English
+
+Меняет язык приложения. Часть экранов пока только на русском.
+
+Почта
+
+Покупки с сайта на эти адреса появляются в «Мои eSIM» автоматически.
+
+b***r@example.com
+подтверждён 19.08.2026
+Отключить
+Уведомления
+Интернет заканчивается
+При остатке 20% и 10%
+Срок действия истекает
+За 3 дня и за сутки
+
+Приходят в этот чат. Данные eSIM и чек — на почту, указанную при покупке. Рекламных рассылок мы не отправляем.
+
+Аккаунт
+Вы с нами с
+18.08.2026
+Покупок
+3
+eSIM
+1`;
 
 function mock(cfg){
   window.__calls=[];
@@ -109,10 +155,28 @@ for (const eng of ['webkit','chromium']) {
       ok('and it says when it was proven', /подтверждён/i.test(body));
       ok('with an explanation of what the address does', /автоматически/i.test(body));
 
-      // NO language picker, still. The app has no second language: a picker
-      // with one option that changes nothing is a control that lies.
-      ok('NO language picker — the app has no second language',
-        !/язык|language/i.test(body), (body.match(/язык[^\n]*/i)||[])[0]||'');
+      // There IS a language picker now, and this is the inverse of the
+      // assertion that stood here — kept as an assertion rather than deleted,
+      // because what it was protecting has not changed. The rule was never "no
+      // picker"; it was "a control here may not lie". A picker with one option
+      // lied by offering a choice that did nothing. A picker with two lies if
+      // either option is incomplete, so what is pinned now is that it offers
+      // exactly the languages that have a dictionary, and exactly one of them
+      // is marked as the one in use.
+      const langs=await p.$$eval('#settings-language [data-lang]',ns=>ns.map(n=>n.dataset.lang));
+      ok('the language picker offers exactly the languages that have a dictionary',
+        JSON.stringify(langs.slice().sort())==='["en","ru"]', JSON.stringify(langs));
+      ok('and exactly one language is marked as the one in use',
+        (await p.$$eval('#settings-language [data-lang][aria-checked="true"]',
+          ns=>ns.map(n=>n.dataset.lang))).join()==='ru');
+      // el() drops an attribute whose value is `false`, so an unselected option
+      // built carelessly ships with no state at all and a screen reader
+      // announces a radio that is neither on nor off.
+      ok('and the unselected one says so, rather than saying nothing',
+        (await p.$$eval('#settings-language [data-lang]',
+          ns=>ns.map(n=>n.getAttribute('aria-checked')))).join()==='true,false');
+      ok('the picker is honest that the rest of the app is still Russian',
+        /Часть экранов пока только на русском/.test(body));
 
       // The notification switches, on the other hand, are REAL now — there is a
       // delivery engine behind them. When this screen first shipped they were
@@ -132,7 +196,106 @@ for (const eng of ['webkit','chromium']) {
 
       const of=await p.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
       ok('no horizontal overflow', !of);
+      // Element-level, not just document-level. The row that holds the masked
+      // address overflowed its own column by 16px for a long time without ever
+      // reaching the viewport, because .card__body's min-width:0 contained the
+      // damage — so a document-level check called it clean. A grid item needs
+      // min-width:0 of its own; this is what notices when it loses it again.
+      const inner=await p.$$eval('#screen-settings *',ns=>ns
+        .filter(n=>n.clientWidth>0&&n.scrollWidth>n.clientWidth+1)
+        .map(n=>`${n.className||n.tagName} ${n.scrollWidth}>${n.clientWidth}`));
+      ok('and nothing overflows its own box either', inner.length===0, inner.join(' / '));
       await p.screenshot({path:`/private/tmp/claude-501/-Users-xxx-Desktop-eSim/292faf93-883b-4959-b678-8b7cdaf41e6e/scratchpad/home/settings-${eng}-${scheme}.png`,fullPage:true});
+      await ctx.close();
+    }
+
+    // ---- one revoke per intention -------------------------------------
+    //
+    // Two windows used to be open on this button: the request, and — worse —
+    // the confirmation itself. There is one sheet element in the app and
+    // openSheet closes whatever is open first, so a second entry while the
+    // first confirmation was up tore out the DOM that the first promise
+    // resolves from, and that promise then never settled at all.
+    {
+      const ctx=await ctxFor({}); const p=await ctx.newPage();
+      await p.goto(base); await p.waitForTimeout(2200);
+      await openSettings(p);
+
+      await p.click('#screen-settings .settings__act'); await p.waitForTimeout(300);
+      ok('the button closes itself the moment it raises the question',
+        await p.$eval('#screen-settings .settings__act',n=>n.disabled));
+
+      // A second press while the dialog is up must do nothing at all — not
+      // open a second dialog, and above all not strand the first one.
+      await p.$eval('#screen-settings .settings__act',n=>n.click());
+      await p.waitForTimeout(200);
+      ok('and a second press raises no second dialog',
+        (await p.$$('.sheetm')).length===1);
+
+      await p.click('.sheetm__panel .btn--wide'); await p.waitForTimeout(900);
+      const revokes=await p.evaluate(()=>window.__calls.filter(c=>/\/identity\/email\/revoke$/.test(c.url.split('?')[0])).length);
+      ok('exactly one revoke reached the server', revokes===1, String(revokes));
+      await ctx.close();
+    }
+
+    // ---- cancelling leaves the row usable ------------------------------
+    {
+      const ctx=await ctxFor({}); const p=await ctx.newPage();
+      await p.goto(base); await p.waitForTimeout(2200);
+      await openSettings(p);
+
+      await p.click('#screen-settings .settings__act'); await p.waitForTimeout(300);
+      await p.click('.sheetm__scrim'); await p.waitForTimeout(300);
+      ok('a dismissed confirmation gives the button back',
+        !(await p.$eval('#screen-settings .settings__act',n=>n.disabled)));
+      ok('and nothing was sent', (await p.evaluate(()=>window.__calls
+        .filter(c=>/\/identity\/email\/revoke$/.test(c.url.split('?')[0])).length))===0);
+      await ctx.close();
+    }
+
+    // ---- the second language is whole, or it is a lie ------------------
+    //
+    // This is where the intent of the deleted "NO language picker" assertion
+    // lives on, in a stronger form. That one proved a control was absent; these
+    // prove the control is not a lie — a key left untranslated, a string still
+    // hardcoded in the paint, a hook never added to the markup, or «Отмена»
+    // surviving inside the confirmation dialog all turn them red.
+    {
+      const ctx=await ctxFor({}); const p=await ctx.newPage();
+      await p.goto(base); await p.waitForTimeout(2200);
+      await openSettings(p);
+
+      const ru=await p.$eval('#screen-settings',n=>n.innerText);
+      ok('the Russian screen still reads as it did before there were two languages',
+        ru.trim()===RU_SETTINGS, ru.replace(/\n/g,' | ').slice(0,200));
+
+      await p.click('#settings-language [data-lang="en"]'); await p.waitForTimeout(400);
+      const en=await p.$eval('#screen-settings',n=>n.innerText);
+      ok('choosing English changes the screen it is on, with no reload', en!==ru);
+      ok('and leaves NO Russian behind on it', !/[Ѐ-ӿ]/.test(en.replace(/Русский/g,'')),
+        (en.match(/[Ѐ-ӿ][^\n]*/)||[])[0]||'');
+      ok('the document announces the language it is now in',
+        (await p.evaluate(()=>document.documentElement.lang))==='en');
+      ok('and the shell headline followed', (await p.$eval('#screen-settings h1',n=>n.innerText))==='Settings');
+
+      // A dialog is part of the screen. Half-English is the same lie in a
+      // smaller box: openSheet's title and cancel come from shared chrome.
+      await p.click('#screen-settings .settings__act'); await p.waitForTimeout(350);
+      ok('no Russian survives inside a dialog the screen can open',
+        !/[Ѐ-ӿ]/.test(await p.$eval('.sheetm__panel',n=>n.innerText)));
+      await p.click('.sheetm__scrim'); await p.waitForTimeout(250);
+
+      // The requirement is that the choice outlives the app, not the render.
+      await p.reload(); await p.waitForTimeout(2200); await openSettings(p);
+      ok('the choice survives a restart of the app',
+        !/[Ѐ-ӿ]/.test((await p.$eval('#screen-settings',n=>n.innerText)).replace(/Русский/g,'')));
+
+      await p.click('#settings-language [data-lang="ru"]'); await p.waitForTimeout(400);
+      ok('and switching back restores the Russian screen exactly',
+        (await p.$eval('#screen-settings',n=>n.innerText)).trim()===RU_SETTINGS);
+
+      const off=await p.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
+      ok('neither language takes the page sideways', !off);
       await ctx.close();
     }
 

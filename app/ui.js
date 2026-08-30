@@ -24,6 +24,17 @@
   const C = window.MagicCore;
   const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 
+  /**
+   * The language layer. Read here the same way `MagicCore` is — by the time
+   * this file parses, `i18n.js` has already built its default instance.
+   *
+   * `t` is the whole of the vocabulary this file needs. It is total: it returns
+   * a string for anything, so a mistyped key renders as the key rather than
+   * taking a screen down.
+   */
+  const I = window.MagicI18n;
+  const t = (key, vars) => I.t(key, vars);
+
   /* ------------------------------------------------------------------ *
    * Tiny DOM helpers
    * ------------------------------------------------------------------ */
@@ -257,7 +268,7 @@
   function errorNotice(message, onRetry) {
     return el('div', { class: 'notice notice--bad' }, [
       el('span', { text: message }),
-      onRetry ? el('button', { class: 'btn btn--quiet', text: 'Повторить', onclick: onRetry }) : null,
+      onRetry ? el('button', { class: 'btn btn--quiet', text: t('common.retry'), onclick: onRetry }) : null,
     ]);
   }
 
@@ -1420,22 +1431,39 @@
    * with no interface anywhere. Somebody who connected a mailbox could not
    * disconnect it.
    *
-   * There is NO language control. The app has no localisation of any kind —
-   * every string is a Russian literal and the only `locale` in the codebase is
-   * `localeCompare(…, 'ru')` for sorting. A picker with one option that changes
-   * nothing is a control that lies, which is the same rule that keeps a
-   * greyed-out top-up button off an eSIM that has none.
+   * THE RULE THAT GOVERNS EVERY CONTROL HERE: it may not lie. Both of the
+   * things this screen used to refuse are now here, and each arrived only when
+   * that rule was satisfied.
    *
-   * There is NO notifications toggle. Every message the client bot sends is a
-   * REPLY to something the customer sent it — there is no proactive push to a
-   * customer anywhere in this system, and `customer_sessions.telegram_chat_id`
-   * is a delivery address nothing delivers to. A switch over messages that are
-   * never sent would be the same lie in a different shape.
+   * There is a LANGUAGE control. It was refused for as long as the app had one
+   * language — a picker with one option that changes nothing is a control that
+   * lies, the same rule that keeps a greyed-out top-up button off an eSIM that
+   * has none. There are two complete dictionaries now, so it offers two. What
+   * the rule still demands is the honest part: most screens are Russian for the
+   * moment, and the hint under the control says so in as many words. Delete
+   * that sentence when it stops being true, and not one commit before.
    *
-   * What replaces them is the truth: a short statement of where things actually
-   * arrive. That is what a customer wanted to know when they went looking for a
-   * notification setting.
+   * There is a NOTIFICATIONS toggle. It was refused for as long as every
+   * message the bot sent was a reply to something the customer sent it — a
+   * switch over messages that are never sent is the same lie in a different
+   * shape. It exists now because the delivery engine does.
+   *
+   * Alongside them is the thing this screen was built for: the proven
+   * addresses. `revoke` had been implemented on the backend and open at the
+   * gateway since S13 shipped, with no interface anywhere — somebody who
+   * connected a mailbox could not disconnect it.
+   *
+   * WHY THE FETCH AND THE PAINT ARE SEPARATE. `renderSettings` asks the server;
+   * `paintSettings` draws what came back and nothing else. Changing the
+   * language must not cost a round trip, and it must not flash a skeleton over
+   * a screen the customer is already reading — on a bad gateway minute it would
+   * flash an error notice instead, for a decision that never left the device.
    * ------------------------------------------------------------------ */
+
+  // The last answer the server gave, so a language change can repaint from it
+  // instead of asking again. Never used to decide anything — only to redraw
+  // what the customer is already looking at.
+  let lastMe = null;
 
   async function renderSettings() {
     const box = $('#settings-body');
@@ -1447,26 +1475,44 @@
       me = await api.me();
     } catch {
       clear(box);
-      box.appendChild(errorNotice('Не удалось загрузить настройки.', renderSettings));
+      box.appendChild(errorNotice(t('settings.loadFailed'), renderSettings));
 
       return;
     }
 
+    lastMe = me;
+    paintSettings(me);
+  }
+
+  function paintSettings(me) {
+    const box = $('#settings-body');
     clear(box);
 
+    /* ---- language --------------------------------------------------- */
+    //
+    // FIRST on the screen, and that is a decision rather than a default.
+    // Choosing a language rebuilds this whole body, which collapses
+    // `#settings-body` to nothing for an instant; the scroll position is
+    // clamped to what is left, so a control near the bottom throws the
+    // customer to the top of a screen that has just changed language under
+    // them. Placed first, they tap and are still looking at what they tapped.
+    // It is also the block that the person who most needs it — somebody who
+    // cannot read the rest — must not have to scroll to find.
+    box.appendChild(el('h2', { class: 'section', text: t('settings.language.section') }));
+    box.appendChild(languagePicker());
+    box.appendChild(el('p', { class: 'small muted', text: t('settings.language.hint') }));
+
     /* ---- connected addresses --------------------------------------- */
-    box.appendChild(el('h2', { class: 'section', text: 'Почта' }));
+    box.appendChild(el('h2', { class: 'section', text: t('settings.email.section') }));
 
     const emails = (me && me.emails) || [];
     if (!emails.length) {
-      box.appendChild(el('p', { class: 'small muted', text:
-        'Подтверждённых адресов нет. Подключите почту, чтобы покупки с сайта появились здесь.' }));
+      box.appendChild(el('p', { class: 'small muted', text: t('settings.email.none') }));
       box.appendChild(el('button', {
-        class: 'btn btn--ghost', text: 'Добавить покупки с сайта', onclick: openClaim,
+        class: 'btn btn--ghost', text: t('settings.email.add'), onclick: openClaim,
       }));
     } else {
-      box.appendChild(el('p', { class: 'small muted', text:
-        'Покупки с сайта на эти адреса появляются в «Мои eSIM» автоматически.' }));
+      box.appendChild(el('p', { class: 'small muted', text: t('settings.email.have') }));
       for (const m of emails) box.appendChild(emailRow(m));
     }
 
@@ -1476,39 +1522,87 @@
     // was nothing behind them. Every message the bot sent was a reply, so a
     // switch would have governed messages that were never sent. They exist now
     // because the delivery engine does.
-    box.appendChild(el('h2', { class: 'section', text: 'Уведомления' }));
+    box.appendChild(el('h2', { class: 'section', text: t('settings.notify.section') }));
 
     const prefs = (me && me.notifications) || { low_data: true, expiry: true };
     box.appendChild(el('div', { class: 'card stack' }, [
+      // The first argument is an IDENTIFIER and the last two are copy. They are
+      // never derived from each other: `low_data` is what the server is told,
+      // and no translation can reach it.
       notifyToggle('low_data', prefs.low_data,
-        'Интернет заканчивается', 'При остатке 20% и 10%'),
+        t('settings.notify.lowData.title'), t('settings.notify.lowData.hint')),
       el('div', { class: 'settings__sep' }),
       notifyToggle('expiry', prefs.expiry,
-        'Срок действия истекает', 'За 3 дня и за сутки'),
+        t('settings.notify.expiry.title'), t('settings.notify.expiry.hint')),
     ]));
 
-    box.appendChild(el('p', { class: 'small muted', text:
-      'Приходят в этот чат. Данные eSIM и чек — на почту, указанную при покупке. '
-      + 'Рекламных рассылок мы не отправляем.' }));
+    box.appendChild(el('p', { class: 'small muted', text: t('settings.notify.note') }));
 
     /* ---- account --------------------------------------------------- */
     if (me && me.customer && me.customer.created_at) {
-      box.appendChild(el('h2', { class: 'section', text: 'Аккаунт' }));
+      box.appendChild(el('h2', { class: 'section', text: t('settings.account.section') }));
       box.appendChild(el('div', { class: 'card stack' }, [
         el('div', { class: 'row row--between' }, [
-          el('span', { class: 'small muted', text: 'Вы с нами с' }),
-          el('span', { class: 'small', text: new Date(me.customer.created_at).toLocaleDateString('ru-RU') }),
+          el('span', { class: 'small muted', text: t('settings.account.since') }),
+          el('span', { class: 'small', text: I.formatDate(me.customer.created_at) }),
         ]),
         el('div', { class: 'row row--between' }, [
-          el('span', { class: 'small muted', text: 'Покупок' }),
+          el('span', { class: 'small muted', text: t('settings.account.orders') }),
           el('span', { class: 'small tabular', text: String((me.counts && me.counts.orders) || 0) }),
         ]),
         el('div', { class: 'row row--between' }, [
-          el('span', { class: 'small muted', text: 'eSIM' }),
+          el('span', { class: 'small muted', text: t('settings.account.esims') }),
           el('span', { class: 'small tabular', text: String((me.counts && me.counts.esims) || 0) }),
         ]),
       ]));
     }
+  }
+
+  /**
+   * The RU/EN control.
+   *
+   * `.segmented`, because `mini.css` states the rule outright: "one idiom for
+   * 'pick one of these', not two". It is the same component the payment method
+   * uses, driven the same way — and it is built INLINE rather than as a bottom
+   * sheet on purpose: `openSheet` closes whatever sheet is open first, and
+   * there is exactly one of those, so a language sheet raised over the
+   * disconnect confirmation would leave that confirmation's promise pending
+   * forever and the flow dead.
+   *
+   * The two labels are endonyms — «Русский» and "English" — so they are
+   * identical in both dictionaries and the control does not rewrite itself
+   * under the finger that just used it. `.segmented` is `1fr 1fr`, so neither
+   * label can widen a cell either.
+   *
+   * `aria-checked` is passed as a STRING. `el()` drops an attribute whose value
+   * is `false`, so the unselected option would otherwise ship with no state at
+   * all and a screen reader would announce a radio that is neither on nor off.
+   */
+  function languageOption(code, label) {
+    return el('button', {
+      type: 'button', class: 'segmented__opt', 'data-lang': code,
+      role: 'radio', 'aria-checked': String(code === I.lang()),
+      text: label,
+      onclick: () => {
+        if (code === I.lang()) return;
+        haptic('light');
+        I.setLang(code);
+      },
+    });
+  }
+
+  function languagePicker() {
+    // Both keys spelled out rather than built from the code. A key assembled at
+    // runtime cannot be found by the check that every key the app asks for
+    // exists — and the failure mode of that check is somebody deleting a live
+    // key to make it green.
+    return el('div', {
+      class: 'segmented', id: 'settings-language',
+      role: 'radiogroup', 'aria-label': t('settings.language.section'),
+    }, [
+      languageOption('ru', t('settings.language.ru')),
+      languageOption('en', t('settings.language.en')),
+    ]);
   }
 
   /**
@@ -1542,7 +1636,7 @@
         haptic('light');
       } catch {
         input.checked = !want;
-        toast('Не удалось сохранить. Попробуйте ещё раз.');
+        toast(t('settings.notify.saveFailed'));
       } finally {
         input.disabled = false;
       }
@@ -1569,26 +1663,59 @@
     return el('div', { class: 'card row row--between settings__row' }, [
       el('span', { class: 'card__body' }, [
         el('span', { class: 'card__title', text: m.masked }),
+        // Two keys, not one with an empty date: a merged key would render the
+        // literal «подтверждён {date}» on a row whose date never arrived.
         el('span', { class: 'card__meta', text: m.verified_at
-          ? `подтверждён ${new Date(m.verified_at).toLocaleDateString('ru-RU')}`
-          : 'подтверждён' }),
+          ? t('settings.email.verifiedAt', { date: I.formatDate(m.verified_at) })
+          : t('settings.email.verified') }),
       ]),
       el('button', {
-        class: 'btn btn--quiet settings__act', text: 'Отключить',
-        onclick: async () => {
-          const ok = await confirmSheet(
-            'Отключить этот адрес? Покупки, которые уже добавлены, останутся — '
-            + 'новые с этого адреса просто перестанут появляться сами.',
-            { confirmText: 'Отключить' }
-          );
-          if (!ok) return;
+        class: 'btn btn--quiet settings__act', text: t('settings.email.disconnect'),
+        /**
+         * ONE revoke per intention, and the guard goes on BEFORE the question,
+         * not after it.
+         *
+         * Two separate windows were open here. The obvious one is the request:
+         * the sheet closes on «Отключить», `revokeEmail` is in flight, and the
+         * row's button is live again for as long as that takes — a second tap
+         * asks the server to revoke the same address twice.
+         *
+         * The other one is worse and is the reason the guard is not simply
+         * wrapped around the request. There is exactly ONE sheet element in
+         * this file, and `openSheet` closes whatever is open before it opens
+         * anything. A second entry into this handler while the first
+         * confirmation is still up therefore tears out the DOM the first
+         * `confirmSheet` promise is waiting on — and that promise resolves only
+         * from a click inside its own sheet, so it never settles and this
+         * `await` never returns. The scrim stops a finger from doing it; a
+         * keyboard cannot be stopped that way, because focus is not trapped.
+         *
+         * `disabled` rather than a flag: it is also what tells the customer,
+         * and `.btn[disabled]` already dims it without changing its width — the
+         * width being the thing this row has a budget for.
+         */
+        onclick: async (event) => {
+          const btn = event.currentTarget;
+          if (btn.disabled) return;
+          btn.disabled = true;
+
           try {
+            const ok = await confirmSheet(
+              t('settings.email.disconnectConfirm'),
+              { confirmText: t('settings.email.disconnectAction') }
+            );
+            if (!ok) return;
+
             await api.revokeEmail(m.id);
             haptic('light');
             notifySuccess();
+            // Replaces this row entirely, so the re-enable below lands on a
+            // node nobody can see any more. That is the intended end state.
             await renderSettings();
           } catch {
-            toast('Не удалось отключить. Попробуйте ещё раз.');
+            toast(t('settings.email.disconnectFailed'));
+          } finally {
+            btn.disabled = false;
           }
         },
       }),
@@ -1603,9 +1730,12 @@
       'Ответы на частые вопросы — здесь. Всё остальное — живому человеку в поддержке.' }));
 
     box.appendChild(el('div', { class: 'stack' },
-      HELP_TOPICS.map((t) => el('details', { class: 'card sheet' }, [
-        el('summary', { class: 'sheet__head', text: t.q }),
-        el('p', { class: 'small', text: t.a }),
+      // `topic`, not `t`: `t` is the translation function in this file now, and
+      // a loop parameter shadowing it would make a `t('…')` call inside this
+      // callback silently mean something else.
+      HELP_TOPICS.map((topic) => el('details', { class: 'card sheet' }, [
+        el('summary', { class: 'sheet__head', text: topic.q }),
+        el('p', { class: 'small', text: topic.a }),
       ]))));
 
     box.appendChild(el('h2', { class: 'section', text: 'Инструкции по установке' }));
@@ -3278,18 +3408,18 @@
    * resolve false, so the only route to true is a deliberate tap on the
    * confirm button.
    */
-  function confirmSheet(message, { confirmText = 'Продолжить', tone = '' } = {}) {
+  function confirmSheet(message, { confirmText = null, tone = '' } = {}) {
     return new Promise((resolve) => {
       let answered = false;
       const finish = (value) => { if (answered) return; answered = true; closeSheet(); resolve(value); };
 
-      openSheet('Подтвердите', [
+      openSheet(t('common.confirmTitle'), [
         el('p', { class: 'muted', text: message }),
         el('button', {
-          class: `btn btn--wide ${tone}`.trim(), text: confirmText,
+          class: `btn btn--wide ${tone}`.trim(), text: confirmText || t('common.continue'),
           onclick: () => finish(true),
         }),
-        el('button', { class: 'btn btn--quiet', text: 'Отмена', onclick: () => finish(false) }),
+        el('button', { class: 'btn btn--quiet', text: t('common.cancel'), onclick: () => finish(false) }),
       ]);
 
       // Dismissing by the scrim must answer too, or the promise never settles
@@ -3710,6 +3840,17 @@
   }
 
   async function boot() {
+    // FIRST, before anything is shown. The shell ships its Russian text in the
+    // markup — that is what makes the first paint correct for the language
+    // almost everybody is in, with no flash and no second copy of the copy to
+    // keep in step — and this is the moment it becomes English if it should be.
+    //
+    // Called from here rather than from a DOMContentLoaded listener inside
+    // i18n.js: the order would then depend on which script registered first,
+    // and `boot()` itself has a second entry point for the already-loaded case
+    // that such a listener could never match.
+    applyLanguage();
+
     try {
       if (tg) {
         tg.ready();
@@ -3887,8 +4028,29 @@
     clear(mine);
   }
 
+  /**
+   * Translate the shell, and redraw the one screen that is localized.
+   *
+   * The static markup goes through `I.apply`. The settings body is JS-rendered,
+   * so it is repainted here — from the LAST SERVER ANSWER, never by asking
+   * again: a language is a decision that never left the device, and it must not
+   * cost a request or risk an error notice on a bad gateway minute.
+   *
+   * Nothing else is redrawn, because nothing else is translated yet. When a
+   * screen joins, it joins here.
+   */
+  function applyLanguage() {
+    I.apply(document);
+
+    const settings = $('#screen-settings');
+    if (settings && settings.hasAttribute('data-active') && lastMe) paintSettings(lastMe);
+  }
+
   /** Every listener the app owns, attached once and never dependent on a session. */
   function bindChrome() {
+    // A language change repaints; it never re-fetches and never renavigates.
+    I.onChange(applyLanguage);
+
     // `input`, not `change` or Enter: results must follow the keystroke. No
     // debounce — the whole catalogue is already in memory, the match is a string
     // compare over ~200 rows, and a delay here would be felt as lag rather than
