@@ -259,7 +259,17 @@ function callsTo(state, endsWith) {
  */
 async function overflowingInside(page, selector) {
   return page.$$eval(`${selector} *`, (nodes) => nodes
-    .filter((n) => n.clientWidth > 0 && n.scrollWidth > n.clientWidth + 1)
+    .filter((n) => {
+      if (!(n.clientWidth > 0) || !(n.scrollWidth > n.clientWidth + 1)) return false;
+      // A box that CLIPS on purpose is not evidence of a layout bug. `.hero`
+      // draws a decorative circle at `right: -34px` and hides the overflow, so
+      // its own scrollWidth is the viewport width in BOTH languages — measured,
+      // not assumed. What still matters there is that its CHILDREN fit, and
+      // they are checked in their own right by this same sweep.
+      const style = getComputedStyle(n);
+
+      return style.overflowX !== 'hidden' && style.overflowX !== 'clip';
+    })
     .map((n) => `${n.className || n.tagName} ${n.scrollWidth}>${n.clientWidth}`));
 }
 
