@@ -608,16 +608,30 @@ test('the frozen list covers every Russian key, not just the ones present when i
     // Phase 1 — the language block itself.
     'settings.language.section', 'settings.language.hint',
     'settings.language.ru', 'settings.language.en',
-    // Phase 2 — what to say when a request fails and the server named a code
-    // this build has never heard of. Each is the fallback for ONE screen; the
-    // sentences the server picks BY CODE are not here, they are SERVER_ERRORS
-    // in core.js, because a code is data and t() may never be handed a
-    // computed key.
-    'errors.promoFallback', 'errors.topupTransport', 'errors.topupFallback',
-    'errors.orderFallback', 'errors.codeCheckFallback', 'errors.renameFallback',
+    // Phase 2 — what a screen says when a request failed and the server named
+    // a code this build has never heard of. The sentences the server picks BY
+    // CODE are NOT here: they are SERVER_ERRORS in core.js, because a code is
+    // data and t() may never be handed a computed key.
+    'errors.promoFallback', 'errors.topupTransport',
+    'errors.topupFallback', 'errors.orderFallback',
+    'errors.codeCheckFallback', 'errors.renameFallback',
     'errors.loginFallback',
-    // The eSIM's expiry line, which used to hardcode toLocaleDateString('ru-RU').
-    'esim.validUntil',
+    // Phase 2 — the shell: screens, tabs, and the copy index.html ships so the
+    // first paint is right with no flash. Hooked with data-i18n, which the
+    // markup/dictionary agreement test then keeps honest.
+    'nav.sections', 'nav.home', 'nav.buy',
+    'nav.esims', 'nav.help', 'home.aria',
+    'home.title', 'home.payNote', 'search.placeholder',
+    'search.aria', 'country.aria', 'country.title',
+    'tariff.aria', 'claim.aria', 'claim.title',
+    'help.aria', 'help.title', 'checkout.aria',
+    'checkout.title', 'checkout.emailTitle', 'checkout.emailNote',
+    'checkout.method', 'checkout.sbp', 'checkout.card',
+    'checkout.pay', 'checkout.payNote', 'esims.aria',
+    'esims.title', 'install.aria', 'install.title',
+    'order.aria', 'order.checking', 'topup.aria',
+    'topup.title', 'error.aria', 'loading.aria',
+    'loading.text', 'esim.validUntil',
   ];
 
   assert.deepEqual(

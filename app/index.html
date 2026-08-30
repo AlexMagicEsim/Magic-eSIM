@@ -62,7 +62,7 @@
 
 <main class="app-main">
   <!-- 1. Home ---------------------------------------------------------- -->
-  <section class="screen" id="screen-home" aria-label="Каталог">
+  <section class="screen" id="screen-home" aria-label="Каталог" data-i18n-aria-label="home.aria">
     <!-- The hero is one composition rather than three stacked elements.
          Before this, the logo sat alone at the top-left of a white page and
          read as a stray asset above unrelated text. The panel is what makes
@@ -76,7 +76,7 @@
            moves. -->
       <img class="brand brand--sm" src="../assets/magic-esim-logo-header.png"
            alt="Magic eSIM" width="185" height="140" fetchpriority="high">
-      <h1>Интернет в поездке</h1>
+      <h1 data-i18n="home.title">Интернет в поездке</h1>
       <!-- The brand line, in English on purpose: it is the slogan, not a
            translated sentence. `lang` is set so a screen reader switches voice
            instead of reading it phonetically in Russian. -->
@@ -107,7 +107,7 @@
              accessible name stays "Поиск страны" — that is what the control
              DOES, and it is what a screen reader should say. -->
         <input id="search" type="search" inputmode="search" autocomplete="off"
-               placeholder="Куда едете?" aria-label="Поиск страны">
+               placeholder="Куда едете?" data-i18n-placeholder="search.placeholder" aria-label="Поиск страны" data-i18n-aria-label="search.aria">
         <!-- After the input, so `input:focus + .search__icon` can reach it.
              Decorative: the field already has an accessible name, and a second
              announcement of "search" would only repeat it. -->
@@ -130,13 +130,13 @@
     <div id="home-countries" class="stack"></div>
 
     <p class="small muted gap-top-lg">
-      Цены в рублях. Оплата картой или через СБП.
+      <span data-i18n="home.payNote">Цены в рублях. Оплата картой или через СБП.</span>
     </p>
   </section>
 
   <!-- 2. Country ------------------------------------------------------- -->
-  <section class="screen" id="screen-country" aria-label="Тарифы страны">
-    <h1 id="country-title">Тарифы</h1>
+  <section class="screen" id="screen-country" aria-label="Тарифы страны" data-i18n-aria-label="country.aria">
+    <h1 id="country-title" data-i18n="country.title">Тарифы</h1>
     <div id="country-list" class="stack"></div>
   </section>
 
@@ -144,15 +144,15 @@
        §9 S3: the last screen before money changes hands. It answers from the
        package already in memory — no request — and its job is to remove the
        remaining doubts rather than to list every field we happen to hold. -->
-  <section class="screen" id="screen-tariff" aria-label="Тариф">
+  <section class="screen" id="screen-tariff" aria-label="Тариф" data-i18n-aria-label="tariff.aria">
     <div id="tariff-body" class="stack"></div>
   </section>
 
   <!-- 2b2. Purchases made on the website (S13) --------------------------
        Proving an address belongs to the person holding this session, so the
        purchases behind it can be shown here. Five steps, customer's words. -->
-  <section class="screen" id="screen-claim" aria-label="Покупки с сайта">
-    <h1 id="claim-title">Покупки с сайта</h1>
+  <section class="screen" id="screen-claim" aria-label="Покупки с сайта" data-i18n-aria-label="claim.aria">
+    <h1 id="claim-title" data-i18n="claim.title">Покупки с сайта</h1>
     <div id="claim-body" class="stack"></div>
   </section>
 
@@ -160,8 +160,8 @@
        §9 S11: the Mini App runs no chat of its own — the client bot already
        has AI answers, escalation and an operator bridge. This screen answers
        what can be answered without a person, and hands over what cannot. -->
-  <section class="screen" id="screen-help" aria-label="Помощь">
-    <h1>Помощь</h1>
+  <section class="screen" id="screen-help" aria-label="Помощь" data-i18n-aria-label="help.aria">
+    <h1 data-i18n="help.title">Помощь</h1>
     <div id="help-body" class="stack"></div>
   </section>
 
@@ -176,8 +176,8 @@
   </section>
 
   <!-- 3. Checkout ------------------------------------------------------ -->
-  <section class="screen" id="screen-checkout" aria-label="Оформление">
-    <h1>Оформление</h1>
+  <section class="screen" id="screen-checkout" aria-label="Оформление" data-i18n-aria-label="checkout.aria">
+    <h1 data-i18n="checkout.title">Оформление</h1>
     <div id="checkout-summary" class="stack"></div>
 
     <!-- Promo. Collapsed by default: most purchases have no code, and a field
@@ -186,26 +186,26 @@
          backend says promo codes are off. -->
     <div id="checkout-promo" class="stack"></div>
 
-    <h2>E-mail для eSIM</h2>
+    <h2 data-i18n="checkout.emailTitle">E-mail для eSIM</h2>
     <div class="search search--static">
       <!-- type=email for the right keyboard; validation is still done in JS and
            again on the server, because a browser hint is not a guarantee. -->
       <input id="checkout-email" type="email" inputmode="email" autocomplete="email"
              placeholder="you@example.com" aria-label="E-mail">
     </div>
-    <p class="small muted">Отправим QR-код и данные установки на этот адрес.</p>
+    <p class="small muted" data-i18n="checkout.emailNote">Отправим QR-код и данные установки на этот адрес.</p>
 
-    <h2>Способ оплаты</h2>
+    <h2 data-i18n="checkout.method">Способ оплаты</h2>
     <!-- §9 S4 lists the payment method as REQUIRED and offers exactly two. The
          app had neither control nor display: it sent payment_type:'card'
          hard-coded, which is both an invisible default and the dearer of the
          two rails (card 9.5% against SBP 8.5%). SBP is first and selected,
          matching the website's own selector. -->
-    <div class="segmented" id="checkout-methods" role="radiogroup" aria-label="Способ оплаты">
+    <div class="segmented" id="checkout-methods" role="radiogroup" aria-label="Способ оплаты" data-i18n-aria-label="checkout.method">
       <button type="button" class="segmented__opt" data-method="sbp"
-              role="radio" aria-checked="true">СБП</button>
+              role="radio" aria-checked="true" data-i18n="checkout.sbp">СБП</button>
       <button type="button" class="segmented__opt" data-method="card"
-              role="radio" aria-checked="false">Карта</button>
+              role="radio" aria-checked="false" data-i18n="checkout.card">Карта</button>
     </div>
 
     <div id="checkout-error"></div>
@@ -221,15 +221,15 @@
       <span class="small">Я принимаю <a href="https://magicesim.store/terms.html" target="_blank" rel="noopener">оферту</a> и <a href="https://magicesim.store/privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span>
     </label>
 
-    <button id="checkout-pay" class="btn" disabled>Оплатить</button>
+    <button id="checkout-pay" class="btn" data-i18n="checkout.pay" disabled>Оплатить</button>
     <p class="small muted gap-top-sm">
-      Оплата откроется в браузере. После оплаты вернитесь в Telegram — eSIM появится в «Мои eSIM».
+      <span data-i18n="checkout.payNote">Оплата откроется в браузере. После оплаты вернитесь в Telegram — eSIM появится в «Мои eSIM».</span>
     </p>
   </section>
 
   <!-- 4. My eSIMs ------------------------------------------------------ -->
-  <section class="screen" id="screen-esims" aria-label="Мои eSIM">
-    <h1>Мои eSIM</h1>
+  <section class="screen" id="screen-esims" aria-label="Мои eSIM" data-i18n-aria-label="esims.aria">
+    <h1 data-i18n="esims.title">Мои eSIM</h1>
     <div id="esims-list" class="stack"></div>
   </section>
 
@@ -239,8 +239,8 @@
   </section>
 
   <!-- 6. Installation -------------------------------------------------- -->
-  <section class="screen" id="screen-install" aria-label="Установка">
-    <h1>Установка</h1>
+  <section class="screen" id="screen-install" aria-label="Установка" data-i18n-aria-label="install.aria">
+    <h1 data-i18n="install.title">Установка</h1>
     <div id="install-body" class="stack"></div>
   </section>
 
@@ -249,8 +249,8 @@
        exist. A real purchase on 2026-08-18 paid successfully and the customer
        had nowhere to land: the money had gone and the app showed a catalogue.
   -->
-  <section class="screen" id="screen-order" aria-label="Статус заказа">
-    <h1 id="order-title">Проверяем оплату</h1>
+  <section class="screen" id="screen-order" aria-label="Статус заказа" data-i18n-aria-label="order.aria">
+    <h1 id="order-title" data-i18n="order.checking">Проверяем оплату</h1>
     <div id="order-body" class="stack"></div>
   </section>
 
@@ -261,22 +261,22 @@
        read as «проверяем», never as «не удалось». A customer told a top-up
        failed while it may be on their eSIM buys a second one.
   -->
-  <section class="screen" id="screen-topup" aria-label="Статус пополнения">
-    <h1 id="topup-title">Пополнение</h1>
+  <section class="screen" id="screen-topup" aria-label="Статус пополнения" data-i18n-aria-label="topup.aria">
+    <h1 id="topup-title" data-i18n="topup.title">Пополнение</h1>
     <div id="topup-body" class="stack"></div>
   </section>
 
   <!-- 7. Error / outside Telegram -------------------------------------- -->
-  <section class="screen" id="screen-error" aria-label="Ошибка"></section>
+  <section class="screen" id="screen-error" aria-label="Ошибка" data-i18n-aria-label="error.aria"></section>
 
   <!-- Shown from the first frame, before the session round-trip. Until R-44 the
        app rendered nothing at all while that request was in flight, so a cold
        gateway looked identical to a broken app. -->
-  <section class="screen" id="screen-loading" aria-label="Загрузка" data-active>
+  <section class="screen" id="screen-loading" aria-label="Загрузка" data-i18n-aria-label="loading.aria" data-active>
     <div class="empty stack">
       <img class="brand brand--lg" src="../assets/magic-esim-logo-header.png"
            alt="Magic eSIM" width="185" height="140" fetchpriority="high">
-      <p class="muted">Подключаемся…</p>
+      <p class="muted" data-i18n="loading.text">Подключаемся…</p>
     </div>
   </section>
 </main>
@@ -290,22 +290,22 @@
      'self' blocks a style ATTRIBUTE (this is what broke the nav on iPhone in
      R-44), but fill/stroke are not style, and an inline <svg> needs no request.
      Each tab keeps its label: an icon alone is a guess. -->
-<nav class="tabbar" role="tablist" aria-label="Разделы">
+<nav class="tabbar" role="tablist" aria-label="Разделы" data-i18n-aria-label="nav.sections">
   <button id="nav-home" class="tab" role="tab" aria-selected="true">
     <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>
-    <span class="tab__t">Главная</span>
+    <span class="tab__t" data-i18n="nav.home">Главная</span>
   </button>
   <button id="nav-buy" class="tab" role="tab" aria-selected="false">
     <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-    <span class="tab__t">Купить</span>
+    <span class="tab__t" data-i18n="nav.buy">Купить</span>
   </button>
   <button id="nav-esims" class="tab" role="tab" aria-selected="false">
     <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M9.5 7.5h5M9.5 11h5"/><circle cx="12" cy="16.5" r="1.2"/></svg>
-    <span class="tab__t">Мои eSIM</span>
+    <span class="tab__t" data-i18n="nav.esims">Мои eSIM</span>
   </button>
   <button id="nav-help" class="tab" role="tab" aria-selected="false">
     <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.3 2.4c-.6.2-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r="1.1" fill="currentColor" stroke="none"/></svg>
-    <span class="tab__t">Помощь</span>
+    <span class="tab__t" data-i18n="nav.help">Помощь</span>
   </button>
 </nav>
 
@@ -322,7 +322,7 @@
      DOMContentLoaded listener — boot() calls apply() itself, so the moment the
      shell is translated is stated in the code rather than inferred from which
      script's listener was registered first. -->
-<script src="locales.js?v=4ab041ea"></script>
+<script src="locales.js?v=24a323d9"></script>
 <script src="i18n.js?v=852a0bb6"></script>
 <script src="core.js?v=0036eaf1"></script>
 <script src="ui.js?v=f34e2f60"></script>
