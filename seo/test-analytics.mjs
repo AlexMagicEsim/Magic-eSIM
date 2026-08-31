@@ -436,6 +436,32 @@ test('404.html counts not-found but never a private payment link', () => {
     'a head-level counter would send the payment URL to Metrika');
 });
 
+test('a MALFORMED /pay/ path is a 404 that still never reaches the counter', () => {
+  // The gap this closes, found 2026-08-31. The counter was kept off every
+  // branch that PARSES as a payment route, but a /pay/ URL whose token does not
+  // parse — autocorrected, truncated, mistyped — fell through to the plain
+  // not-found branch and took the full URL to Metrika with it. One real URL did
+  // exactly that (a hyphen turned into U+2013, one substitution from valid) and
+  // reached Yandex's crawler through counter-based crawling.
+  //
+  // So the guard is the PREFIX, not the parse.
+  const s = read('404.html');
+  const routing = s.slice(s.indexOf('// --- routing'));
+
+  // There must be a branch that matches the /pay/ prefix generically and shows
+  // a 404 without the counter, and it must come BEFORE the final else.
+  const guard = routing.indexOf("/^\\/pay\\//.test(path)");
+  assert.ok(guard > 0, 'no generic /pay/ prefix branch guards the counter');
+
+  const finalElse = routing.lastIndexOf('loadMetrika();');
+  assert.ok(guard < finalElse, 'the /pay/ guard must precede the counting branch');
+
+  // And nothing between the guard and the final else may load the counter.
+  const between = routing.slice(guard, finalElse);
+  assert.equal((between.match(/loadMetrika\(/g) || []).length, 0,
+    'the /pay/ guard branch must not load the counter');
+});
+
 // ---------------------------------------------------------------------------
 // Страница «Оплата рублями»: подтверждение региона для Яндекс Вебмастера
 // ---------------------------------------------------------------------------

@@ -594,6 +594,24 @@ body{
       else { loadLink(m[1]); }
     } else if(/^\/pay\/?$/.test(path)){
       showUnavailable();
+    } else if(/^\/pay\//.test(path)){
+      // A MALFORMED payment path: the right prefix, but the rest does not parse
+      // as a token — mangled by an autocorrecting client, truncated, or mistyped.
+      // It is a genuine 404 and is shown as one, but it must NOT reach the
+      // counter, because the URL still carries a near-copy of a capability.
+      //
+      // This is not hypothetical. One such URL — a link whose hyphen had been
+      // autocorrected into an EN DASH (U+2013), one substitution away from a
+      // valid token — fell through to the branch below on 2026-08, was sent to
+      // Metrika as page-url with Webvisor on, and was picked up from there by
+      // Yandex's counter-based crawl: it appears in Webmaster, fetched three
+      // times. Every fetch returned 404 and nothing was ever indexed, but a
+      // near-copy of a payment path reached a third party, which is exactly what
+      // the rule above this block exists to prevent.
+      //
+      // The invariant is therefore the prefix, not the parse: NOTHING under
+      // /pay/ loads the counter, valid or not.
+      showNotFound();
     } else {
       showNotFound();
       loadMetrika();
