@@ -18,6 +18,7 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
+import { purchasablePrice, isRussia, isRestricted, isGlobal } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const SHEET = join(ROOT, 'seo/fact-sheets.json');
@@ -36,7 +37,17 @@ export async function buildFactSheets() {
   const byCountry = new Map();
   for (const p of packages) {
     const cov = coverage(p);
-    const retail = num(p.retail_price_rub);
+    // The PURCHASABLE price, not the raw field. For a PER_DAY plan
+    // retail_price_rub is a per-day RATE and one day is not sold — the cheapest
+    // term is three days. Building the sheet from rates made it disagree with
+    // the pages: a description quoting the real daily floor was reported as
+    // «факт вне каталога», because that floor could not exist in a sheet made of
+    // rates. Same bug catalogue-source.mjs carried until 497f3de, same fix, same
+    // shared helper — so the checker and the page now agree by construction.
+    const retail = purchasablePrice(p);
+    // And the same visibility rules the grid renders by, so the sheet cannot
+    // bless a number no customer will ever be shown.
+    if (isRussia(p) || isRestricted(p) || isGlobal(p)) continue;
     if (!cov.length || retail === null || retail <= 0) continue;
     const t = {
       data_gb: num(p.data_gb),
