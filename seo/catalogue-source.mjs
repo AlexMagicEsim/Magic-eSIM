@@ -89,6 +89,27 @@ export async function fetchCatalogueCountries() {
     const meta = COUNTRY_NAMES[iso];
     if (!meta) { unnamed.push(iso); continue; }
     const f = countryFacts(packages, iso);
+    // A page for a country whose grid renders NOTHING is a soft 404 with a
+    // commercial title. Four existed: RU, BY, UA and VI — each 200, indexable,
+    // in the sitemap, in the hub, linked from five neighbours, and never once in
+    // search. Their H1 offered «eSIM для поездки» for a destination with nothing
+    // to sell, and their FAQ structured data promised regional tariffs «показаны
+    // ниже» above an empty block.
+    //
+    // The rule is the CONDITION, not a list of those four slugs. RU/UA/BY are
+    // empty precisely because RESTRICTED_COUNTRY_CODES strips them, so the
+    // policy is already enforced once in country-tariffs.js and once in its port;
+    // writing the same three codes here would be a third copy, and three copies
+    // of a policy drift. VI is not policy at all — it is empty because its only
+    // two covering packages are 173-country world plans that isRussiaPackage
+    // drops on a region token. Same symptom, different cause, same correct
+    // outcome today.
+    //
+    // Self-healing in one direction only, and deliberately: a country that
+    // becomes sellable reappears on the next build, but a build is a hand-run
+    // command. seo/test-catalogue-sync.mjs asserts the mapping in BOTH
+    // directions so a returning country is a red build rather than a silent 404.
+    if (f.renders_nothing) continue;
     countries.push({
       iso,
       slug: meta.slug,

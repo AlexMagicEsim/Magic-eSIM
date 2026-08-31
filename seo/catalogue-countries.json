@@ -173,21 +173,6 @@
       "renders_nothing": false
     },
     {
-      "iso": "VI",
-      "slug": "us-virgin-islands",
-      "nameRu": "Американские Виргинские острова",
-      "flagEmoji": "🇻🇮",
-      "local_count": 0,
-      "regional_count": 0,
-      "daily_count": 0,
-      "total_count": 0,
-      "min_price_rub": null,
-      "volumes": [],
-      "daily_gb": [],
-      "strategy": "REGIONAL",
-      "renders_nothing": true
-    },
-    {
       "iso": "AI",
       "slug": "anguilla",
       "nameRu": "Ангилья",
@@ -496,21 +481,6 @@
       ],
       "strategy": "LOCAL",
       "renders_nothing": false
-    },
-    {
-      "iso": "BY",
-      "slug": "belarus",
-      "nameRu": "Беларусь",
-      "flagEmoji": "🇧🇾",
-      "local_count": 0,
-      "regional_count": 0,
-      "daily_count": 0,
-      "total_count": 0,
-      "min_price_rub": null,
-      "volumes": [],
-      "daily_gb": [],
-      "strategy": "REGIONAL",
-      "renders_nothing": true
     },
     {
       "iso": "BZ",
@@ -3816,21 +3786,6 @@
       "renders_nothing": false
     },
     {
-      "iso": "RU",
-      "slug": "russia",
-      "nameRu": "Россия",
-      "flagEmoji": "🇷🇺",
-      "local_count": 0,
-      "regional_count": 0,
-      "daily_count": 0,
-      "total_count": 0,
-      "min_price_rub": null,
-      "volumes": [],
-      "daily_gb": [],
-      "strategy": "REGIONAL",
-      "renders_nothing": true
-    },
-    {
       "iso": "RW",
       "slug": "rwanda",
       "nameRu": "Руанда",
@@ -4773,21 +4728,6 @@
       "renders_nothing": false
     },
     {
-      "iso": "UA",
-      "slug": "ukraine",
-      "nameRu": "Украина",
-      "flagEmoji": "🇺🇦",
-      "local_count": 0,
-      "regional_count": 0,
-      "daily_count": 0,
-      "total_count": 0,
-      "min_price_rub": null,
-      "volumes": [],
-      "daily_gb": [],
-      "strategy": "REGIONAL",
-      "renders_nothing": true
-    },
-    {
       "iso": "UY",
       "slug": "uruguay",
       "nameRu": "Уругвай",
@@ -5515,6 +5455,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-08-31T14:37:19.869Z",
+  "fetched_at": "2026-08-31T16:07:54.283Z",
   "source": "https://origin.magicesim.store/api/v1/packages?limit=3000"
 }

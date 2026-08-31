@@ -135,19 +135,68 @@ test('C3: no page advertises tariffs it no longer has', () => {
 // --------------------------------------------------------------------------
 // C4 — internal consistency, and pages that would render nothing
 // --------------------------------------------------------------------------
-test('C4b: a page that would render an empty grid does not promise tariffs', () => {
-  // Four pages were in this state: every package covering them is dropped by the
-  // runtime's own filters, so the grid shows «тарифы не найдены» under a
-  // description promising N tariffs from N ₽.
+test('C4b: no page exists for a country whose grid would render nothing', () => {
+  // This replaces an earlier form that iterated the PAGES and skipped anything
+  // not `renders_nothing`. Once such pages stopped existing, that loop examined
+  // zero rows and passed having checked nothing — a detector that cannot fail.
+  //
+  // The four that were in this state — russia, belarus, ukraine,
+  // us-virgin-islands — were 200, indexable, in the sitemap, in the hub, linked
+  // from five neighbours each, and had never once appeared in search. Their H1
+  // offered «eSIM для поездки» for a destination with nothing to sell.
   const bad = [];
-  for (const { slug, iso, html } of PAGES) {
-    const f = countryFacts(PK, iso);
-    if (!f.renders_nothing) continue;
-    if (MONEY.test(html)) bad.push(`${slug}: renders nothing, yet quotes a price`);
-    const m = html.match(FACTS);
-    if (m && (m[1] || m[2] || m[3])) bad.push(`${slug}: renders nothing, yet claims a tariff count`);
+  for (const { slug, iso } of PAGES) {
+    if (countryFacts(PK, iso).renders_nothing) bad.push(`${slug} (${iso}): page exists but its grid would be empty`);
   }
   assert.deepEqual(bad, [], bad.join('\n'));
+});
+
+test('C4b mirror: every sellable country HAS a page, and no other country does', () => {
+  // The other direction, and the one that makes the rule self-healing in a repo
+  // with no build step. Removal is automatic — the snapshot drops the country and
+  // the page, hub card, sitemap entry and neighbour links go with it. RESTORATION
+  // is not: assets/catalog.json is refreshed by a bot six times a day, but
+  // seo/catalogue-countries.json is only rewritten when a person runs
+  // fetch-catalogue.mjs.
+  //
+  // So if a country becomes sellable again — VI would, if isRussiaPackage's
+  // region-token clause were ever narrowed — nothing else would notice. This
+  // assertion turns that into a red build with a named country instead of a page
+  // that stays 404 until someone happens to rebuild.
+  const sellable = new Set();
+  for (const p of PK) {
+    for (const iso of (p.coverage_country_codes || [])) {
+      if (!/^[A-Z]{2}$/.test(String(iso))) continue;
+      if (!countryFacts(PK, iso).renders_nothing) sellable.add(String(iso).toUpperCase());
+    }
+  }
+  const have = new Set(PAGES.map((x) => x.iso));
+
+  const snap = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8'));
+  const named = new Set(snap.countries.map((c) => c.iso));
+
+  // Only countries the snapshot names can have a page at all — an unnamed ISO or
+  // one on the NO_PAGE list is a separate, deliberate exclusion.
+  const missing = [...sellable].filter((iso) => named.has(iso) && !have.has(iso));
+  const extra = [...have].filter((iso) => !sellable.has(iso));
+
+  assert.deepEqual(missing, [], `sellable countries with no page: ${missing.join(', ')} — run seo/build-all.mjs`);
+  assert.deepEqual(extra, [], `pages for countries that sell nothing: ${extra.join(', ')}`);
+});
+
+test('C5: no orphaned country directory survives a removal', () => {
+  // build-catalogue-pages.mjs only ever mkdir + writeFile — there is no rm
+  // anywhere in seo/. A country dropped from the snapshot keeps its directory,
+  // keeps 200, keeps index/follow and its self-canonical, and becomes an
+  // unreachable indexable page: worse than before it was removed. Deletion has
+  // to be explicit, and this is what notices when it was not.
+  const snap = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8'));
+  const known = new Set(snap.countries.map((c) => c.slug));
+  const guides = new Set(['compatibility', 'activation-before-travel', 'not-working', 'dual-sim-sms', 'payment-rubles']);
+  const orphans = readdirSync(join(ROOT, 'esim'))
+    .filter((d) => existsSync(join(ROOT, 'esim', d, 'index.html')))
+    .filter((d) => !known.has(d) && !guides.has(d));
+  assert.deepEqual(orphans, [], `orphaned page directories: ${orphans.join(', ')}`);
 });
 
 // --------------------------------------------------------------------------

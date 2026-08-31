@@ -74,9 +74,19 @@ function faq(c) {
         + `именно для этой страны. Они показаны первым блоком на этой странице.`,
     });
   } else {
+    // The old text asserted «Доступны региональные тарифы… они показаны ниже»
+    // whenever there were no local ones — an `else` that assumed the regional
+    // block could not also be empty. On four pages it could, and the claim went
+    // out in the visible FAQ AND in FAQPage structured data: a machine-readable
+    // statement that tariffs are shown below an empty grid. Answer what is
+    // actually true instead of what is usually true.
     items.push({
       q: `${c.nameRu} — есть ли локальные тарифы?`,
-      a: `Локальных тарифов для этой страны сейчас нет. Доступны региональные тарифы, покрытие которых включает эту страну — они показаны ниже.`,
+      a: c.regional_count > 0
+        ? `Локальных тарифов для этой страны сейчас нет. Доступны региональные тарифы, покрытие которых включает эту страну — они показаны ниже.`
+        : c.daily_count > 0
+          ? `Локальных и региональных тарифов для этой страны сейчас нет. Доступны тарифы с оплатой за день — они показаны ниже.`
+          : `Тарифов с покрытием этой страны сейчас нет. Посмотрите другие направления в каталоге.`,
     });
   }
   if (c.regional_count > 0) {
