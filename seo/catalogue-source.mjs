@@ -15,10 +15,22 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES, flagEmoji } from './country-names.mjs';
+import { countryFacts } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const CACHE = join(ROOT, 'seo/catalogue-countries.json');
 const API = process.env.CATALOG_API || 'https://origin.magicesim.store/api/v1/packages?limit=3000';
+
+// Codes the catalogue can carry but that must never become a page.
+//
+// AN — Netherlands Antilles, a country dissolved in 2010. Two Caribbean daily
+// packages still list the deprecated code in their coverage, so it arrives here
+// looking like any other destination and would quietly gain /esim/netherlands-
+// antilles/ on the next build. It stays in COUNTRY_NAMES on purpose: the runtime
+// needs the Russian name so a package's coverage list does not print a bare
+// "AN" at a customer. Naming a place and selling a page about it are different
+// decisions, and this is the line between them.
+const NO_PAGE = new Set(['AN']);
 
 const num = (v) => {
   const n = Number(v);
@@ -54,30 +66,52 @@ export async function fetchCatalogueCountries() {
     }
   }
 
+  // EVERY number below comes from seo/catalogue-facts.mjs, which derives them
+  // the way assets/country-tariffs.js does — not the way this file used to.
+  //
+  // What used to be here counted each package whose coverage array named the
+  // country, and priced the country off the raw `retail_price_rub`. Both were
+  // wrong, and wrong in ways that reached customers:
+  //
+  //   * the count included Russia rows, global rows and daily plans, none of
+  //     which the grid puts in the local/regional blocks. 198 of 202 pages
+  //     printed a hero that contradicted the grid underneath it;
+  //   * the price took a PER_DAY rate as if it were purchasable. One day is not
+  //     sold; the cheapest term is three. A refresh with the old rule would have
+  //     advertised a bait price on 194 of 203 countries.
+  //
+  // Keep the derivation in ONE place. Two implementations of "what does this
+  // country have" is exactly what produced the contradiction.
   const countries = [];
   const unnamed = [];
-  for (const [iso, e] of byCountry) {
+  for (const iso of [...byCountry.keys()].sort()) {
+    if (NO_PAGE.has(iso)) continue;
     const meta = COUNTRY_NAMES[iso];
     if (!meta) { unnamed.push(iso); continue; }
-    const all = [...e.local, ...e.regional];
-    const prices = all.map((x) => x.retail_price_rub).filter((x) => x !== null);
-    const volumes = [...new Set(all.map((x) => x.data_gb).filter((x) => x !== null))].sort((a, b) => a - b);
+    const f = countryFacts(packages, iso);
     countries.push({
       iso,
       slug: meta.slug,
       nameRu: meta.ru,
       flagEmoji: flagEmoji(iso),
-      local_count: e.local.length,
-      regional_count: e.regional.length,
-      total_count: all.length,
-      // "от N ₽" on the hub. Null when nothing has a price, which cannot
-      // happen here but is stated rather than defaulted to zero.
-      min_price_rub: prices.length ? Math.min(...prices) : null,
-      volumes,
-      // LOCAL when the country has at least one single-country tariff, and the
-      // page leads with them. REGIONAL when it does not — the page says so in
-      // as many words rather than showing an empty block.
-      strategy: e.local.length > 0 ? 'LOCAL' : 'REGIONAL',
+      local_count: f.local_count,
+      regional_count: f.regional_count,
+      // Daily plans are counted, and counted SEPARATELY. They are half the
+      // catalogue and the page renders them in a block of their own with its
+      // own counter — folding them into local/regional would put a number in
+      // the hero that disagrees with the number directly below it.
+      daily_count: f.daily_count,
+      total_count: f.total_shown,
+      // The cheapest amount a customer can actually pay — min over term prices
+      // for a daily plan, never the per-day rate. Null when the page would
+      // render nothing at all, which is true of four countries today.
+      min_price_rub: f.min_price_rub,
+      volumes: f.volumes,
+      // Per-day allowances, kept apart from `volumes` because «1 ГБ в день» and
+      // «1 ГБ всего» are not two values of one quantity.
+      daily_gb: f.daily_gb,
+      strategy: f.strategy,
+      renders_nothing: f.renders_nothing,
     });
   }
   countries.sort((a, b) => a.nameRu.localeCompare(b.nameRu, 'ru'));

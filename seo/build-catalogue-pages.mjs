@@ -92,6 +92,13 @@ function faq(c) {
       a: `Сейчас доступны тарифы на ${volumeText}. Точный срок действия указан в карточке каждого тарифа.`,
     });
   }
+  if (c.daily_count > 0) {
+    items.push({
+      q: `${c.nameRu} — есть ли тарифы с оплатой за день?`,
+      a: `Да, сейчас таких ${c.daily_count}. У них платится не объём, а срок: вы выбираете, на сколько дней нужен интернет, `
+        + `а дневной лимит трафика обновляется каждые сутки. Минимальный срок и цена указаны в карточке каждого тарифа.`,
+    });
+  }
   if (c.min_price_rub !== null) {
     items.push({
       q: `${c.nameRu} — сколько стоит eSIM?`,
@@ -118,11 +125,28 @@ function page(c, all, profile) {
   // (Перу, Монако, Гаити) and for the irregular fleeting vowels. A profile may
   // override any of these with a properly declined sentence.
   const title = p.title || `${c.nameRu} — eSIM с оплатой рублями | Magic eSIM`;
-  const desc = p.description ? p.description : c.local_count > 0
+  // Daily plans are COUNTED, and counted as their own number.
+  //
+  // They are half the catalogue and the page renders them in a block of their
+  // own, with its own counter. Folding them into the local/regional figures
+  // would put a number in the description that disagrees with the number the
+  // grid prints two screens down — which is the defect this whole pass exists
+  // to remove, reintroduced in a new place.
+  const dailyPhrase = c.daily_count
+    ? ` и ${c.daily_count} ${plural(c.daily_count, 'тариф', 'тарифа', 'тарифов')} с оплатой за день`
+    : '';
+  // Four countries render nothing at all: every package covering them is dropped
+  // by the runtime's own filters. Saying "0 региональных тарифов" would be
+  // technically true and useless; saying nothing about tariffs is honest.
+  const desc = p.description ? p.description : c.renders_nothing
+    ? `${c.nameRu} — eSIM Magic eSIM: тарифов с покрытием этой страны сейчас нет. Посмотрите другие направления — оплата рублями, QR-код на почту.`
+    : c.local_count > 0
     ? `${c.nameRu} — eSIM: ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')}`
-      + (c.regional_count ? ` и ${c.regional_count} ${plural(c.regional_count, 'региональный', 'региональных', 'региональных')}` : '')
-      + `${c.min_price_rub !== null ? `, от ${money(c.min_price_rub)} ₽` : ''}. Оплата рублями, QR-код на почту, установка до вылета.`
+      + (c.regional_count ? `, ${c.regional_count} ${plural(c.regional_count, 'региональный', 'региональных', 'региональных')}` : '')
+      + dailyPhrase
+      + `${c.min_price_rub !== null ? `, от ${money(c.min_price_rub)} ₽` : ''}. Оплата рублями, QR-код на почту.`
     : `${c.nameRu} — eSIM: ${c.regional_count} ${plural(c.regional_count, 'региональный тариф', 'региональных тарифа', 'региональных тарифов')} с покрытием этой страны`
+      + dailyPhrase
       + `${c.min_price_rub !== null ? `, от ${money(c.min_price_rub)} ₽` : ''}. Оплата рублями, QR-код на почту.`;
 
   // An editorial "why" block replaces nothing factual — it is added above the
@@ -236,7 +260,7 @@ ${METRIKA}
       <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
       ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n      ') : ''}
       <p class="facts">
-        ${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}
+        ${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.daily_count > 0 ? `С оплатой за день: <b>${c.daily_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}${c.renders_nothing ? 'Тарифов с покрытием этой страны сейчас нет.' : ''}
       </p>
     </section>
 

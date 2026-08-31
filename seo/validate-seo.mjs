@@ -16,8 +16,13 @@ const SITE = 'https://magicesim.store';
 // magicesim.store. They are gitignored, so they exist only on a machine that
 // has installed the browser test runner — which is exactly where this tool is
 // run by hand.
+// `app` is the Telegram Mini App. It is deliberately noindex, has no canonical
+// and no meta description, and is not a web page in the sense the rest of these
+// checks mean. Without it here every run reports 7 criticals that are correct
+// behaviour being flagged as a defect.
 const SKIP_DIRS = new Set(['assets', 'Magic-eSIM-github-2', 'seo', '.git', '.claude',
-  'node_modules', 'test-results', 'playwright-report', 'blob-report', '.playwright-mcp']);
+  'node_modules', 'test-results', 'playwright-report', 'blob-report', '.playwright-mcp',
+  'app']);
 function collect(dir, out = []) {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
@@ -123,7 +128,17 @@ for (const p of pages) {
   const faqLd = flatLd.find((o) => o['@type'] === 'FAQPage');
   if (faqLd) {
     const ldQ = (faqLd.mainEntity || []).map((q) => norm(String(q.name || '')));
-    const visQ = [...h.matchAll(/class="faq-q"[^>]*>([\s\S]*?)<\//g)].map((m) => norm(m[1]));
+    // TWO markup vocabularies coexist and both are current. The legacy generator
+    // (build-country-pages.mjs, 12 countries + the guides) emits
+    // <p class="faq-q">; the catalogue generator (190 pages) emits
+    // <details class="faq-item"><summary>. Matching only the first made this
+    // check silent on 190 of 202 pages while reporting 1141 phantom failures.
+    // ADD the second, never swap — the day one vocabulary wins, the other loses
+    // its check without anyone noticing.
+    const visQ = [
+      ...[...h.matchAll(/class="faq-q"[^>]*>([\s\S]*?)<\//g)].map((m) => norm(m[1])),
+      ...[...h.matchAll(/<summary[^>]*>([\s\S]*?)<\/summary>/g)].map((m) => norm(m[1])),
+    ];
     if (ldQ.length !== visQ.length) {
       warnings.push(`${rel}: FAQ — в разметке ${ldQ.length}, видимых на странице ${visQ.length}`);
     }
@@ -139,7 +154,8 @@ for (const p of pages) {
   const bcLd = flatLd.find((o) => o['@type'] === 'BreadcrumbList');
   if (bcLd) {
     const ldB = (bcLd.itemListElement || []).map((i) => norm(String(i.name || '')));
-    const crumbsHtml = (h.match(/<nav class="crumbs"[\s\S]*?<\/nav>/) || [''])[0];
+    // Same two vocabularies: legacy `crumbs`, catalogue `breadcrumbs`.
+    const crumbsHtml = (h.match(/<nav class="(?:crumbs|breadcrumbs)"[\s\S]*?<\/nav>/) || [''])[0];
     const visB = [...crumbsHtml.matchAll(/>([^<>]+)</g)].map((m) => norm(m[1])).filter(Boolean);
     for (const n of ldB) {
       if (!visB.includes(n)) warnings.push(`${rel}: крошка "${n}" есть в BreadcrumbList, но не видна на странице`);
@@ -147,7 +163,19 @@ for (const p of pages) {
   }
 
   // Local link targets exist (href not starting with http/#/mailto).
-  for (const m of h.matchAll(/href="([^"#]+?)(?:#[^"]*)?"/g)) {
+  //
+  // Two things this must NOT do, both learned the hard way:
+  //
+  //   * treat `?v=` as part of the filename. Every stamped asset carries a
+  //     content hash (seo/asset-version.mjs), which another test REQUIRES, and
+  //     the old pattern had no `?` in its negated class — so it fed
+  //     `country-pages.css?v=90ee3c09` to existsSync and reported 212 broken
+  //     links, one per page. The validator was failing on the presence of a
+  //     feature the test suite mandates.
+  //   * read hrefs out of <script>. 404.html builds an href by string
+  //     concatenation, and the fragment `'+esc(payUrl)+'` is not a path.
+  const body = h.replace(/<script[\s\S]*?<\/script>/g, '');
+  for (const m of body.matchAll(/href="([^"#?]+)(?:\?[^"#]*)?(?:#[^"]*)?"/g)) {
     const href = m[1];
     if (/^(https?:|mailto:|tel:)/.test(href) || href === '') continue;
     // Site-absolute links (/x) resolve against the repo root, not the FS root.
