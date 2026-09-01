@@ -153,11 +153,26 @@ test('no profile claims a daily reset the catalogue does not confirm', () => {
   }
 });
 
-test('the reset flag is the catalogue\'s, not a guess', () => {
+test('the reset flag means ALL daily plans, not merely one', () => {
+  // It used to mean `some`, and that let Oman's page say «лимит обновляется
+  // каждые сутки» about six PER_DAY packages on the strength of four FIXED_TERM
+  // ones. A blanket claim needs blanket evidence.
   for (const [slug, sheet] of Object.entries(SHEETS)) {
-    const real = PK.some((p) => countryFacts([p], sheet.iso).total_shown === 1 && p.daily_reset_confirmed === true);
-    assert.equal(sheet.daily_reset_confirmed, real, `${slug}: флаг сброса разошёлся с каталогом`);
+    const dailies = PK.filter((p) => countryFacts([p], sheet.iso).total_shown === 1 && isDaily(p));
+    const every = dailies.length > 0 && dailies.every((p) => p.daily_reset_confirmed === true);
+    const partial = dailies.some((p) => p.daily_reset_confirmed === true) && !every;
+    assert.equal(sheet.daily_reset_confirmed, every, `${slug}: флаг сброса разошёлся с каталогом`);
+    assert.equal(sheet.daily_reset_partial, partial, `${slug}: флаг частичного подтверждения разошёлся`);
   }
+});
+
+test('no country confirms a nightly reset for every daily plan — so no page may claim one', () => {
+  // Six countries confirm it for SOME of their dailies (Oman among them); none
+  // for all. If that ever changes the assertion below is the place to notice.
+  const all = Object.entries(SHEETS).filter(([, s]) => s.daily_reset_confirmed).map(([k]) => k);
+  const partial = Object.entries(SHEETS).filter(([, s]) => s.daily_reset_partial).map(([k]) => k);
+  assert.deepEqual(all, [], `появились страны с полным подтверждением сброса: ${all.join(', ')}`);
+  assert.ok(partial.length > 0, 'ожидались страны с частичным подтверждением — иначе правило нечего охранять');
 });
 
 test('the reset rule can fail — it fired on real drafts, so it must fire here', () => {

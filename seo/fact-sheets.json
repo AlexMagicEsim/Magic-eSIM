@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-01T07:14:49.872Z",
+  "fetched_at": "2026-09-01T08:36:54.056Z",
   "source": "https://origin.magicesim.store/api/v1/packages?limit=3000",
   "countries": 199,
   "sheets": {
@@ -235,7 +235,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 32,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -466,7 +473,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 30,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -704,7 +718,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 32,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -944,7 +965,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 32,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -1180,7 +1208,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -1417,7 +1452,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -1579,7 +1621,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 16,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 450,
       "min_daily_price_rub": 300
@@ -1812,7 +1860,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 34,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 200
@@ -2051,7 +2106,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 33,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -2209,8 +2271,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 17,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
     },
@@ -2463,7 +2532,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 33,
+      "topup_no": 9,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -2706,7 +2782,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 27,
+      "topup_no": 13,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 300
@@ -2944,7 +3027,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -3108,7 +3198,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 18,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -3245,7 +3342,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 300
@@ -3482,7 +3586,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -3722,7 +3833,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 32,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -3962,7 +4080,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 32,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -4179,7 +4304,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 27,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 300
@@ -4418,7 +4550,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -4659,7 +4798,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 33,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -4896,7 +5042,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -5148,7 +5301,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 35,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -5388,7 +5548,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 32,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -5627,7 +5794,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -5867,7 +6041,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 33,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -6104,7 +6285,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -6243,7 +6431,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -6468,7 +6663,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 26,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 300
@@ -6727,7 +6929,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 35,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -6964,7 +7173,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -7202,7 +7418,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -7460,7 +7683,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 40,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -7698,7 +7928,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -7936,7 +8173,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -8192,7 +8436,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 38,
+      "topup_no": 11,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 350
@@ -8361,7 +8612,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 17,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
       "min_daily_price_rub": 450
@@ -8522,7 +8779,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 500,
       "min_daily_price_rub": 350
@@ -8715,7 +8978,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 24,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 450,
       "min_daily_price_rub": 350
@@ -8970,7 +9239,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 30,
+      "topup_no": 14,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 500,
       "min_daily_price_rub": 350
@@ -9103,7 +9379,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 600,
       "min_daily_price_rub": 400
@@ -9345,7 +9627,15 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 32,
+      "topup_no": 10,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 350
@@ -9612,8 +9902,16 @@
         "network_connection",
         "unknown"
       ],
-      "daily_reset_confirmed": true,
-      "daily_throttle_continues": true,
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 41,
+      "topup_no": 15,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": true,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 350
     },
@@ -9878,8 +10176,16 @@
         "network_connection",
         "unknown"
       ],
-      "daily_reset_confirmed": true,
-      "daily_throttle_continues": true,
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 36,
+      "topup_no": 18,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": true,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 450,
       "min_daily_price_rub": 350
     },
@@ -10051,7 +10357,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 16,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 500,
       "min_daily_price_rub": 350
@@ -10230,7 +10543,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 19,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -10349,7 +10669,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 650,
       "min_daily_price_rub": 450
@@ -10492,7 +10819,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 16,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -10740,7 +11074,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 33,
+      "topup_no": 14,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 350
@@ -10933,7 +11274,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 23,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 450,
       "min_daily_price_rub": 350
@@ -11124,7 +11471,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 24,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 450,
       "min_daily_price_rub": 400
@@ -11316,7 +11669,15 @@
         "installation",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 20,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
       "min_daily_price_rub": 400
@@ -11581,8 +11942,16 @@
         "network_connection",
         "unknown"
       ],
-      "daily_reset_confirmed": true,
-      "daily_throttle_continues": true,
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 39,
+      "topup_no": 17,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": true,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 350
     },
@@ -11733,7 +12102,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -11848,7 +12224,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -11970,7 +12353,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
       "min_daily_price_rub": 400
@@ -12113,7 +12502,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 16,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -12337,7 +12733,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 28,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -12530,8 +12933,16 @@
         "network_connection",
         "unknown"
       ],
-      "daily_reset_confirmed": true,
-      "daily_throttle_continues": true,
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 24,
+      "topup_no": 7,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": true,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 350
     },
@@ -12761,7 +13172,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 29,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -12904,7 +13322,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 16,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -13100,7 +13525,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 20,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 500,
       "min_daily_price_rub": 450
@@ -13320,7 +13752,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 27,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 500,
       "min_daily_price_rub": 350
@@ -13556,7 +13995,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 31,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 400
@@ -13753,7 +14199,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 19,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -13895,7 +14348,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
       "min_daily_price_rub": 350
@@ -14130,7 +14590,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 30,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -14361,7 +14828,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 28,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -14516,7 +14990,14 @@
         "installation",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
       "min_daily_price_rub": 350
@@ -14701,7 +15182,15 @@
         "installation",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 24,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
       "min_daily_price_rub": 400
@@ -14861,7 +15350,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
       "min_daily_price_rub": 350
@@ -14996,7 +15492,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 600,
       "min_daily_price_rub": 350
@@ -15175,7 +15678,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
       "min_daily_price_rub": 400
@@ -15304,7 +15814,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 650,
       "min_daily_price_rub": 400
@@ -15461,7 +15978,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 800,
       "min_daily_price_rub": 550
@@ -15678,7 +16201,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 26,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 550
@@ -15812,7 +16342,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
       "min_daily_price_rub": 500
@@ -16050,7 +16586,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 29,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 800,
       "min_daily_price_rub": 550
@@ -16188,7 +16730,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 750,
       "min_daily_price_rub": 600
@@ -16346,7 +16895,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
       "min_daily_price_rub": 600
@@ -16483,7 +17038,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 900,
       "min_daily_price_rub": 600
@@ -16617,7 +17178,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 600,
       "min_daily_price_rub": 600
@@ -16769,7 +17337,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 17,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
       "min_daily_price_rub": 500
@@ -16956,7 +17531,14 @@
         "installation",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 19,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 800,
       "min_daily_price_rub": 550
@@ -17092,8 +17674,15 @@
         "first_data_usage",
         "unknown"
       ],
-      "daily_reset_confirmed": true,
-      "daily_throttle_continues": true,
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 5,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": true,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 950,
       "min_daily_price_rub": 600
     },
@@ -17261,7 +17850,15 @@
         "installation",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 600,
       "min_daily_price_rub": 600
@@ -17419,8 +18016,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 19,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1200,
       "min_daily_price_rub": 550
     },
@@ -17605,8 +18209,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 22,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
       "min_daily_price_rub": 750
     },
@@ -17766,7 +18377,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 950,
       "min_daily_price_rub": 650
@@ -17927,7 +18545,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 17,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
       "min_daily_price_rub": 700
@@ -18061,7 +18686,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
       "min_daily_price_rub": 650
@@ -18208,7 +18839,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1150,
       "min_daily_price_rub": 750
@@ -18384,7 +19021,15 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 16,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
       "min_daily_price_rub": 500
@@ -18574,8 +19219,15 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 21,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1000,
       "min_daily_price_rub": 650
     },
@@ -18731,7 +19383,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
       "min_daily_price_rub": 750
@@ -18861,7 +19520,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1100,
       "min_daily_price_rub": 700
@@ -19065,8 +19731,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 26,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
       "min_daily_price_rub": 700
     },
@@ -19284,8 +19957,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 30,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
       "min_daily_price_rub": 750
     },
@@ -19425,7 +20105,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1100,
       "min_daily_price_rub": 750
@@ -19648,8 +20334,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 29,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1150,
       "min_daily_price_rub": 850
     },
@@ -19807,7 +20500,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1200,
       "min_daily_price_rub": 800
@@ -19931,7 +20630,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
       "min_daily_price_rub": 800
@@ -20082,7 +20788,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 900,
       "min_daily_price_rub": 800
@@ -20228,7 +20940,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1300,
       "min_daily_price_rub": 850
@@ -20422,8 +21141,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 24,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1100,
       "min_daily_price_rub": 800
     },
@@ -20576,7 +21302,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 16,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
       "min_daily_price_rub": 850
@@ -20708,7 +21440,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1250,
       "min_daily_price_rub": 800
@@ -20905,8 +21643,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 24,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1150,
       "min_daily_price_rub": 850
     },
@@ -21043,7 +21788,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1350,
       "min_daily_price_rub": 900
@@ -21192,7 +21944,15 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
       "min_daily_price_rub": 1050
@@ -21329,7 +22089,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
       "min_daily_price_rub": 1050
@@ -21427,7 +22193,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 6,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1150,
       "min_daily_price_rub": 1050
@@ -21604,8 +22377,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 20,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1150,
       "min_daily_price_rub": 950
     },
@@ -21810,8 +22590,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 25,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1400,
       "min_daily_price_rub": 950
     },
@@ -21929,7 +22716,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1000,
       "min_daily_price_rub": 950
@@ -22070,7 +22863,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1100,
       "min_daily_price_rub": 1100
@@ -22170,7 +22969,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 6,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
       "min_daily_price_rub": 1150
@@ -22308,7 +23113,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1650,
       "min_daily_price_rub": 1100
@@ -22425,7 +23236,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
       "min_daily_price_rub": 1100
@@ -22550,7 +23368,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1150,
       "min_daily_price_rub": 1250
@@ -22668,7 +23493,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1700,
       "min_daily_price_rub": 1250
@@ -22831,7 +23663,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1800,
       "min_daily_price_rub": 1300
@@ -22974,7 +23813,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1450
@@ -23091,7 +23937,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1200,
       "min_daily_price_rub": 1500
@@ -23213,7 +24065,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2300,
       "min_daily_price_rub": 1550
@@ -23339,7 +24198,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1550
@@ -23457,7 +24323,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2700,
       "min_daily_price_rub": 1600
@@ -23601,7 +24474,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1600
@@ -23718,7 +24597,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1200,
       "min_daily_price_rub": 1500
@@ -23886,7 +24771,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 18,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1200,
       "min_daily_price_rub": 1600
@@ -24040,7 +24932,14 @@
         "installation",
         "unknown"
       ],
+      "activation_labels": [
+        "после установки eSIM",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 14,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1450,
       "min_daily_price_rub": 1600
@@ -24174,7 +25073,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1650
@@ -24317,7 +25223,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1700
@@ -24428,7 +25340,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2450,
       "min_daily_price_rub": 1650
@@ -24561,7 +25479,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
       "min_daily_price_rub": 1650
@@ -24682,7 +25607,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2500,
       "min_daily_price_rub": 1650
@@ -24824,7 +25756,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1800
@@ -24940,7 +25878,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2500,
       "min_daily_price_rub": 1800
@@ -25067,7 +26012,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2750,
       "min_daily_price_rub": 1850
@@ -25183,7 +26135,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2550,
       "min_daily_price_rub": 1800
@@ -25323,7 +26282,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1850
@@ -25465,7 +26430,13 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 12,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": 1800
@@ -25570,7 +26541,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2150,
       "min_daily_price_rub": 1750
@@ -25693,7 +26671,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2800,
       "min_daily_price_rub": 1900
@@ -25813,7 +26798,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2850,
       "min_daily_price_rub": 1900
@@ -25930,7 +26922,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
       "min_daily_price_rub": 1950
@@ -26047,7 +27045,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
       "min_daily_price_rub": 1950
@@ -26164,7 +27168,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
       "min_daily_price_rub": 1950
@@ -26274,7 +27284,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1000,
       "min_daily_price_rub": 1900
@@ -26376,7 +27392,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2800,
       "min_daily_price_rub": 1900
@@ -26512,7 +27535,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 15,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
       "min_daily_price_rub": 1900
@@ -26644,7 +27674,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2900,
       "min_daily_price_rub": 1900
@@ -26762,7 +27798,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -26880,7 +27923,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -27007,7 +28057,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -27126,7 +28183,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -27190,7 +28254,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 1,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": null,
       "min_daily_price_rub": 1900
@@ -27310,7 +28380,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -27430,7 +28507,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -27548,7 +28632,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -27666,7 +28757,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 1900
@@ -27783,7 +28881,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2500,
       "min_daily_price_rub": 1950
@@ -27905,7 +29010,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2200,
       "min_daily_price_rub": 1900
@@ -28016,7 +29128,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1450,
       "min_daily_price_rub": 1900
@@ -28124,7 +29242,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2900,
       "min_daily_price_rub": 1900
@@ -28239,7 +29364,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 10,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
       "min_daily_price_rub": 2100
@@ -28352,7 +29484,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1000,
       "min_daily_price_rub": 2050
@@ -28462,7 +29600,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 3100,
       "min_daily_price_rub": 2350
@@ -28566,7 +29710,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 6,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 2500
@@ -28669,7 +29820,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 6,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
       "min_daily_price_rub": 2450
@@ -28786,7 +29943,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2050,
       "min_daily_price_rub": 2550
@@ -28905,7 +30068,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2150,
       "min_daily_price_rub": 2500
@@ -29013,7 +30183,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2650,
       "min_daily_price_rub": 2650
@@ -29111,7 +30288,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2500,
       "min_daily_price_rub": 2800
@@ -29226,8 +30410,15 @@
         "first_data_usage",
         "unknown"
       ],
-      "daily_reset_confirmed": true,
-      "daily_throttle_continues": true,
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 3,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": true,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
       "min_daily_price_rub": 1550
     },
@@ -29330,7 +30521,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 6,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 3250,
       "min_daily_price_rub": 2950
@@ -29433,7 +30631,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 6,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 4450,
       "min_daily_price_rub": 3050
@@ -29544,7 +30748,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 4550,
       "min_daily_price_rub": 3150
@@ -29678,7 +30888,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 13,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2500,
       "min_daily_price_rub": 3150
@@ -29775,7 +30992,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 3,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1550,
       "min_daily_price_rub": 3300
@@ -29878,7 +31102,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 6,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 3800,
       "min_daily_price_rub": 3300
@@ -29973,7 +31203,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 5,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 4800,
       "min_daily_price_rub": 3400
@@ -30116,8 +31352,15 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 17,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
-      "daily_throttle_continues": true,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
       "min_volume_price_rub": 1450,
       "min_daily_price_rub": 1250
     },
@@ -30222,7 +31465,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 3750,
       "min_daily_price_rub": 3500
@@ -30337,7 +31587,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 6450,
       "min_daily_price_rub": 4300
@@ -30454,7 +31710,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 11,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 4600
@@ -30557,7 +31820,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2350,
       "min_daily_price_rub": 4950
@@ -30670,7 +31940,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 5000
@@ -30781,7 +32058,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 4100,
       "min_daily_price_rub": 5000
@@ -30894,7 +32177,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 8,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": 5300
@@ -30956,7 +32246,14 @@
         "network_connection",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 3,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
       "min_daily_price_rub": null
@@ -30995,7 +32292,13 @@
       "activation_policies": [
         "network_connection"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 0,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2150,
       "min_daily_price_rub": null
@@ -31042,7 +32345,13 @@
       "activation_policies": [
         "installation"
       ],
+      "activation_labels": [
+        "после установки eSIM"
+      ],
+      "topup_yes": 2,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2350,
       "min_daily_price_rub": null
@@ -31107,7 +32416,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 4,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2350,
       "min_daily_price_rub": null
@@ -31166,7 +32481,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 4,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
       "min_daily_price_rub": null
@@ -31217,7 +32539,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 3,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
       "min_daily_price_rub": null
@@ -31278,7 +32606,14 @@
         "first_data_usage",
         "unknown"
       ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 5,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
       "min_daily_price_rub": null
@@ -31329,7 +32664,13 @@
       "activation_policies": [
         "unknown"
       ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 3,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2650,
       "min_daily_price_rub": null
@@ -31376,7 +32717,13 @@
       "activation_policies": [
         "first_data_usage"
       ],
+      "activation_labels": [
+        "с первого использования интернета"
+      ],
+      "topup_yes": 0,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
       "min_daily_price_rub": null

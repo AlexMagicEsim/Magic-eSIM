@@ -170,9 +170,14 @@ function checkDailyBehaviour(profile, sheet) {
 // These three fields are where it kept happening.
 const SPEED_RE = /\b(?:[2-5]G(?:\/[2-5]G)*)\b/g;
 const THROTTLE_RE = /(\d+(?:[.,]\d+)?)\s*(Кбит\/с|Мбит\/с)/gi;
+// Matched against what the CARD prints (sheet.activation_labels), not against
+// raw policy values: «unknown» is the commonest value in the catalogue and the
+// renderer maps it to «с первого подключения к сети». Checking raw values made
+// this rule call a true Georgia sentence invented.
 const ACTIVATION_PHRASES = [
-  ['после установки', ['installation', 'upon_installation']],
-  ['с первого подключения', ['first_data_usage', 'network_connection', 'first_use']],
+  ['после установки', 'после установки eSIM'],
+  ['с первого подключения', 'с первого подключения к сети'],
+  ['с первого использования', 'с первого использования интернета'],
 ];
 
 function checkAttribution(profile, sheet) {
@@ -180,6 +185,7 @@ function checkAttribution(profile, sheet) {
   const speeds = sheet.speeds || [];
   const fups = (sheet.fup_policies || []).map((x) => x.toLowerCase().replace(/\s+/g, ''));
   const acts = sheet.activation_policies || [];
+  const labels = sheet.activation_labels || [];
   for (const text of proseOf(profile)) {
     const t = String(text);
     // Generations, not the literal string: «5G» is a fair shorthand when a
@@ -203,10 +209,91 @@ function checkAttribution(profile, sheet) {
         problems.push(`ограничение «${m[0]}» — в каталоге у этой страны: ${(sheet.fup_policies || []).join(', ') || 'нет'}`);
       }
     }
-    for (const [phrase, keys] of ACTIVATION_PHRASES) {
-      if (t.includes(phrase) && acts.length && !keys.some((k) => acts.includes(k))) {
-        problems.push(`активация «${phrase}…» — у тарифов этой страны: ${acts.join(', ')}`);
+    for (const [phrase, label] of ACTIVATION_PHRASES) {
+      if (t.includes(phrase) && labels.length && !labels.includes(label)) {
+        problems.push(`активация «${phrase}…» — карточки этой страны печатают: ${labels.join('; ')}`);
       }
+    }
+  }
+  return [...new Set(problems)];
+}
+
+// A page may not promise, without qualification, that the term starts when the
+// customer first connects — nor advise installing early as if it were free —
+// while some tariff on that same page starts counting AT INSTALLATION.
+//
+//   Found on four pages on 2026-09-01. Israel was the worst: its three largest
+//   LOCAL packages (30, 50 and 100 GB) are `installation`, and the page said
+//   «профиль поставить дома по Wi-Fi заранее» flat. China and Singapore made the
+//   claim categorically («срок действия начнётся только при первом подключении»,
+//   «профиль можно поставить дома за неделю»). The advice burned the very
+//   tariffs the pages were selling.
+//
+//   The escape is not silence: a page passes by acknowledging the exception
+//   anywhere in its prose — «после установки» — which is what the card prints
+//   for those packages. Taiwan does exactly that and is the model.
+// NO \w AND NO \b IN THESE. Both are ASCII-only in JavaScript, and this file
+// already carried that warning for `\bот` and applied [\wа-яёА-ЯЁ] in
+// RESET_CLAIMS — and then the activation rules were written with `\w` anyway.
+// The result: TERM_START matched NOTHING. An adversarial review put ten
+// realistic sentences through it, including the exact China sentence quoted in
+// this file's own comment as the defect the rule exists for, and got zero hits.
+// Four pages told customers to install early and burn the priciest tariff on the
+// page while the gate stayed green. Third time this trap has bitten; the
+// self-test below exists so there is no fourth.
+const CYR = '[\\wа-яёА-ЯЁ]';
+const EARLY_INSTALL = new RegExp(
+  `(?:поставит${CYR}*|установит${CYR}*|устанавлива${CYR}*|ставит${CYR}*|установк${CYR}*|установленн${CYR}*)[^.!?]{0,70}(?:заранее|дома|до\\s+вылета|до\\s+поездки|до\\s+выезда|за\\s+нескольк${CYR}*\\s+дн${CYR}*|за\\s+недел${CYR}*)`
+  + `|(?:заранее|дома|до\\s+вылета)[^.!?]{0,50}(?:поставит${CYR}*|установит${CYR}*|устанавлива${CYR}*|установленн${CYR}*)`, 'i');
+const TERM_START = new RegExp(
+  `срок[^.!?]{0,90}(?:начн[её]тся|начина${CYR}*|идт[иё]|пойд[её]т|отсчитыва${CYR}*|отсчит${CYR}*)[^.!?]{0,70}(?:перв${CYR}*\\s+(?:подключени|использовани)${CYR}*|подключени${CYR}*\\s+к)`
+  + `|с\\s+перв${CYR}*\\s+(?:подключени|использовани)${CYR}*[^.!?]{0,50},\\s*а\\s+не`, 'i');
+
+function checkActivationSafety(profile, sheet) {
+  const policies = sheet.activation_policies || [];
+  if (!policies.includes('installation') && !policies.includes('upon_installation')) return [];
+  const all = proseOf(profile).join(' \n ');
+  if (/после установки/i.test(all)) return [];   // страница оговорку делает
+  const problems = [];
+  for (const text of proseOf(profile)) {
+    const t = String(text);
+    for (const re of [EARLY_INSTALL, TERM_START]) {
+      const m = t.match(re);
+      if (m) {
+        problems.push(`«${m[0].trim().slice(0, 90)}» — но у части тарифов этой страны срок идёт «после установки eSIM»; оговорки на странице нет`);
+      }
+    }
+  }
+  return [...new Set(problems)];
+}
+
+// Top-up is a per-package capability (`topup_available`), and two pages made
+// OPPOSITE categorical claims about it on 2026-09-01: Vietnam said it is
+// impossible (true on 30 of its 44 packages) and Spain said it is available
+// (false on 6 of 39, including the two the page's own description advertises).
+// Oman and Turkey phrase it correctly — «зависит от тарифа» — and that is the
+// shape this rule enforces: say it depends, or do not say it.
+// «докупить ПОКРЫТИЕ нельзя» is a different and true statement — top-up adds
+// data, never countries — so the object matters. Montenegro tripped the first
+// version of this rule saying exactly that, correctly.
+const TOPUP_NO = /(?:докупить|пополнить|дополнить)\s+(?:объ[её]м|трафик|гигабайт[а-яё]*|пакет|его|тариф)?[^.!?]{0,70}(?:нельзя|невозможно|не\s+получится|не\s+выйдет)|пополнени[а-яё]*[^.!?]{0,40}(?:нет|недоступн[а-яё]*|не\s+поддерживается)/i;
+const TOPUP_NOT_DATA = /покрыти[а-яё]*|стран[ауыое]?\b/i;
+const TOPUP_YES = /(?:докупить|пополнить)[^.!?]{0,60}можно|пополнение\s+доступно(?![^.!?]{0,30}(?:не\s+у|у\s+части|зависит))/i;
+const TOPUP_HEDGE = /зависит от тарифа|не у всех|не все|у части|отмечен[а-яё]* в карточке|видно (?:по отметке )?в карточке/i;
+
+function checkTopup(profile, sheet) {
+  const yes = Number(sheet.topup_yes || 0), no = Number(sheet.topup_no || 0);
+  if (!yes && !no) return [];
+  const problems = [];
+  for (const text of proseOf(profile)) {
+    const t = String(text);
+    if (TOPUP_HEDGE.test(t)) continue;
+    let m;
+    if (yes && (m = t.match(TOPUP_NO)) && !TOPUP_NOT_DATA.test(m[0])) {
+      problems.push(`«${m[0].trim().slice(0, 80)}» — но пополнение доступно у ${yes} из ${yes + no} тарифов этой страны`);
+    }
+    if (no && (m = t.match(TOPUP_YES))) {
+      problems.push(`«${m[0].trim().slice(0, 80)}» — но у ${no} из ${yes + no} тарифов этой страны пополнения нет`);
     }
   }
   return [...new Set(problems)];
@@ -263,6 +350,8 @@ for (const slug of scope) {
     ...(sheet ? checkFacts(profile, sheet) : ['нет фактшита — страна не в каталоге']),
     ...(sheet ? checkDailyBehaviour(profile, sheet) : []),
     ...(sheet ? checkAttribution(profile, sheet) : []),
+    ...(sheet ? checkActivationSafety(profile, sheet) : []),
+    ...(sheet ? checkTopup(profile, sheet) : []),
     ...checkStructure(profile),
     ...checkBanned(profile),
   ];

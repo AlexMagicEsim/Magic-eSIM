@@ -71,9 +71,11 @@ export async function buildFactSheets() {
       price_rub: retail,
       purchasable_prices: ladder.length ? ladder : [retail],
       daily_gb: Number(p.daily_gb) > 0 ? Number(p.daily_gb) : null,
+      topup: p.topup_available === true ? 'yes' : p.topup_available === false ? 'no' : null,
       speed: String(p.speed || '').trim(),
       fup: String(p.fup_policy || '').trim(),
       activation: String(p.activation_policy || '').trim().toLowerCase(),
+      activation_label: activationLabel(p.activation_policy),
       reset_confirmed: p.daily_reset_confirmed === true,
       throttle_continues: p.daily_throttle_continues === true,
       term_days: (Array.isArray(p.term_prices) ? p.term_prices : [])
@@ -93,6 +95,7 @@ export async function buildFactSheets() {
     const meta = COUNTRY_NAMES[iso];
     if (!meta) continue;
     const all = [...e.local, ...e.regional];
+    const dailies = all.filter((t) => t.daily);
     // The cheapest offer at each volume, which is what a reader is actually
     // choosing between. Local wins ties: it is the catalogue's own preference
     // and the page must not contradict it.
@@ -164,13 +167,47 @@ export async function buildFactSheets() {
         speeds: [...new Set(all.map((t) => t.speed).filter(Boolean))].sort(),
         fup_policies: [...new Set(all.map((t) => t.fup).filter(Boolean))].sort(),
         activation_policies: [...new Set(all.map((t) => t.activation).filter(Boolean))].sort(),
-        daily_reset_confirmed: all.some((t) => t.reset_confirmed),
-        daily_throttle_continues: all.some((t) => t.throttle_continues),
+        // What the CARD prints, which is what a page may repeat. A raw policy is
+        // not enough: «unknown» is the commonest value in the catalogue and the
+        // renderer maps it to the fallback «с первого подключения к сети», so a
+        // gate that knew only the raw values called a true sentence invented.
+        // Ported from TARIFF_ACTIVATION_LABELS in assets/country-tariffs.js.
+        activation_labels: [...new Set(all.map((t) => t.activation_label))].sort(),
+        // Per-package, because pages made opposite categorical claims about it.
+        topup_yes: all.filter((t) => t.topup === 'yes').length,
+        topup_no: all.filter((t) => t.topup === 'no').length,
+        // ALL, not SOME. As `some` this licensed a claim about every daily plan
+        // in a country from a single confirming package: Oman's nightly reset is
+        // confirmed only for its four FIXED_TERM «Unlimited N Days» rows, and the
+        // page said «лимит обновляется каждые сутки» about the six PER_DAY ones.
+        // A blanket claim needs blanket evidence.
+        daily_reset_confirmed: dailies.length > 0 && dailies.every((t) => t.reset_confirmed),
+        daily_reset_partial: dailies.some((t) => t.reset_confirmed) && !dailies.every((t) => t.reset_confirmed),
+        daily_throttle_continues: dailies.length > 0 && dailies.every((t) => t.throttle_continues),
         min_volume_price_rub: floorOf(all.filter((t) => !t.daily)),
         min_daily_price_rub: floorOf(all.filter((t) => t.daily)),
     };
   }
   return { fetched_at: new Date().toISOString(), source: API, countries: Object.keys(sheets).length, sheets };
+}
+
+// Port of TARIFF_ACTIVATION_LABELS / TARIFF_ACTIVATION_FALLBACK in
+// assets/country-tariffs.js. Kept a port rather than a second opinion, for the
+// same reason catalogue-facts.mjs is one (§21): two notions of the same fact
+// drift, and the page must be checked against what the customer is shown.
+const ACTIVATION_LABELS = {
+  first_data_usage: 'с первого использования интернета',
+  first_network_connection: 'с первого подключения к сети',
+  network_connection: 'с первого подключения к сети',
+  upon_installation: 'после установки eSIM',
+  installation: 'после установки eSIM',
+  upon_purchase: 'после покупки',
+  purchase: 'после покупки',
+};
+const ACTIVATION_FALLBACK = 'с первого подключения к сети';
+function activationLabel(policy) {
+  const k = String(policy || '').trim().toLowerCase();
+  return Object.prototype.hasOwnProperty.call(ACTIVATION_LABELS, k) ? ACTIVATION_LABELS[k] : ACTIVATION_FALLBACK;
 }
 
 function floorOf(rows) {
