@@ -18,7 +18,7 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
-import { purchasablePrice, isRussia, isRestricted, isGlobal, isDaily, RESTRICTED_COUNTRY_CODES } from './catalogue-facts.mjs';
+import { purchasablePrice, isRussia, isRestricted, isGlobal, isDaily, RESTRICTED_COUNTRY_CODES, loadCatalogue } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const SHEET = join(ROOT, 'seo/fact-sheets.json');
@@ -36,9 +36,23 @@ const coverage = (p) => (Array.isArray(p.coverage_country_codes) ? p.coverage_co
   .filter((c) => !RESTRICTED_COUNTRY_CODES.includes(c));
 
 export async function buildFactSheets() {
-  const res = await fetch(API, { signal: AbortSignal.timeout(120000) });
-  if (!res.ok) throw new Error(`catalogue API ${res.status}`);
-  const packages = (await res.json()).data || [];
+  // FROM THE COMMITTED SNAPSHOT, not the live API.
+  //
+  //   This file used to fetch, on the reasoning that the sheet should describe
+  //   «the SAME API call the pages are built from». That stopped being true: the
+  //   pages render from assets/catalog.json (refreshed by a bot and committed),
+  //   catalogue-facts.mjs reads that file, and every gate and test compares
+  //   against it. Fetching made the sheet describe a THIRD catalogue — on
+  //   2026-09-01 a sheet built at 11:35 blessed an Egyptian price of 1250 ₽ that
+  //   does not exist in the 05:19 snapshot the pages and the tests use, and
+  //   test-fact-floor caught it.
+  //
+  //   A gate has to describe the catalogue the pages describe. Same file, same
+  //   loader, no third opinion. CATALOG_API is kept only so a deliberate
+  //   experiment can still point elsewhere.
+  const packages = process.env.CATALOG_API
+    ? ((await (await fetch(API, { signal: AbortSignal.timeout(120000) })).json()).data || [])
+    : loadCatalogue();
 
   const byCountry = new Map();
   for (const p of packages) {
@@ -195,7 +209,7 @@ export async function buildFactSheets() {
         min_daily_price_rub: floorOf(all.filter((t) => t.daily)),
     };
   }
-  return { fetched_at: new Date().toISOString(), source: API, countries: Object.keys(sheets).length, sheets };
+  return { fetched_at: new Date().toISOString(), source: process.env.CATALOG_API ? API : 'assets/catalog.json', countries: Object.keys(sheets).length, sheets };
 }
 
 // Port of TARIFF_ACTIVATION_LABELS / TARIFF_ACTIVATION_FALLBACK in

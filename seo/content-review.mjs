@@ -280,6 +280,20 @@ const TOPUP_NO = /(?:докупить|пополнить|дополнить)\s+(
 const TOPUP_NOT_DATA = /покрыти[а-яё]*|стран[ауыое]?\b/i;
 const TOPUP_YES = /(?:докупить|пополнить)[^.!?]{0,60}можно|пополнение\s+доступно(?![^.!?]{0,30}(?:не\s+у|у\s+части|зависит))/i;
 const TOPUP_HEDGE = /зависит от тарифа|не у всех|не все|у части|отмечен[а-яё]* в карточке|видно (?:по отметке )?в карточке/i;
+// A sentence that CONTRASTS two packages — «у дешёвого пополнение отмечено, у
+// дорогого нет» — is the per-package truth, not a categorical claim, and it is
+// more useful to a reader than the hedge. The rule forbade it anyway, because it
+// only knew country-level counts, so four correct sentences were pushed back
+// toward vaguer copy on 2026-09-01. A contrast needs BOTH poles in one sentence:
+// an affirmative about top-up and a negative. One pole alone is still a claim
+// about the whole country and still forbidden.
+const TOPUP_CONTRAST = (t) => /пополнени[а-яё]*/i.test(t)
+  // «не поддерживается» contains «поддерживает». Without the lookbehind a
+  // one-sided negative reads as a contrast and walks straight through.
+  && /(?<!не\s)(?:отмечено|отмечена|указано|(?<![а-яё])есть(?![а-яё])|доступно|поддерживает)/i.test(t)
+  // \b is ASCII-only in JS: «\bнет\b» never matches inside Cyrillic text. This
+  // repo has been bitten by that five times; the boundary is spelled out.
+  && /(?:(?<![а-яёa-z])нет(?![а-яёa-z])|не\s+отмечен|не\s+поддерживается|не\s+указан)/i.test(t);
 
 function checkTopup(profile, sheet) {
   const yes = Number(sheet.topup_yes || 0), no = Number(sheet.topup_no || 0);
@@ -287,7 +301,7 @@ function checkTopup(profile, sheet) {
   const problems = [];
   for (const text of proseOf(profile)) {
     const t = String(text);
-    if (TOPUP_HEDGE.test(t)) continue;
+    if (TOPUP_HEDGE.test(t) || TOPUP_CONTRAST(t)) continue;
     let m;
     if (yes && (m = t.match(TOPUP_NO)) && !TOPUP_NOT_DATA.test(m[0])) {
       problems.push(`«${m[0].trim().slice(0, 80)}» — но пополнение доступно у ${yes} из ${yes + no} тарифов этой страны`);

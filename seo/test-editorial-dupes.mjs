@@ -36,8 +36,23 @@ const SHEETS = JSON.parse(readFileSync(join(ROOT, 'seo/fact-sheets.json'), 'utf8
 const P = Object.fromEntries(readdirSync(DIR).filter((f) => f.endsWith('.json'))
   .map((f) => [f.replace(/\.json$/, ''), JSON.parse(readFileSync(join(DIR, f), 'utf8'))]));
 
-// The payment sentence is mandated and must repeat; nothing else may.
+// The payment answer is mandated and must repeat; nothing else may.
+//
+//   Until 2026-09-01 the exemption was «skip any answer containing PAY», which
+//   exempted the WHOLE answer. Only the first sentence is mandated, and the two
+//   that followed it drifted into fifteen paraphrases of the same two facts —
+//   0.84 at the top (armenia ↔ morocco) once the mandated sentence was stripped.
+//   Vocabulary diverse, argument identical: exactly the defect this file exists
+//   to catch, hidden by its own whitelist.
+//
+//   The block is one canonical string now. The gate subtracts THAT STRING and
+//   compares whatever a page adds around it, so a page may still say something
+//   of its own (india does) and is measured on it.
 const PAY = 'российской банковской картой';
+const PAY_BLOCK = 'Оплата российской банковской картой или через СБП — способ выбирается на шаге оплаты. '
+  + 'Иностранные карты пока не поддерживаются. '
+  + 'После оплаты на почту приходит письмо с QR-кодом и инструкцией по установке.';
+const dropPay = (t) => String(t).split(PAY_BLOCK).join(' ').trim();
 const tok = (t) => new Set(String(t).toLowerCase().match(/[\wа-яё]+/g) || []);
 const jaccard = (a, b) => {
   const A = tok(a), B = tok(b);
@@ -54,7 +69,10 @@ const LIMIT = 0.60;
 
 test('no two pages answer a question with the same answer', () => {
   const items = Object.entries(P).flatMap(([s, d]) => (d.faq || [])
-    .filter((f) => !String(f.a).includes(PAY)).map((f, i) => [s, i, f.a]));
+    .map((f, i) => [s, i, dropPay(f.a)])
+    // What is left after the mandated block is subtracted. A page whose whole
+    // answer WAS that block leaves nothing, and nothing cannot duplicate.
+    .filter(([, , a]) => tok(a).size >= 8));
   const bad = [];
   for (let i = 0; i < items.length; i++) {
     for (let j = i + 1; j < items.length; j++) {
@@ -64,6 +82,32 @@ test('no two pages answer a question with the same answer', () => {
     }
   }
   assert.deepEqual(bad, [], `ответы FAQ повторяют друг друга:\n${bad.join('\n')}`);
+});
+
+test('the mandated payment block is one string, not fifteen paraphrases', () => {
+  // Fifteen pages answer «чем платить». The facts are the same on all of them and
+  // the wording is mandated (CLAUDE.md: «оплата российской банковской картой или
+  // через СБП», never «любой картой»). Fifteen rewordings of one fact is not
+  // editorial diversity — it is the thing this file calls a clone. So: one
+  // string. A page may add a sentence of its own; it may not restate the block.
+  const bad = [];
+  for (const [s, d] of Object.entries(P)) {
+    for (const [i, f] of (d.faq || []).entries()) {
+      if (!String(f.a).includes(PAY)) continue;
+      if (!String(f.a).includes(PAY_BLOCK)) bad.push(`${s} faq[${i}] — свой вариант вместо общего блока`);
+      const rest = dropPay(f.a);
+      if (/иностранн|QR|письм/i.test(rest)) bad.push(`${s} faq[${i}] — повторяет блок своими словами`);
+    }
+  }
+  assert.deepEqual(bad, [], `оплата снова расписана по-разному:\n${bad.join('\n')}`);
+});
+
+test('the payment rule can fail — a paraphrase must be caught', () => {
+  const draft = 'Оплата российской банковской картой или через СБП, способ выбирается на шаге оплаты. '
+    + 'Иностранные карты пока не поддерживаются. QR-код приходит письмом.';
+  assert.ok(!draft.includes(PAY_BLOCK), 'перефразированный блок обязан не совпасть с каноном');
+  assert.ok(/иностранн|QR|письм/i.test(dropPay(draft)), 'и обязан остаться видимым после вычитания');
+  assert.equal(dropPay(PAY_BLOCK), '', 'канон обязан вычитаться нацело');
 });
 
 test('no two pages carry the same why-card', () => {
