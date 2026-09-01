@@ -18,7 +18,7 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
-import { purchasablePrice, isRussia, isRestricted, isGlobal } from './catalogue-facts.mjs';
+import { purchasablePrice, isRussia, isRestricted, isGlobal, isDaily, RESTRICTED_COUNTRY_CODES } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const SHEET = join(ROOT, 'seo/fact-sheets.json');
@@ -26,8 +26,14 @@ const API = process.env.CATALOG_API || 'https://origin.magicesim.store/api/v1/pa
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 const iso2 = (c) => String(c || '').trim().toUpperCase();
+// The same codes the renderer strikes out. Without this the sheet published a
+// full справка for Ukraine — 17 tariffs, from 450 ₽ — for a country whose grid
+// renders nothing and whose page was deleted in 35b31d3. The file's own comment
+// promises «the same visibility rules the grid renders by»; for exactly three
+// codes it was not true.
 const coverage = (p) => (Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [])
-  .map(iso2).filter((c) => /^[A-Z]{2}$/.test(c));
+  .map(iso2).filter((c) => /^[A-Z]{2}$/.test(c))
+  .filter((c) => !RESTRICTED_COUNTRY_CODES.includes(c));
 
 export async function buildFactSheets() {
   const res = await fetch(API, { signal: AbortSignal.timeout(120000) });
@@ -49,10 +55,27 @@ export async function buildFactSheets() {
     // bless a number no customer will ever be shown.
     if (isRussia(p) || isRestricted(p) || isGlobal(p)) continue;
     if (!cov.length || retail === null || retail <= 0) continue;
+    // Every rung of a term ladder is a real purchase, and the sheet has to know
+    // all of them. `offers` deliberately keeps ONE price per volume — the
+    // cheapest — which is right for "what does 5 ГБ cost here". But a DAILY plan
+    // has data_gb = 0, so every daily in a country collapses into that single
+    // bucket: of 1345 daily packages the sheet could vouch for exactly one price
+    // per country. A page comparing two daily plans — the most natural thing to
+    // write about a country whose grid is mostly daily — had every figure but
+    // one reported as invented.
+    const ladder = (Array.isArray(p.term_prices) ? p.term_prices : [])
+      .map((x) => Number(x.price)).filter((v) => Number.isFinite(v) && v > 0);
     const t = {
       data_gb: num(p.data_gb),
       validity_days: num(p.validity_days),
       price_rub: retail,
+      purchasable_prices: ladder.length ? ladder : [retail],
+      daily_gb: Number(p.daily_gb) > 0 ? Number(p.daily_gb) : null,
+      reset_confirmed: p.daily_reset_confirmed === true,
+      throttle_continues: p.daily_throttle_continues === true,
+      term_days: (Array.isArray(p.term_prices) ? p.term_prices : [])
+        .map((x) => Number(x.days)).filter((v) => Number.isFinite(v) && v > 0),
+      daily: isDaily(p),
       unlimited: p.unlimited === true || /unlimited|безлим/i.test(p.name || ''),
       countries_covered: cov.length,
     };
@@ -100,9 +123,45 @@ export async function buildFactSheets() {
       // countries needs, and one nobody can guess.
       regional_reach_max: e.regional.length ? Math.max(...e.regional.map((t) => t.countries_covered)) : 0,
       offers: rows,
+        // Every price a customer of this country can actually pay, ladder rungs
+        // included. Widening the reviewer to this set does not weaken it — an
+        // invented number is still rejected — and it is paired with the «от N ₽»
+        // rule, which this file's header had always claimed and the checker had
+        // never actually had.
+        all_purchasable_prices: [...new Set(all.flatMap((t) => t.purchasable_prices))].sort((a, b) => a - b),
+        // The three floors a sentence may legitimately say «от N ₽» about. A
+        // page writing «объёмы от 450 ₽, дневные — от 350 ₽» is being MORE
+        // precise than one quoting a single number, and a rule that demanded the
+        // country floor everywhere would have punished exactly that.
+        // The terms a daily plan is actually sold in. Without them a page could
+        // not write «минимальный срок покупки — три дня» — the one sentence the
+        // pricing rules REQUIRE, since a PER_DAY rate is not the price of one
+        // day — because 3 was not a number the checker had ever heard of.
+        term_days: [...new Set(all.flatMap((t) => t.term_days))].sort((a, b) => a - b),
+        // Per-day allowances. `volumes_gb` is the volume plans' ladder and a
+        // DAILY plan's data_gb is 0, so «1 ГБ в день» — a phrase any page about
+        // a mostly-daily country has to write — read as a figure from nowhere.
+        // Kept separate from volumes because it is a different unit, exactly as
+        // catalogue-facts.mjs keeps them apart for the renderer.
+        daily_gb: [...new Set(all.map((t) => t.daily_gb).filter((n) => Number.isFinite(n) && n > 0))].sort((a, b) => a - b),
+        // What a page is allowed to SAY about how a daily plan behaves. Of 1329
+        // daily packages only 22 confirm a reset and 31 confirm the traffic
+        // keeps flowing after the throttle — the provider simply does not
+        // publish it for the rest. assets/daily-plan-copy.js is built entirely
+        // around not completing that sentence; a country page must not complete
+        // it either, and prose is where the discipline kept slipping.
+        daily_reset_confirmed: all.some((t) => t.reset_confirmed),
+        daily_throttle_continues: all.some((t) => t.throttle_continues),
+        min_volume_price_rub: floorOf(all.filter((t) => !t.daily)),
+        min_daily_price_rub: floorOf(all.filter((t) => t.daily)),
     };
   }
   return { fetched_at: new Date().toISOString(), source: API, countries: Object.keys(sheets).length, sheets };
+}
+
+function floorOf(rows) {
+  const v = rows.flatMap((t) => t.purchasable_prices).filter((n) => Number.isFinite(n) && n > 0);
+  return v.length ? Math.min(...v) : null;
 }
 
 export function loadSheets() {

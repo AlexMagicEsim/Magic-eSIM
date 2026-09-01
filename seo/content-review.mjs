@@ -75,9 +75,20 @@ const sentences = (text) => String(text).split(/(?<=[.!?…])\s+/);
 
 function allowedValues(sheet) {
   const gb = new Set(sheet.volumes_gb);
-  const rub = new Set(sheet.offers.map((o) => o.price_rub));
+  // A daily plan's allowance is in ГБ too — a different unit from a volume
+  // plan's total, but a real catalogue figure and one a page must be able to name.
+  for (const g of sheet.daily_gb || []) gb.add(g);
+  // Every price a customer of this country can actually pay. `offers` holds one
+  // price per volume, and all dailies share the 0 ГБ bucket, so on its own it
+  // blessed exactly one daily price per country and reported every honest
+  // comparison between two daily plans as invented. The «от N ₽» rule below is
+  // what keeps this from being a loosening.
+  const rub = new Set(sheet.all_purchasable_prices || sheet.offers.map((o) => o.price_rub));
   rub.add(sheet.min_price_rub); rub.add(sheet.max_price_rub);
   const days = new Set(sheet.offers.map((o) => o.validity_days).filter((d) => d !== null));
+  // Ladder terms are real purchase lengths — 3, 5, 7, 10, 15, 30 — and a page
+  // must be able to name them. `offers` only carries a volume plan's validity.
+  for (const d of sheet.term_days || []) days.add(d);
   if (sheet.validity_days_min !== null) { days.add(sheet.validity_days_min); days.add(sheet.validity_days_max); }
   const countries = new Set([sheet.regional_reach_max]);
   const counts = new Set([sheet.local_count, sheet.regional_count, sheet.total_count]);
@@ -104,6 +115,51 @@ function checkFacts(profile, sheet) {
     scan(text, STRICT_PATTERNS);
     for (const sentence of sentences(text)) {
       if (CATALOGUE_CONTEXT.test(sentence)) scan(sentence, CONTEXTUAL_PATTERNS);
+    }
+    // "от N ₽" is a promise about the FLOOR, not just a number that exists.
+    // The header of this file has claimed this check since it was written —
+    // «a page that says "от 350 ₽" when the catalogue says 400 is worse than a
+    // page that says nothing» — but membership in a set was all it ever did, so
+    // quoting any real price after «от» passed. Now the floor is the floor.
+    // NOT \bот — JavaScript's \b is ASCII-only, so there is no word boundary
+    // between a space and a Cyrillic «о» and the rule matched nothing at all.
+    for (const m of String(text).matchAll(/(?:^|[\s(«,—-])от\s+(\d[\d\s ]*)\s*(?:₽|руб\w*)/gi)) {
+      const value = Number(String(m[1]).replace(/[\s ]/g, ''));
+      // A floor of the country, of its volume plans, or of its daily plans.
+      // «объёмы от 450 ₽, дневные — от 350 ₽» is a MORE precise sentence than
+      // one number, and demanding the country floor everywhere would punish it.
+      const floors = [sheet.min_price_rub, sheet.min_volume_price_rub, sheet.min_daily_price_rub]
+        .filter((n) => Number.isFinite(n));
+      if (Number.isFinite(value) && !floors.includes(value)) {
+        problems.push(`«${m[0].trim()}» — не пол каталога: страна ${sheet.min_price_rub} ₽, объёмные ${sheet.min_volume_price_rub} ₽, посуточные ${sheet.min_daily_price_rub} ₽`);
+      }
+    }
+  }
+  return [...new Set(problems)];
+}
+
+// Claims about how a daily plan behaves after its daily limit. The provider
+// publishes a speed and nothing else: whether the allowance resets and whether
+// traffic keeps flowing are separate flags, false for all but a few dozen
+// packages. assets/daily-plan-copy.js refuses to complete that sentence on a
+// product card, and it is enforced there by a test — but the editorial prose had
+// no such rule, and on 2026-09-01 four WAVE 2 drafts asserted a nightly reset for
+// countries where not one package confirms it.
+const RESET_CLAIMS = /сгора[\wа-яёА-ЯЁ]*|обновля[\wа-яёА-ЯЁ]*\s+кажд|не\s+накаплива[\wа-яёА-ЯЁ]*|переносит[\wа-яёА-ЯЁ]*\s+на\s+(?:завтра|следующ)|кажд[\wа-яёА-ЯЁ]*\s+утр[\wа-яёА-ЯЁ]*\s+(?:выда|дад|появ)|в\s+полночь|до\s+полуночи/gi;
+const CONTINUE_CLAIMS = /продолжа[\wа-яёА-ЯЁ]*\s+работать\s+на\s+(?:сниженн|урезанн|пониженн)|не\s+выключа[\wа-яёА-ЯЁ]*\s*,?\s*(?:а|и)\s+продолжа|интернет\s+продолжа[\wа-яёА-ЯЁ]*/gi;
+
+function checkDailyBehaviour(profile, sheet) {
+  const problems = [];
+  for (const text of proseOf(profile)) {
+    if (!sheet.daily_reset_confirmed) {
+      for (const m of String(text).matchAll(RESET_CLAIMS)) {
+        problems.push(`утверждение о суточном сбросе: «${m[0]}» — каталог его не подтверждает ни для одного тарифа этой страны`);
+      }
+    }
+    if (!sheet.daily_throttle_continues) {
+      for (const m of String(text).matchAll(CONTINUE_CLAIMS)) {
+        problems.push(`утверждение, что трафик продолжается после лимита: «${m[0]}» — поставщик публикует только скорость`);
+      }
     }
   }
   return [...new Set(problems)];
@@ -158,6 +214,7 @@ for (const slug of scope) {
   const sheet = sheets[slug];
   const problems = [
     ...(sheet ? checkFacts(profile, sheet) : ['нет фактшита — страна не в каталоге']),
+    ...(sheet ? checkDailyBehaviour(profile, sheet) : []),
     ...checkStructure(profile),
     ...checkBanned(profile),
   ];
