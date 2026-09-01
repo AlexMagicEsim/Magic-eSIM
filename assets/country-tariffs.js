@@ -6,6 +6,61 @@
    Prices always come from the API; no prices are baked into static HTML.
    Source ranges copied from index.html: 924-1466, 1541-1707, 1770-1791. */
 
+(function(){
+  /* ── FIRST-TOUCH ACQUISITION ──────────────────────────────────────────────
+     Written once per browser session, read at checkout, sent with the order.
+
+     WHY IT IS HERE AND ALSO IN assets/country-tariffs.js, WORD FOR WORD.
+     Search traffic lands on /esim/<country>/, and the buy button there hands
+     the visitor to this page — at which point document.referrer is our own
+     origin and every utm has fallen off the URL. Capturing only on the landing
+     page therefore loses the source of exactly the visitors we are trying to
+     count.
+
+     It lives in country-tariffs.js rather than in the pages because that file is
+     already loaded on all 198 of them and an asset stamp does not move a page's
+     lastmod, while an inline block does — one analytics edit would otherwise
+     announce 198 freshly-modified URLs to Yandex. (An earlier version of this
+     note said the country pages "have no inline script of their own". That was
+     false: they carry one writing sessionStorage['mesim_attr'], which is read by
+     nothing — a second dead capture key, older than the one this replaces.
+     Removing it costs a 198-page rewrite, so it waits for the next content wave;
+     seo/test-attribution.mjs bans it from spreading meanwhile.)
+
+     seo/test-attribution.mjs pins the two copies byte for byte.
+
+     FIRST touch, not last: the first page of the session wins, and the internal
+     hop that follows cannot overwrite it. That is the whole point — the hop is
+     what used to destroy the answer.
+
+     sessionStorage, never localStorage: this is one visit's context, not a
+     profile. It dies with the tab. Nothing here is sent to Platega or to a
+     provider, and nothing here is or contains a personal identifier. */
+  try{
+    var AK='magic_attr';
+    if(!sessionStorage.getItem(AK)){
+      var aq=new URLSearchParams(location.search),ar={},aany=false;
+      ['utm_source','utm_medium','utm_campaign'].forEach(function(k){
+        var v=aq.get(k); if(v){ar[k]=String(v).slice(0,200);aany=true;}
+      });
+      var aref=document.referrer||'';
+      /* Our own pages are not a referral. Recording one would file the visitor
+         under a referral from ourselves and bury the real source.
+
+         Matched as origin-or-origin-plus-slash, not as a prefix: indexOf()===0
+         also swallowed https://magicesim.store.evil.com/, which is somebody
+         else's site claiming to be ours. The server-side half of this rule
+         (lib/acquisition.js) already used an exact host comparison; these two
+         now agree. */
+      var aown=(aref===location.origin||aref.indexOf(location.origin+'/')===0);
+      if(aref&&!aown){ar.referrer=String(aref).slice(0,500);aany=true;}
+      ar.entry=String(location.pathname||'/').slice(0,128);
+      ar._ts=Date.now();
+      sessionStorage.setItem(AK,JSON.stringify(ar));
+    }
+  }catch(e){}
+})();
+
 // The API base lives in assets/magic-net.js / assets/catalog-loader.js. This
 // file reaches the network only through window.MagicCatalog, so it holds no
 // base of its own — the constant that used to sit here was never referenced.

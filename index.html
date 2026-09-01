@@ -63,7 +63,7 @@
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_redirect:['country_code','package_id','payment_method'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -93,12 +93,58 @@
         if(has){window.ym(CID,'reachGoal',name,out);}else{window.ym(CID,'reachGoal',name);}
       }catch(e){}
     };
-    /* UTM -> sessionStorage only (short-lived; no permanent localStorage; never sent to Platega/provider). */
-    try{
-      var qs=new URLSearchParams(location.search),ks=['utm_source','utm_medium','utm_campaign','utm_content','utm_term'],f={},any=false;
-      ks.forEach(function(k){var v=qs.get(k);if(v){f[k]=String(v).slice(0,200);any=true;}});
-      if(any){f._ts=Date.now();try{sessionStorage.setItem('magic_utm',JSON.stringify(f));}catch(e){}}
-    }catch(e){}
+  /* ── FIRST-TOUCH ACQUISITION ──────────────────────────────────────────────
+     Written once per browser session, read at checkout, sent with the order.
+
+     WHY IT IS HERE AND ALSO IN assets/country-tariffs.js, WORD FOR WORD.
+     Search traffic lands on /esim/<country>/, and the buy button there hands
+     the visitor to this page — at which point document.referrer is our own
+     origin and every utm has fallen off the URL. Capturing only on the landing
+     page therefore loses the source of exactly the visitors we are trying to
+     count.
+
+     It lives in country-tariffs.js rather than in the pages because that file is
+     already loaded on all 198 of them and an asset stamp does not move a page's
+     lastmod, while an inline block does — one analytics edit would otherwise
+     announce 198 freshly-modified URLs to Yandex. (An earlier version of this
+     note said the country pages "have no inline script of their own". That was
+     false: they carry one writing sessionStorage['mesim_attr'], which is read by
+     nothing — a second dead capture key, older than the one this replaces.
+     Removing it costs a 198-page rewrite, so it waits for the next content wave;
+     seo/test-attribution.mjs bans it from spreading meanwhile.)
+
+     seo/test-attribution.mjs pins the two copies byte for byte.
+
+     FIRST touch, not last: the first page of the session wins, and the internal
+     hop that follows cannot overwrite it. That is the whole point — the hop is
+     what used to destroy the answer.
+
+     sessionStorage, never localStorage: this is one visit's context, not a
+     profile. It dies with the tab. Nothing here is sent to Platega or to a
+     provider, and nothing here is or contains a personal identifier. */
+  try{
+    var AK='magic_attr';
+    if(!sessionStorage.getItem(AK)){
+      var aq=new URLSearchParams(location.search),ar={},aany=false;
+      ['utm_source','utm_medium','utm_campaign'].forEach(function(k){
+        var v=aq.get(k); if(v){ar[k]=String(v).slice(0,200);aany=true;}
+      });
+      var aref=document.referrer||'';
+      /* Our own pages are not a referral. Recording one would file the visitor
+         under a referral from ourselves and bury the real source.
+
+         Matched as origin-or-origin-plus-slash, not as a prefix: indexOf()===0
+         also swallowed https://magicesim.store.evil.com/, which is somebody
+         else's site claiming to be ours. The server-side half of this rule
+         (lib/acquisition.js) already used an exact host comparison; these two
+         now agree. */
+      var aown=(aref===location.origin||aref.indexOf(location.origin+'/')===0);
+      if(aref&&!aown){ar.referrer=String(aref).slice(0,500);aany=true;}
+      ar.entry=String(location.pathname||'/').slice(0,128);
+      ar._ts=Date.now();
+      sessionStorage.setItem(AK,JSON.stringify(ar));
+    }
+  }catch(e){}
   })();
   </script>
   <style>
@@ -1228,7 +1274,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
       </div>
       <div class="checkout-method" role="radiogroup" aria-label="Способ оплаты">
         <button type="button" class="co-method" id="coMethodSbp" data-method="sbp" role="radio" aria-checked="true"><img class="pay-ico" src="assets/payment/sbp.svg" alt="" aria-hidden="true"><span>СБП</span></button>
-        <button type="button" class="co-method" id="coMethodCard" data-method="card" role="radio" aria-checked="false"><img class="pay-ico" src="assets/payment/mir.svg" alt="" aria-hidden="true"><span>Карта</span></button>
+        <button type="button" class="co-method" id="coMethodCard" data-method="card" role="radio" aria-checked="false"><img class="pay-ico" src="assets/payment/mir.svg" alt="" aria-hidden="true"><span>Российская карта</span></button>
       </div>
       <div class="checkout-promo" id="coPromoWrap">
         <div class="co-promo-row">
@@ -1252,7 +1298,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
         <p class="checkout-error" id="coError" hidden></p>
         <p class="checkout-result" id="coResult" hidden></p>
         <button type="button" class="btn checkout-pay" id="coPay" style="width:100%"><span class="pay-logo-badge"><img class="pay-ico" id="coPayIco" src="assets/payment/sbp.svg" alt="" aria-hidden="true"></span><span class="pay-label" id="coPayLabel">Оплатить по СБП</span></button>
-        <p class="checkout-note">Оплата через Platega: СБП или банковская карта. Данные eSIM придут на указанный email.</p>
+        <p class="checkout-note">Оплата через Platega: СБП или российская банковская карта. Данные eSIM придут на указанный email.</p>
       </form>
     </div>
   </div>
@@ -3147,6 +3193,19 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
   // Two payment methods (СБП / карта). payment_type is resolved server-side to a
   // whitelisted Platega method; the client never sends a numeric method or amount.
+  /* The first-touch record, shaped for the order body. Total by construction:
+     a blocked or empty sessionStorage produces {} and the order goes out with
+     no attribution, exactly as it does today. Analytics never fails a sale. */
+  function _coAttribution(){
+    try{
+      var a=JSON.parse(sessionStorage.getItem('magic_attr')||'{}')||{};
+      if(typeof a!=='object'||Array.isArray(a))return {};
+      return {
+        utm_source:a.utm_source,utm_medium:a.utm_medium,utm_campaign:a.utm_campaign,
+        referrer:a.referrer,entry:a.entry
+      };
+    }catch(e){return {};}
+  }
   async function coStartPayment(paymentType, btn){
     if(submitting)return;                                  // guard against double click (both buttons)
     const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError');
@@ -3212,7 +3271,22 @@ window.addEventListener('DOMContentLoaded', async () => {
           promo_code:appliedPromo?appliedPromo.code:undefined,         // code only; server recomputes
           // Same key across retries of this same intent; new key when the
           // intent (package/method/email/promo) or the modal session changes.
-          idempotency_key:coIdemKeyFor(pkgId,paymentType,email.value,appliedPromo?appliedPromo.code:'',coDays)
+          idempotency_key:coIdemKeyFor(pkgId,paymentType,email.value,appliedPromo?appliedPromo.code:'',coDays),
+          /* Where this visit came from, captured on the FIRST page of the
+             session — see the capture block at the top of this file and the
+             identical one in assets/country-tariffs.js.
+
+             Marketing metadata, and the server treats it as such: it decides
+             the source itself from these observations rather than accepting a
+             claim, and a page cannot assert `findmini` about itself. Nothing
+             here reaches Platega or a provider; the order body goes to our own
+             backend only.
+
+             It is NOT part of the idempotency fingerprint (scope, package,
+             payment type, promo, hashed email, term), so adding it cannot
+             change replay behaviour: a retry under the same key still returns
+             the first order, with the attribution the first attempt carried. */
+          attribution:_coAttribution()
       });
       const resp=await MagicNet.request('/api/v1/public/retail-orders',{
         method:'POST',kind:'write',idempotent:true,
@@ -3233,6 +3307,23 @@ window.addEventListener('DOMContentLoaded', async () => {
           }
         }catch(e){}
         redirected=true;
+        /* The step the audit found unmeasured: the moment we hand the customer
+           to Platega. Between `payment_*_click` and `payment_success` there was
+           nothing, so «pressed pay» and «actually reached the payment page»
+           were the same number — and the 30-minute timeouts that make up most
+           of our cancellations were invisible.
+
+           Fired BEFORE the assign and deliberately not awaited: magicMetrikaGoal
+           is synchronous, wrapped and silent, and Metrika's own transport
+           survives the navigation. If it did not, the goal would be lost — and
+           that is the correct trade. Nothing may sit between a customer and the
+           payment page.
+
+           Carries the method and the package only. No amount, no email, no
+           order token: a third-party analytics service has no need of them, and
+           the amount is already booked from the server's own record on the
+           success page. */
+        try{magicMetrikaGoal('payment_redirect',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:pkgId,payment_method:paymentType});}catch(e){}
         window.location.assign(data.redirect_url);         // go to Platega payment page
         return;
       }
@@ -3270,7 +3361,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     if(sb)sb.setAttribute('aria-checked',String(m==='sbp'));
     if(cb)cb.setAttribute('aria-checked',String(m==='card'));
     const lab=byId('coPayLabel'),ico=byId('coPayIco');
-    if(lab)lab.textContent=(m==='sbp'?'Оплатить по СБП':'Оплатить картой');
+    if(lab)lab.textContent=(m==='sbp'?'Оплатить по СБП':'Оплатить российской картой');
     if(ico)ico.src=(m==='sbp'?'assets/payment/sbp.svg':'assets/payment/mir.svg');
     if(changed&&appliedPromo)resetPromo('Способ оплаты изменён — примените промокод заново.');
   }

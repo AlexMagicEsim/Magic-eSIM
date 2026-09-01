@@ -1355,12 +1355,65 @@ function createApi(deps = {}) {
     });
   }
 
+  /**
+   * One funnel event. Fire and forget, by design and without exception.
+   *
+   * WHY THIS EXISTS AT ALL. The Mini App had no analytics of any kind, so
+   * «people opened it» and «people got as far as pressing pay» were the same
+   * unknown. Five names close that.
+   *
+   * WHY IT IS OURS RATHER THAN YANDEX METRIKA. The app runs under
+   * `default-src 'none'` with `script-src 'self' https://telegram.org`. Letting
+   * a third-party recorder into an authenticated surface that also holds the
+   * payment redirect is a bigger concession than one append-only table of our
+   * own. The website keeps Metrika; the two funnels are compared by event name.
+   *
+   * WHAT IT MUST NEVER DO. Block, throw, retry, or be awaited by anything a
+   * customer is waiting on. Every call site fires it and walks away, the
+   * promise is swallowed here, and `keepalive` lets the request outlive the
+   * screen that started it. A Mini App that could be broken by its own
+   * analytics would be a bad trade for any measurement.
+   *
+   * `payment_success` is deliberately not one of the names. A purchase is what
+   * the Platega webhook says it is.
+   */
+  function track(event, props) {
+    try {
+      if (!sessionToken) return;               // unauthenticated: nothing to attribute
+      const body = { event };
+      if (props && props.country_code) body.country_code = props.country_code;
+      if (props && props.payment_method) body.payment_method = props.payment_method;
+
+      // Not `request()`, and not even `once()`: both layers retry, throw and
+      // classify. None of that is wanted here — a lost event is cheaper than a
+      // retried one, and an event that can throw is an event that can break a
+      // screen. The primary endpoint only: no failover for a counter.
+      //
+      // But once() is ALSO where the abort timer lives, and skipping it left
+      // this as the only request in the app with no timeout — a beacon on a bad
+      // foreign network hanging indefinitely, in a keepalive pool that is
+      // finite. So the timer comes along; the retry does not.
+      const controller = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = controller ? setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS) : null;
+
+      doFetch(endpoints[0].base + '/api/v1/tma/events', {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionToken}` },
+        body: JSON.stringify(body),
+        signal: controller ? controller.signal : undefined,
+      })
+        .catch(() => {})
+        .then(() => { if (timer) clearTimeout(timer); });
+    } catch (_) { /* analytics is never a reason for anything to fail */ }
+  }
+
   return {
     openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
     hiddenEsims, renameEsim, setEsimVisibility, revokeEmail, promoQuote, setNotificationPrefs,
     setLanguage,
-    esims, esim, activation, refreshUsage, purchase,
+    esims, esim, activation, refreshUsage, purchase, track,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },
   };

@@ -350,6 +350,11 @@
   });
   const history = [];
 
+  /* The last screen event sent, so re-entering the same screen does not count
+     twice. Reset by nothing: a customer who genuinely moves away and comes back
+     to a DIFFERENT country changes the key and is counted again. */
+  let lastScreenEvent = null;
+
   function show(name, { push = true } = {}) {
     if (push && state.screen !== name) history.push(state.screen);
     // Leaving S6 stops its poll. Without this the timer outlived the screen,
@@ -361,6 +366,33 @@
     // fire a success haptic while the customer is somewhere else entirely.
     if (state.screen === 'topup' && name !== 'topup') { stopTopupPoll(); resumeOnReturn = null; }
     state.screen = name;
+
+    /* Funnel events, from the single place every screen change already passes
+       through. Two screens are worth counting and the rest are noise:
+       `country` is «picked a destination», `checkout` is «reached the form».
+       Both are fire-and-forget; see track() in core.js.
+
+       Placed after `state.screen` is set so an event can never describe a
+       screen the customer did not actually get to.
+
+       COALESCED, and for two reasons at once. show() is re-entered by
+       goBack() and by the sort toggle, so tariff -> back -> country used to
+       count a second country_view and every re-sort counted another: the
+       numerator exceeded distinct views by however much the customer fidgeted.
+       And each repeat was also a request — browsing this app used to cost zero
+       — so the same fix removes the traffic that made the beacons worth
+       rate-limiting separately in the first place. */
+    const code = state.country && state.country.country_code;
+    const key = `${name}:${code || ''}`;
+    if ((name === 'country' || name === 'checkout') && key !== lastScreenEvent) {
+      lastScreenEvent = key;
+      // From the group the customer navigated through. The purchase intent
+      // carries no country — it is a package id and a term — and adding one to
+      // it would put an analytics field inside the object that mints the
+      // idempotency key.
+      api && api.track(name === 'country' ? 'country_view' : 'checkout_open', { country_code: code });
+    }
+
     for (const s of SCREENS) {
       const node = document.getElementById(`screen-${s}`);
       if (!node) continue;
@@ -1984,6 +2016,10 @@
    */
   function openTariff(p, group) {
     state.tariff = { pkg: p, group };
+    /* Before show(), so the order of events matches the order of the journey:
+       a tariff is selected and then its screen appears. show() itself fires
+       nothing for 'tariff' — there is one call site and this is it. */
+    api && api.track('tariff_select', { country_code: group && group.country_code });
     show('tariff');
     const box = $('#tariff-body');
     clear(box);
@@ -2573,6 +2609,16 @@
      */
     state.intent.promo_code = state.promo ? state.promo.code : undefined;
     haptic('medium');
+
+    /* The last thing the customer does inside the app. Fired before the call
+       rather than after it, because after it the screen may already be gone —
+       and because this counts intent to pay, which is what the website's
+       payment_*_click counts. Whether the money arrived is the webhook's answer,
+       never this one. */
+    api && api.track('payment_click', {
+      country_code: state.country && state.country.country_code,
+      payment_method: state.intent && state.intent.payment_type,
+    });
 
     try {
       const out = await api.purchase(state.intent);
@@ -4061,6 +4107,18 @@
    * Boot
    * ------------------------------------------------------------------ */
 
+  /* Fired once per launch, from the ONE place a session is minted.
+     It used to live in boot(), which is only one of three call sites: the
+     «проверить ещё раз» recovery and the re-auth path both mint a session
+     without going through it, so a customer whose first attempt failed on a
+     cold gateway was never counted as an open — while still being counted at
+     every later step. A denominator smaller than its own numerators is worse
+     than no denominator, because it looks like a conversion rate.
+
+     Guarded by `opened` rather than fired on every mint: re-authenticating
+     mid-session is not a second launch. */
+  let opened = false;
+
   async function authenticate() {
     const initData = tg && tg.initData ? tg.initData : '';
     if (!initData) {
@@ -4069,7 +4127,18 @@
       throw Object.assign(new Error('no initData'), { code: 'NO_TELEGRAM' });
     }
 
-    return api.openSession(initData);
+    const out = await api.openSession(initData);
+
+    /* The launch itself, counted where the session actually becomes real rather
+       than in one of the three callers. After openSession, because a session is
+       what an event can be attributed to — before it there is no customer and
+       track() drops the call. */
+    if (!opened) {
+      opened = true;
+      api && api.track('miniapp_open');
+    }
+
+    return out;
   }
 
   async function boot() {

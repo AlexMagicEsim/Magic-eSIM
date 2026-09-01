@@ -2081,3 +2081,79 @@ test('the tariff wording tables answer for exactly the same phrases', () => {
   assert.deepEqual(Object.keys(C.TARIFF_TEXT_EN).sort(), ruKeys,
     'the English tariff table and the generated Russian one disagree');
 });
+
+/* --------------------------------------------------------------------------
+ * Mini App funnel events
+ *
+ * The Mini App had no analytics of any kind, so «people opened it» and «people
+ * got as far as pressing pay» were the same unknown. Five names close that.
+ *
+ * Everything asserted here is about what track() must NOT do. A counter that
+ * can throw, block, retry or be awaited is a counter that can break a purchase,
+ * and the app is worth more than the measurement.
+ * ----------------------------------------------------------------------- */
+
+test('track sends one event, to the primary endpoint, with the bearer', async () => {
+  const { client, fetchStub } = api([OK({ session_token: 't', expires_in: 1800 })]);
+  await client.openSession('init');
+  fetchStub.calls.length = 0;
+
+  client.track('miniapp_open');
+  await nap();
+
+  assert.equal(fetchStub.calls.length, 1);
+  const call = fetchStub.calls[0];
+  assert.match(call.url, /\/api\/v1\/tma\/events$/);
+  assert.equal(call.opts.method, 'POST');
+  assert.equal(call.opts.headers.Authorization, 'Bearer t');
+  assert.equal(call.opts.keepalive, true, 'the beacon must outlive the screen that fired it');
+  assert.deepEqual(call.body, { event: 'miniapp_open' });
+});
+
+test('track carries only the country and the payment method, never anything else', async () => {
+  const { client, fetchStub } = api([OK({ session_token: 't', expires_in: 1800 })]);
+  await client.openSession('init');
+  fetchStub.calls.length = 0;
+
+  client.track('payment_click', {
+    country_code: 'TR',
+    payment_method: 'sbp',
+    // Everything below must be dropped: the beacon has a fixed shape and a
+    // caller cannot widen it by passing more.
+    email: 'a@b.c', price_rub: 1234, package_id: 'pkg', token: 'secret',
+  });
+  await nap();
+
+  assert.deepEqual(fetchStub.calls[0].body, {
+    event: 'payment_click', country_code: 'TR', payment_method: 'sbp',
+  });
+});
+
+test('track without a session sends nothing at all', async () => {
+  // Before authentication there is no customer to attribute an event to, and
+  // the server would refuse it. Sending anyway would be a request that exists
+  // only to be rejected.
+  const { client, fetchStub } = api([]);
+  client.track('miniapp_open');
+  await nap();
+  assert.equal(fetchStub.calls.length, 0);
+});
+
+test('track never throws and never rejects, whatever the network does', async () => {
+  const { client } = api([OK({ session_token: 't', expires_in: 1800 })], {
+    fetch: async () => { throw new Error('offline'); },
+  });
+  // openSession fails here too; that is fine — the point is the next line.
+  await client.openSession('init').catch(() => {});
+
+  assert.doesNotThrow(() => client.track('miniapp_open'));
+  // And nothing is left unhandled: a rejected promise escaping this would
+  // crash the app on an unhandledrejection handler.
+  await nap();
+});
+
+test('track returns undefined, so no call site can accidentally await it', async () => {
+  const { client } = api([OK({ session_token: 't', expires_in: 1800 })]);
+  await client.openSession('init');
+  assert.equal(client.track('miniapp_open'), undefined);
+});

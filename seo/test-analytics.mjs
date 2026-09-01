@@ -90,9 +90,51 @@ const PAGES = ['index.html', 'payment-success.html', 'payment-failed.html',
   'esim/uae/index.html', 'esim/vietnam/index.html', 'esim/france/index.html',
   'esim/japan/index.html'];
 
-test('every page ships the identical allowlist', () => {
-  const seen = new Set(PAGES.map((p) => JSON.stringify(Object.entries(wrapperOf(p).GOALS).sort())));
-  assert.equal(seen.size, 1, 'allowlist has drifted between pages');
+// The landing is the only page with a checkout, so it is the only page that can
+// fire a checkout goal. Everything else ships the generated wrapper.
+const SHARED_PAGES = PAGES.filter((p) => p !== 'index.html');
+
+test('every page but the landing ships the identical allowlist', () => {
+  // 198 country pages + the hub + the two result pages get their wrapper from
+  // one place (build-catalogue-pages.mjs bootstraps it from esim/thailand), and
+  // drift between them would mean a goal silently dropped on some pages and not
+  // others — the defect this file was written for.
+  const seen = new Set(SHARED_PAGES.map((p) => JSON.stringify(Object.entries(wrapperOf(p).GOALS).sort())));
+  assert.equal(seen.size, 1, 'allowlist has drifted between the generated pages');
+});
+
+test('the landing may extend the allowlist, but only with goals only it fires', () => {
+  /*
+   * WHY THIS IS NOT «identical everywhere».
+   *
+   * It was, and the cost showed up the first time a goal was added: the
+   * allowlist is inline in every page, `seo/sitemap-lastmod.json` derives
+   * lastmod from page CONTENT, so one new Metrika goal rewrote 201 files and
+   * announced 154 freshly-modified URLs to Yandex — for a change no reader can
+   * see, on a domain whose diagnosed problem is SQI 0 and a pending region
+   * request. That is the mass re-date handoff §25.1 exists to end, arriving
+   * through a different door.
+   *
+   * The invariant that actually matters is narrower and is asserted here: a
+   * page may only carry an extra goal if that goal is fired NOWHERE ELSE. So
+   * `payment_redirect` lives on the one page with a checkout, the country pages
+   * are untouched, and a goal added to the landing that some other page fires
+   * still fails — which is the regression the old test really guarded.
+   */
+  const landing = new Set(Object.keys(wrapperOf('index.html').GOALS));
+  const shared = new Set(Object.keys(wrapperOf(SHARED_PAGES[0]).GOALS));
+
+  for (const g of shared) {
+    assert.ok(landing.has(g), `the landing dropped a shared goal: ${g}`);
+  }
+
+  const extra = [...landing].filter((g) => !shared.has(g));
+  for (const g of extra) {
+    for (const f of ['assets/country-tariffs.js', 'payment-success.html', 'payment-failed.html']) {
+      assert.ok(!read(f).includes(`magicMetrikaGoal('${g}'`),
+        `${g} is allowlisted only on the landing but ${f} fires it — it would be dropped there`);
+    }
+  }
 });
 
 // The bug this whole file exists to prevent: three promo goals were called for
