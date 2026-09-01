@@ -107,6 +107,17 @@ test('the committed HTML is exactly what the generator produces', () => {
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
+test('the suite still runs its files one at a time', () => {
+  // seo/test-sitemap-lastmod.mjs mutates the real working tree and restores it.
+  // The two sandbox() calls in this file copy that tree. Run in parallel — which
+  // is `node --test`'s default — the copy can catch the other file mid-restore
+  // and this file goes red on a page nobody touched, about one run in six.
+  // The flag is the fix; this assertion is what stops it being dropped.
+  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+  assert.match(pkg.scripts.test, /--test-concurrency=1/,
+    'npm test потерял --test-concurrency=1: этот файл и seo/test-sitemap-lastmod.mjs снова гонятся за одно дерево');
+});
+
 test('every editorial country has a profile — no page may bypass the gates', () => {
   const orphan = ALL.map((c) => c.slug).filter((s) => !PROFILES.has(s));
   assert.deepEqual(orphan, [],

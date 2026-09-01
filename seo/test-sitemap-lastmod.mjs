@@ -73,6 +73,21 @@ function restore(s) {
 // Taken once, at import, before any test has run.
 const BASELINE = snapshot();
 
+// THIS FILE MUTATES THE REAL WORKING TREE. It has to: test 0 asserts that the
+// COMMITTED pages match what the generator produces, and a sandbox copy would
+// not be the committed tree. The snapshot above and restore() below put it back.
+//
+//   But `node --test` runs test FILES in parallel, and seo/test-one-pipeline.mjs
+//   copies the working tree into a sandbox to make the same comparison. When the
+//   two overlap, that copy catches this file mid-restore and the pipeline test
+//   goes red on a page nobody edited. Measured 2026-09-01: roughly one run in
+//   six. A gate that fails one time in six is worse than no gate — it teaches
+//   everyone to re-run instead of read.
+//
+//   `npm test` therefore passes --test-concurrency=1, and
+//   seo/test-one-pipeline.mjs asserts that the flag is still in package.json.
+//   Do not remove either half.
+
 // ── 0. read-only, and deliberately first ────────────────────────────────────
 test('0. the committed state still matches the pages on disk', () => {
   // Catches: someone edits a page by hand — as f65233b did to twelve legacy
