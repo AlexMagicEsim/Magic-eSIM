@@ -356,3 +356,156 @@ test('the Mini App beacon has the same timeout as every other request', () => {
   assert.match(fn, /clearTimeout\(timer\)/, 'the timer is never cleared');
   assert.match(fn, /keepalive: true/, 'the beacon must survive the payment redirect');
 });
+
+// ---------------------------------------------------------------------------
+// The payment-method rule, on every surface that can take money
+//
+// CLAUDE.md states it once and it applies everywhere: «оплата российской
+// банковской картой или через СБП», and nothing may imply a foreign card works.
+// It was true on the 46 authored country pages and false on all three surfaces
+// where somebody actually pays — the public checkout, the Mini App and /pay/ —
+// which is the wrong way round. This asserts the rule where the money is.
+// ---------------------------------------------------------------------------
+
+const PAYING_SURFACES = [
+  ['public checkout', 'index.html'],
+  ['Mini App markup', 'app/index.html'],
+  ['Mini App locales', 'app/locales.js'],
+  ['private pay', '404.html'],
+];
+
+/**
+ * A card label a buyer reads, qualified or not.
+ *
+ * Extracted rather than eyeballed, because the thing that regresses here is not
+ * an exotic phrase — it is the plain word. `Карта`, `Банковская карта`, `Card`,
+ * `Bank card`: every one of them was live on some paying surface this morning,
+ * and none of them contains anything a forbidden-phrase list would catch.
+ */
+function unqualifiedCardLabels(src) {
+  const candidates = [
+    // Quoted strings: locales, the pay page's label maps.
+    ...[...src.matchAll(/'([^'\n]{1,60})'/g)].map((m) => m[1]),
+    // Element text: the checkout chips and the static Mini App markup.
+    ...[...src.matchAll(/>([^<>\n]{1,60})</g)].map((m) => m[1]),
+  ].map((t) => t.trim());
+
+  return candidates.filter((t) => {
+    // A payment LABEL, not prose that happens to contain the word. Russian
+    // «карта» also means map and chart — «карты, мессенджеры и сервисы» is about
+    // maps — so a label is short and is about paying or is the word itself.
+    if (!/^[^.!?]{1,40}$/.test(t)) return false;
+    if (!/(карт|card)/i.test(t)) return false;
+    if (/sim|покрыт|coverage/i.test(t)) return false;
+    // Identifiers are not labels. `card`, `coMethodCard`, `payment_card_click`
+    // and `data-method="card"` all contain the word and none of them is read by
+    // a human: a code token starts lowercase and has no space, while a label is
+    // either Cyrillic, capitalised, or several words.
+    if (/^[a-z][A-Za-z0-9_-]*$/.test(t)) return false;
+    if (!/(оплат|pay|карта$|картой|card$)/i.test(t)) return false;
+    return !/(росси[йи]ск|russian)/i.test(t);
+  });
+}
+
+test('the rule can fail — it fires on every label this change removed', () => {
+  // FIRST, before the corpus is checked, because a rule that cannot fail is
+  // worse than no rule: it reports clean forever. The previous version of this
+  // test banned eight phrases — «любой картой», «any card» and friends — not one
+  // of which has ever appeared in this repo. It passed vacuously while the
+  // actual defect sat on three surfaces.
+  for (const removed of ["'Карта'", "'Банковская карта'", "'Card'", "'Bank card'",
+    "card:'Оплата картой'", "card:'Оплатить картой'", '>Карта<']) {
+    assert.ok(unqualifiedCardLabels(removed).length > 0,
+      `the rule does not fire on a label it exists to catch: ${removed}`);
+  }
+  // And it does not fire on the corrected forms, or on prose about maps.
+  for (const fine of ["'Российская карта'", "'Russian card'", "'СБП'", "'SBP'",
+    '>Российская карта<', 'оплатите тариф — карты, мессенджеры и сервисы под рукой']) {
+    assert.deepEqual(unqualifiedCardLabels(fine), [],
+      `the rule fires on something correct: ${fine}`);
+  }
+});
+
+test('no paying surface carries an unqualified card label', () => {
+  for (const [name, file] of PAYING_SURFACES) {
+    const bad = unqualifiedCardLabels(read(file));
+    assert.deepEqual(bad, [], `${name} has card labels without the qualifier: ${JSON.stringify(bad)}`);
+  }
+});
+
+test('and none of them implies a foreign card works', () => {
+  // Kept as a second, narrower net. It has never caught anything and is not
+  // expected to; it exists because «любой картой» is the one phrasing CLAUDE.md
+  // names explicitly, and a rule the project states by name should be asserted
+  // by name even when nothing violates it today.
+  for (const [name, file] of PAYING_SURFACES) {
+    const src = read(file).toLowerCase();
+    for (const forbidden of ['любой картой', 'любая карта', 'карта любого банка',
+      'иностранной картой', 'международной картой', 'зарубежной картой',
+      'any card', 'any bank card']) {
+      assert.ok(!src.includes(forbidden), `${name} says «${forbidden}»`);
+    }
+  }
+});
+
+test('every surface that takes money names the restriction', () => {
+  /*
+   * Positive assertions on the actual strings, rather than a scan.
+   *
+   * The scan was tried first and produced a false positive that is worth
+   * recording: «Выберите страну, оплатите тариф … — карты, мессенджеры и
+   * сервисы» is about MAPS. Russian «карта» means map, card and chart, and any
+   * heuristic over prose will keep tripping on that. The labels are few and
+   * they are known, so naming them is both honest and stable — and a new
+   * payment label added without the qualifier is caught by the forbidden-phrase
+   * test above plus review, which is the right division of labour.
+   */
+  const landing = read('index.html');
+  assert.match(landing, /Российская карта/, 'public checkout: the method chip');
+  assert.match(landing, /Оплатить российской картой/, 'public checkout: the pay button');
+  assert.match(landing, /СБП или российская банковская карта/, 'public checkout: the note');
+
+  const miniMarkup = read('app/index.html');
+  assert.match(miniMarkup, /data-i18n="checkout\.card">Российская карта</,
+    'Mini App: the chip the FIRST PAINT shows, before i18n runs');
+  assert.match(miniMarkup, /Оплата через СБП или российской банковской картой/,
+    'Mini App: the home note at first paint');
+
+  const locales = read('app/locales.js');
+  assert.match(locales, /'checkout\.card': 'Российская карта'/, 'Mini App RU: purchase');
+  assert.match(locales, /'topup\.card': 'Российская карта'/, 'Mini App RU: top-up');
+  assert.match(locales, /'checkout\.card': 'Russian card'/, 'Mini App EN: purchase');
+  assert.match(locales, /'topup\.card': 'Russian card'/, 'Mini App EN: top-up');
+  assert.match(locales, /Оплата через СБП или российской банковской картой/, 'Mini App RU: home note');
+  assert.match(locales, /Pay via SBP or with a Russian bank card/, 'Mini App EN: home note');
+
+  const pay = read('404.html');
+  assert.match(pay, /label:'Российская карта'/, '/pay/: the fallback method list');
+  assert.match(pay, /card:'Оплата российской картой'/, '/pay/: the method label');
+  assert.match(pay, /card:'Оплатить российской картой'/, '/pay/: the CTA');
+});
+
+test('the Mini App has TWO pickers and both were corrected', () => {
+  // Easy to miss: the purchase checkout reads checkout.card, the top-up reads
+  // topup.card, and they had different wording («Карта» against «Банковская
+  // карта»). Fixing one and not the other would leave a buyer told different
+  // things about the same rail depending on which screen they reached.
+  const ui = read('app/ui.js');
+  assert.match(ui, /methodButton\('card', t\('topup\.card'\)\)/, 'the top-up picker still reads topup.card');
+  assert.match(read('app/index.html'), /data-i18n="checkout\.card"/, 'the purchase picker still reads checkout.card');
+
+  const locales = read('app/locales.js');
+  const ruCard = [...locales.matchAll(/'(?:checkout|topup)\.card': '([^']+)'/g)].map((m) => m[1]);
+  assert.equal(ruCard.length, 4, 'expected two keys in two languages');
+  for (const label of ruCard) {
+    assert.match(label, /росси[йи]ск|Russian/i, `a picker label without the qualifier: «${label}»`);
+  }
+});
+
+test('SBP wording is untouched on every surface', () => {
+  // The brief was explicit: only the card method changes.
+  assert.match(read('index.html'), /Оплатить по СБП/);
+  assert.match(read('app/locales.js'), /'checkout\.sbp': 'СБП'/);
+  assert.match(read('app/locales.js'), /'checkout\.sbp': 'SBP'/);
+  assert.match(read('404.html'), /Оплатить через СБП/);
+});

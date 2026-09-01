@@ -158,3 +158,78 @@ test.describe('Mini App layout, in English', () => {
     expect(await overflowingInside(page, '#screen-help')).toEqual([]);
   });
 });
+
+/**
+ * The payment pickers, at both viewports.
+ *
+ * WHY THIS EXISTS. On 2026-09-01 the card label was changed from «Карта» to
+ * «Российская карта» — a correctness fix, because Platega takes Russian-issued
+ * cards only and the short label invited a foreign-card holder to pick it and
+ * fail at the payment page. The label is three times longer, and on the PUBLIC
+ * checkout it was then drawn 13px OUTSIDE its own button at 320px: the МИР logo
+ * is 60px, the text could not shrink, and `.co-method` sets no overflow, so the
+ * label spilled past the rounded border rather than clipping.
+ *
+ * It shipped. This suite already ran at 320x568 and would have caught it, but
+ * every case in it was about Settings, Home, the tab bar, My eSIMs and Help —
+ * nothing had ever rendered a payment control. That gap is what these close.
+ */
+test.describe('payment pickers fit the buttons they are drawn in', () => {
+  test('the Mini App purchase picker holds its labels', async ({ page }) => {
+    await installMiniApp(page);
+    await openApp(page);
+
+    // The screens are all present and toggled with [data-active], so the
+    // checkout can be shown without walking a purchase.
+    await page.evaluate(() => {
+      document.querySelectorAll('[id^=screen-]').forEach((s) => s.removeAttribute('data-active'));
+      document.getElementById('screen-checkout').setAttribute('data-active', '');
+    });
+
+    expect(await overflowingInside(page, '#checkout-methods')).toEqual([]);
+
+    // Equal height, whether or not the longer label wraps. A picker where one
+    // option is taller than the other reads as one of them being selected.
+    const heights = await page.$$eval('#checkout-methods .segmented__opt',
+      (els) => els.map((e) => Math.round(e.getBoundingClientRect().height)));
+    expect(heights.length).toBe(2);
+    expect(heights[0]).toBe(heights[1]);
+  });
+
+  test('the public checkout picker holds its labels', async ({ page }) => {
+    await page.goto('/index.html');
+
+    // The overlay is revealed by clearing `hidden`, not by walking a purchase.
+    // Opening it for real needs the catalogue API, which these tests do not
+    // reach — and the method buttons are STATIC markup, so what is being
+    // measured does not depend on any tariff being loaded. Nothing else is
+    // overridden: no widths, no styles, no display.
+    await page.waitForSelector('#checkoutModal', { state: 'attached', timeout: 15_000 });
+    await page.evaluate(() => {
+      document.getElementById('checkoutModal').hidden = false;
+    });
+    await page.waitForSelector('#coMethodCard', { state: 'visible', timeout: 15_000 });
+
+    // THE REGRESSION, asserted directly: the label must be inside its button.
+    // `overflowingInside` alone would not have caught it — the spill escaped the
+    // button without ever reaching the viewport.
+    const spill = await page.$$eval('.co-method', (els) => els.map((b) => {
+      const span = b.querySelector('span');
+      return {
+        label: span.textContent.trim(),
+        overflow: b.scrollWidth - b.clientWidth,
+        spill: Math.round(span.getBoundingClientRect().right - b.getBoundingClientRect().right),
+      };
+    }));
+
+    for (const m of spill) {
+      expect(m.overflow, `«${m.label}» overflows its button by ${m.overflow}px`).toBeLessThanOrEqual(1);
+      expect(m.spill, `«${m.label}» is drawn ${m.spill}px outside its button`).toBeLessThanOrEqual(0);
+    }
+
+    const heights = spill.length;
+    expect(heights).toBe(2);
+    expect(await page.evaluate(() =>
+      document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  });
+});

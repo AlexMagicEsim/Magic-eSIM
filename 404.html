@@ -299,8 +299,8 @@ body{
     function renderMethodChoice(secret, bounds){
       var list = (bounds && bounds.methods && bounds.methods.length)
         ? bounds.methods
-        : [{type:'sbp', label:'СБП'}, {type:'card', label:'Банковская карта'}];
-      var LABELS = { sbp:'Оплата по СБП', card:'Оплата картой' };
+        : [{type:'sbp', label:'СБП'}, {type:'card', label:'Российская карта'}];
+      var LABELS = { sbp:'Оплата по СБП', card:'Оплата российской картой' };
       card.innerHTML = '<h1>Оплата</h1>'
         + '<div class="methods">'
         +   list.map(function(m,i){
@@ -320,7 +320,7 @@ body{
     function renderAmountForm(secret, bounds, method){
       var min = (bounds && bounds.minRub) || 100;
       var max = (bounds && bounds.maxRub) || 100000;
-      var METHOD_CTA = { sbp:'Оплатить через СБП', card:'Оплатить картой' };
+      var METHOD_CTA = { sbp:'Оплатить через СБП', card:'Оплатить российской картой' };
       card.innerHTML = '<h1>Оплата</h1>'
         + '<form id="payForm" novalidate>'
         +   '<div class="field">'

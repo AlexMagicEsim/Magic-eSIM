@@ -382,6 +382,18 @@ body:before{opacity:.55}   /* приглушить фоновую сетку */
 .checkout-method{display:flex;gap:8px;margin-top:14px}
 .co-method{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card,#fff);color:var(--text);font-size:14px;font-weight:600;cursor:pointer}
 .co-method .pay-ico{height:18px;width:auto}
+/* «Российская карта» does not fit beside the 60px МИР logo on a 320px screen,
+   and the button has no overflow rule — so the label was DRAWN OUTSIDE the
+   pill, 13px past its own border. Measured on production before this fix:
+   scrollWidth 135 against clientWidth 121. The old «Карта» fitted at 121/121,
+   so the wording change caused it and this is its other half.
+
+   Scoped to the width that needs it. Unscoped, `flex-wrap` also wraps at
+   390px — where the label already fits — and grew every button from 56px to
+   66px on the primary viewport for nothing. Below 360px the icon takes its
+   own line and the label takes the next; both buttons stay equal height and
+   the page still does not scroll sideways. */
+@media(max-width:360px){.co-method{flex-wrap:wrap}.co-method>span{min-width:0}}
 .co-method[aria-checked="true"]{border-color:#4267E8;box-shadow:0 0 0 2px rgba(66,103,232,.18);background:rgba(66,103,232,.06)}
 .co-method:focus-visible{outline:2px solid #4267E8;outline-offset:2px}
 @media (max-width:430px){.co-promo-apply{padding:11px 12px}}

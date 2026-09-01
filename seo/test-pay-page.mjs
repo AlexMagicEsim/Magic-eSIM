@@ -120,7 +120,12 @@ test('screen 1 offers exactly two methods and creates nothing', () => {
   const body = payScript();
   const fn = body.slice(body.indexOf('function renderMethodChoice('), body.indexOf('function renderAmountForm('));
   assert.match(fn, /Оплата по СБП/);
-  assert.match(fn, /Оплата картой/);
+  // The card option must NAME the restriction. Platega takes Russian-issued
+  // cards only, and «Оплата картой» invited a foreign-card holder to pick it
+  // and fail at the payment page. CLAUDE.md makes the phrasing a project rule:
+  // «российской банковской картой или через СБП», never anything that implies a
+  // foreign card works.
+  assert.match(fn, /Оплата российской картой/);
   assert.match(fn, /data-method="/, 'each control carries the word the API expects');
   // The choice screen must not be able to create anything: no write call at all.
   assert.ok(!/pay-link\/.*charge/.test(fn), 'the choice screen never calls the create endpoint');
@@ -132,7 +137,7 @@ test('screen 1 offers exactly two methods and creates nothing', () => {
 test('screen 2 is the amount for the chosen method, and can go back', () => {
   const body = payScript();
   assert.match(body, /function renderAmountForm\(secret, bounds, method\)/, 'the method reaches screen 2');
-  assert.match(body, /METHOD_CTA = \{ sbp:'Оплатить через СБП', card:'Оплатить картой' \}/);
+  assert.match(body, /METHOD_CTA = \{ sbp:'Оплатить через СБП', card:'Оплатить российской картой' \}/);
   assert.match(body, /id="backBtn"/, 'a way back to the choice');
   assert.match(body, /backBtn.*renderMethodChoice\(secret, bounds\)/s, 'back returns to screen 1');
   // Still one amount field, integer, numeric.
@@ -358,4 +363,31 @@ test('nothing anywhere on the page renders a QR any more', () => {
   assert.ok(!/qr\.png/.test(code), 'the QR image endpoint is no longer called');
   assert.ok(!/<img/.test(code), 'no image element is rendered at all');
   assert.ok(!/qrKind|qrUrl/.test(code), 'the QR fields are no longer read');
+});
+
+test('nothing on this page implies a foreign card works', () => {
+  /*
+   * The rule, asserted rather than remembered. CLAUDE.md: the only correct
+   * phrasing anywhere — site copy, SEO content, support answers — is «оплата
+   * российской банковской картой или через СБП». Platega restored card
+   * acquiring on 2026-08-31 but foreign cards remain unsupported, and that is a
+   * scope rather than a fault, so the copy has to state it.
+   *
+   * This page was the last surface still saying «Оплата картой» flat: the
+   * public checkout was corrected on 2026-09-01, the Mini App and this file on
+   * the same day after review found them.
+   */
+  const body = payScript();
+  for (const forbidden of ['любой картой', 'любая карта', 'карта любого банка',
+    'иностранной картой', 'международной картой', 'зарубежной картой']) {
+    assert.ok(!body.toLowerCase().includes(forbidden.toLowerCase()),
+      `the pay page says «${forbidden}»`);
+  }
+  // And every card label that a payer READS carries the qualifier. Matched on
+  // the quoted strings so a mention inside a comment cannot satisfy it.
+  const labels = [...body.matchAll(/'([^']*карт[^']*)'/gi)].map((m) => m[1]);
+  assert.ok(labels.length > 0, 'the matcher found no card label at all');
+  for (const label of labels) {
+    assert.match(label, /росси[йи]ск/i, `a card label without the qualifier: «${label}»`);
+  }
 });
