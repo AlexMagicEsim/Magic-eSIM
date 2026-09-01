@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-31T13:59:58.081Z",
+  "generated_at": "2026-09-01T05:19:51.717Z",
   "source": "production-public-api",
   "package_count": 2295,
   "packages": [
@@ -117144,7 +117144,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Hutch",
+          "operator": "Mobitel",
           "type": "4G"
         }
       ],
@@ -117159,7 +117159,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
