@@ -129,7 +129,7 @@ for (const p of pages) {
   if (faqLd) {
     const ldQ = (faqLd.mainEntity || []).map((q) => norm(String(q.name || '')));
     // TWO markup vocabularies coexist and both are current. The legacy generator
-    // (build-country-pages.mjs, 12 countries + the guides) emits
+    // (build-catalogue-pages.mjs and the guides) emits
     // <p class="faq-q">; the catalogue generator (190 pages) emits
     // <details class="faq-item"><summary>. Matching only the first made this
     // check silent on 190 of 202 pages while reporting 1141 phantom failures.

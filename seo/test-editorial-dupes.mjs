@@ -116,3 +116,73 @@ test('the rules can fail — each fires on the defect it was written for', () =>
   const EARLY = /(?:поставить|установить|ставить|устанавливается)[^.!?]{0,60}(?:заранее|дома|до\s+вылета)/i;
   assert.ok(EARLY.test('Оплатить можно картой, а профиль поставить дома по Wi-Fi заранее.'), 'совет ставить заранее обязан находиться');
 });
+
+// ── The contextual link to /esim/dual-sim-sms/ ────────────────────────────
+//
+//   One guide was linked from ZERO country pages while ~15 of their FAQ answers
+//   restated it. The fix is a per-profile sentence, not a template line, so the
+//   wording and the anchor differ per page — which only holds if something
+//   checks it. A review found four failure modes this file now pins: a note on a
+//   page that does not discuss the topic; a page that discusses it and has none;
+//   two `{link}` placeholders silently truncating the sentence; and anchors
+//   drifting into each other.
+
+const NOTES = Object.fromEntries(Object.entries(P).filter(([, d]) => d.dual_sim_note));
+// [\wа-яёА-ЯЁ], never \w. This is the FOURTH time the ASCII-only \w has bitten
+// in this repo — /\bот/ matched nothing, обновля\w*\s+кажд matched nothing,
+// перв\w+\s+подключени matched nothing, and this line matched nothing until the
+// test that uses it was run against real data. The rule is in CLAUDE.md now.
+const CY = '[\\wа-яёА-ЯЁ]';
+const TOPIC = new RegExp(
+  `домашн${CY}*\\s+SIM|основн${CY}*\\s+(?:номер|SIM)|российск${CY}*\\s+(?:SIM|номер)|SMS\\s+от\\s+банк`
+  + `|банковск${CY}*\\s+код|код${CY}*\\s+подтвержден|втор${CY}*\\s+лини|две\\s+лини|обычн${CY}*\\s+номер`
+  + `|ваш\\s+номер|местн${CY}*\\s+номер|ваш${CY}*\\s+остаётся|номер${CY}*\\s+(?:остаётся|не\\s+девается)`, 'i');
+
+test('a dual-sim note is well formed and can emit only its one link', () => {
+  for (const [slug, d] of Object.entries(NOTES)) {
+    const n = d.dual_sim_note;
+    assert.equal(typeof n.text, 'string', `${slug}: text не строка`);
+    assert.equal(typeof n.anchor, 'string', `${slug}: anchor не строка`);
+    assert.ok(n.anchor.trim().length >= 3, `${slug}: пустой anchor`);
+    assert.equal(n.text.split('{link}').length, 2, `${slug}: нужен ровно один {link}`);
+    for (const s of [n.text, n.anchor]) {
+      assert.ok(!/[<>]/.test(s), `${slug}: разметка в тексте заметки — эмитировать можно только {link}`);
+    }
+  }
+});
+
+test('every note sits on a page that discusses the second line', () => {
+  const bad = [];
+  for (const [slug, d] of Object.entries(NOTES)) {
+    const own = JSON.stringify([d.lead, d.intro, d.why, d.faq, d.h1, d.description]);
+    if (!TOPIC.test(own) && !TOPIC.test(d.dual_sim_note.text)) bad.push(slug);
+  }
+  assert.deepEqual(bad, [], `ссылка стоит там, где страница темы не касается: ${bad.join(', ')}`);
+});
+
+test('anchors and sentences do not converge', () => {
+  const tri = (t) => new Set(Array.from({ length: Math.max(0, t.length - 2) }, (_, i) => t.slice(i, i + 3)));
+  const j = (a, b) => { const A = tri(a), B = tri(b); const i = [...A].filter((x) => B.has(x)).length; const u = new Set([...A, ...B]).size; return u ? i / u : 0; };
+  const e = Object.entries(NOTES);
+  const bad = [];
+  for (let i = 0; i < e.length; i++) for (let k = i + 1; k < e.length; k++) {
+    const a = e[i][1].dual_sim_note, b = e[k][1].dual_sim_note;
+    if (a.anchor === b.anchor) bad.push(`одинаковый якорь: ${e[i][0]} ↔ ${e[k][0]}`);
+    else if (j(a.anchor, b.anchor) >= 0.65) bad.push(`${j(a.anchor, b.anchor).toFixed(2)} якоря ${e[i][0]} ↔ ${e[k][0]}`);
+    if (j(a.text, b.text) >= 0.65) bad.push(`${j(a.text, b.text).toFixed(2)} тексты ${e[i][0]} ↔ ${e[k][0]}`);
+  }
+  assert.deepEqual(bad, [], `заметки сходятся друг с другом:\n${bad.join('\n')}`);
+});
+
+test('the note is not a step in the numbered instructions', () => {
+  // It was one, briefly: a declarative aside numbered «5.» among four
+  // imperatives. It renders as a paragraph after the list now.
+  const { readFileSync: rf } = { readFileSync };
+  for (const slug of Object.keys(NOTES)) {
+    const html = rf(join(ROOT, `esim/${slug}/index.html`), 'utf8');
+    const ol = html.match(/<ol class="howto-list">([\s\S]*?)<\/ol>/);
+    assert.ok(ol, `${slug}: список «Как подключить» не найден`);
+    assert.ok(!ol[1].includes('dual-sim-sms'), `${slug}: ссылка снова внутри нумерованного списка`);
+    assert.match(html, /<\/ol>\s*<p class="howto-note">/, `${slug}: заметка не сразу после списка`);
+  }
+});

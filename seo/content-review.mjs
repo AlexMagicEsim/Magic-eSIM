@@ -299,6 +299,38 @@ function checkTopup(profile, sheet) {
   return [...new Set(problems)];
 }
 
+// Coverage quality at a named place. `bulgaria` and `kyrgyzstan` state the site
+// policy in as many words — «карт покрытия мы не публикуем» — and on 2026-09-01
+// eight pages broke it. All eight were from the 2026-08-12 cohort; none of the
+// 31 pages reviewed later carried one. The catalogue describes a PACKAGE
+// (network_technologies, speed) and says nothing about a metro line.
+const PLACE_COVERAGE = /(?:4G|5G|LTE)[^.!?]{0,60}(?:в\s+метро|на\s+станц|в\s+тоннел|в\s+поезд|в\s+галере|покрыт)|уверенн[а-яё]*\s+(?:4G|5G|сигнал)|закрыт[а-яё]*\s+5G|плотн[а-яё]*\s+сет|покрыт[а-яё]*\s+5G/i;
+
+function checkCoverageClaims(profile) {
+  const problems = [];
+  for (const text of proseOf(profile)) {
+    const m = String(text).match(PLACE_COVERAGE);
+    if (m) problems.push(`качество связи в конкретном месте: «${m[0].trim().slice(0, 70)}» — каталог описывает пакет, а не место`);
+  }
+  return [...new Set(problems)];
+}
+
+// Operator names, checked against the field and against what the card prints.
+function checkNetworks(profile, sheet) {
+  const known = new Set(sheet.networks || []);
+  if (!known.size) return [];
+  const problems = [];
+  for (const text of proseOf(profile)) {
+    // NOT \b — ASCII-only, and there is no word boundary before a Cyrillic «т».
+    // Fifth time in this session. The rule is in CLAUDE.md; it keeps being
+    // written from muscle memory anyway.
+    for (const m of String(text).matchAll(/(?:^|[\s(«,—-])(?:три|трёх|четыре)\s+сет[иейь]/gi)) {
+      problems.push(`«${m[0]}» — карточка печатает не больше двух операторов (packageNetworkText)`);
+    }
+  }
+  return [...new Set(problems)];
+}
+
 function checkStructure(profile) {
   const p = [];
   const title = profile.title || '';
@@ -352,6 +384,8 @@ for (const slug of scope) {
     ...(sheet ? checkAttribution(profile, sheet) : []),
     ...(sheet ? checkActivationSafety(profile, sheet) : []),
     ...(sheet ? checkTopup(profile, sheet) : []),
+    ...checkCoverageClaims(profile),
+    ...(sheet ? checkNetworks(profile, sheet) : []),
     ...checkStructure(profile),
     ...checkBanned(profile),
   ];

@@ -397,7 +397,9 @@ test('G1 landing and every country page load the shared loader', () => {
   for (const slug of ['thailand', 'turkey', 'china', 'uae', 'vietnam', 'france', 'egypt', 'japan']) {
     assert.match(read(`esim/${slug}/index.html`), /catalog-loader\.js/, `${slug} must load the loader`);
   }
-  assert.match(read('seo/build-country-pages.mjs'), /catalog-loader\.js/, 'generator must keep emitting it');
+  // build-country-pages.mjs was deleted on 2026-09-01 with the legacy page
+  // family it served; build-catalogue-pages.mjs is now the only generator.
+  assert.match(read('seo/build-catalogue-pages.mjs'), /catalog-loader\.js/, 'generator must keep emitting it');
 });
 
 test('G2 the fallback logic lives in one place only', () => {

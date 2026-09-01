@@ -52,6 +52,13 @@ export const PROFILE_DIR = join(ROOT, 'seo/content-profiles');
 // is absent on purpose, and the absence is the enforcement.
 export const EDITORIAL_KEYS = Object.freeze([
   'lead', 'intro', 'why', 'faq', 'title', 'description', 'h1',
+  // { text: '… {link} …', anchor: '…' } — one contextual link to
+  // /esim/dual-sim-sms/, on the pages that actually discuss the second line.
+  'dual_sim_note',
+  // Hand-picked neighbours for «Другие направления». Without it the block falls
+  // back to alphabetical adjacency, which is right for pages nobody curated and
+  // wrong for the six that were.
+  'related',
 ]);
 
 // Keys a profile may carry for the pipeline's own bookkeeping. Never rendered.

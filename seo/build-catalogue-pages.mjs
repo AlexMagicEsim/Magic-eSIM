@@ -48,6 +48,15 @@ const plural = (n, one, few, many) => {
 
 // Neighbours by name, purely so every page has outgoing links and none is
 // orphaned. Not a claim that the countries are related.
+function relatedFor(profile, all) {
+  const want = profile && Array.isArray(profile.related) ? profile.related : null;
+  if (!want || !want.length) return null;
+  const bySlug = new Map(all.map((c) => [c.slug, c]));
+  const missing = want.filter((slug) => !bySlug.has(slug));
+  if (missing.length) throw new Error(`related указывает на страны без страницы: ${missing.join(', ')}`);
+  return want.map((slug) => bySlug.get(slug)).slice(0, 5);
+}
+
 function nearby(country, all) {
   const i = all.findIndex((c) => c.iso === country.iso);
   const out = [];
@@ -56,6 +65,42 @@ function nearby(country, all) {
     if (n) out.push(n);
   }
   return out.slice(0, 5);
+}
+
+// One optional step linking /esim/dual-sim-sms/, rendered ONLY where the page
+// itself discusses the second line — the home number, bank SMS, whether a local
+// number is needed. Until 2026-09-01 that guide was linked from three country
+// pages out of 203, while compatibility, activation-before-travel and
+// not-working were linked from 196 each — and it was simultaneously the guide
+// that ~15 country-page answers restated. The most duplicated guide was the
+// least linked one.
+//
+// The sentence comes from the profile, so the anchor and the wording differ per
+// page: one fixed sentence on eighteen pages would be the mechanical link block
+// this is meant to avoid. `{link}` is the only markup a profile may emit;
+// everything around it is escaped as usual.
+function dualSimNote(p) {
+  const note = p && p.dual_sim_note;
+  if (!note) return '';
+  if (typeof note.text !== 'string' || typeof note.anchor !== 'string' || !note.anchor.trim()) {
+    throw new Error('dual_sim_note: text и anchor должны быть непустыми строками');
+  }
+  const parts = note.text.split('{link}');
+  // EXACTLY one. `split` on two placeholders silently dropped everything after
+  // the second, so a sentence could lose half of itself with no error at all.
+  if (parts.length !== 2) {
+    throw new Error(`dual_sim_note.text: нужен ровно один {link}, найдено ${parts.length - 1}`);
+  }
+  const [before, after] = parts;
+  // Leading newline, not a trailing one: a page WITHOUT a note must come out
+  // byte-identical to before this field existed. The first attempt left an empty
+  // line on all 198 pages, which moved every lastmod in the sitemap — a
+  // whitespace change announcing itself to crawlers as 198 edits.
+  // A paragraph AFTER the list, not a fifth <li>. The four steps are imperatives
+  // in a numbered sequence; this is a declarative aside, and numbering it «5.»
+  // turned a remark into an instruction. Leading newline keeps pages without a
+  // note byte-identical.
+  return `\n        <p class="howto-note">${esc(before)}<a href="/esim/dual-sim-sms/">${esc(note.anchor)}</a>${esc(after)}</p>`;
 }
 
 function faq(c) {
@@ -179,7 +224,13 @@ function page(c, all, profile) {
   const own = Array.isArray(p.faq) ? p.faq.filter((f) => f && f.q && f.a) : [];
   const generated = faq(c);
   const items = [...own, ...(own.length >= 4 ? generated.slice(0, 2) : generated)];
-  const links = nearby(c, all);
+  // A profile may name its own neighbours. nearby() is alphabetical adjacency —
+  // its own comment says it is not a claim that the countries are related — and
+  // that is right for pages nobody curated. But six pages migrated from the
+  // legacy generator DID carry hand-picked links, and taking the default
+  // silently turned «Кипр → Греция, Турция, Египет» into «Кипр → Канада, Кения,
+  // Киргизия», and «Бразилия → Мексика, США» into «Бонэйр, Ботсвана, Бруней».
+  const links = relatedFor(p, all) || nearby(c, all);
   const url = `${SITE}/esim/${c.slug}/`;
 
   const jsonld = {
@@ -354,7 +405,7 @@ ${METRIKA}
         <li>QR-код придёт на почту сразу после оплаты.</li>
         <li>Отсканируйте его дома по Wi-Fi: <a href="/esim/activation-before-travel/">как установить до вылета</a>.</li>
         <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/esim/not-working/">что проверить</a>.</li>
-      </ol>
+      </ol>${dualSimNote(p)}
     </section>
 
     <section class="faq">
@@ -397,7 +448,17 @@ for (const c of countries) {
   // longer true: the profile went through research, fact-checking against the
   // catalogue and a corpus-wide duplication check, and the page it produces is
   // the audited one. Without a profile the protection still stands.
-  if (editorialSlugs.has(c.slug) && !profile) { skipped++; continue; }
+  // Until 2026-09-01 this skipped an editorial slug with no profile, leaving the
+  // page to build-country-pages.mjs — a second generator build-all.mjs never
+  // called, writing from a second copy of the text in seo/countries.mjs. Six
+  // pages lived there, outside every editorial gate, and their source had
+  // already drifted from the HTML it produced. All six are profiles now and
+  // that generator is deleted: there is exactly ONE way a country page comes
+  // into existence. If this fires again, someone has started a second path.
+  if (editorialSlugs.has(c.slug) && !profile) {
+    console.error(`ОШИБКА: у ${c.slug} есть редакционная запись в seo/countries.mjs, но нет профиля в seo/content-profiles/. Второго пути генерации страниц больше нет — заведите профиль.`);
+    process.exit(1);
+  }
   if (editorialSlugs.has(c.slug)) replaced++;
   if (profile) withProfile++;
   const dir = join(ROOT, 'esim', c.slug);

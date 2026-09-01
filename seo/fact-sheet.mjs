@@ -73,6 +73,7 @@ export async function buildFactSheets() {
       daily_gb: Number(p.daily_gb) > 0 ? Number(p.daily_gb) : null,
       topup: p.topup_available === true ? 'yes' : p.topup_available === false ? 'no' : null,
       speed: String(p.speed || '').trim(),
+      networks: (Array.isArray(p.networks) ? p.networks : []).map((x) => String(x && x.operator || '').trim()).filter(Boolean),
       fup: String(p.fup_policy || '').trim(),
       activation: String(p.activation_policy || '').trim().toLowerCase(),
       activation_label: activationLabel(p.activation_policy),
@@ -165,6 +166,12 @@ export async function buildFactSheets() {
         // NAME instead of the field. Now a page may only name a value that some
         // package of that country actually carries.
         speeds: [...new Set(all.map((t) => t.speed).filter(Boolean))].sort(),
+        // Operator names a page may print. `networks` is filled on a minority of
+        // rows, and country-tariffs.js prints at most TWO of them — so «три сети»
+        // was unprintable even where three exist. The Israel page said it anyway.
+        networks: [...new Set(all.flatMap((t) => t.networks))].sort(),
+        networks_rows: all.filter((t) => t.networks.length).length,
+        rows_total: all.length,
         fup_policies: [...new Set(all.map((t) => t.fup).filter(Boolean))].sort(),
         activation_policies: [...new Set(all.map((t) => t.activation).filter(Boolean))].sort(),
         // What the CARD prints, which is what a page may repeat. A raw policy is

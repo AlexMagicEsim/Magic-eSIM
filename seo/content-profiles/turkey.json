@@ -70,5 +70,9 @@
   "reviewed_by": "content-pipeline (research → writing → review → browser QA)",
   "last_reviewed": "2026-08-12",
   "next_review": "2026-11-12",
-  "quality_score": 100
+  "quality_score": 100,
+  "dual_sim_note": {
+    "text": "Обычный номер никуда не пропадает — {link}.",
+    "anchor": "как приходят коды подтверждения"
+  }
 }
