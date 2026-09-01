@@ -165,6 +165,53 @@ function checkDailyBehaviour(profile, sheet) {
   return [...new Set(problems)];
 }
 
+// Attribution, not existence. Every finding of the 2026-09-01 review was of this
+// shape: a number that exists, attached to the wrong package or the wrong scope.
+// These three fields are where it kept happening.
+const SPEED_RE = /\b(?:[2-5]G(?:\/[2-5]G)*)\b/g;
+const THROTTLE_RE = /(\d+(?:[.,]\d+)?)\s*(Кбит\/с|Мбит\/с)/gi;
+const ACTIVATION_PHRASES = [
+  ['после установки', ['installation', 'upon_installation']],
+  ['с первого подключения', ['first_data_usage', 'network_connection', 'first_use']],
+];
+
+function checkAttribution(profile, sheet) {
+  const problems = [];
+  const speeds = sheet.speeds || [];
+  const fups = (sheet.fup_policies || []).map((x) => x.toLowerCase().replace(/\s+/g, ''));
+  const acts = sheet.activation_policies || [];
+  for (const text of proseOf(profile)) {
+    const t = String(text);
+    // Generations, not the literal string: «5G» is a fair shorthand when a
+    // package's speed reads «3G/4G/5G», and must be refused when every package
+    // in the country reads «3G/4G». A compound must also exist as written.
+    const gens = new Set(speeds.flatMap((x) => x.split('/')));
+    for (const m of t.matchAll(SPEED_RE)) {
+      if (!speeds.length) continue;
+      const parts = m[0].split('/');
+      const missing = parts.filter((g) => !gens.has(g));
+      if (missing.length) {
+        problems.push(`сеть «${m[0]}» — у тарифов этой страны указаны только: ${speeds.join(', ')}`);
+      } else if (parts.length > 1 && !speeds.includes(m[0])) {
+        problems.push(`сеть «${m[0]}» — такой комбинации у тарифов этой страны нет: ${speeds.join(', ')}`);
+      }
+    }
+    for (const m of t.matchAll(THROTTLE_RE)) {
+      const unit = m[2].toLowerCase().startsWith('к') ? 'kbps' : 'mbps';
+      const want = `${String(m[1]).replace(',', '.')}${unit}`;
+      if (fups.length && !fups.includes(want)) {
+        problems.push(`ограничение «${m[0]}» — в каталоге у этой страны: ${(sheet.fup_policies || []).join(', ') || 'нет'}`);
+      }
+    }
+    for (const [phrase, keys] of ACTIVATION_PHRASES) {
+      if (t.includes(phrase) && acts.length && !keys.some((k) => acts.includes(k))) {
+        problems.push(`активация «${phrase}…» — у тарифов этой страны: ${acts.join(', ')}`);
+      }
+    }
+  }
+  return [...new Set(problems)];
+}
+
 function checkStructure(profile) {
   const p = [];
   const title = profile.title || '';
@@ -215,6 +262,7 @@ for (const slug of scope) {
   const problems = [
     ...(sheet ? checkFacts(profile, sheet) : ['нет фактшита — страна не в каталоге']),
     ...(sheet ? checkDailyBehaviour(profile, sheet) : []),
+    ...(sheet ? checkAttribution(profile, sheet) : []),
     ...checkStructure(profile),
     ...checkBanned(profile),
   ];

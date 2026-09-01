@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-01T05:43:18.775Z",
+  "fetched_at": "2026-09-01T07:14:49.872Z",
   "source": "https://origin.magicesim.store/api/v1/packages?limit=3000",
   "countries": 199,
   "sheets": {
@@ -220,6 +220,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -435,6 +450,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -658,6 +688,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -884,6 +929,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -1104,6 +1164,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -1327,6 +1402,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -1476,6 +1566,18 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -1694,6 +1796,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "1Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -1919,6 +2036,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -2062,6 +2194,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "500 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
@@ -2302,6 +2448,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -2530,6 +2691,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
@@ -2753,6 +2929,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -2905,6 +3096,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -3030,6 +3233,17 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -3252,6 +3466,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -3478,6 +3707,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -3703,6 +3947,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -3904,6 +4163,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -4128,6 +4402,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -4354,6 +4643,22 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -4575,6 +4880,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -4814,6 +5134,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -5039,6 +5373,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -5262,6 +5611,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -5488,6 +5852,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -5710,6 +6089,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -5834,6 +6228,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -6044,6 +6452,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -6289,6 +6712,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -6510,6 +6948,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -6733,6 +7186,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -6977,6 +7445,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -7200,6 +7683,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -7422,6 +7920,21 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -7664,6 +8177,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
@@ -7822,6 +8350,17 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
@@ -7970,6 +8509,18 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -8151,6 +8702,18 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -8392,6 +8955,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 500,
@@ -8514,6 +9092,16 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -8740,6 +9328,22 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -8990,6 +9594,24 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": true,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 350,
@@ -9239,6 +9861,23 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": true,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 450,
@@ -9398,6 +10037,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -9567,6 +10219,17 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -9673,6 +10336,18 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -9803,6 +10478,19 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -10037,6 +10725,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
@@ -10218,6 +10921,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 450,
@@ -10397,6 +11112,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 450,
@@ -10574,6 +11301,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -10821,6 +11562,25 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "256 Kbps",
+        "384 Kbps",
+        "384Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": true,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 400,
@@ -10960,6 +11720,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -11063,6 +11836,17 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -11174,6 +11958,17 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -11304,6 +12099,19 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -11515,6 +12323,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -11691,6 +12513,22 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": true,
       "daily_throttle_continues": true,
@@ -11909,6 +12747,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -12038,6 +12890,19 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -12220,6 +13085,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -12427,6 +13306,19 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -12649,6 +13541,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -12834,6 +13741,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -12962,6 +13881,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -13183,6 +14115,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -13399,6 +14346,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
@@ -13540,6 +14502,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -13711,6 +14686,21 @@
         3,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
@@ -13858,6 +14848,19 @@
         3,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
@@ -13979,6 +14982,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -14144,6 +15160,21 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 550,
@@ -14261,6 +15292,17 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -14406,6 +15448,18 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -14609,6 +15663,21 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "128 Kbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
@@ -14730,6 +15799,18 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -14956,6 +16037,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 800,
@@ -15081,6 +16175,18 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -15228,6 +16334,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
@@ -15354,6 +16472,17 @@
         3,
         10
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 900,
@@ -15473,6 +16602,20 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -15611,6 +16754,20 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -15785,6 +16942,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "1Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 800,
@@ -15907,6 +17078,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": true,
       "daily_throttle_continues": true,
@@ -16065,6 +17249,18 @@
         3,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 600,
@@ -16208,6 +17404,20 @@
         2,
         3,
         5
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
@@ -16381,6 +17591,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1050,
@@ -16530,6 +17754,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 950,
@@ -16677,6 +17913,20 @@
         3,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
@@ -16799,6 +18049,17 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -16934,6 +18195,18 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -17096,6 +18369,20 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -17273,6 +18560,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1000,
@@ -17418,6 +18719,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
@@ -17535,6 +18848,18 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -17725,6 +19050,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
@@ -17931,6 +19270,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 850,
@@ -18059,6 +19412,18 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -18269,6 +19634,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1150,
@@ -18416,6 +19795,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1200,
@@ -18526,6 +19917,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -18667,6 +20071,17 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 900,
@@ -18798,6 +20213,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -18979,6 +20408,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1100,
@@ -19121,6 +20564,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 850,
@@ -19240,6 +20695,18 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -19424,6 +20891,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1150,
@@ -19549,6 +21030,18 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -19685,6 +21178,20 @@
         2,
         3
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "128 Kbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "installation",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 700,
@@ -19811,6 +21318,17 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
@@ -19897,6 +21415,17 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -20060,6 +21589,20 @@
         2,
         3,
         5
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
@@ -20253,6 +21796,20 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1400,
@@ -20360,6 +21917,17 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -20490,6 +22058,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1100,
@@ -20580,6 +22160,15 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -20706,6 +22295,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1650,
@@ -20810,6 +22412,18 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -20923,6 +22537,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1150,
@@ -21027,6 +22654,19 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -21178,6 +22818,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1800,
@@ -21308,6 +22961,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
@@ -21414,6 +23080,16 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -21523,6 +23199,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G",
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -21636,6 +23325,20 @@
         3,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
@@ -21743,6 +23446,16 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -21875,6 +23588,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
@@ -21981,6 +23707,16 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -22137,6 +23873,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1200,
@@ -22279,6 +24028,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "installation",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1450,
@@ -22398,6 +24159,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -22529,6 +24304,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
@@ -22629,6 +24417,16 @@
         1,
         2,
         10
+      ],
+      "speeds": [
+        "3G"
+      ],
+      "fup_policies": [
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -22750,6 +24548,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
@@ -22857,6 +24668,19 @@
         2,
         3,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -22987,6 +24811,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
@@ -23090,6 +24927,18 @@
         1,
         2,
         10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -23207,6 +25056,17 @@
         2,
         3
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2750,
@@ -23311,6 +25171,17 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -23437,6 +25308,20 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G",
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -23567,6 +25452,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
@@ -23661,6 +25559,16 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -23774,6 +25682,17 @@
         2,
         3
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2800,
@@ -23884,6 +25803,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2850,
@@ -23990,6 +25919,16 @@
         3,
         5,
         10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -24098,6 +26037,16 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
@@ -24205,6 +26154,16 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1600,
@@ -24303,6 +26262,18 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1000,
@@ -24394,6 +26365,16 @@
       "daily_gb": [
         0.49,
         1
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -24518,6 +26499,19 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1050,
@@ -24638,6 +26632,18 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2900,
@@ -24746,6 +26752,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -24853,6 +26869,16 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -24970,6 +26996,17 @@
         2,
         3
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -25079,6 +27116,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -25133,6 +27180,15 @@
       "daily_gb": [
         0.49,
         1
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -25244,6 +27300,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -25353,6 +27419,17 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -25460,6 +27537,16 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -25569,6 +27656,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -25674,6 +27771,17 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -25785,6 +27893,18 @@
         3,
         10
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2200,
@@ -25886,6 +28006,16 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1450,
@@ -25983,6 +28113,16 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -26087,6 +28227,18 @@
         2,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
@@ -26189,6 +28341,17 @@
         2,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 1000,
@@ -26289,6 +28452,16 @@
         2,
         10
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 3100,
@@ -26383,6 +28556,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -26476,6 +28659,15 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -26584,6 +28776,16 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2050,
@@ -26691,6 +28893,18 @@
         5,
         10
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2150,
@@ -26789,6 +29003,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2650,
@@ -26875,6 +29099,17 @@
       "daily_gb": [
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -26978,6 +29213,19 @@
         2,
         3
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": true,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1050,
@@ -27072,6 +29320,16 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 3250,
@@ -27165,6 +29423,15 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -27266,6 +29533,16 @@
         1,
         2,
         3
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -27388,6 +29665,19 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2500,
@@ -27474,6 +29764,16 @@
       "daily_gb": [
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -27569,6 +29869,15 @@
         1,
         2
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 3800,
@@ -27654,6 +29963,15 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -27785,6 +30103,19 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": true,
       "min_volume_price_rub": 1450,
@@ -27878,6 +30209,18 @@
       "daily_gb": [
         1,
         3
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "256 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -27983,6 +30326,16 @@
         0.49,
         1,
         2
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -28090,6 +30443,17 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -28181,6 +30545,17 @@
         2,
         3,
         5
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -28284,6 +30659,17 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -28384,6 +30770,16 @@
         2,
         3,
         5
+      ],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [
+        "1Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
       ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
@@ -28487,6 +30883,17 @@
         3,
         5
       ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
@@ -28540,6 +30947,15 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2000,
@@ -28574,6 +30990,11 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [],
+      "fup_policies": [],
+      "activation_policies": [
+        "network_connection"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2150,
@@ -28616,6 +31037,11 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [],
+      "fup_policies": [],
+      "activation_policies": [
+        "installation"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2350,
@@ -28674,6 +31100,13 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [
+        "3G/4G"
+      ],
+      "fup_policies": [],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2350,
@@ -28725,6 +31158,14 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "fup_policies": [],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
@@ -28768,6 +31209,14 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [
+        "3G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
@@ -28820,6 +31269,15 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [],
+      "activation_policies": [
+        "first_data_usage",
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
@@ -28863,6 +31321,14 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "fup_policies": [],
+      "activation_policies": [
+        "unknown"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2650,
@@ -28905,6 +31371,11 @@
       ],
       "term_days": [],
       "daily_gb": [],
+      "speeds": [],
+      "fup_policies": [],
+      "activation_policies": [
+        "first_data_usage"
+      ],
       "daily_reset_confirmed": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,

@@ -71,6 +71,9 @@ export async function buildFactSheets() {
       price_rub: retail,
       purchasable_prices: ladder.length ? ladder : [retail],
       daily_gb: Number(p.daily_gb) > 0 ? Number(p.daily_gb) : null,
+      speed: String(p.speed || '').trim(),
+      fup: String(p.fup_policy || '').trim(),
+      activation: String(p.activation_policy || '').trim().toLowerCase(),
       reset_confirmed: p.daily_reset_confirmed === true,
       throttle_continues: p.daily_throttle_continues === true,
       term_days: (Array.isArray(p.term_prices) ? p.term_prices : [])
@@ -150,6 +153,17 @@ export async function buildFactSheets() {
         // publish it for the rest. assets/daily-plan-copy.js is built entirely
         // around not completing that sentence; a country page must not complete
         // it either, and prose is where the discipline kept slipping.
+        // The three fields a page can read wrong while every price it quotes is
+        // right. Each cost a rewrite on 2026-09-01: a Kazakhstan page said «не за
+        // скорость» about two families that differ 3G/4G vs 3G/4G/5G; a Taiwan
+        // page recommended installing before departure a package whose validity
+        // starts at installation; a Georgia page called a 512 Kbps plan «без
+        // оговорок» while comparing it to a 1 Mbps one — it had read the package
+        // NAME instead of the field. Now a page may only name a value that some
+        // package of that country actually carries.
+        speeds: [...new Set(all.map((t) => t.speed).filter(Boolean))].sort(),
+        fup_policies: [...new Set(all.map((t) => t.fup).filter(Boolean))].sort(),
+        activation_policies: [...new Set(all.map((t) => t.activation).filter(Boolean))].sort(),
         daily_reset_confirmed: all.some((t) => t.reset_confirmed),
         daily_throttle_continues: all.some((t) => t.throttle_continues),
         min_volume_price_rub: floorOf(all.filter((t) => !t.daily)),

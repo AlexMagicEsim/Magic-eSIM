@@ -166,3 +166,69 @@ test('the reset rule can fail — it fired on real drafts, so it must fire here'
   assert.equal([...'Объём доступен до конца срока действия.'.matchAll(RESET_CLAIMS)].length, 0,
     'и не должно срабатывать на честной формулировке');
 });
+
+// ── Attribution: the class of error the price gates cannot see ─────────────
+//
+//   The 2026-09-01 editorial review found nothing wrong with any price. Every
+//   defect it found was ATTRIBUTION: a real number attached to the wrong
+//   package, or a superlative asserted at a scope nobody checked, or a field the
+//   author never opened. Three fields did all the damage:
+//
+//     speed              a Kazakhstan draft said the two «Центральная Азия»
+//                        families differ «не в скорости» — one is 3G/4G, the
+//                        other 3G/4G/5G, and the card prints it.
+//     fup_policy         a Georgia draft called a plan «без оговорок» because
+//                        its NAME lacked «FUP1Mbps». Its policy is 512 Kbps —
+//                        harsher than the plan it was being compared against.
+//     activation_policy  a Taiwan draft recommended a package AND told the
+//                        reader to install before flying. That package is one of
+//                        15 in 2295 whose validity starts at installation.
+//
+//   So a page may now only name a value some package of that country carries.
+
+test('speeds, throttles and activation phrases are attributed, not invented', () => {
+  const dir = join(ROOT, 'seo/content-profiles');
+  const SPEED = /\b(?:[2-5]G(?:\/[2-5]G)*)\b/g;
+  const THROTTLE = /(\d+(?:[.,]\d+)?)\s*(Кбит\/с|Мбит\/с)/gi;
+  const PROSE = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq'];
+  for (const f of readdirSync(dir).filter((x) => x.endsWith('.json'))) {
+    const slug = f.replace(/\.json$/, '');
+    const sheet = SHEETS[slug];
+    if (!sheet) continue;
+    const prose = JSON.stringify(PROSE.map((k) => JSON.parse(readFileSync(join(dir, f), 'utf8'))[k]));
+    const gens = new Set((sheet.speeds || []).flatMap((x) => x.split('/')));
+    for (const m of prose.matchAll(SPEED)) {
+      if (!(sheet.speeds || []).length) continue;
+      for (const g of m[0].split('/')) {
+        assert.ok(gens.has(g), `${slug}: названа сеть «${m[0]}», у тарифов страны только ${(sheet.speeds || []).join(', ')}`);
+      }
+    }
+    const fups = (sheet.fup_policies || []).map((x) => x.toLowerCase().replace(/\s+/g, ''));
+    for (const m of prose.matchAll(THROTTLE)) {
+      const want = `${String(m[1]).replace(',', '.')}${m[2].toLowerCase().startsWith('к') ? 'kbps' : 'mbps'}`;
+      assert.ok(!fups.length || fups.includes(want), `${slug}: названо ограничение «${m[0]}», в каталоге ${(sheet.fup_policies || []).join(', ')}`);
+    }
+    if (prose.includes('после установки') && (sheet.activation_policies || []).length) {
+      assert.ok((sheet.activation_policies || []).some((a) => a === 'installation' || a === 'upon_installation'),
+        `${slug}: сказано «после установки», но таких тарифов у страны нет: ${sheet.activation_policies.join(', ')}`);
+    }
+  }
+});
+
+test('the attribution rule can fail — 5G where the catalogue has none', () => {
+  const armenia = SHEETS['armenia'];
+  assert.ok(armenia, 'ожидался фактшит Армении');
+  const gens = new Set((armenia.speeds || []).flatMap((x) => x.split('/')));
+  assert.ok(!gens.has('5G'), 'у Армении не должно быть 5G — иначе тест ничего не доказывает');
+  assert.ok(gens.has('4G'), 'а 4G должно быть');
+});
+
+test('the three fields are the catalogue\'s, not a guess', () => {
+  for (const [slug, sheet] of Object.entries(SHEETS)) {
+    const pkgs = PK.filter((p) => countryFacts([p], sheet.iso).total_shown === 1);
+    const speeds = [...new Set(pkgs.map((p) => String(p.speed || '').trim()).filter(Boolean))].sort();
+    assert.deepEqual(sheet.speeds, speeds, `${slug}: список сетей разошёлся с каталогом`);
+    const acts = [...new Set(pkgs.map((p) => String(p.activation_policy || '').trim().toLowerCase()).filter(Boolean))].sort();
+    assert.deepEqual(sheet.activation_policies, acts, `${slug}: список политик активации разошёлся с каталогом`);
+  }
+});
