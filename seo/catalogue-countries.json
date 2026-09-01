@@ -2812,10 +2812,10 @@
       "slug": "madagascar",
       "nameRu": "Мадагаскар",
       "flagEmoji": "🇲🇬",
-      "local_count": 0,
+      "local_count": 3,
       "regional_count": 6,
       "daily_count": 0,
-      "total_count": 6,
+      "total_count": 9,
       "min_price_rub": 2000,
       "volumes": [
         3,
@@ -2823,7 +2823,7 @@
         10
       ],
       "daily_gb": [],
-      "strategy": "REGIONAL",
+      "strategy": "LOCAL",
       "renders_nothing": false
     },
     {
@@ -5455,6 +5455,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-09-01T16:28:18.797Z",
+  "fetched_at": "2026-09-01T19:27:44.521Z",
   "source": "https://origin.magicesim.store/api/v1/packages?limit=3000"
 }

@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-01T12:57:00.071Z",
+  "fetched_at": "2026-09-01T19:27:42.807Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -35152,10 +35152,10 @@
     "madagascar": {
       "iso": "MG",
       "name_ru": "Мадагаскар",
-      "strategy": "REGIONAL",
-      "local_count": 0,
+      "strategy": "LOCAL",
+      "local_count": 3,
       "regional_count": 6,
-      "total_count": 6,
+      "total_count": 9,
       "min_price_rub": 2000,
       "max_price_rub": 5450,
       "validity_days_min": 15,
@@ -35189,10 +35189,13 @@
       ],
       "all_purchasable_prices": [
         2000,
+        2350,
         2500,
         3050,
+        3250,
         4100,
         4650,
+        5350,
         5450
       ],
       "term_days": [],
@@ -35218,7 +35221,7 @@
         "Vodafone"
       ],
       "networks_rows": 1,
-      "rows_total": 6,
+      "rows_total": 9,
       "fup_policies": [],
       "activation_policies": [
         "first_data_usage",
@@ -35229,7 +35232,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 3,
+      "topup_yes": 6,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
