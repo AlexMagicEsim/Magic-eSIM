@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-01T05:19:51.717Z",
+  "generated_at": "2026-09-01T11:44:34.716Z",
   "source": "production-public-api",
   "package_count": 2295,
   "packages": [
@@ -22978,7 +22978,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 25,
       "validity_days": 30,
-      "price": 3700,
+      "price": 4000,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -116457,7 +116457,7 @@
     },
     {
       "package_id": "c68c42b2-be07-456b-a41d-73abd93a4d8e",
-      "name": "Egypt 20 GB",
+      "name": "Egypt Premium 20 GB",
       "country_code": "EG",
       "region": "EG",
       "coverage_country_codes": [
@@ -116469,7 +116469,8 @@
       "price": 3700,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -137625,7 +137626,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 2050,
+      "price": 2300,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -150744,7 +150745,7 @@
     },
     {
       "package_id": "fc5290cf-25df-4513-a7a7-2fc7fa2a885f",
-      "name": "Egypt 5 GB",
+      "name": "Egypt Premium 5 GB",
       "country_code": "EG",
       "region": "EG",
       "coverage_country_codes": [
@@ -150753,10 +150754,11 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1400,
+      "price": 1250,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
