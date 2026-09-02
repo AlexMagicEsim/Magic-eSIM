@@ -233,3 +233,57 @@ test.describe('payment pickers fit the buttons they are drawn in', () => {
       document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
 });
+
+/**
+ * /esim/payment-rubles/ — the one page that used to say a foreign card might work.
+ *
+ * The text changed on 2026-09-02: the title, the H1, the lead, the payment step
+ * and the FAQ now name the restriction («российская банковская карта», «карты
+ * иностранных банков сейчас не принимаются») instead of hedging it. Two of those
+ * strings got noticeably longer, and a longer H1 is exactly the kind of edit that
+ * pushes a hero out of its container on a narrow screen — the same failure the
+ * card label produced on the checkout the day before.
+ *
+ * Rendered rather than grepped, and at three widths: the file tests assert what
+ * the page SAYS, this asserts that a reader can see all of it.
+ */
+test.describe('the payment guide holds its layout after the wording change', () => {
+  const PAGE = '/esim/payment-rubles/index.html';
+
+  test('the page never scrolls sideways, at this viewport or a desktop one', async ({ page }) => {
+    await page.goto(PAGE);
+    await page.waitForSelector('h1', { timeout: 15_000 });
+
+    const sideways = () => page.evaluate(() =>
+      document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+    expect(await sideways(), 'sideways scroll at the project viewport').toBe(false);
+
+    // Desktop, from inside the test: adding a third project would run every
+    // Mini App case at a width its layout was never drawn for.
+    await page.setViewportSize({ width: 1440, height: 900 });
+    expect(await sideways(), 'sideways scroll at 1440').toBe(false);
+  });
+
+  test('the hero and the FAQ answers stay inside their boxes', async ({ page }) => {
+    await page.goto(PAGE);
+    await page.waitForSelector('.cp-hero h1', { timeout: 15_000 });
+
+    expect(await overflowingInside(page, '.cp-hero')).toEqual([]);
+    expect(await overflowingInside(page, '#faq')).toEqual([]);
+  });
+
+  test('canonical, title and H1 all name the restriction', async ({ page }) => {
+    await page.goto(PAGE);
+
+    expect(await page.getAttribute('link[rel=canonical]', 'href'))
+      .toBe('https://magicesim.store/esim/payment-rubles/');
+    expect(await page.title()).toContain('российская карта');
+    expect((await page.textContent('h1')).trim()).toBe('Оплата eSIM рублями: СБП и российская карта');
+
+    // The visible answer, read off the rendered page rather than the source.
+    const faq = (await page.textContent('.faq-list')).replace(/\s+/g, ' ');
+    expect(faq).toContain('карта выпущена российским банком');
+    expect(faq).toContain('не примет');
+    expect(faq).not.toContain('зависит от платёжного провайдера');
+  });
+});
