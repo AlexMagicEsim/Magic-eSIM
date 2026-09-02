@@ -692,13 +692,26 @@ test('шаги называют только те кнопки, которые �
   assert.ok(steps, 'блок шагов не найден');
 
   const ui = readFileSync(join(ROOT, 'index.html'), 'utf8')
-    + readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8');
+    + readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8')
+    + readFileSync(join(ROOT, 'assets/daily-plan-copy.js'), 'utf8')
+    // Окно «Покрытие и условия» на стране — разметка страницы, а не скрипта.
+    + readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8');
 
-  const named = [...steps[0].matchAll(/«([^»]{2,40})»/g)].map((m) => m[1]);
-  assert.ok(named.length >= 5, `в шагах названо всего ${named.length} контролов`);
+  // Проверяется ВСЯ страница, а не только шаги: «Покрытие и условия», «Начало
+  // срока» и «Трафик на каждый день» названы в прозе, и ошибиться в них ровно
+  // так же легко.
+  const page = h.replace(/<script[\s\S]*?<\/script>/gi, ' ');
+  // Единственное, что здесь в кавычках и НЕ является подписью в нашем
+  // интерфейсе. Список именно такой короткий намеренно: новая кавычка обязана
+  // либо найтись в разметке, либо быть внесена сюда осознанно.
+  const NOT_OUR_UI = new Set(['Спам']);
+
+  const named = [...page.matchAll(/«([^»]{2,45})»/g)].map((m) => m[1])
+    .filter((label) => !NOT_OUR_UI.has(label));
+  assert.ok(named.length >= 8, `на странице названо всего ${named.length} контролов`);
   for (const label of named) {
     assert.ok(ui.includes(label),
-      `шаги называют «${label}», но такой подписи нет ни на лендинге, ни на странице страны`);
+      `страница называет «${label}», но такой подписи нет ни на лендинге, ни на странице страны`);
   }
 
   // Маршрут. Читатель приходит сюда со страницы страны, поэтому первый шаг
