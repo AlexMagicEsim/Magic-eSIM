@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-02T11:25:46.206Z",
+  "generated_at": "2026-09-03T11:21:58.712Z",
   "source": "production-public-api",
   "package_count": 2298,
   "packages": [
@@ -31746,14 +31746,15 @@
       "networks": [
         {
           "operator": "NTT docomo",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "256 Kbps",
       "hotspot_supported": null,
@@ -70811,14 +70812,15 @@
       "networks": [
         {
           "operator": "NTT docomo",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "256 Kbps",
       "hotspot_supported": null,
@@ -151104,14 +151106,15 @@
       "networks": [
         {
           "operator": "NTT docomo",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "256 Kbps",
       "hotspot_supported": null,
