@@ -1426,3 +1426,89 @@ body.sheet-open { overflow: hidden; }
 .daily-term.is-selected .muted,
 .daily-term.is-selected .fact__value{color:#fff;}
 .daily-term.is-selected .fact__value{font-weight:700;}
+
+/* --------------------------------------------------------------------------
+ * The channel invitation on the home screen.
+ *
+ * Deliberately built from what the app already has: the .card surface, the
+ * .hero's brand wash, the --s* spacing scale and the --t-* type scale. No new
+ * colours, no new radius, no second visual language — it has to read as part of
+ * the app rather than as an ad someone dropped into it.
+ *
+ * COMPACT ON PURPOSE. It sits directly above the country list, so every pixel
+ * here is a pixel of catalogue pushed below the fold on a 640px Telegram
+ * viewport. Three short lines and one button, and the button is --tap tall
+ * because it is the only thing here anybody taps.
+ * ----------------------------------------------------------------------- */
+
+.promo {
+  display: block;
+  margin: var(--s4) 0 var(--s2);
+  padding: var(--s4);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--blue) 14%, var(--line));
+  background: color-mix(in srgb, var(--blue) 5%, var(--surface));
+}
+
+.promo__title {
+  margin: 0;
+  font-size: var(--t-secondary);
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.promo__text {
+  margin: var(--s1) 0 0;
+  font-size: var(--t-caption);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.promo__code {
+  margin: var(--s3) 0 0;
+  font-size: var(--t-caption);
+  color: var(--muted);
+}
+
+/* The code is the one thing on this card a customer has to read exactly, and
+   then retype into the checkout. Monospace so 0/O and 1/l cannot be confused,
+   and `user-select` explicit because a long-press to copy is how this is
+   actually used on a phone. */
+.promo__code-value {
+  margin-left: var(--s2);
+  padding: 2px var(--s2);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--blue) 12%, transparent);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--t-secondary);
+  font-weight: 700;
+  letter-spacing: .02em;
+  user-select: all;
+  -webkit-user-select: all;
+}
+
+.promo__cta {
+  width: 100%;
+  margin-top: var(--s3);
+}
+
+/* `hidden` has to win here.
+ *
+ * The attribute is only `display: none` from the user-agent sheet, and `.btn`
+ * sets `display: inline-flex` — a class beats the UA sheet, so a button marked
+ * hidden stayed on screen. Caught by the test that asserts the check button is
+ * absent before the channel has been opened; without that assertion this would
+ * have shipped as «the second button is always there», which is the whole
+ * state machine collapsing quietly. */
+.promo [hidden] { display: none !important; }
+
+/* STATE D and the error line. Muted rather than red: «we have not found it
+   yet» is not a failure the customer caused, and shouting at somebody who is
+   two taps from subscribing is the wrong tone. */
+.promo__note {
+  margin: var(--s3) 0 0;
+  font-size: var(--t-caption);
+  line-height: 1.4;
+  color: var(--muted);
+}

@@ -1377,6 +1377,35 @@ function createApi(deps = {}) {
    * `payment_success` is deliberately not one of the names. A purchase is what
    * the Platega webhook says it is.
    */
+  /**
+   * «Am I in the channel?» — asked once, on a tap, and answered by the server.
+   *
+   * A plain authenticated POST with NO BODY: the Telegram user is the one the
+   * session already proves, and there is no parameter for the client to put a
+   * different one in. The answer is a boolean, plus the promo code itself when
+   * the answer is yes — the code is not in this bundle and cannot be read out
+   * of it.
+   *
+   * Unlike `track`, this one is awaited and its failure matters: the customer
+   * is standing in front of it. It goes through `request()` so a 503 arrives as
+   * a real error the screen can explain, rather than as a silent «no».
+   */
+  async function checkChannelSubscription() {
+    // Same shape as setNotificationPrefs: a POST with no options beyond the
+    // method. `request` attaches the session bearer itself, and without
+    // `idempotent` it makes exactly one attempt — which is right for a question
+    // the customer asked once.
+    const out = await request('/api/v1/tma/channel/subscription/check', { method: 'POST' });
+    return {
+      subscribed: Boolean(out && out.subscribed),
+      // Absent means eligible: an older backend that does not send the field
+      // must not be read as «everyone has already bought», which would hide the
+      // offer from every customer at once.
+      eligible: !(out && out.eligible === false),
+      promoCode: out && typeof out.promo_code === 'string' ? out.promo_code : null,
+    };
+  }
+
   function track(event, props) {
     try {
       if (!sessionToken) return;               // unauthenticated: nothing to attribute
@@ -1413,6 +1442,7 @@ function createApi(deps = {}) {
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
     hiddenEsims, renameEsim, setEsimVisibility, revokeEmail, promoQuote, setNotificationPrefs,
     setLanguage,
+    checkChannelSubscription,
     esims, esim, activation, refreshUsage, purchase, track,
     forgetIntent: (intent) => clearIntentKey(intent, storage),
     get token() { return sessionToken; },

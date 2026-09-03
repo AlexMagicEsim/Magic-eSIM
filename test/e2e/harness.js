@@ -130,6 +130,14 @@ async function installMiniApp(page, options = {}) {
     languageCode = 'ru',
     emails = [EMAIL],
     revokeDelayMs = 0,
+    // The channel check: 'yes' | 'no' | 'error'. Default 'no' — the state a
+    // customer who has not subscribed is actually in, so a test that forgets to
+    // set it cannot accidentally prove the happy path.
+    channelSubscription = 'no',
+    // Has this customer already bought? The promo is first-purchase-only, so
+    // the server decides eligibility and the app only obeys. Default true —
+    // the state a new visitor from an ad is in.
+    channelEligible = true,
     revokeFails = false,
   } = options;
 
@@ -214,6 +222,19 @@ async function installMiniApp(page, options = {}) {
       if (at.endsWith('/api/v1/tma/esims/hidden')) return json(route, { items: [] });
       if (at.endsWith('/api/v1/tma/esims')) return json(route, { items: state.esims });
       if (at.includes('/api/v1/tma/esims/')) return json(route, state.esims[0] || {});
+
+      if (at.endsWith('/api/v1/tma/channel/subscription/check')) {
+        if (channelSubscription === 'error') {
+          return json(route, { error: 'CHANNEL_CHECK_UNAVAILABLE' }, 503);
+        }
+        // The code comes from the SERVER, exactly as it does in production —
+        // which is what lets a test prove the app cannot produce it alone.
+        const subscribed = channelSubscription === 'yes';
+        // The code travels only when both are true — exactly as the route does.
+        return subscribed && channelEligible
+          ? json(route, { subscribed: true, eligible: true, promo_code: 'WELCOME10' })
+          : json(route, { subscribed, eligible: channelEligible });
+      }
 
       if (at.includes('/api/v1/tma/me/orders')) {
         return json(route, { items: [] });

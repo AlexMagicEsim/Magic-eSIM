@@ -238,6 +238,38 @@ test('payment_redirect fires immediately before the handoff, and after nothing',
   assert.ok(!between.includes('await'), 'something is awaited between the event and the payment page');
 });
 
+test('payment_redirect fires ONLY on a real payment URL, never on an error', () => {
+  // The half the earlier tests did not cover: that the event is unreachable
+  // from every failure path. Asserted structurally, because that is what a
+  // static gate can actually prove — the call must sit INSIDE the success
+  // branch, which returns before any error handling begins.
+  const calls = LANDING.split("magicMetrikaGoal('payment_redirect'").length - 1;
+  assert.equal(calls, 1, 'more than one call site: one of them is not the guarded path');
+
+  const guard = LANDING.indexOf('if(resp.ok&&data.redirect_url&&allowedRedirect(data.redirect_url))');
+  const goal = LANDING.indexOf("magicMetrikaGoal('payment_redirect'");
+  const assign = LANDING.indexOf('window.location.assign(data.redirect_url)');
+  const errors = LANDING.indexOf("data.error.indexOf('PROMO')");
+
+  assert.notEqual(guard, -1, 'the success guard changed shape — re-read this path before trusting the goal');
+  assert.ok(guard < goal, 'the goal fires before the success check: a backend error would count as a redirect');
+  assert.ok(goal < assign, 'the goal must fire before the navigation');
+  assert.ok(assign < errors, 'the error branches must come after the success branch returns');
+
+  // A validation failure returns long before the request is even sent, so the
+  // goal cannot be reached from it either.
+  const send = LANDING.indexOf("MagicNet.request('/api/v1/public/retail-orders'");
+  const emailCheck = LANDING.indexOf('Укажите корректный email');
+  assert.ok(emailCheck < send, 'form validation must reject before the order is created');
+
+  // And a second click cannot re-fire it: the submitting flag is raised before
+  // the request and lowered only when the redirect did NOT happen.
+  const submitTrue = LANDING.indexOf('submitting=true;');
+  assert.ok(submitTrue < send, 'the double-click guard is set after the request goes out');
+  assert.match(LANDING, /if\(!redirected\)\{submitting=false;/,
+    'the guard is released unconditionally, so a double click could fire the goal twice');
+});
+
 test('the outbound event carries the method and nothing sensitive', () => {
   const call = LANDING.slice(LANDING.indexOf("magicMetrikaGoal('payment_redirect'"));
   const args = call.slice(0, call.indexOf('}'));
@@ -307,9 +339,45 @@ test('every Mini App event call is guarded against a null api', () => {
   }
 });
 
-test('the Mini App emits exactly the five whitelisted events', () => {
+test('the Mini App emits exactly the whitelisted events, and no others', () => {
+  // Hand-maintained on purpose: an event the backend has not agreed to is
+  // dropped and logged there, so adding a name here is the moment somebody has
+  // to check that lib/acquisition.js TMA_EVENTS carries it too. `channel_click`
+  // (2026-09-03) is the first entry that is not a funnel step — it counts the
+  // tap through to the public channel from the home screen.
   assert.deepEqual(uiEventNames(),
-    ['checkout_open', 'country_view', 'miniapp_open', 'payment_click', 'tariff_select']);
+    ['channel_click', 'channel_subscription_check', 'channel_subscription_verified',
+      'checkout_open', 'country_view', 'miniapp_open', 'payment_click', 'tariff_select']);
+});
+
+test('the channel invitation points at the channel, and opens it the app\'s own way', () => {
+  // Three separate claims, because each has its own failure:
+  //   * the URL is the CHANNEL — @magicesim, not either bot. Two of the four
+  //     Telegram entities differ by a single underscore.
+  //   * it goes through openExternal, the helper that prefers tg.openLink and
+  //     therefore leaves the Mini App RUNNING. openTelegramLink closes it on
+  //     several clients, which would drop the customer's session and screen.
+  //   * the event fires BEFORE the handoff, or there may be no page left.
+  assert.match(UI, /const CHANNEL_URL = 'https:\/\/t\.me\/magicesim';/,
+    'the channel URL is gone or no longer exact');
+  const handler = UI.slice(UI.indexOf("$('#promo-channel')"), UI.indexOf("$('#promo-channel')") + 400);
+  assert.ok(handler.includes('openExternal(CHANNEL_URL)'), 'the channel is not opened by the app helper');
+  assert.ok(!handler.includes('openTelegramLink'), 'openTelegramLink closes the Mini App on some clients');
+  assert.ok(handler.indexOf("track('channel_click')") < handler.indexOf('openExternal'),
+    'the event must fire before the handoff');
+  // THE PROMO CODE IS NOT IN ANYTHING THE BROWSER DOWNLOADS. Markup, comments,
+  // attributes, and the three scripts the app loads — the code arrives from the
+  // server after it has confirmed the membership, and from nowhere else. A
+  // build that shipped it and merely hid it would pass every visual test.
+  const CODE = 'WELCOME' + '10';
+  for (const f of [['app', 'index.html'], ['app', 'ui.js'], ['app', 'core.js'], ['app', 'locales.js']]) {
+    assert.ok(!readFileSync(join(ROOT, ...f), 'utf8').includes(CODE),
+      `${f.join('/')} ships the promo code to the browser`);
+  }
+  // And the reward node starts empty.
+  const html = readFileSync(join(ROOT, 'app', 'index.html'), 'utf8');
+  assert.match(html, /<p class="promo__code" id="promo-reward" hidden><\/p>/,
+    'the reward node is not empty in the markup');
 });
 
 test('the Mini App records no client-side purchase', () => {

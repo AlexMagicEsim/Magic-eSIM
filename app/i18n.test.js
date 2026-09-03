@@ -707,6 +707,11 @@ test('the frozen list covers every Russian key, not just the ones present when i
     'terms.andWord', 'esim.validUntil', 'errors.promoFallback',
     'errors.topupTransport', 'errors.topupFallback', 'errors.orderFallback',
     'errors.codeCheckFallback', 'errors.renameFallback', 'errors.loginFallback',
+    // 2026-09-03 — the channel invitation on the home screen. `channel.*` and
+    // not `promo.*`: the checkout's promo-code block already owns that prefix.
+    // The code itself is not a key — it is not in the bundle at all.
+    'channel.title', 'channel.text', 'channel.codeLabel', 'channel.cta',
+    'channel.verify', 'channel.checking', 'channel.notFound', 'channel.checkFailed',
   ];
 
   assert.deepEqual(

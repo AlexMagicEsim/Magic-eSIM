@@ -2764,6 +2764,10 @@
   // Only the last six characters of the public token travel — the same ref the
   // return deep-link already carries, and never the whole bearer (R10).
   const SUPPORT_BOT = 'https://t.me/magic_esim_support_bot';
+  // The public channel — @magicesim. A different entity from both bots (§7 of
+  // the handoff: four Telegram entities, two of which differ by an underscore),
+  // so it is spelled out here once rather than derived from anything.
+  const CHANNEL_URL = 'https://t.me/magicesim';
 
   function supportUrl(order) {
     const ref = order && order.public_order_token
@@ -4400,6 +4404,116 @@
       show('settings');
       void renderSettings();
     });
+
+    /* The channel invitation.
+     *
+     * openExternal, which is the app's own helper and already how the support
+     * bot link is opened. It prefers `tg.openLink`, which hands the URL to
+     * Telegram and LEAVES THE MINI APP RUNNING underneath — the customer comes
+     * back to the screen they left, with their search, their session and their
+     * acquisition intact. `tg.openTelegramLink` exists and is not used here on
+     * purpose: on a number of clients it CLOSES the Mini App, which is exactly
+     * the state loss this must not cause. Outside Telegram the helper falls
+     * back to a normal navigation.
+     *
+     * The event is fired BEFORE the handoff for the same reason the storefront
+     * fires payment_redirect before its own: after the navigation there may be
+     * no page left to fire it from. `api.track` is the app's existing beacon —
+     * it carries the session token, so the click is bound to the CURRENT
+     * customer_session and to whatever acquisition that session already holds.
+     * It writes nothing to acquisition, reads nothing back, and cannot throw or
+     * block: a lost counter is cheaper than a broken tap. */
+    /* The channel invitation, in four states.
+     *
+     * A: the invitation, one button. B: after the channel has been opened from
+     * here, a second button offers to check. C: the server said yes, and the
+     * code — which arrived in that answer, and is nowhere in this bundle — is
+     * shown. D: the server said no, said politely, with the channel and the
+     * check both still available.
+     *
+     * NO POLLING. The check runs on a tap and on nothing else: a timer would
+     * ask Telegram about a person who is not doing anything, and «I subscribed,
+     * now tell me» is a thing people are perfectly able to say themselves. */
+    const promoNote = $('#promo-note');
+    const promoReward = $('#promo-reward');
+    const promoVerify = $('#promo-verify');
+
+    /* Takes TEXT, not a key.
+     *
+     * The first version took a key and called t(key) here, which broke the rule
+     * that every t() spells its own key out — a key assembled or forwarded at
+     * runtime is a key no tool can find, and the project has a gate that says
+     * so. The two call sites below name their keys literally. */
+    function promoSay(text) {
+      if (!promoNote) return;
+      promoNote.textContent = text || '';
+      promoNote.hidden = !text;
+    }
+
+    $('#promo-channel').addEventListener('click', () => {
+      haptic('light');
+      api && api.track('channel_click');
+      // The check becomes available because the customer has been sent to the
+      // channel — NOT because they are subscribed. Only the server decides that.
+      if (promoVerify) promoVerify.hidden = false;
+      promoSay(null);
+      openExternal(CHANNEL_URL);
+    });
+
+    if (promoVerify) {
+      promoVerify.addEventListener('click', async () => {
+        haptic('light');
+        api && api.track('channel_subscription_check');
+
+        promoVerify.disabled = true;
+        const label = promoVerify.textContent;
+        promoVerify.textContent = t('channel.checking');
+        promoSay(null);
+        try {
+          const out = await api.checkChannelSubscription();
+
+          /* Already bought.
+           *
+           * The code is first-purchase-only, so this person would be refused it
+           * at checkout. The block does not argue, apologise or explain — it
+           * simply goes, because every word it could say here is about an offer
+           * that was never theirs. No toast, no popup, no error: they asked a
+           * question and the honest response is to stop making the promise.
+           *
+           * Removed rather than hidden, so nothing about the offer is left in
+           * the page for the rest of the session. */
+          if (!out.eligible) {
+            const block = $('#home-promo');
+            if (block && block.parentNode) block.parentNode.removeChild(block);
+            return;
+          }
+
+          if (out.subscribed && out.promoCode) {
+            api && api.track('channel_subscription_verified');
+            // The code is written here, at the moment it is earned, and this is
+            // the first time it exists in this document.
+            clear(promoReward);
+            promoReward.appendChild(el('span', { class: 'promo__code-label', text: t('channel.codeLabel') }));
+            promoReward.appendChild(el('b', { class: 'promo__code-value', text: out.promoCode }));
+            promoReward.hidden = false;
+            promoVerify.hidden = true;      // nothing left to check
+            haptic('success');
+          } else {
+            // Not subscribed. The channel button and the check both stay, so
+            // «subscribe, then press again» is one tap each.
+            promoSay(t('channel.notFound'));
+          }
+        } catch (_) {
+          // Could not ask — an absent token, an unreachable Telegram, a bot that
+          // is not a channel administrator. Saying «not subscribed» here would
+          // accuse somebody who did subscribe, so it says what is true.
+          promoSay(t('channel.checkFailed'));
+        } finally {
+          promoVerify.disabled = false;
+          promoVerify.textContent = label;
+        }
+      });
+    }
     $('#checkout-pay').addEventListener('click', pay);
     for (const btn of document.querySelectorAll('#checkout-methods .segmented__opt')) {
       btn.addEventListener('click', () => {

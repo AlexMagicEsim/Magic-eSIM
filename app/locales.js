@@ -124,6 +124,22 @@
     'home.aria': 'Каталог',
     'home.title': 'Интернет в поездке',
     'home.payNote': 'Цены в рублях. Оплата через СБП или российской банковской картой.',
+
+    /* The channel invitation. `channel.*`, NOT `promo.*` — the checkout's own
+       promo-code block already owns that prefix (promo.enter, promo.checking,
+       promo.have…), and two of my keys collided with it outright. The promo code
+       itself is not here and not
+       anywhere else the browser downloads: the server hands it over only after
+       it has confirmed the membership. It would not be a key in any case — an
+       identifier the customer retypes must never be translated. */
+    'channel.title': '🎁 Скидка 10% на первую покупку',
+    'channel.text': 'Подпишитесь на канал Magic eSIM и получите промокод на скидку 10%.',
+    'channel.codeLabel': 'Промокод',
+    'channel.cta': 'Подписаться на канал',
+    'channel.verify': 'Проверить подписку',
+    'channel.checking': 'Проверяем…',
+    'channel.notFound': 'Подписка пока не найдена. Подпишитесь на канал и попробуйте ещё раз.',
+    'channel.checkFailed': 'Не удалось проверить подписку. Попробуйте ещё раз.',
     'search.placeholder': 'Куда едете?',
     'search.aria': 'Поиск страны',
     'country.aria': 'Тарифы страны',
@@ -459,6 +475,15 @@
     'home.aria': 'Catalogue',
     'home.title': 'Internet while you travel',
     'home.payNote': 'Prices are in roubles. Pay via SBP or with a Russian bank card.',
+
+    'channel.title': '🎁 10% off your first purchase',
+    'channel.text': 'Follow the Magic eSIM channel and get a 10% discount code.',
+    'channel.codeLabel': 'Promo code',
+    'channel.cta': 'Follow the channel',
+    'channel.verify': 'Check subscription',
+    'channel.checking': 'Checking…',
+    'channel.notFound': 'Subscription not found yet. Follow the channel and try again.',
+    'channel.checkFailed': 'Could not check the subscription. Please try again.',
     'search.placeholder': 'Where are you going?',
     'search.aria': 'Search for a country',
     'country.aria': 'Plans for this country',
