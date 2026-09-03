@@ -152,10 +152,21 @@
       <button class="btn btn--ghost promo__cta" id="promo-channel" type="button"
               data-i18n="channel.cta">Подписаться на канал</button>
 
-      <!-- STATE B. Appears only after the channel has been opened from here.
-           Opening it is not evidence of anything — the server decides — but it
-           is the moment the question becomes worth asking. -->
-      <button class="btn btn--ghost promo__cta" id="promo-verify" type="button" hidden
+      <!-- The check, ALWAYS PRESENT.
+           It used to appear only after the channel had been opened from here,
+           and that cost a real customer the code on 2026-09-03: returning from
+           the channel COLD-STARTS the Mini App — four sessions were minted in
+           four minutes — so the flag lived in a DOM that no longer existed, and
+           they came back to a screen with nothing to press. `tg.openLink` keeps
+           the app alive in the sense that it is not closed; it does not keep
+           this page.
+           Showing it from the start removes the whole class of failure rather
+           than one instance: there is no state left to lose. It reveals
+           nothing — an unsubscribed tap gets the same polite «not found» — and
+           the server remains the only thing that decides.
+           Quiet rather than ghost so the invitation stays the louder of the
+           two: subscribing is the action, checking is the follow-up. -->
+      <button class="btn btn--quiet promo__cta" id="promo-verify" type="button"
               data-i18n="channel.verify">Проверить подписку</button>
 
       <!-- STATE D / errors. One line, polite, and it never claims to know more
@@ -369,6 +380,6 @@
 <script src="locales.js?v=fd43fc8e"></script>
 <script src="i18n.js?v=852a0bb6"></script>
 <script src="core.js?v=03f2d660"></script>
-<script src="ui.js?v=960d13de"></script>
+<script src="ui.js?v=d9072861"></script>
 </body>
 </html>

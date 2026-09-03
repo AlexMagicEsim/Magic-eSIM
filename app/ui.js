@@ -4453,9 +4453,9 @@
     $('#promo-channel').addEventListener('click', () => {
       haptic('light');
       api && api.track('channel_click');
-      // The check becomes available because the customer has been sent to the
-      // channel — NOT because they are subscribed. Only the server decides that.
-      if (promoVerify) promoVerify.hidden = false;
+      // Nothing to reveal: the check is on screen from the start. It used to be
+      // unhidden here, and the flag died with the page when Telegram restarted
+      // the Mini App on the way back from the channel.
       promoSay(null);
       openExternal(CHANNEL_URL);
     });

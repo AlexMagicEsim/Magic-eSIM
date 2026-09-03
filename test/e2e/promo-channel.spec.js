@@ -63,18 +63,55 @@ test.describe('before any verification', () => {
     expect(bundles).not.toContain(true);
   });
 
-  test('only the invitation is shown; the check appears after the channel is opened', async ({ page }) => {
+  test('both controls are on screen from the start, and the reward is not', async ({ page }) => {
     await installMiniApp(page);
     await openApp(page);
 
     await expect(page.locator('#promo-channel')).toBeVisible();
-    await expect(page.locator('#promo-verify')).toBeHidden();
+    // Always present — see the note in index.html. The version that revealed it
+    // on the channel tap lost a real customer their code, because returning
+    // from the channel restarts the Mini App and the flag died with the page.
+    await expect(page.locator('#promo-verify')).toBeVisible();
     await expect(page.locator('#promo-reward')).toBeHidden();
 
     await page.locator('#promo-channel').click();
-    await expect(page.locator('#promo-verify')).toBeVisible();
     // Opening the channel proves nothing on its own.
     expect(await codeIsAnywhere(page)).toBe(null);
+  });
+
+  test('THE RELOAD: the check survives Telegram restarting the app', async ({ page }) => {
+    // The defect this file did not catch, reproduced. Production on 2026-09-03
+    // minted four sessions in four minutes: every return from the channel is a
+    // cold start, and the customer came back to a screen with nothing to press.
+    // A test that clicks and asserts in one page life cannot see that.
+    const state = await installMiniApp(page, { channelSubscription: 'yes' });
+    await openApp(page);
+
+    await page.locator('#promo-channel').click();
+    expect(await page.evaluate(() => window.__opened)).toBe(CHANNEL);
+
+    // Telegram brings the app back from scratch — a new document, a new session.
+    await page.reload();
+    await page.waitForFunction(() => !document.querySelector('#screen-loading[data-active]'), null, { timeout: 15_000 });
+
+    await expect(page.locator('#home-promo')).toBeVisible();
+    await expect(page.locator('#promo-verify')).toBeVisible();
+    expect(await codeIsAnywhere(page)).toBe(null);
+
+    // And it still works: one tap, and the code appears.
+    await page.locator('#promo-verify').click();
+    await expect(page.locator('.promo__code-value')).toHaveText(CODE);
+    expect(callsTo(state, CHECK)).toBe(1);
+  });
+
+  test('THE RELOAD: a subscriber who never taps the channel button can still check', async ({ page }) => {
+    // The shape the old version made impossible: somebody who subscribed from
+    // the channel itself, or on another device, and opens the app fresh.
+    await installMiniApp(page, { channelSubscription: 'yes' });
+    await openApp(page);
+
+    await page.locator('#promo-verify').click();          // no channel tap at all
+    await expect(page.locator('.promo__code-value')).toHaveText(CODE);
   });
 });
 
