@@ -277,6 +277,24 @@
     ready: false,
     authError: null,
     countries: [],
+    /* The channel invitation on the home screen.
+     *
+     * `channelPromoCode` is what the server handed over when it confirmed the
+     * membership — the app never knows the code before that, and never carries
+     * it in its own bundle. `channelPromoUsed` says the customer has since
+     * applied THAT code at checkout, which is when the invitation stops being
+     * worth showing.
+     *
+     * IN MEMORY ONLY, and that is a limit rather than an oversight: nothing in
+     * this app or in any endpoint it already calls can say, after Telegram
+     * restarts the Mini App, whether a code was ever applied. Answering that
+     * would need a new backend read, which is a separate decision. Within a
+     * session — including every screen change back to home — this is exact. */
+    channelPromoCode: null,
+    channelPromoUsed: false,
+    // Whatever the reason, the invitation is finished with. Read by
+    // renderChannelBlock() and by nothing else.
+    channelBlockDone: false,
     // The catalogue rows as they arrived, kept so a language change can rebuild
     // the grouping without going back to the network.
     catalogueRows: [],
@@ -2401,10 +2419,32 @@
     }
 
     if (!state.promoOpen) {
+      /* The opener is a tappable ROW, not a line of grey text.
+       *
+       * It was `.btn--quiet` — transparent, muted, 36px tall, no padding — which
+       * renders as a grey sentence under the tariff card and reads as a caption.
+       * Nobody could tell it was a control, which is the whole complaint.
+       *
+       * Same shape the catalogue already uses for «tap this to go there»: a card
+       * surface with a chevron. `button.card` is in the design system for
+       * exactly this, and being a real <button> keeps the keyboard and the
+       * screen reader working for free — now with a 44px target (var(--tap))
+       * instead of 36, and the whole row clickable rather than the text.
+       *
+       * The chevron is a separate aria-hidden span, the way country cards do it:
+       * it is an affordance, not a word, and a screen reader reading «angle
+       * quotation mark» after every label is noise. Sighted users see
+       * «Ввести промокод ›»; assistive tech hears «Ввести промокод».
+       *
+       * Deliberately NOT a filled button: the pay CTA is the only primary action
+       * on this screen and nothing here may compete with it. */
       box.appendChild(el('button', {
-        class: 'btn btn--quiet promo__toggle', text: t('promo.have'),
+        class: 'card promo__toggle', type: 'button',
         onclick: () => { state.promoOpen = true; renderPromoBlock(); },
-      }));
+      }, [
+        el('span', { class: 'card__title', text: t('promo.have') }),
+        el('span', { class: 'card__chevron', 'aria-hidden': 'true', text: '›' }),
+      ]));
 
       return;
     }
@@ -2447,6 +2487,29 @@
    * no local rule that could stand in for the one on the server, and inventing
    * one is how an app shows a discount the payment does not honour.
    */
+  /* The invitation's visibility, from state — the one place that decides.
+   *
+   * Two reasons it goes, and they are the same rendering decision:
+   *   * the customer has already bought, so the first-purchase code would be
+   *     refused at checkout and offering it is a promise we would break;
+   *   * they have applied that very code, so the invitation has done its job.
+   *
+   * `hidden` rather than removeChild: the block is static markup and its
+   * visibility is state, not surgery. `.promo [hidden]` already carries the
+   * !important the design system needs, because `.btn` sets a display.
+   *
+   * MODULE SCOPE, not inside bindChrome(). The first version lived beside the
+   * click handlers and was called from quotePromo() — a different scope, so it
+   * would have thrown ReferenceError on the first successful apply. `node
+   * --check` cannot see that; only asking where the function actually lives can.
+   *
+   * It never touches state.promo, the price or anything in the checkout — it
+   * hides a block on another screen. */
+  function renderChannelBlock() {
+    const block = $('#home-promo');
+    if (block) block.hidden = Boolean(state.channelBlockDone);
+  }
+
   async function quotePromo(code) {
     const i = state.intent;
     if (!i) return { ok: false, message: promoText('') };
@@ -2513,6 +2576,24 @@
     }
 
     state.promo = quote;
+
+    /* The invitation has done its job.
+     *
+     * This is the ONE place a code is successfully applied — the apply button
+     * and the silent re-quote both arrive here — so it is the only place that
+     * needs to know. A refusal never reaches this line, so a failed apply
+     * leaves the invitation exactly where it was, which is the correct answer:
+     * the customer may still fix the code and try again.
+     *
+     * Compared against the code the SERVER handed over, so another promo code
+     * cannot dismiss an invitation it has nothing to do with. Both sides are
+     * already normalised — readPromoQuote() runs normalisePromoCode over what
+     * the server sent. */
+    if (state.channelPromoCode && quote.code === C.normalisePromoCode(state.channelPromoCode)) {
+      state.channelPromoUsed = true;
+      state.channelBlockDone = true;
+      renderChannelBlock();
+    }
 
     return { ok: true };
   }
@@ -4480,16 +4561,22 @@
            * that was never theirs. No toast, no popup, no error: they asked a
            * question and the honest response is to stop making the promise.
            *
-           * Removed rather than hidden, so nothing about the offer is left in
-           * the page for the rest of the session. */
+           * Hidden through renderChannelBlock(), the one place that decides
+           * whether this block is on screen — the same route the «you have
+           * already used the code» case takes. Nothing about the offer is left
+           * to read either way: the code was never rendered for this customer. */
           if (!out.eligible) {
-            const block = $('#home-promo');
-            if (block && block.parentNode) block.parentNode.removeChild(block);
+            state.channelBlockDone = true;
+            renderChannelBlock();
             return;
           }
 
           if (out.subscribed && out.promoCode) {
             api && api.track('channel_subscription_verified');
+            // The only place the app learns this code. It is compared against
+            // what gets applied at checkout, so «another promo code» cannot
+            // dismiss an invitation it has nothing to do with.
+            state.channelPromoCode = out.promoCode;
             // The code is written here, at the moment it is earned, and this is
             // the first time it exists in this document.
             clear(promoReward);

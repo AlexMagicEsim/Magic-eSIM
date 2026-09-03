@@ -138,6 +138,9 @@ async function installMiniApp(page, options = {}) {
     // the server decides eligibility and the app only obeys. Default true —
     // the state a new visitor from an ad is in.
     channelEligible = true,
+    // What /retail/promo/quote answers. `null` = not mocked explicitly, and the
+    // catch-all below applies; an object is returned as the quote.
+    promoQuote = null,
     revokeFails = false,
   } = options;
 
@@ -222,6 +225,18 @@ async function installMiniApp(page, options = {}) {
       if (at.endsWith('/api/v1/tma/esims/hidden')) return json(route, { items: [] });
       if (at.endsWith('/api/v1/tma/esims')) return json(route, { items: state.esims });
       if (at.includes('/api/v1/tma/esims/')) return json(route, state.esims[0] || {});
+
+      if (at.endsWith('/api/v1/retail/promo/quote')) {
+        // The real endpoint returns the recalculated amounts; the app reads them
+        // and never computes a discount itself.
+        // The shape core.js readPromoQuote() actually accepts. The first draft
+        // invented `original_price_rub`/`discount_rub`, the parser returned null
+        // and every apply test failed — the mock was wrong, not the app.
+        return json(route, promoQuote || {
+          valid: true, promo_code: 'WELCOME10',
+          original_amount_rub: 1000, discount_amount_rub: 100, final_amount_rub: 900,
+        });
+      }
 
       if (at.endsWith('/api/v1/tma/channel/subscription/check')) {
         if (channelSubscription === 'error') {

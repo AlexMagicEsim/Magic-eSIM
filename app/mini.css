@@ -1275,7 +1275,22 @@ body.sheet-open { overflow: hidden; }
  * can answer.
  * ----------------------------------------------------------------------- */
 
-.promo__toggle { justify-content: flex-start; padding: 0; min-height: 36px; }
+/* The promo opener.
+ *
+ * It is a `.card` now, so the surface, border, radius and padding come from the
+ * design system and `button.card` supplies the full width, the cursor and the
+ * var(--tap) target. All that is left here is to lay the row out — `button.card`
+ * sets `display: block` and would otherwise stack the label above the chevron.
+ *
+ * No colour of its own: `button.card { color: inherit }` gives it the body ink,
+ * which is the point. The muted grey it used to wear is what made a control
+ * look like a caption. */
+.promo__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
 
 .promo__row { display: flex; gap: var(--s2); align-items: stretch; }
 .promo__row .input { flex: 1 1 auto; min-width: 0; text-transform: uppercase; }
@@ -1493,7 +1508,14 @@ body.sheet-open { overflow: hidden; }
   margin-top: var(--s3);
 }
 
-/* `hidden` has to win here.
+/* `hidden` has to win here — on the block AND on anything inside it.
+ *
+ * The first version was `.promo [hidden]` alone, a DESCENDANT selector, so the
+ * block itself was never matched: `.promo { display: block }` beat the UA
+ * sheet's `[hidden] { display: none }` and hiding the whole invitation did
+ * nothing. Same class of defect as the button below, one level up, and caught
+ * the same way — by a test that asserted the effect rather than the attribute.
+ *
  *
  * The attribute is only `display: none` from the user-agent sheet, and `.btn`
  * sets `display: inline-flex` — a class beats the UA sheet, so a button marked
@@ -1501,7 +1523,7 @@ body.sheet-open { overflow: hidden; }
  * absent before the channel has been opened; without that assertion this would
  * have shipped as «the second button is always there», which is the whole
  * state machine collapsing quietly. */
-.promo [hidden] { display: none !important; }
+.promo[hidden], .promo [hidden] { display: none !important; }
 
 /* STATE D and the error line. Muted rather than red: «we have not found it
    yet» is not a failure the customer caused, and shouting at somebody who is

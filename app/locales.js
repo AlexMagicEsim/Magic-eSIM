@@ -218,7 +218,11 @@
     'checkout.confirmLost': 'Не удалось подтвердить заказ — связь прервалась. Нажмите «Оплатить» ещё раз: повторный заказ не создастся.',
     'promo.applied': 'Промокод применён',
     'promo.remove': 'Удалить',
-    'promo.have': 'Есть промокод?',
+    // The key still reads «have»; the string is a CALL TO ACTION now. «Есть
+    // промокод?» was a question rendered as grey text and nobody could tell it
+    // was a control. The chevron is drawn by the row, not carried in the string:
+    // an affordance is not a word a screen reader should read out.
+    'promo.have': 'Ввести промокод',
     'promo.label': 'Промокод',
     'promo.apply': 'Применить',
     'promo.enter': 'Введите промокод.',
@@ -562,7 +566,7 @@
     'checkout.confirmLost': 'Couldn’t confirm the order — the connection dropped. Tap Pay again: this won’t create a second order.',
     'promo.applied': 'Promo code applied',
     'promo.remove': 'Remove',
-    'promo.have': 'Have a promo code?',
+    'promo.have': 'Enter promo code',
     'promo.label': 'Promo code',
     'promo.apply': 'Apply',
     'promo.enter': 'Enter a promo code.',

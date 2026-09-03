@@ -303,7 +303,7 @@ test.describe('a customer who has already bought', () => {
 
     // Gone. Not hidden with the promise still in the page, and no popup,
     // toast or error explaining a discount that was never theirs.
-    await expect(page.locator('#home-promo')).toHaveCount(0);
+    await expect(page.locator('#home-promo')).toBeHidden();
     expect(await codeIsAnywhere(page)).toBe(null);
     expect(errors).toEqual([]);
   });
@@ -314,7 +314,7 @@ test.describe('a customer who has already bought', () => {
     await page.locator('#promo-channel').click();
     await page.locator('#promo-verify').click();
 
-    await expect(page.locator('#home-promo')).toHaveCount(0);
+    await expect(page.locator('#home-promo')).toBeHidden();
     expect(await codeIsAnywhere(page)).toBe(null);
   });
 
@@ -323,7 +323,7 @@ test.describe('a customer who has already bought', () => {
     await openApp(page);
     await page.locator('#promo-channel').click();
     await page.locator('#promo-verify').click();
-    await expect(page.locator('#home-promo')).toHaveCount(0);
+    await expect(page.locator('#home-promo')).toBeHidden();
 
     // The country list is exactly where it was, and still works.
     await expect(page.locator('#home-countries .tile').first()).toBeVisible();
@@ -342,7 +342,7 @@ test.describe('a customer who has already bought', () => {
 
     await page.locator('#promo-channel').click();
     await page.locator('#promo-verify').click();
-    await expect(page.locator('#home-promo')).toHaveCount(0);
+    await expect(page.locator('#home-promo')).toBeHidden();
 
     // Exactly one request answered both questions.
     expect(callsTo(state, CHECK)).toBe(1);
