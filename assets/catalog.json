@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T18:25:04.722Z",
+  "generated_at": "2026-09-04T23:06:05.034Z",
   "source": "production-public-api",
-  "package_count": 2300,
+  "package_count": 2298,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -27407,83 +27407,6 @@
         {
           "days": 30,
           "price": 21850
-        }
-      ]
-    },
-    {
-      "package_id": "2e901ca3-1b48-4e1c-967d-fa7bbd829e0a",
-      "name": "Laos 1GB/Day FUP1Mbps Premium",
-      "country_code": "LA",
-      "region": "LA",
-      "coverage_country_codes": [
-        "LA"
-      ],
-      "coverage_flags": "🇱🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "Lao Telecom",
-          "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1500
-        },
-        {
-          "days": 5,
-          "price": 2400
-        },
-        {
-          "days": 7,
-          "price": 3250
-        },
-        {
-          "days": 10,
-          "price": 4500
-        },
-        {
-          "days": 15,
-          "price": 6500
-        },
-        {
-          "days": 30,
-          "price": 12500
         }
       ]
     },
@@ -110131,83 +110054,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "ba715c75-6b16-4ba8-ae80-8ff4b31f7deb",
-      "name": "Laos 3GB/Day FUP1Mbps Premium",
-      "country_code": "LA",
-      "region": "LA",
-      "coverage_country_codes": [
-        "LA"
-      ],
-      "coverage_flags": "🇱🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1350,
-      "networks": [
-        {
-          "operator": "Lao Telecom",
-          "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 3700
-        },
-        {
-          "days": 5,
-          "price": 5900
-        },
-        {
-          "days": 7,
-          "price": 8050
-        },
-        {
-          "days": 10,
-          "price": 11300
-        },
-        {
-          "days": 15,
-          "price": 16700
-        },
-        {
-          "days": 30,
-          "price": 33000
-        }
-      ]
     },
     {
       "package_id": "baa696a7-45fe-4031-9044-579ab07d4f60",
