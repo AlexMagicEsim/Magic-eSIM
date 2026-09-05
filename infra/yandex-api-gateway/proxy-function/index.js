@@ -35,10 +35,35 @@ const STOREFRONT = 'https://magicesim.store';
 
 // Short, because a working connection to this upstream takes ~50 ms; anything
 // slower is the failure mode described at `agent` below, and waiting it out
-// helps nobody. Four attempts at 3 s stays inside the gateway's own budget.
-const CONNECT_TIMEOUT_MS = 3_000;
+// helps nobody.
+//
+// THE BUDGET WAS 4 x 3 s AND THAT IS EXACTLY WHAT A USER FELT.
+//
+// A connect failure is retry-safe (nothing reached the wire), so a dead upstream
+// burned all four attempts before answering: 4 x 3 s = 12 s, and production was
+// measured on 2026-09-05 returning 502 at 12.5 s and 13.5 s — the arithmetic,
+// not a coincidence. That happens INSIDE one client-side failover attempt, on
+// top of whatever the primary already spent, and the Mini App cannot mint a
+// session until it ends. Twelve seconds of blank screen is not a fallback; it
+// is an outage with extra steps.
+//
+// 2 x 1.5 s bounds it at ~3 s. The connect itself has 30x headroom over the
+// ~50 ms this upstream actually takes, and the CLIENT retries too — core.js
+// makes three attempts per endpoint before it fails over — so resilience to a
+// transient refusal lives there, at a layer that can show a spinner, rather than
+// here, where it can only make the wait longer.
+//
+// READ_TIMEOUT_MS is deliberately NOT reduced. It governs the slow-SUCCESS case
+// rather than the failure one — the retail packages catalogue is a ~2 MB body
+// that legitimately takes seconds, and shortening this would convert working
+// responses into 502s, which is the opposite of the fix.
+//
+// (Phrased without a colon after the word above, and without writing the route
+// out: the guard in seo/test-api-domain.mjs matches that shape anywhere in this
+// file, comments included, and reads it as an unmasked log argument.)
+const CONNECT_TIMEOUT_MS = 1_500;
 const READ_TIMEOUT_MS = 25_000;
-const MAX_ATTEMPTS = 4;
+const MAX_ATTEMPTS = 2;
 
 const MAX_BODY_BYTES = 64 * 1024; // orders and promo payloads are well under 1 KB
 
@@ -264,6 +289,27 @@ const ROUTES = [
   // The legacy client_token paths are not part of this contour.
   { method: 'POST', pattern: '/api/v1/tma/session' },
   { method: 'POST', pattern: '/api/v1/tma/session/revoke' },
+
+  // The analytics beacon, and the reason it belongs here rather than in the
+  // «deliberately absent» list: without it the funnel is measurable ONLY while
+  // the primary is reachable. Every event this app counts — the launch itself,
+  // the country view, the checkout open — is dropped the moment the failover
+  // engages, so an outage does not merely slow the app down, it silently erases
+  // the record of what people did during it. Measured 2026-09-05: this path
+  // answered the proxy's own 404, the shape that means «not allowlisted» rather
+  // than «no handler upstream».
+  //
+  // It carries a bearer session like the routes around it, writes nothing but a
+  // name against a session the backend already proved, and cannot refuse a sale:
+  // the route answers 204 whatever the analytics tables are doing.
+  { method: 'POST', pattern: '/api/v1/tma/events' },
+
+  // The channel-membership check behind the WELCOME10 invitation. Same 404,
+  // measured the same day. It is on no purchase path — a failure costs a
+  // discount code, never an order — but on the fallback it currently fails in a
+  // way the app reports as «could not check the subscription», and that answer
+  // must never be caused by our own routing.
+  { method: 'POST', pattern: '/api/v1/tma/channel/subscription/check' },
 
   // B-7 read wave. Six GETs, every one of them behind the same bearer session
   // the two routes above issue and revoke: without it the backend answers 401

@@ -192,11 +192,13 @@ test('the allowlist has exactly the entries it is supposed to have', () => {
     'POST /api/v1/public/retail-orders',
     'POST /api/v1/public/retail-orders/{token}/pay',
     'POST /api/v1/retail/promo/quote',
+    'POST /api/v1/tma/channel/subscription/check',
     'POST /api/v1/tma/esims/{token}/activation',
     'POST /api/v1/tma/esims/{token}/name',
     'POST /api/v1/tma/esims/{token}/topups/quote',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
     'POST /api/v1/tma/esims/{token}/visibility',
+    'POST /api/v1/tma/events',
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
     'POST /api/v1/tma/identity/email/revoke',
@@ -948,12 +950,12 @@ test('I. when every attempt fails the count is the real one', async () => {
   assert.equal(logs.of('error')[0].attempts, MAX_ATTEMPTS);
   assert.deepEqual(
     logs.of('upstream_attempt').map((l) => l.attempt),
-    [1, 2, 3, 4],
+    Array.from({ length: MAX_ATTEMPTS }, (_, i) => i + 1),
     'each attempt is numbered, in order',
   );
 });
 
-test('a POST that reached the wire reports one attempt, not four', async () => {
+test('a POST that reached the wire reports one attempt, not the whole budget', async () => {
   // The defect this replaces: the thrown error carried the constant
   // MAX_ATTEMPTS, so a POST that was deliberately NOT retried — every failed
   // checkout — was recorded in production as four attempts. Reading the old
@@ -1180,9 +1182,21 @@ test('a reused socket does not report the addresses of the request that opened i
 test('the timeouts and the attempt budget are the deployed values', () => {
   // If any of these three ever changes, it is a behaviour change and must not
   // arrive inside an observability patch.
-  assert.equal(CONNECT_TIMEOUT_MS, 3_000);
+  //
+  // Changed deliberately on 2026-09-05, and this assertion is where it had to be
+  // said out loud: 4 x 3 s meant a dead upstream answered 502 only after twelve
+  // seconds, measured in production at 12.5 s and 13.5 s. 2 x 1.5 s bounds the
+  // same failure at ~3 s. READ_TIMEOUT_MS is untouched on purpose — it governs
+  // slow SUCCESS (the ~2 MB catalogue), and cutting it would turn working
+  // responses into 502s.
+  assert.equal(CONNECT_TIMEOUT_MS, 1_500);
   assert.equal(READ_TIMEOUT_MS, 25_000);
-  assert.equal(MAX_ATTEMPTS, 4);
+  assert.equal(MAX_ATTEMPTS, 2);
+
+  // The property that actually matters to a customer: the worst case a connect
+  // failure can cost, before the client even considers its next endpoint.
+  assert.ok(CONNECT_TIMEOUT_MS * MAX_ATTEMPTS <= 4_000,
+    'a failing upstream must not hold the Mini App for more than ~4 s');
 });
 
 test('retry safety is unchanged, including for the case that creates orders', () => {
@@ -1228,9 +1242,12 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the eight rea
   // 2026-08-20 — `name` and `visibility`, neither of which deletes anything —
   // and the notification switches add one more write on 2026-08-21, and the
   // self-serve pay page adds FOUR public routes on 2026-08-28 (one link read,
-  // one charge create, one charge status, one charge QR image).
+  // one charge create, one charge status, one charge QR image), and TWO Mini App
+  // writes on 2026-09-05 — the analytics beacon and the channel-membership
+  // check, both of which were answering the proxy's own 404 on the fallback and
+  // so were measurable only while the primary was up.
   // Nothing else rides along.
-  assert.equal(ROUTES.length, 35);
+  assert.equal(ROUTES.length, 37);
   for (const [method, path] of LEGACY_ROUTES) assert.ok(matchRoute(method, path));
   const tma = ROUTES.filter((r) => r.pattern.startsWith('/api/v1/tma/'));
   assert.deepEqual(tma.map((r) => `${r.method} ${r.pattern}`).sort(), [
@@ -1243,11 +1260,13 @@ test('the allowlist is the nine deployed routes, the two B-6 ones, the eight rea
     'GET /api/v1/tma/me/orders/active',
     'GET /api/v1/tma/orders/{token}/status',
     'GET /api/v1/tma/topups/{token}/status',
+    'POST /api/v1/tma/channel/subscription/check',
     'POST /api/v1/tma/esims/{token}/activation',
     'POST /api/v1/tma/esims/{token}/name',
     'POST /api/v1/tma/esims/{token}/topups/quote',
     'POST /api/v1/tma/esims/{token}/usage/refresh',
     'POST /api/v1/tma/esims/{token}/visibility',
+    'POST /api/v1/tma/events',
     'POST /api/v1/tma/identity/email/confirm',
     'POST /api/v1/tma/identity/email/request',
     'POST /api/v1/tma/identity/email/revoke',
@@ -2000,4 +2019,61 @@ test('self-serve pay routes match and never log the secret or charge token', () 
       if (seg.startsWith('{')) assert.equal(seg, '{token}', `unknown placeholder ${seg}`);
     }
   }
+});
+
+// ---------------------------------------------------------------------------
+// The 2026-09-05 fallback repair
+// ---------------------------------------------------------------------------
+//
+// Two defects, measured against production on 2026-09-05 and fixed together:
+// the Mini App's analytics beacon and its channel check answered the proxy's own
+// 404 on the fallback, and a dead upstream held a request for 12-14 seconds
+// before admitting it.
+
+test('the analytics beacon and the channel check route through the fallback', () => {
+  // The shape of the bug: matchRoute returned null, so the proxy answered its
+  // own 404 and the app could not tell «not allowlisted» from «no handler».
+  assert.ok(matchRoute('POST', '/api/v1/tma/events'), 'the beacon is not routed');
+  assert.ok(matchRoute('POST', '/api/v1/tma/channel/subscription/check'),
+    'the channel check is not routed');
+
+  // Only POST. A GET on either is not the same act and must not be forwarded.
+  assert.equal(matchRoute('GET', '/api/v1/tma/events'), null);
+  assert.equal(matchRoute('GET', '/api/v1/tma/channel/subscription/check'), null);
+
+  // And neither opened a wildcard underneath itself.
+  assert.equal(matchRoute('POST', '/api/v1/tma/events/anything'), null);
+  assert.equal(matchRoute('POST', '/api/v1/tma/channel/subscription'), null);
+  assert.equal(matchRoute('POST', '/api/v1/tma/channel'), null);
+});
+
+test('a failing upstream now costs ~3 s, not ~12 s', async () => {
+  // The number a customer feels. Asserted on the BUDGET rather than on a clock,
+  // because a timing test on a shared runner is a flake generator — but the
+  // budget is what produced the 12.5 s and 13.5 s measured in production.
+  assert.equal(CONNECT_TIMEOUT_MS * MAX_ATTEMPTS, 3_000);
+  assert.ok(CONNECT_TIMEOUT_MS * MAX_ATTEMPTS < 4_000);
+
+  // And it really is the budget the loop spends: a connect failure is
+  // retry-safe, so it burns every attempt before giving up.
+  reset();
+  upstreamFails = 'ECONNRESET';
+  const logs = await capturingLogs(() => call({ httpMethod: 'GET', path: '/api/v1/retail/packages' }));
+  assert.equal(logs.of('upstream_attempt').length, MAX_ATTEMPTS);
+});
+
+test('the slow-success path is untouched', () => {
+  // READ_TIMEOUT_MS governs a ~2 MB catalogue that legitimately takes seconds.
+  // Cutting it would turn working responses into 502s — the opposite of the fix,
+  // and the easiest wrong move to make while «speeding up the fallback».
+  assert.equal(READ_TIMEOUT_MS, 25_000);
+  assert.ok(READ_TIMEOUT_MS > CONNECT_TIMEOUT_MS * MAX_ATTEMPTS * 5,
+    'the read budget must stay far larger than the connect budget');
+});
+
+test('a POST that reached the wire is still never retried', () => {
+  // The invariant the smaller budget must not weaken: an order the backend has
+  // already accepted must never be sent twice.
+  assert.equal(isRetrySafe('POST', true), false);
+  assert.equal(isRetrySafe('POST', false), true);
 });
