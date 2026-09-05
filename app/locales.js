@@ -188,7 +188,14 @@
     'plan.unlimited': 'Безлимит',
     'plan.gb': '{n} ГБ',
     'plan.best': 'Оптимальный выбор',
-    'plan.hotspot': 'раздача интернета',
+    // Пилюля на карточке тарифа. Было «раздача интернета» — внутри серой
+    // строки «15 дней · раздача интернета»; теперь это отдельная метка рядом
+    // с объёмом, и на строке помещается только короткая форма. Развёрнутую
+    // формулировку экран тарифа берёт из tariffHotspot() в core.js, а не
+    // отсюда, поэтому второй ключ был бы сиротой — гейт это и поймал.
+    'plan.hotspot': 'Раздача',
+    'country.sortPrice': 'По цене',
+    'country.sortVolume': 'По объёму',
     'country.onePlan': 'Один тариф на {countries}.',
     'country.alsoFit': 'Также подойдут',
     'country.regionalFit': 'Подойдут региональные тарифы',
@@ -536,7 +543,9 @@
     'plan.unlimited': 'Unlimited',
     'plan.gb': '{n} GB',
     'plan.best': 'Best value',
-    'plan.hotspot': 'hotspot',
+    'plan.hotspot': 'Hotspot',
+    'country.sortPrice': 'By price',
+    'country.sortVolume': 'By size',
     'country.onePlan': 'One plan covering {countries}.',
     'country.alsoFit': 'These also work',
     'country.regionalFit': 'Regional plans work here',

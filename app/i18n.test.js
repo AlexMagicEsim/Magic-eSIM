@@ -712,6 +712,19 @@ test('the frozen list covers every Russian key, not just the ones present when i
     // The code itself is not a key — it is not in the bundle at all.
     'channel.title', 'channel.text', 'channel.codeLabel', 'channel.cta',
     'channel.verify', 'channel.checking', 'channel.notFound', 'channel.checkFailed',
+    // 2026-09-05 — the country screen's tariff cards.
+    //
+    // `country.sortPrice` / `country.sortVolume` REPLACE a defect rather than
+    // adding a feature: the sort control took its labels from
+    // `TARIFF_SORTS[key].label` in core.js, which are literal Russian strings,
+    // so English readers saw «По цене» / «По объёму». Two keys and not one
+    // computed lookup, because a computed key fails the gate above.
+    //
+    // No key was added for the hotspot pill: `plan.hotspot` already existed and
+    // had exactly one caller, so its wording moved from «раздача интернета» to
+    // «Раздача» instead of a second key being introduced. The orphan gate below
+    // is what forced that — and it was right.
+    'country.sortPrice', 'country.sortVolume',
   ];
 
   assert.deepEqual(

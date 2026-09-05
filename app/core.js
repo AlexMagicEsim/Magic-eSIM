@@ -2178,6 +2178,85 @@ function tariffDistinguishers(list) {
   return out;
 }
 
+/**
+ * The same idea as `tariffDistinguishers`, for per-day plans.
+ *
+ * WHY IT IS A SEPARATE FUNCTION. `tariffSiblingKey` groups on `data_gb` and
+ * `validity_days`, and a DAILY row has `data_gb: 0` and no validity — so every
+ * daily plan in a country collapses into ONE sibling group and the varies-tests
+ * would then be run across allowances that are not comparable. Grouping is on
+ * the allowance instead, which is the thing two daily cards share when they
+ * look identical.
+ *
+ * WHAT IT MAY SAY. Only fields the catalogue actually carries, and only when
+ * they differ inside one allowance: the exit country and the top network
+ * generation. The throttle is deliberately NOT here — the card already prints
+ * it as its own line, from the shared copy module. Hotspot is not here either:
+ * it is a FEATURE, drawn as the same pill a volume card uses, so the two card
+ * types say it the same way and it is translated through the dictionary.
+ *
+ * Operator names are deliberately NOT here either. `tariffDistinguishers`
+ * builds an «N сетей» chip with a hardcoded Russian plural (see the `plural(`
+ * call in it), which is a latent defect in the English locale; this function
+ * must not inherit it, and every label it can emit is either localised through
+ * `countryLabel` or a bare generation token like «5G».
+ *
+ * MEASURED over the shipped catalogue (2298 packages, 1329 daily). There are
+ * 252 groups of two-or-more same-allowance daily rows, covering 569 packages:
+ *   180  were already separated on screen by the throttle line alone
+ *    51  are separated by the throttle AND by a chip from here
+ *    19  are separated ONLY by a chip from here
+ *     2  remain identical — Monaco 3 ГБ and one Latin-America regional 1 ГБ,
+ *        which really are the same product twice in the catalogue
+ * So this closes 19 groups outright and adds a second signal to 51 more.
+ * Vietnam is the worst case and is fully resolved: its «5 ГБ в день» pair —
+ * 1 950 ₽ against 2 550 ₽ with byte-identical copy — differs by exit country
+ * alone, and nothing on the old card said so.
+ *
+ * @param {Array} list daily packages for one country/region
+ * @returns {Map<string, string[]>} package_id -> short labels, most decisive first
+ */
+function dailyDistinguishers(list, lang) {
+  const packages = (Array.isArray(list) ? list : [])
+    .filter((p) => p && String(p.plan_type || '') === 'DAILY');
+
+  const groups = new Map();
+  for (const p of packages) {
+    // Allowance, and coverage, because a country screen shows regional daily
+    // plans in the same block as local ones.
+    const codes = Array.isArray(p.coverage_country_codes)
+      ? p.coverage_country_codes.map((c) => String(c || '').toUpperCase()).sort().join('+')
+      : String(p.country_code || '').toUpperCase();
+    const k = `${codes}|A${Number(p.daily_gb)}`;
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(p);
+  }
+
+  const out = new Map();
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+
+    const ipVaries = new Set(group.map((p) => tariffIpCodes(p).join('+'))).size > 1;
+    const genVaries = new Set(group.map((p) => tariffTopGeneration(p))).size > 1;
+    if (!ipVaries && !genVaries) continue;
+
+    for (const p of group) {
+      const chips = [];
+      if (ipVaries) {
+        const ip = tariffIpLabel(p, lang);
+        if (ip) chips.push(`IP: ${ip}`);
+      }
+      if (genVaries) {
+        const gen = tariffTopGeneration(p);
+        if (gen) chips.push(gen);
+      }
+      if (chips.length) out.set(String(p.package_id || ''), chips);
+    }
+  }
+
+  return out;
+}
+
 function tariffFacts(pkg, lang) {
   const p = pkg || {};
   const en = lang === 'en';
@@ -2538,7 +2617,7 @@ const CORE = {
   sortOwnedEsims, isSpentEsim, SPENT_ESIM_STATUSES,
   syncedAgo, installPlatform, sortTariffs, TARIFF_SORTS,
   tariffFacts, tariffNetworks, tariffHotspot, tariffActivation, tariffTextRu,
-  tariffDistinguishers, tariffIpLabel, tariffOperators,
+  tariffDistinguishers, dailyDistinguishers, tariffIpLabel, tariffOperators,
   coverageSummary,
   AFTER_PAYMENT_STEPS,
   memoryStorage,

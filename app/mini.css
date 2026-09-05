@@ -54,6 +54,15 @@
   --radius-sm: 10px;
   --tap: 44px;
 
+  /* Both of these were REFERENCED by `.tariff__chip` and never defined, so
+     every differentiator chip rendered square-cornered and fully transparent —
+     `border-radius: var(--r-pill)` and `background: var(--soft)` both resolved
+     to nothing. Defining them here is the fix, and it is why the chips suddenly
+     look like chips. `--soft` is the one raised surface the palette lacked: a
+     step off the card, derived from --ink so it follows the Telegram theme. */
+  --r-pill: 999px;
+  --soft: color-mix(in srgb, var(--ink) 6%, transparent);
+
   /* The keyboard and the home indicator both eat the bottom of a Mini App. */
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
@@ -80,6 +89,11 @@
 
   /* A card in dark was defined by a 12% hairline and nothing else. */
   --line: color-mix(in srgb, var(--ink) 20%, transparent);
+
+  /* In Telegram's dark palette the card (bg_color #17212B) is DARKER than the
+     page (secondary_bg_color #232E3C), so a 6% wash reads as almost nothing on
+     it. Lifted so a pill is still a distinct surface rather than a hairline. */
+  --soft: color-mix(in srgb, var(--ink) 10%, transparent);
 }
 
 /* An 8% wash of near-white on a dark page is not a placeholder, it is a smudge
@@ -113,7 +127,26 @@ body { padding-bottom: 0; }
  * Layout
  * ----------------------------------------------------------------------- */
 
-.screen { display: none; padding: 12px 16px 0; }
+/*
+ * The bottom gutter is NOT zero, and the reason is a measured defect.
+ *
+ * With `padding: 12px 16px 0` the last element of every screen ended exactly on
+ * the tab bar's top border — measured at 0.0px on the tariff screen at 390x844
+ * and 320x568, both languages. On that screen the last element is the primary
+ * CTA, so «Купить за 500 ₽» and the navigation read as one welded control.
+ *
+ * This is NOT the `body { padding-bottom: 0 }` case documented above. That
+ * padding sat BELOW a `position: sticky` bar and produced an empty band under
+ * it. `.screen` lives inside `.app-main`, which is the flex item ABOVE the bar,
+ * so its bottom padding is ordinary in-flow space between the content and the
+ * bar — which is precisely what was missing.
+ *
+ * `--safe-b` is deliberately NOT added here. The tab bar already carries
+ * `calc(10px + var(--safe-b))` in its own padding and sits below this box, so
+ * the home indicator is accounted for once. Adding it again would open a second
+ * gap on notched phones and none on the phones without one.
+ */
+.screen { display: none; padding: 12px 16px var(--s6); }
 .screen[data-active] { display: block; }
 
 .row { display: flex; align-items: center; gap: 12px; }
@@ -639,6 +672,27 @@ button.card:active { transform: scale(.995); }
   margin: var(--s6) 0 var(--s2);
   letter-spacing: 0.01em;
 }
+
+/*
+ * «Трафик на каждый день» starts a different PRODUCT, not another few rows of
+ * the same one — a per-day allowance cannot be compared with a volume, which is
+ * why core.js partitions them before anything is sorted. As a plain grey
+ * heading in the same colour as every card's meta line, that boundary was the
+ * weakest thing on the screen; a reader scrolling Vietnam's list passed it
+ * without registering that the numbers had changed meaning.
+ *
+ * A rule and full-strength ink, so the break is visible in peripheral vision.
+ * No colour: the accent is already spent on the recommended card, and a second
+ * blue thing here would compete with it.
+ */
+.section--daily {
+  color: var(--ink);
+  font-size: var(--t-body);
+  font-weight: 680;
+  margin-top: var(--s7);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+}
 .stack > .section:first-child { margin-top: var(--s2); }
 
 /* -----------------------------------------------------------------------
@@ -689,7 +743,6 @@ button.card--row {
    feedback available is what happens under the thumb. */
 button.card--row:active { background: color-mix(in srgb, var(--ink) 6%, var(--surface)); }
 
-.tariff__head { gap: var(--s2); flex-wrap: wrap; }
 .badge--best { background: color-mix(in srgb, var(--blue) 14%, transparent); color: var(--blue); }
 
 /* Consent row. 44px tall and the whole label is the target: a 16px checkbox is
@@ -1035,8 +1088,63 @@ body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stab
 /* The sort switch reuses the segmented control the payment method already
    uses — one idiom for "pick one of these", not two. Narrower, because it is
    a refinement of a list rather than a decision about money. */
-.segmented--sort { margin-bottom: 4px; }
-.segmented--sort .segmented__opt { font-size: 14px; padding: 8px 10px; }
+/*
+ * The sort axis, as ONE control rather than two buttons that happen to be
+ * adjacent. Two separately-bordered boxes read as two independent actions, and
+ * at 44px each they were the heaviest thing between the title and the first
+ * price.
+ *
+ * The height does NOT drop: `.segmented__opt` sits on `min-height: var(--tap)`
+ * and 44px is the floor this project holds itself to, so the weight comes off
+ * through the track and the borders instead — one hairline around the pair, a
+ * filled pill for the chosen axis, nothing at all for the other. The gap is
+ * closed so the two halves share an edge, which is what makes it read as a
+ * switch rather than as a pair.
+ */
+.segmented--sort {
+  gap: 0;
+  margin-bottom: var(--s1);
+  /* NO PADDING AND NO BORDER on the track, and that is a touch-target decision
+     rather than a stylistic one. An inset track needs 3px of padding, which
+     comes out of the button inside it: the first version of this control put
+     the option at `min-height: 38px` so the whole thing stayed 44px, and a
+     38px button is below the floor this project holds. Letting the halves fill
+     the track edge to edge keeps the BUTTON at the full 44px — the thing a
+     thumb actually hits — and the control at 44px overall, exactly the height
+     it was before. The track is drawn by its fill alone. */
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--soft);
+  overflow: hidden;
+}
+.segmented--sort .segmented__opt {
+  font-size: 14px;
+  padding: 8px 10px;
+  min-height: var(--tap);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--muted);
+}
+/*
+ * The chosen axis is marked with the BRAND TINT, not with a raised surface.
+ *
+ * A `var(--surface)` pill is the iOS idiom and it inverts in Telegram's dark
+ * palette: there `bg_color` (#17212B, the card) is DARKER than
+ * `secondary_bg_color` (#232E3C, the page this track sits on), so the selected
+ * half read as a hole and the unselected half read as the raised one. Caught in
+ * a dark-theme screenshot, not in review.
+ *
+ * A tint derived from --blue has no such dependency — it is the same relation
+ * to whatever is behind it in both themes — and it keeps the accent the rest of
+ * this control deliberately gives up.
+ */
+.segmented--sort .segmented__opt[aria-checked="true"] {
+  background: color-mix(in srgb, var(--blue) 18%, transparent);
+  color: var(--blue);
+}
+.segmented--sort .segmented__opt:active { background: color-mix(in srgb, var(--ink) 8%, transparent); }
 
 /* --- Installation · the device picker ------------------------------------
    The first decision on the screen, so it looks like one. The old pair of
@@ -1389,12 +1497,137 @@ body.sheet-open { overflow: hidden; }
 }
 
 
+/* =====================================================================
+ * TariffCard — the country screen's list row.
+ *
+ * WHAT WAS WRONG. `.card--tariff` carried no declarations at all: the class
+ * was emitted by ui.js and matched nothing, so a tariff row was a generic
+ * `.card` — 14px padding around a 10px `.stack` gap, with the volume and the
+ * price both at 15px. Twenty-three of them in Vietnam read as one wall, and
+ * nothing on the card said which number to look at first.
+ *
+ * THE SHAPE. One row, not two. The volume leads at 19px/700; the term and the
+ * features sit beside it as quiet pills; the price is pinned right. Dropping
+ * the second text row is where the height comes from — everything else here is
+ * typography. The left group wraps on its own when the words genuinely do not
+ * fit (long EN labels at 320px), so the layout degrades to the old two-line
+ * height rather than overflowing.
+ * ================================================================== */
+/* The card itself. `.card.card--tariff` rather than `.card--tariff` on purpose:
+ * `button.card { display: block }` at the top of this file is (0,1,1) and would
+ * otherwise beat a single class and quietly keep the old block layout. Two
+ * classes make this win on specificity instead of on source order. */
+.card.card--tariff{
+  display:flex;align-items:center;flex-wrap:wrap;gap:var(--s3);
+  /* 14px all round -> 11/14. The horizontal gutter is untouched; only the
+     vertical padding moves, because that is what was empty. */
+  padding:11px 14px;
+}
+/* `flex: 1 1 0`, NOT `1 1 auto`. With an auto basis this box asks for its full
+   content width, so on any card whose left side is wide — the recommended one
+   carries a badge, a daily one carries the throttle sentence — it did not fit
+   beside the price, the card wrapped, and the PRICE dropped onto a line of its
+   own. A zero basis makes this box shrink and wrap its own pills instead, which
+   is where wrapping belongs. Measured: it is what turns the 50 ГБ card from
+   three rows back into one. */
+.card--tariff > .tariff__main{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:var(--s2);
+  flex:1 1 0;min-width:0;
+}
+/* The number the whole screen is scanned for. */
+.card--tariff .card__title{
+  font-size:19px;font-weight:700;line-height:1.2;
+  letter-spacing:-.02em;
+  flex:0 0 auto;
+}
+/* Second in the hierarchy, not equal to it: same weight family, smaller, and
+   tabular so a column of prices lines up digit under digit. */
+.card--tariff .card__price{
+  font-size:16px;font-weight:650;line-height:1.2;
+  flex:0 0 auto;white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Term and features. Neutral by design — the accent belongs to the recommended
+   card and to the exit-country chip, and spending it here would leave nothing
+   to notice. */
+.tariff__pills{
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0;
+}
+.tariff__pill{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;
+  border-radius:var(--r-pill);
+  background:var(--soft);
+  color:var(--muted);
+  font-size:12px;font-weight:600;line-height:1.45;
+  white-space:nowrap;
+}
+/* Hotspot is the one feature that decides a purchase for a whole class of
+   buyers (a laptop in a cafe), so it is the one that carries a hint of ink. */
+.tariff__pill--hotspot{
+  background:color-mix(in srgb, var(--ink) 10%, transparent);
+  color:var(--ink);
+}
+
+/* The recommended card. A border, a wash and the existing badge — deliberately
+   NOT a solid blue card, which would out-shout the price it is meant to
+   recommend and make every other row look disabled. */
+.card.card--tariff.is-best{
+  border-color:color-mix(in srgb, var(--blue) 42%, transparent);
+  background:
+    linear-gradient(0deg,
+      color-mix(in srgb, var(--blue) 6%, transparent),
+      color-mix(in srgb, var(--blue) 6%, transparent)),
+    var(--surface);
+}
+.card--tariff.is-best .card__price{ color:var(--blue); }
+
+/* The differentiator row is a full-width band under the main row. */
+.card--tariff > .tariff__distinct{ flex:1 0 100%; margin-top:2px; }
+
+/* A daily card's properties get their own full-width row — see `dailyCard` for
+   why the split is named rather than left to flex-wrap. */
+.card--tariff > .tariff__pills--own{ flex:1 0 100%; }
+/* Four facts instead of three, so the vertical rhythm tightens to keep the card
+   at the height the three-fact card used to be. */
+.card.card--tariff.card--daily{ padding:10px 14px; gap:var(--s2); }
+
+/* -----------------------------------------------------------------------
+ * The narrow floor (iPhone SE and the small Androids).
+ *
+ * At 320px a card cannot fit volume + term + hotspot + a four-digit price on
+ * one line without dropping type below the size this project reads at, so it
+ * wraps — which is correct. What is NOT acceptable is the wrapped card ending
+ * up TALLER than the two-line card it replaced: measured at 76.2px against a
+ * 72.6px baseline before this block existed. Tightening the pills and the row
+ * gap buys the difference back.
+ *
+ * Scoped to 360 and not to 390: at 390 the cards already sit on one row, and an
+ * unscoped rule would shrink type on the phone most customers actually use.
+ * --------------------------------------------------------------------- */
+@media (max-width: 360px) {
+  .card.card--tariff{ gap:var(--s2); }
+  .card--tariff .card__title{ font-size:18px; }
+  /* 11px matches the tab bar's label, which is the smallest type this app
+     already ships; a pill is a two-word label and not running text. */
+  .tariff__pill,
+  .tariff__chip{ padding:2px 6px; font-size:11px; }
+  /* The daily card's property row is the tightest line in the app: at 320 the
+     throttle sentence and the exit-country chip together are within a few px of
+     the available 260, and losing that race costs a whole third row (measured:
+     107.2px against 77.6px for the two-row form). */
+  .tariff__pills{ gap:4px; }
+}
+
 /* ---- What tells two tariffs apart ------------------------------------
    A country usually shows none of this. It appears only where the catalogue
    genuinely offers two tariffs of the same coverage, volume and validity that
    differ in where the traffic exits, which operators carry it, or which
    generation it reaches — the case that previously rendered as the same card
-   twice at the same price. */
+   twice at the same price. Daily plans get the same treatment keyed on the
+   allowance instead of the volume; see `dailyDistinguishers` in core.js. */
 .tariff__distinct{
   display:flex;flex-wrap:wrap;gap:6px;
   margin-top:var(--s2);

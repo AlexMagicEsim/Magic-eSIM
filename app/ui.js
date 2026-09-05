@@ -906,7 +906,7 @@
    * a daily plan shown without its terms reads as a volume plan, which is the
    * confusion the section exists to prevent.
    * ===================================================================== */
-  function dailyCard(p, group) {
+  function dailyCard(p, group, distinct) {
     const D = C.dailyCopy();
     if (!D) return null;
     const lines = D.lines(p, I.lang());
@@ -916,42 +916,95 @@
     // The cheapest offered term, shown as «от», so the card carries a real
     // number without pretending the customer has chosen yet. A plan with no
     // priced ladder shows no price and cannot be opened for purchase.
+    //
+    // «от» IS CORRECT HERE and is not a placeholder: a PER_DAY plan is a ladder
+    // of terms (Vietnam sells 3/5/7/10/15/30 days at six different prices), the
+    // customer picks one on the next screen, and `sellableFrom` documents why
+    // the row's own `price` — a per-DAY rate that is not sold alone — must
+    // never be the number shown.
     const from = terms.length ? terms[0] : null;
 
-    return el('button', { class: 'card stack card--tariff', onclick: () => openTariff(p, group) }, [
-      el('div', { class: 'row row--between' }, [
-        el('div', { class: 'row tariff__head' }, [
-          el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, I.lang()) }) }),
-        ]),
-        el('div', {
-          class: 'card__price tabular',
-          text: from ? t('tile.from', { price: C.money(from.price) }) : '—',
-        }),
+    // Everything after the allowance: the throttle, and a confirmed reset when
+    // the provider published one. Left as the shared module's sentence.
+    const meta = lines.map((l) => l.text).slice(1).join(' · ');
+
+    /*
+     * TWO ROWS, and they are assigned rather than left to the wrapper.
+     *
+     * A daily card carries four things where a volume card carries three: the
+     * allowance, the throttle sentence, a differentiator, and the price. They
+     * do not fit on one row at any viewport this app runs at — «5 ГБ в день»
+     * plus «Далее — до 384 Кбит/с» alone is 328px of a 330px line at 390.
+     *
+     * Left to `flex-wrap` the card broke into THREE rows (measured at 109px,
+     * against a 72.6px baseline), because the title and the throttle each
+     * claimed a line. Naming the split — volume and price on row one, every
+     * property on row two — makes it two rows at every width instead.
+     */
+    return el('button', { class: 'card card--tariff card--daily', onclick: () => openTariff(p, group) }, [
+      el('div', { class: 'tariff__main' }, [
+        el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, I.lang()) }) }),
       ]),
-      el('div', { class: 'card__meta', text: lines.map((l) => l.text).slice(1).join(' · ') || ' ' }),
+      el('div', {
+        class: 'card__price tabular',
+        text: from ? t('tile.from', { price: C.money(from.price) }) : '—',
+      }),
+      el('div', { class: 'tariff__pills tariff__pills--own' }, [
+        meta ? el('span', { class: 'tariff__pill', text: meta }) : null,
+        p.hotspot_supported === true
+          ? el('span', { class: 'tariff__pill tariff__pill--hotspot', text: t('plan.hotspot') })
+          : null,
+        // The reason two «5 ГБ в день» cards can carry different prices — see
+        // `dailyDistinguishers`.
+        ...chipSpans(p, distinct),
+      ]),
     ]);
+  }
+
+  /**
+   * The term and the features, as quiet pills.
+   *
+   * They used to be one grey sentence — «15 дней · раздача интернета» — which
+   * put the two facts a buyer compares across cards inside a run of text at the
+   * same size and colour as everything else. As pills they are scannable down
+   * the column, and they sit on the SAME row as the volume, which is where the
+   * card's height comes back from.
+   */
+  function tariffPills(p) {
+    const pills = [];
+    const days = Number(p.validity_days);
+    if (Number.isFinite(days) && days > 0) {
+      pills.push(el('span', { class: 'tariff__pill', text: `${days} ${dayWord(days)}` }));
+    }
+    // The label is the short form now — the card gives it one line beside the
+    // volume, the term and the price. The full sentence a buyer reads before
+    // paying comes from `tariffHotspot()` on the tariff screen.
+    if (p.hotspot_supported === true) {
+      pills.push(el('span', {
+        class: 'tariff__pill tariff__pill--hotspot',
+        text: t('plan.hotspot'),
+      }));
+    }
+
+    return pills.length ? el('div', { class: 'tariff__pills' }, pills) : null;
   }
 
   function tariffCard(p, group, distinct) {
     const isBest = group && group.best && group.best.package_id === p.package_id;
-    const days = Number(p.validity_days);
 
     // §9 S3: a tariff card opens the tariff, not the payment form. Going
     // straight to checkout skipped the one screen whose job is to answer
     // "will this work on my phone, and what am I actually buying".
-    return el('button', { class: 'card stack card--tariff', onclick: () => openTariff(p, group) }, [
-      el('div', { class: 'row row--between' }, [
-        el('div', { class: 'row tariff__head' }, [
-          el('span', { class: 'card__title', text: p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb }) }),
-          isBest ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
-        ]),
-        el('div', { class: 'card__price tabular', text: C.money(p.price) }),
+    return el('button', {
+      class: 'card card--tariff' + (isBest ? ' is-best' : ''),
+      onclick: () => openTariff(p, group),
+    }, [
+      el('div', { class: 'tariff__main' }, [
+        el('span', { class: 'card__title', text: p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb }) }),
+        isBest ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
+        tariffPills(p),
       ]),
-      el('div', {
-        class: 'card__meta',
-        text: `${days} ${dayWord(days)}`
-          + (p.hotspot_supported === true ? ` · ${t('plan.hotspot')}` : ''),
-      }),
+      el('div', { class: 'card__price tabular', text: C.money(p.price) }),
       // What makes THIS card different from the one beside it. Drawn only when
       // something actually varies among tariffs of the same coverage, volume
       // and validity — so most countries show nothing here, and the two Japan
@@ -960,29 +1013,52 @@
     ]);
   }
 
-  /** The differentiator row, or nothing at all when there is nothing to say. */
-  function chipsFor(p, distinct) {
+  /** The chips themselves, as bare spans, so a caller can place them. */
+  function chipSpans(p, distinct) {
     const labels = (distinct && distinct.get(String(p.package_id || ''))) || [];
-    if (!labels.length) return null;
 
-    return el('div', { class: 'tariff__distinct' }, labels.map((label) => el('span', {
+    return labels.map((label) => el('span', {
       // The exit country is the one that changes a decision, so it is the one
       // that gets colour; the rest stay quiet.
       class: 'tariff__chip' + (label.startsWith('IP: ') ? ' tariff__chip--ip' : ''),
       text: label,
-    })));
+    }));
   }
 
-  /** The two axes a tariff list is read along: what it costs, and how much. */
+  /** The differentiator row, or nothing at all when there is nothing to say. */
+  function chipsFor(p, distinct) {
+    const spans = chipSpans(p, distinct);
+
+    return spans.length ? el('div', { class: 'tariff__distinct' }, spans) : null;
+  }
+
+  /**
+   * The two axes a tariff list is read along: what it costs, and how much.
+   *
+   * THE LABELS COME FROM THE DICTIONARY, not from `TARIFF_SORTS.label`. Those
+   * labels are literal Russian strings in core.js, and this control rendered
+   * «По цене» / «По объёму» to English readers on every country screen —
+   * measured in a browser at both viewports, in the English locale. The English
+   * audit never caught it because its fixture is a single package and the
+   * control only renders when a country has more than two volume tariffs.
+   *
+   * Spelled out one branch per axis rather than looked up by key, because the
+   * i18n gate requires every `t()` call to name a literal key — a computed
+   * `t('country.sort' + key)` fails the suite by design.
+   */
+  function sortLabel(key) {
+    return key === 'volume' ? t('country.sortVolume') : t('country.sortPrice');
+  }
+
   function sortToggle(group) {
     const box = el('div', { class: 'segmented segmented--sort', role: 'radiogroup' });
-    for (const [key, spec] of Object.entries(C.TARIFF_SORTS)) {
+    for (const key of Object.keys(C.TARIFF_SORTS)) {
       box.appendChild(el('button', {
         class: 'segmented__opt',
         'data-sort': key,
         role: 'radio',
         'aria-checked': String(state.sort === key),
-        text: spec.label,
+        text: sortLabel(key),
         onclick: () => {
           if (state.sort === key) return;
           state.sort = key;
@@ -1031,10 +1107,26 @@
 
     // Above nothing and below the volumes: a customer scanning for a volume
     // should not have to pass this, and one who wants it finds it in one place.
-    const dailyCards = daily.map((p) => dailyCard(p, group)).filter(Boolean);
+    // Same treatment the volume grid gets, keyed on the allowance. Vietnam ships
+    // four «2 ГБ в день» rows at four prices; without this they are four
+    // identical cards and the price looks arbitrary.
+    const dailyDistinct = C.dailyDistinguishers(daily, I.lang());
+    const dailyCards = daily.map((p) => dailyCard(p, group, dailyDistinct)).filter(Boolean);
     if (dailyCards.length) {
       const D = C.dailyCopy();
-      list.appendChild(el('h2', { class: 'section', text: D ? D.blockTitle(I.lang()) : '' }));
+      // A per-day allowance is a different product from a volume, and the
+      // heading is the only thing that says so. `--daily` gives it a rule and
+      // full-strength ink; as plain grey it was the weakest break on the screen.
+      //
+      // NO SUBTITLE ABOUT A NIGHTLY RESET. `daily_reset_confirmed` is true on
+      // 22 of 1329 daily packages and on ZERO of Vietnam's sixteen, and the
+      // shared copy module already refuses to finish that sentence per package.
+      // A section-level «обновляется каждый день» would assert for a whole
+      // country what the provider published for almost none of it.
+      list.appendChild(el('h2', {
+        class: 'section section--daily',
+        text: D ? D.blockTitle(I.lang()) : '',
+      }));
       for (const card of dailyCards) list.appendChild(card);
     }
 

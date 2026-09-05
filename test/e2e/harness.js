@@ -90,16 +90,29 @@ const PACKAGE = {
   sellable_days: [],
 };
 
+/*
+ * Telegram's own dark palette, verbatim from the standalone suite
+ * (test/mini-app/ui.e2e.js). The exact values matter: `bg_color` is the CARD
+ * and is DARKER than `secondary_bg_color`, the page — the inverse of the light
+ * theme's relationship, and the reason a control styled as a "raised white
+ * pill" reads as a hole in dark. A test that runs only in light cannot see it.
+ */
+const TG_DARK = {
+  bg_color: '#17212B', secondary_bg_color: '#232E3C', text_color: '#F5F5F5',
+  hint_color: '#7D8B99', link_color: '#6AB3F3', button_color: '#5288C1',
+};
+
 /**
  * The Telegram surface, as a string evaluated in the page before it loads.
  *
  * `initDataUnsafe` is deliberately shaped by the caller: the language tests are
  * about what the app does with what Telegram says, including saying nothing.
  */
-function telegramStub({ languageCode }) {
+function telegramStub({ languageCode, colorScheme }) {
   const user = languageCode === null
     ? { id: 1 }
     : { id: 1, language_code: languageCode };
+  const params = colorScheme === 'dark' ? TG_DARK : {};
 
   return `
     window.__opened = null;
@@ -109,7 +122,9 @@ function telegramStub({ languageCode }) {
       version: '7.0',
       isVersionAtLeast(v) { return parseFloat(v) <= 7.0; },
       ready() {}, expand() {}, close() {},
-      colorScheme: 'light', platform: 'ios', themeParams: {},
+      colorScheme: ${JSON.stringify(colorScheme || 'light')},
+      platform: 'ios',
+      themeParams: ${JSON.stringify(params)},
       setBackgroundColor() {}, setHeaderColor() {}, onEvent() {},
       BackButton: { show() {}, hide() {}, onClick() {}, offClick() {} },
       HapticFeedback: { impactOccurred() {}, notificationOccurred() {} },
@@ -128,6 +143,10 @@ function telegramStub({ languageCode }) {
 async function installMiniApp(page, options = {}) {
   const {
     languageCode = 'ru',
+    // 'light' (the default, and what every earlier test assumed) or 'dark'.
+    // Dark is not a repaint of light here: Telegram supplies a whole palette,
+    // and `applyTelegramTheme()` stamps `data-tg-scheme` off this value.
+    colorScheme = 'light',
     emails = [EMAIL],
     revokeDelayMs = 0,
     // The channel check: 'yes' | 'no' | 'error'. Default 'no' — the state a
@@ -156,7 +175,24 @@ async function installMiniApp(page, options = {}) {
     body: JSON.stringify(body),
   });
 
-  await page.addInitScript(telegramStub({ languageCode }));
+  await page.addInitScript(telegramStub({ languageCode, colorScheme }));
+  if (colorScheme === 'dark') {
+    // Exactly how telegram-web-app.js does it — CSS custom properties written
+    // through the CSSOM on <html>. A <style> tag would be refused by the app's
+    // own `style-src 'self'`, which is the CSP working rather than a bug.
+    await page.addInitScript((params) => {
+      const apply = () => {
+        const root = document.documentElement;
+        if (!root) return false;
+        for (const [k, v] of Object.entries(params)) {
+          root.style.setProperty(`--tg-theme-${k.replace(/_/g, '-')}`, v);
+        }
+
+        return true;
+      };
+      if (!apply()) document.addEventListener('DOMContentLoaded', apply);
+    }, TG_DARK);
+  }
 
   // Telegram's own bridge. Blocked rather than fetched: the test must not
   // depend on telegram.org being up, and the stub above already provides the
@@ -313,5 +349,5 @@ const CYRILLIC = /[Ѐ-ӿ]/;
 
 module.exports = {
   installMiniApp, openApp, openSettings, callsTo, overflowingInside,
-  EMAIL, LONG_EMAIL, RAW_EMAIL, CYRILLIC, API_HOSTS, ESIM, PACKAGE,
+  EMAIL, LONG_EMAIL, RAW_EMAIL, CYRILLIC, API_HOSTS, ESIM, PACKAGE, TG_DARK,
 };
