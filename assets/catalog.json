@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-07T12:42:06.189Z",
+  "generated_at": "2026-09-07T17:46:01.559Z",
   "source": "production-public-api",
   "package_count": 2302,
   "packages": [
@@ -27078,8 +27078,8 @@
       "price": 850,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -27093,7 +27093,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -30405,8 +30405,8 @@
       "price": 200,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -30420,7 +30420,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -30952,8 +30952,8 @@
       "price": 150,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -30967,7 +30967,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -41429,8 +41429,8 @@
       "price": 2400,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -41444,7 +41444,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -52859,8 +52859,8 @@
       "price": 1500,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -52874,7 +52874,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -73725,8 +73725,8 @@
       "price": 300,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -73740,7 +73740,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -125389,8 +125389,8 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -125399,17 +125399,17 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "384 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "384 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -142721,8 +142721,8 @@
       "price": 500,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -142736,7 +142736,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -145167,8 +145167,8 @@
       "price": 450,
       "networks": [
         {
-          "operator": "VIP",
-          "type": "5G"
+          "operator": "Telenor",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -145182,7 +145182,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
