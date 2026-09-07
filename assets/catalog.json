@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-04T23:06:05.034Z",
+  "generated_at": "2026-09-07T12:42:06.189Z",
   "source": "production-public-api",
-  "package_count": 2298,
+  "package_count": 2302,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -52214,6 +52214,100 @@
       ]
     },
     {
+      "package_id": "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b",
+      "name": "Asia (7 areas) 1GB 7Days",
+      "country_code": "AS-7",
+      "region": "TH,SG,VN,PH,ID,MY,KH",
+      "coverage_country_codes": [
+        "TH",
+        "SG",
+        "VN",
+        "PH",
+        "ID",
+        "MY",
+        "KH"
+      ],
+      "coverage_flags": "🇹🇭 🇸🇬 🇻🇳 🇵🇭 🇮🇩 🇲🇾 🇰🇭",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 400,
+      "networks": [
+        {
+          "operator": "Metfone",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
+          "operator": "Globe",
+          "type": "5G"
+        },
+        {
+          "operator": "SMART",
+          "type": "5G"
+        },
+        {
+          "operator": "M1",
+          "type": "4G"
+        },
+        {
+          "operator": "SingTel",
+          "type": "4G"
+        },
+        {
+          "operator": "DTAC",
+          "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
+        },
+        {
+          "operator": "MobiFone",
+          "type": "4G"
+        },
+        {
+          "operator": "Viettel Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "Vietnamobile",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "HK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "5965430a-d1bc-46bf-b2d2-8c2c24b1cbb7",
       "name": "Bermuda 10GB 30Days",
       "country_code": "BM",
@@ -65317,6 +65411,54 @@
           "price": 3350
         }
       ]
+    },
+    {
+      "package_id": "703a4a9b-1fba-46d3-8490-a467692a899a",
+      "name": "Vietnam 1GB 7Days",
+      "country_code": "VN",
+      "region": "VN",
+      "coverage_country_codes": [
+        "VN"
+      ],
+      "coverage_flags": "🇻🇳",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 200,
+      "networks": [
+        {
+          "operator": "Viettel Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "MobiFone",
+          "type": "4G"
+        },
+        {
+          "operator": "Vinaphone",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "HK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "70435709-1009-40a6-8c2e-d34f9595ebfa",
@@ -128996,6 +129138,49 @@
       ]
     },
     {
+      "package_id": "da15f159-0bdc-4b09-8763-49278e3543ed",
+      "name": "Cambodia 1GB 7Days",
+      "country_code": "KH",
+      "region": "KH",
+      "coverage_country_codes": [
+        "KH"
+      ],
+      "coverage_flags": "🇰🇭",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 200,
+      "networks": [
+        {
+          "operator": "Metfone",
+          "type": "4G"
+        },
+        {
+          "operator": "Cellcard",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "da7c6872-6b21-4024-b5b8-af462c86e727",
       "name": "Albania 3GB 15Days",
       "country_code": "AL",
@@ -129876,6 +130061,45 @@
         "FR",
         "NL",
         "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "dbefa75b-1b78-4bb4-9768-9416504a9969",
+      "name": "Laos 1GB 7Days",
+      "country_code": "LA",
+      "region": "LA",
+      "coverage_country_codes": [
+        "LA"
+      ],
+      "coverage_flags": "🇱🇦",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 300,
+      "networks": [
+        {
+          "operator": "Lao Telecom",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
