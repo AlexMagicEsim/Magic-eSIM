@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-07T17:46:01.559Z",
+  "generated_at": "2026-09-09T11:30:28.992Z",
   "source": "production-public-api",
   "package_count": 2302,
   "packages": [
@@ -68503,10 +68503,6 @@
         {
           "operator": "AirTel",
           "type": "5G"
-        },
-        {
-          "operator": "VI-India",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -68521,7 +68517,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -74971,10 +74967,6 @@
         {
           "operator": "AirTel",
           "type": "5G"
-        },
-        {
-          "operator": "VI-India",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -74989,7 +74981,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -133543,7 +133535,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
