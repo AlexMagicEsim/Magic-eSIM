@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-09T11:30:28.992Z",
+  "generated_at": "2026-09-10T11:26:54.839Z",
   "source": "production-public-api",
   "package_count": 2302,
   "packages": [
@@ -19676,6 +19676,10 @@
         {
           "operator": "TIM",
           "type": "5G"
+        },
+        {
+          "operator": "Vivo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -27078,8 +27082,8 @@
       "price": 850,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -27093,7 +27097,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -30405,8 +30409,8 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -30420,7 +30424,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -30952,8 +30956,8 @@
       "price": 150,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -30967,7 +30971,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -38936,6 +38940,10 @@
         {
           "operator": "TIM",
           "type": "5G"
+        },
+        {
+          "operator": "Vivo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -41429,8 +41437,8 @@
       "price": 2400,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -41444,7 +41452,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -41940,6 +41948,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -42762,6 +42774,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -52859,8 +52875,8 @@
       "price": 1500,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -52874,7 +52890,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -57311,6 +57327,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -73721,8 +73741,8 @@
       "price": 300,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -73736,7 +73756,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -84941,6 +84961,10 @@
         {
           "operator": "TIM",
           "type": "5G"
+        },
+        {
+          "operator": "Vivo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -86031,6 +86055,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -102283,6 +102311,10 @@
         {
           "operator": "TIM",
           "type": "5G"
+        },
+        {
+          "operator": "Vivo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -104353,6 +104385,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -106856,6 +106892,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -125381,8 +125421,8 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -125391,17 +125431,17 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -134544,6 +134584,10 @@
         {
           "operator": "TIM",
           "type": "5G"
+        },
+        {
+          "operator": "Vivo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -134883,6 +134927,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -140976,6 +141024,10 @@
         {
           "operator": "TIM",
           "type": "5G"
+        },
+        {
+          "operator": "Vivo",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -142713,8 +142765,8 @@
       "price": 500,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -142728,7 +142780,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -143644,6 +143696,10 @@
         },
         {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -145159,8 +145215,8 @@
       "price": 450,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -145174,7 +145230,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
