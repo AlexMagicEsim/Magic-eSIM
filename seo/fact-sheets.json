@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-01T19:27:42.807Z",
+  "fetched_at": "2026-09-12T09:59:20.922Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -8988,14 +8988,15 @@
       "name_ru": "Филиппины",
       "strategy": "LOCAL",
       "local_count": 17,
-      "regional_count": 9,
-      "total_count": 26,
-      "min_price_rub": 450,
+      "regional_count": 10,
+      "total_count": 27,
+      "min_price_rub": 400,
       "max_price_rub": 6850,
       "validity_days_min": 0,
       "validity_days_max": 180,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -9013,6 +9014,12 @@
           "price_rub": 450,
           "validity_days": 0,
           "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 400,
+          "validity_days": 7,
+          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -9064,6 +9071,7 @@
         }
       ],
       "all_purchasable_prices": [
+        400,
         450,
         500,
         600,
@@ -9207,8 +9215,8 @@
         "Viettel Mobile",
         "csl/1010"
       ],
-      "networks_rows": 21,
-      "rows_total": 26,
+      "networks_rows": 22,
+      "rows_total": 27,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -9224,12 +9232,12 @@
         "после установки eSIM",
         "с первого подключения к сети"
       ],
-      "topup_yes": 20,
+      "topup_yes": 21,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 500,
+      "min_volume_price_rub": 400,
       "min_daily_price_rub": 450
     },
     "netherlands": {
@@ -9858,14 +9866,15 @@
       "name_ru": "Таиланд",
       "strategy": "LOCAL",
       "local_count": 23,
-      "regional_count": 26,
-      "total_count": 49,
+      "regional_count": 27,
+      "total_count": 50,
       "min_price_rub": 350,
       "max_price_rub": 6400,
       "validity_days_min": 0,
       "validity_days_max": 60,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -9885,6 +9894,12 @@
           "price_rub": 350,
           "validity_days": 0,
           "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 400,
+          "validity_days": 7,
+          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -10141,8 +10156,8 @@
         "csl",
         "csl/1010"
       ],
-      "networks_rows": 40,
-      "rows_total": 49,
+      "networks_rows": 41,
+      "rows_total": 50,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -10158,7 +10173,7 @@
         "после установки eSIM",
         "с первого подключения к сети"
       ],
-      "topup_yes": 38,
+      "topup_yes": 39,
       "topup_no": 11,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -13607,14 +13622,15 @@
       "name_ru": "Сингапур",
       "strategy": "LOCAL",
       "local_count": 27,
-      "regional_count": 29,
-      "total_count": 56,
+      "regional_count": 30,
+      "total_count": 57,
       "min_price_rub": 350,
       "max_price_rub": 6400,
       "validity_days_min": 0,
       "validity_days_max": 60,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -13634,6 +13650,12 @@
           "price_rub": 350,
           "validity_days": 0,
           "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 400,
+          "validity_days": 7,
+          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -13898,8 +13920,8 @@
         "csl",
         "csl/1010"
       ],
-      "networks_rows": 41,
-      "rows_total": 56,
+      "networks_rows": 42,
+      "rows_total": 57,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -13919,7 +13941,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 41,
+      "topup_yes": 42,
       "topup_no": 15,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -14551,15 +14573,16 @@
       "iso": "VN",
       "name_ru": "Вьетнам",
       "strategy": "LOCAL",
-      "local_count": 23,
-      "regional_count": 21,
-      "total_count": 44,
-      "min_price_rub": 350,
+      "local_count": 24,
+      "regional_count": 22,
+      "total_count": 46,
+      "min_price_rub": 200,
       "max_price_rub": 6400,
       "validity_days_min": 0,
       "validity_days_max": 60,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -14577,6 +14600,12 @@
           "data_gb": 0,
           "price_rub": 350,
           "validity_days": 0,
+          "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 200,
+          "validity_days": 7,
           "kind": "local"
         },
         {
@@ -14635,7 +14664,9 @@
         }
       ],
       "all_purchasable_prices": [
+        200,
         350,
+        400,
         450,
         500,
         550,
@@ -14834,8 +14865,8 @@
         "csl",
         "csl/1010"
       ],
-      "networks_rows": 33,
-      "rows_total": 44,
+      "networks_rows": 35,
+      "rows_total": 46,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -14851,12 +14882,12 @@
         "после установки eSIM",
         "с первого подключения к сети"
       ],
-      "topup_yes": 30,
+      "topup_yes": 32,
       "topup_no": 14,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 500,
+      "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
     },
     "indonesia": {
@@ -14864,14 +14895,15 @@
       "name_ru": "Индонезия",
       "strategy": "LOCAL",
       "local_count": 21,
-      "regional_count": 21,
-      "total_count": 42,
+      "regional_count": 22,
+      "total_count": 43,
       "min_price_rub": 350,
       "max_price_rub": 6400,
       "validity_days_min": 0,
       "validity_days_max": 60,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -14891,6 +14923,12 @@
           "price_rub": 350,
           "validity_days": 0,
           "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 400,
+          "validity_days": 7,
+          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -15133,8 +15171,8 @@
         "csl",
         "csl/1010"
       ],
-      "networks_rows": 32,
-      "rows_total": 42,
+      "networks_rows": 33,
+      "rows_total": 43,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -15152,7 +15190,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 32,
+      "topup_yes": 33,
       "topup_no": 10,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -15165,14 +15203,15 @@
       "name_ru": "Малайзия",
       "strategy": "LOCAL",
       "local_count": 18,
-      "regional_count": 29,
-      "total_count": 47,
+      "regional_count": 30,
+      "total_count": 48,
       "min_price_rub": 350,
       "max_price_rub": 6400,
       "validity_days_min": 0,
       "validity_days_max": 60,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -15192,6 +15231,12 @@
           "price_rub": 350,
           "validity_days": 0,
           "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 400,
+          "validity_days": 7,
+          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -15439,8 +15484,8 @@
         "csl",
         "csl/1010"
       ],
-      "networks_rows": 34,
-      "rows_total": 47,
+      "networks_rows": 35,
+      "rows_total": 48,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -15456,7 +15501,7 @@
         "после установки eSIM",
         "с первого подключения к сети"
       ],
-      "topup_yes": 33,
+      "topup_yes": 34,
       "topup_no": 14,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -15468,15 +15513,16 @@
       "iso": "KH",
       "name_ru": "Камбоджа",
       "strategy": "LOCAL",
-      "local_count": 10,
-      "regional_count": 10,
-      "total_count": 20,
-      "min_price_rub": 400,
+      "local_count": 11,
+      "regional_count": 11,
+      "total_count": 22,
+      "min_price_rub": 200,
       "max_price_rub": 5000,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -15492,6 +15538,12 @@
           "data_gb": 0,
           "price_rub": 400,
           "validity_days": 0,
+          "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 200,
+          "validity_days": 7,
           "kind": "local"
         },
         {
@@ -15538,6 +15590,7 @@
         }
       ],
       "all_purchasable_prices": [
+        200,
         400,
         550,
         600,
@@ -15650,8 +15703,8 @@
         "Viettel Mobile",
         "csl"
       ],
-      "networks_rows": 15,
-      "rows_total": 20,
+      "networks_rows": 17,
+      "rows_total": 22,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -15667,12 +15720,12 @@
         "после установки eSIM",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 16,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 550,
+      "min_volume_price_rub": 200,
       "min_daily_price_rub": 400
     },
     "montenegro": {
@@ -23973,7 +24026,6 @@
         "TrueMove H",
         "U Mobile",
         "Unitel",
-        "VI-India",
         "Vietnamobile",
         "csl/1010"
       ],
@@ -24007,15 +24059,16 @@
       "iso": "LA",
       "name_ru": "Лаос",
       "strategy": "LOCAL",
-      "local_count": 16,
+      "local_count": 17,
       "regional_count": 5,
-      "total_count": 21,
-      "min_price_rub": 550,
+      "total_count": 22,
+      "min_price_rub": 300,
       "max_price_rub": 8300,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
         0,
+        1,
         3,
         5,
         7,
@@ -24030,6 +24083,12 @@
           "data_gb": 0,
           "price_rub": 550,
           "validity_days": 0,
+          "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 300,
+          "validity_days": 7,
           "kind": "local"
         },
         {
@@ -24070,6 +24129,7 @@
         }
       ],
       "all_purchasable_prices": [
+        300,
         550,
         800,
         900,
@@ -24187,7 +24247,6 @@
         "China Unicom",
         "Chunghwa",
         "Dialog",
-        "ETL",
         "Etisalat",
         "FarEasTone",
         "Grameenphone",
@@ -24215,8 +24274,8 @@
         "Vietnamobile",
         "csl/1010"
       ],
-      "networks_rows": 19,
-      "rows_total": 21,
+      "networks_rows": 20,
+      "rows_total": 22,
       "fup_policies": [
         "1 Mbps",
         "1Mbps",
@@ -24231,12 +24290,12 @@
         "после установки eSIM",
         "с первого подключения к сети"
       ],
-      "topup_yes": 19,
+      "topup_yes": 20,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 800,
+      "min_volume_price_rub": 300,
       "min_daily_price_rub": 550
     },
     "new-zealand": {
