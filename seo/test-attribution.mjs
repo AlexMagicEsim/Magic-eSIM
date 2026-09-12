@@ -313,7 +313,21 @@ test('СБП wording is untouched', () => {
 
 const UI = read('app/ui.js');
 
-/** Every event name app/ui.js can emit, including through a ternary. */
+/**
+ * Every event name app/ui.js can emit — directly, through a ternary, or
+ * through the one wrapper that exists.
+ *
+ * THE WRAPPER IS THE INTERESTING PART, AND IT ONCE WALKED PAST THIS FUNCTION.
+ * The four tariff-screen events (2026-09-12) are sent by `trackTariffOnce`,
+ * which coalesces per visit and then calls `api.track(name, …)` with a
+ * VARIABLE. Matching `api.track('…'` alone, this list came back with eight
+ * names while twelve were shipping, and the hand-maintained pin below — whose
+ * entire job is to make somebody check lib/acquisition.js — passed clean.
+ *
+ * So the wrapper is read too, and `no event name reaches api.track by a route
+ * this function cannot see` below refuses any THIRD route, which is the part
+ * that keeps this honest the next time.
+ */
 function uiEventNames() {
   const names = new Set();
   for (const m of UI.matchAll(/api\.track\(\s*'(\w+)'/g)) names.add(m[1]);
@@ -323,8 +337,41 @@ function uiEventNames() {
   for (const m of UI.matchAll(/api\.track\(\s*[^,()]*\?\s*'(\w+)'\s*:\s*'(\w+)'/g)) {
     names.add(m[1]); names.add(m[2]);
   }
+  for (const m of UI.matchAll(/trackTariffOnce\(\s*'(\w+)'/g)) names.add(m[1]);
   return [...names].sort();
 }
+
+test('no event name reaches api.track by a route this function cannot see', () => {
+  // The detector above enumerates names by reading call sites, so a call site
+  // shaped in a way it does not recognise is not a missing test — it is a
+  // PASSING test that has stopped covering something. This is the guard that
+  // makes the enumeration total: every first argument to api.track must be a
+  // literal, the documented ternary, or the wrapper's own parameter.
+  // Stops at a comma, a close paren OR a newline. `[^,]+` alone reads past a
+  // single-argument call — `api.track('miniapp_open')` has no comma — and
+  // swallows the next forty lines as if they were the argument.
+  const firsts = [...UI.matchAll(/api\.track\(\s*([^,)\n]+)/g)].map((m) => m[1].trim());
+  assert.ok(firsts.length >= 4, 'the events have disappeared');
+  for (const arg of firsts) {
+    const literal = /^'(\w+)'$/.test(arg);
+    const ternary = /\?\s*'\w+'\s*:\s*'\w+'$/.test(arg);
+    // trackTariffOnce(name) — the single indirection, named here so a second
+    // one has to be added deliberately rather than by copying a line.
+    const wrapper = arg === 'name';
+    assert.ok(literal || ternary || wrapper,
+      `api.track called with an unrecognised first argument «${arg}» — `
+      + 'uiEventNames() cannot see it, so the whitelist pin would pass blind');
+  }
+  // And the wrapper itself is only ever handed literals, or the same hole
+  // reopens one level down.
+  // The lookbehind skips the DECLARATION — `function trackTariffOnce(name)` is
+  // not a call site, and without this the guard fails on the very indirection
+  // it exists to permit.
+  for (const m of UI.matchAll(/(?<!function\s)trackTariffOnce\(\s*([^),]+)\)/g)) {
+    assert.match(m[1].trim(), /^'\w+'$/,
+      `trackTariffOnce called with a non-literal «${m[1].trim()}»`);
+  }
+});
 
 test('every Mini App event call is guarded against a null api', () => {
   // `let api = null` until boot() constructs it, and show() — the most-called
@@ -345,9 +392,13 @@ test('the Mini App emits exactly the whitelisted events, and no others', () => {
   // to check that lib/acquisition.js TMA_EVENTS carries it too. `channel_click`
   // (2026-09-03) is the first entry that is not a funnel step — it counts the
   // tap through to the public channel from the home screen.
+  // 8 → 12 on 2026-09-12: the four tariff-screen events that make the exit from
+  // the price screen readable. lib/acquisition.js TMA_EVENTS carries all four.
   assert.deepEqual(uiEventNames(),
     ['channel_click', 'channel_subscription_check', 'channel_subscription_verified',
-      'checkout_open', 'country_view', 'miniapp_open', 'payment_click', 'tariff_select']);
+      'checkout_open', 'country_view', 'miniapp_open', 'payment_click',
+      'tariff_compat_open', 'tariff_coverage_open', 'tariff_exit', 'tariff_select',
+      'tariff_term_change']);
 });
 
 test('the channel invitation points at the channel, and opens it the app\'s own way', () => {

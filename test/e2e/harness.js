@@ -213,7 +213,17 @@ async function installMiniApp(page, options = {}) {
       const request = route.request();
       const url = new URL(request.url());
       const at = url.pathname;
-      state.calls.push({ path: at, method: request.method() });
+      // The funnel beacon is the one call whose BODY is the whole point: every
+      // event goes to the same path, so counting paths cannot tell
+      // `tariff_exit` from `tariff_compat_open`. Parsed here rather than in the
+      // test so a malformed body fails the route, not an assertion two files
+      // away. Kept to this one endpoint — recording every body would turn the
+      // harness into a place customer data accumulates.
+      let event = null;
+      if (at.endsWith('/api/v1/tma/events')) {
+        try { event = JSON.parse(request.postData() || '{}'); } catch (_) { event = { event: '<unparseable>' }; }
+      }
+      state.calls.push({ path: at, method: request.method(), event });
 
       if (at.endsWith('/api/v1/tma/session')) {
         return json(route, { session_token: 'test-session', expires_in: 1800 });
@@ -322,6 +332,19 @@ function callsTo(state, endsWith) {
 }
 
 /**
+ * The funnel events the app has reported, in the order it reported them.
+ *
+ * Order matters and is asserted: `tariff_select` before `tariff_exit` is the
+ * journey, the reverse is a bug, and the interval between the two rows is what
+ * the analysis reads as «how long they looked at the price».
+ */
+function eventsSent(state) {
+  return state.calls
+    .filter((c) => c.path.endsWith('/api/v1/tma/events') && c.event)
+    .map((c) => c.event.event);
+}
+
+/**
  * Every element inside `selector` whose content is wider than its own box.
  *
  * Element-level rather than document-level on purpose: the row that overflowed
@@ -348,6 +371,6 @@ async function overflowingInside(page, selector) {
 const CYRILLIC = /[Ѐ-ӿ]/;
 
 module.exports = {
-  installMiniApp, openApp, openSettings, callsTo, overflowingInside,
+  installMiniApp, openApp, openSettings, callsTo, eventsSent, overflowingInside,
   EMAIL, LONG_EMAIL, RAW_EMAIL, CYRILLIC, API_HOSTS, ESIM, PACKAGE, TG_DARK,
 };

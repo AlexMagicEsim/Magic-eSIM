@@ -373,6 +373,27 @@
      to a DIFFERENT country changes the key and is counted again. */
   let lastScreenEvent = null;
 
+  /* The current visit to the tariff screen, and what has already been reported
+     about it. Per VISIT, not per session: opening the same tariff twice is two
+     visits and worth counting twice, while tapping the same accordion twice is
+     one fact and worth counting once.
+
+     Null whenever the customer is not on S3, which is also what makes the
+     one-shot helper safe to call from a handler that outlives the screen. */
+  let tariffVisit = null;
+
+  /* Fire-and-forget, at most once per visit to the tariff screen.
+
+     The whole point of these four is the SHAPE of what follows a
+     tariff_select, so a duplicate is not merely noise — «opened the coverage
+     list» and «opened it four times» would be the same hesitation counted as
+     four, and the ratio against tariff_select is what gets read. */
+  function trackTariffOnce(name) {
+    if (!tariffVisit || tariffVisit.sent.has(name)) return;
+    tariffVisit.sent.add(name);
+    api && api.track(name, { country_code: tariffVisit.code });
+  }
+
   function show(name, { push = true } = {}) {
     if (push && state.screen !== name) history.push(state.screen);
     // Leaving S6 stops its poll. Without this the timer outlived the screen,
@@ -383,6 +404,26 @@
     // its screen keeps asking the gateway, rewrites a hidden container, and can
     // fire a success haptic while the customer is somewhere else entirely.
     if (state.screen === 'topup' && name !== 'topup') { stopTopupPoll(); resumeOnReturn = null; }
+
+    /* Leaving the price screen, and whether the customer left FORWARD.
+       Read before `state.screen` is overwritten, because the fact being
+       recorded is about the screen being left, not the one being opened.
+
+       Every exit route lands here — the Telegram back button, the tab bar,
+       goBack(), a deep link — because show() is the only way any screen is
+       ever swapped. Going on to the form closes the visit without a row: that
+       case is already told by checkout_open.
+
+       The row's ABSENCE is the third reading and the reason this event is
+       worth having at all. A tariff_select with neither a checkout_open nor a
+       tariff_exit after it means the app was closed on the price screen —
+       the hardest bounce there is, and until now indistinguishable from
+       somebody who simply walked back to the catalogue. */
+    if (state.screen === 'tariff' && name !== 'tariff') {
+      if (name !== 'checkout') trackTariffOnce('tariff_exit');
+      tariffVisit = null;
+    }
+
     state.screen = name;
 
     /* Funnel events, from the single place every screen change already passes
@@ -2126,6 +2167,10 @@
    */
   function openTariff(p, group) {
     state.tariff = { pkg: p, group };
+    /* A fresh visit, opened before the select is reported so that every event
+       about this screen carries the same country as the select that starts it.
+       This is the only way onto S3, so it is the only place a visit begins. */
+    tariffVisit = { code: group && group.country_code, sent: new Set() };
     /* Before show(), so the order of events matches the order of the journey:
        a tariff is selected and then its screen appears. show() itself fires
        nothing for 'tariff' — there is one call site and this is it. */
@@ -2253,6 +2298,14 @@
       role: 'radio',
       'aria-checked': t === terms[0] ? 'true' : 'false',
       onclick: (ev) => {
+        /* «Is there a cheaper shape of this» — the customer working the ladder
+           rather than reading one price. Compared BEFORE the assignment, so
+           re-tapping the term that is already chosen is not reported as a
+           change: the event has to mean what its name says, and the first term
+           is preselected, so a stray tap on it is the likeliest tap there is.
+           Once per visit — the question is whether they engaged with the term
+           at all, and the first row answers it. */
+        if (t !== state.dailyTerm) trackTariffOnce('tariff_term_change');
         state.dailyTerm = t;
         const groupEl = ev.currentTarget.parentNode;
         for (const child of groupEl.children) {
@@ -2288,7 +2341,13 @@
     const body = el('div', { class: 'chips' },
       names.map((x) => el('span', { class: 'chip', text: `${x.flag} ${x.name}` })));
 
-    return el('details', { class: 'card sheet' }, [
+    return el('details', {
+      class: 'card sheet',
+      /* «Does it actually cover where I am going» — the doubt a regional pack
+         raises and the price cannot answer. `toggle` fires on closing too, so
+         only the opening counts; a fold-and-unfold is one doubt, not two. */
+      ontoggle: (ev) => { if (ev.currentTarget.open) trackTariffOnce('tariff_coverage_open'); },
+    }, [
       el('summary', { class: 'sheet__head', text: t('tariff.coverageCount', { countries: countryCount(codes.length) }) }),
       names.length
         ? body
@@ -2305,7 +2364,12 @@
    * second, staler copy of them (P8).
    */
   function compatibilitySheet() {
-    return el('details', { class: 'card sheet' }, [
+    return el('details', {
+      class: 'card sheet',
+      /* «Will my phone even do this» — the objection that stops a purchase
+         without ever being about the price. Opening only, once per visit. */
+      ontoggle: (ev) => { if (ev.currentTarget.open) trackTariffOnce('tariff_compat_open'); },
+    }, [
       el('summary', { class: 'sheet__head', text: t('tariff.willItWork') }),
       el('p', { class: 'small', text:
         t('compat.iphone') }),
