@@ -1,12 +1,16 @@
 {
   "pages": {
     "https://magicesim.store/": {
-      "hash": "35512746944c93de",
-      "lastmod": "2026-09-01"
+      "hash": "582102a1fd6f9f8e",
+      "lastmod": "2026-09-14"
     },
     "https://magicesim.store/android.html": {
       "hash": "5915edacd62f8ea6",
       "lastmod": "2026-08-29"
+    },
+    "https://magicesim.store/en/": {
+      "hash": "5e135823c97004a1",
+      "lastmod": "2026-09-14"
     },
     "https://magicesim.store/esim/": {
       "hash": "43dddc38cec51913",

@@ -62,6 +62,11 @@ const STATE = join(ROOT, 'seo/sitemap-lastmod.json');
 export function sitemapUrls(countries) {
   return [
     { loc: `${SITE}/`, prio: '1.0', freq: 'weekly' },
+    // The English storefront. ONE url, because one English page exists: the
+    // country pages under /esim/ are Russian editorial prose and have no
+    // English twin, and listing URLs that do not exist is how a sitemap starts
+    // reporting errors instead of pages.
+    { loc: `${SITE}/en/`, prio: '0.9', freq: 'weekly' },
     { loc: `${SITE}/esim/`, prio: '0.8', freq: 'weekly' },
     ...countries.map((c) => ({ loc: `${SITE}/esim/${c.slug}/`, prio: '0.9', freq: 'weekly' })),
     { loc: `${SITE}/esim/compatibility/`, prio: '0.7', freq: 'monthly' },

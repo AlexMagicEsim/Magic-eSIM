@@ -7,6 +7,15 @@
   <meta name="description" content="Magic eSIM — мобильный интернет для путешествий без роуминга. Выберите страну и тариф, оплатите онлайн и получите eSIM с QR-кодом на почту." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://magicesim.store/" />
+  <!-- The language cluster. Declared on BOTH pages, each pointing at itself and
+       at the other, which is what makes it valid — a one-sided hreflang is
+       ignored. It covers exactly these two URLs: the country pages under /esim/
+       have no English twin yet, and an alternate pointing at a page that does
+       not exist is an error rather than a placeholder. x-default is the Russian
+       root because that is where an unmatched visitor is best served today. -->
+  <link rel="alternate" hreflang="ru" href="https://magicesim.store/" />
+  <link rel="alternate" hreflang="en" href="https://magicesim.store/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://magicesim.store/" />
   <!-- Open Graph / social preview -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://magicesim.store/" />
@@ -15,6 +24,7 @@
   <meta property="og:image" content="https://magicesim.store/assets/magic-esim-logo.png" />
   <meta property="og:site_name" content="Magic eSIM" />
   <meta property="og:locale" content="ru_RU" />
+  <meta property="og:locale:alternate" content="en_US" />
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="eSIM для путешествий — Magic eSIM" />
@@ -489,6 +499,11 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.05;letter-spacing:-.03em;margi
    muted so it is findable, but still a text link — the nav's own button
    ("Выбрать тариф") stays the only button up there. */
 .nav-tg{color:var(--blue);font-weight:700}
+/* The English version, reachable rather than only declared. An hreflang tag is
+   a signal to a crawler, not a way in for a reader, and without a link /en/ was
+   an orphan page nothing pointed at. */
+.nav-lang{margin-left:4px;opacity:.85}
+.nav-lang:hover{opacity:1}
 .nav-tg:hover{color:var(--blue-600)}
 }
 
@@ -914,7 +929,7 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 <body>
   <nav class="nav">
     <a class="brand" href="#top" aria-label="Magic eSIM"><img class="brand-logo" src="assets/magic-esim-logo-header.png" alt="Magic eSIM" width="66" height="50"><span class="company-name" style="display:none">Magic eSIM</span></a>
-    <div class="nav-links"><a href="#popular">Направления</a><a href="#solution">Как работает</a><a href="#benefits">Преимущества</a><a href="#global-pricing">Тарифы</a><a href="#install-guides-section">Инструкции</a><a class="nav-tg" href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer" data-tg-entry>Telegram</a></div>
+    <div class="nav-links"><a href="#popular">Направления</a><a href="#solution">Как работает</a><a href="#benefits">Преимущества</a><a href="#global-pricing">Тарифы</a><a href="#install-guides-section">Инструкции</a><a class="nav-tg" href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer" data-tg-entry>Telegram</a><a class="nav-lang" href="/en/" hreflang="en" lang="en">English</a></div>
     <a class="btn" href="#global-pricing">Выбрать тариф</a>
   </nav>
   <header class="hero" id="top"><div class="hero-bg" aria-hidden="true"></div><div class="container hero-content">
