@@ -5,11 +5,13 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
+const require = createRequire(import.meta.url);
 
 const EN = read('en/index.html');
 const EN_JS = read('en/app.js');
@@ -66,6 +68,79 @@ test('the payment step exists, is hidden until asked for, and says nothing was c
   // The one thing a visitor needs to know at a dead payment step.
   const dict = readFileSync(join(ROOT, 'assets/site-i18n.js'), 'utf8');
   assert.match(dict, /Nothing has been charged and no order has been created/);
+});
+
+test('every daily plan on /en/ quotes a price a customer can actually pay', () => {
+  /*
+   * THE GATE THAT DID NOT EXIST, and the defect it would have caught.
+   *
+   * A DAILY plan's `price` is a PER-DAY RATE, and one day is not sold. The first
+   * version of `en/app.js` priced every card from it, so 1293 of the catalogue's
+   * 1324 daily packages advertised a figure nobody can pay — Oman's cheapest
+   * card said 200 ₽ where the shortest purchasable term is 600 ₽ — and because
+   * the list sorts ascending, those rows led every country.
+   *
+   * `CLAUDE.md` records this exact trap («for a PER_DAY plan that is a per-day
+   * RATE and one day is not sold»), and the previous gate could not see it: it
+   * only checked that no `$`, `USD` or `EUR` appeared. It asserted the absence
+   * of an invented CURRENCY while the invented NUMBER went straight through.
+   *
+   * This runs the shipped `priceOf` over the real catalogue.
+   */
+  const DAILY = require(join(ROOT, 'assets/daily-plan-copy.js'));
+  const catalogue = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8'));
+  const packages = catalogue.packages || catalogue;
+
+  // Lifted from the shipped file, brace-matched, so the test cannot pass against
+  // a function that no longer exists.
+  const at = EN_JS.indexOf('function priceOf(p)');
+  assert.notEqual(at, -1, 'priceOf is gone — renamed or deleted');
+  let i = EN_JS.indexOf('{', at); let depth = 0; let end = -1;
+  for (; i < EN_JS.length; i += 1) {
+    if (EN_JS[i] === '{') depth += 1;
+    else if (EN_JS[i] === '}') { depth -= 1; if (depth === 0) { end = i + 1; break; } }
+  }
+  const priceOf = new Function('DAILY', 'hasDaily',
+    `${EN_JS.slice(at, end)}; return priceOf;`)(DAILY, true);
+
+  const daily = packages.filter((p) => DAILY.isDaily(p));
+  assert.ok(daily.length > 100, `only ${daily.length} daily packages — is the catalogue loaded?`);
+
+  const unpayable = [];
+  for (const p of daily) {
+    const priced = priceOf(p);
+    if (!priced) continue;                 // rendered as unavailable, not sold
+    const terms = Array.isArray(p.term_prices) ? p.term_prices : [];
+    const ok = terms.length
+      ? terms.some((t) => Number(t.price) === priced.amount)
+      : (String(p.daily_term_mode || '') === 'FIXED_TERM' && Number(p.price) === priced.amount);
+    if (!ok) unpayable.push(`${p.package_id}: ${priced.amount} is in no purchasable term`);
+  }
+  assert.deepEqual(unpayable.slice(0, 5), [], `${unpayable.length} daily plans quote an unpayable price`);
+});
+
+test('the daily-price gate can fire', () => {
+  // §26.1. Pricing a per-day plan from `p.price` is the defect; this proves the
+  // check above distinguishes that from the purchasable ladder.
+  const p = { plan_type: 'DAILY', daily_term_mode: 'PER_DAY', price: 200,
+    term_prices: [{ days: 3, price: 600 }, { days: 7, price: 1300 }] };
+  assert.equal(p.term_prices.some((t) => Number(t.price) === Number(p.price)), false,
+    'the rate must not look purchasable, or the gate proves nothing');
+});
+
+test('a daily plan always shows the term its price buys', () => {
+  // All 31 FIXED_TERM dailies have an empty `DAILY.terms()`, so reading that
+  // alone left «China Unlimited 3 Days» priced and undated.
+  const DAILY = require(join(ROOT, 'assets/daily-plan-copy.js'));
+  const catalogue = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8'));
+  const packages = (catalogue.packages || catalogue).filter((p) => DAILY.isDaily(p));
+  const fixed = packages.filter((p) => String(p.daily_term_mode || '') === 'FIXED_TERM');
+  assert.ok(fixed.length > 0, 'no FIXED_TERM daily in the catalogue — the case is untested');
+  for (const p of fixed) {
+    assert.equal((DAILY.terms(p) || []).length, 0,
+      'if this ever has a ladder, the fallback below is no longer the only source of the term');
+    assert.ok(Number(p.validity_days) > 0, `${p.package_id} has no validity to fall back to`);
+  }
 });
 
 test('the page invents no international price', () => {
@@ -201,6 +276,17 @@ test('the English page HAS structured data, and it is in English', () => {
   }
   assert.ok(types.includes('Organization'), 'Organization missing');
   assert.ok(types.includes('WebSite'), 'WebSite missing');
+});
+
+test('the English link is outside the container that mobile hides', () => {
+  // `.nav-links` is `display:none` below 920px. The first version of the link
+  // lived inside it, so it was declared, gated, and invisible on every phone —
+  // the readers most likely to need it.
+  const navLinks = RU.match(/<div class="nav-links">[\s\S]*?<\/div>/);
+  assert.ok(navLinks, 'the nav container moved — this test needs rewriting, not deleting');
+  assert.equal(/nav-lang/.test(navLinks[0]), false, 'the language link is inside a hidden container');
+  assert.match(RU, /<a class="nav-lang"[^>]*href="\/en\/"/);
+  assert.match(RU, /\.nav-links\{display:none\}/, 'if this rule is gone, the test above is moot');
 });
 
 test('the English version is reachable from the Russian site, not only declared', () => {

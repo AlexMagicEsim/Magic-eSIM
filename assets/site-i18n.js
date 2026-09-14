@@ -113,6 +113,7 @@
       'site.searchPlaceholder': 'Country or region',
       'site.plansFor': 'Plans for',
       'site.noPlans': 'No plans for this destination yet.',
+      'site.unavailable': 'Temporarily unavailable',
       'site.loading': 'Loading plans…',
       'site.loadFailed': 'Could not load the plans. Please try again.',
       'site.retry': 'Try again',
@@ -127,7 +128,8 @@
       'footer.privacy': 'Privacy (in Russian)',
       'site.compatTitle': 'Will my phone work?',
       'site.compatBody': 'Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.',
-      'site.compatCheck': 'Check your device (guide in Russian)',
+      'site.compatCheck': 'iPhone setup (guide in Russian)',
+      'site.compatAndroid': 'Android setup (guide in Russian)',
 
       /* Prices. The catalogue holds ONE real price per plan and it is in
        * roubles; no international price exists yet and this page does not
@@ -135,9 +137,8 @@
        * denominated in, and labelled. */
       'price.currencyNote': 'Prices are shown in Russian roubles (₽). International pricing is being finalised.',
 
-      /* The payment step. `GLOBAL_PAYMENTS_ENABLED` is closed and there is no
-       * provider behind it: the only honest thing this screen can do is say so
-       * and say that nothing was charged. */
+      /* The payment step. There is no international provider behind it: the only
+       * honest thing this screen can do is say so, and say nothing was charged. */
       'pay.unavailableTitle': 'International payments are coming soon',
       'pay.unavailableBody': 'We cannot take international cards yet. Nothing has been charged and no order has been created.',
       'pay.unavailableHint': 'Paying with a Russian bank card or SBP? Use the Russian version of this site.',

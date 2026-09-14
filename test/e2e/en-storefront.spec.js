@@ -36,6 +36,27 @@ const PACKAGES = [
     coverage_country_codes: ['IT', 'FR', 'ES'], data_gb: 5, validity_days: 30, price: 800,
     retail_price_rub: 800, plan_type: 'FIXED_VOLUME', currency: 'RUB',
   },
+  /*
+   * A DAILY plan, and the fixture had none — which is why 57 % of the catalogue
+   * went untested in a browser and a bait price shipped. `price` here is the
+   * PER-DAY RATE (250) and the shortest purchasable term is 750; a card showing
+   * 250 would be advertising a figure nobody can pay.
+   */
+  {
+    package_id: 'vn-daily', name: 'Vietnam 1GB/Day', country_code: 'VN', region: 'VN',
+    coverage_country_codes: ['VN'], data_gb: 0, validity_days: 0, price: 250,
+    retail_price_rub: 250, plan_type: 'DAILY', daily_term_mode: 'PER_DAY', daily_gb: 1,
+    currency: 'RUB',
+    term_prices: [{ days: 3, price: 750 }, { days: 7, price: 1500 }],
+  },
+  /* A FIXED_TERM daily: no ladder by design, one term, one stored price. All 31
+   * of these rendered a blank validity before the fix. */
+  {
+    package_id: 'vn-fixed', name: 'Vietnam Unlimited 3 Days', country_code: 'VN', region: 'VN',
+    coverage_country_codes: ['VN'], data_gb: 0, validity_days: 3, price: 1700,
+    retail_price_rub: 1700, plan_type: 'DAILY', daily_term_mode: 'FIXED_TERM', daily_gb: 3,
+    currency: 'RUB',
+  },
   // A REGIONAL PSEUDO-CODE. The catalogue carries 29 of these among its 225
   // `country_code` values, and they are not destinations: the English search
   // offered «EU-33» as a place to travel to until it filtered on ISO-2.
@@ -54,7 +75,7 @@ async function openEn(page) {
   // The glob needs the tail: `catalog-loader.js:190` fetches
   // `/assets/catalog.json?t=<Date.now()>` to defeat the browser cache, and a
   // pattern without it silently misses — the request then reaches the dev
-  // server, which serves the REAL 2302-package catalogue and makes a fixture
+  // server, which serves the REAL production catalogue and makes a fixture
   // test quietly assert against production data.
   await page.route('**/assets/catalog.json*', (route) => route.fulfill({
     status: 200,
@@ -99,10 +120,15 @@ test('choosing a destination lists its plans, cheapest first, priced in roubles'
   await page.locator('#q').fill('Viet');
   await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
 
+  // Four: two volume plans and two daily ones. The daily pair is what makes the
+  // «cheapest first» claim meaningful — priced from the ladder, they sort where
+  // they belong instead of leading with an unpayable rate.
   const cards = page.locator('#tariffGrid .card');
-  await expect(cards).toHaveCount(2);
+  await expect(cards).toHaveCount(4);
   await expect(cards.nth(0).locator('.price')).toHaveText('500 ₽');
-  await expect(cards.nth(1).locator('.price')).toHaveText('1,150 ₽');
+  await expect(cards.nth(1).locator('.price')).toHaveText('750 ₽');
+  await expect(cards.nth(2).locator('.price')).toHaveText('1,150 ₽');
+  await expect(cards.nth(3).locator('.price')).toHaveText('1,700 ₽');
   // The currency is named, because it is the only real price this catalogue has.
   await expect(page.locator('#tariffs')).toContainText('Russian roubles');
 });
@@ -153,6 +179,38 @@ test('an address typed for one plan does not follow the visitor to another', asy
 
   await page.locator('#tariffGrid .card').nth(1).getByRole('button').click();
   await expect(page.locator('#coEmail')).toHaveValue('');
+});
+
+test('a per-day plan is priced from the ladder, never from the rate', async ({ page }) => {
+  // The defect this fixture exists for: `price` is 250 per day, and 250 buys
+  // nothing. The shortest purchasable term is 750 for 3 days.
+  await openEn(page);
+  await page.locator('#q').fill('Viet');
+  await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
+
+  const daily = page.locator('#tariffGrid .card', { hasText: '1 GB a day' });
+  await expect(daily.locator('.price')).toHaveText('750 ₽');
+  await expect(daily).toContainText('3 days');
+  await expect(daily.locator('.price')).not.toHaveText('250 ₽');
+});
+
+test('a fixed-term daily shows the term its single price buys', async ({ page }) => {
+  await openEn(page);
+  await page.locator('#q').fill('Viet');
+  await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
+
+  const fixed = page.locator('#tariffGrid .card', { hasText: '3 GB a day' });
+  await expect(fixed.locator('.price')).toHaveText('1,700 ₽');
+  await expect(fixed).toContainText('3 days');
+});
+
+test('the cheapest card is the cheapest PURCHASABLE one', async ({ page }) => {
+  // Sorting on the per-day rate put the unpayable rows at the top of every
+  // country, so the fake-cheap plans were the first thing a visitor saw.
+  await openEn(page);
+  await page.locator('#q').fill('Viet');
+  await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
+  await expect(page.locator('#tariffGrid .card').first().locator('.price')).toHaveText('500 ₽');
 });
 
 test('the checkout opens with the chosen plan', async ({ page }) => {
@@ -233,7 +291,7 @@ test('Escape and the overlay both close the checkout, and the page survives', as
   await page.keyboard.press('Escape');
   await expect(page.locator('#checkout')).toBeHidden();
   // The tariff list is still there underneath.
-  await expect(page.locator('#tariffGrid .card')).toHaveCount(2);
+  await expect(page.locator('#tariffGrid .card')).toHaveCount(4);
 });
 
 test('a catalogue that fails to load says so instead of looking empty', async ({ page }) => {

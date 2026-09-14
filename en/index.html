@@ -34,7 +34,8 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://magicesim.store/#org","name":"Magic eSIM",
-  "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"},
+  "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png",
+  "inLanguage":"en"},
  {"@type":"WebSite","@id":"https://magicesim.store/en/#website","url":"https://magicesim.store/en/",
   "name":"Magic eSIM","inLanguage":"en","publisher":{"@id":"https://magicesim.store/#org"}},
  {"@type":"WebPage","@id":"https://magicesim.store/en/#webpage","url":"https://magicesim.store/en/",
@@ -142,7 +143,8 @@ footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;co
       <!-- These guides exist only in Russian today. Saying so is better than a
            reader following an English label into a Russian page; `hreflang` tells
            a crawler the same thing. -->
-      <p><a class="note" href="/iphone.html" hreflang="ru" data-i18n="site.compatCheck">Check your device (guide in Russian)</a></p>
+      <p><a class="note" href="/iphone.html" hreflang="ru" data-i18n="site.compatCheck">iPhone setup (guide in Russian)</a>
+         · <a class="note" href="/android.html" hreflang="ru" data-i18n="site.compatAndroid">Android setup (guide in Russian)</a></p>
     </details>
   </section>
 </main>
@@ -163,9 +165,9 @@ footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;co
     <p class="err" id="coErr" hidden></p>
     <button type="button" class="btn" id="coPay" style="width:100%;margin-top:14px">Continue</button>
 
-    <!-- The payment step. There is no provider behind it and no order is
-         created: `GLOBAL_PAYMENTS_ENABLED` is closed, and this screen exists so
-         the flow can be walked end to end without anything being charged. -->
+    <!-- The payment step. There is no international provider behind it and no
+         order is created: this screen exists so the flow can be walked end to
+         end without anything being charged. -->
     <div class="unavail" id="coUnavail" hidden>
       <h4 data-i18n="pay.unavailableTitle">International payments are coming soon</h4>
       <p data-i18n="pay.unavailableBody">We cannot take international cards yet. Nothing has been charged and no order has been created.</p>
@@ -183,7 +185,7 @@ footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;co
 <script src="/assets/catalog-loader.js?v=7a0b4ca8"></script>
 <script src="/assets/daily-plan-copy.js?v=ae5df21d"></script>
 <script src="/assets/country-names-en.js?v=e90c68e3"></script>
-<script src="/assets/site-i18n.js?v=5b02e78f"></script>
-<script src="/en/app.js?v=0a90f654"></script>
+<script src="/assets/site-i18n.js?v=86c51d9e"></script>
+<script src="/en/app.js?v=aea91e56"></script>
 </body>
 </html>

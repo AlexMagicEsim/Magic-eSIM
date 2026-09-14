@@ -22,6 +22,11 @@
 (function () {
   'use strict';
 
+  // Guarded like DAILY below. Either script failing to load used to throw before
+  // `boot()` bound a single handler, leaving a search box that silently did
+  // nothing on a page that otherwise rendered fine.
+  if (!window.MagicSiteI18n || !window.MagicCountryNamesEn || !window.MagicCatalog) return;
+
   var I18N = window.MagicSiteI18n.createI18n('en');
   var NAMES = window.MagicCountryNamesEn;
   // `MagicDailyPlan`, not `MagicDailyCopy` — the file is named daily-plan-copy.js
@@ -46,12 +51,63 @@
    * provider feed cannot become an element.
    * ------------------------------------------------------------------ */
 
-  function priceText(p) {
+  /**
+   * What this plan actually costs, and what term that buys.
+   *
+   * A DAILY plan's `price` IS A PER-DAY RATE AND ONE DAY IS NOT SOLD. The first
+   * version of this file priced every card from `p.price`, which on 1293 of the
+   * catalogue's 1324 daily packages is a figure no customer can pay: Oman's
+   * cheapest card advertised 200 ₽ where the shortest purchasable term is 600 ₽,
+   * and because the list sorts ascending those understated rows led every
+   * country. That is the §21 bait-price class this project has already paid for
+   * once, and `CLAUDE.md` says it in as many words — «for a PER_DAY plan that is
+   * a per-day RATE and one day is not sold».
+   *
+   * So the rules are the Russian storefront's, not new ones
+   * (`assets/country-tariffs.js` dailyTermsHtml):
+   *
+   *   PER_DAY     the ladder in `term_prices` is the only truth. No ladder
+   *               means nothing is purchasable — the card says so rather than
+   *               inventing a number, exactly as the Russian card does.
+   *   FIXED_TERM  no ladder by design: one term, one stored price.
+   *   otherwise   the volume plan's own price.
+   */
+  function priceOf(p) {
+    var terms = Array.isArray(p && p.term_prices) ? p.term_prices : [];
+
+    if (hasDaily && DAILY.isDaily(p)) {
+      if (terms.length) {
+        var best = null;
+        for (var i = 0; i < terms.length; i += 1) {
+          var price = Number(terms[i] && terms[i].price);
+          var days = Number(terms[i] && terms[i].days);
+          if (!isFinite(price) || price <= 0 || !isFinite(days) || days <= 0) continue;
+          if (!best || price < best.price) best = { price: price, days: days };
+        }
+        return best ? { amount: best.price, days: best.days } : null;
+      }
+      // MobiMatter's fixed-term daily: the ladder is absent because there is
+      // nothing to choose, and `price` is the whole price.
+      if (String(p.daily_term_mode || '') === 'FIXED_TERM'
+        && Number(p.validity_days) > 0 && Number(p.price) > 0) {
+        return { amount: Number(p.price), days: Number(p.validity_days) };
+      }
+
+      return null;
+    }
+
     var n = Number(p && (p.price != null ? p.price : p.retail_price_rub));
-    if (!isFinite(n) || n <= 0) return '';
+    if (!isFinite(n) || n <= 0) return null;
+
+    return { amount: n, days: Number(p.validity_days) || null };
+  }
+
+  function priceText(p) {
+    var priced = priceOf(p);
+    if (!priced) return '';
     // Grouped the English way on an English page: 1,150 ₽. The currency stays
     // the rouble sign because the currency IS the rouble.
-    return n.toLocaleString('en-US') + ' ₽';
+    return priced.amount.toLocaleString('en-US') + ' ₽';
   }
 
   function dataText(p) {
@@ -70,13 +126,21 @@
     return hasDaily ? DAILY.pluralDays(n, 'en') : (Number(n) === 1 ? 'day' : 'days');
   }
 
+  /**
+   * The term the PRICED offer buys — taken from the same decision, never from a
+   * second one.
+   *
+   * `DAILY.terms(p)` returns the ladder's day list and is EMPTY for all 31
+   * FIXED_TERM daily plans, so reading it alone left «China Unlimited 3 Days»
+   * showing a price and a blank validity with `validity_days: 3` sitting in the
+   * row. Deriving the term from `priceOf` means the two lines on a card can
+   * never describe different offers.
+   */
   function termText(p) {
-    if (hasDaily && DAILY.isDaily(p)) {
-      var days = DAILY.terms(p);
-      return days.length ? days[0] + ' ' + plural(days[0]) : '';
-    }
-    var d = Number(p.validity_days);
-    return isFinite(d) && d > 0 ? d + ' ' + plural(d) : '';
+    var priced = priceOf(p);
+    if (!priced || !priced.days) return '';
+
+    return priced.days + ' ' + plural(priced.days);
   }
 
   function coverageText(p) {
@@ -108,10 +172,31 @@
    */
   var ISO2 = /^[A-Z]{2}$/;
 
+  /*
+   * The same countries the Russian landing refuses to sell, refused here.
+   *
+   * `index.html` filters RU/UA/BY by code AND by package name; `/en/` filtered
+   * on ISO-2 shape alone, so the two storefronts disagreed about what is on
+   * offer. Today the exposure is zero — no package carries those country codes
+   * and none names them — but a policy enforced on one surface and not the
+   * other is a policy that stops being enforced the day the catalogue moves.
+   */
+  var RESTRICTED = ['RU', 'UA', 'BY'];
+
+  function isRestricted(p) {
+    if (!p) return false;
+    if (RESTRICTED.indexOf(String(p.country_code || '').toUpperCase()) !== -1) return true;
+    var name = String(p.name || '').toLowerCase();
+
+    return name.indexOf('russia') !== -1 || name.indexOf('ukraine') !== -1
+      || name.indexOf('belarus') !== -1;
+  }
+
   function destinations() {
     var seen = {};
     var out = [];
     for (var i = 0; i < packages.length; i += 1) {
+      if (isRestricted(packages[i])) continue;
       var c = String(packages[i].country_code || '').toUpperCase();
       if (!ISO2.test(c) || Object.prototype.hasOwnProperty.call(seen, c)) continue;
       seen[c] = true;
@@ -159,8 +244,18 @@
     $('q').value = name;
 
     var list = packages.filter(function (p) {
-      return String(p.country_code || '').toUpperCase() === code;
-    }).sort(function (a, b) { return Number(a.price || 0) - Number(b.price || 0); });
+      return !isRestricted(p) && String(p.country_code || '').toUpperCase() === code;
+    }).sort(function (a, b) {
+      // Sorted on the PURCHASABLE price. Sorting on `p.price` put the per-day
+      // rates at the top of every country, so the cheapest-looking rows were
+      // exactly the ones whose advertised figure could not be paid.
+      var pa = priceOf(a); var pb = priceOf(b);
+      if (!pa && !pb) return 0;
+      if (!pa) return 1;
+      if (!pb) return -1;
+
+      return pa.amount - pb.amount;
+    });
 
     $('tariffsTitle').textContent = I18N.t('site.plansFor') + ' ' + name;
     var grid = $('tariffGrid');
@@ -176,6 +271,7 @@
     }
 
     list.forEach(function (p) {
+      var priced = priceOf(p);
       var card = document.createElement('div');
       card.className = 'card';
 
@@ -197,12 +293,22 @@
       pr.textContent = priceText(p);
       card.appendChild(pr);
 
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn';
-      btn.textContent = I18N.t('site.choose');
-      btn.addEventListener('click', function () { openCheckout(p, name); });
-      card.appendChild(btn);
+      if (priced) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn';
+        btn.textContent = I18N.t('site.choose');
+        btn.addEventListener('click', function () { openCheckout(p, name); });
+        card.appendChild(btn);
+      } else {
+        // The Russian card renders «Временно недоступен» here for exactly this
+        // state. A plan whose ladder is missing has no price anyone can pay, and
+        // offering a button would send the visitor to a checkout with no number.
+        var off = document.createElement('span');
+        off.className = 'note';
+        off.textContent = I18N.t('site.unavailable');
+        card.appendChild(off);
+      }
 
       grid.appendChild(card);
     });

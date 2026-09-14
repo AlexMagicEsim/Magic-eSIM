@@ -501,8 +501,11 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.05;letter-spacing:-.03em;margi
 .nav-tg{color:var(--blue);font-weight:700}
 /* The English version, reachable rather than only declared. An hreflang tag is
    a signal to a crawler, not a way in for a reader, and without a link /en/ was
-   an orphan page nothing pointed at. */
-.nav-lang{margin-left:4px;opacity:.85}
+   an orphan page nothing pointed at.
+   OUTSIDE `.nav-links`, deliberately: that container is `display:none` below
+   920px, so the first version of this link was invisible on every phone — which
+   is most of the traffic, and exactly the readers most likely to want it. */
+.nav-lang{margin-left:auto;margin-right:12px;opacity:.85;white-space:nowrap;font-size:14px;font-weight:600;color:var(--muted)}
 .nav-lang:hover{opacity:1}
 .nav-tg:hover{color:var(--blue-600)}
 }
@@ -929,7 +932,8 @@ footer{padding:36px 0 44px;color:var(--muted);border-top:1px solid var(--line);b
 <body>
   <nav class="nav">
     <a class="brand" href="#top" aria-label="Magic eSIM"><img class="brand-logo" src="assets/magic-esim-logo-header.png" alt="Magic eSIM" width="66" height="50"><span class="company-name" style="display:none">Magic eSIM</span></a>
-    <div class="nav-links"><a href="#popular">Направления</a><a href="#solution">Как работает</a><a href="#benefits">Преимущества</a><a href="#global-pricing">Тарифы</a><a href="#install-guides-section">Инструкции</a><a class="nav-tg" href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer" data-tg-entry>Telegram</a><a class="nav-lang" href="/en/" hreflang="en" lang="en">English</a></div>
+    <div class="nav-links"><a href="#popular">Направления</a><a href="#solution">Как работает</a><a href="#benefits">Преимущества</a><a href="#global-pricing">Тарифы</a><a href="#install-guides-section">Инструкции</a><a class="nav-tg" href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer" data-tg-entry>Telegram</a></div>
+    <a class="nav-lang" href="/en/" hreflang="en" lang="en">English</a>
     <a class="btn" href="#global-pricing">Выбрать тариф</a>
   </nav>
   <header class="hero" id="top"><div class="hero-bg" aria-hidden="true"></div><div class="container hero-content">
