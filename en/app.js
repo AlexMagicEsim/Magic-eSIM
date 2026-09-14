@@ -10,12 +10,22 @@
  *   * It never POSTs anything. There is no call to /api/v1/public/retail-orders
  *     in this file, so no order can be created and therefore nothing can reach
  *     Platega, the fulfilment hook or a provider. A test asserts the absence.
- *   * It never invents a price. The catalogue holds exactly one real price per
- *     plan and it is denominated in roubles; no international price exists yet.
- *     So the rouble figure is shown, labelled as roubles, and the page says
- *     international pricing is being finalised. Converting it at some rate
- *     would be inventing the number the whole pricing lane is supposed to
- *     produce later.
+ *   * It never invents a price, and «the price» is not one field. A FIXED_VOLUME
+ *     plan carries its whole price in `price`; a PER_DAY plan's `price` is a
+ *     per-day RATE and one day is not sold, so the payable figures live in the
+ *     `term_prices` ladder; a FIXED_TERM daily has no ladder and `price` is
+ *     again the whole price. `priceOf` reads each shape on its own terms and
+ *     returns null when none of them yields something purchasable — the card
+ *     then says the plan is unavailable rather than quoting a number nobody can
+ *     pay. An earlier version of this comment claimed the catalogue holds
+ *     exactly one real price per plan; that sentence was false, it is what the
+ *     first version of this file was written against, and 1293 of 1324 daily
+ *     packages advertised an unpayable figure because of it. Whatever `priceOf`
+ *     returns is denominated in roubles; no international price exists yet, so
+ *     the rouble figure is shown, labelled as roubles, and the page says
+ *     international pricing is being finalised. Converting it at some rate would
+ *     be inventing the number the whole pricing lane is supposed to produce
+ *     later.
  *   * It never redirects. The language switch is an ordinary link the visitor
  *     clicks, so there is no automatic hop to get into a loop with.
  * ================================================================== */
