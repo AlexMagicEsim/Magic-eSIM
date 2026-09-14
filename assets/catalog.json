@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-11T11:28:32.324Z",
+  "generated_at": "2026-09-14T12:56:45.924Z",
   "source": "production-public-api",
   "package_count": 2302,
   "packages": [
@@ -5248,7 +5248,7 @@
       "price": 1950,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -12116,11 +12116,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -17596,11 +17596,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -19357,11 +19357,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -20236,7 +20236,7 @@
       "price": 1450,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -42508,11 +42508,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -61123,7 +61123,8 @@
       "price": 1700,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -65104,7 +65105,7 @@
       "price": 2550,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -84439,7 +84440,7 @@
       "price": 10150,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -87694,7 +87695,7 @@
       "price": 900,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -89294,7 +89295,7 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -89919,7 +89920,7 @@
       "price": 550,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -98062,11 +98063,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -105266,7 +105267,7 @@
       "price": 200,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -109536,11 +109537,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -130161,7 +130162,7 @@
       "price": 400,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -141683,7 +141684,7 @@
       "price": 300,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -143395,11 +143396,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -144437,7 +144438,7 @@
       "price": 700,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -146679,7 +146680,7 @@
       "price": 4350,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -151590,11 +151591,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
