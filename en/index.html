@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Magic eSIM — travel data abroad without roaming</title>
+<meta name="description" content="Pick a destination, install an eSIM and land connected. Magic eSIM covers 190+ destinations with no plastic SIM and no airport queue.">
+<link rel="canonical" href="https://magicesim.store/en/">
+<!-- The cluster is declared on BOTH pages and both point at each other and at
+     themselves, which is what makes it valid. It covers exactly these two URLs:
+     the Russian country pages under /esim/ have no English twin yet, so they
+     carry no alternate — an hreflang pointing at a page that does not exist is
+     an error, not a placeholder. -->
+<link rel="alternate" hreflang="ru" href="https://magicesim.store/">
+<link rel="alternate" hreflang="en" href="https://magicesim.store/en/">
+<link rel="alternate" hreflang="x-default" href="https://magicesim.store/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:url" content="https://magicesim.store/en/">
+<meta property="og:title" content="Magic eSIM — travel data abroad without roaming">
+<meta property="og:description" content="Pick a destination, install an eSIM and land connected.">
+<meta property="og:image" content="https://magicesim.store/assets/magic-esim-logo.png">
+<meta name="twitter:card" content="summary">
+<!-- Stated rather than relied upon. The default is index,follow, but the RU
+     landing says it out loud and a page whose indexability is a deliberate
+     decision should not leave it to a default. -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="/assets/magic-esim-logo.png">
+<!-- Organization and WebSite, in English. The Russian home carries the same two;
+     without them the English page is the only surface describing this business
+     that says nothing machine-readable about it. `inLanguage` is what keeps a
+     crawler from treating this as a duplicate of the Russian description. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Organization","@id":"https://magicesim.store/#org","name":"Magic eSIM",
+  "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"},
+ {"@type":"WebSite","@id":"https://magicesim.store/en/#website","url":"https://magicesim.store/en/",
+  "name":"Magic eSIM","inLanguage":"en","publisher":{"@id":"https://magicesim.store/#org"}},
+ {"@type":"WebPage","@id":"https://magicesim.store/en/#webpage","url":"https://magicesim.store/en/",
+  "name":"Magic eSIM — travel data abroad without roaming","inLanguage":"en",
+  "isPartOf":{"@id":"https://magicesim.store/en/#website"}}
+]}
+</script>
+<style>
+:root{--bg:#070910;--card:#10141f;--text:#eef1f7;--muted:#98a2b8;--border:rgba(255,255,255,.1);--accent:#6c8cff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--border);padding:14px 0}
+.hdr{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none}
+.brand img{height:28px;width:auto}
+nav{display:flex;gap:16px;margin-left:auto;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px}
+nav a:hover{color:var(--text)}
+.langsw{font-size:14px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:5px 10px}
+h1{font-size:clamp(26px,5vw,40px);letter-spacing:-.02em;margin:32px 0 10px}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 26px}
+.panel{border:1px solid var(--border);border-radius:16px;background:var(--card);padding:18px;margin:0 0 22px}
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:6px}
+input[type=text],input[type=email]{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;background:#0b0e17;color:var(--text);font-size:15px}
+.results{margin-top:12px;display:grid;gap:8px;max-height:280px;overflow:auto}
+.res{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#0b0e17;cursor:pointer;text-align:left;color:inherit;font:inherit;width:100%}
+.res:hover{border-color:var(--accent)}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.card{border:1px solid var(--border);border-radius:14px;background:#0b0e17;padding:14px;display:flex;flex-direction:column;gap:8px}
+.card h3{margin:0;font-size:16px}
+.meta{color:var(--muted);font-size:13px;display:flex;gap:10px;flex-wrap:wrap}
+.price{font-size:20px;font-weight:700}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-size:15px;text-decoration:none}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.note{color:var(--muted);font-size:13px}
+.overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto;background:rgba(5,7,14,.72)}
+.overlay[hidden]{display:none}
+.modal{position:relative;width:min(480px,100%);margin:auto;border:1px solid var(--border);border-radius:18px;background:var(--card);padding:26px 24px 24px}
+.close{position:absolute;top:12px;right:14px;width:34px;height:34px;border:0;border-radius:10px;background:rgba(255,255,255,.06);color:var(--text);font-size:22px;cursor:pointer}
+.rows{display:grid;gap:8px;margin:14px 0}
+.rows>div{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--muted)}
+.rows b{color:var(--text)}
+.total{padding-top:8px;border-top:1px solid var(--border)}
+.total b{font-size:18px}
+.unavail{border:1px solid rgba(255,196,84,.35);background:rgba(255,196,84,.07);border-radius:12px;padding:14px;margin-top:14px}
+.unavail h4{margin:0 0 6px;font-size:15px}
+.unavail p{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.err{color:#ff8b8b;font-size:14px;margin:8px 0 0}
+details{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#0b0e17;margin-top:10px}
+summary{cursor:pointer;font-weight:600}
+footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr">
+    <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt="Magic eSIM"><span>Magic eSIM</span></a>
+    <nav>
+      <a href="#plans" data-i18n="nav.destinations">Destinations</a>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#compat" data-i18n="nav.compat">Device check</a>
+    </nav>
+    <!-- A plain link, not a redirect. The visitor chooses; nothing chooses for
+         them, so there is no loop to get into. -->
+    <a class="langsw" href="/" hreflang="ru" data-i18n="lang.switchToRu">Перейти на русскую версию</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 data-i18n="site.tagline">Mobile data abroad, without roaming charges</h1>
+  <p class="lead" data-i18n="site.lead">Pick a destination, install an eSIM, land connected. No plastic SIM, no queue at the airport.</p>
+
+  <section class="panel" id="plans">
+    <label for="q" data-i18n="site.chooseCountry">Where are you going?</label>
+    <input type="text" id="q" autocomplete="off" spellcheck="false"
+           data-i18n-attr="placeholder:site.searchPlaceholder" placeholder="Country or region">
+    <div class="results" id="results" hidden></div>
+    <p class="note" id="status" data-i18n="site.loading">Loading plans…</p>
+  </section>
+
+  <section id="tariffs" hidden>
+    <h2 id="tariffsTitle"></h2>
+    <p class="note" data-i18n="price.currencyNote">Prices are shown in Russian roubles (₽). International pricing is being finalised.</p>
+    <div class="grid" id="tariffGrid"></div>
+  </section>
+
+  <section id="how" class="panel">
+    <h2 data-i18n="how.title">How it works</h2>
+    <ol class="note">
+      <li data-i18n="how.step1">Pick your destination and a data plan.</li>
+      <li data-i18n="how.step2">Check your phone supports eSIM and is not carrier-locked.</li>
+      <li data-i18n="how.step3">Install the eSIM profile before you fly.</li>
+      <li data-i18n="how.step4">Land, switch it on, and you are online.</li>
+    </ol>
+  </section>
+
+  <section id="compat">
+    <details>
+      <summary data-i18n="site.compatTitle">Will my phone work?</summary>
+      <p class="note" data-i18n="site.compatBody">Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.</p>
+      <!-- These guides exist only in Russian today. Saying so is better than a
+           reader following an English label into a Russian page; `hreflang` tells
+           a crawler the same thing. -->
+      <p><a class="note" href="/iphone.html" hreflang="ru" data-i18n="site.compatCheck">Check your device (guide in Russian)</a></p>
+    </details>
+  </section>
+</main>
+
+<div class="overlay" id="checkout" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="coTitle">
+    <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="Close">×</button>
+    <h3 id="coTitle" data-i18n="checkout.title">Your order</h3>
+    <div class="rows">
+      <div><span data-i18n="checkout.plan">eSIM plan</span><b id="coPlan">—</b></div>
+      <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
+      <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
+      <div><span data-i18n="checkout.term">Validity</span><b id="coTerm">—</b></div>
+      <div class="total"><span data-i18n="checkout.total">Total</span><b id="coTotal">—</b></div>
+    </div>
+    <label for="coEmail" data-i18n="checkout.email">Email for your eSIM</label>
+    <input type="email" id="coEmail" autocomplete="email" placeholder="you@example.com">
+    <p class="err" id="coErr" hidden></p>
+    <button type="button" class="btn" id="coPay" style="width:100%;margin-top:14px">Continue</button>
+
+    <!-- The payment step. There is no provider behind it and no order is
+         created: `GLOBAL_PAYMENTS_ENABLED` is closed, and this screen exists so
+         the flow can be walked end to end without anything being charged. -->
+    <div class="unavail" id="coUnavail" hidden>
+      <h4 data-i18n="pay.unavailableTitle">International payments are coming soon</h4>
+      <p data-i18n="pay.unavailableBody">We cannot take international cards yet. Nothing has been charged and no order has been created.</p>
+      <p data-i18n="pay.unavailableHint">Paying with a Russian bank card or SBP? Use the Russian version of this site.</p>
+      <a class="btn btn-ghost" href="/" hreflang="ru" data-i18n="pay.toRussianSite">Go to the Russian site</a>
+    </div>
+  </div>
+</div>
+
+<footer class="wrap">
+  <p>© Magic eSIM · <a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
+</footer>
+
+<script src="/assets/magic-net.js?v=3e0887b2"></script>
+<script src="/assets/catalog-loader.js?v=7a0b4ca8"></script>
+<script src="/assets/daily-plan-copy.js?v=ae5df21d"></script>
+<script src="/assets/country-names-en.js?v=e90c68e3"></script>
+<script src="/assets/site-i18n.js?v=5b02e78f"></script>
+<script src="/en/app.js?v=0a90f654"></script>
+</body>
+</html>
