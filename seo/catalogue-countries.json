@@ -1347,9 +1347,9 @@
       "flagEmoji": "🇬🇮",
       "local_count": 4,
       "regional_count": 0,
-      "daily_count": 14,
-      "total_count": 18,
-      "min_price_rub": 300,
+      "daily_count": 13,
+      "total_count": 17,
+      "min_price_rub": 450,
       "volumes": [
         3,
         5,
@@ -1602,9 +1602,9 @@
       "flagEmoji": "🇯🇪",
       "local_count": 4,
       "regional_count": 1,
-      "daily_count": 9,
-      "total_count": 14,
-      "min_price_rub": 300,
+      "daily_count": 8,
+      "total_count": 13,
+      "min_price_rub": 400,
       "volumes": [
         3,
         5,
@@ -2863,9 +2863,9 @@
       "flagEmoji": "🇲🇴",
       "local_count": 6,
       "regional_count": 4,
-      "daily_count": 23,
-      "total_count": 33,
-      "min_price_rub": 300,
+      "daily_count": 22,
+      "total_count": 32,
+      "min_price_rub": 400,
       "volumes": [
         3,
         5,
@@ -4654,8 +4654,8 @@
       "flagEmoji": "🇹🇷",
       "local_count": 9,
       "regional_count": 6,
-      "daily_count": 23,
-      "total_count": 38,
+      "daily_count": 22,
+      "total_count": 37,
       "min_price_rub": 200,
       "volumes": [
         3,
@@ -4888,9 +4888,9 @@
       "flagEmoji": "🇫🇷",
       "local_count": 5,
       "regional_count": 4,
-      "daily_count": 23,
-      "total_count": 32,
-      "min_price_rub": 300,
+      "daily_count": 22,
+      "total_count": 31,
+      "min_price_rub": 400,
       "volumes": [
         3,
         5,
@@ -5378,7 +5378,7 @@
       "regional_count": 10,
       "daily_count": 21,
       "total_count": 40,
-      "min_price_rub": 300,
+      "min_price_rub": 350,
       "volumes": [
         3,
         5,
@@ -5463,6 +5463,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-09-12T09:59:20.500Z",
-  "source": "https://origin.magicesim.store/api/v1/packages?limit=3000"
+  "fetched_at": "2026-09-14T15:54:40.662Z",
+  "source": "assets/catalog.json"
 }

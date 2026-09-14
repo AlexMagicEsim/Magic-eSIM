@@ -42,19 +42,69 @@ const coverage = (p) => (Array.isArray(p.coverage_country_codes) ? p.coverage_co
   .map((c) => String(c || '').trim().toUpperCase())
   .filter((c) => /^[A-Z]{2}$/.test(c));
 
+/**
+ * WHICH SNAPSHOT A PAGE IS BUILT FROM, and why it is this one.
+ *
+ * There are two catalogue snapshots in this repository and for a long time the
+ * generators disagreed about which was authoritative. `assets/catalog.json` is
+ * what the storefront serves to a customer, what `catalogue-facts.mjs` reads,
+ * and what every gate compares a page against — and a GitHub Actions bot
+ * refreshes it six times a day. This file used to make its own API call
+ * instead, so the pages answered a question asked of a different snapshot and
+ * agreed with the gates only by luck.
+ *
+ * On 2026-09-14 the luck ran out. The provider withdrew six PER_DAY plans at
+ * 100 ₽/day, the bot recorded it in ca62b14 (2302 → 2297 packages) and nobody
+ * rebuilt anything, because a bot refresh runs no generator. Five country pages
+ * went on counting a daily plan that no longer existed, and six went on
+ * offering «от 300 ₽» — the three-day minimum of a plan you could not buy. That
+ * is the bait price of §21, arrived at from the other direction: not a wrong
+ * rule this time, but a right rule applied to a stale input.
+ *
+ * So the default source is now the file the gates and the customer read. The
+ * API path is kept behind `--api` for the case it exists for — seeding the
+ * snapshot when there is no local one — and `fact-sheet.mjs` has defaulted to
+ * `assets/catalog.json` all along, so this makes the two agree rather than
+ * inventing a third convention.
+ *
+ * Provenance follows the data, not the clock: `fetched_at` is the catalogue's
+ * own `generated_at`, so running the build twice over one snapshot writes the
+ * same bytes twice. A `new Date()` here would make every rebuild a diff, which
+ * is how a generated file stops being checkable.
+ */
+export function localCatalogueCountries(file = join(ROOT, 'assets/catalog.json')) {
+  if (!existsSync(file)) throw new Error(`${file} отсутствует — нечего собирать`);
+  const d = JSON.parse(readFileSync(file, 'utf8'));
+  const packages = Array.isArray(d.packages) ? d.packages : [];
+  if (packages.length === 0) throw new Error(`${file} не содержит пакетов`);
+  return catalogueCountries(packages, {
+    source: 'assets/catalog.json',
+    fetched_at: d.generated_at || null,
+  });
+}
+
 export async function fetchCatalogueCountries() {
   const res = await fetch(API, { signal: AbortSignal.timeout(120000) });
   if (!res.ok) throw new Error(`catalogue API ${res.status}`);
   const body = await res.json();
   const packages = Array.isArray(body.data) ? body.data : [];
+  return catalogueCountries(packages, { source: API, fetched_at: new Date().toISOString() });
+}
 
+export function catalogueCountries(packages, provenance) {
   const byCountry = new Map();
   for (const p of packages) {
     const cov = coverage(p);
     if (cov.length === 0) continue;
     // A package with no price is not an offer, and a page built on one would
     // show a country as available and then have nothing to sell.
-    const retail = num(p.retail_price_rub);
+    //
+    // `price` first, `retail_price_rub` second: they are the same number — 0 of
+    // 2297 API rows disagree — but only the API carries the second name, and
+    // reading it alone made every package from `assets/catalog.json` look
+    // unpriced, which would have produced an EMPTY catalogue rather than an
+    // error. `countryFacts` below has always read `price`.
+    const retail = num(p.price ?? p.retail_price_rub);
     if (retail === null || retail <= 0) continue;
 
     for (const iso of cov) {
@@ -137,7 +187,12 @@ export async function fetchCatalogueCountries() {
   }
   countries.sort((a, b) => a.nameRu.localeCompare(b.nameRu, 'ru'));
 
-  return { countries, unnamed: unnamed.sort(), fetched_at: new Date().toISOString(), source: API };
+  return {
+    countries,
+    unnamed: unnamed.sort(),
+    fetched_at: provenance.fetched_at,
+    source: provenance.source,
+  };
 }
 
 export function loadCached() {

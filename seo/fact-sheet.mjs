@@ -209,7 +209,22 @@ export async function buildFactSheets() {
         min_daily_price_rub: floorOf(all.filter((t) => t.daily)),
     };
   }
-  return { fetched_at: new Date().toISOString(), source: process.env.CATALOG_API ? API : 'assets/catalog.json', countries: Object.keys(sheets).length, sheets };
+  // PROVENANCE FOLLOWS THE DATA, NOT THE CLOCK. `new Date()` here made every
+  // rebuild a diff even when not one fact had moved, which is how a generated
+  // file stops being checkable: «regenerate and confirm nothing changed» could
+  // never be run. The snapshot's own `generated_at` describes the catalogue
+  // this sheet was derived from, so two builds over one snapshot write the same
+  // bytes and a diff means the FACTS moved. Nothing reads this field — the four
+  // consumers take `.sheets` — so it is provenance for a human.
+  const snapshotAt = process.env.CATALOG_API
+    ? new Date().toISOString()
+    : (JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8')).generated_at || null);
+  return {
+    fetched_at: snapshotAt,
+    source: process.env.CATALOG_API ? API : 'assets/catalog.json',
+    countries: Object.keys(sheets).length,
+    sheets,
+  };
 }
 
 // Port of TARIFF_ACTIVATION_LABELS / TARIFF_ACTIVATION_FALLBACK in
