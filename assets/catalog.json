@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-14T12:56:45.924Z",
+  "generated_at": "2026-09-14T15:54:40.662Z",
   "source": "production-public-api",
-  "package_count": 2302,
+  "package_count": 2297,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -90,6 +90,83 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "004daab6-1f78-4426-836e-e71b104876a1",
+      "name": "South Korea 500MB/Day (nonhkip)",
+      "country_code": "KR",
+      "region": "KR",
+      "coverage_country_codes": [
+        "KR"
+      ],
+      "coverage_flags": "🇰🇷",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 150,
+      "networks": [
+        {
+          "operator": "SKTelecom",
+          "type": "5G"
+        },
+        {
+          "operator": "LG Uplus",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 350
+        },
+        {
+          "days": 5,
+          "price": 550
+        },
+        {
+          "days": 7,
+          "price": 750
+        },
+        {
+          "days": 10,
+          "price": 1050
+        },
+        {
+          "days": 15,
+          "price": 1550
+        },
+        {
+          "days": 30,
+          "price": 2950
+        }
+      ]
     },
     {
       "package_id": "004dbfe8-81d0-49ce-8ea4-1ecfafe7f962",
@@ -20003,78 +20080,6 @@
       ]
     },
     {
-      "package_id": "1fab7696-96bf-436d-ba6f-f5585f08d5fc",
-      "name": "Gibraltar 500MB/Day",
-      "country_code": "GI",
-      "region": "GI",
-      "coverage_country_codes": [
-        "GI"
-      ],
-      "coverage_flags": "🇬🇮",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "GibTel",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 300
-        },
-        {
-          "days": 5,
-          "price": 450
-        },
-        {
-          "days": 7,
-          "price": 650
-        },
-        {
-          "days": 10,
-          "price": 900
-        },
-        {
-          "days": 15,
-          "price": 1350
-        },
-        {
-          "days": 30,
-          "price": 2550
-        }
-      ]
-    },
-    {
       "package_id": "1fc07dbb-25ab-4ce4-820a-9d5966ab9459",
       "name": "Cameroon 3 GB",
       "country_code": "CM",
@@ -39282,83 +39287,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "424f6b26-1496-43bd-95ef-2d34eb7b82c4",
-      "name": "South Korea 500MB/Day",
-      "country_code": "KR",
-      "region": "KR",
-      "coverage_country_codes": [
-        "KR"
-      ],
-      "coverage_flags": "🇰🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 300
-        },
-        {
-          "days": 5,
-          "price": 450
-        },
-        {
-          "days": 7,
-          "price": 650
-        },
-        {
-          "days": 10,
-          "price": 900
-        },
-        {
-          "days": 15,
-          "price": 1300
-        },
-        {
-          "days": 30,
-          "price": 2500
-        }
-      ]
     },
     {
       "package_id": "4268916f-3f0a-4e3f-8997-f0cce43145f0",
@@ -71779,80 +71707,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "7d7c7595-7f52-4c5c-95ca-64e8aad29efc",
-      "name": "Jersey 500MB/Day",
-      "country_code": "JE",
-      "region": "JE",
-      "coverage_country_codes": [
-        "JE"
-      ],
-      "coverage_flags": "🇯🇪",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "JT",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "UK",
-        "NO"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 300
-        },
-        {
-          "days": 5,
-          "price": 450
-        },
-        {
-          "days": 7,
-          "price": 650
-        },
-        {
-          "days": 10,
-          "price": 900
-        },
-        {
-          "days": 15,
-          "price": 1300
-        },
-        {
-          "days": 30,
-          "price": 2500
-        }
-      ]
-    },
-    {
       "package_id": "7d8162d3-f523-45c7-b0b4-074c4b310e1a",
       "name": "Cambodia 3GB 15Days",
       "country_code": "KH",
@@ -78768,83 +78622,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "88bcd2c4-823b-4683-bd71-8c2cdfa4f6ac",
-      "name": "Macao 500MB/Day",
-      "country_code": "MO",
-      "region": "MO",
-      "coverage_country_codes": [
-        "MO"
-      ],
-      "coverage_flags": "🇲🇴",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 300
-        },
-        {
-          "days": 5,
-          "price": 450
-        },
-        {
-          "days": 7,
-          "price": 650
-        },
-        {
-          "days": 10,
-          "price": 900
-        },
-        {
-          "days": 15,
-          "price": 1300
-        },
-        {
-          "days": 30,
-          "price": 2500
-        }
-      ]
     },
     {
       "package_id": "88dc206e-43fc-4682-8d17-3ee6d1e6ead0",
@@ -126289,77 +126066,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "d60e0914-6de9-4123-bd37-3ac1924ee446",
-      "name": "France 500MB/Day",
-      "country_code": "FR",
-      "region": "FR",
-      "coverage_country_codes": [
-        "FR"
-      ],
-      "coverage_flags": "🇫🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "Orange",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 300
-        },
-        {
-          "days": 5,
-          "price": 450
-        },
-        {
-          "days": 7,
-          "price": 650
-        },
-        {
-          "days": 10,
-          "price": 900
-        },
-        {
-          "days": 15,
-          "price": 1300
-        },
-        {
-          "days": 30,
-          "price": 2500
-        }
-      ]
-    },
-    {
       "package_id": "d6157c63-2f95-46ca-af49-d0a6fe7ee28b",
       "name": "Belize 20GB 30Days",
       "country_code": "BZ",
@@ -145869,79 +145575,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "f291738a-0498-466f-97cc-2cd354be5ea3",
-      "name": "Turkey 1GB/Day",
-      "country_code": "TR",
-      "region": "TR",
-      "coverage_country_codes": [
-        "TR"
-      ],
-      "coverage_flags": "🇹🇷",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 100,
-      "networks": [
-        {
-          "operator": "Vodafone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 300
-        },
-        {
-          "days": 5,
-          "price": 500
-        },
-        {
-          "days": 7,
-          "price": 650
-        },
-        {
-          "days": 10,
-          "price": 950
-        },
-        {
-          "days": 15,
-          "price": 1350
-        },
-        {
-          "days": 30,
-          "price": 2600
-        }
-      ]
     },
     {
       "package_id": "f29b428a-05bf-445f-9f47-554345b304e7",
