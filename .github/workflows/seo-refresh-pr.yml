@@ -1,0 +1,338 @@
+name: SEO refresh PR
+
+# Rebuilds the static SEO pages after the catalogue moves, and puts the result in
+# a pull request. It never writes to main.
+#
+# WHY THIS EXISTS. assets/catalog.json is refreshed up to six times a day by
+# "Refresh static catalog cache"; the ~200 pages built from it were rebuilt only
+# when a person remembered. On 2026-09-14 the provider withdrew six PER_DAY plans
+# at 100 ₽/day and six country pages went on advertising «от 300 ₽» — the
+# three-day minimum of a plan nobody could buy any more — while five of them
+# counted a daily tariff that no longer existed. Nothing noticed for two days.
+#
+# WHY A PULL REQUEST AND NOT A COMMIT. Committing straight to main would publish
+# through Pages immediately, which means a bot rewriting and shipping the text of
+# 198 pages six times a day with nobody looking. The generators are deterministic
+# and gated, but «deterministic» is not «right»: a page's text is a commercial
+# claim, and the class of defect this automation exists to prevent — a price that
+# cannot be paid — is exactly the class a generator can also produce from bad
+# input. So the machine prepares the change and a person decides.
+#
+# WHY workflow_run AND NOT push. A push made with GITHUB_TOKEN does not start
+# another workflow; measured, not assumed — none of the last eight catalogue-bot
+# commits ever triggered tests.yml. A `push` trigger here would therefore never
+# fire from the job it is meant to follow. `workflow_run` is driven by the
+# completion of the named workflow, not by the push it made, so it does fire.
+#
+# THE SAME RULE APPLIES TO THIS JOB'S OWN OUTPUT: the branch push and the pull
+# request are made with GITHUB_TOKEN, so tests.yml does NOT run on the PR. That
+# is why the full validation below runs HERE, before the PR is created or
+# updated, and why its result is written into the PR body. tests.yml runs again
+# on main when a human merges, because that push is the human's.
+#
+# NOTHING ABOUT THE CATALOGUE SYNC CHANGES. That workflow keeps reading the
+# public catalogue endpoint and committing assets/catalog.json to main exactly as
+# before; this one starts after it finishes and touches nothing it owns.
+
+on:
+  workflow_run:
+    workflows: ["Refresh static catalog cache"]
+    types: [completed]
+  workflow_dispatch:
+
+# The least that can open a pull request. No PAT: nothing here needs to reach
+# another repository, and a secret in a PUBLIC repo is a liability that buys
+# nothing. `contents: write` is for the automation branch only — main is never
+# pushed to by this file.
+permissions:
+  contents: write
+  pull-requests: write
+
+# Runs queue rather than cancel. Each run regenerates from whatever main holds at
+# the moment it starts, so the LAST run to finish is the one built from the
+# newest catalogue — last-wins without a half-finished push in the middle, which
+# is what cancel-in-progress would risk during the branch update.
+concurrency:
+  group: seo-refresh-pr
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: rebuild SEO pages and open a PR
+    # A failed catalogue run may have left assets/catalog.json untouched or
+    # half-validated; there is nothing to follow it with.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    # THE TOKEN IS NOT HERE, DELIBERATELY. At job scope it would be in the
+    # environment of `npm ci`, which executes lifecycle scripts from the whole
+    # dependency tree, and of the Playwright download — while holding
+    # `contents: write` on a repository whose main is unprotected and publishes
+    # to Pages on push. «This file never writes to main» would then be a property
+    # of the text, not of the credential. It is granted to the two steps that
+    # actually talk to GitHub and to nothing else.
+    env:
+      BRANCH: automation/catalogue-seo-refresh
+
+    steps:
+      # Explicitly main, and the whole history. Not the workflow_run's head: the
+      # catalogue commit is already on main by the time this starts, and §9 of
+      # the brief is that regeneration must happen from current main and the
+      # current canonical catalogue — never from whatever the automation branch
+      # happens to hold.
+      # `persist-credentials: false` for the same reason the token is not at job
+      # scope: by default checkout leaves a usable credential in .git/config for
+      # every later step, which puts push access to main inside `npm ci`. The push
+      # below builds its own authenticated remote for the one command that needs it.
+      #
+      # Pinned by commit, not by tag: v4 is mutable, and this job holds write
+      # access. tests.yml keeps the tags on purpose — it holds `contents: read`,
+      # so the same repoint buys an attacker nothing there.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+
+      - name: Снимок артефактов до пересборки
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/seo-before
+          cp seo/catalogue-countries.json /tmp/seo-before/
+          cp seo/fact-sheets.json         /tmp/seo-before/
+          cp seo/sitemap-lastmod.json     /tmp/seo-before/
+          cp sitemap.xml                  /tmp/seo-before/
+          echo "снято: $(ls /tmp/seo-before | tr '\n' ' ')"
+
+      # The ordinary command, unchanged and unparameterised. If this fails the
+      # job fails here and no branch and no pull request are touched.
+      - name: Пересборка
+        run: node seo/build-all.mjs
+
+      # BEFORE anything else looks at the result. An unexpected file is the one
+      # failure mode that must stop the run while the damage is still local.
+      - name: Только ожидаемые файлы
+        run: |
+          set -euo pipefail
+          # -uall: without it git collapses a new directory to «?? esim/x/», which is
+          # not an allowlisted path — so the first country the provider ever adds
+          # would halt the run, the one case the allowlist promises to survive.
+          git status --porcelain -uall > /tmp/seo-changed.txt
+          node scripts/seo-refresh-check-paths.mjs --status /tmp/seo-changed.txt
+
+      - name: Есть ли что публиковать
+        id: diff
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -uall)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "сгенерированные страницы не изменились"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git status --porcelain -uall | sed 's/^/  /'
+          fi
+
+      # A rebuild that is not a pure function of the committed snapshot cannot be
+      # reviewed — every run would be a diff and «regenerate and confirm nothing
+      # changed» would be unrunnable. Proved per run rather than trusted.
+      - name: Воспроизводимость
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          tree() { find esim seo sitemap.xml -type f \( -name '*.html' -o -name '*.json' -o -name '*.xml' \) \
+                   | sort | xargs sha256sum | sha256sum | cut -d' ' -f1; }
+          first="$(tree)"
+          node seo/build-all.mjs > /dev/null
+          second="$(tree)"
+          echo "хеш дерева: $first → $second"
+          if [ "$first" != "$second" ]; then
+            echo "ОСТАНОВ: повторная сборка дала другой результат — вывод не воспроизводим, PR не трогаем" >&2
+            git status --porcelain -uall >&2
+            exit 1
+          fi
+
+      # Everything the pages are checked by: catalogue consistency, fact-floor,
+      # the editorial gates, canonical, structured data, sitemap and asset
+      # versioning all live in `npm test`. The browser tier is run too because a
+      # regenerated country page is what it renders.
+      #
+      # The gateway proxy tier is deliberately NOT run: it lives in
+      # infra/yandex-api-gateway/proxy-function, reads no catalogue, and cannot
+      # change here — the path allowlist above would have stopped the run if it had.
+      - name: Проверки — гейты витрины
+        if: steps.diff.outputs.changed == 'true'
+        run: npm test
+
+      - name: Проверки — установка браузера
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Проверки — браузер
+        if: steps.diff.outputs.changed == 'true'
+        run: npx playwright test
+
+      - name: Сводка изменений
+        id: summary
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          level=$(node scripts/seo-refresh-summary.mjs \
+            --before /tmp/seo-before \
+            --out /tmp/seo-summary \
+            --changed /tmp/seo-changed.txt \
+            --validation "гейты витрины: зелёные|браузерные тесты: зелёные|воспроизводимость: подтверждена|изменены только сгенерированные артефакты")
+          echo "risk=$level" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Пересборка SEO-страниц"
+            echo
+            cat /tmp/seo-summary/summary.md
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # THE BRANCH. Rebuilt from current main every time rather than added to, so
+      # the pull request always shows main → newest generated state and nothing
+      # older. That means a force-push, and a force-push is exactly the thing that
+      # can erase someone's work — so two guards, both of which fail closed:
+      #
+      #   1. Every commit the remote branch carries beyond its merge-base with
+      #      main must be this automation's own. One commit by anybody else, or
+      #      with any other subject, and the run stops: a person has edited the
+      #      branch and a machine must not decide what happens to that.
+      #   2. --force-with-lease pinned to the exact SHA just fetched. If anything
+      #      moves the branch between the check and the push, the push is refused
+      #      rather than winning the race.
+      - name: Ветка
+        id: branch
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          SUBJECT='chore(seo): refresh pages after catalogue update'
+          BOT_EMAIL='41898282+github-actions[bot]@users.noreply.github.com'
+
+          # THE ALLOWLIST IS CHECKED AGAIN, HERE, AND THAT IS NOT BELT AND BRACES.
+          # Between the first check and this line the tree was rebuilt a second
+          # time and `npm test` ran — and `npm test` is not read-only:
+          # seo/test-sitemap-lastmod.mjs runs the generators against ROOT by
+          # design, unlinks seo/sitemap-lastmod.json and restores it from memory
+          # in a `finally`. The restore is correct today. `git add` would stage
+          # whatever is on disk NOW, so the invariant has to be re-established
+          # against the tree that is actually being committed, not the one that
+          # existed four steps ago.
+          git status --porcelain -uall > /tmp/seo-changed-final.txt
+          node scripts/seo-refresh-check-paths.mjs --status /tmp/seo-changed-final.txt
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "$BOT_EMAIL"
+
+          # `ls-remote --exit-code` rather than the exit status of `fetch`: fetch
+          # cannot tell «no such branch» from «the network blinked», and the
+          # earlier version silently took the «branch does not exist» path on a
+          # transient failure — skipping the guard below and clearing the lease.
+          # It happened to still fail closed, because an unleased non-fast-forward
+          # push is refused, but by luck rather than by design.
+          lease=""
+          set +e
+          git ls-remote --exit-code origin "refs/heads/$BRANCH" > /tmp/seo-branch-ref.txt
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            git fetch --no-tags origin "$BRANCH":refs/remotes/origin/"$BRANCH"
+            remote_sha=$(git rev-parse refs/remotes/origin/"$BRANCH")
+            base=$(git merge-base origin/main refs/remotes/origin/"$BRANCH")
+            echo "ветка существует: $remote_sha, общий предок с main: $base"
+
+            # -x: WHOLE LINE. As a substring match this passed anything that
+            # merely CONTAINED the expected author and subject — a revert whose
+            # subject quotes the original, or «…update <- backdoor» — and the
+            # force-push then overwrote a person's commit. Identity is compared
+            # on the committer e-mail as well, which is not free text.
+            foreign=$(git log --format='%an|%ae|%s' "$base..refs/remotes/origin/$BRANCH" \
+                      | grep -v -x -F "github-actions[bot]|$BOT_EMAIL|$SUBJECT" || true)
+            if [ -n "$foreign" ]; then
+              echo "ОСТАНОВ: на ветке есть коммиты не этой автоматики:" >&2
+              echo "$foreign" | sed 's/^/  /' >&2
+              echo "Ветка не трогается и PR не обновляется. Разберитесь вручную." >&2
+              exit 1
+            fi
+            lease="--force-with-lease=refs/heads/$BRANCH:$remote_sha"
+          elif [ "$rc" -eq 2 ]; then
+            echo "ветки ещё нет — будет создана"
+          else
+            echo "ОСТАНОВ: не удалось выяснить, существует ли ветка (ls-remote код $rc)" >&2
+            exit 1
+          fi
+
+          git checkout -B "$BRANCH"
+          # Never `git add .`: only the paths the allowlist just vouched for.
+          git add -- esim seo/catalogue-countries.json seo/fact-sheets.json seo/sitemap-lastmod.json sitemap.xml
+          git commit -m "$SUBJECT"
+
+          # The credential exists for this one command and is not left in
+          # .git/config for anything that runs later.
+          git push "https://x-access-token:$GH_TOKEN@github.com/${GITHUB_REPOSITORY}.git" \
+            "refs/heads/$BRANCH:refs/heads/$BRANCH" $lease
+
+          pushed=$(git rev-parse HEAD)
+          echo "sha=$pushed" >> "$GITHUB_OUTPUT"
+          echo "запушено: $pushed"
+
+      # `${{ }}` is NOT interpolated into the shell below. The value here is one
+      # of three literals this repository's own code produces, so nothing is
+      # exploitable today — but an expression expanded into a `run:` block is the
+      # standard Actions injection shape, and the habit is what fails later when
+      # the value is somebody else's. Through env, it is a variable the shell
+      # reads, never text the shell parses.
+      - name: Pull request
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          RISK: ${{ steps.summary.outputs.risk }}
+          HEAD_SHA: ${{ steps.branch.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TITLE='chore(seo): refresh pages after catalogue update'
+
+          # The body is written before the commit exists, so on its own it
+          # describes a STATE and names no head — and a reviewer cannot tell
+          # whether it still describes the branch they are looking at. The commit
+          # it vouches for is stamped in here, after the push. It matters because
+          # tests.yml does not run on this PR (GITHUB_TOKEN pushes start no
+          # workflow), so this body is the only evidence attached to it.
+          {
+            echo
+            echo "Коммит, который описывает эта сводка: \`$HEAD_SHA\`."
+            echo "Если на ветке появится что-то ещё — сводка к нему не относится."
+          } >> /tmp/seo-summary/summary.md
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+
+          if [ -n "$existing" ]; then
+            echo "обновляю существующий PR #$existing — второго не создаём"
+            gh pr edit "$existing" --title "$TITLE" --body-file /tmp/seo-summary/summary.md
+            gh pr comment "$existing" --body "Обновлено новой пересборкой каталога. Риск: **$RISK**."
+          else
+            if ! gh pr create --base main --head "$BRANCH" \
+                 --title "$TITLE" --body-file /tmp/seo-summary/summary.md; then
+              echo "" >&2
+              echo "PR создать не удалось. Самая вероятная причина — в настройках репозитория" >&2
+              echo "выключено «Allow GitHub Actions to create and approve pull requests»" >&2
+              echo "(Settings → Actions → General → Workflow permissions). Ветка $BRANCH уже" >&2
+              echo "запушена, так что PR можно открыть руками; автоматике достаточно включить" >&2
+              echo "эту галочку — PAT для этого не нужен." >&2
+              exit 1
+            fi
+          fi
+
+      - name: Ничего не изменилось
+        if: steps.diff.outputs.changed != 'true'
+        run: |
+          echo "no generated SEO changes" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "Каталог мог измениться, но ни одна страница, ни карта сайта и ни один лист фактов" >> "$GITHUB_STEP_SUMMARY"
+          echo "от этого не поменялись. PR не создаётся." >> "$GITHUB_STEP_SUMMARY"
