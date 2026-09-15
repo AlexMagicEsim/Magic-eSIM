@@ -14,18 +14,24 @@
 // it verbatim, and seo/test-icons.mjs compares what every page family actually
 // declares — parsed, not grepped — against this list.
 //
-// WHAT THE ARTWORK IS, AND WHY IT IS TWO DIFFERENT DRAWINGS.
-// favicon.svg / favicon.ico / favicon-32.png are the plain white «M» on the
-// brand gradient. apple-touch-icon.png, icon-192.png and icon-512.png are the
-// real Magic eSIM mark — the circuit-trace M with the eSIM chip — cropped out of
-// assets/magic-esim-logo.png.
+// WHAT THE ARTWORK IS, AND WHY IT IS TWO DRAWINGS OF ONE MARK.
+// apple-touch-icon.png, icon-192.png and icon-512.png are the Magic eSIM mark in
+// full — the circuit-trace M with the eSIM chip and the stars — cropped out of
+// assets/magic-esim-logo.png. favicon.svg / favicon.ico / favicon-32.png are the
+// same mark reduced to what a 16-pixel square can hold: the letterform and the
+// gradient, with the traces, the chip, the stars and the white line inside each
+// stroke removed.
 //
-// That is deliberate and it is a limitation, not a preference: the real mark is
-// built out of thin traces, and downscaled to 32 or 16 pixels they merge into a
-// coloured smudge with no readable letter in it. Measured, not assumed — the
-// crop was rendered at 180, 32 and 16 and only 180 survives. Replacing the small
-// icons needs a simplified vector mark from whoever owns the logo; until that
-// exists the legible «M» stays where legibility is all there is.
+// The reduction is measured, not stylistic. The full crop was rendered at 180,
+// 32 and 16 px: at 180 every trace is legible, at 32 they merge, at 16 the mark
+// is a coloured smudge with no readable letter in it. So the detail lives where
+// there are pixels for it and the tab gets the letterform. favicon.svg carries
+// the geometry and the one liberty taken with it.
+//
+// Both drawings put the mark ON white, which is the logo's own arrangement and
+// the inverse of the icon that shipped until 2026-09-15 — a white M cut out of a
+// blue tile, with round joins that belong to no Magic eSIM artwork. Test 8 in
+// seo/test-icons.mjs pins the inversion and fails on that old file.
 //
 // PATHS ARE ROOT-ABSOLUTE ON PURPOSE. A country page lives two directories deep
 // and a guide one; a relative icon href would have to be re-based per family,

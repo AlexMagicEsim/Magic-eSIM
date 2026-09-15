@@ -18,6 +18,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
+import { inflateSync } from 'node:zlib';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ICON_LINKS, MANIFEST_LINK, MANIFEST_EXEMPT } from './head-icons.mjs';
@@ -192,3 +193,113 @@ test('7 — the three generators take their icons from head-icons.mjs', () => {
       `${g} has grown its own icon markup again — put it in head-icons.mjs`);
   }
 });
+
+// --- 8. the small icons are the brand mark, not the old generic M -------------
+
+/**
+ * Decode an 8-bit truecolour, non-interlaced PNG to {w, h, px:(x,y)=>[r,g,b]}.
+ * Thirty lines of zlib and un-filtering, so this gate can look at what the icon
+ * actually LOOKS like rather than at the markup that points to it. Every check
+ * below fires on the previous icon — see the mutation at the end.
+ */
+function pngPixels(buf) {
+  assert.equal(buf.readUInt32BE(8 + 4) && buf.toString('ascii', 12, 16), 'IHDR');
+  const w = buf.readUInt32BE(16), h = buf.readUInt32BE(20);
+  assert.equal(buf[24], 8, 'expected 8-bit');
+  // Truecolour with or without alpha. Accepting BOTH is not tidiness: the icon
+  // this replaced is RGBA, and a decoder that refused it would have failed the
+  // mutation test for the wrong reason — which looks exactly like a rule that
+  // works, and is how a gate ends up proving nothing.
+  const colour = buf[25];
+  assert.ok(colour === 2 || colour === 6, `expected truecolour PNG, got colour type ${colour}`);
+  assert.equal(buf[28], 0, 'expected non-interlaced');
+  const idat = [];
+  for (let off = 8; off < buf.length; ) {
+    const len = buf.readUInt32BE(off);
+    if (buf.toString('ascii', off + 4, off + 8) === 'IDAT') idat.push(buf.subarray(off + 8, off + 8 + len));
+    off += 12 + len;
+  }
+  const raw = inflateSync(Buffer.concat(idat));
+  const bpp = colour === 6 ? 4 : 3, stride = w * bpp;
+  const out = Buffer.alloc(h * stride);
+  for (let y = 0; y < h; y++) {
+    const filter = raw[y * (stride + 1)];
+    const line = raw.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1));
+    for (let i = 0; i < stride; i++) {
+      const a = i >= bpp ? out[y * stride + i - bpp] : 0;
+      const b = y > 0 ? out[(y - 1) * stride + i] : 0;
+      const c = y > 0 && i >= bpp ? out[(y - 1) * stride + i - bpp] : 0;
+      let v = line[i];
+      if (filter === 1) v += a;
+      else if (filter === 2) v += b;
+      else if (filter === 3) v += (a + b) >> 1;
+      else if (filter === 4) {
+        const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+        v += pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+      } else assert.equal(filter, 0, `unsupported PNG filter ${filter}`);
+      out[y * stride + i] = v & 0xff;
+    }
+  }
+  // Composited over white, because that is what a light browser tab renders —
+  // a transparent ground and a white ground look the same there, and the claim
+  // being checked is «the mark sits on light, not the other way round».
+  return { w, h, px: (x, y) => {
+    const i = y * stride + x * bpp;
+    const a = bpp === 4 ? out[i + 3] / 255 : 1;
+    return [0, 1, 2].map((k) => Math.round(out[i + k] * a + 255 * (1 - a)));
+  } };
+}
+
+/** Share of near-white pixels. The mark sits ON white; the old icon was inverted. */
+function whiteShare(png) {
+  let white = 0;
+  for (let y = 0; y < png.h; y++) for (let x = 0; x < png.w; x++) {
+    if (png.px(x, y).every((c) => c > 235)) white++;
+  }
+  return white / (png.w * png.h);
+}
+
+test('8 — the tab icon is the brand M on white, not the old white-M-on-blue tile', () => {
+  const svg = read('favicon.svg');
+  // The mark is drawn in the brand gradient on a white ground — the logo's own
+  // arrangement, and the inverse of what shipped before.
+  assert.match(svg, /<rect[^>]*fill="#ffffff"/, 'the ground must be white');
+  assert.match(svg, /stroke="url\(#g\)"/, 'the M itself must carry the gradient');
+  // Round caps and joins are what made the old M read as a generic letter. The
+  // logo's corners are mitered: a sharp V, flat-cut apexes.
+  assert.ok(!/stroke-line(cap|join)="round"/.test(svg), 'the mark has no round joins');
+  assert.match(svg, /stroke-linejoin="miter"/);
+  assert.match(svg, /stroke-miterlimit="2\.5"/, 'the limit is what bevels the apexes and keeps the V sharp');
+
+  const png = pngPixels(readFileSync(join(ROOT, 'favicon-32.png')));
+  const share = whiteShare(png);
+  assert.ok(share >= 0.45,
+    `favicon-32.png is ${(share * 100).toFixed(1)}% white — the mark should sit on a white ground. ` +
+    'The icon this replaced measures 19.5% by this same reading: a coloured tile with a white letter cut out of it.');
+  // and it must not be blank: the mark has to be there
+  let coloured = 0;
+  for (let y = 0; y < png.h; y++) for (let x = 0; x < png.w; x++) {
+    const [r, g, b] = png.px(x, y);
+    if (Math.max(r, g, b) - Math.min(r, g, b) > 60) coloured++;
+  }
+  assert.ok(coloured / (png.w * png.h) > 0.15, 'no mark visible in favicon-32.png');
+
+  // The path the old icon drew must not come back anywhere.
+  for (const p of ['favicon.svg', ...allPages()]) {
+    assert.ok(!/M17 47 V17 L32 37 L47 17 V47/.test(read(p)), `${p} still draws the old M`);
+  }
+  assert.deepEqual(sorted(icoSizes()), [[16, 16], [32, 32], [48, 48]]);
+});
+
+const sorted = (a) => a.slice().sort((x, y) => x[0] - y[0]);
+
+/** The sizes stored in favicon.ico, from its directory table. */
+function icoSizes() {
+  const b = readFileSync(join(ROOT, 'favicon.ico'));
+  assert.equal(b.readUInt16LE(2), 1, 'not an .ico');
+  const n = b.readUInt16LE(4);
+  return Array.from({ length: n }, (_, i) => {
+    const e = 6 + i * 16;
+    return [b[e] || 256, b[e + 1] || 256];
+  });
+}

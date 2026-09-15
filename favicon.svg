@@ -1,11 +1,41 @@
+<!-- The Magic eSIM mark, simplified for small sizes.
+
+     Source: the M inside assets/magic-esim-logo.png. Its geometry was measured
+     off the artwork rather than redrawn by eye — centreline x=72 and x=151,
+     apex y=70, foot y=196, V at y=140, stroke 17, inside the mark's own
+     coordinate box x 63.5..159.5 / y 66..196 — then scaled into this viewBox.
+     The gradient endpoints are the median colours of the mark's left and right
+     edges (#6743C6, #22A8E6), not invented ones.
+
+     WHAT IS DELIBERATELY NOT HERE. The circuit traces, the eSIM chip, the
+     stars and the white line running inside every stroke are all gone. At
+     16 px a trace is a fifth of a pixel: kept, they turn the icon into a
+     coloured smudge with no readable letter in it. This was measured — the
+     full mark was rendered at 180, 32 and 16, and only 180 survives. So the
+     mark keeps its detail on the large icons (apple-touch-icon.png,
+     icon-192, icon-512) and the tab gets the letterform alone.
+
+     The one departure from the artwork is the stroke: 21 against the mark's
+     17, about a quarter heavier. At 16 px the true weight renders two pixels
+     wide and washes out. It is an optical correction for one size class, and
+     it is the only liberty taken.
+
+     Miter joins with a limit of 2.5 are what reproduce the mark's own corners:
+     the V keeps its sharp point (miter ratio 2.04, under the limit) while the
+     two apexes cut flat (3.94, over it) exactly as they do in the logo. Round
+     caps and joins — what the previous icon used — are what made that M read
+     as a generic letter rather than this one. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#7C3AED"/>
-      <stop offset="1" stop-color="#22D3EE"/>
+    <linearGradient id="g" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6743C6"/>
+      <stop offset="1" stop-color="#22A8E6"/>
     </linearGradient>
   </defs>
-  <rect x="0" y="0" width="64" height="64" rx="14" ry="14" fill="url(#g)"/>
-  <path d="M17 47 V17 L32 37 L47 17 V47" fill="none" stroke="#fff"
-        stroke-width="8.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- White ground, as in the logo. On a light tab it disappears and the mark
+       stands alone; on a dark tab it is what keeps the violet leg legible. -->
+  <rect width="64" height="64" rx="13" ry="13" fill="#ffffff"/>
+  <path d="M15.59,59.24 L15.59,6.9 L32,35.98 L48.41,6.9 L48.41,59.24"
+        fill="none" stroke="url(#g)" stroke-width="8.72"
+        stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="2.5"/>
 </svg>
