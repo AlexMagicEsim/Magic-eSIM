@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-15T05:01:54.169Z",
+  "generated_at": "2026-09-15T11:50:50.050Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -5521,7 +5521,11 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -5536,9 +5540,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -10265,7 +10267,11 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -10280,9 +10286,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 5,
       "daily_term_mode": "PER_DAY",
@@ -24765,7 +24769,11 @@
       "price": 100,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -24780,9 +24788,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": false,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
       "daily_term_mode": "PER_DAY",
@@ -28407,7 +28413,11 @@
       "price": 550,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -28422,9 +28432,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -31155,7 +31163,11 @@
       "price": 600,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -31169,9 +31181,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
@@ -35215,7 +35225,11 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -35230,9 +35244,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -37476,7 +37488,11 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -37487,17 +37503,15 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -49027,7 +49041,11 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -49042,9 +49060,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
@@ -53470,7 +53486,11 @@
       "price": 300,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -53485,9 +53505,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
@@ -92125,7 +92143,11 @@
       "price": 1400,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -92140,9 +92162,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -98381,7 +98401,11 @@
       "price": 3150,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -98396,9 +98420,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -99368,7 +99390,11 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -99383,9 +99409,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -111426,7 +111450,11 @@
       "price": 150,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Aycell",
           "type": "5G"
         }
       ],
@@ -111441,9 +111469,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
