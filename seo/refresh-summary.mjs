@@ -290,6 +290,32 @@ export function riskOf(summary) {
 const rub = (v) => (v === null || v === undefined ? '«нет данных»' : `${v} ₽`);
 
 /**
+ * A pull request body is capped at 65 536 characters by GitHub, and nothing here
+ * was bounded.
+ *
+ * Measured rather than guessed: 198 countries plus 300 withdrawn plans renders
+ * 55 901 characters — inside the limit but at 85 % of it — and withdrawing the
+ * whole daily family (1340 rows, a shape this catalogue can genuinely produce)
+ * renders 106 946. `gh pr create` answers 422 at that point, which means NO
+ * PULL REQUEST at exactly the change that most needs reviewing. A mass
+ * withdrawal is the worst thing the provider can do and the automation would
+ * have gone silent for it.
+ *
+ * So the lists are capped and the count of what was dropped is stated. Nothing
+ * is lost: summary.json carries every row, the branch diff carries every file,
+ * and the seven numbers a decision rests on sit above all of it.
+ */
+const LIST_CAP = 60;
+const BODY_CAP = 60000;
+
+function capped(list, render) {
+  const out = (list || []).slice(0, LIST_CAP).map(render);
+  const rest = (list || []).length - out.length;
+  if (rest > 0) out.push(`- …и ещё ${rest} — целиком в \`summary.json\` и в диффе ветки`);
+  return out;
+}
+
+/**
  * «1 страна», «2 страны», «5 стран».
  *
  * Russian declines by the LAST TWO digits, which is why 11–14 are the exception
@@ -353,7 +379,8 @@ export function renderMarkdown(summary, meta = {}) {
       + ' Удалять вручную: `git rm -r esim/' + safeText(s) + '/`');
   }
   for (const s of summary.appeared) L.push(`- **${safeText(s)}** — появилась в каталоге, страница создаётся`);
-  for (const c of summary.countries) {
+  const shownCountries = summary.countries.slice(0, LIST_CAP);
+  for (const c of shownCountries) {
     L.push(`- **${c.name}** (\`${c.slug}\`)`);
     for (const f of COUNT_FIELDS) {
       if (c.changes[f]) L.push(`  - ${f}: ${c.changes[f].before} → ${c.changes[f].after}`);
@@ -366,17 +393,17 @@ export function renderMarkdown(summary, meta = {}) {
       L.push(`  - **утверждение \`${f}\`**: ${JSON.stringify(v.before)} → ${JSON.stringify(v.after)}`);
     }
   }
+  if (summary.countries.length > shownCountries.length) {
+    L.push(`- …и ещё ${summary.countries.length - shownCountries.length} стран — целиком в \`summary.json\``);
+  }
   L.push('');
 
   if (summary.plans) {
     L.push('### Тарифы', '');
     L.push(`Пакетов в каталоге: ${summary.plans.total_before} → ${summary.plans.total_after}`, '');
-    for (const p of summary.plans.removed) {
-      L.push(`- снят: \`${p.name}\` — ${rub(p.price)}, ${p.plan_type}${p.daily_term_mode ? `/${p.daily_term_mode}` : ''}, покрытие ${p.coverage.join(', ')}`);
-    }
-    for (const p of summary.plans.added) {
-      L.push(`- добавлен: \`${p.name}\` — ${rub(p.price)}, ${p.plan_type}${p.daily_term_mode ? `/${p.daily_term_mode}` : ''}, покрытие ${p.coverage.join(', ')}`);
-    }
+    const line = (verb) => (p) => `- ${verb}: \`${p.name}\` — ${rub(p.price)}, ${p.plan_type}${p.daily_term_mode ? `/${p.daily_term_mode}` : ''}, покрытие ${p.coverage.join(', ')}`;
+    L.push(...capped(summary.plans.removed, line('снят')));
+    L.push(...capped(summary.plans.added, line('добавлен')));
     L.push('');
   }
 
@@ -385,8 +412,8 @@ export function renderMarkdown(summary, meta = {}) {
   if (summary.urls.removed === null) {
     L.push('> Список адресов «до» недоступен, поэтому добавленные и удалённые адреса не посчитаны.');
   }
-  for (const u of summary.urls.removed || []) L.push(`- **удалён:** ${safeText(u)}`);
-  for (const u of summary.urls.added || []) L.push(`- добавлен: ${safeText(u)}`);
+  L.push(...capped(summary.urls.removed, (u) => `- **удалён:** ${safeText(u)}`));
+  L.push(...capped(summary.urls.added, (u) => `- добавлен: ${safeText(u)}`));
   if (summary.sitemap_dates_moved) {
     L.push('', `Дат \`lastmod\` сдвинулось: ${summary.sitemap_dates_moved.length}`);
   }
@@ -420,5 +447,15 @@ export function renderMarkdown(summary, meta = {}) {
     'ни один файл вне списка сгенерированных изменён быть не может — иначе запуск падает и PR не трогает.',
     'Слияние только вручную.');
 
-  return L.join('\n');
+  const body = L.join('\n');
+  if (body.length <= BODY_CAP) return body;
+
+  // Last line of defence. The caps above should make this unreachable, and it
+  // exists because «unreachable» is what the unbounded version was too. The HEAD
+  // is kept, not the tail: the seven numbers and the risk block are what a
+  // decision rests on, and they are at the top.
+  const keep = body.slice(0, BODY_CAP);
+  return `${keep.slice(0, keep.lastIndexOf('\n'))}\n\n---\n\n`
+    + `**Тело обрезано: полная сводка — ${body.length} символов, предел GitHub — 65536.**\n`
+    + 'Всё целиком лежит в `summary.json` этого прогона и в диффе ветки.';
 }

@@ -294,6 +294,65 @@ test('E: a changed factual claim is HIGH even when no price moved', () => {
   assert.match(renderMarkdown(s, {}), /\*\*утверждение `daily_reset_confirmed`\*\*: false → true/);
 });
 
+test('the body stays inside GitHub\'s limit on the worst change the catalogue can make', () => {
+  // A pull request body is capped at 65 536 characters and nothing here was
+  // bounded. Measured before this test existed: 198 countries plus 300 withdrawn
+  // plans rendered 55 901 — inside, but at 85 % — and withdrawing the whole daily
+  // family, 1340 rows, rendered 106 946. `gh pr create` answers 422 there, so the
+  // automation would have gone SILENT on the single most dangerous change the
+  // provider can make. Driven from the real catalogue, not from a made-up shape.
+  const cache = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8')).countries;
+  const pk = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8')).packages;
+  assert.ok(cache.length > 150 && pk.length > 2000, 'фикстура должна быть настоящим каталогом');
+
+  for (const drop of [300, 1340, pk.length - 1]) {
+    const s = classify({
+      cacheBefore: { countries: cache },
+      cacheAfter: { countries: cache.map((c) => ({ ...c, min_price_rub: (c.min_price_rub || 100) + 50 })) },
+      catalogueBefore: pk,
+      catalogueAfter: pk.slice(0, pk.length - drop),
+      urlsBefore: ['u'], urlsAfter: ['u'],
+    });
+    const md = renderMarkdown(s, { changed_files: ['a'] });
+    assert.ok(md.length < 65536, `снято ${drop}: тело ${md.length} символов — PR не создастся`);
+
+    // The numbers a decision rests on survive the capping, and the reader is
+    // told what was left out rather than being shown a list that quietly ends.
+    assert.match(md, new RegExp(`Plans removed:\\s+${drop}`));
+    assert.match(md, /RISK: HIGH/);
+    assert.match(md, /и ещё \d+/);
+  }
+});
+
+test('the last-line-of-defence truncation actually works, and keeps the head', () => {
+  // The list caps make this unreachable on any realistic change — which is
+  // exactly why it needs its own test: «unreachable» is what the unbounded
+  // version was too. A claim value is rendered with JSON.stringify, so sixty
+  // countries whose `networks` list is enormous blows past the caps without
+  // adding a single list entry.
+  const huge = Array.from({ length: 300 }, (_, i) => `Оператор с довольно длинным именем ${i}`);
+  const countries = Array.from({ length: 60 }, (_, i) => country(`c${i}`));
+  const sheetsFor = (nets) => ({
+    sheets: Object.fromEntries(countries.map((c) => [c.slug, sheet({ networks: nets })])),
+  });
+
+  const s = classify({
+    cacheBefore: { countries },
+    cacheAfter: { countries },
+    sheetsBefore: sheetsFor([]),
+    sheetsAfter: sheetsFor(huge),
+  });
+  const md = renderMarkdown(s, {});
+
+  assert.ok(md.length < 65536, `тело ${md.length} символов — всё ещё больше предела GitHub`);
+  assert.match(md, /Тело обрезано/);
+  // The HEAD is what survives: the seven numbers and the risk block are what a
+  // decision rests on, and truncating from the wrong end would drop exactly them.
+  assert.match(md, /CATALOGUE SEO REFRESH/);
+  assert.match(md, /RISK: HIGH/);
+  assert.match(md, /Factual claims changed:\s+60/);
+});
+
 test('E: a withdrawal on its own is never LOW, even with every number steady', () => {
   // `riskOf` used to read only urls, counts, floors and claims — never `plans`.
   // A plan can leave the catalogue without moving any of those, and the summary
