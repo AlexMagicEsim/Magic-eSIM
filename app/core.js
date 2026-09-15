@@ -1396,6 +1396,22 @@ function createApi(deps = {}) {
     // `idempotent` it makes exactly one attempt — which is right for a question
     // the customer asked once.
     const out = await request('/api/v1/tma/channel/subscription/check', { method: 'POST' });
+
+    /* A 200 WITH NOTHING IN IT IS NOT AN ANSWER.
+     *
+     * `request` returns null for an empty or unparsable body, and the coercions
+     * below would have turned that into `{subscribed: false, eligible: true}` —
+     * indistinguishable from Telegram authoritatively saying «left». The backend
+     * never emits that shape, but a gateway, a proxy or a CDN can, and the caller
+     * uses «not subscribed» to bring the invitation back and, on a background
+     * re-check, to demote somebody who is still in the channel.
+     *
+     * Throwing puts it where it belongs: the same branch as a timeout, which
+     * keeps the last known good rather than accusing anybody. */
+    if (!out || typeof out !== 'object') {
+      throw Object.assign(new Error('channel check: unusable body'), { code: 'CHANNEL_CHECK_UNUSABLE' });
+    }
+
     return {
       subscribed: Boolean(out && out.subscribed),
       // Absent means eligible: an older backend that does not send the field

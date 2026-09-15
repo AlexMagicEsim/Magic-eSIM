@@ -149,6 +149,13 @@ async function installMiniApp(page, options = {}) {
     colorScheme = 'light',
     emails = [EMAIL],
     revokeDelayMs = 0,
+    // Slows the session round trip. In production it IS the gating latency —
+    // a cold Yandex gateway is seconds — and a flash that only shows up under
+    // that latency is one a fast local stub would never catch.
+    sessionDelayMs = 0,
+    // Slows the subscription check. The automatic discovery is bounded, and a
+    // bound that is never exercised against a slow answer is a number in a file.
+    checkDelayMs = 0,
     // The channel check: 'yes' | 'no' | 'error'. Default 'no' — the state a
     // customer who has not subscribed is actually in, so a test that forgets to
     // set it cannot accidentally prove the happy path.
@@ -157,6 +164,28 @@ async function installMiniApp(page, options = {}) {
     // the server decides eligibility and the app only obeys. Default true —
     // the state a new visitor from an ad is in.
     channelEligible = true,
+    // What the SESSION says about the invitation, which is where the app now
+    // learns it — the check endpoint is only reached when this says nothing
+    // useful. `null` = the field is absent from the response entirely, which is
+    // what an older backend, a failed read, or a session that never resolved
+    // looks like; the app must fall back to offering.
+    //
+    // DEFAULT: asked before, not a member, and still eligible — a returning
+    // visitor who has not subscribed. That is the ambient state most of this
+    // suite is about: the block is on screen and the test is going to tap it.
+    // `confirmed: false, checked: false` — never asked — is deliberately NOT the
+    // default, because it spends an automatic round trip before the block can
+    // appear, and a test that only wanted something to click would pay for a
+    // path it was not testing. The discovery path has its own tests, which say
+    // so explicitly.
+    //
+    // DECLARED AFTER `channelEligible` on purpose: a default parameter may only
+    // read one declared before it, and the first version put this above it and
+    // died with a TDZ ReferenceError on every test that used the fixture.
+    // `eligible` follows `channelEligible` rather than being a second knob with
+    // its own opinion: the session and the check must not be able to disagree
+    // about whether the customer may have the code, because production cannot.
+    sessionChannel = { eligible: channelEligible, confirmed: false, stale: false, checked: true },
     // What /retail/promo/quote answers. `null` = not mocked explicitly, and the
     // catch-all below applies; an object is returned as the quote.
     promoQuote = null,
@@ -226,7 +255,13 @@ async function installMiniApp(page, options = {}) {
       state.calls.push({ path: at, method: request.method(), event });
 
       if (at.endsWith('/api/v1/tma/session')) {
-        return json(route, { session_token: 'test-session', expires_in: 1800 });
+        if (sessionDelayMs) await new Promise((r) => setTimeout(r, sessionDelayMs));
+        const body = { session_token: 'test-session', expires_in: 1800 };
+        // Absent, not null, when the test asks for absence: the app must cope
+        // with a response shape that predates this field.
+        if (sessionChannel) body.channel = sessionChannel;
+
+        return json(route, body);
       }
 
       if (at.endsWith('/api/v1/retail/packages')) {
@@ -285,6 +320,7 @@ async function installMiniApp(page, options = {}) {
       }
 
       if (at.endsWith('/api/v1/tma/channel/subscription/check')) {
+        if (checkDelayMs) await new Promise((r) => setTimeout(r, checkDelayMs));
         if (channelSubscription === 'error') {
           return json(route, { error: 'CHANNEL_CHECK_UNAVAILABLE' }, 503);
         }

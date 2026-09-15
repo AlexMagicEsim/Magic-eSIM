@@ -288,41 +288,51 @@ test.describe('a customer who has already bought', () => {
   // The promo is first-purchase-only: the checkout would refuse this person,
   // so the app must not put the offer in front of them. The server decides;
   // the app never guesses.
+  //
+  // WHAT CHANGED ON 2026-09-15, and why these tests were rewritten rather than
+  // deleted. They used to assert that the block appears on first paint and goes
+  // away after a tap — «It is offered on first paint, the app has asked nothing
+  // yet, by design». That WAS the design, and it was also a defect nobody had
+  // reported: «has already bought» is monotonic, so this customer met the
+  // invitation on every launch, for ever, and had to tap and spend a
+  // getChatMember to be told it was never theirs. The session now carries
+  // eligibility, which costs no storage and no Telegram call, so they never see
+  // it at all.
+  //
+  // The property under test is unchanged and is the one that matters: an
+  // ineligible customer never ends up holding an offer the checkout will refuse.
+  // Only the moment moved — from «after a tap» to «never».
 
-  test('never sees the code, and the block goes quietly', async ({ page }) => {
+  test('never sees the invitation at all, and nothing goes wrong', async ({ page }) => {
     const errors = [];
     page.on('pageerror', (e) => errors.push(String(e)));
-    await installMiniApp(page, { channelSubscription: 'yes', channelEligible: false });
+    const state = await installMiniApp(page, { channelSubscription: 'yes', channelEligible: false });
     await openApp(page);
+    await page.waitForTimeout(800);
 
-    // It is offered on first paint — the app has asked nothing yet, by design.
-    await expect(page.locator('#home-promo')).toBeVisible();
-
-    await page.locator('#promo-channel').click();
-    await page.locator('#promo-verify').click();
-
-    // Gone. Not hidden with the promise still in the page, and no popup,
-    // toast or error explaining a discount that was never theirs.
     await expect(page.locator('#home-promo')).toBeHidden();
     expect(await codeIsAnywhere(page)).toBe(null);
+    // And Telegram was never asked: eligibility is derived from orders we
+    // already own, so this answer costs nothing at all.
+    expect(callsTo(state, CHECK)).toBe(0);
     expect(errors).toEqual([]);
   });
 
   test('the same is true for one who is not subscribed either', async ({ page }) => {
-    await installMiniApp(page, { channelSubscription: 'no', channelEligible: false });
+    // Eligibility alone settles it. Whether they are in the channel never has to
+    // be asked, because the code could not be redeemed either way.
+    const state = await installMiniApp(page, { channelSubscription: 'no', channelEligible: false });
     await openApp(page);
-    await page.locator('#promo-channel').click();
-    await page.locator('#promo-verify').click();
+    await page.waitForTimeout(800);
 
     await expect(page.locator('#home-promo')).toBeHidden();
     expect(await codeIsAnywhere(page)).toBe(null);
+    expect(callsTo(state, CHECK)).toBe(0);
   });
 
-  test('the catalogue is untouched by the block disappearing', async ({ page }) => {
+  test('the catalogue is untouched by the block never appearing', async ({ page }) => {
     await installMiniApp(page, { packages: [PACKAGE], channelSubscription: 'yes', channelEligible: false });
     await openApp(page);
-    await page.locator('#promo-channel').click();
-    await page.locator('#promo-verify').click();
     await expect(page.locator('#home-promo')).toBeHidden();
 
     // The country list is exactly where it was, and still works.
@@ -331,21 +341,17 @@ test.describe('a customer who has already bought', () => {
     await page.locator('#screen-country[data-active]').waitFor();
   });
 
-  test('eligibility costs no request on open — it rides the check', async ({ page }) => {
+  test('eligibility costs no request on open, and no extra one ever', async ({ page }) => {
+    // It used to ride the check — one request answered both questions, but only
+    // once the customer had tapped. It now rides the session, which was already
+    // happening, so the answer arrives before the first paint and the check is
+    // never reached at all. `/tma/me` is still not called, as it never was.
     const state = await installMiniApp(page, { channelSubscription: 'yes', channelEligible: false });
     await openApp(page);
     await page.waitForTimeout(800);
 
-    // The home screen asked nobody anything: not the check, not /tma/me.
     expect(callsTo(state, CHECK)).toBe(0);
     expect(callsTo(state, '/api/v1/tma/me')).toBe(0);
-
-    await page.locator('#promo-channel').click();
-    await page.locator('#promo-verify').click();
     await expect(page.locator('#home-promo')).toBeHidden();
-
-    // Exactly one request answered both questions.
-    expect(callsTo(state, CHECK)).toBe(1);
-    expect(callsTo(state, '/api/v1/tma/me')).toBe(0);
   });
 });

@@ -292,9 +292,19 @@
      * session — including every screen change back to home — this is exact. */
     channelPromoCode: null,
     channelPromoUsed: false,
-    // Whatever the reason, the invitation is finished with. Read by
-    // renderChannelBlock() and by nothing else.
-    channelBlockDone: false,
+    /* Whether the invitation is on screen, in three values rather than two.
+     *
+     * 'unknown' is the one that matters and the one the boolean did not have.
+     * The block ships hidden, so until the session answers there is nothing to
+     * render and nothing to un-render — which is what stops a confirmed
+     * subscriber seeing «Подпишитесь на канал» for a second and then watching it
+     * vanish. A boolean cannot express «not yet told»; it can only say «done»,
+     * and its default of false rendered the invitation to everybody.
+     *
+     * 'show' | 'hide' | 'unknown'. Read by renderChannelBlock() and nothing
+     * else. Never persisted here: the server holds the fact, this is the
+     * rendering of it. */
+    channelBlock: 'unknown',
     // The catalogue rows as they arrived, kept so a language change can rebuild
     // the grouping without going back to the network.
     catalogueRows: [],
@@ -2661,9 +2671,149 @@
    *
    * It never touches state.promo, the price or anything in the checkout — it
    * hides a block on another screen. */
+  /**
+   * Decide the invitation from what the session already told us.
+   *
+   * The session round trip carries the answer, so nothing here asks Telegram
+   * unless there is a reason to. Four outcomes, and only one of them costs a
+   * request:
+   *
+   *   no answer at all  → show. Outside Telegram, a cold gateway, a 502: we
+   *                       cannot know, and a customer who cannot be identified
+   *                       must still be able to press the check. This is exactly
+   *                       what the app did before any of this existed.
+   *   not eligible      → hide, permanently and for free. They have bought, the
+   *                       code is first-purchase-only, and the checkout would
+   *                       refuse it. Derived from orders, so it needs no
+   *                       Telegram call ever — and this was the worse half of
+   *                       the bug: the invitation came back on every launch for
+   *                       somebody it could never be meant for.
+   *   confirmed         → hide. If the confirmation is older than the TTL, ask
+   *                       again in the BACKGROUND, behind a screen that already
+   *                       shows the right thing. Nothing flickers on a TTL.
+   *   never asked       → the one automatic check, for a subscriber who
+   *                       confirmed before any of this was stored. The block
+   *                       stays hidden while it is in flight, because «not yet
+   *                       told» must not render an invitation.
+   *
+   * `checked` is what keeps the last case from happening forever: once Telegram
+   * has answered, the answer is recorded either way, so somebody who is simply
+   * not interested costs one getChatMember in their life rather than one per
+   * cold start.
+   */
+  /* How long the invitation may stay blank while the one automatic discovery
+   * runs. Chosen against what the screen is doing: the catalogue is already
+   * painted by this point, so the customer is reading something — a second is a
+   * beat, not a wait. Longer and a new arrival stares at a gap where the offer
+   * should be; shorter and the legacy subscriber this discovery exists for sees
+   * the invitation flash before it goes. */
+  const DISCOVERY_REVEAL_MS = 1200;
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  async function resolveChannelBlock(channel) {
+    if (!channel) {
+      state.channelBlock = 'show';
+      renderChannelBlock();
+
+      return;
+    }
+
+    if (channel.eligible === false) {
+      state.channelBlock = 'hide';
+      renderChannelBlock();
+
+      return;
+    }
+
+    if (channel.confirmed) {
+      state.channelBlock = 'hide';
+      renderChannelBlock();
+      if (channel.stale) await recheckChannel({ background: true });
+
+      return;
+    }
+
+    if (channel.checked) {
+      // Asked before, and Telegram said no. Nothing has changed that we know
+      // of, so offer the invitation rather than spending a round trip to be
+      // told the same thing again.
+      state.channelBlock = 'show';
+      renderChannelBlock();
+
+      return;
+    }
+
+    /* The one automatic discovery, BOUNDED.
+     *
+     * The block stays hidden while it runs, because «not yet told» must not
+     * render an invitation — but the request rides a session that can take
+     * twelve seconds on a cold gateway and then has a twenty-second timeout of
+     * its own. A new arrival from an ad is `checked: false` by definition, so
+     * without a bound the customer this offer exists for is the one who waits
+     * half a minute for it, or never sees it.
+     *
+     * Past the bound the invitation appears. If the answer arrives afterwards
+     * and says «member», it hides — a flash, but only for the shrinking cohort
+     * who confirmed before any of this was stored, and only when the network is
+     * already having a bad minute. A blank where the offer should be is the
+     * worse failure: it is indistinguishable from not having one. */
+    let settled = false;
+    const check = recheckChannel({ background: false }).then(() => { settled = true; });
+    await Promise.race([check, sleep(DISCOVERY_REVEAL_MS)]);
+    if (!settled && state.channelBlock === 'unknown') {
+      state.channelBlock = 'show';
+      renderChannelBlock();
+    }
+  }
+
+  /**
+   * Ask the server, quietly, and let the answer move the block.
+   *
+   * `background: true` means a confirmation is already on screen as hidden and
+   * we are only revalidating it. THE FAILURE DIRECTIONS ARE NOT SYMMETRIC:
+   *
+   *   Telegram says left/kicked → authoritative. The block comes back, because
+   *     the offer's condition stopped being true.
+   *   Telegram could not be asked → NOT an answer. A timeout, a 5xx, a bot that
+   *     lost its administrator rights: the last known good stands and the block
+   *     stays where it was. Turning silence into «not subscribed» would take a
+   *     code away from somebody who did subscribe, which is the one mistake
+   *     this whole path is written not to make.
+   *
+   * In the foreground case there is no last known good, so a failure reveals the
+   * block — «we cannot tell» falls back to offering, never to refusing.
+   */
+  async function recheckChannel({ background }) {
+    let out = null;
+    try {
+      out = await api.checkChannelSubscription();
+    } catch (_) {
+      if (!background) {
+        state.channelBlock = 'show';
+        renderChannelBlock();
+      }
+
+      return;
+    }
+
+    if (!out.eligible) state.channelBlock = 'hide';
+    else if (out.subscribed) {
+      state.channelBlock = 'hide';
+      // The server has just recorded the confirmation, so the next launch will
+      // not ask at all. The code is kept if it came, for the checkout compare.
+      if (out.promoCode) state.channelPromoCode = out.promoCode;
+    } else state.channelBlock = 'show';
+
+    renderChannelBlock();
+  }
+
   function renderChannelBlock() {
     const block = $('#home-promo');
-    if (block) block.hidden = Boolean(state.channelBlockDone);
+    // INVERTED: it reveals rather than hides, because the markup now ships
+    // hidden. 'unknown' and 'hide' both mean «not on screen»; only an explicit
+    // 'show' puts it there, so a state we were never told cannot render an
+    // invitation by default.
+    if (block) block.hidden = state.channelBlock !== 'show';
   }
 
   async function quotePromo(code) {
@@ -2747,7 +2897,7 @@
      * the server sent. */
     if (state.channelPromoCode && quote.code === C.normalisePromoCode(state.channelPromoCode)) {
       state.channelPromoUsed = true;
-      state.channelBlockDone = true;
+      state.channelBlock = 'hide';
       renderChannelBlock();
     }
 
@@ -4448,11 +4598,23 @@
     const catalogue = renderCatalogue();
 
     const session = authenticate().then(
-      () => { state.ready = true; state.authError = null; },
-      (err) => { state.ready = false; state.authError = err; }
+      (out) => { state.ready = true; state.authError = null; return out; },
+      (err) => { state.ready = false; state.authError = err; return null; }
     );
 
-    await Promise.all([catalogue, session]);
+    const [, sessionOut] = await Promise.all([catalogue, session]);
+
+    /* The invitation, decided from the answer the session already carried.
+     *
+     * Not awaited: the only branch that costs a request is the one automatic
+     * discovery, and holding the rest of boot behind it would put a Telegram
+     * round trip in front of «Мои eSIM» for a person who came to look at their
+     * data. The block is hidden until it resolves, so nothing is shown that
+     * would then have to be taken back.
+     *
+     * A session that failed passes `null` here, which resolves to «show» — the
+     * behaviour the app had before this existed. */
+    void resolveChannelBlock(sessionOut && sessionOut.channel ? sessionOut.channel : null);
 
     // §8.4: a launch that came back from payment opens on the order, not on the
     // catalogue. The ref may come from startapp or from what we stored before
@@ -4722,7 +4884,7 @@
            * already used the code» case takes. Nothing about the offer is left
            * to read either way: the code was never rendered for this customer. */
           if (!out.eligible) {
-            state.channelBlockDone = true;
+            state.channelBlock = 'hide';
             renderChannelBlock();
             return;
           }
@@ -4876,8 +5038,9 @@
         text: t('common.retryAction'),
         onclick: async () => {
           show('loading', { push: false });
+          let session = null;
           try {
-            await authenticate();
+            session = await authenticate();
           } catch (again) {
             showAuthError(again);
             return;
@@ -4885,6 +5048,16 @@
           state.ready = true;
           show('home', { push: false });
           await renderHome();
+          /* The invitation has to be decided HERE too, and forgetting it left the
+           * block hidden for ever — `state.channelBlock` stays 'unknown', and
+           * renderChannelBlock() shows nothing that is not an explicit 'show'.
+           *
+           * The cohort is precisely the wrong one to lose: everybody whose first
+           * session mint failed on a cold gateway, which is the documented TD-55
+           * case and the arrival path from paid placements. Before the block
+           * shipped hidden they saw it regardless, so this was a regression the
+           * boot path's own fix introduced one screen away from itself. */
+          void resolveChannelBlock(session && session.channel ? session.channel : null);
         },
       }));
     }

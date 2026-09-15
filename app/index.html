@@ -143,7 +143,23 @@
          view-source. It arrives from the server only after the server has
          confirmed the membership, and it is not a translation key either: an
          identifier the customer retypes must never be translated. -->
-    <aside class="promo" id="home-promo" aria-labelledby="home-promo-title">
+    <!-- HIDDEN IN THE MARKUP, and revealed only once the server has said whether
+         this customer should be offered anything.
+
+         It used to ship visible, which made the first paint instant — and made
+         the invitation appear for a confirmed subscriber and for somebody who
+         had already bought, on every single launch, because the only thing that
+         could hide it was a flag living in a page Telegram throws away. The
+         session round trip the app already makes now carries the answer, so the
+         wait is the one that was happening anyway rather than a new one.
+
+         The fallback is «show»: if the session never resolves — outside
+         Telegram, a cold gateway, a 502 — the block appears exactly as it did
+         before any of this, because a customer who cannot be identified must
+         still be able to press «Проверить подписку», and the server remains the
+         only thing that decides. Trading a flash for «the offer sometimes never
+         appears» would be the worse bargain. -->
+    <aside class="promo" id="home-promo" aria-labelledby="home-promo-title" hidden>
       <p class="promo__title" id="home-promo-title" data-i18n="channel.title">🎁 Скидка 10% на первую покупку</p>
       <p class="promo__text" data-i18n="channel.text">Подпишитесь на канал Magic eSIM и получите промокод на скидку 10%.</p>
 
@@ -379,7 +395,7 @@
      script's listener was registered first. -->
 <script src="locales.js?v=2a76aa15"></script>
 <script src="i18n.js?v=852a0bb6"></script>
-<script src="core.js?v=785edc5f"></script>
-<script src="ui.js?v=063724fc"></script>
+<script src="core.js?v=db8eecbf"></script>
+<script src="ui.js?v=f01489be"></script>
 </body>
 </html>
