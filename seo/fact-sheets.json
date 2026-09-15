@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-14T15:54:40.662Z",
+  "fetched_at": "2026-09-15T05:01:54.169Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -9080,7 +9080,7 @@
         "Vodafone",
         "ooredoo"
       ],
-      "networks_rows": 16,
+      "networks_rows": 15,
       "rows_total": 19,
       "fup_policies": [
         "1 Mbps",
