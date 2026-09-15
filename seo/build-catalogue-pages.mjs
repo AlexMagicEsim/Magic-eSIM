@@ -26,6 +26,7 @@ import { loadProfile } from './content-profile.mjs';
 import { CLIENT_SNIPPET } from './intel/attribution.mjs';
 import { ALL as EDITORIAL, SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
+import { headIcons } from './head-icons.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
@@ -291,7 +292,7 @@ function page(c, all, profile) {
   <meta name="twitter:title" content="${esc(title)}" />
   <meta name="twitter:description" content="${esc(desc)}" />
   <meta name="twitter:image" content="${SITE}/magic-esim-banner.png" />
-  <link rel="icon" href="/favicon.ico" sizes="any" />
+${headIcons('  ')}
   <link rel="stylesheet" href="${stampUrl('../../assets/country-pages.css')}" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз

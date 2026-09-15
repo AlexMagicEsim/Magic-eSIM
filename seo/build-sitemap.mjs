@@ -100,8 +100,26 @@ export function fileFor(loc) {
 // every page looks, not what any page says, and `lastmod` is a claim about the
 // document. A site-wide restyle that really should be announced is a `--seed`
 // away.
+//
+// ICON LINKS ARE STRIPPED FOR THE SAME REASON, added 2026-09-15. They are the
+// one block that is byte-identical on all 210 pages and says nothing about any
+// of them; when the four icon families were unified, keeping them inside the
+// hash re-dated every URL in the sitemap on a change to a favicon. That is the
+// «everything changed today» claim this file was written to stop, arriving
+// through a different door. The day a proper vector mark replaces the current
+// one it must not re-date the corpus either.
+//
+// Doing this moved no date: the stored hashes in seo/sitemap-lastmod.json were
+// recomputed from the pages AS THEY WERE at 3cf9f76 under the new rule, so each
+// page kept the date it already had. That is a state migration, deliberately not
+// a `--seed` — seeding would have stamped all 210 with today, which is the
+// falsehood being avoided.
 export function contentHash(html) {
-  return createHash('sha256').update(String(html).replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')).digest('hex').slice(0, 16);
+  return createHash('sha256')
+    .update(String(html)
+      .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
+      .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, ''))
+    .digest('hex').slice(0, 16);
 }
 
 /**

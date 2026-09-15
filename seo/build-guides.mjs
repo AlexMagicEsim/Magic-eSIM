@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { GUIDES } from './guides.mjs';
 import { ALL, SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
+import { headIcons } from './head-icons.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -79,11 +80,7 @@ ${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '        ')}
   <meta name="twitter:description" content="${esc(g.description)}" />
   <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
 
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="shortcut icon" href="/favicon.ico" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+${headIcons('  ')}
   <link rel="preconnect" href="https://mc.yandex.ru" />
   <link rel="stylesheet" href="${stampUrl(P + 'assets/country-pages.css')}" />
 
