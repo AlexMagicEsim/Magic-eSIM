@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-14T15:54:40.662Z",
+  "generated_at": "2026-09-15T05:01:54.169Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -20582,12 +20582,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 950,
-      "networks": [
-        {
-          "operator": "STC",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -20600,7 +20595,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "HK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
