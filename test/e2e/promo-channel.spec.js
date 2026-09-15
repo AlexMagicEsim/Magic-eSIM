@@ -24,7 +24,7 @@ const COPY = {
     cta: 'Подписаться на канал',
     verify: 'Проверить подписку',
     notFound: 'Подписка пока не найдена. Подпишитесь на канал и попробуйте ещё раз.',
-    codeLabel: 'Промокод',
+    codeHeld: 'Ваш промокод',
   },
   en: {
     languageCode: 'de',
@@ -33,7 +33,7 @@ const COPY = {
     cta: 'Follow the channel',
     verify: 'Check subscription',
     notFound: 'Subscription not found yet. Follow the channel and try again.',
-    codeLabel: 'Promo code',
+    codeHeld: 'Your promo code',
   },
 };
 
@@ -135,7 +135,12 @@ for (const [lang, L] of Object.entries(COPY)) {
       expect(errors).toEqual([]);
     });
 
-    test('a confirmed subscriber sees the code and its label', async ({ page }) => {
+    test('a confirmed subscriber keeps the code, and the invitation goes', async ({ page }) => {
+      // The wording changed with the block's shape. It used to be a label above
+      // the code inside an invitation that stayed on screen; now the invitation
+      // leaves the moment it is answered and the code becomes one self-contained
+      // line, because it has to stand alone — the title that carried «скидка
+      // 10%» is gone with the rest.
       await installMiniApp(page, { languageCode: L.languageCode, channelSubscription: 'yes' });
       await openApp(page);
 
@@ -143,8 +148,10 @@ for (const [lang, L] of Object.entries(COPY)) {
       await page.locator('#promo-verify').click();
 
       await expect(page.locator('#promo-reward')).toBeVisible();
-      await expect(page.locator('#promo-reward')).toContainText(L.codeLabel);
+      await expect(page.locator('#promo-reward')).toContainText(L.codeHeld);
       await expect(page.locator('.promo__code-value')).toHaveText(CODE);
+      // Nothing left to invite them to.
+      await expect(page.locator('#promo-invite')).toBeHidden();
     });
   });
 }

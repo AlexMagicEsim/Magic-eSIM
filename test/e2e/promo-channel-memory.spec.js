@@ -37,6 +37,10 @@ const { installMiniApp, openApp } = require('./harness.js');
 
 const CHECK = '/api/v1/tma/channel/subscription/check';
 const BLOCK = '#home-promo';
+// The invitation — title, text, «Подписаться», «Проверить» — as opposed to the
+// block, which also holds the one line a confirmed subscriber still needs.
+const INVITE = '#promo-invite';
+const CODE = '.promo__code-value';
 
 const callsTo = (state, path) => state.calls.filter((c) => c.path.endsWith(path)).length;
 
@@ -90,7 +94,11 @@ test('C: THE BUG — a confirmed subscriber reopens and is not asked again', asy
   await openApp(page);
   await page.waitForTimeout(SETTLE);
 
-  await expect(page.locator(BLOCK)).toBeHidden();
+  // The invitation is gone — that is the bug. The code is not: it is still
+  // theirs, still unredeemed, and this is the only place it is ever shown.
+  await expect(page.locator(INVITE)).toBeHidden();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
+  await expect(page.locator(BLOCK)).toContainText('Ваш промокод');
   // And it cost nothing: the session already knew, so Telegram was never asked.
   expect(callsTo(state, CHECK)).toBe(0);
 });
@@ -112,8 +120,12 @@ test('D: no flash — the invitation is never on screen before the answer arrive
   await page.addInitScript(() => {
     window.__promoSeen = [];
     const tick = () => {
-      const b = document.querySelector('#home-promo');
-      if (b) window.__promoSeen.push(b.hidden === false);
+      // REAL GEOMETRY, not the `hidden` attribute. The first version read
+      // `#promo-invite`.hidden, which is false while its parent aside is hidden
+      // — nothing is on screen and the probe said it was. What a customer sees
+      // is what has height.
+      const b = document.querySelector('#promo-invite');
+      window.__promoSeen.push(Boolean(b && b.getBoundingClientRect().height > 0));
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -124,7 +136,7 @@ test('D: no flash — the invitation is never on screen before the answer arrive
 
   const everVisible = await page.evaluate(() => window.__promoSeen.some(Boolean));
   expect(everVisible, 'приглашение мелькнуло до ответа сервера').toBe(false);
-  await expect(page.locator(BLOCK)).toBeHidden();
+  await expect(page.locator(INVITE)).toBeHidden();
 });
 
 /* ================================================================== *
@@ -140,7 +152,8 @@ test('E: a fresh confirmation asks Telegram nothing', async ({ page }) => {
   await page.waitForTimeout(SETTLE);
 
   expect(callsTo(state, CHECK)).toBe(0);
-  await expect(page.locator(BLOCK)).toBeHidden();
+  await expect(page.locator(INVITE)).toBeHidden();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
 });
 
 test('F: an expired confirmation re-checks in the background and stays hidden', async ({ page }) => {
@@ -153,9 +166,10 @@ test('F: an expired confirmation re-checks in the background and stays hidden', 
   await expect.poll(() => callsTo(state, CHECK)).toBe(1);
   await page.waitForTimeout(SETTLE);
 
-  // Hidden the whole way through: the screen already showed the right thing, and
-  // a revalidation must not make it blink.
-  await expect(page.locator(BLOCK)).toBeHidden();
+  // Unchanged the whole way through: the screen already showed the right thing,
+  // and a revalidation must not make it blink.
+  await expect(page.locator(INVITE)).toBeHidden();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
   expect(callsTo(state, CHECK)).toBe(1);
 });
 
@@ -182,7 +196,9 @@ test('H: Telegram could not be asked — a confirmed customer is NOT demoted', a
   await expect.poll(() => callsTo(state, CHECK)).toBe(1);
   await page.waitForTimeout(SETTLE);
 
-  await expect(page.locator(BLOCK)).toBeHidden();
+  // Not demoted: no invitation, and the code they earned is still on screen.
+  await expect(page.locator(INVITE)).toBeHidden();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
 });
 
 /* ================================================================== *
@@ -199,7 +215,8 @@ test('I: someone subscribed before any of this was stored is found automatically
   await openApp(page);
 
   await expect.poll(() => callsTo(state, CHECK)).toBe(1);
-  await expect(page.locator(BLOCK)).toBeHidden();
+  await expect(page.locator(INVITE)).toBeHidden();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
   // Never pressed anything.
   expect(state.calls.filter((c) => c.event === 'channel_subscription_check').length).toBe(0);
 });
@@ -247,8 +264,12 @@ test('but a quick answer still hides it, with no flash', async ({ page }) => {
   await page.addInitScript(() => {
     window.__promoSeen = [];
     const tick = () => {
-      const b = document.querySelector('#home-promo');
-      if (b) window.__promoSeen.push(b.hidden === false);
+      // REAL GEOMETRY, not the `hidden` attribute. The first version read
+      // `#promo-invite`.hidden, which is false while its parent aside is hidden
+      // — nothing is on screen and the probe said it was. What a customer sees
+      // is what has height.
+      const b = document.querySelector('#promo-invite');
+      window.__promoSeen.push(Boolean(b && b.getBoundingClientRect().height > 0));
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -258,7 +279,8 @@ test('but a quick answer still hides it, with no flash', async ({ page }) => {
 
   expect(await page.evaluate(() => window.__promoSeen.some(Boolean)),
     'приглашение мелькнуло перед тем, как скрыться').toBe(false);
-  await expect(page.locator(BLOCK)).toBeHidden();
+  await expect(page.locator(INVITE)).toBeHidden();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
 });
 
 /* ================================================================== *
@@ -277,6 +299,132 @@ test('a customer who has already bought is not offered a first-purchase code', a
 
   await expect(page.locator(BLOCK)).toBeHidden();
   expect(callsTo(state, CHECK)).toBe(0);
+});
+
+/* ================================================================== *
+ * The compact state — what a confirmed subscriber is left holding
+ * ================================================================== */
+
+test('REOPEN: confirm, close, open again — no invitation, code still there', async ({ page }) => {
+  // The whole bug and the whole fix in one journey. The second launch is a
+  // genuinely new document: Telegram discards the first, which is why nothing
+  // the page remembered could ever have survived.
+  const state = await installMiniApp(page, {
+    channelSubscription: 'yes',
+    sessionChannel: { eligible: true, confirmed: false, stale: false, checked: true },
+  });
+  await openApp(page);
+
+  await page.locator('#promo-verify').click();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
+  await expect(page.locator(INVITE)).toBeHidden();
+
+  // Telegram restarts the app, and the server is what remembers.
+  await page.evaluate(() => { window.__sessionChannel = null; });
+  await installMiniApp(page, {
+    channelSubscription: 'yes',
+    sessionChannel: { eligible: true, confirmed: true, stale: false, checked: true },
+  });
+  await page.reload();
+  await page.waitForFunction(() => !document.querySelector('#screen-loading[data-active]'),
+    null, { timeout: 15_000 });
+
+  await expect(page.locator(INVITE)).toBeHidden();
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
+  await expect(page.locator(BLOCK)).toContainText('Ваш промокод');
+});
+
+test('REOPEN: and the compact line costs no Telegram call', async ({ page }) => {
+  const state = await installMiniApp(page, {
+    channelSubscription: 'yes',
+    sessionChannel: { eligible: true, confirmed: true, stale: false, checked: true },
+  });
+  await openApp(page);
+  await page.waitForTimeout(SETTLE);
+
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
+  expect(callsTo(state, CHECK)).toBe(0);
+});
+
+test('FIRST PURCHASE MADE: the code line goes too, not just the invitation', async ({ page }) => {
+  // Eligibility is what the line is FOR. Once the customer has bought, the code
+  // would be refused at checkout, and «Ваш промокод: WELCOME10» about a code
+  // that no longer works is a promise rather than information — worse than the
+  // invitation it replaced, because it reads as something they still hold.
+  const state = await installMiniApp(page, {
+    channelSubscription: 'yes',
+    sessionChannel: { eligible: false, confirmed: true, stale: false, checked: true },
+  });
+  await openApp(page);
+  await page.waitForTimeout(SETTLE);
+
+  await expect(page.locator(BLOCK)).toBeHidden();
+  await expect(page.locator(INVITE)).toBeHidden();
+  expect(await page.locator('body').innerText()).not.toContain('WELCOME10');
+  // And no round trip was spent discovering it: a paid order never unpays, so
+  // the session answers this from data we already own.
+  expect(callsTo(state, CHECK)).toBe(0);
+});
+
+test('FIRST PURCHASE MADE: the server never sends the code to somebody ineligible', async ({ page }) => {
+  // Belt and braces at the boundary rather than in the renderer: even if the
+  // block said «confirmed», an ineligible customer must not receive the string.
+  // The harness derives `promo_code` by the service's own rule, so this asserts
+  // that rule and not a fixture's kindness.
+  const state = await installMiniApp(page, {
+    channelSubscription: 'yes',
+    sessionChannel: { eligible: false, confirmed: true, stale: false, checked: true },
+  });
+  await openApp(page);
+  await page.waitForTimeout(SETTLE);
+
+  const session = state.calls.find((c) => c.path.endsWith('/api/v1/tma/session'));
+  expect(session, 'сессия должна была открыться').toBeTruthy();
+  const html = await page.content();
+  expect(html).not.toContain('WELCOME10');
+});
+
+test('a background re-check that reports the purchase takes the line away at once', async ({ page }) => {
+  // The other route to the same fact, and it was not covered: the session said
+  // eligible, the stale re-check says otherwise. A mutation that made this
+  // branch show the code instead of hiding it survived every other test in this
+  // file — the line would have stayed on screen describing a code the checkout
+  // had already started refusing.
+  const state = await installMiniApp(page, {
+    channelSubscription: 'yes',
+    channelEligible: false,   // what the CHECK answers
+    sessionChannel: { eligible: true, confirmed: true, stale: true, checked: true },
+  });
+  await openApp(page);
+
+  await expect.poll(() => callsTo(state, CHECK)).toBe(1);
+  await page.waitForTimeout(SETTLE);
+
+  await expect(page.locator(BLOCK)).toBeHidden();
+  await expect(page.locator(INVITE)).toBeHidden();
+});
+
+test('losing eligibility LATER takes the line away on the next launch', async ({ page }) => {
+  // They held the code, then bought something with a different one. The line
+  // must not outlive the thing it describes.
+  await installMiniApp(page, {
+    channelSubscription: 'yes',
+    sessionChannel: { eligible: true, confirmed: true, stale: false, checked: true },
+  });
+  await openApp(page);
+  await expect(page.locator(CODE)).toHaveText('WELCOME10');
+
+  await installMiniApp(page, {
+    channelSubscription: 'yes',
+    sessionChannel: { eligible: false, confirmed: true, stale: false, checked: true },
+  });
+  await page.reload();
+  await page.waitForFunction(() => !document.querySelector('#screen-loading[data-active]'),
+    null, { timeout: 15_000 });
+  await page.waitForTimeout(SETTLE);
+
+  await expect(page.locator(BLOCK)).toBeHidden();
+  expect(await page.locator('body').innerText()).not.toContain('WELCOME10');
 });
 
 /* ================================================================== *

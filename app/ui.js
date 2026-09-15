@@ -2712,7 +2712,7 @@
 
   async function resolveChannelBlock(channel) {
     if (!channel) {
-      state.channelBlock = 'show';
+      state.channelBlock = 'invite';
       renderChannelBlock();
 
       return;
@@ -2726,7 +2726,10 @@
     }
 
     if (channel.confirmed) {
-      state.channelBlock = 'hide';
+      // Confirmed and eligible: the invitation goes, the code stays. The code
+      // itself travels on the session only in this case — see the route.
+      if (channel.promo_code) state.channelPromoCode = channel.promo_code;
+      state.channelBlock = state.channelPromoCode ? 'code' : 'hide';
       renderChannelBlock();
       if (channel.stale) await recheckChannel({ background: true });
 
@@ -2737,7 +2740,7 @@
       // Asked before, and Telegram said no. Nothing has changed that we know
       // of, so offer the invitation rather than spending a round trip to be
       // told the same thing again.
-      state.channelBlock = 'show';
+      state.channelBlock = 'invite';
       renderChannelBlock();
 
       return;
@@ -2761,7 +2764,7 @@
     const check = recheckChannel({ background: false }).then(() => { settled = true; });
     await Promise.race([check, sleep(DISCOVERY_REVEAL_MS)]);
     if (!settled && state.channelBlock === 'unknown') {
-      state.channelBlock = 'show';
+      state.channelBlock = 'invite';
       renderChannelBlock();
     }
   }
@@ -2789,7 +2792,7 @@
       out = await api.checkChannelSubscription();
     } catch (_) {
       if (!background) {
-        state.channelBlock = 'show';
+        state.channelBlock = 'invite';
         renderChannelBlock();
       }
 
@@ -2798,22 +2801,61 @@
 
     if (!out.eligible) state.channelBlock = 'hide';
     else if (out.subscribed) {
-      state.channelBlock = 'hide';
       // The server has just recorded the confirmation, so the next launch will
-      // not ask at all. The code is kept if it came, for the checkout compare.
+      // not ask at all. The code is kept both for the checkout compare and
+      // because it is what the compact line renders.
       if (out.promoCode) state.channelPromoCode = out.promoCode;
-    } else state.channelBlock = 'show';
+      state.channelBlock = state.channelPromoCode ? 'code' : 'hide';
+    } else state.channelBlock = 'invite';
 
     renderChannelBlock();
   }
 
+  /* A placeholder the translated line can be split on.
+   *
+   * The code has to be a node of its own — `.promo__code-value` is what makes it
+   * stand out and what a customer's eye goes to — but the sentence around it is
+   * a translation and its word order differs: «Ваш промокод: X — скидка 10%»
+   * against «Your promo code: X — 10% off». Splitting on an invisible separator
+   * puts the code where each language puts it, without two half-sentences in the
+   * dictionary that a translator would have to reassemble in their head. */
+  const CODE_SLOT = '\u2063';
+
+  /* FOUR STATES, because the block has two jobs and they end at different times.
+   *
+   *   'unknown' — not told yet. Renders nothing: the block ships hidden and a
+   *               state we were never given must not put an invitation on screen.
+   *   'invite'  — the invitation, both controls. Somebody who has not subscribed.
+   *   'code'    — subscribed and still eligible. The invitation is finished with,
+   *               and this is the ONLY place in the product the code is ever
+   *               shown, so hiding the whole aside took it away from the customer
+   *               who had just earned it.
+   *   'hide'    — nothing at all. Either they have bought, so a first-purchase
+   *               code would be refused at checkout, or the code was applied.
+   *
+   * The invitation and the code are never both on screen, and losing eligibility
+   * removes both: the line «Ваш промокод: …» about a code the checkout will
+   * refuse is a promise, not information. */
   function renderChannelBlock() {
     const block = $('#home-promo');
-    // INVERTED: it reveals rather than hides, because the markup now ships
-    // hidden. 'unknown' and 'hide' both mean «not on screen»; only an explicit
-    // 'show' puts it there, so a state we were never told cannot render an
-    // invitation by default.
-    if (block) block.hidden = state.channelBlock !== 'show';
+    if (!block) return;
+    const invite = $('#promo-invite');
+    const reward = $('#promo-reward');
+    const st = state.channelBlock;
+    const showCode = st === 'code' && Boolean(state.channelPromoCode);
+
+    block.hidden = st !== 'invite' && !showCode;
+    if (invite) invite.hidden = st !== 'invite';
+    if (!reward) return;
+
+    reward.hidden = !showCode;
+    if (!showCode) return;
+
+    clear(reward);
+    const [before, after] = t('channel.codeHeld', { code: CODE_SLOT }).split(CODE_SLOT);
+    if (before) reward.appendChild(document.createTextNode(before));
+    reward.appendChild(el('b', { class: 'promo__code-value', text: state.channelPromoCode }));
+    if (after) reward.appendChild(document.createTextNode(after));
   }
 
   async function quotePromo(code) {
@@ -4895,13 +4937,17 @@
             // what gets applied at checkout, so «another promo code» cannot
             // dismiss an invitation it has nothing to do with.
             state.channelPromoCode = out.promoCode;
-            // The code is written here, at the moment it is earned, and this is
-            // the first time it exists in this document.
-            clear(promoReward);
-            promoReward.appendChild(el('span', { class: 'promo__code-label', text: t('channel.codeLabel') }));
-            promoReward.appendChild(el('b', { class: 'promo__code-value', text: out.promoCode }));
-            promoReward.hidden = false;
-            promoVerify.hidden = true;      // nothing left to check
+            /* Straight to the compact state, through the ONE renderer.
+             *
+             * This used to build the reward line here by hand and merely hide
+             * the check button — the invitation stayed on screen, still asking
+             * somebody who had just answered it to subscribe. Two places drawing
+             * the same code is also how they drift: the cold-start path renders
+             * from `channel.promo_code` on the session, and if this kept its own
+             * markup the two would read differently for no reason a customer
+             * could see. */
+            state.channelBlock = 'code';
+            renderChannelBlock();
             haptic('success');
           } else {
             // Not subscribed. The channel button and the check both stay, so

@@ -710,7 +710,10 @@ test('the frozen list covers every Russian key, not just the ones present when i
     // 2026-09-03 — the channel invitation on the home screen. `channel.*` and
     // not `promo.*`: the checkout's promo-code block already owns that prefix.
     // The code itself is not a key — it is not in the bundle at all.
-    'channel.title', 'channel.text', 'channel.codeLabel', 'channel.cta',
+    // `codeLabel` removed 2026-09-15 with the label it named: the code is one
+    // self-contained line now — «Ваш промокод: X — скидка 10%» — because the
+    // title that used to carry the discount goes with the invitation.
+    'channel.title', 'channel.text', 'channel.codeHeld', 'channel.cta',
     'channel.verify', 'channel.checking', 'channel.notFound', 'channel.checkFailed',
     // 2026-09-05 — the country screen's tariff cards.
     //

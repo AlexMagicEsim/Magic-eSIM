@@ -134,7 +134,12 @@
        identifier the customer retypes must never be translated. */
     'channel.title': '🎁 Скидка 10% на первую покупку',
     'channel.text': 'Подпишитесь на канал Magic eSIM и получите промокод на скидку 10%.',
-    'channel.codeLabel': 'Промокод',
+    // The compact state: everything the invitation was for, in one line, once
+    // there is nothing left to invite anybody to. «Ваш» rather than «Промокод»
+    // alone because by this point it IS theirs — they subscribed and the server
+    // confirmed it — and the discount is repeated here because this line has to
+    // stand on its own: the title that used to carry «скидка 10%» is gone.
+    'channel.codeHeld': 'Ваш промокод: {code} — скидка 10%',
     'channel.cta': 'Подписаться на канал',
     'channel.verify': 'Проверить подписку',
     'channel.checking': 'Проверяем…',
@@ -489,7 +494,7 @@
 
     'channel.title': '🎁 10% off your first purchase',
     'channel.text': 'Follow the Magic eSIM channel and get a 10% discount code.',
-    'channel.codeLabel': 'Promo code',
+    'channel.codeHeld': 'Your promo code: {code} — 10% off',
     'channel.cta': 'Follow the channel',
     'channel.verify': 'Check subscription',
     'channel.checking': 'Checking…',

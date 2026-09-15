@@ -185,7 +185,7 @@ async function installMiniApp(page, options = {}) {
     // `eligible` follows `channelEligible` rather than being a second knob with
     // its own opinion: the session and the check must not be able to disagree
     // about whether the customer may have the code, because production cannot.
-    sessionChannel = { eligible: channelEligible, confirmed: false, stale: false, checked: true },
+    sessionChannel = { eligible: channelEligible, confirmed: false, stale: false, checked: true, promo_code: null },
     // What /retail/promo/quote answers. `null` = not mocked explicitly, and the
     // catch-all below applies; an object is returned as the quote.
     promoQuote = null,
@@ -259,7 +259,20 @@ async function installMiniApp(page, options = {}) {
         const body = { session_token: 'test-session', expires_in: 1800 };
         // Absent, not null, when the test asks for absence: the app must cope
         // with a response shape that predates this field.
-        if (sessionChannel) body.channel = sessionChannel;
+        if (sessionChannel) {
+          // The code travels ONLY for a confirmed member who could still redeem
+          // it — the same rule the service applies. Derived here rather than
+          // asked of every test, so a fixture cannot say «confirmed and
+          // eligible» and withhold the code, which production never does. A test
+          // that needs the odd case sets `promo_code` itself.
+          const derived = sessionChannel.confirmed && sessionChannel.eligible !== false
+            ? 'WELCOME10'
+            : null;
+          body.channel = Object.prototype.hasOwnProperty.call(sessionChannel, 'promo_code')
+            && sessionChannel.promo_code !== null
+            ? sessionChannel
+            : { ...sessionChannel, promo_code: derived };
+        }
 
         return json(route, body);
       }

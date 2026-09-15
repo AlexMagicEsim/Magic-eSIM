@@ -160,6 +160,13 @@
          only thing that decides. Trading a flash for «the offer sometimes never
          appears» would be the worse bargain. -->
     <aside class="promo" id="home-promo" aria-labelledby="home-promo-title" hidden>
+      <!-- THE INVITATION, grouped so it can leave without the block leaving.
+           Once somebody has subscribed there is nothing left to invite them to,
+           but the code they earned is still theirs and still unredeemed — and
+           this is the only place in the product it is ever displayed. Hiding
+           the whole aside took it away with the invitation; hiding this div
+           leaves the one line that still means something. -->
+      <div id="promo-invite" hidden>
       <p class="promo__title" id="home-promo-title" data-i18n="channel.title">🎁 Скидка 10% на первую покупку</p>
       <p class="promo__text" data-i18n="channel.text">Подпишитесь на канал Magic eSIM и получите промокод на скидку 10%.</p>
 
@@ -188,6 +195,7 @@
       <!-- STATE D / errors. One line, polite, and it never claims to know more
            than it does. -->
       <p class="promo__note" id="promo-note" role="status" hidden></p>
+      </div>
 
       <!-- STATE C. Empty until the server says yes, and the code is written
            into it at that moment — see renderPromoReward() in ui.js. It is not
@@ -393,9 +401,9 @@
      DOMContentLoaded listener — boot() calls apply() itself, so the moment the
      shell is translated is stated in the code rather than inferred from which
      script's listener was registered first. -->
-<script src="locales.js?v=2a76aa15"></script>
+<script src="locales.js?v=5b2e4022"></script>
 <script src="i18n.js?v=852a0bb6"></script>
 <script src="core.js?v=db8eecbf"></script>
-<script src="ui.js?v=f01489be"></script>
+<script src="ui.js?v=946a8039"></script>
 </body>
 </html>
