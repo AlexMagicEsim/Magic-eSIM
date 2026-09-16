@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-15T11:50:50.050Z",
+  "fetched_at": "2026-09-16T11:43:23.989Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -2796,7 +2796,6 @@
         "7acht",
         "A1",
         "Avea",
-        "Aycell",
         "BITĖ",
         "Base",
         "Bite",
@@ -2840,7 +2839,6 @@
         "Telia",
         "Telia / DNA",
         "Turkcell",
-        "Türk Telekom",
         "VIP",
         "Vivacom",
         "Vodafone",
@@ -2858,7 +2856,6 @@
         "128 Kbps",
         "1Mbps",
         "384 Kbps",
-        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -9083,7 +9080,7 @@
         "Vodafone",
         "ooredoo"
       ],
-      "networks_rows": 15,
+      "networks_rows": 16,
       "rows_total": 19,
       "fup_policies": [
         "1 Mbps",
