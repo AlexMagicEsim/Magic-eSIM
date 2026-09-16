@@ -273,6 +273,54 @@ jobs:
           git checkout -B "$BRANCH"
           # Never `git add .`: only the paths the allowlist just vouched for.
           git add -- esim seo/catalogue-countries.json seo/fact-sheets.json seo/sitemap-lastmod.json sitemap.xml
+
+          # WOULD THIS COMMIT SAY ANYTHING NEW?
+          #
+          # `write-tree` is exactly the tree the next commit would carry, so
+          # comparing it with the remote branch's tree answers that before a
+          # commit object exists — no throwaway commit, no second push to undo.
+          #
+          # This matters because the refresh runs on `workflow_run` from the
+          # catalogue job, and that job COMPLETES six times a day whether or not
+          # it commits. While a pull request is open, every one of those runs used
+          # to force-push a byte-identical tree: measured 2026-09-16, PR #3 went
+          # 5615090 -> 3f5f88b with tree 862913c89707 on both sides. A force-push
+          # dismisses review approvals, so «review now, merge later» quietly
+          # stopped meaning anything, and the one rewrite that mattered was buried
+          # among identical ones.
+          #
+          # The rule lives in seo/refresh-noop.mjs so it is tested by calling it
+          # rather than by grepping this file. Its fail-closed direction is PUSH:
+          # one unreadable sha and the behaviour is what shipped before.
+          staged_tree=$(git write-tree)
+          main_sha=$(git rev-parse origin/main)
+          remote_tree=""
+          if [ "$rc" -eq 0 ]; then
+            remote_tree=$(git rev-parse "refs/remotes/origin/$BRANCH^{tree}")
+          fi
+          decision=$(node scripts/seo-refresh-should-push.mjs \
+            --branch-exists "$([ "$rc" -eq 0 ] && echo true || echo false)" \
+            --staged-tree "$staged_tree" \
+            --remote-tree "$remote_tree" \
+            --remote-base "${base:-}" \
+            --main "$main_sha")
+          verdict=$(printf '%s\n' "$decision" | head -1)
+          reason=$(printf '%s\n' "$decision" | tail -1)
+          echo "$verdict: $reason"
+
+          if [ "$verdict" = "skip" ]; then
+            echo "noop=true" >> "$GITHUB_OUTPUT"
+            echo "sha=$remote_sha" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Пересборка не понадобилась"
+              echo
+              echo "$reason"
+              echo
+              echo "Ветка \`$BRANCH\` осталась на \`$remote_sha\`: ни коммита, ни force-push."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
           git commit -m "$SUBJECT"
 
           # The credential exists for this one command and is not left in
@@ -295,10 +343,23 @@ jobs:
         env:
           RISK: ${{ steps.summary.outputs.risk }}
           HEAD_SHA: ${{ steps.branch.outputs.sha }}
+          NOOP: ${{ steps.branch.outputs.noop }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           TITLE='chore(seo): refresh pages after catalogue update'
+
+          # Asked BEFORE the body is written, because on a no-op the body must not
+          # be rewritten either: an edit plus a «обновлено» comment six times a day
+          # is the same churn moved from the branch to the conversation.
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+
+          if [ "${NOOP:-}" = "true" ] && [ -n "$existing" ]; then
+            echo "PR #$existing уже описывает ровно это состояние — тело и комментарии не трогаю"
+            exit 0
+          fi
+          # NOOP with no open pull request is NOT nothing to do: the branch holds
+          # the right tree and nobody can see it. Fall through and open one.
 
           # The body is written before the commit exists, so on its own it
           # describes a STATE and names no head — and a reviewer cannot tell
@@ -311,7 +372,6 @@ jobs:
             echo "Коммит, который описывает эта сводка: \`$HEAD_SHA\`."
             echo "Если на ветке появится что-то ещё — сводка к нему не относится."
           } >> /tmp/seo-summary/summary.md
-          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
 
           if [ -n "$existing" ]; then
             echo "обновляю существующий PR #$existing — второго не создаём"

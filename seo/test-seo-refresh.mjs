@@ -17,11 +17,14 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parsePorcelain, unexpectedPaths, allowedPaths, FIXED_ALLOWED } from './refresh-allowlist.mjs';
 import { classify, riskOf, renderMarkdown, CLAIM_FIELDS } from './refresh-summary.mjs';
+import { pushDecision } from './refresh-noop.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WF = readFileSync(join(ROOT, '.github/workflows/seo-refresh-pr.yml'), 'utf8');
@@ -678,5 +681,187 @@ test('M3: the success guard is on the job\'s if:, not in a comment', () => {
 test('actions are pinned by commit, not by a movable tag', () => {
   for (const st of STEPS.filter((x) => x.uses)) {
     assert.match(st.uses, /@[0-9a-f]{40}/, `${st.uses} закреплён тегом`);
+  }
+});
+
+/* ================================================================== *
+ * N. The no-op sync: an identical tree must not be force-pushed
+ *
+ * Measured 2026-09-16: while PR #3 was open, a catalogue job that had nothing
+ * to commit still moved the branch 5615090 -> 3f5f88b with tree 862913c89707
+ * on both sides. A force-push dismisses review approvals, so «review now,
+ * merge later» silently stopped meaning anything on that PR.
+ * ================================================================== */
+
+const SHA = (c) => c.repeat(40);
+
+test('N: an identical tree on the current main is not rewritten', () => {
+  const tree = SHA('a'), main = SHA('c');
+  const d = pushDecision({ branchExists: true, stagedTree: tree, remoteTree: tree,
+                           remoteBase: main, mainSha: main });
+  assert.equal(d.push, false);
+  assert.match(d.reason, /переписывать нечего/);
+});
+
+test('N: a REAL catalogue change still pushes — the fix may not suppress that', () => {
+  const main = SHA('c');
+  // The whole point: the only thing that changed is the content.
+  const d = pushDecision({ branchExists: true, stagedTree: SHA('a'), remoteTree: SHA('b'),
+                           remoteBase: main, mainSha: main });
+  assert.equal(d.push, true);
+  assert.match(d.reason, /содержимое отличается/);
+});
+
+test('N: same tree but a stale base is rebuilt, because the PR diff is against that base', () => {
+  const tree = SHA('a');
+  const d = pushDecision({ branchExists: true, stagedTree: tree, remoteTree: tree,
+                           remoteBase: SHA('b'), mainSha: SHA('c') });
+  assert.equal(d.push, true);
+  assert.match(d.reason, /не от текущего main/);
+});
+
+test('N: no branch means create it, never skip', () => {
+  assert.equal(pushDecision({ branchExists: false }).push, true);
+  assert.equal(pushDecision({}).push, true);
+});
+
+test('N: fail-closed here means PUSH — every unusable input keeps the old behaviour', () => {
+  const tree = SHA('a'), main = SHA('c');
+  const base = { branchExists: true, stagedTree: tree, remoteTree: tree, remoteBase: main, mainSha: main };
+  assert.equal(pushDecision(base).push, false, 'baseline must be the skip case');
+  // Each field, one at a time, made unusable. Every one must flip to push —
+  // otherwise a blank variable in the workflow would read as «nothing to do»
+  // and quietly strand a stale pull request in front of a reviewer.
+  for (const field of ['stagedTree', 'remoteTree', 'remoteBase', 'mainSha']) {
+    for (const bad of ['', '   ', 'HEAD', 'abc123', undefined, null, 42, SHA('a').toUpperCase()]) {
+      const d = pushDecision({ ...base, [field]: bad });
+      assert.equal(d.push, true, `${field}=${JSON.stringify(bad)} должно приводить к push`);
+    }
+  }
+});
+
+test('N: the workflow asks the tested function, and skips BEFORE committing', () => {
+  const branch = code(stepByName('Ветка').run);
+  const call = branch.indexOf('scripts/seo-refresh-should-push.mjs');
+  const commit = branch.indexOf('git commit');
+  const push = branch.indexOf('git push');
+  const skip = branch.indexOf('if [ "$verdict" = "skip" ]');
+  assert.ok(call > 0, 'шаг «Ветка» не спрашивает решение');
+  assert.ok(skip > call, 'решение должно читаться до ветвления');
+  assert.ok(skip < commit && skip < push, 'выход по skip обязан быть ДО commit и push');
+  assert.ok(branch.slice(skip, commit).includes('exit 0'), 'ветка skip обязана завершать шаг');
+
+  // The guards this fix must not step over: all of them still run first.
+  const paths = branch.indexOf('seo-refresh-check-paths.mjs');
+  const foreign = branch.indexOf('ОСТАНОВ: на ветке есть коммиты не этой автоматики');
+  const lease = branch.indexOf('--force-with-lease');
+  assert.ok(paths > 0 && paths < call, 'аллоулист путей должен проверяться до решения');
+  assert.ok(foreign > 0 && foreign < call, 'проверка чужих коммитов должна быть до решения');
+  assert.ok(lease > 0, 'лиза не должна исчезнуть');
+  // The lease is ASSIGNED above the decision — that is where it belongs, since it
+  // is pinned to the sha just inspected. What must sit after the skip is the push
+  // that carries it. Asserting on the assignment's position was my own error and
+  // would have passed a workflow that pushed before deciding.
+  assert.ok(lease < skip, 'лиза вычисляется до решения, вместе с осмотром ветки');
+  assert.ok(branch.slice(push).includes('$lease'), 'push обязан нести лизу');
+  assert.ok(push > skip, 'сам push остаётся на пути реального изменения');
+});
+
+test('N: a no-op does not rewrite the PR body or comment on it either', () => {
+  const pr = code(stepByName('Pull request').run);
+  const existing = pr.indexOf('existing=$(gh pr list');
+  const guard = pr.indexOf('"${NOOP:-}" = "true"');
+  const body = pr.indexOf('>> /tmp/seo-summary/summary.md');
+  const edit = pr.indexOf('gh pr edit');
+  const comment = pr.indexOf('gh pr comment');
+  assert.ok(existing > 0 && guard > existing, 'о наличии PR надо узнать до проверки no-op');
+  assert.ok(guard < body, 'тело не должно дописываться на холостом прогоне');
+  assert.ok(guard < edit && guard < comment, 'ни edit, ни comment на холостом прогоне');
+  assert.ok(pr.slice(guard, body).includes('exit 0'), 'холостой прогон обязан выйти');
+  // …but a no-op with NO open pull request must still open one: the branch
+  // carries the right tree and nobody can see it.
+  assert.match(pr, /\[ -n "\$existing" \]/, 'решение обязано зависеть от наличия PR');
+  assert.ok(pr.indexOf('gh pr create') > guard, 'создание PR остаётся доступным после guard');
+});
+
+test('N: the workflow passes every field the decision needs', () => {
+  const branch = code(stepByName('Ветка').run);
+  for (const flag of ['--branch-exists', '--staged-tree', '--remote-tree', '--remote-base', '--main']) {
+    assert.ok(branch.includes(flag), `в вызов не передан ${flag}`);
+  }
+  assert.match(branch, /staged_tree=\$\(git write-tree\)/,
+    'дерево будущего коммита должно браться из write-tree, а не угадываться');
+  assert.match(branch, /refs\/remotes\/origin\/\$BRANCH\^\{tree\}/,
+    'дерево ветки должно читаться у самой ветки');
+  assert.match(code(WF), /NOOP: \$\{\{ steps\.branch\.outputs\.noop \}\}/,
+    'шаг PR должен получать решение шага «Ветка»');
+});
+
+/* ================================================================== *
+ * N2. The same decision against a REAL repository.
+ *
+ * Everything above tests the rule with made-up shas. The rule rests on one
+ * claim about git that no amount of unit testing can check: that
+ * `git write-tree` of the staged index is the tree the next commit would
+ * carry, and therefore comparable with the branch head's tree. If that is
+ * false, the fix either never skips (harmless) or skips when it should not
+ * (a stale pull request in front of a reviewer). So it is exercised here on
+ * an actual repository, not asserted.
+ * ================================================================== */
+
+test('N2: on a real repo, an unchanged regeneration produces the branch\'s own tree', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'seo-noop-'));
+  const git = (...a) => execFileSync('git', ['-C', dir,
+    '-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', ...a],
+    { encoding: 'utf8' }).trim();
+  try {
+    git('init', '-q', '-b', 'main');
+    mkdirSync(join(dir, 'seo'));
+    writeFileSync(join(dir, 'seo/fact-sheets.json'), '{"fetched_at":"old"}\n');
+    writeFileSync(join(dir, 'untracked-by-us.txt'), 'not ours\n');
+    git('add', '-A'); git('commit', '-qm', 'main');
+    const main = git('rev-parse', 'HEAD');
+
+    // The automation's first run: regenerate, stage only allowed paths, commit.
+    writeFileSync(join(dir, 'seo/fact-sheets.json'), '{"fetched_at":"new"}\n');
+    git('checkout', '-q', '-B', 'automation');
+    git('add', '--', 'seo/fact-sheets.json');
+    git('commit', '-qm', 'chore(seo): refresh pages after catalogue update');
+    const branchHead = git('rev-parse', 'HEAD');
+    const branchTree = git('rev-parse', 'HEAD^{tree}');
+
+    // The next run, catalogue unmoved: back to main, regenerate the SAME bytes,
+    // stage the same path, and ask what the commit WOULD be — without making one.
+    git('checkout', '-q', main);
+    writeFileSync(join(dir, 'seo/fact-sheets.json'), '{"fetched_at":"new"}\n');
+    git('checkout', '-q', '-B', 'automation-retry', main);
+    git('add', '--', 'seo/fact-sheets.json');
+    const stagedTree = git('write-tree');
+
+    assert.equal(stagedTree, branchTree,
+      'write-tree индекса обязан совпасть с деревом коммита ветки — на этом держится весь фикс');
+    const base = git('merge-base', 'main', branchHead);
+    assert.equal(base, main, 'ветка собрана от main');
+
+    assert.equal(pushDecision({ branchExists: true, stagedTree, remoteTree: branchTree,
+                                remoteBase: base, mainSha: main }).push, false);
+
+    // Now a real catalogue change: one byte, and the decision must flip.
+    writeFileSync(join(dir, 'seo/fact-sheets.json'), '{"fetched_at":"newer"}\n');
+    git('add', '--', 'seo/fact-sheets.json');
+    const movedTree = git('write-tree');
+    assert.notEqual(movedTree, branchTree);
+    assert.equal(pushDecision({ branchExists: true, stagedTree: movedTree, remoteTree: branchTree,
+                                remoteBase: base, mainSha: main }).push, true);
+
+    // And main moving under an unchanged tree must also flip it, because the
+    // pull request's diff is computed against the merge-base.
+    writeFileSync(join(dir, 'unrelated.txt'), 'someone else pushed\n');
+    git('checkout', '-q', 'main'); git('add', '-A'); git('commit', '-qm', 'other work');
+    const newMain = git('rev-parse', 'HEAD');
+    assert.equal(pushDecision({ branchExists: true, stagedTree: branchTree, remoteTree: branchTree,
+                                remoteBase: base, mainSha: newMain }).push, true);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
   }
 });
