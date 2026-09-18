@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-16T11:43:23.989Z",
+  "generated_at": "2026-09-18T11:22:59.341Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -2994,27 +2994,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 850
+          "price": 600
         },
         {
           "days": 5,
-          "price": 1400
+          "price": 950
         },
         {
           "days": 7,
-          "price": 1900
+          "price": 1300
         },
         {
           "days": 10,
-          "price": 2700
+          "price": 1800
         },
         {
           "days": 15,
-          "price": 3850
+          "price": 2650
         },
         {
           "days": 30,
-          "price": 7250
+          "price": 4900
         }
       ]
     },
@@ -3911,10 +3911,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
           "type": "5G"
         },
         {
@@ -7005,10 +7001,6 @@
         },
         {
           "operator": "Globe",
-          "type": "5G"
-        },
-        {
-          "operator": "SMART",
           "type": "5G"
         },
         {
@@ -22118,10 +22110,6 @@
         },
         {
           "operator": "Globe",
-          "type": "5G"
-        },
-        {
-          "operator": "SMART",
           "type": "5G"
         },
         {
@@ -52201,10 +52189,6 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
-          "type": "5G"
-        },
-        {
           "operator": "M1",
           "type": "4G"
         },
@@ -57345,27 +57329,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4650
+          "price": 1300
         },
         {
           "days": 5,
-          "price": 7400
+          "price": 2100
         },
         {
           "days": 7,
-          "price": 10200
+          "price": 2900
         },
         {
           "days": 10,
-          "price": 14400
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 21350
+          "price": 5700
         },
         {
           "days": 30,
-          "price": 42200
+          "price": 10950
         }
       ]
     },
@@ -58609,10 +58593,6 @@
         },
         {
           "operator": "Globe",
-          "type": "5G"
-        },
-        {
-          "operator": "SMART",
           "type": "5G"
         },
         {
@@ -68730,27 +68710,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3100
+          "price": 3350
         },
         {
           "days": 5,
-          "price": 4900
+          "price": 5300
         },
         {
           "days": 7,
-          "price": 6650
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 9350
+          "price": 10150
         },
         {
           "days": 15,
-          "price": 13750
+          "price": 15000
         },
         {
           "days": 30,
-          "price": 27100
+          "price": 29550
         }
       ]
     },
@@ -69703,7 +69683,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3550,
+      "price": 2950,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -80132,10 +80112,6 @@
           "type": "5G"
         },
         {
-          "operator": "LG Uplus",
-          "type": "5G"
-        },
-        {
           "operator": "Chunghwa",
           "type": "5G"
         },
@@ -80809,7 +80785,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2050,
+      "price": 1650,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -84510,10 +84486,6 @@
         {
           "operator": "SKTelecom",
           "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -86480,7 +86452,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2450,
+      "price": 1850,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -95155,27 +95127,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2250
+          "price": 1300
         },
         {
           "days": 5,
-          "price": 3600
+          "price": 2100
         },
         {
           "days": 7,
-          "price": 4850
+          "price": 2900
         },
         {
           "days": 10,
-          "price": 6700
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 9850
+          "price": 5700
         },
         {
           "days": 30,
-          "price": 19250
+          "price": 10950
         }
       ]
     },
@@ -102527,10 +102499,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
           "type": "5G"
         },
         {
@@ -110275,10 +110243,6 @@
         },
         {
           "operator": "Globe",
-          "type": "5G"
-        },
-        {
-          "operator": "SMART",
           "type": "5G"
         },
         {
@@ -118901,27 +118865,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5150
+          "price": 1550
         },
         {
           "days": 5,
-          "price": 8300
+          "price": 2500
         },
         {
           "days": 7,
-          "price": 11400
+          "price": 3400
         },
         {
           "days": 10,
-          "price": 16100
+          "price": 4650
         },
         {
           "days": 15,
-          "price": 23950
+          "price": 6800
         },
         {
           "days": 30,
-          "price": 47450
+          "price": 13100
         }
       ]
     },
@@ -126311,10 +126275,6 @@
         {
           "operator": "SKTelecom",
           "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -126891,10 +126851,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
           "type": "5G"
         },
         {
@@ -138001,27 +137957,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3300
+          "price": 950
         },
         {
           "days": 5,
-          "price": 5150
+          "price": 1550
         },
         {
           "days": 7,
-          "price": 7050
+          "price": 2100
         },
         {
           "days": 10,
-          "price": 9850
+          "price": 2950
         },
         {
           "days": 15,
-          "price": 14550
+          "price": 4200
         },
         {
           "days": 30,
-          "price": 28650
+          "price": 7900
         }
       ]
     },
@@ -143720,10 +143676,6 @@
         {
           "operator": "SKTelecom",
           "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -146134,27 +146086,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1200
+          "price": 450
         },
         {
           "days": 5,
-          "price": 1950
+          "price": 750
         },
         {
           "days": 7,
-          "price": 2650
+          "price": 1000
         },
         {
           "days": 10,
-          "price": 3700
+          "price": 1400
         },
         {
           "days": 15,
-          "price": 5300
+          "price": 2050
         },
         {
           "days": 30,
-          "price": 10100
+          "price": 3850
         }
       ]
     },
