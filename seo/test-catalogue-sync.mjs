@@ -222,16 +222,137 @@ test('C5: the page count did not silently shrink', () => {
 // --------------------------------------------------------------------------
 // The price rule itself
 // --------------------------------------------------------------------------
-test('purchasablePrice never returns a per-day rate', () => {
+/**
+ * Did this PER_DAY package price itself from its LADDER, or fall back to the
+ * per-day rate? Returns null when it is fine, a reason when it is not.
+ *
+ * THE RULE IS ABOUT PROVENANCE, NOT ABOUT A NUMBER, and that distinction cost a
+ * production run on 2026-09-18. The check used to be
+ * `assert.notEqual(mp, Number(p.price))` — a proxy that reads «the answer does
+ * not look like the rate». On that day the provider repriced the Israel daily
+ * family: «Israel 500MB/Day» kept its 450 ₽/day rate while its cheapest ladder
+ * step, 3 days, fell from 1200 ₽ to 450 ₽. The ladder was intact, monotonic
+ * (150→128 ₽/day) and the 450 ₽ was genuinely purchasable — three days of it —
+ * but the two numbers now COLLIDED, and the proxy could not tell «came from the
+ * ladder» from «fell back to the rate». One package of 1293.
+ *
+ * It blocked the whole refresh, and what it blocked was a CORRECTION: the live
+ * pages said «Цены от 600 ₽» for Israel while the floor had dropped to 450 ₽.
+ * A gate that stops the site from getting less wrong is worse than no gate.
+ *
+ * So the question is asked directly. A ladder exists → the answer must be its
+ * cheapest step. No ladder → there is nothing to buy but a rate, and a PER_DAY
+ * package in that state is the real defect this file was written to catch.
+ */
+function perDayLadderVerdict(p) {
+  const mp = purchasablePrice(p);
+  if (!(mp > 0)) return 'no purchasable price';
+  const raw = Array.isArray(p.term_prices) ? p.term_prices : [];
+  const terms = raw.map((t) => Number(t.price)).filter((n) => Number.isFinite(n) && n > 0);
+  // No ladder at all: purchasablePrice can only have returned the rate, and one
+  // day of a PER_DAY plan is not sold. THIS is the bait price.
+  if (!terms.length) return `PER_DAY without a ladder — ${mp} can only be the raw per-day rate`;
+  // A rung of 0, negative or non-numeric. purchasablePrice filters these out
+  // with this exact predicate, so without naming them here they would be
+  // invisible to both sides — and a ladder that carries one is a ladder nobody
+  // should be reading a floor price off. The assertion this function replaced
+  // pinned them only by accident, through a `Math.min` over unfiltered terms;
+  // 0 packages are in that state today, so this is a restored guard, not a live
+  // defect.
+  if (terms.length !== raw.length) return `ladder carries ${raw.length - terms.length} unusable step(s)`;
+  const cheapest = Math.min(...terms);
+  if (mp !== cheapest) return `not the cheapest term (${mp} against ${cheapest})`;
+  return null;
+}
+
+test('purchasablePrice prices every PER_DAY plan from its ladder', () => {
   const perDay = PK.filter((p) => isDaily(p) && p.daily_term_mode === 'PER_DAY');
   assert.ok(perDay.length > 1000, `expected the PER_DAY family, found ${perDay.length}`);
+  const bad = [];
   for (const p of perDay) {
-    const mp = purchasablePrice(p);
-    assert.ok(mp > 0, `${p.name}: no purchasable price`);
-    assert.notEqual(mp, Number(p.price), `${p.name}: returned the raw per-day rate ${p.price}`);
-    const terms = p.term_prices.map((t) => Number(t.price));
-    assert.equal(mp, Math.min(...terms), `${p.name}: not the cheapest term`);
+    const why = perDayLadderVerdict(p);
+    if (why) bad.push(`${p.name}: ${why}`);
   }
+  assert.deepEqual(bad, [], bad.join('\n'));
+});
+
+test('REGRESSION 2026-09-18: a cheapest term that equals the per-day rate is accepted', () => {
+  // The exact shape that stopped the refresh. The rate and the 3-day price are
+  // both 450; the ladder is real and the 450 buys three days.
+  const israel = {
+    name: 'Israel 500MB/Day', plan_type: 'DAILY', daily_term_mode: 'PER_DAY', price: 450,
+    term_prices: [{ days: 3, price: 450 }, { days: 5, price: 750 }, { days: 7, price: 1000 },
+                  { days: 10, price: 1400 }, { days: 15, price: 2050 }, { days: 30, price: 3850 }],
+  };
+  assert.equal(perDayLadderVerdict(israel), null);
+  assert.equal(purchasablePrice(israel), 450);
+
+  // …and it is not a special case for one package: the same collision anywhere
+  // on the ladder is still the ladder's own number. This line is the
+  // load-bearing half — it is what turns this test red if purchasablePrice ever
+  // goes back to reading the rate.
+  assert.equal(perDayLadderVerdict({ ...israel, price: 750 }), null);
+
+  // DELIBERATELY NOT ANCHORED TO THE LIVE PACKAGE. The first version looked it
+  // up and asserted `if (live) …`, which is the vacuous-pass shape this repo
+  // polices: a rename or a withdrawal turns the assertion into nothing, and a
+  // revert of the reprice makes it pass while silently no longer exercising the
+  // collision at all. Every live package is already checked by the corpus test
+  // above; this one pins the SHAPE, and the fixture cannot be taken away.
+});
+
+test('MUTATION: the rule still catches a genuine fallback to the per-day rate', () => {
+  const base = { name: 'X 1GB/Day', plan_type: 'DAILY', daily_term_mode: 'PER_DAY', price: 500 };
+  // No ladder at all — purchasablePrice returns the rate, which is unbuyable.
+  assert.match(perDayLadderVerdict({ ...base, term_prices: [] }) || '', /without a ladder/);
+  assert.match(perDayLadderVerdict({ ...base }) || '', /without a ladder/);
+  // A ladder of unusable numbers is the same thing wearing a ladder's clothes.
+  assert.match(perDayLadderVerdict({ ...base, term_prices: [{ days: 3, price: 0 }] }) || '', /without a ladder/);
+  assert.match(perDayLadderVerdict({ ...base, term_prices: [{ days: 3, price: null }] }) || '', /without a ladder/);
+  // And a package with no price at all is refused rather than passed as 0.
+  assert.match(perDayLadderVerdict({ ...base, price: 0, term_prices: [] }) || '', /no purchasable price/);
+
+  // A ladder with a usable step AND a junk one. purchasablePrice would quietly
+  // ignore the junk and answer 750, which is a real price — so this is the case
+  // the provenance rule could have lost, and the review that found it is the
+  // reason these four lines exist.
+  const withJunk = (bad) => ({ ...base, term_prices: [{ days: 3, price: bad }, { days: 5, price: 750 }] });
+  for (const bad of [0, -5, 'abc', null, undefined, NaN]) {
+    assert.match(perDayLadderVerdict(withJunk(bad)) || '', /unusable step/,
+      `ступень ${JSON.stringify(bad)} должна быть отвергнута`);
+  }
+  // …and a clean two-step ladder still passes, so the guard is not blanket.
+  assert.equal(perDayLadderVerdict(withJunk(450)), null);
+});
+
+test('MUTATION: the rule fires on the REAL corpus when a ladder is taken away', () => {
+  // Synthetic fixtures prove the function on invented shapes; this runs it on a
+  // package taken OUT of the live catalogue, so the fields are the provider's
+  // own. It does not re-run the corpus loop above — that was checked separately,
+  // by appending a ladder-less PER_DAY package to assets/catalog.json in a copy
+  // and watching the loop name it — and this comment says so rather than
+  // implying the test itself did it.
+  const victim = PK.find((p) => isDaily(p) && p.daily_term_mode === 'PER_DAY'
+                               && Array.isArray(p.term_prices) && p.term_prices.length);
+  assert.ok(victim, 'no PER_DAY package with a ladder in the catalogue');
+  assert.equal(perDayLadderVerdict(victim), null, 'the untouched package must pass');
+
+  const stripped = { ...victim, term_prices: [] };
+  assert.match(perDayLadderVerdict(stripped) || '', /without a ladder/);
+  assert.equal(purchasablePrice(stripped), Number(victim.price),
+    'stripping the ladder must make purchasablePrice fall back to the rate — that is the defect');
+
+  // WHAT CHANGED AND WHAT DID NOT. The assertion this replaced —
+  // `notEqual(mp, price)` — caught this stripped package too; it was never blind
+  // to the real defect. Verified, not assumed: with an empty ladder
+  // purchasablePrice returns the rate, so `mp === price` and the old check
+  // fired. What it could not do is tell that case apart from a ladder whose
+  // cheapest step merely EQUALS the rate, because both produce the same
+  // equality. What the swap DOES lose is one incidental check: the old
+  // `Math.min` ran over unfiltered terms, so a rung of 0, negative or
+  // non-numeric poisoned the minimum and failed. That is restored explicitly in
+  // perDayLadderVerdict above — see the `unusable step(s)` branch — because
+  // «we happened to catch it» is not a guard anyone can rely on.
 });
 
 test('purchasablePrice falls back to price for FIXED_TERM dailies', () => {

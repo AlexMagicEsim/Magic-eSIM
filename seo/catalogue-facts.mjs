@@ -103,8 +103,16 @@ export const isDaily = (p) => !!p && String(p.plan_type || '') === 'DAILY';
  * NOT `price`. For a PER_DAY plan `price` is a PER-DAY RATE and buying one day
  * is not on offer: `sellable_days` starts at 3 everywhere in today's catalogue.
  * Advertising the rate is a bait price — «от 150 ₽» for something whose cheapest
- * real form costs 450 ₽. All 1298 PER_DAY packages differ on this; not one is a
- * coincidence.
+ * real form costs 450 ₽.
+ *
+ * THIS SENTENCE USED TO END «All 1298 PER_DAY packages differ on this; not one
+ * is a coincidence», and on 2026-09-18 the provider disproved it. «Israel
+ * 500MB/Day» kept its 450 ₽/day rate while its 3-day rung fell 1200 → 450, so
+ * the rate and the cheapest purchasable price became the SAME NUMBER — one
+ * package of 1293. Nothing about this function was wrong; what was wrong was a
+ * gate that had encoded «the two numbers differ» as if it were an invariant.
+ * The number they carry is a coincidence and may collide again; what never
+ * changes is where the answer comes from — the ladder when there is one.
  *
  * The 31 FIXED_TERM dailies carry no term_prices — the package IS the term — so
  * they fall back to `price`, which is what assets/country-tariffs.js:1006 does.
