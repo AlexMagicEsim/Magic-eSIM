@@ -403,11 +403,33 @@ test('MUTATION: C2 catches what C1 cannot — a real number that is not purchasa
 test('MUTATION: dropping term_prices changes the verdict', () => {
   // If the pass/fail set is identical with and without the ladder, the helper is
   // not being consulted and the whole rule is decoration.
+  //
+  // MEASURED ACROSS THE WHOLE CORPUS, NOT ON ONE HAND-PICKED COUNTRY. This test
+  // used to assert `notEqual` on Ireland alone — the same «two numbers differ»
+  // proxy that broke the PER_DAY rule above on 2026-09-18, one aggregation level
+  // up and waiting its turn. Ireland has margin today (250 against 100), but 11
+  // of 203 countries ALREADY collide under this transform — SV LR MG ML MC SX MP
+  // MZ CF SD TL, all of them places whose cheapest package is not a daily — and
+  // one provider move on Ireland would have turned this red for a reason that
+  // has nothing to do with the helper it is testing.
+  //
+  // A majority cannot be moved by one reprice. The floor is deliberately far
+  // below today's number so a normal catalogue week never touches it.
   const { pk, clean } = scratch((a) => a.forEach((p) => { delete p.term_prices; }));
-  const before = countryFacts(PK, 'IE').min_price_rub;
-  const after = countryFacts(pk, 'IE').min_price_rub;
-  assert.notEqual(after, before, 'removing term_prices must change the computed minimum');
-  clean();
+  try {
+    const isos = [...new Set(PK.flatMap((p) => p.coverage_country_codes || []))];
+    let moved = 0;
+    for (const iso of isos) {
+      const before = countryFacts(PK, iso).min_price_rub;
+      const after = countryFacts(pk, iso).min_price_rub;
+      if (before !== after) moved += 1;
+    }
+    assert.ok(moved > isos.length * 0.75,
+      `removing term_prices moved the minimum for only ${moved} of ${isos.length} countries — ` +
+      'the ladder is barely being consulted');
+  } finally {
+    clean();
+  }
 });
 
 test('MUTATION: C3 fires when the catalogue loses a tariff', () => {
