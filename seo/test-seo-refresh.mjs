@@ -25,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { parsePorcelain, unexpectedPaths, allowedPaths, FIXED_ALLOWED } from './refresh-allowlist.mjs';
 import { classify, riskOf, renderMarkdown, CLAIM_FIELDS } from './refresh-summary.mjs';
 import { pushDecision } from './refresh-noop.mjs';
+import { classifyFailure, KIND, DATA_INPUT } from './refresh-classify.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WF = readFileSync(join(ROOT, '.github/workflows/seo-refresh-pr.yml'), 'utf8');
@@ -551,6 +552,9 @@ test('M1: the step list is exactly this, in this order', () => {
     'Сводка изменений',
     'Ветка',
     'Pull request',
+    // Добавлен 2026-09-18. Идёт ПОСЛЕ всего, что может упасть, и работает
+    // только под `if: failure()` — разбирать нечего, пока не упало.
+    'Разбор падения',
     'Ничего не изменилось',
   ]);
 });
@@ -561,7 +565,13 @@ test('M7: no Actions expression is expanded inside ANY run, block or one-line', 
   }
   // The token exists only where GitHub is actually talked to.
   const withToken = STEPS.filter((x) => WF.slice(WF.indexOf(`- name: ${x.name}`), WF.indexOf(`- name: ${x.name}`) + 400).includes('GH_TOKEN'));
-  assert.deepEqual(withToken.map((x) => x.name).filter(Boolean), ['Ветка', 'Pull request']);
+  // «Разбор падения» добавлен сюда потому, что он ДЕЙСТВИТЕЛЬНО разговаривает с
+  // GitHub: спрашивает историю прогонов и сравнивает два коммита. Оба запроса
+  // читающие, но авторизованы РАЗНЫМ: история — добавленным `actions: read`,
+  // сравнение коммитов — уже имевшимся `contents`. Первая версия этого
+  // комментария приписывала оба `actions: read`.
+  assert.deepEqual(withToken.map((x) => x.name).filter(Boolean),
+    ['Ветка', 'Pull request', 'Разбор падения']);
   assert.doesNotMatch(WF_CODE, /^\s{4}env:[\s\S]{0,200}?GH_TOKEN/m);
 });
 
@@ -597,8 +607,12 @@ test('permissions are the least that can open a PR, and no secret is used', () =
   // when `actions: write` and `id-token: write` were added under it.
   const block = WF_CODE.match(/^permissions:\n((?:\s{2}\S[^\n]*\n)+)/m);
   assert.ok(block, 'нет блока permissions');
+  // `actions: read` добавлен 2026-09-18 и ТОЛЬКО на чтение: разбор падения
+  // спрашивает, на каком SHA этот workflow проходил в последний раз. Без этого
+  // окно «что изменилось на входе» пришлось бы считать от предыдущего коммита,
+  // и оно соврало бы ровно в том случае, ради которого всё затевалось.
   assert.deepEqual(block[1].trim().split('\n').map((l) => l.trim()).sort(),
-    ['contents: write', 'pull-requests: write']);
+    ['actions: read', 'contents: write', 'pull-requests: write']);
   // A PUBLIC repository: a secret here would be readable by any fork's PR run.
   assert.doesNotMatch(WF_CODE, /secrets\.(?!GITHUB_TOKEN)/);
   // The only credential referenced anywhere is the run's own ephemeral token.
@@ -861,6 +875,211 @@ test('N2: on a real repo, an unchanged regeneration produces the branch\'s own t
     const newMain = git('rev-parse', 'HEAD');
     assert.equal(pushDecision({ branchExists: true, stagedTree: branchTree, remoteTree: branchTree,
                                 remoteBase: base, mainSha: newMain }).push, true);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+/* ================================================================== *
+ * O. Падение по ДАННЫМ и падение по КОДУ — это разные события
+ *
+ * До 2026-09-18 автоматика обращалась с ними одинаково: джоб умирал, ветки и
+ * PR не появлялось, «Сводка изменений» стоит ПОСЛЕ проверок и потому тоже не
+ * выполнялась. Наружу выходил голый красный крестик, и `workflow_run` повторял
+ * его до шести раз в сутки — одинаково для сломанного генератора и для
+ * движения каталога у поставщика.
+ * ================================================================== */
+
+const clazz = (failedStep, inputsChanged) => classifyFailure({ failedStep, inputsChanged }).kind;
+
+test('O: гейт краснеет, а на входе двигался только каталог — это ДАННЫЕ', () => {
+  const v = classifyFailure({ failedStep: 'Проверки — гейты витрины', inputsChanged: [DATA_INPUT] });
+  assert.equal(v.kind, KIND.DATA);
+  assert.match(v.why, /только assets\/catalog\.json/);
+  assert.equal(clazz('Проверки — браузер', [DATA_INPUT]), KIND.DATA, 'браузерный ярус тоже читает каталог');
+});
+
+test('O: РЕГРЕССИЯ на настоящем инциденте 2026-09-18', () => {
+  // Окно последнего успеха (0e4aa31) до упавшего прогона (f761e64), снятое
+  // через compare API: ровно один файл. Классификатор обязан назвать это
+  // данными — именно тот вывод, который тогда пришлось добывать руками.
+  assert.equal(clazz('Проверки — гейты витрины', ['assets/catalog.json']), KIND.DATA);
+});
+
+test('O: шаги, которые к каталогу отношения не имеют, данными не называются НИКОГДА', () => {
+  // Даже когда окно входов состоит из одного каталога — самый соблазнительный
+  // для ошибки вход.
+  const only = [DATA_INPUT];
+  assert.equal(clazz('Пересборка', only), KIND.CODE);
+  assert.equal(clazz('Воспроизводимость', only), KIND.CODE);
+  assert.equal(clazz('Сводка изменений', only), KIND.CODE);
+  assert.equal(clazz('Только ожидаемые файлы', only), KIND.AUTOMATION);
+  assert.equal(clazz('Ветка', only), KIND.AUTOMATION);
+  assert.equal(clazz('Pull request', only), KIND.AUTOMATION);
+  assert.equal(clazz('Проверки — установка браузера', only), KIND.AUTOMATION);
+});
+
+test('O: НЕИЗВЕСТНОСТЬ читается как код, и DATA не возвращается ни по одному умолчанию', () => {
+  // «Данные» звучат как «это не мы, это поставщик» и снимают срочность. Назвать
+  // дефект кода данными — дорогая ошибка; обратное — дешёвая. Поэтому ни один
+  // неполный или испорченный вход не имеет права дать DATA.
+  const bad = [undefined, null, '', '   ', {}, 42, [], 'Проверки — гейты витрины'];
+  for (const step of bad) {
+    for (const inputs of [undefined, null, [], ['seo/build-hub.mjs'], 'assets/catalog.json', {}, 0]) {
+      const kind = classifyFailure({ failedStep: step, inputsChanged: inputs }).kind;
+      const legit = step === 'Проверки — гейты витрины' && Array.isArray(inputs)
+                    && inputs.length && inputs.every((x) => x === DATA_INPUT);
+      if (!legit) {
+        assert.notEqual(kind, KIND.DATA,
+          `step=${JSON.stringify(step)} inputs=${JSON.stringify(inputs)} дало DATA`);
+      }
+    }
+  }
+  assert.equal(classifyFailure({}).kind, KIND.UNKNOWN);
+  assert.equal(clazz('Шаг, которого ещё нет', [DATA_INPUT]), KIND.UNKNOWN,
+    'неописанный шаг обязан быть UNKNOWN, а не тихо попасть в какой-нибудь класс');
+});
+
+test('O: гейт покраснел, а на входе не изменилось ничего — это не данные, это недетерминизм', () => {
+  const v = classifyFailure({ failedStep: 'Проверки — гейты витрины', inputsChanged: [] });
+  assert.equal(v.kind, KIND.CODE);
+  assert.match(v.why, /не изменилось ничего/);
+});
+
+test('O: если вместе с каталогом двигался код — «только данные» исключено', () => {
+  const v = classifyFailure({ failedStep: 'Проверки — гейты витрины',
+                              inputsChanged: [DATA_INPUT, 'seo/build-hub.mjs'] });
+  assert.equal(v.kind, KIND.CODE);
+  assert.match(v.why, /каталог тоже двигался/);
+});
+
+test('O: шаг разбора не может повлиять на исход прогона', () => {
+  const triage = stepByName('Разбор падения');
+  assert.ok(triage, 'нет шага «Разбор падения»');
+  assert.equal(triage.if, 'failure()', 'разбор обязан идти только по падению');
+  const body = code(triage.run);
+  assert.match(body, /exit 0\s*$/, 'шаг обязан завершаться нулём — прогон остаётся красным');
+  assert.ok(!/git (add|commit|push)/.test(body), 'разбор ничего не пишет в репозиторий');
+  assert.ok(!/gh pr (create|edit|merge)/.test(body), 'разбор не трогает pull request');
+  // И он идёт ПОСЛЕ всего, что может упасть: разбирать нечего, пока не упало.
+  const at = (n) => WF.indexOf(`- name: ${n}`);
+  for (const earlier of ['Пересборка', 'Проверки — гейты витрины', 'Ветка', 'Pull request']) {
+    assert.ok(at(earlier) < at('Разбор падения'), `«${earlier}» должен идти до разбора`);
+  }
+});
+
+test('O: таблица шагов в разборе не разъехалась с самими шагами', () => {
+  // САМЫЙ ВЕРОЯТНЫЙ СПОСОБ СЛОМАТЬ ЭТО ТИХО: переименовать шаг и не поправить
+  // таблицу. Классификация деградирует до «не установлено», прогон всё так же
+  // краснеет, и никто не заметит, что разбор перестал разбирать.
+  const triage = code(stepByName('Разбор падения').run);
+  const named = STEPS.filter((s) => s.name && s.name !== 'Разбор падения'
+                                    && s.name !== 'Ничего не изменилось').map((s) => s.name);
+  for (const name of named) {
+    assert.ok(triage.includes(`"${name}|$`), `шаг «${name}» не назван в таблице разбора`);
+  }
+  // Обратная сторона: в таблице нет имён, которых в workflow не существует.
+  for (const m of triage.matchAll(/"([^"|]+)\|\$/g)) {
+    assert.ok(named.includes(m[1]), `в таблице разбора есть «${m[1]}», а такого шага нет`);
+  }
+  // Каждый такой шаг должен иметь id, иначе его outcome не прочитать.
+  for (const st of STEPS.filter((s) => s.name && named.includes(s.name))) {
+    assert.ok(st.id, `у шага «${st.name}» нет id — его падение невидимо разбору`);
+  }
+});
+
+test('O: права расширены ровно на чтение истории прогонов', () => {
+  const perms = WF.slice(WF.indexOf('permissions:'), WF.indexOf('concurrency:'));
+  assert.match(perms, /actions: read/, 'без actions: read окно «с последнего успеха» не построить');
+  assert.ok(!/issues: write/.test(perms), 'issues: write не добавлялось — это отдельное решение');
+  assert.ok(!/actions: write/.test(perms), 'actions должен быть только на чтение');
+});
+
+test('O: гейты пишут лог, и падение теста не превращается в успех', () => {
+  const gates = code(stepByName('Проверки — гейты витрины').run);
+  assert.match(gates, /tee \/tmp\/seo-gates\.log/, 'без tee сводке нечего показать');
+  assert.match(gates, /PIPESTATUS\[0\]/, 'код выхода обязан быть от npm test, а не от tee');
+  assert.match(gates, /set -o pipefail/);
+});
+
+test('O: классификатор знает КАЖДЫЙ шаг, который перечислен в разборе', () => {
+  // ДЫРА, КОТОРУЮ НАШЛО РЕВЬЮ. Тест выше держит таблицу в YAML против имён шагов,
+  // но ничего не держало её против самого классификатора. Переименуй шаг,
+  // поправь YAML и M1 — и всё зелено, а шаг молча уезжает в UNKNOWN навсегда.
+  // Направление безопасное, но деградация тихая, а тихая деградация здесь и есть
+  // главный способ всё сломать.
+  const triage = code(stepByName('Разбор падения').run);
+  const inTable = [...triage.matchAll(/"([^"|]+)\|\$/g)].map((m) => m[1]);
+  assert.ok(inTable.length >= 10, `в таблице разбора всего ${inTable.length} имён`);
+  for (const name of inTable) {
+    const kind = classifyFailure({ failedStep: name, inputsChanged: ['seo/x.mjs'] }).kind;
+    assert.notEqual(kind, KIND.UNKNOWN, `классификатор не знает шага «${name}»`);
+  }
+});
+
+test('O: шаг разбора не полагается на то, что set -e выключен', () => {
+  // Actions запускает `run:` как `bash -e {0}`, и `set -uo pipefail` флага не
+  // снимает. Без явного `set +e` первый же неответивший `gh` убивал шаг молча —
+  // ровно в том случае, ради которого он написан. Проверено запуском тела под
+  // `bash -e`; тест держит, чтобы строка не исчезла.
+  const body = code(stepByName('Разбор падения').run);
+  assert.match(body, /^\s*set \+e\s*$/m, 'нет явного set +e');
+  assert.ok(body.indexOf('set +e') < body.indexOf('gh '), 'set +e должен стоять до первого gh');
+});
+
+test('O: опора — прогон, в котором гейты ПРОШЛИ, а не просто зелёный', () => {
+  // На 2026-09-18 девять из десяти последних зелёных прогонов имели гейты
+  // skipped: всё после «Есть ли что публиковать» висит на changed == 'true'.
+  // Опереться на такой прогон значит поручиться за код, который не исполнялся.
+  const body = code(stepByName('Разбор падения').run);
+  assert.match(body, /actions\/runs\/\$rid\/jobs/, 'опора выбирается без проверки шагов прогона');
+  assert.match(body, /Проверки — гейты витрины.*conclusion/s, 'не проверяется вывод шага гейтов');
+  assert.match(body, /"\$\{concl:-\}" = "success"/, 'опора не требует успеха гейтов');
+  assert.match(body, /--branch main/, 'прогон с другой ветки может стать опорой');
+  // И сравнение идёт с собранным деревом, а не с github.sha: checkout берёт
+  // ref: main, а прогоны стоят в очереди, поэтому дерево бывает новее события.
+  assert.match(body, /head=\$\(git rev-parse HEAD\)/);
+  assert.ok(!/compare\/\$base\.\.\.\$GITHUB_SHA/.test(body), 'сравнение с github.sha упускает зазор очереди');
+});
+
+test('O: сводка показывает САМО падение, даже когда оно за две тысячи строк от конца', () => {
+  // ПРОВЕРЯЕТСЯ ПОВЕДЕНИЕ, А НЕ НАЛИЧИЕ ИМЕНИ В ИСХОДНИКЕ. Первая версия этого
+  // теста искала подстроку «fenceSafe» — и осталась зелёной, когда мутация
+  // переименовала функцию в «XfenceSafe» и отключила выделение падений.
+  // Поэтому скрипт запускается по-настоящему, на логе той же формы, что дал
+  // настоящий инцидент: 4303 строки, единственная «not ok» за 1956 до конца.
+  const dir = mkdtempSync(join(tmpdir(), 'seo-report-'));
+  try {
+    const log = join(dir, 'gates.log');
+    const filler = Array.from({ length: 2000 }, (_, i) => `ok ${i + 1} - какой-то проходящий тест`);
+    writeFileSync(log, [
+      ...filler.slice(0, 300),
+      'not ok 390 - purchasablePrice never returns a per-day rate',
+      '  ---',
+      "  location: 'seo/test-catalogue-sync.mjs:225:1'",
+      "  error: 'Israel 500MB/Day: returned the raw per-day rate 450'",
+      '  ...',
+      ...filler.slice(300),
+      '# tests 711', '# pass 710', '# fail 1',
+    ].join('\n'));
+
+    const inputs = join(dir, 'inputs.txt');
+    writeFileSync(inputs, 'assets/catalog.json\n');
+    const out = execFileSync('node', [join(ROOT, 'scripts/seo-refresh-report.mjs'),
+      '--step', 'Проверки — гейты витрины', '--inputs', inputs, '--log', log], { encoding: 'utf8' });
+
+    assert.match(out, /класс: ДАННЫЕ/);
+    assert.match(out, /Israel 500MB\/Day/, 'в сводке нет самого упавшего утверждения');
+    assert.match(out, /test-catalogue-sync\.mjs:225/, 'в сводке нет файла и строки падения');
+    assert.match(out, /# fail 1/, 'в сводке нет счётчиков');
+
+    // А лог, который может выйти из markdown-блока, обезврежен.
+    const nasty = join(dir, 'nasty.log');
+    writeFileSync(nasty, 'not ok 1 - x\n  ---\n  error: \'```\\n[click](http://evil)\'\n  ...\n');
+    const out2 = execFileSync('node', [join(ROOT, 'scripts/seo-refresh-report.mjs'),
+      '--step', 'Проверки — гейты витрины', '--inputs', inputs, '--log', nasty], { encoding: 'utf8' });
+    const fences = (out2.match(/^```$/gm) || []).length;
+    assert.equal(fences % 2, 0, 'markdown-блок не закрыт — строка лога вышла наружу');
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

@@ -47,6 +47,12 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # Только чтение и только ради одного вопроса: на каком SHA этот workflow
+  # проходил в последний раз. Без него окно «что изменилось на входе» пришлось бы
+  # считать от предыдущего коммита — а это враньё ровно в том случае, ради
+  # которого всё затевалось: человек ломает гейт кодом, следом бот дважды
+  # обновляет каталог, и окно «от прошлого коммита» показывает один каталог.
+  actions: read
 
 # Runs queue rather than cancel. Each run regenerates from whatever main holds at
 # the moment it starts, so the LAST run to finish is the one built from the
@@ -100,6 +106,7 @@ jobs:
           node-version: '22'
 
       - name: Снимок артефактов до пересборки
+        id: snapshot
         run: |
           set -euo pipefail
           mkdir -p /tmp/seo-before
@@ -112,11 +119,13 @@ jobs:
       # The ordinary command, unchanged and unparameterised. If this fails the
       # job fails here and no branch and no pull request are touched.
       - name: Пересборка
+        id: rebuild
         run: node seo/build-all.mjs
 
       # BEFORE anything else looks at the result. An unexpected file is the one
       # failure mode that must stop the run while the damage is still local.
       - name: Только ожидаемые файлы
+        id: paths
         run: |
           set -euo pipefail
           # -uall: without it git collapses a new directory to «?? esim/x/», which is
@@ -141,6 +150,7 @@ jobs:
       # reviewed — every run would be a diff and «regenerate and confirm nothing
       # changed» would be unrunnable. Proved per run rather than trusted.
       - name: Воспроизводимость
+        id: repro
         if: steps.diff.outputs.changed == 'true'
         run: |
           set -euo pipefail
@@ -165,16 +175,26 @@ jobs:
       # infra/yandex-api-gateway/proxy-function, reads no catalogue, and cannot
       # change here — the path allowlist above would have stopped the run if it had.
       - name: Проверки — гейты витрины
+        id: gates
         if: steps.diff.outputs.changed == 'true'
-        run: npm test
+        # tee, а не просто npm test: когда гейт краснеет, PR создать нельзя, и
+        # его тело — обычный канал автоматики — не появляется. Хвост этого файла
+        # попадает в сводку прогона, иначе наружу выходит голый крестик.
+        # PIPESTATUS[0], а не код tee, иначе падение теста стало бы успехом.
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee /tmp/seo-gates.log
+          exit "${PIPESTATUS[0]}"
 
       - name: Проверки — установка браузера
+        id: browser_install
         if: steps.diff.outputs.changed == 'true'
         run: |
           npm ci
           npx playwright install --with-deps chromium
 
       - name: Проверки — браузер
+        id: browser
         if: steps.diff.outputs.changed == 'true'
         run: npx playwright test
 
@@ -339,6 +359,7 @@ jobs:
       # the value is somebody else's. Through env, it is a variable the shell
       # reads, never text the shell parses.
       - name: Pull request
+        id: pr
         if: steps.diff.outputs.changed == 'true'
         env:
           RISK: ${{ steps.summary.outputs.risk }}
@@ -389,6 +410,113 @@ jobs:
               exit 1
             fi
           fi
+
+      # ЕДИНСТВЕННЫЙ ШАГ, КОТОРЫЙ ГОВОРИТ, КОГДА ГОВОРИТЬ БОЛЬШЕ НЕЧЕМ.
+      #
+      # Любая остановка выше означает: ветки нет, PR нет, «Сводка изменений» не
+      # выполнялась — она стоит ПОСЛЕ проверок. Наружу выходил голый красный
+      # крестик, и `workflow_run` повторял его до шести раз в сутки, одинаково
+      # для сломанного генератора и для движения каталога у поставщика.
+      #
+      # Шаг НЕ МОЖЕТ повлиять на исход прогона: он идёт под `if: failure()`,
+      # ничего не пишет в репозиторий и всегда выходит с нулём. Прогон обязан
+      # остаться красным — сводка объясняет падение, а не отменяет его.
+      - name: Разбор падения
+        id: triage
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          # Через env, а не подстановкой в тело: значения здесь свои, но
+          # выражение, раскрытое прямо в `run:`, — стандартная форма инъекции в
+          # Actions, и привычка ломается позже, когда значение станет чужим.
+          O_SNAPSHOT: ${{ steps.snapshot.outcome }}
+          O_REBUILD: ${{ steps.rebuild.outcome }}
+          O_PATHS: ${{ steps.paths.outcome }}
+          O_DIFF: ${{ steps.diff.outcome }}
+          O_REPRO: ${{ steps.repro.outcome }}
+          O_GATES: ${{ steps.gates.outcome }}
+          O_BROWSER_INSTALL: ${{ steps.browser_install.outcome }}
+          O_BROWSER: ${{ steps.browser.outcome }}
+          O_SUMMARY: ${{ steps.summary.outcome }}
+          O_BRANCH: ${{ steps.branch.outcome }}
+          O_PR: ${{ steps.pr.outcome }}
+        # `set +e` ПЕРВОЙ СТРОКОЙ, и это не украшение. Actions запускает `run:`
+        # как `bash -e {0}` (runner: ScriptHandlerHelpers, ["sh"] = "-e {0}"),
+        # поэтому `set -uo pipefail` флаг НЕ снимает. Первая же версия этого шага
+        # написала в комментарии «без set -e» и умирала на первом же неответившем
+        # `gh` — молча, с пустой сводкой, ровно в том случае, ради которого шаг и
+        # написан. Проверено запуском тела шага под `bash -e`.
+        run: |
+          set +e
+          set -uo pipefail
+
+          # Первый упавший шаг в порядке выполнения и есть причина: всё, что
+          # ниже, либо пропущено, либо следствие. Порядок строк здесь совпадает с
+          # порядком шагов для читаемости, но ни на что не влияет: пока в файле
+          # нет `continue-on-error`, упасть может ровно один шаг, и `awk … exit`
+          # найдёт его при любом порядке. Состав имён тест держит, порядок — нет.
+          step=$(printf '%s\n' \
+            "Снимок артефактов до пересборки|$O_SNAPSHOT" \
+            "Пересборка|$O_REBUILD" \
+            "Только ожидаемые файлы|$O_PATHS" \
+            "Есть ли что публиковать|$O_DIFF" \
+            "Воспроизводимость|$O_REPRO" \
+            "Проверки — гейты витрины|$O_GATES" \
+            "Проверки — установка браузера|$O_BROWSER_INSTALL" \
+            "Проверки — браузер|$O_BROWSER" \
+            "Сводка изменений|$O_SUMMARY" \
+            "Ветка|$O_BRANCH" \
+            "Pull request|$O_PR" \
+            | awk -F'|' '$2 == "failure" { print $1; exit }')
+
+          # ОПОРА — ПОСЛЕДНИЙ ПРОГОН, В КОТОРОМ ГЕЙТЫ ДЕЙСТВИТЕЛЬНО ПРОШЛИ,
+          # а не просто последний зелёный. Всё после «Есть ли что публиковать»
+          # висит на `changed == 'true'`, а каталожная задача завершается шесть
+          # раз в сутки независимо от того, коммитила ли она. Поэтому обычный
+          # зелёный прогон — это чаще всего прогон, где гейты ПРОПУЩЕНЫ: на
+          # 2026-09-18 таких было девять из десяти последних, и свежайший из них
+          # менял как раз файл гейта. Опереться на него значило бы поручиться за
+          # код, который ни разу не исполнялся, и назвать «данными» падение,
+          # вызванное этим самым кодом. Это ровно то направление ошибки, которого
+          # классификатор избегает.
+          inputs=/tmp/seo-inputs.txt
+          echo unknown > "$inputs"
+          base=""
+          runs=$(gh run list --workflow=seo-refresh-pr.yml --status=success \
+                   --branch main --limit 20 --json databaseId,headSha \
+                   --jq '.[] | "\(.databaseId) \(.headSha)"' 2>/dev/null)
+          while read -r rid rsha; do
+            [ -z "${rid:-}" ] && continue
+            concl=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$rid/jobs" \
+                      --jq '.jobs[].steps[] | select(.name == "Проверки — гейты витрины") | .conclusion' \
+                      2>/dev/null)
+            if [ "${concl:-}" = "success" ]; then base="$rsha"; break; fi
+          done <<< "$runs"
+
+          # Сравнивать нужно с тем деревом, которое СОБИРАЛОСЬ, а не с github.sha:
+          # checkout берёт `ref: main`, а прогоны выстраиваются в очередь
+          # (`cancel-in-progress: false`), поэтому собранный коммит может быть
+          # новее события. Коммит с кодом, попавший в этот зазор, иначе стал бы
+          # невидим — и падение из-за него назвалось бы данными.
+          head=$(git rev-parse HEAD)
+          if [ -n "$base" ] && [ "$base" = "$head" ]; then
+            echo none > "$inputs"
+          elif [ -n "$base" ]; then
+            files=$(gh api "repos/$GITHUB_REPOSITORY/compare/$base...$head" \
+                      --jq '.files[].filename' 2>/dev/null)
+            rc=$?
+            # Пустой ответ при успешном запросе — это «не изменилось ничего»,
+            # а не «выяснить не удалось». Различие меняет класс с UNKNOWN на CODE.
+            if [ "$rc" -eq 0 ]; then
+              if [ -n "${files:-}" ]; then printf '%s\n' "$files" > "$inputs"; else echo none > "$inputs"; fi
+            fi
+          fi
+
+          node scripts/seo-refresh-report.mjs \
+            --step "$step" --inputs "$inputs" --run-url "$RUN_URL" --log /tmp/seo-gates.log \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+          exit 0
 
       - name: Ничего не изменилось
         if: steps.diff.outputs.changed != 'true'
