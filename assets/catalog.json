@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-18T13:38:14.033Z",
+  "generated_at": "2026-09-18T18:29:36.493Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -17741,11 +17741,11 @@
       "price": 300,
       "networks": [
         {
-          "operator": "Avea",
+          "operator": "Vodafone",
           "type": "5G"
         },
         {
-          "operator": "Vodafone",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -36019,11 +36019,11 @@
       "price": 150,
       "networks": [
         {
-          "operator": "Avea",
+          "operator": "Vodafone",
           "type": "5G"
         },
         {
-          "operator": "Vodafone",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -59293,11 +59293,11 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Avea",
+          "operator": "Vodafone",
           "type": "5G"
         },
         {
-          "operator": "Vodafone",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -95127,27 +95127,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1300
+          "price": 2250
         },
         {
           "days": 5,
-          "price": 2100
+          "price": 3600
         },
         {
           "days": 7,
-          "price": 2900
+          "price": 4850
         },
         {
           "days": 10,
-          "price": 3950
+          "price": 6700
         },
         {
           "days": 15,
-          "price": 5700
+          "price": 9850
         },
         {
           "days": 30,
-          "price": 10950
+          "price": 19250
         }
       ]
     },
@@ -119680,11 +119680,11 @@
       "price": 900,
       "networks": [
         {
-          "operator": "Avea",
+          "operator": "Vodafone",
           "type": "5G"
         },
         {
-          "operator": "Vodafone",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -132540,11 +132540,11 @@
       "price": 500,
       "networks": [
         {
-          "operator": "Avea",
+          "operator": "Vodafone",
           "type": "5G"
         },
         {
-          "operator": "Vodafone",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
