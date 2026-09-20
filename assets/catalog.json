@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-18T18:29:36.493Z",
+  "generated_at": "2026-09-20T11:31:20.880Z",
   "source": "production-public-api",
-  "package_count": 2297,
+  "package_count": 2302,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -2372,6 +2372,10 @@
         },
         {
           "operator": "DTAC",
+          "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
           "type": "5G"
         }
       ],
@@ -6668,6 +6672,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -8584,6 +8596,10 @@
           "type": "5G"
         },
         {
+          "operator": "SoftBank",
+          "type": "5G"
+        },
+        {
           "operator": "SKTelecom",
           "type": "5G"
         },
@@ -8943,6 +8959,91 @@
       "sellable_days": []
     },
     {
+      "package_id": "0f2114bd-e76a-4800-a7f1-8df437b90677",
+      "name": "Indonesia 2GB/Day FUP1Mbps",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 450,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1250
+        },
+        {
+          "days": 5,
+          "price": 2000
+        },
+        {
+          "days": 7,
+          "price": 2750
+        },
+        {
+          "days": 10,
+          "price": 3750
+        },
+        {
+          "days": 15,
+          "price": 5400
+        },
+        {
+          "days": 30,
+          "price": 10400
+        }
+      ]
+    },
+    {
       "package_id": "0f3e4596-f50c-46e4-8003-a712db1da5e1",
       "name": "Honduras 5GB 30Days",
       "country_code": "HN",
@@ -8980,6 +9081,91 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "0f623835-55ec-41d9-9ae6-459c74a06c77",
+      "name": "Indonesia 10GB/Day",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1250,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 10,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 3500
+        },
+        {
+          "days": 5,
+          "price": 5500
+        },
+        {
+          "days": 7,
+          "price": 7500
+        },
+        {
+          "days": 10,
+          "price": 10550
+        },
+        {
+          "days": 15,
+          "price": 15600
+        },
+        {
+          "days": 30,
+          "price": 30750
+        }
+      ]
     },
     {
       "package_id": "0f9cfdbf-b18e-4078-a067-88ff7b11aab8",
@@ -11036,6 +11222,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -11747,10 +11941,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telstra",
-          "type": "4G"
-        },
-        {
           "operator": "Spark",
           "type": "4G"
         }
@@ -11762,17 +11952,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "128 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "128 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -13844,11 +14034,11 @@
       "price": 450,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -15085,6 +15275,10 @@
       "networks": [
         {
           "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
           "type": "5G"
         }
       ],
@@ -19962,6 +20156,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -20014,6 +20216,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -20456,11 +20666,11 @@
       "price": 1800,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -21575,6 +21785,10 @@
       "networks": [
         {
           "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
           "type": "5G"
         }
       ],
@@ -23109,6 +23323,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -27121,10 +27343,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telstra",
-          "type": "4G"
-        },
-        {
           "operator": "Spark",
           "type": "4G"
         }
@@ -27136,17 +27354,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -28185,6 +28403,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -30031,11 +30257,11 @@
       "price": 1750,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -31222,20 +31448,24 @@
       "price": 850,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "4G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -31245,17 +31475,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -37666,6 +37896,10 @@
         {
           "operator": "DTAC",
           "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -40289,6 +40523,10 @@
         {
           "operator": "DTAC",
           "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -40838,11 +41076,11 @@
       "price": 900,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -40955,20 +41193,24 @@
       "price": 350,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "4G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -40978,17 +41220,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -45393,6 +45635,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -46614,6 +46864,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -48838,6 +49096,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -51687,6 +51953,91 @@
         {
           "days": 30,
           "price": 133200
+        }
+      ]
+    },
+    {
+      "package_id": "58ef9739-1daf-437c-bedc-b509ca0dd4c0",
+      "name": "Indonesia 1GB/Day FUP1Mbps",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 250,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 700
+        },
+        {
+          "days": 5,
+          "price": 1100
+        },
+        {
+          "days": 7,
+          "price": 1500
+        },
+        {
+          "days": 10,
+          "price": 2100
+        },
+        {
+          "days": 15,
+          "price": 3050
+        },
+        {
+          "days": 30,
+          "price": 5700
         }
       ]
     },
@@ -58945,20 +59296,24 @@
       "price": 550,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "4G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -58968,17 +59323,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -61069,6 +61424,10 @@
         {
           "operator": "DTAC",
           "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -62708,6 +63067,10 @@
         },
         {
           "operator": "DTAC",
+          "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
           "type": "5G"
         }
       ],
@@ -69616,6 +69979,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -74243,6 +74614,10 @@
         {
           "operator": "DTAC",
           "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -74328,6 +74703,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -75299,20 +75682,24 @@
       "price": 2100,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "4G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -75327,7 +75714,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -81157,6 +81544,10 @@
         {
           "operator": "DTAC",
           "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -82273,6 +82664,10 @@
       "networks": [
         {
           "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
           "type": "5G"
         }
       ],
@@ -85238,6 +85633,10 @@
         {
           "operator": "KDDI/au",
           "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -85686,20 +86085,24 @@
       "price": 200,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "4G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -85709,17 +86112,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -89214,6 +89617,91 @@
       ]
     },
     {
+      "package_id": "970a7891-e741-4281-bd80-a3a66ceba8eb",
+      "name": "Indonesia 5GB/Day",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 650,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 5,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1850
+        },
+        {
+          "days": 5,
+          "price": 3000
+        },
+        {
+          "days": 7,
+          "price": 4000
+        },
+        {
+          "days": 10,
+          "price": 5550
+        },
+        {
+          "days": 15,
+          "price": 8100
+        },
+        {
+          "days": 30,
+          "price": 15700
+        }
+      ]
+    },
+    {
       "package_id": "97226863-7708-4f07-bddc-a5457088e4ae",
       "name": "Austria 50GB 180Days",
       "country_code": "AT",
@@ -89858,10 +90346,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telstra",
-          "type": "4G"
-        },
-        {
           "operator": "Spark",
           "type": "4G"
         }
@@ -89873,17 +90357,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "128 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "128 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -90816,6 +91300,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -95336,6 +95828,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -99460,11 +99960,11 @@
       "price": 1350,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -101836,11 +102336,11 @@
       "price": 850,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -102175,11 +102675,11 @@
       "price": 600,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -103059,6 +103559,91 @@
         {
           "days": 30,
           "price": 66550
+        }
+      ]
+    },
+    {
+      "package_id": "af3979ea-da08-4aa5-9d93-6c17f21fd8a9",
+      "name": "Indonesia 3GB/Day FUP1Mbps",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 800,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2200
+        },
+        {
+          "days": 5,
+          "price": 3500
+        },
+        {
+          "days": 7,
+          "price": 4700
+        },
+        {
+          "days": 10,
+          "price": 6550
+        },
+        {
+          "days": 15,
+          "price": 9550
+        },
+        {
+          "days": 30,
+          "price": 18700
         }
       ]
     },
@@ -104055,10 +104640,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telstra",
-          "type": "4G"
-        },
-        {
           "operator": "Spark",
           "type": "4G"
         }
@@ -104070,17 +104651,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "128 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "128 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -104401,11 +104982,11 @@
       "price": 4100,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -104567,6 +105148,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -112087,11 +112676,11 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -112162,6 +112751,10 @@
       "networks": [
         {
           "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
           "type": "5G"
         }
       ],
@@ -119923,6 +120516,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -120590,6 +121191,10 @@
         },
         {
           "operator": "DTAC",
+          "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
           "type": "5G"
         }
       ],
@@ -122436,7 +123041,7 @@
       "coverage_flags": "🇦🇺 🇳🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 3250,
+      "price": 3550,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -126115,11 +126720,11 @@
       "price": 450,
       "networks": [
         {
-          "operator": "Nepal Telecom",
+          "operator": "Ncell",
           "type": "4G"
         },
         {
-          "operator": "Ncell",
+          "operator": "NT Mobile",
           "type": "4G"
         }
       ],
@@ -127033,6 +127638,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -134679,6 +135292,10 @@
         {
           "operator": "KDDI/au",
           "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -138184,7 +138801,7 @@
       "coverage_flags": "🇦🇺 🇳🇿",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 2050,
+      "price": 2350,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -138949,6 +139566,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -140738,6 +141363,10 @@
       "networks": [
         {
           "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
           "type": "5G"
         },
         {
@@ -143243,6 +143872,10 @@
       "networks": [
         {
           "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
           "type": "5G"
         }
       ],
@@ -149293,6 +149926,14 @@
         {
           "operator": "Indosat",
           "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -153347,10 +153988,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telstra",
-          "type": "4G"
-        },
-        {
           "operator": "Spark",
           "type": "4G"
         }
@@ -153367,7 +154004,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
