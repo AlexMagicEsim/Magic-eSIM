@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-20T13:36:13.806Z",
+  "generated_at": "2026-09-20T18:12:10.586Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -140960,7 +140960,7 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "1 Mbps",
+      "fup_policy": "384 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
@@ -140970,7 +140970,7 @@
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_label": "384 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
