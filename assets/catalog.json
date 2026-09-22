@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-22T11:45:34.406Z",
+  "generated_at": "2026-09-22T18:55:09.473Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -3122,7 +3122,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -3137,7 +3137,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -38497,7 +38497,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -38512,7 +38512,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -41637,7 +41637,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -41652,7 +41652,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -48267,7 +48267,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -48282,7 +48282,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -55135,7 +55135,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -55150,7 +55150,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -65746,7 +65746,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -65761,7 +65761,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -95317,6 +95317,10 @@
       "price": 350,
       "networks": [
         {
+          "operator": "Sunrise",
+          "type": "5G"
+        },
+        {
           "operator": "Salt",
           "type": "5G"
         }
@@ -95333,7 +95337,9 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "FR",
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -104764,7 +104770,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -104778,7 +104784,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -118645,7 +118651,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -118660,7 +118666,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -146359,7 +146365,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -146374,7 +146380,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
