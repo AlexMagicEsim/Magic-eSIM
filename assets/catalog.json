@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-20T18:12:10.586Z",
+  "generated_at": "2026-09-22T11:45:34.406Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -95317,10 +95317,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Sunrise",
-          "type": "5G"
-        },
-        {
           "operator": "Salt",
           "type": "5G"
         }
@@ -95337,9 +95333,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "FR",
-        "NL",
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
