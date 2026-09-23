@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-23T11:45:15.427Z",
+  "generated_at": "2026-09-23T19:03:53.742Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -3830,6 +3830,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -7661,6 +7665,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -50722,6 +50730,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -60543,6 +60555,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -61753,6 +61769,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -64479,6 +64499,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -65340,6 +65364,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -110178,6 +110206,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -128598,6 +128630,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -129078,6 +129114,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -145669,6 +145709,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -149410,6 +149454,10 @@
         {
           "operator": "Beeline",
           "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
