@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-22T18:55:09.473Z",
+  "generated_at": "2026-09-23T11:45:15.427Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -3195,7 +3195,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -3210,7 +3210,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 5,
@@ -3826,6 +3826,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -3903,6 +3907,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -7012,6 +7020,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "Globe",
           "type": "5G"
         },
@@ -7644,6 +7656,10 @@
       "networks": [
         {
           "operator": "Magti",
+          "type": "4G"
+        },
+        {
+          "operator": "Beeline",
           "type": "4G"
         }
       ],
@@ -14522,7 +14538,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -14537,7 +14553,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -22150,6 +22166,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -31124,6 +31144,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -50694,6 +50718,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -51632,6 +51660,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "M1",
           "type": "4G"
         },
@@ -52281,6 +52313,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "Globe",
           "type": "5G"
         },
@@ -52396,6 +52432,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -57556,6 +57596,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "M1",
           "type": "4G"
         },
@@ -58685,6 +58729,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -60491,6 +60539,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -61696,6 +61748,10 @@
       "networks": [
         {
           "operator": "Magti",
+          "type": "4G"
+        },
+        {
+          "operator": "Beeline",
           "type": "4G"
         }
       ],
@@ -64419,6 +64475,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -65275,6 +65335,10 @@
       "networks": [
         {
           "operator": "Magti",
+          "type": "4G"
+        },
+        {
+          "operator": "Beeline",
           "type": "4G"
         }
       ],
@@ -66328,6 +66392,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "M1",
           "type": "4G"
         },
@@ -66931,6 +66999,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -80229,6 +80301,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -102650,6 +102726,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "M1",
           "type": "4G"
         },
@@ -107787,6 +107867,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "M1",
           "type": "4G"
         },
@@ -110090,6 +110174,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -110403,6 +110491,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -116061,7 +116153,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -116076,7 +116168,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "US"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -124871,6 +124963,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "M1",
           "type": "4G"
         },
@@ -127022,6 +127118,10 @@
           "type": "5G"
         },
         {
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "M1",
           "type": "4G"
         },
@@ -128494,6 +128594,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -128969,6 +129073,10 @@
       "networks": [
         {
           "operator": "Magti",
+          "type": "4G"
+        },
+        {
+          "operator": "Beeline",
           "type": "4G"
         }
       ],
@@ -145557,6 +145665,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -149294,6 +149406,10 @@
         {
           "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -151595,6 +151711,10 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
