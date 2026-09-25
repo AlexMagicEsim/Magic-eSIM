@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-23T19:03:53.742Z",
+  "generated_at": "2026-09-25T05:05:31.805Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -58106,27 +58106,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4050
+          "price": 1600
         },
         {
           "days": 5,
-          "price": 6450
+          "price": 2600
         },
         {
           "days": 7,
-          "price": 8850
+          "price": 3500
         },
         {
           "days": 10,
-          "price": 12450
+          "price": 4800
         },
         {
           "days": 15,
-          "price": 18450
+          "price": 7000
         },
         {
           "days": 30,
-          "price": 36500
+          "price": 13500
         }
       ]
     },
@@ -64946,27 +64946,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1650
+          "price": 700
         },
         {
           "days": 5,
-          "price": 2700
+          "price": 1150
         },
         {
           "days": 7,
-          "price": 3650
+          "price": 1550
         },
         {
           "days": 10,
-          "price": 5000
+          "price": 2200
         },
         {
           "days": 15,
-          "price": 7250
+          "price": 3200
         },
         {
           "days": 30,
-          "price": 14050
+          "price": 5950
         }
       ]
     },
@@ -77960,27 +77960,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2500
+          "price": 950
         },
         {
           "days": 5,
-          "price": 3950
+          "price": 1550
         },
         {
           "days": 7,
-          "price": 5350
+          "price": 2100
         },
         {
           "days": 10,
-          "price": 7400
+          "price": 2950
         },
         {
           "days": 15,
-          "price": 10900
+          "price": 4200
         },
         {
           "days": 30,
-          "price": 21350
+          "price": 7900
         }
       ]
     },
@@ -94349,7 +94349,7 @@
       "coverage_flags": "🇦🇫",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 12400,
+      "price": 4500,
       "networks": [
         {
           "operator": "Roshan",
@@ -109081,7 +109081,7 @@
       "coverage_flags": "🇦🇫",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6850,
+      "price": 2500,
       "networks": [
         {
           "operator": "Roshan",
@@ -124145,7 +124145,7 @@
       "coverage_flags": "🇦🇫",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2450,
+      "price": 900,
       "networks": [
         {
           "operator": "Roshan",
@@ -143138,7 +143138,7 @@
       "coverage_flags": "🇦🇫",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3850,
+      "price": 1450,
       "networks": [
         {
           "operator": "Roshan",
@@ -147319,27 +147319,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 14450
+          "price": 5600
         },
         {
           "days": 5,
-          "price": 23800
+          "price": 9000
         },
         {
           "days": 7,
-          "price": 33150
+          "price": 12400
         },
         {
           "days": 10,
-          "price": 47150
+          "price": 17550
         },
         {
           "days": 15,
-          "price": 70500
+          "price": 26100
         },
         {
           "days": 30,
-          "price": 140550
+          "price": 51700
         }
       ]
     },
