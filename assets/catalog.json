@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-25T11:56:27.074Z",
+  "generated_at": "2026-09-25T14:37:48.759Z",
   "source": "production-public-api",
   "package_count": 2297,
   "packages": [
@@ -328,27 +328,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5000
+          "price": 3500
         },
         {
           "days": 5,
-          "price": 8000
+          "price": 5550
         },
         {
           "days": 7,
-          "price": 11000
+          "price": 7600
         },
         {
           "days": 10,
-          "price": 15550
+          "price": 10650
         },
         {
           "days": 15,
-          "price": 23050
+          "price": 15800
         },
         {
           "days": 30,
-          "price": 45650
+          "price": 31100
         }
       ]
     },
@@ -15796,27 +15796,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 16300
+          "price": 11750
         },
         {
           "days": 5,
-          "price": 26850
+          "price": 19250
         },
         {
           "days": 7,
-          "price": 37400
+          "price": 26800
         },
         {
           "days": 10,
-          "price": 53200
+          "price": 38100
         },
         {
           "days": 15,
-          "price": 79600
+          "price": 56900
         },
         {
           "days": 30,
-          "price": 158750
+          "price": 113300
         }
       ]
     },
@@ -81021,7 +81021,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1400,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -84916,27 +84916,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 12650
+          "price": 9150
         },
         {
           "days": 5,
-          "price": 20800
+          "price": 14950
         },
         {
           "days": 7,
-          "price": 28950
+          "price": 20800
         },
         {
           "days": 10,
-          "price": 41150
+          "price": 29500
         },
         {
           "days": 15,
-          "price": 61500
+          "price": 44000
         },
         {
           "days": 30,
-          "price": 122550
+          "price": 87550
         }
       ]
     },
@@ -118736,27 +118736,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 9050
+          "price": 6250
         },
         {
           "days": 5,
-          "price": 14800
+          "price": 10150
         },
         {
           "days": 7,
-          "price": 20500
+          "price": 14000
         },
         {
           "days": 10,
-          "price": 29100
+          "price": 19800
         },
         {
           "days": 15,
-          "price": 43400
+          "price": 29500
         },
         {
           "days": 30,
-          "price": 86400
+          "price": 58500
         }
       ]
     },
