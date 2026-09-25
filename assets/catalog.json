@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-25T14:37:48.759Z",
+  "generated_at": "2026-09-25T17:17:11.694Z",
   "source": "production-public-api",
-  "package_count": 2297,
+  "package_count": 2291,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -28548,39 +28548,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "30db44f9-9345-4dc0-b179-859507800059",
-      "name": "Dubai Unlimited 7 Days",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 0,
-      "validity_days": 7,
-      "price": 4100,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "fup_policy": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        7
-      ]
     },
     {
       "package_id": "30e5ae1d-e8b0-4025-8887-6d61ad0cfb82",
@@ -67871,39 +67838,6 @@
       ]
     },
     {
-      "package_id": "7515b78b-b84f-4b91-b177-ece7c9b30f19",
-      "name": "Dubai Unlimited 5 Days",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 0,
-      "validity_days": 5,
-      "price": 3100,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "fup_policy": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        5
-      ]
-    },
-    {
       "package_id": "7561cea9-5904-4fb1-bbdc-7c00e01faea3",
       "name": "Moldova 500MB/Day",
       "country_code": "MD",
@@ -68195,39 +68129,6 @@
           "days": 30,
           "price": 85700
         }
-      ]
-    },
-    {
-      "package_id": "76441f5e-8608-42c0-a90e-9af309dbeace",
-      "name": "Dubai Unlimited 3 Days",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 0,
-      "validity_days": 3,
-      "price": 2000,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "fup_policy": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3
       ]
     },
     {
@@ -69690,39 +69591,6 @@
           "days": 30,
           "price": 3500
         }
-      ]
-    },
-    {
-      "package_id": "79fc6148-8d7f-48da-afaa-272a6b20109d",
-      "name": "Dubai Unlimited 15 Days",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 0,
-      "validity_days": 15,
-      "price": 8050,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "fup_policy": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        15
       ]
     },
     {
@@ -87878,40 +87746,6 @@
       ]
     },
     {
-      "package_id": "94ccfd72-eaca-4476-8af8-53ad058f7cfc",
-      "name": "Dubai Unlimited 10 Days",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 0,
-      "validity_days": 10,
-      "price": 5550,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "fup_policy": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        10
-      ]
-    },
-    {
       "package_id": "94dadd73-a429-43be-acfe-90593a76d2e0",
       "name": "United States 3GB 15Days (USIP)",
       "country_code": "US",
@@ -100018,39 +99852,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "aa541347-8db1-431b-bc88-1bc422d1d5da",
-      "name": "Dubai Unlimited 1 Day",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 0,
-      "validity_days": 1,
-      "price": 900,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "fup_policy": "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        1
-      ]
     },
     {
       "package_id": "aa9a8295-0dc3-432b-87c4-6e153eaa313d",
