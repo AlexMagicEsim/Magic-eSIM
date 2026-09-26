@@ -362,7 +362,7 @@
       "regional_count": 0,
       "daily_count": 4,
       "total_count": 8,
-      "min_price_rub": 1650,
+      "min_price_rub": 700,
       "volumes": [
         3,
         5,
@@ -3463,8 +3463,8 @@
       "flagEmoji": "🇦🇪",
       "local_count": 10,
       "regional_count": 0,
-      "daily_count": 20,
-      "total_count": 30,
+      "daily_count": 14,
+      "total_count": 24,
       "min_price_rub": 750,
       "volumes": [
         3,
@@ -5463,6 +5463,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-09-18T18:29:36.493Z",
+  "fetched_at": "2026-09-25T17:17:11.694Z",
   "source": "assets/catalog.json"
 }
