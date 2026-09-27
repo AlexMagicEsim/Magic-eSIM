@@ -109,6 +109,12 @@ export function fileFor(loc) {
 // through a different door. The day a proper vector mark replaces the current
 // one it must not re-date the corpus either.
 //
+// SHARE IMAGES LIKEWISE, added 2026-09-27. og:image and twitter:image say how
+// a link LOOKS when shared, not what the page says. On 199 pages they named a
+// file that never existed; pointing them at a real one re-dated 199 URLs until
+// they were stripped here. Same migration as the icons: stored hashes were
+// recomputed from the pages as they were at 9982f32, so no date moved.
+//
 // Doing this moved no date: the stored hashes in seo/sitemap-lastmod.json were
 // recomputed from the pages AS THEY WERE at 3cf9f76 under the new rule, so each
 // page kept the date it already had. That is a state migration, deliberately not
@@ -118,7 +124,8 @@ export function contentHash(html) {
   return createHash('sha256')
     .update(String(html)
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
-      .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, ''))
+      .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
+      .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, ''))
     .digest('hex').slice(0, 16);
 }
 

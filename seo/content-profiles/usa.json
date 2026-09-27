@@ -1,5 +1,6 @@
 {
   "status": "published",
+  "related": ["mexico", "united-kingdom", "brazil", "france", "italy"],
   "priority": "A",
   "traffic_bucket": "high",
   "title": "eSIM США — интернет для поездки по Америке",

@@ -75,12 +75,12 @@ const html = `<!DOCTYPE html>
   <meta property="og:url" content="${SITE}/esim/" />
   <meta property="og:title" content="${esc(title)}" />
   <meta property="og:description" content="${esc(description)}" />
-  <meta property="og:image" content="${SITE}/magic-esim-banner.png" />
+  <meta property="og:image" content="${SITE}/assets/magic-esim-logo.png" />
   <meta property="og:locale" content="ru_RU" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${esc(title)}" />
   <meta name="twitter:description" content="${esc(description)}" />
-  <meta name="twitter:image" content="${SITE}/magic-esim-banner.png" />
+  <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
 ${headIcons('  ')}
   <link rel="stylesheet" href="${stampUrl('../assets/country-pages.css')}" />
   <style>
