@@ -241,7 +241,7 @@ const ACTIVATION_LABELS = {
   purchase: 'после покупки',
 };
 const ACTIVATION_FALLBACK = 'с первого подключения к сети';
-function activationLabel(policy) {
+export function activationLabel(policy) {
   const k = String(policy || '').trim().toLowerCase();
   return Object.prototype.hasOwnProperty.call(ACTIVATION_LABELS, k) ? ACTIVATION_LABELS[k] : ACTIVATION_FALLBACK;
 }

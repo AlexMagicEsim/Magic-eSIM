@@ -28,9 +28,11 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { PROFILE_DIR, EDITORIAL_KEYS } from './content-profile.mjs';
-import { loadSheets } from './fact-sheet.mjs';
+import { loadSheets, activationLabel } from './fact-sheet.mjs';
+import { loadCatalogue, coverageCodes, purchasablePrice, isRussia, isRestricted, isGlobal } from './catalogue-facts.mjs';
 import { scoreProfile, corpusEntry, BANNED_PHRASES } from './content-quality.mjs';
 import { readdirSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
 const { sheets } = loadSheets();
 
@@ -95,7 +97,7 @@ function allowedValues(sheet) {
   return { 'ГБ': gb, '₽': rub, 'дней': days, 'стран': countries, 'тарифов': counts };
 }
 
-function checkFacts(profile, sheet) {
+export function checkFacts(profile, sheet) {
   const allowed = allowedValues(sheet);
   const problems = [];
   const scan = (text, patterns) => {
@@ -148,7 +150,7 @@ function checkFacts(profile, sheet) {
 const RESET_CLAIMS = /сгора[\wа-яёА-ЯЁ]*|обновля[\wа-яёА-ЯЁ]*\s+кажд|не\s+накаплива[\wа-яёА-ЯЁ]*|переносит[\wа-яёА-ЯЁ]*\s+на\s+(?:завтра|следующ)|кажд[\wа-яёА-ЯЁ]*\s+утр[\wа-яёА-ЯЁ]*\s+(?:выда|дад|появ)|в\s+полночь|до\s+полуночи/gi;
 const CONTINUE_CLAIMS = /продолжа[\wа-яёА-ЯЁ]*\s+работать\s+на\s+(?:сниженн|урезанн|пониженн)|не\s+выключа[\wа-яёА-ЯЁ]*\s*,?\s*(?:а|и)\s+продолжа|интернет\s+продолжа[\wа-яёА-ЯЁ]*/gi;
 
-function checkDailyBehaviour(profile, sheet) {
+export function checkDailyBehaviour(profile, sheet) {
   const problems = [];
   for (const text of proseOf(profile)) {
     if (!sheet.daily_reset_confirmed) {
@@ -180,7 +182,7 @@ const ACTIVATION_PHRASES = [
   ['с первого использования', 'с первого использования интернета'],
 ];
 
-function checkAttribution(profile, sheet) {
+export function checkAttribution(profile, sheet) {
   const problems = [];
   const speeds = sheet.speeds || [];
   const fups = (sheet.fup_policies || []).map((x) => x.toLowerCase().replace(/\s+/g, ''));
@@ -218,6 +220,109 @@ function checkAttribution(profile, sheet) {
   return [...new Set(problems)];
 }
 
+// A claim about ONE named package family, checked against that family.
+//
+// checkAttribution asks whether ANY card of the country prints a phrase. That
+// is right for «у большинства тарифов…» and blind to «у пакета «Китай, Корея,
+// Япония» срок идёт с первого подключения к сети»: on 2026-09-25 all three of
+// that family's packages moved to «с первого использования интернета», other
+// Korean cards still print the old phrase, and the stale sentence stayed live
+// with the check green.
+//
+// A family is what the CARD calls it. These titles are a port of the named
+// branches of publicPackageName() in assets/country-tariffs.js, matched on the
+// provider's name exactly as that function matches it, in the same order
+// (first hit wins — «europe and usa» must be tested before «europe »). A test
+// asserts every title is still printed by that file. Daily plans in the same
+// countries carry different provider names («China mainland & Japan & South
+// Korea 1GB/Day») and different card titles, so they are not in the family —
+// which is also why this cannot be done by coverage alone.
+//
+// The rule fires only when ONE sentence carries both a «quoted» family title
+// and an activation phrase. No quote, no family, no claim to check.
+export const FAMILY_TITLES = [
+  { title: 'Азия Плюс', match: (n) => n.includes('vietnam plus') },
+  { title: 'Латинская Америка', match: (n) => n.includes('latam') || n.includes('latin america') },
+  { title: 'Китай, Гонконг, Макао и Тайвань', match: (n) => n.includes('greater china') && n.includes('taiwan') },
+  { title: 'Китай, Корея и Япония', match: (n) => n.includes('china korea japan') },
+  { title: 'Сингапур, Малайзия и Таиланд', match: (n) => n.includes('singapore malaysia and thailand') },
+  { title: 'Европа и США', match: (n) => n.includes('europe and usa') },
+  { title: 'Европа Unlimited', match: (n) => n.includes('euconnect unlimited') },
+  { title: 'Испания и Португалия', match: (n) => n.includes('spain and portugal') },
+  { title: 'Греция, Кипр и Турция', match: (n) => n.includes('greece cyprus turkey') },
+  { title: 'Азия и Океания', match: (n) => n.includes('apac') },
+];
+const familyKey = (s) => String(s).toLowerCase().replace(/ё/g, 'е')
+  .replace(/\d+(?:[.,]\d+)?\s*(?:gb|гб)/gi, ' ').replace(/(?:^|[\s,])и(?=[\s,]|$)/g, ',')
+  .split(/[\s,]+/).filter(Boolean).sort().join(' ');
+const FAMILY_BY_KEY = new Map(FAMILY_TITLES.map((f) => [familyKey(f.title), f]));
+
+let familyLabelsCache = null;
+/** title → iso → the activation labels its cards print. Built once. */
+function familyLabels() {
+  if (familyLabelsCache) return familyLabelsCache;
+  const out = new Map();
+  const loaded = loadCatalogue();
+  const packages = Array.isArray(loaded) ? loaded : loaded.packages;
+  for (const p of packages) {
+    if (isRussia(p) || isRestricted(p) || isGlobal(p)) continue;
+    const price = purchasablePrice(p);
+    if (price === null || price <= 0) continue;
+    const name = String(p.name || '').toLowerCase();
+    const fam = FAMILY_TITLES.find((f) => f.match(name));
+    if (!fam) continue;
+    if (!out.has(fam.title)) out.set(fam.title, new Map());
+    for (const iso of coverageCodes(p)) {
+      const byIso = out.get(fam.title);
+      if (!byIso.has(iso)) byIso.set(iso, new Set());
+      byIso.get(iso).add(activationLabel(p.activation_policy));
+    }
+  }
+  familyLabelsCache = out;
+  return out;
+}
+
+export function checkNamedFamilies(profile, iso) {
+  const problems = [];
+  const families = familyLabels();
+  for (const text of proseOf(profile)) {
+    for (const sentence of sentences(text)) {
+      const phrases = ACTIVATION_PHRASES.filter(([phrase]) => sentence.includes(phrase));
+      if (!phrases.length) continue;
+      for (const q of sentence.matchAll(/«([^»]+)»/g)) {
+        const fam = FAMILY_BY_KEY.get(familyKey(q[1]));
+        const labels = fam && families.get(fam.title)?.get(iso);
+        if (!labels) continue;
+        for (const [phrase, label] of phrases) {
+          if (!labels.has(label)) {
+            problems.push(`активация «${phrase}…» у «${fam.title}» — карточки этого пакета печатают: ${[...labels].sort().join('; ')}`);
+          }
+        }
+      }
+    }
+  }
+  return [...new Set(problems)];
+}
+
+/**
+ * Every rule that compares the prose with the catalogue — and only those.
+ * Structure, quality score and banned phrases do not move when a price does,
+ * so they stay in the CLI and out of the refresh job's gate.
+ */
+export function catalogueProblems(profile, slug) {
+  const sheet = sheets[slug];
+  if (!sheet) return ['нет фактшита — страна не в каталоге'];
+  return [
+    ...checkFacts(profile, sheet),
+    ...checkDailyBehaviour(profile, sheet),
+    ...checkAttribution(profile, sheet),
+    ...checkNamedFamilies(profile, sheet.iso),
+    ...checkActivationSafety(profile, sheet),
+    ...checkTopup(profile, sheet),
+    ...checkNetworks(profile, sheet),
+  ];
+}
+
 // A page may not promise, without qualification, that the term starts when the
 // customer first connects — nor advise installing early as if it were free —
 // while some tariff on that same page starts counting AT INSTALLATION.
@@ -249,7 +354,7 @@ const TERM_START = new RegExp(
   `срок[^.!?]{0,90}(?:начн[её]тся|начина${CYR}*|идт[иё]|пойд[её]т|отсчитыва${CYR}*|отсчит${CYR}*)[^.!?]{0,70}(?:перв${CYR}*\\s+(?:подключени|использовани)${CYR}*|подключени${CYR}*\\s+к)`
   + `|с\\s+перв${CYR}*\\s+(?:подключени|использовани)${CYR}*[^.!?]{0,50},\\s*а\\s+не`, 'i');
 
-function checkActivationSafety(profile, sheet) {
+export function checkActivationSafety(profile, sheet) {
   const policies = sheet.activation_policies || [];
   if (!policies.includes('installation') && !policies.includes('upon_installation')) return [];
   const all = proseOf(profile).join(' \n ');
@@ -295,7 +400,7 @@ const TOPUP_CONTRAST = (t) => /пополнени[а-яё]*/i.test(t)
   // repo has been bitten by that five times; the boundary is spelled out.
   && /(?:(?<![а-яёa-z])нет(?![а-яёa-z])|не\s+отмечен|не\s+поддерживается|не\s+указан)/i.test(t);
 
-function checkTopup(profile, sheet) {
+export function checkTopup(profile, sheet) {
   const yes = Number(sheet.topup_yes || 0), no = Number(sheet.topup_no || 0);
   if (!yes && !no) return [];
   const problems = [];
@@ -330,7 +435,7 @@ function checkCoverageClaims(profile) {
 }
 
 // Operator names, checked against the field and against what the card prints.
-function checkNetworks(profile, sheet) {
+export function checkNetworks(profile, sheet) {
   const known = new Set(sheet.networks || []);
   if (!known.size) return [];
   const problems = [];
@@ -371,7 +476,10 @@ function checkBanned(profile) {
 }
 
 // ---------------------------------------------------------------------------
+// The CLI. Only when node was pointed at this file: test-profile-catalogue.mjs
+// imports the rules above, and importing must not review 46 pages and exit.
 
+if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
 const argv = process.argv.slice(2);
 const all = existsSync(PROFILE_DIR)
   ? readdirSync(PROFILE_DIR).filter((f) => f.endsWith('.json')).map((f) => f.replace(/\.json$/, ''))
@@ -391,15 +499,9 @@ for (const slug of scope) {
   try { profile = JSON.parse(readFileSync(file, 'utf8')); }
   catch (e) { console.log(`\n✗ ${slug}: JSON не разбирается — ${e.message}`); failed++; continue; }
 
-  const sheet = sheets[slug];
   const problems = [
-    ...(sheet ? checkFacts(profile, sheet) : ['нет фактшита — страна не в каталоге']),
-    ...(sheet ? checkDailyBehaviour(profile, sheet) : []),
-    ...(sheet ? checkAttribution(profile, sheet) : []),
-    ...(sheet ? checkActivationSafety(profile, sheet) : []),
-    ...(sheet ? checkTopup(profile, sheet) : []),
+    ...catalogueProblems(profile, slug),
     ...checkCoverageClaims(profile),
-    ...(sheet ? checkNetworks(profile, sheet) : []),
     ...checkStructure(profile),
     ...checkBanned(profile),
   ];
@@ -424,3 +526,4 @@ for (const slug of scope) {
 
 console.log(`\nПроверено ${scope.length}, замечаний в ${failed}.`);
 process.exit(failed ? 1 : 0);
+}
