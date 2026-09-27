@@ -25,7 +25,7 @@
 //   node seo/content-review.mjs                все профили
 //   node seo/content-review.mjs thailand japan
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { PROFILE_DIR, EDITORIAL_KEYS } from './content-profile.mjs';
 import { loadSheets, activationLabel } from './fact-sheet.mjs';
@@ -232,8 +232,9 @@ export function checkAttribution(profile, sheet) {
 // A family is what the CARD calls it. These titles are a port of the named
 // branches of publicPackageName() in assets/country-tariffs.js, matched on the
 // provider's name exactly as that function matches it, in the same order
-// (first hit wins — «europe and usa» must be tested before «europe »). A test
-// asserts every title is still printed by that file. Daily plans in the same
+// (first hit wins — «europe and usa» must be tested before «europe »).
+// test-profile-catalogue.mjs runs the real publicPackageName over every package
+// in the catalogue and asserts it lands in the same family. Daily plans in the same
 // countries carry different provider names («China mainland & Japan & South
 // Korea 1GB/Day») and different card titles, so they are not in the family —
 // which is also why this cannot be done by coverage alone.
@@ -248,12 +249,14 @@ export const FAMILY_TITLES = [
   { title: 'Сингапур, Малайзия и Таиланд', match: (n) => n.includes('singapore malaysia and thailand') },
   { title: 'Европа и США', match: (n) => n.includes('europe and usa') },
   { title: 'Европа Unlimited', match: (n) => n.includes('euconnect unlimited') },
+  { title: 'Европа + звонки', match: (n) => n.includes('eu ') && n.includes('unlimited calls') },
+  { title: 'Европа', match: (n) => n.includes('europe ') },
   { title: 'Испания и Португалия', match: (n) => n.includes('spain and portugal') },
   { title: 'Греция, Кипр и Турция', match: (n) => n.includes('greece cyprus turkey') },
   { title: 'Азия и Океания', match: (n) => n.includes('apac') },
 ];
-const familyKey = (s) => String(s).toLowerCase().replace(/ё/g, 'е')
-  .replace(/\d+(?:[.,]\d+)?\s*(?:gb|гб)/gi, ' ').replace(/(?:^|[\s,])и(?=[\s,]|$)/g, ',')
+export const familyKey = (s) => String(s).toLowerCase().replace(/ё/g, 'е')
+  .replace(/\d+(?:[.,]\d+)?\s*(?:gb|гб|мб|mb|дн[а-яё]*)/gi, ' ').replace(/(?:^|[\s,])и(?=[\s,]|$)/g, ',')
   .split(/[\s,]+/).filter(Boolean).sort().join(' ');
 const FAMILY_BY_KEY = new Map(FAMILY_TITLES.map((f) => [familyKey(f.title), f]));
 
@@ -282,13 +285,19 @@ function familyLabels() {
   return out;
 }
 
-export function checkNamedFamilies(profile, iso) {
+// `families` is injectable so the regression fixtures run against a fixed map:
+// pinned to the live catalogue they would go red the next time the provider
+// moved a price, with no stale prose anywhere — and stop every page refresh.
+export function checkNamedFamilies(profile, iso, families = familyLabels()) {
   const problems = [];
-  const families = familyLabels();
   for (const text of proseOf(profile)) {
     for (const sentence of sentences(text)) {
-      const phrases = ACTIVATION_PHRASES.filter(([phrase]) => sentence.includes(phrase));
-      if (!phrases.length) continue;
+      const lower = sentence.toLowerCase();
+      const phrases = ACTIVATION_PHRASES.filter(([phrase]) => lower.includes(phrase));
+      // One label per sentence, or it is a contrast — «у пакета X с первого
+      // использования, а у местных после установки» — and cannot be charged to
+      // the family as a whole. Same «both poles» shape as TOPUP_CONTRAST.
+      if (phrases.length !== 1) continue;
       for (const q of sentence.matchAll(/«([^»]+)»/g)) {
         const fam = FAMILY_BY_KEY.get(familyKey(q[1]));
         const labels = fam && families.get(fam.title)?.get(iso);
@@ -309,14 +318,14 @@ export function checkNamedFamilies(profile, iso) {
  * Structure, quality score and banned phrases do not move when a price does,
  * so they stay in the CLI and out of the refresh job's gate.
  */
-export function catalogueProblems(profile, slug) {
-  const sheet = sheets[slug];
+export function catalogueProblems(profile, slug, { sheetsBySlug = sheets, families } = {}) {
+  const sheet = sheetsBySlug[slug];
   if (!sheet) return ['нет фактшита — страна не в каталоге'];
   return [
     ...checkFacts(profile, sheet),
     ...checkDailyBehaviour(profile, sheet),
     ...checkAttribution(profile, sheet),
-    ...checkNamedFamilies(profile, sheet.iso),
+    ...checkNamedFamilies(profile, sheet.iso, families),
     ...checkActivationSafety(profile, sheet),
     ...checkTopup(profile, sheet),
     ...checkNetworks(profile, sheet),
@@ -479,7 +488,10 @@ function checkBanned(profile) {
 // The CLI. Only when node was pointed at this file: test-profile-catalogue.mjs
 // imports the rules above, and importing must not review 46 pages and exit.
 
-if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
+// realpath: node resolves the main module through symlinks (macOS /tmp is one),
+// and comparing against the raw argv made the CLI a silent no-op there.
+const invokedAs = process.argv[1] && existsSync(process.argv[1]) ? realpathSync(process.argv[1]) : '';
+if (invokedAs && import.meta.url === pathToFileURL(invokedAs).href) {
 const argv = process.argv.slice(2);
 const all = existsSync(PROFILE_DIR)
   ? readdirSync(PROFILE_DIR).filter((f) => f.endsWith('.json')).map((f) => f.replace(/\.json$/, ''))
