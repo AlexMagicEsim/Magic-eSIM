@@ -176,6 +176,14 @@ test('the strip is anchored to assets — a ?v= inside prose is content', () => 
   assert.notEqual(contentHash(a), contentHash(b), 'разные ссылки обязаны давать разный хеш');
 });
 
+test('a share image is not content — fixing a broken og:image is not an edit', () => {
+  const page = (img) => `<meta property="og:image" content="${img}" />\n  <meta name="twitter:image" content="${img}" />\n<p>текст</p>`;
+  assert.equal(contentHash(page('https://magicesim.store/a.png')), contentHash(page('https://magicesim.store/b.png')),
+    'смена картинки превью не должна двигать lastmod');
+  assert.notEqual(contentHash(page('https://magicesim.store/a.png')), contentHash(page('https://magicesim.store/a.png').replace('текст', 'другое')),
+    'а текст страницы — должен');
+});
+
 // ── against the real generator ──────────────────────────────────────────────
 test('4. regenerating every page is not a mass edit', () => {
   const snap = snapshot();
