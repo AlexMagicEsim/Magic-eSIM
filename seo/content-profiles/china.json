@@ -1,5 +1,6 @@
 {
   "status": "published",
+  "related": ["hong-kong", "taiwan", "japan", "south-korea", "vietnam"],
   "priority": "A",
   "traffic_bucket": "high",
   "title": "eSIM Китай — интернет и привычные сервисы",

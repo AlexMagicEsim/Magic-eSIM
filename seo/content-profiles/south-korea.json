@@ -1,5 +1,6 @@
 {
   "status": "published",
+  "related": ["japan", "china", "taiwan", "hong-kong", "vietnam"],
   "priority": "A",
   "traffic_bucket": "medium",
   "title": "eSIM Южная Корея — интернет для туриста",

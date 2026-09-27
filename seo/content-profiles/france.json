@@ -1,5 +1,6 @@
 {
   "status": "published",
+  "related": ["italy", "spain", "germany", "united-kingdom", "greece"],
   "priority": "A",
   "traffic_bucket": "medium",
   "title": "eSIM Франция — интернет в поездке по Европе",

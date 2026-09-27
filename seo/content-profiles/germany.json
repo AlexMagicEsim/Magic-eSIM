@@ -1,5 +1,6 @@
 {
   "status": "published",
+  "related": ["france", "italy", "spain", "united-kingdom", "cyprus"],
   "priority": "A",
   "traffic_bucket": "medium",
   "title": "eSIM Германия — интернет для работы в дороге",
