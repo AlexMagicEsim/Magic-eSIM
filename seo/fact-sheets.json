@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-18T18:29:36.493Z",
+  "fetched_at": "2026-09-25T17:17:11.694Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -774,6 +774,7 @@
         "SMART",
         "SingTel",
         "SmarTone",
+        "SoftBank",
         "StarHub",
         "TPG Telecom",
         "Tele2.kz",
@@ -795,12 +796,13 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 27,
@@ -970,10 +972,11 @@
         "512 Kbps"
       ],
       "activation_policies": [
-        "network_connection",
+        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 13,
@@ -1147,7 +1150,7 @@
       "regional_count": 5,
       "total_count": 9,
       "min_price_rub": 2950,
-      "max_price_rub": 16300,
+      "max_price_rub": 11850,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -1162,7 +1165,7 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 5000,
+          "price_rub": 3500,
           "validity_days": 0,
           "kind": "local"
         },
@@ -1194,33 +1197,31 @@
       "all_purchasable_prices": [
         2950,
         3500,
-        5000,
         5200,
+        5550,
+        6250,
         6300,
-        8000,
-        9050,
-        11000,
+        7600,
+        9150,
+        10150,
+        10650,
+        11750,
         11850,
-        12650,
-        14800,
-        15550,
-        16300,
-        20500,
+        14000,
+        14950,
+        15800,
+        19250,
+        19800,
         20800,
-        23050,
-        26850,
-        28950,
-        29100,
-        37400,
-        41150,
-        43400,
-        45650,
-        53200,
-        61500,
-        79600,
-        86400,
-        122550,
-        158750
+        26800,
+        29500,
+        31100,
+        38100,
+        44000,
+        56900,
+        58500,
+        87550,
+        113300
       ],
       "term_days": [
         3,
@@ -1263,7 +1264,7 @@
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2950,
-      "min_daily_price_rub": 5000
+      "min_daily_price_rub": 3500
     },
     "china": {
       "iso": "CN",
@@ -1520,7 +1521,6 @@
         "Banglalink",
         "Beeline",
         "CAT",
-        "CMHK",
         "CTM",
         "CelcomDigi",
         "China Mobile",
@@ -1572,7 +1572,6 @@
       "activation_policies": [
         "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -3343,10 +3342,9 @@
       ],
       "networks": [
         "3",
-        "CMHK",
         "CTM",
         "CelcomDigi",
-        "China Mobile",
+        "China Telecom",
         "China Unicom",
         "Chunghwa",
         "DTAC",
@@ -3357,8 +3355,10 @@
         "MobiFone",
         "SKTelecom",
         "SingTel",
+        "SmarTone",
         "Telkomsel",
         "TrueMove H",
+        "U Mobile",
         "Vietnamobile",
         "Viettel Mobile",
         "csl"
@@ -3372,12 +3372,13 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 27,
@@ -4444,7 +4445,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -7260,7 +7260,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -7760,9 +7759,9 @@
       "iso": "AE",
       "name_ru": "ОАЭ",
       "strategy": "LOCAL",
-      "local_count": 25,
+      "local_count": 19,
       "regional_count": 5,
-      "total_count": 30,
+      "total_count": 24,
       "min_price_rub": 750,
       "max_price_rub": 18750,
       "validity_days_min": 0,
@@ -7776,7 +7775,7 @@
         50,
         100
       ],
-      "has_unlimited": true,
+      "has_unlimited": false,
       "regional_reach_max": 6,
       "offers": [
         {
@@ -7824,7 +7823,6 @@
       ],
       "all_purchasable_prices": [
         750,
-        900,
         1050,
         1100,
         1150,
@@ -7842,7 +7840,6 @@
         2850,
         2950,
         3050,
-        3100,
         3250,
         3350,
         3400,
@@ -7851,7 +7848,6 @@
         3850,
         3900,
         4000,
-        4100,
         4350,
         4500,
         4900,
@@ -7861,7 +7857,6 @@
         5200,
         5300,
         5500,
-        5550,
         6000,
         6050,
         6100,
@@ -7938,13 +7933,12 @@
         "ooredoo"
       ],
       "networks_rows": 21,
-      "rows_total": 30,
+      "rows_total": 24,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
         "500 Kbps",
-        "512 Kbps",
-        "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
+        "512 Kbps"
       ],
       "activation_policies": [
         "first_data_usage",
@@ -7955,7 +7949,7 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 22,
-      "topup_no": 8,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -9255,10 +9249,11 @@
         "512 Kbps"
       ],
       "activation_policies": [
-        "network_connection",
+        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 12,
@@ -9510,12 +9505,13 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 21,
@@ -10450,12 +10446,13 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 39,
@@ -11175,7 +11172,7 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 1650,
+          "price_rub": 1400,
           "validity_days": 30,
           "kind": "local"
         },
@@ -11227,7 +11224,6 @@
         1350,
         1400,
         1550,
-        1650,
         1800,
         1900,
         2050,
@@ -13395,6 +13391,8 @@
         "3G/4G"
       ],
       "networks": [
+        "Beeline",
+        "Geocell",
         "Magti"
       ],
       "networks_rows": 12,
@@ -13626,7 +13624,6 @@
         "Banglalink",
         "Beeline",
         "CAT",
-        "CMHK",
         "CTM",
         "CelcomDigi",
         "China Mobile",
@@ -13675,12 +13672,13 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 26,
@@ -13879,7 +13877,6 @@
       "activation_policies": [
         "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -14210,7 +14207,6 @@
       "activation_policies": [
         "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -14532,7 +14528,6 @@
       "activation_policies": [
         "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -14852,12 +14847,14 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
         "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 32,
@@ -15116,6 +15113,7 @@
         "Dialog",
         "Etisalat",
         "FarEasTone",
+        "Fren/Hepi",
         "Globe",
         "Grameenphone",
         "Hutch",
@@ -15129,6 +15127,7 @@
         "MobiFone",
         "Mobitel",
         "NTT docomo",
+        "PT Natrindo Telepon Seluler",
         "Rakuten Mobile",
         "SKTelecom",
         "SMART",
@@ -15159,7 +15158,6 @@
       "activation_policies": [
         "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -15469,12 +15467,14 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
         "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 34,
@@ -15673,6 +15673,7 @@
         "SingTel",
         "Telkomsel",
         "TrueMove H",
+        "U Mobile",
         "Vietnamobile",
         "Viettel Mobile",
         "csl"
@@ -15686,12 +15687,13 @@
         "512 Kbps"
       ],
       "activation_policies": [
+        "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 16,
@@ -23447,7 +23449,7 @@
         },
         {
           "data_gb": 12,
-          "price_rub": 2050,
+          "price_rub": 2350,
           "validity_days": 30,
           "kind": "regional"
         },
@@ -23508,6 +23510,7 @@
         3250,
         3350,
         3400,
+        3550,
         3650,
         3700,
         3850,
@@ -23567,14 +23570,12 @@
       ],
       "networks": [
         "Optus",
-        "Spark",
-        "Telstra"
+        "Spark"
       ],
       "networks_rows": 20,
       "rows_total": 31,
       "fup_policies": [
         "1 Mbps",
-        "128 Kbps",
         "384 Kbps",
         "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
@@ -23582,7 +23583,6 @@
       "activation_policies": [
         "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -24008,7 +24008,6 @@
       "activation_policies": [
         "first_data_usage",
         "installation",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -24323,7 +24322,7 @@
         },
         {
           "data_gb": 12,
-          "price_rub": 2050,
+          "price_rub": 2350,
           "validity_days": 30,
           "kind": "regional"
         },
@@ -24379,6 +24378,7 @@
         3350,
         3400,
         3450,
+        3550,
         3650,
         3750,
         4000,
@@ -24439,14 +24439,12 @@
       "networks": [
         "One NZ",
         "Optus",
-        "Spark",
-        "Telstra"
+        "Spark"
       ],
       "networks_rows": 19,
       "rows_total": 26,
       "fup_policies": [
         "1 Mbps",
-        "128 Kbps",
         "384 Kbps",
         "512 Kbps"
       ],
@@ -26096,7 +26094,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -26408,7 +26405,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -26719,7 +26715,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -27576,10 +27571,11 @@
         "512 Kbps"
       ],
       "activation_policies": [
-        "network_connection",
+        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 12,
@@ -27741,10 +27737,11 @@
         "512 Kbps"
       ],
       "activation_policies": [
-        "network_connection",
+        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 12,
@@ -30785,8 +30782,8 @@
         "3G/4G"
       ],
       "networks": [
-        "Ncell",
-        "Nepal Telecom"
+        "NT Mobile",
+        "Ncell"
       ],
       "networks_rows": 10,
       "rows_total": 12,
@@ -30797,7 +30794,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -31463,10 +31459,11 @@
         "512 Kbps"
       ],
       "activation_policies": [
-        "network_connection",
+        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 12,
@@ -31775,10 +31772,11 @@
         "512 Kbps"
       ],
       "activation_policies": [
-        "network_connection",
+        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 13,
@@ -31939,7 +31937,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -33158,7 +33155,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -33589,10 +33585,11 @@
         "512 Kbps"
       ],
       "activation_policies": [
-        "network_connection",
+        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
+        "с первого использования интернета",
         "с первого подключения к сети"
       ],
       "topup_yes": 11,
@@ -33736,7 +33733,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -34392,7 +34388,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -34917,7 +34912,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -35252,7 +35246,6 @@
       "fup_policies": [],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -35482,7 +35475,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -35626,7 +35618,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -35781,7 +35772,6 @@
       ],
       "activation_policies": [
         "first_data_usage",
-        "network_connection",
         "unknown"
       ],
       "activation_labels": [
@@ -37770,8 +37760,8 @@
       "local_count": 8,
       "regional_count": 0,
       "total_count": 8,
-      "min_price_rub": 1650,
-      "max_price_rub": 14450,
+      "min_price_rub": 700,
+      "max_price_rub": 5600,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -37786,64 +37776,63 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1650,
+          "price_rub": 700,
           "validity_days": 0,
           "kind": "local"
         },
         {
           "data_gb": 3,
-          "price_rub": 2450,
+          "price_rub": 900,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3850,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 6850,
+          "price_rub": 2500,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 12400,
+          "price_rub": 4500,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
-        1650,
-        2450,
+        700,
+        900,
+        950,
+        1150,
+        1450,
+        1550,
+        1600,
+        2100,
+        2200,
         2500,
-        2700,
-        3650,
-        3850,
-        3950,
-        4050,
-        5000,
-        5350,
-        6450,
-        6850,
-        7250,
-        7400,
-        8850,
-        10900,
+        2600,
+        2950,
+        3200,
+        3500,
+        4200,
+        4500,
+        4800,
+        5600,
+        5950,
+        7000,
+        7900,
+        9000,
         12400,
-        12450,
-        14050,
-        14450,
-        18450,
-        21350,
-        23800,
-        33150,
-        36500,
-        47150,
-        70500,
-        140550
+        13500,
+        17550,
+        26100,
+        51700
       ],
       "term_days": [
         3,
@@ -37882,8 +37871,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 2450,
-      "min_daily_price_rub": 1650
+      "min_volume_price_rub": 900,
+      "min_daily_price_rub": 700
     },
     "sint-maarten": {
       "iso": "SX",
@@ -38169,10 +38158,10 @@
       "rows_total": 1,
       "fup_policies": [],
       "activation_policies": [
-        "network_connection"
+        "first_data_usage"
       ],
       "activation_labels": [
-        "с первого подключения к сети"
+        "с первого использования интернета"
       ],
       "topup_yes": 0,
       "topup_no": 1,
