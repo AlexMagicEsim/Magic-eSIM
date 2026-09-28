@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-28T17:41:16.519Z",
+  "generated_at": "2026-09-28T19:42:29.824Z",
   "source": "production-public-api",
   "package_count": 2293,
   "packages": [
@@ -22561,7 +22561,7 @@
         "GB"
       ],
       "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
-      "data_gb": 53,
+      "data_gb": 0,
       "validity_days": 7,
       "price": 2100,
       "networks": [],
@@ -22569,19 +22569,21 @@
         "4G"
       ],
       "speed": "",
-      "speed_note": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "fup_policy": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
       "hotspot_supported": true,
       "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        7
+      ]
     },
     {
       "package_id": "242068de-54e9-45d7-9e34-3f84a00b83a5",
@@ -138396,7 +138398,7 @@
         "GB"
       ],
       "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
-      "data_gb": 66,
+      "data_gb": 0,
       "validity_days": 10,
       "price": 2700,
       "networks": [],
@@ -138404,19 +138406,21 @@
         "4G"
       ],
       "speed": "",
-      "speed_note": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "fup_policy": "3GB/day without a speed limit. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
       "hotspot_supported": true,
       "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        10
+      ]
     },
     {
       "package_id": "e7bea14b-0de2-44e4-b015-7341fcc66d0d",
