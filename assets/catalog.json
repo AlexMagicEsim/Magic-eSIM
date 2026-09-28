@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-25T17:17:11.694Z",
+  "generated_at": "2026-09-28T14:04:55.306Z",
   "source": "production-public-api",
   "package_count": 2291,
   "packages": [
@@ -696,7 +696,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -4977,15 +4977,11 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
+          "type": "4G"
         },
         {
           "operator": "Elisa",
           "type": "5G"
-        },
-        {
-          "operator": "Elisa",
-          "type": "24421"
         },
         {
           "operator": "SFR",
@@ -7548,7 +7544,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -11421,15 +11417,11 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
+          "type": "4G"
         },
         {
           "operator": "Elisa",
           "type": "5G"
-        },
-        {
-          "operator": "Elisa",
-          "type": "24421"
         },
         {
           "operator": "SFR",
@@ -13231,7 +13223,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -15616,7 +15608,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -17793,7 +17785,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea/Türk Telekom",
+          "operator": "Avea",
           "type": "5G"
         }
       ],
@@ -17809,7 +17801,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -22395,7 +22388,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -31282,7 +31275,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "csl",
@@ -31294,7 +31287,7 @@
         },
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -36082,7 +36075,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea/Türk Telekom",
+          "operator": "Avea",
           "type": "5G"
         }
       ],
@@ -36098,7 +36091,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -36713,7 +36707,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -37009,7 +37003,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -38275,7 +38269,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -41027,7 +41021,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "csl",
@@ -41039,7 +41033,7 @@
         },
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -55778,15 +55772,11 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
+          "type": "4G"
         },
         {
           "operator": "Elisa",
           "type": "5G"
-        },
-        {
-          "operator": "Elisa",
-          "type": "24421"
         },
         {
           "operator": "SFR",
@@ -59073,7 +59063,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "csl",
@@ -59085,7 +59075,7 @@
         },
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -59424,7 +59414,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea/Türk Telekom",
+          "operator": "Avea",
           "type": "5G"
         }
       ],
@@ -59440,7 +59430,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -75400,7 +75391,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "csl",
@@ -75412,7 +75403,7 @@
         },
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -85807,7 +85798,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "csl",
@@ -85819,7 +85810,7 @@
         },
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -87912,15 +87903,11 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
+          "type": "4G"
         },
         {
           "operator": "Elisa",
           "type": "5G"
-        },
-        {
-          "operator": "Elisa",
-          "type": "24421"
         },
         {
           "operator": "SFR",
@@ -97802,7 +97789,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -98305,7 +98292,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -101982,7 +101969,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -116941,7 +116928,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -119777,7 +119764,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea/Türk Telekom",
+          "operator": "Avea",
           "type": "5G"
         }
       ],
@@ -119788,17 +119775,18 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -120843,7 +120831,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -129191,7 +129179,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -132681,7 +132669,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea/Türk Telekom",
+          "operator": "Avea",
           "type": "5G"
         }
       ],
@@ -132692,17 +132680,18 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 5,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -135349,7 +135338,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -140249,15 +140238,11 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
+          "type": "4G"
         },
         {
           "operator": "Elisa",
           "type": "5G"
-        },
-        {
-          "operator": "Elisa",
-          "type": "24421"
         },
         {
           "operator": "SFR",
@@ -146942,7 +146927,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -148138,7 +148123,7 @@
         },
         {
           "operator": "China Telecom",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
