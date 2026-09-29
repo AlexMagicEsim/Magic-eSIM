@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-28T19:42:29.824Z",
+  "generated_at": "2026-09-29T13:00:19.122Z",
   "source": "production-public-api",
   "package_count": 2293,
   "packages": [
@@ -7425,7 +7425,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 12,
       "validity_days": 30,
-      "price": 2150,
+      "price": 2300,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -17785,7 +17785,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -36135,7 +36135,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -59474,7 +59474,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -119824,7 +119824,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -132729,7 +132729,7 @@
           "type": "5G"
         },
         {
-          "operator": "Avea",
+          "operator": "Avea/Türk Telekom",
           "type": "5G"
         }
       ],
@@ -151342,7 +151342,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 7,
       "validity_days": 30,
-      "price": 1400,
+      "price": 1450,
       "networks": [],
       "network_technologies": [
         "4G",
