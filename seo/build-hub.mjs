@@ -17,6 +17,7 @@ import { loadCached } from './catalogue-source.mjs';
 import { SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
+import { GUIDES } from './guides.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
@@ -62,6 +63,16 @@ const card = (c) => `      <a class="c-card" href="${c.slug}/" data-name="${esc(
         ${c.local_count > 0 ? '<span class="c-badge">локальные</span>' : '<span class="c-badge c-badge--reg">региональные</span>'}
       </a>`;
 
+// The index of every information page, built from seo/guides.mjs — the one
+// list build-guides.mjs renders them from — so a new guide appears here by
+// construction. Until 2026-09-30 this was five hand-written links, and the two
+// installation guides (iPhone, Android) were not among them.
+const materials = GUIDES.map((g) => {
+  if (!g.hubBlurb) throw new Error(`guides.mjs: у ${g.url} нет hubBlurb`);
+  const href = g.url.slice(SITE.length);
+  return `        <li><a href="${href}">${esc(g.h1)}</a><span>${esc(g.hubBlurb)}</span></li>`;
+}).join('\n');
+
 const html = `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -97,6 +108,10 @@ ${headIcons('  ')}
     .c-badge{align-self:flex-start;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:999px;background:#e8f5ec;color:#15803d}
     .c-badge--reg{background:#eef2f7;color:#475569}
     .hub-empty{color:#666;padding:16px 0}
+    .materials{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+    .materials li{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border:1px solid #e4e4ea;border-radius:12px;background:#fff}
+    .materials a{font-weight:600}
+    .materials span{color:#666;font-size:14px}
   </style>
   <!-- Первичный origin, а не шлюз: assets/magic-net.js держит render первым
        (ENDPOINTS[0]), а api.magicesim.store — резервом. Здесь стоял шлюз —
@@ -122,6 +137,7 @@ ${METRIKA}
     <section class="hero">
       <h1>eSIM по странам</h1>
       <p class="lead">${countries.length} ${countries.length % 10 === 1 && countries.length % 100 !== 11 ? 'направление' : 'направлений'} с реальными тарифами из каталога. У ${withLocal.length} есть локальные тарифы — они на странице страны идут первым блоком; региональные показываются отдельно и остаются доступны всегда.</p>
+      <p class="lead"><a href="#materials">Инструкции и ответы перед поездкой</a> — установка, совместимость, оплата.</p>
     </section>
 
     <section>
@@ -140,9 +156,11 @@ ${countries.map(card).join('\n')}
       <p class="hub-empty" id="hubEmpty" hidden>Ничего не нашлось. Попробуйте другое написание.</p>
     </section>
 
-    <section class="compat">
-      <h2>Перед покупкой</h2>
-      <p><a href="/esim/compatibility/">Совместимость устройств</a> · <a href="/esim/activation-before-travel/">Установка до вылета</a> · <a href="/esim/not-working/">Если интернет не появился</a> · <a href="/esim/dual-sim-sms/">Две SIM и SMS от банков</a> · <a href="/esim/payment-rubles/">Оплата рублями и СБП</a></p>
+    <section class="compat" id="materials">
+      <h2>Инструкции и ответы перед поездкой</h2>
+      <ul class="materials">
+${materials}
+      </ul>
     </section>
   </main>
 

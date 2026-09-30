@@ -38,6 +38,10 @@
     .c-badge{align-self:flex-start;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:999px;background:#e8f5ec;color:#15803d}
     .c-badge--reg{background:#eef2f7;color:#475569}
     .hub-empty{color:#666;padding:16px 0}
+    .materials{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+    .materials li{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border:1px solid #e4e4ea;border-radius:12px;background:#fff}
+    .materials a{font-weight:600}
+    .materials span{color:#666;font-size:14px}
   </style>
   <!-- Первичный origin, а не шлюз: assets/magic-net.js держит render первым
        (ENDPOINTS[0]), а api.magicesim.store — резервом. Здесь стоял шлюз —
@@ -105,6 +109,7 @@
     <section class="hero">
       <h1>eSIM по странам</h1>
       <p class="lead">198 направлений с реальными тарифами из каталога. У 195 есть локальные тарифы — они на странице страны идут первым блоком; региональные показываются отдельно и остаются доступны всегда.</p>
+      <p class="lead"><a href="#materials">Инструкции и ответы перед поездкой</a> — установка, совместимость, оплата.</p>
     </section>
 
     <section>
@@ -1310,9 +1315,17 @@
       <p class="hub-empty" id="hubEmpty" hidden>Ничего не нашлось. Попробуйте другое написание.</p>
     </section>
 
-    <section class="compat">
-      <h2>Перед покупкой</h2>
-      <p><a href="/esim/compatibility/">Совместимость устройств</a> · <a href="/esim/activation-before-travel/">Установка до вылета</a> · <a href="/esim/not-working/">Если интернет не появился</a> · <a href="/esim/dual-sim-sms/">Две SIM и SMS от банков</a> · <a href="/esim/payment-rubles/">Оплата рублями и СБП</a></p>
+    <section class="compat" id="materials">
+      <h2>Инструкции и ответы перед поездкой</h2>
+      <ul class="materials">
+        <li><a href="/iphone.html">Как установить eSIM на iPhone</a><span>По QR-коду или вручную — и что включить после прилёта.</span></li>
+        <li><a href="/android.html">Как установить eSIM на Android</a><span>Samsung, Pixel и другие: где в настройках добавить eSIM.</span></li>
+        <li><a href="/esim/compatibility/">Поддерживает ли ваш телефон eSIM</a><span>Как за минуту проверить телефон до покупки тарифа.</span></li>
+        <li><a href="/esim/activation-before-travel/">Когда устанавливать и включать eSIM</a><span>Установка профиля и начало срока тарифа — разные события.</span></li>
+        <li><a href="/esim/not-working/">eSIM не работает — что проверить</a><span>Пошаговая проверка, если нет сети или интернета.</span></li>
+        <li><a href="/esim/dual-sim-sms/">Основной номер и travel eSIM: SMS, звонки и две SIM</a><span>Что происходит с SMS, звонками и кодами банков.</span></li>
+        <li><a href="/esim/payment-rubles/">Оплата eSIM рублями: СБП и российская карта</a><span>Российской банковской картой или через СБП.</span></li>
+      </ul>
     </section>
   </main>
 
