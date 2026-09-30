@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-25T17:17:11.694Z",
+  "fetched_at": "2026-09-29T13:00:19.122Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -1314,7 +1314,7 @@
         },
         {
           "data_gb": 7,
-          "price_rub": 1400,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -1592,8 +1592,8 @@
       "name_ru": "Хорватия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 27,
-      "total_count": 40,
+      "regional_count": 29,
+      "total_count": 42,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -1882,11 +1882,12 @@
         "Ålcom"
       ],
       "networks_rows": 36,
-      "rows_total": 40,
+      "rows_total": 42,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -1900,9 +1901,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 33,
-      "topup_no": 7,
+      "topup_no": 9,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -1912,8 +1913,8 @@
       "name_ru": "Кипр",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 28,
-      "total_count": 41,
+      "regional_count": 30,
+      "total_count": 43,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -2212,11 +2213,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 41,
+      "rows_total": 43,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -2229,9 +2231,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 35,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -2241,8 +2243,8 @@
       "name_ru": "Греция",
       "strategy": "LOCAL",
       "local_count": 16,
-      "regional_count": 31,
-      "total_count": 47,
+      "regional_count": 33,
+      "total_count": 49,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -2549,11 +2551,12 @@
         "Ålcom"
       ],
       "networks_rows": 37,
-      "rows_total": 47,
+      "rows_total": 49,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -2567,9 +2570,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 40,
-      "topup_no": 7,
+      "topup_no": 9,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -3509,8 +3512,8 @@
       "name_ru": "Латвия",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 24,
-      "total_count": 35,
+      "regional_count": 26,
+      "total_count": 37,
       "min_price_rub": 350,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -3791,11 +3794,12 @@
         "Ålcom"
       ],
       "networks_rows": 31,
-      "rows_total": 35,
+      "rows_total": 37,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -3809,9 +3813,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 30,
-      "topup_no": 5,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -3998,8 +4002,8 @@
       "name_ru": "Дания",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 24,
-      "total_count": 38,
+      "regional_count": 26,
+      "total_count": 40,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -4285,11 +4289,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 38,
+      "rows_total": 40,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -4303,9 +4308,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 32,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -5126,8 +5131,8 @@
       "name_ru": "Ирландия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 25,
-      "total_count": 38,
+      "regional_count": 27,
+      "total_count": 40,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -5410,11 +5415,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 38,
+      "rows_total": 40,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -5428,9 +5434,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 32,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -8082,8 +8088,8 @@
       "name_ru": "Словения",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 25,
-      "total_count": 38,
+      "regional_count": 27,
+      "total_count": 40,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -8367,11 +8373,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 38,
+      "rows_total": 40,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -8385,9 +8392,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 32,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -9527,8 +9534,8 @@
       "name_ru": "Нидерланды",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -9643,6 +9650,7 @@
         1900,
         1950,
         2000,
+        2100,
         2150,
         2200,
         2300,
@@ -9811,11 +9819,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -9829,9 +9838,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -12009,8 +12018,8 @@
       "name_ru": "Чехия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -12293,11 +12302,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -12311,9 +12321,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -12323,8 +12333,8 @@
       "name_ru": "Великобритания",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -12606,11 +12616,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -12624,9 +12635,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -12971,8 +12982,8 @@
       "name_ru": "Венгрия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -13256,11 +13267,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -13274,9 +13286,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -16815,8 +16827,8 @@
       "name_ru": "Германия",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 24,
-      "total_count": 38,
+      "regional_count": 26,
+      "total_count": 40,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -17102,11 +17114,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 38,
+      "rows_total": 40,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -17120,9 +17133,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 32,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -17132,8 +17145,8 @@
       "name_ru": "Бельгия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -17418,11 +17431,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -17436,9 +17450,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -17448,8 +17462,8 @@
       "name_ru": "Финляндия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -17733,11 +17747,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -17751,9 +17766,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -17763,8 +17778,8 @@
       "name_ru": "Португалия",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 25,
-      "total_count": 39,
+      "regional_count": 27,
+      "total_count": 41,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -18051,11 +18066,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 39,
+      "rows_total": 41,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -18069,9 +18085,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 33,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -18081,8 +18097,8 @@
       "name_ru": "Болгария",
       "strategy": "LOCAL",
       "local_count": 15,
-      "regional_count": 27,
-      "total_count": 42,
+      "regional_count": 29,
+      "total_count": 44,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -18385,11 +18401,12 @@
         "Ålcom"
       ],
       "networks_rows": 36,
-      "rows_total": 42,
+      "rows_total": 44,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -18403,9 +18420,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 33,
-      "topup_no": 9,
+      "topup_no": 11,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -18415,8 +18432,8 @@
       "name_ru": "Литва",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -18699,11 +18716,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -18717,9 +18735,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -18729,8 +18747,8 @@
       "name_ru": "Люксембург",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -19013,11 +19031,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -19031,9 +19050,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -19043,8 +19062,8 @@
       "name_ru": "Франция",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 19,
-      "total_count": 31,
+      "regional_count": 21,
+      "total_count": 33,
       "min_price_rub": 400,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -19151,6 +19170,7 @@
         1950,
         2000,
         2050,
+        2100,
         2200,
         2300,
         2350,
@@ -19308,11 +19328,12 @@
         "Ålcom"
       ],
       "networks_rows": 27,
-      "rows_total": 31,
+      "rows_total": 33,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -19326,9 +19347,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 26,
-      "topup_no": 5,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
       "min_daily_price_rub": 450
@@ -19338,8 +19359,8 @@
       "name_ru": "Швеция",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 24,
-      "total_count": 36,
+      "regional_count": 26,
+      "total_count": 38,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -19616,11 +19637,12 @@
         "Ålcom"
       ],
       "networks_rows": 32,
-      "rows_total": 36,
+      "rows_total": 38,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -19634,9 +19656,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 30,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -19646,8 +19668,8 @@
       "name_ru": "Словакия",
       "strategy": "LOCAL",
       "local_count": 10,
-      "regional_count": 24,
-      "total_count": 34,
+      "regional_count": 26,
+      "total_count": 36,
       "min_price_rub": 350,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -19758,6 +19780,7 @@
         1900,
         1950,
         2000,
+        2100,
         2150,
         2200,
         2300,
@@ -19925,11 +19948,12 @@
         "Ålcom"
       ],
       "networks_rows": 30,
-      "rows_total": 34,
+      "rows_total": 36,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -19942,9 +19966,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 29,
-      "topup_no": 5,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -19954,8 +19978,8 @@
       "name_ru": "Эстония",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -20239,11 +20263,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -20257,9 +20282,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -20816,8 +20841,8 @@
       "name_ru": "Мальта",
       "strategy": "LOCAL",
       "local_count": 9,
-      "regional_count": 24,
-      "total_count": 33,
+      "regional_count": 26,
+      "total_count": 35,
       "min_price_rub": 350,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -20921,6 +20946,7 @@
         1900,
         1950,
         2000,
+        2100,
         2150,
         2200,
         2300,
@@ -21088,11 +21114,12 @@
         "Ålcom"
       ],
       "networks_rows": 29,
-      "rows_total": 33,
+      "rows_total": 35,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -21105,9 +21132,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 28,
-      "topup_no": 5,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 450
@@ -21117,8 +21144,8 @@
       "name_ru": "Италия",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 27,
-      "total_count": 41,
+      "regional_count": 29,
+      "total_count": 43,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -21423,11 +21450,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 41,
+      "rows_total": 43,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -21441,9 +21469,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 35,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -21453,8 +21481,8 @@
       "name_ru": "Испания",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 25,
-      "total_count": 39,
+      "regional_count": 27,
+      "total_count": 41,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -21570,6 +21598,7 @@
         1950,
         2000,
         2050,
+        2100,
         2150,
         2200,
         2300,
@@ -21739,11 +21768,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 39,
+      "rows_total": 41,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -21757,9 +21787,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 33,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -21769,8 +21799,8 @@
       "name_ru": "Австрия",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 24,
-      "total_count": 38,
+      "regional_count": 26,
+      "total_count": 40,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -22056,11 +22086,12 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 38,
+      "rows_total": 40,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -22074,9 +22105,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 32,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -22086,8 +22117,8 @@
       "name_ru": "Польша",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -22370,11 +22401,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -22388,9 +22420,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
@@ -22400,8 +22432,8 @@
       "name_ru": "Румыния",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 24,
-      "total_count": 37,
+      "regional_count": 26,
+      "total_count": 39,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -22517,6 +22549,7 @@
         1950,
         2000,
         2050,
+        2100,
         2150,
         2200,
         2300,
@@ -22686,11 +22719,12 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 37,
+      "rows_total": 39,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -22704,9 +22738,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 31,
-      "topup_no": 6,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 250
