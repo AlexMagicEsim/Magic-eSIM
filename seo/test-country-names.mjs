@@ -22,7 +22,9 @@ import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import { writeFileSync, mkdtempSync } from 'node:fs';
 import { COUNTRY_NAMES as SEO_NAMES } from './country-names.mjs';
-import { buildDictionary, STOREFRONT_WORDING, BLOCK_RE } from './build-country-dictionary.mjs';
+import { buildDictionary, buildDictionaryGen, STOREFRONT_WORDING, BLOCK_RE, GEN_BLOCK_RE } from './build-country-dictionary.mjs';
+import { ALL as AUTHORED_FORMS } from './countries.mjs';
+import { readdirSync, existsSync } from 'node:fs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCES = {
@@ -57,12 +59,13 @@ function loadRenderer(file) {
   const src = readFileSync(file, 'utf8');
   const parts = [
     extractStatement(src, BLOCK_RE, 'COUNTRY NAMES block'),
+    extractStatement(src, GEN_BLOCK_RE, 'COUNTRY GENITIVE block'),
     extractStatement(src, /const RESTRICTED_COUNTRY_CODES=\[[^\]]*\];/, 'RESTRICTED_COUNTRY_CODES'),
-    ...['countryName', 'hasCountryName', 'packageCoverageCodes', 'formatDataLabel', 'publicPackageName', 'countryCode']
+    ...['countryName', 'hasCountryName', 'countryNameGenitive', 'packageCoverageCodes', 'formatDataLabel', 'publicPackageName', 'countryCode']
       .map((name) => extractFunction(src, name)),
   ];
   return new Function(`${parts.join('\n')}
-    return { countryNames, countryName, hasCountryName, packageCoverageCodes, publicPackageName, countryCode };`)();
+    return { countryNames, countryNamesGenitive, countryName, hasCountryName, countryNameGenitive, packageCoverageCodes, publicPackageName, countryCode };`)();
 }
 
 const RENDERERS = Object.fromEntries(Object.entries(SOURCES).map(([k, v]) => [k, loadRenderer(v)]));
@@ -120,8 +123,10 @@ test('BN resolves to Бруней, not to BN', () => {
 test('the Brunei card is titled "Бруней 10 GB", and the heading matches', () => {
   for (const [label, r] of Object.entries(RENDERERS)) {
     assert.equal(r.publicPackageName(BRUNEI), 'Бруней 10 GB', `${label} card title`);
-    // The heading is `Тарифы для ${countryName(code)}` at the call site.
-    assert.equal(`Тарифы для ${r.countryName(r.countryCode(BRUNEI))}`, 'Тарифы для Бруней', `${label} heading`);
+    // The heading is `Тарифы для ${countryNameGenitive(code)}` at the call site.
+    // This line used to pin «Тарифы для Бруней» — the nominative fallback that
+    // 169 of 198 country pages shipped with.
+    assert.equal(`Тарифы для ${r.countryNameGenitive(r.countryCode(BRUNEI))}`, 'Тарифы для Брунея', `${label} heading`);
   }
 });
 
@@ -244,4 +249,106 @@ test('the coverage check FAILS when a new code has no name', () => {
       return true;
     },
   );
+});
+
+// ---------------------------------------------------------------------------
+// The genitive — «Тарифы для Кении», never «Тарифы для Кения»
+// ---------------------------------------------------------------------------
+//
+// Both headings over a country's grid take the genitive: «Тарифы для …» and
+// «Региональные тарифы с покрытием …». A hand-typed table knew 29 countries and
+// fell back to the nominative for the rest, so 169 of 198 country pages — and
+// the home page for EVERY country, Thailand included, because it never used the
+// table at all — rendered «Тарифы для Кения».
+
+// Names whose genitive IS the nominative. Pinned by hand, so that copying the
+// nominative into `gen` to silence the completeness check fails here instead of
+// shipping: a declinable name may never appear in this list by accident.
+const INDECLINABLE = new Set(('AE BD BF BI BL CD CL CV CW DJ FJ GG HT JE KI LS MA MC ML MO MW NI NR NU '
+  + 'PE PR PW SL SM SO ST SZ TG TO TV US VU WS XK ZA ZW').split(' '));
+
+/** Every /esim/<slug>/ that is a country page, as [slug, ISO]. */
+function countryPages() {
+  const bySlug = Object.fromEntries(Object.entries(SEO_NAMES).map(([iso, e]) => [e.slug, iso]));
+  return readdirSync(join(ROOT, 'esim'), { withFileTypes: true })
+    .filter((d) => d.isDirectory() && bySlug[d.name] && existsSync(join(ROOT, 'esim', d.name, 'index.html')))
+    .map((d) => [d.name, bySlug[d.name]]);
+}
+
+test('the headings read the genitive, in both copies', () => {
+  for (const [label, file] of Object.entries(SOURCES)) {
+    const split = extractFunction(readFileSync(file, 'utf8'), 'renderCountrySplit');
+    assert.match(split, /const cName=countryNameGenitive\(code\);/, `${label}: heading name is not the genitive`);
+    assert.match(split, /`Тарифы для \$\{cName\}`/, label);
+    assert.match(split, /`Региональные тарифы с покрытием \$\{cName\}`/, label);
+  }
+});
+
+test('the genitive the old fallback got wrong now renders declined', () => {
+  // First, the exact sentences of the defect. If these pass, the fix is live.
+  for (const [label, r] of Object.entries(RENDERERS)) {
+    assert.equal(`Тарифы для ${r.countryNameGenitive('KE')}`, 'Тарифы для Кении', label);
+    assert.equal(`Тарифы для ${r.countryNameGenitive('KH')}`, 'Тарифы для Камбоджи', label);
+    assert.equal(`Региональные тарифы с покрытием ${r.countryNameGenitive('TZ')}`, 'Региональные тарифы с покрытием Танзании', label);
+    assert.equal(r.countryNameGenitive('th'), 'Таиланда', `${label}: case-insensitive, as countryName is`);
+    // Compound and indeclinable names, the two classes a rules engine gets wrong.
+    assert.equal(r.countryNameGenitive('BA'), 'Боснии и Герцеговины', label);
+    assert.equal(r.countryNameGenitive('TT'), 'Тринидада и Тобаго', label);
+    assert.equal(r.countryNameGenitive('PG'), 'Папуа — Новой Гвинеи', label);
+    assert.equal(r.countryNameGenitive('GW'), 'Гвинеи-Бисау', label);
+    assert.equal(r.countryNameGenitive('MV'), 'Мальдив', label);
+    assert.equal(r.countryNameGenitive('PE'), 'Перу', label);
+    assert.equal(r.countryNameGenitive('AE'), 'ОАЭ', label);
+    // Storefront wording is followed, not the SEO short form.
+    assert.equal(r.countryNameGenitive('CG'), 'Республики Конго', label);
+    // A code nobody has heard of still renders something, never throws.
+    assert.equal(r.countryNameGenitive('QQ'), 'QQ', label);
+  }
+});
+
+test('both copies carry the same generated genitive block, keyed exactly like the names', () => {
+  const [a, b] = Object.values(SOURCES).map((f) => readFileSync(f, 'utf8').match(GEN_BLOCK_RE)[0]);
+  assert.equal(a, b);
+  assert.match(a, /GENERATED by seo\/build-country-dictionary\.mjs/);
+  const gen = buildDictionaryGen();
+  for (const [label, r] of Object.entries(RENDERERS)) {
+    assert.deepEqual(r.countryNamesGenitive, gen, `${label} is stale — run the generator`);
+    assert.deepEqual(Object.keys(r.countryNamesGenitive), Object.keys(r.countryNames), label);
+  }
+});
+
+test('every one of the country pages gets a declined heading', () => {
+  const pages = countryPages();
+  assert.ok(pages.length >= 190, `found only ${pages.length} country pages — the walk broke?`);
+  for (const [label, r] of Object.entries(RENDERERS)) {
+    const wrong = [];
+    for (const [slug, iso] of pages) {
+      const nom = r.countryName(iso);
+      const gen = r.countryNameGenitive(iso);
+      if (!gen || gen === iso) wrong.push(`${slug}: no genitive`);
+      else if (gen === nom && !INDECLINABLE.has(iso)) wrong.push(`${slug}: «Тарифы для ${gen}» — nominative`);
+      else if (gen !== nom && INDECLINABLE.has(iso)) wrong.push(`${slug}: ${iso} is pinned indeclinable but reads «${gen}»`);
+    }
+    assert.deepEqual(wrong, [], `${label}:\n${wrong.join('\n')}`);
+  }
+});
+
+test('a name without a genitive FAILS the build instead of falling back', () => {
+  const source = { ...SEO_NAMES, KE: { ...SEO_NAMES.KE, gen: undefined } };
+  assert.throws(() => buildDictionaryGen(source), /no genitive form for: KE/);
+  const blank = { ...SEO_NAMES, KE: { ...SEO_NAMES.KE, gen: '  ' } };
+  assert.throws(() => buildDictionaryGen(blank), /KE/);
+});
+
+test('seo/countries.mjs agrees with the single source wherever it carries a form', () => {
+  // countries.mjs keeps nameGen for the guides' «eSIM для …» links. It is not
+  // rewritten here, but it may not disagree with the source either.
+  const gen = buildDictionaryGen();
+  const off = AUTHORED_FORMS.filter((c) => c.nameGen && gen[c.iso] !== c.nameGen)
+    .map((c) => `${c.iso}: ${c.nameGen} ≠ ${gen[c.iso]}`);
+  assert.deepEqual(off, []);
+});
+
+test('the Mini App carries no genitive block — it is out of scope', () => {
+  assert.doesNotMatch(readFileSync(join(ROOT, 'app', 'core.js'), 'utf8'), /COUNTRY GENITIVE|countryNamesGenitive/);
 });
