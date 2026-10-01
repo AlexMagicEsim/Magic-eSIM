@@ -65,5 +65,173 @@
   "research_method": "Сетка AU снята с отрисованной страницы по трём блокам; покрытие семейств — по coverage_country_codes. После опровержения из сюжета убрано отключение 3G (карточки печатают 3G/4G/5G — страница спорила бы со своей сеткой) и сравнение 30 и 50 ГБ.",
   "editor_notes": "WAVE 6, 2026-09-30. Ловушка «после установки» — одна карточка и один вопрос: она уже есть в 18 профилях. «Местный блок дешевле» — отношение (сейчас около двух раз), перепроверять при движении каталога. Покрытие NZ пакетами «Азия и Океания» тестами не проверяется.",
   "reviewed_by": "editorial",
-  "last_reviewed": "2026-09-30"
+  "last_reviewed": "2026-09-30",
+  "coverage_claims": [
+    {
+      "id": "exact",
+      "anchors": [
+        {
+          "field": "title",
+          "text": "eSIM для Австралии и Новой Зеландии — один пакет на две страны"
+        }
+      ],
+      "scope": "regional",
+      "family": "^Australia and NZ ",
+      "all_in_scope": [
+        "AU",
+        "NZ"
+      ],
+      "max_countries": 2
+    },
+    {
+      "id": "all",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Австралии: если в маршруте Новая Зеландия, пакет на Австралию и Новую Зеландию закрывает обе страны."
+        }
+      ],
+      "scope": "regional",
+      "family": "^Australia and NZ ",
+      "all_in_scope": [
+        "AU",
+        "NZ"
+      ],
+      "max_countries": 2
+    },
+    {
+      "id": "local-only",
+      "anchors": [
+        {
+          "field": "lead",
+          "text": "Новая Зеландия — отдельная страна по ту сторону Тасманова моря, и австралийские местные тарифы её не покрывают."
+        }
+      ],
+      "scope": "local",
+      "max_countries": 1,
+      "all_in_scope": [
+        "AU"
+      ],
+      "none_in_scope": [
+        "NZ"
+      ]
+    },
+    {
+      "id": "exact-2",
+      "anchors": [
+        {
+          "field": "lead",
+          "text": "Если она есть в маршруте, в блоке региональных тарифов есть пакет ровно на две страны — Австралию и Новую Зеландию."
+        }
+      ],
+      "scope": "regional",
+      "family": "^Australia and NZ ",
+      "all_in_scope": [
+        "AU",
+        "NZ"
+      ],
+      "max_countries": 2
+    },
+    {
+      "id": "all-2",
+      "anchors": [
+        {
+          "field": "intro[1]",
+          "text": "Пакеты «Азия и Океания» тоже покрывают обе страны вместе с частью Азии, но нужны они, только если по пути есть Азия, — и срок у них идёт «после установки eSIM», так что такой профиль ставьте прямо перед поездкой."
+        }
+      ],
+      "scope": "regional",
+      "family": "^APAC",
+      "all_in_scope": [
+        "AU",
+        "NZ"
+      ]
+    },
+    {
+      "id": "au-nz-daily-family",
+      "anchors": [
+        {
+          "field": "why[2].p",
+          "text": "В блоке «Трафик на каждый день» есть тарифы на Австралию и Новую Зеландию — от 500 МБ до 10 ГБ в день."
+        }
+      ],
+      "scope": "daily",
+      "family": "^Australia & New Zealand ",
+      "all_in_scope": [
+        "AU",
+        "NZ"
+      ],
+      "max_countries": 2,
+      "attr_bounds": {
+        "daily_gb": [
+          0.49,
+          10
+        ]
+      }
+    },
+    {
+      "id": "all-3",
+      "anchors": [
+        {
+          "field": "faq[0].a",
+          "text": "Не обязательно: пакет на две страны в блоке региональных тарифов покрывает и Австралию, и Новую Зеландию, как и пакеты «Азия и Океания»."
+        }
+      ],
+      "scope": "regional",
+      "all_in_scope": [
+        "AU",
+        "NZ"
+      ]
+    },
+    {
+      "id": "local-only-2",
+      "anchors": [
+        {
+          "field": "faq[0].a",
+          "text": "Местные австралийские тарифы в покрытии указывают только Австралию."
+        }
+      ],
+      "scope": "local",
+      "max_countries": 1,
+      "all_in_scope": [
+        "AU"
+      ]
+    },
+    {
+      "id": "au-nz-daily-500mb",
+      "anchors": [
+        {
+          "field": "faq[3].a",
+          "text": "Если по пути будет Новая Зеландия, посуточный тариф на обе страны на 500 МБ в день стоит 750 ₽ за три дня."
+        }
+      ],
+      "scope": "daily",
+      "packages": [
+        "12b59cd4-8c40-4fff-92ad-bd32d71e3eb5"
+      ],
+      "must_cover": [
+        "AU",
+        "NZ"
+      ],
+      "basis_attrs": {
+        "daily_gb": 0.49
+      }
+    },
+    {
+      "id": "au-nz-volume-family",
+      "anchors": [
+        {
+          "field": "title",
+          "text": "eSIM для Австралии и Новой Зеландии — один пакет на две страны"
+        }
+      ],
+      "scope": "regional",
+      "family": "^Australia and NZ ",
+      "all_in_scope": [
+        "AU",
+        "NZ"
+      ],
+      "max_countries": 2
+    }
+  ]
 }

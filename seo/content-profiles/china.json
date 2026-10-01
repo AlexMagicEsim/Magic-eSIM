@@ -71,5 +71,50 @@
   "reviewed_by": "content-pipeline (research → writing → review → browser QA)",
   "last_reviewed": "2026-08-12",
   "next_review": "2026-11-12",
-  "quality_score": 100
+  "quality_score": 100,
+  "coverage_claims": [
+    {
+      "id": "all",
+      "anchors": [
+        {
+          "field": "why[2].p",
+          "text": "Материковый тариф может не включать Гонконг и Макао: в каталоге это отдельные зоны покрытия, и для них есть свои пакеты."
+        }
+      ],
+      "scope": "local",
+      "not_all_in_scope": [
+        "HK",
+        "MO"
+      ]
+    },
+    {
+      "id": "all-2",
+      "anchors": [
+        {
+          "field": "faq[3].a",
+          "text": "Не обязательно: Гонконг и Макао технически отдельные зоны покрытия, и локальный тариф для материкового Китая может их не включать."
+        }
+      ],
+      "scope": "local",
+      "not_all_in_scope": [
+        "HK",
+        "MO"
+      ]
+    },
+    {
+      "id": "exists",
+      "anchors": [
+        {
+          "field": "faq[3].a",
+          "text": "Если маршрут захватывает их, надёжнее взять региональный тариф, который покрывает несколько территорий одним профилем."
+        }
+      ],
+      "scope": "regional",
+      "some_in_scope": [
+        "CN",
+        "HK",
+        "MO"
+      ]
+    }
+  ]
 }

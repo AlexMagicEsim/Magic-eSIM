@@ -70,5 +70,18 @@
   "reviewed_by": "content-pipeline (research → writing → review → browser QA)",
   "last_reviewed": "2026-09-01",
   "next_review": "2026-11-12",
-  "quality_score": 100
+  "quality_score": 100,
+  "coverage_claims": [
+    {
+      "id": "all-multi",
+      "anchors": [
+        {
+          "field": "why[3].p",
+          "text": "Если это часть азиатского маршрута, региональный тариф закрывает всю поездку одним профилем."
+        }
+      ],
+      "scope": "regional",
+      "min_countries": 2
+    }
+  ]
 }

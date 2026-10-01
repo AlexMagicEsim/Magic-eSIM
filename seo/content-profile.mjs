@@ -74,6 +74,9 @@ const META_KEYS = Object.freeze([
   'editor_notes', 'notes', 'research_method',
   // Решение человека, которое никакая метрика не отменяет.
   'locked', 'locked_by', 'locked_reason', 'ab_test',
+  // Machine-checkable dependencies of the prose — seo/coverage-claims.mjs.
+  // Never rendered: the page says what the editor wrote, these only prove it.
+  'coverage_claims', 'coverage_claims_waived',
 ]);
 
 // Anything resembling a catalogue fact. A profile containing one of these is
