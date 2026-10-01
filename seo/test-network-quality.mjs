@@ -161,13 +161,13 @@ test("every declared network fact is a whole sentence of its page, primary-sourc
 
 // 2026-10-01, second pass: the 54 LOW findings, classified A/B/C/D by two
 // independent reviewers. Every A sentence as it shipped is caught (the Georgia
-// title is A too but stays on the page by the owner's decision, so it is not
-// here). Every B (honest warning) and D (not a network claim) sentence, as it is
+// title was fixed later, in its own PR, by the owner's decision). Every B (honest warning) and D (not a network claim) sentence, as it is
 // on the page now, must pass — a guard that blocks «в горах сигнал редеет»
 // would push the copy toward saying less, not toward saying true things.
 const page = (field, text) => (/\.h$/.test(field) ? { why: [{ h: text, p: "x" }] } : { intro: [text] });
 
 const LOW_A = [
+  ["georgia title #54", "title", "eSIM для Грузии — интернет в Тбилиси, Батуми и в горах"],
   ["germany why[2].p #6", "why[2].p", "Для переписки хватает, для видеозвонка — не всегда."],
   ["italy intro[1] #10", "intro[1]", "Ощутимые провалы начинаются в горных городках Тосканы и Умбрии, на серпантинах Амальфи и в Доломитах — там, где как раз хочется проложить маршрут на ходу."],
   ["italy faq[2].a #13", "faq[2].a", "В самих городках обычно да, а вот на дорогах между ними и на серпантинах сигнал бывает неровным."],
@@ -228,7 +228,7 @@ const LOW_B_AND_D = [
 test("LOW pass: every A-classified sentence as it shipped is caught", () => {
   const missed = LOW_A.filter(([, field, text]) => checkCoverageClaims(page(field, text)).length === 0).map(([id]) => id);
   assert.deepEqual(missed, []);
-  assert.equal(LOW_A.length, 25);
+  assert.equal(LOW_A.length, 26);
 });
 
 test("LOW pass: honest warnings (B) and non-network sentences (D) are not blocked", () => {
@@ -273,6 +273,8 @@ test("LOW pass: words shared with the A classes do not block honest copy", () =>
     "После лимита скорость 512 Кбит/с: для переписки хватает, для видео нет.",
     "Тариф действует по всей стране в рамках покрытия.",
     "Отдельное ограничение в Японии — сам язык.",
+    "eSIM для Грузии — Тбилиси, Батуми и горные маршруты", "Интернет в горах нужен для навигации, поэтому карту лучше скачать заранее.",
+    "Будет ли интернет на серф-спотах и в горах?",
     "Пополнение работает по всей линейке тарифов.", "Профиль работает по всей длине поездки.",
     "Для переписки хватает 512 Кбит/с, для видео — нет.", "После лимита остаётся 512 Kbps: для переписки хватает.",
     "Для переписки хватает и 1 ГБ.", "Скорости хватает для карт, но не для видео — после лимита 512 Кбит/с.",
