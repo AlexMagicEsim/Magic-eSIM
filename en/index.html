@@ -91,7 +91,9 @@ input[type=text],input[type=email]{width:100%;padding:12px;border:1px solid var(
 .unavail{border:1px solid rgba(255,196,84,.35);background:rgba(255,196,84,.07);border-radius:12px;padding:14px;margin-top:14px}
 .unavail h4{margin:0 0 6px;font-size:15px}
 .unavail p{margin:0 0 8px;font-size:14px;color:var(--muted)}
-.err{color:#ff8b8b;font-size:14px;margin:8px 0 0}
+.notice{margin:0 0 22px}
+.notice h2{margin:0 0 6px;font-size:16px}
+.modal .unavail{margin:0 0 14px}
 details{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#0b0e17;margin-top:10px}
 summary{cursor:pointer;font-weight:600}
 footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;color:var(--muted);font-size:13px}
@@ -117,6 +119,16 @@ footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;co
   <h1 data-i18n="site.tagline">Mobile data abroad, without roaming charges</h1>
   <p class="lead" data-i18n="site.lead">Pick a destination, install an eSIM, land connected. No plastic SIM, no queue at the airport.</p>
 
+  <!-- Before the search, the prices and every button: the page must say that it
+       sells nothing yet BEFORE anything on it looks purchasable. Static markup,
+       so it is there without JavaScript too. -->
+  <div class="unavail notice" id="previewNotice" role="note">
+    <h2 data-i18n="preview.noticeTitle">Preview only — plans can't be bought here yet</h2>
+    <p data-i18n="preview.noticeBody">International payments aren't available yet. You can browse destinations and plans, but checkout is closed and nothing can be ordered on this page. Prices are shown in Russian roubles (₽) for reference only.</p>
+    <p data-i18n="pay.unavailableHint">Paying with a Russian bank card or SBP? Use the Russian version of this site.</p>
+    <a class="btn btn-ghost" href="/" hreflang="ru" data-i18n="pay.toRussianSite">Go to the Russian site</a>
+  </div>
+
   <section class="panel" id="plans">
     <label for="q" data-i18n="site.chooseCountry">Where are you going?</label>
     <input type="text" id="q" autocomplete="off" spellcheck="false"
@@ -127,7 +139,7 @@ footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;co
 
   <section id="tariffs" hidden>
     <h2 id="tariffsTitle"></h2>
-    <p class="note" data-i18n="price.currencyNote">Prices are shown in Russian roubles (₽). International pricing is being finalised.</p>
+    <p class="note" data-i18n="price.currencyNote">Reference prices in Russian roubles (₽). These plans can't be bought on this page yet.</p>
     <div class="grid" id="tariffGrid"></div>
   </section>
 
@@ -157,27 +169,22 @@ footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;co
 <div class="overlay" id="checkout" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="coTitle">
     <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="Close">×</button>
-    <h3 id="coTitle" data-i18n="checkout.title">Your order</h3>
+    <h3 id="coTitle" data-i18n="preview.title">Plan details</h3>
+    <!-- Visible the moment the window opens. This page has no international
+         checkout: the window shows a plan and asks for nothing — no email, no
+         button that looks like a step towards paying. -->
+    <div class="unavail" id="coUnavail">
+      <h4 data-i18n="pay.unavailableTitle">Not available to buy yet</h4>
+      <p data-i18n="pay.unavailableBody">International payments aren't open yet, so this plan can't be ordered here. Nothing is charged and no order is created.</p>
+      <p data-i18n="pay.unavailableHint">Paying with a Russian bank card or SBP? Use the Russian version of this site.</p>
+      <a class="btn btn-ghost" href="/" hreflang="ru" data-i18n="pay.toRussianSite">Go to the Russian site</a>
+    </div>
     <div class="rows">
       <div><span data-i18n="checkout.plan">eSIM plan</span><b id="coPlan">—</b></div>
       <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
       <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
       <div><span data-i18n="checkout.term">Validity</span><b id="coTerm">—</b></div>
-      <div class="total"><span data-i18n="checkout.total">Total</span><b id="coTotal">—</b></div>
-    </div>
-    <label for="coEmail" data-i18n="checkout.email">Email for your eSIM</label>
-    <input type="email" id="coEmail" autocomplete="email" placeholder="you@example.com">
-    <p class="err" id="coErr" hidden></p>
-    <button type="button" class="btn" id="coPay" style="width:100%;margin-top:14px">Continue</button>
-
-    <!-- The payment step. There is no international provider behind it and no
-         order is created: this screen exists so the flow can be walked end to
-         end without anything being charged. -->
-    <div class="unavail" id="coUnavail" hidden>
-      <h4 data-i18n="pay.unavailableTitle">International payments are coming soon</h4>
-      <p data-i18n="pay.unavailableBody">We cannot take international cards yet. Nothing has been charged and no order has been created.</p>
-      <p data-i18n="pay.unavailableHint">Paying with a Russian bank card or SBP? Use the Russian version of this site.</p>
-      <a class="btn btn-ghost" href="/" hreflang="ru" data-i18n="pay.toRussianSite">Go to the Russian site</a>
+      <div class="total"><span data-i18n="preview.price">Reference price</span><b id="coTotal">—</b></div>
     </div>
   </div>
 </div>
@@ -190,7 +197,7 @@ footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;co
 <script src="/assets/catalog-loader.js?v=7a0b4ca8"></script>
 <script src="/assets/daily-plan-copy.js?v=ae5df21d"></script>
 <script src="/assets/country-names-en.js?v=e90c68e3"></script>
-<script src="/assets/site-i18n.js?v=86c51d9e"></script>
-<script src="/en/app.js?v=9963f1cc"></script>
+<script src="/assets/site-i18n.js?v=3b545dc0"></script>
+<script src="/en/app.js?v=21ded37e"></script>
 </body>
 </html>
