@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-29T13:00:19.122Z",
+  "generated_at": "2026-10-01T13:26:12.441Z",
   "source": "production-public-api",
   "package_count": 2293,
   "packages": [
@@ -90597,7 +90597,7 @@
       "package_id": "98bd19f5-ecb1-423e-8dc9-318e9004685f",
       "name": "USA 100 GB",
       "country_code": "US",
-      "region": "US",
+      "region": "US, US-HI",
       "coverage_country_codes": [
         "US"
       ],
