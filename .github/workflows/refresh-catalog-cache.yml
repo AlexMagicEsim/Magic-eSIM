@@ -81,6 +81,25 @@ jobs:
       - name: No destination reaches the storefront unnamed
         run: node seo/check-country-coverage.mjs
 
+      # SEO COVERAGE FACTS, BEFORE THE COMMIT. Authored /esim/<country>/ pages
+      # say which tariff covers which country («Замбию покрывает только пакет на
+      # 5 ГБ», «Кубу не покрывает ни один тариф»), and each such sentence carries
+      # a `coverage_claims` assertion in its profile. If the new catalogue
+      # contradicts one, it is NOT committed: the storefront keeps the previous
+      # snapshot and this job fails with the page, the sentence, the product and
+      # what changed — a human decision, not a flaky pipeline. Every scheduled
+      # run fails the same way until someone fixes the sentence or re-pins the
+      # claim, so a stale fact can neither go live silently nor freeze the
+      # catalogue silently.
+      #
+      # --previous is the snapshot that is live now, so the diagnostic can say
+      # what moved on the same product id.
+      - name: SEO coverage facts still hold (blocks the refresh if not)
+        run: |
+          set -euo pipefail
+          git show HEAD:assets/catalog.json > /tmp/catalog-live.json || echo '{}' > /tmp/catalog-live.json
+          node seo/coverage-claims.mjs --check --catalog assets/catalog.json --previous /tmp/catalog-live.json
+
       # Commit only when the catalogue actually changed. The generator leaves the
       # file byte-identical (generated_at included) when nothing moved, so an
       # unchanged run produces no commit and no Pages deploy.

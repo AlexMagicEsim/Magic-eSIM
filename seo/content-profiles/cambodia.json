@@ -72,5 +72,52 @@
   "research_method": "Сетка KH выведена по блокам страницы (посуточные, местные, региональные) из assets/catalog.json через seo/catalogue-facts.mjs; покрытие пакета на семь стран прочитано из coverage_country_codes; минимальная цена сверена с fact-sheets.json (200 ₽, как у Турции и Вьетнама).",
   "editor_notes": "WAVE 4, 2026-09-30. Угол — срок против объёма внутри одной местной сетки: 5 ГБ на 30 дней, 10 ГБ на 15. Не использованы: «самый дешёвый в каталоге» (200 ₽ делят KH, TR, VN) и любые утверждения о покрытии в конкретных местах.",
   "reviewed_by": "editorial",
-  "last_reviewed": "2026-09-30"
+  "last_reviewed": "2026-09-30",
+  "coverage_claims": [
+    {
+      "id": "all",
+      "anchors": [
+        {
+          "field": "why[2].p",
+          "text": "В блоке «Региональные тарифы» есть пакет, который покрывает Камбоджу вместе с Вьетнамом и Таиландом: 1 ГБ на 7 дней за 400 ₽."
+        }
+      ],
+      "scope": "regional",
+      "packages": [
+        "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b"
+      ],
+      "must_cover": [
+        "KH",
+        "VN",
+        "TH"
+      ],
+      "basis_attrs": {
+        "data_gb": 1,
+        "validity_days": 7
+      }
+    },
+    {
+      "id": "count-cov",
+      "anchors": [
+        {
+          "field": "faq[3].a",
+          "text": "Региональный пакет на семь стран Юго-Восточной Азии покрывает все три страны: 1 ГБ на 7 дней за 400 ₽ в блоке «Региональные тарифы»."
+        }
+      ],
+      "scope": "regional",
+      "packages": [
+        "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b"
+      ],
+      "coverage_count": 7,
+      "must_cover": [
+        "KH",
+        "VN",
+        "TH"
+      ],
+      "basis_attrs": {
+        "data_gb": 1,
+        "validity_days": 7
+      }
+    }
+  ]
 }

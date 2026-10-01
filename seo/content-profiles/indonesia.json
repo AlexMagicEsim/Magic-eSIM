@@ -71,5 +71,40 @@
   "reviewed_by": "content-pipeline (research → writing → review → browser QA)",
   "last_reviewed": "2026-09-01",
   "next_review": "2026-11-12",
-  "quality_score": 100
+  "quality_score": 100,
+  "coverage_claims": [
+    {
+      "id": "local-only",
+      "anchors": [
+        {
+          "field": "faq[4].a",
+          "text": "Локальный тариф работает только в Индонезии."
+        }
+      ],
+      "scope": "local",
+      "max_countries": 1,
+      "all_in_scope": [
+        "ID"
+      ],
+      "none_in_scope": [
+        "SG",
+        "MY"
+      ]
+    },
+    {
+      "id": "exists",
+      "anchors": [
+        {
+          "field": "faq[4].a",
+          "text": "Для маршрута с остановкой в Сингапуре или Малайзии берут региональный: он покрывает несколько стран одним профилем, и переключать ничего не нужно ни в пути, ни на пересадке."
+        }
+      ],
+      "scope": "regional",
+      "some_in_scope": [
+        "ID",
+        "SG",
+        "MY"
+      ]
+    }
+  ]
 }
