@@ -36,7 +36,7 @@ import { pathToFileURL } from 'node:url';
 
 const { sheets } = loadSheets();
 
-const TEXT_KEYS = ['lead', 'intro', 'why', 'faq', 'title', 'description', 'h1'];
+const TEXT_KEYS = ['lead', 'intro', 'why', 'faq', 'title', 'description', 'h1', 'dual_sim_note'];
 
 /** Every string a reader will actually see, flattened. */
 function proseOf(profile) {
@@ -432,13 +432,79 @@ export function checkTopup(profile, sheet) {
 // eight pages broke it. All eight were from the 2026-08-12 cohort; none of the
 // 31 pages reviewed later carried one. The catalogue describes a PACKAGE
 // (network_technologies, speed) and says nothing about a metro line.
-const PLACE_COVERAGE = /(?:4G|5G|LTE)[^.!?]{0,60}(?:в\s+метро|на\s+станц|в\s+тоннел|в\s+поезд|в\s+галере|покрыт)|уверенн[а-яё]*\s+(?:4G|5G|сигнал)|закрыт[а-яё]*\s+5G|плотн[а-яё]*\s+сет|покрыт[а-яё]*\s+5G/i;
+// QUALITY OF THE NETWORK IN A PLACE — what no catalogue field can prove. The
+// first version caught «уверенный сигнал» and «плотная сеть» and matched none of
+// the 1471 corpus fields, while pages said «покрыты уверенно», «закрыты
+// уверенно», «связь ровная», «не превращается в офлайн», «5G работает в метро».
+// Those came from blog sources on 2026-08-12; not one profile cites an operator
+// or regulator. Fixed 2026-10-01 (35 sentences on 14 pages); this keeps them out.
+// A page may say what the CARD prints («в строке „Сеть“ стоит 4G») and that we
+// publish no coverage maps; it may not promise a city, a train or a coast.
+export const PLACE_COVERAGE = /(?:4G|5G|LTE)[^.!?]{0,60}(?:в\s+метро|на\s+станц|в\s+тоннел|в\s+поезд|в\s+галере|покрыт)|уверенн[а-яё]*\s+(?:4G|5G|сигнал)|закрыт[а-яё]*\s+5G|плотн[а-яё]*\s+сет|покрыт[а-яё]*\s+5G|покрыт[аоы]?\s+(?:уверенно|целиком)|уверенно\s+покрыт|закрыт[аоы]?\s+уверенно|связь\s+(?:[а-яё]+\s+)?ровн|ровн[а-яё]*\s+связь|покрыти[ея]\s+ровн|сеть\s+(?:[а-яё]+\s+){0,6}?плотн[а-яё]*(?![а-яё])|не\s+превраща[а-яё]*\s+в\s+офлайн|(?:4G|5G)\s+(?:работает|есть|доступен)\s+в|не\s+станет\s+ограничени|ограничением\s+связь|интернет\s+есть\s+и?\s*в\s+поезд|связь\s+не\s+пропадает|не\s+мешают\s+ни\s+навигаци|со\s+связью[^.!?]{0,40}проблем\s+нет|работает\s+так\s+же,?\s+как\s+на\s+поверхност|покрытие\s+городское|сигнал\s+переходит\s+в\s+(?:4G|5G|LTE)|скорост[а-яё]*[^.!?]{0,30}достаточно\s+для\s+видео|интернет\s+появляется\s+до\s+выход|(?:зоны|город[а-яё]*)\s+покрыт[аоы]?(?![а-яё])|покрыт[аоы]?\s+(?:полностью|целиком|уверенно)|(?:связь|сигнал|сеть)\s+(?:[а-яё]+\s+){0,3}(?:уверенн|ровн)|(?:связь|сигнал|интернет)[^.!?]{0,40}не\s+пропада|без\s+(?:сбоев|перебоев|провалов)|покрыти[ея]\s+(?:[а-яё]+\s+){0,3}полн|(?:в\s+метро|в\s+поезд[а-яё]*|в\s+тоннел[а-яё]*|на\s+станци[а-яё]*)[^.!?]{0,30}(?:4G|5G|LTE|пят[а-яё]+\s+поколени)|пят[а-яё]+\s+поколени[а-яё]*[^.!?]{0,30}в\s+метро|(?:связь|сеть|покрыти[ея]|интернет)[^.!?]{0,40}одн[аоий]+\s+из\s+(?:лучших|самых)|(?:связь|покрыти[ея]|сеть|сигнал|интернет|LTE|4G|5G)[^.!?]{0,40}(?:отличн[а-яё]*|(?<![а-яё])стабильн[а-яё]*|надёжн[а-яё]*|сплошн[а-яё]*|быстр(?:ый|ая|ое)(?![а-яё])|без\s+(?:перебоев|проблем)|хорош(?:ая|ее|ий|о)(?![а-яё])|плотн[а-яё]*|(?<!(?:почти|не)\s)(?:повсюду|везде)|на\s+всех\s+станциях|по\s+всему|в\s+каждом\s+вагоне)/i;
 
-function checkCoverageClaims(profile) {
+// «Карт покрытия мы не публикуем» is the honest hedge — but «покрытия» inside it
+// would satisfy «5G … покрыт». The SPAN is removed before matching, never the
+// sentence skipped: a hedge beside a real promise must not launder it.
+const HEDGE_SPAN = /карт[аы]?\s+покрытия\s+мы\s+не\s+публикуем/gi;
+
+// TEMPORARY: LOW findings of the 2026-10-01 audit the owner deferred to a
+// separate pass (docs repo: SEO_NETWORK_QUALITY_LOW_BACKLOG_2026-10-01.md).
+// Exact sentences, per page. A test fails when an entry is no longer on its
+// page, so this list can only shrink; anything new is still caught.
+export const NETWORK_QUALITY_BACKLOG = Object.freeze({
+  japan: Object.freeze(['Японская сеть — одна из самых плотных в мире.']),
+});
+
+// Network facts a PRIMARY source supports: regulator, transport authority or
+// operator domains only — a blog does not qualify, however good. Each fact has
+// a review_by date; past it, the fact stops counting and the gate goes red, so
+// «4G and 5G on sections of the Tube» cannot quietly outlive the rollout.
+// Bound to the page: a TfL URL attests London, not Berlin.
+export const PRIMARY_NETWORK_SOURCES = Object.freeze({
+  uae: Object.freeze(['tdra.gov.ae']),
+  'united-kingdom': Object.freeze(['tfl.gov.uk']),
+});
+export function validNetworkFact(f, slug, today = new Date().toISOString().slice(0, 10), sources = null) {
+  if (!f || typeof f.text !== 'string' || typeof f.field !== 'string') return false;
+  let url;
+  try { url = new URL(String(f.source)); } catch { return false; }
+  if (url.protocol !== 'https:') return false;
+  const host = url.hostname;
+  const domains = (slug && Object.hasOwn(PRIMARY_NETWORK_SOURCES, slug)) ? PRIMARY_NETWORK_SOURCES[slug] : [];
+  if (!domains.some((d) => host === d || host.endsWith(`.${d}`))) return false;
+  if (sources && !sources.includes(f.source)) return false;
+  const day = /^\d{4}-\d{2}-\d{2}$/;
+  if (!day.test(String(f.checked)) || !day.test(String(f.review_by))) return false;
+  // At most six months between a check and its review: a fact about a rollout
+  // in progress must be looked at again, not parked until 2099.
+  const limit = new Date(`${f.checked}T00:00:00Z`); limit.setUTCMonth(limit.getUTCMonth() + 6);
+  if (String(f.review_by) > limit.toISOString().slice(0, 10)) return false;
+  return String(f.review_by) >= today;
+}
+
+function proseFieldsOf(profile) {
+  const out = [];
+  for (const k of ['title', 'description', 'h1', 'lead']) if (typeof profile[k] === 'string') out.push([k, profile[k]]);
+  (profile.intro || []).forEach((t, i) => typeof t === 'string' && out.push([`intro[${i}]`, t]));
+  (profile.why || []).forEach((w, i) => { if (w && w.h) out.push([`why[${i}].h`, w.h]); if (w && w.p) out.push([`why[${i}].p`, w.p]); });
+  (profile.faq || []).forEach((f, i) => { if (f && f.q) out.push([`faq[${i}].q`, f.q]); if (f && f.a) out.push([`faq[${i}].a`, f.a]); });
+  const n = profile.dual_sim_note;
+  if (typeof n === 'string') out.push(['dual_sim_note', n]);
+  else if (n && typeof n === 'object') for (const k of ['text', 'anchor']) if (typeof n[k] === 'string') out.push([`dual_sim_note.${k}`, n[k]]);
+  return out;
+}
+
+export function checkCoverageClaims(profile, { slug = null, today } = {}) {
+  const norm = (t) => String(t).replace(/\s+/g, ' ').trim();
+  const declared = new Set((profile.network_facts || []).filter((f) => validNetworkFact(f, slug, today, profile.sources || [])).map((f) => `${f.field}|${norm(f.text)}`));
+  const backlog = new Set(slug ? (NETWORK_QUALITY_BACKLOG[slug] || []).map(norm) : []);
   const problems = [];
-  for (const text of proseOf(profile)) {
-    const m = String(text).match(PLACE_COVERAGE);
-    if (m) problems.push(`качество связи в конкретном месте: «${m[0].trim().slice(0, 70)}» — каталог описывает пакет, а не место`);
+  for (const [field, text] of proseFieldsOf(profile)) {
+    for (const sentence of norm(text).split(/(?<=[.!?…])\s+/)) {
+      if (declared.has(`${field}|${sentence}`) || backlog.has(sentence)) continue;
+      const m = sentence.replace(HEDGE_SPAN, ' ').match(PLACE_COVERAGE);
+      if (m) problems.push(`качество связи в конкретном месте: «${m[0].trim().slice(0, 70)}» — каталог описывает пакет, а не место`);
+    }
   }
   return [...new Set(problems)];
 }
@@ -513,7 +579,7 @@ for (const slug of scope) {
 
   const problems = [
     ...catalogueProblems(profile, slug),
-    ...checkCoverageClaims(profile),
+    ...checkCoverageClaims(profile, { slug }),
     ...checkStructure(profile),
     ...checkBanned(profile),
   ];
@@ -522,7 +588,7 @@ for (const slug of scope) {
       'related_topics', 'faq_candidates', 'sources', 'reviewed_by', 'reviewed_at',
       'last_reviewed', 'next_review', 'editor_notes', 'notes', 'research_method',
       'locked', 'locked_by', 'locked_reason', 'ab_test',
-      'coverage_claims', 'coverage_claims_waived'].includes(k));
+      'coverage_claims', 'coverage_claims_waived', 'network_facts'].includes(k));
   if (unknown.length) problems.push(`неизвестные поля: ${unknown.join(', ')}`);
 
   const q = scoreProfile(profile, { slug, corpus });
