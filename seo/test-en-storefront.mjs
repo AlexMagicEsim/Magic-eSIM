@@ -61,13 +61,58 @@ test('the ban can fire', () => {
   assert.equal(/retail-orders/i.test(sample), true);
 });
 
-test('the payment step exists, is hidden until asked for, and says nothing was charged', () => {
-  assert.match(EN, /id="coUnavail"[^>]*hidden/, 'the notice must not be visible before the step');
-  assert.match(EN, /data-i18n="pay\.unavailableTitle"/);
-  assert.match(EN, /data-i18n="pay\.unavailableBody"/);
-  // The one thing a visitor needs to know at a dead payment step.
-  const dict = readFileSync(join(ROOT, 'assets/site-i18n.js'), 'utf8');
-  assert.match(dict, /Nothing has been charged and no order has been created/);
+/*
+ * THE PAGE SAYS IT SELLS NOTHING BEFORE ANYTHING ON IT LOOKS PURCHASABLE.
+ * The first version revealed it only after the visitor typed an email into a
+ * checkout that could not take money (audit 2026-10-01, P0). Now the notice is
+ * static markup ABOVE the search, and the plan window opens with it and asks
+ * for nothing.
+ */
+const I18N_EN = createRequire(import.meta.url)(join(ROOT, 'assets/site-i18n.js')).DICT.en;
+
+test('the preview notice is static markup, before the search, the prices and every button', () => {
+  const notice = EN.indexOf('id="previewNotice"');
+  assert.ok(notice > 0, 'the notice must be in the HTML itself, not rendered by JS');
+  assert.ok(notice < EN.indexOf('id="plans"'), 'before the search');
+  assert.ok(notice < EN.indexOf('id="tariffs"'), 'before the plan grid');
+  assert.ok(notice < EN.indexOf('id="checkout"'), 'before the plan window');
+  assert.doesNotMatch(EN.slice(notice, EN.indexOf('</div>', notice)), /\bhidden\b/, 'never hidden');
+  assert.match(I18N_EN['preview.noticeTitle'], /can't be bought here yet/);
+  assert.match(I18N_EN['preview.noticeBody'], /checkout is closed and nothing can be ordered/);
+});
+
+test('the plan window opens with the refusal and asks for nothing', () => {
+  const win = EN.slice(EN.indexOf('id="checkout"'), EN.indexOf('</footer>'));
+  assert.match(win, /id="coUnavail"/);
+  assert.doesNotMatch(win, /id="coUnavail"[^>]*hidden/, 'visible the moment the window opens');
+  assert.doesNotMatch(win, /type="email"|id="coEmail"|id="coPay"|<input/, 'no email field, no pay button, no input at all');
+  assert.ok(win.indexOf('id="coUnavail"') < win.indexOf('class="rows"'), 'the refusal comes before the price');
+  assert.doesNotMatch(EN_JS, /coEmail|coPay|attemptPay|emailInvalid/, 'en/app.js has no checkout step left');
+  assert.match(I18N_EN['pay.unavailableTitle'], /Not available to buy yet/);
+  assert.match(I18N_EN['pay.unavailableBody'], /Nothing is charged and no order is created/);
+});
+
+test('no call to action on /en/ promises a purchase', () => {
+  // The calls to action are the buttons and the .btn links in the markup, and
+  // the button labels en/app.js renders. Refusals («Not available to buy yet»)
+  // are not calls to action and are not checked here.
+  const ctaKeys = new Set([
+    ...[...EN.matchAll(/<(?:button|a)\b[^>]*class="[^"]*\bbtn\b[^"]*"[^>]*data-i18n="([^"]+)"/g)].map((m) => m[1]),
+    ...[...EN.matchAll(/<button\b[^>]*data-i18n="([^"]+)"/g)].map((m) => m[1]),
+    'site.choose', 'site.retry',
+  ]);
+  const BUY = /\b(buy|purchase|pay|order|checkout|continue|add to cart)\b/i;
+  const offending = [...ctaKeys].filter((k) => BUY.test(I18N_EN[k] || ''));
+  assert.deepEqual(offending, []);
+  assert.ok(ctaKeys.has('pay.toRussianSite'), 'the markup scan found the .btn links');
+  assert.equal(I18N_EN['site.choose'], 'View details');
+  assert.equal(BUY.test('Buy now'), true, 'the rule can fire');
+  assert.equal(BUY.test(I18N_EN['checkout.continue']), true, 'and it fires on the label this page used to show');
+});
+
+test('the price note says the figure is a reference and invents no other currency', () => {
+  assert.match(I18N_EN['price.currencyNote'], /Reference prices in Russian roubles \(₽\)/);
+  assert.doesNotMatch(I18N_EN['price.currencyNote'] + I18N_EN['preview.noticeBody'], /\$|USD|EUR|€|being finalised/);
 });
 
 test('every daily plan on /en/ quotes a price a customer can actually pay', () => {

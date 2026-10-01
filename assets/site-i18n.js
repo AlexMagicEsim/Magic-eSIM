@@ -117,7 +117,7 @@
       'site.loading': 'Loading plans…',
       'site.loadFailed': 'Could not load the plans. Please try again.',
       'site.retry': 'Try again',
-      'site.choose': 'Choose',
+      'site.choose': 'View details',
       'nav.compat': 'Device check',
       'how.title': 'How it works',
       'how.step1': 'Pick your destination and a data plan.',
@@ -135,15 +135,22 @@
        * roubles; no international price exists yet and this page does not
        * invent one. So the figure is shown in the currency it is actually
        * denominated in, and labelled. */
-      'price.currencyNote': 'Prices are shown in Russian roubles (₽). International pricing is being finalised.',
+      'price.currencyNote': 'Reference prices in Russian roubles (₽). These plans can\'t be bought on this page yet.',
 
-      /* The payment step. There is no international provider behind it: the only
-       * honest thing this screen can do is say so, and say nothing was charged. */
-      'pay.unavailableTitle': 'International payments are coming soon',
-      'pay.unavailableBody': 'We cannot take international cards yet. Nothing has been charged and no order has been created.',
+      /* Said BEFORE anything looks purchasable: above the search, in the static
+       * HTML, so a visitor learns it before a price, a button or a form — not
+       * after typing an email into a checkout that cannot take money. */
+      'preview.noticeTitle': 'Preview only — plans can\'t be bought here yet',
+      'preview.noticeBody': 'International payments aren\'t available yet. You can browse destinations and plans, but checkout is closed and nothing can be ordered on this page. Prices are shown in Russian roubles (₽) for reference only.',
+      'preview.title': 'Plan details',
+      'preview.price': 'Reference price',
+
+      /* Shown as soon as a plan is opened. There is no international provider
+       * and no checkout behind it, so the plan window asks for nothing. */
+      'pay.unavailableTitle': 'Not available to buy yet',
+      'pay.unavailableBody': 'International payments aren\'t open yet, so this plan can\'t be ordered here. Nothing is charged and no order is created.',
       'pay.unavailableHint': 'Paying with a Russian bank card or SBP? Use the Russian version of this site.',
       'pay.toRussianSite': 'Go to the Russian site',
-      'pay.emailInvalid': 'Please enter a valid email address.',
 
       'lang.ru': 'Русский',
       'lang.en': 'English',

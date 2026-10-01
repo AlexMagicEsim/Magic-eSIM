@@ -2,7 +2,8 @@
  * /en/ — the international storefront's behaviour.
  * ---------------------------------------------------------------------
  * WHAT THIS PAGE IS ALLOWED TO DO: read the catalogue, render it in English,
- * and walk a visitor to the payment step.
+ * and show a plan's details. It sells nothing: the page says so before any
+ * price or button, and the plan window repeats it and asks for nothing.
  *
  * WHAT IT MUST NEVER DO, and the reason each is structural rather than
  * remembered:
@@ -327,7 +328,9 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * Checkout — up to, and stopping at, the payment step
+   * Plan details — a preview window. This page has no international checkout:
+   * the window shows the plan, says it cannot be bought here yet, and asks for
+   * nothing (no email, no button towards paying)
    * ------------------------------------------------------------------ */
 
   function openCheckout(p, countryName) {
@@ -337,43 +340,12 @@
     $('coData').textContent = dataText(p);
     $('coTerm').textContent = termText(p);
     $('coTotal').textContent = priceText(p);
-    $('coErr').hidden = true;
-    $('coUnavail').hidden = true;
-    $('coPay').disabled = false;
-    $('coPay').textContent = I18N.t('checkout.continue');
-    // A previous attempt's address must not follow the visitor onto a different
-    // plan: reopening the checkout is a fresh decision.
-    $('coEmail').value = '';
     $('checkout').hidden = false;
   }
 
   function closeCheckout() {
     $('checkout').hidden = true;
     chosen = null;
-  }
-
-  /**
-   * The payment step.
-   *
-   * The email is validated FIRST, so the visitor gets the ordinary experience of
-   * a form that checks its input rather than a dead end that ignores it — and
-   * then the step says, in as many words, that nothing was charged and no order
-   * was created. Which is true: this function makes no network call at all.
-   *
-   * There is no consent checkbox here, deliberately: consent is collected where
-   * an order is created, and this page creates none.
-   */
-  function attemptPay() {
-    var email = String($('coEmail').value || '').trim();
-    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-    if (!ok) {
-      $('coErr').textContent = I18N.t('pay.emailInvalid');
-      $('coErr').hidden = false;
-      return;
-    }
-    $('coErr').hidden = true;
-    $('coUnavail').hidden = false;
-    $('coPay').disabled = true;
   }
 
   /* ------------------------------------------------------------------ *
@@ -383,7 +355,6 @@
   function boot() {
     $('q').addEventListener('input', function (e) { renderResults(e.target.value); });
     $('coClose').addEventListener('click', closeCheckout);
-    $('coPay').addEventListener('click', attemptPay);
     $('checkout').addEventListener('click', function (e) {
       if (e.target === $('checkout')) closeCheckout();
     });

@@ -141,7 +141,7 @@ test('a multi-country plan says so in English', async ({ page }) => {
 });
 
 /* ================================================================== *
- * 2. The checkout runs to the payment step — and stops there
+ * 2. A plan opens as a preview — there is no checkout on this page
  * ================================================================== */
 
 test('a regional pseudo-code is never offered as a destination', async ({ page }) => {
@@ -169,16 +169,16 @@ test('a multi-country plan uses the shared plural, not a local idiom', async ({ 
   await expect(page.locator('#tariffGrid .card').first()).toContainText('Italy + 2 countries');
 });
 
-test('an address typed for one plan does not follow the visitor to another', async ({ page }) => {
+test('the preview notice is on screen before the search, without any action', async ({ page }) => {
   await openEn(page);
-  await page.locator('#q').fill('Viet');
-  await page.locator('#results .res').first().click();
-  await page.locator('#tariffGrid .card').first().getByRole('button').click();
-  await page.locator('#coEmail').fill('first@example.com');
-  await page.locator('#coClose').click();
-
-  await page.locator('#tariffGrid .card').nth(1).getByRole('button').click();
-  await expect(page.locator('#coEmail')).toHaveValue('');
+  const notice = page.locator('#previewNotice');
+  await expect(notice).toBeVisible();
+  await expect(notice).toBeInViewport();
+  await expect(notice).toContainText("Preview only — plans can't be bought here yet");
+  await expect(notice).toContainText('nothing can be ordered on this page');
+  const noticeBox = await notice.boundingBox();
+  const searchBox = await page.locator('#q').boundingBox();
+  expect(noticeBox.y).toBeLessThan(searchBox.y);
 });
 
 test('a per-day plan is priced from the ladder, never from the rate', async ({ page }) => {
@@ -213,43 +213,24 @@ test('the cheapest card is the cheapest PURCHASABLE one', async ({ page }) => {
   await expect(page.locator('#tariffGrid .card').first().locator('.price')).toHaveText('500 ₽');
 });
 
-test('the checkout opens with the chosen plan', async ({ page }) => {
-  await openEn(page);
-  await page.locator('#q').fill('Viet');
-  await page.locator('#results .res').first().click();
-  await page.locator('#tariffGrid .card').first().getByRole('button').click();
-
-  await expect(page.locator('#checkout')).toBeVisible();
-  await expect(page.locator('#coTotal')).toHaveText('500 ₽');
-  await expect(page.locator('#coUnavail')).toBeHidden();
-});
-
-test('an invalid email is refused before the payment step is reached', async ({ page }) => {
-  await openEn(page);
-  await page.locator('#q').fill('Viet');
-  await page.locator('#results .res').first().click();
-  await page.locator('#tariffGrid .card').first().getByRole('button').click();
-
-  await page.locator('#coEmail').fill('not-an-email');
-  await page.locator('#coPay').click();
-
-  await expect(page.locator('#coErr')).toBeVisible();
-  await expect(page.locator('#coUnavail')).toBeHidden('the step is not reached on a bad email');
-});
-
-test('a valid email reaches the payment step, which refuses and says nothing was charged', async ({ page }) => {
+test('a plan opens as a preview: the refusal is visible at once and nothing is asked', async ({ page }) => {
   const calls = await openEn(page);
   await page.locator('#q').fill('Viet');
   await page.locator('#results .res').first().click();
-  await page.locator('#tariffGrid .card').first().getByRole('button').click();
+  const cta = page.locator('#tariffGrid .card').first().getByRole('button');
+  await expect(cta).toHaveText('View details');
+  await cta.click();
 
-  await page.locator('#coEmail').fill('traveller@example.com');
-  await page.locator('#coPay').click();
-
+  await expect(page.locator('#checkout')).toBeVisible();
+  await expect(page.locator('#coTitle')).toHaveText('Plan details');
+  await expect(page.locator('#coTotal')).toHaveText('500 ₽');
   await expect(page.locator('#coUnavail')).toBeVisible();
-  await expect(page.locator('#coUnavail')).toContainText('coming soon');
-  await expect(page.locator('#coUnavail')).toContainText('Nothing has been charged');
-  await expect(page.locator('#coPay')).toBeDisabled();
+  await expect(page.locator('#coUnavail')).toContainText('Not available to buy yet');
+  await expect(page.locator('#coUnavail')).toContainText('Nothing is charged and no order is created');
+  // On the narrowest phone too: the refusal is the first thing in the window.
+  await expect(page.locator('#coUnavail h4')).toBeInViewport();
+  await expect(page.locator('#checkout input')).toHaveCount(0);
+  await expect(page.locator('#checkout').getByRole('button', { name: /pay|buy|continue|order/i })).toHaveCount(0);
 
   // THE ASSERTION THIS FILE EXISTS FOR.
   expect(writes(calls)).toEqual([]);
@@ -261,9 +242,9 @@ test('not one write request leaves the page across the whole journey', async ({ 
   await page.locator('#q').fill('Viet');
   await page.locator('#results .res').first().click();
   await page.locator('#tariffGrid .card').first().getByRole('button').click();
-  await page.locator('#coEmail').fill('a@b.co');
-  await page.locator('#coPay').click();
   await page.locator('#coClose').click();
+  await page.locator('#tariffGrid .card').nth(1).getByRole('button').click();
+  await page.keyboard.press('Escape');
   await page.locator('#q').fill('Ital');
   await page.locator('#results .res').first().click();
 
