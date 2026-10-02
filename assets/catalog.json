@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-02T12:44:47.378Z",
+  "generated_at": "2026-10-02T15:51:34.849Z",
   "source": "production-public-api",
   "package_count": 2291,
   "packages": [
@@ -84671,7 +84671,7 @@
     },
     {
       "package_id": "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
-      "name": "Singapore Malaysia and Thailand 30 GB",
+      "name": "Singapore Malaysia Thailand 30 GB",
       "country_code": "MY",
       "region": "MY, SG, TH",
       "coverage_country_codes": [
@@ -90630,7 +90630,7 @@
     },
     {
       "package_id": "98dd8e2e-d70d-4877-a407-47a737378456",
-      "name": "Singapore Malaysia and Thailand 15 GB",
+      "name": "Singapore Malaysia Thailand 15 GB",
       "country_code": "MY",
       "region": "MY, SG, TH",
       "coverage_country_codes": [
