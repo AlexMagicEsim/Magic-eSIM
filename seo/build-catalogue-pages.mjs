@@ -27,6 +27,11 @@ import { CLIENT_SNIPPET } from './intel/attribution.mjs';
 import { ALL as EDITORIAL, SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
+import { createRequire } from 'node:module';
+
+// The daily block's own heading, from the module that renders it — so the FAQ
+// can name the block the reader actually sees instead of a copy that drifts.
+const { BLOCK_TITLE: DAILY_BLOCK_TITLE } = createRequire(import.meta.url)('../assets/daily-plan-copy.js');
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
@@ -104,6 +109,21 @@ function dualSimNote(p) {
   return `\n        <p class="howto-note">${esc(before)}<a href="/esim/dual-sim-sms/">${esc(note.anchor)}</a>${esc(after)}</p>`;
 }
 
+/**
+ * Where the local block sits on the RENDERED page. country-tariffs.js inserts
+ * «Трафик на каждый день» before the local block whenever the country has a
+ * daily card, so «первым блоком» was false on every page with daily plans —
+ * 188 of 195, in the visible FAQ and in FAQPage structured data. And «ниже»
+ * pointed down from an FAQ that sits under the whole grid. Name the block,
+ * not a direction. seo/test-faq-block-position.mjs holds both against the
+ * renderer's own daily-card rule.
+ */
+function localBlockWhere(c) {
+  return c.daily_count > 0
+    ? `Они показаны на этой странице сразу после блока «${DAILY_BLOCK_TITLE}».`
+    : `Они показаны первым блоком на этой странице.`;
+}
+
 function faq(c) {
   // Every answer is derived from the catalogue row. A question the data cannot
   // answer is not asked.
@@ -117,7 +137,7 @@ function faq(c) {
     items.push({
       q: `${c.nameRu} — есть ли локальные тарифы?`,
       a: `Да. Сейчас доступно ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')} `
-        + `именно для этой страны. Они показаны первым блоком на этой странице.`,
+        + `именно для этой страны. ${localBlockWhere(c)}`,
     });
   } else {
     // The old text asserted «Доступны региональные тарифы… они показаны ниже»
@@ -129,9 +149,9 @@ function faq(c) {
     items.push({
       q: `${c.nameRu} — есть ли локальные тарифы?`,
       a: c.regional_count > 0
-        ? `Локальных тарифов для этой страны сейчас нет. Доступны региональные тарифы, покрытие которых включает эту страну — они показаны ниже.`
+        ? `Локальных тарифов для этой страны сейчас нет. Доступны региональные тарифы, покрытие которых включает эту страну — они показаны на этой странице в блоке региональных тарифов.`
         : c.daily_count > 0
-          ? `Локальных и региональных тарифов для этой страны сейчас нет. Доступны тарифы с оплатой за день — они показаны ниже.`
+          ? `Локальных и региональных тарифов для этой страны сейчас нет. Доступны тарифы с оплатой за день — они показаны на этой странице в блоке «${DAILY_BLOCK_TITLE}».`
           : `Тарифов с покрытием этой страны сейчас нет. Посмотрите другие направления в каталоге.`,
     });
   }
