@@ -28,6 +28,7 @@ import { ALL as EDITORIAL, SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
 import { createRequire } from 'node:module';
+import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily } from './catalogue-facts.mjs';
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -124,6 +125,48 @@ function localBlockWhere(c) {
     : `Они показаны первым блоком на этой странице.`;
 }
 
+/**
+ * What the country page renders, for the two template answers that used to say
+ * the same thing on every page whatever the catalogue held: «вы выбираете, на
+ * сколько дней» (false where a daily plan has a FIXED term), «дневной лимит
+ * обновляется каждые сутки» (a reset no daily plan of 103 such pages confirms),
+ * and «срок отсчитывается с момента подключения к сети» (false where a plan on
+ * the page starts «после установки eSIM»). Same filter chain as countryFacts —
+ * the packages the page actually shows. seo/test-faq-template-claims.mjs holds
+ * every page to it.
+ */
+const PACKAGES = loadCatalogue();
+function shownOn(iso) {
+  return PACKAGES.filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0
+    && coverageCodes(p).includes(iso) && !isGlobal(p));
+}
+function dailyTerms(iso) {
+  const daily = shownOn(iso).filter(isDaily);
+  const perDay = daily.filter((p) => String(p.daily_term_mode) === 'PER_DAY');
+  // term_prices, not sellable_days: it is what the card's buy buttons are made of.
+  const days = perDay.flatMap((p) => (Array.isArray(p.term_prices) ? p.term_prices : [])).map((t) => Number(t.days)).filter((n) => n > 0);
+  return { perDay: perDay.length, fixed: daily.length - perDay.length, minDays: days.length ? Math.min(...days) : null };
+}
+// Lower-cased and trimmed, as country-tariffs.js reads it.
+const startsOnInstall = (iso) => shownOn(iso).some((p) => ['installation', 'upon_installation'].includes(String(p.activation_policy || '').trim().toLowerCase()));
+
+function dailyAnswer(c) {
+  const t = dailyTerms(c.iso);
+  const head = `Да, сейчас таких ${c.daily_count}. У них платится не объём, а срок`;
+  const from = t.minDays ? ` — от ${t.minDays} ${plural(t.minDays, 'дня', 'дней', 'дней')}` : '';
+  const tail = 'Суточный объём трафика и цена указаны в карточке каждого тарифа.';
+  if (t.perDay && !t.fixed) return `${head}: вы выбираете, на сколько дней нужен интернет${from}. ${tail}`;
+  if (t.fixed && !t.perDay) return `${head}, и он фиксирован — указан в карточке тарифа. ${tail}`;
+  return `${head}: у части тарифов его выбирают${from}, у части он фиксирован. ${tail}`;
+}
+
+function installAnswer(c) {
+  const row = 'в строке «Начало срока» окна «Покрытие и условия»';
+  return startsOnInstall(c.iso)
+    ? `Сначала посмотрите, что написано в карточке тарифа ${row}. Если там написано не «после установки eSIM», eSIM можно установить заранее, дома по Wi-Fi: после оплаты QR-код приходит на почту. Если написано «после установки eSIM», срок пойдёт от установки — такой профиль ставят уже в поездке или непосредственно перед ней.`
+    : `eSIM можно установить заранее, дома по Wi-Fi: после оплаты QR-код приходит на почту. С какого момента идёт срок тарифа, указано в карточке — ${row}.`;
+}
+
 function faq(c) {
   // Every answer is derived from the catalogue row. A question the data cannot
   // answer is not asked.
@@ -171,8 +214,7 @@ function faq(c) {
   if (c.daily_count > 0) {
     items.push({
       q: `${c.nameRu} — есть ли тарифы с оплатой за день?`,
-      a: `Да, сейчас таких ${c.daily_count}. У них платится не объём, а срок: вы выбираете, на сколько дней нужен интернет, `
-        + `а дневной лимит трафика обновляется каждые сутки. Минимальный срок и цена указаны в карточке каждого тарифа.`,
+      a: dailyAnswer(c),
     });
   }
   if (c.min_price_rub !== null) {
@@ -183,7 +225,7 @@ function faq(c) {
   }
   items.push({
     q: `Когда устанавливать eSIM?`,
-    a: `eSIM можно установить заранее, дома по Wi-Fi: после оплаты QR-код приходит на почту. Срок действия тарифа отсчитывается с момента подключения к сети в поездке, а не с момента покупки.`,
+    a: installAnswer(c),
   });
   items.push({
     q: `Останется ли российский номер?`,

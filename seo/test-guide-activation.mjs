@@ -28,6 +28,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { sentences, startRuleProblems } from './start-of-term-rules.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const html = readFileSync(join(ROOT, 'esim/activation-before-travel/index.html'), 'utf8');
@@ -36,22 +37,9 @@ const PACKAGES = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf
 
 const text = (h) => h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ')
   .replace(/<[^>]+>/g, ' ').replace(/&laquo;/g, '«').replace(/&raquo;/g, '»').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
-const sentences = (t) => t.split(/(?<=[.!?])\s+/);
 const faqSchema = () => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .flatMap((m) => [].concat(JSON.parse(m[1])['@graph'] || JSON.parse(m[1])))
   .filter((n) => n['@type'] === 'FAQPage').flatMap((n) => n.mainEntity.map((q) => `${q.name} ${q.acceptedAnswer.text}`)).join(' ');
-
-/** Sentences that send the reader to the email for the start rule, or claim a majority. */
-export function startRuleProblems(t) {
-  const out = [];
-  for (const s of sentences(t)) {
-    const aboutStart = /Начало срока|начина|старт|отсч[её]т|момент|счита|пойд[уёе]т\s+дни|когда\s+пойдут|(?:условия|правил[а-яё]*)\s+(?:старта|начала)|(?:услови|правил)[а-яё]*[^.]{0,40}(?:срок|тариф)/i.test(s);
-    const mail = /письм|e-?mail|почт/i.test(s);
-    if (mail && aboutStart && !/срок\s+действия,\s+но\s+не\s+момент/i.test(s)) out.push(`письмо как источник условия старта: «${s.trim()}»`);
-    if (/у\s+большинства|в\s+большинстве|больш[а-яё]+\s+част[а-яё]*\s+тариф|чаще\s+всего|(?<![а-яё])обычно[^.]{0,40}(?:срок|отсч[её]т|начина)/i.test(s)) out.push(`утверждение о большинстве тарифов: «${s.trim()}»`);
-  }
-  return out;
-}
 
 test('the rule fires on the sentences it exists for', () => {
   for (const old of [
