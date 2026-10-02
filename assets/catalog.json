@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-01T13:26:12.441Z",
+  "generated_at": "2026-10-02T12:44:47.378Z",
   "source": "production-public-api",
-  "package_count": 2293,
+  "package_count": 2291,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -6908,7 +6908,7 @@
       "package_id": "0ab05317-c4bf-41cd-a26b-7acc7a531599",
       "name": "Half Global 30 GB Yearly",
       "country_code": "AL",
-      "region": "AL, AM, AT, AZ, BY, BE, BA, BG, HR, CY, CZ, DK, EE, FO, FI, FR, GE, DE, GR, HU, IS, IE, IT, KZ, KG, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RU, RS, SK, SI, ES, SE, CH, TR, AE, GB, US, UZ, US-HI",
+      "region": "AL, AM, AT, AZ, BY, BE, BA, BG, HR, CY, CZ, DK, EE, FO, FI, FR, GE, DE, GR, HU, IS, IE, IT, KZ, KG, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RU, RS, SK, SI, ES, SE, CH, TJ, TR, AE, GB, US, UZ, US-HI",
       "coverage_country_codes": [
         "AL",
         "AM",
@@ -6955,13 +6955,14 @@
         "ES",
         "SE",
         "CH",
+        "TJ",
         "TR",
         "AE",
         "GB",
         "US",
         "UZ"
       ],
-      "coverage_flags": "🇦🇱 🇦🇲 🇦🇹 🇦🇿 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇰🇿 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇺 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇦🇪 🇬🇧 🇺🇸 🇺🇿",
+      "coverage_flags": "🇦🇱 🇦🇲 🇦🇹 🇦🇿 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇰🇿 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇺 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇯 🇹🇷 🇦🇪 🇬🇧 🇺🇸 🇺🇿",
       "data_gb": 30,
       "validity_days": 365,
       "price": 5350,
@@ -51077,45 +51078,6 @@
       ]
     },
     {
-      "package_id": "57c1752a-e304-431c-b519-9d2bd25f0355",
-      "name": "Venezuela 20GB 30Days",
-      "country_code": "VE",
-      "region": "VE",
-      "coverage_country_codes": [
-        "VE"
-      ],
-      "coverage_flags": "🇻🇪",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 22800,
-      "networks": [
-        {
-          "operator": "Digitel",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "57d5b0f8-9d24-4303-9176-ca026350713a",
       "name": "South America  3GB/Day FUP1Mbps",
       "country_code": "SA-18",
@@ -77981,7 +77943,7 @@
       "package_id": "87939d7c-6dc9-4166-8c16-0f8f78aa5e93",
       "name": "Half Global 12 GB",
       "country_code": "AL",
-      "region": "AL, AM, AT, AZ, BY, BE, BA, BG, HR, CY, CZ, DK, EE, FO, FI, FR, GE, DE, GR, HU, IS, IE, IT, KZ, KG, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RU, RS, SK, SI, ES, SE, CH, TR, AE, GB, US, UZ, US-HI",
+      "region": "AL, AM, AT, AZ, BY, BE, BA, BG, HR, CY, CZ, DK, EE, FO, FI, FR, GE, DE, GR, HU, IS, IE, IT, KZ, KG, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RU, RS, SK, SI, ES, SE, CH, TJ, TR, AE, GB, US, UZ, US-HI",
       "coverage_country_codes": [
         "AL",
         "AM",
@@ -78028,13 +77990,14 @@
         "ES",
         "SE",
         "CH",
+        "TJ",
         "TR",
         "AE",
         "GB",
         "US",
         "UZ"
       ],
-      "coverage_flags": "🇦🇱 🇦🇲 🇦🇹 🇦🇿 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇰🇿 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇺 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇦🇪 🇬🇧 🇺🇸 🇺🇿",
+      "coverage_flags": "🇦🇱 🇦🇲 🇦🇹 🇦🇿 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇰🇿 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇺 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇯 🇹🇷 🇦🇪 🇬🇧 🇺🇸 🇺🇿",
       "data_gb": 12,
       "validity_days": 30,
       "price": 2150,
@@ -132445,45 +132408,6 @@
           "price": 20350
         }
       ]
-    },
-    {
-      "package_id": "de9ed50f-698b-4cf8-84b1-6df50192f4d6",
-      "name": "Monaco 20GB 30Days",
-      "country_code": "MC",
-      "region": "MC",
-      "coverage_country_codes": [
-        "MC"
-      ],
-      "coverage_flags": "🇲🇨",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 44000,
-      "networks": [
-        {
-          "operator": "Monaco Telecom",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "deaefcd1-eb4a-49a2-8a77-40baa84babec",
