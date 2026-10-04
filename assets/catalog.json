@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-02T15:51:34.849Z",
+  "generated_at": "2026-10-04T18:38:33.492Z",
   "source": "production-public-api",
   "package_count": 2291,
   "packages": [
@@ -27709,7 +27709,7 @@
       "coverage_flags": "🇨🇦",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 7250,
+      "price": 11950,
       "networks": [
         {
           "operator": "Rogers Wireless",
@@ -93490,7 +93490,7 @@
       "coverage_flags": "🇲🇽",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 10300,
+      "price": 13650,
       "networks": [
         {
           "operator": "Telcel",
