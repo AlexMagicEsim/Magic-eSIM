@@ -28,6 +28,12 @@
  * Deterministic: no clock, no network, sorted input. Run it twice and the
  * tree is byte-identical (seo/test-en-pages.mjs checks the committed output).
  *
+ * THE GUIDES (/en/guides/<slug>/ and the list /en/guides/) are rendered here
+ * too, from seo/guides-en.mjs, so `build-all` can never skip them — the Russian
+ * build-guides.mjs is NOT run by build-all, and that gap has bitten before.
+ * Like the country pages they are noindex until a reviewed English text and
+ * its hreflang/sitemap entry ship together (PR 8), and they load NO script.
+ *
  * Run: node seo/build-en-pages.mjs   (build-all.mjs runs it)
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -35,6 +41,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { stampHtml } from './asset-version.mjs';
+import { EN_GUIDES } from './guides-en.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
@@ -68,11 +75,16 @@ const ROBOTS = `<!-- A TEMPLATE PAGE: nothing on it was written or reviewed for 
      has no hreflang twin. «follow» keeps its links crawlable. -->
 <meta name="robots" content="noindex, follow">`;
 
+const GUIDE_ROBOTS = `<!-- Written for this site but not yet reviewed for search: noindex, no hreflang
+     twin, not in the sitemap, until PR 8 ships the review with all three. -->
+<meta name="robots" content="noindex, follow">`;
+
 const header = (ruHref) => `<header>
   <div class="wrap hdr">
     <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt="Magic eSIM"><span>Magic eSIM</span></a>
     <nav>
       <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
+      <a href="/en/guides/" data-i18n="nav.guides">Guides</a>
       <a href="/en/#how" data-i18n="nav.how">How it works</a>
     </nav>
     <a class="langsw" href="${ruHref}" hreflang="ru" data-i18n="lang.switchToRu">Перейти на русскую версию</a>
@@ -85,7 +97,7 @@ const NOTICE = `  <div class="unavail notice" id="previewNotice" role="note">
   </div>`;
 
 const FOOTER = `<footer class="wrap">
-  <p>© Magic eSIM · <a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a> · <a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
+  <p>© Magic eSIM · <a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a> · <a href="/en/guides/" data-i18n="nav.guides">Guides</a> · <a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
 </footer>`;
 
 /* The checkout window: plan → price fixed by the server (a GLOBAL quote) →
@@ -254,6 +266,113 @@ ${FOOTER}
 `;
 }
 
+/* The Russian twin of each guide — for the language switch only. */
+export const GUIDE_RU = Object.freeze({
+  iphone: '/iphone.html',
+  android: '/android.html',
+  compatibility: '/esim/compatibility/',
+  activation: '/esim/activation-before-travel/',
+  troubleshooting: '/esim/not-working/',
+});
+
+export function guidePage(g, all = EN_GUIDES) {
+  const url = `${SITE}/en/guides/${g.slug}/`;
+  const ru = GUIDE_RU[g.slug];
+  if (!ru) throw new Error(`guide ${g.slug} has no Russian twin for the language switch`);
+  const sections = g.sections.map((x) => `  <section class="block prose">
+    <h2>${esc(x.h2)}</h2>
+${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
+  </section>`).join('\n\n');
+  const faq = g.faq.map((f) => `    <details>
+      <summary>${esc(f.q)}</summary>
+      <p class="note">${esc(f.a)}</p>
+    </details>`).join('\n');
+  const related = g.related.map((slug) => {
+    const r = all.find((x) => x.slug === slug);
+    if (!r) throw new Error(`guide ${g.slug} links to an unknown guide ${slug}`);
+    return `    <li><a href="/en/guides/${r.slug}/">${esc(r.h1)}</a></li>`;
+  }).join('\n');
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(g.title)}</title>
+<meta name="description" content="${esc(g.description)}">
+<link rel="canonical" href="${url}">
+${GUIDE_ROBOTS}
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${esc(g.title)}">
+${HEAD_ICONS}
+<link rel="stylesheet" href="/en/en.css">
+</head>
+<body>
+
+${header(ru)}
+
+<main class="wrap">
+  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › ${esc(g.nav)}</p>
+  <h1>${esc(g.h1)}</h1>
+  <p class="lead">${esc(g.lead)}</p>
+
+${sections}
+
+  <section class="block" id="faq">
+    <h2>Questions</h2>
+${faq}
+  </section>
+
+  <section class="block">
+    <h2>Related guides</h2>
+    <ul class="list">
+${related}
+    </ul>
+    <p class="note"><a href="/en/esim/">Choose a destination</a></p>
+  </section>
+</main>
+
+${FOOTER}
+</body>
+</html>
+`;
+}
+
+export function guidesHub(all = EN_GUIDES) {
+  const url = `${SITE}/en/guides/`;
+  const items = all.map((g) => `    <li><a href="/en/guides/${g.slug}/">${esc(g.h1)}</a><br><span class="note">${esc(g.blurb)}</span></li>`).join('\n');
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eSIM guides — install, check and fix | Magic eSIM</title>
+<meta name="description" content="How to install a travel eSIM on iPhone and Android, check that your phone supports it, when to install it and what to do if it does not work.">
+<link rel="canonical" href="${url}">
+${GUIDE_ROBOTS}
+${HEAD_ICONS}
+<link rel="stylesheet" href="/en/en.css">
+</head>
+<body>
+
+${header('/esim/')}
+
+<main class="wrap">
+  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">Guides</span></p>
+  <h1>eSIM guides</h1>
+  <p class="lead">Install, check and fix a travel eSIM — step by step.</p>
+  <ul class="list guides">
+${items}
+  </ul>
+</main>
+
+${FOOTER}
+</body>
+</html>
+`;
+}
+
 export function destinationsJs(list) {
   const rows = list.slice().sort((a, b) => a.name.localeCompare(b.name, 'en'))
     .map((c) => `  { iso: ${JSON.stringify(c.iso)}, slug: ${JSON.stringify(c.slug)}, name: ${JSON.stringify(c.name)} },`)
@@ -279,5 +398,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   write('en/destinations.js', destinationsJs(list));
   for (const c of list) write(`en/esim/${c.slug}/index.html`, stampHtml(countryPage(c), join(ROOT, 'en/esim', c.slug)));
   write('en/esim/index.html', stampHtml(hubPage(list), join(ROOT, 'en/esim')));
-  console.log(`en/esim: ${list.length} country pages + the list (all noindex), en/destinations.js`);
+  for (const g of EN_GUIDES) write(`en/guides/${g.slug}/index.html`, stampHtml(guidePage(g), join(ROOT, 'en/guides', g.slug)));
+  write('en/guides/index.html', stampHtml(guidesHub(), join(ROOT, 'en/guides')));
+  console.log(`en/esim: ${list.length} country pages + the list (all noindex), en/destinations.js; en/guides: ${EN_GUIDES.length} guides + the list (noindex)`);
 }
