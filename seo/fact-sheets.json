@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-02T15:51:34.849Z",
+  "fetched_at": "2026-10-04T18:38:33.492Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -7129,7 +7129,7 @@
         },
         {
           "data_gb": 50,
-          "price_rub": 10300,
+          "price_rub": 13650,
           "validity_days": 30,
           "kind": "local"
         }
@@ -7195,7 +7195,6 @@
         9750,
         9850,
         10200,
-        10300,
         11650,
         12300,
         12900,
@@ -30952,7 +30951,7 @@
       "regional_count": 13,
       "total_count": 35,
       "min_price_rub": 550,
-      "max_price_rub": 10500,
+      "max_price_rub": 11950,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -30998,7 +30997,7 @@
         },
         {
           "data_gb": 50,
-          "price_rub": 7250,
+          "price_rub": 11950,
           "validity_days": 30,
           "kind": "local"
         }
