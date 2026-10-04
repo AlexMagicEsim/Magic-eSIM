@@ -17,6 +17,28 @@
 //     2FA guarantee, no device-model list, no payment method.
 //   * No claim that a QR code can be reused: it «may be single-use».
 //
+// SOURCES — every menu label and path below was checked against the vendor's
+// own documentation on 2026-10-04; a label not found there was removed:
+//   Apple   support.apple.com/en-us/118669 (Set up eSIM on iPhone: Camera →
+//           «Cellular Plan Detected» → Continue → Add Cellular Plan; iOS 17.4+
+//           touch and hold → Add eSIM; Settings → Cellular or Mobile Data → Add
+//           Cellular Plan → Enter Details Manually), 118227 (travel eSIM; Carrier
+//           Lock «No SIM Restrictions» in Settings → General → About; Cellular →
+//           Cellular Data), 109317 (Dual SIM with eSIM: data roaming per number;
+//           Cellular Plan Label).
+//   Google  support.google.com/pixelphone/answer/16115470 (Network & internet →
+//           SIMs → Add SIM → Set up an eSIM), 9449293 (Mobile network → Use this
+//           SIM; SIMs → Mobile data), 2926415 (Roaming, Network, APN settings
+//           exist), 7107188 (SIM-locked phones), 10402530 (EID in About phone →
+//           SIM status; «To use an eSIM, a phone also needs an EID»).
+//   Samsung samsung.com/uk/support/mobile-devices/how-to-use-an-esim-with-your-
+//           galaxy-phone/ (Connections → SIM card manager → Add mobile plan →
+//           Add using QR code / Add using activation code), .../how-do-i-turn-
+//           international-data-roaming-on-or-off-on-my-samsung-galaxy-device/
+//           (Connections → Mobile Networks → Data Roaming).
+//   NOT found in any of them, so NOT stated: the *#06# check, the names
+//   «SM-DP+ address» and «activation code» on iPhone/Pixel, «Download a SIM».
+//
 // seo/test-en-guides.mjs enforces these on the rendered pages.
 
 export const EN_GUIDES = [
@@ -31,28 +53,29 @@ export const EN_GUIDES = [
     lead: 'Installing takes a few minutes and needs an internet connection — Wi-Fi is easiest. Below is the whole path: checking that your iPhone supports eSIM, installing the profile, and turning on mobile data at your destination.',
     sections: [
       { h2: 'Check that your iPhone supports eSIM', html: `
-        <p>Open <strong>Settings → Cellular</strong> (called <strong>Mobile Data</strong> in some regions). If you see <strong>Add eSIM</strong> — or <strong>Add Cellular Plan</strong> on older iOS versions — your iPhone supports eSIM.</p>
+        <p>Open <strong>Settings → Cellular</strong> (called <strong>Mobile Data</strong> in some regions). If you see <strong>Add eSIM</strong> or <strong>Add Cellular Plan</strong>, your iPhone supports eSIM.</p>
         <p>Your iPhone must also not be locked to one carrier. See <a href="/en/guides/compatibility/">how to check compatibility</a>.</p>` },
       { h2: 'Option 1 — scan the QR code', html: `
         <ol class="steps">
           <li>Show your eSIM's QR code on another screen: a computer, a tablet or a second phone.</li>
-          <li>On the iPhone, open <strong>Settings → Cellular → Add eSIM</strong>.</li>
-          <li>Choose to use a QR code and point the camera at it.</li>
-          <li>Confirm, and wait until the installation finishes.</li>
+          <li>On the iPhone, open the <strong>Camera</strong> app and scan the QR code.</li>
+          <li>When the <strong>Cellular Plan Detected</strong> notification appears, tap it.</li>
+          <li>Tap <strong>Continue</strong>, then <strong>Add Cellular Plan</strong>. If you are asked for a confirmation code, enter the one provided with your eSIM.</li>
           <li>Give the line a clear name, such as «Travel», so you do not mix it up with your main SIM.</li>
-        </ol>` },
+        </ol>
+        <p class="note">With iOS 17.4 or later, if the QR code is in an email or on a web page on the iPhone itself, touch and hold the code, then tap <strong>Add eSIM</strong>.</p>` },
       { h2: 'Option 2 — enter the details manually', html: `
         <ol class="steps">
-          <li>Find the manual installation details that come with your eSIM: the SM-DP+ address and the activation code.</li>
-          <li>Open <strong>Settings → Cellular → Add eSIM</strong> and choose to enter the details manually.</li>
-          <li>Type in the SM-DP+ address and the activation code.</li>
+          <li>Find the details for manual installation that come with your eSIM.</li>
+          <li>Open <strong>Settings → Cellular</strong> (or <strong>Mobile Data</strong>) and tap <strong>Add Cellular Plan</strong>.</li>
+          <li>Tap <strong>Enter Details Manually</strong> and type in those details.</li>
           <li>Confirm, and wait until the installation finishes.</li>
         </ol>
-        <p class="note">Useful when the QR code is on the same iPhone and there is nothing to scan it with.</p>` },
+        <p class="note">Useful when there is no QR code to scan.</p>` },
       { h2: 'At your destination — turn on data', html: `
         <ol class="steps">
           <li>In <strong>Settings → Cellular</strong>, make sure the eSIM line is turned on.</li>
-          <li>Choose the eSIM line for <strong>Cellular Data</strong>. Your main SIM can stay on for calls and texts.</li>
+          <li>Tap <strong>Cellular Data</strong> and choose the eSIM line. Your main SIM can stay on for calls and texts.</li>
           <li>Open the eSIM line and turn on <strong>Data Roaming</strong>. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.</li>
           <li>If you do not want charges from your home operator, turn off data roaming on your main SIM.</li>
           <li>Give the phone a minute or two to register on a local network.</li>
@@ -64,7 +87,7 @@ export const EN_GUIDES = [
     ],
     faq: [
       { q: 'Do I need Wi-Fi to install an eSIM on iPhone?', a: 'You need an internet connection to download the profile, and Wi-Fi is the easiest. Installing on the day you travel, before you leave home or on airport Wi-Fi, works whatever the plan\'s rules for when its validity starts.' },
-      { q: 'The QR code is on this same iPhone. Can I still install it?', a: 'Yes. Choose to enter the details manually and type in the SM-DP+ address and the activation code.' },
+      { q: 'The QR code is on this same iPhone. Can I still install it?', a: 'Yes. With iOS 17.4 or later, touch and hold the QR code in the email or web page, then tap Add eSIM. Or choose Enter Details Manually and type in the details provided with your eSIM.' },
       { q: 'What happens to my main number?', a: 'It stays on. Calls and texts to your main number follow your home operator\'s roaming terms; the travel eSIM is used for mobile data.' },
       { q: 'Why turn on data roaming for the eSIM?', a: 'Travel eSIMs usually connect through partner networks, which the phone treats as roaming. Data roaming on the eSIM line is a normal setting; you can keep it off on your main SIM.' },
     ],
@@ -84,24 +107,24 @@ export const EN_GUIDES = [
       { h2: 'Find where SIMs are managed', html: `
         <p>The SIM settings usually live in one of these places — names vary by brand and Android version:</p>
         <ul class="list">
-          <li><strong>Google Pixel and many others:</strong> Settings → Network &amp; internet → SIMs.</li>
-          <li><strong>Samsung:</strong> Settings → Connections → SIM manager.</li>
+          <li><strong>Google Pixel:</strong> Settings → Network &amp; internet → SIMs → <strong>Add SIM</strong> → <strong>Set up an eSIM</strong>.</li>
+          <li><strong>Samsung Galaxy:</strong> Settings → Connections → SIM card manager → <strong>Add mobile plan</strong>.</li>
           <li><strong>Other brands:</strong> look for «Mobile network», «SIM cards» or «Connections» in Settings.</li>
         </ul>
-        <p>Look for an option such as <strong>Add eSIM</strong> or <strong>Download a SIM</strong>. If there is none, check <a href="/en/guides/compatibility/">whether your phone supports eSIM</a>.</p>` },
+        <p>If there is no option to add an eSIM anywhere, check <a href="/en/guides/compatibility/">whether your phone supports eSIM</a>.</p>` },
       { h2: 'Install the eSIM', html: `
         <ol class="steps">
           <li>Show your eSIM's QR code on another screen.</li>
-          <li>In the SIM settings, choose <strong>Add eSIM</strong> (or the similar option) and scan the QR code.</li>
-          <li>No second screen? Most phones also offer to enter the details by hand: the SM-DP+ address and the activation code.</li>
+          <li>Start adding an eSIM as above. <strong>Samsung:</strong> tap <strong>Add using QR code</strong> and scan the code. <strong>Pixel:</strong> follow the instructions on the screen.</li>
+          <li>No QR code to scan? On Samsung, tap <strong>Add using activation code</strong> and enter the details provided with your eSIM.</li>
           <li>Confirm, and wait until the installation finishes.</li>
           <li>Rename the eSIM, for example to «Travel».</li>
         </ol>` },
       { h2: 'At your destination — turn on data', html: `
         <ol class="steps">
-          <li>Make sure the eSIM is turned on in the SIM settings.</li>
-          <li>Choose the eSIM as the SIM for <strong>mobile data</strong>. Your main SIM can stay on for calls and texts.</li>
-          <li>Turn on <strong>roaming</strong> for the eSIM. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.</li>
+          <li>Make sure the eSIM is turned on. Pixel: Settings → Network &amp; internet → Mobile network → the eSIM → <strong>Use this SIM</strong>.</li>
+          <li>Choose the eSIM as the SIM for <strong>mobile data</strong>. Pixel: Settings → Network &amp; internet → SIMs → <strong>Mobile data</strong>. Your main SIM can stay on for calls and texts.</li>
+          <li>Turn on <strong>roaming</strong> for the eSIM. Samsung: Settings → Connections → Mobile Networks → <strong>Data Roaming</strong>. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.</li>
           <li>If you do not want charges from your home operator, turn off data roaming on your main SIM.</li>
           <li>Give the phone a minute or two to register on a local network.</li>
         </ol>` },
@@ -112,7 +135,7 @@ export const EN_GUIDES = [
     faq: [
       { q: 'My Android phone has no «Add eSIM» option. What now?', a: 'Look under every SIM-related menu — the name differs by brand. If no option to add or download an eSIM exists anywhere, the phone (or this regional version of it) probably does not support eSIM.' },
       { q: 'Can I use the eSIM and my physical SIM at the same time?', a: 'On phones that support dual SIM with eSIM, yes: choose the eSIM for mobile data and keep the physical SIM for calls and texts.' },
-      { q: 'Do I need to set an APN?', a: 'Usually the phone sets it up by itself. If your plan\'s details list an APN, check that it matches in the eSIM\'s settings.' },
+      { q: 'Do I need to set an APN?', a: 'Only if your plan\'s details list an APN: then check that it matches in the eSIM\'s settings.' },
     ],
     related: ['iphone', 'compatibility', 'activation', 'troubleshooting'],
   },
@@ -122,18 +145,18 @@ export const EN_GUIDES = [
     slug: 'compatibility',
     nav: 'Compatibility',
     title: 'Does my phone support eSIM? How to check | Magic eSIM',
-    description: 'Check eSIM support before you choose a plan: the setting to look for on iPhone and Android, the *#06# check, carrier locks and regional versions.',
+    description: 'Check eSIM support before you choose a plan: the setting to look for on iPhone and Android, carrier locks and regional versions.',
     h1: 'Does your phone support eSIM?',
     blurb: 'A one-minute check before you choose a plan.',
     lead: 'The quickest check: open your phone\'s SIM settings and look for an option to add an eSIM. If it is there, the phone supports eSIM. Two more things to check at the same time: whether the phone is locked to one carrier, and which regional version you have.',
     sections: [
       { h2: 'Check 1 — the setting', html: `
-        <p><strong>iPhone:</strong> Settings → Cellular. <strong>Add eSIM</strong> (or <strong>Add Cellular Plan</strong> on older iOS) means eSIM is supported.</p>
-        <p><strong>Android:</strong> open the SIM settings — «Network &amp; internet», «Connections» or «SIM cards», depending on the brand — and look for <strong>Add eSIM</strong> or <strong>Download a SIM</strong>.</p>
-        <p>An extra hint: dial <code>*#06#</code>. An <strong>EID</strong> among the numbers usually means the phone has an eSIM chip — but it does not prove the feature is enabled on your version, and some phones do not show the EID there at all. The setting is what decides.</p>` },
+        <p><strong>iPhone:</strong> Settings → Cellular. <strong>Add eSIM</strong> or <strong>Add Cellular Plan</strong> means eSIM is supported.</p>
+        <p><strong>Android:</strong> open the SIM settings and look for a way to add an eSIM — on Pixel, Network &amp; internet → SIMs → <strong>Add SIM</strong> → <strong>Set up an eSIM</strong>; on Samsung, Connections → SIM card manager → <strong>Add mobile plan</strong>.</p>
+        <p>An extra hint on Pixel: to use an eSIM, a phone needs an <strong>EID</strong> number. You can find it in Settings → About phone → SIM status. The setting to add an eSIM is still what decides.</p>` },
       { h2: 'Check 2 — is it locked to a carrier?', html: `
         <p>A phone bought on contract may be locked to its carrier and refuse other SIMs and eSIMs until it is unlocked.</p>
-        <p>On iPhone, look at <strong>Settings → General → About → Carrier Lock</strong>: «No SIM restrictions» means it is unlocked. On Android, ask the carrier that sold the phone, or try another carrier's SIM.</p>` },
+        <p>On iPhone, open <strong>Settings → General → About</strong> and look for «No SIM Restrictions» next to <strong>Carrier Lock</strong>. On Android, ask the carrier that sold the phone.</p>` },
       { h2: 'Check 3 — the regional version', html: `
         <p>The same model can have eSIM in one country and not in another: support depends on the market a phone was made for, not only on its name. That is why we do not publish a list of «supported models» — what decides is your own phone's settings.</p>` },
       { h2: 'Your phone qualifies — what next', html: `
@@ -141,7 +164,7 @@ export const EN_GUIDES = [
     ],
     faq: [
       { q: 'My phone takes two SIM cards. Does that mean it has eSIM?', a: 'Not necessarily — some phones have two physical slots and no eSIM. Look for the option to add an eSIM in the SIM settings.' },
-      { q: 'There is no EID after dialling *#06#. Is there no eSIM?', a: 'Not necessarily: some phones do not show the EID with that code. The option to add an eSIM in the settings is the deciding check.' },
+      { q: 'I cannot find an EID. Is there no eSIM?', a: 'Not necessarily. The option to add an eSIM in the settings is the deciding check.' },
       { q: 'What if my phone does not support eSIM?', a: 'A travel eSIM will not work on it. You would need another phone with eSIM, or a local physical SIM at your destination.' },
     ],
     related: ['iphone', 'android', 'activation', 'troubleshooting'],
@@ -170,7 +193,7 @@ export const EN_GUIDES = [
       { h2: 'Checklist for the day you fly', html: `
         <ul class="list">
           <li>Your phone supports eSIM and is not carrier-locked (<a href="/en/guides/compatibility/">check</a>).</li>
-          <li>You have the eSIM's QR code, or its SM-DP+ address and activation code, at hand — saved somewhere you can open offline.</li>
+          <li>You have the eSIM's QR code, or its details for manual installation, at hand — saved somewhere you can open offline.</li>
           <li>You install the eSIM over Wi-Fi (<a href="/en/guides/iphone/">iPhone</a>, <a href="/en/guides/android/">Android</a>).</li>
           <li>You keep your main SIM for data until you land.</li>
         </ul>` },
