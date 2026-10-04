@@ -22,8 +22,17 @@
 (function () {
   'use strict';
 
+  // A script that failed to load must not leave «Loading plans…» on screen for
+  // ever. Plain English here: the dictionary may be the script that is missing.
   if (!window.MagicSiteI18n || !window.MagicCountryNamesEn || !window.MagicGlobalCatalog
-    || !window.MagicEnPlans || !window.MagicEnCheckout) return;
+    || !window.MagicEnPlans || !window.MagicEnCheckout) {
+    var st0 = document.getElementById('status');
+    if (st0) {
+      st0.textContent = 'Prices are temporarily unavailable. Please reload the page — nothing can be ordered here yet.';
+      st0.hidden = false;
+    }
+    return;
+  }
 
   var I18N = window.MagicSiteI18n.createI18n('en');
   var PLANS = window.MagicEnPlans.create({
@@ -75,6 +84,10 @@
     };
 
     var render = function (res) {
+      try { return draw(res); } catch (e) { return failed(); }
+    };
+
+    var draw = function (res) {
       var list = (res && res.ok && res.packages) || [];
       if (!list.length) return failed();
 

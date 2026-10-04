@@ -107,6 +107,17 @@ test('button text meets WCAG AA (4.5:1) and the button stands out from the page 
   assert.ok(contrast('#ffffff', '#6c8cff') < 4.5);
 });
 
+test('error and recovery markup: a silent countdown, one live region for events, an honest no-JS state', () => {
+  const page = read('en/esim/uae/index.html');
+  assert.match(page, /<p class="note" id="coExpiry" hidden><\/p>/, 'the countdown is not a live region');
+  assert.match(page, /<p class="sr-only" id="coLive" role="status" aria-live="polite"><\/p>/);
+  assert.match(page, /<b id="coTotal" tabindex="-1">/);
+  assert.match(page, /id="coFinal" role="status" tabindex="-1"/);
+  assert.match(page, /<noscript>\s*<link rel="stylesheet" href="\/en\/noscript\.css\?v=[0-9a-f]{8}">\s*<p class="note">Plans and prices on this page need JavaScript\. Nothing can be bought here yet\.<\/p>\s*<\/noscript>/);
+  assert.match(read('en/noscript.css'), /#status\{display:none!important\}/);
+  assert.match(CSS, /\.sr-only\{position:absolute;width:1px;height:1px/);
+});
+
 test('the hidden attribute wins over every display rule in en.css', () => {
   assert.match(CSS, /\[hidden\]\{display:none!important\}/);
   // …and the rules it has to beat exist, or this test would prove nothing.
