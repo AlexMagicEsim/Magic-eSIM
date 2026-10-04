@@ -1,32 +1,30 @@
 /* =====================================================================
- * /en/ — the international storefront's behaviour.
+ * /en/ — the international (GLOBAL) storefront's behaviour.
  * ---------------------------------------------------------------------
- * WHAT THIS PAGE IS ALLOWED TO DO: read the catalogue, render it in English,
- * and show a plan's details. It sells nothing: the page says so before any
- * price or button, and the plan window repeats it and asks for nothing.
+ * WHAT THIS PAGE IS ALLOWED TO DO: read the GLOBAL catalogue (US dollars,
+ * through assets/global-catalog.js), render it in English, and show a plan's
+ * details. It sells nothing yet: the page says so before any price or button,
+ * and the plan window repeats it and asks for nothing.
  *
  * WHAT IT MUST NEVER DO, and the reason each is structural rather than
  * remembered:
  *
- *   * It never POSTs anything. There is no call to /api/v1/public/retail-orders
- *     in this file, so no order can be created and therefore nothing can reach
- *     Platega, the fulfilment hook or a provider. A test asserts the absence.
- *   * It never invents a price, and «the price» is not one field. A FIXED_VOLUME
- *     plan carries its whole price in `price`; a PER_DAY plan's `price` is a
- *     per-day RATE and one day is not sold, so the payable figures live in the
- *     `term_prices` ladder; a FIXED_TERM daily has no ladder and `price` is
- *     again the whole price. `priceOf` reads each shape on its own terms and
- *     returns null when none of them yields something purchasable — the card
+ *   * It never touches the network itself. The only read is
+ *     MagicGlobalCatalog.load() — one GET of `?market=global` — and there is no
+ *     POST, no quote and no order anywhere on this page, so nothing can reach a
+ *     payment provider, fulfilment or a supplier. A test asserts the absence.
+ *   * It never shows roubles and never converts. Prices are the GLOBAL lane's
+ *     own USD figures. When that lane answers nothing usable (switched off,
+ *     busy, down), the page says prices are unavailable — it does NOT fall back
+ *     to the Russian rouble snapshot, which is what /en/ used to show.
+ *   * It never invents a price, and «the price» is not one field. A
+ *     FIXED_VOLUME plan carries its whole price in `price`; a PER_DAY plan's
+ *     `price` is a per-day RATE and one day is not sold, so the payable figures
+ *     live in the `term_prices` ladder; a FIXED_TERM daily has no ladder and
+ *     `price` is again the whole price. `priceOf` reads each shape on its own
+ *     terms and returns null when none yields something purchasable — the card
  *     then says the plan is unavailable rather than quoting a number nobody can
- *     pay. An earlier version of this comment claimed the catalogue holds
- *     exactly one real price per plan; that sentence was false, it is what the
- *     first version of this file was written against, and 1293 of 1324 daily
- *     packages advertised an unpayable figure because of it. Whatever `priceOf`
- *     returns is denominated in roubles; no international price exists yet, so
- *     the rouble figure is shown, labelled as roubles, and the page says
- *     international pricing is being finalised. Converting it at some rate would
- *     be inventing the number the whole pricing lane is supposed to produce
- *     later.
+ *     pay (1293 of 1324 daily packages once advertised an unpayable figure).
  *   * It never redirects. The language switch is an ordinary link the visitor
  *     clicks, so there is no automatic hop to get into a loop with.
  * ================================================================== */
@@ -36,7 +34,7 @@
   // Guarded like DAILY below. Either script failing to load used to throw before
   // `boot()` bound a single handler, leaving a search box that silently did
   // nothing on a page that otherwise rendered fine.
-  if (!window.MagicSiteI18n || !window.MagicCountryNamesEn || !window.MagicCatalog) return;
+  if (!window.MagicSiteI18n || !window.MagicCountryNamesEn || !window.MagicGlobalCatalog) return;
 
   var I18N = window.MagicSiteI18n.createI18n('en');
   var NAMES = window.MagicCountryNamesEn;
@@ -107,18 +105,26 @@
       return null;
     }
 
-    var n = Number(p && (p.price != null ? p.price : p.retail_price_rub));
+    var n = Number(p && p.price);
     if (!isFinite(n) || n <= 0) return null;
 
     return { amount: n, days: Number(p.validity_days) || null };
   }
 
+  // US dollars, always two decimals: the GLOBAL lane prices to the cent and
+  // ends on .99, so «$9.99», never «$9.9» or «$10».
+  var USD = (typeof Intl !== 'undefined' && Intl.NumberFormat)
+    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : null;
+
+  function money(amount) {
+    return USD ? USD.format(amount) : '$' + Number(amount).toFixed(2);
+  }
+
   function priceText(p) {
     var priced = priceOf(p);
     if (!priced) return '';
-    // Grouped the English way on an English page: 1,150 ₽. The currency stays
-    // the rouble sign because the currency IS the rouble.
-    return priced.amount.toLocaleString('en-US') + ' ₽';
+    return money(priced.amount);
   }
 
   function dataText(p) {
@@ -362,19 +368,18 @@
       if (e.key === 'Escape' && !$('checkout').hidden) closeCheckout();
     });
 
-    // AN EMPTY RESULT IS A FAILURE, not an empty shop. `MagicCatalog.load()`
-    // RESOLVES even when both the live API and the static cache are
-    // unreachable — that resilience is deliberate and is what keeps the Russian
-    // landing standing — so a page that only handled the rejection showed
-    // «Loading…», then nothing, and looked like a country with no plans. The
-    // browser test caught it; the first version of this function had the bug.
+    // NO PRICES IS SAID, not hidden. The GLOBAL lane can be switched off (503),
+    // busy (429) or unreachable; in every case the page says prices are
+    // unavailable and offers nothing — it never substitutes the Russian rouble
+    // snapshot. An empty or malformed answer counts as unavailable too: an
+    // empty list must not look like a destination with no plans.
     var failed = function () {
-      $('status').textContent = I18N.t('site.loadFailed');
+      $('status').textContent = I18N.t('site.pricesUnavailable');
       $('status').hidden = false;
     };
 
-    window.MagicCatalog.load().then(function (res) {
-      var list = (res && res.packages) || [];
+    window.MagicGlobalCatalog.load().then(function (res) {
+      var list = (res && res.ok && res.packages) || [];
       if (!list.length) return failed();
       packages = list;
       $('status').textContent = '';

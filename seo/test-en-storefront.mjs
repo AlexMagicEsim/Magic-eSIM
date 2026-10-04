@@ -45,9 +45,11 @@ test('the English storefront has no network primitive at all', () => {
   ]) {
     assert.equal(re.test(code), false, `${name} must not appear in en/app.js`);
   }
-  // The catalogue is read through MagicCatalog, which is GET-only — that is the
-  // one and only way this page talks to anything.
-  assert.match(code, /MagicCatalog\.load\(\)/);
+  // The catalogue is read through MagicGlobalCatalog (one GET of the GLOBAL
+  // lane) — the one and only way this page talks to anything. The Russian
+  // loader, whose fallback is the rouble snapshot, is not used here at all.
+  assert.match(code, /MagicGlobalCatalog\.load\(\)/);
+  assert.equal(/\bMagicCatalog\b/.test(code), false, 'the Russian rouble loader must not be used on /en/');
 });
 
 test('the English page posts no form, anywhere', () => {
@@ -104,15 +106,20 @@ test('no call to action on /en/ promises a purchase', () => {
   const BUY = /\b(buy|purchase|pay|order|checkout|continue|add to cart)\b/i;
   const offending = [...ctaKeys].filter((k) => BUY.test(I18N_EN[k] || ''));
   assert.deepEqual(offending, []);
-  assert.ok(ctaKeys.has('pay.toRussianSite'), 'the markup scan found the .btn links');
+  // The markup scan must be able to find a .btn link, or an empty result proves nothing.
+  const sampleBtn = '<a class="btn btn-ghost" href="/x" data-i18n="pay.toRussianSite">x</a>';
+  assert.equal([...sampleBtn.matchAll(/<(?:button|a)\b[^>]*class="[^"]*\bbtn\b[^"]*"[^>]*data-i18n="([^"]+)"/g)].length, 1,
+    'the markup scan finds .btn links');
   assert.equal(I18N_EN['site.choose'], 'View details');
   assert.equal(BUY.test('Buy now'), true, 'the rule can fire');
   assert.equal(BUY.test(I18N_EN['checkout.continue']), true, 'and it fires on the label this page used to show');
 });
 
-test('the price note says the figure is a reference and invents no other currency', () => {
-  assert.match(I18N_EN['price.currencyNote'], /Reference prices in Russian roubles \(₽\)/);
-  assert.doesNotMatch(I18N_EN['price.currencyNote'] + I18N_EN['preview.noticeBody'], /\$|USD|EUR|€|being finalised/);
+test('the price note and the notice say US dollars, and never roubles', () => {
+  assert.match(I18N_EN['price.currencyNote'], /Prices in US dollars \(USD\)/);
+  assert.match(I18N_EN['preview.noticeBody'], /prices in US dollars/);
+  assert.match(I18N_EN['preview.noticeBody'], /nothing can be ordered or charged/);
+  assert.doesNotMatch(I18N_EN['price.currencyNote'] + I18N_EN['preview.noticeBody'], /₽|rouble|ruble|RUB|EUR|€|reference/i);
 });
 
 test('every daily plan on /en/ quotes a price a customer can actually pay', () => {
@@ -188,15 +195,92 @@ test('a daily plan always shows the term its price buys', () => {
   }
 });
 
-test('the page invents no international price', () => {
-  // The catalogue holds one real price per plan and it is in roubles. Anything
-  // that looked like a converted USD figure would be the number the global
-  // pricing lane is supposed to produce later, guessed early.
-  assert.equal(/\$\s*\d/.test(EN_JS), false, 'no dollar amounts');
-  assert.equal(/USD|EUR/.test(EN_JS), false, 'no currency conversion');
-  assert.match(EN_JS, /toLocaleString\('en-US'\) \+ ' ₽'/, 'roubles, formatted for an English reader');
-  assert.match(EN, /data-i18n="price\.currencyNote"/, 'and the page says so');
+test('prices on /en/ are the GLOBAL lane\'s US dollars — never roubles, never converted', () => {
+  const code = EN_JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  assert.match(code, /currency: 'USD'/, 'formatted as US dollars');
+  assert.equal(/₽|retail_price_rub|catalog\.json|\bRUB\b|toFixed\(0\)/.test(code), false,
+    'no rouble sign, no rouble field, no rouble snapshot');
+  assert.equal(/\*\s*\d+(\.\d+)?\s*\/|rate|convert/i.test(code.replace(/per-day RATE/g, '')), false,
+    'no conversion arithmetic or rate');
+  assert.match(EN, /data-i18n="price\.currencyNote"/, 'and the page says which currency');
 });
+
+/* ===================================================================== *
+ * The GLOBAL catalogue client — read-only, USD-only, no rouble fallback
+ * ===================================================================== */
+
+const GLOBAL_JS = read('assets/global-catalog.js');
+const GLOBAL = require(join(ROOT, 'assets/global-catalog.js'));
+
+test('the GLOBAL client reads exactly one URL, with GET, through MagicNet — and nothing else', () => {
+  const code = GLOBAL_JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  assert.equal(GLOBAL.PATH, '/api/v1/retail/packages?market=global');
+  assert.match(code, /net\.request\(PATH, \{ method: 'GET' \}\)/);
+  for (const [name, re] of [
+    ['fetch(', /\bfetch\s*\(/], ['XMLHttpRequest', /\bXMLHttpRequest\b/], ['sendBeacon', /\bsendBeacon\b/],
+    ['POST', /POST/i], ['catalog.json', /catalog\.json/], ['MagicCatalog', /\bMagicCatalog\b/],
+    ['retail-orders', /retail-orders/i], ['quotes', /quotes/i], ['platega', /platega/i], ['localStorage', /localStorage/],
+  ]) assert.equal(re.test(code), false, `${name} must not appear in assets/global-catalog.js`);
+});
+
+test('the GLOBAL client accepts only a GLOBAL, USD, payable answer', () => {
+  const ok = (data) => GLOBAL.validate(200, { status: 'success', market: 'global', currency: 'USD', data });
+  const fixed = { package_id: 'a', price: 9.99, currency: 'USD' };
+  const daily = { package_id: 'b', price: 1.99, currency: 'USD', term_prices: [{ days: 3, price: 3.99 }] };
+  assert.deepEqual(ok([fixed, daily]), { ok: true, packages: [fixed, daily] });
+  // The lane switched off, busy, broken — each is «unavailable», never a guess.
+  assert.deepEqual(GLOBAL.validate(503, { status: 'error', error: 'GLOBAL_PRICING_DISABLED' }), { ok: false, reason: 'disabled' });
+  assert.deepEqual(GLOBAL.validate(503, { status: 'error', error: 'GLOBAL_PRICING_NOT_CONFIGURED' }), { ok: false, reason: 'unavailable' });
+  assert.deepEqual(GLOBAL.validate(429, {}), { ok: false, reason: 'busy' });
+  assert.deepEqual(GLOBAL.validate(0, null), { ok: false, reason: 'unavailable' });
+  // A rouble or Russian answer is refused, even with status 200 — the RU catalogue looks like this.
+  assert.deepEqual(GLOBAL.validate(200, { status: 'success', currency: 'RUB', data: [fixed] }), { ok: false, reason: 'bad_shape' });
+  assert.deepEqual(GLOBAL.validate(200, { market: 'ru', currency: 'USD', data: [fixed] }), { ok: false, reason: 'bad_shape' });
+  // Rows nobody can pay are dropped; a row labelled in another currency too.
+  assert.deepEqual(ok([{ price: 0 }, { price: -1 }, { term_prices: [{ days: 3, price: 0 }] }, { price: 5, currency: 'RUB' }]),
+    { ok: false, reason: 'empty' });
+  assert.deepEqual(ok([]), { ok: false, reason: 'empty' });
+});
+
+test('the GLOBAL client turns a transport failure into «unavailable», not an exception', async () => {
+  const saved = globalThis.MagicNet;
+  try {
+    globalThis.MagicNet = { request: async () => { throw new Error('offline'); } };
+    assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'unavailable' });
+    globalThis.MagicNet = { request: async (path, opts) => {
+      assert.equal(path, '/api/v1/retail/packages?market=global');
+      assert.deepEqual(opts, { method: 'GET' });
+      return { status: 503, body: { status: 'error', error: 'GLOBAL_PRICING_DISABLED' } };
+    } };
+    assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'disabled' });
+    delete globalThis.MagicNet;
+    assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'unavailable' });
+  } finally { if (saved) globalThis.MagicNet = saved; else delete globalThis.MagicNet; }
+});
+
+test('no rouble anywhere on /en/: markup, script, stylesheet and every English string it uses', () => {
+  const css = read('en/en.css');
+  const keys = new Set([...EN.matchAll(/data-i18n="([^"]+)"/g)].map((m) => m[1])
+    .concat([...EN_JS.matchAll(/I18N\.t\('([^']+)'\)/g)].map((m) => m[1])));
+  const strings = [...keys].map((k) => I18N_EN[k] || '').join('\n');
+  const ROUBLE = /₽|\brub(le|les)?\b|\brouble|\bRUB\b|руб/i;
+  // Code without its comments (they explain WHY the rouble snapshot is gone);
+  // markup, stylesheet and the visible strings in full.
+  const code = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  for (const [name, text] of [['en/index.html', EN.replace(/<!--[\s\S]*?-->/g, '')], ['en/app.js', code(EN_JS)],
+    ['en/en.css', code(css)], ['strings', strings], ['assets/global-catalog.js', code(GLOBAL_JS)]]) {
+    // The header's «Перейти на русскую версию» is a language switch, not a price.
+    assert.equal(ROUBLE.test(text), false, `${name} mentions roubles`);
+  }
+  assert.equal(ROUBLE.test('1 150 ₽'), true, 'the rule can fire');
+});
+
+test('RU is untouched by the GLOBAL client: the Russian landing loads neither it nor the English stylesheet', () => {
+  assert.doesNotMatch(RU, /global-catalog\.js|\/en\/en\.css/);
+  assert.match(RU, /assets\/catalog-loader\.js/, 'the Russian landing still reads its own catalogue');
+  assert.doesNotMatch(EN, /catalog-loader\.js/, 'and /en/ no longer loads the rouble loader');
+});
+
 
 /* ===================================================================== *
  * 2. It does not touch the Russian site
