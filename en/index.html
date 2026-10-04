@@ -54,7 +54,7 @@
 </script>
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=c724577a">
-<link rel="stylesheet" href="/en/home.css?v=822f3d3a">
+<link rel="stylesheet" href="/en/home.css?v=b1a33269">
 </head>
 <body>
 <header class="site-header">
@@ -132,25 +132,53 @@
         </ul>
       </div>
 
-      <!-- Decoration only: says nothing a reader needs, so it is hidden from
-           assistive technology. No price, no plan, no claim. -->
+      <!-- Decoration only: the Magic eSIM Data Pass — a travel pass for mobile
+           data, drawn in HTML/CSS/SVG. Every word on it is a fact about the
+           product (logo, eSIM, 190+ destinations, install by QR code); no
+           flight, gate, seat or time. The QR pattern is not a code. Hidden from
+           assistive technology, and not shown below 960 px. -->
       <div class="hero-art" aria-hidden="true">
-        <div class="art-glow"></div>
-        <div class="art-ring"></div>
-        <div class="art-ring r2"></div>
-        <div class="art-card">
-          <div class="art-top"><span class="art-logo"><img src="/assets/magic-esim-logo-header.png" alt="" width="185" height="140"></span><span class="art-chip"></span></div>
-          <div>
-            <div class="art-label">eSIM</div>
+        <div class="dp-stage">
+          <div class="dp-glow"></div>
+          <div class="dp-back">
+            <svg class="dp-back-art" viewBox="0 0 260 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <g fill="none" stroke="#fff" stroke-linecap="round">
+                <circle cx="250" cy="40" r="70" stroke-opacity=".14" stroke-dasharray="1 6" stroke-width="2"/>
+                <circle cx="250" cy="40" r="120" stroke-opacity=".11" stroke-dasharray="1 6" stroke-width="2"/>
+                <circle cx="250" cy="40" r="170" stroke-opacity=".08" stroke-dasharray="1 6" stroke-width="2"/>
+                <circle cx="250" cy="40" r="220" stroke-opacity=".06" stroke-dasharray="1 6" stroke-width="2"/>
+                <path d="M-10 300 C70 240 150 250 270 170" stroke-opacity=".18" stroke-width="1.4" stroke-dasharray="2 6"/>
+              </g>
+            </svg>
+            <span class="dp-back-label">eSIM · DATA PASS</span>
           </div>
-          <div class="art-bars"><i></i><i></i><i></i><i></i></div>
+          <div class="dp-mid"></div>
+          <div class="dp-wrap">
+            <div class="dp-pass">
+              <div class="dp-main">
+            <svg class="dp-guilloche" viewBox="0 0 262 232" preserveAspectRatio="none"><g fill="none" stroke="#3866d9" stroke-opacity=".07"><path d="M-10 40c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 56c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 72c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 88c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 104c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/></g></svg>
+                <div class="dp-row">
+                  <img class="dp-logo" src="/assets/magic-esim-logo-header.png" alt="" width="185" height="140">
+                  <span class="dp-chip"><i></i>eSIM</span>
+                </div>
+                <div class="dp-title">Data pass</div>
+                <div class="dp-fields">
+                  <div><span>Coverage</span><b>190+ destinations</b></div>
+                  <div class="dp-flags"><img src="/en/flags/jp.svg" alt=""><img src="/en/flags/it.svg" alt=""><img src="/en/flags/th.svg" alt=""><img src="/en/flags/us.svg" alt=""></div>
+                  <div class="dp-type"><span>Type</span><b>eSIM</b></div>
+                </div>
+              </div>
+              <div class="dp-tear" aria-hidden="true"></div>
+              <div class="dp-stub">
+                <div class="dp-qr">
+                  <svg viewBox="-1 -1 23 23" aria-hidden="true"><defs><linearGradient id="dpq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a16c7"/><stop offset="1" stop-color="#0aa3c2"/></linearGradient></defs><rect x="0" y="0" width="7" height="7" rx="1.8" fill="#18203a"/><rect x="1" y="1" width="5" height="5" rx="1.2" fill="#fff"/><rect x="2" y="2" width="3" height="3" rx=".9" fill="url(#dpq)"/><rect x="14" y="0" width="7" height="7" rx="1.8" fill="#18203a"/><rect x="15" y="1" width="5" height="5" rx="1.2" fill="#fff"/><rect x="16" y="2" width="3" height="3" rx=".9" fill="url(#dpq)"/><rect x="0" y="14" width="7" height="7" rx="1.8" fill="#18203a"/><rect x="1" y="15" width="5" height="5" rx="1.2" fill="#fff"/><rect x="2" y="16" width="3" height="3" rx=".9" fill="url(#dpq)"/><g fill="#18203a"><rect x="8.1" y="0.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="1.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="2.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="2.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="2.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="3.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="5.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="5.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="5.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="6.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="7.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="1.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="2.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="5.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="7.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="4.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="5.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="6.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="2.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="6.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="4.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="7.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="4.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="6.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="7.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="14.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="14.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="14.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="15.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="15.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="15.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="20.1" width=".8" height=".8" rx=".26"/></g></svg>
+                  <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+                </div>
+                <div class="dp-stub-text"><b>Install by<br>QR code</b></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <span class="art-flag f1"><img src="/en/flags/jp.svg" alt="" width="36" height="27"></span>
-        <span class="art-flag f2"><img src="/en/flags/it.svg" alt="" width="36" height="27"></span>
-        <span class="art-flag f3"><img src="/en/flags/th.svg" alt="" width="36" height="27"></span>
-        <span class="art-flag f4"><img src="/en/flags/us.svg" alt="" width="36" height="27"></span>
-        <span class="art-flag f5"><img src="/en/flags/ae.svg" alt="" width="36" height="27"></span>
-        <span class="art-flag f6"><img src="/en/flags/tr.svg" alt="" width="36" height="27"></span>
       </div>
     </div>
   </section>

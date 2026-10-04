@@ -181,3 +181,44 @@ test('the Russian site loads nothing of the English design system', () => {
   const RU = read('index.html');
   assert.doesNotMatch(RU, /\/en\/(en|home)\.css|\/en\/fonts\/|\/en\/flags\/|\/en\/img\//);
 });
+
+/* ------------------------------------------------------------ the hero's Data Pass */
+
+const ART = HOME.slice(HOME.indexOf('<div class="hero-art"'), HOME.indexOf('</section>', HOME.indexOf('<div class="hero-art"')));
+
+test('the hero illustration is the Data Pass: decorative, the real logo, the brand\'s own facts only', () => {
+  assert.match(ART, /^<div class="hero-art" aria-hidden="true">/, 'hidden from assistive technology');
+  assert.match(ART, /<img class="dp-logo" src="\/assets\/magic-esim-logo-header\.png" alt=""/, 'the production logo with a transparent ground, unchanged');
+  const text = ART.replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  for (const s of ['eSIM', 'Data pass', 'Coverage', '190+ destinations', 'Type', 'Install by QR code']) {
+    assert.ok(text.includes(s), `«${s}» is on the pass`);
+  }
+  // A travel pass, not a plane ticket: no invented flight data.
+  const FAKE = /\b(gate|seat|flight|boarding|terminal|departure|depart|arrival|arrive|passenger|row|zone|class|time|date|from|to)\b|\d{1,2}:\d{2}/i;
+  assert.doesNotMatch(text, FAKE, text);
+  assert.ok(FAKE.test('Gate B12'), 'the rule can fire');
+  // Only these words, nothing else creeps in.
+  const allowed = new Set(['Magic', 'eSIM', 'Data', 'pass', 'Coverage', '190+', 'destinations', 'Type', 'Install', 'by', 'QR', 'code', 'DATA', 'PASS', '·']);
+  const extra = text.split(' ').filter((w) => !allowed.has(w));
+  assert.deepEqual(extra, []);
+});
+
+test('the old hero card is gone, with its CSS', () => {
+  for (const f of ['en/index.html', 'en/home.css', 'en/en.css']) {
+    assert.doesNotMatch(read(f), /\bart-(glow|ring|card|top|logo|mark|chip|label|sub|bars|flag)\b/, f);
+  }
+  assert.doesNotMatch(ART, /favicon\.svg/, 'no drawn «M» mark');
+});
+
+test('home.css carries no dead rule: every class it styles is in the home', () => {
+  let sel = read('en/home.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  // Drop declaration blocks (innermost first) so only selectors and at-rules remain.
+  for (let i = 0; i < 5; i += 1) sel = sel.replace(/\{[^{}]*\}/g, ' ');
+  const classes = [...new Set([...sel.matchAll(/\.([a-zA-Z][\w-]*)/g)].map((m) => m[1]))];
+  assert.ok(classes.length > 40, `found ${classes.length} classes`);
+  const used = new Set([...HOME.matchAll(/class="([^"]+)"/g)].flatMap((m) => m[1].split(/\s+/)));
+  // …and the classes en/app.js gives the elements it creates (search results).
+  for (const m of read('en/app.js').matchAll(/className = '([^']+)'/g)) m[1].split(/\s+/).forEach((c) => used.add(c));
+  const dead = classes.filter((c) => !used.has(c));
+  assert.deepEqual(dead, []);
+});

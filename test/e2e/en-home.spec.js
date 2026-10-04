@@ -150,6 +150,36 @@ test('desktop: four header links, the language switch and «Find a plan» in one
   await expect(page.locator('#plans')).toBeInViewport();
 });
 
+test('below 960 px the Data Pass is not shown at all', async ({ page }) => {
+  await open(page);
+  await expect(page.locator('.hero-art')).toBeHidden();
+});
+
+for (const w of [1920, 1366, 1280, 1180, 1024, 960]) {
+  test(`${w}px: the Data Pass is drawn whole, touches nothing and stays on screen`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: 900 });
+    await open(page);
+    await expect(page.locator('.hero-art')).toBeVisible();
+    const loaded = await page.locator('.hero-art img').evaluateAll((imgs) => Promise.all(imgs.map((i) => (i.complete ? i
+      : new Promise((r) => { i.onload = i.onerror = () => r(i); })))).then((all) => all.map((i) => i.naturalWidth > 0)));
+    expect(loaded.length).toBe(5);                       // the logo and four flags
+    expect(loaded).toEqual(Array(5).fill(true));
+    const g = await page.evaluate(() => {
+      const r = (el) => { const x = el.getBoundingClientRect(); return { l: x.left, t: x.top, r: x.right, b: x.bottom }; };
+      const parts = ['.dp-back', '.dp-mid', '.dp-wrap'].map((s) => r(document.querySelector(s)));
+      const art = { l: Math.min(...parts.map((p) => p.l)), t: Math.min(...parts.map((p) => p.t)), r: Math.max(...parts.map((p) => p.r)), b: Math.max(...parts.map((p) => p.b)) };
+      const hit = (a, x) => a.l < x.r && a.r > x.l && a.t < x.b && a.b > x.t;
+      const near = {};
+      for (const [k, s] of Object.entries({ header: '.site-header', bar: '#previewNotice', eyebrow: '.hero .eyebrow', h1: '.hero h1', lead: '.hero .lead',
+        search: '.search-card', quick: '.quick', facts: '.facts', next: '#popular .section-head' })) near[k] = hit(art, r(document.querySelector(s)));
+      return { near, right: innerWidth - art.r, overflow: document.documentElement.scrollWidth > innerWidth };
+    });
+    expect(Object.entries(g.near).filter(([, v]) => v).map(([k]) => k)).toEqual([]);
+    expect(g.right).toBeGreaterThanOrEqual(24);          // the page gutter
+    expect(g.overflow).toBe(false);
+  });
+}
+
 test('popular destinations: eight real pages with their flags drawn', async ({ page }) => {
   await open(page);
   const tiles = page.locator('.dest-tile');
