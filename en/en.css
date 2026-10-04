@@ -68,4 +68,12 @@ select{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px
 .err{color:#ffb4a8}
 #coStep1 .btn,#coStep2 .btn,#coStep3 .btn{width:100%;margin-top:10px}
 .rows b{text-align:right;overflow-wrap:anywhere;min-width:0}
+.prose p{max-width:68ch}
+.steps{padding-left:22px}
+.steps li,.list li{margin:6px 0;max-width:68ch}
+.list{padding-left:20px}
+.guides{list-style:none;padding:0}
+.guides li{margin:0 0 14px}
+code{background:#0b0e17;border:1px solid var(--border);border-radius:6px;padding:1px 5px}
+#faq details{margin-top:8px}
 footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;color:var(--muted);font-size:13px}

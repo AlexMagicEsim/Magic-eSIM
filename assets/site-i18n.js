@@ -83,7 +83,7 @@
       'nav.how': 'How it works',
       'nav.benefits': 'Why Magic eSIM',
       'nav.tariffs': 'Plans',
-      'nav.guides': 'Setup guides',
+      'nav.guides': 'Guides',
       'nav.cta': 'Choose a plan',
 
       'checkout.title': 'Checkout',
@@ -131,8 +131,9 @@
       'footer.privacy': 'Privacy (in Russian)',
       'site.compatTitle': 'Will my phone work?',
       'site.compatBody': 'Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.',
-      'site.compatCheck': 'iPhone setup (guide in Russian)',
-      'site.compatAndroid': 'Android setup (guide in Russian)',
+      'site.compatCheck': 'iPhone setup',
+      'site.compatGuide': 'How to check your phone',
+      'site.compatAndroid': 'Android setup',
 
       /* Prices. The GLOBAL lane's own US-dollar figures (assets/global-catalog.js),
        * never the Russian rouble prices converted or relabelled. */
