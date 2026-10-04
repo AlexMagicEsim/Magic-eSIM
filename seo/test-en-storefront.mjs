@@ -100,20 +100,28 @@ test('the preview notice is static markup, before the search, the prices and eve
   const noticeOf = (h) => h.slice(h.indexOf('id="previewNotice"'), h.indexOf('</div>', h.indexOf('id="previewNotice"')));
   assert.equal(noticeOf(PAGE), noticeOf(EN));
   assert.equal(noticeOf(HUB), noticeOf(EN));
-  assert.match(I18N_EN['preview.noticeTitle'], /can't be bought here yet/);
-  assert.match(I18N_EN['preview.noticeBody'], /checkout is closed and nothing can be ordered/);
+  assert.match(I18N_EN['preview.noticeTitle'], /Online payment isn't available yet — plans can't be bought here yet/);
+  assert.match(I18N_EN['preview.noticeBody'], /payment can't be taken yet: nothing is charged, and no order or eSIM is created/);
 });
 
-test('the plan window opens with the refusal and asks for nothing', () => {
-  assert.doesNotMatch(EN, /id="checkout"/, 'the home has no plan window: plans live on the country pages');
+test('the checkout window opens with the refusal, and its payment button cannot do anything', () => {
+  assert.doesNotMatch(EN, /id="checkout"/, 'the home has no checkout: plans live on the country pages');
   const win = PAGE.slice(PAGE.indexOf('id="checkout"'), PAGE.indexOf('</footer>'));
   assert.match(win, /id="coUnavail"/);
   assert.doesNotMatch(win, /id="coUnavail"[^>]*hidden/, 'visible the moment the window opens');
-  assert.doesNotMatch(win, /type="email"|id="coEmail"|id="coPay"|<input/, 'no email field, no pay button, no input at all');
-  assert.ok(win.indexOf('id="coUnavail"') < win.indexOf('class="rows"'), 'the refusal comes before the price');
-  for (const t of [EN_JS, COUNTRY_JS, PLANS_JS]) assert.doesNotMatch(t, /coEmail|coPay|attemptPay|emailInvalid/, 'no checkout step');
-  assert.match(I18N_EN['pay.unavailableTitle'], /Not available to buy yet/);
-  assert.match(I18N_EN['pay.unavailableBody'], /Nothing is charged and no order is created/);
+  assert.ok(win.indexOf('id="coUnavail"') < win.indexOf('class="rows"'), 'the refusal comes before the plan and the price');
+  // The payment button is disabled IN THE MARKUP, and no script enables it.
+  assert.match(win, /<button type="button" class="btn" id="coPay" disabled aria-disabled="true"/);
+  const CHECKOUT_JS = read('en/checkout.js');
+  assert.doesNotMatch(code(CHECKOUT_JS), /coPay/, 'en/checkout.js never touches the payment button');
+  assert.doesNotMatch(code(CHECKOUT_JS), /\.disabled\s*=\s*false[^;]*coPay|removeAttribute\(['"]disabled/, 'nothing re-enables it');
+  // The final status says what did NOT happen, in as many words.
+  assert.match(win.slice(win.indexOf('id="coStep3"')), /id="coFinal"/);
+  assert.match(I18N_EN['pay.finalBody'], /nothing has been charged, no order has been created and no eSIM will be sent/);
+  assert.match(I18N_EN['pay.finalBody'], /Your email has not been sent or saved/);
+  assert.match(I18N_EN['pay.unavailableTitle'], /Online payment is not available yet/);
+  // Plans and the page itself still know nothing about the checkout steps.
+  for (const t of [EN_JS, COUNTRY_JS, PLANS_JS]) assert.doesNotMatch(code(t), /coEmail|coPay|quotes/, 'checkout lives in en/checkout.js only');
 });
 
 test('no call to action on /en/ promises a purchase', () => {
@@ -140,8 +148,8 @@ test('no call to action on /en/ promises a purchase', () => {
 
 test('the price note and the notice say US dollars, and never roubles', () => {
   assert.match(I18N_EN['price.currencyNote'], /Prices in US dollars \(USD\)/);
-  assert.match(I18N_EN['preview.noticeBody'], /prices in US dollars/);
-  assert.match(I18N_EN['preview.noticeBody'], /nothing can be ordered or charged/);
+  assert.match(I18N_EN['preview.noticeBody'], /price in US dollars/);
+  assert.match(I18N_EN['preview.noticeBody'], /nothing is charged/);
   assert.doesNotMatch(I18N_EN['price.currencyNote'] + I18N_EN['preview.noticeBody'], /₽|rouble|ruble|RUB|EUR|€|reference/i);
 });
 

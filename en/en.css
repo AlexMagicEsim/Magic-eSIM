@@ -61,4 +61,11 @@ summary{cursor:pointer;font-weight:600}
 .dest li{break-inside:avoid;padding:3px 0}
 .dest a{text-decoration:none}
 .dest a:hover{text-decoration:underline}
+.field{margin:12px 0}
+select{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:#0b0e17;color:var(--text);font-size:15px}
+.check{display:flex;gap:10px;align-items:flex-start;color:var(--text);font-size:14px;margin:10px 0}
+.check input{margin-top:3px;flex:none}
+.err{color:#ffb4a8}
+#coStep1 .btn,#coStep2 .btn,#coStep3 .btn{width:100%;margin-top:10px}
+.rows b{text-align:right;overflow-wrap:anywhere;min-width:0}
 footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;color:var(--muted);font-size:13px}

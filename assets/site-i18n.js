@@ -86,7 +86,7 @@
       'nav.guides': 'Setup guides',
       'nav.cta': 'Choose a plan',
 
-      'checkout.title': 'Your order',
+      'checkout.title': 'Checkout',
       'checkout.plan': 'eSIM plan',
       'checkout.coverage': 'Coverage',
       'checkout.data': 'Data',
@@ -141,15 +141,38 @@
       /* Said BEFORE anything looks purchasable: above the search, in the static
        * HTML, so a visitor learns it before a price, a button or a form — not
        * after typing an email into a checkout that cannot take money. */
-      'preview.noticeTitle': 'Checkout isn\'t open yet — plans can\'t be bought here yet',
-      'preview.noticeBody': 'You can browse destinations, plans and prices in US dollars, but international payments aren\'t available yet: checkout is closed and nothing can be ordered or charged on this page.',
+      'preview.noticeTitle': 'Online payment isn\'t available yet — plans can\'t be bought here yet',
+      'preview.noticeBody': 'You can browse plans, get an exact price in US dollars and go through checkout, but payment can\'t be taken yet: nothing is charged, and no order or eSIM is created.',
       'preview.title': 'Plan details',
       'preview.price': 'Price',
 
       /* Shown as soon as a plan is opened. There is no international provider
        * and no checkout behind it, so the plan window asks for nothing. */
-      'pay.unavailableTitle': 'Not available to buy yet',
-      'pay.unavailableBody': 'International payments aren\'t open yet, so this plan can\'t be ordered here. Nothing is charged and no order is created.',
+      'pay.unavailableTitle': 'Online payment is not available yet',
+      'pay.unavailableBody': 'You can check a plan and get its exact price, but payment can\'t be taken yet. Nothing is charged, and no order or eSIM is created.',
+      'pay.finalTitle': 'Online payment is not available yet',
+      'pay.finalBody': 'We can\'t take payment yet, so nothing has been charged, no order has been created and no eSIM will be sent. Your email has not been sent or saved.',
+      'pay.disabled': 'Payment not available yet',
+      'checkout.duration': 'Duration',
+      'checkout.listed': 'Listed price',
+      'checkout.emailShort': 'Email',
+      'checkout.emailNote': 'Not sent or saved anywhere yet — payment isn\'t available.',
+      'checkout.emailInvalid': 'Please enter a valid email address.',
+      'checkout.device': 'My phone supports eSIM and isn\'t carrier-locked',
+      'checkout.deviceRequired': 'Please confirm your phone supports eSIM.',
+      'checkout.review': 'Review',
+      'checkout.back': 'Back',
+      'quote.explain': 'The exact price is fixed by our server and held for 30 minutes.',
+      'quote.get': 'Get the exact price',
+      'quote.again': 'Get a new price',
+      'quote.loading': 'Getting the price…',
+      'quote.heldFor': 'Price held for',
+      'quote.expired': 'This price has expired. Get a new price to continue.',
+      'quote.changed': 'The price has been updated since the list was loaded.',
+      'quote.unavailable': 'The price is temporarily unavailable. Please try again later.',
+      'quote.busy': 'Too many requests. Please wait a minute and try again.',
+      'quote.gone': 'This plan is no longer available. Please choose another one.',
+      'quote.offline': 'Could not reach the server. Check your connection and try again.',
 
       'lang.ru': 'Русский',
       'lang.en': 'English',

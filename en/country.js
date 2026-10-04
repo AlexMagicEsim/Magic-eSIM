@@ -10,8 +10,9 @@
  *
  * WHAT THIS PAGE MUST NEVER DO:
  *
- *   * Write anything. No POST, no quote, no order: the plan window shows a
- *     plan and says it cannot be bought yet. A test asserts the absence.
+ *   * Write anything itself. Its one request is the catalogue GET. The only
+ *     write on these pages is the price quote, and it lives in en/checkout.js,
+ *     behind a button. No order, no payment, no eSIM: a test asserts it.
  *   * Show roubles or convert. When the GLOBAL lane answers nothing usable
  *     (switched off, busy, down, wrong shape) the page says prices are
  *     unavailable. It never falls back to the Russian rouble snapshot.
@@ -22,7 +23,7 @@
   'use strict';
 
   if (!window.MagicSiteI18n || !window.MagicCountryNamesEn || !window.MagicGlobalCatalog
-    || !window.MagicEnPlans) return;
+    || !window.MagicEnPlans || !window.MagicEnCheckout) return;
 
   var I18N = window.MagicSiteI18n.createI18n('en');
   var PLANS = window.MagicEnPlans.create({
@@ -48,7 +49,9 @@
   }
 
   function boot() {
-    var open = PLANS.bindPreview(document);
+    // The checkout window (en/checkout.js): plan → server quote → review, and
+    // a payment step that says it is not available yet.
+    var open = window.MagicEnCheckout.bind(document, { I18N: I18N, PLANS: PLANS });
     var openPlan = function (p) { open(p, iso); };
 
     var failed = function () {

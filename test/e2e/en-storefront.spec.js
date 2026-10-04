@@ -98,7 +98,7 @@ const apiCalls = (calls) => calls.filter((c) => /\/api\//.test(c.url));
 const roubleSources = (calls) => calls.filter((c) => /\/assets\/catalog\.json/.test(c.url)
   || (/\/api\//.test(c.url) && !/\/api\/v1\/retail\/packages\?market=global$/.test(c.url)));
 const writes = (calls) => calls.filter((c) => !['GET', 'HEAD'].includes(c.method));
-const checkoutCalls = (calls) => calls.filter((c) => /retail-orders|\/pay|platega|quotes/i.test(c.url));
+const checkoutCalls = (calls) => calls.filter((c) => /retail-orders|\/pay|platega|quotes|orders/i.test(c.url));
 
 const cards = (page, block) => page.locator(`#${block}Grid .card`);
 const prices = (page, block) => cards(page, block).locator('.price').allInnerTexts();
@@ -114,7 +114,7 @@ test('the home is in English, styled, and says it sells nothing before the searc
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(7, 9, 16)');
   const notice = page.locator('#previewNotice');
   await expect(notice).toBeInViewport();
-  await expect(notice).toContainText("Checkout isn't open yet — plans can't be bought here yet");
+  await expect(notice).toContainText("Online payment isn't available yet — plans can't be bought here yet");
   expect((await notice.boundingBox()).y).toBeLessThan((await page.locator('#q').boundingBox()).y);
   const body = (await page.locator('body').innerText()).replace(/Перейти на русскую версию/g, '');
   expect(body).not.toMatch(/[А-Яа-я]{4,}/);
@@ -223,20 +223,22 @@ test('a country the catalogue has nothing for says so, with no empty blocks', as
  * 3. The plan window: a preview that refuses, and asks for nothing
  * ================================================================== */
 
-test('a plan opens as a preview: the refusal at once, nothing asked, nothing sent', async ({ page }) => {
+test('a plan opens the checkout: the refusal at once, and opening or closing it sends nothing', async ({ page }) => {
+  // The quote — the one write on these pages — is a button press away, never
+  // a side effect of looking. Its own flow is in en-checkout.spec.js.
   const calls = await open(page, '/en/esim/uae/');
   const cta = cards(page, 'local').first().getByRole('button');
   await expect(cta).toHaveText('View details');
   await cta.click();
   await expect(page.locator('#checkout')).toBeVisible();
-  await expect(page.locator('#coTitle')).toHaveText('Plan details');
-  await expect(page.locator('#coTotal')).toHaveText('$9.99');
+  await expect(page.locator('#coTitle')).toHaveText('Checkout');
+  await expect(page.locator('#coListed')).toHaveText('$9.99');
   await expect(page.locator('#coCoverage')).toHaveText('United Arab Emirates');
-  await expect(page.locator('#coUnavail')).toContainText('Not available to buy yet');
-  await expect(page.locator('#coUnavail')).toContainText('Nothing is charged and no order is created');
+  await expect(page.locator('#coUnavail')).toContainText('Online payment is not available yet');
+  await expect(page.locator('#coUnavail')).toContainText('no order or eSIM is created');
   await expect(page.locator('#coUnavail h4')).toBeInViewport();
-  await expect(page.locator('#checkout input')).toHaveCount(0);
-  await expect(page.locator('#checkout').getByRole('button', { name: /pay|buy|continue|order/i })).toHaveCount(0);
+  await expect(page.locator('#coStep2')).toBeHidden();
+  await expect(page.locator('#checkout').getByRole('button', { name: /buy|continue|order|checkout/i })).toHaveCount(0);
 
   await page.keyboard.press('Escape');
   await expect(page.locator('#checkout')).toBeHidden();

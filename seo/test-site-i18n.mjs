@@ -64,7 +64,7 @@ test('a Russian string is never replaced by an English one', () => {
 
 test('English falls back to Russian rather than to a key', () => {
   const en = I18N.createI18n('en');
-  assert.equal(en.t('checkout.title'), 'Your order');
+  assert.equal(en.t('checkout.title'), 'Checkout');
   assert.equal(en.t('checkout.sbp'), 'СБП', 'no English word for it, so the Russian stands');
 });
 
