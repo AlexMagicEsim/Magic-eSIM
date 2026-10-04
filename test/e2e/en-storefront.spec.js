@@ -19,78 +19,82 @@
 
 const { test, expect } = require('@playwright/test');
 
-/** A small, real-shaped slice of the catalogue. Two countries, three plans. */
+/**
+ * A small, real-shaped slice of the GLOBAL catalogue — what
+ * `GET /api/v1/retail/packages?market=global` answers: the same card fields as
+ * the Russian catalogue, priced in US dollars by the GLOBAL lane.
+ */
 const PACKAGES = [
   {
     package_id: 'vn-3-15', name: 'Vietnam 3GB 15Days', country_code: 'VN', region: 'VN',
-    coverage_country_codes: ['VN'], data_gb: 3, validity_days: 15, price: 500,
-    retail_price_rub: 500, plan_type: 'FIXED_VOLUME', currency: 'RUB',
+    coverage_country_codes: ['VN'], data_gb: 3, validity_days: 15, price: 4.99,
+    plan_type: 'FIXED_VOLUME', currency: 'USD',
   },
   {
     package_id: 'vn-10-30', name: 'Vietnam 10GB 30Days', country_code: 'VN', region: 'VN',
-    coverage_country_codes: ['VN'], data_gb: 10, validity_days: 30, price: 1150,
-    retail_price_rub: 1150, plan_type: 'FIXED_VOLUME', currency: 'RUB',
+    coverage_country_codes: ['VN'], data_gb: 10, validity_days: 30, price: 11.99,
+    plan_type: 'FIXED_VOLUME', currency: 'USD',
   },
   {
     package_id: 'it-5-30', name: 'Italy 5GB 30Days', country_code: 'IT', region: 'EU',
-    coverage_country_codes: ['IT', 'FR', 'ES'], data_gb: 5, validity_days: 30, price: 800,
-    retail_price_rub: 800, plan_type: 'FIXED_VOLUME', currency: 'RUB',
+    coverage_country_codes: ['IT', 'FR', 'ES'], data_gb: 5, validity_days: 30, price: 8.99,
+    plan_type: 'FIXED_VOLUME', currency: 'USD',
   },
   /*
-   * A DAILY plan, and the fixture had none — which is why 57 % of the catalogue
-   * went untested in a browser and a bait price shipped. `price` here is the
-   * PER-DAY RATE (250) and the shortest purchasable term is 750; a card showing
-   * 250 would be advertising a figure nobody can pay.
+   * A PER_DAY plan. `price` is the PER-DAY RATE ($2.49) and one day is not sold;
+   * the shortest purchasable term is $6.99 for 3 days. A card showing $2.49
+   * would be advertising a figure nobody can pay.
    */
   {
     package_id: 'vn-daily', name: 'Vietnam 1GB/Day', country_code: 'VN', region: 'VN',
-    coverage_country_codes: ['VN'], data_gb: 0, validity_days: 0, price: 250,
-    retail_price_rub: 250, plan_type: 'DAILY', daily_term_mode: 'PER_DAY', daily_gb: 1,
-    currency: 'RUB',
-    term_prices: [{ days: 3, price: 750 }, { days: 7, price: 1500 }],
+    coverage_country_codes: ['VN'], data_gb: 0, validity_days: 0, price: 2.49,
+    plan_type: 'DAILY', daily_term_mode: 'PER_DAY', daily_gb: 1, currency: 'USD',
+    term_prices: [{ days: 3, price: 6.99 }, { days: 7, price: 15.99 }],
   },
-  /* A FIXED_TERM daily: no ladder by design, one term, one stored price. All 31
-   * of these rendered a blank validity before the fix. */
+  /* A FIXED_TERM daily: no ladder by design, one term, one stored price. */
   {
     package_id: 'vn-fixed', name: 'Vietnam Unlimited 3 Days', country_code: 'VN', region: 'VN',
-    coverage_country_codes: ['VN'], data_gb: 0, validity_days: 3, price: 1700,
-    retail_price_rub: 1700, plan_type: 'DAILY', daily_term_mode: 'FIXED_TERM', daily_gb: 3,
-    currency: 'RUB',
+    coverage_country_codes: ['VN'], data_gb: 0, validity_days: 3, price: 15.99,
+    plan_type: 'DAILY', daily_term_mode: 'FIXED_TERM', daily_gb: 3, currency: 'USD',
   },
-  // A REGIONAL PSEUDO-CODE. The catalogue carries 29 of these among its 225
-  // `country_code` values, and they are not destinations: the English search
-  // offered «EU-33» as a place to travel to until it filtered on ISO-2.
+  // A REGIONAL PSEUDO-CODE: not a destination.
   {
     package_id: 'eu-20-30', name: 'Europe 20GB 30Days', country_code: 'EU-33', region: 'EU',
     coverage_country_codes: ['IT', 'FR', 'ES', 'DE'], data_gb: 20, validity_days: 30,
-    price: 2500, retail_price_rub: 2500, plan_type: 'FIXED_VOLUME', currency: 'RUB',
+    price: 24.99, plan_type: 'FIXED_VOLUME', currency: 'USD',
   },
 ];
 
-/** Serve the catalogue from a fixture and record every request the page makes. */
-async function openEn(page) {
+const GLOBAL_BODY = { status: 'success', market: 'global', count: PACKAGES.length, currency: 'USD', data: PACKAGES };
+
+/**
+ * Serve the GLOBAL catalogue from a fixture and record every request the page
+ * makes. Every OTHER API path and the Russian rouble snapshot are answered too
+ * — so a leak shows up in `calls` instead of travelling — but with data that
+ * would be visibly wrong (roubles), and the tests assert they are never asked.
+ */
+async function openEn(page, { globalStatus = 200, globalBody = GLOBAL_BODY } = {}) {
   const calls = [];
   page.on('request', (r) => calls.push({ method: r.method(), url: r.url() }));
-
-  // The glob needs the tail: `catalog-loader.js:190` fetches
-  // `/assets/catalog.json?t=<Date.now()>` to defeat the browser cache, and a
-  // pattern without it silently misses — the request then reaches the dev
-  // server, which serves the REAL production catalogue and makes a fixture
-  // test quietly assert against production data.
   await page.route('**/assets/catalog.json*', (route) => route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify({ schema_version: 1, packages: PACKAGES }),
+    status: 200, contentType: 'application/json',
+    body: JSON.stringify({ schema_version: 1, packages: [{ package_id: 'rub', country_code: 'VN', price: 500, currency: 'RUB' }] }),
   }));
-  // Anything that would reach a backend is answered locally, so a leak shows up
-  // in `calls` instead of travelling.
-  await page.route('**/api/**', (route) => route.fulfill({
-    status: 200, contentType: 'application/json', body: JSON.stringify({ data: PACKAGES }),
-  }));
-
+  await page.route('**/api/**', (route) => {
+    const url = route.request().url();
+    if (/\/api\/v1\/retail\/packages\?market=global$/.test(url)) {
+      return route.fulfill({ status: globalStatus, contentType: 'application/json', body: JSON.stringify(globalBody) });
+    }
+    return route.fulfill({ status: 200, contentType: 'application/json',
+      body: JSON.stringify({ status: 'success', currency: 'RUB', data: [{ package_id: 'rub', country_code: 'VN', price: 500 }] }) });
+  });
   await page.goto('/en/index.html');
   return calls;
 }
+
+/** Requests that must never happen on /en/: the rouble snapshot and any non-GLOBAL API read. */
+const roubleSources = (calls) => calls.filter((c) => /\/assets\/catalog\.json/.test(c.url)
+  || (/\/api\//.test(c.url) && !/\/api\/v1\/retail\/packages\?market=global$/.test(c.url)));
 
 const writes = (calls) => calls.filter((c) => !['GET', 'HEAD'].includes(c.method));
 const checkoutCalls = (calls) => calls.filter((c) => /retail-orders|\/pay|platega/i.test(c.url));
@@ -103,6 +107,9 @@ test('the English storefront renders in English', async ({ page }) => {
   await openEn(page);
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('h1')).toContainText('without roaming');
+  // The stylesheet moved out of the page into /en/en.css: prove it is applied,
+  // or a broken link would leave an unstyled page that every other test passes.
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(7, 9, 16)');
   // The only Russian allowed anywhere on this page is the link back.
   const body = await page.locator('body').innerText();
   const withoutSwitch = body.replace(/Перейти на русскую версию/g, '');
@@ -115,7 +122,7 @@ test('a destination search finds a country by its ENGLISH name', async ({ page }
   await expect(page.locator('#results .res').first()).toHaveText('Vietnam');
 });
 
-test('choosing a destination lists its plans, cheapest first, priced in roubles', async ({ page }) => {
+test('choosing a destination lists its plans, cheapest first, priced in US dollars', async ({ page }) => {
   await openEn(page);
   await page.locator('#q').fill('Viet');
   await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
@@ -125,12 +132,12 @@ test('choosing a destination lists its plans, cheapest first, priced in roubles'
   // they belong instead of leading with an unpayable rate.
   const cards = page.locator('#tariffGrid .card');
   await expect(cards).toHaveCount(4);
-  await expect(cards.nth(0).locator('.price')).toHaveText('500 ₽');
-  await expect(cards.nth(1).locator('.price')).toHaveText('750 ₽');
-  await expect(cards.nth(2).locator('.price')).toHaveText('1,150 ₽');
-  await expect(cards.nth(3).locator('.price')).toHaveText('1,700 ₽');
-  // The currency is named, because it is the only real price this catalogue has.
-  await expect(page.locator('#tariffs')).toContainText('Russian roubles');
+  await expect(cards.nth(0).locator('.price')).toHaveText('$4.99');
+  await expect(cards.nth(1).locator('.price')).toHaveText('$6.99');
+  await expect(cards.nth(2).locator('.price')).toHaveText('$11.99');
+  await expect(cards.nth(3).locator('.price')).toHaveText('$15.99');
+  await expect(page.locator('#tariffs')).toContainText('Prices in US dollars (USD)');
+  expect(await page.locator('body').innerText()).not.toMatch(/₽|rouble/i);
 });
 
 test('a multi-country plan says so in English', async ({ page }) => {
@@ -174,24 +181,24 @@ test('the preview notice is on screen before the search, without any action', as
   const notice = page.locator('#previewNotice');
   await expect(notice).toBeVisible();
   await expect(notice).toBeInViewport();
-  await expect(notice).toContainText("Preview only — plans can't be bought here yet");
-  await expect(notice).toContainText('nothing can be ordered on this page');
+  await expect(notice).toContainText("Checkout isn't open yet — plans can't be bought here yet");
+  await expect(notice).toContainText('nothing can be ordered or charged on this page');
   const noticeBox = await notice.boundingBox();
   const searchBox = await page.locator('#q').boundingBox();
   expect(noticeBox.y).toBeLessThan(searchBox.y);
 });
 
 test('a per-day plan is priced from the ladder, never from the rate', async ({ page }) => {
-  // The defect this fixture exists for: `price` is 250 per day, and 250 buys
-  // nothing. The shortest purchasable term is 750 for 3 days.
+  // The defect this fixture exists for: `price` is $2.49 per day, and that buys
+  // nothing. The shortest purchasable term is $6.99 for 3 days.
   await openEn(page);
   await page.locator('#q').fill('Viet');
   await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
 
   const daily = page.locator('#tariffGrid .card', { hasText: '1 GB a day' });
-  await expect(daily.locator('.price')).toHaveText('750 ₽');
+  await expect(daily.locator('.price')).toHaveText('$6.99');
   await expect(daily).toContainText('3 days');
-  await expect(daily.locator('.price')).not.toHaveText('250 ₽');
+  await expect(daily.locator('.price')).not.toHaveText('$2.49');
 });
 
 test('a fixed-term daily shows the term its single price buys', async ({ page }) => {
@@ -200,7 +207,7 @@ test('a fixed-term daily shows the term its single price buys', async ({ page })
   await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
 
   const fixed = page.locator('#tariffGrid .card', { hasText: '3 GB a day' });
-  await expect(fixed.locator('.price')).toHaveText('1,700 ₽');
+  await expect(fixed.locator('.price')).toHaveText('$15.99');
   await expect(fixed).toContainText('3 days');
 });
 
@@ -210,7 +217,7 @@ test('the cheapest card is the cheapest PURCHASABLE one', async ({ page }) => {
   await openEn(page);
   await page.locator('#q').fill('Viet');
   await page.locator('#results .res', { hasText: 'Vietnam' }).first().click();
-  await expect(page.locator('#tariffGrid .card').first().locator('.price')).toHaveText('500 ₽');
+  await expect(page.locator('#tariffGrid .card').first().locator('.price')).toHaveText('$4.99');
 });
 
 test('a plan opens as a preview: the refusal is visible at once and nothing is asked', async ({ page }) => {
@@ -223,7 +230,7 @@ test('a plan opens as a preview: the refusal is visible at once and nothing is a
 
   await expect(page.locator('#checkout')).toBeVisible();
   await expect(page.locator('#coTitle')).toHaveText('Plan details');
-  await expect(page.locator('#coTotal')).toHaveText('500 ₽');
+  await expect(page.locator('#coTotal')).toHaveText('$4.99');
   await expect(page.locator('#coUnavail')).toBeVisible();
   await expect(page.locator('#coUnavail')).toContainText('Not available to buy yet');
   await expect(page.locator('#coUnavail')).toContainText('Nothing is charged and no order is created');
@@ -249,6 +256,10 @@ test('not one write request leaves the page across the whole journey', async ({ 
   await page.locator('#results .res').first().click();
 
   expect(writes(calls).map((c) => `${c.method} ${c.url}`)).toEqual([]);
+  // And the only data source was the GLOBAL catalogue: never the rouble snapshot,
+  // never the Russian catalogue, never a quote.
+  expect(roubleSources(calls).map((c) => `${c.method} ${c.url}`)).toEqual([]);
+  expect(calls.filter((c) => /market=global/.test(c.url)).every((c) => c.method === 'GET')).toBe(true);
 });
 
 /* ================================================================== *
@@ -275,9 +286,27 @@ test('Escape and the overlay both close the checkout, and the page survives', as
   await expect(page.locator('#tariffGrid .card')).toHaveCount(4);
 });
 
+test('a GLOBAL lane that is switched off says prices are unavailable — and shows no roubles', async ({ page }) => {
+  // Exactly production today: GLOBAL_PRICING_ENABLED unset → 503.
+  const calls = await openEn(page, { globalStatus: 503, globalBody: { status: 'error', error: 'GLOBAL_PRICING_DISABLED' } });
+  await expect(page.locator('#status')).toContainText('Prices are temporarily unavailable');
+  await page.locator('#q').fill('Viet');
+  await expect(page.locator('#results .res')).toHaveCount(0);
+  await expect(page.locator('#tariffGrid .card')).toHaveCount(0);
+  expect(await page.locator('body').innerText()).not.toMatch(/₽|rouble|\$\d/i);
+  expect(roubleSources(calls)).toEqual([]);
+  expect(writes(calls)).toEqual([]);
+});
+
+test('a 200 that is not a GLOBAL USD answer is refused, not rendered', async ({ page }) => {
+  await openEn(page, { globalBody: { status: 'success', currency: 'RUB', data: PACKAGES } });
+  await expect(page.locator('#status')).toContainText('Prices are temporarily unavailable');
+  await expect(page.locator('#tariffGrid .card')).toHaveCount(0);
+});
+
 test('a catalogue that fails to load says so instead of looking empty', async ({ page }) => {
   await page.route('**/assets/catalog.json*', (route) => route.abort());
   await page.route('**/api/**', (route) => route.abort());
   await page.goto('/en/index.html');
-  await expect(page.locator('#status')).toContainText('Could not load');
+  await expect(page.locator('#status')).toContainText('Prices are temporarily unavailable');
 });

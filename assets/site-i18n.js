@@ -116,6 +116,7 @@
       'site.unavailable': 'Temporarily unavailable',
       'site.loading': 'Loading plans…',
       'site.loadFailed': 'Could not load the plans. Please try again.',
+      'site.pricesUnavailable': 'Prices are temporarily unavailable. Please check back soon — nothing can be ordered here yet.',
       'site.retry': 'Try again',
       'site.choose': 'View details',
       'nav.compat': 'Device check',
@@ -131,26 +132,22 @@
       'site.compatCheck': 'iPhone setup (guide in Russian)',
       'site.compatAndroid': 'Android setup (guide in Russian)',
 
-      /* Prices. The catalogue holds ONE real price per plan and it is in
-       * roubles; no international price exists yet and this page does not
-       * invent one. So the figure is shown in the currency it is actually
-       * denominated in, and labelled. */
-      'price.currencyNote': 'Reference prices in Russian roubles (₽). These plans can\'t be bought on this page yet.',
+      /* Prices. The GLOBAL lane's own US-dollar figures (assets/global-catalog.js),
+       * never the Russian rouble prices converted or relabelled. */
+      'price.currencyNote': 'Prices in US dollars (USD). These plans can\'t be bought on this page yet.',
 
       /* Said BEFORE anything looks purchasable: above the search, in the static
        * HTML, so a visitor learns it before a price, a button or a form — not
        * after typing an email into a checkout that cannot take money. */
-      'preview.noticeTitle': 'Preview only — plans can\'t be bought here yet',
-      'preview.noticeBody': 'International payments aren\'t available yet. You can browse destinations and plans, but checkout is closed and nothing can be ordered on this page. Prices are shown in Russian roubles (₽) for reference only.',
+      'preview.noticeTitle': 'Checkout isn\'t open yet — plans can\'t be bought here yet',
+      'preview.noticeBody': 'You can browse destinations, plans and prices in US dollars, but international payments aren\'t available yet: checkout is closed and nothing can be ordered or charged on this page.',
       'preview.title': 'Plan details',
-      'preview.price': 'Reference price',
+      'preview.price': 'Price',
 
       /* Shown as soon as a plan is opened. There is no international provider
        * and no checkout behind it, so the plan window asks for nothing. */
       'pay.unavailableTitle': 'Not available to buy yet',
       'pay.unavailableBody': 'International payments aren\'t open yet, so this plan can\'t be ordered here. Nothing is charged and no order is created.',
-      'pay.unavailableHint': 'Paying with a Russian bank card or SBP? Use the Russian version of this site.',
-      'pay.toRussianSite': 'Go to the Russian site',
 
       'lang.ru': 'Русский',
       'lang.en': 'English',
