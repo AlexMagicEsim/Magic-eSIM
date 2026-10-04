@@ -185,6 +185,37 @@ test('a share image is not content — fixing a broken og:image is not an edit',
 });
 
 // ── against the real generator ──────────────────────────────────────────────
+test('an hreflang alternate is not content — and only that kind of link', () => {
+  const page = (head) => `<html><head>\n<link rel="canonical" href="https://magicesim.store/esim/serbia/" />\n${head}</head><body>текст</body></html>`;
+  const tags = '  <link rel="alternate" hreflang="ru" href="https://magicesim.store/esim/serbia/" />\n'
+    + '  <link rel="alternate" hreflang="en" href="https://magicesim.store/en/esim/serbia/" />\n'
+    + '<link hreflang="x-default" rel="alternate" href="https://magicesim.store/esim/serbia/">\n';
+  assert.equal(contentHash(page(tags)), contentHash(page('')), 'взаимные hreflang (в любом порядке атрибутов) не должны менять хеш');
+  // Everything else stays content.
+  assert.notEqual(contentHash(page('<link rel="alternate" type="application/rss+xml" href="/feed.xml">\n')), contentHash(page('')),
+    'alternate без hreflang (лента) — это содержимое');
+  assert.notEqual(contentHash(page('').replace('текст', '<a href="/en/" hreflang="en">English</a>')), contentHash(page('')),
+    'видимая ссылка-переключатель <a hreflang> — это содержимое');
+  assert.notEqual(contentHash(page('').replace('/esim/serbia/', '/esim/montenegro/')), contentHash(page('')),
+    'смена canonical — это содержимое');
+});
+
+test('4b. giving a real Russian page its hreflang pair moves no date', () => {
+  const snap = snapshot();
+  const page = join(ROOT, 'esim/serbia/index.html');
+  try {
+    const tags = '<link rel="alternate" hreflang="ru" href="https://magicesim.store/esim/serbia/" />\n'
+      + '<link rel="alternate" hreflang="en" href="https://magicesim.store/en/esim/serbia/" />\n'
+      + '<link rel="alternate" hreflang="x-default" href="https://magicesim.store/esim/serbia/" />\n';
+    writeFileSync(page, snap.files.get(page).replace('</head>', `${tags}</head>`));
+    const out = execFileSync('node', ['seo/build-sitemap.mjs'], {
+      cwd: ROOT, encoding: 'utf8', env: { ...process.env, SITEMAP_DATE: '2027-01-01' },
+    });
+    assert.match(out, /lastmod сдвинут у 0/, `hreflang не правка страницы, вывод: ${out.trim()}`);
+    assert.equal(readFileSync(SITEMAP, 'utf8'), snap.sitemap, 'sitemap обязан остаться прежним');
+  } finally { restore(snap); }
+});
+
 test('4. regenerating every page is not a mass edit', () => {
   const snap = snapshot();
   try {

@@ -115,6 +115,17 @@ export function fileFor(loc) {
 // they were stripped here. Same migration as the icons: stored hashes were
 // recomputed from the pages as they were at 9982f32, so no date moved.
 //
+// HREFLANG ALTERNATES LIKEWISE, added 2026-10-04, BEFORE the first English
+// country page exists. `<link rel="alternate" hreflang="…">` says where the same
+// page lives in another language, not what this page says. Without the strip,
+// the day /en/esim/<slug>/ appears and its Russian twin gains a reciprocal tag,
+// every such Russian page would be re-dated by a change to a different page.
+// Only <link> tags carrying BOTH rel="alternate" and hreflang are stripped: a
+// visible <a hreflang> language switch is content, and so would be any other
+// alternate (a feed). Same migration: the two pages that carried hreflang (the
+// two homes) had their stored hashes recomputed from the pages as they were at
+// 7825ab4; no date moved.
+//
 // Doing this moved no date: the stored hashes in seo/sitemap-lastmod.json were
 // recomputed from the pages AS THEY WERE at 3cf9f76 under the new rule, so each
 // page kept the date it already had. That is a state migration, deliberately not
@@ -125,7 +136,8 @@ export function contentHash(html) {
     .update(String(html)
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
-      .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, ''))
+      .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')
+      .replace(/[ \t]*<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang=)[^>]*>\n?/gi, ''))
     .digest('hex').slice(0, 16);
 }
 
