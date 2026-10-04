@@ -126,6 +126,9 @@ test('UAE 3 GB: plan → server price $9.99 → email → review → payment not
   await expect(page.locator('#coTotal')).toHaveText('$9.99');
   await expect(page.locator('#coExpiry')).toContainText(/Price held for (30:00|29:5\d)/);
   await expect(page.locator('#coPriceChanged')).toBeHidden();
+  // «Get a new price» appears only once the held price expires — it was on
+  // screen all along on #30, because .btn's display beat [hidden].
+  await expect(page.locator('#coRequote')).toBeHidden();
   expect(quoteBodies).toEqual([{ package_id: ID.ae3, days: null }]);
 
   // The form refuses a typo and an unconfirmed device, and says so.

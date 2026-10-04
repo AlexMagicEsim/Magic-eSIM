@@ -46,6 +46,36 @@ import { EN_GUIDES } from './guides-en.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
 
+/* The primary API origin, read from the one file that names it
+ * (assets/magic-net.js, ENDPOINTS[0]). The country pages' CSP allows exactly
+ * this origin for connections — so the GLOBAL catalogue and quotes cannot reach
+ * the fallback gateway even by mistake (owner's decision D1). */
+export function primaryApiOrigin() {
+  const src = readFileSync(join(ROOT, 'assets/magic-net.js'), 'utf8');
+  const m = src.match(/name: 'render', base: '(https:\/\/[a-z0-9.-]+)'/);
+  if (!m) throw new Error('assets/magic-net.js: the primary endpoint was not found');
+  return m[1];
+}
+
+/* A Content-Security-Policy per page kind. No 'unsafe-inline' anywhere: the EN
+ * pages carry no inline script, style or handler (the JSON-LD block on /en/ is
+ * data, not script). Pages that call no API get connect-src 'none'. */
+export function cspMeta(connect) {
+  const policy = [
+    "default-src 'self'",
+    "script-src 'self'",
+    "style-src 'self'",
+    "img-src 'self' data:",
+    "font-src 'self'",
+    `connect-src ${connect}`,
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'none'",
+  ].join('; ');
+  return `<meta http-equiv="Content-Security-Policy" content="${policy}">
+<meta name="referrer" content="strict-origin-when-cross-origin">`;
+}
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
@@ -81,7 +111,7 @@ const GUIDE_ROBOTS = `<!-- Written for this site but not yet reviewed for search
 
 const header = (ruHref) => `<header>
   <div class="wrap hdr">
-    <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt="Magic eSIM"><span>Magic eSIM</span></a>
+    <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt=""><span>Magic eSIM</span></a>
     <nav>
       <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
       <a href="/en/guides/" data-i18n="nav.guides">Guides</a>
@@ -108,7 +138,7 @@ const FOOTER = `<footer class="wrap">
 const MODAL = `<div class="overlay" id="checkout" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="coTitle">
     <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="Close">×</button>
-    <h3 id="coTitle" data-i18n="checkout.title">Checkout</h3>
+    <h3 id="coTitle" tabindex="-1" data-i18n="checkout.title">Checkout</h3>
     <div class="unavail" id="coUnavail">
       <h4 data-i18n="pay.unavailableTitle">Online payment is not available yet</h4>
       <p data-i18n="pay.unavailableBody">You can check a plan and get its exact price, but payment can't be taken yet. Nothing is charged, and no order or eSIM is created.</p>
@@ -181,6 +211,7 @@ export function countryPage(c) {
 <meta name="description" content="eSIM data plans that cover ${name}, with prices in US dollars. Online payment is not available yet.">
 <link rel="canonical" href="${url}">
 ${ROBOTS}
+${cspMeta(primaryApiOrigin())}
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="${url}">
@@ -199,7 +230,8 @@ ${header(`/esim/${c.slug}/`)}
 
 ${NOTICE}
 
-  <p class="note" id="status" data-i18n="site.loading">Loading plans…</p>
+  <p class="note" id="status" role="status" aria-live="polite" data-i18n="site.loading">Loading plans…</p>
+  <button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>Try again</button>
 
 ${block('daily', 'Data every day', 'A data allowance for each day of the trip.')}
 
@@ -240,6 +272,7 @@ export function hubPage(list) {
 <meta name="description" content="Every destination Magic eSIM has data plans for, with prices in US dollars. Online payment is not available yet.">
 <link rel="canonical" href="${url}">
 ${ROBOTS}
+${cspMeta("'none'")}
 ${HEAD_ICONS}
 <link rel="stylesheet" href="/en/en.css">
 </head>
@@ -301,6 +334,7 @@ ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
 <meta name="description" content="${esc(g.description)}">
 <link rel="canonical" href="${url}">
 ${GUIDE_ROBOTS}
+${cspMeta("'none'")}
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="${url}">
@@ -351,6 +385,7 @@ export function guidesHub(all = EN_GUIDES) {
 <meta name="description" content="How to install a travel eSIM on iPhone and Android, check that your phone supports it, when to install it and what to do if it does not work.">
 <link rel="canonical" href="${url}">
 ${GUIDE_ROBOTS}
+${cspMeta("'none'")}
 ${HEAD_ICONS}
 <link rel="stylesheet" href="/en/en.css">
 </head>

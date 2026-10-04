@@ -265,6 +265,25 @@
       show(3);
     }
 
+    // Keyboard and screen-reader users: focus goes INTO the dialog when it
+    // opens, Tab cannot wander behind it, and focus returns to the button that
+    // opened it when it closes (WCAG 2.4.3; found by axe-core on the live page).
+    var opener = null;
+    var FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    function focusables() {
+      return Array.prototype.filter.call(box.querySelectorAll(FOCUSABLE), function (el) {
+        return el.offsetParent !== null || el === doc.activeElement;
+      });
+    }
+    box.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || box.hidden) return;
+      var f = focusables();
+      if (!f.length) return;
+      var first = f[0]; var last = f[f.length - 1];
+      if (e.shiftKey && (doc.activeElement === first || !box.contains(doc.activeElement))) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && doc.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
     function close() {
       stopTimer();
       st = null;
@@ -272,6 +291,8 @@
       $('coEmail').value = '';
       $('coDevice').checked = false;
       box.hidden = true;
+      if (opener && doc.contains(opener) && typeof opener.focus === 'function') opener.focus();
+      opener = null;
     }
 
     $('coClose').addEventListener('click', close);
@@ -307,7 +328,11 @@
       $('coQuote').disabled = false;
       renderPlan();
       show(1);
+      opener = doc.activeElement && doc.activeElement !== doc.body ? doc.activeElement : null;
       box.hidden = false;
+      // The title, so a screen reader announces the dialog and the refusal
+      // under it before any control.
+      $('coTitle').focus();
     };
   }
 

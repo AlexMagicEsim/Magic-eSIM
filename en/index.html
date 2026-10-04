@@ -26,6 +26,10 @@
      landing says it out loud and a page whose indexability is a deliberate
      decision should not leave it to a default. -->
 <meta name="robots" content="index, follow">
+<!-- The same policy as the generated English pages (seo/build-en-pages.mjs
+     cspMeta): this page reads no API, so connect-src is 'none'. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="shortcut icon" href="/favicon.ico" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -48,13 +52,13 @@
   "isPartOf":{"@id":"https://magicesim.store/en/#website"}}
 ]}
 </script>
-<link rel="stylesheet" href="/en/en.css?v=c72b46d1">
+<link rel="stylesheet" href="/en/en.css?v=b5ea6938">
 </head>
 <body>
 
 <header>
   <div class="wrap hdr">
-    <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt="Magic eSIM"><span>Magic eSIM</span></a>
+    <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt=""><span>Magic eSIM</span></a>
     <nav>
       <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
       <a href="/en/guides/" data-i18n="nav.guides">Guides</a>
