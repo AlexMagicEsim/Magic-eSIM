@@ -269,7 +269,14 @@
         if (st !== mine || mine.seq !== ask || (mine.perDay && chosenDays() !== days)) return;
         mine.inFlight = false;
         btns.forEach(function (b) { b.disabled = false; });
-        if (!r.ok) { say('coQuoteStatus', REASON_KEY[r.reason] || 'quote.unavailable'); return; }
+        if (!r.ok) {
+          say('coQuoteStatus', REASON_KEY[r.reason] || 'quote.unavailable');
+          // The pressed button was disabled while the request ran, and a
+          // disabled button drops focus to <body>. Hand it back to whichever
+          // price button is on screen, so «try again» is one keypress away.
+          keepFocus($('coRequote').hidden ? $('coQuote') : $('coRequote'));
+          return;
+        }
         say('coQuoteStatus', null);
         mine.quote = r.quote;
         var l = listed();

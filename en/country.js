@@ -109,9 +109,30 @@
       return undefined;
     };
 
+    // «Try again» hides itself while the catalogue loads, so focus falls to
+    // <body>. When the answer is in, put it where the visitor acts next: on
+    // «Try again» if it failed again, else on the first block of plans, else
+    // on the status line. Never moves focus the visitor has already placed.
+    var refocus = function () {
+      var a = document.activeElement;
+      if (a && a !== document.body) return;
+      var target = !$('retry').hidden ? $('retry') : null;
+      if (!target) {
+        ['dailyBlock', 'localBlock', 'regionalBlock'].some(function (id) {
+          if ($(id).hidden) return false;
+          target = $(id).querySelector('h2');
+          return !!target;
+        });
+      }
+      if (!target && !$('status').hidden) target = $('status');
+      if (!target) return;
+      if (target.tagName !== 'BUTTON' && !target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus();
+    };
+
     $('retry').addEventListener('click', function () {
       $('retry').disabled = true;
-      load();
+      load().then(refocus);
     });
     load();
   }
