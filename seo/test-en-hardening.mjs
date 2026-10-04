@@ -125,14 +125,16 @@ test('the hidden attribute wins over every display rule in en.css', () => {
   assert.match(CSS, /\.results\{[^}]*display:grid/);
 });
 
-test('the checkout dialog can take focus, the status is announced, the logo is decorative', () => {
+test('the checkout dialog can take focus, the status is announced, the logo names the home link', () => {
   const page = read('en/esim/uae/index.html');
   assert.match(page, /<h3 id="coTitle" tabindex="-1"/);
   assert.match(page, /role="dialog" aria-modal="true" aria-labelledby="coTitle"/);
   assert.match(page, /<p class="note" id="status" role="status" aria-live="polite"/);
   assert.match(page, /<button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>Try again<\/button>/);
   for (const p of [...COUNTRY_PAGES.slice(0, 5), ...OTHER_PAGES]) {
-    assert.match(read(p), /<img src="\/assets\/magic-esim-logo-header\.png" alt="">/, `${p}: the logo sits beside its own name`);
+    // Since the redesign the logo is the brand artwork alone (it contains the
+    // name), at 1x/2x/3x, so it carries the name as its alt.
+    assert.match(read(p), /<a class="brand" href="\/en\/"><img src="\/en\/img\/logo-1x\.png" srcset="\/en\/img\/logo-2x\.png 2x, \/en\/img\/logo-3x\.png 3x" width="59" height="44" alt="Magic eSIM"><\/a>/, `${p}: the logo link is named by its image`);
   }
   const co = read('en/checkout.js');
   assert.match(co, /\$\('coTitle'\)\.focus\(\)/, 'focus moves into the dialog');

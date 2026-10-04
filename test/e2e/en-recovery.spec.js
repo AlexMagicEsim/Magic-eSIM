@@ -206,10 +206,10 @@ test('«Try again» never moves focus the visitor has already placed elsewhere',
   const gate = new Promise((r) => { release = r; });
   await open(page, { catalogue: async (n) => { if (n === 2) await gate; return n === 1 ? { status: 503, body: '{}' } : { status: 200, body: BODY }; } });
   await page.locator('#retry').click();
-  await page.locator('header a[href="/en/guides/"]').focus();
+  await page.locator('header a.brand').focus();       // visible at every width
   release();
   await expect(page.locator('#dailyGrid .card')).toHaveCount(1);
-  expect(await page.evaluate(() => document.activeElement.getAttribute('href'))).toBe('/en/guides/');
+  expect(await page.evaluate(() => document.activeElement.className)).toBe('brand');
 });
 
 test('the countdown is not read out every second; the fixed price and the expiry are announced once', async ({ page }) => {

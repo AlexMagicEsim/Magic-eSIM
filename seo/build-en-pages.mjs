@@ -109,26 +109,111 @@ const GUIDE_ROBOTS = `<!-- Written for this site but not yet reviewed for search
      twin, not in the sitemap, until PR 8 ships the review with all three. -->
 <meta name="robots" content="noindex, follow">`;
 
-const header = (ruHref) => `<header>
-  <div class="wrap hdr">
-    <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt=""><span>Magic eSIM</span></a>
-    <nav>
-      <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
-      <a href="/en/guides/" data-i18n="nav.guides">Guides</a>
+/* Inter is self-hosted (font-src 'self'); the latin file is what nearly every
+ * English page needs first, so it is fetched alongside the stylesheet. */
+export const FONT_PRELOAD = `<link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>`;
+
+/* The logo is the brand's own artwork (assets/magic-esim-logo.png), trimmed of
+ * its white margin and exported at 1x/2x/3x for a 44 px header — the artwork
+ * itself is unchanged. It carries the name, so its alt is the name. */
+export const LOGO = `<img src="/en/img/logo-1x.png" srcset="/en/img/logo-2x.png 2x, /en/img/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM">`;
+
+/* The destinations the home and the footer feature. Every slug must have an
+ * English page; seo/test-en-home.mjs checks it. Flags: en/flags/<iso>.svg. */
+export const POPULAR = Object.freeze([
+  { iso: 'TH', slug: 'thailand', name: 'Thailand' },
+  { iso: 'TR', slug: 'turkey', name: 'Türkiye' },
+  { iso: 'AE', slug: 'uae', name: 'United Arab Emirates' },
+  { iso: 'JP', slug: 'japan', name: 'Japan' },
+  { iso: 'US', slug: 'usa', name: 'United States' },
+  { iso: 'IT', slug: 'italy', name: 'Italy' },
+  { iso: 'ES', slug: 'spain', name: 'Spain' },
+  { iso: 'GB', slug: 'united-kingdom', name: 'United Kingdom' },
+]);
+
+const NAV_LINKS = `<a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
       <a href="/en/#how" data-i18n="nav.how">How it works</a>
+      <a href="/en/#compat" data-i18n="nav.compat">Device check</a>
+      <a href="/en/guides/" data-i18n="nav.guides">Guides</a>`;
+
+const ICON_GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>';
+const ICON_MENU = '<svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+/* The header. Desktop: logo, four links, «Русский», «Find a plan». Below 900 px
+ * the links fold into a <details> menu — native, so it works on the guides,
+ * which carry no script at all, and with JavaScript off. */
+export const header = (ruHref) => `<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/en/">${LOGO}</a>
+    <nav class="nav" aria-label="Main">
+      ${NAV_LINKS}
     </nav>
-    <a class="langsw" href="${ruHref}" hreflang="ru" data-i18n="lang.switchToRu">Перейти на русскую версию</a>
+    <div class="hdr-actions">
+      <a class="langsw" href="${ruHref}" hreflang="ru" lang="ru">${ICON_GLOBE}<span data-i18n="lang.ru">Русский</span></a>
+      <a class="btn btn-sm hdr-cta" href="/en/#plans" data-i18n="nav.findPlan">Find a plan</a>
+      <details class="mnav">
+        <summary aria-label="Menu">${ICON_MENU}</summary>
+        <nav class="mnav-panel" aria-label="Menu">
+      ${NAV_LINKS}
+          <hr>
+          <a href="${ruHref}" hreflang="ru" lang="ru" data-i18n="lang.ru">Русский</a>
+        </nav>
+      </details>
+    </div>
   </div>
 </header>`;
 
-const NOTICE = `  <div class="unavail notice" id="previewNotice" role="note">
-    <h2 data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</h2>
+/* «Payment unavailable», as a compact bar under the header: on the home, the
+ * destination list and every country page, BEFORE anything that looks
+ * purchasable. The sentence that says nothing can be bought is always visible;
+ * «What this means» opens the full wording. Static markup, identical on every
+ * page (the tests compare it), so it is there without JavaScript too. */
+export const PAYBAR = `<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
     <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
-  </div>`;
+  </details>
+</div>`;
 
-const FOOTER = `<footer class="wrap">
-  <p>© Magic eSIM · <a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a> · <a href="/en/guides/" data-i18n="nav.guides">Guides</a> · <a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
-  <p class="support">Support: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+const ftLinks = (items) => items.map((x) => `          <li><a href="${x.href}">${esc(x.label)}</a></li>`).join('\n');
+
+/* The footer. The support line is pinned word for word by
+ * seo/test-en-support-contact.mjs; the legal links stay the Russian ones,
+ * labelled so, until the legal block ships. */
+export const FOOTER = `<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/en/">${LOGO}</a>
+        <p data-i18n="footer.about">Travel eSIM data plans for 190+ destinations, with prices in US dollars.</p>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="nav.destinations">Destinations</h2>
+        <ul>
+${ftLinks(POPULAR.slice(0, 6).map((c) => ({ href: `/en/esim/${c.slug}/`, label: c.name })))}
+          <li><a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="nav.guides">Guides</h2>
+        <ul>
+${ftLinks(EN_GUIDES.map((g) => ({ href: `/en/guides/${g.slug}/`, label: g.h1 })))}
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="footer.help">Help</h2>
+        <p class="support">Support: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/en/#how" data-i18n="nav.how">How it works</a></li>
+          <li><a href="/en/#compat" data-i18n="nav.compat">Device check</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
+    </div>
+  </div>
 </footer>`;
 
 /* The checkout window: plan → price fixed by the server (a GLOBAL quote) →
@@ -219,18 +304,19 @@ ${cspMeta(primaryApiOrigin())}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${title}">
 ${HEAD_ICONS}
+${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
 </head>
 <body data-iso="${c.iso}">
 
 ${header(`/esim/${c.slug}/`)}
+${PAYBAR}
 
 <main class="wrap">
   <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › ${name}</p>
   <h1>eSIM for ${name}</h1>
   <p class="lead">Data plans that work in ${name}, with prices in US dollars. Plans load live from the catalogue.</p>
 
-${NOTICE}
 
   <p class="note" id="status" role="status" aria-live="polite" data-i18n="site.loading">Loading plans…</p>
   <noscript>
@@ -280,18 +366,19 @@ export function hubPage(list) {
 ${ROBOTS}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
+${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
 </head>
 <body>
 
 ${header('/esim/')}
+${PAYBAR}
 
 <main class="wrap">
   <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
   <h1>eSIM destinations</h1>
   <p class="lead">Pick a country to see its data plans, with prices in US dollars.</p>
 
-${NOTICE}
 
   <ul class="dest">
 ${items}
@@ -346,6 +433,7 @@ ${cspMeta("'none'")}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${esc(g.title)}">
 ${HEAD_ICONS}
+${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
 </head>
 <body>
@@ -393,6 +481,7 @@ export function guidesHub(all = EN_GUIDES) {
 ${GUIDE_ROBOTS}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
+${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
 </head>
 <body>
