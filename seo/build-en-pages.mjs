@@ -89,7 +89,9 @@ const FOOTER = `<footer class="wrap">
 </footer>`;
 
 /* The checkout window: plan → price fixed by the server (a GLOBAL quote) →
- * review. The refusal is the first thing in it, and the payment button is
+ * review. Each fact about the plan is shown once: coverage, data, validity
+ * (the card's own title IS the data line, so a separate «plan» row only
+ * repeated it). The refusal is the first thing in it, and the payment button is
  * DISABLED in the markup — en/checkout.js never enables it. */
 const MODAL = `<div class="overlay" id="checkout" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="coTitle">
@@ -100,7 +102,6 @@ const MODAL = `<div class="overlay" id="checkout" hidden>
       <p data-i18n="pay.unavailableBody">You can check a plan and get its exact price, but payment can't be taken yet. Nothing is charged, and no order or eSIM is created.</p>
     </div>
     <div class="rows">
-      <div><span data-i18n="checkout.plan">eSIM plan</span><b id="coPlan">—</b></div>
       <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
       <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
       <div><span data-i18n="checkout.term">Validity</span><b id="coTerm">—</b></div>
@@ -133,7 +134,6 @@ const MODAL = `<div class="overlay" id="checkout" hidden>
     </div>
     <div id="coStep3" hidden>
       <div class="rows">
-        <div><span data-i18n="checkout.plan">eSIM plan</span><b id="rvPlan">—</b></div>
         <div><span data-i18n="checkout.coverage">Coverage</span><b id="rvCoverage">—</b></div>
         <div><span data-i18n="checkout.data">Data</span><b id="rvData">—</b></div>
         <div><span data-i18n="checkout.term">Validity</span><b id="rvTerm">—</b></div>

@@ -113,7 +113,7 @@ test('UAE 3 GB: plan → server price $9.99 → email → review → payment not
   await cardBtn(page, 'local', '3 GB').click();
 
   // Step 1 — the plan, the listed price, and nothing sent yet.
-  await expect(page.locator('#coPlan')).toHaveText('3 GB');
+  await expect(page.locator('#coData')).toHaveText('3 GB');
   await expect(page.locator('#coCoverage')).toHaveText('United Arab Emirates');
   await expect(page.locator('#coTerm')).toHaveText('30 days');
   await expect(page.locator('#coListed')).toHaveText('$9.99');
@@ -139,12 +139,14 @@ test('UAE 3 GB: plan → server price $9.99 → email → review → payment not
 
   // Step 3 — everything the visitor chose, and the plain status.
   await expect(page.locator('#coStep3')).toBeVisible();
-  await expect(page.locator('#rvPlan')).toHaveText('3 GB');
   await expect(page.locator('#rvCoverage')).toHaveText('United Arab Emirates');
   await expect(page.locator('#rvData')).toHaveText('3 GB');
   await expect(page.locator('#rvTerm')).toHaveText('30 days');
   await expect(page.locator('#rvEmail')).toHaveText('traveller@example.com');
   await expect(page.locator('#rvTotal')).toHaveText('$9.99');
+  // Each fact once: no «eSIM plan» row repeating the data line.
+  await expect(page.locator('#checkout .rows span', { hasText: 'eSIM plan' })).toHaveCount(0);
+  expect(await page.locator('#coStep3 .rows > div > span').allInnerTexts()).toEqual(['Coverage', 'Data', 'Validity', 'Email', 'Price']);
   await expect(page.locator('#coFinal')).toContainText('Online payment is not available yet');
   await expect(page.locator('#coFinal')).toContainText('nothing has been charged, no order has been created and no eSIM will be sent');
   await expect(page.locator('#coFinal')).toContainText('Your email has not been sent or saved');

@@ -10,7 +10,7 @@
  *               catalogue's and never anything computed here. The quote is
  *               held for its TTL; when it runs out the price must be fetched
  *               again before anything else happens.
- *   3. Review   plan, coverage, data, validity, the quoted USD price, the email
+ *   3. Review   coverage, data, validity, the quoted USD price, the email
  *               typed in — and a plain status: online payment is not available
  *               yet. The payment button is disabled and can do nothing.
  *
@@ -187,7 +187,6 @@
     }
 
     function renderPlan() {
-      $('coPlan').textContent = PLANS.dataText(st.plan) || I18N.t('checkout.plan');
       $('coCoverage').textContent = PLANS.coverageText(st.plan, st.focus);
       $('coData').textContent = PLANS.dataText(st.plan);
       $('coTerm').textContent = termText();
@@ -257,7 +256,6 @@
       if (!EMAIL.test(email)) { say('coFormError', 'checkout.emailInvalid'); $('coEmail').focus(); return; }
       if (!$('coDevice').checked) { say('coFormError', 'checkout.deviceRequired'); return; }
       say('coFormError', null);
-      $('rvPlan').textContent = PLANS.dataText(st.plan) || I18N.t('checkout.plan');
       $('rvCoverage').textContent = PLANS.coverageText(st.plan, st.focus);
       $('rvData').textContent = PLANS.dataText(st.plan);
       $('rvTerm').textContent = termText();
