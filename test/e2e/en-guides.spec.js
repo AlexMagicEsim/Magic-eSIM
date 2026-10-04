@@ -29,7 +29,8 @@ for (const [slug, h1, ru] of GUIDES) {
     const calls = await visit(page, `/en/guides/${slug}/`);
     await expect(page.locator('h1')).toHaveText(h1);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(7, 9, 16)');
+    // Styled by en/en.css: the design system's page colour (--bg #f7f9fc).
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(247, 249, 252)');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
     await expect(page.locator('a.langsw')).toHaveAttribute('href', ru);
@@ -48,10 +49,12 @@ test('the guide list links all five, and is reachable from the home and a countr
   await visit(page, '/en/guides/');
   await expect(page.locator('.guides a')).toHaveCount(5);
   await page.goto('/en/index.html');
-  await expect(page.locator('header nav a', { hasText: 'Guides' })).toHaveAttribute('href', '/en/guides/');
+  await expect(page.locator('header nav.nav a', { hasText: 'Guides' })).toHaveAttribute('href', '/en/guides/');
   await expect(page.locator('#compat a[href="/en/guides/iphone/"]')).toHaveCount(1);
   await page.goto('/en/esim/uae/');
-  await page.locator('header nav a', { hasText: 'Guides' }).click();
+  // Below 900 px the header links live in the «Menu» disclosure.
+  if (await page.locator('.mnav summary').isVisible()) await page.locator('.mnav summary').click();
+  await page.locator('header nav a:visible', { hasText: 'Guides' }).click();
   await expect(page).toHaveURL(/\/en\/guides\/$/);
   await page.locator('.guides a', { hasText: 'iPhone' }).click();
   await expect(page.locator('h1')).toHaveText('How to install an eSIM on iPhone');

@@ -111,12 +111,18 @@ test('the home is in English, styled, and says it sells nothing before the searc
   const calls = await open(page, '/en/index.html');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('h1')).toContainText('without roaming');
-  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(7, 9, 16)');
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(247, 249, 252)');
   const notice = page.locator('#previewNotice');
   await expect(notice).toBeInViewport();
   await expect(notice).toContainText("Online payment isn't available yet — plans can't be bought here yet");
   expect((await notice.boundingBox()).y).toBeLessThan((await page.locator('#q').boundingBox()).y);
-  const body = (await page.locator('body').innerText()).replace(/Перейти на русскую версию/g, '');
+  // The only Russian is the language switch itself — the links marked lang="ru",
+  // removed by element so the same word anywhere else would still fail.
+  const body = await page.evaluate(() => {
+    const c = document.body.cloneNode(true);
+    c.querySelectorAll('a[lang="ru"]').forEach((a) => a.remove());
+    return c.textContent;
+  });
   expect(body).not.toMatch(/[А-Яа-я]{4,}/);
   // The home reads NO catalogue at all — its destination list is static.
   expect(apiCalls(calls)).toEqual([]);

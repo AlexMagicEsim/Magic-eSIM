@@ -115,7 +115,12 @@ const BANNED = [
 
 test('no guide says what this site cannot stand behind', () => {
   for (const { rel } of PAGES) {
-    const text = prose(html(rel)).replace(/Перейти на русскую версию/g, '');
+    // The only Russian allowed is the language control's own name, «Русский»,
+    // on the links that declare lang="ru" — cut out by element, not by word,
+    // so the same word anywhere else on the page still fails.
+    const page = html(rel);
+    assert.equal((page.match(/<a [^>]*hreflang="ru" lang="ru"[^>]*>/g) || []).length, 2, `${rel}: the language switch, desktop and menu`);
+    const text = prose(page.replace(/<a [^>]*lang="ru"[^>]*>[\s\S]*?<\/a>/g, ''));
     for (const [name, re] of BANNED) {
       const m = text.match(re);
       assert.equal(m, null, `${rel}: ${name} — «${m && m[0]}»`);

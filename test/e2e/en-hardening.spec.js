@@ -129,7 +129,7 @@ test('a whole quote flow runs without a single CSP violation, and the buttons ar
   await page.locator('#coReview').click();
   await expect(page.locator('#coStep3')).toBeVisible();
   expect(csp).toEqual([]);
-  expect(await page.locator('#coQuote').evaluate((b) => getComputedStyle(b).backgroundColor)).toBe('rgb(74, 104, 232)');
+  expect(await page.locator('#coQuote').evaluate((b) => getComputedStyle(b).backgroundColor)).toBe('rgb(66, 103, 232)');   // --accent-btn #4267e8: white on it 4.84:1
   expect(calls.filter((c) => c.url.startsWith('http') && !c.url.startsWith('http://127.0.0.1') && !c.url.startsWith('http://localhost')
     && !c.url.startsWith(PRIMARY))).toEqual([]);
   expect(gatewayCalls(calls)).toEqual([]);

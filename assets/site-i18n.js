@@ -178,7 +178,39 @@
 
       'lang.ru': 'Русский',
       'lang.en': 'English',
-      'lang.switchToRu': 'Перейти на русскую версию'
+      'lang.switchToRu': 'Перейти на русскую версию',
+      // The GLOBAL storefront's chrome and home (2026-10 redesign). English
+      // only: the Russian landing does not load this file's English half.
+      'nav.findPlan': 'Find a plan',
+      'preview.more': 'What this means',
+      'footer.about': 'Travel eSIM data plans for 190+ destinations, with prices in US dollars.',
+      'footer.help': 'Help',
+      'home.eyebrow': 'Travel eSIM for 190+ destinations',
+      'home.h1a': 'Mobile data abroad,',
+      'home.h1b': 'without roaming charges',
+      'home.searchPlaceholder': 'Where are you going?',
+      'home.find': 'Find plans',
+      'home.popularShort': 'Popular:',
+      'home.fact1': 'Prices in US dollars',
+      'home.fact2': 'Install by QR code',
+      'home.fact3': 'Country, regional and daily plans',
+      'home.popularTitle': 'Popular destinations',
+      'home.popularLead': 'Choose a country to see its plans, with prices in US dollars.',
+      'home.viewPlans': 'View plans',
+      'home.howKicker': 'Getting started',
+      'home.typesKicker': 'Plans',
+      'home.typesTitle': 'Three kinds of plans',
+      'home.typesLead': 'Every destination page groups its plans the same way, so you can compare like with like.',
+      'home.typeLocalTitle': 'Plans for one country',
+      'home.typeLocalBody': 'A set amount of data for one country, valid for a set number of days.',
+      'home.typeRegionalTitle': 'Regional plans',
+      'home.typeRegionalBody': 'One plan for several countries, for a trip that crosses borders. Each plan lists the countries it covers.',
+      'home.typeDailyTitle': 'Data every day',
+      'home.typeDailyBody': 'A data allowance for each day of the trip, rather than one amount for the whole stay.',
+      'home.guidesTitle': 'Set up and fix your eSIM',
+      'home.guidesLead': 'Install, check and fix a travel eSIM — step by step.',
+      'home.supportTitle': 'Questions before you travel?',
+      'home.supportBody': 'Write to our support team by email.'
     }
   };
 

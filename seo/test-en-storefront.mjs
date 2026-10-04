@@ -85,17 +85,31 @@ test('the ban can fire', () => {
 const I18N_EN = createRequire(import.meta.url)(join(ROOT, 'assets/site-i18n.js')).DICT.en;
 
 test('the preview notice is static markup, before the search, the prices and every button', () => {
-  const notice = EN.indexOf('id="previewNotice"');
-  assert.ok(notice > 0, 'the notice must be in the HTML itself, not rendered by JS');
-  assert.ok(notice < EN.indexOf('id="plans"'), 'before the search');
-  assert.doesNotMatch(EN.slice(notice, EN.indexOf('</div>', notice)), /\bhidden\b/, 'never hidden');
-  // And on every country page, before the first plan block and the plan window.
+  // Since the 2026-10 redesign the notice is a compact bar under the header.
+  // What must stay true, on the home, the destination list and every country
+  // page: it is static markup, it comes right after the header and before
+  // <main> (so before the search, every plan, price and button), it carries no
+  // `hidden` attribute, and the sentence saying nothing can be bought is in its
+  // <summary> — always visible. Only the longer explanation folds away under
+  // «What this means».
+  const HIDDEN_ATTR = /<[^>]*\shidden(?:[\s>=])/;
+  assert.ok(HIDDEN_ATTR.test('<p class="x" hidden>'), 'the hidden-attribute rule can fire');
+  assert.ok(!HIDDEN_ATTR.test('<span aria-hidden="true">'), 'and does not mistake aria-hidden for it');
+  for (const [name, h] of [['home', EN], ['country', PAGE], ['list', HUB]]) {
+    const n = h.indexOf('id="previewNotice"');
+    assert.ok(n > 0, `${name}: the notice must be in the HTML itself, not rendered by JS`);
+    assert.ok(n > h.indexOf('</header>') && n < h.indexOf('<main'), `${name}: right under the header, before <main>`);
+    const bar = h.slice(n, h.indexOf('</div>', n));
+    assert.doesNotMatch(bar, HIDDEN_ATTR, `${name}: never hidden`);
+    const summary = bar.slice(bar.indexOf('<summary>'), bar.indexOf('</summary>'));
+    assert.match(summary, /data-i18n="preview\.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</, `${name}: the refusal is in the always-visible line`);
+    assert.match(bar, /data-i18n="preview\.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created\.</, `${name}: the full wording is in the bar`);
+  }
+  assert.ok(EN.indexOf('id="previewNotice"') < EN.indexOf('id="plans"'), 'before the search');
   const n2 = PAGE.indexOf('id="previewNotice"');
-  assert.ok(n2 > 0, 'the country page carries the notice in its HTML');
   for (const id of ['dailyBlock', 'localBlock', 'regionalBlock', 'checkout']) {
     assert.ok(n2 < PAGE.indexOf(`id="${id}"`), `before #${id}`);
   }
-  assert.doesNotMatch(PAGE.slice(n2, PAGE.indexOf('</div>', n2)), /\bhidden\b/, 'never hidden');
   // Word for word the home's notice: one promise, not two paraphrases.
   const noticeOf = (h) => h.slice(h.indexOf('id="previewNotice"'), h.indexOf('</div>', h.indexOf('id="previewNotice"')));
   assert.equal(noticeOf(PAGE), noticeOf(EN));
@@ -442,8 +456,12 @@ test('the English page is not a copy of the Russian one', () => {
     .replace(/<style[\s\S]*?<\/style>/g, '')
     .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   const enText = strip(EN);
-  assert.equal(/[А-Яа-я]{4,}/.test(enText.replace(/Перейти на русскую версию/g, '')), false,
+  // The language control is cut out by ELEMENT (the links that declare
+  // lang="ru"), not by word, so «Русский» anywhere else still fails.
+  const withoutSwitch = strip(EN.replace(/<a [^>]*lang="ru"[^>]*>[\s\S]*?<\/a>/g, ''));
+  assert.equal(/[А-Яа-я]{4,}/.test(withoutSwitch), false,
     'the only Russian on the English page is the link back to the Russian one');
+  assert.equal(/[А-Яа-я]{4,}/.test(strip('<p>Русский</p>')), true, 'the rule can fire');
   assert.ok(enText.length > 200, 'the English page has real content');
 });
 

@@ -9,7 +9,9 @@
  *
  * WHAT THIS FILE IS ALLOWED TO DO: read the destination list the generator
  * wrote (en/destinations.js, static: the countries that have an English page)
- * and render search results as ordinary links.
+ * and render search results as ordinary links (with the country's flag, a
+ * static file under en/flags/), and follow the best one when the visitor
+ * presses «Find plans» or Enter.
  *
  * WHAT IT MUST NEVER DO:
  *
@@ -59,16 +61,61 @@
       var a = document.createElement('a');
       a.className = 'res';
       // The slug comes from the generated list, which takes it from the
-      // country dictionary — never from what the visitor typed.
+      // country dictionary — never from what the visitor typed. So does the
+      // flag: an ISO-2 code from the same list, checked before it is used.
       a.href = '/en/esim/' + d.slug + '/';
-      a.textContent = d.name;
+      if (/^[A-Z]{2}$/.test(d.iso)) {
+        var img = document.createElement('img');
+        img.className = 'flag';
+        img.src = '/en/flags/' + d.iso.toLowerCase() + '.svg';
+        img.alt = '';
+        img.width = 28;
+        img.height = 21;
+        img.loading = 'lazy';
+        a.appendChild(img);
+      }
+      a.appendChild(document.createTextNode(d.name));
       box.appendChild(a);
     });
     box.hidden = false;
   }
 
+  function links() {
+    return Array.prototype.slice.call($('results').querySelectorAll('a.res'));
+  }
+
+  // «Find plans» and Enter open the best match — by following its link, the
+  // same click a visitor would make; with nothing typed they put the caret in
+  // the search. Never a redirect: nothing happens unless the visitor acts.
+  function go() {
+    var q = $('q');
+    if (!String(q.value || '').trim()) { q.focus(); return; }
+    renderResults(q.value);
+    var first = links()[0];
+    if (first) first.click(); else q.focus();
+  }
+
   function boot() {
-    $('q').addEventListener('input', function (e) { renderResults(e.target.value); });
+    var q = $('q');
+    q.addEventListener('input', function (e) { renderResults(e.target.value); });
+    q.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); go(); }
+      else if (e.key === 'ArrowDown') {
+        var first = links()[0];
+        if (first) { e.preventDefault(); first.focus(); }
+      }
+    });
+    // Arrow keys walk the results; Escape goes back to the search.
+    $('results').addEventListener('keydown', function (e) {
+      var all = links();
+      var i = all.indexOf(document.activeElement);
+      if (i === -1) return;
+      if (e.key === 'ArrowDown' && i < all.length - 1) { e.preventDefault(); all[i + 1].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); (i > 0 ? all[i - 1] : q).focus(); }
+      else if (e.key === 'Escape') { e.preventDefault(); q.focus(); }
+    });
+    var btn = $('qGo');
+    if (btn) btn.addEventListener('click', go);
   }
 
   if (document.readyState === 'loading') {

@@ -52,75 +52,294 @@
   "isPartOf":{"@id":"https://magicesim.store/en/#website"}}
 ]}
 </script>
-<link rel="stylesheet" href="/en/en.css?v=dfb808c8">
+<link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/en/en.css?v=c724577a">
+<link rel="stylesheet" href="/en/home.css?v=b1a33269">
 </head>
 <body>
-
-<header>
+<header class="site-header">
   <div class="wrap hdr">
-    <a class="brand" href="/en/"><img src="/assets/magic-esim-logo-header.png" alt=""><span>Magic eSIM</span></a>
-    <nav>
+    <a class="brand" href="/en/"><img src="/en/img/logo-1x.png" srcset="/en/img/logo-2x.png 2x, /en/img/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+    <nav class="nav" aria-label="Main">
       <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
+      <a href="/en/#how" data-i18n="nav.how">How it works</a>
+      <a href="/en/#compat" data-i18n="nav.compat">Device check</a>
       <a href="/en/guides/" data-i18n="nav.guides">Guides</a>
-      <a href="#how" data-i18n="nav.how">How it works</a>
-      <a href="#compat" data-i18n="nav.compat">Device check</a>
     </nav>
-    <!-- A plain link, not a redirect. The visitor chooses; nothing chooses for
-         them, so there is no loop to get into. -->
-    <a class="langsw" href="/" hreflang="ru" data-i18n="lang.switchToRu">Перейти на русскую версию</a>
+    <div class="hdr-actions">
+      <a class="langsw" href="/" hreflang="ru" lang="ru"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span data-i18n="lang.ru">Русский</span></a>
+      <a class="btn btn-sm hdr-cta" href="/en/#plans" data-i18n="nav.findPlan">Find a plan</a>
+      <details class="mnav">
+        <summary aria-label="Menu"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+        <nav class="mnav-panel" aria-label="Menu">
+      <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
+      <a href="/en/#how" data-i18n="nav.how">How it works</a>
+      <a href="/en/#compat" data-i18n="nav.compat">Device check</a>
+      <a href="/en/guides/" data-i18n="nav.guides">Guides</a>
+          <hr>
+          <a href="/" hreflang="ru" lang="ru" data-i18n="lang.ru">Русский</a>
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
-
-<main class="wrap">
-  <h1 data-i18n="site.tagline">Mobile data abroad, without roaming charges</h1>
-  <p class="lead" data-i18n="site.lead">Pick a destination, install an eSIM, land connected. No plastic SIM, no queue at the airport.</p>
-
-  <!-- Before the search, the prices and every button: the page must say that it
-       sells nothing yet BEFORE anything on it looks purchasable. Static markup,
-       so it is there without JavaScript too. -->
-  <div class="unavail notice" id="previewNotice" role="note">
-    <h2 data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</h2>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
     <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
-  </div>
+  </details>
+</div>
 
-  <section class="panel" id="plans">
-    <label for="q" data-i18n="site.chooseCountry">Where are you going?</label>
-    <input type="text" id="q" autocomplete="off" spellcheck="false"
-           data-i18n-attr="placeholder:site.searchPlaceholder" placeholder="Country or region">
-    <!-- Results are plain links to /en/esim/<slug>/, where the plans are. The
-         home reads no catalogue: the destination list is static. -->
-    <div class="results" id="results" hidden></div>
-    <p class="note"><a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a></p>
+<main class="home" id="main">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dot" aria-hidden="true"></span><span data-i18n="home.eyebrow">Travel eSIM for 190+ destinations</span></p>
+        <h1><span data-i18n="home.h1a">Mobile data abroad,</span> <span class="grad-text" data-i18n="home.h1b">without roaming charges</span></h1>
+        <p class="lead" data-i18n="site.lead">Pick a destination, install an eSIM, land connected. No plastic SIM, no queue at the airport.</p>
+
+        <!-- The search is the page's main call to action. Results are plain
+             links to /en/esim/<slug>/, where the plans are. The home reads no
+             catalogue: the destination list is static. -->
+        <div class="search-card" id="plans" role="search">
+          <label for="q" data-i18n="site.chooseCountry">Where are you going?</label>
+          <div class="search-row">
+            <div class="search-field">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <input type="text" id="q" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="results"
+                     data-i18n-attr="placeholder:home.searchPlaceholder" placeholder="Where are you going?">
+            </div>
+            <button type="button" class="btn" id="qGo" data-i18n="home.find">Find plans</button>
+          </div>
+          <div class="results" id="results" hidden></div>
+          <noscript><p class="note nojs-search">Search needs JavaScript. <a href="/en/esim/">Browse all destinations</a></p></noscript>
+        </div>
+
+        <div class="quick">
+          <span data-i18n="home.popularShort">Popular:</span>
+          <a href="/en/esim/thailand/"><img class="flag" src="/en/flags/th.svg" alt="" width="22" height="16">Thailand</a>
+          <a href="/en/esim/turkey/"><img class="flag" src="/en/flags/tr.svg" alt="" width="22" height="16">Türkiye</a>
+          <a href="/en/esim/japan/"><img class="flag" src="/en/flags/jp.svg" alt="" width="22" height="16">Japan</a>
+          <a href="/en/esim/usa/"><img class="flag" src="/en/flags/us.svg" alt="" width="22" height="16">United States</a>
+          <a href="/en/esim/vietnam/"><img class="flag" src="/en/flags/vn.svg" alt="" width="22" height="16">Vietnam</a>
+          <a href="/en/esim/france/"><img class="flag" src="/en/flags/fr.svg" alt="" width="22" height="16">France</a>
+        </div>
+
+        <ul class="facts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="home.fact1">Prices in US dollars</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="home.fact2">Install by QR code</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="home.fact3">Country, regional and daily plans</span></li>
+        </ul>
+      </div>
+
+      <!-- Decoration only: the Magic eSIM Data Pass — a travel pass for mobile
+           data, drawn in HTML/CSS/SVG. Every word on it is a fact about the
+           product (logo, eSIM, 190+ destinations, install by QR code); no
+           flight, gate, seat or time. The QR pattern is not a code. Hidden from
+           assistive technology, and not shown below 960 px. -->
+      <div class="hero-art" aria-hidden="true">
+        <div class="dp-stage">
+          <div class="dp-glow"></div>
+          <div class="dp-back">
+            <svg class="dp-back-art" viewBox="0 0 260 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <g fill="none" stroke="#fff" stroke-linecap="round">
+                <circle cx="250" cy="40" r="70" stroke-opacity=".14" stroke-dasharray="1 6" stroke-width="2"/>
+                <circle cx="250" cy="40" r="120" stroke-opacity=".11" stroke-dasharray="1 6" stroke-width="2"/>
+                <circle cx="250" cy="40" r="170" stroke-opacity=".08" stroke-dasharray="1 6" stroke-width="2"/>
+                <circle cx="250" cy="40" r="220" stroke-opacity=".06" stroke-dasharray="1 6" stroke-width="2"/>
+                <path d="M-10 300 C70 240 150 250 270 170" stroke-opacity=".18" stroke-width="1.4" stroke-dasharray="2 6"/>
+              </g>
+            </svg>
+            <span class="dp-back-label">eSIM · DATA PASS</span>
+          </div>
+          <div class="dp-mid"></div>
+          <div class="dp-wrap">
+            <div class="dp-pass">
+              <div class="dp-main">
+            <svg class="dp-guilloche" viewBox="0 0 262 232" preserveAspectRatio="none"><g fill="none" stroke="#3866d9" stroke-opacity=".07"><path d="M-10 40c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 56c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 72c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 88c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/><path d="M-10 104c40-24 80 24 120 0s80 24 120 0 80 24 120 0"/></g></svg>
+                <div class="dp-row">
+                  <img class="dp-logo" src="/assets/magic-esim-logo-header.png" alt="" width="185" height="140">
+                  <span class="dp-chip"><i></i>eSIM</span>
+                </div>
+                <div class="dp-title">Data pass</div>
+                <div class="dp-fields">
+                  <div><span>Coverage</span><b>190+ destinations</b></div>
+                  <div class="dp-flags"><img src="/en/flags/jp.svg" alt=""><img src="/en/flags/it.svg" alt=""><img src="/en/flags/th.svg" alt=""><img src="/en/flags/us.svg" alt=""></div>
+                  <div class="dp-type"><span>Type</span><b>eSIM</b></div>
+                </div>
+              </div>
+              <div class="dp-tear" aria-hidden="true"></div>
+              <div class="dp-stub">
+                <div class="dp-qr">
+                  <svg viewBox="-1 -1 23 23" aria-hidden="true"><defs><linearGradient id="dpq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a16c7"/><stop offset="1" stop-color="#0aa3c2"/></linearGradient></defs><rect x="0" y="0" width="7" height="7" rx="1.8" fill="#18203a"/><rect x="1" y="1" width="5" height="5" rx="1.2" fill="#fff"/><rect x="2" y="2" width="3" height="3" rx=".9" fill="url(#dpq)"/><rect x="14" y="0" width="7" height="7" rx="1.8" fill="#18203a"/><rect x="15" y="1" width="5" height="5" rx="1.2" fill="#fff"/><rect x="16" y="2" width="3" height="3" rx=".9" fill="url(#dpq)"/><rect x="0" y="14" width="7" height="7" rx="1.8" fill="#18203a"/><rect x="1" y="15" width="5" height="5" rx="1.2" fill="#fff"/><rect x="2" y="16" width="3" height="3" rx=".9" fill="url(#dpq)"/><g fill="#18203a"><rect x="8.1" y="0.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="1.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="2.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="2.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="2.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="3.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="4.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="5.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="5.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="5.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="6.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="7.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="1.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="2.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="5.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="7.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="8.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="4.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="5.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="6.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="9.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="2.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="6.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="10.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="4.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="7.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="11.1" width=".8" height=".8" rx=".26"/><rect x="0.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="3.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="4.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="6.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="7.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="11.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="12.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="13.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="14.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="14.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="14.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="15.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="15.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="15.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="16.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="17.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="12.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="18.1" width=".8" height=".8" rx=".26"/><rect x="8.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="9.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="16.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="18.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="19.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="19.1" width=".8" height=".8" rx=".26"/><rect x="10.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="13.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="14.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="15.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="17.1" y="20.1" width=".8" height=".8" rx=".26"/><rect x="20.1" y="20.1" width=".8" height=".8" rx=".26"/></g></svg>
+                  <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+                </div>
+                <div class="dp-stub-text"><b>Install by<br>QR code</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="how" class="panel">
-    <h2 data-i18n="how.title">How it works</h2>
-    <ol class="note">
-      <li data-i18n="how.step1">Pick your destination and a data plan.</li>
-      <li data-i18n="how.step2">Check your phone supports eSIM and is not carrier-locked.</li>
-      <li data-i18n="how.step3">Install the eSIM profile before you fly.</li>
-      <li data-i18n="how.step4">Land, switch it on, and you are online.</li>
-    </ol>
+  <section class="section" id="popular" aria-labelledby="popularTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker" data-i18n="nav.destinations">Destinations</span>
+        <h2 id="popularTitle" data-i18n="home.popularTitle">Popular destinations</h2>
+        <p data-i18n="home.popularLead">Choose a country to see its plans, with prices in US dollars.</p>
+      </div>
+      <div class="dest-grid">
+        <a class="dest-tile" href="/en/esim/thailand/"><img class="flag" src="/en/flags/th.svg" alt="" width="44" height="33"><span><b>Thailand</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="dest-tile" href="/en/esim/turkey/"><img class="flag" src="/en/flags/tr.svg" alt="" width="44" height="33"><span><b>Türkiye</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="dest-tile" href="/en/esim/uae/"><img class="flag" src="/en/flags/ae.svg" alt="" width="44" height="33"><span><b>United Arab Emirates</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="dest-tile" href="/en/esim/japan/"><img class="flag" src="/en/flags/jp.svg" alt="" width="44" height="33"><span><b>Japan</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="dest-tile" href="/en/esim/usa/"><img class="flag" src="/en/flags/us.svg" alt="" width="44" height="33"><span><b>United States</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="dest-tile" href="/en/esim/italy/"><img class="flag" src="/en/flags/it.svg" alt="" width="44" height="33"><span><b>Italy</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="dest-tile" href="/en/esim/spain/"><img class="flag" src="/en/flags/es.svg" alt="" width="44" height="33"><span><b>Spain</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="dest-tile" href="/en/esim/united-kingdom/"><img class="flag" src="/en/flags/gb.svg" alt="" width="44" height="33"><span><b>United Kingdom</b><span data-i18n="home.viewPlans">View plans</span></span><span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div class="dest-more"><a class="btn btn-ghost" href="/en/esim/" data-i18n="site.allDestinations">All destinations</a></div>
+    </div>
   </section>
 
-  <section id="compat">
-    <details>
-      <summary data-i18n="site.compatTitle">Will my phone work?</summary>
-      <p class="note" data-i18n="site.compatBody">Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.</p>
-      <p><a class="note" href="/en/guides/compatibility/" data-i18n="site.compatGuide">How to check your phone</a>
-         · <a class="note" href="/en/guides/iphone/" data-i18n="site.compatCheck">iPhone setup</a>
-         · <a class="note" href="/en/guides/android/" data-i18n="site.compatAndroid">Android setup</a></p>
-    </details>
+  <section class="section section-alt" id="how" aria-labelledby="howTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker" data-i18n="home.howKicker">Getting started</span>
+        <h2 id="howTitle" data-i18n="how.title">How it works</h2>
+      </div>
+      <ol class="steps-grid">
+        <li class="step"><span class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span><span class="step-n">01</span><p data-i18n="how.step1">Pick your destination and a data plan.</p></li>
+        <li class="step"><span class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M9.5 9.5l2 2 3.5-3.5"/></svg></span><span class="step-n">02</span><p data-i18n="how.step2">Check your phone supports eSIM and is not carrier-locked.</p></li>
+        <li class="step"><span class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM18 14h2.5M14 18v2.5"/></svg></span><span class="step-n">03</span><p data-i18n="how.step3">Install the eSIM profile before you fly.</p></li>
+        <li class="step"><span class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13.5l8-2 5.5-6a1.8 1.8 0 0 1 2.6 2.5l-5.6 5.8-2 8-2.2-.6-.6-5.6-5.1-.8z"/></svg></span><span class="step-n">04</span><p data-i18n="how.step4">Land, switch it on, and you are online.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="plan-types" aria-labelledby="typesTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker" data-i18n="home.typesKicker">Plans</span>
+        <h2 id="typesTitle" data-i18n="home.typesTitle">Three kinds of plans</h2>
+        <p data-i18n="home.typesLead">Every destination page groups its plans the same way, so you can compare like with like.</p>
+      </div>
+      <div class="types">
+        <div class="type">
+          <span class="type-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span>
+          <h3 data-i18n="home.typeLocalTitle">Plans for one country</h3>
+          <p data-i18n="home.typeLocalBody">A set amount of data for one country, valid for a set number of days.</p>
+        </div>
+        <div class="type">
+          <span class="type-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></span>
+          <h3 data-i18n="home.typeRegionalTitle">Regional plans</h3>
+          <p data-i18n="home.typeRegionalBody">One plan for several countries, for a trip that crosses borders. Each plan lists the countries it covers.</p>
+        </div>
+        <div class="type">
+          <span class="type-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+          <h3 data-i18n="home.typeDailyTitle">Data every day</h3>
+          <p data-i18n="home.typeDailyBody">A data allowance for each day of the trip, rather than one amount for the whole stay.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="compat" aria-labelledby="compatTitle">
+    <div class="wrap">
+      <div class="compat">
+        <div>
+          <span class="kicker" data-i18n="nav.compat">Device check</span>
+          <h2 id="compatTitle" data-i18n="site.compatTitle">Will my phone work?</h2>
+          <p data-i18n="site.compatBody">Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.</p>
+        </div>
+        <ul class="compat-list">
+          <li><a href="/en/guides/compatibility/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M9.5 10l2 2 3.5-3.5"/></svg><span data-i18n="site.compatGuide">How to check your phone</span></a></li>
+          <li><a href="/en/guides/iphone/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span data-i18n="site.compatCheck">iPhone setup</span></a></li>
+          <li><a href="/en/guides/android/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M6.5 6h11M6.5 18h11"/></svg><span data-i18n="site.compatAndroid">Android setup</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="guides" aria-labelledby="guidesTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker" data-i18n="nav.guides">Guides</span>
+        <h2 id="guidesTitle" data-i18n="home.guidesTitle">Set up and fix your eSIM</h2>
+        <p data-i18n="home.guidesLead">Install, check and fix a travel eSIM — step by step.</p>
+      </div>
+      <div class="guide-grid">
+        <a class="guide-card" href="/en/guides/iphone/"><b>How to install an eSIM on iPhone</b><span>By QR code or by hand, and what to switch on when you land.</span><span class="more" aria-hidden="true">Read the guide →</span></a>
+        <a class="guide-card" href="/en/guides/android/"><b>How to install an eSIM on Android</b><span>Where the eSIM setting usually is, by brand, and the first steps abroad.</span><span class="more" aria-hidden="true">Read the guide →</span></a>
+        <a class="guide-card" href="/en/guides/compatibility/"><b>Does your phone support eSIM?</b><span>A one-minute check before you choose a plan.</span><span class="more" aria-hidden="true">Read the guide →</span></a>
+        <a class="guide-card" href="/en/guides/activation/"><b>When to install and turn on your eSIM</b><span>Installing the profile and starting the plan are different events.</span><span class="more" aria-hidden="true">Read the guide →</span></a>
+        <a class="guide-card" href="/en/guides/troubleshooting/"><b>eSIM not working — what to check</b><span>A checklist, in the order that fixes most problems.</span><span class="more" aria-hidden="true">Read the guide →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="support" aria-labelledby="supportTitle">
+    <div class="wrap">
+      <div class="support-band">
+        <div>
+          <h2 id="supportTitle" data-i18n="home.supportTitle">Questions before you travel?</h2>
+          <p data-i18n="home.supportBody">Write to our support team by email.</p>
+        </div>
+        <a class="btn" href="mailto:support@magicesim.store">support@magicesim.store</a>
+      </div>
+    </div>
   </section>
 </main>
 
-<footer class="wrap">
-  <p>© Magic eSIM · <a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
-  <p class="support">Support: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/en/"><img src="/en/img/logo-1x.png" srcset="/en/img/logo-2x.png 2x, /en/img/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <p data-i18n="footer.about">Travel eSIM data plans for 190+ destinations, with prices in US dollars.</p>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="nav.destinations">Destinations</h2>
+        <ul>
+          <li><a href="/en/esim/thailand/">Thailand</a></li>
+          <li><a href="/en/esim/turkey/">Türkiye</a></li>
+          <li><a href="/en/esim/uae/">United Arab Emirates</a></li>
+          <li><a href="/en/esim/japan/">Japan</a></li>
+          <li><a href="/en/esim/usa/">United States</a></li>
+          <li><a href="/en/esim/italy/">Italy</a></li>
+          <li><a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="nav.guides">Guides</h2>
+        <ul>
+          <li><a href="/en/guides/iphone/">How to install an eSIM on iPhone</a></li>
+          <li><a href="/en/guides/android/">How to install an eSIM on Android</a></li>
+          <li><a href="/en/guides/compatibility/">Does your phone support eSIM?</a></li>
+          <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a></li>
+          <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="footer.help">Help</h2>
+        <p class="support">Support: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/en/#how" data-i18n="nav.how">How it works</a></li>
+          <li><a href="/en/#compat" data-i18n="nav.compat">Device check</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
+    </div>
+  </div>
 </footer>
 
 <script src="/en/destinations.js?v=14569bae"></script>
-<script src="/assets/site-i18n.js?v=cf9deae4"></script>
-<script src="/en/app.js?v=ad349dce"></script>
+<script src="/assets/site-i18n.js?v=a442c466"></script>
+<script src="/en/app.js?v=73d35da3"></script>
 </body>
 </html>
