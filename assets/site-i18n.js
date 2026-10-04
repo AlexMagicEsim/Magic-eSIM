@@ -169,6 +169,7 @@
       'quote.loading': 'Getting the price…',
       'quote.heldFor': 'Price held for',
       'quote.expired': 'This price has expired. Get a new price to continue.',
+      'quote.fixed': 'The price is fixed:',
       'quote.changed': 'The price has been updated since the list was loaded.',
       'quote.unavailable': 'The price is temporarily unavailable. Please try again later.',
       'quote.busy': 'Too many requests. Please wait a minute and try again.',

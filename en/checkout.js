@@ -152,6 +152,25 @@
       $('coStep3').hidden = step !== 3;
     }
 
+    // One-off announcements for screen readers (price fixed, price expired).
+    // The visible countdown is NOT a live region: it changes every second, and
+    // a live region there was read out every second.
+    function announce(text) {
+      var live = $('coLive');
+      if (!live) return;
+      live.textContent = '';
+      live.textContent = text;
+    }
+
+    // When a step change hides the element that had focus, put focus on the
+    // new step's anchor instead of letting it fall to <body>. Never steals
+    // focus from an element that is still on screen (someone typing an email).
+    function keepFocus(target) {
+      var a = doc.activeElement;
+      var lost = !a || a === doc.body || !box.contains(a) || a.offsetParent === null;
+      if (lost && target && typeof target.focus === 'function') target.focus();
+    }
+
     function say(id, key, extra) {
       var el = $(id);
       el.textContent = key ? I18N.t(key) + (extra ? ' ' + extra : '') : '';
@@ -194,12 +213,21 @@
       $('coListed').textContent = l ? PLANS.money(l) : '—';
     }
 
+    // Throws away the held price AND any quote still in flight: a response to
+    // an earlier request (another duration, say) must never be shown as the
+    // price of what is selected now. `seq` numbers the requests; a response
+    // whose number is not the current one is dropped.
     function invalidateQuote() {
       stopTimer();
-      if (st) st.quote = null;
+      if (st) { st.quote = null; st.seq = (st.seq || 0) + 1; st.inFlight = false; }
+      $('coQuote').disabled = false;
+      $('coRequote').disabled = false;
       $('coTotal').textContent = '—';
       say('coExpiry', null);
+      say('coQuoteStatus', null);
+      say('coPriceChanged', null);
       show(1);
+      keepFocus($('coQuote'));
     }
 
     function tick() {
@@ -216,6 +244,8 @@
         $('coReview').disabled = true;
         st.step = 2;
         show(2);
+        announce(I18N.t('quote.expired'));
+        keepFocus($('coRequote'));
         return;
       }
       say('coExpiry', 'quote.heldFor', clock(left));
@@ -230,8 +260,13 @@
       btns.forEach(function (b) { b.disabled = true; });
       say('coQuoteStatus', 'quote.loading');
       var mine = st;
+      st.seq = (st.seq || 0) + 1;
+      var ask = st.seq;
       requestQuote(net, st.plan.package_id, days, now).then(function (r) {
-        if (st !== mine) return;            // the window was closed or reopened meanwhile
+        // The window was closed or reopened, the duration was changed, or a
+        // newer request was made meanwhile: this answer is for something that
+        // is no longer on screen. Drop it.
+        if (st !== mine || mine.seq !== ask || (mine.perDay && chosenDays() !== days)) return;
         mine.inFlight = false;
         btns.forEach(function (b) { b.disabled = false; });
         if (!r.ok) { say('coQuoteStatus', REASON_KEY[r.reason] || 'quote.unavailable'); return; }
@@ -244,6 +279,8 @@
         $('coReview').disabled = false;
         mine.step = 2;
         show(2);
+        announce(I18N.t('quote.fixed') + ' ' + PLANS.money(r.quote.amount) + '.');
+        keepFocus($('coTotal'));
         tick();
         stopTimer();
         timer = setInterval(tick, 1000);
@@ -263,6 +300,7 @@
       $('rvTotal').textContent = PLANS.money(st.quote.amount);
       st.step = 3;
       show(3);
+      keepFocus($('coFinal'));
     }
 
     // Keyboard and screen-reader users: focus goes INTO the dialog when it
@@ -302,7 +340,7 @@
     $('coQuote').addEventListener('click', getQuote);
     $('coRequote').addEventListener('click', getQuote);
     $('coReview').addEventListener('click', review);
-    $('coBack').addEventListener('click', function () { if (st) { st.step = 2; show(2); } });
+    $('coBack').addEventListener('click', function () { if (st) { st.step = 2; show(2); keepFocus($('coTotal')); } });
     // The payment button exists to say what is missing. It is disabled in the
     // markup and nothing here ever enables it or listens to it.
 

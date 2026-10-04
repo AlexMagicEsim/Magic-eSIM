@@ -155,14 +155,15 @@ const MODAL = `<div class="overlay" id="checkout" hidden>
       <select id="coDays"></select>
     </div>
     <p class="note" id="coQuoteStatus" role="status" hidden></p>
+    <p class="sr-only" id="coLive" role="status" aria-live="polite"></p>
     <div id="coStep1">
       <div class="rows"><div><span data-i18n="checkout.listed">Listed price</span><b id="coListed">—</b></div></div>
       <p class="note" data-i18n="quote.explain">The exact price is fixed by our server and held for 30 minutes.</p>
       <button type="button" class="btn" id="coQuote" data-i18n="quote.get">Get the exact price</button>
     </div>
     <div id="coStep2" hidden>
-      <div class="rows"><div class="total"><span data-i18n="checkout.price">Price</span><b id="coTotal">—</b></div></div>
-      <p class="note" id="coExpiry" role="status" hidden></p>
+      <div class="rows"><div class="total"><span data-i18n="checkout.price">Price</span><b id="coTotal" tabindex="-1">—</b></div></div>
+      <p class="note" id="coExpiry" hidden></p>
       <p class="note" id="coPriceChanged" hidden></p>
       <button type="button" class="btn btn-ghost" id="coRequote" data-i18n="quote.again" hidden>Get a new price</button>
       <div class="field">
@@ -182,7 +183,7 @@ const MODAL = `<div class="overlay" id="checkout" hidden>
         <div><span data-i18n="checkout.emailShort">Email</span><b id="rvEmail">—</b></div>
         <div class="total"><span data-i18n="checkout.price">Price</span><b id="rvTotal">—</b></div>
       </div>
-      <div class="unavail" id="coFinal" role="status">
+      <div class="unavail" id="coFinal" role="status" tabindex="-1">
         <h4 data-i18n="pay.finalTitle">Online payment is not available yet</h4>
         <p data-i18n="pay.finalBody">We can't take payment yet, so nothing has been charged, no order has been created and no eSIM will be sent. Your email has not been sent or saved.</p>
       </div>
@@ -231,6 +232,10 @@ ${header(`/esim/${c.slug}/`)}
 ${NOTICE}
 
   <p class="note" id="status" role="status" aria-live="polite" data-i18n="site.loading">Loading plans…</p>
+  <noscript>
+    <link rel="stylesheet" href="/en/noscript.css">
+    <p class="note">Plans and prices on this page need JavaScript. Nothing can be bought here yet.</p>
+  </noscript>
   <button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>Try again</button>
 
 ${block('daily', 'Data every day', 'A data allowance for each day of the trip.')}

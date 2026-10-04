@@ -10,6 +10,7 @@
     "test:e2e:report": "playwright show-report"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0"
+    "@playwright/test": "^1.55.0",
+    "axe-core": "4.13.0"
   }
 }
