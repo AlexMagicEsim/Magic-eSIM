@@ -80,28 +80,72 @@ const header = (ruHref) => `<header>
 </header>`;
 
 const NOTICE = `  <div class="unavail notice" id="previewNotice" role="note">
-    <h2 data-i18n="preview.noticeTitle">Checkout isn't open yet — plans can't be bought here yet</h2>
-    <p data-i18n="preview.noticeBody">You can browse destinations, plans and prices in US dollars, but international payments aren't available yet: checkout is closed and nothing can be ordered or charged on this page.</p>
+    <h2 data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</h2>
+    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
   </div>`;
 
 const FOOTER = `<footer class="wrap">
   <p>© Magic eSIM · <a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a> · <a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
 </footer>`;
 
+/* The checkout window: plan → price fixed by the server (a GLOBAL quote) →
+ * review. Each fact about the plan is shown once: coverage, data, validity
+ * (the card's own title IS the data line, so a separate «plan» row only
+ * repeated it). The refusal is the first thing in it, and the payment button is
+ * DISABLED in the markup — en/checkout.js never enables it. */
 const MODAL = `<div class="overlay" id="checkout" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="coTitle">
     <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="Close">×</button>
-    <h3 id="coTitle" data-i18n="preview.title">Plan details</h3>
+    <h3 id="coTitle" data-i18n="checkout.title">Checkout</h3>
     <div class="unavail" id="coUnavail">
-      <h4 data-i18n="pay.unavailableTitle">Not available to buy yet</h4>
-      <p data-i18n="pay.unavailableBody">International payments aren't open yet, so this plan can't be ordered here. Nothing is charged and no order is created.</p>
+      <h4 data-i18n="pay.unavailableTitle">Online payment is not available yet</h4>
+      <p data-i18n="pay.unavailableBody">You can check a plan and get its exact price, but payment can't be taken yet. Nothing is charged, and no order or eSIM is created.</p>
     </div>
     <div class="rows">
-      <div><span data-i18n="checkout.plan">eSIM plan</span><b id="coPlan">—</b></div>
       <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
       <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
       <div><span data-i18n="checkout.term">Validity</span><b id="coTerm">—</b></div>
-      <div class="total"><span data-i18n="preview.price">Price</span><b id="coTotal">—</b></div>
+    </div>
+    <!-- The duration stays in view on every step: changing it drops the held
+         price and starts again from step 1. -->
+    <div class="field" id="coTermPick" hidden>
+      <label for="coDays" data-i18n="checkout.duration">Duration</label>
+      <select id="coDays"></select>
+    </div>
+    <p class="note" id="coQuoteStatus" role="status" hidden></p>
+    <div id="coStep1">
+      <div class="rows"><div><span data-i18n="checkout.listed">Listed price</span><b id="coListed">—</b></div></div>
+      <p class="note" data-i18n="quote.explain">The exact price is fixed by our server and held for 30 minutes.</p>
+      <button type="button" class="btn" id="coQuote" data-i18n="quote.get">Get the exact price</button>
+    </div>
+    <div id="coStep2" hidden>
+      <div class="rows"><div class="total"><span data-i18n="checkout.price">Price</span><b id="coTotal">—</b></div></div>
+      <p class="note" id="coExpiry" role="status" hidden></p>
+      <p class="note" id="coPriceChanged" hidden></p>
+      <button type="button" class="btn btn-ghost" id="coRequote" data-i18n="quote.again" hidden>Get a new price</button>
+      <div class="field">
+        <label for="coEmail" data-i18n="checkout.email">Email for your eSIM</label>
+        <input type="email" id="coEmail" autocomplete="email" inputmode="email" spellcheck="false" maxlength="254">
+        <p class="note" data-i18n="checkout.emailNote">Not sent or saved anywhere yet — payment isn't available.</p>
+      </div>
+      <label class="check"><input type="checkbox" id="coDevice"> <span data-i18n="checkout.device">My phone supports eSIM and isn't carrier-locked</span></label>
+      <p class="note err" id="coFormError" role="alert" hidden></p>
+      <button type="button" class="btn" id="coReview" data-i18n="checkout.review">Review</button>
+    </div>
+    <div id="coStep3" hidden>
+      <div class="rows">
+        <div><span data-i18n="checkout.coverage">Coverage</span><b id="rvCoverage">—</b></div>
+        <div><span data-i18n="checkout.data">Data</span><b id="rvData">—</b></div>
+        <div><span data-i18n="checkout.term">Validity</span><b id="rvTerm">—</b></div>
+        <div><span data-i18n="checkout.emailShort">Email</span><b id="rvEmail">—</b></div>
+        <div class="total"><span data-i18n="checkout.price">Price</span><b id="rvTotal">—</b></div>
+      </div>
+      <div class="unavail" id="coFinal" role="status">
+        <h4 data-i18n="pay.finalTitle">Online payment is not available yet</h4>
+        <p data-i18n="pay.finalBody">We can't take payment yet, so nothing has been charged, no order has been created and no eSIM will be sent. Your email has not been sent or saved.</p>
+      </div>
+      <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">Payment not available yet</button>
+      <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">Back</button>
     </div>
   </div>
 </div>`;
@@ -122,7 +166,7 @@ export function countryPage(c) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title}</title>
-<meta name="description" content="eSIM data plans that cover ${name}, with prices in US dollars. Checkout is not open yet.">
+<meta name="description" content="eSIM data plans that cover ${name}, with prices in US dollars. Online payment is not available yet.">
 <link rel="canonical" href="${url}">
 ${ROBOTS}
 <meta property="og:type" content="website">
@@ -164,6 +208,7 @@ ${FOOTER}
 <script src="/assets/country-names-en.js"></script>
 <script src="/assets/site-i18n.js"></script>
 <script src="/en/plans.js"></script>
+<script src="/en/checkout.js"></script>
 <script src="/en/country.js"></script>
 </body>
 </html>
@@ -180,7 +225,7 @@ export function hubPage(list) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>eSIM destinations — Magic eSIM</title>
-<meta name="description" content="Every destination Magic eSIM has data plans for, with prices in US dollars. Checkout is not open yet.">
+<meta name="description" content="Every destination Magic eSIM has data plans for, with prices in US dollars. Online payment is not available yet.">
 <link rel="canonical" href="${url}">
 ${ROBOTS}
 ${HEAD_ICONS}

@@ -3,7 +3,7 @@
  * ---------------------------------------------------------------------
  * One module for every English country page (/en/esim/<slug>/), so no two
  * pages can disagree about what a plan costs, how it is labelled, or which
- * block a country shows it in. Pure functions plus two DOM builders; it is
+ * block a country shows it in. Pure functions plus one DOM builder; it is
  * also require()-able, so the unit tests run the same code the browser does.
  *
  * It renders, it never fetches: the data is the GLOBAL catalogue
@@ -251,32 +251,10 @@
       return el;
     }
 
-    /**
-     * The plan window: a preview that shows the plan, says it cannot be bought
-     * yet, and asks for nothing. Bound once per page.
-     */
-    function bindPreview(doc) {
-      var $ = function (id) { return doc.getElementById(id); };
-      var box = $('checkout');
-      if (!box) return function () {};
-      var close = function () { box.hidden = true; };
-      $('coClose').addEventListener('click', close);
-      box.addEventListener('click', function (e) { if (e.target === box) close(); });
-      doc.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) close(); });
-      return function open(p, focusIso) {
-        $('coPlan').textContent = dataText(p) || I18N.t('checkout.plan');
-        $('coCoverage').textContent = coverageText(p, focusIso);
-        $('coData').textContent = dataText(p);
-        $('coTerm').textContent = termText(p);
-        $('coTotal').textContent = priceText(p);
-        box.hidden = false;
-      };
-    }
-
     return {
       ISO2: ISO2, priceOf: priceOf, money: money, priceText: priceText, dataText: dataText, termText: termText,
       coverageCodes: coverageCodes, coverageText: coverageText, isRestricted: isRestricted, isWorldwide: isWorldwide,
-      classify: classify, sortByPrice: sortByPrice, card: card, bindPreview: bindPreview,
+      classify: classify, sortByPrice: sortByPrice, card: card,
     };
   }
 
