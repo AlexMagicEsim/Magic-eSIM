@@ -27,6 +27,8 @@ export const FIXED_ALLOWED = Object.freeze([
   'seo/catalogue-countries.json', // the snapshot every page generator reads
   'seo/fact-sheets.json',         // what the editorial gates check a claim against
   'seo/sitemap-lastmod.json',     // per-page content hashes behind <lastmod>
+  'en/esim/index.html',           // the English destination list, from build-en-pages.mjs
+  'en/destinations.js',           // the English home's search list, from build-en-pages.mjs
 ]);
 
 /**
@@ -41,6 +43,7 @@ export function allowedPaths(countrySlugs) {
   for (const slug of countrySlugs || []) {
     if (typeof slug !== 'string' || !slug) continue;
     out.add(`esim/${slug}/index.html`);
+    out.add(`en/esim/${slug}/index.html`);   // its English twin, from build-en-pages.mjs
   }
   return out;
 }

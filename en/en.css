@@ -1,6 +1,6 @@
 /* /en/ — the shared stylesheet of the English (GLOBAL) storefront.
- * One file for every English page (home now; the country pages, guides and
- * legal pages later), so the GLOBAL storefront has one look and the Russian
+ * One file for every English page (the home, the destination list and every
+ * country page now; guides and legal pages later), so the GLOBAL storefront has one look and the Russian
  * site's CSS is never touched. Versioned by seo/stamp-assets.mjs like every
  * other asset. */
 :root{--bg:#070910;--card:#10141f;--text:#eef1f7;--muted:#98a2b8;--border:rgba(255,255,255,.1);--accent:#6c8cff}
@@ -24,6 +24,7 @@ input[type=text],input[type=email]{width:100%;padding:12px;border:1px solid var(
 .results{margin-top:12px;display:grid;gap:8px;max-height:280px;overflow:auto}
 .res{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#0b0e17;cursor:pointer;text-align:left;color:inherit;font:inherit;width:100%}
 .res:hover{border-color:var(--accent)}
+a.res{text-decoration:none}
 .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .card{border:1px solid var(--border);border-radius:14px;background:#0b0e17;padding:14px;display:flex;flex-direction:column;gap:8px}
 .card h3{margin:0;font-size:16px}
@@ -50,4 +51,14 @@ input[type=text],input[type=email]{width:100%;padding:12px;border:1px solid var(
 .modal .unavail{margin:0 0 14px}
 details{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#0b0e17;margin-top:10px}
 summary{cursor:pointer;font-weight:600}
+.crumbs{font-size:13px;color:var(--muted);margin:22px 0 0}
+.crumbs a{color:var(--muted)}
+.block{margin:0 0 26px}
+.block h2{font-size:20px;margin:0 0 4px;display:flex;gap:10px;align-items:baseline}
+.block h2 .count{color:var(--muted);font-size:14px;font-weight:400}
+.block>.note{margin:0 0 12px}
+.dest{columns:3 200px;gap:20px;padding:0;list-style:none}
+.dest li{break-inside:avoid;padding:3px 0}
+.dest a{text-decoration:none}
+.dest a:hover{text-decoration:underline}
 footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;color:var(--muted);font-size:13px}

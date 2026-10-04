@@ -474,7 +474,7 @@ test('H: git status is parsed for the path that exists on disk', () => {
 
 test('H: the workflow checks the paths before it looks at anything else', () => {
   assert.ok(WF.indexOf('- name: Только ожидаемые файлы') < WF.indexOf('- name: Есть ли что публиковать'));
-  assert.match(WF, /git add -- esim seo\/catalogue-countries\.json seo\/fact-sheets\.json seo\/sitemap-lastmod\.json sitemap\.xml/);
+  assert.match(WF, /git add -- esim en\/esim en\/destinations\.js seo\/catalogue-countries\.json seo\/fact-sheets\.json seo\/sitemap-lastmod\.json sitemap\.xml/);
   assert.doesNotMatch(WF_CODE, /git add \.|git add -A/);
 });
 

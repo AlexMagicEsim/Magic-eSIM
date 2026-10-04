@@ -113,6 +113,8 @@
       'site.searchPlaceholder': 'Country or region',
       'site.plansFor': 'Plans for',
       'site.noPlans': 'No plans for this destination yet.',
+      'site.noDestination': 'No destination matches that name.',
+      'site.allDestinations': 'All destinations',
       'site.unavailable': 'Temporarily unavailable',
       'site.loading': 'Loading plans…',
       'site.loadFailed': 'Could not load the plans. Please try again.',

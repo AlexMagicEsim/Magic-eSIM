@@ -154,7 +154,7 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: |
           set -euo pipefail
-          tree() { find esim seo sitemap.xml -type f \( -name '*.html' -o -name '*.json' -o -name '*.xml' \) \
+          tree() { find esim en/esim en/destinations.js seo sitemap.xml -type f \( -name '*.html' -o -name '*.json' -o -name '*.xml' -o -name '*.js' \) \
                    | sort | xargs sha256sum | sha256sum | cut -d' ' -f1; }
           first="$(tree)"
           node seo/build-all.mjs > /dev/null
@@ -292,7 +292,7 @@ jobs:
 
           git checkout -B "$BRANCH"
           # Never `git add .`: only the paths the allowlist just vouched for.
-          git add -- esim seo/catalogue-countries.json seo/fact-sheets.json seo/sitemap-lastmod.json sitemap.xml
+          git add -- esim en/esim en/destinations.js seo/catalogue-countries.json seo/fact-sheets.json seo/sitemap-lastmod.json sitemap.xml
 
           # WOULD THIS COMMIT SAY ANYTHING NEW?
           #
