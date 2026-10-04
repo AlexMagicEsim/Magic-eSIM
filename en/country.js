@@ -41,8 +41,11 @@
   function fill(block, gridId, countId, list, open) {
     var grid = $(gridId);
     grid.textContent = '';
+    // Look-alikes are told apart within ONE block, never across blocks: a local
+    // plan and a regional one are not alternatives to each other.
+    var distinct = PLANS.distinguishers(list);
     list.forEach(function (p) {
-      grid.appendChild(PLANS.card(p, { focus: iso, onOpen: open }));
+      grid.appendChild(PLANS.card(p, { focus: iso, onOpen: open, chips: distinct[String(p.package_id || '')] }));
     });
     $(countId).textContent = list.length ? String(list.length) : '';
     $(block).hidden = !list.length;
@@ -58,9 +61,20 @@
       ['dailyBlock', 'localBlock', 'regionalBlock'].forEach(function (id) { $(id).hidden = true; });
       $('status').textContent = I18N.t('site.pricesUnavailable');
       $('status').hidden = false;
+      // A visitor may ask again — never the page on its own: every load is a
+      // 1.5 MB read counted against the 20/min/IP budget.
+      $('retry').hidden = false;
+      $('retry').disabled = false;
     };
 
-    window.MagicGlobalCatalog.load().then(function (res) {
+    var load = function () {
+      $('retry').hidden = true;
+      $('status').textContent = I18N.t('site.loading');
+      $('status').hidden = false;
+      return window.MagicGlobalCatalog.load().then(render, failed);
+    };
+
+    var render = function (res) {
       var list = (res && res.ok && res.packages) || [];
       if (!list.length) return failed();
 
@@ -80,7 +94,13 @@
       $('status').hidden = true;
       $('currencyNote').hidden = false;
       return undefined;
-    }, failed);
+    };
+
+    $('retry').addEventListener('click', function () {
+      $('retry').disabled = true;
+      load();
+    });
+    load();
   }
 
   if (document.readyState === 'loading') {

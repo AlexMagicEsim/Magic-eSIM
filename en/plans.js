@@ -210,7 +210,82 @@
       return NAMES.of(codes[0]) + ' + ' + rest + ' ' + word;
     }
 
-    /** One plan card. `onOpen(p)` opens the preview window. */
+    /* ------------------------------------------------------------------
+     * What tells two look-alike cards apart.
+     *
+     * Ported from the Russian storefront's MagicCatalog.distinguishers()
+     * (assets/catalog-loader.js), which English pages may not load: it also
+     * carries the rouble fallback. Same rule, English labels. Within ONE block,
+     * cards that share coverage, allowance and term are siblings; for each
+     * sibling group only the attributes that VARY are returned — the exit
+     * country of the traffic (`ip_export`), the operators (`networks`) and the
+     * best network generation (`network_technologies`). Nothing varies → no
+     * chip. Unknown → no chip: silence beats a placeholder.
+     * ---------------------------------------------------------------- */
+    var GENERATIONS = ['5G', '4G', '3G', '2G'];
+    // eSIM Access writes «UK»; the name map is keyed by ISO-3166 «GB».
+    function iso(c) { var x = String(c || '').toUpperCase(); return x === 'UK' ? 'GB' : x; }
+    function ipCodes(p) {
+      return Array.isArray(p && p.ip_export) ? p.ip_export.filter(Boolean).map(iso).filter(function (c) { return ISO2.test(c); }) : [];
+    }
+    function operators(p) {
+      var out = [];
+      (Array.isArray(p && p.networks) ? p.networks : []).forEach(function (n) {
+        var name = String((n && n.operator) || '').trim();
+        if (name && out.indexOf(name) === -1) out.push(name);
+      });
+      return out;
+    }
+    function topGeneration(p) {
+      var t = (Array.isArray(p && p.network_technologies) ? p.network_technologies : [])
+        .map(function (x) { return String(x || '').toUpperCase(); });
+      for (var i = 0; i < GENERATIONS.length; i += 1) if (t.indexOf(GENERATIONS[i]) !== -1) return GENERATIONS[i];
+      return '';
+    }
+    function siblingKey(p) {
+      var priced = priceOf(p);
+      var allowance = hasDaily && DAILY.isDaily(p)
+        ? 'P' + Number(p.daily_gb || 0)
+        : (p.unlimited ? 'U' : 'D' + Number(p.data_gb));
+      return [coverageCodes(p).slice().sort().join('+'), allowance, 'V' + (priced ? priced.days : '')].join('|');
+    }
+
+    /** package_id → [{kind:'ip'|'net'|'gen', label}] for one block's list. */
+    function distinguishers(list) {
+      var groups = {};
+      (Array.isArray(list) ? list : []).forEach(function (p) {
+        var k = siblingKey(p);
+        (groups[k] = groups[k] || []).push(p);
+      });
+      var out = {};
+      Object.keys(groups).forEach(function (k) {
+        var g = groups[k];
+        if (g.length < 2) return;
+        var vary = function (fn) {
+          var seen = {};
+          g.forEach(function (p) { seen[fn(p)] = true; });
+          return Object.keys(seen).length > 1;
+        };
+        var ipV = vary(function (p) { return ipCodes(p).join('+'); });
+        var netV = vary(function (p) { return operators(p).slice().sort().join('|'); });
+        var genV = vary(topGeneration);
+        if (!ipV && !netV && !genV) return;
+        g.forEach(function (p) {
+          var chips = [];
+          if (ipV && ipCodes(p).length) chips.push({ kind: 'ip', label: 'IP: ' + ipCodes(p).map(function (c) { return NAMES.of(c); }).join(', ') });
+          if (netV) {
+            var ops = operators(p);
+            if (ops.length === 1) chips.push({ kind: 'net', label: ops[0] });
+            else if (ops.length > 1) chips.push({ kind: 'net', label: ops.length + ' networks' });
+          }
+          if (genV && topGeneration(p)) chips.push({ kind: 'gen', label: topGeneration(p) });
+          if (chips.length) out[String(p.package_id || '')] = chips;
+        });
+      });
+      return out;
+    }
+
+    /** One plan card. `onOpen(p)` opens the checkout; `chips` tell it apart from a look-alike. */
     function card(p, opts) {
       var o = opts || {};
       var priced = priceOf(p);
@@ -221,9 +296,30 @@
       h.textContent = dataText(p) || I18N.t('checkout.plan');
       el.appendChild(h);
 
+      if (o.chips && o.chips.length) {
+        var d = document.createElement('div');
+        d.className = 'distinct';
+        o.chips.forEach(function (c) {
+          var chip = document.createElement('span');
+          chip.className = 'chip chip-' + c.kind;
+          chip.textContent = c.label;
+          d.appendChild(chip);
+        });
+        el.appendChild(d);
+      }
+
       var meta = document.createElement('div');
       meta.className = 'meta';
-      [coverageText(p, o.focus), termText(p)].filter(Boolean).forEach(function (txt) {
+      // A daily plan also says what happens after the day's allowance, in the
+      // shared daily copy's own vetted words («Then up to 512 Kbps» — a
+      // published number, never the stronger claim that traffic keeps flowing),
+      // and a reset only where the provider confirmed one. Two daily plans whose
+      // only difference is that speed used to look identical.
+      var extra = hasDaily && DAILY.isDaily(p)
+        ? (DAILY.lines(p, 'en') || []).filter(function (l) { return l.kind === 'throttle' || l.kind === 'reset'; })
+          .map(function (l) { return l.text; })
+        : [];
+      [coverageText(p, o.focus), termText(p)].concat(extra).filter(Boolean).forEach(function (txt) {
         var s = document.createElement('span');
         s.textContent = txt;
         meta.appendChild(s);
@@ -254,7 +350,7 @@
     return {
       ISO2: ISO2, priceOf: priceOf, money: money, priceText: priceText, dataText: dataText, termText: termText,
       coverageCodes: coverageCodes, coverageText: coverageText, isRestricted: isRestricted, isWorldwide: isWorldwide,
-      classify: classify, sortByPrice: sortByPrice, card: card,
+      classify: classify, sortByPrice: sortByPrice, card: card, distinguishers: distinguishers,
     };
   }
 

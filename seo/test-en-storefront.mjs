@@ -235,12 +235,19 @@ test('prices on /en/ are the GLOBAL lane\'s US dollars — never roubles, never 
 const GLOBAL_JS = read('assets/global-catalog.js');
 const GLOBAL = require(join(ROOT, 'assets/global-catalog.js'));
 
-test('the GLOBAL client reads exactly one URL, with GET, through MagicNet — and nothing else', () => {
+test('the GLOBAL client reads exactly one URL, with GET, from the PRIMARY origin only — never the gateway', () => {
+  // Owner's decision D1 (2026-10-04): GLOBAL never rides the Yandex Cloud
+  // fallback gateway. MagicNet.request would carry a failed read there, so the
+  // client does ONE fetch of MagicNet.primaryBase + PATH and nothing else.
   const code = GLOBAL_JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   assert.equal(GLOBAL.PATH, '/api/v1/retail/packages?market=global');
-  assert.match(code, /net\.request\(PATH, \{ method: 'GET' \}\)/);
+  assert.match(code, /var base = net && net\.primaryBase;/);
+  assert.match(code, /root\.fetch\(base \+ PATH, init\)/);
+  assert.match(code, /method: 'GET'/);
+  assert.equal((code.match(/\bfetch\s*\(/g) || []).length, 1, 'one request site');
   for (const [name, re] of [
-    ['fetch(', /\bfetch\s*\(/], ['XMLHttpRequest', /\bXMLHttpRequest\b/], ['sendBeacon', /\bsendBeacon\b/],
+    ['MagicNet.request', /\.request\s*\(/], ['ENDPOINTS', /ENDPOINTS/], ['fallbackBase', /fallbackBase/],
+    ['the gateway host', /api\.magicesim\.store/], ['XMLHttpRequest', /\bXMLHttpRequest\b/], ['sendBeacon', /\bsendBeacon\b/],
     ['POST', /POST/i], ['catalog.json', /catalog\.json/], ['MagicCatalog', /\bMagicCatalog\b/],
     ['retail-orders', /retail-orders/i], ['quotes', /quotes/i], ['platega', /platega/i], ['localStorage', /localStorage/],
   ]) assert.equal(re.test(code), false, `${name} must not appear in assets/global-catalog.js`);
@@ -265,20 +272,36 @@ test('the GLOBAL client accepts only a GLOBAL, USD, payable answer', () => {
   assert.deepEqual(ok([]), { ok: false, reason: 'empty' });
 });
 
-test('the GLOBAL client turns a transport failure into «unavailable», not an exception', async () => {
-  const saved = globalThis.MagicNet;
+test('the GLOBAL client asks the primary origin once, and a failure there is «unavailable» — no second road', async () => {
+  const saved = { net: globalThis.MagicNet, fetch: globalThis.fetch };
+  const calls = [];
   try {
-    globalThis.MagicNet = { request: async () => { throw new Error('offline'); } };
+    globalThis.MagicNet = { primaryBase: 'https://primary.example', fallbackBase: 'https://gateway.example',
+      request: async () => { calls.push('MagicNet.request'); return { status: 200, body: {} }; } };
+    // Transport failure on the primary: unavailable, and nothing else is tried.
+    globalThis.fetch = async (url, init) => { calls.push(`${init.method} ${url}`); throw new Error('offline'); };
     assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'unavailable' });
-    globalThis.MagicNet = { request: async (path, opts) => {
-      assert.equal(path, '/api/v1/retail/packages?market=global');
-      assert.deepEqual(opts, { method: 'GET' });
-      return { status: 503, body: { status: 'error', error: 'GLOBAL_PRICING_DISABLED' } };
-    } };
+    assert.deepEqual(calls, ['GET https://primary.example/api/v1/retail/packages?market=global']);
+    // 503 from the primary: «disabled», still one call.
+    calls.length = 0;
+    globalThis.fetch = async (url, init) => { calls.push(`${init.method} ${url}`);
+      assert.equal(init.credentials, 'omit');
+      return { status: 503, text: async () => JSON.stringify({ status: 'error', error: 'GLOBAL_PRICING_DISABLED' }) }; };
     assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'disabled' });
-    delete globalThis.MagicNet;
+    assert.equal(calls.length, 1);
+    // A body that is not JSON: unavailable, not an exception.
+    globalThis.fetch = async () => ({ status: 200, text: async () => '<html>' });
     assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'unavailable' });
-  } finally { if (saved) globalThis.MagicNet = saved; else delete globalThis.MagicNet; }
+    // No primary origin known: unavailable without a request.
+    delete globalThis.MagicNet;
+    calls.length = 0;
+    assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'unavailable' });
+    assert.deepEqual(calls, []);
+    assert.equal(calls.includes('MagicNet.request'), false);
+  } finally {
+    if (saved.net) globalThis.MagicNet = saved.net; else delete globalThis.MagicNet;
+    globalThis.fetch = saved.fetch;
+  }
 });
 
 test('no rouble anywhere on /en/: markup, script, stylesheet and every English string it uses', () => {

@@ -10,15 +10,22 @@
  *     catalogue in ROUBLES; showing it on an English page is exactly the «₽ for
  *     reference» this replaces, and a stale rouble price dressed as a dollar
  *     one would be worse. No GLOBAL answer means «prices unavailable», said so.
- *   * It never writes. One GET through MagicNet, no other request, no quote,
- *     no order. A test asserts it.
+ *   * It never writes. One GET, no other request, no quote, no order. A test
+ *     asserts it.
+ *   * It never leaves the primary backend (owner's decision D1, 2026-10-04).
+ *     The Russian storefront keeps its fallback road through the Yandex Cloud
+ *     gateway; GLOBAL does not use it — no GLOBAL request is carried to
+ *     infrastructure outside the primary origin. When Render does not answer,
+ *     the page says prices are unavailable. The EN pages' CSP `connect-src`
+ *     allows that one origin only, so a regression here is also refused by the
+ *     browser itself.
  *   * It never trusts a 200 blindly: the body must say market «global» and
  *     currency «USD», carry a data array and only positive prices. Anything
  *     else is «unavailable», not a guess.
  *
- * WHY MagicNet: it already knows where the API lives (Render first, the
- * gateway as fallback) and which failures may be retried on the other road.
- * A 503 — the lane switched off — is retried there too and is still a 503.
+ * WHERE: MagicNet.primaryBase — the one place the storefront names its
+ * primary API origin. MagicNet.request is NOT used for this read, because it
+ * would carry a failed read to the fallback gateway.
  *
  * Exposes window.MagicGlobalCatalog = { PATH, load(), validate() }.
  */
@@ -26,6 +33,9 @@
   'use strict';
 
   var PATH = '/api/v1/retail/packages?market=global';
+  // The answer is ~1.5 MB of JSON (about 130 KB on the wire); a phone on a slow
+  // network needs longer than MagicNet's 6 s read budget.
+  var TIMEOUT_MS = 15000;
 
   function positive(n) { var v = Number(n); return isFinite(v) && v > 0; }
 
@@ -62,15 +72,30 @@
 
   function load() {
     var net = root.MagicNet;
-    if (!net || typeof net.request !== 'function') return Promise.resolve({ ok: false, reason: 'unavailable' });
-    return net.request(PATH, { method: 'GET' }).then(function (res) {
-      return validate(res && res.status, res && res.body);
+    var base = net && net.primaryBase;
+    if (typeof base !== 'string' || !/^https:\/\//.test(base) || typeof root.fetch !== 'function') {
+      return Promise.resolve({ ok: false, reason: 'unavailable' });
+    }
+    var ac = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = ac ? setTimeout(function () { ac.abort(); }, TIMEOUT_MS) : null;
+    var init = { method: 'GET', headers: { Accept: 'application/json' }, credentials: 'omit' };
+    if (ac) init.signal = ac.signal;
+    return root.fetch(base + PATH, init).then(function (res) {
+      return res.text().then(function (raw) {
+        var body = null;
+        try { body = raw ? JSON.parse(raw) : null; } catch (e) { /* not json */ }
+        return validate(res.status, body);
+      });
+    }).then(function (r) {
+      if (timer) clearTimeout(timer);
+      return r;
     }, function () {
+      if (timer) clearTimeout(timer);
       return { ok: false, reason: 'unavailable' };
     });
   }
 
-  var api = { PATH: PATH, load: load, validate: validate };
+  var api = { PATH: PATH, TIMEOUT_MS: TIMEOUT_MS, load: load, validate: validate };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.MagicGlobalCatalog = api;
 })(typeof window !== 'undefined' ? window : globalThis);

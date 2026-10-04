@@ -3,8 +3,15 @@
  * country page now; guides and legal pages later), so the GLOBAL storefront has one look and the Russian
  * site's CSS is never touched. Versioned by seo/stamp-assets.mjs like every
  * other asset. */
-:root{--bg:#070910;--card:#10141f;--text:#eef1f7;--muted:#98a2b8;--border:rgba(255,255,255,.1);--accent:#6c8cff}
+:root{--bg:#070910;--card:#10141f;--text:#eef1f7;--muted:#98a2b8;--border:rgba(255,255,255,.1);--accent:#6c8cff;--accent-btn:#4a68e8}
+/* --accent-btn: white text on it is 4.73:1 (WCAG AA 4.5:1; the old #6c8cff gave 3.07, flagged by axe-core
+   on the live page), and the button against the page is 4.2:1 (non-text 3:1). seo/test-en-a11y.mjs pins both. */
 *{box-sizing:border-box}
+/* The `hidden` attribute must win over every display rule below. Without this,
+   `.btn{display:inline-flex}` and `.results{display:grid}` kept hidden elements
+   on screen: the checkout's «Get a new price» showed while a price was still
+   held (live on #30), and a click on it wrote a needless quote. */
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 a{color:inherit}
 .wrap{max-width:960px;margin:0 auto;padding:0 16px}
@@ -30,7 +37,7 @@ a.res{text-decoration:none}
 .card h3{margin:0;font-size:16px}
 .meta{color:var(--muted);font-size:13px;display:flex;gap:10px;flex-wrap:wrap}
 .price{font-size:20px;font-weight:700}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-size:15px;text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border:0;border-radius:10px;background:var(--accent-btn);color:#fff;font-weight:600;cursor:pointer;font-size:15px;text-decoration:none}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
 .note{color:var(--muted);font-size:13px}
@@ -76,4 +83,8 @@ select{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px
 .guides li{margin:0 0 14px}
 code{background:#0b0e17;border:1px solid var(--border);border-radius:6px;padding:1px 5px}
 #faq details{margin-top:8px}
+.distinct{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:12px;line-height:1.4;padding:2px 8px;border-radius:999px;border:1px solid var(--border);color:var(--text);background:#151a28}
+#retry{margin:0 0 18px}
+#coTitle:focus{outline:none}
 footer{border-top:1px solid var(--border);margin-top:40px;padding:20px 0 40px;color:var(--muted);font-size:13px}
