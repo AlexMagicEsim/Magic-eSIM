@@ -128,6 +128,7 @@ const NOTICE = `  <div class="unavail notice" id="previewNotice" role="note">
 
 const FOOTER = `<footer class="wrap">
   <p>© Magic eSIM · <a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a> · <a href="/en/guides/" data-i18n="nav.guides">Guides</a> · <a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
+  <p class="support">Support: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
 </footer>`;
 
 /* The checkout window: plan → price fixed by the server (a GLOBAL quote) →

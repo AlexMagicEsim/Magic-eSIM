@@ -148,6 +148,70 @@ test('focus follows the steps instead of falling to the page, and is never stole
   expect(await active(page)).toMatchObject({ id: 'coTotal', visible: true });
 });
 
+test('a quote that fails gives focus back to the price button on screen, never to the page', async ({ page }) => {
+  await page.clock.install();
+  await open(page, { onQuote: async (b, n) => (n === 1 ? { status: 429, body: {} }
+    : n === 2 ? { status: 200, body: quoteFor(b, 4.99) } : { status: 503, body: {} }) });
+  await openFixed(page);
+  // Step 1: «Get the exact price» → 429. The button was disabled while the
+  // request ran; focus comes back to it, so one more Enter retries.
+  await page.locator('#coQuote').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#coQuoteStatus')).toHaveText('Too many requests. Please wait a minute and try again.');
+  expect(await active(page)).toMatchObject({ id: 'coQuote', inDialog: true, visible: true });
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#coTotal')).toHaveText('$4.99');
+  // Step 2 after an expiry: «Get a new price» → 503. Focus stays on «Get a new price».
+  await page.clock.fastForward('31:00');
+  await expect(page.locator('#coRequote')).toBeVisible();
+  await page.locator('#coRequote').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#coQuoteStatus')).toHaveText('The price is temporarily unavailable. Please try again later.');
+  expect(await active(page)).toMatchObject({ id: 'coRequote', inDialog: true, visible: true });
+});
+
+test('a failed quote never takes focus from a field the visitor moved to meanwhile', async ({ page }) => {
+  let release;
+  const gate = new Promise((r) => { release = r; });
+  await open(page, { onQuote: async () => { await gate; return { status: 503, body: {} }; } });
+  await openDaily(page);
+  await page.locator('#coQuote').click();
+  await page.locator('#coDays').focus();               // the visitor moves on while it loads
+  release();
+  await expect(page.locator('#coQuoteStatus')).toHaveText('The price is temporarily unavailable. Please try again later.');
+  expect((await active(page)).id).toBe('coDays');
+});
+
+test('«Try again» on the catalogue: focus lands on «Try again» if it fails again, on the plans when it works', async ({ page }) => {
+  const st = await open(page, { catalogue: async (n) => (n <= 2 ? { status: 503, body: '{}' } : { status: 200, body: BODY }) });
+  await expect(page.locator('#retry')).toBeVisible();
+  await page.locator('#retry').focus();
+  await page.keyboard.press('Enter');
+  await expect.poll(() => st.cat).toBe(2);
+  await expect(page.locator('#retry')).toBeVisible();
+  expect(await active(page)).toMatchObject({ id: 'retry', visible: true });
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#dailyGrid .card')).toHaveCount(1);
+  const f = await page.evaluate(() => ({ tag: document.activeElement.tagName,
+    block: document.activeElement.closest('section') && document.activeElement.closest('section').id }));
+  expect(f).toEqual({ tag: 'H2', block: 'dailyBlock' });
+  // The next Tab goes into the plans, not back to the top of the page.
+  await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => !!document.activeElement.closest('#dailyGrid'))).toBe(true);
+  expect(st.cat).toBe(3);
+});
+
+test('«Try again» never moves focus the visitor has already placed elsewhere', async ({ page }) => {
+  let release;
+  const gate = new Promise((r) => { release = r; });
+  await open(page, { catalogue: async (n) => { if (n === 2) await gate; return n === 1 ? { status: 503, body: '{}' } : { status: 200, body: BODY }; } });
+  await page.locator('#retry').click();
+  await page.locator('header a[href="/en/guides/"]').focus();
+  release();
+  await expect(page.locator('#dailyGrid .card')).toHaveCount(1);
+  expect(await page.evaluate(() => document.activeElement.getAttribute('href'))).toBe('/en/guides/');
+});
+
 test('the countdown is not read out every second; the fixed price and the expiry are announced once', async ({ page }) => {
   await page.clock.install();
   await open(page);

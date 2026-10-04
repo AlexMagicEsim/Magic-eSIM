@@ -241,6 +241,8 @@ export const EN_GUIDES = [
         <p>The phone is registered but data does not flow. Most often the eSIM is not the line chosen for mobile data, or data roaming is off for it. Check both, then toggle airplane mode.</p>` },
       { h2: 'Do not delete the eSIM', html: `
         <p>Deleting the eSIM rarely fixes anything, and its QR code may be single-use — you may not be able to install it again. Leave it installed while you go through the checklist.</p>` },
+      { h2: 'Still not working?', html: `
+        <p>If you have gone through the whole checklist and the eSIM still does not work, write to us at <a href="mailto:support@magicesim.store">support@magicesim.store</a>.</p>` },
     ],
     faq: [
       { q: 'The eSIM shows «No Service». What first?', a: 'Make sure data roaming is on for the eSIM, toggle airplane mode, and give it a couple of minutes. Then try choosing a network by hand.' },
