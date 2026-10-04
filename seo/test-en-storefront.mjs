@@ -15,6 +15,13 @@ const require = createRequire(import.meta.url);
 
 const EN = read('en/index.html');
 const EN_JS = read('en/app.js');
+// The English country pages — UAE stands for all 198 (seo/test-en-pages.mjs
+// proves every page is the generator's output, so one is every one).
+const PAGE = read('en/esim/uae/index.html');
+const HUB = read('en/esim/index.html');
+const COUNTRY_JS = read('en/country.js');
+const PLANS_JS = read('en/plans.js');
+const code = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 const RU = read('index.html');
 const ROBOTS = read('robots.txt');
 const SITEMAP = read('sitemap.xml');
@@ -23,15 +30,14 @@ const SITEMAP = read('sitemap.xml');
  * 1. It cannot take money, and that is structural
  * ===================================================================== */
 
-test('the English storefront has no network primitive at all', () => {
+test('no English page script has a network primitive of its own', () => {
   // THE FIRST VERSION OF THIS TEST PINNED SPELLINGS, not the fact: it banned
   // `method:'POST'` in four spacings and `XMLHttpRequest`, and would have passed
   // on `fetch(url, {method: m})`. That is the §30 lesson — a forbidden-phrase
   // test that lists phrases nobody writes passes vacuously. What actually has to
   // be true is that this file cannot reach the network by ANY route, so the ban
   // is on the primitives themselves.
-  const code = EN_JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-  for (const [name, re] of [
+  const FORBIDDEN = [
     ['fetch(', /\bfetch\s*\(/],
     ['XMLHttpRequest', /\bXMLHttpRequest\b/],
     ['sendBeacon', /\bsendBeacon\b/],
@@ -42,18 +48,24 @@ test('the English storefront has no network primitive at all', () => {
     ['import(', /\bimport\s*\(/],
     ['retail-orders', /retail-orders/i],
     ['platega', /platega/i],
-  ]) {
-    assert.equal(re.test(code), false, `${name} must not appear in en/app.js`);
+    ['quotes', /quotes/i],
+  ];
+  for (const [file, text] of [['en/app.js', EN_JS], ['en/country.js', COUNTRY_JS], ['en/plans.js', PLANS_JS]]) {
+    for (const [name, re] of FORBIDDEN) assert.equal(re.test(code(text)), false, `${name} must not appear in ${file}`);
+    assert.equal(/\bMagicCatalog\b/.test(code(text)), false, `the Russian rouble loader must not be used in ${file}`);
   }
-  // The catalogue is read through MagicGlobalCatalog (one GET of the GLOBAL
-  // lane) — the one and only way this page talks to anything. The Russian
-  // loader, whose fallback is the rouble snapshot, is not used here at all.
-  assert.match(code, /MagicGlobalCatalog\.load\(\)/);
-  assert.equal(/\bMagicCatalog\b/.test(code), false, 'the Russian rouble loader must not be used on /en/');
+  // The country page reads the catalogue through MagicGlobalCatalog (one GET of
+  // the GLOBAL lane) — the one and only way an English page talks to anything.
+  assert.match(code(COUNTRY_JS), /MagicGlobalCatalog\.load\(\)/);
+  // The home reads nothing at all: its destination list is static.
+  assert.equal(/MagicGlobalCatalog/.test(code(EN_JS)), false, 'the home must not load the catalogue');
+  assert.equal(/MagicGlobalCatalog/.test(code(PLANS_JS)), false, 'plans.js renders, it never loads');
 });
 
-test('the English page posts no form, anywhere', () => {
-  assert.equal(/<form/i.test(EN), false, 'a form is a write primitive the markup can carry');
+test('no English page posts a form', () => {
+  for (const [name, html] of [['home', EN], ['country', PAGE], ['list', HUB]]) {
+    assert.equal(/<form/i.test(html), false, `${name}: a form is a write primitive the markup can carry`);
+  }
 });
 
 test('the ban can fire', () => {
@@ -76,20 +88,30 @@ test('the preview notice is static markup, before the search, the prices and eve
   const notice = EN.indexOf('id="previewNotice"');
   assert.ok(notice > 0, 'the notice must be in the HTML itself, not rendered by JS');
   assert.ok(notice < EN.indexOf('id="plans"'), 'before the search');
-  assert.ok(notice < EN.indexOf('id="tariffs"'), 'before the plan grid');
-  assert.ok(notice < EN.indexOf('id="checkout"'), 'before the plan window');
   assert.doesNotMatch(EN.slice(notice, EN.indexOf('</div>', notice)), /\bhidden\b/, 'never hidden');
+  // And on every country page, before the first plan block and the plan window.
+  const n2 = PAGE.indexOf('id="previewNotice"');
+  assert.ok(n2 > 0, 'the country page carries the notice in its HTML');
+  for (const id of ['dailyBlock', 'localBlock', 'regionalBlock', 'checkout']) {
+    assert.ok(n2 < PAGE.indexOf(`id="${id}"`), `before #${id}`);
+  }
+  assert.doesNotMatch(PAGE.slice(n2, PAGE.indexOf('</div>', n2)), /\bhidden\b/, 'never hidden');
+  // Word for word the home's notice: one promise, not two paraphrases.
+  const noticeOf = (h) => h.slice(h.indexOf('id="previewNotice"'), h.indexOf('</div>', h.indexOf('id="previewNotice"')));
+  assert.equal(noticeOf(PAGE), noticeOf(EN));
+  assert.equal(noticeOf(HUB), noticeOf(EN));
   assert.match(I18N_EN['preview.noticeTitle'], /can't be bought here yet/);
   assert.match(I18N_EN['preview.noticeBody'], /checkout is closed and nothing can be ordered/);
 });
 
 test('the plan window opens with the refusal and asks for nothing', () => {
-  const win = EN.slice(EN.indexOf('id="checkout"'), EN.indexOf('</footer>'));
+  assert.doesNotMatch(EN, /id="checkout"/, 'the home has no plan window: plans live on the country pages');
+  const win = PAGE.slice(PAGE.indexOf('id="checkout"'), PAGE.indexOf('</footer>'));
   assert.match(win, /id="coUnavail"/);
   assert.doesNotMatch(win, /id="coUnavail"[^>]*hidden/, 'visible the moment the window opens');
   assert.doesNotMatch(win, /type="email"|id="coEmail"|id="coPay"|<input/, 'no email field, no pay button, no input at all');
   assert.ok(win.indexOf('id="coUnavail"') < win.indexOf('class="rows"'), 'the refusal comes before the price');
-  assert.doesNotMatch(EN_JS, /coEmail|coPay|attemptPay|emailInvalid/, 'en/app.js has no checkout step left');
+  for (const t of [EN_JS, COUNTRY_JS, PLANS_JS]) assert.doesNotMatch(t, /coEmail|coPay|attemptPay|emailInvalid/, 'no checkout step');
   assert.match(I18N_EN['pay.unavailableTitle'], /Not available to buy yet/);
   assert.match(I18N_EN['pay.unavailableBody'], /Nothing is charged and no order is created/);
 });
@@ -98,9 +120,10 @@ test('no call to action on /en/ promises a purchase', () => {
   // The calls to action are the buttons and the .btn links in the markup, and
   // the button labels en/app.js renders. Refusals («Not available to buy yet»)
   // are not calls to action and are not checked here.
+  const ALL = EN + PAGE + HUB;
   const ctaKeys = new Set([
-    ...[...EN.matchAll(/<(?:button|a)\b[^>]*class="[^"]*\bbtn\b[^"]*"[^>]*data-i18n="([^"]+)"/g)].map((m) => m[1]),
-    ...[...EN.matchAll(/<button\b[^>]*data-i18n="([^"]+)"/g)].map((m) => m[1]),
+    ...[...ALL.matchAll(/<(?:button|a)\b[^>]*class="[^"]*\bbtn\b[^"]*"[^>]*data-i18n="([^"]+)"/g)].map((m) => m[1]),
+    ...[...ALL.matchAll(/<button\b[^>]*data-i18n="([^"]+)"/g)].map((m) => m[1]),
     'site.choose', 'site.retry',
   ]);
   const BUY = /\b(buy|purchase|pay|order|checkout|continue|add to cart)\b/i;
@@ -137,23 +160,15 @@ test('every daily plan on /en/ quotes a price a customer can actually pay', () =
    * only checked that no `$`, `USD` or `EUR` appeared. It asserted the absence
    * of an invented CURRENCY while the invented NUMBER went straight through.
    *
-   * This runs the shipped `priceOf` over the real catalogue.
+   * This runs the shipped `priceOf` (en/plans.js) over the real catalogue.
    */
   const DAILY = require(join(ROOT, 'assets/daily-plan-copy.js'));
   const catalogue = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8'));
   const packages = catalogue.packages || catalogue;
 
-  // Lifted from the shipped file, brace-matched, so the test cannot pass against
-  // a function that no longer exists.
-  const at = EN_JS.indexOf('function priceOf(p)');
-  assert.notEqual(at, -1, 'priceOf is gone — renamed or deleted');
-  let i = EN_JS.indexOf('{', at); let depth = 0; let end = -1;
-  for (; i < EN_JS.length; i += 1) {
-    if (EN_JS[i] === '{') depth += 1;
-    else if (EN_JS[i] === '}') { depth -= 1; if (depth === 0) { end = i + 1; break; } }
-  }
-  const priceOf = new Function('DAILY', 'hasDaily',
-    `${EN_JS.slice(at, end)}; return priceOf;`)(DAILY, true);
+  // The shipped module itself, not a copy of its function.
+  const PLANS = require(join(ROOT, 'en/plans.js'));
+  const priceOf = PLANS.create({ I18N: { t: (k) => k }, NAMES: { of: (c) => c }, DAILY }).priceOf;
 
   const daily = packages.filter((p) => DAILY.isDaily(p));
   assert.ok(daily.length > 100, `only ${daily.length} daily packages — is the catalogue loaded?`);
@@ -196,13 +211,13 @@ test('a daily plan always shows the term its price buys', () => {
 });
 
 test('prices on /en/ are the GLOBAL lane\'s US dollars — never roubles, never converted', () => {
-  const code = EN_JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-  assert.match(code, /currency: 'USD'/, 'formatted as US dollars');
-  assert.equal(/₽|retail_price_rub|catalog\.json|\bRUB\b|toFixed\(0\)/.test(code), false,
+  const c = code(PLANS_JS) + code(COUNTRY_JS) + code(EN_JS);
+  assert.match(code(PLANS_JS), /currency: 'USD'/, 'formatted as US dollars');
+  assert.equal(/₽|retail_price_rub|catalog\.json|\bRUB\b|toFixed\(0\)/.test(c), false,
     'no rouble sign, no rouble field, no rouble snapshot');
-  assert.equal(/\*\s*\d+(\.\d+)?\s*\/|rate|convert/i.test(code.replace(/per-day RATE/g, '')), false,
+  assert.equal(/\*\s*\d+(\.\d+)?\s*\/|rate|convert/i.test(c.replace(/per-day RATE/g, '')), false,
     'no conversion arithmetic or rate');
-  assert.match(EN, /data-i18n="price\.currencyNote"/, 'and the page says which currency');
+  assert.match(PAGE, /data-i18n="price\.currencyNote"/, 'and the country page says which currency');
 });
 
 /* ===================================================================== *
@@ -260,14 +275,17 @@ test('the GLOBAL client turns a transport failure into «unavailable», not an e
 
 test('no rouble anywhere on /en/: markup, script, stylesheet and every English string it uses', () => {
   const css = read('en/en.css');
-  const keys = new Set([...EN.matchAll(/data-i18n="([^"]+)"/g)].map((m) => m[1])
-    .concat([...EN_JS.matchAll(/I18N\.t\('([^']+)'\)/g)].map((m) => m[1])));
+  const ALL = EN + PAGE + HUB;
+  const keys = new Set([...ALL.matchAll(/data-i18n="([^"]+)"/g)].map((m) => m[1])
+    .concat([...(EN_JS + COUNTRY_JS + PLANS_JS).matchAll(/I18N\.t\('([^']+)'\)/g)].map((m) => m[1])));
   const strings = [...keys].map((k) => I18N_EN[k] || '').join('\n');
   const ROUBLE = /₽|\brub(le|les)?\b|\brouble|\bRUB\b|руб/i;
   // Code without its comments (they explain WHY the rouble snapshot is gone);
   // markup, stylesheet and the visible strings in full.
-  const code = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-  for (const [name, text] of [['en/index.html', EN.replace(/<!--[\s\S]*?-->/g, '')], ['en/app.js', code(EN_JS)],
+  const markup = (h) => h.replace(/<!--[\s\S]*?-->/g, '');
+  for (const [name, text] of [['en/index.html', markup(EN)], ['en/esim/uae/index.html', markup(PAGE)],
+    ['en/esim/index.html', markup(HUB)], ['en/destinations.js', read('en/destinations.js')],
+    ['en/app.js', code(EN_JS)], ['en/country.js', code(COUNTRY_JS)], ['en/plans.js', code(PLANS_JS)],
     ['en/en.css', code(css)], ['strings', strings], ['assets/global-catalog.js', code(GLOBAL_JS)]]) {
     // The header's «Перейти на русскую версию» is a language switch, not a price.
     assert.equal(ROUBLE.test(text), false, `${name} mentions roubles`);
@@ -276,9 +294,16 @@ test('no rouble anywhere on /en/: markup, script, stylesheet and every English s
 });
 
 test('RU is untouched by the GLOBAL client: the Russian landing loads neither it nor the English stylesheet', () => {
-  assert.doesNotMatch(RU, /global-catalog\.js|\/en\/en\.css/);
+  // (The landing does link to /en/ — that is the language switch, not a script.)
+  assert.doesNotMatch(RU, /global-catalog\.js|\/en\/(en\.css|plans\.js|country\.js|app\.js|destinations\.js)/);
   assert.match(RU, /assets\/catalog-loader\.js/, 'the Russian landing still reads its own catalogue');
-  assert.doesNotMatch(EN, /catalog-loader\.js/, 'and /en/ no longer loads the rouble loader');
+  for (const [name, html] of [['home', EN], ['country', PAGE], ['list', HUB]]) {
+    assert.doesNotMatch(html, /catalog-loader\.js|country-tariffs\.js/, `${name}: no Russian catalogue script on an English page`);
+  }
+  // No Russian country page loads anything English.
+  const bad = readdirSync(join(ROOT, 'esim')).filter((d) => existsSync(join(ROOT, 'esim', d, 'index.html')))
+    .filter((d) => /global-catalog\.js|\/en\/(en\.css|plans\.js|country\.js)/.test(read(`esim/${d}/index.html`)));
+  assert.deepEqual(bad, []);
 });
 
 
@@ -313,7 +338,9 @@ test('no redirect exists in either direction', () => {
     assert.equal(/http-equiv="refresh"/i.test(html), false, name);
     assert.equal(/location\.replace\(|location\.href\s*=/.test(html), false, name);
   }
-  assert.equal(/location\.replace\(|location\.href\s*=/.test(EN_JS), false, 'en/app.js');
+  for (const [n, t] of [['en/app.js', EN_JS], ['en/country.js', COUNTRY_JS], ['en/plans.js', PLANS_JS], ['country page', PAGE]]) {
+    assert.equal(/location\.replace\(|location\.href\s*=|http-equiv="refresh"/i.test(t), false, n);
+  }
 });
 
 /* ===================================================================== *
@@ -351,8 +378,9 @@ test('no hreflang points at a page that does not exist', () => {
 });
 
 test('the Russian country pages carry NO alternate, because they have no twin', () => {
-  // An hreflang pointing at a page that does not exist is an error, not a
-  // placeholder. When /en/esim/<country>/ is written, this test changes with it.
+  // /en/esim/italy/ exists now, but it is a noindex template: hreflang pairs
+  // a page with an INDEXABLE twin, so the Russian page still carries none.
+  // When a reviewed English page becomes indexable (PR 8), this test changes.
   const italy = read('esim/italy/index.html');
   assert.equal(/hreflang/.test(italy), false);
   assert.match(italy, /rel="canonical" href="https:\/\/magicesim\.store\/esim\/italy\/"/);
@@ -370,7 +398,7 @@ test('the sitemap lists the English page exactly once, beside the Russian one', 
   assert.equal(locs.filter((l) => l === 'https://magicesim.store/en/').length, 1);
   assert.equal(locs.filter((l) => l === 'https://magicesim.store/').length, 1);
   assert.ok(locs.length >= 209, `sitemap shrank to ${locs.length} — a Russian page was lost`);
-  // Nothing under /en/ that does not exist.
+  // The English country pages are noindex templates: none of them is listed.
   for (const l of locs.filter((x) => x.includes('/en/'))) {
     assert.equal(l, 'https://magicesim.store/en/', l);
   }
@@ -428,9 +456,11 @@ test('the English version is reachable from the Russian site, not only declared'
 test('every link from /en/ that lands on a Russian page says so', () => {
   // An English label on a link into `<html lang="ru">` is a small betrayal that
   // costs a visitor a page load to discover.
-  const links = [...EN.matchAll(/<a[^>]*href="(\/[a-z-]*\.html|\/)"[^>]*>([^<]*)</g)];
-  for (const [tag, href, label] of links) {
-    if (href === '/en/') continue;
-    assert.match(tag, /hreflang="ru"/, `${href} (${label.trim()}) must declare hreflang="ru"`);
+  for (const html of [EN, PAGE, HUB]) {
+    const links = [...html.matchAll(/<a[^>]*href="(\/[a-z-]*\.html|\/|\/esim\/[a-z-]*\/?)"[^>]*>([^<]*)</g)];
+    assert.ok(links.length >= 2, 'the scan must find the Russian links');
+    for (const [tag, href, label] of links) {
+      assert.match(tag, /hreflang="ru"/, `${href} (${label.trim()}) must declare hreflang="ru"`);
+    }
   }
 });

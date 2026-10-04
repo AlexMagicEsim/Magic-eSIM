@@ -103,10 +103,14 @@ test('every key used on the English page has an ENGLISH entry', () => {
   // карта» to an English reader. Four such keys exist today (checkout.sbp,
   // checkout.card, checkout.paySbp, checkout.note); none is used on /en/, and
   // this is what keeps it that way.
-  const html = [...EN_PAGE.matchAll(/data-i18n="([^"]+)"/g)].map((m) => m[1]);
-  const attrs = [...EN_PAGE.matchAll(/data-i18n-attr="[^":]+:([^"]+)"/g)].map((m) => m[1]);
-  const js = [...readFileSync(join(ROOT, 'en/app.js'), 'utf8')
-    .matchAll(/I18N\.t\('([^']+)'\)/g)].map((m) => m[1]);
+  // Every English page and script: the home, the destination list, a country
+  // page (all 198 are one generator's output), and the scripts they run.
+  const PAGES = EN_PAGE + ['en/esim/index.html', 'en/esim/uae/index.html']
+    .map((p) => readFileSync(join(ROOT, p), 'utf8')).join('\n');
+  const html = [...PAGES.matchAll(/data-i18n="([^"]+)"/g)].map((m) => m[1]);
+  const attrs = [...PAGES.matchAll(/data-i18n-attr="[^":]+:([^"]+)"/g)].map((m) => m[1]);
+  const js = ['en/app.js', 'en/country.js', 'en/plans.js'].flatMap((f) => [...readFileSync(join(ROOT, f), 'utf8')
+    .matchAll(/I18N\.t\('([^']+)'\)/g)].map((m) => m[1]));
   const used = [...new Set([...html, ...attrs, ...js])];
 
   assert.ok(used.length >= 25, `only ${used.length} keys in use`);
