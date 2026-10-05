@@ -20,6 +20,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=47758ebc">
+<link rel="stylesheet" href="/en/hub.css?v=53916ed6">
 </head>
 <body>
 
@@ -56,212 +57,391 @@
   </details>
 </div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
-  <h1>eSIM destinations</h1>
-  <p class="lead">Pick a country to see its data plans, with prices in US dollars.</p>
+<main class="hub" id="main">
+  <section class="hub-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
+      <h1>eSIM destinations</h1>
+      <p class="lead">Pick a country to see its data plans, with prices in US dollars.</p>
+      <!-- Shown by en/hub.js: without it there is no search box that does nothing. -->
+      <div class="hub-search" id="hubSearch" role="search" hidden>
+        <label for="hq" class="sr-only" data-i18n="site.chooseCountry">Where are you going?</label>
+        <div class="hub-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="text" id="hq" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="Search a country"><button type="button" class="hub-clear" id="hubClear" aria-label="Clear search" hidden>×</button></div>
+      </div>
+      <p class="hub-count" id="hubCount" role="status" aria-live="polite"></p>
+    </div>
+  </section>
 
+  <div class="wrap hub-body">
+    <section class="hub-pop" id="hubPopular" aria-labelledby="hubPopTitle">
+      <h2 id="hubPopTitle" data-i18n="home.popularTitle">Popular destinations</h2>
+      <div class="hub-tiles">
+      <a class="hub-tile" href="/en/esim/thailand/"><img class="flag" src="/en/flags/th.svg" alt="" width="40" height="30"><span>Thailand</span></a>
+      <a class="hub-tile" href="/en/esim/turkey/"><img class="flag" src="/en/flags/tr.svg" alt="" width="40" height="30"><span>Türkiye</span></a>
+      <a class="hub-tile" href="/en/esim/uae/"><img class="flag" src="/en/flags/ae.svg" alt="" width="40" height="30"><span>United Arab Emirates</span></a>
+      <a class="hub-tile" href="/en/esim/japan/"><img class="flag" src="/en/flags/jp.svg" alt="" width="40" height="30"><span>Japan</span></a>
+      <a class="hub-tile" href="/en/esim/usa/"><img class="flag" src="/en/flags/us.svg" alt="" width="40" height="30"><span>United States</span></a>
+      <a class="hub-tile" href="/en/esim/italy/"><img class="flag" src="/en/flags/it.svg" alt="" width="40" height="30"><span>Italy</span></a>
+      <a class="hub-tile" href="/en/esim/spain/"><img class="flag" src="/en/flags/es.svg" alt="" width="40" height="30"><span>Spain</span></a>
+      <a class="hub-tile" href="/en/esim/united-kingdom/"><img class="flag" src="/en/flags/gb.svg" alt="" width="40" height="30"><span>United Kingdom</span></a>
+      </div>
+    </section>
 
-  <ul class="dest">
-    <li><a href="/en/esim/afghanistan/">Afghanistan</a></li>
-    <li><a href="/en/esim/aland-islands/">Åland Islands</a></li>
-    <li><a href="/en/esim/albania/">Albania</a></li>
-    <li><a href="/en/esim/algeria/">Algeria</a></li>
-    <li><a href="/en/esim/andorra/">Andorra</a></li>
-    <li><a href="/en/esim/angola/">Angola</a></li>
-    <li><a href="/en/esim/anguilla/">Anguilla</a></li>
-    <li><a href="/en/esim/antigua-and-barbuda/">Antigua and Barbuda</a></li>
-    <li><a href="/en/esim/argentina/">Argentina</a></li>
-    <li><a href="/en/esim/armenia/">Armenia</a></li>
-    <li><a href="/en/esim/aruba/">Aruba</a></li>
-    <li><a href="/en/esim/australia/">Australia</a></li>
-    <li><a href="/en/esim/austria/">Austria</a></li>
-    <li><a href="/en/esim/azerbaijan/">Azerbaijan</a></li>
-    <li><a href="/en/esim/bahamas/">Bahamas</a></li>
-    <li><a href="/en/esim/bahrain/">Bahrain</a></li>
-    <li><a href="/en/esim/bangladesh/">Bangladesh</a></li>
-    <li><a href="/en/esim/barbados/">Barbados</a></li>
-    <li><a href="/en/esim/belgium/">Belgium</a></li>
-    <li><a href="/en/esim/belize/">Belize</a></li>
-    <li><a href="/en/esim/benin/">Benin</a></li>
-    <li><a href="/en/esim/bermuda/">Bermuda</a></li>
-    <li><a href="/en/esim/bhutan/">Bhutan</a></li>
-    <li><a href="/en/esim/bolivia/">Bolivia</a></li>
-    <li><a href="/en/esim/bosnia-and-herzegovina/">Bosnia and Herzegovina</a></li>
-    <li><a href="/en/esim/botswana/">Botswana</a></li>
-    <li><a href="/en/esim/brazil/">Brazil</a></li>
-    <li><a href="/en/esim/british-virgin-islands/">British Virgin Islands</a></li>
-    <li><a href="/en/esim/brunei/">Brunei</a></li>
-    <li><a href="/en/esim/bulgaria/">Bulgaria</a></li>
-    <li><a href="/en/esim/burkina-faso/">Burkina Faso</a></li>
-    <li><a href="/en/esim/cambodia/">Cambodia</a></li>
-    <li><a href="/en/esim/cameroon/">Cameroon</a></li>
-    <li><a href="/en/esim/canada/">Canada</a></li>
-    <li><a href="/en/esim/cape-verde/">Cape Verde</a></li>
-    <li><a href="/en/esim/bonaire/">Caribbean Netherlands</a></li>
-    <li><a href="/en/esim/cayman-islands/">Cayman Islands</a></li>
-    <li><a href="/en/esim/central-african-republic/">Central African Republic</a></li>
-    <li><a href="/en/esim/chad/">Chad</a></li>
-    <li><a href="/en/esim/chile/">Chile</a></li>
-    <li><a href="/en/esim/china/">China</a></li>
-    <li><a href="/en/esim/colombia/">Colombia</a></li>
-    <li><a href="/en/esim/costa-rica/">Costa Rica</a></li>
-    <li><a href="/en/esim/ivory-coast/">Côte d’Ivoire</a></li>
-    <li><a href="/en/esim/croatia/">Croatia</a></li>
-    <li><a href="/en/esim/curacao/">Curaçao</a></li>
-    <li><a href="/en/esim/cyprus/">Cyprus</a></li>
-    <li><a href="/en/esim/czechia/">Czechia</a></li>
-    <li><a href="/en/esim/denmark/">Denmark</a></li>
-    <li><a href="/en/esim/dominica/">Dominica</a></li>
-    <li><a href="/en/esim/dominican-republic/">Dominican Republic</a></li>
-    <li><a href="/en/esim/dr-congo/">DR Congo</a></li>
-    <li><a href="/en/esim/ecuador/">Ecuador</a></li>
-    <li><a href="/en/esim/egypt/">Egypt</a></li>
-    <li><a href="/en/esim/el-salvador/">El Salvador</a></li>
-    <li><a href="/en/esim/estonia/">Estonia</a></li>
-    <li><a href="/en/esim/eswatini/">Eswatini</a></li>
-    <li><a href="/en/esim/ethiopia/">Ethiopia</a></li>
-    <li><a href="/en/esim/faroe-islands/">Faroe Islands</a></li>
-    <li><a href="/en/esim/fiji/">Fiji</a></li>
-    <li><a href="/en/esim/finland/">Finland</a></li>
-    <li><a href="/en/esim/france/">France</a></li>
-    <li><a href="/en/esim/french-guiana/">French Guiana</a></li>
-    <li><a href="/en/esim/french-polynesia/">French Polynesia</a></li>
-    <li><a href="/en/esim/gabon/">Gabon</a></li>
-    <li><a href="/en/esim/gambia/">Gambia</a></li>
-    <li><a href="/en/esim/georgia/">Georgia</a></li>
-    <li><a href="/en/esim/germany/">Germany</a></li>
-    <li><a href="/en/esim/ghana/">Ghana</a></li>
-    <li><a href="/en/esim/gibraltar/">Gibraltar</a></li>
-    <li><a href="/en/esim/greece/">Greece</a></li>
-    <li><a href="/en/esim/greenland/">Greenland</a></li>
-    <li><a href="/en/esim/grenada/">Grenada</a></li>
-    <li><a href="/en/esim/guadeloupe/">Guadeloupe</a></li>
-    <li><a href="/en/esim/guam/">Guam</a></li>
-    <li><a href="/en/esim/guatemala/">Guatemala</a></li>
-    <li><a href="/en/esim/guernsey/">Guernsey</a></li>
-    <li><a href="/en/esim/guinea/">Guinea</a></li>
-    <li><a href="/en/esim/guinea-bissau/">Guinea-Bissau</a></li>
-    <li><a href="/en/esim/guyana/">Guyana</a></li>
-    <li><a href="/en/esim/haiti/">Haiti</a></li>
-    <li><a href="/en/esim/honduras/">Honduras</a></li>
-    <li><a href="/en/esim/hong-kong/">Hong Kong</a></li>
-    <li><a href="/en/esim/hungary/">Hungary</a></li>
-    <li><a href="/en/esim/iceland/">Iceland</a></li>
-    <li><a href="/en/esim/india/">India</a></li>
-    <li><a href="/en/esim/indonesia/">Indonesia</a></li>
-    <li><a href="/en/esim/iraq/">Iraq</a></li>
-    <li><a href="/en/esim/ireland/">Ireland</a></li>
-    <li><a href="/en/esim/isle-of-man/">Isle of Man</a></li>
-    <li><a href="/en/esim/israel/">Israel</a></li>
-    <li><a href="/en/esim/italy/">Italy</a></li>
-    <li><a href="/en/esim/jamaica/">Jamaica</a></li>
-    <li><a href="/en/esim/japan/">Japan</a></li>
-    <li><a href="/en/esim/jersey/">Jersey</a></li>
-    <li><a href="/en/esim/jordan/">Jordan</a></li>
-    <li><a href="/en/esim/kazakhstan/">Kazakhstan</a></li>
-    <li><a href="/en/esim/kenya/">Kenya</a></li>
-    <li><a href="/en/esim/kosovo/">Kosovo</a></li>
-    <li><a href="/en/esim/kuwait/">Kuwait</a></li>
-    <li><a href="/en/esim/kyrgyzstan/">Kyrgyzstan</a></li>
-    <li><a href="/en/esim/laos/">Laos</a></li>
-    <li><a href="/en/esim/latvia/">Latvia</a></li>
-    <li><a href="/en/esim/liberia/">Liberia</a></li>
-    <li><a href="/en/esim/libya/">Libya</a></li>
-    <li><a href="/en/esim/liechtenstein/">Liechtenstein</a></li>
-    <li><a href="/en/esim/lithuania/">Lithuania</a></li>
-    <li><a href="/en/esim/luxembourg/">Luxembourg</a></li>
-    <li><a href="/en/esim/macau/">Macao</a></li>
-    <li><a href="/en/esim/madagascar/">Madagascar</a></li>
-    <li><a href="/en/esim/malawi/">Malawi</a></li>
-    <li><a href="/en/esim/malaysia/">Malaysia</a></li>
-    <li><a href="/en/esim/maldives/">Maldives</a></li>
-    <li><a href="/en/esim/mali/">Mali</a></li>
-    <li><a href="/en/esim/malta/">Malta</a></li>
-    <li><a href="/en/esim/martinique/">Martinique</a></li>
-    <li><a href="/en/esim/mauritania/">Mauritania</a></li>
-    <li><a href="/en/esim/mauritius/">Mauritius</a></li>
-    <li><a href="/en/esim/mayotte/">Mayotte</a></li>
-    <li><a href="/en/esim/mexico/">Mexico</a></li>
-    <li><a href="/en/esim/moldova/">Moldova</a></li>
-    <li><a href="/en/esim/monaco/">Monaco</a></li>
-    <li><a href="/en/esim/mongolia/">Mongolia</a></li>
-    <li><a href="/en/esim/montenegro/">Montenegro</a></li>
-    <li><a href="/en/esim/montserrat/">Montserrat</a></li>
-    <li><a href="/en/esim/morocco/">Morocco</a></li>
-    <li><a href="/en/esim/mozambique/">Mozambique</a></li>
-    <li><a href="/en/esim/nauru/">Nauru</a></li>
-    <li><a href="/en/esim/nepal/">Nepal</a></li>
-    <li><a href="/en/esim/netherlands/">Netherlands</a></li>
-    <li><a href="/en/esim/new-zealand/">New Zealand</a></li>
-    <li><a href="/en/esim/nicaragua/">Nicaragua</a></li>
-    <li><a href="/en/esim/niger/">Niger</a></li>
-    <li><a href="/en/esim/nigeria/">Nigeria</a></li>
-    <li><a href="/en/esim/north-macedonia/">North Macedonia</a></li>
-    <li><a href="/en/esim/northern-mariana-islands/">Northern Mariana Islands</a></li>
-    <li><a href="/en/esim/norway/">Norway</a></li>
-    <li><a href="/en/esim/oman/">Oman</a></li>
-    <li><a href="/en/esim/pakistan/">Pakistan</a></li>
-    <li><a href="/en/esim/panama/">Panama</a></li>
-    <li><a href="/en/esim/papua-new-guinea/">Papua New Guinea</a></li>
-    <li><a href="/en/esim/paraguay/">Paraguay</a></li>
-    <li><a href="/en/esim/peru/">Peru</a></li>
-    <li><a href="/en/esim/philippines/">Philippines</a></li>
-    <li><a href="/en/esim/poland/">Poland</a></li>
-    <li><a href="/en/esim/portugal/">Portugal</a></li>
-    <li><a href="/en/esim/puerto-rico/">Puerto Rico</a></li>
-    <li><a href="/en/esim/qatar/">Qatar</a></li>
-    <li><a href="/en/esim/congo/">Republic of the Congo</a></li>
-    <li><a href="/en/esim/reunion/">Réunion</a></li>
-    <li><a href="/en/esim/romania/">Romania</a></li>
-    <li><a href="/en/esim/rwanda/">Rwanda</a></li>
-    <li><a href="/en/esim/saint-barthelemy/">Saint Barthélemy</a></li>
-    <li><a href="/en/esim/saint-kitts-and-nevis/">Saint Kitts and Nevis</a></li>
-    <li><a href="/en/esim/saint-lucia/">Saint Lucia</a></li>
-    <li><a href="/en/esim/saint-martin/">Saint Martin</a></li>
-    <li><a href="/en/esim/saint-vincent-and-the-grenadines/">Saint Vincent and the Grenadines</a></li>
-    <li><a href="/en/esim/samoa/">Samoa</a></li>
-    <li><a href="/en/esim/san-marino/">San Marino</a></li>
-    <li><a href="/en/esim/saudi-arabia/">Saudi Arabia</a></li>
-    <li><a href="/en/esim/senegal/">Senegal</a></li>
-    <li><a href="/en/esim/serbia/">Serbia</a></li>
-    <li><a href="/en/esim/seychelles/">Seychelles</a></li>
-    <li><a href="/en/esim/sierra-leone/">Sierra Leone</a></li>
-    <li><a href="/en/esim/singapore/">Singapore</a></li>
-    <li><a href="/en/esim/sint-maarten/">Sint Maarten</a></li>
-    <li><a href="/en/esim/slovakia/">Slovakia</a></li>
-    <li><a href="/en/esim/slovenia/">Slovenia</a></li>
-    <li><a href="/en/esim/south-africa/">South Africa</a></li>
-    <li><a href="/en/esim/south-korea/">South Korea</a></li>
-    <li><a href="/en/esim/spain/">Spain</a></li>
-    <li><a href="/en/esim/sri-lanka/">Sri Lanka</a></li>
-    <li><a href="/en/esim/sudan/">Sudan</a></li>
-    <li><a href="/en/esim/suriname/">Suriname</a></li>
-    <li><a href="/en/esim/sweden/">Sweden</a></li>
-    <li><a href="/en/esim/switzerland/">Switzerland</a></li>
-    <li><a href="/en/esim/taiwan/">Taiwan</a></li>
-    <li><a href="/en/esim/tajikistan/">Tajikistan</a></li>
-    <li><a href="/en/esim/tanzania/">Tanzania</a></li>
-    <li><a href="/en/esim/thailand/">Thailand</a></li>
-    <li><a href="/en/esim/timor-leste/">Timor-Leste</a></li>
-    <li><a href="/en/esim/tonga/">Tonga</a></li>
-    <li><a href="/en/esim/trinidad-and-tobago/">Trinidad and Tobago</a></li>
-    <li><a href="/en/esim/tunisia/">Tunisia</a></li>
-    <li><a href="/en/esim/turkey/">Türkiye</a></li>
-    <li><a href="/en/esim/turks-and-caicos/">Turks and Caicos Islands</a></li>
-    <li><a href="/en/esim/uganda/">Uganda</a></li>
-    <li><a href="/en/esim/uae/">United Arab Emirates</a></li>
-    <li><a href="/en/esim/united-kingdom/">United Kingdom</a></li>
-    <li><a href="/en/esim/usa/">United States</a></li>
-    <li><a href="/en/esim/uruguay/">Uruguay</a></li>
-    <li><a href="/en/esim/uzbekistan/">Uzbekistan</a></li>
-    <li><a href="/en/esim/vanuatu/">Vanuatu</a></li>
-    <li><a href="/en/esim/vatican/">Vatican City</a></li>
-    <li><a href="/en/esim/venezuela/">Venezuela</a></li>
-    <li><a href="/en/esim/vietnam/">Vietnam</a></li>
-    <li><a href="/en/esim/zambia/">Zambia</a></li>
-    <li><a href="/en/esim/zimbabwe/">Zimbabwe</a></li>
-  </ul>
+    <nav class="hub-az" id="hubAz" aria-label="Destinations A to Z"><a href="#az-a" data-letter="A">A</a><a href="#az-b" data-letter="B">B</a><a href="#az-c" data-letter="C">C</a><a href="#az-d" data-letter="D">D</a><a href="#az-e" data-letter="E">E</a><a href="#az-f" data-letter="F">F</a><a href="#az-g" data-letter="G">G</a><a href="#az-h" data-letter="H">H</a><a href="#az-i" data-letter="I">I</a><a href="#az-j" data-letter="J">J</a><a href="#az-k" data-letter="K">K</a><a href="#az-l" data-letter="L">L</a><a href="#az-m" data-letter="M">M</a><a href="#az-n" data-letter="N">N</a><a href="#az-o" data-letter="O">O</a><a href="#az-p" data-letter="P">P</a><a href="#az-q" data-letter="Q">Q</a><a href="#az-r" data-letter="R">R</a><a href="#az-s" data-letter="S">S</a><a href="#az-t" data-letter="T">T</a><a href="#az-u" data-letter="U">U</a><a href="#az-v" data-letter="V">V</a><span aria-hidden="true">W</span><span aria-hidden="true">X</span><span aria-hidden="true">Y</span><a href="#az-z" data-letter="Z">Z</a></nav>
+
+    <div class="hub-list" id="hubList">
+    <section class="az-group" id="az-a" aria-labelledby="azh-a">
+      <h2 id="azh-a">A</h2>
+      <ul class="dest">
+        <li data-name="afghanistan" data-iso="AF"><a href="/en/esim/afghanistan/"><img class="flag" src="/en/flags/af.svg" alt="" width="28" height="21" loading="lazy"><span>Afghanistan</span></a></li>
+        <li data-name="aland islands" data-iso="AX"><a href="/en/esim/aland-islands/"><img class="flag" src="/en/flags/ax.svg" alt="" width="28" height="21" loading="lazy"><span>Åland Islands</span></a></li>
+        <li data-name="albania" data-iso="AL"><a href="/en/esim/albania/"><img class="flag" src="/en/flags/al.svg" alt="" width="28" height="21" loading="lazy"><span>Albania</span></a></li>
+        <li data-name="algeria" data-iso="DZ"><a href="/en/esim/algeria/"><img class="flag" src="/en/flags/dz.svg" alt="" width="28" height="21" loading="lazy"><span>Algeria</span></a></li>
+        <li data-name="andorra" data-iso="AD"><a href="/en/esim/andorra/"><img class="flag" src="/en/flags/ad.svg" alt="" width="28" height="21" loading="lazy"><span>Andorra</span></a></li>
+        <li data-name="angola" data-iso="AO"><a href="/en/esim/angola/"><img class="flag" src="/en/flags/ao.svg" alt="" width="28" height="21" loading="lazy"><span>Angola</span></a></li>
+        <li data-name="anguilla" data-iso="AI"><a href="/en/esim/anguilla/"><img class="flag" src="/en/flags/ai.svg" alt="" width="28" height="21" loading="lazy"><span>Anguilla</span></a></li>
+        <li data-name="antigua and barbuda" data-iso="AG"><a href="/en/esim/antigua-and-barbuda/"><img class="flag" src="/en/flags/ag.svg" alt="" width="28" height="21" loading="lazy"><span>Antigua and Barbuda</span></a></li>
+        <li data-name="argentina" data-iso="AR"><a href="/en/esim/argentina/"><img class="flag" src="/en/flags/ar.svg" alt="" width="28" height="21" loading="lazy"><span>Argentina</span></a></li>
+        <li data-name="armenia" data-iso="AM"><a href="/en/esim/armenia/"><img class="flag" src="/en/flags/am.svg" alt="" width="28" height="21" loading="lazy"><span>Armenia</span></a></li>
+        <li data-name="aruba" data-iso="AW"><a href="/en/esim/aruba/"><img class="flag" src="/en/flags/aw.svg" alt="" width="28" height="21" loading="lazy"><span>Aruba</span></a></li>
+        <li data-name="australia" data-iso="AU"><a href="/en/esim/australia/"><img class="flag" src="/en/flags/au.svg" alt="" width="28" height="21" loading="lazy"><span>Australia</span></a></li>
+        <li data-name="austria" data-iso="AT"><a href="/en/esim/austria/"><img class="flag" src="/en/flags/at.svg" alt="" width="28" height="21" loading="lazy"><span>Austria</span></a></li>
+        <li data-name="azerbaijan" data-iso="AZ"><a href="/en/esim/azerbaijan/"><img class="flag" src="/en/flags/az.svg" alt="" width="28" height="21" loading="lazy"><span>Azerbaijan</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-b" aria-labelledby="azh-b">
+      <h2 id="azh-b">B</h2>
+      <ul class="dest">
+        <li data-name="bahamas" data-iso="BS"><a href="/en/esim/bahamas/"><img class="flag" src="/en/flags/bs.svg" alt="" width="28" height="21" loading="lazy"><span>Bahamas</span></a></li>
+        <li data-name="bahrain" data-iso="BH"><a href="/en/esim/bahrain/"><img class="flag" src="/en/flags/bh.svg" alt="" width="28" height="21" loading="lazy"><span>Bahrain</span></a></li>
+        <li data-name="bangladesh" data-iso="BD"><a href="/en/esim/bangladesh/"><img class="flag" src="/en/flags/bd.svg" alt="" width="28" height="21" loading="lazy"><span>Bangladesh</span></a></li>
+        <li data-name="barbados" data-iso="BB"><a href="/en/esim/barbados/"><img class="flag" src="/en/flags/bb.svg" alt="" width="28" height="21" loading="lazy"><span>Barbados</span></a></li>
+        <li data-name="belgium" data-iso="BE"><a href="/en/esim/belgium/"><img class="flag" src="/en/flags/be.svg" alt="" width="28" height="21" loading="lazy"><span>Belgium</span></a></li>
+        <li data-name="belize" data-iso="BZ"><a href="/en/esim/belize/"><img class="flag" src="/en/flags/bz.svg" alt="" width="28" height="21" loading="lazy"><span>Belize</span></a></li>
+        <li data-name="benin" data-iso="BJ"><a href="/en/esim/benin/"><img class="flag" src="/en/flags/bj.svg" alt="" width="28" height="21" loading="lazy"><span>Benin</span></a></li>
+        <li data-name="bermuda" data-iso="BM"><a href="/en/esim/bermuda/"><img class="flag" src="/en/flags/bm.svg" alt="" width="28" height="21" loading="lazy"><span>Bermuda</span></a></li>
+        <li data-name="bhutan" data-iso="BT"><a href="/en/esim/bhutan/"><img class="flag" src="/en/flags/bt.svg" alt="" width="28" height="21" loading="lazy"><span>Bhutan</span></a></li>
+        <li data-name="bolivia" data-iso="BO"><a href="/en/esim/bolivia/"><img class="flag" src="/en/flags/bo.svg" alt="" width="28" height="21" loading="lazy"><span>Bolivia</span></a></li>
+        <li data-name="bosnia and herzegovina" data-iso="BA"><a href="/en/esim/bosnia-and-herzegovina/"><img class="flag" src="/en/flags/ba.svg" alt="" width="28" height="21" loading="lazy"><span>Bosnia and Herzegovina</span></a></li>
+        <li data-name="botswana" data-iso="BW"><a href="/en/esim/botswana/"><img class="flag" src="/en/flags/bw.svg" alt="" width="28" height="21" loading="lazy"><span>Botswana</span></a></li>
+        <li data-name="brazil" data-iso="BR"><a href="/en/esim/brazil/"><img class="flag" src="/en/flags/br.svg" alt="" width="28" height="21" loading="lazy"><span>Brazil</span></a></li>
+        <li data-name="british virgin islands" data-iso="VG"><a href="/en/esim/british-virgin-islands/"><img class="flag" src="/en/flags/vg.svg" alt="" width="28" height="21" loading="lazy"><span>British Virgin Islands</span></a></li>
+        <li data-name="brunei" data-iso="BN"><a href="/en/esim/brunei/"><img class="flag" src="/en/flags/bn.svg" alt="" width="28" height="21" loading="lazy"><span>Brunei</span></a></li>
+        <li data-name="bulgaria" data-iso="BG"><a href="/en/esim/bulgaria/"><img class="flag" src="/en/flags/bg.svg" alt="" width="28" height="21" loading="lazy"><span>Bulgaria</span></a></li>
+        <li data-name="burkina faso" data-iso="BF"><a href="/en/esim/burkina-faso/"><img class="flag" src="/en/flags/bf.svg" alt="" width="28" height="21" loading="lazy"><span>Burkina Faso</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-c" aria-labelledby="azh-c">
+      <h2 id="azh-c">C</h2>
+      <ul class="dest">
+        <li data-name="cambodia" data-iso="KH"><a href="/en/esim/cambodia/"><img class="flag" src="/en/flags/kh.svg" alt="" width="28" height="21" loading="lazy"><span>Cambodia</span></a></li>
+        <li data-name="cameroon" data-iso="CM"><a href="/en/esim/cameroon/"><img class="flag" src="/en/flags/cm.svg" alt="" width="28" height="21" loading="lazy"><span>Cameroon</span></a></li>
+        <li data-name="canada" data-iso="CA"><a href="/en/esim/canada/"><img class="flag" src="/en/flags/ca.svg" alt="" width="28" height="21" loading="lazy"><span>Canada</span></a></li>
+        <li data-name="cape verde" data-iso="CV"><a href="/en/esim/cape-verde/"><img class="flag" src="/en/flags/cv.svg" alt="" width="28" height="21" loading="lazy"><span>Cape Verde</span></a></li>
+        <li data-name="caribbean netherlands" data-iso="BQ"><a href="/en/esim/bonaire/"><img class="flag" src="/en/flags/bq.svg" alt="" width="28" height="21" loading="lazy"><span>Caribbean Netherlands</span></a></li>
+        <li data-name="cayman islands" data-iso="KY"><a href="/en/esim/cayman-islands/"><img class="flag" src="/en/flags/ky.svg" alt="" width="28" height="21" loading="lazy"><span>Cayman Islands</span></a></li>
+        <li data-name="central african republic" data-iso="CF"><a href="/en/esim/central-african-republic/"><img class="flag" src="/en/flags/cf.svg" alt="" width="28" height="21" loading="lazy"><span>Central African Republic</span></a></li>
+        <li data-name="chad" data-iso="TD"><a href="/en/esim/chad/"><img class="flag" src="/en/flags/td.svg" alt="" width="28" height="21" loading="lazy"><span>Chad</span></a></li>
+        <li data-name="chile" data-iso="CL"><a href="/en/esim/chile/"><img class="flag" src="/en/flags/cl.svg" alt="" width="28" height="21" loading="lazy"><span>Chile</span></a></li>
+        <li data-name="china" data-iso="CN"><a href="/en/esim/china/"><img class="flag" src="/en/flags/cn.svg" alt="" width="28" height="21" loading="lazy"><span>China</span></a></li>
+        <li data-name="colombia" data-iso="CO"><a href="/en/esim/colombia/"><img class="flag" src="/en/flags/co.svg" alt="" width="28" height="21" loading="lazy"><span>Colombia</span></a></li>
+        <li data-name="costa rica" data-iso="CR"><a href="/en/esim/costa-rica/"><img class="flag" src="/en/flags/cr.svg" alt="" width="28" height="21" loading="lazy"><span>Costa Rica</span></a></li>
+        <li data-name="cote d’ivoire" data-iso="CI"><a href="/en/esim/ivory-coast/"><img class="flag" src="/en/flags/ci.svg" alt="" width="28" height="21" loading="lazy"><span>Côte d’Ivoire</span></a></li>
+        <li data-name="croatia" data-iso="HR"><a href="/en/esim/croatia/"><img class="flag" src="/en/flags/hr.svg" alt="" width="28" height="21" loading="lazy"><span>Croatia</span></a></li>
+        <li data-name="curacao" data-iso="CW"><a href="/en/esim/curacao/"><img class="flag" src="/en/flags/cw.svg" alt="" width="28" height="21" loading="lazy"><span>Curaçao</span></a></li>
+        <li data-name="cyprus" data-iso="CY"><a href="/en/esim/cyprus/"><img class="flag" src="/en/flags/cy.svg" alt="" width="28" height="21" loading="lazy"><span>Cyprus</span></a></li>
+        <li data-name="czechia" data-iso="CZ"><a href="/en/esim/czechia/"><img class="flag" src="/en/flags/cz.svg" alt="" width="28" height="21" loading="lazy"><span>Czechia</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-d" aria-labelledby="azh-d">
+      <h2 id="azh-d">D</h2>
+      <ul class="dest">
+        <li data-name="denmark" data-iso="DK"><a href="/en/esim/denmark/"><img class="flag" src="/en/flags/dk.svg" alt="" width="28" height="21" loading="lazy"><span>Denmark</span></a></li>
+        <li data-name="dominica" data-iso="DM"><a href="/en/esim/dominica/"><img class="flag" src="/en/flags/dm.svg" alt="" width="28" height="21" loading="lazy"><span>Dominica</span></a></li>
+        <li data-name="dominican republic" data-iso="DO"><a href="/en/esim/dominican-republic/"><img class="flag" src="/en/flags/do.svg" alt="" width="28" height="21" loading="lazy"><span>Dominican Republic</span></a></li>
+        <li data-name="dr congo" data-iso="CD"><a href="/en/esim/dr-congo/"><img class="flag" src="/en/flags/cd.svg" alt="" width="28" height="21" loading="lazy"><span>DR Congo</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-e" aria-labelledby="azh-e">
+      <h2 id="azh-e">E</h2>
+      <ul class="dest">
+        <li data-name="ecuador" data-iso="EC"><a href="/en/esim/ecuador/"><img class="flag" src="/en/flags/ec.svg" alt="" width="28" height="21" loading="lazy"><span>Ecuador</span></a></li>
+        <li data-name="egypt" data-iso="EG"><a href="/en/esim/egypt/"><img class="flag" src="/en/flags/eg.svg" alt="" width="28" height="21" loading="lazy"><span>Egypt</span></a></li>
+        <li data-name="el salvador" data-iso="SV"><a href="/en/esim/el-salvador/"><img class="flag" src="/en/flags/sv.svg" alt="" width="28" height="21" loading="lazy"><span>El Salvador</span></a></li>
+        <li data-name="estonia" data-iso="EE"><a href="/en/esim/estonia/"><img class="flag" src="/en/flags/ee.svg" alt="" width="28" height="21" loading="lazy"><span>Estonia</span></a></li>
+        <li data-name="eswatini" data-iso="SZ"><a href="/en/esim/eswatini/"><img class="flag" src="/en/flags/sz.svg" alt="" width="28" height="21" loading="lazy"><span>Eswatini</span></a></li>
+        <li data-name="ethiopia" data-iso="ET"><a href="/en/esim/ethiopia/"><img class="flag" src="/en/flags/et.svg" alt="" width="28" height="21" loading="lazy"><span>Ethiopia</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-f" aria-labelledby="azh-f">
+      <h2 id="azh-f">F</h2>
+      <ul class="dest">
+        <li data-name="faroe islands" data-iso="FO"><a href="/en/esim/faroe-islands/"><img class="flag" src="/en/flags/fo.svg" alt="" width="28" height="21" loading="lazy"><span>Faroe Islands</span></a></li>
+        <li data-name="fiji" data-iso="FJ"><a href="/en/esim/fiji/"><img class="flag" src="/en/flags/fj.svg" alt="" width="28" height="21" loading="lazy"><span>Fiji</span></a></li>
+        <li data-name="finland" data-iso="FI"><a href="/en/esim/finland/"><img class="flag" src="/en/flags/fi.svg" alt="" width="28" height="21" loading="lazy"><span>Finland</span></a></li>
+        <li data-name="france" data-iso="FR"><a href="/en/esim/france/"><img class="flag" src="/en/flags/fr.svg" alt="" width="28" height="21" loading="lazy"><span>France</span></a></li>
+        <li data-name="french guiana" data-iso="GF"><a href="/en/esim/french-guiana/"><img class="flag" src="/en/flags/gf.svg" alt="" width="28" height="21" loading="lazy"><span>French Guiana</span></a></li>
+        <li data-name="french polynesia" data-iso="PF"><a href="/en/esim/french-polynesia/"><img class="flag" src="/en/flags/pf.svg" alt="" width="28" height="21" loading="lazy"><span>French Polynesia</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-g" aria-labelledby="azh-g">
+      <h2 id="azh-g">G</h2>
+      <ul class="dest">
+        <li data-name="gabon" data-iso="GA"><a href="/en/esim/gabon/"><img class="flag" src="/en/flags/ga.svg" alt="" width="28" height="21" loading="lazy"><span>Gabon</span></a></li>
+        <li data-name="gambia" data-iso="GM"><a href="/en/esim/gambia/"><img class="flag" src="/en/flags/gm.svg" alt="" width="28" height="21" loading="lazy"><span>Gambia</span></a></li>
+        <li data-name="georgia" data-iso="GE"><a href="/en/esim/georgia/"><img class="flag" src="/en/flags/ge.svg" alt="" width="28" height="21" loading="lazy"><span>Georgia</span></a></li>
+        <li data-name="germany" data-iso="DE"><a href="/en/esim/germany/"><img class="flag" src="/en/flags/de.svg" alt="" width="28" height="21" loading="lazy"><span>Germany</span></a></li>
+        <li data-name="ghana" data-iso="GH"><a href="/en/esim/ghana/"><img class="flag" src="/en/flags/gh.svg" alt="" width="28" height="21" loading="lazy"><span>Ghana</span></a></li>
+        <li data-name="gibraltar" data-iso="GI"><a href="/en/esim/gibraltar/"><img class="flag" src="/en/flags/gi.svg" alt="" width="28" height="21" loading="lazy"><span>Gibraltar</span></a></li>
+        <li data-name="greece" data-iso="GR"><a href="/en/esim/greece/"><img class="flag" src="/en/flags/gr.svg" alt="" width="28" height="21" loading="lazy"><span>Greece</span></a></li>
+        <li data-name="greenland" data-iso="GL"><a href="/en/esim/greenland/"><img class="flag" src="/en/flags/gl.svg" alt="" width="28" height="21" loading="lazy"><span>Greenland</span></a></li>
+        <li data-name="grenada" data-iso="GD"><a href="/en/esim/grenada/"><img class="flag" src="/en/flags/gd.svg" alt="" width="28" height="21" loading="lazy"><span>Grenada</span></a></li>
+        <li data-name="guadeloupe" data-iso="GP"><a href="/en/esim/guadeloupe/"><img class="flag" src="/en/flags/gp.svg" alt="" width="28" height="21" loading="lazy"><span>Guadeloupe</span></a></li>
+        <li data-name="guam" data-iso="GU"><a href="/en/esim/guam/"><img class="flag" src="/en/flags/gu.svg" alt="" width="28" height="21" loading="lazy"><span>Guam</span></a></li>
+        <li data-name="guatemala" data-iso="GT"><a href="/en/esim/guatemala/"><img class="flag" src="/en/flags/gt.svg" alt="" width="28" height="21" loading="lazy"><span>Guatemala</span></a></li>
+        <li data-name="guernsey" data-iso="GG"><a href="/en/esim/guernsey/"><img class="flag" src="/en/flags/gg.svg" alt="" width="28" height="21" loading="lazy"><span>Guernsey</span></a></li>
+        <li data-name="guinea" data-iso="GN"><a href="/en/esim/guinea/"><img class="flag" src="/en/flags/gn.svg" alt="" width="28" height="21" loading="lazy"><span>Guinea</span></a></li>
+        <li data-name="guinea-bissau" data-iso="GW"><a href="/en/esim/guinea-bissau/"><img class="flag" src="/en/flags/gw.svg" alt="" width="28" height="21" loading="lazy"><span>Guinea-Bissau</span></a></li>
+        <li data-name="guyana" data-iso="GY"><a href="/en/esim/guyana/"><img class="flag" src="/en/flags/gy.svg" alt="" width="28" height="21" loading="lazy"><span>Guyana</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-h" aria-labelledby="azh-h">
+      <h2 id="azh-h">H</h2>
+      <ul class="dest">
+        <li data-name="haiti" data-iso="HT"><a href="/en/esim/haiti/"><img class="flag" src="/en/flags/ht.svg" alt="" width="28" height="21" loading="lazy"><span>Haiti</span></a></li>
+        <li data-name="honduras" data-iso="HN"><a href="/en/esim/honduras/"><img class="flag" src="/en/flags/hn.svg" alt="" width="28" height="21" loading="lazy"><span>Honduras</span></a></li>
+        <li data-name="hong kong" data-iso="HK"><a href="/en/esim/hong-kong/"><img class="flag" src="/en/flags/hk.svg" alt="" width="28" height="21" loading="lazy"><span>Hong Kong</span></a></li>
+        <li data-name="hungary" data-iso="HU"><a href="/en/esim/hungary/"><img class="flag" src="/en/flags/hu.svg" alt="" width="28" height="21" loading="lazy"><span>Hungary</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-i" aria-labelledby="azh-i">
+      <h2 id="azh-i">I</h2>
+      <ul class="dest">
+        <li data-name="iceland" data-iso="IS"><a href="/en/esim/iceland/"><img class="flag" src="/en/flags/is.svg" alt="" width="28" height="21" loading="lazy"><span>Iceland</span></a></li>
+        <li data-name="india" data-iso="IN"><a href="/en/esim/india/"><img class="flag" src="/en/flags/in.svg" alt="" width="28" height="21" loading="lazy"><span>India</span></a></li>
+        <li data-name="indonesia" data-iso="ID"><a href="/en/esim/indonesia/"><img class="flag" src="/en/flags/id.svg" alt="" width="28" height="21" loading="lazy"><span>Indonesia</span></a></li>
+        <li data-name="iraq" data-iso="IQ"><a href="/en/esim/iraq/"><img class="flag" src="/en/flags/iq.svg" alt="" width="28" height="21" loading="lazy"><span>Iraq</span></a></li>
+        <li data-name="ireland" data-iso="IE"><a href="/en/esim/ireland/"><img class="flag" src="/en/flags/ie.svg" alt="" width="28" height="21" loading="lazy"><span>Ireland</span></a></li>
+        <li data-name="isle of man" data-iso="IM"><a href="/en/esim/isle-of-man/"><img class="flag" src="/en/flags/im.svg" alt="" width="28" height="21" loading="lazy"><span>Isle of Man</span></a></li>
+        <li data-name="israel" data-iso="IL"><a href="/en/esim/israel/"><img class="flag" src="/en/flags/il.svg" alt="" width="28" height="21" loading="lazy"><span>Israel</span></a></li>
+        <li data-name="italy" data-iso="IT"><a href="/en/esim/italy/"><img class="flag" src="/en/flags/it.svg" alt="" width="28" height="21" loading="lazy"><span>Italy</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-j" aria-labelledby="azh-j">
+      <h2 id="azh-j">J</h2>
+      <ul class="dest">
+        <li data-name="jamaica" data-iso="JM"><a href="/en/esim/jamaica/"><img class="flag" src="/en/flags/jm.svg" alt="" width="28" height="21" loading="lazy"><span>Jamaica</span></a></li>
+        <li data-name="japan" data-iso="JP"><a href="/en/esim/japan/"><img class="flag" src="/en/flags/jp.svg" alt="" width="28" height="21" loading="lazy"><span>Japan</span></a></li>
+        <li data-name="jersey" data-iso="JE"><a href="/en/esim/jersey/"><img class="flag" src="/en/flags/je.svg" alt="" width="28" height="21" loading="lazy"><span>Jersey</span></a></li>
+        <li data-name="jordan" data-iso="JO"><a href="/en/esim/jordan/"><img class="flag" src="/en/flags/jo.svg" alt="" width="28" height="21" loading="lazy"><span>Jordan</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-k" aria-labelledby="azh-k">
+      <h2 id="azh-k">K</h2>
+      <ul class="dest">
+        <li data-name="kazakhstan" data-iso="KZ"><a href="/en/esim/kazakhstan/"><img class="flag" src="/en/flags/kz.svg" alt="" width="28" height="21" loading="lazy"><span>Kazakhstan</span></a></li>
+        <li data-name="kenya" data-iso="KE"><a href="/en/esim/kenya/"><img class="flag" src="/en/flags/ke.svg" alt="" width="28" height="21" loading="lazy"><span>Kenya</span></a></li>
+        <li data-name="kosovo" data-iso="XK"><a href="/en/esim/kosovo/"><img class="flag" src="/en/flags/xk.svg" alt="" width="28" height="21" loading="lazy"><span>Kosovo</span></a></li>
+        <li data-name="kuwait" data-iso="KW"><a href="/en/esim/kuwait/"><img class="flag" src="/en/flags/kw.svg" alt="" width="28" height="21" loading="lazy"><span>Kuwait</span></a></li>
+        <li data-name="kyrgyzstan" data-iso="KG"><a href="/en/esim/kyrgyzstan/"><img class="flag" src="/en/flags/kg.svg" alt="" width="28" height="21" loading="lazy"><span>Kyrgyzstan</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-l" aria-labelledby="azh-l">
+      <h2 id="azh-l">L</h2>
+      <ul class="dest">
+        <li data-name="laos" data-iso="LA"><a href="/en/esim/laos/"><img class="flag" src="/en/flags/la.svg" alt="" width="28" height="21" loading="lazy"><span>Laos</span></a></li>
+        <li data-name="latvia" data-iso="LV"><a href="/en/esim/latvia/"><img class="flag" src="/en/flags/lv.svg" alt="" width="28" height="21" loading="lazy"><span>Latvia</span></a></li>
+        <li data-name="liberia" data-iso="LR"><a href="/en/esim/liberia/"><img class="flag" src="/en/flags/lr.svg" alt="" width="28" height="21" loading="lazy"><span>Liberia</span></a></li>
+        <li data-name="libya" data-iso="LY"><a href="/en/esim/libya/"><img class="flag" src="/en/flags/ly.svg" alt="" width="28" height="21" loading="lazy"><span>Libya</span></a></li>
+        <li data-name="liechtenstein" data-iso="LI"><a href="/en/esim/liechtenstein/"><img class="flag" src="/en/flags/li.svg" alt="" width="28" height="21" loading="lazy"><span>Liechtenstein</span></a></li>
+        <li data-name="lithuania" data-iso="LT"><a href="/en/esim/lithuania/"><img class="flag" src="/en/flags/lt.svg" alt="" width="28" height="21" loading="lazy"><span>Lithuania</span></a></li>
+        <li data-name="luxembourg" data-iso="LU"><a href="/en/esim/luxembourg/"><img class="flag" src="/en/flags/lu.svg" alt="" width="28" height="21" loading="lazy"><span>Luxembourg</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-m" aria-labelledby="azh-m">
+      <h2 id="azh-m">M</h2>
+      <ul class="dest">
+        <li data-name="macao" data-iso="MO"><a href="/en/esim/macau/"><img class="flag" src="/en/flags/mo.svg" alt="" width="28" height="21" loading="lazy"><span>Macao</span></a></li>
+        <li data-name="madagascar" data-iso="MG"><a href="/en/esim/madagascar/"><img class="flag" src="/en/flags/mg.svg" alt="" width="28" height="21" loading="lazy"><span>Madagascar</span></a></li>
+        <li data-name="malawi" data-iso="MW"><a href="/en/esim/malawi/"><img class="flag" src="/en/flags/mw.svg" alt="" width="28" height="21" loading="lazy"><span>Malawi</span></a></li>
+        <li data-name="malaysia" data-iso="MY"><a href="/en/esim/malaysia/"><img class="flag" src="/en/flags/my.svg" alt="" width="28" height="21" loading="lazy"><span>Malaysia</span></a></li>
+        <li data-name="maldives" data-iso="MV"><a href="/en/esim/maldives/"><img class="flag" src="/en/flags/mv.svg" alt="" width="28" height="21" loading="lazy"><span>Maldives</span></a></li>
+        <li data-name="mali" data-iso="ML"><a href="/en/esim/mali/"><img class="flag" src="/en/flags/ml.svg" alt="" width="28" height="21" loading="lazy"><span>Mali</span></a></li>
+        <li data-name="malta" data-iso="MT"><a href="/en/esim/malta/"><img class="flag" src="/en/flags/mt.svg" alt="" width="28" height="21" loading="lazy"><span>Malta</span></a></li>
+        <li data-name="martinique" data-iso="MQ"><a href="/en/esim/martinique/"><img class="flag" src="/en/flags/mq.svg" alt="" width="28" height="21" loading="lazy"><span>Martinique</span></a></li>
+        <li data-name="mauritania" data-iso="MR"><a href="/en/esim/mauritania/"><img class="flag" src="/en/flags/mr.svg" alt="" width="28" height="21" loading="lazy"><span>Mauritania</span></a></li>
+        <li data-name="mauritius" data-iso="MU"><a href="/en/esim/mauritius/"><img class="flag" src="/en/flags/mu.svg" alt="" width="28" height="21" loading="lazy"><span>Mauritius</span></a></li>
+        <li data-name="mayotte" data-iso="YT"><a href="/en/esim/mayotte/"><img class="flag" src="/en/flags/yt.svg" alt="" width="28" height="21" loading="lazy"><span>Mayotte</span></a></li>
+        <li data-name="mexico" data-iso="MX"><a href="/en/esim/mexico/"><img class="flag" src="/en/flags/mx.svg" alt="" width="28" height="21" loading="lazy"><span>Mexico</span></a></li>
+        <li data-name="moldova" data-iso="MD"><a href="/en/esim/moldova/"><img class="flag" src="/en/flags/md.svg" alt="" width="28" height="21" loading="lazy"><span>Moldova</span></a></li>
+        <li data-name="monaco" data-iso="MC"><a href="/en/esim/monaco/"><img class="flag" src="/en/flags/mc.svg" alt="" width="28" height="21" loading="lazy"><span>Monaco</span></a></li>
+        <li data-name="mongolia" data-iso="MN"><a href="/en/esim/mongolia/"><img class="flag" src="/en/flags/mn.svg" alt="" width="28" height="21" loading="lazy"><span>Mongolia</span></a></li>
+        <li data-name="montenegro" data-iso="ME"><a href="/en/esim/montenegro/"><img class="flag" src="/en/flags/me.svg" alt="" width="28" height="21" loading="lazy"><span>Montenegro</span></a></li>
+        <li data-name="montserrat" data-iso="MS"><a href="/en/esim/montserrat/"><img class="flag" src="/en/flags/ms.svg" alt="" width="28" height="21" loading="lazy"><span>Montserrat</span></a></li>
+        <li data-name="morocco" data-iso="MA"><a href="/en/esim/morocco/"><img class="flag" src="/en/flags/ma.svg" alt="" width="28" height="21" loading="lazy"><span>Morocco</span></a></li>
+        <li data-name="mozambique" data-iso="MZ"><a href="/en/esim/mozambique/"><img class="flag" src="/en/flags/mz.svg" alt="" width="28" height="21" loading="lazy"><span>Mozambique</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-n" aria-labelledby="azh-n">
+      <h2 id="azh-n">N</h2>
+      <ul class="dest">
+        <li data-name="nauru" data-iso="NR"><a href="/en/esim/nauru/"><img class="flag" src="/en/flags/nr.svg" alt="" width="28" height="21" loading="lazy"><span>Nauru</span></a></li>
+        <li data-name="nepal" data-iso="NP"><a href="/en/esim/nepal/"><img class="flag" src="/en/flags/np.svg" alt="" width="28" height="21" loading="lazy"><span>Nepal</span></a></li>
+        <li data-name="netherlands" data-iso="NL"><a href="/en/esim/netherlands/"><img class="flag" src="/en/flags/nl.svg" alt="" width="28" height="21" loading="lazy"><span>Netherlands</span></a></li>
+        <li data-name="new zealand" data-iso="NZ"><a href="/en/esim/new-zealand/"><img class="flag" src="/en/flags/nz.svg" alt="" width="28" height="21" loading="lazy"><span>New Zealand</span></a></li>
+        <li data-name="nicaragua" data-iso="NI"><a href="/en/esim/nicaragua/"><img class="flag" src="/en/flags/ni.svg" alt="" width="28" height="21" loading="lazy"><span>Nicaragua</span></a></li>
+        <li data-name="niger" data-iso="NE"><a href="/en/esim/niger/"><img class="flag" src="/en/flags/ne.svg" alt="" width="28" height="21" loading="lazy"><span>Niger</span></a></li>
+        <li data-name="nigeria" data-iso="NG"><a href="/en/esim/nigeria/"><img class="flag" src="/en/flags/ng.svg" alt="" width="28" height="21" loading="lazy"><span>Nigeria</span></a></li>
+        <li data-name="north macedonia" data-iso="MK"><a href="/en/esim/north-macedonia/"><img class="flag" src="/en/flags/mk.svg" alt="" width="28" height="21" loading="lazy"><span>North Macedonia</span></a></li>
+        <li data-name="northern mariana islands" data-iso="MP"><a href="/en/esim/northern-mariana-islands/"><img class="flag" src="/en/flags/mp.svg" alt="" width="28" height="21" loading="lazy"><span>Northern Mariana Islands</span></a></li>
+        <li data-name="norway" data-iso="NO"><a href="/en/esim/norway/"><img class="flag" src="/en/flags/no.svg" alt="" width="28" height="21" loading="lazy"><span>Norway</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-o" aria-labelledby="azh-o">
+      <h2 id="azh-o">O</h2>
+      <ul class="dest">
+        <li data-name="oman" data-iso="OM"><a href="/en/esim/oman/"><img class="flag" src="/en/flags/om.svg" alt="" width="28" height="21" loading="lazy"><span>Oman</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-p" aria-labelledby="azh-p">
+      <h2 id="azh-p">P</h2>
+      <ul class="dest">
+        <li data-name="pakistan" data-iso="PK"><a href="/en/esim/pakistan/"><img class="flag" src="/en/flags/pk.svg" alt="" width="28" height="21" loading="lazy"><span>Pakistan</span></a></li>
+        <li data-name="panama" data-iso="PA"><a href="/en/esim/panama/"><img class="flag" src="/en/flags/pa.svg" alt="" width="28" height="21" loading="lazy"><span>Panama</span></a></li>
+        <li data-name="papua new guinea" data-iso="PG"><a href="/en/esim/papua-new-guinea/"><img class="flag" src="/en/flags/pg.svg" alt="" width="28" height="21" loading="lazy"><span>Papua New Guinea</span></a></li>
+        <li data-name="paraguay" data-iso="PY"><a href="/en/esim/paraguay/"><img class="flag" src="/en/flags/py.svg" alt="" width="28" height="21" loading="lazy"><span>Paraguay</span></a></li>
+        <li data-name="peru" data-iso="PE"><a href="/en/esim/peru/"><img class="flag" src="/en/flags/pe.svg" alt="" width="28" height="21" loading="lazy"><span>Peru</span></a></li>
+        <li data-name="philippines" data-iso="PH"><a href="/en/esim/philippines/"><img class="flag" src="/en/flags/ph.svg" alt="" width="28" height="21" loading="lazy"><span>Philippines</span></a></li>
+        <li data-name="poland" data-iso="PL"><a href="/en/esim/poland/"><img class="flag" src="/en/flags/pl.svg" alt="" width="28" height="21" loading="lazy"><span>Poland</span></a></li>
+        <li data-name="portugal" data-iso="PT"><a href="/en/esim/portugal/"><img class="flag" src="/en/flags/pt.svg" alt="" width="28" height="21" loading="lazy"><span>Portugal</span></a></li>
+        <li data-name="puerto rico" data-iso="PR"><a href="/en/esim/puerto-rico/"><img class="flag" src="/en/flags/pr.svg" alt="" width="28" height="21" loading="lazy"><span>Puerto Rico</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-q" aria-labelledby="azh-q">
+      <h2 id="azh-q">Q</h2>
+      <ul class="dest">
+        <li data-name="qatar" data-iso="QA"><a href="/en/esim/qatar/"><img class="flag" src="/en/flags/qa.svg" alt="" width="28" height="21" loading="lazy"><span>Qatar</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-r" aria-labelledby="azh-r">
+      <h2 id="azh-r">R</h2>
+      <ul class="dest">
+        <li data-name="republic of the congo" data-iso="CG"><a href="/en/esim/congo/"><img class="flag" src="/en/flags/cg.svg" alt="" width="28" height="21" loading="lazy"><span>Republic of the Congo</span></a></li>
+        <li data-name="reunion" data-iso="RE"><a href="/en/esim/reunion/"><img class="flag" src="/en/flags/re.svg" alt="" width="28" height="21" loading="lazy"><span>Réunion</span></a></li>
+        <li data-name="romania" data-iso="RO"><a href="/en/esim/romania/"><img class="flag" src="/en/flags/ro.svg" alt="" width="28" height="21" loading="lazy"><span>Romania</span></a></li>
+        <li data-name="rwanda" data-iso="RW"><a href="/en/esim/rwanda/"><img class="flag" src="/en/flags/rw.svg" alt="" width="28" height="21" loading="lazy"><span>Rwanda</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-s" aria-labelledby="azh-s">
+      <h2 id="azh-s">S</h2>
+      <ul class="dest">
+        <li data-name="saint barthelemy" data-iso="BL"><a href="/en/esim/saint-barthelemy/"><img class="flag" src="/en/flags/bl.svg" alt="" width="28" height="21" loading="lazy"><span>Saint Barthélemy</span></a></li>
+        <li data-name="saint kitts and nevis" data-iso="KN"><a href="/en/esim/saint-kitts-and-nevis/"><img class="flag" src="/en/flags/kn.svg" alt="" width="28" height="21" loading="lazy"><span>Saint Kitts and Nevis</span></a></li>
+        <li data-name="saint lucia" data-iso="LC"><a href="/en/esim/saint-lucia/"><img class="flag" src="/en/flags/lc.svg" alt="" width="28" height="21" loading="lazy"><span>Saint Lucia</span></a></li>
+        <li data-name="saint martin" data-iso="MF"><a href="/en/esim/saint-martin/"><img class="flag" src="/en/flags/mf.svg" alt="" width="28" height="21" loading="lazy"><span>Saint Martin</span></a></li>
+        <li data-name="saint vincent and the grenadines" data-iso="VC"><a href="/en/esim/saint-vincent-and-the-grenadines/"><img class="flag" src="/en/flags/vc.svg" alt="" width="28" height="21" loading="lazy"><span>Saint Vincent and the Grenadines</span></a></li>
+        <li data-name="samoa" data-iso="WS"><a href="/en/esim/samoa/"><img class="flag" src="/en/flags/ws.svg" alt="" width="28" height="21" loading="lazy"><span>Samoa</span></a></li>
+        <li data-name="san marino" data-iso="SM"><a href="/en/esim/san-marino/"><img class="flag" src="/en/flags/sm.svg" alt="" width="28" height="21" loading="lazy"><span>San Marino</span></a></li>
+        <li data-name="saudi arabia" data-iso="SA"><a href="/en/esim/saudi-arabia/"><img class="flag" src="/en/flags/sa.svg" alt="" width="28" height="21" loading="lazy"><span>Saudi Arabia</span></a></li>
+        <li data-name="senegal" data-iso="SN"><a href="/en/esim/senegal/"><img class="flag" src="/en/flags/sn.svg" alt="" width="28" height="21" loading="lazy"><span>Senegal</span></a></li>
+        <li data-name="serbia" data-iso="RS"><a href="/en/esim/serbia/"><img class="flag" src="/en/flags/rs.svg" alt="" width="28" height="21" loading="lazy"><span>Serbia</span></a></li>
+        <li data-name="seychelles" data-iso="SC"><a href="/en/esim/seychelles/"><img class="flag" src="/en/flags/sc.svg" alt="" width="28" height="21" loading="lazy"><span>Seychelles</span></a></li>
+        <li data-name="sierra leone" data-iso="SL"><a href="/en/esim/sierra-leone/"><img class="flag" src="/en/flags/sl.svg" alt="" width="28" height="21" loading="lazy"><span>Sierra Leone</span></a></li>
+        <li data-name="singapore" data-iso="SG"><a href="/en/esim/singapore/"><img class="flag" src="/en/flags/sg.svg" alt="" width="28" height="21" loading="lazy"><span>Singapore</span></a></li>
+        <li data-name="sint maarten" data-iso="SX"><a href="/en/esim/sint-maarten/"><img class="flag" src="/en/flags/sx.svg" alt="" width="28" height="21" loading="lazy"><span>Sint Maarten</span></a></li>
+        <li data-name="slovakia" data-iso="SK"><a href="/en/esim/slovakia/"><img class="flag" src="/en/flags/sk.svg" alt="" width="28" height="21" loading="lazy"><span>Slovakia</span></a></li>
+        <li data-name="slovenia" data-iso="SI"><a href="/en/esim/slovenia/"><img class="flag" src="/en/flags/si.svg" alt="" width="28" height="21" loading="lazy"><span>Slovenia</span></a></li>
+        <li data-name="south africa" data-iso="ZA"><a href="/en/esim/south-africa/"><img class="flag" src="/en/flags/za.svg" alt="" width="28" height="21" loading="lazy"><span>South Africa</span></a></li>
+        <li data-name="south korea" data-iso="KR"><a href="/en/esim/south-korea/"><img class="flag" src="/en/flags/kr.svg" alt="" width="28" height="21" loading="lazy"><span>South Korea</span></a></li>
+        <li data-name="spain" data-iso="ES"><a href="/en/esim/spain/"><img class="flag" src="/en/flags/es.svg" alt="" width="28" height="21" loading="lazy"><span>Spain</span></a></li>
+        <li data-name="sri lanka" data-iso="LK"><a href="/en/esim/sri-lanka/"><img class="flag" src="/en/flags/lk.svg" alt="" width="28" height="21" loading="lazy"><span>Sri Lanka</span></a></li>
+        <li data-name="sudan" data-iso="SD"><a href="/en/esim/sudan/"><img class="flag" src="/en/flags/sd.svg" alt="" width="28" height="21" loading="lazy"><span>Sudan</span></a></li>
+        <li data-name="suriname" data-iso="SR"><a href="/en/esim/suriname/"><img class="flag" src="/en/flags/sr.svg" alt="" width="28" height="21" loading="lazy"><span>Suriname</span></a></li>
+        <li data-name="sweden" data-iso="SE"><a href="/en/esim/sweden/"><img class="flag" src="/en/flags/se.svg" alt="" width="28" height="21" loading="lazy"><span>Sweden</span></a></li>
+        <li data-name="switzerland" data-iso="CH"><a href="/en/esim/switzerland/"><img class="flag" src="/en/flags/ch.svg" alt="" width="28" height="21" loading="lazy"><span>Switzerland</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-t" aria-labelledby="azh-t">
+      <h2 id="azh-t">T</h2>
+      <ul class="dest">
+        <li data-name="taiwan" data-iso="TW"><a href="/en/esim/taiwan/"><img class="flag" src="/en/flags/tw.svg" alt="" width="28" height="21" loading="lazy"><span>Taiwan</span></a></li>
+        <li data-name="tajikistan" data-iso="TJ"><a href="/en/esim/tajikistan/"><img class="flag" src="/en/flags/tj.svg" alt="" width="28" height="21" loading="lazy"><span>Tajikistan</span></a></li>
+        <li data-name="tanzania" data-iso="TZ"><a href="/en/esim/tanzania/"><img class="flag" src="/en/flags/tz.svg" alt="" width="28" height="21" loading="lazy"><span>Tanzania</span></a></li>
+        <li data-name="thailand" data-iso="TH"><a href="/en/esim/thailand/"><img class="flag" src="/en/flags/th.svg" alt="" width="28" height="21" loading="lazy"><span>Thailand</span></a></li>
+        <li data-name="timor-leste" data-iso="TL"><a href="/en/esim/timor-leste/"><img class="flag" src="/en/flags/tl.svg" alt="" width="28" height="21" loading="lazy"><span>Timor-Leste</span></a></li>
+        <li data-name="tonga" data-iso="TO"><a href="/en/esim/tonga/"><img class="flag" src="/en/flags/to.svg" alt="" width="28" height="21" loading="lazy"><span>Tonga</span></a></li>
+        <li data-name="trinidad and tobago" data-iso="TT"><a href="/en/esim/trinidad-and-tobago/"><img class="flag" src="/en/flags/tt.svg" alt="" width="28" height="21" loading="lazy"><span>Trinidad and Tobago</span></a></li>
+        <li data-name="tunisia" data-iso="TN"><a href="/en/esim/tunisia/"><img class="flag" src="/en/flags/tn.svg" alt="" width="28" height="21" loading="lazy"><span>Tunisia</span></a></li>
+        <li data-name="turkiye" data-iso="TR"><a href="/en/esim/turkey/"><img class="flag" src="/en/flags/tr.svg" alt="" width="28" height="21" loading="lazy"><span>Türkiye</span></a></li>
+        <li data-name="turks and caicos islands" data-iso="TC"><a href="/en/esim/turks-and-caicos/"><img class="flag" src="/en/flags/tc.svg" alt="" width="28" height="21" loading="lazy"><span>Turks and Caicos Islands</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-u" aria-labelledby="azh-u">
+      <h2 id="azh-u">U</h2>
+      <ul class="dest">
+        <li data-name="uganda" data-iso="UG"><a href="/en/esim/uganda/"><img class="flag" src="/en/flags/ug.svg" alt="" width="28" height="21" loading="lazy"><span>Uganda</span></a></li>
+        <li data-name="united arab emirates" data-iso="AE"><a href="/en/esim/uae/"><img class="flag" src="/en/flags/ae.svg" alt="" width="28" height="21" loading="lazy"><span>United Arab Emirates</span></a></li>
+        <li data-name="united kingdom" data-iso="GB"><a href="/en/esim/united-kingdom/"><img class="flag" src="/en/flags/gb.svg" alt="" width="28" height="21" loading="lazy"><span>United Kingdom</span></a></li>
+        <li data-name="united states" data-iso="US"><a href="/en/esim/usa/"><img class="flag" src="/en/flags/us.svg" alt="" width="28" height="21" loading="lazy"><span>United States</span></a></li>
+        <li data-name="uruguay" data-iso="UY"><a href="/en/esim/uruguay/"><img class="flag" src="/en/flags/uy.svg" alt="" width="28" height="21" loading="lazy"><span>Uruguay</span></a></li>
+        <li data-name="uzbekistan" data-iso="UZ"><a href="/en/esim/uzbekistan/"><img class="flag" src="/en/flags/uz.svg" alt="" width="28" height="21" loading="lazy"><span>Uzbekistan</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-v" aria-labelledby="azh-v">
+      <h2 id="azh-v">V</h2>
+      <ul class="dest">
+        <li data-name="vanuatu" data-iso="VU"><a href="/en/esim/vanuatu/"><img class="flag" src="/en/flags/vu.svg" alt="" width="28" height="21" loading="lazy"><span>Vanuatu</span></a></li>
+        <li data-name="vatican city" data-iso="VA"><a href="/en/esim/vatican/"><img class="flag" src="/en/flags/va.svg" alt="" width="28" height="21" loading="lazy"><span>Vatican City</span></a></li>
+        <li data-name="venezuela" data-iso="VE"><a href="/en/esim/venezuela/"><img class="flag" src="/en/flags/ve.svg" alt="" width="28" height="21" loading="lazy"><span>Venezuela</span></a></li>
+        <li data-name="vietnam" data-iso="VN"><a href="/en/esim/vietnam/"><img class="flag" src="/en/flags/vn.svg" alt="" width="28" height="21" loading="lazy"><span>Vietnam</span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-z" aria-labelledby="azh-z">
+      <h2 id="azh-z">Z</h2>
+      <ul class="dest">
+        <li data-name="zambia" data-iso="ZM"><a href="/en/esim/zambia/"><img class="flag" src="/en/flags/zm.svg" alt="" width="28" height="21" loading="lazy"><span>Zambia</span></a></li>
+        <li data-name="zimbabwe" data-iso="ZW"><a href="/en/esim/zimbabwe/"><img class="flag" src="/en/flags/zw.svg" alt="" width="28" height="21" loading="lazy"><span>Zimbabwe</span></a></li>
+      </ul>
+    </section>
+    </div>
+
+    <div class="hub-empty" id="hubEmpty" hidden>
+      <p class="hub-empty-title" data-i18n="site.noDestination">No destination matches that name.</p>
+      <p class="note">Check the spelling, or browse the list from A to Z.</p>
+      <button type="button" class="btn btn-ghost" id="hubReset">Show all destinations</button>
+    </div>
+
+  <section class="cp-help" aria-labelledby="cpHelpTitle">
+    <h2 id="cpHelpTitle">Before you buy</h2>
+    <div class="help-grid">
+      <div class="help-card">
+        <h3 data-i18n="site.compatTitle">Will my phone work?</h3>
+        <p data-i18n="site.compatBody">Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.</p>
+        <ul>
+          <li><a href="/en/guides/compatibility/" data-i18n="site.compatGuide">How to check your phone</a></li>
+          <li><a href="/en/guides/iphone/" data-i18n="site.compatCheck">iPhone setup</a></li>
+          <li><a href="/en/guides/android/" data-i18n="site.compatAndroid">Android setup</a></li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3 data-i18n="home.guidesTitle">Set up and fix your eSIM</h3>
+        <p data-i18n="home.guidesLead">Install, check and fix a travel eSIM — step by step.</p>
+        <ul>
+          <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a></li>
+          <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a></li>
+          <li><a href="/en/guides/" data-i18n="nav.guides">Guides</a></li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3 data-i18n="home.supportTitle">Questions before you travel?</h3>
+        <p data-i18n="home.supportBody">Write to our support team by email.</p>
+        <ul>
+          <li><a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  </div>
 </main>
 
 <footer class="site-footer">
@@ -309,5 +489,6 @@
   </div>
 </footer>
 
+<script src="/en/hub.js?v=000d32f1"></script>
 </body>
 </html>

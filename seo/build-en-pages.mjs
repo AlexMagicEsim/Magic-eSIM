@@ -454,10 +454,37 @@ ${FOOTER}
 `;
 }
 
+/* The letter a destination is filed under: its English name's first letter,
+ * accents stripped («Åland Islands» → A, «Réunion» → R). */
+export const azLetter = (name) => String(name).normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase();
+
+const SEARCH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
+
+/* The destination list. Static and complete without JavaScript (A–Z groups,
+ * jump letters); en/hub.js only adds the search that filters it in place. It
+ * reads nothing over the network (connect-src 'none'). The popular row is the
+ * home's own POPULAR list, under the home's own label — no new claim. */
 export function hubPage(list) {
   const url = `${SITE}/en/esim/`;
-  const items = list.slice().sort((a, b) => a.name.localeCompare(b.name, 'en'))
-    .map((c) => `    <li><a href="/en/esim/${c.slug}/">${esc(c.name)}</a></li>`).join('\n');
+  const sorted = list.slice().sort((a, b) => a.name.localeCompare(b.name, 'en'));
+  const groups = new Map();
+  for (const c of sorted) {
+    const L = azLetter(c.name);
+    if (!groups.has(L)) groups.set(L, []);
+    groups.get(L).push(c);
+  }
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const jump = letters.map((L) => (groups.has(L)
+    ? `<a href="#az-${L.toLowerCase()}" data-letter="${L}">${L}</a>`
+    : `<span aria-hidden="true">${L}</span>`)).join('');
+  const item = (c) => `        <li data-name="${esc(c.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())}" data-iso="${c.iso}"><a href="/en/esim/${c.slug}/"><img class="flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"><span>${esc(c.name)}</span></a></li>`;
+  const sections = [...groups.entries()].map(([L, cs]) => `    <section class="az-group" id="az-${L.toLowerCase()}" aria-labelledby="azh-${L.toLowerCase()}">
+      <h2 id="azh-${L.toLowerCase()}">${L}</h2>
+      <ul class="dest">
+${cs.map(item).join('\n')}
+      </ul>
+    </section>`).join('\n');
+  const popular = POPULAR.map((c) => `      <a class="hub-tile" href="/en/esim/${c.slug}/"><img class="flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="40" height="30"><span>${esc(c.name)}</span></a>`).join('\n');
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -471,25 +498,55 @@ ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
+<link rel="stylesheet" href="/en/hub.css">
 </head>
 <body>
 
 ${header('/esim/')}
 ${PAYBAR}
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
-  <h1>eSIM destinations</h1>
-  <p class="lead">Pick a country to see its data plans, with prices in US dollars.</p>
+<main class="hub" id="main">
+  <section class="hub-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
+      <h1>eSIM destinations</h1>
+      <p class="lead">Pick a country to see its data plans, with prices in US dollars.</p>
+      <!-- Shown by en/hub.js: without it there is no search box that does nothing. -->
+      <div class="hub-search" id="hubSearch" role="search" hidden>
+        <label for="hq" class="sr-only" data-i18n="site.chooseCountry">Where are you going?</label>
+        <div class="hub-field">${SEARCH_ICON}<input type="text" id="hq" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="Search a country"><button type="button" class="hub-clear" id="hubClear" aria-label="Clear search" hidden>×</button></div>
+      </div>
+      <p class="hub-count" id="hubCount" role="status" aria-live="polite"></p>
+    </div>
+  </section>
 
+  <div class="wrap hub-body">
+    <section class="hub-pop" id="hubPopular" aria-labelledby="hubPopTitle">
+      <h2 id="hubPopTitle" data-i18n="home.popularTitle">Popular destinations</h2>
+      <div class="hub-tiles">
+${popular}
+      </div>
+    </section>
 
-  <ul class="dest">
-${items}
-  </ul>
+    <nav class="hub-az" id="hubAz" aria-label="Destinations A to Z">${jump}</nav>
+
+    <div class="hub-list" id="hubList">
+${sections}
+    </div>
+
+    <div class="hub-empty" id="hubEmpty" hidden>
+      <p class="hub-empty-title" data-i18n="site.noDestination">No destination matches that name.</p>
+      <p class="note">Check the spelling, or browse the list from A to Z.</p>
+      <button type="button" class="btn btn-ghost" id="hubReset">Show all destinations</button>
+    </div>
+
+${HELP}
+  </div>
 </main>
 
 ${FOOTER}
 
+<script src="/en/hub.js"></script>
 </body>
 </html>
 `;
