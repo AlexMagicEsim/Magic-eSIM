@@ -211,6 +211,17 @@ body{
         + '<p class="desc">Проверьте адрес ссылки.</p>'
         + '<p class="muted"><a class="home" href="/">На главную</a></p>';
     }
+    // The English not-found screen: any unknown path under /en/. English
+    // pages carry no analytics until the consent decision, so this branch never
+    // loads the counter, and it links back into the English site, not to the
+    // Russian home.
+    function showNotFoundEn(){
+      document.documentElement.lang = 'en';
+      document.title = 'Page not found — Magic eSIM';
+      card.innerHTML = '<h1>Page not found</h1>'
+        + '<p class="desc">Check the address, or start again from one of these pages.</p>'
+        + '<p class="muted"><a class="home" href="/en/">Magic eSIM home</a> · <a class="home" href="/en/esim/">All destinations</a></p>';
+    }
     function showError(msg){
       card.innerHTML = '<p class="eyebrow">Оплата</p><h1>Не удалось загрузить</h1>'
         + '<div class="state err">'+esc(msg||'Попробуйте позже.')+'</div>';
@@ -618,6 +629,9 @@ body{
       // The invariant is therefore the prefix, not the parse: NOTHING under
       // /pay/ loads the counter, valid or not.
       showNotFound();
+    } else if(/^\/en(\/|$)/.test(path)){
+      // An unknown English page: an English 404, and no counter.
+      showNotFoundEn();
     } else {
       showNotFound();
       loadMetrika();
