@@ -221,37 +221,57 @@ ${ftLinks(EN_GUIDES.map((g) => ({ href: `/en/guides/${g.slug}/`, label: g.h1 }))
  * (the card's own title IS the data line, so a separate «plan» row only
  * repeated it). The refusal is the first thing in it, and the payment button is
  * DISABLED in the markup — en/checkout.js never enables it. */
-const MODAL = `<div class="overlay" id="checkout" hidden>
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="coTitle">
-    <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="Close">×</button>
-    <h3 id="coTitle" tabindex="-1" data-i18n="checkout.title">Checkout</h3>
+/* The checkout window, in the design system (redesign PR 3). Markup only:
+ * every id en/checkout.js reads is here, unchanged, and the script is untouched.
+ * The step indicator follows the visible #coStepN through CSS (:has), so it
+ * needs no script; it is decorative for screen readers, which hear each
+ * step's own heading and the #coLive announcements. On step 3 the summary at
+ * the top hides (CSS), so the review shows each fact once. */
+const modal = (c) => `<div class="overlay" id="checkout" hidden>
+  <div class="modal co" role="dialog" aria-modal="true" aria-labelledby="coTitle">
+    <div class="co-head">
+      <h3 id="coTitle" tabindex="-1" data-i18n="checkout.title">Checkout</h3>
+      <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="Close">×</button>
+    </div>
+    <ol class="co-steps" aria-hidden="true">
+      <li><span>1</span>Plan</li>
+      <li><span>2</span>Details</li>
+      <li><span>3</span>Review</li>
+    </ol>
     <div class="unavail" id="coUnavail">
       <h4 data-i18n="pay.unavailableTitle">Online payment is not available yet</h4>
       <p data-i18n="pay.unavailableBody">You can check a plan and get its exact price, but payment can't be taken yet. Nothing is charged, and no order or eSIM is created.</p>
     </div>
-    <div class="rows">
-      <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
-      <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
-      <div><span data-i18n="checkout.term">Validity</span><b id="coTerm">—</b></div>
-    </div>
-    <!-- The duration stays in view on every step: changing it drops the held
-         price and starts again from step 1. -->
-    <div class="field" id="coTermPick" hidden>
-      <label for="coDays" data-i18n="checkout.duration">Duration</label>
-      <select id="coDays"></select>
-    </div>
+    <section class="co-sum" aria-label="Your plan">
+      <div class="co-sum-head"><img class="co-flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>eSIM for ${esc(c.name)}</span></div>
+      <div class="rows">
+        <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
+        <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
+        <div><span data-i18n="checkout.term">Validity</span><b id="coTerm">—</b></div>
+      </div>
+      <!-- The duration stays in view on steps 1 and 2: changing it drops the
+           held price and starts again from step 1. -->
+      <div class="field" id="coTermPick" hidden>
+        <label for="coDays" data-i18n="checkout.duration">Duration</label>
+        <select id="coDays"></select>
+      </div>
+    </section>
     <p class="note" id="coQuoteStatus" role="status" hidden></p>
     <p class="sr-only" id="coLive" role="status" aria-live="polite"></p>
-    <div id="coStep1">
+    <div id="coStep1" class="co-step">
       <div class="rows"><div><span data-i18n="checkout.listed">Listed price</span><b id="coListed">—</b></div></div>
       <p class="note" data-i18n="quote.explain">The exact price is fixed by our server and held for 30 minutes.</p>
-      <button type="button" class="btn" id="coQuote" data-i18n="quote.get">Get the exact price</button>
+      <div class="co-action">
+        <button type="button" class="btn" id="coQuote" data-i18n="quote.get">Get the exact price</button>
+      </div>
     </div>
-    <div id="coStep2" hidden>
-      <div class="rows"><div class="total"><span data-i18n="checkout.price">Price</span><b id="coTotal" tabindex="-1">—</b></div></div>
-      <p class="note" id="coExpiry" hidden></p>
-      <p class="note" id="coPriceChanged" hidden></p>
-      <button type="button" class="btn btn-ghost" id="coRequote" data-i18n="quote.again" hidden>Get a new price</button>
+    <div id="coStep2" class="co-step" hidden>
+      <div class="co-price">
+        <div class="rows"><div class="total"><span data-i18n="checkout.price">Price</span><b id="coTotal" tabindex="-1">—</b></div></div>
+        <p class="note" id="coExpiry" hidden></p>
+        <p class="note" id="coPriceChanged" hidden></p>
+        <button type="button" class="btn btn-ghost" id="coRequote" data-i18n="quote.again" hidden>Get a new price</button>
+      </div>
       <div class="field">
         <label for="coEmail" data-i18n="checkout.email">Email for your eSIM</label>
         <input type="email" id="coEmail" autocomplete="email" inputmode="email" spellcheck="false" maxlength="254">
@@ -259,10 +279,12 @@ const MODAL = `<div class="overlay" id="checkout" hidden>
       </div>
       <label class="check"><input type="checkbox" id="coDevice"> <span data-i18n="checkout.device">My phone supports eSIM and isn't carrier-locked</span></label>
       <p class="note err" id="coFormError" role="alert" hidden></p>
-      <button type="button" class="btn" id="coReview" data-i18n="checkout.review">Review</button>
+      <div class="co-action">
+        <button type="button" class="btn" id="coReview" data-i18n="checkout.review">Review</button>
+      </div>
     </div>
-    <div id="coStep3" hidden>
-      <div class="rows">
+    <div id="coStep3" class="co-step" hidden>
+      <div class="rows co-review">
         <div><span data-i18n="checkout.coverage">Coverage</span><b id="rvCoverage">—</b></div>
         <div><span data-i18n="checkout.data">Data</span><b id="rvData">—</b></div>
         <div><span data-i18n="checkout.term">Validity</span><b id="rvTerm">—</b></div>
@@ -273,8 +295,10 @@ const MODAL = `<div class="overlay" id="checkout" hidden>
         <h4 data-i18n="pay.finalTitle">Online payment is not available yet</h4>
         <p data-i18n="pay.finalBody">We can't take payment yet, so nothing has been charged, no order has been created and no eSIM will be sent. Your email has not been sent or saved.</p>
       </div>
-      <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">Payment not available yet</button>
-      <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">Back</button>
+      <div class="co-action">
+        <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">Payment not available yet</button>
+        <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">Back</button>
+      </div>
     </div>
   </div>
 </div>`;
@@ -352,6 +376,7 @@ ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/en/country.css">
+<link rel="stylesheet" href="/en/checkout.css">
 </head>
 <body data-iso="${c.iso}">
 
@@ -412,7 +437,7 @@ ${HELP}
   </div>
 </main>
 
-${MODAL}
+${modal(c)}
 
 ${FOOTER}
 
