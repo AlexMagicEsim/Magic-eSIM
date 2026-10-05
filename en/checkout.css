@@ -1,0 +1,100 @@
+/* The GLOBAL checkout window (en/checkout.js) — layout only.
+ * Loaded on the country pages. en/checkout.js is untouched: it shows one of
+ * #coStep1..3 by the `hidden` attribute, and everything step-dependent here
+ * (the step indicator, hiding the summary on review) follows that through
+ * :has(). Desktop: a centred window. Phones: a full-screen sheet whose action
+ * stays at the bottom of the screen.
+ * Versioned by seo/stamp-assets.mjs like every other asset. */
+
+.overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px;overflow-y:auto;overscroll-behavior:contain;background:rgba(15,20,36,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.overlay[hidden]{display:none}
+.modal{position:relative;width:min(540px,100%);margin:auto;border:1px solid var(--border);border-radius:var(--r-xl);background:var(--surface);padding:22px 26px 26px;box-shadow:var(--shadow-2)}
+
+/* head */
+.co-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}
+.co-head h3{margin:0;font-size:22px;letter-spacing:-.02em}
+#coTitle:focus{outline:none}
+.close{flex:none;width:40px;height:40px;border:0;border-radius:12px;background:#f1f3f8;color:var(--text);font-size:22px;line-height:1;cursor:pointer}
+.close:hover{background:var(--accent-soft)}
+
+/* step indicator: Plan · Details · Review */
+.co-steps{display:flex;gap:6px;margin:0 0 16px;padding:0;list-style:none;counter-reset:none}
+.co-steps li{flex:1;display:flex;align-items:center;gap:8px;min-width:0;padding:0 0 9px;border-bottom:3px solid var(--border);color:var(--muted);font-size:13px;font-weight:650;white-space:nowrap}
+.co-steps span{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#eef1f6;color:var(--muted);font-size:12px;font-weight:750}
+.co:has(#coStep1:not([hidden])) .co-steps li:nth-child(1),
+.co:has(#coStep2:not([hidden])) .co-steps li:nth-child(2),
+.co:has(#coStep3:not([hidden])) .co-steps li:nth-child(3){border-color:var(--accent-btn);color:var(--text)}
+.co:has(#coStep1:not([hidden])) .co-steps li:nth-child(1) span,
+.co:has(#coStep2:not([hidden])) .co-steps li:nth-child(2) span,
+.co:has(#coStep3:not([hidden])) .co-steps li:nth-child(3) span{background:var(--accent-btn);color:#fff}
+.co:has(#coStep2:not([hidden])) .co-steps li:nth-child(1),
+.co:has(#coStep3:not([hidden])) .co-steps li:nth-child(-n+2){border-color:#9db0f0;color:var(--text)}
+.co:has(#coStep2:not([hidden])) .co-steps li:nth-child(1) span,
+.co:has(#coStep3:not([hidden])) .co-steps li:nth-child(-n+2) span{background:var(--accent-soft);color:#2f4fc4}
+
+/* the payment refusal: explicit, compact here; in full on review */
+.unavail{border:1px solid var(--warn-line);background:var(--warn-bg);border-radius:var(--r-m);padding:12px 14px}
+.unavail h4{margin:0 0 4px;font-size:14.5px;color:var(--warn-ink)}
+.unavail p{margin:0;font-size:13.5px;line-height:1.5;color:var(--warn-ink)}
+#coUnavail{margin:0 0 14px}
+/* On review the refusal is given once, in full (#coFinal), right above the
+   disabled payment button — not twice. */
+.co:has(#coStep3:not([hidden])) #coUnavail{display:none}
+
+/* the plan summary */
+.co-sum{border:1px solid var(--border);border-radius:var(--r-m);background:#f9fafd;padding:12px 14px;margin:0 0 14px}
+.co-sum-head{display:flex;align-items:center;gap:10px;font-weight:750;font-size:15px}
+.co-flag{flex:none;width:36px;height:27px;border-radius:5px;object-fit:cover;box-shadow:0 0 0 1px rgba(17,24,39,.08)}
+.co:has(#coStep3:not([hidden])) .co-sum{display:none}
+.rows{display:grid;gap:8px;margin:12px 0 0}
+.rows>div{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;color:var(--muted)}
+.rows b{color:var(--text);text-align:right;overflow-wrap:anywhere;min-width:0}
+.co-sum .field{margin:12px 0 0}
+.co-sum select{min-height:44px;padding:9px 12px}
+
+/* step 1 */
+#coStep1 .rows{margin:0 0 6px}
+#coStep1 .note{margin:0}
+
+/* step 2: the price, held */
+.co-price{display:grid;gap:8px;margin:0 0 14px;padding:14px 16px;border-radius:var(--r-m);background:var(--accent-soft)}
+.co-price .rows{margin:0}
+.co-price .total{padding:0;border:0}
+.co-price .total span{align-self:center;color:var(--text);font-weight:650}
+.co-price #coTotal{font-size:32px;line-height:1.1;font-weight:800;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+#coTotal:focus,#coFinal:focus{outline:3px solid rgba(66,103,232,.55);outline-offset:3px;border-radius:6px}
+#coExpiry{justify-self:start;display:inline-flex;align-items:center;gap:7px;margin:0;padding:3px 10px;border-radius:999px;background:var(--surface);color:#2f4fc4;font-size:13px;font-weight:650;font-variant-numeric:tabular-nums}
+#coExpiry::before{content:"";width:8px;height:8px;border-radius:50%;background:#4267e8;box-shadow:0 0 0 3px rgba(66,103,232,.18)}
+#coPriceChanged{margin:0;color:var(--text)}
+.co-price #coRequote{width:100%;margin:0}
+.field{margin:0 0 12px}
+.check{display:flex;gap:10px;align-items:flex-start;color:var(--text);font-size:15px;font-weight:500;margin:4px 0 8px}
+.check input{margin-top:3px;flex:none;width:18px;height:18px;accent-color:var(--accent)}
+#coFormError{margin:4px 0 0}
+#coQuoteStatus{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:#f1f3f8;color:var(--text)}
+
+/* step 3: one recap, the refusal in full, the (disabled) payment button */
+.co-review{margin:0 0 14px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-m)}
+.co-review .total{padding-top:10px;border-top:1px solid var(--border)}
+.co-review .total b{font-size:22px;font-weight:800}
+#coFinal{margin:0 0 4px}
+
+/* the action */
+.co-action{display:grid;gap:8px;margin:16px 0 0}
+.co-action .btn{width:100%;margin:0}
+
+/* phones: a full-screen sheet; the action stays at the bottom */
+@media (max-width:599px){
+  /* A sheet with a strip of the dimmed page above it: tapping that strip
+     still closes the window, as on desktop. */
+  .overlay{padding:12px 0 0;align-items:stretch}
+  .modal{display:flex;flex-direction:column;width:100%;min-height:100%;margin:0;border:0;border-radius:20px 20px 0 0;padding:14px 16px 0;box-shadow:0 -10px 30px rgba(15,20,36,.18)}
+  .co-step:not([hidden]){flex:1;display:flex;flex-direction:column}
+  .co-step .co-action{margin-top:auto}
+  .co-head{position:sticky;top:0;z-index:2;margin:-14px -16px 12px;padding:12px 16px;border-radius:20px 20px 0 0;background:var(--surface);border-bottom:1px solid var(--border)}
+  .co-head h3{font-size:19px}
+  .co-steps li{font-size:12px}
+  .co-action{position:sticky;bottom:0;z-index:2;margin:16px -16px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.97);border-top:1px solid var(--border);box-shadow:0 -8px 20px rgba(17,24,39,.06)}
+  .co-price #coTotal{font-size:28px}
+}
+@media (max-width:359px){.co-steps span{display:none}}
