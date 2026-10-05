@@ -98,7 +98,7 @@ test('an unknown name says so, and Enter goes nowhere', async ({ page }) => {
   await expect(page.locator('#q')).toBeFocused();
 });
 
-test('keyboard order: skip nothing, trap nothing — logo, menu, search, button, popular', async ({ page }) => {
+test('keyboard order: skip nothing, trap nothing — skip link, logo, menu, search, button, popular', async ({ page }) => {
   await open(page);
   await page.locator('body').focus();
   const seen = [];
@@ -109,7 +109,8 @@ test('keyboard order: skip nothing, trap nothing — logo, menu, search, button,
       return a.id || a.getAttribute('href') || (a.tagName === 'SUMMARY' ? `summary:${a.closest('[id]') ? a.closest('[id]').id : a.parentElement.className}` : a.tagName);
     }));
   }
-  expect(seen[0]).toBe('/en/');
+  expect(seen[0]).toBe('#main');   // «Skip to main content» (test/e2e/en-skip-link.spec.js)
+  expect(seen[1]).toBe('/en/');
   const q = seen.indexOf('q');
   expect(q).toBeGreaterThan(0);
   expect(seen[q + 1]).toBe('qGo');
