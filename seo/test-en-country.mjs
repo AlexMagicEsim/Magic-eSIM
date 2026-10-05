@@ -154,5 +154,10 @@ test('small coloured labels on the page meet WCAG AA (axe found the jump counts 
     const m = css.match(new RegExp(sel.replace(/\./g, '\\.') + '\\{[^}]*color:(#[0-9a-f]{6})'));
     assert.ok(m && cr(m[1], bg) >= 4.5, `${sel} ${m && m[1]} on ${bg}`);
   }
+  // The look-alike mark is a calm indigo tint, not the warning palette, and readable.
+  const d = css.match(/\.plan-tech \.is-diff\{[^}]*background:(#[0-9a-f]{6});color:(#[0-9a-f]{6})/);
+  assert.ok(d, '.is-diff has a literal background and colour');
+  assert.ok(cr(d[2], d[1]) >= 4.5, `.is-diff ${d[2]} on ${d[1]} = ${cr(d[2], d[1]).toFixed(2)}`);
+  assert.doesNotMatch(css.match(/\.plan-tech \.is-diff\{[^}]*\}/)[0], /#fff4d6|#7a4b00|#f2d08a|--warn/, 'not the warning palette');
   assert.ok(cr('#4267e8', '#eef2ff') < 4.5, 'the rule can fire: the old count colour fails');
 });
