@@ -23,6 +23,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=47758ebc">
+<link rel="stylesheet" href="/en/guides.css?v=1fbd42ce">
 </head>
 <body>
 
@@ -52,61 +53,103 @@
     </div>
   </div>
 </header>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
+    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
+  </details>
+</div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › Compatibility</p>
-  <h1>Does your phone support eSIM?</h1>
-  <p class="lead">The quickest check: open your phone&#39;s SIM settings and look for an option to add an eSIM. If it is there, the phone supports eSIM. Two more things to check at the same time: whether the phone is locked to one carrier, and which regional version you have.</p>
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › Compatibility</p>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <h1>Does your phone support eSIM?</h1>
+      </div>
+      <p class="lead">The quickest check: open your phone&#39;s SIM settings and look for an option to add an eSIM. If it is there, the phone supports eSIM. Two more things to check at the same time: whether the phone is locked to one carrier, and which regional version you have.</p>
+    </div>
+  </section>
 
-  <section class="block prose">
-    <h2>Check 1 — the setting</h2>
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="On this page">
+      <p class="g-toc-title">On this page</p>
+      <ol>
+        <li><a href="#check-1-the-setting">Check 1 — the setting</a></li>
+        <li><a href="#check-2-is-it-locked-to-a-carrier">Check 2 — is it locked to a carrier?</a></li>
+        <li><a href="#check-3-the-regional-version">Check 3 — the regional version</a></li>
+        <li><a href="#your-phone-qualifies-what-next">Your phone qualifies — what next</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec prose" id="check-1-the-setting" aria-labelledby="check-1-the-setting-h">
+      <h2 id="check-1-the-setting-h">Check 1 — the setting</h2>
         <p><strong>iPhone:</strong> Settings → Cellular. <strong>Add eSIM</strong> or <strong>Add Cellular Plan</strong> means eSIM is supported.</p>
         <p><strong>Android:</strong> open the SIM settings and look for a way to add an eSIM — on Pixel, Network &amp; internet → SIMs → <strong>Add SIM</strong> → <strong>Set up an eSIM</strong>; on Samsung, Connections → SIM card manager → <strong>Add mobile plan</strong>.</p>
         <p>An extra hint on Pixel: to use an eSIM, a phone needs an <strong>EID</strong> number. You can find it in Settings → About phone → SIM status. The setting to add an eSIM is still what decides.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Check 2 — is it locked to a carrier?</h2>
+    <section class="g-sec prose" id="check-2-is-it-locked-to-a-carrier" aria-labelledby="check-2-is-it-locked-to-a-carrier-h">
+      <h2 id="check-2-is-it-locked-to-a-carrier-h">Check 2 — is it locked to a carrier?</h2>
         <p>A phone bought on contract may be locked to its carrier and refuse other SIMs and eSIMs until it is unlocked.</p>
         <p>On iPhone, open <strong>Settings → General → About</strong> and look for «No SIM Restrictions» next to <strong>Carrier Lock</strong>. On Android, ask the carrier that sold the phone.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Check 3 — the regional version</h2>
+    <section class="g-sec prose" id="check-3-the-regional-version" aria-labelledby="check-3-the-regional-version-h">
+      <h2 id="check-3-the-regional-version-h">Check 3 — the regional version</h2>
         <p>The same model can have eSIM in one country and not in another: support depends on the market a phone was made for, not only on its name. That is why we do not publish a list of «supported models» — what decides is your own phone's settings.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Your phone qualifies — what next</h2>
+    <section class="g-sec prose" id="your-phone-qualifies-what-next" aria-labelledby="your-phone-qualifies-what-next-h">
+      <h2 id="your-phone-qualifies-what-next-h">Your phone qualifies — what next</h2>
         <p>Choose a destination in the <a href="/en/esim/">list of destinations</a>, then read how to install the eSIM on <a href="/en/guides/iphone/">iPhone</a> or <a href="/en/guides/android/">Android</a>.</p>
-  </section>
+    </section>
 
-  <section class="block" id="faq">
-    <h2>Questions</h2>
-    <details>
-      <summary>My phone takes two SIM cards. Does that mean it has eSIM?</summary>
-      <p class="note">Not necessarily — some phones have two physical slots and no eSIM. Look for the option to add an eSIM in the SIM settings.</p>
-    </details>
-    <details>
-      <summary>I cannot find an EID. Is there no eSIM?</summary>
-      <p class="note">Not necessarily. The option to add an eSIM in the settings is the deciding check.</p>
-    </details>
-    <details>
-      <summary>What if my phone does not support eSIM?</summary>
-      <p class="note">A travel eSIM will not work on it. You would need another phone with eSIM, or a local physical SIM at your destination.</p>
-    </details>
-  </section>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
+      <details>
+        <summary>My phone takes two SIM cards. Does that mean it has eSIM?</summary>
+        <p class="note">Not necessarily — some phones have two physical slots and no eSIM. Look for the option to add an eSIM in the SIM settings.</p>
+      </details>
+      <details>
+        <summary>I cannot find an EID. Is there no eSIM?</summary>
+        <p class="note">Not necessarily. The option to add an eSIM in the settings is the deciding check.</p>
+      </details>
+      <details>
+        <summary>What if my phone does not support eSIM?</summary>
+        <p class="note">A travel eSIM will not work on it. You would need another phone with eSIM, or a local physical SIM at your destination.</p>
+      </details>
+    </section>
+    </article>
+  </div>
 
-  <section class="block">
-    <h2>Related guides</h2>
-    <ul class="list">
-    <li><a href="/en/guides/iphone/">How to install an eSIM on iPhone</a></li>
-    <li><a href="/en/guides/android/">How to install an eSIM on Android</a></li>
-    <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a></li>
-    <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a></li>
-    </ul>
-    <p class="note"><a href="/en/esim/">Choose a destination</a></p>
-  </section>
+  <div class="wrap">
+    <section class="g-related" id="related" aria-labelledby="related-h">
+      <h2 id="related-h">Related guides</h2>
+      <div class="g-cards">
+      <a class="g-card" href="/en/guides/iphone/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on iPhone</h3><span class="g-card-blurb">By QR code or by hand, and what to switch on when you land.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/android/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on Android</h3><span class="g-card-blurb">Where the eSIM setting usually is, by brand, and the first steps abroad.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/activation/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">When to install and turn on your eSIM</h3><span class="g-card-blurb">Installing the profile and starting the plan are different events.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/troubleshooting/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">eSIM not working — what to check</h3><span class="g-card-blurb">A checklist, in the order that fixes most problems.</span></span>
+      </a>
+      </div>
+      <p class="g-cta"><a class="btn" href="/en/esim/">Choose a destination</a></p>
+    </section>
+  </div>
 </main>
 
 <footer class="site-footer">

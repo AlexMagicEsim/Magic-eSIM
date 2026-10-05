@@ -1,0 +1,75 @@
+/* /en/guides/ and the five guides — their own layout. Tokens, type, buttons,
+ * the header, the payment bar and the footer come from en/en.css. No script:
+ * «On this page» is plain anchors. Versioned by seo/stamp-assets.mjs. */
+
+.guide{background:radial-gradient(900px 420px at 0% -10%,rgba(138,22,199,.08),transparent 60%),radial-gradient(820px 420px at 100% -10%,rgba(0,199,223,.08),transparent 58%),var(--bg)}
+
+/* ---------- hero ---------- */
+.g-hero{padding:4px 0 26px}
+.g-hero .crumbs{margin:18px 0 18px}
+.g-hero h1{margin:0;font-size:clamp(28px,4.4vw,46px);line-height:1.08;letter-spacing:-.03em}
+.g-hero .lead{margin:14px 0 0;max-width:68ch}
+.g-hero-row{display:flex;align-items:center;gap:16px}
+.g-ico{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;background:var(--accent-soft);color:#2f4fc4}
+.g-ico svg{width:22px;height:22px}
+.g-ico-lg{width:56px;height:56px;border-radius:16px;background:var(--surface);box-shadow:var(--shadow-1),inset 0 0 0 1px var(--border)}
+.g-ico-lg svg{width:28px;height:28px}
+@media (max-width:599px){.g-hero-row{align-items:flex-start;gap:12px}.g-ico-lg{width:44px;height:44px;border-radius:13px;margin-top:2px}.g-ico-lg svg{width:22px;height:22px}}
+
+/* ---------- article + «On this page» ---------- */
+.g-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-bottom:12px}
+@media (min-width:1024px){
+  .g-layout{grid-template-columns:minmax(0,1fr) 260px;gap:36px;align-items:start}
+  .g-toc{grid-column:2;grid-row:1;position:sticky;top:96px}
+  .g-article{grid-column:1;grid-row:1}
+}
+.g-toc{padding:18px 18px 14px;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);box-shadow:var(--shadow-1)}
+.g-toc-title{margin:0 0 8px;color:var(--muted);font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.g-toc ol{margin:0;padding:0;list-style:none;display:grid;gap:2px}
+.g-toc a{display:block;padding:7px 10px;border-radius:10px;color:var(--text);font-size:14px;font-weight:600;line-height:1.35;text-decoration:none}
+.g-toc a:hover{background:var(--accent-soft);color:#2f4fc4}
+
+.g-article{display:grid;gap:16px;min-width:0}
+.g-sec{padding:24px 26px;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);box-shadow:var(--shadow-1);scroll-margin-top:96px}
+.g-sec h2{margin:0 0 14px;font-size:clamp(20px,2.4vw,24px);line-height:1.2}
+.g-sec p{max-width:70ch;margin:0 0 12px}
+.g-sec>:last-child{margin-bottom:0}
+.g-sec .list{margin:0 0 12px;padding-left:20px}
+.g-sec .list li{margin:6px 0}
+@media (max-width:599px){.g-sec{padding:20px 18px;border-radius:var(--r-m);scroll-margin-top:80px}}
+
+/* Steps: the same <ol>, numbered as badges. */
+.g-sec .steps{counter-reset:step;list-style:none;margin:4px 0 14px;padding:0;display:grid;gap:10px}
+.g-sec .steps li{counter-increment:step;position:relative;margin:0;padding:3px 0 0 42px;max-width:70ch}
+.g-sec .steps li::before{content:counter(step);position:absolute;left:0;top:0;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:var(--accent-soft);color:#2f4fc4;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* A note is a hint, not fine print. */
+.g-sec p.note{position:relative;max-width:none;padding:12px 14px 12px 44px;border-radius:12px;background:#f4f6fb;color:var(--muted);font-size:14px}
+.g-sec p.note::before{content:"i";position:absolute;left:14px;top:12px;display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--border-strong);color:var(--muted);font-size:12px;font-weight:800;font-style:normal}
+
+/* Questions: the same <details>, as an accordion. */
+#faq details{margin:10px 0 0;padding:0;border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface)}
+#faq summary{display:flex;align-items:center;gap:12px;padding:15px 18px;list-style:none;font-weight:700}
+#faq summary::-webkit-details-marker{display:none}
+#faq summary::after{content:"";flex:0 0 auto;width:9px;height:9px;margin-left:auto;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s ease}
+#faq details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+#faq summary:hover{color:#2f4fc4}
+#faq details p.note{margin:0;padding:0 18px 16px;background:none;border-radius:0;font-size:15px}
+#faq details p.note::before{content:none}
+
+/* ---------- guide cards (the list and «Related guides») ---------- */
+.g-cards{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.g-cards-hub{margin:4px 0 8px}
+@media (min-width:1024px){.g-cards-hub{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:699px){.g-cards{grid-template-columns:1fr}}
+.g-card{display:flex;align-items:flex-start;gap:14px;min-height:96px;padding:18px 44px 18px 18px;position:relative;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);box-shadow:var(--shadow-1);color:var(--text);text-decoration:none;transition:border-color .15s ease,box-shadow .15s ease}
+.g-card::after{content:"→";position:absolute;right:18px;top:18px;color:var(--faint);font-weight:500}
+.g-card:hover{border-color:#c9d4f5;box-shadow:var(--shadow-2);color:var(--text)}
+.g-card:hover::after{color:var(--accent)}
+.g-card-body{display:grid;gap:6px;min-width:0}
+.g-card-title{margin:0;font-size:17px;font-weight:750;line-height:1.3;letter-spacing:-.01em}
+.g-card-blurb{color:var(--muted);font-size:14px;line-height:1.45}
+
+.g-related{margin:30px 0 8px;padding-top:30px;border-top:1px solid var(--border)}
+.g-related>h2{margin:0 0 16px;font-size:clamp(22px,2.8vw,28px)}
+.g-cta{margin:20px 0 0}

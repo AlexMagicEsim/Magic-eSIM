@@ -19,6 +19,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=47758ebc">
+<link rel="stylesheet" href="/en/guides.css?v=1fbd42ce">
 </head>
 <body>
 
@@ -48,18 +49,46 @@
     </div>
   </div>
 </header>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
+    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
+  </details>
+</div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">Guides</span></p>
-  <h1>eSIM guides</h1>
-  <p class="lead">Install, check and fix a travel eSIM — step by step.</p>
-  <ul class="list guides">
-    <li><a href="/en/guides/iphone/">How to install an eSIM on iPhone</a><br><span class="note">By QR code or by hand, and what to switch on when you land.</span></li>
-    <li><a href="/en/guides/android/">How to install an eSIM on Android</a><br><span class="note">Where the eSIM setting usually is, by brand, and the first steps abroad.</span></li>
-    <li><a href="/en/guides/compatibility/">Does your phone support eSIM?</a><br><span class="note">A one-minute check before you choose a plan.</span></li>
-    <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a><br><span class="note">Installing the profile and starting the plan are different events.</span></li>
-    <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a><br><span class="note">A checklist, in the order that fixes most problems.</span></li>
-  </ul>
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">Guides</span></p>
+      <h1>eSIM guides</h1>
+      <p class="lead">Install, check and fix a travel eSIM — step by step.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="g-cards g-cards-hub guides">
+      <a class="g-card" href="/en/guides/iphone/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <span class="g-card-body"><h2 class="g-card-title">How to install an eSIM on iPhone</h2><span class="g-card-blurb">By QR code or by hand, and what to switch on when you land.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/android/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <span class="g-card-body"><h2 class="g-card-title">How to install an eSIM on Android</h2><span class="g-card-blurb">Where the eSIM setting usually is, by brand, and the first steps abroad.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/compatibility/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <span class="g-card-body"><h2 class="g-card-title">Does your phone support eSIM?</h2><span class="g-card-blurb">A one-minute check before you choose a plan.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/activation/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span>
+        <span class="g-card-body"><h2 class="g-card-title">When to install and turn on your eSIM</h2><span class="g-card-blurb">Installing the profile and starting the plan are different events.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/troubleshooting/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+        <span class="g-card-body"><h2 class="g-card-title">eSIM not working — what to check</h2><span class="g-card-blurb">A checklist, in the order that fixes most problems.</span></span>
+      </a>
+    </div>
+  </div>
 </main>
 
 <footer class="site-footer">
