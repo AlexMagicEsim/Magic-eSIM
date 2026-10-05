@@ -561,22 +561,53 @@ export const GUIDE_RU = Object.freeze({
   troubleshooting: '/esim/not-working/',
 });
 
+/* One icon per guide, for its card and its hero. Decorative only. */
+const GUIDE_ICON = {
+  iphone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>',
+  android: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg>',
+  compatibility: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg>',
+  activation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg>',
+  troubleshooting: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>',
+};
+const guideIcon = (slug) => {
+  if (!GUIDE_ICON[slug]) throw new Error(`guide ${slug} has no icon`);
+  return GUIDE_ICON[slug];
+};
+
+/* A section heading's anchor: its own words, lower-cased, so the «On this
+ * page» links are stable and readable. Two equal headings would collide, so
+ * that is refused rather than silently suffixed. */
+export const sectionId = (h2) => h2.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/* A guide card — the guide list and «Related guides» use the same one. */
+const guideCard = (r, tag = 'h2') => `      <a class="g-card" href="/en/guides/${r.slug}/">
+        <span class="g-ico">${guideIcon(r.slug)}</span>
+        <span class="g-card-body"><${tag} class="g-card-title">${esc(r.h1)}</${tag}><span class="g-card-blurb">${esc(r.blurb)}</span></span>
+      </a>`;
+
+/* A guide: the text is seo/guides-en.mjs, word for word; only the frame is
+ * this function's. No script — the «On this page» list is plain anchors. */
 export function guidePage(g, all = EN_GUIDES) {
   const url = `${SITE}/en/guides/${g.slug}/`;
   const ru = GUIDE_RU[g.slug];
   if (!ru) throw new Error(`guide ${g.slug} has no Russian twin for the language switch`);
-  const sections = g.sections.map((x) => `  <section class="block prose">
-    <h2>${esc(x.h2)}</h2>
+  const ids = g.sections.map((x) => sectionId(x.h2));
+  if (new Set([...ids, 'faq', 'related']).size !== ids.length + 2) throw new Error(`guide ${g.slug} has two sections with the same anchor`);
+  const sections = g.sections.map((x, i) => `    <section class="g-sec prose" id="${ids[i]}" aria-labelledby="${ids[i]}-h">
+      <h2 id="${ids[i]}-h">${esc(x.h2)}</h2>
 ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
-  </section>`).join('\n\n');
-  const faq = g.faq.map((f) => `    <details>
-      <summary>${esc(f.q)}</summary>
-      <p class="note">${esc(f.a)}</p>
-    </details>`).join('\n');
+    </section>`).join('\n\n');
+  const toc = g.sections.map((x, i) => `        <li><a href="#${ids[i]}">${esc(x.h2)}</a></li>`)
+    .concat(['        <li><a href="#faq">Questions</a></li>']).join('\n');
+  const faq = g.faq.map((f) => `      <details>
+        <summary>${esc(f.q)}</summary>
+        <p class="note">${esc(f.a)}</p>
+      </details>`).join('\n');
   const related = g.related.map((slug) => {
     const r = all.find((x) => x.slug === slug);
     if (!r) throw new Error(`guide ${g.slug} links to an unknown guide ${slug}`);
-    return `    <li><a href="/en/guides/${r.slug}/">${esc(r.h1)}</a></li>`;
+    return guideCard(r, 'h3');
   }).join('\n');
   return `<!doctype html>
 <html lang="en">
@@ -595,30 +626,52 @@ ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
+<link rel="stylesheet" href="/en/guides.css">
 </head>
 <body>
 
 ${header(ru)}
+${PAYBAR}
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › ${esc(g.nav)}</p>
-  <h1>${esc(g.h1)}</h1>
-  <p class="lead">${esc(g.lead)}</p>
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › ${esc(g.nav)}</p>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg">${guideIcon(g.slug)}</span>
+        <h1>${esc(g.h1)}</h1>
+      </div>
+      <p class="lead">${esc(g.lead)}</p>
+    </div>
+  </section>
 
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="On this page">
+      <p class="g-toc-title">On this page</p>
+      <ol>
+${toc}
+      </ol>
+    </nav>
+
+    <article class="g-article">
 ${sections}
 
-  <section class="block" id="faq">
-    <h2>Questions</h2>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
 ${faq}
-  </section>
+    </section>
+    </article>
+  </div>
 
-  <section class="block">
-    <h2>Related guides</h2>
-    <ul class="list">
+  <div class="wrap">
+    <section class="g-related" id="related" aria-labelledby="related-h">
+      <h2 id="related-h">Related guides</h2>
+      <div class="g-cards">
 ${related}
-    </ul>
-    <p class="note"><a href="/en/esim/">Choose a destination</a></p>
-  </section>
+      </div>
+      <p class="g-cta"><a class="btn" href="/en/esim/">Choose a destination</a></p>
+    </section>
+  </div>
 </main>
 
 ${FOOTER}
@@ -629,7 +682,7 @@ ${FOOTER}
 
 export function guidesHub(all = EN_GUIDES) {
   const url = `${SITE}/en/guides/`;
-  const items = all.map((g) => `    <li><a href="/en/guides/${g.slug}/">${esc(g.h1)}</a><br><span class="note">${esc(g.blurb)}</span></li>`).join('\n');
+  const items = all.map((g) => guideCard(g)).join('\n');
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -643,18 +696,27 @@ ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
+<link rel="stylesheet" href="/en/guides.css">
 </head>
 <body>
 
 ${header('/esim/')}
+${PAYBAR}
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">Guides</span></p>
-  <h1>eSIM guides</h1>
-  <p class="lead">Install, check and fix a travel eSIM — step by step.</p>
-  <ul class="list guides">
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">Guides</span></p>
+      <h1>eSIM guides</h1>
+      <p class="lead">Install, check and fix a travel eSIM — step by step.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="g-cards g-cards-hub guides">
 ${items}
-  </ul>
+    </div>
+  </div>
 </main>
 
 ${FOOTER}

@@ -23,6 +23,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=47758ebc">
+<link rel="stylesheet" href="/en/guides.css?v=1fbd42ce">
 </head>
 <body>
 
@@ -52,40 +53,67 @@
     </div>
   </div>
 </header>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
+    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
+  </details>
+</div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › When to install</p>
-  <h1>When to install and turn on your eSIM</h1>
-  <p class="lead">Installing the eSIM and starting its validity are not the same thing, and plans differ on when the validity starts. The advice that is safe for every plan: install on the day you travel, over Wi-Fi, and switch the eSIM on for data when you arrive.</p>
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › When to install</p>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span>
+        <h1>When to install and turn on your eSIM</h1>
+      </div>
+      <p class="lead">Installing the eSIM and starting its validity are not the same thing, and plans differ on when the validity starts. The advice that is safe for every plan: install on the day you travel, over Wi-Fi, and switch the eSIM on for data when you arrive.</p>
+    </div>
+  </section>
 
-  <section class="block prose">
-    <h2>Four different steps</h2>
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="On this page">
+      <p class="g-toc-title">On this page</p>
+      <ol>
+        <li><a href="#four-different-steps">Four different steps</a></li>
+        <li><a href="#when-does-the-validity-start">When does the validity start?</a></li>
+        <li><a href="#checklist-for-the-day-you-fly">Checklist for the day you fly</a></li>
+        <li><a href="#after-you-land">After you land</a></li>
+        <li><a href="#landed-without-the-esim-installed-and-no-wi-fi">Landed without the eSIM installed and no Wi-Fi?</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec prose" id="four-different-steps" aria-labelledby="four-different-steps-h">
+      <h2 id="four-different-steps-h">Four different steps</h2>
         <ol class="steps">
           <li><strong>Installing</strong> — the phone downloads the eSIM profile with the QR code. Needs internet.</li>
           <li><strong>Turning the line on</strong> — the eSIM appears in your SIM list as active.</li>
           <li><strong>Choosing it for mobile data</strong> — internet goes through the eSIM.</li>
           <li><strong>Turning on data roaming</strong> for the eSIM — lets it use partner networks abroad.</li>
         </ol>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>When does the validity start?</h2>
+    <section class="g-sec prose" id="when-does-the-validity-start" aria-labelledby="when-does-the-validity-start-h">
+      <h2 id="when-does-the-validity-start-h">When does the validity start?</h2>
         <p>It depends on the plan. Some plans start counting when the eSIM first connects to a network at the destination or first uses data. Others start as soon as the eSIM is installed.</p>
         <p>Because of that, the advice that never costs you days is to <strong>install on the day you travel</strong> — at home before you leave or on airport Wi-Fi — and to switch the eSIM on for data once you land.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Checklist for the day you fly</h2>
+    <section class="g-sec prose" id="checklist-for-the-day-you-fly" aria-labelledby="checklist-for-the-day-you-fly-h">
+      <h2 id="checklist-for-the-day-you-fly-h">Checklist for the day you fly</h2>
         <ul class="list">
           <li>Your phone supports eSIM and is not carrier-locked (<a href="/en/guides/compatibility/">check</a>).</li>
           <li>You have the eSIM's QR code, or its details for manual installation, at hand — saved somewhere you can open offline.</li>
           <li>You install the eSIM over Wi-Fi (<a href="/en/guides/iphone/">iPhone</a>, <a href="/en/guides/android/">Android</a>).</li>
           <li>You keep your main SIM for data until you land.</li>
         </ul>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>After you land</h2>
+    <section class="g-sec prose" id="after-you-land" aria-labelledby="after-you-land-h">
+      <h2 id="after-you-land-h">After you land</h2>
         <ol class="steps">
           <li>Turn the eSIM line on, if it is off.</li>
           <li>Choose the eSIM for mobile data.</li>
@@ -93,39 +121,55 @@
           <li>Wait one to three minutes. No network? Turn airplane mode on and off.</li>
           <li>Still nothing? Go through <a href="/en/guides/troubleshooting/">eSIM not working</a>.</li>
         </ol>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Landed without the eSIM installed and no Wi-Fi?</h2>
+    <section class="g-sec prose" id="landed-without-the-esim-installed-and-no-wi-fi" aria-labelledby="landed-without-the-esim-installed-and-no-wi-fi-h">
+      <h2 id="landed-without-the-esim-installed-and-no-wi-fi-h">Landed without the eSIM installed and no Wi-Fi?</h2>
         <p>You need internet to download the profile. Options: the airport's free Wi-Fi, or internet shared from a travel companion's phone. Entering the details by hand still needs internet to download the profile.</p>
-  </section>
+    </section>
 
-  <section class="block" id="faq">
-    <h2>Questions</h2>
-    <details>
-      <summary>I installed the eSIM a week before the trip. Is the plan already running?</summary>
-      <p class="note">It depends on the plan: some start counting at installation, others on the first connection or the first data used at the destination. To be safe with any plan, install on the day you travel.</p>
-    </details>
-    <details>
-      <summary>Does turning on data roaming at home cost anything?</summary>
-      <p class="note">The switch itself charges nothing; it only allows the line to use partner networks. What matters is which line is chosen for mobile data, and your plan&#39;s terms.</p>
-    </details>
-    <details>
-      <summary>I landed and there is no internet. How long should I wait?</summary>
-      <p class="note">Registration usually takes a minute or two after you turn on data and roaming for the eSIM. Toggling airplane mode often helps. If there is still no network after 10–15 minutes, go through the troubleshooting checklist.</p>
-    </details>
-  </section>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
+      <details>
+        <summary>I installed the eSIM a week before the trip. Is the plan already running?</summary>
+        <p class="note">It depends on the plan: some start counting at installation, others on the first connection or the first data used at the destination. To be safe with any plan, install on the day you travel.</p>
+      </details>
+      <details>
+        <summary>Does turning on data roaming at home cost anything?</summary>
+        <p class="note">The switch itself charges nothing; it only allows the line to use partner networks. What matters is which line is chosen for mobile data, and your plan&#39;s terms.</p>
+      </details>
+      <details>
+        <summary>I landed and there is no internet. How long should I wait?</summary>
+        <p class="note">Registration usually takes a minute or two after you turn on data and roaming for the eSIM. Toggling airplane mode often helps. If there is still no network after 10–15 minutes, go through the troubleshooting checklist.</p>
+      </details>
+    </section>
+    </article>
+  </div>
 
-  <section class="block">
-    <h2>Related guides</h2>
-    <ul class="list">
-    <li><a href="/en/guides/iphone/">How to install an eSIM on iPhone</a></li>
-    <li><a href="/en/guides/android/">How to install an eSIM on Android</a></li>
-    <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a></li>
-    <li><a href="/en/guides/compatibility/">Does your phone support eSIM?</a></li>
-    </ul>
-    <p class="note"><a href="/en/esim/">Choose a destination</a></p>
-  </section>
+  <div class="wrap">
+    <section class="g-related" id="related" aria-labelledby="related-h">
+      <h2 id="related-h">Related guides</h2>
+      <div class="g-cards">
+      <a class="g-card" href="/en/guides/iphone/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on iPhone</h3><span class="g-card-blurb">By QR code or by hand, and what to switch on when you land.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/android/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on Android</h3><span class="g-card-blurb">Where the eSIM setting usually is, by brand, and the first steps abroad.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/troubleshooting/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">eSIM not working — what to check</h3><span class="g-card-blurb">A checklist, in the order that fixes most problems.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/compatibility/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">Does your phone support eSIM?</h3><span class="g-card-blurb">A one-minute check before you choose a plan.</span></span>
+      </a>
+      </div>
+      <p class="g-cta"><a class="btn" href="/en/esim/">Choose a destination</a></p>
+    </section>
+  </div>
 </main>
 
 <footer class="site-footer">

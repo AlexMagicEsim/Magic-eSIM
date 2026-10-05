@@ -23,6 +23,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=47758ebc">
+<link rel="stylesheet" href="/en/guides.css?v=1fbd42ce">
 </head>
 <body>
 
@@ -52,14 +53,40 @@
     </div>
   </div>
 </header>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
+    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
+  </details>
+</div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › Android</p>
-  <h1>How to install an eSIM on Android</h1>
-  <p class="lead">Android brands name their settings differently, but the steps are the same everywhere: find where SIMs are managed, add an eSIM with its QR code or by hand, then choose it for mobile data at your destination. You need an internet connection to install — Wi-Fi is easiest.</p>
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › Android</p>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <h1>How to install an eSIM on Android</h1>
+      </div>
+      <p class="lead">Android brands name their settings differently, but the steps are the same everywhere: find where SIMs are managed, add an eSIM with its QR code or by hand, then choose it for mobile data at your destination. You need an internet connection to install — Wi-Fi is easiest.</p>
+    </div>
+  </section>
 
-  <section class="block prose">
-    <h2>Find where SIMs are managed</h2>
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="On this page">
+      <p class="g-toc-title">On this page</p>
+      <ol>
+        <li><a href="#find-where-sims-are-managed">Find where SIMs are managed</a></li>
+        <li><a href="#install-the-esim">Install the eSIM</a></li>
+        <li><a href="#at-your-destination-turn-on-data">At your destination — turn on data</a></li>
+        <li><a href="#if-something-goes-wrong">If something goes wrong</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec prose" id="find-where-sims-are-managed" aria-labelledby="find-where-sims-are-managed-h">
+      <h2 id="find-where-sims-are-managed-h">Find where SIMs are managed</h2>
         <p>The SIM settings usually live in one of these places — names vary by brand and Android version:</p>
         <ul class="list">
           <li><strong>Google Pixel:</strong> Settings → Network &amp; internet → SIMs → <strong>Add SIM</strong> → <strong>Set up an eSIM</strong>.</li>
@@ -67,10 +94,10 @@
           <li><strong>Other brands:</strong> look for «Mobile network», «SIM cards» or «Connections» in Settings.</li>
         </ul>
         <p>If there is no option to add an eSIM anywhere, check <a href="/en/guides/compatibility/">whether your phone supports eSIM</a>.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Install the eSIM</h2>
+    <section class="g-sec prose" id="install-the-esim" aria-labelledby="install-the-esim-h">
+      <h2 id="install-the-esim-h">Install the eSIM</h2>
         <ol class="steps">
           <li>Show your eSIM's QR code on another screen.</li>
           <li>Start adding an eSIM as above. <strong>Samsung:</strong> tap <strong>Add using QR code</strong> and scan the code. <strong>Pixel:</strong> follow the instructions on the screen.</li>
@@ -78,10 +105,10 @@
           <li>Confirm, and wait until the installation finishes.</li>
           <li>Rename the eSIM, for example to «Travel».</li>
         </ol>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>At your destination — turn on data</h2>
+    <section class="g-sec prose" id="at-your-destination-turn-on-data" aria-labelledby="at-your-destination-turn-on-data-h">
+      <h2 id="at-your-destination-turn-on-data-h">At your destination — turn on data</h2>
         <ol class="steps">
           <li>Make sure the eSIM is turned on. Pixel: Settings → Network &amp; internet → Mobile network → the eSIM → <strong>Use this SIM</strong>.</li>
           <li>Choose the eSIM as the SIM for <strong>mobile data</strong>. Pixel: Settings → Network &amp; internet → SIMs → <strong>Mobile data</strong>. Your main SIM can stay on for calls and texts.</li>
@@ -89,40 +116,56 @@
           <li>If you do not want charges from your home operator, turn off data roaming on your main SIM.</li>
           <li>Give the phone a minute or two to register on a local network.</li>
         </ol>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>If something goes wrong</h2>
+    <section class="g-sec prose" id="if-something-goes-wrong" aria-labelledby="if-something-goes-wrong-h">
+      <h2 id="if-something-goes-wrong-h">If something goes wrong</h2>
         <p>Check the data SIM and roaming on the eSIM, toggle airplane mode, then restart. The full checklist is in <a href="/en/guides/troubleshooting/">eSIM not working</a>.</p>
         <p><strong>Do not delete the eSIM</strong> while troubleshooting: its QR code may be single-use.</p>
-  </section>
+    </section>
 
-  <section class="block" id="faq">
-    <h2>Questions</h2>
-    <details>
-      <summary>My Android phone has no «Add eSIM» option. What now?</summary>
-      <p class="note">Look under every SIM-related menu — the name differs by brand. If no option to add or download an eSIM exists anywhere, the phone (or this regional version of it) probably does not support eSIM.</p>
-    </details>
-    <details>
-      <summary>Can I use the eSIM and my physical SIM at the same time?</summary>
-      <p class="note">On phones that support dual SIM with eSIM, yes: choose the eSIM for mobile data and keep the physical SIM for calls and texts.</p>
-    </details>
-    <details>
-      <summary>Do I need to set an APN?</summary>
-      <p class="note">Only if your plan&#39;s details list an APN: then check that it matches in the eSIM&#39;s settings.</p>
-    </details>
-  </section>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
+      <details>
+        <summary>My Android phone has no «Add eSIM» option. What now?</summary>
+        <p class="note">Look under every SIM-related menu — the name differs by brand. If no option to add or download an eSIM exists anywhere, the phone (or this regional version of it) probably does not support eSIM.</p>
+      </details>
+      <details>
+        <summary>Can I use the eSIM and my physical SIM at the same time?</summary>
+        <p class="note">On phones that support dual SIM with eSIM, yes: choose the eSIM for mobile data and keep the physical SIM for calls and texts.</p>
+      </details>
+      <details>
+        <summary>Do I need to set an APN?</summary>
+        <p class="note">Only if your plan&#39;s details list an APN: then check that it matches in the eSIM&#39;s settings.</p>
+      </details>
+    </section>
+    </article>
+  </div>
 
-  <section class="block">
-    <h2>Related guides</h2>
-    <ul class="list">
-    <li><a href="/en/guides/iphone/">How to install an eSIM on iPhone</a></li>
-    <li><a href="/en/guides/compatibility/">Does your phone support eSIM?</a></li>
-    <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a></li>
-    <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a></li>
-    </ul>
-    <p class="note"><a href="/en/esim/">Choose a destination</a></p>
-  </section>
+  <div class="wrap">
+    <section class="g-related" id="related" aria-labelledby="related-h">
+      <h2 id="related-h">Related guides</h2>
+      <div class="g-cards">
+      <a class="g-card" href="/en/guides/iphone/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on iPhone</h3><span class="g-card-blurb">By QR code or by hand, and what to switch on when you land.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/compatibility/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">Does your phone support eSIM?</h3><span class="g-card-blurb">A one-minute check before you choose a plan.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/activation/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">When to install and turn on your eSIM</h3><span class="g-card-blurb">Installing the profile and starting the plan are different events.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/troubleshooting/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">eSIM not working — what to check</h3><span class="g-card-blurb">A checklist, in the order that fixes most problems.</span></span>
+      </a>
+      </div>
+      <p class="g-cta"><a class="btn" href="/en/esim/">Choose a destination</a></p>
+    </section>
+  </div>
 </main>
 
 <footer class="site-footer">

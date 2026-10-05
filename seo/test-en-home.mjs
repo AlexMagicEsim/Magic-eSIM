@@ -44,7 +44,7 @@ test('the home carries the generator\'s header, payment bar and footer, verbatim
   assert.equal(HOME.includes(FOOTER.replace('Help', 'Hlp')), false);
 });
 
-test('every English page has the same header shape, the same footer, and the bar where plans are sold', () => {
+test('every English page has the same header shape, the same footer, and the payment bar', () => {
   assert.equal(PAGES.length, 206);
   for (const p of PAGES) {
     const h = read(p);
@@ -52,8 +52,9 @@ test('every English page has the same header shape, the same footer, and the bar
     assert.ok(h.includes(LOGO), `${p}: logo`);
     assert.match(h, /<header class="site-header">/, p);
     assert.match(h, /<details class="mnav">\s*<summary aria-label="Menu">/, `${p}: the mobile menu`);
-    const isGuide = p.startsWith('en/guides/');
-    assert.equal(h.includes(PAYBAR), !isGuide, `${p}: the payment bar is on every page that lists plans, and only there`);
+    // Since the guides redesign (owner's decision, 2026-10-05) the guides carry
+    // it too: every English page states that payment is not available yet.
+    assert.ok(h.includes(PAYBAR), `${p}: the payment bar`);
   }
 });
 

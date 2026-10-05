@@ -23,6 +23,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=47758ebc">
+<link rel="stylesheet" href="/en/guides.css?v=1fbd42ce">
 </head>
 <body>
 
@@ -52,14 +53,40 @@
     </div>
   </div>
 </header>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
+    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
+  </details>
+</div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › Troubleshooting</p>
-  <h1>eSIM not working — what to check</h1>
-  <p class="lead">Most problems come down to a setting. Go through the steps in order and test the internet after each one. Do not delete the eSIM while you troubleshoot.</p>
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › Troubleshooting</p>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+        <h1>eSIM not working — what to check</h1>
+      </div>
+      <p class="lead">Most problems come down to a setting. Go through the steps in order and test the internet after each one. Do not delete the eSIM while you troubleshoot.</p>
+    </div>
+  </section>
 
-  <section class="block prose">
-    <h2>The checklist</h2>
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="On this page">
+      <p class="g-toc-title">On this page</p>
+      <ol>
+        <li><a href="#the-checklist">The checklist</a></li>
+        <li><a href="#signal-but-no-internet">Signal, but no internet</a></li>
+        <li><a href="#do-not-delete-the-esim">Do not delete the eSIM</a></li>
+        <li><a href="#still-not-working">Still not working?</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec prose" id="the-checklist" aria-labelledby="the-checklist-h">
+      <h2 id="the-checklist-h">The checklist</h2>
         <ol class="steps">
           <li><strong>Is the eSIM line turned on?</strong> Check the SIM settings.</li>
           <li><strong>Is the eSIM chosen for mobile data?</strong> The internet has to go through the eSIM, not your main SIM.</li>
@@ -70,49 +97,65 @@
           <li><strong>Check the APN</strong> — only if your plan's details list one: it should match in the eSIM's settings.</li>
           <li><strong>Are you inside the plan's coverage?</strong> Check that the country you are in is among the countries the plan covers.</li>
         </ol>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Signal, but no internet</h2>
+    <section class="g-sec prose" id="signal-but-no-internet" aria-labelledby="signal-but-no-internet-h">
+      <h2 id="signal-but-no-internet-h">Signal, but no internet</h2>
         <p>The phone is registered but data does not flow. Most often the eSIM is not the line chosen for mobile data, or data roaming is off for it. Check both, then toggle airplane mode.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Do not delete the eSIM</h2>
+    <section class="g-sec prose" id="do-not-delete-the-esim" aria-labelledby="do-not-delete-the-esim-h">
+      <h2 id="do-not-delete-the-esim-h">Do not delete the eSIM</h2>
         <p>Deleting the eSIM rarely fixes anything, and its QR code may be single-use — you may not be able to install it again. Leave it installed while you go through the checklist.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Still not working?</h2>
+    <section class="g-sec prose" id="still-not-working" aria-labelledby="still-not-working-h">
+      <h2 id="still-not-working-h">Still not working?</h2>
         <p>If you have gone through the whole checklist and the eSIM still does not work, write to us at <a href="mailto:support@magicesim.store">support@magicesim.store</a>.</p>
-  </section>
+    </section>
 
-  <section class="block" id="faq">
-    <h2>Questions</h2>
-    <details>
-      <summary>The eSIM shows «No Service». What first?</summary>
-      <p class="note">Make sure data roaming is on for the eSIM, toggle airplane mode, and give it a couple of minutes. Then try choosing a network by hand.</p>
-    </details>
-    <details>
-      <summary>Can I reinstall the eSIM with the same QR code?</summary>
-      <p class="note">Often not: a QR code may be single-use. That is why the checklist tells you not to delete the eSIM.</p>
-    </details>
-    <details>
-      <summary>Will my main SIM get charged while I troubleshoot?</summary>
-      <p class="note">If the main SIM is chosen for mobile data and its data roaming is on, your home operator may charge you. Keep the eSIM as the data line, or turn off data roaming on the main SIM.</p>
-    </details>
-  </section>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
+      <details>
+        <summary>The eSIM shows «No Service». What first?</summary>
+        <p class="note">Make sure data roaming is on for the eSIM, toggle airplane mode, and give it a couple of minutes. Then try choosing a network by hand.</p>
+      </details>
+      <details>
+        <summary>Can I reinstall the eSIM with the same QR code?</summary>
+        <p class="note">Often not: a QR code may be single-use. That is why the checklist tells you not to delete the eSIM.</p>
+      </details>
+      <details>
+        <summary>Will my main SIM get charged while I troubleshoot?</summary>
+        <p class="note">If the main SIM is chosen for mobile data and its data roaming is on, your home operator may charge you. Keep the eSIM as the data line, or turn off data roaming on the main SIM.</p>
+      </details>
+    </section>
+    </article>
+  </div>
 
-  <section class="block">
-    <h2>Related guides</h2>
-    <ul class="list">
-    <li><a href="/en/guides/iphone/">How to install an eSIM on iPhone</a></li>
-    <li><a href="/en/guides/android/">How to install an eSIM on Android</a></li>
-    <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a></li>
-    <li><a href="/en/guides/compatibility/">Does your phone support eSIM?</a></li>
-    </ul>
-    <p class="note"><a href="/en/esim/">Choose a destination</a></p>
-  </section>
+  <div class="wrap">
+    <section class="g-related" id="related" aria-labelledby="related-h">
+      <h2 id="related-h">Related guides</h2>
+      <div class="g-cards">
+      <a class="g-card" href="/en/guides/iphone/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on iPhone</h3><span class="g-card-blurb">By QR code or by hand, and what to switch on when you land.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/android/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on Android</h3><span class="g-card-blurb">Where the eSIM setting usually is, by brand, and the first steps abroad.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/activation/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">When to install and turn on your eSIM</h3><span class="g-card-blurb">Installing the profile and starting the plan are different events.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/compatibility/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">Does your phone support eSIM?</h3><span class="g-card-blurb">A one-minute check before you choose a plan.</span></span>
+      </a>
+      </div>
+      <p class="g-cta"><a class="btn" href="/en/esim/">Choose a destination</a></p>
+    </section>
+  </div>
 </main>
 
 <footer class="site-footer">

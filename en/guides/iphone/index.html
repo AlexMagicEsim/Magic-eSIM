@@ -23,6 +23,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=47758ebc">
+<link rel="stylesheet" href="/en/guides.css?v=1fbd42ce">
 </head>
 <body>
 
@@ -52,20 +53,47 @@
     </div>
   </div>
 </header>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
+    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
+  </details>
+</div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › iPhone</p>
-  <h1>How to install an eSIM on iPhone</h1>
-  <p class="lead">Installing takes a few minutes and needs an internet connection — Wi-Fi is easiest. Below is the whole path: checking that your iPhone supports eSIM, installing the profile, and turning on mobile data at your destination.</p>
-
-  <section class="block prose">
-    <h2>Check that your iPhone supports eSIM</h2>
-        <p>Open <strong>Settings → Cellular</strong> (called <strong>Mobile Data</strong> in some regions). If you see <strong>Add eSIM</strong> or <strong>Add Cellular Plan</strong>, your iPhone supports eSIM.</p>
-        <p>Your iPhone must also not be locked to one carrier. See <a href="/en/guides/compatibility/">how to check compatibility</a>.</p>
+<main class="guide" id="main">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › iPhone</p>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <h1>How to install an eSIM on iPhone</h1>
+      </div>
+      <p class="lead">Installing takes a few minutes and needs an internet connection — Wi-Fi is easiest. Below is the whole path: checking that your iPhone supports eSIM, installing the profile, and turning on mobile data at your destination.</p>
+    </div>
   </section>
 
-  <section class="block prose">
-    <h2>Option 1 — scan the QR code</h2>
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="On this page">
+      <p class="g-toc-title">On this page</p>
+      <ol>
+        <li><a href="#check-that-your-iphone-supports-esim">Check that your iPhone supports eSIM</a></li>
+        <li><a href="#option-1-scan-the-qr-code">Option 1 — scan the QR code</a></li>
+        <li><a href="#option-2-enter-the-details-manually">Option 2 — enter the details manually</a></li>
+        <li><a href="#at-your-destination-turn-on-data">At your destination — turn on data</a></li>
+        <li><a href="#if-something-goes-wrong">If something goes wrong</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec prose" id="check-that-your-iphone-supports-esim" aria-labelledby="check-that-your-iphone-supports-esim-h">
+      <h2 id="check-that-your-iphone-supports-esim-h">Check that your iPhone supports eSIM</h2>
+        <p>Open <strong>Settings → Cellular</strong> (called <strong>Mobile Data</strong> in some regions). If you see <strong>Add eSIM</strong> or <strong>Add Cellular Plan</strong>, your iPhone supports eSIM.</p>
+        <p>Your iPhone must also not be locked to one carrier. See <a href="/en/guides/compatibility/">how to check compatibility</a>.</p>
+    </section>
+
+    <section class="g-sec prose" id="option-1-scan-the-qr-code" aria-labelledby="option-1-scan-the-qr-code-h">
+      <h2 id="option-1-scan-the-qr-code-h">Option 1 — scan the QR code</h2>
         <ol class="steps">
           <li>Show your eSIM's QR code on another screen: a computer, a tablet or a second phone.</li>
           <li>On the iPhone, open the <strong>Camera</strong> app and scan the QR code.</li>
@@ -74,10 +102,10 @@
           <li>Give the line a clear name, such as «Travel», so you do not mix it up with your main SIM.</li>
         </ol>
         <p class="note">With iOS 17.4 or later, if the QR code is in an email or on a web page on the iPhone itself, touch and hold the code, then tap <strong>Add eSIM</strong>.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>Option 2 — enter the details manually</h2>
+    <section class="g-sec prose" id="option-2-enter-the-details-manually" aria-labelledby="option-2-enter-the-details-manually-h">
+      <h2 id="option-2-enter-the-details-manually-h">Option 2 — enter the details manually</h2>
         <ol class="steps">
           <li>Find the details for manual installation that come with your eSIM.</li>
           <li>Open <strong>Settings → Cellular</strong> (or <strong>Mobile Data</strong>) and tap <strong>Add Cellular Plan</strong>.</li>
@@ -85,10 +113,10 @@
           <li>Confirm, and wait until the installation finishes.</li>
         </ol>
         <p class="note">Useful when there is no QR code to scan.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>At your destination — turn on data</h2>
+    <section class="g-sec prose" id="at-your-destination-turn-on-data" aria-labelledby="at-your-destination-turn-on-data-h">
+      <h2 id="at-your-destination-turn-on-data-h">At your destination — turn on data</h2>
         <ol class="steps">
           <li>In <strong>Settings → Cellular</strong>, make sure the eSIM line is turned on.</li>
           <li>Tap <strong>Cellular Data</strong> and choose the eSIM line. Your main SIM can stay on for calls and texts.</li>
@@ -97,44 +125,60 @@
           <li>Give the phone a minute or two to register on a local network.</li>
         </ol>
         <p class="note">Menu names can differ slightly between iOS versions.</p>
-  </section>
+    </section>
 
-  <section class="block prose">
-    <h2>If something goes wrong</h2>
+    <section class="g-sec prose" id="if-something-goes-wrong" aria-labelledby="if-something-goes-wrong-h">
+      <h2 id="if-something-goes-wrong-h">If something goes wrong</h2>
         <p>Check that the eSIM is the line chosen for cellular data and that data roaming is on for it, then restart the phone. The full checklist is in <a href="/en/guides/troubleshooting/">eSIM not working</a>.</p>
         <p><strong>Do not delete the eSIM</strong> while troubleshooting: its QR code may be single-use, and you may not be able to install it again.</p>
-  </section>
+    </section>
 
-  <section class="block" id="faq">
-    <h2>Questions</h2>
-    <details>
-      <summary>Do I need Wi-Fi to install an eSIM on iPhone?</summary>
-      <p class="note">You need an internet connection to download the profile, and Wi-Fi is the easiest. Installing on the day you travel, before you leave home or on airport Wi-Fi, works whatever the plan&#39;s rules for when its validity starts.</p>
-    </details>
-    <details>
-      <summary>The QR code is on this same iPhone. Can I still install it?</summary>
-      <p class="note">Yes. With iOS 17.4 or later, touch and hold the QR code in the email or web page, then tap Add eSIM. Or choose Enter Details Manually and type in the details provided with your eSIM.</p>
-    </details>
-    <details>
-      <summary>What happens to my main number?</summary>
-      <p class="note">It stays on. Calls and texts to your main number follow your home operator&#39;s roaming terms; the travel eSIM is used for mobile data.</p>
-    </details>
-    <details>
-      <summary>Why turn on data roaming for the eSIM?</summary>
-      <p class="note">Travel eSIMs usually connect through partner networks, which the phone treats as roaming. Data roaming on the eSIM line is a normal setting; you can keep it off on your main SIM.</p>
-    </details>
-  </section>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
+      <details>
+        <summary>Do I need Wi-Fi to install an eSIM on iPhone?</summary>
+        <p class="note">You need an internet connection to download the profile, and Wi-Fi is the easiest. Installing on the day you travel, before you leave home or on airport Wi-Fi, works whatever the plan&#39;s rules for when its validity starts.</p>
+      </details>
+      <details>
+        <summary>The QR code is on this same iPhone. Can I still install it?</summary>
+        <p class="note">Yes. With iOS 17.4 or later, touch and hold the QR code in the email or web page, then tap Add eSIM. Or choose Enter Details Manually and type in the details provided with your eSIM.</p>
+      </details>
+      <details>
+        <summary>What happens to my main number?</summary>
+        <p class="note">It stays on. Calls and texts to your main number follow your home operator&#39;s roaming terms; the travel eSIM is used for mobile data.</p>
+      </details>
+      <details>
+        <summary>Why turn on data roaming for the eSIM?</summary>
+        <p class="note">Travel eSIMs usually connect through partner networks, which the phone treats as roaming. Data roaming on the eSIM line is a normal setting; you can keep it off on your main SIM.</p>
+      </details>
+    </section>
+    </article>
+  </div>
 
-  <section class="block">
-    <h2>Related guides</h2>
-    <ul class="list">
-    <li><a href="/en/guides/android/">How to install an eSIM on Android</a></li>
-    <li><a href="/en/guides/compatibility/">Does your phone support eSIM?</a></li>
-    <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a></li>
-    <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a></li>
-    </ul>
-    <p class="note"><a href="/en/esim/">Choose a destination</a></p>
-  </section>
+  <div class="wrap">
+    <section class="g-related" id="related" aria-labelledby="related-h">
+      <h2 id="related-h">Related guides</h2>
+      <div class="g-cards">
+      <a class="g-card" href="/en/guides/android/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">How to install an eSIM on Android</h3><span class="g-card-blurb">Where the eSIM setting usually is, by brand, and the first steps abroad.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/compatibility/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">Does your phone support eSIM?</h3><span class="g-card-blurb">A one-minute check before you choose a plan.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/activation/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">When to install and turn on your eSIM</h3><span class="g-card-blurb">Installing the profile and starting the plan are different events.</span></span>
+      </a>
+      <a class="g-card" href="/en/guides/troubleshooting/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">eSIM not working — what to check</h3><span class="g-card-blurb">A checklist, in the order that fixes most problems.</span></span>
+      </a>
+      </div>
+      <p class="g-cta"><a class="btn" href="/en/esim/">Choose a destination</a></p>
+    </section>
+  </div>
 </main>
 
 <footer class="site-footer">
