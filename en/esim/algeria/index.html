@@ -24,6 +24,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/en/en.css?v=c724577a">
+<link rel="stylesheet" href="/en/country.css?v=9f3c5e37">
 </head>
 <body data-iso="DZ">
 
@@ -60,38 +61,114 @@
   </details>
 </div>
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › Algeria</p>
-  <h1>eSIM for Algeria</h1>
-  <p class="lead">Data plans that work in Algeria, with prices in US dollars. Plans load live from the catalogue.</p>
+<main class="cp" id="main">
+  <section class="cp-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › Algeria</p>
+      <div class="cp-title">
+        <img class="cp-flag" src="/en/flags/dz.svg" alt="" width="72" height="54">
+        <div>
+          <h1>eSIM for Algeria</h1>
+          <p class="lead">Data plans that work in Algeria, with prices in US dollars.</p>
+        </div>
+      </div>
+      <div class="cp-hero-foot">
+        <ul class="cp-facts">
+          <li data-i18n="home.fact1">Prices in US dollars</li>
+          <li data-i18n="home.fact2">Install by QR code</li>
+        </ul>
+        <a class="cp-change" href="/en/esim/">Choose another destination</a>
+      </div>
+    </div>
+  </section>
 
+  <div class="wrap cp-body">
+  <nav class="cp-jump" aria-label="Plan types" hidden>
+    <a href="#localBlock" hidden><span>Algeria</span> <span class="n"></span></a>
+    <a href="#regionalBlock" hidden><span>Regional</span> <span class="n"></span></a>
+    <a href="#dailyBlock" hidden><span>Data every day</span> <span class="n"></span></a>
+  </nav>
 
+  <div class="cp-state">
   <p class="note" id="status" role="status" aria-live="polite" data-i18n="site.loading">Loading plans…</p>
   <noscript>
-    <link rel="stylesheet" href="/en/noscript.css?v=c696f3b3">
+    <link rel="stylesheet" href="/en/noscript.css?v=9fcf9119">
     <p class="note">Plans and prices on this page need JavaScript. Nothing can be bought here yet.</p>
   </noscript>
   <button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>Try again</button>
+  <a class="btn btn-ghost" id="emptyLink" href="/en/esim/" data-i18n="site.allDestinations" hidden>All destinations</a>
+  </div>
 
-  <section class="block" id="dailyBlock" hidden>
-    <h2><span>Data every day</span> <span class="count" id="dailyCount"></span></h2>
-    <p class="note">A data allowance for each day of the trip.</p>
-    <div class="grid" id="dailyGrid"></div>
+  <div class="cp-skeleton" id="skeleton" aria-hidden="true">
+    <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
+  </div>
+
+  <section class="block plan-block plan-block-local" id="localBlock" hidden>
+    <div class="blk-head">
+      <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span>
+      <div>
+        <h2><span>Plans for Algeria</span> <span class="count" id="localCount"></span></h2>
+        <p class="note">Plans that cover Algeria only.</p>
+      </div>
+    </div>
+    <div class="grid plan-grid" id="localGrid"></div>
   </section>
 
-  <section class="block" id="localBlock" hidden>
-    <h2><span>Plans for Algeria</span> <span class="count" id="localCount"></span></h2>
-    <p class="note">Plans that cover Algeria only.</p>
-    <div class="grid" id="localGrid"></div>
+  <section class="block plan-block plan-block-regional" id="regionalBlock" hidden>
+    <div class="blk-head">
+      <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></span>
+      <div>
+        <h2><span>Regional plans that include Algeria</span> <span class="count" id="regionalCount"></span></h2>
+        <p class="note">Plans that cover Algeria together with other countries.</p>
+      </div>
+    </div>
+    <div class="grid plan-grid" id="regionalGrid"></div>
   </section>
 
-  <section class="block" id="regionalBlock" hidden>
-    <h2><span>Regional plans that include Algeria</span> <span class="count" id="regionalCount"></span></h2>
-    <p class="note">Plans that cover Algeria together with other countries.</p>
-    <div class="grid" id="regionalGrid"></div>
+  <section class="block plan-block plan-block-daily" id="dailyBlock" hidden>
+    <div class="blk-head">
+      <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+      <div>
+        <h2><span>Data every day</span> <span class="count" id="dailyCount"></span></h2>
+        <p class="note">A data allowance for each day of the trip.</p>
+      </div>
+    </div>
+    <div class="grid plan-grid" id="dailyGrid"></div>
   </section>
 
   <p class="note" id="currencyNote" data-i18n="price.currencyNote" hidden>Prices in US dollars (USD). These plans can't be bought on this page yet.</p>
+
+  <section class="cp-help" aria-labelledby="cpHelpTitle">
+    <h2 id="cpHelpTitle">Before you buy</h2>
+    <div class="help-grid">
+      <div class="help-card">
+        <h3 data-i18n="site.compatTitle">Will my phone work?</h3>
+        <p data-i18n="site.compatBody">Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.</p>
+        <ul>
+          <li><a href="/en/guides/compatibility/" data-i18n="site.compatGuide">How to check your phone</a></li>
+          <li><a href="/en/guides/iphone/" data-i18n="site.compatCheck">iPhone setup</a></li>
+          <li><a href="/en/guides/android/" data-i18n="site.compatAndroid">Android setup</a></li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3 data-i18n="home.guidesTitle">Set up and fix your eSIM</h3>
+        <p data-i18n="home.guidesLead">Install, check and fix a travel eSIM — step by step.</p>
+        <ul>
+          <li><a href="/en/guides/activation/">When to install and turn on your eSIM</a></li>
+          <li><a href="/en/guides/troubleshooting/">eSIM not working — what to check</a></li>
+          <li><a href="/en/guides/" data-i18n="nav.guides">Guides</a></li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3 data-i18n="home.supportTitle">Questions before you travel?</h3>
+        <p data-i18n="home.supportBody">Write to our support team by email.</p>
+        <ul>
+          <li><a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  </div>
 </main>
 
 <div class="overlay" id="checkout" hidden>
@@ -202,8 +279,8 @@
 <script src="/assets/daily-plan-copy.js?v=ae5df21d"></script>
 <script src="/assets/country-names-en.js?v=e90c68e3"></script>
 <script src="/assets/site-i18n.js?v=a442c466"></script>
-<script src="/en/plans.js?v=0b0f8149"></script>
+<script src="/en/plans.js?v=596edcc5"></script>
 <script src="/en/checkout.js?v=28ed7de9"></script>
-<script src="/en/country.js?v=d2dc865c"></script>
+<script src="/en/country.js?v=e9a2c247"></script>
 </body>
 </html>

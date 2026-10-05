@@ -2,3 +2,4 @@
  * JavaScript no plan can load, so «Loading plans…» would be a promise the page
  * cannot keep. A stylesheet, not an inline style, so the CSP stays strict. */
 #status{display:none!important}
+#skeleton{display:none!important}

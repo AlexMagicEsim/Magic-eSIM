@@ -285,26 +285,74 @@
       return out;
     }
 
-    /** One plan card. `onOpen(p)` opens the checkout; `chips` tell it apart from a look-alike. */
+    /**
+     * The per-day ladder a visitor can pick from, cheapest term first — the
+     * SAME rule as the checkout's own duration list (en/checkout.js
+     * durations()): integer days > 0, price > 0, one entry per term. It only
+     * DISPLAYS the catalogue's term prices; the price that counts is still the
+     * server's quote. A test pins the two functions to the same answer.
+     */
+    function ladder(p) {
+      if (String((p && p.daily_term_mode) || '') !== 'PER_DAY') return [];
+      var terms = Array.isArray(p.term_prices) ? p.term_prices : [];
+      var out = [];
+      terms.forEach(function (t) {
+        var d = Number(t && t.days); var price = Number(t && t.price);
+        if (Number.isInteger(d) && d > 0 && isFinite(price) && price > 0
+          && !out.some(function (x) { return x.days === d; })) out.push({ days: d, price: price });
+      });
+      return out.sort(function (a, b) { return a.days - b.days; });
+    }
+
+    /** «Also covers Albania, Andorra, Argentina + 166 more» — the other countries, by name. */
+    function alsoCovers(p, focusIso, max) {
+      var focus = String(focusIso || '').toUpperCase();
+      var others = coverageCodes(p).filter(function (c) { return c !== focus; });
+      if (!others.length) return '';
+      var n = max || 3;
+      var names = others.slice(0, n).map(function (c) { return NAMES.of(c); });
+      var rest = others.length - names.length;
+      return 'Also covers ' + names.join(', ') + (rest > 0 ? ' + ' + rest + ' more' : '');
+    }
+
+    function span(cls, text) {
+      var s = document.createElement('span');
+      if (cls) s.className = cls;
+      if (text != null) s.textContent = text;
+      return s;
+    }
+
+    /**
+     * One plan card. `opts.kind` is the block it sits in (local | regional |
+     * daily) and only chooses the label; `onOpen(p, days)` opens the checkout,
+     * with the per-day term the visitor picked here (null otherwise); `chips`
+     * tell it apart from a look-alike. Every price and coverage figure comes
+     * from the functions above — the card only lays them out. It holds exactly
+     * ONE button: the per-day terms are radio inputs.
+     */
     function card(p, opts) {
       var o = opts || {};
+      var kind = o.kind === 'regional' || o.kind === 'daily' ? o.kind : 'local';
       var priced = priceOf(p);
-      var el = document.createElement('div');
-      el.className = 'card';
+      var el = document.createElement('article');
+      el.className = 'card plan plan-' + kind;
 
+      var head = document.createElement('div');
+      head.className = 'plan-head';
+      var badgeText = kind === 'regional' ? 'Regional plan'
+        : kind === 'daily' ? 'Daily plan'
+          : (o.focus ? NAMES.of(String(o.focus).toUpperCase()) + ' only' : '');
+      if (badgeText) head.appendChild(span('plan-badge', badgeText));
       var h = document.createElement('h3');
+      h.className = 'plan-data';
       h.textContent = dataText(p) || I18N.t('checkout.plan');
-      el.appendChild(h);
+      head.appendChild(h);
+      el.appendChild(head);
 
       if (o.chips && o.chips.length) {
         var d = document.createElement('div');
         d.className = 'distinct';
-        o.chips.forEach(function (c) {
-          var chip = document.createElement('span');
-          chip.className = 'chip chip-' + c.kind;
-          chip.textContent = c.label;
-          d.appendChild(chip);
-        });
+        o.chips.forEach(function (c) { d.appendChild(span('chip chip-' + c.kind, c.label)); });
         el.appendChild(d);
       }
 
@@ -319,31 +367,76 @@
         ? (DAILY.lines(p, 'en') || []).filter(function (l) { return l.kind === 'throttle' || l.kind === 'reset'; })
           .map(function (l) { return l.text; })
         : [];
-      [coverageText(p, o.focus), termText(p)].concat(extra).filter(Boolean).forEach(function (txt) {
-        var s = document.createElement('span');
-        s.textContent = txt;
-        meta.appendChild(s);
-      });
+      // A plan for this country alone says so in its badge; the line is for
+      // everything else (regional, and daily plans that cross borders).
+      var cov = kind === 'local' && coverageCodes(p).length === 1 ? '' : coverageText(p, o.focus);
+      if (cov) meta.appendChild(span('m-cov', cov));
+      var also = coverageCodes(p).length > 1 ? alsoCovers(p, o.focus, 3) : '';
+      if (also) meta.appendChild(span('m-also', also));
+      extra.forEach(function (txt) { meta.appendChild(span('m-extra', txt)); });
       el.appendChild(meta);
 
-      var pr = document.createElement('div');
-      pr.className = 'price';
-      pr.textContent = priceText(p);
-      el.appendChild(pr);
+      // A per-day plan: the visitor picks the number of days right here.
+      var steps = ladder(p);
+      var chosen = priced ? { days: priced.days, price: priced.amount } : null;
+      var foot = document.createElement('div');
+      foot.className = 'plan-foot';
+      var priceBox = document.createElement('div');
+      priceBox.className = 'plan-price';
+      var pr = span('price', priced ? money(priced.amount) : '');
+      pr.setAttribute('aria-live', 'polite');
+      var forTerm = span('price-for', '');
+      var showTerm = function () {
+        forTerm.textContent = chosen && chosen.days ? 'for ' + chosen.days + ' ' + plural(chosen.days) : '';
+      };
+      showTerm();
+      priceBox.appendChild(pr);
+      priceBox.appendChild(forTerm);
 
+      if (priced && steps.length > 1) {
+        var fs = document.createElement('fieldset');
+        fs.className = 'plan-days';
+        var lg = document.createElement('legend');
+        lg.textContent = 'Days';
+        fs.appendChild(lg);
+        var name = 'days-' + String(p.package_id || Math.random()).replace(/[^A-Za-z0-9-]/g, '');
+        var opts2 = document.createElement('div');
+        opts2.className = 'days';
+        steps.forEach(function (t) {
+          var lab = document.createElement('label');
+          var r = document.createElement('input');
+          r.type = 'radio';
+          r.name = name;
+          r.value = String(t.days);
+          r.checked = t.days === chosen.days;
+          r.addEventListener('change', function () {
+            if (!r.checked) return;
+            chosen = { days: t.days, price: t.price };
+            pr.textContent = money(t.price);
+            showTerm();
+          });
+          lab.appendChild(r);
+          lab.appendChild(span('', String(t.days)));
+          opts2.appendChild(lab);
+        });
+        fs.appendChild(opts2);
+        el.appendChild(fs);
+      }
+
+      foot.appendChild(priceBox);
       if (priced) {
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'btn';
         btn.textContent = I18N.t('site.choose');
-        btn.addEventListener('click', function () { if (o.onOpen) o.onOpen(p); });
-        el.appendChild(btn);
+        btn.addEventListener('click', function () {
+          if (o.onOpen) o.onOpen(p, steps.length ? chosen.days : null);
+        });
+        foot.appendChild(btn);
       } else {
-        var off = document.createElement('span');
-        off.className = 'note';
-        off.textContent = I18N.t('site.unavailable');
-        el.appendChild(off);
+        foot.appendChild(span('note', I18N.t('site.unavailable')));
       }
+      el.appendChild(foot);
       return el;
     }
 
@@ -351,6 +444,7 @@
       ISO2: ISO2, priceOf: priceOf, money: money, priceText: priceText, dataText: dataText, termText: termText,
       coverageCodes: coverageCodes, coverageText: coverageText, isRestricted: isRestricted, isWorldwide: isWorldwide,
       classify: classify, sortByPrice: sortByPrice, card: card, distinguishers: distinguishers,
+      ladder: ladder, alsoCovers: alsoCovers,
     };
   }
 
