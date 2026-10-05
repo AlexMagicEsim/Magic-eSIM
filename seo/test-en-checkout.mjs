@@ -100,6 +100,27 @@ test('a valid quote is accepted, and its amount is the server\'s', () => {
   assert.equal(d.quote.amount, 15.99);
 });
 
+test('every whole-cent price is accepted — floating point must not turn $73.99 into «unavailable»', () => {
+  // Production, 2026-10-05: `Math.round(amount * 100) !== amount * 100` refused
+  // $73.99 (73.99 * 100 === 7398.999…). 21 of the catalogue's 232 prices
+  // ($16.99–$19.99, $64.99–$73.99, …) and 632 of 1710 packages were affected:
+  // the server wrote a quote, the visitor saw «The price is temporarily
+  // unavailable». Every amount from $0.01 to $999.99 must pass.
+  const ask = { packageId: PKG, days: null };
+  const refused = [];
+  for (let c = 1; c <= 99999; c += 1) {
+    const amount = Number((c / 100).toFixed(2));
+    const r = CO.validateQuote(ok({ amount }), ask, NOW);
+    if (!r.ok || r.quote.amount !== amount) refused.push(amount);
+  }
+  assert.deepEqual(refused.slice(0, 10), [], `${refused.length} whole-cent prices refused`);
+  for (const a of [73.99, 16.99, 19.99, 64.99, 71.99]) assert.equal(CO.validateQuote(ok({ amount: a }), ask, NOW).ok, true, String(a));
+  // …and anything that is not a whole number of cents is still refused.
+  for (const a of [9.999, 4.995, 0.001, 73.991, 12.3456]) {
+    assert.deepEqual(CO.validateQuote(ok({ amount: a }), ask, NOW), { ok: false, reason: 'bad_quote' }, String(a));
+  }
+});
+
 test('anything that is not exactly that quote is refused — never shown, never guessed', () => {
   const ask = { packageId: PKG, days: null };
   for (const [why, over] of [

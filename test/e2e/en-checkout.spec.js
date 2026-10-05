@@ -235,6 +235,22 @@ test('French Polynesia: the local 10 GB and the regional Best World each go thro
   assertClean(calls, 'pf@example.org');
 });
 
+test('a $73.99 quote goes through — floating point must not make a correct price «unavailable»', async ({ page }) => {
+  // Production, 2026-10-05: 73.99 * 100 is 7398.999… and the old exact-cents
+  // check refused this quote (632 of 1710 packages had such a price).
+  const { calls } = await open(page, '/en/esim/french-polynesia/', { amountFor: () => 73.99 });
+  await cardBtn(page, 'local', '10 GB').click();
+  await page.locator('#coQuote').click();
+  await expect(page.locator('#coTotal')).toHaveText('$73.99');
+  await expect(page.locator('#coQuoteStatus')).toBeHidden();
+  await page.locator('#coEmail').fill('pf@example.org');
+  await page.locator('#coDevice').check();
+  await page.locator('#coReview').click();
+  await expect(page.locator('#rvTotal')).toHaveText('$73.99');
+  await expect(page.locator('#coPay')).toBeDisabled();
+  assertClean(calls, 'pf@example.org');
+});
+
 /* ================================================================== *
  * The server's price wins, and it does not last for ever
  * ================================================================== */

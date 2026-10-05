@@ -63,7 +63,11 @@
       if (String(body.package_id) !== String(ask.packageId)) return { ok: false, reason: 'bad_quote' };
       if (days !== want) return { ok: false, reason: 'bad_quote' };
       if (body.currency !== 'USD') return { ok: false, reason: 'bad_quote' };
-      if (!isFinite(amount) || amount <= 0 || Math.round(amount * 100) !== amount * 100) return { ok: false, reason: 'bad_quote' };
+      // A whole number of cents. Compared with a tolerance, never exactly:
+      // 73.99 * 100 is 7398.999… in floating point, and the exact test refused
+      // a correct $73.99 quote (production, 2026-10-05). A real fraction of a
+      // cent (9.999, 4.995) is off by at least 0.1 cent and is still refused.
+      if (!isFinite(amount) || amount <= 0 || Math.abs(amount * 100 - Math.round(amount * 100)) > 1e-6) return { ok: false, reason: 'bad_quote' };
       if (!isFinite(expires) || expires <= nowMs) return { ok: false, reason: 'bad_quote' };
       return { ok: true, quote: { id: body.quote_id, amount: amount, days: days, expiresAt: expires } };
     }
