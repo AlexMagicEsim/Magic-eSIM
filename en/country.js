@@ -47,26 +47,81 @@
   var iso = String(document.body.getAttribute('data-iso') || '').toUpperCase();
   if (!PLANS.ISO2.test(iso)) return;
 
-  function fill(block, gridId, countId, list, open) {
+  // A long block shows its first plans and folds the rest behind one button,
+  // so 39 offers read as three short lists, not a wall. Cheapest first, as before.
+  var FOLD = 6;
+
+  function fold(block, grid, list) {
+    var sec = $(block);
+    var old = sec.querySelector('.plan-more');
+    if (old) old.remove();
+    var cards = grid.children;
+    for (var i = 0; i < cards.length; i += 1) cards[i].hidden = i >= FOLD;
+    if (list.length <= FOLD) return;
+    var more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'btn btn-ghost plan-more';
+    more.setAttribute('aria-controls', grid.id);
+    more.setAttribute('aria-expanded', 'false');
+    var label = function (open) { more.textContent = open ? 'Show fewer plans' : 'Show all ' + list.length + ' plans'; };
+    label(false);
+    more.addEventListener('click', function () {
+      var open = more.getAttribute('aria-expanded') !== 'true';
+      for (var j = 0; j < cards.length; j += 1) cards[j].hidden = !open && j >= FOLD;
+      more.setAttribute('aria-expanded', String(open));
+      label(open);
+      // Opening: move focus to the first plan that just appeared.
+      if (open && cards[FOLD]) { var b = cards[FOLD].querySelector('button, input'); if (b) b.focus(); }
+    });
+    grid.parentNode.insertBefore(more, grid.nextSibling);
+  }
+
+  function fill(block, gridId, countId, list, open, kind) {
     var grid = $(gridId);
     grid.textContent = '';
     // Look-alikes are told apart within ONE block, never across blocks: a local
     // plan and a regional one are not alternatives to each other.
     var distinct = PLANS.distinguishers(list);
     list.forEach(function (p) {
-      grid.appendChild(PLANS.card(p, { focus: iso, onOpen: open, chips: distinct[String(p.package_id || '')] }));
+      grid.appendChild(PLANS.card(p, { focus: iso, onOpen: open, kind: kind, chips: distinct[String(p.package_id || '')] }));
     });
     $(countId).textContent = list.length ? String(list.length) : '';
     $(block).hidden = !list.length;
+    fold(block, grid, list);
+    // The jump link to this block, with the same count.
+    var jump = document.querySelector('.cp-jump a[href="#' + block + '"]');
+    if (jump) {
+      jump.hidden = !list.length;
+      var n = jump.querySelector('.n');
+      if (n) n.textContent = list.length ? String(list.length) : '';
+    }
   }
 
   function boot() {
     // The checkout window (en/checkout.js): plan → server quote → review, and
     // a payment step that says it is not available yet.
     var open = window.MagicEnCheckout.bind(document, { I18N: I18N, PLANS: PLANS });
-    var openPlan = function (p) { open(p, iso); };
+    // A per-day term picked on the card is handed to the checkout the way a
+    // visitor would set it: its own duration list gets the value and a change
+    // event. en/checkout.js is untouched and runs its usual change handler.
+    var openPlan = function (p, days) {
+      open(p, iso);
+      var sel = $('coDays');
+      if (days && sel && !$('coTermPick').hidden) {
+        var has = Array.prototype.some.call(sel.options, function (o) { return o.value === String(days); });
+        if (has && sel.value !== String(days)) {
+          sel.value = String(days);
+          sel.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+    };
+
+    var skeleton = function (on) { var k = $('skeleton'); if (k) k.hidden = !on; };
+    var jumps = function (on) { var j = document.querySelector('.cp-jump'); if (j) j.hidden = !on; };
 
     var failed = function () {
+      skeleton(false);
+      jumps(false);
       ['dailyBlock', 'localBlock', 'regionalBlock'].forEach(function (id) { $(id).hidden = true; });
       $('status').textContent = I18N.t('site.pricesUnavailable');
       $('status').hidden = false;
@@ -78,6 +133,7 @@
 
     var load = function () {
       $('retry').hidden = true;
+      skeleton(true);
       $('status').textContent = I18N.t('site.loading');
       $('status').hidden = false;
       return window.MagicGlobalCatalog.load().then(render, failed);
@@ -92,20 +148,23 @@
       if (!list.length) return failed();
 
       var blocks = PLANS.classify(list, iso);
-      fill('dailyBlock', 'dailyGrid', 'dailyCount', blocks.daily, openPlan);
-      fill('localBlock', 'localGrid', 'localCount', blocks.local, openPlan);
-      fill('regionalBlock', 'regionalGrid', 'regionalCount', blocks.regional, openPlan);
+      skeleton(false);
+      fill('localBlock', 'localGrid', 'localCount', blocks.local, openPlan, 'local');
+      fill('regionalBlock', 'regionalGrid', 'regionalCount', blocks.regional, openPlan, 'regional');
+      fill('dailyBlock', 'dailyGrid', 'dailyCount', blocks.daily, openPlan, 'daily');
 
       // The catalogue answered and none of it covers this country: say so,
       // rather than leave a page of empty headings.
       if (!blocks.daily.length && !blocks.local.length && !blocks.regional.length) {
         $('status').textContent = I18N.t('site.noPlans');
         $('status').hidden = false;
+        if ($('emptyLink')) $('emptyLink').hidden = false;
         return undefined;
       }
       $('status').textContent = '';
       $('status').hidden = true;
       $('currencyNote').hidden = false;
+      jumps(true);
       return undefined;
     };
 
@@ -118,7 +177,7 @@
       if (a && a !== document.body) return;
       var target = !$('retry').hidden ? $('retry') : null;
       if (!target) {
-        ['dailyBlock', 'localBlock', 'regionalBlock'].some(function (id) {
+        ['localBlock', 'regionalBlock', 'dailyBlock'].some(function (id) {
           if ($(id).hidden) return false;
           target = $(id).querySelector('h2');
           return !!target;

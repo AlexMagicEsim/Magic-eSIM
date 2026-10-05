@@ -1,0 +1,129 @@
+/* /en/esim/<slug>/ — the country page's own layout. Tokens, type, buttons
+ * and the shared chrome come from en/en.css; this file lays out the hero, the
+ * plan blocks and the plan cards that en/plans.js builds.
+ * Versioned by seo/stamp-assets.mjs like every other asset. */
+
+.cp{background:radial-gradient(900px 420px at 0% -10%,rgba(138,22,199,.08),transparent 60%),radial-gradient(820px 420px at 100% -10%,rgba(0,199,223,.08),transparent 58%),var(--bg)}
+
+/* ---------- hero ---------- */
+.cp-hero{padding:4px 0 26px}
+.cp-hero .crumbs{margin:18px 0 18px}
+.cp-title{display:flex;align-items:center;gap:18px}
+.cp-flag{flex:none;width:72px;height:54px;border-radius:10px;object-fit:cover;box-shadow:0 0 0 1px rgba(17,24,39,.08),0 10px 24px rgba(17,24,39,.10);background:#eef1f6}
+.cp-title h1{margin:0 0 6px;font-size:clamp(28px,4.4vw,46px);line-height:1.08;letter-spacing:-.03em}
+.cp-title .lead{margin:0;font-size:clamp(15px,1.6vw,18px)}
+.cp-hero-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin-top:20px}
+.cp-facts{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.cp-facts li{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--muted);font-size:13px;font-weight:600}
+.cp-facts li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.cp-change{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 4px;color:var(--accent);font-size:14px;font-weight:650;text-decoration:none}
+.cp-change::before{content:"←"}
+.cp-change:hover{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:599px){
+  .cp-hero{padding-bottom:14px}
+  .cp-hero .crumbs{margin:12px 0 12px;font-size:13px}
+  .cp-title{align-items:flex-start;gap:12px}
+  .cp-flag{width:48px;height:36px;border-radius:8px;margin-top:4px}
+  .cp-title .lead{font-size:15px}
+  .cp-facts{display:none}
+  .cp-hero-foot{margin-top:8px}
+  .cp-change{min-height:36px}
+  .cp-jump{margin-bottom:16px}
+}
+
+/* ---------- jump links between the blocks ---------- */
+.cp-body{padding-bottom:8px}
+.cp-jump{position:sticky;top:68px;z-index:30;display:flex;gap:8px;overflow-x:auto;margin:0 0 22px;padding:10px 0;background:rgba(247,249,252,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);scrollbar-width:none}
+.cp-jump::-webkit-scrollbar{display:none}
+.cp-jump a{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font-size:14px;font-weight:650;text-decoration:none;white-space:nowrap}
+.cp-jump a:hover{border-color:#c9d4f5;background:var(--accent-soft);color:var(--text)}
+.cp-jump .n{min-width:24px;padding:1px 8px;border-radius:999px;background:var(--accent-soft);color:#2f4fc4;font-size:12px;font-weight:750;text-align:center}
+.plan-block{scroll-margin-top:136px}
+@media (max-width:899px){.cp-jump{top:64px}.plan-block{scroll-margin-top:128px}}
+
+/* ---------- loading / unavailable / empty ---------- */
+.cp-state{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.cp-state #status{margin:0 0 14px;font-size:15px;max-width:52ch}
+.cp-state #retry,.cp-state #emptyLink{margin:0 0 30px}
+.cp-skeleton{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 40px}
+.sk{height:250px;border-radius:var(--r-l);background:linear-gradient(90deg,#eef1f6 0%,#f7f9fc 40%,#eef1f6 80%);background-size:300% 100%;border:1px solid var(--border);animation:sk 1.4s ease-in-out infinite}
+@keyframes sk{0%{background-position:100% 0}100%{background-position:0 0}}
+@media (max-width:999px){.cp-skeleton{grid-template-columns:repeat(2,minmax(0,1fr))}.sk:nth-child(n+5){display:none}}
+@media (max-width:599px){.cp-skeleton{grid-template-columns:1fr}.sk{height:210px}.sk:nth-child(n+3){display:none}}
+
+/* ---------- blocks ---------- */
+.plan-block{margin:0 0 46px}
+.blk-head{display:flex;align-items:flex-start;gap:14px;margin:0 0 18px}
+.blk-ico{flex:none;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;background:var(--accent-soft);color:var(--accent)}
+.blk-ico svg{width:24px;height:24px}
+.plan-block-regional .blk-ico{background:#f4ecfd;color:#7a14b3}
+.plan-block-daily .blk-ico{background:#e3f6fa;color:#0b6f85}
+.plan-block .blk-head h2{margin:0 0 4px;font-size:clamp(20px,2.4vw,26px);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.plan-block .blk-head h2 .count{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:13px;font-weight:700}
+.plan-block .blk-head .note{margin:0;font-size:15px}
+.plan-grid{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:999px){.plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:599px){.plan-grid{grid-template-columns:1fr;gap:12px}}
+.plan-more{display:flex;margin:18px auto 0}
+
+/* ---------- a plan card ----------
+   Read in this order: data (the largest), the term right under it, the price
+   (second accent, top right); then the network, then — smallest — the IP.
+   A network / IP / generation that differs from a look-alike in the same block
+   is marked (.is-diff). */
+.plan{position:relative;gap:10px;padding:16px 18px 14px;border-radius:var(--r-l);transition:box-shadow .15s ease,border-color .15s ease}
+.plan:hover{border-color:#c9d4f5;box-shadow:var(--shadow-2)}
+.plan-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.plan-main{display:grid;gap:7px;min-width:0}
+.plan .plan-data{margin:0;font-size:28px;line-height:1.05;font-weight:800;letter-spacing:-.03em}
+.plan-daily .plan-data{font-size:19px;line-height:1.2;letter-spacing:-.015em}
+.plan-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.plan-term{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:8px;background:#111827;color:#fff;font-size:13px;font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.plan-badge{display:inline-flex;align-items:center;min-height:26px;padding:0 9px;border-radius:8px;background:var(--accent-soft);color:#2f4fc4;font-size:12px;font-weight:700}
+.plan-regional .plan-badge{background:#f4ecfd;color:#6a1199}
+.plan-daily .plan-badge{background:#e3f6fa;color:#0a5f72}
+.plan .price{flex:none;font-size:24px;line-height:1.1;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-align:right}
+.plan .meta{display:grid;gap:2px;font-size:13.5px;color:var(--muted)}
+.plan .meta span{position:relative;padding-left:13px}
+.plan .meta span::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:#c3cbe0}
+.plan .meta .m-cov{color:var(--text);font-weight:600}
+.plan .meta .m-cov::before{background:var(--accent)}
+.plan-regional .meta .m-cov::before{background:#7a14b3}
+
+/* per-day: the number of days, as a row of choices */
+.plan-days{margin:0;padding:0;border:0;min-width:0}
+.plan-days legend{padding:0;margin:0 0 6px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.days{display:flex;flex-wrap:wrap;gap:6px}
+.days label{position:relative;margin:0;font-weight:inherit}
+.days input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.days span{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:34px;padding:0 9px;border:1px solid var(--border-strong);border-radius:9px;background:var(--surface);color:var(--text);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.days input:hover+span{border-color:#a9b8ee}
+.days input:checked+span{background:var(--accent-btn);border-color:var(--accent-btn);color:#fff}
+.days input:focus-visible+span{outline:3px solid rgba(66,103,232,.55);outline-offset:2px}
+
+/* foot: network (secondary) and IP (tertiary), and the one button */
+.plan-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:11px;border-top:1px solid var(--border)}
+.plan-tech{display:grid;gap:3px;min-width:0}
+.plan-net{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14px;font-weight:650;color:var(--text)}
+.plan-net .net-g,.plan-net .chip-gen{font-size:12px;font-weight:700;color:var(--muted)}
+.plan-ip{font-size:12px;color:var(--muted)}
+.plan-tech .chip{display:inline;padding:0;border:0;background:none;font-size:inherit;line-height:inherit}
+.plan-tech .is-diff{padding:1px 7px;border-radius:6px;background:#f1efff;color:#4338ca;box-shadow:inset 0 0 0 1px #d6d0fb}
+.plan .btn{flex:none;min-height:40px;margin:0;padding:0 16px;font-size:14px}
+.plan-foot .note{margin:0}
+@media (max-width:359px){.plan{padding:14px}.plan .plan-data{font-size:24px}.plan .price{font-size:21px}.plan .btn{padding:0 12px}}
+
+#currencyNote{margin:-10px 0 0;text-align:center}
+
+/* ---------- before you buy ---------- */
+.cp-help{margin:56px 0 0;padding-top:36px;border-top:1px solid var(--border)}
+.cp-help>h2{margin:0 0 18px}
+.help-grid{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:899px){.help-grid{grid-template-columns:1fr}}
+.help-card{padding:22px;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface)}
+.help-card h3{margin:0 0 8px}
+.help-card p{margin:0 0 12px;color:var(--muted);font-size:15px}
+.help-card ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.help-card a{color:var(--accent);font-weight:650;text-decoration:none}
+.help-card a::after{content:" →"}
+.help-card a:hover{text-decoration:underline;text-underline-offset:3px}

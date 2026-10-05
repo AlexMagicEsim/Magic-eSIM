@@ -90,7 +90,10 @@ test('look-alike plans are told apart: exit, operators, and the speed after a da
   const local = page.locator('#localGrid .card');
   await expect(local).toHaveCount(2);
   const chipSets = await local.evaluateAll((cards) => cards.map((c) => [...c.querySelectorAll('.chip')].map((x) => x.textContent)));
-  expect(chipSets.map((s) => s.join(' · ')).sort()).toEqual(['IP: Hong Kong · Docomo', 'IP: Singapore · 2 networks']);
+  // The same marks as before; since the card redesign the network is listed
+  // before the IP (network is the secondary fact, IP the tertiary one), so the
+  // set within each card is compared, not the order.
+  expect(chipSets.map((s) => s.slice().sort().join(' · ')).sort()).toEqual(['2 networks · IP: Singapore', 'Docomo · IP: Hong Kong']);
   const daily = page.locator('#dailyGrid .card');
   await expect(daily).toHaveCount(2);
   await expect(daily.filter({ hasText: 'Then up to 512 Kbps' })).toHaveCount(1);

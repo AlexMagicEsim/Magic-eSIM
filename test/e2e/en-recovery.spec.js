@@ -194,10 +194,12 @@ test('«Try again» on the catalogue: focus lands on «Try again» if it fails a
   await expect(page.locator('#dailyGrid .card')).toHaveCount(1);
   const f = await page.evaluate(() => ({ tag: document.activeElement.tagName,
     block: document.activeElement.closest('section') && document.activeElement.closest('section').id }));
-  expect(f).toEqual({ tag: 'H2', block: 'dailyBlock' });
+  // The first block on the page — since the country-page redesign the order is
+  // local → regional → daily, so with this fixture that is the local block.
+  expect(f).toEqual({ tag: 'H2', block: 'localBlock' });
   // The next Tab goes into the plans, not back to the top of the page.
   await page.keyboard.press('Tab');
-  expect(await page.evaluate(() => !!document.activeElement.closest('#dailyGrid'))).toBe(true);
+  expect(await page.evaluate(() => !!document.activeElement.closest('#localGrid'))).toBe(true);
   expect(st.cat).toBe(3);
 });
 

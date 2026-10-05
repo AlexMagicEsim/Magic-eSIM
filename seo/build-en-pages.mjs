@@ -279,10 +279,55 @@ const MODAL = `<div class="overlay" id="checkout" hidden>
   </div>
 </div>`;
 
-const block = (id, title, note) => `  <section class="block" id="${id}Block" hidden>
-    <h2><span>${title}</span> <span class="count" id="${id}Count"></span></h2>
-    <p class="note">${note}</p>
-    <div class="grid" id="${id}Grid"></div>
+const BLOCK_ICON = {
+  local: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>',
+  regional: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>',
+  daily: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+};
+
+/* One block of plans. The heading, count and note are the same words as
+ * before; the grid is filled by en/country.js, which also folds a long list. */
+const block = (id, title, note) => `  <section class="block plan-block plan-block-${id}" id="${id}Block" hidden>
+    <div class="blk-head">
+      <span class="blk-ico">${BLOCK_ICON[id]}</span>
+      <div>
+        <h2><span>${title}</span> <span class="count" id="${id}Count"></span></h2>
+        <p class="note">${note}</p>
+      </div>
+    </div>
+    <div class="grid plan-grid" id="${id}Grid"></div>
+  </section>`;
+
+/* «Before you buy»: links to what already exists — the device check, two
+ * guides and the support address. No new claims. */
+const HELP = `  <section class="cp-help" aria-labelledby="cpHelpTitle">
+    <h2 id="cpHelpTitle">Before you buy</h2>
+    <div class="help-grid">
+      <div class="help-card">
+        <h3 data-i18n="site.compatTitle">Will my phone work?</h3>
+        <p data-i18n="site.compatBody">Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.</p>
+        <ul>
+          <li><a href="/en/guides/compatibility/" data-i18n="site.compatGuide">How to check your phone</a></li>
+          <li><a href="/en/guides/iphone/" data-i18n="site.compatCheck">iPhone setup</a></li>
+          <li><a href="/en/guides/android/" data-i18n="site.compatAndroid">Android setup</a></li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3 data-i18n="home.guidesTitle">Set up and fix your eSIM</h3>
+        <p data-i18n="home.guidesLead">Install, check and fix a travel eSIM — step by step.</p>
+        <ul>
+${EN_GUIDES.filter((g) => g.slug === 'activation' || g.slug === 'troubleshooting').map((g) => `          <li><a href="/en/guides/${g.slug}/">${esc(g.h1)}</a></li>`).join('\n')}
+          <li><a href="/en/guides/" data-i18n="nav.guides">Guides</a></li>
+        </ul>
+      </div>
+      <div class="help-card">
+        <h3 data-i18n="home.supportTitle">Questions before you travel?</h3>
+        <p data-i18n="home.supportBody">Write to our support team by email.</p>
+        <ul>
+          <li><a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
+        </ul>
+      </div>
+    </div>
   </section>`;
 
 export function countryPage(c) {
@@ -306,32 +351,65 @@ ${cspMeta(primaryApiOrigin())}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/en/en.css">
+<link rel="stylesheet" href="/en/country.css">
 </head>
 <body data-iso="${c.iso}">
 
 ${header(`/esim/${c.slug}/`)}
 ${PAYBAR}
 
-<main class="wrap">
-  <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › ${name}</p>
-  <h1>eSIM for ${name}</h1>
-  <p class="lead">Data plans that work in ${name}, with prices in US dollars. Plans load live from the catalogue.</p>
+<main class="cp" id="main">
+  <section class="cp-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › ${name}</p>
+      <div class="cp-title">
+        <img class="cp-flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
+        <div>
+          <h1>eSIM for ${name}</h1>
+          <p class="lead">Data plans that work in ${name}, with prices in US dollars.</p>
+        </div>
+      </div>
+      <div class="cp-hero-foot">
+        <ul class="cp-facts">
+          <li data-i18n="home.fact1">Prices in US dollars</li>
+          <li data-i18n="home.fact2">Install by QR code</li>
+        </ul>
+        <a class="cp-change" href="/en/esim/">Choose another destination</a>
+      </div>
+    </div>
+  </section>
 
+  <div class="wrap cp-body">
+  <nav class="cp-jump" aria-label="Plan types" hidden>
+    <a href="#localBlock" hidden><span>${name}</span> <span class="n"></span></a>
+    <a href="#regionalBlock" hidden><span>Regional</span> <span class="n"></span></a>
+    <a href="#dailyBlock" hidden><span>Data every day</span> <span class="n"></span></a>
+  </nav>
 
+  <div class="cp-state">
   <p class="note" id="status" role="status" aria-live="polite" data-i18n="site.loading">Loading plans…</p>
   <noscript>
     <link rel="stylesheet" href="/en/noscript.css">
     <p class="note">Plans and prices on this page need JavaScript. Nothing can be bought here yet.</p>
   </noscript>
   <button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>Try again</button>
+  <a class="btn btn-ghost" id="emptyLink" href="/en/esim/" data-i18n="site.allDestinations" hidden>All destinations</a>
+  </div>
 
-${block('daily', 'Data every day', 'A data allowance for each day of the trip.')}
+  <div class="cp-skeleton" id="skeleton" aria-hidden="true">
+    <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
+  </div>
 
 ${block('local', `Plans for ${name}`, `Plans that cover ${name} only.`)}
 
 ${block('regional', `Regional plans that include ${name}`, `Plans that cover ${name} together with other countries.`)}
 
+${block('daily', 'Data every day', 'A data allowance for each day of the trip.')}
+
   <p class="note" id="currencyNote" data-i18n="price.currencyNote" hidden>Prices in US dollars (USD). These plans can't be bought on this page yet.</p>
+
+${HELP}
+  </div>
 </main>
 
 ${MODAL}
