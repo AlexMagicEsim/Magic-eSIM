@@ -142,7 +142,14 @@ const ICON_MENU = '<svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke=
 /* The header. Desktop: logo, four links, «Русский», «Find a plan». Below 900 px
  * the links fold into a <details> menu — native, so it works on the guides,
  * which carry no script at all, and with JavaScript off. */
-export const header = (ruHref) => `<header class="site-header">
+/* The skip link is the FIRST focusable element of every English page: hidden until it
+ * has keyboard focus, then shown over the sticky header; it moves focus to <main>
+ * (tabindex="-1"). Plain HTML + en.css, so it works without JavaScript and under the
+ * strict CSP. seo/test-en-skip-link.mjs and test/e2e/en-skip-link.spec.js pin it. */
+export const SKIP_LINK = '<a class="skip" href="#main">Skip to main content</a>';
+
+export const header = (ruHref) => `${SKIP_LINK}
+<header class="site-header">
   <div class="wrap hdr">
     <a class="brand" href="/en/">${LOGO}</a>
     <nav class="nav" aria-label="Main">
@@ -383,7 +390,7 @@ ${FONT_PRELOAD}
 ${header(`/esim/${c.slug}/`)}
 ${PAYBAR}
 
-<main class="cp" id="main">
+<main class="cp" id="main" tabindex="-1">
   <section class="cp-hero">
     <div class="wrap">
       <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › ${name}</p>
@@ -505,7 +512,7 @@ ${FONT_PRELOAD}
 ${header('/esim/')}
 ${PAYBAR}
 
-<main class="hub" id="main">
+<main class="hub" id="main" tabindex="-1">
   <section class="hub-hero">
     <div class="wrap">
       <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
@@ -633,7 +640,7 @@ ${FONT_PRELOAD}
 ${header(ru)}
 ${PAYBAR}
 
-<main class="guide" id="main">
+<main class="guide" id="main" tabindex="-1">
   <section class="g-hero">
     <div class="wrap">
       <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › ${esc(g.nav)}</p>
@@ -703,7 +710,7 @@ ${FONT_PRELOAD}
 ${header('/esim/')}
 ${PAYBAR}
 
-<main class="guide" id="main">
+<main class="guide" id="main" tabindex="-1">
   <section class="g-hero">
     <div class="wrap">
       <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">Guides</span></p>
