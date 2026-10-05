@@ -61,8 +61,12 @@ test('local, regional and daily, in that order, each with its own label and coun
   expect(order).toEqual(['localBlock', 'regionalBlock', 'dailyBlock']);
   await expect(page.locator('.cp-jump a:visible')).toHaveText([/Thailand\s*8/, /Regional\s*1/, /Data every day\s*2/]);
   const loc = page.locator('#localGrid .card').first();
-  await expect(loc.locator('.plan-badge')).toHaveText('Thailand only');
-  await expect(loc.locator('.m-cov')).toHaveCount(0);                        // the badge already says it
+  await expect(loc.locator('.plan-badge')).toHaveText('Local plan');
+  await expect(loc.locator('.m-cov')).toHaveCount(0);                        // the block heading already says «Thailand only»
+  // Read in this order: data, the term right under it, the price.
+  await expect(loc.locator('.plan-data')).toHaveText('1 GB');
+  await expect(loc.locator('.plan-term')).toHaveText('7 days');
+  await expect(loc.locator('.price')).toHaveText('$2.99');
   const reg = page.locator('#regionalGrid .card').first();
   await expect(reg.locator('.plan-badge')).toHaveText('Regional plan');
   await expect(reg.locator('.m-cov')).toHaveText('5 countries, incl. Thailand');
@@ -72,6 +76,30 @@ test('local, regional and daily, in that order, each with its own label and coun
   // (Counted as elements: folded cards are hidden, and role queries skip hidden nodes.)
   expect(await page.locator('.card').evaluateAll((cs) => cs.map((c) => c.querySelectorAll('button').length)))
     .toEqual(Array(11).fill(1));
+});
+
+test('a card reads data → term → price → network → IP, and two look-alikes show what differs', async ({ page }) => {
+  const twinA = { ...local(70, 3, 15, 4.99), networks: [{ operator: 'AIS', type: '5G' }], network_technologies: ['4G', '5G'], ip_export: ['TH'] };
+  const twinB = { ...local(71, 3, 15, 4.99), networks: [{ operator: 'dtac', type: '4G' }, { operator: 'TrueMove H', type: '4G' }], network_technologies: ['4G'], ip_export: ['SG'] };
+  const other = { ...local(72, 3, 30, 4.99), networks: [{ operator: 'AIS', type: '5G' }], network_technologies: ['5G'], ip_export: ['TH'] };
+  const body = JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: [twinA, twinB, other] });
+  await open(page, { catalogue: async () => ({ status: 200, body }) });
+  await ready(page);
+  const a = page.locator('#localGrid .card', { hasText: 'AIS' }).filter({ hasText: '15 days' });
+  // The order a visitor reads it in, in the DOM too.
+  const order = await a.evaluate((c) => ['.plan-data', '.plan-term', '.price', '.plan-net', '.plan-ip']
+    .map((sel) => c.querySelector(sel)).map((el, i, all) => (i === 0 ? true : !!(all[i - 1].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING))));
+  expect(order).toEqual([true, true, true, true, true]);
+  await expect(a.locator('.plan-net')).toHaveText(/AIS\s*5G/);
+  await expect(a.locator('.plan-ip')).toHaveText('IP: Thailand');
+  // The twins (same data, term and price) mark the network, generation and IP that differ…
+  for (const t of [a, page.locator('#localGrid .card', { hasText: '2 networks' })]) {
+    await expect(t.locator('.is-diff')).toHaveCount(3);
+  }
+  // …the 30-day plan is told apart by its term, and marks nothing.
+  const o = page.locator('#localGrid .card').filter({ hasText: '30 days' });
+  await expect(o.locator('.plan-term')).toHaveText('30 days');
+  await expect(o.locator('.is-diff')).toHaveCount(0);
 });
 
 test('a long block shows six plans and folds the rest behind «Show all N plans»', async ({ page }) => {
@@ -100,13 +128,13 @@ test('per-day: pick the days on the card; the price follows the ladder and the c
   await expect(card.getByRole('radio')).toHaveCount(3);
   await expect(card.getByRole('radio', { name: '3' })).toBeChecked();      // the term the card is priced from
   await expect(card.locator('.price')).toHaveText('$4.99');
-  await expect(card.locator('.price-for')).toHaveText('for 3 days');
+  await expect(card.locator('.plan-term')).toHaveText('3 days');
   // Keyboard: arrows move along the radio group.
   await card.getByRole('radio', { name: '3' }).focus();
   await page.keyboard.press('ArrowRight');
   await expect(card.getByRole('radio', { name: '7' })).toBeChecked();
   await expect(card.locator('.price')).toHaveText('$10.99');
-  await expect(card.locator('.price-for')).toHaveText('for 7 days');
+  await expect(card.locator('.plan-term')).toHaveText('7 days');
   await card.getByRole('button').click();
   await expect(page.locator('#coDays')).toHaveValue('7');
   await expect(page.locator('#coTerm')).toHaveText('7 days');
@@ -120,7 +148,7 @@ test('a fixed-term daily plan and a volume plan open the checkout as before, wit
   const st = await open(page); await ready(page);
   const fixed = page.locator('#dailyGrid .card', { hasText: '3 GB a day' });
   await expect(fixed.getByRole('radio')).toHaveCount(0);
-  await expect(fixed.locator('.price-for')).toHaveText('for 3 days');
+  await expect(fixed.locator('.plan-term')).toHaveText('3 days');
   await page.locator('#localGrid .card').first().getByRole('button').click();
   await expect(page.locator('#coTermPick')).toBeHidden();
   await page.locator('#coQuote').click();

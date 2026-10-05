@@ -322,47 +322,66 @@
       return s;
     }
 
+    /** The network line's own words: the operator (or «N networks») — the
+     *  distinguishers' rule — and the best generation, both from the data. */
+    function networkLabel(p) {
+      var ops = operators(p);
+      return ops.length === 1 ? ops[0] : ops.length > 1 ? ops.length + ' networks' : '';
+    }
+    function ipLabel(p) {
+      var c = ipCodes(p);
+      return c.length ? 'IP: ' + c.map(function (x) { return NAMES.of(x); }).join(', ') : '';
+    }
+
     /**
-     * One plan card. `opts.kind` is the block it sits in (local | regional |
-     * daily) and only chooses the label; `onOpen(p, days)` opens the checkout,
-     * with the per-day term the visitor picked here (null otherwise); `chips`
-     * tell it apart from a look-alike. Every price and coverage figure comes
-     * from the functions above — the card only lays them out. It holds exactly
-     * ONE button: the per-day terms are radio inputs.
+     * One plan card, read in this order: the data allowance, the term right
+     * under it, the price; then the network and, smaller, where the traffic
+     * exits (IP). `opts.kind` (local | regional | daily) only chooses the
+     * label; `onOpen(p, days)` opens the checkout with the per-day term picked
+     * here (null otherwise). `chips` are the distinguishers: when two plans in
+     * one block share coverage, allowance and term, the network / IP /
+     * generation that differs is marked (class `chip`, the same words as
+     * before) so the reason they are two offers is visible. Every figure comes
+     * from the functions above. Exactly ONE button: per-day terms are radios.
      */
     function card(p, opts) {
       var o = opts || {};
       var kind = o.kind === 'regional' || o.kind === 'daily' ? o.kind : 'local';
       var priced = priceOf(p);
+      var diff = {};
+      (o.chips || []).forEach(function (c) { diff[c.kind] = c.label; });
       var el = document.createElement('article');
       el.className = 'card plan plan-' + kind;
 
-      var head = document.createElement('div');
-      head.className = 'plan-head';
-      var badgeText = kind === 'regional' ? 'Regional plan'
-        : kind === 'daily' ? 'Daily plan'
-          : (o.focus ? NAMES.of(String(o.focus).toUpperCase()) + ' only' : '');
-      if (badgeText) head.appendChild(span('plan-badge', badgeText));
+      // --- top: data + term (left), price (right)
+      var top = document.createElement('div');
+      top.className = 'plan-top';
+      var main = document.createElement('div');
+      main.className = 'plan-main';
       var h = document.createElement('h3');
       h.className = 'plan-data';
       h.textContent = dataText(p) || I18N.t('checkout.plan');
-      head.appendChild(h);
-      el.appendChild(head);
+      main.appendChild(h);
+      var chosen = priced ? { days: priced.days, price: priced.amount } : null;
+      var row = document.createElement('div');
+      row.className = 'plan-row';
+      var term = span('plan-term', '');
+      var showTerm = function () { term.textContent = chosen && chosen.days ? chosen.days + ' ' + plural(chosen.days) : ''; term.hidden = !term.textContent; };
+      showTerm();
+      row.appendChild(term);
+      // Short and parallel; the block heading says «Plans that cover X only».
+      var badgeText = kind === 'regional' ? 'Regional plan' : kind === 'daily' ? 'Daily plan' : 'Local plan';
+      if (badgeText) row.appendChild(span('plan-badge', badgeText));
+      main.appendChild(row);
+      top.appendChild(main);
+      var pr = span('price', priced ? money(priced.amount) : '');
+      pr.setAttribute('aria-live', 'polite');
+      top.appendChild(pr);
+      el.appendChild(top);
 
-      if (o.chips && o.chips.length) {
-        var d = document.createElement('div');
-        d.className = 'distinct';
-        o.chips.forEach(function (c) { d.appendChild(span('chip chip-' + c.kind, c.label)); });
-        el.appendChild(d);
-      }
-
+      // --- coverage (multi-country) and the daily speed lines
       var meta = document.createElement('div');
       meta.className = 'meta';
-      // A daily plan also says what happens after the day's allowance, in the
-      // shared daily copy's own vetted words («Then up to 512 Kbps» — a
-      // published number, never the stronger claim that traffic keeps flowing),
-      // and a reset only where the provider confirmed one. Two daily plans whose
-      // only difference is that speed used to look identical.
       var extra = hasDaily && DAILY.isDaily(p)
         ? (DAILY.lines(p, 'en') || []).filter(function (l) { return l.kind === 'throttle' || l.kind === 'reset'; })
           .map(function (l) { return l.text; })
@@ -374,25 +393,10 @@
       var also = coverageCodes(p).length > 1 ? alsoCovers(p, o.focus, 3) : '';
       if (also) meta.appendChild(span('m-also', also));
       extra.forEach(function (txt) { meta.appendChild(span('m-extra', txt)); });
-      el.appendChild(meta);
+      if (meta.childNodes.length) el.appendChild(meta);
 
-      // A per-day plan: the visitor picks the number of days right here.
+      // --- per-day: the number of days, picked here
       var steps = ladder(p);
-      var chosen = priced ? { days: priced.days, price: priced.amount } : null;
-      var foot = document.createElement('div');
-      foot.className = 'plan-foot';
-      var priceBox = document.createElement('div');
-      priceBox.className = 'plan-price';
-      var pr = span('price', priced ? money(priced.amount) : '');
-      pr.setAttribute('aria-live', 'polite');
-      var forTerm = span('price-for', '');
-      var showTerm = function () {
-        forTerm.textContent = chosen && chosen.days ? 'for ' + chosen.days + ' ' + plural(chosen.days) : '';
-      };
-      showTerm();
-      priceBox.appendChild(pr);
-      priceBox.appendChild(forTerm);
-
       if (priced && steps.length > 1) {
         var fs = document.createElement('fieldset');
         fs.className = 'plan-days';
@@ -400,8 +404,8 @@
         lg.textContent = 'Days';
         fs.appendChild(lg);
         var name = 'days-' + String(p.package_id || Math.random()).replace(/[^A-Za-z0-9-]/g, '');
-        var opts2 = document.createElement('div');
-        opts2.className = 'days';
+        var box = document.createElement('div');
+        box.className = 'days';
         steps.forEach(function (t) {
           var lab = document.createElement('label');
           var r = document.createElement('input');
@@ -417,13 +421,33 @@
           });
           lab.appendChild(r);
           lab.appendChild(span('', String(t.days)));
-          opts2.appendChild(lab);
+          box.appendChild(lab);
         });
-        fs.appendChild(opts2);
+        fs.appendChild(box);
         el.appendChild(fs);
       }
 
-      foot.appendChild(priceBox);
+      // --- foot: network and IP (left), the one button (right)
+      var foot = document.createElement('div');
+      foot.className = 'plan-foot';
+      var tech = document.createElement('div');
+      tech.className = 'plan-tech';
+      var net = networkLabel(p); var gen = topGeneration(p);
+      if (net || gen) {
+        var nl = document.createElement('div');
+        nl.className = 'plan-net';
+        if (net) nl.appendChild(span(diff.net ? 'chip chip-net is-diff' : 'net-v', net));
+        if (gen) nl.appendChild(span(diff.gen ? 'chip chip-gen is-diff' : 'net-g', gen));
+        tech.appendChild(nl);
+      }
+      var ip = ipLabel(p);
+      if (ip) {
+        var il = document.createElement('div');
+        il.className = 'plan-ip';
+        il.appendChild(span(diff.ip ? 'chip chip-ip is-diff' : 'ip-v', ip));
+        tech.appendChild(il);
+      }
+      foot.appendChild(tech);
       if (priced) {
         var btn = document.createElement('button');
         btn.type = 'button';
@@ -444,7 +468,7 @@
       ISO2: ISO2, priceOf: priceOf, money: money, priceText: priceText, dataText: dataText, termText: termText,
       coverageCodes: coverageCodes, coverageText: coverageText, isRestricted: isRestricted, isWorldwide: isWorldwide,
       classify: classify, sortByPrice: sortByPrice, card: card, distinguishers: distinguishers,
-      ladder: ladder, alsoCovers: alsoCovers,
+      ladder: ladder, alsoCovers: alsoCovers, networkLabel: networkLabel, ipLabel: ipLabel,
     };
   }
 

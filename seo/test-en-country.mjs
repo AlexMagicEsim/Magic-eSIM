@@ -134,6 +134,8 @@ test('country.css reaches nothing outside the site and styles no class nobody us
     for (const m of src.matchAll(/className = '([^']+)'/g)) m[1].split(/\s+/).forEach((c) => used.add(c));
     for (const m of src.matchAll(/span\('([a-z][\w -]*)'/g)) m[1].split(/\s+/).forEach((c) => used.add(c));
     for (const m of src.matchAll(/'(plan-[a-z]+|chip-[a-z]+)'/g)) used.add(m[1]);
+    // Classes chosen in a ternary: every quoted class list in the source.
+    for (const m of src.matchAll(/'([a-z][a-z0-9-]*(?: [a-z][a-z0-9-]*)*)'/g)) m[1].split(' ').forEach((c) => used.add(c));
   }
   ['plan-local', 'plan-regional', 'plan-daily'].forEach((c) => used.add(c));   // 'plan plan-' + kind
   const dead = classes.filter((c) => !used.has(c));
