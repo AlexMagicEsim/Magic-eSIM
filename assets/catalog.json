@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-04T18:38:33.492Z",
+  "generated_at": "2026-10-08T16:33:24.802Z",
   "source": "production-public-api",
   "package_count": 2291,
   "packages": [
@@ -8086,14 +8086,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -8107,9 +8099,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": false,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
       "daily_term_mode": "PER_DAY",
@@ -11704,14 +11694,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -11725,9 +11707,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
@@ -13990,14 +13970,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -14011,9 +13983,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -15875,7 +15845,7 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -15889,7 +15859,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "UK",
+        "NO"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -21594,7 +21565,7 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -21608,7 +21579,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "UK",
+        "NO"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -25155,7 +25127,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -25169,7 +25141,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -32869,14 +32841,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -32890,9 +32854,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -33893,7 +33855,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -33907,7 +33869,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -46329,7 +46291,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -46338,17 +46300,17 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -54108,14 +54070,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -54129,9 +54083,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
@@ -59545,14 +59497,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -59566,9 +59510,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -78384,14 +78326,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -78405,9 +78339,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
@@ -81104,7 +81036,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -81118,7 +81050,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -92051,14 +91983,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -92072,9 +91996,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
@@ -93538,7 +93460,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -93552,7 +93474,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -109940,7 +109862,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -109954,7 +109876,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -111753,14 +111675,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -111770,17 +111684,15 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -116791,14 +116703,6 @@
         {
           "operator": "Orange",
           "type": "5G"
-        },
-        {
-          "operator": "Etisalat",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -116812,9 +116716,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -120106,7 +120008,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -120120,7 +120022,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -126881,7 +126783,7 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -126895,7 +126797,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "UK",
+        "NO"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -129048,7 +128951,7 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -129062,7 +128965,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "UK",
+        "NO"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -132611,7 +132515,7 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -132625,7 +132529,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "UK",
+        "NO"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -133562,7 +133467,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -133576,7 +133481,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -134165,7 +134070,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -134179,7 +134084,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -142252,7 +142157,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -142266,7 +142171,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -144573,7 +144478,7 @@
       "networks": [
         {
           "operator": "OOREDOO TN",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -144587,7 +144492,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
