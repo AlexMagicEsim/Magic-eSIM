@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-08T18:53:11.832Z",
+  "generated_at": "2026-10-09T13:24:12.466Z",
   "source": "production-public-api",
   "package_count": 2291,
   "packages": [
@@ -11777,7 +11777,7 @@
         },
         {
           "operator": "Spark",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -17384,11 +17384,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -18172,11 +18172,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -27228,7 +27228,7 @@
         },
         {
           "operator": "Spark",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -30677,11 +30677,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -39380,11 +39380,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -41138,11 +41138,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -49288,11 +49288,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -65504,11 +65504,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -77691,11 +77691,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -89911,7 +89911,7 @@
         },
         {
           "operator": "Spark",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -104087,7 +104087,7 @@
         },
         {
           "operator": "Spark",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -107173,11 +107173,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -107449,11 +107449,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -124994,11 +124994,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -127256,11 +127256,11 @@
           "type": "5G"
         },
         {
-          "operator": "MobiFone",
-          "type": "4G"
+          "operator": "Vinaphone",
+          "type": "5G"
         },
         {
-          "operator": "Vinaphone",
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -153490,7 +153490,7 @@
         },
         {
           "operator": "Spark",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
