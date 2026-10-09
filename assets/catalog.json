@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T13:24:12.466Z",
+  "generated_at": "2026-10-09T16:17:04.017Z",
   "source": "production-public-api",
-  "package_count": 2291,
+  "package_count": 2289,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -35054,38 +35054,6 @@
       ]
     },
     {
-      "package_id": "39e7d345-aa20-445c-9f40-a817f930d7b7",
-      "name": "Saudi Arabia 10 GB",
-      "country_code": "SA",
-      "region": "SA",
-      "coverage_country_codes": [
-        "SA"
-      ],
-      "coverage_flags": "🇸🇦",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 3100,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "39ebb060-0b0e-40c0-8da2-571cc68e793f",
       "name": "Fiji 2GB/Day",
       "country_code": "FJ",
@@ -47345,38 +47313,6 @@
       "ip_export": [
         "IL"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "5121916a-6e9e-434f-8c75-5109d6a0d88a",
-      "name": "Saudi Arabia 20 GB",
-      "country_code": "SA",
-      "region": "SA",
-      "coverage_country_codes": [
-        "SA"
-      ],
-      "coverage_flags": "🇸🇦",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 4900,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
