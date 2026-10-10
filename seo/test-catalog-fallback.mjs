@@ -28,7 +28,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 // runs right after the inline script. Every rule below that reads the landing
 // reads both, so a rule about the checkout still finds it.
 const readRaw = (p) => readFileSync(join(ROOT, p), 'utf8');
-const read = (p) => (p === 'index.html' ? readRaw('index.html') + '\n' + readRaw('assets/ru-checkout.js') : readRaw(p));
+// The page that renders tariffs and hosts the checkout is the country page:
+// country-tariffs.js plus the checkout it loads (assets/ru-checkout.js). Until
+// RU↔EN migration PR C the landing carried a second catalogue; it reads none now.
+const PAGE = 'assets/country-tariffs.js';
+const read = (p) => (p === PAGE ? readRaw(PAGE) + '\n' + readRaw('assets/ru-checkout.js') : readRaw(p));
 const CACHE = JSON.parse(read('assets/catalog.json'));
 
 /* ------------------------------------------------------------- loader harness */
@@ -250,7 +254,7 @@ test('C5 backend unreachable -> unreachable, so checkout can refuse', async () =
 /* ============================================== D. CHECKOUT SAFETY (sources) */
 
 test('D1 the order request carries package_id and no price', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   const at = s.indexOf('/api/v1/public/retail-orders');
   assert.ok(at > 0, 'order endpoint call not found');
   // The payload used to be written inline at the call as
@@ -279,7 +283,7 @@ test('D1 the order request carries package_id and no price', () => {
 });
 
 test('D2 buying from a cached card revalidates first and can refuse to open', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   assert.match(s, /catalogSource!=='cache'/, 'live cards must skip the extra round-trip');
   assert.match(s, /MagicCatalog\.revalidatePackage/);
   assert.match(s, /showCheckoutBlocked/);
@@ -290,16 +294,18 @@ test('D2 buying from a cached card revalidates first and can refuse to open', ()
 });
 
 test('D3 a changed price is shown before payment', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   assert.match(s, /d\.price=String\(check\.pkg\.price\)/, 'checkout must use the live price');
   assert.match(s, /showPriceChanged/);
   assert.match(s, /Цена этого тарифа изменилась/);
 });
 
-test('D4 country pages have no checkout at all', () => {
-  const s = read('assets/country-tariffs.js');
+test('D4 the country page has no checkout of its own — only the shared module', () => {
+  // Since RU↔EN migration PR B the country pages open the checkout, and they do
+  // it through assets/ru-checkout.js — never a second copy in the renderer.
+  const s = readRaw(PAGE);
   for (const marker of ['retail-orders', 'openCheckout', 'coPay']) {
-    assert.ok(!s.includes(marker), `country pages must not contain ${marker}`);
+    assert.ok(!s.includes(marker), `country-tariffs.js must not contain ${marker}`);
   }
 });
 
@@ -396,9 +402,15 @@ test('F1 the refresh workflow cannot retrigger itself and needs no secret', () =
 
 /* ================================================== G. PAGES WIRED CORRECTLY */
 
-test('G1 landing and every country page load the shared loader', () => {
+test('G1 every country page loads the shared loader; the home reads no catalogue', () => {
   // ?v=<content hash> is part of every asset URL now — see seo/asset-version.mjs.
-  assert.match(read('index.html'), /<script src="\/assets\/catalog-loader\.js(\?v=[0-9a-f]{8})?" defer><\/script>/);
+  // The home (since RU↔EN migration PR C) is a way in, as /en/ is: it links to
+  // the country pages and must not quietly start reading the catalogue again.
+  const home = readRaw('index.html');
+  for (const a of ['catalog-loader', 'magic-net', 'country-tariffs', 'ru-checkout', 'daily-plan-copy']) {
+    assert.ok(!new RegExp(`<script[^>]+src="[^"]*${a}\\.js`).test(home), `the home must not load ${a}.js`);
+  }
+  assert.ok(!/MagicCatalog|fetch\(|XMLHttpRequest/.test(home), 'the home must not read the catalogue');
   for (const slug of ['thailand', 'turkey', 'china', 'uae', 'vietnam', 'france', 'egypt', 'japan']) {
     assert.match(read(`esim/${slug}/index.html`), /catalog-loader\.js/, `${slug} must load the loader`);
   }
@@ -409,15 +421,15 @@ test('G1 landing and every country page load the shared loader', () => {
 
 test('G2 the fallback logic lives in one place only', () => {
   // Neither page may reimplement the cache path; they must call the shared module.
-  for (const f of ['index.html', 'assets/country-tariffs.js']) {
+  for (const f of [PAGE]) {
     const s = read(f);
     assert.match(s, /MagicCatalog\.load\(/, `${f} must use the shared loader`);
     assert.ok(!s.includes('catalog.json'), `${f} must not fetch the cache itself`);
   }
 });
 
-test('G3 both pages surface the stale notice and a retry control', () => {
-  for (const f of ['index.html', 'assets/country-tariffs.js']) {
+test('G3 the country page surfaces the stale notice and a retry control', () => {
+  for (const f of [PAGE]) {
     const s = read(f);
     assert.match(s, /Показаны ранее сохранённые тарифы/, `${f} missing the stale-cache notice`);
     assert.match(s, /Не удалось загрузить тарифы\. Это может быть связано с временными ограничениями сети/, `${f} missing the final message`);
@@ -429,7 +441,7 @@ test('G3 both pages surface the stale notice and a retry control', () => {
 });
 
 test('G4 the notice never claims there are no tariffs', () => {
-  for (const f of ['index.html', 'assets/country-tariffs.js']) {
+  for (const f of [PAGE]) {
     const s = read(f);
     assert.ok(!/тарифов нет|нет доступных тарифов|тарифы отсутствуют/i.test(s), `${f} must not claim the catalogue is empty`);
   }
@@ -529,7 +541,7 @@ test('H8 the race result exposes the metrics the pages report', async () => {
   await r.whenLive;
 });
 
-test('H9 late live data re-renders, exactly once, on both surfaces', () => {
+test('H9 late live data re-renders, exactly once, on the country page', () => {
   // REVERSAL, on purpose. This used to assert the opposite — that the late
   // handler must never re-render and never flip catalogSource — so that no card
   // moved under the reader. That trade stopped being worth it when the snapshot
@@ -540,7 +552,7 @@ test('H9 late live data re-renders, exactly once, on both surfaces', () => {
   // `whenLive` settles once, so a single handler cannot fire twice; what this
   // pins is that the handler does the full promotion rather than half of it,
   // which is how a live list would end up rendered under a «snapshot» notice.
-  for (const [f, render] of [['index.html', 'renderPackages'], ['assets/country-tariffs.js', 'renderCountrySplit']]) {
+  for (const [f, render] of [[PAGE, 'renderCountrySplit']]) {
     const s = read(f);
     const i = s.indexOf('whenLive.then');
     assert.ok(i > 0, `${f} must consume whenLive`);
@@ -555,11 +567,6 @@ test('H9 late live data re-renders, exactly once, on both surfaces', () => {
     // Guarded on real data: an empty late list must not blank the page.
     assert.match(body, /Array\.isArray\(late\.packages\)&&late\.packages\.length/, `${f}: empty late data must be ignored`);
   }
-  // The landing has a second grid to refresh, and forgetting it would leave the
-  // country chips counting the snapshot.
-  const landing = read('index.html');
-  const h = landing.slice(landing.indexOf('whenLive.then'), landing.indexOf('});', landing.indexOf('whenLive.then')));
-  assert.match(h, /renderCountryChips\s*\(/, 'the landing must refresh its chips too');
 });
 
 test('H9a a cache that HAS daily plans shows them immediately', async () => {
@@ -657,7 +664,7 @@ test('H11 cache slower than deadline while live fails meanwhile: the REAL live e
 /* ====================================================== I. IDEMPOTENCY KEY */
 
 test('I1 the order payload carries an idempotency key from the session helper', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   const post = s.indexOf("'/api/v1/public/retail-orders'");
   assert.ok(post > 0);
   // Same relocation as D1: the payload is now assembled into `orderBody` above
@@ -670,7 +677,7 @@ test('I1 the order payload carries an idempotency key from the session helper', 
 });
 
 test('I2 one intent — one key: the tuple pins exactly what the backend fingerprints', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   const i = s.indexOf('function coIdemKeyFor');
   assert.ok(i > 0, 'helper must exist');
   const fn = s.slice(i, s.indexOf('return coIdem.key', i));
@@ -685,7 +692,7 @@ test('I2 one intent — one key: the tuple pins exactly what the backend fingerp
 });
 
 test('I3 opening the checkout modal starts a NEW intent', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   const i = s.indexOf('function openCheckout');
   const body = s.slice(i, i + 700);
   assert.match(body, /coIdemNewSession\(\)/,

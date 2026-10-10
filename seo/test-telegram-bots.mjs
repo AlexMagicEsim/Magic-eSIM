@@ -78,43 +78,25 @@ test('the three bots are never conflated', () => {
   assert.ok(!/t\.me\/magic_esim_bot/.test(index), 'the admin bot is not a customer surface');
 });
 
-test('the channel CTA sits AFTER the purchase CTA, not before it', () => {
-  // Placement is the whole change here, so it is the thing asserted. It used to
-  // be the last section before the footer, where nobody reached it. It now
-  // follows the purchase block: a reader who is ready to buy meets the buy CTA
-  // first, and only someone who scrolls past it is offered the channel instead.
-  // Putting it BEFORE the purchase CTA would have been the obvious move and the
-  // wrong one — a distraction placed at the conversion moment.
+test('the home has no separate channel banner; the channel stays in the footer', () => {
+  // RU↔EN migration PR C (owner's decision): the home follows /en/, so the
+  // «Подписывайтесь на наш Telegram» banner is gone. The channel is still one
+  // click away from every Russian page — the footer link — and it is still a
+  // CHANNEL link (t.me/magicesim), never a Mini App launch.
   const s = read('index.html');
-  const buy = s.indexOf('<section class="section cta"');
-  const channel = s.indexOf('class="section tg-cta"');
-  const footer = s.indexOf('<footer');
-  assert.ok(buy > 0 && channel > 0 && footer > 0);
-  assert.ok(channel > buy, 'the channel must not precede the purchase CTA');
-  assert.ok(channel < footer, 'and must not be back down in the footer');
-
-  // And it must still be above the tail of the page it was moved out of.
-  const guides = s.indexOf('id="install-guides-section"');
-  assert.ok(channel < guides, 'the channel now sits above the install guides');
-});
-
-test('moving the section did not change what it says', () => {
-  const s = read('index.html');
-  const at = s.indexOf('class="section tg-cta"');
-  const block = s.slice(s.lastIndexOf('<section', at), s.indexOf('</section>', at));
-  assert.match(block, /Подписывайтесь на наш Telegram/);
-  assert.match(block, /промокоды/);
-  assert.match(block, new RegExp(`href="https://t\\.me/magicesim"`));
-  assert.match(block, /class="btn[ "]/, 'still the shared button component');
-  // The reveal-on-scroll animation went with the old design (RU↔EN parity, PR 3):
-  // the English design has none. The box itself is unchanged.
-  assert.match(block, /class="tg-box"/, 'still the same box');
+  assert.ok(!s.includes('class="section tg-cta"'), 'the banner is back');
+  assert.ok(!/Подписывайтесь на наш Telegram/.test(s), 'the banner text is back');
+  const footer = s.slice(s.indexOf('<footer'));
+  assert.match(footer, /href="https:\/\/t\.me\/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</);
 });
 
 test('the Mini App entry stays in the hero, where it already was', () => {
+  // Kept on purpose (owner's decision for PR C): the one Russian-only element
+  // of the hero, after the search — the search stays the primary action.
   const s = read('index.html');
   const hero = s.indexOf('class="hero-tg"');
-  const buy = s.indexOf('<section class="section cta"');
-  assert.ok(hero > 0 && hero < buy, 'the Mini App CTA is above the fold, not moved');
+  const search = s.indexOf('id="plans"');
+  const heroEnd = s.indexOf('</section>', s.indexOf('<section class="hero"'));
+  assert.ok(search > 0 && hero > search && hero < heroEnd, 'the Mini App CTA is in the hero, after the search');
   assert.match(s.slice(hero, hero + 400), new RegExp(`https://t\\.me/${MAIN}\\?startapp`));
 });

@@ -151,66 +151,24 @@
 @media (max-width:599px){.ru-cta{padding:22px 20px}.ru-cta .btn{width:100%}}
 
 /* ======================================================================
-   The Russian home (index.html): what it carries beyond the English home.
-   The hero, search, popular tiles, steps, cards, compat panel and support
-   band are page-home.css; the plan blocks and cards are page-country.css.
+   The Russian home (index.html): what it carries beyond the English home —
+   the Mini App button in the hero, and «Частые вопросы» (the FAQ behind the
+   FAQPage). Everything else on it is page-home.css, as on /en/. The catalogue
+   that used to live here moved to the country pages (RU↔EN migration PR C).
    ====================================================================== */
-#install-guides-section,#setup-iphone,#setup-android{scroll-margin-top:96px}
+
 .hero-tg{margin:18px 0 0}
 .hero-tg__btn{gap:10px}
 .hero-tg__btn svg{width:20px;height:20px;flex:none;color:#229ed9}
-/* the problem: a list beside one explaining card */
-.ru-split{display:grid;gap:16px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
-@media (max-width:799px){.ru-split{grid-template-columns:1fr}}
-.ru-panel{padding:22px 24px;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);box-shadow:var(--shadow-1)}
-.ru-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.ru-list li{display:flex;align-items:flex-start;gap:12px;font-weight:600;line-height:1.45}
-.ru-list svg{flex:none;width:22px;height:22px;margin-top:1px;color:#c5372b}
-.ru-list-ok svg{color:var(--ok)}
-/* three steps where the English home has four */
-.ru-steps-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:899px){.ru-steps-3{grid-template-columns:1fr}}
-.step h3{margin:0 0 6px;font-size:17px}
-.type p a{color:var(--accent);font-weight:650;text-underline-offset:3px}
-.type h3:last-child{margin-bottom:0}
-.compat p+p{margin-top:10px}
-/* the catalogue */
-.cat .section-head{max-width:760px}
-.sort-bar{display:flex;justify-content:flex-end;margin:0 0 14px}
-.sort-field{display:inline-flex;align-items:center;gap:10px;margin:0}
-.sort-label{color:var(--muted);font-size:14px;font-weight:600;white-space:nowrap}
-.sort-select-wrap{position:relative;display:inline-block}
-.sort-select{appearance:none;-webkit-appearance:none;min-width:230px;padding-right:42px;font-weight:600;cursor:pointer}
-.sort-caret{position:absolute;right:14px;top:50%;width:16px;height:16px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
-@media (max-width:599px){.sort-bar{justify-content:stretch}.sort-field{width:100%;flex-direction:column;align-items:flex-start;gap:6px}.sort-select-wrap,.sort-select{width:100%;min-width:0}}
-.country-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
-.country-chip{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font:inherit;font-size:14px;font-weight:650;cursor:pointer}
-.country-chip:hover{border-color:#c9d4f5;background:var(--accent-soft)}
-.country-chip.active{background:var(--accent-btn);border-color:var(--accent-btn);color:#fff}
-.cat .packages-status{margin:0 0 18px;text-align:left;font-size:15px}
-.cat .plan-block .blk-head h3{margin:0;font-size:clamp(20px,2.4vw,26px);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
-.cat .plan-block .blk-head h3 .count{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:13px;font-weight:700}
-.cat .plan-block .blk-head{align-items:center}
-.cat .plan-block{margin-bottom:36px}
-.retail-note{margin:8px 0 0}
+
+/* the catalogue's stale / failed notice — the country pages (country-tariffs.js) */
 .catalog-notice{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:0 0 18px;padding:14px 16px;border:1px solid var(--warn-line);border-radius:var(--r-m);background:var(--warn-bg);color:var(--warn-ink);font-size:15px;line-height:1.5}
 .catalog-notice[hidden]{display:none}
 .catalog-notice-text{flex:1;min-width:min(100%,260px)}
 .catalog-notice-btn{min-height:42px}
 @media (max-width:599px){.catalog-notice-btn{width:100%}}
-.package-flash{animation:flash 1.4s ease}
-@keyframes flash{0%{box-shadow:0 0 0 0 rgba(66,103,232,0)}18%{box-shadow:0 0 0 4px rgba(66,103,232,.28)}100%{box-shadow:var(--shadow-1)}}
-/* the support band carries a kicker on the Russian home */
-.support-band .kicker{color:rgba(255,255,255,.85)}
-/* Telegram: a quiet band, not a second gradient */
-.tg-box{display:flex;align-items:center;gap:18px 24px;flex-wrap:wrap;padding:24px 28px;border:1px solid var(--border);border-radius:var(--r-xl);background:var(--surface);box-shadow:var(--shadow-1)}
-.tg-box>div{flex:1 1 320px;min-width:0}
-.tg-box h2{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px)}
-.tg-box p{margin:0;color:var(--muted)}
-.tg-icon{color:#229ed9;margin:0}
-.tg-icon svg{width:24px;height:24px}
-.tg-box .btn svg{width:18px;height:18px;flex:none;color:#229ed9}
-/* install guides and questions: the English accordion */
+
+/* the questions: the English accordion */
 .install-accordion details{margin:12px 0 0;padding:0;border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface);box-shadow:var(--shadow-1);overflow:hidden}
 .install-accordion summary{display:flex;align-items:center;gap:12px;padding:16px 20px;list-style:none;font-weight:700;font-size:17px;cursor:pointer}
 .install-accordion summary::-webkit-details-marker{display:none}
@@ -220,20 +178,8 @@
 .install-accordion-body{padding:0 20px 18px}
 .install-accordion-body p{margin:0;color:var(--muted)}
 .install-accordion-body a,.install-section .section-head a{color:var(--accent);font-weight:650;text-underline-offset:3px}
-.install-guide-content{display:grid;gap:10px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--r-m);background:var(--bg)}
-.install-guide-content h4{margin:8px 0 0;font-size:18px}
-.install-guide-content h5{margin:6px 0 0;font-size:16px}
-.install-guide-content p,.install-guide-content li{color:var(--muted);font-size:15px;line-height:1.6}
-.install-guide-content ul,.install-guide-content ol{margin:0;padding-left:22px}
-.install-note{padding:12px 14px;border:1px solid var(--warn-line);border-radius:12px;background:var(--warn-bg);color:var(--warn-ink);font-size:14px}
-.install-section .section-head p+p{margin-top:6px}
-@media (max-width:599px){.install-accordion summary{padding:14px 16px;font-size:16px}.install-accordion-body{padding:0 16px 16px}.install-guide-content{padding:14px}}
-/* the static links to country pages */
-.seo-links{padding-top:0}
-.seo-links h2{margin:0 0 14px;font-size:20px}
-.seo-links-list{display:flex;flex-wrap:wrap;gap:8px}
-.seo-links-list a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font-size:14px;font-weight:650;text-decoration:none}
-.seo-links-list a:hover{border-color:#c9d4f5;background:var(--accent-soft)}
+
+@media (max-width:599px){.install-accordion summary{padding:14px 16px;font-size:16px}.install-accordion-body{padding:0 16px 16px}}
 
 /* ---------- the checkout window (Platega), in the English window's look ---------- */
 .checkout-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto;background:rgba(17,24,39,.45);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
@@ -287,18 +233,6 @@
 .checkout-note{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
 @media (max-width:599px){.checkout-modal{padding:22px 16px 18px}.checkout-pay .pay-logo-badge{width:46px;height:28px}}
 @media (max-width:430px){.co-promo-apply{padding:0 12px}}
-/* the catalogue's country picker, grouped by region (built by the inline script) */
-.country-chip-all{margin:0 0 12px}
-.country-region-filters{display:grid;gap:10px;width:100%}
-.country-region{margin:0;padding:0;border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface);box-shadow:var(--shadow-1)}
-.country-region>summary{display:flex;align-items:center;gap:10px;padding:14px 18px;list-style:none;font-weight:700;cursor:pointer}
-.country-region>summary::-webkit-details-marker{display:none}
-.country-region>summary::after{content:"";flex:0 0 auto;width:9px;height:9px;margin-left:auto;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s ease}
-.country-region[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
-.country-region-count{color:var(--muted);font-size:13px;font-weight:600}
-.country-region-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 16px}
-.country-region-chips .country-chip{min-height:36px;padding:0 12px;font-size:13.5px}
-@media (max-width:599px){.country-region>summary{padding:12px 14px;flex-wrap:wrap}.country-region-chips{padding:0 14px 14px}}
 
 /* ======================================================================
    Service pages: the payment return (payment-success / payment-failed) and

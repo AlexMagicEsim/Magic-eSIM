@@ -122,10 +122,13 @@ test('the home is styled only by the shared sheets, in order, with no inline <st
   const h = read('index.html');
   assert.doesNotMatch(h, /<style\b/, 'an inline stylesheet is a second design system');
   const at = (f) => h.indexOf(`href="/assets/${f}?v=`);
-  const order = ['site.css', 'page-home.css', 'page-country.css', 'ru.css'].map(at);
+  // page-country.css left with the catalogue (RU↔EN migration PR C): the home
+  // renders no plan cards. The English home loads site.css → en.css → page-home.css.
+  const order = ['site.css', 'page-home.css', 'ru.css'].map(at);
   assert.ok(order.every((i) => i > 0), `missing sheet: ${order}`);
-  assert.deepEqual([...order].sort((a, b) => a - b), order, 'site.css → page-home.css → page-country.css → ru.css');
-  assert.ok(order[3] < h.indexOf('<!-- Yandex.Metrika counter -->'), 'the sheets come before the counter');
+  assert.deepEqual([...order].sort((a, b) => a - b), order, 'site.css → page-home.css → ru.css');
+  assert.ok(order[2] < h.indexOf('<!-- Yandex.Metrika counter -->'), 'the sheets come before the counter');
+  assert.equal(at('page-country.css'), -1, 'no plan cards on the home, so no country sheet');
 });
 
 test('the home header and footer are the ONE Russian chrome, byte for byte', async () => {
@@ -137,10 +140,19 @@ test('the home header and footer are the ONE Russian chrome, byte for byte', asy
   assert.equal(h.includes(ruHeader({ hreflang: true }).replace('Направления', 'Страны')), false);
 });
 
-test('the home keeps the Russian market: Platega checkout, roubles, Metrika, no GLOBAL bar', () => {
+test('the home keeps the Russian market: roubles, Metrika, no GLOBAL bar — the checkout is on the country pages', () => {
+  // Since RU↔EN migration PR C the home is a way in, as /en/ is: the Platega
+  // checkout opens on the country pages (seo/test-ru-checkout-module.mjs).
   const h = read('index.html');
-  for (const s of ['Оформление заказа', 'Российская карта', 'Оплата через Platega', 'id="coPay"', 'id="checkoutModal"', 'ym(110393848']) {
+  for (const s of ['Оплата в рублях', 'ym(110393848', 'href="/esim/"', 'id="plans"']) {
     assert.ok(h.includes(s), s);
+  }
+  for (const s of ['id="checkoutModal"', 'id="coPay"', 'ru-checkout.js']) {
+    assert.ok(!h.includes(s), `the home must not carry ${s}`);
+  }
+  const page = read('esim/turkey/index.html');
+  for (const s of ['Оформление заказа', 'Российская карта', 'Оплата через Platega', 'id="coPay"', 'id="checkoutModal"']) {
+    assert.ok(page.includes(s), `country page: ${s}`);
   }
   assert.doesNotMatch(h, /class="paybar"|previewNotice|global-catalog\.js|\/en\/checkout\.js/);
   assert.match(h, /Тарифы для 190\+ направлений/, 'the one measured wording');

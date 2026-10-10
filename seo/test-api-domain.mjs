@@ -206,8 +206,9 @@ test('retry and revalidation go through the public domain, never a fallback host
   assert.ok(!/fetchCache/.test(body), 'a revalidation satisfied by cache would allow an unsafe checkout');
 });
 
-test('both pages wire retry to the shared loader rather than their own URL', () => {
-  for (const f of ['index.html', 'assets/country-tariffs.js']) {
+test('the country page wires retry to the shared loader rather than its own URL', () => {
+  // The only page that reads the catalogue since RU↔EN migration PR C.
+  for (const f of ['assets/country-tariffs.js']) {
     const s = read(f);
     assert.match(s, /MagicCatalog\.loadLive\(\)/, `${f} must retry through the loader`);
     assert.ok(!RENDER_RE.test(s), `${f} must not name the origin`);

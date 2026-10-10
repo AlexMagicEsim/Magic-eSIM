@@ -86,24 +86,26 @@ test('every answer links to a guide that exists, and none is a copy of that guid
 });
 
 test('payment is named only in the mandated form', () => {
-  const why = text(section('why-magic'));
+  // «Почему Magic eSIM» (#why-magic) left the home with RU↔EN migration PR C; the
+  // payment answer lives in the FAQ, and the footer says it on every page.
   const faq = visibleFaq().map((f) => f.a).join(' ');
-  assert.match(why, /Российской банковской картой или через СБП/);
+  const home = text(HOME.replace(/<head>[\s\S]*?<\/head>/, ''));
   assert.match(faq, /Российской банковской картой или через СБП/);
   assert.match(faq, /Карты иностранных банков пока не принимаются/);
+  assert.match(home, /российской картой или через СБП/);
   // The plain word is what regresses, not the phrases nobody writes (§31).
   for (const bad of [/любой карт/i, /any card/i, /\bVisa\b/, /Mastercard/i, /иностранн[а-яё]* карт[а-яё]* (?:тоже|также) /i]) {
-    assert.doesNotMatch(why + ' ' + faq, bad);
+    assert.doesNotMatch(home, bad);
   }
-  assert.doesNotMatch(why + ' ' + faq, /(?:^|[^а-яё])картой(?! или через СБП)(?![а-яё])/i, '«картой» без «российской … или через СБП»');
+  assert.doesNotMatch(faq, /(?:^|[^а-яё])картой(?! или через СБП)(?![а-яё])/i, '«картой» без «российской … или через СБП»');
 });
 
-test('«Почему Magic eSIM» promises nothing about the network', () => {
-  const why = text(section('why-magic'));
+test('the home promises nothing about the network', () => {
+  // The rule «Почему Magic eSIM» was held to, now for the whole page.
+  const home = text(HOME.replace(/<head>[\s\S]*?<\/head>/, ''));
   for (const bad of [/5G/, /4G/, /скорост/i, /покрыти[а-яё]* (?:везде|вс[её]й|полн)/i, /без ограничений/i, /безлимит/i, /гарантир/i]) {
-    assert.doesNotMatch(why, bad, `«${why.match(bad)?.[0]}» — утверждение о сети, которого каталог не подтверждает`);
+    assert.doesNotMatch(home, bad, `«${home.match(bad)?.[0]}» — утверждение о сети, которого каталог не подтверждает`);
   }
-  assert.ok((section('why-magic').match(/class="type"/g) || []).length >= 4);
 });
 
 test('the activation answer carries the installation caveat', () => {

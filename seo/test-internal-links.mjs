@@ -52,12 +52,14 @@ test('the selector sees the related block — it would pass vacuously otherwise'
 });
 
 test('the home page links the popular destinations statically', () => {
-  // The home catalogue renders client-side; this block is the only static
-  // path from the most-crawled URL on the site to a country page.
+  // The home reads no catalogue (RU↔EN migration PR C), so its static links are
+  // its only paths to a country page: the eight «Популярные направления» tiles,
+  // the hero's «Популярно:» row, «Все направления» and the footer.
   const home = readFileSync(join(ROOT, 'index.html'), 'utf8');
-  const block = home.match(/<section aria-label="Популярные eSIM-направления"[\s\S]*?<\/section>/);
+  const block = home.match(/<section class="section" id="popular"[\s\S]*?<\/section>/);
   assert.ok(block, 'блок популярных направлений исчез с главной');
-  const links = [...block[0].matchAll(/href="esim\/([a-z-]+)\/"/g)].map((m) => m[1]);
-  assert.ok(links.length >= 9 && links.length <= 12, `ссылок ${links.length} — блок не должен стать списком всех стран`);
+  const links = [...block[0].matchAll(/href="\/esim\/([a-z-]+)\/"/g)].map((m) => m[1]);
+  assert.equal(links.length, 8, `плиток ${links.length} — на главной восемь, как на /en/`);
   for (const s of links) assert.ok(countries.includes(s), `нет страницы /esim/${s}/`);
+  assert.match(block[0], /href="\/esim\/"/, 'и ссылка на все направления');
 });

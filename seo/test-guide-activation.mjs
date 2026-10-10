@@ -70,7 +70,8 @@ test('the guide never sends the reader to the email for the start rule — page 
 
 test('it points at the row the card actually has', () => {
   assert.match(text(html), /«Начало срока»/);
-  assert.match(readFileSync(join(ROOT, 'index.html'), 'utf8'), /<span class="k">Начало срока<\/span>/);
+  // The coverage window lives on the country pages (the home has no plan cards since RU↔EN migration PR C).
+  assert.match(readFileSync(join(ROOT, 'esim/turkey/index.html'), 'utf8'), /<span class="k">Начало срока<\/span>/);
   assert.match(TARIFFS_JS, /setCovText\('covStart'/);
 });
 

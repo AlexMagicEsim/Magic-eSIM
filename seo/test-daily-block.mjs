@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 // The «Трафик на каждый день» block, pinned at the source level.
 //
-// Both surfaces that render a country's tariffs are checked — the landing's own
-// copy in index.html and assets/country-tariffs.js, which the ~190 generated
-// country pages load. The property that matters is the same on both: a daily
-// plan never enters the pool that gets ranked by price against fixed volumes.
+// The surface that renders a country's tariffs is checked: assets/country-tariffs.js,
+// which the ~190 generated country pages load, together with the checkout it
+// hosts (assets/ru-checkout.js). Until RU↔EN migration PR C the landing carried a
+// second copy of the catalogue in index.html and every rule here ran on both; the
+// home now reads no catalogue (it links to the country pages), so there is one.
+// The property that matters: a daily plan never enters the pool that gets ranked
+// by price against fixed volumes.
 //
 // Run: node --test seo/test-daily-block.mjs
 
@@ -15,14 +18,14 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-// The landing's code is index.html PLUS its checkout module: the checkout IIFE
-// moved verbatim to assets/ru-checkout.js (RU↔EN parity, migration PR A) and
-// runs right after the inline script. Every rule below that reads the landing
-// reads both, so a rule about the checkout still finds it.
+// The country page's code is country-tariffs.js PLUS the checkout it loads right
+// after (assets/ru-checkout.js, migration PR B). Every rule below that reads the
+// page reads both, so a rule about the checkout still finds it.
 const readRaw = (p) => readFileSync(join(ROOT, p), 'utf8');
-const read = (p) => (p === 'index.html' ? readRaw('index.html') + '\n' + readRaw('assets/ru-checkout.js') : readRaw(p));
+const PAGE = 'assets/country-tariffs.js';
+const read = (p) => (p === PAGE ? readRaw(PAGE) + '\n' + readRaw('assets/ru-checkout.js') : readRaw(p));
 
-const SURFACES = ['index.html', 'assets/country-tariffs.js'];
+const SURFACES = [PAGE];
 
 // ONE CARD DESIGN (2026-10-10, RU↔EN design parity, PR 2 + PR 3): both
 // surfaces render the English storefront's plan card — the volume leads, the
@@ -105,7 +108,7 @@ test('the term prices are repeated from the API, never computed in the browser',
 });
 
 test('the landing lets a customer choose the term, and the choice moves the buy button', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   assert.match(s, /role="radiogroup"/, 'the term is chosen before payment, not after');
   assert.match(s, /js-daily-term/);
   // Selecting a term must update what the buy button will send, or the customer
@@ -127,7 +130,7 @@ test('the landing lets a customer choose the term, and the choice moves the buy 
 });
 
 test('the chosen term travels with the order, and the price still does not', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   const start = s.indexOf('const orderBody=JSON.stringify({');
   assert.ok(start > 0);
   let depth = 0; let end = start;
@@ -148,7 +151,7 @@ test('the term is part of the intent, so two terms are two orders', () => {
   // Without this, choosing 30 days after 7 would reuse the first intent's
   // idempotency key and the backend would correctly return the FIRST order —
   // a customer charged for a week and shown a month.
-  const s = read('index.html');
+  const s = read(PAGE);
   const fn = s.slice(s.indexOf('function coIdemKeyFor'), s.indexOf('function coIdemKeyFor') + 700);
   assert.match(fn, /function coIdemKeyFor\(pkgId,method,email,promo,days\)/);
   assert.match(fn, /String\(days\|\|''\)/, 'the term must be in the tuple');
@@ -157,7 +160,7 @@ test('the term is part of the intent, so two terms are two orders', () => {
 });
 
 test('an ordinary package carries no term into the order', () => {
-  const s = read('index.html');
+  const s = read(PAGE);
   assert.match(s, /overlay\.dataset\.days=d\.planType==='DAILY'&&d\.days\?String\(d\.days\):''/,
     'only a daily plan may set a term');
 });
@@ -371,7 +374,7 @@ test('no surface computes a price for a term', () => {
 // The block is therefore duplicated and pinned byte-for-byte, the same way the
 // TARIFF DISPLAY MAPPERS block is.
 
-const CSS_SURFACES = { 'index.html': 'assets/ru.css', 'assets/country-tariffs.js': 'assets/ru.css' };
+const CSS_SURFACES = { 'assets/country-tariffs.js': 'assets/ru.css' };
 const BLOCK_START = '/* === DAILY CARD BLOCK';
 const BLOCK_END = '/* === END DAILY CARD BLOCK === */';
 
@@ -384,13 +387,12 @@ function dailyCss(file) {
   return s.slice(a, b + BLOCK_END.length);
 }
 
-test('both surfaces carry the daily CSS — one stylesheet for both', () => {
-  // Every surface must style its daily card: the landing once shipped them
-  // unstyled because the rule lived only in a sheet it never loads. Both now
-  // load assets/ru.css, and both pages must actually link it.
+test('the country pages carry the daily CSS, from the Russian layer', () => {
+  // A surface must style its daily card: the landing once shipped them unstyled
+  // because the rule lived only in a sheet it never loads. The card lives in
+  // assets/ru.css, and the page that renders it must actually link it.
   assert.deepEqual([...new Set(Object.values(CSS_SURFACES))], ['assets/ru.css']);
   assert.ok(dailyCss('assets/ru.css').length > 200);
-  assert.match(read('index.html'), /href="\/assets\/ru\.css\?v=/, 'the landing loads it');
   assert.match(read('esim/turkey/index.html'), /href="\/assets\/ru\.css\?v=/, 'a country page loads it');
 });
 
@@ -667,7 +669,7 @@ for (const file of SURFACES) {
 // page had all along — right next to «Срок: 10 дн.» and «Итого: 700 ₽».
 
 function checkoutLabelFn() {
-  const s = read('index.html');
+  const s = read(PAGE);
   const at = s.indexOf('function checkoutDataLabel');
   assert.ok(at > 0, 'index.html has no checkoutDataLabel');
   let i = s.indexOf('{', at), depth = 0, end = -1;
@@ -711,7 +713,7 @@ test('and the summary row is actually filled from it', () => {
   // Pinning the helper alone was not enough: reverting just the CALL SITE back
   // to `d.data ? … : '—'` left every test above green while production showed
   // the dash again. The wiring is the thing that ships.
-  const s = read('index.html');
+  const s = read(PAGE);
   assert.match(s, /byId\('coData'\)\.textContent=checkoutDataLabel\(d\);/,
     'the Интернет row must come from checkoutDataLabel');
   assert.ok(!/byId\('coData'\)\.textContent=d\.data/.test(s),
@@ -721,7 +723,7 @@ test('and the summary row is actually filled from it', () => {
 test('the buy button carries the allowance the summary needs', () => {
   // The summary can only state what the button hands it, and data_gb is empty
   // on a daily row.
-  const s = read('index.html');
+  const s = read(PAGE);
   const at = s.indexOf('function buyButtonHtml');
   const body = s.slice(at, at + 900);
   assert.match(body, /data-daily-gb="\$\{escapeHtml\(item\.daily_gb\?\?''\)\}"/,
@@ -750,11 +752,11 @@ test('the storefront card states the price of the selected term', () => {
   // The plan card (RU↔EN parity, PR 3) carries the price where every plan card
   // does — top right — and the button is the plain «Купить». The price follows
   // the chosen term; both the cell and the card show the server's rouble.
-  const s = read('index.html');
+  const s = read(PAGE);
   assert.match(s, /class="price package-price js-daily-price">\$\{first\?escapeHtml\(formatRub\(first\.price\)\):''\}/,
     'the card opens on the first term\'s price');
   assert.match(s, /price\.textContent=formatRub\(btn\.dataset\.price\)/, 'and follows the selection');
-  assert.match(s, /\}\),'Купить',name\);/, 'the daily button is the plain «Купить»');
+  assert.match(s, /\}\),'Купить',D\.displayName\(item,countryName\)\)/, 'the daily button is the plain «Купить»');
   assert.ok(!/Купить за/.test(s), 'the price is not in the button any more');
 
   // Still the server's rouble in both places — no arithmetic on the client.
@@ -882,8 +884,8 @@ test('the order screen names a daily plan the way the card does', () => {
   // «Турция — 500 МБ в день». (data_gb is populated on daily rows in
   // production despite the model saying it should be NULL; the storefront must
   // not depend on that either way.)
-  const s = read('index.html');
-  assert.match(s, /const name=D\?D\.displayName\(item,countryName\):'';/,
+  const s = read(PAGE);
+  assert.match(s, /\}\),'Купить',D\.displayName\(item,countryName\)\)/,
     'the daily buy button must carry the built name');
   assert.match(s, /data-name="\$\{escapeHtml\(name\|\|publicPackageName\(item\)\)\}"/,
     'and the button must prefer it');

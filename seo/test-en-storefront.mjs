@@ -341,7 +341,9 @@ test('no rouble anywhere on /en/: markup, script, stylesheet and every English s
 test('RU is untouched by the GLOBAL client: the Russian landing loads neither it nor the English stylesheet', () => {
   // (The landing does link to /en/ — that is the language switch, not a script.)
   assert.doesNotMatch(RU, /global-catalog\.js|\/en\/(en\.css|plans\.js|country\.js|app\.js|destinations\.js)/);
-  assert.match(RU, /assets\/catalog-loader\.js/, 'the Russian landing still reads its own catalogue');
+  // Since RU↔EN migration PR C the Russian home reads no catalogue at all (it
+  // links to the country pages, as /en/ does); its search list is its own.
+  assert.match(RU, /assets\/ru-destinations\.js/, 'the Russian home searches its own destination list');
   for (const [name, html] of [['home', EN], ['country', PAGE], ['list', HUB]]) {
     assert.doesNotMatch(html, /catalog-loader\.js|country-tariffs\.js/, `${name}: no Russian catalogue script on an English page`);
   }
@@ -370,10 +372,12 @@ test('no Russian URL was moved, renamed or removed', () => {
 test('the Russian landing gained a head and lost nothing else', () => {
   assert.match(RU, /<html lang="ru">/);
   assert.match(RU, /rel="canonical" href="https:\/\/magicesim\.store\/"/);
-  // The checkout is still Russian and still Platega's.
-  assert.match(RU, /Оформление заказа/);
-  assert.match(RU, /Российская карта/);
-  assert.match(RU, /Оплата через Platega/);
+  // The checkout is still Russian and still Platega's — on the country pages,
+  // where it opens since RU↔EN migration PR B/C.
+  const ruPage = read('esim/turkey/index.html');
+  assert.match(ruPage, /Оформление заказа/);
+  assert.match(ruPage, /Российская карта/);
+  assert.match(ruPage, /Оплата через Platega/);
 });
 
 test('no redirect exists in either direction', () => {

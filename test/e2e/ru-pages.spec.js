@@ -131,7 +131,8 @@ test('the mobile menu opens and carries the same links as the desktop bar', asyn
   if (w >= 900) return;
   await page.locator('.mnav > summary').click();
   const links = await page.locator('.mnav-panel a').allTextContents();
-  expect(links).toEqual(['Направления', 'Как это работает', 'Совместимость', 'Инструкции', 'Telegram', 'English']);
+  // The English menu's four items, in Russian (RU↔EN migration PR C), then English.
+  expect(links).toEqual(['Направления', 'Как это работает', 'Проверка устройства', 'Инструкции', 'English']);
 });
 
 test.describe('axe on the Russian pages', () => {

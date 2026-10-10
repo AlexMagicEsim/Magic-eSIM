@@ -31,14 +31,16 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-// The landing's code is index.html PLUS its checkout module: the checkout IIFE
-// moved verbatim to assets/ru-checkout.js (RU↔EN parity, migration PR A) and
-// runs right after the inline script. Every rule below that reads the landing
-// reads both, so a rule about the checkout still finds it.
+// The home (index.html) loads no checkout since RU↔EN migration PR C: the
+// checkout runs on the country pages, from assets/ru-checkout.js.
 const readRaw = (f) => readFileSync(join(ROOT, f), 'utf8');
-const read = (f) => (f === 'index.html' ? readRaw('index.html') + '\n' + readRaw('assets/ru-checkout.js') : readRaw(f));
+const read = readRaw;
 
 const LANDING = read('index.html');
+// The public checkout: since RU↔EN migration PR B/C it opens on the country
+// pages (the window in their markup, the code in assets/ru-checkout.js); the
+// home links to them and takes no money itself.
+const CHECKOUT = readRaw('esim/turkey/index.html') + '\n' + readRaw('assets/ru-checkout.js');
 const TARIFFS = read('assets/country-tariffs.js');
 
 // The capture block, delimited by its own banner and the closing catch.
@@ -84,7 +86,7 @@ test('the dead keys are gone from the two files that capture, and stay gone', ()
     }
   }
   // And the ban has teeth: the live key IS matched by the same rule.
-  assert.ok(touches(LANDING, 'magic_attr'), 'the matcher no longer detects a storage access at all');
+  assert.ok(touches(CHECKOUT, 'magic_attr'), 'the matcher no longer detects a storage access at all');
 });
 
 // ---------------------------------------------------------------------------
@@ -186,22 +188,22 @@ test('a blocked sessionStorage is survivable — analytics never breaks a page',
 // ---------------------------------------------------------------------------
 
 test('the checkout reads the record and sends it with the order', () => {
-  assert.match(LANDING, /function _coAttribution\(\)/, 'the reader is missing');
-  assert.match(LANDING, /attribution:_coAttribution\(\)/,
+  assert.match(CHECKOUT, /function _coAttribution\(\)/, 'the reader is missing');
+  assert.match(CHECKOUT, /attribution:_coAttribution\(\)/,
     'the order body does not carry the attribution — this is exactly how magic_utm died');
 
   // The reader is inside the order body, which is inside coStartPayment.
   // Searched FORWARD from the body, not from the top of the file: an earlier
   // MagicNet.request (the promo quote) sits above this one, and slicing to it
   // produced a negative range that silently contained nothing.
-  const from = LANDING.indexOf('const orderBody=JSON.stringify(');
-  const body = LANDING.slice(from, LANDING.indexOf('MagicNet.request', from));
+  const from = CHECKOUT.indexOf('const orderBody=JSON.stringify(');
+  const body = CHECKOUT.slice(from, CHECKOUT.indexOf('MagicNet.request', from));
   assert.ok(body.includes('attribution:_coAttribution()'),
     'the attribution must be in the SAME body the order is created from');
 });
 
 test('the reader is total: a blocked or junk record yields an empty envelope', () => {
-  const src = LANDING.slice(LANDING.indexOf('function _coAttribution()'));
+  const src = CHECKOUT.slice(CHECKOUT.indexOf('function _coAttribution()'));
   const fnBody = src.slice(src.indexOf('{'), src.indexOf('\n  }') + 4);
   const make = (store) => {
     const fn = new Function('sessionStorage', `return (function _coAttribution()${fnBody})()`);
@@ -218,8 +220,8 @@ test('the envelope carries no personal data, and cannot grow one by accident', (
   // The keys are listed literally in the reader. Anything not on this list is
   // not sent, so a future field added to the capture cannot leak into the order
   // body without somebody editing this list and this assertion.
-  const src = LANDING.slice(LANDING.indexOf('function _coAttribution()'),
-    LANDING.indexOf('async function coStartPayment('));
+  const src = CHECKOUT.slice(CHECKOUT.indexOf('function _coAttribution()'),
+    CHECKOUT.indexOf('async function coStartPayment('));
   const keys = [...src.matchAll(/(\w+):a\.\w+/g)].map((m) => m[1]).sort();
   assert.deepEqual(keys,
     ['entry', 'referrer', 'utm_campaign', 'utm_medium', 'utm_source']);
@@ -233,13 +235,13 @@ test('the envelope carries no personal data, and cannot grow one by accident', (
 // ---------------------------------------------------------------------------
 
 test('payment_redirect fires immediately before the handoff, and after nothing', () => {
-  const i = LANDING.indexOf("magicMetrikaGoal('payment_redirect'");
-  const j = LANDING.indexOf('window.location.assign(data.redirect_url)');
+  const i = CHECKOUT.indexOf("magicMetrikaGoal('payment_redirect'");
+  const j = CHECKOUT.indexOf('window.location.assign(data.redirect_url)');
   assert.notEqual(i, -1, 'the outbound event is missing');
   assert.ok(i < j, 'the event must fire BEFORE the navigation, or it never fires at all');
 
   // Nothing awaited between the two: a customer must never wait on a counter.
-  const between = LANDING.slice(i, j);
+  const between = CHECKOUT.slice(i, j);
   assert.ok(!between.includes('await'), 'something is awaited between the event and the payment page');
 });
 
@@ -248,13 +250,13 @@ test('payment_redirect fires ONLY on a real payment URL, never on an error', () 
   // from every failure path. Asserted structurally, because that is what a
   // static gate can actually prove — the call must sit INSIDE the success
   // branch, which returns before any error handling begins.
-  const calls = LANDING.split("magicMetrikaGoal('payment_redirect'").length - 1;
+  const calls = CHECKOUT.split("magicMetrikaGoal('payment_redirect'").length - 1;
   assert.equal(calls, 1, 'more than one call site: one of them is not the guarded path');
 
-  const guard = LANDING.indexOf('if(resp.ok&&data.redirect_url&&allowedRedirect(data.redirect_url))');
-  const goal = LANDING.indexOf("magicMetrikaGoal('payment_redirect'");
-  const assign = LANDING.indexOf('window.location.assign(data.redirect_url)');
-  const errors = LANDING.indexOf("data.error.indexOf('PROMO')");
+  const guard = CHECKOUT.indexOf('if(resp.ok&&data.redirect_url&&allowedRedirect(data.redirect_url))');
+  const goal = CHECKOUT.indexOf("magicMetrikaGoal('payment_redirect'");
+  const assign = CHECKOUT.indexOf('window.location.assign(data.redirect_url)');
+  const errors = CHECKOUT.indexOf("data.error.indexOf('PROMO')");
 
   assert.notEqual(guard, -1, 'the success guard changed shape — re-read this path before trusting the goal');
   assert.ok(guard < goal, 'the goal fires before the success check: a backend error would count as a redirect');
@@ -263,20 +265,20 @@ test('payment_redirect fires ONLY on a real payment URL, never on an error', () 
 
   // A validation failure returns long before the request is even sent, so the
   // goal cannot be reached from it either.
-  const send = LANDING.indexOf("MagicNet.request('/api/v1/public/retail-orders'");
-  const emailCheck = LANDING.indexOf('Укажите корректный email');
+  const send = CHECKOUT.indexOf("MagicNet.request('/api/v1/public/retail-orders'");
+  const emailCheck = CHECKOUT.indexOf('Укажите корректный email');
   assert.ok(emailCheck < send, 'form validation must reject before the order is created');
 
   // And a second click cannot re-fire it: the submitting flag is raised before
   // the request and lowered only when the redirect did NOT happen.
-  const submitTrue = LANDING.indexOf('submitting=true;');
+  const submitTrue = CHECKOUT.indexOf('submitting=true;');
   assert.ok(submitTrue < send, 'the double-click guard is set after the request goes out');
-  assert.match(LANDING, /if\(!redirected\)\{submitting=false;/,
+  assert.match(CHECKOUT, /if\(!redirected\)\{submitting=false;/,
     'the guard is released unconditionally, so a double click could fire the goal twice');
 });
 
 test('the outbound event carries the method and nothing sensitive', () => {
-  const call = LANDING.slice(LANDING.indexOf("magicMetrikaGoal('payment_redirect'"));
+  const call = CHECKOUT.slice(CHECKOUT.indexOf("magicMetrikaGoal('payment_redirect'"));
   const args = call.slice(0, call.indexOf('}'));
   assert.ok(args.includes('payment_method:paymentType'), 'the method is the whole point of the event');
   for (const forbidden of ['price', 'amount', 'email', 'token', 'order_id']) {
@@ -290,26 +292,26 @@ test('the outbound event carries the method and nothing sensitive', () => {
 
 test('the checkout says the card must be Russian, on every surface a buyer reads', () => {
   // CLAUDE.md: the only correct phrasing is «российской банковской картой или
-  // через СБП». The landing was the one page that never said it — and it is the
-  // only page that can take money.
-  const checkout = LANDING.slice(LANDING.indexOf('id="coMethodSbp"'), LANDING.indexOf('id="coPay"') + 4000);
+  // через СБП». The landing was the one page that never said it — and it was then
+  // the only page that could take money; the checkout lives on the country pages now.
+  const checkout = CHECKOUT.slice(CHECKOUT.indexOf('id="coMethodSbp"'), CHECKOUT.indexOf('id="coPay"') + 4000);
   assert.match(checkout, /Российская карта/, 'the card chip does not say the card must be Russian');
-  assert.match(LANDING, /СБП или российская банковская карта/, 'the note under the button still says «банковская карта»');
-  assert.match(LANDING, /Оплатить российской картой/, 'the pay button label still says «Оплатить картой»');
+  assert.match(CHECKOUT, /СБП или российская банковская карта/, 'the note under the button still says «банковская карта»');
+  assert.match(CHECKOUT, /Оплатить российской картой/, 'the pay button label still says «Оплатить картой»');
 });
 
 test('and it never claims a foreign card works', () => {
   for (const forbidden of ['любой картой', 'любая карта', 'карта любого банка',
     'иностранной картой', 'международной картой', 'зарубежной картой']) {
-    assert.ok(!LANDING.toLowerCase().includes(forbidden.toLowerCase()),
-      `the landing says «${forbidden}»`);
+    assert.ok(!CHECKOUT.toLowerCase().includes(forbidden.toLowerCase()),
+      `the checkout says «${forbidden}»`);
   }
 });
 
 test('СБП wording is untouched', () => {
   // The brief was explicit: only the card method changes.
-  assert.match(LANDING, /Оплатить по СБП/);
-  assert.match(LANDING, /id="coMethodSbp"[^>]*>[\s\S]{0,200}?СБП/);
+  assert.match(CHECKOUT, /Оплатить по СБП/);
+  assert.match(CHECKOUT, /id="coMethodSbp"[^>]*>[\s\S]{0,200}?СБП/);
 });
 
 // ---------------------------------------------------------------------------
@@ -492,7 +494,8 @@ test('the Mini App beacon has the same timeout as every other request', () => {
 // ---------------------------------------------------------------------------
 
 const PAYING_SURFACES = [
-  ['public checkout', 'index.html'],
+  ['public checkout', 'esim/turkey/index.html'],
+  ['public checkout code', 'assets/ru-checkout.js'],
   ['Mini App markup', 'app/index.html'],
   ['Mini App locales', 'app/locales.js'],
   ['private pay', '404.html'],
@@ -584,10 +587,9 @@ test('every surface that takes money names the restriction', () => {
    * payment label added without the qualifier is caught by the forbidden-phrase
    * test above plus review, which is the right division of labour.
    */
-  const landing = read('index.html');
-  assert.match(landing, /Российская карта/, 'public checkout: the method chip');
-  assert.match(landing, /Оплатить российской картой/, 'public checkout: the pay button');
-  assert.match(landing, /СБП или российская банковская карта/, 'public checkout: the note');
+  assert.match(CHECKOUT, /Российская карта/, 'public checkout: the method chip');
+  assert.match(CHECKOUT, /Оплатить российской картой/, 'public checkout: the pay button');
+  assert.match(CHECKOUT, /СБП или российская банковская карта/, 'public checkout: the note');
 
   const miniMarkup = read('app/index.html');
   assert.match(miniMarkup, /data-i18n="checkout\.card">Российская карта</,
@@ -628,7 +630,7 @@ test('the Mini App has TWO pickers and both were corrected', () => {
 
 test('SBP wording is untouched on every surface', () => {
   // The brief was explicit: only the card method changes.
-  assert.match(read('index.html'), /Оплатить по СБП/);
+  assert.match(CHECKOUT, /Оплатить по СБП/);
   assert.match(read('app/locales.js'), /'checkout\.sbp': 'СБП'/);
   assert.match(read('app/locales.js'), /'checkout\.sbp': 'SBP'/);
   assert.match(read('404.html'), /Оплатить через СБП/);
