@@ -142,7 +142,7 @@ ${METRIKA}
 
     <section>
       <div class="hub-tools">
-        <input class="hub-search" id="hubSearch" type="search" placeholder="Найти страну…" aria-label="Поиск страны" autocomplete="off" />
+        <input class="hub-search ym-hide-content" id="hubSearch" type="search" placeholder="Найти страну…" aria-label="Поиск страны" autocomplete="off" />
         <select class="hub-sort" id="hubSort" aria-label="Сортировка">
           <option value="name">По алфавиту</option>
           <option value="price">Сначала дешевле</option>

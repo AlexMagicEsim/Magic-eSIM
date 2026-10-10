@@ -12,6 +12,23 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <!-- R3-08: strip the order token from the URL BEFORE anything else runs.
+       Platega returns here with ?token=<public_order_token>[&src=tma] (the
+       backend's withToken() appends it to the failed URL too). This page never
+       needs it, so it is dropped — not stored anywhere — before the counter
+       below reads location.href. Other query parameters and the hash are kept. -->
+  <script>
+    (function () {
+      try {
+        var u = new URL(location.href), sp = u.searchParams;
+        if (sp.has('token') || sp.has('public_order_token') || sp.has('src')) {
+          sp.delete('token'); sp.delete('public_order_token'); sp.delete('src');
+          var q = sp.toString();
+          history.replaceState(null, '', u.pathname + (q ? '?' + q : '') + u.hash);
+        }
+      } catch (e) { /* no URL API or history: nothing else depends on this */ }
+    })();
+  </script>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
@@ -128,9 +145,11 @@ body{
   </main>
   <script>
   /* payment_failed. Platega sends the user here on a payment it did not complete,
-     but that is not enough on its own: this URL carries no token, so simply
-     opening it - directly, from history, by a crawler, or on a refresh - used to
-     count as a failed payment and quietly inflated the goal.
+     but that is not enough on its own. The return URL does carry the order token
+     (the backend appends it), but the first script in <head> drops it before the
+     counter starts and this page never reads it — so the URL is no evidence, and
+     simply opening it - directly, from history, by a crawler, or on a refresh -
+     used to count as a failed payment and quietly inflated the goal.
 
      The only evidence available on this page is magic_pay_ctx, written by our own
      checkout the moment a payment is initiated. So the goal now requires it: a
