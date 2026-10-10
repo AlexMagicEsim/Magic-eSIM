@@ -20,7 +20,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const page = (slug) => read(`en/guides/${slug}/index.html`);
 const HUB = read('en/guides/index.html');
-const CSS = read('en/guides.css');
+const CSS = read('assets/page-guides.css');
 const mainOf = (h) => h.slice(h.indexOf('<main'), h.indexOf('</main>'));
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
@@ -86,7 +86,7 @@ test('the payment bar on all six pages is the home\'s, and still no script anywh
     assert.ok(h.includes(PAYBAR));
     assert.ok(h.indexOf('id="previewNotice"') < h.indexOf('<main'));
     assert.doesNotMatch(h, /<script/i);
-    assert.match(h, /<link rel="stylesheet" href="\/en\/guides\.css\?v=[0-9a-f]{8}">/);
+    assert.match(h, /<link rel="stylesheet" href="\/assets\/page-guides\.css\?v=[0-9a-f]{8}">/);
   }
 });
 

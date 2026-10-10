@@ -266,9 +266,9 @@ test.describe('the payment guide holds its layout after the wording change', () 
 
   test('the hero and the FAQ answers stay inside their boxes', async ({ page }) => {
     await page.goto(PAGE);
-    await page.waitForSelector('.cp-hero h1', { timeout: 15_000 });
+    await page.waitForSelector('.g-hero h1', { timeout: 15_000 });
 
-    expect(await overflowingInside(page, '.cp-hero')).toEqual([]);
+    expect(await overflowingInside(page, '.g-hero')).toEqual([]);
     expect(await overflowingInside(page, '#faq')).toEqual([]);
   });
 

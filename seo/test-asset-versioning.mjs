@@ -97,9 +97,9 @@ test('the pages that hydrate tariffs are actually covered', () => {
 test('the version is the content hash, so an untouched asset keeps its URL', () => {
   // A build-time stamp would expire every asset on every deploy, including the
   // four that did not change.
-  const v = assetVersion('assets/country-pages.css');
+  const v = assetVersion('assets/ru.css');
   assert.match(v, /^[0-9a-f]{8}$/);
-  assert.equal(v, assetVersion('assets/country-pages.css'));
+  assert.equal(v, assetVersion('assets/ru.css'));
   assert.notEqual(v, assetVersion('assets/country-tariffs.js'), 'different files, different versions');
   assert.notEqual(v, assetVersion('app/mini.css'), 'and the Mini App has its own');
 });

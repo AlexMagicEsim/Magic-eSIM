@@ -42,6 +42,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
+import { FONT_PRELOAD, LOGO, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
+
+export { FONT_PRELOAD, LOGO };
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
@@ -109,14 +112,7 @@ const GUIDE_ROBOTS = `<!-- Written for this site but not yet reviewed for search
      twin, not in the sitemap, until PR 8 ships the review with all three. -->
 <meta name="robots" content="noindex, follow">`;
 
-/* Inter is self-hosted (font-src 'self'); the latin file is what nearly every
- * English page needs first, so it is fetched alongside the stylesheet. */
-export const FONT_PRELOAD = `<link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>`;
 
-/* The logo is the brand's own artwork (assets/magic-esim-logo.png), trimmed of
- * its white margin and exported at 1x/2x/3x for a 44 px header — the artwork
- * itself is unchanged. It carries the name, so its alt is the name. */
-export const LOGO = `<img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM">`;
 
 /* The destinations the home and the footer feature. Every slug must have an
  * English page; seo/test-en-home.mjs checks it. Flags: assets/flags/<iso>.svg. */
@@ -136,8 +132,6 @@ const NAV_LINKS = `<a href="/en/esim/" data-i18n="nav.destinations">Destinations
       <a href="/en/#compat" data-i18n="nav.compat">Device check</a>
       <a href="/en/guides/" data-i18n="nav.guides">Guides</a>`;
 
-const ICON_GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>';
-const ICON_MENU = '<svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 
 /* The header. Desktop: logo, four links, «Русский», «Find a plan». Below 900 px
  * the links fold into a <details> menu — native, so it works on the guides,
@@ -310,11 +304,6 @@ const modal = (c) => `<div class="overlay" id="checkout" hidden>
   </div>
 </div>`;
 
-const BLOCK_ICON = {
-  local: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>',
-  regional: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>',
-  daily: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
-};
 
 /* One block of plans. The heading, count and note are the same words as
  * before; the grid is filled by en/country.js, which also folds a long list. */
@@ -383,7 +372,7 @@ ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
-<link rel="stylesheet" href="/en/country.css">
+<link rel="stylesheet" href="/assets/page-country.css">
 <link rel="stylesheet" href="/en/checkout.css">
 </head>
 <body data-iso="${c.iso}">
@@ -466,7 +455,6 @@ ${FOOTER}
  * accents stripped («Åland Islands» → A, «Réunion» → R). */
 export const azLetter = (name) => String(name).normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase();
 
-const SEARCH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
 
 /* The destination list. Static and complete without JavaScript (A–Z groups,
  * jump letters); en/hub.js only adds the search that filters it in place. It
@@ -507,7 +495,7 @@ ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
-<link rel="stylesheet" href="/en/hub.css">
+<link rel="stylesheet" href="/assets/page-hub.css">
 </head>
 <body>
 
@@ -571,13 +559,6 @@ export const GUIDE_RU = Object.freeze({
 });
 
 /* One icon per guide, for its card and its hero. Decorative only. */
-const GUIDE_ICON = {
-  iphone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>',
-  android: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg>',
-  compatibility: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg>',
-  activation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg>',
-  troubleshooting: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>',
-};
 const guideIcon = (slug) => {
   if (!GUIDE_ICON[slug]) throw new Error(`guide ${slug} has no icon`);
   return GUIDE_ICON[slug];
@@ -636,7 +617,7 @@ ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
-<link rel="stylesheet" href="/en/guides.css">
+<link rel="stylesheet" href="/assets/page-guides.css">
 </head>
 <body>
 
@@ -707,7 +688,7 @@ ${HEAD_ICONS}
 ${FONT_PRELOAD}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
-<link rel="stylesheet" href="/en/guides.css">
+<link rel="stylesheet" href="/assets/page-guides.css">
 </head>
 <body>
 

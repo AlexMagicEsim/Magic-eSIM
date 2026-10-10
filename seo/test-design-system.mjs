@@ -71,3 +71,47 @@ test('the shared files live in /assets only', () => {
   for (const gone of ['en/fonts', 'en/img', 'en/flags']) assert.equal(existsSync(join(ROOT, gone)), false, gone);
   for (const here of ['assets/fonts/OFL.txt', 'assets/flags/LICENSE.txt', 'assets/brand/logo-1x.png']) assert.ok(existsSync(join(ROOT, here)), here);
 });
+
+// ---- the Russian pages on the shared design system (RU↔EN parity, PR 2) ----
+
+const RU_GENERATED = () => {
+  const out = ['esim/index.html', 'iphone.html', 'android.html'];
+  for (const d of readdirSync(join(ROOT, 'esim'))) {
+    if (existsSync(join(ROOT, 'esim', d, 'index.html'))) out.push(`esim/${d}/index.html`);
+  }
+  return out;
+};
+
+test('every generated Russian page loads site.css, its page sheet and ru.css — in that order', () => {
+  const pages = RU_GENERATED();
+  assert.ok(pages.length >= 205, `Russian generated pages: ${pages.length}`);
+  const bad = [];
+  for (const p of pages) {
+    const h = read(p);
+    const at = (f) => h.indexOf(`href="/assets/${f}?v=`);
+    const page = ['page-country.css', 'page-hub.css', 'page-guides.css'].map(at).filter((i) => i > 0);
+    if (!(at('site.css') > 0 && page.length === 1 && at('site.css') < page[0] && page[0] < at('ru.css'))) bad.push(p);
+    if (/country-pages\.css|\/en\/[a-z]+\.css/.test(h)) bad.push(`${p}: an old or English-only sheet`);
+  }
+  assert.deepEqual(bad, []);
+});
+
+test('the Russian header and footer are the shared chrome, with the Russian market only', () => {
+  for (const p of ['esim/turkey/index.html', 'esim/index.html', 'iphone.html']) {
+    const h = read(p);
+    assert.match(h, /<header class="site-header">/, `${p}: header`);
+    assert.match(h, /<footer class="site-footer">/, `${p}: footer`);
+    assert.match(h, /<a class="langsw" href="\/en\/" lang="en">/, `${p}: English is /en/, never a noindex template`);
+    assert.doesNotMatch(h, /class="paybar"|previewNotice/, `${p}: no GLOBAL payment bar on the Russian site`);
+    assert.doesNotMatch(h, /\bUSD\b|\$\d/, `${p}: no dollars`);
+    assert.doesNotMatch(h, /href="\/en\/(esim|guides)\//, `${p}: no link to an English template page`);
+    assert.match(h, /190\+ направлений/, `${p}: the one measured wording for the catalogue size`);
+  }
+});
+
+test('the measured catalogue size still supports «190+ направлений»', () => {
+  // 198 countries rendered plans on 2026-10-10. If the catalogue ever drops
+  // below 190, the wording must change before the build ships.
+  const { countries } = JSON.parse(read('seo/catalogue-countries.json'));
+  assert.ok(countries.length >= 190, `countries with plans: ${countries.length}`);
+});

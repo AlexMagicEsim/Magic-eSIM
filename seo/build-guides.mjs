@@ -11,6 +11,20 @@ import { GUIDES } from './guides.mjs';
 import { ALL, SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
+import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD } from './ru-chrome.mjs';
+import { GUIDE_ICON } from './site-chrome.mjs';
+
+// Each Russian guide's icon: the English guide's icon where the subject is the
+// same, two of its own for the Russian-only guides.
+const GUIDE_ICON_OF = Object.freeze({
+  'iphone.html': 'iphone',
+  'android.html': 'android',
+  'esim/compatibility/index.html': 'compatibility',
+  'esim/activation-before-travel/index.html': 'activation',
+  'esim/not-working/index.html': 'troubleshooting',
+  'esim/dual-sim-sms/index.html': 'sim',
+  'esim/payment-rubles/index.html': 'payment',
+});
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -32,28 +46,27 @@ function page(g) {
   const P = g.prefix;
   const ogTitle = g.title.replace(' | Magic eSIM', '');
   const crumbsHtml = g.out.startsWith('esim/')
-    ? `<a href="${P}">Главная</a><span class="sep">/</span>
-        <a href="${P}esim/">eSIM</a><span class="sep">/</span>
+    ? `<a href="${P}">Главная</a> › 
+        <a href="${P}esim/">eSIM</a> › 
         <span aria-current="page">${esc(g.crumb)}</span>`
-    : `<a href="${P}./">Главная</a><span class="sep">/</span>
+    : `<a href="${P}./">Главная</a> › 
         <span aria-current="page">${esc(g.crumb)}</span>`;
   const faqLd = g.faq.map((f) =>
     `      {"@type":"Question","name":${jstr(f.q)},"acceptedAnswer":{"@type":"Answer","text":${jstr(f.a)}}}`).join(',\n');
-  const sections = g.sections.map((s) => `    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">${esc(s.kicker)}</div>
-          <h2>${esc(s.h2)}</h2>
-        </div>
-${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '        ')}
-      </div>
+  // «На этой странице»: one anchor per section, numbered — Russian headings do
+  // not make readable ids, and a number never collides.
+  const sections = g.sections.map((s, i) => `    <section class="g-sec" id="s${i + 1}" aria-labelledby="s${i + 1}-h">
+      <p class="g-kicker">${esc(s.kicker)}</p>
+      <h2 id="s${i + 1}-h">${esc(s.h2)}</h2>
+${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '      ')}
     </section>`).join('\n\n');
+  const toc = g.sections.map((s, i) => `        <li><a href="#s${i + 1}">${esc(s.h2)}</a></li>`)
+    .concat(['        <li><a href="#faq">Частые вопросы</a></li>']).join('\n');
   const related = g.related.map((r) =>
-    `          <a class="country-link" href="${P}${r.href}">${esc(r.label)}</a>`).join('\n');
+    `        <a class="ru-tile ru-tile-guide" href="${P}${r.href}"><span>${esc(r.label)}</span></a>`).join('\n');
   const ctaCountries = g.ctaCountries.map((slug) => {
     const c = bySlug[slug];
-    const flag = c.flagImg ? `<img src="${P}assets/flags/${c.flagImg}" alt="Флаг: ${esc(c.nameRu)}" width="30" height="21">` : `<span aria-hidden="true">${c.flagEmoji}</span>`;
-    return `          <a class="country-link" href="${P}esim/${c.slug}/">${flag} eSIM для ${esc(c.nameGen)}</a>`;
+    return `        <a class="ru-tile" href="/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>eSIM для ${esc(c.nameGen)}</span></a>`;
   }).join('\n');
 
   return `<!DOCTYPE html>
@@ -82,7 +95,10 @@ ${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '        ')}
 
 ${headIcons('  ')}
   <link rel="preconnect" href="https://mc.yandex.ru" />
-  <link rel="stylesheet" href="${stampUrl(P + 'assets/country-pages.css')}" />
+${RU_FONT_PRELOAD.replace(/^/gm, '  ')}
+  <link rel="stylesheet" href="${stampUrl('/assets/site.css')}" />
+  <link rel="stylesheet" href="${stampUrl('/assets/page-guides.css')}" />
+  <link rel="stylesheet" href="${stampUrl('/assets/ru.css')}" />
 
   ${METRIKA}
 
@@ -113,86 +129,70 @@ ${faqLd}
   </script>
 </head>
 <body>
-  <nav class="nav">
-    <a class="brand" href="${P}./" aria-label="Magic eSIM"><img class="brand-logo" src="${P}assets/magic-esim-logo-header.png" alt="Magic eSIM" width="66" height="50"></a>
-    <div class="nav-links"><a href="#faq">Вопросы</a><a href="${P}esim/">Направления</a><a href="${P}./#global-pricing">Тарифы</a><a href="${P}./">На главную</a></div>
-    <a class="btn" href="${P}esim/">Выбрать направление</a>
-  </nav>
+${ruHeader()}
 
-  <main>
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs"><div class="container">
+<main class="guide">
+  <section class="g-hero">
+    <div class="wrap">
       <nav class="crumbs" aria-label="Хлебные крошки">
         ${crumbsHtml}
       </nav>
-    </div></div>
-
-    <!-- Hero -->
-    <header class="cp-hero"><div class="container">
-      <span class="eyebrow"><span class="pulse"></span> Инструкции Magic eSIM</span>
-      <h1>${esc(g.h1)}</h1>
-      <p class="lead">${esc(g.hero)}</p>
-      <div class="hero-actions">
-        <a class="btn" href="${P}esim/">Выбрать направление</a>
-        <a class="btn secondary" href="#faq">Частые вопросы</a>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg">${GUIDE_ICON[GUIDE_ICON_OF[g.out]]}</span>
+        <h1>${esc(g.h1)}</h1>
       </div>
-    </div></header>
+      <p class="lead">${esc(g.hero)}</p>
+    </div>
+  </section>
 
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="На этой странице">
+      <p class="g-toc-title">На этой странице</p>
+      <ol>
+${toc}
+      </ol>
+    </nav>
+
+    <article class="g-article">
 ${sections}
 
-    <!-- FAQ -->
-    <section id="faq">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Вопросы и ответы</div>
-          <h2>Частые вопросы</h2>
-        </div>
-        <div class="faq-list">
-${g.faq.map((f) => `          <div class="faq-item"><p class="faq-q">${esc(f.q)}</p><p class="faq-a">${esc(f.a)}</p></div>`).join('\n')}
-        </div>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Частые вопросы</h2>
+      <div class="faq-list">
+${g.faq.map((f) => `        <div class="faq-item"><p class="faq-q">${esc(f.q)}</p><p class="faq-a">${esc(f.a)}</p></div>`).join('\n')}
       </div>
     </section>
+    </article>
+  </div>
 
-    <!-- Related -->
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Полезное</div>
-          <h2>Смотрите также</h2>
-        </div>
-        <div class="links-wrap">
+  <div class="wrap">
+    <section class="g-related" aria-labelledby="related-h">
+      <h2 id="related-h">Смотрите также</h2>
+      <div class="ru-tiles">
 ${related}
-        </div>
-        <div class="links-wrap" style="margin-top:10px">
 ${ctaCountries}
-          <a class="country-link" href="${P}esim/">Все направления</a>
-        </div>
       </div>
+      <p class="ru-more"><a class="btn btn-ghost btn-sm" href="/esim/">Все направления</a></p>
     </section>
 
-    <!-- CTA -->
-    <section class="cta">
-      <div class="container">
-        <div class="cta-box">
-          <h2>Готовы к поездке?</h2>
-          <p class="lead">Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
-          <a class="btn" href="${P}esim/">Выбрать направление</a>
-        </div>
+    <section class="ru-cta">
+      <div>
+        <h2>Готовы к поездке?</h2>
+        <p>Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
       </div>
+      <a class="btn" href="/esim/">Выбрать направление</a>
     </section>
-  </main>
+  </div>
+</main>
 
-  <footer><div class="container footer-inner">
-    <div class="brand"><span class="company-name">Magic eSIM</span></div>
-    <nav class="footer-links"><a href="${P}./">Главная</a><a href="${P}privacy.html">Политика конфиденциальности</a><a href="${P}terms.html">Пользовательское соглашение</a></nav>
-    <span class="footer-support"><a href="mailto:support@magicesim.store">support@magicesim.store</a></span>
-  </div></footer>
+${RU_FOOTER}
 </body>
 </html>
 `;
 }
 
 for (const g of GUIDES) {
+  if (!GUIDE_ICON[GUIDE_ICON_OF[g.out]]) throw new Error(`build-guides: у ${g.out} нет иконки`);
   const outPath = join(ROOT, g.out);
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, page(g));

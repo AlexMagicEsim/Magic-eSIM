@@ -1,0 +1,151 @@
+/* assets/ru.css — the Russian storefront's own layer on top of the shared
+ * design system (assets/site.css + the shared page CSS, assets/page-*.css).
+ * Only what the Russian pages have and the English ones do not lives here:
+ * the editorial text above the tariffs, the «Покрытие и условия» window, the
+ * per-day term picker with its prices, the look-alike chips, the second line
+ * of buttons, and the Russian sections below the tariffs (why / help / FAQ /
+ * other destinations). Everything else — tokens, type, header, footer, blocks,
+ * the plan card itself — is the English design, unchanged.
+ * Versioned by seo/stamp-assets.mjs like every other asset. */
+
+/* ---------- country page: the text above the tariffs ---------- */
+.cp-title h1{margin:0}
+.cp-text{max-width:760px;margin-top:16px}
+.cp-text .lead{margin:0 0 14px;font-size:clamp(16px,1.8vw,19px)}
+.cp-text .intro{margin:0 0 12px;color:var(--muted);line-height:1.7}
+.cp-text .facts{margin:14px 0 0;color:var(--muted);font-size:14px;line-height:1.7}
+.cp-text .facts b{color:var(--text)}
+@media (max-width:599px){.cp-text{margin-top:12px}.cp-text .lead{font-size:16px}}
+
+/* ---------- loading / empty ---------- */
+.packages{display:block}
+.packages-status:empty{display:none}
+.packages-status{margin:0 0 22px;text-align:center}
+.block-empty{margin:0 0 18px;padding:14px 16px;border:1px dashed var(--border-strong);border-radius:var(--r-m);background:var(--surface)}
+.packages-grid:empty{display:none}
+
+/* ---------- the plan card: what only the Russian card carries ---------- */
+.plan .meta strong{font-weight:650;color:var(--text)}
+.plan .meta .m-cov strong{font-weight:700}
+.plan-badge.package-best{background:#e7f6ee;color:#14794a}
+.plan-net .net-k{font-size:12px;font-weight:700;color:var(--muted)}
+.plan-net .net-g{display:inline-flex;align-items:center;gap:4px}
+.plan-tech svg{width:14px;height:14px;flex:none}
+.plan-topup{display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+/* «Покрытие и условия»: a quiet text button, so the card keeps ONE primary button. */
+.plan-info{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:32px;margin:-2px 0 0;padding:0;border:0;background:none;color:var(--accent);font:inherit;font-size:14px;font-weight:650;cursor:pointer}
+.plan-info::after{content:"→"}
+.plan-info:hover{text-decoration:underline;text-underline-offset:3px}
+.plan .btn.package-buy{white-space:nowrap}
+.plan .btn[aria-disabled="true"]{opacity:.55;pointer-events:none;box-shadow:none}
+/* Look-alikes in one block: the network or exit country that tells them apart. */
+.package-distinct{display:flex;flex-wrap:wrap;gap:6px;margin:-2px 0 0}
+.package-distinct__chip{display:inline-flex;align-items:center;min-width:0;padding:2px 8px;border-radius:6px;background:#f1efff;color:#4338ca;box-shadow:inset 0 0 0 1px #d6d0fb;font-size:12px;font-weight:650;line-height:1.4;overflow-wrap:anywhere}
+.package-distinct__chip--ip{background:var(--accent-soft);color:#2f4fc4;box-shadow:inset 0 0 0 1px #c9d4f5}
+
+/* === DAILY CARD BLOCK — the per-day term picker on the plan card ===
+ * The cells keep their two lines (the term, then its price from the server's
+ * ladder) in the shape of the English «Days» row: small selectable tiles. */
+.daily-card{gap:10px}
+.daily-terms-block{min-width:0}
+.daily-terms-block>.package-meta-label{margin:0 0 6px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.daily-terms-block .package-meta{display:flex;flex-wrap:wrap;gap:6px}
+.daily-term{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:62px;min-height:44px;padding:4px 9px;border:1px solid var(--border-strong);border-radius:9px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer;font-variant-numeric:tabular-nums}
+.daily-term .package-meta-label{font-size:12px;font-weight:600;color:var(--muted);line-height:1.2}
+.daily-term .package-meta-value{font-size:14px;font-weight:750;line-height:1.2;white-space:nowrap}
+@media (hover:hover) and (pointer:fine){.daily-term:hover:not(.is-selected){border-color:#a9b8ee}}
+.daily-term:focus-visible{outline:3px solid rgba(66,103,232,.55);outline-offset:2px}
+.daily-term.is-selected,
+.daily-term.is-selected:hover{background:var(--accent-btn);border-color:var(--accent-btn)}
+.daily-term.is-selected .package-meta-label,
+.daily-term.is-selected .package-meta-value{color:#fff;}
+@media (forced-colors:active){.daily-term{border:1px solid ButtonBorder}.daily-term.is-selected{outline:3px solid Highlight;outline-offset:-3px}}
+/* === END DAILY CARD BLOCK === */
+
+/* ---------- «Покрытие и условия» ---------- */
+.cov-overlay{position:fixed;inset:0;z-index:210;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(17,24,39,.45);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.cov-overlay[hidden]{display:none}
+.cov-modal{position:relative;width:min(480px,100%);max-height:86vh;overflow-y:auto;padding:24px 22px;border:1px solid var(--border);border-radius:var(--r-xl);background:var(--surface);box-shadow:var(--shadow-2)}
+.cov-close{position:absolute;top:12px;right:12px;width:40px;height:40px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface);color:var(--text);font-size:22px;line-height:1;cursor:pointer}
+.cov-close:hover{background:var(--accent-soft)}
+.cov-modal h3{margin:0 44px 6px 0;font-size:20px}
+.cov-modal .cov-sub{margin:0 0 14px;color:var(--muted);font-size:14px}
+.cov-row{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid var(--border);font-size:14px}
+.cov-row:first-child{border-top:0}
+.cov-row[hidden]{display:none!important}
+.cov-row .k{color:var(--muted)}
+.cov-row .v{max-width:64%;color:var(--text);font-weight:650;text-align:right}
+.cov-countries{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.cov-countries[hidden]{display:none}
+.cov-countries .k{margin-bottom:6px;color:var(--muted);font-size:13px}
+.cov-countries .v{font-size:14px;line-height:1.55}
+@media (max-width:599px){.cov-overlay{align-items:flex-end;padding:0}.cov-modal{width:100%;max-height:88vh;border-radius:var(--r-xl) var(--r-xl) 0 0}}
+
+/* ---------- sections under the tariffs ---------- */
+.cp-sec{margin:56px 0 0;padding-top:36px;border-top:1px solid var(--border)}
+.cp-sec>h2,.cp-help>h2{margin:0 0 18px}
+.cp-sec+.cp-help,.cp-help+.cp-sec{margin-top:48px}
+.why-card .ico{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin:0 0 12px;border-radius:12px;background:var(--accent-soft);font-size:22px}
+.why-card p{margin:0}
+/* Prose cards: links inside sentences, no «→» */
+.help-card.why a::after,.help-card.compat a::after,.help-card.howto a::after{content:none}
+.help-card.why a,.help-card.compat a,.help-card.howto a{text-decoration:underline;text-underline-offset:3px}
+.why-list,.howto-list{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--muted);font-size:15px;line-height:1.6}
+.why-list b{color:var(--text)}
+.help-card .howto-note{margin:12px 0 0}
+.faq .faq-item{margin-top:10px}
+.faq .faq-item summary{list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq .faq-item summary::-webkit-details-marker{display:none}
+.faq .faq-item summary::after{content:"+";flex:none;color:var(--accent);font-weight:700}
+.faq .faq-item[open] summary::after{content:"−"}
+.faq .faq-item p{margin:10px 0 0;color:var(--muted)}
+.ru-tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.ru-tile{display:flex;align-items:center;gap:12px;min-height:56px;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface);box-shadow:var(--shadow-1);color:var(--text);font-weight:650;text-decoration:none}
+.ru-tile::after{content:"→";margin-left:auto;color:var(--faint);font-weight:500}
+.ru-tile:hover{border-color:#c9d4f5;background:var(--accent-soft);color:var(--text)}
+.ru-tile .flag{width:36px;height:27px}
+.ru-more{margin:16px 0 0}
+@media (max-width:599px){.cp-sec{margin-top:40px;padding-top:28px}.ru-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.ru-tile{gap:8px;padding:10px 12px;min-width:0}.ru-tile span{min-width:0;overflow-wrap:anywhere}}
+@media (max-width:359px){.ru-tiles{grid-template-columns:1fr}}
+
+/* ---------- /esim/: what the Russian list adds to the English one ---------- */
+.hub-hero .lead+.lead{margin-top:-10px}
+.hub-hero .lead a{color:var(--accent);font-weight:650}
+.az-group .dest a span{display:grid;gap:1px}
+.dest-meta{color:var(--muted);font-size:12.5px;font-weight:500}
+.materials{list-style:none;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.materials li{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface)}
+.materials a{color:var(--accent);font-weight:700;text-decoration:none}
+.materials a::after{content:" →"}
+.materials a:hover{text-decoration:underline;text-underline-offset:3px}
+.materials span{color:var(--muted);font-size:14px}
+@media (max-width:899px){.materials{grid-template-columns:1fr 1fr}}
+@media (max-width:599px){.materials{grid-template-columns:1fr}}
+
+/* ---------- guides: what the Russian guide markup carries ---------- */
+.g-kicker{margin:0 0 6px;color:var(--accent);font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.g-sec .prose>:last-child{margin-bottom:0}
+.g-sec .prose+.prose,.g-sec .prose+ol,.g-sec .prose+ul,.g-sec ol+.prose,.g-sec ul+.prose{margin-top:12px}
+.g-sec a{color:var(--accent);font-weight:600;text-underline-offset:3px}
+.g-sec .muted{color:var(--muted);font-size:14px}
+/* Steps: numbered badges, the English guides' .steps */
+.g-sec .ol-steps{counter-reset:step;list-style:none;margin:4px 0 14px;padding:0;display:grid;gap:10px}
+.g-sec .ol-steps li{counter-increment:step;position:relative;margin:0;padding:3px 0 0 42px;max-width:70ch}
+.g-sec .ol-steps li::before{content:counter(step);position:absolute;left:0;top:0;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:var(--accent-soft);color:#2f4fc4;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+.g-sec .check-list{list-style:none;margin:4px 0 14px;padding:0;display:grid;gap:8px}
+.g-sec .check-list li{position:relative;padding-left:28px;max-width:70ch}
+.g-sec .check-list li::before{content:"";position:absolute;left:4px;top:.45em;width:12px;height:7px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg)}
+/* Questions: the visible FAQ that equals the FAQPage, as quiet cards */
+.faq-list{display:grid;gap:10px}
+.faq-list .faq-item{padding:15px 18px;border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface)}
+.faq-list .faq-q{margin:0 0 6px;font-weight:700}
+.faq-list .faq-a{margin:0;color:var(--muted);font-size:15px}
+#faq.g-sec .faq-list{margin-top:4px}
+.ru-tile-guide::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--grad)}
+/* the closing call to action, in the brand gradient */
+.ru-cta{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;margin:36px 0 8px;padding:28px 30px;border-radius:var(--r-xl);background:var(--grad-deep);color:#fff;box-shadow:var(--shadow-2)}
+.ru-cta h2{margin:0 0 6px;color:#fff;font-size:clamp(22px,2.8vw,28px)}
+.ru-cta p{margin:0;max-width:60ch;color:rgba(255,255,255,.88)}
+.ru-cta .btn{background:#fff;color:#1f2a5a;box-shadow:none}
+.ru-cta .btn:hover{background:#eef2ff;color:#1f2a5a}
+@media (max-width:599px){.ru-cta{padding:22px 20px}.ru-cta .btn{width:100%}}

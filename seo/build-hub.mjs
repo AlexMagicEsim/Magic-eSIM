@@ -17,6 +17,8 @@ import { loadCached } from './catalogue-source.mjs';
 import { SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
+import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD, RU_POPULAR } from './ru-chrome.mjs';
+import { SEARCH_ICON } from './site-chrome.mjs';
 import { GUIDES } from './guides.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -56,12 +58,34 @@ const jsonld = {
   ],
 };
 
-const card = (c) => `      <a class="c-card" href="${c.slug}/" data-name="${esc(c.nameRu.toLowerCase())}" data-slug="${c.slug}" data-iso="${c.iso}" data-count="${c.total_count}" data-price="${c.min_price_rub === null ? '' : c.min_price_rub}" data-local="${c.local_count > 0 ? '1' : '0'}">
-        <span class="c-flag" aria-hidden="true">${c.flagEmoji}</span>
-        <span class="c-name">${esc(c.nameRu)}</span>
-        <span class="c-meta">${c.total_count} ${c.total_count === 1 ? 'тариф' : (c.total_count < 5 ? 'тарифа' : 'тарифов')}${c.min_price_rub === null ? '' : ` · от ${money(c.min_price_rub)} ₽`}</span>
-        ${c.local_count > 0 ? '<span class="c-badge">локальные</span>' : '<span class="c-badge c-badge--reg">региональные</span>'}
-      </a>`;
+// The Russian alphabet, as the English hub's A–Z: a letter with no country is
+// shown greyed, a letter with countries is a jump link. Ё is filed under Е.
+const LETTERS = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ'.split('');
+const letterOf = (name) => { const L = String(name).charAt(0).toUpperCase(); return L === 'Ё' ? 'Е' : L; };
+const byName = countries.slice().sort((a, b) => a.nameRu.localeCompare(b.nameRu, 'ru'));
+const groups = new Map();
+for (const c of byName) { const L = letterOf(c.nameRu); if (!groups.has(L)) groups.set(L, []); groups.get(L).push(c); }
+for (const L of groups.keys()) if (!LETTERS.includes(L)) throw new Error(`build-hub: буква «${L}» вне алфавита`);
+const aid = (L) => `az-${LETTERS.indexOf(L) + 1}`;
+const jump = LETTERS.map((L) => (groups.has(L)
+  ? `<a href="#${aid(L)}">${L}</a>`
+  : `<span aria-hidden="true">${L}</span>`)).join('');
+const tariffWord = (n) => (n % 10 === 1 && n % 100 !== 11 ? 'тариф' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'тарифа' : 'тарифов'));
+// Every row keeps the two numbers the catalogue gives: how many tariffs and
+// the floor price («от N ₽», gated by seo/test-catalogue-sync.mjs).
+const item = (c) => `        <li data-name="${esc(c.nameRu.toLowerCase())}" data-slug="${c.slug}" data-iso="${c.iso}" data-count="${c.total_count}" data-price="${c.min_price_rub === null ? '' : c.min_price_rub}"><a href="${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"><span>${esc(c.nameRu)}<small class="dest-meta">${c.total_count} ${tariffWord(c.total_count)}${c.min_price_rub === null ? '' : ` · от ${money(c.min_price_rub)} ₽`}</small></span></a></li>`;
+const sections = [...groups.entries()].map(([L, cs]) => `    <section class="az-group" id="${aid(L)}" aria-labelledby="${aid(L)}h">
+      <h2 id="${aid(L)}h">${L}</h2>
+      <ul class="dest">
+${cs.map(item).join('\n')}
+      </ul>
+    </section>`).join('\n');
+const bySlug = new Map(countries.map((c) => [c.slug, c]));
+const popular = RU_POPULAR.map((p) => {
+  const c = bySlug.get(p.slug);
+  if (!c) throw new Error(`build-hub: популярного направления ${p.slug} нет в каталоге`);
+  return `      <a class="hub-tile" href="${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="40" height="30"><span>${esc(c.nameRu)}</span></a>`;
+}).join('\n');
 
 // The index of every information page, built from seo/guides.mjs — the one
 // list build-guides.mjs renders them from — so a new guide appears here by
@@ -93,26 +117,10 @@ const html = `<!DOCTYPE html>
   <meta name="twitter:description" content="${esc(description)}" />
   <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
 ${headIcons('  ')}
-  <link rel="stylesheet" href="${stampUrl('../assets/country-pages.css')}" />
-  <style>
-    .hub-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
-    .hub-search{flex:1 1 260px;padding:10px 14px;border:1px solid #d7d7dd;border-radius:10px;font-size:16px}
-    .hub-sort{padding:10px 12px;border:1px solid #d7d7dd;border-radius:10px;font-size:15px}
-    .hub-count{color:#666;font-size:14px}
-    .c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-    .c-card{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid #e4e4ea;border-radius:12px;text-decoration:none;color:inherit;background:#fff}
-    .c-card:hover{border-color:#b9b9c6;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-    .c-flag{font-size:22px;line-height:1}
-    .c-name{font-weight:600}
-    .c-meta{color:#666;font-size:13px}
-    .c-badge{align-self:flex-start;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:999px;background:#e8f5ec;color:#15803d}
-    .c-badge--reg{background:#eef2f7;color:#475569}
-    .hub-empty{color:#666;padding:16px 0}
-    .materials{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-    .materials li{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border:1px solid #e4e4ea;border-radius:12px;background:#fff}
-    .materials a{font-weight:600}
-    .materials span{color:#666;font-size:14px}
-  </style>
+${RU_FONT_PRELOAD.replace(/^/gm, '  ')}
+  <link rel="stylesheet" href="${stampUrl('/assets/site.css')}" />
+  <link rel="stylesheet" href="${stampUrl('/assets/page-hub.css')}" />
+  <link rel="stylesheet" href="${stampUrl('/assets/ru.css')}" />
   <!-- Первичный origin, а не шлюз: assets/magic-net.js держит render первым
        (ENDPOINTS[0]), а api.magicesim.store — резервом. Здесь стоял шлюз —
        генератор отстал от переключения, и пересборка хаба вернула бы
@@ -123,94 +131,90 @@ ${METRIKA}
   <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 </head>
 <body>
-  <header class="site-head">
-    <a class="brand" href="/">Magic eSIM</a>
-    <nav class="head-nav"><a href="/esim/">Все страны</a><a href="/#tariffs">Тарифы</a></nav>
-  </header>
+${ruHeader()}
 
-  <nav class="breadcrumbs" aria-label="Хлебные крошки">
-    <a href="/">Главная</a> <span aria-hidden="true">›</span>
-    <span aria-current="page">Страны</span>
-  </nav>
-
-  <main>
-    <section class="hero">
+<main class="hub">
+  <section class="hub-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <span aria-current="page">Страны</span></nav>
       <h1>eSIM по странам</h1>
       <p class="lead">${countries.length} ${countries.length % 10 === 1 && countries.length % 100 !== 11 ? 'направление' : 'направлений'} с реальными тарифами из каталога. У ${withLocal.length} есть локальные тарифы — на странице страны у них свой блок, отдельный от региональных.</p>
       <p class="lead"><a href="#materials">Инструкции и ответы перед поездкой</a> — установка, совместимость, оплата.</p>
+      <!-- Поиск показывает скрипт внизу страницы: без него не будет поля, которое ничего не делает. -->
+      <div class="hub-search" id="hubFind" role="search" hidden>
+        <label for="hubSearch" class="sr-only">Найти страну</label>
+        <div class="hub-field">${SEARCH_ICON}<input type="text" class="ym-hide-content" id="hubSearch" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="Найти страну…"><button type="button" class="hub-clear" id="hubClear" aria-label="Очистить поиск" hidden>×</button></div>
+      </div>
+      <p class="hub-count" id="hubCount" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <div class="wrap hub-body">
+    <section class="hub-pop" id="hubPopular" aria-labelledby="hubPopTitle">
+      <h2 id="hubPopTitle">Популярные направления</h2>
+      <div class="hub-tiles">
+${popular}
+      </div>
     </section>
 
-    <section>
-      <div class="hub-tools">
-        <input class="hub-search ym-hide-content" id="hubSearch" type="search" placeholder="Найти страну…" aria-label="Поиск страны" autocomplete="off" />
-        <select class="hub-sort" id="hubSort" aria-label="Сортировка">
-          <option value="name">По алфавиту</option>
-          <option value="price">Сначала дешевле</option>
-          <option value="count">Больше тарифов</option>
-        </select>
-        <span class="hub-count" id="hubCount">${countries.length}</span>
-      </div>
-      <div class="c-grid" id="hubGrid">
-${countries.map(card).join('\n')}
-      </div>
-      <p class="hub-empty" id="hubEmpty" hidden>Ничего не нашлось. Попробуйте другое написание.</p>
-    </section>
+    <nav class="hub-az" id="hubAz" aria-label="Направления от А до Я">${jump}</nav>
 
-    <section class="compat" id="materials">
+    <div class="hub-list" id="hubList">
+${sections}
+    </div>
+
+    <div class="hub-empty" id="hubEmpty" hidden>
+      <p class="hub-empty-title">Ничего не нашлось.</p>
+      <p class="note">Попробуйте другое написание или выберите страну в списке от А до Я.</p>
+      <button type="button" class="btn btn-ghost" id="hubReset">Показать все направления</button>
+    </div>
+
+    <section class="compat cp-help" id="materials">
       <h2>Инструкции и ответы перед поездкой</h2>
       <ul class="materials">
 ${materials}
       </ul>
     </section>
-  </main>
+  </div>
+</main>
 
-  <footer class="site-foot">
-    <a href="/terms.html">Условия</a> · <a href="/privacy.html">Конфиденциальность</a> · <a href="/">Главная</a>
-  </footer>
+${RU_FOOTER}
 
   <script>
   (function(){
-    // Search and sort run over the rendered cards. No second API call: the
-    // numbers are already in the markup, which keeps the page fast and keeps it
-    // working when the API is briefly unreachable.
-    var grid=document.getElementById('hubGrid');
-    var search=document.getElementById('hubSearch');
-    var sort=document.getElementById('hubSort');
+    // Search runs over the rendered list: no second API call — the names and
+    // the numbers are already in the markup, so the page works when the API is
+    // briefly unreachable. Matches the Russian name (ё = е), the slug or the
+    // ISO code; a letter group with nothing left in it hides with its letter.
+    var box=document.getElementById('hubFind');
+    var input=document.getElementById('hubSearch');
+    var clear=document.getElementById('hubClear');
     var count=document.getElementById('hubCount');
     var empty=document.getElementById('hubEmpty');
-    var cards=[].slice.call(grid.querySelectorAll('.c-card'));
-
+    var pop=document.getElementById('hubPopular');
+    var az=document.getElementById('hubAz');
+    var groups=[].slice.call(document.querySelectorAll('#hubList .az-group'));
     function norm(s){return String(s||'').toLowerCase().replace(/ё/g,'е').trim();}
+    function plural(n){var a=n%10,b=n%100;return a===1&&b!==11?'направление':(a>=2&&a<=4&&(b<12||b>14)?'направления':'направлений');}
     function apply(){
-      var q=norm(search.value);
-      var shown=0;
-      cards.forEach(function(el){
-        var hit=!q||norm(el.dataset.name).indexOf(q)>=0||el.dataset.slug.indexOf(q)>=0||norm(el.dataset.iso)===q;
-        el.hidden=!hit; if(hit)shown++;
+      var q=norm(input.value),shown=0;
+      groups.forEach(function(g){
+        var any=0;
+        [].forEach.call(g.querySelectorAll('li'),function(li){
+          var hit=!q||norm(li.dataset.name).indexOf(q)>=0||li.dataset.slug.indexOf(q)>=0||norm(li.dataset.iso)===q;
+          li.hidden=!hit;if(hit){any++;shown++;}
+        });
+        g.hidden=!any;
       });
-      count.textContent=shown;
+      clear.hidden=!q;pop.hidden=!!q;az.hidden=!!q;
       empty.hidden=shown>0;
+      count.textContent=q?(shown?'Найдено: '+shown+' '+plural(shown):''):'';
     }
-    function reorder(){
-      var mode=sort.value;
-      var sorted=cards.slice().sort(function(a,b){
-        if(mode==='price'){
-          // A country with no price sorts last rather than first: an empty
-          // value must not look like the cheapest option.
-          var pa=a.dataset.price===''?Infinity:Number(a.dataset.price);
-          var pb=b.dataset.price===''?Infinity:Number(b.dataset.price);
-          if(pa!==pb)return pa-pb;
-        }
-        if(mode==='count'){
-          var ca=Number(a.dataset.count||0),cb=Number(b.dataset.count||0);
-          if(ca!==cb)return cb-ca;
-        }
-        return a.dataset.name.localeCompare(b.dataset.name,'ru');
-      });
-      sorted.forEach(function(el){grid.appendChild(el);});
-    }
-    search.addEventListener('input',apply);
-    sort.addEventListener('change',function(){reorder();apply();});
+    input.addEventListener('input',apply);
+    clear.addEventListener('click',function(){input.value='';apply();input.focus();});
+    document.getElementById('hubReset').addEventListener('click',function(){input.value='';apply();input.focus();});
+    box.hidden=false;
+    count.textContent='';
   })();
   </script>
 </body>

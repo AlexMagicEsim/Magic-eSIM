@@ -23,26 +23,11 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="stylesheet" href="../assets/country-pages.css?v=90ee3c09" />
-  <style>
-    .hub-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
-    .hub-search{flex:1 1 260px;padding:10px 14px;border:1px solid #d7d7dd;border-radius:10px;font-size:16px}
-    .hub-sort{padding:10px 12px;border:1px solid #d7d7dd;border-radius:10px;font-size:15px}
-    .hub-count{color:#666;font-size:14px}
-    .c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-    .c-card{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid #e4e4ea;border-radius:12px;text-decoration:none;color:inherit;background:#fff}
-    .c-card:hover{border-color:#b9b9c6;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-    .c-flag{font-size:22px;line-height:1}
-    .c-name{font-weight:600}
-    .c-meta{color:#666;font-size:13px}
-    .c-badge{align-self:flex-start;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:999px;background:#e8f5ec;color:#15803d}
-    .c-badge--reg{background:#eef2f7;color:#475569}
-    .hub-empty{color:#666;padding:16px 0}
-    .materials{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-    .materials li{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border:1px solid #e4e4ea;border-radius:12px;background:#fff}
-    .materials a{font-weight:600}
-    .materials span{color:#666;font-size:14px}
-  </style>
+  <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
+  <link rel="stylesheet" href="/assets/page-hub.css?v=a8206652" />
+  <link rel="stylesheet" href="/assets/ru.css?v=b217aec3" />
   <!-- Первичный origin, а не шлюз: assets/magic-net.js держит render первым
        (ENDPOINTS[0]), а api.magicesim.store — резервом. Здесь стоял шлюз —
        генератор отстал от переключения, и пересборка хаба вернула бы
@@ -95,1227 +80,406 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://magicesim.store/"},{"@type":"ListItem","position":2,"name":"Страны","item":"https://magicesim.store/esim/"}]},{"@type":"ItemList","numberOfItems":198,"itemListElement":[{"@type":"ListItem","position":1,"name":"eSIM для Австралия","url":"https://magicesim.store/esim/australia/"},{"@type":"ListItem","position":2,"name":"eSIM для Австрия","url":"https://magicesim.store/esim/austria/"},{"@type":"ListItem","position":3,"name":"eSIM для Азербайджан","url":"https://magicesim.store/esim/azerbaijan/"},{"@type":"ListItem","position":4,"name":"eSIM для Аландские острова","url":"https://magicesim.store/esim/aland-islands/"},{"@type":"ListItem","position":5,"name":"eSIM для Албания","url":"https://magicesim.store/esim/albania/"},{"@type":"ListItem","position":6,"name":"eSIM для Алжир","url":"https://magicesim.store/esim/algeria/"},{"@type":"ListItem","position":7,"name":"eSIM для Ангилья","url":"https://magicesim.store/esim/anguilla/"},{"@type":"ListItem","position":8,"name":"eSIM для Ангола","url":"https://magicesim.store/esim/angola/"},{"@type":"ListItem","position":9,"name":"eSIM для Андорра","url":"https://magicesim.store/esim/andorra/"},{"@type":"ListItem","position":10,"name":"eSIM для Антигуа и Барбуда","url":"https://magicesim.store/esim/antigua-and-barbuda/"},{"@type":"ListItem","position":11,"name":"eSIM для Аргентина","url":"https://magicesim.store/esim/argentina/"},{"@type":"ListItem","position":12,"name":"eSIM для Армения","url":"https://magicesim.store/esim/armenia/"},{"@type":"ListItem","position":13,"name":"eSIM для Аруба","url":"https://magicesim.store/esim/aruba/"},{"@type":"ListItem","position":14,"name":"eSIM для Афганистан","url":"https://magicesim.store/esim/afghanistan/"},{"@type":"ListItem","position":15,"name":"eSIM для Багамы","url":"https://magicesim.store/esim/bahamas/"},{"@type":"ListItem","position":16,"name":"eSIM для Бангладеш","url":"https://magicesim.store/esim/bangladesh/"},{"@type":"ListItem","position":17,"name":"eSIM для Барбадос","url":"https://magicesim.store/esim/barbados/"},{"@type":"ListItem","position":18,"name":"eSIM для Бахрейн","url":"https://magicesim.store/esim/bahrain/"},{"@type":"ListItem","position":19,"name":"eSIM для Белиз","url":"https://magicesim.store/esim/belize/"},{"@type":"ListItem","position":20,"name":"eSIM для Бельгия","url":"https://magicesim.store/esim/belgium/"},{"@type":"ListItem","position":21,"name":"eSIM для Бенин","url":"https://magicesim.store/esim/benin/"},{"@type":"ListItem","position":22,"name":"eSIM для Бермуды","url":"https://magicesim.store/esim/bermuda/"},{"@type":"ListItem","position":23,"name":"eSIM для Болгария","url":"https://magicesim.store/esim/bulgaria/"},{"@type":"ListItem","position":24,"name":"eSIM для Боливия","url":"https://magicesim.store/esim/bolivia/"},{"@type":"ListItem","position":25,"name":"eSIM для Бонайре","url":"https://magicesim.store/esim/bonaire/"},{"@type":"ListItem","position":26,"name":"eSIM для Босния и Герцеговина","url":"https://magicesim.store/esim/bosnia-and-herzegovina/"},{"@type":"ListItem","position":27,"name":"eSIM для Ботсвана","url":"https://magicesim.store/esim/botswana/"},{"@type":"ListItem","position":28,"name":"eSIM для Бразилия","url":"https://magicesim.store/esim/brazil/"},{"@type":"ListItem","position":29,"name":"eSIM для Британские Виргинские острова","url":"https://magicesim.store/esim/british-virgin-islands/"},{"@type":"ListItem","position":30,"name":"eSIM для Бруней","url":"https://magicesim.store/esim/brunei/"},{"@type":"ListItem","position":31,"name":"eSIM для Буркина-Фасо","url":"https://magicesim.store/esim/burkina-faso/"},{"@type":"ListItem","position":32,"name":"eSIM для Бутан","url":"https://magicesim.store/esim/bhutan/"},{"@type":"ListItem","position":33,"name":"eSIM для Вануату","url":"https://magicesim.store/esim/vanuatu/"},{"@type":"ListItem","position":34,"name":"eSIM для Ватикан","url":"https://magicesim.store/esim/vatican/"},{"@type":"ListItem","position":35,"name":"eSIM для Великобритания","url":"https://magicesim.store/esim/united-kingdom/"},{"@type":"ListItem","position":36,"name":"eSIM для Венгрия","url":"https://magicesim.store/esim/hungary/"},{"@type":"ListItem","position":37,"name":"eSIM для Венесуэла","url":"https://magicesim.store/esim/venezuela/"},{"@type":"ListItem","position":38,"name":"eSIM для Восточный Тимор","url":"https://magicesim.store/esim/timor-leste/"},{"@type":"ListItem","position":39,"name":"eSIM для Вьетнам","url":"https://magicesim.store/esim/vietnam/"},{"@type":"ListItem","position":40,"name":"eSIM для Габон","url":"https://magicesim.store/esim/gabon/"},{"@type":"ListItem","position":41,"name":"eSIM для Гаити","url":"https://magicesim.store/esim/haiti/"},{"@type":"ListItem","position":42,"name":"eSIM для Гайана","url":"https://magicesim.store/esim/guyana/"},{"@type":"ListItem","position":43,"name":"eSIM для Гамбия","url":"https://magicesim.store/esim/gambia/"},{"@type":"ListItem","position":44,"name":"eSIM для Гана","url":"https://magicesim.store/esim/ghana/"},{"@type":"ListItem","position":45,"name":"eSIM для Гваделупа","url":"https://magicesim.store/esim/guadeloupe/"},{"@type":"ListItem","position":46,"name":"eSIM для Гватемала","url":"https://magicesim.store/esim/guatemala/"},{"@type":"ListItem","position":47,"name":"eSIM для Гвинея","url":"https://magicesim.store/esim/guinea/"},{"@type":"ListItem","position":48,"name":"eSIM для Гвинея-Бисау","url":"https://magicesim.store/esim/guinea-bissau/"},{"@type":"ListItem","position":49,"name":"eSIM для Германия","url":"https://magicesim.store/esim/germany/"},{"@type":"ListItem","position":50,"name":"eSIM для Гернси","url":"https://magicesim.store/esim/guernsey/"},{"@type":"ListItem","position":51,"name":"eSIM для Гибралтар","url":"https://magicesim.store/esim/gibraltar/"},{"@type":"ListItem","position":52,"name":"eSIM для Гондурас","url":"https://magicesim.store/esim/honduras/"},{"@type":"ListItem","position":53,"name":"eSIM для Гонконг","url":"https://magicesim.store/esim/hong-kong/"},{"@type":"ListItem","position":54,"name":"eSIM для Гренада","url":"https://magicesim.store/esim/grenada/"},{"@type":"ListItem","position":55,"name":"eSIM для Гренландия","url":"https://magicesim.store/esim/greenland/"},{"@type":"ListItem","position":56,"name":"eSIM для Греция","url":"https://magicesim.store/esim/greece/"},{"@type":"ListItem","position":57,"name":"eSIM для Грузия","url":"https://magicesim.store/esim/georgia/"},{"@type":"ListItem","position":58,"name":"eSIM для Гуам","url":"https://magicesim.store/esim/guam/"},{"@type":"ListItem","position":59,"name":"eSIM для Дания","url":"https://magicesim.store/esim/denmark/"},{"@type":"ListItem","position":60,"name":"eSIM для Джерси","url":"https://magicesim.store/esim/jersey/"},{"@type":"ListItem","position":61,"name":"eSIM для Доминика","url":"https://magicesim.store/esim/dominica/"},{"@type":"ListItem","position":62,"name":"eSIM для Доминикана","url":"https://magicesim.store/esim/dominican-republic/"},{"@type":"ListItem","position":63,"name":"eSIM для ДР Конго","url":"https://magicesim.store/esim/dr-congo/"},{"@type":"ListItem","position":64,"name":"eSIM для Египет","url":"https://magicesim.store/esim/egypt/"},{"@type":"ListItem","position":65,"name":"eSIM для Замбия","url":"https://magicesim.store/esim/zambia/"},{"@type":"ListItem","position":66,"name":"eSIM для Зимбабве","url":"https://magicesim.store/esim/zimbabwe/"},{"@type":"ListItem","position":67,"name":"eSIM для Израиль","url":"https://magicesim.store/esim/israel/"},{"@type":"ListItem","position":68,"name":"eSIM для Индия","url":"https://magicesim.store/esim/india/"},{"@type":"ListItem","position":69,"name":"eSIM для Индонезия","url":"https://magicesim.store/esim/indonesia/"},{"@type":"ListItem","position":70,"name":"eSIM для Иордания","url":"https://magicesim.store/esim/jordan/"},{"@type":"ListItem","position":71,"name":"eSIM для Ирак","url":"https://magicesim.store/esim/iraq/"},{"@type":"ListItem","position":72,"name":"eSIM для Ирландия","url":"https://magicesim.store/esim/ireland/"},{"@type":"ListItem","position":73,"name":"eSIM для Исландия","url":"https://magicesim.store/esim/iceland/"},{"@type":"ListItem","position":74,"name":"eSIM для Испания","url":"https://magicesim.store/esim/spain/"},{"@type":"ListItem","position":75,"name":"eSIM для Италия","url":"https://magicesim.store/esim/italy/"},{"@type":"ListItem","position":76,"name":"eSIM для Кабо-Верде","url":"https://magicesim.store/esim/cape-verde/"},{"@type":"ListItem","position":77,"name":"eSIM для Казахстан","url":"https://magicesim.store/esim/kazakhstan/"},{"@type":"ListItem","position":78,"name":"eSIM для Каймановы острова","url":"https://magicesim.store/esim/cayman-islands/"},{"@type":"ListItem","position":79,"name":"eSIM для Камбоджа","url":"https://magicesim.store/esim/cambodia/"},{"@type":"ListItem","position":80,"name":"eSIM для Камерун","url":"https://magicesim.store/esim/cameroon/"},{"@type":"ListItem","position":81,"name":"eSIM для Канада","url":"https://magicesim.store/esim/canada/"},{"@type":"ListItem","position":82,"name":"eSIM для Катар","url":"https://magicesim.store/esim/qatar/"},{"@type":"ListItem","position":83,"name":"eSIM для Кения","url":"https://magicesim.store/esim/kenya/"},{"@type":"ListItem","position":84,"name":"eSIM для Кипр","url":"https://magicesim.store/esim/cyprus/"},{"@type":"ListItem","position":85,"name":"eSIM для Киргизия","url":"https://magicesim.store/esim/kyrgyzstan/"},{"@type":"ListItem","position":86,"name":"eSIM для Китай","url":"https://magicesim.store/esim/china/"},{"@type":"ListItem","position":87,"name":"eSIM для Колумбия","url":"https://magicesim.store/esim/colombia/"},{"@type":"ListItem","position":88,"name":"eSIM для Конго","url":"https://magicesim.store/esim/congo/"},{"@type":"ListItem","position":89,"name":"eSIM для Косово","url":"https://magicesim.store/esim/kosovo/"},{"@type":"ListItem","position":90,"name":"eSIM для Коста-Рика","url":"https://magicesim.store/esim/costa-rica/"},{"@type":"ListItem","position":91,"name":"eSIM для Кот-д’Ивуар","url":"https://magicesim.store/esim/ivory-coast/"},{"@type":"ListItem","position":92,"name":"eSIM для Кувейт","url":"https://magicesim.store/esim/kuwait/"},{"@type":"ListItem","position":93,"name":"eSIM для Кюрасао","url":"https://magicesim.store/esim/curacao/"},{"@type":"ListItem","position":94,"name":"eSIM для Лаос","url":"https://magicesim.store/esim/laos/"},{"@type":"ListItem","position":95,"name":"eSIM для Латвия","url":"https://magicesim.store/esim/latvia/"},{"@type":"ListItem","position":96,"name":"eSIM для Либерия","url":"https://magicesim.store/esim/liberia/"},{"@type":"ListItem","position":97,"name":"eSIM для Ливия","url":"https://magicesim.store/esim/libya/"},{"@type":"ListItem","position":98,"name":"eSIM для Литва","url":"https://magicesim.store/esim/lithuania/"},{"@type":"ListItem","position":99,"name":"eSIM для Лихтенштейн","url":"https://magicesim.store/esim/liechtenstein/"},{"@type":"ListItem","position":100,"name":"eSIM для Люксембург","url":"https://magicesim.store/esim/luxembourg/"},{"@type":"ListItem","position":101,"name":"eSIM для Маврикий","url":"https://magicesim.store/esim/mauritius/"},{"@type":"ListItem","position":102,"name":"eSIM для Мавритания","url":"https://magicesim.store/esim/mauritania/"},{"@type":"ListItem","position":103,"name":"eSIM для Мадагаскар","url":"https://magicesim.store/esim/madagascar/"},{"@type":"ListItem","position":104,"name":"eSIM для Майотта","url":"https://magicesim.store/esim/mayotte/"},{"@type":"ListItem","position":105,"name":"eSIM для Макао","url":"https://magicesim.store/esim/macau/"},{"@type":"ListItem","position":106,"name":"eSIM для Малави","url":"https://magicesim.store/esim/malawi/"},{"@type":"ListItem","position":107,"name":"eSIM для Малайзия","url":"https://magicesim.store/esim/malaysia/"},{"@type":"ListItem","position":108,"name":"eSIM для Мали","url":"https://magicesim.store/esim/mali/"},{"@type":"ListItem","position":109,"name":"eSIM для Мальдивы","url":"https://magicesim.store/esim/maldives/"},{"@type":"ListItem","position":110,"name":"eSIM для Мальта","url":"https://magicesim.store/esim/malta/"},{"@type":"ListItem","position":111,"name":"eSIM для Марокко","url":"https://magicesim.store/esim/morocco/"},{"@type":"ListItem","position":112,"name":"eSIM для Мартиника","url":"https://magicesim.store/esim/martinique/"},{"@type":"ListItem","position":113,"name":"eSIM для Мексика","url":"https://magicesim.store/esim/mexico/"},{"@type":"ListItem","position":114,"name":"eSIM для Мозамбик","url":"https://magicesim.store/esim/mozambique/"},{"@type":"ListItem","position":115,"name":"eSIM для Молдова","url":"https://magicesim.store/esim/moldova/"},{"@type":"ListItem","position":116,"name":"eSIM для Монако","url":"https://magicesim.store/esim/monaco/"},{"@type":"ListItem","position":117,"name":"eSIM для Монголия","url":"https://magicesim.store/esim/mongolia/"},{"@type":"ListItem","position":118,"name":"eSIM для Монтсеррат","url":"https://magicesim.store/esim/montserrat/"},{"@type":"ListItem","position":119,"name":"eSIM для Науру","url":"https://magicesim.store/esim/nauru/"},{"@type":"ListItem","position":120,"name":"eSIM для Непал","url":"https://magicesim.store/esim/nepal/"},{"@type":"ListItem","position":121,"name":"eSIM для Нигер","url":"https://magicesim.store/esim/niger/"},{"@type":"ListItem","position":122,"name":"eSIM для Нигерия","url":"https://magicesim.store/esim/nigeria/"},{"@type":"ListItem","position":123,"name":"eSIM для Нидерланды","url":"https://magicesim.store/esim/netherlands/"},{"@type":"ListItem","position":124,"name":"eSIM для Никарагуа","url":"https://magicesim.store/esim/nicaragua/"},{"@type":"ListItem","position":125,"name":"eSIM для Новая Зеландия","url":"https://magicesim.store/esim/new-zealand/"},{"@type":"ListItem","position":126,"name":"eSIM для Норвегия","url":"https://magicesim.store/esim/norway/"},{"@type":"ListItem","position":127,"name":"eSIM для ОАЭ","url":"https://magicesim.store/esim/uae/"},{"@type":"ListItem","position":128,"name":"eSIM для Оман","url":"https://magicesim.store/esim/oman/"},{"@type":"ListItem","position":129,"name":"eSIM для Остров Мэн","url":"https://magicesim.store/esim/isle-of-man/"},{"@type":"ListItem","position":130,"name":"eSIM для Пакистан","url":"https://magicesim.store/esim/pakistan/"},{"@type":"ListItem","position":131,"name":"eSIM для Панама","url":"https://magicesim.store/esim/panama/"},{"@type":"ListItem","position":132,"name":"eSIM для Папуа — Новая Гвинея","url":"https://magicesim.store/esim/papua-new-guinea/"},{"@type":"ListItem","position":133,"name":"eSIM для Парагвай","url":"https://magicesim.store/esim/paraguay/"},{"@type":"ListItem","position":134,"name":"eSIM для Перу","url":"https://magicesim.store/esim/peru/"},{"@type":"ListItem","position":135,"name":"eSIM для Польша","url":"https://magicesim.store/esim/poland/"},{"@type":"ListItem","position":136,"name":"eSIM для Португалия","url":"https://magicesim.store/esim/portugal/"},{"@type":"ListItem","position":137,"name":"eSIM для Пуэрто-Рико","url":"https://magicesim.store/esim/puerto-rico/"},{"@type":"ListItem","position":138,"name":"eSIM для Реюньон","url":"https://magicesim.store/esim/reunion/"},{"@type":"ListItem","position":139,"name":"eSIM для Руанда","url":"https://magicesim.store/esim/rwanda/"},{"@type":"ListItem","position":140,"name":"eSIM для Румыния","url":"https://magicesim.store/esim/romania/"},{"@type":"ListItem","position":141,"name":"eSIM для Сальвадор","url":"https://magicesim.store/esim/el-salvador/"},{"@type":"ListItem","position":142,"name":"eSIM для Самоа","url":"https://magicesim.store/esim/samoa/"},{"@type":"ListItem","position":143,"name":"eSIM для Сан-Марино","url":"https://magicesim.store/esim/san-marino/"},{"@type":"ListItem","position":144,"name":"eSIM для Саудовская Аравия","url":"https://magicesim.store/esim/saudi-arabia/"},{"@type":"ListItem","position":145,"name":"eSIM для Северная Македония","url":"https://magicesim.store/esim/north-macedonia/"},{"@type":"ListItem","position":146,"name":"eSIM для Северные Марианские острова","url":"https://magicesim.store/esim/northern-mariana-islands/"},{"@type":"ListItem","position":147,"name":"eSIM для Сейшелы","url":"https://magicesim.store/esim/seychelles/"},{"@type":"ListItem","position":148,"name":"eSIM для Сен-Бартелеми","url":"https://magicesim.store/esim/saint-barthelemy/"},{"@type":"ListItem","position":149,"name":"eSIM для Сен-Мартен","url":"https://magicesim.store/esim/saint-martin/"},{"@type":"ListItem","position":150,"name":"eSIM для Сенегал","url":"https://magicesim.store/esim/senegal/"},{"@type":"ListItem","position":151,"name":"eSIM для Сент-Винсент и Гренадины","url":"https://magicesim.store/esim/saint-vincent-and-the-grenadines/"},{"@type":"ListItem","position":152,"name":"eSIM для Сент-Китс и Невис","url":"https://magicesim.store/esim/saint-kitts-and-nevis/"},{"@type":"ListItem","position":153,"name":"eSIM для Сент-Люсия","url":"https://magicesim.store/esim/saint-lucia/"},{"@type":"ListItem","position":154,"name":"eSIM для Сербия","url":"https://magicesim.store/esim/serbia/"},{"@type":"ListItem","position":155,"name":"eSIM для Сингапур","url":"https://magicesim.store/esim/singapore/"},{"@type":"ListItem","position":156,"name":"eSIM для Синт-Мартен","url":"https://magicesim.store/esim/sint-maarten/"},{"@type":"ListItem","position":157,"name":"eSIM для Словакия","url":"https://magicesim.store/esim/slovakia/"},{"@type":"ListItem","position":158,"name":"eSIM для Словения","url":"https://magicesim.store/esim/slovenia/"},{"@type":"ListItem","position":159,"name":"eSIM для Судан","url":"https://magicesim.store/esim/sudan/"},{"@type":"ListItem","position":160,"name":"eSIM для Суринам","url":"https://magicesim.store/esim/suriname/"},{"@type":"ListItem","position":161,"name":"eSIM для США","url":"https://magicesim.store/esim/usa/"},{"@type":"ListItem","position":162,"name":"eSIM для Сьерра-Леоне","url":"https://magicesim.store/esim/sierra-leone/"},{"@type":"ListItem","position":163,"name":"eSIM для Таджикистан","url":"https://magicesim.store/esim/tajikistan/"},{"@type":"ListItem","position":164,"name":"eSIM для Таиланд","url":"https://magicesim.store/esim/thailand/"},{"@type":"ListItem","position":165,"name":"eSIM для Тайвань","url":"https://magicesim.store/esim/taiwan/"},{"@type":"ListItem","position":166,"name":"eSIM для Танзания","url":"https://magicesim.store/esim/tanzania/"},{"@type":"ListItem","position":167,"name":"eSIM для Тёркс и Кайкос","url":"https://magicesim.store/esim/turks-and-caicos/"},{"@type":"ListItem","position":168,"name":"eSIM для Тонга","url":"https://magicesim.store/esim/tonga/"},{"@type":"ListItem","position":169,"name":"eSIM для Тринидад и Тобаго","url":"https://magicesim.store/esim/trinidad-and-tobago/"},{"@type":"ListItem","position":170,"name":"eSIM для Тунис","url":"https://magicesim.store/esim/tunisia/"},{"@type":"ListItem","position":171,"name":"eSIM для Турция","url":"https://magicesim.store/esim/turkey/"},{"@type":"ListItem","position":172,"name":"eSIM для Уганда","url":"https://magicesim.store/esim/uganda/"},{"@type":"ListItem","position":173,"name":"eSIM для Узбекистан","url":"https://magicesim.store/esim/uzbekistan/"},{"@type":"ListItem","position":174,"name":"eSIM для Уругвай","url":"https://magicesim.store/esim/uruguay/"},{"@type":"ListItem","position":175,"name":"eSIM для Фарерские острова","url":"https://magicesim.store/esim/faroe-islands/"},{"@type":"ListItem","position":176,"name":"eSIM для Фиджи","url":"https://magicesim.store/esim/fiji/"},{"@type":"ListItem","position":177,"name":"eSIM для Филиппины","url":"https://magicesim.store/esim/philippines/"},{"@type":"ListItem","position":178,"name":"eSIM для Финляндия","url":"https://magicesim.store/esim/finland/"},{"@type":"ListItem","position":179,"name":"eSIM для Франция","url":"https://magicesim.store/esim/france/"},{"@type":"ListItem","position":180,"name":"eSIM для Французская Гвиана","url":"https://magicesim.store/esim/french-guiana/"},{"@type":"ListItem","position":181,"name":"eSIM для Французская Полинезия","url":"https://magicesim.store/esim/french-polynesia/"},{"@type":"ListItem","position":182,"name":"eSIM для Хорватия","url":"https://magicesim.store/esim/croatia/"},{"@type":"ListItem","position":183,"name":"eSIM для ЦАР","url":"https://magicesim.store/esim/central-african-republic/"},{"@type":"ListItem","position":184,"name":"eSIM для Чад","url":"https://magicesim.store/esim/chad/"},{"@type":"ListItem","position":185,"name":"eSIM для Черногория","url":"https://magicesim.store/esim/montenegro/"},{"@type":"ListItem","position":186,"name":"eSIM для Чехия","url":"https://magicesim.store/esim/czechia/"},{"@type":"ListItem","position":187,"name":"eSIM для Чили","url":"https://magicesim.store/esim/chile/"},{"@type":"ListItem","position":188,"name":"eSIM для Швейцария","url":"https://magicesim.store/esim/switzerland/"},{"@type":"ListItem","position":189,"name":"eSIM для Швеция","url":"https://magicesim.store/esim/sweden/"},{"@type":"ListItem","position":190,"name":"eSIM для Шри-Ланка","url":"https://magicesim.store/esim/sri-lanka/"},{"@type":"ListItem","position":191,"name":"eSIM для Эквадор","url":"https://magicesim.store/esim/ecuador/"},{"@type":"ListItem","position":192,"name":"eSIM для Эсватини","url":"https://magicesim.store/esim/eswatini/"},{"@type":"ListItem","position":193,"name":"eSIM для Эстония","url":"https://magicesim.store/esim/estonia/"},{"@type":"ListItem","position":194,"name":"eSIM для Эфиопия","url":"https://magicesim.store/esim/ethiopia/"},{"@type":"ListItem","position":195,"name":"eSIM для ЮАР","url":"https://magicesim.store/esim/south-africa/"},{"@type":"ListItem","position":196,"name":"eSIM для Южная Корея","url":"https://magicesim.store/esim/south-korea/"},{"@type":"ListItem","position":197,"name":"eSIM для Ямайка","url":"https://magicesim.store/esim/jamaica/"},{"@type":"ListItem","position":198,"name":"eSIM для Япония","url":"https://magicesim.store/esim/japan/"}]}]}</script>
 </head>
 <body>
-  <header class="site-head">
-    <a class="brand" href="/">Magic eSIM</a>
-    <nav class="head-nav"><a href="/esim/">Все страны</a><a href="/#tariffs">Тарифы</a></nav>
-  </header>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+    </nav>
+    <div class="hdr-actions">
+      <a class="langsw" href="/en/" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span>English</span></a>
+      <a class="btn btn-sm hdr-cta" href="/#global-pricing">Выбрать тариф</a>
+      <details class="mnav">
+        <summary aria-label="Меню"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+        <nav class="mnav-panel" aria-label="Меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <hr>
+          <a href="/en/" lang="en">English</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
 
-  <nav class="breadcrumbs" aria-label="Хлебные крошки">
-    <a href="/">Главная</a> <span aria-hidden="true">›</span>
-    <span aria-current="page">Страны</span>
-  </nav>
-
-  <main>
-    <section class="hero">
+<main class="hub">
+  <section class="hub-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <span aria-current="page">Страны</span></nav>
       <h1>eSIM по странам</h1>
       <p class="lead">198 направлений с реальными тарифами из каталога. У 195 есть локальные тарифы — на странице страны у них свой блок, отдельный от региональных.</p>
       <p class="lead"><a href="#materials">Инструкции и ответы перед поездкой</a> — установка, совместимость, оплата.</p>
+      <!-- Поиск показывает скрипт внизу страницы: без него не будет поля, которое ничего не делает. -->
+      <div class="hub-search" id="hubFind" role="search" hidden>
+        <label for="hubSearch" class="sr-only">Найти страну</label>
+        <div class="hub-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="text" class="ym-hide-content" id="hubSearch" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="Найти страну…"><button type="button" class="hub-clear" id="hubClear" aria-label="Очистить поиск" hidden>×</button></div>
+      </div>
+      <p class="hub-count" id="hubCount" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <div class="wrap hub-body">
+    <section class="hub-pop" id="hubPopular" aria-labelledby="hubPopTitle">
+      <h2 id="hubPopTitle">Популярные направления</h2>
+      <div class="hub-tiles">
+      <a class="hub-tile" href="turkey/"><img class="flag" src="/assets/flags/tr.svg" alt="" width="40" height="30"><span>Турция</span></a>
+      <a class="hub-tile" href="thailand/"><img class="flag" src="/assets/flags/th.svg" alt="" width="40" height="30"><span>Таиланд</span></a>
+      <a class="hub-tile" href="vietnam/"><img class="flag" src="/assets/flags/vn.svg" alt="" width="40" height="30"><span>Вьетнам</span></a>
+      <a class="hub-tile" href="egypt/"><img class="flag" src="/assets/flags/eg.svg" alt="" width="40" height="30"><span>Египет</span></a>
+      <a class="hub-tile" href="maldives/"><img class="flag" src="/assets/flags/mv.svg" alt="" width="40" height="30"><span>Мальдивы</span></a>
+      <a class="hub-tile" href="sri-lanka/"><img class="flag" src="/assets/flags/lk.svg" alt="" width="40" height="30"><span>Шри-Ланка</span></a>
+      <a class="hub-tile" href="china/"><img class="flag" src="/assets/flags/cn.svg" alt="" width="40" height="30"><span>Китай</span></a>
+      <a class="hub-tile" href="italy/"><img class="flag" src="/assets/flags/it.svg" alt="" width="40" height="30"><span>Италия</span></a>
+      </div>
     </section>
 
-    <section>
-      <div class="hub-tools">
-        <input class="hub-search ym-hide-content" id="hubSearch" type="search" placeholder="Найти страну…" aria-label="Поиск страны" autocomplete="off" />
-        <select class="hub-sort" id="hubSort" aria-label="Сортировка">
-          <option value="name">По алфавиту</option>
-          <option value="price">Сначала дешевле</option>
-          <option value="count">Больше тарифов</option>
-        </select>
-        <span class="hub-count" id="hubCount">198</span>
-      </div>
-      <div class="c-grid" id="hubGrid">
-      <a class="c-card" href="australia/" data-name="австралия" data-slug="australia" data-iso="AU" data-count="31" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇺</span>
-        <span class="c-name">Австралия</span>
-        <span class="c-meta">31 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="austria/" data-name="австрия" data-slug="austria" data-iso="AT" data-count="40" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇹</span>
-        <span class="c-name">Австрия</span>
-        <span class="c-meta">40 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="azerbaijan/" data-name="азербайджан" data-slug="azerbaijan" data-iso="AZ" data-count="12" data-price="650" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇿</span>
-        <span class="c-name">Азербайджан</span>
-        <span class="c-meta">12 тарифов · от 650 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="aland-islands/" data-name="аландские острова" data-slug="aland-islands" data-iso="AX" data-count="13" data-price="500" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇽</span>
-        <span class="c-name">Аландские острова</span>
-        <span class="c-meta">13 тарифов · от 500 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="albania/" data-name="албания" data-slug="albania" data-iso="AL" data-count="15" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇱</span>
-        <span class="c-name">Албания</span>
-        <span class="c-meta">15 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="algeria/" data-name="алжир" data-slug="algeria" data-iso="DZ" data-count="17" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇩🇿</span>
-        <span class="c-name">Алжир</span>
-        <span class="c-meta">17 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="anguilla/" data-name="ангилья" data-slug="anguilla" data-iso="AI" data-count="15" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇮</span>
-        <span class="c-name">Ангилья</span>
-        <span class="c-meta">15 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="angola/" data-name="ангола" data-slug="angola" data-iso="AO" data-count="6" data-price="3400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇴</span>
-        <span class="c-name">Ангола</span>
-        <span class="c-meta">6 тарифов · от 3 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="andorra/" data-name="андорра" data-slug="andorra" data-iso="AD" data-count="11" data-price="800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇩</span>
-        <span class="c-name">Андорра</span>
-        <span class="c-meta">11 тарифов · от 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="antigua-and-barbuda/" data-name="антигуа и барбуда" data-slug="antigua-and-barbuda" data-iso="AG" data-count="15" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇬</span>
-        <span class="c-name">Антигуа и Барбуда</span>
-        <span class="c-meta">15 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="argentina/" data-name="аргентина" data-slug="argentina" data-iso="AR" data-count="31" data-price="700" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇷</span>
-        <span class="c-name">Аргентина</span>
-        <span class="c-meta">31 тарифов · от 700 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="armenia/" data-name="армения" data-slug="armenia" data-iso="AM" data-count="11" data-price="450" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇲</span>
-        <span class="c-name">Армения</span>
-        <span class="c-meta">11 тарифов · от 450 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="aruba/" data-name="аруба" data-slug="aruba" data-iso="AW" data-count="10" data-price="2950" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇼</span>
-        <span class="c-name">Аруба</span>
-        <span class="c-meta">10 тарифов · от 2 950 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="afghanistan/" data-name="афганистан" data-slug="afghanistan" data-iso="AF" data-count="8" data-price="700" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇫</span>
-        <span class="c-name">Афганистан</span>
-        <span class="c-meta">8 тарифов · от 700 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bahamas/" data-name="багамы" data-slug="bahamas" data-iso="BS" data-count="9" data-price="2500" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇸</span>
-        <span class="c-name">Багамы</span>
-        <span class="c-meta">9 тарифов · от 2 500 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bangladesh/" data-name="бангладеш" data-slug="bangladesh" data-iso="BD" data-count="15" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇩</span>
-        <span class="c-name">Бангладеш</span>
-        <span class="c-meta">15 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="barbados/" data-name="барбадос" data-slug="barbados" data-iso="BB" data-count="15" data-price="1850" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇧</span>
-        <span class="c-name">Барбадос</span>
-        <span class="c-meta">15 тарифов · от 1 850 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bahrain/" data-name="бахрейн" data-slug="bahrain" data-iso="BH" data-count="17" data-price="750" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇭</span>
-        <span class="c-name">Бахрейн</span>
-        <span class="c-meta">17 тарифов · от 750 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="belize/" data-name="белиз" data-slug="belize" data-iso="BZ" data-count="7" data-price="3050" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇿</span>
-        <span class="c-name">Белиз</span>
-        <span class="c-meta">7 тарифов · от 3 050 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="belgium/" data-name="бельгия" data-slug="belgium" data-iso="BE" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇪</span>
-        <span class="c-name">Бельгия</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="benin/" data-name="бенин" data-slug="benin" data-iso="BJ" data-count="11" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇯</span>
-        <span class="c-name">Бенин</span>
-        <span class="c-meta">11 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bermuda/" data-name="бермуды" data-slug="bermuda" data-iso="BM" data-count="12" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇲</span>
-        <span class="c-name">Бермуды</span>
-        <span class="c-meta">12 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bulgaria/" data-name="болгария" data-slug="bulgaria" data-iso="BG" data-count="44" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇬</span>
-        <span class="c-name">Болгария</span>
-        <span class="c-meta">44 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bolivia/" data-name="боливия" data-slug="bolivia" data-iso="BO" data-count="11" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇴</span>
-        <span class="c-name">Боливия</span>
-        <span class="c-meta">11 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bonaire/" data-name="бонайре" data-slug="bonaire" data-iso="BQ" data-count="9" data-price="2950" data-local="0">
-        <span class="c-flag" aria-hidden="true">🇧🇶</span>
-        <span class="c-name">Бонайре</span>
-        <span class="c-meta">9 тарифов · от 2 950 ₽</span>
-        <span class="c-badge c-badge--reg">региональные</span>
-      </a>
-      <a class="c-card" href="bosnia-and-herzegovina/" data-name="босния и герцеговина" data-slug="bosnia-and-herzegovina" data-iso="BA" data-count="12" data-price="600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇦</span>
-        <span class="c-name">Босния и Герцеговина</span>
-        <span class="c-meta">12 тарифов · от 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="botswana/" data-name="ботсвана" data-slug="botswana" data-iso="BW" data-count="12" data-price="1650" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇼</span>
-        <span class="c-name">Ботсвана</span>
-        <span class="c-meta">12 тарифов · от 1 650 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="brazil/" data-name="бразилия" data-slug="brazil" data-iso="BR" data-count="35" data-price="750" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇷</span>
-        <span class="c-name">Бразилия</span>
-        <span class="c-meta">35 тарифов · от 750 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="british-virgin-islands/" data-name="британские виргинские острова" data-slug="british-virgin-islands" data-iso="VG" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇻🇬</span>
-        <span class="c-name">Британские Виргинские острова</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="brunei/" data-name="бруней" data-slug="brunei" data-iso="BN" data-count="7" data-price="1150" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇳</span>
-        <span class="c-name">Бруней</span>
-        <span class="c-meta">7 тарифов · от 1 150 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="burkina-faso/" data-name="буркина-фасо" data-slug="burkina-faso" data-iso="BF" data-count="9" data-price="1000" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇫</span>
-        <span class="c-name">Буркина-Фасо</span>
-        <span class="c-meta">9 тарифов · от 1 000 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="bhutan/" data-name="бутан" data-slug="bhutan" data-iso="BT" data-count="8" data-price="1450" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇹</span>
-        <span class="c-name">Бутан</span>
-        <span class="c-meta">8 тарифов · от 1 450 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="vanuatu/" data-name="вануату" data-slug="vanuatu" data-iso="VU" data-count="9" data-price="1600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇻🇺</span>
-        <span class="c-name">Вануату</span>
-        <span class="c-meta">9 тарифов · от 1 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="vatican/" data-name="ватикан" data-slug="vatican" data-iso="VA" data-count="21" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇻🇦</span>
-        <span class="c-name">Ватикан</span>
-        <span class="c-meta">21 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="united-kingdom/" data-name="великобритания" data-slug="united-kingdom" data-iso="GB" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇧</span>
-        <span class="c-name">Великобритания</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="hungary/" data-name="венгрия" data-slug="hungary" data-iso="HU" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇭🇺</span>
-        <span class="c-name">Венгрия</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="venezuela/" data-name="венесуэла" data-slug="venezuela" data-iso="VE" data-count="6" data-price="2350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇻🇪</span>
-        <span class="c-name">Венесуэла</span>
-        <span class="c-meta">6 тарифов · от 2 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="timor-leste/" data-name="восточный тимор" data-slug="timor-leste" data-iso="TL" data-count="1" data-price="2150" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇱</span>
-        <span class="c-name">Восточный Тимор</span>
-        <span class="c-meta">1 тариф · от 2 150 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="vietnam/" data-name="вьетнам" data-slug="vietnam" data-iso="VN" data-count="46" data-price="200" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇻🇳</span>
-        <span class="c-name">Вьетнам</span>
-        <span class="c-meta">46 тарифов · от 200 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="gabon/" data-name="габон" data-slug="gabon" data-iso="GA" data-count="16" data-price="1650" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇦</span>
-        <span class="c-name">Габон</span>
-        <span class="c-meta">16 тарифов · от 1 650 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="haiti/" data-name="гаити" data-slug="haiti" data-iso="HT" data-count="13" data-price="2950" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇭🇹</span>
-        <span class="c-name">Гаити</span>
-        <span class="c-meta">13 тарифов · от 2 950 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="guyana/" data-name="гайана" data-slug="guyana" data-iso="GY" data-count="13" data-price="1950" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇾</span>
-        <span class="c-name">Гайана</span>
-        <span class="c-meta">13 тарифов · от 1 950 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="gambia/" data-name="гамбия" data-slug="gambia" data-iso="GM" data-count="7" data-price="2950" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇲</span>
-        <span class="c-name">Гамбия</span>
-        <span class="c-meta">7 тарифов · от 2 950 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="ghana/" data-name="гана" data-slug="ghana" data-iso="GH" data-count="15" data-price="800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇭</span>
-        <span class="c-name">Гана</span>
-        <span class="c-meta">15 тарифов · от 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="guadeloupe/" data-name="гваделупа" data-slug="guadeloupe" data-iso="GP" data-count="17" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇵</span>
-        <span class="c-name">Гваделупа</span>
-        <span class="c-meta">17 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="guatemala/" data-name="гватемала" data-slug="guatemala" data-iso="GT" data-count="16" data-price="800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇹</span>
-        <span class="c-name">Гватемала</span>
-        <span class="c-meta">16 тарифов · от 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="guinea/" data-name="гвинея" data-slug="guinea" data-iso="GN" data-count="7" data-price="2400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇳</span>
-        <span class="c-name">Гвинея</span>
-        <span class="c-meta">7 тарифов · от 2 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="guinea-bissau/" data-name="гвинея-бисау" data-slug="guinea-bissau" data-iso="GW" data-count="11" data-price="2100" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇼</span>
-        <span class="c-name">Гвинея-Бисау</span>
-        <span class="c-meta">11 тарифов · от 2 100 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="germany/" data-name="германия" data-slug="germany" data-iso="DE" data-count="40" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇩🇪</span>
-        <span class="c-name">Германия</span>
-        <span class="c-meta">40 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="guernsey/" data-name="гернси" data-slug="guernsey" data-iso="GG" data-count="7" data-price="1050" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇬</span>
-        <span class="c-name">Гернси</span>
-        <span class="c-meta">7 тарифов · от 1 050 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="gibraltar/" data-name="гибралтар" data-slug="gibraltar" data-iso="GI" data-count="17" data-price="450" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇮</span>
-        <span class="c-name">Гибралтар</span>
-        <span class="c-meta">17 тарифов · от 450 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="honduras/" data-name="гондурас" data-slug="honduras" data-iso="HN" data-count="13" data-price="1100" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇭🇳</span>
-        <span class="c-name">Гондурас</span>
-        <span class="c-meta">13 тарифов · от 1 100 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="hong-kong/" data-name="гонконг" data-slug="hong-kong" data-iso="HK" data-count="32" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇭🇰</span>
-        <span class="c-name">Гонконг</span>
-        <span class="c-meta">32 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="grenada/" data-name="гренада" data-slug="grenada" data-iso="GD" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇩</span>
-        <span class="c-name">Гренада</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="greenland/" data-name="гренландия" data-slug="greenland" data-iso="GL" data-count="6" data-price="1550" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇱</span>
-        <span class="c-name">Гренландия</span>
-        <span class="c-meta">6 тарифов · от 1 550 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="greece/" data-name="греция" data-slug="greece" data-iso="GR" data-count="49" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇷</span>
-        <span class="c-name">Греция</span>
-        <span class="c-meta">49 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="georgia/" data-name="грузия" data-slug="georgia" data-iso="GE" data-count="12" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇪</span>
-        <span class="c-name">Грузия</span>
-        <span class="c-meta">12 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="guam/" data-name="гуам" data-slug="guam" data-iso="GU" data-count="15" data-price="1450" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇺</span>
-        <span class="c-name">Гуам</span>
-        <span class="c-meta">15 тарифов · от 1 450 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="denmark/" data-name="дания" data-slug="denmark" data-iso="DK" data-count="40" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇩🇰</span>
-        <span class="c-name">Дания</span>
-        <span class="c-meta">40 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="jersey/" data-name="джерси" data-slug="jersey" data-iso="JE" data-count="13" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇯🇪</span>
-        <span class="c-name">Джерси</span>
-        <span class="c-meta">13 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="dominica/" data-name="доминика" data-slug="dominica" data-iso="DM" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇩🇲</span>
-        <span class="c-name">Доминика</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="dominican-republic/" data-name="доминикана" data-slug="dominican-republic" data-iso="DO" data-count="19" data-price="1050" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇩🇴</span>
-        <span class="c-name">Доминикана</span>
-        <span class="c-meta">19 тарифов · от 1 050 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="dr-congo/" data-name="др конго" data-slug="dr-congo" data-iso="CD" data-count="15" data-price="1100" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇩</span>
-        <span class="c-name">ДР Конго</span>
-        <span class="c-meta">15 тарифов · от 1 100 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="egypt/" data-name="египет" data-slug="egypt" data-iso="EG" data-count="21" data-price="700" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇪🇬</span>
-        <span class="c-name">Египет</span>
-        <span class="c-meta">21 тарифов · от 700 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="zambia/" data-name="замбия" data-slug="zambia" data-iso="ZM" data-count="16" data-price="1700" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇿🇲</span>
-        <span class="c-name">Замбия</span>
-        <span class="c-meta">16 тарифов · от 1 700 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="zimbabwe/" data-name="зимбабве" data-slug="zimbabwe" data-iso="ZW" data-count="9" data-price="1200" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇿🇼</span>
-        <span class="c-name">Зимбабве</span>
-        <span class="c-meta">9 тарифов · от 1 200 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="israel/" data-name="израиль" data-slug="israel" data-iso="IL" data-count="17" data-price="450" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇱</span>
-        <span class="c-name">Израиль</span>
-        <span class="c-meta">17 тарифов · от 450 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="india/" data-name="индия" data-slug="india" data-iso="IN" data-count="23" data-price="500" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇳</span>
-        <span class="c-name">Индия</span>
-        <span class="c-meta">23 тарифов · от 500 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="indonesia/" data-name="индонезия" data-slug="indonesia" data-iso="ID" data-count="43" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇩</span>
-        <span class="c-name">Индонезия</span>
-        <span class="c-meta">43 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="jordan/" data-name="иордания" data-slug="jordan" data-iso="JO" data-count="11" data-price="700" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇯🇴</span>
-        <span class="c-name">Иордания</span>
-        <span class="c-meta">11 тарифов · от 700 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="iraq/" data-name="ирак" data-slug="iraq" data-iso="IQ" data-count="16" data-price="600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇶</span>
-        <span class="c-name">Ирак</span>
-        <span class="c-meta">16 тарифов · от 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="ireland/" data-name="ирландия" data-slug="ireland" data-iso="IE" data-count="40" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇪</span>
-        <span class="c-name">Ирландия</span>
-        <span class="c-meta">40 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="iceland/" data-name="исландия" data-slug="iceland" data-iso="IS" data-count="36" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇸</span>
-        <span class="c-name">Исландия</span>
-        <span class="c-meta">36 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="spain/" data-name="испания" data-slug="spain" data-iso="ES" data-count="41" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇪🇸</span>
-        <span class="c-name">Испания</span>
-        <span class="c-meta">41 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="italy/" data-name="италия" data-slug="italy" data-iso="IT" data-count="43" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇹</span>
-        <span class="c-name">Италия</span>
-        <span class="c-meta">43 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="cape-verde/" data-name="кабо-верде" data-slug="cape-verde" data-iso="CV" data-count="8" data-price="3150" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇻</span>
-        <span class="c-name">Кабо-Верде</span>
-        <span class="c-meta">8 тарифов · от 3 150 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="kazakhstan/" data-name="казахстан" data-slug="kazakhstan" data-iso="KZ" data-count="27" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇿</span>
-        <span class="c-name">Казахстан</span>
-        <span class="c-meta">27 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="cayman-islands/" data-name="каймановы острова" data-slug="cayman-islands" data-iso="KY" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇾</span>
-        <span class="c-name">Каймановы острова</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="cambodia/" data-name="камбоджа" data-slug="cambodia" data-iso="KH" data-count="22" data-price="200" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇭</span>
-        <span class="c-name">Камбоджа</span>
-        <span class="c-meta">22 тарифов · от 200 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="cameroon/" data-name="камерун" data-slug="cameroon" data-iso="CM" data-count="9" data-price="1750" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇲</span>
-        <span class="c-name">Камерун</span>
-        <span class="c-meta">9 тарифов · от 1 750 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="canada/" data-name="канада" data-slug="canada" data-iso="CA" data-count="35" data-price="550" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇦</span>
-        <span class="c-name">Канада</span>
-        <span class="c-meta">35 тарифов · от 550 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="qatar/" data-name="катар" data-slug="qatar" data-iso="QA" data-count="16" data-price="800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇶🇦</span>
-        <span class="c-name">Катар</span>
-        <span class="c-meta">16 тарифов · от 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="kenya/" data-name="кения" data-slug="kenya" data-iso="KE" data-count="17" data-price="750" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇪</span>
-        <span class="c-name">Кения</span>
-        <span class="c-meta">17 тарифов · от 750 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="cyprus/" data-name="кипр" data-slug="cyprus" data-iso="CY" data-count="43" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇾</span>
-        <span class="c-name">Кипр</span>
-        <span class="c-meta">43 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="kyrgyzstan/" data-name="киргизия" data-slug="kyrgyzstan" data-iso="KG" data-count="28" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇬</span>
-        <span class="c-name">Киргизия</span>
-        <span class="c-meta">28 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="china/" data-name="китай" data-slug="china" data-iso="CN" data-count="54" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇳</span>
-        <span class="c-name">Китай</span>
-        <span class="c-meta">54 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="colombia/" data-name="колумбия" data-slug="colombia" data-iso="CO" data-count="24" data-price="950" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇴</span>
-        <span class="c-name">Колумбия</span>
-        <span class="c-meta">24 тарифов · от 950 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="congo/" data-name="конго" data-slug="congo" data-iso="CG" data-count="11" data-price="1800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇬</span>
-        <span class="c-name">Конго</span>
-        <span class="c-meta">11 тарифов · от 1 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="kosovo/" data-name="косово" data-slug="kosovo" data-iso="XK" data-count="9" data-price="2150" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇽🇰</span>
-        <span class="c-name">Косово</span>
-        <span class="c-meta">9 тарифов · от 2 150 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="costa-rica/" data-name="коста-рика" data-slug="costa-rica" data-iso="CR" data-count="22" data-price="550" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇷</span>
-        <span class="c-name">Коста-Рика</span>
-        <span class="c-meta">22 тарифов · от 550 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="ivory-coast/" data-name="кот-д’ивуар" data-slug="ivory-coast" data-iso="CI" data-count="9" data-price="2500" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇮</span>
-        <span class="c-name">Кот-д’Ивуар</span>
-        <span class="c-meta">9 тарифов · от 2 500 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="kuwait/" data-name="кувейт" data-slug="kuwait" data-iso="KW" data-count="17" data-price="550" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇼</span>
-        <span class="c-name">Кувейт</span>
-        <span class="c-meta">17 тарифов · от 550 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="curacao/" data-name="кюрасао" data-slug="curacao" data-iso="CW" data-count="13" data-price="1800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇼</span>
-        <span class="c-name">Кюрасао</span>
-        <span class="c-meta">13 тарифов · от 1 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="laos/" data-name="лаос" data-slug="laos" data-iso="LA" data-count="22" data-price="300" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇦</span>
-        <span class="c-name">Лаос</span>
-        <span class="c-meta">22 тарифов · от 300 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="latvia/" data-name="латвия" data-slug="latvia" data-iso="LV" data-count="37" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇻</span>
-        <span class="c-name">Латвия</span>
-        <span class="c-meta">37 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="liberia/" data-name="либерия" data-slug="liberia" data-iso="LR" data-count="5" data-price="2400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇷</span>
-        <span class="c-name">Либерия</span>
-        <span class="c-meta">5 тарифов · от 2 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="libya/" data-name="ливия" data-slug="libya" data-iso="LY" data-count="7" data-price="3300" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇾</span>
-        <span class="c-name">Ливия</span>
-        <span class="c-meta">7 тарифов · от 3 300 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="lithuania/" data-name="литва" data-slug="lithuania" data-iso="LT" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇹</span>
-        <span class="c-name">Литва</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="liechtenstein/" data-name="лихтенштейн" data-slug="liechtenstein" data-iso="LI" data-count="34" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇮</span>
-        <span class="c-name">Лихтенштейн</span>
-        <span class="c-meta">34 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="luxembourg/" data-name="люксембург" data-slug="luxembourg" data-iso="LU" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇺</span>
-        <span class="c-name">Люксембург</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="mauritius/" data-name="маврикий" data-slug="mauritius" data-iso="MU" data-count="22" data-price="850" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇺</span>
-        <span class="c-name">Маврикий</span>
-        <span class="c-meta">22 тарифов · от 850 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="mauritania/" data-name="мавритания" data-slug="mauritania" data-iso="MR" data-count="8" data-price="4100" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇷</span>
-        <span class="c-name">Мавритания</span>
-        <span class="c-meta">8 тарифов · от 4 100 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="madagascar/" data-name="мадагаскар" data-slug="madagascar" data-iso="MG" data-count="9" data-price="2000" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇬</span>
-        <span class="c-name">Мадагаскар</span>
-        <span class="c-meta">9 тарифов · от 2 000 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="mayotte/" data-name="майотта" data-slug="mayotte" data-iso="YT" data-count="11" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇾🇹</span>
-        <span class="c-name">Майотта</span>
-        <span class="c-meta">11 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="macau/" data-name="макао" data-slug="macau" data-iso="MO" data-count="32" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇴</span>
-        <span class="c-name">Макао</span>
-        <span class="c-meta">32 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="malawi/" data-name="малави" data-slug="malawi" data-iso="MW" data-count="16" data-price="1800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇼</span>
-        <span class="c-name">Малави</span>
-        <span class="c-meta">16 тарифов · от 1 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="malaysia/" data-name="малайзия" data-slug="malaysia" data-iso="MY" data-count="48" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇾</span>
-        <span class="c-name">Малайзия</span>
-        <span class="c-meta">48 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="mali/" data-name="мали" data-slug="mali" data-iso="ML" data-count="4" data-price="2400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇱</span>
-        <span class="c-name">Мали</span>
-        <span class="c-meta">4 тарифа · от 2 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="maldives/" data-name="мальдивы" data-slug="maldives" data-iso="MV" data-count="8" data-price="3500" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇻</span>
-        <span class="c-name">Мальдивы</span>
-        <span class="c-meta">8 тарифов · от 3 500 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="malta/" data-name="мальта" data-slug="malta" data-iso="MT" data-count="35" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇹</span>
-        <span class="c-name">Мальта</span>
-        <span class="c-meta">35 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="morocco/" data-name="марокко" data-slug="morocco" data-iso="MA" data-count="21" data-price="500" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇦</span>
-        <span class="c-name">Марокко</span>
-        <span class="c-meta">21 тарифов · от 500 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="martinique/" data-name="мартиника" data-slug="martinique" data-iso="MQ" data-count="18" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇶</span>
-        <span class="c-name">Мартиника</span>
-        <span class="c-meta">18 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="mexico/" data-name="мексика" data-slug="mexico" data-iso="MX" data-count="27" data-price="650" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇽</span>
-        <span class="c-name">Мексика</span>
-        <span class="c-meta">27 тарифов · от 650 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="mozambique/" data-name="мозамбик" data-slug="mozambique" data-iso="MZ" data-count="4" data-price="2350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇿</span>
-        <span class="c-name">Мозамбик</span>
-        <span class="c-meta">4 тарифа · от 2 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="moldova/" data-name="молдова" data-slug="moldova" data-iso="MD" data-count="19" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇩</span>
-        <span class="c-name">Молдова</span>
-        <span class="c-meta">19 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="monaco/" data-name="монако" data-slug="monaco" data-iso="MC" data-count="9" data-price="1050" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇨</span>
-        <span class="c-name">Монако</span>
-        <span class="c-meta">9 тарифов · от 1 050 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="mongolia/" data-name="монголия" data-slug="mongolia" data-iso="MN" data-count="11" data-price="1050" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇳</span>
-        <span class="c-name">Монголия</span>
-        <span class="c-meta">11 тарифов · от 1 050 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="montserrat/" data-name="монтсеррат" data-slug="montserrat" data-iso="MS" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇸</span>
-        <span class="c-name">Монтсеррат</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="nauru/" data-name="науру" data-slug="nauru" data-iso="NR" data-count="9" data-price="1200" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇷</span>
-        <span class="c-name">Науру</span>
-        <span class="c-meta">9 тарифов · от 1 200 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="nepal/" data-name="непал" data-slug="nepal" data-iso="NP" data-count="12" data-price="1150" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇵</span>
-        <span class="c-name">Непал</span>
-        <span class="c-meta">12 тарифов · от 1 150 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="niger/" data-name="нигер" data-slug="niger" data-iso="NE" data-count="16" data-price="1850" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇪</span>
-        <span class="c-name">Нигер</span>
-        <span class="c-meta">16 тарифов · от 1 850 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="nigeria/" data-name="нигерия" data-slug="nigeria" data-iso="NG" data-count="14" data-price="1100" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇬</span>
-        <span class="c-name">Нигерия</span>
-        <span class="c-meta">14 тарифов · от 1 100 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="netherlands/" data-name="нидерланды" data-slug="netherlands" data-iso="NL" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇱</span>
-        <span class="c-name">Нидерланды</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="nicaragua/" data-name="никарагуа" data-slug="nicaragua" data-iso="NI" data-count="13" data-price="750" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇮</span>
-        <span class="c-name">Никарагуа</span>
-        <span class="c-meta">13 тарифов · от 750 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="new-zealand/" data-name="новая зеландия" data-slug="new-zealand" data-iso="NZ" data-count="26" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇿</span>
-        <span class="c-name">Новая Зеландия</span>
-        <span class="c-meta">26 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="norway/" data-name="норвегия" data-slug="norway" data-iso="NO" data-count="37" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇳🇴</span>
-        <span class="c-name">Норвегия</span>
-        <span class="c-meta">37 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="uae/" data-name="оаэ" data-slug="uae" data-iso="AE" data-count="24" data-price="750" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇦🇪</span>
-        <span class="c-name">ОАЭ</span>
-        <span class="c-meta">24 тарифов · от 750 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="oman/" data-name="оман" data-slug="oman" data-iso="OM" data-count="16" data-price="600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇴🇲</span>
-        <span class="c-name">Оман</span>
-        <span class="c-meta">16 тарифов · от 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="isle-of-man/" data-name="остров мэн" data-slug="isle-of-man" data-iso="IM" data-count="13" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇮🇲</span>
-        <span class="c-name">Остров Мэн</span>
-        <span class="c-meta">13 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="pakistan/" data-name="пакистан" data-slug="pakistan" data-iso="PK" data-count="19" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇰</span>
-        <span class="c-name">Пакистан</span>
-        <span class="c-meta">19 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="panama/" data-name="панама" data-slug="panama" data-iso="PA" data-count="16" data-price="1300" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇦</span>
-        <span class="c-name">Панама</span>
-        <span class="c-meta">16 тарифов · от 1 300 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="papua-new-guinea/" data-name="папуа — новая гвинея" data-slug="papua-new-guinea" data-iso="PG" data-count="9" data-price="1600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇬</span>
-        <span class="c-name">Папуа — Новая Гвинея</span>
-        <span class="c-meta">9 тарифов · от 1 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="paraguay/" data-name="парагвай" data-slug="paraguay" data-iso="PY" data-count="20" data-price="1200" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇾</span>
-        <span class="c-name">Парагвай</span>
-        <span class="c-meta">20 тарифов · от 1 200 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="peru/" data-name="перу" data-slug="peru" data-iso="PE" data-count="34" data-price="850" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇪</span>
-        <span class="c-name">Перу</span>
-        <span class="c-meta">34 тарифов · от 850 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="poland/" data-name="польша" data-slug="poland" data-iso="PL" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇱</span>
-        <span class="c-name">Польша</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="portugal/" data-name="португалия" data-slug="portugal" data-iso="PT" data-count="41" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇹</span>
-        <span class="c-name">Португалия</span>
-        <span class="c-meta">41 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="puerto-rico/" data-name="пуэрто-рико" data-slug="puerto-rico" data-iso="PR" data-count="8" data-price="1000" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇷</span>
-        <span class="c-name">Пуэрто-Рико</span>
-        <span class="c-meta">8 тарифов · от 1 000 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="reunion/" data-name="реюньон" data-slug="reunion" data-iso="RE" data-count="19" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇷🇪</span>
-        <span class="c-name">Реюньон</span>
-        <span class="c-meta">19 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="rwanda/" data-name="руанда" data-slug="rwanda" data-iso="RW" data-count="17" data-price="1450" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇷🇼</span>
-        <span class="c-name">Руанда</span>
-        <span class="c-meta">17 тарифов · от 1 450 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="romania/" data-name="румыния" data-slug="romania" data-iso="RO" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇷🇴</span>
-        <span class="c-name">Румыния</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="el-salvador/" data-name="сальвадор" data-slug="el-salvador" data-iso="SV" data-count="19" data-price="1250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇻</span>
-        <span class="c-name">Сальвадор</span>
-        <span class="c-meta">19 тарифов · от 1 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="samoa/" data-name="самоа" data-slug="samoa" data-iso="WS" data-count="12" data-price="1050" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇼🇸</span>
-        <span class="c-name">Самоа</span>
-        <span class="c-meta">12 тарифов · от 1 050 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="san-marino/" data-name="сан-марино" data-slug="san-marino" data-iso="SM" data-count="19" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇲</span>
-        <span class="c-name">Сан-Марино</span>
-        <span class="c-meta">19 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="saudi-arabia/" data-name="саудовская аравия" data-slug="saudi-arabia" data-iso="SA" data-count="17" data-price="650" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇦</span>
-        <span class="c-name">Саудовская Аравия</span>
-        <span class="c-meta">17 тарифов · от 650 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="north-macedonia/" data-name="северная македония" data-slug="north-macedonia" data-iso="MK" data-count="20" data-price="450" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇰</span>
-        <span class="c-name">Северная Македония</span>
-        <span class="c-meta">20 тарифов · от 450 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="northern-mariana-islands/" data-name="северные марианские острова" data-slug="northern-mariana-islands" data-iso="MP" data-count="2" data-price="2350" data-local="0">
-        <span class="c-flag" aria-hidden="true">🇲🇵</span>
-        <span class="c-name">Северные Марианские острова</span>
-        <span class="c-meta">2 тарифа · от 2 350 ₽</span>
-        <span class="c-badge c-badge--reg">региональные</span>
-      </a>
-      <a class="c-card" href="seychelles/" data-name="сейшелы" data-slug="seychelles" data-iso="SC" data-count="17" data-price="1600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇨</span>
-        <span class="c-name">Сейшелы</span>
-        <span class="c-meta">17 тарифов · от 1 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="saint-barthelemy/" data-name="сен-бартелеми" data-slug="saint-barthelemy" data-iso="BL" data-count="18" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇧🇱</span>
-        <span class="c-name">Сен-Бартелеми</span>
-        <span class="c-meta">18 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="saint-martin/" data-name="сен-мартен" data-slug="saint-martin" data-iso="MF" data-count="18" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇫</span>
-        <span class="c-name">Сен-Мартен</span>
-        <span class="c-meta">18 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="senegal/" data-name="сенегал" data-slug="senegal" data-iso="SN" data-count="15" data-price="900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇳</span>
-        <span class="c-name">Сенегал</span>
-        <span class="c-meta">15 тарифов · от 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="saint-vincent-and-the-grenadines/" data-name="сент-винсент и гренадины" data-slug="saint-vincent-and-the-grenadines" data-iso="VC" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇻🇨</span>
-        <span class="c-name">Сент-Винсент и Гренадины</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="saint-kitts-and-nevis/" data-name="сент-китс и невис" data-slug="saint-kitts-and-nevis" data-iso="KN" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇳</span>
-        <span class="c-name">Сент-Китс и Невис</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="saint-lucia/" data-name="сент-люсия" data-slug="saint-lucia" data-iso="LC" data-count="14" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇨</span>
-        <span class="c-name">Сент-Люсия</span>
-        <span class="c-meta">14 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="serbia/" data-name="сербия" data-slug="serbia" data-iso="RS" data-count="19" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇷🇸</span>
-        <span class="c-name">Сербия</span>
-        <span class="c-meta">19 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="singapore/" data-name="сингапур" data-slug="singapore" data-iso="SG" data-count="57" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇬</span>
-        <span class="c-name">Сингапур</span>
-        <span class="c-meta">57 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="sint-maarten/" data-name="синт-мартен" data-slug="sint-maarten" data-iso="SX" data-count="2" data-price="2950" data-local="0">
-        <span class="c-flag" aria-hidden="true">🇸🇽</span>
-        <span class="c-name">Синт-Мартен</span>
-        <span class="c-meta">2 тарифа · от 2 950 ₽</span>
-        <span class="c-badge c-badge--reg">региональные</span>
-      </a>
-      <a class="c-card" href="slovakia/" data-name="словакия" data-slug="slovakia" data-iso="SK" data-count="36" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇰</span>
-        <span class="c-name">Словакия</span>
-        <span class="c-meta">36 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="slovenia/" data-name="словения" data-slug="slovenia" data-iso="SI" data-count="40" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇮</span>
-        <span class="c-name">Словения</span>
-        <span class="c-meta">40 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="sudan/" data-name="судан" data-slug="sudan" data-iso="SD" data-count="3" data-price="2650" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇩</span>
-        <span class="c-name">Судан</span>
-        <span class="c-meta">3 тарифа · от 2 650 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="suriname/" data-name="суринам" data-slug="suriname" data-iso="SR" data-count="14" data-price="1550" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇷</span>
-        <span class="c-name">Суринам</span>
-        <span class="c-meta">14 тарифов · от 1 550 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="usa/" data-name="сша" data-slug="usa" data-iso="US" data-count="32" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇺🇸</span>
-        <span class="c-name">США</span>
-        <span class="c-meta">32 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="sierra-leone/" data-name="сьерра-леоне" data-slug="sierra-leone" data-iso="SL" data-count="8" data-price="2350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇱</span>
-        <span class="c-name">Сьерра-Леоне</span>
-        <span class="c-meta">8 тарифов · от 2 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="tajikistan/" data-name="таджикистан" data-slug="tajikistan" data-iso="TJ" data-count="17" data-price="850" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇯</span>
-        <span class="c-name">Таджикистан</span>
-        <span class="c-meta">17 тарифов · от 850 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="thailand/" data-name="таиланд" data-slug="thailand" data-iso="TH" data-count="50" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇭</span>
-        <span class="c-name">Таиланд</span>
-        <span class="c-meta">50 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="taiwan/" data-name="тайвань" data-slug="taiwan" data-iso="TW" data-count="15" data-price="700" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇼</span>
-        <span class="c-name">Тайвань</span>
-        <span class="c-meta">15 тарифов · от 700 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="tanzania/" data-name="танзания" data-slug="tanzania" data-iso="TZ" data-count="15" data-price="1250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇿</span>
-        <span class="c-name">Танзания</span>
-        <span class="c-meta">15 тарифов · от 1 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="turks-and-caicos/" data-name="тёркс и кайкос" data-slug="turks-and-caicos" data-iso="TC" data-count="14" data-price="1600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇨</span>
-        <span class="c-name">Тёркс и Кайкос</span>
-        <span class="c-meta">14 тарифов · от 1 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="tonga/" data-name="тонга" data-slug="tonga" data-iso="TO" data-count="9" data-price="1600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇴</span>
-        <span class="c-name">Тонга</span>
-        <span class="c-meta">9 тарифов · от 1 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="trinidad-and-tobago/" data-name="тринидад и тобаго" data-slug="trinidad-and-tobago" data-iso="TT" data-count="12" data-price="2650" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇹</span>
-        <span class="c-name">Тринидад и Тобаго</span>
-        <span class="c-meta">12 тарифов · от 2 650 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="tunisia/" data-name="тунис" data-slug="tunisia" data-iso="TN" data-count="18" data-price="600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇳</span>
-        <span class="c-name">Тунис</span>
-        <span class="c-meta">18 тарифов · от 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="turkey/" data-name="турция" data-slug="turkey" data-iso="TR" data-count="37" data-price="200" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇷</span>
-        <span class="c-name">Турция</span>
-        <span class="c-meta">37 тарифов · от 200 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="uganda/" data-name="уганда" data-slug="uganda" data-iso="UG" data-count="15" data-price="1550" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇺🇬</span>
-        <span class="c-name">Уганда</span>
-        <span class="c-meta">15 тарифов · от 1 550 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="uzbekistan/" data-name="узбекистан" data-slug="uzbekistan" data-iso="UZ" data-count="27" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇺🇿</span>
-        <span class="c-name">Узбекистан</span>
-        <span class="c-meta">27 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="uruguay/" data-name="уругвай" data-slug="uruguay" data-iso="UY" data-count="30" data-price="950" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇺🇾</span>
-        <span class="c-name">Уругвай</span>
-        <span class="c-meta">30 тарифов · от 950 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="faroe-islands/" data-name="фарерские острова" data-slug="faroe-islands" data-iso="FO" data-count="12" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇫🇴</span>
-        <span class="c-name">Фарерские острова</span>
-        <span class="c-meta">12 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="fiji/" data-name="фиджи" data-slug="fiji" data-iso="FJ" data-count="9" data-price="950" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇫🇯</span>
-        <span class="c-name">Фиджи</span>
-        <span class="c-meta">9 тарифов · от 950 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="philippines/" data-name="филиппины" data-slug="philippines" data-iso="PH" data-count="27" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇭</span>
-        <span class="c-name">Филиппины</span>
-        <span class="c-meta">27 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="finland/" data-name="финляндия" data-slug="finland" data-iso="FI" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇫🇮</span>
-        <span class="c-name">Финляндия</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="france/" data-name="франция" data-slug="france" data-iso="FR" data-count="33" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇫🇷</span>
-        <span class="c-name">Франция</span>
-        <span class="c-meta">33 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="french-guiana/" data-name="французская гвиана" data-slug="french-guiana" data-iso="GF" data-count="23" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇬🇫</span>
-        <span class="c-name">Французская Гвиана</span>
-        <span class="c-meta">23 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="french-polynesia/" data-name="французская полинезия" data-slug="french-polynesia" data-iso="PF" data-count="9" data-price="4300" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇵🇫</span>
-        <span class="c-name">Французская Полинезия</span>
-        <span class="c-meta">9 тарифов · от 4 300 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="croatia/" data-name="хорватия" data-slug="croatia" data-iso="HR" data-count="42" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇭🇷</span>
-        <span class="c-name">Хорватия</span>
-        <span class="c-meta">42 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="central-african-republic/" data-name="цар" data-slug="central-african-republic" data-iso="CF" data-count="3" data-price="2400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇫</span>
-        <span class="c-name">ЦАР</span>
-        <span class="c-meta">3 тарифа · от 2 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="chad/" data-name="чад" data-slug="chad" data-iso="TD" data-count="16" data-price="1800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇹🇩</span>
-        <span class="c-name">Чад</span>
-        <span class="c-meta">16 тарифов · от 1 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="montenegro/" data-name="черногория" data-slug="montenegro" data-iso="ME" data-count="14" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇲🇪</span>
-        <span class="c-name">Черногория</span>
-        <span class="c-meta">14 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="czechia/" data-name="чехия" data-slug="czechia" data-iso="CZ" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇿</span>
-        <span class="c-name">Чехия</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="chile/" data-name="чили" data-slug="chile" data-iso="CL" data-count="28" data-price="800" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇱</span>
-        <span class="c-name">Чили</span>
-        <span class="c-meta">28 тарифов · от 800 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="switzerland/" data-name="швейцария" data-slug="switzerland" data-iso="CH" data-count="38" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇨🇭</span>
-        <span class="c-name">Швейцария</span>
-        <span class="c-meta">38 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="sweden/" data-name="швеция" data-slug="sweden" data-iso="SE" data-count="38" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇪</span>
-        <span class="c-name">Швеция</span>
-        <span class="c-meta">38 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="sri-lanka/" data-name="шри-ланка" data-slug="sri-lanka" data-iso="LK" data-count="24" data-price="400" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇱🇰</span>
-        <span class="c-name">Шри-Ланка</span>
-        <span class="c-meta">24 тарифов · от 400 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="ecuador/" data-name="эквадор" data-slug="ecuador" data-iso="EC" data-count="28" data-price="850" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇪🇨</span>
-        <span class="c-name">Эквадор</span>
-        <span class="c-meta">28 тарифов · от 850 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="eswatini/" data-name="эсватини" data-slug="eswatini" data-iso="SZ" data-count="14" data-price="2500" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇸🇿</span>
-        <span class="c-name">Эсватини</span>
-        <span class="c-meta">14 тарифов · от 2 500 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="estonia/" data-name="эстония" data-slug="estonia" data-iso="EE" data-count="39" data-price="250" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇪🇪</span>
-        <span class="c-name">Эстония</span>
-        <span class="c-meta">39 тарифов · от 250 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="ethiopia/" data-name="эфиопия" data-slug="ethiopia" data-iso="ET" data-count="9" data-price="2050" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇪🇹</span>
-        <span class="c-name">Эфиопия</span>
-        <span class="c-meta">9 тарифов · от 2 050 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="south-africa/" data-name="юар" data-slug="south-africa" data-iso="ZA" data-count="15" data-price="600" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇿🇦</span>
-        <span class="c-name">ЮАР</span>
-        <span class="c-meta">15 тарифов · от 600 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="south-korea/" data-name="южная корея" data-slug="south-korea" data-iso="KR" data-count="40" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇰🇷</span>
-        <span class="c-name">Южная Корея</span>
-        <span class="c-meta">40 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="jamaica/" data-name="ямайка" data-slug="jamaica" data-iso="JM" data-count="11" data-price="1900" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇯🇲</span>
-        <span class="c-name">Ямайка</span>
-        <span class="c-meta">11 тарифов · от 1 900 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      <a class="c-card" href="japan/" data-name="япония" data-slug="japan" data-iso="JP" data-count="56" data-price="350" data-local="1">
-        <span class="c-flag" aria-hidden="true">🇯🇵</span>
-        <span class="c-name">Япония</span>
-        <span class="c-meta">56 тарифов · от 350 ₽</span>
-        <span class="c-badge">локальные</span>
-      </a>
-      </div>
-      <p class="hub-empty" id="hubEmpty" hidden>Ничего не нашлось. Попробуйте другое написание.</p>
-    </section>
+    <nav class="hub-az" id="hubAz" aria-label="Направления от А до Я"><a href="#az-1">А</a><a href="#az-2">Б</a><a href="#az-3">В</a><a href="#az-4">Г</a><a href="#az-5">Д</a><a href="#az-6">Е</a><span aria-hidden="true">Ж</span><a href="#az-8">З</a><a href="#az-9">И</a><span aria-hidden="true">Й</span><a href="#az-11">К</a><a href="#az-12">Л</a><a href="#az-13">М</a><a href="#az-14">Н</a><a href="#az-15">О</a><a href="#az-16">П</a><a href="#az-17">Р</a><a href="#az-18">С</a><a href="#az-19">Т</a><a href="#az-20">У</a><a href="#az-21">Ф</a><a href="#az-22">Х</a><a href="#az-23">Ц</a><a href="#az-24">Ч</a><a href="#az-25">Ш</a><span aria-hidden="true">Щ</span><a href="#az-27">Э</a><a href="#az-28">Ю</a><a href="#az-29">Я</a></nav>
 
-    <section class="compat" id="materials">
+    <div class="hub-list" id="hubList">
+    <section class="az-group" id="az-1" aria-labelledby="az-1h">
+      <h2 id="az-1h">А</h2>
+      <ul class="dest">
+        <li data-name="австралия" data-slug="australia" data-iso="AU" data-count="31" data-price="350"><a href="australia/"><img class="flag" src="/assets/flags/au.svg" alt="" width="28" height="21" loading="lazy"><span>Австралия<small class="dest-meta">31 тариф · от 350 ₽</small></span></a></li>
+        <li data-name="австрия" data-slug="austria" data-iso="AT" data-count="40" data-price="250"><a href="austria/"><img class="flag" src="/assets/flags/at.svg" alt="" width="28" height="21" loading="lazy"><span>Австрия<small class="dest-meta">40 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="азербайджан" data-slug="azerbaijan" data-iso="AZ" data-count="12" data-price="650"><a href="azerbaijan/"><img class="flag" src="/assets/flags/az.svg" alt="" width="28" height="21" loading="lazy"><span>Азербайджан<small class="dest-meta">12 тарифов · от 650 ₽</small></span></a></li>
+        <li data-name="аландские острова" data-slug="aland-islands" data-iso="AX" data-count="13" data-price="500"><a href="aland-islands/"><img class="flag" src="/assets/flags/ax.svg" alt="" width="28" height="21" loading="lazy"><span>Аландские острова<small class="dest-meta">13 тарифов · от 500 ₽</small></span></a></li>
+        <li data-name="албания" data-slug="albania" data-iso="AL" data-count="15" data-price="350"><a href="albania/"><img class="flag" src="/assets/flags/al.svg" alt="" width="28" height="21" loading="lazy"><span>Албания<small class="dest-meta">15 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="алжир" data-slug="algeria" data-iso="DZ" data-count="17" data-price="350"><a href="algeria/"><img class="flag" src="/assets/flags/dz.svg" alt="" width="28" height="21" loading="lazy"><span>Алжир<small class="dest-meta">17 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="ангилья" data-slug="anguilla" data-iso="AI" data-count="15" data-price="1900"><a href="anguilla/"><img class="flag" src="/assets/flags/ai.svg" alt="" width="28" height="21" loading="lazy"><span>Ангилья<small class="dest-meta">15 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="ангола" data-slug="angola" data-iso="AO" data-count="6" data-price="3400"><a href="angola/"><img class="flag" src="/assets/flags/ao.svg" alt="" width="28" height="21" loading="lazy"><span>Ангола<small class="dest-meta">6 тарифов · от 3 400 ₽</small></span></a></li>
+        <li data-name="андорра" data-slug="andorra" data-iso="AD" data-count="11" data-price="800"><a href="andorra/"><img class="flag" src="/assets/flags/ad.svg" alt="" width="28" height="21" loading="lazy"><span>Андорра<small class="dest-meta">11 тарифов · от 800 ₽</small></span></a></li>
+        <li data-name="антигуа и барбуда" data-slug="antigua-and-barbuda" data-iso="AG" data-count="15" data-price="1900"><a href="antigua-and-barbuda/"><img class="flag" src="/assets/flags/ag.svg" alt="" width="28" height="21" loading="lazy"><span>Антигуа и Барбуда<small class="dest-meta">15 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="аргентина" data-slug="argentina" data-iso="AR" data-count="31" data-price="700"><a href="argentina/"><img class="flag" src="/assets/flags/ar.svg" alt="" width="28" height="21" loading="lazy"><span>Аргентина<small class="dest-meta">31 тариф · от 700 ₽</small></span></a></li>
+        <li data-name="армения" data-slug="armenia" data-iso="AM" data-count="11" data-price="450"><a href="armenia/"><img class="flag" src="/assets/flags/am.svg" alt="" width="28" height="21" loading="lazy"><span>Армения<small class="dest-meta">11 тарифов · от 450 ₽</small></span></a></li>
+        <li data-name="аруба" data-slug="aruba" data-iso="AW" data-count="10" data-price="2950"><a href="aruba/"><img class="flag" src="/assets/flags/aw.svg" alt="" width="28" height="21" loading="lazy"><span>Аруба<small class="dest-meta">10 тарифов · от 2 950 ₽</small></span></a></li>
+        <li data-name="афганистан" data-slug="afghanistan" data-iso="AF" data-count="8" data-price="700"><a href="afghanistan/"><img class="flag" src="/assets/flags/af.svg" alt="" width="28" height="21" loading="lazy"><span>Афганистан<small class="dest-meta">8 тарифов · от 700 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-2" aria-labelledby="az-2h">
+      <h2 id="az-2h">Б</h2>
+      <ul class="dest">
+        <li data-name="багамы" data-slug="bahamas" data-iso="BS" data-count="9" data-price="2500"><a href="bahamas/"><img class="flag" src="/assets/flags/bs.svg" alt="" width="28" height="21" loading="lazy"><span>Багамы<small class="dest-meta">9 тарифов · от 2 500 ₽</small></span></a></li>
+        <li data-name="бангладеш" data-slug="bangladesh" data-iso="BD" data-count="15" data-price="350"><a href="bangladesh/"><img class="flag" src="/assets/flags/bd.svg" alt="" width="28" height="21" loading="lazy"><span>Бангладеш<small class="dest-meta">15 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="барбадос" data-slug="barbados" data-iso="BB" data-count="15" data-price="1850"><a href="barbados/"><img class="flag" src="/assets/flags/bb.svg" alt="" width="28" height="21" loading="lazy"><span>Барбадос<small class="dest-meta">15 тарифов · от 1 850 ₽</small></span></a></li>
+        <li data-name="бахрейн" data-slug="bahrain" data-iso="BH" data-count="17" data-price="750"><a href="bahrain/"><img class="flag" src="/assets/flags/bh.svg" alt="" width="28" height="21" loading="lazy"><span>Бахрейн<small class="dest-meta">17 тарифов · от 750 ₽</small></span></a></li>
+        <li data-name="белиз" data-slug="belize" data-iso="BZ" data-count="7" data-price="3050"><a href="belize/"><img class="flag" src="/assets/flags/bz.svg" alt="" width="28" height="21" loading="lazy"><span>Белиз<small class="dest-meta">7 тарифов · от 3 050 ₽</small></span></a></li>
+        <li data-name="бельгия" data-slug="belgium" data-iso="BE" data-count="39" data-price="250"><a href="belgium/"><img class="flag" src="/assets/flags/be.svg" alt="" width="28" height="21" loading="lazy"><span>Бельгия<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="бенин" data-slug="benin" data-iso="BJ" data-count="11" data-price="1900"><a href="benin/"><img class="flag" src="/assets/flags/bj.svg" alt="" width="28" height="21" loading="lazy"><span>Бенин<small class="dest-meta">11 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="бермуды" data-slug="bermuda" data-iso="BM" data-count="12" data-price="1900"><a href="bermuda/"><img class="flag" src="/assets/flags/bm.svg" alt="" width="28" height="21" loading="lazy"><span>Бермуды<small class="dest-meta">12 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="болгария" data-slug="bulgaria" data-iso="BG" data-count="44" data-price="250"><a href="bulgaria/"><img class="flag" src="/assets/flags/bg.svg" alt="" width="28" height="21" loading="lazy"><span>Болгария<small class="dest-meta">44 тарифа · от 250 ₽</small></span></a></li>
+        <li data-name="боливия" data-slug="bolivia" data-iso="BO" data-count="11" data-price="1900"><a href="bolivia/"><img class="flag" src="/assets/flags/bo.svg" alt="" width="28" height="21" loading="lazy"><span>Боливия<small class="dest-meta">11 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="бонайре" data-slug="bonaire" data-iso="BQ" data-count="9" data-price="2950"><a href="bonaire/"><img class="flag" src="/assets/flags/bq.svg" alt="" width="28" height="21" loading="lazy"><span>Бонайре<small class="dest-meta">9 тарифов · от 2 950 ₽</small></span></a></li>
+        <li data-name="босния и герцеговина" data-slug="bosnia-and-herzegovina" data-iso="BA" data-count="12" data-price="600"><a href="bosnia-and-herzegovina/"><img class="flag" src="/assets/flags/ba.svg" alt="" width="28" height="21" loading="lazy"><span>Босния и Герцеговина<small class="dest-meta">12 тарифов · от 600 ₽</small></span></a></li>
+        <li data-name="ботсвана" data-slug="botswana" data-iso="BW" data-count="12" data-price="1650"><a href="botswana/"><img class="flag" src="/assets/flags/bw.svg" alt="" width="28" height="21" loading="lazy"><span>Ботсвана<small class="dest-meta">12 тарифов · от 1 650 ₽</small></span></a></li>
+        <li data-name="бразилия" data-slug="brazil" data-iso="BR" data-count="35" data-price="750"><a href="brazil/"><img class="flag" src="/assets/flags/br.svg" alt="" width="28" height="21" loading="lazy"><span>Бразилия<small class="dest-meta">35 тарифов · от 750 ₽</small></span></a></li>
+        <li data-name="британские виргинские острова" data-slug="british-virgin-islands" data-iso="VG" data-count="14" data-price="1900"><a href="british-virgin-islands/"><img class="flag" src="/assets/flags/vg.svg" alt="" width="28" height="21" loading="lazy"><span>Британские Виргинские острова<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="бруней" data-slug="brunei" data-iso="BN" data-count="7" data-price="1150"><a href="brunei/"><img class="flag" src="/assets/flags/bn.svg" alt="" width="28" height="21" loading="lazy"><span>Бруней<small class="dest-meta">7 тарифов · от 1 150 ₽</small></span></a></li>
+        <li data-name="буркина-фасо" data-slug="burkina-faso" data-iso="BF" data-count="9" data-price="1000"><a href="burkina-faso/"><img class="flag" src="/assets/flags/bf.svg" alt="" width="28" height="21" loading="lazy"><span>Буркина-Фасо<small class="dest-meta">9 тарифов · от 1 000 ₽</small></span></a></li>
+        <li data-name="бутан" data-slug="bhutan" data-iso="BT" data-count="8" data-price="1450"><a href="bhutan/"><img class="flag" src="/assets/flags/bt.svg" alt="" width="28" height="21" loading="lazy"><span>Бутан<small class="dest-meta">8 тарифов · от 1 450 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-3" aria-labelledby="az-3h">
+      <h2 id="az-3h">В</h2>
+      <ul class="dest">
+        <li data-name="вануату" data-slug="vanuatu" data-iso="VU" data-count="9" data-price="1600"><a href="vanuatu/"><img class="flag" src="/assets/flags/vu.svg" alt="" width="28" height="21" loading="lazy"><span>Вануату<small class="dest-meta">9 тарифов · от 1 600 ₽</small></span></a></li>
+        <li data-name="ватикан" data-slug="vatican" data-iso="VA" data-count="21" data-price="350"><a href="vatican/"><img class="flag" src="/assets/flags/va.svg" alt="" width="28" height="21" loading="lazy"><span>Ватикан<small class="dest-meta">21 тариф · от 350 ₽</small></span></a></li>
+        <li data-name="великобритания" data-slug="united-kingdom" data-iso="GB" data-count="39" data-price="250"><a href="united-kingdom/"><img class="flag" src="/assets/flags/gb.svg" alt="" width="28" height="21" loading="lazy"><span>Великобритания<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="венгрия" data-slug="hungary" data-iso="HU" data-count="39" data-price="250"><a href="hungary/"><img class="flag" src="/assets/flags/hu.svg" alt="" width="28" height="21" loading="lazy"><span>Венгрия<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="венесуэла" data-slug="venezuela" data-iso="VE" data-count="6" data-price="2350"><a href="venezuela/"><img class="flag" src="/assets/flags/ve.svg" alt="" width="28" height="21" loading="lazy"><span>Венесуэла<small class="dest-meta">6 тарифов · от 2 350 ₽</small></span></a></li>
+        <li data-name="восточный тимор" data-slug="timor-leste" data-iso="TL" data-count="1" data-price="2150"><a href="timor-leste/"><img class="flag" src="/assets/flags/tl.svg" alt="" width="28" height="21" loading="lazy"><span>Восточный Тимор<small class="dest-meta">1 тариф · от 2 150 ₽</small></span></a></li>
+        <li data-name="вьетнам" data-slug="vietnam" data-iso="VN" data-count="46" data-price="200"><a href="vietnam/"><img class="flag" src="/assets/flags/vn.svg" alt="" width="28" height="21" loading="lazy"><span>Вьетнам<small class="dest-meta">46 тарифов · от 200 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-4" aria-labelledby="az-4h">
+      <h2 id="az-4h">Г</h2>
+      <ul class="dest">
+        <li data-name="габон" data-slug="gabon" data-iso="GA" data-count="16" data-price="1650"><a href="gabon/"><img class="flag" src="/assets/flags/ga.svg" alt="" width="28" height="21" loading="lazy"><span>Габон<small class="dest-meta">16 тарифов · от 1 650 ₽</small></span></a></li>
+        <li data-name="гаити" data-slug="haiti" data-iso="HT" data-count="13" data-price="2950"><a href="haiti/"><img class="flag" src="/assets/flags/ht.svg" alt="" width="28" height="21" loading="lazy"><span>Гаити<small class="dest-meta">13 тарифов · от 2 950 ₽</small></span></a></li>
+        <li data-name="гайана" data-slug="guyana" data-iso="GY" data-count="13" data-price="1950"><a href="guyana/"><img class="flag" src="/assets/flags/gy.svg" alt="" width="28" height="21" loading="lazy"><span>Гайана<small class="dest-meta">13 тарифов · от 1 950 ₽</small></span></a></li>
+        <li data-name="гамбия" data-slug="gambia" data-iso="GM" data-count="7" data-price="2950"><a href="gambia/"><img class="flag" src="/assets/flags/gm.svg" alt="" width="28" height="21" loading="lazy"><span>Гамбия<small class="dest-meta">7 тарифов · от 2 950 ₽</small></span></a></li>
+        <li data-name="гана" data-slug="ghana" data-iso="GH" data-count="15" data-price="800"><a href="ghana/"><img class="flag" src="/assets/flags/gh.svg" alt="" width="28" height="21" loading="lazy"><span>Гана<small class="dest-meta">15 тарифов · от 800 ₽</small></span></a></li>
+        <li data-name="гваделупа" data-slug="guadeloupe" data-iso="GP" data-count="17" data-price="350"><a href="guadeloupe/"><img class="flag" src="/assets/flags/gp.svg" alt="" width="28" height="21" loading="lazy"><span>Гваделупа<small class="dest-meta">17 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="гватемала" data-slug="guatemala" data-iso="GT" data-count="16" data-price="800"><a href="guatemala/"><img class="flag" src="/assets/flags/gt.svg" alt="" width="28" height="21" loading="lazy"><span>Гватемала<small class="dest-meta">16 тарифов · от 800 ₽</small></span></a></li>
+        <li data-name="гвинея" data-slug="guinea" data-iso="GN" data-count="7" data-price="2400"><a href="guinea/"><img class="flag" src="/assets/flags/gn.svg" alt="" width="28" height="21" loading="lazy"><span>Гвинея<small class="dest-meta">7 тарифов · от 2 400 ₽</small></span></a></li>
+        <li data-name="гвинея-бисау" data-slug="guinea-bissau" data-iso="GW" data-count="11" data-price="2100"><a href="guinea-bissau/"><img class="flag" src="/assets/flags/gw.svg" alt="" width="28" height="21" loading="lazy"><span>Гвинея-Бисау<small class="dest-meta">11 тарифов · от 2 100 ₽</small></span></a></li>
+        <li data-name="германия" data-slug="germany" data-iso="DE" data-count="40" data-price="250"><a href="germany/"><img class="flag" src="/assets/flags/de.svg" alt="" width="28" height="21" loading="lazy"><span>Германия<small class="dest-meta">40 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="гернси" data-slug="guernsey" data-iso="GG" data-count="7" data-price="1050"><a href="guernsey/"><img class="flag" src="/assets/flags/gg.svg" alt="" width="28" height="21" loading="lazy"><span>Гернси<small class="dest-meta">7 тарифов · от 1 050 ₽</small></span></a></li>
+        <li data-name="гибралтар" data-slug="gibraltar" data-iso="GI" data-count="17" data-price="450"><a href="gibraltar/"><img class="flag" src="/assets/flags/gi.svg" alt="" width="28" height="21" loading="lazy"><span>Гибралтар<small class="dest-meta">17 тарифов · от 450 ₽</small></span></a></li>
+        <li data-name="гондурас" data-slug="honduras" data-iso="HN" data-count="13" data-price="1100"><a href="honduras/"><img class="flag" src="/assets/flags/hn.svg" alt="" width="28" height="21" loading="lazy"><span>Гондурас<small class="dest-meta">13 тарифов · от 1 100 ₽</small></span></a></li>
+        <li data-name="гонконг" data-slug="hong-kong" data-iso="HK" data-count="32" data-price="400"><a href="hong-kong/"><img class="flag" src="/assets/flags/hk.svg" alt="" width="28" height="21" loading="lazy"><span>Гонконг<small class="dest-meta">32 тарифа · от 400 ₽</small></span></a></li>
+        <li data-name="гренада" data-slug="grenada" data-iso="GD" data-count="14" data-price="1900"><a href="grenada/"><img class="flag" src="/assets/flags/gd.svg" alt="" width="28" height="21" loading="lazy"><span>Гренада<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="гренландия" data-slug="greenland" data-iso="GL" data-count="6" data-price="1550"><a href="greenland/"><img class="flag" src="/assets/flags/gl.svg" alt="" width="28" height="21" loading="lazy"><span>Гренландия<small class="dest-meta">6 тарифов · от 1 550 ₽</small></span></a></li>
+        <li data-name="греция" data-slug="greece" data-iso="GR" data-count="49" data-price="250"><a href="greece/"><img class="flag" src="/assets/flags/gr.svg" alt="" width="28" height="21" loading="lazy"><span>Греция<small class="dest-meta">49 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="грузия" data-slug="georgia" data-iso="GE" data-count="12" data-price="400"><a href="georgia/"><img class="flag" src="/assets/flags/ge.svg" alt="" width="28" height="21" loading="lazy"><span>Грузия<small class="dest-meta">12 тарифов · от 400 ₽</small></span></a></li>
+        <li data-name="гуам" data-slug="guam" data-iso="GU" data-count="15" data-price="1450"><a href="guam/"><img class="flag" src="/assets/flags/gu.svg" alt="" width="28" height="21" loading="lazy"><span>Гуам<small class="dest-meta">15 тарифов · от 1 450 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-5" aria-labelledby="az-5h">
+      <h2 id="az-5h">Д</h2>
+      <ul class="dest">
+        <li data-name="дания" data-slug="denmark" data-iso="DK" data-count="40" data-price="250"><a href="denmark/"><img class="flag" src="/assets/flags/dk.svg" alt="" width="28" height="21" loading="lazy"><span>Дания<small class="dest-meta">40 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="джерси" data-slug="jersey" data-iso="JE" data-count="13" data-price="400"><a href="jersey/"><img class="flag" src="/assets/flags/je.svg" alt="" width="28" height="21" loading="lazy"><span>Джерси<small class="dest-meta">13 тарифов · от 400 ₽</small></span></a></li>
+        <li data-name="доминика" data-slug="dominica" data-iso="DM" data-count="14" data-price="1900"><a href="dominica/"><img class="flag" src="/assets/flags/dm.svg" alt="" width="28" height="21" loading="lazy"><span>Доминика<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="доминикана" data-slug="dominican-republic" data-iso="DO" data-count="19" data-price="1050"><a href="dominican-republic/"><img class="flag" src="/assets/flags/do.svg" alt="" width="28" height="21" loading="lazy"><span>Доминикана<small class="dest-meta">19 тарифов · от 1 050 ₽</small></span></a></li>
+        <li data-name="др конго" data-slug="dr-congo" data-iso="CD" data-count="15" data-price="1100"><a href="dr-congo/"><img class="flag" src="/assets/flags/cd.svg" alt="" width="28" height="21" loading="lazy"><span>ДР Конго<small class="dest-meta">15 тарифов · от 1 100 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-6" aria-labelledby="az-6h">
+      <h2 id="az-6h">Е</h2>
+      <ul class="dest">
+        <li data-name="египет" data-slug="egypt" data-iso="EG" data-count="21" data-price="700"><a href="egypt/"><img class="flag" src="/assets/flags/eg.svg" alt="" width="28" height="21" loading="lazy"><span>Египет<small class="dest-meta">21 тариф · от 700 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-8" aria-labelledby="az-8h">
+      <h2 id="az-8h">З</h2>
+      <ul class="dest">
+        <li data-name="замбия" data-slug="zambia" data-iso="ZM" data-count="16" data-price="1700"><a href="zambia/"><img class="flag" src="/assets/flags/zm.svg" alt="" width="28" height="21" loading="lazy"><span>Замбия<small class="dest-meta">16 тарифов · от 1 700 ₽</small></span></a></li>
+        <li data-name="зимбабве" data-slug="zimbabwe" data-iso="ZW" data-count="9" data-price="1200"><a href="zimbabwe/"><img class="flag" src="/assets/flags/zw.svg" alt="" width="28" height="21" loading="lazy"><span>Зимбабве<small class="dest-meta">9 тарифов · от 1 200 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-9" aria-labelledby="az-9h">
+      <h2 id="az-9h">И</h2>
+      <ul class="dest">
+        <li data-name="израиль" data-slug="israel" data-iso="IL" data-count="17" data-price="450"><a href="israel/"><img class="flag" src="/assets/flags/il.svg" alt="" width="28" height="21" loading="lazy"><span>Израиль<small class="dest-meta">17 тарифов · от 450 ₽</small></span></a></li>
+        <li data-name="индия" data-slug="india" data-iso="IN" data-count="23" data-price="500"><a href="india/"><img class="flag" src="/assets/flags/in.svg" alt="" width="28" height="21" loading="lazy"><span>Индия<small class="dest-meta">23 тарифа · от 500 ₽</small></span></a></li>
+        <li data-name="индонезия" data-slug="indonesia" data-iso="ID" data-count="43" data-price="350"><a href="indonesia/"><img class="flag" src="/assets/flags/id.svg" alt="" width="28" height="21" loading="lazy"><span>Индонезия<small class="dest-meta">43 тарифа · от 350 ₽</small></span></a></li>
+        <li data-name="иордания" data-slug="jordan" data-iso="JO" data-count="11" data-price="700"><a href="jordan/"><img class="flag" src="/assets/flags/jo.svg" alt="" width="28" height="21" loading="lazy"><span>Иордания<small class="dest-meta">11 тарифов · от 700 ₽</small></span></a></li>
+        <li data-name="ирак" data-slug="iraq" data-iso="IQ" data-count="16" data-price="600"><a href="iraq/"><img class="flag" src="/assets/flags/iq.svg" alt="" width="28" height="21" loading="lazy"><span>Ирак<small class="dest-meta">16 тарифов · от 600 ₽</small></span></a></li>
+        <li data-name="ирландия" data-slug="ireland" data-iso="IE" data-count="40" data-price="250"><a href="ireland/"><img class="flag" src="/assets/flags/ie.svg" alt="" width="28" height="21" loading="lazy"><span>Ирландия<small class="dest-meta">40 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="исландия" data-slug="iceland" data-iso="IS" data-count="36" data-price="350"><a href="iceland/"><img class="flag" src="/assets/flags/is.svg" alt="" width="28" height="21" loading="lazy"><span>Исландия<small class="dest-meta">36 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="испания" data-slug="spain" data-iso="ES" data-count="41" data-price="250"><a href="spain/"><img class="flag" src="/assets/flags/es.svg" alt="" width="28" height="21" loading="lazy"><span>Испания<small class="dest-meta">41 тариф · от 250 ₽</small></span></a></li>
+        <li data-name="италия" data-slug="italy" data-iso="IT" data-count="43" data-price="250"><a href="italy/"><img class="flag" src="/assets/flags/it.svg" alt="" width="28" height="21" loading="lazy"><span>Италия<small class="dest-meta">43 тарифа · от 250 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-11" aria-labelledby="az-11h">
+      <h2 id="az-11h">К</h2>
+      <ul class="dest">
+        <li data-name="кабо-верде" data-slug="cape-verde" data-iso="CV" data-count="8" data-price="3150"><a href="cape-verde/"><img class="flag" src="/assets/flags/cv.svg" alt="" width="28" height="21" loading="lazy"><span>Кабо-Верде<small class="dest-meta">8 тарифов · от 3 150 ₽</small></span></a></li>
+        <li data-name="казахстан" data-slug="kazakhstan" data-iso="KZ" data-count="27" data-price="400"><a href="kazakhstan/"><img class="flag" src="/assets/flags/kz.svg" alt="" width="28" height="21" loading="lazy"><span>Казахстан<small class="dest-meta">27 тарифов · от 400 ₽</small></span></a></li>
+        <li data-name="каймановы острова" data-slug="cayman-islands" data-iso="KY" data-count="14" data-price="1900"><a href="cayman-islands/"><img class="flag" src="/assets/flags/ky.svg" alt="" width="28" height="21" loading="lazy"><span>Каймановы острова<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="камбоджа" data-slug="cambodia" data-iso="KH" data-count="22" data-price="200"><a href="cambodia/"><img class="flag" src="/assets/flags/kh.svg" alt="" width="28" height="21" loading="lazy"><span>Камбоджа<small class="dest-meta">22 тарифа · от 200 ₽</small></span></a></li>
+        <li data-name="камерун" data-slug="cameroon" data-iso="CM" data-count="9" data-price="1750"><a href="cameroon/"><img class="flag" src="/assets/flags/cm.svg" alt="" width="28" height="21" loading="lazy"><span>Камерун<small class="dest-meta">9 тарифов · от 1 750 ₽</small></span></a></li>
+        <li data-name="канада" data-slug="canada" data-iso="CA" data-count="35" data-price="550"><a href="canada/"><img class="flag" src="/assets/flags/ca.svg" alt="" width="28" height="21" loading="lazy"><span>Канада<small class="dest-meta">35 тарифов · от 550 ₽</small></span></a></li>
+        <li data-name="катар" data-slug="qatar" data-iso="QA" data-count="16" data-price="800"><a href="qatar/"><img class="flag" src="/assets/flags/qa.svg" alt="" width="28" height="21" loading="lazy"><span>Катар<small class="dest-meta">16 тарифов · от 800 ₽</small></span></a></li>
+        <li data-name="кения" data-slug="kenya" data-iso="KE" data-count="17" data-price="750"><a href="kenya/"><img class="flag" src="/assets/flags/ke.svg" alt="" width="28" height="21" loading="lazy"><span>Кения<small class="dest-meta">17 тарифов · от 750 ₽</small></span></a></li>
+        <li data-name="кипр" data-slug="cyprus" data-iso="CY" data-count="43" data-price="250"><a href="cyprus/"><img class="flag" src="/assets/flags/cy.svg" alt="" width="28" height="21" loading="lazy"><span>Кипр<small class="dest-meta">43 тарифа · от 250 ₽</small></span></a></li>
+        <li data-name="киргизия" data-slug="kyrgyzstan" data-iso="KG" data-count="28" data-price="350"><a href="kyrgyzstan/"><img class="flag" src="/assets/flags/kg.svg" alt="" width="28" height="21" loading="lazy"><span>Киргизия<small class="dest-meta">28 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="китай" data-slug="china" data-iso="CN" data-count="54" data-price="350"><a href="china/"><img class="flag" src="/assets/flags/cn.svg" alt="" width="28" height="21" loading="lazy"><span>Китай<small class="dest-meta">54 тарифа · от 350 ₽</small></span></a></li>
+        <li data-name="колумбия" data-slug="colombia" data-iso="CO" data-count="24" data-price="950"><a href="colombia/"><img class="flag" src="/assets/flags/co.svg" alt="" width="28" height="21" loading="lazy"><span>Колумбия<small class="dest-meta">24 тарифа · от 950 ₽</small></span></a></li>
+        <li data-name="конго" data-slug="congo" data-iso="CG" data-count="11" data-price="1800"><a href="congo/"><img class="flag" src="/assets/flags/cg.svg" alt="" width="28" height="21" loading="lazy"><span>Конго<small class="dest-meta">11 тарифов · от 1 800 ₽</small></span></a></li>
+        <li data-name="косово" data-slug="kosovo" data-iso="XK" data-count="9" data-price="2150"><a href="kosovo/"><img class="flag" src="/assets/flags/xk.svg" alt="" width="28" height="21" loading="lazy"><span>Косово<small class="dest-meta">9 тарифов · от 2 150 ₽</small></span></a></li>
+        <li data-name="коста-рика" data-slug="costa-rica" data-iso="CR" data-count="22" data-price="550"><a href="costa-rica/"><img class="flag" src="/assets/flags/cr.svg" alt="" width="28" height="21" loading="lazy"><span>Коста-Рика<small class="dest-meta">22 тарифа · от 550 ₽</small></span></a></li>
+        <li data-name="кот-д’ивуар" data-slug="ivory-coast" data-iso="CI" data-count="9" data-price="2500"><a href="ivory-coast/"><img class="flag" src="/assets/flags/ci.svg" alt="" width="28" height="21" loading="lazy"><span>Кот-д’Ивуар<small class="dest-meta">9 тарифов · от 2 500 ₽</small></span></a></li>
+        <li data-name="кувейт" data-slug="kuwait" data-iso="KW" data-count="17" data-price="550"><a href="kuwait/"><img class="flag" src="/assets/flags/kw.svg" alt="" width="28" height="21" loading="lazy"><span>Кувейт<small class="dest-meta">17 тарифов · от 550 ₽</small></span></a></li>
+        <li data-name="кюрасао" data-slug="curacao" data-iso="CW" data-count="13" data-price="1800"><a href="curacao/"><img class="flag" src="/assets/flags/cw.svg" alt="" width="28" height="21" loading="lazy"><span>Кюрасао<small class="dest-meta">13 тарифов · от 1 800 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-12" aria-labelledby="az-12h">
+      <h2 id="az-12h">Л</h2>
+      <ul class="dest">
+        <li data-name="лаос" data-slug="laos" data-iso="LA" data-count="22" data-price="300"><a href="laos/"><img class="flag" src="/assets/flags/la.svg" alt="" width="28" height="21" loading="lazy"><span>Лаос<small class="dest-meta">22 тарифа · от 300 ₽</small></span></a></li>
+        <li data-name="латвия" data-slug="latvia" data-iso="LV" data-count="37" data-price="350"><a href="latvia/"><img class="flag" src="/assets/flags/lv.svg" alt="" width="28" height="21" loading="lazy"><span>Латвия<small class="dest-meta">37 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="либерия" data-slug="liberia" data-iso="LR" data-count="5" data-price="2400"><a href="liberia/"><img class="flag" src="/assets/flags/lr.svg" alt="" width="28" height="21" loading="lazy"><span>Либерия<small class="dest-meta">5 тарифов · от 2 400 ₽</small></span></a></li>
+        <li data-name="ливия" data-slug="libya" data-iso="LY" data-count="7" data-price="3300"><a href="libya/"><img class="flag" src="/assets/flags/ly.svg" alt="" width="28" height="21" loading="lazy"><span>Ливия<small class="dest-meta">7 тарифов · от 3 300 ₽</small></span></a></li>
+        <li data-name="литва" data-slug="lithuania" data-iso="LT" data-count="39" data-price="250"><a href="lithuania/"><img class="flag" src="/assets/flags/lt.svg" alt="" width="28" height="21" loading="lazy"><span>Литва<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="лихтенштейн" data-slug="liechtenstein" data-iso="LI" data-count="34" data-price="350"><a href="liechtenstein/"><img class="flag" src="/assets/flags/li.svg" alt="" width="28" height="21" loading="lazy"><span>Лихтенштейн<small class="dest-meta">34 тарифа · от 350 ₽</small></span></a></li>
+        <li data-name="люксембург" data-slug="luxembourg" data-iso="LU" data-count="39" data-price="250"><a href="luxembourg/"><img class="flag" src="/assets/flags/lu.svg" alt="" width="28" height="21" loading="lazy"><span>Люксембург<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-13" aria-labelledby="az-13h">
+      <h2 id="az-13h">М</h2>
+      <ul class="dest">
+        <li data-name="маврикий" data-slug="mauritius" data-iso="MU" data-count="22" data-price="850"><a href="mauritius/"><img class="flag" src="/assets/flags/mu.svg" alt="" width="28" height="21" loading="lazy"><span>Маврикий<small class="dest-meta">22 тарифа · от 850 ₽</small></span></a></li>
+        <li data-name="мавритания" data-slug="mauritania" data-iso="MR" data-count="8" data-price="4100"><a href="mauritania/"><img class="flag" src="/assets/flags/mr.svg" alt="" width="28" height="21" loading="lazy"><span>Мавритания<small class="dest-meta">8 тарифов · от 4 100 ₽</small></span></a></li>
+        <li data-name="мадагаскар" data-slug="madagascar" data-iso="MG" data-count="9" data-price="2000"><a href="madagascar/"><img class="flag" src="/assets/flags/mg.svg" alt="" width="28" height="21" loading="lazy"><span>Мадагаскар<small class="dest-meta">9 тарифов · от 2 000 ₽</small></span></a></li>
+        <li data-name="майотта" data-slug="mayotte" data-iso="YT" data-count="11" data-price="350"><a href="mayotte/"><img class="flag" src="/assets/flags/yt.svg" alt="" width="28" height="21" loading="lazy"><span>Майотта<small class="dest-meta">11 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="макао" data-slug="macau" data-iso="MO" data-count="32" data-price="400"><a href="macau/"><img class="flag" src="/assets/flags/mo.svg" alt="" width="28" height="21" loading="lazy"><span>Макао<small class="dest-meta">32 тарифа · от 400 ₽</small></span></a></li>
+        <li data-name="малави" data-slug="malawi" data-iso="MW" data-count="16" data-price="1800"><a href="malawi/"><img class="flag" src="/assets/flags/mw.svg" alt="" width="28" height="21" loading="lazy"><span>Малави<small class="dest-meta">16 тарифов · от 1 800 ₽</small></span></a></li>
+        <li data-name="малайзия" data-slug="malaysia" data-iso="MY" data-count="48" data-price="350"><a href="malaysia/"><img class="flag" src="/assets/flags/my.svg" alt="" width="28" height="21" loading="lazy"><span>Малайзия<small class="dest-meta">48 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="мали" data-slug="mali" data-iso="ML" data-count="4" data-price="2400"><a href="mali/"><img class="flag" src="/assets/flags/ml.svg" alt="" width="28" height="21" loading="lazy"><span>Мали<small class="dest-meta">4 тарифа · от 2 400 ₽</small></span></a></li>
+        <li data-name="мальдивы" data-slug="maldives" data-iso="MV" data-count="8" data-price="3500"><a href="maldives/"><img class="flag" src="/assets/flags/mv.svg" alt="" width="28" height="21" loading="lazy"><span>Мальдивы<small class="dest-meta">8 тарифов · от 3 500 ₽</small></span></a></li>
+        <li data-name="мальта" data-slug="malta" data-iso="MT" data-count="35" data-price="350"><a href="malta/"><img class="flag" src="/assets/flags/mt.svg" alt="" width="28" height="21" loading="lazy"><span>Мальта<small class="dest-meta">35 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="марокко" data-slug="morocco" data-iso="MA" data-count="21" data-price="500"><a href="morocco/"><img class="flag" src="/assets/flags/ma.svg" alt="" width="28" height="21" loading="lazy"><span>Марокко<small class="dest-meta">21 тариф · от 500 ₽</small></span></a></li>
+        <li data-name="мартиника" data-slug="martinique" data-iso="MQ" data-count="18" data-price="350"><a href="martinique/"><img class="flag" src="/assets/flags/mq.svg" alt="" width="28" height="21" loading="lazy"><span>Мартиника<small class="dest-meta">18 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="мексика" data-slug="mexico" data-iso="MX" data-count="27" data-price="650"><a href="mexico/"><img class="flag" src="/assets/flags/mx.svg" alt="" width="28" height="21" loading="lazy"><span>Мексика<small class="dest-meta">27 тарифов · от 650 ₽</small></span></a></li>
+        <li data-name="мозамбик" data-slug="mozambique" data-iso="MZ" data-count="4" data-price="2350"><a href="mozambique/"><img class="flag" src="/assets/flags/mz.svg" alt="" width="28" height="21" loading="lazy"><span>Мозамбик<small class="dest-meta">4 тарифа · от 2 350 ₽</small></span></a></li>
+        <li data-name="молдова" data-slug="moldova" data-iso="MD" data-count="19" data-price="250"><a href="moldova/"><img class="flag" src="/assets/flags/md.svg" alt="" width="28" height="21" loading="lazy"><span>Молдова<small class="dest-meta">19 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="монако" data-slug="monaco" data-iso="MC" data-count="9" data-price="1050"><a href="monaco/"><img class="flag" src="/assets/flags/mc.svg" alt="" width="28" height="21" loading="lazy"><span>Монако<small class="dest-meta">9 тарифов · от 1 050 ₽</small></span></a></li>
+        <li data-name="монголия" data-slug="mongolia" data-iso="MN" data-count="11" data-price="1050"><a href="mongolia/"><img class="flag" src="/assets/flags/mn.svg" alt="" width="28" height="21" loading="lazy"><span>Монголия<small class="dest-meta">11 тарифов · от 1 050 ₽</small></span></a></li>
+        <li data-name="монтсеррат" data-slug="montserrat" data-iso="MS" data-count="14" data-price="1900"><a href="montserrat/"><img class="flag" src="/assets/flags/ms.svg" alt="" width="28" height="21" loading="lazy"><span>Монтсеррат<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-14" aria-labelledby="az-14h">
+      <h2 id="az-14h">Н</h2>
+      <ul class="dest">
+        <li data-name="науру" data-slug="nauru" data-iso="NR" data-count="9" data-price="1200"><a href="nauru/"><img class="flag" src="/assets/flags/nr.svg" alt="" width="28" height="21" loading="lazy"><span>Науру<small class="dest-meta">9 тарифов · от 1 200 ₽</small></span></a></li>
+        <li data-name="непал" data-slug="nepal" data-iso="NP" data-count="12" data-price="1150"><a href="nepal/"><img class="flag" src="/assets/flags/np.svg" alt="" width="28" height="21" loading="lazy"><span>Непал<small class="dest-meta">12 тарифов · от 1 150 ₽</small></span></a></li>
+        <li data-name="нигер" data-slug="niger" data-iso="NE" data-count="16" data-price="1850"><a href="niger/"><img class="flag" src="/assets/flags/ne.svg" alt="" width="28" height="21" loading="lazy"><span>Нигер<small class="dest-meta">16 тарифов · от 1 850 ₽</small></span></a></li>
+        <li data-name="нигерия" data-slug="nigeria" data-iso="NG" data-count="14" data-price="1100"><a href="nigeria/"><img class="flag" src="/assets/flags/ng.svg" alt="" width="28" height="21" loading="lazy"><span>Нигерия<small class="dest-meta">14 тарифов · от 1 100 ₽</small></span></a></li>
+        <li data-name="нидерланды" data-slug="netherlands" data-iso="NL" data-count="39" data-price="250"><a href="netherlands/"><img class="flag" src="/assets/flags/nl.svg" alt="" width="28" height="21" loading="lazy"><span>Нидерланды<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="никарагуа" data-slug="nicaragua" data-iso="NI" data-count="13" data-price="750"><a href="nicaragua/"><img class="flag" src="/assets/flags/ni.svg" alt="" width="28" height="21" loading="lazy"><span>Никарагуа<small class="dest-meta">13 тарифов · от 750 ₽</small></span></a></li>
+        <li data-name="новая зеландия" data-slug="new-zealand" data-iso="NZ" data-count="26" data-price="400"><a href="new-zealand/"><img class="flag" src="/assets/flags/nz.svg" alt="" width="28" height="21" loading="lazy"><span>Новая Зеландия<small class="dest-meta">26 тарифов · от 400 ₽</small></span></a></li>
+        <li data-name="норвегия" data-slug="norway" data-iso="NO" data-count="37" data-price="250"><a href="norway/"><img class="flag" src="/assets/flags/no.svg" alt="" width="28" height="21" loading="lazy"><span>Норвегия<small class="dest-meta">37 тарифов · от 250 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-15" aria-labelledby="az-15h">
+      <h2 id="az-15h">О</h2>
+      <ul class="dest">
+        <li data-name="оаэ" data-slug="uae" data-iso="AE" data-count="24" data-price="750"><a href="uae/"><img class="flag" src="/assets/flags/ae.svg" alt="" width="28" height="21" loading="lazy"><span>ОАЭ<small class="dest-meta">24 тарифа · от 750 ₽</small></span></a></li>
+        <li data-name="оман" data-slug="oman" data-iso="OM" data-count="16" data-price="600"><a href="oman/"><img class="flag" src="/assets/flags/om.svg" alt="" width="28" height="21" loading="lazy"><span>Оман<small class="dest-meta">16 тарифов · от 600 ₽</small></span></a></li>
+        <li data-name="остров мэн" data-slug="isle-of-man" data-iso="IM" data-count="13" data-price="400"><a href="isle-of-man/"><img class="flag" src="/assets/flags/im.svg" alt="" width="28" height="21" loading="lazy"><span>Остров Мэн<small class="dest-meta">13 тарифов · от 400 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-16" aria-labelledby="az-16h">
+      <h2 id="az-16h">П</h2>
+      <ul class="dest">
+        <li data-name="пакистан" data-slug="pakistan" data-iso="PK" data-count="19" data-price="350"><a href="pakistan/"><img class="flag" src="/assets/flags/pk.svg" alt="" width="28" height="21" loading="lazy"><span>Пакистан<small class="dest-meta">19 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="панама" data-slug="panama" data-iso="PA" data-count="16" data-price="1300"><a href="panama/"><img class="flag" src="/assets/flags/pa.svg" alt="" width="28" height="21" loading="lazy"><span>Панама<small class="dest-meta">16 тарифов · от 1 300 ₽</small></span></a></li>
+        <li data-name="папуа — новая гвинея" data-slug="papua-new-guinea" data-iso="PG" data-count="9" data-price="1600"><a href="papua-new-guinea/"><img class="flag" src="/assets/flags/pg.svg" alt="" width="28" height="21" loading="lazy"><span>Папуа — Новая Гвинея<small class="dest-meta">9 тарифов · от 1 600 ₽</small></span></a></li>
+        <li data-name="парагвай" data-slug="paraguay" data-iso="PY" data-count="20" data-price="1200"><a href="paraguay/"><img class="flag" src="/assets/flags/py.svg" alt="" width="28" height="21" loading="lazy"><span>Парагвай<small class="dest-meta">20 тарифов · от 1 200 ₽</small></span></a></li>
+        <li data-name="перу" data-slug="peru" data-iso="PE" data-count="34" data-price="850"><a href="peru/"><img class="flag" src="/assets/flags/pe.svg" alt="" width="28" height="21" loading="lazy"><span>Перу<small class="dest-meta">34 тарифа · от 850 ₽</small></span></a></li>
+        <li data-name="польша" data-slug="poland" data-iso="PL" data-count="39" data-price="250"><a href="poland/"><img class="flag" src="/assets/flags/pl.svg" alt="" width="28" height="21" loading="lazy"><span>Польша<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="португалия" data-slug="portugal" data-iso="PT" data-count="41" data-price="250"><a href="portugal/"><img class="flag" src="/assets/flags/pt.svg" alt="" width="28" height="21" loading="lazy"><span>Португалия<small class="dest-meta">41 тариф · от 250 ₽</small></span></a></li>
+        <li data-name="пуэрто-рико" data-slug="puerto-rico" data-iso="PR" data-count="8" data-price="1000"><a href="puerto-rico/"><img class="flag" src="/assets/flags/pr.svg" alt="" width="28" height="21" loading="lazy"><span>Пуэрто-Рико<small class="dest-meta">8 тарифов · от 1 000 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-17" aria-labelledby="az-17h">
+      <h2 id="az-17h">Р</h2>
+      <ul class="dest">
+        <li data-name="реюньон" data-slug="reunion" data-iso="RE" data-count="19" data-price="250"><a href="reunion/"><img class="flag" src="/assets/flags/re.svg" alt="" width="28" height="21" loading="lazy"><span>Реюньон<small class="dest-meta">19 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="руанда" data-slug="rwanda" data-iso="RW" data-count="17" data-price="1450"><a href="rwanda/"><img class="flag" src="/assets/flags/rw.svg" alt="" width="28" height="21" loading="lazy"><span>Руанда<small class="dest-meta">17 тарифов · от 1 450 ₽</small></span></a></li>
+        <li data-name="румыния" data-slug="romania" data-iso="RO" data-count="39" data-price="250"><a href="romania/"><img class="flag" src="/assets/flags/ro.svg" alt="" width="28" height="21" loading="lazy"><span>Румыния<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-18" aria-labelledby="az-18h">
+      <h2 id="az-18h">С</h2>
+      <ul class="dest">
+        <li data-name="сальвадор" data-slug="el-salvador" data-iso="SV" data-count="19" data-price="1250"><a href="el-salvador/"><img class="flag" src="/assets/flags/sv.svg" alt="" width="28" height="21" loading="lazy"><span>Сальвадор<small class="dest-meta">19 тарифов · от 1 250 ₽</small></span></a></li>
+        <li data-name="самоа" data-slug="samoa" data-iso="WS" data-count="12" data-price="1050"><a href="samoa/"><img class="flag" src="/assets/flags/ws.svg" alt="" width="28" height="21" loading="lazy"><span>Самоа<small class="dest-meta">12 тарифов · от 1 050 ₽</small></span></a></li>
+        <li data-name="сан-марино" data-slug="san-marino" data-iso="SM" data-count="19" data-price="350"><a href="san-marino/"><img class="flag" src="/assets/flags/sm.svg" alt="" width="28" height="21" loading="lazy"><span>Сан-Марино<small class="dest-meta">19 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="саудовская аравия" data-slug="saudi-arabia" data-iso="SA" data-count="17" data-price="650"><a href="saudi-arabia/"><img class="flag" src="/assets/flags/sa.svg" alt="" width="28" height="21" loading="lazy"><span>Саудовская Аравия<small class="dest-meta">17 тарифов · от 650 ₽</small></span></a></li>
+        <li data-name="северная македония" data-slug="north-macedonia" data-iso="MK" data-count="20" data-price="450"><a href="north-macedonia/"><img class="flag" src="/assets/flags/mk.svg" alt="" width="28" height="21" loading="lazy"><span>Северная Македония<small class="dest-meta">20 тарифов · от 450 ₽</small></span></a></li>
+        <li data-name="северные марианские острова" data-slug="northern-mariana-islands" data-iso="MP" data-count="2" data-price="2350"><a href="northern-mariana-islands/"><img class="flag" src="/assets/flags/mp.svg" alt="" width="28" height="21" loading="lazy"><span>Северные Марианские острова<small class="dest-meta">2 тарифа · от 2 350 ₽</small></span></a></li>
+        <li data-name="сейшелы" data-slug="seychelles" data-iso="SC" data-count="17" data-price="1600"><a href="seychelles/"><img class="flag" src="/assets/flags/sc.svg" alt="" width="28" height="21" loading="lazy"><span>Сейшелы<small class="dest-meta">17 тарифов · от 1 600 ₽</small></span></a></li>
+        <li data-name="сен-бартелеми" data-slug="saint-barthelemy" data-iso="BL" data-count="18" data-price="350"><a href="saint-barthelemy/"><img class="flag" src="/assets/flags/bl.svg" alt="" width="28" height="21" loading="lazy"><span>Сен-Бартелеми<small class="dest-meta">18 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="сен-мартен" data-slug="saint-martin" data-iso="MF" data-count="18" data-price="350"><a href="saint-martin/"><img class="flag" src="/assets/flags/mf.svg" alt="" width="28" height="21" loading="lazy"><span>Сен-Мартен<small class="dest-meta">18 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="сенегал" data-slug="senegal" data-iso="SN" data-count="15" data-price="900"><a href="senegal/"><img class="flag" src="/assets/flags/sn.svg" alt="" width="28" height="21" loading="lazy"><span>Сенегал<small class="dest-meta">15 тарифов · от 900 ₽</small></span></a></li>
+        <li data-name="сент-винсент и гренадины" data-slug="saint-vincent-and-the-grenadines" data-iso="VC" data-count="14" data-price="1900"><a href="saint-vincent-and-the-grenadines/"><img class="flag" src="/assets/flags/vc.svg" alt="" width="28" height="21" loading="lazy"><span>Сент-Винсент и Гренадины<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="сент-китс и невис" data-slug="saint-kitts-and-nevis" data-iso="KN" data-count="14" data-price="1900"><a href="saint-kitts-and-nevis/"><img class="flag" src="/assets/flags/kn.svg" alt="" width="28" height="21" loading="lazy"><span>Сент-Китс и Невис<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="сент-люсия" data-slug="saint-lucia" data-iso="LC" data-count="14" data-price="1900"><a href="saint-lucia/"><img class="flag" src="/assets/flags/lc.svg" alt="" width="28" height="21" loading="lazy"><span>Сент-Люсия<small class="dest-meta">14 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="сербия" data-slug="serbia" data-iso="RS" data-count="19" data-price="350"><a href="serbia/"><img class="flag" src="/assets/flags/rs.svg" alt="" width="28" height="21" loading="lazy"><span>Сербия<small class="dest-meta">19 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="сингапур" data-slug="singapore" data-iso="SG" data-count="57" data-price="350"><a href="singapore/"><img class="flag" src="/assets/flags/sg.svg" alt="" width="28" height="21" loading="lazy"><span>Сингапур<small class="dest-meta">57 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="синт-мартен" data-slug="sint-maarten" data-iso="SX" data-count="2" data-price="2950"><a href="sint-maarten/"><img class="flag" src="/assets/flags/sx.svg" alt="" width="28" height="21" loading="lazy"><span>Синт-Мартен<small class="dest-meta">2 тарифа · от 2 950 ₽</small></span></a></li>
+        <li data-name="словакия" data-slug="slovakia" data-iso="SK" data-count="36" data-price="350"><a href="slovakia/"><img class="flag" src="/assets/flags/sk.svg" alt="" width="28" height="21" loading="lazy"><span>Словакия<small class="dest-meta">36 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="словения" data-slug="slovenia" data-iso="SI" data-count="40" data-price="250"><a href="slovenia/"><img class="flag" src="/assets/flags/si.svg" alt="" width="28" height="21" loading="lazy"><span>Словения<small class="dest-meta">40 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="судан" data-slug="sudan" data-iso="SD" data-count="3" data-price="2650"><a href="sudan/"><img class="flag" src="/assets/flags/sd.svg" alt="" width="28" height="21" loading="lazy"><span>Судан<small class="dest-meta">3 тарифа · от 2 650 ₽</small></span></a></li>
+        <li data-name="суринам" data-slug="suriname" data-iso="SR" data-count="14" data-price="1550"><a href="suriname/"><img class="flag" src="/assets/flags/sr.svg" alt="" width="28" height="21" loading="lazy"><span>Суринам<small class="dest-meta">14 тарифов · от 1 550 ₽</small></span></a></li>
+        <li data-name="сша" data-slug="usa" data-iso="US" data-count="32" data-price="350"><a href="usa/"><img class="flag" src="/assets/flags/us.svg" alt="" width="28" height="21" loading="lazy"><span>США<small class="dest-meta">32 тарифа · от 350 ₽</small></span></a></li>
+        <li data-name="сьерра-леоне" data-slug="sierra-leone" data-iso="SL" data-count="8" data-price="2350"><a href="sierra-leone/"><img class="flag" src="/assets/flags/sl.svg" alt="" width="28" height="21" loading="lazy"><span>Сьерра-Леоне<small class="dest-meta">8 тарифов · от 2 350 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-19" aria-labelledby="az-19h">
+      <h2 id="az-19h">Т</h2>
+      <ul class="dest">
+        <li data-name="таджикистан" data-slug="tajikistan" data-iso="TJ" data-count="17" data-price="850"><a href="tajikistan/"><img class="flag" src="/assets/flags/tj.svg" alt="" width="28" height="21" loading="lazy"><span>Таджикистан<small class="dest-meta">17 тарифов · от 850 ₽</small></span></a></li>
+        <li data-name="таиланд" data-slug="thailand" data-iso="TH" data-count="50" data-price="350"><a href="thailand/"><img class="flag" src="/assets/flags/th.svg" alt="" width="28" height="21" loading="lazy"><span>Таиланд<small class="dest-meta">50 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="тайвань" data-slug="taiwan" data-iso="TW" data-count="15" data-price="700"><a href="taiwan/"><img class="flag" src="/assets/flags/tw.svg" alt="" width="28" height="21" loading="lazy"><span>Тайвань<small class="dest-meta">15 тарифов · от 700 ₽</small></span></a></li>
+        <li data-name="танзания" data-slug="tanzania" data-iso="TZ" data-count="15" data-price="1250"><a href="tanzania/"><img class="flag" src="/assets/flags/tz.svg" alt="" width="28" height="21" loading="lazy"><span>Танзания<small class="dest-meta">15 тарифов · от 1 250 ₽</small></span></a></li>
+        <li data-name="тёркс и кайкос" data-slug="turks-and-caicos" data-iso="TC" data-count="14" data-price="1600"><a href="turks-and-caicos/"><img class="flag" src="/assets/flags/tc.svg" alt="" width="28" height="21" loading="lazy"><span>Тёркс и Кайкос<small class="dest-meta">14 тарифов · от 1 600 ₽</small></span></a></li>
+        <li data-name="тонга" data-slug="tonga" data-iso="TO" data-count="9" data-price="1600"><a href="tonga/"><img class="flag" src="/assets/flags/to.svg" alt="" width="28" height="21" loading="lazy"><span>Тонга<small class="dest-meta">9 тарифов · от 1 600 ₽</small></span></a></li>
+        <li data-name="тринидад и тобаго" data-slug="trinidad-and-tobago" data-iso="TT" data-count="12" data-price="2650"><a href="trinidad-and-tobago/"><img class="flag" src="/assets/flags/tt.svg" alt="" width="28" height="21" loading="lazy"><span>Тринидад и Тобаго<small class="dest-meta">12 тарифов · от 2 650 ₽</small></span></a></li>
+        <li data-name="тунис" data-slug="tunisia" data-iso="TN" data-count="18" data-price="600"><a href="tunisia/"><img class="flag" src="/assets/flags/tn.svg" alt="" width="28" height="21" loading="lazy"><span>Тунис<small class="dest-meta">18 тарифов · от 600 ₽</small></span></a></li>
+        <li data-name="турция" data-slug="turkey" data-iso="TR" data-count="37" data-price="200"><a href="turkey/"><img class="flag" src="/assets/flags/tr.svg" alt="" width="28" height="21" loading="lazy"><span>Турция<small class="dest-meta">37 тарифов · от 200 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-20" aria-labelledby="az-20h">
+      <h2 id="az-20h">У</h2>
+      <ul class="dest">
+        <li data-name="уганда" data-slug="uganda" data-iso="UG" data-count="15" data-price="1550"><a href="uganda/"><img class="flag" src="/assets/flags/ug.svg" alt="" width="28" height="21" loading="lazy"><span>Уганда<small class="dest-meta">15 тарифов · от 1 550 ₽</small></span></a></li>
+        <li data-name="узбекистан" data-slug="uzbekistan" data-iso="UZ" data-count="27" data-price="350"><a href="uzbekistan/"><img class="flag" src="/assets/flags/uz.svg" alt="" width="28" height="21" loading="lazy"><span>Узбекистан<small class="dest-meta">27 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="уругвай" data-slug="uruguay" data-iso="UY" data-count="30" data-price="950"><a href="uruguay/"><img class="flag" src="/assets/flags/uy.svg" alt="" width="28" height="21" loading="lazy"><span>Уругвай<small class="dest-meta">30 тарифов · от 950 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-21" aria-labelledby="az-21h">
+      <h2 id="az-21h">Ф</h2>
+      <ul class="dest">
+        <li data-name="фарерские острова" data-slug="faroe-islands" data-iso="FO" data-count="12" data-price="400"><a href="faroe-islands/"><img class="flag" src="/assets/flags/fo.svg" alt="" width="28" height="21" loading="lazy"><span>Фарерские острова<small class="dest-meta">12 тарифов · от 400 ₽</small></span></a></li>
+        <li data-name="фиджи" data-slug="fiji" data-iso="FJ" data-count="9" data-price="950"><a href="fiji/"><img class="flag" src="/assets/flags/fj.svg" alt="" width="28" height="21" loading="lazy"><span>Фиджи<small class="dest-meta">9 тарифов · от 950 ₽</small></span></a></li>
+        <li data-name="филиппины" data-slug="philippines" data-iso="PH" data-count="27" data-price="400"><a href="philippines/"><img class="flag" src="/assets/flags/ph.svg" alt="" width="28" height="21" loading="lazy"><span>Филиппины<small class="dest-meta">27 тарифов · от 400 ₽</small></span></a></li>
+        <li data-name="финляндия" data-slug="finland" data-iso="FI" data-count="39" data-price="250"><a href="finland/"><img class="flag" src="/assets/flags/fi.svg" alt="" width="28" height="21" loading="lazy"><span>Финляндия<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="франция" data-slug="france" data-iso="FR" data-count="33" data-price="400"><a href="france/"><img class="flag" src="/assets/flags/fr.svg" alt="" width="28" height="21" loading="lazy"><span>Франция<small class="dest-meta">33 тарифа · от 400 ₽</small></span></a></li>
+        <li data-name="французская гвиана" data-slug="french-guiana" data-iso="GF" data-count="23" data-price="250"><a href="french-guiana/"><img class="flag" src="/assets/flags/gf.svg" alt="" width="28" height="21" loading="lazy"><span>Французская Гвиана<small class="dest-meta">23 тарифа · от 250 ₽</small></span></a></li>
+        <li data-name="французская полинезия" data-slug="french-polynesia" data-iso="PF" data-count="9" data-price="4300"><a href="french-polynesia/"><img class="flag" src="/assets/flags/pf.svg" alt="" width="28" height="21" loading="lazy"><span>Французская Полинезия<small class="dest-meta">9 тарифов · от 4 300 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-22" aria-labelledby="az-22h">
+      <h2 id="az-22h">Х</h2>
+      <ul class="dest">
+        <li data-name="хорватия" data-slug="croatia" data-iso="HR" data-count="42" data-price="250"><a href="croatia/"><img class="flag" src="/assets/flags/hr.svg" alt="" width="28" height="21" loading="lazy"><span>Хорватия<small class="dest-meta">42 тарифа · от 250 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-23" aria-labelledby="az-23h">
+      <h2 id="az-23h">Ц</h2>
+      <ul class="dest">
+        <li data-name="цар" data-slug="central-african-republic" data-iso="CF" data-count="3" data-price="2400"><a href="central-african-republic/"><img class="flag" src="/assets/flags/cf.svg" alt="" width="28" height="21" loading="lazy"><span>ЦАР<small class="dest-meta">3 тарифа · от 2 400 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-24" aria-labelledby="az-24h">
+      <h2 id="az-24h">Ч</h2>
+      <ul class="dest">
+        <li data-name="чад" data-slug="chad" data-iso="TD" data-count="16" data-price="1800"><a href="chad/"><img class="flag" src="/assets/flags/td.svg" alt="" width="28" height="21" loading="lazy"><span>Чад<small class="dest-meta">16 тарифов · от 1 800 ₽</small></span></a></li>
+        <li data-name="черногория" data-slug="montenegro" data-iso="ME" data-count="14" data-price="350"><a href="montenegro/"><img class="flag" src="/assets/flags/me.svg" alt="" width="28" height="21" loading="lazy"><span>Черногория<small class="dest-meta">14 тарифов · от 350 ₽</small></span></a></li>
+        <li data-name="чехия" data-slug="czechia" data-iso="CZ" data-count="39" data-price="250"><a href="czechia/"><img class="flag" src="/assets/flags/cz.svg" alt="" width="28" height="21" loading="lazy"><span>Чехия<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="чили" data-slug="chile" data-iso="CL" data-count="28" data-price="800"><a href="chile/"><img class="flag" src="/assets/flags/cl.svg" alt="" width="28" height="21" loading="lazy"><span>Чили<small class="dest-meta">28 тарифов · от 800 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-25" aria-labelledby="az-25h">
+      <h2 id="az-25h">Ш</h2>
+      <ul class="dest">
+        <li data-name="швейцария" data-slug="switzerland" data-iso="CH" data-count="38" data-price="250"><a href="switzerland/"><img class="flag" src="/assets/flags/ch.svg" alt="" width="28" height="21" loading="lazy"><span>Швейцария<small class="dest-meta">38 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="швеция" data-slug="sweden" data-iso="SE" data-count="38" data-price="250"><a href="sweden/"><img class="flag" src="/assets/flags/se.svg" alt="" width="28" height="21" loading="lazy"><span>Швеция<small class="dest-meta">38 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="шри-ланка" data-slug="sri-lanka" data-iso="LK" data-count="24" data-price="400"><a href="sri-lanka/"><img class="flag" src="/assets/flags/lk.svg" alt="" width="28" height="21" loading="lazy"><span>Шри-Ланка<small class="dest-meta">24 тарифа · от 400 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-27" aria-labelledby="az-27h">
+      <h2 id="az-27h">Э</h2>
+      <ul class="dest">
+        <li data-name="эквадор" data-slug="ecuador" data-iso="EC" data-count="28" data-price="850"><a href="ecuador/"><img class="flag" src="/assets/flags/ec.svg" alt="" width="28" height="21" loading="lazy"><span>Эквадор<small class="dest-meta">28 тарифов · от 850 ₽</small></span></a></li>
+        <li data-name="эсватини" data-slug="eswatini" data-iso="SZ" data-count="14" data-price="2500"><a href="eswatini/"><img class="flag" src="/assets/flags/sz.svg" alt="" width="28" height="21" loading="lazy"><span>Эсватини<small class="dest-meta">14 тарифов · от 2 500 ₽</small></span></a></li>
+        <li data-name="эстония" data-slug="estonia" data-iso="EE" data-count="39" data-price="250"><a href="estonia/"><img class="flag" src="/assets/flags/ee.svg" alt="" width="28" height="21" loading="lazy"><span>Эстония<small class="dest-meta">39 тарифов · от 250 ₽</small></span></a></li>
+        <li data-name="эфиопия" data-slug="ethiopia" data-iso="ET" data-count="9" data-price="2050"><a href="ethiopia/"><img class="flag" src="/assets/flags/et.svg" alt="" width="28" height="21" loading="lazy"><span>Эфиопия<small class="dest-meta">9 тарифов · от 2 050 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-28" aria-labelledby="az-28h">
+      <h2 id="az-28h">Ю</h2>
+      <ul class="dest">
+        <li data-name="юар" data-slug="south-africa" data-iso="ZA" data-count="15" data-price="600"><a href="south-africa/"><img class="flag" src="/assets/flags/za.svg" alt="" width="28" height="21" loading="lazy"><span>ЮАР<small class="dest-meta">15 тарифов · от 600 ₽</small></span></a></li>
+        <li data-name="южная корея" data-slug="south-korea" data-iso="KR" data-count="40" data-price="350"><a href="south-korea/"><img class="flag" src="/assets/flags/kr.svg" alt="" width="28" height="21" loading="lazy"><span>Южная Корея<small class="dest-meta">40 тарифов · от 350 ₽</small></span></a></li>
+      </ul>
+    </section>
+    <section class="az-group" id="az-29" aria-labelledby="az-29h">
+      <h2 id="az-29h">Я</h2>
+      <ul class="dest">
+        <li data-name="ямайка" data-slug="jamaica" data-iso="JM" data-count="11" data-price="1900"><a href="jamaica/"><img class="flag" src="/assets/flags/jm.svg" alt="" width="28" height="21" loading="lazy"><span>Ямайка<small class="dest-meta">11 тарифов · от 1 900 ₽</small></span></a></li>
+        <li data-name="япония" data-slug="japan" data-iso="JP" data-count="56" data-price="350"><a href="japan/"><img class="flag" src="/assets/flags/jp.svg" alt="" width="28" height="21" loading="lazy"><span>Япония<small class="dest-meta">56 тарифов · от 350 ₽</small></span></a></li>
+      </ul>
+    </section>
+    </div>
+
+    <div class="hub-empty" id="hubEmpty" hidden>
+      <p class="hub-empty-title">Ничего не нашлось.</p>
+      <p class="note">Попробуйте другое написание или выберите страну в списке от А до Я.</p>
+      <button type="button" class="btn btn-ghost" id="hubReset">Показать все направления</button>
+    </div>
+
+    <section class="compat cp-help" id="materials">
       <h2>Инструкции и ответы перед поездкой</h2>
       <ul class="materials">
         <li><a href="/iphone.html">Как установить eSIM на iPhone</a><span>По QR-коду или вручную — и что включить после прилёта.</span></li>
@@ -1327,55 +491,91 @@
         <li><a href="/esim/payment-rubles/">Оплата eSIM рублями: СБП и российская карта</a><span>Российской банковской картой или через СБП.</span></li>
       </ul>
     </section>
-  </main>
+  </div>
+</main>
 
-  <footer class="site-foot">
-    <a href="/terms.html">Условия</a> · <a href="/privacy.html">Конфиденциальность</a> · <a href="/">Главная</a>
-  </footer>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <p>Мобильный интернет в поездке: eSIM для 190+ направлений, оплата в рублях российской картой или через СБП.</p>
+      </div>
+      <div class="ft-col">
+        <h2>Направления</h2>
+        <ul>
+          <li><a href="/esim/turkey/">Турция</a></li>
+          <li><a href="/esim/thailand/">Таиланд</a></li>
+          <li><a href="/esim/vietnam/">Вьетнам</a></li>
+          <li><a href="/esim/egypt/">Египет</a></li>
+          <li><a href="/esim/maldives/">Мальдивы</a></li>
+          <li><a href="/esim/sri-lanka/">Шри-Ланка</a></li>
+          <li><a href="/esim/">Все направления</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Инструкции</h2>
+        <ul>
+          <li><a href="/iphone.html">Как установить eSIM на iPhone</a></li>
+          <li><a href="/android.html">Как установить eSIM на Android</a></li>
+          <li><a href="/esim/compatibility/">Поддерживает ли телефон eSIM</a></li>
+          <li><a href="/esim/activation-before-travel/">Когда устанавливать eSIM</a></li>
+          <li><a href="/esim/not-working/">eSIM не работает — что проверить</a></li>
+          <li><a href="/esim/payment-rubles/">Оплата российской картой или СБП</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Помощь</h2>
+        <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/#solution">Как это работает</a></li>
+          <li><a href="https://t.me/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</a></li>
+          <li><a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Magic eSIM в Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html">Пользовательское соглашение</a> · <a href="/privacy.html">Политика конфиденциальности</a></p>
+    </div>
+  </div>
+</footer>
 
   <script>
   (function(){
-    // Search and sort run over the rendered cards. No second API call: the
-    // numbers are already in the markup, which keeps the page fast and keeps it
-    // working when the API is briefly unreachable.
-    var grid=document.getElementById('hubGrid');
-    var search=document.getElementById('hubSearch');
-    var sort=document.getElementById('hubSort');
+    // Search runs over the rendered list: no second API call — the names and
+    // the numbers are already in the markup, so the page works when the API is
+    // briefly unreachable. Matches the Russian name (ё = е), the slug or the
+    // ISO code; a letter group with nothing left in it hides with its letter.
+    var box=document.getElementById('hubFind');
+    var input=document.getElementById('hubSearch');
+    var clear=document.getElementById('hubClear');
     var count=document.getElementById('hubCount');
     var empty=document.getElementById('hubEmpty');
-    var cards=[].slice.call(grid.querySelectorAll('.c-card'));
-
+    var pop=document.getElementById('hubPopular');
+    var az=document.getElementById('hubAz');
+    var groups=[].slice.call(document.querySelectorAll('#hubList .az-group'));
     function norm(s){return String(s||'').toLowerCase().replace(/ё/g,'е').trim();}
+    function plural(n){var a=n%10,b=n%100;return a===1&&b!==11?'направление':(a>=2&&a<=4&&(b<12||b>14)?'направления':'направлений');}
     function apply(){
-      var q=norm(search.value);
-      var shown=0;
-      cards.forEach(function(el){
-        var hit=!q||norm(el.dataset.name).indexOf(q)>=0||el.dataset.slug.indexOf(q)>=0||norm(el.dataset.iso)===q;
-        el.hidden=!hit; if(hit)shown++;
+      var q=norm(input.value),shown=0;
+      groups.forEach(function(g){
+        var any=0;
+        [].forEach.call(g.querySelectorAll('li'),function(li){
+          var hit=!q||norm(li.dataset.name).indexOf(q)>=0||li.dataset.slug.indexOf(q)>=0||norm(li.dataset.iso)===q;
+          li.hidden=!hit;if(hit){any++;shown++;}
+        });
+        g.hidden=!any;
       });
-      count.textContent=shown;
+      clear.hidden=!q;pop.hidden=!!q;az.hidden=!!q;
       empty.hidden=shown>0;
+      count.textContent=q?(shown?'Найдено: '+shown+' '+plural(shown):''):'';
     }
-    function reorder(){
-      var mode=sort.value;
-      var sorted=cards.slice().sort(function(a,b){
-        if(mode==='price'){
-          // A country with no price sorts last rather than first: an empty
-          // value must not look like the cheapest option.
-          var pa=a.dataset.price===''?Infinity:Number(a.dataset.price);
-          var pb=b.dataset.price===''?Infinity:Number(b.dataset.price);
-          if(pa!==pb)return pa-pb;
-        }
-        if(mode==='count'){
-          var ca=Number(a.dataset.count||0),cb=Number(b.dataset.count||0);
-          if(ca!==cb)return cb-ca;
-        }
-        return a.dataset.name.localeCompare(b.dataset.name,'ru');
-      });
-      sorted.forEach(function(el){grid.appendChild(el);});
-    }
-    search.addEventListener('input',apply);
-    sort.addEventListener('change',function(){reorder();apply();});
+    input.addEventListener('input',apply);
+    clear.addEventListener('click',function(){input.value='';apply();input.focus();});
+    document.getElementById('hubReset').addEventListener('click',function(){input.value='';apply();input.focus();});
+    box.hidden=false;
+    count.textContent='';
   })();
   </script>
 </body>

@@ -23,7 +23,11 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="stylesheet" href="../../assets/country-pages.css?v=90ee3c09" />
+  <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
+  <link rel="stylesheet" href="/assets/page-country.css?v=3df3e40d" />
+  <link rel="stylesheet" href="/assets/ru.css?v=b217aec3" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
        (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
@@ -77,145 +81,243 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://magicesim.store/"},{"@type":"ListItem","position":2,"name":"Страны","item":"https://magicesim.store/esim/"},{"@type":"ListItem","position":3,"name":"Испания","item":"https://magicesim.store/esim/spain/"}]},{"@type":"WebPage","name":"eSIM Испания — материк и острова по одному тарифу","url":"https://magicesim.store/esim/spain/","description":"Тарифы для Испании: объёмы от 3 до 120 ГБ, цены от 350 ₽, дневные — от 250 ₽. Почему для Тенерифе и Майорки не нужен отдельный пакет и сколько трафика брать.","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Magic eSIM","url":"https://magicesim.store/"},"publisher":{"@type":"Organization","name":"Magic eSIM","url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Нужен ли отдельный тариф для Канарских островов","acceptedAnswer":{"@type":"Answer","text":"Нет. Каталог указывает покрытие кодами стран, и для испанских тарифов это код Испании целиком — отдельных строк по островам в нём нет. Что именно входит в зону конкретного тарифа, показывает кнопка «Покрытие и условия» в карточке; проверьте её до оплаты, если поездка островная. Отдельно докупать ничего не требуется."}},{"@type":"Question","name":"Сколько гигабайт нужно на отдых в Испании","acceptedAnswer":{"@type":"Answer","text":"Считать надо не дни, а километры. Неделя на одном побережье и неделя маршрутом Барселона — Валенсия — Севилья расходуют по-разному: во втором случае навигация работает часами. Отсюда практическое правило этой страницы: 10 ГБ за 950 ₽ берут не «на всякий случай», а когда в поездке есть переезды. Для отпуска на месте нижние ступени — 3 ГБ за 350 ₽ или 5 ГБ за 550 ₽ — обычно закрывают вопрос."}},{"@type":"Question","name":"Есть ли связь на горных маршрутах","acceptedAnswer":{"@type":"Answer","text":"Связь в конкретной точке мы не обещаем, а в горах она закономерно менее устойчива — маршрут стоит сохранить офлайн. Это вопрос рельефа, а не тарифа: трек и карту района лучше скачать до выхода, тогда отсутствие сети не помешает."}},{"@type":"Question","name":"Работает ли испанский тариф в Португалии","acceptedAnswer":{"@type":"Answer","text":"Локальный тариф действует только в Испании. Для маршрута с Лиссабоном или Порту нужен региональный: он покрывает несколько стран одним профилем, и на границе, которую на машине легко проехать не заметив, ничего переключать не придётся."}},{"@type":"Question","name":"Что делать, если пакет закончился в середине отпуска","acceptedAnswer":{"@type":"Answer","text":"Интернет просто остановится — тариф не продлевается сам и не уходит в минус. У большинства испанских тарифов есть пополнение — тогда новый объём подключается на то же устройство и профиль переустанавливать не нужно. Но не у всех: доступность отмечена в карточке, и проверить её стоит до оплаты. Ставить его заранее, «про запас», не нужно."}},{"@type":"Question","name":"Испания — есть ли локальные тарифы?","acceptedAnswer":{"@type":"Answer","text":"Да. Сейчас доступно 6 локальных тарифов именно для этой страны. Они показаны на этой странице сразу после блока «Трафик на каждый день»."}},{"@type":"Question","name":"Что такое региональные тарифы?","acceptedAnswer":{"@type":"Answer","text":"Это тарифы, покрытие которых включает несколько стран, в том числе эту. Сейчас таких 5. Они подходят, если поездка захватывает не одну страну; полный список стран покрытия указан в карточке каждого тарифа."}}]}]}</script>
 </head>
 <body data-country-iso="ES" data-country-name="Испания">
-  <header class="site-head">
-    <a class="brand" href="/">Magic eSIM</a>
-    <nav class="head-nav"><a href="/esim/">Все страны</a><a href="/#tariffs">Тарифы</a></nav>
-  </header>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+    </nav>
+    <div class="hdr-actions">
+      <a class="langsw" href="/en/" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span>English</span></a>
+      <a class="btn btn-sm hdr-cta" href="/#global-pricing">Выбрать тариф</a>
+      <details class="mnav">
+        <summary aria-label="Меню"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+        <nav class="mnav-panel" aria-label="Меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <hr>
+          <a href="/en/" lang="en">English</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
 
-  <nav class="breadcrumbs" aria-label="Хлебные крошки">
-    <a href="/">Главная</a> <span aria-hidden="true">›</span>
-    <a href="/esim/">Страны</a> <span aria-hidden="true">›</span>
-    <span aria-current="page">Испания</span>
-  </nav>
-
-  <main>
-    <section class="hero">
-      <h1><span class="flag" aria-hidden="true">🇪🇸</span> Интернет в Испании: Канары и Балеары входят в тот же тариф</h1>
-      <p class="lead">Про Испанию чаще всего спрашивают одно: нужен ли отдельный тариф для островов. Тенерифе, Гран-Канария, Майорка и Ибица находятся далеко от материка — логично предположить, что и тариф для них нужен отдельный. Не нужен: каталог указывает покрытие испанских тарифов кодом Испании целиком, без отдельных строк по островам.</p>
-      <p class="intro">Разница между материком и островами — не в тарифе: он один и тот же. В карточках испанских тарифов указаны поддерживаемые сети; карт покрытия мы не публикуем и связь в конкретной точке не обещаем. Для поездки это означает, что менять тариф не нужно, но офлайн-карту горного маршрута скачать стоит.</p>
-      <p class="intro">Второй испанский сюжет — расстояния. Страна большая, и маршрут вроде Барселона — Валенсия — Севилья означает долгие переезды с навигацией и расписаниями. Если поездка построена вокруг переездов, объём считают по ним, а не по числу дней на пляже.</p>
-      <p class="facts">
-        Локальных тарифов: <b>6</b>. Региональных: <b>5</b>. С оплатой за день: <b>30</b>. Цены от <b>250 ₽</b>.
-      </p>
-    </section>
-
-    <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
-         страну грузить (pageCountryCode() ищет именно этот атрибут). Без него
-         загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
-         экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
-         эту роль не выполняет. -->
-    <section class="packages" id="tariffs" data-country-page="ES">
-      <div id="packagesStatus" class="packages-status">Загружаем тарифы…</div>
-
-      <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
-           оформление. renderCountrySplit() обращается к localCount, localEmpty и
-           regionalCount напрямую, без проверки на null: если их нет, функция
-           падает на первом же обращении, исключение съедается общим catch, и
-           страница остаётся с пустой сеткой без единого сообщения. Именно так
-           190 страниц уехали в продакшн без тарифов. -->
-      <div id="localBlock" class="packages-block">
-        <h2 id="localHead">Локальные тарифы: Испания</h2>
-        <span class="count" id="localCount"></span>
-        <p class="block-sub">Тарифы, рассчитанные именно на эту страну.</p>
-        <div id="localEmpty" class="block-empty" hidden>Локальных тарифов для этой страны нет — ниже региональные, покрытие которых её включает.</div>
-        <div id="localGrid" class="packages-grid"></div>
+<main class="cp">
+  <section class="cp-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <a href="/esim/">Страны</a> › <span aria-current="page">Испания</span></nav>
+      <div class="cp-title">
+        <img class="cp-flag" src="/assets/flags/es.svg" alt="" width="72" height="54">
+        <h1>Интернет в Испании: Канары и Балеары входят в тот же тариф</h1>
       </div>
-
-      <div id="regionalBlock" class="packages-block">
-        <h2 id="regionalHead">Региональные тарифы с покрытием этой страны</h2>
-        <span class="count" id="regionalCount"></span>
-        <p class="block-sub">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
-        <div id="regionalGrid" class="packages-grid"></div>
+      <div class="cp-text">
+        <p class="lead">Про Испанию чаще всего спрашивают одно: нужен ли отдельный тариф для островов. Тенерифе, Гран-Канария, Майорка и Ибица находятся далеко от материка — логично предположить, что и тариф для них нужен отдельный. Не нужен: каталог указывает покрытие испанских тарифов кодом Испании целиком, без отдельных строк по островам.</p>
+        <p class="intro">Разница между материком и островами — не в тарифе: он один и тот же. В карточках испанских тарифов указаны поддерживаемые сети; карт покрытия мы не публикуем и связь в конкретной точке не обещаем. Для поездки это означает, что менять тариф не нужно, но офлайн-карту горного маршрута скачать стоит.</p>
+        <p class="intro">Второй испанский сюжет — расстояния. Страна большая, и маршрут вроде Барселона — Валенсия — Севилья означает долгие переезды с навигацией и расписаниями. Если поездка построена вокруг переездов, объём считают по ним, а не по числу дней на пляже.</p>
+        <p class="facts">
+          Локальных тарифов: <b>6</b>. Региональных: <b>5</b>. С оплатой за день: <b>30</b>. Цены от <b>250 ₽</b>.
+        </p>
       </div>
-
-      <div id="packagesGrid" class="packages-grid"></div>
-    </section>
-
-    <!-- Карточка тарифа рендерит кнопку «Покрытие и условия», а её обработчик
-         выходит на первой строке, если оверлея нет. Без этого блока кнопка на
-         странице есть, но не делает ничего. -->
-    <div id="coverageModal" class="cov-overlay" hidden>
-      <div class="cov-modal" role="dialog" aria-modal="true" aria-labelledby="covTitle">
-        <button type="button" class="cov-close" id="coverageClose" aria-label="Закрыть">×</button>
-        <h3 id="covTitle">Покрытие и условия</h3>
-        <p class="cov-sub" id="covPlan">—</p>
-        <div class="cov-rows">
-          <div class="cov-row"><span class="k">Объём трафика</span><span class="v" id="covData">—</span></div>
-          <div class="cov-row"><span class="k">Срок действия</span><span class="v" id="covDays">—</span></div>
-          <div class="cov-row"><span class="k">Начало срока</span><span class="v" id="covStart">—</span></div>
-          <div class="cov-row"><span class="k">Сеть</span><span class="v" id="covSpeed">—</span></div>
-          <div class="cov-row"><span class="k">Пополнение</span><span class="v" id="covTopup">—</span></div>
-          <div class="cov-row" id="covHotspotRow" hidden><span class="k">Раздача интернета</span><span class="v" id="covHotspot">—</span></div>
-          <div class="cov-row" id="covNoteRow" hidden><span class="k">Скорость</span><span class="v" id="covNote">—</span></div>
-          <div class="cov-row" id="covFupRow" hidden><span class="k">После лимита</span><span class="v" id="covFup">—</span></div>
-        </div>
-        <div class="cov-countries" id="covCountriesWrap" hidden>
-          <div class="k">Страны покрытия</div>
-          <div class="v" id="covCountries">—</div>
-        </div>
+      <div class="cp-hero-foot">
+        <ul class="cp-facts">
+          <li>Оплата в рублях</li>
+          <li>Установка по QR-коду</li>
+        </ul>
+        <a class="cp-change" href="/esim/">Выбрать другое направление</a>
       </div>
     </div>
+  </section>
 
-    <section class="why"><h2>Почему eSIM: Испания</h2><div class="why-cards"><div class="why-card"><span class="ico" aria-hidden="true">🏝</span><h3>Острова — тот же тариф</h3><p>Проверьте покрытие по карточке. Отдельный тариф для Тенерифе или Майорки не нужен.</p></div><div class="why-card"><span class="ico" aria-hidden="true">🌇</span><h3>Что именно обещает карточка</h3><p>В карточке тарифа видно, какие сети он поддерживает, и там же открывается состав покрытия. Для видео и работы берите объём с запасом — расход там кратно выше, чем у карт и мессенджеров.</p></div><div class="why-card"><span class="ico" aria-hidden="true">⛰</span><h3>Горные участки островов</h3><p>Тейде, север Майорки, горные дороги — участки с редким сигналом. Маршрут скачивают заранее.</p></div><div class="why-card"><span class="ico" aria-hidden="true">🚗</span><h3>Длинные переезды</h3><p>Расстояния между испанскими городами большие, и навигация в дороге расходует заметную часть пакета.</p></div></div></section>
+  <div class="wrap cp-body">
+  <!-- Переходы к блокам тарифов. Порядок — как у блоков на странице: дневные,
+       локальные, региональные. assets/country-tariffs.js показывает ссылку,
+       только если её блок не пуст, и пишет в неё число тарифов. -->
+  <nav class="cp-jump" aria-label="Типы тарифов" hidden>
+    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
+    <a href="#localBlock" hidden><span>Испания</span> <span class="n"></span></a>
+    <a href="#regionalBlock" hidden><span>Региональные</span> <span class="n"></span></a>
+  </nav>
 
-    <section class="why">
-      <h2>Что даёт eSIM</h2>
-      <ul class="why-list">
-        <li><b>Интернет с прилёта.</b> Тариф куплен и установлен до вылета — по прилёте достаточно включить передачу данных.</li>
-        <li><b>Оплата в рублях.</b> Российская карта или СБП, без поиска обменника и местного салона связи.</li>
-        <li><b>Российский номер остаётся.</b> eSIM работает второй линией и не заменяет физическую SIM.</li>
-      </ul>
-    </section>
+  <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
+       страну грузить (pageCountryCode() ищет именно этот атрибут). Без него
+       загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
+       экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
+       эту роль не выполняет. -->
+  <section class="packages" id="tariffs" data-country-page="ES">
+    <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
 
-    <section class="compat">
-      <h2>Совместимость</h2>
-      <p>eSIM работает на телефонах с поддержкой eSIM, не заблокированных под оператора. Проверить свою модель: <a href="/esim/compatibility/">список совместимых устройств</a>, инструкции для <a href="/iphone.html">iPhone</a> и <a href="/android.html">Android</a>.</p>
-    </section>
-
-    <section class="howto">
-      <h2>Как подключить</h2>
-      <ol class="howto-list">
-        <li>Выберите тариф на этой странице и оплатите — <a href="/esim/payment-rubles/">российской банковской картой или через СБП</a>.</li>
-        <li>QR-код придёт на почту сразу после оплаты.</li>
-        <li>Отсканируйте его дома по Wi-Fi: <a href="/esim/activation-before-travel/">как установить до вылета</a>.</li>
-        <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/esim/not-working/">что проверить</a>.</li>
-      </ol>
-    </section>
-
-    <section class="faq">
-      <h2>Вопросы о eSIM: Испания</h2>
-      <details class="faq-item"><summary>Нужен ли отдельный тариф для Канарских островов</summary><p>Нет. Каталог указывает покрытие кодами стран, и для испанских тарифов это код Испании целиком — отдельных строк по островам в нём нет. Что именно входит в зону конкретного тарифа, показывает кнопка «Покрытие и условия» в карточке; проверьте её до оплаты, если поездка островная. Отдельно докупать ничего не требуется.</p></details>
-      <details class="faq-item"><summary>Сколько гигабайт нужно на отдых в Испании</summary><p>Считать надо не дни, а километры. Неделя на одном побережье и неделя маршрутом Барселона — Валенсия — Севилья расходуют по-разному: во втором случае навигация работает часами. Отсюда практическое правило этой страницы: 10 ГБ за 950 ₽ берут не «на всякий случай», а когда в поездке есть переезды. Для отпуска на месте нижние ступени — 3 ГБ за 350 ₽ или 5 ГБ за 550 ₽ — обычно закрывают вопрос.</p></details>
-      <details class="faq-item"><summary>Есть ли связь на горных маршрутах</summary><p>Связь в конкретной точке мы не обещаем, а в горах она закономерно менее устойчива — маршрут стоит сохранить офлайн. Это вопрос рельефа, а не тарифа: трек и карту района лучше скачать до выхода, тогда отсутствие сети не помешает.</p></details>
-      <details class="faq-item"><summary>Работает ли испанский тариф в Португалии</summary><p>Локальный тариф действует только в Испании. Для маршрута с Лиссабоном или Порту нужен региональный: он покрывает несколько стран одним профилем, и на границе, которую на машине легко проехать не заметив, ничего переключать не придётся.</p></details>
-      <details class="faq-item"><summary>Что делать, если пакет закончился в середине отпуска</summary><p>Интернет просто остановится — тариф не продлевается сам и не уходит в минус. У большинства испанских тарифов есть пополнение — тогда новый объём подключается на то же устройство и профиль переустанавливать не нужно. Но не у всех: доступность отмечена в карточке, и проверить её стоит до оплаты. Ставить его заранее, «про запас», не нужно.</p></details>
-      <details class="faq-item"><summary>Испания — есть ли локальные тарифы?</summary><p>Да. Сейчас доступно 6 локальных тарифов именно для этой страны. Они показаны на этой странице сразу после блока «Трафик на каждый день».</p></details>
-      <details class="faq-item"><summary>Что такое региональные тарифы?</summary><p>Это тарифы, покрытие которых включает несколько стран, в том числе эту. Сейчас таких 5. Они подходят, если поездка захватывает не одну страну; полный список стран покрытия указан в карточке каждого тарифа.</p></details>
-    </section>
-
-    <section class="related">
-      <h2>Другие направления</h2>
-      <div class="country-links">
-        <a class="country-link" href="../iraq/"><span aria-hidden="true">🇮🇶</span> Ирак</a>
-        <a class="country-link" href="../ireland/"><span aria-hidden="true">🇮🇪</span> Ирландия</a>
-        <a class="country-link" href="../iceland/"><span aria-hidden="true">🇮🇸</span> Исландия</a>
-        <a class="country-link" href="../italy/"><span aria-hidden="true">🇮🇹</span> Италия</a>
-        <a class="country-link" href="../cape-verde/"><span aria-hidden="true">🇨🇻</span> Кабо-Верде</a>
-        <a class="country-link" href="../">Все направления</a>
+    <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
+         оформление. renderCountrySplit() обращается к localCount, localEmpty и
+         regionalCount напрямую, без проверки на null: если их нет, функция
+         падает на первом же обращении, исключение съедается общим catch, и
+         страница остаётся с пустой сеткой без единого сообщения. Именно так
+         190 страниц уехали в продакшн без тарифов. -->
+    <section id="localBlock" class="block plan-block plan-block-local packages-block">
+      <div class="blk-head">
+        <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span>
+        <div>
+          <h2><span id="localHead">Локальные тарифы: Испания</span> <span class="count" id="localCount"></span></h2>
+          <p class="note">Тарифы, рассчитанные именно на эту страну.</p>
+        </div>
       </div>
+      <div id="localEmpty" class="block-empty note" hidden>Локальных тарифов для этой страны нет — ниже региональные, покрытие которых её включает.</div>
+      <div id="localGrid" class="grid plan-grid packages-grid"></div>
     </section>
-  </main>
 
-  <footer class="site-foot">
-    <a href="/terms.html">Условия</a> · <a href="/privacy.html">Конфиденциальность</a> · <a href="/esim/">Все страны</a>
-  </footer>
+    <section id="regionalBlock" class="block plan-block plan-block-regional packages-block">
+      <div class="blk-head">
+        <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></span>
+        <div>
+          <h2><span id="regionalHead">Региональные тарифы с покрытием этой страны</span> <span class="count" id="regionalCount"></span></h2>
+          <p class="note">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
+        </div>
+      </div>
+      <div id="regionalGrid" class="grid plan-grid packages-grid"></div>
+    </section>
+
+    <div id="packagesGrid" class="packages-grid"></div>
+  </section>
+
+  <!-- Карточка тарифа рендерит кнопку «Покрытие и условия», а её обработчик
+       выходит на первой строке, если оверлея нет. Без этого блока кнопка на
+       странице есть, но не делает ничего. -->
+  <div id="coverageModal" class="cov-overlay" hidden>
+    <div class="cov-modal" role="dialog" aria-modal="true" aria-labelledby="covTitle">
+      <button type="button" class="cov-close" id="coverageClose" aria-label="Закрыть">×</button>
+      <h3 id="covTitle">Покрытие и условия</h3>
+      <p class="cov-sub" id="covPlan">—</p>
+      <div class="cov-rows">
+        <div class="cov-row"><span class="k">Объём трафика</span><span class="v" id="covData">—</span></div>
+        <div class="cov-row"><span class="k">Срок действия</span><span class="v" id="covDays">—</span></div>
+        <div class="cov-row"><span class="k">Начало срока</span><span class="v" id="covStart">—</span></div>
+        <div class="cov-row"><span class="k">Сеть</span><span class="v" id="covSpeed">—</span></div>
+        <div class="cov-row"><span class="k">Пополнение</span><span class="v" id="covTopup">—</span></div>
+        <div class="cov-row" id="covHotspotRow" hidden><span class="k">Раздача интернета</span><span class="v" id="covHotspot">—</span></div>
+        <div class="cov-row" id="covNoteRow" hidden><span class="k">Скорость</span><span class="v" id="covNote">—</span></div>
+        <div class="cov-row" id="covFupRow" hidden><span class="k">После лимита</span><span class="v" id="covFup">—</span></div>
+      </div>
+      <div class="cov-countries" id="covCountriesWrap" hidden>
+        <div class="k">Страны покрытия</div>
+        <div class="v" id="covCountries">—</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="cp-sec why"><h2>Почему eSIM: Испания</h2><div class="help-grid why-cards"><div class="help-card why-card"><span class="ico" aria-hidden="true">🏝</span><h3>Острова — тот же тариф</h3><p>Проверьте покрытие по карточке. Отдельный тариф для Тенерифе или Майорки не нужен.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">🌇</span><h3>Что именно обещает карточка</h3><p>В карточке тарифа видно, какие сети он поддерживает, и там же открывается состав покрытия. Для видео и работы берите объём с запасом — расход там кратно выше, чем у карт и мессенджеров.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">⛰</span><h3>Горные участки островов</h3><p>Тейде, север Майорки, горные дороги — участки с редким сигналом. Маршрут скачивают заранее.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">🚗</span><h3>Длинные переезды</h3><p>Расстояния между испанскими городами большие, и навигация в дороге расходует заметную часть пакета.</p></div></div></section>
+
+  <section class="cp-help" aria-labelledby="cpHelpTitle">
+    <h2 id="cpHelpTitle">Перед покупкой</h2>
+    <div class="help-grid">
+      <div class="help-card why">
+        <h3>Что даёт eSIM</h3>
+        <ul class="why-list">
+          <li><b>Интернет с прилёта.</b> Тариф куплен и установлен до вылета — по прилёте достаточно включить передачу данных.</li>
+          <li><b>Оплата в рублях.</b> Российская карта или СБП, без поиска обменника и местного салона связи.</li>
+          <li><b>Российский номер остаётся.</b> eSIM работает второй линией и не заменяет физическую SIM.</li>
+        </ul>
+      </div>
+      <div class="help-card compat">
+        <h3>Совместимость</h3>
+        <p>eSIM работает на телефонах с поддержкой eSIM, не заблокированных под оператора. Проверить свою модель: <a href="/esim/compatibility/">список совместимых устройств</a>, инструкции для <a href="/iphone.html">iPhone</a> и <a href="/android.html">Android</a>.</p>
+      </div>
+      <div class="help-card howto">
+        <h3>Как подключить</h3>
+        <ol class="howto-list">
+          <li>Выберите тариф на этой странице и оплатите — <a href="/esim/payment-rubles/">российской банковской картой или через СБП</a>.</li>
+          <li>QR-код придёт на почту сразу после оплаты.</li>
+          <li>Отсканируйте его дома по Wi-Fi: <a href="/esim/activation-before-travel/">как установить до вылета</a>.</li>
+          <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/esim/not-working/">что проверить</a>.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="cp-sec faq" id="faq">
+    <h2>Вопросы о eSIM: Испания</h2>
+    <details class="faq-item"><summary>Нужен ли отдельный тариф для Канарских островов</summary><p>Нет. Каталог указывает покрытие кодами стран, и для испанских тарифов это код Испании целиком — отдельных строк по островам в нём нет. Что именно входит в зону конкретного тарифа, показывает кнопка «Покрытие и условия» в карточке; проверьте её до оплаты, если поездка островная. Отдельно докупать ничего не требуется.</p></details>
+    <details class="faq-item"><summary>Сколько гигабайт нужно на отдых в Испании</summary><p>Считать надо не дни, а километры. Неделя на одном побережье и неделя маршрутом Барселона — Валенсия — Севилья расходуют по-разному: во втором случае навигация работает часами. Отсюда практическое правило этой страницы: 10 ГБ за 950 ₽ берут не «на всякий случай», а когда в поездке есть переезды. Для отпуска на месте нижние ступени — 3 ГБ за 350 ₽ или 5 ГБ за 550 ₽ — обычно закрывают вопрос.</p></details>
+    <details class="faq-item"><summary>Есть ли связь на горных маршрутах</summary><p>Связь в конкретной точке мы не обещаем, а в горах она закономерно менее устойчива — маршрут стоит сохранить офлайн. Это вопрос рельефа, а не тарифа: трек и карту района лучше скачать до выхода, тогда отсутствие сети не помешает.</p></details>
+    <details class="faq-item"><summary>Работает ли испанский тариф в Португалии</summary><p>Локальный тариф действует только в Испании. Для маршрута с Лиссабоном или Порту нужен региональный: он покрывает несколько стран одним профилем, и на границе, которую на машине легко проехать не заметив, ничего переключать не придётся.</p></details>
+    <details class="faq-item"><summary>Что делать, если пакет закончился в середине отпуска</summary><p>Интернет просто остановится — тариф не продлевается сам и не уходит в минус. У большинства испанских тарифов есть пополнение — тогда новый объём подключается на то же устройство и профиль переустанавливать не нужно. Но не у всех: доступность отмечена в карточке, и проверить её стоит до оплаты. Ставить его заранее, «про запас», не нужно.</p></details>
+    <details class="faq-item"><summary>Испания — есть ли локальные тарифы?</summary><p>Да. Сейчас доступно 6 локальных тарифов именно для этой страны. Они показаны на этой странице сразу после блока «Трафик на каждый день».</p></details>
+    <details class="faq-item"><summary>Что такое региональные тарифы?</summary><p>Это тарифы, покрытие которых включает несколько стран, в том числе эту. Сейчас таких 5. Они подходят, если поездка захватывает не одну страну; полный список стран покрытия указан в карточке каждого тарифа.</p></details>
+  </section>
+
+  <section class="cp-sec related">
+    <h2>Другие направления</h2>
+    <div class="ru-tiles">
+      <a class="ru-tile" href="../iraq/"><img class="flag" src="/assets/flags/iq.svg" alt="" width="36" height="27"><span>Ирак</span></a>
+      <a class="ru-tile" href="../ireland/"><img class="flag" src="/assets/flags/ie.svg" alt="" width="36" height="27"><span>Ирландия</span></a>
+      <a class="ru-tile" href="../iceland/"><img class="flag" src="/assets/flags/is.svg" alt="" width="36" height="27"><span>Исландия</span></a>
+      <a class="ru-tile" href="../italy/"><img class="flag" src="/assets/flags/it.svg" alt="" width="36" height="27"><span>Италия</span></a>
+      <a class="ru-tile" href="../cape-verde/"><img class="flag" src="/assets/flags/cv.svg" alt="" width="36" height="27"><span>Кабо-Верде</span></a>
+    </div>
+    <p class="ru-more"><a class="btn btn-ghost btn-sm" href="../">Все направления</a></p>
+  </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <p>Мобильный интернет в поездке: eSIM для 190+ направлений, оплата в рублях российской картой или через СБП.</p>
+      </div>
+      <div class="ft-col">
+        <h2>Направления</h2>
+        <ul>
+          <li><a href="/esim/turkey/">Турция</a></li>
+          <li><a href="/esim/thailand/">Таиланд</a></li>
+          <li><a href="/esim/vietnam/">Вьетнам</a></li>
+          <li><a href="/esim/egypt/">Египет</a></li>
+          <li><a href="/esim/maldives/">Мальдивы</a></li>
+          <li><a href="/esim/sri-lanka/">Шри-Ланка</a></li>
+          <li><a href="/esim/">Все направления</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Инструкции</h2>
+        <ul>
+          <li><a href="/iphone.html">Как установить eSIM на iPhone</a></li>
+          <li><a href="/android.html">Как установить eSIM на Android</a></li>
+          <li><a href="/esim/compatibility/">Поддерживает ли телефон eSIM</a></li>
+          <li><a href="/esim/activation-before-travel/">Когда устанавливать eSIM</a></li>
+          <li><a href="/esim/not-working/">eSIM не работает — что проверить</a></li>
+          <li><a href="/esim/payment-rubles/">Оплата российской картой или СБП</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Помощь</h2>
+        <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/#solution">Как это работает</a></li>
+          <li><a href="https://t.me/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</a></li>
+          <li><a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Magic eSIM в Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html">Пользовательское соглашение</a> · <a href="/privacy.html">Политика конфиденциальности</a></p>
+    </div>
+  </div>
+</footer>
 
   <script src="/assets/catalog-loader.js?v=7a0b4ca8" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=58c9ca87" defer></script>
+  <script src="../../assets/country-tariffs.js?v=ae2d5825" defer></script>
 
 <script>
 /* Attribution: запоминаем, что визит начался со страницы страны.

@@ -29,7 +29,7 @@ const cache = new Map();
 /**
  * Восемь hex от sha256 файла.
  *
- * `name` — путь от корня репозитория: «assets/country-pages.css», «app/mini.css».
+ * `name` — путь от корня репозитория: «assets/site.css», «app/mini.css».
  * Сначала версионировались только assets/, и Mini App остался с
  * `href="mini.css"` без версии — то есть ровно с тем рассинхроном
  * HTML↔CSS, ради которого всё это делалось.

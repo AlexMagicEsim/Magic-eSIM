@@ -29,7 +29,11 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://mc.yandex.ru" />
-  <link rel="stylesheet" href="assets/country-pages.css?v=90ee3c09" />
+  <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
+  <link rel="stylesheet" href="/assets/page-guides.css?v=d2c62fb9" />
+  <link rel="stylesheet" href="/assets/ru.css?v=b217aec3" />
 
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
@@ -71,192 +75,226 @@
   </script>
 </head>
 <body>
-  <nav class="nav">
-    <a class="brand" href="./" aria-label="Magic eSIM"><img class="brand-logo" src="assets/magic-esim-logo-header.png" alt="Magic eSIM" width="66" height="50"></a>
-    <div class="nav-links"><a href="#faq">Вопросы</a><a href="esim/">Направления</a><a href="./#global-pricing">Тарифы</a><a href="./">На главную</a></div>
-    <a class="btn" href="esim/">Выбрать направление</a>
-  </nav>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+    </nav>
+    <div class="hdr-actions">
+      <a class="langsw" href="/en/" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span>English</span></a>
+      <a class="btn btn-sm hdr-cta" href="/#global-pricing">Выбрать тариф</a>
+      <details class="mnav">
+        <summary aria-label="Меню"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+        <nav class="mnav-panel" aria-label="Меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <hr>
+          <a href="/en/" lang="en">English</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
 
-  <main>
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs"><div class="container">
+<main class="guide">
+  <section class="g-hero">
+    <div class="wrap">
       <nav class="crumbs" aria-label="Хлебные крошки">
-        <a href="./">Главная</a><span class="sep">/</span>
+        <a href="./">Главная</a> › 
         <span aria-current="page">Android</span>
       </nav>
-    </div></div>
-
-    <!-- Hero -->
-    <header class="cp-hero"><div class="container">
-      <span class="eyebrow"><span class="pulse"></span> Инструкции Magic eSIM</span>
-      <h1>Как установить eSIM на Android</h1>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <h1>Как установить eSIM на Android</h1>
+      </div>
       <p class="lead">На Android названия пунктов меню отличаются в зависимости от бренда и версии системы — ниже общий порядок действий и отдельные подсказки для Samsung и Google Pixel.</p>
-      <div class="hero-actions">
-        <a class="btn" href="esim/">Выбрать направление</a>
-        <a class="btn secondary" href="#faq">Частые вопросы</a>
-      </div>
-    </div></header>
+    </div>
+  </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Шаг 0</div>
-          <h2>Проверьте поддержку eSIM</h2>
-        </div>
-        <div class="prose">
-                  <p>Откройте настройки SIM-карт своего телефона: если там есть пункт вида «Добавить eSIM», «Загрузить SIM» или «Добавить мобильный тариф» — устройство поддерживает eSIM. Поддержка зависит не только от модели, но и от региональной версии устройства, поэтому надёжнее всего проверить прямо в настройках. Подробнее — на странице <a href="esim/compatibility/">проверки совместимости</a>.</p>
-                  <p>Телефон также не должен быть заблокирован под одного оператора.</p>
-                </div>
-      </div>
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="На этой странице">
+      <p class="g-toc-title">На этой странице</p>
+      <ol>
+        <li><a href="#s1">Проверьте поддержку eSIM</a></li>
+        <li><a href="#s2">Общий порядок: QR-код или ручной ввод</a></li>
+        <li><a href="#s3">Samsung Galaxy</a></li>
+        <li><a href="#s4">Google Pixel</a></li>
+        <li><a href="#s5">Xiaomi, HONOR, HUAWEI и прочие</a></li>
+        <li><a href="#s6">Включение интернета в поездке</a></li>
+        <li><a href="#s7">Если интернет не появился</a></li>
+        <li><a href="#faq">Частые вопросы</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec" id="s1" aria-labelledby="s1-h">
+      <p class="g-kicker">Шаг 0</p>
+      <h2 id="s1-h">Проверьте поддержку eSIM</h2>
+      <div class="prose">
+                <p>Откройте настройки SIM-карт своего телефона: если там есть пункт вида «Добавить eSIM», «Загрузить SIM» или «Добавить мобильный тариф» — устройство поддерживает eSIM. Поддержка зависит не только от модели, но и от региональной версии устройства, поэтому надёжнее всего проверить прямо в настройках. Подробнее — на странице <a href="esim/compatibility/">проверки совместимости</a>.</p>
+                <p>Телефон также не должен быть заблокирован под одного оператора.</p>
+              </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Установка</div>
-          <h2>Общий порядок: QR-код или ручной ввод</h2>
-        </div>
-        <ol class="ol-steps">
-                  <li>Откройте письмо Magic eSIM с QR-кодом на другом экране.</li>
-                  <li>В настройках телефона найдите раздел SIM-карт (обычно «Сеть и интернет», «Подключения» или «SIM-карты и мобильные сети»).</li>
-                  <li>Выберите добавление eSIM и отсканируйте QR-код из письма.</li>
-                  <li>Если сканировать нечем — выберите ручной ввод и укажите адрес SM-DP+ и код активации из письма.</li>
-                  <li>Подтвердите добавление тарифа и дождитесь окончания установки.</li>
-                </ol>
-                <p class="muted">Формулировки пунктов различаются между брендами и версиями Android — ориентируйтесь на слова «eSIM», «SIM» и «Добавить». Для установки нужно подключение к интернету, удобнее всего Wi-Fi.</p>
-      </div>
+    <section class="g-sec" id="s2" aria-labelledby="s2-h">
+      <p class="g-kicker">Установка</p>
+      <h2 id="s2-h">Общий порядок: QR-код или ручной ввод</h2>
+      <ol class="ol-steps">
+                <li>Откройте письмо Magic eSIM с QR-кодом на другом экране.</li>
+                <li>В настройках телефона найдите раздел SIM-карт (обычно «Сеть и интернет», «Подключения» или «SIM-карты и мобильные сети»).</li>
+                <li>Выберите добавление eSIM и отсканируйте QR-код из письма.</li>
+                <li>Если сканировать нечем — выберите ручной ввод и укажите адрес SM-DP+ и код активации из письма.</li>
+                <li>Подтвердите добавление тарифа и дождитесь окончания установки.</li>
+              </ol>
+              <p class="muted">Формулировки пунктов различаются между брендами и версиями Android — ориентируйтесь на слова «eSIM», «SIM» и «Добавить». Для установки нужно подключение к интернету, удобнее всего Wi-Fi.</p>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Samsung</div>
-          <h2>Samsung Galaxy</h2>
-        </div>
-        <ol class="ol-steps">
-                  <li>Откройте <strong>Настройки → Подключения → Диспетчер SIM-карт</strong> (пункты меню зависят от модели, региона и версии One UI — ориентируйтесь на раздел управления SIM-картами).</li>
-                  <li>Нажмите «Добавить eSIM» и отсканируйте QR-код из письма.</li>
-                  <li>После установки включите новую линию в том же разделе.</li>
-                  <li>Назначьте eSIM для мобильных данных и включите на ней роуминг данных.</li>
-                </ol>
-      </div>
+    <section class="g-sec" id="s3" aria-labelledby="s3-h">
+      <p class="g-kicker">Samsung</p>
+      <h2 id="s3-h">Samsung Galaxy</h2>
+      <ol class="ol-steps">
+                <li>Откройте <strong>Настройки → Подключения → Диспетчер SIM-карт</strong> (пункты меню зависят от модели, региона и версии One UI — ориентируйтесь на раздел управления SIM-картами).</li>
+                <li>Нажмите «Добавить eSIM» и отсканируйте QR-код из письма.</li>
+                <li>После установки включите новую линию в том же разделе.</li>
+                <li>Назначьте eSIM для мобильных данных и включите на ней роуминг данных.</li>
+              </ol>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Pixel</div>
-          <h2>Google Pixel</h2>
-        </div>
-        <ol class="ol-steps">
-                  <li>Откройте <strong>Настройки → Сеть и интернет → SIM-карты → Добавить SIM-карту → Настроить eSIM</strong>.</li>
-                  <li>Отсканируйте QR-код из письма и следуйте подсказкам на экране.</li>
-                  <li>После установки в разделе «SIM-карты» включите параметр <strong>Мобильный интернет</strong> для линии eSIM.</li>
-                  <li>Включите роуминг данных для этой линии.</li>
-                </ol>
-                <p class="muted">Пути приведены по справке Google Pixel; на разных поколениях Pixel экраны могут немного отличаться.</p>
-      </div>
+    <section class="g-sec" id="s4" aria-labelledby="s4-h">
+      <p class="g-kicker">Pixel</p>
+      <h2 id="s4-h">Google Pixel</h2>
+      <ol class="ol-steps">
+                <li>Откройте <strong>Настройки → Сеть и интернет → SIM-карты → Добавить SIM-карту → Настроить eSIM</strong>.</li>
+                <li>Отсканируйте QR-код из письма и следуйте подсказкам на экране.</li>
+                <li>После установки в разделе «SIM-карты» включите параметр <strong>Мобильный интернет</strong> для линии eSIM.</li>
+                <li>Включите роуминг данных для этой линии.</li>
+              </ol>
+              <p class="muted">Пути приведены по справке Google Pixel; на разных поколениях Pixel экраны могут немного отличаться.</p>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Другие бренды</div>
-          <h2>Xiaomi, HONOR, HUAWEI и прочие</h2>
-        </div>
-        <div class="prose">
-                  <p>Логика одинаковая: раздел SIM-карт в настройках → добавление eSIM → сканирование QR-кода → включение линии, выбор её для мобильных данных и включение роуминга данных. Если пункт «Добавить eSIM» не находится — проверьте поддержку eSIM вашей версией устройства в его инструкции или на сайте производителя.</p>
-                </div>
-      </div>
+    <section class="g-sec" id="s5" aria-labelledby="s5-h">
+      <p class="g-kicker">Другие бренды</p>
+      <h2 id="s5-h">Xiaomi, HONOR, HUAWEI и прочие</h2>
+      <div class="prose">
+                <p>Логика одинаковая: раздел SIM-карт в настройках → добавление eSIM → сканирование QR-кода → включение линии, выбор её для мобильных данных и включение роуминга данных. Если пункт «Добавить eSIM» не находится — проверьте поддержку eSIM вашей версией устройства в его инструкции или на сайте производителя.</p>
+              </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">После прилёта</div>
-          <h2>Включение интернета в поездке</h2>
-        </div>
-        <ol class="ol-steps">
-                  <li>Включите линию eSIM в настройках SIM-карт, если она была выключена.</li>
-                  <li>Назначьте eSIM источником <strong>мобильных данных</strong>; основную SIM можно оставить для звонков и SMS.</li>
-                  <li>Включите <strong>роуминг данных</strong> на линии eSIM — travel-тарифы работают в гостевых сетях.</li>
-                  <li>На основной SIM роуминг данных лучше выключить, чтобы не потратить лишнего у своего оператора.</li>
-                  <li>Дайте телефону пару минут на регистрацию в местной сети.</li>
-                </ol>
-      </div>
+    <section class="g-sec" id="s6" aria-labelledby="s6-h">
+      <p class="g-kicker">После прилёта</p>
+      <h2 id="s6-h">Включение интернета в поездке</h2>
+      <ol class="ol-steps">
+                <li>Включите линию eSIM в настройках SIM-карт, если она была выключена.</li>
+                <li>Назначьте eSIM источником <strong>мобильных данных</strong>; основную SIM можно оставить для звонков и SMS.</li>
+                <li>Включите <strong>роуминг данных</strong> на линии eSIM — travel-тарифы работают в гостевых сетях.</li>
+                <li>На основной SIM роуминг данных лучше выключить, чтобы не потратить лишнего у своего оператора.</li>
+                <li>Дайте телефону пару минут на регистрацию в местной сети.</li>
+              </ol>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Проблемы</div>
-          <h2>Если интернет не появился</h2>
-        </div>
-        <div class="prose">
-                  <p>Проверьте по порядку: линия eSIM включена, именно она выбрана для мобильных данных, роуминг данных на ней включён, телефон перезагружен. Разбор всех типовых ситуаций — на странице <a href="esim/not-working/">«eSIM не работает — что делать»</a>. Профиль eSIM при неполадках удалять не стоит: QR-код часто одноразовый.</p>
-                </div>
-      </div>
+    <section class="g-sec" id="s7" aria-labelledby="s7-h">
+      <p class="g-kicker">Проблемы</p>
+      <h2 id="s7-h">Если интернет не появился</h2>
+      <div class="prose">
+                <p>Проверьте по порядку: линия eSIM включена, именно она выбрана для мобильных данных, роуминг данных на ней включён, телефон перезагружен. Разбор всех типовых ситуаций — на странице <a href="esim/not-working/">«eSIM не работает — что делать»</a>. Профиль eSIM при неполадках удалять не стоит: QR-код часто одноразовый.</p>
+              </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Вопросы и ответы</div>
-          <h2>Частые вопросы</h2>
-        </div>
-        <div class="faq-list">
-          <div class="faq-item"><p class="faq-q">Почему у меня в настройках нет пункта «Добавить eSIM»?</p><p class="faq-a">Либо эта версия устройства не поддерживает eSIM (поддержка зависит от региона выпуска), либо пункт называется иначе — поищите по словам «eSIM» и «SIM» в поиске по настройкам. Если пункта нет совсем, проверьте модель на странице совместимости.</p></div>
-          <div class="faq-item"><p class="faq-q">Пути в инструкции не совпадают с моим телефоном. Что делать?</p><p class="faq-a">Это нормально: у брендов и версий Android названия разделов различаются. Ищите раздел управления SIM-картами — добавление eSIM всегда находится там.</p></div>
-          <div class="faq-item"><p class="faq-q">Нужно ли включать роуминг данных на eSIM?</p><p class="faq-a">Да, для линии eSIM — это штатная настройка travel-тарифов, работающих в гостевых сетях. На основной SIM роуминг данных можно выключить.</p></div>
-          <div class="faq-item"><p class="faq-q">Могу ли я пользоваться WhatsApp и другими мессенджерами со старым номером?</p><p class="faq-a">Да: мессенджеры привязаны к аккаунту, а не к SIM в слоте. Они продолжат работать через интернет eSIM с вашим прежним номером.</p></div>
-          <div class="faq-item"><p class="faq-q">Как вернуть интернет через основную SIM после поездки?</p><p class="faq-a">В настройках SIM-карт снова выберите основную карту источником мобильных данных, а линию eSIM можно выключить до следующей поездки.</p></div>
-          <div class="faq-item"><p class="faq-q">Установка прервалась — можно отсканировать QR-код ещё раз?</p><p class="faq-a">Зависит от состояния профиля: иногда повторное сканирование срабатывает, но QR-код часто одноразовый. Если установка не завершается, напишите в поддержку — не пытайтесь многократно переустанавливать профиль.</p></div>
-        </div>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Частые вопросы</h2>
+      <div class="faq-list">
+        <div class="faq-item"><p class="faq-q">Почему у меня в настройках нет пункта «Добавить eSIM»?</p><p class="faq-a">Либо эта версия устройства не поддерживает eSIM (поддержка зависит от региона выпуска), либо пункт называется иначе — поищите по словам «eSIM» и «SIM» в поиске по настройкам. Если пункта нет совсем, проверьте модель на странице совместимости.</p></div>
+        <div class="faq-item"><p class="faq-q">Пути в инструкции не совпадают с моим телефоном. Что делать?</p><p class="faq-a">Это нормально: у брендов и версий Android названия разделов различаются. Ищите раздел управления SIM-картами — добавление eSIM всегда находится там.</p></div>
+        <div class="faq-item"><p class="faq-q">Нужно ли включать роуминг данных на eSIM?</p><p class="faq-a">Да, для линии eSIM — это штатная настройка travel-тарифов, работающих в гостевых сетях. На основной SIM роуминг данных можно выключить.</p></div>
+        <div class="faq-item"><p class="faq-q">Могу ли я пользоваться WhatsApp и другими мессенджерами со старым номером?</p><p class="faq-a">Да: мессенджеры привязаны к аккаунту, а не к SIM в слоте. Они продолжат работать через интернет eSIM с вашим прежним номером.</p></div>
+        <div class="faq-item"><p class="faq-q">Как вернуть интернет через основную SIM после поездки?</p><p class="faq-a">В настройках SIM-карт снова выберите основную карту источником мобильных данных, а линию eSIM можно выключить до следующей поездки.</p></div>
+        <div class="faq-item"><p class="faq-q">Установка прервалась — можно отсканировать QR-код ещё раз?</p><p class="faq-a">Зависит от состояния профиля: иногда повторное сканирование срабатывает, но QR-код часто одноразовый. Если установка не завершается, напишите в поддержку — не пытайтесь многократно переустанавливать профиль.</p></div>
       </div>
     </section>
+    </article>
+  </div>
 
-    <!-- Related -->
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Полезное</div>
-          <h2>Смотрите также</h2>
-        </div>
-        <div class="links-wrap">
-          <a class="country-link" href="esim/compatibility/">Проверка совместимости телефона</a>
-          <a class="country-link" href="esim/activation-before-travel/">Когда устанавливать и включать eSIM</a>
-          <a class="country-link" href="esim/not-working/">eSIM не работает — что делать</a>
-          <a class="country-link" href="iphone.html">Инструкция для iPhone</a>
-          <a class="country-link" href="esim/dual-sim-sms/">Основной номер, SMS и звонки</a>
-          <a class="country-link" href="esim/payment-rubles/">Оплата рублями и СБП</a>
-        </div>
-        <div class="links-wrap" style="margin-top:10px">
-          <a class="country-link" href="esim/thailand/"><img src="assets/flags/th.png" alt="Флаг: Таиланд" width="30" height="21"> eSIM для Таиланда</a>
-          <a class="country-link" href="esim/turkey/"><img src="assets/flags/tr.png" alt="Флаг: Турция" width="30" height="21"> eSIM для Турции</a>
-          <a class="country-link" href="esim/georgia/"><span aria-hidden="true">🇬🇪</span> eSIM для Грузии</a>
-          <a class="country-link" href="esim/indonesia/"><img src="assets/flags/id.png" alt="Флаг: Индонезия" width="30" height="21"> eSIM для Индонезии</a>
-          <a class="country-link" href="esim/">Все направления</a>
-        </div>
+  <div class="wrap">
+    <section class="g-related" aria-labelledby="related-h">
+      <h2 id="related-h">Смотрите также</h2>
+      <div class="ru-tiles">
+        <a class="ru-tile ru-tile-guide" href="esim/compatibility/"><span>Проверка совместимости телефона</span></a>
+        <a class="ru-tile ru-tile-guide" href="esim/activation-before-travel/"><span>Когда устанавливать и включать eSIM</span></a>
+        <a class="ru-tile ru-tile-guide" href="esim/not-working/"><span>eSIM не работает — что делать</span></a>
+        <a class="ru-tile ru-tile-guide" href="iphone.html"><span>Инструкция для iPhone</span></a>
+        <a class="ru-tile ru-tile-guide" href="esim/dual-sim-sms/"><span>Основной номер, SMS и звонки</span></a>
+        <a class="ru-tile ru-tile-guide" href="esim/payment-rubles/"><span>Оплата рублями и СБП</span></a>
+        <a class="ru-tile" href="/esim/thailand/"><img class="flag" src="/assets/flags/th.svg" alt="" width="36" height="27"><span>eSIM для Таиланда</span></a>
+        <a class="ru-tile" href="/esim/turkey/"><img class="flag" src="/assets/flags/tr.svg" alt="" width="36" height="27"><span>eSIM для Турции</span></a>
+        <a class="ru-tile" href="/esim/georgia/"><img class="flag" src="/assets/flags/ge.svg" alt="" width="36" height="27"><span>eSIM для Грузии</span></a>
+        <a class="ru-tile" href="/esim/indonesia/"><img class="flag" src="/assets/flags/id.svg" alt="" width="36" height="27"><span>eSIM для Индонезии</span></a>
       </div>
+      <p class="ru-more"><a class="btn btn-ghost btn-sm" href="/esim/">Все направления</a></p>
     </section>
 
-    <!-- CTA -->
-    <section class="cta">
-      <div class="container">
-        <div class="cta-box">
-          <h2>Готовы к поездке?</h2>
-          <p class="lead">Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
-          <a class="btn" href="esim/">Выбрать направление</a>
-        </div>
+    <section class="ru-cta">
+      <div>
+        <h2>Готовы к поездке?</h2>
+        <p>Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
       </div>
+      <a class="btn" href="/esim/">Выбрать направление</a>
     </section>
-  </main>
+  </div>
+</main>
 
-  <footer><div class="container footer-inner">
-    <div class="brand"><span class="company-name">Magic eSIM</span></div>
-    <nav class="footer-links"><a href="./">Главная</a><a href="privacy.html">Политика конфиденциальности</a><a href="terms.html">Пользовательское соглашение</a></nav>
-    <span class="footer-support"><a href="mailto:support@magicesim.store">support@magicesim.store</a></span>
-  </div></footer>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <p>Мобильный интернет в поездке: eSIM для 190+ направлений, оплата в рублях российской картой или через СБП.</p>
+      </div>
+      <div class="ft-col">
+        <h2>Направления</h2>
+        <ul>
+          <li><a href="/esim/turkey/">Турция</a></li>
+          <li><a href="/esim/thailand/">Таиланд</a></li>
+          <li><a href="/esim/vietnam/">Вьетнам</a></li>
+          <li><a href="/esim/egypt/">Египет</a></li>
+          <li><a href="/esim/maldives/">Мальдивы</a></li>
+          <li><a href="/esim/sri-lanka/">Шри-Ланка</a></li>
+          <li><a href="/esim/">Все направления</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Инструкции</h2>
+        <ul>
+          <li><a href="/iphone.html">Как установить eSIM на iPhone</a></li>
+          <li><a href="/android.html">Как установить eSIM на Android</a></li>
+          <li><a href="/esim/compatibility/">Поддерживает ли телефон eSIM</a></li>
+          <li><a href="/esim/activation-before-travel/">Когда устанавливать eSIM</a></li>
+          <li><a href="/esim/not-working/">eSIM не работает — что проверить</a></li>
+          <li><a href="/esim/payment-rubles/">Оплата российской картой или СБП</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Помощь</h2>
+        <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/#solution">Как это работает</a></li>
+          <li><a href="https://t.me/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</a></li>
+          <li><a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Magic eSIM в Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html">Пользовательское соглашение</a> · <a href="/privacy.html">Политика конфиденциальности</a></p>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
