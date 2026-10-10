@@ -13,7 +13,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const read = (p) => readFileSync(join(ROOT, p), 'utf8');
+// The landing's code is index.html PLUS its checkout module: the checkout IIFE
+// moved verbatim to assets/ru-checkout.js (RU↔EN parity, migration PR A) and
+// runs right after the inline script. Every rule below that reads the landing
+// reads both, so a rule about the checkout still finds it.
+const readRaw = (p) => readFileSync(join(ROOT, p), 'utf8');
+const read = (p) => (p === 'index.html' ? readRaw('index.html') + '\n' + readRaw('assets/ru-checkout.js') : readRaw(p));
 
 /* ---------- harnesses ---------------------------------------------------- */
 
@@ -695,7 +700,7 @@ test('шаги называют только те кнопки, которые �
   const steps = h.match(/<ol class="ol-steps">[\s\S]*?<\/ol>/);
   assert.ok(steps, 'блок шагов не найден');
 
-  const ui = readFileSync(join(ROOT, 'index.html'), 'utf8')
+  const ui = read('index.html')   // the landing: index.html + assets/ru-checkout.js
     + readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8')
     + readFileSync(join(ROOT, 'assets/daily-plan-copy.js'), 'utf8')
     // Окно «Покрытие и условия» на стране — разметка страницы, а не скрипта.

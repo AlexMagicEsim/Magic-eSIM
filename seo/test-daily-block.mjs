@@ -15,7 +15,12 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const read = (p) => readFileSync(join(ROOT, p), 'utf8');
+// The landing's code is index.html PLUS its checkout module: the checkout IIFE
+// moved verbatim to assets/ru-checkout.js (RU↔EN parity, migration PR A) and
+// runs right after the inline script. Every rule below that reads the landing
+// reads both, so a rule about the checkout still finds it.
+const readRaw = (p) => readFileSync(join(ROOT, p), 'utf8');
+const read = (p) => (p === 'index.html' ? readRaw('index.html') + '\n' + readRaw('assets/ru-checkout.js') : readRaw(p));
 
 const SURFACES = ['index.html', 'assets/country-tariffs.js'];
 
