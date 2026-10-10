@@ -69,7 +69,7 @@ test('the mobile menu offers exactly the desktop links, plus the language switch
 /* ------------------------------------------------------------ what the home shows */
 
 test('popular destinations are real pages with real flags, in the declared order', () => {
-  const tiles = [...HOME.matchAll(/<a class="dest-tile" href="\/en\/esim\/([a-z0-9-]+)\/"><img class="flag" src="\/en\/flags\/([a-z]{2})\.svg"[^>]*><span><b>([^<]+)<\/b>/g)]
+  const tiles = [...HOME.matchAll(/<a class="dest-tile" href="\/en\/esim\/([a-z0-9-]+)\/"><img class="flag" src="\/assets\/flags\/([a-z]{2})\.svg"[^>]*><span><b>([^<]+)<\/b>/g)]
     .map((m) => ({ slug: m[1], iso: m[2].toUpperCase(), name: m[3] }));
   assert.deepEqual(tiles, POPULAR.map((c) => ({ slug: c.slug, iso: c.iso, name: c.name })));
   for (const c of POPULAR) {
@@ -133,44 +133,44 @@ test('every new English string exists, and none promises what the shop cannot st
 /* ------------------------------------------------------------ assets */
 
 test('Inter is self-hosted, licensed, and the only font the stylesheet asks for', () => {
-  const CSS = read('en/en.css');
+  const CSS = read('assets/site.css');
   const urls = [...CSS.matchAll(/url\(([^)]+)\)/g)].map((m) => m[1].replace(/["']/g, ''));
-  assert.ok(urls.length >= 2);
+  assert.ok(urls.length >= 3, 'latin, latin-ext and cyrillic');
   for (const u of urls) {
-    assert.match(u, /^\/en\/fonts\/inter-latin(-ext)?-wght-normal\.woff2$/, u);
+    assert.match(u, /^\/assets\/fonts\/inter-(latin|latin-ext|cyrillic)-wght-normal\.woff2$/, u);
     assert.ok(existsSync(join(ROOT, u.slice(1))), u);
   }
-  assert.match(read('en/fonts/OFL.txt'), /SIL Open Font License/);
+  assert.match(read('assets/fonts/OFL.txt'), /SIL Open Font License/);
   assert.match(CSS, /--font:"Inter",/);
 });
 
 test('no stylesheet reaches outside the site (the CSP allows only self)', () => {
-  for (const f of ['en/en.css', 'en/home.css']) {
+  for (const f of ['assets/site.css', 'en/en.css', 'en/home.css']) {
     assert.doesNotMatch(read(f), /https?:\/\/|@import/i, f);
   }
 });
 
 test('every destination has its flag, and the flags are licensed', () => {
   assert.equal(DESTINATIONS.length, 198);
-  const missing = DESTINATIONS.filter((d) => !existsSync(join(ROOT, `en/flags/${d.iso.toLowerCase()}.svg`)));
+  const missing = DESTINATIONS.filter((d) => !existsSync(join(ROOT, `assets/flags/${d.iso.toLowerCase()}.svg`)));
   assert.deepEqual(missing, []);
-  for (const f of readdirSync(join(ROOT, 'en/flags')).filter((x) => x.endsWith('.svg'))) {
-    const svg = read(`en/flags/${f}`);
+  for (const f of readdirSync(join(ROOT, 'assets/flags')).filter((x) => x.endsWith('.svg'))) {
+    const svg = read(`assets/flags/${f}`);
     assert.match(svg, /^<svg[^>]*viewBox="0 0 640 480"/, `${f} is a 4:3 SVG`);
     assert.doesNotMatch(svg, /<script|on[a-z]+=|href="(?:https?:|javascript:)/i, `${f} is inert`);
   }
-  assert.match(read('en/flags/LICENSE.txt'), /MIT/);
+  assert.match(read('assets/flags/LICENSE.txt'), /MIT/);
 });
 
 test('the logo is the brand artwork at 1x, 2x and 3x of a 44 px header', () => {
   const size = (p) => { const b = readFileSync(join(ROOT, p)); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
-  assert.deepEqual(size('en/img/logo-1x.png'), [59, 44]);
-  assert.deepEqual(size('en/img/logo-2x.png'), [117, 88]);
-  assert.deepEqual(size('en/img/logo-3x.png'), [176, 132]);
+  assert.deepEqual(size('assets/brand/logo-1x.png'), [59, 44]);
+  assert.deepEqual(size('assets/brand/logo-2x.png'), [117, 88]);
+  assert.deepEqual(size('assets/brand/logo-3x.png'), [176, 132]);
 });
 
 test('the design system keeps the brand palette and the contrast the tests pin', () => {
-  const CSS = read('en/en.css');
+  const CSS = read('assets/site.css');
   assert.match(CSS, /--grad:linear-gradient\(135deg,#8a16c7 0%,#3866d9 52%,#00c7df 100%\)/, 'the Russian landing\'s gradient');
   assert.match(CSS, /--bg:#f7f9fc;/);
   assert.match(CSS, /--accent-btn:#4267e8;/);

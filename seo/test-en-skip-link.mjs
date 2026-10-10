@@ -6,7 +6,7 @@
 //      before any other link, button or field, pointing at #main;
 //   2. exactly one <main id="main" tabindex="-1"> to land on;
 //   3. the home's skip link is the generator's own string (one source);
-//   4. en.css: off-screen until focused, shown on :focus, no ring on <main>;
+//   4. assets/site.css (the shared design system): off-screen until focused, shown on :focus, no ring on <main>;
 //   5. the Russian site and the shared 404.html carry no skip link.
 
 import test from 'node:test';
@@ -29,7 +29,7 @@ function htmlFiles(dir) {
 }
 
 const EN = htmlFiles(join(ROOT, 'en'));
-const CSS = readFileSync(join(ROOT, 'en', 'en.css'), 'utf8');
+const CSS = readFileSync(join(ROOT, 'assets', 'site.css'), 'utf8');
 
 test('the skip link string is what the pages carry', () => {
   assert.equal(SKIP_LINK, '<a class="skip" href="#main">Skip to main content</a>');
@@ -59,7 +59,7 @@ test('every English page: exactly one <main id="main" tabindex="-1">', () => {
   }
 });
 
-test('en.css: hidden until focused, shown on focus, above the sticky header, no ring on <main>', () => {
+test('site.css: hidden until focused, shown on focus, above the sticky header, no ring on <main>', () => {
   const rule = (sel) => {
     const i = CSS.indexOf(`${sel}{`);
     assert.ok(i >= 0, `rule ${sel}`);

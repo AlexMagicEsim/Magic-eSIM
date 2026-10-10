@@ -93,7 +93,7 @@ const contrast = (a, b) => {
   const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p);
   return (x + 0.05) / (y + 0.05);
 };
-const CSS = read('en/en.css');
+const CSS = read('assets/site.css');
 const cssVar = (name) => (CSS.match(new RegExp(`--${name}:(#[0-9a-fA-F]{6})`)) || [])[1];
 
 test('button text meets WCAG AA (4.5:1) and the button stands out from the page (3:1)', () => {
@@ -134,7 +134,7 @@ test('the checkout dialog can take focus, the status is announced, the logo name
   for (const p of [...COUNTRY_PAGES.slice(0, 5), ...OTHER_PAGES]) {
     // Since the redesign the logo is the brand artwork alone (it contains the
     // name), at 1x/2x/3x, so it carries the name as its alt.
-    assert.match(read(p), /<a class="brand" href="\/en\/"><img src="\/en\/img\/logo-1x\.png" srcset="\/en\/img\/logo-2x\.png 2x, \/en\/img\/logo-3x\.png 3x" width="59" height="44" alt="Magic eSIM"><\/a>/, `${p}: the logo link is named by its image`);
+    assert.match(read(p), /<a class="brand" href="\/en\/"><img src="\/assets\/brand\/logo-1x\.png" srcset="\/assets\/brand\/logo-2x\.png 2x, \/assets\/brand\/logo-3x\.png 3x" width="59" height="44" alt="Magic eSIM"><\/a>/, `${p}: the logo link is named by its image`);
   }
   const co = read('en/checkout.js');
   assert.match(co, /\$\('coTitle'\)\.focus\(\)/, 'focus moves into the dialog');

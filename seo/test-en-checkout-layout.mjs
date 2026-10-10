@@ -40,11 +40,11 @@ test('the step indicator is decoration: three steps, hidden from assistive techn
 });
 
 test('the summary names the page\'s country with its flag', () => {
-  assert.match(WIN, /<div class="co-sum-head"><img class="co-flag" src="\/en\/flags\/th\.svg" alt="" width="36" height="27"><span>eSIM for Thailand<\/span><\/div>/);
+  assert.match(WIN, /<div class="co-sum-head"><img class="co-flag" src="\/assets\/flags\/th\.svg" alt="" width="36" height="27"><span>eSIM for Thailand<\/span><\/div>/);
 });
 
 test('the checkout styles live in en/checkout.css only, reach nothing outside, and style nothing unused', () => {
-  assert.doesNotMatch(read('en/en.css'), /\.overlay\{|\.modal\{|#coStep|\.unavail\{/, 'moved out of the shared stylesheet');
+  for (const f of ['en/en.css', 'assets/site.css']) assert.doesNotMatch(read(f), /\.overlay\{|\.modal\{|#coStep|\.unavail\{/, `${f}: moved out of the shared stylesheet`);
   assert.match(PAGE, /<link rel="stylesheet" href="\/en\/checkout\.css\?v=[0-9a-f]{8}">/);
   assert.doesNotMatch(CSS, /https?:\/\/|@import|url\(/i);
   let sel = CSS.replace(/\/\*[\s\S]*?\*\//g, '');

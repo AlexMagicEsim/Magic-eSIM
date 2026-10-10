@@ -331,7 +331,7 @@ test('no rouble anywhere on /en/: markup, script, stylesheet and every English s
   for (const [name, text] of [['en/index.html', markup(EN)], ['en/esim/uae/index.html', markup(PAGE)],
     ['en/esim/index.html', markup(HUB)], ['en/destinations.js', read('en/destinations.js')],
     ['en/app.js', code(EN_JS)], ['en/country.js', code(COUNTRY_JS)], ['en/plans.js', code(PLANS_JS)],
-    ['en/en.css', code(css)], ['strings', strings], ['assets/global-catalog.js', code(GLOBAL_JS)]]) {
+    ['en/en.css', code(css)], ['assets/site.css', code(read('assets/site.css'))], ['strings', strings], ['assets/global-catalog.js', code(GLOBAL_JS)]]) {
     // The header's «Перейти на русскую версию» is a language switch, not a price.
     assert.equal(ROUBLE.test(text), false, `${name} mentions roubles`);
   }

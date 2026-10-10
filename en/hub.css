@@ -1,5 +1,5 @@
 /* /en/esim/ — the destination list's own layout. Tokens, type, buttons and
- * the shared chrome come from en/en.css. Versioned by seo/stamp-assets.mjs. */
+ * the shared chrome come from assets/site.css. Versioned by seo/stamp-assets.mjs. */
 
 .hub{background:radial-gradient(900px 420px at 0% -10%,rgba(138,22,199,.08),transparent 60%),radial-gradient(820px 420px at 100% -10%,rgba(0,199,223,.08),transparent 58%),var(--bg)}
 
