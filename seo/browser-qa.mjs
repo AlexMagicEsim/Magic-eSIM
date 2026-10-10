@@ -187,7 +187,7 @@ const CHECKS = `(() => {
   // но при неудаче загрузчик падает на резервный /assets/catalog.json, который
   // лежит в репозитории, — и карточки всё равно строятся. Так что пустая сетка
   // здесь означает поломку страницы, а не стенда.
-  const cards = doc.querySelectorAll('#localGrid .package-card, #regionalGrid .package-card, .js-buy-link').length;
+  const cards = doc.querySelectorAll('#localGrid .package-card, #regionalGrid .package-card, .js-buy').length;
   const status = (doc.getElementById('packagesStatus') || {}).textContent || '';
   const failed = /не удалось|попробуйте/i.test(doc.body.innerText);
   if (cards === 0 && !failed) {
@@ -195,10 +195,11 @@ const CHECKS = `(() => {
   }
   const rendered = { cards, status: status.trim().slice(0, 40), failed };
 
-  // Ссылка покупки обязана нести метку происхождения
-  const buys = [...doc.querySelectorAll('.js-buy-link')];
-  const unmarked = buys.filter((a) => !String(a.getAttribute('href') || '').includes('src=country-page'));
-  if (buys.length && unmarked.length) problems.push(unmarked.length + ' из ' + buys.length + ' ссылок покупки без метки происхождения');
+  // С миграции RU↔EN (PR B) «Купить» открывает оформление на этой же странице:
+  // окно оформления обязано быть в разметке. Происхождение заказа несёт сам
+  // заказ (attribution.entry = путь страницы), а не ссылка.
+  const buys = doc.querySelectorAll('.js-buy').length;
+  if (buys && !doc.getElementById('checkoutModal')) problems.push('кнопки «Купить» есть, а окна оформления на странице нет');
 
   // CTA
   const ctas = [...doc.querySelectorAll('a,button')].filter((el) => {
@@ -264,7 +265,7 @@ async function load(url) {
     const { result } = await cdp.send('Runtime.evaluate', {
       returnByValue: true,
       expression: `(() => {
-        const cards = document.querySelectorAll('#localGrid .package-card, #regionalGrid .package-card, .js-buy-link').length;
+        const cards = document.querySelectorAll('#localGrid .package-card, #regionalGrid .package-card, .js-buy').length;
         const failed = /не удалось|попробуйте/i.test(document.body.innerText);
         return cards > 0 || failed;
       })()`,

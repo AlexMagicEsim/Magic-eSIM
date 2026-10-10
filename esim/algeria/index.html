@@ -46,7 +46,7 @@
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],regional_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_redirect:['country_code','package_id','payment_method'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -62,6 +62,8 @@
       if(k==='error_type'){v=String(v);return /^[a-z0-9_]{1,32}$/i.test(v)?v:undefined;}
       if(k==='fallback_triggered'||k==='stale'){v=String(v);return /^(yes|no)$/.test(v)?v:undefined;}
       if(k==='api_latency_ms'||k==='deadline_ms'||k==='static_age_ms'){var n2=Number(v);return (isFinite(n2)&&n2>=0&&n2<1e9)?n2:undefined;}
+      if(k==='outcome'){v=String(v);return /^(primary_ok|fallback_ok|both_failed|no_failover_unsafe_write)$/.test(v)?v:undefined;}
+      if(k==='endpoint_class'){v=String(v);return /^(read|write|status)$/.test(v)?v:undefined;}
       if(k==='order_price'||k==='discount_amount'||k==='price_rub'||k==='data_gb'||k==='validity_days'||k==='local_count'||k==='regional_count'||k==='cache_age_hours'){var n=Number(v);return (isFinite(n)&&n>=0&&n<1e7)?n:undefined;}
       return undefined;
     }
@@ -210,6 +212,55 @@
     </div>
   </div>
 
+  <!-- The checkout — the landing's own window (seo/ru-checkout-markup.mjs) and
+       its own code (assets/ru-checkout.js): «Купить» on a card opens it here. -->
+  <!-- On-site checkout (оформление заказа на сайте; оплата — заглушка до подключения платёжной системы) -->
+  <div id="checkoutModal" class="checkout-overlay" hidden>
+    <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <button type="button" class="checkout-close" id="checkoutClose" aria-label="Закрыть">×</button>
+      <h3 id="checkoutTitle">Оформление заказа</h3>
+      <div class="checkout-summary">
+        <div class="checkout-plan" id="coPlanName">eSIM-тариф</div>
+        <div class="checkout-rows">
+          <div><span>Покрытие</span><b id="coCoverage">—</b></div>
+          <div><span>Интернет</span><b id="coData">—</b></div>
+          <div><span>Срок</span><b id="coDays">—</b></div>
+          <div class="co-disc-row" id="coOrigRow" hidden><span>Стоимость</span><b id="coOrigPrice">—</b></div>
+          <div class="co-disc-row co-disc-neg" id="coDiscRow" hidden><span>Скидка по промокоду</span><b id="coDiscAmount">—</b></div>
+          <div class="checkout-total"><span>Итого</span><b id="coPrice">—</b></div>
+        </div>
+      </div>
+      <div class="checkout-method" role="radiogroup" aria-label="Способ оплаты">
+        <button type="button" class="co-method" id="coMethodSbp" data-method="sbp" role="radio" aria-checked="true"><img class="pay-ico" src="/assets/payment/sbp.svg" alt="" aria-hidden="true"><span>СБП</span></button>
+        <button type="button" class="co-method" id="coMethodCard" data-method="card" role="radio" aria-checked="false"><img class="pay-ico" src="/assets/payment/mir.svg" alt="" aria-hidden="true"><span>Российская карта</span></button>
+      </div>
+      <div class="checkout-promo" id="coPromoWrap">
+        <div class="co-promo-row">
+          <input type="text" id="coPromoInput" class="co-promo-input ym-hide-content" autocomplete="off" spellcheck="false" placeholder="Промокод" maxlength="32" aria-label="Промокод">
+          <button type="button" class="btn co-promo-apply" id="coPromoApply">Применить</button>
+        </div>
+        <p class="co-promo-msg" id="coPromoMsg" hidden role="status" aria-live="polite"></p>
+        <div class="co-promo-applied" id="coPromoApplied" hidden>
+          <span class="co-promo-tag" id="coPromoAppliedText"></span>
+          <button type="button" class="co-promo-remove" id="coPromoRemove" aria-label="Удалить промокод"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span>Удалить</span></button>
+        </div>
+      </div>
+      <form class="checkout-form" id="checkoutForm" novalidate>
+        <label><span class="co-label-text">Email для получения eSIM&nbsp;<span class="req">*</span></span>
+          <input type="email" id="coEmail" class="ym-hide-content" required autocomplete="email" placeholder="you@example.com">
+        </label>
+        <label class="checkout-consent">
+          <input type="checkbox" id="coConsent" required>
+          <span>Я принимаю <a href="/terms.html" target="_blank" rel="noopener">пользовательское соглашение</a> и <a href="/privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span>
+        </label>
+        <p class="checkout-error" id="coError" hidden></p>
+        <p class="checkout-result" id="coResult" hidden></p>
+        <button type="button" class="btn checkout-pay" id="coPay" style="width:100%"><span class="pay-logo-badge"><img class="pay-ico" id="coPayIco" src="/assets/payment/sbp.svg" alt="" aria-hidden="true"></span><span class="pay-label" id="coPayLabel">Оплатить по СБП</span></button>
+        <p class="checkout-note">Оплата через Platega: СБП или российская банковская карта. Данные eSIM придут на указанный email.</p>
+      </form>
+    </div>
+  </div>
+
   
 
   <section class="cp-help" aria-labelledby="cpHelpTitle">
@@ -311,12 +362,19 @@
   </div>
 </footer>
 
+  <!-- One network strategy for every storefront page (Render first, the
+       gateway second). The checkout sends the order through it, and the
+       catalogue loader takes its endpoint list from it. -->
+  <script src="/assets/magic-net.js?v=3e0887b2"></script>
   <script src="/assets/catalog-loader.js?v=7a0b4ca8" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=ae2d5825" defer></script>
+  <script src="../../assets/country-tariffs.js?v=fa4be4e1" defer></script>
+  <!-- After country-tariffs.js, which declares the names the checkout relies on;
+       defer keeps document order. -->
+  <script src="/assets/ru-checkout.js?v=2c71daa5" defer></script>
 
 <script>
 /* Attribution: запоминаем, что визит начался со страницы страны.

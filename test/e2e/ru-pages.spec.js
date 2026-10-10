@@ -60,7 +60,7 @@ test('country page: daily, local, regional — in that order, folded at six, wit
   expect(st.nonGet).toBe(0);
 });
 
-test('country page: choosing a term moves the price, the term chip and the buy link', async ({ page }) => {
+test('country page: choosing a term moves the price, the term chip and the buy button', async ({ page }) => {
   await open(page, '/esim/turkey/');
   const card = page.locator('#dailyGrid .daily-card').filter({ has: page.locator('.js-daily-term:nth-child(2)') }).first();
   const second = card.locator('.js-daily-term').nth(1);
@@ -70,10 +70,11 @@ test('country page: choosing a term moves the price, the term chip and the buy l
   await expect(second).toHaveAttribute('aria-checked', 'true');
   await expect(card.locator('.js-daily-days')).toContainText(days);
   expect((await card.locator('.js-daily-price').textContent()).replace(/\D/g, '')).toBe(price);
-  await expect(card.locator('.js-buy-link')).toHaveAttribute('data-days', days);
-  await expect(card.locator('.js-buy-link')).toHaveAttribute('data-price', price);
-  // The link still leads to the Russian landing's checkout, never further.
-  expect(await card.locator('.js-buy-link').getAttribute('href')).toMatch(/^\/\?country=TR&src=country-page&from=turkey#global-pricing$/);
+  await expect(card.locator('.js-buy')).toHaveAttribute('data-days', days);
+  await expect(card.locator('.js-buy')).toHaveAttribute('data-price', price);
+  // Since PR B the button opens the checkout on this page (test/e2e/ru-checkout.spec.js).
+  await expect(card.locator('.js-buy')).toHaveText('Купить');
+  expect(await card.locator('.js-buy').evaluate((b) => b.tagName)).toBe('BUTTON');
 });
 
 test('country page: «Покрытие и условия» opens the window and closes it', async ({ page }) => {
@@ -167,4 +168,13 @@ test.describe('the service pages', () => {
       expect(st.nonGet).toBe(0);
     });
   }
+});
+
+test('country page: the checkout window opened from a card passes axe and fits the screen', async ({ page }) => {
+  const st = await open(page, '/esim/turkey/');
+  await page.locator('#localGrid .plan .js-buy').first().click();
+  await expect(page.locator('#checkoutModal')).toBeVisible();
+  expect(await noOverflow(page)).toBe(true);
+  expect(await axeViolations(page)).toEqual([]);
+  expect(st.nonGet).toBe(0);
 });

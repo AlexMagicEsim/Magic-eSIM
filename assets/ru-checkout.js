@@ -2,19 +2,23 @@
  * promo, email, consent, idempotency, attribution, price confirmation for a
  * card shown from the cached catalogue).
  *
- * Moved VERBATIM out of index.html's inline script (2026-10-10, RU↔EN parity,
- * migration PR A), so the country pages can open the same checkout later
- * (PR B). Nothing in it changed: the IIFE below is byte-identical to the block
- * that ended the inline script.
+ * Moved verbatim out of index.html's inline script (2026-10-10, RU↔EN parity,
+ * migration PR A). PR B opens the same module on the country pages and made
+ * two page-neutral edits: the payment icons' paths are absolute (the same URL on
+ * the landing, a working one at /esim/<slug>/), and one error goal reports
+ * page_type from window.MAGIC_PAGE_TYPE ('landing' unless a country page says
+ * 'country'). The order, promo, idempotency, attribution and price-confirmation
+ * code is unchanged.
  *
- * It is a CLASSIC, SYNCHRONOUS script loaded right after the inline one, so it
- * runs at the same moment the block used to run and sees the same top-level
- * names the inline script declares (catalogSource, allLandingPackages,
- * activeCountry, renderPackages, renderCountryChips, hideCatalogNotice,
- * catalogNoticeEl, retryLiveCatalog, checkoutDataLabel…) and the globals of
- * the earlier scripts (MagicNet, MagicCatalog, magicMetrikaGoal). Never load it
- * with defer/async or as a module: either would change when it runs, and a
- * module would not see those names. Versioned by seo/stamp-assets.mjs. */
+ * A CLASSIC script, loaded AFTER the script that declares the names it relies
+ * on — catalogSource, catalogGeneratedAt, allLandingPackages, activeCountry,
+ * renderPackages, renderCountryChips, hideCatalogNotice, catalogNoticeEl,
+ * retryLiveCatalog — plus MagicNet, MagicCatalog and magicMetrikaGoal:
+ *   - the landing: synchronous, right after its inline script;
+ *   - a country page: defer, right after assets/country-tariffs.js (which
+ *     declares those names for the page; defer keeps document order).
+ * Never as a module: a module would not see those names.
+ * Versioned by seo/stamp-assets.mjs. */
 // ===== On-site checkout modal (оформление заказа; оплата — заглушка до подключения платёжной системы) =====
 (function(){
   const overlay=document.getElementById('checkoutModal');
@@ -223,7 +227,7 @@
       el.appendChild(t);el.appendChild(btn);el.hidden=false;
       el.scrollIntoView({behavior:'smooth',block:'nearest'});
     }
-    try{magicMetrikaGoal('catalog_load_failed',{page_type:'landing',error_type:reason==='gone'?'package_gone':'checkout_unreachable'});}catch(e){}
+    try{magicMetrikaGoal('catalog_load_failed',{page_type:(window.MAGIC_PAGE_TYPE==='country'?'country':'landing'),error_type:reason==='gone'?'package_gone':'checkout_unreachable'});}catch(e){}
   }
 
   /* The cached figure differed from the server's. The user sees the real amount
@@ -439,7 +443,7 @@
     if(cb)cb.setAttribute('aria-checked',String(m==='card'));
     const lab=byId('coPayLabel'),ico=byId('coPayIco');
     if(lab)lab.textContent=(m==='sbp'?'Оплатить по СБП':'Оплатить российской картой');
-    if(ico)ico.src=(m==='sbp'?'assets/payment/sbp.svg':'assets/payment/mir.svg');
+    if(ico)ico.src=(m==='sbp'?'/assets/payment/sbp.svg':'/assets/payment/mir.svg');
     if(changed&&appliedPromo)resetPromo('Способ оплаты изменён — примените промокод заново.');
   }
   const mSbpEl=byId('coMethodSbp'),mCardEl=byId('coMethodCard');

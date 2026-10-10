@@ -51,7 +51,7 @@ async function open(page, opts = {}) {
     }
     return route.fulfill({ status: 204, body: '' });
   });
-  await page.goto('/');
+  await page.goto(opts.path || '/');
   return st;
 }
 const orders = (st) => st.posts.filter((p) => p.path === '/api/v1/public/retail-orders');
@@ -177,4 +177,67 @@ test('a card from the cached catalogue is confirmed against the live API, and a 
   await expect(page.locator('#coPrice')).toHaveText(`${(cached + 50).toLocaleString('ru-RU')} ₽`);
   await expect(page.locator('#coError')).toContainText('Цена этого тарифа изменилась');
   expect(orders(st)).toEqual([]);
+});
+
+/* ---- the same checkout on a country page (RU↔EN migration PR B) ---------- */
+
+test.describe('on a country page', () => {
+  const PATH = '/esim/turkey/';
+  test('«Купить» on a card opens the checkout here; the order body is the landing\'s, the entry is this page', async ({ page }) => {
+    const st = await open(page, { path: PATH });
+    await expect(page.locator('#localGrid .plan').first()).toBeVisible();
+    const btn = page.locator('#localGrid .plan .js-buy').first();
+    await expect(btn).toHaveText('Купить');
+    const pkg = await btn.getAttribute('data-package-id');
+    const price = (await btn.getAttribute('data-price'));
+    await btn.click();
+    await expect(page.locator('#checkoutModal')).toBeVisible();
+    expect((await page.locator('#coPrice').textContent()).replace(/\D/g, '')).toBe(price);
+    await fill(page, ' Buyer@Example.com ');
+    await page.locator('#coPay').click();
+    await expect.poll(() => st.platega.length).toBeGreaterThan(0);
+    const [o] = orders(st);
+    expect(Object.keys(o.body).sort()).toEqual(['attribution', 'email', 'idempotency_key', 'package_id', 'payment_type', 'termsAccepted']);
+    expect(o.body).toMatchObject({ package_id: pkg, email: 'Buyer@Example.com', termsAccepted: true, payment_type: 'sbp' });
+    expect(o.body.idempotency_key).toMatch(UUID);
+    expect(o.body.attribution).toEqual({ entry: PATH });
+    for (const g of ['country_tariff_click', 'tariff_buy_click', 'checkout_open', 'payment_sbp_click', 'payment_redirect']) expect(st.goals).toContain(g);
+    expect(page.url()).not.toContain('?country=');            // no hop to the landing
+  });
+
+  test('a daily term chosen on the card travels with the order', async ({ page }) => {
+    const st = await open(page, { path: PATH });
+    const card = page.locator('#dailyGrid .daily-card').filter({ has: page.locator('.js-daily-term:nth-child(2)') }).first();
+    const second = card.locator('.js-daily-term').nth(1);
+    const days = await second.getAttribute('data-days');
+    await second.click();
+    await card.locator('.js-buy').click();
+    await fill(page);
+    await page.locator('#coPay').click();
+    await expect.poll(() => st.platega.length).toBeGreaterThan(0);
+    expect(orders(st)[0].body.days).toBe(days);
+  });
+
+  test('a card from the cached catalogue is confirmed against the live API before the checkout opens', async ({ page }) => {
+    test.setTimeout(60_000);
+    const st = await open(page, { path: PATH, liveFails: true });
+    await page.waitForTimeout(9000);
+    const btn = page.locator('#localGrid .plan .js-buy').first();
+    await expect(btn).toBeVisible();
+    const cached = Number(await btn.getAttribute('data-price'));
+    st.liveAllowed = true;
+    await btn.click();
+    await expect(page.locator('#checkoutModal')).toBeVisible();
+    await expect(page.locator('#coPrice')).toHaveText(`${(cached + 50).toLocaleString('ru-RU')} ₽`);
+    await expect(page.locator('#coError')).toContainText('Цена этого тарифа изменилась');
+    expect(orders(st)).toEqual([]);
+  });
+
+  test('the payment icons load from any depth (absolute paths)', async ({ page }) => {
+    await open(page, { path: PATH });
+    await page.locator('#localGrid .plan .js-buy').first().click();
+    await page.locator('#coMethodCard').click();
+    const ok = await page.evaluate(() => [...document.querySelectorAll('#checkoutModal img.pay-ico')].every((i) => i.complete && i.naturalWidth > 0));
+    expect(ok).toBe(true);
+  });
 });

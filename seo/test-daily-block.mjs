@@ -765,12 +765,16 @@ test('the storefront card states the price of the selected term', () => {
   assert.match(s, /escapeHtml\(label\|\|'Купить'\)/, 'ordinary packages keep «Купить»');
 });
 
-test('the country pages keep their own CTA, because it does not buy', () => {
-  // There the button navigates to the catalogue rather than opening checkout,
-  // so putting a price on it would promise a purchase it does not make.
+test('the country pages buy with the landing\'s own button, and the price is on the card', () => {
+  // Since RU↔EN migration PR B the country pages open the same checkout as the
+  // landing (assets/ru-checkout.js), from the same button: «Купить», .js-buy,
+  // the same data-*. The price of the chosen term is on the card, not in the
+  // button — as on the landing.
   const s = read('assets/country-tariffs.js');
-  assert.match(s, />Выбрать тариф</);
-  assert.ok(!/Купить за/.test(s), 'the country page must not claim to buy');
+  assert.match(s, /class="btn package-buy js-buy"/);
+  assert.match(s, /escapeHtml\(label\|\|'Купить'\)/);
+  assert.ok(!/Купить за/.test(s), 'the price is not in the button');
+  assert.ok(!/js-buy-link|\?country=|#global-pricing/.test(s), 'no deep link to the landing any more');
 });
 
 test('the title carries the allowance, so the description does not repeat it', () => {

@@ -29,6 +29,7 @@ import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
 import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD } from './ru-chrome.mjs';
 import { BLOCK_ICON } from './site-chrome.mjs';
+import { RU_CHECKOUT_MODAL } from './ru-checkout-markup.mjs';
 import { createRequire } from 'node:module';
 import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily } from './catalogue-facts.mjs';
 
@@ -474,6 +475,10 @@ ${ruHeader()}
     </div>
   </div>
 
+  <!-- The checkout — the landing's own window (seo/ru-checkout-markup.mjs) and
+       its own code (assets/ru-checkout.js): «Купить» on a card opens it here. -->
+${RU_CHECKOUT_MODAL}
+
   ${whyBlock}
 
   <section class="cp-help" aria-labelledby="cpHelpTitle">
@@ -520,12 +525,19 @@ ${links.map((r) => `      <a class="ru-tile" href="../${r.slug}/"><img class="fl
 
 ${RU_FOOTER}
 
+  <!-- One network strategy for every storefront page (Render first, the
+       gateway second). The checkout sends the order through it, and the
+       catalogue loader takes its endpoint list from it. -->
+  <script src="${stampUrl('/assets/magic-net.js')}"></script>
   <script src="${stampUrl('/assets/catalog-loader.js')}" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="${stampUrl('/assets/daily-plan-copy.js')}" defer></script>
   <script src="${stampUrl('../../assets/country-tariffs.js')}" defer></script>
+  <!-- After country-tariffs.js, which declares the names the checkout relies on;
+       defer keeps document order. -->
+  <script src="${stampUrl('/assets/ru-checkout.js')}" defer></script>
 ${CLIENT_SNIPPET}
 </body>
 </html>

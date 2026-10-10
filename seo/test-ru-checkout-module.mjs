@@ -60,3 +60,45 @@ test('every element id the checkout reads exists in the landing markup', () => {
   const missing = ids.filter((id) => !markup.includes(`id="${id}"`) && id !== 'catalogRetryBtn' && id !== 'catalogNotice');
   assert.deepEqual(missing, [], 'the module reads ids the page does not have');
 });
+
+// ---- PR B: the country pages open the same checkout ----
+
+const goalsOf = (html) => {
+  const m = html.match(/var GOALS=\{([\s\S]*?)\};/);
+  return new Set(m ? [...m[1].matchAll(/([a-z_]+):\[/g)].map((x) => x[1]) : []);
+};
+
+test('a country page carries the checkout window, MagicNet, and the checkout after its renderer', async () => {
+  const { RU_CHECKOUT_MODAL } = await import('./ru-checkout-markup.mjs');
+  for (const p of ['esim/turkey/index.html', 'esim/thailand/index.html', 'esim/japan/index.html']) {
+    const h = read(p);
+    assert.ok(h.includes(RU_CHECKOUT_MODAL), `${p}: the checkout window drifted from seo/ru-checkout-markup.mjs`);
+    const net = h.indexOf('<script src="/assets/magic-net.js?v=');
+    const ct = h.indexOf('assets/country-tariffs.js?v=');
+    const co = h.search(/<script src="\/assets\/ru-checkout\.js\?v=[0-9a-f]{8}" defer><\/script>/);
+    assert.ok(net > 0 && ct > net && co > ct, `${p}: MagicNet → country-tariffs.js → ru-checkout.js (defer, in that order)`);
+  }
+  assert.ok(HTML.includes(RU_CHECKOUT_MODAL), 'the landing carries the same window, byte for byte');
+});
+
+test('the country page declares every landing name the checkout relies on', () => {
+  const ct = read('assets/country-tariffs.js');
+  for (const n of ['catalogSource', 'catalogGeneratedAt', 'allLandingPackages', 'activeCountry']) {
+    assert.match(ct, new RegExp(`(?:^|\\n)let ${n}\\b`), `${n} must be a top-level name on the country page`);
+  }
+  for (const n of ['renderPackages', 'renderCountryChips', 'hideCatalogNotice', 'catalogNoticeEl', 'retryLiveCatalog']) {
+    assert.match(ct, new RegExp(`(?:^|\\n)function ${n}\\(`), `${n} must be a top-level function on the country page`);
+  }
+  assert.match(ct, /window\.MAGIC_PAGE_TYPE='country'/);
+});
+
+test('every goal the checkout fires is allowed on every page that opens it', () => {
+  // the first argument, including a ternary between two goal names
+  const fired = [...new Set([...MOD.matchAll(/magicMetrikaGoal\(([^,]+),/g)].flatMap((m) => [...m[1].matchAll(/'([a-z_]+)'/g)].map((x) => x[1])).filter((g) => !/^(sbp|card)$/.test(g)))];
+  assert.ok(fired.length >= 9, `goals found: ${fired.length}`);
+  for (const p of ['index.html', 'esim/turkey/index.html']) {
+    const allowed = goalsOf(read(p));
+    const dropped = fired.filter((g) => !allowed.has(g));
+    assert.deepEqual(dropped, [], `${p} would silently drop these checkout goals`);
+  }
+});
