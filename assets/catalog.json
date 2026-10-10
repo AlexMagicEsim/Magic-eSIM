@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-09T16:17:04.017Z",
+  "generated_at": "2026-10-10T12:39:26.552Z",
   "source": "production-public-api",
   "package_count": 2289,
   "packages": [
@@ -14383,7 +14383,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -53601,12 +53601,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 2650,
-      "networks": [
-        {
-          "operator": "Orange",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -53618,7 +53613,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -92412,16 +92407,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1400,
-      "networks": [
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -92434,7 +92420,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
