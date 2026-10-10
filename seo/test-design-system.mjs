@@ -146,3 +146,31 @@ test('the home keeps the Russian market: Platega checkout, roubles, Metrika, no 
   assert.match(h, /Тарифы для 190\+ направлений/, 'the one measured wording');
   assert.doesNotMatch(h, /150\+ стран/, 'the old count is gone');
 });
+
+// ---- the service pages (RU↔EN parity, PR 4) ----
+
+test('payment return and legal pages: shared sheets, the one Russian chrome, no inline <style>', async () => {
+  const { ruHeader, RU_FOOTER } = await import('./ru-chrome.mjs');
+  for (const p of ['payment-success.html', 'payment-failed.html', 'privacy.html', 'terms.html']) {
+    const h = read(p);
+    assert.doesNotMatch(h, /<style\b/, `${p}: an inline stylesheet is a second design system`);
+    assert.ok(h.indexOf('href="/assets/site.css?v=') > 0 && h.indexOf('href="/assets/site.css?v=') < h.indexOf('href="/assets/ru.css?v='), `${p}: site.css, then ru.css`);
+    assert.ok(h.includes(ruHeader()), `${p}: header drifted from seo/ru-chrome.mjs`);
+    assert.ok(h.includes(RU_FOOTER), `${p}: footer drifted from seo/ru-chrome.mjs`);
+  }
+  // The R3-08 bootstrap is still the first script of the payment pages' <head>;
+  // seo/test-r308-analytics-privacy.mjs pins the rest of that contract.
+  for (const p of ['payment-success.html', 'payment-failed.html']) {
+    const head = read(p).slice(0, read(p).indexOf('</head>'));
+    const first = head.match(/<script\b[^>]*>([\s\S]*?)<\/script>/);
+    assert.match(first[1], /sp\.delete\('token'\)/, `${p}: the token strip is the first script`);
+  }
+});
+
+test('404.html (the /pay/ router and the English 404) keeps its own brandless card, on purpose', () => {
+  // Its stylesheet says so: «this page has no brand of its own and borrows none».
+  // It serves the private payment link and the English 404 from one file, so the
+  // Russian chrome must not appear there. A change here is the owner's call.
+  const h = read('404.html');
+  assert.doesNotMatch(h, /site-header|site-footer|assets\/ru\.css/);
+});

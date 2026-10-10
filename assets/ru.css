@@ -299,3 +299,43 @@
 .country-region-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 16px}
 .country-region-chips .country-chip{min-height:36px;padding:0 12px;font-size:13.5px}
 @media (max-width:599px){.country-region>summary{padding:12px 14px;flex-wrap:wrap}.country-region-chips{padding:0 14px 14px}}
+
+/* ======================================================================
+   Service pages: the payment return (payment-success / payment-failed) and
+   the legal pages (privacy / terms), in the shared shell.
+   ====================================================================== */
+.svc{display:flex;align-items:center;min-height:calc(100vh - 68px - 120px);padding:48px 0 64px;background:radial-gradient(900px 420px at 0% -10%,rgba(138,22,199,.08),transparent 60%),radial-gradient(820px 420px at 100% -10%,rgba(0,199,223,.08),transparent 58%),var(--bg)}
+.svc>.wrap{width:100%}
+.svc-card{width:min(560px,100%);margin:0 auto;padding:36px 32px 32px;border:1px solid var(--border);border-radius:var(--r-xl);background:var(--surface);box-shadow:var(--shadow-2);text-align:center}
+.svc-card,.svc-card *{min-width:0;overflow-wrap:anywhere}
+.svc-card .icon{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;border-radius:50%;border:1px solid var(--border);background:var(--accent-soft);color:var(--accent);font-size:28px;font-weight:800}
+.svc-card.ok .icon{border-color:#bfe6cf;background:rgba(31,157,87,.10);color:var(--ok)}
+.svc-card.warn .icon{border-color:var(--warn-line);background:var(--warn-bg);color:var(--warn-ink)}
+.svc-card .spinner{width:44px;height:44px;margin:0 auto 18px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:svc-spin 1s linear infinite}
+@keyframes svc-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.svc-card .spinner{animation:svc-spin 2s linear infinite!important}}
+.svc-card h1{margin:0 0 10px;font-size:clamp(24px,4vw,32px)}
+.svc-card .msg{max-width:460px;margin:0 auto 8px;color:var(--text)}
+.svc-card .sub{max-width:460px;margin:14px auto 0;color:var(--muted);font-size:14px}
+.svc-card .sub a{color:var(--accent);font-weight:600}
+.svc-card .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:26px}
+.svc-card .btn.secondary{background:var(--surface);border:1px solid var(--border-strong);color:var(--text);box-shadow:none}
+.svc-card .btn.secondary:hover{background:var(--accent-soft);color:var(--text)}
+.svc-card .hide{display:none!important}
+@media (max-width:599px){.svc{padding:28px 0 44px;min-height:0}.svc-card{padding:28px 20px 24px}.svc-card .actions .btn{width:100%}}
+
+.legal{padding:8px 0 24px;background:radial-gradient(900px 420px at 0% -10%,rgba(138,22,199,.06),transparent 60%),var(--bg)}
+.legal .crumbs{margin:18px 0 18px}
+.legal-card{min-width:0;overflow-wrap:anywhere;max-width:860px;padding:34px 36px;border:1px solid var(--border);border-radius:var(--r-xl);background:var(--surface);box-shadow:var(--shadow-1)}
+.legal-card h1{margin:0 0 8px;font-size:clamp(28px,4.4vw,40px)}
+.legal-card h2{margin:30px 0 10px;font-size:clamp(19px,2.2vw,22px)}
+.legal-card h3{margin:20px 0 8px}
+.legal-card p,.legal-card li{max-width:75ch;color:#334155;line-height:1.7}
+.legal-card ul,.legal-card ol{padding-left:22px}
+.legal-card a{color:var(--accent);font-weight:600;text-underline-offset:3px}
+.legal-card .updated{margin:0 0 22px;color:var(--muted);font-size:14px}
+.legal-card .intro{color:var(--text)}
+.legal-card .contacts{margin-top:14px;padding:16px 18px;border:1px solid var(--border);border-radius:var(--r-m);background:var(--bg)}
+.legal-card table{width:100%;border-collapse:collapse;margin:12px 0}
+.legal-card td,.legal-card th{padding:8px 10px;border:1px solid var(--border);text-align:left;vertical-align:top}
+@media (max-width:599px){.legal-card{padding:22px 18px;border-radius:var(--r-l)}}
