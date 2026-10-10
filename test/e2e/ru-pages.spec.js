@@ -154,3 +154,17 @@ test.describe('desktop width', () => {
     expect(await axeViolations(page)).toEqual([]);
   });
 });
+
+test.describe('the service pages', () => {
+  for (const url of ['/payment-failed.html', '/payment-success.html', '/privacy.html', '/terms.html']) {
+    test(`${url}: axe 0, no overflow, the shared chrome`, async ({ page }) => {
+      const st = await open(page, url);
+      await expect(page.locator('header.site-header')).toBeVisible();
+      await expect(page.locator('footer.site-footer')).toBeAttached();
+      expect(await noOverflow(page)).toBe(true);
+      expect(await axeViolations(page)).toEqual([]);
+      expect(st.errors).toEqual([]);
+      expect(st.nonGet).toBe(0);
+    });
+  }
+});

@@ -12,6 +12,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
+  <link rel="stylesheet" href="/assets/ru.css?v=9cefa6c6" />
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
@@ -19,100 +23,42 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
   <!-- /Yandex.Metrika counter -->
-  <style>
-    :root{--bg:#0a0d16;--card:rgba(18,22,38,.72);--text:#eef1f8;--muted:#9aa3bd;--cyan:#5aa9c9;--blue:#5f72c4;--purple:#7a6fb0;--border:rgba(255,255,255,.10);--max:860px}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);
-      background:
-        radial-gradient(900px circle at 12% -6%, rgba(95,114,196,.10), transparent 60%),
-        radial-gradient(820px circle at 100% 2%, rgba(90,169,201,.08), transparent 55%),
-        var(--bg);
-      line-height:1.6}
-    a{color:var(--cyan);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{width:min(var(--max),calc(100% - 32px));margin:0 auto;padding:32px 0 64px}
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
-    .brand{font-size:22px;font-weight:700;letter-spacing:-.04em;
-      background:linear-gradient(90deg,#cfd6ff,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .back-link{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--border);
-      border-radius:12px;background:rgba(255,255,255,.04);color:var(--text);font-weight:600;font-size:14px;white-space:nowrap}
-    .back-link:hover{border-color:rgba(90,169,201,.4);background:rgba(90,169,201,.10);text-decoration:none}
-    .card{border:1px solid var(--border);border-radius:18px;background:rgba(255,255,255,.035);
-      padding:36px 36px 40px;backdrop-filter:blur(6px)}
-    h1{font-size:clamp(28px,4vw,40px);line-height:1.15;letter-spacing:-.03em;margin:0 0 10px}
-    .updated{color:var(--muted);font-size:14px;margin:0 0 28px}
-    .intro{color:#d7ddf0;margin:0 0 8px}
-    h2{font-size:clamp(20px,2.4vw,24px);letter-spacing:-.02em;margin:34px 0 12px;color:var(--text)}
-    p{margin:0 0 12px;color:#d7ddf0}
-    ul{margin:8px 0 16px;padding-left:22px}
-    li{margin:6px 0;color:#cdd4ea}
-    .contacts{margin-top:14px;padding:18px 20px;border:1px solid rgba(90,169,201,.22);border-radius:14px;background:rgba(90,169,201,.07)}
-    .contacts a{font-weight:600}
-    .accept-note{margin-top:30px;padding:18px 20px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.04);color:#d7ddf0}
-    .footer-note{margin-top:32px;color:var(--muted);font-size:13px}
-    @media(max-width:560px){
-      .card{padding:24px 20px 28px;border-radius:16px}
-      .wrap{padding:20px 0 48px}
-      h2{margin-top:26px}
-    }
-  </style>
-  <!-- Light theme (redesign 2026-07): re-skin only, no text/markup change -->
-  <style>
-    :root{--bg:#F7F9FC;--text:#111827;--muted:#667085;--cyan:#4267E8;--blue:#4267E8;--border:#E6EAF2}
-    body{background:#F7F9FC!important}
-    .card{background:#fff!important;box-shadow:0 8px 24px rgba(17,24,39,.06);backdrop-filter:none}
-    /* `background:…!important` is a SHORTHAND, so it sets every background longhand
-   as important — including background-clip:border-box. The two clip
-   declarations that follow are not important and therefore lost, which is why
-   the wordmark rendered as a solid gradient bar with invisible text on the live
-   pages (measured: background-clip resolved to border-box in both WebKit and
-   Chromium). The clip has to carry !important too, or the shorthand wins.
-   `background-image` rather than `background`, so the shorthand stops resetting
-   longhands it was never meant to touch. */
-    .brand{background-image:linear-gradient(135deg,#8A16C7,#3866D9,#00C7DF)!important;
-      -webkit-background-clip:text!important;background-clip:text!important;
-      background-color:transparent!important;color:transparent!important}
-    .back-link{background:#fff!important;border-color:#E6EAF2!important;color:#111827!important}
-    .back-link:hover{background:#F1F4FA!important;border-color:#cdd6ea!important}
-    .intro,p,.accept-note{color:#334155!important}
-    li{color:#475467!important}
-    .contacts{border-color:rgba(66,103,232,.22)!important;background:rgba(66,103,232,.06)!important}
-  
-/* One page gutter, matching assets/country-pages.css and index.html, so the
-   outer edge of this page lines up with every other page on the storefront.
-   The card keeps its own interior padding — that is card geometry, not the
-   page edge. max() so a notched phone in landscape cannot clip the corner. */
-:root{ --gutter:16px; }
-@media(min-width:768px){ :root{ --gutter:20px; } }
-.wrap{
-  width:100%;
-  max-width:calc(var(--max) + 2 * var(--gutter));
-  margin-inline:auto;
-  padding-inline:max(var(--gutter),env(safe-area-inset-left)) max(var(--gutter),env(safe-area-inset-right));
-}
-.wrap p,.wrap li,.wrap td,.wrap a{overflow-wrap:anywhere}
-/* Headings too: «Политика конфиденциальности» is one 18-character word and at
-   320px it was the whole 4px overflow. `anywhere` rather than a smaller font —
-   the type size is not the thing that was wrong. */
-.wrap h1,.wrap h2,.wrap h3{overflow-wrap:anywhere}
 
-
-/* The support link sits inside .contacts, a tinted panel — #4267E8 on that
-   #F4F6FE ground measures 4.48, just under the 4.5 AA floor for body text.
-   On white it passes; it is the panel that costs the margin. --blue-600 is the
-   palette's own darker step, so this stays on-brand rather than inventing a
-   colour. */
-.contacts a{color:#3457c9}
-</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <a class="brand" href="/">Magic eSIM</a>
-      <a class="back-link" href="/">← Вернуться на главную</a>
+  <header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+    </nav>
+    <div class="hdr-actions">
+      <a class="langsw" href="/en/" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span>English</span></a>
+      <a class="btn btn-sm hdr-cta" href="/#global-pricing">Выбрать тариф</a>
+      <details class="mnav">
+        <summary aria-label="Меню"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+        <nav class="mnav-panel" aria-label="Меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <hr>
+          <a href="/en/" lang="en">English</a>
+        </nav>
+      </details>
     </div>
+  </div>
+</header>
 
-    <article class="card">
+<main class="legal">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <span aria-current="page">Пользовательское соглашение</span></nav>
+    <article class="legal-card">
       <h1>Пользовательское соглашение</h1>
       <p class="updated">Дата обновления: 29.06.2026</p>
 
@@ -222,9 +168,55 @@
       </div>
 
       <div class="accept-note">Используя сайт Magic eSIM, оформляя заказ или оплачивая eSIM-тариф, пользователь подтверждает, что ознакомлен с настоящим Пользовательским соглашением и принимает его условия в полном объёме.</div>
-
-      <p class="footer-note">© Magic eSIM. <a href="/">На главную</a></p>
     </article>
   </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <p>Мобильный интернет в поездке: eSIM для 190+ направлений, оплата в рублях российской картой или через СБП.</p>
+      </div>
+      <div class="ft-col">
+        <h2>Направления</h2>
+        <ul>
+          <li><a href="/esim/turkey/">Турция</a></li>
+          <li><a href="/esim/thailand/">Таиланд</a></li>
+          <li><a href="/esim/vietnam/">Вьетнам</a></li>
+          <li><a href="/esim/egypt/">Египет</a></li>
+          <li><a href="/esim/maldives/">Мальдивы</a></li>
+          <li><a href="/esim/sri-lanka/">Шри-Ланка</a></li>
+          <li><a href="/esim/">Все направления</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Инструкции</h2>
+        <ul>
+          <li><a href="/iphone.html">Как установить eSIM на iPhone</a></li>
+          <li><a href="/android.html">Как установить eSIM на Android</a></li>
+          <li><a href="/esim/compatibility/">Поддерживает ли телефон eSIM</a></li>
+          <li><a href="/esim/activation-before-travel/">Когда устанавливать eSIM</a></li>
+          <li><a href="/esim/not-working/">eSIM не работает — что проверить</a></li>
+          <li><a href="/esim/payment-rubles/">Оплата российской картой или СБП</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Помощь</h2>
+        <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/#solution">Как это работает</a></li>
+          <li><a href="https://t.me/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</a></li>
+          <li><a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Magic eSIM в Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html">Пользовательское соглашение</a> · <a href="/privacy.html">Политика конфиденциальности</a></p>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
