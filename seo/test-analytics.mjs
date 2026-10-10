@@ -99,8 +99,9 @@ const PAGES = ['index.html', 'payment-success.html', 'payment-failed.html',
   'esim/uae/index.html', 'esim/vietnam/index.html', 'esim/france/index.html',
   'esim/japan/index.html'];
 
-// The landing is the only page with a checkout, so it is the only page that can
-// fire a checkout goal. Everything else ships the generated wrapper.
+// The landing and (since RU↔EN migration PR B) every country page open the
+// checkout, so both fire checkout goals; every page except the landing ships
+// the one generated wrapper.
 const SHARED_PAGES = PAGES.filter((p) => p !== 'index.html');
 
 test('every page but the landing ships the identical allowlist', () => {
@@ -125,10 +126,11 @@ test('the landing may extend the allowlist, but only with goals only it fires', 
    * through a different door.
    *
    * The invariant that actually matters is narrower and is asserted here: a
-   * page may only carry an extra goal if that goal is fired NOWHERE ELSE. So
-   * `payment_redirect` lives on the one page with a checkout, the country pages
-   * are untouched, and a goal added to the landing that some other page fires
-   * still fails — which is the regression the old test really guarded.
+   * page may only carry an extra goal if that goal is fired NOWHERE ELSE. A goal
+   * added to the landing that some other page fires still fails — which is the
+   * regression the old test really guarded. (`payment_redirect` was the one
+   * landing-only goal until the country pages got the checkout, PR B; it is
+   * shared now, because they fire it too.)
    */
   const landing = new Set(Object.keys(wrapperOf('index.html').GOALS));
   const shared = new Set(Object.keys(wrapperOf(SHARED_PAGES[0]).GOALS));
@@ -139,7 +141,7 @@ test('the landing may extend the allowlist, but only with goals only it fires', 
 
   const extra = [...landing].filter((g) => !shared.has(g));
   for (const g of extra) {
-    for (const f of ['assets/country-tariffs.js', 'payment-success.html', 'payment-failed.html']) {
+    for (const f of ['assets/country-tariffs.js', 'assets/ru-checkout.js', 'payment-success.html', 'payment-failed.html']) {
       assert.ok(!read(f).includes(`magicMetrikaGoal('${g}'`),
         `${g} is allowlisted only on the landing but ${f} fires it — it would be dropped there`);
     }
@@ -724,11 +726,14 @@ test('шаги называют только те кнопки, которые �
   }
 
   // Маршрут. Читатель приходит сюда со страницы страны, поэтому первый шаг
-  // обязан назвать контрол ТОЙ страницы, а не лендинга.
-  assert.match(steps[0], /Выбрать тариф/,
-    'шаги не называют «Выбрать тариф» — контрол страницы страны, откуда идёт читатель');
-  assert.ok(!/Нажмите «Купить» на выбранном тарифе/.test(steps[0]),
-    'вернулась инструкция нажать «Купить» там, где этой кнопки нет');
+  // обязан назвать контрол ТОЙ страницы. С миграции RU↔EN (PR B) это «Купить»
+  // на карточке тарифа: оформление открывается прямо на странице страны.
+  const ctJs = readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8');
+  assert.match(ctJs, /escapeHtml\(label\|\|'Купить'\)/, 'кнопка карточки на странице страны — «Купить»');
+  assert.match(steps[0], /На странице страны[^<]*«Купить»/,
+    'первый шаг не называет «Купить» на странице страны, откуда идёт читатель');
+  assert.ok(!/откроется главная/.test(steps[0]),
+    'вернулась инструкция про переход на главную, которого больше нет');
 });
 
 test('видимый FAQ и FAQPage совпадают дословно на всех гайдах', () => {

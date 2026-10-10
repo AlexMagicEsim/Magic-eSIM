@@ -1,8 +1,10 @@
-/* country-tariffs.js — read-only tariff renderer for /esim/<country>/ pages.
+/* country-tariffs.js — the tariff renderer for /esim/<country>/ pages.
    Helpers + local/regional split + «Оптимальный выбор» badge are lifted
-   VERBATIM from index.html so rendering is identical. The ONLY behavioural
-   change vs. the landing: the buy action is a deep-link to the existing
-   checkout on "/?country=XX#global-pricing" (no checkout/payment code here).
+   VERBATIM from index.html so rendering is identical. Since RU↔EN migration
+   PR B the buy button is the landing's own («Купить», .js-buy, the same data-*)
+   and opens the SAME checkout on this page: assets/ru-checkout.js, loaded right
+   after this file. This file declares the landing names that module relies on
+   (see «THE CHECKOUT HOST» below); no payment code lives here.
    Prices always come from the API; no prices are baked into static HTML.
    Source ranges copied from index.html: 924-1466, 1541-1707, 1770-1791. */
 
@@ -231,6 +233,11 @@ function countryRegion(code){
 
 let allLandingPackages=[];
 let activeCountry='ALL';
+/* Where the catalogue on this page came from: 'live', 'cache' or null. The
+   checkout (assets/ru-checkout.js) reads it: a card shown from the cache is
+   confirmed against the live API before anyone can pay. */
+let catalogSource=null;
+let catalogGeneratedAt=null;
 const featuredAllCountries=['TH','VN','AE'];
 
 function formatRub(value){
@@ -253,18 +260,13 @@ function formatRetailPrice(item){
 // Country pages do NOT run checkout locally. The buy action deep-links to the
 // existing landing checkout with the country pre-selected. Price is only used to
 // gate availability; it is never written into static page HTML.
-function buyButtonHtml(item){
+/* The buy button — the landing's own (index.html buyButtonHtml), so the same
+   checkout reads the same data-* from it: package, name, coverage, data,
+   per-day allowance, term, plan type, price. */
+function buyButtonHtml(item,label,name){
   const price = getPackageRetailPrice(item);
-  if(price === null){
-    return `<span class="btn package-buy" aria-disabled="true">Нет в наличии</span>`;
-  }
-  const code = String(activeCountry||'').toUpperCase();
-  // Метка происхождения. Лендинг незнакомые параметры игнорирует, поэтому это
-  // безопасно уже сейчас; когда заказ научится их сохранять, выручку можно
-  // будет считать на страницу, а не только на страну.
-  const slug = (location.pathname.split('/').filter(Boolean).pop()||'');
-  const href = `/?country=${encodeURIComponent(code)}&src=country-page&from=${encodeURIComponent(slug)}#global-pricing`;
-  return `<a class="btn package-buy js-buy-link" href="${href}" data-package-id="${escapeHtml(item.package_id||'')}" data-data="${escapeHtml(item.data_gb||'')}" data-days="${escapeHtml(item.validity_days||'')}" data-price="${escapeHtml(String(price))}">Выбрать тариф</a>`;
+  const disabled = price === null ? ' disabled aria-disabled="true"' : '';
+  return `<button type="button" class="btn package-buy js-buy" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(name||publicPackageName(item))}" data-coverage="${escapeHtml(compactCoverageLabel(item))}" data-data="${escapeHtml(item.data_gb||'')}" data-daily-gb="${escapeHtml(item.daily_gb??'')}" data-days="${escapeHtml(item.validity_days||'')}" data-plan-type="${escapeHtml(item.plan_type||'')}" data-price="${price===null?'':escapeHtml(String(price))}"${disabled}>${escapeHtml(label||'Купить')}</button>`;
 }
 
 function escapeHtml(value){
@@ -1163,10 +1165,10 @@ function selectDailyTerm(btn){
     b.setAttribute('tabindex',on?'0':'-1');
   });
 
-  const link=card.querySelector('.js-buy-link');
-  if(link){
-    link.dataset.days=btn.dataset.days;
-    link.dataset.price=btn.dataset.price;
+  const buy=card.querySelector('.js-buy');
+  if(buy){
+    buy.dataset.days=btn.dataset.days;
+    buy.dataset.price=btn.dataset.price;
   }
   // The card's own price and term chip follow the choice — the same two values
   // the cell carries, from the server's ladder; nothing is computed here.
@@ -1293,7 +1295,7 @@ function renderDailyCard(item){
         validity_days:priced[0].days,
         price:priced[0].price,
         retail_price_rub:priced[0].price,
-      }))
+      }),'Купить',D.displayName(item,countryName))
     : '<span class="btn package-buy" aria-disabled="true">Временно недоступен</span>';
   const name=D.displayName(item,countryName);
   const first=priced[0]||null;
@@ -1493,7 +1495,7 @@ function renderCountrySplit(){
    2) pre-select this page's country (from <section data-country-page="XX">);
    3) render the local/regional split (badge + current sort preserved);
    4) re-render on sort change;
-   5) fire the EXISTING tariff_buy_click goal on a deep-link buy (no new goals).
+   5) fire the EXISTING country_tariff_click goal on a buy button (no new goals).
    If the API is unavailable, the static SEO content stays; only the tariff grid
    shows a support fallback message. */
 (function(){
@@ -1503,10 +1505,9 @@ function renderCountrySplit(){
     return /^[A-Z]{2}$/.test(c)?c:'';
   }
   /* Same live-then-cache rules as the landing, from the same module, so the two
-     cannot drift. Country pages only ever link into the catalogue — no checkout
-     lives here — so a cached price is displayed but never paid against on this
-     page; the landing re-validates before opening checkout. */
-  let catalogSource=null;
+     cannot drift. A cached price is displayed here, and the checkout on this
+     page re-validates it against the live API before it opens — the landing's
+     rule, by the landing's code (assets/ru-checkout.js). */
   let catalogRetryInFlight=false;
 
   function noticeEl(){
@@ -1541,6 +1542,9 @@ function renderCountrySplit(){
   }
 
   function hideNotice(){const el=document.getElementById('catalogNotice');if(el)el.hidden=true;}
+
+  // The checkout host below reaches these through one object.
+  window.__ruCatalogHost={noticeEl:function(){return noticeEl();},hideNotice:function(){hideNotice();},retryLive:function(){return retryLive();}};
 
   async function retryLive(){
     if(catalogRetryInFlight)return;
@@ -1622,15 +1626,14 @@ function renderCountrySplit(){
   function wire(){
     const sort=document.getElementById('packageSort');
     if(sort)sort.addEventListener('change',()=>{ if(/^[A-Z]{2}$/.test(String(activeCountry||''))) renderCountrySplit(); });
-    // «Выбрать тариф» on a country page is a deep link to /?country=XX, not a
-    // purchase: it carries no package, so the visitor still has to pick a tariff
-    // and press «Купить» on the landing. Firing tariff_buy_click here counted that
-    // one journey twice and made the goal mean two different things depending on
-    // where it came from. It is country_tariff_click now — entering the catalogue —
-    // and tariff_buy_click is left to mean intent to buy a specific tariff.
+    // country_tariff_click — a tariff's buy button pressed ON A COUNTRY PAGE. It
+    // used to mark the deep link into the landing's catalogue; since PR B the same
+    // button opens the checkout here, and the checkout itself fires
+    // tariff_buy_click (as on the landing). One journey still carries one of each,
+    // as before, and this goal keeps telling country-page buys from landing ones.
     // tariff_type comes from the grid the card sits in. No PII/QR/ICCID/order data.
     document.addEventListener('click',(e)=>{
-      const a=e.target.closest('a.js-buy-link');
+      const a=e.target.closest('.js-buy');
       if(!a)return;
       const tt=a.closest('#regionalGrid')?'regional':(a.closest('#localGrid')?'local':undefined);
       try{
@@ -1644,10 +1647,26 @@ function renderCountrySplit(){
             tariff_type:tt
           });
         }
-      }catch(_){/* analytics must never block navigation */}
+      }catch(_){/* analytics must never block the checkout */}
     });
     loadCountryPackages();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);
   else wire();
 })();
+
+/* ===== THE CHECKOUT HOST ==========================================================
+   assets/ru-checkout.js is the landing's checkout, unchanged. It calls a few
+   names the landing declares; on a country page they mean the same thing:
+     renderPackages      → re-render this page's blocks (after a live re-check)
+     renderCountryChips  → nothing: a country page has no country picker
+     hideCatalogNotice / catalogNoticeEl / retryLiveCatalog → this page's notice
+   catalogSource / catalogGeneratedAt / allLandingPackages / activeCountry are
+   declared at the top of this file. MAGIC_PAGE_TYPE tells the checkout which
+   page_type its one error goal reports. */
+window.MAGIC_PAGE_TYPE='country';
+function renderPackages(){renderCountrySplit();}
+function renderCountryChips(){}
+function hideCatalogNotice(){if(window.__ruCatalogHost)window.__ruCatalogHost.hideNotice();}
+function catalogNoticeEl(){return window.__ruCatalogHost?window.__ruCatalogHost.noticeEl():null;}
+function retryLiveCatalog(){return window.__ruCatalogHost?window.__ruCatalogHost.retryLive():undefined;}
