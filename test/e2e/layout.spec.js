@@ -197,7 +197,8 @@ test.describe('payment pickers fit the buttons they are drawn in', () => {
   });
 
   test('the public checkout picker holds its labels', async ({ page }) => {
-    await page.goto('/index.html');
+    // The checkout opens on the country pages (RU↔EN migration PR B/C).
+    await page.goto('/esim/turkey/');
 
     // The overlay is revealed by clearing `hidden`, not by walking a purchase.
     // Opening it for real needs the catalogue API, which these tests do not

@@ -10,13 +10,15 @@
  * 'country'). The order, promo, idempotency, attribution and price-confirmation
  * code is unchanged.
  *
+ * Since PR C the home carries no catalogue and no checkout: this module runs
+ * on the country pages only (the 'landing' default above is never taken now).
+ *
  * A CLASSIC script, loaded AFTER the script that declares the names it relies
  * on — catalogSource, catalogGeneratedAt, allLandingPackages, activeCountry,
  * renderPackages, renderCountryChips, hideCatalogNotice, catalogNoticeEl,
- * retryLiveCatalog — plus MagicNet, MagicCatalog and magicMetrikaGoal:
- *   - the landing: synchronous, right after its inline script;
- *   - a country page: defer, right after assets/country-tariffs.js (which
- *     declares those names for the page; defer keeps document order).
+ * retryLiveCatalog — plus MagicNet, MagicCatalog and magicMetrikaGoal: on a
+ * country page, defer, right after assets/country-tariffs.js (which declares
+ * those names for the page; defer keeps document order).
  * Never as a module: a module would not see those names.
  * Versioned by seo/stamp-assets.mjs. */
 // ===== On-site checkout modal (оформление заказа; оплата — заглушка до подключения платёжной системы) =====

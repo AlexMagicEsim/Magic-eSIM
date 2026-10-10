@@ -29,6 +29,7 @@ export const FIXED_ALLOWED = Object.freeze([
   'seo/sitemap-lastmod.json',     // per-page content hashes behind <lastmod>
   'en/esim/index.html',           // the English destination list, from build-en-pages.mjs
   'en/destinations.js',           // the English home's search list, from build-en-pages.mjs
+  'assets/ru-destinations.js',    // the Russian home's search list, from build-catalogue-pages.mjs
 ]);
 
 /**

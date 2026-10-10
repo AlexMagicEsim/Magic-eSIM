@@ -13,12 +13,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-// The landing's code is index.html PLUS its checkout module: the checkout IIFE
-// moved verbatim to assets/ru-checkout.js (RU↔EN parity, migration PR A) and
-// runs right after the inline script. Every rule below that reads the landing
-// reads both, so a rule about the checkout still finds it.
+// The home (index.html) loads no checkout since RU↔EN migration PR C: the
+// checkout runs on the country pages, from assets/ru-checkout.js.
 const readRaw = (p) => readFileSync(join(ROOT, p), 'utf8');
-const read = (p) => (p === 'index.html' ? readRaw('index.html') + '\n' + readRaw('assets/ru-checkout.js') : readRaw(p));
+const read = readRaw;
+// The checkout's own code (assets/ru-checkout.js): since RU↔EN migration PR C it
+// runs on the country pages only, and every checkout goal is fired from here.
+const CHECKOUT_JS = readRaw('assets/ru-checkout.js');
 
 /* ---------- harnesses ---------------------------------------------------- */
 
@@ -355,8 +356,8 @@ test('payment_failed clears its context, so a refresh fires nothing', () => {
 
 /* ---------- catalogue goals ---------------------------------------------- */
 
-test('coverage_modal_open fires from a click, on both landing and country pages', () => {
-  for (const f of ['index.html', 'assets/country-tariffs.js']) {
+test('coverage_modal_open fires from a click on the country pages (the only plan cards since PR C)', () => {
+  for (const f of ['assets/country-tariffs.js']) {
     const s = read(f);
     assert.match(s, /magicMetrikaGoal\('coverage_modal_open'/, `${f}: goal missing`);
     assert.match(s, /js-coverage" data-package-id=/, `${f}: coverage button has no package id`);
@@ -379,8 +380,8 @@ test('country pages raise country_tariff_click, never tariff_buy_click', () => {
     'a country page deep link must not count as intent to buy');
 });
 
-test('tariff_buy_click stays on the landing and keeps its params', () => {
-  const s = read('index.html');
+test('tariff_buy_click is fired by the checkout and keeps its params', () => {
+  const s = CHECKOUT_JS;
   assert.match(s, /magicMetrikaGoal\('tariff_buy_click'/);
   const w = wrapperOf('index.html');
   w.fire('tariff_buy_click', { country_code: 'TH', package_id: 'p1', price_rub: 500, data_gb: 3, validity_days: 15, tariff_type: 'local' });
@@ -400,7 +401,7 @@ test('promo goals reach Metrika and carry their context', () => {
 });
 
 test('promo goals are wired to real outcomes, not fired blind', () => {
-  const s = read('index.html');
+  const s = CHECKOUT_JS;
   assert.match(s, /data\.valid[\s\S]{0,400}magicMetrikaGoal\('promo_apply_success'/);
   assert.match(s, /coPromoRemove[\s\S]{0,200}magicMetrikaGoal\('promo_removed'/);
 });
@@ -435,7 +436,7 @@ test('unlisted params are stripped even when explicitly passed', () => {
 });
 
 test('the payment bridge stores no personal data', () => {
-  const s = read('index.html');
+  const s = CHECKOUT_JS;
   const write = s.match(/sessionStorage\.setItem\('magic_pay_ctx',JSON\.stringify\(\{[\s\S]*?\}\)\);/);
   assert.ok(write, 'payment bridge write not found');
   for (const bad of ['email', 'contact', 'phone', 'iccid', 'qr']) {
@@ -445,7 +446,7 @@ test('the payment bridge stores no personal data', () => {
 });
 
 test('the order reference stored for the bridge is never the whole token', () => {
-  const s = read('index.html');
+  const s = CHECKOUT_JS;
   assert.match(s, /_c\.order_ref=_tok\.slice\(-6\);/);
   assert.doesNotMatch(s, /order_ref\s*[:=]\s*_tok\s*[,;}]/);
 });
@@ -702,7 +703,7 @@ test('шаги называют только те кнопки, которые �
   const steps = h.match(/<ol class="ol-steps">[\s\S]*?<\/ol>/);
   assert.ok(steps, 'блок шагов не найден');
 
-  const ui = read('index.html')   // the landing: index.html + assets/ru-checkout.js
+  const ui = read('index.html') + CHECKOUT_JS   // the home, and the checkout the country pages open
     + readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8')
     + readFileSync(join(ROOT, 'assets/daily-plan-copy.js'), 'utf8')
     // Окно «Покрытие и условия» на стране — разметка страницы, а не скрипта.

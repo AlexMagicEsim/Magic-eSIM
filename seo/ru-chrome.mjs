@@ -3,10 +3,16 @@
 // footer's (seo/build-en-pages.mjs), class for class, so the two storefronts
 // look the same; the words, the links and the market are Russian.
 //
+// The navigation is the English one, item for item (RU↔EN migration PR C):
+// Направления · Как это работает · Проверка устройства · Инструкции, and the CTA
+// «Найти тариф» goes to the home's search (/#plans), as «Find a plan» does on
+// /en/. The home no longer carries a catalogue: plans and the checkout live on
+// the country pages.
+//
 // What is Russian-only and deliberately so:
-//   * the Telegram entry in the navigation (the Mini App is a Russian channel);
 //   * «English» as the language switch, pointing at the page's English twin;
-//   * the CTA «Выбрать тариф» goes to the Russian catalogue on the home page;
+//   * the Telegram links in the footer (the Mini App and the channel are
+//     Russian channels); the hero of the home keeps the Mini App button;
 //   * no payment-status bar (that bar says GLOBAL cannot take payment; the
 //     Russian checkout can);
 //   * no skip link — seo/test-en-skip-link.mjs pins that the Russian site
@@ -28,10 +34,9 @@ export const RU_TG_APP = 'https://t.me/magicesim_bot?startapp';
 export const RU_TG_CHANNEL = 'https://t.me/magicesim';
 
 const NAV_LINKS = `<a href="/esim/">Направления</a>
-      <a href="/#solution">Как это работает</a>
-      <a href="/esim/compatibility/">Совместимость</a>
-      <a href="/#install-guides-section">Инструкции</a>
-      <a href="${RU_TG_APP}" target="_blank" rel="noopener noreferrer">Telegram</a>`;
+      <a href="/#how">Как это работает</a>
+      <a href="/#compat">Проверка устройства</a>
+      <a href="/#guides">Инструкции</a>`;
 
 /** The header. `hreflang` marks the English link's language — on the home
  * only, which always linked /en/ that way (seo/test-en-storefront.mjs); the
@@ -44,7 +49,7 @@ export const ruHeader = ({ hreflang = false } = {}) => `<header class="site-head
     </nav>
     <div class="hdr-actions">
       <a class="langsw" href="/en/"${hreflang ? ' hreflang="en"' : ''} lang="en">${ICON_GLOBE}<span>English</span></a>
-      <a class="btn btn-sm hdr-cta" href="/#global-pricing">Выбрать тариф</a>
+      <a class="btn btn-sm hdr-cta" href="/#plans">Найти тариф</a>
       <details class="mnav">
         <summary aria-label="Меню">${ICON_MENU}</summary>
         <nav class="mnav-panel" aria-label="Меню">
@@ -57,9 +62,13 @@ export const ruHeader = ({ hreflang = false } = {}) => `<header class="site-head
   </div>
 </header>`;
 
-/* The home's «Популярные направления», in the home's order (index.html, #popular):
- * the hub shows the first eight, the footer the first six. */
-export const RU_POPULAR = Object.freeze([
+/* The Russian storefront's popular destinations, in its order — ONE list.
+ * Until RU↔EN migration PR C it was the home's sixteen tiles, and
+ * seo/build-country-dictionary.mjs parsed it out of index.html for the Mini App
+ * («popularCountries» in app/core.js). The home now shows eight, as /en/ does,
+ * so the list lives here and both read it: the Mini App keeps all sixteen, the
+ * site shows the first eight (RU_POPULAR). Reordering here moves both. */
+export const RU_POPULAR_ALL = Object.freeze([
   { slug: 'turkey', iso: 'TR', name: 'Турция' },
   { slug: 'thailand', iso: 'TH', name: 'Таиланд' },
   { slug: 'vietnam', iso: 'VN', name: 'Вьетнам' },
@@ -68,7 +77,20 @@ export const RU_POPULAR = Object.freeze([
   { slug: 'sri-lanka', iso: 'LK', name: 'Шри-Ланка' },
   { slug: 'china', iso: 'CN', name: 'Китай' },
   { slug: 'italy', iso: 'IT', name: 'Италия' },
+  { slug: 'uae', iso: 'AE', name: 'ОАЭ' },
+  { slug: 'indonesia', iso: 'ID', name: 'Индонезия' },
+  { slug: 'japan', iso: 'JP', name: 'Япония' },
+  { slug: 'south-korea', iso: 'KR', name: 'Южная Корея' },
+  { slug: 'spain', iso: 'ES', name: 'Испания' },
+  { slug: 'france', iso: 'FR', name: 'Франция' },
+  { slug: 'greece', iso: 'GR', name: 'Греция' },
+  { slug: 'cyprus', iso: 'CY', name: 'Кипр' },
 ]);
+
+/* The home's «Популярные направления» — eight tiles, as on /en/ (index.html,
+ * #popular); the hero's «Популярно:» row and the footer show the first six, the
+ * hub all eight. Russian demand, so not the English list. */
+export const RU_POPULAR = Object.freeze(RU_POPULAR_ALL.slice(0, 8));
 export const RU_FOOTER_DESTINATIONS = RU_POPULAR.slice(0, 6);
 
 export const RU_FOOTER_GUIDES = Object.freeze([
@@ -106,7 +128,8 @@ ${RU_FOOTER_GUIDES.map((g) => li(g.href, g.label)).join('\n')}
         <h2>Помощь</h2>
         <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
         <ul>
-${li('/#solution', 'Как это работает')}
+${li('/#how', 'Как это работает')}
+${li('/#compat', 'Проверка устройства')}
 ${li(RU_TG_CHANNEL, 'Наш Telegram-канал', ' target="_blank" rel="noopener noreferrer"')}
 ${li(RU_TG_APP, 'Magic eSIM в Telegram', ' target="_blank" rel="noopener noreferrer"')}
         </ul>

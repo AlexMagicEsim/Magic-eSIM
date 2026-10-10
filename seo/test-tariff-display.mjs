@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Tests for the tariff display mappers. The landing has no bundler, so the
-// mapper block is duplicated verbatim in index.html and assets/country-tariffs.js;
-// this file loads BOTH copies, pins them together, and runs the same suite
-// against each so they cannot drift.
+// Tests for the tariff display mappers in assets/country-tariffs.js. Until RU↔EN
+// migration PR C the landing carried a verbatim second copy in index.html and
+// this file pinned the two together; the home renders no tariffs now, so the
+// country pages' copy is the only one (and the home must not grow another).
 //
 // Run: node --test seo/test-tariff-display.mjs
 
@@ -14,7 +14,6 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCES = {
-  'index.html': join(ROOT, 'index.html'),
   'assets/country-tariffs.js': join(ROOT, 'assets/country-tariffs.js'),
 };
 const BLOCK_RE = /\/\* --- TARIFF DISPLAY MAPPERS[\s\S]*?END TARIFF DISPLAY MAPPERS -+ \*\//;
@@ -32,9 +31,9 @@ function loadMappers(file) {
   return factory();
 }
 
-test('the two copies of the mapper block are byte-identical', () => {
-  const [a, b] = Object.values(SOURCES).map(extractBlock);
-  assert.equal(a, b, 'index.html and assets/country-tariffs.js must carry the same mappers');
+test('the mapper block has one copy: the country pages\' renderer', () => {
+  assert.ok(extractBlock(SOURCES['assets/country-tariffs.js']).length > 200);
+  assert.ok(!BLOCK_RE.test(readFileSync(join(ROOT, 'index.html'), 'utf8')), 'the home must not carry a second copy');
 });
 
 // The two unreachable renderers that used to carry these strings were deleted,
@@ -113,7 +112,7 @@ test('every provider string the live catalogues return has a Russian translation
 test('the deleted legacy renderers stay deleted', () => {
   // They generated fabricated speed/FUP/tethering values and were unreachable.
   // If a name reappears, the fabricated strings can come back with it.
-  const src = readFileSync(SOURCES['index.html'], 'utf8');
+  const src = readFileSync(join(ROOT, 'index.html'), 'utf8') + readFileSync(SOURCES['assets/country-tariffs.js'], 'utf8');
   for (const name of ['loadRussiaApiPackages', 'renderPackagesForCountry',
                       'isRussiaDailyApiPackage', 'isRussiaApiPackage']) {
     assert.equal(src.includes(name), false, `${name} must not come back`);
