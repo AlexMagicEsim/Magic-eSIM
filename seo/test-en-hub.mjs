@@ -42,7 +42,7 @@ test('every destination is linked exactly once, under its own letter, A to Z, wi
   assert.ok(groups.length >= 20);
   const seen = [];
   for (const [block, l] of groups) {
-    for (const m of block.matchAll(/<li data-name="[^"]+" data-iso="([A-Z]{2})"><a href="\/en\/esim\/([a-z0-9-]+)\/"><img class="flag" src="\/en\/flags\/([a-z]{2})\.svg"[^>]*><span>([^<]+)<\/span><\/a><\/li>/g)) {
+    for (const m of block.matchAll(/<li data-name="[^"]+" data-iso="([A-Z]{2})"><a href="\/en\/esim\/([a-z0-9-]+)\/"><img class="flag" src="\/assets\/flags\/([a-z]{2})\.svg"[^>]*><span>([^<]+)<\/span><\/a><\/li>/g)) {
       const [, iso, slug, flag, name] = m;
       assert.equal(azLetter(name.replace(/&amp;/g, '&')), l.toUpperCase(), `${name} under ${l}`);
       assert.equal(flag, iso.toLowerCase());

@@ -111,15 +111,15 @@ const GUIDE_ROBOTS = `<!-- Written for this site but not yet reviewed for search
 
 /* Inter is self-hosted (font-src 'self'); the latin file is what nearly every
  * English page needs first, so it is fetched alongside the stylesheet. */
-export const FONT_PRELOAD = `<link rel="preload" href="/en/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>`;
+export const FONT_PRELOAD = `<link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>`;
 
 /* The logo is the brand's own artwork (assets/magic-esim-logo.png), trimmed of
  * its white margin and exported at 1x/2x/3x for a 44 px header — the artwork
  * itself is unchanged. It carries the name, so its alt is the name. */
-export const LOGO = `<img src="/en/img/logo-1x.png" srcset="/en/img/logo-2x.png 2x, /en/img/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM">`;
+export const LOGO = `<img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM">`;
 
 /* The destinations the home and the footer feature. Every slug must have an
- * English page; seo/test-en-home.mjs checks it. Flags: en/flags/<iso>.svg. */
+ * English page; seo/test-en-home.mjs checks it. Flags: assets/flags/<iso>.svg. */
 export const POPULAR = Object.freeze([
   { iso: 'TH', slug: 'thailand', name: 'Thailand' },
   { iso: 'TR', slug: 'turkey', name: 'Türkiye' },
@@ -144,7 +144,7 @@ const ICON_MENU = '<svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke=
  * which carry no script at all, and with JavaScript off. */
 /* The skip link is the FIRST focusable element of every English page: hidden until it
  * has keyboard focus, then shown over the sticky header; it moves focus to <main>
- * (tabindex="-1"). Plain HTML + en.css, so it works without JavaScript and under the
+ * (tabindex="-1"). Plain HTML + assets/site.css, so it works without JavaScript and under the
  * strict CSP. seo/test-en-skip-link.mjs and test/e2e/en-skip-link.spec.js pin it. */
 export const SKIP_LINK = '<a class="skip" href="#main">Skip to main content</a>';
 
@@ -250,7 +250,7 @@ const modal = (c) => `<div class="overlay" id="checkout" hidden>
       <p data-i18n="pay.unavailableBody">You can check a plan and get its exact price, but payment can't be taken yet. Nothing is charged, and no order or eSIM is created.</p>
     </div>
     <section class="co-sum" aria-label="Your plan">
-      <div class="co-sum-head"><img class="co-flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>eSIM for ${esc(c.name)}</span></div>
+      <div class="co-sum-head"><img class="co-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>eSIM for ${esc(c.name)}</span></div>
       <div class="rows">
         <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
         <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
@@ -381,6 +381,7 @@ ${cspMeta(primaryApiOrigin())}
 <meta property="og:title" content="${title}">
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+<link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/en/country.css">
 <link rel="stylesheet" href="/en/checkout.css">
@@ -395,7 +396,7 @@ ${PAYBAR}
     <div class="wrap">
       <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › ${name}</p>
       <div class="cp-title">
-        <img class="cp-flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
+        <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
         <div>
           <h1>eSIM for ${name}</h1>
           <p class="lead">Data plans that work in ${name}, with prices in US dollars.</p>
@@ -484,14 +485,14 @@ export function hubPage(list) {
   const jump = letters.map((L) => (groups.has(L)
     ? `<a href="#az-${L.toLowerCase()}" data-letter="${L}">${L}</a>`
     : `<span aria-hidden="true">${L}</span>`)).join('');
-  const item = (c) => `        <li data-name="${esc(c.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())}" data-iso="${c.iso}"><a href="/en/esim/${c.slug}/"><img class="flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"><span>${esc(c.name)}</span></a></li>`;
+  const item = (c) => `        <li data-name="${esc(c.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())}" data-iso="${c.iso}"><a href="/en/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"><span>${esc(c.name)}</span></a></li>`;
   const sections = [...groups.entries()].map(([L, cs]) => `    <section class="az-group" id="az-${L.toLowerCase()}" aria-labelledby="azh-${L.toLowerCase()}">
       <h2 id="azh-${L.toLowerCase()}">${L}</h2>
       <ul class="dest">
 ${cs.map(item).join('\n')}
       </ul>
     </section>`).join('\n');
-  const popular = POPULAR.map((c) => `      <a class="hub-tile" href="/en/esim/${c.slug}/"><img class="flag" src="/en/flags/${c.iso.toLowerCase()}.svg" alt="" width="40" height="30"><span>${esc(c.name)}</span></a>`).join('\n');
+  const popular = POPULAR.map((c) => `      <a class="hub-tile" href="/en/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="40" height="30"><span>${esc(c.name)}</span></a>`).join('\n');
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -504,6 +505,7 @@ ${ROBOTS}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+<link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/en/hub.css">
 </head>
@@ -632,6 +634,7 @@ ${cspMeta("'none'")}
 <meta property="og:title" content="${esc(g.title)}">
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+<link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/en/guides.css">
 </head>
@@ -702,6 +705,7 @@ ${GUIDE_ROBOTS}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+<link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/en/guides.css">
 </head>

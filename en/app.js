@@ -10,7 +10,7 @@
  * WHAT THIS FILE IS ALLOWED TO DO: read the destination list the generator
  * wrote (en/destinations.js, static: the countries that have an English page)
  * and render search results as ordinary links (with the country's flag, a
- * static file under en/flags/), and follow the best one when the visitor
+ * static file under assets/flags/), and follow the best one when the visitor
  * presses «Find plans» or Enter.
  *
  * WHAT IT MUST NEVER DO:
@@ -67,7 +67,7 @@
       if (/^[A-Z]{2}$/.test(d.iso)) {
         var img = document.createElement('img');
         img.className = 'flag';
-        img.src = '/en/flags/' + d.iso.toLowerCase() + '.svg';
+        img.src = '/assets/flags/' + d.iso.toLowerCase() + '.svg';
         img.alt = '';
         img.width = 28;
         img.height = 21;

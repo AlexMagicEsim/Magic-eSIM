@@ -70,7 +70,7 @@ test('search by keyboard: type, arrow into the results, Enter opens the country'
   await page.keyboard.type('jap');
   const first = page.locator('#results a.res').first();
   await expect(first).toHaveText('Japan');
-  await expect(first.locator('img.flag')).toHaveAttribute('src', '/en/flags/jp.svg');
+  await expect(first.locator('img.flag')).toHaveAttribute('src', '/assets/flags/jp.svg');
   await page.keyboard.press('ArrowDown');
   await expect(first).toBeFocused();
   await page.keyboard.press('ArrowUp');

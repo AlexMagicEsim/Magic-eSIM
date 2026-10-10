@@ -1,5 +1,5 @@
 /* /en/guides/ and the five guides — their own layout. Tokens, type, buttons,
- * the header, the payment bar and the footer come from en/en.css. No script:
+ * the header, the payment bar and the footer come from assets/site.css. No script:
  * «On this page» is plain anchors. Versioned by seo/stamp-assets.mjs. */
 
 .guide{background:radial-gradient(900px 420px at 0% -10%,rgba(138,22,199,.08),transparent 60%),radial-gradient(820px 420px at 100% -10%,rgba(0,199,223,.08),transparent 58%),var(--bg)}

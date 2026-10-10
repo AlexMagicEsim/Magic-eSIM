@@ -1,5 +1,5 @@
 /* /en/esim/<slug>/ — the country page's own layout. Tokens, type, buttons
- * and the shared chrome come from en/en.css; this file lays out the hero, the
+ * and the shared chrome come from assets/site.css; this file lays out the hero, the
  * plan blocks and the plan cards that en/plans.js builds.
  * Versioned by seo/stamp-assets.mjs like every other asset. */
 
