@@ -29,7 +29,11 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://mc.yandex.ru" />
-  <link rel="stylesheet" href="../../assets/country-pages.css?v=90ee3c09" />
+  <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
+  <link rel="stylesheet" href="/assets/page-guides.css?v=d2c62fb9" />
+  <link rel="stylesheet" href="/assets/ru.css?v=b217aec3" />
 
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
@@ -72,157 +76,197 @@
   </script>
 </head>
 <body>
-  <nav class="nav">
-    <a class="brand" href="../.././" aria-label="Magic eSIM"><img class="brand-logo" src="../../assets/magic-esim-logo-header.png" alt="Magic eSIM" width="66" height="50"></a>
-    <div class="nav-links"><a href="#faq">Вопросы</a><a href="../../esim/">Направления</a><a href="../.././#global-pricing">Тарифы</a><a href="../.././">На главную</a></div>
-    <a class="btn" href="../../esim/">Выбрать направление</a>
-  </nav>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+    </nav>
+    <div class="hdr-actions">
+      <a class="langsw" href="/en/" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span>English</span></a>
+      <a class="btn btn-sm hdr-cta" href="/#global-pricing">Выбрать тариф</a>
+      <details class="mnav">
+        <summary aria-label="Меню"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+        <nav class="mnav-panel" aria-label="Меню">
+      <a href="/esim/">Направления</a>
+      <a href="/#solution">Как это работает</a>
+      <a href="/esim/compatibility/">Совместимость</a>
+      <a href="/#install-guides-section">Инструкции</a>
+      <a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <hr>
+          <a href="/en/" lang="en">English</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
 
-  <main>
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs"><div class="container">
+<main class="guide">
+  <section class="g-hero">
+    <div class="wrap">
       <nav class="crumbs" aria-label="Хлебные крошки">
-        <a href="../../">Главная</a><span class="sep">/</span>
-        <a href="../../esim/">eSIM</a><span class="sep">/</span>
+        <a href="../../">Главная</a> › 
+        <a href="../../esim/">eSIM</a> › 
         <span aria-current="page">Совместимость</span>
       </nav>
-    </div></div>
-
-    <!-- Hero -->
-    <header class="cp-hero"><div class="container">
-      <span class="eyebrow"><span class="pulse"></span> Инструкции Magic eSIM</span>
-      <h1>Поддерживает ли ваш телефон eSIM</h1>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <h1>Поддерживает ли ваш телефон eSIM</h1>
+      </div>
       <p class="lead">Самый быстрый способ: откройте настройки SIM-карт и посмотрите, есть ли там пункт «Добавить eSIM». Если есть — телефон поддерживает eSIM. Проверка занимает минуту и не требует покупки; ниже — этот шаг подробно, а также две вещи, которые проверяют вместе с ним: блокировка под оператора и региональная версия устройства.</p>
-      <div class="hero-actions">
-        <a class="btn" href="../../esim/">Выбрать направление</a>
-        <a class="btn secondary" href="#faq">Частые вопросы</a>
-      </div>
-    </div></header>
+    </div>
+  </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Проверка 1</div>
-          <h2>Есть ли eSIM в настройках</h2>
-        </div>
-        <div class="prose">
-                  <p><strong>iPhone:</strong> откройте «Настройки → Сотовая связь». Пункт «Добавить eSIM» (или «Добавить сотовый тариф») означает, что устройство поддерживает eSIM. Поддержка зависит от модели, региона продажи и настроек оператора; точную информацию по вашей модели смотрите в официальной документации Apple.</p>
-                  <p><strong>Android:</strong> откройте раздел SIM-карт в настройках («Сеть и интернет», «Подключения» или «SIM-карты и мобильные сети»). Ищите пункт вида «Добавить eSIM» или «Загрузить SIM». Названия различаются по брендам — подробные шаги в наших инструкциях для <a href="../../iphone.html">iPhone</a> и <a href="../../android.html">Android</a>.</p>
-                  <p>Дополнительный диагностический признак: наберите <code>*#06#</code>. Наличие EID среди идентификаторов обычно указывает на модуль eSIM, но само по себе не гарантирует, что функция доступна на вашей версии устройства; отсутствие EID на экране тоже не всегда означает отсутствие eSIM. Решающая проверка — пункт добавления eSIM в настройках.</p>
-                </div>
-      </div>
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="На этой странице">
+      <p class="g-toc-title">На этой странице</p>
+      <ol>
+        <li><a href="#s1">Есть ли eSIM в настройках</a></li>
+        <li><a href="#s2">С каких примерно устройств eSIM встречается</a></li>
+        <li><a href="#s3">Не заблокирован ли телефон под оператора</a></li>
+        <li><a href="#s4">Региональные версии устройств</a></li>
+        <li><a href="#s5">Телефон подходит — что дальше</a></li>
+        <li><a href="#faq">Частые вопросы</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec" id="s1" aria-labelledby="s1-h">
+      <p class="g-kicker">Проверка 1</p>
+      <h2 id="s1-h">Есть ли eSIM в настройках</h2>
+      <div class="prose">
+                <p><strong>iPhone:</strong> откройте «Настройки → Сотовая связь». Пункт «Добавить eSIM» (или «Добавить сотовый тариф») означает, что устройство поддерживает eSIM. Поддержка зависит от модели, региона продажи и настроек оператора; точную информацию по вашей модели смотрите в официальной документации Apple.</p>
+                <p><strong>Android:</strong> откройте раздел SIM-карт в настройках («Сеть и интернет», «Подключения» или «SIM-карты и мобильные сети»). Ищите пункт вида «Добавить eSIM» или «Загрузить SIM». Названия различаются по брендам — подробные шаги в наших инструкциях для <a href="../../iphone.html">iPhone</a> и <a href="../../android.html">Android</a>.</p>
+                <p>Дополнительный диагностический признак: наберите <code>*#06#</code>. Наличие EID среди идентификаторов обычно указывает на модуль eSIM, но само по себе не гарантирует, что функция доступна на вашей версии устройства; отсутствие EID на экране тоже не всегда означает отсутствие eSIM. Решающая проверка — пункт добавления eSIM в настройках.</p>
+              </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Ориентир</div>
-          <h2>С каких примерно устройств eSIM встречается</h2>
-        </div>
-        <div class="prose">
-                  <p>Точный ответ даёт только проверка в настройках, но грубый ориентир помогает понять, чего ожидать. Массово eSIM начала появляться в смартфонах <strong>с 2018–2020 годов</strong>: раньше это была редкость, позже — почти норма для флагманов и значительной части средних моделей. У бюджетных линеек eSIM встречается заметно реже даже в свежих поколениях.</p>
-                  <p>Ориентир именно ориентир: одна и та же модель одного года может иметь eSIM в одной стране продажи и не иметь в другой (см. следующий раздел). Поэтому год выпуска сужает ожидания, но не заменяет проверку в настройках вашего конкретного аппарата.</p>
-                </div>
-      </div>
+    <section class="g-sec" id="s2" aria-labelledby="s2-h">
+      <p class="g-kicker">Ориентир</p>
+      <h2 id="s2-h">С каких примерно устройств eSIM встречается</h2>
+      <div class="prose">
+                <p>Точный ответ даёт только проверка в настройках, но грубый ориентир помогает понять, чего ожидать. Массово eSIM начала появляться в смартфонах <strong>с 2018–2020 годов</strong>: раньше это была редкость, позже — почти норма для флагманов и значительной части средних моделей. У бюджетных линеек eSIM встречается заметно реже даже в свежих поколениях.</p>
+                <p>Ориентир именно ориентир: одна и та же модель одного года может иметь eSIM в одной стране продажи и не иметь в другой (см. следующий раздел). Поэтому год выпуска сужает ожидания, но не заменяет проверку в настройках вашего конкретного аппарата.</p>
+              </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Проверка 2</div>
-          <h2>Не заблокирован ли телефон под оператора</h2>
-        </div>
-        <div class="prose">
-                  <p>Телефоны, купленные с контрактом у зарубежных операторов, бывают «залочены»: они принимают только SIM и eSIM этого оператора. Такому устройству travel-eSIM не подойдёт до снятия блокировки. Проверить статус можно в настройках (на iPhone — раздел про блокировку SIM в сведениях об устройстве) или у оператора, продавшего телефон. Устройства, купленные в России в свободной продаже, обычно не заблокированы.</p>
-                </div>
-      </div>
+    <section class="g-sec" id="s3" aria-labelledby="s3-h">
+      <p class="g-kicker">Проверка 2</p>
+      <h2 id="s3-h">Не заблокирован ли телефон под оператора</h2>
+      <div class="prose">
+                <p>Телефоны, купленные с контрактом у зарубежных операторов, бывают «залочены»: они принимают только SIM и eSIM этого оператора. Такому устройству travel-eSIM не подойдёт до снятия блокировки. Проверить статус можно в настройках (на iPhone — раздел про блокировку SIM в сведениях об устройстве) или у оператора, продавшего телефон. Устройства, купленные в России в свободной продаже, обычно не заблокированы.</p>
+              </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Проверка 3</div>
-          <h2>Региональные версии устройств</h2>
-        </div>
-        <div class="prose">
-                  <p>Поддержка eSIM зависит не только от модели, но и от того, для какого рынка выпущено устройство. Известный пример: iPhone для материкового Китая выпускаются без eSIM — при одинаковом названии модели. Похожие отличия встречаются и у Android-брендов. Поэтому единственная надёжная проверка — ваша собственная: настройки устройства и код <code>*#06#</code>.</p>
-                  <p>По этой же причине мы не публикуем «полный список поддерживаемых моделей»: он различается по регионам и быстро устаревает.</p>
-                </div>
-      </div>
+    <section class="g-sec" id="s4" aria-labelledby="s4-h">
+      <p class="g-kicker">Проверка 3</p>
+      <h2 id="s4-h">Региональные версии устройств</h2>
+      <div class="prose">
+                <p>Поддержка eSIM зависит не только от модели, но и от того, для какого рынка выпущено устройство. Известный пример: iPhone для материкового Китая выпускаются без eSIM — при одинаковом названии модели. Похожие отличия встречаются и у Android-брендов. Поэтому единственная надёжная проверка — ваша собственная: настройки устройства и код <code>*#06#</code>.</p>
+                <p>По этой же причине мы не публикуем «полный список поддерживаемых моделей»: он различается по регионам и быстро устаревает.</p>
+              </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Дальше</div>
-          <h2>Телефон подходит — что дальше</h2>
-        </div>
-        <div class="prose">
-                  <p>Выберите страну и тариф в <a href="../../esim/">каталоге направлений</a>, оплатите — QR-код придёт на почту. Если в окне «Покрытие и условия» у карточки тарифа в строке «Начало срока» не написано «после установки eSIM», устанавливать eSIM удобнее до вылета: как это сделать — в инструкциях для <a href="../../iphone.html">iPhone</a> и <a href="../../android.html">Android</a>, а о моменте включения тарифа — на странице <a href="../../esim/activation-before-travel/">«Когда устанавливать и включать eSIM»</a>.</p>
-                </div>
-      </div>
+    <section class="g-sec" id="s5" aria-labelledby="s5-h">
+      <p class="g-kicker">Дальше</p>
+      <h2 id="s5-h">Телефон подходит — что дальше</h2>
+      <div class="prose">
+                <p>Выберите страну и тариф в <a href="../../esim/">каталоге направлений</a>, оплатите — QR-код придёт на почту. Если в окне «Покрытие и условия» у карточки тарифа в строке «Начало срока» не написано «после установки eSIM», устанавливать eSIM удобнее до вылета: как это сделать — в инструкциях для <a href="../../iphone.html">iPhone</a> и <a href="../../android.html">Android</a>, а о моменте включения тарифа — на странице <a href="../../esim/activation-before-travel/">«Когда устанавливать и включать eSIM»</a>.</p>
+              </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Вопросы и ответы</div>
-          <h2>Частые вопросы</h2>
-        </div>
-        <div class="faq-list">
-          <div class="faq-item"><p class="faq-q">Как узнать, поддерживает ли мой телефон eSIM?</p><p class="faq-a">Откройте настройки SIM-карт: на iPhone это «Настройки → Сотовая связь», на Android — раздел SIM в «Сети и интернет», «Подключения» или «SIM-карты и мобильные сети». Пункт «Добавить eSIM» (иногда «Добавить сотовый тариф» или «Загрузить SIM») означает поддержку. Это решающая проверка: она учитывает и модель, и региональную версию, и настройки оператора — в отличие от списков моделей в интернете.</p></div>
-          <div class="faq-item"><p class="faq-q">Как проверить, есть ли eSIM на айфоне?</p><p class="faq-a">На iPhone откройте «Настройки → Сотовая связь» и найдите пункт «Добавить eSIM» — в более старых версиях iOS он называется «Добавить сотовый тариф». Если пункта нет, дополнительно наберите *#06#: наличие строки EID указывает на модуль eSIM, но не гарантирует, что функция доступна на вашей версии устройства. Решает всё-таки пункт в настройках.</p></div>
-          <div class="faq-item"><p class="faq-q">Мой телефон поддерживает две SIM. Это то же самое, что eSIM?</p><p class="faq-a">Не обязательно: бывают устройства с двумя физическими слотами без eSIM. Проверьте именно наличие пункта «Добавить eSIM» в настройках SIM.</p></div>
-          <div class="faq-item"><p class="faq-q">На экране *#06# нет EID. eSIM точно нет?</p><p class="faq-a">Не обязательно — на части устройств EID не выводится этим кодом. Решающая проверка: есть ли добавление eSIM в настройках SIM-карт.</p></div>
-          <div class="faq-item"><p class="faq-q">Телефон куплен за границей. Сработает ли eSIM?</p><p class="faq-a">Зависит от региональной версии и от того, не заблокирован ли аппарат под местного оператора. Проверьте пункт добавления eSIM в настройках и статус блокировки.</p></div>
-          <div class="faq-item"><p class="faq-q">Планшеты и часы поддерживаются?</p><p class="faq-a">Тарифы Magic eSIM рассчитаны на смартфоны с поддержкой eSIM. Для планшетов и часов возможность зависит от устройства и тарифа — уточните в поддержке перед покупкой.</p></div>
-          <div class="faq-item"><p class="faq-q">Что делать, если eSIM телефон не поддерживает?</p><p class="faq-a">Использовать travel-eSIM не получится. Варианты: другой смартфон с eSIM или обычная местная SIM-карта в поездке.</p></div>
-        </div>
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Частые вопросы</h2>
+      <div class="faq-list">
+        <div class="faq-item"><p class="faq-q">Как узнать, поддерживает ли мой телефон eSIM?</p><p class="faq-a">Откройте настройки SIM-карт: на iPhone это «Настройки → Сотовая связь», на Android — раздел SIM в «Сети и интернет», «Подключения» или «SIM-карты и мобильные сети». Пункт «Добавить eSIM» (иногда «Добавить сотовый тариф» или «Загрузить SIM») означает поддержку. Это решающая проверка: она учитывает и модель, и региональную версию, и настройки оператора — в отличие от списков моделей в интернете.</p></div>
+        <div class="faq-item"><p class="faq-q">Как проверить, есть ли eSIM на айфоне?</p><p class="faq-a">На iPhone откройте «Настройки → Сотовая связь» и найдите пункт «Добавить eSIM» — в более старых версиях iOS он называется «Добавить сотовый тариф». Если пункта нет, дополнительно наберите *#06#: наличие строки EID указывает на модуль eSIM, но не гарантирует, что функция доступна на вашей версии устройства. Решает всё-таки пункт в настройках.</p></div>
+        <div class="faq-item"><p class="faq-q">Мой телефон поддерживает две SIM. Это то же самое, что eSIM?</p><p class="faq-a">Не обязательно: бывают устройства с двумя физическими слотами без eSIM. Проверьте именно наличие пункта «Добавить eSIM» в настройках SIM.</p></div>
+        <div class="faq-item"><p class="faq-q">На экране *#06# нет EID. eSIM точно нет?</p><p class="faq-a">Не обязательно — на части устройств EID не выводится этим кодом. Решающая проверка: есть ли добавление eSIM в настройках SIM-карт.</p></div>
+        <div class="faq-item"><p class="faq-q">Телефон куплен за границей. Сработает ли eSIM?</p><p class="faq-a">Зависит от региональной версии и от того, не заблокирован ли аппарат под местного оператора. Проверьте пункт добавления eSIM в настройках и статус блокировки.</p></div>
+        <div class="faq-item"><p class="faq-q">Планшеты и часы поддерживаются?</p><p class="faq-a">Тарифы Magic eSIM рассчитаны на смартфоны с поддержкой eSIM. Для планшетов и часов возможность зависит от устройства и тарифа — уточните в поддержке перед покупкой.</p></div>
+        <div class="faq-item"><p class="faq-q">Что делать, если eSIM телефон не поддерживает?</p><p class="faq-a">Использовать travel-eSIM не получится. Варианты: другой смартфон с eSIM или обычная местная SIM-карта в поездке.</p></div>
       </div>
     </section>
+    </article>
+  </div>
 
-    <!-- Related -->
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Полезное</div>
-          <h2>Смотрите также</h2>
-        </div>
-        <div class="links-wrap">
-          <a class="country-link" href="../../iphone.html">Инструкция для iPhone</a>
-          <a class="country-link" href="../../android.html">Инструкция для Android</a>
-          <a class="country-link" href="../../esim/activation-before-travel/">Когда устанавливать и включать eSIM</a>
-          <a class="country-link" href="../../esim/not-working/">eSIM не работает — что делать</a>
-          <a class="country-link" href="../../esim/dual-sim-sms/">Основной номер, SMS и звонки</a>
-          <a class="country-link" href="../../esim/payment-rubles/">Оплата рублями и СБП</a>
-        </div>
-        <div class="links-wrap" style="margin-top:10px">
-          <a class="country-link" href="../../esim/thailand/"><img src="../../assets/flags/th.png" alt="Флаг: Таиланд" width="30" height="21"> eSIM для Таиланда</a>
-          <a class="country-link" href="../../esim/turkey/"><img src="../../assets/flags/tr.png" alt="Флаг: Турция" width="30" height="21"> eSIM для Турции</a>
-          <a class="country-link" href="../../esim/uae/"><img src="../../assets/flags/ae.png" alt="Флаг: ОАЭ" width="30" height="21"> eSIM для ОАЭ</a>
-          <a class="country-link" href="../../esim/italy/"><img src="../../assets/flags/it.png" alt="Флаг: Италия" width="30" height="21"> eSIM для Италии</a>
-          <a class="country-link" href="../../esim/">Все направления</a>
-        </div>
+  <div class="wrap">
+    <section class="g-related" aria-labelledby="related-h">
+      <h2 id="related-h">Смотрите также</h2>
+      <div class="ru-tiles">
+        <a class="ru-tile ru-tile-guide" href="../../iphone.html"><span>Инструкция для iPhone</span></a>
+        <a class="ru-tile ru-tile-guide" href="../../android.html"><span>Инструкция для Android</span></a>
+        <a class="ru-tile ru-tile-guide" href="../../esim/activation-before-travel/"><span>Когда устанавливать и включать eSIM</span></a>
+        <a class="ru-tile ru-tile-guide" href="../../esim/not-working/"><span>eSIM не работает — что делать</span></a>
+        <a class="ru-tile ru-tile-guide" href="../../esim/dual-sim-sms/"><span>Основной номер, SMS и звонки</span></a>
+        <a class="ru-tile ru-tile-guide" href="../../esim/payment-rubles/"><span>Оплата рублями и СБП</span></a>
+        <a class="ru-tile" href="/esim/thailand/"><img class="flag" src="/assets/flags/th.svg" alt="" width="36" height="27"><span>eSIM для Таиланда</span></a>
+        <a class="ru-tile" href="/esim/turkey/"><img class="flag" src="/assets/flags/tr.svg" alt="" width="36" height="27"><span>eSIM для Турции</span></a>
+        <a class="ru-tile" href="/esim/uae/"><img class="flag" src="/assets/flags/ae.svg" alt="" width="36" height="27"><span>eSIM для ОАЭ</span></a>
+        <a class="ru-tile" href="/esim/italy/"><img class="flag" src="/assets/flags/it.svg" alt="" width="36" height="27"><span>eSIM для Италии</span></a>
       </div>
+      <p class="ru-more"><a class="btn btn-ghost btn-sm" href="/esim/">Все направления</a></p>
     </section>
 
-    <!-- CTA -->
-    <section class="cta">
-      <div class="container">
-        <div class="cta-box">
-          <h2>Готовы к поездке?</h2>
-          <p class="lead">Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
-          <a class="btn" href="../../esim/">Выбрать направление</a>
-        </div>
+    <section class="ru-cta">
+      <div>
+        <h2>Готовы к поездке?</h2>
+        <p>Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
       </div>
+      <a class="btn" href="/esim/">Выбрать направление</a>
     </section>
-  </main>
+  </div>
+</main>
 
-  <footer><div class="container footer-inner">
-    <div class="brand"><span class="company-name">Magic eSIM</span></div>
-    <nav class="footer-links"><a href="../.././">Главная</a><a href="../../privacy.html">Политика конфиденциальности</a><a href="../../terms.html">Пользовательское соглашение</a></nav>
-    <span class="footer-support"><a href="mailto:support@magicesim.store">support@magicesim.store</a></span>
-  </div></footer>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <p>Мобильный интернет в поездке: eSIM для 190+ направлений, оплата в рублях российской картой или через СБП.</p>
+      </div>
+      <div class="ft-col">
+        <h2>Направления</h2>
+        <ul>
+          <li><a href="/esim/turkey/">Турция</a></li>
+          <li><a href="/esim/thailand/">Таиланд</a></li>
+          <li><a href="/esim/vietnam/">Вьетнам</a></li>
+          <li><a href="/esim/egypt/">Египет</a></li>
+          <li><a href="/esim/maldives/">Мальдивы</a></li>
+          <li><a href="/esim/sri-lanka/">Шри-Ланка</a></li>
+          <li><a href="/esim/">Все направления</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Инструкции</h2>
+        <ul>
+          <li><a href="/iphone.html">Как установить eSIM на iPhone</a></li>
+          <li><a href="/android.html">Как установить eSIM на Android</a></li>
+          <li><a href="/esim/compatibility/">Поддерживает ли телефон eSIM</a></li>
+          <li><a href="/esim/activation-before-travel/">Когда устанавливать eSIM</a></li>
+          <li><a href="/esim/not-working/">eSIM не работает — что проверить</a></li>
+          <li><a href="/esim/payment-rubles/">Оплата российской картой или СБП</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Помощь</h2>
+        <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/#solution">Как это работает</a></li>
+          <li><a href="https://t.me/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</a></li>
+          <li><a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Magic eSIM в Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html">Пользовательское соглашение</a> · <a href="/privacy.html">Политика конфиденциальности</a></p>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

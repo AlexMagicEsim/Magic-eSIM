@@ -256,7 +256,7 @@ function formatRetailPrice(item){
 function buyButtonHtml(item){
   const price = getPackageRetailPrice(item);
   if(price === null){
-    return `<span class="btn package-buy" aria-disabled="true" style="opacity:.5;pointer-events:none">Нет в наличии</span>`;
+    return `<span class="btn package-buy" aria-disabled="true">Нет в наличии</span>`;
   }
   const code = String(activeCountry||'').toUpperCase();
   // Метка происхождения. Лендинг незнакомые параметры игнорирует, поэтому это
@@ -643,27 +643,27 @@ function compactCoverageLabel(item){
   const title=publicPackageName(item).toLowerCase();
 
   if(title.includes('азия и океания')||title.includes('apac')){
-    return `Азия и Океания, ${unique.length} стран`;
+    return `Азия и Океания, ${unique.length} ${pluralRu(unique.length,'страна','страны','стран')}`;
   }
 
   if(title.includes('азия плюс')){
-    return `Азия Плюс, ${unique.length} стран`;
+    return `Азия Плюс, ${unique.length} ${pluralRu(unique.length,'страна','страны','стран')}`;
   }
 
   if(title.includes('европа unlimited')){
-    return `Европа Unlimited, ${unique.length} стран`;
+    return `Европа Unlimited, ${unique.length} ${pluralRu(unique.length,'страна','страны','стран')}`;
   }
 
   if(title.includes('европа и сша')){
-    return `Европа и США, ${unique.length} стран`;
+    return `Европа и США, ${unique.length} ${pluralRu(unique.length,'страна','страны','стран')}`;
   }
 
   if(title.includes('европа')){
-    return `Европа, ${unique.length} стран`;
+    return `Европа, ${unique.length} ${pluralRu(unique.length,'страна','страны','стран')}`;
   }
 
   if(title.includes('latam')||title.includes('латинская америка')){
-    return `Латинская Америка, ${unique.length} стран`;
+    return `Латинская Америка, ${unique.length} ${pluralRu(unique.length,'страна','страны','стран')}`;
   }
 
   if(title.includes('китай, гонконг, макао и тайвань')){
@@ -674,7 +674,7 @@ function compactCoverageLabel(item){
     return `Китай, Корея и Япония`;
   }
 
-  return `${unique.length} стран`;
+  return `${unique.length} ${pluralRu(unique.length,'страна','страны','стран')}`;
 }
 
 
@@ -783,6 +783,7 @@ function isPublicGlobalPackage(item){
 // ===== Redesign: unified card + local/regional split + coverage modal + country selection =====
 const byIdG=(id)=>document.getElementById(id);
 const ICON_BOLT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>';
+const ICON_CALENDAR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
 const ICON_REFRESH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
 
 /* --- TARIFF DISPLAY MAPPERS (identical copy in index.html) ----------------
@@ -956,29 +957,53 @@ function distinctChipsHtml(item){
     + '</div>';
 }
 // One source of truth for a tariff card (used by local, regional and generic grids).
+//
+// The layout is the English storefront's plan card (assets/page-country.css,
+// en/plans.js): the volume, largest, with the term and the plan type under it,
+// the price top right; the coverage and activation lines; the network and the
+// top-up in the foot beside the one buy button. «Покрытие и условия» is a quiet
+// text button under the lines — the same button, class and data-* as before,
+// so the modal and its delegate are unchanged.
+function planDays(n){return `${n} ${pluralRu(n,'день','дня','дней')}`;}
+function regionName(item){
+  // The region a multi-country plan is sold as («Европа», «Греция, Кипр и
+  // Турция»), from the same mapper that named the card before; only a Russian
+  // name is shown — the raw provider name is not.
+  const data=formatDataLabel(item);
+  const n=String(publicPackageName(item)||'').replace(data,'').replace(/\s+$/,'').trim();
+  return /[а-яё]/i.test(n)?n:'';
+}
+function coverageButtonHtml(item,data,speed,topup){
+  return `<button type="button" class="plan-info package-coverage-btn js-coverage" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>`;
+}
+function planTechHtml(speed,topup){
+  const net=speed?`<div class="plan-net"><span class="net-k">Сеть</span> <span class="net-g">${ICON_BOLT}${escapeHtml(speed)}</span></div>`:'';
+  const top=topup?`<div class="plan-ip plan-topup">${ICON_REFRESH}Пополнение</div>`:'';
+  return `<div class="plan-tech">${net}${top}</div>`;
+}
 function renderPackageCard(item,best){
   const speed=tariffNetworkLabel(item);
   const topup=!!item.topup_available;
   const data=formatDataLabel(item)||`${item.data_gb||''} GB`;
-  const tags=[];
-  if(speed)tags.push(`<span class="package-tag">${ICON_BOLT}${escapeHtml(speed)}</span>`);
-  if(topup)tags.push(`<span class="package-tag">${ICON_REFRESH}Пополнение</span>`);
+  const multi=isMultiCountryPackage(item);
+  const kind=multi?'regional':'local';
+  const days=Number(item.validity_days||0);
+  const region=multi?regionName(item):'';
   return `
-    <article class="package-card reveal visible">
-      <div class="package-topline"><span class="package-availability">В наличии</span>${best?'<span class="package-best">Оптимальный выбор</span>':''}</div>
-      <div class="package-title">${escapeHtml(publicPackageName(item))}</div>
-      ${distinctChipsHtml(item)}
-      <div class="package-meta">
-        <div class="package-meta-item"><div class="package-meta-label">Интернет</div><div class="package-meta-value">${escapeHtml(data)}</div></div>
-        <div class="package-meta-item"><div class="package-meta-label">Срок</div><div class="package-meta-value">${escapeHtml(String(item.validity_days||''))} дн.</div></div>
-        ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
+    <article class="card plan plan-${kind} package-card">
+      <div class="plan-top">
+        <div class="plan-main">
+          <h3 class="plan-data package-title">${escapeHtml(data)}</h3>
+          <div class="plan-row">${days?`<span class="plan-term">${escapeHtml(planDays(days))}</span>`:''}<span class="plan-badge">${multi?'Региональный тариф':'Локальный тариф'}</span>${best?'<span class="plan-badge package-best">Оптимальный выбор</span>':''}</div>
+        </div>
+        <span class="price package-price">${formatRetailPrice(item)}</span>
       </div>
-      ${tags.length?`<div class="package-tags">${tags.join('')}</div>`:''}
-      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}<br><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.</div>
-      <div class="package-price">${formatRetailPrice(item)}</div>
-      <div class="package-actions">
+      ${distinctChipsHtml(item)}
+      <div class="meta package-info">${region?`<span class="m-cov">${escapeHtml(region)}</span>`:''}<span class="${region?'m-also':'m-cov'}"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}</span><span class="m-extra"><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.</span></div>
+      ${coverageButtonHtml(item,data,speed,topup)}
+      <div class="plan-foot package-actions">
+        ${planTechHtml(speed,topup)}
         ${buyButtonHtml(item)}
-        <button type="button" class="btn package-coverage-btn js-coverage" data-package-id="${escapeHtml(item.package_id||'')}" data-name="${escapeHtml(publicPackageName(item))}" data-data="${escapeHtml(data)}" data-days="${escapeHtml(String(item.validity_days||''))}" data-speed="${escapeHtml(speed)}" data-hotspot="${escapeHtml(tariffHotspotLabel(item))}" data-activation="${escapeHtml(tariffActivationLabel(item))}" data-note="${escapeHtml(tariffText(item,'speed_note'))}" data-fup="${escapeHtml(tariffText(item,'fup_policy'))}" data-topup="${topup?'1':'0'}" data-countries="${escapeHtml(coverageCountriesText(item))}">Покрытие и условия</button>
       </div>
     </article>`;
 }
@@ -1055,13 +1080,14 @@ function ensureDailyBlock(){
   if(el) return el;
   const anchor=document.getElementById('localBlock');
   if(!anchor||!anchor.parentNode) return null;
-  el=document.createElement('div');
+  el=document.createElement('section');
   el.id='dailyBlock';
-  el.className='tariff-block';
+  el.className='block plan-block plan-block-daily tariff-block';
   el.hidden=true;
-  el.innerHTML='<div class="tariff-subhead"><h3 id="dailyHead"></h3>'
-    +'<span class="count" id="dailyCount"></span></div>'
-    +'<div id="dailyGrid" class="packages-grid"></div>';
+  el.innerHTML='<div class="blk-head"><span class="blk-ico">'+ICON_CALENDAR+'</span><div>'
+    +'<h2><span id="dailyHead"></span> <span class="count" id="dailyCount"></span></h2>'
+    +'<p class="note">Объём трафика на каждый день поездки.</p></div></div>'
+    +'<div id="dailyGrid" class="grid plan-grid packages-grid"></div>';
   anchor.parentNode.insertBefore(el, anchor);
   return el;
 }
@@ -1142,6 +1168,13 @@ function selectDailyTerm(btn){
     link.dataset.days=btn.dataset.days;
     link.dataset.price=btn.dataset.price;
   }
+  // The card's own price and term chip follow the choice — the same two values
+  // the cell carries, from the server's ladder; nothing is computed here.
+  const D=dailyCopy();
+  const price=card.querySelector('.js-daily-price');
+  if(price)price.textContent=formatRub(btn.dataset.price);
+  const term=card.querySelector('.js-daily-days');
+  if(term&&D)term.textContent=`${btn.dataset.days} ${D.pluralDays(Number(btn.dataset.days))}`;
 }
 
 /* Клавиатура для радиогруппы срока.
@@ -1213,7 +1246,7 @@ function dailyTermRangeLabel(item){
  */
 function dailyCoverageButtonHtml(item,name,speed){
   const D=dailyCopy();
-  return `<button type="button" class="btn package-coverage-btn js-coverage"`
+  return `<button type="button" class="plan-info package-coverage-btn js-coverage"`
     +` data-package-id="${escapeHtml(item.package_id||'')}"`
     +` data-name="${escapeHtml(name||'')}"`
     +` data-data="${escapeHtml(D?`${D.formatAllowance(item.daily_gb)} в день`:'')}"`
@@ -1238,7 +1271,7 @@ function dailyTagsHtml(item){
  * же фраза, и на карточке она лишь отодвигала лестницу сроков от кнопки. */
 function dailyExtraInfoHtml(item){
   const hotspot=tariffHotspotLabel(item);
-  return hotspot?`<br><strong>Раздача интернета:</strong> ${escapeHtml(hotspot)}`:'';
+  return hotspot?`<span class="m-extra"><strong>Раздача интернета:</strong> ${escapeHtml(hotspot)}</span>`:'';
 }
 
 function renderDailyCard(item){
@@ -1261,23 +1294,65 @@ function renderDailyCard(item){
         price:priced[0].price,
         retail_price_rub:priced[0].price,
       }))
-    : '<span class="btn package-buy" aria-disabled="true" style="opacity:.5;pointer-events:none">Временно недоступен</span>';
+    : '<span class="btn package-buy" aria-disabled="true">Временно недоступен</span>';
+  const name=D.displayName(item,countryName);
+  const first=priced[0]||null;
   return `
-    <article class="package-card daily-card reveal visible">
-      <div class="package-topline"><span class="package-availability">В наличии</span></div>
-      <h3 class="package-title" id="dt-${escapeHtml(String(item.package_id||''))}">${escapeHtml(D.displayName(item,countryName))}</h3>
-      ${distinctChipsHtml(item)}
-      <div class="package-meta">
-        <div class="package-meta-item"><div class="package-meta-label">В день</div><div class="package-meta-value">${escapeHtml(D.formatAllowance(item.daily_gb))}</div></div>
-        ${speed?`<div class="package-meta-item"><div class="package-meta-label">Сеть</div><div class="package-meta-value">${escapeHtml(speed)}</div></div>`:''}
+    <article class="card plan plan-daily package-card daily-card">
+      <div class="plan-top">
+        <div class="plan-main">
+          <h3 class="plan-data package-title" id="dt-${escapeHtml(String(item.package_id||''))}">${escapeHtml(name)}</h3>
+          <div class="plan-row">${first?`<span class="plan-term js-daily-days">${escapeHtml(String(first.days))} ${escapeHtml(D.pluralDays(first.days))}</span>`:''}<span class="plan-badge">Тариф на каждый день</span></div>
+        </div>
+        <span class="price package-price js-daily-price">${first?escapeHtml(formatRub(first.price)):''}</span>
       </div>
-      <div class="package-tags">${dailyTagsHtml(item)}</div>
-      <div class="package-info"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}${lines.slice(1).map((l)=>`<br>${escapeHtml(l.text)}`).join('')}${dailyExtraInfoHtml(item)}</div>
-      ${dailyTermsHtml(item)}
-      <div class="package-actions">${buy}
-        ${dailyCoverageButtonHtml(item,D.displayName(item,countryName),speed)}
+      ${distinctChipsHtml(item)}
+      <div class="meta package-info"><span class="m-cov"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}</span>${lines.slice(1).map((l)=>`<span class="m-extra">${escapeHtml(l.text)}</span>`).join('')}${dailyExtraInfoHtml(item)}</div>
+      ${dailyCoverageButtonHtml(item,name,speed)}
+      ${terms}
+      <div class="plan-foot package-actions">
+        ${planTechHtml(speed,item.topup_available===true)}
+        ${buy}
       </div>
     </article>`;
+}
+
+/* A long block shows its first plans and folds the rest behind one button —
+ * the English country page's rule (en/country.js), so 22 offers read as a
+ * short list, not a wall. Only what is visible changes: every card is in the
+ * DOM, sorted as before. */
+const PLAN_FOLD=6;
+function foldBlock(blockId,grid){
+  const sec=document.getElementById(blockId);
+  if(!sec||!grid)return;
+  const old=sec.querySelector('.plan-more');
+  if(old)old.remove();
+  const cards=grid.children;
+  for(let i=0;i<cards.length;i++)cards[i].hidden=i>=PLAN_FOLD;
+  if(cards.length<=PLAN_FOLD)return;
+  const more=document.createElement('button');
+  more.type='button';
+  more.className='btn btn-ghost plan-more';
+  more.setAttribute('aria-controls',grid.id);
+  more.setAttribute('aria-expanded','false');
+  const total=cards.length;
+  const label=(open)=>{more.textContent=open?'Свернуть':`Показать все ${tariffCount(total)}`;};
+  label(false);
+  more.addEventListener('click',function(){
+    const open=more.getAttribute('aria-expanded')!=='true';
+    for(let j=0;j<cards.length;j++)cards[j].hidden=!open&&j>=PLAN_FOLD;
+    more.setAttribute('aria-expanded',String(open));
+    label(open);
+    if(open&&cards[PLAN_FOLD]){const b=cards[PLAN_FOLD].querySelector('a, button');if(b)b.focus();}
+  });
+  grid.parentNode.insertBefore(more,grid.nextSibling);
+}
+/* The jump link to a block, with the same count; the bar shows once any block has plans. */
+function jumpTo(blockId,n){
+  const a=document.querySelector('.cp-jump a[href="#'+blockId+'"]');
+  if(a){a.hidden=!n;const c=a.querySelector('.n');if(c)c.textContent=n?String(n):'';}
+  const bar=document.querySelector('.cp-jump');
+  if(bar)bar.hidden=!bar.querySelector('a:not([hidden])');
 }
 
 function renderCountrySplit(){
@@ -1308,6 +1383,8 @@ function renderCountrySplit(){
   computeDistinct(local);
   localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId)).join('');
   localBlock.hidden=false;
+  foldBlock('localBlock',localGrid);
+  jumpTo('localBlock',local.length);
   // Regional block (req 6): regional/continental/global.
   if(regional.length){
     byIdG('regionalCount').textContent=tariffCount(regional.length);
@@ -1317,6 +1394,8 @@ function renderCountrySplit(){
   }else{
     regionalGrid.innerHTML='';regionalBlock.hidden=true;
   }
+  foldBlock('regionalBlock',regionalGrid);
+  jumpTo('regionalBlock',regional.length);
   // The daily block, above the volume ones: it answers a different question and
   // a customer who wants it should not have to scroll past twenty volumes.
   const dailyBlock=ensureDailyBlock();
@@ -1341,10 +1420,13 @@ function renderCountrySplit(){
     }else{
       grid.innerHTML='';dailyBlock.hidden=true;
     }
+    foldBlock('dailyBlock',grid);
+    jumpTo('dailyBlock',cards.length);
   }
 
   if(!local.length&&!regional.length&&!daily.length){
     localBlock.hidden=true;regionalBlock.hidden=true;
+    jumpTo('localBlock',0);jumpTo('regionalBlock',0);
     if(status)status.textContent=`Для «${cName}» тарифы не найдены. Напишите в поддержку — подберём вручную.`;
   }
   // Analytics: fire once per (country + result counts); re-render/sort of the same

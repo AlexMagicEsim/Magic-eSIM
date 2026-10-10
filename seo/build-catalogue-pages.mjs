@@ -27,6 +27,8 @@ import { CLIENT_SNIPPET } from './intel/attribution.mjs';
 import { ALL as EDITORIAL, SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
+import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD } from './ru-chrome.mjs';
+import { BLOCK_ICON } from './site-chrome.mjs';
 import { createRequire } from 'node:module';
 import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily } from './catalogue-facts.mjs';
 
@@ -270,9 +272,9 @@ function page(c, all, profile) {
   // An editorial "why" block replaces nothing factual — it is added above the
   // generic one only when a person wrote it.
   const whyBlock = Array.isArray(p.why) && p.why.length
-    ? `<section class="why"><h2>Почему eSIM: ${esc(c.nameRu)}</h2><div class="why-cards">`
+    ? `<section class="cp-sec why"><h2>Почему eSIM: ${esc(c.nameRu)}</h2><div class="help-grid why-cards">`
       + p.why.filter((w) => w && w.h && w.p).map((w) =>
-        `<div class="why-card"><span class="ico" aria-hidden="true">${esc(w.icon || '')}</span><h3>${esc(w.h)}</h3><p>${esc(w.p)}</p></div>`).join('')
+        `<div class="help-card why-card"><span class="ico" aria-hidden="true">${esc(w.icon || '')}</span><h3>${esc(w.h)}</h3><p>${esc(w.p)}</p></div>`).join('')
       + '</div></section>'
     : '';
 
@@ -355,7 +357,10 @@ function page(c, all, profile) {
   <meta name="twitter:description" content="${esc(desc)}" />
   <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
 ${headIcons('  ')}
-  <link rel="stylesheet" href="${stampUrl('../../assets/country-pages.css')}" />
+${RU_FONT_PRELOAD.replace(/^/gm, '  ')}
+  <link rel="stylesheet" href="${stampUrl('/assets/site.css')}" />
+  <link rel="stylesheet" href="${stampUrl('/assets/page-country.css')}" />
+  <link rel="stylesheet" href="${stampUrl('/assets/ru.css')}" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
        (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
@@ -367,127 +372,153 @@ ${METRIKA}
   <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 </head>
 <body data-country-iso="${c.iso}" data-country-name="${esc(c.nameRu)}">
-  <header class="site-head">
-    <a class="brand" href="/">Magic eSIM</a>
-    <nav class="head-nav"><a href="/esim/">Все страны</a><a href="/#tariffs">Тарифы</a></nav>
-  </header>
+${ruHeader()}
 
-  <nav class="breadcrumbs" aria-label="Хлебные крошки">
-    <a href="/">Главная</a> <span aria-hidden="true">›</span>
-    <a href="/esim/">Страны</a> <span aria-hidden="true">›</span>
-    <span aria-current="page">${esc(c.nameRu)}</span>
-  </nav>
-
-  <main>
-    <section class="hero">
-      <h1><span class="flag" aria-hidden="true">${c.flagEmoji}</span> ${esc(p.h1 || `${c.nameRu} — eSIM для поездки`)}</h1>
-      <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
-      ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n      ') : ''}
-      <p class="facts">
-        ${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.daily_count > 0 ? `С оплатой за день: <b>${c.daily_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}${c.renders_nothing ? 'Тарифов с покрытием этой страны сейчас нет.' : ''}
-      </p>
-    </section>
-
-    <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
-         страну грузить (pageCountryCode() ищет именно этот атрибут). Без него
-         загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
-         экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
-         эту роль не выполняет. -->
-    <section class="packages" id="tariffs" data-country-page="${c.iso}">
-      <div id="packagesStatus" class="packages-status">Загружаем тарифы…</div>
-
-      <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
-           оформление. renderCountrySplit() обращается к localCount, localEmpty и
-           regionalCount напрямую, без проверки на null: если их нет, функция
-           падает на первом же обращении, исключение съедается общим catch, и
-           страница остаётся с пустой сеткой без единого сообщения. Именно так
-           190 страниц уехали в продакшн без тарифов. -->
-      <div id="localBlock" class="packages-block">
-        <h2 id="localHead">Локальные тарифы: ${esc(c.nameRu)}</h2>
-        <span class="count" id="localCount"></span>
-        <p class="block-sub">Тарифы, рассчитанные именно на эту страну.</p>
-        <div id="localEmpty" class="block-empty" hidden>Локальных тарифов для этой страны нет — ниже региональные, покрытие которых её включает.</div>
-        <div id="localGrid" class="packages-grid"></div>
+<main class="cp">
+  <section class="cp-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <a href="/esim/">Страны</a> › <span aria-current="page">${esc(c.nameRu)}</span></nav>
+      <div class="cp-title">
+        <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
+        <h1>${esc(p.h1 || `${c.nameRu} — eSIM для поездки`)}</h1>
       </div>
-
-      <div id="regionalBlock" class="packages-block">
-        <h2 id="regionalHead">Региональные тарифы с покрытием этой страны</h2>
-        <span class="count" id="regionalCount"></span>
-        <p class="block-sub">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
-        <div id="regionalGrid" class="packages-grid"></div>
+      <div class="cp-text">
+        <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
+        ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n        ') : ''}
+        <p class="facts">
+          ${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.daily_count > 0 ? `С оплатой за день: <b>${c.daily_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}${c.renders_nothing ? 'Тарифов с покрытием этой страны сейчас нет.' : ''}
+        </p>
       </div>
-
-      <div id="packagesGrid" class="packages-grid"></div>
-    </section>
-
-    <!-- Карточка тарифа рендерит кнопку «Покрытие и условия», а её обработчик
-         выходит на первой строке, если оверлея нет. Без этого блока кнопка на
-         странице есть, но не делает ничего. -->
-    <div id="coverageModal" class="cov-overlay" hidden>
-      <div class="cov-modal" role="dialog" aria-modal="true" aria-labelledby="covTitle">
-        <button type="button" class="cov-close" id="coverageClose" aria-label="Закрыть">×</button>
-        <h3 id="covTitle">Покрытие и условия</h3>
-        <p class="cov-sub" id="covPlan">—</p>
-        <div class="cov-rows">
-          <div class="cov-row"><span class="k">Объём трафика</span><span class="v" id="covData">—</span></div>
-          <div class="cov-row"><span class="k">Срок действия</span><span class="v" id="covDays">—</span></div>
-          <div class="cov-row"><span class="k">Начало срока</span><span class="v" id="covStart">—</span></div>
-          <div class="cov-row"><span class="k">Сеть</span><span class="v" id="covSpeed">—</span></div>
-          <div class="cov-row"><span class="k">Пополнение</span><span class="v" id="covTopup">—</span></div>
-          <div class="cov-row" id="covHotspotRow" hidden><span class="k">Раздача интернета</span><span class="v" id="covHotspot">—</span></div>
-          <div class="cov-row" id="covNoteRow" hidden><span class="k">Скорость</span><span class="v" id="covNote">—</span></div>
-          <div class="cov-row" id="covFupRow" hidden><span class="k">После лимита</span><span class="v" id="covFup">—</span></div>
-        </div>
-        <div class="cov-countries" id="covCountriesWrap" hidden>
-          <div class="k">Страны покрытия</div>
-          <div class="v" id="covCountries">—</div>
-        </div>
+      <div class="cp-hero-foot">
+        <ul class="cp-facts">
+          <li>Оплата в рублях</li>
+          <li>Установка по QR-коду</li>
+        </ul>
+        <a class="cp-change" href="/esim/">Выбрать другое направление</a>
       </div>
     </div>
+  </section>
 
-    ${whyBlock}
+  <div class="wrap cp-body">
+  <!-- Переходы к блокам тарифов. Порядок — как у блоков на странице: дневные,
+       локальные, региональные. assets/country-tariffs.js показывает ссылку,
+       только если её блок не пуст, и пишет в неё число тарифов. -->
+  <nav class="cp-jump" aria-label="Типы тарифов" hidden>
+    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
+    <a href="#localBlock" hidden><span>${esc(c.nameRu)}</span> <span class="n"></span></a>
+    <a href="#regionalBlock" hidden><span>Региональные</span> <span class="n"></span></a>
+  </nav>
 
-    <section class="why">
-      <h2>Что даёт eSIM</h2>
-      <ul class="why-list">
-        <li><b>Интернет с прилёта.</b> Тариф куплен и установлен до вылета — по прилёте достаточно включить передачу данных.</li>
-        <li><b>Оплата в рублях.</b> Российская карта или СБП, без поиска обменника и местного салона связи.</li>
-        <li><b>Российский номер остаётся.</b> eSIM работает второй линией и не заменяет физическую SIM.</li>
-      </ul>
-    </section>
+  <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
+       страну грузить (pageCountryCode() ищет именно этот атрибут). Без него
+       загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
+       экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
+       эту роль не выполняет. -->
+  <section class="packages" id="tariffs" data-country-page="${c.iso}">
+    <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
 
-    <section class="compat">
-      <h2>Совместимость</h2>
-      <p>eSIM работает на телефонах с поддержкой eSIM, не заблокированных под оператора. Проверить свою модель: <a href="/esim/compatibility/">список совместимых устройств</a>, инструкции для <a href="/iphone.html">iPhone</a> и <a href="/android.html">Android</a>.</p>
-    </section>
-
-    <section class="howto">
-      <h2>Как подключить</h2>
-      <ol class="howto-list">
-        <li>Выберите тариф на этой странице и оплатите — <a href="/esim/payment-rubles/">российской банковской картой или через СБП</a>.</li>
-        <li>QR-код придёт на почту сразу после оплаты.</li>
-        <li>Отсканируйте его дома по Wi-Fi: <a href="/esim/activation-before-travel/">как установить до вылета</a>.</li>
-        <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/esim/not-working/">что проверить</a>.</li>
-      </ol>${dualSimNote(p)}
-    </section>
-
-    <section class="faq">
-      <h2>Вопросы о eSIM: ${esc(c.nameRu)}</h2>
-      ${items.map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('\n      ')}
-    </section>
-
-    <section class="related">
-      <h2>Другие направления</h2>
-      <div class="country-links">
-${links.map((r) => `        <a class="country-link" href="../${r.slug}/"><span aria-hidden="true">${r.flagEmoji}</span> ${esc(r.nameRu)}</a>`).join('\n')}
-        <a class="country-link" href="../">Все направления</a>
+    <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
+         оформление. renderCountrySplit() обращается к localCount, localEmpty и
+         regionalCount напрямую, без проверки на null: если их нет, функция
+         падает на первом же обращении, исключение съедается общим catch, и
+         страница остаётся с пустой сеткой без единого сообщения. Именно так
+         190 страниц уехали в продакшн без тарифов. -->
+    <section id="localBlock" class="block plan-block plan-block-local packages-block">
+      <div class="blk-head">
+        <span class="blk-ico">${BLOCK_ICON.local}</span>
+        <div>
+          <h2><span id="localHead">Локальные тарифы: ${esc(c.nameRu)}</span> <span class="count" id="localCount"></span></h2>
+          <p class="note">Тарифы, рассчитанные именно на эту страну.</p>
+        </div>
       </div>
+      <div id="localEmpty" class="block-empty note" hidden>Локальных тарифов для этой страны нет — ниже региональные, покрытие которых её включает.</div>
+      <div id="localGrid" class="grid plan-grid packages-grid"></div>
     </section>
-  </main>
 
-  <footer class="site-foot">
-    <a href="/terms.html">Условия</a> · <a href="/privacy.html">Конфиденциальность</a> · <a href="/esim/">Все страны</a>
-  </footer>
+    <section id="regionalBlock" class="block plan-block plan-block-regional packages-block">
+      <div class="blk-head">
+        <span class="blk-ico">${BLOCK_ICON.regional}</span>
+        <div>
+          <h2><span id="regionalHead">Региональные тарифы с покрытием этой страны</span> <span class="count" id="regionalCount"></span></h2>
+          <p class="note">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
+        </div>
+      </div>
+      <div id="regionalGrid" class="grid plan-grid packages-grid"></div>
+    </section>
+
+    <div id="packagesGrid" class="packages-grid"></div>
+  </section>
+
+  <!-- Карточка тарифа рендерит кнопку «Покрытие и условия», а её обработчик
+       выходит на первой строке, если оверлея нет. Без этого блока кнопка на
+       странице есть, но не делает ничего. -->
+  <div id="coverageModal" class="cov-overlay" hidden>
+    <div class="cov-modal" role="dialog" aria-modal="true" aria-labelledby="covTitle">
+      <button type="button" class="cov-close" id="coverageClose" aria-label="Закрыть">×</button>
+      <h3 id="covTitle">Покрытие и условия</h3>
+      <p class="cov-sub" id="covPlan">—</p>
+      <div class="cov-rows">
+        <div class="cov-row"><span class="k">Объём трафика</span><span class="v" id="covData">—</span></div>
+        <div class="cov-row"><span class="k">Срок действия</span><span class="v" id="covDays">—</span></div>
+        <div class="cov-row"><span class="k">Начало срока</span><span class="v" id="covStart">—</span></div>
+        <div class="cov-row"><span class="k">Сеть</span><span class="v" id="covSpeed">—</span></div>
+        <div class="cov-row"><span class="k">Пополнение</span><span class="v" id="covTopup">—</span></div>
+        <div class="cov-row" id="covHotspotRow" hidden><span class="k">Раздача интернета</span><span class="v" id="covHotspot">—</span></div>
+        <div class="cov-row" id="covNoteRow" hidden><span class="k">Скорость</span><span class="v" id="covNote">—</span></div>
+        <div class="cov-row" id="covFupRow" hidden><span class="k">После лимита</span><span class="v" id="covFup">—</span></div>
+      </div>
+      <div class="cov-countries" id="covCountriesWrap" hidden>
+        <div class="k">Страны покрытия</div>
+        <div class="v" id="covCountries">—</div>
+      </div>
+    </div>
+  </div>
+
+  ${whyBlock}
+
+  <section class="cp-help" aria-labelledby="cpHelpTitle">
+    <h2 id="cpHelpTitle">Перед покупкой</h2>
+    <div class="help-grid">
+      <div class="help-card why">
+        <h3>Что даёт eSIM</h3>
+        <ul class="why-list">
+          <li><b>Интернет с прилёта.</b> Тариф куплен и установлен до вылета — по прилёте достаточно включить передачу данных.</li>
+          <li><b>Оплата в рублях.</b> Российская карта или СБП, без поиска обменника и местного салона связи.</li>
+          <li><b>Российский номер остаётся.</b> eSIM работает второй линией и не заменяет физическую SIM.</li>
+        </ul>
+      </div>
+      <div class="help-card compat">
+        <h3>Совместимость</h3>
+        <p>eSIM работает на телефонах с поддержкой eSIM, не заблокированных под оператора. Проверить свою модель: <a href="/esim/compatibility/">список совместимых устройств</a>, инструкции для <a href="/iphone.html">iPhone</a> и <a href="/android.html">Android</a>.</p>
+      </div>
+      <div class="help-card howto">
+        <h3>Как подключить</h3>
+        <ol class="howto-list">
+          <li>Выберите тариф на этой странице и оплатите — <a href="/esim/payment-rubles/">российской банковской картой или через СБП</a>.</li>
+          <li>QR-код придёт на почту сразу после оплаты.</li>
+          <li>Отсканируйте его дома по Wi-Fi: <a href="/esim/activation-before-travel/">как установить до вылета</a>.</li>
+          <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/esim/not-working/">что проверить</a>.</li>
+        </ol>${dualSimNote(p)}
+      </div>
+    </div>
+  </section>
+
+  <section class="cp-sec faq" id="faq">
+    <h2>Вопросы о eSIM: ${esc(c.nameRu)}</h2>
+    ${items.map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('\n    ')}
+  </section>
+
+  <section class="cp-sec related">
+    <h2>Другие направления</h2>
+    <div class="ru-tiles">
+${links.map((r) => `      <a class="ru-tile" href="../${r.slug}/"><img class="flag" src="/assets/flags/${r.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>${esc(r.nameRu)}</span></a>`).join('\n')}
+    </div>
+    <p class="ru-more"><a class="btn btn-ghost btn-sm" href="../">Все направления</a></p>
+  </section>
+  </div>
+</main>
+
+${RU_FOOTER}
 
   <script src="${stampUrl('/assets/catalog-loader.js')}" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before

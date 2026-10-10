@@ -20,7 +20,7 @@ const HUB = readFileSync(join(ROOT, 'esim/index.html'), 'utf8');
 const SITEMAP = readFileSync(join(ROOT, 'sitemap.xml'), 'utf8');
 
 function materials() {
-  const m = HUB.match(/<section class="compat" id="materials">[\s\S]*?<\/section>/);
+  const m = HUB.match(/<section class="compat cp-help" id="materials">[\s\S]*?<\/section>/);
   assert.ok(m, 'на /esim/ нет оглавления материалов (#materials)');
   return [...m[0].matchAll(/<li><a href="([^"]+)">([^<]+)<\/a><span>([^<]+)<\/span><\/li>/g)]
     .map(([, href, name, blurb]) => ({ href, name, blurb }));
@@ -53,6 +53,6 @@ test('every blurb is one short line, and payment uses the mandated wording', () 
 });
 
 test('the hub\'s first screen points to the index', () => {
-  const hero = HUB.match(/<section class="hero">[\s\S]*?<\/section>/)[0];
+  const hero = HUB.match(/<section class="hub-hero">[\s\S]*?<\/section>/)[0];
   assert.match(hero, /href="#materials"/);
 });

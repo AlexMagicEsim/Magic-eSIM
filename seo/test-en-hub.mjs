@@ -16,7 +16,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const HUB = read('en/esim/index.html');
 const JS = read('en/hub.js');
-const CSS = read('en/hub.css');
+const CSS = read('assets/page-hub.css');
 const LIST = enCountries();
 
 test('the head is the same page for search engines: noindex, self canonical, the same title and description', () => {

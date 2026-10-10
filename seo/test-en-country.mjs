@@ -123,7 +123,7 @@ test('the page carries no price and no claim of its own', () => {
 });
 
 test('country.css reaches nothing outside the site and styles no class nobody uses', () => {
-  const css = read('en/country.css');
+  const css = read('assets/page-country.css');
   assert.doesNotMatch(css, /https?:\/\/|@import|url\(/i);
   let sel = css.replace(/\/\*[\s\S]*?\*\//g, '');
   for (let i = 0; i < 5; i += 1) sel = sel.replace(/\{[^{}]*\}/g, ' ');
@@ -143,7 +143,7 @@ test('country.css reaches nothing outside the site and styles no class nobody us
 });
 
 test('small coloured labels on the page meet WCAG AA (axe found the jump counts at 4.33:1 on live data)', () => {
-  const css = read('en/country.css');
+  const css = read('assets/page-country.css');
   const lum = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255)
     .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)).reduce((a, c, i) => a + c * [0.2126, 0.7152, 0.0722][i], 0);
   const cr = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
