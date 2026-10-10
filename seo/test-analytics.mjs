@@ -58,10 +58,14 @@ function successAnalytics({ token, session = {}, local = {}, search = '' } = {})
   // for a reason that has nothing to do with what it was testing — which is
   // exactly what had happened to eleven of these tests.
   const params = new URLSearchParams(search);
+  // R3-08: the page no longer reads `src` from the URL — the first script in
+  // <head> moves it into window.__payBoot and the page keeps it in `src`. The
+  // harness injects it the same way it injects `token`.
+  const pageSrc = params.get('src') || '';
   const api = new Function(
-    'window', 'sessionStorage', 'localStorage', 'token', 'params',
+    'window', 'sessionStorage', 'localStorage', 'token', 'params', 'src',
     `${block[0]}\nreturn {fireOrderGoal:fireOrderGoal, readPayCtx:readPayCtx, orderRef:orderRef, clearPayCtx:clearPayCtx};`,
-  )(win, sessionStorage, localStorage, token, params);
+  )(win, sessionStorage, localStorage, token, params, pageSrc);
   return { ...api, goals, sessionStorage, localStorage };
 }
 

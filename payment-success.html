@@ -12,6 +12,41 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <!-- R3-08: strip the order token from the URL BEFORE anything else runs.
+       Platega returns here with ?token=<public_order_token>[&src=tma]. The
+       counter below reads location.href the moment it starts (page URL, Webvisor
+       recording), so the token must already be gone by then. It is kept in
+       exactly two places: this page's memory (window.__payBoot, frozen) and the
+       state object of THIS tab's history entry — only so that F5 keeps polling.
+       Never in localStorage / sessionStorage / cookies / the DOM, never logged.
+       Other query parameters and the hash are kept. -->
+  <script>
+    (function () {
+      var TOKEN_RE = /^[A-Za-z0-9_-]{16,128}$/, SRC_RE = /^[a-z]{1,16}$/;
+      var boot = { token: '', src: '' };
+      try {
+        var u = new URL(location.href), sp = u.searchParams;
+        var t = (sp.get('token') || sp.get('public_order_token') || '').trim();
+        var s = (sp.get('src') || '').trim();
+        if (!TOKEN_RE.test(t)) t = '';
+        if (!SRC_RE.test(s)) s = '';
+        if (!t) {   // a reload: the URL is already clean; the tab's history entry still knows
+          var st = history.state;
+          if (st && typeof st === 'object' && typeof st.t === 'string' && TOKEN_RE.test(st.t)) {
+            t = st.t;
+            s = (typeof st.src === 'string' && SRC_RE.test(st.src)) ? st.src : '';
+          }
+        }
+        if (sp.has('token') || sp.has('public_order_token') || sp.has('src')) {
+          sp.delete('token'); sp.delete('public_order_token'); sp.delete('src');
+          var q = sp.toString();
+          history.replaceState(t ? { t: t, src: s } : null, '', u.pathname + (q ? '?' + q : '') + u.hash);
+        }
+        boot.token = t; boot.src = s;
+      } catch (e) { /* no URL API or history: the page still works from the values read above */ }
+      window.__payBoot = Object.freeze(boot);
+    })();
+  </script>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
@@ -151,9 +186,12 @@ body{
 
   <script>
     (function () {
-      var params = new URLSearchParams(location.search);
-      var token = (params.get('token') || params.get('public_order_token') || '').trim();
+      // R3-08: the token and src were taken off the URL by the first script in
+      // <head>, before the counter started. They live only in window.__payBoot.
+      var boot = window.__payBoot || {};
+      var token = typeof boot.token === 'string' ? boot.token : '';
       if (!/^[A-Za-z0-9_-]{16,128}$/.test(token)) token = '';
+      var src = typeof boot.src === 'string' ? boot.src : '';
 
       var card = document.getElementById('card');
       var spinner = document.getElementById('spinner');
@@ -185,7 +223,7 @@ body{
       // not exist yet, and sending somebody to look for it would be the same
       // false promise as saying «eSIM готова» before the backend has said so.
       var tmaBtn = document.getElementById('actionTma');
-      var fromTma = (params.get('src') || '') === 'tma';
+      var fromTma = src === 'tma';
 
       function render(key) {
         var s = STATES[key] || STATES.fallback;
@@ -229,7 +267,7 @@ body{
       // orders the SERVER already gave it to highlight, and falls back to the
       // first active one when it does not match.
       (function () {
-        if ((params.get('src') || '') !== 'tma') return;
+        if (src !== 'tma') return;
         var ref = orderRef(token);
         if (!ref) return;
 
