@@ -19,15 +19,13 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 
 const SURFACES = ['index.html', 'assets/country-tariffs.js'];
 
-// TWO CARD DESIGNS, FOR ONE STEP. The country pages moved to the English
-// storefront's plan card (2026-10-10, RU↔EN design parity, PR 2): the volume
-// leads, the price stands top right, the lines sit under it, one buy button in
-// the foot, «Покрытие и условия» as a quiet text button, the term picker as
-// small tiles. The landing (index.html) keeps the old card until PR 3 moves it
-// to the same markup and the same stylesheet. Every safety property below is
-// asserted on BOTH designs; only the anatomy pins differ, and the legacy branch
-// goes away with PR 3.
-const PLAN_DESIGN = new Set(['assets/country-tariffs.js', 'assets/ru.css']);
+// ONE CARD DESIGN (2026-10-10, RU↔EN design parity, PR 2 + PR 3): both
+// surfaces render the English storefront's plan card — the volume leads, the
+// price stands top right, the lines sit under it, one buy button in the foot,
+// «Покрытие и условия» as a quiet text button, the term picker as small tiles —
+// from the same markup, styled by the same sheet (assets/ru.css). The old card's
+// layout pins (subgrid areas, the 3-column tile grid, the 560 px rows, the price
+// in the button) went with it; every safety property is still asserted.
 
 // ---------------------------------------------------------------------------
 // The two products stay apart
@@ -368,7 +366,7 @@ test('no surface computes a price for a term', () => {
 // The block is therefore duplicated and pinned byte-for-byte, the same way the
 // TARIFF DISPLAY MAPPERS block is.
 
-const CSS_SURFACES = { 'index.html': 'index.html', 'assets/country-tariffs.js': 'assets/ru.css' };
+const CSS_SURFACES = { 'index.html': 'assets/ru.css', 'assets/country-tariffs.js': 'assets/ru.css' };
 const BLOCK_START = '/* === DAILY CARD BLOCK';
 const BLOCK_END = '/* === END DAILY CARD BLOCK === */';
 
@@ -381,16 +379,14 @@ function dailyCss(file) {
   return s.slice(a, b + BLOCK_END.length);
 }
 
-test('both surfaces carry the daily CSS — byte for byte once they share a design', () => {
+test('both surfaces carry the daily CSS — one stylesheet for both', () => {
   // Every surface must style its daily card: the landing once shipped them
-  // unstyled because the rule lived only in a sheet it never loads. While the
-  // two surfaces have different card designs (see PLAN_DESIGN) each carries its
-  // own block; when both load assets/ru.css (PR 3) this is one file.
-  const blocks = Object.values(CSS_SURFACES).map(dailyCss);
-  for (const b of blocks) assert.ok(b.length > 200);
-  const files = [...new Set(Object.values(CSS_SURFACES))];
-  const design = new Set(files.map((x) => PLAN_DESIGN.has(x)));
-  if (design.size === 1 && files.length > 1) assert.equal(blocks[0], blocks[1], 'one design, one block');
+  // unstyled because the rule lived only in a sheet it never loads. Both now
+  // load assets/ru.css, and both pages must actually link it.
+  assert.deepEqual([...new Set(Object.values(CSS_SURFACES))], ['assets/ru.css']);
+  assert.ok(dailyCss('assets/ru.css').length > 200);
+  assert.match(read('index.html'), /href="\/assets\/ru\.css\?v=/, 'the landing loads it');
+  assert.match(read('esim/turkey/index.html'), /href="\/assets\/ru\.css\?v=/, 'a country page loads it');
 });
 
 test('THE DAILY CARD HAS NO LOOK OF ITS OWN', () => {
@@ -426,20 +422,13 @@ test('THE DAILY CARD HAS NO LOOK OF ITS OWN', () => {
   for (const f of SURFACES) {
     const s = read(f);
     const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2400);
-    if (PLAN_DESIGN.has(f)) {
-      // The ordinary PLAN card's classes: the same card, title, lines and foot.
-      assert.match(fn, /class="card plan plan-daily package-card daily-card"/, `${f}: the ordinary plan card`);
-      assert.match(fn, /class="plan-data package-title"/, `${f}: the title is the ordinary title`);
-      assert.match(fn, /class="meta package-info"/, `${f}: the lines are the ordinary lines`);
-      assert.match(fn, /planTechHtml\(/, `${f}: and the foot is the ordinary foot`);
-      const terms = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
-      assert.match(terms, /class="package-meta-item daily-term/, `${f}: the term tiles reuse the tile classes`);
-      continue;
-    }
-    assert.match(fn, /class="package-title"/, `${f}: the title is the ordinary title`);
-    assert.match(fn, /class="package-meta"/, `${f}: facts sit in the ordinary meta grid`);
-    assert.match(fn, /class="package-meta-item"/, `${f}: as ordinary tiles`);
-    assert.match(fn, /class="package-info"/, `${f}: and the prose in the ordinary plate`);
+    // The ordinary PLAN card's classes: the same card, title, lines and foot.
+    assert.match(fn, /class="card plan plan-daily package-card daily-card"/, `${f}: the ordinary plan card`);
+    assert.match(fn, /class="plan-data package-title"/, `${f}: the title is the ordinary title`);
+    assert.match(fn, /class="meta package-info"/, `${f}: the lines are the ordinary lines`);
+    assert.match(fn, /planTechHtml\(/, `${f}: and the foot is the ordinary foot`);
+    const terms = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    assert.match(terms, /class="package-meta-item daily-term/, `${f}: the term tiles reuse the tile classes`);
   }
 });
 
@@ -448,7 +437,7 @@ test('the selected term is a solid brand fill, at full white', () => {
     const css = dailyCss(file);
     const at = css.indexOf('.daily-term.is-selected,');
     assert.ok(at > 0, `${file}: the selected state must be styled`);
-    const fill = PLAN_DESIGN.has(file) ? '--accent-btn' : '--blue';   // #4267E8 in both designs
+    const fill = '--accent-btn';   // #4267E8
     assert.ok(css.slice(at, at + 220).includes(`background:var(${fill})`), `${file}: a fill, not a hint`);
     assert.match(css, /\.daily-term\.is-selected \.package-meta-label,\s*\n\.daily-term\.is-selected \.package-meta-value\{color:#fff;\}/,
       `${file}: both lines of the tile go white`);
@@ -473,42 +462,16 @@ test('the selection survives forced-colors, where the fill does not', () => {
   }
 });
 
-test('the card aligns by subgrid, and its sections are the ordinary ones', () => {
+test('the plan card lines its buttons up without a grid of its own', () => {
+  // The plan card is a flex column (site.css .card) whose foot takes
+  // margin-top:auto (page-country.css .plan-foot), so the buy buttons of a row
+  // line up without a second layout system of named areas.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    if (PLAN_DESIGN.has(file)) {
-      // The plan card is a flex column (site.css .card) whose foot takes
-      // margin-top:auto (page-country.css .plan-foot), so the buy buttons of a
-      // row line up without a grid of named areas.
-      assert.doesNotMatch(css, /grid-template-areas|grid-row:span/, `${file}: no second layout system on the card`);
-      assert.match(read('assets/page-country.css'), /\.plan-foot\{[^}]*margin-top:auto/, 'the foot sits at the bottom');
-      assert.match(read('assets/site.css'), /\.card\{[^}]*display:flex;flex-direction:column/, 'the card is a column');
-      continue;
-    }
-    assert.match(css, /@supports \(grid-template-rows:subgrid\)/, `${file}: no subgrid path`);
-    assert.match(css, /#dailyGrid > \.daily-card\{[\s\S]{0,120}grid-template-rows:subgrid/, file);
-    assert.match(css, /grid-row:span 8/, `${file}: eight rows, eight areas`);
-    assert.match(css, /#dailyGrid\{row-gap:0/, `${file}: the parent gap must not split the card`);
-    assert.match(css, /margin-bottom:16px/, `${file}: and the gap between rows must come back`);
-
-    // The order an ordinary card uses: the term selector stands where its price
-    // does, because choosing a term IS choosing the price.
-    assert.match(css, /grid-template-areas:'top' 'title' 'distinct' 'meta' 'tags' 'info' 'terms' 'buy'/, file);
-    for (const [sel, area] of [
-      ['.daily-card .package-topline', 'top'],
-      ['.daily-card .package-title', 'title'],
-      ['.daily-card .package-distinct', 'distinct'],
-      ['.daily-card > .package-meta', 'meta'],
-      ['.daily-card .package-tags', 'tags'],
-      ['.daily-card .package-info', 'info'],
-      ['.daily-card .daily-terms-block', 'terms'],
-      ['.daily-card .package-actions', 'buy'],
-    ]) {
-      const i = css.indexOf(sel + '{');
-      assert.ok(i > 0, `${file}: ${sel} is not placed`);
-      assert.match(css.slice(i, i + 60), new RegExp(`grid-area:${area}`), `${file}: ${sel} must own ${area}`);
-    }
+    assert.doesNotMatch(css, /grid-template-areas|grid-row:span/, `${file}: no second layout system on the card`);
   }
+  assert.match(read('assets/page-country.css'), /\.plan-foot\{[^}]*margin-top:auto/, 'the foot sits at the bottom');
+  assert.match(read('assets/site.css'), /\.card\{[^}]*display:flex;flex-direction:column/, 'the card is a column');
 });
 
 test('the term block is always rendered, even empty, so it holds its row', () => {
@@ -534,46 +497,16 @@ test('the selector announces itself with the ordinary card\'s label', () => {
   assert.match(s, /single\?'Срок:':'Выберите срок:'/);
 });
 
-test('the three columns are inherited from .package-meta, not restated', () => {
-  // Wrapped pills once put the six prices on three different x positions. The
-  // ordinary meta grid is already three columns — and stays three on a phone —
-  // so reusing it gives the alignment for free. Restating the numbers here is
-  // how the two drift apart.
+test('the term tiles wrap as the English «Days» row, without restated columns', () => {
+  // Restating column numbers here is how two layouts drift apart; the tiles wrap.
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    assert.ok(!/grid-template-columns/.test(css),
-      `${file}: the block must not declare its own columns`);
-    if (PLAN_DESIGN.has(file)) {
-      // The plan design's term row is the English «Days» row: tiles that wrap.
-      assert.match(css, /\.daily-terms-block \.package-meta\{display:flex;flex-wrap:wrap/, `${file}: a wrapping row of tiles`);
-      assert.match(css, /font-variant-numeric:tabular-nums/, `${file}: prices need tabular figures`);
-      continue;
-    }
-    assert.match(css, /\.daily-terms-block \.package-meta\{margin-bottom:0/,
-      `${file}: only the trailing margin is adjusted`);
+    assert.ok(!/grid-template-columns/.test(css), `${file}: the block must not declare its own columns`);
+    assert.match(css, /\.daily-terms-block \.package-meta\{display:flex;flex-wrap:wrap/, `${file}: a wrapping row of tiles`);
     // Tabular figures are genuinely ours: nowhere else stacks six numbers.
     assert.match(css, /font-variant-numeric:tabular-nums/, `${file}: prices need tabular figures`);
-  }
-  // …and the source of those columns is the ordinary rule, in both files.
-  for (const file of Object.values(CSS_SURFACES)) {
-    if (PLAN_DESIGN.has(file)) continue;
-    assert.match(read(file), /\.package-meta\{display:grid;grid-template-columns:repeat\(3,1fr\)/, file);
-  }
-});
-
-test('mobile inherits the ordinary tiles unchanged', () => {
-  for (const file of Object.values(CSS_SURFACES)) {
-    const css = dailyCss(file);
-    if (PLAN_DESIGN.has(file)) {
-      // The tiles wrap at any width: no phone-only rule at all.
-      assert.doesNotMatch(css, /@media \(max-width/, `${file}: the tile must not be re-tuned for mobile`);
-      continue;
-    }
-    const mobile = css.slice(css.indexOf('@media (max-width:560px)'));
-    assert.match(mobile, /\.daily-card\{grid-template-rows:auto auto auto auto auto auto auto;?\}/, file);
-    // No font or padding overrides: .package-meta-item already survives 390px.
-    assert.ok(!/font-size/.test(mobile), `${file}: the tile must not be re-tuned for mobile`);
-    assert.ok(!/padding/.test(mobile), `${file}: nor re-padded`);
+    // The tiles wrap at any width: no phone-only rule at all.
+    assert.doesNotMatch(css, /@media \(max-width/, `${file}: the tile must not be re-tuned for mobile`);
   }
 });
 
@@ -647,7 +580,7 @@ function renderer(file, distinctMap = {}) {
   const copy = read('assets/daily-plan-copy.js');
   const body = extractFns(file, ['dailyTermsHtml', 'dailyTagsHtml', 'dailyExtraInfoHtml',
     'dailyTermRangeLabel', 'dailyCoverageButtonHtml', 'distinctChipsHtml', 'renderDailyCard',
-    ...(PLAN_DESIGN.has(file) ? ['formatRub', 'planTechHtml'] : [])]);
+    'formatRub', 'planTechHtml']);
   const buyName = file === 'index.html' ? 'dailyBuyButtonHtml' : null;
   const extra = buyName ? extractFns(file, ['dailyBuyButtonHtmlInner', 'dailyBuyButtonHtml']) : '';
   return new Function('window', '__distinct', `
@@ -808,15 +741,16 @@ test('the Mini App already states it, and still does', () => {
   assert.match(dict, /'daily\.perDay': '\{allowance\} a day'/);
 });
 
-test('the storefront CTA states the price of the selected term', () => {
-  // The card lost its only price accent when the selected chip stopped being a
-  // filled blue block — deliberately, because that block competed with «Купить».
-  // The price moved INTO the button, which is now the one filled element and
-  // also the one that says what it costs.
+test('the storefront card states the price of the selected term', () => {
+  // The plan card (RU↔EN parity, PR 3) carries the price where every plan card
+  // does — top right — and the button is the plain «Купить». The price follows
+  // the chosen term; both the cell and the card show the server's rouble.
   const s = read('index.html');
-  assert.match(s, /`Купить за \$\{first\.price\} ₽`/, 'the button must open on the first term\'s price');
-  assert.match(s, /buy\.textContent=`Купить за \$\{btn\.dataset\.price\} ₽`/,
-    'and follow the selection');
+  assert.match(s, /class="price package-price js-daily-price">\$\{first\?escapeHtml\(formatRub\(first\.price\)\):''\}/,
+    'the card opens on the first term\'s price');
+  assert.match(s, /price\.textContent=formatRub\(btn\.dataset\.price\)/, 'and follows the selection');
+  assert.match(s, /\}\),'Купить',name\);/, 'the daily button is the plain «Купить»');
+  assert.ok(!/Купить за/.test(s), 'the price is not in the button any more');
 
   // Still the server's rouble in both places — no arithmetic on the client.
   const handler = s.slice(s.indexOf("closest('.js-daily-term')"), s.indexOf("closest('.js-daily-term')") + 700);
@@ -884,7 +818,7 @@ const AA = 4.5;
 test('white on the brand fill clears AA', () => {
   for (const file of Object.values(CSS_SURFACES)) {
     const css = dailyCss(file);
-    assert.match(css, PLAN_DESIGN.has(file) ? /\.daily-term\.is-selected,[\s\S]{0,120}background:var\(--accent-btn\)/ : /\.daily-term\.is-selected,[\s\S]{0,120}background:var\(--blue\)/, file);
+    assert.match(css, /\.daily-term\.is-selected,[\s\S]{0,120}background:var\(--accent-btn\)/, file);
     const r = contrast('#ffffff', '#4267E8');
     assert.ok(r >= AA, `white on the brand blue is ${r.toFixed(2)}:1`);
   }
@@ -910,7 +844,7 @@ test('coverage sits in the ordinary grey plate', () => {
   for (const f of SURFACES) {
     const s = read(f);
     const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2400);
-    assert.match(fn, PLAN_DESIGN.has(f) ? /<div class="meta package-info"><span class="m-cov"><strong>Покрытие:<\/strong>/ : /<div class="package-info"><strong>Покрытие:<\/strong>/,
+    assert.match(fn, /<div class="meta package-info"><span class="m-cov"><strong>Покрытие:<\/strong>/,
       `${f}: same plate, same strong`);
     assert.match(fn, /D\.coverageLine\(item,countryName\)/, `${f}: still the shared module's line`);
   }
@@ -1051,26 +985,10 @@ test('top-up is a tag only when the provider says true', () => {
 });
 
 test('the term selector keeps its air above the CTA', () => {
-  // The bottom row of tiles was sitting flush against «Купить». The block
-  // stands where .package-price stands on an ordinary card, so it takes the
-  // same 14px the price leaves before the button.
-  for (const file of Object.values(CSS_SURFACES)) {
-    const css = dailyCss(file);
-    if (PLAN_DESIGN.has(file)) {
-      // On the plan card the buy button lives in the foot, which keeps its own
-      // rule and padding above it — the terms can never touch the button.
-      assert.match(read('assets/page-country.css'), /\.plan-foot\{[^}]*padding-top:11px;border-top:1px solid/, 'the foot keeps its air');
-      continue;
-    }
-    assert.match(css, /\.daily-terms-block\{margin-bottom:14px;\}/, `${file}: no air before the CTA`);
-    assert.match(css, /\.daily-terms-block \.package-meta\{margin-bottom:0;\}/,
-      `${file}: and the inner grid must not add a second gap`);
-  }
-  // The rhythm it borrows is the ordinary card's own.
-  for (const file of Object.values(CSS_SURFACES)) {
-    if (PLAN_DESIGN.has(file)) continue;
-    assert.match(read(file), /\.package-price\{[^}]*margin-bottom:14px/, `${file}: the price sets that rhythm`);
-  }
+  // The bottom row of tiles once sat flush against «Купить». On the plan card
+  // the buy button lives in the foot, which keeps its own rule and padding
+  // above it — the terms can never touch the button.
+  assert.match(read('assets/page-country.css'), /\.plan-foot\{[^}]*padding-top:11px;border-top:1px solid/, 'the foot keeps its air');
 });
 
 // ---------------------------------------------------------------------------
@@ -1090,13 +1008,9 @@ test('the daily card reuses the coverage button, class for class', () => {
 
     // Same class list as the ordinary card's — that is what makes it identical
     // visually AND what the existing delegate listens for.
-    if (PLAN_DESIGN.has(f)) {
-      assert.match(fn, /class="plan-info package-coverage-btn js-coverage"/, `${f}: the same button`);
-      const vol = s.slice(s.indexOf('function coverageButtonHtml'), s.indexOf('function coverageButtonHtml') + 400);
-      assert.match(vol, /class="plan-info package-coverage-btn js-coverage"/, `${f}: as the volume card's`);
-    } else {
-      assert.match(fn, /class="btn package-coverage-btn js-coverage"/, `${f}: the same button`);
-    }
+    assert.match(fn, /class="plan-info package-coverage-btn js-coverage"/, `${f}: the same button`);
+    const vol = s.slice(s.indexOf('function coverageButtonHtml'), s.indexOf('function coverageButtonHtml') + 400);
+    assert.match(vol, /class="plan-info package-coverage-btn js-coverage"/, `${f}: as the volume card's`);
     // Every slot the modal fills, and every one through the existing mapper.
     for (const [attr, src] of [
       ['data-hotspot', /tariffHotspotLabel\(item\)/],
@@ -1110,21 +1024,9 @@ test('the daily card reuses the coverage button, class for class', () => {
     }
     // Top-up is a strict true, so an unknown never renders as «доступно».
     assert.match(fn, /item\.topup_available===true\?'1':'0'/, `${f}: strict true`);
-    // And the button sits in the same .package-actions the ordinary card uses,
-    // which is where its 8px gap comes from — no new spacing rule.
-    if (PLAN_DESIGN.has(f)) {
-      // The plan card puts it where the volume card puts it: right under the lines.
-      assert.match(s, /dailyExtraInfoHtml\(item\)\}<\/div>\s*\n\s*\$\{dailyCoverageButtonHtml\(item/,
-        `${f}: the button must sit where the volume card's does`);
-      continue;
-    }
-    assert.match(s, /<div class="package-actions">[\s\S]{0,120}dailyCoverageButtonHtml\(item/,
-      `${f}: the button must live in the ordinary actions block`);
-  }
-  // The spacing really is the ordinary card's.
-  for (const file of Object.values(CSS_SURFACES)) {
-    if (PLAN_DESIGN.has(file)) continue;
-    assert.match(read(file), /\.package-actions\{display:flex;flex-direction:column;gap:8px\}/, file);
+    // And it sits where the volume card puts it: right under the lines.
+    assert.match(s, /dailyExtraInfoHtml\(item\)\}<\/div>\s*\n\s*\$\{dailyCoverageButtonHtml\(item/,
+      `${f}: the button must sit where the volume card's does`);
   }
 });
 
@@ -1194,17 +1096,12 @@ test('a daily card prints the chips where a volume card prints them', () => {
   for (const f of SURFACES) {
     const s = read(f);
     const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2600);
-    // Same helper, same place: directly under the title.
-    if (PLAN_DESIGN.has(f)) {
-      // Under the head (title, term, price), right above the lines — on both cards.
-      const vol = s.slice(s.indexOf('function renderPackageCard'), s.indexOf('function renderPackageCard') + 2600);
-      for (const [name, src] of [['daily', fn], ['volume', vol]]) {
-        assert.match(src, /<\/div>\s*\n\s*\$\{distinctChipsHtml\(item\)\}\s*\n\s*<div class="meta package-info">/,
-          `${f}: the chips belong between the head and the lines (${name} card)`);
-      }
-    } else {
-      assert.match(fn, /class="package-title"[^\n]*<\/h3>\s*\n\s*\$\{distinctChipsHtml\(item\)\}/,
-        `${f}: the chips belong under the title, as on a volume card`);
+    // Same helper, same place: under the head (title, term, price), right above
+    // the lines — on both cards.
+    const vol = s.slice(s.indexOf('function renderPackageCard'), s.indexOf('function renderPackageCard') + 2600);
+    for (const [name, src] of [['daily', fn], ['volume', vol]]) {
+      assert.match(src, /<\/div>\s*\n\s*\$\{distinctChipsHtml\(item\)\}\s*\n\s*<div class="meta package-info">/,
+        `${f}: the chips belong between the head and the lines (${name} card)`);
     }
   }
 });
@@ -1276,37 +1173,10 @@ test('every child the card renders owns a grid area', () => {
   for (const file of SURFACES) {
     const html = renderer(file, distinct)(SAMPLE);
     const children = topLevelChildClasses(html);
-    if (PLAN_DESIGN.has(file)) {
-      // A flex column has no areas to miss; what can go wrong is a child the
-      // stylesheets do not know. Every top-level class must have a rule.
-      assert.ok(children.includes('package-distinct'), `${file}: чипы отличий не попали в карточку`);
-      const sheets = read('assets/site.css') + read('assets/page-country.css') + read('assets/ru.css');
-      for (const cls of children) assert.ok(sheets.includes(`.${cls}`), `${file}: .${cls} — ребёнок карточки без стиля`);
-      continue;
-    }
-    assert.ok(children.length >= 6, `${file}: разметка карточки не разобралась`);
-    assert.ok(children.includes('package-distinct'),
-      `${file}: чипы отличий не попали в карточку — тест проверяет не то`);
-
-    // Витринный JS и его стили лежат в разных файлах: у index.html блок
-    // инлайновый, у country-tariffs.js — в общей таблице страниц.
-    const css = dailyCss(file === 'index.html' ? 'index.html' : 'assets/country-pages.css');
-    const areas = (css.match(/grid-template-areas:([^;]+);/) || [])[1] || '';
-    for (const cls of children) {
-      const i = css.indexOf(`.daily-card .${cls}{`);
-      const j = css.indexOf(`.daily-card > .${cls}{`);
-      const at = i >= 0 ? i : j;
-      assert.ok(at >= 0, `${file}: .${cls} — ребёнок карточки без правила размещения`);
-      const area = (css.slice(at, at + 80).match(/grid-area:([a-z-]+)/) || [])[1];
-      assert.ok(area, `${file}: .${cls} размещён, но без grid-area`);
-      assert.ok(areas.includes(`'${area}'`),
-        `${file}: .${cls} занимает область ${area}, которой нет в grid-template-areas`);
-    }
-
-    // Число областей и span обязаны совпадать: лишний span оставляет пустой
-    // ряд, недостающий — отправляет секцию в неявный.
-    const count = (areas.match(/'/g) || []).length / 2;
-    const span = Number((css.match(/grid-row:span (\d+)/) || [])[1]);
-    assert.equal(span, count, `${file}: span ${span} против ${count} областей`);
+    // A flex column has no areas to miss; what can go wrong is a child the
+    // stylesheets do not know. Every top-level class must have a rule.
+    assert.ok(children.includes('package-distinct'), `${file}: чипы отличий не попали в карточку`);
+    const sheets = read('assets/site.css') + read('assets/page-country.css') + read('assets/ru.css');
+    for (const cls of children) assert.ok(sheets.includes(`.${cls}`), `${file}: .${cls} — ребёнок карточки без стиля`);
   }
 });

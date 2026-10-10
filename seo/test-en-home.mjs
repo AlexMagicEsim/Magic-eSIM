@@ -145,7 +145,7 @@ test('Inter is self-hosted, licensed, and the only font the stylesheet asks for'
 });
 
 test('no stylesheet reaches outside the site (the CSP allows only self)', () => {
-  for (const f of ['assets/site.css', 'en/en.css', 'en/home.css']) {
+  for (const f of ['assets/site.css', 'en/en.css', 'assets/page-home.css']) {
     assert.doesNotMatch(read(f), /https?:\/\/|@import/i, f);
   }
 });
@@ -205,14 +205,14 @@ test('the hero illustration is the Data Pass: decorative, the real logo, the bra
 });
 
 test('the old hero card is gone, with its CSS', () => {
-  for (const f of ['en/index.html', 'en/home.css', 'en/en.css']) {
+  for (const f of ['en/index.html', 'assets/page-home.css', 'en/en.css']) {
     assert.doesNotMatch(read(f), /\bart-(glow|ring|card|top|logo|mark|chip|label|sub|bars|flag)\b/, f);
   }
   assert.doesNotMatch(ART, /favicon\.svg/, 'no drawn «M» mark');
 });
 
 test('home.css carries no dead rule: every class it styles is in the home', () => {
-  let sel = read('en/home.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  let sel = read('assets/page-home.css').replace(/\/\*[\s\S]*?\*\//g, '');
   // Drop declaration blocks (innermost first) so only selectors and at-rules remain.
   for (let i = 0; i < 5; i += 1) sel = sel.replace(/\{[^{}]*\}/g, ' ');
   const classes = [...new Set([...sel.matchAll(/\.([a-zA-Z][\w-]*)/g)].map((m) => m[1]))];

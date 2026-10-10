@@ -484,15 +484,19 @@ test('the English page HAS structured data, and it is in English', () => {
   assert.ok(types.includes('WebSite'), 'WebSite missing');
 });
 
-test('the English link is outside the container that mobile hides', () => {
-  // `.nav-links` is `display:none` below 920px. The first version of the link
-  // lived inside it, so it was declared, gated, and invisible on every phone —
-  // the readers most likely to need it.
-  const navLinks = RU.match(/<div class="nav-links">[\s\S]*?<\/div>/);
-  assert.ok(navLinks, 'the nav container moved — this test needs rewriting, not deleting');
-  assert.equal(/nav-lang/.test(navLinks[0]), false, 'the language link is inside a hidden container');
-  assert.match(RU, /<a class="nav-lang"[^>]*href="\/en\/"/);
-  assert.match(RU, /\.nav-links\{display:none\}/, 'if this rule is gone, the test above is moot');
+test('the English link is reachable on a phone, not only on a desktop', () => {
+  // The first version of the link lived inside a container that was hidden on
+  // phones — declared, gated, and invisible to the readers most likely to need
+  // it. The header is now the shared design system's (RU↔EN parity, PR 3): the
+  // desktop link sits in .hdr-actions, which site.css hides below 900 px, so the
+  // mobile menu must carry the same link.
+  const header = RU.match(/<header class="site-header">[\s\S]*?<\/header>/);
+  assert.ok(header, 'the header moved — this test needs rewriting, not deleting');
+  assert.match(header[0], /<a class="langsw" href="\/en\/"/, 'the desktop link');
+  const menu = header[0].match(/<nav class="mnav-panel"[\s\S]*?<\/nav>/);
+  assert.ok(menu, 'the mobile menu moved');
+  assert.match(menu[0], /href="\/en\/"/, 'the phone link, inside the menu');
+  assert.match(read('assets/site.css'), /\.hdr-actions \.langsw\{display:none\}/, 'if this rule is gone, the menu link is a duplicate, not a necessity');
 });
 
 test('the English version is reachable from the Russian site, not only declared', () => {

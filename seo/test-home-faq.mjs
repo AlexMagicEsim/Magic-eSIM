@@ -28,7 +28,7 @@ const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const text = (s) => String(s).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
 function section(id) {
-  const m = HOME.match(new RegExp(`<section id="${id}"[\\s\\S]*?</section>`));
+  const m = HOME.match(new RegExp(`<section\\b[^>]*\\bid="${id}"[\\s\\S]*?</section>`));
   assert.ok(m, `секции #${id} на главной нет`);
   return m[0];
 }
@@ -103,7 +103,7 @@ test('«Почему Magic eSIM» promises nothing about the network', () => {
   for (const bad of [/5G/, /4G/, /скорост/i, /покрыти[а-яё]* (?:везде|вс[её]й|полн)/i, /без ограничений/i, /безлимит/i, /гарантир/i]) {
     assert.doesNotMatch(why, bad, `«${why.match(bad)?.[0]}» — утверждение о сети, которого каталог не подтверждает`);
   }
-  assert.ok((section('why-magic').match(/class="card benefit/g) || []).length >= 4);
+  assert.ok((section('why-magic').match(/class="type"/g) || []).length >= 4);
 });
 
 test('the activation answer carries the installation caveat', () => {

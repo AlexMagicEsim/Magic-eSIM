@@ -52,7 +52,7 @@
   var DICT = {
     ru: {
       'nav.destinations': 'Направления',
-      'nav.how': 'Как работает',
+      'nav.how': 'Как это работает',
       'nav.benefits': 'Преимущества',
       'nav.tariffs': 'Тарифы',
       'nav.guides': 'Инструкции',
