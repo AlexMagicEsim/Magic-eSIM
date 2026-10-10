@@ -99,11 +99,11 @@ export const GEN_BLOCK_RE =
 /** The storefront's popular tiles, in the order they are rendered. */
 export function readPopularFromStorefront() {
   const src = readFileSync(join(ROOT, 'index.html'), 'utf8');
-  const section = src.match(/<section id="popular"[\s\S]*?<\/section>/);
+  const section = src.match(/<section\b[^>]*\bid="popular"[\s\S]*?<\/section>/);
   if (!section) throw new Error('no <section id="popular"> in index.html');
 
   const out = [];
-  const re = /data-country="([A-Z]{2})"[\s\S]*?class="dest-name">([^<]+)</g;
+  const re = /class="dest-tile dest-card"[^>]*data-country="([A-Z]{2})"[\s\S]*?<b>([^<]+)<\/b>/g;
   let m;
   while ((m = re.exec(section[0])) !== null) out.push({ code: m[1], name: m[2].trim() });
   if (!out.length) throw new Error('popular section matched but yielded no tiles');

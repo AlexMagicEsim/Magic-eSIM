@@ -33,22 +33,24 @@ const NAV_LINKS = `<a href="/esim/">Направления</a>
       <a href="/#install-guides-section">Инструкции</a>
       <a href="${RU_TG_APP}" target="_blank" rel="noopener noreferrer">Telegram</a>`;
 
-/** The header. */
-export const ruHeader = () => `<header class="site-header">
+/** The header. `hreflang` marks the English link's language — on the home
+ * only, which always linked /en/ that way (seo/test-en-storefront.mjs); the
+ * country pages carry no hreflang at all (they have no indexable twin). */
+export const ruHeader = ({ hreflang = false } = {}) => `<header class="site-header">
   <div class="wrap hdr">
     <a class="brand" href="/">${LOGO}</a>
     <nav class="nav" aria-label="Основное меню">
       ${NAV_LINKS}
     </nav>
     <div class="hdr-actions">
-      <a class="langsw" href="/en/" lang="en">${ICON_GLOBE}<span>English</span></a>
+      <a class="langsw" href="/en/"${hreflang ? ' hreflang="en"' : ''} lang="en">${ICON_GLOBE}<span>English</span></a>
       <a class="btn btn-sm hdr-cta" href="/#global-pricing">Выбрать тариф</a>
       <details class="mnav">
         <summary aria-label="Меню">${ICON_MENU}</summary>
         <nav class="mnav-panel" aria-label="Меню">
       ${NAV_LINKS}
           <hr>
-          <a href="/en/" lang="en">English</a>
+          <a href="/en/"${hreflang ? ' hreflang="en"' : ''} lang="en">English</a>
         </nav>
       </details>
     </div>

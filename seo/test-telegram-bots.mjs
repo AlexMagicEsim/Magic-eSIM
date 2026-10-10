@@ -86,8 +86,8 @@ test('the channel CTA sits AFTER the purchase CTA, not before it', () => {
   // Putting it BEFORE the purchase CTA would have been the obvious move and the
   // wrong one — a distraction placed at the conversion moment.
   const s = read('index.html');
-  const buy = s.indexOf('<section class="cta">');
-  const channel = s.indexOf('class="tg-cta"');
+  const buy = s.indexOf('<section class="section cta"');
+  const channel = s.indexOf('class="section tg-cta"');
   const footer = s.indexOf('<footer');
   assert.ok(buy > 0 && channel > 0 && footer > 0);
   assert.ok(channel > buy, 'the channel must not precede the purchase CTA');
@@ -100,19 +100,21 @@ test('the channel CTA sits AFTER the purchase CTA, not before it', () => {
 
 test('moving the section did not change what it says', () => {
   const s = read('index.html');
-  const at = s.indexOf('class="tg-cta"');
+  const at = s.indexOf('class="section tg-cta"');
   const block = s.slice(s.lastIndexOf('<section', at), s.indexOf('</section>', at));
   assert.match(block, /Подписывайтесь на наш Telegram/);
   assert.match(block, /промокоды/);
   assert.match(block, new RegExp(`href="https://t\\.me/magicesim"`));
-  assert.match(block, /class="btn"/, 'still the shared button component');
-  assert.match(block, /class="tg-box reveal"/, 'still the shared reveal animation');
+  assert.match(block, /class="btn[ "]/, 'still the shared button component');
+  // The reveal-on-scroll animation went with the old design (RU↔EN parity, PR 3):
+  // the English design has none. The box itself is unchanged.
+  assert.match(block, /class="tg-box"/, 'still the same box');
 });
 
 test('the Mini App entry stays in the hero, where it already was', () => {
   const s = read('index.html');
   const hero = s.indexOf('class="hero-tg"');
-  const buy = s.indexOf('<section class="cta">');
+  const buy = s.indexOf('<section class="section cta"');
   assert.ok(hero > 0 && hero < buy, 'the Mini App CTA is above the fold, not moved');
   assert.match(s.slice(hero, hero + 400), new RegExp(`https://t\\.me/${MAIN}\\?startapp`));
 });

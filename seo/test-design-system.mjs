@@ -115,3 +115,34 @@ test('the measured catalogue size still supports «190+ направлений»
   const { countries } = JSON.parse(read('seo/catalogue-countries.json'));
   assert.ok(countries.length >= 190, `countries with plans: ${countries.length}`);
 });
+
+// ---- the Russian home on the shared design system (RU↔EN parity, PR 3) ----
+
+test('the home is styled only by the shared sheets, in order, with no inline <style>', () => {
+  const h = read('index.html');
+  assert.doesNotMatch(h, /<style\b/, 'an inline stylesheet is a second design system');
+  const at = (f) => h.indexOf(`href="/assets/${f}?v=`);
+  const order = ['site.css', 'page-home.css', 'page-country.css', 'ru.css'].map(at);
+  assert.ok(order.every((i) => i > 0), `missing sheet: ${order}`);
+  assert.deepEqual([...order].sort((a, b) => a - b), order, 'site.css → page-home.css → page-country.css → ru.css');
+  assert.ok(order[3] < h.indexOf('<!-- Yandex.Metrika counter -->'), 'the sheets come before the counter');
+});
+
+test('the home header and footer are the ONE Russian chrome, byte for byte', async () => {
+  const { ruHeader, RU_FOOTER } = await import('./ru-chrome.mjs');
+  const h = read('index.html');
+  assert.ok(h.includes(ruHeader({ hreflang: true })), 'index.html header drifted from seo/ru-chrome.mjs');
+  assert.ok(h.includes(RU_FOOTER), 'index.html footer drifted from seo/ru-chrome.mjs');
+  // the rule can fire
+  assert.equal(h.includes(ruHeader({ hreflang: true }).replace('Направления', 'Страны')), false);
+});
+
+test('the home keeps the Russian market: Platega checkout, roubles, Metrika, no GLOBAL bar', () => {
+  const h = read('index.html');
+  for (const s of ['Оформление заказа', 'Российская карта', 'Оплата через Platega', 'id="coPay"', 'id="checkoutModal"', 'ym(110393848']) {
+    assert.ok(h.includes(s), s);
+  }
+  assert.doesNotMatch(h, /class="paybar"|previewNotice|global-catalog\.js|\/en\/checkout\.js/);
+  assert.match(h, /Тарифы для 190\+ направлений/, 'the one measured wording');
+  assert.doesNotMatch(h, /150\+ стран/, 'the old count is gone');
+});
