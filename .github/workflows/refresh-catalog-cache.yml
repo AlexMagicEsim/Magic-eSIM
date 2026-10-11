@@ -40,9 +40,18 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # R3-12. This job holds `contents: write` on a repository whose main is
+      # published by Pages on every push, so:
+      #   * actions are pinned by COMMIT, not by tag — `v4` is mutable, and a
+      #     repointed tag would run with this job's write token;
+      #   * `persist-credentials: false` — by default checkout leaves the token in
+      #     .git/config for every later step; here it exists only in the one
+      #     command that pushes (see «Commit if changed»), as in seo-refresh-pr.yml.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
 
@@ -104,6 +113,8 @@ jobs:
       # file byte-identical (generated_at included) when nothing moved, so an
       # unchanged run produces no commit and no Pages deploy.
       - name: Commit if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
@@ -122,4 +133,7 @@ jobs:
           # file in the runner cannot ride along.
           git add assets/catalog.json
           git commit -m "chore: refresh static catalog cache ($count packages)"
-          git push
+          # The credential exists for this one command and is not left in
+          # .git/config. Same ref the old bare `git push` updated: the branch the
+          # run was started on (main for the schedule).
+          git push "https://x-access-token:$GH_TOKEN@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF}"
