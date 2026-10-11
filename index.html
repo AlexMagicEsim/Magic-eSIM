@@ -107,12 +107,13 @@
   /* ── FIRST-TOUCH ACQUISITION ──────────────────────────────────────────────
      Written once per browser session, read at checkout, sent with the order.
 
-     WHY IT IS HERE AND ALSO IN assets/country-tariffs.js, WORD FOR WORD.
-     Search traffic lands on /esim/<country>/, and the buy button there hands
-     the visitor to this page — at which point document.referrer is our own
-     origin and every utm has fallen off the URL. Capturing only on the landing
-     page therefore loses the source of exactly the visitors we are trying to
-     count.
+     WHY IT IS IN BOTH index.html (<head>) AND assets/country-tariffs.js, WORD
+     FOR WORD. A visit starts wherever a search or a link opened it — the home
+     or /esim/<country>/ — and the first internal hop drops every utm and turns
+     document.referrer into our own origin. So every entry page captures, and
+     the first one wins. (Until RU↔EN migration PR B/C the hop went from the
+     country page to the home's checkout; now the home links to the country
+     page, where the checkout is. The rule is the same.)
 
      It lives in country-tariffs.js rather than in the pages because that file is
      already loaded on all 198 of them and an asset stamp does not move a page's

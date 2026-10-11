@@ -1,23 +1,23 @@
-/* country-tariffs.js — the tariff renderer for /esim/<country>/ pages.
-   Helpers + local/regional split + «Оптимальный выбор» badge are lifted
-   VERBATIM from index.html so rendering is identical. Since RU↔EN migration
-   PR B the buy button is the landing's own («Купить», .js-buy, the same data-*)
-   and opens the SAME checkout on this page: assets/ru-checkout.js, loaded right
-   after this file. This file declares the landing names that module relies on
-   (see «THE CHECKOUT HOST» below); no payment code lives here.
-   Prices always come from the API; no prices are baked into static HTML.
-   Source ranges copied from index.html: 924-1466, 1541-1707, 1770-1791. */
+/* country-tariffs.js — the tariff renderer for /esim/<country>/ pages: the
+   Russian storefront's ONE catalogue (RU↔EN migration: the home carried a
+   verbatim second copy until PR C and now reads no catalogue). The buy button
+   («Купить», .js-buy) opens the checkout on this page: assets/ru-checkout.js,
+   loaded right after this file. This file declares the names that module relies
+   on — some still called «landing» because that is where they were born (see
+   «THE CHECKOUT HOST» below); no payment code lives here.
+   Prices always come from the API; no prices are baked into static HTML. */
 
 (function(){
   /* ── FIRST-TOUCH ACQUISITION ──────────────────────────────────────────────
      Written once per browser session, read at checkout, sent with the order.
 
-     WHY IT IS HERE AND ALSO IN assets/country-tariffs.js, WORD FOR WORD.
-     Search traffic lands on /esim/<country>/, and the buy button there hands
-     the visitor to this page — at which point document.referrer is our own
-     origin and every utm has fallen off the URL. Capturing only on the landing
-     page therefore loses the source of exactly the visitors we are trying to
-     count.
+     WHY IT IS IN BOTH index.html (<head>) AND assets/country-tariffs.js, WORD
+     FOR WORD. A visit starts wherever a search or a link opened it — the home
+     or /esim/<country>/ — and the first internal hop drops every utm and turns
+     document.referrer into our own origin. So every entry page captures, and
+     the first one wins. (Until RU↔EN migration PR B/C the hop went from the
+     country page to the home's checkout; now the home links to the country
+     page, where the checkout is. The rule is the same.)
 
      It lives in country-tariffs.js rather than in the pages because that file is
      already loaded on all 198 of them and an asset stamp does not move a page's
@@ -238,7 +238,6 @@ let activeCountry='ALL';
    confirmed against the live API before anyone can pay. */
 let catalogSource=null;
 let catalogGeneratedAt=null;
-const featuredAllCountries=['TH','VN','AE'];
 
 function formatRub(value){
   return `${Number(value||0).toLocaleString('ru-RU')} ₽`;
@@ -256,13 +255,10 @@ function formatRetailPrice(item){
   return price === null ? 'Цена уточняется' : formatRub(price);
 }
 
-// Shared buy button: same price source; disabled (no checkout) when price is absent.
-// Country pages do NOT run checkout locally. The buy action deep-links to the
-// existing landing checkout with the country pre-selected. Price is only used to
-// gate availability; it is never written into static page HTML.
-/* The buy button — the landing's own (index.html buyButtonHtml), so the same
-   checkout reads the same data-* from it: package, name, coverage, data,
-   per-day allowance, term, plan type, price. */
+/* The buy button: disabled when the price is absent. The checkout reads its
+   data-*: package, name, coverage, data, per-day allowance, term, plan type,
+   price. The price only gates availability here; it is never written into
+   static page HTML. */
 function buyButtonHtml(item,label,name){
   const price = getPackageRetailPrice(item);
   const disabled = price === null ? ' disabled aria-disabled="true"' : '';
@@ -788,7 +784,7 @@ const ICON_BOLT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 const ICON_CALENDAR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
 const ICON_REFRESH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
 
-/* --- TARIFF DISPLAY MAPPERS (identical copy in index.html) ----------------
+/* --- TARIFF DISPLAY MAPPERS (the storefront's one copy) -------------------
    Fed straight from the public API. Every field may be ABSENT (an older API
    build returns only the 15 legacy keys), null (the provider sent no data) or
    false (the provider explicitly said no).
@@ -1491,7 +1487,7 @@ function renderCountrySplit(){
 })();
 
 /* ===== Country-page bootstrap =====================================================
-   1) fetch the same public catalog used by the landing;
+   1) fetch the public catalogue (the same one the Mini App reads);
    2) pre-select this page's country (from <section data-country-page="XX">);
    3) render the local/regional split (badge + current sort preserved);
    4) re-render on sort change;
@@ -1504,10 +1500,10 @@ function renderCountrySplit(){
     const c=s?String(s.getAttribute('data-country-page')||'').trim().toUpperCase():'';
     return /^[A-Z]{2}$/.test(c)?c:'';
   }
-  /* Same live-then-cache rules as the landing, from the same module, so the two
-     cannot drift. A cached price is displayed here, and the checkout on this
-     page re-validates it against the live API before it opens — the landing's
-     rule, by the landing's code (assets/ru-checkout.js). */
+  /* Live first, then the cached snapshot, from the shared loader
+     (assets/catalog-loader.js). A cached price is displayed here, and the
+     checkout on this page re-validates it against the live API before it opens
+     (assets/ru-checkout.js). */
   let catalogRetryInFlight=false;
 
   function noticeEl(){
@@ -1595,7 +1591,7 @@ function renderCountrySplit(){
           hideNotice();
         }
         try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_cache_loaded',{page_type:'country',source:'cache',country_code:code,error_type:String(result.liveError||'unknown').slice(0,32),cache_age_hours:age,fallback_triggered:'yes',api_latency_ms:m.apiLatencyMs==null?'':m.apiLatencyMs,deadline_ms:m.deadlineMs,static_age_ms:m.staticAgeMs==null?'':m.staticAgeMs,stale:result.stale?'yes':'no'});}catch(_){}
-        /* Late live data now RE-RENDERS — see the same reversal on the landing.
+        /* Late live data now RE-RENDERS (a reversal, seo/test-catalog-fallback.mjs H9).
            A snapshot that predates a product category hid «Трафик на каждый
            день» entirely until reload, which is worse than a moment of
            movement. `whenLive` settles once, so this cannot double-render. */
@@ -1627,10 +1623,9 @@ function renderCountrySplit(){
     const sort=document.getElementById('packageSort');
     if(sort)sort.addEventListener('change',()=>{ if(/^[A-Z]{2}$/.test(String(activeCountry||''))) renderCountrySplit(); });
     // country_tariff_click — a tariff's buy button pressed ON A COUNTRY PAGE. It
-    // used to mark the deep link into the landing's catalogue; since PR B the same
-    // button opens the checkout here, and the checkout itself fires
-    // tariff_buy_click (as on the landing). One journey still carries one of each,
-    // as before, and this goal keeps telling country-page buys from landing ones.
+    // used to mark the deep link into the old home's catalogue; since PR B the
+    // same button opens the checkout here, and the checkout itself fires
+    // tariff_buy_click. One journey carries one of each, as before.
     // tariff_type comes from the grid the card sits in. No PII/QR/ICCID/order data.
     document.addEventListener('click',(e)=>{
       const a=e.target.closest('.js-buy');
@@ -1656,8 +1651,8 @@ function renderCountrySplit(){
 })();
 
 /* ===== THE CHECKOUT HOST ==========================================================
-   assets/ru-checkout.js is the landing's checkout, unchanged. It calls a few
-   names the landing declares; on a country page they mean the same thing:
+   assets/ru-checkout.js was the home's checkout until PR B/C, unchanged since.
+   It calls a few names the home used to declare; here they mean:
      renderPackages      → re-render this page's blocks (after a live re-check)
      renderCountryChips  → nothing: a country page has no country picker
      hideCatalogNotice / catalogNoticeEl / retryLiveCatalog → this page's notice
