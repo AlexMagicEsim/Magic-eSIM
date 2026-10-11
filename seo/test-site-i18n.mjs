@@ -24,11 +24,10 @@ const I18N = require(join(ROOT, 'assets/site-i18n.js'));
 // checkout opens since RU↔EN migration PR B/C (its window moved off the home).
 const LANDING = readFileSync(join(ROOT, 'index.html'), 'utf8')
   + readFileSync(join(ROOT, 'esim/turkey/index.html'), 'utf8');
-// Two words the dictionary still carries from the old home: the section
-// «Преимущества» (gone with PR C) and the CTA «Выбрать тариф» (now «Найти тариф»).
-// assets/site-i18n.js is loaded by every English page, so editing it re-stamps
-// /en/ — left for the cleanup PR, listed here rather than hidden.
-const RETIRED = new Set(['nav.benefits', 'nav.cta']);
+// «nav.benefits» and «nav.cta» were removed in the cleanup (migration PR D):
+// no page, script or data-i18n read them after the old home went. If a key is
+// ever retired again, delete it from the dictionary rather than excusing it here.
+const RETIRED = new Set();
 const EN_PAGE = readFileSync(join(ROOT, 'en/index.html'), 'utf8');
 
 /* ===================================================================== */

@@ -17,10 +17,11 @@
 //
 // ЦЕПОЧКА, КОТОРУЮ НАДО ЗАМКНУТЬ
 //
-//   1. Кнопка на странице страны                  [сайт, реализовано ниже]
-//        /?country=TR&src=country-page&from=turkey
-//      (ИСТОРИЯ: с миграции RU↔EN, PR B, кнопка открывает оформление прямо на
-//       странице страны, и путь страницы уходит в заказ как attribution.entry.)
+//   1. Кнопка на странице страны                  [сайт, сделано]
+//      С миграции RU↔EN (PR B) «Купить» открывает оформление прямо на
+//      странице страны, и путь первой страницы визита уходит в заказ как
+//      attribution.entry (assets/ru-checkout.js). Ссылка-переход
+//      /?country=XX&src=country-page (buyHref) удалена в PR D.
 //   2. Цель Метрики checkout_click с параметром    [сайт, реализовано ниже]
 //   3. Лендинг кладёт метку в sessionStorage и
 //      передаёт её в создание заказа               [лендинг + бэкенд]
@@ -37,13 +38,6 @@ export const GRANULARITY = Object.freeze({
   COUNTRY: 'country',   // есть сейчас: заказ знает страну
   PAGE: 'page',         // будет после миграции: заказ знает страницу входа
 });
-
-/** Ссылка на checkout с меткой происхождения. */
-export function buyHref(iso, slug) {
-  const code = String(iso || '').toUpperCase();
-  const params = new URLSearchParams({ country: code, src: 'country-page', from: slug });
-  return `/?${params}#global-pricing`;
-}
 
 /**
  * Миграция, замыкающая цепочку. НЕ применена: продакшн-миграции требуют

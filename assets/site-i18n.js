@@ -53,10 +53,8 @@
     ru: {
       'nav.destinations': 'Направления',
       'nav.how': 'Как это работает',
-      'nav.benefits': 'Преимущества',
       'nav.tariffs': 'Тарифы',
       'nav.guides': 'Инструкции',
-      'nav.cta': 'Выбрать тариф',
 
       'checkout.title': 'Оформление заказа',
       'checkout.plan': 'eSIM-тариф',
@@ -81,10 +79,8 @@
     en: {
       'nav.destinations': 'Destinations',
       'nav.how': 'How it works',
-      'nav.benefits': 'Why Magic eSIM',
       'nav.tariffs': 'Plans',
       'nav.guides': 'Guides',
-      'nav.cta': 'Choose a plan',
 
       'checkout.title': 'Checkout',
       'checkout.plan': 'eSIM plan',
