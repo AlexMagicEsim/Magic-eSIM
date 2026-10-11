@@ -93,8 +93,9 @@ jobs:
       # below builds its own authenticated remote for the one command that needs it.
       #
       # Pinned by commit, not by tag: v4 is mutable, and this job holds write
-      # access. tests.yml keeps the tags on purpose — it holds `contents: read`,
-      # so the same repoint buys an attacker nothing there.
+      # access. Since R3-12 every workflow here pins by commit (tests.yml too, so
+      # that «require SHA pinning» can be switched on for the repository);
+      # seo/test-workflow-hardening.mjs enforces it.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: main
