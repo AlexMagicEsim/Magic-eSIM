@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-10T17:22:10.157Z",
+  "generated_at": "2026-10-12T15:37:21.471Z",
   "source": "production-public-api",
   "package_count": 2289,
   "packages": [
@@ -3287,7 +3287,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -5200,7 +5200,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -11633,7 +11633,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 5,
@@ -14383,7 +14383,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -32172,7 +32172,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -42425,7 +42425,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -49436,7 +49436,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 5,
@@ -53601,12 +53601,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 2650,
-      "networks": [
-        {
-          "operator": "Orange",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G"
@@ -53618,7 +53613,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -55921,7 +55916,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -65057,7 +65052,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -66517,7 +66512,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -67599,7 +67594,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -69922,7 +69917,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -76551,7 +76546,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -77211,7 +77206,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -81058,7 +81053,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -81933,7 +81928,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -84349,7 +84344,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -88045,7 +88040,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -88552,7 +88547,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -92412,16 +92407,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1400,
-      "networks": [
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -92434,7 +92420,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -97599,7 +97585,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -100298,7 +100284,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -129364,7 +129350,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -134873,7 +134859,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -137375,7 +137361,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -140381,7 +140367,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -153048,7 +153034,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
