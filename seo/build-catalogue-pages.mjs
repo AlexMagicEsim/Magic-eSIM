@@ -32,7 +32,7 @@ import { BLOCK_ICON } from './site-chrome.mjs';
 import { RU_CHECKOUT_MODAL } from './ru-checkout-markup.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { createRequire } from 'node:module';
-import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily } from './catalogue-facts.mjs';
+import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily, countryOffers } from './catalogue-facts.mjs';
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -238,15 +238,111 @@ function faq(c) {
   return items;
 }
 
+/**
+ * The Google SEO pilot (approved 2026-10-12; handoff 10-11 §5j) — five pages
+ * whose profile carries `seo_pilot`. Every other page is built exactly as before:
+ * nothing below runs without that key.
+ *
+ * The profile supplies WORDS only. Every number — the «от N ₽» in the title, the
+ * counts in the description, the static price rows, the AggregateOffer — is
+ * computed here from assets/catalog.json through countryOffers(), the same chain
+ * as countryFacts(). The counts are asserted equal, so the static block, the hero,
+ * the FAQ and the live grid describe one set of tariffs. When the bot refreshes
+ * the catalogue, the existing SEO-refresh PR rebuilds these pages like any other.
+ */
+const PILOT_TEXT_KEYS = ['name', 'angle', 'description_tail', 'price_heading', 'price_question'];
+const gb = (v) => `${v % 1 === 0 ? v : v.toFixed(1)} ГБ`;
+const days = (d) => `${d} ${plural(d, 'день', 'дня', 'дней')}`;
+
+function seoPilot(c, p) {
+  const sp = p && p.seo_pilot;
+  if (!sp) return null;
+  for (const k of PILOT_TEXT_KEYS) {
+    if (typeof sp[k] !== 'string' || !sp[k].trim()) throw new Error(`${c.slug}: seo_pilot.${k} — нужна непустая строка`);
+    // Words only: a price typed into a profile is exactly the second source of
+    // prices this pilot must not have.
+    if (/\d[\d\s ]*₽/.test(sp[k])) throw new Error(`${c.slug}: seo_pilot.${k} содержит цену — цены считает генератор`);
+  }
+  if (p.title || p.description) throw new Error(`${c.slug}: при seo_pilot title и description собирает генератор — уберите их из профиля`);
+  const o = countryOffers(PACKAGES, c.iso);
+  if (o.local.length !== c.local_count || o.regional.count !== c.regional_count || o.daily.count !== c.daily_count
+    || o.all.count !== c.total_count || o.all.min !== c.min_price_rub) {
+    throw new Error(`${c.slug}: countryOffers разошёлся с countryFacts — статический блок описал бы другой набор тарифов`);
+  }
+  if (!o.all.count || o.all.min === null) throw new Error(`${c.slug}: seo_pilot на странице без тарифов`);
+
+  const title = `${sp.name} — тарифы и цены от ${money(o.all.min)} ₽ | Magic eSIM`;
+  const counts = [
+    c.local_count ? `${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')}` : null,
+    c.regional_count ? `${c.regional_count} ${plural(c.regional_count, 'региональный', 'региональных', 'региональных')}` : null,
+    c.daily_count ? `${c.daily_count} ${plural(c.daily_count, 'тариф', 'тарифа', 'тарифов')} с оплатой за день` : null,
+  ].filter(Boolean);
+  const countsText = counts.length > 1 ? `${counts.slice(0, -1).join(', ')} и ${counts.at(-1)}` : counts[0];
+  const desc = `${sp.name}: ${countsText}, от ${money(o.all.min)} ₽. ${sp.description_tail}`;
+
+  const range = (r) => (r.min === r.max ? `${money(r.min)} ₽` : `от ${money(r.min)} до ${money(r.max)} ₽`);
+  const cards = [];
+  if (o.local.length) {
+    cards.push(`<div class="help-card"><h3>Локальные тарифы: ${esc(c.nameRu)}</h3><ul class="why-list">`
+      + o.local.map((r) => `<li>${gb(r.gb)} на ${days(r.days)} — <b>${money(r.price)} ₽</b></li>`).join('')
+      + '</ul></div>');
+  }
+  if (o.daily.count) {
+    cards.push(`<div class="help-card"><h3>${esc(DAILY_BLOCK_TITLE)}</h3><p>${o.daily.count} ${plural(o.daily.count, 'тариф', 'тарифа', 'тарифов')}, ${range(o.daily)}. `
+      + 'Срок и суточный объём каждого указаны в его карточке.</p></div>');
+  }
+  if (o.regional.count) {
+    cards.push(`<div class="help-card"><h3>Региональные тарифы</h3><p>${o.regional.count} ${plural(o.regional.count, 'тариф', 'тарифа', 'тарифов')} с покрытием этой и других стран, ${range(o.regional)}. `
+      + 'Список стран — в карточке каждого тарифа.</p></div>');
+  }
+  const section = `<section class="cp-sec prices" id="prices" aria-labelledby="pricesTitle">
+    <h2 id="pricesTitle">${esc(sp.price_heading)}</h2>
+    <p class="note">Всего тарифов с покрытием страны: <b>${o.all.count}</b>, цены ${range(o.all)}. Цена тарифа здесь — самая низкая сумма, за которую его можно купить. Это тот же каталог, что и в карточках выше: выбрать и оплатить тариф можно <a href="#tariffs">в его карточке</a>.</p>
+    <div class="help-grid">${cards.join('')}</div>
+  </section>`;
+
+  const parts = [
+    o.local.length ? `локальные тарифы — ${range(o.localRange)} (${o.local.length} ${plural(o.local.length, 'тариф', 'тарифа', 'тарифов')}, ${gb(o.local[0].gb)}–${gb(o.local.at(-1).gb)})` : null,
+    o.daily.count ? `тарифы с оплатой за день — ${range(o.daily)}` : null,
+    o.regional.count ? `региональные — ${range(o.regional)}` : null,
+  ].filter(Boolean);
+  const priceFaq = {
+    q: sp.price_question,
+    a: `${parts.join('; ').replace(/^./, (s) => s.toUpperCase())}. Это самая низкая сумма покупки каждого тарифа; полный список — в разделе «${sp.price_heading}» на этой странице. Оплата в рублях российской картой или через СБП.`,
+  };
+
+  const product = {
+    '@type': 'Product',
+    name: sp.name,
+    description: desc,
+    url: `${SITE}/esim/${c.slug}/`,
+    image: `${SITE}/assets/magic-esim-logo.png`,
+    brand: { '@type': 'Brand', name: 'Magic eSIM' },
+    // Exactly the numbers the price section prints: the count, the lowest and
+    // the highest purchasable price of the tariffs shown for this country.
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'RUB',
+      lowPrice: o.all.min,
+      highPrice: o.all.max,
+      offerCount: o.all.count,
+      availability: 'https://schema.org/InStock',
+      url: `${SITE}/esim/${c.slug}/#prices`,
+    },
+  };
+  return { sp, title, desc, section, priceFaq, product };
+}
+
 function page(c, all, profile) {
   // A profile may only ADD prose. Every number below still comes from the
   // catalogue, and the merge cannot reach any of them.
   const p = profile || {};
+  const pilot = seoPilot(c, p);
   // Nominative everywhere. Russian wants the genitive after "для", and a
   // rules-based declension of 202 names is wrong for the indeclinable ones
   // (Перу, Монако, Гаити) and for the irregular fleeting vowels. A profile may
   // override any of these with a properly declined sentence.
-  const title = p.title || `${c.nameRu} — eSIM с оплатой рублями | Magic eSIM`;
+  const title = pilot ? pilot.title : p.title || `${c.nameRu} — eSIM с оплатой рублями | Magic eSIM`;
   // Daily plans are COUNTED, and counted as their own number.
   //
   // They are half the catalogue and the page renders them in a block of their
@@ -260,7 +356,7 @@ function page(c, all, profile) {
   // Four countries render nothing at all: every package covering them is dropped
   // by the runtime's own filters. Saying "0 региональных тарифов" would be
   // technically true and useless; saying nothing about tariffs is honest.
-  const desc = p.description ? p.description : c.renders_nothing
+  const desc = pilot ? pilot.desc : p.description ? p.description : c.renders_nothing
     ? `${c.nameRu} — eSIM Magic eSIM: тарифов с покрытием этой страны сейчас нет. Посмотрите другие направления — оплата рублями, QR-код на почту.`
     : c.local_count > 0
     ? `${c.nameRu} — eSIM: ${c.local_count} ${plural(c.local_count, 'локальный тариф', 'локальных тарифа', 'локальных тарифов')}`
@@ -274,7 +370,7 @@ function page(c, all, profile) {
   // An editorial "why" block replaces nothing factual — it is added above the
   // generic one only when a person wrote it.
   const whyBlock = Array.isArray(p.why) && p.why.length
-    ? `<section class="cp-sec why"><h2>Почему eSIM: ${esc(c.nameRu)}</h2><div class="help-grid why-cards">`
+    ? `<section class="cp-sec why"><h2>${pilot ? esc(pilot.sp.angle) : `Почему eSIM: ${esc(c.nameRu)}`}</h2><div class="help-grid why-cards">`
       + p.why.filter((w) => w && w.h && w.p).map((w) =>
         `<div class="help-card why-card"><span class="ico" aria-hidden="true">${esc(w.icon || '')}</span><h3>${esc(w.h)}</h3><p>${esc(w.p)}</p></div>`).join('')
       + '</div></section>'
@@ -290,7 +386,7 @@ function page(c, all, profile) {
   // kept; the rest is repetition wearing a country's name.
   const own = Array.isArray(p.faq) ? p.faq.filter((f) => f && f.q && f.a) : [];
   const generated = faq(c);
-  const items = [...own, ...(own.length >= 4 ? generated.slice(0, 2) : generated)];
+  const items = [...own, ...(own.length >= 4 ? generated.slice(0, 2) : generated), ...(pilot ? [pilot.priceFaq] : [])];
   // A profile may name its own neighbours. nearby() is alphabetical adjacency —
   // its own comment says it is not a claim that the countries are related — and
   // that is right for pages nobody curated. But six pages migrated from the
@@ -328,6 +424,7 @@ function page(c, all, profile) {
           logo: `${SITE}/assets/magic-esim-logo.png`,
         },
       },
+      ...(pilot ? [pilot.product] : []),
       // Only the FAQ that is actually rendered below.
       {
         '@type': 'FAQPage',
@@ -480,7 +577,9 @@ ${ruHeader()}
        its own code (assets/ru-checkout.js): «Купить» on a card opens it here. -->
 ${RU_CHECKOUT_MODAL}
 
-  ${whyBlock}
+  ${pilot ? `${pilot.section}
+
+  ` : ''}${whyBlock}
 
   <section class="cp-help" aria-labelledby="cpHelpTitle">
     <h2 id="cpHelpTitle">Перед покупкой</h2>

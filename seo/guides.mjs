@@ -276,7 +276,7 @@ export const GUIDES = [
       { href: 'esim/compatibility/', label: 'Проверка совместимости' },
       { href: 'esim/payment-rubles/', label: 'Оплата рублями и СБП' },
     ],
-    ctaCountries: ['thailand', 'vietnam', 'turkey', 'japan'],
+    ctaCountries: ['thailand', 'vietnam', 'turkey', 'japan', 'uae', 'egypt'],
   },
 
   // ------------------------------------------------------------- not-working
@@ -564,6 +564,6 @@ export const GUIDES = [
       { href: 'esim/not-working/', label: 'eSIM не работает — что делать' },
       { href: 'esim/compatibility/', label: 'Проверка совместимости' },
     ],
-    ctaCountries: ['china', 'uae', 'turkey', 'thailand'],
+    ctaCountries: ['china', 'uae', 'turkey', 'thailand', 'italy', 'georgia'],
   },
 ];

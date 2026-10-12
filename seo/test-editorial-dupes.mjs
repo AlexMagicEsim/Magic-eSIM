@@ -138,7 +138,7 @@ test('no page carries the daily-term boilerplate', () => {
 
 test('a page that advises installing early acknowledges the installation tariffs', () => {
   const EARLY = /(?:поставить|установить|ставить|устанавливается)[^.!?]{0,60}(?:заранее|дома|до\s+вылета|до\s+поездки|до\s+выезда)/i;
-  const prose = (d) => JSON.stringify(['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq'].map((k) => d[k]));
+  const prose = (d) => JSON.stringify(['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'seo_pilot'].map((k) => d[k]));
   const bad = [];
   for (const [s, d] of Object.entries(P)) {
     const sheet = SHEETS[s];

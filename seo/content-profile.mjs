@@ -59,6 +59,13 @@ export const EDITORIAL_KEYS = Object.freeze([
   // back to alphabetical adjacency, which is right for pages nobody curated and
   // wrong for the six that were.
   'related',
+  // The Google SEO pilot (2026-10-12, five pages): WORDS only — the name the
+  // title and Product use, an angle heading, a description tail, the price
+  // section's heading and question. Every number around them (the «от N ₽» in
+  // the title, the counts, the price rows, the AggregateOffer) is computed by
+  // seo/build-catalogue-pages.mjs from the catalogue; a digit followed by «₽» in
+  // any of these strings is refused at build time.
+  'seo_pilot',
 ]);
 
 // Keys a profile may carry for the pipeline's own bookkeeping. Never rendered.
