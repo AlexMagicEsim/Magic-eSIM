@@ -18,7 +18,8 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadCatalogue, countryFacts, countryOffers } from './catalogue-facts.mjs';
+import { loadCatalogue, countryFacts, countryOffers, coverageCodes, purchasablePrice, isDaily } from './catalogue-facts.mjs';
+import { EDITORIAL_KEYS } from './content-profile.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -124,14 +125,86 @@ test('UAE: the Dubai intent is in the title, H1, price heading and question', ()
   assert.match(h, /<summary>Сколько стоит eSIM в Дубае\?<\/summary>/);
 });
 
-test('UAE: no hand-written rouble amount anywhere in the profile — every price on the page is the catalogue\'s', () => {
-  // The old «Сколько гигабайт нужно на неделю в Дубае» answer quoted two prices by
-  // hand; the owner had it rewritten without them (2026-10-12).
-  const walk = (v, path) => {
-    if (typeof v === 'string') assert.doesNotMatch(v, /\d[\d\s\u00a0]*₽/, `uae${path}`);
-    else if (v && typeof v === 'object') for (const k of Object.keys(v)) walk(v[k], `${path}.${k}`);
-  };
-  walk(profile('uae'), '');
+test('no rendered field of a pilot profile states a rouble amount — every price on these pages is the catalogue\'s', () => {
+  // The owner had every hand-written price taken out of the five pilot pages
+  // (2026-10-12): the UAE FAQ first, then Egypt, Georgia, Uzbekistan and Italy.
+  // Concrete prices come only from the catalogue-built price block, title and
+  // FAQ answer. editor_notes and other META keys are never rendered and may keep
+  // their history.
+  for (const slug of PILOT) {
+    const p = profile(slug);
+    const walk = (v, path) => {
+      if (typeof v === 'string') assert.doesNotMatch(v, /\d[\d\s ]*(₽|руб)/, `${slug}${path}`);
+      else if (v && typeof v === 'object') for (const k of Object.keys(v)) walk(v[k], `${path}.${k}`);
+    };
+    for (const k of EDITORIAL_KEYS) if (p[k] !== undefined) walk(p[k], `.${k}`);
+  }
+});
+
+// The words that replaced the prices still state RELATIONS between prices and
+// the SHAPE of each ladder. With the numbers gone, test-catalogue-sync no longer
+// notices when one of them stops being true, so each one is pinned here: a
+// catalogue move that breaks a sentence fails the SEO-refresh PR, and a person
+// rewrites the sentence. Never loosen these to make a refresh pass.
+const own = (iso) => PACKAGES.filter((p) => Number(p.price) > 0 && coverageCodes(p).join() === iso);
+const vol = (iso) => own(iso).filter((p) => !isDaily(p));
+const at = (iso, gb, days) => vol(iso).filter((p) => Number(p.data_gb) === gb && Number(p.validity_days) === days);
+const cheapest = (rows) => Math.min(...rows.map(purchasablePrice));
+const ladder = (iso) => {
+  const by = new Map();
+  for (const p of vol(iso)) by.set(Number(p.data_gb), Math.min(by.get(Number(p.data_gb)) ?? Infinity, purchasablePrice(p)));
+  return [...by.entries()].sort((a, b) => a[0] - b[0]);
+};
+const term = (p, days) => Number((p.term_prices || []).find((t) => Number(t.days) === days)?.price);
+const kbps = (s) => { const m = String(s).match(/([\d.]+)\s*(K|M)bps/i); return m ? Number(m[1]) * (/m/i.test(m[2]) ? 1000 : 1) : NaN; };
+
+test('egypt: the ladder, the missing 10 GB step and the price relations the copy states', () => {
+  const l = ladder('EG');
+  assert.deepEqual(l.map(([g]) => g), [3, 5, 7, 12, 20, 25], '«Линейка идёт 3, 5, 7, 12, 20 и 25 ГБ»');
+  assert.equal(at('EG', 25, 30).length, 1, 'one local 25 GB, 30 days');
+  const regional10 = PACKAGES.filter((p) => Number(p.price) > 0 && !isDaily(p) && Number(p.data_gb) === 10
+    && coverageCodes(p).includes('EG') && coverageCodes(p).length > 1);
+  assert.ok(regional10.length > 0, '10 GB exists only as regional');
+  assert.ok(cheapest(regional10) > cheapest(at('EG', 25, 30)), 'the cheapest regional 10 GB costs more than the local 25 GB');
+  const steps = l.slice(1).map(([g, pr], i) => ({ from: l[i][0], to: g, d: pr - l[i][1] }));
+  const max = steps.reduce((a, b) => (b.d > a.d ? b : a));
+  assert.deepEqual([max.from, max.to], [12, 20], '12 → 20 GB is the longest step by money');
+  assert.ok(steps.find((x) => x.from === 20).d < max.d / 2, '20 → 25 GB is a small extra');
+  const five = at('EG', 5, 30).sort((a, b) => purchasablePrice(a) - purchasablePrice(b));
+  assert.equal(five.length, 2, 'two local 5 GB / 30 days');
+  assert.ok(purchasablePrice(five[0]) < purchasablePrice(five[1]), 'one is cheaper');
+  assert.ok(purchasablePrice(five[1]) - purchasablePrice(five[0]) <= purchasablePrice(five[0]) * 0.1, '«почти не отличаются»');
+  assert.ok((five[0].networks || []).length > 0 && /5G/.test(five[0].speed), 'the cheaper card lists operators and 3G/4G/5G');
+  assert.ok(!(five[1].networks || []).length && !/5G/.test(five[1].speed || ''), 'the dearer card does not');
+});
+
+test('georgia: the equal-price daily pair, the dearer smaller limit, the 3 GB twins', () => {
+  const daily = own('GE').filter(isDaily);
+  const pick = (gb, fup) => daily.filter((p) => Number(p.daily_gb) === gb && kbps(p.fup_policy) === fup);
+  const [plain2] = pick(2, 512); const [fup2] = pick(2, 1000); const [fup3] = pick(3, 1000);
+  assert.ok(plain2 && fup2 && fup3, 'the three daily plans the copy compares');
+  assert.equal(term(plain2, 3), term(fup3, 3), '2 GB/day and 3 GB/day cost the same for three days');
+  assert.ok(kbps(fup3.fup_policy) > kbps(plain2.fup_policy), 'the larger limit keeps the higher speed after it');
+  assert.ok(term(fup2, 3) > term(fup3, 3), '2 GB/day with the soft policy costs more than 3 GB/day');
+  const [t15] = at('GE', 3, 15); const [t30] = at('GE', 3, 30);
+  assert.ok(t15 && t30, '3 GB is sold for 15 and for 30 days');
+  assert.ok(purchasablePrice(t30) - purchasablePrice(t15) <= purchasablePrice(t15) * 0.2, '«небольшая доплата»');
+  const l = ladder('GE');
+  assert.equal(cheapest(vol('GE')), purchasablePrice(t15), '3 GB / 15 days is the most affordable volume plan');
+  assert.equal(l.at(-1)[0], 20, '20 GB is the top volume step');
+  assert.ok(at('GE', 20, 30).length && at('GE', 5, 30).length && at('GE', 10, 30).length, '5, 10, 20 GB on 30 days');
+});
+
+test('uzbekistan: 3 GB lasts 15 days, 5 and 10 GB last 30', () => {
+  assert.equal(ladder('UZ')[0][0], 3, '3 GB is the bottom step');
+  assert.deepEqual(vol('UZ').filter((p) => Number(p.data_gb) === 3).map((p) => Number(p.validity_days)), [15]);
+  assert.ok(at('UZ', 5, 30).length && at('UZ', 10, 30).length, '5 GB and 10 GB on 30 days');
+});
+
+test('italy: 10 GB over 5 GB costs less extra than the 5 GB itself', () => {
+  const p5 = cheapest(at('IT', 5, 30)); const p10 = cheapest(at('IT', 10, 30));
+  assert.ok(Number.isFinite(p5) && Number.isFinite(p10));
+  assert.ok(p10 - p5 < p5, '«доплата меньше цены самого пятигигабайтного»');
 });
 
 test('guides link the pilot pages: activation-before-travel → uae, egypt; payment-rubles → italy, georgia, uzbekistan', () => {
