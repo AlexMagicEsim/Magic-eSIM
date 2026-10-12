@@ -34,6 +34,7 @@ export const COUNTRIES = [
   { slug: "georgia", iso: "GE", flagImg: null, flagEmoji: "🇬🇪", nameRu: "Грузия", nameGen: "Грузии", namePrep: "Грузии", nameAcc: "Грузию" },
   { slug: "armenia", iso: "AM", flagImg: null, flagEmoji: "🇦🇲", nameRu: "Армения", nameGen: "Армении", namePrep: "Армении", nameAcc: "Армению" },
   { slug: "kazakhstan", iso: "KZ", flagImg: null, flagEmoji: "🇰🇿", nameRu: "Казахстан", nameGen: "Казахстана", namePrep: "Казахстане", nameAcc: "Казахстан" },
+  { slug: "uzbekistan", iso: "UZ", flagImg: null, flagEmoji: "🇺🇿", nameRu: "Узбекистан", nameGen: "Узбекистана", namePrep: "Узбекистане", nameAcc: "Узбекистан" },
   { slug: "usa", iso: "US", flagImg: null, flagEmoji: "🇺🇸", nameRu: "США", nameGen: "США", namePrep: "США", nameAcc: "США" },
   { slug: "mexico", iso: "MX", flagImg: null, flagEmoji: "🇲🇽", nameRu: "Мексика", nameGen: "Мексики", namePrep: "Мексике", nameAcc: "Мексику" },
   { slug: "brazil", iso: "BR", flagImg: null, flagEmoji: "🇧🇷", nameRu: "Бразилия", nameGen: "Бразилии", namePrep: "Бразилии", nameAcc: "Бразилию" },

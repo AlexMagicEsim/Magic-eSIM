@@ -90,7 +90,7 @@ const CHECK_KEYS = [...LIST_KEYS, ...NUM_KEYS, ...BOOL_KEYS, 'basis_attrs', 'fam
 const ALLOWED_KEYS = new Set(['id', 'anchors', 'scope', 'page', 'packages', 'family', 'where', 'note', ...CHECK_KEYS]);
 const WHERE_KEYS = new Set(['data_gb_min', 'data_gb_max']);
 const BASIS_ATTRS = new Set(['data_gb', 'validity_days', 'topup_available', 'plan_type', 'daily_gb']);
-const PROSE_FIELDS = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'dual_sim_note'];
+const PROSE_FIELDS = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'dual_sim_note', 'seo_pilot'];
 
 const ISO_BY_SLUG = Object.fromEntries(Object.entries(COUNTRY_NAMES).map(([iso, e]) => [e.slug, iso]));
 export const isoOfSlug = (slug) => ISO_BY_SLUG[slug] || null;
@@ -155,7 +155,7 @@ export const isWholeSentence = (text, frag) => {
 
 /** «faq[1].a» → the string at that path of the profile, or undefined. */
 export function fieldText(profile, field) {
-  const m = String(field).match(/^([a-z_][a-z_0-9]*)(?:\[(\d+)\])?(?:\.([a-z]+))?$/);
+  const m = String(field).match(/^([a-z_][a-z_0-9]*)(?:\[(\d+)\])?(?:\.([a-z_]+))?$/);
   if (!m || !PROSE_FIELDS.includes(m[1])) return undefined;
   let v = profile[m[1]];
   if (m[2] !== undefined) v = Array.isArray(v) ? v[Number(m[2])] : undefined;
@@ -173,6 +173,11 @@ export function proseFields(profile) {
   (profile.intro || []).forEach((t, i) => typeof t === 'string' && out.push([`intro[${i}]`, t]));
   (profile.why || []).forEach((w, i) => { if (w) { if (w.h) out.push([`why[${i}].h`, w.h]); if (w.p) out.push([`why[${i}].p`, w.p]); } });
   (profile.faq || []).forEach((f, i) => { if (f) { if (f.q) out.push([`faq[${i}].q`, f.q]); if (f.a) out.push([`faq[${i}].a`, f.a]); } });
+  // The SEO-pilot words (title name, angle heading, description tail, price heading
+  // and question) reach the page like any other prose, so every gate reads them.
+  if (profile.seo_pilot && typeof profile.seo_pilot === 'object') {
+    for (const [k, v] of Object.entries(profile.seo_pilot)) if (typeof v === 'string') out.push([`seo_pilot.${k}`, v]);
+  }
   return out;
 }
 

@@ -132,7 +132,7 @@ test('the three floors are the real floors', () => {
 
 const RESET_CLAIMS = /сгора[\wа-яёА-ЯЁ]*|обновля[\wа-яёА-ЯЁ]*\s+кажд|не\s+накаплива[\wа-яёА-ЯЁ]*|переносит[\wа-яёА-ЯЁ]*\s+на\s+(?:завтра|следующ)|кажд[\wа-яёА-ЯЁ]*\s+утр[\wа-яёА-ЯЁ]*\s+(?:выда|дад|появ)|в\s+полночь|до\s+полуночи/gi;
 const CONTINUE_CLAIMS = /продолжа[\wа-яёА-ЯЁ]*\s+работать\s+на\s+(?:сниженн|урезанн|пониженн)|не\s+выключа[\wа-яёА-ЯЁ]*\s*,?\s*(?:а|и)\s+продолжа|интернет\s+продолжа[\wа-яёА-ЯЁ]*/gi;
-const PROSE_KEYS = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq'];
+const PROSE_KEYS = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'seo_pilot'];
 
 test('no profile claims a daily reset the catalogue does not confirm', () => {
   const dir = join(ROOT, 'seo/content-profiles');
@@ -205,7 +205,7 @@ test('speeds, throttles and activation phrases are attributed, not invented', ()
   const dir = join(ROOT, 'seo/content-profiles');
   const SPEED = /\b(?:[2-5]G(?:\/[2-5]G)*)\b/g;
   const THROTTLE = /(\d+(?:[.,]\d+)?)\s*(Кбит\/с|Мбит\/с)/gi;
-  const PROSE = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq'];
+  const PROSE = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'seo_pilot'];
   for (const f of readdirSync(dir).filter((x) => x.endsWith('.json'))) {
     const slug = f.replace(/\.json$/, '');
     const sheet = SHEETS[slug];

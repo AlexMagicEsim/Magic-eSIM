@@ -193,3 +193,37 @@ export function countryFacts(packages, iso) {
     renders_nothing: shown.length === 0,
   };
 }
+
+/**
+ * The offers a country page shows, as rows — for the static price block of the
+ * SEO-pilot pages (seo/build-catalogue-pages.mjs) and its Product/AggregateOffer.
+ *
+ * SAME CHAIN as countryFacts(), on purpose: drop what the page never shows, lift
+ * the dailies out, split the rest into local and regional. The counts this returns
+ * are asserted equal to countryFacts() by the caller, so the static block can
+ * never describe a different set than the hero and the live grid do.
+ *
+ * Every price is purchasablePrice() — the lowest amount the customer can actually
+ * pay for that package — never a per-day rate. No second source: the rows come
+ * from assets/catalog.json, the same snapshot every other number on the page uses.
+ */
+export function countryOffers(packages, iso) {
+  const code = String(iso || '').trim().toUpperCase();
+  const shown = packages
+    .filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0)
+    .filter((p) => coverageCodes(p).includes(code))
+    .filter((p) => !isGlobal(p));
+  const daily = shown.filter(isDaily);
+  const volume = shown.filter((p) => !isDaily(p));
+  const local = volume.filter((p) => !isMultiCountry(p));
+  const regional = volume.filter((p) => isMultiCountry(p));
+  const range = (list) => {
+    const v = list.map(purchasablePrice).filter((n) => Number.isFinite(n) && n > 0);
+    return { count: list.length, min: v.length ? Math.min(...v) : null, max: v.length ? Math.max(...v) : null };
+  };
+  const localRows = local
+    .map((p) => ({ gb: Number(p.data_gb), days: Number(p.validity_days), price: purchasablePrice(p) }))
+    .filter((r) => Number.isFinite(r.price) && r.price > 0)
+    .sort((a, b) => a.gb - b.gb || a.days - b.days || a.price - b.price);
+  return { local: localRows, localRange: range(local), regional: range(regional), daily: range(daily), all: range(shown) };
+}

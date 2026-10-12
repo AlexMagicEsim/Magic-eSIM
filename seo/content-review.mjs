@@ -36,7 +36,7 @@ import { pathToFileURL } from 'node:url';
 
 const { sheets } = loadSheets();
 
-const TEXT_KEYS = ['lead', 'intro', 'why', 'faq', 'title', 'description', 'h1', 'dual_sim_note'];
+const TEXT_KEYS = ['lead', 'intro', 'why', 'faq', 'title', 'description', 'h1', 'dual_sim_note', 'seo_pilot'];
 
 /** Every string a reader will actually see, flattened. */
 function proseOf(profile) {
@@ -490,6 +490,11 @@ function proseFieldsOf(profile) {
   const n = profile.dual_sim_note;
   if (typeof n === 'string') out.push(['dual_sim_note', n]);
   else if (n && typeof n === 'object') for (const k of ['text', 'anchor']) if (typeof n[k] === 'string') out.push([`dual_sim_note.${k}`, n[k]]);
+  // The SEO-pilot words (title name, angle heading, description tail, price heading
+  // and question) reach the page like any other prose, so every gate reads them.
+  if (profile.seo_pilot && typeof profile.seo_pilot === 'object') {
+    for (const [k, v] of Object.entries(profile.seo_pilot)) if (typeof v === 'string') out.push([`seo_pilot.${k}`, v]);
+  }
   return out;
 }
 
