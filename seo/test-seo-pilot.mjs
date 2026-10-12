@@ -124,9 +124,20 @@ test('UAE: the Dubai intent is in the title, H1, price heading and question', ()
   assert.match(h, /<summary>Сколько стоит eSIM в Дубае\?<\/summary>/);
 });
 
-test('guides link the pilot pages: activation-before-travel → uae, egypt; payment-rubles → italy, georgia', () => {
+test('UAE: no hand-written rouble amount anywhere in the profile — every price on the page is the catalogue\'s', () => {
+  // The old «Сколько гигабайт нужно на неделю в Дубае» answer quoted two prices by
+  // hand; the owner had it rewritten without them (2026-10-12).
+  const walk = (v, path) => {
+    if (typeof v === 'string') assert.doesNotMatch(v, /\d[\d\s\u00a0]*₽/, `uae${path}`);
+    else if (v && typeof v === 'object') for (const k of Object.keys(v)) walk(v[k], `${path}.${k}`);
+  };
+  walk(profile('uae'), '');
+});
+
+test('guides link the pilot pages: activation-before-travel → uae, egypt; payment-rubles → italy, georgia, uzbekistan', () => {
   const a = readFileSync(join(ROOT, 'esim/activation-before-travel/index.html'), 'utf8');
   const r = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
   for (const s of ['uae', 'egypt']) assert.ok(a.includes(`href="/esim/${s}/"`), s);
-  for (const s of ['italy', 'georgia']) assert.ok(r.includes(`href="/esim/${s}/"`), s);
+  for (const s of ['italy', 'georgia', 'uzbekistan']) assert.ok(r.includes(`href="/esim/${s}/"`), s);
+  assert.ok(r.includes('<span>eSIM для Узбекистана</span>'), 'genitive from seo/countries.mjs');
 });

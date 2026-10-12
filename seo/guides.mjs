@@ -564,6 +564,6 @@ export const GUIDES = [
       { href: 'esim/not-working/', label: 'eSIM не работает — что делать' },
       { href: 'esim/compatibility/', label: 'Проверка совместимости' },
     ],
-    ctaCountries: ['china', 'uae', 'turkey', 'thailand', 'italy', 'georgia'],
+    ctaCountries: ['china', 'uae', 'turkey', 'thailand', 'italy', 'georgia', 'uzbekistan'],
   },
 ];
