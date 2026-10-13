@@ -86,7 +86,8 @@ test('the drift check can fire, on text and on an attribute', () => {
 test('the English generator types no keyed word a second time', () => {
   // Every keyed element's content is a dictionary lookup (or an interpolation);
   // a literal here is a copy that can drift from the dictionary.
-  const src = read('seo/build-en-pages.mjs');
+  // I18N-08: the templates moved into the locale generator.
+  const src = read('seo/build-locale-pages.mjs');
   const literals = [...src.matchAll(/data-i18n="([\w.]+)"[^>]*>([^<$`][^<]*)</g)].map((m) => `${m[1]}: ${m[2]}`);
   assert.deepEqual(literals, []);
   const attrs = [...src.matchAll(/data-i18n-attr="([\w-]+):[\w.]+"[^>]*?\s\1="([^"$][^"]*)"/g)].map((m) => m[0]);

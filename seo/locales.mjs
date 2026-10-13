@@ -92,3 +92,51 @@ export function homeUrl(code) {
   if (!l) throw new Error(`unknown locale ${code}`);
   return l.prefix ? `${SITE}/${l.prefix}/` : `${SITE}/`;
 }
+
+/* ------------------------------------------------------------------------ *
+ * Paths the catalogue automation may touch, per published language (I18N-08).
+ *
+ * The refresh automation (seo/refresh-allowlist.mjs, seo/build-sitemap.mjs,
+ * .github/workflows/seo-refresh-pr.yml) used to type `en/…` paths by hand, so a
+ * new language would have stopped every catalogue refresh (fail-closed) until
+ * somebody found all the places. They now come from here. Every function takes
+ * the language list as an argument so a test can rehearse an enabled language
+ * without enabling one; the default is the live registry.
+ * ------------------------------------------------------------------------ */
+
+/** The published languages that live under their own prefix (not the root). */
+export function prefixedSiteLocales(list = LOCALES) {
+  return list.filter((l) => l.prefix && l.site.enabled);
+}
+
+/** The non-root homes that go into the sitemap: published AND indexable. */
+export function indexablePrefixedHomes(list = LOCALES) {
+  return prefixedSiteLocales(list).filter((l) => l.site.indexableHome).map((l) => l.code);
+}
+
+/** The files a catalogue rebuild writes for one prefixed language: its list, its search data, one page per country. */
+export function catalogueLocalePaths(slugs, list = LOCALES) {
+  const fixed = [];
+  const perCountry = [];
+  for (const l of prefixedSiteLocales(list)) {
+    fixed.push(`${l.prefix}/esim/index.html`, `${l.prefix}/destinations.js`);
+    for (const slug of slugs || []) {
+      if (typeof slug === 'string' && slug) perCountry.push(`${l.prefix}/esim/${slug}/index.html`);
+    }
+  }
+  return { fixed, perCountry };
+}
+
+/** The pathspecs the refresh workflow stages (`git add --`), in the workflow's order. */
+export function refreshStagePaths(list = LOCALES) {
+  return ['esim',
+    ...prefixedSiteLocales(list).flatMap((l) => [`${l.prefix}/esim`, `${l.prefix}/destinations.js`]),
+    'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'sitemap.xml'];
+}
+
+/** The paths the workflow's reproducibility hash covers (`find …`), in its order. */
+export function refreshTreePaths(list = LOCALES) {
+  return ['esim',
+    ...prefixedSiteLocales(list).flatMap((l) => [`${l.prefix}/esim`, `${l.prefix}/destinations.js`]),
+    'seo', 'sitemap.xml'];
+}

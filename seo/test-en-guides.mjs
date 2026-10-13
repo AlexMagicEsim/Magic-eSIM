@@ -35,7 +35,11 @@ test('the five planned guides exist, each from the generator', () => {
 
 test('build-all renders the guides (the Russian builder is the one build-all forgets)', () => {
   assert.match(read('seo/build-all.mjs'), /run\('build-en-pages\.mjs'\)/);
-  assert.match(read('seo/build-en-pages.mjs'), /for \(const g of EN_GUIDES\) write\(`en\/guides\/\$\{g\.slug\}\/index\.html`/);
+  // I18N-08: build-en-pages.mjs builds English through the locale generator,
+  // whose build() writes every guide of the language.
+  assert.match(read('seo/build-en-pages.mjs'), /EN\.build\(\)/);
+  assert.match(read('seo/build-locale-pages.mjs'), /for \(const g of GUIDES\) write\(`\$\{base\}\/guides\/\$\{g\.slug\}\/index\.html`/);
+  assert.match(read('seo/build-locale-pages.mjs'), /export const GUIDES_BY_LOCALE = Object\.freeze\(\{ en: EN_GUIDES \}\);/);
 });
 
 /* ===================================================================== *
