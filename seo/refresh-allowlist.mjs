@@ -20,15 +20,25 @@
 // refresh none should move — no asset changed — so a stamped file outside this
 // list is a real signal and not noise. Failing closed there is the point.
 
-/** Generated files a catalogue refresh legitimately rewrites, by exact path. */
+import { catalogueLocalePaths } from './locales.mjs';
+
+/**
+ * Generated files a catalogue refresh legitimately rewrites, by exact path.
+ *
+ * The per-language entries — each published prefixed language's destination
+ * list and search data — come from seo/locales.mjs (I18N-08), not from a list
+ * typed here: a language enabled there is allowed here in the same change, and
+ * a language not enabled has NO path here, so a page of an unpublished language
+ * appearing in a refresh stops it. Today that is exactly en/esim/index.html and
+ * en/destinations.js, as before (seo/test-locale-pages.mjs pins the whole list).
+ */
 export const FIXED_ALLOWED = Object.freeze([
   'esim/index.html',              // the hub, from build-hub.mjs
   'sitemap.xml',                  // from build-sitemap.mjs
   'seo/catalogue-countries.json', // the snapshot every page generator reads
   'seo/fact-sheets.json',         // what the editorial gates check a claim against
   'seo/sitemap-lastmod.json',     // per-page content hashes behind <lastmod>
-  'en/esim/index.html',           // the English destination list, from build-en-pages.mjs
-  'en/destinations.js',           // the English home's search list, from build-en-pages.mjs
+  ...catalogueLocalePaths([]).fixed, // each published language's list and search data, from build-locale-pages.mjs
   'assets/ru-destinations.js',    // the Russian home's search list, from build-catalogue-pages.mjs
 ]);
 
@@ -44,8 +54,9 @@ export function allowedPaths(countrySlugs) {
   for (const slug of countrySlugs || []) {
     if (typeof slug !== 'string' || !slug) continue;
     out.add(`esim/${slug}/index.html`);
-    out.add(`en/esim/${slug}/index.html`);   // its English twin, from build-en-pages.mjs
   }
+  // Each published language's twin of every country page, from build-locale-pages.mjs.
+  for (const p of catalogueLocalePaths(countrySlugs).perCountry) out.add(p);
   return out;
 }
 

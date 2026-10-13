@@ -52,6 +52,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SITE } from './countries.mjs';
 import { loadCached } from './catalogue-source.mjs';
+import { indexablePrefixedHomes, homeUrl } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const STATE = join(ROOT, 'seo/sitemap-lastmod.json');
@@ -62,11 +63,11 @@ const STATE = join(ROOT, 'seo/sitemap-lastmod.json');
 export function sitemapUrls(countries) {
   return [
     { loc: `${SITE}/`, prio: '1.0', freq: 'weekly' },
-    // The English storefront. ONE url, because one English page exists: the
-    // country pages under /esim/ are Russian editorial prose and have no
-    // English twin, and listing URLs that do not exist is how a sitemap starts
-    // reporting errors instead of pages.
-    { loc: `${SITE}/en/`, prio: '0.9', freq: 'weekly' },
+    // The other languages' homes — published AND indexable in seo/locales.mjs
+    // (I18N-08; today exactly /en/). ONE url per language, because its country
+    // pages are noindex templates: listing URLs nobody may index is how a
+    // sitemap starts reporting errors instead of pages.
+    ...indexablePrefixedHomes().map((code) => ({ loc: homeUrl(code), prio: '0.9', freq: 'weekly' })),
     { loc: `${SITE}/esim/`, prio: '0.8', freq: 'weekly' },
     ...countries.map((c) => ({ loc: `${SITE}/esim/${c.slug}/`, prio: '0.9', freq: 'weekly' })),
     { loc: `${SITE}/esim/compatibility/`, prio: '0.7', freq: 'monthly' },
