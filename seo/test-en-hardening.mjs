@@ -148,7 +148,7 @@ test('the checkout dialog can take focus, the status is announced, the logo name
  * ===================================================================== */
 
 const PLANS = require(join(ROOT, 'en/plans.js')).create({
-  I18N: { t: (k) => k }, NAMES: require(join(ROOT, 'assets/country-names-en.js')),
+  I18N: require(join(ROOT, 'assets/site-i18n.js')).createI18n('en'), NAMES: require(join(ROOT, 'assets/country-names-en.js')),
   DAILY: require(join(ROOT, 'assets/daily-plan-copy.js')),
 });
 const vol = (id, extra = {}) => ({ package_id: id, coverage_country_codes: ['JP'], country_code: 'JP', data_gb: 3,

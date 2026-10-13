@@ -26,7 +26,9 @@
 
   if (!window.MagicSiteI18n || !Array.isArray(window.MagicEnDestinations)) return;
 
-  var I18N = window.MagicSiteI18n.createI18n('en');
+  var I18N = window.MagicSiteI18n.createI18n(window.MagicSiteI18n.pageLang(document));
+  var LANG = I18N.lang();
+  var PREFIX = window.MagicSiteI18n.pathPrefix(LANG);
   var DESTINATIONS = window.MagicEnDestinations;
   var $ = function (id) { return document.getElementById(id); };
 
@@ -46,7 +48,7 @@
     }).sort(function (a, b) {
       var ap = a.name.toLowerCase().indexOf(q) === 0 ? 0 : 1;
       var bp = b.name.toLowerCase().indexOf(q) === 0 ? 0 : 1;
-      return ap !== bp ? ap - bp : a.name.localeCompare(b.name, 'en');
+      return ap !== bp ? ap - bp : a.name.localeCompare(b.name, LANG);
     }).slice(0, 20);
 
     if (!hits.length) {
@@ -63,7 +65,7 @@
       // The slug comes from the generated list, which takes it from the
       // country dictionary — never from what the visitor typed. So does the
       // flag: an ISO-2 code from the same list, checked before it is used.
-      a.href = '/en/esim/' + d.slug + '/';
+      a.href = PREFIX + '/esim/' + d.slug + '/';
       if (/^[A-Z]{2}$/.test(d.iso)) {
         var img = document.createElement('img');
         img.className = 'flag';

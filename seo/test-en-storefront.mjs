@@ -190,7 +190,7 @@ test('every daily plan on /en/ quotes a price a customer can actually pay', () =
 
   // The shipped module itself, not a copy of its function.
   const PLANS = require(join(ROOT, 'en/plans.js'));
-  const priceOf = PLANS.create({ I18N: { t: (k) => k }, NAMES: { of: (c) => c }, DAILY }).priceOf;
+  const priceOf = PLANS.create({ I18N: require(join(ROOT, 'assets/site-i18n.js')).createI18n('en'), NAMES: { of: (c) => c }, DAILY }).priceOf;
 
   const daily = packages.filter((p) => DAILY.isDaily(p));
   assert.ok(daily.length > 100, `only ${daily.length} daily packages — is the catalogue loaded?`);

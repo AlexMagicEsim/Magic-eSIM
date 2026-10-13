@@ -34,7 +34,9 @@
     return;
   }
 
-  var I18N = window.MagicSiteI18n.createI18n('en');
+  // The page says which language it is in (`<html lang>`); every word below
+  // is that language's, from assets/site-i18n.js.
+  var I18N = window.MagicSiteI18n.createI18n(window.MagicSiteI18n.pageLang(document));
   var PLANS = window.MagicEnPlans.create({
     I18N: I18N,
     NAMES: window.MagicCountryNamesEn,
@@ -63,7 +65,7 @@
     more.className = 'btn btn-ghost plan-more';
     more.setAttribute('aria-controls', grid.id);
     more.setAttribute('aria-expanded', 'false');
-    var label = function (open) { more.textContent = open ? 'Show fewer plans' : 'Show all ' + list.length + ' plans'; };
+    var label = function (open) { more.textContent = open ? I18N.t('plan.showFewer') : I18N.t('plan.showAll', { n: list.length }); };
     label(false);
     more.addEventListener('click', function () {
       var open = more.getAttribute('aria-expanded') !== 'true';

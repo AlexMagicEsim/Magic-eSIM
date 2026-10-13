@@ -163,9 +163,9 @@
       'quote.get': 'Get the exact price',
       'quote.again': 'Get a new price',
       'quote.loading': 'Getting the price…',
-      'quote.heldFor': 'Price held for',
+      'quote.heldFor': 'Price held for {time}',
       'quote.expired': 'This price has expired. Get a new price to continue.',
-      'quote.fixed': 'The price is fixed:',
+      'quote.fixed': 'The price is fixed: {price}.',
       'quote.changed': 'The price has been updated since the list was loaded.',
       'quote.unavailable': 'The price is temporarily unavailable. Please try again later.',
       'quote.busy': 'Too many requests. Please wait a minute and try again.',
@@ -206,9 +206,46 @@
       'home.guidesTitle': 'Set up and fix your eSIM',
       'home.guidesLead': 'Install, check and fix a travel eSIM — step by step.',
       'home.supportTitle': 'Questions before you travel?',
-      'home.supportBody': 'Write to our support team by email.'
+      'home.supportBody': 'Write to our support team by email.',
+
+      /* ---- words the browser scripts build at runtime (I18N-08b) ---------
+       * en/plans.js, en/country.js, en/hub.js, en/checkout.js used to type
+       * these inline. `{name}` is filled by t(key, vars); a key ending in
+       * `.one` / `.other` is a plural, chosen by plural(base, n) with the
+       * language's own Intl.PluralRules. The number format is data too: the
+       * locale Intl formats a dollar amount with. */
+      'fmt.numberLocale': 'en-US',
+      'fmt.listSeparator': ', ',
+      'plan.badgeLocal': 'Local plan',
+      'plan.badgeRegional': 'Regional plan',
+      'plan.badgeDaily': 'Daily plan',
+      'plan.daysLegend': 'Days',
+      'plan.gb': '{n} GB',
+      'plan.dayCount.one': '{n} day',
+      'plan.dayCount.other': '{n} days',
+      'plan.country.one': 'country',
+      'plan.country.other': 'countries',
+      'plan.coverageIncl': '{n} {countries}, incl. {name}',
+      'plan.coveragePlus': '{name} + {n} {countries}',
+      'plan.alsoCovers': 'Also covers {names}',
+      'plan.alsoCoversMore': 'Also covers {names} + {n} more',
+      'plan.networks': '{n} networks',
+      'plan.ip': 'IP: {names}',
+      'plan.showAll': 'Show all {n} plans',
+      'plan.showFewer': 'Show fewer plans',
+      'hub.noMatches': 'No matches',
+      'hub.matches.one': '{n} destination match',
+      'hub.matches.other': '{n} destinations match'
     }
   };
+
+  /**
+   * Where each language's pages live. Russian is the root; every other
+   * language sits under its own prefix — the registry's (seo/locales.mjs),
+   * held equal to it by seo/test-locales.mjs.
+   */
+  var PREFIX = { ru: '', en: 'en' };
+  Object.freeze(PREFIX);
 
   Object.freeze(DICT.ru);
   Object.freeze(DICT.en);
@@ -247,13 +284,42 @@
      * string so a dictionary mistake cannot hand markup to a caller that will
      * insert it.
      */
-    function t(key) {
-      var k = String(key == null ? '' : key);
+    function lookup(k) {
       var d = DICT[active];
       if (d && Object.prototype.hasOwnProperty.call(d, k)) return String(d[k]);
       var ru = DICT[DEFAULT_LANG];
       if (ru && Object.prototype.hasOwnProperty.call(ru, k)) return String(ru[k]);
       return k;
+    }
+
+    /**
+     * `vars`, when given, fills `{name}` placeholders from its OWN properties
+     * only; an unknown placeholder is left as written, so a missing value is
+     * visible rather than silently empty. Values are coerced to strings —
+     * still text, never markup.
+     */
+    function t(key, vars) {
+      var s = lookup(String(key == null ? '' : key));
+      if (!vars || typeof vars !== 'object') return s;
+      return s.replace(/\{([A-Za-z0-9_]+)\}/g, function (m, name) {
+        return Object.prototype.hasOwnProperty.call(vars, name) ? String(vars[name]) : m;
+      });
+    }
+
+    /**
+     * The plural form of `base` for n: `base.<category>` by the language's own
+     * Intl.PluralRules, falling back to `base.other`. English without Intl:
+     * 1 → one, anything else → other.
+     */
+    var rules = null;
+    try { rules = (typeof Intl !== 'undefined' && Intl.PluralRules) ? new Intl.PluralRules(active) : null; } catch (e) { rules = null; }
+    function plural(base, n, vars) {
+      var num = Number(n);
+      var cat = rules ? rules.select(num) : (num === 1 ? 'one' : 'other');
+      var key = base + '.' + cat;
+      var d = DICT[active];
+      if (!(d && Object.prototype.hasOwnProperty.call(d, key))) key = base + '.other';
+      return t(key, vars);
     }
 
     function setLang(next) {
@@ -293,6 +359,7 @@
 
     return {
       t: t,
+      plural: plural,
       apply: apply,
       setLang: setLang,
       lang: function () { return active; },
@@ -300,8 +367,23 @@
     };
   }
 
+  /** The page's own language: `<html lang>`, when it is one this file speaks. */
+  function pageLang(doc) {
+    var d = doc || root.document;
+    var v = d && d.documentElement ? String(d.documentElement.getAttribute('lang') || '') : '';
+    return isLang(v) ? v : DEFAULT_LANG;
+  }
+
+  /** «/en» for English, «» for Russian: the start of every path in a language. */
+  function pathPrefix(lang) {
+    return isLang(lang) && PREFIX[lang] ? '/' + PREFIX[lang] : '';
+  }
+
   var api = {
     createI18n: createI18n,
+    pageLang: pageLang,
+    pathPrefix: pathPrefix,
+    PREFIX: PREFIX,
     DICT: DICT,
     LANGS: LANGS.slice(),
     DEFAULT_LANG: DEFAULT_LANG,

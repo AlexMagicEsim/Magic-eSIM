@@ -203,7 +203,7 @@ test('build-all runs the English generator', () => {
 
 const DAILY = require(join(ROOT, 'assets/daily-plan-copy.js'));
 const NAMES = require(join(ROOT, 'assets/country-names-en.js'));
-const PLANS = require(join(ROOT, 'en/plans.js')).create({ I18N: { t: (k) => k }, NAMES, DAILY });
+const PLANS = require(join(ROOT, 'en/plans.js')).create({ I18N: require(join(ROOT, 'assets/site-i18n.js')).createI18n('en'), NAMES, DAILY });
 
 const vol = (id, codes, price, extra = {}) => ({ package_id: id, name: id, coverage_country_codes: codes,
   country_code: codes.length === 1 ? codes[0] : 'XX-9', data_gb: 3, validity_days: 30, price, currency: 'USD', ...extra });

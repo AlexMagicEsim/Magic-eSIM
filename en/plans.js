@@ -30,6 +30,10 @@
     var NAMES = deps.NAMES;
     var DAILY = deps.DAILY;
     var hasDaily = !!(DAILY && typeof DAILY.isDaily === 'function');
+    // The page's language, as the dictionary was created with it: every word
+    // below comes from assets/site-i18n.js, and the shared daily copy
+    // (assets/daily-plan-copy.js) is asked in the same language.
+    var LANG = I18N.lang();
 
     /**
      * What this plan actually costs, and what term that buys.
@@ -82,10 +86,15 @@
     }
 
     // US dollars, always two decimals: the GLOBAL lane prices to the cent and
-    // ends on .99, so «$9.99», never «$9.9» or «$10».
-    var USD = (typeof Intl !== 'undefined' && Intl.NumberFormat)
-      ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      : null;
+    // ends on .99, so «$9.99», never «$9.9» or «$10». The currency is the
+    // market's (USD, whatever the language); the way it is WRITTEN is the
+    // language's — `fmt.numberLocale` in the dictionary.
+    var USD = null;
+    try {
+      USD = (typeof Intl !== 'undefined' && Intl.NumberFormat)
+        ? new Intl.NumberFormat(I18N.t('fmt.numberLocale'), { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        : null;
+    } catch (e) { USD = null; }
 
     function money(amount) {
       return USD ? USD.format(amount) : '$' + Number(amount).toFixed(2);
@@ -98,23 +107,28 @@
 
     function dataText(p) {
       if (hasDaily && DAILY.isDaily(p)) {
-        var l = DAILY.lines(p, 'en');
+        var l = DAILY.lines(p, LANG);
         return (l && l[0] && l[0].text) || '';
       }
       var gb = Number(p.data_gb);
       if (!isFinite(gb) || gb <= 0) return '';
-      return hasDaily ? DAILY.formatAllowance(gb, 'en') : gb + ' GB';
+      return hasDaily ? DAILY.formatAllowance(gb, LANG) : I18N.t('plan.gb', { n: gb });
     }
 
-    function plural(n) {
-      return hasDaily ? DAILY.pluralDays(n, 'en') : (Number(n) === 1 ? 'day' : 'days');
+    /** «7 days»: the number and its word, in the language's own order. */
+    function daysText(n) {
+      return I18N.plural('plan.dayCount', n, { n: n });
+    }
+
+    function list(names) {
+      return names.join(I18N.t('fmt.listSeparator'));
     }
 
     /** The term the PRICED offer buys — from the same decision as the price. */
     function termText(p) {
       var priced = priceOf(p);
       if (!priced || !priced.days) return '';
-      return priced.days + ' ' + plural(priced.days);
+      return daysText(priced.days);
     }
 
     /**
@@ -191,8 +205,12 @@
       });
     }
 
+    function countriesWord(n) {
+      return hasDaily ? DAILY.pluralCountries(n, LANG) : I18N.plural('plan.country', n);
+    }
+
     /**
-     * Coverage, in English. On a country page a regional plan reads «173
+     * Coverage, in the page's language. On a country page a regional plan reads «173
      * countries, incl. French Polynesia» — leading with the package's first
      * code («Albania + 172») would name the wrong place.
      */
@@ -202,12 +220,10 @@
       if (codes.length === 1) return NAMES.of(codes[0]);
       var focus = String(focusIso || '').toUpperCase();
       if (focus && codes.indexOf(focus) !== -1) {
-        var all = hasDaily ? DAILY.pluralCountries(codes.length, 'en') : 'countries';
-        return codes.length + ' ' + all + ', incl. ' + NAMES.of(focus);
+        return I18N.t('plan.coverageIncl', { n: codes.length, countries: countriesWord(codes.length), name: NAMES.of(focus) });
       }
       var rest = codes.length - 1;
-      var word = hasDaily ? DAILY.pluralCountries(rest, 'en') : (rest === 1 ? 'country' : 'countries');
-      return NAMES.of(codes[0]) + ' + ' + rest + ' ' + word;
+      return I18N.t('plan.coveragePlus', { name: NAMES.of(codes[0]), n: rest, countries: countriesWord(rest) });
     }
 
     /* ------------------------------------------------------------------
@@ -272,11 +288,10 @@
         if (!ipV && !netV && !genV) return;
         g.forEach(function (p) {
           var chips = [];
-          if (ipV && ipCodes(p).length) chips.push({ kind: 'ip', label: 'IP: ' + ipCodes(p).map(function (c) { return NAMES.of(c); }).join(', ') });
+          if (ipV && ipCodes(p).length) chips.push({ kind: 'ip', label: ipLabel(p) });
           if (netV) {
-            var ops = operators(p);
-            if (ops.length === 1) chips.push({ kind: 'net', label: ops[0] });
-            else if (ops.length > 1) chips.push({ kind: 'net', label: ops.length + ' networks' });
+            var net = networkLabel(p);
+            if (net) chips.push({ kind: 'net', label: net });
           }
           if (genV && topGeneration(p)) chips.push({ kind: 'gen', label: topGeneration(p) });
           if (chips.length) out[String(p.package_id || '')] = chips;
@@ -310,9 +325,9 @@
       var others = coverageCodes(p).filter(function (c) { return c !== focus; });
       if (!others.length) return '';
       var n = max || 3;
-      var names = others.slice(0, n).map(function (c) { return NAMES.of(c); });
-      var rest = others.length - names.length;
-      return 'Also covers ' + names.join(', ') + (rest > 0 ? ' + ' + rest + ' more' : '');
+      var names = list(others.slice(0, n).map(function (c) { return NAMES.of(c); }));
+      var rest = others.length - n;
+      return rest > 0 ? I18N.t('plan.alsoCoversMore', { names: names, n: rest }) : I18N.t('plan.alsoCovers', { names: names });
     }
 
     function span(cls, text) {
@@ -326,11 +341,11 @@
      *  distinguishers' rule — and the best generation, both from the data. */
     function networkLabel(p) {
       var ops = operators(p);
-      return ops.length === 1 ? ops[0] : ops.length > 1 ? ops.length + ' networks' : '';
+      return ops.length === 1 ? ops[0] : ops.length > 1 ? I18N.t('plan.networks', { n: ops.length }) : '';
     }
     function ipLabel(p) {
       var c = ipCodes(p);
-      return c.length ? 'IP: ' + c.map(function (x) { return NAMES.of(x); }).join(', ') : '';
+      return c.length ? I18N.t('plan.ip', { names: list(c.map(function (x) { return NAMES.of(x); })) }) : '';
     }
 
     /**
@@ -366,11 +381,11 @@
       var row = document.createElement('div');
       row.className = 'plan-row';
       var term = span('plan-term', '');
-      var showTerm = function () { term.textContent = chosen && chosen.days ? chosen.days + ' ' + plural(chosen.days) : ''; term.hidden = !term.textContent; };
+      var showTerm = function () { term.textContent = chosen && chosen.days ? daysText(chosen.days) : ''; term.hidden = !term.textContent; };
       showTerm();
       row.appendChild(term);
       // Short and parallel; the block heading says «Plans that cover X only».
-      var badgeText = kind === 'regional' ? 'Regional plan' : kind === 'daily' ? 'Daily plan' : 'Local plan';
+      var badgeText = I18N.t(kind === 'regional' ? 'plan.badgeRegional' : kind === 'daily' ? 'plan.badgeDaily' : 'plan.badgeLocal');
       if (badgeText) row.appendChild(span('plan-badge', badgeText));
       main.appendChild(row);
       top.appendChild(main);
@@ -383,7 +398,7 @@
       var meta = document.createElement('div');
       meta.className = 'meta';
       var extra = hasDaily && DAILY.isDaily(p)
-        ? (DAILY.lines(p, 'en') || []).filter(function (l) { return l.kind === 'throttle' || l.kind === 'reset'; })
+        ? (DAILY.lines(p, LANG) || []).filter(function (l) { return l.kind === 'throttle' || l.kind === 'reset'; })
           .map(function (l) { return l.text; })
         : [];
       // A plan for this country alone says so in its badge; the line is for
@@ -401,7 +416,7 @@
         var fs = document.createElement('fieldset');
         fs.className = 'plan-days';
         var lg = document.createElement('legend');
-        lg.textContent = 'Days';
+        lg.textContent = I18N.t('plan.daysLegend');
         fs.appendChild(lg);
         var name = 'days-' + String(p.package_id || Math.random()).replace(/[^A-Za-z0-9-]/g, '');
         var box = document.createElement('div');
