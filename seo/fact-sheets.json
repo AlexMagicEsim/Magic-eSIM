@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-09T16:17:04.017Z",
+  "fetched_at": "2026-10-13T14:19:29.358Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -14871,9 +14871,9 @@
       "iso": "ID",
       "name_ru": "Индонезия",
       "strategy": "LOCAL",
-      "local_count": 21,
+      "local_count": 26,
       "regional_count": 22,
-      "total_count": 43,
+      "total_count": 48,
       "min_price_rub": 350,
       "max_price_rub": 6400,
       "validity_days_min": 0,
@@ -14987,6 +14987,7 @@
         1250,
         1350,
         1450,
+        1500,
         1550,
         1600,
         1700,
@@ -14996,6 +14997,7 @@
         1900,
         2000,
         2050,
+        2100,
         2150,
         2200,
         2300,
@@ -15038,6 +15040,7 @@
         6200,
         6350,
         6400,
+        6550,
         6700,
         7050,
         7500,
@@ -15051,6 +15054,7 @@
         8800,
         8950,
         9350,
+        9550,
         9850,
         9900,
         10400,
@@ -15069,6 +15073,7 @@
         17400,
         17700,
         18200,
+        18700,
         22050,
         23150,
         25900,
@@ -15149,8 +15154,8 @@
         "csl",
         "csl/1010"
       ],
-      "networks_rows": 33,
-      "rows_total": 43,
+      "networks_rows": 38,
+      "rows_total": 48,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -15167,7 +15172,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 33,
+      "topup_yes": 38,
       "topup_no": 10,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -35924,7 +35929,8 @@
         "Swazi Mobile",
         "Telkom",
         "Vodacom",
-        "Vodafone"
+        "Vodafone",
+        "beMobile"
       ],
       "networks_rows": 10,
       "rows_total": 12,
