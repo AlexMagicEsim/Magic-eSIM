@@ -228,6 +228,17 @@ test('the site dictionary speaks exactly the enabled site languages', () => {
   assert.deepEqual(Object.keys(I18N.DICT).sort(), [...siteLocales()].sort());
 });
 
+test('the site dictionary puts each language where the registry does (I18N-08b)', () => {
+  const I18N = require(join(ROOT, 'assets/site-i18n.js'));
+  const enabled = LOCALES.filter((l) => l.site.enabled);
+  assert.deepEqual({ ...I18N.PREFIX }, Object.fromEntries(enabled.map((l) => [l.code, l.prefix])));
+  for (const l of enabled) {
+    assert.equal(I18N.pathPrefix(l.code), l.prefix ? `/${l.prefix}` : '', l.code);
+    // pageLang() reads <html lang>: it must BE the dictionary's code.
+    assert.equal(l.htmlLang, l.code, `${l.code}: <html lang> differs from the dictionary code`);
+  }
+});
+
 test('the Mini App engine and its dictionaries speak exactly the enabled app languages', () => {
   const MI18N = require(join(ROOT, 'app/i18n.js'));
   const LOCALES_APP = require(join(ROOT, 'app/locales.js'));

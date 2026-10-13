@@ -14,6 +14,10 @@
   'use strict';
 
   var $ = function (id) { return document.getElementById(id); };
+  // Words in the page's own language (assets/site-i18n.js, loaded first).
+  // Without the dictionary the list still works; only the search is skipped.
+  if (!window.MagicSiteI18n) return;
+  var I18N = window.MagicSiteI18n.createI18n(window.MagicSiteI18n.pageLang(document));
   var box = $('hubSearch');
   var q = $('hq');
   var list = $('hubList');
@@ -51,7 +55,7 @@
     clear.hidden = !term;
     empty.hidden = shown !== 0;
     count.textContent = term
-      ? (shown === 0 ? 'No matches' : shown + (shown === 1 ? ' destination' : ' destinations') + ' match')
+      ? (shown === 0 ? I18N.t('hub.noMatches') : I18N.plural('hub.matches', shown, { n: shown }))
       : '';
   }
 

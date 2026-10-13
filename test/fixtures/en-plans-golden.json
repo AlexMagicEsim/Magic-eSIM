@@ -1,0 +1,23 @@
+{
+  "basis": "storefront 17f18445 (before I18N-08b)",
+  "counts": {
+    "packages": 477,
+    "countries": 184
+  },
+  "hashes": {
+    "money": "6c80bc28b4f17b81c29278115ae729231121d5c9bc9c20fcb49fffecf81223f0",
+    "priceOf": "427b730962b1c3b6512338ba8ff76446b2ebcb0a5db73386b6a4267b458f43e5",
+    "priceText": "f04ca93a83994301ec114bfd72d177a95b6768d868756f551c09623a050e39cf",
+    "dataText": "e5af737baf741a5b725fad5675da576cfef2da865c7a78508438e8275373da13",
+    "termText": "aa4b3212e43b3176510ceb2a8cffe96cdcfd7a6342f401de29d9b8b2789669e6",
+    "coverageCodes": "714642907f02691c3139e90407029b525413fb132e549425df226386614c5e1f",
+    "coverageText": "6a10c510e35de232dcda90e59719778aafb00b046c0b954beec6a1d55d57aed3",
+    "alsoCovers": "25b0893f195ef2f4a2945a8f999f9adcada4e23d2e2c70fdd86d93a5a7645f9a",
+    "networkLabel": "52fd5c4991e7d0ab7f52092f803aa0dff144b91123fca9913314cf88587a021b",
+    "ipLabel": "83d8d99d93351e7844437c4b1d89785dfbba06c823519a76c24ec92c0643beef",
+    "ladder": "da08c3d7df41668609ad012c71ce36d0c4ca5fc928d4a57b968106ab9035a2cb",
+    "durations": "da08c3d7df41668609ad012c71ce36d0c4ca5fc928d4a57b968106ab9035a2cb",
+    "restricted": "4bdeb2adc8f0d5071ea735cb5ef97620eee38d2e59845f8d0f46070c88c2e973",
+    "classify": "a3d5e4dd5a9feb266499e2c046eff3845d613fc029bd1725a21c236a1866ce0b"
+  }
+}

@@ -28,9 +28,12 @@ test('the head is the same page for search engines: noindex, self canonical, the
   assert.match(HUB, /connect-src 'none'/);
 });
 
-test('the page reads nothing: its one script is en/hub.js, and that script has no network, storage or redirect', () => {
+test('the page reads nothing: its scripts are the dictionary and en/hub.js, and neither reaches the network, storage or a redirect', () => {
   const srcs = [...HUB.matchAll(/<script[^>]*src="([^"?]+)/g)].map((m) => m[1]);
-  assert.deepEqual(srcs, ['/en/hub.js']);
+  // I18N-08b: the search's words come from the site dictionary, loaded first.
+  assert.deepEqual(srcs, ['/assets/site-i18n.js', '/en/hub.js']);
+  // The dictionary touches storage only inside setLang/readStored; the hub calls neither.
+  assert.doesNotMatch(JS, /setLang|readStored|STORAGE_KEY/);
   const code = JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
   for (const re of [/\bfetch\s*\(/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /localStorage|sessionStorage|indexedDB|document\.cookie/, /location\.(href|replace|assign)/, /\bimport\s*\(/]) {
     assert.doesNotMatch(code, re, String(re));

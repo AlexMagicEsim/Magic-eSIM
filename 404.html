@@ -211,16 +211,34 @@ body{
         + '<p class="desc">Проверьте адрес ссылки.</p>'
         + '<p class="muted"><a class="home" href="/">На главную</a></p>';
     }
-    // The English not-found screen: any unknown path under /en/. English
-    // pages carry no analytics until the consent decision, so this branch never
-    // loads the counter, and it links back into the English site, not to the
-    // Russian home.
-    function showNotFoundEn(){
-      document.documentElement.lang = 'en';
-      document.title = 'Page not found — Magic eSIM';
-      card.innerHTML = '<h1>Page not found</h1>'
-        + '<p class="desc">Check the address, or start again from one of these pages.</p>'
-        + '<p class="muted"><a class="home" href="/en/">Magic eSIM home</a> · <a class="home" href="/en/esim/">All destinations</a></p>';
+    // The not-found screen of a language with its own prefix: any unknown path
+    // under /<prefix>/. One entry per PUBLISHED prefixed language of the
+    // registry (seo/locales.mjs; seo/test-404-en.mjs holds the keys equal to it).
+    // These pages carry no analytics until the consent decision, so this branch
+    // never loads the counter, and it links back into that language's site, not
+    // to the Russian home. Static words only: nothing from the URL reaches the
+    // markup.
+    var NOT_FOUND = {
+      en: {
+        lang: 'en',
+        title: 'Page not found — Magic eSIM',
+        h1: 'Page not found',
+        desc: 'Check the address, or start again from one of these pages.',
+        home: 'Magic eSIM home',
+        all: 'All destinations'
+      }
+    };
+    function prefixedLocale(path){
+      var seg = (path.match(/^\/([^\/]+)(\/|$)/) || [])[1];
+      return seg && Object.prototype.hasOwnProperty.call(NOT_FOUND, seg) ? seg : null;
+    }
+    function showNotFoundLocale(code){
+      var w = NOT_FOUND[code];
+      document.documentElement.lang = w.lang;
+      document.title = w.title;
+      card.innerHTML = '<h1>' + w.h1 + '</h1>'
+        + '<p class="desc">' + w.desc + '</p>'
+        + '<p class="muted"><a class="home" href="/' + code + '/">' + w.home + '</a> · <a class="home" href="/' + code + '/esim/">' + w.all + '</a></p>';
     }
     function showError(msg){
       card.innerHTML = '<p class="eyebrow">Оплата</p><h1>Не удалось загрузить</h1>'
@@ -629,9 +647,10 @@ body{
       // The invariant is therefore the prefix, not the parse: NOTHING under
       // /pay/ loads the counter, valid or not.
       showNotFound();
-    } else if(/^\/en(\/|$)/.test(path)){
-      // An unknown English page: an English 404, and no counter.
-      showNotFoundEn();
+    } else if(prefixedLocale(path)){
+      // An unknown page of a prefixed language (/en/ today): that language's
+      // 404, and no counter.
+      showNotFoundLocale(prefixedLocale(path));
     } else {
       showNotFound();
       loadMetrika();

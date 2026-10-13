@@ -586,6 +586,7 @@ ${HELP}
 
 ${FOOTER}
 
+<script src="/assets/site-i18n.js"></script>
 <script src="/en/hub.js"></script>
 </body>
 </html>

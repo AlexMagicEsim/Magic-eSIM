@@ -175,9 +175,9 @@
       if (lost && target && typeof target.focus === 'function') target.focus();
     }
 
-    function say(id, key, extra) {
+    function say(id, key, vars) {
       var el = $(id);
-      el.textContent = key ? I18N.t(key) + (extra ? ' ' + extra : '') : '';
+      el.textContent = key ? I18N.t(key, vars) : '';
       el.hidden = !key;
     }
 
@@ -204,7 +204,7 @@
       if (!st) return '';
       if (st.perDay) {
         var d = chosenDays();
-        return d ? d + ' ' + (d === 1 ? 'day' : 'days') : '';
+        return d ? I18N.plural('plan.dayCount', d, { n: d }) : '';
       }
       return PLANS.termText(st.plan);
     }
@@ -252,7 +252,7 @@
         keepFocus($('coRequote'));
         return;
       }
-      say('coExpiry', 'quote.heldFor', clock(left));
+      say('coExpiry', 'quote.heldFor', { time: clock(left) });
     }
 
     function getQuote() {
@@ -290,7 +290,7 @@
         $('coReview').disabled = false;
         mine.step = 2;
         show(2);
-        announce(I18N.t('quote.fixed') + ' ' + PLANS.money(r.quote.amount) + '.');
+        announce(I18N.t('quote.fixed', { price: PLANS.money(r.quote.amount) }));
         keepFocus($('coTotal'));
         tick();
         stopTimer();
@@ -364,7 +364,7 @@
         durations(plan).forEach(function (d) {
           var o = doc.createElement('option');
           o.value = String(d.days);
-          o.textContent = d.days + ' days';
+          o.textContent = I18N.plural('plan.dayCount', d.days, { n: d.days });
           sel.appendChild(o);
         });
       }
