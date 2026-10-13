@@ -1847,8 +1847,8 @@
       "flagEmoji": "🇮🇩",
       "local_count": 9,
       "regional_count": 8,
-      "daily_count": 26,
-      "total_count": 43,
+      "daily_count": 31,
+      "total_count": 48,
       "min_price_rub": 350,
       "volumes": [
         1,
@@ -5461,6 +5461,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-10-09T16:17:04.017Z",
+  "fetched_at": "2026-10-13T14:19:29.358Z",
   "source": "assets/catalog.json"
 }
