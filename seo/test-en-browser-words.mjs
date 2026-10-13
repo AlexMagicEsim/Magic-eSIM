@@ -141,7 +141,9 @@ test('no script names its language, its number locale or its route', () => {
     assert.deepEqual(lits.filter((s) => s === 'en' || /^en-[A-Z]{2}$/.test(s) || /^\/en(\/|$)/.test(s)), [], f);
     assert.doesNotMatch(code(read(f)), /createI18n\(\s*['"]/, `${f}: the language must come from the page`);
   }
-  for (const f of ['en/country.js', 'en/hub.js', 'en/app.js']) assert.match(read(f), /createI18n\(window\.MagicSiteI18n\.pageLang\(document\)\)/, f);
+  for (const f of ['en/hub.js', 'en/app.js']) assert.match(read(f), /createI18n\(window\.MagicSiteI18n\.pageLang\(document\)\)/, f);
+  // I18N-08c: en/country.js reads the language once (it also picks the names file by it).
+  assert.match(read('en/country.js'), /var LANG = SITE \? SITE\.pageLang\(document\) : '';[\s\S]*var I18N = SITE\.createI18n\(LANG\);/);
 });
 
 test('every English page that runs a word-using script loads the dictionary before it', () => {

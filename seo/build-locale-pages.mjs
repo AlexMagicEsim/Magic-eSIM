@@ -33,14 +33,16 @@
  * Run: node seo/build-locale-pages.mjs   (builds every enabled non-root language)
  *      node seo/build-en-pages.mjs       (English only — what build-all.mjs runs)
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { FONT_PRELOAD, LOGO, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
-import { text, attr } from './site-dictionary.mjs';
+import { word, escapeText, escapeAttr } from './site-dictionary.mjs';
+import { countryName } from './country-names-i18n.mjs';
+import { namesFile, globalSuffix } from './build-country-dictionary-locale.mjs';
 import { LOCALES, locale } from './locales.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 
@@ -152,27 +154,60 @@ export function cannotBuild(code) {
 export function localeGenerator(code) {
   const why = cannotBuild(code);
   if (why) throw new Error(`build-locale-pages: ${why}`);
+  return makeGenerator(code, {
+    copy: PAGE_COPY[code],
+    guides: GUIDES_BY_LOCALE[code],
+    word: (key) => word(code, key),
+  }, true);
+}
+
+/**
+ * A REHEARSAL: the pages of a planned, unpublished language, built in memory
+ * from the copy, guides and words the caller hands in — so a test can prove a
+ * language would come out whole before anyone writes its copy. It has NO
+ * build(): nothing it makes can reach the tree. An enabled language, the root
+ * one or an unknown one is refused (use localeGenerator for a published one).
+ */
+export function rehearsalGenerator(code, { copy, guides, words } = {}) {
   const L = locale(code);
-  const C = PAGE_COPY[code];
-  const GUIDES = GUIDES_BY_LOCALE[code];
+  if (!L || !L.prefix) throw new Error(`build-locale-pages: no prefixed locale ${String(code)} to rehearse`);
+  if (L.site.enabled) throw new Error(`build-locale-pages: ${code} is published — rehearse only a planned language`);
+  if (!copy || !Array.isArray(guides) || !words) throw new Error('build-locale-pages: a rehearsal needs copy, guides and words');
+  return makeGenerator(code, {
+    copy,
+    guides,
+    word: (key) => {
+      if (!Object.prototype.hasOwnProperty.call(words, key)) throw new Error(`rehearsal: no ${code} entry for ${key}`);
+      return String(words[key]);
+    },
+  }, false);
+}
+
+function makeGenerator(code, source, canWrite) {
+  const L = locale(code);
+  const C = source.copy;
+  const GUIDES = source.guides;
   const P = `/${L.prefix}`;
+  const NAMES_FILE = namesFile(code);
 
   /* Interface words come from the ONE dictionary the browser re-applies at
    * runtime (assets/site-i18n.js) — never typed here a second time. `t` is
    * element text, `a` an attribute value; both throw on a missing key. */
-  const t = (key) => text(L.code, key);
-  const a = (key) => attr(L.code, key);
+  const t = (key) => escapeText(source.word(key));
+  const a = (key) => escapeAttr(source.word(key));
   const POPULAR = C.popular;
 
-  /** The pages, as data: the countries the Russian site has a page for, named in this language. */
+  /** The pages, as data: the countries the Russian site has a page for, named in this language
+   *  (seo/country-names-i18n.mjs countryName — ru/en from seo/country-names.mjs, the rest CLDR). */
   function countries() {
     const { countries: list } = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8'));
     return list.map((c) => {
       const entry = COUNTRY_NAMES[c.iso];
-      if (!entry || !entry[L.code]) throw new Error(`${c.iso} (${c.slug}) has no ${L.code} name in seo/country-names.mjs`);
+      const name = entry ? countryName(c.iso, L.code) : '';
+      if (!name) throw new Error(`${c.iso} (${c.slug}) has no ${L.code} name`);
       if (entry.slug !== c.slug) throw new Error(`${c.iso}: slug ${c.slug} ≠ dictionary ${entry.slug}`);
       if (!/^[a-z0-9-]+$/.test(c.slug)) throw new Error(`${c.slug} is not a safe path segment`);
-      return { iso: c.iso, slug: c.slug, name: entry[L.code] };
+      return { iso: c.iso, slug: c.slug, name };
     }).sort((x, y) => (x.slug < y.slug ? -1 : x.slug > y.slug ? 1 : 0));
   }
 
@@ -489,7 +524,7 @@ ${FOOTER}
 <script src="/assets/magic-net.js"></script>
 <script src="/assets/global-catalog.js"></script>
 <script src="/assets/daily-plan-copy.js"></script>
-<script src="/assets/country-names-en.js"></script>
+<script src="${NAMES_FILE.src}"></script>
 <script src="/assets/site-i18n.js"></script>
 <script src="/en/plans.js"></script>
 <script src="/en/checkout.js"></script>
@@ -744,10 +779,13 @@ function destinationsJs(list) {
   const rows = list.slice().sort((a, b) => a.name.localeCompare(b.name, L.code))
     .map((c) => `  { iso: ${JSON.stringify(c.iso)}, slug: ${JSON.stringify(c.slug)}, name: ${JSON.stringify(c.name)} },`)
     .join('\n');
-  return `/* GENERATED by seo/build-en-pages.mjs — do not edit by hand.
- * The destinations that have an English page (/en/esim/<slug>/), for the
+  const languageName = new Intl.DisplayNames(['en'], { type: 'language' }).of(L.code);
+  const own = `seo/build-${L.prefix}-pages.mjs`;
+  const entry = existsSync(join(ROOT, own)) ? own : 'seo/build-locale-pages.mjs';
+  return `/* GENERATED by ${entry} — do not edit by hand.
+ * The destinations that have ${/^[AEIOU]/.test(languageName) ? 'an' : 'a'} ${languageName} page (${P}/esim/<slug>/), for the
  * home's search. Static on purpose: the home reads no catalogue. */
-window.MagicEnDestinations = [
+window.Magic${globalSuffix(L.prefix)}Destinations = [
 ${rows}
 ];
 `;
@@ -755,6 +793,7 @@ ${rows}
 
   /** Write every page of this language. The script first: the pages stamp asset versions from file contents. */
   function build() {
+    if (!canWrite) throw new Error('build-locale-pages: a rehearsal never writes');
     const list = countries();
     const base = L.prefix;
     write(`${base}/destinations.js`, destinationsJs(list));
@@ -767,7 +806,8 @@ ${rows}
 
   return Object.freeze({
     locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER,
-    countryPage, hubPage, guidePage, guidesHub, destinationsJs, build,
+    countryPage, hubPage, guidePage, guidesHub, destinationsJs,
+    ...(canWrite ? { build } : {}),
   });
 }
 

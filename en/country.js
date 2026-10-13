@@ -22,9 +22,17 @@
 (function () {
   'use strict';
 
+  // The page says which language it is in (`<html lang>`). Its country names
+  // are window.MagicCountryNames<Prefix> (En, Es, Zh, …) — the file
+  // seo/build-country-dictionary-locale.mjs writes for that language.
+  var SITE = window.MagicSiteI18n;
+  var LANG = SITE ? SITE.pageLang(document) : '';
+  var SUFFIX = SITE ? SITE.pathPrefix(LANG).slice(1) : '';
+  var NAMES = window['MagicCountryNames' + SUFFIX.charAt(0).toUpperCase() + SUFFIX.slice(1)];
+
   // A script that failed to load must not leave «Loading plans…» on screen for
   // ever. Plain English here: the dictionary may be the script that is missing.
-  if (!window.MagicSiteI18n || !window.MagicCountryNamesEn || !window.MagicGlobalCatalog
+  if (!SITE || !NAMES || !window.MagicGlobalCatalog
     || !window.MagicEnPlans || !window.MagicEnCheckout) {
     var st0 = document.getElementById('status');
     if (st0) {
@@ -34,12 +42,11 @@
     return;
   }
 
-  // The page says which language it is in (`<html lang>`); every word below
-  // is that language's, from assets/site-i18n.js.
-  var I18N = window.MagicSiteI18n.createI18n(window.MagicSiteI18n.pageLang(document));
+  // Every word below is that language's, from assets/site-i18n.js.
+  var I18N = SITE.createI18n(LANG);
   var PLANS = window.MagicEnPlans.create({
     I18N: I18N,
-    NAMES: window.MagicCountryNamesEn,
+    NAMES: NAMES,
     DAILY: window.MagicDailyPlan,
   });
   var $ = function (id) { return document.getElementById(id); };
