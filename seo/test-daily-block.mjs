@@ -742,7 +742,10 @@ test('the Mini App already states it, and still does', () => {
   // ALLOWANCE, and the dictionary must still phrase it per day, in both
   // languages. What is being protected is that the two surfaces cannot give
   // different answers for the same order.
-  assert.match(ui, /t\('daily\.perDay', \{ allowance: D\.formatAllowance\(pkg\.daily_gb, I\.lang\(\)\) \}\)/);
+  // I18N-04: the language argument is `dailyLang()` — the reader's language
+  // through the one fallback chain, limited to what daily-plan-copy.js speaks —
+  // rather than `I.lang()`; for ru and en it is the same value.
+  assert.match(ui, /t\('daily\.perDay', \{ allowance: D\.formatAllowance\(pkg\.daily_gb, dailyLang\(\)\) \}\)/);
   const dict = read('app/locales.js');
   assert.match(dict, /'daily\.perDay': '\{allowance\} в день'/);
   assert.match(dict, /'daily\.perDay': '\{allowance\} a day'/);

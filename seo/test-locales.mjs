@@ -232,6 +232,8 @@ test('the Mini App engine and its dictionaries speak exactly the enabled app lan
   const MI18N = require(join(ROOT, 'app/i18n.js'));
   const LOCALES_APP = require(join(ROOT, 'app/locales.js'));
   assert.deepEqual(MI18N.LANGS, appLocales());
+  // I18N-04: the Mini App plans the same seven languages, in the same order.
+  assert.deepEqual(MI18N.PLANNED, LOCALES.map((l) => l.code));
   assert.deepEqual(Object.keys(LOCALES_APP).sort(), [...appLocales()].sort());
 });
 
@@ -255,7 +257,9 @@ test('no test uses a planned language as the example of an unknown one', () => {
   // The fixtures the registry replaced. A planned language in a «gives English»
   // or «is refused» position would flip the day that language ships.
   const files = {
-    'app/i18n.test.js': /\['(es|de|fr|ko|zh)[-\w]*', 'en'\]|setLang\('(es|de|fr|ko|zh)|'mesim\.lang': '(es|de|fr|ko|zh)|fakeTelegram\('(es|de|fr|ko|zh)/,
+    // `i.setLang('fr')` was the refusal fixture; a test that ENABLES a planned
+    // language (I18N-04, injected `langs`) and selects it is legitimate.
+    'app/i18n.test.js': /\['(es|de|fr|ko|zh)[-\w]*', 'en'\]|\bi\.setLang\('(es|de|fr|ko|zh)|'mesim\.lang': '(es|de|fr|ko|zh)|fakeTelegram\('(es|de|fr|ko|zh)/,
     'app/core.test.js': /(countryLabel|errorText)\('[A-Z_]+', '(es|de|fr|ko|zh)/,
     'seo/test-site-i18n.mjs': /(setLang|createI18n)\('(es|de|fr|ko|zh)/,
     'test/e2e/i18n.spec.js': /languageCode: '(es|de|fr|ko|zh)/,

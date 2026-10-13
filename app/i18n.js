@@ -25,8 +25,9 @@
  *      Safari with cookies blocked throws on ACCESS, and a private-mode
  *      `setItem` throws on quota while `getItem` works fine.
  *
- *   2. A RUSSIAN STRING IS NEVER REPLACED BY AN ENGLISH ONE. The fallback chain
- *      is active → ru → the key itself, never active → en. `core.js` already
+ *   2. A RUSSIAN STRING IS NEVER REPLACED BY AN ENGLISH ONE. For Russian the
+ *      chain is ru → the key itself, never → en (the whole chain, for every
+ *      language, is `fallbackChain()` below — I18N-04). `core.js` already
  *      holds this rule for provider text — «an untranslated English string is
  *      never shown to a customer» — and it holds here for the same reason.
  *
@@ -40,8 +41,85 @@
  * ========================================================================= */
 
 (function (root) {
-  /** The only two strings that are ever a language. Compared by equality. */
+  /** The languages the Mini App OFFERS today. Compared by equality. */
   const LANGS = ['ru', 'en'];
+
+  /**
+   * Every language the architecture is built for (I18N-04), in the order of
+   * the storefront's registry, seo/locales.mjs — a test holds the two equal.
+   * Being PLANNED gives a language a fallback chain and a Telegram mapping;
+   * only being in LANGS lets a customer see it. Enabling one is its own stage.
+   */
+  const PLANNED = ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko'];
+
+  /**
+   * THE ONE FALLBACK RULE (I18N-04), used by `t()`, by `pick()` and by every
+   * language-dependent function in core.js — there is no second copy of it.
+   *
+   *   ru            → ru                 (never English: rule 2 below)
+   *   en            → en → ru            (a known Russian sentence beats an
+   *                                       English apology, as before)
+   *   es, de, fr,   → that → en → ru     (a missing translation in a new
+   *   zh-Hans, ko                         language shows English, not Russian)
+   *   anything else → ru                 (an unknown code is not a statement)
+   *
+   * Exactly what the app did for ru, en and unknown codes before this chain
+   * existed; the third line is new and reaches no customer until a language
+   * is enabled.
+   */
+  function fallbackChain(lang) {
+    if (lang === 'en') return ['en', 'ru'];
+    if (typeof lang === 'string' && lang !== 'ru' && PLANNED.indexOf(lang) > 0) return [lang, 'en', 'ru'];
+
+    return ['ru'];
+  }
+
+  /**
+   * The first language of `lang`'s chain that `table` has an entry for, or
+   * 'ru'. For tables whose parts must come from ONE language — a sentence and
+   * the plural forms inside it — rather than be mixed key by key.
+   */
+  function langFor(table, lang) {
+    const chain = fallbackChain(lang);
+    for (const l of chain) {
+      if (table && Object.prototype.hasOwnProperty.call(table, l)) return l;
+    }
+
+    return 'ru';
+  }
+
+  /**
+   * A value from a `{ ru, en, … }` object, by the fallback chain. An entry
+   * that is absent, null or empty counts as missing — `'' || ru` is what every
+   * call site did before. Undefined when no language of the chain has one.
+   */
+  function pick(byLang, lang) {
+    if (!byLang || typeof byLang !== 'object') return undefined;
+    for (const l of fallbackChain(lang)) {
+      if (!Object.prototype.hasOwnProperty.call(byLang, l)) continue;
+      const v = byLang[l];
+      if (v !== undefined && v !== null && v !== '') return v;
+    }
+
+    return undefined;
+  }
+
+  /**
+   * The planned language a Telegram `language_code` names, or null.
+   *
+   * By PRIMARY SUBTAG (see primarySubtag), with Chinese decided by script:
+   * zh, zh-CN, zh-SG, zh-Hans → zh-Hans; zh-TW, zh-HK, zh-MO, zh-Hant → null,
+   * because Traditional Chinese is not planned and a Simplified screen is not
+   * what that reader asked for.
+   */
+  function plannedFromTag(tag) {
+    const raw = String(tag == null ? '' : tag).toLowerCase().replace(/_/g, '-');
+    const primary = raw.split('-')[0];
+    if (primary === 'zh') return /(^|-)(hant|tw|hk|mo)(-|$)/.test(raw) ? null : 'zh-Hans';
+    const hit = PLANNED.indexOf(primary);
+
+    return hit >= 0 && PLANNED[hit] === primary ? primary : null;
+  }
 
   /**
    * Russian, when we do not know.
@@ -92,9 +170,18 @@
   const EN_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  /** Exactly `'ru'` or `'en'`, or null. No trimming, no case folding, no prefix. */
-  function known(value) {
-    return LANGS.indexOf(value) >= 0 ? value : null;
+  /**
+   * A date per language, chosen by the fallback chain. A language with no
+   * format of its own uses the next one in its chain. Russian is numeric.
+   */
+  const DATE_FORMATS = Object.freeze({
+    ru: (day, month, year) => `${String(day).padStart(2, '0')}.${String(month + 1).padStart(2, '0')}.${year}`,
+    en: (day, month, year) => `${day} ${EN_MONTHS[month]} ${year}`,
+  });
+
+  /** Exactly an enabled language, or null. No trimming, no case folding, no prefix. */
+  function known(value, enabled) {
+    return (enabled || LANGS).indexOf(value) >= 0 ? value : null;
   }
 
   /**
@@ -143,6 +230,11 @@
       ? (win && win.Telegram ? win.Telegram : null)
       : options.telegram;
     const onMiss = typeof options.onMiss === 'function' ? options.onMiss : null;
+    // The enabled languages. Only tests pass this — to exercise a planned
+    // language before it is enabled; the app always runs on LANGS.
+    const enabled = Array.isArray(options.langs)
+      ? options.langs.filter((l) => PLANNED.indexOf(l) >= 0)
+      : LANGS;
 
     const misses = [];
     const listeners = [];
@@ -164,7 +256,7 @@
       try { raw = storage.getItem(STORAGE_KEY); } catch { return null; }
       if (raw === null || raw === undefined) return null;
 
-      const valid = known(raw);
+      const valid = known(raw, enabled);
       if (valid) return valid;
 
       try { storage.removeItem(STORAGE_KEY); } catch { /* nothing to do */ }
@@ -193,8 +285,11 @@
       }
 
       if (!code.trim()) return null;
+      if (primarySubtag(code) === 'ru') return 'ru';
 
-      return primarySubtag(code) === 'ru' ? 'ru' : 'en';
+      // A stated language: the planned one it names, when it is enabled;
+      // otherwise English, as before — today that is every code but ru and en.
+      return known(plannedFromTag(code), enabled) || 'en';
     }
 
     /** Manual choice, then Telegram's statement, then Russian. */
@@ -220,12 +315,13 @@
     function t(key, vars) {
       if (typeof key !== 'string' || key === '') return '';
 
-      const active = dicts[current];
-      const fallback = dicts.ru;
-
+      // The one fallback chain (ru → ru; en → en, ru; a new language → it,
+      // en, ru). Never a guess beyond it: a miss is reported and shown as the key.
       let value;
-      if (active && Object.prototype.hasOwnProperty.call(active, key)) value = active[key];
-      else if (fallback && Object.prototype.hasOwnProperty.call(fallback, key)) value = fallback[key];
+      for (const l of fallbackChain(current)) {
+        const d = dicts[l];
+        if (d && Object.prototype.hasOwnProperty.call(d, key)) { value = d[key]; break; }
+      }
 
       // An object value is the reserved plural shape, which nothing selects
       // from yet. Rendering it would print "[object Object]" to a customer, so
@@ -278,12 +374,7 @@
       const month = date.getMonth();
       const year = date.getFullYear();
 
-      if (current === 'en') return `${day} ${EN_MONTHS[month]} ${year}`;
-
-      const dd = String(day).padStart(2, '0');
-      const mm = String(month + 1).padStart(2, '0');
-
-      return `${dd}.${mm}.${year}`;
+      return DATE_FORMATS[langFor(DATE_FORMATS, current)](day, month, year);
     }
 
     /* ---- changing it ------------------------------------------------- */
@@ -303,7 +394,7 @@
      * "it throws" is a broken app.
      */
     function setLang(next) {
-      const valid = known(next);
+      const valid = known(next, enabled);
       if (!valid || !dicts[valid]) return current;
       if (valid === current) return current;
 
@@ -375,7 +466,8 @@
     return {
       lang, setLang, t, onChange, apply, formatDate, detect,
       misses,
-      LANGS: LANGS.slice(),
+      LANGS: enabled.slice(),
+      PLANNED: PLANNED.slice(),
       STORAGE_KEY,
       ATTRS: ATTRS.slice(),
     };
@@ -383,6 +475,11 @@
 
   const I18N = createI18n();
   I18N.create = createI18n;
+  // Pure, instance-free helpers for core.js and the tests: one fallback rule.
+  I18N.fallbackChain = fallbackChain;
+  I18N.langFor = langFor;
+  I18N.pick = pick;
+  I18N.plannedFromTag = plannedFromTag;
 
   if (typeof module === 'object' && module.exports) module.exports = I18N;
   root.MagicI18n = I18N;

@@ -815,3 +815,97 @@ test('the file no longer tells the next reader that the app has one language', (
     assert.equal(UI_SRC.includes(claim), false, `stale claim still in ui.js: ${claim}`);
   }
 });
+
+/* ==========================================================================
+ * I18N-04 — one fallback chain, seven planned languages, two enabled
+ * ======================================================================== */
+
+const PLANNED_7 = ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko'];
+
+test('seven languages are planned and exactly two are offered', () => {
+  // seo/test-locales.mjs holds PLANNED equal to the storefront registry.
+  assert.deepEqual(I18N.PLANNED, PLANNED_7);
+  assert.deepEqual(I18N.LANGS, ['ru', 'en']);
+});
+
+test('the one fallback chain: Russian never reaches English, a new language reaches English before Russian', () => {
+  assert.deepEqual(I18N.fallbackChain('ru'), ['ru']);
+  assert.deepEqual(I18N.fallbackChain('en'), ['en', 'ru']);
+  for (const l of ['es', 'de', 'fr', 'zh-Hans', 'ko']) assert.deepEqual(I18N.fallbackChain(l), [l, 'en', 'ru'], l);
+  // Anything not planned is not a statement — Russian, as before.
+  for (const l of ['xx', 'uk', 'zh-CN', 'zh', 'EN', 'Ru', '', null, undefined, 42, {}, '__proto__']) {
+    assert.deepEqual(I18N.fallbackChain(l), ['ru'], String(l));
+  }
+});
+
+test('pick() walks the chain, skips empty entries and never reads a prototype', () => {
+  const v = { ru: 'Р', en: 'E', de: '' };
+  assert.equal(I18N.pick(v, 'ru'), 'Р');
+  assert.equal(I18N.pick(v, 'en'), 'E');
+  assert.equal(I18N.pick(v, 'de'), 'E', 'an empty German entry is missing: English next');
+  assert.equal(I18N.pick({ ru: 'Р' }, 'es'), 'Р', 'no English either: Russian last');
+  assert.equal(I18N.pick({ en: 'E' }, 'ru'), undefined, 'Russian never borrows English');
+  assert.equal(I18N.pick(v, '__proto__'), 'Р');
+  assert.equal(I18N.pick(null, 'en'), undefined);
+  assert.equal(I18N.langFor({ ru: 1, en: 1 }, 'ko'), 'en');
+  assert.equal(I18N.langFor({ ru: 1 }, 'en'), 'ru');
+});
+
+test('a Telegram code names its planned language — Chinese by script', () => {
+  const cases = [
+    ['ru', 'ru'], ['en-GB', 'en'], ['es', 'es'], ['es-MX', 'es'], ['de-AT', 'de'], ['fr_CA', 'fr'], ['ko-KR', 'ko'],
+    ['zh', 'zh-Hans'], ['zh-CN', 'zh-Hans'], ['zh_SG', 'zh-Hans'], ['zh-hans', 'zh-Hans'], ['zh-Hans-CN', 'zh-Hans'],
+    ['zh-TW', null], ['zh-HK', null], ['zh-MO', null], ['zh-hant', null], ['zh-Hant-TW', null],
+    ['pt-br', null], ['uk', null], ['', null], [null, null], ['esperanto', null],
+  ];
+  for (const [code, want] of cases) assert.equal(I18N.plannedFromTag(code), want, String(code));
+});
+
+test('with only ru and en enabled, every other Telegram language still gives English — today\'s behaviour', () => {
+  for (const code of ['es', 'de-DE', 'fr', 'zh-CN', 'zh-TW', 'ko', 'uk']) {
+    const i = create({ dicts: DICTS, storage: null, telegram: fakeTelegram(code) });
+    assert.equal(i.lang(), 'en', code);
+  }
+});
+
+test('once a language is enabled, its Telegram code selects it (rehearsed with an injected list)', () => {
+  const dicts = { ru: DICTS.ru, en: DICTS.en, de: { 'settings.title': 'Einstellungen' }, 'zh-Hans': { 'settings.title': '设置' } };
+  const langs = ['ru', 'en', 'de', 'zh-Hans'];
+  const pick = (code) => create({ dicts, storage: null, telegram: fakeTelegram(code), langs }).lang();
+  assert.equal(pick('de-CH'), 'de');
+  assert.equal(pick('zh-CN'), 'zh-Hans');
+  assert.equal(pick('zh-TW'), 'en', 'Traditional Chinese is not planned: English');
+  assert.equal(pick('fr'), 'en', 'planned but not enabled: English');
+  assert.equal(pick('ru-RU'), 'ru');
+});
+
+test('a new language falls back to ENGLISH for a missing key, and Russian stays Russian', () => {
+  const dicts = { ru: { a: 'Р-а', b: 'Р-б' }, en: { a: 'E-a' }, de: {} };
+  const de = create({ dicts, storage: null, telegram: null, langs: ['ru', 'en', 'de'] });
+  de.setLang('de');
+  assert.equal(de.lang(), 'de');
+  assert.equal(de.t('a'), 'E-a', 'German misses → English');
+  assert.equal(de.t('b'), 'Р-б', 'English misses too → Russian');
+  const ru = create({ dicts, storage: null, telegram: null, langs: ['ru', 'en', 'de'] });
+  assert.equal(ru.t('a'), 'Р-а');
+  assert.equal(create({ dicts: { ru: {}, en: { a: 'E-a' } }, storage: null, telegram: null }).t('a'), 'a',
+    'Russian never borrows English — it shows the key');
+});
+
+test('a date in a language without its own format uses the next one in its chain', () => {
+  const de = create({ dicts: { ru: {}, en: {}, de: {} }, storage: null, telegram: null, langs: ['ru', 'en', 'de'] });
+  de.setLang('de');
+  const d = new Date(2026, 7, 19);
+  assert.equal(de.formatDate(d), '19 Aug 2026');
+  assert.equal(create({ dicts: DICTS, storage: null, telegram: null }).formatDate(d), '19.08.2026');
+});
+
+test('the language picker offers exactly the enabled languages, each under a spelled-out key', () => {
+  const block = UI_SRC.match(/const LANGUAGE_LABELS = \{([\s\S]*?)\n  \};/);
+  assert.ok(block, 'LANGUAGE_LABELS not found in ui.js');
+  const labelled = [...block[1].matchAll(/^\s+'?([\w-]+)'?: \(\) => t\('settings\.language\.([\w-]+)'\)/gm)];
+  for (const [, code, key] of labelled) assert.equal(code, key, `${code} is labelled by settings.language.${key}`);
+  const codes = labelled.map((m) => m[1]);
+  for (const l of I18N.LANGS) assert.ok(codes.includes(l), `enabled language ${l} has no picker label`);
+  assert.match(UI_SRC, /I\.LANGS\.filter\(/, 'the picker must be built from I.LANGS, not a typed list');
+});
