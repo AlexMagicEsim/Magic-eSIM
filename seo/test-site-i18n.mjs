@@ -16,6 +16,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { LOCALES, siteLocales } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -85,18 +86,23 @@ test('t() cannot throw, cannot return an object, and never indexes a prototype',
   assert.equal(en.t('__proto__'), '__proto__');
 });
 
+// A language the registry describes but has not enabled (seo/locales.mjs) is as
+// unknown to this engine as a code nobody plans — until its stage enables it.
+const NOT_ENABLED = LOCALES.filter((l) => !l.site.enabled).map((l) => l.code).concat('xx');
+
 test('an unknown language is refused rather than stored', () => {
   const i = I18N.createI18n('en');
-  assert.equal(i.setLang('de'), 'en');
+  for (const code of NOT_ENABLED) assert.equal(i.setLang(code), 'en', code);
   assert.equal(i.setLang('__proto__'), 'en');
   assert.equal(i.setLang(undefined), 'en');
   assert.equal(i.setLang('ru'), 'ru');
+  assert.deepEqual(I18N.LANGS, siteLocales());
   assert.deepEqual(I18N.LANGS, ['ru', 'en']);
 });
 
 test('an unrecognised initial language resolves to Russian, not to English', () => {
   // The absence of a statement is not a statement. This shop is Russian.
-  assert.equal(I18N.createI18n('de').lang(), 'ru');
+  for (const code of NOT_ENABLED) assert.equal(I18N.createI18n(code).lang(), 'ru', code);
   assert.equal(I18N.createI18n(undefined).lang(), 'ru');
   assert.equal(I18N.DEFAULT_LANG, 'ru');
 });

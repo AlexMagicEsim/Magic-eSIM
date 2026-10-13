@@ -27,7 +27,7 @@ test.describe('language detection', () => {
   });
 
   test('a Telegram client set to something else gets English', async ({ page }) => {
-    await installMiniApp(page, { languageCode: 'de' });
+    await installMiniApp(page, { languageCode: 'uk' });
     await openApp(page);
     await openSettings(page);
 
@@ -160,7 +160,7 @@ test.describe('the choice outlives the app', () => {
   test('nothing is written down until a choice is actually made', async ({ page }) => {
     // Otherwise the first client a customer happens to open decides for them
     // permanently, and a guess becomes indistinguishable from a decision.
-    await installMiniApp(page, { languageCode: 'de' });
+    await installMiniApp(page, { languageCode: 'uk' });
     await openApp(page);
     await openSettings(page);
 

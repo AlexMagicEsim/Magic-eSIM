@@ -60,7 +60,7 @@ test.describe('the language preference reaches the server', () => {
   test('DETECTION NEVER WRITES — booting in any language sends nothing', async ({ page }) => {
     // The rule the backend's whole storage argument rests on. Telegram saying
     // «en» is not the customer choosing English.
-    for (const languageCode of ['en', 'ru', 'de', null]) {
+    for (const languageCode of ['en', 'ru', 'uk', null]) {
       const fresh = await page.context().newPage();
       const calls = [];
       await fresh.route(`**${ROUTE}`, async (route) => {

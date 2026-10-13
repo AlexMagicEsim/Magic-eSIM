@@ -17,7 +17,7 @@ const { installMiniApp, openApp, overflowingInside, PACKAGE } = require('./harne
 
 const COPY = {
   ru: { languageCode: 'ru', open: 'Ввести промокод', label: 'Промокод', apply: 'Применить' },
-  en: { languageCode: 'de', open: 'Enter promo code', label: 'Promo code', apply: 'Apply' },
+  en: { languageCode: 'uk', open: 'Enter promo code', label: 'Promo code', apply: 'Apply' },
 };
 
 /** country -> tariff -> checkout, the way a customer gets there. */
