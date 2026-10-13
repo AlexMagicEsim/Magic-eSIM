@@ -51,23 +51,39 @@
    */
   /**
    * «дня» / "days" — the word only, so the NUMBER stays a substitution and the
-   * sentence around it stays in the dictionary. Russian needs three forms and
-   * English two, which is why this cannot be one shared call.
+   * sentence around it stays in the dictionary. Each language's plural forms
+   * and rule live in core.js (WORD_FORMS, pluralIndex) and are chosen by the
+   * one fallback chain — never by a branch on a language here.
    */
   function dayWord(n) {
-    return I.lang() === 'en'
-      ? C.pluralEn(n, 'day', 'days')
-      : C.plural(n, 'день', 'дня', 'дней');
+    return C.countWord(I.lang(), n, C.WORD_FORMS.day);
   }
 
   /** "3 plans" / «3 тарифа» — number and word together, as one phrase. */
   function tariffCount(n) {
-    return I.lang() === 'en' ? C.tariffWordEn(n) : C.tariffWord(n);
+    return C.countPhrase(I.lang(), n, C.WORD_FORMS.tariff);
   }
 
   /** "34 countries" / «34 страны» — number and word together, as one phrase. */
   function countryCount(n) {
-    return I.lang() === 'en' ? C.countryWordEn(n) : C.countryWord(n);
+    return C.countPhrase(I.lang(), n, C.WORD_FORMS.country);
+  }
+
+  /**
+   * Does the reader speak the language the SERVER writes in?
+   *
+   * The backend's `message` and `status_text` are Russian sentences. A Russian
+   * reader gets them exactly as before; every other reader gets the sentence
+   * this app holds for the error CODE, or the screen's own fallback — never the
+   * server's Russian. This is the one place that question is asked.
+   */
+  function readsServerLanguage() {
+    return I.lang() === C.SERVER_LANG;
+  }
+
+  /** The language assets/daily-plan-copy.js should speak for this reader. */
+  function dailyLang() {
+    return C.dailyLang(I.lang());
   }
 
   /**
@@ -109,12 +125,12 @@
    * The top-up's status line.
    *
    * In Russian this is C.topupStatusText() untouched, INCLUDING its preference
-   * for the server's own `status_text`. In English that preference is dropped:
-   * `status_text` is written by the backend in Russian, and the whole point of
-   * this phase is that an English reader is never handed one.
+   * for the server's own `status_text`. In any other language that preference
+   * is dropped: `status_text` is written by the backend in Russian, and a reader
+   * of another language is never handed one.
    */
   function topupStatusLine(out) {
-    if (I.lang() !== 'en') return C.topupStatusText(out);
+    if (readsServerLanguage()) return C.topupStatusText(out);
     const key = String((out && typeof out === 'object' ? out.status : out) || '');
     const fn = TOPUP_STATUS[key];
 
@@ -123,9 +139,7 @@
 
   /** «3 покупки» / "3 purchases" — number and word, in the reader's language. */
   function purchaseCount(n) {
-    return I.lang() === 'en'
-      ? `${n} ${C.pluralEn(n, 'purchase', 'purchases')}`
-      : `${n} ${C.plural(n, 'покупку', 'покупки', 'покупок')}`;
+    return C.countPhrase(I.lang(), n, C.WORD_FORMS.purchase);
   }
 
   /**
@@ -139,23 +153,24 @@
   ];
 
   function serverErrorText(e) {
-    if (I.lang() !== 'en') return null;
+    if (readsServerLanguage()) return null;
 
-    return C.errorText(e && e.code, 'en');
+    return C.errorText(e && e.code, I.lang());
   }
 
   /**
-   * In English: the mapped sentence, or this screen's own fallback — never the
-   * server's Russian wire string, which is what the `||` chains below would
-   * otherwise reach next. In Russian: null, so those chains run untouched.
+   * In any language but the server's: the mapped sentence, or this screen's own
+   * fallback — never the server's Russian wire string, which is what the `||`
+   * chains below would otherwise reach next. In Russian: null, so those chains
+   * run untouched.
    *
    * Takes the fallback as TEXT rather than as a key, so that every t() call in
    * this file still spells its key out literally. A computed key is invisible
    * to the scanner that proves the dictionary has no dead entries, and that
    * scanner's failure mode is somebody deleting a live key to make it green.
    */
-  function enOr(text, fallbackText) {
-    if (I.lang() !== 'en') return null;
+  function translatedOr(text, fallbackText) {
+    if (readsServerLanguage()) return null;
 
     return text || fallbackText;
   }
@@ -960,7 +975,7 @@
   function dailyCard(p, group, distinct) {
     const D = C.dailyCopy();
     if (!D) return null;
-    const lines = D.lines(p, I.lang());
+    const lines = D.lines(p, dailyLang());
     if (!lines.length) return null;
 
     const terms = C.dailyTerms(p);
@@ -994,7 +1009,7 @@
      */
     return el('button', { class: 'card card--tariff card--daily', onclick: () => openTariff(p, group) }, [
       el('div', { class: 'tariff__main' }, [
-        el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, I.lang()) }) }),
+        el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, dailyLang()) }) }),
       ]),
       el('div', {
         class: 'card__price tabular',
@@ -1176,7 +1191,7 @@
       // country what the provider published for almost none of it.
       list.appendChild(el('h2', {
         class: 'section section--daily',
-        text: D ? D.blockTitle(I.lang()) : '',
+        text: D ? D.blockTitle(dailyLang()) : '',
       }));
       for (const card of dailyCards) list.appendChild(card);
     }
@@ -1495,17 +1510,17 @@
    * fallback — so the Russian promo screen is byte-for-byte what it was.
    */
   function promoText(code) {
-    if (I.lang() !== 'en') return C.promoMessage(code);
+    if (readsServerLanguage()) return C.promoMessage(code);
 
-    return C.errorText(code, 'en') || t('errors.promoFallback');
+    return C.errorText(code, I.lang()) || t('errors.promoFallback');
   }
 
   function topupErrorText(e) {
-    if (I.lang() === 'en') {
-      const known = C.errorText(e && e.code, 'en');
+    if (!readsServerLanguage()) {
+      const known = C.errorText(e && e.code, I.lang());
       if (known) return known;
       // The transport sentence is a PROMISE — that a dropped connection has not
-      // created a second top-up — so it survives into English as itself rather
+      // created a second top-up — so it survives translation as itself rather
       // than collapsing into the generic apology.
       if (e && e.isTransport) return t('errors.topupTransport');
 
@@ -1975,18 +1990,27 @@
     } catch { /* an older core, or no api at all */ }
   }
 
+  /**
+   * The name each language is offered under — its own name (an endonym), from
+   * the dictionary. Every key spelled out rather than built from the code: a
+   * key assembled at runtime cannot be found by the check that every key the
+   * app asks for exists — and the failure mode of that check is somebody
+   * deleting a live key to make it green. A language enabled without an entry
+   * here is not offered, and a test fails on exactly that.
+   */
+  const LANGUAGE_LABELS = {
+    ru: () => t('settings.language.ru'),
+    en: () => t('settings.language.en'),
+  };
+
   function languagePicker() {
-    // Both keys spelled out rather than built from the code. A key assembled at
-    // runtime cannot be found by the check that every key the app asks for
-    // exists — and the failure mode of that check is somebody deleting a live
-    // key to make it green.
+    // The ENABLED languages, in their registry order — never a list typed here.
+    const offered = I.LANGS.filter((code) => Object.prototype.hasOwnProperty.call(LANGUAGE_LABELS, code));
+
     return el('div', {
       class: 'segmented', id: 'settings-language',
       role: 'radiogroup', 'aria-label': t('settings.language.section'),
-    }, [
-      languageOption('ru', t('settings.language.ru')),
-      languageOption('en', t('settings.language.en')),
-    ]);
+    }, offered.map((code) => languageOption(code, LANGUAGE_LABELS[code]())));
   }
 
   /**
@@ -2211,7 +2235,7 @@
         el('span', {
           class: 'card__title',
           text: isDaily
-            ? t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, I.lang()) })
+            ? t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, dailyLang()) })
             : (p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb })),
         }),
         el('strong', {
@@ -2226,7 +2250,7 @@
         // Every line from the shared module; the screen composes none of its
         // own. The validity line is absent for a per-day plan because the row
         // has no term until one is chosen below.
-        ? el('div', { class: 'stack' }, D.lines(p, I.lang()).slice(1).map((l) => el('div', {
+        ? el('div', { class: 'stack' }, D.lines(p, dailyLang()).slice(1).map((l) => el('div', {
           class: 'card__meta', text: l.text,
         })))
         : el('div', {
@@ -2329,7 +2353,7 @@
         if (buy) buy.textContent = t('tariff.buyFor', { price: C.money(t.price) });
       },
     }, [
-      el('span', { class: 'muted', text: `${t.days} ${D.pluralDays(t.days, I.lang())}` }),
+      el('span', { class: 'muted', text: `${t.days} ${D.pluralDays(t.days, dailyLang())}` }),
       el('span', { class: 'fact__value tabular', text: C.money(t.price) }),
     ]));
 
@@ -2506,7 +2530,7 @@
             // «1 ГБ в день · 7 дней», never «null ГБ»: data_gb is meaningless on
             // a daily row and the allowance is the offer.
             text: (isDaily
-              ? t('daily.perDay', { allowance: D.formatAllowance(pkg.daily_gb, I.lang()) })
+              ? t('daily.perDay', { allowance: D.formatAllowance(pkg.daily_gb, dailyLang()) })
               : (pkg.unlimited ? t('plan.unlimited') : t('plan.gb', { n: pkg.data_gb })))
               + ` · ${days} ${dayWord(days)}`,
           }),
@@ -3108,7 +3132,7 @@
         return;
       }
       errBox.appendChild(errorNotice(
-        enOr(serverErrorText(err), t('errors.orderFallback'))
+        translatedOr(serverErrorText(err), t('errors.orderFallback'))
         || err.message || t('errors.orderFallback')
       ));
     }
@@ -3748,7 +3772,7 @@
         const body = (err && err.body) || {};
         paintClaimCode(
           email,
-          enOr(serverErrorText(err), t('errors.codeCheckFallback'))
+          translatedOr(serverErrorText(err), t('errors.codeCheckFallback'))
             || body.message || t('errors.codeCheckFallback'),
           body.attempts_left
         );
@@ -4205,7 +4229,7 @@
         await onSaved();
       } catch (ex) {
         setBusy(save, false, t('common.save'));
-        err.textContent = enOr(serverErrorText(ex), t('errors.renameFallback'))
+        err.textContent = translatedOr(serverErrorText(ex), t('errors.renameFallback'))
           || (ex && ex.body && ex.body.message) || 'Не удалось сохранить название.';
         err.style.display = '';
         err.style.color = 'var(--bad)';
@@ -5058,7 +5082,7 @@
       detail = t('login.outsideNote');
     } else if (refused) {
       // Prefer what the server actually said; fall back only if it said nothing.
-      detail = enOr(serverErrorText(err), t('errors.loginFallback'))
+      detail = translatedOr(serverErrorText(err), t('errors.loginFallback'))
         || (err && err.message)
         || 'Telegram не подтвердил вход. Откройте приложение заново из бота.';
     }

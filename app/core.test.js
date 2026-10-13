@@ -2157,3 +2157,106 @@ test('track returns undefined, so no call site can accidentally await it', async
   await client.openSession('init');
   assert.equal(client.track('miniapp_open'), undefined);
 });
+
+/* ==========================================================================
+ * I18N-04 — Russian and English output unchanged, no two-language branches
+ * ======================================================================== */
+
+{
+  const { readFileSync } = require('node:fs');
+  const { join } = require('node:path');
+  const { fingerprint } = require('../test/fixtures/miniapp-locale-matrix.js');
+  const GOLDEN = require('../test/fixtures/miniapp-locale-golden.json');
+  require('../assets/daily-plan-copy.js');   // the destination and daily-copy paths need it
+
+  test('every language-dependent function prints exactly what it printed before I18N-04', () => {
+    // Fingerprints over every error code, every country code, a frozen
+    // catalogue sample and every provider phrase, in ru, en, an unknown code,
+    // undefined and null — taken from app/core.js at b33b77e6, before the rewrite.
+    const now = fingerprint(C);
+    const keys = Object.keys(GOLDEN).filter((k) => k !== 'source');
+    assert.ok(keys.length >= 15);
+    const moved = keys.filter((k) => now[k] !== GOLDEN[k]);
+    assert.deepEqual(moved, [], `output moved in: ${moved.join(', ')}`);
+  });
+
+  test('the fingerprint can fire', () => {
+    const { digest } = require('../test/fixtures/miniapp-locale-matrix.js');
+    assert.notEqual(digest(['ОАЭ']), digest(['ОАЭ ']));
+  });
+
+  /**
+   * The patterns of a two-language branch. Each is something the code had
+   * before I18N-04 (`lang === 'en' ? … : …`, `const en = lang === 'en'`,
+   * `I.lang() !== 'en'`) — a language choice belongs in a table read through
+   * the fallback chain, never in a branch.
+   */
+  const BINARY = [
+    /[!=]==\s*['"](?:en|ru|es|de|fr|ko|zh(?:-Hans)?)['"]\s*\?/,
+    /\bconst\s+(?:en|ru|isEn|isRu)\s*=/,
+    /\b(?:en|isEn|ru|isRu)\s*\?\s*['"`]/,
+    /I\.lang\(\)\s*[!=]==\s*['"]/,
+    /['"](?:en|ru)['"]\s*[!=]==\s*(?:lang|I\.lang\(\))/,
+    /\b(?:pluralEn|tariffWordEn|countryWordEn)\(/,
+  ];
+  const strip = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  const offenders = (src) => strip(src).split('\n')
+    .map((line, i) => [i + 1, line])
+    .filter(([, line]) => BINARY.some((re) => re.test(line)));
+
+  test('no two-language branch is left in the Mini App\'s code', () => {
+    for (const file of ['ui.js']) {
+      assert.deepEqual(offenders(readFileSync(join(__dirname, file), 'utf8')), [], file);
+    }
+    // core.js still DEFINES pluralEn / tariffWordEn / countryWordEn (they are
+    // exported and pinned); it may not CALL them, and has no branch either.
+    const core = offenders(readFileSync(join(__dirname, 'core.js'), 'utf8'))
+      .filter(([, line]) => !/^(?:const (?:tariffWordEn|countryWordEn) = \(n\) =>|function pluralEn\()/.test(line.trim()));
+    assert.deepEqual(core, []);
+  });
+
+  test('the branch detector can fire', () => {
+    for (const bad of [
+      "  return lang === 'en' ? 'Region' : 'Регион';",
+      "  const en = lang === 'en';",
+      "  if (I.lang() !== 'en') return null;",
+      "    return en ? 'supported' : 'поддерживается';",
+      "  return I.lang() === 'en' ? C.tariffWordEn(n) : C.tariffWord(n);",
+      "  x = pluralEn(n, 'day', 'days');",
+    ]) assert.equal(offenders(bad).length, 1, bad);
+    for (const good of [
+      "  return I.lang() === C.SERVER_LANG;",
+      "  if (lang === 'ru') {",
+      "      role: 'radio', 'aria-checked': String(code === I.lang()),",
+    ]) assert.deepEqual(offenders(good), [], good);
+  });
+
+  test('a planned language with no table of its own reads English, never Russian', () => {
+    for (const lang of ['es', 'de', 'fr', 'zh-Hans', 'ko']) {
+      assert.equal(C.countryLabel('AE', lang), 'United Arab Emirates', lang);
+      assert.equal(C.errorText('RATE_LIMITED', lang), C.errorText('RATE_LIMITED', 'en'), lang);
+      assert.equal(C.syncedAgo('2026-10-13T11:55:00Z', Date.parse('2026-10-13T12:00:00Z'), lang), 'updated 5 minutes ago', lang);
+      assert.deepEqual(C.tariffFacts({ data_gb: 3, validity_days: 1, hotspot_supported: true }, lang).map((r) => r.label),
+        ['Data', 'Valid for', 'Starts', 'Hotspot'], lang);
+      assert.equal(C.dailyLang(lang), 'en', lang);
+    }
+    assert.equal(C.dailyLang('ru'), 'ru');
+    assert.equal(C.dailyLang('xx'), 'ru');
+  });
+
+  test('plural forms follow each language\'s own rule', () => {
+    const f = { ru: ['день', 'дня', 'дней'], en: ['day', 'days'], fr: ['jour', 'jours'], 'zh-Hans': ['天'] };
+    assert.deepEqual([1, 2, 5, 21, 22, 25, 111].map((n) => C.countWord('ru', n, f)),
+      ['день', 'дня', 'дней', 'день', 'дня', 'дней', 'дней']);
+    assert.deepEqual([0, 1, 2].map((n) => C.countWord('en', n, f)), ['days', 'day', 'days']);
+    assert.deepEqual([0, 1, 2].map((n) => C.countWord('fr', n, f)), ['jour', 'jour', 'jours'], 'French: 0 and 1 are singular');
+    assert.deepEqual([1, 7].map((n) => C.countWord('zh-Hans', n, f)), ['天', '天']);
+    assert.equal(C.countWord('de', 2, f), 'days', 'no German forms: English');
+    assert.equal(C.countPhrase('ru', 3, C.WORD_FORMS.tariff), C.tariffWord(3));
+    assert.equal(C.countPhrase('en', 3, C.WORD_FORMS.country), C.countryWordEn(3));
+  });
+
+  test('the server writes Russian, and only a Russian reader is shown it', () => {
+    assert.equal(C.SERVER_LANG, 'ru');
+  });
+}

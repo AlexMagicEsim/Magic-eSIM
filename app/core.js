@@ -351,6 +351,152 @@ const TARIFF_FACT_LABELS_EN = {
   'Только интернет': 'Data only',
 };
 
+/* --------------------------------------------------------------------------
+ * Languages — one fallback rule, tables keyed by language (I18N-04)
+ *
+ * Every language-dependent function below reads `{ ru, en, … }` tables
+ * through the ONE chain that app/i18n.js defines (ru → ru; en → en, ru; a new
+ * language → it, en, ru; anything else → ru). Adding a language is adding an
+ * entry to these tables — never another `lang === 'xx' ? … : …` branch, and a
+ * test fails on one. Russian and English output is pinned by a fingerprint
+ * (test/fixtures/miniapp-locale-golden.json).
+ * ----------------------------------------------------------------------- */
+
+/** The language every server sentence (`message`, `status_text`) is written in. */
+const SERVER_LANG = 'ru';
+
+/**
+ * The fallback engine. In the browser it is `window.MagicI18n`, loaded before
+ * this file (the load order is pinned by app/i18n.test.js); under Node it is
+ * required. If it failed to load, Russian — the one language every table has.
+ */
+function i18nLib() {
+  const root = typeof window !== 'undefined' ? window : globalThis;
+  if (root && root.MagicI18n && typeof root.MagicI18n.pick === 'function') return root.MagicI18n;
+  try { return typeof require === 'function' ? require('./i18n.js') : null; } catch { return null; }
+}
+
+/** A value from a `{ ru, en, … }` object by the fallback chain. */
+function pickLang(byLang, lang) {
+  const L = i18nLib();
+  if (L) return L.pick(byLang, lang);
+
+  return byLang ? byLang.ru : undefined;
+}
+
+/** The language of `lang`'s chain that `table` has — so a sentence and its plural forms never mix. */
+function tableLang(table, lang) {
+  const L = i18nLib();
+
+  return L ? L.langFor(table, lang) : 'ru';
+}
+
+/** The chain itself, for lookups that walk several tables. */
+function langChain(lang) {
+  const L = i18nLib();
+
+  return L ? L.fallbackChain(lang) : ['ru'];
+}
+
+/**
+ * The plural category of `n` in `lang`, as an index into WORD_FORMS. Russian
+ * has three forms; English and the planned Latin-script languages two (only 1
+ * is singular, zero is plural); French counts 0 and 1 as singular; Chinese and
+ * Korean one. Hand-written, not Intl.PluralRules: WebViews ship different ICU
+ * builds (see app/i18n.js).
+ */
+function pluralIndex(lang, n) {
+  const abs = Math.abs(Number(n) || 0);
+  if (lang === 'ru') {
+    const mod10 = abs % 10;
+    const mod100 = abs % 100;
+    if (mod10 === 1 && mod100 !== 11) return 0;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 1;
+
+    return 2;
+  }
+  if (lang === 'zh-Hans' || lang === 'ko') return 0;
+  if (lang === 'fr') return abs < 2 ? 0 : 1;
+
+  return abs === 1 ? 0 : 1;
+}
+
+/**
+ * Word forms per language, in pluralIndex order: ru [one, few, many],
+ * en [one, other]. A language without forms uses the next in its chain.
+ */
+const WORD_FORMS = Object.freeze({
+  day: Object.freeze({ ru: ['день', 'дня', 'дней'], en: ['day', 'days'] }),
+  minute: Object.freeze({ ru: ['минуту', 'минуты', 'минут'], en: ['minute', 'minutes'] }),
+  hour: Object.freeze({ ru: ['час', 'часа', 'часов'], en: ['hour', 'hours'] }),
+  tariff: Object.freeze({ ru: ['тариф', 'тарифа', 'тарифов'], en: ['plan', 'plans'] }),
+  country: Object.freeze({ ru: ['страна', 'страны', 'стран'], en: ['country', 'countries'] }),
+  purchase: Object.freeze({ ru: ['покупку', 'покупки', 'покупок'], en: ['purchase', 'purchases'] }),
+});
+
+/** The word for `n` of a WORD_FORMS entry, in the reader's language. */
+function countWord(lang, n, forms) {
+  const l = tableLang(forms, lang);
+  const list = forms[l];
+
+  return list[Math.min(pluralIndex(l, n), list.length - 1)];
+}
+
+/** «3 тарифа» / "3 plans" — number and word. */
+function countPhrase(lang, n, forms) {
+  return `${n} ${countWord(lang, n, forms)}`;
+}
+
+/** The fixed words of the tariff sheet. */
+const TARIFF_WORDS = Object.freeze({
+  ru: Object.freeze({
+    unlimited: 'безлимит', gb: 'ГБ', supported: 'поддерживается', notSupported: 'не поддерживается',
+    calls: 'поддерживаются', dataOnly: 'звонков и SMS нет', region: 'Регион',
+    sms: 'приём SMS поддерживается оператором. Доставка кодов от банков не гарантируется',
+    afterLimit: (speed) => `После исчерпания лимита скорость снижается до ${speed}.`,
+  }),
+  en: Object.freeze({
+    unlimited: 'unlimited', gb: 'GB', supported: 'supported', notSupported: 'not supported',
+    calls: 'supported', dataOnly: 'no calls or SMS', region: 'Region',
+    sms: 'the operator supports receiving SMS. Delivery of bank codes is not guaranteed',
+    afterLimit: (speed) => `After the limit the speed drops to ${speed}.`,
+  }),
+});
+
+/** Tables that were two named constants each, now keyed by language. */
+const TARIFF_TEXT_BY_LANG = Object.freeze({ ru: TARIFF_TEXT_RU, en: TARIFF_TEXT_EN });
+const TARIFF_SPEED_UNITS = Object.freeze({ ru: TARIFF_SPEED_UNITS_RU, en: TARIFF_SPEED_UNITS_EN });
+const TARIFF_ACTIVATION = Object.freeze({
+  ru: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS, fallback: TARIFF_ACTIVATION_FALLBACK }),
+  en: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS_EN, fallback: TARIFF_ACTIVATION_FALLBACK_EN }),
+});
+/** Russian labels are the source; other languages translate them (missing → the next in the chain). */
+const TARIFF_FACT_LABELS = Object.freeze({ en: TARIFF_FACT_LABELS_EN });
+
+/** «обновлено 5 минут назад» — the sentence and its units from ONE language. */
+const SYNCED_AGO = Object.freeze({
+  ru: Object.freeze({
+    never: 'данные ещё не запрашивались', unknown: 'время последней проверки неизвестно',
+    future: 'только что', now: 'обновлено только что', ago: (phrase) => `обновлено ${phrase} назад`,
+  }),
+  en: Object.freeze({
+    never: 'not requested yet', unknown: 'last checked at an unknown time',
+    future: 'just now', now: 'updated just now', ago: (phrase) => `updated ${phrase} ago`,
+  }),
+});
+
+/**
+ * The languages assets/daily-plan-copy.js speaks. That module is shared with
+ * the website and shipped under a content hash on its pages, so the Mini App
+ * does not edit it; it hands it the first language of the reader's chain that
+ * it actually has.
+ */
+const DAILY_COPY_LANGS = Object.freeze(['ru', 'en']);
+
+function dailyLang(lang) {
+  return langChain(lang).find((l) => DAILY_COPY_LANGS.indexOf(l) >= 0) || 'ru';
+}
+
 
 /* --------------------------------------------------------------------------
  * Configuration
@@ -599,7 +745,7 @@ function errorText(code, lang) {
   const entry = SERVER_ERRORS[String(code || '')];
   if (!entry) return null;
 
-  return (lang === 'en' ? entry.en : entry.ru) || entry.ru;
+  return pickLang(entry, lang);
 }
 
 const KNOWN_ERROR_CODES = Object.freeze([
@@ -1615,9 +1761,13 @@ const REGION_NAMES_EN = Object.freeze({
  */
 function countryLabel(code, lang) {
   const key = String(code || '').toUpperCase();
-  if (lang === 'en') return countryNamesEn[key] || countryNames[key] || key;
 
-  return countryNames[key] || key;
+  return pickLang({ ru: countryNames[key], en: countryNamesEn[key] }, lang) || key;
+}
+
+/** A provider region family's name, by the fallback chain; undefined if unnamed. */
+function regionName(key, lang) {
+  return pickLang({ ru: REGION_NAMES[key], en: REGION_NAMES_EN[key] }, lang);
 }
 
 /** The flag the catalogue already carries, or one derived from the ISO code. */
@@ -1680,12 +1830,13 @@ function regionKey(pkg) {
 
 function regionLabel(pkg, lang) {
   const key = regionKey(pkg);
-  const named = lang === 'en' ? (REGION_NAMES_EN[key] || REGION_NAMES[key]) : REGION_NAMES[key];
+  const named = regionName(key, lang);
   if (named) return named;
   const n = (pkg && pkg.coverage_country_codes && pkg.coverage_country_codes.length) || 0;
-  if (lang === 'en') return n ? `Region · ${countryWordEn(n)}` : 'Region';
+  const l = tableLang(TARIFF_WORDS, lang);
+  const word = TARIFF_WORDS[l].region;
 
-  return n ? `Регион · ${countryWord(n)}` : 'Регион';
+  return n ? `${word} · ${countPhrase(l, n, WORD_FORMS.country)}` : word;
 }
 
 function byCountry(packages, lang) {
@@ -1930,32 +2081,21 @@ function sortTariffs(items, sort = 'price') {
  * that it was 14:02, only that it was ten minutes ago.
  */
 function syncedAgo(iso, now = Date.now(), lang) {
-  const en = lang === 'en';
-  if (!iso) return en ? 'not requested yet' : 'данные ещё не запрашивались';
+  const l = tableLang(SYNCED_AGO, lang);
+  const w = SYNCED_AGO[l];
+  if (!iso) return w.never;
   const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return en ? 'last checked at an unknown time' : 'время последней проверки неизвестно';
+  if (!Number.isFinite(t)) return w.unknown;
 
   const mins = Math.floor((now - t) / 60000);
-  if (mins < 0) return en ? 'just now' : 'только что';
-  if (mins < 1) return en ? 'updated just now' : 'обновлено только что';
-  if (mins < 60) {
-    return en
-      ? `updated ${mins} ${pluralEn(mins, 'minute', 'minutes')} ago`
-      : `обновлено ${mins} ${plural(mins, 'минуту', 'минуты', 'минут')} назад`;
-  }
+  if (mins < 0) return w.future;
+  if (mins < 1) return w.now;
+  if (mins < 60) return w.ago(countPhrase(l, mins, WORD_FORMS.minute));
 
   const hours = Math.floor(mins / 60);
-  if (hours < 24) {
-    return en
-      ? `updated ${hours} ${pluralEn(hours, 'hour', 'hours')} ago`
-      : `обновлено ${hours} ${plural(hours, 'час', 'часа', 'часов')} назад`;
-  }
+  if (hours < 24) return w.ago(countPhrase(l, hours, WORD_FORMS.hour));
 
-  const days = Math.floor(hours / 24);
-
-  return en
-    ? `updated ${days} ${pluralEn(days, 'day', 'days')} ago`
-    : `обновлено ${days} ${plural(days, 'день', 'дня', 'дней')} назад`;
+  return w.ago(countPhrase(l, Math.floor(hours / 24), WORD_FORMS.day));
 }
 
 /**
@@ -2020,8 +2160,9 @@ function tariffNetworks(pkg) {
 /** Tri-state. No data drops the row — '' is the caller's signal to omit it. */
 function tariffHotspot(pkg, lang) {
   const v = (pkg || {}).hotspot_supported;
-  if (v === true) return lang === 'en' ? 'supported' : 'поддерживается';
-  if (v === false) return lang === 'en' ? 'not supported' : 'не поддерживается';
+  const w = TARIFF_WORDS[tableLang(TARIFF_WORDS, lang)];
+  if (v === true) return w.supported;
+  if (v === false) return w.notSupported;
 
   return '';
 }
@@ -2029,12 +2170,11 @@ function tariffHotspot(pkg, lang) {
 /** Whitelist. An unrecognised policy falls back to the usual behaviour. */
 function tariffActivation(pkg, lang) {
   const key = String((pkg || {}).activation_policy || '').trim().toLowerCase();
-  const en = lang === 'en';
-  const table = en ? TARIFF_ACTIVATION_LABELS_EN : TARIFF_ACTIVATION_LABELS;
+  // Labels and fallback from ONE language: a known policy in the reader's
+  // language, otherwise that language's fallback sentence.
+  const a = TARIFF_ACTIVATION[tableLang(TARIFF_ACTIVATION, lang)];
 
-  return Object.prototype.hasOwnProperty.call(table, key)
-    ? table[key]
-    : (en ? TARIFF_ACTIVATION_FALLBACK_EN : TARIFF_ACTIVATION_FALLBACK);
+  return Object.prototype.hasOwnProperty.call(a.labels, key) ? a.labels[key] : a.fallback;
 }
 
 /** Russian, or nothing. An untranslated English string is never rendered. */
@@ -2048,24 +2188,21 @@ function tariffText(raw, lang) {
   // Russian sentence, and it is provider data rather than our copy.
   if (/[а-яё]/i.test(s)) return s;
 
-  const en = lang === 'en';
-  const table = en ? TARIFF_TEXT_EN : TARIFF_TEXT_RU;
   const key = s.toLowerCase();
-  // Falls back to the Russian table, never to the raw provider phrase: an
-  // unknown phrase renders NOTHING in Russian today, and English must not start
-  // showing a row Russian hides — the two screens would describe the same
-  // tariff differently.
-  if (Object.prototype.hasOwnProperty.call(table, key)) return table[key];
-  if (en && Object.prototype.hasOwnProperty.call(TARIFF_TEXT_RU, key)) return TARIFF_TEXT_RU[key];
+  // Each table of the reader's chain in turn, ending in Russian — never the raw
+  // provider phrase: an unknown phrase renders NOTHING in Russian today, and no
+  // other language may start showing a row Russian hides — the screens would
+  // describe the same tariff differently.
+  for (const l of langChain(lang)) {
+    const table = TARIFF_TEXT_BY_LANG[l];
+    if (table && Object.prototype.hasOwnProperty.call(table, key)) return table[key];
+  }
 
   const m = s.match(TARIFF_SPEED_ONLY_RE);
   if (m) {
-    const unit = (en ? TARIFF_SPEED_UNITS_EN : TARIFF_SPEED_UNITS_RU)[m[2].toLowerCase()];
-    if (unit) {
-      return en
-        ? `After the limit the speed drops to ${m[1]} ${unit}.`
-        : `После исчерпания лимита скорость снижается до ${m[1]} ${unit}.`;
-    }
+    const l = tableLang(TARIFF_SPEED_UNITS, lang);
+    const unit = TARIFF_SPEED_UNITS[l][m[2].toLowerCase()];
+    if (unit) return TARIFF_WORDS[tableLang(TARIFF_WORDS, l)].afterLimit(`${m[1]} ${unit}`);
   }
 
   return '';
@@ -2273,15 +2410,27 @@ function dailyDistinguishers(list, lang) {
   return out;
 }
 
+/** A Russian row label in the reader's language, by the chain; in Russian it is the label itself. */
+function factLabel(label, lang) {
+  for (const l of langChain(lang)) {
+    if (l === 'ru') return label;
+    const table = TARIFF_FACT_LABELS[l];
+    if (table && table[label]) return table[label];
+  }
+
+  return label;
+}
+
 function tariffFacts(pkg, lang) {
   const p = pkg || {};
-  const en = lang === 'en';
+  const l = tableLang(TARIFF_WORDS, lang);
+  const w = TARIFF_WORDS[l];
   const rows = [];
   // The labels are written in Russian at every call below and translated on the
-  // way out, so the two languages cannot fall out of step by someone editing
-  // one list and not the other — there is only one list.
+  // way out, so the languages cannot fall out of step by someone editing one
+  // list and not another — there is only one list.
   const push = (label, value) => {
-    if (value) rows.push({ label: en ? (TARIFF_FACT_LABELS_EN[label] || label) : label, value });
+    if (value) rows.push({ label: factLabel(label, lang), value });
   };
 
   // The site's own «Покрытие и условия» sheet, row for row and label for
@@ -2289,14 +2438,12 @@ function tariffFacts(pkg, lang) {
   // two different vocabularies is how a customer comes to believe they are
   // looking at two different products.
   const gb = Number(p.data_gb);
-  push('Объём трафика', p.unlimited ? (en ? 'unlimited' : 'безлимит')
+  push('Объём трафика', p.unlimited ? w.unlimited
     : (Number.isFinite(gb) && gb > 0
-      ? `${Number.isInteger(gb) ? gb : String(gb)} ${en ? 'GB' : 'ГБ'}` : ''));
+      ? `${Number.isInteger(gb) ? gb : String(gb)} ${w.gb}` : ''));
 
   const days = Number(p.validity_days);
-  push('Срок действия', Number.isFinite(days) && days > 0
-    ? (en ? `${days} ${pluralEn(days, 'day', 'days')}`
-      : `${days} ${plural(days, 'день', 'дня', 'дней')}`) : '');
+  push('Срок действия', Number.isFinite(days) && days > 0 ? countPhrase(l, days, WORD_FORMS.day) : '');
 
   push('Начало срока', tariffActivation(p, lang));
   push('Сеть', tariffNetworks(p));
@@ -2311,15 +2458,11 @@ function tariffFacts(pkg, lang) {
   push('Скорость', tariffText(p.speed_note, lang));
   push('После лимита', tariffText(p.fup_policy, lang));
 
-  if (p.calls_supported === true) push('Звонки', en ? 'supported' : 'поддерживаются');
-  if (p.sms_supported === true) {
-    // Says exactly as little as the Russian does. The promise withheld here —
-    // that a bank's code will arrive — is the whole point of the sentence.
-    push('SMS', en
-      ? 'the operator supports receiving SMS. Delivery of bank codes is not guaranteed'
-      : 'приём SMS поддерживается оператором. Доставка кодов от банков не гарантируется');
-  }
-  if (p.data_only === true) push('Только интернет', en ? 'no calls or SMS' : 'звонков и SMS нет');
+  if (p.calls_supported === true) push('Звонки', w.calls);
+  // Says exactly as little as the Russian does. The promise withheld here —
+  // that a bank's code will arrive — is the whole point of the sentence.
+  if (p.sms_supported === true) push('SMS', w.sms);
+  if (p.data_only === true) push('Только интернет', w.dataOnly);
 
   return rows;
 }
@@ -2331,13 +2474,11 @@ function tariffFacts(pkg, lang) {
  */
 function coverageSummary(pkg, lang) {
   const p = pkg || {};
-  const en = lang === 'en';
   const codes = [...new Set(Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [])];
   if (codes.length <= 1) return countryLabel(codes[0] || p.country_code, lang);
 
-  const key = regionKey(p);
-  const named = en ? (REGION_NAMES_EN[key] || REGION_NAMES[key]) : REGION_NAMES[key];
-  const count = en ? countryWordEn(codes.length) : countryWord(codes.length);
+  const named = regionName(regionKey(p), lang);
+  const count = countPhrase(lang, codes.length, WORD_FORMS.country);
 
   return named ? `${named}, ${count}` : count;
 }
@@ -2489,8 +2630,7 @@ function isAllowedPaymentUrl(url) {
  * «Регион». The code is never the answer.
  */
 function destinationTitle(packageName, countryCode, pkg, lang) {
-  const rk = regionKey({ name: packageName });
-  const named = lang === 'en' ? (REGION_NAMES_EN[rk] || REGION_NAMES[rk]) : REGION_NAMES[rk];
+  const named = regionName(regionKey({ name: packageName }), lang);
   if (named) return named;
 
   const key = String(countryCode || '').toUpperCase();
@@ -2506,11 +2646,11 @@ function destinationTitle(packageName, countryCode, pkg, lang) {
   // than growing a second vocabulary here to drift against it.
   const D = dailyCopy();
   if (D && pkg && D.isDaily(pkg)) {
-    const place = D.placeName(pkg, (c) => countryLabel(c, lang), lang);
+    const place = D.placeName(pkg, (c) => countryLabel(c, lang), dailyLang(lang));
     if (place) return place;
   }
 
-  return lang === 'en' ? 'Region' : 'Регион';
+  return TARIFF_WORDS[tableLang(TARIFF_WORDS, lang)].region;
 }
 
 /* --------------------------------------------------------------------------
@@ -2635,6 +2775,7 @@ const CORE = {
   tariffFacts, tariffNetworks, tariffHotspot, tariffActivation, tariffTextRu,
   tariffDistinguishers, dailyDistinguishers, tariffIpLabel, tariffOperators,
   coverageSummary,
+  SERVER_LANG, WORD_FORMS, countWord, countPhrase, pluralIndex, dailyLang, DAILY_COPY_LANGS, regionName,
   AFTER_PAYMENT_STEPS,
   memoryStorage,
   READ_ATTEMPTS, WRITE_ATTEMPTS_WITH_KEY, SESSION_ATTEMPTS, REQUEST_TIMEOUT_MS,

@@ -1,0 +1,20 @@
+{
+  "errorText": "f901ae2f94f4cb1fe21ac85bddc5afb38012176023f3914b0e56cb5f6eff0740",
+  "countryLabel": "af7795119382a80e02ed44f080246a9fbde42c62e2e97d09343291c3c223542c",
+  "regionLabel": "f7a6f969f430eb8aae3100e7bac657b4cf0352ab845983284743288cd493bf49",
+  "coverageSummary": "1b788b06e81fc973b4e719dc2c0495eb58ae0563c9e7e7e195a7c7a77ae0477a",
+  "destinationTitle": "1cabc983852fa267d3eec1f017fc0be99d58a80c23a9a8512fe536cab5e1a2d4",
+  "tariffFacts": "8359d6c813d6a5f8069587a51e09e91acb149975ce88d3ad24e7d2a22c67aebb",
+  "tariffText": "9c9ccf1af1f7bbb9333d5b2a3ff081eed32fdbb36ef00233e9d31f3310a6e354",
+  "tariffActivation": "5580430ad5329a948111177ea752206de7d7c694f6e01255813d8972faf2ff45",
+  "tariffHotspot": "8120e8f663a7a7614b1a122bec2042c6c0ff03b99629d03b7d24a26f3bdd2864",
+  "tariffIpLabel": "b3616d71668256c75cb4d215915c2efcf500adcb44ac116f7715694d7b002a92",
+  "syncedAgo": "3a055b11dc3b219a2182804c70709fa085926111cc92e5122c672bcd693b0eb1",
+  "groupCatalogue": "876a7ac8fac8591ee90604d7b3b2030fc5a64fd52af2ab9a92690d03bd3fc4c8",
+  "byCountry": "f81e9862eab558b41b4b44398e295539913de5d7ef6e7eea61fd476c613a895b",
+  "dailyDistinguishers": "732ee7b52ba0e40785cc47fff85f8823f16d9188ecd82361aad2171aef0e9ba3",
+  "tariffTextRu": "0376cfc3b5bc0d8a29998b31709b3065f76828c6e825bd7d7d507860acc35abc",
+  "counts": "adce8eb42469e005e1802615cf8fc3d0e7e0e5482636e44ae35d034d36674a87",
+  "dailyCount": 526,
+  "source": "app/core.js at storefront b33b77e6 (before I18N-04), over test/fixtures/miniapp-locale-catalogue.json"
+}
