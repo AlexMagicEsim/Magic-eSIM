@@ -27,7 +27,7 @@ const COPY = {
     codeHeld: 'Ваш промокод',
   },
   en: {
-    languageCode: 'de',
+    languageCode: 'uk',
     title: '10% off your first purchase',
     text: 'Follow the Magic eSIM channel and get a 10% discount code',
     cta: 'Follow the channel',

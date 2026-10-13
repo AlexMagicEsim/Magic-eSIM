@@ -1946,7 +1946,7 @@ test('an English country name falls back to Russian before it falls back to a co
 
 test('asking for a language nobody has still answers in Russian', () => {
   // countryLabel is called from render paths that may hand it anything.
-  assert.equal(C.countryLabel('AE', 'de'), 'ОАЭ');
+  assert.equal(C.countryLabel('AE', 'xx'), 'ОАЭ');
   assert.equal(C.countryLabel('AE', null), 'ОАЭ');
   assert.equal(C.countryLabel('AE', undefined), 'ОАЭ');
 });
@@ -2006,7 +2006,7 @@ test('an unknown code gets null, so each screen picks its own fallback', () => {
   assert.equal(C.errorText('', 'en'), null);
   assert.equal(C.errorText(null, 'en'), null);
   // A language nobody has still answers, in Russian.
-  assert.equal(C.errorText('RATE_LIMITED', 'de'), 'Слишком много попыток. Попробуйте чуть позже.');
+  assert.equal(C.errorText('RATE_LIMITED', 'xx'), 'Слишком много попыток. Попробуйте чуть позже.');
 });
 
 test('an unknown error code has no key, so it can never be printed as one', () => {

@@ -63,7 +63,7 @@ test('a Telegram language of ru gives Russian, and a stated other language gives
   // the first and `return 'en'` passes the second.
   const cases = [
     ['ru', 'ru'], ['ru-RU', 'ru'], ['ru_RU', 'ru'], ['RU', 'ru'], ['Ru-ru', 'ru'],
-    ['en', 'en'], ['en-GB', 'en'], ['de', 'en'], ['uk', 'en'], ['kk', 'en'], ['pt-br', 'en'],
+    ['en', 'en'], ['en-GB', 'en'], ['pl', 'en'], ['uk', 'en'], ['kk', 'en'], ['pt-br', 'en'],
   ];
 
   for (const [code, want] of cases) {
@@ -128,7 +128,7 @@ test('a saved choice outranks Telegram, in both directions', () => {
 test('an unrecognised saved value is discarded, not adopted and not left to rot', () => {
   // Assert the SET of things accepted, not one sample: `.slice(0,2)` after a
   // lowercase would accept 'ruX' and 'RU' while passing a one-case test.
-  for (const bad of ['fr', 'RU', 'ru-RU', '', 'null', '[object Object]', 'en; DROP', '__proto__', 'constructor', ' ru']) {
+  for (const bad of ['xx', 'RU', 'ru-RU', '', 'null', '[object Object]', 'en; DROP', '__proto__', 'constructor', ' ru']) {
     const storage = fakeStorage({ 'mesim.lang': bad });
     const i = create({ dicts: DICTS, storage, telegram: fakeTelegram('en') });
 
@@ -144,7 +144,7 @@ test('a language with no dictionary cannot be chosen, from the API any more than
   let fired = 0;
   i.onChange(() => { fired += 1; });
 
-  i.setLang('fr');
+  i.setLang('xx');
   assert.equal(i.lang(), 'ru');
   assert.equal(fired, 0);
 });
@@ -185,7 +185,7 @@ test('a detected language is never written down as though it had been chosen', (
   // Otherwise the first client a customer happens to open decides for them
   // permanently, and "guessed" becomes indistinguishable from "chose".
   const storage = fakeStorage({});
-  const i = create({ dicts: DICTS, storage, telegram: fakeTelegram('de') });
+  const i = create({ dicts: DICTS, storage, telegram: fakeTelegram('uk') });
 
   i.lang(); i.t('settings.title'); i.lang();
 
