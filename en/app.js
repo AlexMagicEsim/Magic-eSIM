@@ -24,12 +24,16 @@
 (function () {
   'use strict';
 
-  if (!window.MagicSiteI18n || !Array.isArray(window.MagicEnDestinations)) return;
+  if (!window.MagicSiteI18n) return;
 
   var I18N = window.MagicSiteI18n.createI18n(window.MagicSiteI18n.pageLang(document));
   var LANG = I18N.lang();
   var PREFIX = window.MagicSiteI18n.pathPrefix(LANG);
-  var DESTINATIONS = window.MagicEnDestinations;
+  // The page's own list: window.Magic<Prefix>Destinations (MagicEnDestinations,
+  // MagicEsDestinations, …) — <prefix>/destinations.js, written by the generator.
+  var SUFFIX = PREFIX.slice(1);
+  var DESTINATIONS = window['Magic{P}Destinations'.replace('{P}', SUFFIX.charAt(0).toUpperCase() + SUFFIX.slice(1))];
+  if (!Array.isArray(DESTINATIONS)) return;
   var $ = function (id) { return document.getElementById(id); };
 
   I18N.apply(document);

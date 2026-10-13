@@ -41,12 +41,22 @@ export function word(lang, key) {
  * would change every page's bytes for no reader's benefit.
  */
 export function text(lang, key) {
-  return word(lang, key).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return escapeText(word(lang, key));
 }
 
 /** For a double-quoted attribute value: text() plus the quote. */
 export function attr(lang, key) {
-  return text(lang, key).replace(/"/g, '&quot;');
+  return escapeAttr(word(lang, key));
+}
+
+/** text()'s escaping, for a value that did not come from the dictionary (a rehearsal's words). */
+export function escapeText(value) {
+  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/** attr()'s escaping. */
+export function escapeAttr(value) {
+  return escapeText(value).replace(/"/g, '&quot;');
 }
 
 /** The browser's reading of static text: what `textContent` will compare against. */

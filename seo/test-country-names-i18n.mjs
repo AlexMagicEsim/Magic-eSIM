@@ -142,10 +142,14 @@ test('the data cannot be rewritten at runtime', () => {
   for (const v of Object.values(COUNTRY_NAMES_I18N)) assert.ok(Object.isFrozen(v));
 });
 
-test('nothing renders it yet: no generator, page or shipped script imports the table', () => {
-  // I18N-03 is data only. The stage that enables a language imports it on purpose
-  // and changes this list.
-  const ALLOWED = new Set(['seo/country-names-i18n.mjs', 'seo/test-country-names-i18n.mjs']);
+test('only the generators read the table — no page or shipped script imports it', () => {
+  // I18N-03 was data only. I18N-08c gave it to the two generators that build a
+  // prefixed language (names file + pages), which write only PUBLISHED languages
+  // (seo/test-locale-rehearsal.mjs proves nothing else is written). A page or a
+  // shipped script reading it directly would still be wrong: the browser gets
+  // the generated assets/country-names-<prefix>.js.
+  const ALLOWED = new Set(['seo/country-names-i18n.mjs', 'seo/test-country-names-i18n.mjs',
+    'seo/build-country-dictionary-locale.mjs', 'seo/build-locale-pages.mjs', 'seo/test-locale-rehearsal.mjs']);
   const SKIP = new Set(['.git', 'node_modules', 'test-results', 'playwright-report']);
   const users = [];
   (function walk(dir) {
