@@ -43,6 +43,13 @@ import { COUNTRY_NAMES } from './country-names.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { FONT_PRELOAD, LOGO, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
+import { text, attr } from './site-dictionary.mjs';
+
+/* Interface words come from the ONE dictionary the browser re-applies at runtime
+ * (assets/site-i18n.js, via seo/site-dictionary.mjs) — never typed here a second
+ * time. `t` is element text, `a` an attribute value; both throw on a missing key. */
+const t = (key) => text('en', key);
+const a = (key) => attr('en', key);
 
 export { FONT_PRELOAD, LOGO };
 
@@ -127,10 +134,10 @@ export const POPULAR = Object.freeze([
   { iso: 'GB', slug: 'united-kingdom', name: 'United Kingdom' },
 ]);
 
-const NAV_LINKS = `<a href="/en/esim/" data-i18n="nav.destinations">Destinations</a>
-      <a href="/en/#how" data-i18n="nav.how">How it works</a>
-      <a href="/en/#compat" data-i18n="nav.compat">Device check</a>
-      <a href="/en/guides/" data-i18n="nav.guides">Guides</a>`;
+const NAV_LINKS = `<a href="/en/esim/" data-i18n="nav.destinations">${t('nav.destinations')}</a>
+      <a href="/en/#how" data-i18n="nav.how">${t('nav.how')}</a>
+      <a href="/en/#compat" data-i18n="nav.compat">${t('nav.compat')}</a>
+      <a href="/en/guides/" data-i18n="nav.guides">${t('nav.guides')}</a>`;
 
 
 /* The header. Desktop: logo, four links, «Русский», «Find a plan». Below 900 px
@@ -150,14 +157,14 @@ export const header = (ruHref) => `${SKIP_LINK}
       ${NAV_LINKS}
     </nav>
     <div class="hdr-actions">
-      <a class="langsw" href="${ruHref}" hreflang="ru" lang="ru">${ICON_GLOBE}<span data-i18n="lang.ru">Русский</span></a>
-      <a class="btn btn-sm hdr-cta" href="/en/#plans" data-i18n="nav.findPlan">Find a plan</a>
+      <a class="langsw" href="${ruHref}" hreflang="ru" lang="ru">${ICON_GLOBE}<span data-i18n="lang.ru">${t('lang.ru')}</span></a>
+      <a class="btn btn-sm hdr-cta" href="/en/#plans" data-i18n="nav.findPlan">${t('nav.findPlan')}</a>
       <details class="mnav">
         <summary aria-label="Menu">${ICON_MENU}</summary>
         <nav class="mnav-panel" aria-label="Menu">
       ${NAV_LINKS}
           <hr>
-          <a href="${ruHref}" hreflang="ru" lang="ru" data-i18n="lang.ru">Русский</a>
+          <a href="${ruHref}" hreflang="ru" lang="ru" data-i18n="lang.ru">${t('lang.ru')}</a>
         </nav>
       </details>
     </div>
@@ -171,8 +178,8 @@ export const header = (ruHref) => `${SKIP_LINK}
  * page (the tests compare it), so it is there without JavaScript too. */
 export const PAYBAR = `<div class="paybar" id="previewNotice" role="note">
   <details class="wrap">
-    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Online payment isn't available yet — plans can't be bought here yet</strong><span class="paybar-more" data-i18n="preview.more">What this means</span></summary>
-    <p data-i18n="preview.noticeBody">You can browse plans, get an exact price in US dollars and go through checkout, but payment can't be taken yet: nothing is charged, and no order or eSIM is created.</p>
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">${t('preview.noticeTitle')}</strong><span class="paybar-more" data-i18n="preview.more">${t('preview.more')}</span></summary>
+    <p data-i18n="preview.noticeBody">${t('preview.noticeBody')}</p>
   </details>
 </div>`;
 
@@ -186,33 +193,33 @@ export const FOOTER = `<footer class="site-footer">
     <div class="ft-grid">
       <div class="ft-brand">
         <a href="/en/">${LOGO}</a>
-        <p data-i18n="footer.about">Travel eSIM data plans for 190+ destinations, with prices in US dollars.</p>
+        <p data-i18n="footer.about">${t('footer.about')}</p>
       </div>
       <div class="ft-col">
-        <h2 data-i18n="nav.destinations">Destinations</h2>
+        <h2 data-i18n="nav.destinations">${t('nav.destinations')}</h2>
         <ul>
 ${ftLinks(POPULAR.slice(0, 6).map((c) => ({ href: `/en/esim/${c.slug}/`, label: c.name })))}
-          <li><a href="/en/esim/" data-i18n="site.allDestinations">All destinations</a></li>
+          <li><a href="/en/esim/" data-i18n="site.allDestinations">${t('site.allDestinations')}</a></li>
         </ul>
       </div>
       <div class="ft-col">
-        <h2 data-i18n="nav.guides">Guides</h2>
+        <h2 data-i18n="nav.guides">${t('nav.guides')}</h2>
         <ul>
 ${ftLinks(EN_GUIDES.map((g) => ({ href: `/en/guides/${g.slug}/`, label: g.h1 })))}
         </ul>
       </div>
       <div class="ft-col">
-        <h2 data-i18n="footer.help">Help</h2>
+        <h2 data-i18n="footer.help">${t('footer.help')}</h2>
         <p class="support">Support: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
         <ul>
-          <li><a href="/en/#how" data-i18n="nav.how">How it works</a></li>
-          <li><a href="/en/#compat" data-i18n="nav.compat">Device check</a></li>
+          <li><a href="/en/#how" data-i18n="nav.how">${t('nav.how')}</a></li>
+          <li><a href="/en/#compat" data-i18n="nav.compat">${t('nav.compat')}</a></li>
         </ul>
       </div>
     </div>
     <div class="ft-bottom">
       <p>© Magic eSIM</p>
-      <p><a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Terms (in Russian)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Privacy (in Russian)</a></p>
+      <p><a href="/terms.html" hreflang="ru" data-i18n="footer.terms">${t('footer.terms')}</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">${t('footer.privacy')}</a></p>
     </div>
   </div>
 </footer>`;
@@ -231,8 +238,8 @@ ${ftLinks(EN_GUIDES.map((g) => ({ href: `/en/guides/${g.slug}/`, label: g.h1 }))
 const modal = (c) => `<div class="overlay" id="checkout" hidden>
   <div class="modal co" role="dialog" aria-modal="true" aria-labelledby="coTitle">
     <div class="co-head">
-      <h3 id="coTitle" tabindex="-1" data-i18n="checkout.title">Checkout</h3>
-      <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="Close">×</button>
+      <h3 id="coTitle" tabindex="-1" data-i18n="checkout.title">${t('checkout.title')}</h3>
+      <button type="button" class="close" id="coClose" data-i18n-attr="aria-label:checkout.close" aria-label="${a('checkout.close')}">×</button>
     </div>
     <ol class="co-steps" aria-hidden="true">
       <li><span>1</span>Plan</li>
@@ -240,65 +247,65 @@ const modal = (c) => `<div class="overlay" id="checkout" hidden>
       <li><span>3</span>Review</li>
     </ol>
     <div class="unavail" id="coUnavail">
-      <h4 data-i18n="pay.unavailableTitle">Online payment is not available yet</h4>
-      <p data-i18n="pay.unavailableBody">You can check a plan and get its exact price, but payment can't be taken yet. Nothing is charged, and no order or eSIM is created.</p>
+      <h4 data-i18n="pay.unavailableTitle">${t('pay.unavailableTitle')}</h4>
+      <p data-i18n="pay.unavailableBody">${t('pay.unavailableBody')}</p>
     </div>
     <section class="co-sum" aria-label="Your plan">
       <div class="co-sum-head"><img class="co-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>eSIM for ${esc(c.name)}</span></div>
       <div class="rows">
-        <div><span data-i18n="checkout.coverage">Coverage</span><b id="coCoverage">—</b></div>
-        <div><span data-i18n="checkout.data">Data</span><b id="coData">—</b></div>
-        <div><span data-i18n="checkout.term">Validity</span><b id="coTerm">—</b></div>
+        <div><span data-i18n="checkout.coverage">${t('checkout.coverage')}</span><b id="coCoverage">—</b></div>
+        <div><span data-i18n="checkout.data">${t('checkout.data')}</span><b id="coData">—</b></div>
+        <div><span data-i18n="checkout.term">${t('checkout.term')}</span><b id="coTerm">—</b></div>
       </div>
       <!-- The duration stays in view on steps 1 and 2: changing it drops the
            held price and starts again from step 1. -->
       <div class="field" id="coTermPick" hidden>
-        <label for="coDays" data-i18n="checkout.duration">Duration</label>
+        <label for="coDays" data-i18n="checkout.duration">${t('checkout.duration')}</label>
         <select id="coDays"></select>
       </div>
     </section>
     <p class="note" id="coQuoteStatus" role="status" hidden></p>
     <p class="sr-only" id="coLive" role="status" aria-live="polite"></p>
     <div id="coStep1" class="co-step">
-      <div class="rows"><div><span data-i18n="checkout.listed">Listed price</span><b id="coListed">—</b></div></div>
-      <p class="note" data-i18n="quote.explain">The exact price is fixed by our server and held for 30 minutes.</p>
+      <div class="rows"><div><span data-i18n="checkout.listed">${t('checkout.listed')}</span><b id="coListed">—</b></div></div>
+      <p class="note" data-i18n="quote.explain">${t('quote.explain')}</p>
       <div class="co-action">
-        <button type="button" class="btn" id="coQuote" data-i18n="quote.get">Get the exact price</button>
+        <button type="button" class="btn" id="coQuote" data-i18n="quote.get">${t('quote.get')}</button>
       </div>
     </div>
     <div id="coStep2" class="co-step" hidden>
       <div class="co-price">
-        <div class="rows"><div class="total"><span data-i18n="checkout.price">Price</span><b id="coTotal" tabindex="-1">—</b></div></div>
+        <div class="rows"><div class="total"><span data-i18n="checkout.price">${t('checkout.price')}</span><b id="coTotal" tabindex="-1">—</b></div></div>
         <p class="note" id="coExpiry" hidden></p>
         <p class="note" id="coPriceChanged" hidden></p>
-        <button type="button" class="btn btn-ghost" id="coRequote" data-i18n="quote.again" hidden>Get a new price</button>
+        <button type="button" class="btn btn-ghost" id="coRequote" data-i18n="quote.again" hidden>${t('quote.again')}</button>
       </div>
       <div class="field">
-        <label for="coEmail" data-i18n="checkout.email">Email for your eSIM</label>
+        <label for="coEmail" data-i18n="checkout.email">${t('checkout.email')}</label>
         <input type="email" id="coEmail" autocomplete="email" inputmode="email" spellcheck="false" maxlength="254">
-        <p class="note" data-i18n="checkout.emailNote">Not sent or saved anywhere yet — payment isn't available.</p>
+        <p class="note" data-i18n="checkout.emailNote">${t('checkout.emailNote')}</p>
       </div>
-      <label class="check"><input type="checkbox" id="coDevice"> <span data-i18n="checkout.device">My phone supports eSIM and isn't carrier-locked</span></label>
+      <label class="check"><input type="checkbox" id="coDevice"> <span data-i18n="checkout.device">${t('checkout.device')}</span></label>
       <p class="note err" id="coFormError" role="alert" hidden></p>
       <div class="co-action">
-        <button type="button" class="btn" id="coReview" data-i18n="checkout.review">Review</button>
+        <button type="button" class="btn" id="coReview" data-i18n="checkout.review">${t('checkout.review')}</button>
       </div>
     </div>
     <div id="coStep3" class="co-step" hidden>
       <div class="rows co-review">
-        <div><span data-i18n="checkout.coverage">Coverage</span><b id="rvCoverage">—</b></div>
-        <div><span data-i18n="checkout.data">Data</span><b id="rvData">—</b></div>
-        <div><span data-i18n="checkout.term">Validity</span><b id="rvTerm">—</b></div>
-        <div><span data-i18n="checkout.emailShort">Email</span><b id="rvEmail">—</b></div>
-        <div class="total"><span data-i18n="checkout.price">Price</span><b id="rvTotal">—</b></div>
+        <div><span data-i18n="checkout.coverage">${t('checkout.coverage')}</span><b id="rvCoverage">—</b></div>
+        <div><span data-i18n="checkout.data">${t('checkout.data')}</span><b id="rvData">—</b></div>
+        <div><span data-i18n="checkout.term">${t('checkout.term')}</span><b id="rvTerm">—</b></div>
+        <div><span data-i18n="checkout.emailShort">${t('checkout.emailShort')}</span><b id="rvEmail">—</b></div>
+        <div class="total"><span data-i18n="checkout.price">${t('checkout.price')}</span><b id="rvTotal">—</b></div>
       </div>
       <div class="unavail" id="coFinal" role="status" tabindex="-1">
-        <h4 data-i18n="pay.finalTitle">Online payment is not available yet</h4>
-        <p data-i18n="pay.finalBody">We can't take payment yet, so nothing has been charged, no order has been created and no eSIM will be sent. Your email has not been sent or saved.</p>
+        <h4 data-i18n="pay.finalTitle">${t('pay.finalTitle')}</h4>
+        <p data-i18n="pay.finalBody">${t('pay.finalBody')}</p>
       </div>
       <div class="co-action">
-        <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">Payment not available yet</button>
-        <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">Back</button>
+        <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">${t('pay.disabled')}</button>
+        <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">${t('checkout.back')}</button>
       </div>
     </div>
   </div>
@@ -324,25 +331,25 @@ const HELP = `  <section class="cp-help" aria-labelledby="cpHelpTitle">
     <h2 id="cpHelpTitle">Before you buy</h2>
     <div class="help-grid">
       <div class="help-card">
-        <h3 data-i18n="site.compatTitle">Will my phone work?</h3>
-        <p data-i18n="site.compatBody">Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.</p>
+        <h3 data-i18n="site.compatTitle">${t('site.compatTitle')}</h3>
+        <p data-i18n="site.compatBody">${t('site.compatBody')}</p>
         <ul>
-          <li><a href="/en/guides/compatibility/" data-i18n="site.compatGuide">How to check your phone</a></li>
-          <li><a href="/en/guides/iphone/" data-i18n="site.compatCheck">iPhone setup</a></li>
-          <li><a href="/en/guides/android/" data-i18n="site.compatAndroid">Android setup</a></li>
+          <li><a href="/en/guides/compatibility/" data-i18n="site.compatGuide">${t('site.compatGuide')}</a></li>
+          <li><a href="/en/guides/iphone/" data-i18n="site.compatCheck">${t('site.compatCheck')}</a></li>
+          <li><a href="/en/guides/android/" data-i18n="site.compatAndroid">${t('site.compatAndroid')}</a></li>
         </ul>
       </div>
       <div class="help-card">
-        <h3 data-i18n="home.guidesTitle">Set up and fix your eSIM</h3>
-        <p data-i18n="home.guidesLead">Install, check and fix a travel eSIM — step by step.</p>
+        <h3 data-i18n="home.guidesTitle">${t('home.guidesTitle')}</h3>
+        <p data-i18n="home.guidesLead">${t('home.guidesLead')}</p>
         <ul>
 ${EN_GUIDES.filter((g) => g.slug === 'activation' || g.slug === 'troubleshooting').map((g) => `          <li><a href="/en/guides/${g.slug}/">${esc(g.h1)}</a></li>`).join('\n')}
-          <li><a href="/en/guides/" data-i18n="nav.guides">Guides</a></li>
+          <li><a href="/en/guides/" data-i18n="nav.guides">${t('nav.guides')}</a></li>
         </ul>
       </div>
       <div class="help-card">
-        <h3 data-i18n="home.supportTitle">Questions before you travel?</h3>
-        <p data-i18n="home.supportBody">Write to our support team by email.</p>
+        <h3 data-i18n="home.supportTitle">${t('home.supportTitle')}</h3>
+        <p data-i18n="home.supportBody">${t('home.supportBody')}</p>
         <ul>
           <li><a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
         </ul>
@@ -383,7 +390,7 @@ ${PAYBAR}
 <main class="cp" id="main" tabindex="-1">
   <section class="cp-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">Destinations</a> › ${name}</p>
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/esim/" data-i18n="nav.destinations">${t('nav.destinations')}</a> › ${name}</p>
       <div class="cp-title">
         <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
         <div>
@@ -393,8 +400,8 @@ ${PAYBAR}
       </div>
       <div class="cp-hero-foot">
         <ul class="cp-facts">
-          <li data-i18n="home.fact1">Prices in US dollars</li>
-          <li data-i18n="home.fact2">Install by QR code</li>
+          <li data-i18n="home.fact1">${t('home.fact1')}</li>
+          <li data-i18n="home.fact2">${t('home.fact2')}</li>
         </ul>
         <a class="cp-change" href="/en/esim/">Choose another destination</a>
       </div>
@@ -409,13 +416,13 @@ ${PAYBAR}
   </nav>
 
   <div class="cp-state">
-  <p class="note" id="status" role="status" aria-live="polite" data-i18n="site.loading">Loading plans…</p>
+  <p class="note" id="status" role="status" aria-live="polite" data-i18n="site.loading">${t('site.loading')}</p>
   <noscript>
     <link rel="stylesheet" href="/en/noscript.css">
     <p class="note">Plans and prices on this page need JavaScript. Nothing can be bought here yet.</p>
   </noscript>
-  <button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>Try again</button>
-  <a class="btn btn-ghost" id="emptyLink" href="/en/esim/" data-i18n="site.allDestinations" hidden>All destinations</a>
+  <button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>${t('site.retry')}</button>
+  <a class="btn btn-ghost" id="emptyLink" href="/en/esim/" data-i18n="site.allDestinations" hidden>${t('site.allDestinations')}</a>
   </div>
 
   <div class="cp-skeleton" id="skeleton" aria-hidden="true">
@@ -428,7 +435,7 @@ ${block('regional', `Regional plans that include ${name}`, `Plans that cover ${n
 
 ${block('daily', 'Data every day', 'A data allowance for each day of the trip.')}
 
-  <p class="note" id="currencyNote" data-i18n="price.currencyNote" hidden>Prices in US dollars (USD). These plans can't be bought on this page yet.</p>
+  <p class="note" id="currencyNote" data-i18n="price.currencyNote" hidden>${t('price.currencyNote')}</p>
 
 ${HELP}
   </div>
@@ -505,12 +512,12 @@ ${PAYBAR}
 <main class="hub" id="main" tabindex="-1">
   <section class="hub-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">${t('nav.destinations')}</span></p>
       <h1>eSIM destinations</h1>
       <p class="lead">Pick a country to see its data plans, with prices in US dollars.</p>
       <!-- Shown by en/hub.js: without it there is no search box that does nothing. -->
       <div class="hub-search" id="hubSearch" role="search" hidden>
-        <label for="hq" class="sr-only" data-i18n="site.chooseCountry">Where are you going?</label>
+        <label for="hq" class="sr-only" data-i18n="site.chooseCountry">${t('site.chooseCountry')}</label>
         <div class="hub-field">${SEARCH_ICON}<input type="text" id="hq" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="Search a country"><button type="button" class="hub-clear" id="hubClear" aria-label="Clear search" hidden>×</button></div>
       </div>
       <p class="hub-count" id="hubCount" role="status" aria-live="polite"></p>
@@ -519,7 +526,7 @@ ${PAYBAR}
 
   <div class="wrap hub-body">
     <section class="hub-pop" id="hubPopular" aria-labelledby="hubPopTitle">
-      <h2 id="hubPopTitle" data-i18n="home.popularTitle">Popular destinations</h2>
+      <h2 id="hubPopTitle" data-i18n="home.popularTitle">${t('home.popularTitle')}</h2>
       <div class="hub-tiles">
 ${popular}
       </div>
@@ -532,7 +539,7 @@ ${sections}
     </div>
 
     <div class="hub-empty" id="hubEmpty" hidden>
-      <p class="hub-empty-title" data-i18n="site.noDestination">No destination matches that name.</p>
+      <p class="hub-empty-title" data-i18n="site.noDestination">${t('site.noDestination')}</p>
       <p class="note">Check the spelling, or browse the list from A to Z.</p>
       <button type="button" class="btn btn-ghost" id="hubReset">Show all destinations</button>
     </div>
@@ -627,7 +634,7 @@ ${PAYBAR}
 <main class="guide" id="main" tabindex="-1">
   <section class="g-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">Guides</a> › ${esc(g.nav)}</p>
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <a href="/en/guides/" data-i18n="nav.guides">${t('nav.guides')}</a> › ${esc(g.nav)}</p>
       <div class="g-hero-row">
         <span class="g-ico g-ico-lg">${guideIcon(g.slug)}</span>
         <h1>${esc(g.h1)}</h1>
@@ -698,7 +705,7 @@ ${PAYBAR}
 <main class="guide" id="main" tabindex="-1">
   <section class="g-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">Guides</span></p>
+      <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.guides">${t('nav.guides')}</span></p>
       <h1>eSIM guides</h1>
       <p class="lead">Install, check and fix a travel eSIM — step by step.</p>
     </div>

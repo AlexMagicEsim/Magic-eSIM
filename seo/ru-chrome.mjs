@@ -21,6 +21,7 @@
 // (198 countries render plans in the Russian catalogue on 2026-10-10).
 
 import { LOGO, ICON_GLOBE, ICON_MENU } from './site-chrome.mjs';
+import { text } from './site-dictionary.mjs';
 
 /** The one wording for the size of the catalogue, everywhere on the Russian site. */
 export const RU_DESTINATIONS = '190+ направлений';
@@ -33,10 +34,13 @@ export const RU_FONT_PRELOAD = `<link rel="preload" href="/assets/fonts/inter-cy
 export const RU_TG_APP = 'https://t.me/magicesim_bot?startapp';
 export const RU_TG_CHANNEL = 'https://t.me/magicesim';
 
-const NAV_LINKS = `<a href="/esim/">Направления</a>
-      <a href="/#how">Как это работает</a>
+/* Words that already live in the one site dictionary (assets/site-i18n.js) are
+ * read from it rather than typed again (I18N-02). «Проверка устройства» has no
+ * Russian entry there yet: adding one would change that shipped file's bytes. */
+const NAV_LINKS = `<a href="/esim/">${text('ru', 'nav.destinations')}</a>
+      <a href="/#how">${text('ru', 'nav.how')}</a>
       <a href="/#compat">Проверка устройства</a>
-      <a href="/#guides">Инструкции</a>`;
+      <a href="/#guides">${text('ru', 'nav.guides')}</a>`;
 
 /** The header. `hreflang` marks the English link's language — on the home
  * only, which always linked /en/ that way (seo/test-en-storefront.mjs); the
