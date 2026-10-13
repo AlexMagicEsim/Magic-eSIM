@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-12T19:06:50.699Z",
+  "generated_at": "2026-10-13T14:19:29.358Z",
   "source": "production-public-api",
-  "package_count": 2289,
+  "package_count": 2294,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -3915,11 +3915,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SKTelecom",
@@ -5643,11 +5643,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -6662,10 +6662,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -6676,14 +6672,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -7022,11 +7010,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -8968,6 +8956,99 @@
       "sellable_days": []
     },
     {
+      "package_id": "0f2114bd-e76a-4800-a7f1-8df437b90677",
+      "name": "Indonesia 2GB/Day FUP1Mbps",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 450,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1250
+        },
+        {
+          "days": 5,
+          "price": 2000
+        },
+        {
+          "days": 7,
+          "price": 2750
+        },
+        {
+          "days": 10,
+          "price": 3750
+        },
+        {
+          "days": 15,
+          "price": 5400
+        },
+        {
+          "days": 30,
+          "price": 10400
+        }
+      ]
+    },
+    {
       "package_id": "0f3e4596-f50c-46e4-8003-a712db1da5e1",
       "name": "Honduras 5GB 30Days",
       "country_code": "HN",
@@ -9005,6 +9086,99 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "0f623835-55ec-41d9-9ae6-459c74a06c77",
+      "name": "Indonesia 10GB/Day",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1250,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 10,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 3500
+        },
+        {
+          "days": 5,
+          "price": 5500
+        },
+        {
+          "days": 7,
+          "price": 7500
+        },
+        {
+          "days": 10,
+          "price": 10550
+        },
+        {
+          "days": 15,
+          "price": 15600
+        },
+        {
+          "days": 30,
+          "price": 30750
+        }
+      ]
     },
     {
       "package_id": "0f9cfdbf-b18e-4078-a067-88ff7b11aab8",
@@ -11047,10 +11221,6 @@
       "price": 3400,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -11061,14 +11231,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -19962,10 +20124,6 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -19976,14 +20134,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -20022,10 +20172,6 @@
       "price": 500,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -20036,14 +20182,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -22152,11 +22290,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -23193,10 +23331,6 @@
       "price": 150,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -23207,14 +23341,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -27991,11 +28117,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28234,6 +28360,10 @@
       "price": 7900,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -28249,7 +28379,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -28273,10 +28403,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -28287,14 +28413,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -31153,11 +31271,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -41848,11 +41966,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -44711,11 +44829,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -45441,10 +45559,6 @@
       "price": 650,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -45455,14 +45569,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -45733,11 +45839,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -46670,10 +46776,6 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -46684,14 +46786,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -48870,10 +48964,6 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -48884,14 +48974,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -50064,6 +50146,10 @@
       "price": 5200,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -50079,7 +50165,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -51564,11 +51650,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -51714,6 +51800,99 @@
         {
           "days": 30,
           "price": 133200
+        }
+      ]
+    },
+    {
+      "package_id": "58ef9739-1daf-437c-bedc-b509ca0dd4c0",
+      "name": "Indonesia 1GB/Day FUP1Mbps",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 250,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 700
+        },
+        {
+          "days": 5,
+          "price": 1100
+        },
+        {
+          "days": 7,
+          "price": 1500
+        },
+        {
+          "days": 10,
+          "price": 2100
+        },
+        {
+          "days": 15,
+          "price": 3050
+        },
+        {
+          "days": 30,
+          "price": 5700
         }
       ]
     },
@@ -52217,11 +52396,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -52335,11 +52514,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -53603,6 +53782,10 @@
       "price": 2650,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -53618,7 +53801,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -57492,11 +57675,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -58632,11 +58815,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -58728,6 +58911,10 @@
       "price": 14400,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -58743,7 +58930,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -61976,11 +62163,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -61990,17 +62177,17 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -62257,11 +62444,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -63152,11 +63339,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -66301,11 +66488,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -66911,11 +67098,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -68326,11 +68513,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -68344,7 +68531,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -69587,10 +69774,6 @@
       "price": 250,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -69601,14 +69784,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -74311,10 +74486,6 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -74325,14 +74496,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -75509,11 +75672,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -77584,6 +77747,10 @@
       "price": 4150,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -77599,7 +77766,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -80115,11 +80282,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SKTelecom",
@@ -88610,11 +88777,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -88628,7 +88795,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -89202,6 +89369,99 @@
       ]
     },
     {
+      "package_id": "970a7891-e741-4281-bd80-a3a66ceba8eb",
+      "name": "Indonesia 5GB/Day",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 650,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 5,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1850
+        },
+        {
+          "days": 5,
+          "price": 3000
+        },
+        {
+          "days": 7,
+          "price": 4000
+        },
+        {
+          "days": 10,
+          "price": 5550
+        },
+        {
+          "days": 15,
+          "price": 8100
+        },
+        {
+          "days": 30,
+          "price": 15700
+        }
+      ]
+    },
+    {
       "package_id": "97226863-7708-4f07-bddc-a5457088e4ae",
       "name": "Austria 50GB 180Days",
       "country_code": "AT",
@@ -89262,11 +89522,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -89281,7 +89541,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -90786,10 +91046,6 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -90800,14 +91056,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -92415,11 +92663,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -92434,7 +92682,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -95314,10 +95562,6 @@
       "price": 150,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -95328,14 +95572,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -95718,11 +95954,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -95737,7 +95973,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -96654,6 +96890,10 @@
       "price": 950,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -96669,7 +96909,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -100061,6 +100301,10 @@
       "price": 2000,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -100076,7 +100320,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -102458,11 +102702,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SKTelecom",
@@ -103026,6 +103270,99 @@
         {
           "days": 30,
           "price": 66550
+        }
+      ]
+    },
+    {
+      "package_id": "af3979ea-da08-4aa5-9d93-6c17f21fd8a9",
+      "name": "Indonesia 3GB/Day FUP1Mbps",
+      "country_code": "ID",
+      "region": "ID",
+      "coverage_country_codes": [
+        "ID"
+      ],
+      "coverage_flags": "🇮🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 800,
+      "networks": [
+        {
+          "operator": "Smartfren",
+          "type": "4G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        },
+        {
+          "operator": "PT Natrindo Telepon Seluler",
+          "type": "4G"
+        },
+        {
+          "operator": "Fren/Hepi",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2200
+        },
+        {
+          "days": 5,
+          "price": 3500
+        },
+        {
+          "days": 7,
+          "price": 4700
+        },
+        {
+          "days": 10,
+          "price": 6550
+        },
+        {
+          "days": 15,
+          "price": 9550
+        },
+        {
+          "days": 30,
+          "price": 18700
         }
       ]
     },
@@ -103945,6 +104282,10 @@
       "price": 3100,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -103960,7 +104301,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -104516,10 +104857,6 @@
       "price": 1750,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -104530,14 +104867,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -107599,11 +107928,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -108711,6 +109040,10 @@
       "price": 600,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -108726,7 +109059,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "US"
+        "UK"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -109131,11 +109464,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -109150,7 +109483,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -110234,11 +110567,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
@@ -112031,11 +112364,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -116448,11 +116781,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -118887,11 +119220,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -118906,7 +119239,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -119893,10 +120226,6 @@
       "price": 600,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -119907,14 +120236,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -124692,11 +125013,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -125741,11 +126062,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -126843,11 +127164,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SKTelecom",
@@ -127019,10 +127340,6 @@
       "price": 1200,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -127033,14 +127350,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -128157,11 +128466,11 @@
       "networks": [
         {
           "operator": "Movistar",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -128175,7 +128484,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -130300,11 +130609,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -138981,10 +139290,6 @@
       "price": 550,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -138995,14 +139300,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -148584,11 +148881,11 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -149349,10 +149646,6 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Smartfren",
-          "type": "4G"
-        },
-        {
           "operator": "Telkomsel",
           "type": "5G"
         },
@@ -149363,14 +149656,6 @@
         {
           "operator": "Indosat",
           "type": "5G"
-        },
-        {
-          "operator": "PT Natrindo Telepon Seluler",
-          "type": "4G"
-        },
-        {
-          "operator": "Fren/Hepi",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -151461,11 +151746,11 @@
         },
         {
           "operator": "M1",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "SingTel",
-          "type": "4G"
+          "type": "5G"
         },
         {
           "operator": "DTAC",
