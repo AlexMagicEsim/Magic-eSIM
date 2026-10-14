@@ -112,7 +112,7 @@
     <p class="msg">Похоже, платёж не был завершён. Средства не списаны. Вы можете вернуться к тарифам и оформить заказ заново — это займёт пару минут.</p>
     <p class="sub">Если возникли вопросы, мы поможем: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
     <div class="actions">
-      <a class="btn" href="/#plans">Вернуться к тарифам</a>
+      <a class="btn" id="pfBack" href="/#plans">Вернуться к тарифам</a>
       <a class="btn secondary" href="mailto:support@magicesim.store">Связаться с поддержкой</a>
     </div>
   </section>
@@ -166,6 +166,34 @@
     </div>
   </div>
 </footer>
+  <script src="/assets/ru-destinations.js?v=0de3013f"></script>
+  <script>
+  /* «Вернуться к тарифам» goes back to the buyer's OWN country page.
+     Since 2026-10-10 the checkout lives on /esim/<slug>/, so the old fixed
+     /#plans sent a buyer whose payment failed to the home search, to find the
+     country and the plan again. The country comes from magic_pay_ctx (written by
+     our checkout when the payment started, accepted on the same terms as the
+     payment_failed goal below: well-formed, under six hours old, sbp/card), and
+     the page from the generated list of Russian country pages. Anything missing,
+     stale or unknown leaves /#plans. It only READS the context — the goal script
+     below clears it, which is why this one runs first (a refresh therefore
+     falls back to /#plans). */
+  (function(){
+    var a=document.getElementById('pfBack');if(!a)return;
+    var MAX_AGE_MS=6*60*60*1000;
+    var ctx=null;try{ctx=JSON.parse(sessionStorage.getItem('magic_pay_ctx')||'null');}catch(e){return;}
+    if(!ctx||typeof ctx!=='object')return;
+    var age=Date.now()-Number(ctx._ts||0);
+    if(!isFinite(age)||age<0||age>MAX_AGE_MS)return;
+    if(!/^(sbp|card)$/.test(String(ctx.payment_type||'')))return;
+    var iso=String(ctx.country_code||'');if(!/^[A-Z]{2}$/.test(iso))return;
+    var list=window.MagicRuDestinations;if(!list||typeof list.length!=='number')return;
+    for(var i=0;i<list.length;i++){
+      var d=list[i];
+      if(d&&d.iso===iso&&/^[a-z0-9-]+$/.test(String(d.slug||''))){a.href='/esim/'+d.slug+'/#tariffs';return;}
+    }
+  })();
+  </script>
   <script>
   /* payment_failed. Platega sends the user here on a payment it did not complete,
      but that is not enough on its own. The return URL does carry the order token
