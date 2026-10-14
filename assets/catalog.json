@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-13T16:59:20.432Z",
+  "generated_at": "2026-10-14T12:01:18.387Z",
   "source": "production-public-api",
   "package_count": 2289,
   "packages": [
@@ -14359,7 +14359,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -66154,6 +66154,18 @@
       "price": 750,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -66169,8 +66181,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
