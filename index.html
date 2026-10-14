@@ -30,16 +30,26 @@
   <meta name="twitter:title" content="eSIM для путешествий — Magic eSIM" />
   <meta name="twitter:description" content="eSIM для поездок: выберите страну и тариф, оплатите онлайн и получите eSIM на почту." />
   <meta name="twitter:image" content="https://magicesim.store/assets/magic-esim-logo.png" />
-  <!-- Structured data: Organization + WebSite -->
+  <!-- Structured data: the seller (OnlineStore, @id …/#organization — the one entity; seo/seller-entity.mjs) + WebSite -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": "OnlineStore",
+        "@id": "https://magicesim.store/#organization",
         "name": "Magic eSIM",
         "url": "https://magicesim.store/",
-        "logo": "https://magicesim.store/assets/magic-esim-logo.png"
+        "logo": "https://magicesim.store/assets/magic-esim-logo.png",
+        "description": "Магазин eSIM для путешествий: мобильный интернет в 190+ направлениях, оплата в рублях российской картой или через СБП.",
+        "email": "support@magicesim.store",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "support@magicesim.store",
+          "availableLanguage": ["ru", "en"]
+        },
+        "sameAs": ["https://t.me/magicesim", "https://t.me/magicesim_bot"]
       },
       {
         "@type": "WebSite",

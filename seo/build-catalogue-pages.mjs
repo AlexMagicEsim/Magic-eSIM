@@ -28,6 +28,7 @@ import { ALL as EDITORIAL, SITE } from './countries.mjs';
 import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
 import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD } from './ru-chrome.mjs';
+import { SELLER_REF } from './seller-entity.mjs';
 import { BLOCK_ICON } from './site-chrome.mjs';
 import { RU_CHECKOUT_MODAL } from './ru-checkout-markup.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
@@ -328,6 +329,8 @@ function seoPilot(c, p) {
       offerCount: o.all.count,
       availability: 'https://schema.org/InStock',
       url: `${SITE}/esim/${c.slug}/#prices`,
+      // Who sells it: the one seller entity (seo/seller-entity.mjs).
+      seller: SELLER_REF,
     },
   };
   return { sp, title, desc, section, priceFaq, product };
@@ -417,7 +420,10 @@ function page(c, all, profile) {
         description: desc,
         inLanguage: 'ru',
         isPartOf: { '@type': 'WebSite', name: 'Magic eSIM', url: `${SITE}/` },
-        publisher: {
+        // The pilot pages point at the one seller entity declared on the home
+        // page (seo/seller-entity.mjs); every other page keeps its inline
+        // Organization unchanged (owner, 2026-10-14: pilot only).
+        publisher: pilot ? SELLER_REF : {
           '@type': 'Organization',
           name: 'Magic eSIM',
           url: `${SITE}/`,
