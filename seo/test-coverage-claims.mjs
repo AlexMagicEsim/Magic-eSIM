@@ -375,7 +375,7 @@ test('review B1–B16: a NEW product that falsifies «все/ни один» is 
     ['seychelles', 'Africa 3 GB', { coverage_country_codes: ['SC', 'UG'] }, 'an Africa pack without Kenya/Tanzania'],
     ['argentina', 'LATAM 10 GB', { name: 'LATAM 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'CL', 'PY', 'UY', 'BO'] }, 'Bolivia in a volume regional'],
     ['argentina', 'LATAM 10 GB', { name: 'LATAM 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'CL', 'PY'] }, 'a 3–20 GB LATAM without Uruguay'],
-    ['mongolia', 'Mongolia 3 GB', { name: 'Central Asia 3 GB', coverage_country_codes: ['MN', 'KZ'] }, 'a regional block appears'],
+    ['mongolia', 'Kazakhstan 3GB 30Days', { name: 'Central Asia 3 GB', coverage_country_codes: ['MN', 'KZ'] }, 'a regional block appears'],
     ['brunei', 'Brunei Darussalam 3GB 15Days', { name: 'Asia 3 GB', coverage_country_codes: ['BN', 'SG'] }, 'a regional block appears'],
     ['dominican-republic', 'Caribbean 5 GB', { coverage_country_codes: ['DO', 'AW'], topup_available: true }, 'Aruba in a top-up pack'],
     ['laos', 'Asia (20 areas) 1GB/Day', { coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] }, 'an Asia daily covering Cambodia'],
