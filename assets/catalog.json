@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-14T12:01:18.387Z",
+  "generated_at": "2026-10-14T17:17:46.882Z",
   "source": "production-public-api",
-  "package_count": 2289,
+  "package_count": 2285,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -11984,37 +11984,6 @@
           "price": 7850
         }
       ]
-    },
-    {
-      "package_id": "12d19dc6-3dec-4b29-9885-db8118c1b6ee",
-      "name": "Mongolia 3 GB",
-      "country_code": "MN",
-      "region": "MN",
-      "coverage_country_codes": [
-        "MN"
-      ],
-      "coverage_flags": "🇲🇳",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1050,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "12ef3e9a-4234-4adb-8d65-49f027ebfbe8",
@@ -60796,7 +60765,7 @@
       "coverage_flags": "🇸🇦",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 8100,
+      "price": 10050,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -100953,7 +100922,7 @@
       "coverage_flags": "🇵🇦",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 6450,
+      "price": 8400,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -112876,37 +112845,6 @@
       "ip_export": [
         "BE"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "bfd90e67-f53b-445e-8224-dc4de87a8030",
-      "name": "Mongolia 20 GB",
-      "country_code": "MN",
-      "region": "MN",
-      "coverage_country_codes": [
-        "MN"
-      ],
-      "coverage_flags": "🇲🇳",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 3250,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -129347,37 +129285,6 @@
           "price": 19250
         }
       ]
-    },
-    {
-      "package_id": "db237735-e6fa-4338-b413-5f42b0265d6a",
-      "name": "Mongolia 10 GB",
-      "country_code": "MN",
-      "region": "MN",
-      "coverage_country_codes": [
-        "MN"
-      ],
-      "coverage_flags": "🇲🇳",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 2350,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "db2d1328-6a8d-4792-a29d-738e7634f7fd",
@@ -146016,37 +145923,6 @@
           "price": 3850
         }
       ]
-    },
-    {
-      "package_id": "f3a95f62-9147-4465-846c-54dbca5bbba2",
-      "name": "Mongolia 5 GB",
-      "country_code": "MN",
-      "region": "MN",
-      "coverage_country_codes": [
-        "MN"
-      ],
-      "coverage_flags": "🇲🇳",
-      "data_gb": 5,
-      "validity_days": 30,
-      "price": 1550,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "f3d220b0-3b78-4c27-8813-6a1e5d158cdc",
