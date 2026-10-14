@@ -68,7 +68,7 @@ jobs:
     # A failed catalogue run may have left assets/catalog.json untouched or
     # half-validated; there is nothing to follow it with.
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
 
     # THE TOKEN IS NOT HERE, DELIBERATELY. At job scope it would be in the

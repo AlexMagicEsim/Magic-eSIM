@@ -152,3 +152,23 @@ test('the catalogue bot pushes to the ref it was started on, with the token only
   assert.equal((bot.match(/GH_TOKEN: \$\{\{ github\.token \}\}/g) || []).length, 1, 'one step holds the token');
   assert.match(bot, /persist-credentials: false/);
 });
+
+// Runner image (2026-10-14). `ubuntu-latest` moves to Ubuntu 26 from 2026-10-19
+// (actions/runner-images#14748) — an OS change under every job on a date nobody
+// chose. Every job names its image instead, so moving to a new Ubuntu is a
+// deliberate edit, proved on a branch first.
+const PINNED_IMAGE = /^ubuntu-\d{2}\.\d{2}$/;
+const runsOn = (text) => code(text).map((l) => /^\s*runs-on:\s*(\S+)/.exec(l)).filter(Boolean).map((m) => m[1]);
+
+test('negative control: a moving runner label is caught, a commented one is not', () => {
+  const sample = '    runs-on: ubuntu-latest\n    # runs-on: ubuntu-latest\n    runs-on: ubuntu-24.04\n    runs-on: ubuntu-22.04';
+  assert.deepEqual(runsOn(sample).filter((x) => !PINNED_IMAGE.test(x)), ['ubuntu-latest']);
+});
+
+test('every job runs on a named Ubuntu image, never ubuntu-latest', () => {
+  for (const w of workflows) {
+    const images = runsOn(w.text);
+    assert.ok(images.length > 0, `${w.name}: no runs-on found`);
+    assert.deepEqual(images.filter((x) => !PINNED_IMAGE.test(x)), [], `${w.name}: unpinned runner`);
+  }
+});

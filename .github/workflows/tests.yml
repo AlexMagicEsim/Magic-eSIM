@@ -37,7 +37,7 @@ concurrency:
 jobs:
   proxy-function:
     name: gateway proxy function (offline)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     defaults:
       run:
@@ -56,7 +56,7 @@ jobs:
 
   browser:
     name: Mini App browser tests (Chromium, 390 + 320)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
@@ -102,7 +102,7 @@ jobs:
 
   unit:
     name: storefront + Mini App unit tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
