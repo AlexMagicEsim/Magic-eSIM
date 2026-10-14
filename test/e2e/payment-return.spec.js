@@ -110,3 +110,42 @@ test('payment-failed: the URL is clean before ym init, and the token is kept now
   expect(await page.evaluate(() => [history.state, typeof window.__payBoot])).toEqual([null, 'undefined']);
   expect(await leaks(page)).toEqual({ href: false, local: false, session: false, cookie: false, dom: false });
 });
+
+/*
+ * «Вернуться к тарифам» after a failed payment returns to the buyer's own
+ * country page (the checkout has lived on /esim/<slug>/ since 2026-10-10).
+ * The context is the one our checkout writes; nothing leaves the machine: every
+ * non-local request is aborted, the counter and status API are intercepted.
+ */
+async function seedPayCtx(page, ctx) {
+  await page.addInitScript((c) => {
+    if (location.pathname === '/payment-failed.html' && !sessionStorage.getItem('__seeded')) {
+      sessionStorage.setItem('__seeded', '1');
+      if (c) sessionStorage.setItem('magic_pay_ctx', JSON.stringify({ ...c, _ts: Date.now() }));
+    }
+  }, ctx);
+  await page.route((url) => !/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?\//.test(url.href) && !/mc\.yandex\.ru/.test(url.href),
+    (r) => r.abort());
+}
+
+test('payment-failed: «Вернуться к тарифам» goes back to the country the payment started on', async ({ page }) => {
+  await harness(page, ['canceled']);
+  await seedPayCtx(page, { payment_type: 'card', country_code: 'TH', package_id: 'pkg-1' });
+  await page.goto(`/payment-failed.html?token=${TOKEN}`);
+  const back = page.locator('#pfBack');
+  await expect(back).toHaveText('Вернуться к тарифам');
+  await expect(back).toHaveAttribute('href', '/esim/thailand/#tariffs');
+  const goals = await page.evaluate(() => window.__ymSeen.filter((c) => c.args[1] === 'reachGoal').map((c) => c.args));
+  expect(goals.length).toBe(1);                       // the payment_failed goal still fires once
+  expect(await page.evaluate(() => sessionStorage.getItem('magic_pay_ctx'))).toBeNull();
+  await back.click();
+  await page.waitForURL('**/esim/thailand/#tariffs');
+  await expect(page.locator('#tariffs')).toHaveCount(1);
+});
+
+test('payment-failed: with no payment context the button keeps /#plans', async ({ page }) => {
+  await harness(page, ['canceled']);
+  await seedPayCtx(page, null);
+  await page.goto('/payment-failed.html');
+  await expect(page.locator('#pfBack')).toHaveAttribute('href', '/#plans');
+});
