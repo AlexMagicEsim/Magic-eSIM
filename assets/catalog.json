@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-15T11:37:40.943Z",
+  "generated_at": "2026-10-15T19:08:17.945Z",
   "source": "production-public-api",
   "package_count": 2287,
   "packages": [
@@ -14328,7 +14328,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "IL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
