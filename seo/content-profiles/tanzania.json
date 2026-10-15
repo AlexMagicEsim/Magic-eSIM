@@ -94,5 +94,116 @@
         "TZ"
       ]
     }
+  ],
+  "price_claims": [
+    {
+      "id": "4g-line-cheaper",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Танзании: у одной местной линейки в строке сети стоит 3G, у другой — 4G, и 4G-линейка дешевле."
+        },
+        {
+          "field": "intro[1]",
+          "text": "Она дешевле на каждом общем объёме, но тарифа на 20 ГБ в ней нет."
+        }
+      ],
+      "terms": {
+        "g3_3": {
+          "package": "6d6f56d8-2627-41e4-b957-0c2a03f229b4",
+          "block": "local",
+          "attrs": {
+            "data_gb": 3
+          }
+        },
+        "g4_3": {
+          "package": "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
+          "block": "local",
+          "attrs": {
+            "data_gb": 3
+          }
+        },
+        "g3_5": {
+          "package": "9456b0d7-4178-4da1-9172-0cabb7fecb03",
+          "block": "local",
+          "attrs": {
+            "data_gb": 5
+          }
+        },
+        "g4_5": {
+          "package": "f0e3ce16-03a9-4666-a8c5-6a9eac2f3098",
+          "block": "local",
+          "attrs": {
+            "data_gb": 5
+          }
+        },
+        "g3_10": {
+          "package": "b22653cb-be31-4aa3-806e-d2b49fe10caf",
+          "block": "local",
+          "attrs": {
+            "data_gb": 10
+          }
+        },
+        "g4_10": {
+          "package": "0e66d913-0091-40f3-aaab-6828caca2daa",
+          "block": "local",
+          "attrs": {
+            "data_gb": 10
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "g4_3",
+          "op": "<",
+          "right": "g3_3"
+        },
+        {
+          "left": "g4_5",
+          "op": "<",
+          "right": "g3_5"
+        },
+        {
+          "left": "g4_10",
+          "op": "<",
+          "right": "g3_10"
+        }
+      ],
+      "note": "Линейки различаются строкой сети (3G vs 4G), сравниваются на общих объёмах 3, 5 и 10 ГБ."
+    },
+    {
+      "id": "description-volume-floor",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "Объёмные — от 1700 ₽ за 3 ГБ на 30 дней."
+        }
+      ],
+      "terms": {
+        "volume": {
+          "min_of": "volume"
+        },
+        "g4_3": {
+          "package": "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
+          "block": "local",
+          "days": 30,
+          "attrs": {
+            "data_gb": 3
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "volume",
+          "op": "=",
+          "right": 1700
+        },
+        {
+          "left": "g4_3",
+          "op": "=",
+          "right": "volume"
+        }
+      ]
+    }
   ]
 }

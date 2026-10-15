@@ -125,5 +125,39 @@
       "scope": "regional",
       "expect_empty": true
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-floor-3gb",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "Местные — от 1600 ₽ за 3 ГБ."
+        }
+      ],
+      "terms": {
+        "local3": {
+          "min_of": "local",
+          "where": {
+            "data_gb": 3
+          }
+        },
+        "local": {
+          "min_of": "local"
+        }
+      },
+      "assert": [
+        {
+          "left": "local3",
+          "op": "=",
+          "right": 1600
+        },
+        {
+          "left": "local",
+          "op": "=",
+          "right": 1600
+        }
+      ]
+    }
   ]
 }

@@ -89,5 +89,46 @@
       "scope": "page",
       "max_countries": 1
     }
+  ],
+  "price_claims": [
+    {
+      "id": "lead-twin-20gb",
+      "anchors": [
+        {
+          "field": "lead",
+          "text": "В армянской сетке есть пара, на которой легко потерять деньги по невнимательности: два тарифа с одинаковым объёмом и одинаковым сроком действия стоят 3300 и 3550 ₽."
+        }
+      ],
+      "terms": {
+        "a": {
+          "package": "de947083-0bd1-44f8-82c4-2b27d28acaea",
+          "block": "local",
+          "days": 30,
+          "attrs": {
+            "data_gb": 20
+          }
+        },
+        "b": {
+          "package": "1b45e482-9314-439e-b193-1cdee2161049",
+          "block": "local",
+          "days": 30,
+          "attrs": {
+            "data_gb": 20
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "a",
+          "op": "=",
+          "right": 3300
+        },
+        {
+          "left": "b",
+          "op": "=",
+          "right": 3550
+        }
+      ]
+    }
   ]
 }

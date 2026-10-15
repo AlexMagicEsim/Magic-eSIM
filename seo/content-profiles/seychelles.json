@@ -159,5 +159,50 @@
         "SC"
       ]
     }
+  ],
+  "price_claims": [
+    {
+      "id": "local-3gb-two-terms",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Сейшел: 3 ГБ на 15 дней стоят 2000 ₽, на 30 дней — 2150 ₽."
+        },
+        {
+          "field": "lead",
+          "text": "В блоке местных тарифов 3 ГБ продаются на 15 дней за 2000 ₽ и на 30 дней за 2150 ₽: вдвое больший срок почти не меняет цену."
+        }
+      ],
+      "terms": {
+        "d15": {
+          "package": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
+          "block": "local",
+          "days": 15,
+          "attrs": {
+            "data_gb": 3
+          }
+        },
+        "d30": {
+          "package": "67ac6675-87be-45ee-a15d-4920970ed0b1",
+          "block": "local",
+          "days": 30,
+          "attrs": {
+            "data_gb": 3
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "d15",
+          "op": "=",
+          "right": 2000
+        },
+        {
+          "left": "d30",
+          "op": "=",
+          "right": 2150
+        }
+      ]
+    }
   ]
 }

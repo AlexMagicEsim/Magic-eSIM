@@ -188,5 +188,39 @@
       "text": "Родригес входит в Республику Маврикий.",
       "reason": "внутри страны: каталог указывает покрытие кодом страны, острова и города в нём не перечислены — машинно не проверяется"
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-floor-3gb",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "От 1300 ₽ за 3 ГБ."
+        }
+      ],
+      "terms": {
+        "local3": {
+          "min_of": "local",
+          "where": {
+            "data_gb": 3
+          }
+        },
+        "local": {
+          "min_of": "local"
+        }
+      },
+      "assert": [
+        {
+          "left": "local3",
+          "op": "=",
+          "right": 1300
+        },
+        {
+          "left": "local",
+          "op": "=",
+          "right": 1300
+        }
+      ]
+    }
   ]
 }

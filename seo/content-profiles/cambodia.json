@@ -119,5 +119,50 @@
         "validity_days": 7
       }
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-floor-and-terms",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Камбоджи: местные тарифы от 200 ₽, но 10 ГБ действуют 15 дней, а 5 ГБ — 30."
+        }
+      ],
+      "terms": {
+        "local": {
+          "min_of": "local"
+        },
+        "ten": {
+          "package": "0b51e9a4-5406-4296-b394-addaa23b9dbb",
+          "block": "local",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 15
+          }
+        },
+        "five": {
+          "package": "d2bbbbb2-5365-44fd-a0b6-c84c0c241837",
+          "block": "local",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "local",
+          "op": "=",
+          "right": 200
+        },
+        {
+          "left": "five",
+          "op": "<",
+          "right": "ten"
+        }
+      ],
+      "note": "Сроки 10 ГБ = 15 дн. и 5 ГБ = 30 дн. закреплены attrs."
+    }
   ]
 }

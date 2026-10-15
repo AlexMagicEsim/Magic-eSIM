@@ -312,5 +312,33 @@
         ]
       }
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-3gb-15d",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "Местные 3 ГБ на 15 дней — 750 ₽."
+        }
+      ],
+      "terms": {
+        "local3": {
+          "package": "71fe6ede-5053-4fd1-bcdc-0023533bfd58",
+          "block": "local",
+          "days": 15,
+          "attrs": {
+            "data_gb": 3
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "local3",
+          "op": "=",
+          "right": 750
+        }
+      ]
+    }
   ]
 }

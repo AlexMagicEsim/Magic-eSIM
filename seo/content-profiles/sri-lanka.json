@@ -94,5 +94,103 @@
       "text": "На Шри-Ланке это правило не работает, и разницу видно прямо в сетке ниже.",
       "reason": "не утверждение о составе стран тарифа: правило про цену"
     }
+  ],
+  "price_claims": [
+    {
+      "id": "cheapest-is-not-local",
+      "anchors": [
+        {
+          "field": "title",
+          "text": "eSIM для Шри-Ланки — самый дешёвый вход не местный"
+        },
+        {
+          "field": "description",
+          "text": "Самый дешёвый тариф здесь региональный."
+        },
+        {
+          "field": "h1",
+          "text": "На Шри-Ланке дешевле всего стоит не местный тариф"
+        }
+      ],
+      "terms": {
+        "cheapest": {
+          "min_of": "page"
+        },
+        "multi": {
+          "min_of": "page",
+          "where": {
+            "multi_country": true
+          }
+        },
+        "single": {
+          "min_of": "page",
+          "where": {
+            "multi_country": false
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "multi",
+          "op": "=",
+          "right": "cheapest"
+        },
+        {
+          "left": "multi",
+          "op": "<",
+          "right": "single"
+        }
+      ]
+    },
+    {
+      "id": "intro-same-daily-limit",
+      "anchors": [
+        {
+          "field": "intro[0]",
+          "text": "Самый дешёвый способ выйти в интернет на острове стоит 400 ₽ за трёхдневный пакет — и это посуточный тариф с покрытием нескольких стран, а не местный."
+        },
+        {
+          "field": "intro[0]",
+          "text": "Местный пакет с точно таким же дневным лимитом в 500 МБ и на тот же срок стоит 550 ₽."
+        }
+      ],
+      "terms": {
+        "multi": {
+          "package": "5c81faa7-b294-425b-8eed-cff9c734ed91",
+          "block": "daily",
+          "days": 3,
+          "attrs": {
+            "daily_gb": 0.49
+          }
+        },
+        "local": {
+          "package": "52cfb47a-44df-4c44-a749-a2275f8512f2",
+          "block": "daily",
+          "days": 3,
+          "attrs": {
+            "daily_gb": 0.49
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "multi",
+          "op": "=",
+          "right": 400
+        },
+        {
+          "left": "local",
+          "op": "=",
+          "right": 550
+        }
+      ]
+    }
+  ],
+  "price_claims_waived": [
+    {
+      "field": "lead",
+      "text": "Обычно локальный тариф — самый дешёвый вход в страну: он не оплачивает чужое покрытие.",
+      "reason": "Общее правило, не утверждение о сетке Шри-Ланки; противопоставление с сеткой закреплено cheapest-is-not-local."
+    }
   ]
 }

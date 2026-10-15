@@ -328,5 +328,28 @@
         "KH"
       ]
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-floor",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Лаоса: местные тарифы от 300 ₽ и пакеты на маршрут Лаос — Вьетнам — Камбоджа."
+        }
+      ],
+      "terms": {
+        "local": {
+          "min_of": "local"
+        }
+      },
+      "assert": [
+        {
+          "left": "local",
+          "op": "=",
+          "right": 300
+        }
+      ]
+    }
   ]
 }

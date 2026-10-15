@@ -107,5 +107,46 @@
         "NI"
       ]
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-prices",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Коста-Рики: местные 3 ГБ на 15 дней — 1200 ₽, 10 ГБ на 30 дней — 1850 ₽."
+        }
+      ],
+      "terms": {
+        "local3": {
+          "package": "e90b98b1-6a2e-437b-a289-5251c96f8253",
+          "block": "local",
+          "days": 15,
+          "attrs": {
+            "data_gb": 3
+          }
+        },
+        "local10": {
+          "package": "689e9f01-e5c2-4654-a951-4e4a40e60252",
+          "block": "local",
+          "days": 30,
+          "attrs": {
+            "data_gb": 10
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "local3",
+          "op": "=",
+          "right": 1200
+        },
+        {
+          "left": "local10",
+          "op": "=",
+          "right": 1850
+        }
+      ]
+    }
   ]
 }
