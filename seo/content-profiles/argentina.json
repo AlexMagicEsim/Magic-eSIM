@@ -334,5 +334,33 @@
       ],
       "family": "^South America"
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-3gb-15d",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "Местные 3 ГБ на 15 дней — 1050 ₽."
+        }
+      ],
+      "terms": {
+        "local3": {
+          "package": "4e23bcde-1e3f-4244-8fdd-c5151e7f5162",
+          "block": "local",
+          "days": 15,
+          "attrs": {
+            "data_gb": 3
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "local3",
+          "op": "=",
+          "right": 1050
+        }
+      ]
+    }
   ]
 }

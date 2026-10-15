@@ -272,5 +272,133 @@
         "topup_available": false
       }
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-floor",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Доминиканы: на отдых в стране хватает местного тарифа — от 1050 ₽ за 3 ГБ."
+        }
+      ],
+      "terms": {
+        "local": {
+          "min_of": "local"
+        },
+        "local3": {
+          "min_of": "local",
+          "where": {
+            "data_gb": 3
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "local",
+          "op": "=",
+          "right": 1050
+        },
+        {
+          "left": "local3",
+          "op": "=",
+          "right": 1050
+        }
+      ]
+    },
+    {
+      "id": "lead-local-times-cheaper",
+      "anchors": [
+        {
+          "field": "lead",
+          "text": "Если отдых проходит в Доминикане и на другие острова вы не собираетесь, пакет на Карибы не нужен: местные объёмные тарифы на тех же объёмах в разы дешевле."
+        },
+        {
+          "field": "lead",
+          "text": "Например, 5 ГБ на 30 дней в местном блоке стоят 1700 ₽, в пакете на Карибы — 5200 ₽."
+        }
+      ],
+      "terms": {
+        "local3": {
+          "package": "67cc83e1-4db8-4d63-9b03-1b8cf33aaece",
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          }
+        },
+        "carib3": {
+          "package": "82b5007a-c0bc-427b-9773-5d5561635adb",
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          }
+        },
+        "local5": {
+          "package": "2cc12a5f-cb32-43cd-85d7-6c1d8ee7d224",
+          "block": "local",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          }
+        },
+        "carib5": {
+          "package": "bf0c8dfa-9965-4b76-9478-eb5b4dd41694",
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          }
+        },
+        "local10": {
+          "package": "d507ece4-c8bc-41c4-b9ad-cda4bc89e72f",
+          "block": "local",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          }
+        },
+        "carib10": {
+          "package": "71e93c41-4be9-4b12-b1cf-0f121b8ba7dc",
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "local3",
+          "op": "<=",
+          "right": "carib3",
+          "factor": 2
+        },
+        {
+          "left": "local5",
+          "op": "<=",
+          "right": "carib5",
+          "factor": 2
+        },
+        {
+          "left": "local10",
+          "op": "<=",
+          "right": "carib10",
+          "factor": 2
+        },
+        {
+          "left": "local5",
+          "op": "=",
+          "right": 1700
+        },
+        {
+          "left": "carib5",
+          "op": "=",
+          "right": 5200
+        }
+      ],
+      "note": "«в разы» = не меньше чем вдвое на каждом общем объёме и сроке (3 ГБ/15 дн., 5 и 10 ГБ/30 дн.); «Например» — точные цены 5 ГБ."
+    }
   ]
 }

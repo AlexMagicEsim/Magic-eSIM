@@ -77,5 +77,82 @@
         "AE"
       ]
     }
+  ],
+  "price_claims": [
+    {
+      "id": "cheapest-card-loses",
+      "anchors": [
+        {
+          "field": "title",
+          "text": "eSIM для Катара — почему дешёвая карточка не выгодна"
+        },
+        {
+          "field": "description",
+          "text": "eSIM для Катара: самый дешёвый тариф в сетке проигрывает соседнему при почти такой же цене."
+        },
+        {
+          "field": "h1",
+          "text": "Самая дешёвая карточка в Катаре — не самая выгодная"
+        },
+        {
+          "field": "intro[0]",
+          "text": "Самый дешёвый тариф здесь — посуточный с лимитом 500 МБ, купленный на минимальные три дня, за 800 ₽."
+        },
+        {
+          "field": "intro[0]",
+          "text": "Соседняя карточка — объёмный тариф на 3 ГБ — стоит 900 ₽ и действует 15 дней."
+        }
+      ],
+      "terms": {
+        "cheapest": {
+          "min_of": "page"
+        },
+        "daily": {
+          "package": "3484f17a-ea91-4c90-af61-fbe9e81efc8b",
+          "block": "daily",
+          "days": 3,
+          "attrs": {
+            "daily_gb": 0.49
+          }
+        },
+        "next": {
+          "package": "b4ebc474-e1f3-466c-a84f-5d22f950df39",
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "daily",
+          "op": "=",
+          "right": "cheapest"
+        },
+        {
+          "left": "daily",
+          "op": "<",
+          "right": "next"
+        },
+        {
+          "left": "daily",
+          "op": ">=",
+          "right": "next",
+          "factor": 1.2
+        },
+        {
+          "left": "daily",
+          "op": "=",
+          "right": 800
+        },
+        {
+          "left": "next",
+          "op": "=",
+          "right": 900
+        }
+      ],
+      "note": "«почти такая же цена»: соседняя карточка дороже самой дешёвой не больше чем на 20 %."
+    }
   ]
 }

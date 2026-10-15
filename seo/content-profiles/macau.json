@@ -230,5 +230,28 @@
         }
       ]
     }
+  ],
+  "price_claims": [
+    {
+      "id": "description-local-floor",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Макао: местные тарифы от 400 ₽ покрывают только Макао."
+        }
+      ],
+      "terms": {
+        "local": {
+          "min_of": "local"
+        }
+      },
+      "assert": [
+        {
+          "left": "local",
+          "op": "=",
+          "right": 400
+        }
+      ]
+    }
   ]
 }

@@ -61,5 +61,31 @@
   "dual_sim_note": {
     "text": "eSIM — отдельная линия только для интернета, ваш номер остаётся при вас: {link}.",
     "anchor": "что это значит для банковских кодов"
-  }
+  },
+  "price_claims": [
+    {
+      "id": "lead-daily-entry-cheaper",
+      "anchors": [
+        {
+          "field": "lead",
+          "text": "Посуточные тарифы тоже есть, и для совсем короткой поездки с небольшим расходом вход через них дешевле."
+        }
+      ],
+      "terms": {
+        "daily": {
+          "min_of": "daily"
+        },
+        "volume": {
+          "min_of": "volume"
+        }
+      },
+      "assert": [
+        {
+          "left": "daily",
+          "op": "<",
+          "right": "volume"
+        }
+      ]
+    }
+  ]
 }

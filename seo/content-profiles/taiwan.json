@@ -107,5 +107,64 @@
       "scope": "regional",
       "max_coverage": 21
     }
+  ],
+  "price_claims": [
+    {
+      "id": "thirty-cheaper-than-ten",
+      "anchors": [
+        {
+          "field": "description",
+          "text": "eSIM для Тайваня: 30 ГБ стоят дешевле 10 ГБ, но срок у них идёт с установки, а не с первого выхода в сеть."
+        },
+        {
+          "field": "h1",
+          "text": "На Тайване самый выгодный пакет нельзя ставить заранее"
+        },
+        {
+          "field": "lead",
+          "text": "В тайваньской сетке есть тариф, который выглядит очевидной находкой: 30 ГБ дешевле, чем 10 ГБ."
+        },
+        {
+          "field": "intro[0]",
+          "text": "Местный тариф на 30 ГБ стоит 2050 ₽, а на 10 ГБ — 2650 ₽."
+        }
+      ],
+      "terms": {
+        "thirty": {
+          "package": "215bf22c-3407-4fd5-a13e-d2150bd2dff6",
+          "block": "local",
+          "attrs": {
+            "data_gb": 30,
+            "validity_days": 30
+          }
+        },
+        "ten": {
+          "package": "e93d587a-d75d-408d-bb96-4fdaa9373a1f",
+          "block": "local",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          }
+        }
+      },
+      "assert": [
+        {
+          "left": "thirty",
+          "op": "<",
+          "right": "ten"
+        },
+        {
+          "left": "thirty",
+          "op": "=",
+          "right": 2050
+        },
+        {
+          "left": "ten",
+          "op": "=",
+          "right": 2650
+        }
+      ],
+      "note": "H1 «самый выгодный пакет» держится на том же: 30 ГБ дешевле 10 ГБ — это самая низкая цена за гигабайт среди местных."
+    }
   ]
 }

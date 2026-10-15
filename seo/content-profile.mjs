@@ -84,6 +84,8 @@ const META_KEYS = Object.freeze([
   // Machine-checkable dependencies of the prose — seo/coverage-claims.mjs.
   // Never rendered: the page says what the editor wrote, these only prove it.
   'coverage_claims', 'coverage_claims_waived',
+  // The same for price sentences — seo/price-claims.mjs. Never rendered.
+  'price_claims', 'price_claims_waived',
   // Sentences about the network in a place that a PRIMARY source supports
   // (operator, regulator, transport authority) — url + checked date each.
   'network_facts',

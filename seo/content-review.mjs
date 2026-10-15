@@ -595,7 +595,8 @@ for (const slug of scope) {
       'related_topics', 'faq_candidates', 'sources', 'reviewed_by', 'reviewed_at',
       'last_reviewed', 'next_review', 'editor_notes', 'notes', 'research_method',
       'locked', 'locked_by', 'locked_reason', 'ab_test',
-      'coverage_claims', 'coverage_claims_waived', 'network_facts'].includes(k));
+      'coverage_claims', 'coverage_claims_waived', 'network_facts',
+      'price_claims', 'price_claims_waived'].includes(k));
   if (unknown.length) problems.push(`неизвестные поля: ${unknown.join(', ')}`);
 
   const q = scoreProfile(profile, { slug, corpus });
