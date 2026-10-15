@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-13T16:59:20.432Z",
+  "fetched_at": "2026-10-14T19:24:43.127Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -8967,7 +8967,7 @@
         },
         {
           "data_gb": 50,
-          "price_rub": 8100,
+          "price_rub": 10050,
           "validity_days": 30,
           "kind": "local"
         }
@@ -9010,12 +9010,12 @@
         7150,
         8000,
         8050,
-        8100,
         8900,
         9200,
         9800,
         9850,
         9900,
+        10050,
         11950,
         13150,
         13550,
@@ -10454,8 +10454,8 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 39,
-      "topup_no": 11,
+      "topup_yes": 40,
+      "topup_no": 10,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -10762,8 +10762,8 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 28,
-      "topup_no": 6,
+      "topup_yes": 29,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -24982,7 +24982,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 6450,
+          "price_rub": 8400,
           "validity_days": 30,
           "kind": "local"
         }
@@ -25008,13 +25008,13 @@
         5950,
         6000,
         6300,
-        6450,
         6550,
         7000,
         7300,
         7650,
         7950,
         8150,
+        8400,
         9150,
         9200,
         9600,
@@ -29369,151 +29369,6 @@
       "min_volume_price_rub": 500,
       "min_daily_price_rub": 350
     },
-    "mongolia": {
-      "iso": "MN",
-      "name_ru": "Монголия",
-      "strategy": "LOCAL",
-      "local_count": 11,
-      "regional_count": 0,
-      "total_count": 11,
-      "min_price_rub": 1050,
-      "max_price_rub": 10900,
-      "validity_days_min": 0,
-      "validity_days_max": 30,
-      "volumes_gb": [
-        0,
-        3,
-        5,
-        10,
-        20
-      ],
-      "has_unlimited": false,
-      "regional_reach_max": 0,
-      "offers": [
-        {
-          "data_gb": 0,
-          "price_rub": 1650,
-          "validity_days": 0,
-          "kind": "local"
-        },
-        {
-          "data_gb": 3,
-          "price_rub": 1050,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 5,
-          "price_rub": 1550,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 10,
-          "price_rub": 2350,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 20,
-          "price_rub": 3250,
-          "validity_days": 30,
-          "kind": "local"
-        }
-      ],
-      "all_purchasable_prices": [
-        1050,
-        1550,
-        1650,
-        1950,
-        2350,
-        2700,
-        3150,
-        3250,
-        3500,
-        3650,
-        4050,
-        4200,
-        4800,
-        5000,
-        5550,
-        5800,
-        6100,
-        6500,
-        7300,
-        7600,
-        7700,
-        8500,
-        8900,
-        9850,
-        10600,
-        10650,
-        10900,
-        12500,
-        13600,
-        14150,
-        14900,
-        15750,
-        16550,
-        17850,
-        18500,
-        19200,
-        22150,
-        24800,
-        28550,
-        31000,
-        35250,
-        36600,
-        43850,
-        52650,
-        56700,
-        104850
-      ],
-      "term_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "daily_gb": [
-        1,
-        2,
-        3,
-        5,
-        10
-      ],
-      "speeds": [
-        "3G/4G",
-        "3G/4G/5G"
-      ],
-      "networks": [
-        "Mobicom"
-      ],
-      "networks_rows": 7,
-      "rows_total": 11,
-      "fup_policies": [
-        "1 Mbps",
-        "384 Kbps",
-        "512 Kbps"
-      ],
-      "activation_policies": [
-        "first_data_usage",
-        "unknown"
-      ],
-      "activation_labels": [
-        "с первого использования интернета",
-        "с первого подключения к сети"
-      ],
-      "topup_yes": 11,
-      "topup_no": 0,
-      "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
-      "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1650
-    },
     "mayotte": {
       "iso": "YT",
       "name_ru": "Майотта",
@@ -30195,8 +30050,8 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 13,
-      "topup_no": 4,
+      "topup_yes": 14,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -37683,8 +37538,8 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 3,
-      "topup_no": 3,
+      "topup_yes": 4,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -37766,6 +37621,117 @@
       "daily_throttle_continues": false,
       "min_volume_price_rub": 2400,
       "min_daily_price_rub": null
+    },
+    "mongolia": {
+      "iso": "MN",
+      "name_ru": "Монголия",
+      "strategy": "LOCAL",
+      "local_count": 7,
+      "regional_count": 0,
+      "total_count": 7,
+      "min_price_rub": 1650,
+      "max_price_rub": 10900,
+      "validity_days_min": 0,
+      "validity_days_max": 0,
+      "volumes_gb": [
+        0
+      ],
+      "has_unlimited": false,
+      "regional_reach_max": 0,
+      "offers": [
+        {
+          "data_gb": 0,
+          "price_rub": 1650,
+          "validity_days": 0,
+          "kind": "local"
+        }
+      ],
+      "all_purchasable_prices": [
+        1650,
+        1950,
+        2700,
+        3150,
+        3500,
+        3650,
+        4050,
+        4200,
+        4800,
+        5000,
+        5550,
+        5800,
+        6100,
+        6500,
+        7300,
+        7600,
+        7700,
+        8500,
+        8900,
+        9850,
+        10600,
+        10650,
+        10900,
+        12500,
+        13600,
+        14150,
+        14900,
+        15750,
+        16550,
+        17850,
+        18500,
+        19200,
+        22150,
+        24800,
+        28550,
+        31000,
+        35250,
+        36600,
+        43850,
+        52650,
+        56700,
+        104850
+      ],
+      "term_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "daily_gb": [
+        1,
+        2,
+        3,
+        5,
+        10
+      ],
+      "speeds": [
+        "3G/4G",
+        "3G/4G/5G"
+      ],
+      "networks": [
+        "Mobicom"
+      ],
+      "networks_rows": 7,
+      "rows_total": 7,
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 7,
+      "topup_no": 0,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
+      "min_volume_price_rub": null,
+      "min_daily_price_rub": 1650
     },
     "afghanistan": {
       "iso": "AF",
