@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-15T04:51:29.315Z",
+  "fetched_at": "2026-10-16T11:31:32.753Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -8950,9 +8950,9 @@
       "iso": "SA",
       "name_ru": "Саудовская Аравия",
       "strategy": "LOCAL",
-      "local_count": 12,
+      "local_count": 14,
       "regional_count": 5,
-      "total_count": 17,
+      "total_count": 19,
       "min_price_rub": 600,
       "max_price_rub": 11500,
       "validity_days_min": 0,
@@ -9023,6 +9023,7 @@
         2750,
         2850,
         2950,
+        3100,
         3150,
         3250,
         3700,
@@ -9032,6 +9033,7 @@
         4350,
         4550,
         4650,
+        4900,
         4950,
         5650,
         5850,
@@ -9099,7 +9101,7 @@
         "ooredoo"
       ],
       "networks_rows": 16,
-      "rows_total": 17,
+      "rows_total": 19,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -9114,7 +9116,7 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 15,
-      "topup_no": 2,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
