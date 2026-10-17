@@ -389,8 +389,13 @@ test('review B9/B11/B12: same-id changes that falsify the sentence are caught', 
   let c = clone(LIVE.packages);
   for (const p of byName(c, /^South America \(6 areas\)/)) { p.coverage_country_codes.push('PY', 'BO'); p.region += ', PY, BO'; }
   red('argentina', c, '«одни не включают Парагвай и Боливию» — all South America cards now include both');
-  c = clone(LIVE.packages); const [it] = byName(c, /^Italy 25 GB$/); it.coverage_country_codes = ['IT']; it.region = 'IT';
-  red('egypt', c, 'Italy 25 GB is no longer multi-country');
+  // «Italy 25 GB» (IT/SM/VA) was withdrawn on 2026-10-16 and the Egypt sentence
+  // re-pinned to the one multi-country 25 GB pack left: the same kind of change
+  // to it must still be caught.
+  c = clone(LIVE.packages); const [cjk] = byName(c, /^China Korea Japan 25 GB$/); cjk.coverage_country_codes = ['CN', 'JP', 'KR', 'EG']; cjk.region += ', EG';
+  red('egypt', c, 'the China Korea Japan 25 GB pack now covers Egypt');
+  c = clone(LIVE.packages); const [cjk2] = byName(c, /^China Korea Japan 25 GB$/); cjk2.coverage_country_codes = ['CN']; cjk2.region = 'CN';
+  red('egypt', c, 'the China Korea Japan 25 GB pack is no longer multi-country');
   c = clone(LIVE.packages); byName(c, /^Africa 5GB 30Days$/)[0].topup_available = false;
   red('kenya', c, '«5 ГБ на 30 дней с пополнением» lost its top-up');
 });
