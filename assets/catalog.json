@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-17T10:51:56.563Z",
+  "generated_at": "2026-10-17T17:51:37.694Z",
   "source": "production-public-api",
   "package_count": 2284,
   "packages": [
@@ -3980,27 +3980,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1200
+          "price": 850
         },
         {
           "days": 5,
-          "price": 1850
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2550
+          "price": 1800
         },
         {
           "days": 10,
-          "price": 3400
+          "price": 2450
         },
         {
           "days": 15,
-          "price": 4850
+          "price": 3550
         },
         {
           "days": 30,
-          "price": 8600
+          "price": 6150
         }
       ]
     },
@@ -7068,27 +7068,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1850
+          "price": 1650
         },
         {
           "days": 5,
-          "price": 2850
+          "price": 2550
         },
         {
           "days": 7,
-          "price": 3800
+          "price": 3500
         },
         {
           "days": 10,
-          "price": 5100
+          "price": 4650
         },
         {
           "days": 15,
-          "price": 7450
+          "price": 6750
         },
         {
           "days": 30,
-          "price": 13300
+          "price": 12000
         }
       ]
     },
@@ -8636,27 +8636,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 850
+          "price": 700
         },
         {
           "days": 5,
-          "price": 1350
+          "price": 1100
         },
         {
           "days": 7,
-          "price": 1850
+          "price": 1500
         },
         {
           "days": 10,
-          "price": 2500
+          "price": 2000
         },
         {
           "days": 15,
-          "price": 3600
+          "price": 2950
         },
         {
           "days": 30,
-          "price": 6250
+          "price": 5100
         }
       ]
     },
@@ -11787,27 +11787,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 700
+          "price": 600
         },
         {
           "days": 5,
-          "price": 1100
+          "price": 900
         },
         {
           "days": 7,
-          "price": 1500
+          "price": 1250
         },
         {
           "days": 10,
-          "price": 2050
+          "price": 1650
         },
         {
           "days": 15,
-          "price": 3000
+          "price": 2450
         },
         {
           "days": 30,
-          "price": 5150
+          "price": 4250
         }
       ]
     },
@@ -13399,27 +13399,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1350
+          "price": 1250
         },
         {
           "days": 5,
-          "price": 2100
+          "price": 1900
         },
         {
           "days": 7,
-          "price": 2900
+          "price": 2650
         },
         {
           "days": 10,
-          "price": 3850
+          "price": 3550
         },
         {
           "days": 15,
-          "price": 5550
+          "price": 5050
         },
         {
           "days": 30,
-          "price": 9900
+          "price": 8950
         }
       ]
     },
@@ -16825,27 +16825,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 950
+          "price": 850
         },
         {
           "days": 5,
-          "price": 1500
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2000
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 2750
+          "price": 2500
         },
         {
           "days": 15,
-          "price": 3950
+          "price": 3600
         },
         {
           "days": 30,
-          "price": 6900
+          "price": 6250
         }
       ]
     },
@@ -17287,27 +17287,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3150
+          "price": 2850
         },
         {
           "days": 5,
-          "price": 4800
+          "price": 4350
         },
         {
           "days": 7,
-          "price": 6500
+          "price": 5900
         },
         {
           "days": 10,
-          "price": 8800
+          "price": 8000
         },
         {
           "days": 15,
-          "price": 13000
+          "price": 11750
         },
         {
           "days": 30,
-          "price": 23550
+          "price": 21250
         }
       ]
     },
@@ -22131,27 +22131,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 600
+          "price": 550
         },
         {
           "days": 5,
-          "price": 950
+          "price": 850
         },
         {
           "days": 7,
-          "price": 1250
+          "price": 1150
         },
         {
           "days": 10,
-          "price": 1700
+          "price": 1550
         },
         {
           "days": 15,
-          "price": 2500
+          "price": 2250
         },
         {
           "days": 30,
-          "price": 4300
+          "price": 3950
         }
       ]
     },
@@ -27171,27 +27171,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 850
         },
         {
           "days": 5,
-          "price": 1550
+          "price": 1300
         },
         {
           "days": 7,
-          "price": 2150
+          "price": 1750
         },
         {
           "days": 10,
-          "price": 2900
+          "price": 2350
         },
         {
           "days": 15,
-          "price": 4200
+          "price": 3450
         },
         {
           "days": 30,
-          "price": 7300
+          "price": 5950
         }
       ]
     },
@@ -31092,27 +31092,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1150
+          "price": 900
         },
         {
           "days": 5,
-          "price": 1750
+          "price": 1400
         },
         {
           "days": 7,
-          "price": 2400
+          "price": 1900
         },
         {
           "days": 10,
-          "price": 3200
+          "price": 2600
         },
         {
           "days": 15,
-          "price": 4600
+          "price": 3750
         },
         {
           "days": 30,
-          "price": 8100
+          "price": 6550
         }
       ]
     },
@@ -31255,27 +31255,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2300
+          "price": 2050
         },
         {
           "days": 5,
-          "price": 3500
+          "price": 3200
         },
         {
           "days": 7,
-          "price": 4700
+          "price": 4300
         },
         {
           "days": 10,
-          "price": 6350
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 9300
+          "price": 8400
         },
         {
           "days": 30,
-          "price": 16750
+          "price": 15100
         }
       ]
     },
@@ -40997,27 +40997,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1550
+          "price": 1450
         },
         {
           "days": 7,
-          "price": 2150
+          "price": 1950
         },
         {
           "days": 10,
-          "price": 2900
+          "price": 2650
         },
         {
           "days": 15,
-          "price": 4200
+          "price": 3800
         },
         {
           "days": 30,
-          "price": 7300
+          "price": 6600
         }
       ]
     },
@@ -44324,27 +44324,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1850
+          "price": 1650
         },
         {
           "days": 5,
-          "price": 2850
+          "price": 2550
         },
         {
           "days": 7,
-          "price": 3800
+          "price": 3500
         },
         {
           "days": 10,
-          "price": 5100
+          "price": 4650
         },
         {
           "days": 15,
-          "price": 7450
+          "price": 6750
         },
         {
           "days": 30,
-          "price": 13300
+          "price": 12000
         }
       ]
     },
@@ -51554,27 +51554,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1600
+          "price": 1450
         },
         {
           "days": 7,
-          "price": 2200
+          "price": 2000
         },
         {
           "days": 10,
-          "price": 2950
+          "price": 2700
         },
         {
           "days": 15,
-          "price": 4250
+          "price": 3850
         },
         {
           "days": 30,
-          "price": 7450
+          "price": 6750
         }
       ]
     },
@@ -53758,27 +53758,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5250
+          "price": 4300
         },
         {
           "days": 5,
-          "price": 8100
+          "price": 6550
         },
         {
           "days": 7,
-          "price": 11150
+          "price": 9000
         },
         {
           "days": 10,
-          "price": 15200
+          "price": 12250
         },
         {
           "days": 15,
-          "price": 22600
+          "price": 18150
         },
         {
           "days": 30,
-          "price": 41250
+          "price": 33100
         }
       ]
     },
@@ -54078,27 +54078,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 400
+          "price": 350
         },
         {
           "days": 5,
-          "price": 650
+          "price": 500
         },
         {
           "days": 7,
-          "price": 850
+          "price": 700
         },
         {
           "days": 10,
-          "price": 1200
+          "price": 950
         },
         {
           "days": 15,
-          "price": 1700
+          "price": 1400
         },
         {
           "days": 30,
-          "price": 3000
+          "price": 2450
         }
       ]
     },
@@ -57487,27 +57487,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2450
+          "price": 2250
         },
         {
           "days": 5,
-          "price": 3750
+          "price": 3450
         },
         {
           "days": 7,
-          "price": 5100
+          "price": 4650
         },
         {
           "days": 10,
-          "price": 6850
+          "price": 6250
         },
         {
           "days": 15,
-          "price": 10100
+          "price": 9100
         },
         {
           "days": 30,
-          "price": 18200
+          "price": 16450
         }
       ]
     },
@@ -58627,27 +58627,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1100
+          "price": 1000
         },
         {
           "days": 5,
-          "price": 1650
+          "price": 1500
         },
         {
           "days": 7,
-          "price": 2300
+          "price": 2050
         },
         {
           "days": 10,
-          "price": 3100
+          "price": 2800
         },
         {
           "days": 15,
-          "price": 4400
+          "price": 4000
         },
         {
           "days": 30,
-          "price": 7750
+          "price": 7000
         }
       ]
     },
@@ -58972,27 +58972,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1550
+          "price": 1400
         },
         {
           "days": 5,
-          "price": 2400
+          "price": 2150
         },
         {
           "days": 7,
-          "price": 3250
+          "price": 2950
         },
         {
           "days": 10,
-          "price": 4350
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 6250
+          "price": 5700
         },
         {
           "days": 30,
-          "price": 11150
+          "price": 10100
         }
       ]
     },
@@ -59706,27 +59706,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 950
+          "price": 750
         },
         {
           "days": 5,
-          "price": 1450
+          "price": 1200
         },
         {
           "days": 7,
-          "price": 2000
+          "price": 1600
         },
         {
           "days": 10,
-          "price": 2700
+          "price": 2200
         },
         {
           "days": 15,
-          "price": 3850
+          "price": 3200
         },
         {
           "days": 30,
-          "price": 6750
+          "price": 5500
         }
       ]
     },
@@ -64078,27 +64078,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1950
+          "price": 1600
         },
         {
           "days": 5,
-          "price": 3000
+          "price": 2450
         },
         {
           "days": 7,
-          "price": 4050
+          "price": 3350
         },
         {
           "days": 10,
-          "price": 5400
+          "price": 4400
         },
         {
           "days": 15,
-          "price": 7900
+          "price": 6400
         },
         {
           "days": 30,
-          "price": 14150
+          "price": 11400
         }
       ]
     },
@@ -66909,27 +66909,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5350
+          "price": 4850
         },
         {
           "days": 5,
-          "price": 8250
+          "price": 7500
         },
         {
           "days": 7,
-          "price": 11400
+          "price": 10300
         },
         {
           "days": 10,
-          "price": 15550
+          "price": 14050
         },
         {
           "days": 15,
-          "price": 23100
+          "price": 20850
         },
         {
           "days": 30,
-          "price": 42200
+          "price": 38050
         }
       ]
     },
@@ -67443,27 +67443,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1550
+          "price": 1450
         },
         {
           "days": 7,
-          "price": 2150
+          "price": 1950
         },
         {
           "days": 10,
-          "price": 2900
+          "price": 2650
         },
         {
           "days": 15,
-          "price": 4200
+          "price": 3800
         },
         {
           "days": 30,
-          "price": 7300
+          "price": 6600
         }
       ]
     },
@@ -75272,27 +75272,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5450
+          "price": 4950
         },
         {
           "days": 5,
-          "price": 8450
+          "price": 7650
         },
         {
           "days": 7,
-          "price": 11650
+          "price": 10550
         },
         {
           "days": 10,
-          "price": 15950
+          "price": 14400
         },
         {
           "days": 15,
-          "price": 23700
+          "price": 21350
         },
         {
           "days": 30,
-          "price": 43250
+          "price": 39000
         }
       ]
     },
@@ -80067,27 +80067,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3750
+          "price": 2750
         },
         {
           "days": 5,
-          "price": 5750
+          "price": 4150
         },
         {
           "days": 7,
-          "price": 7850
+          "price": 5650
         },
         {
           "days": 10,
-          "price": 10700
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 15800
+          "price": 11200
         },
         {
           "days": 30,
-          "price": 28700
+          "price": 20250
         }
       ]
     },
@@ -84428,27 +84428,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 800
+          "price": 650
         },
         {
           "days": 5,
-          "price": 1200
+          "price": 1000
         },
         {
           "days": 7,
-          "price": 1650
+          "price": 1350
         },
         {
           "days": 10,
-          "price": 2200
+          "price": 1800
         },
         {
           "days": 15,
-          "price": 3250
+          "price": 2650
         },
         {
           "days": 30,
-          "price": 5600
+          "price": 4550
         }
       ]
     },
@@ -85650,27 +85650,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 600
+          "price": 550
         },
         {
           "days": 5,
-          "price": 950
+          "price": 850
         },
         {
           "days": 7,
-          "price": 1250
+          "price": 1150
         },
         {
           "days": 10,
-          "price": 1700
+          "price": 1550
         },
         {
           "days": 15,
-          "price": 2500
+          "price": 2250
         },
         {
           "days": 30,
-          "price": 4300
+          "price": 3950
         }
       ]
     },
@@ -89734,27 +89734,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1750
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 2750
+          "price": 2200
         },
         {
           "days": 7,
-          "price": 3700
+          "price": 3050
         },
         {
           "days": 10,
-          "price": 4950
+          "price": 4050
         },
         {
           "days": 15,
-          "price": 7200
+          "price": 5850
         },
         {
           "days": 30,
-          "price": 12850
+          "price": 10400
         }
       ]
     },
@@ -91489,27 +91489,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3050
+          "price": 2450
         },
         {
           "days": 5,
-          "price": 4550
+          "price": 3750
         },
         {
           "days": 7,
-          "price": 6200
+          "price": 5050
         },
         {
           "days": 10,
-          "price": 8400
+          "price": 6800
         },
         {
           "days": 15,
-          "price": 12400
+          "price": 10000
         },
         {
           "days": 30,
-          "price": 22400
+          "price": 18000
         }
       ]
     },
@@ -102326,27 +102326,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4800
+          "price": 3500
         },
         {
           "days": 5,
-          "price": 7400
+          "price": 5350
         },
         {
           "days": 7,
-          "price": 10200
+          "price": 7300
         },
         {
           "days": 10,
-          "price": 13950
+          "price": 9900
         },
         {
           "days": 15,
-          "price": 20650
+          "price": 14600
         },
         {
           "days": 30,
-          "price": 37700
+          "price": 26550
         }
       ]
     },
@@ -103127,27 +103127,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 900
+          "price": 750
         },
         {
           "days": 5,
-          "price": 1400
+          "price": 1150
         },
         {
           "days": 7,
-          "price": 1900
+          "price": 1550
         },
         {
           "days": 10,
-          "price": 2550
+          "price": 2100
         },
         {
           "days": 15,
-          "price": 3700
+          "price": 3050
         },
         {
           "days": 30,
-          "price": 6450
+          "price": 5250
         }
       ]
     },
@@ -103864,27 +103864,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2550
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 3900
+          "price": 3250
         },
         {
           "days": 7,
-          "price": 5300
+          "price": 4350
         },
         {
           "days": 10,
-          "price": 7150
+          "price": 5800
         },
         {
           "days": 15,
-          "price": 10500
+          "price": 8500
         },
         {
           "days": 30,
-          "price": 18950
+          "price": 15250
         }
       ]
     },
@@ -107432,27 +107432,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 650
+          "price": 500
         },
         {
           "days": 5,
-          "price": 1000
+          "price": 800
         },
         {
           "days": 7,
-          "price": 1400
+          "price": 1150
         },
         {
           "days": 10,
-          "price": 1850
+          "price": 1500
         },
         {
           "days": 15,
-          "price": 2700
+          "price": 2200
         },
         {
           "days": 30,
-          "price": 4700
+          "price": 3850
         }
       ]
     },
@@ -110091,27 +110091,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3450
+          "price": 3150
         },
         {
           "days": 5,
-          "price": 5250
+          "price": 4800
         },
         {
           "days": 7,
-          "price": 7200
+          "price": 6500
         },
         {
           "days": 10,
-          "price": 9750
+          "price": 8800
         },
         {
           "days": 15,
-          "price": 14400
+          "price": 13000
         },
         {
           "days": 30,
-          "price": 26150
+          "price": 23550
         }
       ]
     },
@@ -114775,27 +114775,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2400
+          "price": 2150
         },
         {
           "days": 5,
-          "price": 3650
+          "price": 3350
         },
         {
           "days": 7,
-          "price": 4950
+          "price": 4500
         },
         {
           "days": 10,
-          "price": 6650
+          "price": 6050
         },
         {
           "days": 15,
-          "price": 9750
+          "price": 8800
         },
         {
           "days": 30,
-          "price": 17600
+          "price": 15850
         }
       ]
     },
@@ -124486,27 +124486,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1550
+          "price": 1250
         },
         {
           "days": 5,
-          "price": 2400
+          "price": 1950
         },
         {
           "days": 7,
-          "price": 3300
+          "price": 2700
         },
         {
           "days": 10,
-          "price": 4400
+          "price": 3600
         },
         {
           "days": 15,
-          "price": 6350
+          "price": 5150
         },
         {
           "days": 30,
-          "price": 11300
+          "price": 9100
         }
       ]
     },
@@ -126060,27 +126060,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2550
+          "price": 2050
         },
         {
           "days": 5,
-          "price": 3900
+          "price": 3200
         },
         {
           "days": 7,
-          "price": 5300
+          "price": 4300
         },
         {
           "days": 10,
-          "price": 7100
+          "price": 5800
         },
         {
           "days": 15,
-          "price": 10450
+          "price": 8450
         },
         {
           "days": 30,
-          "price": 18850
+          "price": 15200
         }
       ]
     },
@@ -126664,27 +126664,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2050
+          "price": 1500
         },
         {
           "days": 5,
-          "price": 3200
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 4250
+          "price": 3150
         },
         {
           "days": 10,
-          "price": 5750
+          "price": 4150
         },
         {
           "days": 15,
-          "price": 8350
+          "price": 6000
         },
         {
           "days": 30,
-          "price": 15000
+          "price": 10650
         }
       ]
     },
@@ -131526,27 +131526,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2350
+          "price": 1900
         },
         {
           "days": 5,
-          "price": 3650
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 4900
+          "price": 4000
         },
         {
           "days": 10,
-          "price": 6600
+          "price": 5350
         },
         {
           "days": 15,
-          "price": 9650
+          "price": 7800
         },
         {
           "days": 30,
-          "price": 17400
+          "price": 14050
         }
       ]
     },
@@ -136481,27 +136481,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3850
+          "price": 3550
         },
         {
           "days": 5,
-          "price": 5900
+          "price": 5350
         },
         {
           "days": 7,
-          "price": 8100
+          "price": 7300
         },
         {
           "days": 10,
-          "price": 11000
+          "price": 9950
         },
         {
           "days": 15,
-          "price": 16250
+          "price": 14700
         },
         {
           "days": 30,
-          "price": 29550
+          "price": 26650
         }
       ]
     },
@@ -140535,27 +140535,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5200
+          "price": 4250
         },
         {
           "days": 5,
-          "price": 8000
+          "price": 6500
         },
         {
           "days": 7,
-          "price": 11050
+          "price": 8950
         },
         {
           "days": 10,
-          "price": 15100
+          "price": 12150
         },
         {
           "days": 15,
-          "price": 22400
+          "price": 18000
         },
         {
           "days": 30,
-          "price": 40900
+          "price": 32800
         }
       ]
     },
@@ -141668,27 +141668,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2450
+          "price": 2000
         },
         {
           "days": 5,
-          "price": 3750
+          "price": 3100
         },
         {
           "days": 7,
-          "price": 5050
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 6800
+          "price": 5550
         },
         {
           "days": 15,
-          "price": 10000
+          "price": 8100
         },
         {
           "days": 30,
-          "price": 18000
+          "price": 14500
         }
       ]
     },
@@ -142355,27 +142355,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 650
+          "price": 600
         },
         {
           "days": 5,
-          "price": 1050
+          "price": 950
         },
         {
           "days": 7,
-          "price": 1400
+          "price": 1250
         },
         {
           "days": 10,
-          "price": 1900
+          "price": 1700
         },
         {
           "days": 15,
-          "price": 2750
+          "price": 2500
         },
         {
           "days": 30,
-          "price": 4750
+          "price": 4300
         }
       ]
     },
@@ -143468,27 +143468,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1350
+          "price": 1150
         },
         {
           "days": 5,
-          "price": 2100
+          "price": 1700
         },
         {
           "days": 7,
-          "price": 2900
+          "price": 2350
         },
         {
           "days": 10,
-          "price": 3850
+          "price": 3200
         },
         {
           "days": 15,
-          "price": 5550
+          "price": 4550
         },
         {
           "days": 30,
-          "price": 9900
+          "price": 8000
         }
       ]
     },
@@ -146201,27 +146201,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1700
+          "price": 1400
         },
         {
           "days": 5,
-          "price": 2650
+          "price": 2150
         },
         {
           "days": 7,
-          "price": 3600
+          "price": 2950
         },
         {
           "days": 10,
-          "price": 4800
+          "price": 3900
         },
         {
           "days": 15,
-          "price": 6950
+          "price": 5650
         },
         {
           "days": 30,
-          "price": 12400
+          "price": 10000
         }
       ]
     },
@@ -149898,27 +149898,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1700
+          "price": 1550
         },
         {
           "days": 5,
-          "price": 2650
+          "price": 2400
         },
         {
           "days": 7,
-          "price": 3600
+          "price": 3300
         },
         {
           "days": 10,
-          "price": 4800
+          "price": 4350
         },
         {
           "days": 15,
-          "price": 6950
+          "price": 6300
         },
         {
           "days": 30,
-          "price": 12450
+          "price": 11250
         }
       ]
     },
@@ -153118,27 +153118,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 8400
+          "price": 6800
         },
         {
           "days": 5,
-          "price": 13100
+          "price": 10600
         },
         {
           "days": 7,
-          "price": 18150
+          "price": 14600
         },
         {
           "days": 10,
-          "price": 24950
+          "price": 20050
         },
         {
           "days": 15,
-          "price": 37150
+          "price": 29800
         },
         {
           "days": 30,
-          "price": 68100
+          "price": 54550
         }
       ]
     },
