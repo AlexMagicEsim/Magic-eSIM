@@ -3230,6 +3230,35 @@
     return ref ? `${SUPPORT_BOT}?start=order_${encodeURIComponent(ref)}` : SUPPORT_BOT;
   }
 
+  // eSIM id → the public token of the order that produced it, from /me/orders
+  // (the list «Мои заказы» reads, which carries `esim_id`). The eSIM screen's
+  // support button had no order to hand over — it passed null, and the support
+  // bot met a bare /start and answered with its greeting (2026-10-17). Read
+  // once per session, on demand; a failure is not cached and costs nothing but
+  // the ref: the button then opens the bot exactly as before.
+  let esimOrderTokens = null;
+  async function orderTokenForEsim(esimId) {
+    if (!esimId || !api) return null;
+    if (!esimOrderTokens) {
+      esimOrderTokens = api.orders().then((all) => {
+        const map = new Map();
+        for (const o of (all && all.items) || []) {
+          if (o && o.esim_id && o.public_order_token) map.set(String(o.esim_id), String(o.public_order_token));
+        }
+        return map;
+      }).catch(() => { esimOrderTokens = null; return new Map(); });
+    }
+    return (await esimOrderTokens).get(String(esimId)) || null;
+  }
+
+  // The eSIM screen's support button: the same button, with the order's ref
+  // filled in as soon as it is known (supportUrl reads it at tap time).
+  function esimSupportButton(esimId, opts) {
+    const order = { public_order_token: null };
+    void orderTokenForEsim(esimId).then((token) => { if (token) order.public_order_token = token; }).catch(() => {});
+    return supportButton(order, opts);
+  }
+
   function supportButton(order, { wide = true } = {}) {
     return el('button', {
       class: wide ? 'btn btn--ghost btn--wide' : 'btn btn--ghost',
@@ -4355,7 +4384,7 @@
       // §9 S9 lists four actions and this is the fourth. An eSIM that will not
       // connect is the moment a customer most needs a person, and until now the
       // app had no way to reach one from anywhere.
-      supportButton(null, { wide: false }),
+      esimSupportButton(id, { wide: false }),
       // The top-up affordance, if this eSIM actually has one.
       //
       // The comment that used to sit here said recharge was unsafe at both
