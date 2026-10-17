@@ -3933,10 +3933,10 @@
       "slug": "saudi-arabia",
       "nameRu": "Саудовская Аравия",
       "flagEmoji": "🇸🇦",
-      "local_count": 5,
+      "local_count": 7,
       "regional_count": 0,
       "daily_count": 12,
-      "total_count": 17,
+      "total_count": 19,
       "min_price_rub": 600,
       "volumes": [
         3,
@@ -5456,6 +5456,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-10-15T04:51:29.315Z",
+  "fetched_at": "2026-10-16T11:31:32.753Z",
   "source": "assets/catalog.json"
 }
