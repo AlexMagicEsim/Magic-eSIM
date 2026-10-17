@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-16T11:31:32.753Z",
+  "generated_at": "2026-10-17T10:51:56.563Z",
   "source": "production-public-api",
-  "package_count": 2287,
+  "package_count": 2284,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -14328,7 +14328,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "IL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -79596,40 +79596,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "88fc30bf-12f4-44e6-9350-6faf5ff36016",
-      "name": "Italy 7 GB",
-      "country_code": "IT",
-      "region": "IT, SM, VA",
-      "coverage_country_codes": [
-        "IT",
-        "SM",
-        "VA"
-      ],
-      "coverage_flags": "🇮🇹 🇸🇲 🇻🇦",
-      "data_gb": 7,
-      "validity_days": 30,
-      "price": 1250,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "892b6b4f-7743-4f29-8b43-db0f93e672d2",
       "name": "Greece Cyprus Turkey 30 GB",
       "country_code": "CY",
@@ -85709,40 +85675,6 @@
       ]
     },
     {
-      "package_id": "91be3927-1d55-4a51-b0d9-74ad752a01bc",
-      "name": "Italy 25 GB",
-      "country_code": "IT",
-      "region": "IT, SM, VA",
-      "coverage_country_codes": [
-        "IT",
-        "SM",
-        "VA"
-      ],
-      "coverage_flags": "🇮🇹 🇸🇲 🇻🇦",
-      "data_gb": 25,
-      "validity_days": 30,
-      "price": 3100,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "91d4299e-13a8-47c2-94f6-ba8807b71fb0",
       "name": "Brazil 10GB/Day",
       "country_code": "BR",
@@ -90302,40 +90234,6 @@
           "price": 7300
         }
       ]
-    },
-    {
-      "package_id": "988dbb13-a384-4823-ac7f-d43968fd6751",
-      "name": "Italy 12 GB",
-      "country_code": "IT",
-      "region": "IT, SM, VA",
-      "coverage_country_codes": [
-        "IT",
-        "SM",
-        "VA"
-      ],
-      "coverage_flags": "🇮🇹 🇸🇲 🇻🇦",
-      "data_gb": 12,
-      "validity_days": 30,
-      "price": 1800,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "989301ac-8f90-47e3-9247-1fe132186d2c",

@@ -887,20 +887,17 @@
       "nameRu": "Ватикан",
       "flagEmoji": "🇻🇦",
       "local_count": 4,
-      "regional_count": 7,
+      "regional_count": 4,
       "daily_count": 10,
-      "total_count": 21,
+      "total_count": 18,
       "min_price_rub": 350,
       "volumes": [
         3,
         5,
-        7,
         10,
-        12,
         15,
         18,
         20,
-        25,
         60,
         120
       ],
@@ -2032,20 +2029,17 @@
       "nameRu": "Италия",
       "flagEmoji": "🇮🇹",
       "local_count": 6,
-      "regional_count": 7,
+      "regional_count": 4,
       "daily_count": 30,
-      "total_count": 43,
+      "total_count": 40,
       "min_price_rub": 250,
       "volumes": [
         3,
         5,
-        7,
         10,
-        12,
         15,
         18,
         20,
-        25,
         50,
         60,
         120
@@ -3903,20 +3897,17 @@
       "nameRu": "Сан-Марино",
       "flagEmoji": "🇸🇲",
       "local_count": 4,
-      "regional_count": 5,
+      "regional_count": 2,
       "daily_count": 10,
-      "total_count": 19,
+      "total_count": 16,
       "min_price_rub": 350,
       "volumes": [
         3,
         5,
-        7,
         10,
-        12,
         15,
         18,
-        20,
-        25
+        20
       ],
       "daily_gb": [
         1,
@@ -5456,6 +5447,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-10-16T11:31:32.753Z",
+  "fetched_at": "2026-10-17T10:51:56.563Z",
   "source": "assets/catalog.json"
 }
