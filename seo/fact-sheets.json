@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-16T11:31:32.753Z",
+  "fetched_at": "2026-10-17T10:51:56.563Z",
   "source": "assets/catalog.json",
   "countries": 199,
   "sheets": {
@@ -21210,8 +21210,8 @@
       "name_ru": "Италия",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 29,
-      "total_count": 43,
+      "regional_count": 26,
+      "total_count": 40,
       "min_price_rub": 250,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -21220,13 +21220,10 @@
         0,
         3,
         5,
-        7,
         10,
-        12,
         15,
         18,
         20,
-        25,
         50,
         60,
         120
@@ -21253,22 +21250,10 @@
           "kind": "local"
         },
         {
-          "data_gb": 7,
-          "price_rub": 1250,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
           "data_gb": 10,
           "price_rub": 950,
           "validity_days": 30,
           "kind": "local"
-        },
-        {
-          "data_gb": 12,
-          "price_rub": 1800,
-          "validity_days": 30,
-          "kind": "regional"
         },
         {
           "data_gb": 15,
@@ -21287,12 +21272,6 @@
           "price_rub": 1750,
           "validity_days": 30,
           "kind": "local"
-        },
-        {
-          "data_gb": 25,
-          "price_rub": 3100,
-          "validity_days": 30,
-          "kind": "regional"
         },
         {
           "data_gb": 50,
@@ -21518,7 +21497,7 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 43,
+      "rows_total": 40,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -21536,7 +21515,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 35,
+      "topup_yes": 32,
       "topup_no": 8,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -23256,8 +23235,8 @@
       "name_ru": "Ватикан",
       "strategy": "LOCAL",
       "local_count": 9,
-      "regional_count": 12,
-      "total_count": 21,
+      "regional_count": 9,
+      "total_count": 18,
       "min_price_rub": 350,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -23266,13 +23245,10 @@
         0,
         3,
         5,
-        7,
         10,
-        12,
         15,
         18,
         20,
-        25,
         60,
         120
       ],
@@ -23298,22 +23274,10 @@
           "kind": "local"
         },
         {
-          "data_gb": 7,
-          "price_rub": 1250,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
           "data_gb": 10,
           "price_rub": 950,
           "validity_days": 30,
           "kind": "local"
-        },
-        {
-          "data_gb": 12,
-          "price_rub": 1800,
-          "validity_days": 30,
-          "kind": "regional"
         },
         {
           "data_gb": 15,
@@ -23332,12 +23296,6 @@
           "price_rub": 1750,
           "validity_days": 30,
           "kind": "local"
-        },
-        {
-          "data_gb": 25,
-          "price_rub": 3100,
-          "validity_days": 30,
-          "kind": "regional"
         },
         {
           "data_gb": 60,
@@ -23474,7 +23432,7 @@
         "lifecell"
       ],
       "networks_rows": 14,
-      "rows_total": 21,
+      "rows_total": 18,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -23488,7 +23446,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 19,
+      "topup_yes": 16,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -28755,8 +28713,8 @@
       "name_ru": "Сан-Марино",
       "strategy": "LOCAL",
       "local_count": 9,
-      "regional_count": 10,
-      "total_count": 19,
+      "regional_count": 7,
+      "total_count": 16,
       "min_price_rub": 350,
       "max_price_rub": 3200,
       "validity_days_min": 0,
@@ -28765,13 +28723,10 @@
         0,
         3,
         5,
-        7,
         10,
-        12,
         15,
         18,
-        20,
-        25
+        20
       ],
       "has_unlimited": false,
       "regional_reach_max": 41,
@@ -28795,22 +28750,10 @@
           "kind": "local"
         },
         {
-          "data_gb": 7,
-          "price_rub": 1250,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
           "data_gb": 10,
           "price_rub": 950,
           "validity_days": 30,
           "kind": "local"
-        },
-        {
-          "data_gb": 12,
-          "price_rub": 1800,
-          "validity_days": 30,
-          "kind": "regional"
         },
         {
           "data_gb": 15,
@@ -28829,12 +28772,6 @@
           "price_rub": 1900,
           "validity_days": 30,
           "kind": "local"
-        },
-        {
-          "data_gb": 25,
-          "price_rub": 3100,
-          "validity_days": 30,
-          "kind": "regional"
         }
       ],
       "all_purchasable_prices": [
@@ -28958,7 +28895,7 @@
         "lifecell"
       ],
       "networks_rows": 14,
-      "rows_total": 19,
+      "rows_total": 16,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -28971,7 +28908,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 19,
+      "topup_yes": 16,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
