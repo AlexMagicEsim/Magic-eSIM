@@ -123,7 +123,7 @@
         <p class="intro">Оба тарифа дают 20 ГБ и действуют 30 дней, но одинаковыми их делает только эта пара цифр. В карточках у них разное: у одного указаны сеть и оператор, у другого строки о сети нет вовсе; у одного отмечена раздача интернета, у другого отметки нет; различаются и условия активации.</p>
         <p class="intro">Вывод обыденный, но именно он экономит деньги: сравнивать нужно не гигабайты и срок, а всю карточку. Одинаковый объём и одинаковый срок не означают, что совпадает остальное, и разница в цене чаще всего объясняется как раз остальным — поэтому «взять который дешевле» здесь не универсальный совет.</p>
         <p class="facts">
-          Локальных тарифов: <b>6</b>. С оплатой за день: <b>5</b>. Цены от <b>400 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">6</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">5</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">400 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

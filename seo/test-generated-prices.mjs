@@ -29,7 +29,8 @@ test('MUTATION: a page whose meta copy kept an old floor is caught, in every pla
   const stale = min + 50;
   const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   const html = page.html.split(`от ${fmt(min)} ₽. Оплата рублями`).join(`от ${fmt(stale)} ₽. Оплата рублями`)
-    .split(`Цены начинаются от ${fmt(min)} ₽.`).join(`Цены начинаются от ${fmt(stale)} ₽.`);
+    .split(`Цены начинаются от ${fmt(min)} ₽.`).join(`Цены начинаются от ${fmt(stale)} ₽.`)
+    .split(`Цены начинаются от <span data-cat="floor">${fmt(min)} ₽</span>.`).join(`Цены начинаются от <span data-cat="floor">${fmt(stale)} ₽</span>.`);
   const { problems } = generatedPriceProblems([{ ...page, html }], PK);
   for (const where of ['meta description', 'JSON-LD description', 'FAQ', 'FAQPage JSON-LD']) {
     assert.ok(problems.some((p) => p.includes(`${page.slug}: ${where} says «от ${stale} ₽»`)), `${where}: ${problems.join(' | ')}`);

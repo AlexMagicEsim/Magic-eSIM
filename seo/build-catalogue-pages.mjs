@@ -34,6 +34,7 @@ import { RU_CHECKOUT_MODAL } from './ru-checkout-markup.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { createRequire } from 'node:module';
 import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily, countryOffers } from './catalogue-facts.mjs';
+import { isFrozenPage } from './frozen-pages.mjs'; // live catalogue numbers (stage C) skip the SEO pilot / control
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -226,6 +227,10 @@ function faq(c) {
     items.push({
       q: `${c.nameRu} — сколько стоит eSIM?`,
       a: `Цены начинаются от ${money(c.min_price_rub)} ₽. Оплата в рублях российской картой или через СБП; актуальная цена каждого тарифа показана на этой странице.`,
+      // The same words for the visible FAQ, with the floor marked for
+      // assets/catalog-numbers.js (it follows the live catalogue, and the whole
+      // sentence hides when the shown catalogue is stale). FAQPage keeps `a`.
+      aHtml: `<span data-cat-floor>Цены начинаются от <span data-cat="floor">${money(c.min_price_rub)} ₽</span>.</span> Оплата в рублях российской картой или через СБП; актуальная цена каждого тарифа показана на этой странице.`,
     });
   }
   items.push({
@@ -336,7 +341,17 @@ function seoPilot(c, p) {
   return { sp, title, desc, section, priceFaq, product };
 }
 
+// The facts line with every number marked for assets/catalog-numbers.js. Same
+// words and numbers as the frozen form; a segment hides when its live count is 0.
+function factsLive(c) {
+  return `${c.local_count > 0 ? `<span data-cat-seg="local">Локальных тарифов: <b data-cat="local">${c.local_count}</b>. </span>` : ''}`
+    + `${c.regional_count > 0 ? `<span data-cat-seg="regional">Региональных: <b data-cat="regional">${c.regional_count}</b>. </span>` : ''}`
+    + `${c.daily_count > 0 ? `<span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">${c.daily_count}</b>. </span>` : ''}`
+    + `${c.min_price_rub !== null ? `<span data-cat-floor>Цены от <b data-cat="floor">${money(c.min_price_rub)} ₽</b>.</span>` : ''}`;
+}
+
 function page(c, all, profile) {
+  const live = !isFrozenPage(c.slug);
   // A profile may only ADD prose. Every number below still comes from the
   // catalogue, and the merge cannot reach any of them.
   const p = profile || {};
@@ -491,7 +506,7 @@ ${ruHeader()}
         <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
         ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n        ') : ''}
         <p class="facts">
-          ${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.daily_count > 0 ? `С оплатой за день: <b>${c.daily_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}${c.renders_nothing ? 'Тарифов с покрытием этой страны сейчас нет.' : ''}
+          ${live ? factsLive(c) : `${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.daily_count > 0 ? `С оплатой за день: <b>${c.daily_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}`}${c.renders_nothing ? 'Тарифов с покрытием этой страны сейчас нет.' : ''}
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -616,7 +631,7 @@ ${RU_CHECKOUT_MODAL}
 
   <section class="cp-sec faq" id="faq">
     <h2>Вопросы о eSIM: ${esc(c.nameRu)}</h2>
-    ${items.map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('\n    ')}
+    ${items.map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${live && f.aHtml ? f.aHtml : esc(f.a)}</p></details>`).join('\n    ')}
   </section>
 
   <section class="cp-sec related">
@@ -640,7 +655,11 @@ ${RU_FOOTER}
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="${stampUrl('/assets/daily-plan-copy.js')}" defer></script>
-  <script src="${stampUrl('../../assets/country-tariffs.js')}" defer></script>
+${live ? `  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="${stampUrl('/assets/catalog-numbers.js')}" defer></script>
+` : ''}  <script src="${stampUrl('../../assets/country-tariffs.js')}" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="${stampUrl('/assets/ru-checkout.js')}" defer></script>

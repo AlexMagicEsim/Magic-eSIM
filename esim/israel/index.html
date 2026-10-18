@@ -123,7 +123,7 @@
         <p class="intro">Самый дешёвый вход — посуточный «500 МБ в день» в блоке «Трафик на каждый день»: 450 ₽ за минимальные 3 дня. Пополнение у него не отмечено, а у посуточного «1 ГБ в день» оно есть. Младший объёмный тариф в блоке «Тарифы для Израиля» — 3 ГБ на 30 дней за 600 ₽. Посуточный подходит, когда поездка короткая и трафика нужно немного; объёмный — когда нужен запас на месяц, а если трафика нужно много, его лестница продолжается вверх до 100 ГБ.</p>
         <p class="intro">Поэтому Израиль удобен для долгих и повторных поездок: тридцатидневного срока хватает и на двухнедельный отпуск, и на месяц работы, и на приезд к родственникам. Оплатить можно российской банковской картой или через СБП. Профиль ставится дома по Wi-Fi, но посмотрите строку «Активация»: у самых больших израильских пакетов там написано «после установки eSIM» — их срок пойдёт от установки, а не от прилёта.</p>
         <p class="facts">
-          Локальных тарифов: <b>7</b>. Региональных: <b>2</b>. С оплатой за день: <b>8</b>. Цены от <b>450 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">7</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">2</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">8</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">450 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

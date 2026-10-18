@@ -123,7 +123,7 @@
         <p class="intro">Короткая поездка — история про несколько дней: карты, кафе, транспорт, переписка. Тут почти всегда достаточно младшего тарифа, и вопрос закрывается один раз. Долгое пребывание устроено иначе: первые недели уходят на документы, банк, жильё и осмотр районов, а местную SIM обычно оформляют не в первый день. Всё это время интернет должен просто быть, и желательно без похода в салон связи.</p>
         <p class="intro">eSIM удобна именно этим разрывом: профиль ставится дома по Wi-Fi, оплачивается российской банковской картой или через СБП, и включается после прилёта. Дальше вы спокойно решаете, нужен ли вам местный номер вообще, — а не решаете это в первый вечер с чемоданом.</p>
         <p class="facts">
-          Локальных тарифов: <b>4</b>. Региональных: <b>2</b>. С оплатой за день: <b>13</b>. Цены от <b>350 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">4</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">2</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">13</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">350 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

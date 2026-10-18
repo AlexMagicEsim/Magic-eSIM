@@ -123,7 +123,7 @@
         <p class="intro">В блоке «Тарифы для Коста-Рики» шаги цены небольшие: 3 ГБ на 15 дней стоят 1200 ₽, а 5, 10 и 20 ГБ на 30 дней — 1400, 1850 и 2950 ₽. Объём у 10 ГБ более чем втрое больше, срок вдвое длиннее, а цена выше примерно в полтора раза. У пакета на 3 ГБ в строке «Сеть» указано 3G/4G/5G, а в строке «Начало срока» — «с первого подключения к сети»; у пакетов на 5–50 ГБ — 4G и «с первого использования интернета».</p>
         <p class="intro">Посуточные тарифы стоят на странице первыми, но здесь это дорогой способ купить трафик: в блоке «Трафик на каждый день» «Коста-Рика — 1 ГБ в день» на минимальные 3 дня стоит 1500 ₽, а в блоке местных тарифов 10 ГБ на 30 дней — 1850 ₽. Посуточный тариф оправдан, когда важен лимит каждого дня на короткой поездке, а не общий объём.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>6</b>. С оплатой за день: <b>11</b>. Цены от <b>550 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">6</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">11</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">550 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

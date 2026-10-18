@@ -44,7 +44,9 @@ function parts(html) {
   const head = (html.match(/<head>[\s\S]*?<\/head>/) || [''])[0];
   const metas = (head.match(/<meta[^>]+(?:name="description"|property="og:description"|name="twitter:description")[^>]*>/g) || []);
   const ld = (html.match(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g) || []).join('\n');
-  const body = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<head>[\s\S]*?<\/head>/, ' ');
+  // Visible text: the floor may sit inside data-cat markup (stage C) — read it
+  // as the reader does, without tags.
+  const body = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<head>[\s\S]*?<\/head>/, ' ').replace(/<[^>]+>/g, '');
   return { metas: metas.join('\n'), ld, body };
 }
 

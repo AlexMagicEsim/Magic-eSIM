@@ -285,3 +285,29 @@ test('8. SITEMAP_DATE must be a date', () => {
   catch (e) { failed = true; assert.match(String(e.stderr), /YYYY-MM-DD/); }
   assert.ok(failed, 'мусор в SITEMAP_DATE не должен попадать в sitemap');
 });
+
+test('the live catalogue markup (SEO stage C) does not change the hash — the page reduces to EXACTLY its earlier form', () => {
+  const before = [
+    '<p class="facts">',
+    '          Локальных тарифов: <b>4</b>. С оплатой за день: <b>4</b>. Цены от <b>1 650 ₽</b>.',
+    '        </p>',
+    '<details class="faq-item"><summary>Q</summary><p>Цены начинаются от 1 650 ₽. Оплата в рублях.</p></details>',
+    '  <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>',
+    '  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>',
+  ].join('\n');
+  const after = [
+    '<p class="facts">',
+    '          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">4</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">1 650 ₽</b>.</span>',
+    '        </p>',
+    '<details class="faq-item"><summary>Q</summary><p><span data-cat-floor>Цены начинаются от <span data-cat="floor">1 650 ₽</span>.</span> Оплата в рублях.</p></details>',
+    '  <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>',
+    '  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid',
+    '       shows; hides the floor when that catalogue is stale (stage C). Before',
+    '       country-tariffs.js, so it listens before the first render. -->',
+    '  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>',
+    '  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>',
+  ].join('\n');
+  assert.equal(contentHash(after), contentHash(before));
+  // …and a real change inside the markup still moves it.
+  assert.notEqual(contentHash(after.replace('1 650 ₽</b>', '1 600 ₽</b>')), contentHash(before));
+});

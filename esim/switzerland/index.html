@@ -123,7 +123,7 @@
         <p class="intro">Остальные европейские пакеты на этой странице Швейцарию покрывают: региональные «Европа и США» и посуточные «Европа» включают её вместе с соседями. Отдельно от тарифов: европейское правило «роуминг как дома», по данным Еврокомиссии, действует в странах ЕС, ЕЭЗ и ряде других, а у Швейцарии, как пишет её регулятор BAKOM, собственное регулирование роуминга. Для туристической eSIM всё решает список стран в карточке, а не членство в Шенгене.</p>
         <p class="intro">На этой странице Швейцарию покрывают местные тарифы — 3 ГБ на 15 дней за 350 ₽ и 5, 10, 20 и 50 ГБ на 30 дней, — региональные «Европа и США» на 15 и 18 ГБ и «Европа 60 GB + звонки» и «Европа 120 GB + звонки», а также посуточные из блока «Трафик на каждый день». В строке «Сеть» у местных тарифов указано 3G/4G/5G, но у двух из трёх операторов страны, Swisscom и Sunrise, 3G уже отключён, так что телефону нужна поддержка 4G.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>4</b>. С оплатой за день: <b>29</b>. Цены от <b>250 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">29</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">250 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

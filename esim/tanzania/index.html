@@ -123,7 +123,7 @@
         <p class="intro">Линейка с подписью 3G — это 3 ГБ на 15 дней за 1900 ₽, 5 и 10 ГБ на 30 дней за 3050 и 5200 ₽ и 20 ГБ за 10200 ₽; по данным каталога это сеть Airtel. Посуточные тарифы на 500 МБ, 1 и 2 ГБ в день из блока «Трафик на каждый день» подписаны так же.</p>
         <p class="intro">Вторая линейка в блоке местных тарифов — 3, 5 и 10 ГБ на 30 дней за 1700, 2500 и 3950 ₽ — подписана 4G, срок у неё идёт «с первого использования интернета». Она дешевле на каждом общем объёме, но тарифа на 20 ГБ в ней нет.</p>
         <p class="facts">
-          Локальных тарифов: <b>7</b>. Региональных: <b>4</b>. С оплатой за день: <b>4</b>. Цены от <b>1 200 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">7</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">4</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">1 200 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

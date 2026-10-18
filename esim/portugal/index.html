@@ -123,7 +123,7 @@
         <p class="intro">Мадейра и Азоры — часть Португалии и часть Евросоюза: Еврокомиссия относит их к так называемым отдалённым регионам ЕС. В каталоге покрытие местных португальских тарифов указано одним кодом страны — Португалия; острова отдельно не перечислены.</p>
         <p class="intro">Если в маршруте есть Испания — например, поезд CP Celta из Порту в галисийский Виго, — смотрите блок «Региональные тарифы». Там рядом стоят «Испания и Португалия 15 GB» за 2300 ₽ и «Европа и США 15 GB» за 2400 ₽: одинаковые 15 ГБ, 30 дней, срок с первого использования интернета и пополнение у обоих. По цене они почти равны, а по покрытию — нет: второй покрывает 41 страну, включая Францию, Италию и США.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>5</b>. С оплатой за день: <b>31</b>. Цены от <b>250 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">5</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">31</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">250 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

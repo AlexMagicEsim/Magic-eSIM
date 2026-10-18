@@ -123,7 +123,7 @@
         <p class="intro">Пакет на семь стран ЮВА включает Таиланд, Вьетнам, Камбоджу, Малайзию, Сингапур, Индонезию и Филиппины — поэтому в сетке Лаоса его нет. Все три страны маршрута покрывают пакеты «Азия и Океания» из блока «Региональные тарифы»: 7 ГБ за 2350 ₽ и 12 ГБ за 3650 ₽, оба на 30 дней. Срок у них идёт «после установки eSIM», так что ставить профиль лучше уже в пути.</p>
         <p class="intro">Посуточный азиатский пакет из блока «Трафик на каждый день» тоже есть в сетке Лаоса, но Камбоджу он не покрывает. Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за 300 ₽ до 20 ГБ на 30 дней за 3900 ₽; по данным каталога все местные — на сети Lao Telecom.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>2</b>. С оплатой за день: <b>15</b>. Цены от <b>300 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">2</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">15</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">300 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

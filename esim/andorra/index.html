@@ -123,7 +123,7 @@
         <p class="intro">Андорра не входит ни в Евросоюз, ни в Шенгенскую зону. Для тарифа важнее другое — её нет в списке стран большинства европейских пакетов: ни региональный «Европа и США», ни посуточные «Европа», ни «Испания и Португалия», ни посуточный пакет на страны Евросоюза и Великобританию Андорру не покрывают. Среди региональных тарифов на этой странице её покрывают только «Европа 60 GB + звонки» и «Европа 120 GB + звонки» — 34 страны, 30 дней, 4G, без пополнения.</p>
         <p class="intro">Местные андоррские тарифы — 3 ГБ на 15 дней за 1250 ₽ и 5, 10 и 20 ГБ на 30 дней за 1950, 3450 и 5900 ₽; в строке «Сеть» у всех 3G/4G/5G и отмечено пополнение. Местный оператор — Andorra Telecom. Если вы едете в Андорру на день из Барселоны, а основной пакет испанский или европейский, на этот день понадобится отдельный андоррский тариф или «Европа 60 GB + звонки» или «Европа 120 GB + звонки».</p>
         <p class="facts">
-          Локальных тарифов: <b>4</b>. Региональных: <b>2</b>. С оплатой за день: <b>5</b>. Цены от <b>800 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">4</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">2</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">5</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">800 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

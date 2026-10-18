@@ -123,7 +123,7 @@
         <p class="intro">В строке «Сеть» карточки указаны поддерживаемые поколения: у всех тарифов только для Японии в ней есть 4G, у большинства — ещё и 5G, а вариант 3G/4G без 5G встречается только у части посуточных пакетов на несколько стран в блоке «Трафик на каждый день». Карт покрытия мы не публикуем и связь в конкретной точке не обещаем: тариф даёт объём, срок и перечень поддерживаемых сетей, а приём зависит от инфраструктуры на месте.</p>
         <p class="intro">Отдельное ограничение в Японии — сам язык. Переводчик с камерой над меню или указателем — сценарий, который в Японии используют по несколько раз в день, и он расходует трафик заметнее, чем кажется. То же с офлайн-режимом: японские вокзалы устроены сложно, и карта, скачанная заранее, помогает меньше, чем актуальная навигация по переходам.</p>
         <p class="facts">
-          Локальных тарифов: <b>15</b>. Региональных: <b>5</b>. С оплатой за день: <b>36</b>. Цены от <b>350 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">15</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">5</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">36</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">350 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

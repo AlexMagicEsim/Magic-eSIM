@@ -123,7 +123,7 @@
         <p class="intro">Тариф на 3 ГБ со сроком действия 5 дней стоит 1000 ₽. Пятидневных объёмных пакетов больше нет ни у одной страны: остальные живут 15 или 30 дней. Для короткого визита — конференция, свадьба, пересадка на несколько дней — это способ не покупать двухнедельный срок ради трёх дней в Дели.</p>
         <p class="intro">Честное сравнение выглядит так. Посуточный тариф с лимитом 500 МБ на те же пять дней стоит 750 ₽ — дешевле. Но потолок там дневной, и 3 ГБ за поездку из него не выжать. Пятидневный объёмный пакет дороже на этой дистанции и даёт больше данных без дневного ограничения; посуточный выигрывает, когда расход ровный и скромный.</p>
         <p class="facts">
-          Локальных тарифов: <b>11</b>. Региональных: <b>2</b>. С оплатой за день: <b>10</b>. Цены от <b>450 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">11</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">2</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">10</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">450 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>
