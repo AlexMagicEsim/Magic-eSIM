@@ -69,26 +69,26 @@ const countryNames={
   ID:'Индонезия',IE:'Ирландия',IL:'Израиль',IM:'Остров Мэн',IN:'Индия',IQ:'Ирак',IR:'Иран',
   IS:'Исландия',IT:'Италия',JE:'Джерси',JM:'Ямайка',JO:'Иордания',JP:'Япония',KE:'Кения',
   KG:'Киргизия',KH:'Камбоджа',KI:'Кирибати',KM:'Коморы',KN:'Сент-Китс и Невис',KR:'Южная Корея',
-  KW:'Кувейт',KY:'Каймановы острова',KZ:'Казахстан',LA:'Лаос',LB:'Ливан',LC:'Сент-Люсия',
-  LI:'Лихтенштейн',LK:'Шри-Ланка',LR:'Либерия',LS:'Лесото',LT:'Литва',LU:'Люксембург',LV:'Латвия',
-  LY:'Ливия',MA:'Марокко',MC:'Монако',MD:'Молдова',ME:'Черногория',MF:'Сен-Мартен',MG:'Мадагаскар',
-  MH:'Маршалловы Острова',MK:'Северная Македония',ML:'Мали',MM:'Мьянма',MN:'Монголия',MO:'Макао',
-  MP:'Северные Марианские острова',MQ:'Мартиника',MR:'Мавритания',MS:'Монтсеррат',MT:'Мальта',
-  MU:'Маврикий',MV:'Мальдивы',MW:'Малави',MX:'Мексика',MY:'Малайзия',MZ:'Мозамбик',NA:'Намибия',
-  NC:'Новая Каледония',NE:'Нигер',NG:'Нигерия',NI:'Никарагуа',NL:'Нидерланды',NO:'Норвегия',
-  NP:'Непал',NR:'Науру',NU:'Ниуэ',NZ:'Новая Зеландия',OM:'Оман',OTHER:'Другие страны',PA:'Панама',
-  PE:'Перу',PF:'Французская Полинезия',PG:'Папуа — Новая Гвинея',PH:'Филиппины',PK:'Пакистан',
-  PL:'Польша',PM:'Сен-Пьер и Микелон',PR:'Пуэрто-Рико',PS:'Палестина',PT:'Португалия',PW:'Палау',
-  PY:'Парагвай',QA:'Катар',RE:'Реюньон',RO:'Румыния',RS:'Сербия',RU:'Россия',RW:'Руанда',
-  SA:'Саудовская Аравия',SB:'Соломоновы Острова',SC:'Сейшелы',SD:'Судан',SE:'Швеция',SG:'Сингапур',
-  SI:'Словения',SK:'Словакия',SL:'Сьерра-Леоне',SM:'Сан-Марино',SN:'Сенегал',SO:'Сомали',
-  SR:'Суринам',SS:'Южный Судан',ST:'Сан-Томе и Принсипи',SV:'Сальвадор',SX:'Синт-Мартен',
-  SY:'Сирия',SZ:'Эсватини',TC:'Теркс и Кайкос',TD:'Чад',TG:'Того',TH:'Таиланд',TJ:'Таджикистан',
-  TL:'Восточный Тимор',TM:'Туркменистан',TN:'Тунис',TO:'Тонга',TR:'Турция',TT:'Тринидад и Тобаго',
-  TV:'Тувалу',TW:'Тайвань',TZ:'Танзания',UA:'Украина',UG:'Уганда',US:'США',UY:'Уругвай',
-  UZ:'Узбекистан',VA:'Ватикан',VC:'Сент-Винсент и Гренадины',VE:'Венесуэла',
-  VG:'Британские Виргинские острова',VI:'Виргинские острова США',VN:'Вьетнам',VU:'Вануату',
-  WS:'Самоа',XK:'Косово',YE:'Йемен',YT:'Майотта',ZA:'ЮАР',ZM:'Замбия',ZW:'Зимбабве',
+  KT:'Северный Кипр',KW:'Кувейт',KY:'Каймановы острова',KZ:'Казахстан',LA:'Лаос',LB:'Ливан',
+  LC:'Сент-Люсия',LI:'Лихтенштейн',LK:'Шри-Ланка',LR:'Либерия',LS:'Лесото',LT:'Литва',
+  LU:'Люксембург',LV:'Латвия',LY:'Ливия',MA:'Марокко',MC:'Монако',MD:'Молдова',ME:'Черногория',
+  MF:'Сен-Мартен',MG:'Мадагаскар',MH:'Маршалловы Острова',MK:'Северная Македония',ML:'Мали',
+  MM:'Мьянма',MN:'Монголия',MO:'Макао',MP:'Северные Марианские острова',MQ:'Мартиника',
+  MR:'Мавритания',MS:'Монтсеррат',MT:'Мальта',MU:'Маврикий',MV:'Мальдивы',MW:'Малави',MX:'Мексика',
+  MY:'Малайзия',MZ:'Мозамбик',NA:'Намибия',NC:'Новая Каледония',NE:'Нигер',NG:'Нигерия',
+  NI:'Никарагуа',NL:'Нидерланды',NO:'Норвегия',NP:'Непал',NR:'Науру',NU:'Ниуэ',NZ:'Новая Зеландия',
+  OM:'Оман',OTHER:'Другие страны',PA:'Панама',PE:'Перу',PF:'Французская Полинезия',
+  PG:'Папуа — Новая Гвинея',PH:'Филиппины',PK:'Пакистан',PL:'Польша',PM:'Сен-Пьер и Микелон',
+  PR:'Пуэрто-Рико',PS:'Палестина',PT:'Португалия',PW:'Палау',PY:'Парагвай',QA:'Катар',RE:'Реюньон',
+  RO:'Румыния',RS:'Сербия',RU:'Россия',RW:'Руанда',SA:'Саудовская Аравия',SB:'Соломоновы Острова',
+  SC:'Сейшелы',SD:'Судан',SE:'Швеция',SG:'Сингапур',SI:'Словения',SK:'Словакия',SL:'Сьерра-Леоне',
+  SM:'Сан-Марино',SN:'Сенегал',SO:'Сомали',SR:'Суринам',SS:'Южный Судан',ST:'Сан-Томе и Принсипи',
+  SV:'Сальвадор',SX:'Синт-Мартен',SY:'Сирия',SZ:'Эсватини',TC:'Теркс и Кайкос',TD:'Чад',TG:'Того',
+  TH:'Таиланд',TJ:'Таджикистан',TL:'Восточный Тимор',TM:'Туркменистан',TN:'Тунис',TO:'Тонга',
+  TR:'Турция',TT:'Тринидад и Тобаго',TV:'Тувалу',TW:'Тайвань',TZ:'Танзания',UA:'Украина',
+  UG:'Уганда',US:'США',UY:'Уругвай',UZ:'Узбекистан',VA:'Ватикан',VC:'Сент-Винсент и Гренадины',
+  VE:'Венесуэла',VG:'Британские Виргинские острова',VI:'Виргинские острова США',VN:'Вьетнам',
+  VU:'Вануату',WS:'Самоа',XK:'Косово',YE:'Йемен',YT:'Майотта',ZA:'ЮАР',ZM:'Замбия',ZW:'Зимбабве',
 };
 /* --- END COUNTRY NAMES --- */
 
@@ -119,11 +119,11 @@ const countryNamesEn={
   HU:'Hungary',ID:'Indonesia',IE:'Ireland',IL:'Israel',IM:'Isle of Man',IN:'India',IQ:'Iraq',
   IR:'Iran',IS:'Iceland',IT:'Italy',JE:'Jersey',JM:'Jamaica',JO:'Jordan',JP:'Japan',KE:'Kenya',
   KG:'Kyrgyzstan',KH:'Cambodia',KI:'Kiribati',KM:'Comoros',KN:'Saint Kitts and Nevis',
-  KR:'South Korea',KW:'Kuwait',KY:'Cayman Islands',KZ:'Kazakhstan',LA:'Laos',LB:'Lebanon',
-  LC:'Saint Lucia',LI:'Liechtenstein',LK:'Sri Lanka',LR:'Liberia',LS:'Lesotho',LT:'Lithuania',
-  LU:'Luxembourg',LV:'Latvia',LY:'Libya',MA:'Morocco',MC:'Monaco',MD:'Moldova',ME:'Montenegro',
-  MF:'Saint Martin',MG:'Madagascar',MH:'Marshall Islands',MK:'North Macedonia',ML:'Mali',
-  MM:'Myanmar',MN:'Mongolia',MO:'Macao',MP:'Northern Mariana Islands',MQ:'Martinique',
+  KR:'South Korea',KT:'Northern Cyprus',KW:'Kuwait',KY:'Cayman Islands',KZ:'Kazakhstan',LA:'Laos',
+  LB:'Lebanon',LC:'Saint Lucia',LI:'Liechtenstein',LK:'Sri Lanka',LR:'Liberia',LS:'Lesotho',
+  LT:'Lithuania',LU:'Luxembourg',LV:'Latvia',LY:'Libya',MA:'Morocco',MC:'Monaco',MD:'Moldova',
+  ME:'Montenegro',MF:'Saint Martin',MG:'Madagascar',MH:'Marshall Islands',MK:'North Macedonia',
+  ML:'Mali',MM:'Myanmar',MN:'Mongolia',MO:'Macao',MP:'Northern Mariana Islands',MQ:'Martinique',
   MR:'Mauritania',MS:'Montserrat',MT:'Malta',MU:'Mauritius',MV:'Maldives',MW:'Malawi',MX:'Mexico',
   MY:'Malaysia',MZ:'Mozambique',NA:'Namibia',NC:'New Caledonia',NE:'Niger',NG:'Nigeria',
   NI:'Nicaragua',NL:'Netherlands',NO:'Norway',NP:'Nepal',NR:'Nauru',NU:'Niue',NZ:'New Zealand',
@@ -142,6 +142,14 @@ const countryNamesEn={
   XK:'Kosovo',YE:'Yemen',YT:'Mayotte',ZA:'South Africa',ZM:'Zambia',ZW:'Zimbabwe',
 };
 /* --- END COUNTRY NAMES ENGLISH --- */
+/* --- COVERAGE ONLY -------------------------------------------------------
+ * GENERATED by seo/build-country-dictionary.mjs from
+ * seo/coverage-only-territories.mjs: territories a coverage list names but
+ * a «N стран» count leaves out (counts_as_country: false).
+ * Never edit by hand.
+ * --------------------------------------------------------------------- */
+var UNCOUNTED_CODES = ['KT'];
+/* --- END COVERAGE ONLY --- */
 
 /* --- COUNTRY LATIN ------------------------------------------------------
  * GENERATED by seo/build-country-dictionary.mjs from seo/country-names.mjs.
@@ -167,10 +175,10 @@ const countryLatin={
   HR:'croatia',HT:'haiti',HU:'hungary',ID:'indonesia',IE:'ireland',IL:'israel',IM:'isle-of-man',
   IN:'india',IQ:'iraq',IR:'iran',IS:'iceland',IT:'italy',JE:'jersey',JM:'jamaica',JO:'jordan',
   JP:'japan',KE:'kenya',KG:'kyrgyzstan',KH:'cambodia',KI:'kiribati',KM:'comoros',
-  KN:'saint-kitts-and-nevis',KR:'south-korea',KW:'kuwait',KY:'cayman-islands',KZ:'kazakhstan',
-  LA:'laos',LB:'lebanon',LC:'saint-lucia',LI:'liechtenstein',LK:'sri-lanka',LR:'liberia',
-  LS:'lesotho',LT:'lithuania',LU:'luxembourg',LV:'latvia',LY:'libya',MA:'morocco',MC:'monaco',
-  MD:'moldova',ME:'montenegro',MF:'saint-martin',MG:'madagascar',MH:'marshall-islands',
+  KN:'saint-kitts-and-nevis',KR:'south-korea',KT:'northern-cyprus',KW:'kuwait',KY:'cayman-islands',
+  KZ:'kazakhstan',LA:'laos',LB:'lebanon',LC:'saint-lucia',LI:'liechtenstein',LK:'sri-lanka',
+  LR:'liberia',LS:'lesotho',LT:'lithuania',LU:'luxembourg',LV:'latvia',LY:'libya',MA:'morocco',
+  MC:'monaco',MD:'moldova',ME:'montenegro',MF:'saint-martin',MG:'madagascar',MH:'marshall-islands',
   MK:'north-macedonia',ML:'mali',MM:'myanmar',MN:'mongolia',MO:'macau',
   MP:'northern-mariana-islands',MQ:'martinique',MR:'mauritania',MS:'montserrat',MT:'malta',
   MU:'mauritius',MV:'maldives',MW:'malawi',MX:'mexico',MY:'malaysia',MZ:'mozambique',NA:'namibia',
@@ -1784,9 +1792,9 @@ function flagFor(code, pkg) {
   return key.replace(/[A-Z]/g, (ch) => String.fromCodePoint(127397 + ch.charCodeAt(0)));
 }
 
-/** A package covering more than one country is a regional offer, not a local one. */
+/** A package covering more than one country is a regional offer, not a local one. An uncounted territory (Northern Cyprus) is not one more country. */
 function isRegional(pkg) {
-  return Array.isArray(pkg && pkg.coverage_country_codes) && pkg.coverage_country_codes.length > 1;
+  return Array.isArray(pkg && pkg.coverage_country_codes) && countedCountries(pkg.coverage_country_codes) > 1;
 }
 
 /** "3 тарифа" — Russian needs three forms and "1 тарифов" reads as a bug. */
@@ -1802,6 +1810,9 @@ function plural(n, one, few, many) {
 
 const tariffWord = (n) => `${n} ${plural(n, 'тариф', 'тарифа', 'тарифов')}`;
 const countryWord = (n) => `${n} ${plural(n, 'страна', 'страны', 'стран')}`;
+/** How many COUNTRIES a coverage list holds: an uncounted territory it names (Northern Cyprus) is left out. */
+const countedCountries = (codes) => (Array.isArray(codes) ? codes : [])
+  .filter((c) => UNCOUNTED_CODES.indexOf(String(c || '').toUpperCase()) === -1).length;
 
 /**
  * English has two forms, not three, so it gets its own selector rather than
@@ -2475,10 +2486,11 @@ function tariffFacts(pkg, lang) {
 function coverageSummary(pkg, lang) {
   const p = pkg || {};
   const codes = [...new Set(Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [])];
-  if (codes.length <= 1) return countryLabel(codes[0] || p.country_code, lang);
+  const counted = countedCountries(codes);
+  if (counted <= 1) return countryLabel(codes.find((c) => countedCountries([c]) === 1) || p.country_code, lang);
 
   const named = regionName(regionKey(p), lang);
-  const count = countPhrase(lang, codes.length, WORD_FORMS.country);
+  const count = countPhrase(lang, counted, WORD_FORMS.country);
 
   return named ? `${named}, ${count}` : count;
 }
@@ -2762,7 +2774,7 @@ const CORE = {
   dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,
   byCountry, pickBestValue, searchCountries,
   groupCatalogue, regionsCovering, countryLabel, flagFor, isRegional,
-  regionLabel, plural, tariffWord, countryWord,
+  regionLabel, plural, tariffWord, countryWord, countedCountries,
   REGION_NAMES, REGION_NAMES_EN, countryNames, countryNamesEn,
   pluralEn, tariffWordEn, countryWordEn,
   normalize, popularGroups, popularCountries, countryLatin,

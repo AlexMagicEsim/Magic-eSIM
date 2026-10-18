@@ -857,7 +857,7 @@
         el('span', {
           class: 'card__meta',
           text: g.regional
-            ? `${countryCount(g.coverage.length)} · ${tariffCount(g.items.length)}`
+            ? `${countryCount(C.countedCountries(g.coverage))} · ${tariffCount(g.items.length)}`
             : tariffCount(g.items.length),
         }),
       ]),
@@ -1147,7 +1147,7 @@
     if (group.regional) {
       list.appendChild(el('p', {
         class: 'small muted',
-        text: t('country.onePlan', { countries: countryCount(group.coverage.length) }),
+        text: t('country.onePlan', { countries: countryCount(C.countedCountries(group.coverage)) }),
       }));
     }
 

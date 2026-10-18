@@ -1,6 +1,6 @@
 {
   "errorText": "f901ae2f94f4cb1fe21ac85bddc5afb38012176023f3914b0e56cb5f6eff0740",
-  "countryLabel": "af7795119382a80e02ed44f080246a9fbde42c62e2e97d09343291c3c223542c",
+  "countryLabel": "884f53a4451d82cba55de22ef1ac770a245fa9c8cb13701929b9e92bfb38d078",
   "regionLabel": "f7a6f969f430eb8aae3100e7bac657b4cf0352ab845983284743288cd493bf49",
   "coverageSummary": "1b788b06e81fc973b4e719dc2c0495eb58ae0563c9e7e7e195a7c7a77ae0477a",
   "destinationTitle": "1cabc983852fa267d3eec1f017fc0be99d58a80c23a9a8512fe536cab5e1a2d4",
@@ -16,5 +16,5 @@
   "tariffTextRu": "0376cfc3b5bc0d8a29998b31709b3065f76828c6e825bd7d7d507860acc35abc",
   "counts": "adce8eb42469e005e1802615cf8fc3d0e7e0e5482636e44ae35d034d36674a87",
   "dailyCount": 526,
-  "source": "app/core.js at storefront b33b77e6 (before I18N-04), over test/fixtures/miniapp-locale-catalogue.json"
+  "source": "app/core.js at storefront b33b77e6 (before I18N-04), over test/fixtures/miniapp-locale-catalogue.json; countryLabel re-recorded 2026-10-18 for the new KT entry only (proof: seo/test-coverage-only-territories.mjs)"
 }

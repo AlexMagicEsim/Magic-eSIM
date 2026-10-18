@@ -34,6 +34,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isUncounted } from './coverage-only-territories.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -89,7 +90,9 @@ export const isMultiCountry = (i) => {
   const codes = Array.isArray(i.coverage_country_codes)
     ? i.coverage_country_codes.map((c) => String(c || '').trim().toUpperCase()).filter((c) => /^[A-Z]{2}$/.test(c))
     : [];
-  if (new Set(codes).size > 1) return true;
+  // An uncounted territory (Northern Cyprus) does not make a plan multi-country:
+  // «Turkey Premium» covering TR + KT is a Turkish plan (seo/coverage-only-territories.mjs).
+  if (new Set(codes.filter((c) => !isUncounted(c))).size > 1) return true;
   const name = String(i.name || '').toLowerCase();
   return REGIONAL_WORDS.some((w) => name.includes(w));
 };

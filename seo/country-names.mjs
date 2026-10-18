@@ -120,6 +120,9 @@ export const COUNTRY_NAMES = Object.freeze({
   KM: { ru: "Коморы", gen: "Комор", en: "Comoros", slug: "comoros" },
   KN: { ru: "Сент-Китс и Невис", gen: "Сент-Китса и Невиса", en: "Saint Kitts and Nevis", slug: "saint-kitts-and-nevis" },
   KR: { ru: "Южная Корея", gen: "Южной Кореи", en: "South Korea", slug: "south-korea" },
+  // Not an ISO 3166 code: the provider's code for Northern Cyprus (2026-10-18).
+  // Named for coverage lists only — no page (seo/coverage-only-territories.mjs).
+  KT: { ru: "Северный Кипр", gen: "Северного Кипра", en: "Northern Cyprus", slug: "northern-cyprus" },
   KW: { ru: "Кувейт", gen: "Кувейта", en: "Kuwait", slug: "kuwait" },
   KY: { ru: "Каймановы острова", gen: "Каймановых островов", en: "Cayman Islands", slug: "cayman-islands" },
   KZ: { ru: "Казахстан", gen: "Казахстана", en: "Kazakhstan", slug: "kazakhstan" },

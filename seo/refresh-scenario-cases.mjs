@@ -2,6 +2,7 @@
 // Fixtures come from the current catalogue and profiles; see the header there.
 
 import { readFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { ROOT, readJson, countryPageSlugs } from './refresh-scenarios.mjs';
 import { countryFacts } from './catalogue-facts.mjs';
@@ -17,6 +18,19 @@ const covers = (p, iso) => Array.isArray(p.coverage_country_codes) && p.coverage
 const scale = (p, k) => {
   p.price = Math.round(Number(p.price) * k / 50) * 50 || Number(p.price);
   if (Array.isArray(p.term_prices)) p.term_prices = p.term_prices.map((t) => ({ ...t, price: Math.max(50, Math.round(t.price * k / 50) * 50) }));
+};
+// The packages the provider gave KT (Northern Cyprus) on 2026-10-18.
+const KT_FAMILY = /^(Turkey Premium|Greece Cyprus Turkey|Europe and USA) \d/;
+const addCode = (doc, code) => {
+  const hit = doc.packages.filter((p) => KT_FAMILY.test(String(p.name || '')) && Array.isArray(p.coverage_country_codes));
+  if (hit.length < 3) throw new Error('fixture: the KT family is not in the catalogue — re-point seo/refresh-scenario-cases.mjs');
+  for (const p of hit) p.coverage_country_codes = [...p.coverage_country_codes.filter((c) => c !== code), code];
+  return hit.length;
+};
+// The catalogue refresh's own guard, run in the scenario's copy.
+const coverageGuard = (dir) => {
+  const r = spawnSync(process.execPath, ['seo/check-country-coverage.mjs'], { cwd: dir, encoding: 'utf8' });
+  return { code: r.status, out: r.stdout + r.stderr };
 };
 const termPrice = (p, days) => (Array.isArray(p.term_prices) ? (p.term_prices.find((t) => t.days === days) || {}).price : undefined);
 
@@ -153,6 +167,16 @@ export function cases() {
         n.term_prices = n.term_prices.map((t) => ({ ...t, price: t.days === 3 ? Math.max(50, m3 - 50) : t.price }));
         doc.packages.push(n);
       },
+    },
+    {
+      name: 'the provider adds a NAMED coverage-only code (KT, Northern Cyprus) to a package family',
+      mutate: (doc) => ({ packages: addCode(doc, 'KT') }),
+      inspect: ({ dir, pageOf }) => ({ guard: coverageGuard(dir), ktPage: !!pageOf('northern-cyprus') }),
+    },
+    {
+      name: 'the provider adds an UNKNOWN code to a package family',
+      mutate: (doc) => ({ packages: addCode(doc, 'XQ') }),
+      inspect: ({ dir }) => ({ guard: coverageGuard(dir) }),
     },
     {
       name: 'a template country LOSES every plan (its page must be removed by a person)',

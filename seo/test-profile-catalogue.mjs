@@ -153,6 +153,7 @@ test('FAMILY_TITLES is a faithful port of the card title — checked by running 
     packageCoverageCodes: (p) => (Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [p.country_code]),
     hasCountryName: () => false,
     countryName: (c) => c,
+    UNCOUNTED_CODES: JSON.parse(src.match(/var UNCOUNTED_CODES = (\[[^\]]*\]);/)[1].replace(/'/g, '"')),
   };
   vm.createContext(ctx);
   vm.runInContext(`${fn('formatDataLabel')}\n${fn('publicPackageName')}\nthis.publicPackageName = publicPackageName;`, ctx);

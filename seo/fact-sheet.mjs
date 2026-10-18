@@ -19,6 +19,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { purchasablePrice, isRussia, isRestricted, isGlobal, isDaily, RESTRICTED_COUNTRY_CODES, loadCatalogue } from './catalogue-facts.mjs';
+import { isUncounted } from './coverage-only-territories.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const SHEET = join(ROOT, 'seo/fact-sheets.json');
@@ -97,7 +98,7 @@ export async function buildFactSheets() {
         .map((x) => Number(x.days)).filter((v) => Number.isFinite(v) && v > 0),
       daily: isDaily(p),
       unlimited: p.unlimited === true || /unlimited|безлим/i.test(p.name || ''),
-      countries_covered: cov.length,
+      countries_covered: cov.filter((c) => !isUncounted(c)).length,
     };
     for (const c of cov) {
       if (!byCountry.has(c)) byCountry.set(c, { local: [], regional: [] });
