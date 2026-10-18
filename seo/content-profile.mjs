@@ -86,6 +86,8 @@ const META_KEYS = Object.freeze([
   'coverage_claims', 'coverage_claims_waived',
   // The same for price sentences — seo/price-claims.mjs. Never rendered.
   'price_claims', 'price_claims_waived',
+  // {{price:<name>}} in the text → the catalogue amount at build time (seo/price-tokens.mjs, SEO stage B).
+  'price_refs',
   // Sentences about the network in a place that a PRIMARY source supports
   // (operator, regulator, transport authority) — url + checked date each.
   'network_facts',

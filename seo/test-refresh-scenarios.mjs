@@ -53,13 +53,30 @@ test('a new offer below the floor: green, the floor follows it', async () => {
   assert.equal(metaFloor(r.inspected.html), TPL.floor - 100);
 });
 
-test('a package quoted with an exact amount moves: red — the claim and the stale figure are named, «rewrite the sentence»', async () => {
-  const r = await get('a package QUOTED with an exact amount moves (australia · faq-daily-au-and-au-nz · au)');
+test('stage B: a package a {{price}} token prints moves — GREEN, and the rebuilt page prints the new amount', async () => {
+  const r = await get('a package a {{price}} TOKEN prints moves (australia · au_daily_500mb_3d)');
+  baseline(r);
+  assert.deepEqual(r.failing, []);
+  const amount = `${Math.round(r.inspected.price).toLocaleString('ru-RU')} ₽`;
+  assert.ok(r.inspected.html.includes(`500 МБ в день на три дня — ${amount}.`), `australia prints ${amount}`);
+});
+
+test('a package quoted with a HAND-TYPED amount moves: red — the claim and the stale figure are named, «rewrite the sentence»', async () => {
+  const r = await get('a package QUOTED with a hand-typed amount moves (montenegro · local-vs-balkans-daily · local, still below balkans)');
   baseline(r);
   assert.deepEqual(r.failing, [FACTS, PRICE].sort());
-  assert.match(detail(r, PRICE), /faq-daily-au-and-au-nz: assert\[0\] au = 350 ложно/);
+  assert.match(detail(r, PRICE), /local-vs-balkans-daily: assert\[0\] local = 350 ложно/);
   assert.match(detail(r, PRICE), /перепишите фразу \(а не утверждение\)/);
-  assert.match(detail(r, FACTS), /australia:[\s\S]*факт вне каталога: «350 ₽»/);
+  assert.doesNotMatch(detail(r, PRICE), /assert\[1\]/, 'the relation still holds');
+  assert.match(detail(r, FACTS), /montenegro:[\s\S]*факт вне каталога: «350 ₽»/);
+});
+
+test('stage B: a package a {{price}} token names is withdrawn — the BUILD stops, naming the reference and successor candidates', async () => {
+  const r = await get('a package a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)');
+  assert.notEqual(r.build.code, 0, 'build-all refuses the page');
+  assert.match(r.build.stderr, /подстановки цен на \/esim\/australia\//);
+  assert.match(r.build.stderr, /price_refs\.aunz_5gb: продукта .* нет в каталоге — исчез или снят с витрины; кандидаты в блоке «regional»/);
+  assert.match(r.build.stderr, /перепривяжите её к тарифу-преемнику/);
 });
 
 test('a stated relation flips: red on the relation itself', async () => {

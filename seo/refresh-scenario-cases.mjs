@@ -50,6 +50,13 @@ export function claimTerm(slug, kind, claimId, term) {
   return c.terms[term].package;
 }
 
+/** A {{price:<name>}} reference's package id, or a loud error naming what to re-point. */
+export function tokenRef(slug, name) {
+  const r = (readJson(profilePath(slug)).price_refs || {})[name];
+  if (!r || !r.package) throw new Error(`fixture: ${slug} has no price_refs.${name} with a package — re-point seo/refresh-scenario-cases.mjs`);
+  return r.package;
+}
+
 const byId = (doc, id) => {
   const p = doc.packages.find((x) => x.package_id === id);
   if (!p) throw new Error(`fixture: package ${id} is not in the catalogue — re-point seo/refresh-scenario-cases.mjs`);
@@ -85,10 +92,28 @@ export function cases() {
       inspect: ({ pageOf, doc }) => ({ floor: countryFacts(doc.packages, tpl.iso).min_price_rub, html: pageOf(tpl.slug) }),
     },
     {
-      name: 'a package QUOTED with an exact amount moves (australia · faq-daily-au-and-au-nz · au)',
+      // Stage B: australia prints this amount through {{price:au_daily_500mb_3d}}.
+      name: 'a package a {{price}} TOKEN prints moves (australia · au_daily_500mb_3d)',
       mutate: (doc) => {
-        const p = byId(doc, claimTerm('australia', 'price', 'faq-daily-au-and-au-nz', 'au'));
+        const p = byId(doc, tokenRef('australia', 'au_daily_500mb_3d'));
         p.term_prices = p.term_prices.map((t) => (t.days === 3 ? { ...t, price: t.price + 100 } : t));
+        return { price: termPrice(p, 3) };
+      },
+      inspect: ({ pageOf, info }) => ({ html: pageOf('australia'), price: info.price }),
+    },
+    {
+      name: 'a package QUOTED with a hand-typed amount moves (montenegro · local-vs-balkans-daily · local, still below balkans)',
+      mutate: (doc) => {
+        const local = byId(doc, claimTerm('montenegro', 'price', 'local-vs-balkans-daily', 'local'));
+        local.term_prices = local.term_prices.map((t) => (t.days === 3 ? { ...t, price: t.price + 50 } : t));
+      },
+    },
+    {
+      name: 'a package a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)',
+      mutate: (doc) => {
+        const id = tokenRef('australia', 'aunz_5gb');
+        byId(doc, id);
+        doc.packages = doc.packages.filter((p) => p.package_id !== id);
       },
     },
     {

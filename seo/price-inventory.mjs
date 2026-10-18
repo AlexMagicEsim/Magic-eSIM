@@ -39,6 +39,10 @@ const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..');
 export const BASELINE_FILE = join(ROOT, 'seo', 'price-inventory-baseline.json');
 
 export const AMOUNT_RE = /\d[\d   ]*₽/g;
+// An amount, or an enumeration / range of amounts ending in one «₽»:
+// «за 1000, 1300, 2350 и 3550 ₽», «от 1 050 до 18 750 ₽» — every number counts.
+export const AMOUNT_GROUP_RE = /(?:\d[\d   ]*?(?:,\s*|\s+и\s+|\s+до\s+|\s*[–—]\s*))*\d[\d   ]*₽/g;
+const numbersOf = (group) => group.replace(/₽/, '').split(/,\s*|\s+и\s+|\s+до\s+|\s*[–—]\s*/).map((x) => Number(x.replace(/[^\d]/g, ''))).filter((n) => n > 0);
 const norm = (s) => String(s ?? '').replace(/[  ]/g, ' ').replace(/\s+/g, ' ').trim();
 
 /** Every rendered text field of a profile as [path, text], in a stable order. */
@@ -65,13 +69,13 @@ export function inventoryOf(slug, profile) {
   const out = [];
   for (const [field, text] of renderedFields(profile)) {
     for (const sentence of sentencesOf(text)) {
-      const amounts = sentence.match(AMOUNT_RE);
-      if (!amounts) continue;
+      const groups = sentence.match(AMOUNT_GROUP_RE);
+      if (!groups) continue;
       const anchor = anchors.find((a) => a && a.field === field && norm(a.text) === sentence);
       const waiver = waived.find((w) => w && w.field === field && norm(w.text) === sentence);
       out.push({
         slug, field, sentence,
-        amounts: amounts.map((a) => Number(a.replace(/[^\d]/g, ''))),
+        amounts: groups.flatMap(numbersOf),
         status: anchor ? 'anchored' : waiver ? 'waived' : 'unanchored',
         claim: anchor ? anchor.claim : null,
       });

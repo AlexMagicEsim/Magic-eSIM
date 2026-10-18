@@ -126,6 +126,32 @@ const inWhere = (p, where = {}) => Object.entries(where).every(([k, v]) =>
 
 // ------------------------------------------------------------------ shape
 
+/**
+ * The shape of one term — a package on a named block (+ days for a ladder), or
+ * the cheapest of a block. Shared by price_claims terms and price_refs
+ * (seo/price-tokens.mjs). `where` names the key the messages print («terms»).
+ */
+export function validateTermShape(name, t, where = 'terms') {
+  const p = [];
+  if (!/^[a-z][a-z0-9_]*$/.test(name)) p.push(`${where}.${name}: имя — латиница, цифры, _`);
+  if (!t || typeof t !== 'object') { p.push(`${where}.${name} не объект`); return p; }
+  if (t.days !== undefined && !(Number.isInteger(t.days) && t.days > 0)) p.push(`${where}.${name}.days — целое число дней`);
+  if ('package' in t) {
+    for (const k of Object.keys(t)) if (!PACKAGE_TERM_KEYS.has(k)) p.push(`${where}.${name}: неизвестный ключ «${k}»`);
+    if (typeof t.package !== 'string' || !t.package) p.push(`${where}.${name}.package — id продукта`);
+    if (!BLOCKS.includes(t.block)) p.push(`${where}.${name}.block обязателен: ${BLOCKS.join(' | ')} — сравнение без блока и есть ошибка атрибуции`);
+    for (const [k, v] of Object.entries(t.attrs || {})) if (!ATTR_KEYS.has(k) || !isNum(v)) p.push(`${where}.${name}.attrs.${k} — неизвестно или не число`);
+  } else if ('min_of' in t) {
+    for (const k of Object.keys(t)) if (!MIN_TERM_KEYS.has(k)) p.push(`${where}.${name}: неизвестный ключ «${k}»`);
+    if (!MIN_SCOPES.includes(t.min_of)) p.push(`${where}.${name}.min_of: ${MIN_SCOPES.join(' | ')}`);
+    for (const [k, v] of Object.entries(t.where || {})) {
+      if (!WHERE_KEYS.has(k)) p.push(`${where}.${name}.where.${k} — неизвестный ключ`);
+      else if (k === 'multi_country' ? typeof v !== 'boolean' : !isNum(v)) p.push(`${where}.${name}.where.${k} — неверный тип`);
+    }
+  } else p.push(`${where}.${name}: нужен package или min_of`);
+  return p;
+}
+
 export function validateClaimShape(claim) {
   const p = [];
   if (!claim || typeof claim !== 'object' || Array.isArray(claim)) return ['утверждение не объект'];
@@ -137,24 +163,7 @@ export function validateClaimShape(claim) {
   });
   const terms = claim.terms && typeof claim.terms === 'object' && !Array.isArray(claim.terms) ? claim.terms : null;
   if (!terms || !Object.keys(terms).length) p.push('terms обязательны: хотя бы один тариф или минимум блока');
-  for (const [name, t] of Object.entries(terms || {})) {
-    if (!/^[a-z][a-z0-9_]*$/.test(name)) p.push(`terms.${name}: имя — латиница, цифры, _`);
-    if (!t || typeof t !== 'object') { p.push(`terms.${name} не объект`); continue; }
-    if (t.days !== undefined && !(Number.isInteger(t.days) && t.days > 0)) p.push(`terms.${name}.days — целое число дней`);
-    if ('package' in t) {
-      for (const k of Object.keys(t)) if (!PACKAGE_TERM_KEYS.has(k)) p.push(`terms.${name}: неизвестный ключ «${k}»`);
-      if (typeof t.package !== 'string' || !t.package) p.push(`terms.${name}.package — id продукта`);
-      if (!BLOCKS.includes(t.block)) p.push(`terms.${name}.block обязателен: ${BLOCKS.join(' | ')} — сравнение без блока и есть ошибка атрибуции`);
-      for (const [k, v] of Object.entries(t.attrs || {})) if (!ATTR_KEYS.has(k) || !isNum(v)) p.push(`terms.${name}.attrs.${k} — неизвестно или не число`);
-    } else if ('min_of' in t) {
-      for (const k of Object.keys(t)) if (!MIN_TERM_KEYS.has(k)) p.push(`terms.${name}: неизвестный ключ «${k}»`);
-      if (!MIN_SCOPES.includes(t.min_of)) p.push(`terms.${name}.min_of: ${MIN_SCOPES.join(' | ')}`);
-      for (const [k, v] of Object.entries(t.where || {})) {
-        if (!WHERE_KEYS.has(k)) p.push(`terms.${name}.where.${k} — неизвестный ключ`);
-        else if (k === 'multi_country' ? typeof v !== 'boolean' : !isNum(v)) p.push(`terms.${name}.where.${k} — неверный тип`);
-      }
-    } else p.push(`terms.${name}: нужен package или min_of`);
-  }
+  for (const [name, t] of Object.entries(terms || {})) p.push(...validateTermShape(name, t, 'terms'));
   if (!Array.isArray(claim.assert) || !claim.assert.length) p.push('assert обязателен: утверждение без проверки ничего не доказывает');
   else claim.assert.forEach((a, i) => {
     if (!a || typeof a !== 'object') { p.push(`assert[${i}] не объект`); return; }
@@ -171,6 +180,45 @@ export function validateClaimShape(claim) {
 }
 
 // ------------------------------------------------------------------ evaluation
+
+/**
+ * The amount one term names on /esim/<slug>/ in this catalogue: { value: { price, what } | null, errors }.
+ * The ONE place a term becomes a price — price_claims assert on it and price_refs
+ * (seo/price-tokens.mjs) print it, so a printed amount and a checked amount
+ * cannot come from two rules. ctx = { blocks: pageBlocks(packages, iso), byId, slug }.
+ */
+export function resolveTerm(name, t, { blocks, byId, slug }) {
+  const errors = [];
+  if ('package' in t) {
+    const p = byId.get(t.package);
+    if (!p) {
+      const twins = blocks[t.block].filter((q) => Object.entries(t.attrs || {}).every(([k, v]) => Number(q[k]) === v)
+        && (t.days === undefined || !termPrice(q, t.days).error));
+      errors.push(`${name}: продукта ${t.package} нет в каталоге — исчез или снят с витрины`
+        + `; кандидаты в блоке «${t.block}»: ${twins.map(describe).join('; ') || 'нет'}`);
+      return { value: null, errors };
+    }
+    const blk = blockOn(blocks, p);
+    if (blk !== t.block) { errors.push(`${name}: ${describe(p)} не в блоке «${t.block}» страницы /esim/${slug}/: ${blk ? `сейчас в «${blk}»` : 'страница его не показывает'}`); return { value: null, errors }; }
+    for (const [k, v] of Object.entries(t.attrs || {})) {
+      if (Number(p[k]) !== v) errors.push(`${name}: ${describe(p)} — ${k} сейчас ${p[k]}, в утверждении ${v}`);
+    }
+    const r = termPrice(p, t.days);
+    if (r.error) { errors.push(`${name}: ${r.error}`); return { value: null, errors }; }
+    return { value: { price: r.price, what: `${describe(p)}${t.days ? ` на ${t.days} дн.` : ''}` }, errors };
+  }
+  const pool = (t.min_of === 'page' ? [...blocks.daily, ...blocks.regional, ...blocks.local]
+    : t.min_of === 'volume' ? [...blocks.regional, ...blocks.local] : blocks[t.min_of])
+    .filter((p) => inWhere(p, t.where));
+  const priced = pool.map((p) => {
+    if (t.days !== undefined) { const r = termPrice(p, t.days); return r.error ? null : { p, price: r.price }; }
+    const v = purchasablePrice(p);
+    return v > 0 ? { p, price: v } : null;
+  }).filter(Boolean);
+  if (!priced.length) { errors.push(`${name}: min_of «${t.min_of}»${t.where ? ` ${JSON.stringify(t.where)}` : ''}${t.days ? ` на ${t.days} дн.` : ''} — пусто, сравнивать не с чем`); return { value: null, errors }; }
+  const best = priced.reduce((m, x) => (x.price < m.price ? x : m));
+  return { value: { price: best.price, what: `минимум «${t.min_of}»${t.days ? ` на ${t.days} дн.` : ''} — ${describe(best.p)}` }, errors };
+}
 
 /** Problems of one profile's price claims against `packages` (one catalogue snapshot). */
 export function evaluateProfile(profile, slug, packages) {
@@ -200,36 +248,9 @@ export function evaluateProfile(profile, slug, packages) {
 
     const value = {};
     for (const [name, t] of Object.entries(claim.terms)) {
-      if ('package' in t) {
-        const p = byId.get(t.package);
-        if (!p) {
-          const twins = blocks[t.block].filter((q) => Object.entries(t.attrs || {}).every(([k, v]) => Number(q[k]) === v)
-            && (t.days === undefined || !termPrice(q, t.days).error));
-          add(claim, `${name}: продукта ${t.package} нет в каталоге — исчез или снят с витрины`
-            + `; кандидаты в блоке «${t.block}»: ${twins.map(describe).join('; ') || 'нет'}`);
-          continue;
-        }
-        const blk = blockOn(blocks, p);
-        if (blk !== t.block) { add(claim, `${name}: ${describe(p)} не в блоке «${t.block}» страницы /esim/${slug}/: ${blk ? `сейчас в «${blk}»` : 'страница его не показывает'}`); continue; }
-        for (const [k, v] of Object.entries(t.attrs || {})) {
-          if (Number(p[k]) !== v) add(claim, `${name}: ${describe(p)} — ${k} сейчас ${p[k]}, в утверждении ${v}`);
-        }
-        const r = termPrice(p, t.days);
-        if (r.error) add(claim, `${name}: ${r.error}`);
-        else value[name] = { price: r.price, what: `${describe(p)}${t.days ? ` на ${t.days} дн.` : ''}` };
-      } else {
-        const pool = (t.min_of === 'page' ? [...blocks.daily, ...blocks.regional, ...blocks.local]
-          : t.min_of === 'volume' ? [...blocks.regional, ...blocks.local] : blocks[t.min_of])
-          .filter((p) => inWhere(p, t.where));
-        const priced = pool.map((p) => {
-          if (t.days !== undefined) { const r = termPrice(p, t.days); return r.error ? null : { p, price: r.price }; }
-          const v = purchasablePrice(p);
-          return v > 0 ? { p, price: v } : null;
-        }).filter(Boolean);
-        if (!priced.length) { add(claim, `${name}: min_of «${t.min_of}»${t.where ? ` ${JSON.stringify(t.where)}` : ''}${t.days ? ` на ${t.days} дн.` : ''} — пусто, сравнивать не с чем`); continue; }
-        const best = priced.reduce((m, x) => (x.price < m.price ? x : m));
-        value[name] = { price: best.price, what: `минимум «${t.min_of}»${t.days ? ` на ${t.days} дн.` : ''} — ${describe(best.p)}` };
-      }
+      const r = resolveTerm(name, t, { blocks, byId, slug });
+      for (const m of r.errors) add(claim, m);
+      if (r.value) value[name] = r.value;
     }
 
     claim.assert.forEach((a, i) => {
