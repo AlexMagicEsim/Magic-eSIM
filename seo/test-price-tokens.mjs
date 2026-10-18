@@ -25,6 +25,7 @@ const pageText = (s) => readFileSync(join(ROOT, 'esim', s, 'index.html'), 'utf8'
 const CONVERTED = {
   1: ['australia', 'kazakhstan', 'sri-lanka'],
   2: ['kenya', 'tajikistan', 'brazil', 'cambodia'],
+  3: ['greece', 'tanzania', 'laos', 'macau'],
 };
 for (const [batch, slugs] of Object.entries(CONVERTED)) {
   test(`batch ${batch} is converted: ${slugs.join(', ')} carry price_refs`, () => {
