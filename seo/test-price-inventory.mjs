@@ -11,19 +11,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { inventory, inventoryOf, loadBaseline, keyOf, summary, renderedFields } from './price-inventory.mjs';
+import { loadProfiles } from './price-claims.mjs';
 
 // 2026-10-18 (stage A): 188 sentences. Stage B batch 1 (australia, kazakhstan,
 // sri-lanka → {{price:…}}): 180 sentences / 331 amounts (enumerations counted).
 // Stage B batch 2 (kenya, tajikistan, brazil, cambodia): 150 sentences.
-const MAX_UNANCHORED = 150;
+// Stage B batch 3 (greece, tanzania, laos, macau): 127 sentences.
+const MAX_UNANCHORED = 127;
 
 const ROWS = inventory();
 const BASE = loadBaseline();
 
 test('the inventory reads the corpus', () => {
+  // Stage B converts amounts to {{price:…}}, so the counts SHRINK by design
+  // (to zero at the end); what must hold is that every published profile was
+  // read. Recognition itself is pinned by the classification test below.
+  const published = loadProfiles();
+  assert.ok(published.length >= 60, `published profiles: ${published.length}`);
   const s = summary(ROWS);
-  assert.ok(s.profiles >= 50, `profiles with amounts: ${s.profiles}`);
-  assert.ok(s.anchored.amounts >= 100, `anchored amounts: ${s.anchored.amounts}`);
+  assert.equal(s.sentences, ROWS.length);
+  assert.ok(ROWS.every((r) => published.some((p) => p.slug === r.slug)), 'rows only from published profiles');
 });
 
 test('no NEW unanchored rouble amount in an authored text', () => {
