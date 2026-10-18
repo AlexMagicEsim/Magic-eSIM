@@ -19,7 +19,7 @@ import { loadProfiles } from './price-claims.mjs';
 // Stage B batch 3 (greece, tanzania, laos, macau): 127 sentences.
 // Stage B batch 4 (mexico, morocco, south-africa, japan): 108 sentences.
 // Stage B batch 5 (montenegro, taiwan, costa-rica, dominican-republic): 88 sentences.
-const MAX_UNANCHORED = 49;
+const MAX_UNANCHORED = 31;
 
 const ROWS = inventory();
 const BASE = loadBaseline();

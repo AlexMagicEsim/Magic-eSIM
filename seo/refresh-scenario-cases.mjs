@@ -21,9 +21,13 @@ const scale = (p, k) => {
 };
 // The packages the provider gave KT (Northern Cyprus) on 2026-10-18.
 const KT_FAMILY = /^(Turkey Premium|Greece Cyprus Turkey|Europe and USA) \d/;
-const addCode = (doc, code) => {
-  const hit = doc.packages.filter((p) => KT_FAMILY.test(String(p.name || '')) && Array.isArray(p.coverage_country_codes));
-  if (hit.length < 3) throw new Error('fixture: the KT family is not in the catalogue — re-point seo/refresh-scenario-cases.mjs');
+// The unknown-code move uses the already-regional «Europe and USA» family only:
+// added to «Turkey Premium» (TR + KT) a new code would also turn a plan the turkey
+// profile prices as LOCAL into a regional one — a different scenario.
+const UNKNOWN_FAMILY = /^Europe and USA \d/;
+const addCode = (doc, code, family = KT_FAMILY) => {
+  const hit = doc.packages.filter((p) => family.test(String(p.name || '')) && Array.isArray(p.coverage_country_codes));
+  if (hit.length < 2) throw new Error('fixture: the family is not in the catalogue — re-point seo/refresh-scenario-cases.mjs');
   for (const p of hit) p.coverage_country_codes = [...p.coverage_country_codes.filter((c) => c !== code), code];
   return hit.length;
 };
@@ -176,7 +180,7 @@ export function cases() {
     },
     {
       name: 'the provider adds an UNKNOWN code to a package family',
-      mutate: (doc) => ({ packages: addCode(doc, 'XQ') }),
+      mutate: (doc) => ({ packages: addCode(doc, 'XQ', UNKNOWN_FAMILY) }),
       inspect: ({ dir }) => ({ guard: coverageGuard(dir) }),
     },
     {
