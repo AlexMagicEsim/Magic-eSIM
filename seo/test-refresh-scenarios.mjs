@@ -1,0 +1,106 @@
+// What the SEO refresh does when the catalogue moves — each move run for real
+// (seo/refresh-scenarios.mjs: temp copy → catalogue change → build-all → the
+// corpus gates). The outcome of every scenario is pinned: a move that only
+// touches generated numbers must rebuild green with the new numbers; a move
+// that falsifies authored text, withdraws a named package or empties a country
+// must stop the refresh with a message that says what to do.
+
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { runScenario, runAll } from './refresh-scenarios.mjs';
+import { cases, templateFixture } from './refresh-scenario-cases.mjs';
+
+const PRICE = 'every price claim holds on assets/catalog.json and every headline price sentence is anchored or waived';
+const COVERAGE = 'every authored page agrees with the current catalogue on coverage';
+const FACTS = 'every authored page agrees with the current catalogue';
+const GENERATED = 'every generated «от N ₽» (meta, og/twitter, JSON-LD, template FAQ, FAQPage) is the catalogue floor';
+
+const CASES = cases();
+const TPL = templateFixture();
+const RESULTS = new Map();
+const results = runAll(CASES.map((c) => async () => { RESULTS.set(c.name, await runScenario(c.mutate, { inspect: c.inspect })); }), 3);
+
+const get = async (name) => { await results; const r = RESULTS.get(name); assert.ok(r, `scenario ran: ${name}`); return r; };
+const detail = (r, testName) => (r.tests.find((t) => t.name === testName) || { detail: '' }).detail;
+const metaFloor = (html) => Number(((html || '').match(/от ([\d  ]+) ₽\. Оплата рублями/) || [])[1]?.replace(/\D/g, ''));
+const baseline = (r) => {
+  assert.equal(r.build.code, 0, `build-all failed: ${r.build.stderr}`);
+  assert.ok(r.gatesRan >= 18, `gates ran: ${r.gatesRan}`);
+};
+
+test('control: an unchanged catalogue rebuilds green', async () => {
+  const r = await get('control: the catalogue does not move');
+  baseline(r);
+  assert.deepEqual(r.failing, []);
+});
+
+for (const [name, dir] of [['prices DOWN on a template page (no authored text quotes them)', 'down'], ['prices UP on a template page', 'up']]) {
+  test(`prices ${dir} where only generated numbers quote them: green, and the page prints the new floor`, async () => {
+    const r = await get(name);
+    baseline(r);
+    assert.deepEqual(r.failing, []);
+    assert.notEqual(r.inspected.floor, TPL.floor, 'the floor moved');
+    assert.equal(metaFloor(r.inspected.html), r.inspected.floor, `${TPL.slug}: the rebuilt meta prints the new floor`);
+    assert.match(r.inspected.html, new RegExp(`Цены начинаются от ${String(r.inspected.floor).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽\\.`));
+  });
+}
+
+test('a new offer below the floor: green, the floor follows it', async () => {
+  const r = await get('a NEW offer below the floor on a template page');
+  baseline(r);
+  assert.deepEqual(r.failing, []);
+  assert.equal(r.inspected.floor, TPL.floor - 100);
+  assert.equal(metaFloor(r.inspected.html), TPL.floor - 100);
+});
+
+test('a package quoted with an exact amount moves: red — the claim and the stale figure are named, «rewrite the sentence»', async () => {
+  const r = await get('a package QUOTED with an exact amount moves (australia · faq-daily-au-and-au-nz · au)');
+  baseline(r);
+  assert.deepEqual(r.failing, [FACTS, PRICE].sort());
+  assert.match(detail(r, PRICE), /faq-daily-au-and-au-nz: assert\[0\] au = 350 ложно/);
+  assert.match(detail(r, PRICE), /перепишите фразу \(а не утверждение\)/);
+  assert.match(detail(r, FACTS), /australia:[\s\S]*факт вне каталога: «350 ₽»/);
+});
+
+test('a stated relation flips: red on the relation itself', async () => {
+  const r = await get('a stated relation FLIPS (montenegro · local-vs-balkans-daily: the local plan becomes dearer)');
+  baseline(r);
+  assert.deepEqual(r.failing, [FACTS, PRICE].sort());
+  assert.match(detail(r, PRICE), /local-vs-balkans-daily: assert\[1\] local < balkans ложно/);
+});
+
+test('a package a price claim names is withdrawn: red, with successor candidates in the same block', async () => {
+  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · why-entry-vs-local · local)');
+  baseline(r);
+  assert.deepEqual(r.failing, [PRICE]);
+  assert.match(detail(r, PRICE), /нет в каталоге — исчез или снят с витрины; кандидаты в блоке «daily»/);
+});
+
+test('a package a coverage claim names is withdrawn: red on coverage (and on the price claim that names it too)', async () => {
+  const r = await get('a package a COVERAGE claim names is WITHDRAWN (australia · au-nz-daily-500mb)');
+  baseline(r);
+  assert.deepEqual(r.failing, [COVERAGE, PRICE].sort());
+  assert.match(detail(r, COVERAGE), /\/esim\/australia\//);
+  assert.match(detail(r, PRICE), /faq-daily-au-and-au-nz: aunz: продукта .* нет в каталоге/);
+});
+
+test('a new offer makes a «cheapest» sentence false: red on that claim', async () => {
+  const r = await get('a new offer makes a «cheapest» sentence false (sri-lanka: a local plan below the multi-country entry)');
+  baseline(r);
+  assert.deepEqual(r.failing, [PRICE]);
+  assert.match(detail(r, PRICE), /cheapest-is-not-local: assert\[0\] multi = cheapest ложно/);
+});
+
+test('a country loses every plan: the generators keep the page, and the gates demand its explicit removal', async () => {
+  const r = await get('a template country LOSES every plan (its page must be removed by a person)');
+  baseline(r);
+  assert.equal(r.inspected.pageStillThere, true, 'no generator deletes a page');
+  for (const t of [
+    'C4b: no page exists for a country whose grid would render nothing',
+    'C5: no orphaned country directory survives a removal',
+    'C3: no page advertises tariffs it no longer has',
+    GENERATED,
+  ]) assert.ok(r.failing.includes(t), `${t} — failing: ${r.failing.join(' | ')}`);
+  assert.match(detail(r, 'C4b: no page exists for a country whose grid would render nothing'), new RegExp(`${TPL.slug} \\(${TPL.iso}\\): page exists but its grid would be empty`));
+  assert.ok(!r.failing.includes(PRICE) && !r.failing.includes(COVERAGE), 'no authored page is involved');
+});
