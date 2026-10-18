@@ -181,7 +181,7 @@
       "regional_count": 5,
       "daily_count": 6,
       "total_count": 15,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -257,7 +257,7 @@
       "regional_count": 5,
       "daily_count": 6,
       "total_count": 15,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -439,7 +439,7 @@
       "regional_count": 5,
       "daily_count": 6,
       "total_count": 15,
-      "min_price_rub": 1800,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -633,7 +633,7 @@
       "regional_count": 0,
       "daily_count": 7,
       "total_count": 11,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -766,7 +766,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -1322,7 +1322,7 @@
       "regional_count": 1,
       "daily_count": 3,
       "total_count": 7,
-      "min_price_rub": 1050,
+      "min_price_rub": 950,
       "volumes": [
         3,
         5,
@@ -1430,7 +1430,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -1625,7 +1625,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -2090,7 +2090,7 @@
       "regional_count": 2,
       "daily_count": 20,
       "total_count": 27,
-      "min_price_rub": 400,
+      "min_price_rub": 350,
       "volumes": [
         3,
         5,
@@ -2117,7 +2117,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -3201,7 +3201,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -4107,7 +4107,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -4131,7 +4131,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -4155,7 +4155,7 @@
       "regional_count": 5,
       "daily_count": 5,
       "total_count": 14,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -5192,7 +5192,7 @@
       "regional_count": 2,
       "daily_count": 17,
       "total_count": 24,
-      "min_price_rub": 400,
+      "min_price_rub": 350,
       "volumes": [
         3,
         5,
@@ -5397,7 +5397,7 @@
       "regional_count": 5,
       "daily_count": 2,
       "total_count": 11,
-      "min_price_rub": 1850,
+      "min_price_rub": 1650,
       "volumes": [
         3,
         5,
@@ -5447,6 +5447,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-10-17T10:51:56.563Z",
+  "fetched_at": "2026-10-17T17:51:37.694Z",
   "source": "assets/catalog.json"
 }
