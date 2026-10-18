@@ -62,13 +62,14 @@ test('stage B: a package a {{price}} token prints moves — GREEN, and the rebui
 });
 
 test('a package quoted with a HAND-TYPED amount moves: red — the claim and the stale figure are named, «rewrite the sentence»', async () => {
-  const r = await get('a package QUOTED with a hand-typed amount moves (montenegro · local-vs-balkans-daily · local, still below balkans)');
+  const r = await get('a package QUOTED with a hand-typed amount moves (serbia · month-volume-vs-daily · v, still below d)');
   baseline(r);
-  assert.deepEqual(r.failing, [FACTS, PRICE].sort());
-  assert.match(detail(r, PRICE), /local-vs-balkans-daily: assert\[0\] local = 350 ложно/);
+  assert.ok(r.failing.includes(PRICE), r.failing.join(' | '));
+  // checkFacts also fires when the old figure exists nowhere else on the page.
+  assert.ok(r.failing.every((t) => t === PRICE || t === FACTS), r.failing.join(' | '));
+  assert.match(detail(r, PRICE), /month-volume-vs-daily: assert\[0\] v = 2400 ложно/);
   assert.match(detail(r, PRICE), /перепишите фразу \(а не утверждение\)/);
-  assert.doesNotMatch(detail(r, PRICE), /assert\[1\]/, 'the relation still holds');
-  assert.match(detail(r, FACTS), /montenegro:[\s\S]*факт вне каталога: «350 ₽»/);
+  assert.doesNotMatch(detail(r, PRICE), /assert\[2\]/, 'the relation still holds');
 });
 
 test('stage B: a package a {{price}} token names is withdrawn — the BUILD stops, naming the reference and successor candidates', async () => {
@@ -79,11 +80,11 @@ test('stage B: a package a {{price}} token names is withdrawn — the BUILD stop
   assert.match(r.build.stderr, /перепривяжите её к тарифу-преемнику/);
 });
 
-test('a stated relation flips: red on the relation itself', async () => {
+test('a stated relation flips: red on the relation itself (montenegro prints its amounts through tokens, so only the relation fails)', async () => {
   const r = await get('a stated relation FLIPS (montenegro · local-vs-balkans-daily: the local plan becomes dearer)');
   baseline(r);
-  assert.deepEqual(r.failing, [FACTS, PRICE].sort());
-  assert.match(detail(r, PRICE), /local-vs-balkans-daily: assert\[1\] local < balkans ложно/);
+  assert.deepEqual(r.failing, [PRICE]);
+  assert.match(detail(r, PRICE), /local-vs-balkans-daily: assert\[0\] local < balkans ложно/);
 });
 
 test('a package a price claim names is withdrawn: red, with successor candidates in the same block', async () => {

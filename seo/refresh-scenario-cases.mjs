@@ -116,10 +116,11 @@ export function cases() {
       inspect: ({ pageOf, info }) => ({ html: pageOf('australia'), price: info.price }),
     },
     {
-      name: 'a package QUOTED with a hand-typed amount moves (montenegro · local-vs-balkans-daily · local, still below balkans)',
+      // A page stage B has not converted yet (montenegro was, in batch 5).
+      name: 'a package QUOTED with a hand-typed amount moves (serbia · month-volume-vs-daily · v, still below d)',
       mutate: (doc) => {
-        const local = byId(doc, claimTerm('montenegro', 'price', 'local-vs-balkans-daily', 'local'));
-        local.term_prices = local.term_prices.map((t) => (t.days === 3 ? { ...t, price: t.price + 50 } : t));
+        const v = byId(doc, claimTerm('serbia', 'price', 'month-volume-vs-daily', 'v'));
+        v.price = Number(v.price) + 50;
       },
     },
     {
