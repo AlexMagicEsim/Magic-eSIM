@@ -14,7 +14,8 @@ import { inventory, inventoryOf, loadBaseline, keyOf, summary, renderedFields } 
 
 // 2026-10-18 (stage A): 188 sentences. Stage B batch 1 (australia, kazakhstan,
 // sri-lanka → {{price:…}}): 180 sentences / 331 amounts (enumerations counted).
-const MAX_UNANCHORED = 180;
+// Stage B batch 2 (kenya, tajikistan, brazil, cambodia): 150 sentences.
+const MAX_UNANCHORED = 150;
 
 const ROWS = inventory();
 const BASE = loadBaseline();

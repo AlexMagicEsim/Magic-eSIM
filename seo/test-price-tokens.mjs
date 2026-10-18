@@ -22,9 +22,15 @@ const WITH_REFS = SLUGS.filter((s) => readRefs(s) !== undefined);
 const raw = (s) => JSON.parse(readFileSync(join(ROOT, 'seo', 'content-profiles', `${s}.json`), 'utf8'));
 const pageText = (s) => readFileSync(join(ROOT, 'esim', s, 'index.html'), 'utf8');
 
-test('batch 1 is converted: australia, kazakhstan, sri-lanka carry price_refs', () => {
-  for (const s of ['australia', 'kazakhstan', 'sri-lanka']) assert.ok(WITH_REFS.includes(s), s);
-});
+const CONVERTED = {
+  1: ['australia', 'kazakhstan', 'sri-lanka'],
+  2: ['kenya', 'tajikistan', 'brazil', 'cambodia'],
+};
+for (const [batch, slugs] of Object.entries(CONVERTED)) {
+  test(`batch ${batch} is converted: ${slugs.join(', ')} carry price_refs`, () => {
+    for (const s of slugs) assert.ok(WITH_REFS.includes(s), s);
+  });
+}
 
 test('every reference on every page resolves against assets/catalog.json, every token has one, every ref is used', () => {
   const problems = [];
