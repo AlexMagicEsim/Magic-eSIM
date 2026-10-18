@@ -17,7 +17,8 @@ import { loadProfiles } from './price-claims.mjs';
 // sri-lanka → {{price:…}}): 180 sentences / 331 amounts (enumerations counted).
 // Stage B batch 2 (kenya, tajikistan, brazil, cambodia): 150 sentences.
 // Stage B batch 3 (greece, tanzania, laos, macau): 127 sentences.
-const MAX_UNANCHORED = 127;
+// Stage B batch 4 (mexico, morocco, south-africa, japan): 108 sentences.
+const MAX_UNANCHORED = 108;
 
 const ROWS = inventory();
 const BASE = loadBaseline();
