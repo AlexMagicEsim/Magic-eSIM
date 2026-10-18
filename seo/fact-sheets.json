@@ -1,7 +1,7 @@
 {
-  "fetched_at": "2026-10-17T17:51:37.694Z",
+  "fetched_at": "2026-10-18T12:28:26.347Z",
   "source": "assets/catalog.json",
-  "countries": 199,
+  "countries": 200,
   "sheets": {
     "jersey": {
       "iso": "JE",
@@ -2589,8 +2589,8 @@
       "iso": "TR",
       "name_ru": "Турция",
       "strategy": "LOCAL",
-      "local_count": 21,
-      "regional_count": 16,
+      "local_count": 19,
+      "regional_count": 18,
       "total_count": 37,
       "min_price_rub": 200,
       "max_price_rub": 6100,
@@ -2634,7 +2634,7 @@
           "data_gb": 7,
           "price_rub": 1450,
           "validity_days": 30,
-          "kind": "local"
+          "kind": "regional"
         },
         {
           "data_gb": 10,
@@ -2670,7 +2670,7 @@
           "data_gb": 30,
           "price_rub": 3850,
           "validity_days": 30,
-          "kind": "local"
+          "kind": "regional"
         },
         {
           "data_gb": 50,
@@ -2881,6 +2881,89 @@
       "daily_throttle_continues": false,
       "min_volume_price_rub": 350,
       "min_daily_price_rub": 200
+    },
+    "northern-cyprus": {
+      "iso": "KT",
+      "name_ru": "Северный Кипр",
+      "strategy": "REGIONAL",
+      "local_count": 0,
+      "regional_count": 8,
+      "total_count": 8,
+      "min_price_rub": 1450,
+      "max_price_rub": 6100,
+      "validity_days_min": 30,
+      "validity_days_max": 30,
+      "volumes_gb": [
+        7,
+        15,
+        18,
+        30,
+        50
+      ],
+      "has_unlimited": false,
+      "regional_reach_max": 41,
+      "offers": [
+        {
+          "data_gb": 7,
+          "price_rub": 1450,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 15,
+          "price_rub": 2400,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 18,
+          "price_rub": 2800,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 30,
+          "price_rub": 3850,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 50,
+          "price_rub": 6100,
+          "validity_days": 30,
+          "kind": "regional"
+        }
+      ],
+      "all_purchasable_prices": [
+        1450,
+        1600,
+        2400,
+        2600,
+        2800,
+        3850,
+        4150,
+        6100
+      ],
+      "term_days": [],
+      "daily_gb": [],
+      "speeds": [],
+      "networks": [],
+      "networks_rows": 0,
+      "rows_total": 8,
+      "fup_policies": [],
+      "activation_policies": [
+        "first_data_usage"
+      ],
+      "activation_labels": [
+        "с первого использования интернета"
+      ],
+      "topup_yes": 8,
+      "topup_no": 0,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
+      "min_volume_price_rub": 1450,
+      "min_daily_price_rub": null
     },
     "nauru": {
       "iso": "NR",
@@ -36572,7 +36655,7 @@
       "local_count": 8,
       "regional_count": 1,
       "total_count": 9,
-      "min_price_rub": 1000,
+      "min_price_rub": 1950,
       "max_price_rub": 15050,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -36594,7 +36677,7 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1000,
+          "price_rub": 2400,
           "validity_days": 15,
           "kind": "local"
         },
@@ -36618,9 +36701,9 @@
         }
       ],
       "all_purchasable_prices": [
-        1000,
         1950,
         2300,
+        2400,
         3050,
         3550,
         4000,
@@ -36699,7 +36782,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1000,
+      "min_volume_price_rub": 2400,
       "min_daily_price_rub": 1950
     },
     "mali": {
