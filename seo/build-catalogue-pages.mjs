@@ -35,6 +35,7 @@ import { COUNTRY_NAMES } from './country-names.mjs';
 import { createRequire } from 'node:module';
 import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily, countryOffers } from './catalogue-facts.mjs';
 import { isFrozenPage } from './frozen-pages.mjs'; // live catalogue numbers (stage C) skip the SEO pilot / control
+import { renderPriceTokens, readRefs } from './price-tokens.mjs';
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -696,8 +697,17 @@ writeFileSync(join(ROOT, 'assets/ru-destinations.js'), ruDestinationsJs(countrie
 let written = 0; let skipped = 0; let withProfile = 0; let replaced = 0;
 const allWarnings = [];
 for (const c of countries) {
-  const { profile, warnings } = loadProfile(c.slug);
+  const { profile: profileText, warnings } = loadProfile(c.slug);
   allWarnings.push(...warnings);
+  // {{price:<name>}} → the catalogue amount (seo/price-tokens.mjs). A reference
+  // that cannot be printed stops the build, like any other false page.
+  const { profile, problems: tokenProblems } = profileText
+    ? renderPriceTokens(profileText, readRefs(c.slug), c.slug, PACKAGES)
+    : { profile: profileText, problems: [] };
+  if (tokenProblems.length) {
+    console.error(`ОШИБКА: подстановки цен на /esim/${c.slug}/:\n  ${tokenProblems.join('\n  ')}`);
+    process.exit(1);
+  }
   // The hand-written pages were protected because a generated page would have
   // been worse than them. Once a country has a reviewed profile that is no
   // longer true: the profile went through research, fact-checking against the

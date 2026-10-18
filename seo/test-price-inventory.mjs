@@ -12,8 +12,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { inventory, inventoryOf, loadBaseline, keyOf, summary, renderedFields } from './price-inventory.mjs';
 
-// 2026-10-18: 188 sentences / 302 amounts (79 sentences / 117 amounts anchored).
-const MAX_UNANCHORED = 188;
+// 2026-10-18 (stage A): 188 sentences. Stage B batch 1 (australia, kazakhstan,
+// sri-lanka → {{price:…}}): 180 sentences / 331 amounts (enumerations counted).
+const MAX_UNANCHORED = 180;
 
 const ROWS = inventory();
 const BASE = loadBaseline();
