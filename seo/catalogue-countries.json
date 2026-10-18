@@ -1160,7 +1160,7 @@
       "regional_count": 6,
       "daily_count": 5,
       "total_count": 15,
-      "min_price_rub": 800,
+      "min_price_rub": 750,
       "volumes": [
         3,
         5,
@@ -5447,6 +5447,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-10-18T12:28:26.347Z",
+  "fetched_at": "2026-10-18T15:56:24.109Z",
   "source": "assets/catalog.json"
 }

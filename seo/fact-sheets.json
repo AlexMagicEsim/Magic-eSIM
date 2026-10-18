@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-18T12:28:26.347Z",
+  "fetched_at": "2026-10-18T15:56:24.109Z",
   "source": "assets/catalog.json",
   "countries": 200,
   "sheets": {
@@ -847,43 +847,44 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1150,
+          "price_rub": 1050,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1850,
+          "price_rub": 1700,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 3200,
+          "price_rub": 2950,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 5800,
+          "price_rub": 5300,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
         700,
+        1050,
         1150,
         1350,
         1550,
+        1700,
         1800,
-        1850,
         2000,
         2050,
         2100,
         2450,
         2850,
+        2950,
         3050,
-        3200,
         3250,
         3300,
         3400,
@@ -897,6 +898,7 @@
         5050,
         5150,
         5200,
+        5300,
         5500,
         5800,
         5900,
@@ -982,7 +984,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1150,
+      "min_volume_price_rub": 1050,
       "min_daily_price_rub": 700
     },
     "oman": {
@@ -4419,8 +4421,8 @@
       "local_count": 9,
       "regional_count": 6,
       "total_count": 15,
-      "min_price_rub": 800,
-      "max_price_rub": 5550,
+      "min_price_rub": 750,
+      "max_price_rub": 5450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -4441,33 +4443,34 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1050,
+          "price_rub": 750,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1650,
+          "price_rub": 1200,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 3150,
+          "price_rub": 2100,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 5550,
+          "price_rub": 3800,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        750,
         800,
         1000,
-        1050,
+        1200,
         1250,
         1550,
         1650,
@@ -4477,16 +4480,15 @@
         2500,
         2850,
         3050,
-        3150,
         3250,
         3300,
+        3800,
         4100,
         4400,
         4650,
         4900,
         5200,
         5450,
-        5550,
         5700,
         5900,
         6650,
@@ -4557,7 +4559,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
+      "min_volume_price_rub": 750,
       "min_daily_price_rub": 800
     },
     "papua-new-guinea": {
@@ -4717,45 +4719,46 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1350,
+          "price_rub": 1250,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 2150,
+          "price_rub": 2000,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 3700,
+          "price_rub": 3450,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 7150,
+          "price_rub": 6200,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
         850,
+        1250,
         1300,
         1350,
         1600,
         1800,
+        2000,
         2100,
-        2150,
         2400,
         2450,
         2500,
         2850,
         2900,
         3350,
+        3450,
         3500,
-        3700,
         3750,
         3850,
         3900,
@@ -4769,9 +4772,9 @@
         5900,
         6000,
         6050,
+        6200,
         6400,
         6800,
-        7150,
         7650,
         8000,
         8200,
@@ -4851,7 +4854,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1350,
+      "min_volume_price_rub": 1250,
       "min_daily_price_rub": 850
     },
     "benin": {
@@ -31572,15 +31575,15 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2000,
+          "price_rub": 1800,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3050,
-          "validity_days": 15,
-          "kind": "regional"
+          "price_rub": 2900,
+          "validity_days": 30,
+          "kind": "local"
         },
         {
           "data_gb": 10,
@@ -31590,18 +31593,20 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 10900,
+          "price_rub": 9050,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
         1550,
+        1800,
+        1900,
         1950,
         2000,
-        2150,
         2400,
         2750,
+        2900,
         3050,
         3250,
         4050,
@@ -31610,9 +31615,9 @@
         4350,
         4650,
         4900,
+        4950,
         5500,
         5700,
-        6050,
         6200,
         6250,
         6750,
@@ -31621,9 +31626,9 @@
         8000,
         8550,
         8650,
+        9050,
         10400,
         10550,
-        10900,
         11150,
         11300,
         11600,
@@ -31707,7 +31712,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 2000,
+      "min_volume_price_rub": 1800,
       "min_daily_price_rub": 1550
     },
     "reunion": {
@@ -32184,43 +32189,43 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 750,
+          "price_rub": 700,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1200,
+          "price_rub": 1100,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 2100,
+          "price_rub": 1900,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 4050,
+          "price_rub": 3500,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
         550,
-        750,
+        700,
         900,
         950,
         1050,
-        1200,
+        1100,
         1250,
         1450,
         1600,
         1650,
         1850,
+        1900,
         1950,
-        2100,
         2150,
         2300,
         2400,
@@ -32233,7 +32238,6 @@
         3550,
         3800,
         3850,
-        4050,
         4100,
         4200,
         4650,
@@ -32314,7 +32318,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 750,
+      "min_volume_price_rub": 700,
       "min_daily_price_rub": 550
     },
     "guernsey": {
@@ -34192,31 +34196,32 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1300,
+          "price_rub": 1100,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 2100,
+          "price_rub": 1750,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 3400,
+          "price_rub": 3050,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 6500,
+          "price_rub": 5400,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
         850,
+        1100,
         1300,
         1350,
         1550,
@@ -34224,7 +34229,6 @@
         1850,
         2000,
         2050,
-        2100,
         2350,
         2400,
         2500,
@@ -34233,7 +34237,6 @@
         2950,
         3050,
         3250,
-        3400,
         3450,
         3650,
         3750,
@@ -34249,7 +34252,6 @@
         5850,
         5950,
         6250,
-        6500,
         6650,
         7450,
         7800,
@@ -34317,7 +34319,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1300,
+      "min_volume_price_rub": 1100,
       "min_daily_price_rub": 850
     },
     "mauritania": {
