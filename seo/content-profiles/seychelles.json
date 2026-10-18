@@ -238,17 +238,18 @@
       "assert": [
         {
           "left": "d",
-          "op": "<=",
-          "right": "v"
-        },
-        {
-          "left": "d",
           "op": ">=",
           "right": "v",
           "factor": 1.1
+        },
+        {
+          "left": "v",
+          "op": ">=",
+          "right": "d",
+          "factor": 1.1
         }
       ],
-      "note": "«почти столько же»: посуточный не дешевле 3 ГБ на 15 дней больше чем на 10 %. Stage B: the equality to 1950 is gone; the amount is the same min_of term as the claim."
+      "note": "«почти столько же»: the cheapest 1 GB/day × 3 and 3 GB / 15 days are within 10 % of each other, either way. Corrected 2026-10-18: the claim also required «daily ≤ local», which the sentence does not say; the catalogue of 2026-10-18 15:13 UTC (local 3 GB / 15 = 1800 ₽, daily 1950 ₽) made that half false while the sentence stayed true."
     },
     {
       "id": "faq-week-daily-dearer",
