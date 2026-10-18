@@ -32,6 +32,8 @@ const CONVERTED = {
   7: ['bahrain', 'seychelles', 'argentina', 'andorra'],
   8: ['armenia', 'colombia', 'portugal', 'qatar'],
   9: ['maldives', 'nepal', 'turkey', 'brunei', 'jordan', 'vietnam', 'germany', 'india', 'china', 'south-korea'],
+  10: ['bosnia-and-herzegovina', 'indonesia', 'philippines', 'serbia', 'thailand', 'france', 'hong-kong', 'saudi-arabia',
+    'singapore', 'united-kingdom', 'azerbaijan', 'bulgaria', 'switzerland', 'tunisia'],
 };
 for (const [batch, slugs] of Object.entries(CONVERTED)) {
   test(`batch ${batch} is converted: ${slugs.join(', ')} carry price_refs`, () => {

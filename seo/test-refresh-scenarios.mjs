@@ -62,12 +62,12 @@ test('stage B: a package a {{price}} token prints moves — GREEN, and the rebui
 });
 
 test('a package quoted with a HAND-TYPED amount moves: red — the claim and the stale figure are named, «rewrite the sentence»', async () => {
-  const r = await get('a package QUOTED with a hand-typed amount moves (serbia · month-volume-vs-daily · v, still below d)');
+  const r = await get('a package QUOTED with a hand-typed amount moves (kyrgyzstan · faq-week-daily-vs-10gb · v, still above d)');
   baseline(r);
   assert.ok(r.failing.includes(PRICE), r.failing.join(' | '));
   // checkFacts also fires when the old figure exists nowhere else on the page.
   assert.ok(r.failing.every((t) => t === PRICE || t === FACTS), r.failing.join(' | '));
-  assert.match(detail(r, PRICE), /month-volume-vs-daily: assert\[0\] v = 2400 ложно/);
+  assert.match(detail(r, PRICE), /faq-week-daily-vs-10gb: assert\[1\] v = 1300 ложно/);
   assert.match(detail(r, PRICE), /перепишите фразу \(а не утверждение\)/);
   assert.doesNotMatch(detail(r, PRICE), /assert\[2\]/, 'the relation still holds');
 });
