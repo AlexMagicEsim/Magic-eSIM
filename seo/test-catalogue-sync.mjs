@@ -38,12 +38,16 @@ const PK = loadCatalogue();
 // silently misses every four-digit price — which is most of them.
 const NB = '[\\d\\u00A0\\u202F\\u2009\\u2007 ]';
 const MONEY = new RegExp('от\\s*(' + NB + '+)\\s*₽');
+// The facts line, in both forms: plain (the SEO pilot / control pages,
+// seo/frozen-pages.mjs) and marked for assets/catalog-numbers.js (stage C) —
+// each segment then sits in its own data-cat-seg / data-cat-floor wrapper and
+// each number carries data-cat. The numbers are captured the same way in both.
 const FACTS = new RegExp(
   '<p class="facts">\\s*'
-  + '(?:Локальных тарифов: <b>(\\d+)</b>\\.\\s*)?'
-  + '(?:Региональных: <b>(\\d+)</b>\\.\\s*)?'
-  + '(?:С оплатой за день: <b>(\\d+)</b>\\.\\s*)?'
-  + '(?:Цены от <b>(' + NB + '+) ₽</b>\\.)?'
+  + '(?:(?:<span data-cat-seg="local">)?Локальных тарифов: <b(?: data-cat="local")?>(\\d+)</b>\\.\\s*(?:</span>)?)?'
+  + '(?:(?:<span data-cat-seg="regional">)?Региональных: <b(?: data-cat="regional")?>(\\d+)</b>\\.\\s*(?:</span>)?)?'
+  + '(?:(?:<span data-cat-seg="daily">)?С оплатой за день: <b(?: data-cat="daily")?>(\\d+)</b>\\.\\s*(?:</span>)?)?'
+  + '(?:(?:<span data-cat-floor>)?Цены от <b(?: data-cat="floor")?>(' + NB + '+) ₽</b>\\.(?:</span>)?)?'
 );
 const toNum = (s) => Number(String(s).replace(/[^\d]/g, ''));
 
@@ -103,14 +107,21 @@ test('C2: the generated facts block quotes exactly the minimum purchasable price
   // Scoped to the generated block, not the hand-written profile sentence: a
   // profile may legitimately quote the cheapest VOLUME plan alongside a GB range.
   const off = [];
+  let checked = 0;
   for (const { slug, iso, html } of PAGES) {
     const m = html.match(FACTS);
     if (!m || !m[4]) continue;
     const f = countryFacts(PK, iso);
     if (f.min_price_rub === null) continue;
     if (toNum(m[4]) !== f.min_price_rub) off.push(`${slug}: facts say ${toNum(m[4])} ₽, catalogue minimum is ${f.min_price_rub} ₽`);
+    checked += 1;
   }
   assert.deepEqual(off, [], off.join('\n'));
+  // A markup change once made FACTS match nothing and this test pass by
+  // skipping every page (found in stage C, 2026-10-18): the floor must have
+  // been READ on every page that sells something.
+  const selling = PAGES.filter(({ iso }) => countryFacts(PK, iso).min_price_rub !== null).length;
+  assert.equal(checked, selling, `facts floor read on ${checked} of ${selling} selling pages`);
 });
 
 // --------------------------------------------------------------------------

@@ -123,7 +123,7 @@
         <p class="intro">Самый дешёвый тариф здесь — посуточный с лимитом 500 МБ, купленный на минимальные три дня, за 750 ₽. Соседняя карточка — объёмный тариф на 3 ГБ — стоит 900 ₽ и действует 15 дней. Она дороже, но это вдвое больше данных и впятеро более длинный срок.</p>
         <p class="intro">Стыковка в Дохе или короткая деловая поездка — единственный сценарий, где первый вариант оправдан: он дешевле в абсолютных деньгах и рассчитан ровно на три дня. Во всех остальных случаях объёмный тариф закрывает поездку с запасом и не требует держать в голове дневной лимит.</p>
         <p class="facts">
-          Локальных тарифов: <b>4</b>. С оплатой за день: <b>12</b>. Цены от <b>750 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">12</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">750 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

@@ -123,7 +123,7 @@
         <p class="intro">В блоке «Тарифы для Макао» — местные тарифы от 3 ГБ за 400 ₽ до 50 ГБ на 30 дней за 3400 ₽; у всех в строке сети стоит 3G/4G/5G. В их покрытии только Макао.</p>
         <p class="intro">На Макао вместе с Гонконгом рассчитаны пакеты из двух других блоков. В блоке «Трафик на каждый день» есть посуточный пакет на материковый Китай, Гонконг и Макао: 500 МБ в день — 600 ₽ за три дня. В блоке «Региональные тарифы» — пакет «Китай, Гонконг, Макао и Тайвань» на 3 ГБ на 7 дней за 700 ₽ и на 30 ГБ на 30 дней за 3800 ₽, а также азиатские пакеты на 7 и 12 ГБ.</p>
         <p class="facts">
-          Локальных тарифов: <b>6</b>. Региональных: <b>4</b>. С оплатой за день: <b>22</b>. Цены от <b>400 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">6</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">22</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">400 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

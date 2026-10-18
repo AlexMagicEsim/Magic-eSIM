@@ -122,7 +122,7 @@
         <p class="lead">Дания. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.</p>
         
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>4</b>. С оплатой за день: <b>31</b>. Цены от <b>250 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">31</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">250 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -294,7 +294,7 @@
     <details class="faq-item"><summary>Что такое региональные тарифы?</summary><p>Это тарифы, покрытие которых включает несколько стран, в том числе эту. Сейчас таких 4. Они подходят, если поездка захватывает не одну страну; полный список стран покрытия указан в карточке каждого тарифа.</p></details>
     <details class="faq-item"><summary>Дания — какие объёмы трафика доступны?</summary><p>Сейчас доступны тарифы на 3 ГБ, 5 ГБ, 10 ГБ, 15 ГБ, 18 ГБ, 20 ГБ, 50 ГБ, 60 ГБ, 120 ГБ. Точный срок действия указан в карточке каждого тарифа.</p></details>
     <details class="faq-item"><summary>Дания — есть ли тарифы с оплатой за день?</summary><p>Да, сейчас таких 31. У них платится не объём, а срок: у части тарифов его выбирают — от 3 дней, у части он фиксирован. Суточный объём трафика и цена указаны в карточке каждого тарифа.</p></details>
-    <details class="faq-item"><summary>Дания — сколько стоит eSIM?</summary><p>Цены начинаются от 250 ₽. Оплата в рублях российской картой или через СБП; актуальная цена каждого тарифа показана на этой странице.</p></details>
+    <details class="faq-item"><summary>Дания — сколько стоит eSIM?</summary><p><span data-cat-floor>Цены начинаются от <span data-cat="floor">250 ₽</span>.</span> Оплата в рублях российской картой или через СБП; актуальная цена каждого тарифа показана на этой странице.</p></details>
     <details class="faq-item"><summary>Когда устанавливать eSIM?</summary><p>eSIM можно установить заранее, дома по Wi-Fi: после оплаты QR-код приходит на почту. С какого момента идёт срок тарифа, указано в карточке — в строке «Начало срока» окна «Покрытие и условия».</p></details>
     <details class="faq-item"><summary>Останется ли российский номер?</summary><p>Да. eSIM добавляется второй линией и не заменяет физическую SIM — российский номер остаётся в телефоне и работает отдельно.</p></details>
   </section>
@@ -370,7 +370,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

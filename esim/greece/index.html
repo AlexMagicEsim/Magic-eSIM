@@ -123,7 +123,7 @@
         <p class="intro">Греция — это часто не один остров: Афины на день-два, затем паромы между Цикладами или перелёт на Крит. Расписания паромов меняются, порты большие, а таверны с лучшими отзывами прячутся в переулках — интернет решает все эти задачи.</p>
         <p class="intro">Выбирать здесь есть из чего, но смотреть надо в оба: местная линейка идёт 3, 5, 7, 10, 20, 30 и 50 ГБ — и семигигабайтный пакет стоит 1450 ₽, тогда как десятигигабайтный 950 ₽. Порядок «больше — дороже» нарушен, так что нижние ступени стоит сравнивать по цене, а не по объёму. Региональные европейские тарифы — отдельный блок в той же сетке, до 41 страны одним профилем.</p>
         <p class="facts">
-          Локальных тарифов: <b>7</b>. Региональных: <b>8</b>. С оплатой за день: <b>34</b>. Цены от <b>250 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">7</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">8</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">34</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">250 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

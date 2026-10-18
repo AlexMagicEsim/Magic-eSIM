@@ -123,7 +123,7 @@
         <p class="intro">Это упрощает выбор сильнее, чем кажется. Основной риск при покупке интернета в поездку — взять слишком короткий срок и остаться без связи в последний день. Когда даты известны, риск исчезает: достаточно посмотреть срок действия в карточке тарифа и убедиться, что он покрывает поездку целиком, включая день отъезда.</p>
         <p class="intro">Второй вывод — про объём. При туре расход обычно ровный: экскурсии, дорога, переписка, карты. Резких скачков, как в самостоятельном маршруте с пересадками и сменой городов, здесь не бывает, поэтому младшего тарифа чаще всего хватает. Оплатить можно российской банковской картой или через СБП.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>6</b>. С оплатой за день: <b>7</b>. Цены от <b>600 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">6</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">7</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">600 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

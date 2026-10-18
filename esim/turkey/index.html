@@ -123,7 +123,7 @@
         <p class="intro">Стамбул, Анталья, Измир и Каппадокия — главные точки большинства маршрутов. Отдельная история — переезды: маршрут Стамбул—Каппадокия или дорога вдоль побережья проходит через участки, где сигнал заметно проседает, и навигация в этот момент нужна больше всего.</p>
         <p class="intro">Ещё один турецкий нюанс — регистрация иностранных телефонов в местной сети. Она касается устройств, которые долго работают с турецким номером, и не относится к туристической eSIM: профиль подключается как гостевой и живёт ровно столько, сколько действует тариф. Для поездки на две-три недели никаких дополнительных действий не требуется.</p>
         <p class="facts">
-          Локальных тарифов: <b>9</b>. Региональных: <b>6</b>. С оплатой за день: <b>22</b>. Цены от <b>200 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">9</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">6</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">22</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">200 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

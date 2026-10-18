@@ -237,6 +237,13 @@ let activeCountry='ALL';
    checkout (assets/ru-checkout.js) reads it: a card shown from the cache is
    confirmed against the live API before anyone can pay. */
 let catalogSource=null;
+// Can the catalogue on screen be shown as current? The live API, or a snapshot
+// fresh enough to show without a notice. assets/catalog-numbers.js hides the
+// page's printed «от N ₽» when it is not (SEO stage C).
+let catalogTrusted=false;
+function announceCatalog(detail){
+  try{window.dispatchEvent(new CustomEvent('magic:catalog-rendered',{detail:detail}));}catch(_){}
+}
 let catalogGeneratedAt=null;
 
 function formatRub(value){
@@ -1396,6 +1403,9 @@ function renderCountrySplit(){
   jumpTo('regionalBlock',regional.length);
   // The daily block, above the volume ones: it answers a different question and
   // a customer who wants it should not have to scroll past twenty volumes.
+  // The daily packages whose card is on screen — what the page's printed
+  // «С оплатой за день» counts (assets/catalog-numbers.js).
+  let dailyShown=[];
   const dailyBlock=ensureDailyBlock();
   if(dailyBlock){
     /* Тот же различитель, что у объёмных карточек, и вызван по тому же
@@ -1409,7 +1419,9 @@ function renderCountrySplit(){
        этого в проекте уже есть — он просто не был подключён к дневным. */
     const grid=document.getElementById('dailyGrid');
     computeDistinct(daily);
-    const cards=daily.map(renderDailyCard).filter(Boolean);
+    const shown=daily.map((i)=>[i,renderDailyCard(i)]).filter((x)=>x[1]);
+    const cards=shown.map((x)=>x[1]);
+    dailyShown=shown.map((x)=>x[0]);
     if(cards.length){
       document.getElementById('dailyHead').textContent=D?D.BLOCK_TITLE:'';
       document.getElementById('dailyCount').textContent=tariffCount(cards.length);
@@ -1427,6 +1439,7 @@ function renderCountrySplit(){
     jumpTo('localBlock',0);jumpTo('regionalBlock',0);
     if(status)status.textContent=`Для «${cName}» тарифы не найдены. Напишите в поддержку — подберём вручную.`;
   }
+  announceCatalog({local:local,regional:regional,daily:dailyShown,trusted:catalogTrusted,source:catalogSource});
   // Analytics: fire once per (country + result counts); re-render/sort of the same
   // result does not re-fire (dedupe key), so no duplicate goals.
   try{
@@ -1554,6 +1567,7 @@ function renderCountrySplit(){
       allLandingPackages=packages;
       window.allLandingPackages=allLandingPackages;
       catalogSource='live';
+      catalogTrusted=true;
       hideNotice();
       renderCountrySplit();
       try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_retry_succeeded',{page_type:'country',source:'live'});}catch(_){}
@@ -1578,6 +1592,7 @@ function renderCountrySplit(){
       allLandingPackages=Array.isArray(result.packages)?result.packages:[];
       window.allLandingPackages=allLandingPackages;
       catalogSource=result.source;
+      catalogTrusted=result.source!=='cache'||!result.stale;
       activeCountry=code;
       const m=result.metrics||{};
       if(result.source==='cache'){
@@ -1600,6 +1615,7 @@ function renderCountrySplit(){
             allLandingPackages=late.packages;
             window.allLandingPackages=allLandingPackages;
             catalogSource='live';
+            catalogTrusted=true;
             catalogGeneratedAt=null;
             hideNotice();
             renderCountrySplit();
@@ -1614,6 +1630,8 @@ function renderCountrySplit(){
     }catch(err){
       console.error('Package load failed',err);
       catalogSource=null;
+      catalogTrusted=false;
+      announceCatalog({trusted:false,source:null});
       if(status)status.textContent='';
       renderNotice('Не удалось загрузить тарифы. Это может быть связано с временными ограничениями сети. Попробуйте другую сеть, включите VPN или повторите попытку позже.','Повторить');
       try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_load_failed',{page_type:'country',country_code:code,error_type:String((err&&err.liveError)||'unknown').slice(0,32)});}catch(_){}

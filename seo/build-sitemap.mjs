@@ -132,9 +132,25 @@ export function fileFor(loc) {
 // page kept the date it already had. That is a state migration, deliberately not
 // a `--seed` — seeding would have stamped all 210 with today, which is the
 // falsehood being avoided.
+//
+// LIVE CATALOGUE MARKUP LIKEWISE, added 2026-10-18 (SEO stage C). The data-cat
+// attributes and wrappers around the generated counts and «от N ₽», and the
+// <script> of assets/catalog-numbers.js, say how the page keeps its numbers
+// current, not what it says. They are stripped back to EXACTLY the pre-stage-C
+// markup, so the stored hashes still match and no date moved (no state
+// migration was needed); seo/test-sitemap-lastmod.mjs pins the round trip.
+export function stripLiveCatalogueMarkup(html) {
+  return String(html)
+    .replace(/[ \t]*<!-- Keeps the generated counts[\s\S]*?-->\n[ \t]*<script src="\/assets\/catalog-numbers\.js(?:\?v=[0-9a-f]+)?" defer><\/script>\n/g, '')
+    .replace(/<span data-cat="floor">([^<]*)<\/span>/g, '$1')
+    .replace(/<b data-cat="(?:local|regional|daily|floor)">/g, '<b>')
+    .replace(/<span data-cat-seg="(?:local|regional|daily)">([^<]*<b>[^<]*<\/b>[^<]*)<\/span>/g, '$1')
+    .replace(/<span data-cat-floor>([^<]*(?:<b>[^<]*<\/b>)?[^<]*)<\/span>/g, '$1');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(String(html)
+    .update(stripLiveCatalogueMarkup(html)
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')

@@ -123,7 +123,7 @@
         <p class="intro">По данным TfL, 4G и 5G уже работают на станциях и в тоннелях на участках нескольких линий и на всей Elizabeth line, и покрытие расширяется, но часть станций и перегонов пока без мобильного сигнала. Wi-Fi, по данным TfL, есть на всех станциях метро, но не в тоннелях; подключаются к нему через Wi-Fi-сервисы британских мобильных операторов — TfL называет, например, EE, O2, Three и Vodafone. Практический вывод — маршрут строят до спуска в метро, а не в вагоне, и приложение с офлайн-схемой на телефоне сильно упрощает жизнь.</p>
         <p class="intro">Для поездок за пределы Лондона — в Шотландское высокогорье, Озёрный край или Уэльс — карту лучше скачать заранее: навигация там нужна больше всего, а городская привычка «посмотрю по дороге» подводит.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>4</b>. С оплатой за день: <b>30</b>. Цены от <b>250 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">30</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">250 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

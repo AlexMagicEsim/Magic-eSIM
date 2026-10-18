@@ -123,7 +123,7 @@
         <p class="intro">Зона покрытия определяется сетями местных операторов, и каталог не обещает связь в конкретной точке — он называет объём, срок и поддерживаемые сети. Практический вывод из этого один и тот же для гор, островов и переездов: карты, брони и маршрут стоит сохранить офлайн до выезда, а тариф выбирать с запасом по объёму: пополнение доступно не у всех пакетов, и есть ли оно у выбранного, видно по отметке в карточке.</p>
         <p class="intro">Второй вьетнамский сюжет — цена физической SIM-карты в аэропорту. Стойки в зоне прилёта традиционно дороже городских точек, а разбираться с тарифами после ночного перелёта — сомнительное удовольствие. Профиль, поставленный дома, снимает этот эпизод целиком: по прилёте достаточно включить передачу данных. Оговорка одна — если в карточке стоит «после установки eSIM», срок начнёт идти сразу, и такой тариф ставят уже во Вьетнаме.</p>
         <p class="facts">
-          Локальных тарифов: <b>8</b>. Региональных: <b>8</b>. С оплатой за день: <b>30</b>. Цены от <b>200 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">8</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">8</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">30</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">200 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

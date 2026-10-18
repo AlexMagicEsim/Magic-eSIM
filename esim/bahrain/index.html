@@ -123,7 +123,7 @@
         <p class="intro">Все такие карточки покрывают Бахрейн, Саудовскую Аравию, Катар, ОАЭ и Кувейт, а шестая страна у них разная: у одних это Ирак, у карточки на 2 ГБ в день — Оман. Если в маршруте есть одна из них, сверьте строку «Покрытие» до оплаты. Объёмного регионального пакета на этой странице нет.</p>
         <p class="intro">Если вы остаётесь в Бахрейне, местные тарифы дешевле: 3 ГБ на 15 дней за 850 ₽, 5, 10 и 20 ГБ на 30 дней за 1400, 2450 и 3950 ₽. Среди посуточных местный тариф тоже дешевле карточки на страны Залива — на тех дневных объёмах, которые есть в обеих сетках.</p>
         <p class="facts">
-          Локальных тарифов: <b>4</b>. С оплатой за день: <b>13</b>. Цены от <b>700 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">13</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">700 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

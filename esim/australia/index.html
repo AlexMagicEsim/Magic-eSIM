@@ -123,7 +123,7 @@
         <p class="intro">Пакет на две страны продаётся на 3, 5, 12 и 20 ГБ на 30 дней за 1000, 1300, 2350 и 3550 ₽, срок у него идёт «с первого использования интернета», пополнение отмечено. В блоке «Трафик на каждый день» есть и посуточные тарифы на обе страны — от 500 МБ до 10 ГБ в день.</p>
         <p class="intro">Если Новой Зеландии в маршруте нет, местный блок дешевле и крупнее: от 3 ГБ на 15 дней за 400 ₽ до 50 ГБ на 30 дней за 3400 ₽. Пакеты «Азия и Океания» тоже покрывают обе страны вместе с частью Азии, но нужны они, только если по пути есть Азия, — и срок у них идёт «после установки eSIM», так что такой профиль ставьте прямо перед поездкой.</p>
         <p class="facts">
-          Локальных тарифов: <b>7</b>. Региональных: <b>6</b>. С оплатой за день: <b>18</b>. Цены от <b>350 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">7</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">6</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">18</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">350 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

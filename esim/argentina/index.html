@@ -123,7 +123,7 @@
         <p class="intro">Эти пакеты рассчитаны на 30 дней, в строке сети у них 4G, пополнение отмечено. Самый большой, на 50 ГБ, покрывает другой набор стран: Уругвай, Бразилию и Чили — да, Парагвай — нет. Ни один объёмный региональный пакет на этой странице не покрывает Боливию: её включает только часть посуточных карточек, а для самой Боливии есть своя страница.</p>
         <p class="intro">Если вся поездка — по Аргентине, с региональным пакетом вы переплачиваете за соседей: местные 3 ГБ на 15 или 30 дней стоят 1050 и 1150 ₽, 5, 10 и 20 ГБ на 30 дней — 1700, 2900 и 5050 ₽. В строке сети у местных тарифов 3G/4G, пополнение отмечено в каждой объёмной карточке.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>6</b>. С оплатой за день: <b>20</b>. Цены от <b>650 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">6</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">20</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">650 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

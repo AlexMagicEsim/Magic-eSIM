@@ -123,7 +123,7 @@
         <p class="intro">Выход через Гонконг или Сингапур — техническая особенность маршрутизации, а не обход чего-либо: гостевой профиль подключается к китайской сети, а точка выхода в интернет видна по отметке «IP», если карточка её показывает. Гарантировать поведение конкретного сервиса заранее нельзя: часть из них ограничивает доступ по собственным причинам, независимо от страны.</p>
         <p class="intro">О качестве связи в конкретном городе, в метро или в скоростном поезде карточка тарифа не говорит, а карт покрытия мы не публикуем. Отдельно стоит помнить про оплату — в Китае почти всё платится через мобильные приложения, и интернет в этом сценарии нужен не для удобства, а для того, чтобы расплатиться.</p>
         <p class="facts">
-          Локальных тарифов: <b>10</b>. Региональных: <b>7</b>. С оплатой за день: <b>37</b>. Цены от <b>350 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">10</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">7</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">37</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">350 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

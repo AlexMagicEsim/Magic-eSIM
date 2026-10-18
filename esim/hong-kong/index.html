@@ -123,7 +123,7 @@
         <p class="intro">Для короткой поездки это неважно: и 15 дней, и 30 покрывают неделю с запасом. Разница появляется, если вы летите через Гонконг дважды — туда и обратно с промежутком, или приезжаете два раза за месяц. Тогда более длинный срок означает, что второй тариф покупать не придётся, а цена та же.</p>
         <p class="intro">Отсюда практическое правило для этой страницы: сравнивайте не только объём и цену, но и срок действия — он указан в карточке каждого тарифа. Это единственное место, где на одинаковых цифрах можно случайно выбрать худший вариант. Оплатить можно российской банковской картой или через СБП.</p>
         <p class="facts">
-          Локальных тарифов: <b>7</b>. Региональных: <b>4</b>. С оплатой за день: <b>21</b>. Цены от <b>400 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">7</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">4</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">21</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">400 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

@@ -123,7 +123,7 @@
         <p class="intro">Локальный черногорский тариф с дневным лимитом 500 МБ стоит 350 ₽ за минимальный срок покупки — три дня. Балканский тариф с точно таким же дневным лимитом и на тот же срок стоит дороже: в его цену входит покрытие соседних стран. Объём при этом одинаковый, а вот сеть в карточках указана разная: у местного 3G/4G, у балканского 3G/4G/5G — и ограничение скорости после дневного лимита у балканского строже, 384 Кбит/с против 512 Кбит/с. То есть переплата покрывает право пересечь границу и 5G в строке «Сеть», но не более мягкий лимит.</p>
         <p class="intro">Отсюда правило, которое экономит больше всего денег на этой странице. Если поездка целиком в Черногории, балканский тариф — переплата за покрытие, которым вы не воспользуетесь. Если в маршруте есть Сербия, Албания или Хорватия, он мгновенно превращается в экономию: одна eSIM вместо трёх и ноль возни на пограничных переходах.</p>
         <p class="facts">
-          Локальных тарифов: <b>4</b>. Региональных: <b>2</b>. С оплатой за день: <b>8</b>. Цены от <b>350 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">4</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">2</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">8</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">350 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -371,7 +371,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>

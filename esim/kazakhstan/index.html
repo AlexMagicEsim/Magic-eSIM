@@ -123,7 +123,7 @@
         <p class="intro">За этим названием стоят два разных семейства тарифов. Одно покрывает пять стран — Казахстан, Киргизию, Узбекистан, Шри-Ланку и Пакистан. Второе покрывает четыре — Казахстан, Киргизию, Узбекистан и Таджикистан. Пересекаются они только в трёх, и различить их по заголовку карточки невозможно.</p>
         <p class="intro">Отсюда конкретная ловушка. Если в маршруте есть Таджикистан, тариф из первого семейства там не работает, хотя подписан так же. Смотреть нужно на строку «Покрытие» в карточке: у одного варианта там пять стран, у другого четыре, а полный список открывается кнопкой «Покрытие и условия». Заодно различается и сеть: у семейства с Таджикистаном в карточке указано 3G/4G/5G, у второго — 3G/4G.</p>
         <p class="facts">
-          Локальных тарифов: <b>5</b>. Региональных: <b>2</b>. С оплатой за день: <b>20</b>. Цены от <b>350 ₽</b>.
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="regional">Региональных: <b data-cat="regional">2</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">20</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">350 ₽</b>.</span>
         </p>
       </div>
       <div class="cp-hero-foot">
@@ -372,7 +372,11 @@
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=ae5df21d" defer></script>
-  <script src="../../assets/country-tariffs.js?v=4a046485" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
+  <script src="../../assets/country-tariffs.js?v=c7e68d0f" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=49d71749" defer></script>
