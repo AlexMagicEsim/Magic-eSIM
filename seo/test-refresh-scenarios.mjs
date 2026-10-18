@@ -121,3 +121,21 @@ test('a country loses every plan: the generators keep the page, and the gates de
   assert.match(detail(r, 'C4b: no page exists for a country whose grid would render nothing'), new RegExp(`${TPL.slug} \\(${TPL.iso}\\): page exists but its grid would be empty`));
   assert.ok(!r.failing.includes(PRICE) && !r.failing.includes(COVERAGE), 'no authored page is involved');
 });
+
+test('the provider adds a named coverage-only code (KT): the refresh guard and every gate stay green, and no page appears', async () => {
+  const r = await get('the provider adds a NAMED coverage-only code (KT, Northern Cyprus) to a package family');
+  baseline(r);
+  assert.ok(r.info.packages >= 3);
+  assert.deepEqual(r.failing, []);
+  assert.equal(r.inspected.guard.code, 0, r.inspected.guard.out);
+  assert.equal(r.inspected.ktPage, false);
+});
+
+test('the provider adds an UNKNOWN code: the refresh guard stops it and names the code', async () => {
+  const r = await get('the provider adds an UNKNOWN code to a package family');
+  assert.equal(r.build.code, 0, r.build.stderr);
+  assert.equal(r.inspected.guard.code, 1, r.inspected.guard.out);
+  assert.match(r.inspected.guard.out, /XQ/);
+  // It also counts as one more country on the cards, so «до 41 страны» goes red.
+  assert.ok(r.failing.includes(COVERAGE), r.failing.join('\n'));
+});

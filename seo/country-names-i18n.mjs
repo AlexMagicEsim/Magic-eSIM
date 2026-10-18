@@ -25,6 +25,8 @@
 //   CD, CG  CLDR's «Kinshasa/Brazzaville» forms → the full state names, matching
 //       our EN «DR Congo» / «Republic of the Congo».
 //   SX  fr «Saint-Martin (partie néerlandaise)» → Sint-Maarten, as our EN.
+//   KT  not in CLDR (not an ISO 3166 code — the provider's code for Northern
+//       Cyprus, 2026-10-18); the five names were written here, as data.
 // AI-assisted data: a native-speaker review is part of enabling each language
 // (plan §2.5), not of this stage.
 import { COUNTRY_NAMES } from './country-names.mjs';
@@ -147,6 +149,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   KM: { es: "Comoras", de: "Komoren", fr: "Comores", "zh-Hans": "科摩罗", ko: "코모로" },
   KN: { es: "San Cristóbal y Nieves", de: "St. Kitts und Nevis", fr: "Saint-Christophe-et-Niévès", "zh-Hans": "圣基茨和尼维斯", ko: "세인트키츠 네비스" },
   KR: { es: "Corea del Sur", de: "Südkorea", fr: "Corée du Sud", "zh-Hans": "韩国", ko: "대한민국" },
+  KT: { es: "Chipre del Norte", de: "Nordzypern", fr: "Chypre du Nord", "zh-Hans": "北塞浦路斯", ko: "북키프로스" },
   KW: { es: "Kuwait", de: "Kuwait", fr: "Koweït", "zh-Hans": "科威特", ko: "쿠웨이트" },
   KY: { es: "Islas Caimán", de: "Kaimaninseln", fr: "Îles Caïmans", "zh-Hans": "开曼群岛", ko: "케이맨 제도" },
   KZ: { es: "Kazajistán", de: "Kasachstan", fr: "Kazakhstan", "zh-Hans": "哈萨克斯坦", ko: "카자흐스탄" },

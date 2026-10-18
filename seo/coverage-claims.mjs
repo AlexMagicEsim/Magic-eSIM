@@ -73,6 +73,7 @@ import { fileURLToPath } from 'node:url';
 import { coverageCodes, isRussia, isRestricted, isGlobal, isMultiCountry, isDaily } from './catalogue-facts.mjs';
 import { validateCatalog } from '../scripts/update-catalog-cache.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
+import { isUncounted } from './coverage-only-territories.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const CATALOG_FILE = join(ROOT, 'assets', 'catalog.json');
@@ -131,9 +132,12 @@ const blockOf = (p, iso) => {
 };
 
 /** «Покрытие: N стран» as the card prints it: daily cards count raw codes, volume cards strip RU/UA/BY. */
+// The card's «N стран» — an uncounted territory a list names (Northern Cyprus)
+// is left out (seo/coverage-only-territories.mjs; assets/country-tariffs.js
+// countryCountOf, assets/daily-plan-copy.js countryCount).
 export function printedCount(p) {
-  if (isDaily(p)) return (Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : []).length;
-  return new Set(coverageCodes(p)).size;
+  if (isDaily(p)) return (Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : []).filter((c) => !isUncounted(c)).length;
+  return [...new Set(coverageCodes(p))].filter((c) => !isUncounted(c)).length;
 }
 
 function scopeSet(scope, packages, iso) {

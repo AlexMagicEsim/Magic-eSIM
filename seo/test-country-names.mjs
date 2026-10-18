@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import { writeFileSync, mkdtempSync } from 'node:fs';
 import { COUNTRY_NAMES as SEO_NAMES } from './country-names.mjs';
-import { buildDictionary, buildDictionaryGen, STOREFRONT_WORDING, BLOCK_RE, GEN_BLOCK_RE } from './build-country-dictionary.mjs';
+import { buildDictionary, buildDictionaryGen, STOREFRONT_WORDING, BLOCK_RE, GEN_BLOCK_RE, COVERAGE_BLOCK_RE } from './build-country-dictionary.mjs';
 import { ALL as AUTHORED_FORMS } from './countries.mjs';
 import { readdirSync, existsSync } from 'node:fs';
 
@@ -62,6 +62,7 @@ function loadRenderer(file) {
     extractStatement(src, BLOCK_RE, 'COUNTRY NAMES block'),
     extractStatement(src, GEN_BLOCK_RE, 'COUNTRY GENITIVE block'),
     extractStatement(src, /const RESTRICTED_COUNTRY_CODES=\[[^\]]*\];/, 'RESTRICTED_COUNTRY_CODES'),
+    extractStatement(src, COVERAGE_BLOCK_RE, 'COVERAGE ONLY block'),
     ...['countryName', 'hasCountryName', 'countryNameGenitive', 'packageCoverageCodes', 'formatDataLabel', 'publicPackageName', 'countryCode']
       .map((name) => extractFunction(src, name)),
   ];

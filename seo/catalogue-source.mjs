@@ -16,21 +16,19 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES, flagEmoji } from './country-names.mjs';
 import { countryFacts } from './catalogue-facts.mjs';
+import { COVERAGE_ONLY_CODES } from './coverage-only-territories.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const CACHE = join(ROOT, 'seo/catalogue-countries.json');
 const API = process.env.CATALOG_API || 'https://origin.magicesim.store/api/v1/packages?limit=3000';
 
-// Codes the catalogue can carry but that must never become a page.
-//
-// AN — Netherlands Antilles, a country dissolved in 2010. Two Caribbean daily
-// packages still list the deprecated code in their coverage, so it arrives here
-// looking like any other destination and would quietly gain /esim/netherlands-
-// antilles/ on the next build. It stays in COUNTRY_NAMES on purpose: the runtime
-// needs the Russian name so a package's coverage list does not print a bare
-// "AN" at a customer. Naming a place and selling a page about it are different
-// decisions, and this is the line between them.
-const NO_PAGE = new Set(['AN']);
+// Codes the catalogue can carry but that must never become a page: the explicit,
+// owner-decided list in seo/coverage-only-territories.mjs (AN — Netherlands
+// Antilles, KT — Northern Cyprus). They stay in COUNTRY_NAMES on purpose: the
+// runtime needs the name so a package's coverage list does not print a bare
+// code at a customer. Naming a place and selling a page about it are different
+// decisions, and that file is the line between them.
+const NO_PAGE = COVERAGE_ONLY_CODES;
 
 const num = (v) => {
   const n = Number(v);

@@ -494,9 +494,10 @@ function extractFunction(src, name) {
 test('the Node visibility and block rules are the browser rules, on every live package', () => {
   const src = readFileSync(join(ROOT, 'assets', 'country-tariffs.js'), 'utf8');
   const restricted = src.match(/const RESTRICTED_COUNTRY_CODES=\[[^\]]*\];/)[0];
-  const fns = ['packageCoverageCodes', 'isRussiaPackage', 'isRestrictedPackage', 'isPublicGlobalPackage', 'isMultiCountryPackage']
+  const uncounted = src.match(/var UNCOUNTED_CODES = \[[^\]]*\];/)[0];
+  const fns = ['packageCoverageCodes', 'isRussiaPackage', 'isRestrictedPackage', 'isPublicGlobalPackage', 'countryCountOf', 'isMultiCountryPackage']
     .map((n) => extractFunction(src, n)).join('\n');
-  const B = vm.runInNewContext(`${restricted}\n${fns}\n({packageCoverageCodes,isRussiaPackage,isRestrictedPackage,isPublicGlobalPackage,isMultiCountryPackage})`);
+  const B = vm.runInNewContext(`${restricted}\n${uncounted}\n${fns}\n({packageCoverageCodes,isRussiaPackage,isRestrictedPackage,isPublicGlobalPackage,isMultiCountryPackage})`);
   const sandbox = { module: { exports: {} } };
   vm.runInNewContext(readFileSync(join(ROOT, 'assets', 'daily-plan-copy.js'), 'utf8'), sandbox);
   const daily = sandbox.module.exports;

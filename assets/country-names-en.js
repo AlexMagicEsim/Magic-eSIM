@@ -120,6 +120,7 @@
   KM: 'Comoros',
   KN: 'Saint Kitts and Nevis',
   KR: 'South Korea',
+  KT: 'Northern Cyprus',
   KW: 'Kuwait',
   KY: 'Cayman Islands',
   KZ: 'Kazakhstan',
