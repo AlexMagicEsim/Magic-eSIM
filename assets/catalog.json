@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-18T12:28:26.347Z",
+  "generated_at": "2026-10-18T15:56:24.109Z",
   "source": "production-public-api",
   "package_count": 2284,
   "packages": [
@@ -1028,7 +1028,7 @@
       "coverage_flags": "🇬🇭",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 5550,
+      "price": 3800,
       "networks": [
         {
           "operator": "Vodafone",
@@ -3622,7 +3622,7 @@
       "coverage_flags": "🇰🇪",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3200,
+      "price": 2950,
       "networks": [
         {
           "operator": "Safaricom",
@@ -16642,7 +16642,7 @@
       "coverage_flags": "🇿🇦",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4050,
+      "price": 3500,
       "networks": [
         {
           "operator": "Vodacom",
@@ -32422,7 +32422,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2100,
+      "price": 1750,
       "networks": [
         {
           "operator": "Emtel",
@@ -32537,7 +32537,7 @@
       "coverage_flags": "🇬🇭",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1050,
+      "price": 750,
       "networks": [
         {
           "operator": "Vodafone",
@@ -32703,7 +32703,7 @@
       "coverage_flags": "🇸🇳",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1350,
+      "price": 1250,
       "networks": [
         {
           "operator": "Free",
@@ -33936,7 +33936,7 @@
       "coverage_flags": "🇸🇳",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3700,
+      "price": 3450,
       "networks": [
         {
           "operator": "Free",
@@ -37007,7 +37007,7 @@
       "coverage_flags": "🇸🇳",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 7150,
+      "price": 6200,
       "networks": [
         {
           "operator": "Free",
@@ -47207,7 +47207,7 @@
       "coverage_flags": "🇰🇪",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1150,
+      "price": 1050,
       "networks": [
         {
           "operator": "Safaricom",
@@ -60215,7 +60215,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3400,
+      "price": 3050,
       "networks": [
         {
           "operator": "Emtel",
@@ -60258,7 +60258,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2150,
+      "price": 1900,
       "networks": [
         {
           "operator": "Airtel",
@@ -65848,7 +65848,7 @@
       "coverage_flags": "🇿🇦",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1200,
+      "price": 1100,
       "networks": [
         {
           "operator": "Vodacom",
@@ -66190,7 +66190,7 @@
       "coverage_flags": "🇿🇦",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 750,
+      "price": 700,
       "networks": [
         {
           "operator": "Vodacom",
@@ -71582,7 +71582,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 6500,
+      "price": 5400,
       "networks": [
         {
           "operator": "Emtel",
@@ -95014,7 +95014,7 @@
       "coverage_flags": "🇰🇪",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 5800,
+      "price": 5300,
       "networks": [
         {
           "operator": "Safaricom",
@@ -96653,7 +96653,7 @@
       "coverage_flags": "🇬🇭",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3150,
+      "price": 2100,
       "networks": [
         {
           "operator": "Vodafone",
@@ -98911,7 +98911,7 @@
       "coverage_flags": "🇸🇳",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2150,
+      "price": 2000,
       "networks": [
         {
           "operator": "Free",
@@ -106951,7 +106951,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6050,
+      "price": 4950,
       "networks": [
         {
           "operator": "Airtel",
@@ -108330,7 +108330,7 @@
       "coverage_flags": "🇲🇺",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1300,
+      "price": 1100,
       "networks": [
         {
           "operator": "Emtel",
@@ -112431,7 +112431,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 10900,
+      "price": 9050,
       "networks": [
         {
           "operator": "Airtel",
@@ -130685,7 +130685,7 @@
       "coverage_flags": "🇬🇭",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1200,
       "networks": [
         {
           "operator": "Vodafone",
@@ -134537,7 +134537,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3250,
+      "price": 2900,
       "networks": [
         {
           "operator": "Airtel",
@@ -143821,7 +143821,7 @@
       "coverage_flags": "🇰🇪",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1850,
+      "price": 1700,
       "networks": [
         {
           "operator": "Safaricom",
@@ -145467,7 +145467,7 @@
       "coverage_flags": "🇿🇦",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2100,
+      "price": 1900,
       "networks": [
         {
           "operator": "Vodacom",
@@ -150570,7 +150570,7 @@
       "coverage_flags": "🇸🇨",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2000,
+      "price": 1800,
       "networks": [
         {
           "operator": "Airtel",
