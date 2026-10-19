@@ -75,7 +75,27 @@ export function hasAssetRef(html) {
   return assetRefRe().test(String(html));
 }
 
+/**
+ * Иконки вкладки — тот же приём, только для четырёх файлов favicon.
+ *
+ * Браузеры держат favicon в отдельном кеше дольше, чем страницу (Safari — до
+ * смены адреса), поэтому новая иконка под старым адресом могла бы не показаться
+ * никогда. Версия в адресе делает её новым ресурсом. Трогаются ТОЛЬКО ссылки
+ * <link rel="icon|shortcut icon|apple-touch-icon"> на эти четыре файла — флаги,
+ * картинки и манифест остаются как были.
+ */
+export const ICON_FILES = Object.freeze(['favicon.ico', 'favicon.svg', 'favicon-32.png', 'apple-touch-icon.png']);
+export const iconRefRe = () => /(<link\b[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon)"[^>]*?\bhref=")([^"]*)(")/g;
+
+export function stampIconUrl(url) {
+  const m = String(url).match(/^\/([^?#]+)(?:\?[^#]*)?$/);
+  if (!m || !ICON_FILES.includes(m[1])) return url;
+  return `/${m[1]}?v=${assetVersion(m[1])}`;
+}
+
 /** Проштамповать весь HTML-текст. Возвращает новый текст. */
 export function stampHtml(html, from = ROOT) {
-  return html.replace(assetRefRe(), (all, a, url, z) => a + stampUrl(url, from) + z);
+  return html
+    .replace(assetRefRe(), (all, a, url, z) => a + stampUrl(url, from) + z)
+    .replace(iconRefRe(), (all, a, url, z) => a + stampIconUrl(url) + z);
 }
