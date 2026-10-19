@@ -22,6 +22,7 @@ import { inflateSync } from 'node:zlib';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ICON_LINKS, MANIFEST_LINK, MANIFEST_EXEMPT } from './head-icons.mjs';
+import { ICON_FILES, assetVersion } from './asset-version.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -41,7 +42,9 @@ function iconLinks(html) {
     const attr = (name) => (tag.match(new RegExp(`${name}="([^"]*)"`, 'i')) || [, ''])[1];
     const rel = attr('rel').toLowerCase();
     if (!/^(icon|shortcut icon|apple-touch-icon|mask-icon|manifest)$/.test(rel)) continue;
-    out.push([rel, attr('type'), attr('sizes'), attr('href')].filter(Boolean).join(' '));
+    // The ?v=<hash> on an icon href is the cache-buster (seo/asset-version.mjs);
+    // the SET is compared without it, and test 9 pins the version itself.
+    out.push([rel, attr('type'), attr('sizes'), attr('href').replace(/\?v=[0-9a-f]{8}$/, '')].filter(Boolean).join(' '));
   }
   return out;
 }
@@ -70,8 +73,10 @@ test('0 — the rules fire on the defects they were written for', () => {
   const good = read('index.html');
 
   // The /en/ defect: a picture used as a favicon.
-  const asLogo = good.replace('<link rel="icon" href="/favicon.ico" sizes="any" />',
+  // (the page's hrefs carry a ?v= version since 2026-10-19 — matched with or without it)
+  const asLogo = good.replace(/<link rel="icon" href="\/favicon\.ico(?:\?v=[0-9a-f]{8})?" sizes="any" \/>/,
                               '<link rel="icon" href="/assets/magic-esim-logo.png" />');
+  assert.notEqual(asLogo, good, 'the mutation must actually change the page');
   assert.notDeepEqual(iconLinks(asLogo), EXPECT_FULL,
     'swapping the .ico for the 107 KB logo must not still compare equal');
 
@@ -79,7 +84,8 @@ test('0 — the rules fire on the defects they were written for', () => {
   assert.deepEqual(iconLinks('<html><head><title>x</title></head></html>'), []);
 
   // A missing apple-touch-icon must be a difference, not a shrug.
-  const dropped = good.replace('  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />\n', '');
+  const dropped = good.replace(/ *<link rel="apple-touch-icon" href="\/apple-touch-icon\.png(?:\?v=[0-9a-f]{8})?" \/>\n/, '');
+  assert.notEqual(dropped, good, 'the mutation must actually change the page');
   assert.notDeepEqual(iconLinks(dropped), EXPECT_FULL);
   assert.equal(iconLinks(dropped).length, EXPECT_FULL.length - 1);
 
@@ -243,7 +249,7 @@ function pngPixels(buf) {
   // Composited over white, because that is what a light browser tab renders —
   // a transparent ground and a white ground look the same there, and the claim
   // being checked is «the mark sits on light, not the other way round».
-  return { w, h, px: (x, y) => {
+  return { w, h, alpha: (x, y) => (bpp === 4 ? out[y * stride + x * bpp + 3] : 255), px: (x, y) => {
     const i = y * stride + x * bpp;
     const a = bpp === 4 ? out[i + 3] / 255 : 1;
     return [0, 1, 2].map((k) => Math.round(out[i + k] * a + 255 * (1 - a)));
@@ -259,36 +265,66 @@ function whiteShare(png) {
   return white / (png.w * png.h);
 }
 
-test('8 — the tab icon is the brand M on white, not the old white-M-on-blue tile', () => {
-  const svg = read('favicon.svg');
-  // The mark is drawn in the brand gradient on a white ground — the logo's own
-  // arrangement, and the inverse of what shipped before.
-  assert.match(svg, /<rect[^>]*fill="#ffffff"/, 'the ground must be white');
-  assert.match(svg, /stroke="url\(#g\)"/, 'the M itself must carry the gradient');
-  // Round caps and joins are what made the old M read as a generic letter. The
-  // logo's corners are mitered: a sharp V, flat-cut apexes.
-  assert.ok(!/stroke-line(cap|join)="round"/.test(svg), 'the mark has no round joins');
-  assert.match(svg, /stroke-linejoin="miter"/);
-  assert.match(svg, /stroke-miterlimit="2\.5"/, 'the limit is what bevels the apexes and keeps the V sharp');
+/**
+ * What the approved tab icon is (owner, 2026-10-19: variant 1 «Плотный», no tile):
+ * the FULL Magic eSIM mark of icon-512.png reduced for 16–32 px — not a letter.
+ * Returned as a list of problems so the same rules can be shown to reject the
+ * letter-M icon it replaced (the mutation below).
+ */
+function tabIconProblems(svg) {
+  const p = [];
+  if (/<rect\b/.test(svg)) p.push('a tile behind the mark (the approved icon has none)');
+  if (!/fill="url\(#g\)"/.test(svg)) p.push('the mark is not filled with the brand gradient');
+  if (!/<path fill="#(?:f[0-9a-f]|e[89a-f])[0-9a-f]{4}"/i.test(svg)) p.push('no gold chip');
+  if (/stroke="url\(#g\)"/.test(svg)) p.push('a stroked letterform — the old letter-M icon');
+  if (/M15\.59,59\.24 L15\.59,6\.9 L32,35\.98/.test(svg)) p.push('the old letter-M path');
+  if (!/icon-512\.png/.test(svg)) p.push('the file does not name its source (icon-512.png)');
+  return p;
+}
+
+test('8 — the tab icon is the full mark reduced for small sizes, not a letter M', () => {
+  // the rules fire on the icon this replaced (its own markup, kept here)
+  const OLD = '<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="13" ry="13" fill="#ffffff"/>'
+    + '<path d="M15.59,59.24 L15.59,6.9 L32,35.98 L48.41,6.9 L48.41,59.24" fill="none" stroke="url(#g)" stroke-width="8.72"/></svg>';
+  assert.ok(tabIconProblems(OLD).length >= 4, `the old letter-M icon must fail: ${tabIconProblems(OLD)}`);
+  assert.deepEqual(tabIconProblems(read('favicon.svg')), []);
 
   const png = pngPixels(readFileSync(join(ROOT, 'favicon-32.png')));
-  const share = whiteShare(png);
-  assert.ok(share >= 0.45,
-    `favicon-32.png is ${(share * 100).toFixed(1)}% white — the mark should sit on a white ground. ` +
-    'The icon this replaced measures 19.5% by this same reading: a coloured tile with a white letter cut out of it.');
-  // and it must not be blank: the mark has to be there
-  let coloured = 0;
+  // no tile: the four corners are transparent, so the tab colour shows through
+  for (const [x, y] of [[0, 0], [31, 0], [0, 31], [31, 31]]) {
+    assert.equal(png.alpha(x, y), 0, `favicon-32.png corner ${x},${y} is painted — a tile crept back`);
+  }
+  let coloured = 0, gold = 0;
   for (let y = 0; y < png.h; y++) for (let x = 0; x < png.w; x++) {
     const [r, g, b] = png.px(x, y);
     if (Math.max(r, g, b) - Math.min(r, g, b) > 60) coloured++;
+    if (r > 215 && g > 175 && b < 170 && r - b > 60) gold++;
   }
-  assert.ok(coloured / (png.w * png.h) > 0.15, 'no mark visible in favicon-32.png');
+  assert.ok(coloured / (png.w * png.h) > 0.25, 'the mark should fill the icon');
+  assert.ok(gold >= 6, `the chip should show in favicon-32.png (${gold} gold pixels)`);
 
-  // The path the old icon drew must not come back anywhere.
+  // The paths the two previous icons drew must not come back anywhere.
   for (const p of ['favicon.svg', ...allPages()]) {
-    assert.ok(!/M17 47 V17 L32 37 L47 17 V47/.test(read(p)), `${p} still draws the old M`);
+    assert.ok(!/M17 47 V17 L32 37 L47 17 V47/.test(read(p)), `${p} still draws the blue-tile M`);
+    assert.ok(!/M15\.59,59\.24 L15\.59,6\.9/.test(read(p)), `${p} still draws the letter-M icon`);
   }
   assert.deepEqual(sorted(icoSizes()), [[16, 16], [32, 32], [48, 48]]);
+});
+
+test('9 — every page asks for the current favicon files (cache-busting)', () => {
+  // A browser keeps a favicon longer than the page (Safari until the URL
+  // changes). The ?v=<hash> makes a new icon a new resource; a stale hash would
+  // keep showing the old one to everybody who has visited.
+  const want = Object.fromEntries(ICON_FILES.map((f) => [`/${f}`, `/${f}?v=${assetVersion(f)}`]));
+  const bad = [];
+  for (const p of allPages()) {
+    for (const m of read(p).replace(/<!--[\s\S]*?-->/g, '').matchAll(/<link\b[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon)"[^>]*>/gi)) {
+      const href = (m[0].match(/href="([^"]*)"/) || [])[1];
+      const base = href.replace(/\?.*$/, '');
+      if (want[base] && href !== want[base]) bad.push(`${p}: ${href} (want ${want[base]})`);
+    }
+  }
+  assert.deepEqual(bad.slice(0, 10), [], `${bad.length} stale icon hrefs — run: node seo/stamp-assets.mjs`);
 });
 
 const sorted = (a) => a.slice().sort((x, y) => x[0] - y[0]);

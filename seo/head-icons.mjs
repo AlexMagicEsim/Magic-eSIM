@@ -16,22 +16,21 @@
 //
 // WHAT THE ARTWORK IS, AND WHY IT IS TWO DRAWINGS OF ONE MARK.
 // apple-touch-icon.png, icon-192.png and icon-512.png are the Magic eSIM mark in
-// full — the circuit-trace M with the eSIM chip and the stars — cropped out of
-// assets/magic-esim-logo.png. favicon.svg / favicon.ico / favicon-32.png are the
-// same mark reduced to what a 16-pixel square can hold: the letterform and the
-// gradient, with the traces, the chip, the stars and the white line inside each
-// stroke removed.
+// full — the circuit-trace M with the eSIM chip and the stars. Since 2026-10-19
+// (owner: favicon variant 1 «Плотный») favicon.svg / favicon.ico / favicon-32.png
+// are THAT mark reduced for 16–32 px, not a letter: icon-512.png traced, strokes
+// thickened, the inner channels closed, the ring nodes filled, one sparkle kept,
+// the frame tightened so the traces run off its edges. The .ico's 48 px frame
+// keeps every trace and nine sparkles. No tile: the mark stands on the tab.
+// The approved drawing and how it was derived: the brandbook (BRANDBOOK_MAGIC_ESIM.md).
+// The letter-M icon it replaced (2026-09-15 … 2026-10-19) and the blue-tile icon
+// before that are both refused by test 8 in seo/test-icons.mjs.
 //
-// The reduction is measured, not stylistic. The full crop was rendered at 180,
-// 32 and 16 px: at 180 every trace is legible, at 32 they merge, at 16 the mark
-// is a coloured smudge with no readable letter in it. So the detail lives where
-// there are pixels for it and the tab gets the letterform. favicon.svg carries
-// the geometry and the one liberty taken with it.
-//
-// Both drawings put the mark ON white, which is the logo's own arrangement and
-// the inverse of the icon that shipped until 2026-09-15 — a white M cut out of a
-// blue tile, with round joins that belong to no Magic eSIM artwork. Test 8 in
-// seo/test-icons.mjs pins the inversion and fails on that old file.
+// THE ICON HREFS CARRY A CONTENT VERSION. seo/stamp-assets.mjs adds ?v=<hash> to
+// the four favicon files on every page (seo/asset-version.mjs), because browsers
+// keep a favicon longer than the page — Safari until the URL changes. Test 9
+// fails on a stale hash. The strings below stay unversioned: stamping is the
+// build's last step, as for CSS and JS.
 //
 // PATHS ARE ROOT-ABSOLUTE ON PURPOSE. A country page lives two directories deep
 // and a guide one; a relative icon href would have to be re-based per family,
