@@ -78,11 +78,16 @@ test('the home reads no catalogue and takes no money', () => {
   }
   assert.doesNotMatch(RU, /page-country\.css/);
   const scripts = [...RU.matchAll(/<script src="([^"?]+)\?v=[0-9a-f]{8}"><\/script>/g)].map((m) => m[1]);
-  assert.deepEqual(scripts, ['/assets/ru-destinations.js', '/assets/ru-home.js'], 'the body loads the list, then the search');
+  assert.deepEqual(scripts, ['/assets/ru-destinations.js', '/assets/ru-search.js', '/assets/ru-home.js'], 'the body loads the list, the shared matcher, then the search');
 });
 
 test('ru-home.js touches no network and builds links only from the generated list', () => {
   const code = JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+  // The shared matcher (stage 2 PR B) is held to the same rule.
+  const matcher = read('assets/ru-search.js').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+  for (const bad of [/fetch\(/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /MagicNet/, /\.innerHTML/, /eval\(/, /new Function/, /location\./]) {
+    assert.doesNotMatch(matcher, bad, `ru-search.js: ${bad}`);
+  }
   for (const bad of [/fetch\(/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /MagicNet/, /\.innerHTML/, /eval\(/, /new Function/]) {
     assert.doesNotMatch(code, bad);
   }
@@ -156,7 +161,7 @@ test('the search field stays masked for Webvisor (R3-08)', () => {
 
 test('every goal the home fires is allowlisted on the home, and nothing new was invented', () => {
   const fired = [...new Set([...JS.matchAll(/goal\('([a-z_]+)'/g)].map((m) => m[1]))].sort();
-  assert.deepEqual(fired, ['country_search', 'popular_country_click', 'telegram_app_click']);
+  assert.deepEqual(fired, ['country_search', 'popular_country_click', 'search_no_result', 'telegram_app_click']);
   const goals = RU.match(/var GOALS=\{([\s\S]*?)\};/)[1];
   for (const g of fired) assert.match(goals, new RegExp(`\\b${g}:\\[`), `${g} is not allowlisted`);
   assert.doesNotMatch(goals, /regional_country_click/, 'the retired goal is gone from the allowlist');

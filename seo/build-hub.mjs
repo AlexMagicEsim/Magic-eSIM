@@ -26,7 +26,11 @@ const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
 const METRIKA = readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8')
-  .match(/<!-- Yandex\.Metrika counter -->[\s\S]*?<\/script>\n(?=\n|  <!-- Structured data -->)/)[0];
+  .match(/<!-- Yandex\.Metrika counter -->[\s\S]*?<\/script>\n(?=\n|  <!-- Structured data -->)/)[0]
+  // The hub's search reports a query that finds nothing (search_no_result, no
+  // parameters — never the text). Added to THIS copy only: the country pages,
+  // the SEO experiment's ten among them, keep their allowlist untouched.
+  .replace('var GOALS={', 'var GOALS={search_no_result:[],');
 
 const { countries, fetched_at: fetchedAt } = loadCached();
 const money = (v) => (v === null ? null : Math.round(Number(v)).toLocaleString('ru-RU'));
@@ -180,6 +184,8 @@ ${materials}
 
 ${RU_FOOTER}
 
+<script src="${stampUrl('/assets/ru-destinations.js')}"></script>
+<script src="${stampUrl('/assets/ru-search.js')}"></script>
   <script>
   (function(){
     // Search runs over the rendered list: no second API call — the names and
@@ -196,21 +202,36 @@ ${RU_FOOTER}
     var groups=[].slice.call(document.querySelectorAll('#hubList .az-group'));
     function norm(s){return String(s||'').toLowerCase().replace(/ё/g,'е').trim();}
     function plural(n){var a=n%10,b=n%100;return a===1&&b!==11?'направление':(a>=2&&a<=4&&(b<12||b>14)?'направления':'направлений');}
+    // The shared matcher (assets/ru-search.js): case forms, English names,
+    // cities and resorts, regions. Without it: the old name / slug / ISO match.
+    var S=window.MagicRuSearch;
+    var sent=false,idle=null;
+    function noResult(){if(sent)return;sent=true;try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('search_no_result');}catch(e){}}
     function apply(){
-      var q=norm(input.value),shown=0;
+      var raw=input.value,q=norm(raw),shown=0,keep=null,region=null;
+      if(idle){clearTimeout(idle);idle=null;}
+      if(q&&S){var r=S.search(raw,{limit:1000});region=r.region;keep={};
+        r.hits.forEach(function(h){keep[h.d.iso]=1;});
+        if(region)region.countries.forEach(function(i){keep[i]=1;});}
       groups.forEach(function(g){
         var any=0;
         [].forEach.call(g.querySelectorAll('li'),function(li){
-          var hit=!q||norm(li.dataset.name).indexOf(q)>=0||li.dataset.slug.indexOf(q)>=0||norm(li.dataset.iso)===q;
+          var hit=!q||(keep?!!keep[li.dataset.iso]:(norm(li.dataset.name).indexOf(q)>=0||li.dataset.slug.indexOf(q)>=0||norm(li.dataset.iso)===q));
           li.hidden=!hit;if(hit){any++;shown++;}
         });
         g.hidden=!any;
       });
-      clear.hidden=!q;pop.hidden=!!q;az.hidden=!!q;
+      clear.hidden=!q;az.hidden=!!q;
+      // Nothing found: the popular destinations show again, under the message.
+      pop.hidden=!!q&&shown>0;
       empty.hidden=shown>0;
-      count.textContent=q?(shown?'Найдено: '+shown+' '+plural(shown):''):'';
+      if(!q){count.textContent='';sent=false;return;}
+      if(region)count.textContent=region.label+' — популярные направления. Выберите первую страну поездки: на её странице есть и тарифы на несколько стран, если они её покрывают.';
+      else count.textContent=shown?'Найдено: '+shown+' '+plural(shown):'Ничего не нашлось — посмотрите популярные направления.';
+      if(shown){sent=false;}else if(q.length>=3){idle=setTimeout(noResult,1500);}
     }
     input.addEventListener('input',apply);
+    input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();apply();if(!empty.hidden&&norm(input.value))noResult();}});
     clear.addEventListener('click',function(){input.value='';apply();input.focus();});
     document.getElementById('hubReset').addEventListener('click',function(){input.value='';apply();input.focus();});
     box.hidden=false;

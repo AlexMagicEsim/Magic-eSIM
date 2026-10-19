@@ -67,80 +67,112 @@
   })();
 
   /* ---- search --------------------------------------------------------- */
-  function hitsFor(query) {
+  // The matcher is assets/ru-search.js (one for the home and /esim/): case
+  // forms, English names, cities and resorts, regions. If it failed to load,
+  // the search still finds countries by name, as before.
+  function legacyHits(query) {
     var q = norm(query);
     if (!q) return [];
-    // Substring, not prefix: «корея» must find «Южная Корея». Prefix matches
-    // sort first, so «ит» still leads with Италия. Latin finds the English
-    // name («emirates»), the page's slug («turkey» — the English name is
-    // «Türkiye»; the Mini App searches the same slugs) and the ISO code («tr»).
     function latin(d) { return norm(d.en) + ' ' + d.slug.replace(/-/g, ' '); }
     return DESTINATIONS.filter(function (d) {
       return norm(d.name).indexOf(q) !== -1 || latin(d).indexOf(q) !== -1 || d.iso.toLowerCase() === q;
-    }).sort(function (a, b) {
-      // An exact ISO code first («ae» is the UAE, not «Israel»), then a prefix.
-      var rank = function (d) {
-        if (d.iso.toLowerCase() === q) return 0;
-        return (norm(d.name).indexOf(q) === 0 || norm(d.en).indexOf(q) === 0 || d.slug.indexOf(q) === 0) ? 1 : 2;
-      };
-      var ap = rank(a);
-      var bp = rank(b);
-      return ap !== bp ? ap - bp : a.name.localeCompare(b.name, 'ru');
-    }).slice(0, 20);
+    }).slice(0, 20).map(function (d) { return { d: d, via: '' }; });
+  }
+  function find(query) {
+    var S = window.MagicRuSearch;
+    return S ? S.search(query) : { hits: legacyHits(query), region: null };
+  }
+  function popular() {
+    var S = window.MagicRuSearch;
+    return S ? S.popular() : [];
   }
 
+  function link(d, via) {
+    var a = document.createElement('a');
+    a.className = 'res';
+    a.href = '/esim/' + d.slug + '/';
+    a.setAttribute('data-country', d.iso);
+    if (/^[A-Z]{2}$/.test(d.iso)) {
+      var img = document.createElement('img');
+      img.className = 'flag';
+      img.src = '/assets/flags/' + d.iso.toLowerCase() + '.svg';
+      img.alt = '';
+      img.width = 28;
+      img.height = 21;
+      img.loading = 'lazy';
+      a.appendChild(img);
+    }
+    a.appendChild(document.createTextNode(d.name));
+    if (via) {
+      // «Бали» → Индонезия: the place typed, after the country it leads to.
+      var v = document.createElement('span');
+      v.className = 'res-via';
+      v.textContent = via.charAt(0).toUpperCase() + via.slice(1);
+      a.appendChild(v);
+    }
+    return a;
+  }
+  function note(text) {
+    var p = document.createElement('p');
+    p.className = 'note';
+    p.textContent = text;
+    return p;
+  }
+
+  /* search_no_result: ONE goal per streak of a query that finds nothing — on
+     «Найти тарифы» / Enter, or once the typing has paused. Never the text. */
+  var noResultSent = false;
+  var idle = null;
+  function noResult() {
+    if (noResultSent) return;
+    noResultSent = true;
+    goal('search_no_result');
+  }
+
+  // Returns what was rendered: 'none' | 'region' | 'hits' | 'nothing'.
   function renderResults(query) {
     var box = $('results');
     box.textContent = '';
-    if (!String(query || '').trim()) { box.hidden = true; return; }
-    var hits = hitsFor(query);
-    if (!hits.length) {
-      var none = document.createElement('p');
-      none.className = 'note';
-      none.textContent = 'Такого направления нет. Посмотрите список всех стран.';
-      var all = document.createElement('a');
-      all.href = '/esim/';
-      all.textContent = 'Все направления';
-      none.appendChild(document.createTextNode(' '));
-      none.appendChild(all);
-      box.appendChild(none);
-      box.hidden = false;
-      return;
+    if (idle) { clearTimeout(idle); idle = null; }
+    if (!String(query || '').trim()) { box.hidden = true; noResultSent = false; return 'none'; }
+    var r = find(query);
+    if (r.region) {
+      var S = window.MagicRuSearch;
+      box.appendChild(note(r.region.label + ' — популярные направления. Выберите первую страну поездки: на её странице есть и тарифы на несколько стран, если они её покрывают.'));
+      (S ? S.entries(r.region.countries) : []).forEach(function (d) { box.appendChild(link(d, '')); });
     }
-    hits.forEach(function (d) {
-      var a = document.createElement('a');
-      a.className = 'res';
-      a.href = '/esim/' + d.slug + '/';
-      a.setAttribute('data-country', d.iso);
-      if (/^[A-Z]{2}$/.test(d.iso)) {
-        var img = document.createElement('img');
-        img.className = 'flag';
-        img.src = '/assets/flags/' + d.iso.toLowerCase() + '.svg';
-        img.alt = '';
-        img.width = 28;
-        img.height = 21;
-        img.loading = 'lazy';
-        a.appendChild(img);
-      }
-      a.appendChild(document.createTextNode(d.name));
-      box.appendChild(a);
-    });
+    r.hits.forEach(function (h) { box.appendChild(link(h.d, h.via)); });
+    if (r.region || r.hits.length) {
+      noResultSent = false;
+      box.hidden = false;
+      return r.region ? 'region' : 'hits';
+    }
+    var none = note('Такого направления нет. Посмотрите популярные или ');
+    var all = document.createElement('a');
+    all.href = '/esim/';
+    all.textContent = 'все направления';
+    none.appendChild(all);
+    none.appendChild(document.createTextNode('.'));
+    box.appendChild(none);
+    popular().forEach(function (d) { box.appendChild(link(d, '')); });
     box.hidden = false;
+    if (String(query).trim().length >= 3) idle = setTimeout(noResult, 1500);
+    return 'nothing';
   }
 
   function links() {
     return Array.prototype.slice.call($('results').querySelectorAll('a.res'));
   }
 
-  // «Найти тарифы» and Enter open the best match — by following its link, the
-  // same click a visitor would make; with nothing typed they put the caret in
-  // the search. Nothing happens unless the visitor acts.
+  // «Найти тарифы» / Enter: go to the best country. A region or nothing found
+  // stays on the list — never jump to a popular destination nobody asked for.
   function go() {
     var q = $('q');
     if (!String(q.value || '').trim()) { q.focus(); return; }
-    renderResults(q.value);
-    var first = links()[0];
-    if (first) first.click(); else q.focus();
+    var shown = renderResults(q.value);
+    if (shown === 'hits') { var first = links()[0]; if (first) { first.click(); return; } }
+    if (shown === 'nothing') noResult();
+    q.focus();
   }
 
   function boot() {
