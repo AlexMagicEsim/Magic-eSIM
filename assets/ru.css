@@ -21,6 +21,16 @@
 .packages{display:block}
 .packages-status:empty{display:none}
 .packages-status{margin:0 0 22px;text-align:center}
+/* While a country page loads its plans (#packagesStatus says «Загружаем
+   тарифы…»), the empty «Тарифы для X» / «Региональные» headings stay out of
+   the page and the area keeps a viewport-sized place. Otherwise the plans
+   arrive, the «На каждый день» block is inserted ABOVE those headings, and
+   they — and everything under them — jump down by the whole block: CLS 0.24
+   on template pages (/esim/peru/) after #95. The render clears the status and
+   shows the blocks in one task, so no frame shows both states. A failure
+   clears the status too, and the page is as before. */
+.packages:has(> .packages-status:not(:empty)) > .plan-block{display:none}
+.packages:has(> .packages-status:not(:empty)){min-height:var(--plans-reserve,80vh)}
 .block-empty{margin:0 0 18px;padding:14px 16px;border:1px dashed var(--border-strong);border-radius:var(--r-m);background:var(--surface)}
 .packages-grid:empty{display:none}
 
