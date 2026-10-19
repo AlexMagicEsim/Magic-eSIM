@@ -27,7 +27,7 @@
   <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
   <link rel="stylesheet" href="/assets/page-country.css?v=3b354c34" />
-  <link rel="stylesheet" href="/assets/ru.css?v=d406447d" />
+  <link rel="stylesheet" href="/assets/ru.css?v=72ed027d" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
        (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
@@ -116,14 +116,12 @@
       <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <a href="/esim/">Страны</a> › <span aria-current="page">Восточный Тимор</span></nav>
       <div class="cp-title">
         <img class="cp-flag" src="/assets/flags/tl.svg" alt="" width="72" height="54">
-        <h1>Восточный Тимор — eSIM для поездки</h1>
-      </div>
-      <div class="cp-text">
-        <p class="lead">Восточный Тимор. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.</p>
-        
-        <p class="facts">
+        <div>
+          <h1>eSIM для Восточного Тимора</h1>
+          <p class="facts">
           <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">1</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">2 150 ₽</b>.</span>
-        </p>
+          </p>
+        </div>
       </div>
       <div class="cp-hero-foot">
         <ul class="cp-facts">
@@ -140,9 +138,9 @@
        локальные, региональные. assets/country-tariffs.js показывает ссылку,
        только если её блок не пуст, и пишет в неё число тарифов. -->
   <nav class="cp-jump" aria-label="Типы тарифов" hidden>
-    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
     <a href="#localBlock" hidden><span>Восточный Тимор</span> <span class="n"></span></a>
     <a href="#regionalBlock" hidden><span>Региональные</span> <span class="n"></span></a>
+    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
   </nav>
 
   <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
@@ -152,6 +150,9 @@
        эту роль не выполняет. -->
   <section class="packages" id="tariffs" data-country-page="TL">
     <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
+    <div class="cp-skeleton" aria-hidden="true">
+      <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
+    </div>
 
     <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
          оформление. renderCountrySplit() обращается к localCount, localEmpty и
@@ -180,6 +181,20 @@
         </div>
       </div>
       <div id="regionalGrid" class="grid plan-grid packages-grid"></div>
+    </section>
+
+    <!-- The EN order: «На каждый день» LAST. assets/country-tariffs.js
+         ensureDailyBlock() takes this section instead of inserting its own
+         before the local block (which is what the SEO-experiment pages get). -->
+    <section id="dailyBlock" class="block plan-block plan-block-daily tariff-block" hidden>
+      <div class="blk-head">
+        <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+        <div>
+          <h2><span id="dailyHead"></span> <span class="count" id="dailyCount"></span></h2>
+          <p class="note">Объём трафика на каждый день поездки.</p>
+        </div>
+      </div>
+      <div id="dailyGrid" class="grid plan-grid packages-grid"></div>
     </section>
 
     <div id="packagesGrid" class="packages-grid"></div>
@@ -258,6 +273,11 @@
       </form>
     </div>
   </div>
+
+  <section class="cp-sec about" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle">Восточный Тимор — eSIM для поездки</h2>
+    <p class="lead">Восточный Тимор. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.</p>
+  </section>
 
   
 

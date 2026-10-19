@@ -36,6 +36,7 @@ import { createRequire } from 'node:module';
 import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily, countryOffers } from './catalogue-facts.mjs';
 import { isFrozenPage } from './frozen-pages.mjs'; // live catalogue numbers (stage C) skip the SEO pilot / control
 import { renderPriceTokens, readRefs } from './price-tokens.mjs';
+import { buildDictionaryGen } from './build-country-dictionary.mjs';
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -50,6 +51,9 @@ const METRIKA = readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8')
 
 const { countries } = loadCached();
 const editorialSlugs = new Set(EDITORIAL.map((c) => c.slug));
+
+// The genitive the cards' own headings use («Тарифы для Таиланда»): data, not a rule.
+const GEN = buildDictionaryGen();
 
 const money = (v) => (v === null || v === undefined ? null : Math.round(Number(v)).toLocaleString('ru-RU'));
 const plural = (n, one, few, many) => {
@@ -127,6 +131,9 @@ function dualSimNote(p) {
  * renderer's own daily-card rule.
  */
 function localBlockWhere(c) {
+  // Pages outside the SEO experiment follow the EN order (local → regional →
+  // daily): the local block is first wherever the page has one.
+  if (!isFrozenPage(c.slug)) return `Они показаны первым блоком на этой странице.`;
   return c.daily_count > 0
     ? `Они показаны на этой странице сразу после блока «${DAILY_BLOCK_TITLE}».`
     : `Они показаны первым блоком на этой странице.`;
@@ -351,6 +358,51 @@ function factsLive(c) {
     + `${c.min_price_rub !== null ? `<span data-cat-floor>Цены от <b data-cat="floor">${money(c.min_price_rub)} ₽</b>.</span>` : ''}`;
 }
 
+/* The first screen of a page OUTSIDE the SEO experiment: the EN country page's
+ * structure (en/esim/<slug>/) — a short H1 and one line under it, then the plans.
+ * The line is the facts line (counts and «Цены от N ₽», live — stage C). The
+ * authored headline, lead and intro move whole to «aboutBlock» under the plans. */
+function enHero(c) {
+  return `      <div class="cp-title">
+        <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
+        <div>
+          <h1>eSIM для ${esc(GEN[c.iso])}</h1>
+          <p class="facts">
+          ${factsLive(c)}
+          </p>
+        </div>
+      </div>`;
+}
+// The SEO experiment's ten keep their first screen byte for byte.
+function frozenHero(c, p) {
+  const live = false;
+  return `      <div class="cp-title">
+        <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
+        <h1>${esc(p.h1 || `${c.nameRu} — eSIM для поездки`)}</h1>
+      </div>
+      <div class="cp-text">
+        <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
+        ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n        ') : ''}
+        <p class="facts">
+          ${live ? factsLive(c) : `${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.daily_count > 0 ? `С оплатой за день: <b>${c.daily_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}`}${c.renders_nothing ? 'Тарифов с покрытием этой страны сейчас нет.' : ''}
+        </p>
+      </div>`;
+}
+
+/* Under the plans, on a page outside the SEO experiment: the authored headline
+ * (the H1 until the EN structure) as this section's H2, then the lead and the
+ * intro paragraphs — word for word, nothing dropped. A template page gets its
+ * template headline and lead here. */
+function aboutBlock(c, p) {
+  const intro = Array.isArray(p.intro) ? p.intro.filter(Boolean) : [];
+  return `<section class="cp-sec about" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle">${esc(p.h1 || `${c.nameRu} — eSIM для поездки`)}</h2>
+    <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>${intro.map((t) => `\n    <p class="intro">${esc(t)}</p>`).join('')}
+  </section>
+
+  `;
+}
+
 function page(c, all, profile) {
   const live = !isFrozenPage(c.slug);
   // A profile may only ADD prose. Every number below still comes from the
@@ -499,17 +551,7 @@ ${ruHeader()}
   <section class="cp-hero">
     <div class="wrap">
       <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <a href="/esim/">Страны</a> › <span aria-current="page">${esc(c.nameRu)}</span></nav>
-      <div class="cp-title">
-        <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
-        <h1>${esc(p.h1 || `${c.nameRu} — eSIM для поездки`)}</h1>
-      </div>
-      <div class="cp-text">
-        <p class="lead">${esc(p.lead || `${c.nameRu}. Мобильный интернет в поездке: eSIM устанавливается заранее по QR-коду, оплата в рублях российской картой или через СБП. Российская SIM остаётся в телефоне.`)}</p>
-        ${Array.isArray(p.intro) ? p.intro.filter(Boolean).map((t) => `<p class="intro">${esc(t)}</p>`).join('\n        ') : ''}
-        <p class="facts">
-          ${live ? factsLive(c) : `${c.local_count > 0 ? `Локальных тарифов: <b>${c.local_count}</b>. ` : ''}${c.regional_count > 0 ? `Региональных: <b>${c.regional_count}</b>. ` : ''}${c.daily_count > 0 ? `С оплатой за день: <b>${c.daily_count}</b>. ` : ''}${c.min_price_rub !== null ? `Цены от <b>${money(c.min_price_rub)} ₽</b>.` : ''}`}${c.renders_nothing ? 'Тарифов с покрытием этой страны сейчас нет.' : ''}
-        </p>
-      </div>
+${live ? enHero(c) : frozenHero(c, p)}
       <div class="cp-hero-foot">
         <ul class="cp-facts">
           <li>Оплата в рублях</li>
@@ -525,9 +567,11 @@ ${ruHeader()}
        локальные, региональные. assets/country-tariffs.js показывает ссылку,
        только если её блок не пуст, и пишет в неё число тарифов. -->
   <nav class="cp-jump" aria-label="Типы тарифов" hidden>
-    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
-    <a href="#localBlock" hidden><span>${esc(c.nameRu)}</span> <span class="n"></span></a>
+${live ? `    <a href="#localBlock" hidden><span>${esc(c.nameRu)}</span> <span class="n"></span></a>
     <a href="#regionalBlock" hidden><span>Региональные</span> <span class="n"></span></a>
+    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>` : `    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
+    <a href="#localBlock" hidden><span>${esc(c.nameRu)}</span> <span class="n"></span></a>
+    <a href="#regionalBlock" hidden><span>Региональные</span> <span class="n"></span></a>`}
   </nav>
 
   <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
@@ -537,7 +581,10 @@ ${ruHeader()}
        эту роль не выполняет. -->
   <section class="packages" id="tariffs" data-country-page="${c.iso}">
     <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
-
+${live ? `    <div class="cp-skeleton" aria-hidden="true">
+      <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
+    </div>
+` : ''}
     <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
          оформление. renderCountrySplit() обращается к localCount, localEmpty и
          regionalCount напрямую, без проверки на null: если их нет, функция
@@ -566,7 +613,21 @@ ${ruHeader()}
       </div>
       <div id="regionalGrid" class="grid plan-grid packages-grid"></div>
     </section>
-
+${live ? `
+    <!-- The EN order: «На каждый день» LAST. assets/country-tariffs.js
+         ensureDailyBlock() takes this section instead of inserting its own
+         before the local block (which is what the SEO-experiment pages get). -->
+    <section id="dailyBlock" class="block plan-block plan-block-daily tariff-block" hidden>
+      <div class="blk-head">
+        <span class="blk-ico">${BLOCK_ICON.daily}</span>
+        <div>
+          <h2><span id="dailyHead"></span> <span class="count" id="dailyCount"></span></h2>
+          <p class="note">Объём трафика на каждый день поездки.</p>
+        </div>
+      </div>
+      <div id="dailyGrid" class="grid plan-grid packages-grid"></div>
+    </section>
+` : ''}
     <div id="packagesGrid" class="packages-grid"></div>
   </section>
 
@@ -601,7 +662,7 @@ ${RU_CHECKOUT_MODAL}
 
   ${pilot ? `${pilot.section}
 
-  ` : ''}${whyBlock}
+  ` : ''}${live ? aboutBlock(c, p) : ''}${whyBlock}
 
   <section class="cp-help" aria-labelledby="cpHelpTitle">
     <h2 id="cpHelpTitle">Перед покупкой</h2>

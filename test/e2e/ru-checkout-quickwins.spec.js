@@ -148,7 +148,12 @@ test('«Найти тариф» on a country page scrolls to its plans and keeps
   test.skip(!(await cta.isVisible()), 'the header hides this button on the narrowest screens');
   await cta.click();
   await expect(page).toHaveURL(/\/esim\/turkey\/(\?|$)/);
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(300);
+  // The first plan block's heading ends up in view, below the sticky jump bar.
+  await expect.poll(() => page.evaluate(() => {
+    const h = document.querySelector('#tariffs .plan-block:not([hidden]) h2').getBoundingClientRect();
+    const bar = document.querySelector('.cp-jump').getBoundingClientRect();
+    return h.top >= bar.bottom - 1 && h.bottom <= innerHeight && scrollY > 0;
+  })).toBe(true);
 });
 
 test('tariff_buy_click: a daily plan carries no tariff_type, a local one says local', async ({ page }) => {

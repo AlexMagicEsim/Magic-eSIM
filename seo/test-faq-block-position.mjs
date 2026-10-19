@@ -59,13 +59,26 @@ function answers(html) {
   return { visible, schema };
 }
 
+/**
+ * Where the page puts «Трафик на каждый день». Since conversion stage 2 a page
+ * outside the SEO experiment follows the EN order and carries the daily section
+ * itself, AFTER the regional one (country-tariffs.js ensureDailyBlock() takes it);
+ * a page without it gets the section inserted before the local block, as before.
+ */
+export function dailyComesLast(html) {
+  const daily = html.indexOf('<section id="dailyBlock"');
+  return daily !== -1 && daily > html.indexOf('id="regionalBlock"');
+}
+
 /** What is wrong with an answer, given what the page renders. Empty = fine. */
-export function positionProblems(answer, { hasLocal, hasDaily }) {
+export function positionProblems(answer, { hasLocal, hasDaily, dailyLast = false }) {
+  const dailyFirst = hasDaily && !dailyLast;
   const out = [];
   if (/ниже/.test(answer)) out.push('«ниже» — FAQ стоит под всеми блоками тарифов');
-  if (hasLocal && hasDaily && /первым блоком/.test(answer)) out.push(`«первым блоком» — первым идёт «${D.BLOCK_TITLE}»`);
-  if (hasLocal && hasDaily && !answer.includes(`«${D.BLOCK_TITLE}»`)) out.push(`не назван блок «${D.BLOCK_TITLE}», после которого идут локальные`);
-  if (hasLocal && !hasDaily && !/первым блоком/.test(answer)) out.push('без посуточного блока локальные идут первыми — так и надо сказать');
+  if (hasLocal && dailyFirst && /первым блоком/.test(answer)) out.push(`«первым блоком» — первым идёт «${D.BLOCK_TITLE}»`);
+  if (hasLocal && dailyFirst && !answer.includes(`«${D.BLOCK_TITLE}»`)) out.push(`не назван блок «${D.BLOCK_TITLE}», после которого идут локальные`);
+  if (hasLocal && !dailyFirst && !/первым блоком/.test(answer)) out.push('локальные идут первыми — так и надо сказать');
+  if (hasLocal && !dailyFirst && answer.includes(`сразу после блока «${D.BLOCK_TITLE}»`)) out.push(`«сразу после блока «${D.BLOCK_TITLE}»» — посуточный блок здесь последний`);
   return out;
 }
 
@@ -77,11 +90,15 @@ test('the rule fires on the exact sentences it exists for', () => {
   assert.ok(positionProblems(below, { hasLocal: false, hasDaily: true }).length > 0, '«ниже» must fail');
   const fixed = `Да. Сейчас доступно 7 локальных тарифов именно для этой страны. Они показаны на этой странице сразу после блока «${D.BLOCK_TITLE}».`;
   assert.deepEqual(positionProblems(fixed, { hasLocal: true, hasDaily: true }), []);
+  // The EN order (daily last): the old «сразу после» is now the false one.
+  assert.ok(positionProblems(fixed, { hasLocal: true, hasDaily: true, dailyLast: true }).length > 0, '«сразу после» must fail where the daily block is last');
+  assert.deepEqual(positionProblems(old, { hasLocal: true, hasDaily: true, dailyLast: true }), []);
 });
 
 test('every country page says where its local tariffs actually are — visible FAQ and FAQPage alike', () => {
   const bad = [];
   let withDaily = 0;
+  let last = 0;
   for (const c of COUNTRIES) {
     const html = readFileSync(join(ROOT, 'esim', c.slug, 'index.html'), 'utf8');
     const hasDaily = rendersDailyBlock(c.iso);
@@ -92,9 +109,12 @@ test('every country page says where its local tariffs actually are — visible F
     const { visible, schema } = answers(html);
     if (visible.length !== 1 || schema.length !== 1) { bad.push(`${c.slug}: ответов в FAQ ${visible.length}, в FAQPage ${schema.length}`); continue; }
     if (visible[0] !== schema[0]) bad.push(`${c.slug}: видимый ответ ≠ FAQPage`);
-    for (const p of positionProblems(visible[0], { hasLocal: c.local_count > 0, hasDaily })) bad.push(`${c.slug}: ${p}`);
+    const dailyLast = dailyComesLast(html);
+    if (dailyLast) last++;
+    for (const p of positionProblems(visible[0], { hasLocal: c.local_count > 0, hasDaily, dailyLast })) bad.push(`${c.slug}: ${p}`);
   }
   assert.deepEqual(bad, []);
+  assert.ok(last >= 180, `pages in the EN order (daily last): ${last} — the new branch must actually be exercised`);
   assert.ok(withDaily > 100, `ожидали посуточный блок на большинстве страниц, нашли ${withDaily} — проверка не сработала бы вхолостую`);
 });
 

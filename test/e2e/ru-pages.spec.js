@@ -38,11 +38,11 @@ async function axeViolations(page) {
     .violations.map((v) => `${v.id}: ${v.nodes.length}`));
 }
 
-test('country page: daily, local, regional — in that order, folded at six, with jump links', async ({ page }) => {
+test('country page: local, regional, daily — the EN order (outside the SEO experiment), folded at six, with jump links', async ({ page }) => {
   const st = await open(page, '/esim/turkey/');
   await expect(page.locator('#dailyGrid .plan').first()).toBeVisible();
   const order = await page.evaluate(() => [...document.querySelectorAll('.plan-block:not([hidden])')].map((s) => s.id));
-  expect(order).toEqual(['dailyBlock', 'localBlock', 'regionalBlock']);
+  expect(order).toEqual(['localBlock', 'regionalBlock', 'dailyBlock']);
   // Fold: 6 shown, the rest behind one button that opens them all.
   const daily = page.locator('#dailyGrid > .plan');
   const total = await daily.count();
@@ -58,6 +58,14 @@ test('country page: daily, local, regional — in that order, folded at six, wit
   expect(await noOverflow(page)).toBe(true);
   expect(st.errors).toEqual([]);
   expect(st.nonGet).toBe(0);
+});
+
+test('an SEO-experiment page keeps the old order: daily, local, regional', async ({ page }) => {
+  const st = await open(page, '/esim/uae/');
+  await expect(page.locator('#dailyGrid .plan').first()).toBeVisible();
+  const order = await page.evaluate(() => [...document.querySelectorAll('.plan-block:not([hidden])')].map((s) => s.id));
+  expect(order[0]).toBe('dailyBlock');
+  expect(st.errors).toEqual([]);
 });
 
 test('country page: choosing a term moves the price, the term chip and the buy button', async ({ page }) => {
