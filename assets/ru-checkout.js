@@ -36,6 +36,11 @@
   const rub=(n)=>`${Number(n).toLocaleString('ru-RU')} ₽`;
   function basePrice(){const p=overlay.dataset.priceRub;return (p!==''&&isFinite(Number(p)))?Number(p):null;}
   function currentPrice(){return appliedPromo?appliedPromo.final:basePrice();}
+  /* #coError carries messages of several kinds: a changed price, a network
+     failure, a missing email — and promo ones. A promo action may only clear
+     its own kind, so a price-change notice never disappears behind it. */
+  function promoError(text){const e=byId('coError');if(!e)return;e.textContent=text;e.dataset.kind='promo';e.hidden=false;}
+  function clearPromoError(){const e=byId('coError');if(e&&e.dataset.kind==='promo'){e.hidden=true;e.textContent='';delete e.dataset.kind;}}
   function promoMsg(text,kind){const m=byId('coPromoMsg');if(!m)return;if(!text){m.hidden=true;m.textContent='';return;}m.textContent=text;m.className='co-promo-msg'+(kind?(' '+kind):'');m.hidden=false;}
   // Single source of truth for the promo rows: shown ONLY when a promo is really
   // applied with a positive discount. Toggle inline display (not just [hidden]) because
@@ -53,15 +58,20 @@
       byId('coPromoAppliedText').textContent=`Промокод ${appliedPromo.code} применён`;
       showRow(origRow,true); showRow(discRow,true); showRow(applied,true);
       if(summary)summary.classList.add('co-has-promo');
+      lockPromo(true);
     }else{
       showRow(origRow,false); showRow(discRow,false); showRow(applied,false);
+      lockPromo(false);
       byId('coPrice').textContent=(base!=null)?rub(base):'—';
       if(summary)summary.classList.remove('co-has-promo');
     }
   }
+  /* While a code is applied, «Применить» and the field are inactive: the
+     applied block says what is in force, and «Удалить» is the way to change it. */
+  function lockPromo(on){const inp=byId('coPromoInput'),btn=byId('coPromoApply');if(inp)inp.readOnly=!!on;if(btn&&!quoting)btn.disabled=!!on;}
   // Drop any applied promo and force a fresh quote (package/email change, or a
   // rejected order-create). Never leaves a stale discount on screen.
-  function resetPromo(msg){appliedPromo=null;const inp=byId('coPromoInput');if(inp&&msg==null)inp.value='';const btn=byId('coPromoApply');if(btn){btn.disabled=false;btn.textContent='Применить';}promoMsg(msg||'',msg?'co-err':null);renderPrice();}
+  function resetPromo(msg){appliedPromo=null;const inp=byId('coPromoInput');if(inp&&msg==null)inp.value='';const btn=byId('coPromoApply');if(btn){btn.disabled=false;btn.textContent='Применить';}promoMsg(msg||'',msg?'co-err':null);clearPromoError();renderPrice();}
   async function applyPromo(){
     if(quoting||promoDisabled)return;
     const inp=byId('coPromoInput');const code=((inp&&inp.value)||'').trim().toUpperCase();
@@ -85,6 +95,7 @@
       const data=resp.body||{};
       if(resp.ok&&data&&data.valid){
         appliedPromo={code:data.promo_code||code,original:Number(data.original_amount_rub),discount:Number(data.discount_amount_rub),final:Number(data.final_amount_rub)};
+        clearPromoError();
         renderPrice();
         try{magicMetrikaGoal('promo_apply_success',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:(overlay&&overlay.dataset?overlay.dataset.packageId:undefined),promo_code:appliedPromo?appliedPromo.code:undefined,discount_amount:(appliedPromo&&isFinite(Number(appliedPromo.discount)))?Number(appliedPromo.discount):undefined});}catch(e){}
       }else if(data&&data.error==='PROMO_CODES_DISABLED'){
@@ -95,7 +106,7 @@
         try{magicMetrikaGoal('promo_apply_error',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:(overlay&&overlay.dataset?overlay.dataset.packageId:undefined)});}catch(e){}
       }
     }catch(e){promoMsg('Не удалось проверить промокод. Попробуйте позже.','co-err');}
-    finally{quoting=false;if(btn){btn.disabled=false;btn.textContent='Применить';}}
+    finally{quoting=false;if(btn){btn.disabled=!!appliedPromo;btn.textContent='Применить';}}
   }
   // Silent re-validation of the ALREADY-applied promo (e.g. after the email changes,
   // since per-email/first-purchase limits depend on it). Keeps the discount if still
@@ -169,14 +180,17 @@
     const pay=byId('coPay');if(pay)pay.disabled=false;setMethod('sbp'); // reset to default method on open
     overlay.hidden=false;
     document.body.style.overflow='hidden';
-    setTimeout(()=>{const e=byId('coEmail');if(e)e.focus();},40);
+    // Not on a touch screen: an on-screen keyboard opened at once covers the sum
+    // and the pay button before the buyer has read the order.
+    let fine=true;try{fine=!window.matchMedia||window.matchMedia('(pointer:fine)').matches;}catch(e){}
+    if(fine)setTimeout(()=>{const e=byId('coEmail');if(e)e.focus();},40);
   }
   function closeCheckout(){overlay.hidden=true;document.body.style.overflow='';}
   document.addEventListener('click',async (ev)=>{
     const b=ev.target.closest('.js-buy');
     if(!b)return;
     ev.preventDefault();
-    magicMetrikaGoal('tariff_buy_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:b.dataset.packageId,price_rub:b.dataset.price,data_gb:b.dataset.data,validity_days:b.dataset.days,tariff_type:b.closest('#regionalGrid')?'regional':'local'});
+    magicMetrikaGoal('tariff_buy_click',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:b.dataset.packageId,price_rub:b.dataset.price,data_gb:b.dataset.data,validity_days:b.dataset.days,tariff_type:b.closest('#regionalGrid')?'regional':(b.closest('#localGrid')?'local':undefined)});
 
     const d={packageId:b.dataset.packageId,name:b.dataset.name,coverage:b.dataset.coverage,data:b.dataset.data,dailyGb:b.dataset.dailyGb,days:b.dataset.days,price:b.dataset.price,planType:b.dataset.planType};
 
@@ -237,6 +251,7 @@
   function showPriceChanged(oldPrice,newPrice){
     const err=byId('coError');
     if(!err)return;
+    delete err.dataset.kind;
     err.textContent=`Цена этого тарифа изменилась: было ${Number(oldPrice).toLocaleString('ru-RU')} ₽, актуальная — ${Number(newPrice).toLocaleString('ru-RU')} ₽. К оплате будет актуальная сумма.`;
     err.hidden=false;
   }
@@ -292,6 +307,7 @@
   async function coStartPayment(paymentType, btn){
     if(submitting)return;                                  // guard against double click (both buttons)
     const email=byId('coEmail'),consent=byId('coConsent'),err=byId('coError');
+    delete err.dataset.kind;   // whatever this attempt reports is set below, with its own kind
     const pkgId=(overlay.dataset.packageId||'').trim();
       // Выбранный срок, если тариф продаётся по дням. Пусто для обычных пакетов.
       const coDays=overlay.dataset.days||'';
@@ -302,8 +318,8 @@
     // (e.g. it was just dropped by an email re-validation, or typed without pressing
     // «Применить»). Prevents paying the base price while a code looks entered.
     const _pi=byId('coPromoInput');const _pending=((_pi&&_pi.value)||'').trim();
-    if(_pending&&!appliedPromo&&!promoDisabled){err.textContent='Промокод введён, но не применён. Нажмите «Применить» или удалите его, затем оплатите.';err.hidden=false;if(_pi)_pi.focus();return;}
-    err.hidden=true;
+    if(_pending&&!appliedPromo&&!promoDisabled){promoError('Промокод введён, но не применён. Нажмите «Применить» или удалите его, затем оплатите.');if(_pi)_pi.focus();return;}
+    err.hidden=true;delete err.dataset.kind;
     submitting=true;
     // Analytics (safe wrapper; no PII). Fires once per initiation — the submitting
     // guard above prevents a double click from creating a second goal.
@@ -415,6 +431,7 @@
       // auto-redirect on a stale amount.
       if(data&&typeof data.error==='string'&&data.error.indexOf('PROMO')===0){
         resetPromo();
+        err.dataset.kind='promo';
         err.textContent=(PROMO_MSG[data.error]||data.message||'Промокод недоступен. Проверьте итоговую сумму и повторите оплату.');
       }else if(resp.transportFailure){
         /* Neither road reached a verdict. Say so plainly rather than inventing a
@@ -456,7 +473,9 @@
   // change drops an applied promo (email affects per-email / first-purchase limits).
   const paBtn=byId('coPromoApply'); if(paBtn)paBtn.addEventListener('click',applyPromo);
   const prBtn=byId('coPromoRemove'); if(prBtn)prBtn.addEventListener('click',()=>{resetPromo();try{magicMetrikaGoal('promo_removed',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:(overlay&&overlay.dataset?overlay.dataset.packageId:undefined)});}catch(e){}});
-  const piEl=byId('coPromoInput'); if(piEl)piEl.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();applyPromo();}});
+  const piEl=byId('coPromoInput'); if(piEl){piEl.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();applyPromo();}});
+    // The message under the field and a «не применён» error describe the text that WAS there.
+    piEl.addEventListener('input',()=>{if(appliedPromo)return;promoMsg('',null);clearPromoError();});}
   // Email affects per-email / first-purchase promo limits. Instead of dropping the
   // applied promo (forcing a manual re-apply), silently re-validate it against the
   // new email: keep the discount if still valid, or remove it with a clear message

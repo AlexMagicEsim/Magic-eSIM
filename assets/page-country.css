@@ -35,6 +35,11 @@
 .cp-body{padding-bottom:8px}
 .cp-jump{position:sticky;top:68px;z-index:30;display:flex;gap:8px;overflow-x:auto;margin:0 0 22px;padding:10px 0;background:rgba(247,249,252,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);scrollbar-width:none}
 .cp-jump::-webkit-scrollbar{display:none}
+/* The bar is filled by country-tariffs.js once the plans render. Until then it
+   keeps its place (invisible, not clickable) instead of pushing the plans down
+   by its own height under a reader's finger: CLS 0.45 on template pages. */
+.cp-jump{min-height:61px}
+.cp-jump[hidden]{display:flex!important;visibility:hidden}
 .cp-jump a{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font-size:14px;font-weight:650;text-decoration:none;white-space:nowrap}
 .cp-jump a:hover{border-color:#c9d4f5;background:var(--accent-soft);color:var(--text)}
 .cp-jump .n{min-width:24px;padding:1px 8px;border-radius:999px;background:var(--accent-soft);color:#2f4fc4;font-size:12px;font-weight:750;text-align:center}
