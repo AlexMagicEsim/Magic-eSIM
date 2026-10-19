@@ -25,6 +25,8 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="/assets/magic-net.js?v=3e0887b2"></script>
+  <script>window.__magicCatalogEarly=(function(){try{var N=window.MagicNet,b=N&&N.ENDPOINTS&&N.ENDPOINTS[0]&&N.ENDPOINTS[0].base;if(!b||typeof fetch!=='function'||typeof AbortController==='undefined')return null;var ac=new AbortController(),t=Date.now(),r=fetch(b+'/api/v1/retail/packages?t='+t,{signal:ac.signal,headers:{Accept:'application/json'},credentials:'omit'});r.catch(function(){});return{ac:ac,startedAt:t,response:r,used:false};}catch(e){return null;}})();</script>
   <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
   <link rel="stylesheet" href="/assets/page-country.css?v=3b354c34" />
   <link rel="stylesheet" href="/assets/ru.css?v=7eaecc63" />
@@ -382,8 +384,7 @@
   <!-- One network strategy for every storefront page (Render first, the
        gateway second). The checkout sends the order through it, and the
        catalogue loader takes its endpoint list from it. -->
-  <script src="/assets/magic-net.js?v=3e0887b2"></script>
-  <script src="/assets/catalog-loader.js?v=7a0b4ca8" defer></script>
+  <script src="/assets/catalog-loader.js?v=3abc3392" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->

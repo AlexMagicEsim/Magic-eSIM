@@ -352,6 +352,20 @@ function seoPilot(c, p) {
 
 // The facts line with every number marked for assets/catalog-numbers.js. Same
 // words and numbers as the frozen form; a segment hides when its live count is 0.
+/* The plans request, started in <head> on a page OUTSIDE the SEO experiment —
+ * before the deferred scripts download and run (they held it back to
+ * DOMContentLoaded: ~1 s on a desktop, 1.6–3.8 s on a phone). assets/magic-net.js
+ * moves up here on these pages (before the stylesheets, so it does not wait for
+ * them) and stays the ONE place the API's address lives: the request is built
+ * from MagicNet.ENDPOINTS[0] — the very request assets/catalog-loader.js would
+ * make (same path, same headers). The loader TAKES it instead of making its
+ * own, so there is still one request. Its rejection is observed here so an early
+ * failure is not an «unhandled rejection» before the loader runs.
+ * seo/test-catalog-early-request.mjs pins all of it. */
+const EARLY_CATALOGUE_REQUEST = `  <script src="${stampUrl('/assets/magic-net.js')}"></script>
+  <script>window.__magicCatalogEarly=(function(){try{var N=window.MagicNet,b=N&&N.ENDPOINTS&&N.ENDPOINTS[0]&&N.ENDPOINTS[0].base;if(!b||typeof fetch!=='function'||typeof AbortController==='undefined')return null;var ac=new AbortController(),t=Date.now(),r=fetch(b+'/api/v1/retail/packages?t='+t,{signal:ac.signal,headers:{Accept:'application/json'},credentials:'omit'});r.catch(function(){});return{ac:ac,startedAt:t,response:r,used:false};}catch(e){return null;}})();</script>
+`;
+
 function factsLive(c) {
   return `${c.local_count > 0 ? `<span data-cat-seg="local">Локальных тарифов: <b data-cat="local">${c.local_count}</b>. </span>` : ''}`
     + `${c.regional_count > 0 ? `<span data-cat-seg="regional">Региональных: <b data-cat="regional">${c.regional_count}</b>. </span>` : ''}`
@@ -532,7 +546,7 @@ function page(c, all, profile) {
   <meta name="twitter:image" content="${SITE}/assets/magic-esim-logo.png" />
 ${headIcons('  ')}
 ${RU_FONT_PRELOAD.replace(/^/gm, '  ')}
-  <link rel="stylesheet" href="${stampUrl('/assets/site.css')}" />
+${live ? EARLY_CATALOGUE_REQUEST : ''}  <link rel="stylesheet" href="${stampUrl('/assets/site.css')}" />
   <link rel="stylesheet" href="${stampUrl('/assets/page-country.css')}" />
   <link rel="stylesheet" href="${stampUrl('/assets/ru.css')}" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
@@ -712,8 +726,7 @@ ${RU_FOOTER}
   <!-- One network strategy for every storefront page (Render first, the
        gateway second). The checkout sends the order through it, and the
        catalogue loader takes its endpoint list from it. -->
-  <script src="${stampUrl('/assets/magic-net.js')}"></script>
-  <script src="${stampUrl('/assets/catalog-loader.js')}" defer></script>
+${live ? '' : `  <script src="${stampUrl('/assets/magic-net.js')}"></script>\n`}  <script src="${stampUrl('/assets/catalog-loader.js')}" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->

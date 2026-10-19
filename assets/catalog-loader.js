@@ -49,6 +49,16 @@
   // fresh one, and checkout revalidates against the live API regardless.
   var RACE_DEADLINE_MS = 1200;
 
+  // Pages outside the SEO experiment start the plans request in <head>
+  // (window.__magicCatalogEarly, see seo/build-catalogue-pages.mjs) and use a
+  // second snapshot rule: the snapshot is fetched only when the live API has
+  // sent NOT EVEN ITS RESPONSE HEADERS by this deadline (a Render stall), or the
+  // moment it definitively fails. A healthy API answers its headers in ~0.7–1.5 s
+  // (measured 2026-10-19), and the 276 KB snapshot fetched beside a 183 KB
+  // answer only competed with it for a phone's bandwidth — it never won.
+  // The ten SEO-experiment pages carry no early request and keep the 1.2 s race.
+  var SNAPSHOT_DEADLINE_MS = 2000;
+
   // A snapshot older than this stops pretending to be current: it no longer
   // wins the deadline race (the page waits for the live API instead) and, when
   // it is shown because the API is truly down, the caller is told it is stale
@@ -97,10 +107,36 @@
     return 'http_' + status;
   }
 
+  /**
+   * The request the page started in <head>, taken ONCE and only for the primary
+   * endpoint — the request this function would otherwise make itself. Any later
+   * attempt (a retry, the fallback road, the pre-checkout price check, the
+   * retry button) makes its own, exactly as before.
+   */
+  function takeEarly(base) {
+    var e = window.__magicCatalogEarly;
+    if (!e || e.used || (base || API_BASE) !== BASES[0] || !e.response || typeof e.response.then !== 'function') return null;
+    e.used = true;
+    return e;
+  }
+  // The same bound and the same error tags as fetchWithTimeout, counted from
+  // the moment the early request started.
+  function earlyResponse(e) {
+    var timer = setTimeout(function () { try { e.ac.abort(); } catch (_) {} }, Math.max(0, LIVE_TIMEOUT_MS - (Date.now() - e.startedAt)));
+    return e.response.then(
+      function (res) { clearTimeout(timer); return res; },
+      function (err) {
+        clearTimeout(timer);
+        throw tagged(err && err.name === 'AbortError' ? 'timeout' : 'network', String(err && err.message || err));
+      });
+  }
+
   /** One live attempt against ONE endpoint. Resolves with the package array. */
-  function fetchLiveOnce(base) {
-    return fetchWithTimeout((base || API_BASE) + LIVE_PATH + '?t=' + Date.now(), LIVE_TIMEOUT_MS)
+  function fetchLiveOnce(base, onHeaders) {
+    var early = takeEarly(base);
+    return (early ? earlyResponse(early) : fetchWithTimeout((base || API_BASE) + LIVE_PATH + '?t=' + Date.now(), LIVE_TIMEOUT_MS))
       .then(function (res) {
+        if (onHeaders) { try { onHeaders(); } catch (_) {} }
         if (res.status !== 200) {
           // `errorType` stays coarse because analytics is built on it — 5xx has
           // always collapsed to 'http_5xx'. The exact status rides alongside so
@@ -143,10 +179,10 @@
    * falls through to the static snapshot exactly as before — this changes which
    * roads are tried, not what happens when they all fail.
    */
-  function fetchLive() {
+  function fetchLive(onHeaders) {
     var lastErr = null;
     function onPrimary(n) {
-      return fetchLiveOnce(BASES[0]).catch(function (err) {
+      return fetchLiveOnce(BASES[0], onHeaders).catch(function (err) {
         lastErr = err;
         if (n + 1 >= LIVE_ATTEMPTS) throw err;
         return sleep(jitter(RETRY_BASE_MS)).then(function () { return onPrimary(n + 1); });
@@ -154,7 +190,7 @@
     }
     return onPrimary(0).catch(function (err) {
       if (BASES.length < 2 || !carriesToNextEndpoint(err)) throw err;
-      return fetchLiveOnce(BASES[1]).catch(function (err2) {
+      return fetchLiveOnce(BASES[1], onHeaders).catch(function (err2) {
         // Report the PRIMARY's failure: it is the one that describes the outage.
         throw lastErr || err2;
       });
@@ -238,11 +274,17 @@
    */
   function load(opts) {
     opts = opts || {};
-    var deadlineMs = typeof opts.deadlineMs === 'number' ? opts.deadlineMs : RACE_DEADLINE_MS;
+    // A page that started the request in <head> (outside the SEO experiment)
+    // uses the headers rule; `opts.snapshotOnStall` exists for tests only.
+    var early = (window.__magicCatalogEarly && !window.__magicCatalogEarly.used) ? window.__magicCatalogEarly : null;
+    var onStall = typeof opts.snapshotOnStall === 'boolean' ? opts.snapshotOnStall : !!early;
+    var deadlineMs = typeof opts.deadlineMs === 'number' ? opts.deadlineMs : (onStall ? SNAPSHOT_DEADLINE_MS : RACE_DEADLINE_MS);
     var staleMaxMs = (typeof opts.staleMaxHours === 'number' ? opts.staleMaxHours : STALE_MAX_HOURS) * 3600000;
-    var t0 = Date.now();
+    // Latency and the deadline count from the moment the request really started.
+    var t0 = early ? early.startedAt : Date.now();
+    var headersAt = null;
 
-    var livePromise = fetchLive().then(
+    var livePromise = fetchLive(function () { if (headersAt === null) headersAt = Date.now(); }).then(
       function (packages) { return { packages: packages, latencyMs: Date.now() - t0 }; },
       function (err) { err.latencyMs = Date.now() - t0; throw err; }
     );
@@ -318,6 +360,11 @@
 
       timer = setTimeout(function () {
         if (settled) return;
+        // The API is answering (its headers came): the snapshot would only
+        // compete with it for bandwidth. It is still fetched if the API then
+        // fails (the failure path above) — a stall after the headers ends in
+        // the live timeout, a definitive failure.
+        if (onStall && headersAt !== null) return;
         startCache().then(function (c) {
           if (settled) return;
           var ageMs = cacheAgeMsOf(c.generatedAt);
@@ -331,7 +378,7 @@
               : cacheResult(c, 'race_deadline', true));
           }
         }, function () { /* cache broken: the live request stays the only hope */ });
-      }, deadlineMs);
+      }, Math.max(0, deadlineMs - (Date.now() - t0)));
     });
   }
 
@@ -544,6 +591,7 @@
     LIVE_ATTEMPTS: LIVE_ATTEMPTS,
     SCHEMA_VERSION: SCHEMA_VERSION,
     RACE_DEADLINE_MS: RACE_DEADLINE_MS,
+    SNAPSHOT_DEADLINE_MS: SNAPSHOT_DEADLINE_MS,
     STALE_MAX_HOURS: STALE_MAX_HOURS,
   };
 })();

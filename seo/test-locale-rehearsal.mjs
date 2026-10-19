@@ -153,7 +153,7 @@ for (const L of PLANNED) {
     assert.match(page, new RegExp(`<meta property="og:locale" content="${L.ogLocale}">`));
     assert.match(page, /<meta name="robots" content="noindex, follow">/);
     assert.doesNotMatch(page, /hreflang="(?!ru")/, 'only the switch to Russian carries hreflang');
-    assert.ok(page.includes(`<script src="${namesFile(L.code).src}"></script>`));
+    assert.ok(page.includes(`<script src="${namesFile(L.code).src}" defer></script>`));
     assert.ok(th.name === countryName('TH', L.code));
     for (const [where, html] of [['country', page], ['list', G.hubPage(list)], ['guides', G.guidesHub()],
       ['guide', G.guidePage(markedGuides(L.code)[0])]]) {

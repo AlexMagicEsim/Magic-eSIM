@@ -144,8 +144,9 @@ test('a country name cannot become markup', () => {
 test('every page loads the GLOBAL client and never the Russian catalogue', () => {
   for (const c of LIST.slice(0, 5).concat(LIST.filter((x) => ['uae', 'thailand', 'french-polynesia'].includes(x.slug)))) {
     const html = read(`en/esim/${c.slug}/index.html`);
-    assert.match(html, /<script src="\/assets\/global-catalog\.js\?v=[0-9a-f]{8}"><\/script>/);
-    assert.match(html, /<script src="\/en\/country\.js\?v=[0-9a-f]{8}"><\/script>/);
+    // defer (speed audit 2026-10-19): the scripts download in parallel, run in order.
+    assert.match(html, /<script src="\/assets\/global-catalog\.js\?v=[0-9a-f]{8}" defer><\/script>/);
+    assert.match(html, /<script src="\/en\/country\.js\?v=[0-9a-f]{8}" defer><\/script>/);
     assert.match(html, new RegExp(`<body data-iso="${c.iso}">`));
     assert.equal(/catalog-loader|country-tariffs|catalog\.json|metrika|mc\.yandex/i.test(html), false, c.slug);
     assert.match(html, new RegExp(`class="langsw" href="/esim/${c.slug}/" hreflang="ru"`), 'the switch goes to the Russian twin');

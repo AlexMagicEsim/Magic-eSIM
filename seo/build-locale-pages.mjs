@@ -521,14 +521,14 @@ ${modal(c)}
 
 ${FOOTER}
 
-<script src="/assets/magic-net.js"></script>
-<script src="/assets/global-catalog.js"></script>
-<script src="/assets/daily-plan-copy.js"></script>
-<script src="${NAMES_FILE.src}"></script>
-<script src="/assets/site-i18n.js"></script>
-<script src="/en/plans.js"></script>
-<script src="/en/checkout.js"></script>
-<script src="/en/country.js"></script>
+<script src="/assets/magic-net.js" defer></script>
+<script src="/assets/global-catalog.js" defer></script>
+<script src="/assets/daily-plan-copy.js" defer></script>
+<script src="${NAMES_FILE.src}" defer></script>
+<script src="/assets/site-i18n.js" defer></script>
+<script src="/en/plans.js" defer></script>
+<script src="/en/checkout.js" defer></script>
+<script src="/en/country.js" defer></script>
 </body>
 </html>
 `;
@@ -621,8 +621,8 @@ ${HELP}
 
 ${FOOTER}
 
-<script src="/assets/site-i18n.js"></script>
-<script src="/en/hub.js"></script>
+<script src="/assets/site-i18n.js" defer></script>
+<script src="/en/hub.js" defer></script>
 </body>
 </html>
 `;
