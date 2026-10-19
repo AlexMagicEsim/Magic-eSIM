@@ -1657,6 +1657,19 @@ function renderCountrySplit(){
     }
   }
   function wire(){
+    /* «Найти тариф» in the shared header goes to /#plans — the home's search.
+       On a country page the plans are right here: scroll to them instead of
+       leaving. The link's href stays as built (one header on every page, and the
+       same link for crawlers and for a click with a modifier key). */
+    const cta=document.querySelector('.hdr-cta');
+    if(cta)cta.addEventListener('click',(e)=>{
+      if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+      // The first block that shows plans: it carries scroll-margin-top, so its
+      // heading lands below the sticky header and the jump bar.
+      const t=document.querySelector('#tariffs .plan-block:not([hidden])')||document.getElementById('tariffs');
+      if(!t)return;
+      e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
     const sort=document.getElementById('packageSort');
     if(sort)sort.addEventListener('change',()=>{ if(/^[A-Z]{2}$/.test(String(activeCountry||''))) renderCountrySplit(); });
     // country_tariff_click — a tariff's buy button pressed ON A COUNTRY PAGE. It
