@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-18T15:56:24.109Z",
+  "generated_at": "2026-10-19T13:28:39.585Z",
   "source": "production-public-api",
   "package_count": 2284,
   "packages": [
@@ -44215,7 +44215,7 @@
           "type": "4G"
         },
         {
-          "operator": "Tigo",
+          "operator": "VIVA",
           "type": "4G"
         },
         {
@@ -66193,6 +66193,18 @@
       "price": 700,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -66208,8 +66220,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -136375,7 +136387,7 @@
           "type": "4G"
         },
         {
-          "operator": "Tigo",
+          "operator": "VIVA",
           "type": "4G"
         },
         {
