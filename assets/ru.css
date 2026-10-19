@@ -40,6 +40,9 @@
 .cp-sec.about{max-width:760px}
 .cp-sec.about .lead{margin:0 0 14px;font-size:clamp(16px,1.8vw,19px)}
 .cp-sec.about .intro{margin:0 0 12px;color:var(--muted);line-height:1.7}
+/* Destination search (home, /esim/): the place typed, after the country it
+   leads to — «Индонезия  Бали». assets/ru-search.js. */
+.res .res-via{margin-left:auto;padding-left:8px;color:var(--muted);font-size:13px;font-weight:500}
 .packages:has(> .packages-status:not(:empty)){min-height:var(--plans-reserve,80vh)}
 .block-empty{margin:0 0 18px;padding:14px 16px;border:1px dashed var(--border-strong);border-radius:var(--r-m);background:var(--surface)}
 .packages-grid:empty{display:none}

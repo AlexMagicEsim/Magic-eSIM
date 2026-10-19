@@ -27,7 +27,7 @@
   <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
   <link rel="stylesheet" href="/assets/page-hub.css?v=a8206652" />
-  <link rel="stylesheet" href="/assets/ru.css?v=72ed027d" />
+  <link rel="stylesheet" href="/assets/ru.css?v=7eaecc63" />
   <!-- Первичный origin, а не шлюз: assets/magic-net.js держит render первым
        (ENDPOINTS[0]), а api.magicesim.store — резервом. Здесь стоял шлюз —
        генератор отстал от переключения, и пересборка хаба вернула бы
@@ -45,7 +45,7 @@
      validation, no PII, never throws (ym absent/blocked -> silent no-op). */
   (function(){
     var CID=110393848;
-    var GOALS={catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_redirect:['country_code','package_id','payment_method'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
+    var GOALS={search_no_result:[],catalog_live_loaded:['page_type','source','fallback_triggered','api_latency_ms','deadline_ms'],catalog_cache_loaded:['page_type','source','error_type','cache_age_hours','fallback_triggered','api_latency_ms','deadline_ms','static_age_ms','stale'],catalog_late_live:['page_type','country_code','api_latency_ms'],catalog_load_failed:['page_type','error_type'],catalog_retry_clicked:['page_type'],catalog_retry_succeeded:['page_type','source'],catalog_retry_failed:['page_type','error_type'],country_search:['country_code'],popular_country_click:['country_code'],tariffs_rendered:['country_code','local_count','regional_count'],coverage_modal_open:['country_code','package_id'],country_tariff_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],tariff_buy_click:['country_code','package_id','price_rub','data_gb','validity_days','tariff_type'],checkout_open:['country_code','package_id','price_rub'],telegram_app_click:['page_type'],api_failover:['outcome','endpoint_class'],promo_apply_success:['country_code','package_id','promo_code','discount_amount'],promo_apply_error:['country_code','package_id'],promo_removed:['country_code','package_id'],payment_sbp_click:['country_code','package_id','price_rub'],payment_card_click:['country_code','package_id','price_rub'],payment_redirect:['country_code','package_id','payment_method'],payment_success:['order_id','order_price','currency','country_code','package_id','promo_code','discount_amount','payment_method'],payment_failed:['order_id','country_code','package_id','payment_method'],payment_canceled:['order_id','country_code','package_id','payment_method'],payment_tech_error:['order_id','country_code','package_id','payment_method']};
     function safe(k,v){
       if(v===undefined||v===null||v==='')return undefined;
       if(typeof v==='object'||typeof v==='function')return undefined;   // reject arrays/objects/functions outright
@@ -542,6 +542,8 @@
   </div>
 </footer>
 
+<script src="/assets/ru-destinations.js?v=7100d978"></script>
+<script src="/assets/ru-search.js?v=6b77483d"></script>
   <script>
   (function(){
     // Search runs over the rendered list: no second API call — the names and
@@ -558,21 +560,36 @@
     var groups=[].slice.call(document.querySelectorAll('#hubList .az-group'));
     function norm(s){return String(s||'').toLowerCase().replace(/ё/g,'е').trim();}
     function plural(n){var a=n%10,b=n%100;return a===1&&b!==11?'направление':(a>=2&&a<=4&&(b<12||b>14)?'направления':'направлений');}
+    // The shared matcher (assets/ru-search.js): case forms, English names,
+    // cities and resorts, regions. Without it: the old name / slug / ISO match.
+    var S=window.MagicRuSearch;
+    var sent=false,idle=null;
+    function noResult(){if(sent)return;sent=true;try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('search_no_result');}catch(e){}}
     function apply(){
-      var q=norm(input.value),shown=0;
+      var raw=input.value,q=norm(raw),shown=0,keep=null,region=null;
+      if(idle){clearTimeout(idle);idle=null;}
+      if(q&&S){var r=S.search(raw,{limit:1000});region=r.region;keep={};
+        r.hits.forEach(function(h){keep[h.d.iso]=1;});
+        if(region)region.countries.forEach(function(i){keep[i]=1;});}
       groups.forEach(function(g){
         var any=0;
         [].forEach.call(g.querySelectorAll('li'),function(li){
-          var hit=!q||norm(li.dataset.name).indexOf(q)>=0||li.dataset.slug.indexOf(q)>=0||norm(li.dataset.iso)===q;
+          var hit=!q||(keep?!!keep[li.dataset.iso]:(norm(li.dataset.name).indexOf(q)>=0||li.dataset.slug.indexOf(q)>=0||norm(li.dataset.iso)===q));
           li.hidden=!hit;if(hit){any++;shown++;}
         });
         g.hidden=!any;
       });
-      clear.hidden=!q;pop.hidden=!!q;az.hidden=!!q;
+      clear.hidden=!q;az.hidden=!!q;
+      // Nothing found: the popular destinations show again, under the message.
+      pop.hidden=!!q&&shown>0;
       empty.hidden=shown>0;
-      count.textContent=q?(shown?'Найдено: '+shown+' '+plural(shown):''):'';
+      if(!q){count.textContent='';sent=false;return;}
+      if(region)count.textContent=region.label+' — популярные направления. Выберите первую страну поездки: на её странице есть и тарифы на несколько стран, если они её покрывают.';
+      else count.textContent=shown?'Найдено: '+shown+' '+plural(shown):'Ничего не нашлось — посмотрите популярные направления.';
+      if(shown){sent=false;}else if(q.length>=3){idle=setTimeout(noResult,1500);}
     }
     input.addEventListener('input',apply);
+    input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();apply();if(!empty.hidden&&norm(input.value))noResult();}});
     clear.addEventListener('click',function(){input.value='';apply();input.focus();});
     document.getElementById('hubReset').addEventListener('click',function(){input.value='';apply();input.focus();});
     box.hidden=false;
