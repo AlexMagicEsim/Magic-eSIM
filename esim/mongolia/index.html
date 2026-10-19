@@ -27,7 +27,7 @@
   <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
   <link rel="stylesheet" href="/assets/page-country.css?v=3b354c34" />
-  <link rel="stylesheet" href="/assets/ru.css?v=d406447d" />
+  <link rel="stylesheet" href="/assets/ru.css?v=72ed027d" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
        (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
@@ -116,15 +116,12 @@
       <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <a href="/esim/">Страны</a> › <span aria-current="page">Монголия</span></nav>
       <div class="cp-title">
         <img class="cp-flag" src="/assets/flags/mn.svg" alt="" width="72" height="54">
-        <h1>eSIM для Монголии: посуточные тарифы на 3–30 дней</h1>
-      </div>
-      <div class="cp-text">
-        <p class="lead">В блоке «Трафик на каждый день» для Монголии — от 1 до 10 ГБ в день, срок выбирается при покупке: от 3 до 30 дней. Цена за весь срок видна в карточке после выбора дней.</p>
-        <p class="intro">Покрытие у каждого тарифа этой страницы — одна Монголия. Перед установкой откройте у выбранного тарифа «Покрытие и условия» и посмотрите строку «Начало срока»: по ней видно, когда начнут идти оплаченные дни.</p>
-        <p class="intro">Если в Монголию вы едете через Китай — поездом Пекин — Улан-Батор через пограничный переход Эрлянь (Эрэн-Хото) — Замын-Ууд или с остановкой в Китае, — понадобится вторая eSIM: в каталоге нет пакета, который покрывал бы Китай и Монголию вместе, а у этой страницы нет блока региональных тарифов.</p>
-        <p class="facts">
+        <div>
+          <h1>eSIM для Монголии</h1>
+          <p class="facts">
           <span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">7</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">1 600 ₽</b>.</span>
-        </p>
+          </p>
+        </div>
       </div>
       <div class="cp-hero-foot">
         <ul class="cp-facts">
@@ -141,9 +138,9 @@
        локальные, региональные. assets/country-tariffs.js показывает ссылку,
        только если её блок не пуст, и пишет в неё число тарифов. -->
   <nav class="cp-jump" aria-label="Типы тарифов" hidden>
-    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
     <a href="#localBlock" hidden><span>Монголия</span> <span class="n"></span></a>
     <a href="#regionalBlock" hidden><span>Региональные</span> <span class="n"></span></a>
+    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
   </nav>
 
   <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
@@ -153,6 +150,9 @@
        эту роль не выполняет. -->
   <section class="packages" id="tariffs" data-country-page="MN">
     <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
+    <div class="cp-skeleton" aria-hidden="true">
+      <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
+    </div>
 
     <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
          оформление. renderCountrySplit() обращается к localCount, localEmpty и
@@ -181,6 +181,20 @@
         </div>
       </div>
       <div id="regionalGrid" class="grid plan-grid packages-grid"></div>
+    </section>
+
+    <!-- The EN order: «На каждый день» LAST. assets/country-tariffs.js
+         ensureDailyBlock() takes this section instead of inserting its own
+         before the local block (which is what the SEO-experiment pages get). -->
+    <section id="dailyBlock" class="block plan-block plan-block-daily tariff-block" hidden>
+      <div class="blk-head">
+        <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+        <div>
+          <h2><span id="dailyHead"></span> <span class="count" id="dailyCount"></span></h2>
+          <p class="note">Объём трафика на каждый день поездки.</p>
+        </div>
+      </div>
+      <div id="dailyGrid" class="grid plan-grid packages-grid"></div>
     </section>
 
     <div id="packagesGrid" class="packages-grid"></div>
@@ -259,6 +273,13 @@
       </form>
     </div>
   </div>
+
+  <section class="cp-sec about" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle">eSIM для Монголии: посуточные тарифы на 3–30 дней</h2>
+    <p class="lead">В блоке «Трафик на каждый день» для Монголии — от 1 до 10 ГБ в день, срок выбирается при покупке: от 3 до 30 дней. Цена за весь срок видна в карточке после выбора дней.</p>
+    <p class="intro">Покрытие у каждого тарифа этой страницы — одна Монголия. Перед установкой откройте у выбранного тарифа «Покрытие и условия» и посмотрите строку «Начало срока»: по ней видно, когда начнут идти оплаченные дни.</p>
+    <p class="intro">Если в Монголию вы едете через Китай — поездом Пекин — Улан-Батор через пограничный переход Эрлянь (Эрэн-Хото) — Замын-Ууд или с остановкой в Китае, — понадобится вторая eSIM: в каталоге нет пакета, который покрывал бы Китай и Монголию вместе, а у этой страницы нет блока региональных тарифов.</p>
+  </section>
 
   <section class="cp-sec why"><h2>Почему eSIM: Монголия</h2><div class="help-grid why-cards"><div class="help-card why-card"><span class="ico" aria-hidden="true">📅</span><h3>От 3 до 30 дней</h3><p>Посуточный тариф для Монголии берётся на 3, 5, 7, 10, 15 или 30 дней — столько, сколько длится поездка.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">⏱</span><h3>Начало срока — в карточке</h3><p>Когда начинается срок, написано в строке «Начало срока» в окне «Покрытие и условия». Проверьте её до установки профиля.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">🚆</span><h3>Из Китая — со второй eSIM</h3><p>Общего пакета на Китай и Монголию в каталоге нет. На поезд из Пекина нужна ещё китайская eSIM.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">🐢</span><h3>Два варианта 1 и 3 ГБ в день</h3><p>1 и 3 ГБ в день продаются в двух вариантах: после лимита скорость падает до 512 Кбит/с или до 1 Мбит/с.</p></div></div></section>
 
