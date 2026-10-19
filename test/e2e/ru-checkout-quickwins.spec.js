@@ -56,6 +56,10 @@ async function openLocal(page) {
   await expect(b).toBeVisible();
   await b.click();
   await expect(page.locator('#checkoutModal')).toBeVisible();
+  // With a mouse the window moves focus to the email field 40 ms after it opens.
+  // Let that land before typing anywhere: a fill racing it typed the promo code
+  // into the email field (seen 3 times in 540 runs).
+  await expect(page.locator('#coEmail')).toBeFocused();
 }
 
 test('promo: an applied code clears «не применён», locks the field, and «Удалить» unlocks it', async ({ page }) => {
