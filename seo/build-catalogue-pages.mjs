@@ -594,7 +594,7 @@ ${live ? `    <a href="#localBlock" hidden><span>${esc(c.nameRu)}</span> <span c
        загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
        экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
        эту роль не выполняет. -->
-  <section class="packages" id="tariffs" data-country-page="${c.iso}">
+  <section class="packages" id="tariffs" data-country-page="${c.iso}"${live ? ' data-cards="compact"' : ''}>
     <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
 ${live ? `    <div class="cp-skeleton" aria-hidden="true">
       <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>

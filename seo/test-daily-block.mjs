@@ -299,7 +299,7 @@ test('both surfaces render the term as a clickable radio, not a price list', () 
   // could be chosen — and that one already was — was not.
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 3400);
     assert.match(fn, /role="radiogroup"/, `${f}: the group must announce itself`);
     assert.match(fn, /<button type="button" class="package-meta-item daily-term js-daily-term/,
       `${f}: each term is a button — and wears the ordinary card's tile`);
@@ -312,7 +312,7 @@ test('both surfaces render the term as a clickable radio, not a price list', () 
 test('a cell shows the term AND its price, both from the server', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 3400);
     assert.match(fn, /<span class="package-meta-label">/, `${f}: the day is the tile's label`);
     assert.match(fn, /<span class="package-meta-value">/, `${f}: the price is its value`);
     assert.match(fn, /t\.price/, `${f}: the price is the server's`);
@@ -434,7 +434,7 @@ test('THE DAILY CARD HAS NO LOOK OF ITS OWN', () => {
     assert.match(fn, /class="plan-data package-title"/, `${f}: the title is the ordinary title`);
     assert.match(fn, /class="meta package-info"/, `${f}: the lines are the ordinary lines`);
     assert.match(fn, /planTechHtml\(/, `${f}: and the foot is the ordinary foot`);
-    const terms = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    const terms = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 3400);
     assert.match(terms, /class="package-meta-item daily-term/, `${f}: the term tiles reuse the tile classes`);
   }
 });
@@ -484,7 +484,7 @@ test('the plan card lines its buttons up without a grid of its own', () => {
 test('the term block is always rendered, even empty, so it holds its row', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2000);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2800);
     assert.match(fn, /return '<div class="daily-terms-block"><\/div>'/,
       `${f}: an empty term block must still occupy the row`);
   }
@@ -493,7 +493,7 @@ test('the term block is always rendered, even empty, so it holds its row', () =>
 test('the selector announces itself with the ordinary card\'s label', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 3400);
     assert.match(fn, /Выберите срок:/, `${f}: the chooser needs a label`);
     assert.match(fn, /<div class="package-meta-label" id="dl-\$\{gid\}">/,
       `${f}: and it is the same small label the ordinary tiles use`);
@@ -501,7 +501,10 @@ test('the selector announces itself with the ordinary card\'s label', () => {
       `${f}: a cell must read as «N дней за M рублей»`);
   }
   const s = read('assets/country-tariffs.js');
+  // Compact cards (pages outside the SEO experiment) label the days-only row
+  // «Срок, дней:»; every other page keeps the two labels below.
   assert.match(s, /single\?'Срок:':'Выберите срок:'/);
+  assert.match(s, /compact\?'Срок, дней:':\(single\?'Срок:':'Выберите срок:'\)/);
 });
 
 test('the term tiles wrap as the English «Days» row, without restated columns', () => {
@@ -524,7 +527,7 @@ test('a fixed-term plan shows its price too, and reserves the same row', () => {
   // empty, so everything below it sat higher than on the card beside it.
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2400);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 3200);
     assert.match(fn, /daily_term_mode\|\|''\)==='FIXED_TERM'/, `${f}: must handle the fixed term`);
     assert.match(fn, /days:Number\(item\.validity_days\),price:Number\(item\.price\)/,
       `${f}: from the row's own term and price`);
@@ -587,7 +590,7 @@ function renderer(file, distinctMap = {}) {
   const copy = read('assets/daily-plan-copy.js');
   const body = extractFns(file, ['dailyTermsHtml', 'dailyTagsHtml', 'dailyExtraInfoHtml',
     'dailyTermRangeLabel', 'dailyCoverageButtonHtml', 'distinctChipsHtml', 'renderDailyCard',
-    'formatRub', 'planTechHtml']);
+    'formatRub', 'planTechHtml', 'compactCards']);
   const buyName = file === 'index.html' ? 'dailyBuyButtonHtml' : null;
   const extra = buyName ? extractFns(file, ['dailyBuyButtonHtmlInner', 'dailyBuyButtonHtml']) : '';
   return new Function('window', '__distinct', `
@@ -858,7 +861,8 @@ test('coverage sits in the ordinary grey plate', () => {
   for (const f of SURFACES) {
     const s = read(f);
     const fn = s.slice(s.indexOf('function renderDailyCard'), s.indexOf('function renderDailyCard') + 2400);
-    assert.match(fn, /<div class="meta package-info"><span class="m-cov"><strong>Покрытие:<\/strong>/,
+    // (on a compact card a plan for this country alone may omit the line — stage 2, compact cards)
+    assert.match(fn, /<div class="meta package-info">(?:\$\{oneCountry\?'':`)?<span class="m-cov"><strong>Покрытие:<\/strong>/,
       `${f}: same plate, same strong`);
     assert.match(fn, /D\.coverageLine\(item,countryName\)/, `${f}: still the shared module's line`);
   }
@@ -908,7 +912,7 @@ test('the order screen names a daily plan the way the card does', () => {
 test('the term group takes one tab stop, not six', () => {
   for (const f of SURFACES) {
     const s = read(f);
-    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 2600);
+    const fn = s.slice(s.indexOf('function dailyTermsHtml'), s.indexOf('function dailyTermsHtml') + 3400);
     assert.match(fn, /tabindex="\$\{i===0\?'0':'-1'\}"/, `${f}: roving tabindex on render`);
 
     const at = s.indexOf('function selectDailyTerm');

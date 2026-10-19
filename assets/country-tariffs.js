@@ -989,6 +989,22 @@ function distinctChipsHtml(item){
 // text button under the lines — the same button, class and data-* as before,
 // so the modal and its delegate are unchanged.
 function planDays(n){return `${n} ${pluralRu(n,'день','дня','дней')}`;}
+/* Compact cards (the EN plan card's density) — only where the generator marked
+ * the plans block: the country pages OUTSIDE the SEO experiment. There:
+ *   - a plan for this country alone drops «Покрытие: <страна>» (its badge and
+ *     the block heading say it; a multi-country plan keeps the line — authored
+ *     pages cite it);
+ *   - «Активация» keeps its row (authored pages cite it) without the
+ *     «установка по QR» every card shares;
+ *   - the daily term picker shows the days only, in one row (the price of the
+ *     chosen term is the card's price; each cell still carries it in aria-label
+ *     and data-price).
+ * The ten SEO-experiment pages render the cards exactly as before. */
+function compactCards(){
+  if(typeof document==='undefined')return false;   // no page: the ordinary card
+  const t=document.getElementById('tariffs');
+  return !!(t&&t.getAttribute('data-cards')==='compact');
+}
 function regionName(item){
   // The region a multi-country plan is sold as («Европа», «Греция, Кипр и
   // Турция»), from the same mapper that named the card before; only a Russian
@@ -1013,6 +1029,7 @@ function renderPackageCard(item,best){
   const kind=multi?'regional':'local';
   const days=Number(item.validity_days||0);
   const region=multi?regionName(item):'';
+  const compact=compactCards();
   return `
     <article class="card plan plan-${kind} package-card">
       <div class="plan-top">
@@ -1023,7 +1040,7 @@ function renderPackageCard(item,best){
         <span class="price package-price">${formatRetailPrice(item)}</span>
       </div>
       ${distinctChipsHtml(item)}
-      <div class="meta package-info">${region?`<span class="m-cov">${escapeHtml(region)}</span>`:''}<span class="${region?'m-also':'m-cov'}"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}</span><span class="m-extra"><strong>Активация:</strong> установка по QR, срок ${escapeHtml(tariffActivationLabel(item))}.</span></div>
+      <div class="meta package-info">${region?`<span class="m-cov">${escapeHtml(region)}</span>`:''}${compact&&!multi?'':`<span class="${region?'m-also':'m-cov'}"><strong>Покрытие:</strong> ${escapeHtml(compactCoverageLabel(item))}</span>`}<span class="m-extra"><strong>Активация:</strong> ${compact?'':'установка по QR, '}срок ${escapeHtml(tariffActivationLabel(item))}.</span></div>
       ${coverageButtonHtml(item,data,speed,topup)}
       <div class="plan-foot package-actions">
         ${planTechHtml(speed,topup)}
@@ -1145,12 +1162,16 @@ function dailyTermsHtml(item){
   // та же форма. Классы daily-* остаются как JS-хуки и точки стилизации выбора.
   // span, а не div: <button> принимает только phrasing content. Плитка —
   // flex-колонка, поэтому спаны ведут себя как блоки и margin у подписи работает.
+  const compact=compactCards();
   const cells=list.map((t,i)=>`<button type="button" class="package-meta-item daily-term js-daily-term${i===0?' is-selected':''}"`
     +` role="radio" aria-checked="${i===0?'true':'false'}" tabindex="${i===0?'0':'-1'}"`
     +` aria-label="${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))} за ${escapeHtml(String(t.price))} рублей"`
     +` data-days="${escapeHtml(String(t.days))}" data-price="${escapeHtml(String(t.price))}">`
-    +`<span class="package-meta-label">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
-    +`<span class="package-meta-value">${escapeHtml(String(t.price))} ₽</span></button>`).join('');
+    +(compact
+      // The days only, as on the EN card; the chosen term's price is the card's price.
+      ? `<span class="package-meta-label">${escapeHtml(String(t.days))}</span></button>`
+      : `<span class="package-meta-label">${escapeHtml(String(t.days))} ${escapeHtml(D.pluralDays(t.days))}</span>`
+        +`<span class="package-meta-value">${escapeHtml(String(t.price))} ₽</span></button>`)).join('');
 
   // Имя группы = НАЗВАНИЕ ТАРИФА + подпись. На странице страны таких групп
   // два десятка, и «группа, радиокнопка, 3 дня за 200 рублей, 1 из 6» без
@@ -1158,7 +1179,7 @@ function dailyTermsHtml(item){
   // фразу: «Турция — 500 МБ в день Выберите срок».
   const gid=escapeHtml(String(item.package_id||''));
   return `<div class="daily-terms-block">`
-    +`<div class="package-meta-label" id="dl-${gid}">${single?'Срок:':'Выберите срок:'}</div>`
+    +`<div class="package-meta-label" id="dl-${gid}">${compact?'Срок, дней:':(single?'Срок:':'Выберите срок:')}</div>`
     +`<div class="package-meta" role="radiogroup" aria-labelledby="dt-${gid} dl-${gid}">${cells}</div></div>`;
 }
 
@@ -1321,6 +1342,7 @@ function renderDailyCard(item){
     : '<span class="btn package-buy" aria-disabled="true">Временно недоступен</span>';
   const name=D.displayName(item,countryName);
   const first=priced[0]||null;
+  const oneCountry=compactCards()&&!isMultiCountryPackage(item);
   return `
     <article class="card plan plan-daily package-card daily-card">
       <div class="plan-top">
@@ -1331,7 +1353,7 @@ function renderDailyCard(item){
         <span class="price package-price js-daily-price">${first?escapeHtml(formatRub(first.price)):''}</span>
       </div>
       ${distinctChipsHtml(item)}
-      <div class="meta package-info"><span class="m-cov"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}</span>${lines.slice(1).map((l)=>`<span class="m-extra">${escapeHtml(l.text)}</span>`).join('')}${dailyExtraInfoHtml(item)}</div>
+      <div class="meta package-info">${oneCountry?'':`<span class="m-cov"><strong>Покрытие:</strong> ${escapeHtml(D.coverageLine(item,countryName))}</span>`}${lines.slice(1).map((l)=>`<span class="m-extra">${escapeHtml(l.text)}</span>`).join('')}${dailyExtraInfoHtml(item)}</div>
       ${dailyCoverageButtonHtml(item,name,speed)}
       ${terms}
       <div class="plan-foot package-actions">
