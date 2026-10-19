@@ -120,10 +120,12 @@ export function cases() {
       inspect: ({ pageOf, info }) => ({ html: pageOf('australia'), price: info.price }),
     },
     {
-      // A page stage B has not converted yet (montenegro was, in batch 5).
-      name: 'a package QUOTED with a hand-typed amount moves (serbia · month-volume-vs-daily · v, still below d)',
+      // Since stage B's last batch the only hand-typed amounts left are on the frozen
+      // SEO-pilot / control pages; the scenario moves a price in a temporary copy of
+      // the catalogue and edits no page, so a frozen page's claim is a valid fixture.
+      name: 'a package QUOTED with a hand-typed amount moves (kyrgyzstan · faq-week-daily-vs-10gb · v, still above d)',
       mutate: (doc) => {
-        const v = byId(doc, claimTerm('serbia', 'price', 'month-volume-vs-daily', 'v'));
+        const v = byId(doc, claimTerm('kyrgyzstan', 'price', 'faq-week-daily-vs-10gb', 'v'));
         v.price = Number(v.price) + 50;
       },
     },
