@@ -82,6 +82,18 @@
 .daily-term.is-selected:hover{background:var(--accent-btn);border-color:var(--accent-btn)}
 .daily-term.is-selected .package-meta-label,
 .daily-term.is-selected .package-meta-value{color:#fff;}
+/* Compact cards (the EN plan card's density) — the plans block of a country page
+   outside the SEO experiment only (data-cards="compact", set by the generator). */
+/* Lower cards need a lower loading reserve: 80vh made a one-plan page (timor-leste)
+   jump UP when its single compact card arrived (CLS 0.028). */
+#tariffs[data-cards="compact"]:has(> .packages-status:not(:empty)){min-height:60vh}
+#tariffs[data-cards="compact"] .plan{gap:8px;padding:14px 16px 12px}
+#tariffs[data-cards="compact"] .plan-info{min-height:28px;margin:-4px 0 0;font-size:13.5px}
+#tariffs[data-cards="compact"] .daily-terms-block>.package-meta-label{margin:0 0 4px}
+#tariffs[data-cards="compact"] .daily-terms-block .package-meta{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}
+#tariffs[data-cards="compact"] .daily-term{min-width:40px;min-height:40px;padding:0 8px;flex:none}
+#tariffs[data-cards="compact"] .daily-term .package-meta-label{font-size:15px;font-weight:750;color:var(--text)}
+#tariffs[data-cards="compact"] .daily-term.is-selected .package-meta-label{color:#fff}
 @media (forced-colors:active){.daily-term{border:1px solid ButtonBorder}.daily-term.is-selected{outline:3px solid Highlight;outline-offset:-3px}}
 /* === END DAILY CARD BLOCK === */
 

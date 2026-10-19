@@ -29,7 +29,7 @@
   <script>window.__magicCatalogEarly=(function(){try{var N=window.MagicNet,b=N&&N.ENDPOINTS&&N.ENDPOINTS[0]&&N.ENDPOINTS[0].base;if(!b||typeof fetch!=='function'||typeof AbortController==='undefined')return null;var ac=new AbortController(),t=Date.now(),r=fetch(b+'/api/v1/retail/packages?t='+t,{signal:ac.signal,headers:{Accept:'application/json'},credentials:'omit'});r.catch(function(){});return{ac:ac,startedAt:t,response:r,used:false};}catch(e){return null;}})();</script>
   <link rel="stylesheet" href="/assets/site.css?v=33e10cb5" />
   <link rel="stylesheet" href="/assets/page-country.css?v=3b354c34" />
-  <link rel="stylesheet" href="/assets/ru.css?v=7eaecc63" />
+  <link rel="stylesheet" href="/assets/ru.css?v=1e60e072" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
        (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
@@ -150,7 +150,7 @@
        загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
        экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
        эту роль не выполняет. -->
-  <section class="packages" id="tariffs" data-country-page="BH">
+  <section class="packages" id="tariffs" data-country-page="BH" data-cards="compact">
     <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
     <div class="cp-skeleton" aria-hidden="true">
       <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
@@ -397,7 +397,7 @@
        shows; hides the floor when that catalogue is stale (stage C). Before
        country-tariffs.js, so it listens before the first render. -->
   <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
-  <script src="../../assets/country-tariffs.js?v=aa5c5f08" defer></script>
+  <script src="../../assets/country-tariffs.js?v=a582645c" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=f2f611e7" defer></script>
