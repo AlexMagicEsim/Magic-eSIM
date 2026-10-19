@@ -17,6 +17,11 @@
  * exist because of a touch-handling bug that only WKWebView had — and they are
  * left alone.)
  *
+ * ONE EXCEPTION: `webkit-flags`. The country flags are drawn by the engine, and
+ * the minified copies broke differently in WebKit (Curaçao: fragments) than in
+ * Chromium (nothing at all), so the flag tests — and only they — also run in
+ * WebKit, the engine of Safari on macOS and iOS and of Telegram on iOS.
+ *
  * NO RETRIES, deliberately. A retry turns a flaky test into a slow green one,
  * and this suite is small enough that a flake is worth seeing the first time.
  *
@@ -57,6 +62,12 @@ module.exports = defineConfig({
       // here, and it is where a grid item without min-width:0 shows up.
       name: 'chromium-320',
       use: { ...devices['Desktop Chrome'], viewport: { width: 320, height: 568 } },
+    },
+    {
+      // The flag tests in WebKit (see above). Nothing else runs here.
+      name: 'webkit-flags',
+      testMatch: /(?:^|[\\/])(?:flags|miniapp-flags)\.spec\.js$/,
+      use: { ...devices['Desktop Safari'], viewport: { width: 390, height: 844 } },
     },
   ],
 
