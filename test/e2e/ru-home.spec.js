@@ -42,6 +42,8 @@ async function open(page, url = '/') {
 }
 const noOverflow = (page) => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
 async function axeViolations(page) {
+  // measure the page at rest: an entrance (Expressive motion) may still be fading in, and axe reads a half-transparent text as low contrast
+  await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'), null, { timeout: 5000 });
   await page.addScriptTag({ content: AXE });
   return page.evaluate(async () => (await axe.run(document, { runOnly: ['wcag2a', 'wcag2aa'] }))
     .violations.map((v) => `${v.id}: ${v.nodes.length}`));

@@ -1817,7 +1817,7 @@ body.sheet-open { overflow: hidden; }
  * fade). The hero logo plays «Reveal + Wave» once (1.44 s) — app/motion.js drops .lm-play after it.
  * ----------------------------------------------------------------------- */
 :root[data-motion]{--m-fast:250ms;--m-base:320ms;--m-slow:450ms;--m-ease:cubic-bezier(.2,.8,.2,1);--m-out:cubic-bezier(.16,1,.3,1);
-  --m-in-o:0;--m-press:.965;--m-in-y:14px;--m-in-s:.985;--m-step:40ms;--m-icon:4px}
+  --m-in-o:0;--m-press:.965;--m-in-y:14px;--m-in-s:1;--m-step:40ms;--m-icon:4px}
 @keyframes m-in{from{opacity:var(--m-in-o,0);transform:translate3d(0,var(--m-in-y),0) scale(var(--m-in-s))}}
 .brand-logo{overflow:visible}
 .brand-logo .lm-waves{opacity:0}

@@ -332,15 +332,16 @@
  * OPACITY moves); no infinite loops, no rotation, no layout properties; entrances fill BACKWARDS so they hold nothing after
  * they end; nothing above the fold is hidden before first paint (LCP); plans render at once and only their entrance moves
  * (the request is never held). Everything sits in prefers-reduced-motion: no-preference; site.css also stops every animation
- * under reduce. 250–450 ms. assets/motion.js adds reveal-on-scroll below the fold, the hero parallax and the jump bar's spy. */
+ * under reduce. 250–450 ms. Entrances and the picked term MOVE but never shrink: a 40 px target stays 40 px while it
+ * animates (the compact-cards spec measures it). assets/motion.js adds reveal-on-scroll below the fold, the hero parallax and the jump bar's spy. */
 :root[data-motion]{--m-fast:250ms;--m-base:320ms;--m-slow:450ms;--m-ease:cubic-bezier(.2,.8,.2,1);--m-out:cubic-bezier(.16,1,.3,1);
-  --m-in-o:0;--m-lift:-5px;--m-btn-lift:-2px;--m-press:.965;--m-ring:.55;--m-glow:.14;--m-in-y:14px;--m-in-s:.985;--m-step:40ms;--m-icon:4px;--m-par:9px;--m-hero-y:22px}
+  --m-in-o:0;--m-lift:-5px;--m-btn-lift:-2px;--m-press:.965;--m-ring:.55;--m-glow:.14;--m-in-y:14px;--m-in-s:1;--m-step:40ms;--m-icon:4px;--m-par:9px;--m-hero-y:22px}
 @keyframes m-in{from{opacity:var(--m-in-o,0);transform:translate3d(0,var(--m-in-y),0) scale(var(--m-in-s))}}
 @keyframes m-fade{from{opacity:0}}
 @keyframes m-drop{from{opacity:0;transform:translate3d(0,-6px,0)}}
 @keyframes m-rise{from{translate:0 var(--m-hero-y)}}
 @keyframes m-glow-in{from{opacity:0;scale:.92}}
-@keyframes m-settle{from{transform:scale(.94)}}
+@keyframes m-settle{from{opacity:.55}}
 @media (prefers-reduced-motion:no-preference){
 
 /* ---------- plan cards (country page) ---------- */
