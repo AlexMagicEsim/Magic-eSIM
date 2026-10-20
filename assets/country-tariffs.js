@@ -1401,6 +1401,15 @@ function jumpTo(blockId,n){
   if(bar)bar.hidden=!bar.querySelector('a:not([hidden])');
 }
 
+/* The plans area's loading state: ONE attribute on #tariffs, read by assets/ru.css
+   («true» hides the plan blocks and keeps the reserve and the skeleton; «false»
+   shows them). Safari 26.4 does not restyle a :has(:not(:empty)) rule when the
+   status text is cleared, so the visibility must not hang on the text. */
+function setPlansLoading(on){
+  const t=byIdG('tariffs');
+  if(t)t.setAttribute('data-loading',on?'true':'false');
+}
+
 function renderCountrySplit(){
   const status=byIdG('packagesStatus');
   const localBlock=byIdG('localBlock'),regionalBlock=byIdG('regionalBlock');
@@ -1420,6 +1429,7 @@ function renderCountrySplit(){
   const local=applySort(list.filter((i)=>!isMultiCountryPackage(i)));
   const regional=applySort(list.filter((i)=>isMultiCountryPackage(i)));
   if(status)status.textContent='';
+  setPlansLoading(false);
   byIdG('localHead').textContent=`Тарифы для ${cName}`;
   byIdG('regionalHead').textContent=`Региональные тарифы с покрытием ${cName}`;
   const bestId=local.length?bestLocalPackageId(local):null;
@@ -1628,6 +1638,7 @@ function renderCountrySplit(){
     const code=pageCountryCode();
     if(!code)return;
     if(status)status.textContent='Загружаем тарифы...';
+    setPlansLoading(true);
     try{
       const result=await window.MagicCatalog.load();
       allLandingPackages=Array.isArray(result.packages)?result.packages:[];
@@ -1674,6 +1685,7 @@ function renderCountrySplit(){
       catalogTrusted=false;
       announceCatalog({trusted:false,source:null});
       if(status)status.textContent='';
+      setPlansLoading(false);
       renderNotice('Не удалось загрузить тарифы. Это может быть связано с временными ограничениями сети. Попробуйте другую сеть, включите VPN или повторите попытку позже.','Повторить');
       try{if(window.magicMetrikaGoal)window.magicMetrikaGoal('catalog_load_failed',{page_type:'country',country_code:code,error_type:String((err&&err.liveError)||'unknown').slice(0,32)});}catch(_){}
     }
