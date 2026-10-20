@@ -36,6 +36,8 @@ async function open(page, url, width) {
   });
   await page.goto(url);
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
+  // the layout claims below are about the cards at rest: let the Expressive entrance (a rise, no resize) finish
+  await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'), null, { timeout: 5000 });
 }
 const h = (loc) => loc.evaluate((e) => Math.round(e.getBoundingClientRect().height));
 // Measured before this change (2026-10-19, /esim/turkey/): local / daily card height.
