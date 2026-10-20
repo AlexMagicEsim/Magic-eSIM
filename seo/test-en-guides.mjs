@@ -57,7 +57,9 @@ test('every guide is noindex, self-canonical, with no hreflang, no structured da
     assert.ok(h.includes(`<link rel="canonical" href="${url}">`), `${rel}: canonical is itself`);
     assert.equal(/<link[^>]*hreflang/.test(h), false, `${rel}: no hreflang alternate until PR 8`);
     assert.equal(/application\/ld\+json/.test(h), false, `${rel}: no structured data until PR 8`);
-    assert.equal(/<script/i.test(h), false, `${rel}: a guide runs no script — no network, no analytics`);
+    // A guide runs no script — no network, no analytics. The one exception (owner, 2026-10-20) is the header logo's
+    // start, assets/logo-once.js: one sessionStorage flag, no network (seo/test-logo-svg.mjs pins what it may do).
+    assert.equal(/<script/i.test(h.replace(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/, '')), false, `${rel}: a guide runs no script but the logo's start — no network, no analytics`);
     assert.equal(sitemap.includes(url), false, `${rel}: not in the sitemap`);
   }
   assert.equal(/\/en\/guides\//.test(sitemap), false);

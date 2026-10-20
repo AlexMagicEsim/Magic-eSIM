@@ -159,4 +159,25 @@ code{background:var(--accent-soft);border:1px solid var(--border);border-radius:
 @media (prefers-reduced-motion:reduce){.skip{transition:none}}
 main[tabindex="-1"]:focus{outline:none}
 
+/* THE HEADER LOGO — «Reveal + Wave» (owner, 2026-10-20), 1.44 s, ONCE per session, the same on the Russian and the
+ * English pages (moved here from ru.css when EN got it). Started by .lm-play on the SVG (RU: the header's inline script)
+ * or .lm-once on <html> (EN: assets/logo-once.js in <head> — the EN CSP refuses inline script). One sessionStorage key,
+ * so a visit plays it once across both languages. The symbol settles in (520 ms), the lettering opens left to right
+ * (300 → 940 ms), three soft rings leave the symbol (300 → 1440 ms) and fade out above the lettering. Static (no class,
+ * reduced motion, the frozen ten's <img>) it is the plain logo. */
+.brand .brand-logo{display:block;width:59px;height:44px;overflow:visible}
+@media (max-width:899px){.brand .brand-logo{width:53.6px;height:40px}}
+.brand-logo .lm-waves{opacity:0}
+.brand-logo :is(.lm-symbol,.lm-word,.lm-ring){transform-box:fill-box;transform-origin:center}
+@media (prefers-reduced-motion:no-preference){
+:is(.brand-logo.lm-play,.lm-once .site-header .brand-logo) .lm-waves{opacity:1}
+:is(.brand-logo.lm-play,.lm-once .site-header .brand-logo) .lm-ring{opacity:0;animation:lm-wave 900ms cubic-bezier(.2,.7,.3,1) 300ms forwards}
+:is(.brand-logo.lm-play,.lm-once .site-header .brand-logo) .lm-ring2{animation-delay:420ms}:is(.brand-logo.lm-play,.lm-once .site-header .brand-logo) .lm-ring3{animation-delay:540ms}
+:is(.brand-logo.lm-play,.lm-once .site-header .brand-logo) .lm-symbol{animation:lm-sym 520ms cubic-bezier(.16,1,.3,1) both}
+:is(.brand-logo.lm-play,.lm-once .site-header .brand-logo) .lm-word{animation:lm-word 640ms cubic-bezier(.2,.7,.2,1) 300ms both}
+@keyframes lm-wave{0%{opacity:0;transform:scale(.62)}18%{opacity:.55}100%{opacity:0;transform:scale(1.42)}}
+@keyframes lm-sym{from{opacity:0;transform:scale(.88) translateY(10px)}}
+@keyframes lm-word{from{opacity:0;clip-path:inset(0 100% 0 0)}30%{opacity:1}to{opacity:1;clip-path:inset(0 0 0 0)}}
+}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}

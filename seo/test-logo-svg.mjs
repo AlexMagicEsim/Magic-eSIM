@@ -8,7 +8,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build, parsePath, MASTER, OUT } from './build-logo-svg.mjs';
-import { LOGO, LOGO_ANIMATED, LOGO_ANIMATED_SVG, MINI_APP_LOGO, HEADER_MOTION_SCRIPT } from './site-chrome.mjs';
+import { LOGO, LOGO_ANIMATED, LOGO_ANIMATED_SVG, MINI_APP_LOGO, HEADER_MOTION_SCRIPT, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT } from './site-chrome.mjs';
 import { ruHeader } from './ru-chrome.mjs';
 import { FROZEN_PAGES } from './frozen-pages.mjs';
 import { contentHash, stripAnimatedLogo } from './build-sitemap.mjs';
@@ -86,9 +86,10 @@ test('the Mini App hero carries the same logo, plays it once, and turns motion o
 });
 
 test('motion CSS: inside prefers-reduced-motion, transform/opacity only, no infinite loop', () => {
-  for (const f of ['assets/ru.css', 'app/mini.css']) {
+  for (const f of ['assets/ru.css', 'app/mini.css', 'assets/site.css']) {
     const css = read(f);
-    const from = css.indexOf('Motion — «Expressive»') > 0 ? css.indexOf('Motion — «Expressive»') : css.indexOf('MOTION — «Expressive»');
+    const marker = ['Motion — «Expressive»', 'MOTION — «Expressive»', 'THE HEADER LOGO — «Reveal + Wave»'].find((m) => css.includes(m));
+    const from = marker ? css.indexOf(marker) : -1;
     assert.ok(from > 0, f);
     const block = css.slice(from);
     assert.doesNotMatch(block, /animation(?:-iteration-count)?:[^;}]*infinite/, `${f}: no loop`);
@@ -96,15 +97,19 @@ test('motion CSS: inside prefers-reduced-motion, transform/opacity only, no infi
       assert.doesNotMatch(kf, /\b(width|height|top|left|margin|padding)\s*:/, `${f}: ${kf.slice(0, 30)} animates layout`);
     }
     // every rule that animates sits inside @media (prefers-reduced-motion:no-preference) — walk the braces
-    const stack = []; let prelude = '';
-    for (const ch of block) {
-      if (ch === '{') { stack.push(prelude.trim()); prelude = ''; continue; }
-      if (ch === '}') { stack.pop(); prelude = ''; continue; }
-      prelude += ch;
-      if (/(^|[;\s])animation:\s*[a-z]/.test(prelude) && !stack.some((x) => x.startsWith('@keyframes'))) {
+    // A declaration is judged when it ENDS (`;` or `}`): judged char by char, `animation:n` looked like an animation
+    // before it could read as `animation:none` — the reduce rule that stops motion.
+    const stack = []; let decl = '';
+    const judge = () => {
+      if (/(^|\s)animation:\s*(?!none\b)[a-z]/.test(decl) && !stack.some((x) => x.startsWith('@keyframes'))) {
         assert.ok(stack.includes('@media (prefers-reduced-motion:no-preference)'), `${f}: ${stack.at(-1)} animates outside no-preference`);
-        prelude = '';
       }
+    };
+    for (const ch of block) {
+      if (ch === '{') { stack.push(decl.trim()); decl = ''; continue; }
+      if (ch === '}') { judge(); stack.pop(); decl = ''; continue; }
+      if (ch === ';') { judge(); decl = ''; continue; }
+      decl += ch;
     }
   }
 });
@@ -124,5 +129,51 @@ test('every RU page with the shared header has the animated logo or is frozen', 
     const slug = p.split('/')[1];
     if (FROZEN_PAGES.has(slug)) continue;
     assert.ok(h.includes(LOGO_ANIMATED), `${p}: header logo`);
+  }
+});
+
+// ---- the English pages (2026-10-20): the same logo and the same once-per-session start, without inline script ----
+const EN_PAGES = () => {
+  const out = ['en/index.html', 'en/esim/index.html', 'en/guides/index.html'];
+  for (const d of readdirSync(join(ROOT, 'en/esim'))) if (existsSync(join(ROOT, 'en/esim', d, 'index.html'))) out.push(`en/esim/${d}/index.html`);
+  for (const d of readdirSync(join(ROOT, 'en/guides'))) if (existsSync(join(ROOT, 'en/guides', d, 'index.html'))) out.push(`en/guides/${d}/index.html`);
+  return out;
+};
+
+test('every English page: the same SVG logo in the header, started from <head> by logo-once.js; footer static; no inline script', () => {
+  const pages = EN_PAGES();
+  assert.ok(pages.length >= 200, `${pages.length} English pages`);
+  assert.equal(LOGO_ANIMATED_EN, LOGO_ANIMATED_SVG(), 'the Russian header\'s SVG, byte for byte');
+  for (const p of pages) {
+    const h = read(p);
+    if (!h.includes('class="site-header"')) continue;
+    assert.ok(h.includes(`<a class="brand" href="/en/">${LOGO_ANIMATED_EN}</a>`), `${p}: header logo`);
+    assert.equal(h.split(LOGO_ONCE_SCRIPT).length - 1, 1, `${p}: one logo-once.js`);
+    assert.ok(h.indexOf(LOGO_ONCE_SCRIPT) < h.indexOf('<link rel="stylesheet"'), `${p}: logo-once.js before the stylesheets (before first paint)`);
+    assert.equal(h.split('brand-logo').length - 1, 1, `${p}: one animated logo (the footer keeps the image)`);
+    assert.doesNotMatch(h, /<script>(?!\s*<\/script>)/, `${p}: no inline script — the CSP refuses it`);
+    assert.doesNotMatch(h, /data-motion|\/assets\/motion\.js/, `${p}: the interface motion stays Russian-only`);
+  }
+});
+
+test('assets/logo-once.js only reads and sets its one sessionStorage flag and marks <html> — no network, no other storage', () => {
+  const js = read('assets/logo-once.js');
+  const code = js.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  assert.match(code, /sessionStorage/);
+  assert.match(code, /getItem\('me-logo'\)/);
+  assert.match(code, /setItem\('me-logo', '1'\)/);
+  assert.match(code, /document\.documentElement\.classList\.add\('lm-once'\)/);
+  assert.match(HEADER_MOTION_SCRIPT, /getItem\('me-logo'\)/, 'the Russian script uses the same key: once per visit across both languages');
+  for (const re of [/\bfetch\b/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /localStorage/, /indexedDB/, /document\.cookie/, /location\./, /innerHTML/, /createElement/, /\bimport\b/, /\beval\b/]) {
+    assert.doesNotMatch(code, re, String(re));
+  }
+});
+
+test('the English CSP is unchanged: script-src \'self\' only', () => {
+  for (const p of ['en/index.html', 'en/esim/thailand/index.html', 'en/esim/index.html', 'en/guides/iphone/index.html']) {
+    const csp = (read(p).match(/Content-Security-Policy" content="([^"]+)"/) || [])[1];
+    assert.ok(csp, `${p}: CSP`);
+    assert.match(csp, /(?:^|; )script-src 'self'(?:;|$)/, p);
+    assert.doesNotMatch(csp, /unsafe-inline|sha256-|nonce-/, p);
   }
 });

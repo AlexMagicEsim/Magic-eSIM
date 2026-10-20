@@ -153,8 +153,12 @@ export function stripLiveCatalogueMarkup(html) {
 // logo, its motion script and assets/motion.js say how the header MOVES, not what the page says; they are put back to
 // EXACTLY the static <img> logo the stored hashes were taken over, so no date moved (no state migration);
 // seo/test-sitemap-lastmod.mjs pins the round trip.
+// The English pages (2026-10-20) carry the same SVG with no inline script after it (their CSP) and start it from
+// <script src="/assets/logo-once.js"> in <head>; both forms go back to the static logo, and that <head> line goes.
 export function stripAnimatedLogo(html) {
-  return String(html).replace(/<svg class="brand-logo"[\s\S]*?<\/svg><script>\(function\(\)\{var d=document[\s\S]*?<\/script>/g, STATIC_LOGO);
+  return String(html)
+    .replace(/<svg class="brand-logo"[\s\S]*?<\/svg>(?:<script>\(function\(\)\{var d=document[\s\S]*?<\/script>)?/g, STATIC_LOGO)
+    .replace(/[ \t]*<script src="\/assets\/logo-once\.js(?:\?v=[0-9a-f]+)?"><\/script>\n?/g, '');
 }
 
 export function contentHash(html) {

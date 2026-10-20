@@ -171,8 +171,8 @@ test('UAE 3 GB: plan → server price $9.99 → email → review → payment not
 
   expect(quoteBodies.length).toBe(1);
   assertClean(calls, 'traveller@example.com');
-  // Nothing was stored in the browser either.
-  expect(await page.evaluate(() => [localStorage.length, sessionStorage.length, document.cookie])).toEqual([0, 0, '']);
+  // Nothing was stored in the browser either — the one key there is the header logo's once-per-session flag.
+  expect(await page.evaluate(() => [localStorage.length, Object.keys(sessionStorage).filter((k) => k !== 'me-logo'), document.cookie])).toEqual([0, [], '']);
 });
 
 /* ================================================================== *
