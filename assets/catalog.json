@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-18T15:56:24.109Z",
+  "generated_at": "2026-10-19T16:30:12.731Z",
   "source": "production-public-api",
   "package_count": 2284,
   "packages": [
@@ -44215,7 +44215,7 @@
           "type": "4G"
         },
         {
-          "operator": "Tigo",
+          "operator": "VIVA",
           "type": "4G"
         },
         {
@@ -136375,7 +136375,7 @@
           "type": "4G"
         },
         {
-          "operator": "Tigo",
+          "operator": "VIVA",
           "type": "4G"
         },
         {
