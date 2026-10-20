@@ -26,6 +26,10 @@
  */
 const http=require('http'),fs=require('fs'),path=require('path');
 const pw=require('playwright');
+// Screenshots are for a person to look at, never asserted on. They go to MINIAPP_SHOTS or the system temp dir —
+// never a machine-specific path (one once named a past session's scratch dir and broke every run off that Mac).
+const SHOTS=process.env.MINIAPP_SHOTS||require('path').join(require('os').tmpdir(),'magic-miniapp-shots');
+require('fs').mkdirSync(require('path').join(SHOTS,'home'),{recursive:true});require('fs').mkdirSync(require('path').join(SHOTS,'ui'),{recursive:true});
 const APP=path.join(__dirname,'..','..','app');
 const T={'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.json':'application/json'};
 let bad=0; const ok=(l,c,d='')=>{if(!c)bad++;console.log(`   ${c?'ok  ':'FAIL'} ${l}${d?'  — '+d:''}`);};
@@ -216,7 +220,7 @@ for (const eng of ['webkit','chromium']) {
         .filter(n=>n.clientWidth>0&&n.scrollWidth>n.clientWidth+1)
         .map(n=>`${n.className||n.tagName} ${n.scrollWidth}>${n.clientWidth}`));
       ok('and nothing overflows its own box either', inner.length===0, inner.join(' / '));
-      await p.screenshot({path:`/private/tmp/claude-501/-Users-xxx-Desktop-eSim/292faf93-883b-4959-b678-8b7cdaf41e6e/scratchpad/home/settings-${eng}-${scheme}.png`,fullPage:true});
+      await p.screenshot({path:`${SHOTS}/home/settings-${eng}-${scheme}.png`,fullPage:true});
       await ctx.close();
     }
 

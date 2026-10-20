@@ -16,6 +16,10 @@
  */
 const http=require('http'),fs=require('fs'),path=require('path');
 const pw=require('playwright');
+// Screenshots are for a person to look at, never asserted on. They go to MINIAPP_SHOTS or the system temp dir —
+// never a machine-specific path (one once named a past session's scratch dir and broke every run off that Mac).
+const SHOTS=process.env.MINIAPP_SHOTS||require('path').join(require('os').tmpdir(),'magic-miniapp-shots');
+require('fs').mkdirSync(require('path').join(SHOTS,'home'),{recursive:true});require('fs').mkdirSync(require('path').join(SHOTS,'ui'),{recursive:true});
 // The opener's words come from the dictionary the app itself reads: the label was «Есть промокод?» until 1080c09f
 // (2026-09-03) made it a control, «Ввести промокод», and a hard-coded copy left this check red for seven weeks.
 const PROMO_OPENER=require(path.join(__dirname,'..','..','app','locales.js')).ru['promo.have'];
@@ -276,7 +280,7 @@ for (const eng of ['webkit','chromium']) {
       await apply(p,'FRIENDS10');
       const of=await p.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1);
       ok('nor with a discount applied', !of);
-      await p.screenshot({path:`/private/tmp/claude-501/-Users-xxx-Desktop-eSim/292faf93-883b-4959-b678-8b7cdaf41e6e/scratchpad/home/promo-${eng}-${scheme}.png`,fullPage:true});
+      await p.screenshot({path:`${SHOTS}/home/promo-${eng}-${scheme}.png`,fullPage:true});
       await ctx.close();
     }
 

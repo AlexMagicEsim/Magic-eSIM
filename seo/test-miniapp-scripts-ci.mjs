@@ -27,3 +27,19 @@ test('the runner takes its list from the directory, not from a hand-written list
   assert.deepEqual(scripts(), onDisk);
   assert.ok(onDisk.length >= 11, `${onDisk.length} scripts`);
 });
+
+// Five scripts once saved screenshots under a past session's scratch dir on the author's Mac
+// (/private/tmp/claude-501/…/scratchpad): green there, ENOENT on every CI runner. A script may write only under
+// MINIAPP_SHOTS / UI_SHOTS, the system temp dir or its own directory.
+const MACHINE_PATH = /['"`](?:\/private\/|\/tmp\/|\/Users\/|\/home\/|[A-Z]:\\\\)/;
+test('negative control: a machine-specific path is caught', () => {
+  assert.ok(MACHINE_PATH.test("await p.screenshot({path:'/private/tmp/claude-501/x/scratchpad/gear-home.png'});"));
+  assert.ok(MACHINE_PATH.test('const OUT = `/Users/someone/shots`;'));
+  assert.ok(!MACHINE_PATH.test("await p.screenshot({path:SHOTS+'/gear-home.png'});"));
+});
+test('no Mini App script names a path on one machine', () => {
+  for (const f of readdirSync(join(ROOT, 'test/mini-app')).filter((x) => x.endsWith('.js') || x.endsWith('.mjs'))) {
+    const line = read(`test/mini-app/${f}`).split('\n').find((l) => MACHINE_PATH.test(l));
+    assert.equal(line, undefined, `${f}: ${line && line.trim().slice(0, 120)}`);
+  }
+});
