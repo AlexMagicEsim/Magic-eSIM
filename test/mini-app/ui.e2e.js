@@ -154,11 +154,16 @@ async function runOne(engineName, scheme) {
 
   // ---- branding ------------------------------------------------------------
   const brand = await page.$eval('#screen-home .brand', (n) => ({
-    natural: n.naturalWidth, height: n.getBoundingClientRect().height, src: n.currentSrc,
+    tag: n.tagName.toLowerCase(), height: n.getBoundingClientRect().height,
+    uses: [...n.querySelectorAll('use')].map((u) => u.getAttribute('href') || ''),
   }));
+  // Since storefront #106 (2026-10-20) the home logo is the brand book's logo A as vector: the SVG draws the two
+  // parts of /assets/brand/logo.svg — the master's geometry, rounded to 0.1 and pinned to it by seo/test-logo-svg.mjs.
+  // That file is what «not a redraw» means now; the PNG it replaced is still the loading screen's.
   ok('the real header asset is used, not a redraw',
-    /assets\/magic-esim-logo-header\.png$/.test(brand.src) && brand.natural === 185,
-    `${brand.natural}px intrinsic`);
+    brand.tag === 'svg' && brand.uses.length === 2
+      && brand.uses.every((h) => /^\/assets\/brand\/logo\.svg\?v=[0-9a-f]{8}#me-(symbol|word)$/.test(h)),
+    `${brand.tag} ${brand.uses.join(' ')}`);
   // The ceiling moved 44 -> 56 on 2026-08-20, when the logo gained a hero panel
   // to sit in. The rule this guards has not changed and is the reason for the
   // ceiling at all: a header, never a splash. What changed is that the mark now

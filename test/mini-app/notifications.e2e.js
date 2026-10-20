@@ -16,6 +16,10 @@
  */
 const http=require('http'),fs=require('fs'),path=require('path');
 const pw=require('playwright');
+// Screenshots are for a person to look at, never asserted on. They go to MINIAPP_SHOTS or the system temp dir —
+// never a machine-specific path (one once named a past session's scratch dir and broke every run off that Mac).
+const SHOTS=process.env.MINIAPP_SHOTS||require('path').join(require('os').tmpdir(),'magic-miniapp-shots');
+require('fs').mkdirSync(require('path').join(SHOTS,'home'),{recursive:true});require('fs').mkdirSync(require('path').join(SHOTS,'ui'),{recursive:true});
 const APP=path.join(__dirname,'..','..','app');
 const T={'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.json':'application/json'};
 let bad=0; const ok=(l,c,d='')=>{if(!c)bad++;console.log(`   ${c?'ok  ':'FAIL'} ${l}${d?'  — '+d:''}`);};
@@ -124,7 +128,7 @@ async function openSettingsViaGear(page){
     const still=await p.evaluate(()=>[...document.querySelectorAll('#screen-help button')].some(n=>n.textContent.trim()==='Настройки'));
     ok('the entry at the foot of Помощь still exists',still);
     ok('no page errors',!errs.length,errs.join('|'));
-    await p.screenshot({path:'/private/tmp/claude-501/-Users-xxx-Desktop-eSim/292faf93-883b-4959-b678-8b7cdaf41e6e/scratchpad/gear-home.png'});
+    await p.screenshot({path:SHOTS+'/gear-home.png'});
     await ctx.close();
   }
 
@@ -149,7 +153,7 @@ async function openSettingsViaGear(page){
     ok('no page errors',!errs.length,errs.join('|'));
     const noOverflow=await p.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+1);
     ok('the settings screen does not scroll sideways at 390px',noOverflow);
-    await p.screenshot({path:'/private/tmp/claude-501/-Users-xxx-Desktop-eSim/292faf93-883b-4959-b678-8b7cdaf41e6e/scratchpad/gear-settings-light.png'});
+    await p.screenshot({path:SHOTS+'/gear-settings-light.png'});
     await ctx.close();
   }
 
@@ -316,7 +320,7 @@ async function openSettingsViaGear(page){
     ok('the settings card is a dark surface',lum(contrast.card)<0.4,contrast.card);
     ok('and its label is light text on it',lum(contrast.label)>lum(contrast.card),
       JSON.stringify(contrast));
-    await p.screenshot({path:'/private/tmp/claude-501/-Users-xxx-Desktop-eSim/292faf93-883b-4959-b678-8b7cdaf41e6e/scratchpad/gear-settings-dark.png'});
+    await p.screenshot({path:SHOTS+'/gear-settings-dark.png'});
     await ctx.close();
   }
 
