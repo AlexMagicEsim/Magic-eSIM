@@ -26,7 +26,6 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createRequire } from 'node:module';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WF_DIR = join(ROOT, '.github', 'workflows');
@@ -178,10 +177,16 @@ test('every job runs on a named Ubuntu image, never ubuntu-latest', () => {
 // 5. A workflow that runs the browser suite installs every engine the suite needs. The SEO refresh installed only
 // chromium after #101 added the webkit-flags project, and every refresh stopped at «Проверки — браузер» with
 // «Executable doesn't exist … webkit» (2026-10-20, run 39372551147) while tests.yml, which installs both, stayed green.
-const require = createRequire(import.meta.url);
+// Read from the config's TEXT: the unit job runs without dependencies, and the config requires @playwright/test.
+// Each project names its engine through a `devices['…']` preset or an explicit browserName.
 function configEngines() {
-  const cfg = require(join(ROOT, 'playwright.config.js'));
-  return [...new Set((cfg.projects || []).map((p) => p.use?.browserName || p.use?.defaultBrowserType || 'chromium'))].sort();
+  const text = readFileSync(join(ROOT, 'playwright.config.js'), 'utf8');
+  const engines = new Set();
+  for (const [, d] of text.matchAll(/devices\[['"]([^'"]+)['"]\]/g)) {
+    engines.add(/Safari|iPhone|iPad|Webkit/i.test(d) ? 'webkit' : /Firefox/i.test(d) ? 'firefox' : 'chromium');
+  }
+  for (const [, b] of text.matchAll(/browserName:\s*['"](chromium|webkit|firefox)['"]/g)) engines.add(b);
+  return [...engines].sort();
 }
 function installGaps(text) {
   if (!/npx playwright test(?![^\n]*--project)/.test(text)) return null;
