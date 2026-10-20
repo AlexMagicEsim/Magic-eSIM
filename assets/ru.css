@@ -28,22 +28,34 @@
    they — and everything under them — jump down by the whole block: CLS 0.24
    on template pages (/esim/peru/) after #95. The render clears the status and
    shows the blocks in one task, so no frame shows both states. A failure
-   clears the status too, and the page is as before. */
-.packages:has(> .packages-status:not(:empty)) > .plan-block{display:none}
+   clears the status too, and the page is as before.
+   The state is ONE attribute, #tariffs[data-loading], written by
+   assets/country-tariffs.js: "true" while it loads, "false" once the render (or
+   a failure) is done. Safari 26.4 misses the restyle of a :has(:not(:empty))
+   rule when the status text is cleared: the blocks stayed display:none with ten
+   cards inside until something else restyled the page (a scroll, ~15 s, or
+   never) — measured 2026-10-20. An attribute change always restyles. The :has()
+   rules below serve only the first paint, before the script sets the attribute
+   (:not([data-loading])); a rule that watches the status without that guard
+   fails seo/test-plans-loading-state.mjs. */
+.packages:not([data-loading]):has(> .packages-status:not(:empty)) > .plan-block{display:none}
+.packages[data-loading="true"] > .plan-block{display:none}
 /* Pages outside the SEO experiment follow the EN country page (stage 2 PR A):
    the facts line is the one line under a short H1, the EN skeleton stands in
    for the plans while they load, and the authored text sits under the plans. */
 .cp-title .facts{margin:6px 0 0;color:var(--muted);font-size:clamp(15px,1.6vw,18px);line-height:1.55}
 .cp-title .facts b{color:var(--text);white-space:nowrap}
 #tariffs > .cp-skeleton{display:none}
-#tariffs:has(> .packages-status:not(:empty)) > .cp-skeleton{display:grid}
+#tariffs:not([data-loading]):has(> .packages-status:not(:empty)) > .cp-skeleton{display:grid}
+#tariffs[data-loading="true"] > .cp-skeleton{display:grid}
 .cp-sec.about{max-width:760px}
 .cp-sec.about .lead{margin:0 0 14px;font-size:clamp(16px,1.8vw,19px)}
 .cp-sec.about .intro{margin:0 0 12px;color:var(--muted);line-height:1.7}
 /* Destination search (home, /esim/): the place typed, after the country it
    leads to — «Индонезия  Бали». assets/ru-search.js. */
 .res .res-via{margin-left:auto;padding-left:8px;color:var(--muted);font-size:13px;font-weight:500}
-.packages:has(> .packages-status:not(:empty)){min-height:var(--plans-reserve,80vh)}
+.packages:not([data-loading]):has(> .packages-status:not(:empty)){min-height:var(--plans-reserve,80vh)}
+.packages[data-loading="true"]{min-height:var(--plans-reserve,80vh)}
 .block-empty{margin:0 0 18px;padding:14px 16px;border:1px dashed var(--border-strong);border-radius:var(--r-m);background:var(--surface)}
 .packages-grid:empty{display:none}
 
@@ -86,7 +98,8 @@
    outside the SEO experiment only (data-cards="compact", set by the generator). */
 /* Lower cards need a lower loading reserve: 80vh made a one-plan page (timor-leste)
    jump UP when its single compact card arrived (CLS 0.028). */
-#tariffs[data-cards="compact"]:has(> .packages-status:not(:empty)){min-height:60vh}
+#tariffs[data-cards="compact"]:not([data-loading]):has(> .packages-status:not(:empty)){min-height:60vh}
+#tariffs[data-cards="compact"][data-loading="true"]{min-height:60vh}
 #tariffs[data-cards="compact"] .plan{gap:8px;padding:14px 16px 12px}
 #tariffs[data-cards="compact"] .plan-info{min-height:28px;margin:-4px 0 0;font-size:13.5px}
 #tariffs[data-cards="compact"] .daily-terms-block>.package-meta-label{margin:0 0 4px}
