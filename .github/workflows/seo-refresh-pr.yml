@@ -192,7 +192,8 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: |
           npm ci
-          npx playwright install --with-deps chromium
+          # every engine playwright.config.js uses (the webkit-flags project since #101) — as tests.yml
+          npx playwright install --with-deps chromium webkit
 
       - name: Проверки — браузер
         id: browser
