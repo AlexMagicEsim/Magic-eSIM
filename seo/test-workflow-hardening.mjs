@@ -16,7 +16,8 @@
 //   3. a workflow that can write has no checkout that persists credentials, and
 //      every `git push` in it carries the token explicitly — the credential lives
 //      in one command, not in the job;
-//   4. the token is never put in the environment of a whole job or workflow.
+//   4. the token is never put in the environment of a whole job or workflow;
+//   5. a workflow that runs the browser suite installs every engine playwright.config.js uses.
 //
 // Each rule's FIRST test proves it fires, on the pre-R3-12 text of the bot.
 
@@ -171,4 +172,41 @@ test('every job runs on a named Ubuntu image, never ubuntu-latest', () => {
     assert.ok(images.length > 0, `${w.name}: no runs-on found`);
     assert.deepEqual(images.filter((x) => !PINNED_IMAGE.test(x)), [], `${w.name}: unpinned runner`);
   }
+});
+
+// 5. A workflow that runs the browser suite installs every engine the suite needs. The SEO refresh installed only
+// chromium after #101 added the webkit-flags project, and every refresh stopped at «Проверки — браузер» with
+// «Executable doesn't exist … webkit» (2026-10-20, run 39372551147) while tests.yml, which installs both, stayed green.
+// Read from the config's TEXT: the unit job runs without dependencies, and the config requires @playwright/test.
+// Each project names its engine through a `devices['…']` preset or an explicit browserName.
+function configEngines() {
+  const text = readFileSync(join(ROOT, 'playwright.config.js'), 'utf8');
+  const engines = new Set();
+  for (const [, d] of text.matchAll(/devices\[['"]([^'"]+)['"]\]/g)) {
+    engines.add(/Safari|iPhone|iPad|Webkit/i.test(d) ? 'webkit' : /Firefox/i.test(d) ? 'firefox' : 'chromium');
+  }
+  for (const [, b] of text.matchAll(/browserName:\s*['"](chromium|webkit|firefox)['"]/g)) engines.add(b);
+  return [...engines].sort();
+}
+function installGaps(text) {
+  if (!/npx playwright test(?![^\n]*--project)/.test(text)) return null;
+  const installed = new Set([...text.matchAll(/npx playwright install\b([^\n]*)/g)].flatMap((m) => m[1].split(/\s+/).filter((w) => w && !w.startsWith('-'))));
+  return configEngines().filter((e) => !installed.has(e));
+}
+
+test('negative control: a workflow that runs every project but installs only chromium is caught', () => {
+  assert.ok(configEngines().includes('webkit'), 'the config has a WebKit project');
+  const before = 'run: |\n  npm ci\n  npx playwright install --with-deps chromium\n- run: npx playwright test\n';
+  assert.deepEqual(installGaps(before), ['webkit']);
+});
+
+test('every workflow that runs the browser suite installs every engine of playwright.config.js', () => {
+  let seen = 0;
+  for (const f of readdirSync(WF_DIR).filter((x) => /\.ya?ml$/.test(x))) {
+    const gaps = installGaps(readFileSync(join(WF_DIR, f), 'utf8'));
+    if (gaps === null) continue;
+    seen += 1;
+    assert.deepEqual(gaps, [], `${f} runs \`npx playwright test\` without installing ${gaps.join(', ')}`);
+  }
+  assert.ok(seen >= 2, 'tests.yml and seo-refresh-pr.yml both run the suite');
 });
