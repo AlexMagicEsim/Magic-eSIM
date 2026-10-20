@@ -27,8 +27,8 @@
     },
     {
       "icon": "📈",
-      "h": "Тридцать гигабайт почти по цене двадцати",
-      "p": "20 ГБ стоят {{price:g20}}, а 30 ГБ — {{price:g30}}. Доплата меньше пятой части цены двадцати гигабайт за половину объёма сверху: если поездка длинная или в ней есть работа, верхняя ступень окупается быстрее, чем кажется."
+      "h": "Двадцать или тридцать гигабайт",
+      "p": "20 ГБ стоят {{price:g20}}, а 30 ГБ — {{price:g30}}. Доплата за верхнюю ступень даёт половину объёма сверху: если поездка длинная или в ней есть работа, она снимает вопрос с трафиком."
     }
   ],
   "faq": [
@@ -129,11 +129,11 @@
   },
   "price_claims": [
     {
-      "id": "thirty-almost-price-of-twenty",
+      "id": "thirty-costs-more-than-twenty",
       "anchors": [
         {
           "field": "why[3].p",
-          "text": "Доплата меньше пятой части цены двадцати гигабайт за половину объёма сверху: если поездка длинная или в ней есть работа, верхняя ступень окупается быстрее, чем кажется."
+          "text": "Доплата за верхнюю ступень даёт половину объёма сверху: если поездка длинная или в ней есть работа, она снимает вопрос с трафиком."
         },
         {
           "field": "faq[1].a",
@@ -158,20 +158,8 @@
           }
         }
       },
-      "assert": [
-        {
-          "left": "g20",
-          "op": "<",
-          "right": "g30"
-        },
-        {
-          "left": "g20",
-          "op": ">",
-          "right": "g30",
-          "factor": 1.2
-        }
-      ],
-      "note": "Added in stage B (2026-10-18). «почти по цене двадцати» / «доплата меньше пятой части» = g30 − g20 < 0.2 × g20 (g20 × 1.2 > g30). The written-out «триста рублей» was replaced: a difference in words dies with the next price move."
+      "assert": [{"left": "g20", "op": "<", "right": "g30"}],
+      "note": "Added in stage B (2026-10-18) as «почти по цене двадцати» / «доплата меньше пятой части» (g20 × 1.2 > g30). The catalogue bot's a755c69c (2026-10-20) moved 30 GB 2000 → 2250 ₽ against 1700 ₽ for 20 GB and made that false; the sentence and the heading were rewritten to the STRUCTURE (a surcharge for half the volume on top) — what the words now claim is only g20 < g30. A closeness or a ratio in words dies with the next price move."
     },
     {
       "id": "regional-ten-cheaper-than-seven",

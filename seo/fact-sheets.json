@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-18T15:56:24.109Z",
+  "fetched_at": "2026-10-20T11:46:14.526Z",
   "source": "assets/catalog.json",
   "countries": 200,
   "sheets": {
@@ -5744,6 +5744,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -5992,6 +5993,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -6412,6 +6414,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -7147,7 +7150,7 @@
         "Orange",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -7597,6 +7600,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -7826,6 +7830,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -10055,7 +10060,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -11023,7 +11028,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -12872,7 +12877,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -13061,6 +13066,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -15375,13 +15381,13 @@
         },
         {
           "data_gb": 30,
-          "price_rub": 2000,
+          "price_rub": 2050,
           "validity_days": 30,
-          "kind": "local"
+          "kind": "regional"
         },
         {
           "data_gb": 50,
-          "price_rub": 2950,
+          "price_rub": 3250,
           "validity_days": 30,
           "kind": "local"
         },
@@ -15441,10 +15447,10 @@
         2800,
         2850,
         2900,
-        2950,
         3000,
         3150,
         3200,
+        3250,
         3350,
         3450,
         3500,
@@ -16412,7 +16418,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -16910,7 +16916,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -25760,7 +25766,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -29915,6 +29921,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -30093,6 +30100,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -30249,6 +30257,7 @@
         "Personal",
         "TIM",
         "Tigo",
+        "VIVA",
         "Vivo",
         "WOM",
         "free",
@@ -31214,7 +31223,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -31521,7 +31530,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -32135,7 +32144,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -33797,7 +33806,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -36104,7 +36113,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -36507,7 +36516,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -36990,7 +36999,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -37318,7 +37327,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
@@ -37456,7 +37465,7 @@
         "Movistar",
         "Personal",
         "TIM",
-        "Tigo",
+        "VIVA",
         "free",
         "movistar"
       ],
