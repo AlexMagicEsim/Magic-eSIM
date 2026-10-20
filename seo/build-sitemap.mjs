@@ -53,6 +53,7 @@ import { fileURLToPath } from 'node:url';
 import { SITE } from './countries.mjs';
 import { loadCached } from './catalogue-source.mjs';
 import { indexablePrefixedHomes, homeUrl } from './locales.mjs';
+import { LOGO as STATIC_LOGO } from './site-chrome.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const STATE = join(ROOT, 'seo/sitemap-lastmod.json');
@@ -148,9 +149,17 @@ export function stripLiveCatalogueMarkup(html) {
     .replace(/<span data-cat-floor>([^<]*(?:<b>[^<]*<\/b>)?[^<]*)<\/span>/g, '$1');
 }
 
+// THE ANIMATED HEADER LOGO LIKEWISE, added 2026-10-20 (interface motion «Expressive» + logo «Reveal + Wave»). The vector
+// logo, its motion script and assets/motion.js say how the header MOVES, not what the page says; they are put back to
+// EXACTLY the static <img> logo the stored hashes were taken over, so no date moved (no state migration);
+// seo/test-sitemap-lastmod.mjs pins the round trip.
+export function stripAnimatedLogo(html) {
+  return String(html).replace(/<svg class="brand-logo"[\s\S]*?<\/svg><script>\(function\(\)\{var d=document[\s\S]*?<\/script>/g, STATIC_LOGO);
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripLiveCatalogueMarkup(html)
+    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(html))
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')

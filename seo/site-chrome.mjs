@@ -1,3 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { assetVersion } from './asset-version.mjs';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+
 // seo/site-chrome.mjs — the pieces of the shared design system that live in
 // markup rather than in assets/site.css: the font preload, the logo and the
 // icons. The English generator (build-en-pages.mjs) and the Russian chrome
@@ -12,6 +19,41 @@ export const FONT_PRELOAD = `<link rel="preload" href="/assets/fonts/inter-latin
  * its white margin and exported at 1x/2x/3x for a 44 px header — the artwork
  * itself is unchanged. It carries the name, so its alt is the name. */
 export const LOGO = `<img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM">`;
+
+/* THE ANIMATED HEADER LOGO (approved 2026-10-20: «Reveal + Wave», interface motion «Expressive»).
+ * The same logo A, as vector: the geometry is assets/brand/logo.svg (seo/build-logo-svg.mjs — the brand book master with
+ * coordinates rounded to 0.1, ≤ 0.05 unit from it), drawn here by two <use> of its #me-symbol and #me-word, so the
+ * 31 KB file is fetched once and cached while each page carries ~2.5 KB. The two master gradients are repeated IN the
+ * page: WebKit resolves a fill url() of an external <use> against the referencing document and drew only the gold chip
+ * without them (measured 2026-10-20: 2 728 px painted instead of 38 971). The three rings are the «wave» layer, faded
+ * out above the lettering. Static, it is exactly the header logo; the animation is ru.css `.brand-logo.lm-play`,
+ * switched on ONCE PER SESSION by HEADER_MOTION_SCRIPT right after it (before first paint — no flash; no storage → no
+ * animation), and never under prefers-reduced-motion. Box: the PNG's 59 × 44 (40 px tall below 900 px). */
+const LOGO_GRADIENTS = (() => {
+  const svg = readFileSync(join(ROOT, 'assets/brand/logo.svg'), 'utf8');
+  const g = svg.match(/<defs>([\s\S]*?)<\/defs>/);
+  if (!g) throw new Error('assets/brand/logo.svg: no gradients — run node seo/build-logo-svg.mjs');
+  return g[1];
+})();
+export const LOGO_SVG_URL = `/assets/brand/logo.svg?v=${assetVersion('assets/brand/logo.svg')}`;
+const RING = (i) => `<circle class="lm-ring lm-ring${i}" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/>`;
+export const LOGO_ANIMATED_SVG = ({ url = LOGO_SVG_URL, cls = 'brand-logo', w = 59, h = 44 } = {}) => `<svg class="${cls}" viewBox="336 208 574 432" width="${w}" height="${h}" role="img" aria-label="Magic eSIM">`
+  + `<defs>${LOGO_GRADIENTS}`
+  + `<linearGradient id="me-lw-wave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A16C7"/><stop offset=".52" stop-color="#3866D9"/><stop offset="1" stop-color="#00C7DF"/></linearGradient>`
+  + `<linearGradient id="me-lw-fadeg" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="505"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>`
+  + `<mask id="me-lw-fade" maskUnits="userSpaceOnUse" x="150" y="40" width="950" height="600"><rect x="150" y="40" width="950" height="600" fill="url(#me-lw-fadeg)"/></mask></defs>`
+  + `<g class="lm-waves" aria-hidden="true" mask="url(#me-lw-fade)">${RING(1)}${RING(2)}${RING(3)}</g>`
+  + `<use class="lm-symbol" href="${url}#me-symbol"/><use class="lm-word" href="${url}#me-word"/></svg>`;
+export const MOTION_JS_URL = `/assets/motion.js?v=${assetVersion('assets/motion.js')}`;
+/* Runs where it stands, before first paint: turns the interface motion on (<html data-motion>, the ru.css rules), plays
+ * the logo once per session (sessionStorage; none → no animation) and loads assets/motion.js without blocking. */
+export const HEADER_MOTION_SCRIPT = `<script>(function(){var d=document,r=d.documentElement,l=d.currentScript.previousElementSibling;r.setAttribute('data-motion','expressive');`
+  + `try{var s=sessionStorage;if(!s.getItem('me-logo')){s.setItem('me-logo','1');l.classList.add('lm-play')}}catch(e){}`
+  + `var j=d.createElement('script');j.src='${MOTION_JS_URL}';j.async=true;d.head.appendChild(j)})();</script>`;
+export const LOGO_ANIMATED = LOGO_ANIMATED_SVG() + HEADER_MOTION_SCRIPT;
+/* The Mini App's home logo: the same SVG at the hero's 52 px, playing once when the home screen first shows (app/motion.js
+ * drops .lm-play after it, so returning to the tab does not replay it). app/index.html carries it; test-logo-svg pins it. */
+export const MINI_APP_LOGO = LOGO_ANIMATED_SVG({ cls: 'brand brand--sm brand-logo lm-play', w: 69, h: 52 });
 
 export const ICON_GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>';
 export const ICON_MENU = '<svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';

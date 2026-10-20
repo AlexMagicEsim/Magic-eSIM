@@ -20,7 +20,7 @@
 // The destination count is the one measured wording, «190+ направлений»
 // (198 countries render plans in the Russian catalogue on 2026-10-10).
 
-import { LOGO, ICON_GLOBE, ICON_MENU } from './site-chrome.mjs';
+import { LOGO, LOGO_ANIMATED, ICON_GLOBE, ICON_MENU } from './site-chrome.mjs';
 import { text } from './site-dictionary.mjs';
 
 /** The one wording for the size of the catalogue, everywhere on the Russian site. */
@@ -42,12 +42,13 @@ const NAV_LINKS = `<a href="/esim/">${text('ru', 'nav.destinations')}</a>
       <a href="/#compat">Проверка устройства</a>
       <a href="/#guides">${text('ru', 'nav.guides')}</a>`;
 
-/** The header. `hreflang` marks the English link's language — on the home
+/** The header. The logo is the animated vector one (site-chrome LOGO_ANIMATED) except where `animatedLogo: false`
+ * — the ten SEO-experiment pages, which keep their markup byte for byte. `hreflang` marks the English link's language — on the home
  * only, which always linked /en/ that way (seo/test-en-storefront.mjs); the
  * country pages carry no hreflang at all (they have no indexable twin). */
-export const ruHeader = ({ hreflang = false } = {}) => `<header class="site-header">
+export const ruHeader = ({ hreflang = false, animatedLogo = true } = {}) => `<header class="site-header">
   <div class="wrap hdr">
-    <a class="brand" href="/">${LOGO}</a>
+    <a class="brand" href="/">${animatedLogo ? LOGO_ANIMATED : LOGO}</a>
     <nav class="nav" aria-label="Основное меню">
       ${NAV_LINKS}
     </nav>

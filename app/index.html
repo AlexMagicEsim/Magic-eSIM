@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-motion="expressive">
 <head>
 <meta charset="utf-8">
 <!-- viewport-fit=cover so env(safe-area-inset-*) reports real values; without it
@@ -64,7 +64,7 @@
 <!-- Inter (brand book v1.0): the two files every RU/EN screen needs, fetched with the CSS, as on the site. -->
 <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="mini.css?v=ce00d60d">
+<link rel="stylesheet" href="mini.css?v=b3ddcba6">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -84,11 +84,10 @@
          and NOT an image: a photograph here would cost bytes on a hotel
          connection and look wrong inside Telegram's own chrome. -->
     <div class="hero">
-      <!-- The real header asset the site itself uses. width/height are set so
-           the box is reserved before the bytes arrive and nothing below it
-           moves. -->
-      <img class="brand brand--sm" src="../assets/magic-esim-logo-header.png"
-           alt="Magic eSIM" width="185" height="140" fetchpriority="high">
+      <!-- Logo A as vector (brand book v1.0; seo/site-chrome.mjs MINI_APP_LOGO): the geometry is
+           /assets/brand/logo.svg, the box is reserved by width/height so nothing below it moves. It plays
+           «Reveal + Wave» once, when this screen first shows (app/motion.js); static under reduced motion. -->
+      <svg class="brand brand--sm brand-logo lm-play" viewBox="336 208 574 432" width="69" height="52" role="img" aria-label="Magic eSIM"><defs><linearGradient id="a-mark" gradientUnits="userSpaceOnUse" x1="498.0" y1="293.0" x2="732.5" y2="445.3"><stop offset="0.000" stop-color="#8b20b7"/><stop offset="0.125" stop-color="#8816bd"/><stop offset="0.250" stop-color="#7625bf"/><stop offset="0.375" stop-color="#6931c1"/><stop offset="0.500" stop-color="#3451c7"/><stop offset="0.625" stop-color="#3172d3"/><stop offset="0.750" stop-color="#238bde"/><stop offset="0.875" stop-color="#13b1ec"/><stop offset="1.000" stop-color="#0ad0f9"/></linearGradient><linearGradient id="a-word" gradientUnits="userSpaceOnUse" x1="349.8" y1="571.9" x2="896.5" y2="571.9"><stop offset="0.000" stop-color="#8b19b1"/><stop offset="0.125" stop-color="#7f23b6"/><stop offset="0.250" stop-color="#7230bc"/><stop offset="0.375" stop-color="#3459ca"/><stop offset="0.500" stop-color="#317ada"/><stop offset="0.625" stop-color="#239ce6"/><stop offset="0.750" stop-color="#0ebdee"/><stop offset="0.875" stop-color="#07d3f2"/><stop offset="1.000" stop-color="#04e8f4"/></linearGradient><linearGradient id="me-lw-wave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A16C7"/><stop offset=".52" stop-color="#3866D9"/><stop offset="1" stop-color="#00C7DF"/></linearGradient><linearGradient id="me-lw-fadeg" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="505"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="me-lw-fade" maskUnits="userSpaceOnUse" x="150" y="40" width="950" height="600"><rect x="150" y="40" width="950" height="600" fill="url(#me-lw-fadeg)"/></mask></defs><g class="lm-waves" aria-hidden="true" mask="url(#me-lw-fade)"><circle class="lm-ring lm-ring1" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring2" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring3" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/></g><use class="lm-symbol" href="/assets/brand/logo.svg?v=72aa4ec9#me-symbol"/><use class="lm-word" href="/assets/brand/logo.svg?v=72aa4ec9#me-word"/></svg>
       <h1 data-i18n="home.title">Интернет в поездке</h1>
       <!-- The brand line, in English on purpose: it is the slogan, not a
            translated sentence. `lang` is set so a screen reader switches voice
@@ -418,5 +417,6 @@
 <script src="i18n.js?v=9397b5f7"></script>
 <script src="core.js?v=103cf37f"></script>
 <script src="ui.js?v=fc57385d"></script>
+<script src="motion.js?v=b64c853a"></script>
 </body>
 </html>

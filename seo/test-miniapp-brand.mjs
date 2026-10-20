@@ -77,7 +77,9 @@ test('the primary button is the brand blue; pressed is the brand book\'s hover b
 });
 
 test('line icons in the Mini App markup use the brand book\'s 2 px stroke', () => {
-  const widths = [...HTML.matchAll(/stroke-width="([\d.]+)"/g)].map((m) => m[1]);
+  // the logo is artwork, not a line icon: its wave rings are drawn in the 574-unit logo space (seo/site-chrome.mjs)
+  const icons = HTML.replace(/<svg class="brand [^"]*brand-logo[\s\S]*?<\/svg>/g, '');
+  const widths = [...icons.matchAll(/stroke-width="([\d.]+)"/g)].map((m) => m[1]);
   assert.ok(widths.length >= 6, 'the tab bar and the settings gear');
   assert.deepEqual([...new Set(widths)], ['2']);
 });

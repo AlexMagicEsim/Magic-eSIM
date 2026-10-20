@@ -560,7 +560,7 @@ ${METRIKA}
   <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 </head>
 <body data-country-iso="${c.iso}" data-country-name="${esc(c.nameRu)}">
-${ruHeader()}
+${ruHeader({ animatedLogo: live })}
 
 <main class="cp">
   <section class="cp-hero">
