@@ -1,0 +1,135 @@
+[
+ {
+  "package_id": "f7bf58dd-f0ae-48cd-9a02-ab1b720fb289",
+  "name": "Italy 1GB/Day FUP1Mbps",
+  "country_code": "IT",
+  "region": "IT",
+  "coverage_country_codes": [
+   "IT"
+  ],
+  "coverage_flags": "🇮🇹",
+  "data_gb": 0,
+  "validity_days": null,
+  "price": 150,
+  "networks": [
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   }
+  ],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "speed": "3G/4G/5G",
+  "speed_note": "",
+  "fup_policy": "1 Mbps",
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "topup_available": true,
+  "ip_export": [
+   "FR",
+   "NL",
+   "UK"
+  ],
+  "plan_type": "DAILY",
+  "daily_gb": 1,
+  "daily_term_mode": "PER_DAY",
+  "daily_throttle_label": "1 Mbps",
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": [
+   3,
+   5,
+   7,
+   10,
+   15,
+   30
+  ],
+  "term_prices": [
+   {
+    "days": 3,
+    "price": 400
+   },
+   {
+    "days": 5,
+    "price": 650
+   },
+   {
+    "days": 7,
+    "price": 900
+   },
+   {
+    "days": 10,
+    "price": 1250
+   },
+   {
+    "days": 15,
+    "price": 1800
+   },
+   {
+    "days": 30,
+    "price": 3150
+   }
+  ]
+ },
+ {
+  "package_id": "117f7410-3ca3-4364-b451-90ea62a02a27",
+  "name": "Italy 3GB 30Days",
+  "country_code": "IT",
+  "region": "IT",
+  "coverage_country_codes": [
+   "IT"
+  ],
+  "coverage_flags": "🇮🇹",
+  "data_gb": 3,
+  "validity_days": 30,
+  "price": 350,
+  "networks": [
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   }
+  ],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "speed": "3G/4G/5G",
+  "speed_note": "",
+  "fup_policy": "",
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "topup_available": true,
+  "ip_export": [
+   "FR",
+   "NL",
+   "UK"
+  ],
+  "plan_type": "FIXED_VOLUME",
+  "daily_gb": null,
+  "daily_term_mode": null,
+  "daily_throttle_label": null,
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": []
+ }
+]

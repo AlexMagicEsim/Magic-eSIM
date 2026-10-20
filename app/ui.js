@@ -2340,10 +2340,14 @@
    */
   function dailyTermPicker(pkg, terms) {
     const D = C.dailyCopy();
-    const rows = terms.map((t) => el('button', {
-      class: 'row row--between daily-term' + (t === terms[0] ? ' is-selected' : ''),
+    // The term is `term`, never `t`: `t` is the translation function, and a
+    // callback parameter named `t` shadowed it — the first tap on any term but the
+    // first threw «t is not a function» AFTER the header moved, so «Купить за …»
+    // kept the first term's price while the order was for the chosen one.
+    const rows = terms.map((term) => el('button', {
+      class: 'row row--between daily-term' + (term === terms[0] ? ' is-selected' : ''),
       role: 'radio',
-      'aria-checked': t === terms[0] ? 'true' : 'false',
+      'aria-checked': term === terms[0] ? 'true' : 'false',
       onclick: (ev) => {
         /* «Is there a cheaper shape of this» — the customer working the ladder
            rather than reading one price. Compared BEFORE the assignment, so
@@ -2352,8 +2356,8 @@
            is preselected, so a stray tap on it is the likeliest tap there is.
            Once per visit — the question is whether they engaged with the term
            at all, and the first row answers it. */
-        if (t !== state.dailyTerm) trackTariffOnce('tariff_term_change');
-        state.dailyTerm = t;
+        if (term !== state.dailyTerm) trackTariffOnce('tariff_term_change');
+        state.dailyTerm = term;
         const groupEl = ev.currentTarget.parentNode;
         for (const child of groupEl.children) {
           const on = child === ev.currentTarget;
@@ -2361,13 +2365,13 @@
           child.setAttribute('aria-checked', on ? 'true' : 'false');
         }
         const price = $('#tariff-price');
-        if (price) price.textContent = C.money(t.price);
+        if (price) price.textContent = C.money(term.price);
         const buy = $('#tariff-buy');
-        if (buy) buy.textContent = t('tariff.buyFor', { price: C.money(t.price) });
+        if (buy) buy.textContent = t('tariff.buyFor', { price: C.money(term.price) });
       },
     }, [
-      el('span', { class: 'muted', text: `${t.days} ${D.pluralDays(t.days, dailyLang())}` }),
-      el('span', { class: 'fact__value tabular', text: C.money(t.price) }),
+      el('span', { class: 'muted', text: `${term.days} ${D.pluralDays(term.days, dailyLang())}` }),
+      el('span', { class: 'fact__value tabular', text: C.money(term.price) }),
     ]));
 
     return el('div', { class: 'card stack' }, [
@@ -2466,6 +2470,10 @@
       // An assertion about what was SHOWN, and for a daily plan what was shown
       // is the chosen term's price — never the row's, which is one day.
       expected_amount_rub: Number(dailyTerm ? dailyTerm.price : pkg.price),
+      // The price before any promo — what «К оплате» shows with no code. Kept
+      // apart from expected_amount_rub, which a promo overwrites, so dropping a
+      // code returns to THIS number and not to the discounted one.
+      _base: Number(dailyTerm ? dailyTerm.price : pkg.price),
       _pkg: pkg,
       _where: where,
       // Kept so the summary can be rebuilt when a promo changes the total —
@@ -2495,7 +2503,7 @@
     terms.checked = false;
     $('#checkout-error').replaceChildren();
     $('#checkout-email').value = '';
-    setPayEnabled(false, t('topup.payFor', { price: C.money(pkg.price) }));
+    setPayEnabled(false, payLabel());
     show('checkout');
   }
 
@@ -2531,7 +2539,7 @@
     const isDaily = !!(D && D.isDaily(pkg));
     // For a daily plan the row's own price is the price of ONE DAY, so the
     // amount the summary shows is the intent's — the term the customer chose.
-    const base = Number(isDaily && state.intent ? state.intent.expected_amount_rub : pkg.price);
+    const base = Number(state.intent && Number.isFinite(state.intent._base) ? state.intent._base : pkg.price);
 
     const rows = [
       el('div', { class: 'row' }, [
@@ -2579,8 +2587,14 @@
   const repaintCheckout = () => {
     const i = state.intent;
     if (!i || !i._pkg) return;
+    // The chosen term for a daily plan (the row's validity_days is 0 there and
+    // printed «· 0 дней» after any promo answer).
     renderCheckoutSummary(i._pkg, i._group, i._where,
-      Number(i._pkg.validity_days));
+      Number(i.days || i._pkg.validity_days));
+    // A promo moves «К оплате»; the pay button must say the same number — unless
+    // a payment is already being created (its spinner is the truth then).
+    const btn = $('#checkout-pay');
+    if (btn && !btn.querySelector('.btn__spinner')) setPayEnabled(state.termsAccepted === true, payLabel());
   };
 
   /**
@@ -3028,6 +3042,18 @@
    * for the customer. That is what shipped when the consent gate started
    * reusing this function, which had only ever had the one meaning.
    */
+  /**
+   * The pay button's words: «Оплатить» + the amount «К оплате» shows — the
+   * chosen term's price for a daily plan, the server's promo total when a code
+   * is applied. The ONE source for that label, so the button can never name a
+   * number the summary does not (it used to print the row's price: ONE DAY of a
+   * daily plan, «Оплатить 150 ₽» under «К оплате 3 150 ₽»).
+   */
+  function payLabel() {
+    const amount = state.intent ? Number(state.intent.expected_amount_rub) : NaN;
+    return Number.isFinite(amount) && amount > 0 ? t('topup.payFor', { price: C.money(amount) }) : t('checkout.pay');
+  }
+
   function setPayEnabled(enabled, label, { busy = false } = {}) {
     const btn = $('#checkout-pay');
     btn.disabled = !enabled;
@@ -5057,8 +5083,7 @@
 
     $('#checkout-terms').addEventListener('change', (e) => {
       state.termsAccepted = Boolean(e.target.checked);
-      const price = state.intent ? C.money(state.intent.expected_amount_rub) : '';
-      setPayEnabled(state.termsAccepted, price ? t('topup.payFor', { price }) : t('checkout.pay'));
+      setPayEnabled(state.termsAccepted, payLabel());
     });
     // The catalogue is public: these tabs must work whether or not a session
     // ever arrives, and they are the reason most people opened the app.
