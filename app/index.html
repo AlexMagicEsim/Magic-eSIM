@@ -61,7 +61,10 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=b31b3b27" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=b637ca13" />
 
-<link rel="stylesheet" href="mini.css?v=961d8635">
+<!-- Inter (brand book v1.0): the two files every RU/EN screen needs, fetched with the CSS, as on the site. -->
+<link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="mini.css?v=ce00d60d">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -90,7 +93,7 @@
       <!-- The brand line, in English on purpose: it is the slogan, not a
            translated sentence. `lang` is set so a screen reader switches voice
            instead of reading it phonetically in Russian. -->
-      <p class="hero__sub hero__sub--slogan" lang="en">Stay Connected Anywhere.</p>
+      <p class="hero__sub hero__sub--slogan" lang="en">Stay Connected Anywhere</p>
       <!-- Settings, where people actually look for settings.
            The screen itself has existed since the account work shipped, but its
            only entry was a button at the BOTTOM of the Помощь tab, under six FAQ
@@ -103,7 +106,7 @@
       <button class="hero__settings" id="open-settings" type="button"
               aria-label="Настройки" data-i18n-aria-label="settings.title">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-             stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
              stroke-linejoin="round" aria-hidden="true" focusable="false">
           <circle cx="12" cy="12" r="3.2"></circle>
           <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.9 19.3a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.7 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.7 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.7a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15 4.7a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.3 9v.01c.24.6.79 1.01 1.44 1.03H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"></path>
@@ -381,19 +384,19 @@
      Each tab keeps its label: an icon alone is a guess. -->
 <nav class="tabbar" role="tablist" aria-label="Разделы" data-i18n-aria-label="nav.sections">
   <button id="nav-home" class="tab" role="tab" aria-selected="true">
-    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>
     <span class="tab__t" data-i18n="nav.home">Главная</span>
   </button>
   <button id="nav-buy" class="tab" role="tab" aria-selected="false">
-    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
     <span class="tab__t" data-i18n="nav.buy">Купить</span>
   </button>
   <button id="nav-esims" class="tab" role="tab" aria-selected="false">
-    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M9.5 7.5h5M9.5 11h5"/><circle cx="12" cy="16.5" r="1.2"/></svg>
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M9.5 7.5h5M9.5 11h5"/><circle cx="12" cy="16.5" r="1.2"/></svg>
     <span class="tab__t" data-i18n="nav.esims">Мои eSIM</span>
   </button>
   <button id="nav-help" class="tab" role="tab" aria-selected="false">
-    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.3 2.4c-.6.2-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r="1.1" fill="currentColor" stroke="none"/></svg>
+    <svg class="tab__i" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.3 2.4c-.6.2-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r="1.1" fill="currentColor" stroke="none"/></svg>
     <span class="tab__t" data-i18n="nav.help">Помощь</span>
   </button>
 </nav>
