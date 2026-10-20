@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-19T16:30:12.731Z",
+  "generated_at": "2026-10-20T11:46:14.526Z",
   "source": "production-public-api",
   "package_count": 2284,
   "packages": [
@@ -82381,7 +82381,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 30,
       "validity_days": 30,
-      "price": 2000,
+      "price": 2250,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -124406,7 +124406,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 2950,
+      "price": 3250,
       "networks": [],
       "network_technologies": [
         "4G",
