@@ -126,7 +126,9 @@ const base=`http://127.0.0.1:${s.address().port}/index.html`;
 
 const openSettings=async(p)=>{
   await p.tap('#nav-help'); await p.waitForTimeout(500);
-  await p.getByRole('button',{name:'Настройки',exact:true}).click();
+  // Either language: after «the choice survives a restart» reloads with English chosen, the button is «Settings» once
+  // the saved choice is applied — and whether that has happened by now is a race (it lost under parallel load in CI).
+  await p.getByRole('button',{name:/^(Настройки|Settings)$/}).click();
   await p.waitForTimeout(700);
 };
 

@@ -125,3 +125,29 @@ jobs:
       # never widen it.
       - name: Unit tests
         run: npm test
+
+  # The Mini App's own browser scripts, test/mini-app/*.e2e.js: WebKit (as iOS Telegram's WKWebView) and Chromium, both
+  # themes, every API faked at the network edge — nothing real is touched, same as `browser`. Until 2026-10-20 nothing
+  # ran them in CI: two had been red unseen, one since 2026-09-03. The runner reads the DIRECTORY, so a new script is
+  # included without editing this file; three at a time (~6 min; one by one they take ~16).
+  miniapp-scripts:
+    name: Mini App scripts (WebKit + Chromium)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install the test runner
+        run: npm ci
+
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Mini App scripts
+        run: node test/mini-app/run-all.mjs

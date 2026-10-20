@@ -16,6 +16,9 @@
  */
 const http=require('http'),fs=require('fs'),path=require('path');
 const pw=require('playwright');
+// The opener's words come from the dictionary the app itself reads: the label was «Есть промокод?» until 1080c09f
+// (2026-09-03) made it a control, «Ввести промокод», and a hard-coded copy left this check red for seven weeks.
+const PROMO_OPENER=require(path.join(__dirname,'..','..','app','locales.js')).ru['promo.have'];
 const APP=path.join(__dirname,'..','..','app');
 const T={'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.json':'application/json'};
 let bad=0; const ok=(l,c,d='')=>{if(!c)bad++;console.log(`   ${c?'ok  ':'FAIL'} ${l}${d?'  — '+d:''}`);};
@@ -112,7 +115,7 @@ for (const eng of ['webkit','chromium']) {
       ok('checkout opens on the plain price', (await total(p)).includes('750'), await total(p));
       ok('promo starts collapsed — one quiet line, not a field',
         (await p.$$('#checkout-promo-input')).length===0
-        && (await p.$eval('#checkout-promo',n=>n.innerText)).includes('Есть промокод?'));
+        && (await p.$eval('#checkout-promo',n=>n.innerText)).includes(PROMO_OPENER));
 
       await apply(p,'friends10');
       const t1=await total(p);
