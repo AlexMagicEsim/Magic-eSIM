@@ -34,7 +34,9 @@ for (const [slug, h1, ru] of GUIDES) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
     await expect(page.locator('a.langsw')).toHaveAttribute('href', ru);
-    expect(calls.filter((c) => c.type === 'script' || c.type === 'fetch' || c.type === 'xhr')).toEqual([]);
+    // No script, fetch or XHR — but the header logo's start, assets/logo-once.js (owner, 2026-10-20: one sessionStorage
+    // flag, no network; seo/test-logo-svg.mjs pins what it may do).
+    expect(calls.filter((c) => (c.type === 'script' || c.type === 'fetch' || c.type === 'xhr') && new URL(c.url).pathname !== '/assets/logo-once.js')).toEqual([]);
     expect(calls.filter((c) => !['GET', 'HEAD'].includes(c.method))).toEqual([]);
     const text = await page.locator('main').innerText();
     expect(text).not.toMatch(/[А-Яа-яЁё]{3,}|₽/);

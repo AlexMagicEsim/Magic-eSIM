@@ -349,7 +349,8 @@ test('a reload in the middle of checkout starts clean: no window, no price, no e
   await expect(page.locator('#checkout')).toBeHidden();
   await expect(page.locator('#coTotal')).toHaveText('—');
   await expect(page.locator('#coEmail')).toHaveValue('');
-  expect(await page.evaluate(() => [localStorage.length, sessionStorage.length])).toEqual([0, 0]);
+  // Nothing kept — the one key there is the header logo's once-per-session flag (owner, 2026-10-20).
+  expect(await page.evaluate(() => [localStorage.length, Object.keys(sessionStorage).filter((k) => k !== 'me-logo')])).toEqual([0, []]);
 });
 
 test('a script that fails to load: no endless «Loading», no plan, nothing to buy', async ({ page }) => {

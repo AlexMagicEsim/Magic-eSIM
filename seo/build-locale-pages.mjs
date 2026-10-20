@@ -39,7 +39,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
-import { FONT_PRELOAD, LOGO, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
+import { FONT_PRELOAD, LOGO, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
 import { word, escapeText, escapeAttr } from './site-dictionary.mjs';
 import { countryName } from './country-names-i18n.mjs';
 import { namesFile, globalSuffix } from './build-country-dictionary-locale.mjs';
@@ -228,7 +228,7 @@ const SKIP_LINK = `<a class="skip" href="#main">${C.skipLink}</a>`;
 const header = (ruHref) => `${SKIP_LINK}
 <header class="site-header">
   <div class="wrap hdr">
-    <a class="brand" href="${P}/">${LOGO}</a>
+    <a class="brand" href="${P}/">${LOGO_ANIMATED_EN}</a>
     <nav class="nav" aria-label="${C.navLabel}">
       ${NAV_LINKS}
     </nav>
@@ -453,6 +453,7 @@ ${cspMeta(primaryApiOrigin())}
 <meta property="og:title" content="${title}">
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+${LOGO_ONCE_SCRIPT}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/assets/page-country.css">
@@ -571,6 +572,7 @@ ${ROBOTS}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+${LOGO_ONCE_SCRIPT}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/assets/page-hub.css">
@@ -673,6 +675,7 @@ ${cspMeta("'none'")}
 <meta property="og:title" content="${esc(g.title)}">
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+${LOGO_ONCE_SCRIPT}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/assets/page-guides.css">
@@ -744,6 +747,7 @@ ${GUIDE_ROBOTS}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
+${LOGO_ONCE_SCRIPT}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/assets/page-guides.css">

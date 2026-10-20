@@ -30,8 +30,9 @@ test('the head is the same page for search engines: noindex, self canonical, the
 
 test('the page reads nothing: its scripts are the dictionary and en/hub.js, and neither reaches the network, storage or a redirect', () => {
   const srcs = [...HUB.matchAll(/<script[^>]*src="([^"?]+)/g)].map((m) => m[1]);
-  // I18N-08b: the search's words come from the site dictionary, loaded first.
-  assert.deepEqual(srcs, ['/assets/site-i18n.js', '/en/hub.js']);
+  // I18N-08b: the search's words come from the site dictionary, loaded first. Before them, in <head>, the header
+  // logo's start (owner, 2026-10-20) — the one script that touches storage here, and only its own sessionStorage flag.
+  assert.deepEqual(srcs, ['/assets/logo-once.js', '/assets/site-i18n.js', '/en/hub.js']);
   // The dictionary touches storage only inside setLang/readStored; the hub calls neither.
   assert.doesNotMatch(JS, /setLang|readStored|STORAGE_KEY/);
   const code = JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');

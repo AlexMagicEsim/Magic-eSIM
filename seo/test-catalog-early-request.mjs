@@ -58,7 +58,11 @@ test('EN country pages, the hub and the home load their scripts with defer, in t
   const order = ['magic-net', 'global-catalog', 'daily-plan-copy', 'country-names-en', 'site-i18n', 'plans', 'checkout', 'country'];
   let n = 0;
   for (const { slug, html } of countryPages('en/esim')) {
-    const tags = [...html.matchAll(/<script src="([^"]+)"([^>]*)><\/script>/g)];
+    // The ONE script without defer: assets/logo-once.js, in <head>, synchronous on purpose — it starts the logo's
+    // «Reveal + Wave» before first paint (owner, 2026-10-20; a deferred start would flash the logo away and back).
+    assert.equal((html.match(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/g) || []).length, 1, `${slug}: logo-once`);
+    assert.ok(html.indexOf('logo-once.js') < html.indexOf('</head>'), `${slug}: logo-once in <head>`);
+    const tags = [...html.matchAll(/<script src="([^"]+)"([^>]*)><\/script>/g)].filter((t) => !t[1].startsWith('/assets/logo-once.js'));
     if (!tags.length) continue;
     n += 1;
     for (const t of tags) assert.match(t[2], /\bdefer\b/, `${slug}: ${t[1]}`);
@@ -66,7 +70,10 @@ test('EN country pages, the hub and the home load their scripts with defer, in t
   }
   assert.ok(n >= 190, `EN pages checked: ${n}`);
   for (const f of ['en/esim/index.html', 'en/index.html']) {
-    for (const t of read(f).matchAll(/<script src="([^"]+)"([^>]*)><\/script>/g)) assert.match(t[2], /\bdefer\b/, `${f}: ${t[1]}`);
+    for (const t of read(f).matchAll(/<script src="([^"]+)"([^>]*)><\/script>/g)) {
+      if (t[1].startsWith('/assets/logo-once.js')) continue;   // the logo's start — see above
+      assert.match(t[2], /\bdefer\b/, `${f}: ${t[1]}`);
+    }
   }
 });
 

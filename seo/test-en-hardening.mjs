@@ -132,9 +132,9 @@ test('the checkout dialog can take focus, the status is announced, the logo name
   assert.match(page, /<p class="note" id="status" role="status" aria-live="polite"/);
   assert.match(page, /<button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>Try again<\/button>/);
   for (const p of [...COUNTRY_PAGES.slice(0, 5), ...OTHER_PAGES]) {
-    // Since the redesign the logo is the brand artwork alone (it contains the
-    // name), at 1x/2x/3x, so it carries the name as its alt.
-    assert.match(read(p), /<a class="brand" href="\/en\/"><img src="\/assets\/brand\/logo-1x\.png" srcset="\/assets\/brand\/logo-2x\.png 2x, \/assets\/brand\/logo-3x\.png 3x" width="59" height="44" alt="Magic eSIM"><\/a>/, `${p}: the logo link is named by its image`);
+    // The logo is the brand artwork alone (it contains the name) — since 2026-10-20 the animated SVG (logo A, the
+    // same as the Russian header), so it carries the name as role="img" + aria-label.
+    assert.match(read(p), /<a class="brand" href="\/en\/"><svg class="brand-logo" viewBox="336 208 574 432" width="59" height="44" role="img" aria-label="Magic eSIM">/, p);
   }
   const co = read('en/checkout.js');
   assert.match(co, /\$\('coTitle'\)\.focus\(\)/, 'focus moves into the dialog');
