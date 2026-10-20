@@ -1792,6 +1792,54 @@ function flagFor(code, pkg) {
   return key.replace(/[A-Z]/g, (ch) => String.fromCodePoint(127397 + ch.charCodeAt(0)));
 }
 
+/**
+ * The ISO codes with a local flag file, `assets/flags/<code>.svg` (flag-icons
+ * 4x3, pinned by `assets/flags/SOURCE.json`). The screens DRAW these as images
+ * rather than print the emoji: an emoji flag is the operating system's
+ * drawing, so it differs between iOS, Android and macOS, and Windows has none
+ * at all — Telegram Desktop prints the two letters. `seo/test-flags.mjs` holds
+ * this list equal to the directory.
+ */
+const FLAG_SVG = new Set((
+  'ad ae af ag ai al am ao ar at au aw ax az ba bb bd be bf bg bh bj bl bm bn '
+  + 'bo bq br bs bt bw bz ca cd cf cg ch ci cl cm cn co cr cv cw cy cz de dk dm '
+  + 'do dz ec ee eg es et fi fj fo fr ga gb gd ge gf gg gh gi gl gm gn gp gr gt '
+  + 'gu gw gy hk hn hr ht hu id ie il im in iq is it je jm jo jp ke kg kh kn kr '
+  + 'kw ky kz la lc li lk lr lt lu lv ly ma mc md me mf mg mk ml mn mo mp mq mr '
+  + 'ms mt mu mv mw mx my mz ne ng ni nl no np nr nz om pa pe pf pg ph pk pl pr '
+  + 'pt py qa re ro rs rw sa sc sd se sg si sk sl sm sn sr sv sx sz tc td th tj '
+  + 'tl tn to tr tt tw tz ug us uy uz va vc ve vg vn vu ws xk yt za zm zw '
+).trim().split(' '));
+
+/**
+ * A flag string as the screens draw it. Each regional-indicator pair with a
+ * local file becomes `{ code }` (lower case, the file's name); everything else
+ * — the globe of a wide region, a code with no file — stays `{ text }`, so a
+ * missing asset degrades to today's emoji instead of a broken image. The flag
+ * string itself (`flagFor`, the groups' `flag`) is unchanged.
+ */
+function flagParts(flag) {
+  const out = [];
+  const cps = [...String(flag || '')];
+  const isRi = (ch) => { const n = ch.codePointAt(0); return n >= 0x1F1E6 && n <= 0x1F1FF; };
+  const pushText = (t) => {
+    if (!t.trim()) return;
+    const last = out[out.length - 1];
+    if (last && 'text' in last) last.text += t; else out.push({ text: t });
+  };
+  for (let i = 0; i < cps.length; i++) {
+    if (isRi(cps[i]) && i + 1 < cps.length && isRi(cps[i + 1])) {
+      const code = String.fromCharCode(cps[i].codePointAt(0) - 127397, cps[i + 1].codePointAt(0) - 127397).toLowerCase();
+      if (FLAG_SVG.has(code)) out.push({ code });
+      else pushText(cps[i] + cps[i + 1]);
+      i++;
+    } else {
+      pushText(cps[i]);
+    }
+  }
+  return out;
+}
+
 /** A package covering more than one country is a regional offer, not a local one. An uncounted territory (Northern Cyprus) is not one more country. */
 function isRegional(pkg) {
   return Array.isArray(pkg && pkg.coverage_country_codes) && countedCountries(pkg.coverage_country_codes) > 1;
@@ -2773,7 +2821,7 @@ const CORE = {
   purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
   dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,
   byCountry, pickBestValue, searchCountries,
-  groupCatalogue, regionsCovering, countryLabel, flagFor, isRegional,
+  groupCatalogue, regionsCovering, countryLabel, flagFor, flagParts, FLAG_SVG, isRegional,
   regionLabel, plural, tariffWord, countryWord, countedCountries,
   REGION_NAMES, REGION_NAMES_EN, countryNames, countryNamesEn,
   pluralEn, tariffWordEn, countryWordEn,

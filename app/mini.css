@@ -720,11 +720,31 @@ button.card--row {
   font-size: 26px;
   line-height: 1;
   flex: 0 0 auto;
-  /* Emoji flags render at wildly different widths across iOS and Android; a
-     fixed box keeps every name in the list starting at the same x. */
+  /* A fixed box keeps every name in the list starting at the same x — the
+     image flag, a pair of them, or the emoji fallback (a globe, a code with no
+     file), which renders at different widths across iOS and Android. */
   width: 34px;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 }
+
+/* The storefront's flag files (assets/flags, 4:3). A hairline keeps a white
+   field (Japan, Korea) from dissolving into a white card. */
+.flag-img {
+  display: block;
+  width: 28px;
+  height: 21px;
+  border-radius: 3px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.card__flag--pair .flag-img { width: 16px; height: 12px; border-radius: 2px; }
+
+.chip__flag { display: inline-flex; vertical-align: -2px; gap: 2px; }
+.chip__flag .flag-img { width: 18px; height: 13.5px; border-radius: 2px; }
 
 .card__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
 

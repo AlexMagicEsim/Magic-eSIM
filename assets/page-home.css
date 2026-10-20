@@ -33,7 +33,7 @@
 .quick>span{color:var(--muted);font-size:14px;font-weight:600;margin-right:2px}
 .quick a{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px 0 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font-size:14px;font-weight:600;text-decoration:none;color:var(--text)}
 .quick a:hover{border-color:#c9d4f5;background:var(--accent-soft);color:var(--text)}
-.quick .flag{width:22px;height:16px;border-radius:3px}
+.quick .flag{width:22px;height:16.5px;border-radius:3px}
 .facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin:26px 0 0;padding:0;list-style:none;color:var(--muted);font-size:14px;font-weight:600}
 .facts li{display:flex;align-items:center;gap:8px}
 .facts svg{width:18px;height:18px;color:var(--ok);flex:none}

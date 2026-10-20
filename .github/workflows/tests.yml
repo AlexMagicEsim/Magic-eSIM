@@ -74,11 +74,12 @@ jobs:
       - name: Install the test runner
         run: npm ci
 
-      # Chromium only, matching playwright.config.js. `--with-deps` pulls the
-      # system libraries the browser needs on a bare runner; it is the browser
-      # that is downloaded here, not another dependency of the site.
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      # Chromium for the suite, WebKit for the flag tests only (the
+      # `webkit-flags` project in playwright.config.js). `--with-deps` pulls the
+      # system libraries the browsers need on a bare runner; it is the browsers
+      # that are downloaded here, not another dependency of the site.
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
 
       # Runs both viewport projects: 390x844 and 320x568, 27 cases each.
       #

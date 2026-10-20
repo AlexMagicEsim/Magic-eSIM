@@ -848,10 +848,23 @@
     ]);
   }
 
+  /**
+   * A flag as the storefront draws it: the local SVG, never the system emoji
+   * (C.flagParts). Decorative — the country's name is always next to it, so
+   * the image has an empty alt. Two flags (a two-country pack) share the box.
+   */
+  function flagNode(flag, cls = 'card__flag') {
+    const parts = C.flagParts(flag);
+    const pair = parts.filter((p) => p.code).length > 1;
+    return el('span', { class: pair ? `${cls} ${cls}--pair` : cls }, parts.map((p) => (p.code
+      ? el('img', { class: 'flag-img', src: `../assets/flags/${p.code}.svg`, width: '28', height: '21', alt: '', decoding: 'async' })
+      : p.text)));
+  }
+
   /** One destination row: flag, name, what you get, price, chevron. */
   function destinationRow(g) {
     return el('button', { class: 'card card--row', onclick: () => openCountry(g) }, [
-      el('span', { class: 'card__flag', text: g.flag || '' }),
+      flagNode(g.flag),
       el('span', { class: 'card__body' }, [
         el('span', { class: 'card__title', text: g.country }),
         el('span', {
@@ -2228,7 +2241,7 @@
     // 1. Header — what, how much, for how long, for how many.
     box.appendChild(el('div', { class: 'card stack' }, [
       el('div', { class: 'row' }, [
-        el('span', { class: 'card__flag', text: C.flagFor(p.country_code, p) }),
+        flagNode(C.flagFor(p.country_code, p)),
         el('h1', { text: title }),
       ]),
       el('div', { class: 'row row--between' }, [
@@ -2373,7 +2386,7 @@
       .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
 
     const body = el('div', { class: 'chips' },
-      names.map((x) => el('span', { class: 'chip', text: `${x.flag} ${x.name}` })));
+      names.map((x) => el('span', { class: 'chip' }, [flagNode(x.flag, 'chip__flag'), ` ${x.name}`])));
 
     return el('details', {
       class: 'card sheet',
@@ -2522,7 +2535,7 @@
 
     const rows = [
       el('div', { class: 'row' }, [
-        el('span', { class: 'card__flag', text: (group && group.flag) || C.flagFor(pkg.country_code, pkg) }),
+        flagNode((group && group.flag) || C.flagFor(pkg.country_code, pkg)),
         el('span', { class: 'card__body' }, [
           el('span', { class: 'card__title', text: where }),
           el('span', {
@@ -4017,7 +4030,7 @@
     }, [
       el('div', { class: 'row row--between esim-card__head' }, [
         el('span', { class: 'row esim-card__id' }, [
-          el('span', { class: 'card__flag', text: C.flagFor(e.country_code) }),
+          flagNode(C.flagFor(e.country_code)),
           // Title over subtitle when the customer named it; a single line when
           // they did not. The derived name is never lost — only demoted.
           el('span', { class: 'esim-card__titles' }, [
