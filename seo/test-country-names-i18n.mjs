@@ -147,9 +147,11 @@ test('only the generators read the table — no page or shipped script imports i
   // prefixed language (names file + pages), which write only PUBLISHED languages
   // (seo/test-locale-rehearsal.mjs proves nothing else is written). A page or a
   // shipped script reading it directly would still be wrong: the browser gets
-  // the generated assets/country-names-<prefix>.js.
+  // the generated assets/country-names-<prefix>.js. The two rehearsal tests (pages; daily-plan words) read it for the
+  // names a planned language's output may contain — tests, never shipped.
   const ALLOWED = new Set(['seo/country-names-i18n.mjs', 'seo/test-country-names-i18n.mjs',
-    'seo/build-country-dictionary-locale.mjs', 'seo/build-locale-pages.mjs', 'seo/test-locale-rehearsal.mjs']);
+    'seo/build-country-dictionary-locale.mjs', 'seo/build-locale-pages.mjs', 'seo/test-locale-rehearsal.mjs',
+    'seo/test-daily-copy-langs.mjs']);
   const SKIP = new Set(['.git', 'node_modules', 'test-results', 'playwright-report']);
   const users = [];
   (function walk(dir) {

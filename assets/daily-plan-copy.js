@@ -50,23 +50,125 @@
   var BLOCK_TITLE = 'Трафик на каждый день';
 
   /* ------------------------------------------------------------------ *
-   * A SECOND LANGUAGE, ADDED WITHOUT MOVING THE FIRST.
+   * ONE TABLE OF WORDS PER LANGUAGE (I18N stage 2).
    *
-   * Every exported function below grew an OPTIONAL trailing `lang`. It
-   * defaults to Russian, so the thirty-odd storefront and SEO-page call sites
-   * — which pass nothing — take the identical code path and produce the
-   * identical bytes they always did. That is a property of the default, not of
-   * anybody remembering to check: a call that does not mention a language
-   * cannot get a different answer than it did before this change.
+   * Every exported function takes an OPTIONAL trailing `lang`. Without one —
+   * or with a language that has no table — it speaks Russian, so the
+   * thirty-odd storefront and SEO-page call sites, which pass nothing, take
+   * the identical path and produce the identical bytes they always did. That
+   * is a property of the default, not of anybody remembering to check.
    *
-   * The words live HERE rather than in app/locales.js because they are not
+   * The words live HERE rather than in a flat dictionary because they are not
    * looked up, they are ASSEMBLED — from a digit-driven plural, a regex-matched
-   * region name and a joined country list. A flat key/value dictionary cannot
-   * parameterise that, and this file is loaded by the storefront too, which has
-   * no dictionary at all.
+   * region name and a joined country list. So a table holds templates
+   * («{a} a day»), units, the decimal mark, the list joiners, the plural rule
+   * and the region names; the code that decides WHAT may be said is shared by
+   * every language and lives below, once. Until 2026-10-21 English was a
+   * second branch (`lang === EN ? … : …`) in every function; Spanish would
+   * have been a third. A new language is now one table and nothing else —
+   * seo/test-daily-copy-langs.mjs holds every table to the same keys, the same
+   * thirteen places and the language's own plural categories, and pins the
+   * Russian and English output byte for byte to what the branches produced
+   * (test/fixtures/daily-copy-golden.json).
+   *
+   * A table may NOT say more than the Russian one: the same four lines, the
+   * same «then up to», never a word for traffic that continues.
+   *
+   * `days` / `countries` are a function (n -> word) or plural forms keyed by
+   * the categories of Intl.PluralRules for that language ({ one, other }…);
+   * a missing Intl falls back to `other`.
    * ------------------------------------------------------------------ */
-  var EN = 'en';
-  var BLOCK_TITLE_EN = 'Data every day';
+  function pluralRu(one, few, many) {
+    return function (n) {
+      var v = Math.abs(Number(n)) % 100;
+      var d = v % 10;
+      if (v > 10 && v < 20) return many;
+      if (d > 1 && d < 5) return few;
+      if (d === 1) return one;
+      return many;
+    };
+  }
+
+  // English has two forms and only 1 is singular — zero is plural.
+  function pluralEn(one, other) {
+    return function (n) { return Math.abs(Number(n) || 0) === 1 ? one : other; };
+  }
+
+  var COPY = {
+    ru: {
+      blockTitle: BLOCK_TITLE,
+      decimal: ',', mb: 'МБ', gb: 'ГБ',
+      kbps: 'Кбит/с', mbps: 'Мбит/с', gbps: 'Гбит/с',
+      allowance: '{a} в день на максимальной скорости',
+      // Deliberately «Далее — до X» and not the longer phrasing that would
+      // promise the traffic keeps flowing at that speed. We repeat a published
+      // number; we do not make the second, stronger claim on top of it.
+      throttle: 'Далее — до {s}',
+      reset: 'Лимит обновляется каждые 24 часа',
+      term: 'Срок: {n} {days}',
+      perDay: '{a} в день',
+      titled: '{place} — {perDay}',
+      withTerm: '{base}, {n} {days}',
+      count: '{n} {countries}',
+      listSep: ', ', listAnd: ' и ',
+      days: pluralRu('день', 'дня', 'дней'),
+      countries: pluralRu('страна', 'страны', 'стран'),
+      places: null   // the region names below ARE Russian
+    },
+    en: {
+      blockTitle: 'Data every day',
+      decimal: '.', mb: 'MB', gb: 'GB',
+      kbps: 'Kbps', mbps: 'Mbps', gbps: 'Gbps',
+      allowance: '{a} a day at full speed',
+      throttle: 'Then up to {s}',
+      reset: 'The allowance resets every 24 hours',
+      term: 'Term: {n} {days}',
+      perDay: '{a} a day',
+      titled: '{place} — {perDay}',
+      withTerm: '{base}, {n} {days}',
+      count: '{n} {countries}',
+      listSep: ', ', listAnd: ' and ',
+      days: pluralEn('day', 'days'),
+      countries: pluralEn('country', 'countries'),
+      // Keyed by the RUSSIAN name, so there is still exactly one table of
+      // regexes: this is a translation of its answers, not a second copy of
+      // its questions.
+      places: {
+        'Центральная Азия': 'Central Asia', 'Балканы': 'the Balkans',
+        'Северная Америка': 'North America', 'Южная Америка': 'South America',
+        'Латинская Америка': 'Latin America', 'Карибы': 'the Caribbean',
+        'Страны Персидского залива': 'the Gulf states', 'Ближний Восток': 'the Middle East',
+        'Весь мир': 'Worldwide', 'Европа': 'Europe', 'Азия и Океания': 'Asia-Pacific',
+        'Азия': 'Asia', 'Африка': 'Africa'
+      }
+    }
+    /* --- LANGUAGE TABLES END --- */
+  };
+
+  var LANGS = Object.keys(COPY);
+
+  /** The table for `lang`; Russian for none, an unknown one, or a language without a table yet. */
+  function copyOf(lang) {
+    return typeof lang === 'string' && Object.prototype.hasOwnProperty.call(COPY, lang) ? COPY[lang] : COPY.ru;
+  }
+
+  /** «{a} a day» + { a: '1 GB' }. One pass: a filled-in value is never read as a template. */
+  function fill(template, vars) {
+    return template.replace(/\{(\w+)\}/g, function (all, k) {
+      return Object.prototype.hasOwnProperty.call(vars, k) ? String(vars[k]) : all;
+    });
+  }
+
+  function plural(forms, n, lang) {
+    if (typeof forms === 'function') return forms(n);
+    var category = 'other';
+    try { category = new Intl.PluralRules(lang).select(Math.abs(Number(n) || 0)); } catch (e) { /* no Intl: other */ }
+    return Object.prototype.hasOwnProperty.call(forms, category) ? forms[category] : forms.other;
+  }
+
+  function langOf(lang) {
+    return typeof lang === 'string' && Object.prototype.hasOwnProperty.call(COPY, lang) ? lang : 'ru';
+  }
 
   function isDaily(pkg) {
     return !!pkg && String(pkg.plan_type || '') === 'DAILY';
@@ -81,33 +183,24 @@
     // arrives as 0.49 and multiplies back to 501.76 — printing «502 МБ» would
     // invent a precision the number never had and disagree with the name the
     // provider itself uses.
-    if (n < 1) return Math.round((n * 1024) / 10) * 10 + (lang === EN ? ' MB' : ' МБ');
-    // Russian decimals use a comma; English uses a point and keeps it.
-    var text = Number.isInteger(n) ? String(n)
-      : (lang === EN ? String(n) : String(n).replace('.', ','));
-    return text + (lang === EN ? ' GB' : ' ГБ');
+    var c = copyOf(lang);
+    if (n < 1) return Math.round((n * 1024) / 10) * 10 + ' ' + c.mb;
+    // The decimal mark is the language's: a comma in Russian, a point in English.
+    var text = Number.isInteger(n) ? String(n) : String(n).replace('.', c.decimal);
+    return text + ' ' + c.gb;
   }
 
   /** The provider writes "384 Kbps" / "1 Mbps". Customers read Russian. */
   function formatSpeed(label, lang) {
     var m = String(label || '').trim().match(/^(\d+(?:[.,]\d+)?)\s*(kbps|mbps|gbps)$/i);
     if (!m) return '';
-    var unit = m[2].toLowerCase();
-    var word = lang === EN
-      ? (unit === 'kbps' ? 'Kbps' : unit === 'mbps' ? 'Mbps' : 'Gbps')
-      : (unit === 'kbps' ? 'Кбит/с' : unit === 'mbps' ? 'Мбит/с' : 'Гбит/с');
-    return (lang === EN ? m[1] : m[1].replace('.', ',')) + ' ' + word;
+    var c = copyOf(lang);
+    var word = c[m[2].toLowerCase()];
+    return m[1].replace('.', c.decimal) + ' ' + word;
   }
 
   function pluralDays(n, lang) {
-    // English has two forms and only 1 is singular — zero is plural.
-    if (lang === EN) return Math.abs(Number(n) || 0) === 1 ? 'day' : 'days';
-    var v = Math.abs(Number(n)) % 100;
-    var d = v % 10;
-    if (v > 10 && v < 20) return 'дней';
-    if (d > 1 && d < 5) return 'дня';
-    if (d === 1) return 'день';
-    return 'дней';
+    return plural(copyOf(lang).days, n, langOf(lang));
   }
 
   /**
@@ -120,32 +213,26 @@
   function lines(pkg, lang) {
     if (!isDaily(pkg)) return [];
     var out = [];
-    var en = lang === EN;
+    var c = copyOf(lang);
 
     var allowance = formatAllowance(pkg.daily_gb, lang);
     if (!allowance) return [];
-    out.push({ kind: 'allowance', text: en
-      ? allowance + ' a day at full speed'
-      : allowance + ' в день на максимальной скорости' });
+    out.push({ kind: 'allowance', text: fill(c.allowance, { a: allowance }) });
 
     var speed = formatSpeed(pkg.daily_throttle_label, lang);
     if (speed) {
-      // Deliberately «Далее — до X» and not the longer phrasing that would
-      // promise the traffic keeps flowing at that speed. We repeat a published
-      // number; we do not make the second, stronger claim on top of it.
-      out.push({ kind: 'throttle', text: en ? 'Then up to ' + speed : 'Далее — до ' + speed });
+      // «Then up to X» — what the speed BECOMES (see `throttle` in the tables).
+      out.push({ kind: 'throttle', text: fill(c.throttle, { s: speed }) });
     }
 
     if (pkg.daily_reset_confirmed === true) {
-      out.push({ kind: 'reset', text: en
-        ? 'The allowance resets every 24 hours'
-        : 'Лимит обновляется каждые 24 часа' });
+      out.push({ kind: 'reset', text: c.reset });
     }
 
     if (String(pkg.daily_term_mode || '') === 'FIXED_TERM') {
       var d = Number(pkg.validity_days);
       if (isFinite(d) && d > 0) {
-        out.push({ kind: 'term', text: (en ? 'Term: ' : 'Срок: ') + d + ' ' + pluralDays(d, lang) });
+        out.push({ kind: 'term', text: fill(c.term, { n: d, days: pluralDays(d, lang) }) });
       }
     }
 
@@ -212,44 +299,27 @@
   // фактическому каталогу, а не по догадке — CA здесь Центральная Азия,
   // потому что так называются все пакеты с этим префиксом, и AR — Латинская
   // Америка по той же причине.
-  /**
-   * The same places in English, keyed by the RUSSIAN name so the two lists
-   * cannot fall out of step: there is still exactly one table of regexes, and
-   * this is a translation of its answers rather than a second copy of its
-   * questions.
-   */
-  var PLACES_EN = {
-    'Центральная Азия': 'Central Asia', 'Балканы': 'the Balkans',
-    'Северная Америка': 'North America', 'Южная Америка': 'South America',
-    'Латинская Америка': 'Latin America', 'Карибы': 'the Caribbean',
-    'Страны Персидского залива': 'the Gulf states', 'Ближний Восток': 'the Middle East',
-    'Весь мир': 'Worldwide', 'Европа': 'Europe', 'Азия и Океания': 'Asia-Pacific',
-    'Азия': 'Asia', 'Африка': 'Africa'
-  };
-
-  function placeEn(name) {
-    return name ? (PLACES_EN[name] || name) : name;
-  }
-
   var REGION_BY_PREFIX = {
     EU: 'Европа', AS: 'Азия', NA: 'Северная Америка', SA: 'Южная Америка',
     CA: 'Центральная Азия', ME: 'Ближний Восток', CB: 'Карибы',
     GL: 'Весь мир', AR: 'Латинская Америка', AF: 'Африка',
   };
 
+  /** A region name (Russian, from the lists above) in the asked-for language. */
+  function placeIn(name, lang) {
+    var places = copyOf(lang).places;
+    return name && places ? (places[name] || name) : name;
+  }
+
   /** «Сингапур, Малайзия и Таиланд» — из КОДОВ, а не из английского текста. */
   function joinCountries(names, lang) {
     if (names.length === 1) return names[0];
-    return names.slice(0, -1).join(', ') + (lang === EN ? ' and ' : ' и ') + names[names.length - 1];
+    var c = copyOf(lang);
+    return names.slice(0, -1).join(c.listSep) + c.listAnd + names[names.length - 1];
   }
 
   function pluralCountries(n, lang) {
-    if (lang === EN) return Math.abs(Number(n) || 0) === 1 ? 'country' : 'countries';
-    var v = Math.abs(n) % 100; var d = v % 10;
-    if (v > 10 && v < 20) return 'стран';
-    if (d > 1 && d < 5) return 'страны';
-    if (d === 1) return 'страна';
-    return 'стран';
+    return plural(copyOf(lang).countries, n, langOf(lang));
   }
 
   /**
@@ -277,7 +347,7 @@
     var raw = String((pkg && pkg.name) || '').replace(/[_/]+/g, ' ');
     for (var i = 0; i < KNOWN_PLACES.length; i++) {
       if (KNOWN_PLACES[i][0].test(raw)) {
-        return lang === EN ? placeEn(KNOWN_PLACES[i][1]) : KNOWN_PLACES[i][1];
+        return placeIn(KNOWN_PLACES[i][1], lang);
       }
     }
 
@@ -289,10 +359,16 @@
 
     var prefix = String((pkg && pkg.country_code) || '').replace(/[-–]?\d+\+?$/, '').toUpperCase();
     if (REGION_BY_PREFIX[prefix]) {
-      return lang === EN ? placeEn(REGION_BY_PREFIX[prefix]) : REGION_BY_PREFIX[prefix];
+      return placeIn(REGION_BY_PREFIX[prefix], lang);
     }
 
-    return countryCount(codes) + ' ' + pluralCountries(countryCount(codes), lang);
+    return countLine(codes, lang);
+  }
+
+  /** «34 страны» / «34 countries» — counted countries, never territories. */
+  function countLine(codes, lang) {
+    var n = countryCount(codes);
+    return fill(copyOf(lang).count, { n: n, countries: pluralCountries(n, lang) });
   }
 
   /** «Европа — 300 МБ в день». Пустая строка, если места назвать не смогли. */
@@ -301,8 +377,9 @@
     var allowance = formatAllowance(pkg && pkg.daily_gb, lang);
     if (!allowance) return '';
     var place = placeName(pkg, countryName, lang);
-    var perDay = allowance + (lang === EN ? ' a day' : ' в день');
-    var base = place ? place + ' — ' + perDay : perDay;
+    var c = copyOf(lang);
+    var perDay = fill(c.perDay, { a: allowance });
+    var base = place ? fill(c.titled, { place: place, perDay: perDay }) : perDay;
     // «Dubai Unlimited 1/3/5/7/10/15 Days» — шесть продуктов, у которых
     // совпадает всё, кроме срока. Без срока в заголовке страница ОАЭ
     // показывает шесть карточек с одним и тем же названием и выглядит как
@@ -310,7 +387,7 @@
     // названии быть не должно.
     var fixedDays = Number(pkg && pkg.validity_days);
     if (pkg && pkg.daily_term_mode === 'FIXED_TERM' && isFinite(fixedDays) && fixedDays > 0) {
-      return base + ', ' + fixedDays + ' ' + pluralDays(fixedDays, lang);
+      return fill(c.withTerm, { base: base, n: fixedDays, days: pluralDays(fixedDays, lang) });
     }
     return base;
   }
@@ -325,20 +402,23 @@
   /** «Покрытие: 34 страны» или «Покрытие: Ирландия». */
   function coverageLine(pkg, countryName, lang) {
     var codes = Array.isArray(pkg && pkg.coverage_country_codes) ? pkg.coverage_country_codes : [];
-    if (codes.length > 1) return countryCount(codes) + ' ' + pluralCountries(countryCount(codes), lang);
+    if (codes.length > 1) return countLine(codes, lang);
     var name = typeof countryName === 'function' ? countryName : function (c) { return c; };
     return name(codes[0] || (pkg && pkg.country_code) || '') || '';
   }
 
   /** The block heading, in the asked-for language. Russian by default. */
   function blockTitle(lang) {
-    return lang === EN ? BLOCK_TITLE_EN : BLOCK_TITLE;
+    return copyOf(lang).blockTitle;
   }
 
   var api = {
     // Kept as a plain string as well as a function: thirty-odd storefront call
     // sites read `BLOCK_TITLE` directly, and they must keep working untouched.
     BLOCK_TITLE: BLOCK_TITLE,
+    // The languages this module has words for. The Mini App's DAILY_COPY_LANGS and the locale generator's
+    // cannotBuild() are held to it (seo/test-daily-copy-langs.mjs).
+    LANGS: LANGS,
     blockTitle: blockTitle,
     placeName: placeName,
     displayName: displayName,
