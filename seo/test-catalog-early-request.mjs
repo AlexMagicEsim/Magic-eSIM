@@ -60,7 +60,7 @@ test('EN country pages, the hub and the home load their scripts with defer, in t
   for (const { slug, html } of countryPages('en/esim')) {
     // The ONE script without defer: assets/logo-once.js, in <head>, synchronous on purpose — it starts the logo's
     // «Reveal + Wave» before first paint (owner, 2026-10-20; a deferred start would flash the logo away and back).
-    assert.equal((html.match(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/g) || []).length, 1, `${slug}: logo-once`);
+    assert.equal((html.match(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"(?: data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]{8}")?><\/script>/g) || []).length, 1, `${slug}: logo-once (it may name assets/motion.js, nothing else)`);
     assert.ok(html.indexOf('logo-once.js') < html.indexOf('</head>'), `${slug}: logo-once in <head>`);
     const tags = [...html.matchAll(/<script src="([^"]+)"([^>]*)><\/script>/g)].filter((t) => !t[1].startsWith('/assets/logo-once.js'));
     if (!tags.length) continue;

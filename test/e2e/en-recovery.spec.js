@@ -382,6 +382,8 @@ test.describe('axe on the error and recovery states', () => {
   test.use({ bypassCSP: true });   // only so axe can be injected; the pages are unchanged
   const audit = async (page, label) => {
     await page.addScriptTag({ content: AXE });
+    // axe reads the page at rest: the Expressive entrances fade blocks in, and a half-transparent text reads as low contrast
+    await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'), null, { timeout: 6000 });
     const v = await page.evaluate(async () => (await axe.run(document, { runOnly: ['wcag2a', 'wcag2aa'] }))
       .violations.map((x) => `${x.id} ×${x.nodes.length}`));
     expect(v, label).toEqual([]);
