@@ -49,6 +49,7 @@ import { LOCALES, locale, homeUrl, X_DEFAULT_CURRENT } from './locales.mjs';
 import { homePage as renderHome } from './home-page.mjs';
 import { missingGuards } from './claim-guards.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
+import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 
 export { FONT_PRELOAD, LOGO };
 
@@ -97,14 +98,18 @@ const HEAD_ICONS = `<link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />`;
 
-const ROBOTS = `<!-- A TEMPLATE PAGE: nothing on it was written or reviewed for this country,
-     so it is not offered to search engines (noindex), is not in the sitemap and
-     has no hreflang twin. «follow» keeps its links crawlable. -->
-<meta name="robots" content="noindex, follow">`;
-
-const GUIDE_ROBOTS = `<!-- Written for this site but not yet reviewed for search: noindex, no hreflang
-     twin, not in the sitemap, until PR 8 ships the review with all three. -->
-<meta name="robots" content="noindex, follow">`;
+/* INDEXING (I18N-09): seo/indexing.mjs decides, per page and language, whether search engines are offered the page and
+ * which pages are its twins. An indexed page says `index, follow` and lists its cluster (every indexed twin + x-default
+ * → English); any other page stays `noindex, follow` with no alternate and out of the sitemap. */
+const NOINDEX_NOTE = `<!-- Not offered to search engines yet (noindex): a page outside the indexing stage of
+     seo/indexing.mjs is not in the sitemap and has no hreflang twin. «follow» keeps its links crawlable. -->`;
+const INDEX_NOTE = `<!-- Indexed (seo/indexing.mjs): in the sitemap, with the hreflang cluster of its indexed
+     twins in every language and x-default → English. -->`;
+const indexingHead = (code, page) => {
+  const alts = alternateLinks(page);
+  if (robotsFor(code, page) === 'index, follow' && alts) return `${INDEX_NOTE}\n<meta name="robots" content="index, follow">\n${alts}`;
+  return `${NOINDEX_NOTE}\n<meta name="robots" content="noindex, follow">`;
+};
 
 
 
@@ -179,14 +184,8 @@ export function listIndex(code) {
 }
 
 
-/* The Russian twin of each guide — for the language switch only. */
-export const GUIDE_RU = Object.freeze({
-  iphone: '/iphone.html',
-  android: '/android.html',
-  compatibility: '/esim/compatibility/',
-  activation: '/esim/activation-before-travel/',
-  troubleshooting: '/esim/not-working/',
-});
+/* The Russian twin of each guide — the language switch and the hreflang clusters (seo/indexing.mjs holds it). */
+export { GUIDE_RU };
 
 /* One icon per guide, for its card and its hero. Decorative only. */
 const guideIcon = (slug) => {
@@ -565,7 +564,7 @@ function countryPage(c) {
 <title>${title}</title>
 <meta name="description" content="${C.countryDescription(name)}">
 <link rel="canonical" href="${url}">
-${ROBOTS}
+${indexingHead(L.code, { kind: 'country', slug: c.slug })}
 ${cspMeta(primaryApiOrigin())}
 <meta property="og:type" content="website">
 <meta property="og:locale" content="${L.ogLocale}">
@@ -685,7 +684,7 @@ ${cs.map(item).join('\n')}
 <title>${C.hubTitle}</title>
 <meta name="description" content="${C.hubDescription}">
 <link rel="canonical" href="${url}">
-${ROBOTS}
+${indexingHead(L.code, { kind: 'hub' })}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
@@ -787,7 +786,7 @@ ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
 <title>${esc(g.title)}</title>
 <meta name="description" content="${esc(g.description)}">
 <link rel="canonical" href="${url}">
-${GUIDE_ROBOTS}
+${indexingHead(L.code, { kind: 'guide', slug: g.slug })}
 ${cspMeta("'none'")}
 <meta property="og:type" content="article">
 <meta property="og:locale" content="${L.ogLocale}">
@@ -863,7 +862,7 @@ function guidesHub(all = GUIDES) {
 <title>${C.guidesTitle}</title>
 <meta name="description" content="${C.guidesDescription}">
 <link rel="canonical" href="${url}">
-${GUIDE_ROBOTS}
+${indexingHead(L.code, { kind: 'guides' })}
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
@@ -916,13 +915,11 @@ ${rows}
 }
 
 /* THE HOME (seo/home-page.mjs). Its indexing is the registry's: an indexable home carries the hreflang cluster of
- * every indexable home plus x-default (X_DEFAULT_CURRENT until I18N-09) and says `index, follow`; any other home is
- * `noindex, follow` with no alternate — a language is published under noindex first (owner, D5) and reviewed. */
-const HOME_CLUSTER_NOTE = `<!-- The cluster is declared on BOTH pages and both point at each other and at
-     themselves, which is what makes it valid. It covers exactly these two URLs:
-     the Russian country pages under /esim/ have no English twin yet, so they
-     carry no alternate — an hreflang pointing at a page that does not exist is
-     an error, not a placeholder. -->`;
+ * every indexable home plus x-default (X_DEFAULT_CURRENT — English since I18N-09) and says `index, follow`; any other
+ * home is `noindex, follow` with no alternate — a language is published under noindex first (owner, D5) and reviewed. */
+const HOME_CLUSTER_NOTE = `<!-- The cluster is declared on EVERY home of the cluster and each points at all the
+     others and at itself, which is what makes it valid. The other pages' clusters
+     come from seo/indexing.mjs. -->`;
 const HOME_INDEX = `<!-- Stated rather than relied upon. The default is index,follow, but the RU
      landing says it out loud and a page whose indexability is a deliberate
      decision should not leave it to a default. -->
@@ -984,6 +981,6 @@ export function publishedLocales() {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   for (const code of publishedLocales()) {
     const n = localeGenerator(code).build();
-    console.log(`${code}: ${n.countries} country pages + the list (noindex), destinations.js; ${n.guides} guides + the list (noindex)`);
+    console.log(`${code}: ${n.countries} country pages + the list, destinations.js; ${n.guides} guides + the list (indexing: seo/indexing.mjs)`);
   }
 }

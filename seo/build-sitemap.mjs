@@ -52,7 +52,13 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SITE } from './countries.mjs';
 import { loadCached } from './catalogue-source.mjs';
-import { indexablePrefixedHomes, homeUrl } from './locales.mjs';
+import { indexedPrefixedPages } from './indexing.mjs';
+import { EN_GUIDES } from './guides-en.mjs';
+
+const PREFIXED_WEIGHT = {
+  home: { prio: '0.9', freq: 'weekly' }, hub: { prio: '0.8', freq: 'weekly' }, country: { prio: '0.8', freq: 'weekly' },
+  guides: { prio: '0.6', freq: 'monthly' }, guide: { prio: '0.7', freq: 'monthly' },
+};
 import { LOGO as STATIC_LOGO } from './site-chrome.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -64,11 +70,12 @@ const STATE = join(ROOT, 'seo/sitemap-lastmod.json');
 export function sitemapUrls(countries) {
   return [
     { loc: `${SITE}/`, prio: '1.0', freq: 'weekly' },
-    // The other languages' homes — published AND indexable in seo/locales.mjs
-    // (I18N-08; today exactly /en/). ONE url per language, because its country
-    // pages are noindex templates: listing URLs nobody may index is how a
-    // sitemap starts reporting errors instead of pages.
-    ...indexablePrefixedHomes().map((code) => ({ loc: homeUrl(code), prio: '0.9', freq: 'weekly' })),
+    // The other languages' indexed pages (I18N-09): exactly what seo/indexing.mjs
+    // offers to search engines — home, destination list, guide list, guides and the
+    // country pages of the current stage. Every other prefixed page is noindex and
+    // stays out: listing URLs nobody may index is how a sitemap starts reporting
+    // errors instead of pages.
+    ...indexedPrefixedPages(EN_GUIDES.map((g) => g.slug)).map(({ page, loc }) => ({ loc, ...PREFIXED_WEIGHT[page.kind] })),
     { loc: `${SITE}/esim/`, prio: '0.8', freq: 'weekly' },
     ...countries.map((c) => ({ loc: `${SITE}/esim/${c.slug}/`, prio: '0.9', freq: 'weekly' })),
     { loc: `${SITE}/esim/compatibility/`, prio: '0.7', freq: 'monthly' },

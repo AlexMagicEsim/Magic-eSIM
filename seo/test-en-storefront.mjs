@@ -8,6 +8,8 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { indexedPrefixedPages } from './indexing.mjs';
+import { EN_GUIDES as EN_GUIDES_FOR_SITEMAP } from './guides-en.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -408,10 +410,12 @@ test('canonical is self-referencing on both pages', () => {
 
 test('the hreflang cluster is reciprocal and complete', () => {
   // A one-sided cluster is ignored. Each page must name ITSELF and the other.
-  for (const [name, html] of [['en', EN], ['ru', RU]]) {
+  // I18N-09: three homes, x-default → English (owner 2026-10-13).
+  for (const [name, html] of [['en', EN], ['ru', RU], ['es', read('es/index.html')]]) {
     assert.match(html, /hreflang="ru" href="https:\/\/magicesim\.store\/"/, name);
     assert.match(html, /hreflang="en" href="https:\/\/magicesim\.store\/en\/"/, name);
-    assert.match(html, /hreflang="x-default" href="https:\/\/magicesim\.store\/"/, name);
+    assert.match(html, /hreflang="es" href="https:\/\/magicesim\.store\/es\/"/, name);
+    assert.match(html, /hreflang="x-default" href="https:\/\/magicesim\.store\/en\/"/, name);
   }
 });
 
@@ -447,10 +451,9 @@ test('the sitemap lists the English page exactly once, beside the Russian one', 
   assert.equal(locs.filter((l) => l === 'https://magicesim.store/en/').length, 1);
   assert.equal(locs.filter((l) => l === 'https://magicesim.store/').length, 1);
   assert.ok(locs.length >= 209, `sitemap shrank to ${locs.length} — a Russian page was lost`);
-  // The English country pages are noindex templates: none of them is listed.
-  for (const l of locs.filter((x) => x.includes('/en/'))) {
-    assert.equal(l, 'https://magicesim.store/en/', l);
-  }
+  // Only the English pages seo/indexing.mjs indexes are listed (I18N-09): the home, list, guides and the stage.
+  assert.deepEqual(locs.filter((x) => x.includes('/en/')).sort(),
+    indexedPrefixedPages(EN_GUIDES_FOR_SITEMAP.map((g) => g.slug)).filter((p) => p.code === 'en').map((p) => p.loc).sort());
 });
 
 test('the English page is not a copy of the Russian one', () => {

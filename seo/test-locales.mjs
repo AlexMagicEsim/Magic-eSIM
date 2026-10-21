@@ -134,8 +134,8 @@ test('the registry cannot be rewritten at runtime', () => {
   }
 });
 
-test('x-default: today it is the Russian home; the owner decided EN, applied by the indexing stage', () => {
-  assert.equal(X_DEFAULT_CURRENT, 'ru');
+test('x-default: the owner decided EN, and the indexing stage (I18N-09) applied it', () => {
+  assert.equal(X_DEFAULT_CURRENT, 'en');
   assert.equal(X_DEFAULT_DECIDED, 'en');
 });
 
@@ -146,10 +146,11 @@ test('x-default: today it is the Russian home; the owner decided EN, applied by 
 test('exactly Russian, English and Spanish are on the site; the Mini App offers Russian and English', () => {
   // A stage that launches a language changes THIS line, deliberately, in the
   // same PR as that language's dictionaries and pages. ES-1 (2026-10-21) added Spanish to the site, under noindex;
-  // the Mini App gets no new language before GLOBAL payments (owner).
+  // I18N-09 made it indexable (seo/indexing.mjs decides which pages). The Mini App gets no new language before GLOBAL
+  // payments (owner).
   assert.deepEqual(siteLocales(), ['ru', 'en', 'es']);
   assert.deepEqual(appLocales(), ['ru', 'en']);
-  assert.equal(locale('es').site.indexableHome, false, 'Spanish is under review: its home is not indexable yet (owner D5)');
+  assert.equal(locale('es').site.indexableHome, true, 'Spanish is indexable since I18N-09');
 });
 
 test('a disabled language has no directory and no sitemap URL', () => {

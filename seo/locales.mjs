@@ -19,9 +19,9 @@
 //   - Simplified Chinese lives at /zh/ with lang and hreflang `zh-Hans`
 //     (script, not region: `zh-CN` would target mainland China, where Google is
 //     blocked). Traditional Chinese, if ever, is `zh-Hant` at /zh-hant/.
-//   - x-default moves to EN — but in the indexing stage (I18N-09), NOT here:
-//     moving it changes the Russian home's <head>, and this stage changes no
-//     output. `X_DEFAULT_CURRENT` is what the live pages say today.
+//   - x-default moves to EN — in the indexing stage (I18N-09, 2026-10-21: done;
+//     the Russian home's <head> changed with it). `X_DEFAULT_CURRENT` is what
+//     the live pages say.
 //   - Rollout: a working EN + GLOBAL payments first, then ES, then DE/FR, then
 //     ZH/KO. The Mini App gets no new language for customers before GLOBAL
 //     payments exist.
@@ -56,10 +56,11 @@ export const LOCALES = Object.freeze([
     site: { enabled: true, indexableHome: true, analytics: 'metrika' }, app: { enabled: true } }),
   L({ code: 'en', prefix: 'en', htmlLang: 'en', hreflang: 'en', ogLocale: 'en_US', script: 'Latn', endonym: 'English', defaultMarket: 'global',
     site: { enabled: true, indexableHome: true, analytics: 'none' }, app: { enabled: true } }),
-  // ES-1 (2026-10-21): published under noindex for review (owner D5) — no hreflang cluster, not in the sitemap, until
-  // the indexing stage sets indexableHome. The Mini App does not offer it (no Mini App language before GLOBAL payments).
+  // ES-1 (2026-10-21) published it under noindex for review; ES-1r reviewed it (AI-only, owner); I18N-09 makes it
+  // indexable: home, list, guides and the country stage of seo/indexing.mjs. The Mini App does not offer it (no Mini App
+  // language before GLOBAL payments).
   L({ code: 'es', prefix: 'es', htmlLang: 'es', hreflang: 'es', ogLocale: 'es_ES', script: 'Latn', endonym: 'Español', defaultMarket: 'global',
-    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: true, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'de', prefix: 'de', htmlLang: 'de', hreflang: 'de', ogLocale: 'de_DE', script: 'Latn', endonym: 'Deutsch', defaultMarket: 'global',
     site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'fr', prefix: 'fr', htmlLang: 'fr', hreflang: 'fr', ogLocale: 'fr_FR', script: 'Latn', endonym: 'Français', defaultMarket: 'global',
@@ -70,8 +71,8 @@ export const LOCALES = Object.freeze([
     site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
 ]);
 
-/** What the live homes declare as x-default today (`/`). See the decisions above. */
-export const X_DEFAULT_CURRENT = 'ru';
+/** What the live pages declare as x-default: the English twin since I18N-09 (was `ru` = `/`). See the decisions above. */
+export const X_DEFAULT_CURRENT = 'en';
 
 /** The owner's decided target for x-default, applied by the indexing stage (I18N-09). */
 export const X_DEFAULT_DECIDED = 'en';

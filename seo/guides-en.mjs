@@ -33,9 +33,12 @@
 //           SIM status; «To use an eSIM, a phone also needs an EID»).
 //   Samsung samsung.com/uk/support/mobile-devices/how-to-use-an-esim-with-your-
 //           galaxy-phone/ (Connections → SIM card manager → Add mobile plan →
-//           Add using QR code / Add using activation code), .../how-do-i-turn-
-//           international-data-roaming-on-or-off-on-my-samsung-galaxy-device/
-//           (Connections → Mobile Networks → Data Roaming).
+//           Add using QR code / Add using activation code — updated 2025-01-22, the
+//           older One UI labels), samsung.com/us/support/answer/ANS10001619/ (read
+//           2026-10-21: Settings → Connections → SIM manager → Add eSIM → Scan QR
+//           code — the current labels; both sets are named on the page),
+//           .../how-do-i-turn-international-data-roaming-on-or-off-on-my-samsung-
+//           galaxy-device/ (Connections → Mobile Networks → Data Roaming).
 //   NOT found in any of them, so NOT stated: the *#06# check, the names
 //   «SM-DP+ address» and «activation code» on iPhone/Pixel, «Download a SIM».
 //
@@ -98,7 +101,7 @@ export const EN_GUIDES = [
   {
     slug: 'android',
     nav: 'Android',
-    title: 'How to install an eSIM on Android — Samsung, Pixel and others | Magic eSIM',
+    title: 'How to install an eSIM on Android | Magic eSIM',
     description: 'Install a travel eSIM on an Android phone with a QR code or manually, set it as the mobile data line and turn on roaming at your destination.',
     h1: 'How to install an eSIM on Android',
     blurb: 'Where the eSIM setting usually is, by brand, and the first steps abroad.',
@@ -108,15 +111,15 @@ export const EN_GUIDES = [
         <p>The SIM settings usually live in one of these places — names vary by brand and Android version:</p>
         <ul class="list">
           <li><strong>Google Pixel:</strong> Settings → Network &amp; internet → SIMs → <strong>Add SIM</strong> → <strong>Set up an eSIM</strong>.</li>
-          <li><strong>Samsung Galaxy:</strong> Settings → Connections → SIM card manager → <strong>Add mobile plan</strong>.</li>
+          <li><strong>Samsung Galaxy:</strong> Settings → Connections → SIM manager → <strong>Add eSIM</strong> (on older One UI versions: SIM card manager → <strong>Add mobile plan</strong>).</li>
           <li><strong>Other brands:</strong> look for «Mobile network», «SIM cards» or «Connections» in Settings.</li>
         </ul>
         <p>If there is no option to add an eSIM anywhere, check <a href="/en/guides/compatibility/">whether your phone supports eSIM</a>.</p>` },
       { h2: 'Install the eSIM', html: `
         <ol class="steps">
           <li>Show your eSIM's QR code on another screen.</li>
-          <li>Start adding an eSIM as above. <strong>Samsung:</strong> tap <strong>Add using QR code</strong> and scan the code. <strong>Pixel:</strong> follow the instructions on the screen.</li>
-          <li>No QR code to scan? On Samsung, tap <strong>Add using activation code</strong> and enter the details provided with your eSIM.</li>
+          <li>Start adding an eSIM as above. <strong>Samsung:</strong> tap <strong>Scan QR code</strong> (older One UI: <strong>Add using QR code</strong>) and scan the code. <strong>Pixel:</strong> follow the instructions on the screen.</li>
+          <li>No QR code to scan? On Samsung with older One UI, tap <strong>Add using activation code</strong> and enter the details provided with your eSIM; on newer versions, follow the on-screen option for entering an activation code.</li>
           <li>Confirm, and wait until the installation finishes.</li>
           <li>Rename the eSIM, for example to «Travel».</li>
         </ol>` },
@@ -152,7 +155,7 @@ export const EN_GUIDES = [
     sections: [
       { h2: 'Check 1 — the setting', html: `
         <p><strong>iPhone:</strong> Settings → Cellular. <strong>Add eSIM</strong> or <strong>Add Cellular Plan</strong> means eSIM is supported.</p>
-        <p><strong>Android:</strong> open the SIM settings and look for a way to add an eSIM — on Pixel, Network &amp; internet → SIMs → <strong>Add SIM</strong> → <strong>Set up an eSIM</strong>; on Samsung, Connections → SIM card manager → <strong>Add mobile plan</strong>.</p>
+        <p><strong>Android:</strong> open the SIM settings and look for a way to add an eSIM — on Pixel, Network &amp; internet → SIMs → <strong>Add SIM</strong> → <strong>Set up an eSIM</strong>; on Samsung, Connections → SIM manager → <strong>Add eSIM</strong> (older One UI: SIM card manager → <strong>Add mobile plan</strong>).</p>
         <p>An extra hint on Pixel: to use an eSIM, a phone needs an <strong>EID</strong> number. You can find it in Settings → About phone → SIM status. The setting to add an eSIM is still what decides.</p>` },
       { h2: 'Check 2 — is it locked to a carrier?', html: `
         <p>A phone bought on contract may be locked to its carrier and refuse other SIMs and eSIMs until it is unlocked.</p>
@@ -175,7 +178,7 @@ export const EN_GUIDES = [
     slug: 'activation',
     nav: 'When to install',
     title: 'When to install and turn on a travel eSIM | Magic eSIM',
-    description: 'Installing an eSIM and starting its validity are different things. When to install, when to switch on the line and data roaming, and a checklist for the day you fly.',
+    description: 'Installing an eSIM and starting its validity are different things: when to install, when to switch on the line and roaming, and a checklist for flight day.',
     h1: 'When to install and turn on your eSIM',
     blurb: 'Installing the profile and starting the plan are different events.',
     lead: 'Installing the eSIM and starting its validity are not the same thing, and plans differ on when the validity starts. The advice that is safe for every plan: install on the day you travel, over Wi-Fi, and switch the eSIM on for data when you arrive.',
@@ -221,7 +224,7 @@ export const EN_GUIDES = [
     slug: 'troubleshooting',
     nav: 'Troubleshooting',
     title: 'eSIM not working abroad — what to check | Magic eSIM',
-    description: 'A step-by-step checklist when a travel eSIM shows no network or no internet: data line, roaming, airplane mode, network selection and when not to delete the eSIM.',
+    description: 'A step-by-step checklist when a travel eSIM shows no network or no internet: data line, roaming, airplane mode, network selection, when not to delete it.',
     h1: 'eSIM not working — what to check',
     blurb: 'A checklist, in the order that fixes most problems.',
     lead: 'Most problems come down to a setting. Go through the steps in order and test the internet after each one. Do not delete the eSIM while you troubleshoot.',

@@ -44,7 +44,7 @@ test('first screen: payment bar, then the hero and a large search; no overflow, 
     expect(box.height).toBeGreaterThanOrEqual(56);
     expect(box.y + box.height).toBeLessThanOrEqual(page.viewportSize().height);
     await expect(page.locator('h1')).toHaveText('eSIM destinations');
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
     expect(await noOverflow(page)).toBe(true);
     expect(st.calls.filter((c) => /\/api\//.test(c.url) || c.method !== 'GET')).toEqual([]);
     expect(st.csp).toEqual([]);

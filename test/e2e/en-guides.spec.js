@@ -32,7 +32,7 @@ for (const [slug, h1, ru] of GUIDES) {
     // Styled by en/en.css: the design system's page colour (--bg #f7f9fc).
     expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(247, 249, 252)');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
     // the language list (since ES-1): this guide's twin in Russian (the Russian guide) and in Spanish
     await expect(page.locator('.langmenu-list a[hreflang="ru"]')).toHaveAttribute('href', ru);
     await expect(page.locator('.langmenu-list a[hreflang="es"]')).toHaveAttribute('href', new URL(page.url()).pathname.replace('/en/', '/es/'));

@@ -13,6 +13,11 @@
 
 const freeze = (o) => Object.freeze(o);
 
+/* A title search engines show whole: the full template while it fits the 60-character budget, else the short form
+ * (I18N-09 — «eSIM para República Democrática del Congo: planes de datos en USD | Magic eSIM» was 78). */
+export const TITLE_MAX = 60;
+const fitTitle = (full, short) => ([...full].length <= TITLE_MAX ? full : short);
+
 export const PAGE_COPY = freeze({
   en: freeze({
     skipLink: 'Skip to main content',
@@ -56,7 +61,7 @@ export const PAGE_COPY = freeze({
     // «Before you buy»
     beforeYouBuy: 'Before you buy',
     // a country page
-    countryTitle: (name) => `eSIM for ${name} — data plans in US dollars | Magic eSIM`,
+    countryTitle: (name) => fitTitle(`eSIM for ${name} — data plans in US dollars | Magic eSIM`, `eSIM for ${name} | Magic eSIM`),
     countryDescription: (name) => `eSIM data plans that cover ${name}, with prices in US dollars. Online payment is not available yet.`,
     countryLead: (name) => `Data plans that work in ${name}, with prices in US dollars.`,
     chooseAnother: 'Choose another destination',
@@ -128,7 +133,7 @@ export const PAGE_COPY = freeze({
     esimFor: (name) => `eSIM para ${name}`,
     steps: freeze(['Plan', 'Tus datos', 'Revisión']),
     beforeYouBuy: 'Antes de comprar',
-    countryTitle: (name) => `eSIM para ${name}: planes de datos en USD | Magic eSIM`,
+    countryTitle: (name) => fitTitle(`eSIM para ${name}: planes de datos en USD | Magic eSIM`, `eSIM para ${name} | Magic eSIM`),
     countryDescription: (name) => `Planes de datos eSIM que cubren ${name}, con precios en dólares estadounidenses. El pago en línea aún no está disponible.`,
     countryLead: (name) => `Planes de datos que funcionan en ${name}, con precios en dólares estadounidenses.`,
     chooseAnother: 'Elegir otro destino',

@@ -4,7 +4,7 @@
  *     the English site; the generator reproduced it byte for byte on 2026-10-21 and now owns it);
  *   - every planned language: its rehearsed home is complete, in its own routes, under review (noindex, no hreflang
  *     cluster), with the shared assets at their one address and its own destinations;
- *   - the indexing block follows the registry: the English home keeps the RU+EN cluster and x-default it had.
+ *   - the indexing block follows the registry: the English and Spanish homes carry the RU+EN+ES cluster, x-default → EN.
  *
  * Run: node --test seo/test-locale-home.mjs
  */
@@ -36,12 +36,15 @@ test('build() writes the home of a published language; nothing else writes it', 
   assert.match(read('seo/build-en-pages.mjs'), /localeGenerator\('en'\)|localeGenerator\("en"\)/);
 });
 
-test('the English home keeps the cluster it had: RU + EN, x-default as the registry says, index', () => {
-  const home = read('en/index.html');
-  const alts = [...home.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => [m[1], m[2]]);
-  assert.deepEqual(alts, [['ru', homeUrl('ru')], ['en', homeUrl('en')], ['x-default', homeUrl(X_DEFAULT_CURRENT)]]);
-  assert.match(home, /<meta name="robots" content="index, follow">/);
-  assert.match(home, /<meta property="og:locale:alternate" content="ru_RU">/);
+test('the English and Spanish homes carry the RU + EN + ES cluster, x-default → English (I18N-09), index', () => {
+  for (const rel of ['en/index.html', 'es/index.html']) {
+    const home = read(rel);
+    const alts = [...home.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => [m[1], m[2]]);
+    assert.deepEqual(alts, [['ru', homeUrl('ru')], ['en', homeUrl('en')], ['es', homeUrl('es')], ['x-default', homeUrl(X_DEFAULT_CURRENT)]], rel);
+    assert.equal(homeUrl(X_DEFAULT_CURRENT), homeUrl('en'));
+    assert.match(home, /<meta name="robots" content="index, follow">/, rel);
+    assert.match(home, /<meta property="og:locale:alternate" content="ru_RU">/, rel);
+  }
 });
 
 for (const L of PLANNED) {

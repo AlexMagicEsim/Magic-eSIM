@@ -101,25 +101,30 @@ test('the English pages sit at /en/ and say so', () => {
   assert.match(page, /<html lang="en">/);
   assert.match(page, /<link rel="canonical" href="https:\/\/magicesim\.store\/en\/esim\/japan\/">/);
   assert.match(page, /<meta property="og:locale" content="en_US">/);
-  assert.match(page, /<meta name="robots" content="noindex, follow">/);
-  assert.doesNotMatch(page, /<link rel="alternate"/, 'a template page has no hreflang cluster (indexing stage)');
+  assert.match(page, /<meta name="robots" content="index, follow">/, 'japan is in the I18N-09 stage');
+  assert.match(page, /<link rel="alternate" hreflang="x-default" href="https:\/\/magicesim\.store\/en\/esim\/japan\/">/);
+  const peru = G.countryPage(G.countries().find((x) => x.slug === 'peru'));
+  assert.match(peru, /<meta name="robots" content="noindex, follow">/, 'a country outside the stage stays a noindex template');
+  assert.doesNotMatch(peru, /<link rel="alternate"/, 'and has no hreflang cluster');
 });
 
-test('the Spanish pages sit at /es/, say so, and are under review: noindex, no hreflang cluster, not in the sitemap', () => {
+test('the Spanish pages sit at /es/ and say so; their indexing is seo/indexing.mjs\'s (I18N-09)', () => {
   const G = localeGenerator('es');
   const page = G.countryPage(G.countries().find((x) => x.slug === 'japan'));
   assert.match(page, /<html lang="es">/);
   assert.match(page, /<link rel="canonical" href="https:\/\/magicesim\.store\/es\/esim\/japan\/">/);
   assert.match(page, /<meta property="og:locale" content="es_ES">/);
-  assert.match(page, /<meta name="robots" content="noindex, follow">/);
-  assert.doesNotMatch(page, /<link rel="alternate"/);
+  assert.match(page, /<meta name="robots" content="index, follow">/, 'japan is in the stage');
+  const peru = G.countryPage(G.countries().find((x) => x.slug === 'peru'));
+  assert.match(peru, /<meta name="robots" content="noindex, follow">/, 'peru is outside the stage');
+  assert.doesNotMatch(peru, /<link rel="alternate"/);
   for (const rel of ['es/index.html', 'es/esim/index.html', 'es/guides/index.html', 'es/guides/iphone/index.html']) {
     const h = read(rel);
-    assert.match(h, /<meta name="robots" content="noindex, follow">/, rel);
-    assert.doesNotMatch(h, /<link rel="alternate"/, rel);
+    assert.match(h, /<meta name="robots" content="index, follow">/, rel);
+    assert.match(h, /<link rel="alternate" hreflang="es"/, rel);
     assert.ok(h.includes(`<link rel="canonical" href="https://magicesim.store/${rel.replace(/index\.html$/, '')}">`), `${rel}: canonical is itself`);
   }
-  assert.equal(/magicesim\.store\/es\//.test(read('sitemap.xml')), false, 'no /es/ URL in the sitemap while under review');
+  assert.ok(read('sitemap.xml').includes('<loc>https://magicesim.store/es/</loc>'), 'the Spanish home is in the sitemap');
 });
 
 /* ===================================================================== *
@@ -172,11 +177,12 @@ test('the refresh allowlist is what it was — derived now, not typed', () => {
   assert.equal([...allowedPaths(['thailand'])].some((p) => /^(de|fr|zh|ko)\//.test(p)), false);
 });
 
-test('the sitemap lists the root and the indexable homes only — today / and /en/', () => {
+test('the sitemap lists the indexed prefixed pages (I18N-09) — English and Spanish, no planned language', () => {
   const locs = sitemapUrls([]).map((u) => u.loc);
-  assert.deepEqual(indexablePrefixedHomes(), ['en']);
-  assert.ok(locs.includes('https://magicesim.store/en/'));
-  assert.equal(locs.filter((l) => /magicesim\.store\/(es|de|fr|zh|ko)\//.test(l)).length, 0);
+  assert.deepEqual(indexablePrefixedHomes(), ['en', 'es']);
+  for (const p of ['en', 'es']) for (const path of ['/', '/esim/', '/guides/', '/guides/iphone/', '/esim/japan/']) assert.ok(locs.includes(`https://magicesim.store/${p}${path}`), `${p}${path}`);
+  assert.ok(!locs.includes('https://magicesim.store/en/esim/peru/'), 'a country outside the stage');
+  assert.equal(locs.filter((l) => /magicesim\.store\/(de|fr|zh|ko)\//.test(l)).length, 0);
 });
 
 test('the workflow stages and hashes exactly the registry\'s paths', () => {
@@ -207,7 +213,7 @@ test('REHEARSAL: with German enabled the automation would carry German paths —
   // …and the live registry is untouched by the rehearsal.
   assert.deepEqual(prefixedSiteLocales().map((l) => l.code), ['en', 'es']);
   assert.equal(existsSync(join(ROOT, 'de')), false);
-  assert.deepEqual(indexablePrefixedHomes(de), ['en', 'de'], 'an indexable German home would join the sitemap; Spanish stays out until indexed');
+  assert.deepEqual(indexablePrefixedHomes(de), ['en', 'es', 'de'], 'an indexable German home would join English and Spanish');
 });
 
 test('the page copy is complete for every language it has', () => {

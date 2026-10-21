@@ -13,6 +13,7 @@ import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
 import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD } from './ru-chrome.mjs';
 import { GUIDE_ICON } from './site-chrome.mjs';
+import { ruAlternates } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
 
 // Each Russian guide's icon: the English guide's icon where the subject is the
 // same, two of its own for the Russian-only guides.
@@ -77,7 +78,7 @@ ${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '      ')}
   <title>${esc(g.title)}</title>
   <meta name="description" content="${esc(g.description)}" />
   <link rel="canonical" href="${g.url}" />
-  <meta name="robots" content="index, follow" />
+${ruAlternates(g.url)}  <meta name="robots" content="index, follow" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />

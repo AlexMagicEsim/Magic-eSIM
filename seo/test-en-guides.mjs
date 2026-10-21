@@ -12,6 +12,7 @@ import assert from 'node:assert/strict';
 import { EN_GUIDES } from './guides-en.mjs';
 import { guidePage, guidesHub, GUIDE_RU } from './build-en-pages.mjs';
 import { stampHtml } from './asset-version.mjs';
+import { isIndexed, cluster } from './indexing.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -47,23 +48,23 @@ test('build-all renders the guides (the Russian builder is the one build-all for
  * 2. How a crawler is told to treat them
  * ===================================================================== */
 
-test('every guide is noindex, self-canonical, with no hreflang, no structured data and no script', () => {
+test('every guide is indexed with its cluster (I18N-09), self-canonical, with no structured data and no script', () => {
   const sitemap = read('sitemap.xml');
   for (const { g, rel } of PAGES) {
     const h = html(rel);
     const url = `https://magicesim.store/en/guides/${g ? `${g.slug}/` : ''}`;
     assert.match(h, /<html lang="en">/, rel);
-    assert.match(h, /<meta name="robots" content="noindex, follow">/, rel);
+    const page = g ? { kind: 'guide', slug: g.slug } : { kind: 'guides' };
+    assert.match(h, /<meta name="robots" content="index, follow">/, rel);
     assert.equal((h.match(/<meta name="robots"/g) || []).length, 1, rel);
     assert.ok(h.includes(`<link rel="canonical" href="${url}">`), `${rel}: canonical is itself`);
-    assert.equal(/<link[^>]*hreflang/.test(h), false, `${rel}: no hreflang alternate until PR 8`);
-    assert.equal(/application\/ld\+json/.test(h), false, `${rel}: no structured data until PR 8`);
+    assert.equal((h.match(/<link[^>]*hreflang/g) || []).length, cluster(page).length, `${rel}: its hreflang cluster`);
+    assert.equal(/application\/ld\+json/.test(h), false, `${rel}: no structured data`);
     // A guide runs no script — no network, no analytics. The one exception (owner, 2026-10-20) is the header logo's
     // start, assets/logo-once.js: one sessionStorage flag, no network (seo/test-logo-svg.mjs pins what it may do).
     assert.equal(/<script/i.test(h.replace(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/, '')), false, `${rel}: a guide runs no script but the logo's start — no network, no analytics`);
-    assert.equal(sitemap.includes(url), false, `${rel}: not in the sitemap`);
+    assert.equal(sitemap.includes(`<loc>${url}</loc>`), isIndexed('en', page), `${rel}: in the sitemap exactly when indexed`);
   }
-  assert.equal(/\/en\/guides\//.test(sitemap), false);
 });
 
 test('the language switch goes to each guide\'s twin in every language, which exists', () => {
