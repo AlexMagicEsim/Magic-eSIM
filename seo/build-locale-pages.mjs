@@ -36,6 +36,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
@@ -108,6 +109,72 @@ const GUIDE_ROBOTS = `<!-- Written for this site but not yet reviewed for search
  * accents stripped («Åland Islands» → A, «Réunion» → R). */
 export const azLetter = (name) => String(name).normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase();
 
+/* HOW THE DESTINATION LIST IS INDEXED, per writing system (I18N stage 2).
+ *
+ * A Latin-script language files a name under its first letter, accents stripped, and jumps A–Z — the
+ * English list, unchanged. Chinese has no letters to strip to: a Chinese reader's A–Z list is by the first
+ * letter of the PINYIN reading (the order of every Chinese contact and city picker); ICU's pinyin collation
+ * gives that order, and the first syllable of each initial, in that order, marks where a letter begins
+ * (pinyin has no I, U or V initial). A collation reads a character, not a word, so a name whose first
+ * character has another reading here is pinned in ZH_READING by a name with the same reading: 秘鲁 is
+ * Bìlǔ, not mì. Korean files a name under the initial consonant of its first syllable, ㄱ … ㅎ, doubled
+ * consonants under their single one — the order of a Korean dictionary. Anchors (`az-…`) stay ASCII in
+ * every language. This runs at build time only; the browser receives finished groups. Before it, a Chinese
+ * list came out as 119 one-character groups and a Korean one as one group per syllable. */
+const PINYIN_STARTS = [['A', '阿'], ['B', '八'], ['C', '嚓'], ['D', '哒'], ['E', '妸'], ['F', '发'], ['G', '旮'], ['H', '哈'],
+  ['J', '丌'], ['K', '咔'], ['L', '垃'], ['M', '妈'], ['N', '拏'], ['O', '噢'], ['P', '妑'], ['Q', '七'], ['R', '呥'], ['S', '仨'],
+  ['T', '他'], ['W', '屲'], ['X', '夕'], ['Y', '丫'], ['Z', '帀']];
+export const ZH_READING = Object.freeze({ '秘鲁': '必鲁' });
+const HANGUL_INITIALS = [['ㄱ', 'g'], ['ㄴ', 'n'], ['ㄷ', 'd'], ['ㄹ', 'r'], ['ㅁ', 'm'], ['ㅂ', 'b'], ['ㅅ', 's'], ['ㅇ', 'o'],
+  ['ㅈ', 'j'], ['ㅊ', 'ch'], ['ㅋ', 'k'], ['ㅌ', 't'], ['ㅍ', 'p'], ['ㅎ', 'h']];
+// The 19 initial consonants of a Hangul syllable, in Unicode order, each folded to its index group.
+const HANGUL_CHOSEONG = 'ㄱㄱㄴㄷㄷㄹㅁㅂㅂㅅㅅㅇㅈㅈㅊㅋㅌㅍㅎ';
+const LATIN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+export function listIndex(code) {
+  const L = locale(code);
+  if (!L) throw new Error(`listIndex: unknown locale ${String(code)}`);
+  if (L.script === 'Hans') {
+    const collator = new Intl.Collator('zh-Hans-u-co-pinyin');
+    const key = (name) => ZH_READING[name] || name;
+    return {
+      labels: LATIN,
+      compare: (a, b) => collator.compare(key(a), key(b)),
+      labelOf: (name) => {
+        let label = null;
+        for (const [l, start] of PINYIN_STARTS) if (collator.compare(key(name).charAt(0), start) >= 0) label = l;
+        if (!label) throw new Error(`listIndex: «${name}» sorts before every pinyin letter`);
+        return label;
+      },
+      id: (label) => label.toLowerCase(),
+    };
+  }
+  if (L.script === 'Hang') {
+    const ids = new Map(HANGUL_INITIALS);
+    return {
+      labels: HANGUL_INITIALS.map(([l]) => l),
+      compare: (a, b) => a.localeCompare(b, 'ko'),
+      labelOf: (name) => {
+        const c = String(name).charCodeAt(0);
+        if (!(c >= 0xAC00 && c <= 0xD7A3)) throw new Error(`listIndex: «${name}» does not start with a Hangul syllable`);
+        return HANGUL_CHOSEONG.charAt(Math.floor((c - 0xAC00) / 588));
+      },
+      id: (label) => ids.get(label),
+    };
+  }
+  if (L.script !== 'Latn') throw new Error(`listIndex: no index for script ${L.script} (${code})`);
+  return {
+    labels: LATIN,
+    compare: (a, b) => a.localeCompare(b, L.code),
+    labelOf: (name) => {
+      const label = azLetter(name);
+      if (!LATIN.includes(label)) throw new Error(`listIndex: «${name}» is filed under «${label}», which is not A–Z`);
+      return label;
+    },
+    id: (label) => label.toLowerCase(),
+  };
+}
+
 
 /* The Russian twin of each guide — for the language switch only. */
 export const GUIDE_RU = Object.freeze({
@@ -130,11 +197,26 @@ const guideIcon = (slug) => {
 export const sectionId = (h2) => h2.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+/* The anchor a guide section gets: the guide's own `id` when it gives one, else
+ * one made from the heading. A heading with no Latin letters or digits (Chinese,
+ * Korean) makes no anchor at all — the guide must name it (`id: 'install'`), and
+ * the build refuses until it does rather than linking «On this page» to "#". */
+export function guideSectionId(section, slug) {
+  const id = section.id !== undefined ? String(section.id) : sectionId(section.h2);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) {
+    throw new Error(`guide ${slug}: section «${section.h2}» has no usable anchor («${id}») — give it an \`id\` (a-z, 0-9, -)`);
+  }
+  return id;
+}
+
 function write(rel, text) {
   const file = join(ROOT, rel);
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, text);
 }
+
+/* The languages the shared daily-plan copy speaks: a country page in any other would print its daily cards in Russian. */
+export const DAILY_COPY_LANGS = Object.freeze(createRequire(import.meta.url)('../assets/daily-plan-copy.js').LANGS.slice());
 
 /* The guides each language has. A language without its own guides is not built. */
 export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES });
@@ -147,6 +229,7 @@ export function cannotBuild(code) {
   if (!L.site.enabled) return `${code} is not enabled for the site (seo/locales.mjs) — refusing to publish it`;
   if (!PAGE_COPY[code]) return `${code} has no page copy (seo/page-copy.mjs)`;
   if (!GUIDES_BY_LOCALE[code]) return `${code} has no guides`;
+  if (!DAILY_COPY_LANGS.includes(code)) return `${code} has no daily-plan words (assets/daily-plan-copy.js)`;
   return null;
 }
 
@@ -541,20 +624,17 @@ ${FOOTER}
  * home's own POPULAR list, under the home's own label — no new claim. */
 function hubPage(list) {
   const url = `${SITE}${P}/esim/`;
-  const sorted = list.slice().sort((a, b) => a.name.localeCompare(b.name, L.code));
-  const groups = new Map();
-  for (const c of sorted) {
-    const L = azLetter(c.name);
-    if (!groups.has(L)) groups.set(L, []);
-    groups.get(L).push(c);
-  }
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  const jump = letters.map((L) => (groups.has(L)
-    ? `<a href="#az-${L.toLowerCase()}" data-letter="${L}">${L}</a>`
-    : `<span aria-hidden="true">${L}</span>`)).join('');
+  const index = listIndex(code);
+  const sorted = list.slice().sort((a, b) => index.compare(a.name, b.name));
+  const groups = new Map(index.labels.map((l) => [l, []]));
+  for (const c of sorted) groups.get(index.labelOf(c.name)).push(c);
+  for (const [l, cs] of groups) if (!cs.length) groups.delete(l);
+  const jump = index.labels.map((l) => (groups.has(l)
+    ? `<a href="#az-${index.id(l)}" data-letter="${l}">${l}</a>`
+    : `<span aria-hidden="true">${l}</span>`)).join('');
   const item = (c) => `        <li data-name="${esc(c.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())}" data-iso="${c.iso}"><a href="${P}/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"><span>${esc(c.name)}</span></a></li>`;
-  const sections = [...groups.entries()].map(([L, cs]) => `    <section class="az-group" id="az-${L.toLowerCase()}" aria-labelledby="azh-${L.toLowerCase()}">
-      <h2 id="azh-${L.toLowerCase()}">${L}</h2>
+  const sections = [...groups.entries()].map(([l, cs]) => `    <section class="az-group" id="az-${index.id(l)}" aria-labelledby="azh-${index.id(l)}">
+      <h2 id="azh-${index.id(l)}">${l}</h2>
       <ul class="dest">
 ${cs.map(item).join('\n')}
       </ul>
@@ -645,7 +725,7 @@ function guidePage(g, all = GUIDES) {
   const url = `${SITE}${P}/guides/${g.slug}/`;
   const ru = GUIDE_RU[g.slug];
   if (!ru) throw new Error(`guide ${g.slug} has no Russian twin for the language switch`);
-  const ids = g.sections.map((x) => sectionId(x.h2));
+  const ids = g.sections.map((x) => guideSectionId(x, g.slug));
   if (new Set([...ids, 'faq', 'related']).size !== ids.length + 2) throw new Error(`guide ${g.slug} has two sections with the same anchor`);
   const sections = g.sections.map((x, i) => `    <section class="g-sec prose" id="${ids[i]}" aria-labelledby="${ids[i]}-h">
       <h2 id="${ids[i]}-h">${esc(x.h2)}</h2>

@@ -30,7 +30,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 
 import { LOCALES, locale } from './locales.mjs';
-import { rehearsalGenerator, localeGenerator } from './build-locale-pages.mjs';
+import { rehearsalGenerator, localeGenerator, listIndex, guideSectionId, ZH_READING } from './build-locale-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
@@ -185,6 +185,64 @@ for (const L of PLANNED) {
     assert.equal(existsSync(join(ROOT, L.prefix)), false, `/${L.prefix}/ must not exist`);
   });
 }
+
+for (const L of PLANNED) {
+  test(`${L.code}: the destination list is indexed in its own script — every name under its group, every jump link lands, ASCII anchors`, () => {
+    const G = rehearse(L.code);
+    const list = G.countries();
+    const index = listIndex(L.code);
+    const html = G.hubPage(list);
+    const sections = [...html.matchAll(/<section class="az-group" id="az-([^"]+)" aria-labelledby="azh-\1">\s*<h2 id="azh-\1">([^<]+)<\/h2>([\s\S]*?)<\/section>/g)]
+      .map((m) => ({ id: m[1], label: m[2], names: [...m[3].matchAll(/<span>([^<]+)<\/span>/g)].map((x) => decode(x[1])) }));
+    const jumps = [...html.matchAll(/<a href="#az-([^"]+)" data-letter="([^"]+)">/g)].map((m) => ({ id: m[1], label: m[2] }));
+    assert.equal(sections.reduce((n, x) => n + x.names.length, 0), list.length, 'every destination is listed once');
+    assert.deepEqual(jumps, sections.map(({ id, label }) => ({ id, label })), 'one jump link per group, in order');
+    assert.equal(new Set(sections.map((x) => x.id)).size, sections.length);
+    for (const x of sections) {
+      assert.match(x.id, /^[a-z]+$/, `${L.code}: anchor az-${x.id} is ASCII`);
+      for (const n of x.names) assert.equal(index.labelOf(n), x.label, `${L.code}: ${n} under ${x.label}`);
+      assert.deepEqual(x.names, x.names.slice().sort(index.compare), `${L.code}: group ${x.label} is in order`);
+    }
+    const max = { Latn: 26, Hans: 23, Hang: 14 }[L.script];
+    assert.ok(sections.length <= max && sections.length >= 10, `${L.code}: ${sections.length} groups (≤ ${max})`);
+  });
+}
+
+test('Chinese is indexed by the pinyin initial, Korean by the initial consonant — on names a reader can check', () => {
+  const zh = listIndex('zh-Hans');
+  const ko = listIndex('ko');
+  const zhName = (iso) => countryName(iso, 'zh-Hans');
+  const koName = (iso) => countryName(iso, 'ko');
+  const expectZh = { AR: 'A', AU: 'A', BR: 'B', PE: 'B', IS: 'B', DE: 'D', EG: 'A', FR: 'F', GE: 'G', KR: 'H', KH: 'J', CA: 'J',
+    QA: 'K', LA: 'L', US: 'M', MA: 'M', NP: 'N', PT: 'P', JP: 'R', SA: 'S', TH: 'T', VN: 'Y', GB: 'Y', IT: 'Y', ES: 'X', SG: 'X',
+    TD: 'Z', CN: 'Z', TR: 'T' };
+  for (const [iso, l] of Object.entries(expectZh)) assert.equal(zh.labelOf(zhName(iso)), l, `${iso} ${zhName(iso)}`);
+  assert.equal(zhName('PE'), '秘鲁', 'the polyphone the reading table exists for');
+  assert.ok(Object.keys(ZH_READING).every((n) => Object.keys(COUNTRY_NAMES).some((iso) => zhName(iso) === n)), 'no stale reading');
+  assert.ok(!['I', 'U', 'V'].some((l) => Object.keys(COUNTRY_NAMES).some((iso) => zh.labelOf(zhName(iso)) === l)), 'pinyin has no I, U, V initial');
+  const expectKo = { KR: 'ㄷ', JP: 'ㅇ', TH: 'ㅌ', US: 'ㅁ', VN: 'ㅂ', DE: 'ㄷ', FR: 'ㅍ', TR: 'ㅌ', GR: 'ㄱ', CN: 'ㅈ', NP: 'ㄴ', RU: 'ㄹ' };
+  for (const [iso, l] of Object.entries(expectKo)) assert.equal(ko.labelOf(koName(iso)), l, `${iso} ${koName(iso)}`);
+  assert.equal(ko.labelOf('까'), 'ㄱ', 'a doubled consonant files under its single one');
+  assert.throws(() => ko.labelOf('Korea'), /Hangul/);
+  // The English list is untouched: the same letter rule, the same order.
+  const en = listIndex('en');
+  assert.equal(en.labelOf('Åland Islands'), 'A');
+  assert.equal(en.compare('Réunion', 'Romania'), 'Réunion'.localeCompare('Romania', 'en'));
+});
+
+test('a guide section whose heading makes no anchor (Chinese, Korean) must name one — never «On this page» → #', () => {
+  assert.equal(guideSectionId({ h2: 'Install on iPhone' }, 'iphone'), 'install-on-iphone');
+  assert.equal(guideSectionId({ h2: '在 iPhone 上安装', id: 'install' }, 'iphone'), 'install');
+  assert.throws(() => guideSectionId({ h2: '安装步骤' }, 'iphone'), /no usable anchor/);
+  assert.throws(() => guideSectionId({ h2: '설치 방법' }, 'iphone'), /give it an `id`/);
+  assert.throws(() => guideSectionId({ h2: 'x', id: 'Bad Id' }, 'iphone'), /no usable anchor/);
+  const G = rehearse('zh-Hans');
+  const g = { ...markedGuides('zh-Hans')[0] };
+  g.sections = g.sections.map((x, i) => ({ ...x, h2: `步骤${'一二三四五六七八九十'[i]}` }));
+  assert.throws(() => G.guidePage(g), /no usable anchor/);
+  g.sections = g.sections.map((x, i) => ({ ...x, id: `step-${i + 1}` }));
+  assert.match(G.guidePage(g), /<li><a href="#step-1">步骤一<\/a><\/li>/);
+});
 
 test('English is what the generators publish, and its names file is byte-for-byte the committed one', () => {
   assert.deepEqual(publishedNameLocales(), ['en']);
