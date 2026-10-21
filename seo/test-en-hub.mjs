@@ -78,8 +78,13 @@ test('popular is the home\'s own list under the home\'s own label — no price, 
   assert.doesNotMatch(text, /\$\s?\d|\bfrom \$|\bplans? from\b|\d+\s+plans\b|best|cheapest|top-rated|rating|review|discount|% off|best seller|bestseller|24\/7|instant/i);
 });
 
-test('without JavaScript there is no search box that does nothing; the list and the letters still work', () => {
-  assert.match(HUB, /<div class="hub-search" id="hubSearch" role="search" hidden>/);
+test('the search box is in the layout from the first paint; without JavaScript noscript.css hides it', () => {
+  // Shown by the markup, not by the deferred en/hub.js: unhiding it after the first paint pushed the list down 74 px
+  // (CLS 0.05 on phones, 2026-10-21). Without JavaScript there is still no search box that does nothing.
+  assert.match(HUB, /<div class="hub-search" id="hubSearch" role="search">/);
+  assert.doesNotMatch(HUB, /id="hubSearch"[^>]*\shidden/);
+  assert.match(HUB, /<noscript><link rel="stylesheet" href="\/en\/noscript\.css\?v=[0-9a-f]{8}"><\/noscript>\s*<\/head>/);
+  assert.match(read('en/noscript.css'), /#hubSearch\{display:none!important\}/);
   assert.match(JS, /box\.hidden = false;/);
   assert.ok(HUB.indexOf('id="previewNotice"') < HUB.indexOf('id="hubSearch"'), 'the payment bar comes first');
 });

@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="/assets/site.css?v=fdc3a49c">
 <link rel="stylesheet" href="/en/en.css?v=073f4544">
 <link rel="stylesheet" href="/assets/page-hub.css?v=a8206652">
+<noscript><link rel="stylesheet" href="/en/noscript.css?v=08f388fe"></noscript>
 </head>
 <body>
 
@@ -66,8 +67,10 @@
       <p class="crumbs"><a href="/en/">Magic eSIM</a> › <span data-i18n="nav.destinations">Destinations</span></p>
       <h1>eSIM destinations</h1>
       <p class="lead">Pick a country to see its data plans, with prices in US dollars.</p>
-      <!-- Shown by en/hub.js: without it there is no search box that does nothing. -->
-      <div class="hub-search" id="hubSearch" role="search" hidden>
+      <!-- In the layout from the first paint: shown by the markup, not by en/hub.js (defer), which used to unhide it after the
+           page had painted and push the list down 74 px — CLS 0.05 on phones (2026-10-21). Without JavaScript there is
+           still no search box that does nothing: en/noscript.css (in <noscript>) hides it. -->
+      <div class="hub-search" id="hubSearch" role="search">
         <label for="hq" class="sr-only" data-i18n="site.chooseCountry">Where are you going?</label>
         <div class="hub-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="text" id="hq" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="Search a country"><button type="button" class="hub-clear" id="hubClear" aria-label="Clear search" hidden>×</button></div>
       </div>
