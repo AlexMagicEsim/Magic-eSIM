@@ -1,0 +1,32 @@
+[
+  {
+    "item_id": "page:countryTitle",
+    "group": "page",
+    "key": "countryTitle",
+    "where": "country page (sample: Thailand)",
+    "en": "eSIM for Thailand — data plans in US dollars | Magic eSIM",
+    "target": "eSIM para Tailandia: planes de datos en dólares | Magic eSIM",
+    "suggestion": "eSIM para Tailandia: planes de datos en USD | Magic eSIM",
+    "explanation": "«US dollars» became plain «dólares»; for a Latin-American audience several currencies are called «dólares» or use «$», so the currency is less exact than the English. «USD» (do-not-translate, the site's price format) restores it and keeps the title under 60 characters.",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "rule": "currency-precision-title"
+  },
+  {
+    "item_id": "page:localNote",
+    "group": "page",
+    "key": "localNote",
+    "where": "country page (sample: Thailand)",
+    "en": "Plans that cover Thailand only.",
+    "target": "Planes que solo cubren Tailandia.",
+    "suggestion": "Planes que cubren solo Tailandia.",
+    "explanation": "«solo» before the verb can read as «they only cover (do nothing else)»; placing it before «Tailandia» scopes it to the country, as the English «Thailand only» does, and contrasts cleanly with the regional note («junto con otros países»).",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "rule": "solo-scope"
+  }
+]

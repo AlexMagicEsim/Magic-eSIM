@@ -1,0 +1,42 @@
+{
+  "language": "es",
+  "variant": "Neutral international Spanish for a Latin-American-first audience (owner decision D1, 2026-10-21): «tú», no «vosotros», no regional slang; where Spain and Latin America name a setting differently, both may be given.",
+  "formality": "tú",
+  "invertedPunctuation": true,
+  "seo": {
+    "titleMax": 60,
+    "descriptionMax": 160
+  },
+  "priceFormat": "USD 12.99 (es-419) — decided, never a finding",
+  "sameAsEnglishAllowed": [
+    "Plan",
+    "Total",
+    "IP: {names}",
+    "{n} GB",
+    "{name} + {n} {countries}",
+    "Magic eSIM",
+    "iPhone",
+    "Android",
+    "Wi-Fi",
+    "eSIM",
+    "Pixel",
+    "Galaxy",
+    "Asia"
+  ],
+  "forbidden": [
+    {
+      "id": "vosotros",
+      "pattern": "(?<![\\p{L}])(vosotr[oa]s|vuestr[oa]s?|tenéis|podéis|queréis|sabéis|habéis|estáis|sois|instalad|elegid|comprobad)(?![\\p{L}])",
+      "severity": "major",
+      "category": "style-variant",
+      "reason": "a «vosotros» form — the site addresses the reader as «tú» (neutral Spanish)."
+    },
+    {
+      "id": "usted",
+      "pattern": "(?<![\\p{L}])(usted(es)?)(?![\\p{L}])",
+      "severity": "minor",
+      "category": "style-variant",
+      "reason": "«usted» — the site addresses the reader as «tú»; mixing registers reads as two writers."
+    }
+  ]
+}

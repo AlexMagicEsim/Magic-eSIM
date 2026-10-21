@@ -1,0 +1,17 @@
+[
+  {
+    "item_id": "daily:place:the Middle East",
+    "group": "daily",
+    "key": "place:the Middle East",
+    "where": "daily plan card title («Region — 1 GB a day»)",
+    "en": "the Middle East",
+    "target": "Oriente Medio",
+    "suggestion": "Medio Oriente",
+    "explanation": "Both forms are correct, but «Oriente Medio» is the form preferred in Spain, while Latin America overwhelmingly says «Medio Oriente»; the variant is neutral international with a Latin-American-first audience (README).",
+    "category": "style-variant",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "rule": "regional-word-latam-first"
+  }
+]
