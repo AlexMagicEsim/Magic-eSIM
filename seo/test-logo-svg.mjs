@@ -8,7 +8,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build, parsePath, MASTER, OUT } from './build-logo-svg.mjs';
-import { LOGO, LOGO_ANIMATED, LOGO_ANIMATED_SVG, MINI_APP_LOGO, HEADER_MOTION_SCRIPT, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT } from './site-chrome.mjs';
+import { LOGO, LOGO_ANIMATED, LOGO_ANIMATED_SVG, MINI_APP_LOGO, HEADER_MOTION_SCRIPT, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT, LOGO_ONCE_SCRIPT_MOTION, MOTION_JS_URL } from './site-chrome.mjs';
 import { ruHeader } from './ru-chrome.mjs';
 import { FROZEN_PAGES } from './frozen-pages.mjs';
 import { contentHash, stripAnimatedLogo } from './build-sitemap.mjs';
@@ -86,7 +86,9 @@ test('the Mini App hero carries the same logo, plays it once, and turns motion o
 });
 
 test('motion CSS: inside prefers-reduced-motion, transform/opacity only, no infinite loop', () => {
-  for (const f of ['assets/ru.css', 'app/mini.css', 'assets/site.css']) {
+  // The Expressive rules live ONCE, in the shared site.css (moved from ru.css 2026-10-21): no duplicate in the RU layer.
+  assert.doesNotMatch(read('assets/ru.css'), /\[data-motion\]/, 'assets/ru.css carries no motion rule (they are in site.css)');
+  for (const f of ['app/mini.css', 'assets/site.css']) {
     const css = read(f);
     const marker = ['Motion — «Expressive»', 'MOTION — «Expressive»', 'THE HEADER LOGO — «Reveal + Wave»'].find((m) => css.includes(m));
     const from = marker ? css.indexOf(marker) : -1;
@@ -148,23 +150,35 @@ test('every English page: the same SVG logo in the header, started from <head> b
     const h = read(p);
     if (!h.includes('class="site-header"')) continue;
     assert.ok(h.includes(`<a class="brand" href="/en/">${LOGO_ANIMATED_EN}</a>`), `${p}: header logo`);
-    assert.equal(h.split(LOGO_ONCE_SCRIPT).length - 1, 1, `${p}: one logo-once.js`);
-    assert.ok(h.indexOf(LOGO_ONCE_SCRIPT) < h.indexOf('<link rel="stylesheet"'), `${p}: logo-once.js before the stylesheets (before first paint)`);
+    // assets/motion.js only where it has something to do: the home (reveal, parallax) and the country pages (reveal, the
+    // jump bar's spy) — never on the guides, the guide list or the destinations hub (owner, 2026-10-21).
+    const wantsMotion = p === 'en/index.html' || /^en\/esim\/[^/]+\/index\.html$/.test(p);
+    const tag = wantsMotion ? LOGO_ONCE_SCRIPT_MOTION : LOGO_ONCE_SCRIPT;
+    assert.equal(h.split(tag).length - 1, 1, `${p}: one logo-once.js${wantsMotion ? ' naming motion.js' : ' without motion.js'}`);
+    assert.equal(h.includes('data-motion-src'), wantsMotion, `${p}: motion.js ${wantsMotion ? 'named' : 'not named'}`);
+    assert.ok(h.indexOf(tag) < h.indexOf('<link rel="stylesheet"'), `${p}: logo-once.js before the stylesheets (before first paint)`);
     assert.equal(h.split('brand-logo').length - 1, 1, `${p}: one animated logo (the footer keeps the image)`);
     assert.doesNotMatch(h, /<script>(?!\s*<\/script>)/, `${p}: no inline script — the CSP refuses it`);
-    assert.doesNotMatch(h, /data-motion|\/assets\/motion\.js/, `${p}: the interface motion stays Russian-only`);
+    assert.doesNotMatch(h, /<script src="\/assets\/motion\.js/, `${p}: motion.js is never a <script> tag of its own (logo-once.js loads it, async)`);
   }
 });
 
-test('assets/logo-once.js only reads and sets its one sessionStorage flag and marks <html> — no network, no other storage', () => {
+test('assets/logo-once.js: data-motion, its one sessionStorage flag, the logo class, and at most assets/motion.js — nothing else', () => {
   const js = read('assets/logo-once.js');
   const code = js.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
-  assert.match(code, /sessionStorage/);
+  assert.match(code, /r\.setAttribute\('data-motion', 'expressive'\)/, 'turns the interface motion on, as the RU header script does');
+  assert.match(HEADER_MOTION_SCRIPT, /setAttribute\('data-motion','expressive'\)/, 'the same value as the RU script');
   assert.match(code, /getItem\('me-logo'\)/);
   assert.match(code, /setItem\('me-logo', '1'\)/);
-  assert.match(code, /document\.documentElement\.classList\.add\('lm-once'\)/);
+  assert.match(code, /classList\.add\('lm-once'\)/);
   assert.match(HEADER_MOTION_SCRIPT, /getItem\('me-logo'\)/, 'the Russian script uses the same key: once per visit across both languages');
-  for (const re of [/\bfetch\b/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /localStorage/, /indexedDB/, /document\.cookie/, /location\./, /innerHTML/, /createElement/, /\bimport\b/, /\beval\b/]) {
+  // the one script it may add: assets/motion.js, from its own tag's data-motion-src, checked against that path
+  assert.equal((code.match(/createElement\(/g) || []).length, 1);
+  assert.match(code, /createElement\('script'\)/);
+  assert.match(code, /getAttribute\('data-motion-src'\)/);
+  assert.match(code, /\^\\\/assets\\\/motion\\\.js/, 'the src is checked to be assets/motion.js');
+  assert.match(MOTION_JS_URL, /^\/assets\/motion\.js\?v=[0-9a-f]{8}$/);
+  for (const re of [/\bfetch\b/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /localStorage/, /indexedDB/, /document\.cookie/, /location\./, /innerHTML/, /\bimport\b/, /\beval\b/, /new Function/]) {
     assert.doesNotMatch(code, re, String(re));
   }
 });

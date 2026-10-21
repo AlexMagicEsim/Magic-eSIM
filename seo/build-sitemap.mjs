@@ -158,7 +158,8 @@ export function stripLiveCatalogueMarkup(html) {
 export function stripAnimatedLogo(html) {
   return String(html)
     .replace(/<svg class="brand-logo"[\s\S]*?<\/svg>(?:<script>\(function\(\)\{var d=document[\s\S]*?<\/script>)?/g, STATIC_LOGO)
-    .replace(/[ \t]*<script src="\/assets\/logo-once\.js(?:\?v=[0-9a-f]+)?"><\/script>\n?/g, '');
+    // with or without data-motion-src (2026-10-21: the home and the country pages also name assets/motion.js there)
+    .replace(/[ \t]*<script src="\/assets\/logo-once\.js(?:\?v=[0-9a-f]+)?"(?: data-motion-src="\/assets\/motion\.js(?:\?v=[0-9a-f]+)?")?><\/script>\n?/g, '');
 }
 
 export function contentHash(html) {

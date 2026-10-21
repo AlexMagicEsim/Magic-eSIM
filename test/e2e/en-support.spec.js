@@ -74,6 +74,8 @@ test.describe('axe with the contact in place', () => {
     test(`${path}: no WCAG A/AA violation`, async ({ page }) => {
       await visit(page, path);
       await page.addScriptTag({ content: AXE });
+      // axe reads the page at rest: the Expressive entrances fade blocks in, and a half-transparent text reads as low contrast
+      await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'), null, { timeout: 6000 });
       const v = await page.evaluate(async () => (await axe.run(document, { runOnly: ['wcag2a', 'wcag2aa'] }))
         .violations.map((x) => `${x.id} ×${x.nodes.length}`));
       expect(v).toEqual([]);

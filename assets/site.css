@@ -159,6 +159,110 @@ code{background:var(--accent-soft);border:1px solid var(--border);border-radius:
 @media (prefers-reduced-motion:reduce){.skip{transition:none}}
 main[tabindex="-1"]:focus{outline:none}
 
+/* ===== MOTION — «Expressive» (owner, 2026-10-20; prototyped in the motion lab). =====
+ * Shared by the Russian and the English pages since 2026-10-21 (moved here from ru.css — one copy, no duplicate).
+ * Active only where <html data-motion> is set before first paint: on RU by the header's inline script
+ * (seo/site-chrome.mjs HEADER_MOTION_SCRIPT), on EN by assets/logo-once.js in <head> (the EN CSP refuses inline script).
+ * Not on the ten SEO-experiment pages, whose header is static. Transform and opacity only (a shadow or a ring is a
+ * pseudo-element whose OPACITY moves); no infinite loops, no rotation, no layout properties; entrances fill BACKWARDS so
+ * they hold nothing after they end; nothing above the fold is hidden before first paint (LCP); plans render at once and
+ * only their entrance moves (the request is never held). Everything sits in prefers-reduced-motion: no-preference; the
+ * reduce rule below also stops every animation. 250–450 ms. Entrances and the picked term MOVE but never shrink: a 40 px
+ * target stays 40 px while it animates. assets/motion.js adds reveal-on-scroll below the fold, the hero parallax and the
+ * jump bar's spy (RU: every page; EN: the home and the country pages — the others have nothing for it to do). */
+:root[data-motion]{--m-fast:250ms;--m-base:320ms;--m-slow:450ms;--m-ease:cubic-bezier(.2,.8,.2,1);--m-out:cubic-bezier(.16,1,.3,1);
+  --m-in-o:0;--m-lift:-5px;--m-btn-lift:-2px;--m-press:.965;--m-ring:.55;--m-glow:.14;--m-in-y:14px;--m-in-s:1;--m-step:40ms;--m-icon:4px;--m-par:9px;--m-hero-y:22px}
+@keyframes m-in{from{opacity:var(--m-in-o,0);transform:translate3d(0,var(--m-in-y),0) scale(var(--m-in-s))}}
+@keyframes m-fade{from{opacity:0}}
+@keyframes m-drop{from{opacity:0;transform:translate3d(0,-6px,0)}}
+@keyframes m-rise{from{translate:0 var(--m-hero-y)}}
+@keyframes m-glow-in{from{opacity:0;scale:.92}}
+@keyframes m-settle{from{opacity:.55}}
+@media (prefers-reduced-motion:no-preference){
+
+/* ---------- plan cards (country page) ---------- */
+[data-motion] .plan{transition:transform var(--m-base) var(--m-ease),border-color var(--m-base) var(--m-ease)}
+[data-motion] .plan:hover{box-shadow:var(--shadow-1)}            /* the production shadow change → the pseudo-element below */
+[data-motion] .plan::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:0;
+  box-shadow:0 0 0 1px rgba(66,103,232,var(--m-ring)),0 16px 38px rgba(17,24,39,var(--m-glow)),0 3px 10px rgba(66,103,232,calc(var(--m-glow) * .8));
+  transition:opacity var(--m-base) var(--m-ease)}
+[data-motion] .plan:focus-within::after{opacity:.85}
+@media (hover:hover) and (pointer:fine){
+  [data-motion] .plan:hover{transform:translate3d(0,var(--m-lift),0)}
+  [data-motion] .plan:hover::after{opacity:1}
+  [data-motion] .plan:hover .package-buy{background:var(--accent-hover)}
+}
+/* entrance: a card is inserted by the render — the animation runs on its own, no JS, no hidden state before it */
+[data-motion] :is(.plan-grid,.packages-grid,#dailyGrid)>.plan{animation:m-in var(--m-slow) var(--m-out) backwards;animation-delay:calc(var(--i,0) * var(--m-step))}
+[data-motion] :is(.plan-grid,.packages-grid,#dailyGrid)>.plan:nth-child(2){--i:1}[data-motion] :is(.plan-grid,.packages-grid,#dailyGrid)>.plan:nth-child(3){--i:2}
+[data-motion] :is(.plan-grid,.packages-grid,#dailyGrid)>.plan:nth-child(4){--i:3}[data-motion] :is(.plan-grid,.packages-grid,#dailyGrid)>.plan:nth-child(5){--i:4}
+[data-motion] :is(.plan-grid,.packages-grid,#dailyGrid)>.plan:nth-child(n+6){--i:5}
+/* «Покрытие и условия →»: the arrow moves, the text stays */
+[data-motion] .plan-info::after{display:inline-block;transition:transform var(--m-fast) var(--m-ease)}
+[data-motion] .plan-info:hover::after,[data-motion] .plan-info:focus-visible::after{transform:translate3d(var(--m-icon),0,0)}
+/* per-day term tiles: a press, and the chosen one settles */
+[data-motion] .daily-term{transition:transform var(--m-fast) var(--m-ease),background-color var(--m-fast) ease,border-color var(--m-fast) ease,color var(--m-fast) ease}
+[data-motion] .daily-term:active{transform:scale(var(--m-press))}
+[data-motion] .daily-term.is-selected{animation:m-settle var(--m-base) var(--m-out)}
+/* the English per-day term picker (assets/page-country.css .days: a hidden radio over its span) — the same press and settle */
+/* the press scales the whole LABEL (the control, as RU scales the whole .daily-term button): a transform on the span alone
+   lifts it into its own layer above the invisible radio that takes the click */
+[data-motion] .days label{transition:transform var(--m-fast) var(--m-ease)}
+[data-motion] .days span{transition:background-color var(--m-fast) ease,border-color var(--m-fast) ease,color var(--m-fast) ease}
+[data-motion] .days label:active{transform:scale(var(--m-press))}
+[data-motion] .days input:checked+span{animation:m-settle var(--m-base) var(--m-out)}
+
+/* ---------- buttons (buy, CTA) ---------- */
+[data-motion] .btn{transition:transform var(--m-fast) var(--m-ease),background-color var(--m-base) ease,box-shadow var(--m-base) ease,color var(--m-base) ease}
+@media (hover:hover) and (pointer:fine){[data-motion] .btn:hover{transform:translate3d(0,var(--m-btn-lift),0)}}
+[data-motion] .btn:active{transform:scale(var(--m-press));transition-duration:90ms}
+[data-motion] .btn[disabled],[data-motion] .btn[aria-disabled=true]{transform:none}
+
+/* ---------- popular destinations (home) ---------- */
+[data-motion] .dest-tile{position:relative;transition:transform var(--m-base) var(--m-ease),border-color var(--m-base) var(--m-ease)}
+[data-motion] .dest-tile:hover{box-shadow:var(--shadow-1)}
+[data-motion] .dest-tile::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:0;
+  box-shadow:0 0 0 1px rgba(66,103,232,var(--m-ring)),0 14px 30px rgba(17,24,39,var(--m-glow));transition:opacity var(--m-base) var(--m-ease)}
+@media (hover:hover) and (pointer:fine){[data-motion] .dest-tile:hover{transform:translate3d(0,var(--m-lift),0)}[data-motion] .dest-tile:hover::after{opacity:1}
+  [data-motion] .dest-tile .flag{transition:transform var(--m-base) var(--m-ease)}[data-motion] .dest-tile:hover .flag{transform:scale(1.06)}}
+[data-motion] .dest-tile:active{transform:scale(var(--m-press))}
+/* revealed when scrolled into view (motion.js adds .m-pre only to what is BELOW the fold at load) */
+[data-motion] .m-pre{opacity:0;transform:translate3d(0,var(--m-in-y),0)}
+[data-motion] .m-show{transition:opacity var(--m-slow) var(--m-out),transform var(--m-slow) var(--m-out);transition-delay:calc(var(--i,0) * var(--m-step))}
+
+/* ---------- search results ---------- */
+[data-motion] .results>.res{animation:m-in var(--m-base) var(--m-out) backwards}
+[data-motion] .results>.res:nth-child(2){animation-delay:calc(1 * var(--m-step))}[data-motion] .results>.res:nth-child(3){animation-delay:calc(2 * var(--m-step))}
+[data-motion] .results>.res:nth-child(n+4){animation-delay:calc(3 * var(--m-step))}
+[data-motion] .res::after{transition:transform var(--m-fast) var(--m-ease)}
+[data-motion] .res:hover::after,[data-motion] .res:focus-visible::after{transform:translate3d(var(--m-icon),0,0)}
+
+/* ---------- tabs: the country page's jump bar ---------- */
+[data-motion] .cp-jump a{transition:transform var(--m-fast) var(--m-ease),background-color var(--m-base) ease,border-color var(--m-base) ease,color var(--m-base) ease}
+[data-motion] .cp-jump a:active{transform:scale(var(--m-press))}
+[data-motion] .cp-jump a .n{display:inline-block;transition:transform var(--m-fast) var(--m-ease)}
+@media (hover:hover) and (pointer:fine){[data-motion] .cp-jump a:hover .n{transform:translate3d(0,-1px,0)}}
+[data-motion] .cp-jump a.m-active{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- navigation ---------- */
+[data-motion] .nav a{position:relative}
+[data-motion] .nav a::after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:2px;border-radius:2px;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;transition:transform var(--m-base) var(--m-ease);opacity:.85}
+[data-motion] .nav a:hover::after,[data-motion] .nav a:focus-visible::after{transform:scaleX(1)}
+[data-motion] .mnav[open] .mnav-panel{animation:m-drop var(--m-base) var(--m-out)}
+[data-motion] .langsw svg,[data-motion] .hdr-cta svg{transition:transform var(--m-fast) var(--m-ease)}
+[data-motion] .langsw:hover svg{transform:scale(1.08)}
+
+/* ---------- hero decoration (home) — transform/opacity on the drawing only, never on the headline (LCP) ---------- */
+[data-motion] .dp-glow{animation:m-glow-in var(--m-slow) var(--m-out) backwards}
+[data-motion] .dp-pass{animation:m-rise var(--m-slow) var(--m-out) backwards;animation-delay:40ms}
+[data-motion] .dp-back{animation:m-rise var(--m-slow) var(--m-out) backwards;animation-delay:110ms}
+[data-motion] .dp-pass,[data-motion] .dp-back{transition:translate 600ms cubic-bezier(.2,.7,.2,1)}
+[data-motion] .hero-art.m-par .dp-pass{translate:calc(var(--px,0) * var(--m-par)) calc(var(--py,0) * var(--m-par))}
+[data-motion] .hero-art.m-par .dp-back{translate:calc(var(--px,0) * var(--m-par) * -.6) calc(var(--py,0) * var(--m-par) * -.6)}
+}
+@media print{[data-motion] .m-pre{opacity:1!important;transform:none!important}}
+
 /* THE HEADER LOGO — «Reveal + Wave» (owner, 2026-10-20), 1.44 s, ONCE per session, the same on the Russian and the
  * English pages (moved here from ru.css when EN got it). Started by .lm-play on the SVG (RU: the header's inline script)
  * or .lm-once on <html> (EN: assets/logo-once.js in <head> — the EN CSP refuses inline script). One sessionStorage key,

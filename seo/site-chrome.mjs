@@ -51,10 +51,13 @@ export const HEADER_MOTION_SCRIPT = `<script>(function(){var d=document,r=d.docu
   + `try{var s=sessionStorage;if(!s.getItem('me-logo')){s.setItem('me-logo','1');l.classList.add('lm-play')}}catch(e){}`
   + `var j=d.createElement('script');j.src='${MOTION_JS_URL}';j.async=true;d.head.appendChild(j)})();</script>`;
 export const LOGO_ANIMATED = LOGO_ANIMATED_SVG() + HEADER_MOTION_SCRIPT;
-/* The English pages: the SAME SVG, and the once-per-session start from assets/logo-once.js in <head> (their CSP refuses
- * inline script — see that file). LOGO_ONCE_SCRIPT goes in every English <head>, LOGO_ANIMATED_EN in the header. Only
- * the logo: the interface motion («Expressive», data-motion + assets/motion.js) stays Russian-only. */
+/* The English pages: the SAME SVG and the same motion as the Russian header, started from assets/logo-once.js in <head>
+ * (their CSP refuses inline script — see that file): data-motion before first paint, the logo once per visit, and — on
+ * the pages that have something for it (the home and the country pages) — assets/motion.js, named by data-motion-src.
+ * LOGO_ONCE_SCRIPT (no motion.js: the guides, the guide list, the destinations hub) or LOGO_ONCE_SCRIPT_MOTION goes in
+ * every English <head>, LOGO_ANIMATED_EN in the header. */
 export const LOGO_ONCE_SCRIPT = `<script src="/assets/logo-once.js?v=${assetVersion('assets/logo-once.js')}"></script>`;
+export const LOGO_ONCE_SCRIPT_MOTION = `<script src="/assets/logo-once.js?v=${assetVersion('assets/logo-once.js')}" data-motion-src="${MOTION_JS_URL}"></script>`;
 export const LOGO_ANIMATED_EN = LOGO_ANIMATED_SVG();
 /* The Mini App's home logo: the same SVG at the hero's 52 px, playing once when the home screen first shows (app/motion.js
  * drops .lm-play after it, so returning to the tab does not replay it). app/index.html carries it; test-logo-svg pins it. */
