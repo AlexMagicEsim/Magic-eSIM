@@ -1,0 +1,62 @@
+[
+ {
+  "item_id": "guide-android:s3.body",
+  "group": "guide-android",
+  "key": "s3.body",
+  "where": "guide «How to install an eSIM on Android», section 3",
+  "en": "• Make sure the eSIM is turned on. Pixel: Settings → Network &amp; internet → Mobile network → the eSIM → **Use this SIM**.\n• Choose the eSIM as the SIM for **mobile data**. Pixel: Settings → Network &amp; internet → SIMs → **Mobile data**. Your main SIM can stay on for calls and texts.\n• Turn on **roaming** for the eSIM. Samsung: Settings → Connections → Mobile Networks → **Data Roaming**. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.\n• If you do not want charges from your home operator, turn off data roaming on your main SIM.\n• Give the phone a minute or two to register on a local network.",
+  "target": "• Comprueba que la eSIM está activada. Pixel: Configuración → Internet y redes → Red móvil → la eSIM → **Usar esta SIM**.\n• Elige la eSIM como SIM para los **datos móviles**. Pixel: Configuración → Internet y redes → SIMs → **Datos móviles**. Tu SIM principal puede seguir activa para llamadas.\n• Activa el **roaming** para la eSIM. Pixel: Configuración → Internet y redes → SIM → **Roaming**. Samsung: búscalo en los ajustes de red móvil de Conexiones; el nombre exacto depende del modelo. Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como roaming.\n• Si no quieres cargos de tu operador habitual, desactiva el roaming de datos en tu SIM principal.\n• Espera uno o dos minutos a que el teléfono se registre en una red local.",
+  "suggestion": "• Comprueba que la eSIM está activada. Pixel: Configuración → Internet y redes → Red móvil → la eSIM → **Usar esta SIM**.\n• Elige la eSIM como SIM para los **datos móviles**. Pixel: Configuración → Internet y redes → SIMs → **Datos móviles**. Tu SIM principal puede seguir activa para llamadas y mensajes de texto.\n• Activa el **roaming** para la eSIM. Pixel: Configuración → Internet y redes → SIM → **Roaming**. Samsung: búscalo en los ajustes de red móvil de Conexiones; el nombre exacto depende del modelo. Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como roaming.\n• Si no quieres cargos de tu operador habitual, desactiva el roaming de datos en tu SIM principal.\n• Espera uno o dos minutos a que el teléfono se registre en una red local.",
+  "explanation": "Fidelity: the English says the main SIM stays on «for calls and texts»; the Spanish drops «texts» (also in faq2.a: «para las llamadas» → «para las llamadas y los mensajes de texto»). If the omission was a deliberate SMS-claim decision, ignore.",
+  "category": "accuracy",
+  "severity": "minor",
+  "confidence": 0.6,
+  "source": "ai",
+  "rule": "dropped-texts"
+ },
+ {
+  "item_id": "guide-android:s1.body",
+  "group": "guide-android",
+  "key": "s1.body",
+  "where": "guide «How to install an eSIM on Android», section 1",
+  "en": "The SIM settings usually live in one of these places — names vary by brand and Android version:\n• **Google Pixel:** Settings → Network &amp; internet → SIMs → **Add SIM** → **Set up an eSIM**.\n• **Samsung Galaxy:** Settings → Connections → SIM card manager → **Add mobile plan**.\n• **Other brands:** look for «Mobile network», «SIM cards» or «Connections» in Settings.\nIf there is no option to add an eSIM anywhere, check whether your phone supports eSIM.",
+  "target": "Los ajustes de la SIM suelen estar en uno de estos lugares; los nombres cambian según la marca y la versión de Android:\n• **Google Pixel:** Configuración → Internet y redes → Tarjetas SIM (o SIMs) → **Agregar una SIM** → **Configurar una eSIM**.\n• **Samsung Galaxy:** Ajustes → Conexiones → Gestor de SIM → **Añadir eSIM**.\n• **Otras marcas:** busca en los ajustes «Red móvil», «Tarjetas SIM» o «Conexiones».\nSi no encuentras en ningún sitio la opción de añadir una eSIM, consulta si tu teléfono admite eSIM.",
+  "suggestion": "Los ajustes de la SIM suelen estar en uno de estos lugares; los nombres cambian según la marca y la versión de Android:\n• **Google Pixel:** Configuración → Internet y redes → Tarjetas SIM (o SIMs) → **Agregar una SIM** → **Configurar una eSIM**.\n• **Samsung Galaxy:** Ajustes → Conexiones → Gestor de SIM → **Añadir eSIM**.\n• **Otras marcas:** busca en los ajustes «Red móvil», «Tarjetas SIM» o «Conexiones».\nSi no encuentras en ningún lugar la opción de añadir una eSIM, consulta si tu teléfono admite eSIM.",
+  "explanation": "«en ningún sitio» reads as Spain usage; «en ningún lugar» is neutral for a Latin-American-first audience (also in faq1.a: «Si en ningún sitio existe» → «Si en ningún lugar existe»).",
+  "category": "style-variant",
+  "severity": "preferential",
+  "confidence": 0.6,
+  "source": "ai",
+  "rule": "sitio-spain"
+ },
+ {
+  "item_id": "guide-android:s4.body",
+  "group": "guide-android",
+  "key": "s4.body",
+  "where": "guide «How to install an eSIM on Android», section 4",
+  "en": "Check the data SIM and roaming on the eSIM, toggle airplane mode, then restart. The full checklist is in eSIM not working.\n**Do not delete the eSIM** while troubleshooting: its QR code may be single-use.",
+  "target": "Comprueba la SIM elegida para los datos y el roaming de la eSIM, activa y desactiva el modo avión y reinicia. La lista completa está en La eSIM no funciona.\n**No borres la eSIM** mientras buscas el problema: su código QR puede ser de un solo uso.",
+  "suggestion": "Comprueba la SIM elegida para los datos y el roaming de la eSIM, activa y desactiva el modo avión y reinicia. La lista completa está en La eSIM no funciona.\n**No borres la eSIM** mientras intentas resolver el problema: su código QR puede ser de un solo uso.",
+  "explanation": "«troubleshooting» is solving the problem, not looking for it; «mientras buscas el problema» is a slightly unnatural rendering.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.65,
+  "source": "ai",
+  "rule": "troubleshooting-calque"
+ },
+ {
+  "item_id": "guide-android:faq3.a",
+  "group": "guide-android",
+  "key": "faq3.a",
+  "where": "guide «How to install an eSIM on Android», answer 3",
+  "en": "Only if your plan's details list an APN: then check that it matches in the eSIM's settings.",
+  "target": "Solo si los datos de tu plan indican un APN: en ese caso, comprueba que coincide en los ajustes de la eSIM (en Pixel, «Nombres de puntos de acceso»).",
+  "suggestion": "Solo si los datos de tu plan indican un APN: en ese caso, comprueba que coincide en los ajustes de la eSIM.",
+  "explanation": "Fidelity: the parenthesis «(en Pixel, «Nombres de puntos de acceso»)» is not in the English. The label itself is sourced (platform-labels, Pixel 2926415), so keeping it is a content decision; flagged only because the rule is nothing added.",
+  "category": "accuracy",
+  "severity": "preferential",
+  "confidence": 0.55,
+  "source": "ai",
+  "rule": "added-label-path"
+ }
+]

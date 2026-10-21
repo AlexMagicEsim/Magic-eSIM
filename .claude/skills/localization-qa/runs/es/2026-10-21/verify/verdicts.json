@@ -1,0 +1,49 @@
+[
+ {
+  "id": "A0035",
+  "verdict": "confirm",
+  "confidence": 0.85,
+  "reason": "Spanish speakers everywhere name and search the country «Costa de Marfil» (Fundéu/RAE form); the French endonym in title and H1 is both unnatural and misses the search intent, and the suggestion adds no meaning."
+ },
+ {
+  "id": "C0002",
+  "verdict": "confirm",
+  "confidence": 0.75,
+  "reason": "At 70 characters the title is well over the 60-character budget; dropping «Cómo» and the article and using «y más» for «and others» keeps every fact and the Android/Samsung/Pixel keywords within 59.",
+  "suggestion": "Instalar eSIM en Android: Samsung, Pixel y más | Magic eSIM"
+ },
+ {
+  "id": "C0004",
+  "verdict": "confirm",
+  "confidence": 0.85,
+  "reason": "Removing the leading article (the English title has none) brings the title from 62 to 59 characters with no loss of meaning or keyword.",
+  "suggestion": "eSIM no funciona en el extranjero: qué revisar | Magic eSIM"
+ },
+ {
+  "id": "C0003",
+  "verdict": "confirm",
+  "confidence": 0.8,
+  "reason": "«no es lo mismo» renders «are different things» faithfully and brings the description from 164 to 159 characters; nothing else changes.",
+  "suggestion": "Instalar una eSIM y empezar su validez no es lo mismo. Cuándo instalarla, cuándo activar la línea y la itinerancia de datos, y una lista para el día del vuelo."
+ },
+ {
+  "id": "C0001",
+  "verdict": "confirm",
+  "confidence": 0.85,
+  "reason": "«ordenador» is the Spain-only word the glossary excludes for this Latin-American-first audience; «una computadora» is the decided term and the only change.",
+  "suggestion": "• Muestra el código QR de tu eSIM en otra pantalla: una computadora, una tableta u otro teléfono.\n• En el iPhone, abre la app **Cámara** y escanea el código QR.\n• Cuando aparezca la notificación **Plan móvil detectado** (**Plan de datos celulares detectado**), tócala.\n• Toca **Continuar** y después **Añadir plan móvil**. Si se te pide un código de confirmación, introduce el que se indica con tu eSIM.\n• Pon a la línea un nombre claro, por ejemplo «Viaje», para no confundirla con tu SIM principal.\nCon iOS 17.4 o posterior, si el código QR está en un correo o en una página web del propio iPhone, mantén pulsado el código y toca **Añadir eSIM** (**Agregar eSIM**)."
+ },
+ {
+  "id": "C0006",
+  "verdict": "reject",
+  "confidence": 0.8,
+  "reason": "«Añadir eSIM» is the label Samsung’s own Spanish page uses (platform-labels.md), so quoting the vendor label instead of translating the English UI text «Add mobile plan» is correct and the meaning of the step is kept."
+ },
+ {
+  "id": "C0005",
+  "verdict": "confirm",
+  "confidence": 0.65,
+  "reason": "The target replaces «Data roaming … is a normal setting» with «Activarla … es un ajuste normal» (an action called a setting, pronoun pointing to a generic «itinerancia»); naming «la itinerancia de datos» keeps the English meaning and the glossary term.",
+  "suggestion": "Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia. La itinerancia de datos en la línea eSIM es un ajuste normal; en tu SIM principal puedes dejarla desactivada."
+ }
+]

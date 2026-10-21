@@ -1,0 +1,19 @@
+[
+ {
+  "id": "AI-05-001",
+  "item_id": "page:guidesLead",
+  "group": "page",
+  "key": "guidesLead",
+  "where": "guides",
+  "url": "",
+  "en": "Install, check and fix a travel eSIM — step by step.",
+  "target": "Instala, comprueba y soluciona una eSIM de viaje, paso a paso.",
+  "suggestion": "Instala y comprueba una eSIM de viaje y soluciona sus problemas, paso a paso.",
+  "explanation": "«solucionar una eSIM» is a calque of «fix an eSIM»: in Spanish one solves problems, not the object itself; giving «solucionar» its natural object keeps the meaning and reads naturally.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.6,
+  "source": "ai",
+  "rule": "solucionar-needs-problem-object"
+ }
+]

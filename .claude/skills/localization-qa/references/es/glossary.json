@@ -1,0 +1,136 @@
+{
+  "language": "es",
+  "note": "Terms of this storefront. «target» is the established translation (as on the live pages); «avoid» are variants that read as Spain-only, wrong or inconsistent; «consistency» asks the check to flag a string whose source has the term and whose translation has neither the term nor an accepted variant.",
+  "doNotTranslate": [
+    "Magic eSIM",
+    "eSIM",
+    "QR",
+    "Wi-Fi",
+    "iPhone",
+    "Android",
+    "Pixel",
+    "Galaxy",
+    "iOS",
+    "USD",
+    "Stay Connected Anywhere",
+    "support@magicesim.store",
+    "EID",
+    "APN"
+  ],
+  "terms": [
+    {
+      "en": "QR code",
+      "target": "código QR",
+      "consistency": true
+    },
+    {
+      "en": "mobile data",
+      "target": "datos móviles",
+      "alsoAccept": [
+        "datos celulares",
+        "datos"
+      ],
+      "consistency": true
+    },
+    {
+      "en": "data roaming",
+      "target": "itinerancia de datos",
+      "alsoAccept": [
+        "roaming de datos",
+        "roaming"
+      ],
+      "consistency": true
+    },
+    {
+      "en": "airplane mode",
+      "target": "modo avión",
+      "consistency": true
+    },
+    {
+      "en": "destination",
+      "target": "destino",
+      "consistency": true,
+      "alsoAccept": [
+        "destinos"
+      ]
+    },
+    {
+      "en": "plan",
+      "target": "plan",
+      "consistency": true,
+      "alsoAccept": [
+        "planes"
+      ]
+    },
+    {
+      "en": "Data every day",
+      "target": "Datos cada día",
+      "consistency": true
+    },
+    {
+      "en": "computer",
+      "target": "computadora",
+      "avoid": [
+        "ordenador",
+        "ordenadores"
+      ],
+      "severity": "minor",
+      "why": "«ordenador» is Spain's word; Latin America says «computadora» (Latin-American-first audience)"
+    },
+    {
+      "en": "phone",
+      "target": "teléfono",
+      "avoid": [
+        "el móvil",
+        "tu móvil",
+        "un móvil",
+        "el celular",
+        "tu celular",
+        "un celular"
+      ],
+      "severity": "minor",
+      "why": "«móvil»/«celular» as a noun for the phone is regional; «teléfono» is understood everywhere"
+    },
+    {
+      "en": "to take / pick",
+      "target": "tomar / elegir",
+      "avoid": [
+        "coger",
+        "coge",
+        "coges"
+      ],
+      "severity": "major",
+      "why": "«coger» is vulgar in much of Latin America"
+    },
+    {
+      "en": "tap / click",
+      "target": "tocar / hacer clic",
+      "avoid": [
+        "pinchar",
+        "pincha",
+        "pulsa en"
+      ],
+      "severity": "minor",
+      "why": "«pinchar» is Spain-only for clicking"
+    },
+    {
+      "en": "OK (agreement)",
+      "target": "de acuerdo",
+      "avoid": [
+        "vale"
+      ],
+      "severity": "minor",
+      "why": "«vale» as «OK» is Spain-only"
+    },
+    {
+      "en": "eSIM (gender)",
+      "target": "la eSIM",
+      "avoid": [
+        "el eSIM",
+        "un eSIM"
+      ],
+      "severity": "minor",
+      "why": "the site uses «la/una eSIM» throughout (la tarjeta SIM)"
+    }
+  ]
+}

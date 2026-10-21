@@ -1,0 +1,21 @@
+[
+  {
+    "id": "F01-001",
+    "item_id": "ui:nav.compat",
+    "group": "ui",
+    "key": "nav.compat",
+    "where": "header menu",
+    "url": "",
+    "en": "Device check",
+    "target": "Compatibilidad",
+    "suggestion": "Comprobar el teléfono",
+    "explanation": "The English names an action (checking the device); «Compatibilidad» names only the topic, so the menu item no longer says the reader can check their phone there. Acceptable as a short menu label — a matter of taste (rubric: accuracy, preferential).",
+    "category": "accuracy",
+    "severity": "preferential",
+    "confidence": 0.5,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "fidelity-nuance",
+    "objective": false
+  }
+]

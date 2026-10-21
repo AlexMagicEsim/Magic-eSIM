@@ -1,0 +1,32 @@
+[
+  {
+    "item_id": "ui:hub.matches.one",
+    "where": "destination list search",
+    "en": "{n} destination match",
+    "target": "{n} destino coincide",
+    "suggestion": "{n} destino encontrado",
+    "explanation": "Grammatical but a calque of «match»: a bare count + «coincide» reads unnatural as a search-result status; «{n} destino encontrado / {n} destinos encontrados» is the usual phrasing. Also in ui:hub.matches.other («{n} destinos encontrados»).",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.65,
+    "objective": false,
+    "source": "ai",
+    "stage": "linguistic",
+    "rule": "natural phrasing"
+  },
+  {
+    "item_id": "daily:place:the Middle East",
+    "where": "daily plan card title («Region — 1 GB a day»)",
+    "en": "the Middle East",
+    "target": "Oriente Medio",
+    "suggestion": "Medio Oriente",
+    "explanation": "Both forms are correct; «Oriente Medio» is the Spain-preferred form, while the Latin-American-first variant (README D1) normally uses «Medio Oriente».",
+    "category": "style-variant",
+    "severity": "preferential",
+    "confidence": 0.55,
+    "objective": false,
+    "source": "ai",
+    "stage": "linguistic",
+    "rule": "variant: neutral, Latin-American-first"
+  }
+]
