@@ -31,28 +31,27 @@ const PUBLISHED = LOCALES.filter((l) => l.site.enabled);
 /** A URL path → the file the static site serves for it. */
 const fileOf = (path) => join(ROOT, path.endsWith('/') ? `${path}index.html` : path);
 
-test('English today: the one «Русский» link, desktop and phone menu, to the page\'s Russian twin', () => {
-  const cases = [['en/index.html', '/'], ['en/esim/index.html', '/esim/'], ['en/esim/thailand/index.html', '/esim/thailand/'],
-    ['en/guides/index.html', '/esim/'], ...EN_GUIDES.map((g) => [`en/guides/${g.slug}/index.html`, GUIDE_RU[g.slug]])];
-  for (const [rel, ru] of cases) {
-    const page = read(rel);
-    const links = [...page.matchAll(/<a (?:class="langsw" )?href="([^"]+)" hreflang="ru" lang="ru"/g)].map((m) => m[1]);
-    assert.deepEqual(links, [ru, ru], rel);
-    assert.doesNotMatch(page, /class="langsw langmenu"/, `${rel}: no list while Russian is the only other language`);
-    assert.ok(existsSync(fileOf(ru)), `${ru} exists`);
-  }
-});
+/* Since ES-1 three languages are published, so every prefixed page carries the list: the single-link form (Russian the
+ * only other language — the English site from #116 to ES-1) no longer occurs on a published page. */
 
-test('…and the generator builds that same single link, not the list, for every English page kind', () => {
-  const G = localeGenerator('en');
-  const list = G.countries();
-  const th = list.find((c) => c.slug === 'thailand');
-  for (const [kind, html, ru] of [['home', G.homePage(list), '/'], ['list', G.hubPage(list), '/esim/'],
-    ['country', G.countryPage(th), '/esim/thailand/'], ['guides', G.guidesHub(), '/esim/'],
-    ['guide', G.guidePage(EN_GUIDES[0]), GUIDE_RU[EN_GUIDES[0].slug]]]) {
-    assert.doesNotMatch(html, /langmenu/, kind);
-    const links = [...html.matchAll(/<a (?:class="langsw" )?href="([^"]+)" hreflang="ru" lang="ru"/g)].map((m) => m[1]);
-    assert.deepEqual(links, [ru, ru], kind);
+test('every published prefixed page: the list of RU/EN/ES, current marked, each linking to the same page — and it exists', () => {
+  const sample = (P) => [[`${P}/index.html`, '/', '/'], [`${P}/esim/index.html`, '/esim/', '/esim/'],
+    [`${P}/esim/thailand/index.html`, '/esim/thailand/', '/esim/thailand/'], [`${P}/guides/index.html`, '/esim/', '/guides/'],
+    ...EN_GUIDES.map((g) => [`${P}/guides/${g.slug}/index.html`, GUIDE_RU[g.slug], `/guides/${g.slug}/`])];
+  for (const L of PUBLISHED.filter((l) => l.prefix)) {
+    for (const [rel, ru, path] of sample(L.prefix)) {
+      const page = read(rel);
+      const menu = page.match(/<details class="langsw langmenu">([\s\S]*?)<\/details>/);
+      assert.ok(menu, `${rel}: the list`);
+      for (const l of PUBLISHED) {
+        const href = l.prefix ? `/${l.prefix}${path}` : ru;
+        if (l.code === L.code) assert.ok(menu[1].includes(`<span aria-current="true" lang="${l.htmlLang}">${l.endonym}</span>`), `${rel}: ${l.code} marked`);
+        else {
+          assert.ok(menu[1].includes(`<a href="${href}" hreflang="${l.hreflang}" lang="${l.htmlLang}">${l.endonym}</a>`), `${rel}: ${l.code} → ${href}`);
+          assert.ok(existsSync(fileOf(href)), `${rel}: ${href} exists`);
+        }
+      }
+    }
   }
 });
 
@@ -92,18 +91,18 @@ for (const L of PLANNED) {
 }
 
 test('the switch never names a language the registry does not publish (besides the page\'s own)', () => {
-  const G = rehearsalGenerator('es', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en });
+  const G = rehearsalGenerator('de', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en });
   const html = G.hubPage(G.countries());
-  for (const l of LOCALES.filter((x) => !x.site.enabled && x.code !== 'es')) {
+  for (const l of LOCALES.filter((x) => !x.site.enabled && x.code !== 'de')) {
     assert.ok(!html.includes(`>${l.endonym}<`), `${l.code} is not published and not offered`);
   }
-  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en'], 'today only RU and EN are published');
-  assert.equal(locale('es').site.enabled, false);
+  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en', 'es'], 'published since ES-1: RU, EN, ES');
+  assert.equal(locale('de').site.enabled, false);
 });
 
 test('the RU pages are not part of the switch work: their header still links to /en/ only', () => {
-  for (const rel of ['index.html', 'esim/thailand/index.html', 'esim/index.html']) {
+  for (const rel of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'esim/uae/index.html']) {
     const page = read(rel);
-    assert.doesNotMatch(page, /langmenu|\/es\//, rel);
+    assert.doesNotMatch(page, /langmenu|href="\/es\//, rel);
   }
 });

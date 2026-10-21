@@ -76,7 +76,9 @@
    *
    * `days` / `countries` are a function (n -> word) or plural forms keyed by
    * the categories of Intl.PluralRules for that language ({ one, other }…);
-   * a missing Intl falls back to `other`.
+   * a missing Intl falls back to `other`. `listAnd` is a string, or a function
+   * of the last name when the conjunction depends on it (Spanish «y» is «e»
+   * before an «i»/«hi» sound: «Francia e Italia»).
    * ------------------------------------------------------------------ */
   function pluralRu(one, few, many) {
     return function (n) {
@@ -140,6 +142,35 @@
         'Страны Персидского залива': 'the Gulf states', 'Ближний Восток': 'the Middle East',
         'Весь мир': 'Worldwide', 'Европа': 'Europe', 'Азия и Океания': 'Asia-Pacific',
         'Азия': 'Asia', 'Африка': 'Africa'
+      }
+    },
+    // Neutral international Spanish (owner, D1), I18N ES-1. Decimal POINT: the owner's price format is es-419
+    // («USD 12.99», D2), so data amounts follow it («1.5 GB»). The same four lines as English, no more.
+    es: {
+      blockTitle: 'Datos cada día',
+      decimal: '.', mb: 'MB', gb: 'GB',
+      kbps: 'kbps', mbps: 'Mbps', gbps: 'Gbps',
+      allowance: '{a} al día a máxima velocidad',
+      throttle: 'Después, hasta {s}',
+      reset: 'El límite se renueva cada 24 horas',
+      term: 'Validez: {n} {days}',
+      perDay: '{a} al día',
+      titled: '{place} — {perDay}',
+      withTerm: '{base}, {n} {days}',
+      count: '{n} {countries}',
+      listSep: ', ',
+      // «y» becomes «e» before a word starting with the vowel sound /i/ — «i», «hi» — but not «hie»/«hia» (a
+      // diphthong: «y hielo»).
+      listAnd: function (last) { return /^(i|í|hi(?![aeoáéó]))/i.test(String(last || '')) ? ' e ' : ' y '; },
+      days: { one: 'día', many: 'días', other: 'días' },
+      countries: { one: 'país', many: 'países', other: 'países' },
+      places: {
+        'Центральная Азия': 'Asia Central', 'Балканы': 'Balcanes',
+        'Северная Америка': 'América del Norte', 'Южная Америка': 'América del Sur',
+        'Латинская Америка': 'América Latina', 'Карибы': 'Caribe',
+        'Страны Персидского залива': 'Países del Golfo', 'Ближний Восток': 'Oriente Medio',
+        'Весь мир': 'Todo el mundo', 'Европа': 'Europa', 'Азия и Океания': 'Asia-Pacífico',
+        'Азия': 'Asia', 'Африка': 'África'
       }
     }
     /* --- LANGUAGE TABLES END --- */
@@ -315,7 +346,9 @@
   function joinCountries(names, lang) {
     if (names.length === 1) return names[0];
     var c = copyOf(lang);
-    return names.slice(0, -1).join(c.listSep) + c.listAnd + names[names.length - 1];
+    var last = names[names.length - 1];
+    var and = typeof c.listAnd === 'function' ? c.listAnd(last) : c.listAnd;
+    return names.slice(0, -1).join(c.listSep) + and + last;
   }
 
   function pluralCountries(n, lang) {

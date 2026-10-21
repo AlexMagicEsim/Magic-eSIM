@@ -27,7 +27,8 @@
    (.langsw in assets/site.css); with two or more it is this native <details> list — every language by its own name,
    the current one marked, each link to the same page in that language. No script. Hidden below 900 px with every
    .langsw (assets/site.css): the phone menu (.mnav) lists the languages there. */
-.langmenu{position:relative;padding:0;min-height:0}
+/* reset the shared `details` card style (border, padding, background, margin — assets/site.css), as .mnav does */
+.langmenu{position:relative;display:inline-flex;align-items:center;padding:0;margin:0;min-height:0;border:0;border-radius:0;background:transparent}
 .langmenu:hover{background:transparent}
 .langmenu>summary{list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;cursor:pointer}
 .langmenu>summary::-webkit-details-marker{display:none}

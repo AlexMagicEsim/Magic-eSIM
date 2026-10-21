@@ -150,7 +150,8 @@ test('every page loads the GLOBAL client and never the Russian catalogue', () =>
     assert.match(html, /<script src="\/en\/country\.js\?v=[0-9a-f]{8}" defer><\/script>/);
     assert.match(html, new RegExp(`<body data-iso="${c.iso}">`));
     assert.equal(/catalog-loader|country-tariffs|catalog\.json|metrika|mc\.yandex/i.test(html), false, c.slug);
-    assert.match(html, new RegExp(`class="langsw" href="/esim/${c.slug}/" hreflang="ru"`), 'the switch goes to the Russian twin');
+    assert.ok(html.includes(`<li><a href="/esim/${c.slug}/" hreflang="ru" lang="ru">`), 'the switch goes to the Russian twin');
+    assert.ok(html.includes(`<li><a href="/es/esim/${c.slug}/" hreflang="es" lang="es">`), 'and to the Spanish twin');
   }
 });
 
@@ -196,7 +197,7 @@ test('running the generator touches nothing outside en/ — proven in a sandbox'
 });
 
 test('build-all runs the English generator', () => {
-  assert.match(read('seo/build-all.mjs'), /run\('build-en-pages\.mjs'\)/);
+  assert.match(read('seo/build-all.mjs'), /run\('build-locale-pages\.mjs'\)/);   // every published language, English included
 });
 
 /* ===================================================================== *

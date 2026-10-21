@@ -85,9 +85,10 @@ test('the English screen is English, word for word, and links into the English s
   assert.doesNotMatch(s.html, /[А-Яа-яЁё]/);
 });
 
-test('the branch matches /en and /en/…, and nothing that merely starts with «en» or names an unpublished language', () => {
+test('the branch matches each published prefix (/en, /es …), and nothing that merely starts with one or names an unpublished language', () => {
   for (const p of ['/en', '/en/', '/en/esim/atlantis/', '/en/guides/nope/']) assert.equal(screen(p).code, 'en', p);
-  for (const p of ['/enter', '/english/', '/esim/en/', '/pay/en/x', '/', '/nope/', '/es/', '/de/x', '/zh/', '/ko/esim/',
+  for (const p of ['/es', '/es/', '/es/esim/atlantis/', '/es/guides/nope/']) assert.equal(screen(p).code, 'es', p);
+  for (const p of ['/enter', '/english/', '/espana/', '/esim/en/', '/pay/en/x', '/', '/nope/', '/de/x', '/zh/', '/ko/esim/',
     '/__proto__/', '/constructor/', '/hasOwnProperty/', '/EN/', '//en/']) {
     assert.equal(screen(p).code, null, p);
   }

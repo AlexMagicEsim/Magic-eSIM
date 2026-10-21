@@ -7,10 +7,9 @@
 // under a content hash; these never change after the page is built, so they
 // stay at build time and add nothing to a download.
 //
-// Only English exists. A language is added here — written for its readers'
-// own search intent, reviewed, never machine-translated from this one — in the
-// stage that publishes it; until then seo/build-locale-pages.mjs refuses to
-// build it. `esc`-ed values (country names) are passed in already escaped.
+// English and Spanish exist. A language is added here — written for its readers,
+// held to the English copy's facts, reviewed — in the stage that publishes it;
+// until then seo/build-locale-pages.mjs refuses to build it. `esc`-ed values (country names) are passed in already escaped.
 
 const freeze = (o) => Object.freeze(o);
 
@@ -90,5 +89,75 @@ export const PAGE_COPY = freeze({
     guidesDescription: 'How to install a travel eSIM on iPhone and Android, check that your phone supports it, when to install it and what to do if it does not work.',
     guidesH1: 'eSIM guides',
     guidesLead: 'Install, check and fix a travel eSIM — step by step.',
+  }),
+
+  /* Neutral international Spanish (owner, D1: «tú», no «vosotros», no regional slang), I18N ES-1 2026-10-21. An
+   * AI-assisted draft held to the English copy's facts — it may say nothing the English does not — and to
+   * seo/claim-guards.mjs (es); a native review is part of publishing (ES-1r). Country names are CLDR's, the same
+   * the generator prints. */
+  es: freeze({
+    skipLink: 'Ir al contenido principal',
+    navLabel: 'Principal',
+    menuLabel: 'Menú',
+    langMenu: 'Idioma',
+    support: 'Soporte:',
+    homeTitle: 'Magic eSIM — datos móviles en el extranjero sin roaming',
+    homeDescription: 'Elige un destino, instala una eSIM y conéctate al aterrizar. Magic eSIM cubre más de 190 destinos, sin SIM física ni esperas en el aeropuerto.',
+    homeOgDescription: 'Elige un destino, instala una eSIM y conéctate al aterrizar.',
+    homeNojsSearch: 'La búsqueda necesita JavaScript.',
+    homeNojsBrowse: 'Ver todos los destinos',
+    homeReadGuide: 'Leer la guía →',
+    homeArtBack: 'eSIM · PASE DE DATOS',
+    homeArtTitle: 'Pase de datos',
+    homeArtCoverage: 'Cobertura',
+    homeArtCoverageValue: '190+ destinos',
+    homeArtType: 'Tipo',
+    homeArtInstall: 'Instalación con<br>código QR',
+    quick: freeze(['US', 'MX', 'ES', 'JP', 'TH', 'IT']),
+    popular: freeze([
+      freeze({ iso: 'US', slug: 'usa', name: 'Estados Unidos' }),
+      freeze({ iso: 'MX', slug: 'mexico', name: 'México' }),
+      freeze({ iso: 'ES', slug: 'spain', name: 'España' }),
+      freeze({ iso: 'JP', slug: 'japan', name: 'Japón' }),
+      freeze({ iso: 'TH', slug: 'thailand', name: 'Tailandia' }),
+      freeze({ iso: 'TR', slug: 'turkey', name: 'Turquía' }),
+      freeze({ iso: 'IT', slug: 'italy', name: 'Italia' }),
+      freeze({ iso: 'FR', slug: 'france', name: 'Francia' }),
+    ]),
+    yourPlan: 'Tu plan',
+    esimFor: (name) => `eSIM para ${name}`,
+    steps: freeze(['Plan', 'Tus datos', 'Revisión']),
+    beforeYouBuy: 'Antes de comprar',
+    countryTitle: (name) => `eSIM para ${name}: planes de datos en dólares | Magic eSIM`,
+    countryDescription: (name) => `Planes de datos eSIM que cubren ${name}, con precios en dólares estadounidenses. El pago en línea aún no está disponible.`,
+    countryLead: (name) => `Planes de datos que funcionan en ${name}, con precios en dólares estadounidenses.`,
+    chooseAnother: 'Elegir otro destino',
+    planTypes: 'Tipos de planes',
+    jumpRegional: 'Regionales',
+    jumpDaily: 'Datos cada día',
+    noscript: 'Los planes y precios de esta página necesitan JavaScript. Aquí todavía no se puede comprar nada.',
+    localTitle: (name) => `Planes para ${name}`,
+    localNote: (name) => `Planes que solo cubren ${name}.`,
+    regionalTitle: (name) => `Planes regionales que incluyen ${name}`,
+    regionalNote: (name) => `Planes que cubren ${name} junto con otros países.`,
+    dailyTitle: 'Datos cada día',
+    dailyNote: 'Una cantidad de datos para cada día del viaje.',
+    hubTitle: 'Destinos eSIM — Magic eSIM',
+    hubDescription: 'Todos los destinos para los que Magic eSIM tiene planes de datos, con precios en dólares estadounidenses. El pago en línea aún no está disponible.',
+    hubH1: 'Destinos eSIM',
+    hubLead: 'Elige un país para ver sus planes de datos, con precios en dólares estadounidenses.',
+    hubSearchPlaceholder: 'Buscar un país',
+    hubClear: 'Borrar la búsqueda',
+    hubAz: 'Destinos de la A a la Z',
+    hubEmptyNote: 'Revisa la ortografía o consulta la lista de la A a la Z.',
+    hubShowAll: 'Ver todos los destinos',
+    questions: 'Preguntas',
+    onThisPage: 'En esta página',
+    relatedGuides: 'Guías relacionadas',
+    chooseDestination: 'Elegir un destino',
+    guidesTitle: 'Guías eSIM: instalar, comprobar y solucionar | Magic eSIM',
+    guidesDescription: 'Cómo instalar una eSIM de viaje en iPhone y Android, comprobar que tu teléfono la admite, cuándo instalarla y qué hacer si no funciona.',
+    guidesH1: 'Guías eSIM',
+    guidesLead: 'Instala, comprueba y soluciona una eSIM de viaje, paso a paso.',
   }),
 });

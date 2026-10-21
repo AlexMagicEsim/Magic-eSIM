@@ -6,7 +6,7 @@ const run = (f) => { console.log(`\n── ${f}`); execFileSync('node', [`seo/${
 run('fetch-catalogue.mjs');   // the single source of truth
 run('build-catalogue-pages.mjs');
 run('build-hub.mjs');
-run('build-en-pages.mjs');   // English pages, en/ only — never esim/
+run('build-locale-pages.mjs');   // every published prefixed language (en/, es/ …) — never esim/
 run('build-sitemap.mjs');
 // fact-sheets.json is what the editorial gates check an authored claim against,
 // and it was NOT in this list. So «rebuild everything» left the sheet describing

@@ -299,10 +299,10 @@ test('a catalogue that cannot be reached says so instead of looking empty', asyn
  * 5. Leaving, and what a crawler is told
  * ================================================================== */
 
-test('the language switch goes to the Russian twin, and nothing redirects by itself', async ({ page }) => {
+test('the language switch goes to the same page in Russian and Spanish, and nothing redirects by itself', async ({ page }) => {
   await open(page, '/en/esim/uae/');
-  await expect(page.locator('a.langsw')).toHaveAttribute('href', '/esim/uae/');
-  await expect(page.locator('a.langsw')).toHaveAttribute('hreflang', 'ru');
+  await expect(page.locator('.langmenu-list a[hreflang="ru"]')).toHaveAttribute('href', '/esim/uae/');
+  await expect(page.locator('.langmenu-list a[hreflang="es"]')).toHaveAttribute('href', '/es/esim/uae/');
   expect(page.url()).toContain('/en/esim/uae/');
 });
 

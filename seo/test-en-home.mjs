@@ -37,7 +37,7 @@ const DESTINATIONS = [...read('en/destinations.js').matchAll(/iso: "([A-Z]{2})",
 /* ------------------------------------------------------------ one chrome */
 
 test('the home carries the generator\'s header, payment bar and footer, verbatim', () => {
-  assert.ok(HOME.includes(header(twin('/', '/'))), 'header (language switch to the Russian landing)');
+  assert.ok(HOME.includes(header(twin('/', '/'))), 'header (the language switch to every published language\'s home)');
   assert.ok(HOME.includes(PAYBAR), 'payment-status bar');
   assert.ok(HOME.includes(FOOTER), 'footer');
   assert.ok(HOME.includes(FONT_PRELOAD), 'font preload');
@@ -64,7 +64,7 @@ test('the mobile menu offers exactly the desktop links, plus the language switch
   const panel = HOME.slice(HOME.indexOf('<nav class="mnav-panel"'), HOME.indexOf('</nav>', HOME.indexOf('<nav class="mnav-panel"')));
   const mob = [...panel.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
   assert.deepEqual(desk, ['/en/esim/', '/en/#how', '/en/#compat', '/en/guides/']);
-  assert.deepEqual(mob, [...desk, '/']);
+  assert.deepEqual(mob, [...desk, '/', '/es/'], 'plus every other published language\'s home (RU, ES)');
 });
 
 /* ------------------------------------------------------------ what the home shows */

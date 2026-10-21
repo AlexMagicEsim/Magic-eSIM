@@ -40,6 +40,7 @@ import { createRequire } from 'node:module';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
+import { ES_GUIDES } from './guides-es.mjs';
 import { FONT_PRELOAD, LOGO, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT, LOGO_ONCE_SCRIPT_MOTION, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
 import { word, escapeText, escapeAttr } from './site-dictionary.mjs';
 import { countryName } from './country-names-i18n.mjs';
@@ -221,7 +222,7 @@ function write(rel, text) {
 export const DAILY_COPY_LANGS = Object.freeze(createRequire(import.meta.url)('../assets/daily-plan-copy.js').LANGS.slice());
 
 /* The guides each language has. A language without its own guides is not built. */
-export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES });
+export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES, es: ES_GUIDES });
 
 /* Why a language cannot be built, or null. Pure — the tests call it. */
 export function cannotBuild(code) {
