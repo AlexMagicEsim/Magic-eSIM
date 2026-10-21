@@ -44,24 +44,28 @@ const L = (o) => Object.freeze({ ...o, site: Object.freeze(o.site), app: Object.
  * script      ISO 15924 — what a «no foreign script on this page» gate checks
  * endonym     the name a language switcher prints
  * site        enabled: pages exist under the prefix; indexableHome: the home is
- *             in the sitemap and the hreflang cluster
+ *             in the sitemap and the hreflang cluster; analytics: the counter its
+ *             pages load — 'metrika' (the Russian site: Yandex Metrika, R3-08) or
+ *             'none'. A prefixed language states it explicitly; the locale
+ *             generator builds only 'none' until a counter is decided by the owner
+ *             (its CSP, consent and a no-PII rule come with that decision).
  * app         enabled: the Mini App offers it
  */
 export const LOCALES = Object.freeze([
   L({ code: 'ru', prefix: '', htmlLang: 'ru', hreflang: 'ru', ogLocale: 'ru_RU', script: 'Cyrl', endonym: 'Русский', defaultMarket: 'ru',
-    site: { enabled: true, indexableHome: true }, app: { enabled: true } }),
+    site: { enabled: true, indexableHome: true, analytics: 'metrika' }, app: { enabled: true } }),
   L({ code: 'en', prefix: 'en', htmlLang: 'en', hreflang: 'en', ogLocale: 'en_US', script: 'Latn', endonym: 'English', defaultMarket: 'global',
-    site: { enabled: true, indexableHome: true }, app: { enabled: true } }),
+    site: { enabled: true, indexableHome: true, analytics: 'none' }, app: { enabled: true } }),
   L({ code: 'es', prefix: 'es', htmlLang: 'es', hreflang: 'es', ogLocale: 'es_ES', script: 'Latn', endonym: 'Español', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false }, app: { enabled: false } }),
+    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'de', prefix: 'de', htmlLang: 'de', hreflang: 'de', ogLocale: 'de_DE', script: 'Latn', endonym: 'Deutsch', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false }, app: { enabled: false } }),
+    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'fr', prefix: 'fr', htmlLang: 'fr', hreflang: 'fr', ogLocale: 'fr_FR', script: 'Latn', endonym: 'Français', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false }, app: { enabled: false } }),
+    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'zh-Hans', prefix: 'zh', htmlLang: 'zh-Hans', hreflang: 'zh-Hans', ogLocale: 'zh_CN', script: 'Hans', endonym: '简体中文', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false }, app: { enabled: false } }),
+    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'ko', prefix: 'ko', htmlLang: 'ko', hreflang: 'ko', ogLocale: 'ko_KR', script: 'Hang', endonym: '한국어', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false }, app: { enabled: false } }),
+    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
 ]);
 
 /** What the live homes declare as x-default today (`/`). See the decisions above. */
