@@ -57,7 +57,9 @@ jobs:
   browser:
     name: Mini App browser tests (Chromium, 390 + 320)
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    # 25, as miniapp-scripts: the suite ran 12.5–14.3 min on main (754–858 s, 2026-10-21) and crossed 15 with the RU/EN
+    # motion-parity specs (#113's push run was cut at 15:00 with no failing test). A limit is for a hang, not for the suite.
+    timeout-minutes: 25
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
