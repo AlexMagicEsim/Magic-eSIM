@@ -282,3 +282,16 @@ test('no test uses a planned language as the example of an unknown one', () => {
     assert.equal(re.test(read(f)), false, `${f} borrows a planned language as «unknown»`);
   }
 });
+
+test('analytics is an explicit decision per language, and it matches what the pages load (I18N ES-0)', () => {
+  for (const l of LOCALES) assert.ok(['metrika', 'none'].includes(l.site.analytics), `${l.code}: analytics «${l.site.analytics}»`);
+  assert.equal(locale('ru').site.analytics, 'metrika');
+  assert.match(read('index.html'), /mc\.yandex\.ru\/metrika\/tag\.js/, 'the Russian site loads Metrika');
+  for (const l of LOCALES.filter((x) => x.prefix)) assert.equal(l.site.analytics, 'none', `${l.code}: no counter decided`);
+  for (const rel of ['en/index.html', 'en/esim/index.html', 'en/esim/thailand/index.html', 'en/guides/index.html']) {
+    assert.doesNotMatch(read(rel), /mc\.yandex|metrika|googletagmanager|gtag\(/i, `${rel}: no counter`);
+  }
+  // A prefixed language with a counter is refused until the owner decides one (its CSP, consent and data rules).
+  assert.match(read('seo/build-locale-pages.mjs'),
+    /if \(L\.site\.analytics !== 'none'\) return `\$\{code\}: analytics «\$\{L\.site\.analytics\}» is not built for prefixed pages/);
+});
