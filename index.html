@@ -7,15 +7,14 @@
   <meta name="description" content="Magic eSIM — мобильный интернет для путешествий без роуминга. Выберите страну и тариф, оплатите онлайн и получите eSIM с QR-кодом на почту." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://magicesim.store/" />
-  <!-- The language cluster. Declared on BOTH pages, each pointing at itself and
-       at the other, which is what makes it valid — a one-sided hreflang is
-       ignored. It covers exactly these two URLs: the country pages under /esim/
-       have no English twin yet, and an alternate pointing at a page that does
-       not exist is an error rather than a placeholder. x-default is the Russian
-       root because that is where an unmatched visitor is best served today. -->
+  <!-- The language cluster (I18N-09): exactly seo/indexing.mjs ruAlternates('/') —
+       seo/test-i18n-indexing.mjs fails on any difference. Every home of the cluster
+       points at all the others and at itself; x-default is the English home
+       (owner 2026-10-13). -->
   <link rel="alternate" hreflang="ru" href="https://magicesim.store/" />
   <link rel="alternate" hreflang="en" href="https://magicesim.store/en/" />
-  <link rel="alternate" hreflang="x-default" href="https://magicesim.store/" />
+  <link rel="alternate" hreflang="es" href="https://magicesim.store/es/" />
+  <link rel="alternate" hreflang="x-default" href="https://magicesim.store/en/" />
   <!-- Open Graph / social preview -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://magicesim.store/" />
@@ -25,6 +24,7 @@
   <meta property="og:site_name" content="Magic eSIM" />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="es_ES" />
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="eSIM для путешествий — Magic eSIM" />

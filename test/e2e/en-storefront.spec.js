@@ -152,12 +152,12 @@ test('a regional pseudo-code is never offered as a destination', async ({ page }
   }
 });
 
-test('the destination list links every country, and is a template like them', async ({ page }) => {
+test('the destination list links every country, and is indexed (I18N-09)', async ({ page }) => {
   const calls = await open(page, '/en/esim/');
   await expect(page.locator('h1')).toHaveText('eSIM destinations');
   expect(await page.locator('.dest a').count()).toBeGreaterThan(190);
   await expect(page.locator('.dest a', { hasText: 'United Arab Emirates' })).toHaveAttribute('href', '/en/esim/uae/');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
   expect(apiCalls(calls)).toEqual([]);
 });
 
@@ -306,7 +306,7 @@ test('the language switch goes to the same page in Russian and Spanish, and noth
   expect(page.url()).toContain('/en/esim/uae/');
 });
 
-test('a country page is a noindex template with a self canonical and no hreflang', async ({ page }) => {
+test('a country page outside the I18N-09 stage is a noindex template with a self canonical and no hreflang', async ({ page }) => {
   await open(page, '/en/esim/french-polynesia/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://magicesim.store/en/esim/french-polynesia/');

@@ -41,7 +41,7 @@ test('every guide and the list: payment bar, hero, no script, nothing off the si
       // No script but the header logo's start (owner, 2026-10-20).
       expect(await page.locator('script:not([src^="/assets/logo-once.js"])').count(), path).toBe(0);
       expect(await page.locator('head > script[src^="/assets/logo-once.js"]').count(), path).toBe(1);
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
       expect(await noOverflow(page), path).toBe(true);
       expect(st.off, path).toEqual([]);
       expect(st.csp, path).toEqual([]);

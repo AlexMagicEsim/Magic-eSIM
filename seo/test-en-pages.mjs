@@ -17,6 +17,7 @@ import assert from 'node:assert/strict';
 import { enCountries, countryPage, hubPage, destinationsJs } from './build-en-pages.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { allowedPaths } from './refresh-allowlist.mjs';
+import { isIndexed, cluster } from './indexing.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -75,16 +76,17 @@ test('the home searches exactly the countries that have an English page', () => 
 const pages = () => LIST.map((c) => ({ c, html: read(`en/esim/${c.slug}/index.html`) }))
   .concat([{ c: { slug: '' }, html: read('en/esim/index.html') }]);
 
-test('every English country page is a noindex template with a self canonical and no hreflang', () => {
+test('every English country page: indexed only in the I18N-09 stage (with its cluster), else a noindex template; self canonical', () => {
   for (const { c, html } of pages()) {
     const url = `https://magicesim.store/en/esim/${c.slug ? `${c.slug}/` : ''}`;
+    const page = c.slug ? { kind: 'country', slug: c.slug } : { kind: 'hub' };
+    const on = isIndexed('en', page);
     assert.match(html, /<html lang="en">/, url);
-    assert.match(html, /<meta name="robots" content="noindex, follow">/, url);
+    assert.match(html, on ? /<meta name="robots" content="index, follow">/ : /<meta name="robots" content="noindex, follow">/, url);
     assert.equal((html.match(/<meta name="robots"/g) || []).length, 1, `${url}: one robots tag, not two that disagree`);
     assert.ok(html.includes(`<link rel="canonical" href="${url}">`), `${url}: canonical is itself`);
-    // hreflang pairs a page with an INDEXABLE twin. A noindex page in a cluster
-    // is an error report waiting to happen — and no Russian page links back.
-    assert.equal(/<link[^>]*hreflang/.test(html), false, `${url}: no hreflang alternate`);
+    // hreflang pairs a page with an INDEXABLE twin: a noindex page carries none; an indexed one its whole cluster.
+    assert.equal((html.match(/<link[^>]*hreflang/g) || []).length, on ? cluster(page).length : 0, `${url}: hreflang alternates`);
     assert.equal(/application\/ld\+json/.test(html), false, `${url}: no structured data on a template`);
   }
 });
@@ -95,11 +97,13 @@ test('the noindex rule can fire', () => {
   assert.equal(/<meta name="robots" content="noindex, follow">/.test(broken), false);
 });
 
-test('no English country page is in the sitemap, and no Russian page points at one', () => {
+test('an English country page is in the sitemap, and its Russian twin points at it, exactly when it is indexed', () => {
   const sitemap = read('sitemap.xml');
-  assert.equal(/\/en\/esim\//.test(sitemap), false);
-  const ruWithEnLink = CATALOGUE.filter((c) => /\/en\/esim\//.test(read(`esim/${c.slug}/index.html`)));
-  assert.deepEqual(ruWithEnLink, [], 'a Russian page changed — RU must not move in this PR');
+  for (const c of CATALOGUE) {
+    const on = isIndexed('en', { kind: 'country', slug: c.slug });
+    assert.equal(sitemap.includes(`<loc>https://magicesim.store/en/esim/${c.slug}/</loc>`), on, `${c.slug}: sitemap`);
+    assert.equal(read(`esim/${c.slug}/index.html`).includes(`hreflang="en" href="https://magicesim.store/en/esim/${c.slug}/"`), on, `${c.slug}: the Russian twin's alternate`);
+  }
 });
 
 test('robots.txt lets crawlers SEE the noindex', () => {

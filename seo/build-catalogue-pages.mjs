@@ -38,6 +38,7 @@ import { isFrozenPage } from './frozen-pages.mjs'; // live catalogue numbers (st
 import { renderPriceTokens, readRefs } from './price-tokens.mjs';
 import { buildDictionaryGen } from './build-country-dictionary.mjs';
 import { ALIASES, REGIONS } from './destination-aliases.mjs';
+import { ruAlternates } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -533,7 +534,7 @@ function page(c, all, profile) {
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}" />
   <link rel="canonical" href="${url}" />
-  <meta name="robots" content="index, follow" />
+${ruAlternates(url)}  <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${url}" />
   <meta property="og:title" content="${esc(title)}" />

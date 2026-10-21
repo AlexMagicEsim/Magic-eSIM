@@ -1,15 +1,179 @@
 {
   "pages": {
     "https://magicesim.store/": {
-      "hash": "1fa3405bb960b2cd",
-      "lastmod": "2026-10-19"
+      "hash": "99245c63eb5c693e",
+      "lastmod": "2026-10-21"
     },
     "https://magicesim.store/android.html": {
       "hash": "ba7d2ab387b10a1e",
       "lastmod": "2026-10-10"
     },
     "https://magicesim.store/en/": {
-      "hash": "ac6c717c03e70c69",
+      "hash": "f38e596ae9fe72b2",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/": {
+      "hash": "5a8cf5b46bdce06b",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/china/": {
+      "hash": "9b6ac82e3a21d72c",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/france/": {
+      "hash": "83cac95270f9691d",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/greece/": {
+      "hash": "b6f9c8e47aba70ba",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/indonesia/": {
+      "hash": "b639405a23678d02",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/japan/": {
+      "hash": "e777ccc7995399f3",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/maldives/": {
+      "hash": "7fad27afbe8a58d8",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/mexico/": {
+      "hash": "0901741c9c533035",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/south-korea/": {
+      "hash": "db4a67d3ec98cb45",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/sri-lanka/": {
+      "hash": "21f329b16eb1f28d",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/thailand/": {
+      "hash": "b640af0cf4df5f0c",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/turkey/": {
+      "hash": "444ef11c97c3a72e",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/united-kingdom/": {
+      "hash": "232019aebf8fceeb",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/esim/vietnam/": {
+      "hash": "9d15c63637223a99",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/guides/": {
+      "hash": "caf215e8b050c312",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/guides/activation/": {
+      "hash": "28d37ffdc0fb04d7",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/guides/android/": {
+      "hash": "246e928a98d85448",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/guides/compatibility/": {
+      "hash": "41b9dfdcb2409060",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/guides/iphone/": {
+      "hash": "e38333c7d955b7b9",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/en/guides/troubleshooting/": {
+      "hash": "d10c4687b5eacda2",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/": {
+      "hash": "8657b0e5526e4f31",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/": {
+      "hash": "96c32d4187b33105",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/china/": {
+      "hash": "7feefcab24824f81",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/france/": {
+      "hash": "5bed9b2e0aef7b23",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/greece/": {
+      "hash": "162c5009cc85b5b8",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/indonesia/": {
+      "hash": "6228b5572f923470",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/japan/": {
+      "hash": "ee4010fb082b3afd",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/maldives/": {
+      "hash": "16f12761d801533b",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/mexico/": {
+      "hash": "81c2b4b11010ce19",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/south-korea/": {
+      "hash": "7d77f9209fca0835",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/sri-lanka/": {
+      "hash": "5fa069b86dcf6ec0",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/thailand/": {
+      "hash": "26edc7e59b476646",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/turkey/": {
+      "hash": "45f574e6734ce33c",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/united-kingdom/": {
+      "hash": "b92170516ba5342f",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/esim/vietnam/": {
+      "hash": "3129c6fef64eae18",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/guides/": {
+      "hash": "797b58226bbe64a5",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/guides/activation/": {
+      "hash": "43cd6219679569fa",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/guides/android/": {
+      "hash": "654ecadd58c06071",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/guides/compatibility/": {
+      "hash": "12d56288ae417b2e",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/guides/iphone/": {
+      "hash": "73914218cbdcae52",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/es/guides/troubleshooting/": {
+      "hash": "d62712b08e8e26fe",
       "lastmod": "2026-10-21"
     },
     "https://magicesim.store/esim/": {

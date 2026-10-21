@@ -19,12 +19,13 @@ const JS = read('en/hub.js');
 const CSS = read('assets/page-hub.css');
 const LIST = enCountries();
 
-test('the head is the same page for search engines: noindex, self canonical, the same title and description', () => {
+test('the head for search engines: indexed (I18N-09) with its cluster, self canonical, the same title and description', () => {
   assert.match(HUB, /<title>eSIM destinations — Magic eSIM<\/title>/);
-  assert.match(HUB, /<meta name="robots" content="noindex, follow">/);
+  assert.match(HUB, /<meta name="robots" content="index, follow">/);
   assert.match(HUB, /<link rel="canonical" href="https:\/\/magicesim\.store\/en\/esim\/">/);
   assert.match(HUB, /<meta name="description" content="Every destination Magic eSIM has data plans for, with prices in US dollars\. Online payment is not available yet\.">/);
-  assert.doesNotMatch(HUB, /hreflang="en"|rel="alternate"/);
+  assert.match(HUB, /<link rel="alternate" hreflang="ru" href="https:\/\/magicesim\.store\/esim\/">/);
+  assert.match(HUB, /<link rel="alternate" hreflang="x-default" href="https:\/\/magicesim\.store\/en\/esim\/">/);
   assert.match(HUB, /connect-src 'none'/);
 });
 

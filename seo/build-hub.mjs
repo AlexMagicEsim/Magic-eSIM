@@ -20,6 +20,7 @@ import { headIcons } from './head-icons.mjs';
 import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD, RU_POPULAR } from './ru-chrome.mjs';
 import { SEARCH_ICON } from './site-chrome.mjs';
 import { GUIDES } from './guides.mjs';
+import { ruAlternates } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
@@ -109,7 +110,7 @@ const html = `<!DOCTYPE html>
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}" />
   <link rel="canonical" href="${SITE}/esim/" />
-  <meta name="robots" content="index, follow" />
+${ruAlternates('/esim/')}  <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${SITE}/esim/" />
   <meta property="og:title" content="${esc(title)}" />
