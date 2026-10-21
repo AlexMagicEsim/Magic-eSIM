@@ -128,7 +128,7 @@ export const PAGE_COPY = freeze({
     esimFor: (name) => `eSIM para ${name}`,
     steps: freeze(['Plan', 'Tus datos', 'Revisión']),
     beforeYouBuy: 'Antes de comprar',
-    countryTitle: (name) => `eSIM para ${name}: planes de datos en dólares | Magic eSIM`,
+    countryTitle: (name) => `eSIM para ${name}: planes de datos en USD | Magic eSIM`,
     countryDescription: (name) => `Planes de datos eSIM que cubren ${name}, con precios en dólares estadounidenses. El pago en línea aún no está disponible.`,
     countryLead: (name) => `Planes de datos que funcionan en ${name}, con precios en dólares estadounidenses.`,
     chooseAnother: 'Elegir otro destino',

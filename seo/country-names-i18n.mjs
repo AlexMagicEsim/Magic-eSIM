@@ -25,6 +25,8 @@
 //   CD, CG  CLDR's «Kinshasa/Brazzaville» forms → the full state names, matching
 //       our EN «DR Congo» / «Republic of the Congo».
 //   SX  fr «Saint-Martin (partie néerlandaise)» → Sint-Maarten, as our EN.
+//   CI  es «Côte d’Ivoire» (CLDR keeps the French official form) → «Costa de Marfil», the name every Spanish speaker
+//       uses and searches (RAE / Fundéu); found by localization QA 2026-10-21. de and fr keep CLDR's.
 //   KT  not in CLDR (not an ISO 3166 code — the provider's code for Northern
 //       Cyprus, 2026-10-18); the five names were written here, as data.
 // AI-assisted data: a native-speaker review is part of enabling each language
@@ -76,7 +78,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   CF: { es: "República Centroafricana", de: "Zentralafrikanische Republik", fr: "République centrafricaine", "zh-Hans": "中非共和国", ko: "중앙 아프리카 공화국" },
   CG: { es: "República del Congo", de: "Republik Kongo", fr: "République du Congo", "zh-Hans": "刚果共和国", ko: "콩고공화국" },
   CH: { es: "Suiza", de: "Schweiz", fr: "Suisse", "zh-Hans": "瑞士", ko: "스위스" },
-  CI: { es: "Côte d’Ivoire", de: "Côte d’Ivoire", fr: "Côte d’Ivoire", "zh-Hans": "科特迪瓦", ko: "코트디부아르" },
+  CI: { es: "Costa de Marfil", de: "Côte d’Ivoire", fr: "Côte d’Ivoire", "zh-Hans": "科特迪瓦", ko: "코트디부아르" },
   CK: { es: "Islas Cook", de: "Cookinseln", fr: "Îles Cook", "zh-Hans": "库克群岛", ko: "쿡 제도" },
   CL: { es: "Chile", de: "Chile", fr: "Chili", "zh-Hans": "智利", ko: "칠레" },
   CM: { es: "Camerún", de: "Kamerun", fr: "Cameroun", "zh-Hans": "喀麦隆", ko: "카메룬" },

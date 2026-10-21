@@ -50,10 +50,10 @@ export const ES_GUIDES = [
         <p>Además, tu iPhone no debe estar bloqueado por un operador. Consulta <a href="${P}/guides/compatibility/">cómo comprobar la compatibilidad</a>.</p>` },
       { h2: 'Opción 1: escanea el código QR', id: 'qr', html: `
         <ol class="steps">
-          <li>Muestra el código QR de tu eSIM en otra pantalla: un ordenador, una tableta u otro teléfono.</li>
+          <li>Muestra el código QR de tu eSIM en otra pantalla: una computadora, una tableta u otro teléfono.</li>
           <li>En el iPhone, abre la app <strong>Cámara</strong> y escanea el código QR.</li>
           <li>Cuando aparezca la notificación <strong>Plan móvil detectado</strong> (<strong>Plan de datos celulares detectado</strong>), tócala.</li>
-          <li>Toca <strong>Continuar</strong> y después <strong>Añadir plan móvil</strong>. Si se te pide un código de confirmación, introduce el que se indica con tu eSIM.</li>
+          <li>Toca <strong>Continuar</strong> y después <strong>Añadir plan móvil</strong> (<strong>Agregar plan de datos</strong>). Si se te pide un código de confirmación, introduce el que se indica con tu eSIM.</li>
           <li>Pon a la línea un nombre claro, por ejemplo «Viaje», para no confundirla con tu SIM principal.</li>
         </ol>
         <p class="note">Con iOS 17.4 o posterior, si el código QR está en un correo o en una página web del propio iPhone, mantén pulsado el código y toca <strong>Añadir eSIM</strong> (<strong>Agregar eSIM</strong>).</p>` },
@@ -68,21 +68,21 @@ export const ES_GUIDES = [
       { h2: 'En tu destino: activa los datos', id: 'data', html: `
         <ol class="steps">
           <li>En <strong>Ajustes → Datos móviles</strong> (<strong>Configuración → Datos celulares</strong>), comprueba que la línea eSIM está activada.</li>
-          <li>Toca <strong>Datos móviles</strong> (<strong>Datos celulares</strong>) y elige la línea eSIM. Tu SIM principal puede seguir activa para llamadas.</li>
+          <li>Toca <strong>Datos móviles</strong> (<strong>Datos celulares</strong>) y elige la línea eSIM. Tu SIM principal puede seguir activa para llamadas y mensajes de texto.</li>
           <li>Abre la línea eSIM y activa la itinerancia de datos (en algunas regiones se llama roaming de datos). Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia.</li>
           <li>Si no quieres cargos de tu operador habitual, desactiva la itinerancia de datos en tu SIM principal.</li>
           <li>Espera uno o dos minutos a que el teléfono se registre en una red local.</li>
         </ol>
-        <p class="note">Los nombres de los menús pueden variar un poco según la versión de iOS y el idioma del teléfono.</p>` },
+        <p class="note">Los nombres de los menús pueden variar un poco según la versión de iOS.</p>` },
       { h2: 'Si algo no funciona', id: 'help', html: `
         <p>Comprueba que la eSIM es la línea elegida para los datos y que tiene la itinerancia de datos activada, y reinicia el teléfono. La lista completa está en <a href="${P}/guides/troubleshooting/">La eSIM no funciona</a>.</p>
         <p><strong>No borres la eSIM</strong> mientras buscas el problema: su código QR puede ser de un solo uso y es posible que no puedas volver a instalarla.</p>` },
     ],
     faq: [
       { q: '¿Necesito Wi-Fi para instalar una eSIM en iPhone?', a: 'Necesitas conexión a internet para descargar el perfil, y lo más sencillo es una red Wi-Fi. Instalarla el día del viaje, antes de salir de casa o con el Wi-Fi del aeropuerto, funciona sean cuales sean las reglas del plan sobre cuándo empieza su validez.' },
-      { q: 'El código QR está en este mismo iPhone. ¿Puedo instalarla igualmente?', a: 'Sí. Con iOS 17.4 o posterior, mantén pulsado el código QR en el correo o en la página web y toca Añadir eSIM (Agregar eSIM). O elige Introducir Detalles Manualmente (Ingresar detalles manualmente) y escribe los datos que acompañan a tu eSIM.' },
-      { q: '¿Qué pasa con mi número principal?', a: 'Sigue activo. Las llamadas a tu número principal siguen las condiciones de itinerancia de tu operador habitual; la eSIM de viaje se usa para los datos móviles.' },
-      { q: '¿Por qué activar la itinerancia de datos en la eSIM?', a: 'Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia. Activarla en la línea eSIM es un ajuste normal; en tu SIM principal puedes dejarla desactivada.' },
+      { q: 'El código QR está en este mismo iPhone. ¿Puedo instalar la eSIM igualmente?', a: 'Sí. Con iOS 17.4 o posterior, mantén pulsado el código QR en el correo o en la página web y toca Añadir eSIM (Agregar eSIM). O elige Introducir Detalles Manualmente (Ingresar detalles manualmente) y escribe los datos que acompañan a tu eSIM.' },
+      { q: '¿Qué pasa con mi número principal?', a: 'Sigue activo. Las llamadas y los mensajes de texto a tu número principal siguen las condiciones de itinerancia de tu operador habitual; la eSIM de viaje se usa para los datos móviles.' },
+      { q: '¿Por qué activar la itinerancia de datos en la eSIM?', a: 'Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia. La itinerancia de datos en la línea eSIM es un ajuste normal; en tu SIM principal puedes dejarla desactivada.' },
     ],
     related: ['android', 'compatibility', 'activation', 'troubleshooting'],
   },
@@ -91,7 +91,7 @@ export const ES_GUIDES = [
   {
     slug: 'android',
     nav: 'Android',
-    title: 'Cómo instalar una eSIM en Android: Samsung, Pixel y otros | Magic eSIM',
+    title: 'Instalar eSIM en Android: Samsung, Pixel y más | Magic eSIM',
     description: 'Instala una eSIM de viaje en un teléfono Android con un código QR o a mano, elígela para los datos móviles y activa el roaming en tu destino.',
     h1: 'Cómo instalar una eSIM en Android',
     blurb: 'Dónde suele estar el ajuste de eSIM según la marca, y los primeros pasos en el extranjero.',
@@ -116,7 +116,7 @@ export const ES_GUIDES = [
       { h2: 'En tu destino: activa los datos', id: 'data', html: `
         <ol class="steps">
           <li>Comprueba que la eSIM está activada. Pixel: Configuración → Internet y redes → Red móvil → la eSIM → <strong>Usar esta SIM</strong>.</li>
-          <li>Elige la eSIM como SIM para los <strong>datos móviles</strong>. Pixel: Configuración → Internet y redes → SIMs → <strong>Datos móviles</strong>. Tu SIM principal puede seguir activa para llamadas.</li>
+          <li>Elige la eSIM como SIM para los <strong>datos móviles</strong>. Pixel: Configuración → Internet y redes → SIMs → <strong>Datos móviles</strong>. Tu SIM principal puede seguir activa para llamadas y mensajes de texto.</li>
           <li>Activa el <strong>roaming</strong> para la eSIM. Pixel: Configuración → Internet y redes → SIM → <strong>Roaming</strong>. Samsung: búscalo en los ajustes de red móvil de Conexiones; el nombre exacto depende del modelo. Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como roaming.</li>
           <li>Si no quieres cargos de tu operador habitual, desactiva el roaming de datos en tu SIM principal.</li>
           <li>Espera uno o dos minutos a que el teléfono se registre en una red local.</li>
@@ -127,8 +127,8 @@ export const ES_GUIDES = [
     ],
     faq: [
       { q: 'Mi teléfono Android no tiene la opción de añadir una eSIM. ¿Qué hago?', a: 'Revisa todos los menús relacionados con la SIM: el nombre cambia según la marca. Si en ningún sitio existe la opción de añadir o descargar una eSIM, probablemente el teléfono (o esta versión regional) no admite eSIM.' },
-      { q: '¿Puedo usar la eSIM y mi SIM física a la vez?', a: 'En los teléfonos que admiten SIM dual con eSIM, sí: elige la eSIM para los datos móviles y mantén la SIM física para las llamadas.' },
-      { q: '¿Tengo que configurar un APN?', a: 'Solo si los datos de tu plan indican un APN: en ese caso, comprueba que coincide en los ajustes de la eSIM (en Pixel, «Nombres de puntos de acceso»).' },
+      { q: '¿Puedo usar la eSIM y mi SIM física a la vez?', a: 'En los teléfonos que admiten SIM dual con eSIM, sí: elige la eSIM para los datos móviles y mantén la SIM física para las llamadas y los mensajes de texto.' },
+      { q: '¿Tengo que configurar un APN?', a: 'Solo si los datos de tu plan indican un APN: en ese caso, comprueba que coincide en los ajustes de la eSIM.' },
     ],
     related: ['iphone', 'compatibility', 'activation', 'troubleshooting'],
   },
@@ -168,7 +168,7 @@ export const ES_GUIDES = [
     slug: 'activation',
     nav: 'Cuándo instalarla',
     title: 'Cuándo instalar y activar una eSIM de viaje | Magic eSIM',
-    description: 'Instalar una eSIM y empezar su validez son cosas distintas. Cuándo instalarla, cuándo activar la línea y la itinerancia de datos, y una lista para el día del vuelo.',
+    description: 'Instalar una eSIM y empezar su validez no es lo mismo. Cuándo instalarla, cuándo activar la línea y la itinerancia de datos, y una lista para el día del vuelo.',
     h1: 'Cuándo instalar y activar tu eSIM',
     blurb: 'Instalar el perfil y empezar el plan son momentos distintos.',
     lead: 'Instalar la eSIM y empezar su validez no son lo mismo, y cada plan decide cuándo empieza la validez. El consejo que sirve para cualquier plan: instálala el día del viaje, con Wi-Fi, y actívala para los datos al llegar.',
@@ -202,7 +202,7 @@ export const ES_GUIDES = [
         <p>Necesitas internet para descargar el perfil. Opciones: el Wi-Fi gratuito del aeropuerto o la conexión compartida desde el teléfono de un acompañante. Introducir los datos a mano también necesita internet para descargar el perfil.</p>` },
     ],
     faq: [
-      { q: 'Instalé la eSIM una semana antes del viaje. ¿El plan ya está contando?', a: 'Depende del plan: algunos empiezan a contar al instalarla y otros con la primera conexión o el primer uso de datos en el destino. Para ir sobre seguro con cualquier plan, instálala el día del viaje.' },
+      { q: 'Instalé la eSIM una semana antes del viaje. ¿Ya empezó a correr la validez del plan?', a: 'Depende del plan: algunos empiezan a contar al instalarla y otros con la primera conexión o el primer uso de datos en el destino. Para ir sobre seguro con cualquier plan, instálala el día del viaje.' },
       { q: '¿Activar la itinerancia de datos en casa cuesta algo?', a: 'El interruptor en sí no cobra nada; solo permite que la línea use redes asociadas. Lo que importa es qué línea está elegida para los datos móviles y las condiciones de tu plan.' },
       { q: 'He aterrizado y no hay internet. ¿Cuánto debo esperar?', a: 'El registro suele tardar uno o dos minutos después de activar los datos y la itinerancia de la eSIM. Activar y desactivar el modo avión suele ayudar. Si después de 10 a 15 minutos sigue sin haber red, revisa la lista de solución de problemas.' },
     ],
@@ -213,8 +213,8 @@ export const ES_GUIDES = [
   {
     slug: 'troubleshooting',
     nav: 'Solución de problemas',
-    title: 'La eSIM no funciona en el extranjero: qué revisar | Magic eSIM',
-    description: 'Una lista paso a paso cuando una eSIM de viaje no tiene red ni internet: línea de datos, itinerancia, modo avión, selección de red y por qué no borrar la eSIM.',
+    title: 'eSIM no funciona en el extranjero: qué revisar | Magic eSIM',
+    description: 'Lista paso a paso para cuando una eSIM de viaje no tiene red ni internet: línea de datos, itinerancia, modo avión, selección de red y cuándo no borrar la eSIM.',
     h1: 'La eSIM no funciona: qué revisar',
     blurb: 'Una lista, en el orden que resuelve la mayoría de los problemas.',
     lead: 'La mayoría de los problemas se deben a un ajuste. Sigue los pasos en orden y prueba internet después de cada uno. No borres la eSIM mientras buscas el problema.',
