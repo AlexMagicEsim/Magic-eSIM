@@ -143,11 +143,13 @@ test('x-default: today it is the Russian home; the owner decided EN, applied by 
  * 2. Nothing new is switched on — I18N-01 pins RU + EN
  * ===================================================================== */
 
-test('exactly Russian and English are enabled, on the site and in the Mini App', () => {
+test('exactly Russian, English and Spanish are on the site; the Mini App offers Russian and English', () => {
   // A stage that launches a language changes THIS line, deliberately, in the
-  // same PR as that language's dictionaries and pages.
-  assert.deepEqual(siteLocales(), ['ru', 'en']);
+  // same PR as that language's dictionaries and pages. ES-1 (2026-10-21) added Spanish to the site, under noindex;
+  // the Mini App gets no new language before GLOBAL payments (owner).
+  assert.deepEqual(siteLocales(), ['ru', 'en', 'es']);
   assert.deepEqual(appLocales(), ['ru', 'en']);
+  assert.equal(locale('es').site.indexableHome, false, 'Spanish is under review: its home is not indexable yet (owner D5)');
 });
 
 test('a disabled language has no directory and no sitemap URL', () => {
@@ -167,9 +169,9 @@ test('every page declares an enabled language and points hreflang only at enable
 test('the language gates can fire', () => {
   // §26.1: a gate that only ever reports «clean» is indistinguishable from one
   // that never ran.
-  const fake = [['es/index.html', '<html lang="es"><link rel="alternate" hreflang="es" href="/es/">']];
-  assert.deepEqual(foreignHtmlLangs(fake, ENABLED), ['es/index.html: es']);
-  assert.deepEqual(foreignHreflangs(fake, ENABLED), ['es/index.html: es']);
+  const fake = [['de/index.html', '<html lang="de"><link rel="alternate" hreflang="de" href="/de/">']];
+  assert.deepEqual(foreignHtmlLangs(fake, ENABLED), ['de/index.html: de']);
+  assert.deepEqual(foreignHreflangs(fake, ENABLED), ['de/index.html: de']);
   assert.deepEqual(foreignHreflangs([['x', 'hreflang="x-default"']], ENABLED), []);
 });
 

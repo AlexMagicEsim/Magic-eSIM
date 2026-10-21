@@ -62,7 +62,8 @@ for (const L of PLANNED) {
     }
     assert.ok(home.includes(`<script src="${P}/destinations.js" defer></script>`));
     const slugs = new Set(list.map((c) => c.slug));
-    const own = [...home.matchAll(/href="(\/[^"]*)"/g)].map((m) => m[1])
+    // the language switch links every published language's twin of this page — by design; the rest stays home
+    const own = [...home.replace(/<a href="[^"]*" hreflang="[^"]*"[^>]*>/g, '').matchAll(/href="(\/[^"]*)"/g)].map((m) => m[1])
       .filter((h) => !/^\/(en\/(en\.css|app\.js)|assets\/|favicon|apple-touch|site\.webmanifest|terms\.html|privacy\.html)/.test(h));
     const outside = own.filter((h) => !h.startsWith(`${P}/`) && !/^\/(esim\/|$)|^\/en\//.test(h));
     assert.deepEqual(outside, [], 'every other link stays in the language');
@@ -76,6 +77,6 @@ for (const L of PLANNED) {
 }
 
 test('a quick link without a page in the language stops the build', () => {
-  const G = rehearsalGenerator('es', { copy: { ...PAGE_COPY.en, quick: ['TH', 'XX'] }, guides: EN_GUIDES, words: DICT.en });
-  assert.throws(() => G.homePage(), /quick link XX has no es page/);
+  const G = rehearsalGenerator('de', { copy: { ...PAGE_COPY.en, quick: ['TH', 'XX'] }, guides: EN_GUIDES, words: DICT.en });
+  assert.throws(() => G.homePage(), /quick link XX has no de page/);
 });

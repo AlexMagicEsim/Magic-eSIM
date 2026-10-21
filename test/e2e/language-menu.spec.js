@@ -1,41 +1,23 @@
 'use strict';
 
 /*
- * The language switch as a list (I18N ES-0): what a reader of a third language will meet.
- *
- * No published page has the list yet — while Russian is the only other language the English pages keep their one
- * «Русский» link (seo/test-language-switch.mjs pins that). So this builds a page of a PLANNED language in memory with
- * the rehearsal generator (the frame of /es/, English words — the words are not what is tested here) and serves it at
- * its own address; every asset it loads is the real one from the repository.
+ * The language switch as a list (I18N ES-0, published with ES-1): what a reader meets on every prefixed page now that
+ * Russian, English and Spanish are live. This runs on the real Spanish pages (/es/guides/ and a guide), served by the
+ * test server like every other page; nothing is mocked but the outside world.
  *
  * Desktop (1366): the native <details> opens by click and by keyboard, lists every language by its own name with the
- * current one marked, each link goes to THE SAME PAGE in that language (and that page exists), it drops in with the
+ * current one marked, each link goes to THE SAME PAGE in that language (and that page loads), it drops in with the
  * Expressive entrance and not at all under reduced motion; axe clean while open. Phones (390/320, the projects): the
  * desktop list is hidden and the phone menu lists the other languages; nothing overflows the width.
  */
 
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
-const path = require('path');
 
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
-const ROOT = path.join(__dirname, '..', '..');
-let PAGES;
-
-test.beforeAll(async () => {
-  const url = (rel) => 'file://' + path.join(ROOT, rel);
-  const { rehearsalGenerator } = await import(url('seo/build-locale-pages.mjs'));
-  const { PAGE_COPY } = await import(url('seo/page-copy.mjs'));
-  const { EN_GUIDES } = await import(url('seo/guides-en.mjs'));
-  const { DICT } = await import(url('seo/site-dictionary.mjs'));
-  const G = rehearsalGenerator('es', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en });
-  PAGES = { '/es/guides/': G.guidesHub(), [`/es/guides/${EN_GUIDES[0].slug}/`]: G.guidePage(EN_GUIDES[0]) };
-});
+const GUIDE = '/es/guides/iphone/';
 
 async function open(page, at = '/es/guides/') {
-  for (const [p, html] of Object.entries(PAGES)) {
-    await page.route(new RegExp(`${p.replace(/\//g, '\\/')}$`), (r) => r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: html }));
-  }
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (r) => r.abort());
   await page.goto(at);
 }
@@ -63,12 +45,31 @@ test.describe('desktop', () => {
   });
 
   test('a guide links to the same guide in every language', async ({ page }) => {
-    const slug = Object.keys(PAGES)[1];
+    const slug = GUIDE;
     await open(page, slug);
     await page.locator('.hdr-actions details.langmenu summary').click();
     const hrefs = await page.locator('.langmenu-list a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
     expect(hrefs[1]).toBe(slug.replace('/es/', '/en/'));
     for (const h of hrefs) expect((await page.request.get(h)).status(), h).toBe(200);
+  });
+
+  test('closed, it is the same pill as the one link it replaced: no card border, 40 px, level with «Find a plan»', async ({ page }) => {
+    // ES-1 found it wearing the shared FAQ `details` card style (border, padding, margin): 42 px and 4 px lower.
+    await open(page);
+    const g = await page.evaluate(() => {
+      const d = document.querySelector('.hdr-actions details.langmenu');
+      const s = d.querySelector('summary').getBoundingClientRect();
+      const cta = document.querySelector('.hdr-cta').getBoundingClientRect();
+      const cs = getComputedStyle(d);
+      return { top: Math.round(s.top), h: Math.round(s.height), ctaTop: Math.round(cta.top), ctaH: Math.round(cta.height),
+        border: cs.borderTopWidth, margin: cs.marginTop, bg: cs.backgroundColor, outer: Math.round(d.getBoundingClientRect().height) };
+    });
+    expect(g.border).toBe('0px');
+    expect(g.margin).toBe('0px');
+    expect(g.bg).toBe('rgba(0, 0, 0, 0)');
+    expect(g.h).toBe(40);
+    expect(g.outer).toBe(40);
+    expect(g.top).toBe(g.ctaTop);
   });
 
   test('keyboard: Enter opens it, Tab walks its links', async ({ page }) => {

@@ -56,8 +56,10 @@ export const LOCALES = Object.freeze([
     site: { enabled: true, indexableHome: true, analytics: 'metrika' }, app: { enabled: true } }),
   L({ code: 'en', prefix: 'en', htmlLang: 'en', hreflang: 'en', ogLocale: 'en_US', script: 'Latn', endonym: 'English', defaultMarket: 'global',
     site: { enabled: true, indexableHome: true, analytics: 'none' }, app: { enabled: true } }),
+  // ES-1 (2026-10-21): published under noindex for review (owner D5) — no hreflang cluster, not in the sitemap, until
+  // the indexing stage sets indexableHome. The Mini App does not offer it (no Mini App language before GLOBAL payments).
   L({ code: 'es', prefix: 'es', htmlLang: 'es', hreflang: 'es', ogLocale: 'es_ES', script: 'Latn', endonym: 'Español', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'de', prefix: 'de', htmlLang: 'de', hreflang: 'de', ogLocale: 'de_DE', script: 'Latn', endonym: 'Deutsch', defaultMarket: 'global',
     site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'fr', prefix: 'fr', htmlLang: 'fr', hreflang: 'fr', ogLocale: 'fr_FR', script: 'Latn', endonym: 'Français', defaultMarket: 'global',

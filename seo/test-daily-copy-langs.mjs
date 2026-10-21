@@ -107,12 +107,16 @@ test('every table has the Russian keys, placeholders, thirteen places and its ow
 
 test('one list of languages: the module, the Mini App and the locale generator agree; every published prefixed language has words', () => {
   const D = require(join(ROOT, 'assets/daily-plan-copy.js'));
-  assert.deepEqual([...D.LANGS], ['ru', 'en']);
+  assert.deepEqual([...D.LANGS], ['ru', 'en', 'es']);
   assert.deepEqual([...GENERATOR_LANGS], [...D.LANGS]);
   const core = readFileSync(join(ROOT, 'app/core.js'), 'utf8');
   const m = core.match(/const DAILY_COPY_LANGS = Object\.freeze\((\[[^\]]*\])\);/);
   assert.ok(m, 'app/core.js names DAILY_COPY_LANGS');
-  assert.deepEqual(JSON.parse(m[1].replace(/'/g, '"')), [...D.LANGS], 'the Mini App offers the daily copy the module has');
+  // The Mini App asks only for languages the module has; it may ask for fewer (it offers no language before GLOBAL
+  // payments — Spanish is on the site, not in the Mini App).
+  const app = JSON.parse(m[1].replace(/'/g, '"'));
+  for (const l of app) assert.ok(D.LANGS.includes(l), `the Mini App asks for daily copy in ${l}, which the module lacks`);
+  for (const l of LOCALES.filter((x) => x.app.enabled)) assert.ok(app.includes(l.code), `${l.code} is offered in the Mini App without daily copy`);
   for (const l of LOCALES) assert.ok(D.LANGS.includes(l.code) || !l.site.enabled, `${l.code} is published without daily words`);
   for (const code of D.LANGS) assert.ok(LOCALES.some((l) => l.code === code), `${code} is not a registry language`);
   // The generator says why it would refuse a language without daily words.

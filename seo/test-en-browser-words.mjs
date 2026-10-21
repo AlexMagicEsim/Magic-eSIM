@@ -185,9 +185,11 @@ test('pageLang reads <html lang>; pathPrefix gives each language its start of pa
   const doc = (lang) => ({ documentElement: { getAttribute: (k) => (k === 'lang' ? lang : null) } });
   assert.equal(SITE.pageLang(doc('en')), 'en');
   assert.equal(SITE.pageLang(doc('ru')), 'ru');
-  for (const v of ['es', 'EN', '', null, 'en-US', '__proto__']) assert.equal(SITE.pageLang(doc(v)), 'ru', String(v));
+  assert.equal(SITE.pageLang(doc('es')), 'es');
+  for (const v of ['de', 'EN', '', null, 'en-US', '__proto__']) assert.equal(SITE.pageLang(doc(v)), 'ru', String(v));
   assert.equal(SITE.pathPrefix('en'), '/en');
   assert.equal(SITE.pathPrefix('ru'), '');
-  assert.equal(SITE.pathPrefix('es'), '');
+  assert.equal(SITE.pathPrefix('es'), '/es');
+  assert.equal(SITE.pathPrefix('de'), '');
   assert.ok(Object.isFrozen(SITE.PREFIX));
 });

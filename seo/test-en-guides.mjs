@@ -35,12 +35,12 @@ test('the five planned guides exist, each from the generator', () => {
 });
 
 test('build-all renders the guides (the Russian builder is the one build-all forgets)', () => {
-  assert.match(read('seo/build-all.mjs'), /run\('build-en-pages\.mjs'\)/);
-  // I18N-08: build-en-pages.mjs builds English through the locale generator,
-  // whose build() writes every guide of the language.
+  // I18N ES-1: build-all runs the locale generator for every published language (English included); build-en-pages.mjs
+  // stays the English entry point, and builds English through the same generator, whose build() writes every guide.
+  assert.match(read('seo/build-all.mjs'), /run\('build-locale-pages\.mjs'\)/);
   assert.match(read('seo/build-en-pages.mjs'), /EN\.build\(\)/);
   assert.match(read('seo/build-locale-pages.mjs'), /for \(const g of GUIDES\) write\(`\$\{base\}\/guides\/\$\{g\.slug\}\/index\.html`/);
-  assert.match(read('seo/build-locale-pages.mjs'), /export const GUIDES_BY_LOCALE = Object\.freeze\(\{ en: EN_GUIDES \}\);/);
+  assert.match(read('seo/build-locale-pages.mjs'), /export const GUIDES_BY_LOCALE = Object\.freeze\(\{ en: EN_GUIDES, es: ES_GUIDES \}\);/);
 });
 
 /* ===================================================================== *
@@ -66,16 +66,19 @@ test('every guide is noindex, self-canonical, with no hreflang, no structured da
   assert.equal(/\/en\/guides\//.test(sitemap), false);
 });
 
-test('the language switch goes to each guide\'s Russian twin, which exists', () => {
+test('the language switch goes to each guide\'s twin in every language, which exists', () => {
   for (const g of EN_GUIDES) {
     const ru = GUIDE_RU[g.slug];
     const file = ru.endsWith('/') ? `${ru.slice(1)}index.html` : ru.slice(1);
     assert.ok(existsSync(join(ROOT, file)), `${g.slug} → ${ru}`);
-    assert.match(html(`en/guides/${g.slug}/index.html`), new RegExp(`class="langsw" href="${ru}" hreflang="ru"`));
+    const page = html(`en/guides/${g.slug}/index.html`);
+    assert.ok(page.includes(`<li><a href="${ru}" hreflang="ru" lang="ru">`), `${g.slug}: the Russian twin`);
+    assert.ok(page.includes(`<li><a href="/es/guides/${g.slug}/" hreflang="es" lang="es">`), `${g.slug}: the Spanish twin`);
+    assert.ok(existsSync(join(ROOT, `es/guides/${g.slug}/index.html`)), `${g.slug}: es exists`);
   }
 });
 
-test('every link on a guide lands on a page that exists, and a Russian one says so', () => {
+test('every link on a guide lands on a page that exists, and one into another language says which', () => {
   for (const { rel } of PAGES) {
     const h = html(rel);
     const links = [...h.matchAll(/<a\b[^>]*href="(\/[^"#?]*)"[^>]*>/g)];
@@ -83,7 +86,8 @@ test('every link on a guide lands on a page that exists, and a Russian one says 
     for (const [tag, href] of links) {
       const file = href.endsWith('/') ? `${href.slice(1)}index.html` : href.slice(1);
       assert.ok(existsSync(join(ROOT, file)), `${rel}: ${href} does not exist`);
-      if (!href.startsWith('/en/')) assert.match(tag, /hreflang="ru"/, `${rel}: ${href} is Russian and must say so`);
+      if (href.startsWith('/es/')) assert.match(tag, /hreflang="es"/, `${rel}: ${href} is Spanish and must say so`);
+      else if (!href.startsWith('/en/')) assert.match(tag, /hreflang="ru"/, `${rel}: ${href} is Russian and must say so`);
     }
   }
 });

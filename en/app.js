@@ -38,20 +38,27 @@
 
   I18N.apply(document);
 
+  // Accents do not count, on either side — the destination list (en/hub.js) does the same: «mexico» finds «México»,
+  // «japon» «Japón», «turkiye» «Türkiye». Until ES-1 the home compared as typed, which in Spanish (Japón, Perú,
+  // Canadá…) would have missed most countries.
+  function fold(s) {
+    return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
   function renderResults(query) {
     var box = $('results');
     box.textContent = '';
-    var q = String(query || '').trim().toLowerCase();
+    var q = fold(String(query || '').trim());
     if (q.length < 1) { box.hidden = true; return; }
 
     // Substring, not prefix: «korea» must find «South Korea» and «emirates»
     // «United Arab Emirates». Prefix matches still sort first, so typing «it»
     // still leads with Italy.
     var hits = DESTINATIONS.filter(function (d) {
-      return d.name.toLowerCase().indexOf(q) !== -1 || d.iso.toLowerCase() === q;
+      return fold(d.name).indexOf(q) !== -1 || d.iso.toLowerCase() === q;
     }).sort(function (a, b) {
-      var ap = a.name.toLowerCase().indexOf(q) === 0 ? 0 : 1;
-      var bp = b.name.toLowerCase().indexOf(q) === 0 ? 0 : 1;
+      var ap = fold(a.name).indexOf(q) === 0 ? 0 : 1;
+      var bp = fold(b.name).indexOf(q) === 0 ? 0 : 1;
       return ap !== bp ? ap - bp : a.name.localeCompare(b.name, LANG);
     }).slice(0, 20);
 

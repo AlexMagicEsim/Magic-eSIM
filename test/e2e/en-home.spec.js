@@ -130,7 +130,7 @@ test('the mobile menu opens from the keyboard and leads to every section', async
   await page.keyboard.press('Enter');
   const panel = page.locator('.mnav-panel');
   await expect(panel).toBeVisible();
-  await expect(panel.locator('a')).toHaveText(['Destinations', 'How it works', 'Device check', 'Guides', 'Русский']);
+  await expect(panel.locator('a')).toHaveText(['Destinations', 'How it works', 'Device check', 'Guides', 'Русский', 'Español']);
   const box = await panel.boundingBox();
   expect(box.x).toBeGreaterThanOrEqual(0);
   expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize().width);
@@ -143,8 +143,14 @@ test('desktop: four header links, the language switch and «Find a plan» in one
   await open(page);
   await expect(page.locator('.mnav')).toBeHidden();
   await expect(page.locator('nav.nav a')).toHaveText(['Destinations', 'How it works', 'Device check', 'Guides']);
-  await expect(page.locator('a.langsw')).toHaveAttribute('href', '/');
-  await expect(page.locator('a.langsw')).toHaveAttribute('hreflang', 'ru');
+  // Since ES-1 the switch is the list of every published language (it was the one «Русский» link while Russian was
+  // the only other); each entry leads to this page's twin — the homes here.
+  const sw = page.locator('details.langsw.langmenu');
+  await expect(sw.locator('summary')).toContainText('English');
+  await sw.locator('summary').click();
+  expect(await sw.locator('a').evaluateAll((as) => as.map((a) => [a.getAttribute('href'), a.hreflang])))
+    .toEqual([['/', 'ru'], ['/es/', 'es']]);
+  await sw.locator('summary').click();
   const tops = await page.locator('header .hdr > *').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
   expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(20);
   await page.locator('.hdr-cta').click();
