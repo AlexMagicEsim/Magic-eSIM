@@ -126,9 +126,38 @@
     };
 
     var skeleton = function (on) { var k = $('skeleton'); if (k) k.hidden = !on; };
+
+    // When the plans will not come (the catalogue failed, or answered with nothing for this country), the state line
+    // KEEPS the place the loading skeleton held, so «Before you buy» does not move. Collapsing to two lines pulled it up
+    // by a skeleton's height into the screen: CLS 0.07 at 1366 and 0.11 at 390 in Chromium (2026-10-21). hold() notes
+    // where «Before you buy» is and reserves the skeleton's height; settle() — after the state's words and button are in,
+    // still in the same task, before any paint — corrects the reserve so it lands exactly where it was (margins collapse,
+    // so arithmetic alone was 40 px off). Set through the CSSOM, which `style-src 'self'` allows; release() gives the
+    // place back when plans load again. The loading and loaded layouts are untouched.
+    var held = null;
+    var hold = function () {
+      var st = document.querySelector('.cp-state'), k = $('skeleton'), help = document.querySelector('.cp-help');
+      held = null;
+      if (!st || !k || k.hidden || !help) return;
+      var base = k.getBoundingClientRect().bottom - st.getBoundingClientRect().top;
+      held = { st: st, help: help, top: help.getBoundingClientRect().top, base: base };
+      st.style.minHeight = Math.ceil(base) + 'px';
+    };
+    var settle = function () {
+      if (!held) return;
+      var d = held.top - held.help.getBoundingClientRect().top;
+      if (Math.abs(d) >= 0.5) held.st.style.minHeight = Math.max(0, Math.round(held.base + d)) + 'px';
+      held = null;
+    };
+    var release = function () {
+      held = null;
+      var st = document.querySelector('.cp-state');
+      if (st) st.style.minHeight = '';
+    };
     var jumps = function (on) { var j = document.querySelector('.cp-jump'); if (j) j.hidden = !on; };
 
     var failed = function () {
+      hold();
       skeleton(false);
       jumps(false);
       ['dailyBlock', 'localBlock', 'regionalBlock'].forEach(function (id) { $(id).hidden = true; });
@@ -138,10 +167,12 @@
       // 1.5 MB read counted against the 20/min/IP budget.
       $('retry').hidden = false;
       $('retry').disabled = false;
+      settle();
     };
 
     var load = function () {
       $('retry').hidden = true;
+      release();
       skeleton(true);
       $('status').textContent = I18N.t('site.loading');
       $('status').hidden = false;
@@ -157,6 +188,8 @@
       if (!list.length) return failed();
 
       var blocks = PLANS.classify(list, iso);
+      var none = !blocks.daily.length && !blocks.local.length && !blocks.regional.length;
+      if (none) hold();   // the «no plans» line holds the skeleton's place too
       skeleton(false);
       fill('localBlock', 'localGrid', 'localCount', blocks.local, openPlan, 'local');
       fill('regionalBlock', 'regionalGrid', 'regionalCount', blocks.regional, openPlan, 'regional');
@@ -164,10 +197,11 @@
 
       // The catalogue answered and none of it covers this country: say so,
       // rather than leave a page of empty headings.
-      if (!blocks.daily.length && !blocks.local.length && !blocks.regional.length) {
+      if (none) {
         $('status').textContent = I18N.t('site.noPlans');
         $('status').hidden = false;
         if ($('emptyLink')) $('emptyLink').hidden = false;
+        settle();
         return undefined;
       }
       $('status').textContent = '';
