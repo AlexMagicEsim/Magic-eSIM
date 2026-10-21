@@ -121,6 +121,7 @@ test('the editorial decisions stay decided', () => {
   assert.equal(T.CD.fr, 'République démocratique du Congo');
   assert.equal(T.CG.de, 'Republik Kongo');
   assert.equal(T.SX.fr, 'Sint-Maarten');
+  assert.equal(T.CI.es, 'Costa de Marfil', 'the Spanish name, not CLDR\'s French official form (localization QA, 2026-10-21)');
   for (const lang of I18N_COUNTRY_LANGS) {
     for (const code of ['HK', 'MO']) assert.doesNotMatch(T[code][lang], /SAR|RAE|R\.A\.S|Sonderverwaltung|特别行政区|특별/, `${code}.${lang}`);
   }

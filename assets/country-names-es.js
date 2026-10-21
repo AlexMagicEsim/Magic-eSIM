@@ -47,7 +47,7 @@
   CF: 'República Centroafricana',
   CG: 'República del Congo',
   CH: 'Suiza',
-  CI: 'Côte d’Ivoire',
+  CI: 'Costa de Marfil',
   CK: 'Islas Cook',
   CL: 'Chile',
   CM: 'Camerún',

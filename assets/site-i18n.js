@@ -363,7 +363,7 @@
       'plan.dayCount.other': '{n} días',
       'plan.country.one': 'país',
       'plan.country.other': 'países',
-      'plan.coverageIncl': '{n} {countries}, incluido {name}',
+      'plan.coverageIncl': '{n} {countries}, entre ellos {name}',
       'plan.coveragePlus': '{name} + {n} {countries}',
       'plan.alsoCovers': 'También cubre {names}',
       'plan.alsoCoversMore': 'También cubre {names} y {n} más',

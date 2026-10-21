@@ -72,11 +72,13 @@ test('check: a clean string, a technical key and a decided price format are not 
     item({ kind: 'technical', en: 'en-US', target: 'es-419' }), item({ en: 'Price', target: 'Precio: USD 12.99' })]), []);
 });
 
-test('check on the live Spanish: the known findings and no false «untranslated»', async () => {
+// The rules' firing is proved on synthetic strings above. On the live Spanish the two defects the first run found
+// (iPhone «ordenador», the 70-character Android title) were fixed by PR #120 — they must stay fixed.
+test('check on the live Spanish: the fixed defects stay fixed, no false «untranslated»', async () => {
   const f = await check(ES);
   const rules = f.map((x) => `${x.item_id}|${x.rule.split(':')[0]}`);
-  assert.ok(rules.includes('guide-iphone:s2.body|glossary'), '«ordenador» on the iPhone guide');
-  assert.ok(rules.includes('guide-android:title|seo-title-length'));
+  assert.ok(!rules.includes('guide-iphone:s2.body|glossary'), '«ordenador» is back on the iPhone guide');
+  assert.equal(f.filter((x) => x.rule === 'seo-title-length' && x.item_id.startsWith('guide-')).length, 0, 'a guide title over the budget');
   assert.equal(f.filter((x) => x.rule === 'untranslated').length, 0);
   assert.equal(f.filter((x) => x.rule === 'placeholders').length, 0);
   for (const x of f) { assert.ok(CATEGORIES.includes(x.category), x.category); assert.ok(SEVERITIES.includes(x.severity)); }
