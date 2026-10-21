@@ -576,6 +576,7 @@ ${LOGO_ONCE_SCRIPT}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/assets/page-hub.css">
+<noscript><link rel="stylesheet" href="/en/noscript.css"></noscript>
 </head>
 <body>
 
@@ -588,8 +589,10 @@ ${PAYBAR}
       <p class="crumbs"><a href="${P}/">Magic eSIM</a> › <span data-i18n="nav.destinations">${t('nav.destinations')}</span></p>
       <h1>${C.hubH1}</h1>
       <p class="lead">${C.hubLead}</p>
-      <!-- Shown by en/hub.js: without it there is no search box that does nothing. -->
-      <div class="hub-search" id="hubSearch" role="search" hidden>
+      <!-- In the layout from the first paint: shown by the markup, not by en/hub.js (defer), which used to unhide it after the
+           page had painted and push the list down 74 px — CLS 0.05 on phones (2026-10-21). Without JavaScript there is
+           still no search box that does nothing: en/noscript.css (in <noscript>) hides it. -->
+      <div class="hub-search" id="hubSearch" role="search">
         <label for="hq" class="sr-only" data-i18n="site.chooseCountry">${t('site.chooseCountry')}</label>
         <div class="hub-field">${SEARCH_ICON}<input type="text" id="hq" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="${C.hubSearchPlaceholder}"><button type="button" class="hub-clear" id="hubClear" aria-label="${C.hubClear}" hidden>×</button></div>
       </div>

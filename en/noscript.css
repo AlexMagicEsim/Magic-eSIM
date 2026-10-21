@@ -1,5 +1,7 @@
-/* Loaded only inside <noscript> on the English country pages: without
- * JavaScript no plan can load, so «Loading plans…» would be a promise the page
- * cannot keep. A stylesheet, not an inline style, so the CSP stays strict. */
+/* Loaded only inside <noscript> on the English country pages and the destinations hub: without JavaScript no plan can
+ * load, so «Loading plans…» would be a promise the page cannot keep, and the hub's search box would do nothing.
+ * A stylesheet, not an inline style, so the CSP stays strict. The hub's search is in the layout from the first paint
+ * (no `hidden` to lift after it — that moved the list 74 px) and hidden here when there is no script to run it. */
 #status{display:none!important}
 #skeleton{display:none!important}
+#hubSearch{display:none!important}
