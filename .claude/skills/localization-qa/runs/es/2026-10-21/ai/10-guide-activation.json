@@ -1,0 +1,62 @@
+[
+ {
+  "item_id": "guide-activation:s5.h2",
+  "group": "guide-activation",
+  "key": "s5.h2",
+  "where": "guide «When to install and turn on your eSIM», section 5 heading (H2)",
+  "en": "Landed without the eSIM installed and no Wi-Fi?",
+  "target": "¿Has aterrizado sin instalar la eSIM y sin Wi-Fi?",
+  "suggestion": "¿Aterrizaste sin instalar la eSIM y sin Wi-Fi?",
+  "explanation": "For a just-completed action Latin-American Spanish uses the simple preterite; the present perfect «has aterrizado» reads as Spain usage, against the Latin-American-first variant (D1). Also in faq3.q: «He aterrizado y no hay internet» → «Aterricé y no hay internet».",
+  "category": "style-variant",
+  "severity": "minor",
+  "confidence": 0.65,
+  "source": "ai",
+  "rule": "preterite-for-latam"
+ },
+ {
+  "item_id": "guide-activation:faq2.a",
+  "group": "guide-activation",
+  "key": "faq2.a",
+  "where": "guide «When to install and turn on your eSIM», answer 2",
+  "en": "The switch itself charges nothing; it only allows the line to use partner networks. What matters is which line is chosen for mobile data, and your plan's terms.",
+  "target": "El interruptor en sí no cobra nada; solo permite que la línea use redes asociadas. Lo que importa es qué línea está elegida para los datos móviles y las condiciones de tu plan.",
+  "suggestion": "Activar el interruptor en sí no tiene ningún costo; solo permite que la línea use redes asociadas. Lo que importa es qué línea está elegida para los datos móviles y las condiciones de tu plan.",
+  "explanation": "«El interruptor no cobra nada» is a literal calque — a switch does not «charge» in Spanish; «activarlo no tiene ningún costo» says the same fact naturally.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.6,
+  "source": "ai",
+  "rule": "calque-switch-charges"
+ },
+ {
+  "item_id": "guide-activation:s4.body",
+  "group": "guide-activation",
+  "key": "s4.body",
+  "where": "guide «When to install and turn on your eSIM», section 4",
+  "en": "• Turn the eSIM line on, if it is off.\n• Choose the eSIM for mobile data.\n• Turn on data roaming for the eSIM.\n• Wait one to three minutes. No network? Turn airplane mode on and off.\n• Still nothing? Go through eSIM not working.",
+  "target": "• Activa la línea eSIM, si está desactivada.\n• Elige la eSIM para los datos móviles.\n• Activa la itinerancia de datos en la eSIM.\n• Espera de uno a tres minutos. ¿No hay red? Activa y desactiva el modo avión.\n• ¿Sigue sin funcionar? Revisa La eSIM no funciona.",
+  "suggestion": "• Activa la línea eSIM, si está desactivada.\n• Elige la eSIM para los datos móviles.\n• Activa la itinerancia de datos en la eSIM.\n• Espera de uno a tres minutos. ¿No hay red? Activa y desactiva el modo avión.\n• ¿Sigue sin funcionar? Revisa la guía «La eSIM no funciona».",
+  "explanation": "The guide title sits mid-sentence with a capital «La» and no marking, so «Revisa La eSIM no funciona» reads as a broken sentence; naming it as a guide in the site's «comillas latinas» fixes it (if the link styling already sets it apart, this is cosmetic).",
+  "category": "punctuation",
+  "severity": "minor",
+  "confidence": 0.55,
+  "source": "ai",
+  "rule": "inline-guide-title"
+ },
+ {
+  "item_id": "guide-activation:s5.body",
+  "group": "guide-activation",
+  "key": "s5.body",
+  "where": "guide «When to install and turn on your eSIM», section 5",
+  "en": "You need internet to download the profile. Options: the airport's free Wi-Fi, or internet shared from a travel companion's phone. Entering the details by hand still needs internet to download the profile.",
+  "target": "Necesitas internet para descargar el perfil. Opciones: el Wi-Fi gratuito del aeropuerto o la conexión compartida desde el teléfono de un acompañante. Introducir los datos a mano también necesita internet para descargar el perfil.",
+  "suggestion": "Necesitas internet para descargar el perfil. Opciones: el Wi-Fi gratuito del aeropuerto o la conexión compartida desde el teléfono de un acompañante. Aunque ingreses los datos a mano, igual necesitas internet para descargar el perfil.",
+  "explanation": "«Introducir» is the Spain-leaning verb (Apple es-MX says «Ingresar detalles manualmente»), and «introducir… también necesita» makes the action the subject of «necesitar»; «aunque ingreses…, igual necesitas» is more natural and keeps the «still» of the English.",
+  "category": "fluency",
+  "severity": "preferential",
+  "confidence": 0.55,
+  "source": "ai",
+  "rule": "ingresar-latam"
+ }
+]

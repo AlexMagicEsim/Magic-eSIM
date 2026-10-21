@@ -1,0 +1,17 @@
+[
+  {
+    "item_id": "guide-compatibility:lead",
+    "group": "guide-compatibility",
+    "key": "lead",
+    "where": "guide «Does your phone support eSIM?»",
+    "en": "The quickest check: open your phone's SIM settings and look for an option to add an eSIM. If it is there, the phone supports eSIM. Two more things to check at the same time: whether the phone is locked to one carrier, and which regional version you have.",
+    "target": "La comprobación más sencilla: abre los ajustes de la SIM y busca la opción de añadir una eSIM. Si está, el teléfono admite eSIM. Aprovecha para comprobar dos cosas más: si el teléfono está bloqueado por un operador y qué versión regional tienes.",
+    "suggestion": "La comprobación más rápida: abre los ajustes de la SIM de tu teléfono y busca la opción de añadir una eSIM. Si está, el teléfono admite eSIM. Aprovecha para comprobar dos cosas más: si el teléfono está bloqueado por un operador y qué versión regional tienes.",
+    "explanation": "Fidelity: «quickest» is about speed (it matches the blurb's «de un minuto»), not ease; «más sencilla» shifts the meaning slightly. «de tu teléfono» restores «your phone's» and ties the sentence to the reader's own device.",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.7,
+    "source": "ai",
+    "rule": "quickest-not-simplest"
+  }
+]

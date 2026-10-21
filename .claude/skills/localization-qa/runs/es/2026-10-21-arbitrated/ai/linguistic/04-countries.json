@@ -1,0 +1,29 @@
+[
+  {
+    "id": "L04-001", "item_id": "countries:SA", "group": "countries", "key": "SA",
+    "where": "country name (list, page title, H1, plan cards)", "url": "",
+    "en": "Saudi Arabia", "target": "Arabia Saudí",
+    "suggestion": "Arabia Saudita",
+    "explanation": "Both forms are accepted by the RAE, but «Arabia Saudí» is the Spain-leaning form; for the Latin-American-first neutral variant (README D1) «Arabia Saudita» is the form Latin-American readers use and search for.",
+    "category": "country-name", "severity": "minor", "confidence": 0.75,
+    "source": "ai", "stage": "linguistic", "rule": "es README: variant — Latin-American-first, avoid Spain-only forms", "objective": false
+  },
+  {
+    "id": "L04-002", "item_id": "countries:TL", "group": "countries", "key": "TL",
+    "where": "country name (list, page title, H1, plan cards)", "url": "",
+    "en": "Timor-Leste", "target": "Timor-Leste",
+    "suggestion": "Timor Oriental",
+    "explanation": "«Timor-Leste» is the Portuguese official name left untranslated; the RAE/Fundéu recommend the Spanish exonym «Timor Oriental», which is what native readers use.",
+    "category": "country-name", "severity": "minor", "confidence": 0.65,
+    "source": "ai", "stage": "linguistic", "rule": "RAE Ortografía 2010 country list / Fundéu", "objective": false
+  },
+  {
+    "id": "L04-003", "item_id": "countries:ML", "group": "countries", "key": "ML",
+    "where": "country name (list, page title, H1, plan cards)", "url": "",
+    "en": "Mali", "target": "Mali",
+    "suggestion": "Malí",
+    "explanation": "The RAE country list and Fundéu prefer the stressed-final spelling «Malí»; «Mali» is tolerated, so this is a preference, not an error.",
+    "category": "spelling", "severity": "preferential", "confidence": 0.55,
+    "source": "ai", "stage": "linguistic", "rule": "RAE Ortografía 2010 country list", "objective": false
+  }
+]

@@ -1,0 +1,36 @@
+[
+ {
+  "id": "C0001",
+  "item_id": "guide-iphone:s2.body",
+  "group": "guide-iphone",
+  "key": "s2.body",
+  "where": "guide «How to install an eSIM on iPhone», section 2",
+  "url": "https://magicesim.store/es/guides/iphone/#qr",
+  "en": "• Show your eSIM's QR code on another screen: a computer, a tablet or a second phone.\n• On the iPhone, open the **Camera** app and scan the QR code.\n• When the **Cellular Plan Detected** notification appears, tap it.\n• Tap **Continue**, then **Add Cellular Plan**. If you are asked for a confirmation code, enter the one provided with your eSIM.\n• Give the line a clear name, such as «Travel», so you do not mix it up with your main SIM.\nWith iOS 17.4 or later, if the QR code is in an email or on a web page on the iPhone itself, touch and hold the code, then tap **Add eSIM**.",
+  "target": "• Muestra el código QR de tu eSIM en otra pantalla: un ordenador, una tableta u otro teléfono.\n• En el iPhone, abre la app **Cámara** y escanea el código QR.\n• Cuando aparezca la notificación **Plan móvil detectado** (**Plan de datos celulares detectado**), tócala.\n• Toca **Continuar** y después **Añadir plan móvil**. Si se te pide un código de confirmación, introduce el que se indica con tu eSIM.\n• Pon a la línea un nombre claro, por ejemplo «Viaje», para no confundirla con tu SIM principal.\nCon iOS 17.4 o posterior, si el código QR está en un correo o en una página web del propio iPhone, mantén pulsado el código y toca **Añadir eSIM** (**Agregar eSIM**).",
+  "suggestion": "",
+  "source": "check",
+  "category": "terminology",
+  "severity": "minor",
+  "confidence": 0.8,
+  "rule": "glossary:computer",
+  "explanation": "«ordenador»: the glossary uses «computadora» for «computer» — «ordenador» is Spain's word; Latin America says «computadora» (Latin-American-first audience)."
+ },
+ {
+  "id": "C0002",
+  "item_id": "guide-android:s1.body",
+  "group": "guide-android",
+  "key": "s1.body",
+  "where": "guide «How to install an eSIM on Android», section 1",
+  "url": "https://magicesim.store/es/guides/android/#find",
+  "en": "The SIM settings usually live in one of these places — names vary by brand and Android version:\n• **Google Pixel:** Settings → Network &amp; internet → SIMs → **Add SIM** → **Set up an eSIM**.\n• **Samsung Galaxy:** Settings → Connections → SIM card manager → **Add mobile plan**.\n• **Other brands:** look for «Mobile network», «SIM cards» or «Connections» in Settings.\nIf there is no option to add an eSIM anywhere, check whether your phone supports eSIM.",
+  "target": "Los ajustes de la SIM suelen estar en uno de estos lugares; los nombres cambian según la marca y la versión de Android:\n• **Google Pixel:** Configuración → Internet y redes → Tarjetas SIM (o SIMs) → **Agregar una SIM** → **Configurar una eSIM**.\n• **Samsung Galaxy:** Ajustes → Conexiones → Gestor de SIM → **Añadir eSIM**.\n• **Otras marcas:** busca en los ajustes «Red móvil», «Tarjetas SIM» o «Conexiones».\nSi no encuentras en ningún sitio la opción de añadir una eSIM, consulta si tu teléfono admite eSIM.",
+  "suggestion": "",
+  "source": "check",
+  "category": "consistency",
+  "severity": "minor",
+  "confidence": 0.55,
+  "rule": "consistency:plan",
+  "explanation": "The source says «plan»; elsewhere it is «plan», here neither it nor an accepted variant appears. Check whether the meaning is kept."
+ }
+]

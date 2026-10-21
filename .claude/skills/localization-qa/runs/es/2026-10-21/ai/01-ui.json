@@ -1,0 +1,28 @@
+[
+  {
+    "item_id": "ui:site.compatBody",
+    "where": "several pages",
+    "en": "Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.",
+    "target": "Tu teléfono debe admitir eSIM y estar liberado (sin bloqueo de compañía). La mayoría de los teléfonos lanzados después de 2019 cumplen estos requisitos.",
+    "suggestion": "Tu teléfono debe admitir eSIM y estar liberado (sin bloqueo del operador). La mayoría de los teléfonos lanzados después de 2019 cumplen estos requisitos.",
+    "explanation": "«compañía» for the carrier reads as regional (Spain, colloquial); Apple's own Spanish label is «Bloqueo del Operador» / «Bloq. de operador» (platform-labels.md), so «operador» is the neutral term and matches the guides.",
+    "category": "terminology",
+    "severity": "minor",
+    "confidence": 0.7,
+    "source": "ai",
+    "rule": "carrier-term-operador"
+  },
+  {
+    "item_id": "ui:nav.compat",
+    "where": "header menu",
+    "en": "Device check",
+    "target": "Compatibilidad",
+    "suggestion": "Comprobar dispositivo",
+    "explanation": "The English names an action (checking the device); «Compatibilidad» names the topic. Acceptable as a short menu label, but «Comprobar dispositivo» keeps the source's meaning — a matter of taste, worth a native's look.",
+    "category": "accuracy",
+    "severity": "preferential",
+    "confidence": 0.55,
+    "source": "ai",
+    "rule": "menu-label-meaning"
+  }
+]

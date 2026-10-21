@@ -1,0 +1,53 @@
+[
+  {
+    "id": "AI-03-001",
+    "item_id": "ui:home.guidesTitle",
+    "group": "ui",
+    "key": "home.guidesTitle",
+    "where": "home",
+    "url": "",
+    "en": "Set up and fix your eSIM",
+    "target": "Configura y soluciona tu eSIM",
+    "suggestion": "Configura tu eSIM y soluciona problemas",
+    "explanation": "«solucionar» takes a problem as its object, not a device: «soluciona tu eSIM» reads as a calque of «fix your eSIM». Also in ui:home.guidesLead («soluciona una eSIM de viaje» → «Instala y comprueba una eSIM de viaje, y soluciona problemas, paso a paso.»).",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.7,
+    "source": "ai",
+    "rule": "solucionar-object"
+  },
+  {
+    "id": "AI-03-002",
+    "item_id": "ui:plan.coverageIncl",
+    "group": "ui",
+    "key": "plan.coverageIncl",
+    "where": "plan cards (country page)",
+    "url": "",
+    "en": "{n} {countries}, incl. {name}",
+    "target": "{n} {countries}, incluido {name}",
+    "suggestion": "{n} {countries}, entre ellos {name}",
+    "explanation": "«incluido» as a participle agrees with the noun that follows, so it is wrong for feminine country names («incluido Francia» should be «incluida Francia»); the template cannot know the gender. «entre ellos» agrees with «países» and works for every {name}.",
+    "category": "grammar",
+    "severity": "minor",
+    "confidence": 0.65,
+    "source": "ai",
+    "rule": "participle-agreement-placeholder"
+  },
+  {
+    "id": "AI-03-003",
+    "item_id": "ui:home.typeDailyBody",
+    "group": "ui",
+    "key": "home.typeDailyBody",
+    "where": "home",
+    "url": "",
+    "en": "A data allowance for each day of the trip, rather than one amount for the whole stay.",
+    "target": "Una cantidad de datos para cada día del viaje, en lugar de una sola cantidad para toda la estancia.",
+    "suggestion": "Una cantidad de datos para cada día del viaje, en lugar de una sola cantidad para toda la estadía.",
+    "explanation": "«estancia» in the sense of a stay is the usual word in Spain; Latin America mostly says «estadía», which suits the Latin-American-first neutral variant and is understood in Spain too.",
+    "category": "style-variant",
+    "severity": "preferential",
+    "confidence": 0.6,
+    "source": "ai",
+    "rule": "regional-word-estancia"
+  }
+]
