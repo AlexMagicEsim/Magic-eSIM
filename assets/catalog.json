@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-20T11:46:14.526Z",
+  "generated_at": "2026-10-21T11:58:22.554Z",
   "source": "production-public-api",
   "package_count": 2284,
   "packages": [
@@ -16645,6 +16645,18 @@
       "price": 3500,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -16660,8 +16672,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -21607,6 +21619,18 @@
       "price": 400,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -21622,8 +21646,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -27291,6 +27315,18 @@
       "price": 950,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -27306,8 +27342,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -35736,6 +35772,18 @@
       "price": 2300,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -35751,8 +35799,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -47510,6 +47558,18 @@
       "price": 350,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -47525,8 +47585,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -47666,6 +47726,18 @@
       "price": 600,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -47681,8 +47753,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -49235,6 +49307,18 @@
       "price": 700,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -49250,8 +49334,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -65851,6 +65935,18 @@
       "price": 1100,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -65866,8 +65962,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -66193,6 +66289,18 @@
       "price": 700,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -66208,8 +66316,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -96383,6 +96491,18 @@
       "price": 200,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -96398,8 +96518,8 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -122078,6 +122198,18 @@
       "price": 850,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -122093,8 +122225,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -145470,6 +145602,18 @@
       "price": 1900,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -145485,8 +145629,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
