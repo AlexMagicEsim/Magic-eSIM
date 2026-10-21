@@ -44,7 +44,9 @@ import { FONT_PRELOAD, LOGO, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT, LOGO_ONCE_SCRIP
 import { word, escapeText, escapeAttr } from './site-dictionary.mjs';
 import { countryName } from './country-names-i18n.mjs';
 import { namesFile, globalSuffix } from './build-country-dictionary-locale.mjs';
-import { LOCALES, locale } from './locales.mjs';
+import { LOCALES, locale, homeUrl, X_DEFAULT_CURRENT } from './locales.mjs';
+import { homePage as renderHome } from './home-page.mjs';
+import { missingGuards } from './claim-guards.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 
 export { FONT_PRELOAD, LOGO };
@@ -85,7 +87,7 @@ export function cspMeta(connect) {
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-/* Shared chrome. The home (en/index.html) is hand-written and carries the same
+/* Shared chrome: every page of a prefixed language, its home included (seo/home-page.mjs), carries the same
  * header, notice and footer; the tests compare the notice word for word. */
 const HEAD_ICONS = `<link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="shortcut icon" href="/favicon.ico" />
@@ -230,6 +232,9 @@ export function cannotBuild(code) {
   if (!PAGE_COPY[code]) return `${code} has no page copy (seo/page-copy.mjs)`;
   if (!GUIDES_BY_LOCALE[code]) return `${code} has no guides`;
   if (!DAILY_COPY_LANGS.includes(code)) return `${code} has no daily-plan words (assets/daily-plan-copy.js)`;
+  const guards = missingGuards(code);
+  if (guards) return guards;
+  if (L.site.analytics !== 'none') return `${code}: analytics «${L.site.analytics}» is not built for prefixed pages — a counter needs the owner's decision (CSP, consent) first`;
   return null;
 }
 
@@ -299,16 +304,46 @@ function makeGenerator(code, source, canWrite) {
       <a href="${P}/#compat" data-i18n="nav.compat">${t('nav.compat')}</a>
       <a href="${P}/guides/" data-i18n="nav.guides">${t('nav.guides')}</a>`;
 
-/* The header. Desktop: logo, four links, «Русский», «Find a plan». Below 900 px
+/* THE SAME PAGE IN ANOTHER LANGUAGE (I18N ES-0). `twin(ruPath, path)` describes one page in every language: on the
+ * Russian site it is `ruPath` (its own structure: no /guides/, so a guide's twin is the Russian guide), on a prefixed
+ * one `/<prefix>` + `path`. The language switch links each language to the page the reader is on, not to a home. */
+const twin = (ruPath, path) => (l) => (l.prefix ? `/${l.prefix}${path}` : ruPath);
+
+/* The languages the switch offers: every published one, plus the page's own (a rehearsal builds a language that is
+ * not published yet). Registry order. */
+const SWITCH_LANGS = LOCALES.filter((l) => l.site.enabled || l.code === L.code);
+
+/* The header. Desktop: logo, four links, the language switch, «Find a plan». Below 900 px
  * the links fold into a <details> menu — native, so it works on the guides,
- * which carry no script at all, and with JavaScript off. */
+ * which carry no script at all, and with JavaScript off.
+ *
+ * The switch: while Russian is the only other language (the English site today) it is the one «Русский» link it
+ * always was — the same bytes. With two or more other languages it becomes a <details> list of every language by its
+ * own name (endonym), the current one marked and not a link — native again, no script, the CSP unchanged. */
 /* The skip link is the FIRST focusable element of every English page: hidden until it
  * has keyboard focus, then shown over the sticky header; it moves focus to <main>
  * (tabindex="-1"). Plain HTML + assets/site.css, so it works without JavaScript and under the
  * strict CSP. seo/test-en-skip-link.mjs and test/e2e/en-skip-link.spec.js pin it. */
 const SKIP_LINK = `<a class="skip" href="#main">${C.skipLink}</a>`;
 
-const header = (ruHref) => `${SKIP_LINK}
+const header = (pageTwin) => {
+  const others = SWITCH_LANGS.filter((l) => l.code !== L.code);
+  const ruHref = pageTwin(locale('ru'));
+  const single = others.length === 1 && others[0].code === 'ru';
+  const switchDesktop = single
+    ? `<a class="langsw" href="${ruHref}" hreflang="ru" lang="ru">${ICON_GLOBE}<span data-i18n="lang.ru">${t('lang.ru')}</span></a>`
+    : `<details class="langsw langmenu">
+        <summary aria-label="${C.langMenu}">${ICON_GLOBE}<span lang="${L.htmlLang}">${esc(L.endonym)}</span></summary>
+        <ul class="langmenu-list">
+${SWITCH_LANGS.map((l) => (l.code === L.code
+    ? `          <li><span aria-current="true" lang="${l.htmlLang}">${esc(l.endonym)}</span></li>`
+    : `          <li><a href="${pageTwin(l)}" hreflang="${l.hreflang}" lang="${l.htmlLang}">${esc(l.endonym)}</a></li>`)).join('\n')}
+        </ul>
+      </details>`;
+  const switchMenu = single
+    ? `<a href="${ruHref}" hreflang="ru" lang="ru" data-i18n="lang.ru">${t('lang.ru')}</a>`
+    : others.map((l) => `<a href="${pageTwin(l)}" hreflang="${l.hreflang}" lang="${l.htmlLang}">${esc(l.endonym)}</a>`).join('\n          ');
+  return `${SKIP_LINK}
 <header class="site-header">
   <div class="wrap hdr">
     <a class="brand" href="${P}/">${LOGO_ANIMATED_EN}</a>
@@ -316,19 +351,20 @@ const header = (ruHref) => `${SKIP_LINK}
       ${NAV_LINKS}
     </nav>
     <div class="hdr-actions">
-      <a class="langsw" href="${ruHref}" hreflang="ru" lang="ru">${ICON_GLOBE}<span data-i18n="lang.ru">${t('lang.ru')}</span></a>
+      ${switchDesktop}
       <a class="btn btn-sm hdr-cta" href="${P}/#plans" data-i18n="nav.findPlan">${t('nav.findPlan')}</a>
       <details class="mnav">
         <summary aria-label="${C.menuLabel}">${ICON_MENU}</summary>
         <nav class="mnav-panel" aria-label="${C.menuLabel}">
       ${NAV_LINKS}
           <hr>
-          <a href="${ruHref}" hreflang="ru" lang="ru" data-i18n="lang.ru">${t('lang.ru')}</a>
+          ${switchMenu}
         </nav>
       </details>
     </div>
   </div>
 </header>`;
+};
 
 /* «Payment unavailable», as a compact bar under the header: on the home, the
  * destination list and every country page, BEFORE anything that looks
@@ -544,7 +580,7 @@ ${LOGO_ONCE_SCRIPT_MOTION}
 </head>
 <body data-iso="${c.iso}">
 
-${header(`/esim/${c.slug}/`)}
+${header(twin(`/esim/${c.slug}/`, `/esim/${c.slug}/`))}
 ${PAYBAR}
 
 <main class="cp" id="main" tabindex="-1">
@@ -660,7 +696,7 @@ ${LOGO_ONCE_SCRIPT}
 </head>
 <body>
 
-${header('/esim/')}
+${header(twin('/esim/', '/esim/'))}
 ${PAYBAR}
 
 <main class="hub" id="main" tabindex="-1">
@@ -765,7 +801,7 @@ ${LOGO_ONCE_SCRIPT}
 </head>
 <body>
 
-${header(ru)}
+${header(twin(ru, `/guides/${g.slug}/`))}
 ${PAYBAR}
 
 <main class="guide" id="main" tabindex="-1">
@@ -837,7 +873,7 @@ ${LOGO_ONCE_SCRIPT}
 </head>
 <body>
 
-${header('/esim/')}
+${header(twin('/esim/', '/guides/'))}
 ${PAYBAR}
 
 <main class="guide" id="main" tabindex="-1">
@@ -878,12 +914,53 @@ ${rows}
 `;
 }
 
+/* THE HOME (seo/home-page.mjs). Its indexing is the registry's: an indexable home carries the hreflang cluster of
+ * every indexable home plus x-default (X_DEFAULT_CURRENT until I18N-09) and says `index, follow`; any other home is
+ * `noindex, follow` with no alternate — a language is published under noindex first (owner, D5) and reviewed. */
+const HOME_CLUSTER_NOTE = `<!-- The cluster is declared on BOTH pages and both point at each other and at
+     themselves, which is what makes it valid. It covers exactly these two URLs:
+     the Russian country pages under /esim/ have no English twin yet, so they
+     carry no alternate — an hreflang pointing at a page that does not exist is
+     an error, not a placeholder. -->`;
+const HOME_INDEX = `<!-- Stated rather than relied upon. The default is index,follow, but the RU
+     landing says it out loud and a page whose indexability is a deliberate
+     decision should not leave it to a default. -->
+<meta name="robots" content="index, follow">`;
+const HOME_NOINDEX = `<!-- PUBLISHED FOR REVIEW: this language's pages are live but not yet offered to
+     search engines (noindex), not in the sitemap and without hreflang, until its
+     copy has been reviewed and the indexing stage opens it. -->
+<meta name="robots" content="noindex, follow">`;
+
+function homeIndexing() {
+  if (!L.site.indexableHome) return { alternates: '', ogAlternates: '', robots: HOME_NOINDEX };
+  const cluster = LOCALES.filter((l) => l.site.enabled && l.site.indexableHome);
+  if (!cluster.some((l) => l.code === L.code)) throw new Error(`${L.code}: an indexable home outside its own cluster`);
+  const alternates = `${HOME_CLUSTER_NOTE}
+${cluster.map((l) => `<link rel="alternate" hreflang="${l.hreflang}" href="${homeUrl(l.code)}">`).join('\n')}
+<link rel="alternate" hreflang="x-default" href="${homeUrl(X_DEFAULT_CURRENT)}">
+`;
+  const ogAlternates = cluster.filter((l) => l.code !== L.code).map((l) => `<meta property="og:locale:alternate" content="${l.ogLocale}">\n`).join('');
+  return { alternates, ogAlternates, robots: HOME_INDEX };
+}
+
+function homePage(list = countries()) {
+  const byIso = new Map(list.map((c) => [c.iso, c]));
+  const QUICK = C.quick.map((iso) => {
+    const c = byIso.get(iso);
+    if (!c) throw new Error(`home: quick link ${iso} has no ${L.code} page`);
+    return c;
+  });
+  return renderHome({ L, P, SITE, C, t, a, esc, json: (v) => JSON.stringify(String(v)), header, twins: twin('/', '/'),
+    PAYBAR, FOOTER, POPULAR, QUICK, GUIDES, HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing: homeIndexing() });
+}
+
   /** Write every page of this language. The script first: the pages stamp asset versions from file contents. */
   function build() {
     if (!canWrite) throw new Error('build-locale-pages: a rehearsal never writes');
     const list = countries();
     const base = L.prefix;
     write(`${base}/destinations.js`, destinationsJs(list));
+    write(`${base}/index.html`, stampHtml(homePage(list), join(ROOT, base)));
     for (const c of list) write(`${base}/esim/${c.slug}/index.html`, stampHtml(countryPage(c), join(ROOT, base, 'esim', c.slug)));
     write(`${base}/esim/index.html`, stampHtml(hubPage(list), join(ROOT, base, 'esim')));
     for (const g of GUIDES) write(`${base}/guides/${g.slug}/index.html`, stampHtml(guidePage(g), join(ROOT, base, 'guides', g.slug)));
@@ -893,7 +970,7 @@ ${rows}
 
   return Object.freeze({
     locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER,
-    countryPage, hubPage, guidePage, guidesHub, destinationsJs,
+    countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin,
     ...(canWrite ? { build } : {}),
   });
 }

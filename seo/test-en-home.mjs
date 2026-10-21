@@ -8,13 +8,14 @@
  *
  * Run: node --test seo/test-en-home.mjs
  */
+import { CLAIM_GUARDS } from './claim-guards.mjs';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { header, PAYBAR, FOOTER, LOGO, POPULAR, FONT_PRELOAD } from './build-en-pages.mjs';
+import { header, twin, PAYBAR, FOOTER, LOGO, POPULAR, FONT_PRELOAD } from './build-en-pages.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -36,7 +37,7 @@ const DESTINATIONS = [...read('en/destinations.js').matchAll(/iso: "([A-Z]{2})",
 /* ------------------------------------------------------------ one chrome */
 
 test('the home carries the generator\'s header, payment bar and footer, verbatim', () => {
-  assert.ok(HOME.includes(header('/')), 'header (language switch to the Russian landing)');
+  assert.ok(HOME.includes(header(twin('/', '/'))), 'header (language switch to the Russian landing)');
   assert.ok(HOME.includes(PAYBAR), 'payment-status bar');
   assert.ok(HOME.includes(FOOTER), 'footer');
   assert.ok(HOME.includes(FONT_PRELOAD), 'font preload');
@@ -122,7 +123,7 @@ test('every new English string exists, and none promises what the shop cannot st
   const missing = keys.filter((k) => !Object.prototype.hasOwnProperty.call(I18N_EN, k));
   assert.deepEqual(missing, []);
   const homeKeys = Object.keys(I18N_EN).filter((k) => /^(home|footer|nav|preview)\./.test(k));
-  const CLAIM = /24\/7|\binstant|\bbest\b|\bfastest|\bcheapest|guarantee|\brefund|\bunlimited|\bsave\b|\bno\.? ?1\b|rating|review|trusted|million/i;
+  const CLAIM = CLAIM_GUARDS.en.marketing.re;   // seo/claim-guards.mjs
   for (const k of homeKeys) assert.doesNotMatch(I18N_EN[k], CLAIM, `${k}: «${I18N_EN[k]}»`);
   assert.equal(CLAIM.test('Fast support 24/7'), true, 'the rule can fire');
   // And the markup's static text is held to the same rule.

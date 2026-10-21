@@ -19,7 +19,25 @@ export const PAGE_COPY = freeze({
     skipLink: 'Skip to main content',
     navLabel: 'Main',
     menuLabel: 'Menu',
+    // the language switch's label once it is a list (two or more other languages)
+    langMenu: 'Language',
     support: 'Support:',
+    // the home (seo/home-page.mjs)
+    homeTitle: 'Magic eSIM — travel data abroad without roaming',
+    homeDescription: 'Pick a destination, install an eSIM and land connected. Magic eSIM covers 190+ destinations with no plastic SIM and no airport queue.',
+    homeOgDescription: 'Pick a destination, install an eSIM and land connected.',
+    homeNojsSearch: 'Search needs JavaScript.',
+    homeNojsBrowse: 'Browse all destinations',
+    homeReadGuide: 'Read the guide →',
+    // the decorative data pass in the hero (aria-hidden; every word a fact about the product)
+    homeArtBack: 'eSIM · DATA PASS',
+    homeArtTitle: 'Data pass',
+    homeArtCoverage: 'Coverage',
+    homeArtCoverageValue: '190+ destinations',
+    homeArtType: 'Type',
+    homeArtInstall: 'Install by<br>QR code',
+    /* The six quick links under the home's search, by ISO code — named and linked from this language's own pages. */
+    quick: freeze(['TH', 'TR', 'JP', 'US', 'VN', 'FR']),
     /* The destinations the footer and the hub feature, in this language's own
      * order and names. Every slug must have a page; seo/test-en-home.mjs checks it. */
     popular: freeze([

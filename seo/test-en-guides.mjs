@@ -3,6 +3,7 @@
  *
  * Run: node --test seo/test-en-guides.mjs
  */
+import { rulesFor, RULES } from './claim-guards.mjs';
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -98,26 +99,8 @@ test('the English pages point at the English guides, not the Russian ones', () =
  * 3. What a guide may say
  * ===================================================================== */
 
-const BANNED = [
-  // A price or a payment method: GLOBAL takes no payment yet.
-  ['a rouble or a payment method', /₽|\broubles?\b|\brubles?\b|\bRUB\b|\bSBP\b|any card|credit card|bank card|pay with/i],
-  // Delivery that does not exist for GLOBAL yet.
-  ['a promise about delivery', /we (will )?(send|email)|our email|you('ll| will) receive|sent to your (e-?mail|inbox)|delivery email|order email/i],
-  // A card row the English plan cards do not show.
-  ['a pointer to a card row EN does not have', /start of (the )?term|validity starts? row|coverage and conditions|activation row/i],
-  // A promise of network quality in a place.
-  ['a network-quality promise', /\b(fast|reliable|strong signal|best coverage|full coverage|guaranteed?|works everywhere|seamless)\b|\b(4G|5G|LTE)\b/i],
-  // Features no guide may promise.
-  ['an unlimited / hotspot / calls / SMS / 2FA promise', /\bunlimited\b|\bhotspot\b|tethering|receive (sms|texts|verification)|\b2FA\b|verification code|phone number included/i],
-  // A list of device models.
-  ['a device-model list', /iPhone\s?(X[RS]?|\d{1,2})\b|Galaxy\s?[SZA]\d|Pixel\s?\d/i],
-  // The start-of-term trap.
-  ['install-early advice that ignores the start of term', /install (it |the eSIM )?(a few days|days|a week|well) (before|ahead)/i],
-  // A QR code that can always be reused.
-  ['a reusable QR code', /QR code (can|may) be (re-?used|scanned again)|reusable QR|scan it again any time/i],
-  // A claim about a provider or a catalogue fact the guide cannot check.
-  ['a claim about suppliers', /\bsupplier|\bprovider\b|eSIM Access|MobiMatter/i],
-];
+// The rules live in seo/claim-guards.mjs — one table per language, the same ids (English moved there byte for byte).
+const BANNED = rulesFor('en', 'guide').map(([id, re]) => [RULES[id].why, re]);
 
 test('no guide says what this site cannot stand behind', () => {
   for (const { rel } of PAGES) {

@@ -4,6 +4,7 @@
  *
  * Run: node --test seo/test-en-pages.mjs
  */
+import { CLAIM_GUARDS } from './claim-guards.mjs';
 import { readFileSync, existsSync, readdirSync, mkdtempSync, mkdirSync, copyFileSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -125,7 +126,7 @@ test('no English page carries a price, a currency figure or a plan count in its 
 test('a template says nothing about the network, the operators or the coverage quality', () => {
   // These pages were not written for their country. CLAUDE.md: a page may not
   // promise network quality in a place, and coverage is a list of codes.
-  const BANNED = /\b(4G|5G|LTE|operator|carrier network|signal|reliable|fast|best|cheapest|unlimited|guarantee)/i;
+  const BANNED = CLAIM_GUARDS.en.template.re;   // seo/claim-guards.mjs
   const html = countryPage({ iso: 'XX', slug: 'x', name: 'Placeholder' });
   const prose = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<!--[\s\S]*?-->/g, '')
     .replace(/<[^>]+>/g, ' ');

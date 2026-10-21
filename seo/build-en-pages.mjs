@@ -14,7 +14,7 @@ import { localeGenerator, primaryApiOrigin, cspMeta, azLetter, GUIDE_RU, section
 const EN = localeGenerator('en');
 
 export { primaryApiOrigin, cspMeta, azLetter, GUIDE_RU, sectionId, FONT_PRELOAD, LOGO };
-export const { POPULAR, SKIP_LINK, header, PAYBAR, FOOTER, countryPage, hubPage, guidePage, guidesHub, destinationsJs } = EN;
+export const { POPULAR, SKIP_LINK, header, PAYBAR, FOOTER, countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin } = EN;
 export const enCountries = () => EN.countries();
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

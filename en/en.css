@@ -21,3 +21,20 @@
 
 /* the country page's «Try again» after a failed catalogue read */
 #retry{margin:0 0 18px}
+
+/* ---------- the language switch as a list ---------- */
+/* seo/build-locale-pages.mjs header(): while Russian is the only other language the switch is the one «Русский» link
+   (.langsw in assets/site.css); with two or more it is this native <details> list — every language by its own name,
+   the current one marked, each link to the same page in that language. No script. Hidden below 900 px with every
+   .langsw (assets/site.css): the phone menu (.mnav) lists the languages there. */
+.langmenu{position:relative;padding:0;min-height:0}
+.langmenu:hover{background:transparent}
+.langmenu>summary{list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;cursor:pointer}
+.langmenu>summary::-webkit-details-marker{display:none}
+.langmenu>summary:hover,.langmenu[open]>summary{color:var(--text);background:var(--accent-soft)}
+.langmenu-list{position:absolute;right:0;top:calc(100% + 8px);z-index:41;min-width:190px;margin:0;padding:8px;list-style:none;border:1px solid var(--border);border-radius:var(--r-l);background:var(--surface);box-shadow:var(--shadow-2)}
+.langmenu-list a,.langmenu-list span{display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;font-size:15px;font-weight:600;text-decoration:none;color:var(--text)}
+.langmenu-list a:hover{background:var(--accent-soft)}
+.langmenu-list [aria-current]{color:var(--accent)}
+.langmenu-list [aria-current]::after{content:"";width:8px;height:8px;margin-left:auto;border-radius:50%;background:var(--accent)}
+@media (prefers-reduced-motion:no-preference){[data-motion] .langmenu[open] .langmenu-list{animation:m-drop var(--m-base) var(--m-out)}}

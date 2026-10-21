@@ -50,6 +50,7 @@ function markedCopy(code) {
   const out = {};
   for (const [k, v] of Object.entries(PAGE_COPY.en)) {
     if (k === 'popular') out[k] = v.map((p) => ({ ...p, name: countryName(p.iso, code) }));
+    else if (k === 'quick') out[k] = v.slice();   // ISO codes, not words
     else if (typeof v === 'function') out[k] = (x) => `${mark(code, k)}(${x})`;
     else if (Array.isArray(v)) out[k] = v.map((_, i) => mark(code, `${k}.${i}`));
     else out[k] = mark(code, k);
@@ -94,13 +95,18 @@ function readable(html) {
   return runs.map((s) => s.trim()).filter(Boolean);
 }
 
-const FIXED = ['Magic eSIM', 'support@magicesim.store', '© Magic eSIM'];
+// «eSIM» alone is the technology's name (the home's decorative data pass) — the same word in every language.
+const FIXED = ['© Magic eSIM', 'Magic eSIM', 'support@magicesim.store', 'eSIM'];
+// …and the language switch's entries: every language by its own name (registry `endonym`), never translated. Taken out
+// AFTER the country names, so «Deutsch» does not cut «Deutschland» into «land».
+const ENDONYMS = LOCALES.map((l) => l.endonym);
 
 /** What is left of a run once every mark, country name and fixed token is taken out. */
 function leftover(run, names) {
   let s = run.replace(/⟦[^⟧]*⟧(\([^)]*\))?/g, ' ');
   for (const f of FIXED) s = s.split(f).join(' ');
   for (const n of names) if (n) s = s.split(n).join(' ');
+  for (const e of ENDONYMS) s = s.split(e).join(' ');
   // Punctuation, digits, arrows and single letters (the A–Z jump letters of the list).
   return s.replace(/[\s\d.,:;!?·›×—–\-+/()|•%$'"«»#&*]+/g, ' ').trim().split(/\s+/).filter((w) => w && [...w].length > 1);
 }
@@ -130,6 +136,7 @@ for (const L of PLANNED) {
     const pages = [
       ...list.map((c) => [`${L.prefix}/esim/${c.slug}/`, G.countryPage(c)]),
       [`${L.prefix}/esim/`, G.hubPage(list)],
+      [`${L.prefix}/`, G.homePage(list)],
       ...markedGuides(L.code).map((g) => [`${L.prefix}/guides/${g.slug}/`, G.guidePage(g)]),
       [`${L.prefix}/guides/`, G.guidesHub()],
     ];
@@ -152,12 +159,13 @@ for (const L of PLANNED) {
     assert.match(page, new RegExp(`<link rel="canonical" href="https://magicesim\\.store/${L.prefix}/esim/thailand/">`));
     assert.match(page, new RegExp(`<meta property="og:locale" content="${L.ogLocale}">`));
     assert.match(page, /<meta name="robots" content="noindex, follow">/);
-    assert.doesNotMatch(page, /hreflang="(?!ru")/, 'only the switch to Russian carries hreflang');
+    assert.doesNotMatch(page, /<link rel="alternate"/, 'a language under review has no hreflang cluster');
     assert.ok(page.includes(`<script src="${namesFile(L.code).src}" defer></script>`));
     assert.ok(th.name === countryName('TH', L.code));
     for (const [where, html] of [['country', page], ['list', G.hubPage(list)], ['guides', G.guidesHub()],
       ['guide', G.guidePage(markedGuides(L.code)[0])]]) {
-      const routes = [...html.matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
+      // The language switch links each language to its twin of this page — by design; every other route stays home.
+      const routes = [...html.replace(/<a href="[^"]*" hreflang="[^"]*"[^>]*>/g, '').matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
       const foreign = routes.filter((r) => /^\/en(\/|$)/.test(r)
         && !/^\/en\/(en\.css|checkout\.css|noscript\.css|plans\.js|checkout\.js|country\.js|hub\.js)$/.test(r));
       assert.deepEqual(foreign, [], `${L.code} ${where}: a route into the English site`);
