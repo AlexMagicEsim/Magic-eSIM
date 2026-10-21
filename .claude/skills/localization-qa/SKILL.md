@@ -1,71 +1,74 @@
 ---
 name: localization-qa
-description: Linguistic QA of a published Magic eSIM site language (es now; de, fr, zh-Hans, ko later) — every string compared with its English source for grammar, spelling, punctuation, natural phrasing in the chosen variant, fidelity, eSIM/mobile terminology, iOS/Android on-screen labels, SEO title/description/H1–H3, consistency, country names, placeholders and invented claims. Use when asked to review, proofread or QA a translation/localization of magicesim.store («проверь перевод», «ревью локализации», «LQA», «revisión del español», «Spanish QA»). Produces a JSON + Markdown report with source, current text, suggestion, explanation, severity and confidence per finding. Read-only: never edits translations, the site or production.
+description: Three-stage AI localization QA of a published Magic eSIM site language (es now; de, fr, zh-Hans, ko later) — a linguistic reviewer, an independent fidelity/terminology reviewer and an arbiter; every string compared with its English source for grammar, spelling, punctuation, natural phrasing in the chosen variant, fidelity, eSIM/mobile terminology, iOS/Android on-screen labels, SEO title/description/H1–H3, consistency, country names, placeholders and invented claims. Use when asked to review, proofread or QA a translation/localization of magicesim.store («проверь перевод», «ревью локализации», «LQA», «revisión del español», «Spanish QA»). Produces a JSON + Markdown report with source, current text, suggestion, explanation, severity and confidence per finding. Read-only: never edits translations, the site or production.
 metadata:
-  version: 1.0.0
+  version: 1.1.0
   scope: project
   mode: read-only
 ---
 
 # Localization QA — Magic eSIM
 
-A two-layer review of one published site language: **deterministic checks** a script can make with certainty, then a
-**linguistic review** by independent reviewer agents, with a **second opinion** on every critical and major finding.
-The result is a report a person decides on. Nothing is corrected automatically.
+A three-stage review of one published site language by independent AI agents, plus deterministic checks. **There is no
+native-speaker review** (owner, 2026-10-21): this skill IS the quality gate. A person (the owner) approves the resulting
+PR; nothing is changed without that.
+
+1. **Stage 1 — linguistic** (`references/review-linguistic.md`): grammar, spelling, punctuation, natural phrasing in the
+   variant, register.
+2. **Stage 2 — fidelity** (`references/review-fidelity.md`), independent of stage 1: meaning against the English,
+   eSIM terminology and the glossary, Apple / Google / Samsung labels (only from `platform-labels.md`), SEO intent and
+   budgets, placeholders, no invented features, guarantees or commercial promises.
+3. **Stage 3 — arbiter** (`references/arbiter-prompt.md`): every string with a finding from either stage or the checks;
+   decides `apply` (an objective error, with the final wording), `keep` (correct and clear — never changed for style) or
+   `optional` (style, recorded, not applied).
 
 ## Hard limits
-- **Read-only.** Never edit a translation, a generator, a page, the review artifact or production. Fixes are a separate,
-  owner-approved PR.
-- **No network, no external service.** Every string stays on this machine; no translation API, no MCP, no download.
-- **The native reviewer judges first.** The artifact «Revisión del español» (claude.ai artifact `5YS2HYR4Mz6QSKFCKwnXUK`,
-  collection `verdicts`) holds ONLY the native reviewer's verdicts. AI findings live in this skill's `runs/` and are NOT
-  written to that artifact, its database or any page the reviewer sees — until the owner says the independent review is
-  finished. Then they go to a SEPARATE collection (`ai_findings`) for the final agreement, never into `verdicts`.
-- Decided things are never findings (see `references/<lang>/README.md`): price format, slugs, the slogan in English, both
-  regional labels side by side.
+- **Read-only.** The skill never edits a translation, a page or production. Applying the arbiter's `apply` decisions is a
+  separate, reviewed change (a PR the owner merges); `merge.mjs --after` then proves each change landed verbatim.
+- **No network, no external service.** Strings never leave the machine.
+- **Correct wording is not rewritten for taste.** Only `apply` decisions are applied.
+- The review artifact «Revisión del español» (claude.ai `5YS2HYR4Mz6QSKFCKwnXUK`) is OPTIONAL since 2026-10-21 (no native
+  review is planned); if anyone uses it, its `verdicts` stay apart from AI findings.
+- Decided things are never findings (see `references/<lang>/README.md`).
 
-## The run (es shown; any published language works the same)
+## The run
 
 ```bash
-S=.claude/skills/localization-qa; R=$S/runs/es/$(date -u +%F); mkdir -p "$R"
-node $S/scripts/extract.mjs --lang es --out "$R/items.json"     # 1. every string + its English source (from the repo's sources)
-node $S/scripts/check.mjs --items "$R/items.json" --out "$R/check.json"   # 2. deterministic findings
-node $S/scripts/batch.mjs --run "$R"                             # 3. batches + one task per batch in $R/prompts/
+S=.claude/skills/localization-qa; R=$S/runs/<lang>/<date>; mkdir -p "$R"     # add --root <checkout> to review another checkout
+node $S/scripts/extract.mjs --lang es --out "$R/items.json"
+node $S/scripts/check.mjs --items "$R/items.json" --out "$R/check.json"
+node $S/scripts/batch.mjs --run "$R" --stage linguistic --max 110
+node $S/scripts/batch.mjs --run "$R" --stage fidelity --max 110
 ```
+- For every `$R/prompts/linguistic/*.md` and `$R/prompts/fidelity/*.md` start one agent (Agent tool, general-purpose) with
+  «your whole task is in <that file>»; all in parallel. Each writes only `$R/ai/<stage>/*.json`. Do not review strings in
+  the main context and do not edit agents' output.
+- `node $S/scripts/batch.mjs --run "$R" --arbiter` → one agent with `$R/prompts/arbiter.md` writes `$R/arbiter/decisions.json`.
+- `node $S/scripts/merge.mjs --run "$R" --commit <sha>` → `report.json` + `report.md`: the decisions, the change log
+  (EN, old, new, reason, the evidence of every stage) and every finding.
+- After the fixes are made in the site's sources and the pages rebuilt: extract again to `$R/after.json` and run
+  `merge.mjs --run "$R" --after "$R/after.json"`: each change must show «на сайте именно этот текст».
+- Commit the report, `check.json`, `ai/`, `arbiter/` and `after.json`; `items.json`, `batches/`, `prompts/`,
+  `*-input.json` are regenerated (ignored by `runs/.gitignore`).
 
-4. **Linguistic review.** For every `$R/prompts/NN-*.md`, start one reviewer agent (the Agent tool, general-purpose) with
-   the prompt file's content as its task; run them in parallel. Each writes `$R/ai/NN-*.json` (findings) and nothing else.
-   Do not review the strings yourself in the main context, and do not edit the agents' output.
-5. `node $S/scripts/merge.mjs --run "$R" --commit $(git rev-parse HEAD)` — first report.
-6. `node $S/scripts/batch.mjs --run "$R" --verify` → one more agent with `$R/prompts/verify.md` writes
-   `$R/verify/verdicts.json` (confirm / downgrade / reject for each critical and major AI finding).
-7. Run `merge.mjs` again: the final `$R/report.json` and `$R/report.md`. Rejected findings are listed apart, not lost.
-
-Commit the report, `check.json`, `ai/` and `verify/` (the evidence); `items.json`, `batches/`, `prompts/` and
-`verify-input.json` are regenerated by the scripts (ignored by `runs/.gitignore`).
+The older two-layer run (`runs/es/2026-10-21`, one reviewer + a second opinion via `--verify`-era prompts) is kept as the
+first baseline; `review-prompt.md` / `verify-prompt.md` remain for reference.
 
 ## What is checked, and where
 | # | Requirement | Layer |
 |---|---|---|
-| 1 | grammar, spelling, punctuation | reviewers; `check.mjs`: opening ¿ ¡, double spaces, space before punctuation |
-| 2 | natural phrasing in the variant | reviewers + `references/<lang>/README.md`; `check.mjs`: register words (`style.json`) |
-| 3 | fidelity to the English | reviewers (string by string); `check.mjs`: untranslated, missing |
-| 4 | eSIM / mobile terminology | `glossary.json` (consistency, avoided variants) + reviewers |
-| 5 | iOS / Android instructions | `platform-labels.md` (vendor pages, dated) — reviewers may not «correct» a label from memory |
-| 6 | SEO title, description, H1–H3 | `check.mjs` lengths (`style.json` budgets) + reviewers (intent, keyword) |
-| 7 | terminology consistency | `check.mjs` glossary consistency + reviewers within a batch |
-| 8 | country names | `check.mjs` (CLDR, duplicates) + reviewers (usage) |
-| 9 | placeholders | `check.mjs` (exact set) |
-| 10 | no invented features, guarantees, promises | `check.mjs` with the storefront's own `seo/claim-guards.mjs` + reviewers + second opinion |
+| 1 | grammar, spelling, punctuation | stage 1; `check.mjs`: opening ¿ ¡, spacing |
+| 2 | natural phrasing in the variant | stage 1 + `references/<lang>/README.md`; `check.mjs`: register words |
+| 3 | fidelity to the English | stage 2; `check.mjs`: untranslated, missing |
+| 4 | eSIM / mobile terminology | stage 2 + `glossary.json` |
+| 5 | iOS / Android instructions | stage 2 against `platform-labels.md` (vendor pages, dated) |
+| 6 | SEO title, description, H1–H3 | `check.mjs` budgets + stages 1–2 |
+| 7 | terminology consistency | `check.mjs` + stage 2 |
+| 8 | country names | `check.mjs` (CLDR, duplicates) + stages 1–2 |
+| 9 | placeholders | `check.mjs` + `merge.mjs` (every applied change) |
+| 10 | no invented features, guarantees, promises | `check.mjs` with `seo/claim-guards.mjs` + stage 2 + arbiter |
 
-Every finding: English source, current translation, suggestion, explanation, category, severity
-(critical / major / minor / preferential), confidence (0–1) — `references/rubric.md`.
+Every finding: English source, current text, suggestion, explanation, category, severity, confidence, stage, objective.
 
 ## Another language
-Copy `references/_template/` to `references/<code>/` and fill it in (variant, register, glossary, platform labels with
-sources). The scripts take the language from `--lang`; the language must be published in `seo/locales.mjs`.
-
-## After the run
-Show the owner the summary (counts by severity and category, the critical findings in full) and the report paths. Do
-not open a fix PR, do not touch the review artifact. When the owner says the native review is finished, the AI findings
-may be loaded into the artifact's `ai_findings` collection for the side-by-side agreement.
+Copy `references/_template/` to `references/<code>/` and fill it in. The language must be published (`seo/locales.mjs`).

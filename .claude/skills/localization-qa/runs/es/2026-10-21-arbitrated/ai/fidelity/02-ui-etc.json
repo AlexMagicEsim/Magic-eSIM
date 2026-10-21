@@ -1,0 +1,40 @@
+[
+  {
+    "id": "F02-001",
+    "item_id": "daily:reset",
+    "group": "daily",
+    "key": "reset",
+    "where": "daily plan card",
+    "url": "",
+    "en": "The allowance resets every 24 hours",
+    "target": "El límite se renueva cada 24 horas",
+    "suggestion": "La cantidad de datos se renueva cada 24 horas",
+    "explanation": "«allowance» is the daily data amount; «límite» reads as a cap and can be confused with the throttle line just above («Después, hasta {s}»). The batch already renders «allowance» as «cantidad de datos» (page:dailyNote), so the suggestion is also consistent. Also in daily:sample-card.",
+    "category": "consistency",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "one source term, one translation; meaning of «allowance»",
+    "objective": false
+  },
+  {
+    "id": "F02-002",
+    "item_id": "daily:place:the Middle East",
+    "group": "daily",
+    "key": "place:the Middle East",
+    "where": "daily plan card title («Region — 1 GB a day»)",
+    "url": "",
+    "en": "the Middle East",
+    "target": "Oriente Medio",
+    "suggestion": "Medio Oriente",
+    "explanation": "Both are correct; «Oriente Medio» is the usual form in Spain, «Medio Oriente» in most of Latin America — the site's audience is Latin-American-first (D1). A matter of preference.",
+    "category": "terminology",
+    "severity": "preferential",
+    "confidence": 0.55,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "variant: neutral Spanish, Latin-American-first",
+    "objective": false
+  }
+]

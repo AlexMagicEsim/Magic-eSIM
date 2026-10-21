@@ -114,7 +114,7 @@ export async function extract(lang, root = ROOT) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const arg = (n) => { const i = process.argv.indexOf(n); return i > 0 ? process.argv[i + 1] : null; };
   const lang = arg('--lang'); if (!lang) { console.error('usage: extract.mjs --lang <code> [--out file]'); process.exit(2); }
-  const r = await extract(lang);
+  const r = await extract(lang, arg('--root') ? resolve(arg('--root')) : ROOT);   // --root: review another checkout of the site
   const out = arg('--out');
   if (out) writeFileSync(out, JSON.stringify(r, null, 1)); else process.stdout.write(JSON.stringify(r));
   const by = {}; for (const it of r.items) by[it.group] = (by[it.group] || 0) + 1;

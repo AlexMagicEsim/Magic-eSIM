@@ -82,13 +82,35 @@ test('check on the live Spanish: the known findings and no false «untranslated�
   for (const x of f) { assert.ok(CATEGORIES.includes(x.category), x.category); assert.ok(SEVERITIES.includes(x.severity)); }
 });
 
-test('batch: the site\'s groups, at most 45 strings, the country names in one batch', () => {
-  const b = plan(ES.items);
-  assert.ok(b.every((x) => x.items.length <= 45 || x.group === 'countries'));
-  assert.equal(b.filter((x) => x.group === 'countries').length, 1);
-  assert.equal(b.reduce((n, x) => n + x.items.length, 0), ES.items.length);
-  assert.deepEqual([...new Set(b.map((x) => x.group))].sort(), ['countries', 'daily', 'guide-activation', 'guide-android',
-    'guide-compatibility', 'guide-iphone', 'guide-troubleshooting', 'page', 'ui']);
+test('batch: groups packed up to --max (split when larger), the country names alone, every string once', () => {
+  for (const max of [45, 110]) {
+    const b = plan(ES.items, max);
+    assert.ok(b.every((x) => x.items.length <= max || x.group === 'countries'), `max ${max}`);
+    assert.equal(b.filter((x) => x.group === 'countries').length, 1);
+    assert.equal(b.reduce((n, x) => n + x.items.length, 0), ES.items.length);
+    assert.equal(new Set(b.flatMap((x) => x.items.map((i) => i.id))).size, ES.items.length);
+  }
+  assert.equal(plan(ES.items, 110).length, 4, 'four batches a stage at --max 110');
+});
+
+test('merge: the arbiter\'s decisions become a change log — EN, old, new, reason, every stage\'s evidence, landed or not', () => {
+  const run = { lang: 'es', items: [item({ id: 'a', en: '{n} countries, incl. {name}', target: '{n} países, incluido {name}' }), item({ id: 'b', en: 'Data', target: 'Datos' }), item({ id: 'c', en: 'Plans', target: 'Planes' })] };
+  const ai = [{ item_id: 'a', stage: 'linguistic', objective: true, suggestion: '{n} países, entre ellos {name}', explanation: 'agreement', category: 'grammar', severity: 'minor', confidence: 0.8 },
+    { item_id: 'b', stage: 'fidelity', objective: false, suggestion: 'Datos móviles', explanation: 'nuance', category: 'fluency', severity: 'preferential', confidence: 0.6 }];
+  const decisions = [{ item_id: 'a', decision: 'apply', final: '{n} países, entre ellos {name}', severity: 'minor', reason: 'gender agreement' },
+    { item_id: 'b', decision: 'keep', reason: 'correct and clear' }, { item_id: 'c', decision: 'apply' }, { item_id: 'zz', decision: 'apply', final: 'x' }];
+  const after = { items: [{ id: 'a', target: '{n} países, entre ellos {name}' }, { id: 'b', target: 'Datos' }] };
+  const r = merge({ run, ai, decisions, after });
+  assert.equal(r.changes.length, 1);
+  const c = r.changes[0];
+  assert.deepEqual([c.en, c.old, c.new, c.reason], ['{n} countries, incl. {name}', '{n} países, incluido {name}', '{n} países, entre ellos {name}', 'gender agreement']);
+  assert.equal(c.evidence[0].stage, 'linguistic');
+  assert.deepEqual(c.checks, { placeholders_kept: true, landed: true });
+  assert.equal(r.kept.length, 1);
+  assert.deepEqual(r.arbitration.invalid, ['c', 'zz'], 'an «apply» without wording or for an unknown string is refused');
+  const broken = merge({ run, ai, decisions: [{ item_id: 'a', decision: 'apply', final: '{n} países', reason: 'x' }], after: { items: [{ id: 'a', target: 'other' }] } });
+  assert.deepEqual(broken.changes[0].checks, { placeholders_kept: false, landed: false });
+  assert.match(markdown(r), /## Решения арбитра/);
 });
 
 test('merge: quotes come from the items, bad findings are dropped and counted, a second opinion rejects or downgrades', () => {
@@ -125,13 +147,15 @@ test('the skill is read-only and offline, and keeps AI findings away from the na
   const md = readFileSync(join(SKILL, 'SKILL.md'), 'utf8');
   assert.match(md, /^---\nname: localization-qa\ndescription: /);
   assert.match(md, /mode: read-only/);
-  assert.match(md, /AI findings live in this skill's `runs\/` and are NOT\s+written to that artifact/);
+  assert.match(md, /There is no\s+native-speaker review/);
+  assert.match(md, /Correct wording is not rewritten for taste/);
+  assert.match(md, /its `verdicts` stay apart from AI findings/);
   for (const f of readdirSync(join(SKILL, 'scripts'))) {
     const src = readFileSync(join(SKILL, 'scripts', f), 'utf8');
     assert.doesNotMatch(src, /\bfetch\(|node:https?|node:net|child_process|https?:\/\/(?!magicesim\.store)/, `${f}: no network, no subprocess`);
     assert.doesNotMatch(src, /verdicts['"]?\s*\)|collection\(/, `${f}: never touches the review artifact`);
   }
-  for (const f of ['rubric.md', 'review-prompt.md', 'verify-prompt.md', '_template/README.md', 'es/README.md', 'es/platform-labels.md']) {
+  for (const f of ['rubric.md', 'review-prompt.md', 'verify-prompt.md', 'review-linguistic.md', 'review-fidelity.md', 'arbiter-prompt.md', '_template/README.md', 'es/README.md', 'es/platform-labels.md']) {
     assert.ok(existsSync(join(SKILL, 'references', f)), f);
   }
   for (const f of ['es/style.json', 'es/glossary.json']) JSON.parse(readFileSync(join(SKILL, 'references', f), 'utf8'));

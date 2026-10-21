@@ -1,0 +1,456 @@
+[
+ {
+  "item_id": "ui:plan.coverageIncl",
+  "where": "plan cards (country page)",
+  "url": "https://magicesim.store/es/esim/thailand/",
+  "en": "{n} {countries}, incl. {name}",
+  "old": "{n} {countries}, incluido {name}",
+  "new": "{n} {countries}, entre ellos {name}",
+  "round": "objective fixes (round 1)",
+  "reason": "«incluido» as a participle agrees with the noun that follows, so it is wrong for feminine country names («incluido Francia» should be «incluida Francia»); the template cannot know the gender. «entre ellos» agrees with «países» and works for every {name}.",
+  "round1_review": [
+   {
+    "id": "A0008",
+    "stage": "ai",
+    "category": "grammar",
+    "severity": "minor",
+    "confidence": 0.65,
+    "explanation": "«incluido» as a participle agrees with the noun that follows, so it is wrong for feminine country names («incluido Francia» should be «incluida Francia»); the template cannot know the gender. «entre ellos» agrees with «países» and works for every {name}."
+   }
+  ],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "page:countryTitle",
+  "where": "country page (sample: Thailand)",
+  "url": "https://magicesim.store/es/esim/thailand/",
+  "en": "eSIM for Thailand — data plans in US dollars | Magic eSIM",
+  "old": "eSIM para Tailandia: planes de datos en dólares | Magic eSIM",
+  "new": "eSIM para Tailandia: planes de datos en USD | Magic eSIM",
+  "round": "objective fixes (round 1)",
+  "reason": "«US dollars» became plain «dólares»; for a Latin-American audience several currencies are called «dólares» or use «$», so the currency is less exact than the English. «USD» (do-not-translate, the site's price format) restores it and keeps the title under 60 characters.",
+  "round1_review": [
+   {
+    "id": "A0010",
+    "stage": "ai",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "explanation": "«US dollars» became plain «dólares»; for a Latin-American audience several currencies are called «dólares» or use «$», so the currency is less exact than the English. «USD» (do-not-translate, the site's price format) restores it and keeps the title under 60 characters."
+   }
+  ],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "guide-iphone:s2.body",
+  "where": "guide «How to install an eSIM on iPhone», section 2",
+  "url": "https://magicesim.store/es/guides/iphone/#qr",
+  "en": "• Show your eSIM's QR code on another screen: a computer, a tablet or a second phone.\n• On the iPhone, open the **Camera** app and scan the QR code.\n• When the **Cellular Plan Detected** notification appears, tap it.\n• Tap **Continue**, then **Add Cellular Plan**. If you are asked for a confirmation code, enter the one provided with your eSIM.\n• Give the line a clear name, such as «Travel», so you do not mix it up with your main SIM.\nWith iOS 17.4 or later, if the QR code is in an email or on a web page on the iPhone itself, touch and hold the code, then tap **Add eSIM**.",
+  "old": "• Muestra el código QR de tu eSIM en otra pantalla: un ordenador, una tableta u otro teléfono.\n• En el iPhone, abre la app **Cámara** y escanea el código QR.\n• Cuando aparezca la notificación **Plan móvil detectado** (**Plan de datos celulares detectado**), tócala.\n• Toca **Continuar** y después **Añadir plan móvil**. Si se te pide un código de confirmación, introduce el que se indica con tu eSIM.\n• Pon a la línea un nombre claro, por ejemplo «Viaje», para no confundirla con tu SIM principal.\nCon iOS 17.4 o posterior, si el código QR está en un correo o en una página web del propio iPhone, mantén pulsado el código y toca **Añadir eSIM** (**Agregar eSIM**).",
+  "new": "• Muestra el código QR de tu eSIM en otra pantalla: una computadora, una tableta u otro teléfono.\n• En el iPhone, abre la app **Cámara** y escanea el código QR.\n• Cuando aparezca la notificación **Plan móvil detectado** (**Plan de datos celulares detectado**), tócala.\n• Toca **Continuar** y después **Añadir plan móvil** (**Agregar plan de datos**). Si se te pide un código de confirmación, introduce el que se indica con tu eSIM.\n• Pon a la línea un nombre claro, por ejemplo «Viaje», para no confundirla con tu SIM principal.\nCon iOS 17.4 o posterior, si el código QR está en un correo o en una página web del propio iPhone, mantén pulsado el código y toca **Añadir eSIM** (**Agregar eSIM**).",
+  "round": "arbiter (round 2)",
+  "reason": "«ordenador» is a Spain-only word the README variant rule excludes (glossary: «computadora»); and the decided guide rule gives both regional labels, so «Add Cellular Plan» gets its listed es-MX label «Agregar plan de datos» (platform-labels.md, Apple 118669) like every other label in the step.",
+  "round1_review": [
+   {
+    "id": "C0001",
+    "stage": "check",
+    "category": "terminology",
+    "severity": "minor",
+    "confidence": 0.8,
+    "explanation": "«ordenador»: the glossary uses «computadora» for «computer» — «ordenador» is Spain's word; Latin America says «computadora» (Latin-American-first audience).",
+    "second_opinion": "confirm — «ordenador» is the Spain-only word the glossary excludes for this Latin-American-first audience; «una computadora» is the decided term and the only change."
+   },
+   {
+    "id": "A0016",
+    "stage": "ai",
+    "category": "style-variant",
+    "severity": "minor",
+    "confidence": 0.6,
+    "explanation": "«mantén pulsado» is Spain usage; Apple es-MX says «mantén presionado», which is understood everywhere and fits the Latin-American-first variant. Also in faq2.a."
+   }
+  ],
+  "round2_review_of_this_text": [
+   {
+    "id": "A0005",
+    "stage": "linguistic",
+    "category": "style-variant",
+    "severity": "major",
+    "confidence": 0.95,
+    "explanation": "«ordenador» is Spain-only; the README's variant rule (neutral, Latin-American-first) names it and prefers «computadora»."
+   },
+   {
+    "id": "A0021",
+    "stage": "fidelity",
+    "category": "terminology",
+    "severity": "minor",
+    "confidence": 0.85,
+    "explanation": "«ordenador» is Spain-only; the glossary sets «computadora» for this Latin-American-first site (glossary term «computer», avoid «ordenador»)."
+   },
+   {
+    "id": "C0001",
+    "stage": "check",
+    "category": "terminology",
+    "severity": "minor",
+    "confidence": 0.8,
+    "explanation": "«ordenador»: the glossary uses «computadora» for «computer» — «ordenador» is Spain's word; Latin America says «computadora» (Latin-American-first audience)."
+   },
+   {
+    "id": "A0020",
+    "stage": "fidelity",
+    "category": "consistency",
+    "severity": "minor",
+    "confidence": 0.8,
+    "explanation": "«Add Cellular Plan» is given only in the Spain form here («Añadir plan móvil»), while every other iPhone label in this guide gives both (es-ES then es-MX); a Latin-American reader will not find «Añadir plan móvil» on a Configuración screen. platform-labels.md: es-MX «Agregar plan de datos» (Apple 118669)."
+   }
+  ],
+  "round2_arbiter": {
+   "decision": "apply",
+   "reason": "«ordenador» is a Spain-only word the README variant rule excludes (glossary: «computadora»); and the decided guide rule gives both regional labels, so «Add Cellular Plan» gets its listed es-MX label «Agregar plan de datos» (platform-labels.md, Apple 118669) like every other label in the step."
+  }
+ },
+ {
+  "item_id": "guide-iphone:s4.body",
+  "where": "guide «How to install an eSIM on iPhone», section 4",
+  "url": "https://magicesim.store/es/guides/iphone/#data",
+  "en": "• In **Settings → Cellular**, make sure the eSIM line is turned on.\n• Tap **Cellular Data** and choose the eSIM line. Your main SIM can stay on for calls and texts.\n• Open the eSIM line and turn on **Data Roaming**. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.\n• If you do not want charges from your home operator, turn off data roaming on your main SIM.\n• Give the phone a minute or two to register on a local network.\nMenu names can differ slightly between iOS versions.",
+  "old": "• En **Ajustes → Datos móviles** (**Configuración → Datos celulares**), comprueba que la línea eSIM está activada.\n• Toca **Datos móviles** (**Datos celulares**) y elige la línea eSIM. Tu SIM principal puede seguir activa para llamadas.\n• Abre la línea eSIM y activa la itinerancia de datos (en algunas regiones se llama roaming de datos). Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia.\n• Si no quieres cargos de tu operador habitual, desactiva la itinerancia de datos en tu SIM principal.\n• Espera uno o dos minutos a que el teléfono se registre en una red local.\nLos nombres de los menús pueden variar un poco según la versión de iOS y el idioma del teléfono.",
+  "new": "• En **Ajustes → Datos móviles** (**Configuración → Datos celulares**), comprueba que la línea eSIM está activada.\n• Toca **Datos móviles** (**Datos celulares**) y elige la línea eSIM. Tu SIM principal puede seguir activa para llamadas y mensajes de texto.\n• Abre la línea eSIM y activa la itinerancia de datos (en algunas regiones se llama roaming de datos). Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia.\n• Si no quieres cargos de tu operador habitual, desactiva la itinerancia de datos en tu SIM principal.\n• Espera uno o dos minutos a que el teléfono se registre en una red local.\nLos nombres de los menús pueden variar un poco según la versión de iOS.",
+  "round": "arbiter (round 2)",
+  "reason": "Rule 1: the last line adds «y el idioma del teléfono», information the English does not carry; the corrected line matches the English («según la versión de iOS»).",
+  "round1_review": [
+   {
+    "id": "A0015",
+    "stage": "ai",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.65,
+    "explanation": "«y el idioma del teléfono» is not in the English («Menu names can differ slightly between iOS versions»); rule 1: nothing added."
+   },
+   {
+    "id": "A0014",
+    "stage": "ai",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "explanation": "The English says the main SIM stays on «for calls and texts»; the translation drops «texts». Also in faq3.a («Las llamadas a tu número principal» drops «and texts»). If the omission is a deliberate SMS-claim guard, close this as decided."
+   }
+  ],
+  "round2_review_of_this_text": [
+   {
+    "id": "A0022",
+    "stage": "fidelity",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "explanation": "The last line adds «y el idioma del teléfono» — the English says only that names differ between iOS versions. Harmless and arguably true given the two regional labels, but it is information the source does not carry; either drop it or add it to the English."
+   }
+  ],
+  "round2_arbiter": {
+   "decision": "apply",
+   "reason": "Rule 1: the last line adds «y el idioma del teléfono», information the English does not carry; the corrected line matches the English («según la versión de iOS»)."
+  }
+ },
+ {
+  "item_id": "guide-iphone:faq2.q",
+  "where": "guide «How to install an eSIM on iPhone», question 2",
+  "url": "https://magicesim.store/es/guides/iphone/#faq",
+  "en": "The QR code is on this same iPhone. Can I still install it?",
+  "old": "El código QR está en este mismo iPhone. ¿Puedo instalarla igualmente?",
+  "new": "El código QR está en este mismo iPhone. ¿Puedo instalar la eSIM igualmente?",
+  "round": "arbiter (round 2)",
+  "reason": "A standalone FAQ question (shown alone in FAQPage) whose only noun is masculine «El código QR» leaves the feminine «instalarla» with no antecedent — a grammar/clarity error; naming «la eSIM» adds no fact (the English «it» is the eSIM).",
+  "round1_review": [],
+  "round2_review_of_this_text": [
+   {
+    "id": "A0008",
+    "stage": "linguistic",
+    "category": "grammar",
+    "severity": "minor",
+    "confidence": 0.7,
+    "explanation": "«instalarla» has no feminine antecedent: the only noun in the question is «El código QR» (masculine), so the pronoun reads as dangling."
+   }
+  ],
+  "round2_arbiter": {
+   "decision": "apply",
+   "reason": "A standalone FAQ question (shown alone in FAQPage) whose only noun is masculine «El código QR» leaves the feminine «instalarla» with no antecedent — a grammar/clarity error; naming «la eSIM» adds no fact (the English «it» is the eSIM)."
+  }
+ },
+ {
+  "item_id": "guide-iphone:faq3.a",
+  "where": "guide «How to install an eSIM on iPhone», answer 3",
+  "url": "https://magicesim.store/es/guides/iphone/#faq",
+  "en": "It stays on. Calls and texts to your main number follow your home operator's roaming terms; the travel eSIM is used for mobile data.",
+  "old": "Sigue activo. Las llamadas a tu número principal siguen las condiciones de itinerancia de tu operador habitual; la eSIM de viaje se usa para los datos móviles.",
+  "new": "Sigue activo. Las llamadas y los mensajes de texto a tu número principal siguen las condiciones de itinerancia de tu operador habitual; la eSIM de viaje se usa para los datos móviles.",
+  "round": "objective fixes (round 1)",
+  "reason": "",
+  "round1_review": [],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "guide-iphone:faq4.a",
+  "where": "guide «How to install an eSIM on iPhone», answer 4",
+  "url": "https://magicesim.store/es/guides/iphone/#faq",
+  "en": "Travel eSIMs usually connect through partner networks, which the phone treats as roaming. Data roaming on the eSIM line is a normal setting; you can keep it off on your main SIM.",
+  "old": "Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia. Activarla en la línea eSIM es un ajuste normal; en tu SIM principal puedes dejarla desactivada.",
+  "new": "Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia. La itinerancia de datos en la línea eSIM es un ajuste normal; en tu SIM principal puedes dejarla desactivada.",
+  "round": "objective fixes (round 1)",
+  "reason": "«Activarla» has no clear antecedent (the nearest feminine nouns are «las eSIM» / «itinerancia»), so it can read as «activate the eSIM»; the English names «Data roaming» explicitly. / The source says «data roaming»; elsewhere it is «itinerancia de datos», here neither it nor an accepted variant appears. Check whether the meaning is kept.",
+  "round1_review": [
+   {
+    "id": "A0018",
+    "stage": "ai",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.7,
+    "explanation": "«Activarla» has no clear antecedent (the nearest feminine nouns are «las eSIM» / «itinerancia»), so it can read as «activate the eSIM»; the English names «Data roaming» explicitly."
+   },
+   {
+    "id": "C0005",
+    "stage": "check",
+    "category": "consistency",
+    "severity": "minor",
+    "confidence": 0.55,
+    "explanation": "The source says «data roaming»; elsewhere it is «itinerancia de datos», here neither it nor an accepted variant appears. Check whether the meaning is kept.",
+    "second_opinion": "confirm — The target replaces «Data roaming … is a normal setting» with «Activarla … es un ajuste normal» (an action called a setting, pronoun pointing to a generic «itinerancia»); naming «la itinerancia de datos» keeps the English meaning and the glossary term."
+   }
+  ],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "guide-android:title",
+  "where": "guide «How to install an eSIM on Android»",
+  "url": "https://magicesim.store/es/guides/android/",
+  "en": "How to install an eSIM on Android — Samsung, Pixel and others | Magic eSIM",
+  "old": "Cómo instalar una eSIM en Android: Samsung, Pixel y otros | Magic eSIM",
+  "new": "Instalar eSIM en Android: Samsung, Pixel y más | Magic eSIM",
+  "round": "objective fixes (round 1)",
+  "reason": "Title is 70 characters (budget 60; English 74). Search results will likely cut it.",
+  "round1_review": [
+   {
+    "id": "C0002",
+    "stage": "check",
+    "category": "seo",
+    "severity": "minor",
+    "confidence": 0.9,
+    "explanation": "Title is 70 characters (budget 60; English 74). Search results will likely cut it.",
+    "second_opinion": "confirm — At 70 characters the title is well over the 60-character budget; dropping «Cómo» and the article and using «y más» for «and others» keeps every fact and the Android/Samsung/Pixel keywords within 59."
+   }
+  ],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "guide-android:s3.body",
+  "where": "guide «How to install an eSIM on Android», section 3",
+  "url": "https://magicesim.store/es/guides/android/#data",
+  "en": "• Make sure the eSIM is turned on. Pixel: Settings → Network &amp; internet → Mobile network → the eSIM → **Use this SIM**.\n• Choose the eSIM as the SIM for **mobile data**. Pixel: Settings → Network &amp; internet → SIMs → **Mobile data**. Your main SIM can stay on for calls and texts.\n• Turn on **roaming** for the eSIM. Samsung: Settings → Connections → Mobile Networks → **Data Roaming**. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.\n• If you do not want charges from your home operator, turn off data roaming on your main SIM.\n• Give the phone a minute or two to register on a local network.",
+  "old": "• Comprueba que la eSIM está activada. Pixel: Configuración → Internet y redes → Red móvil → la eSIM → **Usar esta SIM**.\n• Elige la eSIM como SIM para los **datos móviles**. Pixel: Configuración → Internet y redes → SIMs → **Datos móviles**. Tu SIM principal puede seguir activa para llamadas.\n• Activa el **roaming** para la eSIM. Pixel: Configuración → Internet y redes → SIM → **Roaming**. Samsung: búscalo en los ajustes de red móvil de Conexiones; el nombre exacto depende del modelo. Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como roaming.\n• Si no quieres cargos de tu operador habitual, desactiva el roaming de datos en tu SIM principal.\n• Espera uno o dos minutos a que el teléfono se registre en una red local.",
+  "new": "• Comprueba que la eSIM está activada. Pixel: Configuración → Internet y redes → Red móvil → la eSIM → **Usar esta SIM**.\n• Elige la eSIM como SIM para los **datos móviles**. Pixel: Configuración → Internet y redes → SIMs → **Datos móviles**. Tu SIM principal puede seguir activa para llamadas y mensajes de texto.\n• Activa el **roaming** para la eSIM. Pixel: Configuración → Internet y redes → SIM → **Roaming**. Samsung: búscalo en los ajustes de red móvil de Conexiones; el nombre exacto depende del modelo. Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como roaming.\n• Si no quieres cargos de tu operador habitual, desactiva el roaming de datos en tu SIM principal.\n• Espera uno o dos minutos a que el teléfono se registre en una red local.",
+  "round": "objective fixes (round 1)",
+  "reason": "Fidelity: the English says the main SIM stays on «for calls and texts»; the Spanish drops «texts» (also in faq2.a: «para las llamadas» → «para las llamadas y los mensajes de texto»). If the omission was a deliberate SMS-claim decision, ignore.",
+  "round1_review": [
+   {
+    "id": "A0020",
+    "stage": "ai",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "explanation": "Fidelity: the English says the main SIM stays on «for calls and texts»; the Spanish drops «texts» (also in faq2.a: «para las llamadas» → «para las llamadas y los mensajes de texto»). If the omission was a deliberate SMS-claim decision, ignore."
+   }
+  ],
+  "round2_review_of_this_text": [
+   {
+    "id": "A0023",
+    "stage": "fidelity",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.55,
+    "explanation": "The roaming step adds a Pixel path («Pixel: Configuración → Internet y redes → SIM → **Roaming**») that the English does not have, and replaces the English Samsung path (Settings → Connections → Mobile Networks → Data Roaming) with a description. The Samsung change follows platform-labels.md (no official Spanish Samsung label for data roaming → describe), and the Pixel label is listed (page 2926415), so the Spanish is likely the better text — but EN and ES now give different instructions. Owner: confirm the deviation or align the English."
+   }
+  ],
+  "round2_arbiter": {
+   "decision": "keep",
+   "reason": "The Samsung roaming path is described rather than quoted because platform-labels.md lists no official Spanish Samsung label for data roaming (a binding rule), and the Pixel path substitutes listed labels (2926415) so the step still names a real setting; the English should be aligned by the owner, not the Spanish reduced."
+  }
+ },
+ {
+  "item_id": "guide-android:faq2.a",
+  "where": "guide «How to install an eSIM on Android», answer 2",
+  "url": "https://magicesim.store/es/guides/android/#faq",
+  "en": "On phones that support dual SIM with eSIM, yes: choose the eSIM for mobile data and keep the physical SIM for calls and texts.",
+  "old": "En los teléfonos que admiten SIM dual con eSIM, sí: elige la eSIM para los datos móviles y mantén la SIM física para las llamadas.",
+  "new": "En los teléfonos que admiten SIM dual con eSIM, sí: elige la eSIM para los datos móviles y mantén la SIM física para las llamadas y los mensajes de texto.",
+  "round": "objective fixes (round 1)",
+  "reason": "",
+  "round1_review": [],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "guide-android:faq3.a",
+  "where": "guide «How to install an eSIM on Android», answer 3",
+  "url": "https://magicesim.store/es/guides/android/#faq",
+  "en": "Only if your plan's details list an APN: then check that it matches in the eSIM's settings.",
+  "old": "Solo si los datos de tu plan indican un APN: en ese caso, comprueba que coincide en los ajustes de la eSIM (en Pixel, «Nombres de puntos de acceso»).",
+  "new": "Solo si los datos de tu plan indican un APN: en ese caso, comprueba que coincide en los ajustes de la eSIM.",
+  "round": "arbiter (round 2)",
+  "reason": "Rule 1: the parenthesis adds a Pixel menu name the English answer does not give and no label rule requires it; dropping it restores the English content.",
+  "round1_review": [
+   {
+    "id": "A0023",
+    "stage": "ai",
+    "category": "accuracy",
+    "severity": "preferential",
+    "confidence": 0.55,
+    "explanation": "Fidelity: the parenthesis «(en Pixel, «Nombres de puntos de acceso»)» is not in the English. The label itself is sourced (platform-labels, Pixel 2926415), so keeping it is a content decision; flagged only because the rule is nothing added."
+   }
+  ],
+  "round2_review_of_this_text": [
+   {
+    "id": "A0024",
+    "stage": "fidelity",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.55,
+    "explanation": "Adds «(en Pixel, «Nombres de puntos de acceso»)», which the English answer does not contain. The label is in platform-labels.md, so it is not wrong, but it is added information; keep only if the English gets it too."
+   }
+  ],
+  "round2_arbiter": {
+   "decision": "apply",
+   "reason": "Rule 1: the parenthesis adds a Pixel menu name the English answer does not give and no label rule requires it; dropping it restores the English content."
+  }
+ },
+ {
+  "item_id": "guide-activation:description",
+  "where": "guide «When to install and turn on your eSIM»",
+  "url": "https://magicesim.store/es/guides/activation/",
+  "en": "Installing an eSIM and starting its validity are different things. When to install, when to switch on the line and data roaming, and a checklist for the day you fly.",
+  "old": "Instalar una eSIM y empezar su validez son cosas distintas. Cuándo instalarla, cuándo activar la línea y la itinerancia de datos, y una lista para el día del vuelo.",
+  "new": "Instalar una eSIM y empezar su validez no es lo mismo. Cuándo instalarla, cuándo activar la línea y la itinerancia de datos, y una lista para el día del vuelo.",
+  "round": "objective fixes (round 1)",
+  "reason": "Description is 164 characters (budget 160; English 165).",
+  "round1_review": [
+   {
+    "id": "C0003",
+    "stage": "check",
+    "category": "seo",
+    "severity": "minor",
+    "confidence": 0.8,
+    "explanation": "Description is 164 characters (budget 160; English 165).",
+    "second_opinion": "confirm — «no es lo mismo» renders «are different things» faithfully and brings the description from 164 to 159 characters; nothing else changes."
+   }
+  ],
+  "round2_review_of_this_text": [
+   {
+    "id": "A0010",
+    "stage": "linguistic",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.55,
+    "explanation": "«empezar su validez» uses «empezar» transitively with «validez» as object, as if the reader starts it; unnatural. Also in guide-activation:lead («Instalar la eSIM y empezar su validez no son lo mismo»)."
+   }
+  ],
+  "round2_arbiter": {
+   "decision": "optional",
+   "reason": "«empezar su validez» is grammatical (transitive «empezar»), clear, and mirrors the English «starting its validity»; the suggested rewording is stylistic."
+  }
+ },
+ {
+  "item_id": "guide-activation:faq1.q",
+  "where": "guide «When to install and turn on your eSIM», question 1",
+  "url": "https://magicesim.store/es/guides/activation/#faq",
+  "en": "I installed the eSIM a week before the trip. Is the plan already running?",
+  "old": "Instalé la eSIM una semana antes del viaje. ¿El plan ya está contando?",
+  "new": "Instalé la eSIM una semana antes del viaje. ¿Ya empezó a correr la validez del plan?",
+  "round": "arbiter (round 2)",
+  "reason": "«¿El plan ya está contando?» is an intransitive calque of «is running» with no clear object, ambiguous on exactly the point the guide exists to explain (when validity starts); «empezó a correr la validez» states the English meaning without adding a fact.",
+  "round1_review": [],
+  "round2_review_of_this_text": [
+   {
+    "id": "A0009",
+    "stage": "linguistic",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.6,
+    "explanation": "«el plan está contando» with no object is a calque of «is running»; a native says the validity «empezó a correr» / «ya corre»."
+   }
+  ],
+  "round2_arbiter": {
+   "decision": "apply",
+   "reason": "«¿El plan ya está contando?» is an intransitive calque of «is running» with no clear object, ambiguous on exactly the point the guide exists to explain (when validity starts); «empezó a correr la validez» states the English meaning without adding a fact."
+  }
+ },
+ {
+  "item_id": "guide-troubleshooting:title",
+  "where": "guide «eSIM not working — what to check»",
+  "url": "https://magicesim.store/es/guides/troubleshooting/",
+  "en": "eSIM not working abroad — what to check | Magic eSIM",
+  "old": "La eSIM no funciona en el extranjero: qué revisar | Magic eSIM",
+  "new": "eSIM no funciona en el extranjero: qué revisar | Magic eSIM",
+  "round": "objective fixes (round 1)",
+  "reason": "Title is 62 characters (budget 60; English 52). Search results will likely cut it.",
+  "round1_review": [
+   {
+    "id": "C0004",
+    "stage": "check",
+    "category": "seo",
+    "severity": "minor",
+    "confidence": 0.9,
+    "explanation": "Title is 62 characters (budget 60; English 52). Search results will likely cut it.",
+    "second_opinion": "confirm — Removing the leading article (the English title has none) brings the title from 62 to 59 characters with no loss of meaning or keyword."
+   }
+  ],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "guide-troubleshooting:description",
+  "where": "guide «eSIM not working — what to check»",
+  "url": "https://magicesim.store/es/guides/troubleshooting/",
+  "en": "A step-by-step checklist when a travel eSIM shows no network or no internet: data line, roaming, airplane mode, network selection and when not to delete the eSIM.",
+  "old": "Una lista paso a paso cuando una eSIM de viaje no tiene red ni internet: línea de datos, itinerancia, modo avión, selección de red y por qué no borrar la eSIM.",
+  "new": "Lista paso a paso para cuando una eSIM de viaje no tiene red ni internet: línea de datos, itinerancia, modo avión, selección de red y cuándo no borrar la eSIM.",
+  "round": "objective fixes (round 1)",
+  "reason": "The English says «when not to delete the eSIM»; «por qué no borrar» changes it to «why». Also «Una lista paso a paso cuando…» lacks «para»: a list «para cuando» something happens. The suggestion fixes both and stays at 159 characters.",
+  "round1_review": [
+   {
+    "id": "A0029",
+    "stage": "ai",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.75,
+    "explanation": "The English says «when not to delete the eSIM»; «por qué no borrar» changes it to «why». Also «Una lista paso a paso cuando…» lacks «para»: a list «para cuando» something happens. The suggestion fixes both and stays at 159 characters."
+   }
+  ],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ },
+ {
+  "item_id": "countries:CI",
+  "where": "country name (list, page title, H1, plan cards)",
+  "url": "https://magicesim.store/es/esim/ivory-coast/",
+  "en": "Côte d’Ivoire",
+  "old": "Côte d’Ivoire",
+  "new": "Costa de Marfil",
+  "round": "objective fixes (round 1)",
+  "reason": "The French endonym is left untranslated; Spanish speakers in every region call and search the country «Costa de Marfil» (RAE/Fundéu standard form). Since the name is used in the page title and H1, the French form also misses the search intent.",
+  "round1_review": [
+   {
+    "id": "A0035",
+    "stage": "ai",
+    "category": "country-name",
+    "severity": "major",
+    "confidence": 0.8,
+    "explanation": "The French endonym is left untranslated; Spanish speakers in every region call and search the country «Costa de Marfil» (RAE/Fundéu standard form). Since the name is used in the page title and H1, the French form also misses the search intent.",
+    "second_opinion": "confirm — Spanish speakers everywhere name and search the country «Costa de Marfil» (Fundéu/RAE form); the French endonym in title and H1 is both unnatural and misses the search intent, and the suggestion adds no meaning."
+   }
+  ],
+  "round2_review_of_this_text": [],
+  "round2_arbiter": "no finding on the fixed text"
+ }
+]

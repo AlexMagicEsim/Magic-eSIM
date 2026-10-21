@@ -1,0 +1,222 @@
+[
+  {
+    "item_id": "guide-iphone:s2.body",
+    "decision": "apply",
+    "final": "• Muestra el código QR de tu eSIM en otra pantalla: una computadora, una tableta u otro teléfono.\n• En el iPhone, abre la app **Cámara** y escanea el código QR.\n• Cuando aparezca la notificación **Plan móvil detectado** (**Plan de datos celulares detectado**), tócala.\n• Toca **Continuar** y después **Añadir plan móvil** (**Agregar plan de datos**). Si se te pide un código de confirmación, introduce el que se indica con tu eSIM.\n• Pon a la línea un nombre claro, por ejemplo «Viaje», para no confundirla con tu SIM principal.\nCon iOS 17.4 o posterior, si el código QR está en un correo o en una página web del propio iPhone, mantén pulsado el código y toca **Añadir eSIM** (**Agregar eSIM**).",
+    "findings": [
+      "C0001",
+      "L0005",
+      "F0004",
+      "F0005"
+    ],
+    "severity": "minor",
+    "reason": "«ordenador» is a Spain-only word the README variant rule excludes (glossary: «computadora»); and the decided guide rule gives both regional labels, so «Add Cellular Plan» gets its listed es-MX label «Agregar plan de datos» (platform-labels.md, Apple 118669) like every other label in the step."
+  },
+  {
+    "item_id": "guide-android:s1.body",
+    "decision": "keep",
+    "findings": [
+      "C0002",
+      "F0009"
+    ],
+    "severity": "preferential",
+    "reason": "The Spanish quotes Samsung's own Spanish labels («Gestor de SIM», «Añadir eSIM») and Google's listed es-419 labels from platform-labels.md; «plan» is not needed once the vendor label is used. Any mismatch is in the English label, an owner check, not a Spanish fix."
+  },
+  {
+    "item_id": "ui:home.guidesTitle",
+    "decision": "optional",
+    "findings": [
+      "L0001"
+    ],
+    "severity": "preferential",
+    "reason": "«soluciona tu eSIM» is understood and grammatical (colloquial «solucionar» + object); «soluciona problemas» is a collocation preference, not an error — correct, clear wording is not changed for style."
+  },
+  {
+    "item_id": "ui:how.step4",
+    "decision": "optional",
+    "findings": [
+      "L0002"
+    ],
+    "severity": "preferential",
+    "reason": "The feminine clitic refers to the eSIM, the subject of the whole how-it-works list (the English says «it» too); naming «la eSIM» is a clarity nicety, not a grammar error."
+  },
+  {
+    "item_id": "ui:hub.matches.one",
+    "decision": "optional",
+    "findings": [
+      "L0003"
+    ],
+    "severity": "preferential",
+    "reason": "«{n} destino coincide» is grammatical and clear; «encontrado» is a phrasing preference."
+  },
+  {
+    "item_id": "daily:place:the Middle East",
+    "decision": "optional",
+    "findings": [
+      "L0004",
+      "F0003"
+    ],
+    "severity": "preferential",
+    "reason": "«Oriente Medio» and «Medio Oriente» are both correct and understood everywhere; the README excludes neither, so a Spain vs Latin-American choice is optional under the owner's rule."
+  },
+  {
+    "item_id": "guide-iphone:faq2.a",
+    "decision": "optional",
+    "findings": [
+      "L0006"
+    ],
+    "severity": "preferential",
+    "reason": "«mantener pulsado» is correct and understood in Latin America; it is a description of a gesture, not a quoted label, and the README does not exclude it — regional preference only."
+  },
+  {
+    "item_id": "guide-iphone:faq1.a",
+    "decision": "optional",
+    "findings": [
+      "L0007"
+    ],
+    "severity": "preferential",
+    "reason": "The answer is read under its question about installing the eSIM; the feminine «-la» cannot be read as «el perfil», so the meaning is clear. Naming the eSIM is a readability nicety."
+  },
+  {
+    "item_id": "guide-iphone:faq2.q",
+    "decision": "apply",
+    "final": "El código QR está en este mismo iPhone. ¿Puedo instalar la eSIM igualmente?",
+    "findings": [
+      "L0008"
+    ],
+    "severity": "minor",
+    "reason": "A standalone FAQ question (shown alone in FAQPage) whose only noun is masculine «El código QR» leaves the feminine «instalarla» with no antecedent — a grammar/clarity error; naming «la eSIM» adds no fact (the English «it» is the eSIM)."
+  },
+  {
+    "item_id": "guide-activation:faq1.q",
+    "decision": "apply",
+    "final": "Instalé la eSIM una semana antes del viaje. ¿Ya empezó a correr la validez del plan?",
+    "findings": [
+      "L0009"
+    ],
+    "severity": "minor",
+    "reason": "«¿El plan ya está contando?» is an intransitive calque of «is running» with no clear object, ambiguous on exactly the point the guide exists to explain (when validity starts); «empezó a correr la validez» states the English meaning without adding a fact."
+  },
+  {
+    "item_id": "guide-activation:description",
+    "decision": "optional",
+    "findings": [
+      "L0010"
+    ],
+    "severity": "preferential",
+    "reason": "«empezar su validez» is grammatical (transitive «empezar»), clear, and mirrors the English «starting its validity»; the suggested rewording is stylistic."
+  },
+  {
+    "item_id": "guide-activation:s5.h2",
+    "decision": "optional",
+    "findings": [
+      "L0011"
+    ],
+    "severity": "preferential",
+    "reason": "The present perfect «¿Has aterrizado…?» is correct and understood everywhere; preterite preference in Latin America is a regional style choice the README does not exclude."
+  },
+  {
+    "item_id": "guide-troubleshooting:faq3.q",
+    "decision": "optional",
+    "findings": [
+      "L0012"
+    ],
+    "severity": "preferential",
+    "reason": "«¿Me cobrará mi SIM principal…?» is a common metonymy (the line charges you) and keeps the English meaning; «me cobrarán por» is a phrasing preference."
+  },
+  {
+    "item_id": "guide-iphone:description",
+    "decision": "optional",
+    "findings": [
+      "L0013"
+    ],
+    "severity": "preferential",
+    "reason": "«introducir los datos» is correct and understood across Latin America; «ingresar» is a regional preference the README does not exclude."
+  },
+  {
+    "item_id": "countries:SA",
+    "decision": "optional",
+    "findings": [
+      "L0014",
+      "F0010"
+    ],
+    "severity": "preferential",
+    "reason": "«Arabia Saudí» and «Arabia Saudita» are both RAE-valid and understood; the README excludes neither, so the Spain vs Latin-American choice is optional under the owner's rule (an SEO switch is a separate owner decision)."
+  },
+  {
+    "item_id": "countries:TL",
+    "decision": "optional",
+    "findings": [
+      "L0015",
+      "F0012"
+    ],
+    "severity": "preferential",
+    "reason": "«Timor-Leste» is the official name (UN/CLDR Spanish) and is correct; «Timor Oriental» is a common exonym preference, not an error fix."
+  },
+  {
+    "item_id": "countries:ML",
+    "decision": "optional",
+    "findings": [
+      "L0016",
+      "F0013"
+    ],
+    "severity": "preferential",
+    "reason": "«Mali» is accepted (CLDR es) and understood; the RAE's «Malí» is a spelling preference, not an error."
+  },
+  {
+    "item_id": "ui:nav.compat",
+    "decision": "keep",
+    "findings": [
+      "F0001"
+    ],
+    "severity": "preferential",
+    "reason": "«Compatibilidad» is a clear short menu label for the device-compatibility page; it loses no fact the reader needs."
+  },
+  {
+    "item_id": "daily:reset",
+    "decision": "optional",
+    "findings": [
+      "F0002"
+    ],
+    "severity": "minor",
+    "reason": "«El límite se renueva cada 24 horas» is accurate (the daily amount is the cap that resets); aligning with «cantidad de datos» elsewhere is a consistency nicety, not a meaning error."
+  },
+  {
+    "item_id": "guide-iphone:s4.body",
+    "decision": "apply",
+    "final": "• En **Ajustes → Datos móviles** (**Configuración → Datos celulares**), comprueba que la línea eSIM está activada.\n• Toca **Datos móviles** (**Datos celulares**) y elige la línea eSIM. Tu SIM principal puede seguir activa para llamadas y mensajes de texto.\n• Abre la línea eSIM y activa la itinerancia de datos (en algunas regiones se llama roaming de datos). Las eSIM de viaje suelen conectarse a través de redes asociadas, y el teléfono lo trata como itinerancia.\n• Si no quieres cargos de tu operador habitual, desactiva la itinerancia de datos en tu SIM principal.\n• Espera uno o dos minutos a que el teléfono se registre en una red local.\nLos nombres de los menús pueden variar un poco según la versión de iOS.",
+    "findings": [
+      "F0006"
+    ],
+    "severity": "minor",
+    "reason": "Rule 1: the last line adds «y el idioma del teléfono», information the English does not carry; the corrected line matches the English («según la versión de iOS»)."
+  },
+  {
+    "item_id": "guide-android:s3.body",
+    "decision": "keep",
+    "findings": [
+      "F0007"
+    ],
+    "severity": "minor",
+    "reason": "The Samsung roaming path is described rather than quoted because platform-labels.md lists no official Spanish Samsung label for data roaming (a binding rule), and the Pixel path substitutes listed labels (2926415) so the step still names a real setting; the English should be aligned by the owner, not the Spanish reduced."
+  },
+  {
+    "item_id": "guide-android:faq3.a",
+    "decision": "apply",
+    "final": "Solo si los datos de tu plan indican un APN: en ese caso, comprueba que coincide en los ajustes de la eSIM.",
+    "findings": [
+      "F0008"
+    ],
+    "severity": "minor",
+    "reason": "Rule 1: the parenthesis adds a Pixel menu name the English answer does not give and no label rule requires it; dropping it restores the English content."
+  },
+  {
+    "item_id": "countries:QA",
+    "decision": "keep",
+    "findings": [
+      "F0011"
+    ],
+    "severity": "preferential",
+    "reason": "«Catar» is the RAE/CLDR Spanish spelling and correct; «Qatar» is an SEO preference, not an error."
+  }
+]

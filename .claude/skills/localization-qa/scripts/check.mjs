@@ -125,7 +125,7 @@ export async function check(run, root = ROOT) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const arg = (n) => { const i = process.argv.indexOf(n); return i > 0 ? process.argv[i + 1] : null; };
   const run = JSON.parse(readFileSync(arg('--items'), 'utf8'));
-  const f = await check(run);
+  const f = await check(run, arg('--root') ? resolve(arg('--root')) : ROOT);
   writeFileSync(arg('--out'), JSON.stringify(f, null, 1));
   const by = {}; for (const x of f) by[`${x.severity}/${x.rule.split(':')[0]}`] = (by[`${x.severity}/${x.rule.split(':')[0]}`] || 0) + 1;
   console.error(`${run.lang}: ${f.length} deterministic findings`, JSON.stringify(by));

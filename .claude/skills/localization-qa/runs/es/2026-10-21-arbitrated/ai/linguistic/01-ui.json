@@ -1,0 +1,38 @@
+[
+  {
+    "id": "L-01-ui-001",
+    "item_id": "ui:home.guidesTitle",
+    "group": "ui",
+    "key": "home.guidesTitle",
+    "where": "home",
+    "en": "Set up and fix your eSIM",
+    "target": "Configura y soluciona tu eSIM",
+    "suggestion": "Configura tu eSIM y soluciona problemas",
+    "explanation": "«Solucionar» takes a problem as its object, not the device: «soluciona tu eSIM» reads as a calque of «fix your eSIM». Also in ui:home.guidesLead («Instala, comprueba y soluciona una eSIM de viaje» → «Instala y comprueba una eSIM de viaje, y soluciona problemas, paso a paso.»).",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.75,
+    "source": "ai",
+    "stage": "linguistic",
+    "objective": false,
+    "rule": "natural collocation (solucionar + problema)"
+  },
+  {
+    "id": "L-01-ui-002",
+    "item_id": "ui:how.step4",
+    "group": "ui",
+    "key": "how.step4",
+    "where": "home → how it works",
+    "en": "Land, switch it on, and you are online.",
+    "target": "Al aterrizar, actívala y ya tienes conexión.",
+    "suggestion": "Al aterrizar, activa la eSIM y ya tienes conexión.",
+    "explanation": "The step before it ends on «el perfil eSIM» (masculine), so the feminine clitic «actívala» has no matching antecedent in the visible list; naming «la eSIM» removes the mismatch.",
+    "category": "grammar",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "linguistic",
+    "objective": false,
+    "rule": "pronoun–antecedent agreement across adjacent steps"
+  }
+]
