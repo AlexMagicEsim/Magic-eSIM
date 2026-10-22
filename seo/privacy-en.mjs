@@ -63,7 +63,7 @@ export const PRIVACY = Object.freeze({
       <h3>Logs</h3>
       <p>Our hosting provider keeps technical logs of requests to our server for a limited period (see section 6). These logs may include IP addresses and, occasionally, parts of requests that our server could not process.</p>
       <h3>What we do not do</h3>
-      <p>We do not sell personal data, we do not use it for advertising or profiling, and we do not send marketing emails.</p>`,
+      <p>We do not sell personal data, we do not use it for advertising or profiling, and we do not send marketing emails. We do not sell or share personal data as “sell” and “share” are defined in California law, and you can use the rights in section 7 wherever you live, including in the United States.</p>`,
     },
     {
       id: 'cookies', h2: '3. Cookies and local storage', html: `
@@ -73,7 +73,9 @@ export const PRIVACY = Object.freeze({
         <li><code>mesim.site.lang</code> (local storage) remembers the language you chose, until you clear it.</li>
         <li><code>me-logo</code> (session storage) plays the logo animation once per visit, until you close the tab.</li>
       </ul>
-      <p>These values only make the website display as you asked; they are not sent to us. If we ever add an analytics or similar tool, we will first update this policy and ask for your consent where the law requires it.</p>`,
+      <p>These values only make the website display as you asked; they are not sent to us. If we ever add an analytics or similar tool, we will first update this policy and ask for your consent where the law requires it.</p>
+      <h3>Do Not Track</h3>
+      <p>We do not track you over time or across other websites or online services, and we do not allow other companies to collect personal data about your online activities over time and across different websites when you use our website. For this reason we do not respond differently to “Do Not Track” or Global Privacy Control signals: whether your browser sends one or not, no such tracking takes place.</p>`,
     },
     {
       id: 'providers', h2: '4. Service providers who process data for us', html: `
@@ -98,6 +100,7 @@ export const PRIVACY = Object.freeze({
         <li>We use established providers that publish data protection terms for their customers. Render’s data processing terms include the European Union’s Standard Contractual Clauses, and Render and GitHub take part in the EU–U.S. Data Privacy Framework.</li>
         <li>Data travelling to and from our website and server is encrypted (HTTPS).</li>
       </ul>
+      <p>These measures reduce the risks described above but do not remove them.</p>
       <p>You can ask us for more information about these safeguards by writing to support@magicesim.store.</p>`,
     },
     {
@@ -126,7 +129,7 @@ export const PRIVACY = Object.freeze({
       </ul>
       <p>To make a request, write to <a href="mailto:support@magicesim.store">support@magicesim.store</a> from the email address the request concerns. We may ask you to confirm your identity before we act. Requests are free of charge.</p>
       <p>We answer within 10 working days; where the law allows, we may extend this once and will tell you why. We block data within 3 working days of a justified request.</p>
-      <p>You can complain to the State Audit Office of Georgia (sao.ge) or to a court. If you are in the European Union, you can also complain to the data protection authority of your country.</p>`,
+      <p>You can complain to the State Audit Office of Georgia (sao.ge) or to a court. If you are in the European Union, you can also complain to the data protection authority of your country. If you are in New Zealand, you can complain to the Office of the Privacy Commissioner (privacy.org.nz).</p>`,
     },
     {
       id: 'security', h2: '8. Security', html: `
@@ -134,7 +137,7 @@ export const PRIVACY = Object.freeze({
     },
     {
       id: 'children', h2: '9. Children', html: `
-      <p>The international website is not intended for people under 18.</p>`,
+      <p>The international website is not intended for people under 18. We do not knowingly collect personal data from children; if we learn that we have, we delete it.</p>`,
     },
     {
       id: 'changes', h2: '10. Changes to this policy', html: `
