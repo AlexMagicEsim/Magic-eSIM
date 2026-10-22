@@ -80,6 +80,6 @@ for (const L of PLANNED) {
 }
 
 test('a quick link without a page in the language stops the build', () => {
-  const G = rehearsalGenerator('fr', { copy: { ...PAGE_COPY.en, quick: ['TH', 'XX'] }, guides: EN_GUIDES, words: DICT.en });
-  assert.throws(() => G.homePage(), /quick link XX has no fr page/);
+  const G = rehearsalGenerator('ko', { copy: { ...PAGE_COPY.en, quick: ['TH', 'XX'] }, guides: EN_GUIDES, words: DICT.en });
+  assert.throws(() => G.homePage(), /quick link XX has no ko page/);
 });

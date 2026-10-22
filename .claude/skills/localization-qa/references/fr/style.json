@@ -1,0 +1,68 @@
+{
+  "language": "fr",
+  "variant": "Standard French (fr-FR) (owner decision D3, 2026-10-22): «vous», no Canadian- or Belgian-only words; where Apple names a setting differently in France and Canada, both may be given, France first.",
+  "formality": "vous",
+  "invertedPunctuation": false,
+  "frenchSpacing": true,
+  "seo": {
+    "titleMax": 60,
+    "descriptionMax": 160
+  },
+  "priceFormat": "12,99 USD (fr-FR, currencyDisplay code) — decided, never a finding",
+  "sameAsEnglishAllowed": [
+    "Total",
+    "Plan",
+    "IP : {names}",
+    "{name} + {n} {countries}",
+    "Magic eSIM",
+    "iPhone",
+    "Android",
+    "Wi-Fi",
+    "eSIM",
+    "Pixel",
+    "Galaxy",
+    "Destinations",
+    "Guides",
+    "Questions",
+    "Type",
+    "Menu",
+    "Couverture",
+    "Code promo",
+    "Asie",
+    "Europe",
+    "Balkans",
+    "Canada",
+    "Japon",
+    "Thaïlande"
+  ],
+  "forbidden": [
+    {
+      "id": "tu-form",
+      "pattern": "(?<![\\p{L}])(tu (peux|dois|as|es|vas|veux)|ton (téléphone|forfait|iPhone)|ta (ligne|SIM|eSIM)|tes (données|réglages)|choisis|installe-la|vérifie que)(?![\\p{L}])",
+      "severity": "major",
+      "category": "style-variant",
+      "reason": "a «tu» form — the site addresses the reader as «vous» (owner D1); mixing registers reads as two writers."
+    },
+    {
+      "id": "ascii-apostrophe",
+      "pattern": "\\p{L}'(?=[\\p{L}*])",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "an ASCII apostrophe — French typography on this site uses ’ (owner D7)."
+    },
+    {
+      "id": "plain-space-before-punct",
+      "pattern": "\\u0020[;?!:](?=\\s|$)",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "a plain space before «: ; ? !» — it must be a no-break space (U+00A0 before «:», U+202F before «; ? !») so the sign never starts a line (D7)."
+    },
+    {
+      "id": "canadianism",
+      "pattern": "(?<![\\p{L}])(courriel|magasiner|cellulaire intelligent|septante|nonante)(?![\\p{L}])",
+      "severity": "minor",
+      "category": "style-variant",
+      "reason": "a Canadian- or Belgian-only word — the site writes standard French (fr-FR); Apple's Canadian menu names in the guides are given on purpose, labelled «au Canada»."
+    }
+  ]
+}

@@ -24,9 +24,12 @@
 //   MM  «Myanmar (Birmania/Birmanie)» → Myanmar, as our EN.
 //   CD, CG  CLDR's «Kinshasa/Brazzaville» forms → the full state names, matching
 //       our EN «DR Congo» / «Republic of the Congo».
-//   SX  fr «Saint-Martin (partie néerlandaise)» → Sint-Maarten, as our EN.
+//   SX  fr «Saint-Martin (partie néerlandaise)» → Sint Maarten, as our EN (no hyphen — the Dutch name, as es/de;
+//       localization QA 2026-10-22).
 //   CI  es «Côte d’Ivoire» (CLDR keeps the French official form) → «Costa de Marfil», the name every Spanish speaker
 //       uses and searches (RAE / Fundéu); found by localization QA 2026-10-21. de and fr keep CLDR's.
+//   VC  fr «Saint-Vincent-et-les Grenadines» (CLDR) → «Saint-Vincent-et-les-Grenadines», the official French name with
+//       its hyphens; found by localization QA 2026-10-22.
 //   KT  not in CLDR (not an ISO 3166 code — the provider's code for Northern
 //       Cyprus, 2026-10-18); the five names were written here, as data.
 // AI-assisted data: a native-speaker review is part of enabling each language
@@ -236,7 +239,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   SS: { es: "Sudán del Sur", de: "Südsudan", fr: "Soudan du Sud", "zh-Hans": "南苏丹", ko: "남수단" },
   ST: { es: "Santo Tomé y Príncipe", de: "São Tomé und Príncipe", fr: "Sao Tomé-et-Principe", "zh-Hans": "圣多美和普林西比", ko: "상투메 프린시페" },
   SV: { es: "El Salvador", de: "El Salvador", fr: "Salvador", "zh-Hans": "萨尔瓦多", ko: "엘살바도르" },
-  SX: { es: "Sint Maarten", de: "Sint Maarten", fr: "Sint-Maarten", "zh-Hans": "荷属圣马丁", ko: "신트마르턴" },
+  SX: { es: "Sint Maarten", de: "Sint Maarten", fr: "Sint Maarten", "zh-Hans": "荷属圣马丁", ko: "신트마르턴" },
   SY: { es: "Siria", de: "Syrien", fr: "Syrie", "zh-Hans": "叙利亚", ko: "시리아" },
   SZ: { es: "Esuatini", de: "Eswatini", fr: "Eswatini", "zh-Hans": "斯威士兰", ko: "에스와티니" },
   TC: { es: "Islas Turcas y Caicos", de: "Turks- und Caicosinseln", fr: "Îles Turques-et-Caïques", "zh-Hans": "特克斯和凯科斯群岛", ko: "터크스 케이커스 제도" },
@@ -259,7 +262,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   UY: { es: "Uruguay", de: "Uruguay", fr: "Uruguay", "zh-Hans": "乌拉圭", ko: "우루과이" },
   VA: { es: "Ciudad del Vaticano", de: "Vatikanstadt", fr: "État de la Cité du Vatican", "zh-Hans": "梵蒂冈", ko: "바티칸 시국" },
   UZ: { es: "Uzbekistán", de: "Usbekistan", fr: "Ouzbékistan", "zh-Hans": "乌兹别克斯坦", ko: "우즈베키스탄" },
-  VC: { es: "San Vicente y las Granadinas", de: "St. Vincent und die Grenadinen", fr: "Saint-Vincent-et-les Grenadines", "zh-Hans": "圣文森特和格林纳丁斯", ko: "세인트빈센트그레나딘" },
+  VC: { es: "San Vicente y las Granadinas", de: "St. Vincent und die Grenadinen", fr: "Saint-Vincent-et-les-Grenadines", "zh-Hans": "圣文森特和格林纳丁斯", ko: "세인트빈센트그레나딘" },
   VE: { es: "Venezuela", de: "Venezuela", fr: "Venezuela", "zh-Hans": "委内瑞拉", ko: "베네수엘라" },
   VG: { es: "Islas Vírgenes Británicas", de: "Britische Jungferninseln", fr: "Îles Vierges britanniques", "zh-Hans": "英属维尔京群岛", ko: "영국령 버진아일랜드" },
   VI: { es: "Islas Vírgenes de EE. UU.", de: "Amerikanische Jungferninseln", fr: "Îles Vierges des États-Unis", "zh-Hans": "美属维尔京群岛", ko: "미국령 버진아일랜드" },

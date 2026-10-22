@@ -1,0 +1,36 @@
+[
+ {
+  "id": "C0001",
+  "item_id": "page:homeArtCoverageValue",
+  "group": "page",
+  "key": "homeArtCoverageValue",
+  "where": "home",
+  "url": "https://magicesim.store/fr/",
+  "en": "190+ destinations",
+  "target": "190+ destinations",
+  "suggestion": "",
+  "source": "check",
+  "category": "accuracy",
+  "severity": "major",
+  "confidence": 0.7,
+  "rule": "untranslated",
+  "explanation": "The translation is identical to the English source."
+ },
+ {
+  "id": "C0002",
+  "item_id": "guide-compatibility:s2.body",
+  "group": "guide-compatibility",
+  "key": "s2.body",
+  "where": "guide «Does your phone support eSIM?», section 2",
+  "url": "https://magicesim.store/fr/guides/compatibility/#lock",
+  "en": "A phone bought on contract may be locked to its carrier and refuse other SIMs and eSIMs until it is unlocked.\nOn iPhone, open **Settings → General → About** and look for «No SIM Restrictions» next to **Carrier Lock**. On Android, ask the carrier that sold the phone.",
+  "target": "Un téléphone acheté avec un abonnement peut être verrouillé par son opérateur et refuser les autres SIM et eSIM jusqu’à son déverrouillage.\nSur iPhone, ouvrez **Réglages → Général → Informations** et cherchez « Aucune restriction de SIM » en regard de **Verrouillage de l’opérateur**. Sur Android, renseignez-vous auprès de l’opérateur qui a vendu le téléphone.",
+  "suggestion": "",
+  "source": "check",
+  "category": "terminology",
+  "severity": "minor",
+  "confidence": 0.8,
+  "rule": "glossary:plan",
+  "explanation": "«abonnement»: the glossary uses «forfait» for «plan»."
+ }
+]

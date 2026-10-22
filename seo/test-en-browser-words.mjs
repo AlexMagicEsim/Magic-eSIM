@@ -187,11 +187,13 @@ test('pageLang reads <html lang>; pathPrefix gives each language its start of pa
   assert.equal(SITE.pageLang(doc('ru')), 'ru');
   assert.equal(SITE.pageLang(doc('es')), 'es');
   assert.equal(SITE.pageLang(doc('de')), 'de');
-  for (const v of ['fr', 'EN', '', null, 'en-US', '__proto__']) assert.equal(SITE.pageLang(doc(v)), 'ru', String(v));
+  assert.equal(SITE.pageLang(doc('fr')), 'fr');
+  for (const v of ['ko', 'EN', '', null, 'en-US', '__proto__']) assert.equal(SITE.pageLang(doc(v)), 'ru', String(v));
   assert.equal(SITE.pathPrefix('en'), '/en');
   assert.equal(SITE.pathPrefix('ru'), '');
   assert.equal(SITE.pathPrefix('es'), '/es');
   assert.equal(SITE.pathPrefix('de'), '/de');
-  assert.equal(SITE.pathPrefix('fr'), '');
+  assert.equal(SITE.pathPrefix('fr'), '/fr');
+  assert.equal(SITE.pathPrefix('ko'), '');
   assert.ok(Object.isFrozen(SITE.PREFIX));
 });

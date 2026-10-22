@@ -1,0 +1,21 @@
+{
+  "language": "fr",
+  "note": "Terms of this storefront. «target» is the established translation (as on the live pages); «avoid» are variants that are wrong, regional or inconsistent; «consistency» asks the check to flag a string whose source has the term and whose translation has neither the term nor an accepted variant.",
+  "doNotTranslate": ["Magic eSIM", "eSIM", "QR", "iPhone", "Android", "Pixel", "Galaxy", "iOS", "USD", "Stay Connected Anywhere", "support@magicesim.store", "EID", "APN"],
+  "terms": [
+    { "en": "QR code", "target": "code QR", "avoid": ["QR code", "QR-code"], "consistency": true },
+    { "en": "mobile data", "target": "données mobiles", "alsoAccept": ["Données mobiles", "données cellulaires", "Données cellulaires", "données"], "consistency": true },
+    { "en": "data roaming", "target": "itinérance des données", "alsoAccept": ["itinérance", "Itinérance"], "avoid": ["roaming"], "consistency": true },
+    { "en": "airplane mode", "target": "mode Avion", "consistency": true },
+    { "en": "destination", "target": "destination", "alsoAccept": ["destinations", "pays"], "consistency": true },
+    { "en": "plan", "target": "forfait", "alsoAccept": ["forfaits", "Forfait", "Forfaits"], "avoid": ["plan", "abonnement"], "consistency": true },
+    { "en": "Wi-Fi", "target": "Wi-Fi", "consistency": true },
+    { "en": "carrier-locked", "target": "verrouillé par un opérateur", "alsoAccept": ["verrouillé", "Verrouillage de l’opérateur"], "consistency": true },
+    { "en": "carrier", "target": "opérateur", "alsoAccept": ["opérateurs"], "consistency": false },
+    { "en": "validity", "target": "validité", "alsoAccept": ["Validité", "valable", "Durée"], "consistency": true },
+    { "en": "phone", "target": "téléphone", "alsoAccept": ["iPhone", "smartphone"], "consistency": false },
+    { "en": "troubleshooting", "target": "dépannage", "alsoAccept": ["Dépannage"], "consistency": false },
+    { "en": "promo code", "target": "code promo", "alsoAccept": ["Code promo"], "consistency": true },
+    { "en": "GB", "target": "Go", "avoid": ["GB"], "why": "French units: gigaoctet → Go.", "consistency": false }
+  ]
+}

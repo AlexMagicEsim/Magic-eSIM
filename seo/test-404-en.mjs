@@ -89,7 +89,8 @@ test('the branch matches each published prefix (/en, /es …), and nothing that 
   for (const p of ['/en', '/en/', '/en/esim/atlantis/', '/en/guides/nope/']) assert.equal(screen(p).code, 'en', p);
   for (const p of ['/es', '/es/', '/es/esim/atlantis/', '/es/guides/nope/']) assert.equal(screen(p).code, 'es', p);
   for (const p of ['/de', '/de/', '/de/esim/atlantis/', '/de/guides/nope/']) assert.equal(screen(p).code, 'de', p);
-  for (const p of ['/enter', '/english/', '/espana/', '/esim/en/', '/pay/en/x', '/', '/nope/', '/fr/x', '/deutsch/', '/zh/', '/ko/esim/',
+  for (const p of ['/fr', '/fr/', '/fr/esim/atlantis/', '/fr/guides/nope/']) assert.equal(screen(p).code, 'fr', p);
+  for (const p of ['/enter', '/english/', '/espana/', '/esim/en/', '/pay/en/x', '/', '/nope/', '/ko/x', '/deutsch/', '/francais/', '/zh/', '/ko/esim/',
     '/__proto__/', '/constructor/', '/hasOwnProperty/', '/EN/', '//en/']) {
     assert.equal(screen(p).code, null, p);
   }

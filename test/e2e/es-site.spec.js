@@ -137,8 +137,8 @@ test('the phone menu lists the other languages, each to the same page', async ({
   await open(page, '/es/guides/android/');
   await page.locator('.mnav summary').click();
   const langs = page.locator('.mnav-panel a[hreflang]');
-  await expect(langs).toHaveText(['Русский', 'English', 'Deutsch']);
-  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/android.html', '/en/guides/android/', '/de/guides/android/']);
+  await expect(langs).toHaveText(['Русский', 'English', 'Deutsch', 'Français']);
+  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/android.html', '/en/guides/android/', '/de/guides/android/', '/fr/guides/android/']);
   expect(await noOverflow(page)).toBe(true);
 });
 
@@ -199,9 +199,9 @@ test.describe('desktop', () => {
     await open(page); await ready(page);
     await page.locator('.hdr-actions details.langmenu summary').click();
     const entries = await page.locator('.langmenu-list li').allTextContents();
-    expect(entries.map((t) => t.trim())).toEqual(['Русский', 'English', 'Español', 'Deutsch']);
+    expect(entries.map((t) => t.trim())).toEqual(['Русский', 'English', 'Español', 'Deutsch', 'Français']);
     expect(await page.locator('.langmenu-list a').evaluateAll((as) => as.map((a) => a.getAttribute('href'))))
-      .toEqual(['/esim/thailand/', '/en/esim/thailand/', '/de/esim/thailand/']);
+      .toEqual(['/esim/thailand/', '/en/esim/thailand/', '/de/esim/thailand/', '/fr/esim/thailand/']);
     await expect(page.locator('#localGrid .card .price').first()).toHaveText(/^USD\s2\.99$/);
     expect(await noOverflow(page)).toBe(true);
   });

@@ -41,7 +41,7 @@ test('build-all renders the guides (the Russian builder is the one build-all for
   assert.match(read('seo/build-all.mjs'), /run\('build-locale-pages\.mjs'\)/);
   assert.match(read('seo/build-en-pages.mjs'), /EN\.build\(\)/);
   assert.match(read('seo/build-locale-pages.mjs'), /for \(const g of GUIDES\) write\(`\$\{base\}\/guides\/\$\{g\.slug\}\/index\.html`/);
-  assert.match(read('seo/build-locale-pages.mjs'), /export const GUIDES_BY_LOCALE = Object\.freeze\(\{ en: EN_GUIDES, es: ES_GUIDES, de: DE_GUIDES \}\);/);
+  assert.match(read('seo/build-locale-pages.mjs'), /export const GUIDES_BY_LOCALE = Object\.freeze\(\{ en: EN_GUIDES, es: ES_GUIDES, de: DE_GUIDES, fr: FR_GUIDES \}\);/);
 });
 
 /* ===================================================================== *
@@ -89,6 +89,7 @@ test('every link on a guide lands on a page that exists, and one into another la
       assert.ok(existsSync(join(ROOT, file)), `${rel}: ${href} does not exist`);
       if (href.startsWith('/es/')) assert.match(tag, /hreflang="es"/, `${rel}: ${href} is Spanish and must say so`);
       else if (href.startsWith('/de/')) assert.match(tag, /hreflang="de"/, `${rel}: ${href} is German and must say so`);
+      else if (href.startsWith('/fr/')) assert.match(tag, /hreflang="fr"/, `${rel}: ${href} is French and must say so`);
       else if (!href.startsWith('/en/')) assert.match(tag, /hreflang="ru"/, `${rel}: ${href} is Russian and must say so`);
     }
   }

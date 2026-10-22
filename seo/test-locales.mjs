@@ -143,15 +143,16 @@ test('x-default: the owner decided EN, and the indexing stage (I18N-09) applied 
  * 2. Nothing new is switched on — I18N-01 pins RU + EN
  * ===================================================================== */
 
-test('exactly Russian, English, Spanish and German are on the site; the Mini App offers Russian and English', () => {
+test('exactly Russian, English, Spanish, German and French are on the site; the Mini App offers Russian and English', () => {
   // A stage that launches a language changes THIS line, deliberately, in the
   // same PR as that language's dictionaries and pages. ES-1 (2026-10-21) added Spanish to the site, under noindex;
   // I18N-09 made it indexable (seo/indexing.mjs decides which pages). DE-1 (2026-10-22) added German, under noindex until
   // the owner's separate word (D11). The Mini App gets no new language before GLOBAL payments (owner).
-  assert.deepEqual(siteLocales(), ['ru', 'en', 'es', 'de']);
+  assert.deepEqual(siteLocales(), ['ru', 'en', 'es', 'de', 'fr']);
   assert.deepEqual(appLocales(), ['ru', 'en']);
   assert.equal(locale('es').site.indexableHome, true, 'Spanish is indexable since I18N-09');
   assert.equal(locale('de').site.indexableHome, false, 'German stays noindex until the owner opens it');
+  assert.equal(locale('fr').site.indexableHome, false, 'French stays noindex until the owner opens it (FR-1, D11)');
 });
 
 test('a disabled language has no directory and no sitemap URL', () => {
@@ -171,9 +172,9 @@ test('every page declares an enabled language and points hreflang only at enable
 test('the language gates can fire', () => {
   // §26.1: a gate that only ever reports «clean» is indistinguishable from one
   // that never ran.
-  const fake = [['fr/index.html', '<html lang="fr"><link rel="alternate" hreflang="fr" href="/fr/">']];
-  assert.deepEqual(foreignHtmlLangs(fake, ENABLED), ['fr/index.html: fr']);
-  assert.deepEqual(foreignHreflangs(fake, ENABLED), ['fr/index.html: fr']);
+  const fake = [['ko/index.html', '<html lang="ko"><link rel="alternate" hreflang="ko" href="/ko/">']];
+  assert.deepEqual(foreignHtmlLangs(fake, ENABLED), ['ko/index.html: ko']);
+  assert.deepEqual(foreignHreflangs(fake, ENABLED), ['ko/index.html: ko']);
   assert.deepEqual(foreignHreflangs([['x', 'hreflang="x-default"']], ENABLED), []);
 });
 

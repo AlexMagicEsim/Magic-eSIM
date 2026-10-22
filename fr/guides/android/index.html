@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Installer une eSIM sur Android | Magic eSIM</title>
+<meta name="description" content="Installez une eSIM de voyage sur Android avec un code QR ou à la main, choisissez-la pour les données mobiles et activez l’itinérance à destination.">
+<link rel="canonical" href="https://magicesim.store/fr/guides/android/">
+<!-- Not offered to search engines yet (noindex): a page outside the indexing stage of
+     seo/indexing.mjs is not in the sitemap and has no hreflang twin. «follow» keeps its links crawlable. -->
+<meta name="robots" content="noindex, follow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://magicesim.store/fr/guides/android/">
+<meta property="og:title" content="Installer une eSIM sur Android | Magic eSIM">
+<link rel="icon" href="/favicon.ico?v=5af87d11" sizes="any" />
+<link rel="shortcut icon" href="/favicon.ico?v=5af87d11" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=50f0fa82" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=b31b3b27" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=b637ca13" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script src="/assets/logo-once.js?v=5a163189"></script>
+<link rel="stylesheet" href="/assets/site.css?v=fdc3a49c">
+<link rel="stylesheet" href="/en/en.css?v=da7b73d3">
+<link rel="stylesheet" href="/assets/page-guides.css?v=d2c62fb9">
+</head>
+<body>
+
+<a class="skip" href="#main">Aller au contenu principal</a>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="/fr/"><svg class="brand-logo" viewBox="336 208 574 432" width="59" height="44" role="img" aria-label="Magic eSIM"><defs><linearGradient id="a-mark" gradientUnits="userSpaceOnUse" x1="498.0" y1="293.0" x2="732.5" y2="445.3"><stop offset="0.000" stop-color="#8b20b7"/><stop offset="0.125" stop-color="#8816bd"/><stop offset="0.250" stop-color="#7625bf"/><stop offset="0.375" stop-color="#6931c1"/><stop offset="0.500" stop-color="#3451c7"/><stop offset="0.625" stop-color="#3172d3"/><stop offset="0.750" stop-color="#238bde"/><stop offset="0.875" stop-color="#13b1ec"/><stop offset="1.000" stop-color="#0ad0f9"/></linearGradient><linearGradient id="a-word" gradientUnits="userSpaceOnUse" x1="349.8" y1="571.9" x2="896.5" y2="571.9"><stop offset="0.000" stop-color="#8b19b1"/><stop offset="0.125" stop-color="#7f23b6"/><stop offset="0.250" stop-color="#7230bc"/><stop offset="0.375" stop-color="#3459ca"/><stop offset="0.500" stop-color="#317ada"/><stop offset="0.625" stop-color="#239ce6"/><stop offset="0.750" stop-color="#0ebdee"/><stop offset="0.875" stop-color="#07d3f2"/><stop offset="1.000" stop-color="#04e8f4"/></linearGradient><linearGradient id="me-lw-wave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A16C7"/><stop offset=".52" stop-color="#3866D9"/><stop offset="1" stop-color="#00C7DF"/></linearGradient><linearGradient id="me-lw-fadeg" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="505"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="me-lw-fade" maskUnits="userSpaceOnUse" x="150" y="40" width="950" height="600"><rect x="150" y="40" width="950" height="600" fill="url(#me-lw-fadeg)"/></mask></defs><g class="lm-waves" aria-hidden="true" mask="url(#me-lw-fade)"><circle class="lm-ring lm-ring1" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring2" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring3" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/></g><use class="lm-symbol" href="/assets/brand/logo.svg?v=72aa4ec9#me-symbol"/><use class="lm-word" href="/assets/brand/logo.svg?v=72aa4ec9#me-word"/></svg></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="/fr/esim/" data-i18n="nav.destinations">Destinations</a>
+      <a href="/fr/#how" data-i18n="nav.how">Comment ça marche</a>
+      <a href="/fr/#compat" data-i18n="nav.compat">Compatibilité</a>
+      <a href="/fr/guides/" data-i18n="nav.guides">Guides</a>
+    </nav>
+    <div class="hdr-actions">
+      <details class="langsw langmenu">
+        <summary aria-label="Langue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span lang="fr">Français</span></summary>
+        <ul class="langmenu-list">
+          <li><a href="/android.html" hreflang="ru" lang="ru">Русский</a></li>
+          <li><a href="/en/guides/android/" hreflang="en" lang="en">English</a></li>
+          <li><a href="/es/guides/android/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="/de/guides/android/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><span aria-current="true" lang="fr">Français</span></li>
+        </ul>
+      </details>
+      <a class="btn btn-sm hdr-cta" href="/fr/#plans" data-i18n="nav.findPlan">Trouver un forfait</a>
+      <details class="mnav">
+        <summary aria-label="Menu"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+        <nav class="mnav-panel" aria-label="Menu">
+      <a href="/fr/esim/" data-i18n="nav.destinations">Destinations</a>
+      <a href="/fr/#how" data-i18n="nav.how">Comment ça marche</a>
+      <a href="/fr/#compat" data-i18n="nav.compat">Compatibilité</a>
+      <a href="/fr/guides/" data-i18n="nav.guides">Guides</a>
+          <hr>
+          <a href="/android.html" hreflang="ru" lang="ru">Русский</a>
+          <a href="/en/guides/android/" hreflang="en" lang="en">English</a>
+          <a href="/es/guides/android/" hreflang="es" lang="es">Español</a>
+          <a href="/de/guides/android/" hreflang="de" lang="de">Deutsch</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+<div class="paybar" id="previewNotice" role="note">
+  <details class="wrap">
+    <summary><span class="paybar-dot" aria-hidden="true"></span><strong data-i18n="preview.noticeTitle">Le paiement en ligne n’est pas encore disponible : les forfaits ne peuvent pas encore être achetés ici</strong><span class="paybar-more" data-i18n="preview.more">Ce que cela signifie</span></summary>
+    <p data-i18n="preview.noticeBody">Vous pouvez consulter les forfaits, obtenir un prix exact en dollars américains et suivre les étapes de commande, mais aucun paiement n’est encore possible : rien n’est débité et aucune commande ni eSIM n’est créée.</p>
+  </details>
+</div>
+
+<main class="guide" id="main" tabindex="-1">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="/fr/">Magic eSIM</a> › <a href="/fr/guides/" data-i18n="nav.guides">Guides</a> › Android</p>
+      <div class="g-hero-row">
+        <span class="g-ico g-ico-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 6h13M5.5 18h13"/></svg></span>
+        <h1>Installer une eSIM sur Android</h1>
+      </div>
+      <p class="lead">Chaque marque Android nomme ses réglages différemment, mais les étapes sont les mêmes : trouvez où se gèrent les SIM, ajoutez une eSIM avec son code QR ou à la main, puis choisissez-la pour les données mobiles à destination. L’installation nécessite une connexion Internet, le plus simple étant un réseau Wi-Fi.</p>
+    </div>
+  </section>
+
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="Sur cette page">
+      <p class="g-toc-title">Sur cette page</p>
+      <ol>
+        <li><a href="#find">Trouvez où se gèrent les SIM</a></li>
+        <li><a href="#install">Installez l’eSIM</a></li>
+        <li><a href="#data">À destination : activez les données</a></li>
+        <li><a href="#help">Si quelque chose ne fonctionne pas</a></li>
+        <li><a href="#faq">Questions</a></li>
+      </ol>
+    </nav>
+
+    <article class="g-article">
+    <section class="g-sec prose" id="find" aria-labelledby="find-h">
+      <h2 id="find-h">Trouvez où se gèrent les SIM</h2>
+        <p>Les réglages SIM se trouvent généralement à l’un de ces endroits ; les noms varient selon la marque et la version d’Android :</p>
+        <ul class="list">
+          <li><strong>Google Pixel :</strong> Paramètres → Réseau et Internet → Cartes SIM → <strong>Ajouter une carte SIM</strong> → <strong>Configurer une eSIM</strong>.</li>
+          <li><strong>Samsung Galaxy :</strong> Paramètres → Connexions → Gestionnaire SIM → <strong>Ajouter une eSIM</strong> (sur les versions plus anciennes de One UI : Gestionnaire de carte SIM → <strong>Ajout d’un forfait mobile</strong>).</li>
+          <li><strong>Autres marques :</strong> cherchez dans les réglages « Réseau mobile », « Cartes SIM » ou « Connexions ».</li>
+        </ul>
+        <p>Si vous ne trouvez nulle part l’option pour ajouter une eSIM, vérifiez <a href="/fr/guides/compatibility/">si votre téléphone est compatible eSIM</a>.</p>
+    </section>
+
+    <section class="g-sec prose" id="install" aria-labelledby="install-h">
+      <h2 id="install-h">Installez l’eSIM</h2>
+        <ol class="steps">
+          <li>Affichez le code QR de votre eSIM sur un autre écran.</li>
+          <li>Commencez à ajouter une eSIM comme indiqué ci-dessus. <strong>Samsung :</strong> touchez <strong>Scanner le code QR</strong> (sur les versions plus anciennes : <strong>Numérisation code QR opérateur</strong>) et scannez le code. <strong>Pixel :</strong> suivez les instructions à l’écran.</li>
+          <li>Pas de code QR à scanner ? Sur Samsung, touchez <strong>Entrer le code d’activation</strong> et saisissez les données fournies avec votre eSIM (sur les versions plus anciennes de One UI, suivez l’option proposée à l’écran pour saisir un code d’activation).</li>
+          <li>Confirmez et attendez la fin de l’installation.</li>
+          <li>Renommez l’eSIM, par exemple « Voyage ».</li>
+        </ol>
+    </section>
+
+    <section class="g-sec prose" id="data" aria-labelledby="data-h">
+      <h2 id="data-h">À destination : activez les données</h2>
+        <ol class="steps">
+          <li>Vérifiez que l’eSIM est activée. Pixel : Paramètres → Réseau et Internet → Réseau mobile → l’eSIM → <strong>Utiliser cette carte SIM</strong>.</li>
+          <li>Choisissez l’eSIM comme SIM pour les <strong>données mobiles</strong>. Pixel : Paramètres → Réseau et Internet → Cartes SIM → <strong>Données mobiles</strong>. Votre SIM principale peut rester active pour les appels et les SMS.</li>
+          <li>Activez l’<strong>itinérance</strong> pour l’eSIM. Pixel : Paramètres → Réseau et Internet → Cartes SIM (ou Profils SIM) → <strong>Itinérance</strong>. Samsung : cherchez le réglage dans les paramètres de réseau mobile sous Connexions ; son nom exact dépend du modèle. Les eSIM de voyage se connectent généralement via des réseaux partenaires, et le téléphone considère cela comme de l’itinérance.</li>
+          <li>Si vous ne voulez pas de frais de votre opérateur habituel, désactivez l’itinérance des données sur votre SIM principale.</li>
+          <li>Attendez une ou deux minutes que le téléphone s’enregistre sur un réseau local.</li>
+        </ol>
+    </section>
+
+    <section class="g-sec prose" id="help" aria-labelledby="help-h">
+      <h2 id="help-h">Si quelque chose ne fonctionne pas</h2>
+        <p>Vérifiez la SIM choisie pour les données et l’itinérance de l’eSIM, activez puis désactivez le mode Avion et redémarrez le téléphone. La liste complète se trouve dans <a href="/fr/guides/troubleshooting/">L’eSIM ne fonctionne pas</a>.</p>
+        <p><strong>Ne supprimez pas l’eSIM</strong> pendant que vous cherchez le problème : son code QR peut être à usage unique.</p>
+    </section>
+
+    <section class="g-sec" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
+      <details>
+        <summary>Mon téléphone Android n’a pas d’option pour ajouter une eSIM. Que faire ?</summary>
+        <p class="note">Parcourez tous les menus liés à la SIM : leur nom varie selon la marque. Si aucun ne propose d’ajouter ou de télécharger une eSIM, le téléphone (ou cette version régionale) n’est probablement pas compatible eSIM.</p>
+      </details>
+      <details>
+        <summary>Puis-je utiliser l’eSIM et ma SIM physique en même temps ?</summary>
+        <p class="note">Sur les téléphones double SIM compatibles eSIM, oui : choisissez l’eSIM pour les données mobiles et gardez la SIM physique pour les appels et les SMS.</p>
+      </details>
+      <details>
+        <summary>Dois-je configurer un APN ?</summary>
+        <p class="note">Seulement si les informations de votre forfait indiquent un APN : vérifiez alors qu’il correspond dans les réglages de l’eSIM.</p>
+      </details>
+    </section>
+    </article>
+  </div>
+
+  <div class="wrap">
+    <section class="g-related" id="related" aria-labelledby="related-h">
+      <h2 id="related-h">Guides associés</h2>
+      <div class="g-cards">
+      <a class="g-card" href="/fr/guides/iphone/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">Installer une eSIM sur iPhone</h3><span class="g-card-blurb">Par code QR ou à la main, et ce qu’il faut activer à l’arrivée.</span></span>
+      </a>
+      <a class="g-card" href="/fr/guides/compatibility/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9.5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">Votre téléphone est-il compatible eSIM ?</h3><span class="g-card-blurb">Une vérification d’une minute avant de choisir un forfait.</span></span>
+      </a>
+      <a class="g-card" href="/fr/guides/activation/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">Quand installer et activer votre eSIM</h3><span class="g-card-blurb">Installer le profil et démarrer le forfait sont deux moments distincts.</span></span>
+      </a>
+      <a class="g-card" href="/fr/guides/troubleshooting/">
+        <span class="g-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+        <span class="g-card-body"><h3 class="g-card-title">L’eSIM ne fonctionne pas : que vérifier</h3><span class="g-card-blurb">Une liste, dans l’ordre qui résout la plupart des problèmes.</span></span>
+      </a>
+      </div>
+      <p class="g-cta"><a class="btn" href="/fr/esim/">Choisir une destination</a></p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <a href="/fr/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <p data-i18n="footer.about">Forfaits de données eSIM de voyage pour plus de 190 destinations, avec des prix en dollars américains.</p>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="nav.destinations">Destinations</h2>
+        <ul>
+          <li><a href="/fr/esim/thailand/">Thaïlande</a></li>
+          <li><a href="/fr/esim/turkey/">Turquie</a></li>
+          <li><a href="/fr/esim/uae/">Émirats arabes unis</a></li>
+          <li><a href="/fr/esim/japan/">Japon</a></li>
+          <li><a href="/fr/esim/usa/">États-Unis</a></li>
+          <li><a href="/fr/esim/italy/">Italie</a></li>
+          <li><a href="/fr/esim/" data-i18n="site.allDestinations">Toutes les destinations</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="nav.guides">Guides</h2>
+        <ul>
+          <li><a href="/fr/guides/iphone/">Installer une eSIM sur iPhone</a></li>
+          <li><a href="/fr/guides/android/">Installer une eSIM sur Android</a></li>
+          <li><a href="/fr/guides/compatibility/">Votre téléphone est-il compatible eSIM ?</a></li>
+          <li><a href="/fr/guides/activation/">Quand installer et activer votre eSIM</a></li>
+          <li><a href="/fr/guides/troubleshooting/">L’eSIM ne fonctionne pas : que vérifier</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2 data-i18n="footer.help">Aide</h2>
+        <p class="support">Assistance : <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+          <li><a href="/fr/#how" data-i18n="nav.how">Comment ça marche</a></li>
+          <li><a href="/fr/#compat" data-i18n="nav.compat">Compatibilité</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+      <p><a href="/terms.html" hreflang="ru" data-i18n="footer.terms">Conditions (en russe)</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">Confidentialité (en russe)</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

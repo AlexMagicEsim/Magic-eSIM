@@ -113,8 +113,8 @@ function leftover(run, names) {
 
 /* ===================================================================== */
 
-test('there are three planned languages to rehearse, and none is published (Spanish by ES-1, German by DE-1)', () => {
-  assert.deepEqual(PLANNED.map((l) => l.code), ['fr', 'zh-Hans', 'ko']);
+test('there are two planned languages to rehearse, and none is published (Spanish by ES-1, German by DE-1, French by FR-1)', () => {
+  assert.deepEqual(PLANNED.map((l) => l.code), ['zh-Hans', 'ko']);
 });
 
 test('the rehearsal cannot publish: no build(), and it refuses the root, a published or an unknown language', () => {
@@ -122,7 +122,8 @@ test('the rehearsal cannot publish: no build(), and it refuses the root, a publi
   assert.throws(() => rehearsalGenerator('en', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('ru', { copy: {}, guides: [], words: {} }), /no prefixed locale/);
   assert.throws(() => rehearsalGenerator('xx', { copy: {}, guides: [], words: {} }), /no prefixed locale/);
-  assert.throws(() => rehearsalGenerator('fr', {}), /needs copy, guides and words/);
+  assert.throws(() => rehearsalGenerator('ko', {}), /needs copy, guides and words/);
+  assert.throws(() => rehearsalGenerator('fr', { copy: PAGE_COPY.fr, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('de', { copy: PAGE_COPY.de, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('es', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en }), /published/);
   // …and the published generator still refuses every planned language.
@@ -254,8 +255,10 @@ test('a guide section whose heading makes no anchor (Chinese, Korean) must name 
   assert.match(G.guidePage(g), /<li><a href="#step-1">步骤一<\/a><\/li>/);
 });
 
-test('English, Spanish and German are what the generators publish, and their names files are byte-for-byte the committed ones', () => {
-  assert.deepEqual(publishedNameLocales(), ['en', 'es', 'de']);
+test('English, Spanish, German and French are what the generators publish, and their names files are byte-for-byte the committed ones', () => {
+  assert.deepEqual(publishedNameLocales(), ['en', 'es', 'de', 'fr']);
+  assert.equal(renderNames('fr'), readFileSync(join(ROOT, 'assets/country-names-fr.js'), 'utf8'));
+  assert.equal(namesFile('fr').global, 'MagicCountryNamesFr');
   assert.equal(renderNames('de'), readFileSync(join(ROOT, 'assets/country-names-de.js'), 'utf8'));
   assert.equal(namesFile('de').global, 'MagicCountryNamesDe');
   assert.equal(renderNames('en'), readFileSync(join(ROOT, 'assets/country-names-en.js'), 'utf8'));
@@ -271,7 +274,7 @@ test('the leak check can fire: an English word in a template is caught', () => {
   assert.deepEqual(leftover('Tailandia · ⟦es:countryLead⟧(Tailandia)', names), []);
   assert.deepEqual(leftover('Plans for Tailandia', names), ['Plans', 'for']);
   assert.deepEqual(leftover('Тарифы ⟦es:x⟧', names), ['Тарифы']);
-  const G = rehearse('fr');
+  const G = rehearse('ko');
   const html = G.countryPage(G.countries()[0]).replace('<main', '<p>Show all plans</p><main');
   assert.ok(readable(html).some((r) => leftover(r, []).includes('Show')));
 });

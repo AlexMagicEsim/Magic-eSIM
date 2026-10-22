@@ -172,6 +172,58 @@ export const CLAIM_GUARDS = Object.freeze({
       fires: ['Funktioniert mit 5G', 'Das beste Netz im Land', 'Guter Empfang beim Netzbetreiber'],
       quiet: ['Datentarife für die Türkei, mit Preisen in US-Dollar.'] },
   }),
+
+  // Standard French, «vous» (owner D1, D3), FR-1 2026-10-22. Elision (l’, d’) and accents go through word(): the
+  // apostrophe is not a letter, so «l’eSIM» still ends a word at «l».
+  fr: Object.freeze({
+    money: {
+      re: word('₽|roubles?|RUB|SBP|toute carte|n’importe quelle carte|cartes? de crédit|cartes? bancaires?|pay(ez|er) (par|avec) (une )?carte'),
+      fires: ['Payez 950 ₽ par carte', 'Prix en roubles', 'Nous acceptons toute carte de crédit'],
+      quiet: ['Prix en dollars américains (USD)', 'Dépannage'] },
+    delivery: {
+      re: word('nous vous (enverrons|envoyons|adresserons)|vous recevrez (un|le|l’|votre) ?(e-mail|courriel|mail)|e-mail de (livraison|commande|confirmation)|courriel de (livraison|commande|confirmation)|dans votre boîte de réception'),
+      fires: ['Nous vous enverrons le code QR par e-mail', 'Vous recevrez un e-mail avec votre eSIM', 'Consultez l’e-mail de confirmation'],
+      quiet: ['Écrivez à notre équipe d’assistance par e-mail.', 'Aucune eSIM ne sera envoyée.'] },
+    cardRow: {
+      re: word('début de (la )?validité|ligne (validité|activation|début)|couverture et conditions'),
+      fires: ['Consultez la ligne Début de validité', 'Voir « Couverture et conditions »'],
+      quiet: ['Installer le profil et démarrer le forfait sont deux moments distincts.'] },
+    network: {
+      re: word('rapides?|fiables?|signal (fort|excellent|stable)|meilleure couverture|couverture (totale|complète|garantie|parfaite)|garanti(e|s|es)?|fonctionne partout|sans interruption|4G|5G|LTE'),
+      fires: ['Une 5G rapide partout', 'Couverture totale dans tout le pays', 'Un réseau fiable'],
+      quiet: ['Vérifiez que les données mobiles sont activées.', 'La vérification la plus rapidement faite'] },
+    features: {
+      re: word('illimité(e|s|es)?|sans limite|partage de connexion|point d’accès( mobile)?|hotspot|tethering|recevoir (des )?(SMS|codes)|2FA|codes? de vérification|numéro de téléphone inclus'),
+      fires: ['Données illimitées avec point d’accès mobile', 'Vous pourrez recevoir des SMS', 'Code de vérification inclus'],
+      quiet: ['Un volume de données pour chaque jour du voyage.', 'Noms des points d’accès', 'la connexion partagée depuis le téléphone d’un compagnon de voyage'] },
+    devices: {
+      re: /iPhone\s?(X[RS]?|\d{1,2})(?![\p{L}\p{N}])|Galaxy\s?[SZA]\d|Pixel\s?\d/iu,
+      fires: ['Fonctionne à partir de l’iPhone 12', 'Galaxy S21'],
+      quiet: ['Installer une eSIM sur iPhone'] },
+    installEarly: {
+      // advice to install early, not a question about having done it («J’ai installé l’eSIM une semaine avant le voyage»)
+      re: word('installe[zr]?(-la| la| l’eSIM)? (quelques|plusieurs) jours (avant|à l’avance)|installe[zr]?(-la| la| l’eSIM)? une semaine (avant|à l’avance)|(quelques|plusieurs) jours à l’avance|bien avant (le départ|le voyage)'),
+      fires: ['Installez-la quelques jours avant le voyage', 'Installez l’eSIM une semaine avant', 'Mieux vaut l’installer plusieurs jours à l’avance'],
+      quiet: ['Installez l’eSIM le jour du voyage.', 'J’ai installé l’eSIM une semaine avant le voyage. La validité du forfait a-t-elle déjà commencé ?'] },
+    reusableQr: {
+      re: word('code QR (peut|pourra) être (réutilisé|rescanné|scanné à nouveau)|codes? QR réutilisables?'),
+      fires: ['Le code QR peut être réutilisé', 'Un code QR réutilisable'],
+      quiet: ['Ne supprimez pas l’eSIM.', 'Un code QR peut être à usage unique.'] },
+    suppliers: {
+      re: word('fournisseurs?|eSIM Access|MobiMatter'),
+      fires: ['Notre fournisseur eSIM Access', 'MobiMatter fournit l’eSIM'],
+      quiet: ['Votre téléphone ne doit pas être verrouillé par un opérateur.', 'via des réseaux partenaires'] },
+    marketing: {
+      re: word('24 ?h ?/ ?24|24/7|7 ?j ?/ ?7|instantané(e|s|es)?|immédiat(e|s|es)?|le meilleur|la meilleure|les meilleur(e)?s|le moins cher|la moins chère|garanti(e|s|es)?|rembours(é|ée|ement|ements)|illimité(e|s|es)?|économisez|économiser|n° ?1|numéro 1|avis clients|évaluations?|de confiance|millions'),
+      fires: ['Assistance rapide 24h/24', 'Le meilleur prix', 'Satisfait ou remboursé'],
+      quiet: ['Choisissez une destination, installez une eSIM et soyez connecté dès l’atterrissage.', 'Des questions avant de partir ?'] },
+    template: {
+      // «verrouillé par un opérateur» (the checkout's device check) is not a claim about networks — like the English
+      // rule, only operator NETWORKS and named operators are.
+      re: word('4G|5G|LTE|opérateurs? (locaux|local|partenaires?|mobiles?)|réseaux? (de l’|des |d’)?opérateurs?|signal|fiables?|rapides?|le meilleur|la meilleure|le moins cher|illimité(e|s|es)?|garanti(e|s|es)?'),
+      fires: ['Fonctionne en 5G', 'Le meilleur réseau du pays', 'Les réseaux des opérateurs locaux'],
+      quiet: ['Des forfaits de données pour le Japon, avec des prix en dollars américains.', 'Mon téléphone est compatible eSIM et n’est pas verrouillé par un opérateur'] },
+  }),
 });
 
 /** The rules a page kind is checked against, as [id, pattern] — for the language's tests. */

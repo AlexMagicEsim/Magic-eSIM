@@ -1,0 +1,40 @@
+[
+  {
+    "id": "FID-01-001",
+    "item_id": "ui:checkout.emailNote",
+    "group": "ui",
+    "key": "checkout.emailNote",
+    "where": "checkout window (country page → plan)",
+    "url": "",
+    "en": "Not sent or saved anywhere yet — payment isn't available.",
+    "target": "Elle n’est encore ni envoyée ni enregistrée : le paiement n’est pas disponible.",
+    "suggestion": "Votre adresse n’est encore ni envoyée ni enregistrée nulle part : le paiement n’est pas disponible.",
+    "explanation": "«anywhere» is dropped, and the bare pronoun «Elle» has no antecedent when the note sits under the short label «E-mail» (masculine, checkout.emailShort); naming «Votre adresse» and adding «nulle part» restores the English (accuracy).",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "fidelity: information dropped / unclear referent",
+    "objective": false
+  },
+  {
+    "id": "FID-01-002",
+    "item_id": "ui:quote.explain",
+    "group": "ui",
+    "key": "quote.explain",
+    "where": "checkout window (country page → plan)",
+    "url": "",
+    "en": "The exact price is fixed by our server and held for 30 minutes.",
+    "target": "Le prix exact est fixé par notre serveur et réservé pendant 30 minutes.",
+    "suggestion": "Le prix exact est fixé par notre serveur et maintenu pendant 30 minutes.",
+    "explanation": "«held» means the price stays valid; «réservé» can read as the plan/eSIM being reserved for the buyer, which the English does not say. «maintenu» keeps the meaning; also in ui:quote.heldFor («Prix réservé pendant {time}» → «Prix maintenu pendant {time}»).",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.55,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "fidelity: nuance of «held»",
+    "objective": false
+  }
+]

@@ -99,7 +99,10 @@ export async function check(run, root = ROOT) {
       }
     }
     if (/ {2,}/.test(t.replace(/\n/g, ''))) add(it, { category: 'punctuation', severity: 'minor', confidence: 1, rule: 'double-space', explanation: 'Two spaces in a row.' });
-    if (/\s[,.;:!?](?!\d)/.test(t) && !/ :$/.test(t)) add(it, { category: 'punctuation', severity: 'minor', confidence: 0.7, rule: 'space-before-punctuation', explanation: 'A space before a punctuation mark.' });
+    // French puts a NO-BREAK space before «: ; ? !» (style.json `frenchSpacing`): there only a comma or full stop after a
+    // space is wrong, and a PLAIN space before «: ; ? !» is the style rule `plain-space-before-punct`.
+    const beforePunct = style.frenchSpacing ? /\s[,.](?!\d)/ : /\s[,.;:!?](?!\d)/;
+    if (beforePunct.test(t) && !/ :$/.test(t)) add(it, { category: 'punctuation', severity: 'minor', confidence: 0.7, rule: 'space-before-punctuation', explanation: 'A space before a punctuation mark.' });
 
     // 9. country names: the CLDR name the generator prints, and no two countries sharing one
     if (it.kind === 'country-name' && countryName) {

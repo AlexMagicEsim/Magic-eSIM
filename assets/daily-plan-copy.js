@@ -198,6 +198,33 @@
         'Весь мир': 'Weltweit', 'Европа': 'Europa', 'Азия и Океания': 'Asien-Pazifik',
         'Азия': 'Asien', 'Африка': 'Afrika'
       }
+    },
+    // Standard French (fr-FR, owner D3), I18N FR-1. Decimal COMMA («1,5 Go»), French units (Go, Mo, kbit/s), the plural
+    // forms French needs (one, many, other — 0 and 1 are «one»), a no-break space before «:» (D7). The same four lines as
+    // English, no more.
+    fr: {
+      blockTitle: 'Des données chaque jour',
+      decimal: ',', mb: 'Mo', gb: 'Go',
+      kbps: 'kbit/s', mbps: 'Mbit/s', gbps: 'Gbit/s',
+      allowance: '{a} par jour à vitesse maximale',
+      throttle: 'Ensuite, jusqu’à {s}',
+      reset: 'Le volume est réinitialisé toutes les 24 heures',
+      term: 'Durée : {n} {days}',
+      perDay: '{a} par jour',
+      titled: '{place} – {perDay}',
+      withTerm: '{base}, {n} {days}',
+      count: '{n} {countries}',
+      listSep: ', ', listAnd: ' et ',
+      days: { one: 'jour', many: 'jours', other: 'jours' },
+      countries: { one: 'pays', many: 'pays', other: 'pays' },
+      places: {
+        'Центральная Азия': 'Asie centrale', 'Балканы': 'Balkans',
+        'Северная Америка': 'Amérique du Nord', 'Южная Америка': 'Amérique du Sud',
+        'Латинская Америка': 'Amérique latine', 'Карибы': 'Caraïbes',
+        'Страны Персидского залива': 'Pays du Golfe', 'Ближний Восток': 'Moyen-Orient',
+        'Весь мир': 'Monde entier', 'Европа': 'Europe', 'Азия и Океания': 'Asie-Pacifique',
+        'Азия': 'Asie', 'Африка': 'Afrique'
+      }
     }
     /* --- LANGUAGE TABLES END --- */
   };

@@ -1,0 +1,160 @@
+[
+ {
+  "item_id": "page:homeArtCoverageValue",
+  "decision": "keep",
+  "findings": [
+   "C0001"
+  ],
+  "severity": "preferential",
+  "reason": "False positive of the identical-text check: «destinations» is the French word (glossary target) and «190+» is a figure, so the string is correctly the same as the English."
+ },
+ {
+  "item_id": "guide-compatibility:s2.body",
+  "decision": "keep",
+  "findings": [
+   "C0002"
+  ],
+  "severity": "preferential",
+  "reason": "False positive: «abonnement» translates «on contract» (a phone bought with a subscription), not the glossary term «plan» → «forfait»; the sentence is correct French."
+ },
+ {
+  "item_id": "ui:how.step4",
+  "decision": "optional",
+  "findings": [
+   "L0001"
+  ],
+  "severity": "preferential",
+  "reason": "«activez-la» is understood as the eSIM (as in the ES twin «actívala»); naming «l’eSIM» would be clearer after «le profil eSIM», but the step is not wrong — style, not applied."
+ },
+ {
+  "item_id": "ui:checkout.emailNote",
+  "decision": "keep",
+  "findings": [
+   "L0002",
+   "F0001"
+  ],
+  "severity": "preferential",
+  "reason": "The note sits directly under the label «Adresse e-mail pour votre eSIM» (checkout.email, feminine), so «Elle» has its antecedent; «ni envoyée ni enregistrée» states the same fact as «not sent or saved anywhere» — «nulle part» is emphasis only."
+ },
+ {
+  "item_id": "ui:quote.explain",
+  "decision": "optional",
+  "findings": [
+   "L0003",
+   "F0002"
+  ],
+  "severity": "preferential",
+  "reason": "«réservé» is understandable and not wrong; «maintenu» is a more idiomatic verb for a held price. Stylistic, recorded not applied (it would also mean changing ui:quote.heldFor together)."
+ },
+ {
+  "item_id": "guide-android:s3.body",
+  "decision": "apply",
+  "final": "• Vérifiez que l’eSIM est activée. Pixel : Paramètres → Réseau et Internet → Réseau mobile → l’eSIM → **Utiliser cette carte SIM**.\n• Choisissez l’eSIM comme SIM pour les **données mobiles**. Pixel : Paramètres → Réseau et Internet → Cartes SIM → **Données mobiles**. Votre SIM principale peut rester active pour les appels et les SMS.\n• Activez l’**itinérance** pour l’eSIM. Pixel : Paramètres → Réseau et Internet → Cartes SIM (ou Profils SIM) → **Itinérance**. Samsung : cherchez le réglage dans les paramètres de réseau mobile sous Connexions ; son nom exact dépend du modèle. Les eSIM de voyage se connectent généralement via des réseaux partenaires, et le téléphone considère cela comme de l’itinérance.\n• Si vous ne voulez pas de frais de votre opérateur habituel, désactivez l’itinérance des données sur votre SIM principale.\n• Attendez une ou deux minutes que le téléphone s’enregistre sur un réseau local.",
+  "findings": [
+   "L0004",
+   "F0008"
+  ],
+  "severity": "minor",
+  "reason": "Typography D7: the ASCII apostrophe in «l'**itinérance**» becomes ’. F0008 is not applied: the Pixel roaming path is attested (Google 2926415) and is the same deliberate substitute for the unattested Samsung label as in the ES and DE guides."
+ },
+ {
+  "item_id": "guide-activation:s2.body",
+  "decision": "apply",
+  "final": "Cela dépend du forfait. Certains forfaits commencent à courir quand l’eSIM se connecte pour la première fois à un réseau à destination ou utilise des données pour la première fois. D’autres commencent dès l’installation de l’eSIM.\nC’est pourquoi le conseil qui ne vous fait jamais perdre de jours est d’**installer l’eSIM le jour du voyage** (chez vous avant de partir ou avec le Wi-Fi de l’aéroport) et de l’activer pour les données à l’atterrissage.",
+  "findings": [
+   "L0005"
+  ],
+  "severity": "minor",
+  "reason": "Typography D7: the ASCII apostrophe in «d'**installer…**» becomes ’; nothing else changes."
+ },
+ {
+  "item_id": "guide-troubleshooting:description",
+  "decision": "apply",
+  "final": "Check-list pas à pas pour une eSIM de voyage sans réseau ni Internet : ligne de données, itinérance, mode Avion, choix du réseau, quand ne pas supprimer l’eSIM.",
+  "findings": [
+   "L0006"
+  ],
+  "severity": "major",
+  "reason": "Accuracy: «pourquoi ne pas supprimer l’eSIM» can read as «why not delete the eSIM?» — the opposite of the English «when not to delete it» — and «step-by-step checklist» was reduced to «Liste». The final restores both at 160 characters (≤ 160)."
+ },
+ {
+  "item_id": "countries:VC",
+  "decision": "apply",
+  "final": "Saint-Vincent-et-les-Grenadines",
+  "findings": [
+   "L0007"
+  ],
+  "severity": "minor",
+  "reason": "Spelling: the French official / CLDR name is hyphenated throughout; the missing hyphen before «Grenadines» is an error. Any FR_POUR key in seo/page-copy.mjs naming the old spelling must change with it."
+ },
+ {
+  "item_id": "countries:VA",
+  "decision": "optional",
+  "findings": [
+   "L0008"
+  ],
+  "severity": "preferential",
+  "reason": "«État de la Cité du Vatican» is the correct CLDR French name, not an error; a shorter common name («Cité du Vatican») would read lighter after «pour», but that is a style choice."
+ },
+ {
+  "item_id": "countries:SX",
+  "decision": "apply",
+  "final": "Sint Maarten",
+  "findings": [
+   "L0009",
+   "F0009"
+  ],
+  "severity": "minor",
+  "reason": "Spelling: the local name kept on purpose is the Dutch «Sint Maarten», which has no hyphen (the ES and DE tables write it so); «Sint-Maarten» invents one. The FR_POUR key 'Sint-Maarten' in seo/page-copy.mjs must change with it."
+ },
+ {
+  "item_id": "page:homeDescription",
+  "decision": "apply",
+  "final": "Choisissez une destination, installez une eSIM, soyez connecté à l’arrivée. Magic eSIM couvre plus de 190 destinations, sans SIM physique ni file à l’aéroport.",
+  "findings": [
+   "F0003"
+  ],
+  "severity": "major",
+  "reason": "Accuracy: the second benefit «no airport queue» was dropped from the meta description. The suggestion restores it and stays within the budget (159 ≤ 160)."
+ },
+ {
+  "item_id": "page:hubDescription",
+  "decision": "apply",
+  "final": "Toutes les destinations où Magic eSIM propose des forfaits de données, avec des prix en dollars américains. Le paiement en ligne n’est pas encore disponible.",
+  "findings": [
+   "F0004"
+  ],
+  "severity": "minor",
+  "reason": "Accuracy/SEO: «has data plans for» was dropped, losing what the destinations offer and the keyword «forfaits de données»; the suggestion restores it at 157 characters."
+ },
+ {
+  "item_id": "page:guidesDescription",
+  "decision": "apply",
+  "final": "Installer une eSIM de voyage sur iPhone et Android, vérifier la compatibilité de votre téléphone, savoir quand l’installer et résoudre les problèmes.",
+  "findings": [
+   "F0005"
+  ],
+  "severity": "minor",
+  "reason": "Accuracy: «choisir le bon moment» does not say for what; the English topic is when to install the eSIM. «savoir quand l’installer» restores it (149 characters)."
+ },
+ {
+  "item_id": "guide-android:s2.body",
+  "decision": "apply",
+  "final": "• Affichez le code QR de votre eSIM sur un autre écran.\n• Commencez à ajouter une eSIM comme indiqué ci-dessus. **Samsung :** touchez **Scanner le code QR** (sur les versions plus anciennes : **Numérisation code QR opérateur**) et scannez le code. **Pixel :** suivez les instructions à l’écran.\n• Pas de code QR à scanner ? Sur Samsung, touchez **Entrer le code d’activation** et saisissez les données fournies avec votre eSIM (sur les versions plus anciennes de One UI, suivez l’option proposée à l’écran pour saisir un code d’activation).\n• Confirmez et attendez la fin de l’installation.\n• Renommez l’eSIM, par exemple « Voyage ».",
+  "findings": [
+   "F0006"
+  ],
+  "severity": "major",
+  "reason": "Accuracy/platform-label: «Entrer le code d’activation» is attested only for the current One UI, but the French applied it to every Samsung; the final keeps it for current One UI and, as the English does, sends older One UI to the on-screen option without quoting an unsourced label."
+ },
+ {
+  "item_id": "guide-compatibility:s1.body",
+  "decision": "apply",
+  "final": "**iPhone :** Réglages → Données cellulaires (au Canada, Réseau cellulaire). Si **Ajouter une eSIM** ou **Ajouter un forfait cellulaire** apparaît, l’iPhone est compatible eSIM.\n**Android :** ouvrez les réglages SIM et cherchez comment ajouter une eSIM : sur Pixel, Réseau et Internet → Cartes SIM → **Ajouter une carte SIM** → **Configurer une eSIM** ; sur Samsung, Connexions → Gestionnaire SIM → **Ajouter une eSIM** (sur les versions plus anciennes de One UI : Gestionnaire de carte SIM → **Ajout d’un forfait mobile**).\nAutre indice sur Pixel : pour utiliser une eSIM, le téléphone doit disposer d’un numéro **EID**. Vous le trouverez dans Paramètres → À propos du téléphone → État de la carte SIM. Mais c’est le réglage pour ajouter une eSIM qui fait foi.",
+  "findings": [
+   "F0007"
+  ],
+  "severity": "minor",
+  "reason": "Accuracy: the English gives the older One UI path; the French dropped it although both labels are attested in platform-labels.md (older column, «Gestionnaire de carte SIM» → «Ajout d’un forfait mobile») and guide-android:s1 quotes them."
+ }
+]
