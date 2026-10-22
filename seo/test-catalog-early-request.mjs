@@ -55,7 +55,7 @@ test('the ten SEO-experiment pages: no early request, MagicNet where it was', ()
 });
 
 test('EN country pages, the hub and the home load their scripts with defer, in the old order', () => {
-  const order = ['magic-net', 'global-catalog', 'daily-plan-copy', 'country-names-en', 'site-i18n', 'plans', 'checkout', 'country'];
+  const order = ['magic-net', 'global-catalog', 'daily-plan-copy', 'country-names-en', 'site-i18n-en', 'plans', 'checkout', 'country'];
   let n = 0;
   for (const { slug, html } of countryPages('en/esim')) {
     // The ONE script without defer: assets/logo-once.js, in <head>, synchronous on purpose — it starts the logo's

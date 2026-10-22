@@ -169,9 +169,17 @@ export function stripAnimatedLogo(html) {
     .replace(/[ \t]*<script src="\/assets\/logo-once\.js(?:\?v=[0-9a-f]+)?"(?: data-motion-src="\/assets\/motion\.js(?:\?v=[0-9a-f]+)?")?><\/script>\n?/g, '');
 }
 
+// THE PER-LANGUAGE WORDS BUNDLE LIKEWISE, added 2026-10-22 (I18N-10). /assets/site-i18n-<prefix>.js replaced the one
+// shared /assets/site-i18n.js on every prefixed page: it says which file carries the interface words, not what the page
+// says (the words themselves are unchanged and in the static HTML). It is put back to EXACTLY the old URL, so the stored
+// hashes still match and no date moved (no state migration); seo/test-site-i18n-split.mjs pins the round trip.
+export function stripSiteI18nBundle(html) {
+  return String(html).replace(/<script src="\/assets\/site-i18n-[a-z]+\.js((?:\?v=[0-9a-f]+)?)" defer><\/script>/g, '<script src="/assets/site-i18n.js$1" defer></script>');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(html))
+    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(html)))
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')

@@ -18,7 +18,8 @@ const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
 const vm = require('node:vm');
 
-const SCRIPTS = ['assets/site-i18n.js', 'assets/country-names-en.js', 'assets/daily-plan-copy.js', 'en/plans.js', 'en/checkout.js'];
+// I18N-10: the English bundle (words + engine) — exactly the file an English page loads.
+const SCRIPTS = ['assets/site-i18n-en.js', 'assets/country-names-en.js', 'assets/daily-plan-copy.js', 'en/plans.js', 'en/checkout.js'];
 const AMOUNTS = [0.5, 1, 2.99, 9.99, 10, 12.3, 73.99, 99.99, 100, 1234.5, 435.99];
 
 function digest(value) {

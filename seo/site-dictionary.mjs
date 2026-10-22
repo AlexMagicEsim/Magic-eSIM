@@ -12,9 +12,12 @@
 // moved into JSON would have to be generated back INTO that script, changing
 // its bytes and every page's stamp — the opposite of this stage's promise that
 // RU/EN output stays byte-for-byte. So the shipped dictionary stays the single
-// source, and the generators read it rather than repeating it. When a third
-// language is enabled that file changes anyway, and its shape can be revisited
-// then.
+// source, and the generators read it rather than repeating it.
+//
+// I18N-10 (2026-10-22) revisited the shape: the words now live one file per
+// language in `assets/i18n/<code>.js` and each page loads only its own
+// language's bundle (seo/site-i18n-bundle.mjs). Read through the engine here,
+// `DICT` is still every language — nothing below changed.
 //
 // IT THROWS on an unknown key or language: a generator that silently printed
 // the key would ship «nav.how» to every page.

@@ -9,8 +9,9 @@
  * places and nothing from a literal:
  *   - the route prefix, <html lang>, og:locale, collation, write paths and
  *     canonical URLs — seo/locales.mjs;
- *   - the words the browser re-applies at runtime — assets/site-i18n.js, through
- *     seo/site-dictionary.mjs;
+ *   - the words the browser re-applies at runtime — assets/i18n/<code>.js, read
+ *     through seo/site-dictionary.mjs; the page loads that language's bundle
+ *     /assets/site-i18n-<prefix>.js (seo/site-i18n-bundle.mjs, written by build());
  *   - the words fixed at build time (titles, headings, labels) —
  *     seo/page-copy.mjs.
  * The intl layer's own assets (/en/en.css, /en/checkout.css, /en/plans.js, …)
@@ -52,6 +53,7 @@ import { homePage as renderHome } from './home-page.mjs';
 import { missingGuards } from './claim-guards.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
+import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 
 export { FONT_PRELOAD, LOGO };
 
@@ -233,6 +235,7 @@ export function cannotBuild(code) {
   if (!L.site.enabled) return `${code} is not enabled for the site (seo/locales.mjs) — refusing to publish it`;
   if (!PAGE_COPY[code]) return `${code} has no page copy (seo/page-copy.mjs)`;
   if (!GUIDES_BY_LOCALE[code]) return `${code} has no guides`;
+  if (!existsSync(join(ROOT, wordsFile(code)))) return `${code} has no interface words (${wordsFile(code)})`;
   if (!DAILY_COPY_LANGS.includes(code)) return `${code} has no daily-plan words (assets/daily-plan-copy.js)`;
   const guards = missingGuards(code);
   if (guards) return guards;
@@ -279,9 +282,10 @@ function makeGenerator(code, source, canWrite) {
   const GUIDES = source.guides;
   const P = `/${L.prefix}`;
   const NAMES_FILE = namesFile(code);
+  const I18N_BUNDLE = siteI18nBundle(code);
 
   /* Interface words come from the ONE dictionary the browser re-applies at
-   * runtime (assets/site-i18n.js) — never typed here a second time. `t` is
+   * runtime (assets/i18n/<code>.js) — never typed here a second time. `t` is
    * element text, `a` an attribute value; both throw on a missing key. */
   const t = (key) => escapeText(source.word(key));
   const a = (key) => escapeAttr(source.word(key));
@@ -647,7 +651,7 @@ ${FOOTER}
 <script src="/assets/global-catalog.js" defer></script>
 <script src="/assets/daily-plan-copy.js" defer></script>
 <script src="${NAMES_FILE.src}" defer></script>
-<script src="/assets/site-i18n.js" defer></script>
+<script src="${I18N_BUNDLE.src}" defer></script>
 <script src="/en/plans.js" defer></script>
 <script src="/en/checkout.js" defer></script>
 <script src="/en/country.js" defer></script>
@@ -744,7 +748,7 @@ ${HELP}
 
 ${FOOTER}
 
-<script src="/assets/site-i18n.js" defer></script>
+<script src="${I18N_BUNDLE.src}" defer></script>
 <script src="/en/hub.js" defer></script>
 </body>
 </html>
@@ -959,6 +963,7 @@ function homePage(list = countries()) {
     if (!canWrite) throw new Error('build-locale-pages: a rehearsal never writes');
     const list = countries();
     const base = L.prefix;
+    writeSiteI18nBundle(code);
     write(`${base}/destinations.js`, destinationsJs(list));
     write(`${base}/index.html`, stampHtml(homePage(list), join(ROOT, base)));
     for (const c of list) write(`${base}/esim/${c.slug}/index.html`, stampHtml(countryPage(c), join(ROOT, base, 'esim', c.slug)));

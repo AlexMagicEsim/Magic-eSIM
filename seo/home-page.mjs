@@ -3,13 +3,15 @@
  * Until ES-0 the English home was the one hand-written page of the English site (en/index.html); a Spanish home would
  * have been a second hand-written copy of it, drifting the day either changed. It is now built by the same generator as
  * the country pages, from the same pieces: the shared header (with the language switch), the payment notice and the
- * footer; interface words from assets/site-i18n.js (re-applied at runtime through data-i18n), page words from
+ * footer; interface words from assets/i18n/<code>.js (re-applied at runtime through data-i18n), page words from
  * seo/page-copy.mjs (`home*`, `quick`), the popular destinations from the language's own copy, the guide cards from its
  * guides. For English the output is BYTE FOR BYTE the page it replaced (seo/test-locale-home.mjs keeps it so).
  *
  * Indexing is the registry's: a language whose home is indexable (seo/locales.mjs `site.indexableHome`) gets the
  * hreflang cluster of every indexable home, x-default and `index, follow`; any other gets `noindex, follow` and no
  * alternate. The HTML comments below are for maintainers and stay English in every language. */
+
+import { siteI18nBundle } from './site-i18n-bundle.mjs';
 
 export function homePage({ L, P, SITE, C, t, a, esc, json, header, twins, PAYBAR, FOOTER, POPULAR, QUICK, GUIDES,
   HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing }) {
@@ -249,7 +251,7 @@ ${GUIDES.map((g) => `        <a class="guide-card" href="${P}/guides/${g.slug}/"
 ${FOOTER}
 
 <script src="${P}/destinations.js" defer></script>
-<script src="/assets/site-i18n.js" defer></script>
+<script src="${siteI18nBundle(L.code).src}" defer></script>
 <script src="/en/app.js" defer></script>
 </body>
 </html>

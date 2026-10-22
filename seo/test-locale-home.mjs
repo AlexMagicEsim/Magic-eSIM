@@ -60,9 +60,13 @@ for (const L of PLANNED) {
     assert.doesNotMatch(home, /<link rel="alternate"|og:locale:alternate/, 'no hreflang cluster while under review');
     assert.ok(home.includes(`"inLanguage":"${L.htmlLang}"`));
     // shared assets keep their one address; the language's own data is under its prefix
-    for (const shared of ['/en/en.css', '/en/app.js', '/assets/site.css', '/assets/page-home.css', '/assets/site-i18n.js']) {
+    for (const shared of ['/en/en.css', '/en/app.js', '/assets/site.css', '/assets/page-home.css']) {
       assert.ok(home.includes(`"${shared}"`), shared);
     }
+    // its interface words: its OWN bundle (I18N-10) — never the shared file, never another language's words
+    assert.ok(home.includes(`<script src="/assets/site-i18n-${L.prefix}.js" defer></script>`), 'own words bundle');
+    const words = [...home.matchAll(/\/assets\/site-i18n[a-z-]*\.js/g)].map((m) => m[0]);
+    assert.deepEqual(words, [`/assets/site-i18n-${L.prefix}.js`], 'no other words file');
     assert.ok(home.includes(`<script src="${P}/destinations.js" defer></script>`));
     const slugs = new Set(list.map((c) => c.slug));
     // the language switch links every published language's twin of this page — by design; the rest stays home

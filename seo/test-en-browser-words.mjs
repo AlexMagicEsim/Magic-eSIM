@@ -50,7 +50,7 @@ test('the fingerprint can fire: one changed word in the dictionary moves exactly
     for (const f of MATRIX.SCRIPTS) {
       mkdirSync(join(dir, dirname(f)), { recursive: true });
       let src = read(f);
-      if (f === 'assets/site-i18n.js') src = src.replace("'plan.ip': 'IP: {names}'", "'plan.ip': 'IP — {names}'");
+      if (f === 'assets/site-i18n-en.js') src = src.replace("'plan.ip': 'IP: {names}'", "'plan.ip': 'IP — {names}'");
       writeFileSync(join(dir, f), src);
     }
     const now = MATRIX.fingerprint(dir);
@@ -150,7 +150,7 @@ test('every English page that runs a word-using script loads the dictionary befo
   const pages = ['en/index.html', 'en/esim/index.html', 'en/esim/thailand/index.html', 'en/esim/japan/index.html'];
   for (const p of pages) {
     const html = read(p);
-    const dict = html.indexOf('/assets/site-i18n.js?v=');
+    const dict = html.indexOf('/assets/site-i18n-en.js?v='); // I18N-10: the English bundle (words + engine)
     assert.ok(dict > 0, `${p}: no dictionary`);
     for (const s of ['/en/plans.js', '/en/country.js', '/en/hub.js', '/en/checkout.js', '/en/app.js']) {
       const at = html.indexOf(`${s}?v=`);
