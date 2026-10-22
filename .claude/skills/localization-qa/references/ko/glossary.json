@@ -1,0 +1,24 @@
+{
+  "language": "ko",
+  "note": "Terms of this storefront, as Korean carriers (SKT, KT, LG U+), Apple ko-kr and Samsung Korea write them. «target» is the established translation; «avoid» are calques or inconsistent variants. Matching is Latin/digit-edged (style.json cjk) because particles attach to the word.",
+  "doNotTranslate": ["Magic eSIM", "eSIM", "iPhone", "Android", "Pixel", "Galaxy", "iOS", "USD", "Stay Connected Anywhere", "support@magicesim.store", "EID", "APN", "QR"],
+  "terms": [
+    { "en": "QR code", "target": "QR 코드", "avoid": ["큐알코드", "큐알 코드", "QR코드"], "consistency": true },
+    { "en": "mobile data", "target": "모바일 데이터", "alsoAccept": ["셀룰러 데이터", "데이터"], "avoid": ["이동 데이터", "모바일데이터"], "consistency": true },
+    { "en": "data roaming", "target": "데이터 로밍", "alsoAccept": ["로밍"], "consistency": true },
+    { "en": "airplane mode", "target": "비행기 탑승 모드", "alsoAccept": ["비행기 모드"], "consistency": true },
+    { "en": "destination", "target": "여행지", "alsoAccept": ["국가", "이용 국가", "도착", "현지"], "consistency": true },
+    { "en": "plan", "target": "요금제", "alsoAccept": ["셀룰러 요금제"], "avoid": ["플랜", "패키지"], "consistency": true },
+    { "en": "Wi-Fi", "target": "Wi-Fi", "avoid": ["와이파이"], "consistency": true },
+    { "en": "carrier-locked", "target": "이동통신사 잠금", "alsoAccept": ["잠금"], "avoid": ["컨트리락", "통신사 락"], "consistency": true },
+    { "en": "carrier", "target": "이동통신사", "alsoAccept": ["통신사"] },
+    { "en": "validity", "target": "이용 기간", "avoid": ["유효기간"] },
+    { "en": "checkout", "target": "결제", "avoid": ["체크아웃"] },
+    { "en": "top-up", "target": "충전", "avoid": ["탑업"] },
+    { "en": "activation", "target": "활성화", "avoid": ["액티베이션"] },
+    { "en": "settings", "target": "설정" },
+    { "en": "phone", "target": "휴대전화", "alsoAccept": ["기기"], "avoid": ["핸드폰"] },
+    { "en": "promo code", "target": "프로모션 코드", "avoid": ["쿠폰코드"] },
+    { "en": "install", "target": "설치" }
+  ]
+}

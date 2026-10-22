@@ -28,6 +28,9 @@
 //       localization QA 2026-10-22).
 //   CI  es «Côte d’Ivoire» (CLDR keeps the French official form) → «Costa de Marfil», the name every Spanish speaker
 //       uses and searches (RAE / Fundéu); found by localization QA 2026-10-21. de and fr keep CLDR's.
+//   ZA, CF, DO  ko «남아프리카» (reads as the region «southern Africa») → «남아프리카 공화국»; «중앙 아프리카 공화국» →
+//       «중앙아프리카공화국», «도미니카 공화국» → «도미니카공화국» — the forms of the Korean Ministry of Foreign Affairs
+//       (owner D5, KO-1 2026-10-22).
 //   AE  zh-Hans «阿拉伯联合酋长国» (CLDR's full state name) → «阿联酋», the short name Chinese readers use and search,
 //       as our EN «United Arab Emirates» is the common name (owner D5, ZH-1 2026-10-22).
 //   SZ  zh-Hans «斯威士兰» (CLDR's pre-2018 name) → «埃斯瓦蒂尼», the current name, as our EN «Eswatini» (owner D5).
@@ -81,7 +84,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   BZ: { es: "Belice", de: "Belize", fr: "Belize", "zh-Hans": "伯利兹", ko: "벨리즈" },
   CA: { es: "Canadá", de: "Kanada", fr: "Canada", "zh-Hans": "加拿大", ko: "캐나다" },
   CD: { es: "República Democrática del Congo", de: "Demokratische Republik Kongo", fr: "République démocratique du Congo", "zh-Hans": "刚果民主共和国", ko: "콩고민주공화국" },
-  CF: { es: "República Centroafricana", de: "Zentralafrikanische Republik", fr: "République centrafricaine", "zh-Hans": "中非共和国", ko: "중앙 아프리카 공화국" },
+  CF: { es: "República Centroafricana", de: "Zentralafrikanische Republik", fr: "République centrafricaine", "zh-Hans": "中非共和国", ko: "중앙아프리카공화국" },
   CG: { es: "República del Congo", de: "Republik Kongo", fr: "République du Congo", "zh-Hans": "刚果共和国", ko: "콩고공화국" },
   CH: { es: "Suiza", de: "Schweiz", fr: "Suisse", "zh-Hans": "瑞士", ko: "스위스" },
   CI: { es: "Costa de Marfil", de: "Côte d’Ivoire", fr: "Côte d’Ivoire", "zh-Hans": "科特迪瓦", ko: "코트디부아르" },
@@ -100,7 +103,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   DJ: { es: "Yibuti", de: "Dschibuti", fr: "Djibouti", "zh-Hans": "吉布提", ko: "지부티" },
   DK: { es: "Dinamarca", de: "Dänemark", fr: "Danemark", "zh-Hans": "丹麦", ko: "덴마크" },
   DM: { es: "Dominica", de: "Dominica", fr: "Dominique", "zh-Hans": "多米尼克", ko: "도미니카" },
-  DO: { es: "República Dominicana", de: "Dominikanische Republik", fr: "République dominicaine", "zh-Hans": "多米尼加共和国", ko: "도미니카 공화국" },
+  DO: { es: "República Dominicana", de: "Dominikanische Republik", fr: "République dominicaine", "zh-Hans": "多米尼加共和国", ko: "도미니카공화국" },
   DZ: { es: "Argelia", de: "Algerien", fr: "Algérie", "zh-Hans": "阿尔及利亚", ko: "알제리" },
   EC: { es: "Ecuador", de: "Ecuador", fr: "Équateur", "zh-Hans": "厄瓜多尔", ko: "에콰도르" },
   EE: { es: "Estonia", de: "Estland", fr: "Estonie", "zh-Hans": "爱沙尼亚", ko: "에스토니아" },
@@ -275,7 +278,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   XK: { es: "Kosovo", de: "Kosovo", fr: "Kosovo", "zh-Hans": "科索沃", ko: "코소보" },
   YE: { es: "Yemen", de: "Jemen", fr: "Yémen", "zh-Hans": "也门", ko: "예멘" },
   YT: { es: "Mayotte", de: "Mayotte", fr: "Mayotte", "zh-Hans": "马约特", ko: "마요트" },
-  ZA: { es: "Sudáfrica", de: "Südafrika", fr: "Afrique du Sud", "zh-Hans": "南非", ko: "남아프리카" },
+  ZA: { es: "Sudáfrica", de: "Südafrika", fr: "Afrique du Sud", "zh-Hans": "南非", ko: "남아프리카 공화국" },
   ZM: { es: "Zambia", de: "Sambia", fr: "Zambie", "zh-Hans": "赞比亚", ko: "잠비아" },
   ZW: { es: "Zimbabue", de: "Simbabwe", fr: "Zimbabwe", "zh-Hans": "津巴布韦", ko: "짐바브웨" },
 });

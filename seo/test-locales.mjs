@@ -143,13 +143,13 @@ test('x-default: the owner decided EN, and the indexing stage (I18N-09) applied 
  * 2. Nothing new is switched on — I18N-01 pins RU + EN
  * ===================================================================== */
 
-test('exactly Russian, English, Spanish, German, French and Chinese are on the site; the Mini App offers Russian and English', () => {
+test('exactly Russian, English, Spanish, German, French, Chinese and Korean are on the site; the Mini App offers Russian and English', () => {
   // A stage that launches a language changes THIS line, deliberately, in the
   // same PR as that language's dictionaries and pages. ES-1 (2026-10-21) added Spanish to the site, under noindex;
   // I18N-09 made it indexable (seo/indexing.mjs decides which pages). DE-1 (2026-10-22) added German, under noindex until
-  // the owner's separate word (D11); FR-1 French and ZH-1 Simplified Chinese, the same way. The Mini App gets no new
+  // the owner's separate word (D11); FR-1 French, ZH-1 Simplified Chinese and KO-1 Korean, the same way. The Mini App gets no new
   // language before GLOBAL payments (owner).
-  assert.deepEqual(siteLocales(), ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans']);
+  assert.deepEqual(siteLocales(), ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
   assert.deepEqual(appLocales(), ['ru', 'en']);
   assert.equal(locale('es').site.indexableHome, true, 'Spanish is indexable since I18N-09');
   assert.equal(locale('de').site.indexableHome, false, 'German stays noindex until the owner opens it');
@@ -173,9 +173,10 @@ test('every page declares an enabled language and points hreflang only at enable
 test('the language gates can fire', () => {
   // §26.1: a gate that only ever reports «clean» is indistinguishable from one
   // that never ran.
-  const fake = [['ko/index.html', '<html lang="ko"><link rel="alternate" hreflang="ko" href="/ko/">']];
-  assert.deepEqual(foreignHtmlLangs(fake, ENABLED), ['ko/index.html: ko']);
-  assert.deepEqual(foreignHreflangs(fake, ENABLED), ['ko/index.html: ko']);
+  // KO-1: every registry language is enabled, so the example is a language the registry does not have at all
+  const fake = [['pl/index.html', '<html lang="pl"><link rel="alternate" hreflang="pl" href="/pl/">']];
+  assert.deepEqual(foreignHtmlLangs(fake, ENABLED), ['pl/index.html: pl']);
+  assert.deepEqual(foreignHreflangs(fake, ENABLED), ['pl/index.html: pl']);
   assert.deepEqual(foreignHreflangs([['x', 'hreflang="x-default"']], ENABLED), []);
 });
 

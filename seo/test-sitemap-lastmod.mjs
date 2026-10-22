@@ -311,3 +311,57 @@ test('the live catalogue markup (SEO stage C) does not change the hash — the p
   // …and a real change inside the markup still moves it.
   assert.notEqual(contentHash(after.replace('1 650 ₽</b>', '1 600 ₽</b>')), contentHash(before));
 });
+
+/* KO-1 (owner D14 «B», 2026-10-22): the language switch is not content — a new language in the menus of every page must
+ * move no date — while a real edit to the page still does. Read on real pages, both menus (desktop list, phone links). */
+test('the language switch is not content: a language added to both menus leaves the hash; a real edit still moves it', () => {
+  const real = readFileSync(join(ROOT, 'en/esim/japan/index.html'), 'utf8');
+  assert.match(real, /<details class="langsw langmenu">/, 'the desktop list is on the page');
+  assert.match(real, /<nav class="mnav-panel"[\s\S]*?<hr>\s*<a href="[^"]*" hreflang=/, 'the phone menu lists languages after its <hr>');
+  const more = real
+    .replace(/(<ul class="langmenu-list">[\s\S]*?)(\n        <\/ul>)/, '$1\n          <li><a href="/xx/esim/japan/" hreflang="xx" lang="xx">Xxxxx</a></li>$2')
+    .replace(/(<nav class="mnav-panel"[\s\S]*?)(\n        <\/nav>)/, '$1\n          <a href="/xx/esim/japan/" hreflang="xx" lang="xx">Xxxxx</a>$2');
+  assert.notEqual(more, real, 'the language was really added');
+  assert.equal((more.match(/Xxxxx/g) || []).length, 2, 'to both menus');
+  assert.equal(contentHash(more), contentHash(real), 'a new language in the menus moves no date');
+  // …and fewer languages, or another order, neither
+  const fewer = real.replace(/\n          <li><a href="\/es\/esim\/japan\/"[^\n]*/, '').replace(/\n          <a href="\/es\/esim\/japan\/"[^\n]*/, '');
+  assert.notEqual(fewer, real);
+  assert.equal(contentHash(fewer), contentHash(real));
+  // a real edit still moves it — alone, and together with a menu change
+  const edited = real.replace(/<h1>([^<]+)<\/h1>/, '<h1>$1 — edited</h1>');
+  assert.notEqual(edited, real);
+  assert.notEqual(contentHash(edited), contentHash(real), 'an edited heading is an edit');
+  assert.notEqual(contentHash(more.replace(/<h1>([^<]+)<\/h1>/, '<h1>$1 — edited</h1>')), contentHash(real), 'a menu change does not hide an edit');
+  assert.notEqual(contentHash(real.replace('data-i18n="nav.how">How it works', 'data-i18n="nav.how">How it all works')), contentHash(real), 'the navigation itself is content');
+});
+
+test('only the switch is stripped: an hreflang link inside the page, or a changed menu label, is still content', () => {
+  const real = readFileSync(join(ROOT, 'en/guides/iphone/index.html'), 'utf8');
+  const withLink = real.replace('</main>', '<p><a href="/es/guides/iphone/" hreflang="es" lang="es">Español</a></p></main>');
+  assert.notEqual(withLink, real);
+  assert.notEqual(contentHash(withLink), contentHash(real), 'a cross-language link in the content is content');
+  // the Russian home's single «English» link is the switch too; its words around it are not
+  const ru = readFileSync(join(ROOT, 'index.html'), 'utf8');
+  assert.match(ru, /<a class="langsw" href="\/en\/" hreflang="en" lang="en">/);
+  const ruMore = ru.replace(/(<nav class="mnav-panel"[\s\S]*?<hr>\s*<a href="\/en\/" hreflang="en" lang="en">English<\/a>)/, '$1\n          <a href="/xx/" hreflang="xx" lang="xx">Xxxxx</a>');
+  assert.notEqual(ruMore, ru);
+  assert.equal(contentHash(ruMore), contentHash(ru));
+  assert.notEqual(contentHash(ru.replace('Как это работает</a>', 'Как всё работает</a>')), contentHash(ru));
+});
+
+test('KO-1 on the real tree: every page now lists 한국어 in its menus, and no indexed page moved its date for it', () => {
+  // the 42 indexed EN/ES pages carry the new language in both menus…
+  for (const rel of ['en/index.html', 'es/esim/japan/index.html', 'en/guides/iphone/index.html']) {
+    const html = readFileSync(join(ROOT, rel), 'utf8');
+    assert.equal((html.match(/hreflang="ko" lang="ko">한국어</g) || []).length, 2, `${rel}: 한국어 in both menus`);
+  }
+  // …and the entry changes nothing the sitemap reads: each page hashes as it would without Korean in its menus
+  // (no git history needed — CI checks out one commit)
+  for (const rel of ['en/index.html', 'es/esim/japan/index.html', 'en/guides/iphone/index.html', 'en/esim/thailand/index.html']) {
+    const html = readFileSync(join(ROOT, rel), 'utf8');
+    const without = html.replace(/\n\s*(?:<li>)?<a href="[^"]*" hreflang="ko" lang="ko">한국어<\/a>(?:<\/li>)?/g, '');
+    assert.notEqual(without, html);
+    assert.equal(contentHash(without), contentHash(html), `${rel}: 한국어 in the menus is not content`);
+  }
+});

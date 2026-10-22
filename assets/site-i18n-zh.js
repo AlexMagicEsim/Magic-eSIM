@@ -200,7 +200,7 @@
   'use strict';
 
   /** The languages the site speaks (seo/locales.mjs, published). Compared by equality. */
-  var LANGS = ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans'];
+  var LANGS = ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko'];
 
   /**
    * Russian, when we do not know.
@@ -245,7 +245,7 @@
    * language sits under its own prefix — the registry's (seo/locales.mjs),
    * held equal to it by seo/test-locales.mjs.
    */
-  var PREFIX = { ru: '', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh' };
+  var PREFIX = { ru: '', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'ko' };
   Object.freeze(PREFIX);
   Object.freeze(DICT);
 

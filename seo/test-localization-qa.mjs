@@ -39,7 +39,7 @@ test('extract: 516 Spanish strings beside their English source — unique ids, n
 });
 
 test('extract refuses a language with nothing live to review, and the root language', async () => {
-  await assert.rejects(extract('ko'), /not published/);
+  // KO-1: every registry language is published — «not published» is proved on a copy of the registry in test-locale-*
   await assert.rejects(extract('ru'), /not a prefixed/);
   await assert.rejects(extract('xx'), /not a prefixed/);
 });

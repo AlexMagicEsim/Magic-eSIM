@@ -7,7 +7,7 @@
 // under a content hash; these never change after the page is built, so they
 // stay at build time and add nothing to a download.
 //
-// English, Spanish, German, French and Simplified Chinese exist. A language is added here — written for its readers,
+// English, Spanish, German, French, Simplified Chinese and Korean exist. A language is added here — written for its readers,
 // held to the English copy's facts, reviewed — in the stage that publishes it;
 // until then seo/build-locale-pages.mjs refuses to build it. `esc`-ed values (country names) are passed in already escaped.
 
@@ -609,5 +609,76 @@ export const PAGE_COPY = freeze({
     guidesDescription: '如何在 iPhone 和 Android 手机上安装旅行 eSIM、检查手机是否支持、何时安装，以及无法使用时该怎么办。',
     guidesH1: 'eSIM 指南',
     guidesLead: '分步说明：安装、检查旅行 eSIM，以及排除故障。',
+  }),
+  /* Standard South Korean (ko), KO-1 2026-10-22: formal polite style — statements in ‑습니다, requests in ‑하세요
+   * (owner D1); 표준어 spelling and spacing; digits attached to units (D6). Korean takes no article, but its particles
+   * change with the last syllable of the word before them: after a country name a template uses ONLY particles that do
+   * not (에서, 에, 의, 만, 도, 외, 용…) — never 을/를, 이/가, 은/는, 와/과, (으)로 (D15; seo/test-ko-site.mjs). Titles
+   * are budgeted by display width (Hangul = 2). Prices «US$12.99» (D2). */
+  ko: freeze({
+    skipLink: '본문으로 건너뛰기',
+    navLabel: '주 메뉴',
+    menuLabel: '메뉴',
+    langMenu: '언어',
+    support: '고객지원:',
+    homeTitle: 'Magic eSIM — 로밍 없이 해외 데이터',
+    homeDescription: '여행지를 고르고 eSIM을 설치하면 도착하자마자 연결됩니다. Magic eSIM은 190개 이상의 여행지를 지원하며 실물 SIM도, 공항 대기 줄도 필요 없습니다.',
+    homeOgDescription: '여행지를 고르고 eSIM을 설치하면 도착하자마자 연결됩니다.',
+    homeNojsSearch: '검색하려면 JavaScript가 필요합니다.',
+    homeNojsBrowse: '전체 여행지 보기',
+    homeReadGuide: '가이드 읽기 →',
+    homeArtBack: 'eSIM · 데이터 패스',
+    homeArtTitle: '데이터 패스',
+    homeArtCoverage: '이용 국가',
+    homeArtCoverageValue: '190개 이상의 여행지',
+    homeArtType: '유형',
+    homeArtInstall: 'QR 코드로<br>설치',
+    quick: freeze(['TH', 'TR', 'JP', 'US', 'VN', 'FR']),
+    /* The English list (owner D9), in Korean names (CLDR + our overrides: the names the generator prints). */
+    popular: freeze([
+      freeze({ iso: 'TH', slug: 'thailand', name: '태국' }),
+      freeze({ iso: 'TR', slug: 'turkey', name: '튀르키예' }),
+      freeze({ iso: 'AE', slug: 'uae', name: '아랍에미리트' }),
+      freeze({ iso: 'JP', slug: 'japan', name: '일본' }),
+      freeze({ iso: 'US', slug: 'usa', name: '미국' }),
+      freeze({ iso: 'IT', slug: 'italy', name: '이탈리아' }),
+      freeze({ iso: 'ES', slug: 'spain', name: '스페인' }),
+      freeze({ iso: 'GB', slug: 'united-kingdom', name: '영국' }),
+    ]),
+    yourPlan: '선택한 요금제',
+    esimFor: (name) => `${name} eSIM`,
+    steps: freeze(['요금제', '정보 입력', '확인']),
+    beforeYouBuy: '구매 전 확인 사항',
+    countryTitle: (name) => fitTitle(`${name} eSIM: 미국 달러 데이터 요금제 | Magic eSIM`, `${name} eSIM | Magic eSIM`),
+    countryDescription: (name) => `${name}에서 이용할 수 있는 eSIM 데이터 요금제입니다. 가격은 미국 달러 기준이며, 아직 온라인 결제는 지원하지 않습니다.`,
+    countryLead: (name) => `${name}에서 이용할 수 있는 데이터 요금제입니다. 가격은 미국 달러 기준입니다.`,
+    chooseAnother: '다른 여행지 선택',
+    planTypes: '요금제 유형',
+    jumpRegional: '지역 요금제',
+    jumpDaily: '매일 데이터',
+    noscript: '이 페이지의 요금제와 가격을 보려면 JavaScript가 필요합니다. 이 사이트에서는 아직 구매할 수 없습니다.',
+    localTitle: (name) => `${name} 요금제`,
+    localNote: (name) => `${name}에서만 이용할 수 있는 요금제입니다.`,
+    regionalTitle: (name) => `${name} 포함 지역 요금제`,
+    regionalNote: (name) => `${name} 외 다른 국가에서도 이용할 수 있는 요금제입니다.`,
+    dailyTitle: '매일 데이터',
+    dailyNote: '여행 기간 동안 매일 일정한 데이터가 제공됩니다.',
+    hubTitle: 'eSIM 여행지 — Magic eSIM',
+    hubDescription: 'Magic eSIM 데이터 요금제를 이용할 수 있는 모든 여행지입니다. 가격은 미국 달러 기준이며, 아직 온라인 결제는 지원하지 않습니다.',
+    hubH1: 'eSIM 여행지',
+    hubLead: '국가를 선택하면 미국 달러 기준 데이터 요금제를 볼 수 있습니다.',
+    hubSearchPlaceholder: '국가 검색',
+    hubClear: '검색어 지우기',
+    hubAz: '가나다순 여행지',
+    hubEmptyNote: '철자를 확인하거나 가나다순 목록을 살펴보세요.',
+    hubShowAll: '전체 여행지 보기',
+    questions: '자주 묻는 질문',
+    onThisPage: '이 페이지의 내용',
+    relatedGuides: '관련 가이드',
+    chooseDestination: '여행지 선택',
+    guidesTitle: 'eSIM 가이드: 설치, 확인, 문제 해결 | Magic eSIM',
+    guidesDescription: 'iPhone과 Android에 여행용 eSIM을 설치하는 방법, 휴대전화 지원 여부 확인, 설치 시점, 작동하지 않을 때의 해결 방법을 안내합니다.',
+    guidesH1: 'eSIM 가이드',
+    guidesLead: '여행용 eSIM의 설치, 확인, 문제 해결을 단계별로 안내합니다.',
   }),
 });

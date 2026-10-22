@@ -29,7 +29,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
 import vm from 'node:vm';
-import { LOCALES } from './locales.mjs';
+import { LOCALES, asPlanned } from './locales.mjs';
 import { bundleSource, bundledLocales, siteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { contentHash, stripSiteI18nBundle } from './build-sitemap.mjs';
 import { rehearsalGenerator } from './build-locale-pages.mjs';
@@ -44,7 +44,11 @@ const GOLDEN_FILE = join(ROOT, 'test/fixtures/site-i18n-words-golden.json');
 const pairsHash = (dict) => createHash('sha256').update(JSON.stringify(Object.entries(dict))).digest('hex');
 
 const PUBLISHED = bundledLocales();                                   // en, es, de, fr today
-const PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);   // zh-Hans, ko today
+/* KO-1: every registry language is published; a language is rehearsed «as if still planned» (seo/locales.mjs asPlanned)
+ * so this check keeps a subject — Korean, on its real names, never written. */
+const LIVE_PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);
+const PLANNED = LIVE_PLANNED.length ? LIVE_PLANNED : [LOCALES.find((l) => l.code === 'ko')];
+const registryFor = (code) => (LIVE_PLANNED.some((l) => l.code === code) ? LOCALES : asPlanned(code));
 
 if (process.argv.includes('--record')) {
   const g = JSON.parse(readFileSync(GOLDEN_FILE, 'utf8'));
@@ -255,14 +259,20 @@ test('the sitemap hash reads the bundle URL as the old shared URL — no lastmod
 
 for (const L of PLANNED) {
   test(`${L.code}: a planned language gets its own bundle URL and no file — it adds nothing to another page`, () => {
-    const G = rehearsalGenerator(L.code, { copy: PAGE_COPY.en, guides: EN_GUIDES, words: SITE.DICT.en });
+    const G = rehearsalGenerator(L.code, { copy: PAGE_COPY.en, guides: EN_GUIDES, words: SITE.DICT.en, registry: registryFor(L.code) });
     const list = G.countries();
     for (const html of [G.homePage(list), G.hubPage(list), G.countryPage(list[0])]) {
       const words = [...html.matchAll(/\/assets\/site-i18n[a-z-]*\.js/g)].map((m) => m[0]);
       assert.deepEqual(words, [`/assets/site-i18n-${L.prefix}.js`]);
     }
-    assert.ok(!existsSync(join(ROOT, `assets/site-i18n-${L.prefix}.js`)), 'no public bundle before it is published');
-    assert.ok(!existsSync(join(ROOT, `assets/i18n/${L.code}.js`)), 'no words file before the language stage');
-    assert.ok(!SITE.LANGS.includes(L.code));
+    if (LIVE_PLANNED.some((l) => l.code === L.code)) {
+      assert.ok(!existsSync(join(ROOT, `assets/site-i18n-${L.prefix}.js`)), 'no public bundle before it is published');
+      assert.ok(!existsSync(join(ROOT, `assets/i18n/${L.code}.js`)), 'no words file before the language stage');
+      assert.ok(!SITE.LANGS.includes(L.code));
+    } else {
+      // rehearsed «as if planned» (KO-1): its bundle is its own, published, and holds only its own words
+      assert.ok(SITE.LANGS.includes(L.code));
+      assert.ok(!read(`assets/site-i18n-${L.prefix}.js`).includes("['en'] = WORDS"), 'no other language inside');
+    }
   });
 }

@@ -24,6 +24,10 @@
     "zh-Hans": {
       "keys": 133,
       "sha256": "5274b3b62bc2d2e780b6172e3a2824c237edcc4d01ab59800b496efac3ae1e0c"
+    },
+    "ko": {
+      "keys": 133,
+      "sha256": "ff73aae8df88c0addb1bb529d5f32e37ea36588c188ebc25f791887f11353b9e"
     }
   }
 }

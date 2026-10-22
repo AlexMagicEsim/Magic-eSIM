@@ -74,6 +74,7 @@
    * A table may NOT say more than the Russian one: the same four lines, the
    * same «then up to», never a word for traffic that continues.
    *
+   * `unitSpace` (optional, default one space) goes between a number and its unit.
    * `days` / `countries` are a function (n -> word) or plural forms keyed by
    * the categories of Intl.PluralRules for that language ({ one, other }…);
    * a missing Intl falls back to `other`. `listAnd` is a string, or a function
@@ -251,6 +252,32 @@
         'Весь мир': '全球', 'Европа': '欧洲', 'Азия и Океания': '亚太地区',
         'Азия': '亚洲', 'Африка': '非洲'
       }
+    },
+    // Korean (ko), KO-1 2026-10-22: digits attached to units («1.5GB», «3일», «5개국»), decimal point, half-width
+    // punctuation (owner D6); one plural form (Intl: `other` only). The same four lines as English, no more.
+    ko: {
+      blockTitle: '매일 데이터',
+      decimal: '.', mb: 'MB', gb: 'GB', unitSpace: '',
+      kbps: 'Kbps', mbps: 'Mbps', gbps: 'Gbps',
+      allowance: '하루 {a}까지 최대 속도',
+      throttle: '이후 최대 {s}',
+      reset: '데이터 제공량은 24시간마다 초기화됩니다',
+      term: '이용 기간: {n}{days}',
+      perDay: '하루 {a}',
+      titled: '{place} — {perDay}',
+      withTerm: '{base}, {n}{days}',
+      count: '{n}{countries}',
+      listSep: ', ', listAnd: ' 및 ',
+      days: { other: '일' },
+      countries: { other: '개국' },
+      places: {
+        'Центральная Азия': '중앙아시아', 'Балканы': '발칸반도',
+        'Северная Америка': '북미', 'Южная Америка': '남미',
+        'Латинская Америка': '라틴아메리카', 'Карибы': '카리브해',
+        'Страны Персидского залива': '걸프 국가', 'Ближний Восток': '중동',
+        'Весь мир': '전 세계', 'Европа': '유럽', 'Азия и Океания': '아시아·태평양',
+        'Азия': '아시아', 'Африка': '아프리카'
+      }
     }
     /* --- LANGUAGE TABLES END --- */
   };
@@ -294,10 +321,11 @@
     // invent a precision the number never had and disagree with the name the
     // provider itself uses.
     var c = copyOf(lang);
-    if (n < 1) return Math.round((n * 1024) / 10) * 10 + ' ' + c.mb;
+    var sp = unitSpace(c);
+    if (n < 1) return Math.round((n * 1024) / 10) * 10 + sp + c.mb;
     // The decimal mark is the language's: a comma in Russian, a point in English.
     var text = Number.isInteger(n) ? String(n) : String(n).replace('.', c.decimal);
-    return text + ' ' + c.gb;
+    return text + sp + c.gb;
   }
 
   /** The provider writes "384 Kbps" / "1 Mbps". Customers read Russian. */
@@ -306,7 +334,13 @@
     if (!m) return '';
     var c = copyOf(lang);
     var word = c[m[2].toLowerCase()];
-    return m[1].replace('.', c.decimal) + ' ' + word;
+    return m[1].replace('.', c.decimal) + unitSpace(c) + word;
+  }
+
+  /** Between a number and its unit: a space («1 GB»), unless the table says otherwise — Korean writes «1.5GB» (KO-1).
+   *  An optional key, so every other table (and its golden output) is exactly as before. */
+  function unitSpace(c) {
+    return typeof c.unitSpace === 'string' ? c.unitSpace : ' ';
   }
 
   function pluralDays(n, lang) {

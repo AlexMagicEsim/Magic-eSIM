@@ -1,0 +1,80 @@
+{
+  "language": "ko",
+  "variant": "Standard South Korean (owner D3, 2026-10-22): 표준어, formal polite ‑습니다 / ‑하세요.",
+  "formality": "‑습니다 / ‑하세요",
+  "cjk": true,
+  "invertedPunctuation": false,
+  "frenchSpacing": false,
+  "seo": {
+    "titleMax": 60,
+    "descriptionMax": 160,
+    "widthUnits": true
+  },
+  "priceFormat": "US$12.99 (Intl ko, currencyDisplay symbol) — decided, never a finding",
+  "sameAsEnglishAllowed": [
+    "Magic eSIM",
+    "iPhone",
+    "Android",
+    "eSIM",
+    "Pixel",
+    "Galaxy",
+    "Русский",
+    "English",
+    "Перейти на русскую версию",
+    "ko",
+    "symbol",
+    "IP: {names}",
+    ", "
+  ],
+  "forbidden": [
+    {
+      "id": "banmal",
+      "pattern": "(?:해|했어|있어|없어|거야|이야|할래|하자|해라|하라|한다)[.?!](?:\\s|$)",
+      "severity": "major",
+      "category": "style-variant",
+      "reason": "a 반말 / plain-style sentence ending (‑해., ‑했어., ‑한다.) — the site uses the formal polite style ‑습니다 / ‑하세요 (owner D1)."
+    },
+    {
+      "id": "haeyo-mix",
+      "pattern": "[가-힣](?:해요|어요|아요|예요|이에요)[.?!]?(?:\\s|$)",
+      "severity": "minor",
+      "category": "style-variant",
+      "reason": "a ‑해요 ending — the site writes ‑습니다 statements and ‑하세요 requests (owner D1); mixing reads as two writers."
+    },
+    {
+      "id": "latin-particle",
+      "pattern": "(?:eSIM|iPhone)(?:를|는|가|와|로)(?![가-힣])|Android(?:을|은|이|과|으로)(?![가-힣])",
+      "severity": "major",
+      "category": "grammar",
+      "reason": "a particle that does not match the Korean reading of the Latin word (eSIM을, iPhone을, Android를) — D15."
+    },
+    {
+      "id": "han-character",
+      "pattern": "\\p{Script=Han}",
+      "severity": "major",
+      "category": "style-variant",
+      "reason": "a Chinese character in Korean copy — the site writes Hangul only."
+    },
+    {
+      "id": "krw",
+      "pattern": "₩|KRW|원화|[0-9]원(?![가-힣])",
+      "severity": "critical",
+      "category": "accuracy",
+      "reason": "a won price or currency — the Korean pages show USD only (owner D2)."
+    },
+    {
+      "id": "full-width-punct",
+      "pattern": "[，。：；？！、（）]",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "full-width punctuation — Korean uses half-width «. , ? ! :» (owner D6)."
+    },
+    {
+      "id": "ascii-quotes",
+      "pattern": "\"[^\"]*[가-힣][^\"]*\"",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "ASCII quotes around Korean — the site uses “ ” and ‘ ’ (owner D6)."
+    }
+  ]
+}
