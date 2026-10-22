@@ -28,6 +28,9 @@
 //       localization QA 2026-10-22).
 //   CI  es «Côte d’Ivoire» (CLDR keeps the French official form) → «Costa de Marfil», the name every Spanish speaker
 //       uses and searches (RAE / Fundéu); found by localization QA 2026-10-21. de and fr keep CLDR's.
+//   AE  zh-Hans «阿拉伯联合酋长国» (CLDR's full state name) → «阿联酋», the short name Chinese readers use and search,
+//       as our EN «United Arab Emirates» is the common name (owner D5, ZH-1 2026-10-22).
+//   SZ  zh-Hans «斯威士兰» (CLDR's pre-2018 name) → «埃斯瓦蒂尼», the current name, as our EN «Eswatini» (owner D5).
 //   VC  fr «Saint-Vincent-et-les Grenadines» (CLDR) → «Saint-Vincent-et-les-Grenadines», the official French name with
 //       its hyphens; found by localization QA 2026-10-22.
 //   KT  not in CLDR (not an ISO 3166 code — the provider's code for Northern
@@ -41,7 +44,7 @@ export const I18N_COUNTRY_LANGS = Object.freeze(['es', 'de', 'fr', 'zh-Hans', 'k
 
 export const COUNTRY_NAMES_I18N = Object.freeze({
   AD: { es: "Andorra", de: "Andorra", fr: "Andorre", "zh-Hans": "安道尔", ko: "안도라" },
-  AE: { es: "Emiratos Árabes Unidos", de: "Vereinigte Arabische Emirate", fr: "Émirats arabes unis", "zh-Hans": "阿拉伯联合酋长国", ko: "아랍에미리트" },
+  AE: { es: "Emiratos Árabes Unidos", de: "Vereinigte Arabische Emirate", fr: "Émirats arabes unis", "zh-Hans": "阿联酋", ko: "아랍에미리트" },
   AF: { es: "Afganistán", de: "Afghanistan", fr: "Afghanistan", "zh-Hans": "阿富汗", ko: "아프가니스탄" },
   AG: { es: "Antigua y Barbuda", de: "Antigua und Barbuda", fr: "Antigua-et-Barbuda", "zh-Hans": "安提瓜和巴布达", ko: "앤티가 바부다" },
   AI: { es: "Anguila", de: "Anguilla", fr: "Anguilla", "zh-Hans": "安圭拉", ko: "앵귈라" },
@@ -241,7 +244,7 @@ export const COUNTRY_NAMES_I18N = Object.freeze({
   SV: { es: "El Salvador", de: "El Salvador", fr: "Salvador", "zh-Hans": "萨尔瓦多", ko: "엘살바도르" },
   SX: { es: "Sint Maarten", de: "Sint Maarten", fr: "Sint Maarten", "zh-Hans": "荷属圣马丁", ko: "신트마르턴" },
   SY: { es: "Siria", de: "Syrien", fr: "Syrie", "zh-Hans": "叙利亚", ko: "시리아" },
-  SZ: { es: "Esuatini", de: "Eswatini", fr: "Eswatini", "zh-Hans": "斯威士兰", ko: "에스와티니" },
+  SZ: { es: "Esuatini", de: "Eswatini", fr: "Eswatini", "zh-Hans": "埃斯瓦蒂尼", ko: "에스와티니" },
   TC: { es: "Islas Turcas y Caicos", de: "Turks- und Caicosinseln", fr: "Îles Turques-et-Caïques", "zh-Hans": "特克斯和凯科斯群岛", ko: "터크스 케이커스 제도" },
   TD: { es: "Chad", de: "Tschad", fr: "Tchad", "zh-Hans": "乍得", ko: "차드" },
   TG: { es: "Togo", de: "Togo", fr: "Togo", "zh-Hans": "多哥", ko: "토고" },

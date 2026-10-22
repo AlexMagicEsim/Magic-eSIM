@@ -166,8 +166,8 @@ test('the phone menu lists the other languages, each to the same page', async ({
   await open(page, '/fr/guides/android/');
   await page.locator('.mnav summary').click();
   const langs = page.locator('.mnav-panel a[hreflang]');
-  await expect(langs).toHaveText(['Русский', 'English', 'Español', 'Deutsch']);
-  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/android.html', '/en/guides/android/', '/es/guides/android/', '/de/guides/android/']);
+  await expect(langs).toHaveText(['Русский', 'English', 'Español', 'Deutsch', '简体中文']);
+  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/android.html', '/en/guides/android/', '/es/guides/android/', '/de/guides/android/', '/zh/guides/android/']);
   expect(await noOverflow(page)).toBe(true);
 });
 
@@ -238,9 +238,9 @@ test.describe('desktop', () => {
     await open(page); await ready(page);
     await page.locator('.hdr-actions details.langmenu summary').click();
     const entries = await page.locator('.langmenu-list li').allTextContents();
-    expect(entries.map((t) => t.trim())).toEqual(['Русский', 'English', 'Español', 'Deutsch', 'Français']);
+    expect(entries.map((t) => t.trim())).toEqual(['Русский', 'English', 'Español', 'Deutsch', 'Français', '简体中文']);
     expect(await page.locator('.langmenu-list a').evaluateAll((as) => as.map((a) => a.getAttribute('href'))))
-      .toEqual(['/esim/thailand/', '/en/esim/thailand/', '/es/esim/thailand/', '/de/esim/thailand/']);
+      .toEqual(['/esim/thailand/', '/en/esim/thailand/', '/es/esim/thailand/', '/de/esim/thailand/', '/zh/esim/thailand/']);
     expect(sp(await page.locator('#localGrid .card .price').first().textContent())).toBe('2,99 USD');
     expect(await noOverflow(page)).toBe(true);
   });

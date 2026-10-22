@@ -218,7 +218,7 @@ for (const code of PUBLISHED) {
     I.apply(ctx.document);
     assert.equal(el.textContent, SITE.DICT[code]['nav.how']);
     assert.equal(at.placeholder, SITE.DICT[code]['home.searchPlaceholder']);
-    assert.equal(S.pathPrefix(code), `/${code}`);
+    assert.equal(S.pathPrefix(code), `/${LOCALES.find((l) => l.code === code).prefix}`);
   });
 }
 

@@ -21,6 +21,35 @@ export function word(source) {
   return new RegExp(`(?<![\\p{L}\\p{N}])(?:${source})(?![\\p{L}\\p{N}])`, 'iu');
 }
 
+/** A pattern for Chinese (and other unspaced Han) text — ZH-1, T1 (2026-10-22). Chinese writes no space between words,
+ *  so every character next to a phrase is a letter (\p{L}) and `word()` can NEVER match inside a sentence: measured,
+ *  word('最快') does not fire on «我们是最快的eSIM». Here only a LATIN letter or a digit ends a match: «最快» fires inside
+ *  a Chinese sentence, «5G» fires in «支持5G网络», and «15G» or «eSIM5» are still not «5G». Case-insensitive, Unicode. */
+export function hanWord(source) {
+  return new RegExp(`(?<![\\p{Script=Latin}\\p{N}])(?:${source})(?![\\p{Script=Latin}\\p{N}])`, 'iu');
+}
+
+/* A sentence a rule would refuse, allowed WHOLE because the owner decided it and a source states it (ZH-1, owner D12:
+ * the iPhone models Apple lists for mainland China, on the Chinese compatibility guide only). Never a pattern, never a
+ * page: one exact sentence, its rule, its page and its source. seo/test-claim-guards.mjs removes exactly these sentences
+ * before applying the rules, and fails if one is missing from its page, if its rule does not fire on it (then it is not
+ * needed) or if it has no https source. */
+export const SOURCED = Object.freeze({
+  'zh-Hans': Object.freeze([
+    Object.freeze({
+      rule: 'devices', page: 'zh/guides/compatibility/',
+      sentence: '根据 Apple 于 2026 年 9 月 9 日发布的说明，在中国大陆，以下 iPhone 机型支持 eSIM：iPhone 18 Pro、iPhone 18 Pro Max、iPhone Duo、iPhone 17e 和 iPhone Air。',
+      source: 'https://support.apple.com/zh-cn/123879', read: '2026-10-22' }),
+  ]),
+});
+
+/** A page's text without the sentences SOURCED allows for this language and page. */
+export function withoutSourced(code, page, text) {
+  let t = String(text);
+  for (const s of SOURCED[code] || []) if (s.page === page) t = t.split(s.sentence).join(' ');
+  return t;
+}
+
 /** Every rule a language must have, with what it is for and where it applies. */
 export const RULES = Object.freeze({
   money: { why: 'a price in roubles or a payment method: GLOBAL takes no payment yet', on: ['guide'] },
@@ -223,6 +252,61 @@ export const CLAIM_GUARDS = Object.freeze({
       re: word('4G|5G|LTE|opérateurs? (locaux|local|partenaires?|mobiles?)|réseaux? (de l’|des |d’)?opérateurs?|signal|fiables?|rapides?|le meilleur|la meilleure|le moins cher|illimité(e|s|es)?|garanti(e|s|es)?'),
       fires: ['Fonctionne en 5G', 'Le meilleur réseau du pays', 'Les réseaux des opérateurs locaux'],
       quiet: ['Des forfaits de données pour le Japon, avec des prix en dollars américains.', 'Mon téléphone est compatible eSIM et n’est pas verrouillé par un opérateur'] },
+  }),
+  /* Simplified Chinese (ZH-1, 2026-10-22). Every pattern is built with hanWord(): Chinese has no spaces, so word()
+   * would never fire inside a sentence (T1). Beyond the English rules, the Chinese table refuses anything that would
+   * say which services can be reached in mainland China (VPN, 翻墙, «access Google / WhatsApp …») — owner: no
+   * unconfirmed statement about service availability in mainland China — and the absolute words of the PRC Advertising
+   * Law art. 9 (最佳, 第一, 唯一, 顶级…) on the home. */
+  'zh-Hans': Object.freeze({
+    money: {
+      re: hanWord('₽|卢布|RUB|SBP|任意(银行)?卡|任何(银行)?卡|信用卡|银行卡|刷卡|用卡支付|支付宝|微信支付'),
+      fires: ['用银行卡支付 950 ₽', '价格以卢布计', '支持支付宝付款'],
+      quiet: ['价格以美元（USD）计', '故障排除'] },
+    delivery: {
+      re: hanWord('我们(会|将)[^。！？]{0,12}(发送|发给|寄给)|您将(会)?收到[^。！？]{0,12}(邮件|电子邮件)|发货邮件|订单邮件|确认邮件|收件箱'),
+      fires: ['我们会把二维码发送到您的邮箱', '您将收到一封包含 eSIM 的邮件', '请查看确认邮件'],
+      quiet: ['请发送电子邮件联系我们的客服团队。', '不会发送任何 eSIM。'] },
+    cardRow: {
+      re: hanWord('有效期开始”?(一栏|这一行|那一行|一行)|覆盖范围(和|与)条(件|款)|激活”?(一栏|这一行)'),
+      fires: ['请查看“有效期开始”一栏', '参见“覆盖范围和条件”'],
+      quiet: ['安装描述文件和开始使用套餐是两个不同的时刻。'] },
+    network: {
+      re: hanWord('快速|高速|稳定|可靠|信号(强|好|满格)|最佳覆盖|全面覆盖|全覆盖|保证|确保连接|随处可用|无缝|不掉线|4G|5G|LTE|VPN|翻墙|科学上网|不受限制地?访问|畅通无阻|(访问|使用|打开|登录)(谷歌|Google|WhatsApp|Facebook|Instagram|YouTube|Telegram|Gmail|ChatGPT|X)|中国大陆(也)?(可以|能|能够)(正常)?(访问|使用|上网)'),
+      fires: ['全国 5G 高速网络', '支持5G网络', '无需 VPN 即可访问 Google', '在中国大陆可以正常访问 WhatsApp'],
+      quiet: ['确认已开启移动数据。', '旅行 eSIM 通常通过合作网络连接。'] },
+    features: {
+      re: hanWord('无限(流量)?|不限量|不限流量|个人热点|热点|网络共享|接收(短信|验证码)|2FA|验证码|双重验证|包含电话号码|附带(电话)?号码'),
+      fires: ['无限流量，支持个人热点', '可以接收短信验证码'],
+      quiet: ['旅行期间每天一份流量额度。', '同行旅伴手机共享的网络'] },
+    devices: {
+      // a digit followed by a Chinese character still ends a model number («iPhone 12及以上»)
+      re: /iPhone\s?(X[RS]?|\d{1,2})(?![\p{Script=Latin}\p{N}])|Galaxy\s?[SZA]\d|Pixel\s?\d/iu,
+      fires: ['适用于 iPhone 12 及更新机型', 'iPhone 12及以上', 'Galaxy S21'],
+      quiet: ['在 iPhone 上安装 eSIM', 'iOS 17.4 或更高版本'] },
+    installEarly: {
+      // advice to install early — not the question about having done it, nor «before entering mainland China»
+      re: hanWord('提前(几|数|一|两|三)?(天|周|个星期)|出发前(几|数)天|(几|数)天前安装|提前安装'),
+      fires: ['请提前几天安装 eSIM', '最好出发前几天安装', '建议提前安装'],
+      quiet: ['请在出行当天安装 eSIM。', '我在出行前一周安装了 eSIM，套餐的有效期已经开始了吗？', '请在入境前安装 eSIM。'] },
+    reusableQr: {
+      re: hanWord('二维码(可以|可)(重复|多次|再次)(使用|扫描)|可(重复|多次)使用的二维码'),
+      fires: ['二维码可以重复使用', '可重复使用的二维码'],
+      quiet: ['请不要删除 eSIM。', '二维码可能只能使用一次。'] },
+    suppliers: {
+      re: hanWord('供应商|eSIM Access|MobiMatter'),
+      fires: ['我们的供应商 eSIM Access', 'MobiMatter 提供 eSIM'],
+      quiet: ['您的手机不能被运营商锁定。', '通过合作网络连接'] },
+    marketing: {
+      re: hanWord('24 ?小时|24/7|全天候|即时|立即|最(佳|好|优|便宜|低价?|快|强|稳定)|(排名|全网|行业|业界|全国|全球|销量)第一|第一(品牌|名)|NO\\.? ?1|唯一|顶级|国家级|保证|退款|无限|不限量|省钱|节省|好评|评分|值得信赖|数百万|VPN|翻墙|科学上网|(访问|使用)(谷歌|Google|WhatsApp|Facebook|YouTube)'),
+      fires: ['24 小时快速客服', '最佳价格', '不满意可退款', '全网最便宜', '销量第一的 eSIM'],
+      quiet: ['选择目的地，安装 eSIM，落地即可上网。', '出发前有疑问？', '以及抵达后的第一步。'] },
+    template: {
+      // «未被运营商锁定» (the checkout's device check) is not a claim about networks — like the French rule, only
+      // operator NETWORKS and named operators are.
+      re: hanWord('4G|5G|LTE|(当地|本地|合作|移动)运营商|运营商网络|网络运营商|信号|稳定|可靠|快速|高速|最(佳|好|便宜|快)|无限|不限量|保证|VPN|翻墙|(访问|使用)(谷歌|Google|WhatsApp)'),
+      fires: ['支持 5G 网络', '当地运营商网络', '全国最佳网络'],
+      quiet: ['日本的流量套餐，价格以美元计。', '我的手机支持 eSIM，且未被运营商锁定'] },
   }),
 });
 

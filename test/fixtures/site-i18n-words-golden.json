@@ -20,6 +20,10 @@
     "fr": {
       "keys": 136,
       "sha256": "81244faa1c1a583e54e2e87647466658a992a568dd217208d6ad1902b8c3f32b"
+    },
+    "zh-Hans": {
+      "keys": 133,
+      "sha256": "5274b3b62bc2d2e780b6172e3a2824c237edcc4d01ab59800b496efac3ae1e0c"
     }
   }
 }

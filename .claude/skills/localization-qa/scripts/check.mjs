@@ -27,12 +27,24 @@ export function loadLanguage(lang) {
 export async function check(run, root = ROOT) {
   const { lang, items } = run;
   const { style, glossary } = loadLanguage(lang);
-  const { rulesFor } = await import(pathToFileURL(join(root, 'seo/claim-guards.mjs')).href);
+  const { rulesFor, SOURCED = {} } = await import(pathToFileURL(join(root, 'seo/claim-guards.mjs')).href);
+  // sentences the owner allowed whole, with a source (seo/claim-guards.mjs SOURCED) — decided, never a claim finding
+  const sourced = (SOURCED[lang] || []).map((x) => x.sentence);
   const { countryName } = await import(pathToFileURL(join(root, 'seo/country-names-i18n.mjs')).href).catch(() => ({ countryName: null }));
   const findings = [];
   const add = (it, f) => findings.push({ item_id: it.id, group: it.group, key: it.key, where: it.where, url: it.url, en: it.en, target: it.target,
     suggestion: '', source: 'check', ...f });
-  const word = (src) => new RegExp(`(?<![\\p{L}\\p{N}])(?:${src})(?![\\p{L}\\p{N}])`, 'iu');
+  // Chinese (style.json `cjk`) writes no space between words: a letter-edged pattern never matches inside a Chinese
+  // sentence, so glossary and consistency would report every string. There only a Latin letter or a digit ends a term
+  // (seo/claim-guards.mjs hanWord, ZH-1 T1).
+  const word = style.cjk
+    ? (src) => new RegExp(`(?<![\\p{Script=Latin}\\p{N}])(?:${src})(?![\\p{Script=Latin}\\p{N}])`, 'iu')
+    : (src) => new RegExp(`(?<![\\p{L}\\p{N}])(?:${src})(?![\\p{L}\\p{N}])`, 'iu');
+  // SEO budgets: characters, or display width (style.json `seo.widthUnits`) — a Chinese character is about twice a Latin
+  // letter, and search engines cut by pixels (seo/page-copy.mjs displayWidth, ZH-1 T2).
+  const WIDE = /[\u1100-\u115F\u2E80-\u303E\u3041-\u33FF\u3400-\u4DBF\u4E00-\u9FFF\uA000-\uA4CF\uAC00-\uD7A3\uF900-\uFAFF\uFE30-\uFE4F\uFF00-\uFF60\uFFE0-\uFFE6]/u;
+  const units = (x) => ((style.seo || {}).widthUnits ? [...String(x)].reduce((w, ch) => w + (WIDE.test(ch) ? 2 : 1), 0) : String(x).length);
+  const unitName = (style.seo || {}).widthUnits ? 'display units (a Chinese character counts 2)' : 'characters';
 
   for (const it of items) {
     const t = it.target;
@@ -50,20 +62,20 @@ export async function check(run, root = ROOT) {
 
     // 3. SEO lengths (Google truncates by pixels; these are the usual character budgets)
     const seo = style.seo || {};
-    if (it.kind === 'seo-title' && seo.titleMax && t.length > seo.titleMax) {
-      add(it, { category: 'seo', severity: t.length > seo.titleMax + 10 ? 'major' : 'minor', confidence: 0.9, rule: 'seo-title-length',
-        explanation: `Title is ${t.length} characters (budget ${seo.titleMax}; English ${it.en.length}). Search results will likely cut it.` });
+    if (it.kind === 'seo-title' && seo.titleMax && units(t) > seo.titleMax) {
+      add(it, { category: 'seo', severity: units(t) > seo.titleMax + 10 ? 'major' : 'minor', confidence: 0.9, rule: 'seo-title-length',
+        explanation: `Title is ${units(t)} ${unitName} (budget ${seo.titleMax}; English ${it.en.length}). Search results will likely cut it.` });
     }
-    if (it.kind === 'seo-description' && seo.descriptionMax && t.length > seo.descriptionMax) {
+    if (it.kind === 'seo-description' && seo.descriptionMax && units(t) > seo.descriptionMax) {
       add(it, { category: 'seo', severity: 'minor', confidence: 0.8, rule: 'seo-description-length',
-        explanation: `Description is ${t.length} characters (budget ${seo.descriptionMax}; English ${it.en.length}).` });
+        explanation: `Description is ${units(t)} ${unitName} (budget ${seo.descriptionMax}; English ${it.en.length}).` });
     }
 
     // 4. claims the site may not make (the storefront's own rules, seo/claim-guards.mjs)
     const kinds = it.group.startsWith('guide-') ? ['guide'] : it.group === 'page' && /^home/.test(it.key) ? ['home'] : it.group === 'page' && /country|local|regional|daily|jump/.test(it.key) ? ['country'] : it.group === 'daily' ? ['country'] : [];
     for (const kind of kinds) {
       for (const [id, re] of rulesFor(lang, kind)) {
-        const m = t.match(re);
+        const m = sourced.reduce((x, sen) => x.split(sen).join(' '), t).match(re);
         if (m && !re.test(it.en)) add(it, { category: 'claim', severity: 'critical', confidence: 0.85, rule: `claim-guards:${id}`,
           explanation: `«${m[0]}» is a claim the storefront may not make (${id}); the English source does not make it.` });
       }

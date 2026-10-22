@@ -107,7 +107,7 @@ test('every table has the Russian keys, placeholders, thirteen places and its ow
 
 test('one list of languages: the module, the Mini App and the locale generator agree; every published prefixed language has words', () => {
   const D = require(join(ROOT, 'assets/daily-plan-copy.js'));
-  assert.deepEqual([...D.LANGS], ['ru', 'en', 'es', 'de', 'fr']);
+  assert.deepEqual([...D.LANGS], ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans']);
   assert.deepEqual([...GENERATOR_LANGS], [...D.LANGS]);
   const core = readFileSync(join(ROOT, 'app/core.js'), 'utf8');
   const m = core.match(/const DAILY_COPY_LANGS = Object\.freeze\((\[[^\]]*\])\);/);

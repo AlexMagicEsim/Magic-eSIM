@@ -143,12 +143,13 @@ test('x-default: the owner decided EN, and the indexing stage (I18N-09) applied 
  * 2. Nothing new is switched on — I18N-01 pins RU + EN
  * ===================================================================== */
 
-test('exactly Russian, English, Spanish, German and French are on the site; the Mini App offers Russian and English', () => {
+test('exactly Russian, English, Spanish, German, French and Chinese are on the site; the Mini App offers Russian and English', () => {
   // A stage that launches a language changes THIS line, deliberately, in the
   // same PR as that language's dictionaries and pages. ES-1 (2026-10-21) added Spanish to the site, under noindex;
   // I18N-09 made it indexable (seo/indexing.mjs decides which pages). DE-1 (2026-10-22) added German, under noindex until
-  // the owner's separate word (D11). The Mini App gets no new language before GLOBAL payments (owner).
-  assert.deepEqual(siteLocales(), ['ru', 'en', 'es', 'de', 'fr']);
+  // the owner's separate word (D11); FR-1 French and ZH-1 Simplified Chinese, the same way. The Mini App gets no new
+  // language before GLOBAL payments (owner).
+  assert.deepEqual(siteLocales(), ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans']);
   assert.deepEqual(appLocales(), ['ru', 'en']);
   assert.equal(locale('es').site.indexableHome, true, 'Spanish is indexable since I18N-09');
   assert.equal(locale('de').site.indexableHome, false, 'German stays noindex until the owner opens it');

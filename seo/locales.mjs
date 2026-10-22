@@ -70,7 +70,8 @@ export const LOCALES = Object.freeze([
   L({ code: 'fr', prefix: 'fr', htmlLang: 'fr', hreflang: 'fr', ogLocale: 'fr_FR', script: 'Latn', endonym: 'Français', defaultMarket: 'global',
     site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'zh-Hans', prefix: 'zh', htmlLang: 'zh-Hans', hreflang: 'zh-Hans', ogLocale: 'zh_CN', script: 'Hans', endonym: '简体中文', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    // ZH-1 2026-10-22: published under noindex (owner D11) — indexing opens only on the owner's separate word.
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'ko', prefix: 'ko', htmlLang: 'ko', hreflang: 'ko', ogLocale: 'ko_KR', script: 'Hang', endonym: '한국어', defaultMarket: 'global',
     site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
 ]);

@@ -67,7 +67,7 @@ module.exports = defineConfig({
       // The flag tests in WebKit (see above). Nothing else runs here.
       name: 'webkit-flags',
       // …and the Spanish (I18N ES-1) and German (DE-1) and French (FR-1) sites: every page kind in Safari's engine as well.
-      testMatch: /(?:^|[\\/])(?:flags|miniapp-flags|es-site|de-site|fr-site)\.spec\.js$/,
+      testMatch: /(?:^|[\\/])(?:flags|miniapp-flags|es-site|de-site|fr-site|zh-site)\.spec\.js$/,
       use: { ...devices['Desktop Safari'], viewport: { width: 390, height: 844 } },
     },
   ],

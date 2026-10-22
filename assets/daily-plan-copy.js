@@ -225,6 +225,32 @@
         'Весь мир': 'Monde entier', 'Европа': 'Europe', 'Азия и Океания': 'Asie-Pacifique',
         'Азия': 'Asie', 'Африка': 'Afrique'
       }
+    },
+    // Simplified Chinese (zh-Hans), ZH-1 2026-10-22: full-width punctuation, a space between digits or Latin units and
+    // Chinese (owner D6); decimal point; one plural form (Intl: `other` only). The same four lines as English, no more.
+    'zh-Hans': {
+      blockTitle: '每日流量',
+      decimal: '.', mb: 'MB', gb: 'GB',
+      kbps: 'Kbps', mbps: 'Mbps', gbps: 'Gbps',
+      allowance: '每天 {a} 全速流量',
+      throttle: '之后最高 {s}',
+      reset: '流量每 24 小时重置',
+      term: '有效期：{n} {days}',
+      perDay: '每天 {a}',
+      titled: '{place}——{perDay}',
+      withTerm: '{base}，{n} {days}',
+      count: '{n} {countries}',
+      listSep: '、', listAnd: '和',
+      days: { other: '天' },
+      countries: { other: '个国家/地区' },
+      places: {
+        'Центральная Азия': '中亚', 'Балканы': '巴尔干地区',
+        'Северная Америка': '北美洲', 'Южная Америка': '南美洲',
+        'Латинская Америка': '拉丁美洲', 'Карибы': '加勒比地区',
+        'Страны Персидского залива': '海湾国家', 'Ближний Восток': '中东',
+        'Весь мир': '全球', 'Европа': '欧洲', 'Азия и Океания': '亚太地区',
+        'Азия': '亚洲', 'Африка': '非洲'
+      }
     }
     /* --- LANGUAGE TABLES END --- */
   };

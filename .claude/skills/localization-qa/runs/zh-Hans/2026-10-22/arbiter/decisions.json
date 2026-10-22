@@ -1,0 +1,237 @@
+[
+ {
+  "item_id": "guide-android:s1.body",
+  "decision": "keep",
+  "findings": [
+   "C0001"
+  ],
+  "severity": "preferential",
+  "reason": "The missing «套餐» is the Samsung «Add mobile plan» label, deliberately described rather than quoted (owner D13); no meaning is lost."
+ },
+ {
+  "item_id": "ui:pay.finalBody",
+  "decision": "optional",
+  "findings": [
+   "L0001"
+  ],
+  "severity": "preferential",
+  "reason": "电子邮箱 is an accepted glossary variant and commonly means the address; «电子邮箱地址…被» is a stylistic clarification, not an error."
+ },
+ {
+  "item_id": "ui:plan.alsoCoversMore",
+  "decision": "optional",
+  "findings": [
+   "L0002"
+  ],
+  "severity": "preferential",
+  "reason": "«另外 {n} 个» after a list of country names is an acceptable elliptical form; adding 国家/地区 is a stylistic improvement."
+ },
+ {
+  "item_id": "page:homeArtCoverageValue",
+  "decision": "optional",
+  "findings": [
+   "L0003"
+  ],
+  "severity": "preferential",
+  "reason": "«190+ 个目的地» is a common, clear marketing form; aligning it with «190 多个» in the description is consistency of taste."
+ },
+ {
+  "item_id": "page:homeTitle",
+  "decision": "optional",
+  "findings": [
+   "L0004"
+  ],
+  "severity": "preferential",
+  "reason": "The «—» is a separator between the Latin brand and the Chinese phrase in a title, not a dash inside Chinese prose; switching to «：» (and in hubTitle/404:title) is a stylistic harmonisation."
+ },
+ {
+  "item_id": "guide-iphone:s1.body",
+  "decision": "apply",
+  "final": "打开**设置 → 蜂窝网络**（或**移动数据**）。如果看到**添加 eSIM** 或**添加蜂窝号码**，说明您的 iPhone 支持 eSIM。\n此外，您的 iPhone 必须未被运营商锁定。请查看如何检查兼容性。在中国大陆购买的 iPhone，只有部分机型支持 eSIM，兼容性指南中有说明。",
+  "findings": [
+   "L0005"
+  ],
+  "severity": "major",
+  "reason": "«还不能被运营商锁定» is ambiguous («cannot be locked yet»); the English requirement «must also not be locked» must be unambiguous (accuracy/ambiguous instruction). The D12 China sentence is kept."
+ },
+ {
+  "item_id": "guide-iphone:faq1.a",
+  "decision": "apply",
+  "final": "下载描述文件需要连接互联网，最简单的是使用无线局域网。在出行当天安装 eSIM（出发前在家中，或使用机场的无线局域网），无论套餐的有效期何时开始计算，这种做法都适用。",
+  "findings": [
+   "L0006"
+  ],
+  "severity": "major",
+  "reason": "The second sentence is ungrammatical — «都适用» has no subject and «例如» turns the condition into a list (grammar); the fix restores the English meaning without adding facts."
+ },
+ {
+  "item_id": "guide-compatibility:s1.body",
+  "decision": "apply",
+  "final": "**iPhone：**设置 → 蜂窝网络（或移动数据）。如果出现**添加 eSIM** 或**添加蜂窝号码**，说明这部 iPhone 支持 eSIM。\n**Android：**打开 SIM 卡设置，查找添加 eSIM 的方法：在 Pixel 上，依次进入网络和互联网 → SIM 卡 → **添加 SIM 卡** → **设置 eSIM 卡**；Samsung 上在与“连接”相关的菜单中查找管理 SIM 卡的选项。\nPixel 上的另一个线索：要使用 eSIM，手机还需要有 **EID** 号码。您可以在“设置 → 关于手机 → SIM 卡状态”中找到它。不过，以添加 eSIM 的设置为准。",
+  "findings": [
+   "L0007"
+  ],
+  "severity": "minor",
+  "reason": "Half-width spaces between Chinese characters around menu paths break the D6 typography rule (spaces only between Chinese and Latin/digits); «说明» restores the conditional's consequence as in the iPhone guide."
+ },
+ {
+  "item_id": "guide-activation:s3.body",
+  "decision": "optional",
+  "findings": [
+   "L0008"
+  ],
+  "severity": "preferential",
+  "reason": "The English link text is also a bare «(check)»; «（查看检查方法）» is a clearer but stylistic rewording."
+ },
+ {
+  "item_id": "guide-activation:s5.body",
+  "decision": "optional",
+  "findings": [
+   "L0009"
+  ],
+  "severity": "preferential",
+  "reason": "«同行旅伴» is mildly redundant but correct and clear; trimming it is taste."
+ },
+ {
+  "item_id": "guide-activation:faq1.a",
+  "decision": "optional",
+  "findings": [
+   "L0010"
+  ],
+  "severity": "preferential",
+  "reason": "«为了适用于所有套餐» is understandable and keeps the meaning; «为稳妥起见» is a more idiomatic but stylistic choice."
+ },
+ {
+  "item_id": "guide-troubleshooting:s1.body",
+  "decision": "optional",
+  "findings": [
+   "L0011"
+  ],
+  "severity": "preferential",
+  "reason": "The APN line is readable and «它» refers to the APN just named; bracketing the condition is a stylistic improvement."
+ },
+ {
+  "item_id": "guide-troubleshooting:h1",
+  "decision": "optional",
+  "findings": [
+   "L0012"
+  ],
+  "severity": "preferential",
+  "reason": "«eSIM 无法使用：检查什么» is an acceptable heading form mirroring the English; the suggested phrasing is taste."
+ },
+ {
+  "item_id": "guide-android:faq3.a",
+  "decision": "keep",
+  "findings": [
+   "L0013"
+  ],
+  "severity": "preferential",
+  "reason": "«与注明的一致» is a grammatical 的-structure with an elided noun; the sentence is correct and clear."
+ },
+ {
+  "item_id": "ui:how.step3",
+  "decision": "optional",
+  "findings": [
+   "F0001"
+  ],
+  "severity": "preferential",
+  "reason": "«描述文件» is the term used for the eSIM profile across the whole Chinese site (guides included) and is not in the glossary; changing one string would create inconsistency — a site-wide term decision, not an error here."
+ },
+ {
+  "item_id": "ui:site.compatCheck",
+  "decision": "apply",
+  "final": "iPhone 安装指南",
+  "findings": [
+   "F0002"
+  ],
+  "severity": "minor",
+  "reason": "«iPhone 设置» reads as the Settings app (platform label 设置), not as the iPhone setup guide the link opens — an ambiguous label (accuracy). Same fix applies to ui:site.compatAndroid («Android 安装指南»)."
+ },
+ {
+  "item_id": "guide-android:s2.body",
+  "decision": "apply",
+  "final": "• 在另一块屏幕上显示 eSIM 的二维码。\n• 按上文所述开始添加 eSIM。**Samsung：**选择扫描二维码的选项并扫描。**Pixel：**按照屏幕上的说明操作。\n• 没有可扫描的二维码？在 Samsung 手机上，选择输入激活码的选项，输入随 eSIM 提供的信息；具体名称因 One UI 版本而异。\n• 确认并等待安装完成。\n• 为 eSIM 重命名，例如“旅行”。",
+  "findings": [
+   "F0003"
+  ],
+  "severity": "major",
+  "reason": "The English scopes the activation-code route to Samsung; the translation tells every Android user (Pixel included) such an option exists — an added instruction (accuracy). Samsung is described, not quoted (D13)."
+ },
+ {
+  "item_id": "guide-activation:lead",
+  "decision": "apply",
+  "final": "安装 eSIM 和开始计算有效期不是一回事，而且不同套餐的有效期开始时间各不相同。适用于所有套餐的建议：在出行当天通过无线局域网安装 eSIM，抵达后再开启 eSIM 的数据。",
+  "findings": [
+   "F0004"
+  ],
+  "severity": "major",
+  "reason": "«每个套餐都规定了有效期开始的时间» loses the fact that plans DIFFER on when validity starts, which the safe advice rests on; «开启数据» also drops that it is the eSIM switched on for data (accuracy)."
+ },
+ {
+  "item_id": "guide-iphone:faq3.a",
+  "decision": "apply",
+  "final": "主号码保持开启。主号码的来电和短信按原运营商的漫游条款处理；旅行 eSIM 用于蜂窝数据。",
+  "findings": [
+   "F0005"
+  ],
+  "severity": "minor",
+  "reason": "«仍然有效» changes «stays on» to «remains valid», and «拨打和接收…计费» adds outgoing calls and billing the English does not state (accuracy, rule 1)."
+ },
+ {
+  "item_id": "guide-compatibility:s4.body",
+  "decision": "keep",
+  "findings": [
+   "F0006"
+  ],
+  "severity": "preferential",
+  "reason": "False positive from section misalignment: the Chinese guide has an extra D12 section «在中国大陆购买的 iPhone», and the English «what next» section exists as its own section («手机符合条件：下一步？», id next) with the destination-list and guide links."
+ },
+ {
+  "item_id": "guide-activation:title",
+  "decision": "apply",
+  "final": "何时安装和开启旅行 eSIM | Magic eSIM",
+  "findings": [
+   "F0007"
+  ],
+  "severity": "minor",
+  "reason": "«激活» reads as activating the plan / starting validity — exactly what this guide separates from switching the line on; «开启» renders «turn on» and matches the body (terminology/accuracy). Same fix applies to guide-activation:h1."
+ },
+ {
+  "item_id": "guide-compatibility:title",
+  "decision": "apply",
+  "final": "我的手机支持 eSIM 吗？如何检查 | Magic eSIM",
+  "findings": [
+   "F0008"
+  ],
+  "severity": "minor",
+  "reason": "The title drops the «How to check» intent of the English (SEO keyword lost); the fix fits the budget at ~43 of 60 width units. guide-troubleshooting:title has the same issue."
+ },
+ {
+  "item_id": "guide-android:s3.body",
+  "decision": "keep",
+  "findings": [
+   "F0009"
+  ],
+  "severity": "preferential",
+  "reason": "The Pixel roaming path uses only labels sourced from Pixel page 2926415 (网络和互联网 → SIM 卡 → 漫游, listed in platform-labels.md and the generator's source note); it compensates for the Samsung path that D13 requires to be described. No objective error is shown."
+ },
+ {
+  "item_id": "guide-iphone:s3.body",
+  "decision": "keep",
+  "findings": [
+   "F0010"
+  ],
+  "severity": "preferential",
+  "reason": "Apple 118669 itself places «手动输入详细信息» at the bottom of the screen; the detail is sourced and harmless."
+ },
+ {
+  "item_id": "guide-iphone:s4.body",
+  "decision": "apply",
+  "final": "• 在**设置 → 蜂窝网络**中，确认 eSIM 号码已开启。\n• 轻点**蜂窝数据**，选择 eSIM 号码。您的主 SIM 卡可以继续用于通话和短信。\n• 打开 eSIM 号码，开启**数据漫游**。旅行 eSIM 通常通过合作网络连接，手机会把这视为漫游。\n• 如果不想被原运营商收费，请关闭主 SIM 卡的数据漫游。\n• 等待一两分钟，让手机注册到当地网络。\n菜单名称可能因 iOS 版本略有不同。",
+  "findings": [
+   "F0011"
+  ],
+  "severity": "minor",
+  "reason": "The English bolds the on-screen label Data Roaming; 数据漫游 is a sourced label (109317), so the bold must be kept (rule 3)."
+ }
+]

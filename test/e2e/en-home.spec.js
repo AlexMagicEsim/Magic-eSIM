@@ -130,7 +130,7 @@ test('the mobile menu opens from the keyboard and leads to every section', async
   await page.keyboard.press('Enter');
   const panel = page.locator('.mnav-panel');
   await expect(panel).toBeVisible();
-  await expect(panel.locator('a')).toHaveText(['Destinations', 'How it works', 'Device check', 'Guides', 'Русский', 'Español', 'Deutsch', 'Français']);
+  await expect(panel.locator('a')).toHaveText(['Destinations', 'How it works', 'Device check', 'Guides', 'Русский', 'Español', 'Deutsch', 'Français', '简体中文']);
   const box = await panel.boundingBox();
   expect(box.x).toBeGreaterThanOrEqual(0);
   expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize().width);
@@ -149,7 +149,7 @@ test('desktop: four header links, the language switch and «Find a plan» in one
   await expect(sw.locator('summary')).toContainText('English');
   await sw.locator('summary').click();
   expect(await sw.locator('a').evaluateAll((as) => as.map((a) => [a.getAttribute('href'), a.hreflang])))
-    .toEqual([['/', 'ru'], ['/es/', 'es'], ['/de/', 'de'], ['/fr/', 'fr']]);
+    .toEqual([['/', 'ru'], ['/es/', 'es'], ['/de/', 'de'], ['/fr/', 'fr'], ['/zh/', 'zh-Hans']]);
   await sw.locator('summary').click();
   const tops = await page.locator('header .hdr > *').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
   expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(20);

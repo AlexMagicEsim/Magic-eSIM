@@ -44,6 +44,7 @@ import { EN_GUIDES } from './guides-en.mjs';
 import { ES_GUIDES } from './guides-es.mjs';
 import { DE_GUIDES } from './guides-de.mjs';
 import { FR_GUIDES } from './guides-fr.mjs';
+import { ZH_GUIDES } from './guides-zh.mjs';
 import { FONT_PRELOAD, LOGO, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT, LOGO_ONCE_SCRIPT_MOTION, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
 import { word, escapeText, escapeAttr } from './site-dictionary.mjs';
 import { countryName } from './country-names-i18n.mjs';
@@ -54,6 +55,7 @@ import { missingGuards } from './claim-guards.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
+import { legalLinks, LEGAL_SCHEME } from './legal-links.mjs';
 
 export { FONT_PRELOAD, LOGO };
 
@@ -225,7 +227,7 @@ function write(rel, text) {
 export const DAILY_COPY_LANGS = Object.freeze(createRequire(import.meta.url)('../assets/daily-plan-copy.js').LANGS.slice());
 
 /* The guides each language has. A language without its own guides is not built. */
-export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES, es: ES_GUIDES, de: DE_GUIDES, fr: FR_GUIDES });
+export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES, es: ES_GUIDES, de: DE_GUIDES, fr: FR_GUIDES, 'zh-Hans': ZH_GUIDES });
 
 /* Why a language cannot be built, or null. Pure — the tests call it. */
 export function cannotBuild(code) {
@@ -235,6 +237,7 @@ export function cannotBuild(code) {
   if (!L.site.enabled) return `${code} is not enabled for the site (seo/locales.mjs) — refusing to publish it`;
   if (!PAGE_COPY[code]) return `${code} has no page copy (seo/page-copy.mjs)`;
   if (!GUIDES_BY_LOCALE[code]) return `${code} has no guides`;
+  if (!LEGAL_SCHEME[code]) return `${code} has no legal-link scheme (seo/legal-links.mjs)`;
   if (!existsSync(join(ROOT, wordsFile(code)))) return `${code} has no interface words (${wordsFile(code)})`;
   if (!DAILY_COPY_LANGS.includes(code)) return `${code} has no daily-plan words (assets/daily-plan-copy.js)`;
   const guards = missingGuards(code);
@@ -387,8 +390,14 @@ const PAYBAR = `<div class="paybar" id="previewNotice" role="note">
 const ftLinks = (items) => items.map((x) => `          <li><a href="${x.href}">${esc(x.label)}</a></li>`).join('\n');
 
 /* The footer. The support line is pinned word for word by
- * seo/test-en-support-contact.mjs; the legal links stay the Russian ones,
- * labelled so, until the legal block ships. */
+ * seo/test-en-support-contact.mjs. The legal links follow the language's scheme
+ * (seo/legal-links.mjs, owner D8): EN/ES/DE/FR the Russian documents, labelled
+ * so; Chinese only the English LEGAL documents once published — none yet, so
+ * no line. */
+const LEGAL = legalLinks(code);
+const LEGAL_LINE = LEGAL.length
+  ? `      <p>${LEGAL.map((l) => `<a href="${l.href}" hreflang="${l.hreflang}" data-i18n="${l.key}">${t(l.key)}</a>`).join(' · ')}</p>\n`
+  : '';
 const FOOTER = `<footer class="site-footer">
   <div class="wrap">
     <div class="ft-grid">
@@ -420,8 +429,7 @@ ${ftLinks(GUIDES.map((g) => ({ href: `${P}/guides/${g.slug}/`, label: g.h1 })))}
     </div>
     <div class="ft-bottom">
       <p>© Magic eSIM</p>
-      <p><a href="/terms.html" hreflang="ru" data-i18n="footer.terms">${t('footer.terms')}</a> · <a href="/privacy.html" hreflang="ru" data-i18n="footer.privacy">${t('footer.privacy')}</a></p>
-    </div>
+${LEGAL_LINE}    </div>
   </div>
 </footer>`;
 
