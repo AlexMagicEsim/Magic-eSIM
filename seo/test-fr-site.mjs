@@ -55,7 +55,7 @@ const head = (html) => html.slice(0, html.indexOf('</head>'));
 test('206 French pages: the home, the list, 198 countries, the guides list and five guides', () => {
   assert.equal(FR_PAGES.length, 206);
   assert.equal(FR_PAGES.filter((p) => /^fr\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').length, FR_PAGES.length, 'the same pages as English');
+  assert.equal(htmlUnder('en').filter((p) => p !== 'en/privacy/index.html').length, FR_PAGES.length, 'the same pages as English, apart from the English-only Privacy Policy (LEGAL-1)');
 });
 
 test('every source has every key English has (+ .many plurals), and no other; the same {placeholders}', () => {

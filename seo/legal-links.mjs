@@ -1,10 +1,12 @@
 // The legal links in the footer of a prefixed-language page (ZH-1, owner D8, 2026-10-22).
 //
 // Two schemes:
-//   'russian'       — the current Russian documents, labelled «in Russian» in the page's language: /terms.html and
-//                     /privacy.html (EN, ES, DE, FR — unchanged, byte for byte).
-//   'international' — the ENGLISH documents being prepared for the international segment (LEGAL-0 / LEGAL-1). The
-//                     Chinese pages never point at the Russian Terms, Refund or Privacy documents (owner D8).
+//   'international' — the ENGLISH documents of the international segment (LEGAL-0 / LEGAL-1). Since LEGAL-1 EVERY
+//                     prefixed language uses it (EN, ES, DE, FR, ZH, KO): no international page points at the Russian
+//                     Terms, Refund or Privacy documents any more (owner, LEGAL-1; ZH already so — owner D8).
+//   'russian'       — the Russian documents, labelled «in Russian»: /terms.html and /privacy.html. Kept for the
+//                     record and for a rehearsal; no published language uses it now. The Russian site's own footer
+//                     (seo/ru-chrome.mjs) is a different file and is untouched.
 //
 // INTL_LEGAL names each English document's URL — null until it is PUBLISHED. A null document is simply not linked:
 // no placeholder page is created and no page says a document exists before it does. Publishing one = its URL here
@@ -20,12 +22,12 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const INTL_LEGAL = Object.freeze({
   terms: null,
   refund: null,
-  privacy: null,
+  privacy: '/en/privacy/', // LEGAL-1: the pre-launch Privacy Policy (seo/privacy-en.mjs)
 });
 
 /** Which footer each prefixed language gets. A language missing here cannot be built. */
 export const LEGAL_SCHEME = Object.freeze({
-  en: 'russian', es: 'russian', de: 'russian', fr: 'russian',
+  en: 'international', es: 'international', de: 'international', fr: 'international',
   'zh-Hans': 'international', ko: 'international',
 });
 

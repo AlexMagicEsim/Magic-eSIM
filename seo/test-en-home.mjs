@@ -46,7 +46,8 @@ test('the home carries the generator\'s header, payment bar and footer, verbatim
 });
 
 test('every English page has the same header shape, the same footer, and the payment bar', () => {
-  assert.equal(PAGES.length, 206);
+  // 206 storefront pages + the Privacy Policy (LEGAL-1), which carries the same chrome.
+  assert.equal(PAGES.length, 207);
   for (const p of PAGES) {
     const h = read(p);
     assert.ok(h.includes(FOOTER), `${p}: footer`);
