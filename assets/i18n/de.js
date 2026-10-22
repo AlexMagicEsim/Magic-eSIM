@@ -56,7 +56,7 @@
     'how.step3': 'Installiere das eSIM-Profil vor dem Abflug.',
     'how.step4': 'Nach der Landung einschalten – und du bist online.',
     'footer.terms': 'AGB (auf Russisch)',
-    'footer.privacy': 'Datenschutz (auf Russisch)',
+    'footer.privacy': 'Datenschutzerklärung (auf Englisch)',
     'site.compatTitle': 'Funktioniert mein Smartphone?',
     'site.compatBody': 'Dein Smartphone muss eSIM unterstützen und darf keinen SIM-Lock haben. Die meisten Smartphones, die nach 2019 erschienen sind, erfüllen das.',
     'site.compatCheck': 'Einrichtung auf dem iPhone',

@@ -61,7 +61,7 @@
     'how.step3': 'Install the eSIM profile before you fly.',
     'how.step4': 'Land, switch it on, and you are online.',
     'footer.terms': 'Terms (in Russian)',
-    'footer.privacy': 'Privacy (in Russian)',
+    'footer.privacy': 'Privacy Policy',
     'site.compatTitle': 'Will my phone work?',
     'site.compatBody': 'Your phone needs eSIM support and must not be carrier-locked. Most phones released after 2019 qualify.',
     'site.compatCheck': 'iPhone setup',

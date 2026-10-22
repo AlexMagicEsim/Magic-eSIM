@@ -155,7 +155,8 @@ test('the generator carries no route of one language — only the shared intl as
   const src = read('seo/build-locale-pages.mjs').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   const routes = [...src.matchAll(/["'`(]\/en\/[^"'`)\s]*/g)].map((m) => m[0].slice(1))
     .filter((p) => !/^\/en\/(en\.css|checkout\.css|noscript\.css|plans\.js|checkout\.js|country\.js|hub\.js)$/.test(p))
-    .filter((p) => p !== '/en/esim/<slug>/');
+    .filter((p) => p !== '/en/esim/<slug>/')
+    .filter((p) => p !== '/en/privacy/'); // the English-only Privacy Policy (LEGAL-1), built for English only
   assert.deepEqual(routes, []);
   assert.doesNotMatch(src, /lang="en"|content="en_US"|text\('en'|attr\('en'/);
 });

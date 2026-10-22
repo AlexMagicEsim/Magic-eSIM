@@ -55,7 +55,8 @@ import { missingGuards } from './claim-guards.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
-import { legalLinks, LEGAL_SCHEME } from './legal-links.mjs';
+import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
+import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
 
 export { FONT_PRELOAD, LOGO };
 
@@ -912,6 +913,83 @@ ${FOOTER}
 `;
 }
 
+/* THE ENGLISH PRIVACY POLICY (LEGAL-1) — /en/privacy/, built for English only. The text lives in ONE place,
+ * seo/privacy-en.mjs; this is its frame, the guide layout (hero, «On this page», one card per section). No script
+ * beyond the logo's (CSP connect-src 'none'), no counter, no cookie. noindex, follow with its own canonical and no
+ * hreflang: the indexing stages of seo/indexing.mjs are untouched, so the sitemap does not change. The language
+ * switch leads every other language to its home — there is no translated policy yet. */
+const PRIVACY_PATH = '/en/privacy/';
+const PRIVACY_NOINDEX = `<!-- The international Privacy Policy (pre-launch). Not offered to search engines (noindex) and not in the
+     sitemap; every international footer links it (seo/legal-links.mjs). -->
+<meta name="robots" content="noindex, follow">`;
+function privacyPage() {
+  if (L.code !== 'en') throw new Error('privacyPage: the Privacy Policy is published in English only');
+  const url = `${SITE}${PRIVACY_PATH}`;
+  const D = PRIVACY;
+  const ids = D.sections.map((x) => x.id);
+  if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z0-9-]+$/.test(id))) throw new Error('privacyPage: section ids must be unique ASCII');
+  const toc = D.sections.map((x) => `        <li><a href="#${x.id}">${esc(x.h2)}</a></li>`).join('\n');
+  const sections = D.sections.map((x) => `    <section class="g-sec prose" id="${x.id}" aria-labelledby="${x.id}-h">
+      <h2 id="${x.id}-h">${esc(x.h2)}</h2>
+${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
+    </section>`).join('\n\n');
+  const switchTwin = (l) => (l.code === 'en' ? PRIVACY_PATH : (l.prefix ? `/${l.prefix}/` : '/'));
+  return `<!doctype html>
+<html lang="${L.htmlLang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(D.title)}</title>
+<meta name="description" content="${esc(D.description)}">
+<link rel="canonical" href="${url}">
+${PRIVACY_NOINDEX}
+${cspMeta("'none'")}
+<meta property="og:type" content="article">
+<meta property="og:locale" content="${L.ogLocale}">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${esc(D.title)}">
+${HEAD_ICONS}
+${FONT_PRELOAD}
+${LOGO_ONCE_SCRIPT}
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/en/en.css">
+<link rel="stylesheet" href="/assets/page-guides.css">
+</head>
+<body>
+
+${header(switchTwin)}
+${PAYBAR}
+
+<main class="guide legal" id="main" tabindex="-1">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › ${esc(D.crumb)}</p>
+      <h1>${esc(D.h1)}</h1>
+      <p class="lead">${esc(D.lead)}</p>
+      <p class="lg-meta">Version ${esc(PRIVACY_VERSION)} · Effective date: <time datetime="${PRIVACY_EFFECTIVE_ISO}">${esc(PRIVACY_EFFECTIVE)}</time></p>
+    </div>
+  </section>
+
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="${C.onThisPage}">
+      <p class="g-toc-title">${C.onThisPage}</p>
+      <ol>
+${toc}
+      </ol>
+    </nav>
+
+    <article class="g-article">
+${sections}
+    </article>
+  </div>
+</main>
+
+${FOOTER}
+</body>
+</html>
+`;
+}
+
 function destinationsJs(list) {
   const rows = list.slice().sort((a, b) => a.name.localeCompare(b.name, L.code))
     .map((c) => `  { iso: ${JSON.stringify(c.iso)}, slug: ${JSON.stringify(c.slug)}, name: ${JSON.stringify(c.name)} },`)
@@ -978,12 +1056,13 @@ function homePage(list = countries()) {
     write(`${base}/esim/index.html`, stampHtml(hubPage(list), join(ROOT, base, 'esim')));
     for (const g of GUIDES) write(`${base}/guides/${g.slug}/index.html`, stampHtml(guidePage(g), join(ROOT, base, 'guides', g.slug)));
     write(`${base}/guides/index.html`, stampHtml(guidesHub(), join(ROOT, base, 'guides')));
+    if (L.code === 'en' && INTL_LEGAL.privacy === PRIVACY_PATH) write('en/privacy/index.html', stampHtml(privacyPage(), join(ROOT, 'en', 'privacy')));
     return { countries: list.length, guides: GUIDES.length };
   }
 
   return Object.freeze({
     locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER,
-    countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin,
+    countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin, privacyPage,
     ...(canWrite ? { build } : {}),
   });
 }

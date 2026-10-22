@@ -56,7 +56,7 @@
     'how.step3': 'Instala el perfil eSIM antes de volar.',
     'how.step4': 'Al aterrizar, actívala y ya tienes conexión.',
     'footer.terms': 'Términos (en ruso)',
-    'footer.privacy': 'Privacidad (en ruso)',
+    'footer.privacy': 'Política de privacidad (en inglés)',
     'site.compatTitle': '¿Funcionará mi teléfono?',
     'site.compatBody': 'Tu teléfono debe admitir eSIM y estar liberado (sin bloqueo de compañía). La mayoría de los teléfonos lanzados después de 2019 cumplen estos requisitos.',
     'site.compatCheck': 'Configurar en iPhone',

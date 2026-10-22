@@ -47,7 +47,7 @@ const ES_PAGES = htmlUnder('es');
 test('206 Spanish pages: the home, the list, 198 countries, the guides list and five guides', () => {
   assert.equal(ES_PAGES.length, 206);
   assert.equal(ES_PAGES.filter((p) => /^es\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').length, ES_PAGES.length, 'the same pages as English');
+  assert.equal(htmlUnder('en').filter((p) => p !== 'en/privacy/index.html').length, ES_PAGES.length, 'the same pages as English, apart from the English-only Privacy Policy (LEGAL-1)');
 });
 
 test('every source has every key English has, and no other', () => {

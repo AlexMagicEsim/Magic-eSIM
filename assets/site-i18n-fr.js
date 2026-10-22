@@ -58,7 +58,7 @@
     'how.step3': 'Installez le profil eSIM avant votre départ.',
     'how.step4': 'À l’arrivée, activez-la : vous êtes connecté.',
     'footer.terms': 'Conditions (en russe)',
-    'footer.privacy': 'Confidentialité (en russe)',
+    'footer.privacy': 'Politique de confidentialité (en anglais)',
     'site.compatTitle': 'Mon téléphone est-il compatible ?',
     'site.compatBody': 'Votre téléphone doit être compatible eSIM et ne doit pas être verrouillé par un opérateur. La plupart des téléphones sortis après 2019 remplissent ces conditions.',
     'site.compatCheck': 'Configuration sur iPhone',
