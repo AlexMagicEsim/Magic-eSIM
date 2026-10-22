@@ -9,7 +9,7 @@
 // Written for the page: plain HTML fragments, English typography (curly quotes, en dashes), no tables — every
 // list reads on a 320 px phone without horizontal scrolling.
 
-export const PRIVACY_VERSION = '0.9 (pre-launch)';
+export const PRIVACY_VERSION = '0.9.1 (pre-launch)';
 export const PRIVACY_EFFECTIVE = '22 October 2026';
 export const PRIVACY_EFFECTIVE_ISO = '2026-10-22';
 
@@ -83,7 +83,7 @@ export const PRIVACY = Object.freeze({
       <h3>GitHub, Inc., with its network provider Fastly, Inc.</h3>
       <p>Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit. <em>Where:</em> United States; global network.</p>
       <h3>Render Services, Inc., with its network provider Cloudflare, Inc.</h3>
-      <p>Runs the server that answers price requests. <em>Data:</em> IP address, technical data, and the plan and number of days requested. <em>Where:</em> a United States company; data may be processed in the United States and in other countries where Render and its providers operate.</p>
+      <p>Runs the server that supplies plan lists and prices to the website. <em>Data:</em> IP address, technical data, and the plan and number of days you ask a price for. <em>Where:</em> a United States company; data may be processed in the United States and in other countries where Render and its providers operate.</p>
       <h3>ImprovMX Incorporated</h3>
       <p>Receives emails sent to support@magicesim.store and forwards them to our mailbox. It keeps delivery logs for 7 days and holds the message content only until it is delivered. <em>Data:</em> your email address, the message headers and the message content in transit. <em>Where:</em> a United States company; its receiving servers are in France, and forwarding may pass through the United States.</p>
       <h3>Our email service providers</h3>
@@ -105,7 +105,7 @@ export const PRIVACY = Object.freeze({
     },
     {
       id: 'retention', h2: '6. How long we keep data', html: `
-      <p>When a period ends, we delete the data or make it anonymous. If data is needed for a dispute or a legal claim, we keep it until the matter is closed.</p>
+      <p>When a period ends, we delete the data or make it anonymous, normally within 30 days. If data is needed for a dispute or a legal claim, we keep it until the matter is closed.</p>
       <ul class="list">
         <li><strong>Support emails:</strong> 3 years after the last message, so that we can deal with follow-up questions and claims.</li>
         <li><strong>Records of privacy requests and our answers:</strong> 3 years after the request is closed.</li>
