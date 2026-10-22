@@ -64,7 +64,7 @@ test('the mobile menu offers exactly the desktop links, plus the language switch
   const panel = HOME.slice(HOME.indexOf('<nav class="mnav-panel"'), HOME.indexOf('</nav>', HOME.indexOf('<nav class="mnav-panel"')));
   const mob = [...panel.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
   assert.deepEqual(desk, ['/en/esim/', '/en/#how', '/en/#compat', '/en/guides/']);
-  assert.deepEqual(mob, [...desk, '/', '/es/', '/de/'], 'plus every other published language\'s home (RU, ES, DE)');
+  assert.deepEqual(mob, [...desk, '/', '/es/', '/de/', '/fr/'], 'plus every other published language\'s home (RU, ES, DE, FR)');
 });
 
 /* ------------------------------------------------------------ what the home shows */

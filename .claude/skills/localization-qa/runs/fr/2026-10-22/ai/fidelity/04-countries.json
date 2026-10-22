@@ -1,0 +1,21 @@
+[
+  {
+    "id": "F04-001",
+    "item_id": "countries:SX",
+    "group": "countries",
+    "key": "SX",
+    "where": "country name (list, page title, H1, plan cards)",
+    "url": "/fr/esim/sint-maarten/",
+    "en": "Sint Maarten",
+    "target": "Sint-Maarten",
+    "suggestion": "Sint Maarten",
+    "explanation": "The deliberate override keeps the local name as the English does, but the hyphen is invented: the Dutch name (and French usage of it, e.g. «Sint Maarten» beside «Saint-Martin (royaume des Pays-Bas)») has no hyphen; ES and DE in the same table write «Sint Maarten». If changed, the FR_POUR key 'Sint-Maarten' in seo/page-copy.mjs must change with it.",
+    "category": "country-name",
+    "severity": "minor",
+    "confidence": 0.65,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "country-name: a form a native reader would use",
+    "objective": false
+  }
+]

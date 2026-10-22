@@ -65,8 +65,10 @@ export const LOCALES = Object.freeze([
   // indexing decision sets indexableHome. Standard German (de-DE, «du»); the Mini App does not offer it.
   L({ code: 'de', prefix: 'de', htmlLang: 'de', hreflang: 'de', ogLocale: 'de_DE', script: 'Latn', endonym: 'Deutsch', defaultMarket: 'global',
     site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+  // FR-1 (2026-10-22): published under noindex (owner D11) — no hreflang cluster, not in the sitemap, until a separate
+  // indexing decision. Standard French (fr-FR, «vous»); the Mini App does not offer it.
   L({ code: 'fr', prefix: 'fr', htmlLang: 'fr', hreflang: 'fr', ogLocale: 'fr_FR', script: 'Latn', endonym: 'Français', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'zh-Hans', prefix: 'zh', htmlLang: 'zh-Hans', hreflang: 'zh-Hans', ogLocale: 'zh_CN', script: 'Hans', endonym: '简体中文', defaultMarket: 'global',
     site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'ko', prefix: 'ko', htmlLang: 'ko', hreflang: 'ko', ogLocale: 'ko_KR', script: 'Hang', endonym: '한국어', defaultMarket: 'global',
