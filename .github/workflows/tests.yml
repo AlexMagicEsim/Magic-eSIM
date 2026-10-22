@@ -54,12 +54,20 @@ jobs:
       - name: Proxy tests
         run: node --test proxy.test.js
 
+  # The suite runs in TWO SHARDS in parallel (Playwright --shard=1/2 and 2/2): together they are exactly the whole
+  # suite — Playwright splits the test list deterministically, no test is in both and none is left out
+  # (seo/test-ci-browser-shards.mjs pins the shape). One job ran ~20 min by 2026-10-22 (1320 tests), and a slow
+  # browser install pushed it past its limit with no failing test. fail-fast is off so a red shard never cancels the
+  # other: both always report. «browser-result» below is the ONE check that says whether the whole suite passed.
   browser:
-    name: Mini App browser tests (Chromium, 390 + 320)
+    name: Mini App browser tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})
     runs-on: ubuntu-24.04
-    # 25, as miniapp-scripts: the suite ran 12.5–14.3 min on main (754–858 s, 2026-10-21) and crossed 15 with the RU/EN
-    # motion-parity specs (#113's push run was cut at 15:00 with no failing test). A limit is for a hang, not for the suite.
-    timeout-minutes: 25
+    # A limit is for a hang, not for the suite: up to 3 × 6 min of install + ~11 min of one shard.
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -80,8 +88,22 @@ jobs:
       # `webkit-flags` project in playwright.config.js). `--with-deps` pulls the
       # system libraries the browsers need on a bare runner; it is the browsers
       # that are downloaded here, not another dependency of the site.
+      # The system libraries come from the runner's Ubuntu mirror, which sometimes stalls: on 2026-10-22 the same step
+      # took ~1 min on one runner and was cut by the job limit after 25 min on another (~60 of 204 packages fetched).
+      # Each attempt is cut after 6 min and retried; three stalls fail the job here, with a clear error, before any test.
+      # A retry never skips a browser — the step succeeds only when the whole install did.
       - name: Install Chromium and WebKit
-        run: npx playwright install --with-deps chromium webkit
+        timeout-minutes: 20
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            timeout --kill-after=30s 6m npx playwright install --with-deps chromium webkit && exit 0
+            echo "::warning::browser install attempt $attempt failed or stalled after 6 min; retrying"
+            sudo pkill -x apt-get || true
+            sudo dpkg --configure -a || true
+          done
+          echo "::error::browser install failed three times"
+          exit 1
 
       # Runs both viewport projects: 390x844 and 320x568, 27 cases each.
       #
@@ -90,7 +112,7 @@ jobs:
       # server over this repository and every API call is fulfilled from a
       # fixture inside the browser. No backend, no Platega, no order.
       - name: Browser tests
-        run: npx playwright test
+        run: npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
       # Only on failure, and only the report: a trace is the difference between
       # "flaky" and "here is what the page was doing", and it is the one thing a
@@ -99,9 +121,26 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: playwright-report
+          name: playwright-report-shard-${{ matrix.shard }}
           path: playwright-report/
           retention-days: 7
+
+  # The verdict over every shard. GitHub shows one check per shard; this job is green ONLY when the whole matrix
+  # succeeded — a failed, cancelled or skipped shard (or a cancelled run) makes it red. `always()` so it reports even
+  # when a shard failed; the result is read from an env var, never interpolated into the script.
+  browser-result:
+    name: Mini App browser tests (all shards)
+    needs: browser
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Every shard passed
+        env:
+          RESULT: ${{ needs.browser.result }}
+        run: |
+          echo "browser shards: $RESULT"
+          test "$RESULT" = "success"
 
   unit:
     name: storefront + Mini App unit tests
@@ -135,7 +174,8 @@ jobs:
   miniapp-scripts:
     name: Mini App scripts (WebKit + Chromium)
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    # Up to 3 × 6 min of browser install (the retry below) + ~7 min of scripts.
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -148,8 +188,22 @@ jobs:
       - name: Install the test runner
         run: npm ci
 
+      # The system libraries come from the runner's Ubuntu mirror, which sometimes stalls: on 2026-10-22 the same step
+      # took ~1 min on one runner and was cut by the job limit after 25 min on another (~60 of 204 packages fetched).
+      # Each attempt is cut after 6 min and retried; three stalls fail the job here, with a clear error, before any test.
+      # A retry never skips a browser — the step succeeds only when the whole install did.
       - name: Install Chromium and WebKit
-        run: npx playwright install --with-deps chromium webkit
+        timeout-minutes: 20
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            timeout --kill-after=30s 6m npx playwright install --with-deps chromium webkit && exit 0
+            echo "::warning::browser install attempt $attempt failed or stalled after 6 min; retrying"
+            sudo pkill -x apt-get || true
+            sudo dpkg --configure -a || true
+          done
+          echo "::error::browser install failed three times"
+          exit 1
 
       - name: Mini App scripts
         run: node test/mini-app/run-all.mjs
