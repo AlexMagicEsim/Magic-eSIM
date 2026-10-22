@@ -1,0 +1,21 @@
+[
+  {
+    "id": "F02-001",
+    "item_id": "page:guidesDescription",
+    "group": "page",
+    "key": "guidesDescription",
+    "where": "guides",
+    "url": "",
+    "en": "How to install a travel eSIM on iPhone and Android, check that your phone supports it, when to install it and what to do if it does not work.",
+    "target": "So installierst du eine Reise-eSIM auf iPhone und Android, prüfst dein Smartphone, wählst den richtigen Zeitpunkt und löst Probleme.",
+    "suggestion": "So installierst du eine Reise-eSIM auf iPhone und Android, prüfst, ob dein Smartphone sie unterstützt, wählst den richtigen Zeitpunkt und löst Probleme.",
+    "explanation": "Accuracy (rule 1): the English says what is checked – that the phone supports an eSIM (the compatibility guide); «prüfst dein Smartphone» drops that object and reads as a generic device check. The suggestion restores it and stays within the 160-character budget (152).",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.75,
+    "source": "ai",
+    "stage": "fidelity",
+    "objective": true,
+    "rule": "fidelity: information lost"
+  }
+]

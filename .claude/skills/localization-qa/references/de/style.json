@@ -1,0 +1,51 @@
+{
+  "language": "de",
+  "variant": "Standard German (de-DE) for Germany, Austria and Switzerland (owner decision D3, 2026-10-22): «du», no dialect, no regional words; «ß» as in de-DE.",
+  "formality": "du",
+  "invertedPunctuation": false,
+  "seo": {
+    "titleMax": 60,
+    "descriptionMax": 160
+  },
+  "priceFormat": "12,99 USD (de-DE, currencyDisplay code) — decided, never a finding",
+  "sameAsEnglishAllowed": [
+    "Plan",
+    "IP: {names}",
+    "{n} GB",
+    "{name} + {n} {countries}",
+    "Magic eSIM",
+    "iPhone",
+    "Android",
+    "WLAN",
+    "eSIM",
+    "Pixel",
+    "Galaxy",
+    "Support:",
+    "Regional",
+    "Thailand",
+    "Japan"
+  ],
+  "forbidden": [
+    {
+      "id": "sie-form",
+      "pattern": "(?<![\\p{L}])(Sie (können|müssen|sollten|brauchen|haben|finden|erhalten|wählen|tippen)|Ihnen|bitte geben Sie)(?![\\p{L}])",
+      "severity": "major",
+      "category": "style-variant",
+      "reason": "a «Sie» form — the site addresses the reader as «du» (owner D1); mixing registers reads as two writers."
+    },
+    {
+      "id": "helvetism",
+      "pattern": "(?<![\\p{L}])(Natel|parkieren|Velo|grillieren|allfällig)(?![\\p{L}])",
+      "severity": "minor",
+      "category": "style-variant",
+      "reason": "a Swiss-only word — the site writes standard German (de-DE)."
+    },
+    {
+      "id": "anglicism-handy-data",
+      "pattern": "(?<![\\p{L}])(Data-Plan|Datenplan|Datapass|downloaden|Settings)(?![\\p{L}])",
+      "severity": "minor",
+      "category": "terminology",
+      "reason": "an anglicism where German has the established word (Datentarif, herunterladen, Einstellungen)."
+    }
+  ]
+}

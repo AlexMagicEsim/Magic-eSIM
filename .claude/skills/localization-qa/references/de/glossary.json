@@ -1,0 +1,21 @@
+{
+  "language": "de",
+  "note": "Terms of this storefront. «target» is the established translation (as on the live pages); «avoid» are variants that are wrong, regional or inconsistent; «consistency» asks the check to flag a string whose source has the term and whose translation has neither the term nor an accepted variant.",
+  "doNotTranslate": ["Magic eSIM", "eSIM", "QR", "iPhone", "Android", "Pixel", "Galaxy", "iOS", "USD", "Stay Connected Anywhere", "support@magicesim.store", "EID", "APN"],
+  "terms": [
+    { "en": "QR code", "target": "QR-Code", "consistency": true },
+    { "en": "mobile data", "target": "mobile Daten", "alsoAccept": ["Mobile Daten", "Daten", "Mobilfunkdaten"], "consistency": true },
+    { "en": "data roaming", "target": "Datenroaming", "alsoAccept": ["Roaming"], "consistency": true },
+    { "en": "airplane mode", "target": "Flugmodus", "consistency": true },
+    { "en": "destination", "target": "Reiseziel", "alsoAccept": ["Reiseziele", "Reiseziels", "Ziel", "Zielen", "Land"], "consistency": true },
+    { "en": "plan", "target": "Tarif", "alsoAccept": ["Tarife", "Tarifs", "Tarifen", "Datentarif", "Datentarife", "Ländertarif", "Regionaltarif", "Tagestarif"], "avoid": ["Plan", "Datenplan"], "consistency": true },
+    { "en": "Wi-Fi", "target": "WLAN", "avoid": ["Wi-Fi", "WiFi"], "why": "German interfaces (Apple, Samsung, Google) say WLAN.", "consistency": true },
+    { "en": "carrier-locked", "target": "SIM-Lock", "alsoAccept": ["gesperrt", "Netzsperre"], "why": "Apple's German page names the row «SIM-Lock».", "consistency": true },
+    { "en": "carrier", "target": "Mobilfunkanbieter", "alsoAccept": ["Anbieter", "Netzbetreiber"], "consistency": false },
+    { "en": "validity", "target": "Gültigkeit", "alsoAccept": ["Laufzeit", "gültig"], "consistency": true },
+    { "en": "phone", "target": "Smartphone", "alsoAccept": ["Telefon", "Handy", "iPhone"], "consistency": false },
+    { "en": "troubleshooting", "target": "Fehlerbehebung", "consistency": false },
+    { "en": "checkout", "target": "Bestellung", "alsoAccept": ["Bestellvorgang"], "consistency": false },
+    { "en": "promo code", "target": "Aktionscode", "avoid": ["Promo-Code", "Gutscheincode"], "consistency": true }
+  ]
+}

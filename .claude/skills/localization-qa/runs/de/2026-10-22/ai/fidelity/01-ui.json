@@ -1,0 +1,21 @@
+[
+  {
+    "id": "F01-001",
+    "item_id": "ui:quote.explain",
+    "group": "ui",
+    "key": "quote.explain",
+    "where": "checkout window (country page → plan)",
+    "url": "",
+    "en": "The exact price is fixed by our server and held for 30 minutes.",
+    "target": "Den genauen Preis legt unser Server fest und hält ihn 30 Minuten lang.",
+    "suggestion": "Den genauen Preis legt unser Server fest und reserviert ihn 30 Minuten lang.",
+    "explanation": "«held» is rendered «hält» here but «reserviert» in ui:quote.heldFor («Preis reserviert für {time}»); the same concept in the same window reads two ways, and «reserviert» states the 30-minute hold more clearly. Meaning is intact — a consistency nuance.",
+    "category": "consistency",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "consistency: one source term, one translation within the batch",
+    "objective": false
+  }
+]

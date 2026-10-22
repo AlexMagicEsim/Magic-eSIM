@@ -97,7 +97,7 @@ test('an unknown language is refused rather than stored', () => {
   assert.equal(i.setLang(undefined), 'en');
   assert.equal(i.setLang('ru'), 'ru');
   assert.deepEqual(I18N.LANGS, siteLocales());
-  assert.deepEqual(I18N.LANGS, ['ru', 'en', 'es']);
+  assert.deepEqual(I18N.LANGS, ['ru', 'en', 'es', 'de']);
 });
 
 test('an unrecognised initial language resolves to Russian, not to English', () => {

@@ -108,7 +108,7 @@ test('the Russian header reads its dictionary words from the dictionary', () => 
 
 test('the reader throws on an unknown key or language instead of printing a key', () => {
   assert.throws(() => word('en', 'nav.nothing'), /no en entry for nav\.nothing/);
-  assert.throws(() => word('de', 'nav.how'), /no language de/);
+  assert.throws(() => word('fr', 'nav.how'), /no language fr/);
   assert.throws(() => word('en', '__proto__'), /no en entry/);
   assert.throws(() => text('ru', 'site.tagline'), /no ru entry/, 'an English-only key has no Russian');
 });

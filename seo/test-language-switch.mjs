@@ -91,13 +91,13 @@ for (const L of PLANNED) {
 }
 
 test('the switch never names a language the registry does not publish (besides the page\'s own)', () => {
-  const G = rehearsalGenerator('de', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en });
+  const G = rehearsalGenerator('fr', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en });
   const html = G.hubPage(G.countries());
-  for (const l of LOCALES.filter((x) => !x.site.enabled && x.code !== 'de')) {
+  for (const l of LOCALES.filter((x) => !x.site.enabled && x.code !== 'fr')) {
     assert.ok(!html.includes(`>${l.endonym}<`), `${l.code} is not published and not offered`);
   }
-  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en', 'es'], 'published since ES-1: RU, EN, ES');
-  assert.equal(locale('de').site.enabled, false);
+  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en', 'es', 'de'], 'published since DE-1: RU, EN, ES, DE');
+  assert.equal(locale('fr').site.enabled, false);
 });
 
 test('the RU pages are not part of the switch work: their header still links to /en/ only', () => {

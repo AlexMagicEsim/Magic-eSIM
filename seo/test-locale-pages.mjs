@@ -32,7 +32,7 @@ import { stampHtml } from './asset-version.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const NEW = ['de', 'fr', 'zh-Hans', 'ko'];   // planned, not published (Spanish was published by ES-1)
+const NEW = ['fr', 'zh-Hans', 'ko'];   // planned, not published (Spanish was published by ES-1, German by DE-1)
 
 /** The registry with one language turned on — for rehearsal only, never written anywhere. */
 const withEnabled = (code) => LOCALES.map((l) => (l.code === code
@@ -43,10 +43,10 @@ const withEnabled = (code) => LOCALES.map((l) => (l.code === code
  * 1. English did not move
  * ===================================================================== */
 
-test('the generator publishes English and Spanish, and nothing else', () => {
-  assert.deepEqual(publishedLocales(), ['en', 'es']);
-  assert.deepEqual(Object.keys(PAGE_COPY), ['en', 'es']);
-  assert.deepEqual(Object.keys(GUIDES_BY_LOCALE), ['en', 'es']);
+test('the generator publishes English, Spanish and German, and nothing else', () => {
+  assert.deepEqual(publishedLocales(), ['en', 'es', 'de']);
+  assert.deepEqual(Object.keys(PAGE_COPY), ['en', 'es', 'de']);
+  assert.deepEqual(Object.keys(GUIDES_BY_LOCALE), ['en', 'es', 'de']);
 });
 
 test('Spanish built through the locale generator equals the committed pages, byte for byte — home, list, 198 countries, guides', () => {
@@ -131,9 +131,10 @@ test('the Spanish pages sit at /es/ and say so; their indexing is seo/indexing.m
  * 2. Nothing else can be published by accident
  * ===================================================================== */
 
-test('every language but English and Spanish is refused, each for its stated reason', () => {
+test('every language but English, Spanish and German is refused, each for its stated reason', () => {
   assert.equal(cannotBuild('en'), null);
   assert.equal(cannotBuild('es'), null);
+  assert.equal(cannotBuild('de'), null);
   assert.match(cannotBuild('ru'), /root language/);
   for (const code of NEW) {
     assert.match(cannotBuild(code), /not enabled for the site/, code);
@@ -170,11 +171,11 @@ test('the refresh allowlist is what it was — derived now, not typed', () => {
   assert.deepEqual([...FIXED_ALLOWED], [
     'esim/index.html', 'sitemap.xml', 'seo/catalogue-countries.json', 'seo/fact-sheets.json',
     'seo/sitemap-lastmod.json', 'en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js',
-    'assets/ru-destinations.js',
+    'de/esim/index.html', 'de/destinations.js', 'assets/ru-destinations.js',
   ]);
   assert.deepEqual([...allowedPaths(['thailand'])].sort(),
-    [...FIXED_ALLOWED, 'esim/thailand/index.html', 'en/esim/thailand/index.html', 'es/esim/thailand/index.html'].sort());
-  assert.equal([...allowedPaths(['thailand'])].some((p) => /^(de|fr|zh|ko)\//.test(p)), false);
+    [...FIXED_ALLOWED, 'esim/thailand/index.html', 'en/esim/thailand/index.html', 'es/esim/thailand/index.html', 'de/esim/thailand/index.html'].sort());
+  assert.equal([...allowedPaths(['thailand'])].some((p) => /^(fr|zh|ko)\//.test(p)), false);
 });
 
 test('the sitemap lists the indexed prefixed pages (I18N-09) — English and Spanish, no planned language', () => {
@@ -199,21 +200,22 @@ test('the workflow stages and hashes exactly the registry\'s paths', () => {
   assert.deepEqual(tree[1].trim().split(/\s+/), refreshTreePaths());
 });
 
-test('REHEARSAL: with German enabled the automation would carry German paths — and nothing is written', () => {
-  const de = withEnabled('de');
-  assert.deepEqual(prefixedSiteLocales(de).map((l) => l.code), ['en', 'es', 'de']);
-  assert.deepEqual(refreshStagePaths(de), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
-    'de/esim', 'de/destinations.js', 'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'sitemap.xml']);
-  assert.deepEqual(refreshTreePaths(de), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
-    'de/esim', 'de/destinations.js', 'seo', 'sitemap.xml']);
-  assert.deepEqual(catalogueLocalePaths(['peru'], de), {
-    fixed: ['en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js', 'de/esim/index.html', 'de/destinations.js'],
-    perCountry: ['en/esim/peru/index.html', 'es/esim/peru/index.html', 'de/esim/peru/index.html'],
+test('REHEARSAL: with French enabled the automation would carry French paths — and nothing is written', () => {
+  const fr = withEnabled('fr');
+  assert.deepEqual(prefixedSiteLocales(fr).map((l) => l.code), ['en', 'es', 'de', 'fr']);
+  assert.deepEqual(refreshStagePaths(fr), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
+    'de/esim', 'de/destinations.js', 'fr/esim', 'fr/destinations.js', 'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'sitemap.xml']);
+  assert.deepEqual(refreshTreePaths(fr), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
+    'de/esim', 'de/destinations.js', 'fr/esim', 'fr/destinations.js', 'seo', 'sitemap.xml']);
+  assert.deepEqual(catalogueLocalePaths(['peru'], fr), {
+    fixed: ['en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js', 'de/esim/index.html', 'de/destinations.js',
+      'fr/esim/index.html', 'fr/destinations.js'],
+    perCountry: ['en/esim/peru/index.html', 'es/esim/peru/index.html', 'de/esim/peru/index.html', 'fr/esim/peru/index.html'],
   });
   // …and the live registry is untouched by the rehearsal.
-  assert.deepEqual(prefixedSiteLocales().map((l) => l.code), ['en', 'es']);
-  assert.equal(existsSync(join(ROOT, 'de')), false);
-  assert.deepEqual(indexablePrefixedHomes(de), ['en', 'es', 'de'], 'an indexable German home would join English and Spanish');
+  assert.deepEqual(prefixedSiteLocales().map((l) => l.code), ['en', 'es', 'de']);
+  assert.equal(existsSync(join(ROOT, 'fr')), false);
+  assert.deepEqual(indexablePrefixedHomes(fr), ['en', 'es', 'fr'], 'an indexable French home would join English and Spanish (German is published under noindex)');
 });
 
 test('the page copy is complete for every language it has', () => {

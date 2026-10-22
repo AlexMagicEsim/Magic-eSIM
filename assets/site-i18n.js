@@ -30,7 +30,7 @@
   'use strict';
 
   /** The only two strings that are ever a language. Compared by equality. */
-  var LANGS = ['ru', 'en', 'es'];
+  var LANGS = ['ru', 'en', 'es', 'de'];
 
   /**
    * Russian, when we do not know.
@@ -215,6 +215,8 @@
        * language's own Intl.PluralRules. The number format is data too: the
        * locale Intl formats a dollar amount with. */
       'fmt.numberLocale': 'en-US',
+      // How the currency is written: 'symbol' («$12.99», «USD 12.99» in es-419) or 'code' («12,99 USD»). Intl's own value.
+      'fmt.currencyDisplay': 'symbol',
       'fmt.listSeparator': ', ',
       'plan.badgeLocal': 'Local plan',
       'plan.badgeRegional': 'Regional plan',
@@ -353,6 +355,7 @@
       'home.supportTitle': '¿Tienes preguntas antes de viajar?',
       'home.supportBody': 'Escribe a nuestro equipo de soporte por correo electrónico.',
       'fmt.numberLocale': 'es-419',
+      'fmt.currencyDisplay': 'symbol',
       'fmt.listSeparator': ', ',
       'plan.badgeLocal': 'Plan local',
       'plan.badgeRegional': 'Plan regional',
@@ -374,6 +377,145 @@
       'hub.noMatches': 'Sin resultados',
       'hub.matches.one': '{n} destino coincide',
       'hub.matches.other': '{n} destinos coinciden'
+    },
+    /* Standard German (de-DE), addressed with «du» as Apple's, Google's and Samsung's German support pages do (owner D1,
+     * DE-1 2026-10-22): every English key, no more — seo/test-de-site.mjs holds the two key sets equal. Prices «12,99 USD»
+     * (owner D2: fmt.numberLocale de-DE + fmt.currencyDisplay code). An AI-assisted draft held to the English facts and to
+     * seo/claim-guards.mjs (de); quality is the three-stage AI review of the localization-qa skill (no native review). */
+    de: {
+      'nav.destinations': 'Reiseziele',
+      'nav.how': 'So funktioniert es',
+      'nav.tariffs': 'Tarife',
+      'nav.guides': 'Anleitungen',
+      'checkout.title': 'Bestellung',
+      'checkout.plan': 'eSIM-Tarif',
+      'checkout.coverage': 'Abdeckung',
+      'checkout.data': 'Datenvolumen',
+      'checkout.term': 'Gültigkeit',
+      'checkout.price': 'Preis',
+      'checkout.discount': 'Rabatt durch Aktionscode',
+      'checkout.total': 'Gesamt',
+      'checkout.close': 'Schließen',
+      'checkout.method': 'Zahlungsart',
+      'checkout.promo': 'Aktionscode',
+      'checkout.promoApply': 'Einlösen',
+      'checkout.promoRemove': 'Entfernen',
+      'checkout.email': 'E-Mail-Adresse für deine eSIM',
+      'checkout.continue': 'Weiter',
+      'site.tagline': 'Mobile Daten im Ausland – ohne Roaminggebühren',
+      'site.lead': 'Wähle ein Reiseziel, installiere eine eSIM und sei nach der Landung online. Ohne Plastik-SIM, ohne Warteschlange am Flughafen.',
+      'site.chooseCountry': 'Wohin reist du?',
+      'site.searchPlaceholder': 'Land oder Region',
+      'site.plansFor': 'Tarife für',
+      'site.noPlans': 'Für dieses Reiseziel gibt es noch keine Tarife.',
+      'site.noDestination': 'Kein Reiseziel passt zu diesem Namen.',
+      'site.allDestinations': 'Alle Reiseziele',
+      'site.unavailable': 'Vorübergehend nicht verfügbar',
+      'site.loading': 'Tarife werden geladen …',
+      'site.loadFailed': 'Die Tarife konnten nicht geladen werden. Bitte versuche es erneut.',
+      'site.pricesUnavailable': 'Die Preise sind vorübergehend nicht verfügbar. Schau bald wieder vorbei – bestellen kann man hier noch nichts.',
+      'site.retry': 'Erneut versuchen',
+      'site.choose': 'Details ansehen',
+      'nav.compat': 'Gerätecheck',
+      'how.title': 'So funktioniert es',
+      'how.step1': 'Wähle dein Reiseziel und einen Datentarif.',
+      'how.step2': 'Prüfe, ob dein Smartphone eSIM unterstützt und keinen SIM-Lock hat.',
+      'how.step3': 'Installiere das eSIM-Profil vor dem Abflug.',
+      'how.step4': 'Nach der Landung einschalten – und du bist online.',
+      'footer.terms': 'AGB (auf Russisch)',
+      'footer.privacy': 'Datenschutz (auf Russisch)',
+      'site.compatTitle': 'Funktioniert mein Smartphone?',
+      'site.compatBody': 'Dein Smartphone muss eSIM unterstützen und darf keinen SIM-Lock haben. Die meisten Smartphones, die nach 2019 erschienen sind, erfüllen das.',
+      'site.compatCheck': 'Einrichtung auf dem iPhone',
+      'site.compatGuide': 'So prüfst du dein Smartphone',
+      'site.compatAndroid': 'Einrichtung unter Android',
+      'price.currencyNote': 'Preise in US-Dollar (USD). Diese Tarife können auf dieser Seite noch nicht gekauft werden.',
+      'preview.noticeTitle': 'Online-Zahlung ist noch nicht verfügbar – hier können noch keine Tarife gekauft werden',
+      'preview.noticeBody': 'Du kannst Tarife ansehen, einen genauen Preis in US-Dollar abrufen und den Bestellvorgang durchgehen, aber eine Zahlung ist noch nicht möglich: Es wird nichts abgebucht und weder eine Bestellung noch eine eSIM erstellt.',
+      'preview.title': 'Tarifdetails',
+      'preview.price': 'Preis',
+      'pay.unavailableTitle': 'Online-Zahlung ist noch nicht verfügbar',
+      'pay.unavailableBody': 'Du kannst einen Tarif prüfen und seinen genauen Preis abrufen, aber eine Zahlung ist noch nicht möglich. Es wird nichts abgebucht und weder eine Bestellung noch eine eSIM erstellt.',
+      'pay.finalTitle': 'Online-Zahlung ist noch nicht verfügbar',
+      'pay.finalBody': 'Wir können noch keine Zahlungen annehmen. Deshalb wurde nichts abgebucht und keine Bestellung erstellt, und es wird keine eSIM verschickt. Deine E-Mail-Adresse wurde weder gesendet noch gespeichert.',
+      'pay.disabled': 'Zahlung noch nicht verfügbar',
+      'checkout.duration': 'Laufzeit',
+      'checkout.listed': 'Listenpreis',
+      'checkout.emailShort': 'E-Mail',
+      'checkout.emailNote': 'Wird noch nirgendwohin gesendet und nirgends gespeichert – eine Zahlung ist noch nicht möglich.',
+      'checkout.emailInvalid': 'Bitte gib eine gültige E-Mail-Adresse ein.',
+      'checkout.device': 'Mein Smartphone unterstützt eSIM und hat keinen SIM-Lock',
+      'checkout.deviceRequired': 'Bitte bestätige, dass dein Smartphone eSIM unterstützt.',
+      'checkout.review': 'Überprüfen',
+      'checkout.back': 'Zurück',
+      'quote.explain': 'Den genauen Preis legt unser Server fest und reserviert ihn 30 Minuten lang.',
+      'quote.get': 'Genauen Preis abrufen',
+      'quote.again': 'Neuen Preis abrufen',
+      'quote.loading': 'Preis wird abgerufen …',
+      'quote.heldFor': 'Preis reserviert für {time}',
+      'quote.expired': 'Dieser Preis ist abgelaufen. Ruf einen neuen Preis ab, um fortzufahren.',
+      'quote.fixed': 'Der Preis steht fest: {price}.',
+      'quote.changed': 'Der Preis wurde aktualisiert, seit die Liste geladen wurde.',
+      'quote.unavailable': 'Der Preis ist vorübergehend nicht verfügbar. Bitte versuche es später erneut.',
+      'quote.busy': 'Zu viele Anfragen. Bitte warte eine Minute und versuche es dann erneut.',
+      'quote.gone': 'Dieser Tarif ist nicht mehr verfügbar. Bitte wähle einen anderen.',
+      'quote.offline': 'Der Server ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.',
+      'lang.ru': 'Русский',
+      'lang.en': 'English',
+      'lang.switchToRu': 'Перейти на русскую версию',
+      'nav.findPlan': 'Tarif finden',
+      'preview.more': 'Was das bedeutet',
+      'footer.about': 'eSIM-Datentarife für Reisen zu über 190 Zielen, mit Preisen in US-Dollar.',
+      'footer.help': 'Hilfe',
+      'home.eyebrow': 'Reise-eSIM für über 190 Reiseziele',
+      'home.h1a': 'Mobile Daten im Ausland,',
+      'home.h1b': 'ohne Roaminggebühren',
+      'home.searchPlaceholder': 'Wohin reist du?',
+      'home.find': 'Tarife finden',
+      'home.popularShort': 'Beliebt:',
+      'home.fact1': 'Preise in US-Dollar',
+      'home.fact2': 'Installation per QR-Code',
+      'home.fact3': 'Länder-, Regional- und Tagestarife',
+      'home.popularTitle': 'Beliebte Reiseziele',
+      'home.popularLead': 'Wähle ein Land, um seine Tarife zu sehen – mit Preisen in US-Dollar.',
+      'home.viewPlans': 'Tarife ansehen',
+      'home.howKicker': 'Erste Schritte',
+      'home.typesKicker': 'Tarife',
+      'home.typesTitle': 'Drei Arten von Tarifen',
+      'home.typesLead': 'Jede Reiseziel-Seite ordnet ihre Tarife gleich an, damit du Gleiches mit Gleichem vergleichen kannst.',
+      'home.typeLocalTitle': 'Tarife für ein Land',
+      'home.typeLocalBody': 'Ein festes Datenvolumen für ein Land, gültig für eine feste Anzahl von Tagen.',
+      'home.typeRegionalTitle': 'Regionale Tarife',
+      'home.typeRegionalBody': 'Ein Tarif für mehrere Länder, für eine Reise über Grenzen hinweg. Bei jedem Tarif sind die Länder aufgeführt, die er abdeckt.',
+      'home.typeDailyTitle': 'Daten für jeden Tag',
+      'home.typeDailyBody': 'Ein Datenvolumen für jeden Reisetag statt einer einzigen Menge für den ganzen Aufenthalt.',
+      'home.guidesTitle': 'eSIM einrichten und Probleme lösen',
+      'home.guidesLead': 'Eine Reise-eSIM installieren, prüfen und Probleme beheben – Schritt für Schritt.',
+      'home.supportTitle': 'Fragen vor der Reise?',
+      'home.supportBody': 'Schreib unserem Support-Team eine E-Mail.',
+      'fmt.numberLocale': 'de-DE',
+      'fmt.currencyDisplay': 'code',
+      'fmt.listSeparator': ', ',
+      'plan.badgeLocal': 'Ländertarif',
+      'plan.badgeRegional': 'Regionaltarif',
+      'plan.badgeDaily': 'Tagestarif',
+      'plan.daysLegend': 'Tage',
+      'plan.gb': '{n} GB',
+      'plan.dayCount.one': '{n} Tag',
+      'plan.dayCount.other': '{n} Tage',
+      'plan.country.one': 'Land',
+      'plan.country.other': 'Länder',
+      'plan.coverageIncl': '{n} {countries}, darunter {name}',
+      'plan.coveragePlus': '{name} + {n} {countries}',
+      'plan.alsoCovers': 'Gilt auch für {names}',
+      'plan.alsoCoversMore': 'Gilt auch für {names} und {n} weitere',
+      'plan.networks': '{n} Netze',
+      'plan.ip': 'IP: {names}',
+      'plan.showAll': 'Alle {n} Tarife anzeigen',
+      'plan.showFewer': 'Weniger Tarife anzeigen',
+      'hub.noMatches': 'Keine Treffer',
+      'hub.matches.one': '{n} Reiseziel gefunden',
+      'hub.matches.other': '{n} Reiseziele gefunden'
     }
   };
 
@@ -382,12 +524,13 @@
    * language sits under its own prefix — the registry's (seo/locales.mjs),
    * held equal to it by seo/test-locales.mjs.
    */
-  var PREFIX = { ru: '', en: 'en', es: 'es' };
+  var PREFIX = { ru: '', en: 'en', es: 'es', de: 'de' };
   Object.freeze(PREFIX);
 
   Object.freeze(DICT.ru);
   Object.freeze(DICT.en);
   Object.freeze(DICT.es);
+  Object.freeze(DICT.de);
   Object.freeze(DICT);
 
   function isLang(v) {

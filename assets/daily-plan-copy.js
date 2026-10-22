@@ -172,6 +172,32 @@
         'Весь мир': 'Todo el mundo', 'Европа': 'Europa', 'Азия и Океания': 'Asia-Pacífico',
         'Азия': 'Asia', 'Африка': 'África'
       }
+    },
+    // Standard German (de-DE, owner D3), I18N DE-1. Decimal COMMA («1,5 GB»), German units (kbit/s, Mbit/s). The same
+    // four lines as English, no more.
+    de: {
+      blockTitle: 'Daten für jeden Tag',
+      decimal: ',', mb: 'MB', gb: 'GB',
+      kbps: 'kbit/s', mbps: 'Mbit/s', gbps: 'Gbit/s',
+      allowance: '{a} pro Tag mit voller Geschwindigkeit',
+      throttle: 'Danach bis zu {s}',
+      reset: 'Das Volumen wird alle 24 Stunden zurückgesetzt',
+      term: 'Laufzeit: {n} {days}',
+      perDay: '{a} pro Tag',
+      titled: '{place} – {perDay}',
+      withTerm: '{base}, {n} {days}',
+      count: '{n} {countries}',
+      listSep: ', ', listAnd: ' und ',
+      days: { one: 'Tag', other: 'Tage' },
+      countries: { one: 'Land', other: 'Länder' },
+      places: {
+        'Центральная Азия': 'Zentralasien', 'Балканы': 'Balkan',
+        'Северная Америка': 'Nordamerika', 'Южная Америка': 'Südamerika',
+        'Латинская Америка': 'Lateinamerika', 'Карибы': 'Karibik',
+        'Страны Персидского залива': 'Golfstaaten', 'Ближний Восток': 'Naher Osten',
+        'Весь мир': 'Weltweit', 'Европа': 'Europa', 'Азия и Океания': 'Asien-Pazifik',
+        'Азия': 'Asien', 'Африка': 'Afrika'
+      }
     }
     /* --- LANGUAGE TABLES END --- */
   };
