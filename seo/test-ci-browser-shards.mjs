@@ -6,8 +6,9 @@
 //   - fail-fast is off, so one red shard never cancels (hides) the other;
 //   - one aggregate job reads `needs.browser.result` and is green ONLY on «success» — a failed, cancelled or skipped
 //     shard turns it red; it runs `always()`, so it reports even then;
-//   - every browser install is cut after a few minutes and retried a bounded number of times, and the step fails
-//     when every attempt failed — a retry can never turn into «installed nothing, carried on».
+//   - both browser jobs run in Microsoft's Playwright image of the lockfile's @playwright/test version, pinned by
+//     digest, and nothing downloads browsers: a timed, retried download was tried first (2026-10-22) and stalled on
+//     4 of 6 runners for all three attempts — the same runner kept the same slow Ubuntu mirror.
 // Read from the workflow TEXT: the unit job runs without dependencies.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -55,19 +56,23 @@ export function shardProblems(text) {
   return out;
 }
 
-/** Problems with the browser installs of a workflow; [] when every install is bounded and retried. */
-export function installProblems(text) {
+const LOCK = JSON.parse(readFileSync(join(ROOT, 'package-lock.json'), 'utf8')).packages['node_modules/@playwright/test'].version;
+
+/** Problems with where the browsers come from; [] when both browser jobs run in the lockfile's Playwright image. */
+export function imageProblems(text) {
   const out = [];
-  // a step ends at the next step, job or comment block at step level (the comment belongs to the step after it)
-  const steps = text.split(/\n(?= {6}- )/).map((s) => s.replace(/\n(?: {6}#| {2}[a-z])[\s\S]*$/, '\n')).filter((s) => /npx playwright install\b/.test(s));
-  if (steps.length === 0) out.push('no browser install');
-  for (const step of steps) {
-    const name = (step.match(/name: ([^\n]+)/) || [, '?'])[1];
-    if (!/timeout-minutes: \d+/.test(step)) out.push(`${name}: no step timeout`);
-    if (!/for attempt in [\d ]+; do/.test(step)) out.push(`${name}: no bounded retry`);
-    if (!/\n {12}timeout (--kill-after=\S+ )?\d+m npx playwright install --with-deps chromium webkit && exit 0\n/.test(step)) out.push(`${name}: an attempt is not cut by \`timeout\``);
-    if (!/\n {10}exit 1\n?$/.test(step.trimEnd() + '\n')) out.push(`${name}: does not fail after the last attempt`);
+  for (const id of ['browser', 'miniapp-scripts']) {
+    const job = jobText(text, id);
+    if (!job) { out.push(`no ${id} job`); continue; }
+    const m = job.match(/\n {4}container:\n {6}image: mcr\.microsoft\.com\/playwright:v([0-9.]+)-noble@sha256:([0-9a-f]+)\n/);
+    if (!m) { out.push(`${id}: not in mcr.microsoft.com/playwright:v<version>-noble@sha256:<digest>`); continue; }
+    if (m[1] !== LOCK) out.push(`${id}: image v${m[1]} ≠ @playwright/test ${LOCK} in package-lock.json`);
+    if (m[2].length !== 64) out.push(`${id}: the digest is not a full sha256`);
   }
+  // a download fallback would bring the stalled mirror back
+  if (/npx playwright install\b/.test(text)) out.push('tests.yml downloads browsers (npx playwright install)');
+  const digests = new Set([...text.matchAll(/image: mcr\.microsoft\.com\/playwright:[^\s]+/g)].map((x) => x[0]));
+  if (digests.size > 1) out.push(`two different Playwright images: ${[...digests].join(' | ')}`);
   return out;
 }
 
@@ -75,9 +80,8 @@ test('the browser suite runs in shards 1..N of the matrix, unfiltered, with fail
   assert.deepEqual(shardProblems(WORKFLOW), []);
 });
 
-test('every browser install in tests.yml is cut after a few minutes, retried a bounded number of times, and fails at the end', () => {
-  assert.deepEqual(installProblems(WORKFLOW), []);
-  assert.equal([...WORKFLOW.matchAll(/npx playwright install\b/g)].length, 2, 'the browser job and miniapp-scripts');
+test('both browser jobs run in Microsoft\'s Playwright image of the lockfile\'s version, pinned by digest; nothing is downloaded', () => {
+  assert.deepEqual(imageProblems(WORKFLOW), []);
 });
 
 test('negative controls: each way to make a red shard look green, or to drop tests, is caught', () => {
@@ -93,11 +97,11 @@ test('negative controls: each way to make a red shard look green, or to drop tes
   assert.notDeepEqual(mut('  browser-result:', '  browser-summary:'), []);
 });
 
-test('negative controls: an unbounded, unretried or never-failing install is caught', () => {
-  const plain = 'jobs:\n  x:\n    steps:\n      - name: Install Chromium and WebKit\n        run: npx playwright install --with-deps chromium webkit\n';
-  assert.notDeepEqual(installProblems(plain), []);
-  const swallow = WORKFLOW.replace(/echo "::error::browser install failed three times"\n {10}exit 1/g, 'echo "::warning::carry on"');
-  assert.notDeepEqual(installProblems(swallow), []);
-  const noCut = WORKFLOW.replace(/timeout --kill-after=30s 6m npx/g, 'npx');
-  assert.notDeepEqual(installProblems(noCut), []);
+test('negative controls: a drifted, unpinned, missing or bypassed image is caught', () => {
+  const img = WORKFLOW.match(/image: (mcr\.microsoft\.com\/playwright:v[0-9.]+-noble@sha256:[0-9a-f]{64})/)[1];
+  const all = (from, to) => imageProblems(WORKFLOW.split(from).join(to));
+  assert.notDeepEqual(all(`:v${LOCK}-`, ':v1.0.0-'), [], 'another version than the lockfile');
+  assert.notDeepEqual(all(img, img.replace(/@sha256:[0-9a-f]{64}/, '')), [], 'no digest');
+  assert.notDeepEqual(imageProblems(WORKFLOW.replace(`      image: ${img}\n`, '      image: ubuntu:24.04\n')), [], 'one job out of the image');
+  assert.notDeepEqual(imageProblems(WORKFLOW.replace('      - name: Browser tests\n', '      - run: npx playwright install --with-deps chromium webkit\n      - name: Browser tests\n')), [], 'a download fallback');
 });

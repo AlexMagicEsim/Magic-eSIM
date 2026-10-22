@@ -10,12 +10,14 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 
-test('tests.yml runs every Mini App script through test/mini-app/run-all.mjs, with both engines installed', () => {
+test('tests.yml runs every Mini App script through test/mini-app/run-all.mjs, with both engines available', () => {
   const wf = read('.github/workflows/tests.yml');
   const job = wf.slice(wf.indexOf('\n  miniapp-scripts:'));
   assert.ok(wf.includes('\n  miniapp-scripts:'), 'the miniapp-scripts job exists');
   assert.match(job, /run: node test\/mini-app\/run-all\.mjs/);
-  assert.match(job, /npx playwright install --with-deps chromium webkit/);
+  // Chromium + WebKit come preinstalled in the lockfile's Playwright image (seo/test-ci-browser-shards.mjs pins its version)
+  const lock = JSON.parse(read('package-lock.json')).packages['node_modules/@playwright/test'].version;
+  assert.ok(job.includes(`image: mcr.microsoft.com/playwright:v${lock}-noble@sha256:`), 'miniapp-scripts runs in the Playwright image of the lockfile version');
   assert.match(job, /runs-on: ubuntu-24\.04/);
 });
 
