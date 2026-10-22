@@ -96,11 +96,11 @@
     // US dollars, always two decimals: the GLOBAL lane prices to the cent and
     // ends on .99, so «$9.99», never «$9.9» or «$10». The currency is the
     // market's (USD, whatever the language); the way it is WRITTEN is the
-    // language's — `fmt.numberLocale` in the dictionary.
+    // language's — `fmt.numberLocale` and `fmt.currencyDisplay` in the dictionary («$9.99», «USD 9.99», «9,99 USD»).
     var USD = null;
     try {
       USD = (typeof Intl !== 'undefined' && Intl.NumberFormat)
-        ? new Intl.NumberFormat(I18N.t('fmt.numberLocale'), { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        ? new Intl.NumberFormat(I18N.t('fmt.numberLocale'), { style: 'currency', currency: 'USD', currencyDisplay: I18N.t('fmt.currencyDisplay'), minimumFractionDigits: 2, maximumFractionDigits: 2 })
         : null;
     } catch (e) { USD = null; }
 

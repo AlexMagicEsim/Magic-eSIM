@@ -39,3 +39,9 @@
 .langmenu-list [aria-current]{color:var(--accent)}
 .langmenu-list [aria-current]::after{content:"";width:8px;height:8px;margin-left:auto;border-radius:50%;background:var(--accent)}
 @media (prefers-reduced-motion:no-preference){[data-motion] .langmenu[open] .langmenu-list{animation:m-drop var(--m-base) var(--m-out)}}
+
+/* German (DE-1, owner D6): long compounds («Mobilfunktarif hinzufügen», «Zentralafrikanische Republik») hyphenate by
+ * the browser's German dictionary instead of overflowing a 320 px screen. Only <html lang="de"> matches, so the English
+ * and Spanish pages render exactly as before. */
+html:lang(de) body { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }
+html:lang(de) input, html:lang(de) code, html:lang(de) a[href^="mailto:"] { -webkit-hyphens: manual; hyphens: manual; }

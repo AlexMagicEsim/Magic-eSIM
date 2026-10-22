@@ -1,0 +1,263 @@
+[
+ {
+  "item_id": "page:homeDescription",
+  "decision": "apply",
+  "final": "Wähle ein Reiseziel, installiere eine eSIM und sei nach der Landung online. Magic eSIM: über 190 Reiseziele, ohne Plastik-SIM und ohne Schlange am Flughafen.",
+  "findings": [
+   "C0001"
+  ],
+  "severity": "major",
+  "reason": "Accuracy/do-not-translate: the English names Magic eSIM as the subject of «covers 190+ destinations»; the German drops the brand. Restored within the 160-character description budget (157)."
+ },
+ {
+  "item_id": "guide-iphone:s1.body",
+  "decision": "apply",
+  "final": "Öffne **Einstellungen → Mobilfunk** (in manchen Regionen **Mobile Daten**). Wenn du dort **eSIM hinzufügen** oder **Mobilfunktarif hinzufügen** siehst, unterstützt dein iPhone eSIM.\nAußerdem darf dein iPhone keinen SIM-Lock eines Mobilfunkanbieters haben. Lies dazu, wie du die Kompatibilität prüfst.",
+  "findings": [
+   "C0002",
+   "C0005",
+   "F0003"
+  ],
+  "severity": "minor",
+  "reason": "Accuracy (rule 1): the English gives the regional alternative label «Mobile Data», which platform-labels.md lists («Mobilfunk (bzw. Mobile Daten)»); the German dropped it. C0002/C0005 are false positives («Mobilfunktarif» carries «Tarif»)."
+ },
+ {
+  "item_id": "ui:preview.title",
+  "decision": "keep",
+  "findings": [
+   "C0003"
+  ],
+  "severity": "preferential",
+  "reason": "False positive: «Tarifdetails» contains the glossary term «Tarif» as a compound."
+ },
+ {
+  "item_id": "page:planTypes",
+  "decision": "keep",
+  "findings": [
+   "C0004"
+  ],
+  "severity": "preferential",
+  "reason": "False positive: «Tarifarten» contains the glossary term «Tarif» as a compound."
+ },
+ {
+  "item_id": "guide-iphone:s2.body",
+  "decision": "keep",
+  "findings": [
+   "C0006",
+   "F0004"
+  ],
+  "severity": "preferential",
+  "reason": "C0006 is a false positive («Mobilfunktarif»). «Kamera» is the iPhone camera app's German name; F0004 asks for a source, it shows no error — add Apple's page to platform-labels.md rather than change the copy."
+ },
+ {
+  "item_id": "guide-iphone:s3.body",
+  "decision": "keep",
+  "findings": [
+   "C0007"
+  ],
+  "severity": "preferential",
+  "reason": "False positive: «Mobilfunktarif hinzufügen» carries «Tarif»."
+ },
+ {
+  "item_id": "guide-android:s1.body",
+  "decision": "apply",
+  "final": "Die SIM-Einstellungen liegen meist an einer dieser Stellen; die Namen hängen von Marke und Android-Version ab:\n• **Google Pixel:** Einstellungen → Netzwerk &amp; Internet → SIMs (oder SIM-Karten) → **SIM hinzufügen** → **eSIM einrichten**.\n• **Samsung Galaxy:** Einstellungen → Verbindungen → SIM-Manager → **eSIM hinzufügen** (bei älteren One-UI-Versionen heißen Menü und Option anders).\n• **Andere Marken:** Such in den Einstellungen nach „Mobilfunknetz“, „SIM-Karten“ oder „Verbindungen“.\nWenn du nirgends eine Option zum Hinzufügen einer eSIM findest, lies nach, ob dein Smartphone eSIM unterstützt.",
+  "findings": [
+   "C0008",
+   "L0008",
+   "F0006"
+  ],
+  "severity": "minor",
+  "reason": "Accuracy: the English's older-One-UI path was dropped; its labels are not in platform-labels.md, so the fact is stated in words (F0006). Fluency: «lies, ob …» → «lies nach, ob …» (L0008). C0008 is a false positive."
+ },
+ {
+  "item_id": "guide-compatibility:s1.body",
+  "decision": "apply",
+  "final": "**iPhone:** Einstellungen → Mobilfunk. Wenn dort **eSIM hinzufügen** oder **Mobilfunktarif hinzufügen** erscheint, unterstützt das iPhone eSIM.\n**Android:** Öffne die SIM-Einstellungen und such nach einer Möglichkeit, eine eSIM hinzuzufügen: beim Pixel unter Netzwerk &amp; Internet → SIMs → **SIM hinzufügen** → **eSIM einrichten**, bei Samsung unter Verbindungen → SIM-Manager → **eSIM hinzufügen** (bei älteren One-UI-Versionen heißen Menü und Option anders).\nEin weiterer Hinweis beim Pixel: Um eine eSIM zu nutzen, braucht das Smartphone eine **EID**-Nummer. Du findest sie unter Einstellungen → Über das Telefon → SIM-Status. Entscheidend ist aber die Einstellung zum Hinzufügen einer eSIM.",
+  "findings": [
+   "C0009",
+   "L0009",
+   "F0006"
+  ],
+  "severity": "minor",
+  "reason": "Fluency: «such, wie du …» is unidiomatic; «such nach einer Möglichkeit» matches «look for a way» (L0009). Accuracy: the older One UI hint the English gives is restored in words, as F0006 notes «also in» here. C0009 is a false positive."
+ },
+ {
+  "item_id": "ui:quote.explain",
+  "decision": "apply",
+  "final": "Den genauen Preis legt unser Server fest und reserviert ihn 30 Minuten lang.",
+  "findings": [
+   "L0001",
+   "F0001"
+  ],
+  "severity": "minor",
+  "reason": "Fluency/consistency: «einen Preis halten» is a calque of «hold a price»; the same window says «Preis reserviert für {time}»."
+ },
+ {
+  "item_id": "ui:checkout.emailNote",
+  "decision": "apply",
+  "final": "Wird noch nirgendwohin gesendet und nirgends gespeichert – eine Zahlung ist noch nicht möglich.",
+  "findings": [
+   "L0002"
+  ],
+  "severity": "minor",
+  "reason": "Grammar/fluency: «nirgends» is locative and does not combine with «senden» (direction needs «nirgendwohin»)."
+ },
+ {
+  "item_id": "ui:home.typesLead",
+  "decision": "optional",
+  "findings": [
+   "L0003"
+  ],
+  "severity": "preferential",
+  "reason": "The current wording is correct; the reading «gleich = sofort» is unlikely in context. Recorded as a stylistic option only."
+ },
+ {
+  "item_id": "guide-iphone:faq1.a",
+  "decision": "apply",
+  "final": "Du brauchst eine Internetverbindung, um das Profil herunterzuladen, am einfachsten über WLAN. Wenn du die eSIM am Reisetag installierst – zu Hause vor dem Aufbruch oder im WLAN des Flughafens –, passt das zu jedem Tarif, egal wann seine Gültigkeit beginnt.",
+  "findings": [
+   "L0004",
+   "F0005"
+  ],
+  "severity": "major",
+  "reason": "Grammar/accuracy: «sie» can only refer to «Internetverbindung», so the sentence says to install the connection; the English means the eSIM."
+ },
+ {
+  "item_id": "guide-activation:faq1.a",
+  "decision": "apply",
+  "final": "Das hängt vom Tarif ab: Manche beginnen mit der Installation, andere mit der ersten Verbindung oder der ersten Datennutzung am Reiseziel. Um bei jedem Tarif auf der sicheren Seite zu sein, installiere die eSIM am Reisetag.",
+  "findings": [
+   "L0005"
+  ],
+  "severity": "major",
+  "reason": "Grammar/accuracy: «installiere sie» has no eSIM antecedent in the answer and points to a feminine noun like «Datennutzung». The same ambiguous «sie» in guide-activation:s2.body and :lead (not in this input) should be fixed the same way."
+ },
+ {
+  "item_id": "guide-activation:faq2.a",
+  "decision": "apply",
+  "final": "Der Schalter selbst kostet nichts; er erlaubt der Leitung nur, Partnernetze zu nutzen. Entscheidend ist, welche Leitung für mobile Daten gewählt ist und was dein Tarif vorsieht.",
+  "findings": [
+   "L0006"
+  ],
+  "severity": "minor",
+  "reason": "Punctuation: no comma between two subordinate clauses joined by «und» (amtliches Regelwerk § 72)."
+ },
+ {
+  "item_id": "guide-iphone:s4.body",
+  "decision": "apply",
+  "final": "• Prüfe unter **Einstellungen → Mobilfunk**, ob die eSIM-Leitung eingeschaltet ist.\n• Tippe auf **Mobile Daten** und wähle die eSIM-Leitung. Deine Haupt-SIM kann für Anrufe und SMS aktiv bleiben.\n• Öffne die eSIM-Leitung und schalte das Datenroaming ein. Reise-eSIMs verbinden sich meist über Partnernetze, und das Telefon behandelt das als Roaming.\n• Wenn bei deinem eigenen Mobilfunkanbieter keine Kosten anfallen sollen, schalte das Datenroaming auf deiner Haupt-SIM aus.\n• Warte ein bis zwei Minuten, bis sich das Telefon in einem lokalen Netz angemeldet hat.\nDie Menübezeichnungen können je nach iOS-Version etwas abweichen.",
+  "findings": [
+   "L0007"
+  ],
+  "severity": "minor",
+  "reason": "Fluency: «keine Kosten … möchtest» is unnatural; costs «fallen an»."
+ },
+ {
+  "item_id": "guide-activation:s1.body",
+  "decision": "apply",
+  "final": "• **Installieren**: Das Telefon lädt das eSIM-Profil über den QR-Code herunter. Dafür braucht es Internet.\n• **Leitung einschalten**: Die eSIM erscheint in deiner SIM-Liste als aktiv.\n• **Für mobile Daten wählen**: Das Internet läuft über die eSIM.\n• Auf der eSIM **Datenroaming einschalten**: Damit kann sie im Ausland Partnernetze nutzen.",
+  "findings": [
+   "L0010"
+  ],
+  "severity": "minor",
+  "reason": "Word order: in a German infinitive phrase the infinitive comes last; «einschalten auf der eSIM» follows English order."
+ },
+ {
+  "item_id": "guide-troubleshooting:faq3.q",
+  "decision": "apply",
+  "final": "Fallen auf meiner Haupt-SIM Kosten an, während ich nach dem Fehler suche?",
+  "findings": [
+   "L0011"
+  ],
+  "severity": "minor",
+  "reason": "Fluency: a SIM does not «berechnen» anything; «Kosten fallen an» is the normal phrasing and keeps the English meaning."
+ },
+ {
+  "item_id": "guide-iphone:s5.body",
+  "decision": "optional",
+  "findings": [
+   "L0012"
+  ],
+  "severity": "preferential",
+  "reason": "«die eSIM … Datenroaming eingeschaltet hat» is grammatical and understood; the suggestion is a stylistic refinement, not a correction."
+ },
+ {
+  "item_id": "countries:BN",
+  "decision": "optional",
+  "findings": [
+   "L0013",
+   "F0012"
+  ],
+  "severity": "minor",
+  "reason": "«Brunei Darussalam» is the correct official German name; «Brunei» would be shorter and match the English and search usage, but that is a naming/SEO preference for the country-names overrides, not an error."
+ },
+ {
+  "item_id": "countries:CV",
+  "decision": "keep",
+  "findings": [
+   "L0014",
+   "F0013"
+  ],
+  "severity": "preferential",
+  "reason": "«Cabo Verde» is the official German short name (Auswärtiges Amt) and correct; both reviewers rate the change preferential."
+ },
+ {
+  "item_id": "page:guidesDescription",
+  "decision": "apply",
+  "final": "So installierst du eine Reise-eSIM auf iPhone und Android, prüfst, ob dein Smartphone sie unterstützt, wählst den richtigen Zeitpunkt und löst Probleme.",
+  "findings": [
+   "F0002"
+  ],
+  "severity": "minor",
+  "reason": "Accuracy (rule 1): the English says what is checked — that the phone supports an eSIM; «prüfst dein Smartphone» loses that object. 152 characters, within budget."
+ },
+ {
+  "item_id": "guide-android:s3.body",
+  "decision": "apply",
+  "final": "• Prüfe, ob die eSIM eingeschaltet ist. Pixel: Einstellungen → Netzwerk &amp; Internet → Mobilfunknetz → die eSIM → **Diese SIM verwenden**.\n• Wähle die eSIM als SIM für **mobile Daten**. Pixel: Einstellungen → Netzwerk &amp; Internet → SIM-Karten → **Mobile Daten**. Deine Haupt-SIM kann für Anrufe und SMS aktiv bleiben.\n• Schalte **Roaming** für die eSIM ein. Pixel: Einstellungen → Netzwerk &amp; Internet → SIM-Karten → **Roaming**. Samsung: Such die Einstellung in den Mobilfunknetz-Einstellungen unter Verbindungen; der genaue Name hängt vom Modell ab. Reise-eSIMs verbinden sich meist über Partnernetze, und das Telefon behandelt das als Roaming.\n• Wenn bei deinem eigenen Mobilfunkanbieter keine Kosten anfallen sollen, schalte das Datenroaming auf deiner Haupt-SIM aus.\n• Warte ein bis zwei Minuten, bis sich das Telefon in einem lokalen Netz angemeldet hat.",
+  "findings": [
+   "F0007",
+   "L0007"
+  ],
+  "severity": "minor",
+  "reason": "The added Pixel roaming path is sourced (platform-labels.md, page 2926415) and makes no claim, and the Samsung path is correctly described instead of quoted, so F0007 is kept as is. The «keine Kosten … möchtest» phrasing L0007 flags «also in» this string is fixed («Kosten fallen an»)."
+ },
+ {
+  "item_id": "guide-compatibility:lead",
+  "decision": "optional",
+  "findings": [
+   "F0008"
+  ],
+  "severity": "preferential",
+  "reason": "«einfachste» vs «quickest» is a slight nuance; the instruction and facts are unchanged. Stylistic option only."
+ },
+ {
+  "item_id": "guide-activation:title",
+  "decision": "optional",
+  "findings": [
+   "F0009"
+  ],
+  "severity": "minor",
+  "reason": "«aktivieren» is a correct rendering of «turn on» and a likely search term; aligning with the body's «einschalten» is a terminology preference, not an error."
+ },
+ {
+  "item_id": "guide-activation:s5.h2",
+  "decision": "apply",
+  "final": "Gelandet, ohne installierte eSIM und ohne WLAN?",
+  "findings": [
+   "F0010"
+  ],
+  "severity": "minor",
+  "reason": "Accuracy: «ohne eSIM» says the reader has no eSIM; the English means one bought but not installed."
+ },
+ {
+  "item_id": "guide-troubleshooting:faq1.q",
+  "decision": "keep",
+  "findings": [
+   "F0011"
+  ],
+  "severity": "preferential",
+  "reason": "„Kein Netz“ is the German iOS status text for «No Service»; the finding asks for a source and shows no error — add the vendor source to platform-labels.md."
+ }
+]

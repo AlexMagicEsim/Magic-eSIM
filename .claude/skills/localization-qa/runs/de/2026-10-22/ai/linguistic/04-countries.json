@@ -1,0 +1,40 @@
+[
+  {
+    "id": "L04-001",
+    "item_id": "countries:BN",
+    "group": "countries",
+    "key": "BN",
+    "where": "country name (list, page title, H1, plan cards)",
+    "url": "",
+    "en": "Brunei",
+    "target": "Brunei Darussalam",
+    "suggestion": "Brunei",
+    "explanation": "«Brunei Darussalam» is the formal state name; in a destination list, page title and H1 («eSIM für Brunei Darussalam») a German reader expects the short form «Brunei», which is also what the English uses. Phrasing, not an error.",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.65,
+    "source": "ai",
+    "stage": "linguistic",
+    "rule": "natural phrasing for headings/SEO titles",
+    "objective": false
+  },
+  {
+    "id": "L04-002",
+    "item_id": "countries:CV",
+    "group": "countries",
+    "key": "CV",
+    "where": "country name (list, page title, H1, plan cards)",
+    "url": "",
+    "en": "Cape Verde",
+    "target": "Cabo Verde",
+    "suggestion": "Kap Verde",
+    "explanation": "«Cabo Verde» is the official short name used by the Auswärtiges Amt, but travellers and the Duden use «Kap Verde»; for a storefront list and SEO title the common form reads more naturally. Both are correct German, so this is phrasing only.",
+    "category": "fluency",
+    "severity": "preferential",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "linguistic",
+    "rule": "natural phrasing for headings/SEO titles",
+    "objective": false
+  }
+]

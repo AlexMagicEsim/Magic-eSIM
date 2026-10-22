@@ -1,0 +1,50 @@
+[
+ {
+  "id": "L-01-ui-01",
+  "item_id": "ui:quote.explain",
+  "where": "checkout window (country page → plan)",
+  "en": "The exact price is fixed by our server and held for 30 minutes.",
+  "target": "Den genauen Preis legt unser Server fest und hält ihn 30 Minuten lang.",
+  "suggestion": "Den genauen Preis legt unser Server fest und reserviert ihn 30 Minuten lang.",
+  "explanation": "«einen Preis halten» is a calque of «hold a price»; German says a price is «reserviert» (as the site itself does in ui:quote.heldFor «Preis reserviert für {time}»).",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.75,
+  "objective": false,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "natural phrasing / calque"
+ },
+ {
+  "id": "L-01-ui-02",
+  "item_id": "ui:checkout.emailNote",
+  "where": "checkout window (country page → plan)",
+  "en": "Not sent or saved anywhere yet — payment isn't available.",
+  "target": "Wird noch nirgends gesendet oder gespeichert – eine Zahlung ist noch nicht möglich.",
+  "suggestion": "Wird noch nirgendwohin gesendet und nirgends gespeichert – eine Zahlung ist noch nicht möglich.",
+  "explanation": "«nirgends» denotes a location and does not combine naturally with «senden» (direction → «nirgendwohin»); the shared adverb reads awkwardly to a native.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.65,
+  "objective": false,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "adverb of direction vs. location"
+ },
+ {
+  "id": "L-01-ui-03",
+  "item_id": "ui:home.typesLead",
+  "where": "home",
+  "en": "Every destination page groups its plans the same way, so you can compare like with like.",
+  "target": "Jede Reiseziel-Seite ordnet ihre Tarife gleich an, damit du Gleiches mit Gleichem vergleichen kannst.",
+  "suggestion": "Jede Reiseziel-Seite ordnet ihre Tarife auf die gleiche Weise an, damit du Gleiches mit Gleichem vergleichen kannst.",
+  "explanation": "«gleich an(ordnen)» can be read as «immediately»; «auf die gleiche Weise» states «the same way» unambiguously.",
+  "category": "fluency",
+  "severity": "preferential",
+  "confidence": 0.6,
+  "objective": false,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "ambiguity"
+ }
+]

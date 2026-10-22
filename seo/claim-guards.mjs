@@ -121,6 +121,57 @@ export const CLAIM_GUARDS = Object.freeze({
       fires: ['Funciona con 5G', 'La mejor red del país'],
       quiet: ['Planes de datos que funcionan en Perú, con precios en dólares estadounidenses.'] },
   }),
+
+  // Standard German, «du» (owner D1, D3), DE-1 2026-10-22. German builds compounds («Datenflatrate»,
+  // «Highspeed-Internet», «Turbo-Support»), so a stem that can sit INSIDE a compound is matched without a left edge
+  // (`(?<![\p{L}])` is not used for those); everything else goes through word().
+  de: Object.freeze({
+    money: {
+      re: word('₽|Rubel[n]?|RUB|SBP|jede[rn]? (Kredit|Bank)?karte|Kreditkarten?|Bankkarten?|(be)?zahl(e|st|en) (mit|per) (Karte|Kreditkarte)'),
+      fires: ['Zahle 950 ₽ mit Karte', 'Preise in Rubel', 'Wir akzeptieren jede Kreditkarte'],
+      quiet: ['Preise in US-Dollar (USD)', 'Fehlerbehebung'] },
+    delivery: {
+      re: word('wir (schicken|senden|mailen|liefern) (dir|ihnen)|(schicken|senden) wir dir|du (erhältst|bekommst) (eine|die|deine) (E-?Mail|Mail)|per E-?Mail (erhalten|zugeschickt|zugestellt)|Liefer-?E-?Mail|Bestell-?E-?Mail|Bestellbestätigung|in deinem Posteingang'),
+      fires: ['Wir schicken dir den QR-Code per E-Mail', 'Du erhältst eine E-Mail mit deiner eSIM', 'Sieh in der Bestellbestätigung nach'],
+      quiet: ['Schreib unserem Support-Team eine E-Mail.', 'Es wird keine eSIM verschickt.'] },
+    cardRow: {
+      re: word('Beginn der Laufzeit|Laufzeitbeginn|Zeile (Gültigkeit|Aktivierung|Laufzeit|Beginn)|Abdeckung und Bedingungen'),
+      fires: ['Sieh dir die Zeile Beginn der Laufzeit an', 'Siehe „Abdeckung und Bedingungen“'],
+      quiet: ['Profil installieren und Tarif starten sind zwei verschiedene Zeitpunkte.'] },
+    network: {
+      re: /schnell(e[nmrs]?|er|ste[nmrs]?)?(?![\p{L}])|zuverlässig|stabile[nmrs]? (Verbindung|Netz|Signal)|starke[snm]? (Signal|Netz|Empfang)|beste[nmrs]? (Abdeckung|Netz|Empfang)|(volle|komplette|lückenlose|flächendeckende|garantierte) Abdeckung|garantiert|überall (verfügbar|Empfang|Netz)|funktioniert überall|unterbrechungsfrei|(?<![\p{L}\p{N}])(4G|5G|LTE)(?![\p{L}\p{N}])/iu,
+      fires: ['Schnelles 5G überall', 'Flächendeckende Abdeckung im ganzen Land', 'Ein zuverlässiges Netz', 'Highspeed-Internet, das schnell ist'],
+      quiet: ['Prüfe, ob die mobilen Daten eingeschaltet sind.', 'Schritt für Schritt'] },
+    features: {
+      re: /unbegrenzt|unlimitiert|flatrate|(?<![\p{L}])ohne (Datenlimit|Limit|Begrenzung)|hotspot|tethering|(Internet|Verbindung|Daten) (mit anderen )?teilen(?![\p{L}])|SMS (empfangen|erhalten)|(empfangen|erhalten) (von )?SMS|(?<![\p{L}\p{N}])2FA(?![\p{L}\p{N}])|Bestätigungs-?SMS|Verifizierungscodes?|Telefonnummer (inklusive|inbegriffen)/iu,
+      fires: ['Unbegrenzte Daten mit Hotspot', 'Du kannst SMS empfangen', 'Inklusive Verifizierungscode', 'Datenflatrate für die Reise'],
+      quiet: ['Ein Datenvolumen für jeden Reisetag.', 'die geteilte Verbindung vom Telefon einer Begleitperson'] },
+    devices: {
+      re: /iPhone\s?(X[RS]?|\d{1,2})(?![\p{L}\p{N}])|Galaxy\s?[SZA]\d|Pixel\s?\d/iu,
+      fires: ['Funktioniert ab dem iPhone 12', 'Galaxy S21'],
+      quiet: ['eSIM auf dem iPhone installieren'] },
+    installEarly: {
+      // advice to install early, not a question about having done it («Ich habe die eSIM eine Woche vor der Reise installiert»)
+      re: word('installiere (sie |die eSIM )?(einige|ein paar|mehrere) Tage (vor|vorher|im Voraus)|installiere (sie |die eSIM )?eine Woche (vor|vorher|im Voraus)|((einige|ein paar|mehrere) Tage|eine Woche) (vor der Reise |vor dem Abflug |vorher |im Voraus )(zu )?installieren|(frühzeitig|rechtzeitig) vor (der Reise|dem Abflug) (zu )?installieren'),
+      fires: ['Installiere sie ein paar Tage vor der Reise', 'Installiere die eSIM eine Woche vorher', 'Am besten einige Tage im Voraus installieren'],
+      quiet: ['Installiere sie am Reisetag.', 'Ich habe die eSIM eine Woche vor der Reise installiert. Läuft die Gültigkeit des Tarifs schon?'] },
+    reusableQr: {
+      re: word('QR-Code (kann|lässt sich) (wieder|erneut|mehrfach) (verwendet|genutzt|gescannt)|QR-Code (ist )?(wiederverwendbar|mehrfach verwendbar)|wiederverwendbare[nmrs]? QR-Code'),
+      fires: ['Der QR-Code kann wieder verwendet werden', 'Ein wiederverwendbarer QR-Code'],
+      quiet: ['Lösche die eSIM nicht.', 'Ein QR-Code ist möglicherweise nur einmal verwendbar.'] },
+    suppliers: {
+      re: word('Lieferanten?|Zulieferer[ns]?|(unser|unseres|unserem) (Partner|Provider)|eSIM Access|MobiMatter'),
+      fires: ['Unser Lieferant eSIM Access', 'MobiMatter liefert die eSIM'],
+      quiet: ['Dein Smartphone darf keinen SIM-Lock haben.', 'Reise-eSIMs verbinden sich meist über Partnernetze'] },
+    marketing: {
+      re: /24\/7|rund um die Uhr|sofort(ig)?(?![\p{L}])|blitzschnell|(?<![\p{L}])(beste[nmrs]?|günstigste[nmrs]?|billigste[nmrs]?|schnellste[nmrs]?)(?![\p{L}])|garant|rückerstatt|geld-?zurück|unbegrenzt|(?<![\p{L}])spar(e|en|st|t)?(?![\p{L}])|nr\.? ?1|nummer 1|bewertung|rezension|vertrauen|millionen/iu,
+      fires: ['Schneller Support rund um die Uhr', 'Der beste Preis', 'Geld-zurück-Garantie', 'Spare bis zu 50 %'],
+      quiet: ['Wähle ein Reiseziel, installiere eine eSIM und sei nach der Landung online.', 'Fragen vor der Reise?'] },
+    template: {
+      re: /(?<![\p{L}\p{N}])(4G|5G|LTE)(?![\p{L}\p{N}])|netzbetreiber|mobilfunkanbieter|signal|empfang|zuverlässig|schnell|(?<![\p{L}])(beste[nmrs]?|günstigste[nmrs]?|billigste[nmrs]?)(?![\p{L}])|unbegrenzt|garant/iu,
+      fires: ['Funktioniert mit 5G', 'Das beste Netz im Land', 'Guter Empfang beim Netzbetreiber'],
+      quiet: ['Datentarife für die Türkei, mit Preisen in US-Dollar.'] },
+  }),
 });
 
 /** The rules a page kind is checked against, as [id, pattern] — for the language's tests. */

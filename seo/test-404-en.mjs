@@ -88,7 +88,8 @@ test('the English screen is English, word for word, and links into the English s
 test('the branch matches each published prefix (/en, /es …), and nothing that merely starts with one or names an unpublished language', () => {
   for (const p of ['/en', '/en/', '/en/esim/atlantis/', '/en/guides/nope/']) assert.equal(screen(p).code, 'en', p);
   for (const p of ['/es', '/es/', '/es/esim/atlantis/', '/es/guides/nope/']) assert.equal(screen(p).code, 'es', p);
-  for (const p of ['/enter', '/english/', '/espana/', '/esim/en/', '/pay/en/x', '/', '/nope/', '/de/x', '/zh/', '/ko/esim/',
+  for (const p of ['/de', '/de/', '/de/esim/atlantis/', '/de/guides/nope/']) assert.equal(screen(p).code, 'de', p);
+  for (const p of ['/enter', '/english/', '/espana/', '/esim/en/', '/pay/en/x', '/', '/nope/', '/fr/x', '/deutsch/', '/zh/', '/ko/esim/',
     '/__proto__/', '/constructor/', '/hasOwnProperty/', '/EN/', '//en/']) {
     assert.equal(screen(p).code, null, p);
   }

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "countries:BN",
+    "item_id": "countries:BN",
+    "group": "countries",
+    "key": "BN",
+    "where": "country name (list, page title, H1, plan cards)",
+    "url": "",
+    "en": "Brunei",
+    "target": "Brunei Darussalam",
+    "suggestion": "Brunei",
+    "explanation": "The English uses the short name; «Brunei Darussalam» is the CLDR/official long form. It adds 11 characters to the title «eSIM für …» and the H1 while German searchers type «Brunei». Not a meaning change — an SEO/intent nuance.",
+    "category": "seo",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "seo-title-keeps-search-intent",
+    "objective": false
+  },
+  {
+    "id": "countries:CV",
+    "item_id": "countries:CV",
+    "group": "countries",
+    "key": "CV",
+    "where": "country name (list, page title, H1, plan cards)",
+    "url": "",
+    "en": "Cape Verde",
+    "target": "Cabo Verde",
+    "suggestion": "Kap Verde",
+    "explanation": "«Cabo Verde» is the official form (Auswärtiges Amt) and is correct, but German travellers mostly search «Kap Verde»/«Kapverden», matching the English exonym «Cape Verde». Preferential: the current name is acceptable.",
+    "category": "country-name",
+    "severity": "preferential",
+    "confidence": 0.5,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "seo-title-keeps-search-intent",
+    "objective": false
+  }
+]

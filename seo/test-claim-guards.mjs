@@ -54,15 +54,15 @@ test('ASCII \\b is the trap word() exists for: «única» is invisible to \\b, c
   assert.doesNotMatch('Una oferta única', /\búnica\b/i);
   assert.match('Una oferta única', word('única'));
   assert.doesNotMatch('Comunicación', word('única'), 'and still whole words only');
-  // No Spanish rule is written with \b around a word.
-  for (const [id, r] of Object.entries(CLAIM_GUARDS.es)) {
-    assert.doesNotMatch(r.re.source, /\\b/, `es.${id}: use word() — \\b is ASCII-only`);
+  // No Spanish or German rule is written with \b around a word.
+  for (const code of ['es', 'de']) for (const [id, r] of Object.entries(CLAIM_GUARDS[code])) {
+    assert.doesNotMatch(r.re.source, /\\b/, `${code}.${id}: use word() — \\b is ASCII-only`);
   }
 });
 
 test('a published prefixed language must have its table — the generator refuses one without', () => {
   for (const l of LOCALES.filter((x) => x.prefix && x.site.enabled)) assert.equal(missingGuards(l.code), null, l.code);
-  assert.match(missingGuards('de'), /de has no claim guards/);
+  assert.match(missingGuards('fr'), /fr has no claim guards/);
   assert.match(read('seo/build-locale-pages.mjs'), /const guards = missingGuards\(code\);\n\s+if \(guards\) return guards;/);
   assert.equal(cannotBuild('en'), null);
 });
