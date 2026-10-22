@@ -4,7 +4,7 @@
 //   node .claude/skills/localization-qa/scripts/extract.mjs --lang es [--out <file>]
 //
 // Reads the storefront's own sources (never the built HTML, never the network): the browser dictionary
-// (assets/site-i18n.js), the build-time page words (seo/page-copy.mjs), the daily-plan card table
+// (assets/i18n/<code>.js, read through assets/site-i18n.js), the build-time page words (seo/page-copy.mjs), the daily-plan card table
 // (assets/daily-plan-copy.js), the guides (seo/build-locale-pages.mjs GUIDES_BY_LOCALE), the 404 table (404.html) and the
 // generated destination list (<prefix>/destinations.js). The language must be published (seo/locales.mjs). Read-only.
 //

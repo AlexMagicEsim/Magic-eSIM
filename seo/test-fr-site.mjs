@@ -121,7 +121,7 @@ test('the same design: every page kind has the English markup skeleton (tags and
     'esim/peru/index.html', 'esim/turkey/index.html', 'guides/index.html', ...EN_GUIDES.map((g) => `guides/${g.slug}/index.html`)];
   for (const k of kinds) assert.equal(skeleton(read(`fr/${k}`)), skeleton(read(`en/${k}`)), k);
   // …and the same stylesheets and scripts (Expressive and the logo included), the language's own data aside.
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|fr)\/destinations\.js$/, 'DEST').replace(/country-names-(en|fr)\.js$/, 'NAMES'));
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|fr)\/destinations\.js$/, 'DEST').replace(/country-names-(en|fr)\.js$/, 'NAMES').replace(/site-i18n-(en|fr)\.js$/, 'WORDS'));
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
     assert.deepEqual(assets(read(`fr/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
   }

@@ -1,0 +1,25 @@
+{
+  "note": "The interface words of every language as of storefront 92110e04 (before I18N-10 split them into assets/i18n/<code>.js). sha256 over JSON of [key, value] pairs in file order. Re-record ONLY on purpose (a reviewed wording change): node seo/test-site-i18n-split.mjs --record.",
+  "languages": {
+    "ru": {
+      "keys": 22,
+      "sha256": "7a1bff959ca5ef4a8b8cdf9715a6e9280487e3768c96c8505ca77de48ea63101"
+    },
+    "en": {
+      "keys": 133,
+      "sha256": "e30ca23a43a3ce856115ee67062f6bbcb3f9f3a9ca43dab5c258158898ff0fb5"
+    },
+    "es": {
+      "keys": 133,
+      "sha256": "8be742c1c69178b3d6d7677c930e18bb3966bcebf40e365c396df06ae556fea0"
+    },
+    "de": {
+      "keys": 133,
+      "sha256": "e713065e4747fa51b0ac2a0fdc84fd19dd5269ea1d4ebf7644d8f32e33473469"
+    },
+    "fr": {
+      "keys": 136,
+      "sha256": "81244faa1c1a583e54e2e87647466658a992a568dd217208d6ad1902b8c3f32b"
+    }
+  }
+}
