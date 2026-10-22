@@ -1,0 +1,40 @@
+[
+  {
+    "id": "F-01-ui-001",
+    "item_id": "ui:how.step3",
+    "group": "ui",
+    "key": "how.step3",
+    "where": "home → how it works",
+    "url": "",
+    "en": "Install the eSIM profile before you fly.",
+    "target": "出发前安装 eSIM 描述文件。",
+    "suggestion": "出发前安装 eSIM 配置文件。",
+    "explanation": "«描述文件» is the iOS term for configuration profiles (VPN, MDM, beta), not for an eSIM; an iPhone reader may look in Settings → VPN与设备管理 for it. The eSIM profile is usually «eSIM 配置文件» (or simply «安装 eSIM», as the rest of the site writes). Terminology rule; not in the glossary, so confidence is moderate.",
+    "category": "terminology",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "fidelity",
+    "objective": false,
+    "rule": "terminology: eSIM profile ≠ iOS configuration profile"
+  },
+  {
+    "id": "F-01-ui-002",
+    "item_id": "ui:site.compatCheck",
+    "group": "ui",
+    "key": "site.compatCheck",
+    "where": "several pages",
+    "url": "",
+    "en": "iPhone setup",
+    "target": "iPhone 设置",
+    "suggestion": "iPhone 安装指南",
+    "explanation": "«设置» is also the name of the Settings app (platform-labels: 设置), so «iPhone 设置» can read as «iPhone Settings» rather than a link to the iPhone setup guide. Also in ui:site.compatAndroid («Android 设置» → «Android 安装指南»).",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.55,
+    "source": "ai",
+    "stage": "fidelity",
+    "objective": false,
+    "rule": "ambiguity with an on-screen label"
+  }
+]

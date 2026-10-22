@@ -45,3 +45,9 @@
  * and Spanish pages render exactly as before. */
 html:lang(de) body { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }
 html:lang(de) input, html:lang(de) code, html:lang(de) a[href^="mailto:"] { -webkit-hyphens: manual; hyphens: manual; }
+/* Simplified Chinese (ZH-1, T3): Inter carries the Latin letters and digits; the Chinese characters come from the
+ * reader's own system font — PingFang SC (Apple), Microsoft YaHei (Windows), Noto Sans CJK SC / Source Han Sans SC
+ * (Android, Linux). No web font is downloaded (a Chinese font is megabytes; CSP font-src 'self' is unchanged). Chinese is
+ * not tracked tighter: the headings' and prices' negative letter-spacing is undone for this language only. */
+html:lang(zh-Hans) { --font: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", ui-sans-serif, system-ui, sans-serif; }
+html:lang(zh-Hans) :is(h1, h2, h3, h4, .price) { letter-spacing: 0; }

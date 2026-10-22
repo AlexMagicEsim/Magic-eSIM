@@ -7,16 +7,23 @@
 // under a content hash; these never change after the page is built, so they
 // stay at build time and add nothing to a download.
 //
-// English, Spanish, German and French exist. A language is added here — written for its readers,
+// English, Spanish, German, French and Simplified Chinese exist. A language is added here — written for its readers,
 // held to the English copy's facts, reviewed — in the stage that publishes it;
 // until then seo/build-locale-pages.mjs refuses to build it. `esc`-ed values (country names) are passed in already escaped.
 
 const freeze = (o) => Object.freeze(o);
 
 /* A title search engines show whole: the full template while it fits the 60-character budget, else the short form
- * (I18N-09 — «eSIM para República Democrática del Congo: planes de datos en USD | Magic eSIM» was 78). */
+ * (I18N-09 — «eSIM para República Democrática del Congo: planes de datos en USD | Magic eSIM» was 78).
+ * ZH-1 (T2, 2026-10-22): the budget is DISPLAY WIDTH, not characters. A Chinese (or Korean) character and a full-width
+ * sign are about twice as wide as a Latin letter, and search engines cut a title by pixels, so a 60-character Chinese
+ * title would be cut near its middle. A wide character counts 2, everything else 1 — for Latin and Cyrillic text the
+ * width IS the length, so every English, Spanish, German and French title is decided exactly as before. */
 export const TITLE_MAX = 60;
-const fitTitle = (full, short) => ([...full].length <= TITLE_MAX ? full : short);
+const WIDE = /[\u1100-\u115F\u2E80-\u303E\u3041-\u33FF\u3400-\u4DBF\u4E00-\u9FFF\uA000-\uA4CF\uAC00-\uD7A3\uF900-\uFAFF\uFE30-\uFE4F\uFF00-\uFF60\uFFE0-\uFFE6]|[\u{20000}-\u{3FFFD}]/u;
+/** Display width: 2 for an East Asian wide or full-width character, 1 for any other. */
+export const displayWidth = (s) => [...String(s)].reduce((w, ch) => w + (WIDE.test(ch) ? 2 : 1), 0);
+const fitTitle = (full, short) => (displayWidth(full) <= TITLE_MAX ? full : short);
 
 /* German: the accusative a country name takes after «für», with the article it needs. Only names that take an article
  * are listed (feminine and plural with «die» — adjectives in the weak plural form —, the one neuter «das», the
@@ -532,5 +539,75 @@ export const PAGE_COPY = freeze({
     guidesDescription: 'Installer une eSIM de voyage sur iPhone et Android, vérifier la compatibilité de votre téléphone, savoir quand l’installer et résoudre les problèmes.',
     guidesH1: 'Guides eSIM',
     guidesLead: 'Installer, vérifier et dépanner une eSIM de voyage, étape par étape.',
+  }),
+  /* Simplified Chinese (zh-Hans), «您» (owner D1), ZH-1 2026-10-22. An AI-assisted draft held to the English copy's
+   * facts and to seo/claim-guards.mjs (zh-Hans); PRC punctuation norms, a space between Chinese and Latin letters or
+   * digits (D6). Chinese takes no article: a country name stands as it is («日本 eSIM»). Titles are budgeted by display
+   * width (T2). Prices «US$12.99» (D2). */
+  'zh-Hans': freeze({
+    skipLink: '跳到主要内容',
+    navLabel: '主导航',
+    menuLabel: '菜单',
+    langMenu: '语言',
+    support: '客服：',
+    homeTitle: 'Magic eSIM — 出境上网，无需漫游',
+    homeDescription: '选择目的地，安装 eSIM，落地即可上网。Magic eSIM 覆盖 190 多个目的地，无需实体 SIM 卡，也不用在机场排队。',
+    homeOgDescription: '选择目的地，安装 eSIM，落地即可上网。',
+    homeNojsSearch: '搜索功能需要启用 JavaScript。',
+    homeNojsBrowse: '浏览全部目的地',
+    homeReadGuide: '阅读指南 →',
+    homeArtBack: 'eSIM · 流量通行证',
+    homeArtTitle: '流量通行证',
+    homeArtCoverage: '覆盖范围',
+    homeArtCoverageValue: '190+ 个目的地',
+    homeArtType: '类型',
+    homeArtInstall: '扫描<br>二维码安装',
+    quick: freeze(['TH', 'TR', 'JP', 'US', 'VN', 'FR']),
+    /* The English list (owner D9), in Chinese names (CLDR + our overrides: the names the generator prints). */
+    popular: freeze([
+      freeze({ iso: 'TH', slug: 'thailand', name: '泰国' }),
+      freeze({ iso: 'TR', slug: 'turkey', name: '土耳其' }),
+      freeze({ iso: 'AE', slug: 'uae', name: '阿联酋' }),
+      freeze({ iso: 'JP', slug: 'japan', name: '日本' }),
+      freeze({ iso: 'US', slug: 'usa', name: '美国' }),
+      freeze({ iso: 'IT', slug: 'italy', name: '意大利' }),
+      freeze({ iso: 'ES', slug: 'spain', name: '西班牙' }),
+      freeze({ iso: 'GB', slug: 'united-kingdom', name: '英国' }),
+    ]),
+    yourPlan: '您的套餐',
+    esimFor: (name) => `${name} eSIM`,
+    steps: freeze(['套餐', '信息', '核对']),
+    beforeYouBuy: '购买前须知',
+    countryTitle: (name) => fitTitle(`${name} eSIM：美元计价的流量套餐 | Magic eSIM`, `${name} eSIM | Magic eSIM`),
+    countryDescription: (name) => `覆盖${name}的 eSIM 流量套餐，价格以美元计。暂不支持在线支付。`,
+    countryLead: (name) => `可在${name}使用的流量套餐，价格以美元计。`,
+    chooseAnother: '选择其他目的地',
+    planTypes: '套餐类型',
+    jumpRegional: '区域套餐',
+    jumpDaily: '每日流量',
+    noscript: '本页的套餐和价格需要启用 JavaScript。目前还无法在此购买。',
+    localTitle: (name) => `${name}套餐`,
+    localNote: (name) => `仅覆盖${name}的套餐。`,
+    regionalTitle: (name) => `包含${name}的区域套餐`,
+    regionalNote: (name) => `覆盖${name}及其他国家或地区的套餐。`,
+    dailyTitle: '每日流量',
+    dailyNote: '旅行期间每天一份流量额度。',
+    hubTitle: 'eSIM 目的地 — Magic eSIM',
+    hubDescription: 'Magic eSIM 提供流量套餐的全部目的地，价格以美元计。暂不支持在线支付。',
+    hubH1: 'eSIM 目的地',
+    hubLead: '选择国家或地区，查看其流量套餐及美元价格。',
+    hubSearchPlaceholder: '搜索国家或地区',
+    hubClear: '清除搜索',
+    hubAz: '按拼音首字母排列的目的地',
+    hubEmptyNote: '请检查名称是否正确，或按拼音首字母浏览列表。',
+    hubShowAll: '显示全部目的地',
+    questions: '常见问题',
+    onThisPage: '本页内容',
+    relatedGuides: '相关指南',
+    chooseDestination: '选择目的地',
+    guidesTitle: 'eSIM 指南：安装、检查与故障排除 | Magic eSIM',
+    guidesDescription: '如何在 iPhone 和 Android 手机上安装旅行 eSIM、检查手机是否支持、何时安装，以及无法使用时该怎么办。',
+    guidesH1: 'eSIM 指南',
+    guidesLead: '分步说明：安装、检查旅行 eSIM，以及排除故障。',
   }),
 });

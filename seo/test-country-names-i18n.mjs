@@ -155,7 +155,7 @@ test('only the generators read the table — no page or shipped script imports i
     'seo/build-country-dictionary-locale.mjs', 'seo/build-locale-pages.mjs', 'seo/test-locale-rehearsal.mjs',
     'seo/test-daily-copy-langs.mjs',
     // the German site test checks DE_FUER's keys are German names the generator prints — a test, never shipped
-    'seo/test-de-site.mjs', 'seo/test-fr-site.mjs',
+    'seo/test-de-site.mjs', 'seo/test-fr-site.mjs', 'seo/test-zh-site.mjs',
     // localization QA (.claude/skills/localization-qa) compares the published names with CLDR — review tooling, no page loads it
     '.claude/skills/localization-qa/scripts/extract.mjs', '.claude/skills/localization-qa/scripts/check.mjs']);
   const SKIP = new Set(['.git', 'node_modules', 'test-results', 'playwright-report']);

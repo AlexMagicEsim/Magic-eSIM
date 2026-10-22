@@ -1,0 +1,26 @@
+{
+  "language": "zh-Hans",
+  "note": "Terms of this storefront. «target» is the established translation (as on the live pages); «avoid» are variants that are wrong, regional (Taiwan / Hong Kong usage) or inconsistent; «consistency» asks the check to flag a string whose source has the term and whose translation has neither the term nor an accepted variant. Matching is CJK-aware (style.json cjk).",
+  "doNotTranslate": ["Magic eSIM", "eSIM", "iPhone", "Android", "Pixel", "Galaxy", "iOS", "USD", "Stay Connected Anywhere", "support@magicesim.store", "EID", "APN"],
+  "terms": [
+    { "en": "QR code", "target": "二维码", "avoid": ["QR 码", "QR码", "QR code"], "consistency": true },
+    { "en": "mobile data", "target": "移动数据", "alsoAccept": ["蜂窝数据", "数据", "流量", "上网"], "avoid": ["行动数据", "流動數據"], "consistency": true },
+    { "en": "data roaming", "target": "数据漫游", "alsoAccept": ["漫游"], "consistency": true },
+    { "en": "airplane mode", "target": "飞行模式", "avoid": ["航空模式", "飛航模式"], "consistency": true },
+    { "en": "destination", "target": "目的地", "alsoAccept": ["国家或地区", "国家/地区", "抵达", "当地", "中国大陆"], "consistency": true },
+    { "en": "plan", "target": "套餐", "alsoAccept": ["蜂窝号码"], "avoid": ["计划", "方案", "资费方案"], "consistency": true },
+    { "en": "Wi-Fi", "target": "无线局域网", "alsoAccept": ["Wi-Fi"], "why": "Apple zh-cn writes 无线局域网", "consistency": true },
+    { "en": "carrier-locked", "target": "运营商锁定", "alsoAccept": ["运营商锁", "被运营商锁定", "未被运营商锁定"], "avoid": ["网络锁", "电信商锁"], "consistency": true },
+    { "en": "carrier", "target": "运营商", "avoid": ["电信商", "電信商"] },
+    { "en": "data", "target": "流量", "alsoAccept": ["数据"] },
+    { "en": "validity", "target": "有效期" },
+    { "en": "checkout", "target": "结账", "avoid": ["结帐"] },
+    { "en": "email", "target": "电子邮件", "alsoAccept": ["电子邮箱", "邮件"], "avoid": ["电邮", "電郵"] },
+    { "en": "settings", "target": "设置", "avoid": ["设定", "設定"] },
+    { "en": "install", "target": "安装" },
+    { "en": "SIM card", "target": "SIM 卡", "avoid": ["SIM卡"] },
+    { "en": "network", "target": "网络", "avoid": ["网路", "網路"] },
+    { "en": "phone", "target": "手机", "avoid": ["电话机"] },
+    { "en": "promo code", "target": "优惠码", "avoid": ["促销码", "折扣码"] }
+  ]
+}

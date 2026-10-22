@@ -96,7 +96,7 @@ test('the switch never names a language the registry does not publish (besides t
   for (const l of LOCALES.filter((x) => !x.site.enabled && x.code !== 'ko')) {
     assert.ok(!html.includes(`>${l.endonym}<`), `${l.code} is not published and not offered`);
   }
-  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en', 'es', 'de', 'fr'], 'published since FR-1: RU, EN, ES, DE, FR');
+  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans'], 'published since ZH-1: RU, EN, ES, DE, FR, ZH-Hans');
   assert.equal(locale('ko').site.enabled, false);
 });
 

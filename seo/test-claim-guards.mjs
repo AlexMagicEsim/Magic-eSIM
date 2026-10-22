@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { CLAIM_GUARDS, RULES, rulesFor, missingGuards, word } from './claim-guards.mjs';
+import { CLAIM_GUARDS, RULES, rulesFor, missingGuards, word, hanWord, SOURCED, withoutSourced } from './claim-guards.mjs';
 import { LOCALES } from './locales.mjs';
 import { cannotBuild, localeGenerator } from './build-locale-pages.mjs';
 
@@ -85,7 +85,8 @@ for (const l of LOCALES.filter((x) => x.prefix && x.site.enabled)) {
     const P = l.prefix;
     const hits = [];
     for (const slug of readdirSync(join(ROOT, P, 'guides'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)) {
-      const text = prose(read(`${P}/guides/${slug}/index.html`));
+      // a sentence the owner allowed whole, with its source (SOURCED, ZH-1 D12), is taken out before the rules run
+      const text = withoutSourced(l.code, `${P}/guides/${slug}/`, prose(read(`${P}/guides/${slug}/index.html`)));
       for (const [id, re] of rulesFor(l.code, 'guide')) if (re.test(text)) hits.push(`${P}/guides/${slug}/: ${id} «${text.match(re)[0]}»`);
     }
     const home = prose(read(`${P}/index.html`).replace(/^[\s\S]*?<main/, '<main'));
@@ -95,3 +96,28 @@ for (const l of LOCALES.filter((x) => x.prefix && x.site.enabled)) {
     assert.deepEqual(hits, []);
   });
 }
+
+/* ZH-1 T1: Chinese has no spaces between words — word() cannot fire inside a Chinese sentence; hanWord() can. */
+test('hanWord: a Han phrase fires inside a Chinese sentence where word() is blind; Latin letters and digits still end a match', () => {
+  assert.equal(word('最快').test('我们是最快的eSIM'), false, 'the defect hanWord exists for');
+  assert.equal(hanWord('最快').test('我们是最快的eSIM'), true);
+  assert.equal(hanWord('5G').test('支持5G网络'), true);
+  assert.equal(hanWord('5G').test('15G'), false);
+  assert.equal(hanWord('VPN').test('VPNs'), false);
+  for (const r of Object.values(CLAIM_GUARDS['zh-Hans'])) assert.ok(r.re.flags.includes('u'), String(r.re));
+});
+
+/* ZH-1 D12: SOURCED allows exact sentences, never a pattern. Each must be on its page, need its rule, and cite a source. */
+test('SOURCED: every allowed sentence is on its page verbatim, its rule fires on it, and it cites an https source', () => {
+  let n = 0;
+  for (const [code, list] of Object.entries(SOURCED)) for (const s of list) {
+    n += 1;
+    assert.ok(CLAIM_GUARDS[code] && CLAIM_GUARDS[code][s.rule], `${code}: unknown rule ${s.rule}`);
+    assert.ok(CLAIM_GUARDS[code][s.rule].re.test(s.sentence), `${code}: ${s.rule} does not fire on «${s.sentence}» — not needed`);
+    assert.match(s.source, /^https:\/\/support\.apple\.com\//, 'a vendor source');
+    assert.match(s.read, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(prose(read(`${s.page}index.html`)).includes(s.sentence), `${s.page}: the allowed sentence is not on the page as written`);
+    assert.ok(!withoutSourced(code, s.page, prose(read(`${s.page}index.html`))).includes(s.sentence));
+  }
+  assert.equal(n, 1, 'one sourced sentence (the Apple mainland list) — a new one is an owner decision');
+});

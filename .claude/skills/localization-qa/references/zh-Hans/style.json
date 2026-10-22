@@ -1,0 +1,62 @@
+{
+  "language": "zh-Hans",
+  "variant": "Neutral Simplified Chinese (owner D3, 2026-10-22): PRC punctuation norms, Apple zh-cn terms, «您».",
+  "formality": "您",
+  "cjk": true,
+  "invertedPunctuation": false,
+  "frenchSpacing": false,
+  "seo": {
+    "titleMax": 60,
+    "descriptionMax": 160,
+    "widthUnits": true
+  },
+  "priceFormat": "US$12.99 (Intl zh-Hans, currencyDisplay symbol) — decided, never a finding",
+  "sameAsEnglishAllowed": [
+    "Magic eSIM", "iPhone", "Android", "eSIM", "Pixel", "Galaxy", "{n} GB", "Русский", "English", "Перейти на русскую версию",
+    "zh-Hans", "symbol", "{name} + {n} {countries}"
+  ],
+  "forbidden": [
+    {
+      "id": "ni-form",
+      "pattern": "你(?!们好)",
+      "severity": "major",
+      "category": "style-variant",
+      "reason": "a «你» form — the site addresses the reader as «您» (owner D1); mixing registers reads as two writers."
+    },
+    {
+      "id": "half-width-punct",
+      "pattern": "\\p{Script=Han}[,;:!?]|[,;:!?](?=\\p{Script=Han})|\\p{Script=Han}\\.(?!\\d)",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "half-width punctuation next to Chinese — Chinese text uses full-width ，。：；？！ (owner D6)."
+    },
+    {
+      "id": "han-latin-no-space",
+      "pattern": "\\p{Script=Han}[A-Za-z0-9]|[A-Za-z0-9]\\p{Script=Han}",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "no space between Chinese and a Latin letter or digit — the site writes «安装 eSIM», «7 天» (owner D6, Apple zh-cn style)."
+    },
+    {
+      "id": "space-at-full-width",
+      "pattern": " [，。：；？！、）]|[，。：；？！、（] ",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "a space next to full-width punctuation — full-width marks carry their own spacing (owner D6)."
+    },
+    {
+      "id": "ascii-quotes",
+      "pattern": "\"[^\"]*\\p{Script=Han}[^\"]*\"",
+      "severity": "minor",
+      "category": "punctuation",
+      "reason": "ASCII quotes around Chinese — the site uses “ ” (owner D6)."
+    },
+    {
+      "id": "traditional",
+      "pattern": "[們這個會為體點樣號網設讓說對開關與機發電話]",
+      "severity": "major",
+      "category": "style-variant",
+      "reason": "a Traditional Chinese character — the site is Simplified (zh-Hans)."
+    }
+  ]
+}

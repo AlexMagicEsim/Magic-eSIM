@@ -21,6 +21,7 @@
  *
  * Run: node --test seo/test-locale-rehearsal.mjs
  */
+import { ZH_GUIDES } from './guides-zh.mjs';
 import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -113,8 +114,8 @@ function leftover(run, names) {
 
 /* ===================================================================== */
 
-test('there are two planned languages to rehearse, and none is published (Spanish by ES-1, German by DE-1, French by FR-1)', () => {
-  assert.deepEqual(PLANNED.map((l) => l.code), ['zh-Hans', 'ko']);
+test('there is one planned language to rehearse, and it is not published (Spanish by ES-1, German by DE-1, French by FR-1, Chinese by ZH-1)', () => {
+  assert.deepEqual(PLANNED.map((l) => l.code), ['ko']);
 });
 
 test('the rehearsal cannot publish: no build(), and it refuses the root, a published or an unknown language', () => {
@@ -126,6 +127,7 @@ test('the rehearsal cannot publish: no build(), and it refuses the root, a publi
   assert.throws(() => rehearsalGenerator('fr', { copy: PAGE_COPY.fr, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('de', { copy: PAGE_COPY.de, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('es', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en }), /published/);
+  assert.throws(() => rehearsalGenerator('zh-Hans', { copy: PAGE_COPY['zh-Hans'], guides: EN_GUIDES, words: DICT.en }), /published/);
   // …and the published generator still refuses every planned language.
   for (const l of PLANNED) assert.throws(() => localeGenerator(l.code), /refusing to publish/);
 });
@@ -247,16 +249,19 @@ test('a guide section whose heading makes no anchor (Chinese, Korean) must name 
   assert.throws(() => guideSectionId({ h2: '安装步骤' }, 'iphone'), /no usable anchor/);
   assert.throws(() => guideSectionId({ h2: '설치 방법' }, 'iphone'), /give it an `id`/);
   assert.throws(() => guideSectionId({ h2: 'x', id: 'Bad Id' }, 'iphone'), /no usable anchor/);
-  const G = rehearse('zh-Hans');
-  const g = { ...markedGuides('zh-Hans')[0] };
-  g.sections = g.sections.map((x, i) => ({ ...x, h2: `步骤${'一二三四五六七八九十'[i]}` }));
+  // Chinese is published since ZH-1: its own generator and guide, with the ids taken away
+  const G = localeGenerator('zh-Hans');
+  const g = { ...ZH_GUIDES[0] };
+  g.sections = g.sections.map((x, i) => ({ ...x, id: undefined, h2: `步骤${'一二三四五六七八九十'[i]}` }));
   assert.throws(() => G.guidePage(g), /no usable anchor/);
   g.sections = g.sections.map((x, i) => ({ ...x, id: `step-${i + 1}` }));
   assert.match(G.guidePage(g), /<li><a href="#step-1">步骤一<\/a><\/li>/);
 });
 
-test('English, Spanish, German and French are what the generators publish, and their names files are byte-for-byte the committed ones', () => {
-  assert.deepEqual(publishedNameLocales(), ['en', 'es', 'de', 'fr']);
+test('English, Spanish, German, French and Chinese are what the generators publish, and their names files are byte-for-byte the committed ones', () => {
+  assert.deepEqual(publishedNameLocales(), ['en', 'es', 'de', 'fr', 'zh-Hans']);
+  assert.equal(renderNames('zh-Hans'), readFileSync(join(ROOT, 'assets/country-names-zh.js'), 'utf8'));
+  assert.equal(namesFile('zh-Hans').global, 'MagicCountryNamesZh');
   assert.equal(renderNames('fr'), readFileSync(join(ROOT, 'assets/country-names-fr.js'), 'utf8'));
   assert.equal(namesFile('fr').global, 'MagicCountryNamesFr');
   assert.equal(renderNames('de'), readFileSync(join(ROOT, 'assets/country-names-de.js'), 'utf8'));

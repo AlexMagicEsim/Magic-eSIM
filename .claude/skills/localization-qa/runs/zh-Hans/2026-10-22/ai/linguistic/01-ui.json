@@ -1,0 +1,21 @@
+[
+  {
+    "id": "L01-001",
+    "item_id": "ui:pay.finalBody",
+    "group": "ui",
+    "key": "pay.finalBody",
+    "where": "checkout window (country page → plan)",
+    "url": "",
+    "en": "We can't take payment yet, so nothing has been charged, no order has been created and no eSIM will be sent. Your email has not been sent or saved.",
+    "target": "我们目前还无法收款，因此没有产生任何费用，没有创建订单，也不会发送 eSIM。您的电子邮箱既未发送也未保存。",
+    "suggestion": "我们目前还无法收款，因此没有产生任何费用，没有创建订单，也不会发送 eSIM。您的电子邮箱地址既未被发送，也未被保存。",
+    "explanation": "«电子邮箱既未发送» reads as «the mailbox was not sent» — 电子邮箱 is the mailbox, and as the subject of a passive 发送/保存 the natural object is the address (电子邮箱地址); the passive also reads more clearly with 被.",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.7,
+    "source": "ai",
+    "stage": "linguistic",
+    "rule": "collocation: 发送/保存 + 电子邮箱地址",
+    "objective": false
+  }
+]
