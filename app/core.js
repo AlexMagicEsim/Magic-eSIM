@@ -439,6 +439,8 @@ const WORD_FORMS = Object.freeze({
   hour: Object.freeze({ ru: ['час', 'часа', 'часов'], en: ['hour', 'hours'], es: ["hora", "horas"], de: ["Stunde", "Stunden"], fr: ["heure", "heures"], "zh-Hans": ["小时"], ko: ["시간"] }),
   tariff: Object.freeze({ ru: ['тариф', 'тарифа', 'тарифов'], en: ['plan', 'plans'], es: ["plan", "planes"], de: ["Tarif", "Tarife"], fr: ["forfait", "forfaits"], "zh-Hans": ["个套餐"], ko: ["개 요금제"] }),
   country: Object.freeze({ ru: ['страна', 'страны', 'стран'], en: ['country', 'countries'], es: ["país", "países"], de: ["Land", "Länder"], fr: ["pays", "pays"], "zh-Hans": ["个国家/地区"], ko: ["개국"] }),
+  // MINIAPP-I18N-LEGAL-2: «4 сети» on a tariff card was Russian in every language (tariffDistinguishers).
+  network: Object.freeze({ ru: ['сеть', 'сети', 'сетей'], en: ['network', 'networks'], es: ['red', 'redes'], de: ['Netz', 'Netze'], fr: ['réseau', 'réseaux'], 'zh-Hans': ['个网络'], ko: ['개 네트워크'] }),
   purchase: Object.freeze({ ru: ['покупку', 'покупки', 'покупок'], en: ['purchase', 'purchases'], es: ["compra", "compras"], de: ["Kauf", "Käufe"], fr: ["achat", "achats"], "zh-Hans": ["笔购买"], ko: ["건"] }),
 });
 
@@ -2558,7 +2560,7 @@ function tariffSiblingKey(pkg) {
  * @param {Array} list packages for one country/region
  * @returns {Map<string, string[]>} package_id -> short labels, most decisive first
  */
-function tariffDistinguishers(list) {
+function tariffDistinguishers(list, lang) {
   const packages = Array.isArray(list) ? list : [];
   const groups = new Map();
   for (const p of packages) {
@@ -2579,13 +2581,14 @@ function tariffDistinguishers(list) {
     for (const p of group) {
       const chips = [];
       if (ipVaries) {
-        const ip = tariffIpLabel(p);
+        // The exit country in the reader's language (it was always Russian here: «IP: Япония» on a German card).
+        const ip = tariffIpLabel(p, lang);
         if (ip) chips.push(`IP: ${ip}`);
       }
       if (netVaries) {
         const ops = tariffOperators(p);
         if (ops.length === 1) chips.push(ops[0]);
-        else if (ops.length > 1) chips.push(`${ops.length} ${plural(ops.length, 'сеть', 'сети', 'сетей')}`);
+        else if (ops.length > 1) chips.push(countPhrase(lang, ops.length, WORD_FORMS.network));
       }
       if (genVaries) {
         const gen = tariffTopGeneration(p);
@@ -2616,10 +2619,9 @@ function tariffDistinguishers(list) {
  * types say it the same way and it is translated through the dictionary.
  *
  * Operator names are deliberately NOT here either. `tariffDistinguishers`
- * builds an «N сетей» chip with a hardcoded Russian plural (see the `plural(`
- * call in it), which is a latent defect in the English locale; this function
- * must not inherit it, and every label it can emit is either localised through
- * `countryLabel` or a bare generation token like «5G».
+ * once built its «N сетей» chip with a hardcoded Russian plural (fixed in MINIAPP-I18N-LEGAL-2: WORD_FORMS.network);
+ * operator names stay out of here on purpose, and every label it can emit is either localised through `countryLabel`
+ * or a bare generation token like «5G».
  *
  * MEASURED over the shipped catalogue (2298 packages, 1329 daily). There are
  * 252 groups of two-or-more same-allowance daily rows, covering 569 packages:

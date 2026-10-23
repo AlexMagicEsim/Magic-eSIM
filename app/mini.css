@@ -1093,6 +1093,8 @@ body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stab
 .gco-unavailable { margin-top: var(--s3); }
 html:not([data-tg-scheme="dark"]) .market .segmented__opt[aria-checked="true"] { color: var(--blue-press); }
 html[data-market="global"] #home-promo { display: none !important; }
+/* MINIAPP-I18N-LEGAL-2: «Prices are in roubles. Pay via SBP or a Russian bank card» is the Russian market's sentence. */
+html[data-market="global"] #home-paynote { display: none !important; }
 
 /* S6 progress note: a spinner INSIDE a stated message, never a bare one. */
 .notice .btn__spinner { flex: 0 0 auto; }

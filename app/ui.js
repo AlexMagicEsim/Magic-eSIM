@@ -59,6 +59,11 @@
     return C.countWord(I.lang(), n, C.WORD_FORMS.day);
   }
 
+  /** "15 days" / «15 дней» / «15일» — number and word together, as one phrase (Korean writes them without a space). */
+  function dayCount(n) {
+    return C.countPhrase(I.lang(), n, C.WORD_FORMS.day);
+  }
+
   /** "3 plans" / «3 тарифа» — number and word together, as one phrase. */
   function tariffCount(n) {
     return C.countPhrase(I.lang(), n, C.WORD_FORMS.tariff);
@@ -680,7 +685,12 @@
     let painted = false;
 
     const notice = $('#home-notice');
+    // MINIAPP-I18N-LEGAL-2: an answer that lands after the customer switched to the international market is not
+    // drawn. The rouble catalogue (2 MB) used to arrive after the switch, replace the US-dollar rows and show rouble
+    // amounts as dollars («from $400.00» for a 400 ₽ plan) — reproduced in production 2026-10-23.
+    const asked = state.market;
     const paint = (payload, { stale, retry } = {}) => {   // eslint-disable-line no-unused-vars
+      if (state.market !== asked) return;
       adoptCatalogue(payload);
       clear(notice);
 
@@ -761,6 +771,7 @@
 
       return;
     }
+    if (state.market !== asked) return;      // nor its failure: the international list is someone else's now
     clear(list);
     clear(notice);
     list.appendChild(errorNotice(t('home.loadFailed'), renderCatalogue));
@@ -1122,7 +1133,7 @@
     const pills = [];
     const days = Number(p.validity_days);
     if (Number.isFinite(days) && days > 0) {
-      pills.push(el('span', { class: 'tariff__pill', text: `${days} ${dayWord(days)}` }));
+      pills.push(el('span', { class: 'tariff__pill', text: dayCount(days) }));
     }
     // The label is the short form now — the card gives it one line beside the
     // volume, the term and the price. The full sentence a buyer reads before
@@ -1248,7 +1259,7 @@
 
     // Computed over the whole group, once, because "what is different" is a
     // property of the set rather than of any one card.
-    const distinct = C.tariffDistinguishers(volume);
+    const distinct = C.tariffDistinguishers(volume, I.lang());
     for (const p of C.sortTariffs(volume, state.sort)) {
       list.appendChild(tariffCard(p, group, distinct));
     }
@@ -2355,7 +2366,7 @@
         })))
         : el('div', {
           class: 'card__meta',
-          text: `${days} ${dayWord(days)}`,
+          text: dayCount(days),
         }),
     ]));
 
@@ -2626,7 +2637,7 @@
             text: (isDaily
               ? t('daily.perDay', { allowance: D.formatAllowance(g.pkg.daily_gb, dailyLang()) })
               : (g.pkg.unlimited ? t('plan.unlimited') : t('plan.gb', { n: g.pkg.data_gb })))
-              + ` · ${g.days} ${dayWord(g.days)}`,
+              + ` · ${dayCount(g.days)}`,
           }),
         ]),
       ]),

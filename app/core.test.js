@@ -2370,3 +2370,32 @@ test('LEGAL-4: the document names in Help are the website footer\'s, and Russian
   }
   for (const k of ['terms', 'refund', 'privacy']) assert.match(L.ru[`legal.intl.${k}`], /\(на английском\)$/);
 });
+
+/* MINIAPP-I18N-LEGAL-2 — what tells two tariffs apart, in the reader's language (production rows, 2026-10-23). */
+test('tariffDistinguishers speaks the reader\'s language; Russian is unchanged', () => {
+  const base = { country_code: 'JP', coverage_country_codes: ['JP'], data_gb: 3, validity_days: 15, network_technologies: ['3G', '4G', '5G'] };
+  const rows = [
+    { ...base, package_id: 'one', networks: [{ operator: 'NTT docomo', type: '5G' }], ip_export: ['JP'] },
+    { ...base, package_id: 'four', networks: ['NTT docomo', 'Rakuten Mobile', 'KDDI/au', 'SoftBank'].map((operator) => ({ operator, type: '5G' })), ip_export: ['HK'] },
+  ];
+  const at = (lang) => Object.fromEntries(C.tariffDistinguishers(rows, lang));
+  assert.deepEqual(at('ru'), { one: ['IP: Япония', 'NTT docomo'], four: ['IP: Гонконг', '4 сети'] }, 'the Russian chips, as before');
+  assert.deepEqual(at(undefined), at('ru'), 'no language = Russian, as the old one-argument call');
+  const four = { en: '4 networks', es: '4 redes', de: '4 Netze', fr: '4 réseaux', 'zh-Hans': '4 个网络', ko: '4개 네트워크' };
+  for (const [lang, phrase] of Object.entries(four)) {
+    const d = at(lang);
+    assert.equal(d.four[1], phrase, lang);
+    assert.equal(d.one[0], `IP: ${C.countryLabel('JP', lang)}`, lang);
+    assert.doesNotMatch(JSON.stringify(d), /[Ѐ-ӿ]/, `${lang}: no Russian`);
+  }
+  assert.equal(C.countPhrase('ru', 1, C.WORD_FORMS.network), '1 сеть');
+  assert.equal(C.countPhrase('ru', 5, C.WORD_FORMS.network), '5 сетей');
+  assert.equal(C.countPhrase('en', 1, C.WORD_FORMS.network), '1 network');
+});
+
+test('a term reads as one phrase: «15일» in Korean, «15 дней» / «15 days» elsewhere', () => {
+  assert.equal(C.countPhrase('ko', 15, C.WORD_FORMS.day), '15일');
+  assert.equal(C.countPhrase('ru', 15, C.WORD_FORMS.day), '15 дней');
+  assert.equal(C.countPhrase('en', 1, C.WORD_FORMS.day), '1 day');
+  assert.equal(C.countPhrase('de', 30, C.WORD_FORMS.day), '30 Tage');
+});
