@@ -163,7 +163,7 @@ test('every English page: the same SVG logo in the header, started from <head> b
   }
 });
 
-test('assets/logo-once.js: data-motion, its one sessionStorage flag, the logo class, and at most assets/motion.js — nothing else', () => {
+test('assets/logo-once.js: data-motion, its sessionStorage flags, the logo class, at most assets/motion.js, the one language key — nothing else', () => {
   const js = read('assets/logo-once.js');
   const code = js.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
   assert.match(code, /r\.setAttribute\('data-motion', 'expressive'\)/, 'turns the interface motion on, as the RU header script does');
@@ -178,7 +178,12 @@ test('assets/logo-once.js: data-motion, its one sessionStorage flag, the logo cl
   assert.match(code, /getAttribute\('data-motion-src'\)/);
   assert.match(code, /\^\\\/assets\\\/motion\\\.js/, 'the src is checked to be assets/motion.js');
   assert.match(MOTION_JS_URL, /^\/assets\/motion\.js\?v=[0-9a-f]{8}$/);
-  for (const re of [/\bfetch\b/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /localStorage/, /indexedDB/, /document\.cookie/, /location\./, /innerHTML/, /\bimport\b/, /\beval\b/, /new Function/]) {
+  // The language choice (owner, 2026-10-23; seo/test-lang-route.mjs): ONE localStorage key, written only, and the page's
+  // own origin read to recognise an arrival from a Russian page — nothing else of either.
+  assert.deepEqual(code.match(/localStorage[^;]*/g), ["localStorage.setItem(KEY, lang)"]);
+  assert.match(code, /var KEY = 'mesim\.site\.lang'/);
+  assert.deepEqual(code.match(/location\.[a-z]+/gi), ['location.origin']);
+  for (const re of [/\bfetch\b/, /XMLHttpRequest/, /sendBeacon/, /WebSocket/, /indexedDB/, /document\.cookie/, /location\.(?!origin\b)/, /\.replace\(|\.assign\(|href\s*=/, /innerHTML/, /\bimport\b/, /\beval\b/, /new Function/]) {
     assert.doesNotMatch(code, re, String(re));
   }
 });

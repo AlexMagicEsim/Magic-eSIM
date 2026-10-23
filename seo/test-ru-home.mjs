@@ -78,7 +78,9 @@ test('the home reads no catalogue and takes no money', () => {
   }
   assert.doesNotMatch(RU, /page-country\.css/);
   const scripts = [...RU.matchAll(/<script src="([^"?]+)\?v=[0-9a-f]{8}"><\/script>/g)].map((m) => m[1]);
-  assert.deepEqual(scripts, ['/assets/ru-destinations.js', '/assets/ru-search.js', '/assets/ru-home.js'], 'the body loads the list, the shared matcher, then the search');
+  // <head> loads the first-visit language route first (assets/lang-route.js, owner 2026-10-23; seo/test-lang-route.mjs) —
+  // it reads no catalogue and takes no money either; the body loads the list, the shared matcher, then the search.
+  assert.deepEqual(scripts, ['/assets/lang-route.js', '/assets/ru-destinations.js', '/assets/ru-search.js', '/assets/ru-home.js']);
 });
 
 test('ru-home.js touches no network and builds links only from the generated list', () => {
