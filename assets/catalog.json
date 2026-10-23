@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-22T12:00:16.016Z",
+  "generated_at": "2026-10-23T05:02:10.929Z",
   "source": "production-public-api",
   "package_count": 2284,
   "packages": [
@@ -7372,7 +7372,7 @@
       "price": 3300,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "FLOW",
           "type": "4G"
         }
       ],
@@ -7386,9 +7386,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -14792,7 +14790,7 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -14808,7 +14806,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -20312,6 +20310,10 @@
       "price": 1150,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -20328,7 +20330,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -30171,9 +30173,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -35715,7 +35715,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -37388,7 +37388,7 @@
       "price": 4350,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -37403,9 +37403,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -38473,7 +38471,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -38488,7 +38490,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -39392,9 +39394,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -40771,6 +40771,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -40785,7 +40789,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -45943,7 +45947,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -45958,7 +45962,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -46382,12 +46386,12 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -46401,7 +46405,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -62871,7 +62875,7 @@
       "price": 1450,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "movistar",
           "type": "4G"
         }
       ],
@@ -62886,7 +62890,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -72021,9 +72025,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -78098,9 +78100,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -96466,9 +96466,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -99530,7 +99528,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -99544,7 +99542,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -108081,9 +108079,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -108106,8 +108102,12 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "WOM",
-          "type": "5G"
+          "operator": "movistar",
+          "type": "3G"
+        },
+        {
+          "operator": "CLARO CL",
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -108122,7 +108122,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -115407,9 +115407,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -119951,11 +119949,7 @@
       "price": 2550,
       "networks": [
         {
-          "operator": "Digicel",
-          "type": "4G"
-        },
-        {
-          "operator": "Setel N.V.",
+          "operator": "Chippie",
           "type": "4G"
         }
       ],
@@ -119969,9 +119963,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -128536,9 +128528,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -131097,7 +131087,7 @@
       "networks": [
         {
           "operator": "FLOW",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -131111,9 +131101,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -131226,7 +131214,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -134629,12 +134617,12 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -134648,7 +134636,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -139340,9 +139328,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -140713,8 +140699,8 @@
       "price": 2900,
       "networks": [
         {
-          "operator": "One",
-          "type": "4G"
+          "operator": "338050",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -140729,7 +140715,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
