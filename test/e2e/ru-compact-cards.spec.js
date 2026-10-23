@@ -6,7 +6,7 @@
  *   - a plan for this country alone drops «Покрытие: <страна>»; a multi-country
  *     plan keeps it (authored pages cite «строка «Покрытие»» for those);
  *   - «Активация» keeps its row (cited by 14 profiles), without «установка по QR»;
- *   - the daily term picker: «Срок, дней:» and the days only, in ONE row; each
+ *   - the daily term picker: «Срок, дней:» and the days only, in ONE row (3 + 3 at 320 px); each
  *     cell keeps its price in aria-label and data-price; picking one moves the
  *     card's price and term, and the checkout gets that term and price;
  *   - volume, term, price, type badge, «Покрытие и условия», network, top-up and
@@ -80,14 +80,14 @@ for (const width of [320, 375, 390]) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     });
 
-    test('the daily terms: days only, one row, 40×40 targets; the pick reaches the card and the checkout', async ({ page }) => {
+    test('the daily terms: days only, one row (3 + 3 at 320), 40×40 targets; the pick reaches the card and the checkout', async ({ page }) => {
       await open(page, '/esim/turkey/', width);
       const card = page.locator('#dailyGrid .plan').first();
       await expect(card.locator('.daily-terms-block > .package-meta-label')).toHaveText('Срок, дней:');
       const cells = card.locator('.js-daily-term');
       const n = await cells.count();
       expect(n).toBeGreaterThan(2);
-      const tops = new Set();
+      const tops = [];
       for (let i = 0; i < n; i++) {
         const c = cells.nth(i);
         await expect(c).toHaveText(/^\d+$/);
@@ -95,9 +95,17 @@ for (const width of [320, 375, 390]) {
         const box = await c.boundingBox();
         expect(box.height).toBeGreaterThanOrEqual(40);
         expect(box.width).toBeGreaterThanOrEqual(40);
-        tops.add(Math.round(box.y));
+        tops.push(Math.round(box.y));
       }
-      expect(tops.size).toBe(1);
+      // B1 (brand book v1.1): 44 px day targets; at 320 px six of them cannot share one row (6 × 44 + 5 × 6 = 294 px
+      // against ~248), so a six-term ladder sits three and three (owner, 2026-10-23); wider: one row
+      const rows = [...new Set(tops)];
+      if (width === 320 && n === 6) {
+        expect(rows.length).toBe(2);
+        expect(tops.filter((t) => t === rows[0]).length).toBe(3);
+      } else {
+        expect(rows.length).toBe(1);
+      }
       const pick = cells.nth(2);
       await pick.scrollIntoViewIfNeeded();
       await pick.click();

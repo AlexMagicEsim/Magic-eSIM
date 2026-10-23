@@ -325,3 +325,87 @@
 .legal-card table{width:100%;border-collapse:collapse;margin:12px 0}
 .legal-card td,.legal-card th{padding:8px 10px;border:1px solid var(--border);text-align:left;vertical-align:top}
 @media (max-width:599px){.legal-card{padding:22px 18px;border-radius:var(--r-l)}}
+
+/* ---------- plan cards: B1 «Soft Neutral» on the Russian country pages (owner, 2026-10-23; brand book v1.1) ----------
+ * The international card (en/en.css, storefront #134) brought to the Russian card — the same design, values and layout;
+ * the Russian card's own parts kept and fitted: «Покрытие и условия →», the indigo twin chips, «Сеть» with its icon,
+ * «Пополнение», the green «Оптимальный выбор», and the per-day terms as buttons (.daily-term, 6 or 1 per card).
+ * Scope: #tariffs[data-cards="compact"] — the 188 country pages outside the SEO experiment; the experiment's ten pages
+ * keep their card until the pilot verdict. The rules repeat en/en.css's B1 block on purpose: en/en.css never reaches a
+ * Russian page (seo/test-design-system.mjs) and the international files are not touched. Nothing here sets transform,
+ * animation or transition: every animation of site.css runs as before (entrance, hover lift + ring, focus ring, the buy
+ * button's lift / press / card-hover colour, the info arrow, the term press + settle, reduced motion). Prices, plan ids
+ * and every data-* the checkout reads are untouched — this is CSS only. */
+/* density: the compact card's padding and gaps (conversion audit #100 — the first «Купить» in the first phone screen) */
+#tariffs[data-cards="compact"] .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; container-type: inline-size; padding: 14px 16px 12px; gap: 8px; }
+#tariffs[data-cards="compact"] .plan-regional { --pc-strip: #c58fe0; --pc-ico: #8a16c7; --pc-word: #6a1199; }
+#tariffs[data-cards="compact"] .plan-daily { --pc-strip: #6cc3d4; --pc-ico: #0a7a8f; --pc-word: #0a5f72; }
+/* the family strip follows the card's rounded top (a mask, not overflow:hidden — that would clip the hover ring) */
+#tariffs[data-cards="compact"] .plan::before { content: ""; position: absolute; inset: -1px -1px auto -1px; height: 24px; border-radius: var(--r-l) var(--r-l) 0 0; background: var(--pc-strip); pointer-events: none; -webkit-mask: linear-gradient(#000 0 3px, transparent 3px); mask: linear-gradient(#000 0 3px, transparent 3px); }
+
+/* header: volume and price on one baseline; the term + plan-type row across the card; a daily price under its sentence */
+#tariffs[data-cards="compact"] .plan-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 6px; align-items: baseline; }
+#tariffs[data-cards="compact"] .plan-main { display: contents; }
+#tariffs[data-cards="compact"] .plan .plan-data { grid-column: 1; grid-row: 1; font-size: 30px; font-weight: 700; color: var(--pc-ink); -webkit-hyphens: manual; hyphens: manual; text-wrap: pretty; }
+#tariffs[data-cards="compact"] .plan:not(.plan-daily) .plan-data { white-space: nowrap; }
+#tariffs[data-cards="compact"] .plan .price { grid-column: 2; grid-row: 1; font-size: 24px; font-weight: 700; color: var(--pc-ink); white-space: nowrap; }
+#tariffs[data-cards="compact"] .plan-row { grid-column: 1 / -1; grid-row: 2; gap: 10px; }
+#tariffs[data-cards="compact"] .plan-daily .plan-top { grid-template-columns: minmax(0, 1fr); }
+#tariffs[data-cards="compact"] .plan-daily .plan-data { font-size: 20px; font-weight: 650; }
+#tariffs[data-cards="compact"] .plan-daily .price { grid-column: 1; grid-row: 2; text-align: left; }
+#tariffs[data-cards="compact"] .plan-daily .plan-row { grid-row: 3; }
+@container (max-width: 260px) {
+  #tariffs[data-cards="compact"] .plan:not(.plan-daily) .plan-data { font-size: 27px; }
+  #tariffs[data-cards="compact"] .plan .price { font-size: 22px; }
+}
+
+/* the term: a very light neutral pill; the plan type: the family icon + the word, no fill («Оптимальный выбор» stays green) */
+#tariffs[data-cards="compact"] .plan-term { min-height: 26px; padding: 0 12px; border-radius: 999px; background: #f1f4fa; color: var(--pc-ink); font-size: 13px; font-weight: 600; white-space: nowrap; }
+#tariffs[data-cards="compact"] .plan .plan-badge:not(.package-best) { gap: 6px; min-height: 0; padding: 0; border-radius: 0; background: none; color: var(--pc-word); font-size: 13px; font-weight: 550; white-space: nowrap; }
+#tariffs[data-cards="compact"] .plan .plan-badge.package-best { border-radius: 999px; white-space: nowrap; }
+#tariffs[data-cards="compact"] .plan-badge:not(.package-best)::before { content: ""; flex: none; width: 16px; height: 16px; background: var(--pc-ico); -webkit-mask: var(--pc-icon) center / 16px 16px no-repeat; mask: var(--pc-icon) center / 16px 16px no-repeat; }
+/* line icons on the brand book's 24 grid, 2 px stroke, round caps: pin (local), globe (regional), calendar (daily) */
+#tariffs[data-cards="compact"] .plan-local .plan-badge { --pc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z'/%3E%3Ccircle cx='12' cy='10' r='2.4'/%3E%3C/svg%3E"); }
+#tariffs[data-cards="compact"] .plan-regional .plan-badge { --pc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5S9.4 5.9 12 3.5z'/%3E%3C/svg%3E"); }
+#tariffs[data-cards="compact"] .plan-daily .plan-badge { --pc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5.5' width='16' height='14.5' rx='2.5'/%3E%3Cpath d='M8 3.5v4M16 3.5v4M4 10h16'/%3E%3C/svg%3E"); }
+
+/* coverage and the card facts: a family dot for the coverage, a quiet dot for the rest; «Покрытие и условия →» in
+ * graphite (blue is the buy button's), its arrow still moves */
+#tariffs[data-cards="compact"] .plan .meta span { text-wrap: pretty; }
+#tariffs[data-cards="compact"] .plan .meta .m-cov::before { background: var(--pc-ico); }
+#tariffs[data-cards="compact"] .plan .meta strong { color: var(--pc-ink); }
+#tariffs[data-cards="compact"] .plan :is(.plan-ip, .m-also, .m-cov) { -webkit-hyphens: manual; hyphens: manual; }
+#tariffs[data-cards="compact"] .plan .plan-info { color: var(--pc-ink); font-size: 13.5px; font-weight: 600; }
+#tariffs[data-cards="compact"] .plan .plan-info:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 6px; }
+
+/* the per-day terms: six even choices (three and three on a narrow card), 44 px, neutral until chosen; the chosen one
+ * stays Button blue; the press and settle of site.css run unchanged */
+#tariffs[data-cards="compact"] .daily-terms-block > .package-meta-label { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--muted); }
+#tariffs[data-cards="compact"] .daily-terms-block .package-meta { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; overflow: visible; }
+#tariffs[data-cards="compact"] .daily-term { width: 100%; min-width: 0; min-height: 44px; padding: 0; border: 0; border-radius: var(--r-s); background: #f1f4fa; box-shadow: inset 0 0 0 1px var(--border-strong); }
+#tariffs[data-cards="compact"] .daily-term .package-meta-label { font-size: 14px; font-weight: 650; color: var(--pc-ink); }
+#tariffs[data-cards="compact"] .daily-term.is-selected, #tariffs[data-cards="compact"] .daily-term.is-selected:hover { background: var(--accent-btn); box-shadow: none; }
+#tariffs[data-cards="compact"] .daily-term.is-selected .package-meta-label { color: #fff; }
+#tariffs[data-cards="compact"] .daily-term:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+@container (max-width: 300px) { #tariffs[data-cards="compact"] .daily-terms-block .package-meta { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* foot: «Сеть» and «Пополнение» (both short on the Russian card) stacked on the left, the button beside them — the
+ * compact card's arrangement, so the foot is one button tall */
+#tariffs[data-cards="compact"] .plan-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; row-gap: 2px; padding-top: 10px; }
+#tariffs[data-cards="compact"] .plan-tech { display: contents; }
+#tariffs[data-cards="compact"] .plan-foot .plan-net { grid-column: 1; grid-row: 1; align-self: end; gap: 6px; font-size: 13px; font-weight: 550; color: var(--pc-ink); }
+#tariffs[data-cards="compact"] .plan-foot .plan-ip { grid-column: 1; grid-row: 2; align-self: start; font-size: 13px; }
+#tariffs[data-cards="compact"] .plan-foot > :is(.btn, .note) { grid-column: 2; grid-row: 1 / span 2; }
+/* the buy button: solid Button blue, 44 px, one line; no shadow AT REST — the hover shadow, lift, press and the
+ * card-hover colour stay */
+#tariffs[data-cards="compact"] .plan .btn { min-height: 44px; font-size: 14px; font-weight: 650; white-space: nowrap; }
+#tariffs[data-cards="compact"] .plan .btn:not(:hover):not(:focus-visible) { box-shadow: none; }
+#tariffs[data-cards="compact"] .plan .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+/* the Russian foot carries only «Сеть …» and «Пополнение», so the button stays beside them down to a 220 px card (a 320 px
+ * phone included) and goes full width only below that */
+@container (max-width: 220px) {
+  #tariffs[data-cards="compact"] .plan-foot { grid-template-columns: minmax(0, 1fr); }
+  #tariffs[data-cards="compact"] .plan-foot > :is(.btn, .note) { grid-column: 1; grid-row: 3; width: 100%; margin-top: 6px; }
+}
+/* the ≤359 px rule in page-country.css lifts every headline to 24 px — a daily sentence keeps its own size */
+@media (max-width: 359px) { #tariffs[data-cards="compact"] .plan.plan-daily .plan-data { font-size: 19px; } }
