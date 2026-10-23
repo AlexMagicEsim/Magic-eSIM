@@ -73,7 +73,10 @@ test('it describes only what runs today: purchases are not available; no order, 
   const t = text(main);
   assert.match(t, /Online purchases are not yet available on the international website\./);
   // No payment provider, no order database, no email delivery service and no eSIM service provider is described as in use.
-  assert.doesNotMatch(t, /Platega|Flitt|Paddle|Creem|Stripe|Supabase|Resend|Telegram/);
+  // The only companies the pre-launch policy may name are the ones that process data today (a closed allowlist):
+  // a new name — of any provider — fails here until the policy is deliberately extended.
+  const named = new Set([...t.matchAll(/\b([A-Z][A-Za-z]+(?:\s[A-Z][A-Za-z]+)?),?\s(?:Inc\.|Incorporated|AG|Ltd|LLC|Pte\.)/g)].map((m) => m[1]));
+  assert.deepEqual([...named].sort(), ['Cloudflare', 'Fastly', 'GitHub', 'ImprovMX', 'Proton', 'Render Services'].sort());
   assert.doesNotMatch(t, /eSIM (service )?providers?|wholesale|connectivity partner/i, 'the pre-launch policy describes no eSIM supply');
   assert.doesNotMatch(t, /your order (is|was|has been)|we (deliver|send) (your|the) eSIM/i);
   assert.doesNotMatch(t, /\bcookies? (we|are) (set|use)/i);
@@ -83,7 +86,8 @@ test('no unconfirmed claim: no permit, authorisation, certification or full-comp
   const t = text(main);
   assert.doesNotMatch(t, /\bpermit\b|authori[sz]ation|authori[sz]ed by|approved by the State Audit Office/i);
   assert.doesNotMatch(t, /fully compliant|complies fully|GDPR[- ]compliant|certified/i);
-  assert.doesNotMatch(t, /\[(TBD|CONFIRM|DEPENDS|VERIFY)/, 'no drafting marker');
+  assert.doesNotMatch(t, /\[(TBD|CONFIRM|DEPENDS|VERIFY|AT LAUNCH)/, 'no drafting marker');
+  assert.doesNotMatch(PAGE, /<!--/, 'no HTML comment on the legal page (audit L1)');
   // Standard Contractual Clauses are claimed for Render only — the one provider whose published terms are confirmed.
   for (const m of t.matchAll(/[^.]*Standard Contractual Clauses[^.]*\./g)) assert.match(m[0], /Render/, m[0]);
 });

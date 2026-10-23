@@ -922,9 +922,10 @@ ${FOOTER}
  * hreflang: the indexing stages of seo/indexing.mjs are untouched, so the sitemap does not change. The language
  * switch leads every other language to its home — there is no translated policy yet. */
 const PRIVACY_PATH = '/en/privacy/';
-const PRIVACY_NOINDEX = `<!-- The international Privacy Policy (pre-launch). Not offered to search engines (noindex) and not in the
-     sitemap; every international footer links it (seo/legal-links.mjs). -->
-<meta name="robots" content="noindex, follow">`;
+// The international Privacy Policy (pre-launch) is not offered to search engines (noindex) and is not in the sitemap;
+// every international footer links it (seo/legal-links.mjs). This note stays here, in the source: the legal page
+// itself carries no HTML comment (LEGAL-1 audit L1).
+const PRIVACY_NOINDEX = '<meta name="robots" content="noindex, follow">';
 function privacyPage() {
   if (L.code !== 'en') throw new Error('privacyPage: the Privacy Policy is published in English only');
   const url = `${SITE}${PRIVACY_PATH}`;
