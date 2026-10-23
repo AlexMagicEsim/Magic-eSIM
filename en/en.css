@@ -65,3 +65,77 @@ html:lang(ko) :is(h1, h2, h3, h4, .price) { letter-spacing: 0; }
 .legal .g-sec h2+h3,.legal .g-sec p+h3{margin-top:18px}
 .legal .g-sec code{padding:1px 6px;border-radius:6px;background:#f4f6fb;font-size:.92em;overflow-wrap:anywhere}
 .legal .g-sec a,.legal .g-sec li,.legal .g-sec p{overflow-wrap:anywhere}
+
+/* ---------- plan cards: B1 «Soft Neutral» (owner-approved 2026-10-23; international country pages only) ----------
+ * This sheet loads only on the international pages (seo/test-design-system.mjs fails a Russian page that loads /en/*.css),
+ * so the Russian cards and the Mini App never see these rules. Every rule starts with .cp: it beats the shared
+ * assets/page-country.css (loaded after this file) by specificity, never by !important; the markup is unchanged.
+ * The idea: colour only where it NAMES the plan family — a 3 px strip at the top and the line icon; graphite text instead
+ * of Ink; the term on a very light neutral pill; the button is the one blue thing on a local card (#4267E8 is never a
+ * family colour). EVERY existing animation stays as it is (assets/site.css [data-motion]: the entrance, the hover lift and
+ * ring on ::after, the focus-within ring, the button lift/press, the day press and settle, scroll reveal): the strip lives
+ * on ::before, nothing here sets transform, animation or transition, and the button keeps its hover shadow — only its
+ * shadow at rest is removed. Needs brand book v1.1 (graphite text, the neutral term pill, the family strips). */
+.cp .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; container-type: inline-size; padding: 20px 20px 16px; gap: 12px; }
+.cp .plan-regional { --pc-strip: #c58fe0; --pc-ico: #8a16c7; --pc-word: #6a1199; }
+.cp .plan-daily { --pc-strip: #6cc3d4; --pc-ico: #0a7a8f; --pc-word: #0a5f72; }
+/* the family strip follows the card's rounded top (a mask, not overflow:hidden — that would clip the hover ring) */
+.cp .plan::before { content: ""; position: absolute; inset: -1px -1px auto -1px; height: 24px; border-radius: var(--r-l) var(--r-l) 0 0; background: var(--pc-strip); pointer-events: none; -webkit-mask: linear-gradient(#000 0 3px, transparent 3px); mask: linear-gradient(#000 0 3px, transparent 3px); }
+
+/* header (letter-spacing is page-country.css's own, so the Chinese and Korean resets above keep working): volume and price on one baseline; the term + plan-type row across the whole card; a daily price under its sentence */
+.cp .plan-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 8px; align-items: baseline; }
+.cp .plan-main { display: contents; }
+.cp .plan .plan-data { grid-column: 1; grid-row: 1; font-size: 30px; font-weight: 700; color: var(--pc-ink); -webkit-hyphens: manual; hyphens: manual; text-wrap: pretty; }
+.cp .plan:not(.plan-daily) .plan-data { white-space: nowrap; }
+.cp .plan .price { grid-column: 2; grid-row: 1; font-size: 24px; font-weight: 700; color: var(--pc-ink); white-space: nowrap; }
+.cp .plan-row { grid-column: 1 / -1; grid-row: 2; gap: 10px; }
+.cp .plan-daily .plan-top { grid-template-columns: minmax(0, 1fr); }
+.cp .plan-daily .plan-data { font-size: 20px; font-weight: 650; }
+.cp .plan-daily .price { grid-column: 1; grid-row: 2; text-align: left; }
+.cp .plan-daily .plan-row { grid-row: 3; }
+@container (max-width: 260px) {
+  .cp .plan:not(.plan-daily) .plan-data { font-size: 27px; }
+  .cp .plan .price { font-size: 22px; }
+}
+
+/* the term: a very light neutral pill; the plan type: the family icon + the word, no fill */
+.cp .plan-term { min-height: 28px; padding: 0 12px; border-radius: 999px; background: #f1f4fa; color: var(--pc-ink); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.cp .plan .plan-badge, .cp .plan-regional .plan-badge, .cp .plan-daily .plan-badge { gap: 6px; min-height: 0; padding: 0; border-radius: 0; background: none; color: var(--pc-word); font-size: 13px; font-weight: 550; white-space: nowrap; }
+.cp .plan-badge::before, .cp .plan-net::before { content: ""; flex: none; width: 16px; height: 16px; background: var(--pc-ico); -webkit-mask: var(--pc-icon) center / 16px 16px no-repeat; mask: var(--pc-icon) center / 16px 16px no-repeat; }
+/* line icons on the brand book's 24 grid, 2 px stroke, round caps: pin (local), globe (regional), calendar (daily), signal */
+.cp .plan-local .plan-badge { --pc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z'/%3E%3Ccircle cx='12' cy='10' r='2.4'/%3E%3C/svg%3E"); }
+.cp .plan-regional .plan-badge { --pc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5S9.4 5.9 12 3.5z'/%3E%3C/svg%3E"); }
+.cp .plan-daily .plan-badge { --pc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5.5' width='16' height='14.5' rx='2.5'/%3E%3Cpath d='M8 3.5v4M16 3.5v4M4 10h16'/%3E%3C/svg%3E"); }
+.cp .plan-net { --pc-ico: var(--muted); --pc-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M5 18v-2M10 18v-5M15 18v-8M20 18V7'/%3E%3C/svg%3E"); }
+
+/* coverage and the daily lines: a family dot for the coverage, a quiet dot for the rest; no lone last word */
+.cp .plan .meta span { text-wrap: pretty; }
+.cp .plan .meta .m-cov::before, .cp .plan-regional .meta .m-cov::before { background: var(--pc-ico); }
+.cp .plan :is(.plan-ip, .m-also, .m-cov) { -webkit-hyphens: manual; hyphens: manual; }
+
+/* the day picker: six even choices (three and three on a narrow card), 44 px, neutral until chosen; the chosen day
+ * stays Button blue; the press and settle animations of site.css run unchanged */
+.cp .plan-days legend { margin-bottom: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--muted); }
+.cp .plan .days { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.cp .plan .days span { width: 100%; min-width: 0; height: 44px; padding: 0; border: 0; border-radius: var(--r-s); background: #f1f4fa; box-shadow: inset 0 0 0 1px var(--border-strong); color: var(--pc-ink); font-weight: 650; }
+.cp .plan .days input:checked + span { background: var(--accent-btn); box-shadow: none; color: #fff; }
+.cp .plan .days input:focus-visible + span { outline: 2px solid var(--text); outline-offset: 2px; }
+@container (max-width: 300px) { .cp .plan .days { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* foot: the network line beside the button, the IP line across the card below (it was squeezed beside the button) */
+.cp .plan-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; row-gap: 6px; }
+.cp .plan-tech { display: contents; }
+.cp .plan-foot .plan-net { grid-column: 1; grid-row: 1; gap: 6px; font-size: 13px; font-weight: 550; color: var(--pc-ink); }
+.cp .plan-foot .plan-ip { grid-column: 1 / -1; grid-row: 2; font-size: 13px; }
+.cp .plan-foot > :is(.btn, .note) { grid-column: 2; grid-row: 1; }
+.cp .plan-net .net-g { padding: 1px 7px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--border); font-size: 12px; font-weight: 650; color: var(--muted); }
+/* the button: solid Button blue, 44 px, one line; no shadow AT REST — the hover shadow, lift and press stay */
+.cp .plan .btn { min-height: 44px; font-size: 14px; font-weight: 650; white-space: nowrap; }
+.cp .plan .btn:not(:hover):not(:focus-visible) { box-shadow: none; }
+.cp .plan .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+@container (max-width: 260px) {
+  .cp .plan-foot { grid-template-columns: minmax(0, 1fr); }
+  .cp .plan-foot > :is(.btn, .note) { grid-column: 1; grid-row: 3; width: 100%; }
+}
+/* the ≤359 px rule in page-country.css lifts every headline to 24 px — a daily sentence keeps its own size */
+@media (max-width: 359px) { .cp .plan.plan-daily .plan-data { font-size: 19px; } }

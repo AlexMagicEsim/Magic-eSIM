@@ -150,10 +150,18 @@ test('Inter is self-hosted, licensed, and the only font the stylesheet asks for'
   assert.match(CSS, /--font:"Inter",/);
 });
 
+// An inline SVG image (`url("data:image/svg+xml,…")`, the B1 plan-card icons in en/en.css) is part of the stylesheet:
+// it fetches nothing (an SVG used as an image cannot load anything either), and its `xmlns` names the SVG namespace —
+// not an address. Only those are set aside; any real address or @import still fails.
+const withoutInlineSvg = (css) => css.replace(/url\("data:image\/svg\+xml,[^"]*"\)/g, '');
 test('no stylesheet reaches outside the site (the CSP allows only self)', () => {
   for (const f of ['assets/site.css', 'en/en.css', 'assets/page-home.css']) {
-    assert.doesNotMatch(read(f), /https?:\/\/|@import/i, f);
+    assert.doesNotMatch(withoutInlineSvg(read(f)), /https?:\/\/|@import/i, f);
   }
+  // the exception is exactly that narrow
+  assert.match(withoutInlineSvg('a{background:url("https://example.com/x.png")}'), /https?:\/\//);
+  assert.match(withoutInlineSvg('@import "x.css";'), /@import/);
+  assert.match(withoutInlineSvg('a{mask:url("data:image/svg+xml,x") , url(http://example.com/y.svg)}'), /https?:\/\//);
 });
 
 test('every destination has its flag, and the flags are licensed', () => {
