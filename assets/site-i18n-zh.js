@@ -64,9 +64,9 @@
     'how.step4': '落地后开启 eSIM，即可上网。',
     /* D8: the Chinese pages never link the Russian documents. These two words are for the English documents of
      * LEGAL-0/LEGAL-1 and are shown only once seo/legal-links.mjs names a published document. */
-    'footer.terms': '服务条款（英文）',
-    'footer.refund': '退款政策（英文）',
-    'footer.privacy': '隐私政策（英文）',
+    'footer.terms': '服务条款',
+    'footer.refund': '退款政策',
+    'footer.privacy': '隐私政策',
     'site.compatTitle': '我的手机能用吗？',
     'site.compatBody': '您的手机需要支持 eSIM，且未被运营商锁定。在中国大陆购买的手机，只有部分机型支持 eSIM，请先查看兼容性指南。',
     'site.compatCheck': 'iPhone 安装指南',

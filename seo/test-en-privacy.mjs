@@ -4,7 +4,7 @@
 //   1. the page: English, its own canonical, noindex, no hreflang, CSP connect-src 'none', no counter, no cookie;
 //   2. the facts it states are the pre-launch facts: the seller, the support address, an effective date, «purchases
 //      are not yet available»; no claim of a permit, an authorisation or an order/payment flow that does not run;
-//   3. EN, ES, DE, FR and ZH footers link it (hreflang="en") and no international page links a Russian legal document;
+//   3. every international footer links the Privacy Policy in its own language (LEGAL-4) and none a Russian legal document;
 //   4. the Russian site keeps its own legal links (seo/ru-chrome.mjs, terms.html, privacy.html untouched).
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -98,14 +98,16 @@ test('no link to a Russian legal document from the page itself', () => {
 
 /* ------------------------------------------------------------------ 3. the international footers */
 
-test('EN, ES, DE, FR and ZH: every page links the English Privacy Policy and no Russian legal document', () => {
-  for (const dir of ['en', 'es', 'de', 'fr', 'zh']) {
+// LEGAL-4: each language links its own Privacy Policy (English /en/privacy/, the others their translation).
+const HL = { en: 'en', es: 'es', de: 'de', fr: 'fr', zh: 'zh-Hans', ko: 'ko' };
+test('EN, ES, DE, FR, ZH and KO: every page links the Privacy Policy in its own language and no Russian legal document', () => {
+  for (const dir of ['en', 'es', 'de', 'fr', 'zh', 'ko']) {
     const pages = pagesUnder(dir);
     assert.ok(pages.length >= 206, `${dir}: ${pages.length} pages`);
     for (const rel of pages) {
       const h = read(rel);
       const footer = h.slice(h.indexOf('<footer'), h.indexOf('</footer>'));
-      assert.match(footer, /<a href="\/en\/privacy\/" hreflang="en" data-i18n="footer\.privacy">[^<]+<\/a>/, `${rel}: Privacy Policy link`);
+      assert.ok(footer.includes(`<a href="/${dir}/privacy/" hreflang="${HL[dir]}" data-i18n="footer.privacy">`), `${rel}: Privacy Policy link`);
       assert.doesNotMatch(h, /href="\/(terms|privacy)\.html"/, `${rel}: a Russian legal document`);
     }
   }
@@ -118,3 +120,21 @@ test('the Russian site keeps its own legal links', () => {
   assert.match(read('index.html'), /href="\/privacy\.html"/);
   assert.doesNotMatch(read('index.html'), /\/en\/privacy\//);
 });
+
+/* ------------------------------------------------------------------ LEGAL-4 (0.9.2): name/address, checkout consents */
+
+test('name and postal address are optional (the Refund Policy model forms ask for them) — never «we do not ask for your name»', () => {
+  const t = text(main);
+  assert.doesNotMatch(t, /We do not ask for your name/);
+  assert.match(t, /we do not need your name or postal address/);
+  assert.match(t, /giving them is optional, and we use them only to handle that message/);
+});
+
+test('checkout: the email address and the consent boxes stay in the browser; only the price request is sent', () => {
+  const t = text(main);
+  assert.match(t, /tick the boxes that accept our Terms of Service and Refund Policy and ask us to start providing the plan straight away/);
+  assert.match(t, /they are not sent to us, and they are not saved in your browser’s storage/);
+  assert.match(t, /the only request sent to our server is the price request described above, which contains neither/);
+  assert.doesNotMatch(t, /order preview/);
+});
+

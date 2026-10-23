@@ -177,7 +177,7 @@ test('every page loads only its own language’s words: one bundle, deferred; Ru
     const tags = [...html.matchAll(/<script src="(\/assets\/site-i18n-[^"?]+\.js)(?:\?v=[0-9a-f]{8})?"([^>]*)><\/script>/g)];
     const top = rel.split('/')[0];
     const code = PREFIXED.get(top);
-    if (!code || rel.startsWith(`${top}/guides/`) || /^en\/(privacy|terms|refund)\/index\.html$/.test(rel)) { // the legal documents have no script but the logo's, as the guides
+    if (!code || rel.startsWith(`${top}/guides/`) || /^[a-z]+\/(privacy|terms|refund)\/index\.html$/.test(rel)) { // the legal documents (every language, LEGAL-4) have no script but the logo's, as the guides
       assert.equal(tags.length, 0, `${rel}: loads a words bundle`);
       continue;
     }

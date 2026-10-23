@@ -51,6 +51,11 @@ function htmlUnder(dir) {
   return out.sort();
 }
 const KO_PAGES = htmlUnder('ko');
+// LEGAL-4: the three translated legal documents (/ko/terms|refund|privacy/) are pages of this language too; their
+// fidelity to the English — which keeps proper names, the seller's Latin address and foreign law titles in English —
+// is held by seo/test-legal-i18n.mjs, so the «Korean only» word scan reads the 206 site pages without them.
+const KO_LEGAL = /^ko\/(terms|refund|privacy)\/index\.html$/;
+const KO_SITE_PAGES = KO_PAGES.filter((rel) => !KO_LEGAL.test(rel));
 const head = (html) => html.slice(0, html.indexOf('</head>'));
 const decode = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 function readable(html) {
@@ -68,9 +73,10 @@ function readable(html) {
 /* ------------------------------------------------------------------ 1. complete */
 
 test('206 Korean pages: the home, the list, 198 countries, the guides list and five guides', () => {
-  assert.equal(KO_PAGES.length, 206);
+  assert.equal(KO_SITE_PAGES.length, 206);
+  assert.equal(KO_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
   assert.equal(KO_PAGES.filter((p) => /^ko\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').filter((p) => !/^en\/(privacy|terms|refund)\/index\.html$/.test(p)).length, KO_PAGES.length, 'the same pages as English, apart from the English-only legal documents (Privacy LEGAL-1, Terms + Refund LEGAL-3)');
+  assert.equal(htmlUnder('en').length, KO_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}; one plural form', () => {
@@ -168,7 +174,7 @@ const latin = (s) => (String(s).toLowerCase().match(/[a-z]+/g) || []);
 
 test('Korean only: no English word (beyond brands, products and units), no Russian, no Chinese character on the 206 pages', () => {
   const hits = new Set();
-  for (const rel of KO_PAGES) for (const run of readable(read(rel))) {
+  for (const rel of KO_SITE_PAGES) for (const run of readable(read(rel))) {
     if (/[А-Яа-яЁё]/.test(run)) hits.add(`${rel}: Russian «${run.slice(0, 60)}»`);
     if (/\p{Script=Han}/u.test(run)) hits.add(`${rel}: Chinese character «${run.slice(0, 60)}»`);
     for (const w of latin(run)) if (w.length > 1 && !KEEP.has(w)) hits.add(`${rel}: «${w}» in «${run.slice(0, 60)}»`);
@@ -322,7 +328,8 @@ test('D8: no Korean page links a Russian document or a page that does not exist;
     const h = read(rel);
     assert.doesNotMatch(h, /href="\/(terms|privacy)\.html"/, `${rel}: a Russian legal document`);
     if (!INTL_LEGAL.terms) assert.ok(!h.includes(KO['footer.terms']), `${rel}: names terms that are not published`);
-    if (INTL_LEGAL.privacy) assert.ok(h.includes(`<a href="${INTL_LEGAL.privacy}" hreflang="en" data-i18n="footer.privacy">${KO['footer.privacy']}</a>`), `${rel}: the published Privacy Policy, labelled «(영어)»`);
+    // LEGAL-4: the Korean translation of the published Privacy Policy (seo/legal-i18n/ko.mjs), at /ko/privacy/.
+    if (INTL_LEGAL.privacy) assert.ok(h.includes(`<a href="/ko/privacy/" hreflang="ko" data-i18n="footer.privacy">${KO['footer.privacy']}</a>`), `${rel}: the Korean Privacy Policy`);
   }
 });
 

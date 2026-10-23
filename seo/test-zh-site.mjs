@@ -51,6 +51,11 @@ function htmlUnder(dir) {
   return out.sort();
 }
 const ZH_PAGES = htmlUnder('zh');
+// LEGAL-4: the three translated legal documents (/zh/terms|refund|privacy/) are pages of this language too; their
+// fidelity to the English — which keeps proper names, the seller's Latin address and foreign law titles in English —
+// is held by seo/test-legal-i18n.mjs, so the «Chinese only» word scan reads the 206 site pages without them.
+const ZH_LEGAL = /^zh\/(terms|refund|privacy)\/index\.html$/;
+const ZH_SITE_PAGES = ZH_PAGES.filter((rel) => !ZH_LEGAL.test(rel));
 const head = (html) => html.slice(0, html.indexOf('</head>'));
 const decode = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 function readable(html) {
@@ -68,9 +73,10 @@ function readable(html) {
 /* ------------------------------------------------------------------ 1. complete */
 
 test('206 Chinese pages: the home, the list, 198 countries, the guides list and five guides', () => {
-  assert.equal(ZH_PAGES.length, 206);
+  assert.equal(ZH_SITE_PAGES.length, 206);
+  assert.equal(ZH_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
   assert.equal(ZH_PAGES.filter((p) => /^zh\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').filter((p) => !/^en\/(privacy|terms|refund)\/index\.html$/.test(p)).length, ZH_PAGES.length, 'the same pages as English, apart from the English-only legal documents (Privacy LEGAL-1, Terms + Refund LEGAL-3)');
+  assert.equal(htmlUnder('en').length, ZH_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}; one plural form', () => {
@@ -173,7 +179,7 @@ const latin = (s) => (String(s).toLowerCase().match(/[a-z]+/g) || []);
 
 test('Chinese only: no English word (beyond brands, products and units) and no Russian on any of the 206 pages', () => {
   const hits = new Set();
-  for (const rel of ZH_PAGES) for (const run of readable(read(rel))) {
+  for (const rel of ZH_SITE_PAGES) for (const run of readable(read(rel))) {
     if (/[А-Яа-яЁё]/.test(run)) hits.add(`${rel}: Russian «${run.slice(0, 60)}»`);
     for (const w of latin(run)) if (w.length > 1 && !KEEP.has(w)) hits.add(`${rel}: «${w}» in «${run.slice(0, 60)}»`);
   }
@@ -287,7 +293,7 @@ test('noindex until the owner opens Chinese (D11): every page noindex, self-cano
 
 /* ------------------------------------------------------------------ 7. legal links (D8) */
 
-test('D8 + LEGAL-1 + LEGAL-3: no international page links a Russian document; every one links the English Terms, Refund and Privacy', () => {
+test('D8 + LEGAL-1 + LEGAL-3 + LEGAL-4: no international page links a Russian document; every Chinese page links the Chinese Terms, Refund and Privacy', () => {
   for (const l of ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']) assert.equal(LEGAL_SCHEME[l], 'international', l);
   assert.deepEqual(INTL_LEGAL, { terms: '/en/terms/', refund: '/en/refund/', privacy: '/en/privacy/' }, 'LEGAL-1 published Privacy; LEGAL-3 Terms and Refund');
   assert.deepEqual(legalLinks('zh-Hans').map((l) => [l.key, l.href, l.hreflang]), [['footer.terms', '/en/terms/', 'en'], ['footer.refund', '/en/refund/', 'en'], ['footer.privacy', '/en/privacy/', 'en']]);
@@ -295,7 +301,7 @@ test('D8 + LEGAL-1 + LEGAL-3: no international page links a Russian document; ev
   for (const rel of ZH_PAGES) {
     const h = read(rel);
     assert.doesNotMatch(h, /href="\/(terms|privacy)\.html"/, `${rel}: a Russian legal document`);
-    for (const k of ['terms', 'refund', 'privacy']) assert.ok(h.includes(`<a href="/en/${k}/" hreflang="en" data-i18n="footer.${k}">${ZH[`footer.${k}`]}</a>`), `${rel}: the English ${k} document`);
+    for (const k of ['terms', 'refund', 'privacy']) assert.ok(h.includes(`<a href="/zh/${k}/" hreflang="zh-Hans" data-i18n="footer.${k}">${ZH[`footer.${k}`]}</a>`), `${rel}: the Chinese ${k} document`);
   }
   const en = read('en/index.html');
   assert.ok(en.includes('<a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">Privacy Policy</a>'), 'English links its Privacy Policy');
@@ -311,7 +317,8 @@ test('D12: Apple\'s mainland facts are on the Chinese compatibility guide, sourc
   const other = ['en', 'es', 'de', 'fr'].flatMap((l) => htmlUnder(l));
   for (const rel of other) assert.doesNotMatch(read(rel), /iPhone Air|iPhone Duo|support\.apple\.com\/[a-z-]+\/123879|中国大陆/, `${rel}: D12 is Chinese only`);
   // nothing on any Chinese page says which services work in mainland China
-  for (const rel of ZH_PAGES) assert.doesNotMatch(readable(read(rel)).join('\n'), /VPN|翻墙|科学上网|谷歌|Google 服务|WhatsApp/, rel);
+  // (the Terms translation keeps the English §9.1 «laws … on the use of VPNs» — a legal duty, not a claim about services)
+  for (const rel of ZH_SITE_PAGES) assert.doesNotMatch(readable(read(rel)).join('\n'), /VPN|翻墙|科学上网|谷歌|Google 服务|WhatsApp/, rel);
 });
 
 /* ------------------------------------------------------------------ 9. sources, names, fonts */

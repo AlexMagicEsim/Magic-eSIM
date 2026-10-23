@@ -1,4 +1,5 @@
-// The English Privacy Policy of the international website — PRE-LAUNCH version (LEGAL-1).
+// The English Privacy Policy of the international website — PRE-LAUNCH version (LEGAL-1; 0.9.2 = LEGAL-4: name and
+// address optional, the checkout section names the consent boxes and says what stays in the browser).
 //
 // ONE source for /en/privacy/ (built by seo/build-locale-pages.mjs for English only). The text is the owner-approved
 // LEGAL-0 final edition «01 Privacy Policy — pre-launch (EN)», with the support-mail route stated only as far as public
@@ -9,7 +10,7 @@
 // Written for the page: plain HTML fragments, English typography (curly quotes, en dashes), no tables — every
 // list reads on a 320 px phone without horizontal scrolling.
 
-export const PRIVACY_VERSION = '0.9.1 (pre-launch)';
+export const PRIVACY_VERSION = '0.9.2 (pre-launch)';
 export const PRIVACY_EFFECTIVE = '23 October 2026';
 export const PRIVACY_EFFECTIVE_ISO = '2026-10-23';
 
@@ -38,7 +39,7 @@ export const PRIVACY = Object.freeze({
     },
     {
       id: 'data', h2: '2. What data we process and why', html: `
-      <p>We do not require you to create an account. We do not ask for your name, telephone number, identity documents or payment details.</p>
+      <p>We do not require you to create an account. We do not ask for your telephone number, identity documents or payment details, and we do not need your name or postal address. If you include your name or postal address in a message to us — for example, in a model withdrawal form from our Refund Policy — giving them is optional, and we use them only to handle that message.</p>
       <h3>When you browse the website</h3>
       <ul class="list">
         <li><strong>Data:</strong> your IP address, browser and device information, the pages you request and when you request them.</li>
@@ -52,8 +53,9 @@ export const PRIVACY = Object.freeze({
         <li><strong>Legal basis:</strong> our legitimate interest, and steps you ask us to take before a possible purchase.</li>
       </ul>
       <p>Our server uses your IP address only briefly, in memory, to stop excessive requests; it does not save it with the price request. The saved price record contains no personal data.</p>
-      <h3>When you enter an email address in the order preview</h3>
-      <p>Nothing is sent to us. While purchases are unavailable, the address stays in your browser.</p>
+      <h3>When you go through checkout</h3>
+      <p>Online payment is not yet available, so no order can be placed. At checkout you can enter an email address and tick the boxes that accept our Terms of Service and Refund Policy and ask us to start providing the plan straight away.</p>
+      <p>While payment is unavailable, the email address and the boxes you tick stay on the page in your browser: they are not sent to us, and they are not saved in your browser’s storage. At checkout, the only request sent to our server is the price request described above, which contains neither.</p>
       <h3>When you write to support</h3>
       <ul class="list">
         <li><strong>Data:</strong> your email address, your message and any attachments.</li>
