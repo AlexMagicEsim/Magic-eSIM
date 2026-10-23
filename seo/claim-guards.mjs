@@ -308,6 +308,60 @@ export const CLAIM_GUARDS = Object.freeze({
       fires: ['支持 5G 网络', '当地运营商网络', '全国最佳网络'],
       quiet: ['日本的流量套餐，价格以美元计。', '我的手机支持 eSIM，且未被运营商锁定'] },
   }),
+  /* Korean (KO-1, 2026-10-22). Written with hanWord(): Korean is spaced, but particles attach to the word before them
+   * («최고의», «무제한으로», «5G를»), so a letter-edged word() would miss them exactly as it misses Chinese — only a Latin
+   * letter or a digit ends a match. Beyond the English rules: the Korean marketing staples (최저가, 1위, 보장, 즉시 개통 —
+   * also refused by the Fair Labeling and Advertising Act without proof) and the Korean payment brands. */
+  ko: Object.freeze({
+    money: {
+      re: hanWord('₽|루블|RUB|SBP|모든 카드|아무 카드|신용카드|체크카드|카드 결제|카카오페이|네이버페이|토스페이|페이코'),
+      fires: ['950 ₽를 카드로 결제', '카카오페이로 결제하세요', '신용카드로 결제할 수 있습니다'],
+      quiet: ['가격은 미국 달러(USD) 기준입니다', '문제 해결'] },
+    delivery: {
+      re: hanWord('이메일로 (보내|발송해) ?드립니다|이메일로 (보내|발송)됩니다|(이메일|메일)을 받게 됩니다|주문 확인 (메일|이메일)|발송 (메일|이메일)|받은 편지함'),
+      fires: ['QR 코드를 이메일로 보내 드립니다', 'eSIM이 담긴 이메일을 받게 됩니다', '주문 확인 메일을 확인하세요'],
+      quiet: ['고객지원팀에 이메일로 문의하세요.', 'eSIM은 발송되지 않습니다.'] },
+    cardRow: {
+      re: hanWord('이용 기간 시작’? ?(항목|행)|시작일 항목|활성화’? ?항목|이용 국가 및 조건'),
+      fires: ['‘이용 기간 시작’ 항목을 확인하세요', '이용 국가 및 조건을 참고하세요'],
+      quiet: ['프로필 설치와 요금제 시작은 서로 다른 시점입니다.'] },
+    network: {
+      re: hanWord('빠른|빠르게|초고속|고속|안정적|끊김 ?없|신호가 강|최고의 (커버리지|품질|속도)|어디서나 (빠르|연결|이용)|커버리지 보장|보장|4G|5G|LTE|VPN|우회'),
+      fires: ['어디서나 빠른 5G', '끊김 없는 연결 보장', '전국 LTE'],
+      quiet: ['모바일 데이터가 켜져 있는지 확인하세요.', '네트워크를 직접 선택하세요.'] },
+    features: {
+      re: hanWord('무제한|핫스팟|테더링|(SMS|문자) ?(수신|인증)|인증번호|2FA|전화번호 (포함|제공)'),
+      fires: ['무제한 데이터와 핫스팟', '인증번호 문자를 받을 수 있습니다', 'SMS 수신 가능'],
+      quiet: ['매일 일정한 데이터가 제공됩니다.', '동행인의 휴대전화에서 공유하는 인터넷', '기본 SIM은 통화와 문자에 계속 사용할 수 있습니다.'] },
+    devices: {
+      // a digit followed by Hangul still ends a model number («iPhone12부터»)
+      re: /iPhone\s?(X[RS]?|\d{1,2})(?![\p{Script=Latin}\p{N}])|Galaxy\s?[SZA]\d|Pixel\s?\d/iu,
+      fires: ['iPhone 12 이상에서 사용 가능', 'iPhone12부터 지원', 'Galaxy S21'],
+      quiet: ['iPhone에 eSIM 설치하기', 'iOS 17.4 이상'] },
+    installEarly: {
+      // advice to install early — not the question about having done it
+      re: hanWord('(며칠|몇 ?일|일주일|하루) (전|먼저|일찍)에? (미리 )?설치|미리 설치|출발 (며칠|일주일) 전에 설치'),
+      fires: ['출발 며칠 전에 설치하세요', 'eSIM은 미리 설치해 두세요', '일주일 전 설치를 권장합니다'],
+      quiet: ['출발 당일에 eSIM을 설치하세요.', '여행 일주일 전에 eSIM을 설치했습니다. 요금제 이용 기간이 이미 시작되었나요?'] },
+    reusableQr: {
+      re: hanWord('QR 코드(는|를)? (다시|여러 번|재) ?(사용|스캔)|재사용 (가능한|할 수 있는) QR'),
+      fires: ['QR 코드는 다시 사용할 수 있습니다', '재사용 가능한 QR 코드'],
+      quiet: ['eSIM을 삭제하지 마세요.', 'QR 코드는 한 번만 사용할 수 있는 경우가 있습니다.', '같은 QR 코드로 eSIM을 다시 설치할 수 있나요?'] },
+    suppliers: {
+      re: hanWord('공급(업체|사)|eSIM Access|MobiMatter'),
+      fires: ['저희 공급업체 eSIM Access', 'MobiMatter가 eSIM을 제공합니다'],
+      quiet: ['이동통신사 잠금이 없어야 합니다.', '제휴 네트워크로 연결됩니다'] },
+    marketing: {
+      re: hanWord('24시간|연중무휴|24/7|즉시|최고|최저가|가장 (싼|저렴)|1위|넘버원|보장|환불|무제한|절약|후기|평점|믿을 수 있는|수백만|VPN'),
+      fires: ['24시간 고객 지원', '최저가 보장', '100% 환불', '업계 1위'],
+      quiet: ['여행지를 고르고 eSIM을 설치하면 도착하자마자 연결됩니다.', '떠나기 전에 궁금한 점이 있으신가요?'] },
+    template: {
+      // «이동통신사 잠금이 없습니다» (the checkout's device check) is not a claim about networks — only operator NETWORKS
+      // and named operators are.
+      re: hanWord('4G|5G|LTE|(현지|제휴|국내) ?(이동)?통신사|통신사 네트워크|신호|안정적|빠른|초고속|고속|최고|최저가|무제한|보장|VPN'),
+      fires: ['5G 지원', '현지 통신사 네트워크', '국내 최고 네트워크'],
+      quiet: ['일본에서 이용할 수 있는 데이터 요금제입니다.', '제 휴대전화는 eSIM을 지원하며 이동통신사 잠금이 없습니다'] },
+  }),
 });
 
 /** The rules a page kind is checked against, as [id, pattern] — for the language's tests. */

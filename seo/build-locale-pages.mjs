@@ -45,6 +45,7 @@ import { ES_GUIDES } from './guides-es.mjs';
 import { DE_GUIDES } from './guides-de.mjs';
 import { FR_GUIDES } from './guides-fr.mjs';
 import { ZH_GUIDES } from './guides-zh.mjs';
+import { KO_GUIDES } from './guides-ko.mjs';
 import { FONT_PRELOAD, LOGO, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT, LOGO_ONCE_SCRIPT_MOTION, ICON_GLOBE, ICON_MENU, SEARCH_ICON, BLOCK_ICON, GUIDE_ICON } from './site-chrome.mjs';
 import { word, escapeText, escapeAttr } from './site-dictionary.mjs';
 import { countryName } from './country-names-i18n.mjs';
@@ -228,7 +229,7 @@ function write(rel, text) {
 export const DAILY_COPY_LANGS = Object.freeze(createRequire(import.meta.url)('../assets/daily-plan-copy.js').LANGS.slice());
 
 /* The guides each language has. A language without its own guides is not built. */
-export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES, es: ES_GUIDES, de: DE_GUIDES, fr: FR_GUIDES, 'zh-Hans': ZH_GUIDES });
+export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES, es: ES_GUIDES, de: DE_GUIDES, fr: FR_GUIDES, 'zh-Hans': ZH_GUIDES, ko: KO_GUIDES });
 
 /* Why a language cannot be built, or null. Pure — the tests call it. */
 export function cannotBuild(code) {
@@ -265,8 +266,10 @@ export function localeGenerator(code) {
  * build(): nothing it makes can reach the tree. An enabled language, the root
  * one or an unknown one is refused (use localeGenerator for a published one).
  */
-export function rehearsalGenerator(code, { copy, guides, words } = {}) {
-  const L = locale(code);
+export function rehearsalGenerator(code, { copy, guides, words, registry = LOCALES } = {}) {
+  // `registry`: a copy of the language list in which `code` is not published yet (seo/locales.mjs asPlanned). Since
+  // KO-1 every registry language is published; the tests rehearse one «as if planned» to keep this machinery proved.
+  const L = registry.find((l) => l.code === code) || null;
   if (!L || !L.prefix) throw new Error(`build-locale-pages: no prefixed locale ${String(code)} to rehearse`);
   if (L.site.enabled) throw new Error(`build-locale-pages: ${code} is published — rehearse only a planned language`);
   if (!copy || !Array.isArray(guides) || !words) throw new Error('build-locale-pages: a rehearsal needs copy, guides and words');
@@ -277,11 +280,11 @@ export function rehearsalGenerator(code, { copy, guides, words } = {}) {
       if (!Object.prototype.hasOwnProperty.call(words, key)) throw new Error(`rehearsal: no ${code} entry for ${key}`);
       return String(words[key]);
     },
-  }, false);
+  }, false, registry);
 }
 
-function makeGenerator(code, source, canWrite) {
-  const L = locale(code);
+function makeGenerator(code, source, canWrite, registry = LOCALES) {
+  const L = registry.find((l) => l.code === code);
   const C = source.copy;
   const GUIDES = source.guides;
   const P = `/${L.prefix}`;
@@ -321,7 +324,7 @@ const twin = (ruPath, path) => (l) => (l.prefix ? `/${l.prefix}${path}` : ruPath
 
 /* The languages the switch offers: every published one, plus the page's own (a rehearsal builds a language that is
  * not published yet). Registry order. */
-const SWITCH_LANGS = LOCALES.filter((l) => l.site.enabled || l.code === L.code);
+const SWITCH_LANGS = registry.filter((l) => l.site.enabled || l.code === L.code);
 
 /* The header. Desktop: logo, four links, the language switch, «Find a plan». Below 900 px
  * the links fold into a <details> menu — native, so it works on the guides,

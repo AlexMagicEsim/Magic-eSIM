@@ -73,7 +73,8 @@ export const LOCALES = Object.freeze([
     // ZH-1 2026-10-22: published under noindex (owner D11) — indexing opens only on the owner's separate word.
     site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
   L({ code: 'ko', prefix: 'ko', htmlLang: 'ko', hreflang: 'ko', ogLocale: 'ko_KR', script: 'Hang', endonym: '한국어', defaultMarket: 'global',
-    site: { enabled: false, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    // KO-1 2026-10-22: published under noindex (owner D11) — indexing opens only on the owner's separate word.
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
 ]);
 
 /** What the live pages declare as x-default: the English twin since I18N-09 (was `ru` = `/`). See the decisions above. */
@@ -86,6 +87,13 @@ export const SITE = 'https://magicesim.store';
 
 export function locale(code) {
   return LOCALES.find((l) => l.code === code) || null;
+}
+
+/** The registry as it was while `code` was still planned — a copy with that language unpublished. For the rehearsal
+ *  tests only (KO-1: every registry language is published, so they rehearse one «as if planned»). Never used to build. */
+export function asPlanned(code, list = LOCALES) {
+  if (!list.some((l) => l.code === code && l.prefix)) throw new Error(`asPlanned: no prefixed locale ${String(code)}`);
+  return Object.freeze(list.map((l) => (l.code === code ? Object.freeze({ ...l, site: Object.freeze({ ...l.site, enabled: false, indexableHome: false }) }) : l)));
 }
 
 /** Codes of the languages the website publishes. */

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "F02-001",
+    "item_id": "daily:reset",
+    "group": "daily",
+    "key": "reset",
+    "where": "daily plan card",
+    "url": "",
+    "en": "The allowance resets every 24 hours",
+    "target": "데이터는 24시간마다 초기화됩니다",
+    "suggestion": "데이터 제공량은 24시간마다 초기화됩니다",
+    "explanation": "The English resets the daily ALLOWANCE; «데이터는 … 초기화됩니다» can be read as the data itself (or the eSIM's data) being reset. «데이터 제공량» names the allowance and keeps the meaning exact (rule 1: compare with the English). Also appears in daily:sample-card.",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "fidelity",
+    "rule": "fidelity: allowance vs data",
+    "objective": false
+  }
+]

@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { LOCALES, homeUrl, X_DEFAULT_CURRENT } from './locales.mjs';
+import { LOCALES, homeUrl, X_DEFAULT_CURRENT, asPlanned } from './locales.mjs';
 import { localeGenerator, rehearsalGenerator } from './build-locale-pages.mjs';
 import { stampHtml } from './asset-version.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
@@ -23,7 +23,11 @@ import { DICT } from './site-dictionary.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
-const PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);
+/* KO-1: every registry language is published; a language is rehearsed «as if still planned» (seo/locales.mjs asPlanned)
+ * so this check keeps a subject — Korean, on its real names, never written. */
+const LIVE_PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);
+const PLANNED = LIVE_PLANNED.length ? LIVE_PLANNED : [LOCALES.find((l) => l.code === 'ko')];
+const registryFor = (code) => (LIVE_PLANNED.some((l) => l.code === code) ? LOCALES : asPlanned(code));
 
 test('the English home is the generator\'s, byte for byte', () => {
   const G = localeGenerator('en');
@@ -49,7 +53,7 @@ test('the English and Spanish homes carry the RU + EN + ES cluster, x-default �
 
 for (const L of PLANNED) {
   test(`${L.code}: the rehearsed home is whole, in /${L.prefix}/, under review — and uses the shared assets`, () => {
-    const G = rehearsalGenerator(L.code, { copy: { ...PAGE_COPY.en, popular: PAGE_COPY.en.popular }, guides: EN_GUIDES, words: DICT.en });
+    const G = rehearsalGenerator(L.code, { copy: { ...PAGE_COPY.en, popular: PAGE_COPY.en.popular }, guides: EN_GUIDES, words: DICT.en, registry: registryFor(L.code) });
     const list = G.countries();
     const home = G.homePage(list);
     const P = `/${L.prefix}`;
@@ -84,6 +88,6 @@ for (const L of PLANNED) {
 }
 
 test('a quick link without a page in the language stops the build', () => {
-  const G = rehearsalGenerator('ko', { copy: { ...PAGE_COPY.en, quick: ['TH', 'XX'] }, guides: EN_GUIDES, words: DICT.en });
+  const G = rehearsalGenerator('ko', { copy: { ...PAGE_COPY.en, quick: ['TH', 'XX'] }, guides: EN_GUIDES, words: DICT.en, registry: registryFor('ko') });
   assert.throws(() => G.homePage(), /quick link XX has no ko page/);
 });

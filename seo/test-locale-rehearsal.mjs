@@ -30,7 +30,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 
-import { LOCALES, locale } from './locales.mjs';
+import { LOCALES, locale, asPlanned } from './locales.mjs';
 import { rehearsalGenerator, localeGenerator, listIndex, guideSectionId, ZH_READING } from './build-locale-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
@@ -41,7 +41,11 @@ import { DICT } from './site-dictionary.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
-const PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);
+const LIVE_PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);
+/* KO-1: every registry language is published, so the rehearsal runs on Korean «as if still planned» (asPlanned) — the
+ * same in-memory machinery a new language would use, on real Korean names, with marked words. */
+const PLANNED = LIVE_PLANNED.length ? LIVE_PLANNED : [locale('ko')];
+const registryFor = (code) => (LIVE_PLANNED.some((l) => l.code === code) ? LOCALES : asPlanned(code));
 
 /* ------------------------------------------------------------------ marked sources */
 
@@ -75,7 +79,7 @@ function markedWords(code) {
 }
 
 function rehearse(code) {
-  return rehearsalGenerator(code, { copy: markedCopy(code), guides: markedGuides(code), words: markedWords(code) });
+  return rehearsalGenerator(code, { copy: markedCopy(code), guides: markedGuides(code), words: markedWords(code), registry: registryFor(code) });
 }
 
 /* ------------------------------------------------------------------ what a reader sees */
@@ -114,8 +118,13 @@ function leftover(run, names) {
 
 /* ===================================================================== */
 
-test('there is one planned language to rehearse, and it is not published (Spanish by ES-1, German by DE-1, French by FR-1, Chinese by ZH-1)', () => {
+test('every registry language is published (Korean by KO-1); the rehearsal runs on Korean «as if planned»', () => {
+  assert.deepEqual(LIVE_PLANNED.map((l) => l.code), []);
   assert.deepEqual(PLANNED.map((l) => l.code), ['ko']);
+  const reg = asPlanned('ko');
+  assert.equal(reg.find((l) => l.code === 'ko').site.enabled, false, 'the copy has Korean unpublished');
+  assert.equal(locale('ko').site.enabled, true, 'the real registry is untouched');
+  assert.throws(() => asPlanned('ru'), /no prefixed locale/);
 });
 
 test('the rehearsal cannot publish: no build(), and it refuses the root, a published or an unknown language', () => {
@@ -123,13 +132,15 @@ test('the rehearsal cannot publish: no build(), and it refuses the root, a publi
   assert.throws(() => rehearsalGenerator('en', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('ru', { copy: {}, guides: [], words: {} }), /no prefixed locale/);
   assert.throws(() => rehearsalGenerator('xx', { copy: {}, guides: [], words: {} }), /no prefixed locale/);
-  assert.throws(() => rehearsalGenerator('ko', {}), /needs copy, guides and words/);
+  assert.throws(() => rehearsalGenerator('ko', {}), /published/, 'Korean is published: a rehearsal needs the «as if planned» registry');
+  assert.throws(() => rehearsalGenerator('ko', { registry: asPlanned('ko') }), /needs copy, guides and words/);
   assert.throws(() => rehearsalGenerator('fr', { copy: PAGE_COPY.fr, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('de', { copy: PAGE_COPY.de, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('es', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en }), /published/);
   assert.throws(() => rehearsalGenerator('zh-Hans', { copy: PAGE_COPY['zh-Hans'], guides: EN_GUIDES, words: DICT.en }), /published/);
-  // …and the published generator still refuses every planned language.
-  for (const l of PLANNED) assert.throws(() => localeGenerator(l.code), /refusing to publish/);
+  // …and the published generator still refuses every planned language (none is left in the registry since KO-1).
+  for (const l of LIVE_PLANNED) assert.throws(() => localeGenerator(l.code), /refusing to publish/);
+  assert.equal(typeof localeGenerator('ko').build, 'function', 'Korean is built by the published generator');
 });
 
 for (const L of PLANNED) {
@@ -194,8 +205,12 @@ for (const L of PLANNED) {
     assert.equal(Object.keys(all).length, Object.keys(COUNTRY_NAMES).length);
     for (const iso of Object.keys(COUNTRY_NAMES)) assert.equal(api.of(iso), countryName(iso, L.code), `${L.code} ${iso}`);
     assert.equal(api.of('zz'), 'ZZ');
-    assert.equal(existsSync(join(ROOT, F.rel)), false, `${F.rel} must not exist before ${L.code} is published`);
-    assert.equal(existsSync(join(ROOT, L.prefix)), false, `/${L.prefix}/ must not exist`);
+    // a really planned language has no public file yet; a published one rehearsed «as if planned» has its committed one,
+    // which the rehearsal never rewrites (renderNames is the same text)
+    if (LIVE_PLANNED.some((l) => l.code === L.code)) {
+      assert.equal(existsSync(join(ROOT, F.rel)), false, `${F.rel} must not exist before ${L.code} is published`);
+      assert.equal(existsSync(join(ROOT, L.prefix)), false, `/${L.prefix}/ must not exist`);
+    } else assert.equal(readFileSync(join(ROOT, F.rel), 'utf8'), renderNames(L.code), `${F.rel} = what the generator renders`);
   });
 }
 
@@ -258,8 +273,10 @@ test('a guide section whose heading makes no anchor (Chinese, Korean) must name 
   assert.match(G.guidePage(g), /<li><a href="#step-1">步骤一<\/a><\/li>/);
 });
 
-test('English, Spanish, German, French and Chinese are what the generators publish, and their names files are byte-for-byte the committed ones', () => {
-  assert.deepEqual(publishedNameLocales(), ['en', 'es', 'de', 'fr', 'zh-Hans']);
+test('English, Spanish, German, French, Chinese and Korean are what the generators publish, and their names files are byte-for-byte the committed ones', () => {
+  assert.deepEqual(publishedNameLocales(), ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
+  assert.equal(renderNames('ko'), readFileSync(join(ROOT, 'assets/country-names-ko.js'), 'utf8'));
+  assert.equal(namesFile('ko').global, 'MagicCountryNamesKo');
   assert.equal(renderNames('zh-Hans'), readFileSync(join(ROOT, 'assets/country-names-zh.js'), 'utf8'));
   assert.equal(namesFile('zh-Hans').global, 'MagicCountryNamesZh');
   assert.equal(renderNames('fr'), readFileSync(join(ROOT, 'assets/country-names-fr.js'), 'utf8'));

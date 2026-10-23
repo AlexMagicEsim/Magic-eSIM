@@ -188,16 +188,35 @@ function configEngines() {
   for (const [, b] of text.matchAll(/browserName:\s*['"](chromium|webkit|firefox)['"]/g)) engines.add(b);
   return [...engines].sort();
 }
+// A job that runs in Microsoft's Playwright image OF THE LOCKFILE'S VERSION has every engine preinstalled (tests.yml
+// since 2026-10-22: the runner's Ubuntu mirror stalled the --with-deps download); any other job must install them all.
+const LOCK_PLAYWRIGHT = JSON.parse(readFileSync(join(ROOT, 'package-lock.json'), 'utf8')).packages['node_modules/@playwright/test'].version;
+function jobsOf(text) {
+  const i = text.search(/\njobs:\n/);
+  if (i < 0) return [text];
+  return text.slice(i).split(/\n(?= {2}[a-z][a-z0-9_-]*:\n)/).slice(1);
+}
 function installGaps(text) {
   if (!/npx playwright test(?![^\n]*--project)/.test(text)) return null;
-  const installed = new Set([...text.matchAll(/npx playwright install\b([^\n]*)/g)].flatMap((m) => m[1].split(/\s+/).filter((w) => w && !w.startsWith('-'))));
-  return configEngines().filter((e) => !installed.has(e));
+  const gaps = new Set();
+  for (const job of jobsOf(text)) {
+    if (!/npx playwright test(?![^\n]*--project)/.test(job)) continue;
+    const image = job.match(/\n {6}image: mcr\.microsoft\.com\/playwright:v([0-9.]+)-/);
+    if (image && image[1] === LOCK_PLAYWRIGHT) continue;
+    const installed = new Set([...job.matchAll(/npx playwright install\b([^\n]*)/g)].flatMap((m) => m[1].split(/\s+/).filter((w) => w && !w.startsWith('-'))));
+    for (const e of configEngines()) if (!installed.has(e)) gaps.add(e);
+  }
+  return [...gaps].sort();
 }
 
 test('negative control: a workflow that runs every project but installs only chromium is caught', () => {
   assert.ok(configEngines().includes('webkit'), 'the config has a WebKit project');
   const before = 'run: |\n  npm ci\n  npx playwright install --with-deps chromium\n- run: npx playwright test\n';
   assert.deepEqual(installGaps(before), ['webkit']);
+  // the Playwright image counts only at the lockfile's version
+  const job = (v) => `jobs:\n  b:\n    container:\n      image: mcr.microsoft.com/playwright:v${v}-noble\n    steps:\n      - run: npx playwright test\n`;
+  assert.deepEqual(installGaps(job(LOCK_PLAYWRIGHT)), []);
+  assert.deepEqual(installGaps(job('1.0.0')), configEngines());
 });
 
 test('every workflow that runs the browser suite installs every engine of playwright.config.js', () => {

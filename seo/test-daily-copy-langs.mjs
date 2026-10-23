@@ -35,7 +35,10 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
 const SOURCE = readFileSync(join(ROOT, 'assets/daily-plan-copy.js'), 'utf8');
 const END = '    /* --- LANGUAGE TABLES END --- */';
-const PLANNED = LOCALES.filter((l) => !l.site.enabled).map((l) => l.code);
+/* KO-1: every registry language is published. The marked-table rehearsal still needs a subject: Korean, «as if
+ * planned» — the marked table is injected after the real one, so it replaces it in the rehearsal only. */
+const LIVE_PLANNED = LOCALES.filter((l) => !l.site.enabled).map((l) => l.code);
+const PLANNED = LIVE_PLANNED.length ? LIVE_PLANNED : ['ko'];
 
 /** The module, optionally with extra tables dropped in before the end marker. */
 function loadWith(extra = '') {
@@ -87,7 +90,9 @@ test('every table has the Russian keys, placeholders, thirteen places and its ow
   const PLACES = Object.keys(T.en.places);
   assert.equal(PLACES.length, 13);
   for (const [code, t] of Object.entries(T)) {
-    assert.deepEqual(Object.keys(t).sort(), Object.keys(ru).sort(), `${code}: keys`);
+    // `unitSpace` is the one optional key (KO-1: Korean writes «1.5GB»); absent = one space, as every older table
+    assert.deepEqual(Object.keys(t).filter((k) => k !== 'unitSpace').sort(), Object.keys(ru).sort(), `${code}: keys`);
+    if ('unitSpace' in t) assert.ok(t.unitSpace === '' || t.unitSpace === ' ', `${code}: unitSpace is '' or ' '`);
     for (const [k, v] of Object.entries(ru)) {
       if (typeof v === 'string') assert.deepEqual(placeholders(t[k]), placeholders(v), `${code}.${k}: placeholders`);
     }
@@ -107,7 +112,7 @@ test('every table has the Russian keys, placeholders, thirteen places and its ow
 
 test('one list of languages: the module, the Mini App and the locale generator agree; every published prefixed language has words', () => {
   const D = require(join(ROOT, 'assets/daily-plan-copy.js'));
-  assert.deepEqual([...D.LANGS], ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans']);
+  assert.deepEqual([...D.LANGS], ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
   assert.deepEqual([...GENERATOR_LANGS], [...D.LANGS]);
   const core = readFileSync(join(ROOT, 'app/core.js'), 'utf8');
   const m = core.match(/const DAILY_COPY_LANGS = Object\.freeze\((\[[^\]]*\])\);/);

@@ -1,0 +1,19 @@
+[
+ {
+  "id": "C0001",
+  "item_id": "guide-android:s1.body",
+  "group": "guide-android",
+  "key": "s1.body",
+  "where": "guide «How to install an eSIM on Android», section 1",
+  "url": "https://magicesim.store/ko/guides/android/#find",
+  "en": "The SIM settings usually live in one of these places — names vary by brand and Android version:\n• **Google Pixel:** Settings → Network &amp; internet → SIMs → **Add SIM** → **Set up an eSIM**.\n• **Samsung Galaxy:** Settings → Connections → SIM manager → **Add eSIM** (on older One UI versions: SIM card manager → **Add mobile plan**).\n• **Other brands:** look for «Mobile network», «SIM cards» or «Connections» in Settings.\nIf there is no option to add an eSIM anywhere, check whether your phone supports eSIM.",
+  "target": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**.\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요.",
+  "suggestion": "",
+  "source": "check",
+  "category": "consistency",
+  "severity": "minor",
+  "confidence": 0.55,
+  "rule": "consistency:plan",
+  "explanation": "The source says «plan»; elsewhere it is «요금제», here neither it nor an accepted variant appears. Check whether the meaning is kept."
+ }
+]

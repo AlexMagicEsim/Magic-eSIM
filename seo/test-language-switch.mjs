@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { LOCALES, locale } from './locales.mjs';
+import { LOCALES, locale, asPlanned } from './locales.mjs';
 import { rehearsalGenerator, localeGenerator, GUIDE_RU } from './build-locale-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
@@ -25,7 +25,11 @@ import { DICT } from './site-dictionary.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
-const PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);
+/* KO-1: every registry language is published; a language is rehearsed «as if still planned» (seo/locales.mjs asPlanned)
+ * so this check keeps a subject — Korean, on its real names, never written. */
+const LIVE_PLANNED = LOCALES.filter((l) => l.prefix && !l.site.enabled);
+const PLANNED = LIVE_PLANNED.length ? LIVE_PLANNED : [LOCALES.find((l) => l.code === 'ko')];
+const registryFor = (code) => (LIVE_PLANNED.some((l) => l.code === code) ? LOCALES : asPlanned(code));
 const PUBLISHED = LOCALES.filter((l) => l.site.enabled);
 
 /** A URL path → the file the static site serves for it. */
@@ -57,7 +61,7 @@ test('every published prefixed page: the list of RU/EN/ES, current marked, each 
 
 for (const L of PLANNED) {
   test(`${L.code}: every page kind lists every language, current marked, each linking to the same page`, () => {
-    const G = rehearsalGenerator(L.code, { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en });
+    const G = rehearsalGenerator(L.code, { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en, registry: registryFor(L.code) });
     const list = G.countries();
     const th = list.find((c) => c.slug === 'thailand');
     const g = EN_GUIDES[0];
@@ -91,13 +95,18 @@ for (const L of PLANNED) {
 }
 
 test('the switch never names a language the registry does not publish (besides the page\'s own)', () => {
-  const G = rehearsalGenerator('ko', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en });
+  // KO-1: nothing in the real registry is unpublished, so the check runs on a copy where Chinese is unpublished too
+  // (asPlanned twice): rehearsing Korean, the switch must offer every published language and its own — never Chinese.
+  const reg = asPlanned('zh-Hans', asPlanned('ko'));
+  const G = rehearsalGenerator('ko', { copy: PAGE_COPY.en, guides: EN_GUIDES, words: DICT.en, registry: reg });
   const html = G.hubPage(G.countries());
-  for (const l of LOCALES.filter((x) => !x.site.enabled && x.code !== 'ko')) {
+  for (const l of reg.filter((x) => !x.site.enabled && x.code !== 'ko')) {
     assert.ok(!html.includes(`>${l.endonym}<`), `${l.code} is not published and not offered`);
   }
-  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans'], 'published since ZH-1: RU, EN, ES, DE, FR, ZH-Hans');
-  assert.equal(locale('ko').site.enabled, false);
+  assert.ok(!html.includes('>简体中文<'), 'the check can fire: Chinese is unpublished in this copy');
+  assert.ok(html.includes('>Français<') && html.includes('>한국어<'));
+  assert.deepEqual(PUBLISHED.map((l) => l.code), ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko'], 'published since KO-1: RU, EN, ES, DE, FR, ZH-Hans, KO');
+  assert.equal(locale('ko').site.enabled, true);
 });
 
 test('the RU pages are not part of the switch work: their header still links to /en/ only', () => {
