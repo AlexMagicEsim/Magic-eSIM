@@ -51,6 +51,13 @@ html:lang(de) input, html:lang(de) code, html:lang(de) a[href^="mailto:"] { -web
  * not tracked tighter: the headings' and prices' negative letter-spacing is undone for this language only. */
 html:lang(zh-Hans) { --font: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", ui-sans-serif, system-ui, sans-serif; }
 html:lang(zh-Hans) :is(h1, h2, h3, h4, .price) { letter-spacing: 0; }
+/* Korean (KO-1, owner D6/D15): Inter carries the Latin letters and digits; Hangul comes from the reader's system font —
+ * Apple SD Gothic Neo (Apple), Malgun Gothic (Windows), Noto Sans KR / Noto Sans CJK KR (Android, Linux); no web font is
+ * downloaded (CSP font-src 'self' unchanged). `keep-all`: a Korean word is never broken between its syllables (browsers
+ * break Hangul anywhere by default; the space between words is the place to wrap). No tighter tracking for Hangul. */
+html:lang(ko) { --font: "Inter", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR", ui-sans-serif, system-ui, sans-serif; }
+html:lang(ko) body { word-break: keep-all; overflow-wrap: anywhere; }
+html:lang(ko) :is(h1, h2, h3, h4, .price) { letter-spacing: 0; }
 /* The Privacy Policy (/en/privacy/, LEGAL-1): the guide layout plus sub-headings, inline code and the version line.
    Long words (an email address, a storage key) wrap instead of widening the page at 320 px. */
 .legal .lg-meta{margin:10px 0 0;color:var(--muted);font-size:14px}

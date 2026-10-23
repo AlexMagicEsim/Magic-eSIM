@@ -62,7 +62,7 @@ test('ASCII \\b is the trap word() exists for: «única» is invisible to \\b, c
 
 test('a published prefixed language must have its table — the generator refuses one without', () => {
   for (const l of LOCALES.filter((x) => x.prefix && x.site.enabled)) assert.equal(missingGuards(l.code), null, l.code);
-  assert.match(missingGuards('ko'), /ko has no claim guards/);
+  assert.match(missingGuards('pl'), /pl has no claim guards/);
   assert.match(read('seo/build-locale-pages.mjs'), /const guards = missingGuards\(code\);\n\s+if \(guards\) return guards;/);
   assert.equal(cannotBuild('en'), null);
 });

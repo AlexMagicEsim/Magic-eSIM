@@ -33,11 +33,11 @@ test.describe('desktop', () => {
     await expect(menu.locator('.langmenu-list')).toBeHidden();
     await menu.locator('summary').click();
     const items = menu.locator('.langmenu-list li');
-    await expect(items).toHaveText(['Русский', 'English', 'Español', 'Deutsch', 'Français', '简体中文']);
+    await expect(items).toHaveText(['Русский', 'English', 'Español', 'Deutsch', 'Français', '简体中文', '한국어']);
     await expect(menu.locator('[aria-current="true"]')).toHaveText('Español');
-    await expect(menu.locator('a')).toHaveCount(5);
+    await expect(menu.locator('a')).toHaveCount(6);
     expect(await menu.locator('a').evaluateAll((as) => as.map((a) => [a.getAttribute('href'), a.lang, a.hreflang])))
-      .toEqual([['/esim/', 'ru', 'ru'], ['/en/guides/', 'en', 'en'], ['/de/guides/', 'de', 'de'], ['/fr/guides/', 'fr', 'fr'], ['/zh/guides/', 'zh-Hans', 'zh-Hans']]);
+      .toEqual([['/esim/', 'ru', 'ru'], ['/en/guides/', 'en', 'en'], ['/de/guides/', 'de', 'de'], ['/fr/guides/', 'fr', 'fr'], ['/zh/guides/', 'zh-Hans', 'zh-Hans'], ['/ko/guides/', 'ko', 'ko']]);
     // the English twin is a real page, and the link takes the reader there
     await menu.locator('a[lang="en"]').click();
     await expect(page).toHaveURL(/\/en\/guides\/$/);
@@ -121,8 +121,8 @@ test('phones: the desktop list is hidden, the menu lists the other languages, no
   await expect(page.locator('.hdr-actions details.langmenu')).toBeHidden();
   await page.locator('.mnav summary').click();
   const langs = page.locator('.mnav-panel a[hreflang]');
-  await expect(langs).toHaveText(['Русский', 'English', 'Deutsch', 'Français', '简体中文']);
-  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/esim/', '/en/guides/', '/de/guides/', '/fr/guides/', '/zh/guides/']);
+  await expect(langs).toHaveText(['Русский', 'English', 'Deutsch', 'Français', '简体中文', '한국어']);
+  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/esim/', '/en/guides/', '/de/guides/', '/fr/guides/', '/zh/guides/', '/ko/guides/']);
   const box = await langs.first().boundingBox();
   expect(box.height).toBeGreaterThanOrEqual(44);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);

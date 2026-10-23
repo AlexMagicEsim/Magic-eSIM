@@ -1,0 +1,1142 @@
+{
+ "meta": {
+  "lang": "ko",
+  "generated": "2026-10-22T12:53:58.174Z",
+  "commit": "",
+  "strings": 516,
+  "strings_with_findings": 22,
+  "findings": 25,
+  "by_severity": {
+   "major": 1,
+   "minor": 22,
+   "preferential": 2
+  },
+  "by_category": {
+   "grammar": 2,
+   "fluency": 12,
+   "accuracy": 9,
+   "consistency": 1,
+   "claim": 1
+  },
+  "by_source": {
+   "ai": 24,
+   "check": 1
+  },
+  "verified": 0,
+  "rejected_by_second_opinion": 0,
+  "dropped": {
+   "unknownItem": 0,
+   "badShape": 0,
+   "lowConfidence": 0,
+   "duplicate": 0
+  }
+ },
+ "findings": [
+  {
+   "id": "A0012",
+   "item_id": "guide-activation:title",
+   "group": "guide-activation",
+   "key": "title",
+   "kind": "seo-title",
+   "where": "guide «When to install and turn on your eSIM»",
+   "url": "https://magicesim.store/ko/guides/activation/",
+   "en": "When to install and turn on a travel eSIM | Magic eSIM",
+   "target": "여행용 eSIM 설치 및 켜는 시기 | Magic eSIM",
+   "suggestion": "여행용 eSIM을 설치하고 켜는 시기 | Magic eSIM",
+   "explanation": "«및» joins the noun 설치 with the verb modifier 켜는 — the two coordinated members are not parallel (설치 및 켜는 시기 is ungrammatical coordination). «설치하고 켜는» makes both verbs modify 시기, matching the H1 «eSIM을 설치하고 켜는 시기»; width stays well under 60.",
+   "category": "grammar",
+   "severity": "major",
+   "confidence": 0.8,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": true
+  },
+  {
+   "id": "A0002",
+   "item_id": "ui:footer.about",
+   "group": "ui",
+   "key": "footer.about",
+   "kind": "ui",
+   "where": "footer",
+   "url": "https://magicesim.store/ko/",
+   "en": "Travel eSIM data plans for 190+ destinations, with prices in US dollars.",
+   "target": "190개 이상의 여행지에서 이용할 수 있는 여행용 eSIM 데이터 요금제, 가격은 미국 달러 기준입니다.",
+   "suggestion": "190개 이상의 여행지에서 이용할 수 있는 여행용 eSIM 데이터 요금제입니다. 가격은 미국 달러 기준입니다.",
+   "explanation": "A noun phrase and a full sentence are spliced with a comma («요금제, 가격은 … 기준입니다»), which is not a well-formed Korean sentence; split into two ‑입니다 sentences.",
+   "category": "grammar",
+   "severity": "minor",
+   "confidence": 0.8,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": true
+  },
+  {
+   "id": "A0003",
+   "item_id": "ui:home.fact3",
+   "group": "ui",
+   "key": "home.fact3",
+   "kind": "ui",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "en": "Country, regional and daily plans",
+   "target": "국가별, 지역, 매일 데이터 요금제",
+   "suggestion": "국가, 지역, 매일 데이터 요금제",
+   "explanation": "The list mixes 국가별 with bare 지역, so the three items are not parallel; use the same form for each (국가 / 지역 / 매일 데이터).",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.75,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0001",
+   "item_id": "ui:preview.noticeTitle",
+   "group": "ui",
+   "key": "preview.noticeTitle",
+   "kind": "ui",
+   "where": "payment notice under the header",
+   "url": "https://magicesim.store/ko/esim/thailand/",
+   "en": "Online payment isn't available yet — plans can't be bought here yet",
+   "target": "아직 온라인 결제를 지원하지 않습니다. 이 사이트에서는 아직 요금제를 구매할 수 없습니다",
+   "suggestion": "아직 온라인 결제를 지원하지 않아 이 사이트에서는 요금제를 구매할 수 없습니다",
+   "explanation": "Two sentences each with 아직 read as a stutter in one heading, and the first ends with a period while the second does not; one sentence joined with ‑아 is the natural Korean heading.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.75,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0011",
+   "item_id": "guide-activation:s4.body",
+   "group": "guide-activation",
+   "key": "s4.body",
+   "kind": "guide-step",
+   "where": "guide «When to install and turn on your eSIM», section 4",
+   "url": "https://magicesim.store/ko/guides/activation/#landed",
+   "en": "• Turn the eSIM line on, if it is off.\n• Choose the eSIM for mobile data.\n• Turn on data roaming for the eSIM.\n• Wait one to three minutes. No network? Turn airplane mode on and off.\n• Still nothing? Go through eSIM not working.",
+   "target": "• eSIM 회선이 꺼져 있으면 켭니다.\n• eSIM을 모바일 데이터용으로 선택합니다.\n• eSIM의 데이터 로밍을 켭니다.\n• 1~3분 기다립니다. 신호가 없다면 비행기 탑승 모드를 켰다가 끕니다.\n• 그래도 안 되면 eSIM이 작동하지 않을 때를 확인하세요.",
+   "suggestion": "• eSIM 회선이 꺼져 있으면 켭니다.\n• eSIM을 모바일 데이터용으로 선택합니다.\n• eSIM의 데이터 로밍을 켭니다.\n• 1~3분 기다립니다. 신호가 없다면 비행기 탑승 모드를 켰다가 끕니다.\n• 그래도 안 되면 eSIM이 작동하지 않을 때 가이드를 확인하세요.",
+   "explanation": "Same problem as guide-iphone:s5.body: «…때를 확인하세요» («check the time when…») is unnatural; «… 때 가이드를 확인하세요» names the page.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.7,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0010",
+   "item_id": "guide-android:s4.body",
+   "group": "guide-android",
+   "key": "s4.body",
+   "kind": "guide-step",
+   "where": "guide «How to install an eSIM on Android», section 4",
+   "url": "https://magicesim.store/ko/guides/android/#help",
+   "en": "Check the data SIM and roaming on the eSIM, toggle airplane mode, then restart. The full checklist is in eSIM not working.\n**Do not delete the eSIM** while troubleshooting: its QR code may be single-use.",
+   "target": "데이터용으로 선택된 SIM과 eSIM의 로밍 설정을 확인하고, 비행기 탑승 모드를 켰다가 끈 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다.",
+   "suggestion": "데이터용으로 선택된 SIM과 eSIM의 로밍 설정을 확인하고, 비행기 탑승 모드를 켰다가 끈 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다.",
+   "explanation": "Same problem as guide-iphone:s5.body: «때에서» after the link text is unnatural; «… 때 가이드에서» names the page.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.7,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0009",
+   "item_id": "guide-iphone:s5.body",
+   "group": "guide-iphone",
+   "key": "s5.body",
+   "kind": "guide-step",
+   "where": "guide «How to install an eSIM on iPhone», section 5",
+   "url": "https://magicesim.store/ko/guides/iphone/#help",
+   "en": "Check that the eSIM is the line chosen for cellular data and that data roaming is on for it, then restart the phone. The full checklist is in eSIM not working.\n**Do not delete the eSIM** while troubleshooting: its QR code may be single-use, and you may not be able to install it again.",
+   "target": "eSIM이 데이터용 회선으로 선택되어 있고 데이터 로밍이 켜져 있는지 확인한 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있어 다시 설치하지 못할 수 있습니다.",
+   "suggestion": "eSIM이 데이터용 회선으로 선택되어 있고 데이터 로밍이 켜져 있는지 확인한 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있어 다시 설치하지 못할 수 있습니다.",
+   "explanation": "The link text «eSIM이 작동하지 않을 때» ends in the noun 때, so «때에서» reads as «at the time, in» — a native reader stumbles; naming the page («… 때 가이드에서») keeps the link text intact and makes it a place. Same pattern in guide-android:s4.body («…때에서» → «…때 가이드에서») and guide-activation:s4.body («…때를 확인하세요» → «…때 가이드를 확인하세요»).",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.7,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0004",
+   "item_id": "ui:home.typeDailyBody",
+   "group": "ui",
+   "key": "home.typeDailyBody",
+   "kind": "ui",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "en": "A data allowance for each day of the trip, rather than one amount for the whole stay.",
+   "target": "여행 기간 전체에 하나의 용량이 아니라 매일 일정한 데이터가 제공됩니다.",
+   "suggestion": "여행 기간 전체에 쓸 하나의 용량 대신 여행하는 날마다 일정한 데이터가 제공됩니다.",
+   "explanation": "«여행 기간 전체에 하나의 용량이 아니라» lacks a verb for 전체에 and reads as a calque of «rather than one amount for the whole stay»; «… 쓸 하나의 용량 대신» is the natural construction.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.7,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0023",
+   "item_id": "guide-compatibility:faq1.q",
+   "group": "guide-compatibility",
+   "key": "faq1.q",
+   "kind": "faq-q",
+   "where": "guide «Does your phone support eSIM?», question 1",
+   "url": "https://magicesim.store/ko/guides/compatibility/#faq",
+   "en": "My phone takes two SIM cards. Does that mean it has eSIM?",
+   "target": "듀얼 SIM 휴대전화라면 eSIM을 지원하나요?",
+   "suggestion": "SIM 카드가 두 장 들어가는 휴대전화라면 eSIM도 지원하나요?",
+   "explanation": "EN asks about a phone that takes two SIM cards (two physical slots, as the answer says). «듀얼 SIM» in Korean also covers physical SIM + eSIM phones, which makes the question near-circular; name the two card slots.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.65,
+   "source": "ai",
+   "rule": "fidelity: meaning shifted",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "A0014",
+   "item_id": "guide-troubleshooting:s1.body",
+   "group": "guide-troubleshooting",
+   "key": "s1.body",
+   "kind": "guide-step",
+   "where": "guide «eSIM not working — what to check», section 1",
+   "url": "https://magicesim.store/ko/guides/troubleshooting/#checklist",
+   "en": "• **Is the eSIM line turned on?** Check the SIM settings.\n• **Is the eSIM chosen for mobile data?** The internet has to go through the eSIM, not your main SIM.\n• **Is data roaming on for the eSIM?** Travel eSIMs usually connect through partner networks, which the phone treats as roaming.\n• **Toggle airplane mode** on for ten seconds, then off.\n• **Restart the phone.**\n• **Choose a network by hand.** In the eSIM's network settings, turn off automatic selection and pick another network from the list.\n• **Check the APN** — only if your plan's details list one: it should match in the eSIM's settings.\n• **Are you inside the plan's coverage?** Check that the country you are in is among the countries the plan covers.",
+   "target": "• **eSIM 회선이 켜져 있나요?** SIM 설정에서 확인하세요.\n• **eSIM이 모바일 데이터용으로 선택되어 있나요?** 인터넷이 기본 SIM이 아니라 eSIM을 통해 연결되어야 합니다.\n• **eSIM의 데이터 로밍이 켜져 있나요?** 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• **비행기 탑승 모드를 켜고** 10초 뒤에 끄세요.\n• **휴대전화를 다시 시작하세요.**\n• **네트워크를 직접 선택하세요.** eSIM의 네트워크 설정에서 자동 선택을 끄고 목록에서 다른 네트워크를 고르세요.\n• **APN을 확인하세요.** 요금제 정보에 APN이 적혀 있는 경우에만 해당하며, eSIM 설정의 값과 같아야 합니다.\n• **요금제 이용 국가에 계신가요?** 지금 있는 국가가 요금제 이용 국가에 포함되는지 확인하세요.",
+   "suggestion": "• **eSIM 회선이 켜져 있나요?** SIM 설정에서 확인하세요.\n• **eSIM이 모바일 데이터용으로 선택되어 있나요?** 인터넷이 기본 SIM이 아니라 eSIM을 통해 연결되어야 합니다.\n• **eSIM의 데이터 로밍이 켜져 있나요?** 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• **비행기 탑승 모드를 켜고** 10초 뒤에 끄세요.\n• **휴대전화를 다시 시작하세요.**\n• **네트워크를 직접 선택하세요.** eSIM의 네트워크 설정에서 자동 선택을 끄고 목록에서 다른 네트워크를 고르세요.\n• **APN을 확인하세요.** 요금제 정보에 APN이 적혀 있는 경우에만 해당하며, eSIM 설정의 값과 같아야 합니다.\n• **요금제 이용 국가에 계신가요?** 지금 계신 국가가 요금제 이용 국가에 포함되는지 확인하세요.",
+   "explanation": "The bold question uses the honorific «계신가요?» and the next sentence drops to plain «있는» for the same reader; keep the honorific consistent («계신»).",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.65,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0007",
+   "item_id": "daily:reset",
+   "group": "daily",
+   "key": "reset",
+   "kind": "daily",
+   "where": "daily plan card",
+   "url": "https://magicesim.store/ko/esim/thailand/#dailyBlock",
+   "en": "The allowance resets every 24 hours",
+   "target": "데이터는 24시간마다 초기화됩니다",
+   "suggestion": "데이터 제공량은 24시간마다 초기화됩니다",
+   "explanation": "«데이터는 … 초기화됩니다» reads as if the data itself were wiped; Korean carrier copy says the allowance (제공량) resets. Phrasing, not a rule error. Also in daily:sample-card.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "natural phrasing",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0019",
+   "item_id": "daily:reset",
+   "group": "daily",
+   "key": "reset",
+   "kind": "daily",
+   "where": "daily plan card",
+   "url": "https://magicesim.store/ko/esim/thailand/#dailyBlock",
+   "en": "The allowance resets every 24 hours",
+   "target": "데이터는 24시간마다 초기화됩니다",
+   "suggestion": "데이터 제공량은 24시간마다 초기화됩니다",
+   "explanation": "The English resets the daily ALLOWANCE; «데이터는 … 초기화됩니다» can be read as the data itself (or the eSIM's data) being reset. «데이터 제공량» names the allowance and keeps the meaning exact (rule 1: compare with the English). Also appears in daily:sample-card.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "fidelity: allowance vs data",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "A0013",
+   "item_id": "guide-activation:s2.body",
+   "group": "guide-activation",
+   "key": "s2.body",
+   "kind": "guide-step",
+   "where": "guide «When to install and turn on your eSIM», section 2",
+   "url": "https://magicesim.store/ko/guides/activation/#validity",
+   "en": "It depends on the plan. Some plans start counting when the eSIM first connects to a network at the destination or first uses data. Others start as soon as the eSIM is installed.\nBecause of that, the advice that never costs you days is to **install on the day you travel** — at home before you leave or on airport Wi-Fi — and to switch the eSIM on for data once you land.",
+   "target": "요금제에 따라 다릅니다. 여행지에서 eSIM이 처음 네트워크에 연결되거나 처음 데이터를 사용할 때 시작되는 요금제도 있고, eSIM을 설치하는 순간 시작되는 요금제도 있습니다.\n그래서 날짜를 손해 보지 않는 방법은 **출발 당일에 eSIM을 설치하고**(집에서 떠나기 전이나 공항 Wi-Fi로) 도착한 뒤 데이터를 켜는 것입니다.",
+   "suggestion": "요금제에 따라 다릅니다. 여행지에서 eSIM이 처음 네트워크에 연결되거나 처음 데이터를 사용할 때 시작되는 요금제도 있고, eSIM을 설치하는 순간 시작되는 요금제도 있습니다.\n그래서 이용 기간을 손해 보지 않는 방법은 **출발 당일에 eSIM을 설치하고**(집에서 떠나기 전이나 공항 Wi-Fi로) 도착한 뒤 데이터를 켜는 것입니다.",
+   "explanation": "«날짜를 손해 보다» («lose dates») is not idiomatic; what the reader may lose is days of the validity — «이용 기간을 손해 보지 않는» uses the glossary term and reads naturally.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0020",
+   "item_id": "guide-android:s1.body",
+   "group": "guide-android",
+   "key": "s1.body",
+   "kind": "guide-step",
+   "where": "guide «How to install an eSIM on Android», section 1",
+   "url": "https://magicesim.store/ko/guides/android/#find",
+   "en": "The SIM settings usually live in one of these places — names vary by brand and Android version:\n• **Google Pixel:** Settings → Network &amp; internet → SIMs → **Add SIM** → **Set up an eSIM**.\n• **Samsung Galaxy:** Settings → Connections → SIM manager → **Add eSIM** (on older One UI versions: SIM card manager → **Add mobile plan**).\n• **Other brands:** look for «Mobile network», «SIM cards» or «Connections» in Settings.\nIf there is no option to add an eSIM anywhere, check whether your phone supports eSIM.",
+   "target": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**.\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요.",
+   "suggestion": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**(이전 One UI 버전에서는 메뉴 이름이 다를 수 있습니다).\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요.",
+   "explanation": "The English also gives the older One UI path (SIM card manager → Add mobile plan); the Korean drops it, so a reader on an older Galaxy finds no matching menu. Those labels are not in platform-labels.md (D12), so describe the difference instead of quoting it. Also in guide-compatibility:s1.body.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "fidelity: information dropped",
+   "stage": "fidelity",
+   "objective": true
+  },
+  {
+   "id": "A0021",
+   "item_id": "guide-android:s3.body",
+   "group": "guide-android",
+   "key": "s3.body",
+   "kind": "guide-step",
+   "where": "guide «How to install an eSIM on Android», section 3",
+   "url": "https://magicesim.store/ko/guides/android/#data",
+   "en": "• Make sure the eSIM is turned on. Pixel: Settings → Network &amp; internet → Mobile network → the eSIM → **Use this SIM**.\n• Choose the eSIM as the SIM for **mobile data**. Pixel: Settings → Network &amp; internet → SIMs → **Mobile data**. Your main SIM can stay on for calls and texts.\n• Turn on **roaming** for the eSIM. Samsung: Settings → Connections → Mobile Networks → **Data Roaming**. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.\n• If you do not want charges from your home operator, turn off data roaming on your main SIM.\n• Give the phone a minute or two to register on a local network.",
+   "target": "• eSIM이 켜져 있는지 확인합니다. Pixel: 설정 → 네트워크 및 인터넷 → 모바일 네트워크 → eSIM → **이 SIM 사용**.\n• eSIM을 **모바일 데이터**용 SIM으로 선택합니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **모바일 데이터**. 기본 SIM은 통화와 문자에 계속 사용할 수 있습니다.\n• eSIM의 **로밍**을 켭니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **로밍**. Samsung: 연결 아래의 모바일 네트워크 설정에서 찾아보세요. 정확한 이름은 모델에 따라 다릅니다. 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• 기존 이동통신사의 요금이 부과되지 않게 하려면 기본 SIM의 데이터 로밍을 끄세요.\n• 휴대전화가 현지 네트워크에 등록될 때까지 1~2분 기다립니다.",
+   "suggestion": "• eSIM이 켜져 있는지 확인합니다. Pixel: 설정 → 네트워크 및 인터넷 → 모바일 네트워크 → eSIM → **이 SIM 사용**.\n• eSIM을 **모바일 데이터**용 SIM으로 선택합니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **모바일 데이터**. 기본 SIM은 통화와 문자에 계속 사용할 수 있습니다.\n• eSIM의 **로밍**을 켭니다. Samsung: 연결 아래의 모바일 네트워크 설정에서 찾아보세요. 정확한 이름은 모델에 따라 다릅니다. 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• 기존 이동통신사의 요금이 부과되지 않게 하려면 기본 SIM의 데이터 로밍을 끄세요.\n• 휴대전화가 현지 네트워크에 등록될 때까지 1~2분 기다립니다.",
+   "explanation": "The Korean adds a Pixel roaming path the English does not give (EN names only the Samsung path), and the added path skips choosing the eSIM inside SIM, where Pixel's roaming switch sits. Nothing is to be added against the English; keep only the Samsung description.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "fidelity: information added",
+   "stage": "fidelity",
+   "objective": true
+  },
+  {
+   "id": "A0022",
+   "item_id": "guide-compatibility:nav",
+   "group": "guide-compatibility",
+   "key": "nav",
+   "kind": "body",
+   "where": "guide «Does your phone support eSIM?»",
+   "url": "https://magicesim.store/ko/guides/compatibility/",
+   "en": "Compatibility",
+   "target": "지원 기기",
+   "suggestion": "호환성 확인",
+   "explanation": "«지원 기기» reads as «supported devices» — i.e. a device list — while this page explicitly says no list of supported models is published (s3.body). «Compatibility» is a check, not a list.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "fidelity: meaning shifted",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "A0024",
+   "item_id": "guide-troubleshooting:faq2.a",
+   "group": "guide-troubleshooting",
+   "key": "faq2.a",
+   "kind": "faq-a",
+   "where": "guide «eSIM not working — what to check», answer 2",
+   "url": "https://magicesim.store/ko/guides/troubleshooting/#faq",
+   "en": "Often not: a QR code may be single-use. That is why the checklist tells you not to delete the eSIM.",
+   "target": "대개는 할 수 없습니다. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다. 그래서 점검 목록에서 eSIM을 삭제하지 말라고 안내합니다.",
+   "suggestion": "그렇지 않은 경우가 많습니다. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다. 그래서 점검 목록에서 eSIM을 삭제하지 말라고 안내합니다.",
+   "explanation": "EN «Often not» is hedged; «대개는 할 수 없습니다» (usually impossible) states it more strongly than the English and than the next sentence («may be single-use»).",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "fidelity: certainty strengthened",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "A0016",
+   "item_id": "ui:preview.more",
+   "group": "ui",
+   "key": "preview.more",
+   "kind": "ui",
+   "where": "payment notice under the header",
+   "url": "https://magicesim.store/ko/esim/thailand/",
+   "en": "What this means",
+   "target": "자세히 보기",
+   "suggestion": "무슨 뜻인가요?",
+   "explanation": "«What this means» opens an explanation of the payment notice; «자세히 보기» is the same text as site.choose («View details») and no longer says it explains the notice. Nuance, not a factual change.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "meaning-preserved",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "C0001",
+   "item_id": "guide-android:s1.body",
+   "group": "guide-android",
+   "key": "s1.body",
+   "kind": "guide-step",
+   "where": "guide «How to install an eSIM on Android», section 1",
+   "url": "https://magicesim.store/ko/guides/android/#find",
+   "en": "The SIM settings usually live in one of these places — names vary by brand and Android version:\n• **Google Pixel:** Settings → Network &amp; internet → SIMs → **Add SIM** → **Set up an eSIM**.\n• **Samsung Galaxy:** Settings → Connections → SIM manager → **Add eSIM** (on older One UI versions: SIM card manager → **Add mobile plan**).\n• **Other brands:** look for «Mobile network», «SIM cards» or «Connections» in Settings.\nIf there is no option to add an eSIM anywhere, check whether your phone supports eSIM.",
+   "target": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**.\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요.",
+   "suggestion": "",
+   "explanation": "The source says «plan»; elsewhere it is «요금제», here neither it nor an accepted variant appears. Check whether the meaning is kept.",
+   "category": "consistency",
+   "severity": "minor",
+   "confidence": 0.55,
+   "source": "check",
+   "rule": "consistency:plan",
+   "stage": "check",
+   "objective": true
+  },
+  {
+   "id": "A0008",
+   "item_id": "page:countryTitle",
+   "group": "page",
+   "key": "countryTitle",
+   "kind": "seo-title",
+   "where": "country page (sample: Thailand)",
+   "url": "https://magicesim.store/ko/esim/thailand/",
+   "en": "eSIM for Thailand — data plans in US dollars | Magic eSIM",
+   "target": "태국 eSIM: 미국 달러 데이터 요금제 | Magic eSIM",
+   "suggestion": "태국 eSIM: 데이터 요금제(미국 달러 가격) | Magic eSIM",
+   "explanation": "«미국 달러 데이터 요금제» stacks nouns so that it reads like a «US-dollar data plan» as a product type; stating the currency as the price basis is clearer. Phrasing only; the title stays within budget.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.55,
+   "source": "ai",
+   "rule": "natural phrasing",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0017",
+   "item_id": "ui:home.typeRegionalBody",
+   "group": "ui",
+   "key": "home.typeRegionalBody",
+   "kind": "ui",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "en": "One plan for several countries, for a trip that crosses borders. Each plan lists the countries it covers.",
+   "target": "국경을 넘는 여행을 위해 여러 국가에서 쓸 수 있는 요금제입니다. 요금제마다 이용 국가가 표시됩니다.",
+   "suggestion": "국경을 넘는 여행을 위해 하나의 요금제로 여러 국가에서 이용할 수 있습니다. 요금제마다 이용 국가가 표시됩니다.",
+   "explanation": "The English stresses ONE plan for several countries; the Korean says «a plan usable in several countries» and drops «one». Small loss of the point of the sentence.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.55,
+   "source": "ai",
+   "rule": "meaning-preserved",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "A0015",
+   "item_id": "ui:how.step4",
+   "group": "ui",
+   "key": "how.step4",
+   "kind": "ui",
+   "where": "home → how it works",
+   "url": "https://magicesim.store/ko/#how",
+   "en": "Land, switch it on, and you are online.",
+   "target": "도착 후 eSIM을 켜면 바로 연결됩니다.",
+   "suggestion": "도착 후 eSIM을 켜면 연결됩니다.",
+   "explanation": "«바로» (right away) adds an immediacy the English «Land, switch it on, and you are online» does not state; connection timing depends on the local network. Rule 2 (never invent a delivery/speed promise) — mild, so preferential-level wording fix.",
+   "category": "claim",
+   "severity": "minor",
+   "confidence": 0.55,
+   "source": "ai",
+   "rule": "no-added-claim",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "A0018",
+   "item_id": "ui:preview.noticeTitle",
+   "group": "ui",
+   "key": "preview.noticeTitle",
+   "kind": "ui",
+   "where": "payment notice under the header",
+   "url": "https://magicesim.store/ko/esim/thailand/",
+   "en": "Online payment isn't available yet — plans can't be bought here yet",
+   "target": "아직 온라인 결제를 지원하지 않습니다. 이 사이트에서는 아직 요금제를 구매할 수 없습니다",
+   "suggestion": "아직 온라인 결제를 지원하지 않습니다. 여기에서는 아직 요금제를 구매할 수 없습니다",
+   "explanation": "«here» became «이 사이트에서는» (on this site); the same notice elsewhere says «this page» (price.currencyNote «이 페이지에서는»). «이 사이트» could read as the whole magicesim.store, which is broader than the English. Keep it local.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.55,
+   "source": "ai",
+   "rule": "meaning-preserved",
+   "stage": "fidelity",
+   "objective": false
+  },
+  {
+   "id": "A0005",
+   "item_id": "ui:home.typeLocalBody",
+   "group": "ui",
+   "key": "home.typeLocalBody",
+   "kind": "ui",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "en": "A set amount of data for one country, valid for a set number of days.",
+   "target": "한 국가에서 정해진 일수 동안 쓸 수 있는 정해진 데이터입니다.",
+   "suggestion": "한 국가에서 정해진 일수 동안 쓸 수 있는 일정한 용량의 데이터입니다.",
+   "explanation": "«정해진» repeats twice in one short sentence («정해진 일수 … 정해진 데이터»); 일정한 용량의 데이터 avoids the repetition.",
+   "category": "fluency",
+   "severity": "preferential",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0006",
+   "item_id": "ui:home.typeLocalTitle",
+   "group": "ui",
+   "key": "home.typeLocalTitle",
+   "kind": "ui",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "en": "Plans for one country",
+   "target": "한 국가 요금제",
+   "suggestion": "단일 국가 요금제",
+   "explanation": "«한 국가 요금제» is understandable but «단일 국가 요금제» is the usual heading form in Korean telecom copy.",
+   "category": "fluency",
+   "severity": "preferential",
+   "confidence": 0.55,
+   "source": "ai",
+   "rule": "ko-linguistic",
+   "stage": "linguistic",
+   "objective": false
+  }
+ ],
+ "rejected": [],
+ "arbitration": {
+  "strings_decided": 22,
+  "apply": 11,
+  "keep": 4,
+  "optional": 7,
+  "invalid": [],
+  "landed": 11
+ },
+ "changes": [
+  {
+   "item_id": "guide-android:s1.body",
+   "where": "guide «How to install an eSIM on Android», section 1",
+   "url": "https://magicesim.store/ko/guides/android/#find",
+   "kind": "guide-step",
+   "en": "The SIM settings usually live in one of these places — names vary by brand and Android version:\n• **Google Pixel:** Settings → Network &amp; internet → SIMs → **Add SIM** → **Set up an eSIM**.\n• **Samsung Galaxy:** Settings → Connections → SIM manager → **Add eSIM** (on older One UI versions: SIM card manager → **Add mobile plan**).\n• **Other brands:** look for «Mobile network», «SIM cards» or «Connections» in Settings.\nIf there is no option to add an eSIM anywhere, check whether your phone supports eSIM.",
+   "old": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**.\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요.",
+   "new": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**(이전 One UI 버전에서는 메뉴 이름이 다를 수 있습니다).\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요.",
+   "severity": "minor",
+   "reason": "Rule 1 (accuracy): the English gives the older One UI path and the Korean dropped it; the labels are not in platform-labels.md (D12), so the difference is described, not quoted. C0001 is covered by the same fix. The same omission is reported for guide-compatibility:s1.body (not an item of this input).",
+   "evidence": [
+    {
+     "id": "A0020",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": true,
+     "suggestion": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**(이전 One UI 버전에서는 메뉴 이름이 다를 수 있습니다).\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요.",
+     "explanation": "The English also gives the older One UI path (SIM card manager → Add mobile plan); the Korean drops it, so a reader on an older Galaxy finds no matching menu. Those labels are not in platform-labels.md (D12), so describe the difference instead of quoting it. Also in guide-compatibility:s1.body."
+    },
+    {
+     "id": "C0001",
+     "stage": "check",
+     "category": "consistency",
+     "severity": "minor",
+     "confidence": 0.55,
+     "objective": true,
+     "suggestion": "",
+     "explanation": "The source says «plan»; elsewhere it is «요금제», here neither it nor an accepted variant appears. Check whether the meaning is kept."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "SIM 설정은 보통 다음 중 한 곳에 있습니다. 이름은 브랜드와 Android 버전에 따라 다릅니다.\n• **Google Pixel:** 설정 → 네트워크 및 인터넷 → SIM → **SIM 추가** → **eSIM 설정**.\n• **Samsung Galaxy:** 설정 → 연결 → SIM 관리자 → **eSIM 추가**(이전 One UI 버전에서는 메뉴 이름이 다를 수 있습니다).\n• **다른 브랜드:** 설정에서 모바일 네트워크, SIM 또는 연결과 관련된 메뉴를 찾아보세요.\n어디에서도 eSIM을 추가하는 옵션이 보이지 않으면 휴대전화가 eSIM을 지원하는지 확인하세요."
+  },
+  {
+   "item_id": "ui:footer.about",
+   "where": "footer",
+   "url": "https://magicesim.store/ko/",
+   "kind": "ui",
+   "en": "Travel eSIM data plans for 190+ destinations, with prices in US dollars.",
+   "old": "190개 이상의 여행지에서 이용할 수 있는 여행용 eSIM 데이터 요금제, 가격은 미국 달러 기준입니다.",
+   "new": "190개 이상의 여행지에서 이용할 수 있는 여행용 eSIM 데이터 요금제입니다. 가격은 미국 달러 기준입니다.",
+   "severity": "minor",
+   "reason": "Grammar: a noun phrase is comma-spliced to a full ‑입니다 sentence; two well-formed sentences, meaning unchanged.",
+   "evidence": [
+    {
+     "id": "A0002",
+     "stage": "linguistic",
+     "category": "grammar",
+     "severity": "minor",
+     "confidence": 0.8,
+     "objective": true,
+     "suggestion": "190개 이상의 여행지에서 이용할 수 있는 여행용 eSIM 데이터 요금제입니다. 가격은 미국 달러 기준입니다.",
+     "explanation": "A noun phrase and a full sentence are spliced with a comma («요금제, 가격은 … 기준입니다»), which is not a well-formed Korean sentence; split into two ‑입니다 sentences."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "190개 이상의 여행지에서 이용할 수 있는 여행용 eSIM 데이터 요금제입니다. 가격은 미국 달러 기준입니다."
+  },
+  {
+   "item_id": "daily:reset",
+   "where": "daily plan card",
+   "url": "https://magicesim.store/ko/esim/thailand/#dailyBlock",
+   "kind": "daily",
+   "en": "The allowance resets every 24 hours",
+   "old": "데이터는 24시간마다 초기화됩니다",
+   "new": "데이터 제공량은 24시간마다 초기화됩니다",
+   "severity": "minor",
+   "reason": "Accuracy / ambiguity (rule 1): the English resets the ALLOWANCE; «데이터는 … 초기화됩니다» can read as the data being wiped. Both reviewers agree. The same sentence appears in daily:sample-card and should follow.",
+   "evidence": [
+    {
+     "id": "A0007",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "데이터 제공량은 24시간마다 초기화됩니다",
+     "explanation": "«데이터는 … 초기화됩니다» reads as if the data itself were wiped; Korean carrier copy says the allowance (제공량) resets. Phrasing, not a rule error. Also in daily:sample-card."
+    },
+    {
+     "id": "A0019",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "데이터 제공량은 24시간마다 초기화됩니다",
+     "explanation": "The English resets the daily ALLOWANCE; «데이터는 … 초기화됩니다» can be read as the data itself (or the eSIM's data) being reset. «데이터 제공량» names the allowance and keeps the meaning exact (rule 1: compare with the English). Also appears in daily:sample-card."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "데이터 제공량은 24시간마다 초기화됩니다"
+  },
+  {
+   "item_id": "guide-iphone:s5.body",
+   "where": "guide «How to install an eSIM on iPhone», section 5",
+   "url": "https://magicesim.store/ko/guides/iphone/#help",
+   "kind": "guide-step",
+   "en": "Check that the eSIM is the line chosen for cellular data and that data roaming is on for it, then restart the phone. The full checklist is in eSIM not working.\n**Do not delete the eSIM** while troubleshooting: its QR code may be single-use, and you may not be able to install it again.",
+   "old": "eSIM이 데이터용 회선으로 선택되어 있고 데이터 로밍이 켜져 있는지 확인한 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있어 다시 설치하지 못할 수 있습니다.",
+   "new": "eSIM이 데이터용 회선으로 선택되어 있고 데이터 로밍이 켜져 있는지 확인한 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있어 다시 설치하지 못할 수 있습니다.",
+   "severity": "minor",
+   "reason": "Grammar/clarity: «때에서» after the link text reads as «at the time, in» and garbles the cross-reference; «… 때 가이드에서» names the page and keeps the link text intact.",
+   "evidence": [
+    {
+     "id": "A0009",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.7,
+     "objective": false,
+     "suggestion": "eSIM이 데이터용 회선으로 선택되어 있고 데이터 로밍이 켜져 있는지 확인한 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있어 다시 설치하지 못할 수 있습니다.",
+     "explanation": "The link text «eSIM이 작동하지 않을 때» ends in the noun 때, so «때에서» reads as «at the time, in» — a native reader stumbles; naming the page («… 때 가이드에서») keeps the link text intact and makes it a place. Same pattern in guide-android:s4.body («…때에서» → «…때 가이드에서») and guide-activation:s4.body («…때를 확인하세요» → «…때 가이드를 확인하세요»)."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "eSIM이 데이터용 회선으로 선택되어 있고 데이터 로밍이 켜져 있는지 확인한 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있어 다시 설치하지 못할 수 있습니다."
+  },
+  {
+   "item_id": "guide-android:s4.body",
+   "where": "guide «How to install an eSIM on Android», section 4",
+   "url": "https://magicesim.store/ko/guides/android/#help",
+   "kind": "guide-step",
+   "en": "Check the data SIM and roaming on the eSIM, toggle airplane mode, then restart. The full checklist is in eSIM not working.\n**Do not delete the eSIM** while troubleshooting: its QR code may be single-use.",
+   "old": "데이터용으로 선택된 SIM과 eSIM의 로밍 설정을 확인하고, 비행기 탑승 모드를 켰다가 끈 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다.",
+   "new": "데이터용으로 선택된 SIM과 eSIM의 로밍 설정을 확인하고, 비행기 탑승 모드를 켰다가 끈 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다.",
+   "severity": "minor",
+   "reason": "Same cross-reference error as guide-iphone:s5.body («때에서»); fixed the same way for consistency.",
+   "evidence": [
+    {
+     "id": "A0010",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.7,
+     "objective": false,
+     "suggestion": "데이터용으로 선택된 SIM과 eSIM의 로밍 설정을 확인하고, 비행기 탑승 모드를 켰다가 끈 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다.",
+     "explanation": "Same problem as guide-iphone:s5.body: «때에서» after the link text is unnatural; «… 때 가이드에서» names the page."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "데이터용으로 선택된 SIM과 eSIM의 로밍 설정을 확인하고, 비행기 탑승 모드를 켰다가 끈 다음 휴대전화를 다시 시작하세요. 전체 점검 목록은 eSIM이 작동하지 않을 때 가이드에서 확인할 수 있습니다.\n문제를 해결하는 동안 **eSIM을 삭제하지 마세요**. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다."
+  },
+  {
+   "item_id": "guide-activation:s4.body",
+   "where": "guide «When to install and turn on your eSIM», section 4",
+   "url": "https://magicesim.store/ko/guides/activation/#landed",
+   "kind": "guide-step",
+   "en": "• Turn the eSIM line on, if it is off.\n• Choose the eSIM for mobile data.\n• Turn on data roaming for the eSIM.\n• Wait one to three minutes. No network? Turn airplane mode on and off.\n• Still nothing? Go through eSIM not working.",
+   "old": "• eSIM 회선이 꺼져 있으면 켭니다.\n• eSIM을 모바일 데이터용으로 선택합니다.\n• eSIM의 데이터 로밍을 켭니다.\n• 1~3분 기다립니다. 신호가 없다면 비행기 탑승 모드를 켰다가 끕니다.\n• 그래도 안 되면 eSIM이 작동하지 않을 때를 확인하세요.",
+   "new": "• eSIM 회선이 꺼져 있으면 켭니다.\n• eSIM을 모바일 데이터용으로 선택합니다.\n• eSIM의 데이터 로밍을 켭니다.\n• 1~3분 기다립니다. 신호가 없다면 비행기 탑승 모드를 켰다가 끕니다.\n• 그래도 안 되면 eSIM이 작동하지 않을 때 가이드를 확인하세요.",
+   "severity": "minor",
+   "reason": "«…때를 확인하세요» reads as «check the time when…» — an ambiguous instruction; «… 때 가이드를 확인하세요» names the page.",
+   "evidence": [
+    {
+     "id": "A0011",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.7,
+     "objective": false,
+     "suggestion": "• eSIM 회선이 꺼져 있으면 켭니다.\n• eSIM을 모바일 데이터용으로 선택합니다.\n• eSIM의 데이터 로밍을 켭니다.\n• 1~3분 기다립니다. 신호가 없다면 비행기 탑승 모드를 켰다가 끕니다.\n• 그래도 안 되면 eSIM이 작동하지 않을 때 가이드를 확인하세요.",
+     "explanation": "Same problem as guide-iphone:s5.body: «…때를 확인하세요» («check the time when…») is unnatural; «… 때 가이드를 확인하세요» names the page."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "• eSIM 회선이 꺼져 있으면 켭니다.\n• eSIM을 모바일 데이터용으로 선택합니다.\n• eSIM의 데이터 로밍을 켭니다.\n• 1~3분 기다립니다. 신호가 없다면 비행기 탑승 모드를 켰다가 끕니다.\n• 그래도 안 되면 eSIM이 작동하지 않을 때 가이드를 확인하세요."
+  },
+  {
+   "item_id": "guide-activation:title",
+   "where": "guide «When to install and turn on your eSIM»",
+   "url": "https://magicesim.store/ko/guides/activation/",
+   "kind": "seo-title",
+   "en": "When to install and turn on a travel eSIM | Magic eSIM",
+   "old": "여행용 eSIM 설치 및 켜는 시기 | Magic eSIM",
+   "new": "여행용 eSIM을 설치하고 켜는 시기 | Magic eSIM",
+   "severity": "major",
+   "reason": "Grammar: «설치 및 켜는» coordinates a noun with a verb modifier; «설치하고 켜는» is parallel, matches the H1 and stays well under 60 width units.",
+   "evidence": [
+    {
+     "id": "A0012",
+     "stage": "linguistic",
+     "category": "grammar",
+     "severity": "major",
+     "confidence": 0.8,
+     "objective": true,
+     "suggestion": "여행용 eSIM을 설치하고 켜는 시기 | Magic eSIM",
+     "explanation": "«및» joins the noun 설치 with the verb modifier 켜는 — the two coordinated members are not parallel (설치 및 켜는 시기 is ungrammatical coordination). «설치하고 켜는» makes both verbs modify 시기, matching the H1 «eSIM을 설치하고 켜는 시기»; width stays well under 60."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "여행용 eSIM을 설치하고 켜는 시기 | Magic eSIM"
+  },
+  {
+   "item_id": "ui:how.step4",
+   "where": "home → how it works",
+   "url": "https://magicesim.store/ko/#how",
+   "kind": "ui",
+   "en": "Land, switch it on, and you are online.",
+   "old": "도착 후 eSIM을 켜면 바로 연결됩니다.",
+   "new": "도착 후 eSIM을 켜면 연결됩니다.",
+   "severity": "minor",
+   "reason": "Claim rule (rule 2; README: immediacy promises like 즉시 are excluded): «바로» adds an immediate-connection promise the English does not make, while the guides say to wait one to three minutes.",
+   "evidence": [
+    {
+     "id": "A0015",
+     "stage": "fidelity",
+     "category": "claim",
+     "severity": "minor",
+     "confidence": 0.55,
+     "objective": false,
+     "suggestion": "도착 후 eSIM을 켜면 연결됩니다.",
+     "explanation": "«바로» (right away) adds an immediacy the English «Land, switch it on, and you are online» does not state; connection timing depends on the local network. Rule 2 (never invent a delivery/speed promise) — mild, so preferential-level wording fix."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "도착 후 eSIM을 켜면 연결됩니다."
+  },
+  {
+   "item_id": "guide-android:s3.body",
+   "where": "guide «How to install an eSIM on Android», section 3",
+   "url": "https://magicesim.store/ko/guides/android/#data",
+   "kind": "guide-step",
+   "en": "• Make sure the eSIM is turned on. Pixel: Settings → Network &amp; internet → Mobile network → the eSIM → **Use this SIM**.\n• Choose the eSIM as the SIM for **mobile data**. Pixel: Settings → Network &amp; internet → SIMs → **Mobile data**. Your main SIM can stay on for calls and texts.\n• Turn on **roaming** for the eSIM. Samsung: Settings → Connections → Mobile Networks → **Data Roaming**. Travel eSIMs usually connect through partner networks, which the phone treats as roaming.\n• If you do not want charges from your home operator, turn off data roaming on your main SIM.\n• Give the phone a minute or two to register on a local network.",
+   "old": "• eSIM이 켜져 있는지 확인합니다. Pixel: 설정 → 네트워크 및 인터넷 → 모바일 네트워크 → eSIM → **이 SIM 사용**.\n• eSIM을 **모바일 데이터**용 SIM으로 선택합니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **모바일 데이터**. 기본 SIM은 통화와 문자에 계속 사용할 수 있습니다.\n• eSIM의 **로밍**을 켭니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **로밍**. Samsung: 연결 아래의 모바일 네트워크 설정에서 찾아보세요. 정확한 이름은 모델에 따라 다릅니다. 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• 기존 이동통신사의 요금이 부과되지 않게 하려면 기본 SIM의 데이터 로밍을 끄세요.\n• 휴대전화가 현지 네트워크에 등록될 때까지 1~2분 기다립니다.",
+   "new": "• eSIM이 켜져 있는지 확인합니다. Pixel: 설정 → 네트워크 및 인터넷 → 모바일 네트워크 → eSIM → **이 SIM 사용**.\n• eSIM을 **모바일 데이터**용 SIM으로 선택합니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **모바일 데이터**. 기본 SIM은 통화와 문자에 계속 사용할 수 있습니다.\n• eSIM의 **로밍**을 켭니다. Samsung: 연결 아래의 모바일 네트워크 설정에서 찾아보세요. 정확한 이름은 모델에 따라 다릅니다. 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• 기존 이동통신사의 요금이 부과되지 않게 하려면 기본 SIM의 데이터 로밍을 끄세요.\n• 휴대전화가 현지 네트워크에 등록될 때까지 1~2분 기다립니다.",
+   "severity": "minor",
+   "reason": "Rule 1/2: the Korean adds a Pixel roaming path the English does not give, and that path skips selecting the eSIM inside SIM; removed so the step says only what the English says (Samsung described per D12).",
+   "evidence": [
+    {
+     "id": "A0021",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": true,
+     "suggestion": "• eSIM이 켜져 있는지 확인합니다. Pixel: 설정 → 네트워크 및 인터넷 → 모바일 네트워크 → eSIM → **이 SIM 사용**.\n• eSIM을 **모바일 데이터**용 SIM으로 선택합니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **모바일 데이터**. 기본 SIM은 통화와 문자에 계속 사용할 수 있습니다.\n• eSIM의 **로밍**을 켭니다. Samsung: 연결 아래의 모바일 네트워크 설정에서 찾아보세요. 정확한 이름은 모델에 따라 다릅니다. 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• 기존 이동통신사의 요금이 부과되지 않게 하려면 기본 SIM의 데이터 로밍을 끄세요.\n• 휴대전화가 현지 네트워크에 등록될 때까지 1~2분 기다립니다.",
+     "explanation": "The Korean adds a Pixel roaming path the English does not give (EN names only the Samsung path), and the added path skips choosing the eSIM inside SIM, where Pixel's roaming switch sits. Nothing is to be added against the English; keep only the Samsung description."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "• eSIM이 켜져 있는지 확인합니다. Pixel: 설정 → 네트워크 및 인터넷 → 모바일 네트워크 → eSIM → **이 SIM 사용**.\n• eSIM을 **모바일 데이터**용 SIM으로 선택합니다. Pixel: 설정 → 네트워크 및 인터넷 → SIM → **모바일 데이터**. 기본 SIM은 통화와 문자에 계속 사용할 수 있습니다.\n• eSIM의 **로밍**을 켭니다. Samsung: 연결 아래의 모바일 네트워크 설정에서 찾아보세요. 정확한 이름은 모델에 따라 다릅니다. 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• 기존 이동통신사의 요금이 부과되지 않게 하려면 기본 SIM의 데이터 로밍을 끄세요.\n• 휴대전화가 현지 네트워크에 등록될 때까지 1~2분 기다립니다."
+  },
+  {
+   "item_id": "guide-compatibility:faq1.q",
+   "where": "guide «Does your phone support eSIM?», question 1",
+   "url": "https://magicesim.store/ko/guides/compatibility/#faq",
+   "kind": "faq-q",
+   "en": "My phone takes two SIM cards. Does that mean it has eSIM?",
+   "old": "듀얼 SIM 휴대전화라면 eSIM을 지원하나요?",
+   "new": "SIM 카드가 두 장 들어가는 휴대전화라면 eSIM도 지원하나요?",
+   "severity": "minor",
+   "reason": "Accuracy: the English asks about a phone taking two physical SIM cards; Korean «듀얼 SIM» also covers SIM + eSIM phones, which makes the question near-circular. Naming the two cards restores the meaning.",
+   "evidence": [
+    {
+     "id": "A0023",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.65,
+     "objective": false,
+     "suggestion": "SIM 카드가 두 장 들어가는 휴대전화라면 eSIM도 지원하나요?",
+     "explanation": "EN asks about a phone that takes two SIM cards (two physical slots, as the answer says). «듀얼 SIM» in Korean also covers physical SIM + eSIM phones, which makes the question near-circular; name the two card slots."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "SIM 카드가 두 장 들어가는 휴대전화라면 eSIM도 지원하나요?"
+  },
+  {
+   "item_id": "guide-troubleshooting:faq2.a",
+   "where": "guide «eSIM not working — what to check», answer 2",
+   "url": "https://magicesim.store/ko/guides/troubleshooting/#faq",
+   "kind": "faq-a",
+   "en": "Often not: a QR code may be single-use. That is why the checklist tells you not to delete the eSIM.",
+   "old": "대개는 할 수 없습니다. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다. 그래서 점검 목록에서 eSIM을 삭제하지 말라고 안내합니다.",
+   "new": "다시 설치할 수 없는 경우가 많습니다. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다. 그래서 점검 목록에서 eSIM을 삭제하지 말라고 안내합니다.",
+   "severity": "minor",
+   "reason": "Accuracy (rule 1): «대개는 할 수 없습니다» strengthens the English hedge «Often not»; synthesis keeps the hedge and names the action explicitly (clearer than the suggested «그렇지 않은 경우가 많습니다»).",
+   "evidence": [
+    {
+     "id": "A0024",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "그렇지 않은 경우가 많습니다. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다. 그래서 점검 목록에서 eSIM을 삭제하지 말라고 안내합니다.",
+     "explanation": "EN «Often not» is hedged; «대개는 할 수 없습니다» (usually impossible) states it more strongly than the English and than the next sentence («may be single-use»)."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "다시 설치할 수 없는 경우가 많습니다. QR 코드는 한 번만 사용할 수 있는 경우가 있습니다. 그래서 점검 목록에서 eSIM을 삭제하지 말라고 안내합니다."
+  }
+ ],
+ "optional": [
+  {
+   "item_id": "ui:preview.noticeTitle",
+   "where": "payment notice under the header",
+   "url": "https://magicesim.store/ko/esim/thailand/",
+   "kind": "ui",
+   "en": "Online payment isn't available yet — plans can't be bought here yet",
+   "old": "아직 온라인 결제를 지원하지 않습니다. 이 사이트에서는 아직 요금제를 구매할 수 없습니다",
+   "new": null,
+   "severity": "preferential",
+   "reason": "Meaning is correct; «이 사이트» matches «here» on a site-wide notice, so F0004 is not an error. Joining the two clauses (L0001) is a stylistic improvement only.",
+   "evidence": [
+    {
+     "id": "A0001",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.75,
+     "objective": false,
+     "suggestion": "아직 온라인 결제를 지원하지 않아 이 사이트에서는 요금제를 구매할 수 없습니다",
+     "explanation": "Two sentences each with 아직 read as a stutter in one heading, and the first ends with a period while the second does not; one sentence joined with ‑아 is the natural Korean heading."
+    },
+    {
+     "id": "A0018",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.55,
+     "objective": false,
+     "suggestion": "아직 온라인 결제를 지원하지 않습니다. 여기에서는 아직 요금제를 구매할 수 없습니다",
+     "explanation": "«here» became «이 사이트에서는» (on this site); the same notice elsewhere says «this page» (price.currencyNote «이 페이지에서는»). «이 사이트» could read as the whole magicesim.store, which is broader than the English. Keep it local."
+    }
+   ]
+  },
+  {
+   "item_id": "ui:home.fact3",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "kind": "ui",
+   "en": "Country, regional and daily plans",
+   "old": "국가별, 지역, 매일 데이터 요금제",
+   "new": null,
+   "severity": "preferential",
+   "reason": "The list is understandable and correct; making the three items parallel is a style choice.",
+   "evidence": [
+    {
+     "id": "A0003",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.75,
+     "objective": false,
+     "suggestion": "국가, 지역, 매일 데이터 요금제",
+     "explanation": "The list mixes 국가별 with bare 지역, so the three items are not parallel; use the same form for each (국가 / 지역 / 매일 데이터)."
+    }
+   ]
+  },
+  {
+   "item_id": "ui:home.typeDailyBody",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "kind": "ui",
+   "en": "A data allowance for each day of the trip, rather than one amount for the whole stay.",
+   "old": "여행 기간 전체에 하나의 용량이 아니라 매일 일정한 데이터가 제공됩니다.",
+   "new": null,
+   "severity": "preferential",
+   "reason": "«여행 기간 전체에 하나의 용량이 아니라» is grammatical and keeps the meaning; the suggested wording is only smoother.",
+   "evidence": [
+    {
+     "id": "A0004",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.7,
+     "objective": false,
+     "suggestion": "여행 기간 전체에 쓸 하나의 용량 대신 여행하는 날마다 일정한 데이터가 제공됩니다.",
+     "explanation": "«여행 기간 전체에 하나의 용량이 아니라» lacks a verb for 전체에 and reads as a calque of «rather than one amount for the whole stay»; «… 쓸 하나의 용량 대신» is the natural construction."
+    }
+   ]
+  },
+  {
+   "item_id": "guide-activation:s2.body",
+   "where": "guide «When to install and turn on your eSIM», section 2",
+   "url": "https://magicesim.store/ko/guides/activation/#validity",
+   "kind": "guide-step",
+   "en": "It depends on the plan. Some plans start counting when the eSIM first connects to a network at the destination or first uses data. Others start as soon as the eSIM is installed.\nBecause of that, the advice that never costs you days is to **install on the day you travel** — at home before you leave or on airport Wi-Fi — and to switch the eSIM on for data once you land.",
+   "old": "요금제에 따라 다릅니다. 여행지에서 eSIM이 처음 네트워크에 연결되거나 처음 데이터를 사용할 때 시작되는 요금제도 있고, eSIM을 설치하는 순간 시작되는 요금제도 있습니다.\n그래서 날짜를 손해 보지 않는 방법은 **출발 당일에 eSIM을 설치하고**(집에서 떠나기 전이나 공항 Wi-Fi로) 도착한 뒤 데이터를 켜는 것입니다.",
+   "new": null,
+   "severity": "minor",
+   "reason": "«날짜를 손해 보지 않는» is unidiomatic but the meaning is recoverable from context; «이용 기간을 손해 보지 않는» is a better wording, recorded as optional.",
+   "evidence": [
+    {
+     "id": "A0013",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "요금제에 따라 다릅니다. 여행지에서 eSIM이 처음 네트워크에 연결되거나 처음 데이터를 사용할 때 시작되는 요금제도 있고, eSIM을 설치하는 순간 시작되는 요금제도 있습니다.\n그래서 이용 기간을 손해 보지 않는 방법은 **출발 당일에 eSIM을 설치하고**(집에서 떠나기 전이나 공항 Wi-Fi로) 도착한 뒤 데이터를 켜는 것입니다.",
+     "explanation": "«날짜를 손해 보다» («lose dates») is not idiomatic; what the reader may lose is days of the validity — «이용 기간을 손해 보지 않는» uses the glossary term and reads naturally."
+    }
+   ]
+  },
+  {
+   "item_id": "guide-troubleshooting:s1.body",
+   "where": "guide «eSIM not working — what to check», section 1",
+   "url": "https://magicesim.store/ko/guides/troubleshooting/#checklist",
+   "kind": "guide-step",
+   "en": "• **Is the eSIM line turned on?** Check the SIM settings.\n• **Is the eSIM chosen for mobile data?** The internet has to go through the eSIM, not your main SIM.\n• **Is data roaming on for the eSIM?** Travel eSIMs usually connect through partner networks, which the phone treats as roaming.\n• **Toggle airplane mode** on for ten seconds, then off.\n• **Restart the phone.**\n• **Choose a network by hand.** In the eSIM's network settings, turn off automatic selection and pick another network from the list.\n• **Check the APN** — only if your plan's details list one: it should match in the eSIM's settings.\n• **Are you inside the plan's coverage?** Check that the country you are in is among the countries the plan covers.",
+   "old": "• **eSIM 회선이 켜져 있나요?** SIM 설정에서 확인하세요.\n• **eSIM이 모바일 데이터용으로 선택되어 있나요?** 인터넷이 기본 SIM이 아니라 eSIM을 통해 연결되어야 합니다.\n• **eSIM의 데이터 로밍이 켜져 있나요?** 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• **비행기 탑승 모드를 켜고** 10초 뒤에 끄세요.\n• **휴대전화를 다시 시작하세요.**\n• **네트워크를 직접 선택하세요.** eSIM의 네트워크 설정에서 자동 선택을 끄고 목록에서 다른 네트워크를 고르세요.\n• **APN을 확인하세요.** 요금제 정보에 APN이 적혀 있는 경우에만 해당하며, eSIM 설정의 값과 같아야 합니다.\n• **요금제 이용 국가에 계신가요?** 지금 있는 국가가 요금제 이용 국가에 포함되는지 확인하세요.",
+   "new": null,
+   "severity": "preferential",
+   "reason": "Mixing the honorific question with plain «있는» in the following clause is acceptable Korean; uniform «계신» is a style refinement.",
+   "evidence": [
+    {
+     "id": "A0014",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.65,
+     "objective": false,
+     "suggestion": "• **eSIM 회선이 켜져 있나요?** SIM 설정에서 확인하세요.\n• **eSIM이 모바일 데이터용으로 선택되어 있나요?** 인터넷이 기본 SIM이 아니라 eSIM을 통해 연결되어야 합니다.\n• **eSIM의 데이터 로밍이 켜져 있나요?** 여행용 eSIM은 보통 제휴 네트워크로 연결되며, 휴대전화는 이를 로밍으로 인식합니다.\n• **비행기 탑승 모드를 켜고** 10초 뒤에 끄세요.\n• **휴대전화를 다시 시작하세요.**\n• **네트워크를 직접 선택하세요.** eSIM의 네트워크 설정에서 자동 선택을 끄고 목록에서 다른 네트워크를 고르세요.\n• **APN을 확인하세요.** 요금제 정보에 APN이 적혀 있는 경우에만 해당하며, eSIM 설정의 값과 같아야 합니다.\n• **요금제 이용 국가에 계신가요?** 지금 계신 국가가 요금제 이용 국가에 포함되는지 확인하세요.",
+     "explanation": "The bold question uses the honorific «계신가요?» and the next sentence drops to plain «있는» for the same reader; keep the honorific consistent («계신»)."
+    }
+   ]
+  },
+  {
+   "item_id": "ui:preview.more",
+   "where": "payment notice under the header",
+   "url": "https://magicesim.store/ko/esim/thailand/",
+   "kind": "ui",
+   "en": "What this means",
+   "old": "자세히 보기",
+   "new": null,
+   "severity": "preferential",
+   "reason": "«자세히 보기» is a standard, correct disclosure label; «What this means» nuance is a stylistic improvement, not a factual change.",
+   "evidence": [
+    {
+     "id": "A0016",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "무슨 뜻인가요?",
+     "explanation": "«What this means» opens an explanation of the payment notice; «자세히 보기» is the same text as site.choose («View details») and no longer says it explains the notice. Nuance, not a factual change."
+    }
+   ]
+  },
+  {
+   "item_id": "guide-compatibility:nav",
+   "where": "guide «Does your phone support eSIM?»",
+   "url": "https://magicesim.store/ko/guides/compatibility/",
+   "kind": "body",
+   "en": "Compatibility",
+   "old": "지원 기기",
+   "new": null,
+   "severity": "preferential",
+   "reason": "«지원 기기» is a common nav label; it may suggest a device list the page does not publish, but the wording is not wrong — optional.",
+   "evidence": [
+    {
+     "id": "A0022",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "호환성 확인",
+     "explanation": "«지원 기기» reads as «supported devices» — i.e. a device list — while this page explicitly says no list of supported models is published (s3.body). «Compatibility» is a check, not a list."
+    }
+   ]
+  }
+ ],
+ "kept": [
+  {
+   "item_id": "ui:home.typeLocalBody",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "kind": "ui",
+   "en": "A set amount of data for one country, valid for a set number of days.",
+   "old": "한 국가에서 정해진 일수 동안 쓸 수 있는 정해진 데이터입니다.",
+   "new": null,
+   "severity": "preferential",
+   "reason": "Correct and clear; the repeated «정해진» mirrors the English «set … set» — taste, not an error.",
+   "evidence": [
+    {
+     "id": "A0005",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "preferential",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "한 국가에서 정해진 일수 동안 쓸 수 있는 일정한 용량의 데이터입니다.",
+     "explanation": "«정해진» repeats twice in one short sentence («정해진 일수 … 정해진 데이터»); 일정한 용량의 데이터 avoids the repetition."
+    }
+   ]
+  },
+  {
+   "item_id": "ui:home.typeLocalTitle",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "kind": "ui",
+   "en": "Plans for one country",
+   "old": "한 국가 요금제",
+   "new": null,
+   "severity": "preferential",
+   "reason": "«한 국가 요금제» is correct and clear; «단일 국가» is a stylistic preference.",
+   "evidence": [
+    {
+     "id": "A0006",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "preferential",
+     "confidence": 0.55,
+     "objective": false,
+     "suggestion": "단일 국가 요금제",
+     "explanation": "«한 국가 요금제» is understandable but «단일 국가 요금제» is the usual heading form in Korean telecom copy."
+    }
+   ]
+  },
+  {
+   "item_id": "page:countryTitle",
+   "where": "country page (sample: Thailand)",
+   "url": "https://magicesim.store/ko/esim/thailand/",
+   "kind": "seo-title",
+   "en": "eSIM for Thailand — data plans in US dollars | Magic eSIM",
+   "old": "태국 eSIM: 미국 달러 데이터 요금제 | Magic eSIM",
+   "new": null,
+   "severity": "preferential",
+   "reason": "Within budget, keyword kept, meaning correct; the rewording is taste.",
+   "evidence": [
+    {
+     "id": "A0008",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.55,
+     "objective": false,
+     "suggestion": "태국 eSIM: 데이터 요금제(미국 달러 가격) | Magic eSIM",
+     "explanation": "«미국 달러 데이터 요금제» stacks nouns so that it reads like a «US-dollar data plan» as a product type; stating the currency as the price basis is clearer. Phrasing only; the title stays within budget."
+    }
+   ]
+  },
+  {
+   "item_id": "ui:home.typeRegionalBody",
+   "where": "home",
+   "url": "https://magicesim.store/ko/",
+   "kind": "ui",
+   "en": "One plan for several countries, for a trip that crosses borders. Each plan lists the countries it covers.",
+   "old": "국경을 넘는 여행을 위해 여러 국가에서 쓸 수 있는 요금제입니다. 요금제마다 이용 국가가 표시됩니다.",
+   "new": null,
+   "severity": "preferential",
+   "reason": "«여러 국가에서 쓸 수 있는 요금제» already denotes one plan across several countries; no fact is lost.",
+   "evidence": [
+    {
+     "id": "A0017",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.55,
+     "objective": false,
+     "suggestion": "국경을 넘는 여행을 위해 하나의 요금제로 여러 국가에서 이용할 수 있습니다. 요금제마다 이용 국가가 표시됩니다.",
+     "explanation": "The English stresses ONE plan for several countries; the Korean says «a plan usable in several countries» and drops «one». Small loss of the point of the sentence."
+    }
+   ]
+  }
+ ]
+}

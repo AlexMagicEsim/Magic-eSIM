@@ -177,9 +177,24 @@ export function stripSiteI18nBundle(html) {
   return String(html).replace(/<script src="\/assets\/site-i18n-[a-z]+\.js((?:\?v=[0-9a-f]+)?)" defer><\/script>/g, '<script src="/assets/site-i18n.js$1" defer></script>');
 }
 
+// THE LANGUAGE SWITCH LIKEWISE, added 2026-10-22 (KO-1, owner D14 «B»). The header's language list says where the same
+// page lives in the other languages — what the hreflang alternates above say for crawlers — not what this page says.
+// Kept in the hash, every new language re-dated every indexed page that lists it (the 42 EN/ES URLs on KO's day),
+// although none of them changed a word. Reduced to an empty switch, whatever it lists: the desktop list
+// (<details class="langsw langmenu">) or single link (<a class="langsw" … hreflang …>), and the language links after the
+// <hr> of the phone menu. A link with hreflang anywhere ELSE (a guide pointing at another language) is still content.
+// State migration, as for the icons and hreflang: the stored hashes were recomputed from the pages as they were at
+// 8e2bd308 under this rule, so no date moved. seo/test-sitemap-lastmod.mjs pins both directions.
+export function stripLanguageSwitch(html) {
+  return String(html)
+    .replace(/<details class="langsw langmenu">[\s\S]*?<\/details>/g, '<details class="langsw langmenu"></details>')
+    .replace(/<a class="langsw" href="[^"]*" hreflang="[^"]*" lang="[^"]*">[\s\S]*?<\/a>/g, '<a class="langsw"></a>')
+    .replace(/(<nav class="mnav-panel"[^>]*>[\s\S]*?<hr>)((?:\s*<a href="[^"]*" hreflang="[^"]*" lang="[^"]*"[^>]*>[^<]*<\/a>)+)/g, '$1');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(html)))
+    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(html))))
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')

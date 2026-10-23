@@ -1,0 +1,40 @@
+[
+  {
+    "id": "L02-001",
+    "item_id": "daily:reset",
+    "group": "daily",
+    "key": "reset",
+    "where": "daily plan card",
+    "url": "",
+    "en": "The allowance resets every 24 hours",
+    "target": "데이터는 24시간마다 초기화됩니다",
+    "suggestion": "데이터 제공량은 24시간마다 초기화됩니다",
+    "explanation": "«데이터는 … 초기화됩니다» reads as if the data itself were wiped; Korean carrier copy says the allowance (제공량) resets. Phrasing, not a rule error. Also in daily:sample-card.",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "stage": "linguistic",
+    "rule": "natural phrasing",
+    "objective": false
+  },
+  {
+    "id": "L02-002",
+    "item_id": "page:countryTitle",
+    "group": "page",
+    "key": "countryTitle",
+    "where": "country page (sample: Thailand)",
+    "url": "",
+    "en": "eSIM for Thailand — data plans in US dollars | Magic eSIM",
+    "target": "태국 eSIM: 미국 달러 데이터 요금제 | Magic eSIM",
+    "suggestion": "태국 eSIM: 데이터 요금제(미국 달러 가격) | Magic eSIM",
+    "explanation": "«미국 달러 데이터 요금제» stacks nouns so that it reads like a «US-dollar data plan» as a product type; stating the currency as the price basis is clearer. Phrasing only; the title stays within budget.",
+    "category": "fluency",
+    "severity": "minor",
+    "confidence": 0.55,
+    "source": "ai",
+    "stage": "linguistic",
+    "rule": "natural phrasing",
+    "objective": false
+  }
+]
