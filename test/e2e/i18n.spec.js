@@ -36,16 +36,15 @@ test.describe('language detection', () => {
     await expect(page.locator('#screen-settings h1')).toHaveText('Settings');
   });
 
-  test('a client that names no language at all gets Russian, because absence is not a statement', async ({ page }) => {
-    // `language_code` is optional on Telegram's WebAppUser, it is absent
-    // outside Telegram entirely, and some launch contexts carry no user. Those
-    // must not flip a Russian shop to English.
+  test('a client that names no language at all gets English (owner, MINIAPP-I18N-LEGAL-1, 2026-10-23)', async ({ page }) => {
+    // `language_code` is optional on Telegram's WebAppUser and absent outside Telegram; with seven languages and an
+    // international market the owner chose English for «not stated». A Russian client still gets Russian.
     await installMiniApp(page, { languageCode: null });
     await openApp(page);
     await openSettings(page);
 
-    expect(await lang(page)).toBe('ru');
-    await expect(page.locator('#screen-settings h1')).toHaveText('Настройки');
+    expect(await lang(page)).toBe('en');
+    await expect(page.locator('#screen-settings h1')).toHaveText('Settings');
   });
 });
 

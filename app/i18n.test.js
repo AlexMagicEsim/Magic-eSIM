@@ -82,11 +82,10 @@ test('only the ru primary subtag is Russian — not «rue», not a word that sta
   }
 });
 
-test('an absent or unusable language_code is Russian, because absence is not a statement', () => {
-  // This is the decision, written down: the field is OPTIONAL on Telegram's
-  // WebAppUser, initDataUnsafe is {} in a plain browser tab, and some launch
-  // contexts carry no user at all. Defaulting those to English would flip a
-  // Russian shop to English for every customer whose client did not say.
+test('an absent or unusable language_code is English (owner, MINIAPP-I18N-LEGAL-1, 2026-10-23)', () => {
+  // The decision changed on the owner's word: with seven languages and an international market, «not stated» is
+  // English. It was Russian (the field is optional on Telegram's WebAppUser; initDataUnsafe is {} in a plain tab).
+  // A Russian language_code still gives Russian, and a manual choice still wins (tests below).
   const telegrams = [
     null,
     {},
@@ -101,14 +100,15 @@ test('an absent or unusable language_code is Russian, because absence is not a s
 
   for (const telegram of telegrams) {
     const i = create({ dicts: DICTS, storage: null, telegram });
-    assert.equal(i.lang(), 'ru', JSON.stringify(telegram));
+    assert.equal(i.lang(), 'en', JSON.stringify(telegram));
   }
+  assert.equal(create({ dicts: DICTS, storage: null, telegram: fakeTelegram('ru-RU') }).lang(), 'ru', 'Russian stated is Russian');
 });
 
 test('detection never throws, whatever Telegram hands it', () => {
   const exploding = { WebApp: { get initDataUnsafe() { throw new Error('boom'); } } };
   assert.doesNotThrow(() => create({ dicts: DICTS, storage: null, telegram: exploding }));
-  assert.equal(create({ dicts: DICTS, storage: null, telegram: exploding }).lang(), 'ru');
+  assert.equal(create({ dicts: DICTS, storage: null, telegram: exploding }).lang(), 'en');
 });
 
 /* ==========================================================================
@@ -145,7 +145,7 @@ test('a language with no dictionary cannot be chosen, from the API any more than
   i.onChange(() => { fired += 1; });
 
   i.setLang('xx');
-  assert.equal(i.lang(), 'ru');
+  assert.equal(i.lang(), 'en');
   assert.equal(fired, 0);
 });
 
@@ -155,13 +155,13 @@ test('choosing the language already in use changes nothing and tells nobody', ()
   let fired = 0;
   i.onChange(() => { fired += 1; });
 
-  i.setLang('ru');
+  i.setLang('en');
   assert.equal(fired, 0);
 
-  i.setLang('en');
+  i.setLang('ru');
   assert.equal(fired, 1);
 
-  i.setLang('en');
+  i.setLang('ru');
   assert.equal(fired, 1, 'the second identical choice must be a no-op');
 });
 
@@ -192,18 +192,18 @@ test('a detected language is never written down as though it had been chosen', (
   assert.equal(storage.calls.some((c) => c[0] === 'set'), false, JSON.stringify(storage.calls));
 });
 
-test('a storage that throws on every call gives Russian rather than a dead app', () => {
+test('a storage that throws on every call gives the default (English) rather than a dead app', () => {
   // MUT-5. Testing only getItem misses the commoner real case: Safari private
   // mode throws on setItem while getItem works, and "changes but does not
   // stick" must still beat "does not run".
   let i;
   assert.doesNotThrow(() => { i = create({ dicts: DICTS, storage: hostileStorage, telegram: null }); });
-  assert.equal(i.lang(), 'ru');
+  assert.equal(i.lang(), 'en');
 
   let fired = 0;
   i.onChange(() => { fired += 1; });
-  assert.doesNotThrow(() => i.setLang('en'));
-  assert.equal(i.lang(), 'en', 'the language still changes when it cannot be saved');
+  assert.doesNotThrow(() => i.setLang('ru'));
+  assert.equal(i.lang(), 'ru', 'the language still changes when it cannot be saved');
   assert.equal(fired, 1);
 });
 
@@ -222,7 +222,7 @@ test('a key missing from the active language falls back to Russian, never to Eng
   assert.equal(enActive.t('a.b'), 'Почта');
 
   const reversed = { ru: {}, en: { 'a.b': 'Mail' } };
-  const ruActive = create({ dicts: reversed, storage: null, telegram: null });
+  const ruActive = create({ dicts: reversed, storage: fakeStorage({ 'mesim.lang': 'ru' }), telegram: null });
   assert.equal(ruActive.t('a.b'), 'a.b', 'Russian must never borrow the English string');
 });
 
@@ -317,7 +317,7 @@ test('changing the language changes what a date says, with no reload', () => {
   const day = new Date(2026, 7, 9);
 
   const before = i.formatDate(day);
-  i.setLang('en');
+  i.setLang('ru');
   assert.notEqual(i.formatDate(day), before);
 });
 
@@ -428,10 +428,11 @@ function codeOnly(source) {
 const UI_RAW = FS.readFileSync(PATH.join(__dirname, 'ui.js'), 'utf8');
 const UI_SRC = codeOnly(UI_RAW);
 
-test('the two dictionaries have exactly the same keys', () => {
+test('every dictionary has exactly the same keys', () => {
   // A SET property. `assert.equal(Object.keys(EN).length, 33)` would be the
   // counting mistake this project has already paid for once.
-  assert.deepEqual(Object.keys(RU).sort(), Object.keys(EN).sort());
+  for (const l of Object.keys(LOCALES)) assert.deepEqual(Object.keys(LOCALES[l]).sort(), Object.keys(RU).sort(), l);
+  assert.deepEqual(Object.keys(LOCALES), ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
 });
 
 test('no key is declared twice — a duplicate in an object literal is silent', () => {
@@ -440,10 +441,13 @@ test('no key is declared twice — a duplicate in an object literal is silent', 
   // Per dictionary, not over the file: the two dictionaries declare the SAME
   // key names by design, so a whole-file uniqueness check would fail on a
   // correct file and prove nothing about either half.
-  const blocks = {
-    ru: LOCALES_SRC.slice(LOCALES_SRC.indexOf('const ru = {'), LOCALES_SRC.indexOf('const en = {')),
-    en: LOCALES_SRC.slice(LOCALES_SRC.indexOf('const en = {'), LOCALES_SRC.indexOf('const LOCALES = {')),
-  };
+  const IDENT = { ru: 'ru', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zhHans', ko: 'ko' };
+  const order = Object.keys(IDENT);
+  const blocks = {};
+  order.forEach((l, i) => {
+    const next = i + 1 < order.length ? `const ${IDENT[order[i + 1]]} = {` : 'const LOCALES = {';
+    blocks[l] = LOCALES_SRC.slice(LOCALES_SRC.indexOf(`const ${IDENT[l]} = {`), LOCALES_SRC.indexOf(next));
+  });
 
   for (const [name, block] of Object.entries(blocks)) {
     assert.ok(block.length > 0, `${name} block not found`);
@@ -469,7 +473,8 @@ test('the English dictionary has no Cyrillic left in it, apart from the two lang
 test('every Russian value is really Russian, and none is merely its own key', () => {
   // The guard against the specific rot where somebody regenerates the file
   // from the key list to make a red test green.
-  const latinOnly = new Set(['settings.language.en', 'settings.account.esims']);
+  const latinOnly = new Set(['settings.language.en', 'settings.account.esims',
+    'settings.language.es', 'settings.language.de', 'settings.language.fr', 'settings.language.zh-Hans', 'settings.language.ko']);
   for (const [key, value] of Object.entries(RU)) {
     assert.notEqual(value, key, `${key} is its own value`);
     assert.equal(value.trim(), value, `${key} has stray whitespace`);
@@ -498,10 +503,9 @@ function usedKeys() {
   return keys;
 }
 
-test('every key the app asks for exists in both dictionaries', () => {
+test('every key the app asks for exists in every dictionary', () => {
   for (const key of usedKeys()) {
-    assert.ok(Object.prototype.hasOwnProperty.call(RU, key), `ru is missing ${key}`);
-    assert.ok(Object.prototype.hasOwnProperty.call(EN, key), `en is missing ${key}`);
+    for (const l of Object.keys(LOCALES)) assert.ok(Object.prototype.hasOwnProperty.call(LOCALES[l], key), `${l} is missing ${key}`);
   }
 });
 
@@ -605,6 +609,15 @@ test('the frozen list covers every Russian key, not just the ones present when i
   // the guarantee quietly shrinks. The only keys allowed to be outside it are
   // the ones that did not exist before — the language block itself.
   const introduced = [
+    // MINIAPP-I18N-LEGAL-1 — five more language names, the market switch, the international notices and the English
+    // legal documents' labels. New keys; no shipped Russian string changed.
+    'settings.language.es', 'settings.language.de', 'settings.language.fr', 'settings.language.zh-Hans', 'settings.language.ko',
+    'market.label', 'market.ru', 'market.global', 'market.globalHint',
+    'global.topupUnavailable', 'global.loadFailed',
+    'legal.intl.terms', 'legal.intl.refund', 'legal.intl.privacy',
+    // stage C — the international checkout: the website's LEGAL-3 consent words (one source: assets/i18n/<lang>.js).
+    'gco.title', 'gco.legend', 'gco.terms', 'gco.termsLink', 'gco.refundLink', 'gco.delivery', 'gco.privacy',
+    'gco.privacyLink', 'gco.pay', 'gco.unavailable', 'gco.continue',
     // Phase 1 — the language block itself.
     'settings.language.section', 'settings.language.hint',
     'settings.language.ru', 'settings.language.en',
@@ -822,10 +835,10 @@ test('the file no longer tells the next reader that the app has one language', (
 
 const PLANNED_7 = ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko'];
 
-test('seven languages are planned and exactly two are offered', () => {
+test('seven languages are planned and all seven are offered (owner, MINIAPP-I18N-LEGAL-1)', () => {
   // seo/test-locales.mjs holds PLANNED equal to the storefront registry.
   assert.deepEqual(I18N.PLANNED, PLANNED_7);
-  assert.deepEqual(I18N.LANGS, ['ru', 'en']);
+  assert.deepEqual(I18N.LANGS, PLANNED_7);
 });
 
 test('the one fallback chain: Russian never reaches English, a new language reaches English before Russian', () => {
@@ -861,10 +874,12 @@ test('a Telegram code names its planned language — Chinese by script', () => {
   for (const [code, want] of cases) assert.equal(I18N.plannedFromTag(code), want, String(code));
 });
 
-test('with only ru and en enabled, every other Telegram language still gives English — today\'s behaviour', () => {
-  for (const code of ['es', 'de-DE', 'fr', 'zh-CN', 'zh-TW', 'ko', 'uk']) {
+test('every Telegram language selects its own language; an unsupported one gives English', () => {
+  const cases = [['en-US', 'en'], ['es-MX', 'es'], ['de-DE', 'de'], ['fr', 'fr'], ['zh-CN', 'zh-Hans'], ['ko-KR', 'ko'], ['ru', 'ru'],
+    ['pt-BR', 'en'], ['uk', 'en']];   // Traditional Chinese → null → English: see «a Telegram code names its planned language»
+  for (const [code, want] of cases) {
     const i = create({ dicts: DICTS, storage: null, telegram: fakeTelegram(code) });
-    assert.equal(i.lang(), 'en', code);
+    assert.equal(i.lang(), want, code);
   }
 });
 
@@ -886,18 +901,19 @@ test('a new language falls back to ENGLISH for a missing key, and Russian stays 
   assert.equal(de.lang(), 'de');
   assert.equal(de.t('a'), 'E-a', 'German misses → English');
   assert.equal(de.t('b'), 'Р-б', 'English misses too → Russian');
-  const ru = create({ dicts, storage: null, telegram: null, langs: ['ru', 'en', 'de'] });
+  const ru = create({ dicts, storage: null, telegram: { WebApp: { initDataUnsafe: { user: { language_code: 'ru' } } } }, langs: ['ru', 'en', 'de'] });
   assert.equal(ru.t('a'), 'Р-а');
-  assert.equal(create({ dicts: { ru: {}, en: { a: 'E-a' } }, storage: null, telegram: null }).t('a'), 'a',
+  assert.equal(create({ dicts: { ru: {}, en: { a: 'E-a' } }, storage: null, telegram: { WebApp: { initDataUnsafe: { user: { language_code: 'ru' } } } } }).t('a'), 'a',
     'Russian never borrows English — it shows the key');
 });
 
-test('a date in a language without its own format uses the next one in its chain', () => {
-  const de = create({ dicts: { ru: {}, en: {}, de: {} }, storage: null, telegram: null, langs: ['ru', 'en', 'de'] });
-  de.setLang('de');
+test('every language has its own date format; Russian unchanged', () => {
   const d = new Date(2026, 7, 19);
-  assert.equal(de.formatDate(d), '19 Aug 2026');
-  assert.equal(create({ dicts: DICTS, storage: null, telegram: null }).formatDate(d), '19.08.2026');
+  const want = { ru: '19.08.2026', en: '19 Aug 2026', es: '19/08/2026', de: '19.08.2026', fr: '19/08/2026', 'zh-Hans': '2026年8月19日', ko: '2026. 8. 19.' };
+  for (const [l, w] of Object.entries(want)) {
+    const i = create({ dicts: DICTS, storage: fakeStorage({ 'mesim.lang': l }), telegram: null });
+    assert.equal(i.formatDate(d), w, l);
+  }
 });
 
 test('the language picker offers exactly the enabled languages, each under a spelled-out key', () => {

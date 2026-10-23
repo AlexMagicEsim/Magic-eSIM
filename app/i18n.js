@@ -42,7 +42,8 @@
 
 (function (root) {
   /** The languages the Mini App OFFERS today. Compared by equality. */
-  const LANGS = ['ru', 'en'];
+  // MINIAPP-I18N-LEGAL-1 (owner, 2026-10-23): all seven planned languages are offered.
+  const LANGS = ['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko'];
 
   /**
    * Every language the architecture is built for (I18N-04), in the order of
@@ -122,17 +123,17 @@
   }
 
   /**
-   * Russian, when we do not know.
+   * English, when we do not know (owner, MINIAPP-I18N-LEGAL-1, 2026-10-23).
    *
-   * NOT English. An absent `language_code` is not a statement that the customer
-   * reads English — it is the absence of a statement, and it is common: the
-   * field is optional on Telegram's `WebAppUser`, `initDataUnsafe` is `{}` in a
-   * plain browser tab, and some launch contexts carry no `user` at all. This
-   * shop's storefront, purchase email, support bot and channel are Russian, so
-   * the absence of information resolves to Russian. English is chosen only when
-   * Telegram positively states a language that is not Russian.
+   * It was Russian: an absent `language_code` is common — the field is optional on
+   * Telegram's `WebAppUser`, `initDataUnsafe` is `{}` in a plain browser tab — and
+   * the shop was Russian-only. With seven languages and an international market
+   * the owner chose English for «not stated»; a Russian `language_code` still
+   * gives Russian, and a manual choice in Settings still wins over both. The
+   * LANGUAGE is independent of the MARKET: nothing here changes prices, currency
+   * or payment (the market switch does, and only the customer moves it).
    */
-  const DEFAULT_LANG = 'ru';
+  const DEFAULT_LANG = 'en';
 
   /**
    * The manual choice, in `localStorage` rather than `sessionStorage`.
@@ -177,6 +178,12 @@
   const DATE_FORMATS = Object.freeze({
     ru: (day, month, year) => `${String(day).padStart(2, '0')}.${String(month + 1).padStart(2, '0')}.${year}`,
     en: (day, month, year) => `${day} ${EN_MONTHS[month]} ${year}`,
+    // Numeric, as the Russian one: no month names to translate or to get wrong.
+    es: (day, month, year) => `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year}`,
+    de: (day, month, year) => `${String(day).padStart(2, '0')}.${String(month + 1).padStart(2, '0')}.${year}`,
+    fr: (day, month, year) => `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year}`,
+    'zh-Hans': (day, month, year) => `${year}年${month + 1}月${day}日`,
+    ko: (day, month, year) => `${year}. ${month + 1}. ${day}.`,
   });
 
   /** Exactly an enabled language, or null. No trimming, no case folding, no prefix. */
@@ -292,7 +299,7 @@
       return known(plannedFromTag(code), enabled) || 'en';
     }
 
-    /** Manual choice, then Telegram's statement, then Russian. */
+    /** Manual choice, then Telegram's statement, then English. */
     function detect() {
       return stored() || fromTelegram() || DEFAULT_LANG;
     }

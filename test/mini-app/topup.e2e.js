@@ -32,7 +32,7 @@ function mock(cfg){
   window.__quotes=[]; window.__checkouts=0; window.__statusCalls=0; window.__opened=[];
   if(cfg.pendingTopup){ try{ sessionStorage.setItem('mesim.pending_topup',cfg.pendingTopup); }catch(e){} }
   window.Telegram={WebApp:{initData:'user=%7B%22id%22%3A1%7D&auth_date=1&hash=x',
-    initDataUnsafe:{},ready(){},expand(){},close(){},colorScheme:'light',themeParams:{},
+    initDataUnsafe:{user:{language_code:cfg.lang||'ru'}},ready(){},expand(){},close(){},colorScheme:'light',themeParams:{},
     setBackgroundColor(){},setHeaderColor(){},onEvent(){},
     BackButton:{show(){},hide(){},onClick(){},offClick(){}},
     HapticFeedback:{impactOccurred(){},notificationOccurred(){}},

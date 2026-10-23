@@ -277,6 +277,20 @@
 
   const cache = C.createCache(storage);
 
+  /*
+   * The MARKET (MINIAPP-I18N-LEGAL-1, owner 2026-10-23): «Россия · ₽» or «International · $», chosen by the customer
+   * with the switch on the home screen and by nothing else — never by the Telegram language. It is kept on the
+   * device (localStorage: it must outlive the session), defaults to the Russian market for everyone, and decides only
+   * what the screens show. The Russian market is the app exactly as before; the international one shows the GLOBAL
+   * catalogue in US dollars, the English legal documents, and no payment (no Merchant of Record yet).
+   */
+  const markets = C.createMarketStore((() => {
+    try { const ls = window.localStorage; ls.getItem('mesim.market'); return ls; } catch { return C.memoryStorage(); }
+  })());
+  const isGlobal = () => state.market === 'global';
+  /** A plan price on the catalogue and tariff screens, in the market's currency (the server's amount, never converted). */
+  const priceText = (amount) => (isGlobal() ? C.usd(amount, I.lang()) : C.money(amount));
+
   // Exposed for the browser suite only: it needs to assert that what the
   // selector SHOWS and what the intent WILL SEND are the same thing, and a
   // discrepancy between those two is exactly the bug this guards.
@@ -284,6 +298,7 @@
 
   let api = null;
   const state = {
+    market: markets.get(),
     // 'loading' until boot says otherwise: the markup ships with that screen
     // active so the first paint is never blank.
     screen: 'loading',
@@ -364,7 +379,7 @@
    * Navigation
    * ------------------------------------------------------------------ */
 
-  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'esims', 'esim', 'install', 'claim', 'help', 'settings', 'error', 'loading', 'order', 'topup'];
+  const SCREENS = ['home', 'country', 'tariff', 'checkout', 'gcheckout', 'esims', 'esim', 'install', 'claim', 'help', 'settings', 'error', 'loading', 'order', 'topup'];
 
   // Which bottom tab is lit for a given screen. A tab bar that never highlights
   // is decoration; one that highlights the wrong thing is worse. Screens
@@ -380,6 +395,7 @@
     country: 'catalogue',
     tariff: 'catalogue',
     checkout: 'catalogue',
+    gcheckout: 'catalogue',
     order: 'catalogue',
     esims: 'nav-esims',
     esim: 'nav-esims',
@@ -445,7 +461,9 @@
        the hardest bounce there is, and until now indistinguishable from
        somebody who simply walked back to the catalogue. */
     if (state.screen === 'tariff' && name !== 'tariff') {
-      if (name !== 'checkout') trackTariffOnce('tariff_exit');
+      // Going on to the international checkout is not an exit either (it sends no checkout_open: that row is the
+      // Russian payment funnel's).
+      if (name !== 'checkout' && name !== 'gcheckout') trackTariffOnce('tariff_exit');
       tariffVisit = null;
     }
 
@@ -629,7 +647,35 @@
    * §9 S1 is explicit that stale data may never be presented as fresh, so the
    * snapshot always carries its notice until the live answer overwrites it.
    */
+  /**
+   * The international market's catalogue: the GLOBAL list in US dollars, from Render only — no snapshot, no rouble
+   * cache, no gateway (C.createApi().globalCatalogue). No answer means a plain «couldn't load» with a retry, never
+   * roubles in its place.
+   */
+  async function renderGlobalCatalogue() {
+    const list = $('#home-countries');
+    const notice = $('#home-notice');
+    clear(list);
+    clear(notice);
+    list.appendChild(skeletonCards(5));
+    const asked = state.market;
+    const r = await api.globalCatalogue();
+    if (state.market !== asked) return;   // the customer switched back while it loaded
+    if (r && r.ok) {
+      state.catalogueRows = r.packages;
+      regroupCatalogue();
+      paintCountryList();
+      return;
+    }
+    clear(list);
+    notice.appendChild(el('div', { class: 'card stack' }, [
+      el('p', { class: 'small', text: t('global.loadFailed') }),
+      el('button', { class: 'btn btn--ghost', text: t('common.retry'), onclick: () => renderCatalogue() }),
+    ]));
+  }
+
   async function renderCatalogue() {
+    if (isGlobal()) return renderGlobalCatalogue();
     const list = $('#home-countries');
     let painted = false;
 
@@ -809,6 +855,29 @@
     }
   }
 
+  /** Keep the switch, the hint and the page in step with state.market. */
+  function paintMarket() {
+    for (const opt of document.querySelectorAll('#market-switch [data-market]')) {
+      opt.setAttribute('aria-checked', opt.getAttribute('data-market') === state.market ? 'true' : 'false');
+    }
+    const hint = $('#market-hint');
+    if (hint) hint.hidden = !isGlobal();
+    document.documentElement.setAttribute('data-market', state.market);
+  }
+
+  /** Switch the market: remembered on this device, the catalogue reloaded in its currency, back to the shop window. */
+  function setMarket(m) {
+    if (C.MARKETS.indexOf(m) < 0 || m === state.market) return;
+    haptic('light');
+    state.market = markets.set(m);
+    state.catalogueRows = [];
+    state.countries = [];
+    state.regions = [];
+    paintMarket();
+    if (state.screen !== 'home') show('home');
+    void renderCatalogue();
+  }
+
   async function renderHome() {
     await renderCatalogue();
     await renderMine();
@@ -843,7 +912,7 @@
         ? el('span', { class: 'tile__from' })
         : el('span', { class: 'tile__from tabular' }, [
             el('span', { class: 'tile__prefix', text: `${t('tile.fromWord')} ` }),
-            el('span', { text: C.money(g.from) }),
+            el('span', { text: priceText(g.from) }),
           ]),
     ]);
   }
@@ -874,7 +943,7 @@
             : tariffCount(g.items.length),
         }),
       ]),
-      el('span', { class: 'card__price tabular', text: g.from === null ? '' : t('tile.from', { price: C.money(g.from) }) }),
+      el('span', { class: 'card__price tabular', text: g.from === null ? '' : t('tile.from', { price: priceText(g.from) }) }),
       el('span', { class: 'card__chevron', 'aria-hidden': 'true', text: '›' }),
     ]);
   }
@@ -1026,7 +1095,7 @@
       ]),
       el('div', {
         class: 'card__price tabular',
-        text: from ? t('tile.from', { price: C.money(from.price) }) : '—',
+        text: from ? t('tile.from', { price: priceText(from.price) }) : '—',
       }),
       el('div', { class: 'tariff__pills tariff__pills--own' }, [
         meta ? el('span', { class: 'tariff__pill', text: meta }) : null,
@@ -1083,7 +1152,7 @@
         isBest ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
         tariffPills(p),
       ]),
-      el('div', { class: 'card__price tabular', text: C.money(p.price) }),
+      el('div', { class: 'card__price tabular', text: priceText(p.price) }),
       // What makes THIS card different from the one beside it. Drawn only when
       // something actually varies among tariffs of the same coverage, volume
       // and validity — so most countries show nothing here, and the two Japan
@@ -1276,6 +1345,11 @@
     const options = Array.isArray(out.topup_options) ? out.topup_options : [];
     if (!options.length) return;
 
+    // The options are priced in roubles (the Russian market); the international market has no US-dollar top-up yet.
+    if (isGlobal()) {
+      box.appendChild(el('p', { class: 'small muted', text: t('global.topupUnavailable') }));
+      return;
+    }
     box.appendChild(el('button', {
       class: 'btn btn--ghost',
       text: t('topup.action'),
@@ -1292,6 +1366,7 @@
    * gateway regardless.
    */
   function openTopupOptions(esimId, discovery) {
+    if (isGlobal()) return;   // rouble options are never drawn on the international market
     const box = $('#esim-topup');
     clear(box);
 
@@ -2014,6 +2089,11 @@
   const LANGUAGE_LABELS = {
     ru: () => t('settings.language.ru'),
     en: () => t('settings.language.en'),
+    es: () => t('settings.language.es'),
+    de: () => t('settings.language.de'),
+    fr: () => t('settings.language.fr'),
+    'zh-Hans': () => t('settings.language.zh-Hans'),
+    ko: () => t('settings.language.ko'),
   };
 
   function languagePicker() {
@@ -2189,7 +2269,14 @@
     // conversation already knowing which purchase it is about.
     box.appendChild(supportButton(state.lastOrder || null));
 
-    box.appendChild(el('div', { class: 'stack gap-top-lg' }, [
+    // The documents of the market on screen: the Russian ones for the Russian market (unchanged), the international
+    // website's published English Terms, Refund Policy and Privacy Policy for the international one — links only,
+    // never a copy of their text.
+    box.appendChild(el('div', { class: 'stack gap-top-lg' }, isGlobal() ? [
+      el('button', { class: 'btn btn--quiet', text: t('legal.intl.terms'), onclick: () => openExternal(C.INTL_LEGAL_URLS.terms) }),
+      el('button', { class: 'btn btn--quiet', text: t('legal.intl.refund'), onclick: () => openExternal(C.INTL_LEGAL_URLS.refund) }),
+      el('button', { class: 'btn btn--quiet', text: t('legal.intl.privacy'), onclick: () => openExternal(C.INTL_LEGAL_URLS.privacy) }),
+    ] : [
       el('button', {
         class: 'btn btn--quiet', text: t('help.offer'),
         onclick: () => openExternal('https://magicesim.store/terms.html'),
@@ -2255,8 +2342,8 @@
           class: 'card__price tabular',
           id: 'tariff-price',
           text: isDaily
-            ? (state.dailyTerm ? C.money(state.dailyTerm.price) : '—')
-            : C.money(p.price),
+            ? (state.dailyTerm ? priceText(state.dailyTerm.price) : '—')
+            : priceText(p.price),
         }),
       ]),
       isDaily
@@ -2323,6 +2410,18 @@
       return;
     }
 
+    if (isGlobal()) {
+      // International market: the plan goes on to its own checkout (the two consents of the international website),
+      // where the payment button stays disabled — no Merchant of Record yet. Never the Russian checkout.
+      box.appendChild(el('button', {
+        class: 'btn btn--wide',
+        id: 'tariff-buy',
+        text: t('gco.continue'),
+        onclick: () => openGlobalCheckout(p, group, isDaily ? state.dailyTerm : null),
+      }));
+      box.appendChild(el('p', { class: 'small muted', text: t('market.globalHint') }));
+      return;
+    }
     box.appendChild(el('button', {
       class: 'btn btn--wide',
       id: 'tariff-buy',
@@ -2365,13 +2464,13 @@
           child.setAttribute('aria-checked', on ? 'true' : 'false');
         }
         const price = $('#tariff-price');
-        if (price) price.textContent = C.money(term.price);
+        if (price) price.textContent = priceText(term.price);
         const buy = $('#tariff-buy');
-        if (buy) buy.textContent = t('tariff.buyFor', { price: C.money(term.price) });
+        if (buy && !isGlobal()) buy.textContent = t('tariff.buyFor', { price: C.money(term.price) });
       },
     }, [
       el('span', { class: 'muted', text: `${term.days} ${D.pluralDays(term.days, dailyLang())}` }),
-      el('span', { class: 'fact__value tabular', text: C.money(term.price) }),
+      el('span', { class: 'fact__value tabular', text: priceText(term.price) }),
     ]));
 
     return el('div', { class: 'card stack' }, [
@@ -2445,7 +2544,109 @@
    * Screen: checkout
    * ------------------------------------------------------------------ */
 
+  /* ------------------------------------------------------------------ *
+   * Screen: international checkout (MINIAPP-I18N-LEGAL-1 stage C)
+   *
+   * The website's LEGAL-3 checkout, mirrored: the plan in US dollars, two consent boxes in the website's approved
+   * words — the Terms of Service + Refund Policy, and the express request for immediate supply — never ticked in
+   * advance and cleared every time the screen opens, and a payment button that only `C.globalPayAllowed` could enable.
+   * It never does: payments are off (C.GLOBAL_PAYMENTS_OPEN), the button is disabled and has no handler, and nothing
+   * on this screen talks to the network. No email, no quote, no order.
+   * ------------------------------------------------------------------ */
+
+  function openGlobalCheckout(pkg, group, dailyTerm) {
+    if (!isGlobal()) return;
+    const days = dailyTerm ? Number(dailyTerm.days) : Number(pkg.validity_days);
+    state.gco = {
+      pkg,
+      group,
+      days,
+      price: Number(dailyTerm ? dailyTerm.price : pkg.price),
+      where: (group && group.country) || C.countryLabel(pkg.country_code, I.lang()),
+    };
+    $('#gco-terms').checked = false;
+    $('#gco-delivery').checked = false;
+    paintGlobalCheckout();
+    show('gcheckout');
+  }
+
+  // A sentence of the website with its {placeholders} replaced by links to the English documents. A link opens the
+  // document outside Telegram and never ticks the box it sits in.
+  function linkedSentence(sentence, links) {
+    return sentence.split(/(\{[a-z]+\})/).map((part) => {
+      const m = /^\{([a-z]+)\}$/.exec(part);
+      if (!m || !links[m[1]]) return document.createTextNode(part);
+      const [label, url] = links[m[1]];
+
+      return el('a', {
+        href: url,
+        target: '_blank',
+        rel: 'noopener',
+        text: label,
+        onclick: (e) => { e.preventDefault(); e.stopPropagation(); openExternal(url); },
+      });
+    });
+  }
+
+  function globalConsentState() {
+    return {
+      paymentsOpen: C.GLOBAL_PAYMENTS_OPEN,
+      terms: $('#gco-terms').checked === true,
+      delivery: $('#gco-delivery').checked === true,
+      termsVersion: C.INTL_LEGAL_VERSIONS.terms,
+      refundVersion: C.INTL_LEGAL_VERSIONS.refund,
+    };
+  }
+
+  // The boxes report their state on the fieldset (none / terms / delivery / both) and data-ready says whether the one
+  // gate would let a payment through. The button follows the gate — with payments off it stays disabled.
+  function syncGlobalConsents() {
+    const c = globalConsentState();
+    const box = $('#gco-consents');
+    box.setAttribute('data-state', c.terms && c.delivery ? 'both' : (c.terms ? 'terms' : (c.delivery ? 'delivery' : 'none')));
+    const ready = C.globalPayAllowed(c);
+    box.setAttribute('data-ready', String(ready));
+    const pay = $('#gco-pay');
+    pay.disabled = !ready;
+    pay.setAttribute('aria-disabled', String(!ready));
+  }
+
+  function paintGlobalCheckout() {
+    const g = state.gco;
+    if (!g) return;
+    const D = C.dailyCopy();
+    const isDaily = !!(D && D.isDaily(g.pkg));
+    $('#gco-summary').replaceChildren(el('div', { class: 'card stack' }, [
+      el('div', { class: 'row' }, [
+        flagNode((g.group && g.group.flag) || C.flagFor(g.pkg.country_code, g.pkg)),
+        el('span', { class: 'card__body' }, [
+          el('span', { class: 'card__title', text: g.where }),
+          el('span', {
+            class: 'card__meta',
+            text: (isDaily
+              ? t('daily.perDay', { allowance: D.formatAllowance(g.pkg.daily_gb, dailyLang()) })
+              : (g.pkg.unlimited ? t('plan.unlimited') : t('plan.gb', { n: g.pkg.data_gb })))
+              + ` · ${g.days} ${dayWord(g.days)}`,
+          }),
+        ]),
+      ]),
+      el('div', { class: 'row row--between checkout-total' }, [
+        el('span', { class: 'muted', text: t('checkout.total') }),
+        el('strong', { class: 'tabular', id: 'gco-total', text: priceText(g.price) }),
+      ]),
+    ]));
+    const L = C.INTL_LEGAL_URLS;
+    $('#gco-terms-text').replaceChildren(...linkedSentence(t('gco.terms'), {
+      terms: [t('gco.termsLink'), L.terms],
+      refund: [t('gco.refundLink'), L.refund],
+    }));
+    $('#gco-privacy').replaceChildren(...linkedSentence(t('gco.privacy'), { privacy: [t('gco.privacyLink'), L.privacy] }));
+    syncGlobalConsents();
+  }
+
   function openCheckout(pkg, group, dailyTerm) {
+    // The Russian checkout (roubles, Platega) is for the Russian market only; an international plan never reaches it.
+    if (isGlobal()) return;
     // `pkg.country` does not exist in the catalogue DTO, so this line used to
     // render " · 3 ГБ" with an empty space where the destination should be. The
     // name comes from the group the customer navigated through, or from the
@@ -4907,12 +5108,16 @@
     if (active('#screen-settings') && lastMe) paintSettings(lastMe);
     // Help is built from constants and a session is not needed to draw it.
     if (active('#screen-help')) renderHelp();
+    // the boxes keep their state; only the words change
+    if (active('#screen-gcheckout')) paintGlobalCheckout();
   }
 
   /** Every listener the app owns, attached once and never dependent on a session. */
   function bindChrome() {
     // A language change repaints; it never re-fetches and never renavigates.
     I.onChange(applyLanguage);
+    // The international checkout's two consent boxes (the pay button has no handler: payments are off).
+    for (const id of ['#gco-terms', '#gco-delivery']) $(id).addEventListener('change', syncGlobalConsents);
 
     // `input`, not `change` or Enter: results must follow the keystroke. No
     // debounce — the whole catalogue is already in memory, the match is a string
@@ -4929,6 +5134,11 @@
       state.query = e.target.value;
       paintCountryList();
     });
+    // The market switch: only the customer moves it.
+    for (const opt of document.querySelectorAll('#market-switch [data-market]')) {
+      opt.addEventListener('click', () => setMarket(opt.getAttribute('data-market')));
+    }
+    paintMarket();
     // The hero gear. Same destination as the button at the foot of Помощь —
     // one screen, one renderer, two doors. The switches behind it govern real
     // sends, so the door being findable is part of the feature working.

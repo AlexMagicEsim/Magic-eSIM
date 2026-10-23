@@ -434,12 +434,12 @@ function pluralIndex(lang, n) {
  * en [one, other]. A language without forms uses the next in its chain.
  */
 const WORD_FORMS = Object.freeze({
-  day: Object.freeze({ ru: ['день', 'дня', 'дней'], en: ['day', 'days'] }),
-  minute: Object.freeze({ ru: ['минуту', 'минуты', 'минут'], en: ['minute', 'minutes'] }),
-  hour: Object.freeze({ ru: ['час', 'часа', 'часов'], en: ['hour', 'hours'] }),
-  tariff: Object.freeze({ ru: ['тариф', 'тарифа', 'тарифов'], en: ['plan', 'plans'] }),
-  country: Object.freeze({ ru: ['страна', 'страны', 'стран'], en: ['country', 'countries'] }),
-  purchase: Object.freeze({ ru: ['покупку', 'покупки', 'покупок'], en: ['purchase', 'purchases'] }),
+  day: Object.freeze({ ru: ['день', 'дня', 'дней'], en: ['day', 'days'], es: ["día", "días"], de: ["Tag", "Tage"], fr: ["jour", "jours"], "zh-Hans": ["天"], ko: ["일"] }),
+  minute: Object.freeze({ ru: ['минуту', 'минуты', 'минут'], en: ['minute', 'minutes'], es: ["minuto", "minutos"], de: ["Minute", "Minuten"], fr: ["minute", "minutes"], "zh-Hans": ["分钟"], ko: ["분"] }),
+  hour: Object.freeze({ ru: ['час', 'часа', 'часов'], en: ['hour', 'hours'], es: ["hora", "horas"], de: ["Stunde", "Stunden"], fr: ["heure", "heures"], "zh-Hans": ["小时"], ko: ["시간"] }),
+  tariff: Object.freeze({ ru: ['тариф', 'тарифа', 'тарифов'], en: ['plan', 'plans'], es: ["plan", "planes"], de: ["Tarif", "Tarife"], fr: ["forfait", "forfaits"], "zh-Hans": ["个套餐"], ko: ["개 요금제"] }),
+  country: Object.freeze({ ru: ['страна', 'страны', 'стран'], en: ['country', 'countries'], es: ["país", "países"], de: ["Land", "Länder"], fr: ["pays", "pays"], "zh-Hans": ["个国家/地区"], ko: ["개국"] }),
+  purchase: Object.freeze({ ru: ['покупку', 'покупки', 'покупок'], en: ['purchase', 'purchases'], es: ["compra", "compras"], de: ["Kauf", "Käufe"], fr: ["achat", "achats"], "zh-Hans": ["笔购买"], ko: ["건"] }),
 });
 
 /** The word for `n` of a WORD_FORMS entry, in the reader's language. */
@@ -450,9 +450,14 @@ function countWord(lang, n, forms) {
   return list[Math.min(pluralIndex(l, n), list.length - 1)];
 }
 
+/** Between a number and its word: a space, except where a language writes them together. */
+const NUMBER_WORD_JOINER = Object.freeze({ ko: '' });
+
 /** «3 тарифа» / "3 plans" — number and word. */
 function countPhrase(lang, n, forms) {
-  return `${n} ${countWord(lang, n, forms)}`;
+  // Korean writes the number against its counter word («5분», «2개국»), as the international website does.
+  const joiner = Object.prototype.hasOwnProperty.call(NUMBER_WORD_JOINER, tableLang(forms, lang)) ? NUMBER_WORD_JOINER[tableLang(forms, lang)] : ' ';
+  return `${n}${joiner}${countWord(lang, n, forms)}`;
 }
 
 /** The fixed words of the tariff sheet. */
@@ -469,17 +474,57 @@ const TARIFF_WORDS = Object.freeze({
     sms: 'the operator supports receiving SMS. Delivery of bank codes is not guaranteed',
     afterLimit: (speed) => `After the limit the speed drops to ${speed}.`,
   }),
+  es: Object.freeze({ unlimited: "ilimitado", gb: "GB", supported: "compatible", notSupported: "no compatible", calls: "compatible", dataOnly: "sin llamadas ni SMS", region: "Región", sms: "el operador admite la recepción de SMS. No se garantiza la entrega de códigos bancarios", afterLimit: (speed) => `Después del límite, la velocidad baja a ${speed}.` }),
+  de: Object.freeze({ unlimited: "unbegrenzt", gb: "GB", supported: "unterstützt", notSupported: "nicht unterstützt", calls: "unterstützt", dataOnly: "keine Anrufe oder SMS", region: "Region", sms: "Der Netzbetreiber unterstützt den Empfang von SMS. Die Zustellung von Bankcodes ist nicht garantiert", afterLimit: (speed) => `Nach Erreichen des Limits sinkt die Geschwindigkeit auf ${speed}.` }),
+  fr: Object.freeze({ unlimited: "illimité", gb: "Go", supported: "pris en charge", notSupported: "non pris en charge", calls: "pris en charge", dataOnly: "ni appels ni SMS", region: "Région", sms: "l’opérateur prend en charge la réception de SMS. La réception des codes bancaires n’est pas garantie", afterLimit: (speed) => `Au-delà de la limite, le débit passe à ${speed}.` }),
+  "zh-Hans": Object.freeze({ unlimited: "不限流量", gb: "GB", supported: "支持", notSupported: "不支持", calls: "支持", dataOnly: "不支持通话和 SMS", region: "区域", sms: "运营商支持接收 SMS。不一定能收到银行验证码", afterLimit: (speed) => `达到限额后，速度降至 ${speed}。` }),
+  ko: Object.freeze({ unlimited: "무제한", gb: "GB", supported: "지원", notSupported: "지원 안 함", calls: "지원", dataOnly: "통화 및 SMS 불가", region: "지역", sms: "통신사가 SMS 수신을 지원합니다. 은행 인증 코드 수신은 보장되지 않습니다", afterLimit: (speed) => `한도 초과 후 속도: ${speed}.` }),
 });
 
+/* es — MINIAPP-I18N-LEGAL-1 (same keys as the English tables, by test) */
+const TARIFF_TEXT_ES = {"unrestricted": "Sin límites de velocidad.", "limited": "Se aplican límites de velocidad.", "3gb/day at 20mbps. 1mbps afterwards.": "3 GB al día a hasta 20 Mbps; después, hasta 1 Mbps.", "3gb/day high speed. 1mbps afterwards.": "3 GB al día a alta velocidad; después, hasta 1 Mbps.", "total 30 gb at full speed, 2mbps speed cap afterwards": "30 GB a máxima velocidad; después, hasta 2 Mbps.", "total 60 gb at full speed, 2mbps speed cap afterwards": "60 GB a máxima velocidad; después, hasta 2 Mbps.", "total 90 gb at full speed, 2mbps speed cap afterwards": "90 GB a máxima velocidad; después, hasta 2 Mbps.", "full data speeds - no daily limits, no throttling": "Máxima velocidad, sin límites diarios y sin reducción de velocidad.", "3gb/day at 20mbps high speed. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "3 GB al día a hasta 20 Mbps; después, hasta 1 Mbps. El límite se reinicia cada 24 horas; se aplica una política de uso razonable.", "3gb/day without a speed limit. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "3 GB al día sin límite de velocidad; después, hasta 1 Mbps. El límite se reinicia cada 24 horas; se aplica una política de uso razonable.", "in case of exceeding daily 1 gb high-speed allowance, speed will be limited to 512 kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.": "A partir de 1 GB al día, la velocidad baja a 512 Kbps durante el resto del día. Esto puede afectar al video y a otras apps que usan muchos datos.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb": "Sin límites diarios. A partir de 30 GB, la velocidad baja a 2 Mbps.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb": "Sin límites diarios. A partir de 60 GB, la velocidad baja a 2 Mbps.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb": "Sin límites diarios. A partir de 90 GB, la velocidad baja a 2 Mbps.", "no speed restrictions": "Sin límites de velocidad.", "no speed restriction": "Sin límites de velocidad.", "unlimited at reduced speed": "Después del límite, la velocidad baja.", "unlimited data at reduced speed": "Después del límite, la velocidad baja.", "no throttling": "La velocidad no se reduce.", "throttled after limit": "Después del límite, la velocidad baja.", "fair usage policy applies": "Se aplica una política de uso razonable.", "fair usage policy": "Se aplica una política de uso razonable.", "unlimited": "Datos ilimitados.", "unlimited data": "Datos ilimitados.", "high speed": "Alta velocidad.", "high-speed data": "Datos de alta velocidad.", "reduced speed": "Velocidad reducida.", "data only": "Solo datos móviles, sin llamadas ni SMS.", "data-only": "Solo datos móviles, sin llamadas ni SMS.", "daily limit": "Se aplica un límite diario de datos.", "no daily limits": "Sin límites diarios de datos.", "no daily limit": "Sin límites diarios de datos.", "n/a": "", "unknown": "", "-": ""};
+const TARIFF_ACTIVATION_LABELS_ES = {"first_data_usage": "al usar datos por primera vez", "first_network_connection": "al conectarse a una red por primera vez", "network_connection": "al conectarse a una red por primera vez", "upon_installation": "al instalar la eSIM", "installation": "al instalar la eSIM", "upon_purchase": "al comprar", "purchase": "al comprar"};
+const TARIFF_FACT_LABELS_ES = {"Объём трафика": "Datos", "Срок действия": "Validez", "Начало срока": "Inicio", "Сеть": "Red", "Операторы": "Operadores", "Выход в интернет": "Salida a internet en", "Раздача интернета": "Compartir internet", "Скорость": "Velocidad", "После лимита": "Después del límite", "Звонки": "Llamadas", "SMS": "SMS", "Только интернет": "Solo datos"};
+const REGION_NAMES_ES = Object.freeze({"EU": "Europa", "EUCONNECT": "Europa", "EUROPE AND USA": "Europa y Estados Unidos", "AFRICA": "África", "CARIBBEAN": "Caribe", "BEST WORLD": "Best World", "HALF GLOBAL": "Half Global", "GLOBAL": "Global", "LATAM": "Latinoamérica", "APAC": "Asia-Pacífico", "AUSTRALIA AND NZ": "Australia y Nueva Zelanda", "CENTRAL ASIA": "Asia Central", "CHINA KOREA JAPAN": "China, Corea y Japón", "GREATER CHINA AND TAIWAN PREMIUM": "Gran China y Taiwán", "GREECE CYPRUS TURKEY": "Grecia, Chipre y Turquía", "JERSEY GUERNSEY AND IOM": "Jersey, Guernsey y la Isla de Man", "VIETNAM PLUS": "Vietnam y el Sudeste Asiático", "SINGAPORE MALAYSIA AND THAILAND": "Singapur, Malasia y Tailandia", "SPAIN AND PORTUGAL": "España y Portugal", "ITALY": "Italia"});
+
+/* de — MINIAPP-I18N-LEGAL-1 (same keys as the English tables, by test) */
+const TARIFF_TEXT_DE = {"unrestricted": "Keine Geschwindigkeitsbegrenzung.", "limited": "Es gilt eine Geschwindigkeitsbegrenzung.", "3gb/day at 20mbps. 1mbps afterwards.": "3 GB pro Tag mit bis zu 20 Mbit/s, danach bis zu 1 Mbit/s.", "3gb/day high speed. 1mbps afterwards.": "3 GB pro Tag mit hoher Geschwindigkeit, danach bis zu 1 Mbit/s.", "total 30 gb at full speed, 2mbps speed cap afterwards": "30 GB mit voller Geschwindigkeit, danach bis zu 2 Mbit/s.", "total 60 gb at full speed, 2mbps speed cap afterwards": "60 GB mit voller Geschwindigkeit, danach bis zu 2 Mbit/s.", "total 90 gb at full speed, 2mbps speed cap afterwards": "90 GB mit voller Geschwindigkeit, danach bis zu 2 Mbit/s.", "full data speeds - no daily limits, no throttling": "Volle Geschwindigkeit, ohne Tageslimits und ohne Drosselung.", "3gb/day at 20mbps high speed. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "3 GB pro Tag mit bis zu 20 Mbit/s, danach bis zu 1 Mbit/s. Das Limit wird alle 24 Stunden zurückgesetzt; es gilt eine Fair-Use-Richtlinie.", "3gb/day without a speed limit. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "3 GB pro Tag ohne Geschwindigkeitsbegrenzung, danach bis zu 1 Mbit/s. Das Limit wird alle 24 Stunden zurückgesetzt; es gilt eine Fair-Use-Richtlinie.", "in case of exceeding daily 1 gb high-speed allowance, speed will be limited to 512 kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.": "Ab 1 GB pro Tag sinkt die Geschwindigkeit für den Rest des Tages auf 512 kbit/s. Das kann Videos und andere datenintensive Apps beeinträchtigen.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb": "Keine Tageslimits. Ab 30 GB sinkt die Geschwindigkeit auf 2 Mbit/s.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb": "Keine Tageslimits. Ab 60 GB sinkt die Geschwindigkeit auf 2 Mbit/s.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb": "Keine Tageslimits. Ab 90 GB sinkt die Geschwindigkeit auf 2 Mbit/s.", "no speed restrictions": "Keine Geschwindigkeitsbegrenzung.", "no speed restriction": "Keine Geschwindigkeitsbegrenzung.", "unlimited at reduced speed": "Nach Erreichen des Limits sinkt die Geschwindigkeit.", "unlimited data at reduced speed": "Nach Erreichen des Limits sinkt die Geschwindigkeit.", "no throttling": "Die Geschwindigkeit wird nicht reduziert.", "throttled after limit": "Nach Erreichen des Limits sinkt die Geschwindigkeit.", "fair usage policy applies": "Es gilt eine Fair-Use-Richtlinie.", "fair usage policy": "Es gilt eine Fair-Use-Richtlinie.", "unlimited": "Unbegrenztes Datenvolumen.", "unlimited data": "Unbegrenztes Datenvolumen.", "high speed": "Hohe Geschwindigkeit.", "high-speed data": "Mobile Daten mit hoher Geschwindigkeit.", "reduced speed": "Reduzierte Geschwindigkeit.", "data only": "Nur mobile Daten – keine Anrufe oder SMS.", "data-only": "Nur mobile Daten – keine Anrufe oder SMS.", "daily limit": "Es gilt ein tägliches Datenlimit.", "no daily limits": "Keine täglichen Datenlimits.", "no daily limit": "Keine täglichen Datenlimits.", "n/a": "", "unknown": "", "-": ""};
+const TARIFF_ACTIVATION_LABELS_DE = {"first_data_usage": "bei der ersten Datennutzung", "first_network_connection": "bei der ersten Verbindung mit einem Netz", "network_connection": "bei der ersten Verbindung mit einem Netz", "upon_installation": "sobald die eSIM installiert ist", "installation": "sobald die eSIM installiert ist", "upon_purchase": "beim Kauf", "purchase": "beim Kauf"};
+const TARIFF_FACT_LABELS_DE = {"Объём трафика": "Datenvolumen", "Срок действия": "Gültigkeit", "Начало срока": "Beginn", "Сеть": "Netz", "Операторы": "Netzbetreiber", "Выход в интернет": "Internetzugang über", "Раздача интернета": "Hotspot", "Скорость": "Geschwindigkeit", "После лимита": "Nach dem Limit", "Звонки": "Anrufe", "SMS": "SMS", "Только интернет": "Nur Daten"};
+const REGION_NAMES_DE = Object.freeze({"EU": "Europa", "EUCONNECT": "Europa", "EUROPE AND USA": "Europa und die USA", "AFRICA": "Afrika", "CARIBBEAN": "Karibik", "BEST WORLD": "Best World", "HALF GLOBAL": "Half Global", "GLOBAL": "Weltweit", "LATAM": "Lateinamerika", "APAC": "Asien-Pazifik", "AUSTRALIA AND NZ": "Australien und Neuseeland", "CENTRAL ASIA": "Zentralasien", "CHINA KOREA JAPAN": "China, Korea und Japan", "GREATER CHINA AND TAIWAN PREMIUM": "Großchina und Taiwan", "GREECE CYPRUS TURKEY": "Griechenland, Zypern und die Türkei", "JERSEY GUERNSEY AND IOM": "Jersey, Guernsey und die Isle of Man", "VIETNAM PLUS": "Vietnam und Südostasien", "SINGAPORE MALAYSIA AND THAILAND": "Singapur, Malaysia und Thailand", "SPAIN AND PORTUGAL": "Spanien und Portugal", "ITALY": "Italien"});
+
+/* fr — MINIAPP-I18N-LEGAL-1 (same keys as the English tables, by test) */
+const TARIFF_TEXT_FR = {"unrestricted": "Aucune limite de débit.", "limited": "Des limites de débit s’appliquent.", "3gb/day at 20mbps. 1mbps afterwards.": "3 Go par jour jusqu’à 20 Mbit/s, puis jusqu’à 1 Mbit/s.", "3gb/day high speed. 1mbps afterwards.": "3 Go par jour en haut débit, puis jusqu’à 1 Mbit/s.", "total 30 gb at full speed, 2mbps speed cap afterwards": "30 Go à pleine vitesse, puis jusqu’à 2 Mbit/s.", "total 60 gb at full speed, 2mbps speed cap afterwards": "60 Go à pleine vitesse, puis jusqu’à 2 Mbit/s.", "total 90 gb at full speed, 2mbps speed cap afterwards": "90 Go à pleine vitesse, puis jusqu’à 2 Mbit/s.", "full data speeds - no daily limits, no throttling": "Pleine vitesse, sans limite quotidienne ni réduction du débit.", "3gb/day at 20mbps high speed. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "3 Go par jour jusqu’à 20 Mbit/s, puis jusqu’à 1 Mbit/s. La limite est réinitialisée toutes les 24 heures ; une politique d’utilisation raisonnable s’applique.", "3gb/day without a speed limit. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "3 Go par jour sans limite de débit, puis jusqu’à 1 Mbit/s. La limite est réinitialisée toutes les 24 heures ; une politique d’utilisation raisonnable s’applique.", "in case of exceeding daily 1 gb high-speed allowance, speed will be limited to 512 kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.": "Au-delà de 1 Go par jour, le débit passe à 512 kbit/s pour le reste de la journée. Cela peut affecter la vidéo et les autres applications gourmandes en données.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb": "Aucune limite quotidienne. Au-delà de 30 Go, le débit passe à 2 Mbit/s.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb": "Aucune limite quotidienne. Au-delà de 60 Go, le débit passe à 2 Mbit/s.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb": "Aucune limite quotidienne. Au-delà de 90 Go, le débit passe à 2 Mbit/s.", "no speed restrictions": "Aucune limite de débit.", "no speed restriction": "Aucune limite de débit.", "unlimited at reduced speed": "Au-delà de la limite, le débit diminue.", "unlimited data at reduced speed": "Au-delà de la limite, le débit diminue.", "no throttling": "Le débit n’est pas réduit.", "throttled after limit": "Au-delà de la limite, le débit diminue.", "fair usage policy applies": "Une politique d’utilisation raisonnable s’applique.", "fair usage policy": "Une politique d’utilisation raisonnable s’applique.", "unlimited": "Données illimitées.", "unlimited data": "Données illimitées.", "high speed": "Haut débit.", "high-speed data": "Données en haut débit.", "reduced speed": "Débit réduit.", "data only": "Données mobiles uniquement – ni appels ni SMS.", "data-only": "Données mobiles uniquement – ni appels ni SMS.", "daily limit": "Une limite de données quotidienne s’applique.", "no daily limits": "Aucune limite de données quotidienne.", "no daily limit": "Aucune limite de données quotidienne.", "n/a": "", "unknown": "", "-": ""};
+const TARIFF_ACTIVATION_LABELS_FR = {"first_data_usage": "à la première utilisation des données", "first_network_connection": "à la première connexion à un réseau", "network_connection": "à la première connexion à un réseau", "upon_installation": "une fois l’eSIM installée", "installation": "une fois l’eSIM installée", "upon_purchase": "à l’achat", "purchase": "à l’achat"};
+const TARIFF_FACT_LABELS_FR = {"Объём трафика": "Données", "Срок действия": "Validité", "Начало срока": "Début", "Сеть": "Réseau", "Операторы": "Opérateurs", "Выход в интернет": "Sortie vers Internet depuis", "Раздача интернета": "Partage de connexion", "Скорость": "Débit", "После лимита": "Après la limite", "Звонки": "Appels", "SMS": "SMS", "Только интернет": "Données uniquement"};
+const REGION_NAMES_FR = Object.freeze({"EU": "Europe", "EUCONNECT": "Europe", "EUROPE AND USA": "Europe et États-Unis", "AFRICA": "Afrique", "CARIBBEAN": "Caraïbes", "BEST WORLD": "Best World", "HALF GLOBAL": "Half Global", "GLOBAL": "Global", "LATAM": "Amérique latine", "APAC": "Asie-Pacifique", "AUSTRALIA AND NZ": "Australie et Nouvelle-Zélande", "CENTRAL ASIA": "Asie centrale", "CHINA KOREA JAPAN": "Chine, Corée et Japon", "GREATER CHINA AND TAIWAN PREMIUM": "Grande Chine et Taïwan", "GREECE CYPRUS TURKEY": "Grèce, Chypre et Turquie", "JERSEY GUERNSEY AND IOM": "Jersey, Guernesey et île de Man", "VIETNAM PLUS": "Vietnam et Asie du Sud-Est", "SINGAPORE MALAYSIA AND THAILAND": "Singapour, Malaisie et Thaïlande", "SPAIN AND PORTUGAL": "Espagne et Portugal", "ITALY": "Italie"});
+
+/* zh-Hans — MINIAPP-I18N-LEGAL-1 (same keys as the English tables, by test) */
+const TARIFF_TEXT_ZH = {"unrestricted": "不限速。", "limited": "有速度限制。", "3gb/day at 20mbps. 1mbps afterwards.": "每天 3 GB，速度最高 20 Mbps，之后最高 1 Mbps。", "3gb/day high speed. 1mbps afterwards.": "每天 3 GB 高速流量，之后最高 1 Mbps。", "total 30 gb at full speed, 2mbps speed cap afterwards": "30 GB 全速流量，之后最高 2 Mbps。", "total 60 gb at full speed, 2mbps speed cap afterwards": "60 GB 全速流量，之后最高 2 Mbps。", "total 90 gb at full speed, 2mbps speed cap afterwards": "90 GB 全速流量，之后最高 2 Mbps。", "full data speeds - no daily limits, no throttling": "全速，无每日限额，不降速。", "3gb/day at 20mbps high speed. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "每天 3 GB，速度最高 20 Mbps，之后最高 1 Mbps。限额每 24 小时重置；适用公平使用政策。", "3gb/day without a speed limit. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "每天 3 GB，不限速，之后最高 1 Mbps。限额每 24 小时重置；适用公平使用政策。", "in case of exceeding daily 1 gb high-speed allowance, speed will be limited to 512 kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.": "每天超过 1 GB 后，当天剩余时间内速度降至 512 Kbps。这可能会影响视频和其他流量较大的应用。", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb": "无每日限额。超过 30 GB 后速度降至 2 Mbps。", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb": "无每日限额。超过 60 GB 后速度降至 2 Mbps。", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb": "无每日限额。超过 90 GB 后速度降至 2 Mbps。", "no speed restrictions": "不限速。", "no speed restriction": "不限速。", "unlimited at reduced speed": "达到限额后会降速。", "unlimited data at reduced speed": "达到限额后会降速。", "no throttling": "不降速。", "throttled after limit": "达到限额后会降速。", "fair usage policy applies": "适用公平使用政策。", "fair usage policy": "适用公平使用政策。", "unlimited": "不限流量。", "unlimited data": "不限流量。", "high speed": "高速。", "high-speed data": "高速流量。", "reduced speed": "降速。", "data only": "仅移动数据——不支持通话和 SMS。", "data-only": "仅移动数据——不支持通话和 SMS。", "daily limit": "有每日流量限额。", "no daily limits": "无每日流量限额。", "no daily limit": "无每日流量限额。", "n/a": "", "unknown": "", "-": ""};
+const TARIFF_ACTIVATION_LABELS_ZH = {"first_data_usage": "首次使用流量时", "first_network_connection": "首次连接网络时", "network_connection": "首次连接网络时", "upon_installation": "安装 eSIM 后", "installation": "安装 eSIM 后", "upon_purchase": "购买时", "purchase": "购买时"};
+const TARIFF_FACT_LABELS_ZH = {"Объём трафика": "流量", "Срок действия": "有效期", "Начало срока": "开始计算", "Сеть": "网络", "Операторы": "运营商", "Выход в интернет": "互联网出口", "Раздача интернета": "个人热点", "Скорость": "速度", "После лимита": "达到限额后", "Звонки": "通话", "SMS": "SMS", "Только интернет": "仅限上网"};
+const REGION_NAMES_ZH = Object.freeze({"EU": "欧洲", "EUCONNECT": "欧洲", "EUROPE AND USA": "欧洲和美国", "AFRICA": "非洲", "CARIBBEAN": "加勒比地区", "BEST WORLD": "Best World", "HALF GLOBAL": "Half Global", "GLOBAL": "全球", "LATAM": "拉丁美洲", "APAC": "亚太地区", "AUSTRALIA AND NZ": "澳大利亚和新西兰", "CENTRAL ASIA": "中亚", "CHINA KOREA JAPAN": "中国、韩国和日本", "GREATER CHINA AND TAIWAN PREMIUM": "大中华区和台湾", "GREECE CYPRUS TURKEY": "希腊、塞浦路斯和土耳其", "JERSEY GUERNSEY AND IOM": "泽西岛、根西岛和马恩岛", "VIETNAM PLUS": "越南和东南亚", "SINGAPORE MALAYSIA AND THAILAND": "新加坡、马来西亚和泰国", "SPAIN AND PORTUGAL": "西班牙和葡萄牙", "ITALY": "意大利"});
+
+/* ko — MINIAPP-I18N-LEGAL-1 (same keys as the English tables, by test) */
+const TARIFF_TEXT_KO = {"unrestricted": "속도 제한이 없습니다.", "limited": "속도 제한이 적용됩니다.", "3gb/day at 20mbps. 1mbps afterwards.": "하루 3GB까지 최대 20Mbps, 이후 최대 1Mbps.", "3gb/day high speed. 1mbps afterwards.": "하루 3GB까지 고속, 이후 최대 1Mbps.", "total 30 gb at full speed, 2mbps speed cap afterwards": "30GB까지 최대 속도, 이후 최대 2Mbps.", "total 60 gb at full speed, 2mbps speed cap afterwards": "60GB까지 최대 속도, 이후 최대 2Mbps.", "total 90 gb at full speed, 2mbps speed cap afterwards": "90GB까지 최대 속도, 이후 최대 2Mbps.", "full data speeds - no daily limits, no throttling": "일일 한도와 속도 저하 없이 최대 속도로 이용할 수 있습니다.", "3gb/day at 20mbps high speed. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "하루 3GB까지 최대 20Mbps, 이후 최대 1Mbps. 한도는 24시간마다 초기화되며 공정 사용 정책이 적용됩니다.", "3gb/day without a speed limit. up to 1 mbps speed limit afterwards, resets every 24 hours. fair usage policy applies.": "하루 3GB까지 속도 제한 없음, 이후 최대 1Mbps. 한도는 24시간마다 초기화되며 공정 사용 정책이 적용됩니다.", "in case of exceeding daily 1 gb high-speed allowance, speed will be limited to 512 kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications.": "하루 1GB를 초과하면 그날 남은 시간 동안 속도가 512Kbps로 낮아집니다. 동영상 등 데이터를 많이 사용하는 앱에 영향을 줄 수 있습니다.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 30 gb": "일일 한도가 없습니다. 30GB를 초과하면 속도가 2Mbps로 낮아집니다.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 60 gb": "일일 한도가 없습니다. 60GB를 초과하면 속도가 2Mbps로 낮아집니다.", "no daily limits. speed restricted to 2 mbps if total consumption exceeds 90 gb": "일일 한도가 없습니다. 90GB를 초과하면 속도가 2Mbps로 낮아집니다.", "no speed restrictions": "속도 제한이 없습니다.", "no speed restriction": "속도 제한이 없습니다.", "unlimited at reduced speed": "한도를 초과하면 속도가 낮아집니다.", "unlimited data at reduced speed": "한도를 초과하면 속도가 낮아집니다.", "no throttling": "속도가 낮아지지 않습니다.", "throttled after limit": "한도를 초과하면 속도가 낮아집니다.", "fair usage policy applies": "공정 사용 정책이 적용됩니다.", "fair usage policy": "공정 사용 정책이 적용됩니다.", "unlimited": "데이터 무제한.", "unlimited data": "데이터 무제한.", "high speed": "고속.", "high-speed data": "고속 데이터.", "reduced speed": "속도 저하.", "data only": "모바일 데이터 전용 — 통화 및 SMS 불가.", "data-only": "모바일 데이터 전용 — 통화 및 SMS 불가.", "daily limit": "일일 데이터 한도가 적용됩니다.", "no daily limits": "일일 데이터 한도가 없습니다.", "no daily limit": "일일 데이터 한도가 없습니다.", "n/a": "", "unknown": "", "-": ""};
+const TARIFF_ACTIVATION_LABELS_KO = {"first_data_usage": "데이터 첫 사용 시", "first_network_connection": "네트워크 첫 연결 시", "network_connection": "네트워크 첫 연결 시", "upon_installation": "eSIM 설치 시", "installation": "eSIM 설치 시", "upon_purchase": "구매 시", "purchase": "구매 시"};
+const TARIFF_FACT_LABELS_KO = {"Объём трафика": "데이터", "Срок действия": "이용 기간", "Начало срока": "이용 시작", "Сеть": "네트워크", "Операторы": "통신사", "Выход в интернет": "인터넷 접속 국가", "Раздача интернета": "핫스팟", "Скорость": "속도", "После лимита": "한도 초과 후", "Звонки": "통화", "SMS": "SMS", "Только интернет": "데이터 전용"};
+const REGION_NAMES_KO = Object.freeze({"EU": "유럽", "EUCONNECT": "유럽", "EUROPE AND USA": "유럽 및 미국", "AFRICA": "아프리카", "CARIBBEAN": "카리브해", "BEST WORLD": "Best World", "HALF GLOBAL": "Half Global", "GLOBAL": "글로벌", "LATAM": "라틴아메리카", "APAC": "아시아·태평양", "AUSTRALIA AND NZ": "호주 및 뉴질랜드", "CENTRAL ASIA": "중앙아시아", "CHINA KOREA JAPAN": "중국, 한국 및 일본", "GREATER CHINA AND TAIWAN PREMIUM": "중화권 및 대만", "GREECE CYPRUS TURKEY": "그리스, 키프로스 및 튀르키예", "JERSEY GUERNSEY AND IOM": "저지, 건지 및 맨섬", "VIETNAM PLUS": "베트남 및 동남아시아", "SINGAPORE MALAYSIA AND THAILAND": "싱가포르, 말레이시아 및 태국", "SPAIN AND PORTUGAL": "스페인 및 포르투갈", "ITALY": "이탈리아"});
+
 /** Tables that were two named constants each, now keyed by language. */
-const TARIFF_TEXT_BY_LANG = Object.freeze({ ru: TARIFF_TEXT_RU, en: TARIFF_TEXT_EN });
-const TARIFF_SPEED_UNITS = Object.freeze({ ru: TARIFF_SPEED_UNITS_RU, en: TARIFF_SPEED_UNITS_EN });
+const TARIFF_TEXT_BY_LANG = Object.freeze({ ru: TARIFF_TEXT_RU, en: TARIFF_TEXT_EN, es: TARIFF_TEXT_ES, de: TARIFF_TEXT_DE, fr: TARIFF_TEXT_FR, "zh-Hans": TARIFF_TEXT_ZH, ko: TARIFF_TEXT_KO });
+const TARIFF_SPEED_UNITS = Object.freeze({ ru: TARIFF_SPEED_UNITS_RU, en: TARIFF_SPEED_UNITS_EN, es: TARIFF_SPEED_UNITS_EN, de: Object.freeze({ kbps: 'kbit/s', mbps: 'Mbit/s', gbps: 'Gbit/s' }), fr: Object.freeze({ kbps: 'kbit/s', mbps: 'Mbit/s', gbps: 'Gbit/s' }), "zh-Hans": TARIFF_SPEED_UNITS_EN, ko: TARIFF_SPEED_UNITS_EN });
 const TARIFF_ACTIVATION = Object.freeze({
   ru: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS, fallback: TARIFF_ACTIVATION_FALLBACK }),
   en: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS_EN, fallback: TARIFF_ACTIVATION_FALLBACK_EN }),
+  es: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS_ES, fallback: TARIFF_ACTIVATION_LABELS_ES.first_network_connection }),
+  de: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS_DE, fallback: TARIFF_ACTIVATION_LABELS_DE.first_network_connection }),
+  fr: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS_FR, fallback: TARIFF_ACTIVATION_LABELS_FR.first_network_connection }),
+  "zh-Hans": Object.freeze({ labels: TARIFF_ACTIVATION_LABELS_ZH, fallback: TARIFF_ACTIVATION_LABELS_ZH.first_network_connection }),
+  ko: Object.freeze({ labels: TARIFF_ACTIVATION_LABELS_KO, fallback: TARIFF_ACTIVATION_LABELS_KO.first_network_connection }),
 });
 /** Russian labels are the source; other languages translate them (missing → the next in the chain). */
-const TARIFF_FACT_LABELS = Object.freeze({ en: TARIFF_FACT_LABELS_EN });
+const TARIFF_FACT_LABELS = Object.freeze({ en: TARIFF_FACT_LABELS_EN, es: TARIFF_FACT_LABELS_ES, de: TARIFF_FACT_LABELS_DE, fr: TARIFF_FACT_LABELS_FR, "zh-Hans": TARIFF_FACT_LABELS_ZH, ko: TARIFF_FACT_LABELS_KO });
 
 /** «обновлено 5 минут назад» — the sentence and its units from ONE language. */
 const SYNCED_AGO = Object.freeze({
@@ -491,6 +536,11 @@ const SYNCED_AGO = Object.freeze({
     never: 'not requested yet', unknown: 'last checked at an unknown time',
     future: 'just now', now: 'updated just now', ago: (phrase) => `updated ${phrase} ago`,
   }),
+  es: Object.freeze({ never: "todavía no consultado", unknown: "última consulta en un momento desconocido", future: "justo ahora", now: "actualizado justo ahora", ago: (phrase) => `actualizado hace ${phrase}` }),
+  de: Object.freeze({ never: "noch nicht abgefragt", unknown: "Zeitpunkt der letzten Prüfung unbekannt", future: "gerade eben", now: "gerade aktualisiert", ago: (phrase) => `vor ${String(phrase).replace(/ Tage$/, ' Tagen')} aktualisiert` }),
+  fr: Object.freeze({ never: "données pas encore demandées", unknown: "date de la dernière vérification inconnue", future: "à l’instant", now: "mis à jour à l’instant", ago: (phrase) => `mis à jour il y a ${phrase}` }),
+  "zh-Hans": Object.freeze({ never: "尚未查询", unknown: "上次检查时间未知", future: "刚刚", now: "刚刚更新", ago: (phrase) => `${phrase}前更新` }),
+  ko: Object.freeze({ never: "아직 요청하지 않음", unknown: "마지막 확인 시각 알 수 없음", future: "방금", now: "방금 업데이트됨", ago: (phrase) => `${phrase} 전 업데이트됨` }),
 });
 
 /**
@@ -499,7 +549,7 @@ const SYNCED_AGO = Object.freeze({
  * does not edit it; it hands it the first language of the reader's chain that
  * it actually has.
  */
-const DAILY_COPY_LANGS = Object.freeze(['ru', 'en']);
+const DAILY_COPY_LANGS = Object.freeze(['ru', 'en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
 
 function dailyLang(lang) {
   return langChain(lang).find((l) => DAILY_COPY_LANGS.indexOf(l) >= 0) || 'ru';
@@ -551,6 +601,108 @@ const API_ENDPOINTS = [
 
 // Kept for the storefront and for anything that still expects one base.
 const API_BASE = API_GATEWAY;
+
+// The international catalogue: Render only (see globalCatalogue in createApi).
+const GLOBAL_CATALOGUE_PATH = '/api/v1/retail/packages?market=global';
+const GLOBAL_CATALOGUE_TIMEOUT_MS = 15000;
+
+/** The website's validator when it is loaded (app/index.html loads it), else the same rule inline. */
+function validateGlobalCatalogue(status, body) {
+  const g = typeof globalThis !== 'undefined' && globalThis.MagicGlobalCatalog;
+  if (g && typeof g.validate === 'function') return g.validate(status, body);
+  if (status !== 200 || !body || body.market !== 'global' || body.currency !== 'USD' || !Array.isArray(body.data)) {
+    return { ok: false, reason: status === 429 ? 'busy' : 'unavailable' };
+  }
+  const rows = body.data.filter((p) => p && (p.currency === undefined || p.currency === 'USD')
+    && (Number(p.price) > 0 || (Array.isArray(p.term_prices) && p.term_prices.some((t) => t && Number(t.price) > 0 && Number(t.days) > 0))));
+  return rows.length ? { ok: true, packages: rows } : { ok: false, reason: 'empty' };
+}
+
+/* --------------------------------------------------------------------------
+ * The market — MINIAPP-I18N-LEGAL-1 (owner, 2026-10-23)
+ *
+ * TWO payment markets, chosen by the customer with one compact switch and by
+ * nothing else — never by the Telegram language, never by a guess:
+ *   ru     — roubles, Platega, SBP and Russian cards, the Russian documents: the
+ *            app as it always was, and the DEFAULT for everyone (existing
+ *            customers keep buying exactly as before);
+ *   global — US dollars from the international catalogue, the English Terms,
+ *            Refund Policy and Privacy Policy; online payment is OFF until a
+ *            Merchant of Record is connected and the server checks consents.
+ * The choice is a display preference kept on the device (localStorage). It
+ * decides what the screens SHOW; no order ever trusts it — the server stamps
+ * every Russian order `ru` and refuses every GLOBAL one while payments are off.
+ * ----------------------------------------------------------------------- */
+
+const MARKETS = Object.freeze(['ru', 'global']);
+
+/** The international website's published legal documents (LEGAL-3) — linked, never copied. */
+const INTL_LEGAL_URLS = Object.freeze({
+  terms: 'https://magicesim.store/en/terms/',
+  refund: 'https://magicesim.store/en/refund/',
+  privacy: 'https://magicesim.store/en/privacy/',
+});
+
+/*
+ * The international checkout's two consents (LEGAL-3, the website's wording and gate, mirrored): the Terms of Service +
+ * Refund Policy, and the express request for immediate supply — two boxes, never ticked in advance. A payment may pass
+ * only through `globalPayAllowed`: both boxes, both document versions, and payments open. Payments are OFF
+ * (GLOBAL_PAYMENTS_OPEN — no Merchant of Record yet, owner); opening them needs the server consent record and the payment
+ * adapter in one backend release first (MAGIC_ESIM_LEGAL3_CONSENT_SERVER_PLAN), never this constant alone.
+ * The versions are the published documents' (seo/terms-en.mjs, seo/refund-en.mjs — equal by test).
+ */
+const GLOBAL_PAYMENTS_OPEN = false;
+const INTL_LEGAL_VERSIONS = Object.freeze({ terms: '0.9 (pre-launch)', refund: '0.9 (pre-launch)' });
+function globalPayAllowed(c) {
+  return !!(c && c.paymentsOpen === true && c.terms === true && c.delivery === true
+    && typeof c.termsVersion === 'string' && c.termsVersion !== ''
+    && typeof c.refundVersion === 'string' && c.refundVersion !== '');
+}
+// What a future GLOBAL order request carries — the server checks it again and records it with its own time.
+function globalConsentRecord(c) {
+  if (!globalPayAllowed(c)) throw new Error('CONSENT_REQUIRED');
+  return { terms_version: c.termsVersion, refund_version: c.refundVersion, accepted_terms: true, requested_immediate_supply: true };
+}
+const MARKET_DEFAULT = 'ru';
+const MARKET_KEY = 'mesim.market';
+
+/** The stored market, or the default. An unknown value is dropped, never guessed into one. */
+function createMarketStore(storage) {
+  const read = () => {
+    let raw = null;
+    try { raw = storage ? storage.getItem(MARKET_KEY) : null; } catch { return MARKET_DEFAULT; }
+    return MARKETS.indexOf(raw) >= 0 ? raw : MARKET_DEFAULT;
+  };
+  const write = (m) => {
+    if (MARKETS.indexOf(m) < 0) return read();
+    try { if (storage) storage.setItem(MARKET_KEY, m); } catch { /* a private tab: this session only */ }
+    return m;
+  };
+  return { get: read, set: write };
+}
+
+/**
+ * A US-dollar amount, formatted as the international website formats it in that language (assets/i18n/<lang>.js
+ * `fmt.numberLocale` + `fmt.currencyDisplay`): «$12.99», «USD 12.99», «12,99 USD», «US$12.99». Russian (not a site
+ * language) reads «$12.99». Never a conversion: the amount is the server's.
+ */
+// = the website's `fmt.numberLocale` / `fmt.currencyDisplay` per language (app/core.test.js holds them equal).
+const USD_FORMAT = Object.freeze({
+  ru: ['en-US', 'symbol'], en: ['en-US', 'symbol'], es: ['es-419', 'symbol'], de: ['de-DE', 'code'],
+  fr: ['fr-FR', 'code'], 'zh-Hans': ['zh-Hans', 'symbol'], ko: ['ko', 'symbol'],
+});
+function usd(amount, lang) {
+  if (amount === null || amount === undefined || amount === '') return '';
+  const n = Number(amount);
+  if (!Number.isFinite(n)) return '';
+  const [locale, display] = USD_FORMAT[lang] || USD_FORMAT.en;
+  try {
+    return new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', currencyDisplay: display,
+      minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+  } catch {
+    return `$${n.toFixed(2)}`;
+  }
+}
 
 // Reads: three attempts total. The first retry catches a dropped connection, the
 // second catches a bad few seconds. A third would mostly add latency to an
@@ -714,26 +866,26 @@ function promoMessage(code) {
  * app/core.test.js asserts the two agree in both directions.
  */
 const SERVER_ERRORS = Object.freeze({
-  PROMO_CODES_DISABLED: { ru: 'Промокоды сейчас недоступны.', en: 'Promo codes are unavailable right now.' },
-  PROMO_CODE_INVALID: { ru: 'Проверьте формат промокода.', en: 'Check the promo code format.' },
-  PROMO_CODE_NOT_FOUND: { ru: 'Промокод не найден.', en: 'Promo code not found.' },
-  PROMO_CODE_NOT_ACTIVE: { ru: 'Промокод недоступен.', en: 'This promo code is unavailable.' },
-  PROMO_CODE_NOT_STARTED: { ru: 'Промокод ещё не действует.', en: 'This promo code isn\u2019t active yet.' },
-  PROMO_CODE_EXPIRED: { ru: 'Срок действия промокода истёк.', en: 'This promo code has expired.' },
-  PROMO_CODE_LIMIT_REACHED: { ru: 'Лимит использований промокода исчерпан.', en: 'This promo code has reached its usage limit.' },
-  PROMO_CODE_EMAIL_LIMIT_REACHED: { ru: 'Этот промокод уже использован для этого email.', en: 'This promo code has already been used with this email.' },
-  PROMO_CODE_FIRST_PURCHASE_ONLY: { ru: 'Промокод действует только для первой покупки.', en: 'This promo code is for a first purchase only.' },
-  PROMO_CODE_MIN_ORDER: { ru: 'Сумма заказа меньше необходимой для этого промокода.', en: 'The order total is below the minimum for this promo code.' },
-  PROMO_CODE_NOT_APPLICABLE: { ru: 'Этот промокод нельзя применить к выбранному тарифу.', en: 'This promo code can\u2019t be applied to the selected plan.' },
-  PROMO_CODE_NOT_AVAILABLE: { ru: 'Этот промокод недоступен.', en: 'This promo code is unavailable.' },
-  RATE_LIMITED: { ru: 'Слишком много попыток. Попробуйте чуть позже.', en: 'Too many attempts. Please try again shortly.' },
+  PROMO_CODES_DISABLED: { ru: 'Промокоды сейчас недоступны.', en: 'Promo codes are unavailable right now.', es: "Los códigos promocionales no están disponibles en este momento.", de: "Aktionscodes sind gerade nicht verfügbar.", fr: "Les codes promo sont indisponibles pour le moment.", "zh-Hans": "优惠码目前不可用。", ko: "지금은 프로모션 코드를 사용할 수 없습니다." },
+  PROMO_CODE_INVALID: { ru: 'Проверьте формат промокода.', en: 'Check the promo code format.', es: "Revisa el formato del código promocional.", de: "Prüfe das Format des Aktionscodes.", fr: "Vérifiez le format du code promo.", "zh-Hans": "请检查优惠码格式。", ko: "프로모션 코드 형식을 확인하세요." },
+  PROMO_CODE_NOT_FOUND: { ru: 'Промокод не найден.', en: 'Promo code not found.', es: "No se encontró el código promocional.", de: "Aktionscode nicht gefunden.", fr: "Code promo introuvable.", "zh-Hans": "未找到优惠码。", ko: "프로모션 코드를 찾을 수 없습니다." },
+  PROMO_CODE_NOT_ACTIVE: { ru: 'Промокод недоступен.', en: 'This promo code is unavailable.', es: "Este código promocional no está disponible.", de: "Dieser Aktionscode ist nicht verfügbar.", fr: "Ce code promo est indisponible.", "zh-Hans": "此优惠码不可用。", ko: "이 프로모션 코드는 사용할 수 없습니다." },
+  PROMO_CODE_NOT_STARTED: { ru: 'Промокод ещё не действует.', en: 'This promo code isn\u2019t active yet.', es: "Este código promocional todavía no está activo.", de: "Dieser Aktionscode ist noch nicht aktiv.", fr: "Ce code promo n’est pas encore actif.", "zh-Hans": "此优惠码尚未生效。", ko: "이 프로모션 코드는 아직 활성화되지 않았습니다." },
+  PROMO_CODE_EXPIRED: { ru: 'Срок действия промокода истёк.', en: 'This promo code has expired.', es: "Este código promocional venció.", de: "Dieser Aktionscode ist abgelaufen.", fr: "Ce code promo a expiré.", "zh-Hans": "此优惠码已过期。", ko: "이 프로모션 코드는 만료되었습니다." },
+  PROMO_CODE_LIMIT_REACHED: { ru: 'Лимит использований промокода исчерпан.', en: 'This promo code has reached its usage limit.', es: "Este código promocional alcanzó su límite de usos.", de: "Dieser Aktionscode hat sein Nutzungslimit erreicht.", fr: "Ce code promo a atteint sa limite d’utilisation.", "zh-Hans": "此优惠码已达到使用次数上限。", ko: "이 프로모션 코드의 사용 한도에 도달했습니다." },
+  PROMO_CODE_EMAIL_LIMIT_REACHED: { ru: 'Этот промокод уже использован для этого email.', en: 'This promo code has already been used with this email.', es: "Este código promocional ya se usó con este correo electrónico.", de: "Dieser Aktionscode wurde mit dieser E-Mail-Adresse bereits verwendet.", fr: "Ce code promo a déjà été utilisé avec cette adresse e-mail.", "zh-Hans": "此电子邮件已使用过该优惠码。", ko: "이 이메일로 이미 사용한 프로모션 코드입니다." },
+  PROMO_CODE_FIRST_PURCHASE_ONLY: { ru: 'Промокод действует только для первой покупки.', en: 'This promo code is for a first purchase only.', es: "Este código promocional es solo para la primera compra.", de: "Dieser Aktionscode gilt nur für den ersten Kauf.", fr: "Ce code promo est réservé à un premier achat.", "zh-Hans": "此优惠码仅限首次购买使用。", ko: "이 프로모션 코드는 첫 구매에만 사용할 수 있습니다." },
+  PROMO_CODE_MIN_ORDER: { ru: 'Сумма заказа меньше необходимой для этого промокода.', en: 'The order total is below the minimum for this promo code.', es: "El total del pedido es inferior al mínimo para este código promocional.", de: "Der Bestellwert liegt unter dem Mindestbetrag für diesen Aktionscode.", fr: "Le montant de la commande est inférieur au minimum requis pour ce code promo.", "zh-Hans": "订单金额低于此优惠码的最低要求。", ko: "주문 금액이 이 프로모션 코드의 최소 금액보다 적습니다." },
+  PROMO_CODE_NOT_APPLICABLE: { ru: 'Этот промокод нельзя применить к выбранному тарифу.', en: 'This promo code can\u2019t be applied to the selected plan.', es: "Este código promocional no se puede aplicar al plan seleccionado.", de: "Dieser Aktionscode kann auf den gewählten Tarif nicht angewendet werden.", fr: "Ce code promo ne peut pas être appliqué au forfait choisi.", "zh-Hans": "此优惠码不适用于所选套餐。", ko: "이 프로모션 코드는 선택한 요금제에 적용할 수 없습니다." },
+  PROMO_CODE_NOT_AVAILABLE: { ru: 'Этот промокод недоступен.', en: 'This promo code is unavailable.', es: "Este código promocional no está disponible.", de: "Dieser Aktionscode ist nicht verfügbar.", fr: "Ce code promo est indisponible.", "zh-Hans": "此优惠码不可用。", ko: "이 프로모션 코드는 사용할 수 없습니다." },
+  RATE_LIMITED: { ru: 'Слишком много попыток. Попробуйте чуть позже.', en: 'Too many attempts. Please try again shortly.', es: "Demasiados intentos. Inténtalo de nuevo en un momento.", de: "Zu viele Versuche. Bitte versuche es gleich noch einmal.", fr: "Trop de tentatives. Veuillez réessayer dans un instant.", "zh-Hans": "尝试次数过多，请稍后重试。", ko: "시도 횟수가 너무 많습니다. 잠시 후 다시 시도하세요." },
 
-  TOPUP_PURCHASE_DISABLED: { ru: 'Пополнение пока недоступно.', en: 'Top-ups aren\u2019t available yet.' },
-  TOPUP_PROVIDER_DISABLED: { ru: 'Пополнение пока недоступно.', en: 'Top-ups aren\u2019t available yet.' },
-  TOPUP_IN_PROGRESS: { ru: 'Одно пополнение этой eSIM уже выполняется. Дождитесь результата.', en: 'A top-up for this eSIM is already in progress. Please wait for it to finish.' },
-  TOPUP_QUOTE_EXPIRED: { ru: 'Этот вариант больше не актуален. Выберите его заново.', en: 'This option is no longer current. Please choose it again.' },
-  OPTION_STALE: { ru: 'Этот вариант больше не актуален. Выберите его заново.', en: 'This option is no longer current. Please choose it again.' },
-  TERMS_REQUIRED: { ru: 'Примите условия, чтобы продолжить.', en: 'Please accept the terms to continue.' },
+  TOPUP_PURCHASE_DISABLED: { ru: 'Пополнение пока недоступно.', en: 'Top-ups aren\u2019t available yet.', es: "Las recargas aún no están disponibles.", de: "Aufladungen sind noch nicht verfügbar.", fr: "Les recharges ne sont pas encore disponibles.", "zh-Hans": "暂不支持充值。", ko: "아직 충전 기능을 이용할 수 없습니다." },
+  TOPUP_PROVIDER_DISABLED: { ru: 'Пополнение пока недоступно.', en: 'Top-ups aren\u2019t available yet.', es: "Las recargas aún no están disponibles.", de: "Aufladungen sind noch nicht verfügbar.", fr: "Les recharges ne sont pas encore disponibles.", "zh-Hans": "暂不支持充值。", ko: "아직 충전 기능을 이용할 수 없습니다." },
+  TOPUP_IN_PROGRESS: { ru: 'Одно пополнение этой eSIM уже выполняется. Дождитесь результата.', en: 'A top-up for this eSIM is already in progress. Please wait for it to finish.', es: "Ya hay una recarga en curso para esta eSIM. Espera a que termine.", de: "Für diese eSIM läuft bereits eine Aufladung. Bitte warte, bis sie abgeschlossen ist.", fr: "Une recharge de cette eSIM est déjà en cours. Veuillez attendre qu’elle se termine.", "zh-Hans": "此 eSIM 已有一笔充值正在进行，请等待其完成。", ko: "이 eSIM의 충전이 이미 진행 중입니다. 완료될 때까지 기다려 주세요." },
+  TOPUP_QUOTE_EXPIRED: { ru: 'Этот вариант больше не актуален. Выберите его заново.', en: 'This option is no longer current. Please choose it again.', es: "Esta opción ya no está vigente. Vuelve a elegirla.", de: "Diese Option ist nicht mehr aktuell. Bitte wähle sie erneut.", fr: "Cette option n’est plus à jour. Veuillez la choisir à nouveau.", "zh-Hans": "此选项已失效，请重新选择。", ko: "이 옵션은 더 이상 유효하지 않습니다. 다시 선택하세요." },
+  OPTION_STALE: { ru: 'Этот вариант больше не актуален. Выберите его заново.', en: 'This option is no longer current. Please choose it again.', es: "Esta opción ya no está vigente. Vuelve a elegirla.", de: "Diese Option ist nicht mehr aktuell. Bitte wähle sie erneut.", fr: "Cette option n’est plus à jour. Veuillez la choisir à nouveau.", "zh-Hans": "此选项已失效，请重新选择。", ko: "이 옵션은 더 이상 유효하지 않습니다. 다시 선택하세요." },
+  TERMS_REQUIRED: { ru: 'Примите условия, чтобы продолжить.', en: 'Please accept the terms to continue.', es: "Acepta las condiciones para continuar.", de: "Bitte akzeptiere die Bedingungen, um fortzufahren.", fr: "Veuillez accepter les conditions pour continuer.", "zh-Hans": "请接受条款以继续。", ko: "계속하려면 약관에 동의하세요." },
 });
 
 /**
@@ -1274,6 +1426,33 @@ function createApi(deps = {}) {
    * Deliberately NOT routed through `request`: it is not an API call, it has no
    * endpoint to fail over to, and one attempt is the whole budget it deserves.
    */
+  /**
+   * The INTERNATIONAL (GLOBAL, USD) catalogue — MINIAPP-I18N-LEGAL-1. Read-only and public, the same request the
+   * international website makes (assets/global-catalog.js): `GET /api/v1/retail/packages?market=global`.
+   *
+   * RENDER ONLY, ONE ATTEMPT, NO SNAPSHOT, NO CACHE (owner decision D1 for GLOBAL): never through the Yandex gateway,
+   * never the rouble snapshot. No answer means «international prices unavailable», said so — never roubles, never a
+   * converted figure. The answer is validated by the website's own MagicGlobalCatalog.validate (one rule for both).
+   */
+  async function globalCatalogue() {
+    const ac = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = ac ? setTimeout(() => ac.abort(), GLOBAL_CATALOGUE_TIMEOUT_MS) : null;
+    let status = 0; let body = null;
+    try {
+      const res = await doFetch(API_RENDER + GLOBAL_CATALOGUE_PATH, {
+        method: 'GET', headers: { Accept: 'application/json' }, credentials: 'omit',
+        signal: ac ? ac.signal : undefined,
+      });
+      status = res.status;
+      try { body = await res.json(); } catch { body = null; }
+    } catch {
+      return { ok: false, reason: 'unavailable' };
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+    return validateGlobalCatalogue(status, body);
+  }
+
   async function staticCatalogue() {
     // One attempt is the whole budget — but an attempt with no deadline is not
     // a budget. A CDN request that hangs used to leave the catalogue skeleton
@@ -1608,7 +1787,7 @@ function createApi(deps = {}) {
   }
 
   return {
-    openSession, hasSession, catalogue, staticCatalogue, me, orders, activeOrders, orderStatus,
+    openSession, hasSession, catalogue, staticCatalogue, globalCatalogue, me, orders, activeOrders, orderStatus,
     topups, topupQuote, topupCheckout, topupStatus, requestEmailCode, confirmEmailCode,
     hiddenEsims, renameEsim, setEsimVisibility, revokeEmail, promoQuote, setNotificationPrefs,
     setLanguage,
@@ -1767,15 +1946,28 @@ const REGION_NAMES_EN = Object.freeze({
  * the same rule app/i18n.js holds for every other string: «Бруней» is worse
  * than "Brunei" for an English reader, but it is far better than "BN".
  */
+const COUNTRY_NAME_FILES = Object.freeze({
+  es: 'MagicCountryNamesEs', de: 'MagicCountryNamesDe', fr: 'MagicCountryNamesFr', 'zh-Hans': 'MagicCountryNamesZh', ko: 'MagicCountryNamesKo',
+});
+/** A name from the website's generated /assets/country-names-<prefix>.js (loaded by app/index.html), or undefined. */
+function siteCountryName(lang, key) {
+  const g = typeof globalThis !== 'undefined' ? globalThis[COUNTRY_NAME_FILES[lang]] : null;
+  if (!g || typeof g.of !== 'function') return undefined;
+  const n = g.of(key);
+  return n && n !== key ? n : undefined;
+}
+
 function countryLabel(code, lang) {
   const key = String(code || '').toUpperCase();
+  const byLang = { ru: countryNames[key], en: countryNamesEn[key] };
+  if (COUNTRY_NAME_FILES[lang]) byLang[lang] = siteCountryName(lang, key);
 
-  return pickLang({ ru: countryNames[key], en: countryNamesEn[key] }, lang) || key;
+  return pickLang(byLang, lang) || key;
 }
 
 /** A provider region family's name, by the fallback chain; undefined if unnamed. */
 function regionName(key, lang) {
-  return pickLang({ ru: REGION_NAMES[key], en: REGION_NAMES_EN[key] }, lang);
+  return pickLang({ ru: REGION_NAMES[key], en: REGION_NAMES_EN[key], es: REGION_NAMES_ES[key], de: REGION_NAMES_DE[key], fr: REGION_NAMES_FR[key], "zh-Hans": REGION_NAMES_ZH[key], ko: REGION_NAMES_KO[key] }, lang);
 }
 
 /** The flag the catalogue already carries, or one derived from the ISO code. */
@@ -2817,7 +3009,8 @@ const CORE = {
   PROMO_MESSAGES, promoMessage, normalisePromoCode, readPromoQuote,
   KNOWN_ERROR_CODES, errorKey, SERVER_ERRORS, errorText,
   tariffText, TARIFF_TEXT_EN, TARIFF_ACTIVATION_LABELS_EN, TARIFF_FACT_LABELS_EN,
-  gb, money, daysLeft, remainingFraction,
+  gb, money, usd, USD_FORMAT, daysLeft, remainingFraction,
+  MARKETS, MARKET_DEFAULT, MARKET_KEY, INTL_LEGAL_URLS, GLOBAL_PAYMENTS_OPEN, INTL_LEGAL_VERSIONS, globalPayAllowed, globalConsentRecord, createMarketStore, validateGlobalCatalogue, GLOBAL_CATALOGUE_PATH, API_RENDER,
   purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
   dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,
   byCountry, pickBestValue, searchCountries,

@@ -49,6 +49,8 @@ function mock(c) {
   window.Telegram = {
     WebApp: {
       initData: 'user=%7B%22id%22%3A1%7D&auth_date=1&hash=x',
+      // A Russian customer: since MINIAPP-I18N-LEGAL-1 an absent language_code reads English.
+      initDataUnsafe: { user: { language_code: 'ru' } },
       ready() {}, expand() {}, close() {},
       colorScheme: window.__scheme || 'light',
       themeParams: window.__tp || {},

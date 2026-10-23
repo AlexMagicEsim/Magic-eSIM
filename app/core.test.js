@@ -2231,15 +2231,22 @@ test('track returns undefined, so no call site can accidentally await it', async
     ]) assert.deepEqual(offenders(good), [], good);
   });
 
-  test('a planned language with no table of its own reads English, never Russian', () => {
+  test('every offered language has its own tables (MINIAPP-I18N-LEGAL-1); a table without it would read English, never Russian', () => {
+    const t0 = Date.parse('2026-10-13T12:00:00Z');
     for (const lang of ['es', 'de', 'fr', 'zh-Hans', 'ko']) {
-      assert.equal(C.countryLabel('AE', lang), 'United Arab Emirates', lang);
-      assert.equal(C.errorText('RATE_LIMITED', lang), C.errorText('RATE_LIMITED', 'en'), lang);
-      assert.equal(C.syncedAgo('2026-10-13T11:55:00Z', Date.parse('2026-10-13T12:00:00Z'), lang), 'updated 5 minutes ago', lang);
-      assert.deepEqual(C.tariffFacts({ data_gb: 3, validity_days: 1, hotspot_supported: true }, lang).map((r) => r.label),
+      // its own words — not the English, not the Russian
+      for (const v of [C.errorText('RATE_LIMITED', lang), C.syncedAgo('2026-10-13T11:55:00Z', t0, lang)]) {
+        assert.notEqual(v, C.errorText('RATE_LIMITED', 'en'), lang);
+        assert.doesNotMatch(v, /[Ѐ-ӿ]/, lang);
+      }
+      assert.notDeepEqual(C.tariffFacts({ data_gb: 3, validity_days: 1, hotspot_supported: true }, lang).map((r) => r.label),
         ['Data', 'Valid for', 'Starts', 'Hotspot'], lang);
-      assert.equal(C.dailyLang(lang), 'en', lang);
+      assert.equal(C.dailyLang(lang), lang, lang);
+      // country names: the website's generated files are not loaded in Node, so the English one stands in
+      assert.equal(C.countryLabel('AE', lang), 'United Arab Emirates', lang);
     }
+    // The fallback itself, on an injected table: a language missing from it reads English, never Russian.
+    assert.equal(C.countWord('ko', 5, { ru: ['день', 'дня', 'дней'], en: ['day', 'days'] }), 'days');
     assert.equal(C.dailyLang('ru'), 'ru');
     assert.equal(C.dailyLang('xx'), 'ru');
   });
@@ -2260,3 +2267,80 @@ test('track returns undefined, so no call site can accidentally await it', async
     assert.equal(C.SERVER_LANG, 'ru');
   });
 }
+
+/* MINIAPP-I18N-LEGAL-1 — the international market reads like the international website. */
+test('a US-dollar price is formatted exactly as the international website formats it, in every site language', () => {
+  const SITE = require('../assets/site-i18n.js');
+  for (const lang of ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']) {
+    const W = SITE.DICT[lang];
+    assert.deepEqual(C.USD_FORMAT[lang], [W['fmt.numberLocale'], W['fmt.currencyDisplay']], lang);
+    const site = new Intl.NumberFormat(W['fmt.numberLocale'], { style: 'currency', currency: 'USD', currencyDisplay: W['fmt.currencyDisplay'], minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    for (const n of [4.99, 12.99, 1234.5]) assert.equal(C.usd(n, lang), site.format(n), `${lang} ${n}`);
+  }
+  assert.equal(C.usd(12.99, 'ru'), '$12.99', 'Russian reads the owner\'s «$12.99»');
+  for (const bad of [null, undefined, '', 'x', NaN]) assert.equal(C.usd(bad, 'en'), '', String(bad));
+});
+
+test('the market store: Russian by default, only the two markets, never a guess', () => {
+  const mem = new Map(); const storage = { getItem: (k) => (mem.has(k) ? mem.get(k) : null), setItem: (k, v) => mem.set(k, String(v)) };
+  const m = C.createMarketStore(storage);
+  assert.equal(m.get(), 'ru');
+  assert.equal(m.set('global'), 'global');
+  assert.equal(C.createMarketStore(storage).get(), 'global', 'remembered');
+  for (const bad of ['GLOBAL', 'us', '', 'ru ', '__proto__']) { mem.set('mesim.market', bad); assert.equal(m.get(), 'ru', bad); }
+  assert.equal(C.createMarketStore({ getItem() { throw new Error('x'); }, setItem() { throw new Error('x'); } }).get(), 'ru');
+  assert.deepEqual(C.MARKETS, ['ru', 'global']);
+  assert.deepEqual(C.INTL_LEGAL_URLS, { terms: 'https://magicesim.store/en/terms/', refund: 'https://magicesim.store/en/refund/', privacy: 'https://magicesim.store/en/privacy/' });
+});
+
+test('the international catalogue is read from Render only, validated by the website\'s own rule', async () => {
+  const calls = [];
+  const api = C.createApi({ fetch: async (url, init) => { calls.push([url, init && init.method]); return { status: 200, json: async () => ({ market: 'global', currency: 'USD', data: [{ package_id: 'p', price: 4.99, currency: 'USD' }, { package_id: 'r', price: 300, currency: 'RUB' }] }) }; } });
+  const r = await api.globalCatalogue();
+  assert.equal(r.ok, true);
+  assert.deepEqual(r.packages.map((p) => p.package_id), ['p'], 'a non-USD row is dropped');
+  assert.deepEqual(calls, [[C.API_RENDER + '/api/v1/retail/packages?market=global', 'GET']], 'one GET, to Render, never the gateway');
+  const bad = await C.createApi({ fetch: async () => ({ status: 200, json: async () => ({ market: 'ru', currency: 'RUB', data: [{ price: 1 }] }) }) }).globalCatalogue();
+  assert.equal(bad.ok, false, 'a rouble answer is not an international catalogue');
+  const down = await C.createApi({ fetch: async () => { throw new Error('offline'); } }).globalCatalogue();
+  assert.deepEqual(down, { ok: false, reason: 'unavailable' });
+});
+
+/* MINIAPP-I18N-LEGAL-1 stage C — the international checkout's two consents, the website's words and gate. */
+test('the international payment gate: both boxes, both versions, AND payments open — and payments are off', () => {
+  assert.equal(C.GLOBAL_PAYMENTS_OPEN, false, 'no Merchant of Record yet: opening payments is a separate, owner-approved release');
+  const v = { termsVersion: C.INTL_LEGAL_VERSIONS.terms, refundVersion: C.INTL_LEGAL_VERSIONS.refund };
+  for (const [terms, delivery] of [[false, false], [true, false], [false, true]]) {
+    assert.equal(C.globalPayAllowed({ paymentsOpen: true, terms, delivery, ...v }), false, `${terms}/${delivery}`);
+    assert.throws(() => C.globalConsentRecord({ paymentsOpen: true, terms, delivery, ...v }), /CONSENT_REQUIRED/);
+  }
+  assert.equal(C.globalPayAllowed({ paymentsOpen: false, terms: true, delivery: true, ...v }), false, 'off means off');
+  assert.equal(C.globalPayAllowed({ paymentsOpen: true, terms: true, delivery: true, termsVersion: '', refundVersion: v.refundVersion }), false);
+  for (const truthy of [1, 'true', {}]) assert.equal(C.globalPayAllowed({ paymentsOpen: true, terms: truthy, delivery: true, ...v }), false, 'exactly true');
+  assert.equal(C.globalPayAllowed({ paymentsOpen: true, terms: true, delivery: true, ...v }), true, 'the gate itself opens when everything holds');
+  assert.deepEqual(C.globalConsentRecord({ paymentsOpen: true, terms: true, delivery: true, ...v }),
+    { terms_version: v.termsVersion, refund_version: v.refundVersion, accepted_terms: true, requested_immediate_supply: true });
+});
+
+test('the consent versions are the published documents\' versions', async () => {
+  const { TERMS_VERSION } = await import('../seo/terms-en.mjs');
+  const { REFUND_VERSION } = await import('../seo/refund-en.mjs');
+  assert.deepEqual(C.INTL_LEGAL_VERSIONS, { terms: TERMS_VERSION, refund: REFUND_VERSION });
+});
+
+test('the international checkout speaks the website\'s approved LEGAL-3 words, in every site language', () => {
+  const SITE = require('../assets/site-i18n.js');
+  const L = require('./locales.js');
+  const MAP = {
+    'gco.title': 'checkout.title', 'gco.legend': 'consent.legend', 'gco.terms': 'consent.terms', 'gco.termsLink': 'consent.termsLink',
+    'gco.refundLink': 'consent.refundLink', 'gco.delivery': 'consent.delivery', 'gco.privacy': 'consent.privacy',
+    'gco.privacyLink': 'consent.privacyLink', 'gco.pay': 'pay.disabled', 'gco.unavailable': 'pay.unavailableTitle', 'gco.continue': 'checkout.continue',
+  };
+  for (const lang of ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']) {
+    for (const [mini, site] of Object.entries(MAP)) assert.equal(L[lang][mini], SITE.DICT[lang][site], `${lang} ${mini}`);
+  }
+  // Russian has no website wording (the international site has no Russian); its sentence keeps the same placeholders.
+  for (const k of ['gco.terms', 'gco.privacy']) {
+    assert.deepEqual(L.ru[k].match(/\{[a-z]+\}/g), L.en[k].match(/\{[a-z]+\}/g), k);
+  }
+});
