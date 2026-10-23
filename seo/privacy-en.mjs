@@ -10,8 +10,8 @@
 // list reads on a 320 px phone without horizontal scrolling.
 
 export const PRIVACY_VERSION = '0.9.1 (pre-launch)';
-export const PRIVACY_EFFECTIVE = '22 October 2026';
-export const PRIVACY_EFFECTIVE_ISO = '2026-10-22';
+export const PRIVACY_EFFECTIVE = '23 October 2026';
+export const PRIVACY_EFFECTIVE_ISO = '2026-10-23';
 
 export const PRIVACY = Object.freeze({
   title: 'Privacy Policy — Magic eSIM',
