@@ -59,7 +59,7 @@ const head = (html) => html.slice(0, html.indexOf('</head>'));
 test('206 German pages: the home, the list, 198 countries, the guides list and five guides', () => {
   assert.equal(DE_PAGES.length, 206);
   assert.equal(DE_PAGES.filter((p) => /^de\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').filter((p) => p !== 'en/privacy/index.html').length, DE_PAGES.length, 'the same pages as English, apart from the English-only Privacy Policy (LEGAL-1)');
+  assert.equal(htmlUnder('en').filter((p) => !/^en\/(privacy|terms|refund)\/index\.html$/.test(p)).length, DE_PAGES.length, 'the same pages as English, apart from the English-only legal documents (Privacy LEGAL-1, Terms + Refund LEGAL-3)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}', () => {

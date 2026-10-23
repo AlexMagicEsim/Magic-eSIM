@@ -39,8 +39,8 @@ test('the rule can fire: a footer without the line, or with another address, is 
   assert.deepEqual('<p>Email: support@magicesim.com</p>'.match(EMAILS), ['support@magicesim.com']);
 });
 
-test('all 207 English pages carry the support line in the footer, exactly once', () => {
-  assert.equal(PAGES.length, 207, '198 countries + destination list + home + guide list + 5 guides + the Privacy Policy (LEGAL-1)');
+test('all 209 English pages carry the support line in the footer, exactly once', () => {
+  assert.equal(PAGES.length, 209, '198 countries + destination list + home + guide list + 5 guides + the Privacy Policy (LEGAL-1) + Terms and Refund (LEGAL-3)');
   const missing = PAGES.filter((p) => !footerOf(read(p)).includes(FOOTER_LINE));
   assert.deepEqual(missing, []);
   const twice = PAGES.filter((p) => read(p).split(FOOTER_LINE).length !== 2);
@@ -71,9 +71,9 @@ test('no other email address appears on any English page', () => {
   assert.deepEqual([...others], []);
 });
 
-test('the only legal page is the Privacy Policy (LEGAL-1); no contact, terms or refund page exists before it is published', () => {
-  assert.ok(PAGES.includes('en/privacy/index.html'), 'the pre-launch Privacy Policy');
-  for (const slug of ['contact', 'contacts', 'terms', 'refund', 'delivery', 'legal']) {
+test('the legal pages are the published Privacy Policy, Terms and Refund (LEGAL-1, LEGAL-3); no contact or other legal page exists', () => {
+  for (const slug of ['privacy', 'terms', 'refund']) assert.ok(PAGES.includes(`en/${slug}/index.html`), `the pre-launch ${slug} page`);
+  for (const slug of ['contact', 'contacts', 'delivery', 'legal']) {
     assert.ok(!PAGES.some((p) => p.startsWith(`en/${slug}/`)), slug);
   }
 });

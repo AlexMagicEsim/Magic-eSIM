@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="/assets/site.css?v=fdc3a49c">
 <link rel="stylesheet" href="/en/en.css?v=21b3b969">
 <link rel="stylesheet" href="/assets/page-country.css?v=3b354c34">
-<link rel="stylesheet" href="/en/checkout.css?v=fd7edfb5">
+<link rel="stylesheet" href="/en/checkout.css?v=27589e0f">
 </head>
 <body data-iso="BH">
 
@@ -258,6 +258,12 @@
         <h4 data-i18n="pay.finalTitle">暂不支持在线支付</h4>
         <p data-i18n="pay.finalBody">我们目前还无法收款，因此没有产生任何费用，没有创建订单，也不会发送 eSIM。您的电子邮箱既未发送也未保存。</p>
       </div>
+      <fieldset class="co-consents" id="coConsents" data-state="none" data-ready="false">
+        <legend class="sr-only" data-i18n="consent.legend">付款前</legend>
+        <label class="check"><input type="checkbox" id="coAgreeTerms" data-terms-version="0.9 (pre-launch)" data-refund-version="0.9 (pre-launch)"> <span>我已阅读并同意<a href="/en/terms/" target="_blank" rel="noopener" data-i18n="consent.termsLink">服务条款</a>和<a href="/en/refund/" target="_blank" rel="noopener" data-i18n="consent.refundLink">退款政策</a>。</span></label>
+        <label class="check"><input type="checkbox" id="coAgreeDelivery"> <span data-i18n="consent.delivery">我要求 Magic eSIM 在 14 天撤回期内立即开始提供我的 eSIM 套餐。我理解，套餐一经全部提供（流量用完或有效期结束），我即丧失撤回权；如果我在此之前撤回，需要支付截至我通知时已提供部分的费用。</span></label>
+        <p class="note">我们的<a href="/en/privacy/" target="_blank" rel="noopener" data-i18n="consent.privacyLink">隐私政策</a>说明了我们如何处理您的数据。</p>
+      </fieldset>
       <div class="co-action">
         <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">暂不支持支付</button>
         <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">返回</button>
@@ -306,7 +312,7 @@
     </div>
     <div class="ft-bottom">
       <p>© Magic eSIM</p>
-      <p><a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">隐私政策（英文）</a></p>
+      <p><a href="/en/terms/" hreflang="en" data-i18n="footer.terms">服务条款（英文）</a> · <a href="/en/refund/" hreflang="en" data-i18n="footer.refund">退款政策（英文）</a> · <a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">隐私政策（英文）</a></p>
     </div>
   </div>
 </footer>
@@ -315,9 +321,9 @@
 <script src="/assets/global-catalog.js?v=b1cc2099" defer></script>
 <script src="/assets/daily-plan-copy.js?v=1f3a5f20" defer></script>
 <script src="/assets/country-names-zh.js?v=a137396b" defer></script>
-<script src="/assets/site-i18n-zh.js?v=16aba63d" defer></script>
+<script src="/assets/site-i18n-zh.js?v=4764602a" defer></script>
 <script src="/en/plans.js?v=80331bd8" defer></script>
-<script src="/en/checkout.js?v=30a7e399" defer></script>
+<script src="/en/checkout.js?v=2eae1084" defer></script>
 <script src="/en/country.js?v=d6b2fdf5" defer></script>
 </body>
 </html>
