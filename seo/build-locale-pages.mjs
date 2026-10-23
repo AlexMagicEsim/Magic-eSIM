@@ -57,6 +57,7 @@ import { PAGE_COPY } from './page-copy.mjs';
 import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
+import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
 import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
 import { TERMS, TERMS_VERSION, TERMS_EFFECTIVE, TERMS_EFFECTIVE_ISO } from './terms-en.mjs';
 import { REFUND, REFUND_VERSION, REFUND_EFFECTIVE, REFUND_EFFECTIVE_ISO } from './refund-en.mjs';
@@ -397,10 +398,15 @@ const ftLinks = (items) => items.map((x) => `          <li><a href="${x.href}">$
 
 /* The footer. The support line is pinned word for word by
  * seo/test-en-support-contact.mjs. The legal links follow the language's scheme
- * (seo/legal-links.mjs): every international language links the published English
- * documents — Terms of Service, Refund Policy, Privacy Policy (LEGAL-3) — labelled
- * «in English» outside English; never a Russian document. */
-const LEGAL = legalLinks(code);
+ * (seo/legal-links.mjs): every international language links the three published
+ * documents — Terms of Service, Refund Policy, Privacy Policy (LEGAL-3) — in its own
+ * language (LEGAL-4: the translations of seo/legal-i18n.mjs); never a Russian document. */
+// LEGAL-4: a language with its own translation of the three documents (seo/legal-i18n.mjs) links its own pages
+// (/<prefix>/terms/ …), labelled without «in English»; English links /en/.
+const LEGAL_T = code === 'en' ? null : (LEGAL_TRANSLATIONS[code] || null);
+const EN_ROOT = `/${locale('en').prefix}/`;
+const localLegal = (href) => (LEGAL_T && href.startsWith(EN_ROOT) ? `${P}/${href.slice(EN_ROOT.length)}` : href);
+const LEGAL = legalLinks(code).map((l) => (LEGAL_T && l.hreflang === 'en' ? { ...l, href: localLegal(l.href), hreflang: L.htmlLang } : l));
 const LEGAL_LINE = LEGAL.length
   ? `      <p>${LEGAL.map((l) => `<a href="${l.href}" hreflang="${l.hreflang}" data-i18n="${l.key}">${t(l.key)}</a>`).join(' · ')}</p>\n`
   : '';
@@ -449,7 +455,7 @@ ${LEGAL_LINE}    </div>
 function legalLink(kind, key) {
   const href = INTL_LEGAL[kind];
   if (!href) throw new Error(`consents: the ${kind} document is not published (seo/legal-links.mjs) — no box may name it`);
-  return `<a href="${href}" target="_blank" rel="noopener" data-i18n="${key}">${t(key)}</a>`;
+  return `<a href="${localLegal(href)}" target="_blank" rel="noopener" data-i18n="${key}">${t(key)}</a>`;
 }
 function fillTemplate(key, links) {
   // Every {name} must have a link; that every language KEEPS each {name} is held by seo/test-en-legal-docs.mjs
@@ -946,11 +952,12 @@ ${FOOTER}
 `;
 }
 
-/* THE ENGLISH LEGAL DOCUMENTS — /en/privacy/ (LEGAL-1), /en/terms/ and /en/refund/ (LEGAL-3), built for English only.
+/* THE LEGAL DOCUMENTS — /en/privacy/ (LEGAL-1), /en/terms/ and /en/refund/ (LEGAL-3), and since LEGAL-4 their translations
+ * /<prefix>/{terms,refund,privacy}/ for every language with a seo/legal-i18n/<code>.mjs (the English is the master).
  * Each text lives in ONE place (seo/privacy-en.mjs, seo/terms-en.mjs, seo/refund-en.mjs); this is their one frame, the guide layout (hero, «On this page», one card per section). No script
  * beyond the logo's (CSP connect-src 'none'), no counter, no cookie. noindex, follow with its own canonical and no
  * hreflang: the indexing stages of seo/indexing.mjs are untouched, so the sitemap does not change. The language
- * switch leads every other language to its home — there is no translated policy yet. */
+ * switch leads every language to its own version of the document (Russian: its home). */
 const PRIVACY_PATH = '/en/privacy/';
 const LEGAL_DOCS = Object.freeze({
   privacy: { path: PRIVACY_PATH, D: PRIVACY, version: PRIVACY_VERSION, effective: PRIVACY_EFFECTIVE, effectiveIso: PRIVACY_EFFECTIVE_ISO },
@@ -960,14 +967,33 @@ const LEGAL_DOCS = Object.freeze({
 // The international Privacy Policy (pre-launch) is not offered to search engines (noindex) and is not in the sitemap;
 // every international footer links it (seo/legal-links.mjs). This note stays here, in the source: the legal page
 // itself carries no HTML comment (LEGAL-1 audit L1).
+const EN_HTML_LANG = locale('en').htmlLang;
+// Chinese typography (D6): a space between digits and Chinese («2026 年 10 月 23 日»), as the guides write dates.
+const cjkSpaced = (v) => v.replace(/(\d)(\p{Script=Han})/gu, '$1 $2').replace(/(\p{Script=Han})(\d)/gu, '$1 $2');
+const META_COLON = Object.freeze({ fr: '\u00a0:', 'zh-Hans': '：' });
 const PRIVACY_NOINDEX = '<meta name="robots" content="noindex, follow">';
 function privacyPage() { return legalPage('privacy'); }
 function legalPage(kind) {
   const doc = LEGAL_DOCS[kind];
   if (!doc) throw new Error(`legalPage: no legal document «${kind}»`);
-  if (L.code !== 'en') throw new Error(`legalPage: the ${kind} document is published in English only`);
-  const url = `${SITE}${doc.path}`;
-  const D = doc.D;
+  // LEGAL-4: outside English the page is the translation (seo/legal-i18n/<code>.mjs) of the same English document — the
+  // same section ids, the English version and date, and a notice that the English version applies where they differ.
+  const T = L.code === 'en' ? null : LEGAL_T;
+  if (L.code !== 'en' && !T) throw new Error(`legalPage: no ${L.code} translation of the ${kind} document (seo/legal-i18n.mjs)`);
+  const path = T ? `${P}/${kind}/` : doc.path;
+  const url = `${SITE}${path}`;
+  const D = T ? T[kind] : doc.D;
+  if (T && D.sections.map((x) => x.id).join('|') !== doc.D.sections.map((x) => x.id).join('|')) throw new Error(`legalPage(${kind}): the ${L.code} sections are not the English sections`);
+  const vLabel = T ? T.labels.version : 'Version';
+  const eLabel = T ? T.labels.effective : 'Effective date';
+  const version = T ? doc.version.replace('(pre-launch)', `(${T.labels.preLaunch})`) : doc.version;
+  const effective0 = T
+    ? new Intl.DateTimeFormat(L.htmlLang, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${doc.effectiveIso}T00:00:00Z`))
+    : doc.effective;
+  const effective = L.code === 'zh-Hans' ? cjkSpaced(effective0) : effective0;
+  // The version line follows each language's typography: French « : », Chinese full-width （）and ：.
+  const metaVersion = L.code === 'zh-Hans' ? version.replace(' (', '（').replace(/\)$/, '）') : version;
+  const notice = T ? `\n      <p class="lg-meta lg-translation">${esc(T.notice.body)} <a href="${doc.path}" hreflang="${EN_HTML_LANG}" lang="${EN_HTML_LANG}">${esc(T.notice.english)}</a></p>` : '';
   const ids = D.sections.map((x) => x.id);
   if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z0-9-]+$/.test(id))) throw new Error(`legalPage(${kind}): section ids must be unique ASCII`);
   const toc = D.sections.map((x) => `        <li><a href="#${x.id}">${esc(x.h2)}</a></li>`).join('\n');
@@ -975,7 +1001,8 @@ function legalPage(kind) {
       <h2 id="${x.id}-h">${esc(x.h2)}</h2>
 ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
     </section>`).join('\n\n');
-  const switchTwin = (l) => (l.code === 'en' ? doc.path : (l.prefix ? `/${l.prefix}/` : '/'));
+  // The switch leads every language that has this document to its own version of it; Russian to its home.
+  const switchTwin = (l) => (l.code === 'en' ? doc.path : (LEGAL_TRANSLATIONS[l.code] && l.prefix ? `/${l.prefix}/${kind}/` : (l.prefix ? `/${l.prefix}/` : '/')));
   return `<!doctype html>
 <html lang="${L.htmlLang}">
 <head>
@@ -1008,7 +1035,7 @@ ${PAYBAR}
       <p class="crumbs"><a href="${P}/">Magic eSIM</a> › ${esc(D.crumb)}</p>
       <h1>${esc(D.h1)}</h1>
       <p class="lead">${esc(D.lead)}</p>
-      <p class="lg-meta">Version ${esc(doc.version)} · Effective date: <time datetime="${doc.effectiveIso}">${esc(doc.effective)}</time></p>
+      <p class="lg-meta">${esc(vLabel)} ${esc(metaVersion)} · ${esc(eLabel)}${META_COLON[L.code] || ':'} <time datetime="${doc.effectiveIso}">${esc(effective)}</time></p>${notice}
     </div>
   </section>
 
@@ -1099,9 +1126,9 @@ function homePage(list = countries()) {
     for (const g of GUIDES) write(`${base}/guides/${g.slug}/index.html`, stampHtml(guidePage(g), join(ROOT, base, 'guides', g.slug)));
     write(`${base}/guides/index.html`, stampHtml(guidesHub(), join(ROOT, base, 'guides')));
     // An English legal page is written only while seo/legal-links.mjs publishes it at this very path.
-    for (const [kind, doc] of Object.entries(L.code === 'en' ? LEGAL_DOCS : {})) {
+    for (const [kind, doc] of Object.entries(L.code === 'en' || LEGAL_T ? LEGAL_DOCS : {})) {
       if (INTL_LEGAL[kind] !== doc.path) continue;
-      write(`en/${kind}/index.html`, stampHtml(legalPage(kind), join(ROOT, 'en', kind)));
+      write(`${base}/${kind}/index.html`, stampHtml(legalPage(kind), join(ROOT, base, kind)));
     }
     return { countries: list.length, guides: GUIDES.length };
   }

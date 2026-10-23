@@ -8,6 +8,9 @@
 //                     record and for a rehearsal; no published language uses it now. The Russian site's own footer
 //                     (seo/ru-chrome.mjs) is a different file and is untouched.
 //
+// LEGAL-4: a language with a translation (seo/legal-i18n.mjs) links its own /<prefix>/… version of each published
+// document instead (seo/build-locale-pages.mjs maps the /en/ path); legalLinks() itself still answers the English paths.
+//
 // INTL_LEGAL names each English document's URL — null until it is PUBLISHED. A null document is simply not linked:
 // no placeholder page is created and no page says a document exists before it does. Publishing one = its URL here
 // (a page that exists in the repository; the build refuses a URL that does not) and, for a document the dictionary has

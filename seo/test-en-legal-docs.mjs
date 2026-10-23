@@ -83,6 +83,8 @@ for (const [slug, D, version] of DOCS) {
     // «processed by a third-party payment service» is the pre-launch wording; a NAMED processor is not.
     assert.doesNotMatch(t, /[Pp]ayments are processed by (?!a third-party)/, 'no named payment processor');
     assert.doesNotMatch(t, /our payment provider is|is our Merchant of Record|Merchant of Record is [A-Z]/i, 'no claim that a payment flow runs');
+    // LEGAL-4: no possessive MoR either («added by our Merchant of Record» read as if one were connected).
+    assert.doesNotMatch(t, /\bour (Merchant of Record|payment provider|payment intermediary)\b/i, 'no MoR or payment provider presented as ours');
   });
 }
 
@@ -98,7 +100,10 @@ test('the Terms and the Refund Policy say the same thing where they meet', () =>
 
 /* ------------------------------------------------------------------ 3. footers */
 
-test('every international footer links the three published English documents, and no Russian one', () => {
+// LEGAL-4: every language links its OWN version of the three documents (English: /en/…; the others their translation,
+// seo/legal-i18n.mjs), never a Russian one.
+const HTML_LANG = { en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh-Hans', ko: 'ko' };
+test('every international footer links the three documents in its own language, and no Russian one', () => {
   assert.deepEqual(INTL_LEGAL, { terms: '/en/terms/', refund: '/en/refund/', privacy: '/en/privacy/' });
   for (const [code, prefix] of LANGS) {
     assert.deepEqual(legalLinks(code).map((l) => l.href), ['/en/terms/', '/en/refund/', '/en/privacy/'], code);
@@ -107,7 +112,7 @@ test('every international footer links the three published English documents, an
       const h = read(rel);
       const foot = h.slice(h.indexOf('<footer'));
       for (const k of ['terms', 'refund', 'privacy']) {
-        assert.ok(foot.includes(`<a href="/en/${k}/" hreflang="en" data-i18n="footer.${k}">${W[`footer.${k}`]}</a>`), `${rel}: footer ${k}`);
+        assert.ok(foot.includes(`<a href="/${prefix}/${k}/" hreflang="${HTML_LANG[code]}" data-i18n="footer.${k}">${W[`footer.${k}`]}</a>`), `${rel}: footer ${k}`);
       }
       assert.doesNotMatch(foot, /href="\/(terms|privacy)\.html"/, `${rel}: a Russian document`);
     }
@@ -155,12 +160,12 @@ test('every checkout window: two separate boxes, unticked, before the disabled p
     assert.match(inputs[1], /id="coAgreeDelivery"/);
     const labels = [...box.matchAll(/<label class="check">([\s\S]*?)<\/label>/g)].map((m) => m[1]);
     assert.equal(labels.length, 2, `${code}: one label per box`);
-    for (const [k, href] of [['termsLink', '/en/terms/'], ['refundLink', '/en/refund/']]) {
+    for (const [k, href] of [['termsLink', `/${prefix}/terms/`], ['refundLink', `/${prefix}/refund/`]]) {
       assert.ok(labels[0].includes(`<a href="${href}" target="_blank" rel="noopener" data-i18n="consent.${k}">${W[`consent.${k}`]}</a>`), `${code}: ${k}`);
     }
     assert.ok(labels[1].includes(W['consent.delivery']), `${code}: the request text`);
     assert.doesNotMatch(labels[1], /<a /, `${code}: the request is its own box, no document in it`);
-    assert.ok(box.includes(`<a href="/en/privacy/" target="_blank" rel="noopener" data-i18n="consent.privacyLink">${W['consent.privacyLink']}</a>`), `${code}: Privacy linked`);
+    assert.ok(box.includes(`<a href="/${prefix}/privacy/" target="_blank" rel="noopener" data-i18n="consent.privacyLink">${W['consent.privacyLink']}</a>`), `${code}: Privacy linked`);
   }
 });
 
@@ -200,3 +205,13 @@ test('en/checkout.js: the consent record cannot be built around the gate; the sc
   assert.doesNotMatch(SRC.replace(/\/\/.*$/gm, ''), /global\/orders|retail-orders|\/payments?\b|platega|flitt|checkout\.session/i, 'no order or payment path');
   assert.equal((SRC.match(/fetch\(|XMLHttpRequest|sendBeacon/g) || []).length <= 1, true, 'one network call: the quote');
 });
+
+/* ------------------------------------------------------------------ LEGAL-4: taxes, and the three documents agree */
+
+test('Terms §6.1: taxes may be added at checkout and the total is shown before payment — no Merchant of Record named', () => {
+  const t = text(TERMS.sections.map((x) => x.html).join(' '));
+  assert.match(t, /applicable taxes may be calculated and added at checkout\./);
+  assert.match(t, /The total amount payable, including any applicable taxes, will be displayed before you confirm the payment\./);
+  assert.doesNotMatch(t, /Merchant of Record during checkout/);
+});
+

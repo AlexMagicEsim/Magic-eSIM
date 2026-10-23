@@ -52,14 +52,20 @@ function htmlUnder(dir) {
   return out.sort();
 }
 const DE_PAGES = htmlUnder('de');
+// LEGAL-4: the three translated legal documents (/de/terms|refund|privacy/) are pages of this language too; their
+// fidelity to the English — which keeps proper names, the seller's Latin address and foreign law titles in English —
+// is held by seo/test-legal-i18n.mjs, so the «German only» word scan reads the 206 site pages without them.
+const DE_LEGAL = /^de\/(terms|refund|privacy)\/index\.html$/;
+const DE_SITE_PAGES = DE_PAGES.filter((rel) => !DE_LEGAL.test(rel));
 const head = (html) => html.slice(0, html.indexOf('</head>'));
 
 /* ------------------------------------------------------------------ 1. complete */
 
 test('206 German pages: the home, the list, 198 countries, the guides list and five guides', () => {
-  assert.equal(DE_PAGES.length, 206);
+  assert.equal(DE_SITE_PAGES.length, 206);
+  assert.equal(DE_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
   assert.equal(DE_PAGES.filter((p) => /^de\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').filter((p) => !/^en\/(privacy|terms|refund)\/index\.html$/.test(p)).length, DE_PAGES.length, 'the same pages as English, apart from the English-only legal documents (Privacy LEGAL-1, Terms + Refund LEGAL-3)');
+  assert.equal(htmlUnder('en').length, DE_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}', () => {
@@ -207,7 +213,7 @@ test('German only: no English-only word and no Russian on any of the 206 pages',
   const namesSrc = read('assets/country-names-de.js');
   const deNames = new Set(Object.keys(COUNTRY_NAMES).flatMap((iso) => words(namesSrc.match(new RegExp(`"${iso}": "([^"]+)"`))?.[1] || '')));
   const hits = new Set();
-  for (const rel of DE_PAGES) {
+  for (const rel of DE_SITE_PAGES) {
     for (const run of readable(read(rel))) {
       if (/[А-Яа-яЁё]/.test(run)) hits.add(`${rel}: Russian «${run.slice(0, 60)}»`);
       for (const w of words(run)) if (EN_ONLY.has(w) && !deNames.has(w)) hits.add(`${rel}: «${w}» in «${run.slice(0, 60)}»`);

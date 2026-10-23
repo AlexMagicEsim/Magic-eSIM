@@ -146,9 +146,9 @@ for (const [code, prefix] of LANGS) {
     await toReview(page);
     const box = page.locator('#coConsents');
     await expect(box).toBeVisible();
-    await expect(page.locator('#coConsents a[href="/en/terms/"]')).toHaveText(W['consent.termsLink']);
-    await expect(page.locator('#coConsents a[href="/en/refund/"]')).toHaveText(W['consent.refundLink']);
-    await expect(page.locator('#coConsents a[href="/en/privacy/"]')).toHaveText(W['consent.privacyLink']);
+    await expect(page.locator(`#coConsents a[href="/${prefix}/terms/"]`)).toHaveText(W['consent.termsLink']);
+    await expect(page.locator(`#coConsents a[href="/${prefix}/refund/"]`)).toHaveText(W['consent.refundLink']);
+    await expect(page.locator(`#coConsents a[href="/${prefix}/privacy/"]`)).toHaveText(W['consent.privacyLink']);
     await expect(page.locator('#coAgreeDelivery + span')).toHaveText(W['consent.delivery']);
     // Directly above the payment button: on a phone the action bar is pinned to the bottom of the sheet, so scroll the
     // sheet to its end — then the boxes sit right above the bar and the bar covers neither of them.
@@ -184,7 +184,8 @@ for (const [code, prefix] of LANGS) {
     await page.route('**/api/**', (route) => route.fulfill({ status: 500, body: 'not needed' }));
     await page.goto(`/${prefix}/`);
     for (const k of ['terms', 'refund', 'privacy']) {
-      await expect(page.locator(`.site-footer a[href="/en/${k}/"]`)).toHaveText(SITE.DICT[code][`footer.${k}`]);
+      // LEGAL-4: each language links its own translation of the document
+      await expect(page.locator(`.site-footer a[href="/${prefix}/${k}/"]`)).toHaveText(SITE.DICT[code][`footer.${k}`]);
     }
     await expect(page.locator('.site-footer a[href="/terms.html"], .site-footer a[href="/privacy.html"]')).toHaveCount(0);
   });

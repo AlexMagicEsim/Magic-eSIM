@@ -73,27 +73,30 @@ test('«On this page» links land on their sections', async ({ page }) => {
   }
 });
 
-test('the international footers lead to it; none links a Russian legal document', async ({ page }) => {
+test('every international footer leads to the Privacy Policy in its own language; none links a Russian legal document', async ({ page }) => {
+  // LEGAL-4: each language links its own translation (seo/legal-i18n.mjs); English links /en/privacy/.
   const LABELS = {
-    '/en/': 'Privacy Policy',
-    '/es/': 'Política de privacidad (en inglés)',
-    '/de/': 'Datenschutzerklärung (auf Englisch)',
-    '/fr/': 'Politique de confidentialité (en anglais)',
-    '/zh/': '隐私政策（英文）',
+    '/en/': ['/en/privacy/', 'en', 'Privacy Policy'],
+    '/es/': ['/es/privacy/', 'es', 'Política de privacidad'],
+    '/de/': ['/de/privacy/', 'de', 'Datenschutzerklärung'],
+    '/fr/': ['/fr/privacy/', 'fr', 'Politique de confidentialité'],
+    '/zh/': ['/zh/privacy/', 'zh-Hans', '隐私政策'],
+    '/ko/': ['/ko/privacy/', 'ko', '개인정보 처리방침'],
   };
-  for (const [home, label] of Object.entries(LABELS)) {
+  for (const [home, [href, lang, label]] of Object.entries(LABELS)) {
     for (const path of [home, `${home}guides/`]) {
       await open(page, path);
-      const link = page.locator('footer a[href="/en/privacy/"]');
+      const link = page.locator(`footer a[href="${href}"]`);
       await expect(link, path).toHaveText(label);
-      await expect(link, path).toHaveAttribute('hreflang', 'en');
+      await expect(link, path).toHaveAttribute('hreflang', lang);
       expect(await page.locator('a[href="/terms.html"], a[href="/privacy.html"]').count(), `${path}: Russian legal link`).toBe(0);
     }
   }
   await open(page, '/de/');
-  await page.locator('footer a[href="/en/privacy/"]').click();
-  await expect(page).toHaveURL(/\/en\/privacy\/$/);
-  await expect(page.locator('h1')).toHaveText('Privacy Policy');
+  await page.locator('footer a[href="/de/privacy/"]').click();
+  await expect(page).toHaveURL(/\/de\/privacy\/$/);
+  await expect(page.locator('h1')).toHaveText('Datenschutzerklärung');
+  await expect(page.locator('.lg-translation a[href="/en/privacy/"]')).toBeVisible();
 });
 
 test.describe('axe on the privacy page', () => {

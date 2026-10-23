@@ -5,8 +5,9 @@
 // are unavailable, no payment provider or Merchant of Record is named, no telephone number. Typography only: curly quotes;
 // layout only: tables become lists so every block reads on a 320 px phone. The Refund Policy (seo/refund-en.mjs) is part of these Terms.
 // seo/test-en-legal-docs.mjs pins what it states and what it must never state. A wording change is the owner's decision.
+// 0.9.1 (LEGAL-4, owner's word 2026-10-23): §6.1 no longer says «our Merchant of Record» — taxes «may be calculated and added at checkout».
 
-export const TERMS_VERSION = '0.9 (pre-launch)';
+export const TERMS_VERSION = '0.9.1 (pre-launch)';
 export const TERMS_EFFECTIVE = '23 October 2026';
 export const TERMS_EFFECTIVE_ISO = '2026-10-23';
 
@@ -145,7 +146,9 @@ export const TERMS = Object.freeze({
       </ul>
       <p>5.6. <strong>Language.</strong></p>
       <ul class="list">
-        <li>The contract is concluded in English. Translations of the website may be provided for convenience; these Terms are published in English.</li>
+        <li>The contract is concluded in English.</li>
+        <li>We also publish these Terms, the Refund Policy and the Privacy Policy in Spanish, German, French, Simplified Chinese and Korean for your convenience. If a translation and the English version differ, the English version applies, unless the mandatory law that applies to you requires otherwise.</li>
+        <li>This does not limit your statutory rights as a consumer, including any rule of that law that an unclear term is interpreted in your favour.</li>
       </ul>`,
     },
     {
@@ -153,7 +156,7 @@ export const TERMS = Object.freeze({
       <p>6.1. <strong>Price.</strong></p>
       <ul class="list">
         <li>Plan prices are shown in US dollars. They include all our charges; we add no fees of our own.</li>
-        <li>International payments are currently unavailable. When international checkout becomes available, applicable taxes may be calculated and added by our Merchant of Record during checkout. The total amount payable, including applicable taxes, will be displayed before payment confirmation.</li>
+        <li>International payments are currently unavailable. When international checkout becomes available, applicable taxes may be calculated and added at checkout. The total amount payable, including any applicable taxes, will be displayed before you confirm the payment.</li>
       </ul>
       <p>6.2. <strong>Payment.</strong></p>
       <ul class="list">
