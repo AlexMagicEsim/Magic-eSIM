@@ -54,12 +54,28 @@ jobs:
       - name: Proxy tests
         run: node --test proxy.test.js
 
+  # The suite runs in TWO SHARDS in parallel (Playwright --shard=1/2 and 2/2): together they are exactly the whole
+  # suite — Playwright splits the test list deterministically, no test is in both and none is left out
+  # (seo/test-ci-browser-shards.mjs pins the shape). One job ran ~20 min by 2026-10-22 (1320 tests), and a slow
+  # browser install pushed it past its 25-min limit with no failing test. fail-fast is off so a red shard never cancels the
+  # other: both always report. «browser-result» below is the ONE check that says whether the whole suite passed.
   browser:
-    name: Mini App browser tests (Chromium, 390 + 320)
+    name: Mini App browser tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})
     runs-on: ubuntu-24.04
-    # 25, as miniapp-scripts: the suite ran 12.5–14.3 min on main (754–858 s, 2026-10-21) and crossed 15 with the RU/EN
-    # motion-parity specs (#113's push run was cut at 15:00 with no failing test). A limit is for a hang, not for the suite.
+    # A limit is for a hang, not for the suite: one shard runs ~9–11 min.
     timeout-minutes: 25
+    # The browsers and their system libraries come PREINSTALLED in Microsoft's Playwright image — no download from the
+    # runner's Ubuntu mirror, which stalled for 18–25 min on 4 of 6 runners on 2026-10-22 (a timed retry did not help:
+    # the same runner kept the same slow mirror). The tag is the lockfile's @playwright/test version and the digest pins
+    # the exact image; seo/test-ci-browser-shards.mjs fails when either drifts from package-lock.json. --user 1001 = the
+    # runner's own user, so the checkout and npm's cache stay writable.
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -76,13 +92,6 @@ jobs:
       - name: Install the test runner
         run: npm ci
 
-      # Chromium for the suite, WebKit for the flag tests only (the
-      # `webkit-flags` project in playwright.config.js). `--with-deps` pulls the
-      # system libraries the browsers need on a bare runner; it is the browsers
-      # that are downloaded here, not another dependency of the site.
-      - name: Install Chromium and WebKit
-        run: npx playwright install --with-deps chromium webkit
-
       # Runs both viewport projects: 390x844 and 320x568, 27 cases each.
       #
       # NOTHING REAL IS TOUCHED, which is why this job needs no secret and can
@@ -90,7 +99,7 @@ jobs:
       # server over this repository and every API call is fulfilled from a
       # fixture inside the browser. No backend, no Platega, no order.
       - name: Browser tests
-        run: npx playwright test
+        run: npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
       # Only on failure, and only the report: a trace is the difference between
       # "flaky" and "here is what the page was doing", and it is the one thing a
@@ -99,9 +108,26 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: playwright-report
+          name: playwright-report-shard-${{ matrix.shard }}
           path: playwright-report/
           retention-days: 7
+
+  # The verdict over every shard. GitHub shows one check per shard; this job is green ONLY when the whole matrix
+  # succeeded — a failed, cancelled or skipped shard (or a cancelled run) makes it red. `always()` so it reports even
+  # when a shard failed; the result is read from an env var, never interpolated into the script.
+  browser-result:
+    name: Mini App browser tests (all shards)
+    needs: browser
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Every shard passed
+        env:
+          RESULT: ${{ needs.browser.result }}
+        run: |
+          echo "browser shards: $RESULT"
+          test "$RESULT" = "success"
 
   unit:
     name: storefront + Mini App unit tests
@@ -136,6 +162,14 @@ jobs:
     name: Mini App scripts (WebKit + Chromium)
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    # As the browser job: Chromium + WebKit and their system libraries come PREINSTALLED in Microsoft's Playwright image — no download from the
+    # runner's Ubuntu mirror, which stalled for 18–25 min on 4 of 6 runners on 2026-10-22 (a timed retry did not help:
+    # the same runner kept the same slow mirror). The tag is the lockfile's @playwright/test version and the digest pins
+    # the exact image; seo/test-ci-browser-shards.mjs fails when either drifts from package-lock.json. --user 1001 = the
+    # runner's own user, so the checkout and npm's cache stay writable.
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
+      options: --user 1001
 
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -147,9 +181,6 @@ jobs:
 
       - name: Install the test runner
         run: npm ci
-
-      - name: Install Chromium and WebKit
-        run: npx playwright install --with-deps chromium webkit
 
       - name: Mini App scripts
         run: node test/mini-app/run-all.mjs
