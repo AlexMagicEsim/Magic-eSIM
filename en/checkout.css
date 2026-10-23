@@ -78,6 +78,12 @@
 .co-review .total{padding-top:10px;border-top:1px solid var(--border)}
 .co-review .total b{font-size:22px;font-weight:800}
 #coFinal{margin:0 0 4px}
+/* LEGAL-3: the two consents right above the payment button — compact, each its own box, the document links underlined */
+.co-consents{margin:14px 0 0;padding:0;border:0;min-width:0}
+.co-consents .check{font-size:13.5px;line-height:1.45;font-weight:500;margin:0 0 10px}
+.co-consents .check a,.co-consents .note a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.co-consents .check input{width:20px;height:20px;margin-top:1px}
+.co-consents .note{margin:2px 0 0;font-size:13px}
 
 /* the action */
 .co-action{display:grid;gap:8px;margin:16px 0 0}

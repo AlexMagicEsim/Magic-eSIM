@@ -64,6 +64,7 @@
     /* D8: the Chinese pages never link the Russian documents. These two words are for the English documents of
      * LEGAL-0/LEGAL-1 and are shown only once seo/legal-links.mjs names a published document. */
     'footer.terms': '服务条款（英文）',
+    'footer.refund': '退款政策（英文）',
     'footer.privacy': '隐私政策（英文）',
     'site.compatTitle': '我的手机能用吗？',
     'site.compatBody': '您的手机需要支持 eSIM，且未被运营商锁定。在中国大陆购买的手机，只有部分机型支持 eSIM，请先查看兼容性指南。',
@@ -90,6 +91,13 @@
     'checkout.emailInvalid': '请输入有效的电子邮箱地址。',
     'checkout.device': '我的手机支持 eSIM，且未被运营商锁定',
     'checkout.deviceRequired': '请确认您的手机支持 eSIM。',
+    'consent.legend': '付款前',
+    'consent.terms': '我已阅读并同意{terms}和{refund}。',
+    'consent.termsLink': '服务条款',
+    'consent.refundLink': '退款政策',
+    'consent.delivery': '我要求 Magic eSIM 在 14 天撤回期内立即开始提供我的 eSIM 套餐。我理解，套餐一经全部提供（流量用完或有效期结束），我即丧失撤回权；如果我在此之前撤回，需要支付截至我通知时已提供部分的费用。',
+    'consent.privacy': '我们的{privacy}说明了我们如何处理您的数据。',
+    'consent.privacyLink': '隐私政策',
     'checkout.review': '核对',
     'checkout.back': '返回',
     'quote.explain': '准确价格由我们的服务器确定，并保留 30 分钟。',

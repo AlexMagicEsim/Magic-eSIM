@@ -157,7 +157,7 @@ test('the generator carries no route of one language — only the shared intl as
   const routes = [...src.matchAll(/["'`(]\/en\/[^"'`)\s]*/g)].map((m) => m[0].slice(1))
     .filter((p) => !/^\/en\/(en\.css|checkout\.css|noscript\.css|plans\.js|checkout\.js|country\.js|hub\.js)$/.test(p))
     .filter((p) => p !== '/en/esim/<slug>/')
-    .filter((p) => p !== '/en/privacy/'); // the English-only Privacy Policy (LEGAL-1), built for English only
+    .filter((p) => !/^\/en\/(privacy|terms|refund)\/$/.test(p)); // the English-only legal documents (LEGAL-1, LEGAL-3), built for English only
   assert.deepEqual(routes, []);
   assert.doesNotMatch(src, /lang="en"|content="en_US"|text\('en'|attr\('en'/);
 });

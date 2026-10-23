@@ -70,7 +70,7 @@ function readable(html) {
 test('206 Chinese pages: the home, the list, 198 countries, the guides list and five guides', () => {
   assert.equal(ZH_PAGES.length, 206);
   assert.equal(ZH_PAGES.filter((p) => /^zh\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').filter((p) => p !== 'en/privacy/index.html').length, ZH_PAGES.length, 'the same pages as English, apart from the English-only Privacy Policy (LEGAL-1)');
+  assert.equal(htmlUnder('en').filter((p) => !/^en\/(privacy|terms|refund)\/index\.html$/.test(p)).length, ZH_PAGES.length, 'the same pages as English, apart from the English-only legal documents (Privacy LEGAL-1, Terms + Refund LEGAL-3)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}; one plural form', () => {
@@ -287,16 +287,15 @@ test('noindex until the owner opens Chinese (D11): every page noindex, self-cano
 
 /* ------------------------------------------------------------------ 7. legal links (D8) */
 
-test('D8 + LEGAL-1: no international page links a Russian document; every one links the English Privacy Policy', () => {
+test('D8 + LEGAL-1 + LEGAL-3: no international page links a Russian document; every one links the English Terms, Refund and Privacy', () => {
   for (const l of ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']) assert.equal(LEGAL_SCHEME[l], 'international', l);
-  assert.deepEqual(INTL_LEGAL, { terms: null, refund: null, privacy: '/en/privacy/' }, 'LEGAL-1 published the Privacy Policy only');
-  assert.deepEqual(legalLinks('zh-Hans').map((l) => [l.key, l.href, l.hreflang]), [['footer.privacy', '/en/privacy/', 'en']]);
+  assert.deepEqual(INTL_LEGAL, { terms: '/en/terms/', refund: '/en/refund/', privacy: '/en/privacy/' }, 'LEGAL-1 published Privacy; LEGAL-3 Terms and Refund');
+  assert.deepEqual(legalLinks('zh-Hans').map((l) => [l.key, l.href, l.hreflang]), [['footer.terms', '/en/terms/', 'en'], ['footer.refund', '/en/refund/', 'en'], ['footer.privacy', '/en/privacy/', 'en']]);
   assert.throws(() => legalLinks('zh-Hans', { terms: '/legal/terms/', refund: null, privacy: null }), /not a published page/, 'never a link to a page that does not exist');
   for (const rel of ZH_PAGES) {
     const h = read(rel);
-    assert.doesNotMatch(h, /href="\/(terms|privacy)\.html"|data-i18n="footer\.terms"/, `${rel}: a Russian legal document or an unpublished one`);
-    assert.ok(h.includes(`<a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">${ZH['footer.privacy']}</a>`), `${rel}: the English Privacy Policy`);
-    assert.ok(!h.includes(ZH['footer.terms']), `${rel}: names the Terms, which are not published`);
+    assert.doesNotMatch(h, /href="\/(terms|privacy)\.html"/, `${rel}: a Russian legal document`);
+    for (const k of ['terms', 'refund', 'privacy']) assert.ok(h.includes(`<a href="/en/${k}/" hreflang="en" data-i18n="footer.${k}">${ZH[`footer.${k}`]}</a>`), `${rel}: the English ${k} document`);
   }
   const en = read('en/index.html');
   assert.ok(en.includes('<a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">Privacy Policy</a>'), 'English links its Privacy Policy');

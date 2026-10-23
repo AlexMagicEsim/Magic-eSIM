@@ -133,6 +133,37 @@
    * Bind the window once per page. Returns open(plan, focusIso).
    * deps: { I18N, PLANS, net?, now? } — net defaults to window.MagicNet.
    */
+  // LEGAL-3. International payments are OFF: nothing in this file starts a payment, and nothing can switch this on at
+  // run time — it is a constant of the shipped file, changed only by a reviewed release together with the server check
+  // of the consent record. Until then the payment button stays disabled whatever the boxes say.
+  var PAYMENTS_OPEN = false;
+
+  // The two consents (Terms of Service + Refund Policy; the express request for immediate supply) — each its own box.
+  // payAllowed is the ONE gate a payment may pass: both boxes ticked, both document versions known, payments open.
+  function payAllowed(c) {
+    return !!(c && c.paymentsOpen === true && c.terms === true && c.delivery === true
+      && typeof c.termsVersion === 'string' && c.termsVersion !== ''
+      && typeof c.refundVersion === 'string' && c.refundVersion !== '');
+  }
+  function consentState(doc) {
+    var terms = doc.getElementById('coAgreeTerms');
+    var delivery = doc.getElementById('coAgreeDelivery');
+    return {
+      paymentsOpen: PAYMENTS_OPEN,
+      terms: !!(terms && terms.checked),
+      delivery: !!(delivery && delivery.checked),
+      termsVersion: terms ? terms.getAttribute('data-terms-version') || '' : '',
+      refundVersion: terms ? terms.getAttribute('data-refund-version') || '' : '',
+    };
+  }
+  // What a future payment request sends with the order — the server checks it again and records it with its own time.
+  // Throws unless every condition holds: a payment can never be started around the boxes.
+  function consentRecord(doc) {
+    var c = consentState(doc);
+    if (!payAllowed(c)) throw new Error('CONSENT_REQUIRED');
+    return { terms_version: c.termsVersion, refund_version: c.refundVersion, accepted_terms: true, requested_immediate_supply: true };
+  }
+
   function bind(doc, deps) {
     var I18N = deps.I18N;
     var PLANS = deps.PLANS;
@@ -339,6 +370,7 @@
       // The email leaves with the window: nothing keeps it.
       $('coEmail').value = '';
       $('coDevice').checked = false;
+      resetConsents();
       box.hidden = true;
       if (opener && doc.contains(opener) && typeof opener.focus === 'function') opener.focus();
       opener = null;
@@ -353,7 +385,23 @@
     $('coReview').addEventListener('click', review);
     $('coBack').addEventListener('click', function () { if (st) { st.step = 2; show(2); keepFocus($('coTotal')); } });
     // The payment button exists to say what is missing. It is disabled in the
-    // markup and nothing here ever enables it or listens to it.
+    // markup and nothing here ever enables it or listens to it: international
+    // payments are off (PAYMENTS_OPEN). The consent boxes report their state on the
+    // fieldset (data-state: none / terms / delivery / both) and data-ready says whether
+    // the one gate, payAllowed, would let a payment through — it never does while
+    // payments are off. The release that opens payments wires the button to that gate.
+    function syncConsents() {
+      var box2 = $('coConsents');
+      if (!box2) return;
+      var c = consentState(doc);
+      box2.setAttribute('data-state', c.terms && c.delivery ? 'both' : (c.terms ? 'terms' : (c.delivery ? 'delivery' : 'none')));
+      box2.setAttribute('data-ready', payAllowed(c) ? 'true' : 'false');
+    }
+    function resetConsents() {
+      ['coAgreeTerms', 'coAgreeDelivery'].forEach(function (id) { var el = $(id); if (el) el.checked = false; });
+      syncConsents();
+    }
+    ['coAgreeTerms', 'coAgreeDelivery'].forEach(function (id) { var el = $(id); if (el) el.addEventListener('change', syncConsents); });
 
     return function open(plan, focusIso) {
       stopTimer();
@@ -371,6 +419,7 @@
       $('coTermPick').hidden = !st.perDay;
       $('coEmail').value = '';
       $('coDevice').checked = false;
+      resetConsents();
       $('coTotal').textContent = '—';
       $('coRequote').hidden = true;
       ['coQuoteStatus', 'coExpiry', 'coPriceChanged', 'coFormError'].forEach(function (id) { say(id, null); });
@@ -388,6 +437,7 @@
   var api = {
     QUOTE_PATH: QUOTE_PATH, quoteBody: quoteBody, validateQuote: validateQuote, requestQuote: requestQuote,
     durations: durations, isPerDay: isPerDay, clock: clock, REASON_KEY: REASON_KEY, EMAIL: EMAIL, bind: bind,
+    payAllowed: payAllowed, consentState: consentState, consentRecord: consentRecord,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.MagicEnCheckout = api;

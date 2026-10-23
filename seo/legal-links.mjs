@@ -20,8 +20,8 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 /** The English legal documents of LEGAL-1: a site path when published, null until then. */
 export const INTL_LEGAL = Object.freeze({
-  terms: null,
-  refund: null,
+  terms: '/en/terms/', // LEGAL-3: the pre-launch Terms of Service (seo/terms-en.mjs)
+  refund: '/en/refund/', // LEGAL-3: the pre-launch Refund Policy (seo/refund-en.mjs)
   privacy: '/en/privacy/', // LEGAL-1: the pre-launch Privacy Policy (seo/privacy-en.mjs)
 });
 
@@ -29,6 +29,13 @@ export const INTL_LEGAL = Object.freeze({
 export const LEGAL_SCHEME = Object.freeze({
   en: 'international', es: 'international', de: 'international', fr: 'international',
   'zh-Hans': 'international', ko: 'international',
+});
+
+/** The English legal pages the locale build writes itself, with the module that holds each text. */
+export const GENERATED_LEGAL = Object.freeze({
+  '/en/privacy/': 'seo/privacy-en.mjs',
+  '/en/terms/': 'seo/terms-en.mjs',
+  '/en/refund/': 'seo/refund-en.mjs',
 });
 
 const RUSSIAN = Object.freeze([
@@ -51,6 +58,14 @@ export function legalLinks(code, legal = INTL_LEGAL) {
   for (const doc of ['terms', 'refund', 'privacy']) {
     const href = legal[doc];
     if (href == null) continue;
+    // An English legal page this repository generates (seo/build-locale-pages.mjs, English build) counts as published
+    // when its text source exists — the same build writes the page, so a fresh checkout can build it the first time.
+    const generated = GENERATED_LEGAL[href];
+    if (generated) {
+      if (!existsSync(join(ROOT, generated))) throw new Error(`legal-links: ${doc} → ${href} has no text source ${generated}`);
+      out.push({ key: `footer.${doc}`, href, hreflang: 'en' });
+      continue;
+    }
     const file = servedFile(href);
     if (!file || !existsSync(join(ROOT, file))) throw new Error(`legal-links: ${doc} → ${href} is not a published page — never link a document before it exists`);
     out.push({ key: `footer.${doc}`, href, hreflang: 'en' });

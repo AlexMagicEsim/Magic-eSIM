@@ -58,6 +58,8 @@ import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
 import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
+import { TERMS, TERMS_VERSION, TERMS_EFFECTIVE, TERMS_EFFECTIVE_ISO } from './terms-en.mjs';
+import { REFUND, REFUND_VERSION, REFUND_EFFECTIVE, REFUND_EFFECTIVE_ISO } from './refund-en.mjs';
 
 export { FONT_PRELOAD, LOGO };
 
@@ -395,9 +397,9 @@ const ftLinks = (items) => items.map((x) => `          <li><a href="${x.href}">$
 
 /* The footer. The support line is pinned word for word by
  * seo/test-en-support-contact.mjs. The legal links follow the language's scheme
- * (seo/legal-links.mjs, owner D8): EN/ES/DE/FR the Russian documents, labelled
- * so; Chinese only the English LEGAL documents once published — none yet, so
- * no line. */
+ * (seo/legal-links.mjs): every international language links the published English
+ * documents — Terms of Service, Refund Policy, Privacy Policy (LEGAL-3) — labelled
+ * «in English» outside English; never a Russian document. */
 const LEGAL = legalLinks(code);
 const LEGAL_LINE = LEGAL.length
   ? `      <p>${LEGAL.map((l) => `<a href="${l.href}" hreflang="${l.hreflang}" data-i18n="${l.key}">${t(l.key)}</a>`).join(' · ')}</p>\n`
@@ -436,6 +438,33 @@ ${ftLinks(GUIDES.map((g) => ({ href: `${P}/guides/${g.slug}/`, label: g.h1 })))}
 ${LEGAL_LINE}    </div>
   </div>
 </footer>`;
+
+/* LEGAL-3: the two consents, directly before the payment button, each its own box, never pre-ticked — (1) the Terms of
+ * Service and the Refund Policy, each its own link to the published English page (a new tab); (2) the express request
+ * for immediate supply, in the words Refund Policy §4.2 quotes. The Privacy Policy is linked under them (Terms §5.3(b)).
+ * Built from one template per language: a {name} becomes the link. A document that is not published makes the BUILD
+ * fail — never a box that names a page that does not exist. en/checkout.js keeps the boxes unticked on every opening and
+ * keeps the payment button disabled while international payments are off; the server must check the record too
+ * (MAGIC_ESIM_LEGAL3_CONSENT_SERVER_PLAN). */
+function legalLink(kind, key) {
+  const href = INTL_LEGAL[kind];
+  if (!href) throw new Error(`consents: the ${kind} document is not published (seo/legal-links.mjs) — no box may name it`);
+  return `<a href="${href}" target="_blank" rel="noopener" data-i18n="${key}">${t(key)}</a>`;
+}
+function fillTemplate(key, links) {
+  // Every {name} must have a link; that every language KEEPS each {name} is held by seo/test-en-legal-docs.mjs
+  // (a rehearsal's marked words carry no placeholder at all, so the build does not refuse a missing one).
+  return t(key).replace(/\{(\w+)\}/g, (m, name) => {
+    if (!links[name]) throw new Error(`consents: ${key} names {${name}}, which has no link`);
+    return links[name];
+  });
+}
+const CONSENTS = `      <fieldset class="co-consents" id="coConsents" data-state="none" data-ready="false">
+        <legend class="sr-only" data-i18n="consent.legend">${t('consent.legend')}</legend>
+        <label class="check"><input type="checkbox" id="coAgreeTerms" data-terms-version="${TERMS_VERSION}" data-refund-version="${REFUND_VERSION}"> <span>${fillTemplate('consent.terms', { terms: legalLink('terms', 'consent.termsLink'), refund: legalLink('refund', 'consent.refundLink') })}</span></label>
+        <label class="check"><input type="checkbox" id="coAgreeDelivery"> <span data-i18n="consent.delivery">${t('consent.delivery')}</span></label>
+        <p class="note">${fillTemplate('consent.privacy', { privacy: legalLink('privacy', 'consent.privacyLink') })}</p>
+      </fieldset>`;
 
 /* The checkout window: plan → price fixed by the server (a GLOBAL quote) →
  * review. Each fact about the plan is shown once: coverage, data, validity
@@ -516,6 +545,7 @@ const modal = (c) => `<div class="overlay" id="checkout" hidden>
         <h4 data-i18n="pay.finalTitle">${t('pay.finalTitle')}</h4>
         <p data-i18n="pay.finalBody">${t('pay.finalBody')}</p>
       </div>
+${CONSENTS}
       <div class="co-action">
         <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">${t('pay.disabled')}</button>
         <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">${t('checkout.back')}</button>
@@ -916,28 +946,36 @@ ${FOOTER}
 `;
 }
 
-/* THE ENGLISH PRIVACY POLICY (LEGAL-1) — /en/privacy/, built for English only. The text lives in ONE place,
- * seo/privacy-en.mjs; this is its frame, the guide layout (hero, «On this page», one card per section). No script
+/* THE ENGLISH LEGAL DOCUMENTS — /en/privacy/ (LEGAL-1), /en/terms/ and /en/refund/ (LEGAL-3), built for English only.
+ * Each text lives in ONE place (seo/privacy-en.mjs, seo/terms-en.mjs, seo/refund-en.mjs); this is their one frame, the guide layout (hero, «On this page», one card per section). No script
  * beyond the logo's (CSP connect-src 'none'), no counter, no cookie. noindex, follow with its own canonical and no
  * hreflang: the indexing stages of seo/indexing.mjs are untouched, so the sitemap does not change. The language
  * switch leads every other language to its home — there is no translated policy yet. */
 const PRIVACY_PATH = '/en/privacy/';
+const LEGAL_DOCS = Object.freeze({
+  privacy: { path: PRIVACY_PATH, D: PRIVACY, version: PRIVACY_VERSION, effective: PRIVACY_EFFECTIVE, effectiveIso: PRIVACY_EFFECTIVE_ISO },
+  terms: { path: '/en/terms/', D: TERMS, version: TERMS_VERSION, effective: TERMS_EFFECTIVE, effectiveIso: TERMS_EFFECTIVE_ISO },
+  refund: { path: '/en/refund/', D: REFUND, version: REFUND_VERSION, effective: REFUND_EFFECTIVE, effectiveIso: REFUND_EFFECTIVE_ISO },
+});
 // The international Privacy Policy (pre-launch) is not offered to search engines (noindex) and is not in the sitemap;
 // every international footer links it (seo/legal-links.mjs). This note stays here, in the source: the legal page
 // itself carries no HTML comment (LEGAL-1 audit L1).
 const PRIVACY_NOINDEX = '<meta name="robots" content="noindex, follow">';
-function privacyPage() {
-  if (L.code !== 'en') throw new Error('privacyPage: the Privacy Policy is published in English only');
-  const url = `${SITE}${PRIVACY_PATH}`;
-  const D = PRIVACY;
+function privacyPage() { return legalPage('privacy'); }
+function legalPage(kind) {
+  const doc = LEGAL_DOCS[kind];
+  if (!doc) throw new Error(`legalPage: no legal document «${kind}»`);
+  if (L.code !== 'en') throw new Error(`legalPage: the ${kind} document is published in English only`);
+  const url = `${SITE}${doc.path}`;
+  const D = doc.D;
   const ids = D.sections.map((x) => x.id);
-  if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z0-9-]+$/.test(id))) throw new Error('privacyPage: section ids must be unique ASCII');
+  if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z0-9-]+$/.test(id))) throw new Error(`legalPage(${kind}): section ids must be unique ASCII`);
   const toc = D.sections.map((x) => `        <li><a href="#${x.id}">${esc(x.h2)}</a></li>`).join('\n');
   const sections = D.sections.map((x) => `    <section class="g-sec prose" id="${x.id}" aria-labelledby="${x.id}-h">
       <h2 id="${x.id}-h">${esc(x.h2)}</h2>
 ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
     </section>`).join('\n\n');
-  const switchTwin = (l) => (l.code === 'en' ? PRIVACY_PATH : (l.prefix ? `/${l.prefix}/` : '/'));
+  const switchTwin = (l) => (l.code === 'en' ? doc.path : (l.prefix ? `/${l.prefix}/` : '/'));
   return `<!doctype html>
 <html lang="${L.htmlLang}">
 <head>
@@ -970,7 +1008,7 @@ ${PAYBAR}
       <p class="crumbs"><a href="${P}/">Magic eSIM</a> › ${esc(D.crumb)}</p>
       <h1>${esc(D.h1)}</h1>
       <p class="lead">${esc(D.lead)}</p>
-      <p class="lg-meta">Version ${esc(PRIVACY_VERSION)} · Effective date: <time datetime="${PRIVACY_EFFECTIVE_ISO}">${esc(PRIVACY_EFFECTIVE)}</time></p>
+      <p class="lg-meta">Version ${esc(doc.version)} · Effective date: <time datetime="${doc.effectiveIso}">${esc(doc.effective)}</time></p>
     </div>
   </section>
 
@@ -1060,13 +1098,17 @@ function homePage(list = countries()) {
     write(`${base}/esim/index.html`, stampHtml(hubPage(list), join(ROOT, base, 'esim')));
     for (const g of GUIDES) write(`${base}/guides/${g.slug}/index.html`, stampHtml(guidePage(g), join(ROOT, base, 'guides', g.slug)));
     write(`${base}/guides/index.html`, stampHtml(guidesHub(), join(ROOT, base, 'guides')));
-    if (L.code === 'en' && INTL_LEGAL.privacy === PRIVACY_PATH) write('en/privacy/index.html', stampHtml(privacyPage(), join(ROOT, 'en', 'privacy')));
+    // An English legal page is written only while seo/legal-links.mjs publishes it at this very path.
+    for (const [kind, doc] of Object.entries(L.code === 'en' ? LEGAL_DOCS : {})) {
+      if (INTL_LEGAL[kind] !== doc.path) continue;
+      write(`en/${kind}/index.html`, stampHtml(legalPage(kind), join(ROOT, 'en', kind)));
+    }
     return { countries: list.length, guides: GUIDES.length };
   }
 
   return Object.freeze({
     locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER,
-    countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin, privacyPage,
+    countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin, privacyPage, legalPage,
     ...(canWrite ? { build } : {}),
   });
 }

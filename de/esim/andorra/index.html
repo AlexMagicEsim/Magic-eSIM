@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="/assets/site.css?v=fdc3a49c">
 <link rel="stylesheet" href="/en/en.css?v=21b3b969">
 <link rel="stylesheet" href="/assets/page-country.css?v=3b354c34">
-<link rel="stylesheet" href="/en/checkout.css?v=fd7edfb5">
+<link rel="stylesheet" href="/en/checkout.css?v=27589e0f">
 </head>
 <body data-iso="AD">
 
@@ -258,6 +258,12 @@
         <h4 data-i18n="pay.finalTitle">Online-Zahlung ist noch nicht verfügbar</h4>
         <p data-i18n="pay.finalBody">Wir können noch keine Zahlungen annehmen. Deshalb wurde nichts abgebucht und keine Bestellung erstellt, und es wird keine eSIM verschickt. Deine E-Mail-Adresse wurde weder gesendet noch gespeichert.</p>
       </div>
+      <fieldset class="co-consents" id="coConsents" data-state="none" data-ready="false">
+        <legend class="sr-only" data-i18n="consent.legend">Vor dem Bezahlen</legend>
+        <label class="check"><input type="checkbox" id="coAgreeTerms" data-terms-version="0.9 (pre-launch)" data-refund-version="0.9 (pre-launch)"> <span>Ich habe die <a href="/en/terms/" target="_blank" rel="noopener" data-i18n="consent.termsLink">Nutzungsbedingungen</a> und die <a href="/en/refund/" target="_blank" rel="noopener" data-i18n="consent.refundLink">Erstattungsrichtlinie</a> gelesen und stimme ihnen zu.</span></label>
+        <label class="check"><input type="checkbox" id="coAgreeDelivery"> <span data-i18n="consent.delivery">Ich verlange, dass Magic eSIM schon jetzt, innerhalb der 14-tägigen Widerrufsfrist, mit der Bereitstellung meines eSIM-Tarifs beginnt. Mir ist bekannt, dass ich mein Widerrufsrecht verliere, sobald der Tarif vollständig erbracht ist (das Datenvolumen ist aufgebraucht oder die Gültigkeit ist abgelaufen), und dass ich bei einem früheren Widerruf für den bis zu meiner Mitteilung erbrachten Teil des Tarifs bezahle.</span></label>
+        <p class="note">Wie wir mit deinen Daten umgehen, erklärt unsere <a href="/en/privacy/" target="_blank" rel="noopener" data-i18n="consent.privacyLink">Datenschutzerklärung</a>.</p>
+      </fieldset>
       <div class="co-action">
         <button type="button" class="btn" id="coPay" disabled aria-disabled="true" data-i18n="pay.disabled">Zahlung noch nicht verfügbar</button>
         <button type="button" class="btn btn-ghost" id="coBack" data-i18n="checkout.back">Zurück</button>
@@ -306,7 +312,7 @@
     </div>
     <div class="ft-bottom">
       <p>© Magic eSIM</p>
-      <p><a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">Datenschutzerklärung (auf Englisch)</a></p>
+      <p><a href="/en/terms/" hreflang="en" data-i18n="footer.terms">Nutzungsbedingungen (auf Englisch)</a> · <a href="/en/refund/" hreflang="en" data-i18n="footer.refund">Erstattungsrichtlinie (auf Englisch)</a> · <a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">Datenschutzerklärung (auf Englisch)</a></p>
     </div>
   </div>
 </footer>
@@ -315,9 +321,9 @@
 <script src="/assets/global-catalog.js?v=b1cc2099" defer></script>
 <script src="/assets/daily-plan-copy.js?v=1f3a5f20" defer></script>
 <script src="/assets/country-names-de.js?v=3eb16643" defer></script>
-<script src="/assets/site-i18n-de.js?v=9cd5a2a4" defer></script>
+<script src="/assets/site-i18n-de.js?v=b6065ca2" defer></script>
 <script src="/en/plans.js?v=80331bd8" defer></script>
-<script src="/en/checkout.js?v=30a7e399" defer></script>
+<script src="/en/checkout.js?v=2eae1084" defer></script>
 <script src="/en/country.js?v=d6b2fdf5" defer></script>
 </body>
 </html>

@@ -47,7 +47,7 @@ test('the home carries the generator\'s header, payment bar and footer, verbatim
 
 test('every English page has the same header shape, the same footer, and the payment bar', () => {
   // 206 storefront pages + the Privacy Policy (LEGAL-1), which carries the same chrome.
-  assert.equal(PAGES.length, 207);
+  assert.equal(PAGES.length, 209); // + the legal documents: Privacy (LEGAL-1), Terms and Refund (LEGAL-3)
   for (const p of PAGES) {
     const h = read(p);
     assert.ok(h.includes(FOOTER), `${p}: footer`);
@@ -125,10 +125,14 @@ test('every new English string exists, and none promises what the shop cannot st
   assert.deepEqual(missing, []);
   const homeKeys = Object.keys(I18N_EN).filter((k) => /^(home|footer|nav|preview)\./.test(k));
   const CLAIM = CLAIM_GUARDS.en.marketing.re;   // seo/claim-guards.mjs
-  for (const k of homeKeys) assert.doesNotMatch(I18N_EN[k], CLAIM, `${k}: «${I18N_EN[k]}»`);
+  // A document's NAME is not a promise: «Refund Policy» names the published page (LEGAL-3), it offers nothing.
+  const DOCUMENT_NAMES = new Set(['footer.terms', 'footer.refund', 'footer.privacy']);
+  for (const k of homeKeys.filter((x) => !DOCUMENT_NAMES.has(x))) assert.doesNotMatch(I18N_EN[k], CLAIM, `${k}: «${I18N_EN[k]}»`);
   assert.equal(CLAIM.test('Fast support 24/7'), true, 'the rule can fire');
   // And the markup's static text is held to the same rule.
-  const text = HOME.slice(HOME.indexOf('<main')).replace(/<[^>]+>/g, ' ');
+  const text = HOME.slice(HOME.indexOf('<main'))
+    .replace(/<a href="\/en\/(terms|refund|privacy)\/"[^>]*>[^<]*<\/a>/g, ' ')   // a document's name, not a promise
+    .replace(/<[^>]+>/g, ' ');
   assert.doesNotMatch(text, CLAIM);
 });
 
