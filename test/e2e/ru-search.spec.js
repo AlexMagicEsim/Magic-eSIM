@@ -11,6 +11,10 @@
 
 const { test, expect } = require('@playwright/test');
 
+// The Russian home is the Russian browser's «/»: any other browser language is sent on by assets/lang-route.js
+// (owner, 2026-10-23; test/e2e/lang-route.spec.js covers that).
+test.use({ locale: 'ru-RU' });
+
 async function open(page, url) {
   const st = { goals: [], nonGet: 0 };
   await page.exposeBinding('__ym', (src, args) => st.goals.push(args));

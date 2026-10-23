@@ -192,9 +192,19 @@ export function stripLanguageSwitch(html) {
     .replace(/(<nav class="mnav-panel"[^>]*>[\s\S]*?<hr>)((?:\s*<a href="[^"]*" hreflang="[^"]*" lang="[^"]*"[^>]*>[^<]*<\/a>)+)/g, '$1');
 }
 
+// THE FIRST-VISIT LANGUAGE ROUTE LIKEWISE, added 2026-10-23 (owner). The two <head> lines of index.html that load
+// assets/lang-route.js say where a first visit in another language is sent, not what the Russian home says — the same
+// kind of line as the language switch above. Removed before hashing, so «/» keeps its date (no state migration);
+// seo/test-lang-route.mjs pins the round trip.
+export function stripLangRoute(html) {
+  return String(html)
+    .replace(/[ \t]*<!-- Before everything else \(the counter included\): the first look at «\/» [^\n]*-->\n/g, '')
+    .replace(/[ \t]*<script src="\/assets\/lang-route\.js(?:\?v=[0-9a-f]+)?"><\/script>\n?/g, '');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(html))))
+    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(html)))))
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')

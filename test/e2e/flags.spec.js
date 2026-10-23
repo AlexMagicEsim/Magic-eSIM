@@ -148,11 +148,14 @@ for (const url of SURFACES) {
   }
 }
 
-test('the home search shows China with the repaired flag', async ({ page }) => {
-  await offline(page);
-  await page.goto('/');
-  await page.fill('#q', 'Китай');
-  const img = page.locator('#results a.res img').first();
-  await expect(img).toHaveAttribute('src', '/assets/flags/cn.svg');
-  await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
+test.describe('the Russian home (a Russian browser: assets/lang-route.js sends any other on)', () => {
+  test.use({ locale: 'ru-RU' });
+  test('the home search shows China with the repaired flag', async ({ page }) => {
+    await offline(page);
+    await page.goto('/');
+    await page.fill('#q', 'Китай');
+    const img = page.locator('#results a.res img').first();
+    await expect(img).toHaveAttribute('src', '/assets/flags/cn.svg');
+    await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
+  });
 });
