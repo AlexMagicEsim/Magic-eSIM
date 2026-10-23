@@ -16,7 +16,7 @@ let bad=0; const ok=(l,c,d='')=>{if(!c)bad++;console.log(`   ${c?'ok  ':'FAIL'} 
 function mock(cfg){
   window.__requests=[];
   window.Telegram={WebApp:{initData:'user=%7B%22id%22%3A1%7D&auth_date=1&hash=x',
-    initDataUnsafe:cfg.startParam?{start_param:cfg.startParam}:{},
+    initDataUnsafe:Object.assign({user:{language_code:cfg.lang||'ru'}},cfg.startParam?{start_param:cfg.startParam}:{}),
     ready(){},expand(){},close(){},colorScheme:cfg.scheme||'light',
     themeParams:cfg.scheme==='dark'?{bg_color:'#17212b'}:{},
     setBackgroundColor(){},setHeaderColor(){},onEvent(){},

@@ -277,6 +277,11 @@ async function installMiniApp(page, options = {}) {
         return json(route, body);
       }
 
+      // The international (GLOBAL, USD) catalogue — same path, `?market=global` (MINIAPP-I18N-LEGAL-1).
+      if (at.endsWith('/api/v1/retail/packages') && url.searchParams.get('market') === 'global') {
+        if (options.globalStatus) return json(route, { error: 'GLOBAL_PRICING_DISABLED' }, options.globalStatus);
+        return json(route, { status: 'success', market: 'global', currency: 'USD', data: options.globalPackages || [] });
+      }
       if (at.endsWith('/api/v1/retail/packages')) {
         return json(route, {
           status: 'success', count: state.packages.length, currency: 'RUB', data: state.packages,
@@ -317,6 +322,9 @@ async function installMiniApp(page, options = {}) {
       }
 
       if (at.endsWith('/api/v1/tma/esims/hidden')) return json(route, { items: [] });
+      if (/\/api\/v1\/tma\/esims\/[^/]+\/topups$/.test(at)) {
+        return json(route, options.topups || { topup_available: false, topup_options: [] });
+      }
       if (at.endsWith('/api/v1/tma/esims')) return json(route, { items: state.esims });
       if (at.includes('/api/v1/tma/esims/')) return json(route, state.esims[0] || {});
 

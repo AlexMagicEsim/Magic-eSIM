@@ -68,13 +68,13 @@ test.describe('Mini App layout', () => {
     await expect(page.locator('#screen-settings')).not.toContainText(RAW_EMAIL);
   });
 
-  test('the language control fits, and both of its options are tappable', async ({ page }) => {
+  test('the language control fits, and all seven of its options are tappable', async ({ page }) => {
     await installMiniApp(page);
     await openApp(page);
     await openSettings(page);
 
     const options = page.locator('#settings-language [data-lang]');
-    await expect(options).toHaveCount(2);
+    await expect(options).toHaveCount(7);   // MINIAPP-I18N-LEGAL-1
 
     for (const box of await options.evaluateAll((ns) => ns.map((n) => {
       const r = n.getBoundingClientRect();

@@ -301,7 +301,7 @@ test('the typography and particle checks can fire', () => {
 test('noindex until the owner opens Korean (D11): every page noindex, self-canonical, no hreflang, out of the sitemap', () => {
   assert.equal(locale('ko').site.enabled, true);
   assert.equal(locale('ko').site.indexableHome, false);
-  assert.equal(locale('ko').app.enabled, false, 'the Mini App offers no new language');
+  assert.equal(locale('ko').app.enabled, true, 'the Mini App speaks Korean since MINIAPP-I18N-LEGAL-1 (owner, 2026-10-23)');
   assert.doesNotMatch(read('sitemap.xml'), /magicesim\.store\/ko\//);
   for (const rel of KO_PAGES) {
     const h = head(read(rel));

@@ -50,10 +50,18 @@ const RAW='buyer@example.com';
 // oracle Phase 2 moved — the whole point of the phase was to add English
 // without touching the Russian screen, and this snapshot is where that claim
 // is checked rather than asserted.
+//
+// MINIAPP-I18N-LEGAL-1 (owner, 2026-10-23): the picker offers seven languages, so five endonyms joined the language
+// block — the only lines this oracle moved; every other Russian byte is what shipped.
 const RU_SETTINGS=`Настройки
 Язык
 Русский
 English
+Español
+Deutsch
+Français
+简体中文
+한국어
 
 Меняет язык приложения.
 
@@ -82,7 +90,7 @@ eSIM
 
 function mock(cfg){
   window.__calls=[];
-  window.Telegram={WebApp:{initData:'user=%7B%22id%22%3A1%7D&auth_date=1&hash=x',initDataUnsafe:{},
+  window.Telegram={WebApp:{initData:'user=%7B%22id%22%3A1%7D&auth_date=1&hash=x',initDataUnsafe:{user:{language_code:cfg.lang||'ru'}},
     ready(){},expand(){},close(){},colorScheme:cfg.scheme||'light',platform:'ios',themeParams:cfg.theme||{},
     setBackgroundColor(){},setHeaderColor(){},onEvent(){},
     BackButton:{show(){},hide(){},onClick(){},offClick(){}},
@@ -177,7 +185,7 @@ for (const eng of ['webkit','chromium']) {
       // is marked as the one in use.
       const langs=await p.$$eval('#settings-language [data-lang]',ns=>ns.map(n=>n.dataset.lang));
       ok('the language picker offers exactly the languages that have a dictionary',
-        JSON.stringify(langs.slice().sort())==='["en","ru"]', JSON.stringify(langs));
+        JSON.stringify(langs)==='["ru","en","es","de","fr","zh-Hans","ko"]', JSON.stringify(langs));
       ok('and exactly one language is marked as the one in use',
         (await p.$$eval('#settings-language [data-lang][aria-checked="true"]',
           ns=>ns.map(n=>n.dataset.lang))).join()==='ru');
@@ -186,7 +194,7 @@ for (const eng of ['webkit','chromium']) {
       // announces a radio that is neither on nor off.
       ok('and the unselected one says so, rather than saying nothing',
         (await p.$$eval('#settings-language [data-lang]',
-          ns=>ns.map(n=>n.getAttribute('aria-checked')))).join()==='true,false');
+          ns=>ns.map(n=>n.getAttribute('aria-checked')))).join()==='true,false,false,false,false,false,false');
       // Phase 2 localised every customer-facing screen, so the Phase 1 caveat
       // came out. Asserted as an absence for the same reason it was once
       // asserted as a presence: the sentence must match what the app does.

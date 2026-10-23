@@ -64,7 +64,7 @@
 <!-- Inter (brand book v1.0): the two files every RU/EN screen needs, fetched with the CSS, as on the site. -->
 <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="mini.css?v=3dc52b8b">
+<link rel="stylesheet" href="mini.css?v=577e28c1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -130,6 +130,15 @@
         </svg>
       </div>
     </div>
+
+    <!-- The MARKET (MINIAPP-I18N-LEGAL-1): roubles + Russian payment, or US dollars from the international catalogue.
+         Independent of the language; only the customer moves it; the Russian market is the default. ui.js keeps
+         aria-checked and the hint in step. -->
+    <div class="segmented market" id="market-switch" role="radiogroup" aria-label="Цены и оплата" data-i18n-aria-label="market.label">
+      <button class="segmented__opt" type="button" role="radio" aria-checked="true" data-market="ru" data-i18n="market.ru">Россия · ₽</button>
+      <button class="segmented__opt" type="button" role="radio" aria-checked="false" data-market="global" data-i18n="market.global">Международный · $</button>
+    </div>
+    <p class="small muted market__hint" id="market-hint" data-i18n="market.globalHint" hidden>Цены в долларах США. Онлайн-оплата пока недоступна: можно смотреть тарифы и цены, но купить здесь пока нельзя.</p>
 
     <div id="home-mine" class="stack"></div>
 
@@ -318,6 +327,29 @@
     </p>
   </section>
 
+  <!-- 3b. International checkout (MINIAPP-I18N-LEGAL-1 stage C). The website's two consents, never pre-ticked; the
+       payment button is disabled in the markup and has no handler — no Merchant of Record yet, nothing is sent. -->
+  <section class="screen" id="screen-gcheckout" aria-label="Оформление" data-i18n-aria-label="gco.title">
+    <h1 data-i18n="gco.title">Оформление</h1>
+    <div id="gco-summary" class="stack"></div>
+    <div class="notice gco-unavailable">
+      <strong data-i18n="gco.unavailable">Онлайн-оплата пока недоступна</strong>
+    </div>
+    <fieldset class="gco-consents stack" id="gco-consents" data-state="none" data-ready="false">
+      <legend data-i18n="gco.legend">Перед оплатой</legend>
+      <label class="check" for="gco-terms">
+        <input id="gco-terms" type="checkbox">
+        <span class="small" id="gco-terms-text"></span>
+      </label>
+      <label class="check" for="gco-delivery">
+        <input id="gco-delivery" type="checkbox">
+        <span class="small" data-i18n="gco.delivery">Я прошу Magic eSIM начать предоставление моего eSIM-тарифа сейчас, в течение 14-дневного срока для отказа от договора. Я понимаю, что теряю право на отказ от договора, как только тариф будет предоставлен полностью (его трафик израсходован или срок действия закончился), и что при отказе до этого момента я оплачу часть тарифа, предоставленную до того момента, когда я сообщу вам об отказе.</span>
+      </label>
+      <p class="small" id="gco-privacy"></p>
+    </fieldset>
+    <button id="gco-pay" class="btn" disabled aria-disabled="true" data-i18n="gco.pay">Оплата пока недоступна</button>
+  </section>
+
   <!-- 4. My eSIMs ------------------------------------------------------ -->
   <section class="screen" id="screen-esims" aria-label="Мои eSIM" data-i18n-aria-label="esims.aria">
     <h1 data-i18n="esims.title">Мои eSIM</h1>
@@ -413,10 +445,18 @@
      DOMContentLoaded listener — boot() calls apply() itself, so the moment the
      shell is translated is stated in the code rather than inferred from which
      script's listener was registered first. -->
-<script src="locales.js?v=bfabd176"></script>
-<script src="i18n.js?v=9397b5f7"></script>
-<script src="core.js?v=103cf37f"></script>
-<script src="ui.js?v=817a40a9"></script>
+<!-- MINIAPP-I18N-LEGAL-1: the international website's own country names (es, de, fr, zh, ko) and its GLOBAL catalogue
+     validator — one source for both surfaces. Small, cached, same origin. -->
+<script src="/assets/country-names-es.js?v=97f81980"></script>
+<script src="/assets/country-names-de.js?v=3eb16643"></script>
+<script src="/assets/country-names-fr.js?v=e6301664"></script>
+<script src="/assets/country-names-zh.js?v=a137396b"></script>
+<script src="/assets/country-names-ko.js?v=f0d4cd71"></script>
+<script src="/assets/global-catalog.js?v=b1cc2099"></script>
+<script src="locales.js?v=4a0b8473"></script>
+<script src="i18n.js?v=55cf1cb8"></script>
+<script src="core.js?v=b1f70077"></script>
+<script src="ui.js?v=77675746"></script>
 <script src="motion.js?v=b64c853a"></script>
 </body>
 </html>

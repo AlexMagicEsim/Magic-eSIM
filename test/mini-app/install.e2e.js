@@ -37,7 +37,7 @@ function mock(cfg){
   window.__requests=[];
   window.__clip=[];
   window.Telegram={WebApp:{initData:'user=%7B%22id%22%3A1%7D&auth_date=1&hash=x',
-    initDataUnsafe:{},ready(){},expand(){},close(){},colorScheme:cfg.scheme||'light',
+    initDataUnsafe:{user:{language_code:cfg.lang||'ru'}},ready(){},expand(){},close(){},colorScheme:cfg.scheme||'light',
     platform:cfg.platform||'ios',
     themeParams:cfg.scheme==='dark'?{bg_color:'#17212b'}:{},
     setBackgroundColor(){},setHeaderColor(){},onEvent(){},

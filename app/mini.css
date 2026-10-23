@@ -1080,6 +1080,20 @@ body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stab
 
 .segmented__opt:active { background: color-mix(in srgb, var(--ink) 6%, var(--surface)); }
 
+/* The market switch on the home screen (MINIAPP-I18N-LEGAL-1): compact, under the search. The Russian market's
+   channel offer (a rouble promo code) is not shown on the international market. */
+.market { margin: var(--s2) 0 0; }
+.market .segmented__opt { min-height: 40px; padding: var(--s2); }
+.market__hint { margin: var(--s2) 0 0; }
+/* The chosen market reads at 5:1 on its tint in the light theme (brand «pressed» blue; the plain accent is 4.0:1). */
+/* The international checkout's consents (MINIAPP-I18N-LEGAL-1 stage C). */
+.gco-consents { border: 0; margin: var(--s4) 0; padding: 0; min-width: 0; }
+.gco-consents legend { padding: 0; margin-bottom: var(--s2); font-weight: 600; }
+.gco-consents a { color: var(--link); }
+.gco-unavailable { margin-top: var(--s3); }
+html:not([data-tg-scheme="dark"]) .market .segmented__opt[aria-checked="true"] { color: var(--blue-press); }
+html[data-market="global"] #home-promo { display: none !important; }
+
 /* S6 progress note: a spinner INSIDE a stated message, never a bare one. */
 .notice .btn__spinner { flex: 0 0 auto; }
 

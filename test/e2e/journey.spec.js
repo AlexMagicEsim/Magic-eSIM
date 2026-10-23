@@ -108,7 +108,7 @@ for (const L of LANGS) {
       await openApp(page);
 
       await openSettings(page);
-      await expect(page.locator('#settings-language [data-lang]')).toHaveCount(2);
+      await expect(page.locator('#settings-language [data-lang]')).toHaveCount(7);   // seven languages (MINIAPP-I18N-LEGAL-1)
 
       await page.locator('.tab').nth(3).click();
       await page.locator('#screen-help[data-active]').waitFor();

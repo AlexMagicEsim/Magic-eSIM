@@ -60,21 +60,21 @@ export const LOCALES = Object.freeze([
   // indexable: home, list, guides and the country stage of seo/indexing.mjs. The Mini App does not offer it (no Mini App
   // language before GLOBAL payments).
   L({ code: 'es', prefix: 'es', htmlLang: 'es', hreflang: 'es', ogLocale: 'es_ES', script: 'Latn', endonym: 'Español', defaultMarket: 'global',
-    site: { enabled: true, indexableHome: true, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: true, analytics: 'none' }, app: { enabled: true } }),
   // DE-1 (2026-10-22): published under noindex (owner D11) — no hreflang cluster, not in the sitemap, until a separate
   // indexing decision sets indexableHome. Standard German (de-DE, «du»); the Mini App does not offer it.
   L({ code: 'de', prefix: 'de', htmlLang: 'de', hreflang: 'de', ogLocale: 'de_DE', script: 'Latn', endonym: 'Deutsch', defaultMarket: 'global',
-    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: true } }),
   // FR-1 (2026-10-22): published under noindex (owner D11) — no hreflang cluster, not in the sitemap, until a separate
   // indexing decision. Standard French (fr-FR, «vous»); the Mini App does not offer it.
   L({ code: 'fr', prefix: 'fr', htmlLang: 'fr', hreflang: 'fr', ogLocale: 'fr_FR', script: 'Latn', endonym: 'Français', defaultMarket: 'global',
-    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: true } }),
   L({ code: 'zh-Hans', prefix: 'zh', htmlLang: 'zh-Hans', hreflang: 'zh-Hans', ogLocale: 'zh_CN', script: 'Hans', endonym: '简体中文', defaultMarket: 'global',
     // ZH-1 2026-10-22: published under noindex (owner D11) — indexing opens only on the owner's separate word.
-    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: true } }),
   L({ code: 'ko', prefix: 'ko', htmlLang: 'ko', hreflang: 'ko', ogLocale: 'ko_KR', script: 'Hang', endonym: '한국어', defaultMarket: 'global',
     // KO-1 2026-10-22: published under noindex (owner D11) — indexing opens only on the owner's separate word.
-    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: false } }),
+    site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: true } }),
 ]);
 
 /** What the live pages declare as x-default: the English twin since I18N-09 (was `ru` = `/`). See the decisions above. */

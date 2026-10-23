@@ -276,7 +276,7 @@ test('the typography check can fire', () => {
 test('noindex until the owner opens Chinese (D11): every page noindex, self-canonical, no hreflang, out of the sitemap', () => {
   assert.equal(locale('zh-Hans').site.enabled, true);
   assert.equal(locale('zh-Hans').site.indexableHome, false);
-  assert.equal(locale('zh-Hans').app.enabled, false, 'the Mini App offers no new language');
+  assert.equal(locale('zh-Hans').app.enabled, true, 'the Mini App speaks Simplified Chinese since MINIAPP-I18N-LEGAL-1 (owner, 2026-10-23)');
   assert.doesNotMatch(read('sitemap.xml'), /magicesim\.store\/zh\//);
   for (const rel of ZH_PAGES) {
     const h = head(read(rel));
