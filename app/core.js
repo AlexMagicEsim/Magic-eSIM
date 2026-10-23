@@ -652,7 +652,23 @@ const INTL_LEGAL_URLS = Object.freeze({
  * The versions are the published documents' (seo/terms-en.mjs, seo/refund-en.mjs — equal by test).
  */
 const GLOBAL_PAYMENTS_OPEN = false;
-const INTL_LEGAL_VERSIONS = Object.freeze({ terms: '0.9 (pre-launch)', refund: '0.9 (pre-launch)' });
+const INTL_LEGAL_VERSIONS = Object.freeze({ terms: '0.9.1 (pre-launch)', refund: '0.9 (pre-launch)' });
+
+/*
+ * LEGAL-4: the international documents are published in English and translated into es, de, fr, zh-Hans and ko — each
+ * language reads its own /<prefix>/… version, exactly as the website's footer and consent links do (English is the master;
+ * Terms §5.6). Russian and English read the English documents. The prefixes are the site's (seo/locales.mjs), by test.
+ */
+const INTL_LEGAL_PREFIX = Object.freeze({ es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'ko' });
+function intlLegalUrls(lang) {
+  const prefix = Object.prototype.hasOwnProperty.call(INTL_LEGAL_PREFIX, lang) ? INTL_LEGAL_PREFIX[lang] : null;
+  if (!prefix) return INTL_LEGAL_URLS;
+  return Object.freeze({
+    terms: `https://magicesim.store/${prefix}/terms/`,
+    refund: `https://magicesim.store/${prefix}/refund/`,
+    privacy: `https://magicesim.store/${prefix}/privacy/`,
+  });
+}
 function globalPayAllowed(c) {
   return !!(c && c.paymentsOpen === true && c.terms === true && c.delivery === true
     && typeof c.termsVersion === 'string' && c.termsVersion !== ''
@@ -3010,7 +3026,7 @@ const CORE = {
   KNOWN_ERROR_CODES, errorKey, SERVER_ERRORS, errorText,
   tariffText, TARIFF_TEXT_EN, TARIFF_ACTIVATION_LABELS_EN, TARIFF_FACT_LABELS_EN,
   gb, money, usd, USD_FORMAT, daysLeft, remainingFraction,
-  MARKETS, MARKET_DEFAULT, MARKET_KEY, INTL_LEGAL_URLS, GLOBAL_PAYMENTS_OPEN, INTL_LEGAL_VERSIONS, globalPayAllowed, globalConsentRecord, createMarketStore, validateGlobalCatalogue, GLOBAL_CATALOGUE_PATH, API_RENDER,
+  MARKETS, MARKET_DEFAULT, MARKET_KEY, INTL_LEGAL_URLS, INTL_LEGAL_PREFIX, intlLegalUrls, GLOBAL_PAYMENTS_OPEN, INTL_LEGAL_VERSIONS, globalPayAllowed, globalConsentRecord, createMarketStore, validateGlobalCatalogue, GLOBAL_CATALOGUE_PATH, API_RENDER,
   purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
   dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,
   byCountry, pickBestValue, searchCountries,

@@ -2273,9 +2273,9 @@
     // website's published English Terms, Refund Policy and Privacy Policy for the international one — links only,
     // never a copy of their text.
     box.appendChild(el('div', { class: 'stack gap-top-lg' }, isGlobal() ? [
-      el('button', { class: 'btn btn--quiet', text: t('legal.intl.terms'), onclick: () => openExternal(C.INTL_LEGAL_URLS.terms) }),
-      el('button', { class: 'btn btn--quiet', text: t('legal.intl.refund'), onclick: () => openExternal(C.INTL_LEGAL_URLS.refund) }),
-      el('button', { class: 'btn btn--quiet', text: t('legal.intl.privacy'), onclick: () => openExternal(C.INTL_LEGAL_URLS.privacy) }),
+      el('button', { class: 'btn btn--quiet', text: t('legal.intl.terms'), onclick: () => openExternal(C.intlLegalUrls(I.lang()).terms) }),
+      el('button', { class: 'btn btn--quiet', text: t('legal.intl.refund'), onclick: () => openExternal(C.intlLegalUrls(I.lang()).refund) }),
+      el('button', { class: 'btn btn--quiet', text: t('legal.intl.privacy'), onclick: () => openExternal(C.intlLegalUrls(I.lang()).privacy) }),
     ] : [
       el('button', {
         class: 'btn btn--quiet', text: t('help.offer'),
@@ -2635,7 +2635,7 @@
         el('strong', { class: 'tabular', id: 'gco-total', text: priceText(g.price) }),
       ]),
     ]));
-    const L = C.INTL_LEGAL_URLS;
+    const L = C.intlLegalUrls(I.lang());
     $('#gco-terms-text').replaceChildren(...linkedSentence(t('gco.terms'), {
       terms: [t('gco.termsLink'), L.terms],
       refund: [t('gco.refundLink'), L.refund],

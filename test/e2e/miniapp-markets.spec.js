@@ -13,6 +13,7 @@
 
 const { test, expect } = require('@playwright/test');
 const LOCALES = require('../../app/locales.js');
+const CORE = require('../../app/core.js');
 const { installMiniApp, openApp, ESIM, PACKAGE } = require('./harness');
 
 const GLOBAL_PACKAGE = { ...PACKAGE, price: 9.99, currency: 'USD' };
@@ -212,9 +213,11 @@ for (const [code, lang] of [['en', 'en'], ['ru', 'ru'], ['es', 'es'], ['de', 'de
     await expect(page.locator('#gco-terms-text')).toHaveText(fill('gco.terms', { terms: W['gco.termsLink'], refund: W['gco.refundLink'] }));
     await expect(page.locator('label[for="gco-delivery"] span')).toHaveText(W['gco.delivery']);
     await expect(page.locator('#gco-privacy')).toHaveText(fill('gco.privacy', { privacy: W['gco.privacyLink'] }));
+    // LEGAL-4: the language's own version of each document where the website publishes one, else the English
+    const U = CORE.intlLegalUrls(lang);
+    expect(U.terms).toBe(`https://magicesim.store/${{ ru: 'en', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'ko' }[lang]}/terms/`);
     expect(await page.$$eval('#gco-consents a', (as) => as.map((a) => [a.getAttribute('href'), a.textContent]))).toEqual([
-      ['https://magicesim.store/en/terms/', W['gco.termsLink']], ['https://magicesim.store/en/refund/', W['gco.refundLink']],
-      ['https://magicesim.store/en/privacy/', W['gco.privacyLink']]]);
+      [U.terms, W['gco.termsLink']], [U.refund, W['gco.refundLink']], [U.privacy, W['gco.privacyLink']]]);
     // never ticked in advance; each box on its own; the button never opens while payments are off
     await expect(terms).not.toBeChecked(); await expect(delivery).not.toBeChecked();
     expect(await consentState(page)).toBe('none');
@@ -282,5 +285,16 @@ test('the international checkout passes axe (both boxes ticked, light and dark)'
     await page.evaluate(AXE);
     const res = await page.evaluate(() => window.axe.run('#screen-gcheckout'));
     expect(res.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
+  }
+});
+
+test('Help on the international market in Spanish links the Spanish documents (LEGAL-4)', async ({ page }) => {
+  await open(page, { languageCode: 'es' });
+  await openApp(page);
+  await page.locator('#market-switch [data-market="global"]').click();
+  await page.locator('#nav-help').click();
+  for (const [key, url] of [['legal.intl.terms', '/es/terms/'], ['legal.intl.refund', '/es/refund/'], ['legal.intl.privacy', '/es/privacy/']]) {
+    await page.getByRole('button', { name: LOCALES.es[key], exact: true }).click();
+    expect(await page.evaluate(() => window.__opened)).toBe(`https://magicesim.store${url}`);
   }
 });

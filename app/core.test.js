@@ -2344,3 +2344,29 @@ test('the international checkout speaks the website\'s approved LEGAL-3 words, i
     assert.deepEqual(L.ru[k].match(/\{[a-z]+\}/g), L.en[k].match(/\{[a-z]+\}/g), k);
   }
 });
+
+test('LEGAL-4: each translated language links its own version of the documents, Russian and English the English ones', async () => {
+  const { LOCALES: REG } = await import('../seo/locales.mjs');
+  const { LEGAL_TRANSLATIONS } = await import('../seo/legal-i18n.mjs');
+  const fs = require('node:fs'); const path = require('node:path');
+  const prefixOf = (code) => (Array.isArray(REG) ? REG : Object.values(REG)).find((l) => l.code === code).prefix;
+  assert.deepEqual(Object.keys(C.INTL_LEGAL_PREFIX).sort(), Object.keys(LEGAL_TRANSLATIONS).sort(), 'the published translations');
+  for (const lang of Object.keys(LEGAL_TRANSLATIONS)) {
+    assert.equal(C.INTL_LEGAL_PREFIX[lang], prefixOf(lang), lang);
+    for (const kind of ['terms', 'refund', 'privacy']) {
+      const url = C.intlLegalUrls(lang)[kind];
+      assert.equal(url, `https://magicesim.store/${prefixOf(lang)}/${kind}/`);
+      assert.ok(fs.existsSync(path.join(__dirname, '..', prefixOf(lang), kind, 'index.html')), `${url} is a built page`);
+    }
+  }
+  for (const lang of ['ru', 'en', 'xx', '__proto__', undefined]) assert.equal(C.intlLegalUrls(lang), C.INTL_LEGAL_URLS, String(lang));
+});
+
+test('LEGAL-4: the document names in Help are the website footer\'s, and Russian says the documents are in English', () => {
+  const SITE = require('../assets/site-i18n.js');
+  const L = require('./locales.js');
+  for (const lang of ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']) {
+    for (const k of ['terms', 'refund', 'privacy']) assert.equal(L[lang][`legal.intl.${k}`], SITE.DICT[lang][`footer.${k}`], `${lang} ${k}`);
+  }
+  for (const k of ['terms', 'refund', 'privacy']) assert.match(L.ru[`legal.intl.${k}`], /\(на английском\)$/);
+});
