@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-20T11:46:14.526Z",
+  "fetched_at": "2026-10-23T05:02:10.929Z",
   "source": "assets/catalog.json",
   "countries": 200,
   "sheets": {
@@ -6208,6 +6208,7 @@
       ],
       "networks": [
         "Antel",
+        "CLARO CL",
         "Claro",
         "Digicel",
         "Movistar",
@@ -10569,8 +10570,8 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 40,
-      "topup_no": 10,
+      "topup_yes": 39,
+      "topup_no": 11,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -25325,6 +25326,7 @@
         "3G/4G"
       ],
       "networks": [
+        "Chippie",
         "Digicel",
         "Setel N.V."
       ],
@@ -29791,6 +29793,7 @@
         "3G/4G/5G"
       ],
       "networks": [
+        "338050",
         "One"
       ],
       "networks_rows": 7,
@@ -29910,6 +29913,7 @@
         "3G/4G/5G"
       ],
       "networks": [
+        "AT&T",
         "Antel",
         "C&W",
         "Chippie",
@@ -37126,7 +37130,8 @@
         "3G/4G/5G"
       ],
       "networks": [
-        "Digicel"
+        "Digicel",
+        "SETAR"
       ],
       "networks_rows": 8,
       "rows_total": 10,
@@ -38052,7 +38057,7 @@
         "3G/4G/5G"
       ],
       "networks": [
-        "Africell"
+        "Comium"
       ],
       "networks_rows": 6,
       "rows_total": 7,
