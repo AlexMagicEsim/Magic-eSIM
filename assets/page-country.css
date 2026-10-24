@@ -12,6 +12,12 @@
 .cp-flag{flex:none;width:72px;height:54px;border-radius:10px;object-fit:cover;box-shadow:0 0 0 1px rgba(17,24,39,.08),0 10px 24px rgba(17,24,39,.10);background:#eef1f6}
 .cp-title h1{margin:0 0 6px;font-size:clamp(28px,4.4vw,46px);line-height:1.08;letter-spacing:-.03em}
 .cp-title .lead{margin:0;font-size:clamp(15px,1.6vw,18px)}
+/* A title next to the flag (and a block head next to its icon) must be able to be NARROWER than its longest word: a flex item's
+   min-width is auto = its min-content, so one long name («Центральноафриканской», 28 px) widened the whole text column to 428 px
+   and the page scrolled sideways at 320–390 px. min-width:0 lets the column take the room it has; break-word breaks a word only
+   when it would overflow the line, so every title that fits renders exactly as before. Never overflow-x:hidden on a page. */
+.cp-title>div,.blk-head>div{min-width:0}
+.cp-title h1,.plan-block .blk-head h2>span:not(.count){min-width:0;overflow-wrap:break-word}
 .cp-hero-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin-top:20px}
 .cp-facts{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .cp-facts li{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--muted);font-size:13px;font-weight:600}
