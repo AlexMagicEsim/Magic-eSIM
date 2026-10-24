@@ -29,18 +29,18 @@ test('the frozen lists are the SEO pilot test\'s own lists', () => {
   assert.deepEqual([...SEO_CONTROL_PAGES], list('CONTROL'));
 });
 
-test('frozen pages carry no live markup and do not load assets/catalog-numbers.js', () => {
+test('the ten former SEO-experiment pages carry the live markup and load assets/catalog-numbers.js since 2026-10-24', () => {
   const frozen = PAGES.filter((p) => isFrozenPage(p.slug));
   assert.equal(frozen.length, 10);
   for (const { slug, html } of frozen) {
-    assert.doesNotMatch(html, /data-cat/, slug);
-    assert.doesNotMatch(html, /catalog-numbers\.js/, slug);
+    assert.match(html, /data-cat/, slug);
+    assert.match(html, /catalog-numbers\.js/, slug);
   }
 });
 
 test('every other selling page marks its facts line, its template FAQ floor, and loads the script', () => {
   let faq = 0;
-  for (const { slug, iso, html } of PAGES.filter((p) => !isFrozenPage(p.slug))) {
+  for (const { slug, iso, html } of PAGES) {
     const f = countryFacts(PK, iso);
     if (f.min_price_rub === null) continue;
     assert.match(html, /<script src="\/assets\/catalog-numbers\.js\?v=[0-9a-f]+" defer><\/script>\s*<script src="\.\.\/\.\.\/assets\/country-tariffs\.js/, `${slug}: script before country-tariffs.js`);
@@ -79,7 +79,7 @@ test('the browser formats money exactly as the generator', () => {
 });
 
 test('the sitemap hash ignores the live markup: every page reduces to its pre-stage-C form', () => {
-  for (const { slug, html } of PAGES.filter((p) => !isFrozenPage(p.slug)).slice(0, 40)) {
+  for (const { slug, html } of PAGES.slice(0, 40)) {
     const stripped = stripLiveCatalogueMarkup(html);
     assert.doesNotMatch(stripped, /data-cat|catalog-numbers\.js/, slug);
   }

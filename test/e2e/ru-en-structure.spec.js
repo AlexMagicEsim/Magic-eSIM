@@ -100,11 +100,11 @@ test('a local card and a daily card with its chosen term open the checkout with 
   await expect(page.locator('#coDays')).toHaveText(`${days} дн.`);
 });
 
-test('an SEO-experiment page keeps the old first screen and the daily-first order', async ({ page }) => {
+test('a former SEO-experiment page has the EN first screen and order since 2026-10-24; its headline stands under the plans', async ({ page }) => {
   await open(page, '/esim/uae/');
   await expect(page.locator('#tariffs .plan').first()).toBeVisible();
-  await expect(page.locator('h1')).not.toHaveText(/^eSIM для ОАЭ$/);
-  await expect(page.locator('.cp-text .lead')).toBeVisible();
-  expect(await page.locator('.cp-sec.about, #tariffs .cp-skeleton').count()).toBe(0);
-  expect((await blockOrder(page))[0]).toBe('dailyBlock');
+  await expect(page.locator('h1')).toHaveText(/^eSIM для ОАЭ$/);
+  expect(await page.locator('.cp-text').count()).toBe(0);
+  await expect(page.locator('.cp-sec.about #aboutTitle')).toContainText('Дуба');
+  expect((await blockOrder(page))[0]).toBe('localBlock');
 });

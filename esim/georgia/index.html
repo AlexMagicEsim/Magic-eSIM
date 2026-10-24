@@ -25,9 +25,11 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preload" href="/assets/fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="/assets/magic-net.js?v=3e0887b2"></script>
+  <script>window.__magicCatalogEarly=(function(){try{var N=window.MagicNet,b=N&&N.ENDPOINTS&&N.ENDPOINTS[0]&&N.ENDPOINTS[0].base;if(!b||typeof fetch!=='function'||typeof AbortController==='undefined')return null;var ac=new AbortController(),t=Date.now(),r=fetch(b+'/api/v1/retail/packages?t='+t,{signal:ac.signal,headers:{Accept:'application/json'},credentials:'omit'});r.catch(function(){});return{ac:ac,startedAt:t,response:r,used:false};}catch(e){return null;}})();</script>
   <link rel="stylesheet" href="/assets/site.css?v=fdc3a49c" />
   <link rel="stylesheet" href="/assets/page-country.css?v=d98f9186" />
-  <link rel="stylesheet" href="/assets/ru.css?v=2b9900e3" />
+  <link rel="stylesheet" href="/assets/ru.css?v=65539773" />
   <!-- Прогреваем ПЕРВУЮ дорогу, а не запасную. assets/magic-net.js ходит
        сначала на Render (97.6% успеха, p50 422ms) и лишь затем на шлюз
        (48.4%, p50 1983ms) — подсказка на шлюз грела сокет, который в
@@ -80,12 +82,12 @@
   </script>
 
   <!-- Structured data -->
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://magicesim.store/"},{"@type":"ListItem","position":2,"name":"Страны","item":"https://magicesim.store/esim/"},{"@type":"ListItem","position":3,"name":"Грузия","item":"https://magicesim.store/esim/georgia/"}]},{"@type":"WebPage","name":"eSIM для Грузии — тарифы и цены от 350 ₽ | Magic eSIM","url":"https://magicesim.store/esim/georgia/","description":"eSIM для Грузии: 5 локальных тарифов и 7 тарифов с оплатой за день, от 350 ₽. Как читать карточку тарифа целиком: объём, дневной лимит, срок и пометка о скорости. Оплата рублями, QR-код на почту.","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Magic eSIM","url":"https://magicesim.store/"},"publisher":{"@type":"OnlineStore","@id":"https://magicesim.store/#organization","name":"Magic eSIM","url":"https://magicesim.store/"}},{"@type":"Product","name":"eSIM для Грузии","description":"eSIM для Грузии: 5 локальных тарифов и 7 тарифов с оплатой за день, от 350 ₽. Как читать карточку тарифа целиком: объём, дневной лимит, срок и пометка о скорости. Оплата рублями, QR-код на почту.","url":"https://magicesim.store/esim/georgia/","image":"https://magicesim.store/assets/magic-esim-logo.png","brand":{"@type":"Brand","name":"Magic eSIM"},"offers":{"@type":"AggregateOffer","priceCurrency":"RUB","lowPrice":350,"highPrice":3050,"offerCount":12,"availability":"https://schema.org/InStock","url":"https://magicesim.store/esim/georgia/#prices","seller":{"@type":"OnlineStore","@id":"https://magicesim.store/#organization","name":"Magic eSIM","url":"https://magicesim.store/"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Два тарифа стоят одинаково — какой брать?","acceptedAnswer":{"@type":"Answer","text":"Тот, у которого выше дневной лимит. На три дня по одной цене доступны варианты с 2 ГБ и с 3 ГБ в день, и у второго в карточке указана более высокая скорость после исчерпания лимита. Переплачивать за меньшее в этой паре не за что."}},{"@type":"Question","name":"Что означает пометка о скорости в карточке тарифа?","acceptedAnswer":{"@type":"Answer","text":"Это опубликованная поставщиком скорость, которая наступает после того, как дневной лимит израсходован. Мы показываем ровно тот показатель, который он передал, и не додумываем за него, что происходит с трафиком дальше."}},{"@type":"Question","name":"Почему тариф с меньшим лимитом бывает дороже?","acceptedAnswer":{"@type":"Answer","text":"Цены в сетке не связаны между собой, и порядок «больше — дороже» соблюдается не всегда. В Грузии тариф на 2 ГБ в день с мягкой политикой скорости стоит больше, чем тариф на 3 ГБ в день."}},{"@type":"Question","name":"Сколько гигабайт хватит на неделю в Тбилиси?","acceptedAnswer":{"@type":"Answer","text":"Берите тот, что на 30 дней. Три гигабайта в грузинской сетке продаются дважды — на 15 и на 30 дней, — и небольшая доплата здесь покупает вдвое больший срок. Для города этого объёма обычно достаточно; для поездки с выездами в горы следующие ступени — 5 и 10 ГБ на 30 дней. Цены всех ступеней — в разделе о стоимости на этой странице."}},{"@type":"Question","name":"Есть ли тариф на Грузию и Армению одновременно?","acceptedAnswer":{"@type":"Answer","text":"Нет, и покупать придётся двумя чеками. Порядок при этом не важен: у грузинских тарифов в строке «Начало срока» в окне «Покрытие и условия» указано «с первого подключения к сети», поэтому оба профиля можно установить дома по Wi-Fi заранее — ждать будет тот, чью страну вы ещё не пересекли."}},{"@type":"Question","name":"Как проходит оплата?","acceptedAnswer":{"@type":"Answer","text":"Оплата российской банковской картой или через СБП — способ выбирается на шаге оплаты. Иностранные карты пока не поддерживаются. После оплаты на почту приходит письмо с QR-кодом и инструкцией по установке."}},{"@type":"Question","name":"Грузия — есть ли локальные тарифы?","acceptedAnswer":{"@type":"Answer","text":"Да. Сейчас доступно 5 локальных тарифов именно для этой страны. Они показаны на этой странице сразу после блока «Трафик на каждый день»."}},{"@type":"Question","name":"Грузия — какие объёмы трафика доступны?","acceptedAnswer":{"@type":"Answer","text":"Сейчас доступны тарифы на 3 ГБ, 5 ГБ, 10 ГБ, 20 ГБ. Точный срок действия указан в карточке каждого тарифа."}},{"@type":"Question","name":"Сколько стоит eSIM для Грузии?","acceptedAnswer":{"@type":"Answer","text":"Локальные тарифы — от 550 до 2 950 ₽ (5 тарифов, 3 ГБ–20 ГБ); тарифы с оплатой за день — от 350 до 3 050 ₽. Это самая низкая сумма покупки каждого тарифа; полный список — в разделе «Сколько стоит eSIM для Грузии» на этой странице. Оплата в рублях российской картой или через СБП."}}]}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://magicesim.store/"},{"@type":"ListItem","position":2,"name":"Страны","item":"https://magicesim.store/esim/"},{"@type":"ListItem","position":3,"name":"Грузия","item":"https://magicesim.store/esim/georgia/"}]},{"@type":"WebPage","name":"eSIM для Грузии — тарифы и цены от 350 ₽ | Magic eSIM","url":"https://magicesim.store/esim/georgia/","description":"eSIM для Грузии: 5 локальных тарифов и 7 тарифов с оплатой за день, от 350 ₽. Как читать карточку тарифа целиком: объём, дневной лимит, срок и пометка о скорости. Оплата рублями, QR-код на почту.","inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Magic eSIM","url":"https://magicesim.store/"},"publisher":{"@type":"OnlineStore","@id":"https://magicesim.store/#organization","name":"Magic eSIM","url":"https://magicesim.store/"}},{"@type":"Product","name":"eSIM для Грузии","description":"eSIM для Грузии: 5 локальных тарифов и 7 тарифов с оплатой за день, от 350 ₽. Как читать карточку тарифа целиком: объём, дневной лимит, срок и пометка о скорости. Оплата рублями, QR-код на почту.","url":"https://magicesim.store/esim/georgia/","image":"https://magicesim.store/assets/magic-esim-logo.png","brand":{"@type":"Brand","name":"Magic eSIM"},"offers":{"@type":"AggregateOffer","priceCurrency":"RUB","lowPrice":350,"highPrice":3050,"offerCount":12,"availability":"https://schema.org/InStock","url":"https://magicesim.store/esim/georgia/#prices","seller":{"@type":"OnlineStore","@id":"https://magicesim.store/#organization","name":"Magic eSIM","url":"https://magicesim.store/"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Два тарифа стоят одинаково — какой брать?","acceptedAnswer":{"@type":"Answer","text":"Тот, у которого выше дневной лимит. На три дня по одной цене доступны варианты с 2 ГБ и с 3 ГБ в день, и у второго в карточке указана более высокая скорость после исчерпания лимита. Переплачивать за меньшее в этой паре не за что."}},{"@type":"Question","name":"Что означает пометка о скорости в карточке тарифа?","acceptedAnswer":{"@type":"Answer","text":"Это опубликованная поставщиком скорость, которая наступает после того, как дневной лимит израсходован. Мы показываем ровно тот показатель, который он передал, и не додумываем за него, что происходит с трафиком дальше."}},{"@type":"Question","name":"Почему тариф с меньшим лимитом бывает дороже?","acceptedAnswer":{"@type":"Answer","text":"Цены в сетке не связаны между собой, и порядок «больше — дороже» соблюдается не всегда. В Грузии тариф на 2 ГБ в день с мягкой политикой скорости стоит больше, чем тариф на 3 ГБ в день."}},{"@type":"Question","name":"Сколько гигабайт хватит на неделю в Тбилиси?","acceptedAnswer":{"@type":"Answer","text":"Берите тот, что на 30 дней. Три гигабайта в грузинской сетке продаются дважды — на 15 и на 30 дней, — и небольшая доплата здесь покупает вдвое больший срок. Для города этого объёма обычно достаточно; для поездки с выездами в горы следующие ступени — 5 и 10 ГБ на 30 дней. Цены всех ступеней — в разделе о стоимости на этой странице."}},{"@type":"Question","name":"Есть ли тариф на Грузию и Армению одновременно?","acceptedAnswer":{"@type":"Answer","text":"Нет, и покупать придётся двумя чеками. Порядок при этом не важен: у грузинских тарифов в строке «Начало срока» в окне «Покрытие и условия» указано «с первого подключения к сети», поэтому оба профиля можно установить дома по Wi-Fi заранее — ждать будет тот, чью страну вы ещё не пересекли."}},{"@type":"Question","name":"Как проходит оплата?","acceptedAnswer":{"@type":"Answer","text":"Оплата российской банковской картой или через СБП — способ выбирается на шаге оплаты. Иностранные карты пока не поддерживаются. После оплаты на почту приходит письмо с QR-кодом и инструкцией по установке."}},{"@type":"Question","name":"Грузия — есть ли локальные тарифы?","acceptedAnswer":{"@type":"Answer","text":"Да. Сейчас доступно 5 локальных тарифов именно для этой страны. Они показаны первым блоком на этой странице."}},{"@type":"Question","name":"Грузия — какие объёмы трафика доступны?","acceptedAnswer":{"@type":"Answer","text":"Сейчас доступны тарифы на 3 ГБ, 5 ГБ, 10 ГБ, 20 ГБ. Точный срок действия указан в карточке каждого тарифа."}},{"@type":"Question","name":"Сколько стоит eSIM для Грузии?","acceptedAnswer":{"@type":"Answer","text":"Локальные тарифы — от 550 до 2 950 ₽ (5 тарифов, 3 ГБ–20 ГБ); тарифы с оплатой за день — от 350 до 3 050 ₽. Это самая низкая сумма покупки каждого тарифа; полный список — в разделе «Сколько стоит eSIM для Грузии» на этой странице. Оплата в рублях российской картой или через СБП."}}]}]}</script>
 </head>
 <body data-country-iso="GE" data-country-name="Грузия">
 <header class="site-header">
   <div class="wrap hdr">
-    <a class="brand" href="/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+    <a class="brand" href="/"><svg class="brand-logo" viewBox="336 208 574 432" width="59" height="44" role="img" aria-label="Magic eSIM"><defs><linearGradient id="a-mark" gradientUnits="userSpaceOnUse" x1="498.0" y1="293.0" x2="732.5" y2="445.3"><stop offset="0.000" stop-color="#8b20b7"/><stop offset="0.125" stop-color="#8816bd"/><stop offset="0.250" stop-color="#7625bf"/><stop offset="0.375" stop-color="#6931c1"/><stop offset="0.500" stop-color="#3451c7"/><stop offset="0.625" stop-color="#3172d3"/><stop offset="0.750" stop-color="#238bde"/><stop offset="0.875" stop-color="#13b1ec"/><stop offset="1.000" stop-color="#0ad0f9"/></linearGradient><linearGradient id="a-word" gradientUnits="userSpaceOnUse" x1="349.8" y1="571.9" x2="896.5" y2="571.9"><stop offset="0.000" stop-color="#8b19b1"/><stop offset="0.125" stop-color="#7f23b6"/><stop offset="0.250" stop-color="#7230bc"/><stop offset="0.375" stop-color="#3459ca"/><stop offset="0.500" stop-color="#317ada"/><stop offset="0.625" stop-color="#239ce6"/><stop offset="0.750" stop-color="#0ebdee"/><stop offset="0.875" stop-color="#07d3f2"/><stop offset="1.000" stop-color="#04e8f4"/></linearGradient><linearGradient id="me-lw-wave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A16C7"/><stop offset=".52" stop-color="#3866D9"/><stop offset="1" stop-color="#00C7DF"/></linearGradient><linearGradient id="me-lw-fadeg" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="505"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="me-lw-fade" maskUnits="userSpaceOnUse" x="150" y="40" width="950" height="600"><rect x="150" y="40" width="950" height="600" fill="url(#me-lw-fadeg)"/></mask></defs><g class="lm-waves" aria-hidden="true" mask="url(#me-lw-fade)"><circle class="lm-ring lm-ring1" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring2" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring3" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/></g><use class="lm-symbol" href="/assets/brand/logo.svg?v=72aa4ec9#me-symbol"/><use class="lm-word" href="/assets/brand/logo.svg?v=72aa4ec9#me-word"/></svg><script>(function(){var d=document,r=d.documentElement,l=d.currentScript.previousElementSibling;r.setAttribute('data-motion','expressive');try{var s=sessionStorage;if(!s.getItem('me-logo')){s.setItem('me-logo','1');l.classList.add('lm-play')}}catch(e){}var j=d.createElement('script');j.src='/assets/motion.js?v=f40b07dc';j.async=true;d.head.appendChild(j)})();</script></a>
     <nav class="nav" aria-label="Основное меню">
       <a href="/esim/">Направления</a>
       <a href="/#how">Как это работает</a>
@@ -116,15 +118,12 @@
       <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <a href="/esim/">Страны</a> › <span aria-current="page">Грузия</span></nav>
       <div class="cp-title">
         <img class="cp-flag" src="/assets/flags/ge.svg" alt="" width="72" height="54">
-        <h1>eSIM для Грузии: тарифы для Тбилиси, Батуми и поездок по стране</h1>
-      </div>
-      <div class="cp-text">
-        <p class="lead">Грузинская сетка — редкий случай, где внимательность окупается прямо в рублях. Два посуточных тарифа стоят одинаково, но один из них даёт в полтора раза больше данных в день. Причём выглядит он на первый взгляд хуже.</p>
-        <p class="intro">На три дня здесь можно взять тариф с лимитом 2 ГБ в день — или тариф с лимитом 3 ГБ в день. Цена одна и та же. Разница в названиях: у второго прямо в имени указана политика ограничения скорости, у первого нет, и именно поэтому он кажется «чистым» вариантом.</p>
-        <p class="intro">На деле ограничение есть у обоих: в карточках указано, какая скорость наступает после дневного лимита, и у тарифа с более скромным лимитом эта скорость ниже. То есть карточка, которая честно вынесла ограничение в название, оказывается щедрее и по объёму, и по заявленной скорости — при равной цене. Ещё нагляднее это видно рядом: тариф на 2 ГБ в день с той же мягкой политикой стоит дороже, чем 3 ГБ в день.</p>
-        <p class="facts">
-          Локальных тарифов: <b>5</b>. С оплатой за день: <b>7</b>. Цены от <b>350 ₽</b>.
-        </p>
+        <div>
+          <h1>eSIM для Грузии</h1>
+          <p class="facts">
+          <span data-cat-seg="local">Локальных тарифов: <b data-cat="local">5</b>. </span><span data-cat-seg="daily">С оплатой за день: <b data-cat="daily">7</b>. </span><span data-cat-floor>Цены от <b data-cat="floor">350 ₽</b>.</span>
+          </p>
+        </div>
       </div>
       <div class="cp-hero-foot">
         <ul class="cp-facts">
@@ -141,9 +140,9 @@
        локальные, региональные. assets/country-tariffs.js показывает ссылку,
        только если её блок не пуст, и пишет в неё число тарифов. -->
   <nav class="cp-jump" aria-label="Типы тарифов" hidden>
-    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
     <a href="#localBlock" hidden><span>Грузия</span> <span class="n"></span></a>
     <a href="#regionalBlock" hidden><span>Региональные</span> <span class="n"></span></a>
+    <a href="#dailyBlock" hidden><span>На каждый день</span> <span class="n"></span></a>
   </nav>
 
   <!-- data-country-page — это то, по чему country-tariffs.js понимает, какую
@@ -153,6 +152,9 @@
        эту роль не выполняет. -->
   <section class="packages" id="tariffs" data-country-page="GE" data-cards="compact">
     <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
+    <div class="cp-skeleton" aria-hidden="true">
+      <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
+    </div>
 
     <!-- Набор id ниже — это контракт с assets/country-tariffs.js, а не
          оформление. renderCountrySplit() обращается к localCount, localEmpty и
@@ -181,6 +183,20 @@
         </div>
       </div>
       <div id="regionalGrid" class="grid plan-grid packages-grid"></div>
+    </section>
+
+    <!-- The EN order: «На каждый день» LAST. assets/country-tariffs.js
+         ensureDailyBlock() takes this section instead of inserting its own
+         before the local block (which is what the SEO-experiment pages get). -->
+    <section id="dailyBlock" class="block plan-block plan-block-daily tariff-block" hidden>
+      <div class="blk-head">
+        <span class="blk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+        <div>
+          <h2><span id="dailyHead"></span> <span class="count" id="dailyCount"></span></h2>
+          <p class="note">Объём трафика на каждый день поездки.</p>
+        </div>
+      </div>
+      <div id="dailyGrid" class="grid plan-grid packages-grid"></div>
     </section>
 
     <div id="packagesGrid" class="packages-grid"></div>
@@ -266,6 +282,13 @@
     <div class="help-grid"><div class="help-card"><h3>Локальные тарифы: Грузия</h3><ul class="why-list"><li>3 ГБ на 15 дней — <b>550 ₽</b></li><li>3 ГБ на 30 дней — <b>600 ₽</b></li><li>5 ГБ на 30 дней — <b>850 ₽</b></li><li>10 ГБ на 30 дней — <b>1 650 ₽</b></li><li>20 ГБ на 30 дней — <b>2 950 ₽</b></li></ul></div><div class="help-card"><h3>Трафик на каждый день</h3><p>7 тарифов, от 350 до 3 050 ₽. Срок и суточный объём каждого указаны в его карточке.</p></div></div>
   </section>
 
+  <section class="cp-sec about" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle">eSIM для Грузии: тарифы для Тбилиси, Батуми и поездок по стране</h2>
+    <p class="lead">Грузинская сетка — редкий случай, где внимательность окупается прямо в рублях. Два посуточных тарифа стоят одинаково, но один из них даёт в полтора раза больше данных в день. Причём выглядит он на первый взгляд хуже.</p>
+    <p class="intro">На три дня здесь можно взять тариф с лимитом 2 ГБ в день — или тариф с лимитом 3 ГБ в день. Цена одна и та же. Разница в названиях: у второго прямо в имени указана политика ограничения скорости, у первого нет, и именно поэтому он кажется «чистым» вариантом.</p>
+    <p class="intro">На деле ограничение есть у обоих: в карточках указано, какая скорость наступает после дневного лимита, и у тарифа с более скромным лимитом эта скорость ниже. То есть карточка, которая честно вынесла ограничение в название, оказывается щедрее и по объёму, и по заявленной скорости — при равной цене. Ещё нагляднее это видно рядом: тариф на 2 ГБ в день с той же мягкой политикой стоит дороже, чем 3 ГБ в день.</p>
+  </section>
+
   <section class="cp-sec why"><h2>В Грузии щедрый тариф стоит столько же, сколько скромный</h2><div class="help-grid why-cards"><div class="help-card why-card"><span class="ico" aria-hidden="true">🔍</span><h3>Читайте карточку целиком</h3><p>Дневной лимит и скорость после него — два разных параметра, и оба указаны в сетке. На три дня за одну и ту же цену можно получить 2 ГБ в день или 3 ГБ в день, и второй вариант не дороже.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">🏷️</span><h3>Ограничение в названии — не минус</h3><p>Пометка о политике скорости в имени тарифа не означает, что он хуже. В грузинской линейке именно такие тарифы указывают более высокую скорость после дневного лимита.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">🏙️</span><h3>Тбилиси и Батуми</h3><p>Городская поездка редко требует много: карты, такси, переписка и брони укладываются в скромный объём. Самый доступный объёмный тариф — 3 ГБ на 15 дней.</p></div><div class="help-card why-card"><span class="ico" aria-hidden="true">🏔️</span><h3>Горные маршруты</h3><p>Казбеги, Сванетия, перевалы — это навигация в дороге и постоянно включённый экран. Здесь имеет смысл смотреть выше по сетке, вплоть до верхней объёмной ступени — 20 ГБ на 30 дней.</p></div></div></section>
 
   <section class="cp-help" aria-labelledby="cpHelpTitle">
@@ -303,7 +326,7 @@
     <details class="faq-item"><summary>Сколько гигабайт хватит на неделю в Тбилиси?</summary><p>Берите тот, что на 30 дней. Три гигабайта в грузинской сетке продаются дважды — на 15 и на 30 дней, — и небольшая доплата здесь покупает вдвое больший срок. Для города этого объёма обычно достаточно; для поездки с выездами в горы следующие ступени — 5 и 10 ГБ на 30 дней. Цены всех ступеней — в разделе о стоимости на этой странице.</p></details>
     <details class="faq-item"><summary>Есть ли тариф на Грузию и Армению одновременно?</summary><p>Нет, и покупать придётся двумя чеками. Порядок при этом не важен: у грузинских тарифов в строке «Начало срока» в окне «Покрытие и условия» указано «с первого подключения к сети», поэтому оба профиля можно установить дома по Wi-Fi заранее — ждать будет тот, чью страну вы ещё не пересекли.</p></details>
     <details class="faq-item"><summary>Как проходит оплата?</summary><p>Оплата российской банковской картой или через СБП — способ выбирается на шаге оплаты. Иностранные карты пока не поддерживаются. После оплаты на почту приходит письмо с QR-кодом и инструкцией по установке.</p></details>
-    <details class="faq-item"><summary>Грузия — есть ли локальные тарифы?</summary><p>Да. Сейчас доступно 5 локальных тарифов именно для этой страны. Они показаны на этой странице сразу после блока «Трафик на каждый день».</p></details>
+    <details class="faq-item"><summary>Грузия — есть ли локальные тарифы?</summary><p>Да. Сейчас доступно 5 локальных тарифов именно для этой страны. Они показаны первым блоком на этой странице.</p></details>
     <details class="faq-item"><summary>Грузия — какие объёмы трафика доступны?</summary><p>Сейчас доступны тарифы на 3 ГБ, 5 ГБ, 10 ГБ, 20 ГБ. Точный срок действия указан в карточке каждого тарифа.</p></details>
     <details class="faq-item"><summary>Сколько стоит eSIM для Грузии?</summary><p>Локальные тарифы — от 550 до 2 950 ₽ (5 тарифов, 3 ГБ–20 ГБ); тарифы с оплатой за день — от 350 до 3 050 ₽. Это самая низкая сумма покупки каждого тарифа; полный список — в разделе «Сколько стоит eSIM для Грузии» на этой странице. Оплата в рублях российской картой или через СБП.</p></details>
   </section>
@@ -373,12 +396,15 @@
   <!-- One network strategy for every storefront page (Render first, the
        gateway second). The checkout sends the order through it, and the
        catalogue loader takes its endpoint list from it. -->
-  <script src="/assets/magic-net.js?v=3e0887b2"></script>
   <script src="/assets/catalog-loader.js?v=3abc3392" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
   <script src="/assets/daily-plan-copy.js?v=1f3a5f20" defer></script>
+  <!-- Keeps the generated counts and «от N ₽» equal to the catalogue the grid
+       shows; hides the floor when that catalogue is stale (stage C). Before
+       country-tariffs.js, so it listens before the first render. -->
+  <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
   <script src="../../assets/country-tariffs.js?v=dfb16932" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->

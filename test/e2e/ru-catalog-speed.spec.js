@@ -92,10 +92,12 @@ test('a failing API: the old retry and fallback road, then the snapshot; the pla
   expect(st.errors).toEqual([]);
 });
 
-test('an SEO-experiment page keeps the old 1.2 s race (no early request)', async ({ page }) => {
-  const st = await open(page, '/esim/uae/', { delayMs: 2500 });
-  await expect(page.locator('#tariffs .plan').first()).toBeVisible({ timeout: 6000 });
-  expect(await page.evaluate(() => typeof window.__magicCatalogEarly)).toBe('undefined');
-  expect(st.snapshot).toBe(1);
+test('a former SEO-experiment page loads like every other since 2026-10-24: the early request, no snapshot when healthy', async ({ page }) => {
+  const st = await open(page, '/esim/uae/', { delayMs: 300 });
+  await expect(page.locator('#localGrid .plan').first()).toBeVisible();
+  await page.waitForTimeout(2500);                      // past the 2 s snapshot deadline
   expect(st.api.length).toBe(1);
+  expect(st.snapshot).toBe(0);
+  expect(await page.evaluate(() => !!(window.__magicCatalogEarly && window.__magicCatalogEarly.used))).toBe(true);
+  expect(st.errors).toEqual([]);
 });

@@ -11,7 +11,7 @@
  *     card's price and term, and the checkout gets that term and price;
  *   - volume, term, price, type badge, «Покрытие и условия», network, top-up and
  *     the 40 px buy button stay; cards are lower than before; axe 0; no overflow;
- *   - an SEO-experiment page renders the same B1 card and keeps its own hero, titles and block order.
+ *   - a former SEO-experiment page has the same B1 card and the common structure (since 2026-10-24).
  * Nothing leaves the machine: the API is answered here, Metrika is stubbed.
  */
 
@@ -40,7 +40,7 @@ async function open(page, url, width) {
   await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'), null, { timeout: 5000 });
 }
 const h = (loc) => loc.evaluate((e) => Math.round(e.getBoundingClientRect().height));
-// Measured before this change (2026-10-19, /esim/turkey/): local / daily card height.
+// Measured before the compact card #100 (2026-10-19, /esim/turkey/): local / daily card height — the EN-spaced card (2026-10-24) stays at or under it.
 const BEFORE = { 320: { local: 300, daily: 468 }, 375: { local: 275, daily: 436 }, 390: { local: 275, daily: 436 } };
 
 for (const width of [320, 375, 390]) {
@@ -67,12 +67,15 @@ for (const width of [320, 375, 390]) {
       if (await dailyMulti.count()) await expect(dailyMulti.locator('.meta')).toContainText('Покрытие:');
     });
 
-    test('cards are lower than before; the buy button keeps its 40 px', async ({ page }) => {
+    test('the card spacing is the English reference card\'s (owner, 2026-10-24); not taller than before #100; the buy button ≥ 40 px', async ({ page }) => {
       await open(page, '/esim/turkey/', width);
       const local = await h(page.locator('#localGrid .plan').first());
       const daily = await h(page.locator('#dailyGrid .plan').nth(0));
-      expect(local).toBeLessThan(BEFORE[width].local - 25);
-      expect(daily).toBeLessThan(BEFORE[width].daily - 60);
+      // en/en.css .cp .plan: padding 20 / 20 / 16 px, gap 12 px — the RU card is a language version of the EN card
+      const sp = await page.locator('#localGrid .plan').first().evaluate((c) => { const s = getComputedStyle(c); return [s.paddingTop, s.paddingRight, s.paddingBottom, s.paddingLeft, s.rowGap].join(' '); });
+      expect(sp).toBe('20px 20px 16px 20px 12px');
+      expect(local).toBeLessThanOrEqual(BEFORE[width].local);
+      expect(daily).toBeLessThanOrEqual(BEFORE[width].daily);
       for (const b of await page.locator('#tariffs .js-buy:visible').all()) {
         const box = await b.boundingBox();
         expect(box.height).toBeGreaterThanOrEqual(40);
@@ -130,19 +133,15 @@ test('axe: the compact cards, with a term selected', async ({ page }) => {
   expect(v).toEqual([]);
 });
 
-test('an SEO-experiment page renders the same B1 card and keeps its own hero (since 2026-10-24)', async ({ page }) => {
+test('a former SEO-experiment page renders the same B1 card in the common structure (since 2026-10-24)', async ({ page }) => {
   await open(page, '/esim/uae/', 390);
   await expect(page.locator('#tariffs')).toHaveAttribute('data-cards', 'compact');
   const local = page.locator('#localGrid .plan').first();
   expect(await local.evaluate((card) => getComputedStyle(card).getPropertyValue('--pc-ink').trim())).toBe('#2e3441');
-  await expect(local.locator('.meta')).not.toContainText('Покрытие:');
   await expect(local.locator('.meta')).not.toContainText('установка по QR');
-  const cell = page.locator('#dailyGrid .js-daily-term').first();
-  await expect(cell).toBeVisible();
-  // its own page stays: the experiment hero (.cp-text with the authored lead), no loading skeleton, the daily block FIRST
-  await expect(page.locator('.cp-text .lead')).toBeVisible();
-  expect(await page.locator('.cp-skeleton').count()).toBe(0);
+  await expect(page.locator('#dailyGrid .js-daily-term').first()).toBeVisible();
+  expect(await page.locator('.cp-text').count()).toBe(0);
   const order = await page.evaluate(() => ['dailyBlock', 'localBlock', 'regionalBlock'].map((id) => document.getElementById(id)).filter(Boolean)
     .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1)).map((e) => e.id));
-  expect(order[0]).toBe('dailyBlock');
+  expect(order).toEqual(['localBlock', 'regionalBlock', 'dailyBlock']);
 });

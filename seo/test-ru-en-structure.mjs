@@ -4,7 +4,7 @@
 //   → jump bar → plans: local → regional → daily (EN order) → the authored
 //   text, WHOLE, under the plans (the old H1 as its H2, the lead, every intro)
 //   → «Почему eSIM» → «Перед покупкой» → FAQ → «Другие направления».
-// The ten SEO-experiment pages keep the old structure. The EN pages are not
+// Since 2026-10-24 the ten former SEO-experiment pages have this structure too (the experiment ended). The EN pages are not
 // touched by this (their generator is another file).
 
 import test from 'node:test';
@@ -35,7 +35,7 @@ const at = (html, s) => { const i = html.indexOf(s); assert.notEqual(i, -1, `mis
 
 test('outside the experiment: short H1, the facts line under it, nothing else before the plans', () => {
   let n = 0;
-  for (const { slug, iso, html } of PAGES.filter((p) => !isFrozenPage(p.slug))) {
+  for (const { slug, iso, html } of PAGES) {
     n += 1;
     const h1 = (html.match(/<h1>([\s\S]*?)<\/h1>/) || [])[1];
     assert.equal(h1, `eSIM для ${esc(GEN[iso])}`, slug);
@@ -49,7 +49,7 @@ test('outside the experiment: short H1, the facts line under it, nothing else be
 });
 
 test('outside the experiment: plans in the EN order, the jump bar in the same order, the EN skeleton while loading', () => {
-  for (const { slug, html } of PAGES.filter((p) => !isFrozenPage(p.slug))) {
+  for (const { slug, html } of PAGES) {
     const l = at(html, '<section id="localBlock"'); const r = at(html, '<section id="regionalBlock"'); const d = at(html, '<section id="dailyBlock"');
     assert.ok(l < r && r < d, `${slug}: local → regional → daily`);
     const jump = (html.match(/<nav class="cp-jump"[\s\S]*?<\/nav>/) || [''])[0];
@@ -62,7 +62,7 @@ test('outside the experiment: plans in the EN order, the jump bar in the same or
 
 test('the authored text is under the plans, word for word: old H1 as H2, the lead, every intro paragraph', () => {
   let authored = 0;
-  for (const { slug, html } of PAGES.filter((p) => !isFrozenPage(p.slug))) {
+  for (const { slug, html } of PAGES) {
     const p = profile(slug);
     const about = (html.match(/<section class="cp-sec about" aria-labelledby="aboutTitle">([\s\S]*?)<\/section>/) || [])[1];
     assert.ok(about, `${slug}: the about section`);
@@ -78,13 +78,13 @@ test('the authored text is under the plans, word for word: old H1 as H2, the lea
   assert.ok(authored >= 50, `authored pages checked: ${authored}`);
 });
 
-test('the ten SEO-experiment pages keep the old structure', () => {
+test('the ten former SEO-experiment pages have the common structure since 2026-10-24', () => {
   const frozen = PAGES.filter((p) => isFrozenPage(p.slug));
   assert.equal(frozen.length, 10);
   for (const { slug, html } of frozen) {
-    assert.match(html, /class="cp-text"/, slug);
-    assert.doesNotMatch(html, /cp-sec about|<section id="dailyBlock"|cp-skeleton/, slug);
+    assert.doesNotMatch(html, /class="cp-text"/, slug);
+    for (const re of [/cp-sec about/, /<section id="dailyBlock"/, /cp-skeleton/]) assert.match(html, re, slug);
     const jump = (html.match(/<nav class="cp-jump"[\s\S]*?<\/nav>/) || [''])[0];
-    assert.deepEqual([...jump.matchAll(/href="#(\w+)"/g)].map((m) => m[1]), ['dailyBlock', 'localBlock', 'regionalBlock'], slug);
+    assert.deepEqual([...jump.matchAll(/href="#(\w+)"/g)].map((m) => m[1]), ['localBlock', 'regionalBlock', 'dailyBlock'], `${slug}: the EN order`);
   }
 });

@@ -68,7 +68,10 @@ for (const slug of PILOT) {
     const title = h.match(/<title>([^<]*)<\/title>/)[1];
     assert.equal(title, `${p.seo_pilot.name} — тарифы и цены от ${money(f.min_price_rub)} ₽ | Magic eSIM`);
     assert.ok(title.length <= 70, `title ${title.length} chars`);
-    assert.equal(text(h.match(/<h1>([\s\S]*?)<\/h1>/)[1]), p.h1);
+    // Since 2026-10-24 (experiment ended) the page has the common hero: H1 «eSIM для <genitive>»; the pilot's commercial headline is
+    // kept WHOLE as the heading of the «about» block under the plans (seo/build-catalogue-pages.mjs aboutBlock).
+    assert.match(text(h.match(/<h1>([\s\S]*?)<\/h1>/)[1]), /^eSIM для \S/);
+    assert.equal(text(h.match(/<h2 id="aboutTitle">([\s\S]*?)<\/h2>/)[1]), p.h1);
     assert.match(p.h1, /^eSIM для /);
     assert.match(h, new RegExp(`<link rel="canonical" href="https://magicesim\\.store/esim/${slug}/" />`));
     assert.match(h, /<meta name="robots" content="index, follow" \/>/);
@@ -117,10 +120,10 @@ for (const slug of PILOT) {
   });
 }
 
-test('UAE: the Dubai intent is in the title, H1, price heading and question', () => {
+test('UAE: the Dubai intent is in the title, the about heading (the former H1), price heading and question', () => {
   const h = html('uae');
   assert.match(h.match(/<title>([^<]*)/)[1], /Дубая/);
-  assert.match(h.match(/<h1>([^<]*)/)[1], /Дубая/);
+  assert.match(h.match(/<h2 id="aboutTitle">([^<]*)/)[1], /Дубая/);
   assert.match(h, /<h2 id="pricesTitle">Сколько стоит eSIM в Дубае и ОАЭ<\/h2>/);
   assert.match(h, /<summary>Сколько стоит eSIM в Дубае\?<\/summary>/);
 });
