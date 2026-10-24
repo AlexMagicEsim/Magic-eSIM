@@ -22,12 +22,13 @@ const sitemap = new Set([...read('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>/g)
 const GUIDES = EN_GUIDES.map((g) => g.slug);
 const slugsOf = (prefix) => readdirSync(join(ROOT, prefix, 'esim')).filter((d) => existsSync(join(ROOT, prefix, 'esim', d, 'index.html')));
 
-test('the registry: ES indexable, x-default English, the stage outside the frozen ten and present in every language', () => {
+test('the registry: ES indexable, x-default English, the stage without the ten former experiment pages (owner, not yet) and present in every language', () => {
   assert.deepEqual(indexedLocales().map((l) => l.code), ['ru', 'en', 'es']);
   assert.equal(X_DEFAULT_CURRENT, X_DEFAULT_DECIDED);
   assert.equal(X_DEFAULT_CURRENT, 'en');
   for (const s of INDEXED_COUNTRIES) {
-    assert.ok(!FROZEN_PAGES.has(s), `${s} is an SEO-experiment page`);
+    // the experiment ended 2026-10-24; adding its ten pages to a stage is the owner's separate decision (deferred 2026-10-24)
+    assert.ok(!FROZEN_PAGES.has(s), `${s}: a former experiment page — adding it to the stage needs the owner's word`);
     for (const p of ['', 'en/', 'es/']) assert.ok(existsSync(join(ROOT, `${p}esim/${s}/index.html`)), `${p}esim/${s}/ is missing`);
   }
   assert.equal(new Set(INDEXED_COUNTRIES).size, INDEXED_COUNTRIES.length);
@@ -67,7 +68,7 @@ test('the Russian pages: twins carry exactly ruAlternates(); every other Russian
     assert.deepEqual(alts(html), want, `${path}: cluster`);
     if (want.length) { withCluster++; assert.ok(head(html).includes(ruAlternates(path)), `${path}: not the exact ruAlternates() text`); }
   }
-  for (const s of FROZEN_PAGES) assert.deepEqual(alts(read(`esim/${s}/index.html`)), [], `frozen ${s} has hreflang`);
+  for (const s of FROZEN_PAGES) assert.deepEqual(alts(read(`esim/${s}/index.html`)), [], `${s}: not in the stage, so no hreflang`);
   assert.equal(withCluster, 2 + GUIDES.length + INDEXED_COUNTRIES.length);
 });
 

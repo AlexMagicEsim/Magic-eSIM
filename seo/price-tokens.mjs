@@ -20,15 +20,14 @@
 //   Rendered text: «… 3 ГБ на 15 дней — {{price:local_3gb_15d}}.» →
 //   «… 3 ГБ на 15 дней — 400 ₽.» (money as the generator prints every amount).
 //   Relations between amounts («дороже», «вдвое») are still price_claims.
-//   Every ref must be used, every token must have a ref; no refs or tokens on
-//   the SEO pilot / control pages (seo/frozen-pages.mjs) until the verdict.
+//   Every ref must be used, every token must have a ref. (The SEO pilot / control pages were excluded until the
+//   experiment ended, 2026-10-24; their amounts are tokens since then.)
 
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { resolveTerm, validateTermShape } from './price-claims.mjs';
 import { pageBlocks, isoOfSlug } from './coverage-claims.mjs';
-import { isFrozenPage } from './frozen-pages.mjs';
 
 const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..');
 const PROFILE_DIR = join(ROOT, 'seo', 'content-profiles');
@@ -65,7 +64,6 @@ export function renderPriceTokens(text, refs, slug, packages) {
   for (const k of RENDER_KEYS) strings(text && text[k], (s) => { for (const m of s.matchAll(ANY_TOKEN_RE)) tokensIn.push(m[0]); return s; });
   const hasRefs = refs !== undefined;
   if (!hasRefs && !tokensIn.length) return { profile: text, problems, values };
-  if (isFrozenPage(slug)) problems.push(`${slug}: price_refs / {{price:…}} — страница пилота или контроля SEO, до вердикта без подстановок`);
   if (hasRefs && (!refs || typeof refs !== 'object' || Array.isArray(refs))) { problems.push(`${slug}: price_refs — не объект`); return { profile: text, problems, values }; }
   for (const t of tokensIn) if (!/^\{\{price:[a-z][a-z0-9_]*\}\}$/.test(t)) problems.push(`${slug}: «${t}» — подстановка пишется {{price:имя}}`);
 

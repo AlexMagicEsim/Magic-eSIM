@@ -61,16 +61,7 @@ test('stage B: a package a {{price}} token prints moves — GREEN, and the rebui
   assert.ok(r.inspected.html.includes(`500 МБ в день на три дня — ${amount}.`), `australia prints ${amount}`);
 });
 
-test('a package quoted with a HAND-TYPED amount moves: red — the claim and the stale figure are named, «rewrite the sentence»', async () => {
-  const r = await get('a package QUOTED with a hand-typed amount moves (kyrgyzstan · faq-week-daily-vs-10gb · v, still above d)');
-  baseline(r);
-  assert.ok(r.failing.includes(PRICE), r.failing.join(' | '));
-  // checkFacts also fires when the old figure exists nowhere else on the page.
-  assert.ok(r.failing.every((t) => t === PRICE || t === FACTS), r.failing.join(' | '));
-  assert.match(detail(r, PRICE), /faq-week-daily-vs-10gb: assert\[1\] v = 1300 ложно/);
-  assert.match(detail(r, PRICE), /перепишите фразу \(а не утверждение\)/);
-  assert.doesNotMatch(detail(r, PRICE), /assert\[2\]/, 'the relation still holds');
-});
+// (the hand-typed-amount scenario was retired 2026-10-24 — no hand-typed amount is left; seo/refresh-scenario-cases.mjs)
 
 test('stage B: a package a {{price}} token names is withdrawn — the BUILD stops, naming the reference and successor candidates', async () => {
   const r = await get('a package a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)');

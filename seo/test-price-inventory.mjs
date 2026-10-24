@@ -19,7 +19,7 @@ import { loadProfiles } from './price-claims.mjs';
 // Stage B batch 3 (greece, tanzania, laos, macau): 127 sentences.
 // Stage B batch 4 (mexico, morocco, south-africa, japan): 108 sentences.
 // Stage B batch 5 (montenegro, taiwan, costa-rica, dominican-republic): 88 sentences.
-const MAX_UNANCHORED = 13;
+const MAX_UNANCHORED = 0;   // 2026-10-24: the last 13 (the former SEO control pages) became {{price:…}} tokens
 
 const ROWS = inventory();
 const BASE = loadBaseline();
@@ -87,8 +87,8 @@ test('classification: anchored, waived, unanchored; bookkeeping keys never count
 
 test('MUTATION: a new amount sentence added to a real profile fails the ratchet', () => {
   const base = new Set(BASE.unanchored);
-  const real = ROWS.find((r) => r.status === 'anchored');
-  const added = inventoryOf(real.slug, { faq: [{ q: 'Q', a: 'Новый тариф стоит 123 ₽.' }] });
+  // a real profile (since 2026-10-24 no profile has a hand-typed amount to borrow a slug from)
+  const added = inventoryOf('albania', { faq: [{ q: 'Q', a: 'Новый тариф стоит 123 ₽.' }] });
   assert.equal(added[0].status, 'unanchored');
   assert.ok(!base.has(keyOf(added[0])), 'it is not in the baseline, so the ratchet test would name it');
 });

@@ -119,16 +119,9 @@ export function cases() {
       },
       inspect: ({ pageOf, info }) => ({ html: pageOf('australia'), price: info.price }),
     },
-    {
-      // Since stage B's last batch the only hand-typed amounts left are on the frozen
-      // SEO-pilot / control pages; the scenario moves a price in a temporary copy of
-      // the catalogue and edits no page, so a frozen page's claim is a valid fixture.
-      name: 'a package QUOTED with a hand-typed amount moves (kyrgyzstan · faq-week-daily-vs-10gb · v, still above d)',
-      mutate: (doc) => {
-        const v = byId(doc, claimTerm('kyrgyzstan', 'price', 'faq-week-daily-vs-10gb', 'v'));
-        v.price = Number(v.price) + 50;
-      },
-    },
+    // «a package QUOTED with a hand-typed amount moves» was retired on 2026-10-24: the last hand-typed amounts (the former
+    // SEO control pages) became {{price:…}} tokens, MAX_UNANCHORED is 0 (seo/test-price-inventory.mjs) — a moved price is
+    // the «{{price}} token prints moves — GREEN» case below.
     {
       name: 'a package a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)',
       mutate: (doc) => {
