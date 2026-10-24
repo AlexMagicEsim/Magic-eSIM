@@ -1,0 +1,38 @@
+[
+ {
+  "id": "L01-1",
+  "item_id": "privacy:international.5",
+  "group": "privacy",
+  "key": "international.5",
+  "where": "Privacy Policy §international (li)",
+  "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+  "target": "Render 和 GitHub 参加了 EU–U.S. Data Privacy Framework（欧盟—美国数据隐私框架），欧盟委员会已认定该框架提供充分的保护水平。",
+  "suggestion": "Render 和 GitHub 参与了 EU–U.S. Data Privacy Framework（欧盟—美国数据隐私框架），欧盟委员会已认定该框架提供充分的保护水平。",
+  "explanation": "参加 collocates with events and activities (会议、比赛); for a certification framework or programme a native writer uses 参与 or 加入. Collocation, not a grammar error.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.65,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "collocation",
+  "objective": false
+ },
+ {
+  "id": "L01-2",
+  "item_id": "privacy:retention.7",
+  "group": "privacy",
+  "key": "retention.7",
+  "where": "Privacy Policy §retention (li)",
+  "en": "<strong>Website visitor logs:</strong> as stated in GitHub’s privacy statement.",
+  "target": "<strong>网站访客日志：</strong>按照 GitHub 隐私声明中的规定。",
+  "suggestion": "<strong>网站访客日志：</strong>以 GitHub 隐私声明中的规定为准。",
+  "explanation": "「按照……的规定」 is a prepositional phrase that needs a following verb; standing alone after the colon it reads unfinished. 「以……为准」 is the standard way to state a retention period defined elsewhere.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.6,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "incomplete-predicate",
+  "objective": false
+ }
+]

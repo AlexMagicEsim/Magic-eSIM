@@ -1,5 +1,7 @@
 // The English Privacy Policy of the international website — PRE-LAUNCH version (LEGAL-1; 0.9.2 = LEGAL-4: name and
-// address optional, the checkout section names the consent boxes and says what stays in the browser).
+// address optional, the checkout section names the consent boxes and says what stays in the browser; 0.9.3 = the
+// geography of processing simplified: no server locations, the transfer destinations once in section 5, only the
+// safeguards confirmed from the providers' own publications).
 //
 // ONE source for /en/privacy/ (built by seo/build-locale-pages.mjs for English only). The text is the owner-approved
 // LEGAL-0 final edition «01 Privacy Policy — pre-launch (EN)», with the support-mail route stated only as far as public
@@ -10,9 +12,9 @@
 // Written for the page: plain HTML fragments, English typography (curly quotes, en dashes), no tables — every
 // list reads on a 320 px phone without horizontal scrolling.
 
-export const PRIVACY_VERSION = '0.9.2 (pre-launch)';
-export const PRIVACY_EFFECTIVE = '23 October 2026';
-export const PRIVACY_EFFECTIVE_ISO = '2026-10-23';
+export const PRIVACY_VERSION = '0.9.3 (pre-launch)';
+export const PRIVACY_EFFECTIVE = '24 October 2026';
+export const PRIVACY_EFFECTIVE_ISO = '2026-10-24';
 
 export const PRIVACY = Object.freeze({
   title: 'Privacy Policy — Magic eSIM',
@@ -82,28 +84,28 @@ export const PRIVACY = Object.freeze({
     {
       id: 'providers', h2: '4. Service providers who process data for us', html: `
       <p>To run the website and our support, we use the following service providers. Each processes data only to provide its service.</p>
-      <h3>GitHub, Inc., with its network provider Fastly, Inc.</h3>
-      <p>Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit. <em>Where:</em> United States; global network.</p>
-      <h3>Render Services, Inc., with its network provider Cloudflare, Inc.</h3>
-      <p>Runs the server that supplies plan lists and prices to the website. <em>Data:</em> IP address, technical data, and the plan and number of days you ask a price for. <em>Where:</em> a United States company; data may be processed in the United States and in other countries where Render and its providers operate.</p>
-      <h3>ImprovMX Incorporated</h3>
-      <p>Receives emails sent to support@magicesim.store and forwards them to our mailbox. It keeps delivery logs for 7 days and holds the message content only until it is delivered. <em>Data:</em> your email address, the message headers and the message content in transit. <em>Where:</em> a United States company; its receiving servers are in France, and forwarding may pass through the United States.</p>
+      <h3>GitHub, Inc. (United States), with its network provider Fastly, Inc.</h3>
+      <p>Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit.</p>
+      <h3>Render Services, Inc. (United States), with its network provider Cloudflare, Inc.</h3>
+      <p>Runs the server that supplies plan lists and prices to the website. <em>Data:</em> IP address, technical data, and the plan and number of days you ask a price for.</p>
+      <h3>ImprovMX Incorporated (United States)</h3>
+      <p>Receives emails sent to support@magicesim.store and forwards them to our mailbox. It keeps delivery logs for 7 days and holds the message content only until it is delivered. <em>Data:</em> your email address, the message headers and the message content in transit.</p>
       <h3>Our email service providers</h3>
       <p>Our support mailbox is held by an email service provider, and our replies are sent through Proton AG, Switzerland. <em>Data:</em> your email address and the messages exchanged with us.</p>
       <p>We may also disclose data where the law requires it, or where it is necessary to establish or defend legal claims.</p>`,
     },
     {
       id: 'international', h2: '5. International processing of data', html: `
-      <p>We are based in Georgia, but our service providers are international companies. As a result, your data may be processed outside Georgia — in the United States, in member states of the European Economic Area, in Switzerland and in other countries where these providers or their own providers operate.</p>
-      <p>Some of these countries, including the United States, do not offer the same level of data protection as Georgia or the European Union. Authorities there may be able to access data in circumstances that would not be allowed in Georgia or the EU.</p>
+      <p>We are based in Georgia, but our service providers are international companies. As a result, your data may be processed outside Georgia, mainly in the United States, the European Economic Area and Switzerland, and in other countries where these providers or their own providers operate.</p>
+      <p>Some of these countries, including the United States, may offer a lower level of data protection than Georgia or the European Union.</p>
       <p>What we do to protect your data:</p>
       <ul class="list">
         <li>We collect very little data: no account, no analytics or tracking, no payment data.</li>
-        <li>We use established providers that publish data protection terms for their customers. Render’s data processing terms include the European Union’s Standard Contractual Clauses, and Render and GitHub take part in the EU–U.S. Data Privacy Framework.</li>
+        <li>Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.</li>
         <li>Data travelling to and from our website and server is encrypted (HTTPS).</li>
       </ul>
       <p>These measures reduce the risks described above but do not remove them.</p>
-      <p>You can ask us for more information about these safeguards by writing to support@magicesim.store.</p>`,
+      <p>You can ask us for details of these safeguards, including copies where available, by writing to support@magicesim.store.</p>`,
     },
     {
       id: 'retention', h2: '6. How long we keep data', html: `
@@ -112,7 +114,7 @@ export const PRIVACY = Object.freeze({
         <li><strong>Support emails:</strong> 3 years after the last message, so that we can deal with follow-up questions and claims.</li>
         <li><strong>Records of privacy requests and our answers:</strong> 3 years after the request is closed.</li>
         <li><strong>Price records</strong> (no personal data): 90 days.</li>
-        <li><strong>Hosting logs of our server:</strong> 7 to 30 days, depending on the hosting plan (set by Render).</li>
+        <li><strong>Hosting logs of our server:</strong> up to 30 days.</li>
         <li><strong>Email forwarding logs:</strong> 7 days (set by ImprovMX).</li>
         <li><strong>Website visitor logs:</strong> as stated in GitHub’s privacy statement.</li>
       </ul>`,

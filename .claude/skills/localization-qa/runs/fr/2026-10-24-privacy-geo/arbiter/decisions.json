@@ -1,0 +1,9 @@
+[
+  {
+    "item_id": "privacy:international.5",
+    "decision": "optional",
+    "findings": ["L0001", "F0001"],
+    "severity": "preferential",
+    "reason": "«reconnaître un niveau de protection adéquat pour un cadre» is grammatical French and keeps the fact (the Commission recognised the framework's protection as adequate); «que … a reconnu comme offrant» mirrors the English more closely but is a stylistic improvement, not an objective error (rubric rule 7; both findings marked non-objective)."
+  }
+]

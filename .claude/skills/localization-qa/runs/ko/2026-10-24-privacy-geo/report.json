@@ -1,0 +1,188 @@
+{
+ "meta": {
+  "lang": "ko",
+  "generated": "2026-10-24T09:46:01.255Z",
+  "commit": "",
+  "strings": 25,
+  "strings_with_findings": 3,
+  "findings": 3,
+  "by_severity": {
+   "major": 2,
+   "minor": 1
+  },
+  "by_category": {
+   "grammar": 2,
+   "accuracy": 1
+  },
+  "by_source": {
+   "ai": 3
+  },
+  "verified": 0,
+  "rejected_by_second_opinion": 0,
+  "dropped": {
+   "unknownItem": 0,
+   "badShape": 0,
+   "lowConfidence": 0,
+   "duplicate": 0
+  }
+ },
+ "findings": [
+  {
+   "id": "A0002",
+   "item_id": "privacy:international.5",
+   "group": "privacy",
+   "key": "international.5",
+   "kind": "body",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/ko/privacy/#international",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "target": "Render와 GitHub는 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+   "suggestion": "Render와 GitHub은 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+   "explanation": "Particle after a Latin word follows its Korean reading (README D15): GitHub = 깃허브, ends in the final consonant ㅂ, so the topic particle is 은, not 는 (GitHub Docs ko writes «GitHub은»). Same problem as privacy:providers.3.",
+   "category": "grammar",
+   "severity": "major",
+   "confidence": 0.85,
+   "source": "ai",
+   "rule": "ko-D15-latin-particle",
+   "stage": "linguistic",
+   "objective": true
+  },
+  {
+   "id": "A0001",
+   "item_id": "privacy:providers.3",
+   "group": "privacy",
+   "key": "providers.3",
+   "kind": "body",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/ko/privacy/#providers",
+   "en": "Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit.",
+   "target": "웹사이트 페이지를 호스팅합니다. GitHub는 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+   "suggestion": "웹사이트 페이지를 호스팅합니다. GitHub은 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+   "explanation": "Particle after a Latin word follows its Korean reading (README D15): GitHub = 깃허브, ends in the final consonant ㅂ, so the topic particle is 은, not 는 (GitHub Docs ko writes «GitHub은»). Also in privacy:international.5.",
+   "category": "grammar",
+   "severity": "major",
+   "confidence": 0.85,
+   "source": "ai",
+   "rule": "ko-D15-latin-particle",
+   "stage": "linguistic",
+   "objective": true
+  },
+  {
+   "id": "A0003",
+   "item_id": "privacy:international.1",
+   "group": "privacy",
+   "key": "international.1",
+   "kind": "body",
+   "where": "Privacy Policy §international (p)",
+   "url": "https://magicesim.store/ko/privacy/#international",
+   "en": "We are based in Georgia, but our service providers are international companies. As a result, your data may be processed outside Georgia, mainly in the United States, the European Economic Area and Switzerland, and in other countries where these providers or their own providers operate.",
+   "target": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA), 스위스, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서 처리될 수 있습니다.",
+   "suggestion": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA) 및 스위스에서, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서도 처리될 수 있습니다.",
+   "explanation": "In the English «mainly» qualifies only the US, the EEA and Switzerland; «and in other countries…» is a separate, additional set. The Korean folds «기타 국가» into the same 주로 list, so the other countries also read as a «main» location. Closing the list with «…스위스에서, 그리고 … 기타 국가에서도» restores the English scope (rule 1, accuracy).",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "fidelity:scope-of-mainly",
+   "stage": "fidelity",
+   "objective": false
+  }
+ ],
+ "rejected": [],
+ "arbitration": {
+  "strings_decided": 3,
+  "apply": 3,
+  "keep": 0,
+  "optional": 0,
+  "invalid": [],
+  "landed": 3
+ },
+ "changes": [
+  {
+   "item_id": "privacy:providers.3",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/ko/privacy/#providers",
+   "kind": "body",
+   "en": "Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit.",
+   "old": "웹사이트 페이지를 호스팅합니다. GitHub는 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+   "new": "웹사이트 페이지를 호스팅합니다. GitHub은 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+   "severity": "major",
+   "reason": "D15: a particle after a Latin word follows its Korean reading; GitHub = 깃허브 ends in ㅂ, so the topic particle is 은, not 는. Only the particle changes; <em> label and meaning kept.",
+   "evidence": [
+    {
+     "id": "A0001",
+     "stage": "linguistic",
+     "category": "grammar",
+     "severity": "major",
+     "confidence": 0.85,
+     "objective": true,
+     "suggestion": "웹사이트 페이지를 호스팅합니다. GitHub은 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+     "explanation": "Particle after a Latin word follows its Korean reading (README D15): GitHub = 깃허브, ends in the final consonant ㅂ, so the topic particle is 은, not 는 (GitHub Docs ko writes «GitHub은»). Also in privacy:international.5."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "웹사이트 페이지를 호스팅합니다. GitHub은 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보."
+  },
+  {
+   "item_id": "privacy:international.5",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/ko/privacy/#international",
+   "kind": "body",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "old": "Render와 GitHub는 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+   "new": "Render와 GitHub은 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+   "severity": "major",
+   "reason": "D15: the particle attaches to the last word GitHub (깃허브, final ㅂ), so 은 is required instead of 는; same fix as privacy:providers.3 for consistency.",
+   "evidence": [
+    {
+     "id": "A0002",
+     "stage": "linguistic",
+     "category": "grammar",
+     "severity": "major",
+     "confidence": 0.85,
+     "objective": true,
+     "suggestion": "Render와 GitHub은 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+     "explanation": "Particle after a Latin word follows its Korean reading (README D15): GitHub = 깃허브, ends in the final consonant ㅂ, so the topic particle is 은, not 는 (GitHub Docs ko writes «GitHub은»). Same problem as privacy:providers.3."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "Render와 GitHub은 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다."
+  },
+  {
+   "item_id": "privacy:international.1",
+   "where": "Privacy Policy §international (p)",
+   "url": "https://magicesim.store/ko/privacy/#international",
+   "kind": "body",
+   "en": "We are based in Georgia, but our service providers are international companies. As a result, your data may be processed outside Georgia, mainly in the United States, the European Economic Area and Switzerland, and in other countries where these providers or their own providers operate.",
+   "old": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA), 스위스, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서 처리될 수 있습니다.",
+   "new": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA) 및 스위스에서, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서도 처리될 수 있습니다.",
+   "severity": "minor",
+   "reason": "Rule 1 (accuracy): in the English «mainly» scopes only the US, the EEA and Switzerland, with «other countries» as an additional set; the current Korean puts 기타 국가 inside the 주로 list. In a legal text the English scope is the reference, so the list is closed before «그리고 … 기타 국가에서도».",
+   "evidence": [
+    {
+     "id": "A0003",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA) 및 스위스에서, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서도 처리될 수 있습니다.",
+     "explanation": "In the English «mainly» qualifies only the US, the EEA and Switzerland; «and in other countries…» is a separate, additional set. The Korean folds «기타 국가» into the same 주로 list, so the other countries also read as a «main» location. Closing the list with «…스위스에서, 그리고 … 기타 국가에서도» restores the English scope (rule 1, accuracy)."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA) 및 스위스에서, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서도 처리될 수 있습니다."
+  }
+ ],
+ "optional": [],
+ "kept": []
+}

@@ -1,0 +1,174 @@
+{
+ "meta": {
+  "lang": "zh-Hans",
+  "generated": "2026-10-24T09:46:01.166Z",
+  "commit": "",
+  "strings": 25,
+  "strings_with_findings": 3,
+  "findings": 3,
+  "by_severity": {
+   "minor": 3
+  },
+  "by_category": {
+   "terminology": 1,
+   "fluency": 2
+  },
+  "by_source": {
+   "check": 1,
+   "ai": 2
+  },
+  "verified": 0,
+  "rejected_by_second_opinion": 0,
+  "dropped": {
+   "unknownItem": 0,
+   "badShape": 0,
+   "lowConfidence": 0,
+   "duplicate": 0
+  }
+ },
+ "findings": [
+  {
+   "id": "C0001",
+   "item_id": "privacy:retention.6",
+   "group": "privacy",
+   "key": "retention.6",
+   "kind": "body",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/zh/privacy/#retention",
+   "en": "<strong>Email forwarding logs:</strong> 7 days (set by ImprovMX).",
+   "target": "<strong>电子邮件转发日志：</strong>7 天（由 ImprovMX 设定）。",
+   "suggestion": "",
+   "explanation": "«设定»: the glossary uses «设置» for «settings».",
+   "category": "terminology",
+   "severity": "minor",
+   "confidence": 0.8,
+   "source": "check",
+   "rule": "glossary:settings",
+   "stage": "check",
+   "objective": true
+  },
+  {
+   "id": "A0001",
+   "item_id": "privacy:international.5",
+   "group": "privacy",
+   "key": "international.5",
+   "kind": "body",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/zh/privacy/#international",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "target": "Render 和 GitHub 参加了 EU–U.S. Data Privacy Framework（欧盟—美国数据隐私框架），欧盟委员会已认定该框架提供充分的保护水平。",
+   "suggestion": "Render 和 GitHub 参与了 EU–U.S. Data Privacy Framework（欧盟—美国数据隐私框架），欧盟委员会已认定该框架提供充分的保护水平。",
+   "explanation": "参加 collocates with events and activities (会议、比赛); for a certification framework or programme a native writer uses 参与 or 加入. Collocation, not a grammar error.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.65,
+   "source": "ai",
+   "rule": "collocation",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0002",
+   "item_id": "privacy:retention.7",
+   "group": "privacy",
+   "key": "retention.7",
+   "kind": "body",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/zh/privacy/#retention",
+   "en": "<strong>Website visitor logs:</strong> as stated in GitHub’s privacy statement.",
+   "target": "<strong>网站访客日志：</strong>按照 GitHub 隐私声明中的规定。",
+   "suggestion": "<strong>网站访客日志：</strong>以 GitHub 隐私声明中的规定为准。",
+   "explanation": "「按照……的规定」 is a prepositional phrase that needs a following verb; standing alone after the colon it reads unfinished. 「以……为准」 is the standard way to state a retention period defined elsewhere.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "incomplete-predicate",
+   "stage": "linguistic",
+   "objective": false
+  }
+ ],
+ "rejected": [],
+ "arbitration": {
+  "strings_decided": 3,
+  "apply": 0,
+  "keep": 1,
+  "optional": 2,
+  "invalid": [],
+  "landed": 0
+ },
+ "changes": [],
+ "optional": [
+  {
+   "item_id": "privacy:international.5",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/zh/privacy/#international",
+   "kind": "body",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "old": "Render 和 GitHub 参加了 EU–U.S. Data Privacy Framework（欧盟—美国数据隐私框架），欧盟委员会已认定该框架提供充分的保护水平。",
+   "new": null,
+   "severity": "preferential",
+   "reason": "«参加» is understandable and not an error; «参与» is a slightly better collocation for a framework — a stylistic improvement only, so recorded, not applied (rubric: correct wordings are not changed for taste).",
+   "evidence": [
+    {
+     "id": "A0001",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.65,
+     "objective": false,
+     "suggestion": "Render 和 GitHub 参与了 EU–U.S. Data Privacy Framework（欧盟—美国数据隐私框架），欧盟委员会已认定该框架提供充分的保护水平。",
+     "explanation": "参加 collocates with events and activities (会议、比赛); for a certification framework or programme a native writer uses 参与 or 加入. Collocation, not a grammar error."
+    }
+   ]
+  },
+  {
+   "item_id": "privacy:retention.7",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/zh/privacy/#retention",
+   "kind": "body",
+   "en": "<strong>Website visitor logs:</strong> as stated in GitHub’s privacy statement.",
+   "old": "<strong>网站访客日志：</strong>按照 GitHub 隐私声明中的规定。",
+   "new": null,
+   "severity": "minor",
+   "reason": "The English is itself a fragment and «按照 GitHub 隐私声明中的规定» conveys it accurately; «以……为准» reads more finished but the change is stylistic, not an objective error (rubric rule 7).",
+   "evidence": [
+    {
+     "id": "A0002",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "<strong>网站访客日志：</strong>以 GitHub 隐私声明中的规定为准。",
+     "explanation": "「按照……的规定」 is a prepositional phrase that needs a following verb; standing alone after the colon it reads unfinished. 「以……为准」 is the standard way to state a retention period defined elsewhere."
+    }
+   ]
+  }
+ ],
+ "kept": [
+  {
+   "item_id": "privacy:retention.6",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/zh/privacy/#retention",
+   "kind": "body",
+   "en": "<strong>Email forwarding logs:</strong> 7 days (set by ImprovMX).",
+   "old": "<strong>电子邮件转发日志：</strong>7 天（由 ImprovMX 设定）。",
+   "new": null,
+   "severity": "preferential",
+   "reason": "False positive: «设定» here is the verb «set (by ImprovMX)», not the noun «settings» the glossary entry governs; «由 ImprovMX 设定» is correct (rubric rule 7).",
+   "evidence": [
+    {
+     "id": "C0001",
+     "stage": "check",
+     "category": "terminology",
+     "severity": "minor",
+     "confidence": 0.8,
+     "objective": true,
+     "suggestion": "",
+     "explanation": "«设定»: the glossary uses «设置» for «settings»."
+    }
+   ]
+  }
+ ]
+}

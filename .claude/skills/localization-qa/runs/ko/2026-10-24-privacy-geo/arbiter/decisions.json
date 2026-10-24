@@ -1,0 +1,26 @@
+[
+  {
+    "item_id": "privacy:providers.3",
+    "decision": "apply",
+    "final": "웹사이트 페이지를 호스팅합니다. GitHub은 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+    "findings": ["L0001"],
+    "severity": "major",
+    "reason": "D15: a particle after a Latin word follows its Korean reading; GitHub = 깃허브 ends in ㅂ, so the topic particle is 은, not 는. Only the particle changes; <em> label and meaning kept."
+  },
+  {
+    "item_id": "privacy:international.5",
+    "decision": "apply",
+    "final": "Render와 GitHub은 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+    "findings": ["L0002"],
+    "severity": "major",
+    "reason": "D15: the particle attaches to the last word GitHub (깃허브, final ㅂ), so 은 is required instead of 는; same fix as privacy:providers.3 for consistency."
+  },
+  {
+    "item_id": "privacy:international.1",
+    "decision": "apply",
+    "final": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA) 및 스위스에서, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서도 처리될 수 있습니다.",
+    "findings": ["F0001"],
+    "severity": "minor",
+    "reason": "Rule 1 (accuracy): in the English «mainly» scopes only the US, the EEA and Switzerland, with «other countries» as an additional set; the current Korean puts 기타 국가 inside the 주로 list. In a legal text the English scope is the reference, so the list is closed before «그리고 … 기타 국가에서도»."
+  }
+]

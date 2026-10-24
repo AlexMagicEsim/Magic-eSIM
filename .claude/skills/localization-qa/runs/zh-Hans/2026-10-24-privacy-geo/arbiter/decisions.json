@@ -1,0 +1,26 @@
+[
+  {
+    "item_id": "privacy:retention.6",
+    "decision": "keep",
+    "final": "",
+    "findings": ["C0001"],
+    "severity": "preferential",
+    "reason": "False positive: «设定» here is the verb «set (by ImprovMX)», not the noun «settings» the glossary entry governs; «由 ImprovMX 设定» is correct (rubric rule 7)."
+  },
+  {
+    "item_id": "privacy:international.5",
+    "decision": "optional",
+    "final": "",
+    "findings": ["L0001"],
+    "severity": "preferential",
+    "reason": "«参加» is understandable and not an error; «参与» is a slightly better collocation for a framework — a stylistic improvement only, so recorded, not applied (rubric: correct wordings are not changed for taste)."
+  },
+  {
+    "item_id": "privacy:retention.7",
+    "decision": "optional",
+    "final": "",
+    "findings": ["L0002"],
+    "severity": "minor",
+    "reason": "The English is itself a fragment and «按照 GitHub 隐私声明中的规定» conveys it accurately; «以……为准» reads more finished but the change is stylistic, not an objective error (rubric rule 7)."
+  }
+]

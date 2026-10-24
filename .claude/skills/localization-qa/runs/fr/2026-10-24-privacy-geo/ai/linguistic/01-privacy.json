@@ -1,0 +1,21 @@
+[
+ {
+  "id": "L-privacy-01",
+  "item_id": "privacy:international.5",
+  "group": "privacy",
+  "key": "international.5",
+  "where": "Privacy Policy §international (li)",
+  "url": "",
+  "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+  "target": "Render et GitHub participent au cadre de protection des données UE–États-Unis (EU–U.S. Data Privacy Framework), pour lequel la Commission européenne a reconnu un niveau de protection adéquat.",
+  "suggestion": "Render et GitHub participent au cadre de protection des données UE–États-Unis (EU–U.S. Data Privacy Framework), que la Commission européenne a reconnu comme offrant un niveau de protection adéquat.",
+  "explanation": "« pour lequel la Commission européenne a reconnu un niveau de protection adéquat » is an awkward construction (reconnaître un niveau pour un cadre); the natural French is « que la Commission européenne a reconnu comme offrant un niveau de protection adéquat », which also mirrors the English structure.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.7,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "natural phrasing",
+  "objective": false
+ }
+]

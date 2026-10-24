@@ -1,0 +1,27 @@
+{
+ "meta": {
+  "lang": "de",
+  "generated": "2026-10-24T09:46:01.017Z",
+  "commit": "",
+  "strings": 25,
+  "strings_with_findings": 0,
+  "findings": 0,
+  "by_severity": {},
+  "by_category": {},
+  "by_source": {},
+  "verified": 0,
+  "rejected_by_second_opinion": 0,
+  "dropped": {
+   "unknownItem": 0,
+   "badShape": 0,
+   "lowConfidence": 0,
+   "duplicate": 0
+  }
+ },
+ "findings": [],
+ "rejected": [],
+ "arbitration": null,
+ "changes": [],
+ "optional": [],
+ "kept": []
+}
