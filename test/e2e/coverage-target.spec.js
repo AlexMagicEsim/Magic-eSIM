@@ -4,8 +4,8 @@
  * «Покрытие и условия →» on the B1 plan cards: the pressable area is at least 44 px high (brand book v1.2: interactive elements
  * ≥ 44 px) while the link LOOKS as before (28 px). An invisible ::before centred on the link (assets/ru.css, B1 cards only) does
  * it: a press 21 px above or below the link's middle still opens the same window; the band never covers «Купить», a day button or
- * any other control; the card is not taller. The ten SEO-experiment pages keep their old card exactly (owner, 2026-10-24): there
- * the link stays 32 px and a press 21 px from its middle does NOT reach it.
+ * any other control; the card is not taller. Since 2026-10-24 the ten SEO-experiment pages have the B1 card too (owner, variant
+ * «Б»): /esim/uae/ (pilot) and /esim/cyprus/ (control) are held to the same 44 px.
  * Nothing leaves the machine: the API is answered here from the committed catalogue, Metrika is stubbed.
  */
 
@@ -33,7 +33,7 @@ async function open(page, url, width) {
 }
 
 // [page, its card, the link's visible height, enlarged to 44 px?]
-const CASES = [['/esim/turkey/', 'compact B1 card', 28, true], ['/esim/japan/', 'compact B1 card', 28, true], ['/esim/uae/', 'SEO-experiment card, unchanged', 32, false]];
+const CASES = [['/esim/turkey/', 'compact B1 card', 28, true], ['/esim/japan/', 'compact B1 card', 28, true], ['/esim/uae/', 'B1, SEO pilot page', 28, true], ['/esim/cyprus/', 'B1, SEO control page', 28, true]];
 
 for (const [url, kind, visible, enlarged] of CASES) {
   for (const width of [320, 390, 1366]) {

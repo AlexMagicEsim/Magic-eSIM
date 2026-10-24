@@ -8,3 +8,10 @@ export const SEO_PILOT_PAGES = Object.freeze(['uae', 'egypt', 'georgia', 'uzbeki
 export const SEO_CONTROL_PAGES = Object.freeze(['cyprus', 'spain', 'usa', 'albania', 'kyrgyzstan']);
 export const FROZEN_PAGES = Object.freeze(new Set([...SEO_PILOT_PAGES, ...SEO_CONTROL_PAGES]));
 export const isFrozenPage = (slug) => FROZEN_PAGES.has(slug);
+
+// 2026-10-24 (owner, variant «Б»): the plan cards of ALL these pages switched to the B1 card (data-cards="compact", the
+// brand book v1.2) — pilot and control on the same day. Their titles, descriptions, hero, block order and the absence of the
+// live numbers stay as above. A before/after comparison of either group must split at this date (owner: never pool the
+// results across it without a separate analysis).
+export const CARDS_B1_SINCE = '2026-10-24';
+

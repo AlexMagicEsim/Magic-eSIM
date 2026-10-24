@@ -1,8 +1,8 @@
 'use strict';
 
 /*
- * Compact plan cards (the EN card's density) on the RU country pages outside the
- * SEO experiment — at 320, 375 and 390 px:
+ * Compact plan cards (the EN card's density, B1 since #136) on EVERY RU country page — since 2026-10-24 the
+ * SEO-experiment pages too (owner, variant «Б») — at 320, 375 and 390 px:
  *   - a plan for this country alone drops «Покрытие: <страна>»; a multi-country
  *     plan keeps it (authored pages cite «строка «Покрытие»» for those);
  *   - «Активация» keeps its row (cited by 14 profiles), without «установка по QR»;
@@ -11,7 +11,7 @@
  *     card's price and term, and the checkout gets that term and price;
  *   - volume, term, price, type badge, «Покрытие и условия», network, top-up and
  *     the 40 px buy button stay; cards are lower than before; axe 0; no overflow;
- *   - an SEO-experiment page renders the cards exactly as before.
+ *   - an SEO-experiment page renders the same B1 card and keeps its own hero, titles and block order.
  * Nothing leaves the machine: the API is answered here, Metrika is stubbed.
  */
 
@@ -130,11 +130,19 @@ test('axe: the compact cards, with a term selected', async ({ page }) => {
   expect(v).toEqual([]);
 });
 
-test('an SEO-experiment page renders the cards exactly as before', async ({ page }) => {
+test('an SEO-experiment page renders the same B1 card and keeps its own hero (since 2026-10-24)', async ({ page }) => {
   await open(page, '/esim/uae/', 390);
-  expect(await page.locator('#tariffs').getAttribute('data-cards')).toBeNull();
-  await expect(page.locator('#localGrid .plan').first().locator('.meta')).toContainText('Покрытие:');
-  await expect(page.locator('#localGrid .plan').first().locator('.meta')).toContainText('установка по QR');
+  await expect(page.locator('#tariffs')).toHaveAttribute('data-cards', 'compact');
+  const local = page.locator('#localGrid .plan').first();
+  expect(await local.evaluate((card) => getComputedStyle(card).getPropertyValue('--pc-ink').trim())).toBe('#2e3441');
+  await expect(local.locator('.meta')).not.toContainText('Покрытие:');
+  await expect(local.locator('.meta')).not.toContainText('установка по QR');
   const cell = page.locator('#dailyGrid .js-daily-term').first();
-  await expect(cell.locator('.package-meta-value')).toHaveText(/\d+ ₽/);
+  await expect(cell).toBeVisible();
+  // its own page stays: the experiment hero (.cp-text with the authored lead), no loading skeleton, the daily block FIRST
+  await expect(page.locator('.cp-text .lead')).toBeVisible();
+  expect(await page.locator('.cp-skeleton').count()).toBe(0);
+  const order = await page.evaluate(() => ['dailyBlock', 'localBlock', 'regionalBlock'].map((id) => document.getElementById(id)).filter(Boolean)
+    .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1)).map((e) => e.id));
+  expect(order[0]).toBe('dailyBlock');
 });

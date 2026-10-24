@@ -421,6 +421,10 @@ function aboutBlock(c, p) {
 
 function page(c, all, profile) {
   const live = !isFrozenPage(c.slug);
+  // The plan CARDS are B1 on every page (owner, 2026-10-24, variant «Б»): data-cards="compact" no longer depends on the SEO
+  // experiment. The pilot / control pages keep everything else of theirs — hero, titles, descriptions, block order, no live
+  // numbers — so the pilot and control groups stay apart; both groups changed card design on 2026-10-24
+  // (seo/frozen-pages.mjs CARDS_B1_SINCE): never pool their results across that date without a separate analysis.
   // A profile may only ADD prose. Every number below still comes from the
   // catalogue, and the merge cannot reach any of them.
   const p = profile || {};
@@ -595,7 +599,7 @@ ${live ? `    <a href="#localBlock" hidden><span>${esc(c.nameRu)}</span> <span c
        загрузка тихо выходит на первой строке, сетка остаётся пустой, а на
        экране навсегда висит «Загружаем тарифы…». data-country-iso на <body>
        эту роль не выполняет. -->
-  <section class="packages" id="tariffs" data-country-page="${c.iso}"${live ? ' data-cards="compact"' : ''}>
+  <section class="packages" id="tariffs" data-country-page="${c.iso}" data-cards="compact">
     <div id="packagesStatus" class="packages-status note" role="status" aria-live="polite">Загружаем тарифы…</div>
 ${live ? `    <div class="cp-skeleton" aria-hidden="true">
       <div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div>
