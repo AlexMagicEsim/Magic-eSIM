@@ -1,0 +1,53 @@
+# DIAGNOSTIC ONLY — branch diag/webkit-internal-error, never merged, deleted after the analysis.
+# The same webkit-flags tests, the same repeats, the same container options and CI env, under Playwright 1.62.1
+# (WebKit 2336, today's CI) and 1.64.1 — to measure WebKit's «internal error» navigation failures. No retries.
+name: zz webkit diagnosis
+on:
+  push:
+    branches: [diag/webkit-internal-error]
+permissions:
+  contents: read
+jobs:
+  webkit:
+    name: webkit-flags ${{ matrix.pw }} (${{ matrix.rep }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    container:
+      image: ${{ matrix.image }}
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        rep: [1, 2, 3, 4]
+        pw: ['1.62.1', '1.64.1']
+        include:
+          - pw: '1.62.1'
+            image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
+          - pw: '1.64.1'
+            image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:47b510dd9230bf0b9bfc9b20102241e577ea7a99334ab4c3ca19f19770e9b8ea
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Playwright ${{ matrix.pw }}
+        if: matrix.pw != '1.62.1'
+        run: npm install --no-save @playwright/test@${{ matrix.pw }}
+      - run: npx playwright --version
+      - name: webkit-flags × 4, no retries
+        continue-on-error: true
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: report.json
+        run: npx playwright test --project=webkit-flags --repeat-each=4 --retries=0 --reporter=json,dot
+      - name: Count
+        run: node .github/zz-diag/analyze.mjs report.json pw${{ matrix.pw }}-rep${{ matrix.rep }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: diag-pw${{ matrix.pw }}-rep${{ matrix.rep }}
+          path: |
+            summary-*.json
+            test-results/
+          retention-days: 3
