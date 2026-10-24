@@ -70,6 +70,12 @@
 /* «Покрытие и условия»: a quiet text button, so the card keeps ONE primary button. */
 .plan-info{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:32px;margin:-2px 0 0;padding:0;border:0;background:none;color:var(--accent);font:inherit;font-size:14px;font-weight:650;cursor:pointer}
 .plan-info::after{content:"→"}
+/* The 44 px target (brand book v1.2), B1 cards only: the visible link stays 28 px and an invisible ::before, centred on it, makes the
+   pressable area 44 px high — no layout change, the card is not taller, the first «Купить» stays where it was. Its own text width
+   only: it never reaches «Купить» or a day button. The ten SEO-experiment pages (old card) are left exactly as they are (owner,
+   2026-10-24). test/e2e/coverage-target.spec.js holds both. */
+#tariffs[data-cards="compact"] .plan-info{position:relative}
+#tariffs[data-cards="compact"] .plan-info::before{content:"";position:absolute;left:0;right:0;top:50%;height:44px;margin-top:-22px}
 .plan-info:hover{text-decoration:underline;text-underline-offset:3px}
 .plan .btn.package-buy{white-space:nowrap}
 .plan .btn[aria-disabled="true"]{opacity:.55;pointer-events:none;box-shadow:none}
