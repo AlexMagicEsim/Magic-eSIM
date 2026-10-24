@@ -8,13 +8,13 @@
 //     destination list, its guide list and its five guides are indexed; its country pages are indexed in STAGES:
 //     `INDEXED_COUNTRIES` below is the stage. Every other country page stays `noindex, follow`, out of the sitemap,
 //     without hreflang — a template with no price in the HTML is not offered to search engines 198 at a time.
-//   - The ten SEO-experiment pages (seo/frozen-pages.mjs) are in NO stage until the pilot verdict (~2026-12-07): their
-//     Russian pages get no hreflang (the experiment's markup must not change) and their EN/ES twins stay noindex.
+//   - The ten former SEO-experiment pages (seo/frozen-pages.mjs; the experiment ENDED 2026-10-24) have no special case here any
+//     more: like any country, a page is indexed in EN / ES and gets hreflang only when its slug is in the stage. They are not in
+//     it yet — adding them is the owner's separate decision (deferred 2026-10-24); seo/test-i18n-indexing.mjs holds that.
 //   - A cluster lists only pages that exist and are indexed, each pointing at all the others (reciprocal), plus
 //     x-default → the English twin (owner 2026-10-13). A page outside every cluster carries no alternate at all.
 //   - Russian pages are indexed as before; they gain only the <link rel="alternate"> block of their cluster.
 import { LOCALES, SITE } from './locales.mjs';
-import { isFrozenPage } from './frozen-pages.mjs';
 
 /* Stage 1 (2026-10-21): the popular destinations of the three home pages (RU_POPULAR_ALL, PAGE_COPY.en/es.popular)
  * minus the frozen ten. Widening the stage = adding slugs here (a page for it must exist in every indexed language). */
@@ -54,14 +54,12 @@ export function isIndexed(code, page, list = LOCALES) {
   const l = indexedLocales(list).find((x) => x.code === code);
   if (!l || pathIn(l, page) === null) return false;
   if (page.kind !== 'country') return true;
-  if (isFrozenPage(page.slug)) return false;
   return INDEXED_COUNTRIES.includes(page.slug);
 }
 
 /* The cluster of one page: [{ hreflang, href }] of every language where it is indexed, then x-default → the English
- * twin. Empty when fewer than two languages index it (an hreflang needs a counterpart) or the page is frozen. */
+ * twin. Empty when fewer than two languages index it (an hreflang needs a counterpart). */
 export function cluster(page, list = LOCALES) {
-  if (page.kind === 'country' && isFrozenPage(page.slug)) return [];
   const members = indexedLocales(list).filter((l) => isIndexed(l.code, page, list))
     .map((l) => ({ code: l.code, hreflang: l.hreflang, href: SITE + pathIn(l, page) }));
   if (members.length < 2) return [];

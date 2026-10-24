@@ -32,6 +32,7 @@ const CONVERTED = {
   7: ['bahrain', 'seychelles', 'argentina', 'andorra'],
   8: ['armenia', 'colombia', 'portugal', 'qatar'],
   9: ['maldives', 'nepal', 'turkey', 'brunei', 'jordan', 'vietnam', 'germany', 'india', 'china', 'south-korea'],
+  11: ['albania', 'cyprus', 'spain', 'usa', 'kyrgyzstan'],   // the former SEO control pages, 2026-10-24
   10: ['bosnia-and-herzegovina', 'indonesia', 'philippines', 'serbia', 'thailand', 'france', 'hong-kong', 'saudi-arabia',
     'singapore', 'united-kingdom', 'azerbaijan', 'bulgaria', 'switzerland', 'tunisia'],
 };
@@ -71,11 +72,12 @@ test('a converted page stays converted: no hand-typed rouble amount in its rende
   }
 });
 
-test('the SEO pilot / control pages carry no references or tokens', () => {
+test('the former SEO control pages are converted (the experiment ended 2026-10-24); the pilot pages type no ₽ at all', () => {
+  for (const s of ['albania', 'cyprus', 'spain', 'usa', 'kyrgyzstan']) assert.ok(raw(s).price_refs, `${s}: price_refs`);
   for (const s of FROZEN_PAGES) {
     if (!existsSync(join(ROOT, 'seo', 'content-profiles', `${s}.json`))) continue;
-    assert.equal(raw(s).price_refs, undefined, s);
-    assert.doesNotMatch(JSON.stringify(raw(s)), /\{\{price:/, s);
+    const literal = inventoryOf(s, raw(s));
+    assert.deepEqual(literal.map((r) => `${r.field}: ${r.sentence}`), [], `${s}: no hand-typed ₽ left`);
   }
 });
 
@@ -95,7 +97,7 @@ test('unit: a token prints the catalogue amount, formatted as the generator prin
   assert.match(big.profile.description, /^\d{1,3}(?: \d{3})+ ₽$/, 'thousands with a no-break space, like every generated amount');
 });
 
-test('unit: the refusals — unknown, unused, malformed, wrong block, changed attrs, withdrawn (with successors), frozen page', () => {
+test('unit: the refusals — unknown, unused, malformed, wrong block, changed attrs, withdrawn (with successors); a former experiment page is not refused any more', () => {
   const ref = { package: AU_LOCAL_3, block: 'local' };
   const probs = (desc, refs, slug = 'australia', pk = PK) => renderPriceTokens(text(desc), refs, slug, pk).problems.join('\n');
   assert.match(probs('{{price:x}}', { a: ref }), /\{\{price:x\}\} — нет такого price_refs/);
@@ -106,7 +108,7 @@ test('unit: the refusals — unknown, unused, malformed, wrong block, changed at
   const withdrawn = PK.filter((p) => p.package_id !== AU_LOCAL_3);
   assert.match(probs('{{price:a}}', { a: { ...ref, attrs: { data_gb: 3 } } }, 'australia', withdrawn),
     /нет в каталоге — исчез или снят с витрины; кандидаты в блоке «local»: .* — подстановка \{\{price:a\}\} не может быть напечатана; перепривяжите её к тарифу-преемнику/);
-  assert.match(probs('{{price:a}}', { a: ref }, 'uae'), /страница пилота или контроля SEO/);
+  assert.doesNotMatch(probs('{{price:a}}', { a: ref }, 'uae'), /страница пилота или контроля SEO/);   // since 2026-10-24
   assert.match(probs('{{price:a}}', { a: { block: 'local' } }), /нужен package или min_of/);
   assert.match(renderPriceTokens(text('{{price:a}}'), { a: ref }, 'australia', withdrawn).profile.description, /\{\{price:a\}\}/, 'an unprintable token is left raw — and the generator refuses the page');
 });
