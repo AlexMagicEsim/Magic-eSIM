@@ -15,3 +15,9 @@ export const isFrozenPage = (slug) => FROZEN_PAGES.has(slug);
 // results across it without a separate analysis).
 export const CARDS_B1_SINCE = '2026-10-24';
 
+// 2026-10-24 (owner): the original SEO experiment ENDED — its ten pages now have the same page structure as every other RU
+// country page (the English reference: short hero, plans first, the authored texts under the plans). Results before and after
+// this date are never pooled. The lists above stay as the record of the two groups and still drive seo/indexing.mjs (not in the
+// indexing stages, no hreflang cluster) and seo/price-tokens.mjs — each a separate owner decision.
+export const EXPERIMENT_ENDED = '2026-10-24';
+

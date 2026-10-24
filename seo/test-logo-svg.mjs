@@ -56,12 +56,12 @@ test('every point of the optimised logo is within 0.05 unit of the master, in th
   assert.deepEqual(grads(read(OUT)), grads(read(MASTER)));
 });
 
-test('the RU header carries the animated logo; the footer and the frozen ten keep the static one', () => {
+test('the RU header carries the animated logo on every page (the former experiment ten too, since 2026-10-24); the footer keeps the static one', () => {
   assert.ok(ruHeader().includes(LOGO_ANIMATED));
   assert.ok(ruHeader({ animatedLogo: false }).includes(LOGO) && !ruHeader({ animatedLogo: false }).includes('brand-logo'));
   for (const slug of FROZEN_PAGES) {
     const h = read(`esim/${slug}/index.html`);
-    assert.doesNotMatch(h, /brand-logo|data-motion|motion\.js/, `${slug}: frozen pages stay static`);
+    assert.ok(h.includes(LOGO_ANIMATED), `${slug}: the animated logo`);
   }
   const turkey = read('esim/turkey/index.html');
   assert.ok(turkey.includes(LOGO_ANIMATED), 'a live country page plays it');
@@ -123,13 +123,11 @@ test('the sitemap hash does not see the animated logo (no date moves)', () => {
   assert.equal(contentHash(page), contentHash(page.split(LOGO_ANIMATED).join(LOGO)));
 });
 
-test('every RU page with the shared header has the animated logo or is frozen', () => {
+test('every RU page with the shared header has the animated logo (no exception since 2026-10-24)', () => {
   const pages = ['index.html', 'payment-success.html', 'payment-failed.html', 'privacy.html', 'terms.html', 'iphone.html', 'android.html', 'esim/index.html'];
   for (const d of readdirSync(join(ROOT, 'esim'))) if (existsSync(join(ROOT, 'esim', d, 'index.html'))) pages.push(`esim/${d}/index.html`);
   for (const p of pages) {
     const h = read(p); if (!h.includes('class="site-header"')) continue;
-    const slug = p.split('/')[1];
-    if (FROZEN_PAGES.has(slug)) continue;
     assert.ok(h.includes(LOGO_ANIMATED), `${p}: header logo`);
   }
 });

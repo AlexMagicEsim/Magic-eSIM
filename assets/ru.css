@@ -342,15 +342,17 @@
  * animation or transition: every animation of site.css runs as before (entrance, hover lift + ring, focus ring, the buy
  * button's lift / press / card-hover colour, the info arrow, the term press + settle, reduced motion). Prices, plan ids
  * and every data-* the checkout reads are untouched — this is CSS only. */
-/* density: the compact card's padding and gaps (conversion audit #100 — the first «Купить» in the first phone screen) */
-#tariffs[data-cards="compact"] .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; container-type: inline-size; padding: 14px 16px 12px; gap: 8px; }
+/* spacing = the English reference card (en/en.css .cp .plan: 20 / 20 / 16 px, gap 12) — owner, 2026-10-24: the RU page must look like a
+   language version of the EN one. Measured: the first «Купить» stays in the first 390×844 screen on the same pages as with the
+   #100 density (185/198 incl. Italy); the median first card 238 → 264 px. */
+#tariffs[data-cards="compact"] .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; container-type: inline-size; padding: 20px 20px 16px; gap: 12px; }
 #tariffs[data-cards="compact"] .plan-regional { --pc-strip: #c58fe0; --pc-ico: #8a16c7; --pc-word: #6a1199; }
 #tariffs[data-cards="compact"] .plan-daily { --pc-strip: #6cc3d4; --pc-ico: #0a7a8f; --pc-word: #0a5f72; }
 /* the family strip follows the card's rounded top (a mask, not overflow:hidden — that would clip the hover ring) */
 #tariffs[data-cards="compact"] .plan::before { content: ""; position: absolute; inset: -1px -1px auto -1px; height: 24px; border-radius: var(--r-l) var(--r-l) 0 0; background: var(--pc-strip); pointer-events: none; -webkit-mask: linear-gradient(#000 0 3px, transparent 3px); mask: linear-gradient(#000 0 3px, transparent 3px); }
 
 /* header: volume and price on one baseline; the term + plan-type row across the card; a daily price under its sentence */
-#tariffs[data-cards="compact"] .plan-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 6px; align-items: baseline; }
+#tariffs[data-cards="compact"] .plan-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 8px; align-items: baseline; }
 #tariffs[data-cards="compact"] .plan-main { display: contents; }
 #tariffs[data-cards="compact"] .plan .plan-data { grid-column: 1; grid-row: 1; font-size: 30px; font-weight: 700; color: var(--pc-ink); -webkit-hyphens: manual; hyphens: manual; text-wrap: pretty; }
 #tariffs[data-cards="compact"] .plan:not(.plan-daily) .plan-data { white-space: nowrap; }
@@ -397,7 +399,7 @@
 
 /* foot: «Сеть» and «Пополнение» (both short on the Russian card) stacked on the left, the button beside them — the
  * compact card's arrangement, so the foot is one button tall */
-#tariffs[data-cards="compact"] .plan-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; row-gap: 2px; padding-top: 10px; }
+#tariffs[data-cards="compact"] .plan-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; row-gap: 6px; padding-top: 10px; }
 #tariffs[data-cards="compact"] .plan-tech { display: contents; }
 #tariffs[data-cards="compact"] .plan-foot .plan-net { grid-column: 1; grid-row: 1; align-self: end; gap: 6px; font-size: 13px; font-weight: 550; color: var(--pc-ink); }
 #tariffs[data-cards="compact"] .plan-foot .plan-ip { grid-column: 1; grid-row: 2; align-self: start; font-size: 13px; }

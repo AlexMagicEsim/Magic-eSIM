@@ -25,7 +25,7 @@ const countryPages = (dir) => readdirSync(join(ROOT, dir))
 
 test('RU outside the experiment: MagicNet then the early request in <head>, before the stylesheets; MagicNet loaded once', () => {
   let n = 0;
-  for (const { slug, html } of countryPages('esim').filter((p) => !isFrozenPage(p.slug))) {
+  for (const { slug, html } of countryPages('esim')) {
     n += 1;
     const head = html.slice(0, html.indexOf('</head>'));
     const net = head.indexOf('<script src="/assets/magic-net.js?v=');
@@ -44,13 +44,13 @@ test('RU outside the experiment: MagicNet then the early request in <head>, befo
   assert.ok(n >= 180, `pages checked: ${n}`);
 });
 
-test('the ten SEO-experiment pages: no early request, MagicNet where it was', () => {
+test('the ten former SEO-experiment pages make the early request too since 2026-10-24, MagicNet in <head>', () => {
   const frozen = countryPages('esim').filter((p) => isFrozenPage(p.slug));
   assert.equal(frozen.length, 10);
   for (const { slug, html } of frozen) {
-    assert.doesNotMatch(html, /__magicCatalogEarly/, slug);
+    assert.match(html, /__magicCatalogEarly/, slug);
     const net = html.indexOf('<script src="/assets/magic-net.js?v=');
-    assert.ok(net > html.indexOf('</main>'), `${slug}: MagicNet still at the end of the body`);
+    assert.ok(net > -1 && net < html.indexOf('</head>'), `${slug}: MagicNet in <head>`);
   }
 });
 

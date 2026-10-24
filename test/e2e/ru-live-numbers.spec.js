@@ -114,10 +114,10 @@ test('nothing loads at all: the floor phrases hide (an unverifiable price is not
   expect(st.nonGet).toBe(0);
 });
 
-test('the SEO pilot page is untouched: no live markup, the generated floor stays as built', async ({ page }) => {
+test('a former SEO pilot page carries the live numbers too since 2026-10-24 (the experiment ended)', async ({ page }) => {
   const st = await open(page, '/esim/uae/', { live: cheaper(SNAPSHOT.packages) });
-  await expect(page.locator('#dailyGrid .plan, #localGrid .plan').first()).toBeVisible();
-  expect(await page.locator('[data-cat], [data-cat-floor], [data-cat-seg]').count()).toBe(0);
-  expect(await page.evaluate(() => typeof window.MagicCatalogNumbers)).toBe('undefined');
+  await expect(page.locator('#localGrid .plan').first()).toBeVisible();
+  expect(await page.locator('[data-cat], [data-cat-floor], [data-cat-seg]').count()).toBeGreaterThan(0);
+  expect(await page.evaluate(() => typeof window.MagicCatalogNumbers)).not.toBe('undefined');
   expect(st.errors).toEqual([]);
 });

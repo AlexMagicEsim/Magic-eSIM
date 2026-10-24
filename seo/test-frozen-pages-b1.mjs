@@ -1,16 +1,14 @@
 // The SEO-experiment pages and the B1 card (owner, 2026-10-24, variant «Б»):
 //   1. EVERY RU country page — the ten pilot / control pages included — renders the B1 card (data-cards="compact");
-//   2. the experiment pages keep their own page: the experiment hero (.cp-text + authored lead), no loading skeleton, no live
-//      catalogue numbers — so the pilot and control groups stay apart from the rest and from each other;
-//   3. the date both groups changed card design is recorded once, CARDS_B1_SINCE = 2026-10-24 (results are never pooled across it);
-//   4. the switch added ONE attribute to those pages: their head (title, description, canonical, robots, hreflang) and JSON-LD
-//      are the generator's frozen output, untouched by the card switch.
+//   2. since 2026-10-24 the experiment ENDED (owner): those ten pages have the common structure — the English reference's hero,
+//      skeleton, live numbers — and their authored H1 / lead / intro stand whole in the «about» block under the plans;
+//   3. both dates are recorded once: CARDS_B1_SINCE and EXPERIMENT_ENDED = 2026-10-24 (results are never pooled across it).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SEO_PILOT_PAGES, SEO_CONTROL_PAGES, FROZEN_PAGES, CARDS_B1_SINCE } from './frozen-pages.mjs';
+import { SEO_PILOT_PAGES, SEO_CONTROL_PAGES, FROZEN_PAGES, CARDS_B1_SINCE, EXPERIMENT_ENDED } from './frozen-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (slug) => readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf8');
@@ -22,19 +20,24 @@ test('every RU country page renders the B1 card — the ten experiment pages inc
   assert.deepEqual(missing, []);
 });
 
-test('the experiment groups stay apart: five pilot, five control, their own hero, no skeleton, no live numbers', () => {
+test('the ten former experiment pages have the common structure; their authored headline stands in the about block', () => {
   assert.equal(SEO_PILOT_PAGES.length, 5);
   assert.equal(SEO_CONTROL_PAGES.length, 5);
   assert.equal(FROZEN_PAGES.size, 10);
   for (const s of FROZEN_PAGES) {
     const h = read(s);
-    assert.ok(h.includes('<div class="cp-text">'), `${s}: the experiment hero`);
-    assert.ok(!h.includes('cp-skeleton'), `${s}: no loading skeleton`);
-    assert.ok(!/data-cat[=-]/.test(h), `${s}: no live catalogue numbers`);
+    assert.ok(!h.includes('<div class="cp-text">'), `${s}: no experiment hero`);
+    assert.match(h, /<h1>eSIM для [^<]+<\/h1>/, `${s}: the common H1`);
+    assert.ok(h.includes('cp-skeleton'), `${s}: the loading skeleton`);
+    assert.ok(/data-cat[=-]/.test(h), `${s}: live catalogue numbers`);
+    const prof = JSON.parse(readFileSync(join(ROOT, 'seo', 'content-profiles', `${s}.json`), 'utf8'));
+    const about = (h.match(/<h2 id="aboutTitle">([^<]*)<\/h2>/) || [])[1];
+    const unesc = (t) => t.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+    assert.equal(about && unesc(about), prof.h1, `${s}: the authored headline whole in the about block`);
   }
-  for (const s of countries.filter((x) => !FROZEN_PAGES.has(x)).slice(0, 20)) assert.ok(!read(s).includes('<div class="cp-text">'), `${s}: not an experiment page`);
 });
 
-test('the date both groups switched card design is recorded: 2026-10-24', () => {
+test('the dates are recorded: cards B1 and the end of the experiment, 2026-10-24', () => {
   assert.equal(CARDS_B1_SINCE, '2026-10-24');
+  assert.equal(EXPERIMENT_ENDED, '2026-10-24');
 });

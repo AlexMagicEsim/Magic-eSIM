@@ -62,11 +62,12 @@ test('country page: local, regional, daily — the EN order (outside the SEO exp
   expect(st.nonGet).toBe(0);
 });
 
-test('an SEO-experiment page keeps the old order: daily, local, regional', async ({ page }) => {
+test('a former SEO-experiment page has the EN order since 2026-10-24: local, regional, daily', async ({ page }) => {
   const st = await open(page, '/esim/uae/');
   await expect(page.locator('#dailyGrid .plan').first()).toBeVisible();
   const order = await page.evaluate(() => [...document.querySelectorAll('.plan-block:not([hidden])')].map((s) => s.id));
-  expect(order[0]).toBe('dailyBlock');
+  expect(order[0]).toBe('localBlock');
+  expect(order.at(-1)).toBe('dailyBlock');
   expect(st.errors).toEqual([]);
 });
 

@@ -34,7 +34,7 @@ import { RU_CHECKOUT_MODAL } from './ru-checkout-markup.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { createRequire } from 'node:module';
 import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily, countryOffers } from './catalogue-facts.mjs';
-import { isFrozenPage } from './frozen-pages.mjs'; // live catalogue numbers (stage C) skip the SEO pilot / control
+import { EXPERIMENT_ENDED } from './frozen-pages.mjs'; // the experiment's ten have the common structure since that date // live catalogue numbers (stage C) skip the SEO pilot / control
 import { renderPriceTokens, readRefs } from './price-tokens.mjs';
 import { buildDictionaryGen } from './build-country-dictionary.mjs';
 import { ALIASES, REGIONS } from './destination-aliases.mjs';
@@ -133,12 +133,9 @@ function dualSimNote(p) {
  * renderer's own daily-card rule.
  */
 function localBlockWhere(c) {
-  // Pages outside the SEO experiment follow the EN order (local → regional →
-  // daily): the local block is first wherever the page has one.
-  if (!isFrozenPage(c.slug)) return `Они показаны первым блоком на этой странице.`;
-  return c.daily_count > 0
-    ? `Они показаны на этой странице сразу после блока «${DAILY_BLOCK_TITLE}».`
-    : `Они показаны первым блоком на этой странице.`;
+  // Every page follows the EN order (local → regional → daily) — since 2026-10-24 the former SEO-experiment pages too: the local
+  // block is first wherever the page has one.
+  return `Они показаны первым блоком на этой странице.`;
 }
 
 /**
@@ -420,7 +417,11 @@ function aboutBlock(c, p) {
 }
 
 function page(c, all, profile) {
-  const live = !isFrozenPage(c.slug);
+  // EVERY RU country page has the English reference's structure (owner, 2026-10-24): hero «eSIM для …» + facts line, block order
+  // local → regional → daily, skeleton, live numbers; the authored headline / lead / intro move WHOLE into the «about» block under
+  // the plans (#97). The former SEO-experiment pages included — the experiment ended 2026-10-24 (seo/frozen-pages.mjs
+  // EXPERIMENT_ENDED); their pilot content stays: title, description, JSON-LD, the static price block, the price FAQ.
+  const live = true;
   // The plan CARDS are B1 on every page (owner, 2026-10-24, variant «Б»): data-cards="compact" no longer depends on the SEO
   // experiment. The pilot / control pages keep everything else of theirs — hero, titles, descriptions, block order, no live
   // numbers — so the pilot and control groups stay apart; both groups changed card design on 2026-10-24
