@@ -22,7 +22,11 @@ function watch(page) {
   return st;
 }
 
+// Every main-frame document request (a move by lang-route.js is one): landed() waits until none has started for a while.
+const docRequests = new WeakMap();
 async function prep(page) {
+  docRequests.set(page, 0);
+  page.on('request', (r) => { if (r.isNavigationRequest() && r.frame() === page.mainFrame()) docRequests.set(page, docRequests.get(page) + 1); });
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (r) => r.abort());
   await page.route(/\/api\//, (r) => r.fulfill({ status: 503, body: '{}' }));
 }
@@ -31,6 +35,27 @@ const path = (page) => { const u = new URL(page.url()); return u.pathname + u.se
 const settle = (page) => page.waitForLoadState('domcontentloaded');
 // A visit typed / opened from outside: no referrer (WebKit would otherwise hand the previous page over as one).
 async function visit(page, url, opts) { await page.goto('about:blank'); await page.goto(url, opts); await settle(page); }
+// Where a visit ENDS. lang-route.js moves with location.replace from <head>; WebKit parses the Russian page to the end
+// before it starts that navigation, and now and then «/» fires `load` first — goto() returns on «/» while the move is
+// still pending, and the next goto() cancels it (measured 2026-10-24: 2 of 40 visits; the move itself completed in 300 of
+// 300 visits without a test in the way). So never read the address right after goto():
+//   - wait until the address IS `want` (a move that never comes, or goes elsewhere, fails here);
+//   - then let the page load and require QUIET_MS with no new document request, and the address to be STILL `want` — a
+//     move scheduled late (WebKit starts it right after `load`) or a second move fails here, also when `want` is «/» and
+//     nothing may move at all. (Not `networkidle`: in Chromium it sometimes never came — 10 timeouts in 1 500 runs.)
+const QUIET_MS = 500;
+const pathOf = (u) => u.pathname + u.search + u.hash;
+async function landed(page, want, msg) {
+  if (!docRequests.has(page)) throw new Error('landed() needs prep(page) first: it counts the document requests');
+  await page.waitForURL((u) => pathOf(u) === want, { waitUntil: 'commit' });
+  for (;;) {
+    await page.waitForLoadState('load');
+    const seen = docRequests.get(page);
+    await page.waitForTimeout(QUIET_MS);
+    if (docRequests.get(page) === seen) break;
+  }
+  expect(path(page), msg).toBe(want);
+}
 // The switch is a header link on wide screens and the phone menu on narrow ones: click the element itself.
 const tap = (page, css) => page.locator(css).first().evaluate((a) => a.click());
 
@@ -46,9 +71,9 @@ for (const [locale, want] of CASES) {
       const st = watch(page);
       await prep(page);
       await visit(page, '/');
-      expect(path(page)).toBe(want);
+      await landed(page, want);
       await visit(page, '/');
-      expect(path(page)).toBe(want);
+      await landed(page, want);
       expect(st.navs.filter((p) => p === want).length).toBeLessThanOrEqual(2);
       expect(st.errors).toEqual([]);
       if (want !== '/') expect(st.off.filter((u) => /mc\.yandex/.test(u)), 'no counter request on a moved visit').toEqual([]);
@@ -66,7 +91,7 @@ test.describe('the first language of navigator.languages that we publish wins', 
         if (!l.length) Object.defineProperty(Navigator.prototype, 'language', { get: () => undefined, configurable: true });
       }, langs);
       await visit(page, '/');
-      expect(path(page)).toBe(want);
+      await landed(page, want);
     });
   }
 });
@@ -77,20 +102,20 @@ test.describe('English browser', () => {
   test('the query (utm, gclid, partner marks) is kept; a hash the target has is kept, another is dropped', async ({ page }) => {
     await prep(page);
     await visit(page, '/?utm_source=tg&utm_medium=post&utm_campaign=c1&gclid=G&yclid=Y&ref=partner7#plans');
-    expect(path(page)).toBe('/en/?utm_source=tg&utm_medium=post&utm_campaign=c1&gclid=G&yclid=Y&ref=partner7#plans');
+    await landed(page, '/en/?utm_source=tg&utm_medium=post&utm_campaign=c1&gclid=G&yclid=Y&ref=partner7#plans');
     await visit(page, '/?utm_source=x#solution');
-    expect(path(page)).toBe('/en/?utm_source=x#how');
+    await landed(page, '/en/?utm_source=x#how');
     await visit(page, '/#faq');
-    expect(path(page)).toBe('/en/');
+    await landed(page, '/en/');
   });
 
   test('an arrival from a search engine is moved too; direct links to language pages never are', async ({ page }) => {
     await prep(page);
     await visit(page, '/', { referer: 'https://www.google.com/' });
-    expect(path(page)).toBe('/en/');
+    await landed(page, '/en/');
     for (const p of ['/esim/turkey/', '/esim/', '/esim/not-working/', '/iphone.html', '/es/', '/de/esim/japan/', '/ko/guides/']) {
       await visit(page, p);
-      expect(path(page), p).toBe(p);
+      await landed(page, p, p);
     }
   });
 
@@ -105,18 +130,17 @@ test.describe('English browser', () => {
     const st = watch(page);
     await prep(page);
     await visit(page, '/');
-    expect(path(page)).toBe('/en/');
+    await landed(page, '/en/');
     expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang')), 'the automatic move is not a choice').toBeNull();
     await page.locator('a.langsw, .langmenu a[hreflang="ru"]').first().evaluate((el) => {
       const a = el.matches('a') ? el : el.querySelector('a[hreflang="ru"]');
       a.click();
     });
     await page.waitForURL((u) => u.pathname === '/');
-    await settle(page);
-    expect(path(page)).toBe('/');
+    await landed(page, '/');
     expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('ru');
     await visit(page, '/');
-    expect(path(page)).toBe('/');
+    await landed(page, '/');
     expect(st.errors).toEqual([]);
   });
 
@@ -124,7 +148,7 @@ test.describe('English browser', () => {
     await prep(page);
     await page.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('mesim.site.lang', 'ko'); sessionStorage.setItem('seeded', '1'); } });
     await visit(page, '/');
-    expect(path(page)).toBe('/ko/');
+    await landed(page, '/ko/');
   });
 
   test('our own links to / (the logo of a Russian page) never move the visitor', async ({ page }) => {
@@ -132,8 +156,7 @@ test.describe('English browser', () => {
     await page.goto('/esim/turkey/');
     await tap(page, 'a.brand');
     await page.waitForURL((u) => u.pathname === '/');
-    await settle(page);
-    expect(path(page)).toBe('/');
+    await landed(page, '/');
   });
 });
 
@@ -148,7 +171,7 @@ test.describe('Russian browser', () => {
     await settle(page);
     expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('en');
     await visit(page, '/');
-    expect(path(page)).toBe('/en/');
+    await landed(page, '/en/');
   });
 
   test('a language picked in an international switch is saved', async ({ page }) => {
@@ -158,7 +181,7 @@ test.describe('Russian browser', () => {
     await page.waitForURL((u) => u.pathname === '/fr/');
     expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('fr');
     await visit(page, '/');
-    expect(path(page)).toBe('/fr/');
+    await landed(page, '/fr/');
   });
 });
 
@@ -174,7 +197,7 @@ for (const locale of ['en-US', 'ru-RU']) {
         }
       });
       await visit(page, '/');
-      expect(path(page)).toBe(locale === 'en-US' ? '/en/' : '/');
+      await landed(page, locale === 'en-US' ? '/en/' : '/');
       expect(st.errors).toEqual([]);
     });
   });
