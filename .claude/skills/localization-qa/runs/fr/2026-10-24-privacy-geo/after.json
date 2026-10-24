@@ -1,0 +1,282 @@
+{
+ "lang": "fr",
+ "prefix": "fr",
+ "htmlLang": "fr",
+ "items": [
+  {
+   "id": "privacy:providers.1",
+   "group": "privacy",
+   "kind": "body",
+   "key": "providers.1",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "To run the website and our support, we use the following service providers. Each processes data only to provide its service.",
+   "target": "Pour faire fonctionner le site et notre assistance, nous faisons appel aux prestataires de services suivants. Chacun traite les données uniquement pour fournir son service.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:providers.2",
+   "group": "privacy",
+   "kind": "heading",
+   "key": "providers.2",
+   "where": "Privacy Policy §providers (h3)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "GitHub, Inc. (United States), with its network provider Fastly, Inc.",
+   "target": "GitHub, Inc. (États-Unis), avec son fournisseur de réseau Fastly, Inc.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:providers.3",
+   "group": "privacy",
+   "kind": "body",
+   "key": "providers.3",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit.",
+   "target": "Héberge les pages du site. GitHub enregistre également les adresses IP des visiteurs à ses propres fins de sécurité, conformément à sa propre déclaration de confidentialité. <em>Données :</em> adresse IP et données techniques de votre visite.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:providers.4",
+   "group": "privacy",
+   "kind": "heading",
+   "key": "providers.4",
+   "where": "Privacy Policy §providers (h3)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "Render Services, Inc. (United States), with its network provider Cloudflare, Inc.",
+   "target": "Render Services, Inc. (États-Unis), avec son fournisseur de réseau Cloudflare, Inc.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:providers.5",
+   "group": "privacy",
+   "kind": "body",
+   "key": "providers.5",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "Runs the server that supplies plan lists and prices to the website. <em>Data:</em> IP address, technical data, and the plan and number of days you ask a price for.",
+   "target": "Exploite le serveur qui fournit au site les listes de forfaits et les prix. <em>Données :</em> adresse IP, données techniques, ainsi que le forfait et le nombre de jours pour lesquels vous demandez un prix.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:providers.6",
+   "group": "privacy",
+   "kind": "heading",
+   "key": "providers.6",
+   "where": "Privacy Policy §providers (h3)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "ImprovMX Incorporated (United States)",
+   "target": "ImprovMX Incorporated (États-Unis)",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:providers.7",
+   "group": "privacy",
+   "kind": "body",
+   "key": "providers.7",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "Receives emails sent to support@magicesim.store and forwards them to our mailbox. It keeps delivery logs for 7 days and holds the message content only until it is delivered. <em>Data:</em> your email address, the message headers and the message content in transit.",
+   "target": "Reçoit les e-mails envoyés à support@magicesim.store et les transfère vers notre boîte aux lettres. Il conserve les journaux de distribution pendant 7 jours et ne conserve le contenu des messages que jusqu’à leur distribution. <em>Données :</em> votre adresse e-mail, les en-têtes du message et le contenu du message en transit.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:providers.8",
+   "group": "privacy",
+   "kind": "heading",
+   "key": "providers.8",
+   "where": "Privacy Policy §providers (h3)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "Our email service providers",
+   "target": "Nos fournisseurs de messagerie électronique",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:providers.9",
+   "group": "privacy",
+   "kind": "body",
+   "key": "providers.9",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "Our support mailbox is held by an email service provider, and our replies are sent through Proton AG, Switzerland. <em>Data:</em> your email address and the messages exchanged with us.",
+   "target": "Notre boîte aux lettres d’assistance est hébergée par un fournisseur de messagerie électronique, et nos réponses sont envoyées via Proton AG, Suisse. <em>Données :</em> votre adresse e-mail et les messages échangés avec nous.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:providers.10",
+   "group": "privacy",
+   "kind": "body",
+   "key": "providers.10",
+   "where": "Privacy Policy §providers (p)",
+   "url": "https://magicesim.store/fr/privacy/#providers",
+   "en": "We may also disclose data where the law requires it, or where it is necessary to establish or defend legal claims.",
+   "target": "Nous pouvons également communiquer des données lorsque la loi l’exige, ou lorsque cela est nécessaire pour constater ou défendre des droits en justice.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:international.1",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.1",
+   "where": "Privacy Policy §international (p)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "We are based in Georgia, but our service providers are international companies. As a result, your data may be processed outside Georgia, mainly in the United States, the European Economic Area and Switzerland, and in other countries where these providers or their own providers operate.",
+   "target": "Nous sommes établis en Géorgie, mais nos prestataires de services sont des sociétés internationales. Par conséquent, vos données peuvent être traitées en dehors de la Géorgie, principalement aux États-Unis, dans l’Espace économique européen et en Suisse, ainsi que dans d’autres pays où ces prestataires ou leurs propres prestataires exercent leurs activités.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:international.2",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.2",
+   "where": "Privacy Policy §international (p)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "Some of these countries, including the United States, may offer a lower level of data protection than Georgia or the European Union.",
+   "target": "Certains de ces pays, dont les États-Unis, peuvent offrir un niveau de protection des données inférieur à celui de la Géorgie ou de l’Union européenne.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:international.3",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.3",
+   "where": "Privacy Policy §international (p)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "What we do to protect your data:",
+   "target": "Ce que nous faisons pour protéger vos données :",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:international.4",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.4",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "We collect very little data: no account, no analytics or tracking, no payment data.",
+   "target": "Nous collectons très peu de données : pas de compte, pas d’outil d’analyse ni de suivi, pas de données de paiement.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:international.5",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.5",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "target": "Render et GitHub participent au cadre de protection des données UE–États-Unis (EU–U.S. Data Privacy Framework), pour lequel la Commission européenne a reconnu un niveau de protection adéquat.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:international.6",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.6",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "Data travelling to and from our website and server is encrypted (HTTPS).",
+   "target": "Les données qui transitent entre vous et notre site et notre serveur sont chiffrées (HTTPS).",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:international.7",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.7",
+   "where": "Privacy Policy §international (p)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "These measures reduce the risks described above but do not remove them.",
+   "target": "Ces mesures réduisent les risques décrits ci-dessus, mais ne les suppriment pas.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:international.8",
+   "group": "privacy",
+   "kind": "body",
+   "key": "international.8",
+   "where": "Privacy Policy §international (p)",
+   "url": "https://magicesim.store/fr/privacy/#international",
+   "en": "You can ask us for details of these safeguards, including copies where available, by writing to support@magicesim.store.",
+   "target": "Vous pouvez nous demander des précisions sur ces garanties, y compris des copies lorsqu’elles sont disponibles, en écrivant à support@magicesim.store.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:retention.1",
+   "group": "privacy",
+   "kind": "body",
+   "key": "retention.1",
+   "where": "Privacy Policy §retention (p)",
+   "url": "https://magicesim.store/fr/privacy/#retention",
+   "en": "When a period ends, we delete the data or make it anonymous, normally within 30 days. If data is needed for a dispute or a legal claim, we keep it until the matter is closed.",
+   "target": "À l’expiration d’une durée de conservation, nous supprimons les données ou les rendons anonymes, normalement dans un délai de 30 jours. Si des données sont nécessaires dans le cadre d’un litige ou d’une action en justice, nous les conservons jusqu’à la clôture de l’affaire.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:retention.2",
+   "group": "privacy",
+   "kind": "body",
+   "key": "retention.2",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/fr/privacy/#retention",
+   "en": "<strong>Support emails:</strong> 3 years after the last message, so that we can deal with follow-up questions and claims.",
+   "target": "<strong>E-mails d’assistance :</strong> 3 ans après le dernier message, afin de pouvoir traiter les questions et réclamations ultérieures.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:retention.3",
+   "group": "privacy",
+   "kind": "body",
+   "key": "retention.3",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/fr/privacy/#retention",
+   "en": "<strong>Records of privacy requests and our answers:</strong> 3 years after the request is closed.",
+   "target": "<strong>Traces des demandes relatives à la vie privée et de nos réponses :</strong> 3 ans après la clôture de la demande.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:retention.4",
+   "group": "privacy",
+   "kind": "body",
+   "key": "retention.4",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/fr/privacy/#retention",
+   "en": "<strong>Price records</strong> (no personal data): 90 days.",
+   "target": "<strong>Enregistrements de prix</strong> (aucune donnée personnelle) : 90 jours.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:retention.5",
+   "group": "privacy",
+   "kind": "body",
+   "key": "retention.5",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/fr/privacy/#retention",
+   "en": "<strong>Hosting logs of our server:</strong> up to 30 days.",
+   "target": "<strong>Journaux d’hébergement de notre serveur :</strong> jusqu’à 30 jours.",
+   "note": "CHANGED in this edit (privacy geography 0.9.3) — review fully."
+  },
+  {
+   "id": "privacy:retention.6",
+   "group": "privacy",
+   "kind": "body",
+   "key": "retention.6",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/fr/privacy/#retention",
+   "en": "<strong>Email forwarding logs:</strong> 7 days (set by ImprovMX).",
+   "target": "<strong>Journaux de transfert des e-mails :</strong> 7 jours (durée fixée par ImprovMX).",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  },
+  {
+   "id": "privacy:retention.7",
+   "group": "privacy",
+   "kind": "body",
+   "key": "retention.7",
+   "where": "Privacy Policy §retention (li)",
+   "url": "https://magicesim.store/fr/privacy/#retention",
+   "en": "<strong>Website visitor logs:</strong> as stated in GitHub’s privacy statement.",
+   "target": "<strong>Journaux des visiteurs du site :</strong> selon ce qu’indique la déclaration de confidentialité de GitHub.",
+   "note": "Unchanged context from the reviewed LEGAL-4 translation — report only an objective error."
+  }
+ ]
+}

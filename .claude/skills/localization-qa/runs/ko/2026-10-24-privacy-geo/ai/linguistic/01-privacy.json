@@ -1,0 +1,40 @@
+[
+ {
+  "id": "L-ko-privacy-1",
+  "item_id": "privacy:providers.3",
+  "group": "privacy",
+  "key": "providers.3",
+  "where": "Privacy Policy §providers (p)",
+  "url": "",
+  "en": "Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit.",
+  "target": "웹사이트 페이지를 호스팅합니다. GitHub는 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+  "suggestion": "웹사이트 페이지를 호스팅합니다. GitHub은 또한 자체 개인정보 처리방침(privacy statement)에 따라 자체 보안 목적으로 방문자의 IP 주소를 기록합니다. <em>정보:</em> 방문 시의 IP 주소 및 기술 정보.",
+  "explanation": "Particle after a Latin word follows its Korean reading (README D15): GitHub = 깃허브, ends in the final consonant ㅂ, so the topic particle is 은, not 는 (GitHub Docs ko writes «GitHub은»). Also in privacy:international.5.",
+  "category": "grammar",
+  "severity": "major",
+  "confidence": 0.85,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "ko-D15-latin-particle",
+  "objective": true
+ },
+ {
+  "id": "L-ko-privacy-2",
+  "item_id": "privacy:international.5",
+  "group": "privacy",
+  "key": "international.5",
+  "where": "Privacy Policy §international (li)",
+  "url": "",
+  "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+  "target": "Render와 GitHub는 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+  "suggestion": "Render와 GitHub은 EU–U.S. Data Privacy Framework(EU-미국 데이터 프라이버시 프레임워크)에 참여하고 있으며, 유럽연합 집행위원회는 이 프레임워크가 적정한 수준의 보호를 제공한다고 인정했습니다.",
+  "explanation": "Particle after a Latin word follows its Korean reading (README D15): GitHub = 깃허브, ends in the final consonant ㅂ, so the topic particle is 은, not 는 (GitHub Docs ko writes «GitHub은»). Same problem as privacy:providers.3.",
+  "category": "grammar",
+  "severity": "major",
+  "confidence": 0.85,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "ko-D15-latin-particle",
+  "objective": true
+ }
+]

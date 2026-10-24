@@ -594,35 +594,35 @@ export const LEGAL_I18N = Object.freeze({
       <p>Estos valores solo sirven para que el sitio web se muestre como pediste; no se nos envían. Si alguna vez añadimos una herramienta de analítica o similar, primero actualizaremos esta política y te pediremos tu consentimiento cuando la ley lo exija.</p>
       <h3>Do Not Track</h3>
       <p>No te hacemos seguimiento a lo largo del tiempo ni a través de otros sitios web o servicios en línea, y no permitimos que otras empresas recopilen datos personales sobre tus actividades en línea a lo largo del tiempo y en distintos sitios web cuando usas nuestro sitio web. Por este motivo, no respondemos de forma distinta a las señales «Do Not Track» o Global Privacy Control: tanto si tu navegador envía una como si no, no se produce ningún seguimiento de este tipo.</p>` },
-      { id: "providers", en: '0bf0feff10ac', h2: "4. Proveedores de servicios que tratan datos por nuestra cuenta", html: `
+      { id: "providers", en: 'd2f467ca84f4', h2: "4. Proveedores de servicios que tratan datos por nuestra cuenta", html: `
       <p>Para gestionar el sitio web y nuestro soporte, usamos los siguientes proveedores de servicios. Cada uno trata los datos solo para prestar su servicio.</p>
-      <h3>GitHub, Inc., con su proveedor de red Fastly, Inc.</h3>
-      <p>Aloja las páginas del sitio web. GitHub también registra las direcciones IP de los visitantes para sus propios fines de seguridad, conforme a su propia declaración de privacidad. <em>Datos:</em> la dirección IP y los datos técnicos de tu visita. <em>Dónde:</em> Estados Unidos; red global.</p>
-      <h3>Render Services, Inc., con su proveedor de red Cloudflare, Inc.</h3>
-      <p>Ejecuta el servidor que proporciona al sitio web las listas de planes y los precios. <em>Datos:</em> la dirección IP, los datos técnicos, y el plan y el número de días cuyo precio pides. <em>Dónde:</em> una empresa de Estados Unidos; los datos pueden tratarse en Estados Unidos y en otros países donde operan Render y sus proveedores.</p>
-      <h3>ImprovMX Incorporated</h3>
-      <p>Recibe los correos enviados a support@magicesim.store y los reenvía a nuestro buzón. Conserva los registros de entrega durante 7 días y guarda el contenido del mensaje solo hasta que se entrega. <em>Datos:</em> tu dirección de correo electrónico, los encabezados del mensaje y el contenido del mensaje en tránsito. <em>Dónde:</em> una empresa de Estados Unidos; sus servidores de recepción están en Francia, y el reenvío puede pasar por Estados Unidos.</p>
+      <h3>GitHub, Inc. (Estados Unidos), con su proveedor de red Fastly, Inc.</h3>
+      <p>Aloja las páginas del sitio web. GitHub también registra las direcciones IP de los visitantes para sus propios fines de seguridad, conforme a su propia declaración de privacidad. <em>Datos:</em> la dirección IP y los datos técnicos de tu visita.</p>
+      <h3>Render Services, Inc. (Estados Unidos), con su proveedor de red Cloudflare, Inc.</h3>
+      <p>Ejecuta el servidor que proporciona al sitio web las listas de planes y los precios. <em>Datos:</em> la dirección IP, los datos técnicos, y el plan y el número de días cuyo precio pides.</p>
+      <h3>ImprovMX Incorporated (Estados Unidos)</h3>
+      <p>Recibe los correos enviados a support@magicesim.store y los reenvía a nuestro buzón. Conserva los registros de entrega durante 7 días y guarda el contenido del mensaje solo hasta que se entrega. <em>Datos:</em> tu dirección de correo electrónico, los encabezados del mensaje y el contenido del mensaje en tránsito.</p>
       <h3>Nuestros proveedores de servicios de correo electrónico</h3>
       <p>Nuestro buzón de soporte está alojado en un proveedor de servicios de correo electrónico, y nuestras respuestas se envían a través de Proton AG, Suiza. <em>Datos:</em> tu dirección de correo electrónico y los mensajes intercambiados con nosotros.</p>
       <p>También podemos comunicar datos cuando la ley lo exija, o cuando sea necesario para formular o defender reclamaciones legales.</p>` },
-      { id: "international", en: '9a5ae776d7ed', h2: "5. Tratamiento internacional de datos", html: `
-      <p>Estamos establecidos en Georgia, pero nuestros proveedores de servicios son empresas internacionales. Por ello, tus datos pueden tratarse fuera de Georgia: en Estados Unidos, en Estados miembros del Espacio Económico Europeo, en Suiza y en otros países donde operan estos proveedores o sus propios proveedores.</p>
-      <p>Algunos de estos países, incluido Estados Unidos, no ofrecen el mismo nivel de protección de datos que Georgia o la Unión Europea. Las autoridades de esos países pueden tener acceso a los datos en circunstancias que no se permitirían en Georgia ni en la UE.</p>
+      { id: "international", en: '32cf48f5d480', h2: "5. Tratamiento internacional de datos", html: `
+      <p>Estamos establecidos en Georgia, pero nuestros proveedores de servicios son empresas internacionales. Por ello, tus datos pueden tratarse fuera de Georgia, principalmente en Estados Unidos, el Espacio Económico Europeo y Suiza, y en otros países donde operan estos proveedores o sus propios proveedores.</p>
+      <p>Algunos de estos países, incluido Estados Unidos, pueden ofrecer un nivel de protección de datos inferior al de Georgia o la Unión Europea.</p>
       <p>Lo que hacemos para proteger tus datos:</p>
       <ul class="list">
         <li>Recopilamos muy pocos datos: sin cuenta, sin analítica ni seguimiento, sin datos de pago.</li>
-        <li>Usamos proveedores consolidados que publican condiciones de protección de datos para sus clientes. Las condiciones de tratamiento de datos de Render incluyen las Cláusulas Contractuales Tipo de la Unión Europea, y Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework).</li>
+        <li>Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que, según ha reconocido la Comisión Europea, ofrece un nivel de protección adecuado.</li>
         <li>Los datos que circulan hacia y desde nuestro sitio web y nuestro servidor están cifrados (HTTPS).</li>
       </ul>
       <p>Estas medidas reducen los riesgos descritos arriba, pero no los eliminan.</p>
-      <p>Puedes pedirnos más información sobre estas garantías escribiendo a support@magicesim.store.</p>` },
-      { id: "retention", en: 'a826a23f2e46', h2: "6. Cuánto tiempo conservamos los datos", html: `
+      <p>Puedes pedirnos detalles sobre estas garantías, incluidas copias cuando estén disponibles, escribiendo a support@magicesim.store.</p>` },
+      { id: "retention", en: '0184c03213e3', h2: "6. Cuánto tiempo conservamos los datos", html: `
       <p>Cuando termina un período, eliminamos los datos o los anonimizamos, normalmente en un plazo de 30 días. Si los datos son necesarios para una controversia o una reclamación legal, los conservamos hasta que el asunto se cierre.</p>
       <ul class="list">
         <li><strong>Correos de soporte:</strong> 3 años después del último mensaje, para poder atender preguntas y reclamaciones posteriores.</li>
         <li><strong>Registros de las solicitudes de privacidad y de nuestras respuestas:</strong> 3 años después de cerrarse la solicitud.</li>
         <li><strong>Registros de precios</strong> (sin datos personales): 90 días.</li>
-        <li><strong>Registros de alojamiento de nuestro servidor:</strong> de 7 a 30 días, según el plan de alojamiento (fijado por Render).</li>
+        <li><strong>Registros de alojamiento de nuestro servidor:</strong> hasta 30 días.</li>
         <li><strong>Registros de reenvío de correo:</strong> 7 días (fijado por ImprovMX).</li>
         <li><strong>Registros de visitantes del sitio web:</strong> según lo indicado en la declaración de privacidad de GitHub.</li>
       </ul>` },

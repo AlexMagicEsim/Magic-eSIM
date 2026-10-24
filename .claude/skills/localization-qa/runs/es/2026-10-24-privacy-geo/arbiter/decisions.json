@@ -1,0 +1,10 @@
+[
+  {
+    "item_id": "privacy:international.5",
+    "decision": "apply",
+    "final": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que, según ha reconocido la Comisión Europea, ofrece un nivel de protección adecuado.",
+    "findings": ["L0001", "F0001"],
+    "severity": "minor",
+    "reason": "Rubric rule 1 (accuracy) in a legal text: «para el que … ha reconocido un nivel» blurs that the Framework is what provides the adequate protection; the fix restores «recognised as providing». Both reviewers' «garante» was not taken because it adds a guarantee the English does not state (rule 2); «ofrece» matches «providing»."
+  }
+]

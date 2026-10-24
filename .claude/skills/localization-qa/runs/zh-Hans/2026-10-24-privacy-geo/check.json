@@ -1,0 +1,19 @@
+[
+ {
+  "id": "C0001",
+  "item_id": "privacy:retention.6",
+  "group": "privacy",
+  "key": "retention.6",
+  "where": "Privacy Policy §retention (li)",
+  "url": "https://magicesim.store/zh/privacy/#retention",
+  "en": "<strong>Email forwarding logs:</strong> 7 days (set by ImprovMX).",
+  "target": "<strong>电子邮件转发日志：</strong>7 天（由 ImprovMX 设定）。",
+  "suggestion": "",
+  "source": "check",
+  "category": "terminology",
+  "severity": "minor",
+  "confidence": 0.8,
+  "rule": "glossary:settings",
+  "explanation": "«设定»: the glossary uses «设置» for «settings»."
+ }
+]

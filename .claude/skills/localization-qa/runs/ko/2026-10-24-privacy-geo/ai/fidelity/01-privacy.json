@@ -1,0 +1,21 @@
+[
+  {
+    "id": "F01-001",
+    "item_id": "privacy:international.1",
+    "group": "privacy",
+    "key": "international.1",
+    "where": "Privacy Policy §international (p)",
+    "url": "",
+    "en": "We are based in Georgia, but our service providers are international companies. As a result, your data may be processed outside Georgia, mainly in the United States, the European Economic Area and Switzerland, and in other countries where these providers or their own providers operate.",
+    "target": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA), 스위스, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서 처리될 수 있습니다.",
+    "suggestion": "당사는 조지아에 소재하지만, 당사의 서비스 제공업체는 국제적인 기업입니다. 따라서 귀하의 정보는 조지아 밖에서, 주로 미국, 유럽경제지역(EEA) 및 스위스에서, 그리고 이러한 제공업체 또는 그들이 이용하는 제공업체가 운영되는 기타 국가에서도 처리될 수 있습니다.",
+    "explanation": "In the English «mainly» qualifies only the US, the EEA and Switzerland; «and in other countries…» is a separate, additional set. The Korean folds «기타 국가» into the same 주로 list, so the other countries also read as a «main» location. Closing the list with «…스위스에서, 그리고 … 기타 국가에서도» restores the English scope (rule 1, accuracy).",
+    "category": "accuracy",
+    "severity": "minor",
+    "confidence": 0.6,
+    "source": "ai",
+    "rule": "fidelity:scope-of-mainly",
+    "objective": false,
+    "stage": "fidelity"
+  }
+]

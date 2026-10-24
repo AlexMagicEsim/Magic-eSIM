@@ -1,0 +1,21 @@
+[
+ {
+  "id": "L-ES-PRIV-01",
+  "item_id": "privacy:international.5",
+  "group": "privacy",
+  "key": "international.5",
+  "where": "Privacy Policy §international (li)",
+  "url": "/es/privacy/",
+  "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+  "target": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), para el que la Comisión Europea ha reconocido un nivel de protección adecuado.",
+  "suggestion": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que la Comisión Europea ha reconocido como garante de un nivel de protección adecuado.",
+  "explanation": "«para el que la Comisión Europea ha reconocido un nivel de protección adecuado» is an awkward relative construction (one recognises a framework AS providing protection, not a level FOR it); «que … ha reconocido como garante de un nivel de protección adecuado» reads naturally and keeps the meaning.",
+  "category": "fluency",
+  "severity": "minor",
+  "confidence": 0.65,
+  "source": "ai",
+  "stage": "linguistic",
+  "rule": "natural-phrasing",
+  "objective": false
+ }
+]

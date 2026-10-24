@@ -594,35 +594,35 @@ export const LEGAL_I18N = Object.freeze({
       <p>Ces valeurs servent uniquement à afficher le site comme vous l’avez demandé ; elles ne nous sont pas envoyées. Si nous ajoutons un jour un outil d’analyse ou un outil similaire, nous mettrons d’abord à jour cette politique et vous demanderons votre consentement lorsque la loi l’exige.</p>
       <h3>Do Not Track</h3>
       <p>Nous ne vous suivons pas dans le temps ni sur d’autres sites web ou services en ligne, et nous ne permettons pas à d’autres entreprises de collecter des données personnelles sur vos activités en ligne dans le temps et sur différents sites web lorsque vous utilisez notre site. C’est pourquoi nous ne réagissons pas différemment aux signaux « Do Not Track » ou Global Privacy Control : que votre navigateur en envoie un ou non, aucun suivi de ce type n’a lieu.</p>` },
-      { id: "providers", en: '0bf0feff10ac', h2: "4. Prestataires de services qui traitent des données pour notre compte", html: `
+      { id: "providers", en: 'd2f467ca84f4', h2: "4. Prestataires de services qui traitent des données pour notre compte", html: `
       <p>Pour faire fonctionner le site et notre assistance, nous faisons appel aux prestataires de services suivants. Chacun traite les données uniquement pour fournir son service.</p>
-      <h3>GitHub, Inc., avec son fournisseur de réseau Fastly, Inc.</h3>
-      <p>Héberge les pages du site. GitHub enregistre également les adresses IP des visiteurs à ses propres fins de sécurité, conformément à sa propre déclaration de confidentialité. <em>Données :</em> adresse IP et données techniques de votre visite. <em>Lieu :</em> États-Unis ; réseau mondial.</p>
-      <h3>Render Services, Inc., avec son fournisseur de réseau Cloudflare, Inc.</h3>
-      <p>Exploite le serveur qui fournit au site les listes de forfaits et les prix. <em>Données :</em> adresse IP, données techniques, ainsi que le forfait et le nombre de jours pour lesquels vous demandez un prix. <em>Lieu :</em> une société américaine ; les données peuvent être traitées aux États-Unis et dans d’autres pays où Render et ses prestataires exercent leurs activités.</p>
-      <h3>ImprovMX Incorporated</h3>
-      <p>Reçoit les e-mails envoyés à support@magicesim.store et les transfère vers notre boîte aux lettres. Il conserve les journaux de distribution pendant 7 jours et ne conserve le contenu des messages que jusqu’à leur distribution. <em>Données :</em> votre adresse e-mail, les en-têtes du message et le contenu du message en transit. <em>Lieu :</em> une société américaine ; ses serveurs de réception sont situés en France, et le transfert peut transiter par les États-Unis.</p>
+      <h3>GitHub, Inc. (États-Unis), avec son fournisseur de réseau Fastly, Inc.</h3>
+      <p>Héberge les pages du site. GitHub enregistre également les adresses IP des visiteurs à ses propres fins de sécurité, conformément à sa propre déclaration de confidentialité. <em>Données :</em> adresse IP et données techniques de votre visite.</p>
+      <h3>Render Services, Inc. (États-Unis), avec son fournisseur de réseau Cloudflare, Inc.</h3>
+      <p>Exploite le serveur qui fournit au site les listes de forfaits et les prix. <em>Données :</em> adresse IP, données techniques, ainsi que le forfait et le nombre de jours pour lesquels vous demandez un prix.</p>
+      <h3>ImprovMX Incorporated (États-Unis)</h3>
+      <p>Reçoit les e-mails envoyés à support@magicesim.store et les transfère vers notre boîte aux lettres. Il conserve les journaux de distribution pendant 7 jours et ne conserve le contenu des messages que jusqu’à leur distribution. <em>Données :</em> votre adresse e-mail, les en-têtes du message et le contenu du message en transit.</p>
       <h3>Nos fournisseurs de messagerie électronique</h3>
       <p>Notre boîte aux lettres d’assistance est hébergée par un fournisseur de messagerie électronique, et nos réponses sont envoyées via Proton AG, Suisse. <em>Données :</em> votre adresse e-mail et les messages échangés avec nous.</p>
       <p>Nous pouvons également communiquer des données lorsque la loi l’exige, ou lorsque cela est nécessaire pour constater ou défendre des droits en justice.</p>` },
-      { id: "international", en: '9a5ae776d7ed', h2: "5. Traitement international des données", html: `
-      <p>Nous sommes établis en Géorgie, mais nos prestataires de services sont des sociétés internationales. Par conséquent, vos données peuvent être traitées en dehors de la Géorgie — aux États-Unis, dans des États membres de l’Espace économique européen, en Suisse et dans d’autres pays où ces prestataires ou leurs propres prestataires exercent leurs activités.</p>
-      <p>Certains de ces pays, dont les États-Unis, n’offrent pas le même niveau de protection des données que la Géorgie ou l’Union européenne. Les autorités de ces pays peuvent être en mesure d’accéder aux données dans des circonstances qui ne seraient pas autorisées en Géorgie ou dans l’UE.</p>
+      { id: "international", en: '32cf48f5d480', h2: "5. Traitement international des données", html: `
+      <p>Nous sommes établis en Géorgie, mais nos prestataires de services sont des sociétés internationales. Par conséquent, vos données peuvent être traitées en dehors de la Géorgie, principalement aux États-Unis, dans l’Espace économique européen et en Suisse, ainsi que dans d’autres pays où ces prestataires ou leurs propres prestataires exercent leurs activités.</p>
+      <p>Certains de ces pays, dont les États-Unis, peuvent offrir un niveau de protection des données inférieur à celui de la Géorgie ou de l’Union européenne.</p>
       <p>Ce que nous faisons pour protéger vos données :</p>
       <ul class="list">
         <li>Nous collectons très peu de données : pas de compte, pas d’outil d’analyse ni de suivi, pas de données de paiement.</li>
-        <li>Nous faisons appel à des prestataires reconnus qui publient des conditions de protection des données à l’intention de leurs clients. Les conditions de traitement des données de Render incluent les clauses contractuelles types de l’Union européenne, et Render et GitHub participent au cadre de protection des données UE–États-Unis (EU–U.S. Data Privacy Framework).</li>
+        <li>Render et GitHub participent au cadre de protection des données UE–États-Unis (EU–U.S. Data Privacy Framework), pour lequel la Commission européenne a reconnu un niveau de protection adéquat.</li>
         <li>Les données qui transitent entre vous et notre site et notre serveur sont chiffrées (HTTPS).</li>
       </ul>
       <p>Ces mesures réduisent les risques décrits ci-dessus, mais ne les suppriment pas.</p>
-      <p>Vous pouvez nous demander davantage d’informations sur ces garanties en écrivant à support@magicesim.store.</p>` },
-      { id: "retention", en: 'a826a23f2e46', h2: "6. Durée de conservation des données", html: `
+      <p>Vous pouvez nous demander des précisions sur ces garanties, y compris des copies lorsqu’elles sont disponibles, en écrivant à support@magicesim.store.</p>` },
+      { id: "retention", en: '0184c03213e3', h2: "6. Durée de conservation des données", html: `
       <p>À l’expiration d’une durée de conservation, nous supprimons les données ou les rendons anonymes, normalement dans un délai de 30 jours. Si des données sont nécessaires dans le cadre d’un litige ou d’une action en justice, nous les conservons jusqu’à la clôture de l’affaire.</p>
       <ul class="list">
         <li><strong>E-mails d’assistance :</strong> 3 ans après le dernier message, afin de pouvoir traiter les questions et réclamations ultérieures.</li>
         <li><strong>Traces des demandes relatives à la vie privée et de nos réponses :</strong> 3 ans après la clôture de la demande.</li>
         <li><strong>Enregistrements de prix</strong> (aucune donnée personnelle) : 90 jours.</li>
-        <li><strong>Journaux d’hébergement de notre serveur :</strong> 7 à 30 jours, selon l’offre d’hébergement (durée fixée par Render).</li>
+        <li><strong>Journaux d’hébergement de notre serveur :</strong> jusqu’à 30 jours.</li>
         <li><strong>Journaux de transfert des e-mails :</strong> 7 jours (durée fixée par ImprovMX).</li>
         <li><strong>Journaux des visiteurs du site :</strong> selon ce qu’indique la déclaration de confidentialité de GitHub.</li>
       </ul>` },

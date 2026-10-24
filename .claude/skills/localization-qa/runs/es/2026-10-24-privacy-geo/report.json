@@ -1,0 +1,121 @@
+{
+ "meta": {
+  "lang": "es",
+  "generated": "2026-10-24T09:46:00.945Z",
+  "commit": "",
+  "strings": 25,
+  "strings_with_findings": 1,
+  "findings": 2,
+  "by_severity": {
+   "minor": 2
+  },
+  "by_category": {
+   "fluency": 1,
+   "accuracy": 1
+  },
+  "by_source": {
+   "ai": 2
+  },
+  "verified": 0,
+  "rejected_by_second_opinion": 0,
+  "dropped": {
+   "unknownItem": 0,
+   "badShape": 0,
+   "lowConfidence": 0,
+   "duplicate": 0
+  }
+ },
+ "findings": [
+  {
+   "id": "A0001",
+   "item_id": "privacy:international.5",
+   "group": "privacy",
+   "key": "international.5",
+   "kind": "body",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/es/privacy/#international",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "target": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), para el que la Comisión Europea ha reconocido un nivel de protección adecuado.",
+   "suggestion": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que la Comisión Europea ha reconocido como garante de un nivel de protección adecuado.",
+   "explanation": "«para el que la Comisión Europea ha reconocido un nivel de protección adecuado» is an awkward relative construction (one recognises a framework AS providing protection, not a level FOR it); «que … ha reconocido como garante de un nivel de protección adecuado» reads naturally and keeps the meaning.",
+   "category": "fluency",
+   "severity": "minor",
+   "confidence": 0.65,
+   "source": "ai",
+   "rule": "natural-phrasing",
+   "stage": "linguistic",
+   "objective": false
+  },
+  {
+   "id": "A0002",
+   "item_id": "privacy:international.5",
+   "group": "privacy",
+   "key": "international.5",
+   "kind": "body",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/es/privacy/#international",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "target": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), para el que la Comisión Europea ha reconocido un nivel de protección adecuado.",
+   "suggestion": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que la Comisión Europea ha reconocido como garante de un nivel de protección adecuado.",
+   "explanation": "Accuracy nuance (rule 1): the English says the Commission recognised the Framework AS PROVIDING adequate protection; «para el que … ha reconocido un nivel» reads as a level recognised «for» the Framework and blurs who provides the protection. The suggestion restores the «recognised as providing» relation without adding anything. The meaning is broadly kept, so this is a nuance, not a factual change.",
+   "category": "accuracy",
+   "severity": "minor",
+   "confidence": 0.6,
+   "source": "ai",
+   "rule": "fidelity: relation in the source kept",
+   "stage": "fidelity",
+   "objective": false
+  }
+ ],
+ "rejected": [],
+ "arbitration": {
+  "strings_decided": 1,
+  "apply": 1,
+  "keep": 0,
+  "optional": 0,
+  "invalid": [],
+  "landed": 1
+ },
+ "changes": [
+  {
+   "item_id": "privacy:international.5",
+   "where": "Privacy Policy §international (li)",
+   "url": "https://magicesim.store/es/privacy/#international",
+   "kind": "body",
+   "en": "Render and GitHub take part in the EU–U.S. Data Privacy Framework, which the European Commission has recognised as providing an adequate level of protection.",
+   "old": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), para el que la Comisión Europea ha reconocido un nivel de protección adecuado.",
+   "new": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que, según ha reconocido la Comisión Europea, ofrece un nivel de protección adecuado.",
+   "severity": "minor",
+   "reason": "Rubric rule 1 (accuracy) in a legal text: «para el que … ha reconocido un nivel» blurs that the Framework is what provides the adequate protection; the fix restores «recognised as providing». Both reviewers' «garante» was not taken because it adds a guarantee the English does not state (rule 2); «ofrece» matches «providing».",
+   "evidence": [
+    {
+     "id": "A0001",
+     "stage": "linguistic",
+     "category": "fluency",
+     "severity": "minor",
+     "confidence": 0.65,
+     "objective": false,
+     "suggestion": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que la Comisión Europea ha reconocido como garante de un nivel de protección adecuado.",
+     "explanation": "«para el que la Comisión Europea ha reconocido un nivel de protección adecuado» is an awkward relative construction (one recognises a framework AS providing protection, not a level FOR it); «que … ha reconocido como garante de un nivel de protección adecuado» reads naturally and keeps the meaning."
+    },
+    {
+     "id": "A0002",
+     "stage": "fidelity",
+     "category": "accuracy",
+     "severity": "minor",
+     "confidence": 0.6,
+     "objective": false,
+     "suggestion": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que la Comisión Europea ha reconocido como garante de un nivel de protección adecuado.",
+     "explanation": "Accuracy nuance (rule 1): the English says the Commission recognised the Framework AS PROVIDING adequate protection; «para el que … ha reconocido un nivel» reads as a level recognised «for» the Framework and blurs who provides the protection. The suggestion restores the «recognised as providing» relation without adding anything. The meaning is broadly kept, so this is a nuance, not a factual change."
+    }
+   ],
+   "checks": {
+    "placeholders_kept": true,
+    "landed": true
+   },
+   "now": "Render y GitHub participan en el Marco de Privacidad de Datos UE-EE. UU. (EU–U.S. Data Privacy Framework), que, según ha reconocido la Comisión Europea, ofrece un nivel de protección adecuado."
+  }
+ ],
+ "optional": [],
+ "kept": []
+}
