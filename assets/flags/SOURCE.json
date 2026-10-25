@@ -22,6 +22,10 @@
     {
       "date": "2026-10-19",
       "change": "cn nz hn cw gw gt gd replaced by the flag-icons 7.5.0 originals: the rounding had flattened or erased their stars (China, Honduras, Curaçao, New Zealand, Guinea-Bissau, Grenada) and broken the Guatemalan emblem."
+    },
+    {
+      "date": "2026-10-25",
+      "change": "vi added (U.S. Virgin Islands — a new destination with plans after the 2026-10-25 assortment activation): the flag-icons 7.5.0 original, byte for byte."
     }
   ],
   "files": {
@@ -784,6 +788,10 @@
     "vg": {
       "sha256": "8cbbf3d0037f2dda02a2a0ebfed240a67fd3c4c20244ec3430a52d8c54c98073",
       "origin": "minified-4a219e31"
+    },
+    "vi": {
+      "sha256": "69e264ecc5c61b1750863f7863d74860a8f3ef152167c0537deb633eadced21f",
+      "origin": "flag-icons@7.5.0"
     },
     "vn": {
       "sha256": "1fcc66f8f19560c30d070285d93c9e988ab9b5a14b64c8d1aa0bbe6e3612d979",

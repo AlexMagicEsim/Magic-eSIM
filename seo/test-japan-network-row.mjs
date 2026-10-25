@@ -20,7 +20,7 @@ const BLOCK_RE = /\/\* --- TARIFF DISPLAY MAPPERS[\s\S]*?END TARIFF DISPLAY MAPP
 const { tariffNetworkLabel } = new Function(
   `${readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8').match(BLOCK_RE)[0]}\nreturn { tariffNetworkLabel };`)();
 
-const SENTENCE = 'В строке «Сеть» карточки указаны поддерживаемые поколения: у всех тарифов только для Японии в ней есть 4G, у большинства — ещё и 5G, а вариант 3G/4G без 5G встречается только у посуточных пакетов на несколько стран в блоке «Трафик на каждый день».';
+const SENTENCE = 'В строке «Сеть» карточки указаны поддерживаемые поколения: у всех тарифов только для Японии в ней есть 4G, у большинства — ещё и 5G.';
 
 const catalogue = loadCatalogue();
 const packages = catalogue.packages || catalogue;
@@ -55,17 +55,11 @@ test('«у большинства — ещё и 5G» — more than half of the J
   assert.ok(with5g * 2 > jp.length, `${with5g} of ${jp.length}`);
 });
 
-test('«3G/4G без 5G — только у посуточных пакетов на несколько стран»', () => {
-  const g34 = shown.filter((p) => label(p) === '3G/4G');
-  assert.ok(g34.length > 0, 'the sentence names a value that must exist');
-  assert.deepEqual(g34.filter((p) => !(isDaily(p) && !onlyJapan(p))).map((p) => `${p.name}: «${label(p)}»`), []);
-  // 2026-10-25: the sentence said «только у части …»; under the new assortment every multi-country daily on the page
-  // («Asia (12 areas)») prints 3G/4G, so «у части» became false and was removed from the text. The sentence now claims
-  // only WHERE 3G/4G occurs (pinned above), not how many of those cards carry it.
-});
-
-test('«в блоке «Трафик на каждый день»» — the block the sentence names is the daily block, and that is where the 3G/4G cards render', () => {
-  const title = readFileSync(join(ROOT, 'assets/daily-plan-copy.js'), 'utf8').match(/BLOCK_TITLE\s*=\s*'([^']+)'/)[1];
-  assert.ok(SENTENCE.includes(`в блоке «${title}»`), `daily block is titled «${title}»`);
-  assert.ok(shown.filter((p) => label(p) === '3G/4G').every(isDaily));
+// 2026-10-25 (590 new plans): the clause «а вариант 3G/4G без 5G встречается только у посуточных пакетов на несколько
+// стран в блоке «Трафик на каждый день»» became false in the checker's view (a regional «Asia (12 areas) 1GB 7Days»
+// prints 3G/4G) and was removed from intro[0]; its two tests went with it. The sentence now claims only the two
+// properties pinned above.
+test('the removed clause about 3G/4G stays out of the copy', () => {
+  const p = JSON.parse(readFileSync(join(ROOT, 'seo/content-profiles/japan.json'), 'utf8'));
+  assert.equal(p.intro[0].includes('3G/4G без 5G'), false);
 });

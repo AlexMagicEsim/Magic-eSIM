@@ -2024,7 +2024,7 @@ const FLAG_SVG = new Set((
   + 'kw ky kz la lc li lk lr lt lu lv ly ma mc md me mf mg mk ml mn mo mp mq mr '
   + 'ms mt mu mv mw mx my mz ne ng ni nl no np nr nz om pa pe pf pg ph pk pl pr '
   + 'pt py qa re ro rs rw sa sc sd se sg si sk sl sm sn sr sv sx sz tc td th tj '
-  + 'tl tn to tr tt tw tz ug us uy uz va vc ve vg vn vu ws xk yt za zm zw '
+  + 'tl tn to tr tt tw tz ug us uy uz va vc ve vg vi vn vu ws xk yt za zm zw '
 ).trim().split(' '));
 
 /**

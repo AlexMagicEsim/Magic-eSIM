@@ -239,10 +239,11 @@ test('speeds, throttles and activation phrases are attributed, not invented', ()
 });
 
 test('the attribution rule can fail — 5G where the catalogue has none', () => {
-  const armenia = SHEETS['armenia'];
-  assert.ok(armenia, 'ожидался фактшит Армении');
-  const gens = new Set((armenia.speeds || []).flatMap((x) => x.split('/')));
-  assert.ok(!gens.has('5G'), 'у Армении не должно быть 5G — иначе тест ничего не доказывает');
+  // 2026-10-25: Armenia gained 5G cards with the assortment activation; the premise moved to Nepal (4G, no 5G).
+  const nepal = SHEETS['nepal'];
+  assert.ok(nepal, 'ожидался фактшит Непала');
+  const gens = new Set((nepal.speeds || []).flatMap((x) => x.split('/')));
+  assert.ok(!gens.has('5G'), 'у Непала не должно быть 5G — иначе тест ничего не доказывает');
   assert.ok(gens.has('4G'), 'а 4G должно быть');
 });
 

@@ -578,6 +578,11 @@ function publicPackageName(item){
     return `Китай, Корея и Япония ${data}`.trim();
   }
 
+  // «US CA UK AU NZ 35 GB» (2026-10-25): the provider names it by bare codes; a card never starts with one.
+  if(lower.startsWith('us ca uk au nz')){
+    return `США, Канада, Великобритания, Австралия и Новая Зеландия ${data}`.trim();
+  }
+
   if(lower.includes('singapore malaysia and thailand')){
     return `Сингапур, Малайзия и Таиланд ${data}`.trim();
   }

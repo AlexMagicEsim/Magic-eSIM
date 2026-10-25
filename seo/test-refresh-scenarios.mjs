@@ -79,10 +79,10 @@ test('a stated relation flips: red on the relation itself (montenegro prints its
 });
 
 test('a package a price claim names is withdrawn: red, with successor candidates in the same block', async () => {
-  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · why-entry-vs-local · multi)');
+  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-not-dearer-than-15 · d15)');
   baseline(r);
   assert.deepEqual(r.failing, [PRICE]);
-  assert.match(detail(r, PRICE), /нет в каталоге — исчез или снят с витрины; кандидаты в блоке «daily»/);
+  assert.match(detail(r, PRICE), /нет в каталоге — исчез или снят с витрины; кандидаты в блоке «local»/);
 });
 
 // 2026-10-25: until the assortment the withdrawn package was also a price-claim term and the case expected [COVERAGE, PRICE];
@@ -95,10 +95,10 @@ test('a package a coverage claim names is withdrawn: red on coverage', async () 
 });
 
 test('a new offer makes a «cheapest» sentence false: red on that claim', async () => {
-  const r = await get('a new offer makes a «cheapest» sentence false (sri-lanka: a local plan below the multi-country entry)');
+  const r = await get('a new offer makes a «cheapest» sentence false (greece: a local plan below the 1 GB / 7 days entry)');
   baseline(r);
   assert.deepEqual(r.failing, [PRICE]);
-  assert.match(detail(r, PRICE), /cheapest-is-not-local: assert\[0\] multi = cheapest ложно/);
+  assert.match(detail(r, PRICE), /cheapest-entry-1gb: assert\[0\] local = g1 ложно/);
 });
 
 test('a country loses every plan: the generators keep the page, and the gates demand its explicit removal', async () => {

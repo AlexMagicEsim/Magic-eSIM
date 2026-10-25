@@ -125,11 +125,13 @@ test('the list: an accent-free search finds États-Unis, Égypte and Thaïlande;
   const st = await open(page, '/fr/esim/');
   await page.locator('#hq').fill('etats-unis');
   await expect(page.locator('#hubList li:not([hidden]) a').first()).toContainText('États-Unis');
-  await expect(page.locator('#hubCount')).toHaveText('1 destination correspond');
+  // 2026-10-25: «Îles Vierges des États-Unis» (VI) joined the list, so the query matches two — the plural speaks French too.
+  await expect(page.locator('#hubCount')).toHaveText('2 destinations correspondent');
   await page.locator('#hq').fill('egypte');
   await expect(page.locator('#hubList li:not([hidden]) a').first()).toContainText('Égypte');
   await page.locator('#hq').fill('thailande');
   await expect(page.locator('#hubList li:not([hidden]) a').first()).toContainText('Thaïlande');
+  await expect(page.locator('#hubCount')).toHaveText('1 destination correspond');
   await page.locator('#hq').fill('zzzz');
   await expect(page.locator('#hubEmpty')).toBeVisible();
   expect(st.external).toEqual([]); expect(st.errors).toEqual([]);

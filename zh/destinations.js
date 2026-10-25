@@ -121,6 +121,7 @@ window.MagicZhDestinations = [
   { iso: "MU", slug: "mauritius", name: "毛里求斯" },
   { iso: "MR", slug: "mauritania", name: "毛里塔尼亚" },
   { iso: "US", slug: "usa", name: "美国" },
+  { iso: "VI", slug: "us-virgin-islands", name: "美属维尔京群岛" },
   { iso: "MN", slug: "mongolia", name: "蒙古" },
   { iso: "MS", slug: "montserrat", name: "蒙特塞拉特" },
   { iso: "BD", slug: "bangladesh", name: "孟加拉国" },

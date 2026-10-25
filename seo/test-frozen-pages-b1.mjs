@@ -15,7 +15,7 @@ const read = (slug) => readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf
 const countries = readdirSync(join(ROOT, 'esim')).filter((s) => existsSync(join(ROOT, 'esim', s, 'index.html')) && read(s).includes('data-country-page='));
 
 test('every RU country page renders the B1 card — the ten experiment pages included', () => {
-  assert.equal(countries.length, 198);
+  assert.equal(countries.length, 199);
   const missing = countries.filter((s) => !/<section class="packages" id="tariffs" data-country-page="[A-Z]{2}" data-cards="compact">/.test(read(s)));
   assert.deepEqual(missing, []);
 });

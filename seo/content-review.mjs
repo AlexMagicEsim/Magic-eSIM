@@ -246,6 +246,7 @@ export const FAMILY_TITLES = [
   { title: 'Латинская Америка', match: (n) => n.includes('latam') || n.includes('latin america') },
   { title: 'Китай, Гонконг, Макао и Тайвань', match: (n) => n.includes('greater china') && n.includes('taiwan') },
   { title: 'Китай, Корея и Япония', match: (n) => n.includes('china korea japan') },
+  { title: 'США, Канада, Великобритания, Австралия и Новая Зеландия', match: (n) => n.startsWith('us ca uk au nz') },
   { title: 'Сингапур, Малайзия и Таиланд', match: (n) => n.includes('singapore malaysia and thailand') },
   { title: 'Европа и США', match: (n) => n.includes('europe and usa') },
   { title: 'Европа Unlimited', match: (n) => n.includes('euconnect unlimited') },

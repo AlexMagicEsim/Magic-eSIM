@@ -10,6 +10,7 @@ window.MagicRuDestinations = [
   { iso: "AX", slug: "aland-islands", name: "Аландские острова", en: "Åland Islands" },
   { iso: "AL", slug: "albania", name: "Албания", en: "Albania" },
   { iso: "DZ", slug: "algeria", name: "Алжир", en: "Algeria" },
+  { iso: "VI", slug: "us-virgin-islands", name: "Американские Виргинские острова", en: "U.S. Virgin Islands" },
   { iso: "AI", slug: "anguilla", name: "Ангилья", en: "Anguilla" },
   { iso: "AO", slug: "angola", name: "Ангола", en: "Angola" },
   { iso: "AD", slug: "andorra", name: "Андорра", en: "Andorra" },

@@ -161,28 +161,41 @@ const ladder = (iso) => {
 const term = (p, days) => Number((p.term_prices || []).find((t) => Number(t.days) === days)?.price);
 const kbps = (s) => { const m = String(s).match(/([\d.]+)\s*(K|M)bps/i); return m ? Number(m[1]) * (/m/i.test(m[2]) ? 1000 : 1) : NaN; };
 
-test('egypt: the ladder, the missing 10 GB step and the price relations the copy states', () => {
+test('egypt: the ladder from 1 to 25 GB, the dense 7–10–12 GB steps and the price relations the copy states', () => {
+  // Until 2026-10-25 the page's angle was «единственные местные 25 ГБ — и пропущенная десятка»: «Линейка идёт 3, 5, 7, 12,
+  // 20 и 25 ГБ», no local 10 GB, the cheapest regional 10 GB dearer than the local 25 GB, and «Египет — единственная страна
+  // с собственным тарифом на 25 ГБ». The new assortment (590 activated plans) put 1, 2 and 10 GB into the Egypt block and
+  // single-country 25 GB plans onto other countries, so the copy was rewritten to the ladder itself and pinned here with the
+  // same strength: the exact ladder, its bottom and top terms, the dense 7/10/12 GB steps and the gap 12 → 20 GB. The two
+  // price relations of the old copy (12 → 20 GB the longest step by money, 20 → 25 GB a small extra) are still stated and
+  // stay pinned unchanged.
   const l = ladder('EG');
-  assert.deepEqual(l.map(([g]) => g), [3, 5, 7, 12, 20, 25], '«Линейка идёт 3, 5, 7, 12, 20 и 25 ГБ»');
+  assert.deepEqual(l.map(([g]) => g), [1, 2, 3, 5, 7, 10, 12, 20, 25], '«Местная линейка идёт 1, 2, 3, 5, 7, 10, 12, 20 и 25 ГБ»');
+  const days = (gb) => vol('EG').filter((p) => Number(p.data_gb) === gb).map((p) => Number(p.validity_days)).sort((a, b) => a - b);
+  assert.ok(days(1).includes(7), '«С 1 ГБ на 7 дней» (lead: «от 1 ГБ на 7 дней»)');
+  assert.deepEqual(days(25), [30], '«Местный тариф на 25 ГБ один, на 30 дней» (lead: «до 25 ГБ на 30 дней»)');
   assert.equal(at('EG', 25, 30).length, 1, 'one local 25 GB, 30 days');
-  const regional10 = PACKAGES.filter((p) => Number(p.price) > 0 && !isDaily(p) && Number(p.data_gb) === 10
-    && coverageCodes(p).includes('EG') && coverageCodes(p).length > 1);
-  assert.ok(regional10.length > 0, '10 GB exists only as regional');
-  assert.ok(cheapest(regional10) > cheapest(at('EG', 25, 30)), 'the cheapest regional 10 GB costs more than the local 25 GB');
+  for (const gb of [7, 10, 12]) assert.deepEqual(days(gb), [30], `«7, 10 и 12 ГБ, все на 30 дней» — ${gb} GB`);
+  assert.deepEqual(days(3), [15, 30], '«местный тариф на 3 ГБ продаётся на 15 и на 30 дней»');
+  assert.ok(days(3).every((d) => d >= 15) && days(7).every((d) => d >= 15), '«3 или 7 ГБ … оба тарифа действуют дольше» недели-двух');
+  assert.ok(!l.some(([g]) => g > 12 && g < 20), '«следующая местная ступень после 12 ГБ — сразу 20 ГБ»');
+  assert.ok(!l.some(([g]) => g > 20 && g < 25), '25 GB is the top step and the only one above 20 GB («верхняя ступень местной линейки»)');
+  assert.ok(PACKAGES.some((p) => Number(p.price) > 0 && !isDaily(p) && Number(p.data_gb) === 25 && coverageCodes(p).length === 1
+    && coverageCodes(p)[0] !== 'EG'), '«Нет: однострановые тарифы на 25 ГБ есть и у других стран»');
   const steps = l.slice(1).map(([g, pr], i) => ({ from: l[i][0], to: g, d: pr - l[i][1] }));
   const max = steps.reduce((a, b) => (b.d > a.d ? b : a));
   assert.deepEqual([max.from, max.to], [12, 20], '12 → 20 GB is the longest step by money');
   assert.ok(steps.find((x) => x.from === 20).d < max.d / 2, '20 → 25 GB is a small extra');
-  // Until 2026-10-25 the page compared two local 5 GB / 30 days cards («почти не отличаются», the cheaper one listing
-  // operators). The assortment (rule R1: same volume + term → the cheapest stays) took the dearer one off the shelf, so
-  // the card was rewritten to what the whole local ladder shows: «У местных тарифов на 3 и 5 ГБ в карточке перечислены
-  // операторы и стоит пометка 3G/4G/5G, у ступеней от 7 ГБ и выше этих строк нет».
+  // Until 2026-10-25 the card said «У местных тарифов на 3 и 5 ГБ в карточке перечислены операторы и стоит пометка 3G/4G/5G,
+  // у ступеней от 7 ГБ и выше этих строк нет» (and before that compared two 5 GB / 30 days cards). The new 3 GB / 30 days card
+  // has neither row, so the card now says «У части местных тарифов … перечислены операторы и стоит пометка 3G/4G/5G, у других
+  // этих строк нет — даже на одном объёме: у 3 ГБ на 15 дней они есть, у 3 ГБ на 30 дней нет».
   const full = (p) => (p.networks || []).length > 0 && /3G\/4G\/5G/.test(p.speed || '');
   const bare = (p) => !(p.networks || []).length && !/5G/.test(p.speed || '');
-  const small = vol('EG').filter((p) => Number(p.data_gb) <= 5); const big = vol('EG').filter((p) => Number(p.data_gb) >= 7);
-  assert.deepEqual([...new Set(small.map((p) => Number(p.data_gb)))].sort((a, b) => a - b), [3, 5], 'the 3 and 5 GB steps exist');
-  assert.ok(small.every(full), 'every local 3 and 5 GB card lists operators and 3G/4G/5G');
-  assert.ok(big.length && big.every(bare), 'no local card from 7 GB up lists them');
+  assert.ok(vol('EG').every((p) => full(p) || bare(p)), 'every local card either lists both rows or neither');
+  assert.ok(vol('EG').some(full) && vol('EG').some(bare), '«у части … у других этих строк нет»');
+  assert.ok(at('EG', 3, 15).length && at('EG', 3, 15).every(full), '3 GB / 15 days lists operators and 3G/4G/5G');
+  assert.ok(at('EG', 3, 30).length && at('EG', 3, 30).every(bare), '3 GB / 30 days lists neither');
 });
 
 test('georgia: the equal-price daily pair, equal from three to ten days, the 3 GB twins', () => {
@@ -195,22 +208,35 @@ test('georgia: the equal-price daily pair, equal from three to ten days, the 3 G
   // Until 2026-10-25 the copy also said «тариф на 2 ГБ в день с той же мягкой политикой стоит дороже, чем 3 ГБ в день»
   // (Georgia 2GB/Day FUP1Mbps). The assortment took that plan off the shelf; the sentence and the FAQ answer now state
   // «на 5, 7 и 10 дней эти два тарифа тоже стоят одинаково» / «на срок от трёх до десяти дней … столько же».
-  for (const d of [3, 5, 7, 10]) {
+  // 2026-10-25 (whole-cost pricing, new assortment): at 7 days they part (2150 vs 2200 ₽), so the copy now says
+  // «на 5 и 10 дней эти два тарифа тоже стоят одинаково» / «на 3, 5 и 10 дней … столько же», and 7 days is pinned apart.
+  for (const d of [3, 5, 10]) {
     assert.ok(Number.isFinite(term(plain2, d)), `2 GB/day is sold for ${d} days`);
     assert.equal(term(plain2, d), term(fup3, d), `2 GB/day and 3 GB/day cost the same for ${d} days`);
   }
   const [t15] = at('GE', 3, 15); const [t30] = at('GE', 3, 30);
   assert.ok(t15 && t30, '3 GB is sold for 15 and for 30 days');
   assert.ok(purchasablePrice(t30) - purchasablePrice(t15) <= purchasablePrice(t15) * 0.2, '«небольшая доплата»');
+  assert.notEqual(term(plain2, 7), term(fup3, 7), 'at 7 days the pair differs — the copy no longer names 7 days');
   const l = ladder('GE');
-  assert.equal(cheapest(vol('GE')), purchasablePrice(t15), '3 GB / 15 days is the most affordable volume plan');
+  // «Самый доступный объёмный тариф в блоке «Тарифы для Грузии» — 1 ГБ на 7 дней» (since 2026-10-25).
+  const [g1] = at('GE', 1, 7);
+  assert.ok(g1, '1 GB / 7 days is sold in the Georgia block');
+  assert.equal(cheapest(vol('GE')), purchasablePrice(g1), '1 GB / 7 days is the most affordable volume plan');
   assert.equal(l.at(-1)[0], 20, '20 GB is the top volume step');
   assert.ok(at('GE', 20, 30).length && at('GE', 5, 30).length && at('GE', 10, 30).length, '5, 10, 20 GB on 30 days');
 });
 
-test('uzbekistan: 3 GB lasts 15 days, 5 and 10 GB last 30', () => {
-  assert.equal(ladder('UZ')[0][0], 3, '3 GB is the bottom step');
-  assert.deepEqual(vol('UZ').filter((p) => Number(p.data_gb) === 3).map((p) => Number(p.validity_days)), [15]);
+test('uzbekistan: 1 GB lasts 7 days, 3 GB lasts 15, 5 and 10 GB last 30', () => {
+  // Until 2026-10-25 the FAQ said «Нижняя ступень на 3 ГБ действует 15 дней». The new assortment put 1 GB / 7 days into the
+  // Uzbekistan block, so the answer now reads «Нижняя ступень, 1 ГБ, действует 7 дней … Следующая, 3 ГБ, действует 15 дней …
+  // Ступень на 5 ГБ живёт 30 дней»; each part is pinned here, the old 3 GB / 15 days pin unchanged.
+  const l = ladder('UZ');
+  assert.equal(l[0][0], 1, '1 GB is the bottom step');
+  assert.equal(l[1][0], 3, '3 GB is the next step');
+  const days = (gb) => vol('UZ').filter((p) => Number(p.data_gb) === gb).map((p) => Number(p.validity_days));
+  assert.deepEqual(days(1), [7], '«Нижняя ступень, 1 ГБ, действует 7 дней»');
+  assert.deepEqual(days(3), [15], '«Следующая, 3 ГБ, действует 15 дней»');
   assert.ok(at('UZ', 5, 30).length && at('UZ', 10, 30).length, '5 GB and 10 GB on 30 days');
 });
 

@@ -100,6 +100,7 @@ window.MagicEsDestinations = [
   { iso: "MP", slug: "northern-mariana-islands", name: "Islas Marianas del Norte" },
   { iso: "TC", slug: "turks-and-caicos", name: "Islas Turcas y Caicos" },
   { iso: "VG", slug: "british-virgin-islands", name: "Islas Vírgenes Británicas" },
+  { iso: "VI", slug: "us-virgin-islands", name: "Islas Vírgenes de EE. UU." },
   { iso: "IL", slug: "israel", name: "Israel" },
   { iso: "IT", slug: "italy", name: "Italia" },
   { iso: "JM", slug: "jamaica", name: "Jamaica" },

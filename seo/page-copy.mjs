@@ -39,6 +39,7 @@ export const DE_FUER = freeze({
   'Niederlande': 'die Niederlande', 'Karibische Niederlande': 'die Karibischen Niederlande', 'Philippinen': 'die Philippinen',
   'Malediven': 'die Malediven', 'Seychellen': 'die Seychellen', 'Bahamas': 'die Bahamas', 'Färöer': 'die Färöer',
   'Kaimaninseln': 'die Kaimaninseln', 'Ålandinseln': 'die Ålandinseln', 'Britische Jungferninseln': 'die Britischen Jungferninseln',
+  'Amerikanische Jungferninseln': 'die Amerikanischen Jungferninseln',
   'Turks- und Caicosinseln': 'die Turks- und Caicosinseln', 'Nördliche Marianen': 'die Nördlichen Marianen',
   'Vereinigtes Königreich': 'das Vereinigte Königreich',
   'Irak': 'den Irak', 'Tschad': 'den Tschad', 'Niger': 'den Niger', 'Senegal': 'den Senegal', 'Sudan': 'den Sudan',
@@ -249,6 +250,7 @@ export const FR_POUR = freeze({
   'Îles Mariannes du Nord': 'les îles Mariannes du Nord',
   'Îles Turques-et-Caïques': 'les îles Turques-et-Caïques',
   'Îles Vierges britanniques': 'les îles Vierges britanniques',
+  'Îles Vierges des États-Unis': 'les îles Vierges des États-Unis',
   'Îles Åland': 'les îles Åland',
 });
 const pour = (name) => (Object.prototype.hasOwnProperty.call(FR_POUR, name) ? FR_POUR[name] : name);

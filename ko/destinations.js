@@ -63,6 +63,7 @@ window.MagicKoDestinations = [
   { iso: "MT", slug: "malta", name: "몰타" },
   { iso: "MN", slug: "mongolia", name: "몽골" },
   { iso: "US", slug: "usa", name: "미국" },
+  { iso: "VI", slug: "us-virgin-islands", name: "미국령 버진아일랜드" },
   { iso: "VU", slug: "vanuatu", name: "바누아투" },
   { iso: "BH", slug: "bahrain", name: "바레인" },
   { iso: "BB", slug: "barbados", name: "바베이도스" },
