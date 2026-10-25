@@ -24,6 +24,8 @@
  */
 const http=require('http'),fs=require('fs'),path=require('path');
 const pw=require('playwright');
+// The backend's country-page layout for the in-page catalogue mocks (test/mini-app/layout-shim.cjs).
+for (const b of ['webkit', 'chromium']) require('./layout-shim.cjs')(pw[b]);
 const APP=path.join(__dirname,'..','..','app');
 const T={'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.json':'application/json'};
 let bad=0; const ok=(l,c,d='')=>{if(!c)bad++;console.log(`   ${c?'ok  ':'FAIL'} ${l}${d?'  — '+d:''}`);};

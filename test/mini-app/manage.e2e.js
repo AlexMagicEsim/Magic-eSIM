@@ -15,6 +15,8 @@
  */
 const http=require('http'),fs=require('fs'),path=require('path');
 const pw=require('playwright');
+// The backend's country-page layout for the in-page catalogue mocks (test/mini-app/layout-shim.cjs).
+for (const b of ['webkit', 'chromium']) require('./layout-shim.cjs')(pw[b]);
 // Screenshots are for a person to look at, never asserted on. They go to MINIAPP_SHOTS or the system temp dir —
 // never a machine-specific path (one once named a past session's scratch dir and broke every run off that Mac).
 const SHOTS=process.env.MINIAPP_SHOTS||require('path').join(require('os').tmpdir(),'magic-miniapp-shots');

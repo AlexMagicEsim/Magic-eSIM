@@ -15,6 +15,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const playwright = require('playwright');
+// The backend's country-page layout for the in-page catalogue mocks (test/mini-app/layout-shim.cjs).
+for (const b of ['webkit', 'chromium']) require('./layout-shim.cjs')(playwright[b]);
 
 const APP = path.join(__dirname, '..', '..', 'app');
 // A real production catalogue snapshot if one is at hand, otherwise a small
