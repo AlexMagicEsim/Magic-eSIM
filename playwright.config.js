@@ -67,8 +67,9 @@ module.exports = defineConfig({
       // The flag tests in WebKit (see above). Nothing else runs here.
       name: 'webkit-flags',
       // …and the Spanish (I18N ES-1) and German (DE-1) and French (FR-1) sites: every page kind in Safari's engine as well,
-      // and the English Privacy Policy (LEGAL-1), and the Korean site (KO-1), and the first-visit language of «/» (lang-route).
-      testMatch: /(?:^|[\\/])(?:flags|miniapp-flags|es-site|de-site|fr-site|zh-site|en-privacy|ko-site|legal-consents|legal-i18n|miniapp-markets|miniapp-catalogue-races|lang-route|no-horizontal-scroll|coverage-target)\.spec\.js$/,
+      // and the English Privacy Policy (LEGAL-1), and the Korean site (KO-1), and the first-visit language of «/» (lang-route),
+      // and the Mini App plan card and layout (miniapp-ux-parity) — Telegram on iOS is WebKit.
+      testMatch: /(?:^|[\\/])(?:flags|miniapp-flags|es-site|de-site|fr-site|zh-site|en-privacy|ko-site|legal-consents|legal-i18n|miniapp-markets|miniapp-catalogue-races|lang-route|no-horizontal-scroll|coverage-target|miniapp-ux-parity)\.spec\.js$/,
       use: { ...devices['Desktop Safari'], viewport: { width: 390, height: 844 } },
     },
   ],

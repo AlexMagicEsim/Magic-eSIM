@@ -618,6 +618,8 @@ test('the frozen list covers every Russian key, not just the ones present when i
     // stage C — the international checkout: the website's LEGAL-3 consent words (one source: assets/i18n/<lang>.js).
     'gco.title', 'gco.legend', 'gco.terms', 'gco.termsLink', 'gco.refundLink', 'gco.delivery', 'gco.privacy',
     'gco.privacyLink', 'gco.pay', 'gco.unavailable', 'gco.continue',
+    // The plan card in the website's words (B1, 2026-10-25): the kind of plan, and «за 3 дня» under a daily total.
+    'plan.badgeLocal', 'plan.badgeRegional', 'plan.badgeDaily', 'daily.forTerm',
     // Phase 1 — the language block itself.
     'settings.language.section', 'settings.language.hint',
     'settings.language.ru', 'settings.language.en',

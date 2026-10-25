@@ -1031,6 +1031,28 @@ function dailyTerms(pkg) {
 }
 
 /**
+ * The terms a daily plan can be BOUGHT for, as the website sells them.
+ *
+ * A PER_DAY plan is its server-priced ladder (`dailyTerms`). A FIXED_TERM plan
+ * (MobiMatter «EUconnect Unlimited 7 Days») has no ladder — it is one finished
+ * product, its own `validity_days` at the row's `price` — and the backend's
+ * checkout takes exactly that: no term or its own term, and the row's price
+ * (esim-backend lib/dailyCheckout.js). The website's checkout sends
+ * `days = validity_days` for it; this gives the Mini App the same single term,
+ * so the card prints its price instead of «—» and the tariff screen can sell it.
+ * Nothing is computed: both numbers are the server's.
+ */
+function dailyOffer(pkg) {
+  const terms = dailyTerms(pkg);
+  if (terms.length) return terms;
+  if (String((pkg && pkg.daily_term_mode) || '') !== 'FIXED_TERM') return [];
+  const days = Number(pkg.validity_days);
+  const price = Number(pkg.price);
+
+  return days > 0 && price > 0 ? [{ days, price }] : [];
+}
+
+/**
  * The cheapest price this package can ACTUALLY be bought at — or null when it
  * cannot be bought at all.
  *
@@ -2737,9 +2759,24 @@ function tariffFacts(pkg, lang) {
  * than a country list — «Азия и Океания, 34 страны» reads in a second where
  * thirty-four chips do not. The full list stays one tap away underneath.
  */
+/**
+ * The countries a plan's coverage NAMES to a customer: its codes once each,
+ * without Russia, Ukraine and Belarus — the website's RESTRICTED_COUNTRY_CODES
+ * (assets/country-tariffs.js packageCoverageCodes). «Europe (35 areas)» lists UA,
+ * so the website read «Европа, 34 страны» and the Mini App «35 стран» about the
+ * same card, and the Mini App's country list showed Ukraine.
+ */
+const RESTRICTED_COUNTRY_CODES = Object.freeze(['RU', 'UA', 'BY']);
+function coverageCodes(pkg) {
+  const codes = Array.isArray(pkg && pkg.coverage_country_codes) ? pkg.coverage_country_codes : [];
+
+  return [...new Set(codes.map((c) => String(c || '').trim().toUpperCase()))]
+    .filter((c) => c && RESTRICTED_COUNTRY_CODES.indexOf(c) === -1);
+}
+
 function coverageSummary(pkg, lang) {
   const p = pkg || {};
-  const codes = [...new Set(Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [])];
+  const codes = coverageCodes(p);
   const counted = countedCountries(codes);
   if (counted <= 1) return countryLabel(codes.find((c) => countedCountries([c]) === 1) || p.country_code, lang);
 
@@ -3026,10 +3063,10 @@ const CORE = {
   gb, money, usd, USD_FORMAT, daysLeft, remainingFraction,
   MARKETS, MARKET_DEFAULT, MARKET_KEY, INTL_LEGAL_URLS, INTL_LEGAL_PREFIX, intlLegalUrls, GLOBAL_PAYMENTS_OPEN, INTL_LEGAL_VERSIONS, globalPayAllowed, globalConsentRecord, createMarketStore, validateGlobalCatalogue, GLOBAL_CATALOGUE_PATH, API_RENDER,
   purchaseIntentKey, clearIntentKey, purchaseIntentScope, hash32,
-  dailyCopy, partitionDaily, dailyTerms, sellableFrom, groupFrom,
+  dailyCopy, partitionDaily, dailyTerms, dailyOffer, sellableFrom, groupFrom,
   searchCountries, pageCountries,
   groupCatalogue, countryLabel, flagFor, flagParts, FLAG_SVG, isRegional,
-  regionLabel, plural, tariffWord, countryWord, countedCountries,
+  regionLabel, coverageCodes, plural, tariffWord, countryWord, countedCountries,
   REGION_NAMES, REGION_NAMES_EN, countryNames, countryNamesEn,
   pluralEn, tariffWordEn, countryWordEn,
   normalize, popularGroups, popularCountries, countryLatin,

@@ -1085,108 +1085,125 @@
     const lines = D.lines(p, dailyLang());
     if (!lines.length) return null;
 
-    const terms = C.dailyTerms(p);
-    // The cheapest offered term, shown as «от», so the card carries a real
-    // number without pretending the customer has chosen yet. A plan with no
-    // priced ladder shows no price and cannot be opened for purchase.
-    //
-    // «от» IS CORRECT HERE and is not a placeholder: a PER_DAY plan is a ladder
-    // of terms (Vietnam sells 3/5/7/10/15/30 days at six different prices), the
-    // customer picks one on the next screen, and `sellableFrom` documents why
-    // the row's own `price` — a per-DAY rate that is not sold alone — must
-    // never be the number shown.
+    // The terms it can be bought for: a PER_DAY ladder, or the one term of a
+    // FIXED_TERM plan (`C.dailyOffer`). The card prints the cheapest term's
+    // TOTAL — «от 350 ₽ · за 3 дня» — never a rate per day: the row's own
+    // `price` on a PER_DAY plan is one day, which is not sold alone. A plan
+    // with nothing to buy shows «—» and cannot be bought on the next screen.
+    const terms = C.dailyOffer(p);
     const from = terms.length ? terms[0] : null;
+    const ladder = terms.length > 1;
+    const last = terms.length ? terms[terms.length - 1] : null;
 
-    // Everything after the allowance: the throttle, and a confirmed reset when
-    // the provider published one. Left as the shared module's sentence.
-    const meta = lines.map((l) => l.text).slice(1).join(' · ');
+    // The throttle and a confirmed reset, one line each — the shared module's
+    // sentences. Its «Срок: N дней» line is left out: the term pill says it.
+    const meta = lines.slice(1).filter((l) => l.kind !== 'term').map((l) => l.text);
+    // A daily plan that crosses borders says where, as the website's card does.
+    const cov = C.countedCountries(C.coverageCodes(p)) > 1 ? coverageLine(p) : '';
 
-    /*
-     * TWO ROWS, and they are assigned rather than left to the wrapper.
-     *
-     * A daily card carries four things where a volume card carries three: the
-     * allowance, the throttle sentence, a differentiator, and the price. They
-     * do not fit on one row at any viewport this app runs at — «5 ГБ в день»
-     * plus «Далее — до 384 Кбит/с» alone is 328px of a 330px line at 390.
-     *
-     * Left to `flex-wrap` the card broke into THREE rows (measured at 109px,
-     * against a 72.6px baseline), because the title and the throttle each
-     * claimed a line. Naming the split — volume and price on row one, every
-     * property on row two — makes it two rows at every width instead.
-     */
-    return el('button', { class: 'card card--tariff card--daily', 'data-package-id': String(p.package_id || ''), onclick: () => openTariff(p, group) }, [
-      el('div', { class: 'tariff__main' }, [
-        el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, dailyLang()) }) }),
-      ]),
-      el('div', {
-        class: 'card__price tabular',
-        text: from ? t('tile.from', { price: priceText(from.price) }) : '—',
-      }),
-      el('div', { class: 'tariff__pills tariff__pills--own' }, [
-        meta ? el('span', { class: 'tariff__pill', text: meta }) : null,
-        p.hotspot_supported === true
-          ? el('span', { class: 'tariff__pill tariff__pill--hotspot', text: t('plan.hotspot') })
-          : null,
-        // The reason two «5 ГБ в день» cards can carry different prices — see
-        // `dailyDistinguishers`.
-        ...chipSpans(p, distinct),
-      ]),
-    ]);
+    return planCard(p, group, {
+      kind: 'daily',
+      title: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, dailyLang()) }),
+      price: from ? (ladder ? t('tile.from', { price: priceText(from.price) }) : priceText(from.price)) : '—',
+      per: from && ladder ? t('daily.forTerm', { term: dayCount(from.days) }) : '',
+      term: !from ? '' : (ladder ? `${from.days}–${dayCount(last.days)}` : dayCount(from.days)),
+      cov,
+      lines: meta,
+      chips: chipSpans(p, distinct),
+    });
   }
 
   /**
-   * The term and the features, as quiet pills.
-   *
-   * They used to be one grey sentence — «15 дней · раздача интернета» — which
-   * put the two facts a buyer compares across cards inside a run of text at the
-   * same size and colour as everything else. As pills they are scannable down
-   * the column, and they sit on the SAME row as the volume, which is where the
-   * card's height comes back from.
+   * Where a multi-country plan works, for its card and its header: the named
+   * region and its count («Европа, 34 страны», `C.coverageSummary`), and for a
+   * small unnamed one the countries themselves («Таиланд, Малайзия и Сингапур»)
+   * rather than a bare «3 страны» that names nowhere.
    */
-  function tariffPills(p) {
-    const pills = [];
-    const days = Number(p.validity_days);
-    if (Number.isFinite(days) && days > 0) {
-      pills.push(el('span', { class: 'tariff__pill', text: dayCount(days) }));
-    }
-    // The label is the short form now — the card gives it one line beside the
-    // volume, the term and the price. The full sentence a buyer reads before
-    // paying comes from `tariffHotspot()` on the tariff screen.
-    if (p.hotspot_supported === true) {
-      pills.push(el('span', {
-        class: 'tariff__pill tariff__pill--hotspot',
-        text: t('plan.hotspot'),
-      }));
-    }
+  function coverageLine(p) {
+    const summary = C.coverageSummary(p, I.lang());
+    const codes = C.coverageCodes(p).filter((c) => C.countedCountries([c]) === 1);
+    if (codes.length < 2 || codes.length > 4 || summary !== countryCount(codes.length)) return summary;
+    const names = codes.map((c) => C.countryLabel(c, I.lang()));
+    try { return new Intl.ListFormat(I.lang(), { type: 'conjunction' }).format(names); } catch { return names.join(', '); }
+  }
 
-    return pills.length ? el('div', { class: 'tariff__pills' }, pills) : null;
+  /** The kind under the volume, in the website's words (B1): local, regional, daily. */
+  function kindLabel(kind) {
+    if (kind === 'regional') return t('plan.badgeRegional');
+    if (kind === 'daily') return t('plan.badgeDaily');
+
+    return t('plan.badgeLocal');
+  }
+
+  /*
+   * ONE plan card for the three blocks — the website's B1 card, sized for
+   * Telegram (brand book v1.2): the volume and the price on the first line,
+   * the term and the kind under them, then — each on its own line, wrapping
+   * rather than shrinking — the coverage of a multi-country plan, the daily
+   * throttle, the features, and «Покрытие и условия», which is what a tap opens.
+   *
+   * It replaced a one-row card that squeezed the term, the region and the
+   * price into one line with 11–12px pills: at 390px «30 днейВьетнам и
+   * Юго-Восточная Азия» ran into each other, and a daily card's unbreakable
+   * pill pushed the Italy screen 119px wider than the phone.
+   */
+  function planCard(p, group, { kind, title, price, per = '', term = '', best = false, cov = '', lines = [], chips = [] }) {
+    const features = [
+      p.hotspot_supported === true
+        ? el('span', { class: 'tariff__pill tariff__pill--hotspot', text: t('plan.hotspot') })
+        : null,
+      ...chips,
+    ].filter(Boolean);
+
+    return el('button', {
+      class: `card card--tariff plan-${kind}` + (kind === 'daily' ? ' card--daily' : '') + (best ? ' is-best' : ''),
+      'data-package-id': String(p.package_id || ''),
+      onclick: () => openTariff(p, group),
+    }, [
+      el('div', { class: 'tariff__top' }, [
+        el('span', { class: 'card__title', text: title }),
+        el('span', { class: 'tariff__cost' }, [
+          el('span', { class: 'card__price tabular', text: price }),
+          per ? el('span', { class: 'tariff__per', text: per }) : null,
+        ]),
+      ]),
+      el('div', { class: 'tariff__row' }, [
+        term ? el('span', { class: 'tariff__pill tariff__term', text: term }) : null,
+        el('span', { class: 'tariff__kind', text: kindLabel(kind) }),
+        best ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
+      ]),
+      cov || lines.length
+        ? el('div', { class: 'tariff__lines' }, [
+          cov ? el('span', { class: 'tariff__line tariff__line--cov', text: cov }) : null,
+          ...lines.map((text) => el('span', { class: 'tariff__line', text })),
+        ])
+        : null,
+      features.length ? el('div', { class: 'tariff__distinct' }, features) : null,
+      el('span', { class: 'tariff__more', text: t('tariff.coverageConditions') }),
+    ]);
   }
 
   function tariffCard(p, group, distinct, { regional = false } = {}) {
     const isBest = !regional && group && group.best && group.best.package_id === p.package_id;
+    const days = Number(p.validity_days);
 
     // §9 S3: a tariff card opens the tariff, not the payment form. Going
     // straight to checkout skipped the one screen whose job is to answer
     // "will this work on my phone, and what am I actually buying".
-    return el('button', {
-      class: 'card card--tariff' + (isBest ? ' is-best' : ''),
-      'data-package-id': String(p.package_id || ''),
-      onclick: () => openTariff(p, group),
-    }, [
-      el('div', { class: 'tariff__main' }, [
-        el('span', { class: 'card__title', text: p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb }) }),
-        isBest ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
-        tariffPills(p),
-      ]),
-      // A regional card on a country screen says which region it is.
-      regional ? el('span', { class: 'card__meta', text: C.regionLabel(p, I.lang()) }) : null,
-      el('div', { class: 'card__price tabular', text: priceText(p.price) }),
+    return planCard(p, group, {
+      kind: regional ? 'regional' : 'local',
+      title: p.unlimited ? t('plan.unlimited') : t('plan.gb', { n: p.data_gb }),
+      price: priceText(p.price),
+      term: Number.isFinite(days) && days > 0 ? dayCount(days) : '',
+      best: isBest,
+      // A regional card on a country screen says which region and how many
+      // countries — «Европа, 34 страны», the website's words and count.
+      cov: regional ? coverageLine(p) : '',
       // What makes THIS card different from the one beside it. Drawn only when
       // something actually varies among tariffs of the same coverage, volume
-      // and validity — so most countries show nothing here, and the two Japan
-      // cards that used to read as one row duplicated stop doing that.
-      chipsFor(p, distinct),
-    ]);
+      // and validity — so most countries show nothing here.
+      chips: chipSpans(p, distinct),
+    });
   }
 
   /** The chips themselves, as bare spans, so a caller can place them. */
@@ -1199,13 +1216,6 @@
       class: 'tariff__chip' + (label.startsWith('IP: ') ? ' tariff__chip--ip' : ''),
       text: label,
     }));
-  }
-
-  /** The differentiator row, or nothing at all when there is nothing to say. */
-  function chipsFor(p, distinct) {
-    const spans = chipSpans(p, distinct);
-
-    return spans.length ? el('div', { class: 'tariff__distinct' }, spans) : null;
   }
 
   /**
@@ -1309,8 +1319,10 @@
     const volume = split.volume;
     const daily = split.daily;
     const distinct = C.tariffDistinguishers(volume, I.lang());
+    // Every plan of a region family covers several countries: each card is a
+    // regional card, with its region and its count of countries.
     for (const p of C.sortTariffs(volume, state.sort)) {
-      list.appendChild(tariffCard(p, group, distinct));
+      list.appendChild(tariffCard(p, group, distinct, { regional: true }));
     }
     const dailyDistinct = C.dailyDistinguishers(daily, I.lang());
     const dailyCards = daily.map((p) => dailyCard(p, group, dailyDistinct)).filter(Boolean);
@@ -2274,7 +2286,7 @@
       ]))));
 
     box.appendChild(el('h2', { class: 'section', text: t('help.installGuides') }));
-    box.appendChild(el('div', { class: 'row' }, [
+    box.appendChild(el('div', { class: 'row row--wrap' }, [
       el('button', {
         class: 'btn btn--quiet', text: t('help.iphone'),
         onclick: () => openExternal('https://magicesim.store/iphone.html'),
@@ -2349,19 +2361,30 @@
 
     const D = C.dailyCopy();
     const isDaily = !!(D && D.isDaily(p));
-    const terms = isDaily ? C.dailyTerms(p) : [];
+    // A PER_DAY ladder, or the one term of a FIXED_TERM plan (`C.dailyOffer`).
+    const terms = isDaily ? C.dailyOffer(p) : [];
     // The term is the product, so it is chosen here rather than assumed. The
     // first is preselected: a screen that can be in a "nothing chosen" state is
     // a screen you cannot buy from.
     state.dailyTerm = terms.length ? terms[0] : null;
 
+    // What kind of plan this is, and for a multi-country one where it works —
+    // the line under the website card's volume («Региональный тариф»).
+    const multi = C.countedCountries(C.coverageCodes(p)) > 1;
+    const kind = isDaily ? 'daily' : (multi ? 'regional' : 'local');
+    const kindLine = [kindLabel(kind), multi ? coverageLine(p) : ''].filter(Boolean).join(' · ');
+    // The flag of the country the customer chose; a regional plan's own code
+    // is often a region («EU») with no flag of its own.
+    const flagCode = (group && !group.regional && group.country_code) || p.country_code;
+
     // 1. Header — what, how much, for how long, for how many.
-    box.appendChild(el('div', { class: 'card stack' }, [
+    box.appendChild(el('div', { class: `card stack tariff-head plan-${kind}` }, [
       el('div', { class: 'row' }, [
-        flagNode(C.flagFor(p.country_code, p)),
+        flagNode(C.flagFor(flagCode, group && !group.regional ? null : p)),
         el('h1', { text: title }),
       ]),
-      el('div', { class: 'row row--between' }, [
+      el('p', { class: 'tariff-head__kind', text: kindLine }),
+      el('div', { class: 'tariff__top' }, [
         el('span', {
           class: 'card__title',
           text: isDaily
@@ -2378,24 +2401,26 @@
       ]),
       isDaily
         // Every line from the shared module; the screen composes none of its
-        // own. The validity line is absent for a per-day plan because the row
-        // has no term until one is chosen below.
-        ? el('div', { class: 'stack' }, D.lines(p, dailyLang()).slice(1).map((l) => el('div', {
-          class: 'card__meta', text: l.text,
-        })))
-        : el('div', {
-          class: 'card__meta',
-          text: dayCount(days),
-        }),
+        // own. A FIXED_TERM plan's one term is said here; a PER_DAY plan's
+        // term is chosen below, so its header carries none.
+        ? el('div', { class: 'stack tariff-head__lines' }, [
+          terms.length === 1 ? el('span', { class: 'tariff__pill tariff__term', text: dayCount(terms[0].days) }) : null,
+          ...D.lines(p, dailyLang()).slice(1).filter((l) => l.kind !== 'term').map((l) => el('div', {
+            class: 'card__meta', text: l.text,
+          })),
+        ])
+        : el('div', { class: 'tariff-head__lines' }, [
+          Number(days) > 0 ? el('span', { class: 'tariff__pill tariff__term', text: dayCount(days) }) : null,
+        ]),
     ]));
 
     // 1b. The term, and what it costs. Prices are the server's finished
     // `term_prices`; nothing here multiplies anything.
-    if (isDaily && terms.length) box.appendChild(dailyTermPicker(p, terms));
+    if (isDaily && terms.length > 1) box.appendChild(dailyTermPicker(p, terms));
 
     // 2 & 3. Coverage and characteristics — the same sheet the site shows, in
     // the same order and under the same labels («Покрытие и условия»).
-    const coverage = Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [];
+    const coverage = C.coverageCodes(p);
     const facts = C.tariffFacts(p, I.lang());
     if (facts.length) {
       box.appendChild(el('div', { class: 'card stack' }, [
@@ -2528,7 +2553,7 @@
          only the opening counts; a fold-and-unfold is one doubt, not two. */
       ontoggle: (ev) => { if (ev.currentTarget.open) trackTariffOnce('tariff_coverage_open'); },
     }, [
-      el('summary', { class: 'sheet__head', text: t('tariff.coverageCount', { countries: countryCount(codes.length) }) }),
+      el('summary', { class: 'sheet__head', text: t('tariff.coverageCount', { countries: countryCount(C.countedCountries(codes)) }) }),
       names.length
         ? body
         : el('p', { class: 'small muted', text: t('tariff.worksIn', { countries: countryCount(codes.length) }) }),
@@ -2557,7 +2582,7 @@
         t('compat.android') }),
       el('p', { class: 'small muted', text:
         t('compat.note') }),
-      el('div', { class: 'row' }, [
+      el('div', { class: 'row row--wrap' }, [
         el('button', {
           class: 'btn btn--quiet', text: t('tariff.iphoneGuide'),
           onclick: () => openExternal('https://magicesim.store/iphone.html'),
@@ -4950,6 +4975,7 @@
     bindChrome();
     bindReturnToApp();
     applyTelegramTheme();
+    watchKeyboard();
 
     // The catalogue is public, so the app opens on it immediately and the
     // session is minted alongside rather than in front. Before this, a cold
@@ -5074,13 +5100,36 @@
    * dark. Both calls are guarded: they are recent Bot API additions and an old
    * client simply keeps its default.
    */
+  /**
+   * While a text field has the focus the on-screen keyboard is up, and the tab
+   * bar — sticky at the bottom of the visual viewport — sat on top of it,
+   * covering the field the customer was typing into (the checkout e-mail, the
+   * promo code). `data-kb` on <html> lets mini.css hide the bar on touch
+   * screens until the field lets go of the focus.
+   */
+  function watchKeyboard() {
+    const root = document.documentElement;
+    const typing = (n) => !!(n && n.matches && n.matches('input:not([type=checkbox]):not([type=radio]), textarea'));
+    document.addEventListener('focusin', (e) => { if (typing(e.target)) root.setAttribute('data-kb', ''); });
+    document.addEventListener('focusout', () => {
+      setTimeout(() => { if (!typing(document.activeElement)) root.removeAttribute('data-kb'); }, 0);
+    });
+  }
+
   function applyTelegramTheme() {
     if (!tg) return;
     const paint = () => {
       try {
-        const bg = (tg.themeParams && tg.themeParams.bg_color) || null;
+        // The PAGE colour (--bg in mini.css is secondary_bg_color), not the card
+        // colour. Telegram paints the WebView's own background, its header and
+        // its bottom bar with these: painted with bg_color they differed from the
+        // page — in dark #17212B against #232E3C — so every overscroll, keyboard
+        // or height change and the iPhone safe area showed a darker band.
+        const p = tg.themeParams || {};
+        const bg = p.secondary_bg_color || p.bg_color || null;
         if (bg && tg.setBackgroundColor) tg.setBackgroundColor(bg);
         if (bg && tg.setHeaderColor) tg.setHeaderColor(bg);
+        if (bg && tg.setBottomBarColor && tg.isVersionAtLeast && tg.isVersionAtLeast('7.10')) tg.setBottomBarColor(bg);
         document.documentElement.setAttribute('data-tg-scheme', tg.colorScheme || 'light');
       } catch { /* an older client keeps its own chrome; nothing breaks */ }
     };

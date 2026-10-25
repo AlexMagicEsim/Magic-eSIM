@@ -161,7 +161,7 @@ async function cardHeights(page, selector) {
  * ================================================================== */
 
 for (const lang of ['ru', 'en']) {
-  test(`[${lang}] an ordinary card shows volume, term and price on one row`, async ({ page }, info) => {
+  test(`[${lang}] an ordinary card reads as the website's: volume and price on top, the term under them`, async ({ page }) => {
     await installMiniApp(page, { languageCode: lang, packages: VIETNAM });
     await openApp(page);
     await openVietnam(page, lang);
@@ -182,12 +182,15 @@ for (const lang of ['ru', 'en']) {
     }));
     expect(sizes.title).toBeGreaterThan(sizes.price);
 
-    // One row at 390. At 320 a card carrying two pills legitimately wraps, so
-    // the assertion is scoped to the viewport where the claim is made.
-    if (info.project.name === 'chromium-390') {
-      const h = (await cardHeights(page, '#country-list .card--tariff'))[0];
-      expect(h).toBeLessThan(60);
-    }
+    // The B1 card (owner, 2026-10-25): the one-row card this test used to pin
+    // (< 60px at 390) squeezed the term and the region into the volume's line.
+    // Now line one is the volume and the price, line two the term — at every width.
+    const rows = await card.evaluate((n) => {
+      const top = (s) => n.querySelector(s).getBoundingClientRect();
+      return { title: top('.card__title').top, price: top('.card__price').top, termTop: top('.tariff__pill').top, titleBottom: top('.card__title').bottom };
+    });
+    expect(Math.abs(rows.title - rows.price)).toBeLessThan(8);
+    expect(rows.termTop).toBeGreaterThanOrEqual(rows.titleBottom - 1);
   });
 
   test(`[${lang}] hotspot is a labelled pill, not a run-on sentence`, async ({ page }) => {

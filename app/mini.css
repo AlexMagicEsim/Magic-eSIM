@@ -171,7 +171,16 @@ body { padding-bottom: 0; }
 
 .row { display: flex; align-items: center; gap: 12px; }
 .row--between { justify-content: space-between; }
-.stack { display: grid; gap: 10px; }
+/* `minmax(0, 1fr)`, not the implicit `auto` track: an auto track grows to its
+   widest unbreakable word, and with the system text size raised a German
+   «Funktioniert mein Smartphone?» card pushed the whole tariff screen 10px past
+   the phone. The text wraps instead (`.screen { overflow-wrap }` below). */
+.stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.screen { overflow-wrap: break-word; }
+/* Two buttons side by side («Инструкция для iPhone» · «Для Android») go one
+   under the other when the text is too large for both. */
+.row--wrap { flex-wrap: wrap; }
+.row--wrap > .btn { flex: 1 1 10em; width: auto; }
 
 h1 { font-size: 22px; line-height: 1.25; margin: 8px 0 4px; font-weight: 700; }
 h2 { font-size: 17px; margin: 18px 0 8px; font-weight: 650; }
@@ -232,6 +241,11 @@ button.card:active { transform: scale(.995); }
 /* The checkout's copy is static and lives inside a normal block; it must not
    inherit the bleed. */
 .search--static { margin-inline: 0; border-bottom: 0; }
+/* …nor the search bar's own padding and icon gutter: the checkout's e-mail field
+   has no magnifier, and with both it sat 16px inside the column and its text a
+   further 42px in — the one field on the screen that lined up with nothing. */
+.search.search--static { position: static; padding: 0; }
+.search.search--static input { padding-left: 14px; }
 
 /* The icon sits INSIDE the field, so the wrapper has to be the positioning
    context. `position: relative` on a sticky element is fine — sticky already
@@ -352,7 +366,7 @@ button.card:active { transform: scale(.995); }
   display: inline-block;
   padding: 3px 9px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 650;
   background: color-mix(in srgb, var(--ink) 8%, transparent);
   color: var(--ink);
@@ -374,7 +388,7 @@ button.card:active { transform: scale(.995); }
    dark-mode branch. */
 .badge--sm {
   padding: 2px 8px;
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   background: transparent;
   border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
@@ -406,7 +420,8 @@ button.card:active { transform: scale(.995); }
   font-size: var(--t-body);
   font-weight: 650;
   min-width: 0;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  /* Wraps rather than «Япо…»: the name is how a customer tells two eSIMs apart. */
+  overflow-wrap: anywhere;
 }
 
 .esim-card__metrics { gap: var(--s3); align-items: baseline; }
@@ -639,7 +654,9 @@ button.card:active { transform: scale(.995); }
 /* Four tabs, icon over label. The bar itself keeps the safe-area padding that
    R-44 was about: on iPhone this row sits directly above the home indicator,
    and losing that padding put both buttons inside the system swipe zone. */
-.tabbar { display: flex; }
+.tabbar { display: flex; width: 100%; }
+/* The keyboard is up (watchKeyboard() in ui.js): the bar would sit on it. */
+@media (pointer: coarse) { :root[data-kb] .tabbar { display: none; } }
 .tab {
   flex: 1 1 0;
   min-width: 0;
@@ -654,14 +671,16 @@ button.card:active { transform: scale(.995); }
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 11px;
+  /* 12px, from 11: the smallest type left in the app, for a one- or two-word
+     label under an icon; tested to fit in every language at 320px. */
+  font-size: 12px;
   line-height: 1.2;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 .tab__i { width: 24px; height: 24px; flex: 0 0 auto; }
-/* The label never truncates into a stub: four words have to fit at 360pt. */
-.tab__t { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The label never truncates: a long one («Meine eSIMs» at 320px) takes a second line. */
+.tab__t { max-width: 100%; text-align: center; overflow-wrap: anywhere; }
 /* Selected is carried by BOTH colour and weight — §16 forbids colour as the
    only signal, and aria-selected carries it to assistive tech besides. */
 .tab[aria-selected='true'] { color: var(--link); }
@@ -726,6 +745,10 @@ button.card:active { transform: scale(.995); }
 
 button.card--row {
   display: flex;
+  /* With the system text size raised, the price («desde USD 12.99») and the
+     name cannot share the row: the price goes under the name instead of
+     squeezing it to nothing. At ordinary sizes it stays on one row. */
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--s3);
   padding: var(--s3) var(--s4);
@@ -768,14 +791,18 @@ button.card--row {
 .chip__flag .flag-img { width: 18px; height: 13.5px; border-radius: 2px; }
 
 .card__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+button.card--row > .card__body { flex: 1 1 8.5em; }
+button.card--row > .card__price { margin-left: auto; }
 
 .card__body .card__title {
   font-size: var(--t-body);
   font-weight: 600;
-  /* A long regional name must not push the price off the row. */
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  /* A long regional name must not push the price off the row — it WRAPS. It
+     used to be cut with an ellipsis («Asie et Océan…» at 320px in French): a
+     destination the customer cannot read is one they cannot choose. */
+  overflow-wrap: anywhere;
 }
-.card__body .card__meta { font-size: var(--t-caption); color: var(--muted); margin: 0; }
+.card__body .card__meta { font-size: var(--t-caption); color: var(--muted); margin: 0; overflow-wrap: anywhere; }
 
 .card__price { flex: 0 0 auto; font-size: var(--t-secondary); font-weight: 600; }
 .card__chevron { flex: 0 0 auto; color: var(--muted); font-size: 20px; line-height: 1; }
@@ -880,7 +907,11 @@ body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stab
   font-size: var(--t-secondary);
   font-weight: 600;
   align-self: stretch;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  /* Two lines rather than an ellipsis: «United Arab Emirates», «Vereinigte
+     Arabische Emirate» were cut at 320–360px. The price is pinned to the bottom
+     (`margin-top: auto` below), so a row of tiles still lines up. */
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 /* The price is the second reason anyone looks at this tile, and it was caption
    grey — the same weight as "last synced" elsewhere in the app. It keeps the
@@ -1051,7 +1082,7 @@ body { display: flex; flex-direction: column; min-height: var(--tg-viewport-stab
 
 .segmented {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--s2);
 }
 
@@ -1127,7 +1158,7 @@ html[data-market="global"] #home-paynote { display: none !important; }
 .fact { gap: 12px; align-items: baseline; }
 /* The value is the answer, so it takes the space and wraps rather than being
    cut off — a truncated "поддерживается" reads as "поддержив…". */
-.fact__value { text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.fact__value { text-align: right; min-width: 0; overflow-wrap: break-word; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip {
@@ -1138,7 +1169,7 @@ html[data-market="global"] #home-paynote { display: none !important; }
 .step { gap: 10px; align-items: flex-start; }
 .step__n {
   flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
-  display: grid; place-items: center; font-size: 12px; font-weight: 700;
+  display: grid; place-items: center; font-size: 13px; font-weight: 700;
   background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--muted);
 }
 
@@ -1223,7 +1254,7 @@ html[data-market="global"] #home-paynote { display: none !important; }
   -webkit-tap-highlight-color: transparent;
 }
 .device__name { font-weight: 650; font-size: 16px; }
-.device__hint { font-size: 12px; color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.device__hint { font-size: 13px; color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* Chosen carries in the border, the fill AND the weight — never colour alone. */
 .device[aria-checked='true'] {
   border-color: var(--link);
@@ -1450,7 +1481,10 @@ body.sheet-open { overflow: hidden; }
  * No colour of its own: `button.card { color: inherit }` gives it the body ink,
  * which is the point. The muted grey it used to wear is what made a control
  * look like a caption. */
-.promo__toggle {
+/* `button.card.promo__toggle`, not `.promo__toggle`: `button.card { display: block }`
+   is (0,1,1) and won, so the chevron sat glued to the label («Ввести промокод›»)
+   instead of at the card's right edge. */
+button.card.promo__toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1555,82 +1589,102 @@ body.sheet-open { overflow: hidden; }
 
 
 /* =====================================================================
- * TariffCard — the country screen's list row.
+ * PlanCard — one card for the three blocks, the website's B1 «Soft Neutral»
+ * card (brand book v1.2) sized for Telegram.
  *
- * WHAT WAS WRONG. `.card--tariff` carried no declarations at all: the class
- * was emitted by ui.js and matched nothing, so a tariff row was a generic
- * `.card` — 14px padding around a 10px `.stack` gap, with the volume and the
- * price both at 15px. Twenty-three of them in Vietnam read as one wall, and
- * nothing on the card said which number to look at first.
+ * WHAT WAS WRONG (audit 2026-10-25, live catalogue). The card was ONE row: the
+ * volume, the term pill, the region and the price shared a line, and the pills
+ * were 11–12px with `white-space: nowrap`. At 390px a regional card printed
+ * «30 днейВьетнам и Юго-Восточная Азия» (two runs of text on top of each
+ * other), the region read «Регион · 3 страны», and a daily card's throttle
+ * sentence — one unbreakable pill — made the Italy screen 509px wide on a
+ * 390px phone, the tab bar ending 119px short of the content.
  *
- * THE SHAPE. One row, not two. The volume leads at 19px/700; the term and the
- * features sit beside it as quiet pills; the price is pinned right. Dropping
- * the second text row is where the height comes from — everything else here is
- * typography. The left group wraps on its own when the words genuinely do not
- * fit (long EN labels at 320px), so the layout degrades to the old two-line
- * height rather than overflowing.
+ * THE SHAPE (the website's, in the same order): the volume and the price on
+ * line one; the term and the kind («Локальный тариф») under them; then, each on
+ * its own line and WRAPPING rather than shrinking, the coverage of a
+ * multi-country plan, the daily throttle, the features, and «Покрытие и
+ * условия →» — what a tap opens. Nothing on the card is below 13px.
+ * `.card.card--tariff` (two classes) so it beats `button.card { display:block }`.
  * ================================================================== */
-/* The card itself. `.card.card--tariff` rather than `.card--tariff` on purpose:
- * `button.card { display: block }` at the top of this file is (0,1,1) and would
- * otherwise beat a single class and quietly keep the old block layout. Two
- * classes make this win on specificity instead of on source order. */
 .card.card--tariff{
-  display:flex;align-items:center;flex-wrap:wrap;gap:var(--s3);
-  /* 14px all round -> 11/14. The horizontal gutter is untouched; only the
-     vertical padding moves, because that is what was empty. */
-  padding:11px 14px;
+  --pc-strip:#9aa3bd;--pc-word:var(--muted);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:stretch;gap:var(--s2);
+  padding:16px 16px 14px;
 }
-/* `flex: 1 1 0`, NOT `1 1 auto`. With an auto basis this box asks for its full
-   content width, so on any card whose left side is wide — the recommended one
-   carries a badge, a daily one carries the throttle sentence — it did not fit
-   beside the price, the card wrapped, and the PRICE dropped onto a line of its
-   own. A zero basis makes this box shrink and wrap its own pills instead, which
-   is where wrapping belongs. Measured: it is what turns the 50 ГБ card from
-   three rows back into one. */
-.card--tariff > .tariff__main{
-  display:flex;align-items:center;flex-wrap:wrap;
-  gap:var(--s2);
-  flex:1 1 0;min-width:0;
-}
-/* The number the whole screen is scanned for. */
-.card--tariff .card__title{
-  font-size:19px;font-weight:700;line-height:1.2;
-  letter-spacing:-.02em;
-  flex:0 0 auto;
-}
-/* Second in the hierarchy, not equal to it: same weight family, smaller, and
-   tabular so a column of prices lines up digit under digit. */
-.card--tariff .card__price{
-  font-size:16px;font-weight:650;line-height:1.2;
-  flex:0 0 auto;white-space:nowrap;
-  font-variant-numeric:tabular-nums;
+.card--tariff.plan-regional,.tariff-head.plan-regional{--pc-strip:#c58fe0;--pc-word:#6a1199}
+.card--tariff.plan-daily,.tariff-head.plan-daily{--pc-strip:#6cc3d4;--pc-word:#0a5f72}
+:root[data-tg-scheme='dark'] .card--tariff.plan-regional,:root[data-tg-scheme='dark'] .tariff-head.plan-regional{--pc-word:color-mix(in srgb, #8A16C7 40%, #fff)}
+:root[data-tg-scheme='dark'] .card--tariff.plan-daily,:root[data-tg-scheme='dark'] .tariff-head.plan-daily{--pc-word:color-mix(in srgb, #00C7DF 60%, #fff)}
+/* The kind, as a 3px strip along the top edge — the website's B1 mark. */
+.card.card--tariff::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:var(--pc-strip);pointer-events:none;
 }
 
-/* Term and features. Neutral by design — the accent belongs to the recommended
-   card and to the exit-country chip, and spending it here would leave nothing
-   to notice. */
-.tariff__pills{
-  display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0;
+/* Line one: the volume and the price. The volume leads; the price never
+   wraps; a long volume («Unbegrenzt») wraps inside its own box. */
+.tariff__top{
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  gap:2px var(--s3);min-width:0;
+}
+.card--tariff .card__title{
+  font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-.02em;
+  min-width:0;overflow-wrap:anywhere;
+}
+.card--tariff.card--daily .card__title{ font-size:20px; }
+.tariff__cost{ display:flex;flex-direction:column;align-items:flex-end;flex:0 0 auto;margin-left:auto;text-align:right; }
+/* When the volume and a long price cannot share the line («10 Go par jour» and
+   «à partir de 2 850 ₽» at 320px) the price takes the next one — flex-wrap
+   breaks on the natural widths, so the volume is never squeezed into three. */
+.card--tariff .card__price{
+  font-size:20px;font-weight:700;line-height:1.2;
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+/* With the system text size raised, «à partir de 2,99 USD» can be wider than the
+   card: the cost box keeps to the card and its words wrap there (the number and
+   its currency stay together — money() joins them with a no-break space). */
+.tariff__cost{ max-width:100%; }
+.tariff__cost .card__price{ white-space:normal; }
+/* «за 3 дня» under «от 350 ₽»: the price of a daily card is a TOTAL. */
+.tariff__per{ font-size:13px;font-weight:500;color:var(--muted);white-space:nowrap; }
+
+/* Line two: the term, the kind, the recommendation. Wraps as a row. */
+.tariff__row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0;
 }
 .tariff__pill{
   display:inline-flex;align-items:center;
-  padding:2px 8px;
+  min-height:26px;padding:0 10px;
   border-radius:var(--r-pill);
   background:var(--soft);
-  color:var(--muted);
-  font-size:12px;font-weight:600;line-height:1.45;
+  color:var(--ink);
+  font-size:14px;font-weight:600;line-height:1.3;
   white-space:nowrap;
 }
+.tariff__kind{ font-size:13px;font-weight:550;line-height:1.3;color:var(--pc-word); }
+.card--tariff .badge--best{ font-size:13px; }
+
+/* Coverage and the daily lines — running text, so it wraps. */
+.tariff__lines{ display:flex;flex-direction:column;gap:2px;min-width:0; }
+.tariff__line{ font-size:13px;line-height:1.4;color:var(--muted);overflow-wrap:anywhere; }
+.tariff__line--cov{ font-size:14px;font-weight:600;color:var(--ink); }
+
 /* Hotspot is the one feature that decides a purchase for a whole class of
    buyers (a laptop in a cafe), so it is the one that carries a hint of ink. */
 .tariff__pill--hotspot{
+  min-height:24px;font-size:13px;
   background:color-mix(in srgb, var(--ink) 10%, transparent);
-  color:var(--ink);
 }
 
-/* The recommended card. A border, a wash and the existing badge — deliberately
-   NOT a solid blue card, which would out-shout the price it is meant to
-   recommend and make every other row look disabled. */
+/* What a tap opens, in the website's words. */
+.tariff__more{ font-size:13.5px;font-weight:600;line-height:1.3;color:var(--ink); }
+.tariff__more::after{ content:" →"; content:" →" / ""; }
+
+/* The recommended card. A border, a wash and the badge — deliberately NOT a
+   solid blue card, which would out-shout the price it is meant to recommend
+   and make every other row look disabled. */
 .card.card--tariff.is-best{
   border-color:color-mix(in srgb, var(--blue) 42%, transparent);
   background:
@@ -1639,44 +1693,15 @@ body.sheet-open { overflow: hidden; }
       color-mix(in srgb, var(--blue) 6%, transparent)),
     var(--surface);
 }
-.card--tariff.is-best .card__price{ color:var(--blue); }
 
-/* The differentiator row is a full-width band under the main row. */
-.card--tariff > .tariff__distinct{ flex:1 0 100%; margin-top:2px; }
-
-/* A daily card's properties get their own full-width row — see `dailyCard` for
-   why the split is named rather than left to flex-wrap. */
-.card--tariff > .tariff__pills--own{ flex:1 0 100%; }
-/* Four facts instead of three, so the vertical rhythm tightens to keep the card
-   at the height the three-fact card used to be. */
-.card.card--tariff.card--daily{ padding:10px 14px; gap:var(--s2); }
-
-/* -----------------------------------------------------------------------
- * The narrow floor (iPhone SE and the small Androids).
- *
- * At 320px a card cannot fit volume + term + hotspot + a four-digit price on
- * one line without dropping type below the size this project reads at, so it
- * wraps — which is correct. What is NOT acceptable is the wrapped card ending
- * up TALLER than the two-line card it replaced: measured at 76.2px against a
- * 72.6px baseline before this block existed. Tightening the pills and the row
- * gap buys the difference back.
- *
- * Scoped to 360 and not to 390: at 390 the cards already sit on one row, and an
- * unscoped rule would shrink type on the phone most customers actually use.
- * --------------------------------------------------------------------- */
-@media (max-width: 360px) {
-  .card.card--tariff{ gap:var(--s2); }
-  .card--tariff .card__title{ font-size:18px; }
-  /* 11px matches the tab bar's label, which is the smallest type this app
-     already ships; a pill is a two-word label and not running text. */
-  .tariff__pill,
-  .tariff__chip{ padding:2px 6px; font-size:11px; }
-  /* The daily card's property row is the tightest line in the app: at 320 the
-     throttle sentence and the exit-country chip together are within a few px of
-     the available 260, and losing that race costs a whole third row (measured:
-     107.2px against 77.6px for the two-row form). */
-  .tariff__pills{ gap:4px; }
-}
+/* ---- The tariff screen's header: the same hierarchy, one size up. ---- */
+.tariff-head{ position:relative;overflow:hidden; }
+.tariff-head h1{ margin:0;min-width:0;overflow-wrap:anywhere; }
+.tariff-head__kind{ margin:0;font-size:13.5px;font-weight:550;line-height:1.35;color:var(--pc-word,var(--muted)); }
+.tariff-head .tariff__top .card__title{ font-size:24px;font-weight:700;line-height:1.2;letter-spacing:-.02em; }
+.tariff-head .tariff__top .card__price{ font-size:22px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums; }
+.tariff-head__lines{ display:flex;flex-wrap:wrap;gap:6px;align-items:center; }
+.tariff-head__lines .card__meta{ flex:1 0 100%;font-size:14px;margin:0; }
 
 /* ---- What tells two tariffs apart ------------------------------------
    A country usually shows none of this. It appears only where the catalogue
@@ -1686,17 +1711,16 @@ body.sheet-open { overflow: hidden; }
    twice at the same price. Daily plans get the same treatment keyed on the
    allowance instead of the volume; see `dailyDistinguishers` in core.js. */
 .tariff__distinct{
-  display:flex;flex-wrap:wrap;gap:6px;
-  margin-top:var(--s2);
+  display:flex;flex-wrap:wrap;gap:6px;min-width:0;
 }
 .tariff__chip{
   display:inline-flex;align-items:center;
-  padding:3px 9px;
+  min-height:24px;padding:2px 9px;
   border-radius:var(--r-pill);
   border:1px solid var(--line);
   background:var(--soft);
   color:var(--muted);
-  font-size:12px;font-weight:600;line-height:1.4;
+  font-size:13px;font-weight:600;line-height:1.35;
   /* A long operator name wraps inside its own chip instead of widening the
      card — this catalogue really does contain «Vodafone Idea Limited». */
   min-width:0;overflow-wrap:anywhere;text-align:left;
