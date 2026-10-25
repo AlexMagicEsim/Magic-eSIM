@@ -453,8 +453,9 @@ test('review B9/B11/B12: same-id changes that falsify the sentence are caught', 
   // «all/none» sentences on Mauritius, the Dominican Republic and Costa Rica.
   c = clone(LIVE.packages); addCodes(c, /^Africa/i, ['RE']);
   redBy('mauritius', c, 'all', '«Реюньон есть только в части пакетов на Африку» — every Africa pack now has RE');
-  c = clone(LIVE.packages); addCodes(c, /^caribbean/i, ['AW', 'BS']);
-  redBy('dominican-republic', c, 'caribbean-mixed-aw', '«Аруба и Багамы есть не во всех» — every Caribbean pack now has both');
+  // 2026-10-25 (R4): the Dominican sentence is now «Арубы в пакетах на Карибы нет»; a Caribbean pack gaining AW falsifies it.
+  c = clone(LIVE.packages); addCodes(c, /^caribbean/i, ['AW']);
+  redBy('dominican-republic', c, 'caribbean-no-aw', '«Арубы в пакетах на Карибы нет» — every Caribbean pack now has AW');
   c = clone(LIVE.packages); addCodes(c, /^(latam|latin america)\b/i, ['PA', 'NI']);
   redBy('costa-rica', c, 'latam-pa-ni-some', '«Панаму и Никарагуа — только часть из них» — every «Латинская Америка» pack now has both');
   // 2026-10-25: new — the France page rests on «самые широкие региональные

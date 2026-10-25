@@ -14,7 +14,7 @@
   "lead": "Поездка на Маврикий может включать три острова, и для eSIM они не равны. Родригес — часть самой Республики Маврикий, в 560 км к востоку. Реюньон, в 175 км к юго-западу, — заморский департамент Франции, то есть другая страна в покрытии тарифа.",
   "intro": [
     "Местные тарифы в покрытии указывают Маврикий — страну целиком, без списка островов. Реюньон в их покрытие не входит. Его вместе с Маврикием закрывают пакеты из блока региональных тарифов: 3 ГБ на 15 дней за {{price:af3_15}} без пополнения или 3 ГБ на 30 дней за {{price:af3_30}} с пополнением, есть и объёмы побольше.",
-    "Если вы остаётесь в пределах Маврикия, местный блок дешевле: 3 ГБ на 15 дней стоят {{price:g3}}. Кроме этой ступени в местном блоке есть 1 ГБ на неделю, 3 ГБ на 30 дней, а также 5, 10 и 20 ГБ — сравните цену и срок в карточках до покупки."
+    "Если вы остаётесь в пределах Маврикия, местный блок дешевле: 3 ГБ на 30 дней стоят {{price:g3}}. Кроме этой ступени в местном блоке есть 1 ГБ на неделю, 3 ГБ на 30 дней, а также 5, 10 и 20 ГБ — сравните цену и срок в карточках до покупки."
   ],
   "why": [
     {
@@ -44,7 +44,7 @@
     },
     {
       "q": "Чем различаются местные тарифы Маврикия?",
-      "a": "Объёмом и сроком. 3 ГБ на 15 дней стоят {{price:g3}}, 5 ГБ на 30 дней — {{price:g5}}, 10 ГБ на 30 дней — {{price:g10}}. Остальные условия смотрите в карточке."
+      "a": "Объёмом и сроком. 3 ГБ на 30 дней стоят {{price:g3}}, 5 ГБ — {{price:g5}}, 10 ГБ — {{price:g10}}. Остальные условия смотрите в карточке."
     },
     {
       "q": "Можно ли пополнить тариф на Маврикии?",
@@ -303,7 +303,7 @@
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "Если вы остаётесь в пределах Маврикия, местный блок дешевле: 3 ГБ на 15 дней стоят {{price:g3}}."
+          "text": "Если вы остаётесь в пределах Маврикия, местный блок дешевле: 3 ГБ на 30 дней стоят {{price:g3}}."
         }
       ],
       "terms": {
@@ -314,11 +314,11 @@
           "min_of": "regional"
         },
         "g3": {
-          "package": "b813a8b4-9e55-43fb-9883-50a347824f3a",
+          "package": "6a57187f-0e52-4b9b-a5f6-203258692e74",
           "block": "local",
           "attrs": {
             "data_gb": 3,
-            "validity_days": 15
+            "validity_days": 30
           }
         },
         "af3_15": {
@@ -342,23 +342,23 @@
           "right": "af3_15"
         }
       ],
-      "note": "Added in stage B (2026-10-18). «местный блок дешевле» = the local floor is below the regional one, and so is the same 3 GB / 15 days."
+      "note": "Added in stage B (2026-10-18). «местный блок дешевле» = the local floor is below the regional one, and so is the same 3 GB / 15 days. 2026-10-25 (R4: same volume, a longer term for less hides the shorter): g3 re-pointed from 3 GB / 15 days (hidden) to «Mauritius 3GB 30Days»."
     },
     {
       "id": "local-ladder-3-5-10-rises",
       "anchors": [
         {
           "field": "faq[2].a",
-          "text": "3 ГБ на 15 дней стоят {{price:g3}}, 5 ГБ на 30 дней — {{price:g5}}, 10 ГБ на 30 дней — {{price:g10}}."
+          "text": "3 ГБ на 30 дней стоят {{price:g3}}, 5 ГБ — {{price:g5}}, 10 ГБ — {{price:g10}}."
         }
       ],
       "terms": {
         "g3": {
-          "package": "b813a8b4-9e55-43fb-9883-50a347824f3a",
+          "package": "6a57187f-0e52-4b9b-a5f6-203258692e74",
           "block": "local",
           "attrs": {
             "data_gb": 3,
-            "validity_days": 15
+            "validity_days": 30
           }
         },
         "g5": {
@@ -390,16 +390,16 @@
           "right": "g10"
         }
       ],
-      "note": "Rewritten 2026-10-25: the 5G line left the shop window (R1: the 3G/4G card of the same volume and term is cheaper), so there is one local line to describe; pinned: the steps rise."
+      "note": "Rewritten 2026-10-25: the 5G line left the shop window (R1: the 3G/4G card of the same volume and term is cheaper), so there is one local line to describe; pinned: the steps rise. 2026-10-25 (R4: same volume, a longer term for less hides the shorter): g3 re-pointed from 3 GB / 15 days (hidden) to «Mauritius 3GB 30Days»."
     }
   ],
   "price_refs": {
     "g3": {
-      "package": "b813a8b4-9e55-43fb-9883-50a347824f3a",
+      "package": "6a57187f-0e52-4b9b-a5f6-203258692e74",
       "block": "local",
       "attrs": {
         "data_gb": 3,
-        "validity_days": 15
+        "validity_days": 30
       }
     },
     "g5": {

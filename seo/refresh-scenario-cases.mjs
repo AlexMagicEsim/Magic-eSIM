@@ -142,11 +142,12 @@ export function cases() {
     },
     {
       // 2026-10-25 (after the 590-plan activation): why-entry-vs-local is gone with its sentence (the cheapest entry on the
-      // Sri Lanka page is now a 1 GB / 7 days card). The withdrawn package is the local 3 GB / 15 days plan of
-      // faq-3gb-30-not-dearer-than-15 — a claim term, not a {{price}} token.
-      name: 'a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-not-dearer-than-15 · d15)',
+      // Sri Lanka page is now a 1 GB / 7 days card). The withdrawn package is the local 1 GB / 14 days plan of
+      // faq-3gb-30-dearer-than-1gb-14 — a claim term, not a {{price}} token (R4 hid the 3 GB / 15 days plan of the
+      // earlier faq-3gb-30-not-dearer-than-15, 2026-10-25).
+      name: 'a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-dearer-than-1gb-14 · g14)',
       mutate: (doc) => {
-        const id = claimTerm('sri-lanka', 'price', 'faq-3gb-30-not-dearer-than-15', 'd15');
+        const id = claimTerm('sri-lanka', 'price', 'faq-3gb-30-dearer-than-1gb-14', 'g14');
         byId(doc, id);
         doc.packages = doc.packages.filter((p) => p.package_id !== id);
       },
