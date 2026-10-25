@@ -194,7 +194,17 @@ export function cases() {
       mutate: (doc) => {
         doc.packages = doc.packages
           .filter((p) => !only(p, tpl.iso))
-          .map((p) => (covers(p, tpl.iso) ? { ...p, coverage_country_codes: p.coverage_country_codes.filter((c) => c !== tpl.iso) } : p));
+          .map((p) => {
+            if (!covers(p, tpl.iso)) return p;
+            const codes = p.coverage_country_codes.filter((c) => c !== tpl.iso);
+            // 2026-10-25: a bundle FILED under the country (MobiMatter «Europe Asia and USA», 81 countries, country_code AF)
+            // must be re-filed too, or the country keeps it — a lost country loses its filing and its region token, not only
+            // its code.
+            const region = typeof p.region === 'string'
+              ? p.region.split(',').map((s) => s.trim()).filter((s) => s && s !== tpl.iso).join(', ')
+              : p.region;
+            return { ...p, coverage_country_codes: codes, region, ...(p.country_code === tpl.iso ? { country_code: codes[0] } : {}) };
+          });
         return { tpl };
       },
       inspect: ({ pageOf }) => ({ pageStillThere: !!pageOf(tpl.slug) }),

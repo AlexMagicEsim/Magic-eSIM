@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-25T08:48:44.621Z",
+  "generated_at": "2026-10-25T11:48:47.859Z",
   "source": "production-public-api",
   "package_count": 2361,
   "packages": [
@@ -868,7 +868,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -1455,7 +1457,7 @@
       "price": 550,
       "networks": [
         {
-          "operator": "Telekom.al",
+          "operator": "One Albania",
           "type": "5G"
         },
         {
@@ -1703,19 +1705,23 @@
       "price": 600,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         }
       ],
@@ -1731,7 +1737,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -2437,12 +2443,8 @@
           "type": "4G"
         },
         {
-          "operator": "Hutch",
-          "type": "4G"
-        },
-        {
           "operator": "Beeline",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -2861,11 +2863,10 @@
       "package_id": "05475c72-387e-46c0-9ad9-ed2415a85c3b",
       "name": "Caribbean 1 GB",
       "country_code": "AI",
-      "region": "AI, AG, AW, BB, BM, BQ, VG, KY, CW, DM, DO, GF, GD, GP, GY, HT, JM, MQ, MS, BL, KN, LC, MF, VC, TC",
+      "region": "AI, AG, BB, BM, BQ, VG, KY, CW, DM, DO, SV, GF, GD, GY, HT, JM, MQ, MS, BL, KN, LC, MF, VC, SR, TT, TC",
       "coverage_country_codes": [
         "AI",
         "AG",
-        "AW",
         "BB",
         "BM",
         "BQ",
@@ -2874,9 +2875,9 @@
         "CW",
         "DM",
         "DO",
+        "SV",
         "GF",
         "GD",
-        "GP",
         "GY",
         "HT",
         "JM",
@@ -2887,9 +2888,11 @@
         "LC",
         "MF",
         "VC",
+        "SR",
+        "TT",
         "TC"
       ],
-      "coverage_flags": "🇦🇮 🇦🇬 🇦🇼 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇬🇫 🇬🇩 🇬🇵 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇹🇨",
+      "coverage_flags": "🇦🇮 🇦🇬 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇸🇻 🇬🇫 🇬🇩 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇷 🇹🇹 🇹🇨",
       "data_gb": 1,
       "validity_days": 7,
       "price": 1450,
@@ -3063,7 +3066,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -3107,7 +3112,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -3131,7 +3137,7 @@
       "price": 300,
       "networks": [
         {
-          "operator": "Telekom.mk",
+          "operator": "vip",
           "type": "5G"
         }
       ],
@@ -3147,7 +3153,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "PL"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -3389,14 +3395,17 @@
       "package_id": "06243c74-7024-413a-b99c-a09eb45425d2",
       "name": "South America 3GB 15Days",
       "country_code": "SA-18",
-      "region": "MQGPBLMF-4,PR,SV,UY,HN,CL,PY,CO,BO,GT,CR,BR,AR,PA,PE,NI,EC",
+      "region": "PR,SV,MQ,UY,HN,CL,PY,GP,BL,CO,BO,GT,CR,BR,AR,PA,PE,MF,NI,EC",
       "coverage_country_codes": [
         "PR",
         "SV",
+        "MQ",
         "UY",
         "HN",
         "CL",
         "PY",
+        "GP",
+        "BL",
         "CO",
         "BO",
         "GT",
@@ -3405,10 +3414,11 @@
         "AR",
         "PA",
         "PE",
+        "MF",
         "NI",
         "EC"
       ],
-      "coverage_flags": "🇵🇷 🇸🇻 🇺🇾 🇭🇳 🇨🇱 🇵🇾 🇨🇴 🇧🇴 🇬🇹 🇨🇷 🇧🇷 🇦🇷 🇵🇦 🇵🇪 🇳🇮 🇪🇨",
+      "coverage_flags": "🇵🇷 🇸🇻 🇲🇶 🇺🇾 🇭🇳 🇨🇱 🇵🇾 🇬🇵 🇧🇱 🇨🇴 🇧🇴 🇬🇹 🇨🇷 🇧🇷 🇦🇷 🇵🇦 🇵🇪 🇲🇫 🇳🇮 🇪🇨",
       "data_gb": 3,
       "validity_days": 15,
       "price": 2800,
@@ -3423,7 +3433,7 @@
         },
         {
           "operator": "TIM",
-          "type": "5G"
+          "type": "4G"
         },
         {
           "operator": "Claro",
@@ -3498,6 +3508,10 @@
           "type": "4G"
         },
         {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
           "operator": "movistar",
           "type": "4G"
         },
@@ -3524,6 +3538,14 @@
         {
           "operator": "Claro",
           "type": "5G"
+        },
+        {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
+          "operator": "Digicel",
+          "type": "4G"
         },
         {
           "operator": "Movistar",
@@ -3611,7 +3633,7 @@
       "package_id": "063ef8f7-0b9b-42b8-8584-f7091e5df6ea",
       "name": "Europe 20 GB",
       "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA",
+      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA, KT",
       "coverage_country_codes": [
         "AT",
         "BE",
@@ -3646,9 +3668,10 @@
         "CH",
         "TR",
         "GB",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦",
+      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦 🇰🇹",
       "data_gb": 20,
       "validity_days": 30,
       "price": 2400,
@@ -4792,7 +4815,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -5308,10 +5332,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -5548,12 +5568,8 @@
           "type": "4G"
         },
         {
-          "operator": "Hutch",
-          "type": "4G"
-        },
-        {
           "operator": "Beeline",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -5620,7 +5636,7 @@
       "package_id": "084109b3-118e-47fe-9b79-9eb3e3258070",
       "name": "Balkans Special 1 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB",
+      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -5661,9 +5677,10 @@
         "CH",
         "TR",
         "UA",
-        "GB"
+        "GB",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇰🇹",
       "data_gb": 1,
       "validity_days": 14,
       "price": 500,
@@ -5876,12 +5893,15 @@
     },
     {
       "package_id": "086e300f-e26a-44f4-9d3d-f9c2d50f9747",
-      "name": "Asia 12 Countries 20 GB",
-      "country_code": "KH",
-      "region": "KH, HK, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
+      "name": "Asia 15 Countries 20 GB",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, IN, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
       "coverage_country_codes": [
+        "BD",
         "KH",
+        "CN",
         "HK",
+        "IN",
         "ID",
         "JP",
         "LA",
@@ -5893,7 +5913,7 @@
         "TH",
         "VN"
       ],
-      "coverage_flags": "🇰🇭 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
       "data_gb": 20,
       "validity_days": 30,
       "price": 2650,
@@ -5906,7 +5926,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -5933,6 +5953,10 @@
         {
           "operator": "Metfone",
           "type": "4G"
+        },
+        {
+          "operator": "Cellcard",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -5946,7 +5970,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -6150,7 +6174,7 @@
       "package_id": "08ceeec6-9afe-4d2d-a255-feed71f94023",
       "name": "Europe 2 GB",
       "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA",
+      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA, KT",
       "coverage_country_codes": [
         "AT",
         "BE",
@@ -6185,9 +6209,10 @@
         "CH",
         "TR",
         "GB",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦",
+      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦 🇰🇹",
       "data_gb": 2,
       "validity_days": 15,
       "price": 750,
@@ -6383,7 +6408,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -6566,10 +6593,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -6695,7 +6718,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -6710,7 +6733,7 @@
       "package_id": "095e8706-2b1a-4780-89bd-c5dba8f3e7e9",
       "name": "USA 20 GB",
       "country_code": "PR",
-      "region": "PR, US, VI",
+      "region": "PR, US, VI, US-HI",
       "coverage_country_codes": [
         "PR",
         "US",
@@ -6792,7 +6815,7 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "Omantel",
           "type": "5G"
         }
       ],
@@ -6807,9 +6830,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -6853,7 +6874,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -7022,7 +7044,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -7110,7 +7133,7 @@
     },
     {
       "package_id": "0aaa53e2-7b52-47d7-afc2-10473f63e135",
-      "name": "Central Asia (4 areas) 10GB 30days",
+      "name": "Central Asia (4 areas) 10GB 30Days",
       "country_code": "CA-4",
       "region": "UZ,TJ,KG,KZ",
       "coverage_country_codes": [
@@ -7133,6 +7156,10 @@
           "type": "4G"
         },
         {
+          "operator": "ZET",
+          "type": "5G"
+        },
+        {
           "operator": "MegaFon",
           "type": "4G"
         },
@@ -7151,7 +7178,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "UK"
       ],
@@ -7505,7 +7532,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -7624,7 +7652,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -7796,7 +7825,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -8995,11 +9025,11 @@
           "type": "4G"
         },
         {
-          "operator": "AT&T",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -9145,11 +9175,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -9165,11 +9199,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -9178,10 +9212,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -10855,8 +10885,8 @@
           "type": "5G"
         },
         {
-          "operator": "Videotron",
-          "type": "4G"
+          "operator": "T-Mobile",
+          "type": "5G"
         },
         {
           "operator": "Verizon",
@@ -10874,10 +10904,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK",
-        "NO"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -10946,20 +10973,24 @@
       "price": 4900,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Altice",
           "type": "4G"
         }
       ],
       "network_technologies": [
-        "3G"
+        "3G",
+        "4G",
+        "5G"
       ],
-      "speed": "3G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "SG"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -11602,13 +11633,15 @@
     },
     {
       "package_id": "12c2fc45-9aff-4ea6-a097-e8af041acde0",
-      "name": "China 15 GB 180 Days",
+      "name": "China HK Macau 15 GB 180 Days",
       "country_code": "CN",
-      "region": "CN",
+      "region": "CN, HK, MO",
       "coverage_country_codes": [
-        "CN"
+        "CN",
+        "HK",
+        "MO"
       ],
-      "coverage_flags": "🇨🇳",
+      "coverage_flags": "🇨🇳 🇭🇰 🇲🇴",
       "data_gb": 15,
       "validity_days": 180,
       "price": 2700,
@@ -11877,7 +11910,7 @@
       "price": 2900,
       "networks": [
         {
-          "operator": "Türk Telekom",
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -11892,7 +11925,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "NL"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -12635,7 +12670,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -13669,11 +13704,11 @@
       "price": 150,
       "networks": [
         {
-          "operator": "A1.net",
+          "operator": "3",
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "A1.net",
           "type": "5G"
         }
       ],
@@ -13690,7 +13725,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -13847,7 +13883,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -14407,10 +14445,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -14462,7 +14496,7 @@
       "package_id": "181b1661-acd9-426a-a571-3a8c9c53474a",
       "name": "Americas 5 GB",
       "country_code": "AI",
-      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY",
+      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY, US-HI",
       "coverage_country_codes": [
         "AI",
         "AG",
@@ -14859,7 +14893,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": false,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -15519,7 +15555,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -15532,7 +15570,7 @@
       "package_id": "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
       "name": "LATAM 2 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -15541,10 +15579,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 2,
       "validity_days": 15,
       "price": 1100,
@@ -17253,7 +17292,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -17548,6 +17588,10 @@
         {
           "operator": "Claro",
           "type": "4G"
+        },
+        {
+          "operator": "movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -17561,7 +17605,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "SG"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -17933,7 +17979,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -17956,7 +18004,8 @@
       "price": 3800,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -18229,20 +18278,24 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Altice",
           "type": "4G"
         }
       ],
       "network_technologies": [
-        "3G"
+        "3G",
+        "4G",
+        "5G"
       ],
-      "speed": "3G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "SG"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -18588,11 +18641,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -18608,11 +18665,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -18621,10 +18678,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -18784,7 +18837,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -18931,11 +18984,11 @@
           "type": "4G"
         },
         {
-          "operator": "AT&T",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -18963,7 +19016,7 @@
     },
     {
       "package_id": "1fec49f5-09af-416b-9a50-1b9b0d0dfc7f",
-      "name": "Egypt 3 GB",
+      "name": "Egypt Premium 3 GB",
       "country_code": "EG",
       "region": "EG",
       "coverage_country_codes": [
@@ -18975,7 +19028,8 @@
       "price": 900,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -19125,19 +19179,23 @@
       "price": 900,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         }
       ],
@@ -19153,7 +19211,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -19579,7 +19637,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -20090,10 +20149,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -20241,7 +20296,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -20897,7 +20954,7 @@
       "price": 150,
       "networks": [
         {
-          "operator": "Türk Telekom",
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -20912,7 +20969,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "NL"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -20935,12 +20994,8 @@
       "price": 300,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
-        },
-        {
-          "operator": "Jio",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -21297,11 +21352,15 @@
           "type": "4G"
         },
         {
+          "operator": "Personal",
+          "type": "5G"
+        },
+        {
           "operator": "FLOW",
           "type": "4G"
         },
         {
-          "operator": "Tigo",
+          "operator": "VIVA",
           "type": "4G"
         },
         {
@@ -21313,12 +21372,8 @@
           "type": "5G"
         },
         {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "Tigo",
-          "type": "3G"
+          "operator": "movistar",
+          "type": "5G"
         },
         {
           "operator": "FLOW",
@@ -21326,10 +21381,6 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "Altice",
           "type": "4G"
         },
         {
@@ -21341,12 +21392,12 @@
           "type": "4G"
         },
         {
-          "operator": "Dauphin",
+          "operator": "free",
           "type": "4G"
         },
         {
-          "operator": "FLOW",
-          "type": "4G"
+          "operator": "C&W",
+          "type": "5G"
         },
         {
           "operator": "FLOW",
@@ -21357,27 +21408,15 @@
           "type": "4G"
         },
         {
-          "operator": "Tigo",
-          "type": "4G"
-        },
-        {
           "operator": "Personal",
           "type": "4G"
-        },
-        {
-          "operator": "Entel",
-          "type": "5G"
         },
         {
           "operator": "Movistar",
           "type": "4G"
         },
         {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "Claro",
+          "operator": "Liberty",
           "type": "5G"
         },
         {
@@ -21394,10 +21433,6 @@
         },
         {
           "operator": "FLOW",
-          "type": "4G"
-        },
-        {
-          "operator": "Antel",
           "type": "4G"
         },
         {
@@ -21720,7 +21755,7 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "afaricom",
+          "operator": "Safaricom",
           "type": "4G"
         }
       ],
@@ -22273,7 +22308,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -22568,8 +22605,8 @@
           "type": "5G"
         },
         {
-          "operator": "Videotron",
-          "type": "4G"
+          "operator": "T-Mobile",
+          "type": "5G"
         },
         {
           "operator": "Verizon",
@@ -22587,10 +22624,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK",
-        "NO"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -22671,7 +22705,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -23141,6 +23177,10 @@
           "type": "4G"
         },
         {
+          "operator": "ZET",
+          "type": "5G"
+        },
+        {
           "operator": "MegaFon",
           "type": "4G"
         },
@@ -23195,7 +23235,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -23451,7 +23491,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -23869,9 +23909,10 @@
     {
       "package_id": "29bd761b-401a-44f8-bdca-315cd7a866bc",
       "name": "Europe Asia and USA 1 GB",
-      "country_code": "AL",
-      "region": "AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, ID, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI",
+      "country_code": "AF",
+      "region": "AF, AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LA, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI, KT",
       "coverage_country_codes": [
+        "AF",
         "AL",
         "AD",
         "AM",
@@ -23901,7 +23942,9 @@
         "HK",
         "HU",
         "IS",
+        "IN",
         "ID",
+        "IQ",
         "IE",
         "IM",
         "IL",
@@ -23911,6 +23954,7 @@
         "KZ",
         "KW",
         "KG",
+        "LA",
         "LV",
         "LI",
         "LT",
@@ -23947,9 +23991,10 @@
         "GB",
         "US",
         "UZ",
-        "VN"
+        "VN",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇩 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳",
+      "coverage_flags": "🇦🇫 🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳 🇰🇹",
       "data_gb": 1,
       "validity_days": 14,
       "price": 700,
@@ -24261,7 +24306,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -25080,7 +25127,7 @@
       "networks": [
         {
           "operator": "Sure",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -25657,7 +25704,7 @@
       "package_id": "2da495ca-db73-469f-80a8-743e8da734ec",
       "name": "Europe Special 3 GB",
       "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SM, SK, SI, ES, SE, CH, TR, GB, VA",
+      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SM, SK, SI, ES, SE, CH, TR, GB, VA, KT",
       "coverage_country_codes": [
         "AT",
         "BE",
@@ -25693,9 +25740,10 @@
         "CH",
         "TR",
         "GB",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦",
+      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦 🇰🇹",
       "data_gb": 3,
       "validity_days": 30,
       "price": 700,
@@ -25733,7 +25781,7 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "One NZ",
           "type": "5G"
         }
       ],
@@ -26443,7 +26491,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -26456,7 +26506,7 @@
       "package_id": "306ed815-dc52-49ae-a9cc-38e35ccc3650",
       "name": "Europe and USA 3 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI",
+      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -26499,9 +26549,10 @@
         "UA",
         "GB",
         "US",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦 🇰🇹",
       "data_gb": 3,
       "validity_days": 30,
       "price": 800,
@@ -26896,7 +26947,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -26967,7 +27020,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -27436,21 +27489,22 @@
         },
         {
           "operator": "Ooredoo",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -27494,12 +27548,8 @@
           "type": "4G"
         },
         {
-          "operator": "Hutch",
-          "type": "4G"
-        },
-        {
           "operator": "Beeline",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -27740,7 +27790,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -28201,6 +28253,10 @@
           "type": "4G"
         },
         {
+          "operator": "ZET",
+          "type": "5G"
+        },
+        {
           "operator": "MegaFon",
           "type": "4G"
         },
@@ -28219,7 +28275,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "UK"
       ],
@@ -28880,11 +28936,19 @@
       "price": 250,
       "networks": [
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -29535,11 +29599,11 @@
       "price": 200,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -29555,7 +29619,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -29633,7 +29697,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -29817,6 +29883,10 @@
       "price": 1050,
       "networks": [
         {
+          "operator": "Telcel",
+          "type": "5G"
+        },
+        {
           "operator": "AT&T",
           "type": "5G"
         }
@@ -29833,7 +29903,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -29964,10 +30034,6 @@
         {
           "operator": "Orange Morocco",
           "type": "5G"
-        },
-        {
-          "operator": "IAM",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -29981,9 +30047,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -30140,7 +30204,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -30251,7 +30315,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -30545,7 +30611,7 @@
       "price": 1200,
       "networks": [
         {
-          "operator": "Tigo",
+          "operator": "Free",
           "type": "4G"
         }
       ],
@@ -30938,7 +31004,7 @@
       "price": 2150,
       "networks": [
         {
-          "operator": "MTN",
+          "operator": "Airtel",
           "type": "5G"
         }
       ],
@@ -30953,7 +31019,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -31006,7 +31072,7 @@
       "package_id": "393583bd-f375-4a5b-977f-32c7d0928504",
       "name": "Americas 2 GB",
       "country_code": "AI",
-      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY",
+      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY, US-HI",
       "coverage_country_codes": [
         "AI",
         "AG",
@@ -31453,7 +31519,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -31467,7 +31534,7 @@
       "package_id": "3accc416-1482-471a-a31d-fecb8466c91f",
       "name": "USA 15 GB",
       "country_code": "PR",
-      "region": "PR, US, VI",
+      "region": "PR, US, VI, US-HI",
       "coverage_country_codes": [
         "PR",
         "US",
@@ -31584,11 +31651,11 @@
       "price": 600,
       "networks": [
         {
-          "operator": "A1.net",
+          "operator": "3",
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "A1.net",
           "type": "5G"
         },
         {
@@ -31868,19 +31935,11 @@
           "type": "4G"
         },
         {
-          "operator": "T-Mobile UK",
+          "operator": "EE",
           "type": "5G"
         },
         {
           "operator": "3",
-          "type": "4G"
-        },
-        {
-          "operator": "O2",
-          "type": "5G"
-        },
-        {
-          "operator": "O2",
           "type": "4G"
         },
         {
@@ -31913,7 +31972,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -32420,7 +32480,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -32649,7 +32711,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "SG"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -32774,7 +32838,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -34056,7 +34121,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -34438,7 +34505,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -35402,7 +35471,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -35852,7 +35922,7 @@
       "package_id": "433ce83a-2878-4185-9453-47697e052d7a",
       "name": "North America 10 GB",
       "country_code": "CA",
-      "region": "CA, MX, US",
+      "region": "CA, MX, US, US-HI",
       "coverage_country_codes": [
         "CA",
         "MX",
@@ -36344,7 +36414,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -36570,7 +36640,7 @@
       "price": 8550,
       "networks": [
         {
-          "operator": "Mobitel",
+          "operator": "Hutch",
           "type": "4G"
         }
       ],
@@ -36585,7 +36655,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -36825,7 +36895,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -39945,7 +40015,7 @@
       "package_id": "4a9fbbd2-db8d-4d88-9be2-b6b750a563c2",
       "name": "Balkans Special 5 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB",
+      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -39986,9 +40056,10 @@
         "CH",
         "TR",
         "UA",
-        "GB"
+        "GB",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇰🇹",
       "data_gb": 5,
       "validity_days": 30,
       "price": 1400,
@@ -40993,6 +41064,10 @@
         {
           "operator": "Movistar",
           "type": "4G"
+        },
+        {
+          "operator": "Personal",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -41092,7 +41167,7 @@
       "package_id": "4df45689-a54c-4797-a95f-99f11ef8cb35",
       "name": "USA 5 GB",
       "country_code": "PR",
-      "region": "PR, US, VI",
+      "region": "PR, US, VI, US-HI",
       "coverage_country_codes": [
         "PR",
         "US",
@@ -41301,7 +41376,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -41430,7 +41506,7 @@
       "package_id": "4e57dbbf-8f03-4fb7-8717-88e02afbebf3",
       "name": "World 10 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, SM, SA, SN, RS, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SD, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -41514,12 +41590,14 @@
         "IM",
         "IL",
         "IT",
+        "CI",
         "JM",
         "JP",
         "JE",
         "JO",
         "KZ",
         "KE",
+        "XK",
         "KW",
         "KG",
         "LA",
@@ -41573,10 +41651,12 @@
         "LC",
         "MF",
         "VC",
+        "WS",
         "SM",
         "SA",
         "SN",
         "RS",
+        "SC",
         "SL",
         "SG",
         "SX",
@@ -41586,7 +41666,6 @@
         "KR",
         "ES",
         "LK",
-        "SD",
         "SR",
         "SZ",
         "SE",
@@ -41614,7 +41693,7 @@
         "VE",
         "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇩 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 10,
       "validity_days": 30,
       "price": 9750,
@@ -41995,8 +42074,8 @@
           "type": "5G"
         },
         {
-          "operator": "Videotron",
-          "type": "4G"
+          "operator": "T-Mobile",
+          "type": "5G"
         },
         {
           "operator": "Verizon",
@@ -42014,10 +42093,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK",
-        "NO"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -42449,7 +42525,7 @@
       "package_id": "50a0e3df-5e65-4894-a442-c8ba3503c6e8",
       "name": "North America 20 GB",
       "country_code": "CA",
-      "region": "CA, MX, US",
+      "region": "CA, MX, US, US-HI",
       "coverage_country_codes": [
         "CA",
         "MX",
@@ -42638,18 +42714,6 @@
         {
           "operator": "NTT docomo",
           "type": "5G"
-        },
-        {
-          "operator": "Rakuten Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "KDDI/au",
-          "type": "5G"
-        },
-        {
-          "operator": "SoftBank",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -42664,7 +42728,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "JP"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -42678,7 +42742,7 @@
       "package_id": "515f1ae2-1a2f-4ec4-9bda-dd94c151f51b",
       "name": "Europe 10 GB",
       "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA",
+      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA, KT",
       "coverage_country_codes": [
         "AT",
         "BE",
@@ -42713,9 +42777,10 @@
         "CH",
         "TR",
         "GB",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦",
+      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦 🇰🇹",
       "data_gb": 10,
       "validity_days": 30,
       "price": 1300,
@@ -43897,7 +43962,7 @@
     },
     {
       "package_id": "5381338a-04c2-4560-8411-5421af669887",
-      "name": "Latamlink 2 GB",
+      "name": "Latin America 2 GB",
       "country_code": "AR",
       "region": "AR, BO, BR, CL, CO, CR, EC, SV, GT, HN, MX, NI, PA, PY, PE, UY, VE",
       "coverage_country_codes": [
@@ -44107,8 +44172,8 @@
       "price": 450,
       "networks": [
         {
-          "operator": "movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -44123,7 +44188,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -44147,7 +44212,7 @@
       "price": 650,
       "networks": [
         {
-          "operator": "Vodacom",
+          "operator": "Airtel",
           "type": "5G"
         }
       ],
@@ -44162,7 +44227,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -44735,7 +44800,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -44989,11 +45055,11 @@
       "price": 750,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -45009,7 +45075,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -45184,11 +45250,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -45204,11 +45274,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -45217,10 +45287,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -45491,21 +45557,22 @@
         },
         {
           "operator": "Ooredoo",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
         "3G",
-        "4G"
+        "4G",
+        "5G"
       ],
-      "speed": "3G/4G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -45937,10 +46004,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -46096,7 +46159,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -46762,8 +46825,8 @@
       "price": 550,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -46777,7 +46840,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -47054,7 +47117,7 @@
       "price": 850,
       "networks": [
         {
-          "operator": "MTN",
+          "operator": "Airtel",
           "type": "5G"
         }
       ],
@@ -47069,7 +47132,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -47679,7 +47742,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -47937,7 +48001,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -48503,7 +48568,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -49717,7 +49783,7 @@
       "price": 2350,
       "networks": [
         {
-          "operator": "Vodacom",
+          "operator": "Vodafone",
           "type": "4G"
         }
       ],
@@ -49732,7 +49798,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -49746,7 +49812,7 @@
       "package_id": "5e8adb58-f041-4b78-92e3-e52e79a6c121",
       "name": "Americas 20 GB",
       "country_code": "AI",
-      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY",
+      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY, US-HI",
       "coverage_country_codes": [
         "AI",
         "AG",
@@ -49942,7 +50008,7 @@
       "price": 950,
       "networks": [
         {
-          "operator": "Vodacom",
+          "operator": "Vodafone",
           "type": "4G"
         }
       ],
@@ -49957,7 +50023,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -50092,10 +50158,6 @@
       "price": 900,
       "networks": [
         {
-          "operator": "Korek",
-          "type": "4G"
-        },
-        {
           "operator": "Asia Cell",
           "type": "4G"
         }
@@ -50111,8 +50173,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK",
-        "NO"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -50760,11 +50821,10 @@
       "package_id": "60bb1ee4-08b6-4872-84b6-ca8d0f31c87e",
       "name": "Caribbean 2 GB",
       "country_code": "AI",
-      "region": "AI, AG, AW, BB, BM, BQ, VG, KY, CW, DM, DO, GF, GD, GP, GY, HT, JM, MQ, MS, BL, KN, LC, MF, VC, TC",
+      "region": "AI, AG, BB, BM, BQ, VG, KY, CW, DM, DO, SV, GF, GD, GY, HT, JM, MQ, MS, BL, KN, LC, MF, VC, SR, TT, TC",
       "coverage_country_codes": [
         "AI",
         "AG",
-        "AW",
         "BB",
         "BM",
         "BQ",
@@ -50773,9 +50833,9 @@
         "CW",
         "DM",
         "DO",
+        "SV",
         "GF",
         "GD",
-        "GP",
         "GY",
         "HT",
         "JM",
@@ -50786,9 +50846,11 @@
         "LC",
         "MF",
         "VC",
+        "SR",
+        "TT",
         "TC"
       ],
-      "coverage_flags": "🇦🇮 🇦🇬 🇦🇼 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇬🇫 🇬🇩 🇬🇵 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇹🇨",
+      "coverage_flags": "🇦🇮 🇦🇬 🇧🇧 🇧🇲 🇧🇶 🇻🇬 🇰🇾 🇨🇼 🇩🇲 🇩🇴 🇸🇻 🇬🇫 🇬🇩 🇬🇾 🇭🇹 🇯🇲 🇲🇶 🇲🇸 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇷 🇹🇹 🇹🇨",
       "data_gb": 2,
       "validity_days": 15,
       "price": 2550,
@@ -51028,8 +51090,16 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Geocell",
+          "operator": "Magti",
           "type": "4G"
+        },
+        {
+          "operator": "Beeline",
+          "type": "4G"
+        },
+        {
+          "operator": "Geocell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -51042,7 +51112,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -51074,11 +51146,11 @@
           "type": "5G"
         },
         {
-          "operator": "LG U+",
+          "operator": "SKTelecom",
           "type": "5G"
         },
         {
-          "operator": "SKTelecom",
+          "operator": "LG Uplus",
           "type": "5G"
         }
       ],
@@ -51092,7 +51164,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "SG"
       ],
@@ -51195,6 +51267,14 @@
         {
           "operator": "Orange",
           "type": "5G"
+        },
+        {
+          "operator": "Etisalat",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -51208,7 +51288,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -51356,7 +51438,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -51985,7 +52069,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -51998,17 +52082,16 @@
     {
       "package_id": "63f2970f-dfd9-41d0-818e-58a8f69257f7",
       "name": "Africa 5 GB",
-      "country_code": "MG",
-      "region": "MG, MU, RW, SC, TZ, UG",
+      "country_code": "MU",
+      "region": "MU, RW, SC, TZ, UG",
       "coverage_country_codes": [
-        "MG",
         "MU",
         "RW",
         "SC",
         "TZ",
         "UG"
       ],
-      "coverage_flags": "🇲🇬 🇲🇺 🇷🇼 🇸🇨 🇹🇿 🇺🇬",
+      "coverage_flags": "🇲🇺 🇷🇼 🇸🇨 🇹🇿 🇺🇬",
       "data_gb": 5,
       "validity_days": 30,
       "price": 2700,
@@ -52753,8 +52836,8 @@
       "price": 650,
       "networks": [
         {
-          "operator": "Bluesky",
-          "type": "5G"
+          "operator": "Digicel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -52768,7 +52851,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -52992,11 +53075,11 @@
           "type": "4G"
         },
         {
-          "operator": "AT&T",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -53156,7 +53239,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -54819,6 +54904,10 @@
         {
           "operator": "SMART",
           "type": "5G"
+        },
+        {
+          "operator": "Globe",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -54963,11 +55052,11 @@
       "price": 1150,
       "networks": [
         {
-          "operator": "A1.net",
+          "operator": "3",
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "A1.net",
           "type": "5G"
         },
         {
@@ -55247,19 +55336,11 @@
           "type": "4G"
         },
         {
-          "operator": "T-Mobile UK",
+          "operator": "EE",
           "type": "5G"
         },
         {
           "operator": "3",
-          "type": "4G"
-        },
-        {
-          "operator": "O2",
-          "type": "5G"
-        },
-        {
-          "operator": "O2",
           "type": "4G"
         },
         {
@@ -55292,7 +55373,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -55406,7 +55488,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -55552,8 +55636,12 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "CHILI",
+          "operator": "Emtel",
           "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -55567,7 +55655,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -56235,12 +56323,15 @@
     },
     {
       "package_id": "6b4de516-1ac1-45f6-ab1a-dbf7bd2c128a",
-      "name": "Asia 12 Countries 30 GB",
-      "country_code": "KH",
-      "region": "KH, HK, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
+      "name": "Asia 15 Countries 30 GB",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, IN, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
       "coverage_country_codes": [
+        "BD",
         "KH",
+        "CN",
         "HK",
+        "IN",
         "ID",
         "JP",
         "LA",
@@ -56252,7 +56343,7 @@
         "TH",
         "VN"
       ],
-      "coverage_flags": "🇰🇭 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
       "data_gb": 30,
       "validity_days": 30,
       "price": 3650,
@@ -56265,7 +56356,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -57205,10 +57296,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -57726,7 +57813,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -57988,7 +58075,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -58246,7 +58333,7 @@
           "type": "5G"
         },
         {
-          "operator": "LG U+",
+          "operator": "LG Uplus",
           "type": "5G"
         }
       ],
@@ -58262,7 +58349,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -58361,11 +58448,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -58381,11 +58472,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -58394,10 +58485,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -58533,6 +58620,10 @@
       "price": 1050,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -58547,7 +58638,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -59469,7 +59562,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -59610,8 +59705,8 @@
       "price": 1550,
       "networks": [
         {
-          "operator": "Africell",
-          "type": "5G"
+          "operator": "Comium",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -59625,7 +59720,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -60219,10 +60316,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -60453,8 +60546,12 @@
       "price": 500,
       "networks": [
         {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -60468,7 +60565,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "AT"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -60899,10 +60998,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -61050,7 +61145,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -61681,10 +61778,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -61939,7 +62032,11 @@
       "price": 200,
       "networks": [
         {
-          "operator": "CMHK",
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         }
       ],
@@ -61955,7 +62052,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -62674,7 +62771,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -62713,7 +62810,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -62800,9 +62897,9 @@
     },
     {
       "package_id": "760928e8-c4b6-4793-8ab3-2f41b3eec811",
-      "name": "US CA UK AU NZ 35 GB",
+      "name": "US CA UK AU NZ 35 GB Yearly",
       "country_code": "AU",
-      "region": "AU, CA, HK, NZ, GB, US",
+      "region": "AU, CA, HK, NZ, GB, US, US-HI",
       "coverage_country_codes": [
         "AU",
         "CA",
@@ -62849,7 +62946,7 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         }
       ],
@@ -62864,7 +62961,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -63380,7 +63477,7 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Mobility",
+          "operator": "One",
           "type": "4G"
         }
       ],
@@ -63395,7 +63492,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -63617,7 +63716,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -63797,10 +63896,6 @@
         {
           "operator": "Orange Morocco",
           "type": "5G"
-        },
-        {
-          "operator": "IAM",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -63814,9 +63909,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -64072,7 +64165,11 @@
       "price": 4900,
       "networks": [
         {
-          "operator": "CMHK",
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         }
       ],
@@ -64088,7 +64185,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -64305,11 +64402,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -64325,11 +64426,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -64338,10 +64439,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -64550,7 +64647,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -64574,15 +64672,15 @@
       "price": 200,
       "networks": [
         {
+          "operator": "Hot Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "Cellcom",
           "type": "5G"
         },
         {
           "operator": "Pelephone",
-          "type": "5G"
-        },
-        {
-          "operator": "Hot Mobile",
           "type": "5G"
         }
       ],
@@ -64705,10 +64803,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Korek",
-          "type": "4G"
-        },
-        {
           "operator": "Asia Cell",
           "type": "4G"
         }
@@ -64724,8 +64818,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK",
-        "NO"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -64749,15 +64842,15 @@
       "price": 6450,
       "networks": [
         {
+          "operator": "Hot Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "Cellcom",
           "type": "5G"
         },
         {
           "operator": "Pelephone",
-          "type": "5G"
-        },
-        {
-          "operator": "Hot Mobile",
           "type": "5G"
         }
       ],
@@ -64895,7 +64988,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -65484,7 +65577,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -65509,6 +65602,10 @@
       "price": 350,
       "networks": [
         {
+          "operator": "Telcel",
+          "type": "5G"
+        },
+        {
           "operator": "AT&T",
           "type": "5G"
         }
@@ -65525,7 +65622,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -66121,12 +66218,15 @@
     },
     {
       "package_id": "7c60e9ed-5db5-4eba-8ce8-3ed16b8dfbca",
-      "name": "Asia 12 Countries 10 GB",
-      "country_code": "KH",
-      "region": "KH, HK, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
+      "name": "Asia 15 Countries 10 GB",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, IN, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
       "coverage_country_codes": [
+        "BD",
         "KH",
+        "CN",
         "HK",
+        "IN",
         "ID",
         "JP",
         "LA",
@@ -66138,7 +66238,7 @@
         "TH",
         "VN"
       ],
-      "coverage_flags": "🇰🇭 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
       "data_gb": 10,
       "validity_days": 30,
       "price": 1750,
@@ -66151,7 +66251,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -66549,7 +66649,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -66594,7 +66695,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -67805,7 +67907,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -68105,12 +68208,8 @@
           "type": "5G"
         },
         {
-          "operator": "Telstra",
-          "type": "4G"
-        },
-        {
           "operator": "Spark",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -68125,7 +68224,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -68218,7 +68317,7 @@
     },
     {
       "package_id": "800137c5-e16f-460d-8f7b-209e7622cfb1",
-      "name": "Egypt 1 GB",
+      "name": "Egypt Premium 1 GB",
       "country_code": "EG",
       "region": "EG",
       "coverage_country_codes": [
@@ -68230,7 +68329,8 @@
       "price": 450,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -68548,7 +68648,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -68599,12 +68700,15 @@
     },
     {
       "package_id": "80d6d727-403c-41e1-b004-51a39c545350",
-      "name": "Asia 12 Countries 5 GB",
-      "country_code": "KH",
-      "region": "KH, HK, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
+      "name": "Asia 15 Countries 5 GB",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, IN, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
       "coverage_country_codes": [
+        "BD",
         "KH",
+        "CN",
         "HK",
+        "IN",
         "ID",
         "JP",
         "LA",
@@ -68616,7 +68720,7 @@
         "TH",
         "VN"
       ],
-      "coverage_flags": "🇰🇭 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
       "data_gb": 5,
       "validity_days": 15,
       "price": 1100,
@@ -68629,7 +68733,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -68644,7 +68748,7 @@
       "package_id": "80ecd0db-1cf7-4de7-bf7c-776268101648",
       "name": "Balkans Special 20 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB",
+      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -68685,9 +68789,10 @@
         "CH",
         "TR",
         "UA",
-        "GB"
+        "GB",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇰🇹",
       "data_gb": 20,
       "validity_days": 30,
       "price": 3450,
@@ -68923,7 +69028,11 @@
       "price": 200,
       "networks": [
         {
-          "operator": "AIS",
+          "operator": "TrueMove H",
+          "type": "5G"
+        },
+        {
+          "operator": "DTAC",
           "type": "5G"
         }
       ],
@@ -68939,7 +69048,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "HK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -68953,7 +69062,7 @@
       "package_id": "81951656-a5f9-41ed-a31b-3b038271139f",
       "name": "Europe and USA 1 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI",
+      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -68996,9 +69105,10 @@
         "UA",
         "GB",
         "US",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦 🇰🇹",
       "data_gb": 1,
       "validity_days": 14,
       "price": 450,
@@ -69098,7 +69208,7 @@
       "package_id": "81eed798-0148-41e8-9108-4c1666d57d31",
       "name": "Balkans Special 3 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB",
+      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -69139,9 +69249,10 @@
         "CH",
         "TR",
         "UA",
-        "GB"
+        "GB",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇰🇹",
       "data_gb": 3,
       "validity_days": 30,
       "price": 1100,
@@ -69218,7 +69329,7 @@
       "price": 850,
       "networks": [
         {
-          "operator": "Mobitel",
+          "operator": "Hutch",
           "type": "4G"
         }
       ],
@@ -69233,7 +69344,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -69286,7 +69397,7 @@
       "package_id": "828cbf63-6b4b-4a28-a160-13eeb37d6f98",
       "name": "Europe and USA 12 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI",
+      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -69329,9 +69440,10 @@
         "UA",
         "GB",
         "US",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦 🇰🇹",
       "data_gb": 12,
       "validity_days": 30,
       "price": 2000,
@@ -69428,8 +69540,8 @@
       "price": 150,
       "networks": [
         {
-          "operator": "PrimeTel",
-          "type": "4G"
+          "operator": "Vodafone",
+          "type": "5G"
         },
         {
           "operator": "Epic",
@@ -69448,8 +69560,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "FR",
-        "NL"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -69602,7 +69713,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -69784,7 +69897,7 @@
       "package_id": "83a3debf-caa9-48f0-82a9-6623839d636d",
       "name": "Europe and USA 5 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI",
+      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -69827,9 +69940,10 @@
         "UA",
         "GB",
         "US",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦 🇰🇹",
       "data_gb": 5,
       "validity_days": 30,
       "price": 1100,
@@ -70278,7 +70392,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -70323,7 +70438,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -70862,10 +70978,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -71182,7 +71294,7 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Etisalat",
+          "operator": "Du",
           "type": "5G"
         }
       ],
@@ -71197,10 +71309,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK",
-        "NO"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -71409,11 +71518,11 @@
       "price": 150,
       "networks": [
         {
-          "operator": "A1.net",
+          "operator": "3",
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "A1.net",
           "type": "5G"
         },
         {
@@ -71693,19 +71802,11 @@
           "type": "4G"
         },
         {
-          "operator": "T-Mobile UK",
+          "operator": "EE",
           "type": "5G"
         },
         {
           "operator": "3",
-          "type": "4G"
-        },
-        {
-          "operator": "O2",
-          "type": "5G"
-        },
-        {
-          "operator": "O2",
           "type": "4G"
         },
         {
@@ -71738,7 +71839,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -71866,7 +71968,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -72439,9 +72542,10 @@
     {
       "package_id": "872ed548-a5c2-43aa-a15d-4324217bf587",
       "name": "Europe Asia and USA 5 GB",
-      "country_code": "AL",
-      "region": "AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, ID, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI",
+      "country_code": "AF",
+      "region": "AF, AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LA, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI, KT",
       "coverage_country_codes": [
+        "AF",
         "AL",
         "AD",
         "AM",
@@ -72471,7 +72575,9 @@
         "HK",
         "HU",
         "IS",
+        "IN",
         "ID",
+        "IQ",
         "IE",
         "IM",
         "IL",
@@ -72481,6 +72587,7 @@
         "KZ",
         "KW",
         "KG",
+        "LA",
         "LV",
         "LI",
         "LT",
@@ -72517,9 +72624,10 @@
         "GB",
         "US",
         "UZ",
-        "VN"
+        "VN",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇩 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳",
+      "coverage_flags": "🇦🇫 🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳 🇰🇹",
       "data_gb": 5,
       "validity_days": 30,
       "price": 1900,
@@ -73371,7 +73479,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -73951,7 +74061,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -74458,8 +74569,7 @@
       "price": 2750,
       "networks": [],
       "network_technologies": [
-        "4G",
-        "5G"
+        "4G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -74562,15 +74672,15 @@
       "price": 500,
       "networks": [
         {
+          "operator": "Hot Mobile",
+          "type": "5G"
+        },
+        {
           "operator": "Cellcom",
           "type": "5G"
         },
         {
           "operator": "Pelephone",
-          "type": "5G"
-        },
-        {
-          "operator": "Hot Mobile",
           "type": "5G"
         }
       ],
@@ -74968,7 +75078,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -75265,7 +75375,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -75968,11 +76078,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -75988,11 +76102,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -76001,10 +76115,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -76418,7 +76528,7 @@
       "price": 2650,
       "networks": [
         {
-          "operator": "Mobility",
+          "operator": "One",
           "type": "4G"
         }
       ],
@@ -76433,7 +76543,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -76456,7 +76568,7 @@
       "price": 1600,
       "networks": [
         {
-          "operator": "Vodacom",
+          "operator": "Airtel",
           "type": "5G"
         }
       ],
@@ -76471,7 +76583,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -76568,7 +76680,7 @@
       "price": 500,
       "networks": [
         {
-          "operator": "Tigo",
+          "operator": "Free",
           "type": "4G"
         }
       ],
@@ -76840,7 +76952,7 @@
       "package_id": "8f5dc994-9a99-400f-b801-68dbf4fbfdb8",
       "name": "USA 25 GB",
       "country_code": "PR",
-      "region": "PR, US, VI",
+      "region": "PR, US, VI, US-HI",
       "coverage_country_codes": [
         "PR",
         "US",
@@ -77062,7 +77174,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -77392,7 +77505,7 @@
       "package_id": "90a0b861-cd5c-4f4c-9e25-7fdf97e10ca1",
       "name": "North America 2 GB",
       "country_code": "CA",
-      "region": "CA, MX, US",
+      "region": "CA, MX, US, US-HI",
       "coverage_country_codes": [
         "CA",
         "MX",
@@ -78251,7 +78364,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -78288,7 +78403,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -78674,8 +78791,12 @@
       "price": 400,
       "networks": [
         {
-          "operator": "CHILI",
+          "operator": "Emtel",
           "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -78689,7 +78810,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -78703,7 +78824,7 @@
       "package_id": "932ff010-cf18-4972-9b95-67f33b640619",
       "name": "Americas 3 GB",
       "country_code": "AI",
-      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY",
+      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY, US-HI",
       "coverage_country_codes": [
         "AI",
         "AG",
@@ -78962,9 +79083,10 @@
     {
       "package_id": "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa",
       "name": "Europe Asia and USA 40 GB Yearly",
-      "country_code": "AL",
-      "region": "AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, ID, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI",
+      "country_code": "AF",
+      "region": "AF, AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LA, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI, KT",
       "coverage_country_codes": [
+        "AF",
         "AL",
         "AD",
         "AM",
@@ -78994,7 +79116,9 @@
         "HK",
         "HU",
         "IS",
+        "IN",
         "ID",
+        "IQ",
         "IE",
         "IM",
         "IL",
@@ -79004,6 +79128,7 @@
         "KZ",
         "KW",
         "KG",
+        "LA",
         "LV",
         "LI",
         "LT",
@@ -79040,9 +79165,10 @@
         "GB",
         "US",
         "UZ",
-        "VN"
+        "VN",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇩 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳",
+      "coverage_flags": "🇦🇫 🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳 🇰🇹",
       "data_gb": 40,
       "validity_days": 365,
       "price": 9050,
@@ -79229,7 +79355,7 @@
       "price": 250,
       "networks": [
         {
-          "operator": "Mobitel",
+          "operator": "Hutch",
           "type": "4G"
         }
       ],
@@ -79244,7 +79370,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -80805,6 +80931,10 @@
       "price": 400,
       "networks": [
         {
+          "operator": "Bakcell",
+          "type": "5G"
+        },
+        {
           "operator": "Azercell",
           "type": "4G"
         }
@@ -80821,7 +80951,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -81314,12 +81444,8 @@
           "type": "5G"
         },
         {
-          "operator": "Telstra",
-          "type": "4G"
-        },
-        {
           "operator": "Spark",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -81334,7 +81460,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -81570,9 +81696,10 @@
     {
       "package_id": "97d47ad5-742d-44a7-b7e3-ecdf74052c22",
       "name": "Europe Asia and USA 20 GB",
-      "country_code": "AL",
-      "region": "AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, ID, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI",
+      "country_code": "AF",
+      "region": "AF, AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LA, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI, KT",
       "coverage_country_codes": [
+        "AF",
         "AL",
         "AD",
         "AM",
@@ -81602,7 +81729,9 @@
         "HK",
         "HU",
         "IS",
+        "IN",
         "ID",
+        "IQ",
         "IE",
         "IM",
         "IL",
@@ -81612,6 +81741,7 @@
         "KZ",
         "KW",
         "KG",
+        "LA",
         "LV",
         "LI",
         "LT",
@@ -81648,9 +81778,10 @@
         "GB",
         "US",
         "UZ",
-        "VN"
+        "VN",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇩 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳",
+      "coverage_flags": "🇦🇫 🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳 🇰🇹",
       "data_gb": 20,
       "validity_days": 30,
       "price": 5200,
@@ -81774,7 +81905,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -82311,10 +82442,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -82616,9 +82743,8 @@
       "package_id": "98f13e9f-d8a4-471d-9822-3565da203077",
       "name": "Asia (20 areas) 1GB 7Days",
       "country_code": "AS-21",
-      "region": "MO,BD,HK,TW,UZ,IN,JP,KR,CN,MY,KZ,TH,SG,LA,VN,PH,ID,PK,KG,LK",
+      "region": "BD,HK,TW,UZ,IN,JP,KR,CN,MY,KZ,TH,SG,LA,VN,PH,ID,PK,KG,LK",
       "coverage_country_codes": [
-        "MO",
         "BD",
         "HK",
         "TW",
@@ -82639,7 +82765,7 @@
         "KG",
         "LK"
       ],
-      "coverage_flags": "🇲🇴 🇧🇩 🇭🇰 🇹🇼 🇺🇿 🇮🇳 🇯🇵 🇰🇷 🇨🇳 🇲🇾 🇰🇿 🇹🇭 🇸🇬 🇱🇦 🇻🇳 🇵🇭 🇮🇩 🇵🇰 🇰🇬 🇱🇰",
+      "coverage_flags": "🇧🇩 🇭🇰 🇹🇼 🇺🇿 🇮🇳 🇯🇵 🇰🇷 🇨🇳 🇲🇾 🇰🇿 🇹🇭 🇸🇬 🇱🇦 🇻🇳 🇵🇭 🇮🇩 🇵🇰 🇰🇬 🇱🇰",
       "data_gb": 1,
       "validity_days": 7,
       "price": 800,
@@ -82685,7 +82811,7 @@
           "type": "5G"
         },
         {
-          "operator": "Indosat Ooredoo",
+          "operator": "Indosat",
           "type": "5G"
         },
         {
@@ -82719,10 +82845,6 @@
         {
           "operator": "Unitel",
           "type": "3G"
-        },
-        {
-          "operator": "3",
-          "type": "4G"
         },
         {
           "operator": "U Mobile",
@@ -83449,8 +83571,8 @@
       "price": 300,
       "networks": [
         {
-          "operator": "AirtelTigo",
-          "type": "3G"
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -83464,7 +83586,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -84129,6 +84251,10 @@
           "type": "4G"
         },
         {
+          "operator": "ZET",
+          "type": "5G"
+        },
+        {
           "operator": "MegaFon",
           "type": "4G"
         },
@@ -84147,7 +84273,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "UK"
       ],
@@ -84392,7 +84518,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -84416,7 +84543,8 @@
       "price": 500,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -84504,7 +84632,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -84734,7 +84863,15 @@
       "price": 300,
       "networks": [
         {
+          "operator": "Claro",
+          "type": "5G"
+        },
+        {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -84750,7 +84887,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -84864,7 +85001,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -85288,7 +85427,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -85312,8 +85452,8 @@
       "price": 800,
       "networks": [
         {
-          "operator": "AirtelTigo",
-          "type": "3G"
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -85327,7 +85467,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -85966,7 +86106,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -86117,6 +86258,10 @@
         {
           "operator": "SMART",
           "type": "5G"
+        },
+        {
+          "operator": "Globe",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -86256,7 +86401,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -86589,7 +86735,7 @@
       "package_id": "a017db04-9cb4-4d35-818a-e9899e44475a",
       "name": "USA 3 GB",
       "country_code": "PR",
-      "region": "PR, US, VI",
+      "region": "PR, US, VI, US-HI",
       "coverage_country_codes": [
         "PR",
         "US",
@@ -86635,19 +86781,23 @@
       "price": 2350,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         }
       ],
@@ -86663,7 +86813,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -87173,7 +87323,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -87309,6 +87459,10 @@
       "price": 2700,
       "networks": [
         {
+          "operator": "beMobile",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -87323,7 +87477,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -87459,7 +87615,7 @@
       "package_id": "a29d97b5-7b0b-4b84-bfd9-7faf1d4996b5",
       "name": "Balkans Special 10 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB",
+      "region": "AL, AT, BE, BA, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MK, MT, MD, ME, NL, NO, PL, PT, RO, RS, SK, SI, ES, SE, CH, TR, UA, GB, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -87500,9 +87656,10 @@
         "CH",
         "TR",
         "UA",
-        "GB"
+        "GB",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇦 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇰🇹",
       "data_gb": 10,
       "validity_days": 30,
       "price": 2350,
@@ -88141,7 +88298,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -88885,19 +89042,23 @@
       "price": 5450,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         }
       ],
@@ -88913,7 +89074,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -89075,12 +89236,15 @@
     },
     {
       "package_id": "a64d7309-0814-4bdd-b9e9-f0124e78e45f",
-      "name": "Asia 12 Countries 3 GB",
-      "country_code": "KH",
-      "region": "KH, HK, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
+      "name": "Asia 15 Countries 3 GB",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, IN, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
       "coverage_country_codes": [
+        "BD",
         "KH",
+        "CN",
         "HK",
+        "IN",
         "ID",
         "JP",
         "LA",
@@ -89092,7 +89256,7 @@
         "TH",
         "VN"
       ],
-      "coverage_flags": "🇰🇭 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
       "data_gb": 3,
       "validity_days": 15,
       "price": 900,
@@ -89105,7 +89269,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -89280,8 +89444,8 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Telenor",
-          "type": "4G"
+          "operator": "VIP",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -89295,7 +89459,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -89413,7 +89577,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -89696,7 +89861,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -90250,12 +90416,8 @@
       "price": 3250,
       "networks": [
         {
-          "operator": "Jio",
+          "operator": "AirTel",
           "type": "5G"
-        },
-        {
-          "operator": "Jio",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -90934,6 +91096,10 @@
       "price": 1100,
       "networks": [
         {
+          "operator": "Bakcell",
+          "type": "5G"
+        },
+        {
           "operator": "Azercell",
           "type": "4G"
         }
@@ -90950,7 +91116,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -90973,6 +91139,10 @@
       "validity_days": 30,
       "price": 850,
       "networks": [
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
+        },
         {
           "operator": "STC",
           "type": "5G"
@@ -91236,6 +91406,18 @@
       "price": 250,
       "networks": [
         {
+          "operator": "Cell C",
+          "type": "4G"
+        },
+        {
+          "operator": "MTN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkom",
+          "type": "3G"
+        },
+        {
           "operator": "Vodacom",
           "type": "5G"
         }
@@ -91251,8 +91433,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL",
-        "FR"
+        "FR",
+        "DE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -91447,11 +91629,11 @@
           "type": "5G"
         },
         {
-          "operator": "LG U+",
+          "operator": "SKTelecom",
           "type": "5G"
         },
         {
-          "operator": "SKTelecom",
+          "operator": "LG Uplus",
           "type": "5G"
         }
       ],
@@ -91465,7 +91647,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "SG"
       ],
@@ -92318,12 +92500,16 @@
       "price": 1350,
       "networks": [
         {
-          "operator": "Vietnamobile",
-          "type": "4G"
+          "operator": "Viettel Mobile",
+          "type": "5G"
         },
         {
           "operator": "Vinaphone",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "MobiFone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -92931,7 +93117,7 @@
       "price": 950,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -93002,7 +93188,7 @@
       "price": 450,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         }
       ],
@@ -93017,7 +93203,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -93047,7 +93233,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -93908,7 +94094,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "PL"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -94495,6 +94681,10 @@
         {
           "operator": "Orange",
           "type": "4G"
+        },
+        {
+          "operator": "Malitel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -94508,7 +94698,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -95014,7 +95206,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -95116,7 +95310,8 @@
       "price": 6300,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -95291,19 +95486,11 @@
       "price": 4900,
       "networks": [
         {
-          "operator": "T-Mobile UK",
+          "operator": "EE",
           "type": "5G"
         },
         {
           "operator": "3",
-          "type": "4G"
-        },
-        {
-          "operator": "O2",
-          "type": "5G"
-        },
-        {
-          "operator": "O2",
           "type": "4G"
         }
       ],
@@ -95320,7 +95507,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -96137,12 +96325,8 @@
           "type": "4G"
         },
         {
-          "operator": "Hutch",
-          "type": "4G"
-        },
-        {
           "operator": "Beeline",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -96548,7 +96732,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -96929,7 +97114,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -97670,17 +97855,16 @@
     {
       "package_id": "b395d9eb-57f4-43bd-a79f-a60350e9155c",
       "name": "Africa 10 GB",
-      "country_code": "MG",
-      "region": "MG, MU, RW, SC, TZ, UG",
+      "country_code": "MU",
+      "region": "MU, RW, SC, TZ, UG",
       "coverage_country_codes": [
-        "MG",
         "MU",
         "RW",
         "SC",
         "TZ",
         "UG"
       ],
-      "coverage_flags": "🇲🇬 🇲🇺 🇷🇼 🇸🇨 🇹🇿 🇺🇬",
+      "coverage_flags": "🇲🇺 🇷🇼 🇸🇨 🇹🇿 🇺🇬",
       "data_gb": 10,
       "validity_days": 30,
       "price": 3800,
@@ -98156,11 +98340,11 @@
           "type": "4G"
         },
         {
-          "operator": "AT&T",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -98482,11 +98666,11 @@
       "price": 2800,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -98502,7 +98686,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -99047,7 +99231,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -99059,9 +99245,10 @@
     {
       "package_id": "b6da3f9b-6c2b-4507-afd8-07927b147866",
       "name": "Europe Asia and USA 20 GB Yearly",
-      "country_code": "AL",
-      "region": "AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, ID, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI",
+      "country_code": "AF",
+      "region": "AF, AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LA, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI, KT",
       "coverage_country_codes": [
+        "AF",
         "AL",
         "AD",
         "AM",
@@ -99091,7 +99278,9 @@
         "HK",
         "HU",
         "IS",
+        "IN",
         "ID",
+        "IQ",
         "IE",
         "IM",
         "IL",
@@ -99101,6 +99290,7 @@
         "KZ",
         "KW",
         "KG",
+        "LA",
         "LV",
         "LI",
         "LT",
@@ -99137,9 +99327,10 @@
         "GB",
         "US",
         "UZ",
-        "VN"
+        "VN",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇩 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳",
+      "coverage_flags": "🇦🇫 🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳 🇰🇹",
       "data_gb": 20,
       "validity_days": 365,
       "price": 5650,
@@ -99917,10 +100108,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -100450,7 +100637,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -100731,7 +100918,7 @@
       "package_id": "b9c4528c-550e-43b8-aa15-f95926f4957e",
       "name": "Americas 1 GB",
       "country_code": "AI",
-      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY",
+      "region": "AI, AG, AR, BS, BB, BQ, BO, BR, VG, KY, CL, CO, CR, CW, DM, DO, EC, SV, GD, GT, HN, JM, MX, MS, NI, PA, PY, PE, PR, KN, LC, VC, SX, TC, US, VI, UY, US-HI",
       "coverage_country_codes": [
         "AI",
         "AG",
@@ -100798,7 +100985,7 @@
       "package_id": "b9c738e5-62ff-4172-a3dc-cd9c6deb4ac6",
       "name": "World 1 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, SM, SA, SN, RS, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SD, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -100882,12 +101069,14 @@
         "IM",
         "IL",
         "IT",
+        "CI",
         "JM",
         "JP",
         "JE",
         "JO",
         "KZ",
         "KE",
+        "XK",
         "KW",
         "KG",
         "LA",
@@ -100941,10 +101130,12 @@
         "LC",
         "MF",
         "VC",
+        "WS",
         "SM",
         "SA",
         "SN",
         "RS",
+        "SC",
         "SL",
         "SG",
         "SX",
@@ -100954,7 +101145,6 @@
         "KR",
         "ES",
         "LK",
-        "SD",
         "SR",
         "SZ",
         "SE",
@@ -100982,7 +101172,7 @@
         "VE",
         "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇩 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 1,
       "validity_days": 30,
       "price": 2050,
@@ -101575,7 +101765,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -102267,6 +102459,10 @@
       "price": 450,
       "networks": [
         {
+          "operator": "ZET",
+          "type": "5G"
+        },
+        {
           "operator": "MegaFon",
           "type": "4G"
         }
@@ -102897,6 +103093,10 @@
         {
           "operator": "Ncell",
           "type": "4G"
+        },
+        {
+          "operator": "NT Mobile",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -102973,11 +103173,11 @@
       "price": 6100,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -102993,7 +103193,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -103419,7 +103619,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "PL"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -103682,6 +103882,10 @@
       "networks": [
         {
           "operator": "m:tel CG",
+          "type": "5G"
+        },
+        {
+          "operator": "T-Mobile",
           "type": "5G"
         }
       ],
@@ -104027,7 +104231,11 @@
       "price": 150,
       "networks": [
         {
-          "operator": "StarHub",
+          "operator": "M1",
+          "type": "5G"
+        },
+        {
+          "operator": "SingTel",
           "type": "5G"
         }
       ],
@@ -104043,7 +104251,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "HK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -104457,7 +104665,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -104542,7 +104750,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -105085,11 +105294,7 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "Orange",
-          "type": "4G"
-        },
-        {
-          "operator": "Airtel",
+          "operator": "Telma",
           "type": "4G"
         }
       ],
@@ -105103,7 +105308,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "NL"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -105292,7 +105499,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -105332,7 +105539,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -105369,7 +105578,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": false,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -105942,10 +106153,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -106037,19 +106244,11 @@
       "price": 150,
       "networks": [
         {
-          "operator": "T-Mobile UK",
+          "operator": "EE",
           "type": "5G"
         },
         {
           "operator": "3",
-          "type": "4G"
-        },
-        {
-          "operator": "O2",
-          "type": "5G"
-        },
-        {
-          "operator": "O2",
           "type": "4G"
         }
       ],
@@ -106066,7 +106265,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -106440,7 +106640,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -106838,7 +107039,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -106941,7 +107143,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -106996,7 +107198,7 @@
       "package_id": "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a",
       "name": "Europe and USA 25 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI",
+      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -107039,9 +107241,10 @@
         "UA",
         "GB",
         "US",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦 🇰🇹",
       "data_gb": 25,
       "validity_days": 30,
       "price": 3350,
@@ -107190,8 +107393,8 @@
       "price": 4350,
       "networks": [
         {
-          "operator": "Africell",
-          "type": "5G"
+          "operator": "Comium",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -107205,7 +107408,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -109049,7 +109254,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -109140,7 +109346,7 @@
     },
     {
       "package_id": "c96a3272-ce00-466f-a549-731d9701455a",
-      "name": "Egypt 10 GB",
+      "name": "Egypt Premium 10 GB",
       "country_code": "EG",
       "region": "EG",
       "coverage_country_codes": [
@@ -109152,7 +109358,8 @@
       "price": 2100,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -109200,7 +109407,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -110286,7 +110494,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -110858,11 +111067,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -110870,7 +111083,7 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -111052,8 +111265,8 @@
           "type": "4G"
         },
         {
-          "operator": "Smartfren",
-          "type": "4G"
+          "operator": "Indosat",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -111098,7 +111311,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -111655,9 +111868,10 @@
     {
       "package_id": "cf55e734-838f-49ca-8022-77542e46f6c7",
       "name": "Europe Asia and USA 10 GB",
-      "country_code": "AL",
-      "region": "AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, ID, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI",
+      "country_code": "AF",
+      "region": "AF, AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LA, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI, KT",
       "coverage_country_codes": [
+        "AF",
         "AL",
         "AD",
         "AM",
@@ -111687,7 +111901,9 @@
         "HK",
         "HU",
         "IS",
+        "IN",
         "ID",
+        "IQ",
         "IE",
         "IM",
         "IL",
@@ -111697,6 +111913,7 @@
         "KZ",
         "KW",
         "KG",
+        "LA",
         "LV",
         "LI",
         "LT",
@@ -111733,9 +111950,10 @@
         "GB",
         "US",
         "UZ",
-        "VN"
+        "VN",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇩 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳",
+      "coverage_flags": "🇦🇫 🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳 🇰🇹",
       "data_gb": 10,
       "validity_days": 30,
       "price": 3000,
@@ -112172,7 +112390,7 @@
     },
     {
       "package_id": "d033f1a1-9b8e-411c-924a-077eeaabf98b",
-      "name": "Latamlink 1 GB",
+      "name": "Latin America 1 GB",
       "country_code": "AR",
       "region": "AR, BO, BR, CL, CO, CR, EC, SV, GT, HN, MX, NI, PA, PY, PE, UY, VE",
       "coverage_country_codes": [
@@ -112355,7 +112573,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -112712,11 +112930,11 @@
       "price": 200,
       "networks": [
         {
-          "operator": "Vodafone",
+          "operator": "One Albania",
           "type": "5G"
         },
         {
-          "operator": "Telekom.al",
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -112789,11 +113007,11 @@
       "price": 400,
       "networks": [
         {
-          "operator": "A1.net",
+          "operator": "3",
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "A1.net",
           "type": "5G"
         },
         {
@@ -113073,19 +113291,11 @@
           "type": "4G"
         },
         {
-          "operator": "T-Mobile UK",
+          "operator": "EE",
           "type": "5G"
         },
         {
           "operator": "3",
-          "type": "4G"
-        },
-        {
-          "operator": "O2",
-          "type": "5G"
-        },
-        {
-          "operator": "O2",
           "type": "4G"
         },
         {
@@ -113118,7 +113328,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -113142,20 +113353,24 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "Altice",
           "type": "4G"
         }
       ],
       "network_technologies": [
-        "3G"
+        "3G",
+        "4G",
+        "5G"
       ],
-      "speed": "3G",
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "SG"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -114430,11 +114645,19 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -114443,10 +114666,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -114917,19 +115136,23 @@
       "price": 250,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         }
       ],
@@ -114945,7 +115168,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -115437,8 +115660,8 @@
       "price": 1600,
       "networks": [
         {
-          "operator": "DST",
-          "type": "4G"
+          "operator": "DS",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -115453,7 +115676,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -115715,7 +115938,7 @@
       "package_id": "d52c0b58-0488-4694-8e66-a69e00f5789c",
       "name": "USA 10 GB",
       "country_code": "PR",
-      "region": "PR, US, VI",
+      "region": "PR, US, VI, US-HI",
       "coverage_country_codes": [
         "PR",
         "US",
@@ -117054,7 +117277,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -118291,7 +118515,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -118564,7 +118790,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -118596,11 +118824,11 @@
           "type": "5G"
         },
         {
-          "operator": "LG U+",
+          "operator": "SKTelecom",
           "type": "5G"
         },
         {
-          "operator": "SKTelecom",
+          "operator": "LG Uplus",
           "type": "5G"
         }
       ],
@@ -118614,7 +118842,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "SG"
       ],
@@ -119516,7 +119744,7 @@
       "package_id": "dadf1804-e8be-4e4b-9dcb-9b973888a6df",
       "name": "World 3 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, SM, SA, SN, RS, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SD, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -119600,12 +119828,14 @@
         "IM",
         "IL",
         "IT",
+        "CI",
         "JM",
         "JP",
         "JE",
         "JO",
         "KZ",
         "KE",
+        "XK",
         "KW",
         "KG",
         "LA",
@@ -119659,10 +119889,12 @@
         "LC",
         "MF",
         "VC",
+        "WS",
         "SM",
         "SA",
         "SN",
         "RS",
+        "SC",
         "SL",
         "SG",
         "SX",
@@ -119672,7 +119904,6 @@
         "KR",
         "ES",
         "LK",
-        "SD",
         "SR",
         "SZ",
         "SE",
@@ -119700,7 +119931,7 @@
         "VE",
         "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇩 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 3,
       "validity_days": 30,
       "price": 4500,
@@ -119855,8 +120086,12 @@
       "price": 1400,
       "networks": [
         {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -119870,7 +120105,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "AT"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -119893,8 +120130,8 @@
       "price": 650,
       "networks": [
         {
-          "operator": "DST",
-          "type": "4G"
+          "operator": "DS",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -119908,7 +120145,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -120339,10 +120576,6 @@
           "type": "5G"
         },
         {
-          "operator": "Türk Telekom",
-          "type": "5G"
-        },
-        {
           "operator": "Turkcell",
           "type": "5G"
         },
@@ -120569,7 +120802,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -120674,12 +120909,16 @@
       "price": 7650,
       "networks": [
         {
-          "operator": "Vietnamobile",
-          "type": "4G"
+          "operator": "Viettel Mobile",
+          "type": "5G"
         },
         {
           "operator": "Vinaphone",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "MobiFone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -120831,11 +121070,19 @@
       "price": 650,
       "networks": [
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -121575,7 +121822,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -121963,7 +122212,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -122504,7 +122755,7 @@
       "package_id": "de28a7e6-5b5d-48d1-b0e9-b5bfe3c1909a",
       "name": "Europe and USA 30 GB",
       "country_code": "AL",
-      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI",
+      "region": "AL, AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IL, IT, LV, LI, LT, LU, MT, MD, ME, NL, NO, PL, PT, RO, SM, RS, SK, SI, ES, SE, CH, TR, UA, GB, US, VA, US-HI, KT",
       "coverage_country_codes": [
         "AL",
         "AT",
@@ -122547,9 +122798,10 @@
         "UA",
         "GB",
         "US",
-        "VA"
+        "VA",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦",
+      "coverage_flags": "🇦🇱 🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇱 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇲 🇷🇸 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇻🇦 🇰🇹",
       "data_gb": 30,
       "validity_days": 30,
       "price": 3700,
@@ -123455,7 +123707,7 @@
       "price": 550,
       "networks": [
         {
-          "operator": "Zain",
+          "operator": "STC",
           "type": "5G"
         },
         {
@@ -123463,15 +123715,19 @@
           "type": "4G"
         },
         {
-          "operator": "Zain",
+          "operator": "Asia Cell",
+          "type": "4G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "5G"
+        },
+        {
+          "operator": "STC",
           "type": "5G"
         },
         {
           "operator": "ooredoo",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -123480,6 +123736,10 @@
         },
         {
           "operator": "Etisalat",
+          "type": "5G"
+        },
+        {
+          "operator": "Du",
           "type": "5G"
         }
       ],
@@ -123607,7 +123867,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -124174,7 +124434,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -124252,7 +124514,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -124305,9 +124567,10 @@
     {
       "package_id": "e259c2fb-1b5d-411d-9239-494c8f5c50c7",
       "name": "Europe Asia and USA 3 GB",
-      "country_code": "AL",
-      "region": "AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, ID, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI",
+      "country_code": "AF",
+      "region": "AF, AL, AD, AM, AU, AT, AZ, BH, BD, BY, BE, BA, BG, KH, HR, CY, CZ, DK, EE, FO, FJ, FI, FR, GE, DE, GR, GG, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, JP, JE, KZ, KW, KG, LA, LV, LI, LT, LU, MK, MY, MT, MD, ME, NL, NZ, NO, OM, PK, PH, PL, PT, QA, RO, RS, SG, SK, SI, KR, ES, LK, SE, CH, TW, TJ, TH, TR, UA, GB, US, UZ, VN, US-HI, KT",
       "coverage_country_codes": [
+        "AF",
         "AL",
         "AD",
         "AM",
@@ -124337,7 +124600,9 @@
         "HK",
         "HU",
         "IS",
+        "IN",
         "ID",
+        "IQ",
         "IE",
         "IM",
         "IL",
@@ -124347,6 +124612,7 @@
         "KZ",
         "KW",
         "KG",
+        "LA",
         "LV",
         "LI",
         "LT",
@@ -124383,9 +124649,10 @@
         "GB",
         "US",
         "UZ",
-        "VN"
+        "VN",
+        "KT"
       ],
-      "coverage_flags": "🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇩 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳",
+      "coverage_flags": "🇦🇫 🇦🇱 🇦🇩 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇭 🇧🇩 🇧🇾 🇧🇪 🇧🇦 🇧🇬 🇰🇭 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇪 🇩🇪 🇬🇷 🇬🇬 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇯🇵 🇯🇪 🇰🇿 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇰 🇲🇾 🇲🇹 🇲🇩 🇲🇪 🇳🇱 🇳🇿 🇳🇴 🇴🇲 🇵🇰 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇷🇴 🇷🇸 🇸🇬 🇸🇰 🇸🇮 🇰🇷 🇪🇸 🇱🇰 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇭 🇹🇷 🇺🇦 🇬🇧 🇺🇸 🇺🇿 🇻🇳 🇰🇹",
       "data_gb": 3,
       "validity_days": 30,
       "price": 1450,
@@ -125611,7 +125878,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -125718,11 +125986,11 @@
           "type": "4G"
         },
         {
-          "operator": "AT&T",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -127174,10 +127442,6 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Africell",
-          "type": "4G"
-        },
-        {
           "operator": "Orange",
           "type": "4G"
         }
@@ -127192,7 +127456,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -128250,7 +128516,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -129096,10 +129363,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -129511,7 +129774,7 @@
       "package_id": "ec03cdf6-7042-4304-b73e-68de5b00d09e",
       "name": "LATAM 1 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -129520,10 +129783,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 1,
       "validity_days": 7,
       "price": 700,
@@ -129562,6 +129826,10 @@
         {
           "operator": "Claro",
           "type": "4G"
+        },
+        {
+          "operator": "movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -129574,7 +129842,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "SG"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -129847,7 +130117,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -129942,7 +130214,7 @@
       "price": 400,
       "networks": [
         {
-          "operator": "afaricom",
+          "operator": "Safaricom",
           "type": "4G"
         }
       ],
@@ -130529,10 +130801,6 @@
         },
         {
           "operator": "Swisscom",
-          "type": "5G"
-        },
-        {
-          "operator": "Türk Telekom",
           "type": "5G"
         },
         {
@@ -131509,7 +131777,7 @@
       "price": 350,
       "networks": [
         {
-          "operator": "BH Mobile",
+          "operator": "HT-ERONET",
           "type": "4G"
         }
       ],
@@ -131748,11 +132016,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -131768,11 +132040,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -131781,10 +132053,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -131882,11 +132150,11 @@
       "price": 2150,
       "networks": [
         {
-          "operator": "A1.net",
+          "operator": "3",
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "A1.net",
           "type": "5G"
         },
         {
@@ -132166,19 +132434,11 @@
           "type": "4G"
         },
         {
-          "operator": "T-Mobile UK",
+          "operator": "EE",
           "type": "5G"
         },
         {
           "operator": "3",
-          "type": "4G"
-        },
-        {
-          "operator": "O2",
-          "type": "5G"
-        },
-        {
-          "operator": "O2",
           "type": "4G"
         },
         {
@@ -132211,7 +132471,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -132393,7 +132654,11 @@
       "price": 5600,
       "networks": [
         {
-          "operator": "AIS",
+          "operator": "TrueMove H",
+          "type": "5G"
+        },
+        {
+          "operator": "DTAC",
           "type": "5G"
         }
       ],
@@ -132409,7 +132674,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "HK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -133213,6 +133478,10 @@
       "price": 300,
       "networks": [
         {
+          "operator": "Ooredoo",
+          "type": "5G"
+        },
+        {
           "operator": "STC",
           "type": "5G"
         }
@@ -133267,7 +133536,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -133456,19 +133727,23 @@
       "price": 1400,
       "networks": [
         {
-          "operator": "China Mobile",
+          "operator": "China Unicom",
           "type": "5G"
         },
         {
-          "operator": "CMHK",
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
           "type": "5G"
         },
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         }
       ],
@@ -133484,7 +133759,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -133559,7 +133834,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "SG"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -133736,11 +134013,15 @@
           "type": "5G"
         },
         {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
           "operator": "CelcomDigi",
           "type": "5G"
         },
         {
-          "operator": "Maxis",
+          "operator": "U Mobile",
           "type": "5G"
         },
         {
@@ -133756,11 +134037,11 @@
           "type": "5G"
         },
         {
-          "operator": "SMART",
+          "operator": "Mobily",
           "type": "5G"
         },
         {
-          "operator": "Mobily",
+          "operator": "M1",
           "type": "5G"
         },
         {
@@ -133769,10 +134050,6 @@
         },
         {
           "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG U+",
           "type": "5G"
         },
         {
@@ -134402,7 +134679,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -135393,11 +135672,7 @@
       "price": 2900,
       "networks": [
         {
-          "operator": "Orange",
-          "type": "4G"
-        },
-        {
-          "operator": "Airtel",
+          "operator": "Telma",
           "type": "4G"
         }
       ],
@@ -135411,7 +135686,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "NL"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -135507,7 +135784,7 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "Tigo",
+          "operator": "VIVA",
           "type": "4G"
         }
       ],
@@ -135522,7 +135799,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -136029,7 +136306,7 @@
       "price": 750,
       "networks": [
         {
-          "operator": "Telekom.mk",
+          "operator": "vip",
           "type": "5G"
         }
       ],
@@ -136045,7 +136322,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "PL"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -136367,12 +136644,8 @@
       "price": 750,
       "networks": [
         {
-          "operator": "Vodacom",
-          "type": "4G"
-        },
-        {
           "operator": "Airtel",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -136385,7 +136658,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "IL"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -136842,8 +137115,8 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "movistar",
-          "type": "5G"
+          "operator": "Claro",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -136858,7 +137131,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -137130,7 +137403,7 @@
       "speed_note": "Full data speeds - no daily limits, no throttling",
       "fup_policy": "",
       "hotspot_supported": true,
-      "activation_policy": "network_connection",
+      "activation_policy": "first_data_usage",
       "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
@@ -138743,7 +139016,7 @@
       "package_id": "fc332d69-c02d-4338-8979-4e9954b2e4cf",
       "name": "USA 2 GB",
       "country_code": "PR",
-      "region": "PR, US, VI",
+      "region": "PR, US, VI, US-HI",
       "coverage_country_codes": [
         "PR",
         "US",
@@ -139343,7 +139616,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -139383,7 +139658,8 @@
       "topup_available": true,
       "ip_export": [
         "FR",
-        "NL"
+        "NL",
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -139991,11 +140267,11 @@
       "price": 1700,
       "networks": [
         {
-          "operator": "T-Mobile",
+          "operator": "Verizon",
           "type": "5G"
         },
         {
-          "operator": "Verizon",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -140011,7 +140287,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "HK"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -143469,12 +143745,12 @@
           "be19f612-54f0-49a9-83f8-cea22da8e989"
         ],
         "regional": [
+          "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b",
           "a64d7309-0814-4bdd-b9e9-f0124e78e45f",
           "80d6d727-403c-41e1-b004-51a39c545350",
           "7c60e9ed-5db5-4eba-8ce8-3ed16b8dfbca",
           "086e300f-e26a-44f4-9d3d-f9c2d50f9747",
           "6b4de516-1ac1-45f6-ab1a-dbf7bd2c128a",
-          "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa",
           "cdb77a7a-c514-420c-a925-19c3f05ea584"
         ],
@@ -144036,14 +144312,14 @@
           "bab8ff54-57f9-4dbf-bdcb-b9d0c4e9f89c"
         ],
         "regional": [
-          "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-          "b395d9eb-57f4-43bd-a79f-a60350e9155c",
           "7ab2b70c-77d4-44a1-8207-438b29a33784",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "3e49b06c-2dc0-4c90-9f0e-31be42d23049",
           "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+          "63f2970f-dfd9-41d0-818e-58a8f69257f7",
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "b395d9eb-57f4-43bd-a79f-a60350e9155c"
         ],
         "daily": [],
         "best": "bab8ff54-57f9-4dbf-bdcb-b9d0c4e9f89c"
@@ -144260,14 +144536,14 @@
           "7d52eda8-c6f4-4e34-a058-2f6d8ea6f44d"
         ],
         "regional": [
+          "63f2970f-dfd9-41d0-818e-58a8f69257f7",
+          "b395d9eb-57f4-43bd-a79f-a60350e9155c",
           "7ab2b70c-77d4-44a1-8207-438b29a33784",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "3e49b06c-2dc0-4c90-9f0e-31be42d23049",
           "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b395d9eb-57f4-43bd-a79f-a60350e9155c"
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
         ],
         "daily": [
           "3662fb07-1673-47e1-8620-ec9c68fb0083",
