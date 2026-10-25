@@ -10,12 +10,16 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const PKG = { package_id: '0d504f79-eab1-40dc-891a-c1f60cf11f06', name: 'Thailand 3GB', country_code: 'TH', coverage_country_codes: ['TH'],
   data_gb: 3, validity_days: 15, price: 4.99, currency: 'USD', plan_type: 'FIXED_VOLUME', networks: [{ operator: 'AIS', type: '5G' }] };
-const BODY = JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: [PKG] });
+const BODY = JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: [PKG] }));
 
 async function open(page) {
   const st = { csp: [], errors: [] };

@@ -628,15 +628,22 @@
     // region names are resolved once, at grouping time, so without the rows a
     // language change could never move them and the catalogue would keep its
     // first language for the life of the session.
-    state.catalogueRows = (payload && payload.data) || [];
+    // The backend's layout of every country page rides on the rows
+    // (assets/assortment-view.js) — the one reader the website uses too.
+    const rows = (payload && payload.data) || [];
+    const A = window.MagicAssortment;
+    state.catalogueRows = A ? A.attach(rows, payload && payload.assortment) : rows;
     regroupCatalogue();
   }
 
   /** Rebuild the two lists from the rows already in hand. Never re-fetches. */
   function regroupCatalogue() {
-    const grouped = C.groupCatalogue(state.catalogueRows, I.lang());
+    // The «Оптимальный выбор» badge on the Russian market only: the international
+    // website shows none, and the two surfaces of a market must look alike.
+    const grouped = C.groupCatalogue(state.catalogueRows, I.lang(), { best: !isGlobal() });
     state.countries = grouped.countries;
     state.regions = grouped.regions;
+    state.catalogueReady = grouped.ready === true;
   }
 
   /**
@@ -669,8 +676,10 @@
     if (r && r.ok) {
       state.catalogueRows = r.packages;
       regroupCatalogue();
-      paintCountryList();
-      return;
+      if (state.catalogueReady) {
+        paintCountryList();
+        return;
+      }
     }
     clear(list);
     notice.appendChild(el('div', { class: 'card stack' }, [
@@ -692,6 +701,9 @@
     const paint = (payload, { stale, retry } = {}) => {   // eslint-disable-line no-unused-vars
       if (state.market !== asked) return;
       adoptCatalogue(payload);
+      // A catalogue without the backend's layout (an old snapshot) is not drawn
+      // by a rule of our own: the skeleton stays until an answer that has it.
+      if (!state.catalogueReady) return;
       clear(notice);
 
       /*
@@ -750,9 +762,11 @@
     if (liveHasRows) {
       // Fresh beats everything, and the notice goes with it.
       paint(settled.value, { stale: false });
-      cache.write('catalogue', settled.value);
+      if (state.catalogueReady) {
+        cache.write('catalogue', settled.value);
 
-      return;
+        return;
+      }
     }
 
     if (painted) return;                       // the snapshot is already on screen
@@ -761,7 +775,7 @@
     if (fallback.ok) {
       paint(fallback.value, { stale: true });
 
-      return;
+      if (painted) return;
     }
 
     // Nothing reached us at all — say so once, with a way out.
@@ -769,7 +783,7 @@
     if (cached && cached.value) {
       paint(cached.value, { stale: true });
 
-      return;
+      if (painted) return;
     }
     if (state.market !== asked) return;      // nor its failure: the international list is someone else's now
     clear(list);
@@ -1100,7 +1114,7 @@
      * claimed a line. Naming the split — volume and price on row one, every
      * property on row two — makes it two rows at every width instead.
      */
-    return el('button', { class: 'card card--tariff card--daily', onclick: () => openTariff(p, group) }, [
+    return el('button', { class: 'card card--tariff card--daily', 'data-package-id': String(p.package_id || ''), onclick: () => openTariff(p, group) }, [
       el('div', { class: 'tariff__main' }, [
         el('span', { class: 'card__title', text: t('daily.perDay', { allowance: D.formatAllowance(p.daily_gb, dailyLang()) }) }),
       ]),
@@ -1148,14 +1162,15 @@
     return pills.length ? el('div', { class: 'tariff__pills' }, pills) : null;
   }
 
-  function tariffCard(p, group, distinct) {
-    const isBest = group && group.best && group.best.package_id === p.package_id;
+  function tariffCard(p, group, distinct, { regional = false } = {}) {
+    const isBest = !regional && group && group.best && group.best.package_id === p.package_id;
 
     // §9 S3: a tariff card opens the tariff, not the payment form. Going
     // straight to checkout skipped the one screen whose job is to answer
     // "will this work on my phone, and what am I actually buying".
     return el('button', {
       class: 'card card--tariff' + (isBest ? ' is-best' : ''),
+      'data-package-id': String(p.package_id || ''),
       onclick: () => openTariff(p, group),
     }, [
       el('div', { class: 'tariff__main' }, [
@@ -1163,6 +1178,8 @@
         isBest ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
         tariffPills(p),
       ]),
+      // A regional card on a country screen says which region it is.
+      regional ? el('span', { class: 'card__meta', text: C.regionLabel(p, I.lang()) }) : null,
       el('div', { class: 'card__price tabular', text: priceText(p.price) }),
       // What makes THIS card different from the one beside it. Drawn only when
       // something actually varies among tariffs of the same coverage, volume
@@ -1244,64 +1261,66 @@
       }));
     }
 
-    // §9 S2: price ascending by default, with a switch to volume. Only worth
-    // drawing when there is something to reorder — two cards sort themselves.
-    // Counted on the volume pool: the toggle reorders that grid and nothing
-    // else, so a country whose only tariffs are daily must not grow one.
+    // A COUNTRY draws the backend's layout (owner, 2026-10-25): its three
+    // blocks — local, regional, daily, in the website's order — each in the
+    // backend's order (assets/assortment-view.js via C.groupCatalogue). Nothing
+    // here filters or re-sorts them; the website draws the very same cards.
+    if (!group.regional) {
+      const local = group.local || [];
+      const regional = group.regional_items || [];
+      const dailyList = group.daily || [];
+      const localDistinct = C.tariffDistinguishers(local, I.lang());
+      for (const p of local) list.appendChild(tariffCard(p, group, localDistinct));
+      if (regional.length) {
+        list.appendChild(el('h2', {
+          class: 'section',
+          text: local.length ? t('country.alsoFit') : t('country.regionalFit'),
+        }));
+        const regionalDistinct = C.tariffDistinguishers(regional, I.lang());
+        for (const p of regional) list.appendChild(tariffCard(p, group, regionalDistinct, { regional: true }));
+      }
+      const dailyCardsC = dailyList.map((p) => dailyCard(p, group, C.dailyDistinguishers(dailyList, I.lang()))).filter(Boolean);
+      if (dailyCardsC.length) {
+        const D = C.dailyCopy();
+        // A per-day allowance is a different product from a volume, and the
+        // heading is the only thing that says so. NO SUBTITLE ABOUT A NIGHTLY
+        // RESET: the shared copy module refuses that sentence per package.
+        list.appendChild(el('h2', { class: 'section section--daily', text: D ? D.blockTitle(dailyLang()) : '' }));
+        for (const card of dailyCardsC) list.appendChild(card);
+      }
+      if (!local.length && !regional.length && !dailyCardsC.length) {
+        list.appendChild(el('div', { class: 'empty stack' }, [
+          el('p', { text: t('country.none') }),
+          el('button', { class: 'btn btn--quiet', text: t('country.pickAnother'), onclick: () => show('home') }),
+        ]));
+      }
+      show('country', { push });
+      return;
+    }
+
+    // A REGION FAMILY (navigation: «Европа», «Азия»…) lists the multi-country
+    // plans its countries show — price ascending by default, with a switch to
+    // volume. Only worth drawing when there is something to reorder.
     if (C.partitionDaily(group.items).volume.length > 2) list.appendChild(sortToggle(group));
 
-    // Daily plans leave the pool BEFORE it is sorted. Ranking them against
-    // fixed volumes by price would let a per-day figure decide which volume
-    // card looks best, and the two are not comparable.
+    // Daily plans leave the pool BEFORE it is sorted: a per-day figure must not
+    // decide which volume card looks best.
     const split = C.partitionDaily(group.items);
     const volume = split.volume;
     const daily = split.daily;
-
-    // Computed over the whole group, once, because "what is different" is a
-    // property of the set rather than of any one card.
     const distinct = C.tariffDistinguishers(volume, I.lang());
     for (const p of C.sortTariffs(volume, state.sort)) {
       list.appendChild(tariffCard(p, group, distinct));
     }
-
-    // Above nothing and below the volumes: a customer scanning for a volume
-    // should not have to pass this, and one who wants it finds it in one place.
-    // Same treatment the volume grid gets, keyed on the allowance. Vietnam ships
-    // four «2 ГБ в день» rows at four prices; without this they are four
-    // identical cards and the price looks arbitrary.
     const dailyDistinct = C.dailyDistinguishers(daily, I.lang());
     const dailyCards = daily.map((p) => dailyCard(p, group, dailyDistinct)).filter(Boolean);
     if (dailyCards.length) {
       const D = C.dailyCopy();
-      // A per-day allowance is a different product from a volume, and the
-      // heading is the only thing that says so. `--daily` gives it a rule and
-      // full-strength ink; as plain grey it was the weakest break on the screen.
-      //
-      // NO SUBTITLE ABOUT A NIGHTLY RESET. `daily_reset_confirmed` is true on
-      // 22 of 1329 daily packages and on ZERO of Vietnam's sixteen, and the
-      // shared copy module already refuses to finish that sentence per package.
-      // A section-level «обновляется каждый день» would assert for a whole
-      // country what the provider published for almost none of it.
-      list.appendChild(el('h2', {
-        class: 'section section--daily',
-        text: D ? D.blockTitle(dailyLang()) : '',
-      }));
+      list.appendChild(el('h2', { class: 'section section--daily', text: D ? D.blockTitle(dailyLang()) : '' }));
       for (const card of dailyCards) list.appendChild(card);
     }
 
-    // Blueprint §9 S2: a country is never a dead end. Regional offers that
-    // cover it are shown underneath — and if it has no local tariff at all,
-    // they are the only thing standing between the customer and a blank screen.
-    const alternatives = group.regional ? [] : C.regionsCovering(state.regions, group.country_code);
-    if (alternatives.length) {
-      list.appendChild(el('h2', {
-        class: 'section',
-        text: group.items.length ? t('country.alsoFit') : t('country.regionalFit'),
-      }));
-      for (const r of alternatives) list.appendChild(destinationRow(r));
-    }
-
-    if (!group.items.length && !alternatives.length) {
+    if (!group.items.length) {
       list.appendChild(el('div', { class: 'empty stack' }, [
         el('p', { text: t('country.none') }),
         el('button', { class: 'btn btn--quiet', text: t('country.pickAnother'), onclick: () => show('home') }),

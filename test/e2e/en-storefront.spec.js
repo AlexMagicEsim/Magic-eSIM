@@ -18,6 +18,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 
 const vol = (id, name, codes, gb, days, price, extra = {}) => ({
   package_id: id, name, country_code: codes.length === 1 ? codes[0] : 'XX-9', region: codes.join(', '),
@@ -81,14 +85,14 @@ async function open(page, path, { globalStatus = 200, globalBody = GLOBAL_BODY }
   page.on('request', (r) => calls.push({ method: r.method(), url: r.url() }));
   await page.route('**/assets/catalog.json*', (route) => route.fulfill({
     status: 200, contentType: 'application/json',
-    body: JSON.stringify({ schema_version: 1, packages: [{ package_id: 'rub', country_code: 'AE', price: 500, currency: 'RUB' }] }),
+    body: JSON.stringify(withLayout({ schema_version: 1, packages: [{ package_id: 'rub', country_code: 'AE', price: 500, currency: 'RUB' }] })),
   }));
   await page.route('**/api/**', (route) => {
     if (/\/api\/v1\/retail\/packages\?market=global$/.test(route.request().url())) {
-      return route.fulfill({ status: globalStatus, contentType: 'application/json', body: JSON.stringify(globalBody) });
+      return route.fulfill({ status: globalStatus, contentType: 'application/json', body: JSON.stringify(withLayout(globalBody)) });
     }
     return route.fulfill({ status: 200, contentType: 'application/json',
-      body: JSON.stringify({ status: 'success', currency: 'RUB', data: [{ package_id: 'rub', country_code: 'AE', price: 500 }] }) });
+      body: JSON.stringify(withLayout({ status: 'success', currency: 'RUB', data: [{ package_id: 'rub', country_code: 'AE', price: 500 }] })) });
   });
   await page.goto(path);
   return calls;
@@ -193,8 +197,9 @@ test('Thailand: daily, local and an SE-Asia regional plan', async ({ page }) => 
   await open(page, '/en/esim/thailand/');
   expect(await prices(page, 'daily')).toEqual(['$3.99']);
   expect(await prices(page, 'local')).toEqual(['$4.99', '$6.99']);
-  expect(await prices(page, 'regional')).toEqual(['$8.99', '$35.99', '$69.99']);
-  await expect(cards(page, 'regional').first()).toContainText('3 countries, incl. Thailand');
+  // The backend's order (lib/assortmentLayout.js, via the fixture port): a plan filed under the country first, then volume.
+  expect(await prices(page, 'regional')).toEqual(['$35.99', '$8.99', '$69.99']);
+  await expect(cards(page, 'regional').nth(1)).toContainText('3 countries, incl. Thailand');
 });
 
 test('French Polynesia: local and regional, and no empty daily block', async ({ page }) => {

@@ -172,46 +172,9 @@
       return String((p && p.country_code) || '').toUpperCase().indexOf('GL-') === 0 || name.indexOf('global') !== -1;
     }
 
-    /**
-     * The three blocks of a country page, decided by COVERAGE CODES only.
-     *
-     * CLAUDE.md: «Only for country X» is decided by coverage codes — what the
-     * card prints — never by a name. «Japan Unlimited N Days» covers ["JP"]
-     * and is a Japanese plan whatever its name says.
-     *
-     *   daily     every daily plan that covers the country (local or not):
-     *             it answers a different question and is never ranked against
-     *             a volume.
-     *   local     a volume plan whose coverage is exactly this country.
-     *   regional  a volume plan covering this country AND others.
-     */
-    function classify(list, iso) {
-      var code = String(iso || '').toUpperCase();
-      var out = { daily: [], local: [], regional: [] };
-      (Array.isArray(list) ? list : []).forEach(function (p) {
-        if (!p || isRestricted(p) || isWorldwide(p)) return;
-        var codes = coverageCodes(p);
-        if (codes.indexOf(code) === -1) return;
-        if (hasDaily && DAILY.isDaily(p)) out.daily.push(p);
-        else if (countryCount(codes) === 1) out.local.push(p);
-        else out.regional.push(p);
-      });
-      out.daily = sortByPrice(out.daily);
-      out.local = sortByPrice(out.local);
-      out.regional = sortByPrice(out.regional);
-      return out;
-    }
-
-    /** Cheapest PURCHASABLE first; plans with no payable price last. */
-    function sortByPrice(list) {
-      return list.slice().sort(function (a, b) {
-        var pa = priceOf(a); var pb = priceOf(b);
-        if (!pa && !pb) return 0;
-        if (!pa) return 1;
-        if (!pb) return -1;
-        return pa.amount - pb.amount;
-      });
-    }
+    /* The three blocks of a country page are NOT decided here any more: the
+     * backend sends them, in display order (assets/assortment-view.js). This
+     * file only draws a card. */
 
     function countriesWord(n) {
       return hasDaily ? DAILY.pluralCountries(n, LANG) : I18N.plural('plan.country', n);
@@ -382,6 +345,7 @@
       (o.chips || []).forEach(function (c) { diff[c.kind] = c.label; });
       var el = document.createElement('article');
       el.className = 'card plan plan-' + kind;
+      el.setAttribute('data-package-id', String(p.package_id || ''));
 
       // --- top: data + term (left), price (right)
       var top = document.createElement('div');
@@ -497,7 +461,7 @@
     return {
       ISO2: ISO2, priceOf: priceOf, money: money, priceText: priceText, dataText: dataText, termText: termText,
       coverageCodes: coverageCodes, coverageText: coverageText, isRestricted: isRestricted, isWorldwide: isWorldwide,
-      classify: classify, sortByPrice: sortByPrice, card: card, distinguishers: distinguishers,
+      card: card, distinguishers: distinguishers,
       ladder: ladder, alsoCovers: alsoCovers, networkLabel: networkLabel, ipLabel: ipLabel,
     };
   }

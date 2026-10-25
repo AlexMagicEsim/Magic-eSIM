@@ -13,6 +13,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const { installMiniApp, openApp, overflowingInside } = require('./harness.js');
 
 const base = { networks: [{ operator: 'Op', type: '4G' }], activation_policy: 'first_data_usage', topup_available: false,
@@ -60,8 +64,10 @@ test('destination rows draw image flags; a code with no file keeps its emoji, a 
   const srcs = rows.flatMap((r) => r.imgs.map((i) => i.src));
   for (const c of ['th', 'cn', 'nz']) expect(srcs).toContain(`../assets/flags/${c}.svg`);
   for (const r of rows) for (const i of r.imgs) expect(i.ok, `${i.src} loads`).toBe(true);
-  // Only the code with no file (AQ) may still be an emoji.
-  expect(rows.filter((r) => r.emoji).map((r) => r.text)).toEqual(['🇦🇶']);
+  // No emoji is left: AQ (the one code with no flag file) has no page on the website, so since 2026-10-25 the Mini App
+  // does not list it either — it shows exactly the website's countries.
+  expect(rows.filter((r) => r.emoji).map((r) => r.text)).toEqual([]);
+  expect(await page.locator('#screen-home .card--row', { hasText: 'Антарктида' }).count()).toBe(0);
   expect(rows.some((r) => r.text === '🌍')).toBe(true);
   // A two-country pack shows both flags in one box.
   expect(rows.some((r) => r.imgs.map((i) => i.src).join() === '../assets/flags/th.svg,../assets/flags/vn.svg')).toBe(true);
@@ -77,11 +83,9 @@ test('search, the tariff header and a regional pack\'s coverage chips draw image
   await page.locator('#search').fill('Thailand');
   await page.locator('#screen-home .card--row').first().click();
   await page.locator('#screen-country[data-active]').waitFor();
-  // «These also work»: the two-country pack, its pair of flags.
-  const pair = page.locator('#screen-country .card--row', { hasText: '2' }).first();
-  await expect(pair.locator('.card__flag img')).toHaveCount(2);
-  await pair.click();
-  await page.locator('#country-list .card--tariff').first().click();
+  // «These also work»: the regional block draws the two-country pack as a card (the website's regional block);
+  // its tariff screen carries the pair of flags.
+  await page.locator('#country-list .card--tariff[data-package-id="thvn"]').click();
   await page.locator('#screen-tariff[data-active]').waitFor();
   const cover = page.locator('#screen-tariff details.sheet').first();
   if (await cover.count()) await cover.locator('summary').click();

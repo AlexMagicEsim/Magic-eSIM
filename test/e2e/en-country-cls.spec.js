@@ -14,10 +14,14 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const ROWS = require('../fixtures/en-plans-catalogue.json').packages;
 
 const CATALOGUE = /\/api\/v1\/retail\/packages\?market=global$/;
-const ok = (packages) => ({ status: 200, contentType: 'application/json', body: JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: packages }) });
+const ok = (packages) => ({ status: 200, contentType: 'application/json', body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: packages })) });
 
 async function open(page, answer, { delayMs = 0 } = {}) {
   await page.addInitScript(() => {

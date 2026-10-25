@@ -16,6 +16,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 const path = require('path');
 
@@ -37,10 +41,10 @@ const PAGES = [
 ];
 
 const base = { coverage_country_codes: ['JP'], country_code: 'JP', region: 'JP', currency: 'USD', plan_type: 'FIXED_VOLUME' };
-const CATALOGUE = JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: [
+const CATALOGUE = JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: [
   { ...base, package_id: '11111111-0000-4000-8000-000000000001', name: 'Japan 3GB 15Days', data_gb: 3, validity_days: 15, price: 4.99 },
   { ...base, package_id: '11111111-0000-4000-8000-000000000002', name: 'Japan 10GB 30Days', data_gb: 10, validity_days: 30, price: 11.99 },
-] });
+] }));
 
 async function prepare(page) {
   const problems = [];

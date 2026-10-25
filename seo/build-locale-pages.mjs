@@ -696,6 +696,7 @@ ${modal(c)}
 ${FOOTER}
 
 <script src="/assets/magic-net.js" defer></script>
+<script src="/assets/assortment-view.js" defer></script>
 <script src="/assets/global-catalog.js" defer></script>
 <script src="/assets/daily-plan-copy.js" defer></script>
 <script src="${NAMES_FILE.src}" defer></script>

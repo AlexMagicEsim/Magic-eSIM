@@ -16,6 +16,27 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const C = require('./core.js');
+// The backend's layout reader the Mini App shares with the website (sets globalThis.MagicAssortment).
+const A = require('../assets/assortment-view.js');
+
+/**
+ * A catalogue as the backend sends it: rows plus the layout of each country page.
+ * `countries` defaults to «every row on its own country's page» — volume rows in
+ * `local`, daily rows in `daily`, in the order given (the backend's order).
+ */
+function laid(rows, countries) {
+  const list = rows.slice();
+  if (!countries) {
+    countries = {};
+    for (const p of rows) {
+      if (!p || !p.package_id || !p.country_code) continue;
+      const c = (countries[p.country_code] = countries[p.country_code] || { local: [], regional: [], daily: [], best: null });
+      (p.plan_type === 'DAILY' ? c.daily : c.local).push(p.package_id);
+    }
+  }
+  return A.attach(list, { mode: 'on', regional_cap: 8, countries });
+}
+const countryOf = (rows, code, opts) => C.groupCatalogue(rows, 'ru', opts).countries.find((g) => g.country_code === code);
 
 /* -------------------------------------------------------------------------- */
 
@@ -424,32 +445,42 @@ const CATALOGUE = [
   { package_id: '4', country_code: 'AE', country: 'ОАЭ', data_gb: 5, validity_days: 30, price: 1400 },
 ];
 
-test('the catalogue groups by country, cheapest first, with a from-price', () => {
-  const groups = C.byCountry(CATALOGUE);
-
-  assert.equal(groups.length, 2);
-  const tr = groups.find((g) => g.country_code === 'TR');
-  assert.equal(tr.items.length, 3);
+test('the catalogue groups by country FROM THE BACKEND LAYOUT, in its order, with a from-price', () => {
+  const rows = laid(CATALOGUE, {
+    TR: { local: ['2', '1', '3'], regional: [], daily: [], best: '2' },
+    AE: { local: ['4'], regional: [], daily: [], best: null },
+  });
+  const { countries, ready } = C.groupCatalogue(rows, 'ru');
+  assert.equal(ready, true);
+  assert.equal(countries.length, 2);
+  const tr = countries.find((g) => g.country_code === 'TR');
+  assert.deepEqual(tr.items.map((p) => p.package_id), ['2', '1', '3'], 'the backend order, never re-sorted');
   assert.equal(tr.from, 500);
-  assert.equal(tr.items[0].price, 500, 'cheapest first');
+  assert.equal(tr.best.package_id, '2', 'the backend\'s «Оптимальный выбор»');
 });
 
-test('best value is cheapest per GB, not simply the cheapest plan', () => {
-  // 500/1 = 500 per GB; 1150/10 = 115; 1900/20 = 95. The 1 GB plan is the
-  // cheapest and the worst deal, and it is what a naive "from" price would push.
-  const tr = C.byCountry(CATALOGUE).find((g) => g.country_code === 'TR');
-
-  assert.equal(tr.best.package_id, '3');
+test('the badge is the RU market\'s: off when asked (the international site shows none)', () => {
+  const rows = laid(CATALOGUE, { TR: { local: ['1', '2', '3'], regional: [], daily: [], best: '2' } });
+  assert.equal(countryOf(rows, 'TR', { best: false }).best, null);
 });
 
-test('best value ignores plans it cannot judge', () => {
-  assert.equal(C.pickBestValue([{ data_gb: 0, price: 100 }, { data_gb: null, price: 50 }]), null);
-  assert.equal(C.pickBestValue([]), null);
-  assert.equal(C.pickBestValue(undefined), null);
+test('no layout (an old snapshot): nothing is drawn by a rule of our own', () => {
+  const r = C.groupCatalogue(CATALOGUE.slice(), 'ru');
+  assert.deepEqual(r, { countries: [], regions: [], ready: false });
+});
+
+test('only the countries the website has a page for are listed', () => {
+  const prev = globalThis.MagicRuDestinations;
+  globalThis.MagicRuDestinations = [{ iso: 'TR' }];
+  try {
+    assert.deepEqual(C.groupCatalogue(laid(CATALOGUE), 'ru').countries.map((g) => g.country_code), ['TR']);
+  } finally {
+    if (prev === undefined) delete globalThis.MagicRuDestinations; else globalThis.MagicRuDestinations = prev;
+  }
 });
 
 test('country search tolerates how people type', () => {
-  const groups = C.byCountry(CATALOGUE);
+  const groups = C.groupCatalogue(laid(CATALOGUE), 'ru').countries;
 
   assert.equal(C.searchCountries(groups, 'тур').length, 1);
   assert.equal(C.searchCountries(groups, 'ТУР').length, 1);
@@ -459,9 +490,11 @@ test('country search tolerates how people type', () => {
 });
 
 test('a catalogue with junk rows does not take the screen down', () => {
-  const groups = C.byCountry([null, {}, { country_code: '' }, CATALOGUE[0]]);
-
+  const rows = laid([null, {}, { country_code: '' }, CATALOGUE[0]], { TR: { local: ['1', 'ghost'], regional: [], daily: [], best: 'ghost' } });
+  const groups = C.groupCatalogue(rows, 'ru').countries;
   assert.equal(groups.length, 1);
+  assert.deepEqual(groups[0].items.map((p) => p.package_id), ['1']);
+  assert.equal(groups[0].best, null, 'a badge on a card that is not there is no badge');
 });
 
 /* --------------------------------------------------------------------------
@@ -1670,7 +1703,7 @@ const PER_DAY = (over) => ({
 });
 
 test('a per-day plan contributes its cheapest TERM, never its per-day rate', () => {
-  const tr = C.byCountry([PER_DAY()]).find((g) => g.country_code === 'TR');
+  const tr = countryOf(laid([PER_DAY()]), 'TR');
 
   assert.equal(tr.from, 200, 'the three-day term, which is the shortest sold');
   assert.notEqual(tr.from, 100, 'the per-day rate is not a purchasable price');
@@ -1679,10 +1712,10 @@ test('a per-day plan contributes its cheapest TERM, never its per-day rate', () 
 test('a cheap per-day rate cannot undercut a real volume price', () => {
   // 100/day looks cheapest and is unbuyable; the 150 ₽ volume plan is the
   // cheapest thing anyone can actually put in a basket.
-  const tr = C.byCountry([
+  const tr = countryOf(laid([
     PER_DAY(),
     { package_id: 'v1', country_code: 'TR', price: 150 },
-  ]).find((g) => g.country_code === 'TR');
+  ]), 'TR');
 
   assert.equal(tr.from, 150);
 });
@@ -1690,44 +1723,44 @@ test('a cheap per-day rate cannot undercut a real volume price', () => {
 test('a per-day plan with no priced ladder sets no price at all', () => {
   // dailyCard shows «—» for it and refuses to open it, so it is not on sale.
   // Falling back to `price` here would put the per-day rate straight back.
-  const only = C.byCountry([PER_DAY({ term_prices: [] })]).find((g) => g.country_code === 'TR');
+  const only = countryOf(laid([PER_DAY({ term_prices: [] })]), 'TR');
   assert.equal(only.from, null);
 
-  const withVolume = C.byCountry([
+  const withVolume = countryOf(laid([
     PER_DAY({ term_prices: [] }),
     { package_id: 'v1', country_code: 'TR', price: 900 },
-  ]).find((g) => g.country_code === 'TR');
+  ]), 'TR');
   assert.equal(withVolume.from, 900, 'the unsellable plan is ignored, not preferred');
 });
 
 test('a fixed-term daily plan is priced by its own price, not a ladder', () => {
   // FIXED_TERM carries the whole-term price in `price` and has no term_prices.
-  const tr = C.byCountry([{
+  const tr = countryOf(laid([{
     package_id: 'f1', country_code: 'TR', plan_type: 'DAILY',
     daily_term_mode: 'FIXED_TERM', daily_gb: 1, validity_days: 5, price: 640,
-  }]).find((g) => g.country_code === 'TR');
+  }]), 'TR');
 
   assert.equal(tr.from, 640);
 });
 
 test('regional groups price the same way as countries', () => {
-  const { regions } = C.groupCatalogue([
+  const { regions } = C.groupCatalogue(laid([
     PER_DAY({ package_id: 'r1', country_code: 'EU', coverage_country_codes: ['FR', 'DE', 'IT'] }),
-  ]);
+  ], { FR: { local: [], regional: [], daily: ['r1'], best: null } }));
 
   assert.equal(regions.length, 1);
   assert.equal(regions[0].from, 200, 'the ladder, not the per-day rate');
 });
 
-test('the from-price is computed apart from the sort, which is left alone', () => {
-  // The sort orders the list the screen renders; the card price is a different
-  // question. Answering it from items[0] is what tied them together.
-  const tr = C.byCountry([
+test('the from-price is computed apart from the order, which is left alone', () => {
+  // The order is the backend's; the card price is a different question.
+  // Answering it from items[0] is what tied them together.
+  const tr = countryOf(laid([
     { package_id: 'v2', country_code: 'TR', price: 800 },
     PER_DAY(),
-  ]).find((g) => g.country_code === 'TR');
+  ]), 'TR');
 
-  assert.equal(tr.items[0].price, 100, 'raw sort order is unchanged');
+  assert.equal(tr.items[0].price, 800, 'the backend order is unchanged');
   assert.equal(tr.from, 200, 'but the price shown is the cheapest purchasable one');
 });
 

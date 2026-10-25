@@ -11,6 +11,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const SITE = require('../../assets/site-i18n.js');
 
 const AE3 = '0d504f79-eab1-40dc-891a-c1f60cf11f06';
@@ -28,7 +32,7 @@ async function open(page, path) {
     const req = route.request();
     if (req.method() === 'GET' && /\/api\/v1\/retail\/packages\?market=global$/.test(req.url())) {
       return route.fulfill({ status: 200, contentType: 'application/json',
-        body: JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: PACKAGES }) });
+        body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: PACKAGES })) });
     }
     if (req.method() === 'POST' && /\/api\/v1\/global\/quotes$/.test(req.url())) {
       return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({

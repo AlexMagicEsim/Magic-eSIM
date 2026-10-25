@@ -131,6 +131,11 @@
       });
   }
 
+  function attachLayout(list, assortment) {
+    var A = typeof window !== 'undefined' ? window.MagicAssortment : null;
+    return A && typeof A.attach === 'function' ? A.attach(list, assortment) : list;
+  }
+
   /** One live attempt against ONE endpoint. Resolves with the package array. */
   function fetchLiveOnce(base, onHeaders) {
     var early = takeEarly(base);
@@ -156,7 +161,9 @@
         // An empty catalogue is never correct here — treat it as a failure so the
         // cache can still show something rather than rendering an empty page.
         if (json.data.length === 0) throw tagged('empty', 'live catalogue is empty');
-        return json.data;
+        // The backend's layout of every country page rides on the array
+        // (assets/assortment-view.js) — the page draws it, never its own choice.
+        return attachLayout(json.data, json.assortment);
       });
   }
 
@@ -233,7 +240,7 @@
         try { doc = JSON.parse(text); } catch (e) { throw tagged('cache_bad_json', 'cache is not valid JSON'); }
         var problem = validateCache(doc);
         if (problem) throw tagged('cache_invalid', problem);
-        return { packages: doc.packages, generatedAt: doc.generated_at };
+        return { packages: attachLayout(doc.packages, doc.assortment), generatedAt: doc.generated_at };
       });
   }
 

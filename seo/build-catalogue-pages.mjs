@@ -732,7 +732,8 @@ ${RU_FOOTER}
   <!-- One network strategy for every storefront page (Render first, the
        gateway second). The checkout sends the order through it, and the
        catalogue loader takes its endpoint list from it. -->
-${live ? '' : `  <script src="${stampUrl('/assets/magic-net.js')}"></script>\n`}  <script src="${stampUrl('/assets/catalog-loader.js')}" defer></script>
+${live ? '' : `  <script src="${stampUrl('/assets/magic-net.js')}"></script>\n`}  <script src="${stampUrl('/assets/assortment-view.js')}" defer></script>
+  <script src="${stampUrl('/assets/catalog-loader.js')}" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->

@@ -12,6 +12,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 const path = require('path');
 
@@ -28,7 +32,7 @@ async function open(page, url, api = {}) {
   await page.route('**/assets/catalog.json*', async (route) => {
     st.snapshot += 1;
     // A fresh snapshot: the page may show it without a «saved data» notice.
-    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ...CATALOG, generated_at: new Date().toISOString() }) });
+    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(withLayout({ ...CATALOG, generated_at: new Date().toISOString() })) });
   });
   await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, async (route) => {
     const req = route.request();
@@ -37,7 +41,7 @@ async function open(page, url, api = {}) {
       st.api.push(new URL(req.url()).host); st.apiAt.push(Date.now() - t0);
       if (api.delayMs) await sleep(api.delayMs);
       if (api.status) return route.fulfill({ status: api.status, headers: cors, body: '' });
-      return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify({ status: 'success', data: api.data || CATALOG.packages }) });
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', data: api.data || CATALOG.packages })) });
     }
     return route.fulfill({ status: 204, body: '' });
   });
