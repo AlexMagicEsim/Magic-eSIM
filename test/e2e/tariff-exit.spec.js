@@ -182,9 +182,9 @@ test('opening the coverage list on a regional plan is reported once', async ({ p
   await openApp(page);
   await openVietnam(page);
 
-  // A multi-country plan is a card of the country's REGIONAL block, under «Также подойдут» — the backend's layout,
+  // A multi-country plan is a card of the country's REGIONAL block, under «Региональные тарифы» — the backend's layout,
   // the website's regional block (2026-10-25). Its tariff screen draws the coverage sheet.
-  await expect(page.locator('#country-list', { hasText: 'Также подойдут' })).toBeVisible();
+  await expect(page.locator('#country-list h2.section', { hasText: 'Региональные тарифы' })).toBeVisible();
   await page.locator('#country-list .card--tariff[data-package-id="apac-10-30"]').click();
   await page.locator('#screen-tariff[data-active]').waitFor();
 

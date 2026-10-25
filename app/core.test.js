@@ -988,8 +988,9 @@ test('an unnamed family with an unnamed code degrades to a word, not a code', ()
     'Сингапур, Малайзия и Таиланд');
 
   // Without the package — the call shape every other caller still uses — the
-  // answer is exactly what it was before this fallback existed.
-  assert.equal(C.destinationTitle('Central Asia 500MB/Day', 'CA-5'), 'Регион');
+  // name now resolves too: regionKey strips a MB allowance since 2026-10-25
+  // («Central Asia 500MB/Day» -> CENTRAL ASIA), where it used to give 'Регион'.
+  assert.equal(C.destinationTitle('Central Asia 500MB/Day', 'CA-5'), 'Центральная Азия');
 
   // And the extra argument must not change an ordinary package's answer.
   assert.equal(C.destinationTitle('Mystery Pack 1GB', 'QQ-7',

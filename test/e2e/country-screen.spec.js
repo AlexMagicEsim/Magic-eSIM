@@ -133,7 +133,8 @@ const regionalPlus = (id, gb, price) => Object.assign({}, base, {
   network_technologies: ['4G'], speed: '4G', hotspot_supported: false, sellable_days: [],
 });
 const WITH_REGION = [...VIETNAM, regionalPlus('vp-3', 3, 900), regionalPlus('vp-10', 10, 2100), regionalPlus('vp-20', 20, 3300)];
-const REGION = { ru: 'Вьетнам и Юго-Восточная Азия', en: 'Vietnam and Southeast Asia' };
+// «Vietnam Plus» under the website's name since 2026-10-25 («Азия Плюс», assets/country-tariffs.js publicPackageName).
+const REGION = { ru: 'Азия Плюс', en: 'Asia Plus' };
 
 async function openRegion(page, lang) {
   await page.fill('#search', lang === 'ru' ? 'Вьетнам' : 'Vietnam');
@@ -305,8 +306,9 @@ test('a country screen has no sort switch: its order is the backend\'s, the webs
   // Volume ascending — the backend's order (test/helpers/assortment-layout.cjs mirrors it for fixtures).
   const titles = await page.locator('#country-list > .card--tariff:not(.card--daily) .card__title').allTextContents();
   expect(titles.slice(0, 5)).toEqual(['3 ГБ', '5 ГБ', '10 ГБ', '50 ГБ', '100 ГБ']);
-  // The regional block follows the local one, as on the website.
-  await expect(page.locator('#country-list h2.section').first()).toHaveText('Также подойдут');
+  // The local block, then the regional one, under the website's headings.
+  await expect(page.locator('#country-list h2.section').nth(0)).toHaveText('Локальные тарифы');
+  await expect(page.locator('#country-list h2.section').nth(1)).toHaveText('Региональные тарифы');
 });
 
 for (const lang of ['ru', 'en']) {

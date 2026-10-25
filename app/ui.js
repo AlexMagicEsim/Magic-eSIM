@@ -1147,7 +1147,7 @@
    * Юго-Восточная Азия» ran into each other, and a daily card's unbreakable
    * pill pushed the Italy screen 119px wider than the phone.
    */
-  function planCard(p, group, { kind, title, price, per = '', term = '', best = false, cov = '', lines = [], chips = [] }) {
+  function planCard(p, group, { kind, title, price, per = '', term = '', best = false, region = '', cov = '', lines = [], chips = [] }) {
     const features = [
       p.hotspot_supported === true
         ? el('span', { class: 'tariff__pill tariff__pill--hotspot', text: t('plan.hotspot') })
@@ -1169,7 +1169,9 @@
       ]),
       el('div', { class: 'tariff__row' }, [
         term ? el('span', { class: 'tariff__pill tariff__term', text: term }) : null,
-        el('span', { class: 'tariff__kind', text: kindLabel(kind) }),
+        region
+          ? el('span', { class: 'tariff__kind tariff__kind--region', text: region })
+          : el('span', { class: 'tariff__kind', text: kindLabel(kind) }),
         best ? el('span', { class: 'badge badge--best', text: t('plan.best') }) : null,
       ]),
       cov || lines.length
@@ -1196,9 +1198,12 @@
       price: priceText(p.price),
       term: Number.isFinite(days) && days > 0 ? dayCount(days) : '',
       best: isBest,
-      // A regional card on a country screen says which region and how many
-      // countries — «Европа, 34 страны», the website's words and count.
-      cov: regional ? coverageLine(p) : '',
+      // A regional card names its region where the catalogue's name maps to
+      // one («Европа») — in the place of the repeated «Региональный тариф» —
+      // and counts its countries on the next line («34 страны»). An unnamed
+      // region keeps the kind word and its count, or its two to four countries.
+      region: regional ? C.regionName(C.regionKey(p), I.lang()) || '' : '',
+      cov: regional ? (C.regionName(C.regionKey(p), I.lang()) ? countryCount(C.countedCountries(C.coverageCodes(p))) : coverageLine(p)) : '',
       // What makes THIS card different from the one beside it. Drawn only when
       // something actually varies among tariffs of the same coverage, volume
       // and validity — so most countries show nothing here.
@@ -1280,11 +1285,16 @@
       const regional = group.regional_items || [];
       const dailyList = group.daily || [];
       const localDistinct = C.tariffDistinguishers(local, I.lang());
+      // The three blocks under the website's three headings — «Локальные
+      // тарифы», «Региональные тарифы», «Трафик на каждый день». The regional
+      // block used to sit under «Также подойдут», which did not say the plans
+      // below it cover a whole region.
+      if (local.length) list.appendChild(el('h2', { class: 'section section--block', text: t('country.localPlans') }));
       for (const p of local) list.appendChild(tariffCard(p, group, localDistinct));
       if (regional.length) {
         list.appendChild(el('h2', {
-          class: 'section',
-          text: local.length ? t('country.alsoFit') : t('country.regionalFit'),
+          class: 'section section--block',
+          text: t('country.regionalPlans'),
         }));
         const regionalDistinct = C.tariffDistinguishers(regional, I.lang());
         for (const p of regional) list.appendChild(tariffCard(p, group, regionalDistinct, { regional: true }));
