@@ -36,7 +36,7 @@
   "faq": [
     {
       "q": "Что взять на неделю на острове?",
-      "a": "Самая короткая местная ступень — 1 ГБ на 7 дней за {{price:local_1gb_7d}}. Если трафика нужно больше, срок не мешает взять 3 ГБ на 30 дней за {{price:local_3gb}}: в блоке «Тарифы для Шри-Ланки» он не дороже 3 ГБ на 15 дней."
+      "a": "Самая короткая местная ступень — 1 ГБ на 7 дней за {{price:local_1gb_7d}}. Если трафика нужно больше, в блоке «Тарифы для Шри-Ланки» есть 3 ГБ на 30 дней за {{price:local_3gb}}: дороже, чем 1 ГБ на две недели, зато трафика втрое больше."
     },
     {
       "q": "Сколько гигабайт брать на две недели с переездами?",
@@ -238,11 +238,11 @@
   ],
   "price_claims": [
     {
-      "id": "faq-3gb-30-not-dearer-than-15",
+      "id": "faq-3gb-30-dearer-than-1gb-14",
       "anchors": [
         {
           "field": "faq[0].a",
-          "text": "Если трафика нужно больше, срок не мешает взять 3 ГБ на 30 дней за {{price:local_3gb}}: в блоке «Тарифы для Шри-Ланки» он не дороже 3 ГБ на 15 дней."
+          "text": "Если трафика нужно больше, в блоке «Тарифы для Шри-Ланки» есть 3 ГБ на 30 дней за {{price:local_3gb}}: дороже, чем 1 ГБ на две недели, зато трафика втрое больше."
         }
       ],
       "terms": {
@@ -254,23 +254,23 @@
             "validity_days": 30
           }
         },
-        "d15": {
-          "package": "82722870-ecaa-4586-bcfd-16c41a4d3903",
+        "g14": {
+          "package": "dd8587fb-1b56-4cad-a05b-fdee450ca95c",
           "block": "local",
           "attrs": {
-            "data_gb": 3,
-            "validity_days": 15
+            "data_gb": 1,
+            "validity_days": 14
           }
         }
       },
       "assert": [
         {
-          "left": "d30",
-          "op": "<=",
-          "right": "d15"
+          "left": "g14",
+          "op": "<",
+          "right": "d30"
         }
       ],
-      "note": "2026-10-25: «3 ГБ на 30 дней не дороже 3 ГБ на 15 дней» в местном блоке."
+      "note": "2026-10-25 (R4: same volume, a longer term for less hides the shorter): «Sri Lanka 3GB 15Days» is hidden (3 GB / 30 days costs less), so «не дороже 3 ГБ на 15 дней» is gone. The new relation: the 3 GB / 30 days card costs more than «Sri Lanka 1 GB» / 14 days (g14 is a claim term, not a {{price}} token — the refresh scenario withdraws it)."
     }
   ],
   "price_refs": {

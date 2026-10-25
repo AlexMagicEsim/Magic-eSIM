@@ -79,7 +79,7 @@ test('a stated relation flips: red on the relation itself (montenegro prints its
 });
 
 test('a package a price claim names is withdrawn: red, with successor candidates in the same block', async () => {
-  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-not-dearer-than-15 · d15)');
+  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-dearer-than-1gb-14 · g14)');
   baseline(r);
   assert.deepEqual(r.failing, [PRICE]);
   assert.match(detail(r, PRICE), /нет в каталоге — исчез или снят с витрины; кандидаты в блоке «local»/);
