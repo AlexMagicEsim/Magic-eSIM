@@ -124,6 +124,34 @@
 .plan-foot .note{margin:0}
 @media (max-width:359px){.plan{padding:14px}.plan .plan-data{font-size:24px}.plan .price{font-size:21px}.plan .btn{padding:0 12px}}
 
+/* One row of cards, one set of lines: every card of a grid row is as tall as the row (the grid stretches it), and
+   its parts sit on the lines its neighbours' parts sit on — so the foot (network + the button) starts at the same
+   height in every card of the row and the buttons line up, whatever a neighbour's badge, coverage line or IP line
+   does. Six slots in the order the cards print them (RU: top, distinct chips, meta, «Покрытие и условия»,
+   the day picker, foot; EN: top, meta, days, foot); a slot a card lacks is an empty track, so the spacing is a
+   margin on the parts present (--plan-gap = the card's own gap), never a gap around an empty track. No height is
+   fixed: a track is as tall as its tallest part. Without subgrid the flex column above stays (foot pinned by
+   margin-top:auto). test/e2e/plan-card-rows.spec.js */
+@supports (grid-template-rows:subgrid){
+  /* the row gap of the grid would sit between every two of a card's six lines: the space between two rows of cards is
+     a top margin on every card below the first row instead — the gap it was (16 px; 12 px on one column), counted by
+     the columns of .plan-grid above (3 / 2 / 1); folded cards are the tail, so the first row is the first children */
+  .plan-grid{row-gap:0}
+  .plan-grid>.plan:nth-child(n+4){margin-top:16px}
+  @media (max-width:999px){.plan-grid>.plan:nth-child(3){margin-top:16px}}
+  @media (max-width:599px){.plan-grid>.plan:nth-child(n+2){margin-top:12px}}
+  .plan-grid>.plan{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:subgrid;grid-row:span 6;row-gap:0}
+  .plan-grid>.plan>*{grid-column:1;align-self:start}
+  .plan-grid>.plan>.plan-top{grid-row:1}
+  .plan-grid>.plan>.package-distinct{grid-row:2}
+  .plan-grid>.plan>.meta{grid-row:3}
+  .plan-grid>.plan>.plan-info{grid-row:4;justify-self:start}
+  .plan-grid>.plan>:is(.plan-days,.daily-terms-block){grid-row:5}
+  .plan-grid>.plan>.plan-foot{grid-row:6;align-self:stretch}
+  .plan-grid>.plan>*+*{margin-top:var(--plan-gap,10px)}
+  .plan-grid>.plan>:is(.plan-info,.package-distinct):not(:first-child){margin-top:calc(var(--plan-gap,10px) - 2px)}
+}
+
 #currencyNote{margin:-10px 0 0;text-align:center}
 
 /* ---------- before you buy ---------- */

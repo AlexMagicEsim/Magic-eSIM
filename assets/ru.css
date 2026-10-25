@@ -106,8 +106,10 @@
    jump UP when its single compact card arrived (CLS 0.028). */
 #tariffs[data-cards="compact"]:not([data-loading]):has(> .packages-status:not(:empty)){min-height:60vh}
 #tariffs[data-cards="compact"][data-loading="true"]{min-height:60vh}
-#tariffs[data-cards="compact"] .plan{gap:8px;padding:14px 16px 12px}
+#tariffs[data-cards="compact"] .plan{gap:8px;--plan-gap:8px;padding:14px 16px 12px}
 #tariffs[data-cards="compact"] .plan-info{min-height:28px;margin:-4px 0 0;font-size:13.5px}
+/* the same pull-up on the shared lines of a card row (page-country.css, subgrid): the gap is a margin there, never a gap around an empty slot */
+@supports (grid-template-rows:subgrid){#tariffs[data-cards="compact"] .plan-grid>.plan{row-gap:0}#tariffs[data-cards="compact"] .plan-grid>.plan>.plan-info:not(:first-child){margin-top:calc(var(--plan-gap) - 4px)}}
 #tariffs[data-cards="compact"] .daily-terms-block>.package-meta-label{margin:0 0 4px}
 #tariffs[data-cards="compact"] .daily-terms-block .package-meta{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}
 #tariffs[data-cards="compact"] .daily-term{min-width:40px;min-height:40px;padding:0 8px;flex:none}
@@ -345,7 +347,10 @@
 /* spacing = the English reference card (en/en.css .cp .plan: 20 / 20 / 16 px, gap 12) — owner, 2026-10-24: the RU page must look like a
    language version of the EN one. Measured: the first «Купить» stays in the first 390×844 screen on the same pages as with the
    #100 density (185/198 incl. Italy); the median first card 238 → 264 px. */
-#tariffs[data-cards="compact"] .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; container-type: inline-size; padding: 20px 20px 16px; gap: 12px; }
+#tariffs[data-cards="compact"] .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; padding: 20px 20px 16px; gap: 12px; --plan-gap: 12px; }
+/* the card's width is asked by its parts, each as wide as the card's content: a card that were a size container
+ * would be laid out alone (containment), and could not share the lines of its row (page-country.css, subgrid) */
+#tariffs[data-cards="compact"] .plan > :is(.plan-top, .daily-terms-block, .plan-foot) { container-type: inline-size; }
 #tariffs[data-cards="compact"] .plan-regional { --pc-strip: #c58fe0; --pc-ico: #8a16c7; --pc-word: #6a1199; }
 #tariffs[data-cards="compact"] .plan-daily { --pc-strip: #6cc3d4; --pc-ico: #0a7a8f; --pc-word: #0a5f72; }
 /* the family strip follows the card's rounded top (a mask, not overflow:hidden — that would clip the hover ring) */
@@ -412,8 +417,8 @@
 /* the Russian foot carries only «Сеть …» and «Пополнение», so the button stays beside them down to a 220 px card (a 320 px
  * phone included) and goes full width only below that */
 @container (max-width: 220px) {
-  #tariffs[data-cards="compact"] .plan-foot { grid-template-columns: minmax(0, 1fr); }
-  #tariffs[data-cards="compact"] .plan-foot > :is(.btn, .note) { grid-column: 1; grid-row: 3; width: 100%; margin-top: 6px; }
+  #tariffs[data-cards="compact"] .plan-foot :is(.plan-net, .plan-ip) { grid-column: 1 / -1; }
+  #tariffs[data-cards="compact"] .plan-foot > :is(.btn, .note) { grid-column: 1 / -1; grid-row: 3; width: 100%; margin-top: 6px; }
 }
 /* the ≤359 px rule in page-country.css lifts every headline to 24 px — a daily sentence keeps its own size */
 @media (max-width: 359px) { #tariffs[data-cards="compact"] .plan.plan-daily .plan-data { font-size: 19px; } }

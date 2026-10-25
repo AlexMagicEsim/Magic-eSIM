@@ -76,7 +76,10 @@ html:lang(ko) :is(h1, h2, h3, h4, .price) { letter-spacing: 0; }
  * ring on ::after, the focus-within ring, the button lift/press, the day press and settle, scroll reveal): the strip lives
  * on ::before, nothing here sets transform, animation or transition, and the button keeps its hover shadow — only its
  * shadow at rest is removed. Needs brand book v1.1 (graphite text, the neutral term pill, the family strips). */
-.cp .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; container-type: inline-size; padding: 20px 20px 16px; gap: 12px; }
+.cp .plan { --pc-strip: #9aa3bd; --pc-ico: #5b6478; --pc-word: #5b6478; --pc-ink: #2e3441; padding: 20px 20px 16px; gap: 12px; --plan-gap: 12px; }
+/* the card's width is asked by its parts, each as wide as the card's content: a card that were a size container
+ * would be laid out alone (containment), and could not share the lines of its row (page-country.css, subgrid) */
+.cp .plan > :is(.plan-top, .plan-days, .plan-foot) { container-type: inline-size; }
 .cp .plan-regional { --pc-strip: #c58fe0; --pc-ico: #8a16c7; --pc-word: #6a1199; }
 .cp .plan-daily { --pc-strip: #6cc3d4; --pc-ico: #0a7a8f; --pc-word: #0a5f72; }
 /* the family strip follows the card's rounded top (a mask, not overflow:hidden — that would clip the hover ring) */
@@ -123,19 +126,23 @@ html:lang(ko) :is(h1, h2, h3, h4, .price) { letter-spacing: 0; }
 @container (max-width: 300px) { .cp .plan .days { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 /* foot: the network line beside the button, the IP line across the card below (it was squeezed beside the button) */
-.cp .plan-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; row-gap: 6px; }
+/* the foot is as tall as the tallest foot of its row (page-country.css, subgrid): its lines go to its top and bottom
+ * (space-between — the button on top beside the network, or, on a narrow card, at the bottom under the lines), so
+ * the button sits where its neighbours' does whether or not an IP line is there or the network wraps */
+.cp .plan-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; row-gap: 6px; align-content: space-between; }
 .cp .plan-tech { display: contents; }
 .cp .plan-foot .plan-net { grid-column: 1; grid-row: 1; gap: 6px; font-size: 13px; font-weight: 550; color: var(--pc-ink); }
 .cp .plan-foot .plan-ip { grid-column: 1 / -1; grid-row: 2; font-size: 13px; }
-.cp .plan-foot > :is(.btn, .note) { grid-column: 2; grid-row: 1; }
+.cp .plan-foot > :is(.btn, .note) { grid-column: 2; grid-row: 1; align-self: start; }
 .cp .plan-net .net-g { padding: 1px 7px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--border); font-size: 12px; font-weight: 650; color: var(--muted); }
 /* the button: solid Button blue, 44 px, one line; no shadow AT REST — the hover shadow, lift and press stay */
 .cp .plan .btn { min-height: 44px; font-size: 14px; font-weight: 650; white-space: nowrap; }
 .cp .plan .btn:not(:hover):not(:focus-visible) { box-shadow: none; }
 .cp .plan .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+/* the foot is its own container (above): on a narrow card every line takes the whole width — the button under them */
 @container (max-width: 260px) {
-  .cp .plan-foot { grid-template-columns: minmax(0, 1fr); }
-  .cp .plan-foot > :is(.btn, .note) { grid-column: 1; grid-row: 3; width: 100%; }
+  .cp .plan-foot .plan-net { grid-column: 1 / -1; }
+  .cp .plan-foot > :is(.btn, .note) { grid-column: 1 / -1; grid-row: 3; width: 100%; }
 }
 /* the ≤359 px rule in page-country.css lifts every headline to 24 px — a daily sentence keeps its own size */
 @media (max-width: 359px) { .cp .plan.plan-daily .plan-data { font-size: 19px; } }
