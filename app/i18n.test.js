@@ -620,6 +620,9 @@ test('the frozen list covers every Russian key, not just the ones present when i
     'gco.privacyLink', 'gco.pay', 'gco.unavailable', 'gco.continue',
     // The plan card in the website's words (B1, 2026-10-25): the kind of plan, and «за 3 дня» under a daily total.
     'plan.badgeLocal', 'plan.badgeRegional', 'plan.badgeDaily', 'daily.forTerm',
+    // The three block headings in the website's words (2026-10-25): «Также подойдут» / «Подойдут региональные тарифы»
+    // put regional plans under a heading that did not say they were regional.
+    'country.localPlans', 'country.regionalPlans',
     // Phase 1 — the language block itself.
     'settings.language.section', 'settings.language.hint',
     'settings.language.ru', 'settings.language.en',
@@ -646,7 +649,7 @@ test('the frozen list covers every Russian key, not just the ones present when i
     'tile.from', 'stale.notice', 'common.refresh',
     'tile.fromWord', 'plan.unlimited', 'plan.gb',
     'plan.best', 'plan.hotspot', 'country.onePlan',
-    'country.alsoFit', 'country.regionalFit', 'country.none',
+    'country.none',
     'country.pickAnother', 'tariff.coverageConditions', 'tariff.coverage',
     'tariff.afterPayment', 'tariff.unavailable', 'tariff.term',
     'tariff.willItWork', 'tariff.iphoneGuide', 'tariff.androidGuide',

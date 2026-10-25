@@ -44,12 +44,12 @@ async function siteBlocks(page, kind) {
 
 async function appBlocks(page) {
   return page.evaluate(() => {
+    // Each card names its block (`plan-local` / `plan-regional` / `plan-daily`, app/ui.js planCard); the order is the
+    // DOM's. Since 2026-10-25 every block has a heading, so «the first h2 starts the regional block» no longer holds.
     const out = { local: [], regional: [], daily: [] };
-    let block = 'local';
-    for (const node of document.querySelectorAll('#country-list > *')) {
-      if (node.tagName === 'H2') { block = node.classList.contains('section--daily') ? 'daily' : 'regional'; continue; }
-      const id = node.getAttribute && node.getAttribute('data-package-id');
-      if (id) out[node.classList.contains('card--daily') ? 'daily' : block].push(id);
+    for (const node of document.querySelectorAll('#country-list > .card--tariff[data-package-id]')) {
+      const block = ['local', 'regional', 'daily'].find((k) => node.classList.contains(`plan-${k}`));
+      out[block].push(node.getAttribute('data-package-id'));
     }
     return out;
   });

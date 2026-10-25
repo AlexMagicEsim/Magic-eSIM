@@ -734,6 +734,14 @@ button.card:active { transform: scale(.995); }
   border-top: 1px solid var(--line);
 }
 .stack > .section:first-child { margin-top: var(--s2); }
+/* The three block headings of a country screen («Локальные тарифы», «Региональные
+   тарифы», «Трафик на каждый день»): the same weight and colour as the daily one,
+   so the three read as one set — the website's three blocks. */
+.section--block { color: var(--ink); font-size: 19px; font-weight: 680; line-height: 1.3; }
+.stack > .section--block:not(:first-child) {
+  margin-top: var(--s7); padding-top: var(--s4); border-top: 1px solid var(--line);
+}
+.section--daily { font-size: 19px; line-height: 1.3; }
 
 /* -----------------------------------------------------------------------
  * ListRow (§12.3) — the destination row.
@@ -1664,6 +1672,9 @@ button.card.promo__toggle {
   white-space:nowrap;
 }
 .tariff__kind{ font-size:13px;font-weight:550;line-height:1.3;color:var(--pc-word); }
+/* The region's own name in the kind's place («Европа»): the word a buyer looks
+   for, so one step up from the kind label. */
+.tariff__kind--region{ font-size:14px;font-weight:650; }
 .card--tariff .badge--best{ font-size:13px; }
 
 /* Coverage and the daily lines — running text, so it wraps. */

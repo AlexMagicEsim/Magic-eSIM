@@ -129,10 +129,10 @@ test('a regional card names its region and counts as the website does (Ukraine i
   const eu = ROWS.find((r) => /^Europe \(35 areas\)/.test(r.name));
   expect(eu.coverage_country_codes).toContain('UA');
   const card = page.locator(`#country-list .plan-regional[data-package-id="${eu.package_id}"]`);
-  await expect(card.locator('.tariff__kind')).toHaveText('Региональный тариф');
+  await expect(card.locator('.tariff__kind')).toHaveText('Европа');                       // the region, not «Региональный тариф»
   await expect(card.locator('.tariff__line--cov')).toHaveText('34 страны');               // was «Регион · 35 стран»
   await card.click();
-  await expect(page.locator('.tariff-head__kind')).toHaveText('Региональный тариф · 34 страны');
+  await expect(page.locator('.tariff-head__kind')).toHaveText('Региональный тариф · Европа, 34 страны');
   await expect(page.locator('#tariff-body')).not.toContainText('Украина');
 });
 
@@ -214,4 +214,46 @@ test.describe('on a touch screen', () => {
     await page.locator('#checkout-email').blur();
     await expect(page.locator('.tabbar')).toBeVisible();
   });
+});
+
+/*
+ * The three block headings and the region on a regional card, in every language (2026-10-25). The regional block sat
+ * under «Также подойдут» — a heading that did not say the plans below it cover a whole region. The headings are the
+ * website's three blocks; the daily one is the shared module's own title (assets/daily-plan-copy.js), as on the website.
+ */
+const HEADINGS = {
+  ru: ['Локальные тарифы', 'Региональные тарифы', 'Трафик на каждый день'],
+  en: ['Local plans', 'Regional plans', 'Data every day'],
+  es: ['Planes locales', 'Planes regionales', 'Datos cada día'],
+  de: ['Ländertarife', 'Regionale Tarife', 'Daten für jeden Tag'],
+  fr: ['Forfaits locaux', 'Forfaits régionaux', 'Des données chaque jour'],
+  'zh-Hans': ['单国套餐', '区域套餐', '每日流量'],
+  ko: ['국가 요금제', '지역 요금제', '매일 데이터'],
+};
+const EUROPE = { ru: 'Европа', en: 'Europe', es: 'Europa', de: 'Europa', fr: 'Europe', 'zh-Hans': '欧洲', ko: '유럽' };
+const ITALY = { ru: 'Италия', en: 'Italy', es: 'Italia', de: 'Italien', fr: 'Italie', 'zh-Hans': '意大利', ko: '이탈리아' };
+
+for (const lang of Object.keys(HEADINGS)) {
+  test(`[${lang}] the three blocks carry the website's headings, and a regional card names its region`, async ({ page }) => {
+    await installMiniApp(page, { languageCode: lang === 'zh-Hans' ? 'zh-hans' : lang, packages: ROWS });
+    await openApp(page);
+    await page.fill('#search', ITALY[lang]);
+    await page.locator('#home-countries .card--row, #home-countries .tile', { hasText: ITALY[lang] }).first().click();
+    await expect(page.locator('#screen-country[data-active]')).toBeVisible();
+    await expect(page.locator('#country-list h2.section')).toHaveText(HEADINGS[lang]);
+    await expect(page.locator('#country-list')).not.toContainText(/Также подойдут|These also work/);
+    const eu = ROWS.find((r) => /^Europe \(35 areas\)/.test(r.name));
+    const card = page.locator(`#country-list .plan-regional[data-package-id="${eu.package_id}"]`);
+    await expect(card.locator('.tariff__kind')).toHaveText(EUROPE[lang]);
+    await expect(card.locator('.tariff__line--cov')).toContainText('34');                  // the count stays
+    await expect(card.locator('.tariff__more')).toBeVisible();                              // and «Покрытие и условия»
+  });
+}
+
+test('a region without a name keeps the kind word and lists its few countries', async ({ page }) => {
+  await installMiniApp(page, { packages: ROWS });
+  await toCountry(page, 'TH');
+  const card = page.locator('#country-list .plan-regional').first();
+  await expect(card.locator('.tariff__kind')).toHaveText('Региональный тариф');
+  await expect(card.locator('.tariff__line--cov')).toContainText('Малайзия');
 });
