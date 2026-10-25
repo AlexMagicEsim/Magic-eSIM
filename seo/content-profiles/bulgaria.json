@@ -34,7 +34,7 @@
   "faq": [
     {
       "q": "Сколько трафика брать на неделю на море?",
-      "a": "Начните с того, что в болгарской сетке две соседние ступени стоят одинаково: 20 и 30 ГБ на 30 дней — по {{price:g20}}. Различает их другая строка: у двадцатигигабайтного в карточке отмечено пополнение, у тридцатигигабайтного его нет. Для недели на море всё это избыточно — там обычно хватает нижних ступеней, 1 ГБ на 7 дней за {{price:g1}} или 3 ГБ на 15 дней за {{price:g3}}, потому что на побережье телефон чаще подключён к Wi-Fi жилья."
+      "a": "Для недели на море обычно хватает нижних ступеней местной сетки, 1 ГБ на 7 дней за {{price:g1}} или 3 ГБ на 15 дней за {{price:g3}}, потому что на побережье телефон чаще подключён к Wi-Fi жилья. Старшие ступени рассчитаны на другой расход — например, на зимнюю поездку в горы или на долгое пребывание."
     },
     {
       "q": "А на горнолыжную неделю?",
@@ -78,58 +78,15 @@
         "data_gb": 3,
         "validity_days": 15
       }
-    },
-    "g20": {
-      "package": "245ad75e-d24f-4eaf-bd83-0d5c7bbaa049",
-      "block": "local",
-      "attrs": {
-        "data_gb": 20,
-        "validity_days": 30
-      }
     }
   },
   "price_claims": [
-    {
-      "id": "top-two-steps-same-price",
-      "anchors": [
-        {
-          "field": "faq[0].a",
-          "text": "Начните с того, что в болгарской сетке две соседние ступени стоят одинаково: 20 и 30 ГБ на 30 дней — по {{price:g20}}."
-        }
-      ],
-      "terms": {
-        "g20": {
-          "package": "245ad75e-d24f-4eaf-bd83-0d5c7bbaa049",
-          "block": "local",
-          "attrs": {
-            "data_gb": 20,
-            "validity_days": 30
-          }
-        },
-        "g30": {
-          "package": "17d95303-ce07-47c2-b6fe-68404f992a91",
-          "block": "local",
-          "attrs": {
-            "data_gb": 30,
-            "validity_days": 30
-          }
-        }
-      },
-      "assert": [
-        {
-          "left": "g20",
-          "op": "=",
-          "right": "g30"
-        }
-      ],
-      "note": "Added in stage B (2026-10-18). «стоят одинаково» — an equality has a shelf life: when they part, this goes red in the SEO-refresh PR and the sentence is rewritten. 2026-10-25 (activation): 50 GB and 100 GB / 6 months now sit above them, so «наверху сетки» became «две соседние ступени … на 30 дней»."
-    },
     {
       "id": "lowest-steps-1gb-3gb",
       "anchors": [
         {
           "field": "faq[0].a",
-          "text": "Для недели на море всё это избыточно — там обычно хватает нижних ступеней, 1 ГБ на 7 дней за {{price:g1}} или 3 ГБ на 15 дней за {{price:g3}}, потому что на побережье телефон чаще подключён к Wi-Fi жилья."
+          "text": "Для недели на море обычно хватает нижних ступеней местной сетки, 1 ГБ на 7 дней за {{price:g1}} или 3 ГБ на 15 дней за {{price:g3}}, потому что на побережье телефон чаще подключён к Wi-Fi жилья."
         }
       ],
       "terms": {
@@ -165,7 +122,7 @@
           "right": "g3"
         }
       ],
-      "note": "2026-10-25 (590-plan activation): the local floor moved from 3 GB / 15 days to «Bulgaria 1GB 7Days»; «нижних ступеней, 1 ГБ … или 3 ГБ» = local floor is g1, g3 the next rung up."
+      "note": "2026-10-25 (590-plan activation): the local floor moved from 3 GB / 15 days to «Bulgaria 1GB 7Days»; «нижних ступеней, 1 ГБ … или 3 ГБ» = local floor is g1, g3 the next rung up. 2026-10-25 (R3 at an equal price): «Bulgaria 20GB 30Days» (1900 ₽ = 30 GB) is hidden, so the «20 и 30 ГБ стоят одинаково» opening and its claim are gone; this sentence now opens the answer."
     }
   ]
 }
