@@ -1,0 +1,777 @@
+[
+ {
+  "package_id": "8ff6aa4c-ef2d-4d01-ba16-08a982ee9e2c",
+  "name": "Italy 1GB 7Days",
+  "data_gb": 1,
+  "validity_days": 7,
+  "country_code": "IT",
+  "region": "IT",
+  "price": 150,
+  "currency": "RUB",
+  "networks": [
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   }
+  ],
+  "topup_available": true,
+  "speed": "3G/4G/5G",
+  "fup_policy": "",
+  "coverage_country_codes": [
+   "IT"
+  ],
+  "coverage_countries": [],
+  "coverage_flags": "🇮🇹",
+  "plan_type": "FIXED_VOLUME",
+  "daily_gb": null,
+  "daily_term_mode": null,
+  "daily_throttle_label": null,
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": [],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "speed_note": "",
+  "calls_supported": null,
+  "sms_supported": null,
+  "data_only": null,
+  "unlimited": null,
+  "ip_export": [
+   "FR",
+   "NL",
+   "UK"
+  ]
+ },
+ {
+  "package_id": "b205fdb3-34fd-4ada-b9c0-5d7d9f919fdb",
+  "name": "Italy 10GB 30Days",
+  "data_gb": 10,
+  "validity_days": 30,
+  "country_code": "IT",
+  "region": "IT",
+  "price": 950,
+  "currency": "RUB",
+  "networks": [
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   }
+  ],
+  "topup_available": true,
+  "speed": "3G/4G/5G",
+  "fup_policy": "",
+  "coverage_country_codes": [
+   "IT"
+  ],
+  "coverage_countries": [],
+  "coverage_flags": "🇮🇹",
+  "plan_type": "FIXED_VOLUME",
+  "daily_gb": null,
+  "daily_term_mode": null,
+  "daily_throttle_label": null,
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": [],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "speed_note": "",
+  "calls_supported": null,
+  "sms_supported": null,
+  "data_only": null,
+  "unlimited": null,
+  "ip_export": [
+   "FR",
+   "NL",
+   "UK"
+  ]
+ },
+ {
+  "package_id": "85e74caa-bf21-4bab-b90e-273fb3b7cd18",
+  "name": "Europe (35 areas) 1GB 7Days",
+  "data_gb": 1,
+  "validity_days": 7,
+  "country_code": "EU-35",
+  "region": "NO,DE,BE,FI,PT,BG,DK,LT,LU,LV,HR,UA,HU,SE,SI,MD,SK,SM,GB,IE,EE,CH,MT,IS,IT,VA,GR,ES,AT,CY,CZ,PL,RO,LI,NL",
+  "price": 150,
+  "currency": "RUB",
+  "networks": [
+   {
+    "operator": "3",
+    "type": "5G"
+   },
+   {
+    "operator": "A1.net",
+    "type": "5G"
+   },
+   {
+    "operator": "Proximus",
+    "type": "5G"
+   },
+   {
+    "operator": "Orange",
+    "type": "4G"
+   },
+   {
+    "operator": "Base",
+    "type": "4G"
+   },
+   {
+    "operator": "A1",
+    "type": "4G"
+   },
+   {
+    "operator": "Vivacom",
+    "type": "4G"
+   },
+   {
+    "operator": "Telenor",
+    "type": "4G"
+   },
+   {
+    "operator": "Tele2",
+    "type": "5G"
+   },
+   {
+    "operator": "A1",
+    "type": "4G"
+   },
+   {
+    "operator": "PrimeTel",
+    "type": "4G"
+   },
+   {
+    "operator": "Epic",
+    "type": "5G"
+   },
+   {
+    "operator": "O2",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "5G"
+   },
+   {
+    "operator": "TDC",
+    "type": "5G"
+   },
+   {
+    "operator": "3",
+    "type": "5G"
+   },
+   {
+    "operator": "Tele2",
+    "type": "5G"
+   },
+   {
+    "operator": "Telia",
+    "type": "5G"
+   },
+   {
+    "operator": "DNA",
+    "type": "5G"
+   },
+   {
+    "operator": "O2",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "5G"
+   },
+   {
+    "operator": "Telenor Hungary",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "5G"
+   },
+   {
+    "operator": "Nova",
+    "type": "5G"
+   },
+   {
+    "operator": "Síminn",
+    "type": "5G"
+   },
+   {
+    "operator": "Eir",
+    "type": "5G"
+   },
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   },
+   {
+    "operator": "Tele2",
+    "type": "5G"
+   },
+   {
+    "operator": "LMT",
+    "type": "5G"
+   },
+   {
+    "operator": "7acht",
+    "type": "4G"
+   },
+   {
+    "operator": "FL1",
+    "type": "5G"
+   },
+   {
+    "operator": "Telia",
+    "type": "5G"
+   },
+   {
+    "operator": "Tele2",
+    "type": "5G"
+   },
+   {
+    "operator": "Tango",
+    "type": "5G"
+   },
+   {
+    "operator": "Orange",
+    "type": "5G"
+   },
+   {
+    "operator": "POST",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "5G"
+   },
+   {
+    "operator": "GO",
+    "type": "5G"
+   },
+   {
+    "operator": "Orange",
+    "type": "5G"
+   },
+   {
+    "operator": "KPN",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "5G"
+   },
+   {
+    "operator": "Telia",
+    "type": "5G"
+   },
+   {
+    "operator": "Telenor",
+    "type": "5G"
+   },
+   {
+    "operator": "Play",
+    "type": "5G"
+   },
+   {
+    "operator": "Orange",
+    "type": "4G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "5G"
+   },
+   {
+    "operator": "NOS",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "4G"
+   },
+   {
+    "operator": "Orange",
+    "type": "5G"
+   },
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   },
+   {
+    "operator": "TIM maritime",
+    "type": "3G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   },
+   {
+    "operator": "Orange",
+    "type": "5G"
+   },
+   {
+    "operator": "O2",
+    "type": "5G"
+   },
+   {
+    "operator": "Telemach",
+    "type": "5G"
+   },
+   {
+    "operator": "Mobitel",
+    "type": "5G"
+   },
+   {
+    "operator": "Orange",
+    "type": "5G"
+   },
+   {
+    "operator": "Movistar",
+    "type": "5G"
+   },
+   {
+    "operator": "3",
+    "type": "5G"
+   },
+   {
+    "operator": "Telia",
+    "type": "5G"
+   },
+   {
+    "operator": "Telenor",
+    "type": "5G"
+   },
+   {
+    "operator": "Sunrise",
+    "type": "5G"
+   },
+   {
+    "operator": "Salt",
+    "type": "5G"
+   },
+   {
+    "operator": "Vodafone",
+    "type": "4G"
+   },
+   {
+    "operator": "Kyivstar",
+    "type": "4G"
+   },
+   {
+    "operator": "lifecell",
+    "type": "4G"
+   },
+   {
+    "operator": "EE",
+    "type": "5G"
+   },
+   {
+    "operator": "3",
+    "type": "4G"
+   },
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   },
+   {
+    "operator": "TIM maritime",
+    "type": "3G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   }
+  ],
+  "topup_available": true,
+  "speed": "3G/4G/5G",
+  "fup_policy": "",
+  "coverage_country_codes": [
+   "NO",
+   "DE",
+   "BE",
+   "FI",
+   "PT",
+   "BG",
+   "DK",
+   "LT",
+   "LU",
+   "LV",
+   "HR",
+   "UA",
+   "HU",
+   "SE",
+   "SI",
+   "MD",
+   "SK",
+   "SM",
+   "GB",
+   "IE",
+   "EE",
+   "CH",
+   "MT",
+   "IS",
+   "IT",
+   "VA",
+   "GR",
+   "ES",
+   "AT",
+   "CY",
+   "CZ",
+   "PL",
+   "RO",
+   "LI",
+   "NL"
+  ],
+  "coverage_countries": [],
+  "coverage_flags": "🇳🇴 🇩🇪 🇧🇪 🇫🇮 🇵🇹 🇧🇬 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇭🇷 🇺🇦 🇭🇺 🇸🇪 🇸🇮 🇲🇩 🇸🇰 🇸🇲 🇬🇧 🇮🇪 🇪🇪 🇨🇭 🇲🇹 🇮🇸 🇮🇹 🇻🇦 🇬🇷 🇪🇸 🇦🇹 🇨🇾 🇨🇿 🇵🇱 🇷🇴 🇱🇮 🇳🇱",
+  "plan_type": "FIXED_VOLUME",
+  "daily_gb": null,
+  "daily_term_mode": null,
+  "daily_throttle_label": null,
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": [],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "speed_note": "",
+  "calls_supported": null,
+  "sms_supported": null,
+  "data_only": null,
+  "unlimited": null,
+  "ip_export": [
+   "FR",
+   "NL",
+   "UK"
+  ]
+ },
+ {
+  "package_id": "d9a99f64-6984-430f-8c33-113ec2ad525c",
+  "name": "Italy 500MB/Day",
+  "data_gb": 0,
+  "validity_days": null,
+  "country_code": "IT",
+  "region": "IT",
+  "price": 100,
+  "currency": "RUB",
+  "networks": [
+   {
+    "operator": "TIM",
+    "type": "5G"
+   },
+   {
+    "operator": "Iliad",
+    "type": "5G"
+   },
+   {
+    "operator": "Wind",
+    "type": "5G"
+   }
+  ],
+  "topup_available": false,
+  "speed": "3G/4G/5G",
+  "fup_policy": "512 Kbps",
+  "coverage_country_codes": [
+   "IT"
+  ],
+  "coverage_countries": [],
+  "coverage_flags": "🇮🇹",
+  "plan_type": "DAILY",
+  "daily_gb": 0.49,
+  "daily_term_mode": "PER_DAY",
+  "daily_throttle_label": "512 Kbps",
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": [
+   3,
+   5,
+   7,
+   10,
+   15,
+   30
+  ],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "speed_note": "",
+  "calls_supported": null,
+  "sms_supported": null,
+  "data_only": null,
+  "unlimited": null,
+  "ip_export": [
+   "FR",
+   "NL",
+   "UK"
+  ],
+  "term_prices": [
+   {
+    "days": 3,
+    "price": 250
+   },
+   {
+    "days": 5,
+    "price": 350
+   },
+   {
+    "days": 7,
+    "price": 450
+   },
+   {
+    "days": 10,
+    "price": 650
+   },
+   {
+    "days": 15,
+    "price": 950
+   },
+   {
+    "days": 30,
+    "price": 1550
+   }
+  ]
+ },
+ {
+  "package_id": "23fe9fb3-867b-4820-8aef-7645f5b112f9",
+  "name": "EUconnect Unlimited 7 Days",
+  "data_gb": 0,
+  "validity_days": 7,
+  "country_code": "AT",
+  "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB",
+  "price": 2000,
+  "currency": "RUB",
+  "networks": [],
+  "topup_available": false,
+  "speed": "",
+  "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+  "coverage_country_codes": [
+   "AT",
+   "BE",
+   "BG",
+   "HR",
+   "CY",
+   "CZ",
+   "DK",
+   "EE",
+   "FI",
+   "FR",
+   "DE",
+   "GR",
+   "HU",
+   "IE",
+   "IT",
+   "LV",
+   "LT",
+   "LU",
+   "MT",
+   "NL",
+   "PL",
+   "PT",
+   "RO",
+   "SK",
+   "SI",
+   "ES",
+   "SE",
+   "GB"
+  ],
+  "coverage_countries": [],
+  "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
+  "plan_type": "DAILY",
+  "daily_gb": 3,
+  "daily_term_mode": "FIXED_TERM",
+  "daily_throttle_label": "1 Mbps",
+  "daily_throttle_continues": true,
+  "daily_reset_confirmed": true,
+  "sellable_days": [
+   7
+  ],
+  "network_technologies": [
+   "4G"
+  ],
+  "hotspot_supported": true,
+  "activation_policy": "first_data_usage",
+  "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+  "calls_supported": false,
+  "sms_supported": false,
+  "data_only": true,
+  "unlimited": true,
+  "ip_export": []
+ },
+ {
+  "package_id": "817d4768-170f-4378-b4c9-103bcef9f9e1",
+  "name": "Thailand 1GB 7Days",
+  "data_gb": 1,
+  "validity_days": 7,
+  "country_code": "TH",
+  "region": "TH",
+  "price": 200,
+  "currency": "RUB",
+  "networks": [
+   {
+    "operator": "TrueMove H",
+    "type": "5G"
+   },
+   {
+    "operator": "DTAC",
+    "type": "5G"
+   }
+  ],
+  "topup_available": true,
+  "speed": "3G/4G/5G",
+  "fup_policy": "",
+  "coverage_country_codes": [
+   "TH"
+  ],
+  "coverage_countries": [],
+  "coverage_flags": "🇹🇭",
+  "plan_type": "FIXED_VOLUME",
+  "daily_gb": null,
+  "daily_term_mode": null,
+  "daily_throttle_label": null,
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": [],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "speed_note": "",
+  "calls_supported": null,
+  "sms_supported": null,
+  "data_only": null,
+  "unlimited": null,
+  "ip_export": [
+   "HK"
+  ]
+ },
+ {
+  "package_id": "34aa461f-5adf-4b55-8ffd-53f7d8a7eade",
+  "name": "Singapore & Malaysia & Thailand 1GB 7Days",
+  "data_gb": 1,
+  "validity_days": 7,
+  "country_code": "SGMYTH-3",
+  "region": "TH,SG,MY",
+  "price": 250,
+  "currency": "RUB",
+  "networks": [
+   {
+    "operator": "Maxis",
+    "type": "5G"
+   },
+   {
+    "operator": "CelcomDigi",
+    "type": "5G"
+   },
+   {
+    "operator": "U Mobile",
+    "type": "5G"
+   },
+   {
+    "operator": "M1",
+    "type": "5G"
+   },
+   {
+    "operator": "SingTel",
+    "type": "5G"
+   },
+   {
+    "operator": "DTAC",
+    "type": "5G"
+   },
+   {
+    "operator": "TrueMove H",
+    "type": "5G"
+   }
+  ],
+  "topup_available": true,
+  "speed": "3G/4G/5G",
+  "fup_policy": "",
+  "coverage_country_codes": [
+   "TH",
+   "SG",
+   "MY"
+  ],
+  "coverage_countries": [],
+  "coverage_flags": "🇹🇭 🇸🇬 🇲🇾",
+  "plan_type": "FIXED_VOLUME",
+  "daily_gb": null,
+  "daily_term_mode": null,
+  "daily_throttle_label": null,
+  "daily_throttle_continues": false,
+  "daily_reset_confirmed": false,
+  "sellable_days": [],
+  "network_technologies": [
+   "3G",
+   "4G",
+   "5G"
+  ],
+  "hotspot_supported": null,
+  "activation_policy": "unknown",
+  "speed_note": "",
+  "calls_supported": null,
+  "sms_supported": null,
+  "data_only": null,
+  "unlimited": null,
+  "ip_export": [
+   "HK"
+  ]
+ }
+]

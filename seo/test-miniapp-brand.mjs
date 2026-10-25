@@ -17,7 +17,10 @@ const noComments = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
 // Brand book v1.0, «Цветовая палитра»: brand, action, neutral, status (+ the chip pair of «Оптимальный выбор»).
 export const PALETTE = new Set(['#8A16C7', '#3866D9', '#00C7DF', '#F6CE82', '#4267E8', '#3557D6', '#EEF2FF', '#111827', '#5B6478',
   '#687186', '#E6EAF2', '#D6DEF0', '#F7F9FC', '#FFFFFF', '#080B16', '#1F9D57', '#C5372B', '#FFF7E6', '#F2D08A', '#7A4B00',
-  '#14794A', '#E7F6EE', '#FFF', '#000']);
+  '#14794A', '#E7F6EE', '#FFF', '#000',
+  // Brand book v1.2, the plan card B1 «Soft Neutral» (assets/ru.css, the website's card): the kind's strip and word —
+  // local, regional, daily. The Mini App's plan card is the same card (2026-10-25).
+  '#9AA3BD', '#C58FE0', '#6A1199', '#6CC3D4', '#0A5F72']);
 
 /** Hex colours a stylesheet uses outside comments that are not in the palette. */
 export function offPalette(css) {
