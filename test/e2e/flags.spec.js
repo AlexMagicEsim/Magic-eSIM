@@ -5,7 +5,7 @@
  * Android, Chrome and Edge on the desktop) and, through the `webkit-flags`
  * project, in WebKit (Safari on macOS and iOS, Telegram on iOS).
  *
- *   - all 198 files under assets/flags decode and are not blank;
+ *   - all 199 files under assets/flags decode and are not blank;
  *   - the seven repaired in 2026-10 draw what the minified copies had lost:
  *     the stars of New Zealand, Honduras and Curaçao, China's and
  *     Guinea-Bissau's and Grenada's stars in their real shape, Guatemala's
@@ -60,7 +60,7 @@ function countIn(page, code, box, cls) {
   }, { code, box, cls });
 }
 
-test('all 198 flags decode and are not blank', async ({ page }) => {
+test('all 199 flags decode and are not blank', async ({ page }) => {
   await offline(page);
   await page.goto('/assets/flags/LICENSE.txt');
   const bad = await page.evaluate(async (codes) => {
@@ -82,7 +82,7 @@ test('all 198 flags decode and are not blank', async ({ page }) => {
     }
     return out;
   }, CODES);
-  expect(CODES.length).toBe(198);
+  expect(CODES.length).toBe(199);
   expect(bad).toEqual([]);
 });
 

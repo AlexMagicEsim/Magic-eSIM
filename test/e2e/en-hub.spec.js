@@ -56,11 +56,11 @@ test('first screen: payment bar, then the hero and a large search; no overflow, 
   }
 });
 
-test('every destination link opens a real country page (198, all 200)', async ({ page, request }) => {
+test('every destination link opens a real country page (199, all 200)', async ({ page, request }) => {
   await open(page);
   const hrefs = await page.locator('#hubList a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
-  expect(hrefs.length).toBe(198);
-  expect(new Set(hrefs).size).toBe(198);
+  expect(hrefs.length).toBe(199);
+  expect(new Set(hrefs).size).toBe(199);
   for (const h of hrefs) {
     const r = await request.get(h);
     expect(r.status(), h).toBe(200);
@@ -110,18 +110,18 @@ test('search with no result: says so, offers the whole list, and gives it back',
   await page.locator('#hubReset').click();
   await expect(page.locator('#hq')).toBeFocused();
   await expect(page.locator('#hq')).toHaveValue('');
-  await expect(visibleLinks(page)).toHaveCount(198);
+  await expect(visibleLinks(page)).toHaveCount(199);
   await expect(page.locator('#hubEmpty')).toBeHidden();
   await expect(page.locator('#hubPopular')).toBeVisible();
   await expect(page.locator('#hubAz')).toBeVisible();
 
   await page.locator('#hq').fill('zzzz');
   await page.locator('#hubClear').click();
-  await expect(visibleLinks(page)).toHaveCount(198);
+  await expect(visibleLinks(page)).toHaveCount(199);
   await page.locator('#hq').fill('zzzz');
   await page.locator('#hq').press('Escape');
   await expect(page.locator('#hq')).toHaveValue('');
-  await expect(visibleLinks(page)).toHaveCount(198);
+  await expect(visibleLinks(page)).toHaveCount(199);
 });
 
 test('keyboard: Tab from the search reaches the popular tiles, the letters, then the list; a letter jumps', async ({ page }) => {
@@ -173,7 +173,7 @@ test.describe('without JavaScript', () => {
   test('no search box, the full list and the letters', async ({ page }) => {
     await open(page);
     await expect(page.locator('#hubSearch')).toBeHidden();
-    await expect(page.locator('#hubList a')).toHaveCount(198);
+    await expect(page.locator('#hubList a')).toHaveCount(199);
     await expect(page.locator('#hubAz a').first()).toBeVisible();
     await expect(page.locator('#hubEmpty')).toBeHidden();
     await expect(page.locator('#previewNotice')).toBeVisible();

@@ -188,6 +188,7 @@ window.MagicEnDestinations = [
   { iso: "TN", slug: "tunisia", name: "Tunisia" },
   { iso: "TR", slug: "turkey", name: "Türkiye" },
   { iso: "TC", slug: "turks-and-caicos", name: "Turks and Caicos Islands" },
+  { iso: "VI", slug: "us-virgin-islands", name: "U.S. Virgin Islands" },
   { iso: "UG", slug: "uganda", name: "Uganda" },
   { iso: "AE", slug: "uae", name: "United Arab Emirates" },
   { iso: "GB", slug: "united-kingdom", name: "United Kingdom" },

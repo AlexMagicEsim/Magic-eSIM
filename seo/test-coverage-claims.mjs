@@ -377,6 +377,12 @@ const newPkg = (c, templateName, over) => {
   p.region = p.coverage_country_codes.join(', '); c.push(p); return p;
 };
 const red = (slug, c, why) => assert.ok(liveRun(slug, c).length > 0, `${slug} must turn red: ${why}`);
+// 2026-10-25: the cases rebuilt after the 590-plan activation also name the
+// claim that must fire, so a replacement cannot pass on an unrelated claim.
+const redBy = (slug, c, claimId, why) => {
+  const fired = liveRun(slug, c).map((p) => p.claim);
+  assert.ok(fired.includes(claimId), `${slug} must turn red on «${claimId}»: ${why} (fired: ${fired.join(', ') || 'nothing'})`);
+};
 const green = (slug, c, why) => assert.deepEqual(liveRun(slug, c).map(formatProblem), [], `${slug} must stay green: ${why}`);
 
 test('review B1–B16: a NEW product that falsifies «все/ни один» is caught', () => {
@@ -385,13 +391,30 @@ test('review B1–B16: a NEW product that falsifies «все/ни один» is 
     ['south-africa', 'Africa 3 GB', { coverage_country_codes: ['ZA', 'MZ', 'SZ', 'BW'] }, 'Mozambique in an Africa pack'],
     ['south-africa', 'Africa 3 GB', { coverage_country_codes: ['ZA', 'KE'] }, 'an Africa pack without Eswatini/Botswana'],
     ['kenya', 'Africa 3 GB', { coverage_country_codes: ['KE', 'UG'] }, 'an Africa pack without Tanzania'],
-    ['mauritius', 'Africa 3 GB', { coverage_country_codes: ['MU', 'SC'] }, 'an Africa pack without Réunion'],
+    // 2026-10-25: was «an Africa pack without Réunion» — the Mauritius page now
+    // says Réunion is in only SOME Africa packs, so a pack without it is true
+    // to the page (the inverse, every Africa pack gaining RE, is in B9/B11/B12
+    // below). The new-product case is rebuilt on the page's «Самый большой
+    // объём — местный»: a 20 GB regional pack with Mauritius falsifies it.
+    ['mauritius', 'Africa 5GB 30Days', { name: 'Africa 20 GB', data_gb: 20, coverage_country_codes: ['MU', 'RE', 'SC'] }, 'a 20 GB regional pack — the biggest volume is no longer local', 'biggest-is-local'],
     ['seychelles', 'Africa 3 GB', { coverage_country_codes: ['SC', 'UG'] }, 'an Africa pack without Kenya/Tanzania'],
-    ['argentina', 'LATAM 10 GB', { name: 'LATAM 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'CL', 'PY', 'UY', 'BO'] }, 'Bolivia in a volume regional'],
-    ['argentina', 'LATAM 10 GB', { name: 'LATAM 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'CL', 'PY'] }, 'a 3–20 GB LATAM without Uruguay'],
+    // 2026-10-25: 'LATAM 10 GB' left the catalogue; the Argentina cases are
+    // re-templated on its successor «Latin America 10 GB». «Bolivia in a volume
+    // regional» is dropped: the page now says Bolivia is in SOME «Латинская
+    // Америка» plans (the inverse, every one gaining BO, is in B9/B11/B12). Its
+    // slot goes to the page's «пополнение отмечено» on every such pack.
+    ['argentina', 'Latin America 10 GB', { name: 'Latin America 15 GB', data_gb: 15, topup_available: false }, 'a «Латинская Америка» pack without top-up', 'latam-terms-topup'],
+    ['argentina', 'Latin America 10 GB', { name: 'Latin America 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'CL', 'PY'] }, 'a «Латинская Америка» pack without Uruguay', 'latam-uy-br-cl'],
     ['mongolia', 'Kazakhstan 3GB 30Days', { name: 'Central Asia 3 GB', coverage_country_codes: ['MN', 'KZ'] }, 'a regional block appears'],
-    ['brunei', 'Brunei Darussalam 3GB 15Days', { name: 'Asia 3 GB', coverage_country_codes: ['BN', 'SG'] }, 'a regional block appears'],
-    ['dominican-republic', 'Caribbean 5 GB', { coverage_country_codes: ['DO', 'AW'], topup_available: true }, 'Aruba in a top-up pack'],
+    // 2026-10-25: was «a regional block appears» (an «Asia 3 GB» with BN, SG) —
+    // Brunei now HAS a regional block («Brunei Plus»), and its sentence says
+    // every «Brunei Plus» card lists exactly Brunei, Malaysia and Indonesia.
+    ['brunei', 'Brunei Plus 3 GB', { name: 'Brunei Plus 2 GB', data_gb: 2, coverage_country_codes: ['BN', 'ID'] }, 'a «Brunei Plus» card without Malaysia', 'brunei-plus-with-malaysia'],
+    // 2026-10-25: was «Aruba in a top-up pack» — the page now says Aruba and
+    // the Bahamas are in only SOME Caribbean packs (the inverse is in
+    // B9/B11/B12). New-product case on the page's local ladder: «5 ГБ и больше
+    // — только на 30 дней».
+    ['dominican-republic', 'Dominican Republic 5GB 30Days', { name: 'Dominican Republic 5GB 15Days', validity_days: 15 }, 'a 5 GB local plan on 15 days', 'local-5plus-30d'],
     // 2026-10-25: the Asia (20 areas) dailies were withdrawn; the Laos page now
     // says its dailies cover only Laos, so a new daily built on a Laos card that
     // reaches Cambodia falsifies the same «ни один» sentence.
@@ -401,14 +424,44 @@ test('review B1–B16: a NEW product that falsifies «все/ни один» is 
     // about them. The USA page's current «ни один» sentence is «Региональные
     // «Европа и США» из сетки этой страницы Канаду не покрывают».
     ['usa', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: [...LIVE.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes, 'CA'] }, 'a «Европа и США» card with Canada'],
+    // 2026-10-25: new — the Costa Rica page says every volume «Латинская
+    // Америка» covers Costa Rica with Colombia and Peru.
+    ['costa-rica', 'Latin America 10 GB', { name: 'Latin America 15 GB', data_gb: 15, coverage_country_codes: ['CR', 'PA', 'NI', 'PE'] }, 'a «Латинская Америка» pack without Colombia', 'latam-pa-ni-some'],
   ];
-  for (const [slug, tpl, over, why] of cases) { const c = clone(LIVE.packages); newPkg(c, tpl, over); red(slug, c, why); }
+  for (const [slug, tpl, over, why, claimId] of cases) {
+    const c = clone(LIVE.packages); newPkg(c, tpl, over);
+    if (claimId) redBy(slug, c, claimId, why); else red(slug, c, why);
+  }
 });
 
+const addCodes = (packages, re, codes) => {
+  const hit = byName(packages, re);
+  assert.ok(hit.length > 0, `no package matches ${re}`);
+  for (const p of hit) for (const x of codes) if (!p.coverage_country_codes.includes(x)) { p.coverage_country_codes.push(x); p.region += `, ${x}`; }
+  return hit;
+};
+
 test('review B9/B11/B12: same-id changes that falsify the sentence are caught', () => {
+  // 2026-10-25: B9 was «South America (6 areas)» gaining PY and BO against
+  // «одни не включают Парагвай и Боливию» — that sentence was removed. The
+  // Argentina page now says Bolivia is in only SOME «Латинская Америка» plans:
+  // every one of them gaining BO falsifies it.
   let c = clone(LIVE.packages);
-  for (const p of byName(c, /^South America \(6 areas\)/)) { p.coverage_country_codes.push('PY', 'BO'); p.region += ', PY, BO'; }
-  red('argentina', c, '«одни не включают Парагвай и Боливию» — all South America cards now include both');
+  addCodes(c, /^lat(am|in america)/i, ['BO']);
+  redBy('argentina', c, 'latam-not-all-bo', '«Боливию покрывают не все» — every «Латинская Америка» pack now has BO');
+  // 2026-10-25: the inverses of the «only some» sentences that replaced
+  // «all/none» sentences on Mauritius, the Dominican Republic and Costa Rica.
+  c = clone(LIVE.packages); addCodes(c, /^Africa/i, ['RE']);
+  redBy('mauritius', c, 'all', '«Реюньон есть только в части пакетов на Африку» — every Africa pack now has RE');
+  c = clone(LIVE.packages); addCodes(c, /^caribbean/i, ['AW', 'BS']);
+  redBy('dominican-republic', c, 'caribbean-mixed-aw', '«Аруба и Багамы есть не во всех» — every Caribbean pack now has both');
+  c = clone(LIVE.packages); addCodes(c, /^(latam|latin america)\b/i, ['PA', 'NI']);
+  redBy('costa-rica', c, 'latam-pa-ni-some', '«Панаму и Никарагуа — только часть из них» — every «Латинская Америка» pack now has both');
+  // 2026-10-25: new — the France page rests on «самые широкие региональные
+  // тарифы … несколько десятков стран» (the «Europe and USA» family); its
+  // withdrawal must not leave the sentence green.
+  c = clone(LIVE.packages).filter((p) => !/^europe and usa\b/i.test(p.name));
+  redBy('france', c, 'widest-regional-dozens', '«Europe and USA» withdrawn — nothing covers several dozen countries');
   // «Italy 25 GB» (IT/SM/VA) was withdrawn on 2026-10-16 and the Egypt sentence
   // re-pinned to the one multi-country 25 GB pack left: the same kind of change
   // to it must still be caught.
@@ -424,8 +477,13 @@ test('control review N1–N16: the second round of stale-but-green cases is caug
   const EU_USA_15 = LIVE.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes;
   assert.ok(EU_USA_15.includes('GR') && !EU_USA_15.includes('XK'), 'N4/N5 premise: Greece in, Kosovo out');
   const cases = [
-    ['argentina', 'LATAM 10 GB', { name: 'LatAm 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'CL', 'UY'] }, 'N1: case-insensitive family, no Paraguay'],
-    ['argentina', 'LATAM 10 GB', { name: 'South America 10 GB', coverage_country_codes: ['AR', 'BR', 'CL', 'UY'] }, 'N2: «все региональные на 3–20 ГБ» without Paraguay'],
+    // 2026-10-25: N1 and N2 were «no Paraguay» on 'LATAM 10 GB' (withdrawn);
+    // the page now says Paraguay is in only SOME plans, so a pack without it
+    // is true. N1 keeps its point — the family is matched case-insensitively —
+    // on the claim «Уругвай, Бразилию и Чили покрывают все»; N2 moves to the
+    // page's term bound «от 7 до 30 дней».
+    ['argentina', 'Latin America 10 GB', { name: 'LATIN AMERICA 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'UY'] }, 'N1: case-insensitive family, no Chile', 'latam-uy-br-cl'],
+    ['argentina', 'Latin America 10 GB', { name: 'LatAm 15 GB', data_gb: 15, validity_days: 45 }, 'N2: «срок от 7 до 30 дней» — a 45-day pack', 'latam-terms-range'],
     // 2026-10-25: N3/N4/N5/N12/N13 were built on daily families the assortment
     // withdrew (Asia (20 areas), Balkans (5+ areas), Australia & New Zealand,
     // GCC 2GB). Each is rebuilt on the family the page's sentence now rests on.
@@ -433,16 +491,28 @@ test('control review N1–N16: the second round of stale-but-green cases is caug
     ['albania', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: [...EU_USA_15, 'XK'] }, 'N4: a «Европа и США» card with Kosovo'],
     ['montenegro', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: EU_USA_15.filter((x) => x !== 'GR') }, 'N5: a «Европа и США» card without Greece'],
     ['kenya', 'Africa 3 GB', { name: 'East Africa 3 GB', coverage_country_codes: ['KE', 'UG'] }, 'N8: a regional pack without Tanzania'],
-    ['seychelles', 'Africa 3 GB', { name: 'Indian Ocean 3 GB', validity_days: 30, coverage_country_codes: ['SC', 'MU'] }, 'N9: a 30-day pack covering Mauritius'],
-    // N12 was «до 10 ГБ в день» on the AU+NZ dailies; no daily bound is left in
-    // the corpus, so the same attr_bounds rule is proved on «Europe and USA на
-    // 15 и 18 ГБ» (bosnia-and-herzegovina, scope on the Croatia page).
-    ['bosnia-and-herzegovina', 'Europe and USA 18 GB', { name: 'Europe and USA 25 GB', data_gb: 25 }, 'N12: «на 15 и 18 ГБ»'],
+    // 2026-10-25: N9 was «a 30-day pack covering Mauritius» under another name
+    // — the Seychelles page no longer says Mauritius is 15-day-only, and a
+    // non-«Africa» name reaches no claim there. Rebuilt on the page's «Сейшелы
+    // и Танзанию покрывают все пакеты на Африку», with an upper-case name so
+    // the case-insensitive family is proved on this page too.
+    ['seychelles', 'Africa 3 GB', { name: 'AFRICA 7 GB', data_gb: 7, validity_days: 30, coverage_country_codes: ['SC', 'MU', 'KE'] }, 'N9: an Africa pack without Tanzania', 'all-2'],
+    // 2026-10-25: N12 was «на 15 и 18 ГБ» (attr_bounds) — the Bosnia sentence
+    // no longer names a volume (the family is 1–30 GB now), so a 25 GB card is
+    // true to it (pinned green below). The sentence now says «вместе с большей
+    // частью Европы и США» (min_countries 30): a card on eight countries breaks it.
+    ['bosnia-and-herzegovina', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: ['HR', 'ME', 'RS', 'US', 'DE', 'FR', 'IT', 'ES'] }, 'N12: «большей частью Европы» — a card on eight countries', 'intro-europe-usa'],
     // N13: daily_gb kept at 5 so only the seventh country (Oman) can turn it red.
     ['bahrain', 'Gulf Region 5GB/Day', { name: 'GCC 5GB/Day', daily_gb: 5, coverage_country_codes: ['AE', 'BH', 'KW', 'OM', 'QA', 'SA', 'IQ'] }, 'N13: a seven-country Gulf card'],
-    ['dominican-republic', 'Caribbean 5 GB', { name: 'Antilles 5 GB', coverage_country_codes: ['DO', 'AW'], topup_available: true }, 'N16: Aruba in a top-up pack of another name'],
+    // 2026-10-25: N16 was «Aruba in a top-up pack of another name» — the page
+    // now says Aruba is in only some packs. Kept: a regional pack of ANOTHER
+    // name is still caught, now by «Пакеты на Карибы … Кубу не покрывает ни один».
+    ['dominican-republic', 'Caribbean 5 GB', { name: 'Antilles 5 GB', coverage_country_codes: ['DO', 'CU'] }, 'N16: Cuba in a regional pack of another name', 'all'],
   ];
-  for (const [slug, tpl, over, why] of cases) { const c = clone(LIVE.packages); newPkg(c, tpl, over); red(slug, c, why); }
+  for (const [slug, tpl, over, why, claimId] of cases) {
+    const c = clone(LIVE.packages); newPkg(c, tpl, over);
+    if (claimId) redBy(slug, c, claimId, why); else red(slug, c, why);
+  }
   const c = clone(LIVE.packages); byName(c, /^Africa 10 GB$/).forEach((p) => { p.topup_available = false; });
   red('south-africa', c, 'N6: «у всех отмечено пополнение»');
 });
@@ -451,11 +521,11 @@ test('control review over-strict: withdrawing one family member freezes nothing'
   for (const [name, slugs] of [
     // 2026-10-25: was 'Balkans (5+ areas) 2GB/Day' — withdrawn by the
     // assortment, which left this case passing on a filter that removed
-    // nothing. Three of the four pages now rest on the two-member «Europe and
-    // USA». bosnia-and-herzegovina is left out ON PURPOSE: its sentence names
-    // both sizes («на 15 и 18 ГБ», attr_bounds 15–18), so withdrawing either one
-    // falsifies it and red is the right answer there.
-    ['Europe and USA 15 GB', ['albania', 'montenegro', 'serbia']],
+    // nothing. The pages now rest on «Europe and USA». 2026-10-25:
+    // bosnia-and-herzegovina was left out because its sentence named «на 15 и
+    // 18 ГБ»; after the activation it names no volume (the family runs 1–30 GB,
+    // attr_bounds dropped), so withdrawing one card must keep it green too.
+    ['Europe and USA 15 GB', ['albania', 'montenegro', 'serbia', 'bosnia-and-herzegovina']],
     ['Australia and NZ 5 GB', ['australia']],
     ['Central Asia (4 areas) 5GB/Day', ['kazakhstan', 'tajikistan']],
   ]) {
@@ -494,8 +564,23 @@ test('review over-strict: harmless catalogue moves keep the corpus green', () =>
   red('bahrain', c, 'the only Gulf daily card withdrawn — «все они включают Саудовскую Аравию» has nothing to stand on');
   c = clone(LIVE.packages); newPkg(c, 'Africa 3 GB', { coverage_country_codes: ['MA', 'ZA', 'SZ', 'BW', 'TZ', 'KE', 'RE', 'SC'] });
   green('morocco', c, 'a new Africa pack under «Региональные тарифы» is still African');
+  // 2026-10-25: was «a second 5 GB pack with Zambia must stay green» — true of
+  // the old «только пакет на 5 ГБ», but the page now says «Замбию — только
+  // пакеты на 29 стран», so a four-country pack with Zambia falsifies it: red.
   c = clone(LIVE.packages); newPkg(c, 'Africa 5GB 30Days', { coverage_country_codes: ['ZA', 'ZM', 'SZ', 'BW'] });
-  green('south-africa', c, 'a second 5 GB pack with Zambia — «только пакет на 5 ГБ» still true');
+  redBy('south-africa', c, 'zm-only-29', 'a four-country Africa pack with Zambia — «Замбию — только пакеты на 29 стран» is false');
+  // The harmless move for the new sentence: another Africa pack WITHOUT Zambia,
+  // on the coverage of the 23-country «Africa 3 GB» (30 days, top-up) — Eswatini
+  // and Botswana in, 7 GB within «от 1 до 10 ГБ», top-up marked.
+  const af3x30 = LIVE.packages.find((p) => p.name === 'Africa 3 GB' && p.validity_days === 30);
+  assert.ok(af3x30 && !af3x30.coverage_country_codes.includes('ZM'), 'premise: the 30-day «Africa 3 GB» has no Zambia');
+  c = clone(LIVE.packages);
+  newPkg(c, 'Africa 3 GB', { name: 'Africa 7 GB', data_gb: 7, validity_days: 30, topup_available: true, coverage_country_codes: [...af3x30.coverage_country_codes] });
+  green('south-africa', c, 'a new Africa pack without Zambia — every sentence still holds');
+  // 2026-10-25: the Bosnia sentence names no volume any more; a second card of
+  // the same coverage at another size must not turn it red.
+  c = clone(LIVE.packages); newPkg(c, 'Europe and USA 15 GB', { name: 'Europe and USA 40 GB', data_gb: 40 });
+  green('bosnia-and-herzegovina', c, 'a «Europe and USA» card of the same coverage at another volume');
 });
 
 // ---------------------------------------------------------------- 3. CORPUS

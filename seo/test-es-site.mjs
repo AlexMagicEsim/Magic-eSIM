@@ -4,7 +4,7 @@
  *      generator throws, the daily table is checked in seo/test-daily-copy-langs.mjs; the guides mirror the English
  *      ones section for section, question for question, link for link.
  *   2. The same design: every page kind's markup skeleton (tags and classes, in order) equals the English one.
- *   3. Spanish only: on all 206 pages no word that only English uses and no Russian (bar the language switch's
+ *   3. Spanish only: on all 207 pages no word that only English uses and no Russian (bar the language switch's
  *      «Русский») — brands and technical names excepted, by an explicit list.
  *   4. Prices and numbers the owner's way (D2): «USD 12.99» (es-419); data amounts with a decimal point.
  *   5. The guides name their sources (vendor pages read 2026-10-21) and quote only those labels.
@@ -43,16 +43,16 @@ function htmlUnder(dir) {
 const ES_PAGES = htmlUnder('es');
 // LEGAL-4: the three translated legal documents (/es/terms|refund|privacy/) are pages of this language too; their
 // fidelity to the English — which keeps proper names, the seller's Latin address and foreign law titles in English —
-// is held by seo/test-legal-i18n.mjs, so the «Spanish only» word scan reads the 206 site pages without them.
+// is held by seo/test-legal-i18n.mjs, so the «Spanish only» word scan reads the 207 site pages without them.
 const ES_LEGAL = /^es\/(terms|refund|privacy)\/index\.html$/;
 const ES_SITE_PAGES = ES_PAGES.filter((rel) => !ES_LEGAL.test(rel));
 
 /* ------------------------------------------------------------------ 1. complete */
 
-test('206 Spanish pages: the home, the list, 198 countries, the guides list and five guides', () => {
-  assert.equal(ES_SITE_PAGES.length, 206);
-  assert.equal(ES_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
-  assert.equal(ES_PAGES.filter((p) => /^es\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
+test('207 Spanish pages: the home, the list, 199 countries, the guides list and five guides', () => {
+  assert.equal(ES_SITE_PAGES.length, 207);
+  assert.equal(ES_PAGES.length, 210, '+ the three legal documents (LEGAL-4)');
+  assert.equal(ES_PAGES.filter((p) => /^es\/esim\/[^/]+\/index\.html$/.test(p)).length, 199);
   assert.equal(htmlUnder('en').length, ES_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4)');
 });
 
@@ -117,11 +117,11 @@ test('the same design: every page kind has the English markup skeleton (tags and
   assert.match(read('es/esim/thailand/index.html'), /data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]+"/, 'Expressive on a country page');
 });
 
-test('the Spanish destination list: 198 destinations, each under its Spanish initial, every jump letter lands', () => {
+test('the Spanish destination list: 199 destinations, each under its Spanish initial, every jump letter lands', () => {
   const html = read('es/esim/index.html');
   const sections = [...html.matchAll(/<section class="az-group" id="az-([a-z]+)"[\s\S]*?<h2 id="azh-\1">([^<]+)<\/h2>([\s\S]*?)<\/section>/g)];
   const names = sections.flatMap((m) => [...m[3].matchAll(/<span>([^<]+)<\/span>/g)].map((x) => [m[2], decode(x[1])]));
-  assert.equal(names.length, 198);
+  assert.equal(names.length, 199);
   for (const [letter, name] of names) {
     assert.equal(name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase(), letter, name);
   }
@@ -173,7 +173,7 @@ function englishOnlyWords() {
   return new Set([...en].filter((w) => w.length >= 3 && !es.has(w) && !KEEP.has(w)));
 }
 
-test('Spanish only: no English-only word and no Russian on any of the 206 pages', () => {
+test('Spanish only: no English-only word and no Russian on any of the 207 pages', () => {
   const EN_ONLY = englishOnlyWords();
   assert.ok(EN_ONLY.size > 300 && EN_ONLY.has('plans') && EN_ONLY.has('destinations'), 'the English word list is real');
   const esNames = new Set(Object.keys(COUNTRY_NAMES).flatMap((iso) => words(readFileSync(join(ROOT, 'assets/country-names-es.js'), 'utf8').match(new RegExp(`"${iso}": "([^"]+)"`))?.[1] || '')));

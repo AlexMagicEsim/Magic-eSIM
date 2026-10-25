@@ -48,13 +48,16 @@ export function roundedMicroPaths(text) {
 }
 
 const REPAIRED = ['cn', 'cw', 'gd', 'gt', 'gw', 'hn', 'nz'];
+// Destinations added after the import arrive as the flag-icons 7.5.0 originals, byte for byte (2026-10-25: vi —
+// U.S. Virgin Islands, which gained plans with the assortment activation).
+const ADDED = ['vi'];
 
 test('the manifest names the source and covers exactly the shipped files', () => {
   assert.equal(MANIFEST.source.package, 'flag-icons');
   assert.equal(MANIFEST.source.set, 'flags/4x3');
   assert.equal(MANIFEST.source.reference_version, '7.5.0');
   assert.ok(existsSync(join(DIR, 'LICENSE.txt')), 'the MIT licence travels with the files');
-  assert.equal(SVGS.length, 198);
+  assert.equal(SVGS.length, 199);
   assert.deepEqual(Object.keys(MANIFEST.files).sort(), SVGS,
     'a flag without an entry, or an entry without a flag');
   for (const [code, e] of Object.entries(MANIFEST.files)) {
@@ -70,8 +73,8 @@ test('every flag is byte for byte the file the manifest records', () => {
 
 test('the seven repaired flags are the flag-icons 7.5.0 originals', () => {
   const upstream = SVGS.filter((c) => MANIFEST.files[c].origin === 'flag-icons@7.5.0');
-  assert.deepEqual(upstream, REPAIRED);
-  for (const c of REPAIRED) assert.match(svg(c), new RegExp(`id="flag-icons-${c}"`), `${c}: not the original file`);
+  assert.deepEqual(upstream, [...REPAIRED, ...ADDED].sort());
+  for (const c of [...REPAIRED, ...ADDED]) assert.match(svg(c), new RegExp(`id="flag-icons-${c}"`), `${c}: not the original file`);
 });
 
 test('no flag carries a shape the rounding destroyed', () => {

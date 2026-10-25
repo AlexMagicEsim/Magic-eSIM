@@ -88,6 +88,7 @@ window.MagicFrDestinations = [
   { iso: "MP", slug: "northern-mariana-islands", name: "Îles Mariannes du Nord" },
   { iso: "TC", slug: "turks-and-caicos", name: "Îles Turques-et-Caïques" },
   { iso: "VG", slug: "british-virgin-islands", name: "Îles Vierges britanniques" },
+  { iso: "VI", slug: "us-virgin-islands", name: "Îles Vierges des États-Unis" },
   { iso: "IN", slug: "india", name: "Inde" },
   { iso: "ID", slug: "indonesia", name: "Indonésie" },
   { iso: "IQ", slug: "iraq", name: "Irak" },

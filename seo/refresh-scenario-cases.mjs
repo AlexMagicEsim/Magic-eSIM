@@ -141,11 +141,12 @@ export function cases() {
       },
     },
     {
-      // 2026-10-25: why-entry-vs-local lost its «local» term (the claim now pins the multi-country entry against the page
-      // floor); the withdrawn package is that multi-country 3-day daily plan, a claim term and not a {{price}} token.
-      name: 'a package a PRICE claim names is WITHDRAWN (sri-lanka · why-entry-vs-local · multi)',
+      // 2026-10-25 (after the 590-plan activation): why-entry-vs-local is gone with its sentence (the cheapest entry on the
+      // Sri Lanka page is now a 1 GB / 7 days card). The withdrawn package is the local 3 GB / 15 days plan of
+      // faq-3gb-30-not-dearer-than-15 — a claim term, not a {{price}} token.
+      name: 'a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-not-dearer-than-15 · d15)',
       mutate: (doc) => {
-        const id = claimTerm('sri-lanka', 'price', 'why-entry-vs-local', 'multi');
+        const id = claimTerm('sri-lanka', 'price', 'faq-3gb-30-not-dearer-than-15', 'd15');
         byId(doc, id);
         doc.packages = doc.packages.filter((p) => p.package_id !== id);
       },
@@ -165,17 +166,16 @@ export function cases() {
       },
     },
     {
-      name: 'a new offer makes a «cheapest» sentence false (sri-lanka: a local plan below the multi-country entry)',
+      // 2026-10-25 (after the 590-plan activation): re-pointed from sri-lanka · cheapest-is-not-local (its sentence is
+      // gone) to greece · cheapest-entry-1gb, «the cheapest entry is the local 1 GB / 7 days card»: a second local card
+      // below it makes that false.
+      name: 'a new offer makes a «cheapest» sentence false (greece: a local plan below the 1 GB / 7 days entry)',
       mutate: (doc) => {
-        const multi = byId(doc, claimTerm('sri-lanka', 'price', 'why-entry-vs-local', 'multi'));
-        // 2026-10-25: no claim names a local daily plan any more; the copy is Sri Lanka's own single-country daily plan.
-        const local = doc.packages.find((p) => only(p, 'LK') && Array.isArray(p.term_prices) && termPrice(p, 3) !== undefined);
-        if (!local) throw new Error('fixture: sri-lanka has no single-country daily plan with a 3-day term — re-point seo/refresh-scenario-cases.mjs');
-        const n = JSON.parse(JSON.stringify(local));
+        const g1 = byId(doc, claimTerm('greece', 'price', 'cheapest-entry-1gb', 'g1'));
+        const n = JSON.parse(JSON.stringify(g1));
         n.package_id = '00000000-0000-4000-8000-0000000000bb';
-        n.name = `${local.name} (scenario)`;
-        const m3 = termPrice(multi, 3);
-        n.term_prices = n.term_prices.map((t) => ({ ...t, price: t.days === 3 ? Math.max(50, m3 - 50) : t.price }));
+        n.name = `${g1.name} (scenario)`;
+        n.price = Math.max(50, Number(g1.price) - 50);
         doc.packages.push(n);
       },
     },

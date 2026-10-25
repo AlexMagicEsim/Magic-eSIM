@@ -7,6 +7,7 @@ window.MagicDeDestinations = [
   { iso: "AX", slug: "aland-islands", name: "Ålandinseln" },
   { iso: "AL", slug: "albania", name: "Albanien" },
   { iso: "DZ", slug: "algeria", name: "Algerien" },
+  { iso: "VI", slug: "us-virgin-islands", name: "Amerikanische Jungferninseln" },
   { iso: "AD", slug: "andorra", name: "Andorra" },
   { iso: "AO", slug: "angola", name: "Angola" },
   { iso: "AI", slug: "anguilla", name: "Anguilla" },
