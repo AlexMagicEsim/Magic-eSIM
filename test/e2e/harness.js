@@ -21,6 +21,8 @@
  * order. The two API hosts are named because the app's own CSP names them; the
  * requests are answered in-process and never leave the machine.
  */
+const { withLayout } = require('../helpers/assortment-layout.cjs');
+
 const API_HOSTS = [
   'https://esim-backend-3wmu.onrender.com',
   'https://api.magicesim.store',
@@ -280,12 +282,16 @@ async function installMiniApp(page, options = {}) {
       // The international (GLOBAL, USD) catalogue — same path, `?market=global` (MINIAPP-I18N-LEGAL-1).
       if (at.endsWith('/api/v1/retail/packages') && url.searchParams.get('market') === 'global') {
         if (options.globalStatus) return json(route, { error: 'GLOBAL_PRICING_DISABLED' }, options.globalStatus);
-        return json(route, { status: 'success', market: 'global', currency: 'USD', data: options.globalPackages || [] });
+        // The backend sends the layout of every country page with the rows (assets/assortment-view.js);
+        // a test fixture gets the one the backend gives an unfiltered list (test/helpers/assortment-layout.cjs).
+        if (options.globalCatalogue) return json(route, options.globalCatalogue);   // a whole answer, its own layout included
+        return json(route, withLayout({ status: 'success', market: 'global', currency: 'USD', data: options.globalPackages || [] }));
       }
       if (at.endsWith('/api/v1/retail/packages')) {
-        return json(route, {
+        if (options.catalogue) return json(route, options.catalogue);   // a whole answer, its own layout included
+        return json(route, withLayout({
           status: 'success', count: state.packages.length, currency: 'RUB', data: state.packages,
-        });
+        }));
       }
 
       if (at.endsWith('/api/v1/tma/me')) {

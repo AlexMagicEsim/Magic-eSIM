@@ -10,6 +10,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -21,7 +25,7 @@ const PER_DAY = { package_id: ID_PER_DAY, name: 'Thailand 500MB/Day', country_co
   term_prices: [{ days: 3, price: 4.99 }, { days: 7, price: 10.99 }] };
 const FIXED = { package_id: ID_FIXED, name: 'Thailand 3GB', country_code: 'TH', coverage_country_codes: ['TH'],
   data_gb: 3, validity_days: 15, price: 4.99, currency: 'USD', plan_type: 'FIXED_VOLUME' };
-const BODY = JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: [PER_DAY, FIXED] });
+const BODY = JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: [PER_DAY, FIXED] }));
 const quoteFor = (b, amount) => ({ quote_id: '3fbced54-1111-4222-8333-444455556666', package_id: b.package_id, days: b.days,
   currency: 'USD', amount, expires_at: new Date(Date.now() + 1800000).toISOString() });
 const priceOf = (b) => (b.days === 7 ? 10.99 : b.days === 3 ? 4.99 : 4.99);
@@ -43,7 +47,7 @@ async function open(page, { catalogue, onQuote, path = '/en/esim/thailand/' } = 
     st.quotes.push(b);
     const r = onQuote ? await onQuote(b, st.quotes.length) : { status: 200, body: quoteFor(b, priceOf(b)) };
     if (r === 'abort') return route.abort();
-    return route.fulfill({ status: r.status, contentType: 'application/json', body: JSON.stringify(r.body) });
+    return route.fulfill({ status: r.status, contentType: 'application/json', body: JSON.stringify(withLayout(r.body)) });
   });
   await page.goto(path);
   return st;

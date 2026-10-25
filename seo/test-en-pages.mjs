@@ -218,28 +218,20 @@ const day = (id, codes, ladder) => ({ package_id: id, name: id, coverage_country
   plan_type: 'DAILY', daily_term_mode: 'PER_DAY', data_gb: 0, daily_data_gb: 1, price: 1.49, currency: 'USD',
   term_prices: ladder.map(([days, price]) => ({ days, price })) });
 
-test('a country page sorts its plans into daily, local and regional by coverage codes', () => {
-  const list = [
-    vol('ae-3', ['AE'], 9.99),
-    vol('ae-1', ['AE'], 4.99),
-    vol('gulf', ['AE', 'OM', 'QA'], 13.99),
-    vol('europe-named-but-uae-only', ['AE'], 7.99, { name: 'Europe 3GB' }),  // the NAME says regional
-    vol('dubai', [], 19.99, { country_code: 'AE' }),                        // coverage only in country_code
-    vol('region-token', [], 29.99, { country_code: 'XX-2', region: 'AE, OM' }),
-    vol('th', ['TH'], 3.99),                                                 // another country
-    vol('world', ['AE', 'TH', 'FR'], 49.99, { name: 'Global (120+ areas) 3GB', country_code: 'GL-120' }),
-    vol('ru', ['AE', 'RU'], 9.99, { name: 'Russia and UAE' }),
-    day('ae-daily', ['AE'], [[3, 8.99], [7, 19.99]]),
-    day('gulf-daily', ['AE', 'OM'], [[3, 13.99]]),
-    day('no-ladder', ['AE'], []),
-  ];
-  const b = PLANS.classify(list, 'AE');
-  assert.deepEqual(b.local.map((p) => p.package_id), ['ae-1', 'europe-named-but-uae-only', 'ae-3', 'dubai']);
-  assert.deepEqual(b.regional.map((p) => p.package_id), ['gulf', 'region-token']);
-  assert.deepEqual(b.daily.map((p) => p.package_id), ['ae-daily', 'gulf-daily', 'no-ladder'], 'unpayable last');
-  // Worldwide plans and anything naming a restricted country never appear.
-  const all = [...b.local, ...b.regional, ...b.daily].map((p) => p.package_id);
-  for (const id of ['th', 'world', 'ru']) assert.equal(all.includes(id), false, id);
+test('a country page draws the BACKEND\'s layout, in its order — it classifies and sorts nothing itself', async () => {
+  // Since 2026-10-25 the backend decides which plans a country shows, in which
+  // block and in which order (esim-backend lib/assortmentLayout.js); the page
+  // reads it through assets/assortment-view.js, the Mini App's reader too.
+  const { default: MA } = await import('../assets/assortment-view.js');
+  const list = [vol('ae-3', ['AE'], 9.99), vol('ae-1', ['AE'], 4.99), vol('gulf', ['AE', 'OM', 'QA'], 13.99), day('ae-daily', ['AE'], [[3, 8.99]])];
+  MA.attach(list, { mode: 'on', regional_cap: 8, countries: { AE: { local: ['ae-3', 'ae-1'], regional: ['gulf'], daily: ['ae-daily', 'gone'], best: null } } });
+  const b = MA.forCountry(list, 'AE');
+  assert.deepEqual(b.local.map((p) => p.package_id), ['ae-3', 'ae-1'], 'the backend order, even when it is not price order');
+  assert.deepEqual(b.regional.map((p) => p.package_id), ['gulf']);
+  assert.deepEqual(b.daily.map((p) => p.package_id), ['ae-daily'], 'an id the catalogue does not carry is skipped');
+  assert.equal(MA.forCountry(list.slice(), 'AE'), null, 'no layout: the page says prices are unavailable');
+  assert.match(read('en/country.js'), /MagicAssortment\.forCountry\(list, iso\)/);
+  assert.equal(/function classify|function sortByPrice/.test(read('en/plans.js')), false, 'en/plans.js no longer chooses plans');
 });
 
 test('a daily plan is priced by its ladder, and a plan with no payable price has no button', () => {

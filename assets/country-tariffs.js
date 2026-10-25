@@ -353,12 +353,6 @@ function packageCoverageCodes(item){
   return codes.filter((code)=>!RESTRICTED_COUNTRY_CODES.includes(code));
 }
 
-function packageMatchesCountry(item, code){
-  const country=String(code||'').trim().toUpperCase();
-  if(!country||country==='ALL')return true;
-  return packageCoverageCodes(item).includes(country);
-}
-
 function countryName(code){
   const normalized=String(code||'').trim().toUpperCase();
   return countryNames[normalized]||normalized||'Другое';
@@ -459,13 +453,6 @@ function isCountrySpecificPackage(item){
   const name=String(item.name||'').toLowerCase();
 
   return aliases.some((alias)=>name.includes(alias));
-}
-
-function isRussiaPackage(item){
-  const code=String(item.country_code||'').toUpperCase();
-  const region=String(item.region||'').toUpperCase();
-  const name=String(item.name||'').toLowerCase();
-  return code==='RU'||region.split(/[\s,;/|+]+/).includes('RU')||name.includes('россия')||name.includes('russia');
 }
 
 function normalizeSearch(value){
@@ -727,83 +714,6 @@ function compactCoverageIcon(item){
 }
 
 const RESTRICTED_COUNTRY_CODES=['RU','UA','BY'];
-function isRestrictedPackage(item){
-  const code=String(item.country_code||'').trim().toUpperCase();
-  if(RESTRICTED_COUNTRY_CODES.includes(code))return true;
-  const name=String(item.name||'').toLowerCase();
-  return name.includes('russia')||name.includes('россия')||name.includes('ukraine')||name.includes('украина');
-}
-
-function basePackages(){
-  return allLandingPackages
-    .filter((item)=>!isRussiaPackage(item))
-    .filter((item)=>!isRestrictedPackage(item))
-    .filter((item)=>Number(item.price||0)>0);
-}
-
-
-
-function packageCoverageTypeRank(item){
-  if(activeCountry==='ALL'){
-    return 0;
-  }
-
-  const selected=String(activeCountry||'').trim().toUpperCase();
-  const direct=String(countryCode(item)||'').trim().toUpperCase();
-  const codes=[...new Set(packageCoverageCodes(item))];
-
-  // Сначала тарифы, которые напрямую относятся к выбранной стране.
-  if(direct===selected && countryCountOf(codes)<=1){
-    return 0;
-  }
-
-  // Потом тарифы, где выбранная страна основная, но есть дополнительное покрытие.
-  if(direct===selected){
-    return 1;
-  }
-
-  // Потом региональные/комбо тарифы, где выбранная страна входит в покрытие.
-  if(codes.includes(selected)){
-    return 2;
-  }
-
-  return 3;
-}
-
-function comparePackages(a,b){
-  const coverageRank=packageCoverageTypeRank(a)-packageCoverageTypeRank(b);
-  if(coverageRank!==0){
-    return coverageRank;
-  }
-
-  const gbA=Number(a.data_gb||0);
-  const gbB=Number(b.data_gb||0);
-  const daysA=Number(a.validity_days||0);
-  const daysB=Number(b.validity_days||0);
-  const priceA=Number(a.price||0);
-  const priceB=Number(b.price||0);
-
-  if(gbA!==gbB){
-    return gbA-gbB;
-  }
-
-  if(daysA!==daysB){
-    return daysA-daysB;
-  }
-
-  if(priceA!==priceB){
-    return priceA-priceB;
-  }
-
-  return publicPackageName(a).localeCompare(publicPackageName(b),'ru');
-}
-
-function isPublicGlobalPackage(item){
-  const name=String(item.name||'').toLowerCase();
-  const code=String(item.country_code||'').toUpperCase();
-  return code.startsWith('GL-') || name.includes('global');
-}
-
 // ===== Redesign: unified card + local/regional split + coverage modal + country selection =====
 const byIdG=(id)=>document.getElementById(id);
 const ICON_BOLT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>';
@@ -1021,11 +931,12 @@ function planTechHtml(speed,topup){
   const top=topup?`<div class="plan-ip plan-topup">${ICON_REFRESH}Пополнение</div>`:'';
   return `<div class="plan-tech">${net}${top}</div>`;
 }
-function renderPackageCard(item,best){
+function renderPackageCard(item,best,block){
   const speed=tariffNetworkLabel(item);
   const topup=!!item.topup_available;
   const data=formatDataLabel(item)||`${item.data_gb||''} GB`;
-  const multi=isMultiCountryPackage(item);
+  // The block the backend put the plan in decides the card's kind.
+  const multi=block?block==='regional':isMultiCountryPackage(item);
   const kind=multi?'regional':'local';
   const days=Number(item.validity_days||0);
   const region=multi?regionName(item):'';
@@ -1049,23 +960,8 @@ function renderPackageCard(item,best){
     </article>`;
 }
 
-// «Оптимальный выбор» — единственный бейдж, только на ЛОКАЛЬНЫЙ тариф объёмом
-// 10 GB (приоритет) или 20 GB со сроком 7–30 дней. На 3 / 5 / 50 GB и на
-// региональные тарифы бейдж не ставится. Среди тарифов одного объёма — лучшая
-// цена за 1 GB, затем меньшая итоговая цена. Нет подходящих 10/20 GB — бейджа нет.
-function bestLocalPackageId(local){
-  const gbRank=(gb)=>gb===10?0:gb===20?1:2;
-  const eligible=local.map((i)=>{
-    const gb=Number(i.data_gb||0),d=Number(i.validity_days||0),p=getPackageRetailPrice(i);
-    return {id:i.package_id||null,gb,d,p};
-  }).filter((x)=>x.id&&x.p!=null&&x.p>0&&(x.gb===10||x.gb===20)&&x.d>=7&&x.d<=30);
-  if(!eligible.length)return null;
-  eligible.sort((a,b)=>gbRank(a.gb)-gbRank(b.gb)||(a.p/a.gb)-(b.p/b.gb)||a.p-b.p);
-  return eligible[0].id;
-}
-
-// Sort a package list by the toolbar selection; unknown/empty falls back to the
-// existing comparePackages order (so default behaviour is unchanged).
+// Re-order a block only when the visitor picked a sort in the toolbar; by
+// default the backend's order stands (it is the Mini App's order too).
 function applySort(list){
   const sel=document.getElementById('packageSort');
   const v=sel?sel.value:'';
@@ -1074,7 +970,7 @@ function applySort(list){
   if(v==='price_asc')return arr.sort((a,b)=>price(a)-price(b));
   if(v==='data_desc')return arr.sort((a,b)=>Number(b.data_gb||0)-Number(a.data_gb||0)||price(a)-price(b));
   if(v==='days_desc')return arr.sort((a,b)=>Number(b.validity_days||0)-Number(a.validity_days||0)||price(a)-price(b));
-  return arr.sort(comparePackages);
+  return arr;
 }
 
 // Split the selected country's tariffs: local first, regional (multi-country/global) after.
@@ -1418,26 +1314,34 @@ function renderCountrySplit(){
   if(genericGrid)genericGrid.innerHTML='';
   const code=String(activeCountry||'').toUpperCase();
   const cName=countryNameGenitive(code);
-  const all=basePackages().filter((i)=>packageMatchesCountry(i,code)).filter((i)=>!isPublicGlobalPackage(i));
-  // Daily plans leave the volume pool BEFORE it is split and sorted. They must
-  // never be ranked against a fixed volume: «1 ГБ в день» and «1 ГБ всего» are
-  // not two prices for the same thing.
+  // THE BACKEND DECIDES THE PAGE (owner, 2026-10-25): which plans, in which of
+  // the three blocks, in which order, and the «Оптимальный выбор» card — the
+  // same layout the Mini App draws (assets/assortment-view.js). Nothing here
+  // filters, classifies or sorts; it only draws what it is given.
+  const view=window.MagicAssortment?window.MagicAssortment.forCountry(allLandingPackages,code):null;
+  if(!view){
+    // A catalogue without the layout (an old snapshot) is not drawn by a rule of
+    // our own: the live answer, which carries it, re-renders when it lands.
+    localBlock.hidden=true;regionalBlock.hidden=true;
+    const dBlock=document.getElementById('dailyBlock');if(dBlock)dBlock.hidden=true;
+    if(status)status.textContent='Тарифы обновляются. Подождите несколько секунд или обновите страницу.';
+    announceCatalog({trusted:false,source:catalogSource});
+    return;
+  }
   const D=dailyCopy();
-  const split=D?D.partition(all):{daily:[],volume:all};
-  const list=split.volume;
-  const daily=split.daily;
-  const local=applySort(list.filter((i)=>!isMultiCountryPackage(i)));
-  const regional=applySort(list.filter((i)=>isMultiCountryPackage(i)));
+  const local=applySort(view.local);
+  const regional=applySort(view.regional);
+  const daily=view.daily;
   if(status)status.textContent='';
   setPlansLoading(false);
   byIdG('localHead').textContent=`Тарифы для ${cName}`;
   byIdG('regionalHead').textContent=`Региональные тарифы с покрытием ${cName}`;
-  const bestId=local.length?bestLocalPackageId(local):null;
+  const bestId=view.best;
   // Local block (req 6/7). If empty (req 8): show the note, not an empty grid.
   byIdG('localCount').textContent=local.length?tariffCount(local.length):'';
   byIdG('localEmpty').hidden=local.length>0;
   computeDistinct(local);
-  localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId)).join('');
+  localGrid.innerHTML=local.map((i)=>renderPackageCard(i,!!i.package_id&&i.package_id===bestId,'local')).join('');
   localBlock.hidden=false;
   foldBlock('localBlock',localGrid);
   jumpTo('localBlock',local.length);
@@ -1445,7 +1349,7 @@ function renderCountrySplit(){
   if(regional.length){
     byIdG('regionalCount').textContent=tariffCount(regional.length);
     computeDistinct(regional);
-    regionalGrid.innerHTML=regional.map((i)=>renderPackageCard(i,false)).join('');
+    regionalGrid.innerHTML=regional.map((i)=>renderPackageCard(i,false,'regional')).join('');
     regionalBlock.hidden=false;
   }else{
     regionalGrid.innerHTML='';regionalBlock.hidden=true;

@@ -55,7 +55,7 @@ test('the fingerprint can fire: one changed word in the dictionary moves exactly
     }
     const now = MATRIX.fingerprint(dir);
     const moved = Object.keys(GOLDEN.hashes).filter((k) => now.hashes[k] !== GOLDEN.hashes[k]);
-    assert.deepEqual(moved, ['ipLabel', 'classify']);
+    assert.deepEqual(moved, ['ipLabel', 'distinguishers']);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 

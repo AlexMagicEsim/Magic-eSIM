@@ -28,6 +28,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const { installMiniApp, openApp } = require('./harness.js');
 
 /* ------------------------------------------------------------------ *
@@ -121,6 +125,23 @@ const L = {
   },
 };
 
+// A region FAMILY (navigation): three «Vietnam Plus» volumes covering four countries. Its own screen lists them with
+// the price / volume switch; a COUNTRY screen draws the backend's layout and has no switch (owner, 2026-10-25).
+const regionalPlus = (id, gb, price) => Object.assign({}, base, {
+  package_id: id, name: `Vietnam Plus ${gb}GB 30Days`, data_gb: gb, validity_days: 30, price,
+  plan_type: 'FIXED_VOLUME', coverage_country_codes: ['VN', 'TH', 'LA', 'KH'], region: 'VN,TH,LA,KH',
+  network_technologies: ['4G'], speed: '4G', hotspot_supported: false, sellable_days: [],
+});
+const WITH_REGION = [...VIETNAM, regionalPlus('vp-3', 3, 900), regionalPlus('vp-10', 10, 2100), regionalPlus('vp-20', 20, 3300)];
+const REGION = { ru: 'Вьетнам и Юго-Восточная Азия', en: 'Vietnam and Southeast Asia' };
+
+async function openRegion(page, lang) {
+  await page.fill('#search', lang === 'ru' ? 'Вьетнам' : 'Vietnam');
+  await page.locator('#home-countries .card--row').filter({ has: page.locator('.card__title', { hasText: REGION[lang] }) }).first().click();
+  await page.locator('#screen-country[data-active]').waitFor();
+  await expect(page.locator('#country-list .card--tariff').first()).toBeVisible();
+}
+
 async function openVietnam(page, lang) {
   await page.locator('#screen-home .tile', { hasText: L[lang].country }).first().click();
   await page.locator('#screen-country[data-active]').waitFor();
@@ -187,14 +208,16 @@ for (const lang of ['ru', 'en']) {
  * 2. The recommended card
  * ================================================================== */
 
-test('the recommended card is marked, and is the per-GB winner rather than the cheapest', async ({ page }) => {
+test('the recommended card is the backend\'s «Оптимальный выбор» — a local 10 GB for 7–30 days, never the per-GB 50 GB', async ({ page }) => {
   await installMiniApp(page, { languageCode: 'ru', packages: VIETNAM });
   await openApp(page);
   await openVietnam(page, 'ru');
 
+  // The website's rule, now the backend's (lib/assortmentLayout.js): 10 GB / 15 days here. The old Mini App rule
+  // (cheapest per GB) picked 50 GB — and, elsewhere, 100 GB.
   const best = page.locator('#country-list .card--tariff.is-best');
   await expect(best).toHaveCount(1);
-  await expect(best.locator('.card__title')).toHaveText('50 ГБ');
+  await expect(best.locator('.card__title')).toHaveText('10 ГБ');
   await expect(best.locator('.badge--best')).toHaveText('Оптимальный выбор');
 
   // Elegant, not loud: the card is distinguished by its BORDER and a wash, and
@@ -271,13 +294,26 @@ test('the daily heading never claims a reset the provider did not confirm', asyn
  * 4. The sort control
  * ================================================================== */
 
+test('a country screen has no sort switch: its order is the backend\'s, the website\'s order too', async ({ page }) => {
+  await installMiniApp(page, { languageCode: 'ru', packages: WITH_REGION });
+  await openApp(page);
+  await openVietnam(page, 'ru');
+  await expect(page.locator('#country-list .segmented--sort')).toHaveCount(0);
+  // Volume ascending — the backend's order (test/helpers/assortment-layout.cjs mirrors it for fixtures).
+  const titles = await page.locator('#country-list > .card--tariff:not(.card--daily) .card__title').allTextContents();
+  expect(titles.slice(0, 5)).toEqual(['3 ГБ', '5 ГБ', '10 ГБ', '50 ГБ', '100 ГБ']);
+  // The regional block follows the local one, as on the website.
+  await expect(page.locator('#country-list h2.section').first()).toHaveText('Также подойдут');
+});
+
 for (const lang of ['ru', 'en']) {
   test(`[${lang}] the sort control speaks the reader's language`, async ({ page }) => {
     // THE DEFECT, pinned. These labels used to come from `TARIFF_SORTS.label`,
     // which is Russian in the source, so an English reader saw «По цене».
-    await installMiniApp(page, { languageCode: lang, packages: VIETNAM });
+    // The switch lives on a REGION screen since 2026-10-25.
+    await installMiniApp(page, { languageCode: lang, packages: WITH_REGION });
     await openApp(page);
-    await openVietnam(page, lang);
+    await openRegion(page, lang);
 
     const box = page.locator('#country-list .segmented--sort');
     await expect(box.locator('[data-sort="price"]')).toHaveText(L[lang].sortPrice);
@@ -289,9 +325,9 @@ for (const lang of ['ru', 'en']) {
 }
 
 test('the chosen axis is obvious, and choosing the other one reorders the list', async ({ page }) => {
-  await installMiniApp(page, { languageCode: 'ru', packages: VIETNAM });
+  await installMiniApp(page, { languageCode: 'ru', packages: WITH_REGION });
   await openApp(page);
-  await openVietnam(page, 'ru');
+  await openRegion(page, 'ru');
 
   const price = page.locator('[data-sort="price"]');
   const volume = page.locator('[data-sort="volume"]');
@@ -335,7 +371,7 @@ test('the chosen axis is obvious, and choosing the other one reorders the list',
   await expect(volume).toHaveAttribute('aria-checked', 'true');
   const titles = await page.$$eval('#country-list .card--tariff .card__title',
     (n) => n.map((x) => x.textContent.trim()));
-  expect(titles[0]).toBe('100 ГБ');
+  expect(titles[0]).toBe('20 ГБ');   // the region's biggest volume
 });
 
 /* ================================================================== *
@@ -381,9 +417,9 @@ test('dark theme: the chosen sort axis reads as chosen, not as a hole', async ({
    * chosen half sank and the unchosen half looked raised. Only a dark render
    * shows it.
    */
-  await installMiniApp(page, { languageCode: 'ru', packages: VIETNAM, colorScheme: 'dark' });
+  await installMiniApp(page, { languageCode: 'ru', packages: WITH_REGION, colorScheme: 'dark' });
   await openApp(page);
-  await openVietnam(page, 'ru');
+  await openRegion(page, 'ru');
 
   await expect(page.locator('html')).toHaveAttribute('data-tg-scheme', 'dark');
 

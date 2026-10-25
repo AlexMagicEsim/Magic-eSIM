@@ -16,8 +16,10 @@
  *   * Show roubles or convert. When the GLOBAL lane answers nothing usable
  *     (switched off, busy, down, wrong shape) the page says prices are
  *     unavailable. It never falls back to the Russian rouble snapshot.
- *   * Decide a block from a package NAME. Which block a plan sits in is
- *     decided by its coverage codes alone (en/plans.js classify).
+ *   * Decide which plans a country shows, in which block or in which order.
+ *     The backend sends that layout with the catalogue
+ *     (assets/assortment-view.js) — the same one the international Mini App
+ *     draws.
  * ================================================================== */
 (function () {
   'use strict';
@@ -187,7 +189,12 @@
       var list = (res && res.ok && res.packages) || [];
       if (!list.length) return failed();
 
-      var blocks = PLANS.classify(list, iso);
+      // THE BACKEND DECIDES THE PAGE (assets/assortment-view.js): which plans,
+      // in which block, in which order — the international Mini App's layout
+      // too. No layout (an answer without it) is «prices unavailable», never a
+      // rule of our own.
+      var blocks = window.MagicAssortment ? window.MagicAssortment.forCountry(list, iso) : null;
+      if (!blocks) return failed();
       var none = !blocks.daily.length && !blocks.local.length && !blocks.regional.length;
       if (none) hold();   // the «no plans» line holds the skeleton's place too
       skeleton(false);

@@ -23,6 +23,9 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { webkit, devices } = require('playwright');
+// The backend's country-page layout for the in-page catalogue mocks (test/mini-app/layout-shim.cjs).
+require('./layout-shim.cjs')(webkit);
+
 
 const APP_DIR = path.join(__dirname, '..', '..', 'app');
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.json': 'application/json' };

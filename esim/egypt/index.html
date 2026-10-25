@@ -396,7 +396,8 @@
   <!-- One network strategy for every storefront page (Render first, the
        gateway second). The checkout sends the order through it, and the
        catalogue loader takes its endpoint list from it. -->
-  <script src="/assets/catalog-loader.js?v=3abc3392" defer></script>
+  <script src="/assets/assortment-view.js?v=eeaa7f8c" defer></script>
+  <script src="/assets/catalog-loader.js?v=e502eca2" defer></script>
   <!-- The one copy of what a daily tariff card may say. Loaded before
        country-tariffs.js, which reads it; absolute so the depth of the page
        does not matter. -->
@@ -405,7 +406,7 @@
        shows; hides the floor when that catalogue is stale (stage C). Before
        country-tariffs.js, so it listens before the first render. -->
   <script src="/assets/catalog-numbers.js?v=ed3635ef" defer></script>
-  <script src="../../assets/country-tariffs.js?v=dfb16932" defer></script>
+  <script src="../../assets/country-tariffs.js?v=cf805eb6" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="/assets/ru-checkout.js?v=f2f611e7" defer></script>

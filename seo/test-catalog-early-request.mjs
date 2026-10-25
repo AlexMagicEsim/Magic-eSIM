@@ -55,7 +55,8 @@ test('the ten former SEO-experiment pages make the early request too since 2026-
 });
 
 test('EN country pages, the hub and the home load their scripts with defer, in the old order', () => {
-  const order = ['magic-net', 'global-catalog', 'daily-plan-copy', 'country-names-en', 'site-i18n-en', 'plans', 'checkout', 'country'];
+  // assortment-view (2026-10-25): the one reader of the backend's country-page layout, before the catalogue client.
+  const order = ['magic-net', 'assortment-view', 'global-catalog', 'daily-plan-copy', 'country-names-en', 'site-i18n-en', 'plans', 'checkout', 'country'];
   let n = 0;
   for (const { slug, html } of countryPages('en/esim')) {
     // The ONE script without defer: assets/logo-once.js, in <head>, synchronous on purpose — it starts the logo's

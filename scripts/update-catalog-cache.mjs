@@ -247,7 +247,32 @@ function sortPackages(list) {
 
 /** Everything except generated_at — two runs an hour apart should compare equal. */
 function contentFingerprint(doc) {
-  return JSON.stringify({ schema_version: doc.schema_version, source: doc.source, packages: doc.packages });
+  return JSON.stringify({ schema_version: doc.schema_version, source: doc.source, packages: doc.packages, assortment: doc.assortment ?? null });
+}
+
+/**
+ * The backend's layout, kept only when it is well formed and names ONLY packages
+ * the snapshot carries: { mode, regional_cap, countries: { ISO: { local, regional,
+ * daily: [id…], best: id|null } } }. Anything else is dropped (null), never patched.
+ */
+export function layoutFor(assortment, packages) {
+  if (!assortment || typeof assortment !== 'object' || !assortment.countries || typeof assortment.countries !== 'object') return null;
+  const ids = new Set(packages.map((p) => p.package_id));
+  const countries = {};
+  for (const iso of Object.keys(assortment.countries).sort()) {
+    if (!/^[A-Z]{2}$/.test(iso)) return null;
+    const e = assortment.countries[iso] || {};
+    const entry = {};
+    for (const block of ['local', 'regional', 'daily']) {
+      const list = Array.isArray(e[block]) ? e[block] : null;
+      if (!list || list.some((id) => typeof id !== 'string' || !ids.has(id))) return null;
+      entry[block] = list.slice();
+    }
+    if (e.best != null && (typeof e.best !== 'string' || !ids.has(e.best))) return null;
+    entry.best = e.best == null ? null : e.best;
+    countries[iso] = entry;
+  }
+  return { mode: String(assortment.mode || ''), regional_cap: Number(assortment.regional_cap) || null, countries };
 }
 
 export function readExistingCatalog() {
@@ -273,6 +298,11 @@ export async function fetchCatalogueOnce(base, { fetchImpl = globalThis.fetch, t
     try { json = JSON.parse(text); } catch { throw new Error('API response is not valid JSON'); }
     if (!json || !Array.isArray(json.data)) throw new Error('API response has no data array');
     if (json.data.length === 0) throw new Error('API returned an empty catalogue');
+    // The backend's layout of every country page travels with the rows (non-
+    // enumerable, so every existing reader of the array is unaffected) and is
+    // written into the snapshot next to them: a page drawn from the snapshot
+    // shows exactly what the live answer would (assets/assortment-view.js).
+    Object.defineProperty(json.data, 'assortment', { value: json.assortment && typeof json.assortment === 'object' ? json.assortment : null, enumerable: false });
     return json.data;
   } finally {
     clearTimeout(timer);
@@ -374,6 +404,8 @@ async function runUpdate() {
     packages: sortPackages(rawPackages.map(normalizePackage)),
   };
   doc.package_count = doc.packages.length;
+  doc.assortment = layoutFor(rawPackages.assortment, doc.packages);
+  if (!doc.assortment) console.error('  ⚠ ответ API без раскладки assortment — страницы из снимка покажут «Тарифы обновляются»');
 
   const errors = validateCatalog(doc, { previousCount });
   if (errors.length) {

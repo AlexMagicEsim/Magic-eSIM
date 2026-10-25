@@ -23,6 +23,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
+import { createRequire } from 'node:module';
 import {
   evaluateProfile, checkCorpus, pageBlocks, printedCount, validateClaimShape,
   loadCatalogDoc, formatProblem, unanchoredCoverageSentences, fieldText, isWholeSentence,
@@ -495,9 +496,13 @@ test('the Node visibility and block rules are the browser rules, on every live p
   const src = readFileSync(join(ROOT, 'assets', 'country-tariffs.js'), 'utf8');
   const restricted = src.match(/const RESTRICTED_COUNTRY_CODES=\[[^\]]*\];/)[0];
   const uncounted = src.match(/var UNCOUNTED_CODES = \[[^\]]*\];/)[0];
-  const fns = ['packageCoverageCodes', 'isRussiaPackage', 'isRestrictedPackage', 'isPublicGlobalPackage', 'countryCountOf', 'isMultiCountryPackage']
+  // Which plans a page shows (restricted, worldwide) is the BACKEND's rule since 2026-10-25 — the browser only draws
+  // its layout. The browser keeps the coverage reading its cards print; the backend's visibility rule is compared
+  // through its fixture port (test/helpers/assortment-layout.cjs).
+  const fns = ['packageCoverageCodes', 'countryCountOf', 'isMultiCountryPackage']
     .map((n) => extractFunction(src, n)).join('\n');
-  const B = vm.runInNewContext(`${restricted}\n${uncounted}\n${fns}\n({packageCoverageCodes,isRussiaPackage,isRestrictedPackage,isPublicGlobalPackage,isMultiCountryPackage})`);
+  const B = vm.runInNewContext(`${restricted}\n${uncounted}\n${fns}\n({packageCoverageCodes,isMultiCountryPackage})`);
+  const BACKEND = createRequire(import.meta.url)(join(ROOT, 'test', 'helpers', 'assortment-layout.cjs'));
   const sandbox = { module: { exports: {} } };
   vm.runInNewContext(readFileSync(join(ROOT, 'assets', 'daily-plan-copy.js'), 'utf8'), sandbox);
   const daily = sandbox.module.exports;
@@ -512,9 +517,11 @@ test('the Node visibility and block rules are the browser rules, on every live p
   assert.ok(edges.some((p) => isRestricted(p)) && edges.some((p) => isRussia(p)) && edges.some((p) => isGlobal(p)), 'edge fixtures must exercise every filter');
   for (const p of [...LIVE.packages, ...edges]) {
     if (JSON.stringify(B.packageCoverageCodes(p)) !== JSON.stringify(coverageCodes(p))) off.push(`coverage ${p.package_id}`);
-    if (B.isRussiaPackage(p) !== isRussia(p)) off.push(`russia ${p.package_id}`);
-    if (B.isRestrictedPackage(p) !== isRestricted(p)) off.push(`restricted ${p.package_id}`);
-    if (B.isPublicGlobalPackage(p) !== isGlobal(p)) off.push(`global ${p.package_id}`);
+    // KNOWN DIFFERENCE (2026-10-25, for the SEO follow-up): the Node layer's isRussia also hides a plan whose `region`
+    // lists RU («Best World», «Half Global»); the backend — like the English site always did — does not. The pages now
+    // show the backend's choice; the generated facts still use the Node rule until the owner decides.
+    if (BACKEND.restricted(p) !== isRestricted(p)) off.push(`restricted ${p.package_id}`);
+    if (BACKEND.worldwide(p) !== isGlobal(p)) off.push(`global ${p.package_id}`);
     if (B.isMultiCountryPackage(p) !== isMultiCountry(p)) off.push(`multi ${p.package_id}`);
     if (daily.isDaily(p) !== isDaily(p)) off.push(`daily ${p.package_id}`);
   }

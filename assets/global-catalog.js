@@ -41,7 +41,9 @@
 
   /**
    * Is this a GLOBAL catalogue we may render? Pure, for the tests.
-   * @returns {{ok:true, packages:Array}|{ok:false, reason:string}}
+   * @returns {{ok:true, packages:Array, assortment:Object|null}|{ok:false, reason:string}}
+   * `assortment` is the backend's layout of every country page (assets/assortment-view.js),
+   * also attached to `packages`.
    */
   function validate(status, body) {
     if (status === 503) {
@@ -67,7 +69,10 @@
       out.push(p);
     }
     if (!out.length) return { ok: false, reason: 'empty' };
-    return { ok: true, packages: out };
+    var layout = body.assortment && typeof body.assortment === 'object' ? body.assortment : null;
+    var A = root.MagicAssortment;
+    if (A && typeof A.attach === 'function') A.attach(out, layout);
+    return { ok: true, packages: out, assortment: layout };
   }
 
   function load() {

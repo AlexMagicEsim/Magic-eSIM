@@ -202,9 +202,17 @@ export function stripLangRoute(html) {
     .replace(/[ \t]*<script src="\/assets\/lang-route\.js(?:\?v=[0-9a-f]+)?"><\/script>\n?/g, '');
 }
 
+// THE ASSORTMENT READER LIKEWISE, added 2026-10-25 (owner: the backend decides every country page). The one
+// <script> line that loads assets/assortment-view.js says which file reads the backend's layout, not what the page
+// says — the same kind of line as the language bundle above. Removed before hashing, so no country page is re-dated
+// by it (no state migration); seo/test-assortment-single-source.mjs pins the round trip.
+export function stripAssortmentView(html) {
+  return String(html).replace(/[ \t]*<script src="\/assets\/assortment-view\.js(?:\?v=[0-9a-f]+)?" defer><\/script>\n?/g, '');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(html)))))
+    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(html))))))
       .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')

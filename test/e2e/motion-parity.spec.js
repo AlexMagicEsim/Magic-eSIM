@@ -13,6 +13,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 const path = require('path');
 
@@ -32,8 +36,8 @@ async function open(page, url, { reduce = false } = {}) {
   });
   // the LAST registered route wins: the refusal first, the catalogues after it
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => (route.request().method() !== 'GET' ? route.abort() : route.fulfill({ status: 204, body: '' })));
-  await page.route(/\/api\/v1\/retail\/packages\?market=global$/, (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: EN }) }));
-  await page.route(/\/api\/v1\/retail\/packages(\?(?!market=global)|$)/, (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify({ status: 'success', data: RU }) }));
+  await page.route(/\/api\/v1\/retail\/packages\?market=global$/, (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: EN })) }));
+  await page.route(/\/api\/v1\/retail\/packages(\?(?!market=global)|$)/, (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', data: RU })) }));
   await page.goto(url);
 }
 const state = (page) => page.evaluate(() => ({

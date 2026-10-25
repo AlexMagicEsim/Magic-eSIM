@@ -10,6 +10,10 @@
  * assertions here look for the string in the whole document, scripts included.
  */
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const { installMiniApp, openApp, callsTo, overflowingInside, PACKAGE } = require('./harness');
 
 const CHANNEL = 'https://t.me/magicesim';

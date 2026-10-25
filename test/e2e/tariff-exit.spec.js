@@ -30,6 +30,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const { installMiniApp, openApp, eventsSent } = require('./harness.js');
 
 /* ------------------------------------------------------------------ *
@@ -178,14 +182,11 @@ test('opening the coverage list on a regional plan is reported once', async ({ p
   await openApp(page);
   await openVietnam(page);
 
-  // A multi-country plan is not a card in the country's own list: it forms a
-  // REGION of its own and appears under «Также подойдут», one row down. That
-  // is the only route to a tariff screen that draws the coverage sheet, so the
-  // test has to walk it rather than reach for a card that is not there.
-  await page.locator('#country-list', { hasText: 'Также подойдут' })
-    .locator('text=Регион').first().click();
-  await expect(page.locator('#country-list .card--tariff').first()).toBeVisible();
-  await openTariff(page, '10 ГБ');
+  // A multi-country plan is a card of the country's REGIONAL block, under «Также подойдут» — the backend's layout,
+  // the website's regional block (2026-10-25). Its tariff screen draws the coverage sheet.
+  await expect(page.locator('#country-list', { hasText: 'Также подойдут' })).toBeVisible();
+  await page.locator('#country-list .card--tariff[data-package-id="apac-10-30"]').click();
+  await page.locator('#screen-tariff[data-active]').waitFor();
 
   await sheet(page, 'стран').first().locator('summary').click();
   await expect.poll(() => eventsSent(state).filter((e) => e === 'tariff_coverage_open').length).toBe(1);

@@ -273,7 +273,10 @@ test('the GLOBAL client accepts only a GLOBAL, USD, payable answer', () => {
   const ok = (data) => GLOBAL.validate(200, { status: 'success', market: 'global', currency: 'USD', data });
   const fixed = { package_id: 'a', price: 9.99, currency: 'USD' };
   const daily = { package_id: 'b', price: 1.99, currency: 'USD', term_prices: [{ days: 3, price: 3.99 }] };
-  assert.deepEqual(ok([fixed, daily]), { ok: true, packages: [fixed, daily] });
+  assert.deepEqual(ok([fixed, daily]), { ok: true, packages: [fixed, daily], assortment: null });
+  // The backend's layout of every country page is handed on untouched (assets/assortment-view.js reads it).
+  const layout = { mode: 'on', regional_cap: 8, countries: { TH: { local: ['a'], regional: [], daily: ['b'], best: null } } };
+  assert.deepEqual(GLOBAL.validate(200, { status: 'success', market: 'global', currency: 'USD', data: [fixed, daily], assortment: layout }).assortment, layout);
   // The lane switched off, busy, broken — each is «unavailable», never a guess.
   assert.deepEqual(GLOBAL.validate(503, { status: 'error', error: 'GLOBAL_PRICING_DISABLED' }), { ok: false, reason: 'disabled' });
   assert.deepEqual(GLOBAL.validate(503, { status: 'error', error: 'GLOBAL_PRICING_NOT_CONFIGURED' }), { ok: false, reason: 'unavailable' });

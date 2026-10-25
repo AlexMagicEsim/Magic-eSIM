@@ -20,6 +20,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 const path = require('path');
 
@@ -35,7 +39,7 @@ async function open(page, url = '/esim/turkey/', opts = {}) {
     const req = route.request(); const u = new URL(req.url());
     if (u.pathname === '/api/v1/retail/packages') {
       if (opts.liveDelayMs) await new Promise((r) => setTimeout(r, opts.liveDelayMs));
-      return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify({ status: 'success', data: CATALOG.packages }) });
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', data: CATALOG.packages })) });
     }
     if (req.method() === 'POST' && u.pathname === '/api/v1/retail/promo/quote') {
       const b = JSON.parse(req.postData() || '{}'); st.quotes.push(b);

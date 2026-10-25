@@ -23,6 +23,10 @@
  * as well as the request count.
  */
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const { installMiniApp, openApp, openSettings, callsTo } = require('./harness');
 
 const REVOKE = '/api/v1/tma/identity/email/revoke';

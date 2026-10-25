@@ -8,6 +8,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 const path = require('path');
 
@@ -44,7 +48,7 @@ async function open(page, url, { live, snapshot } = {}) {
   if (snapshot !== undefined) {
     await page.route('**/assets/catalog.json*', (route) => (typeof snapshot === 'number'
       ? route.fulfill({ status: snapshot, body: '' })
-      : route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(snapshot) })));
+      : route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(withLayout(snapshot)) })));
   }
   await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, (route) => {
     const req = route.request();
@@ -52,7 +56,7 @@ async function open(page, url, { live, snapshot } = {}) {
     if (/\/api\/v1\/retail\/packages/.test(req.url())) {
       if (typeof live === 'number') return route.fulfill({ status: live, body: '' });
       return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
-        body: JSON.stringify({ status: 'success', data: live || SNAPSHOT.packages }) });
+        body: JSON.stringify(withLayout({ status: 'success', data: live || SNAPSHOT.packages })) });
     }
     return route.fulfill({ status: 204, body: '' });
   });

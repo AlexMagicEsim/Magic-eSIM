@@ -177,8 +177,11 @@ test('a TR + KT plan is still a Turkish plan: site, generator, EN storefront and
   vm.createContext(ctx);
   for (const f of SCRIPTS) vm.runInContext(read(f), ctx, { filename: f });
   const PLANS = ctx.MagicEnPlans.create({ I18N: ctx.MagicSiteI18n.createI18n('en'), NAMES: ctx.MagicCountryNamesEn, DAILY: ctx.MagicDailyPlan });
-  const e = PLANS.classify([tr], 'TR');
-  assert.equal(e.regional.length, 0, 'EN storefront');
+  // The block is the BACKEND's since 2026-10-25 (every site language and the Mini App draw its layout); its rule,
+  // through the fixture port, files a TR + KT plan local too.
+  const layout = require('../test/helpers/assortment-layout.cjs').layoutOf([tr]);
+  assert.deepEqual(layout.countries.TR.local, [String(tr.package_id)], 'backend layout (EN storefront, Mini App)');
+  assert.equal(typeof PLANS.card, 'function', 'EN storefront draws it');
   const core = require('../app/core.js');
   assert.equal(core.isRegional(tr), false, 'Mini App');
   assert.equal(core.coverageSummary(tr, 'ru'), 'Турция');

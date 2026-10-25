@@ -64,8 +64,11 @@ function fingerprint(C) {
   each('tariffHotspot', (lang) => packages.map((p) => C.tariffHotspot(p, lang)));
   each('tariffIpLabel', (lang) => packages.map((p) => C.tariffIpLabel(p, lang)));
   each('syncedAgo', (lang) => AGO.map((iso) => C.syncedAgo(iso, NOW, lang)));
-  each('groupCatalogue', (lang) => C.groupCatalogue(packages, lang));
-  each('byCountry', (lang) => C.byCountry(packages, lang));
+  // The catalogue is grouped FROM THE BACKEND'S LAYOUT since 2026-10-25 (the sample laid out as the backend lays out
+  // an unfiltered list, test/helpers/assortment-layout.cjs); `byCountry`, the Mini App's own grouping, is gone.
+  const MA = require('../../assets/assortment-view.js');
+  const laid = MA.attach(packages.slice(), require('../helpers/assortment-layout.cjs').layoutOf(packages));
+  each('groupCatalogue', (lang) => C.groupCatalogue(laid, lang));
   each('dailyDistinguishers', (lang) => [...byCode.values()].map((list) => C.dailyDistinguishers(list, lang)));
   out.tariffTextRu = digest(phrases.map((s) => C.tariffTextRu(s)));
   out.counts = digest([0, 1, 2, 3, 4, 5, 11, 12, 21, 22, 25, 101, 111].map((n) => [

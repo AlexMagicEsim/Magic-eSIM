@@ -10,6 +10,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 
 // The Russian home is the Russian browser's «/»: any other browser language is sent on by assets/lang-route.js
 // (owner, 2026-10-23; test/e2e/lang-route.spec.js covers that).

@@ -56,12 +56,18 @@ function fingerprint(root, sample) {
     ladder: each(PLANS.ladder),
     durations: each(CHECKOUT.durations),
     restricted: each((p) => [PLANS.isRestricted(p), PLANS.isWorldwide(p)]),
-    classify: isos.map((iso) => {
-      const b = PLANS.classify(list, iso);
-      const ids = (xs) => xs.map((p) => p.package_id);
-      return [iso, ids(b.local), ids(b.regional), ids(b.daily),
-        PLANS.distinguishers(b.local), PLANS.distinguishers(b.regional), PLANS.distinguishers(b.daily)];
-    }),
+    // The blocks are the BACKEND's since 2026-10-25 (en/plans.js classify is gone); the distinguishers are still
+    // en/plans.js's words, fingerprinted over the blocks the backend gives this sample (its fixture port).
+    distinguishers: (() => {
+      const layout = require('../helpers/assortment-layout.cjs').layoutOf(list);
+      const byId = new Map(list.map((p) => [String(p.package_id), p]));
+      return isos.map((iso) => {
+        const c = layout.countries[iso] || { local: [], regional: [], daily: [] };
+        const pk = (xs) => xs.map((id) => byId.get(id));
+        return [iso, c.local, c.regional, c.daily,
+          PLANS.distinguishers(pk(c.local)), PLANS.distinguishers(pk(c.regional)), PLANS.distinguishers(pk(c.daily))];
+      });
+    })(),
   };
   const hashes = {};
   for (const [k, v] of Object.entries(out)) hashes[k] = digest(v);

@@ -10,6 +10,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const fs = require('fs');
 const path = require('path');
 
@@ -28,7 +32,7 @@ async function open(page, url) {
     if (req.method() !== 'GET') { st.nonGet += 1; return route.abort(); }
     if (/\/api\/v1\/retail\/packages/.test(req.url())) {
       return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
-        body: JSON.stringify({ status: 'success', data: WITH_KT }) });
+        body: JSON.stringify(withLayout({ status: 'success', data: WITH_KT })) });
     }
     return route.fulfill({ status: 204, body: '' });
   });

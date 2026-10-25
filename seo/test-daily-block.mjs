@@ -39,18 +39,18 @@ const SURFACES = [PAGE];
 // The two products stay apart
 // ---------------------------------------------------------------------------
 
-test('both renderers take daily plans out of the pool BEFORE sorting by price', () => {
-  // «1 ГБ в день» and «1 ГБ всего» are not two prices for the same thing, so a
-  // daily plan must never be ranked against a volume. Partitioning after the
-  // sort would still show the right cards in the right block while quietly
-  // letting a daily price decide which volume card is «Оптимальный выбор».
+test('daily plans arrive in their own block from the backend and are never ranked against a volume', () => {
+  // «1 ГБ в день» and «1 ГБ всего» are not two prices for the same thing. Since
+  // 2026-10-25 the backend puts every daily plan in the `daily` block of its
+  // layout (assets/assortment-view.js); the page draws that block apart and
+  // re-sorts nothing — so no daily price can decide a volume card's order or
+  // the «Оптимальный выбор» badge.
   for (const f of SURFACES) {
     const s = read(f);
-    const split = s.indexOf('.partition(all)');
-    const sort = s.indexOf('applySort(list.filter');
-    assert.ok(split > 0, `${f}: daily plans are not partitioned out`);
-    assert.ok(sort > 0, `${f}: sort not found`);
-    assert.ok(split < sort, `${f}: the split must happen before the ranking`);
+    assert.match(s, /MagicAssortment\.forCountry\(/, `${f}: the page must read the backend's layout`);
+    assert.match(s, /const daily=view\.daily;/, `${f}: the daily block is the layout's own`);
+    assert.ok(!/\.partition\(all\)/.test(s), `${f}: no daily partition of our own`);
+    assert.ok(!/bestLocalPackageId/.test(s), `${f}: the badge is the backend's`);
   }
 });
 

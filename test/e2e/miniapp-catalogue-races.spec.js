@@ -15,6 +15,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const LOCALES = require('../../app/locales.js');
 const C = require('../../app/core.js');   // word forms and plural rules (country names come from the page)
 const { installMiniApp, openApp } = require('./harness');
@@ -55,7 +59,7 @@ for (const [name, routeIt] of [
   ['the live rouble catalogue', (page, ms) => page.route((u) => u.href === `${RENDER}/api/v1/retail/packages`, async (r) => { await delay(ms); return r.fallback(); })],
   ['the static rouble snapshot', (page, ms) => page.route('**/assets/catalog.json*', async (r) => {
     await delay(ms);
-    return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ schema_version: 1, generated_at: '2026-10-23T00:00:00Z', source: 'test', package_count: 2, packages: RU_ROWS, data: RU_ROWS }) });
+    return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(withLayout({ schema_version: 1, generated_at: '2026-10-23T00:00:00Z', source: 'test', package_count: 2, packages: RU_ROWS, data: RU_ROWS })) });
   })],
 ]) {
   test(`${name} answering after the switch to International is not drawn — no «$400.00»`, async ({ page }) => {

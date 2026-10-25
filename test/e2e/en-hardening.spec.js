@@ -10,6 +10,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+// The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
+// the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
+test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 
 const PRIMARY = 'https://esim-backend-3wmu.onrender.com';
 const GATEWAY = 'api.magicesim.store';
@@ -27,7 +31,7 @@ const PACKAGES = [
   { ...base, package_id: '11111111-0000-4000-8000-000000000004', name: 'Japan 1GB/Day FUP1Mbps', plan_type: 'DAILY', daily_term_mode: 'PER_DAY',
     daily_gb: 1, data_gb: 0, price: 1.99, daily_throttle_label: '1 Mbps', term_prices: [{ days: 3, price: 4.99 }] },
 ];
-const BODY = JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: PACKAGES });
+const BODY = JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: PACKAGES }));
 
 async function open(page, { catalogue = () => ({ status: 200, body: BODY }) } = {}) {
   const calls = [];
