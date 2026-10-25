@@ -76,7 +76,13 @@ for (const width of [320, 375, 390]) {
       const local = await h(page.locator('#localGrid .plan').first());
       const daily = await h(page.locator('#dailyGrid .plan').nth(0));
       // en/en.css .cp .plan: padding 20 / 20 / 16 px, gap 12 px — the RU card is a language version of the EN card
-      const sp = await page.locator('#localGrid .plan').first().evaluate((c) => { const s = getComputedStyle(c); return [s.paddingTop, s.paddingRight, s.paddingBottom, s.paddingLeft, s.rowGap].join(' '); });
+      // the gap is measured between two parts, not read from row-gap: on a grid row the card shares its lines with its
+      // neighbours (page-country.css, subgrid) and its gap is a margin there (test/e2e/plan-card-rows.spec.js)
+      const sp = await page.locator('#localGrid .plan').first().evaluate((c) => {
+        const s = getComputedStyle(c);
+        const gap = Math.round(c.querySelector('.meta').getBoundingClientRect().top - c.querySelector('.plan-top').getBoundingClientRect().bottom);
+        return [s.paddingTop, s.paddingRight, s.paddingBottom, s.paddingLeft, `${gap}px`].join(' ');
+      });
       expect(sp).toBe('20px 20px 16px 20px 12px');
       expect(local).toBeLessThanOrEqual(BEFORE[width].local);
       expect(daily).toBeLessThanOrEqual(BEFORE[width].daily);
