@@ -15,6 +15,7 @@ const SRC = `(function () {
   var module = { exports: {} };
   (function (module) { ${HELPER} })(module);
   var L = module.exports;
+  window.__layoutOf = L.layoutOf;   // for a script that recomputes what the screen should show
   function add(b) {
     if (b && typeof b === 'object' && !Array.isArray(b) && !b.assortment) {
       var rows = Array.isArray(b.data) ? b.data : Array.isArray(b.packages) ? b.packages : null;
