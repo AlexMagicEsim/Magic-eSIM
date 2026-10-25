@@ -173,22 +173,32 @@ test('egypt: the ladder, the missing 10 GB step and the price relations the copy
   const max = steps.reduce((a, b) => (b.d > a.d ? b : a));
   assert.deepEqual([max.from, max.to], [12, 20], '12 → 20 GB is the longest step by money');
   assert.ok(steps.find((x) => x.from === 20).d < max.d / 2, '20 → 25 GB is a small extra');
-  const five = at('EG', 5, 30).sort((a, b) => purchasablePrice(a) - purchasablePrice(b));
-  assert.equal(five.length, 2, 'two local 5 GB / 30 days');
-  assert.ok(purchasablePrice(five[0]) < purchasablePrice(five[1]), 'one is cheaper');
-  assert.ok(purchasablePrice(five[1]) - purchasablePrice(five[0]) <= purchasablePrice(five[0]) * 0.1, '«почти не отличаются»');
-  assert.ok((five[0].networks || []).length > 0 && /5G/.test(five[0].speed), 'the cheaper card lists operators and 3G/4G/5G');
-  assert.ok(!(five[1].networks || []).length && !/5G/.test(five[1].speed || ''), 'the dearer card does not');
+  // Until 2026-10-25 the page compared two local 5 GB / 30 days cards («почти не отличаются», the cheaper one listing
+  // operators). The assortment (rule R1: same volume + term → the cheapest stays) took the dearer one off the shelf, so
+  // the card was rewritten to what the whole local ladder shows: «У местных тарифов на 3 и 5 ГБ в карточке перечислены
+  // операторы и стоит пометка 3G/4G/5G, у ступеней от 7 ГБ и выше этих строк нет».
+  const full = (p) => (p.networks || []).length > 0 && /3G\/4G\/5G/.test(p.speed || '');
+  const bare = (p) => !(p.networks || []).length && !/5G/.test(p.speed || '');
+  const small = vol('EG').filter((p) => Number(p.data_gb) <= 5); const big = vol('EG').filter((p) => Number(p.data_gb) >= 7);
+  assert.deepEqual([...new Set(small.map((p) => Number(p.data_gb)))].sort((a, b) => a - b), [3, 5], 'the 3 and 5 GB steps exist');
+  assert.ok(small.every(full), 'every local 3 and 5 GB card lists operators and 3G/4G/5G');
+  assert.ok(big.length && big.every(bare), 'no local card from 7 GB up lists them');
 });
 
-test('georgia: the equal-price daily pair, the dearer smaller limit, the 3 GB twins', () => {
+test('georgia: the equal-price daily pair, equal from three to ten days, the 3 GB twins', () => {
   const daily = own('GE').filter(isDaily);
   const pick = (gb, fup) => daily.filter((p) => Number(p.daily_gb) === gb && kbps(p.fup_policy) === fup);
-  const [plain2] = pick(2, 512); const [fup2] = pick(2, 1000); const [fup3] = pick(3, 1000);
-  assert.ok(plain2 && fup2 && fup3, 'the three daily plans the copy compares');
+  const [plain2] = pick(2, 512); const [fup3] = pick(3, 1000);
+  assert.ok(plain2 && fup3, 'the two daily plans the copy compares');
   assert.equal(term(plain2, 3), term(fup3, 3), '2 GB/day and 3 GB/day cost the same for three days');
   assert.ok(kbps(fup3.fup_policy) > kbps(plain2.fup_policy), 'the larger limit keeps the higher speed after it');
-  assert.ok(term(fup2, 3) > term(fup3, 3), '2 GB/day with the soft policy costs more than 3 GB/day');
+  // Until 2026-10-25 the copy also said «тариф на 2 ГБ в день с той же мягкой политикой стоит дороже, чем 3 ГБ в день»
+  // (Georgia 2GB/Day FUP1Mbps). The assortment took that plan off the shelf; the sentence and the FAQ answer now state
+  // «на 5, 7 и 10 дней эти два тарифа тоже стоят одинаково» / «на срок от трёх до десяти дней … столько же».
+  for (const d of [3, 5, 7, 10]) {
+    assert.ok(Number.isFinite(term(plain2, d)), `2 GB/day is sold for ${d} days`);
+    assert.equal(term(plain2, d), term(fup3, d), `2 GB/day and 3 GB/day cost the same for ${d} days`);
+  }
   const [t15] = at('GE', 3, 15); const [t30] = at('GE', 3, 30);
   assert.ok(t15 && t30, '3 GB is sold for 15 and for 30 days');
   assert.ok(purchasablePrice(t30) - purchasablePrice(t15) <= purchasablePrice(t15) * 0.2, '«небольшая доплата»');

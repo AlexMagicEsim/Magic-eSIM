@@ -131,26 +131,35 @@ export function cases() {
       },
     },
     {
-      name: 'a stated relation FLIPS (montenegro · local-vs-balkans-daily: the local plan becomes dearer)',
+      // 2026-10-25: re-pointed from local-vs-balkans-daily (the Balkans daily plans left the assortment) to the claim that
+      // replaced it. Both terms are fixed-volume plans printed through {{price:local_20gb}} / {{price:eu_usa_18gb}}.
+      name: 'a stated relation FLIPS (montenegro · local-20gb-below-regional-18gb: the local plan becomes dearer)',
       mutate: (doc) => {
-        const local = byId(doc, claimTerm('montenegro', 'price', 'local-vs-balkans-daily', 'local'));
-        const balkans = byId(doc, claimTerm('montenegro', 'price', 'local-vs-balkans-daily', 'balkans'));
-        const b3 = termPrice(balkans, 3);
-        local.term_prices = local.term_prices.map((t) => (t.days === 3 ? { ...t, price: b3 + 100 } : t));
+        const local = byId(doc, claimTerm('montenegro', 'price', 'local-20gb-below-regional-18gb', 'local'));
+        const regional = byId(doc, claimTerm('montenegro', 'price', 'local-20gb-below-regional-18gb', 'regional'));
+        local.price = Number(regional.price) + 100;
       },
     },
     {
-      name: 'a package a PRICE claim names is WITHDRAWN (sri-lanka · why-entry-vs-local · local)',
+      // 2026-10-25: why-entry-vs-local lost its «local» term (the claim now pins the multi-country entry against the page
+      // floor); the withdrawn package is that multi-country 3-day daily plan, a claim term and not a {{price}} token.
+      name: 'a package a PRICE claim names is WITHDRAWN (sri-lanka · why-entry-vs-local · multi)',
       mutate: (doc) => {
-        const id = claimTerm('sri-lanka', 'price', 'why-entry-vs-local', 'local');
+        const id = claimTerm('sri-lanka', 'price', 'why-entry-vs-local', 'multi');
         byId(doc, id);
         doc.packages = doc.packages.filter((p) => p.package_id !== id);
       },
     },
     {
-      name: 'a package a COVERAGE claim names is WITHDRAWN (australia · au-nz-daily-500mb)',
+      // 2026-10-25: re-pointed from australia · au-nz-daily-500mb (the AU+NZ daily family left the assortment). After the
+      // assortment NO package is named by a coverage claim AND a price claim without also being a {{price}} token (a token
+      // stops the build instead — the stage B case) or being the last plan of a country (Caribbean 3 GB is Sint Maarten's
+      // only plan — the «LOSES every plan» case). So this case is now coverage alone: North America 5GB/Day, named only by
+      // usa's coverage claim (no authored «факт» rests on it, unlike LatAm 50 GB or EU 60 GB, whose withdrawal also turns
+      // the facts gate red); withdrawing a package a price claim names is the sri-lanka case above.
+      name: 'a package a COVERAGE claim names is WITHDRAWN (usa · north-america-daily)',
       mutate: (doc) => {
-        const id = claimTerm('australia', 'coverage', 'au-nz-daily-500mb');
+        const id = claimTerm('usa', 'coverage', 'north-america-daily');
         byId(doc, id);
         doc.packages = doc.packages.filter((p) => p.package_id !== id);
       },
@@ -159,7 +168,9 @@ export function cases() {
       name: 'a new offer makes a «cheapest» sentence false (sri-lanka: a local plan below the multi-country entry)',
       mutate: (doc) => {
         const multi = byId(doc, claimTerm('sri-lanka', 'price', 'why-entry-vs-local', 'multi'));
-        const local = byId(doc, claimTerm('sri-lanka', 'price', 'why-entry-vs-local', 'local'));
+        // 2026-10-25: no claim names a local daily plan any more; the copy is Sri Lanka's own single-country daily plan.
+        const local = doc.packages.find((p) => only(p, 'LK') && Array.isArray(p.term_prices) && termPrice(p, 3) !== undefined);
+        if (!local) throw new Error('fixture: sri-lanka has no single-country daily plan with a 3-day term — re-point seo/refresh-scenario-cases.mjs');
         const n = JSON.parse(JSON.stringify(local));
         n.package_id = '00000000-0000-4000-8000-0000000000bb';
         n.name = `${local.name} (scenario)`;

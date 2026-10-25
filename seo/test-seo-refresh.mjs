@@ -307,7 +307,11 @@ test('the body stays inside GitHub\'s limit on the worst change the catalogue ca
   // provider can make. Driven from the real catalogue, not from a made-up shape.
   const cache = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8')).countries;
   const pk = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8')).packages;
-  assert.ok(cache.length > 150 && pk.length > 2000, 'фикстура должна быть настоящим каталогом');
+  // 2026-10-25: the snapshot holds only the plans customers see since the backend's assortment went live (2284 → 1840
+  // rows; twins and most multi-country daily families hidden), so the «real catalogue» floor is 1500, not 2000. The
+  // drops are unchanged: 1340 (the old daily family) is still below the row count, and pk.length − 1 is still «all of it».
+  assert.ok(cache.length > 150 && pk.length > 1500, 'фикстура должна быть настоящим каталогом');
+  assert.ok(pk.length - 1 > 1340, 'every drop below is a real withdrawal from this catalogue');
 
   for (const drop of [300, 1340, pk.length - 1]) {
     const s = classify({

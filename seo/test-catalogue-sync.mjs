@@ -278,7 +278,12 @@ function perDayLadderVerdict(p) {
 
 test('purchasablePrice prices every PER_DAY plan from its ladder', () => {
   const perDay = PK.filter((p) => isDaily(p) && p.daily_term_mode === 'PER_DAY');
-  assert.ok(perDay.length > 1000, `expected the PER_DAY family, found ${perDay.length}`);
+  // The floor only proves the family is there (an empty set would pass the
+  // loop vacuously). 2026-10-25: the snapshot now carries only the plans the
+  // backend's assortment shows (R1/R2/R3 drop same-volume twins and dearer
+  // smaller volumes), so the family shrank from ~1300 to 901 — the floor
+  // follows the snapshot, not the old catalogue.
+  assert.ok(perDay.length > 800, `expected the PER_DAY family, found ${perDay.length}`);
   const bad = [];
   for (const p of perDay) {
     const why = perDayLadderVerdict(p);

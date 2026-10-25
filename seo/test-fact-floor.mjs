@@ -30,7 +30,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadCatalogue, countryFacts, purchasablePrice, isDaily } from './catalogue-facts.mjs';
+import { loadCatalogue, countryFacts, coverageCodes, purchasablePrice, isDaily } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SHEETS = JSON.parse(readFileSync(join(ROOT, 'seo/fact-sheets.json'), 'utf8')).sheets;
@@ -78,13 +78,21 @@ test('the sheet knows every purchasable price, ladder rungs included', () => {
   }
 });
 
+// 2026-10-25: this used to be Montenegro and «Balkans (5+ areas) 500MB/Day».
+// The backend's assortment withdrew the Balkans daily family, and Montenegro
+// now shows only its own single-country dailies. Same shape, current premise:
+// a MULTI-COUNTRY PER_DAY package on a country page whose cheapest rung is
+// absent from that sheet's offers — «Asia (12 areas) 1GB/Day» on Cambodia.
 test('a daily ladder rung is blessed — the whole point of the widening', () => {
-  const sheet = SHEETS['montenegro'];
-  const balkans = PK.find((p) => /Balkans/.test(String(p.name || '')) && /500MB\/Day/.test(String(p.name || '')));
-  assert.ok(balkans, 'ожидался балканский посуточный пакет');
-  const rung = Math.min(...balkans.term_prices.map((t) => Number(t.price)));
+  const sheet = SHEETS['cambodia'];
+  const asia = PK.find((p) => String(p.name || '') === 'Asia (12 areas) 1GB/Day');
+  assert.ok(asia, 'ожидался азиатский посуточный пакет на несколько стран');
+  assert.equal(asia.daily_term_mode, 'PER_DAY');
+  assert.ok(coverageCodes(asia).length > 1 && coverageCodes(asia).includes(sheet.iso),
+    'пакет обязан быть на несколько стран и покрывать Камбоджу');
+  const rung = Math.min(...asia.term_prices.map((t) => Number(t.price)));
   assert.ok(sheet.all_purchasable_prices.includes(rung),
-    `ступень ${rung} ₽ обязана быть в фактшите Черногории`);
+    `ступень ${rung} ₽ обязана быть в фактшите Камбоджи`);
   assert.ok(!sheet.offers.some((o) => o.price_rub === rung),
     'и её заведомо нет в offers — иначе тест ничего не доказывает');
 });
