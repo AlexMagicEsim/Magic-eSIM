@@ -72,25 +72,26 @@ test('stage B: a package a {{price}} token names is withdrawn — the BUILD stop
 });
 
 test('a stated relation flips: red on the relation itself (montenegro prints its amounts through tokens, so only the relation fails)', async () => {
-  const r = await get('a stated relation FLIPS (montenegro · local-vs-balkans-daily: the local plan becomes dearer)');
+  const r = await get('a stated relation FLIPS (montenegro · local-20gb-below-regional-18gb: the local plan becomes dearer)');
   baseline(r);
   assert.deepEqual(r.failing, [PRICE]);
-  assert.match(detail(r, PRICE), /local-vs-balkans-daily: assert\[0\] local < balkans ложно/);
+  assert.match(detail(r, PRICE), /local-20gb-below-regional-18gb: assert\[0\] local < regional ложно/);
 });
 
 test('a package a price claim names is withdrawn: red, with successor candidates in the same block', async () => {
-  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · why-entry-vs-local · local)');
+  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · why-entry-vs-local · multi)');
   baseline(r);
   assert.deepEqual(r.failing, [PRICE]);
   assert.match(detail(r, PRICE), /нет в каталоге — исчез или снят с витрины; кандидаты в блоке «daily»/);
 });
 
-test('a package a coverage claim names is withdrawn: red on coverage (and on the price claim that names it too)', async () => {
-  const r = await get('a package a COVERAGE claim names is WITHDRAWN (australia · au-nz-daily-500mb)');
+// 2026-10-25: until the assortment the withdrawn package was also a price-claim term and the case expected [COVERAGE, PRICE];
+// no such package is left (seo/refresh-scenario-cases.mjs) — the price half is the sri-lanka withdrawal case above.
+test('a package a coverage claim names is withdrawn: red on coverage', async () => {
+  const r = await get('a package a COVERAGE claim names is WITHDRAWN (usa · north-america-daily)');
   baseline(r);
-  assert.deepEqual(r.failing, [COVERAGE, PRICE].sort());
-  assert.match(detail(r, COVERAGE), /\/esim\/australia\//);
-  assert.match(detail(r, PRICE), /faq-daily-au-and-au-nz: aunz: продукта .* нет в каталоге/);
+  assert.deepEqual(r.failing, [COVERAGE]);
+  assert.match(detail(r, COVERAGE), /\/esim\/usa\/ · north-america-daily/);
 });
 
 test('a new offer makes a «cheapest» sentence false: red on that claim', async () => {

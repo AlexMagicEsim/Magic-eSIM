@@ -305,11 +305,24 @@ test('mutation: New Zealand removed from «Australia and NZ» turns Australia re
   assert.ok(liveRun('australia', c).some((p) => /NZ/.test(p.message)));
 });
 
-test('mutation: New Zealand removed from ONE daily card the FAQ names (500 MB/day) is caught — the text names a product, the claim pins it', () => {
+// 2026-10-25: this was «Australia & New Zealand 500MB/Day», a daily card the
+// Australia FAQ named. The assortment withdrew every AU+NZ daily card and the
+// Australia page now says its dailies cover only Australia. Same premise on a
+// card that still exists: the USA page names the daily «Северная Америка» на
+// 5 ГБ в день (US, CA, MX) and the claim pins its id — Canada removed from it
+// must be caught by that id. The Australia sentence that replaced the old one
+// («Новую Зеландию посуточные тарифы не покрывают») is proved the other way.
+test('mutation: Canada removed from ONE daily card the text names («Северная Америка», 5 GB/day) is caught — the text names a product, the claim pins it', () => {
   const c = clone(LIVE.packages);
-  const [d] = byName(c, /^Australia & New Zealand 500MB\/Day$/);
-  d.coverage_country_codes = ['AU']; d.region = 'AU';
-  assert.ok(liveRun('australia', c).some((p) => p.message.includes(d.package_id)));
+  assert.deepEqual(liveRun('usa', c), [], 'baseline must be green');
+  const [d] = byName(c, /^North America 5GB\/Day$/);
+  d.coverage_country_codes = d.coverage_country_codes.filter((x) => x !== 'CA'); d.region = d.coverage_country_codes.join(', ');
+  assert.ok(liveRun('usa', c).some((p) => p.message.includes(d.package_id)));
+  const c2 = clone(LIVE.packages);
+  const [au] = byName(c2, /^Australia 500MB\/Day$/);
+  au.coverage_country_codes = ['AU', 'NZ']; au.region = 'AU, NZ';
+  assert.ok(liveRun('australia', c2).some((p) => /NZ/.test(p.message) && p.message.includes(au.package_id)),
+    'an Australia daily that gains New Zealand falsifies «Новую Зеландию посуточные тарифы не покрывают»');
 });
 
 test('mutation: Cuba added to a visible product turns the Dominican Republic red', () => {
@@ -379,9 +392,15 @@ test('review B1–B16: a NEW product that falsifies «все/ни один» is 
     ['mongolia', 'Kazakhstan 3GB 30Days', { name: 'Central Asia 3 GB', coverage_country_codes: ['MN', 'KZ'] }, 'a regional block appears'],
     ['brunei', 'Brunei Darussalam 3GB 15Days', { name: 'Asia 3 GB', coverage_country_codes: ['BN', 'SG'] }, 'a regional block appears'],
     ['dominican-republic', 'Caribbean 5 GB', { coverage_country_codes: ['DO', 'AW'], topup_available: true }, 'Aruba in a top-up pack'],
-    ['laos', 'Asia (20 areas) 1GB/Day', { coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] }, 'an Asia daily covering Cambodia'],
+    // 2026-10-25: the Asia (20 areas) dailies were withdrawn; the Laos page now
+    // says its dailies cover only Laos, so a new daily built on a Laos card that
+    // reaches Cambodia falsifies the same «ни один» sentence.
+    ['laos', 'Laos 1GB/Day', { name: 'Asia (21 areas) 1GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] }, 'an Asia daily covering Cambodia'],
     ['australia', 'APAC 7 GB', { name: 'APAC 9 GB', data_gb: 9, coverage_country_codes: ['AU', 'SG'] }, 'an APAC pack without New Zealand'],
-    ['usa', 'USA & Canada 1GB/Day', { coverage_country_codes: ['US'] }, 'a «США и Канада» card without Canada'],
+    // 2026-10-25: the «USA & Canada» dailies were withdrawn with the sentence
+    // about them. The USA page's current «ни один» sentence is «Региональные
+    // «Европа и США» из сетки этой страницы Канаду не покрывают».
+    ['usa', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: [...LIVE.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes, 'CA'] }, 'a «Европа и США» card with Canada'],
   ];
   for (const [slug, tpl, over, why] of cases) { const c = clone(LIVE.packages); newPkg(c, tpl, over); red(slug, c, why); }
 });
@@ -402,16 +421,25 @@ test('review B9/B11/B12: same-id changes that falsify the sentence are caught', 
 });
 
 test('control review N1–N16: the second round of stale-but-green cases is caught', () => {
+  const EU_USA_15 = LIVE.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes;
+  assert.ok(EU_USA_15.includes('GR') && !EU_USA_15.includes('XK'), 'N4/N5 premise: Greece in, Kosovo out');
   const cases = [
     ['argentina', 'LATAM 10 GB', { name: 'LatAm 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'CL', 'UY'] }, 'N1: case-insensitive family, no Paraguay'],
     ['argentina', 'LATAM 10 GB', { name: 'South America 10 GB', coverage_country_codes: ['AR', 'BR', 'CL', 'UY'] }, 'N2: «все региональные на 3–20 ГБ» without Paraguay'],
-    ['laos', 'Asia (20 areas) 1GB/Day', { name: 'Asia (21 areas) 3GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] }, 'N3: an Asian daily covering Cambodia'],
-    ['albania', 'Balkans (5+ areas) 1GB/Day', { name: 'Balkans (6+ areas) 1GB/Day', coverage_country_codes: ['AL', 'ME', 'XK', 'RS', 'MK', 'GR', 'BG', 'HR'] }, 'N4: a Balkans card with Kosovo'],
-    ['montenegro', 'Balkans (5+ areas) 1GB/Day', { name: 'Balkans 3GB/Day', coverage_country_codes: ['AL', 'ME', 'RS', 'MK', 'BG', 'HR'] }, 'N5: a Balkans card without Greece'],
+    // 2026-10-25: N3/N4/N5/N12/N13 were built on daily families the assortment
+    // withdrew (Asia (20 areas), Balkans (5+ areas), Australia & New Zealand,
+    // GCC 2GB). Each is rebuilt on the family the page's sentence now rests on.
+    ['laos', 'Laos 3GB/Day', { name: 'Asia (21 areas) 3GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] }, 'N3: an Asian daily covering Cambodia'],
+    ['albania', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: [...EU_USA_15, 'XK'] }, 'N4: a «Европа и США» card with Kosovo'],
+    ['montenegro', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: EU_USA_15.filter((x) => x !== 'GR') }, 'N5: a «Европа и США» card without Greece'],
     ['kenya', 'Africa 3 GB', { name: 'East Africa 3 GB', coverage_country_codes: ['KE', 'UG'] }, 'N8: a regional pack without Tanzania'],
     ['seychelles', 'Africa 3 GB', { name: 'Indian Ocean 3 GB', validity_days: 30, coverage_country_codes: ['SC', 'MU'] }, 'N9: a 30-day pack covering Mauritius'],
-    ['australia', 'Australia & New Zealand 10GB/Day', { name: 'Australia & New Zealand 20GB/Day', daily_gb: 20 }, 'N12: «до 10 ГБ в день»'],
-    ['bahrain', 'GCC 2GB/Day FUP1Mbps', { name: 'GCC 3GB/Day', coverage_country_codes: ['AE', 'BH', 'KW', 'OM', 'QA', 'SA', 'IQ'] }, 'N13: a seven-country Gulf card'],
+    // N12 was «до 10 ГБ в день» on the AU+NZ dailies; no daily bound is left in
+    // the corpus, so the same attr_bounds rule is proved on «Europe and USA на
+    // 15 и 18 ГБ» (bosnia-and-herzegovina, scope on the Croatia page).
+    ['bosnia-and-herzegovina', 'Europe and USA 18 GB', { name: 'Europe and USA 25 GB', data_gb: 25 }, 'N12: «на 15 и 18 ГБ»'],
+    // N13: daily_gb kept at 5 so only the seventh country (Oman) can turn it red.
+    ['bahrain', 'Gulf Region 5GB/Day', { name: 'GCC 5GB/Day', daily_gb: 5, coverage_country_codes: ['AE', 'BH', 'KW', 'OM', 'QA', 'SA', 'IQ'] }, 'N13: a seven-country Gulf card'],
     ['dominican-republic', 'Caribbean 5 GB', { name: 'Antilles 5 GB', coverage_country_codes: ['DO', 'AW'], topup_available: true }, 'N16: Aruba in a top-up pack of another name'],
   ];
   for (const [slug, tpl, over, why] of cases) { const c = clone(LIVE.packages); newPkg(c, tpl, over); red(slug, c, why); }
@@ -421,11 +449,18 @@ test('control review N1–N16: the second round of stale-but-green cases is caug
 
 test('control review over-strict: withdrawing one family member freezes nothing', () => {
   for (const [name, slugs] of [
-    ['Balkans (5+ areas) 2GB/Day', ['albania', 'montenegro', 'serbia', 'bosnia-and-herzegovina']],
+    // 2026-10-25: was 'Balkans (5+ areas) 2GB/Day' — withdrawn by the
+    // assortment, which left this case passing on a filter that removed
+    // nothing. Three of the four pages now rest on the two-member «Europe and
+    // USA». bosnia-and-herzegovina is left out ON PURPOSE: its sentence names
+    // both sizes («на 15 и 18 ГБ», attr_bounds 15–18), so withdrawing either one
+    // falsifies it and red is the right answer there.
+    ['Europe and USA 15 GB', ['albania', 'montenegro', 'serbia']],
     ['Australia and NZ 5 GB', ['australia']],
     ['Central Asia (4 areas) 5GB/Day', ['kazakhstan', 'tajikistan']],
   ]) {
     const c = clone(LIVE.packages).filter((p) => p.name !== name);
+    assert.ok(c.length < LIVE.packages.length, `${name} must exist, or withdrawing it proves nothing`);
     for (const slug of slugs) green(slug, c, `${name} withdrawn`);
   }
 });
@@ -435,7 +470,11 @@ test('review M3: a prose edit that inverts a sentence orphans its claim', () => 
   const claim = p.coverage_claims.find((c) => c.none_in_scope && c.none_in_scope.includes('KH'));
   const a = claim.anchors[0];
   const field = a.field.match(/^([a-z_]+)(?:\[(\d+)\])?(?:\.([a-z]+))?$/);
-  const flip = (t) => t.replace('не покрывает', 'тоже покрывает').replace('Камбоджу он не покрывает', 'Камбоджу он покрывает');
+  // 2026-10-25: the Laos claim with KH in none_in_scope is now «Посуточные
+  // тарифы … покрывают только Лаос»; the inversion of that sentence is added.
+  const flip = (t) => t.replace('не покрывает', 'тоже покрывает').replace('Камбоджу он не покрывает', 'Камбоджу он покрывает')
+    .replace('покрывают только Лаос', 'покрывают Лаос и Камбоджу');
+  assert.notEqual(flip(a.text), a.text, 'the flip must actually invert the anchored sentence');
   if (field[2] !== undefined && field[3]) p[field[1]][Number(field[2])][field[3]] = flip(p[field[1]][Number(field[2])][field[3]]);
   else if (field[2] !== undefined) p[field[1]][Number(field[2])] = flip(p[field[1]][Number(field[2])]);
   else p[field[1]] = flip(p[field[1]]);
@@ -443,8 +482,16 @@ test('review M3: a prose edit that inverts a sentence orphans its claim', () => 
 });
 
 test('review over-strict: harmless catalogue moves keep the corpus green', () => {
-  let c = clone(LIVE.packages).filter((p) => p.name !== 'Gulf Region 5GB/Day');
-  green('bahrain', c, 'one Gulf daily card withdrawn — every sentence still holds');
+  // 2026-10-25: was «one Gulf daily card withdrawn» — but the assortment left
+  // «Gulf Region 5GB/Day» the ONLY Gulf card, so withdrawing it empties the
+  // block every Gulf sentence rests on, and red is the right answer (pinned
+  // below). The over-strict case is rebuilt on the harmless move that remains:
+  // a second Gulf card with the same six countries and 5 GB a day.
+  let c = clone(LIVE.packages);
+  newPkg(c, 'Gulf Region 5GB/Day', {});
+  green('bahrain', c, 'a second Gulf daily card, same six countries, 5 GB a day — every sentence still holds');
+  c = clone(LIVE.packages).filter((p) => p.name !== 'Gulf Region 5GB/Day');
+  red('bahrain', c, 'the only Gulf daily card withdrawn — «все они включают Саудовскую Аравию» has nothing to stand on');
   c = clone(LIVE.packages); newPkg(c, 'Africa 3 GB', { coverage_country_codes: ['MA', 'ZA', 'SZ', 'BW', 'TZ', 'KE', 'RE', 'SC'] });
   green('morocco', c, 'a new Africa pack under «Региональные тарифы» is still African');
   c = clone(LIVE.packages); newPkg(c, 'Africa 5GB 30Days', { coverage_country_codes: ['ZA', 'ZM', 'SZ', 'BW'] });
