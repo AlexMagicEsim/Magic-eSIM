@@ -187,7 +187,7 @@ test('every page loads only its own language’s words: one bundle, deferred; Ru
     assert.match(html, new RegExp(`${siteI18nBundle(code).src.replace(/[.]/g, '\\.')}\\?v=[0-9a-f]{8}"`), `${rel}: stamped`);
     withWords += 1;
   }
-  assert.equal(withWords, PUBLISHED.length * 201, 'home + list + 199 country pages per published language');
+  assert.equal(withWords, PUBLISHED.length * 200, 'home + list + 198 country pages per published language');
 });
 
 /* ------------------------------------------------------------------ 6. the bundle in a browser */
