@@ -10,7 +10,8 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { snapshots, problems, archivePath, versionNumber, CURRENT, KINDS, textSha256, VERSIONS_JSON } from './legal-archive.mjs';
+import { snapshots, problems, archivePath, versionNumber, CURRENT, KINDS, textSha256, VERSIONS_JSON, translationSnapshots, translationProblems, TRANSLATION_CODES } from './legal-archive.mjs';
+import { locale } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -52,16 +53,42 @@ for (const s of SNAPS) {
   });
 }
 
-test('every current legal page links the permanent copy of the version it shows', () => {
-  const pages = { en: 'en', es: 'es', de: 'de', fr: 'fr', zh: 'zh', ko: 'ko' };
+test('every current legal page links the permanent copy of the version it shows — in its own language (LEGAL-8)', () => {
   for (const k of KINDS) {
-    const href = archivePath(k, CURRENT[k].version);
-    for (const prefix of Object.values(pages)) {
+    for (const code of ['en', ...TRANSLATION_CODES]) {
+      const prefix = locale(code).prefix;
+      const href = archivePath(k, CURRENT[k].version, code);
       const PAGE = read(`${prefix}/${k}/index.html`);
-      assert.match(PAGE, new RegExp(`<p class="lg-meta lg-permanent"><a href="${href.replace(/\./g, '\\.')}"`), `${prefix}/${k}/`);
+      assert.match(PAGE, new RegExp(`<p class="lg-meta lg-permanent"><a href="${href.replace(/\./g, '\\.')}"`), `${prefix}/${k}/ → ${href}`);
     }
   }
 });
+
+/* LEGAL-8: the frozen translations */
+const TSNAPS = translationSnapshots();
+test('the translation archive is intact; every current translation is frozen under the current English version', () => {
+  assert.deepEqual(translationProblems(), []);
+  for (const code of TRANSLATION_CODES) for (const k of KINDS) {
+    assert.ok(TSNAPS.some((t) => t.code === code && t.kind === k && versionNumber(t.version) === versionNumber(CURRENT[k].version)), `${code} ${k}`);
+  }
+  const t = TSNAPS[0];
+  const edited = { ...t, sections: t.sections.map((x, i) => (i ? x : { ...x, html: `${x.html} ` })) };
+  assert.ok(translationProblems([...TSNAPS.filter((x) => x !== t), edited]).some((p) => /never edited/.test(p)), 'the check fires');
+});
+for (const t of TSNAPS) {
+  const rel = `${archivePath(t.kind, t.version, t.code).slice(1)}index.html`;
+  test(`${rel}: the frozen translation, its own language, noindex, its own canonical, the English copy linked`, () => {
+    const PAGE = read(rel);
+    const L = locale(t.code);
+    assert.match(PAGE, new RegExp(`^<!doctype html>\n<html lang="${L.htmlLang}">`));
+    assert.ok(PAGE.includes(`<link rel="canonical" href="https://magicesim.store${archivePath(t.kind, t.version, t.code)}">`));
+    assert.ok(PAGE.includes('<meta name="robots" content="noindex, follow">'));
+    assert.ok(PAGE.includes('class="lg-meta lg-archived"'));
+    assert.ok(PAGE.includes(`href="${archivePath(t.kind, t.version)}" hreflang="en"`), 'the English copy of the same version');
+    for (const x of t.sections) assert.ok(PAGE.includes(x.html.replace(/^\n/, '').replace(/\s+$/, '')), `${x.id}: verbatim`);
+    assert.ok(!read('sitemap.xml').includes(archivePath(t.kind, t.version, t.code)), 'not in the sitemap');
+  });
+}
 
 test('/en/legal-versions.json lists exactly the frozen versions, one current per document', () => {
   const J = JSON.parse(read(VERSIONS_JSON));
@@ -71,5 +98,8 @@ test('/en/legal-versions.json lists exactly the frozen versions, one current per
     assert.equal(cur.length, 1, `${k}: one current version`);
     assert.equal(cur[0].version, CURRENT[k].version);
     assert.equal(cur[0].url, `https://magicesim.store${archivePath(k, CURRENT[k].version)}`);
+    for (const code of TRANSLATION_CODES) {
+      assert.equal(cur[0].translations[code], `https://magicesim.store${archivePath(k, CURRENT[k].version, code)}`, `${k} ${code}`);
+    }
   }
 });

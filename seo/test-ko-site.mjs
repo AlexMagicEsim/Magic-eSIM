@@ -50,7 +50,8 @@ function htmlUnder(dir) {
   }(dir));
   return out.sort();
 }
-const KO_PAGES = htmlUnder('ko');
+// LEGAL-8: the permanent copies of the legal documents (/ko/<kind>/v<n>/) are held by seo/test-legal-archive.mjs.
+const KO_PAGES = htmlUnder('ko').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/ko/terms|refund|privacy/) are pages of this language too; their
 // fidelity to the English — which keeps proper names, the seller's Latin address and foreign law titles in English —
 // is held by seo/test-legal-i18n.mjs, so the «Korean only» word scan reads the 206 site pages without them.

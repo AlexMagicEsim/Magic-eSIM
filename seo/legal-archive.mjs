@@ -14,6 +14,11 @@
 //   /en/legal-versions.json the public list: document, version, effective date, permanent URL, text SHA-256, current.
 // The current page (/en/<kind>/ and its translations) links the permanent copy of its own version.
 //
+// LEGAL-8: the TRANSLATIONS are frozen too — seo/legal-archive/<code>/<kind>-<version>.json, the translated text of the
+// English version it follows — and published at /<prefix>/<kind>/v<number>/, so an order placed in Spanish can link the
+// Spanish wording it was shown. A translation snapshot is written only while the translation is current (its section
+// hashes match that English version); the same immutability checks apply.
+//
 //   node seo/legal-archive.mjs --freeze   write the snapshot of every current version that has none (refuses to overwrite)
 //   node seo/legal-archive.mjs --check    exit 1 if a snapshot is damaged or a current text has no matching snapshot
 import { createHash } from 'node:crypto';
@@ -23,6 +28,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { TERMS, TERMS_VERSION, TERMS_EFFECTIVE, TERMS_EFFECTIVE_ISO } from './terms-en.mjs';
 import { REFUND, REFUND_VERSION, REFUND_EFFECTIVE, REFUND_EFFECTIVE_ISO } from './refund-en.mjs';
 import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
+import { LEGAL_TRANSLATIONS, staleness } from './legal-i18n.mjs';
+import { locale } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const ARCHIVE_DIR = join(ROOT, 'seo', 'legal-archive');
@@ -45,8 +52,11 @@ export function versionNumber(version) {
   return m[1];
 }
 
-/** The permanent path of one version of one document. */
-export const archivePath = (kind, version) => `/en/${kind}/v${versionNumber(version)}/`;
+/** The permanent path of one version of one document (English, or the translation in `code`). */
+export const archivePath = (kind, version, code = 'en') => `/${locale(code).prefix}/${kind}/v${versionNumber(version)}/`;
+
+/** The translation languages (seo/legal-i18n.mjs). */
+export const TRANSLATION_CODES = Object.freeze(Object.keys(LEGAL_TRANSLATIONS));
 
 /** Exactly what a version consists of: the words a reader sees, and nothing of the page frame. */
 export function textOf({ kind, version, effective, effectiveIso, D }) {
@@ -108,6 +118,77 @@ export function freeze() {
   return written;
 }
 
+const tFileOf = (code, kind, version) => join(ARCHIVE_DIR, code, `${kind}-${versionNumber(version)}.json`);
+
+/** The translated text of one document, as frozen: the words a reader sees. */
+function tTextOf(code, kind, T, version) {
+  const D = T[kind];
+  return { code, kind, version, title: D.title, description: D.description, h1: D.h1, lead: D.lead, crumb: D.crumb,
+    sections: D.sections.map((x) => ({ id: x.id, h2: x.h2, html: x.html })) };
+}
+const tSha = (t) => createHash('sha256').update(JSON.stringify({ code: t.code, kind: t.kind, version: t.version, title: t.title,
+  description: t.description, h1: t.h1, lead: t.lead, crumb: t.crumb, sections: t.sections.map((x) => ({ id: x.id, h2: x.h2, html: x.html })) })).digest('hex');
+
+/** Every frozen translation: [{ code, kind, version, …, sha256, file }]. */
+export function translationSnapshots() {
+  const out = [];
+  for (const code of TRANSLATION_CODES) {
+    const dir = join(ARCHIVE_DIR, code);
+    if (!existsSync(dir)) continue;
+    for (const n of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
+      out.push({ ...JSON.parse(readFileSync(join(dir, n), 'utf8')), file: `${code}/${n}` });
+    }
+  }
+  return out;
+}
+
+/** The frozen translation of one version, or null. */
+export function translationSnapshot(code, kind, version) {
+  const f = tFileOf(code, kind, version);
+  return existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : null;
+}
+
+/** Everything wrong with the translation archive. A current translation must be frozen under the current English version. */
+export function translationProblems(list = translationSnapshots()) {
+  const out = [];
+  for (const t of list) {
+    if (t.file !== `${t.code}/${t.kind}-${versionNumber(t.version)}.json`) out.push(`${t.file}: the file name does not match`);
+    if (tSha(t) !== t.sha256) out.push(`${t.file}: the text no longer matches its SHA-256 — an archived translation is never edited`);
+  }
+  for (const code of TRANSLATION_CODES) {
+    const stale = new Set(staleness(code).map((x) => x.kind));
+    for (const kind of KINDS) {
+      if (stale.has(kind)) continue;
+      const v = CURRENT[kind].version;
+      const t = list.find((x) => x.code === code && x.kind === kind && versionNumber(x.version) === versionNumber(v));
+      if (!t) { out.push(`${code} ${kind} ${v}: the current translation is not frozen — run node seo/legal-archive.mjs --freeze`); continue; }
+      if (tSha(tTextOf(code, kind, LEGAL_TRANSLATIONS[code], v)) !== t.sha256) {
+        out.push(`${code} ${kind} ${v}: the translation differs from its frozen copy — a changed translation needs a new English version`);
+      }
+    }
+  }
+  return out;
+}
+
+/** Freeze every current, non-stale translation that has no snapshot yet. */
+export function freezeTranslations() {
+  const written = [];
+  for (const code of TRANSLATION_CODES) {
+    const stale = new Set(staleness(code).map((x) => x.kind));
+    for (const kind of KINDS) {
+      if (stale.has(kind)) continue;
+      const v = CURRENT[kind].version;
+      const f = tFileOf(code, kind, v);
+      if (existsSync(f)) continue;
+      mkdirSync(join(ARCHIVE_DIR, code), { recursive: true });
+      const t = tTextOf(code, kind, LEGAL_TRANSLATIONS[code], v);
+      writeFileSync(f, `${JSON.stringify({ ...t, sha256: tSha(t) }, null, 2)}\n`);
+      written.push(f);
+    }
+  }
+  return written;
+}
+
 /** The public list of versions (written to /en/legal-versions.json by the English build). */
 export function versionsJson(list = snapshots()) {
   const rows = list.map((s) => ({
@@ -117,6 +198,10 @@ export function versionsJson(list = snapshots()) {
     url: `${SITE}${archivePath(s.kind, s.version)}`,
     sha256: s.sha256,
     current: versionNumber(s.version) === versionNumber(CURRENT[s.kind].version),
+    // LEGAL-8: the frozen translations of this version, by language code → permanent URL.
+    translations: Object.fromEntries(translationSnapshots()
+      .filter((t) => t.kind === s.kind && versionNumber(t.version) === versionNumber(s.version))
+      .map((t) => [t.code, `${SITE}${archivePath(t.kind, t.version, t.code)}`])),
   }));
   return `${JSON.stringify({ language: 'en', note: 'Each version of the Magic eSIM international legal documents, at its permanent address. The English text is the master version.', documents: rows }, null, 2)}\n`;
 }
@@ -124,12 +209,12 @@ export function versionsJson(list = snapshots()) {
 if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
   const arg = process.argv[2];
   if (arg === '--freeze') {
-    const w = freeze();
+    const w = [...freeze(), ...freezeTranslations()];
     console.log(w.length ? w.map((f) => `frozen ${f.slice(ROOT.length + 1)}`).join('\n') : 'nothing to freeze');
-    const p = problems();
+    const p = [...problems(), ...translationProblems()];
     if (p.length) { console.error(p.join('\n')); process.exit(1); }
   } else if (arg === '--check') {
-    const p = problems();
+    const p = [...problems(), ...translationProblems()];
     if (p.length) { console.error(p.join('\n')); process.exit(1); }
     console.log(`legal archive: ${snapshots().length} versions intact; every current text frozen`);
   } else {

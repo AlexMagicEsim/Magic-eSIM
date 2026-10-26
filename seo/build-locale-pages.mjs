@@ -58,7 +58,7 @@ import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
-import { snapshots as legalSnapshots, archivePath, versionNumber, versionsJson, VERSIONS_JSON } from './legal-archive.mjs';
+import { snapshots as legalSnapshots, archivePath, versionNumber, versionsJson, VERSIONS_JSON, translationSnapshots, translationSnapshot } from './legal-archive.mjs';
 import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
 import { TERMS, TERMS_VERSION, TERMS_EFFECTIVE, TERMS_EFFECTIVE_ISO } from './terms-en.mjs';
 import { REFUND, REFUND_VERSION, REFUND_EFFECTIVE, REFUND_EFFECTIVE_ISO } from './refund-en.mjs';
@@ -982,18 +982,23 @@ function privacyPage() { return legalPage('privacy'); }
 function legalPage(kind, archived = null) {
   const cur = LEGAL_DOCS[kind];
   if (!cur) throw new Error(`legalPage: no legal document «${kind}»`);
-  if (archived && L.code !== 'en') throw new Error('legalPage: an archived version is English only (the master text)');
+  // LEGAL-8: outside English `archived` is a frozen TRANSLATION; its version line and dates come from the English
+  // snapshot of the same version (the translation follows it), and its English link leads to that English copy.
+  const enSnap = archived ? (L.code === 'en' ? archived : legalSnapshots().find((x) => x.kind === kind && versionNumber(x.version) === versionNumber(archived.version))) : null;
+  if (archived && !enSnap) throw new Error(`legalPage(${kind}): no English snapshot of version ${archived.version}`);
   const doc = archived
-    ? { path: archivePath(kind, archived.version), D: archived, version: archived.version, effective: archived.effective, effectiveIso: archived.effectiveIso }
+    ? { path: archivePath(kind, enSnap.version), D: enSnap, version: enSnap.version, effective: enSnap.effective, effectiveIso: enSnap.effectiveIso }
     : cur;
   // LEGAL-4: outside English the page is the translation (seo/legal-i18n/<code>.mjs) of the same English document — the
   // same section ids, the English version and date, and a notice that the English version applies where they differ.
   const T = L.code === 'en' ? null : LEGAL_T;
   if (L.code !== 'en' && !T) throw new Error(`legalPage: no ${L.code} translation of the ${kind} document (seo/legal-i18n.mjs)`);
-  const path = T ? `${P}/${kind}/` : doc.path;
-  const permanent = archivePath(kind, cur.version);
+  const path = archived ? archivePath(kind, doc.version, L.code) : (T ? `${P}/${kind}/` : doc.path);
+  // The permanent copy linked from a current page: its own language's copy when that translation is frozen, else English.
+  const ownCopy = T && translationSnapshot(L.code, kind, cur.version);
+  const permanent = ownCopy ? archivePath(kind, cur.version, L.code) : archivePath(kind, cur.version);
   const url = `${SITE}${path}`;
-  const D = T ? T[kind] : doc.D;
+  const D = archived ? (T ? archived : enSnap) : (T ? T[kind] : doc.D);
   if (T && D.sections.map((x) => x.id).join('|') !== doc.D.sections.map((x) => x.id).join('|')) throw new Error(`legalPage(${kind}): the ${L.code} sections are not the English sections`);
   const vLabel = T ? T.labels.version : 'Version';
   const eLabel = T ? T.labels.effective : 'Effective date';
@@ -1006,9 +1011,12 @@ function legalPage(kind, archived = null) {
   const metaVersion = L.code === 'zh-Hans' ? version.replace(' (', '（').replace(/\)$/, '）') : version;
   const notice = T ? `\n      <p class="lg-meta lg-translation">${esc(T.notice.body)} <a href="${doc.path}" hreflang="${EN_HTML_LANG}" lang="${EN_HTML_LANG}">${esc(T.notice.english)}</a></p>` : '';
   // The permanent copy of the version shown (LEGAL-5); on an archived page, the way back to the current version.
+  const curHere = T ? `${P}/${kind}/` : cur.path;
   const keep = archived
-    ? `\n      <p class="lg-meta lg-archived"><strong>Permanent copy.</strong> This is version ${esc(versionNumber(doc.version))} of our ${esc(cur.D.h1)}, kept unchanged at this address. The current version is always at <a href="${cur.path}">magicesim.store${cur.path}</a>.</p>`
-    : `\n      <p class="lg-meta lg-permanent"><a href="${permanent}"${T ? ` hreflang="${EN_HTML_LANG}"` : ''}>${esc(T ? T.labels.permanent : 'Permanent copy of this version')}</a></p>`;
+    ? (T
+      ? `\n      <p class="lg-meta lg-archived"><strong>${esc(T.labels.archivedTitle)}</strong> ${esc(T.labels.archivedBody).replace('{v}', esc(versionNumber(doc.version))).replace('{link}', `<a href="${curHere}">magicesim.store${curHere}</a>`)}</p>`
+      : `\n      <p class="lg-meta lg-archived"><strong>Permanent copy.</strong> This is version ${esc(versionNumber(doc.version))} of our ${esc(cur.D.h1)}, kept unchanged at this address. The current version is always at <a href="${cur.path}">magicesim.store${cur.path}</a>.</p>`)
+    : `\n      <p class="lg-meta lg-permanent"><a href="${permanent}"${T && !ownCopy ? ` hreflang="${EN_HTML_LANG}"` : ''}>${esc(T ? (ownCopy ? T.labels.permanentOwn : T.labels.permanent) : 'Permanent copy of this version')}</a></p>`;
   const ids = D.sections.map((x) => x.id);
   if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z0-9-]+$/.test(id))) throw new Error(`legalPage(${kind}): section ids must be unique ASCII`);
   const toc = D.sections.map((x) => `        <li><a href="#${x.id}">${esc(x.h2)}</a></li>`).join('\n');
@@ -1023,7 +1031,7 @@ ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(archived ? `${D.h1}, version ${versionNumber(doc.version)} — Magic eSIM` : D.title)}</title>
+<title>${esc(archived ? (T ? `${D.h1} — ${vLabel} ${versionNumber(doc.version)} — Magic eSIM` : `${D.h1}, version ${versionNumber(doc.version)} — Magic eSIM`) : D.title)}</title>
 <meta name="description" content="${esc(D.description)}">
 <link rel="canonical" href="${url}">
 ${PRIVACY_NOINDEX}
@@ -1153,6 +1161,13 @@ function homePage(list = countries()) {
         write(`${rel}index.html`, stampHtml(legalPage(snap.kind, snap), join(ROOT, rel)));
       }
       write(VERSIONS_JSON, versionsJson());
+    } else if (LEGAL_T) {
+      // LEGAL-8: every frozen translation of this language at its permanent address.
+      for (const t of translationSnapshots().filter((x) => x.code === L.code)) {
+        if (INTL_LEGAL[t.kind] !== LEGAL_DOCS[t.kind].path) continue;
+        const rel = archivePath(t.kind, t.version, L.code).slice(1);
+        write(`${rel}index.html`, stampHtml(legalPage(t.kind, t), join(ROOT, rel)));
+      }
     }
     return { countries: list.length, guides: GUIDES.length };
   }

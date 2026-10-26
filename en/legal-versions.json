@@ -8,7 +8,8 @@
       "effective_date": "2026-10-23",
       "url": "https://magicesim.store/en/terms/v0.9.1/",
       "sha256": "537229e6b516cade1b0b51e53ecd9b5a63a4cb34f0234d8e956ee61aa41989ec",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "terms",
@@ -16,7 +17,8 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/terms/v0.9.2/",
       "sha256": "48e674e6a569bcc7cc84acc5c5f27afdc28471ef421b41467035a54d34457388",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "terms",
@@ -24,7 +26,8 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/terms/v0.9.3/",
       "sha256": "bcb3282b179aac0592e9da8f35d300da5c0962e5b31b62d8363e88dc15b71d45",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "terms",
@@ -32,7 +35,14 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/terms/v0.9.4/",
       "sha256": "7df1b45d685b822efaebb6120c15eda310df61fc62e16a9dc04b3ea39ade7a0b",
-      "current": true
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/terms/v0.9.4/",
+        "de": "https://magicesim.store/de/terms/v0.9.4/",
+        "fr": "https://magicesim.store/fr/terms/v0.9.4/",
+        "zh-Hans": "https://magicesim.store/zh/terms/v0.9.4/",
+        "ko": "https://magicesim.store/ko/terms/v0.9.4/"
+      }
     },
     {
       "document": "refund",
@@ -40,7 +50,8 @@
       "effective_date": "2026-10-23",
       "url": "https://magicesim.store/en/refund/v0.9/",
       "sha256": "43119b246ba8a7b3d3b1a09175fa0a5bcd97bc3f7ae62a5447e0c3b46f9fe50a",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "refund",
@@ -48,7 +59,8 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/refund/v0.9.1/",
       "sha256": "6737888c4bbe4920566a4640b52501cb25bc4fbcf20446b36a9fbacd723fa905",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "refund",
@@ -56,7 +68,8 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/refund/v0.9.2/",
       "sha256": "4ed648f91358965e73531a79a577c3c4cfa67a6bec153a747c628aace425bd5a",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "refund",
@@ -64,7 +77,14 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/refund/v0.9.3/",
       "sha256": "f4b99509b55389c3ba8141302e16582f442f4f62268ae2f84896da3bd54ba77c",
-      "current": true
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/refund/v0.9.3/",
+        "de": "https://magicesim.store/de/refund/v0.9.3/",
+        "fr": "https://magicesim.store/fr/refund/v0.9.3/",
+        "zh-Hans": "https://magicesim.store/zh/refund/v0.9.3/",
+        "ko": "https://magicesim.store/ko/refund/v0.9.3/"
+      }
     },
     {
       "document": "privacy",
@@ -72,7 +92,8 @@
       "effective_date": "2026-10-24",
       "url": "https://magicesim.store/en/privacy/v0.9.3/",
       "sha256": "4c4bfa045940bb283c62ece9a573a2c4d7231cc40652c19c8d61d17de67fd633",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "privacy",
@@ -80,7 +101,8 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/privacy/v0.9.4/",
       "sha256": "ddc717e366d4b8cafeaea731eb806945efc934737993e981a713a3a3cb242ff4",
-      "current": false
+      "current": false,
+      "translations": {}
     },
     {
       "document": "privacy",
@@ -88,7 +110,14 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/privacy/v0.9.5/",
       "sha256": "5e51b25aa4d6999cd03bdfec2b532f2c57a2be69bbb1b45582a40dc6ff6f6980",
-      "current": true
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/privacy/v0.9.5/",
+        "de": "https://magicesim.store/de/privacy/v0.9.5/",
+        "fr": "https://magicesim.store/fr/privacy/v0.9.5/",
+        "zh-Hans": "https://magicesim.store/zh/privacy/v0.9.5/",
+        "ko": "https://magicesim.store/ko/privacy/v0.9.5/"
+      }
     }
   ]
 }
