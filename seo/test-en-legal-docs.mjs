@@ -78,8 +78,21 @@ for (const [slug, D, version] of DOCS) {
     const named = [...t.matchAll(/\b([A-Z][A-Za-z]+(?:\s[A-Z][A-Za-z]+)?),?\s(?:Inc\.|Incorporated|AG|Ltd|LLC|Pte\.|GmbH|S\.A\.)/g)].map((m) => m[1]);
     assert.deepEqual(named, []);
     // Company names as written (case-sensitive: «we resend the eSIM» is a verb, not the email company).
-    assert.doesNotMatch(t, /eSIM Access|MobiMatter|Yesim|eSIMGo|Airalo|Platega|Flitt|\bTBC\b|Paddle|Lemon Squeezy|FastSpring|Stripe|PayPal|\bRender\b|\bResend\b|ImprovMX|Proton|GitHub|Cloudflare|Yandex/);
-    assert.doesNotMatch(t, /esimaccess|mobimatter|platega|flitt|paddle|fastspring|stripe/i);
+    // LEGAL-6 (owner, 2026-10-26): Paddle may be named ONLY as a possible later Merchant of Record — in Refund §9 and in
+    // the sales-model list of Terms §1, each marked as not running today — and in the pointers to them. Everywhere else,
+    // and every other provider, stays unnamed.
+    assert.doesNotMatch(text(`${D.title} ${D.description} ${D.lead}`), /Paddle/, 'no Paddle in the head');
+    assert.doesNotMatch(t, /eSIM Access|MobiMatter|Yesim|eSIMGo|Airalo|Platega|Flitt|\bTBC\b|Lemon Squeezy|FastSpring|Stripe|PayPal|\bRender\b|\bResend\b|ImprovMX|Proton|GitHub|Cloudflare|Yandex/);
+    assert.doesNotMatch(t, /esimaccess|mobimatter|platega|flitt|fastspring|stripe/i);
+    for (const sec of D.sections) {
+      const st = text(sec.html);
+      if (!/Paddle/.test(st)) continue;
+      const allowed = (slug === 'refund' && ['merchant-of-record', 'summary', 'how-to-ask-for-a-refund'].includes(sec.id))
+        || (slug === 'terms' && ['who-we-are', 'if-something-goes-wrong'].includes(sec.id));
+      assert.ok(allowed, `${slug} ${sec.id}: Paddle named outside the sections that describe a possible later model`);
+      assert.match(st, /not the case today|does not apply today|not available yet/, `${slug} ${sec.id}: Paddle without «not today»`);
+    }
+    assert.doesNotMatch(t, /Paddle (is|acts as) our|our (online )?reseller Paddle|sold (by|through) Paddle(?! acting)|Paddle\.com is the Merchant of Record/i, 'Paddle presented as running');
     // «processed by a third-party payment service» is the pre-launch wording; a NAMED processor is not.
     assert.doesNotMatch(t, /[Pp]ayments are processed by (?!a third-party)/, 'no named payment processor');
     assert.doesNotMatch(t, /our payment provider is|is our Merchant of Record|Merchant of Record is [A-Z]/i, 'no claim that a payment flow runs');

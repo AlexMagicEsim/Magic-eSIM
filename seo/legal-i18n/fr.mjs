@@ -24,7 +24,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>Le site en langue russe magicesim.store, les achats en roubles russes et la Mini App Telegram de Magic eSIM sont régis par des conditions distinctes, qui y sont publiées.</p>
       <p><strong>Les paiements internationaux sont actuellement indisponibles.</strong> Vous pouvez consulter les forfaits et obtenir un prix exact sur le Site, mais vous ne pouvez ni passer commande ni payer, et aucun contrat n’est formé. Les présentes Conditions décrivent le fonctionnement de la commande et du paiement lorsque la commande internationale sera disponible.</p>
       <p>Veuillez lire les présentes Conditions, notre <strong>Politique de remboursement</strong> et notre <strong>Politique de confidentialité</strong> avant de payer. La Politique de remboursement fait partie des présentes Conditions. Vous acceptez les présentes Conditions en cochant la case d’acceptation lors de la commande et en confirmant votre paiement.</p>` },
-      { id: "who-we-are", en: '7505886e5084', h2: "1. Qui sommes-nous", html: `
+      { id: "who-we-are", en: '496c25196c98', h2: "1. Qui sommes-nous", html: `
       <p>Chaque forfait proposé sur le Site est vendu par :</p>
       <ul class="list">
         <li><strong>Vendeur :</strong> entrepreneur individuel ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), immatriculé en Géorgie</li>
@@ -35,7 +35,12 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>E-mail :</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>« <strong>Nous</strong> », « <strong>notre</strong> » et « <strong>nos</strong> » désignent le vendeur nommé ci-dessus. « <strong>Vous</strong> » désigne la personne qui utilise le Site ou achète un forfait.</p>
-      <p>Si nous commençons à vendre via un intermédiaire de paiement agissant en qualité de vendeur en titre, les présentes Conditions seront mises à jour avant le début de ces ventes et nommeront cet intermédiaire.</p>` },
+      <p><strong>Comment les forfaits sont vendus — aujourd’hui et éventuellement plus tard.</strong></p>
+      <ul class="list">
+        <li><strong>Aujourd’hui :</strong> aucun forfait ne peut être acheté sur le Site. Aucun prestataire de paiement ni aucun revendeur ne vend nos forfaits.</li>
+        <li><strong>Plus tard, si nous vendons directement :</strong> nous sommes le vendeur, comme le décrivent les présentes Conditions.</li>
+        <li><strong>Plus tard, si nous vendons via Paddle :</strong> nous pourrons vendre via Paddle.com agissant en qualité de revendeur en ligne et de Merchant of Record. Ce n’est pas le cas aujourd’hui. Si cela se produit, les présentes Conditions seront mises à jour avant le début de ces ventes. Pour une commande traitée par Paddle, Paddle est le vendeur en titre et se charge du paiement et de la facturation ; les conditions d’achat propres à Paddle s’appliquent également ; les remboursements sont décidés et versés par Paddle (Politique de remboursement, section 8) ; et nous restons responsables de la fourniture de l’eSIM et de l’assistance technique.</li>
+      </ul>` },
       { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Ce que nous vendons", html: `
       <p>2.1. <strong>Forfaits de données eSIM prépayés pour les voyages.</strong></p>
       <ul class="list">
@@ -226,7 +231,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Les forfaits sont destinés aux voyages. Les opérateurs peuvent limiter ou interrompre l’itinérance d’une ligne utilisée à l’étranger pendant une longue période continue.</li>
         <li>Certains pays exigent qu’un appareil apporté de l’étranger soit enregistré après une certaine durée de séjour. Un appareil non enregistré peut être bloqué par les réseaux locaux, quelle que soit l’eSIM qu’il utilise. Veuillez consulter les règles officielles avant un long séjour.</li>
       </ul>` },
-      { id: "if-something-goes-wrong", en: '9c654207d737', h2: "10. En cas de problème", html: `
+      { id: "if-something-goes-wrong", en: '8e3447c08250', h2: "10. En cas de problème", html: `
       <p>10.1. <strong>Contactez-nous.</strong></p>
       <ul class="list">
         <li>Si votre forfait ne s’installe pas, ne se connecte pas ou ne fonctionne pas comme décrit, écrivez-nous en indiquant la référence de votre commande, le modèle de votre appareil et, si possible, des captures d’écran.</li>
@@ -235,7 +240,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>10.2. <strong>Ce que nous faisons.</strong></p>
       <ul class="list">
         <li>Nous essayons de résoudre le problème, par exemple en vous guidant dans les réglages, en émettant de nouveau les informations d’installation ou en vous fournissant une eSIM de remplacement.</li>
-        <li>Si nous ne parvenons pas à faire fonctionner le forfait comme décrit, la Politique de remboursement s’applique.</li>
+        <li>Si nous ne parvenons pas à faire fonctionner le forfait comme décrit, la Politique de remboursement s’applique. Pour une commande passée via Paddle en tant que Merchant of Record (pas encore disponible), les remboursements sont effectués par Paddle (Politique de remboursement, section 8).</li>
       </ul>
       <p>10.3. <strong>Vos droits légaux.</strong> Ces démarches ne limitent pas les recours que la loi vous accorde si un forfait n’est pas conforme au contrat.</p>` },
       { id: "support", en: 'ea83a942c1b4', h2: "11. Assistance", html: `
@@ -310,11 +315,12 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Quand vous pouvez être remboursé d’un forfait eSIM acheté en dollars américains sur le site international de Magic eSIM.",
     crumb: "Politique de remboursement",
     sections: [
-      { id: "about-this-policy", en: 'ab6df6f6bb4a', h2: "À propos de cette politique", html: `
+      { id: "about-this-policy", en: 'a811c44667b8', h2: "À propos de cette politique", html: `
       <p>Cette politique explique dans quels cas vous pouvez être remboursé d’un forfait eSIM acheté en dollars américains sur le site international de Magic eSIM. Le vendeur est l’entrepreneur individuel ALEKSANDR KHARIN (Géorgie). Cette politique fait partie de nos Conditions d’utilisation.</p>
       <p><strong>Les paiements internationaux sont actuellement indisponibles</strong> ; aucun forfait ne peut donc encore être acheté sur le site international. Cette politique s’applique aux forfaits achetés une fois que la commande internationale sera disponible.</p>
-      <p><strong>Vos droits légaux passent en premier.</strong> Cette politique décrit ce que nous proposons volontairement. Elle ne supprime ni ne réduit aucun droit dont vous disposez en vertu du droit impératif de la consommation. Lorsque la loi vous accorde davantage, vous recevez ce que la loi vous accorde (section 4).</p>` },
-      { id: "summary", en: 'a81f5b7359f5', h2: "1. Résumé", html: `
+      <p><strong>Vos droits légaux passent en premier.</strong> Cette politique décrit ce que nous proposons volontairement. Elle ne supprime ni ne réduit aucun droit dont vous disposez en vertu du droit impératif de la consommation. Lorsque la loi vous accorde davantage, vous recevez ce que la loi vous accorde (section 4).</p>
+      <p><strong>Notre règle générale :</strong> nous n’accordons pas de remboursement volontaire pour un forfait eSIM qui a été livré et qui fonctionne comme décrit. Nous corrigeons les erreurs de facturation, remboursons ce que nous n’avons pas pu livrer et traitons les défauts techniques comme indiqué ci-dessous.</p>` },
+      { id: "summary", en: 'a54b263c8114', h2: "1. Résumé", html: `
       <ul class="list">
         <li><strong>Double débit ou débit erroné :</strong> remboursement intégral du montant excédentaire ou erroné (section 2)</li>
         <li><strong>Nous n’avons pas pu livrer votre eSIM :</strong> remboursement intégral (section 2)</li>
@@ -324,6 +330,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>Votre appareil ne prend pas en charge l’eSIM ou est verrouillé :</strong> non couvert par nos remboursements volontaires. Vos droits légaux demeurent (sections 4 et 5)</li>
         <li><strong>Vous avez changé d’avis, ou votre voyage a changé :</strong> non couvert par nos remboursements volontaires. Vos droits légaux demeurent (sections 4 et 5)</li>
         <li><strong>Vous n’avez pas utilisé l’eSIM :</strong> le fait de ne pas l’utiliser ne donne pas à lui seul droit à un remboursement. Vos droits légaux demeurent (sections 4 et 5)</li>
+        <li><strong>Un achat effectué via Paddle en tant que Merchant of Record</strong> (pas encore disponible) : les remboursements sont décidés et versés par Paddle (section 8)</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. Erreurs et non-livraison — toujours remboursées", html: `
       <p>Nous remboursons l’intégralité du montant payé :</p>
@@ -333,7 +340,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>si nous avons <strong>livré un forfait différent</strong> de celui que vous avez payé et que vous ne souhaitez pas recevoir le bon forfait à la place ;</li>
         <li>si <strong>nous annulons</strong> votre commande (Conditions d’utilisation, section 13).</li>
       </ul>` },
-      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Défauts techniques", html: `
+      { id: "technical-faults", en: 'f240b45c2a4c', h2: "3. Défauts techniques", html: `
       <p>3.1. <strong>Quand cette section s’applique.</strong> Elle s’applique lorsque toutes les conditions suivantes sont réunies :</p>
       <ul class="list">
         <li>l’eSIM ne peut pas être installée, ne se connecte pas ou ne fournit pas de données comme décrit sur sa fiche produit ;</li>
@@ -349,7 +356,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>3.3. <strong>Ce que nous faisons.</strong></p>
       <ol class="list">
         <li>Nous essayons d’abord de résoudre le problème avec vous.</li>
-        <li>S’il ne peut pas être résolu dans un délai raisonnable, nous vous proposons soit une eSIM de <strong>remplacement</strong> pour la même destination et le même forfait, soit un <strong>remboursement</strong>.</li>
+        <li>S’il ne peut pas être résolu dans un délai raisonnable, nous vous proposons soit une eSIM de <strong>remplacement</strong> pour la même destination et le même forfait, soit un <strong>remboursement intégral ou partiel</strong> conformément à la section 3.4, selon ce qu’exigent les circonstances et le droit applicable à votre achat.</li>
         <li>Si l’eSIM de remplacement ne fonctionne pas non plus, nous vous remboursons conformément à la section 3.4, en comptant ensemble les données et les jours utilisés sur l’eSIM d’origine et sur l’eSIM de remplacement.</li>
       </ol>
       <p>3.4. <strong>Montant du remboursement.</strong> Nous remboursons le prix de la partie du forfait que vous n’avez pas pu utiliser. Toutes les mesures sont effectuées <strong>au moment où vous nous avez signalé le défaut pour la première fois</strong>, de sorte que le temps pris par notre assistance ne réduit pas votre remboursement. L’utilisation du forfait après votre signalement est traitée à la section 3.6. Les montants sont arrondis au centime <strong>en votre faveur</strong>.</p>
@@ -430,10 +437,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>Un remboursement au titre de cette section met fin au forfait. Nous pouvons désactiver l’eSIM une fois le remboursement approuvé.</li>
         <li>Veuillez cesser d’utiliser l’eSIM après votre signalement — désactivez les données mobiles pour la ligne Magic eSIM — pendant que nous examinons le défaut.</li>
         <li>L’utilisation que notre assistance vous demande d’effectuer pour tester l’eSIM, ainsi que l’utilisation d’une eSIM de remplacement que nous fournissons, ne sont pas déduites au titre de cette section ; elles ne sont comptées qu’une seule fois, au titre de la section 3.3.</li>
-        <li>Pour les autres données utilisées après votre signalement, nous déduisons : pour les forfaits à volume de données fixe, les données utilisées ; pour les forfaits journaliers, la part utilisée du volume de chaque jour supplémentaire ; pour les forfaits illimités, chaque jour supplémentaire au cours duquel des données ont été utilisées.</li>
+        <li>Pour les autres données utilisées après votre signalement, nous déduisons : pour les forfaits à volume de données fixe, les données utilisées ; pour les forfaits journaliers, la part utilisée du volume de chaque jour supplémentaire ; pour les forfaits illimités, le temps écoulé entre votre signalement et la dernière utilisation de l’eSIM, tel qu’il ressort des relevés de notre fournisseur de services eSIM, compté en heures comme à la section 3.4(c) — jamais un jour entier du seul fait qu’un nouveau jour a commencé. Lorsque les relevés ne permettent pas de l’établir, la section 3.4(f) s’applique.</li>
         <li>Le remboursement final correspond au montant calculé conformément à la section 3.4, diminué de toute déduction de ce type.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Vos droits légaux", html: `
+      { id: "your-statutory-rights", en: '2bfd8919943f', h2: "4. Vos droits légaux", html: `
       <p>4.1. <strong>Les droits légaux s’appliquent.</strong></p>
       <ul class="list">
         <li>Selon votre lieu de résidence et le droit applicable à votre achat, vous pouvez disposer de droits qui s’ajoutent à ceux des sections 2 et 3. C’est le cas, par exemple, du droit de la Géorgie, d’un pays de l’Union européenne ou du Royaume-Uni, de l’Australian Consumer Law et du Consumer Guarantees Act 1993 de Nouvelle-Zélande.</li>
@@ -441,13 +448,16 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>4.2. <strong>Droit de rétractation (au Royaume-Uni : droit d’annulation).</strong></p>
       <ul class="list">
-        <li>Si la loi vous accorde ce droit — par exemple si vous résidez dans l’Union européenne ou au Royaume-Uni — vous pouvez vous rétracter de votre achat dans les <strong>14 jours suivant le jour où vous passez votre commande</strong>, sans avoir à donner de motif.</li>
+        <li>Si la loi vous accorde ce droit — par exemple si vous êtes un consommateur dans l’Union européenne, dans l’Espace économique européen ou au Royaume-Uni — vous pouvez vous rétracter de votre achat dans les <strong>14 jours suivant le jour où vous passez votre commande</strong>, sans avoir à donner de motif.</li>
+        <li>Nos forfaits sont un service : la connectivité de données mobiles. La loi ne nous permet de commencer à fournir un service pendant le délai de rétractation que si vous nous le demandez expressément.</li>
         <li>Afin que votre forfait puisse commencer immédiatement, nous vous demandons, lors de la commande, de cocher une case distincte. Elle n’est jamais pré-cochée. Le texte de la case est le suivant :</li>
       </ul>
       <blockquote>
         <p>« Je demande à Magic eSIM de commencer dès maintenant la fourniture de mon forfait eSIM, pendant le délai de rétractation de 14 jours. Je comprends que je perds mon droit de rétractation dès que le forfait a été entièrement fourni (ses données sont épuisées ou sa validité a expiré) et que, si je me rétracte avant, je paierai la part du forfait fournie jusqu’au moment où je vous en informe. »</p>
       </blockquote>
       <ul class="list">
+        <li><strong>L’installation de l’eSIM, ou sa connexion à un réseau, ne met pas fin à elle seule à votre droit de rétractation.</strong> Vous ne le perdez qu’une fois le forfait entièrement fourni — ses données sont épuisées ou sa validité a expiré. Jusque-là, vous pouvez vous rétracter et ne payer que la partie fournie (section 4.3).</li>
+        <li>Le droit d’autres pays peut vous accorder un droit d’annulation pour une durée différente (par exemple, 7 jours) ou avec des exceptions différentes, ou ne vous accorder aucun droit de ce type. Lorsqu’une telle loi s’applique à votre achat, nous la respectons.</li>
         <li>Nous reproduisons ce texte, avec la date et l’heure auxquelles vous avez coché la case, dans votre e-mail de confirmation de commande.</li>
       </ul>
       <p>4.3. <strong>Ce que nous remboursons si vous vous rétractez.</strong> Si vous vous rétractez valablement :</p>
@@ -520,11 +530,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>le forfait a été restreint en raison d’une violation de nos <strong>règles d’utilisation acceptable</strong>.</li>
       </ul>
       <p>Veuillez vérifier votre appareil et le forfait avant d’acheter, et contactez-nous en cas de doute.</p>` },
-      { id: "how-to-ask-for-a-refund", en: 'cae236767f73', h2: "6. Comment demander un remboursement", html: `
+      { id: "how-to-ask-for-a-refund", en: 'abf6b7ab6797', h2: "6. Comment demander un remboursement", html: `
       <p>6.1. <strong>Comment faire la demande.</strong></p>
       <ul class="list">
         <li>Écrivez à <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Indiquez la référence de votre commande, l’adresse e-mail utilisée pour la commande et le motif de votre demande.</li>
         <li>Vous pouvez nous écrire à tout moment. Nous répondons les jours ouvrés et nous efforçons d’envoyer une première réponse sous <strong>1–2 jours ouvrés</strong>, généralement plus tôt.</li>
+        <li>Pour une commande passée via Paddle en tant que Merchant of Record (pas encore disponible), la section 8 s’applique.</li>
       </ul>
       <p>6.2. <strong>Comment vous êtes remboursé.</strong></p>
       <ul class="list">
@@ -545,7 +556,17 @@ export const LEGAL_I18N = Object.freeze({
         <li>Si vous ouvrez une contestation, nous fournirons au prestataire de paiement les informations relatives à votre commande.</li>
         <li>Si vous recevez un remboursement de notre part et également par le biais d’une contestation pour le même paiement, nous pouvons vous demander de restituer le montant perçu en double.</li>
       </ul>` },
-      { id: "contact", en: 'ccd168858210', h2: "8. Contact", html: `
+      { id: "merchant-of-record", en: '770c1c95dec1', h2: "8. Achats via Paddle (pas encore disponibles)", html: `
+      <p><strong>Cette section ne s’applique pas aujourd’hui.</strong> Les paiements internationaux sont actuellement indisponibles, et aucun prestataire de paiement ni aucun revendeur ne vend nos forfaits. Elle ne s’appliquera que si nous commençons à vendre via Paddle.com agissant en qualité de revendeur en ligne et de Merchant of Record, et uniquement aux commandes traitées par Paddle. Avant que cela ne se produise, nous mettrons à jour cette politique et nos Conditions d’utilisation, et la page de commande indiquera qui est le vendeur.</p>
+      <p>Pour une telle commande :</p>
+      <ul class="list">
+        <li><strong>Paddle décide des remboursements et les verse.</strong> Paddle est le vendeur en titre. Les remboursements sont décidés par Paddle conformément à la Politique de remboursement de Paddle (<a href="https://www.paddle.com/legal/refund-policy" rel="noopener">paddle.com/legal/refund-policy</a>) et au droit applicable à votre achat, et sont versés par Paddle sur votre moyen de paiement d’origine.</li>
+        <li><strong>Paddle peut rembourser à sa discrétion.</strong> Paddle peut approuver un remboursement, total ou partiel, dans des cas où cette politique n’accorde aucun remboursement volontaire. Il s’agit d’une décision de Paddle au titre de sa propre politique.</li>
+        <li><strong>Nous ne versons pas nous-mêmes de remboursement pour ces commandes.</strong> Lorsque les sections 2 et 3 prévoient que vous êtes remboursé, nous demandons à Paddle de vous rembourser, et le remboursement est effectué par Paddle.</li>
+        <li><strong>Vos droits légaux</strong> (section 4) s’appliquent de la même manière. Vous pouvez les exercer auprès de Paddle — via le lien figurant dans le reçu de Paddle ou sur paddle.net — ou en nous écrivant ; nous transmettons votre demande à Paddle.</li>
+        <li><strong>Nous restons responsables de l’eSIM.</strong> Nous fournissons l’eSIM et l’assistance technique, et les démarches prévues à la section 3 continuent de s’appliquer.</li>
+      </ul>` },
+      { id: "contact", en: 'f2fb923266ac', h2: "9. Contact", html: `
       <p>Entrepreneur individuel ALEKSANDR KHARIN (Magic eSIM), Bakhtrioni str. N22, Apt. 75, Saburtalo district, Tbilisi, Georgia<br>
       E-mail : <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],

@@ -24,7 +24,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>El sitio web en ruso magicesim.store, las compras en rublos rusos y la Mini App de Telegram de Magic eSIM se rigen por condiciones independientes publicadas allí.</p>
       <p><strong>Los pagos internacionales no están disponibles por ahora.</strong> Puedes consultar los planes y obtener un precio exacto en el Sitio web, pero no puedes hacer un pedido ni pagar, y no se celebra ningún contrato. Estos Términos describen cómo funcionarán el pedido y el pago cuando el pago internacional esté disponible.</p>
       <p>Lee estos Términos, nuestra <strong>Política de reembolso</strong> y nuestra <strong>Política de privacidad</strong> antes de pagar. La Política de reembolso forma parte de estos Términos. Aceptas estos Términos al marcar la casilla de aceptación en el proceso de pago y confirmar tu pago.</p>` },
-      { id: "who-we-are", en: '7505886e5084', h2: "1. Quiénes somos", html: `
+      { id: "who-we-are", en: '496c25196c98', h2: "1. Quiénes somos", html: `
       <p>Todos los planes del Sitio web los vende:</p>
       <ul class="list">
         <li><strong>Vendedor:</strong> Empresario individual ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), registrado en Georgia</li>
@@ -35,7 +35,12 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>Correo electrónico:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>«<strong>Nosotros</strong>», «<strong>nos</strong>» y «<strong>nuestro</strong>» se refieren al vendedor indicado arriba. «<strong>Tú</strong>» se refiere a la persona que usa el Sitio web o compra un plan.</p>
-      <p>Si empezamos a vender a través de un intermediario de pagos que actúe como vendedor a efectos legales (seller of record), estos Términos se actualizarán antes de que comiencen esas ventas e indicarán el nombre de ese intermediario.</p>` },
+      <p><strong>Cómo se venden los planes: hoy y posiblemente más adelante.</strong></p>
+      <ul class="list">
+        <li><strong>Hoy:</strong> no se puede comprar ningún plan en el Sitio web. Ningún proveedor de pagos ni ningún revendedor vende nuestros planes.</li>
+        <li><strong>Más adelante, si vendemos directamente:</strong> nosotros somos el vendedor, tal como describen estos Términos.</li>
+        <li><strong>Más adelante, si vendemos a través de Paddle:</strong> podemos vender a través de Paddle.com, que actuaría como revendedor en línea y Merchant of Record. Hoy no es así. Si eso ocurre, estos Términos se actualizarán antes de que comiencen esas ventas. En un pedido que tramite Paddle, Paddle es el vendedor a efectos legales (seller of record) y se encarga del pago y la facturación; también se aplican las condiciones de compra propias de Paddle; los reembolsos los decide y abona Paddle (Política de reembolso, sección 8); y nosotros seguimos siendo responsables de proporcionar la eSIM y el soporte técnico.</li>
+      </ul>` },
       { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Qué vendemos", html: `
       <p>2.1. <strong>Planes de datos eSIM prepago para viajes.</strong></p>
       <ul class="list">
@@ -226,7 +231,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Los planes están pensados para viajes. Los operadores pueden limitar o finalizar la itinerancia de una línea que se usa en el extranjero durante un período continuado largo.</li>
         <li>Algunos países exigen que un dispositivo traído del extranjero se registre tras un período de estancia. Las redes locales pueden bloquear un dispositivo no registrado, sea cual sea la eSIM que use. Consulta las normas oficiales antes de una estancia larga.</li>
       </ul>` },
-      { id: "if-something-goes-wrong", en: '9c654207d737', h2: "10. Si algo sale mal", html: `
+      { id: "if-something-goes-wrong", en: '8e3447c08250', h2: "10. Si algo sale mal", html: `
       <p>10.1. <strong>Contáctanos.</strong></p>
       <ul class="list">
         <li>Si tu plan no se instala, no se conecta o no funciona según lo descrito, escríbenos indicando la referencia de tu pedido, el modelo de tu dispositivo y, si es posible, capturas de pantalla.</li>
@@ -235,7 +240,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>10.2. <strong>Qué hacemos.</strong></p>
       <ul class="list">
         <li>Intentamos resolver el problema, por ejemplo guiándote en la configuración, volviendo a emitir los datos de instalación o proporcionándote una eSIM de sustitución.</li>
-        <li>Si no podemos hacer que el plan funcione según lo descrito, se aplica la Política de reembolso.</li>
+        <li>Si no podemos hacer que el plan funcione según lo descrito, se aplica la Política de reembolso. En un pedido hecho a través de Paddle como Merchant of Record (todavía no disponible), los reembolsos los hace Paddle (Política de reembolso, sección 8).</li>
       </ul>
       <p>10.3. <strong>Tus derechos legales.</strong> Estos pasos no limitan los remedios que te concede la ley si un plan no es conforme con el contrato.</p>` },
       { id: "support", en: 'ea83a942c1b4', h2: "11. Soporte", html: `
@@ -310,11 +315,12 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Cuándo puedes recuperar tu dinero por un plan eSIM comprado en dólares estadounidenses en el sitio web internacional de Magic eSIM.",
     crumb: "Política de reembolso",
     sections: [
-      { id: "about-this-policy", en: 'ab6df6f6bb4a', h2: "Acerca de esta política", html: `
+      { id: "about-this-policy", en: 'a811c44667b8', h2: "Acerca de esta política", html: `
       <p>Esta política explica cuándo puedes recuperar tu dinero por un plan eSIM comprado en dólares estadounidenses en el sitio web internacional de Magic eSIM. El vendedor es el Empresario individual ALEKSANDR KHARIN (Georgia). Esta política forma parte de nuestros Términos del servicio.</p>
       <p><strong>Los pagos internacionales no están disponibles por ahora</strong>, por lo que todavía no se puede comprar ningún plan en el sitio web internacional. Esta política se aplica a los planes comprados una vez que el pago internacional esté disponible.</p>
-      <p><strong>Tus derechos legales están primero.</strong> Esta política describe lo que ofrecemos de forma voluntaria. No elimina ni reduce ningún derecho que tengas conforme a la ley imperativa de protección del consumidor. Cuando la ley te concede más, recibes lo que la ley te concede (sección 4).</p>` },
-      { id: "summary", en: 'a81f5b7359f5', h2: "1. Resumen", html: `
+      <p><strong>Tus derechos legales están primero.</strong> Esta política describe lo que ofrecemos de forma voluntaria. No elimina ni reduce ningún derecho que tengas conforme a la ley imperativa de protección del consumidor. Cuando la ley te concede más, recibes lo que la ley te concede (sección 4).</p>
+      <p><strong>Nuestra regla general:</strong> no concedemos un reembolso voluntario por un plan eSIM que se entregó y funciona según lo descrito. Corregimos los errores de cobro, reembolsamos lo que no pudimos entregar y tratamos los fallos técnicos como se indica a continuación.</p>` },
+      { id: "summary", en: 'a54b263c8114', h2: "1. Resumen", html: `
       <ul class="list">
         <li><strong>Cargo duplicado o cargo por error:</strong> Reembolso íntegro del importe adicional o erróneo (sección 2)</li>
         <li><strong>No pudimos entregar tu eSIM:</strong> Reembolso íntegro (sección 2)</li>
@@ -324,6 +330,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>Tu dispositivo no admite eSIM o está bloqueado:</strong> No está cubierto por nuestros reembolsos voluntarios. Tus derechos legales se mantienen (secciones 4 y 5)</li>
         <li><strong>Cambiaste de opinión o tu viaje cambió:</strong> No está cubierto por nuestros reembolsos voluntarios. Tus derechos legales se mantienen (secciones 4 y 5)</li>
         <li><strong>No usaste la eSIM:</strong> No usarla no te da derecho, por sí solo, a un reembolso. Tus derechos legales se mantienen (secciones 4 y 5)</li>
+        <li><strong>Una compra hecha a través de Paddle como Merchant of Record</strong> (todavía no disponible): los reembolsos los decide y abona Paddle (sección 8)</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. Errores y falta de entrega: siempre se reembolsan", html: `
       <p>Reembolsamos el importe íntegro pagado:</p>
@@ -333,7 +340,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>si <strong>entregamos un plan distinto</strong> del que pagaste y no quieres recibir en su lugar el plan correcto;</li>
         <li>si <strong>cancelamos</strong> tu pedido (Términos del servicio, sección 13).</li>
       </ul>` },
-      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Fallos técnicos", html: `
+      { id: "technical-faults", en: 'f240b45c2a4c', h2: "3. Fallos técnicos", html: `
       <p>3.1. <strong>Cuándo se aplica esta sección.</strong> Se aplica cuando se cumplen todas estas condiciones:</p>
       <ul class="list">
         <li>la eSIM no se puede instalar, no se conecta o no proporciona datos según lo descrito en su ficha de producto;</li>
@@ -349,7 +356,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>3.3. <strong>Qué hacemos.</strong></p>
       <ol class="list">
         <li>Primero intentamos resolver el problema contigo.</li>
-        <li>Si no puede resolverse en un plazo razonable, te ofrecemos una eSIM de <strong>sustitución</strong> para el mismo destino y plan, o un <strong>reembolso</strong>.</li>
+        <li>Si no puede resolverse en un plazo razonable, te ofrecemos una eSIM de <strong>sustitución</strong> para el mismo destino y plan, o un <strong>reembolso total o parcial</strong> conforme a la sección 3.4, según lo exijan las circunstancias y la ley aplicable a tu compra.</li>
         <li>Si la sustitución tampoco funciona, te reembolsamos conforme a la sección 3.4, sumando los datos y los días usados en la eSIM original y en la de sustitución.</li>
       </ol>
       <p>3.4. <strong>Cuánto reembolsamos.</strong> Reembolsamos el precio de la parte del plan que no pudiste usar. Todas las mediciones se hacen <strong>en el momento en que nos comunicaste el fallo por primera vez</strong>, de modo que el tiempo que tarda nuestro soporte no reduce tu reembolso. El uso del plan después de tu aviso se trata en la sección 3.6. Los importes se redondean al centavo <strong>a tu favor</strong>.</p>
@@ -430,10 +437,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>Un reembolso conforme a esta sección pone fin al plan. Podemos desactivar la eSIM una vez aprobado el reembolso.</li>
         <li>Deja de usar la eSIM después de tu aviso (desactiva los datos móviles de la línea de Magic eSIM) mientras investigamos el fallo.</li>
         <li>El uso que nuestro soporte te pida hacer para probar la eSIM, y el uso de una eSIM de sustitución que te proporcionemos, no se descuentan conforme a esta sección; se cuentan una sola vez, conforme a la sección 3.3.</li>
-        <li>Por otros datos usados después de tu aviso, descontamos: en los planes con un volumen de datos fijo, los datos usados; en los planes diarios, la parte usada del volumen de cada día adicional; en los planes ilimitados, cada día adicional en el que se usaron datos.</li>
+        <li>Por otros datos usados después de tu aviso, descontamos: en los planes con un volumen de datos fijo, los datos usados; en los planes diarios, la parte usada del volumen de cada día adicional; en los planes ilimitados, el tiempo transcurrido desde tu aviso hasta el último uso de la eSIM, según muestren los registros de nuestro proveedor de servicios eSIM, contado en horas como en la sección 3.4(c); nunca un día entero solo porque haya empezado un nuevo día. Si los registros no pueden mostrarlo, se aplica la sección 3.4(f).</li>
         <li>El reembolso final es el importe calculado conforme a la sección 3.4, menos cualquier descuento de este tipo.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Tus derechos legales", html: `
+      { id: "your-statutory-rights", en: '2bfd8919943f', h2: "4. Tus derechos legales", html: `
       <p>4.1. <strong>Se aplican los derechos legales.</strong></p>
       <ul class="list">
         <li>Según dónde vivas y qué ley se aplique a tu compra, puedes tener derechos además de los de las secciones 2 y 3. Algunos ejemplos son la ley de Georgia, la de un país de la Unión Europea o la del Reino Unido, la Australian Consumer Law y la Consumer Guarantees Act 1993 de Nueva Zelanda.</li>
@@ -441,13 +448,16 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>4.2. <strong>Derecho de desistimiento (en el Reino Unido: derecho de cancelación).</strong></p>
       <ul class="list">
-        <li>Si la ley te concede este derecho (por ejemplo, si vives en la Unión Europea o en el Reino Unido), puedes desistir de tu compra dentro de los <strong>14 días posteriores al día en que haces tu pedido</strong>, sin necesidad de indicar el motivo.</li>
+        <li>Si la ley te concede este derecho (por ejemplo, si eres consumidor en la Unión Europea, el Espacio Económico Europeo o el Reino Unido), puedes desistir de tu compra dentro de los <strong>14 días posteriores al día en que haces tu pedido</strong>, sin necesidad de indicar el motivo.</li>
+        <li>Nuestros planes son un servicio: conectividad de datos móviles. La ley nos permite empezar a prestar un servicio durante el plazo de desistimiento solo si nos lo solicitas expresamente.</li>
         <li>Para que tu plan pueda empezar de inmediato, en el proceso de pago te pedimos que marques una casilla aparte. Nunca está marcada de antemano. La casilla dice:</li>
       </ul>
       <blockquote>
         <p>«Solicito a Magic eSIM que empiece a prestar mi plan eSIM ahora, dentro del plazo de desistimiento de 14 días. Entiendo que pierdo mi derecho de desistimiento una vez que el plan se haya prestado por completo (sus datos se hayan agotado o su validez haya terminado) y que, si desisto antes, pagaré la parte del plan prestada hasta el momento en que lo comunique.»</p>
       </blockquote>
       <ul class="list">
+        <li><strong>Instalar la eSIM o conectarla a una red no pone fin, por sí solo, a tu derecho de desistimiento.</strong> Solo lo pierdes una vez que el plan se haya prestado por completo: sus datos se hayan agotado o su validez haya terminado. Hasta entonces puedes desistir y pagar solo la parte prestada (sección 4.3).</li>
+        <li>La ley de otros países puede concederte un derecho de cancelación con un plazo distinto (por ejemplo, 7 días) o con excepciones distintas, o no concederte ese derecho. Cuando una ley así se aplique a tu compra, la respetamos.</li>
         <li>Repetimos este texto, con la fecha y la hora en que marcaste la casilla, en el correo de confirmación de tu pedido.</li>
       </ul>
       <p>4.3. <strong>Qué reembolsamos si desistes.</strong> Si desistes válidamente:</p>
@@ -520,11 +530,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>el plan se restringió por un incumplimiento de nuestras <strong>normas de uso aceptable</strong>.</li>
       </ul>
       <p>Comprueba tu dispositivo y el plan antes de comprar, y contáctanos si no estás seguro.</p>` },
-      { id: "how-to-ask-for-a-refund", en: 'cae236767f73', h2: "6. Cómo solicitar un reembolso", html: `
+      { id: "how-to-ask-for-a-refund", en: 'abf6b7ab6797', h2: "6. Cómo solicitar un reembolso", html: `
       <p>6.1. <strong>Cómo solicitarlo.</strong></p>
       <ul class="list">
         <li>Escribe a <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Indica la referencia de tu pedido, la dirección de correo electrónico utilizada en el pedido y el motivo de tu solicitud.</li>
         <li>Puedes escribirnos en cualquier momento. Respondemos en días hábiles y procuramos enviar una primera respuesta en un plazo de <strong>1–2 días hábiles</strong>, normalmente antes.</li>
+        <li>En un pedido hecho a través de Paddle como Merchant of Record (todavía no disponible), se aplica la sección 8.</li>
       </ul>
       <p>6.2. <strong>Cómo se te reembolsa.</strong></p>
       <ul class="list">
@@ -545,7 +556,17 @@ export const LEGAL_I18N = Object.freeze({
         <li>Si abres una disputa, facilitaremos al proveedor de pagos la información sobre tu pedido.</li>
         <li>Si recibes un reembolso nuestro y también a través de una disputa por el mismo pago, podemos pedirte que devuelvas el importe duplicado.</li>
       </ul>` },
-      { id: "contact", en: 'ccd168858210', h2: "8. Contacto", html: `
+      { id: "merchant-of-record", en: '770c1c95dec1', h2: "8. Compras a través de Paddle (todavía no disponibles)", html: `
+      <p><strong>Esta sección no se aplica hoy.</strong> Los pagos internacionales no están disponibles por ahora, y ningún proveedor de pagos ni ningún revendedor vende nuestros planes. Solo se aplicará si empezamos a vender a través de Paddle.com, que actuaría como revendedor en línea y Merchant of Record, y solo a los pedidos que tramite Paddle. Antes de que eso ocurra, actualizaremos esta política y nuestros Términos del servicio, y el proceso de pago mostrará quién es el vendedor.</p>
+      <p>En un pedido así:</p>
+      <ul class="list">
+        <li><strong>Paddle decide y abona los reembolsos.</strong> Paddle es el vendedor a efectos legales (seller of record). Los reembolsos los decide Paddle conforme a la Política de reembolso de Paddle (<a href="https://www.paddle.com/legal/refund-policy" rel="noopener">paddle.com/legal/refund-policy</a>) y a la ley aplicable a tu compra, y Paddle los abona a tu método de pago original.</li>
+        <li><strong>Paddle puede reembolsar a su discreción.</strong> Paddle puede aprobar un reembolso, total o parcial, en casos en los que esta política no concede un reembolso voluntario. Es una decisión de Paddle conforme a su propia política.</li>
+        <li><strong>Nosotros no abonamos los reembolsos de estos pedidos.</strong> Cuando las secciones 2 y 3 dicen que recibes un reembolso, pedimos a Paddle que te reembolse, y el reembolso lo hace Paddle.</li>
+        <li><strong>Tus derechos legales</strong> (sección 4) se aplican de la misma forma. Puedes ejercerlos ante Paddle (mediante el enlace del recibo de Paddle o en paddle.net) o escribiéndonos; nosotros transmitimos tu solicitud a Paddle.</li>
+        <li><strong>Seguimos siendo responsables de la eSIM.</strong> Proporcionamos la eSIM y el soporte técnico, y los pasos de la sección 3 se siguen aplicando.</li>
+      </ul>` },
+      { id: "contact", en: 'f2fb923266ac', h2: "9. Contacto", html: `
       <p>Empresario individual ALEKSANDR KHARIN (Magic eSIM), Bakhtrioni str. N22, Apt. 75, Saburtalo district, Tbilisi, Georgia<br>
       Correo electrónico: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],

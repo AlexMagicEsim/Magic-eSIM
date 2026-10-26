@@ -24,7 +24,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>Für die russischsprachige Website magicesim.store, Käufe in russischen Rubel und die Telegram-Mini-App von Magic eSIM gelten gesonderte Bedingungen, die dort veröffentlicht sind.</p>
       <p><strong>Internationale Zahlungen sind derzeit nicht verfügbar.</strong> Du kannst auf der Website Tarife ansehen und einen genauen Preis abrufen, aber du kannst keine Bestellung aufgeben und nicht bezahlen, und es kommt kein Vertrag zustande. Diese Nutzungsbedingungen beschreiben, wie Bestellung und Zahlung funktionieren, sobald der internationale Bestellvorgang verfügbar ist.</p>
       <p>Bitte lies diese Nutzungsbedingungen, unsere <strong>Erstattungsrichtlinie</strong> und unsere <strong>Datenschutzerklärung</strong>, bevor du bezahlst. Die Erstattungsrichtlinie ist Bestandteil dieser Nutzungsbedingungen. Du akzeptierst diese Nutzungsbedingungen, indem du im Bestellvorgang das Kästchen zur Zustimmung ankreuzt und deine Zahlung bestätigst.</p>` },
-      { id: "who-we-are", en: '7505886e5084', h2: "1. Wer wir sind", html: `
+      { id: "who-we-are", en: '496c25196c98', h2: "1. Wer wir sind", html: `
       <p>Jeder Tarif auf der Website wird verkauft von:</p>
       <ul class="list">
         <li><strong>Verkäufer:</strong> Einzelunternehmer ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), eingetragen in Georgien</li>
@@ -35,7 +35,12 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>E-Mail:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>„<strong>Wir</strong>“, „<strong>uns</strong>“ und „<strong>unser</strong>“ bezeichnen den oben genannten Verkäufer. „<strong>Du</strong>“ bezeichnet die Person, die die Website nutzt oder einen Tarif kauft.</p>
-      <p>Falls wir beginnen, über einen Zahlungsvermittler zu verkaufen, der als offizieller Verkäufer (Seller of Record) auftritt, werden diese Nutzungsbedingungen vor Beginn solcher Verkäufe aktualisiert und nennen diesen Vermittler.</p>` },
+      <p><strong>Wie Tarife verkauft werden – heute und möglicherweise später.</strong></p>
+      <ul class="list">
+        <li><strong>Heute:</strong> Auf der Website kann kein Tarif gekauft werden. Kein Zahlungsdienstleister und kein Wiederverkäufer verkauft unsere Tarife.</li>
+        <li><strong>Später, falls wir direkt verkaufen:</strong> Wir sind der Verkäufer, wie in diesen Nutzungsbedingungen beschrieben.</li>
+        <li><strong>Später, falls wir über Paddle verkaufen:</strong> Wir können über Paddle.com verkaufen, das als Online-Wiederverkäufer und Merchant of Record auftritt. Das ist heute nicht der Fall. Falls es dazu kommt, werden diese Nutzungsbedingungen vor Beginn solcher Verkäufe aktualisiert. Bei einer Bestellung, die Paddle abwickelt, ist Paddle der offizielle Verkäufer (Seller of Record) und übernimmt Zahlung und Abrechnung; zusätzlich gelten Paddles eigene Bedingungen für Käufer; über Erstattungen entscheidet Paddle, und Paddle zahlt sie aus (Erstattungsrichtlinie, Abschnitt 8); und wir bleiben für die Bereitstellung der eSIM und den technischen Support verantwortlich.</li>
+      </ul>` },
       { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Was wir verkaufen", html: `
       <p>2.1. <strong>Prepaid-eSIM-Datentarife für Reisen.</strong></p>
       <ul class="list">
@@ -226,7 +231,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Die Tarife sind für Reisen gedacht. Betreiber können das Roaming für eine Leitung, die über einen langen zusammenhängenden Zeitraum im Ausland genutzt wird, einschränken oder beenden.</li>
         <li>Einige Länder verlangen, dass ein aus dem Ausland mitgebrachtes Gerät nach einer bestimmten Aufenthaltsdauer registriert wird. Ein nicht registriertes Gerät kann von den lokalen Netzen gesperrt werden, unabhängig davon, welche eSIM es verwendet. Bitte prüfe vor einem langen Aufenthalt die offiziellen Regeln.</li>
       </ul>` },
-      { id: "if-something-goes-wrong", en: '9c654207d737', h2: "10. Wenn etwas schiefgeht", html: `
+      { id: "if-something-goes-wrong", en: '8e3447c08250', h2: "10. Wenn etwas schiefgeht", html: `
       <p>10.1. <strong>Kontaktiere uns.</strong></p>
       <ul class="list">
         <li>Wenn sich dein Tarif nicht installieren lässt, keine Verbindung herstellt oder nicht wie beschrieben funktioniert, schreib uns mit deiner Bestellnummer, deinem Gerätemodell und, wenn möglich, Screenshots.</li>
@@ -235,7 +240,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>10.2. <strong>Was wir tun.</strong></p>
       <ul class="list">
         <li>Wir versuchen, das Problem zu beheben, zum Beispiel indem wir dich durch die Einstellungen führen, die Installationsangaben erneut ausstellen oder eine Ersatz-eSIM bereitstellen.</li>
-        <li>Wenn wir den Tarif nicht so zum Funktionieren bringen können, wie er beschrieben ist, gilt die Erstattungsrichtlinie.</li>
+        <li>Wenn wir den Tarif nicht so zum Funktionieren bringen können, wie er beschrieben ist, gilt die Erstattungsrichtlinie. Bei einer Bestellung über Paddle als Merchant of Record (noch nicht verfügbar) erfolgen Erstattungen durch Paddle (Erstattungsrichtlinie, Abschnitt 8).</li>
       </ul>
       <p>10.3. <strong>Deine gesetzlichen Rechte.</strong> Diese Schritte schränken die Rechtsbehelfe nicht ein, die dir das Gesetz gewährt, wenn ein Tarif nicht vertragsgemäß ist.</p>` },
       { id: "support", en: 'ea83a942c1b4', h2: "11. Support", html: `
@@ -310,11 +315,12 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Wann du für einen auf der internationalen Website von Magic eSIM in US-Dollar gekauften eSIM-Tarif Geld zurückbekommen kannst.",
     crumb: "Erstattungsrichtlinie",
     sections: [
-      { id: "about-this-policy", en: 'ab6df6f6bb4a', h2: "Über diese Richtlinie", html: `
+      { id: "about-this-policy", en: 'a811c44667b8', h2: "Über diese Richtlinie", html: `
       <p>Diese Richtlinie erklärt, wann du für einen auf der internationalen Website von Magic eSIM in US-Dollar gekauften eSIM-Tarif Geld zurückbekommen kannst. Verkäufer ist Einzelunternehmer ALEKSANDR KHARIN (Georgien). Diese Richtlinie ist Bestandteil unserer Nutzungsbedingungen.</p>
       <p><strong>Internationale Zahlungen sind derzeit nicht verfügbar</strong>, daher kann auf der internationalen Website noch kein Tarif gekauft werden. Diese Richtlinie gilt für Tarife, die gekauft werden, sobald der internationale Bestellvorgang verfügbar ist.</p>
-      <p><strong>Deine gesetzlichen Rechte haben Vorrang.</strong> Diese Richtlinie beschreibt, was wir freiwillig anbieten. Sie beseitigt oder schmälert kein Recht, das du nach zwingendem Verbraucherrecht hast. Wenn dir das Gesetz mehr gewährt, erhältst du das, was das Gesetz dir gewährt (Abschnitt 4).</p>` },
-      { id: "summary", en: 'a81f5b7359f5', h2: "1. Zusammenfassung", html: `
+      <p><strong>Deine gesetzlichen Rechte haben Vorrang.</strong> Diese Richtlinie beschreibt, was wir freiwillig anbieten. Sie beseitigt oder schmälert kein Recht, das du nach zwingendem Verbraucherrecht hast. Wenn dir das Gesetz mehr gewährt, erhältst du das, was das Gesetz dir gewährt (Abschnitt 4).</p>
+      <p><strong>Unser Grundsatz:</strong> Für einen eSIM-Tarif, der geliefert wurde und wie beschrieben funktioniert, gewähren wir keine freiwillige Erstattung. Wir korrigieren Abrechnungsfehler, erstatten, was wir nicht liefern konnten, und behandeln technische Fehler wie unten beschrieben.</p>` },
+      { id: "summary", en: 'a54b263c8114', h2: "1. Zusammenfassung", html: `
       <ul class="list">
         <li><strong>Doppelte oder irrtümliche Abbuchung:</strong> Vollständige Erstattung des zusätzlichen oder falschen Betrags (Abschnitt 2)</li>
         <li><strong>Wir konnten deine eSIM nicht liefern:</strong> Vollständige Erstattung (Abschnitt 2)</li>
@@ -324,6 +330,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>Dein Gerät unterstützt keine eSIM oder ist gesperrt:</strong> Nicht von unseren freiwilligen Erstattungen abgedeckt. Deine gesetzlichen Rechte bleiben bestehen (Abschnitte 4 und 5)</li>
         <li><strong>Du hast es dir anders überlegt, oder deine Reise hat sich geändert:</strong> Nicht von unseren freiwilligen Erstattungen abgedeckt. Deine gesetzlichen Rechte bleiben bestehen (Abschnitte 4 und 5)</li>
         <li><strong>Du hast die eSIM nicht genutzt:</strong> Die Nichtnutzung allein begründet keine Erstattung. Deine gesetzlichen Rechte bleiben bestehen (Abschnitte 4 und 5)</li>
+        <li><strong>Ein Kauf über Paddle als Merchant of Record</strong> (noch nicht verfügbar): Über Erstattungen entscheidet Paddle, und Paddle zahlt sie aus (Abschnitt 8)</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. Fehler und Nichtlieferung — immer erstattet", html: `
       <p>Wir erstatten den vollen gezahlten Betrag:</p>
@@ -333,7 +340,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>wenn wir <strong>einen anderen Tarif geliefert haben</strong> als den, für den du bezahlt hast, und du stattdessen nicht den richtigen Tarif möchtest;</li>
         <li>wenn <strong>wir deine Bestellung stornieren</strong> (Nutzungsbedingungen, Abschnitt 13).</li>
       </ul>` },
-      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Technische Fehler", html: `
+      { id: "technical-faults", en: 'f240b45c2a4c', h2: "3. Technische Fehler", html: `
       <p>3.1. <strong>Wann dieser Abschnitt gilt.</strong> Er gilt, wenn alle folgenden Bedingungen erfüllt sind:</p>
       <ul class="list">
         <li>die eSIM lässt sich nicht installieren, stellt keine Verbindung her oder liefert keine Daten wie auf ihrer Produktkarte beschrieben;</li>
@@ -349,7 +356,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>3.3. <strong>Was wir tun.</strong></p>
       <ol class="list">
         <li>Wir versuchen zunächst, das Problem gemeinsam mit dir zu beheben.</li>
-        <li>Lässt es sich nicht innerhalb einer angemessenen Frist beheben, bieten wir dir entweder eine <strong>Ersatz</strong>-eSIM für dasselbe Reiseziel und denselben Tarif oder eine <strong>Erstattung</strong> an.</li>
+        <li>Lässt es sich nicht innerhalb einer angemessenen Frist beheben, bieten wir dir entweder eine <strong>Ersatz</strong>-eSIM für dasselbe Reiseziel und denselben Tarif oder eine <strong>vollständige oder teilweise Erstattung</strong> nach Abschnitt 3.4 an, je nachdem, was die Umstände und das auf deinen Kauf anwendbare Recht erfordern.</li>
         <li>Funktioniert auch der Ersatz nicht, erstatten wir dir den Betrag nach Abschnitt 3.4, wobei die auf der ursprünglichen eSIM und auf dem Ersatz genutzten Daten und Tage zusammengerechnet werden.</li>
       </ol>
       <p>3.4. <strong>Wie viel wir erstatten.</strong> Wir erstatten den Preis des Teils des Tarifs, den du nicht nutzen konntest. Alle Messungen erfolgen <strong>zu dem Zeitpunkt, zu dem du uns den Fehler erstmals gemeldet hast</strong>, sodass die Bearbeitungszeit unseres Supports deine Erstattung nicht verringert. Die Nutzung des Tarifs nach deiner Meldung wird in Abschnitt 3.6 geregelt. Beträge werden <strong>zu deinen Gunsten</strong> auf den Cent gerundet.</p>
@@ -430,10 +437,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>Eine Erstattung nach diesem Abschnitt beendet den Tarif. Wir können die eSIM deaktivieren, sobald die Erstattung genehmigt ist.</li>
         <li>Bitte nutze die eSIM nach deiner Meldung nicht mehr — schalte die mobilen Daten für die Magic-eSIM-Leitung aus —, während wir den Fehler untersuchen.</li>
         <li>Nutzung, um die unser Support dich zum Testen der eSIM bittet, und die Nutzung einer von uns bereitgestellten Ersatz-eSIM werden nach diesem Abschnitt nicht abgezogen; sie werden nur einmal berücksichtigt, und zwar nach Abschnitt 3.3.</li>
-        <li>Für andere nach deiner Meldung genutzte Daten ziehen wir ab: bei Tarifen mit festem Datenvolumen die genutzten Daten; bei Tagestarifen den genutzten Anteil des Datenvolumens jedes weiteren Tages; bei unbegrenzten Tarifen jeden weiteren Tag, an dem Daten genutzt wurden.</li>
+        <li>Für andere nach deiner Meldung genutzte Daten ziehen wir ab: bei Tarifen mit festem Datenvolumen die genutzten Daten; bei Tagestarifen den genutzten Anteil des Datenvolumens jedes weiteren Tages; bei unbegrenzten Tarifen die Zeit von deiner Meldung bis zur letzten Nutzung der eSIM, wie sie aus den Aufzeichnungen unseres eSIM-Dienstleisters hervorgeht, gezählt in Stunden wie in Abschnitt 3.4(c) – niemals einen ganzen Tag nur deshalb, weil ein neuer Tag begonnen hat. Können die Aufzeichnungen dies nicht zeigen, gilt Abschnitt 3.4(f).</li>
         <li>Die endgültige Erstattung ist der nach Abschnitt 3.4 berechnete Betrag abzüglich eines solchen Abzugs.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Deine gesetzlichen Rechte", html: `
+      { id: "your-statutory-rights", en: '2bfd8919943f', h2: "4. Deine gesetzlichen Rechte", html: `
       <p>4.1. <strong>Gesetzliche Rechte gelten.</strong></p>
       <ul class="list">
         <li>Je nachdem, wo du lebst und welches Recht auf deinen Kauf anwendbar ist, kannst du zusätzlich zu den Abschnitten 2 und 3 weitere Rechte haben. Beispiele sind das Recht Georgiens, eines Landes der Europäischen Union oder des Vereinigten Königreichs, das Australian Consumer Law und der neuseeländische Consumer Guarantees Act 1993.</li>
@@ -441,13 +448,16 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>4.2. <strong>Widerrufsrecht (im Vereinigten Königreich: Recht zur Vertragsauflösung, „right to cancel“).</strong></p>
       <ul class="list">
-        <li>Wenn dir das Gesetz dieses Recht gewährt — zum Beispiel, wenn du in der Europäischen Union oder im Vereinigten Königreich lebst —, kannst du deinen Kauf innerhalb von <strong>14 Tagen nach dem Tag deiner Bestellung</strong> ohne Angabe von Gründen widerrufen.</li>
+        <li>Wenn dir das Gesetz dieses Recht gewährt — zum Beispiel, wenn du Verbraucher in der Europäischen Union, im Europäischen Wirtschaftsraum oder im Vereinigten Königreich bist —, kannst du deinen Kauf innerhalb von <strong>14 Tagen nach dem Tag deiner Bestellung</strong> ohne Angabe von Gründen widerrufen.</li>
+        <li>Unsere Tarife sind eine Dienstleistung: mobile Datenverbindung. Das Gesetz erlaubt uns, während der Widerrufsfrist nur dann mit der Erbringung einer Dienstleistung zu beginnen, wenn du uns ausdrücklich darum bittest.</li>
         <li>Damit dein Tarif sofort starten kann, bitten wir dich im Bestellvorgang, ein gesondertes Kästchen anzukreuzen. Es ist niemals vorab angekreuzt. Der Text des Kästchens lautet:</li>
       </ul>
       <blockquote>
         <p>„Ich verlange, dass Magic eSIM schon jetzt, innerhalb der 14-tägigen Widerrufsfrist, mit der Bereitstellung meines eSIM-Tarifs beginnt. Mir ist bekannt, dass ich mein Widerrufsrecht verliere, sobald der Tarif vollständig erbracht ist (das Datenvolumen ist aufgebraucht oder die Gültigkeit ist abgelaufen), und dass ich bei einem früheren Widerruf für den bis zu meiner Mitteilung erbrachten Teil des Tarifs bezahle.“</p>
       </blockquote>
       <ul class="list">
+        <li><strong>Das Installieren der eSIM oder ihre Verbindung mit einem Netz beendet dein Widerrufsrecht für sich genommen nicht.</strong> Du verlierst es erst, wenn der Tarif vollständig erbracht ist — das Datenvolumen ist aufgebraucht oder die Gültigkeit ist abgelaufen. Bis dahin kannst du widerrufen und zahlst nur für den erbrachten Teil (Abschnitt 4.3).</li>
+        <li>Das Recht anderer Länder kann dir ein Recht zur Vertragsauflösung mit einer anderen Frist (zum Beispiel 7 Tage) oder mit anderen Ausnahmen oder gar kein solches Recht gewähren. Wenn ein solches Recht auf deinen Kauf anwendbar ist, beachten wir es.</li>
         <li>Wir wiederholen diesen Text zusammen mit Datum und Uhrzeit, zu der du das Kästchen angekreuzt hast, in deiner Bestellbestätigungs-E-Mail.</li>
       </ul>
       <p>4.3. <strong>Was wir bei einem Widerruf erstatten.</strong> Wenn du wirksam widerrufst:</p>
@@ -520,11 +530,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>der Tarif wegen eines Verstoßes gegen unsere <strong>Regeln zur zulässigen Nutzung</strong> eingeschränkt wurde.</li>
       </ul>
       <p>Bitte prüfe dein Gerät und den Tarif vor dem Kauf und kontaktiere uns, wenn du unsicher bist.</p>` },
-      { id: "how-to-ask-for-a-refund", en: 'cae236767f73', h2: "6. So beantragst du eine Erstattung", html: `
+      { id: "how-to-ask-for-a-refund", en: 'abf6b7ab6797', h2: "6. So beantragst du eine Erstattung", html: `
       <p>6.1. <strong>So stellst du deinen Antrag.</strong></p>
       <ul class="list">
         <li>Schreib an <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Gib deine Bestellnummer, die für die Bestellung verwendete E-Mail-Adresse und den Grund deines Antrags an.</li>
         <li>Du kannst uns jederzeit schreiben. Wir antworten an Geschäftstagen und bemühen uns, innerhalb von <strong>1–2 Geschäftstagen</strong> eine erste Antwort zu senden, meist schneller.</li>
+        <li>Für eine Bestellung über Paddle als Merchant of Record (noch nicht verfügbar) gilt Abschnitt 8.</li>
       </ul>
       <p>6.2. <strong>Wie du dein Geld zurückerhältst.</strong></p>
       <ul class="list">
@@ -545,7 +556,17 @@ export const LEGAL_I18N = Object.freeze({
         <li>Wenn du eine Zahlungsreklamation einleitest, stellen wir dem Zahlungsdienstleister die Informationen zu deiner Bestellung zur Verfügung.</li>
         <li>Erhältst du für dieselbe Zahlung sowohl von uns als auch über eine Reklamation eine Erstattung, können wir dich bitten, den doppelt erhaltenen Betrag zurückzuzahlen.</li>
       </ul>` },
-      { id: "contact", en: 'ccd168858210', h2: "8. Kontakt", html: `
+      { id: "merchant-of-record", en: '770c1c95dec1', h2: "8. Käufe über Paddle (noch nicht verfügbar)", html: `
+      <p><strong>Dieser Abschnitt gilt heute nicht.</strong> Internationale Zahlungen sind derzeit nicht verfügbar, und kein Zahlungsdienstleister und kein Wiederverkäufer verkauft unsere Tarife. Er gilt nur, falls wir beginnen, über Paddle.com zu verkaufen, das als Online-Wiederverkäufer und Merchant of Record auftritt, und nur für die Bestellungen, die Paddle abwickelt. Bevor es dazu kommt, aktualisieren wir diese Richtlinie und unsere Nutzungsbedingungen, und der Bestellvorgang zeigt an, wer der Verkäufer ist.</p>
+      <p>Für eine solche Bestellung gilt:</p>
+      <ul class="list">
+        <li><strong>Paddle entscheidet über Erstattungen und zahlt sie aus.</strong> Paddle ist der offizielle Verkäufer (Seller of Record). Über Erstattungen entscheidet Paddle nach Paddles Erstattungsrichtlinie (<a href="https://www.paddle.com/legal/refund-policy" rel="noopener">paddle.com/legal/refund-policy</a>) und dem auf deinen Kauf anwendbaren Recht, und Paddle zahlt sie auf deine ursprüngliche Zahlungsmethode aus.</li>
+        <li><strong>Paddle kann nach eigenem Ermessen erstatten.</strong> Paddle kann eine vollständige oder teilweise Erstattung auch in Fällen genehmigen, in denen diese Richtlinie keine freiwillige Erstattung vorsieht. Das ist Paddles Entscheidung nach seiner eigenen Richtlinie.</li>
+        <li><strong>Für diese Bestellungen zahlen wir Erstattungen nicht selbst aus.</strong> Wo die Abschnitte 2 und 3 vorsehen, dass du eine Erstattung erhältst, bitten wir Paddle, dir zu erstatten, und die Erstattung erfolgt durch Paddle.</li>
+        <li><strong>Deine gesetzlichen Rechte</strong> (Abschnitt 4) gelten in gleicher Weise. Du kannst sie gegenüber Paddle ausüben — über den Link in Paddles Beleg oder auf paddle.net — oder indem du uns schreibst; wir leiten deinen Antrag an Paddle weiter.</li>
+        <li><strong>Wir bleiben für die eSIM verantwortlich.</strong> Wir stellen die eSIM und den technischen Support bereit, und die Schritte in Abschnitt 3 gelten weiterhin.</li>
+      </ul>` },
+      { id: "contact", en: 'f2fb923266ac', h2: "9. Kontakt", html: `
       <p>Einzelunternehmer ALEKSANDR KHARIN (Magic eSIM), Bakhtrioni str. N22, Apt. 75, Saburtalo district, Tbilisi, Georgia<br>
       E-Mail: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],

@@ -56,6 +56,8 @@ test('freshness is real: a one-character change to the English is caught', () =>
 
 const NUM = (h) => (text(h).replace(/\d+(?:[.,]\d+)*(?=\s?%)/g, (m) => m.replace(',', '.')).match(/\d+/g) || []).sort();
 const SUPPLIERS = /mobimatter|esim ?access|yesim|airalo|holafly|esimgo|esim go\b|platega|flitt|paddle|dodo|creem|stripe|tbc\b/i;
+// LEGAL-6: Paddle is named only where the English names it — as a possible LATER Merchant of Record (seo/test-en-legal-docs.mjs).
+const PADDLE_SECTIONS = Object.freeze({ terms: ['who-we-are', 'if-something-goes-wrong'], refund: ['summary', 'how-to-ask-for-a-refund', 'merchant-of-record'] });
 
 for (const code of CODES) {
   const T = LEGAL_TRANSLATIONS[code];
@@ -74,7 +76,9 @@ for (const code of CODES) {
         const codes = (h) => [...h.matchAll(/<code>([^<]*)<\/code>/g)].map((m) => m[1]).sort();
         assert.deepEqual(codes(x.html), codes(s.html), `${where}: <code> values`);
         assert.deepEqual(NUM(x.html), NUM(s.html), `${where}: the numbers`);
-        assert.doesNotMatch(x.html + x.h2, SUPPLIERS, `${where}: no supplier, payment provider or MoR`);
+        const paddleOk = (PADDLE_SECTIONS[kind] || []).includes(s.id);
+        assert.doesNotMatch((x.html + x.h2).replace(paddleOk ? /paddle/gi : /$^/, ''), SUPPLIERS, `${where}: no supplier, payment provider or MoR`);
+        assert.equal(/paddle/i.test(x.html), /paddle/i.test(s.html), `${where}: Paddle named exactly where the English names it`);
         assert.notEqual(text(x.html), text(s.html), `${where}: translated`);
       }
     });

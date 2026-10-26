@@ -24,7 +24,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>러시아어 웹사이트 magicesim.store, 러시아 루블로 이루어지는 구매 및 Magic eSIM 텔레그램 미니 앱(Telegram Mini App)에는 해당 서비스에 게시된 별도의 약관이 적용됩니다.</p>
       <p><strong>현재 국제 결제는 이용할 수 없습니다.</strong> 웹사이트에서 요금제를 둘러보고 정확한 가격을 확인할 수는 있지만, 주문하거나 결제할 수는 없으며 어떠한 계약도 성립하지 않습니다. 본 약관은 국제 결제 절차가 제공될 때 주문과 결제가 어떻게 이루어지는지를 설명합니다.</p>
       <p>결제하기 전에 본 약관, 당사의 <strong>환불 정책</strong> 및 <strong>개인정보 처리방침</strong>을 읽어 주세요. 환불 정책은 본 약관의 일부입니다. 귀하는 결제 단계에서 동의 확인란에 체크하고 결제를 확인함으로써 본 약관에 동의합니다.</p>` },
-      { id: "who-we-are", en: '7505886e5084', h2: "1. 당사 소개", html: `
+      { id: "who-we-are", en: '496c25196c98', h2: "1. 당사 소개", html: `
       <p>웹사이트의 모든 요금제는 다음 판매자가 판매합니다.</p>
       <ul class="list">
         <li><strong>판매자:</strong> 조지아에 등록된 개인사업자 ALEKSANDR KHARIN (ინდივიდუალური მეწარმე)</li>
@@ -35,7 +35,12 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>이메일:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>“<strong>당사</strong>”, “<strong>당사에게</strong>” 및 “<strong>당사의</strong>”는 위에 명시된 판매자를 의미합니다. “<strong>귀하</strong>”는 웹사이트를 이용하거나 요금제를 구매하는 사람을 의미합니다.</p>
-      <p>당사가 기록상 판매자(seller of record) 역할을 하는 결제 중개업체를 통해 판매를 시작하는 경우, 그러한 판매가 시작되기 전에 본 약관을 개정하고 해당 중개업체의 이름을 명시합니다.</p>` },
+      <p><strong>요금제 판매 방식 — 현재 및 향후 가능한 방식.</strong></p>
+      <ul class="list">
+        <li><strong>현재:</strong> 웹사이트에서는 어떤 요금제도 구매할 수 없습니다. 어떤 결제 서비스 제공업체나 재판매업체도 당사의 요금제를 판매하지 않습니다.</li>
+        <li><strong>향후 당사가 직접 판매하는 경우:</strong> 본 약관에서 설명하는 바와 같이 당사가 판매자입니다.</li>
+        <li><strong>향후 Paddle 경유로 판매하는 경우:</strong> 당사는 온라인 재판매업체이자 Merchant of Record 역할을 하는 Paddle.com 경유로 판매할 수 있습니다. 현재는 그렇지 않습니다. 그렇게 되는 경우, 그러한 판매가 시작되기 전에 본 약관을 개정합니다. Paddle에서 처리하는 주문의 경우, Paddle에서 기록상 판매자(seller of record)로서 결제 및 청구를 처리하고, Paddle의 자체 구매자 약관도 적용되며, 환불은 Paddle에서 결정하고 지급하고(환불 정책 제8조), 당사는 eSIM 제공과 기술 지원에 대한 책임을 계속 부담합니다.</li>
+      </ul>` },
       { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. 판매 상품", html: `
       <p>2.1. <strong>여행용 선불 eSIM 데이터 요금제.</strong></p>
       <ul class="list">
@@ -226,7 +231,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>요금제는 여행용입니다. 사업자는 해외에서 장기간 연속으로 사용되는 회선의 로밍을 제한하거나 종료할 수 있습니다.</li>
         <li>일부 국가에서는 해외에서 반입한 기기를 일정 기간 체류한 후 등록하도록 요구합니다. 등록되지 않은 기기는 어떤 eSIM을 사용하든 현지 네트워크에서 차단될 수 있습니다. 장기 체류 전에 공식 규정을 확인해 주세요.</li>
       </ul>` },
-      { id: "if-something-goes-wrong", en: '9c654207d737', h2: "10. 문제가 발생한 경우", html: `
+      { id: "if-something-goes-wrong", en: '8e3447c08250', h2: "10. 문제가 발생한 경우", html: `
       <p>10.1. <strong>당사에 연락하세요.</strong></p>
       <ul class="list">
         <li>요금제가 설명대로 설치, 연결 또는 작동하지 않으면 주문 번호, 기기 모델 및 가능하면 스크린샷을 첨부하여 당사에 연락해 주세요.</li>
@@ -235,7 +240,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>10.2. <strong>당사의 조치.</strong></p>
       <ul class="list">
         <li>당사는 설정 안내, 설치 정보 재발급 또는 대체 eSIM 제공 등의 방법으로 문제 해결을 시도합니다.</li>
-        <li>요금제가 설명대로 작동하도록 할 수 없는 경우 환불 정책이 적용됩니다.</li>
+        <li>요금제가 설명대로 작동하도록 할 수 없는 경우 환불 정책이 적용됩니다. Merchant of Record인 Paddle 경유로 이루어진 주문(아직 이용할 수 없음)의 경우, 환불은 Paddle에서 지급합니다(환불 정책 제8조).</li>
       </ul>
       <p>10.3. <strong>귀하의 법적 권리.</strong> 이러한 절차는 요금제가 계약에 부합하지 않는 경우 법률이 귀하에게 부여하는 구제수단을 제한하지 않습니다.</p>` },
       { id: "support", en: 'ea83a942c1b4', h2: "11. 고객 지원", html: `
@@ -310,11 +315,12 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Magic eSIM 국제 웹사이트에서 미국 달러로 구매한 eSIM 요금제에 대해 환불을 받을 수 있는 경우를 안내합니다.",
     crumb: "환불 정책",
     sections: [
-      { id: "about-this-policy", en: 'ab6df6f6bb4a', h2: "본 정책에 관하여", html: `
+      { id: "about-this-policy", en: 'a811c44667b8', h2: "본 정책에 관하여", html: `
       <p>본 정책은 Magic eSIM 국제 웹사이트에서 미국 달러로 구매한 eSIM 요금제에 대해 언제 환불을 받을 수 있는지 설명합니다. 판매자는 개인사업자 ALEKSANDR KHARIN(조지아)입니다. 본 정책은 당사 이용약관의 일부입니다.</p>
       <p><strong>현재 국제 결제는 이용할 수 없으므로</strong>, 아직 국제 웹사이트에서는 어떤 요금제도 구매할 수 없습니다. 본 정책은 국제 결제 절차가 제공된 후에 구매한 요금제에 적용됩니다.</p>
-      <p><strong>귀하의 법적 권리가 우선합니다.</strong> 본 정책은 당사가 자발적으로 제공하는 내용을 설명합니다. 본 정책은 강행적 소비자법에 따라 귀하가 가진 어떠한 권리도 박탈하거나 축소하지 않습니다. 법률이 더 많은 것을 부여하는 경우 귀하는 법률이 부여하는 것을 받습니다(제4조).</p>` },
-      { id: "summary", en: 'a81f5b7359f5', h2: "1. 요약", html: `
+      <p><strong>귀하의 법적 권리가 우선합니다.</strong> 본 정책은 당사가 자발적으로 제공하는 내용을 설명합니다. 본 정책은 강행적 소비자법에 따라 귀하가 가진 어떠한 권리도 박탈하거나 축소하지 않습니다. 법률이 더 많은 것을 부여하는 경우 귀하는 법률이 부여하는 것을 받습니다(제4조).</p>
+      <p><strong>당사의 일반 원칙:</strong> 당사는 전달되었고 설명대로 작동하는 eSIM 요금제에 대해서는 자발적 환불을 제공하지 않습니다. 당사는 청구 오류를 바로잡고, 전달하지 못한 것은 환불하며, 기술적 결함은 아래에 정한 바에 따라 처리합니다.</p>` },
+      { id: "summary", en: 'a54b263c8114', h2: "1. 요약", html: `
       <ul class="list">
         <li><strong>중복 청구 또는 잘못된 청구:</strong> 초과 금액 또는 잘못 청구된 금액 전액 환불(제2조)</li>
         <li><strong>당사가 eSIM을 전달하지 못한 경우:</strong> 전액 환불(제2조)</li>
@@ -324,6 +330,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>기기가 eSIM을 지원하지 않거나 잠겨 있는 경우:</strong> 당사의 자발적 환불 대상이 아닙니다. 귀하의 법적 권리는 유지됩니다(제4조 및 제5조)</li>
         <li><strong>마음이 바뀌었거나 여행 일정이 변경된 경우:</strong> 당사의 자발적 환불 대상이 아닙니다. 귀하의 법적 권리는 유지됩니다(제4조 및 제5조)</li>
         <li><strong>eSIM을 사용하지 않은 경우:</strong> 사용하지 않았다는 사실만으로는 환불받을 수 없습니다. 귀하의 법적 권리는 유지됩니다(제4조 및 제5조)</li>
+        <li><strong>Merchant of Record인 Paddle 경유로 이루어진 구매</strong> (아직 이용할 수 없음): 환불은 Paddle에서 결정하고 지급합니다(제8조)</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. 오류 및 미전달 — 항상 환불", html: `
       <p>당사는 다음의 경우 지불한 금액 전액을 환불합니다.</p>
@@ -333,7 +340,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>당사가 귀하가 결제한 것과 <strong>다른 요금제를 전달</strong>했고, 귀하가 그 대신 올바른 요금제를 원하지 않는 경우</li>
         <li>귀하의 주문을 <strong>당사가 취소</strong>한 경우(이용약관 제13조)</li>
       </ul>` },
-      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. 기술적 결함", html: `
+      { id: "technical-faults", en: 'f240b45c2a4c', h2: "3. 기술적 결함", html: `
       <p>3.1. <strong>본 조의 적용 대상.</strong> 본 조는 다음이 모두 해당하는 경우에 적용됩니다.</p>
       <ul class="list">
         <li>eSIM을 설치할 수 없거나, 연결되지 않거나, 상품 카드에 설명된 대로 데이터를 제공하지 않을 것</li>
@@ -349,7 +356,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>3.3. <strong>당사의 조치.</strong></p>
       <ol class="list">
         <li>당사는 먼저 귀하와 함께 문제 해결을 시도합니다.</li>
-        <li>합리적인 기간 내에 해결할 수 없는 경우, 당사는 동일한 여행지와 요금제의 <strong>대체</strong> eSIM 또는 <strong>환불</strong> 중 하나를 제공합니다.</li>
+        <li>합리적인 기간 내에 해결할 수 없는 경우, 당사는 동일한 여행지와 요금제의 <strong>대체</strong> eSIM 또는 상황과 귀하의 구매에 적용되는 법률이 요구하는 바에 따라 제3.4조에 따른 <strong>전액 또는 일부 환불</strong> 중 하나를 제공합니다.</li>
         <li>대체 eSIM도 작동하지 않으면, 원래 eSIM과 대체 eSIM에서 사용한 데이터와 일수를 합산하여 제3.4조에 따라 환불합니다.</li>
       </ol>
       <p>3.4. <strong>환불 금액.</strong> 당사는 귀하가 사용할 수 없었던 요금제 부분의 가격을 환불합니다. 모든 측정은 <strong>귀하가 당사에 결함을 처음 신고한 시점</strong>을 기준으로 하므로, 당사 고객 지원에 소요된 시간 때문에 환불 금액이 줄어들지 않습니다. 신고 후의 요금제 사용은 제3.6조에서 다룹니다. 금액은 센트 단위로 <strong>귀하에게 유리하게</strong> 끝수를 처리합니다.</p>
@@ -430,10 +437,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>본 조에 따른 환불이 이루어지면 요금제는 종료됩니다. 당사는 환불이 승인되면 eSIM을 비활성화할 수 있습니다.</li>
         <li>당사가 결함을 조사하는 동안에는 신고 후 eSIM 사용을 중단해 주세요. 즉, Magic eSIM 회선의 모바일 데이터를 꺼 주세요.</li>
         <li>eSIM 테스트를 위해 당사 고객 지원이 요청한 사용과 당사가 제공한 대체 eSIM의 사용은 본 조에 따라 공제되지 않으며, 제3.3조에 따라 한 번만 계산됩니다.</li>
-        <li>신고 후 사용한 그 밖의 데이터에 대해서는 다음을 공제합니다. 고정 데이터 제공량 요금제는 사용한 데이터, 일일 요금제는 이후 각 날의 제공량 중 사용한 비율, 무제한 요금제는 이후 데이터를 사용한 각 날입니다.</li>
+        <li>신고 후 사용한 그 밖의 데이터에 대해서는 다음을 공제합니다. 고정 데이터 제공량 요금제는 사용한 데이터, 일일 요금제는 이후 각 날의 제공량 중 사용한 비율, 무제한 요금제는 신고 시점부터 당사 eSIM 서비스 제공업체의 기록에 나타난 eSIM의 마지막 사용 시점까지의 시간입니다. 이 시간은 제3.4조 (c)와 같이 시간 단위로 계산하며, 새로운 날이 시작되었다는 이유만으로 하루 전체를 공제하는 일은 결코 없습니다. 기록으로 이를 확인할 수 없는 경우 제3.4조 (f)가 적용됩니다.</li>
         <li>최종 환불액은 제3.4조에 따라 계산한 금액에서 이러한 공제액을 뺀 금액입니다.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. 귀하의 법적 권리", html: `
+      { id: "your-statutory-rights", en: '2bfd8919943f', h2: "4. 귀하의 법적 권리", html: `
       <p>4.1. <strong>법적 권리가 적용됩니다.</strong></p>
       <ul class="list">
         <li>귀하가 거주하는 곳과 귀하의 구매에 적용되는 법률에 따라, 귀하는 제2조 및 제3조 외에 추가적인 권리를 가질 수 있습니다. 그 예로는 조지아의 법률, 유럽연합 국가 또는 영국의 법률, Australian Consumer Law(호주 소비자법) 및 뉴질랜드의 Consumer Guarantees Act 1993(소비자보장법)이 있습니다.</li>
@@ -441,13 +448,16 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>4.2. <strong>청약철회권(영국의 경우: 취소권).</strong></p>
       <ul class="list">
-        <li>법률이 귀하에게 이 권리를 부여하는 경우(예: 귀하가 유럽연합 또는 영국에 거주하는 경우), 귀하는 이유를 밝히지 않고 <strong>주문한 날 이후 14일 이내에</strong> 구매를 철회할 수 있습니다.</li>
+        <li>법률이 귀하에게 이 권리를 부여하는 경우(예: 귀하가 유럽연합, 유럽경제지역 또는 영국의 소비자인 경우), 귀하는 이유를 밝히지 않고 <strong>주문한 날 이후 14일 이내에</strong> 구매를 철회할 수 있습니다.</li>
+        <li>당사의 요금제는 서비스, 즉 모바일 데이터 연결입니다. 법률상 당사는 귀하가 명시적으로 요청하는 경우에만 철회 기간 중에 서비스 제공을 시작할 수 있습니다.</li>
         <li>요금제를 즉시 시작할 수 있도록, 당사는 결제 단계에서 별도의 확인란에 체크해 달라고 요청합니다. 이 확인란은 절대 미리 체크되어 있지 않습니다. 확인란의 문구는 다음과 같습니다.</li>
       </ul>
       <blockquote>
         <p>“14일 청약철회 기간 중이지만 Magic eSIM이 지금 바로 eSIM 요금제 제공을 시작하도록 요청합니다. 요금제가 모두 제공되면(데이터를 모두 사용했거나 유효기간이 끝나면) 청약철회권이 소멸하며, 그 전에 철회하는 경우 철회 의사를 알린 시점까지 제공된 부분의 요금을 부담한다는 것을 이해합니다.”</p>
       </blockquote>
       <ul class="list">
+        <li><strong>eSIM을 설치하거나 네트워크에 연결하는 것만으로는 청약철회권이 소멸하지 않습니다.</strong> 청약철회권은 요금제가 모두 제공된 경우, 즉 데이터를 모두 사용했거나 유효기간이 끝난 경우에만 소멸합니다. 그 전까지 귀하는 철회할 수 있으며 제공된 부분에 대해서만 요금을 부담합니다(제4.3조).</li>
+        <li>다른 국가의 법률은 다른 기간(예: 7일)이나 다른 예외를 두는 취소권을 부여하거나, 그러한 권리를 부여하지 않을 수 있습니다. 그러한 법률이 귀하의 구매에 적용되는 경우 당사는 이를 존중합니다.</li>
         <li>당사는 이 문구를 귀하가 확인란에 체크한 날짜 및 시간과 함께 주문 확인 이메일에 다시 기재합니다.</li>
       </ul>
       <p>4.3. <strong>철회 시 환불 금액.</strong> 귀하가 유효하게 철회하는 경우:</p>
@@ -520,11 +530,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>당사의 <strong>허용되는 사용 규칙</strong> 위반으로 요금제가 제한된 경우</li>
       </ul>
       <p>구매하기 전에 기기와 요금제를 확인하고, 확실하지 않으면 당사에 문의하세요.</p>` },
-      { id: "how-to-ask-for-a-refund", en: 'cae236767f73', h2: "6. 환불 요청 방법", html: `
+      { id: "how-to-ask-for-a-refund", en: 'abf6b7ab6797', h2: "6. 환불 요청 방법", html: `
       <p>6.1. <strong>요청 방법.</strong></p>
       <ul class="list">
         <li><a href="mailto:support@magicesim.store">support@magicesim.store</a>로 연락해 주세요. 주문 번호, 주문에 사용한 이메일 주소 및 요청 사유를 적어 주세요.</li>
         <li>이메일은 언제든지 보내실 수 있습니다. 당사는 영업일에 답변하며, <strong>1~2영업일</strong> 이내에 첫 답변을 보내는 것을 목표로 하고, 보통은 그보다 빨리 답변합니다.</li>
+        <li>Merchant of Record인 Paddle 경유로 이루어진 주문(아직 이용할 수 없음)에는 제8조가 적용됩니다.</li>
       </ul>
       <p>6.2. <strong>환불 방식.</strong></p>
       <ul class="list">
@@ -545,7 +556,17 @@ export const LEGAL_I18N = Object.freeze({
         <li>귀하가 분쟁을 제기하면 당사는 결제 서비스 제공업체에 귀하의 주문에 관한 정보를 제공합니다.</li>
         <li>동일한 결제에 대해 당사로부터 환불을 받고 분쟁을 통해서도 환불을 받은 경우, 당사는 중복된 금액의 반환을 요청할 수 있습니다.</li>
       </ul>` },
-      { id: "contact", en: 'ccd168858210', h2: "8. 연락처", html: `
+      { id: "merchant-of-record", en: '770c1c95dec1', h2: "8. Paddle 경유 구매(아직 이용할 수 없음)", html: `
+      <p><strong>본 조는 현재 적용되지 않습니다.</strong> 현재 국제 결제는 이용할 수 없으며, 어떤 결제 서비스 제공업체나 재판매업체도 당사의 요금제를 판매하지 않습니다. 본 조는 당사가 온라인 재판매업체이자 Merchant of Record 역할을 하는 Paddle.com 경유로 판매를 시작하는 경우에만, 그리고 Paddle에서 처리하는 주문에 대해서만 적용됩니다. 그러한 판매가 시작되기 전에 당사는 본 정책과 이용약관을 개정하며, 결제 단계에서 판매자가 누구인지 표시됩니다.</p>
+      <p>그러한 주문의 경우:</p>
+      <ul class="list">
+        <li><strong>환불은 Paddle에서 결정하고 지급합니다.</strong> 기록상 판매자(seller of record)는 Paddle 측입니다. 환불은 Paddle의 환불 정책(<a href="https://www.paddle.com/legal/refund-policy" rel="noopener">paddle.com/legal/refund-policy</a>)과 귀하의 구매에 적용되는 법률에 따라 Paddle에서 결정하며, Paddle에서 귀하의 원래 결제 수단으로 지급합니다.</li>
+        <li><strong>Paddle에서 재량으로 환불할 수 있습니다.</strong> Paddle에서는 본 정책이 자발적 환불을 제공하지 않는 경우에도 전액 또는 일부 환불을 승인할 수 있습니다. 이는 Paddle 자체 정책에 따른 Paddle의 결정입니다.</li>
+        <li><strong>당사는 이러한 주문에 대한 환불을 직접 지급하지 않습니다.</strong> 제2조 및 제3조에서 귀하가 환불을 받는다고 정한 경우, 당사는 Paddle에 귀하에게 환불하도록 요청하며, 환불은 Paddle에서 지급합니다.</li>
+        <li><strong>귀하의 법적 권리</strong>(제4조)는 동일하게 적용됩니다. 귀하는 Paddle의 영수증에 있는 링크나 paddle.net에서 Paddle에 대해 권리를 행사하거나, 당사에 연락하여 행사할 수 있으며, 당사는 귀하의 요청을 Paddle에 전달합니다.</li>
+        <li><strong>eSIM에 대한 책임은 계속 당사에 있습니다.</strong> 당사는 eSIM과 기술 지원을 제공하며, 제3조의 절차는 여전히 적용됩니다.</li>
+      </ul>` },
+      { id: "contact", en: 'f2fb923266ac', h2: "9. 연락처", html: `
       <p>개인사업자 ALEKSANDR KHARIN (Magic eSIM), Bakhtrioni str. N22, Apt. 75, Saburtalo district, Tbilisi, Georgia<br>
       이메일: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],
