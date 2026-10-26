@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-26T03:44:51.023Z",
+  "generated_at": "2026-10-26T13:12:47.944Z",
   "source": "production-public-api",
   "package_count": 2307,
   "packages": [
@@ -2590,7 +2590,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -2605,7 +2609,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -2663,7 +2667,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -2678,7 +2686,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 5,
@@ -3803,7 +3811,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -3817,7 +3825,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -12769,7 +12777,7 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -12785,7 +12793,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -14016,7 +14024,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -14030,7 +14038,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -16575,7 +16583,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -16590,7 +16598,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -18330,6 +18338,10 @@
       "price": 1000,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -18346,7 +18358,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -20332,10 +20344,6 @@
           "type": "4G"
         },
         {
-          "operator": "Movistar",
-          "type": "4G"
-        },
-        {
           "operator": "Personal",
           "type": "5G"
         },
@@ -21155,7 +21163,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -21170,7 +21182,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -31119,7 +31131,7 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -31135,7 +31147,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -33037,7 +33049,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -33051,7 +33063,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -33181,7 +33193,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -33196,7 +33212,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -34133,7 +34149,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -34620,6 +34636,10 @@
       "price": 5950,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -34636,7 +34656,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -35232,6 +35252,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -35246,7 +35270,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -35396,7 +35420,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -35410,7 +35434,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -35835,7 +35859,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -35850,7 +35878,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -36590,7 +36618,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -36605,7 +36633,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -37723,10 +37751,6 @@
         },
         {
           "operator": "FLOW",
-          "type": "4G"
-        },
-        {
-          "operator": "Movistar",
           "type": "4G"
         },
         {
@@ -39293,7 +39317,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -39308,7 +39332,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -39445,12 +39469,12 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -39464,7 +39488,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -41916,7 +41940,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -41931,7 +41959,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -42120,12 +42148,12 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -42139,7 +42167,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -42473,6 +42501,10 @@
       "price": 450,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -42489,7 +42521,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -43259,7 +43291,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -47502,12 +47534,12 @@
       "price": 2400,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -47521,7 +47553,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -48031,7 +48063,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -48046,7 +48082,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -48746,12 +48782,12 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -48765,7 +48801,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -52335,6 +52371,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -52349,7 +52389,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -54822,12 +54862,12 @@
       "price": 2800,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -54841,7 +54881,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -57099,12 +57139,12 @@
       "price": 1600,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -57118,7 +57158,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -57388,7 +57428,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -57402,7 +57442,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -57538,7 +57578,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -57553,7 +57597,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -60826,6 +60870,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -60840,7 +60888,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -61896,12 +61944,12 @@
       "price": 4600,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -61915,7 +61963,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -63820,6 +63868,10 @@
       "price": 1000,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -63836,7 +63888,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -64831,7 +64883,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -67824,7 +67876,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -69820,7 +69872,7 @@
       "price": 1500,
       "networks": [
         {
-          "operator": "Claro",
+          "operator": "AT&T",
           "type": "5G"
         }
       ],
@@ -69836,7 +69888,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -70916,7 +70968,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -70930,7 +70982,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -71215,7 +71267,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -71230,7 +71286,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -71294,6 +71350,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -71308,7 +71368,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -71926,10 +71986,6 @@
       "validity_days": null,
       "price": 2000,
       "networks": [
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        },
         {
           "operator": "Personal",
           "type": "5G"
@@ -73570,6 +73626,10 @@
       "price": 350,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -73586,7 +73646,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -81052,12 +81112,12 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -81071,7 +81131,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -84861,6 +84921,10 @@
       "price": 2000,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -84877,7 +84941,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -87944,6 +88008,10 @@
       "price": 600,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -87960,7 +88028,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -88409,7 +88477,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -90631,6 +90699,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -90645,7 +90717,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -92206,6 +92278,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -92220,7 +92296,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -93824,7 +93900,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -93838,7 +93918,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -102344,6 +102424,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -102358,7 +102442,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -105505,6 +105589,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -105519,7 +105607,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -106649,7 +106737,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -106664,7 +106756,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -109621,7 +109713,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -112395,7 +112487,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -112409,7 +112501,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -113102,6 +113194,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -113116,7 +113212,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -119221,7 +119317,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -121737,6 +121833,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -121751,7 +121851,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -121989,12 +122089,12 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -122008,7 +122108,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -122631,10 +122731,6 @@
         },
         {
           "operator": "FLOW",
-          "type": "4G"
-        },
-        {
-          "operator": "Movistar",
           "type": "4G"
         },
         {
@@ -125393,12 +125489,12 @@
       "price": 250,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Claro",
           "type": "4G"
         },
         {
-          "operator": "Personal",
-          "type": "5G"
+          "operator": "Movistar",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -125412,7 +125508,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "UK"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -126763,7 +126859,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -126777,7 +126873,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -128326,7 +128422,7 @@
       "coverage_flags": "🇨🇳",
       "data_gb": 15,
       "validity_days": 30,
-      "price": 1750,
+      "price": 1900,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -128540,7 +128636,7 @@
         },
         {
           "operator": "movistar",
-          "type": "5G"
+          "type": "3G"
         }
       ],
       "network_technologies": [
@@ -128555,7 +128651,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 5,
@@ -129928,6 +130024,10 @@
       "networks": [
         {
           "operator": "Claro",
+          "type": "3G"
+        },
+        {
+          "operator": "Movistar",
           "type": "4G"
         }
       ],
@@ -129942,7 +130042,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -130635,7 +130735,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -131614,7 +131714,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -131892,7 +131992,11 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -131907,7 +132011,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -134026,6 +134130,10 @@
       "price": 1050,
       "networks": [
         {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
           "operator": "Claro",
           "type": "4G"
         }
@@ -134042,7 +134150,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -135715,7 +135823,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "US"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
