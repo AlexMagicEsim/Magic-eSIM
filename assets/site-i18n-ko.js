@@ -153,7 +153,7 @@
     'start.network_connection': '네트워크에 처음 연결될 때',
     'start.installation': 'eSIM 설치 시',
     'start.purchase': '구매 시',
-    'start.unknown': 'eSIM 공급사가 명시하지 않음 — 설치 전에 문의해 주세요',
+    'start.unknown': 'eSIM 공급사가 명시하지 않음 — 결제 전에 문의해 주세요',
     'plan.daysLegend': '일수',
     'plan.gb': '{n}GB',
     'plan.dayCount.one': '{n}일',

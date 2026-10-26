@@ -174,7 +174,7 @@
     'start.network_connection': 'at first connection to a network',
     'start.installation': 'when the eSIM is installed',
     'start.purchase': 'at purchase',
-    'start.unknown': 'not stated by our eSIM provider — ask us before installing',
+    'start.unknown': 'not stated by our eSIM provider — contact us before paying',
     'plan.daysLegend': 'Days',
     'plan.gb': '{n} GB',
     'plan.dayCount.one': '{n} day',

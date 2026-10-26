@@ -24,6 +24,14 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/terms/v0.9.3/",
       "sha256": "bcb3282b179aac0592e9da8f35d300da5c0962e5b31b62d8363e88dc15b71d45",
+      "current": false
+    },
+    {
+      "document": "terms",
+      "version": "0.9.4 (pre-launch)",
+      "effective_date": "2026-10-26",
+      "url": "https://magicesim.store/en/terms/v0.9.4/",
+      "sha256": "7df1b45d685b822efaebb6120c15eda310df61fc62e16a9dc04b3ea39ade7a0b",
       "current": true
     },
     {
@@ -48,6 +56,14 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/refund/v0.9.2/",
       "sha256": "4ed648f91358965e73531a79a577c3c4cfa67a6bec153a747c628aace425bd5a",
+      "current": false
+    },
+    {
+      "document": "refund",
+      "version": "0.9.3 (pre-launch)",
+      "effective_date": "2026-10-26",
+      "url": "https://magicesim.store/en/refund/v0.9.3/",
+      "sha256": "f4b99509b55389c3ba8141302e16582f442f4f62268ae2f84896da3bd54ba77c",
       "current": true
     },
     {
@@ -64,6 +80,14 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/privacy/v0.9.4/",
       "sha256": "ddc717e366d4b8cafeaea731eb806945efc934737993e981a713a3a3cb242ff4",
+      "current": false
+    },
+    {
+      "document": "privacy",
+      "version": "0.9.5 (pre-launch)",
+      "effective_date": "2026-10-26",
+      "url": "https://magicesim.store/en/privacy/v0.9.5/",
+      "sha256": "5e51b25aa4d6999cd03bdfec2b532f2c57a2be69bbb1b45582a40dc6ff6f6980",
       "current": true
     }
   ]

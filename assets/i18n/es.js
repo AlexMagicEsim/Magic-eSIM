@@ -148,7 +148,7 @@
     'start.network_connection': 'con la primera conexión a una red',
     'start.installation': 'al instalar la eSIM',
     'start.purchase': 'con la compra',
-    'start.unknown': 'no lo indica nuestro proveedor de eSIM; escríbenos antes de instalarla',
+    'start.unknown': 'no lo indica nuestro proveedor de eSIM; escríbenos antes de pagar',
     'plan.daysLegend': 'Días',
     'plan.gb': '{n} GB',
     'plan.dayCount.one': '{n} día',
