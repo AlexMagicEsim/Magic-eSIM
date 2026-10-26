@@ -2,7 +2,7 @@
 // The English (seo/terms-en.mjs, seo/refund-en.mjs, seo/privacy-en.mjs) is the master; see seo/legal-i18n.mjs.
 export const LEGAL_I18N = Object.freeze({
   code: "fr",
-  labels: { version: 'Version', effective: 'Date d’entrée en vigueur', preLaunch: 'pré-lancement' },
+  labels: { version: 'Version', effective: 'Date d’entrée en vigueur', preLaunch: 'pré-lancement', permanent: 'Copie permanente de cette version (en anglais)' },
   notice: {
     body: 'Ceci est une traduction de la version anglaise, fournie pour votre commodité. En cas de divergence entre la traduction et la version anglaise, la version anglaise prévaut, sauf si la loi impérative qui vous est applicable en dispose autrement. Cela ne limite pas vos droits légaux.',
     english: 'Lire la version anglaise',

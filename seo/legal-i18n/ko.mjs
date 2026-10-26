@@ -2,7 +2,7 @@
 // The English (seo/terms-en.mjs, seo/refund-en.mjs, seo/privacy-en.mjs) is the master; see seo/legal-i18n.mjs.
 export const LEGAL_I18N = Object.freeze({
   code: "ko",
-  labels: { version: '버전', effective: '시행일', preLaunch: '출시 전' },
+  labels: { version: '버전', effective: '시행일', preLaunch: '출시 전', permanent: '이 버전의 영구 사본(영어)' },
   notice: {
     body: '이 문서는 귀하의 편의를 위해 제공되는 영어 버전의 번역본입니다. 번역본과 영어 버전의 내용이 다른 경우, 귀하에게 적용되는 강행법규가 달리 정하지 않는 한 영어 버전이 적용됩니다. 이는 귀하의 법적 권리를 제한하지 않습니다.',
     english: '영어 원문 보기',

@@ -1,0 +1,30 @@
+{
+  "language": "en",
+  "note": "Each version of the Magic eSIM international legal documents, at its permanent address. The English text is the master version.",
+  "documents": [
+    {
+      "document": "terms",
+      "version": "0.9.1 (pre-launch)",
+      "effective_date": "2026-10-23",
+      "url": "https://magicesim.store/en/terms/v0.9.1/",
+      "sha256": "537229e6b516cade1b0b51e53ecd9b5a63a4cb34f0234d8e956ee61aa41989ec",
+      "current": true
+    },
+    {
+      "document": "refund",
+      "version": "0.9 (pre-launch)",
+      "effective_date": "2026-10-23",
+      "url": "https://magicesim.store/en/refund/v0.9/",
+      "sha256": "43119b246ba8a7b3d3b1a09175fa0a5bcd97bc3f7ae62a5447e0c3b46f9fe50a",
+      "current": true
+    },
+    {
+      "document": "privacy",
+      "version": "0.9.3 (pre-launch)",
+      "effective_date": "2026-10-24",
+      "url": "https://magicesim.store/en/privacy/v0.9.3/",
+      "sha256": "4c4bfa045940bb283c62ece9a573a2c4d7231cc40652c19c8d61d17de67fd633",
+      "current": true
+    }
+  ]
+}
