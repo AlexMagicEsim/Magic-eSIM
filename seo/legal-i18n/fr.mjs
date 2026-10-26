@@ -35,7 +35,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>E-mail :</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>« <strong>Nous</strong> », « <strong>notre</strong> » et « <strong>nos</strong> » désignent le vendeur nommé ci-dessus. « <strong>Vous</strong> » désigne la personne qui utilise le Site ou achète un forfait.</p>` },
-      { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Ce que nous vendons", html: `
+      { id: "what-we-sell", en: '8b08611b7e9c', h2: "2. Ce que nous vendons", html: `
       <p>2.1. <strong>Forfaits de données eSIM prépayés pour les voyages.</strong></p>
       <ul class="list">
         <li>Nous vendons des packs de données mobiles prépayés destinés à être utilisés à l’étranger, fournis sous la forme d’un profil eSIM — une carte SIM numérique que vous installez sur un téléphone ou une tablette compatible.</li>
@@ -51,7 +51,7 @@ export const LEGAL_I18N = Object.freeze({
           <li>le moment où commence la durée de validité, lorsque notre fournisseur de services eSIM l’indique.</li>
           </ul>
         </li>
-        <li>Avant que vous ne payiez, la page de commande rappelle les principales conditions du forfait, y compris le moment où commence la durée de validité ou le fait que notre fournisseur de services eSIM ne l’indique pas, ainsi que le délai d’activation de l’eSIM (section 8.4).</li>
+        <li>Avant que vous ne payiez, la page de commande rappelle les principales conditions du forfait. Elle indique également le début de la validité et la date limite d’activation lorsque notre fournisseur de services eSIM fournit ces informations. Si l’une ou l’autre de ces informations n’est pas disponible, la page de commande indique expressément l’information manquante. Veuillez nous contacter avant de payer si vous avez besoin de précisions, en particulier si vous avez l’intention d’installer ou d’utiliser l’eSIM plus tard.</li>
       </ul>
       <p>2.2. <strong>Données uniquement.</strong> Les forfaits fournissent des données mobiles. Ils n’incluent ni numéro de téléphone, ni appels vocaux, ni SMS, sauf si la fiche produit l’indique. <strong>Un forfait ne peut pas être utilisé pour appeler les services d’urgence.</strong></p>
       <p>2.3. <strong>Nous sommes un revendeur, et non un opérateur de réseau mobile.</strong></p>
@@ -138,12 +138,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Nous publions également les présentes Conditions, la Politique de remboursement et la Politique de confidentialité en espagnol, en allemand, en français, en chinois simplifié et en coréen pour votre commodité. En cas de divergence entre une traduction et la version anglaise, la version anglaise prévaut, sauf si la loi impérative qui vous est applicable en dispose autrement.</li>
         <li>Cela ne limite pas vos droits légaux de consommateur, y compris toute règle de cette loi selon laquelle une clause peu claire est interprétée en votre faveur.</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'ea3a4710d6e5', h2: "6. Prix et paiement", html: `
+      { id: "prices-and-payment", en: 'be7268ad633a', h2: "6. Prix et paiement", html: `
       <p>6.1. <strong>Prix.</strong></p>
       <ul class="list">
         <li>Les prix des forfaits sont indiqués en dollars américains. Ils incluent l’ensemble de nos frais ; nous n’ajoutons aucuns frais qui nous soient propres.</li>
         <li>Vous payez une seule fois pour chaque commande. Il n’y a ni abonnement, ni prélèvement récurrent, ni renouvellement automatique.</li>
-        <li>Une commande payée n’est remboursée que dans les cas prévus par la Politique de remboursement ou par la loi. La Politique de remboursement décrit également les cas dans lesquels nous pouvons procéder à un remboursement à notre discrétion ; un tel remboursement n’est jamais garanti.</li>
+        <li>Une commande payée n’est remboursée que dans les cas prévus par la Politique de remboursement ou par la loi.</li>
         <li>Les paiements internationaux sont actuellement indisponibles. Lorsque la commande internationale sera disponible, les taxes applicables pourront être calculées et ajoutées lors de la commande. Le montant total à payer, taxes applicables comprises, sera affiché avant que vous ne confirmiez le paiement.</li>
       </ul>
       <p>6.2. <strong>Paiement.</strong></p>
@@ -172,7 +172,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Sur demande, nous renvoyons l’eSIM à l’adresse utilisée pour la commande.</li>
       </ul>
       <p>7.4. <strong>Gardez l’eSIM confidentielle.</strong> Le code QR et les informations d’installation donnent accès à votre forfait. Ne les partagez pas.</p>` },
-      { id: "installation-activation-and-validity", en: '4af61855eb4a', h2: "8. Installation, activation et validité", html: `
+      { id: "installation-activation-and-validity", en: 'a346504a7977', h2: "8. Installation, activation et validité", html: `
       <p>8.1. Installez l’eSIM en suivant les instructions. Vous avez besoin d’une connexion Internet, par exemple en Wi-Fi.</p>
       <p>8.2. <strong>Un seul appareil ; ne la supprimez pas.</strong></p>
       <ul class="list">
@@ -182,7 +182,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>8.3. <strong>Début de la validité et décompte des jours.</strong></p>
       <ul class="list">
         <li>Le moment où commence la durée de validité est fixé par notre fournisseur de services eSIM pour chaque forfait. Selon le forfait, il s’agit de l’installation de l’eSIM, de sa première connexion à un réseau, de sa première utilisation de données ou de l’achat.</li>
-        <li>Lorsque notre fournisseur de services eSIM l’indique, la fiche produit le mentionne. Dans le cas contraire, la page de commande le signale avant que vous ne payiez ; veuillez nous poser la question avant d’installer l’eSIM.</li>
+        <li>Lorsque notre fournisseur de services eSIM l’indique, la fiche produit le mentionne. Lorsque notre fournisseur de services eSIM n’indique pas le moment où commence la validité, la page de commande le signale expressément. Veuillez nous contacter pour obtenir des précisions avant de payer, car certains forfaits peuvent commencer dès l’achat.</li>
         <li>Pour les forfaits journaliers, l’opérateur de réseau ou notre fournisseur de services eSIM détermine la manière dont une journée est décomptée : selon le forfait, il s’agit soit de 24 heures à compter de la première connexion, soit d’une journée calendaire qui se termine à minuit dans le fuseau horaire de l’opérateur. Nous ne pouvons pas toujours vous indiquer à l’avance laquelle de ces règles s’applique ; le volume quotidien peut donc se renouveler à une autre heure de la journée que celle de votre première connexion.</li>
       </ul>
       <p>8.4. <strong>Délai d’activation.</strong></p>
@@ -310,18 +310,18 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Quand vous pouvez être remboursé d’un forfait eSIM acheté en dollars américains sur le site international de Magic eSIM.",
     crumb: "Politique de remboursement",
     sections: [
-      { id: "about-this-policy", en: 'b13c22569ab6', h2: "À propos de cette politique", html: `
+      { id: "about-this-policy", en: 'e10a00d947f3', h2: "À propos de cette politique", html: `
       <p>Cette politique explique dans quels cas vous pouvez être remboursé d’un forfait eSIM acheté en dollars américains sur le site international de Magic eSIM. Le vendeur est l’entrepreneur individuel ALEKSANDR KHARIN (Géorgie). Cette politique fait partie de nos Conditions d’utilisation.</p>
       <p><strong>Les paiements internationaux sont actuellement indisponibles</strong> ; aucun forfait ne peut donc encore être acheté sur le site international. Cette politique s’applique aux forfaits achetés une fois que la commande internationale sera disponible.</p>
-      <p><strong>Notre règle générale.</strong> Les achats payés ne sont ni remboursables ni échangeables, sauf dans les cas où la loi applicable à votre achat l’exige ou où cette politique le prévoit. En particulier, nous remboursons les erreurs de facturation et les forfaits que nous n’avons pas pu fournir (section 2), traitons les défauts techniques (section 3) et pouvons, à notre discrétion, rembourser d’autres demandes dans un délai de 14 jours (section 5.1).</p>
+      <p><strong>Notre règle générale.</strong> Les achats payés ne sont ni remboursables ni échangeables, sauf dans les cas où la loi applicable à votre achat l’exige ou où cette politique le prévoit expressément. Nous remboursons les erreurs de facturation et la non-livraison conformément à la section 2 et offrons des recours en cas de défauts techniques confirmés conformément à la section 3. Vos droits légaux, y compris tout droit de rétractation applicable, ne sont pas affectés.</p>
       <p><strong>Vos droits légaux passent en premier.</strong> Cette politique ne supprime ni ne réduit aucun droit dont vous disposez en vertu du droit impératif de la consommation. Lorsque la loi vous accorde davantage, vous recevez ce que la loi vous accorde (section 4).</p>` },
-      { id: "summary", en: '992c77399ca2', h2: "1. Résumé", html: `
+      { id: "summary", en: '4523f822bac2', h2: "1. Résumé", html: `
       <ul class="list">
         <li><strong>Double débit ou débit erroné :</strong> remboursement intégral du montant excédentaire ou erroné (section 2)</li>
         <li><strong>Nous n’avons pas pu fournir le forfait que vous avez payé, ou nous avons annulé votre commande :</strong> remboursement intégral (section 2)</li>
         <li><strong>Défaut technique confirmé que notre assistance ne peut pas résoudre :</strong> un remplacement, ou un remboursement total ou partiel (section 3)</li>
         <li><strong>Vos droits légaux, y compris le droit de rétractation lorsque la loi le prévoit :</strong> toujours respectés (section 4)</li>
-        <li><strong>Toute autre raison — vous avez choisi le mauvais forfait, votre appareil n’est pas compatible, votre voyage a changé, vous n’avez pas utilisé l’eSIM :</strong> aucun remboursement de droit. Vous pouvez en faire la demande dans les 14 jours suivant votre achat, et nous décidons au cas par cas ; un remboursement n’est pas garanti (section 5)</li>
+        <li><strong>Toute autre raison — vous avez choisi le mauvais forfait, votre appareil n’est pas compatible, votre voyage a changé, vous n’avez pas utilisé l’eSIM :</strong> aucun remboursement volontaire. Cela n’affecte pas les remboursements prévus aux sections 2 et 3 ni vos droits légaux prévus à la section 4.</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. Erreurs et non-livraison — toujours remboursées", html: `
       <p>Nous remboursons l’intégralité du montant payé :</p>
@@ -331,7 +331,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>si nous avons <strong>livré un forfait différent</strong> de celui que vous avez payé et que vous ne souhaitez pas recevoir le bon forfait à la place ;</li>
         <li>si <strong>nous annulons</strong> votre commande (Conditions d’utilisation, section 13).</li>
       </ul>` },
-      { id: "technical-faults", en: '15880949437d', h2: "3. Défauts techniques", html: `
+      { id: "technical-faults", en: 'a053723df35b', h2: "3. Défauts techniques", html: `
       <p>3.1. <strong>Quand cette section s’applique.</strong> Elle s’applique lorsque toutes les conditions suivantes sont réunies :</p>
       <ul class="list">
         <li>l’eSIM ne peut pas être installée, ne se connecte pas ou ne fournit pas de données comme décrit sur sa fiche produit ;</li>
@@ -391,7 +391,7 @@ export const LEGAL_I18N = Object.freeze({
           <li>la loi exige un remboursement.</li>
           </ul>
         </li>
-        <li>Pour toute autre raison, un forfait dont la validité n’a pas commencé n’est pas remboursé de droit (section 5).</li>
+        <li>Un forfait dont la validité n’a pas commencé n’ouvre pas droit à un remboursement volontaire au seul motif qu’il reste inutilisé. Les sections 2 à 4 continuent de s’appliquer.</li>
       </ul>
       <p>(e) <strong>L’eSIM n’a jamais fonctionné.</strong></p>
       <ul class="list">
@@ -508,15 +508,8 @@ export const LEGAL_I18N = Object.freeze({
       <p>Vous avez également droit à une indemnisation pour toute autre perte ou tout autre dommage raisonnablement prévisible. Si la défaillance ne constitue pas une défaillance majeure, vous avez le droit d’obtenir qu’il soit remédié aux problèmes du service dans un délai raisonnable et, à défaut, de résilier votre contrat et d’obtenir le remboursement de la partie non utilisée du contrat.</p>
       <p>Les avantages que nous vous accordons au titre de la section 3 s’ajoutent aux autres droits et recours dont vous disposez en vertu d’une loi en ce qui concerne nos services.</p>
       <p><strong>Nouvelle-Zélande.</strong> Aucune disposition de nos Conditions d’utilisation ni de la présente politique ne limite vos droits en vertu du Consumer Guarantees Act 1993 ou du Fair Trading Act 1986, y compris vos droits si un forfait n’est pas fourni avec un soin et une compétence raisonnables ou n’est pas adapté à un usage que vous nous avez fait connaître.</p>` },
-      { id: "discretionary-refunds-and-exclusions", en: 'dbd852ff9f86', h2: "5. Remboursements à notre discrétion et ce que nous ne remboursons pas", html: `
-      <p>5.1. <strong>Remboursements à notre discrétion dans un délai de 14 jours.</strong></p>
-      <ul class="list">
-        <li>Si vous demandez un remboursement dans les <strong>14 jours suivant votre achat</strong> pour un motif que les sections 2 à 4 ne couvrent pas, nous pouvons, à notre discrétion, vous rembourser en totalité ou en partie, ou refuser.</li>
-        <li>Nous examinons chaque demande au cas par cas. Nous tenons compte, par exemple, du forfait, du motif de votre demande, et du fait que l’eSIM a été utilisée ou non et dans quelle mesure.</li>
-        <li><strong>Il ne s’agit ni d’une garantie ni d’un droit.</strong> Le fait de faire votre demande dans les 14 jours ne signifie pas que vous serez remboursé, et un remboursement que nous accordons ne nous oblige pas à accepter d’autres demandes, y compris similaires.</li>
-        <li>Nous n’accordons pas de remboursement en présence d’éléments indiquant une fraude, un abus des remboursements ou toute autre manipulation.</li>
-      </ul>
-      <p>5.2. <strong>Ce que nous ne remboursons pas.</strong> En dehors des sections 2 à 4 et de tout remboursement que nous accordons au titre de la section 5.1, nous ne remboursons pas lorsque :</p>
+      { id: "when-voluntary-refunds-are-not-available", en: 'b568245df25f', h2: "5. Cas où aucun remboursement volontaire n’est proposé", html: `
+      <p>Hormis les remboursements et les recours prévus aux sections 2 à 4, nous ne proposons pas de remboursement volontaire dans les cas suivants :</p>
       <ul class="list">
         <li>vous avez choisi le <strong>mauvais pays, la mauvaise région ou le mauvais forfait</strong> ;</li>
         <li>votre <strong>appareil ne prend pas en charge l’eSIM</strong>, est <strong>verrouillé par un opérateur</strong> ou n’est pas compatible avec le réseau du forfait ;</li>
@@ -618,7 +611,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>Ces valeurs servent uniquement à afficher le site comme vous l’avez demandé ; elles ne nous sont pas envoyées. Si nous ajoutons un jour un outil d’analyse ou un outil similaire, nous mettrons d’abord à jour cette politique et vous demanderons votre consentement lorsque la loi l’exige.</p>
       <h3>Do Not Track</h3>
       <p>Nous ne vous suivons pas dans le temps ni sur d’autres sites web ou services en ligne, et nous ne permettons pas à d’autres entreprises de collecter des données personnelles sur vos activités en ligne dans le temps et sur différents sites web lorsque vous utilisez notre site. C’est pourquoi nous ne réagissons pas différemment aux signaux « Do Not Track » ou Global Privacy Control : que votre navigateur en envoie un ou non, aucun suivi de ce type n’a lieu.</p>` },
-      { id: "providers", en: 'd1e5f9ee7560', h2: "4. Prestataires de services qui traitent des données pour notre compte", html: `
+      { id: "providers", en: 'fafc78189849', h2: "4. Prestataires de services qui traitent des données pour notre compte", html: `
       <p>Pour faire fonctionner le site et notre assistance, nous faisons appel aux prestataires de services suivants. Chacun traite les données uniquement pour fournir son service.</p>
       <h3>GitHub, Inc. (États-Unis), avec son fournisseur de réseau Fastly, Inc.</h3>
       <p>Héberge les pages du site. GitHub enregistre également les adresses IP des visiteurs à ses propres fins de sécurité, conformément à sa propre déclaration de confidentialité. <em>Données :</em> adresse IP et données techniques de votre visite.</p>
@@ -628,8 +621,8 @@ export const LEGAL_I18N = Object.freeze({
       <p>Héberge la base de données de notre serveur. Pour le site international, elle conserve les enregistrements de prix décrits à la section 2, qui ne contiennent aucune donnée personnelle.</p>
       <h3>ImprovMX Incorporated (États-Unis)</h3>
       <p>Reçoit les e-mails envoyés à support@magicesim.store et les transfère vers notre boîte aux lettres. Il conserve les journaux de distribution pendant 7 jours et ne conserve le contenu des messages que jusqu’à leur distribution. <em>Données :</em> votre adresse e-mail, les en-têtes du message et le contenu du message en transit.</p>
-      <h3>Nos fournisseurs de messagerie électronique</h3>
-      <p>Notre boîte aux lettres d’assistance est hébergée par un fournisseur de messagerie électronique, et nos réponses sont envoyées via Proton AG, Suisse. <em>Données :</em> votre adresse e-mail et les messages échangés avec nous.</p>
+      <h3>Proton AG (Suisse)</h3>
+      <p>Héberge notre boîte aux lettres d’assistance et envoie nos réponses. <em>Données traitées :</em> votre adresse e-mail, les en-têtes des messages, le contenu des messages et les éventuelles pièces jointes. Nous utilisons ce service pour recevoir et conserver les demandes d’assistance, et pour y répondre.</p>
       <p>Nous pouvons également communiquer des données lorsque la loi l’exige, ou lorsque cela est nécessaire pour constater ou défendre des droits en justice.</p>` },
       { id: "international", en: '32cf48f5d480', h2: "5. Traitement international des données", html: `
       <p>Nous sommes établis en Géorgie, mais nos prestataires de services sont des sociétés internationales. Par conséquent, vos données peuvent être traitées en dehors de la Géorgie, principalement aux États-Unis, dans l’Espace économique européen et en Suisse, ainsi que dans d’autres pays où ces prestataires ou leurs propres prestataires exercent leurs activités.</p>

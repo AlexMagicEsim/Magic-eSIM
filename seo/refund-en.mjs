@@ -7,15 +7,13 @@
 // seo/test-en-legal-docs.mjs pins what it states and what it must never state. A wording change is the owner's decision.
 // 0.9.1 (LEGAL-5, owner's task 2026-10-26): §3.4(c) and §4.3 — the period of an unlimited plan is counted in hours, so a
 // day that has started is no longer counted as fully used; §3.4(g) says what the providers' records can and cannot show.
-// 0.9.2 (LEGAL-6, owner's task 2026-10-26): our own policy, adapted in substance (not in words) from the refund rules that
-// a reseller of digital products publishes for its buyers, to prepaid eSIM plans: paid purchases are not refundable except
-// as the law or this policy provides; statutory withdrawal for a SERVICE (installing the eSIM does not end it; other
-// countries' periods honoured); §5.1 a discretionary refund within 14 days — case by case, never a guarantee; no refund
-// for fraud or refund abuse; a refund ends the plan; approved refunds sent within 14 days; §3.6 use after a report of an
-// unlimited plan counted in hours. NO third-party company, payment system, supplier or future integration is named
-// (owner): seo/test-en-legal-docs.mjs.
+// 0.9.2 (LEGAL-6, 2026-10-26): our own policy; statutory withdrawal for a SERVICE (installing the eSIM does not end it;
+// other countries' periods honoured); §3.6 use after a report of an unlimited plan counted in hours; a refund ends the
+// plan; approved refunds sent within 14 days. No third-party company, payment system, supplier or future integration.
+// 0.9.3 (LEGAL-7, owner's exact wording 2026-10-26): NO voluntary refund at all — the discretionary 14-day refund (§5.1)
+// is removed; the general rule, the summary row, §3.4(d) and §5 («When voluntary refunds are not available») say so.
 
-export const REFUND_VERSION = '0.9.2 (pre-launch)';
+export const REFUND_VERSION = '0.9.3 (pre-launch)';
 export const REFUND_EFFECTIVE = '26 October 2026';
 export const REFUND_EFFECTIVE_ISO = '2026-10-26';
 
@@ -30,7 +28,7 @@ export const REFUND = Object.freeze({
       id: 'about-this-policy', h2: "About this policy", html: `
       <p>This policy explains when you can get money back for an eSIM plan bought in US dollars on the Magic eSIM international website. The seller is Individual Entrepreneur ALEKSANDR KHARIN (Georgia). This policy is part of our Terms of Service.</p>
       <p><strong>International payments are currently unavailable</strong>, so no plan can be bought on the international website yet. This policy applies to plans bought once international checkout becomes available.</p>
-      <p><strong>Our general rule.</strong> Paid purchases are not refundable or exchangeable, except as the law that applies to your purchase requires or as this policy provides. In particular, we refund billing errors and plans we could not provide (section 2), deal with technical faults (section 3), and may refund other requests at our discretion within 14 days (section 5.1).</p>
+      <p><strong>Our general rule.</strong> Paid purchases are not refundable or exchangeable except as required by the law that applies to your purchase or as expressly provided in this policy. We refund billing errors and non-delivery under section 2 and provide remedies for confirmed technical faults under section 3. Your statutory rights, including any applicable right of withdrawal, remain unaffected.</p>
       <p><strong>Your statutory rights come first.</strong> This policy does not remove or reduce any right you have under mandatory consumer law. Where the law gives you more, you receive what the law gives you (section 4).</p>`,
     },
     {
@@ -40,7 +38,7 @@ export const REFUND = Object.freeze({
         <li><strong>We could not provide the plan you paid for, or we cancelled your order:</strong> Full refund (section 2)</li>
         <li><strong>Confirmed technical fault that our support cannot fix:</strong> A replacement, or a full or partial refund (section 3)</li>
         <li><strong>Your statutory rights, including the right of withdrawal where the law gives it:</strong> Always honoured (section 4)</li>
-        <li><strong>Any other reason — you chose the wrong plan, your device is not compatible, your trip changed, you did not use the eSIM:</strong> No refund as of right. You may ask within 14 days after your purchase, and we decide individually; a refund is not guaranteed (section 5)</li>
+        <li><strong>Any other reason — you chose the wrong plan, your device is not compatible, your trip changed, you did not use the eSIM:</strong> No voluntary refund. This does not affect refunds under sections 2 and 3 or your statutory rights under section 4.</li>
       </ul>`,
     },
     {
@@ -114,7 +112,7 @@ export const REFUND = Object.freeze({
           <li>the law requires a refund.</li>
           </ul>
         </li>
-        <li>For any other reason, a plan whose validity has not started is not refunded as of right (section 5).</li>
+        <li>A plan whose validity has not started is not eligible for a voluntary refund solely because it remains unused. Sections 2 to 4 continue to apply.</li>
       </ul>
       <p>(e) <strong>eSIM never worked.</strong></p>
       <ul class="list">
@@ -235,15 +233,8 @@ export const REFUND = Object.freeze({
       <p><strong>New Zealand.</strong> Nothing in our Terms of Service or in this policy limits your rights under the Consumer Guarantees Act 1993 or the Fair Trading Act 1986, including your rights if a plan is not supplied with reasonable care and skill or is not fit for a purpose you made known to us.</p>`,
     },
     {
-      id: 'discretionary-refunds-and-exclusions', h2: "5. Refunds at our discretion, and what we do not refund", html: `
-      <p>5.1. <strong>Refunds at our discretion within 14 days.</strong></p>
-      <ul class="list">
-        <li>If you ask for a refund within <strong>14 days after your purchase</strong> for a reason that sections 2 to 4 do not cover, we may, at our discretion, refund you in full or in part, or decline.</li>
-        <li>We look at each request individually. We consider, for example, the plan, the reason for your request, and whether and how much the eSIM has been used.</li>
-        <li><strong>This is not a guarantee and not a right.</strong> Asking within 14 days does not mean that you will receive a refund, and a refund we agree to does not oblige us to agree to other requests, including similar ones.</li>
-        <li>We do not give a refund where there is evidence of fraud, abuse of refunds or other manipulation.</li>
-      </ul>
-      <p>5.2. <strong>What we do not refund.</strong> Apart from sections 2 to 4, and any refund we agree to under section 5.1, we do not refund when:</p>
+      id: 'when-voluntary-refunds-are-not-available', h2: "5. When voluntary refunds are not available", html: `
+      <p>Except for refunds and remedies under sections 2 to 4, we do not offer voluntary refunds in the following circumstances:</p>
       <ul class="list">
         <li>you chose the <strong>wrong country, region or plan</strong>;</li>
         <li>your <strong>device does not support eSIM</strong>, is <strong>carrier-locked</strong>, or is not compatible with the plan’s network;</li>

@@ -658,7 +658,7 @@ const INTL_LEGAL_URLS = Object.freeze({
  * The versions are the published documents' (seo/terms-en.mjs, seo/refund-en.mjs — equal by test).
  */
 const GLOBAL_PAYMENTS_OPEN = false;
-const INTL_LEGAL_VERSIONS = Object.freeze({ terms: '0.9.3 (pre-launch)', refund: '0.9.2 (pre-launch)' });
+const INTL_LEGAL_VERSIONS = Object.freeze({ terms: '0.9.4 (pre-launch)', refund: '0.9.3 (pre-launch)' });
 
 /*
  * LEGAL-4: the international documents are published in English and translated into es, de, fr, zh-Hans and ko — each

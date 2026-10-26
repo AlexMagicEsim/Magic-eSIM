@@ -2,7 +2,9 @@
 // address optional, the checkout section names the consent boxes and says what stays in the browser; 0.9.3 = the
 // geography of processing simplified: no server locations, the transfer destinations once in section 5, only the
 // safeguards confirmed from the providers' own publications; 0.9.4 = LEGAL-5, 2026-10-26: the database host named, and a
-// separate section on what will change only when online purchases open — kept apart from what happens today).
+// separate section on what will change only when online purchases open — kept apart from what happens today; 0.9.5 =
+// LEGAL-7, 2026-10-26: the support mailbox is held by Proton — confirmed by the owner from the ImprovMX alias settings;
+// ImprovMX receives and forwards, Proton stores and sends replies).
 //
 // ONE source for /en/privacy/ (built by seo/build-locale-pages.mjs for English only). The text is the owner-approved
 // LEGAL-0 final edition «01 Privacy Policy — pre-launch (EN)», with the support-mail route stated only as far as public
@@ -13,7 +15,7 @@
 // Written for the page: plain HTML fragments, English typography (curly quotes, en dashes), no tables — every
 // list reads on a 320 px phone without horizontal scrolling.
 
-export const PRIVACY_VERSION = '0.9.4 (pre-launch)';
+export const PRIVACY_VERSION = '0.9.5 (pre-launch)';
 export const PRIVACY_EFFECTIVE = '26 October 2026';
 export const PRIVACY_EFFECTIVE_ISO = '2026-10-26';
 
@@ -93,8 +95,8 @@ export const PRIVACY = Object.freeze({
       <p>Hosts the database of our server. For the international website it holds the price records described in section 2, which contain no personal data.</p>
       <h3>ImprovMX Incorporated (United States)</h3>
       <p>Receives emails sent to support@magicesim.store and forwards them to our mailbox. It keeps delivery logs for 7 days and holds the message content only until it is delivered. <em>Data:</em> your email address, the message headers and the message content in transit.</p>
-      <h3>Our email service providers</h3>
-      <p>Our support mailbox is held by an email service provider, and our replies are sent through Proton AG, Switzerland. <em>Data:</em> your email address and the messages exchanged with us.</p>
+      <h3>Proton AG (Switzerland)</h3>
+      <p>Hosts our support mailbox and sends our replies. <em>Data processed:</em> your email address, message headers, message content and any attachments. We use this service to receive, store and respond to support enquiries.</p>
       <p>We may also disclose data where the law requires it, or where it is necessary to establish or defend legal claims.</p>`,
     },
     {

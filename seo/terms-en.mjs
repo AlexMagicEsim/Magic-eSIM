@@ -11,8 +11,10 @@
 // period only as far as the providers state them; §5.5 and §15 the permanent copy of every version (seo/legal-archive.mjs).
 // 0.9.3 (LEGAL-6, owner's task 2026-10-26): no future payment intermediary is mentioned any more (§1); §6.1 states the
 // refund rule of the Refund Policy 0.9.2 (refunds only as that policy or the law provides).
+// 0.9.4 (LEGAL-7, owner's exact wording 2026-10-26): §6.1 no discretionary refund; §2.1 and §8.3 — checkout names the
+// missing start of validity / activation deadline, «contact us before paying» (some plans may start on purchase).
 
-export const TERMS_VERSION = '0.9.3 (pre-launch)';
+export const TERMS_VERSION = '0.9.4 (pre-launch)';
 export const TERMS_EFFECTIVE = '26 October 2026';
 export const TERMS_EFFECTIVE_ISO = '2026-10-26';
 
@@ -65,7 +67,7 @@ export const TERMS = Object.freeze({
           <li>when the validity period starts, where our eSIM service provider states it.</li>
           </ul>
         </li>
-        <li>Before you pay, the checkout shows the plan’s main terms again, including when the validity period starts or that our eSIM service provider does not state it, and the period for activating the eSIM (section 8.4).</li>
+        <li>Before you pay, checkout shows the plan’s main terms again. It also shows the start of validity and the activation deadline where our eSIM service provider supplies that information. If either is unavailable, checkout expressly identifies the missing information. Please contact us before paying if you need clarification, particularly if you intend to install or use the eSIM later.</li>
       </ul>
       <p>2.2. <strong>Data only.</strong> Plans provide mobile data. They do not include a phone number, voice calls or SMS unless the product card says so. <strong>A plan cannot be used to call emergency services.</strong></p>
       <p>2.3. <strong>We are a reseller, not a mobile network operator.</strong></p>
@@ -165,7 +167,7 @@ export const TERMS = Object.freeze({
       <ul class="list">
         <li>Plan prices are shown in US dollars. They include all our charges; we add no fees of our own.</li>
         <li>You pay once for each order. There is no subscription, recurring charge or automatic renewal.</li>
-        <li>A paid order is refunded only as the Refund Policy or the law provides. The Refund Policy also describes when we may refund at our discretion; such a refund is never guaranteed.</li>
+        <li>A paid order is refunded only as the Refund Policy or the law provides.</li>
         <li>International payments are currently unavailable. When international checkout becomes available, applicable taxes may be calculated and added at checkout. The total amount payable, including any applicable taxes, will be displayed before you confirm the payment.</li>
       </ul>
       <p>6.2. <strong>Payment.</strong></p>
@@ -208,7 +210,7 @@ export const TERMS = Object.freeze({
       <p>8.3. <strong>Start of validity and how days are counted.</strong></p>
       <ul class="list">
         <li>When the validity period starts is set by our eSIM service provider for each plan. Depending on the plan, it is the installation of the eSIM, its first connection to a network, its first use of data, or the purchase.</li>
-        <li>Where our eSIM service provider states it, the product card shows it. Where it does not, the checkout says so before you pay; please ask us before installing the eSIM.</li>
+        <li>Where our eSIM service provider states it, the product card shows it. Where our eSIM service provider does not state when validity starts, checkout expressly says so. Please contact us for clarification before paying, because some plans may start on purchase.</li>
         <li>For daily plans, the network operator or our eSIM service provider sets how a day is counted: depending on the plan, either 24 hours from the first connection or a calendar day that ends at midnight in the operator’s time zone. We cannot always tell you in advance which applies, so the daily allowance may renew at a different time of day from your first connection.</li>
       </ul>
       <p>8.4. <strong>Activation period.</strong></p>

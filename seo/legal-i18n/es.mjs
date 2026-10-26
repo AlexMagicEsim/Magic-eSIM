@@ -36,7 +36,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>«<strong>Nosotros</strong>», «<strong>nos</strong>» y «<strong>nuestro</strong>» se refieren al vendedor indicado arriba. «<strong>Tú</strong>» se refiere a la persona que usa el Sitio web o compra un plan.</p>
 ` },
-      { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Qué vendemos", html: `
+      { id: "what-we-sell", en: '8b08611b7e9c', h2: "2. Qué vendemos", html: `
       <p>2.1. <strong>Planes de datos eSIM prepago para viajes.</strong></p>
       <ul class="list">
         <li>Vendemos paquetes de datos móviles prepago para usar en el extranjero, que se entregan como un perfil eSIM: una SIM digital que instalas en un teléfono o una tableta compatibles.</li>
@@ -52,7 +52,7 @@ export const LEGAL_I18N = Object.freeze({
           <li>el momento en que empieza el período de validez, cuando nuestro proveedor de servicios eSIM lo indica.</li>
           </ul>
         </li>
-        <li>Antes de pagar, el proceso de pago vuelve a mostrar las condiciones principales del plan, incluido el momento en que empieza el período de validez o el hecho de que nuestro proveedor de servicios eSIM no lo indica, y el período para activar la eSIM (sección 8.4).</li>
+        <li>Antes de pagar, el proceso de pago vuelve a mostrar las condiciones principales del plan. También muestra el inicio de la validez y el plazo de activación cuando nuestro proveedor de servicios eSIM facilita esa información. Si alguno de los dos no está disponible, el proceso de pago indica expresamente la información que falta. Contáctanos antes de pagar si necesitas una aclaración, en particular si piensas instalar o usar la eSIM más adelante.</li>
       </ul>
       <p>2.2. <strong>Solo datos.</strong> Los planes ofrecen datos móviles. No incluyen número de teléfono, llamadas de voz ni SMS, salvo que la ficha de producto lo indique. <strong>Un plan no se puede usar para llamar a los servicios de emergencia.</strong></p>
       <p>2.3. <strong>Somos un revendedor, no un operador de red móvil.</strong></p>
@@ -139,12 +139,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Para tu comodidad, también publicamos estos Términos, la Política de reembolso y la Política de privacidad en español, alemán, francés, chino simplificado y coreano. Si una traducción y la versión en inglés difieren, se aplica la versión en inglés, salvo que la ley imperativa que te sea aplicable disponga otra cosa.</li>
         <li>Esto no limita tus derechos legales como consumidor, incluida cualquier norma de esa ley según la cual una cláusula poco clara se interpreta a tu favor.</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'ea3a4710d6e5', h2: "6. Precios y pago", html: `
+      { id: "prices-and-payment", en: 'be7268ad633a', h2: "6. Precios y pago", html: `
       <p>6.1. <strong>Precio.</strong></p>
       <ul class="list">
         <li>Los precios de los planes se muestran en dólares estadounidenses. Incluyen todos nuestros cargos; no añadimos comisiones propias.</li>
         <li>Pagas una sola vez por cada pedido. No hay suscripción, cargo recurrente ni renovación automática.</li>
-        <li>Un pedido pagado solo se reembolsa según lo previsto en la Política de reembolso o en la ley. La Política de reembolso también describe cuándo podemos reembolsar a nuestra discreción; ese reembolso nunca está garantizado.</li>
+        <li>Un pedido pagado solo se reembolsa según lo previsto en la Política de reembolso o en la ley.</li>
         <li>Los pagos internacionales no están disponibles por ahora. Cuando el pago internacional esté disponible, los impuestos aplicables podrán calcularse y añadirse en el proceso de pago. El importe total a pagar, incluidos los impuestos aplicables, se mostrará antes de que confirmes el pago.</li>
       </ul>
       <p>6.2. <strong>Pago.</strong></p>
@@ -173,7 +173,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Si lo solicitas, volvemos a enviar la eSIM a la dirección utilizada en el pedido.</li>
       </ul>
       <p>7.4. <strong>Mantén la eSIM en privado.</strong> El código QR y los datos de instalación dan acceso a tu plan. No los compartas.</p>` },
-      { id: "installation-activation-and-validity", en: '4af61855eb4a', h2: "8. Instalación, activación y validez", html: `
+      { id: "installation-activation-and-validity", en: 'a346504a7977', h2: "8. Instalación, activación y validez", html: `
       <p>8.1. Instala la eSIM siguiendo las instrucciones. Necesitas una conexión a internet, por ejemplo Wi-Fi.</p>
       <p>8.2. <strong>Un solo dispositivo; no la elimines.</strong></p>
       <ul class="list">
@@ -183,7 +183,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>8.3. <strong>Inicio de la validez y cómo se cuentan los días.</strong></p>
       <ul class="list">
         <li>El momento en que empieza el período de validez lo fija nuestro proveedor de servicios eSIM para cada plan. Según el plan, es la instalación de la eSIM, su primera conexión a una red, su primer uso de datos o la compra.</li>
-        <li>Cuando nuestro proveedor de servicios eSIM lo indica, la ficha de producto lo muestra. Cuando no lo indica, el proceso de pago lo advierte antes de que pagues; en ese caso, pregúntanos antes de instalar la eSIM.</li>
+        <li>Cuando nuestro proveedor de servicios eSIM lo indica, la ficha de producto lo muestra. Cuando nuestro proveedor de servicios eSIM no indica cuándo empieza la validez, el proceso de pago lo indica expresamente. Contáctanos para aclararlo antes de pagar, porque algunos planes pueden empezar con la compra.</li>
         <li>En los planes diarios, el operador de red o nuestro proveedor de servicios eSIM fija cómo se cuenta un día: según el plan, son 24 horas desde la primera conexión o un día natural que termina a medianoche en la zona horaria del operador. No siempre podemos indicarte de antemano cuál se aplica, por lo que el volumen diario puede renovarse a una hora del día distinta de la de tu primera conexión.</li>
       </ul>
       <p>8.4. <strong>Período de activación.</strong></p>
@@ -311,18 +311,18 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Cuándo puedes recuperar tu dinero por un plan eSIM comprado en dólares estadounidenses en el sitio web internacional de Magic eSIM.",
     crumb: "Política de reembolso",
     sections: [
-      { id: "about-this-policy", en: 'b13c22569ab6', h2: "Acerca de esta política", html: `
+      { id: "about-this-policy", en: 'e10a00d947f3', h2: "Acerca de esta política", html: `
       <p>Esta política explica cuándo puedes recuperar tu dinero por un plan eSIM comprado en dólares estadounidenses en el sitio web internacional de Magic eSIM. El vendedor es el Empresario individual ALEKSANDR KHARIN (Georgia). Esta política forma parte de nuestros Términos del servicio.</p>
       <p><strong>Los pagos internacionales no están disponibles por ahora</strong>, por lo que todavía no se puede comprar ningún plan en el sitio web internacional. Esta política se aplica a los planes comprados una vez que el pago internacional esté disponible.</p>
-      <p><strong>Nuestra regla general.</strong> Las compras pagadas no son reembolsables ni canjeables, salvo lo que exija la ley aplicable a tu compra o lo que disponga esta política. En particular, reembolsamos los errores de cobro y los planes que no pudimos suministrar (sección 2), tratamos los fallos técnicos (sección 3) y podemos reembolsar otras solicitudes a nuestra discreción dentro de los 14 días (sección 5.1).</p>
+      <p><strong>Nuestra regla general.</strong> Las compras pagadas no son reembolsables ni canjeables, salvo lo que exija la ley aplicable a tu compra o lo que disponga expresamente esta política. Reembolsamos los errores de cobro y la falta de entrega conforme a la sección 2 y ofrecemos remedios para los fallos técnicos confirmados conforme a la sección 3. Tus derechos legales, incluido cualquier derecho de desistimiento aplicable, no se ven afectados.</p>
       <p><strong>Tus derechos legales están primero.</strong> Esta política no elimina ni reduce ningún derecho que tengas conforme a la ley imperativa de protección del consumidor. Cuando la ley te concede más, recibes lo que la ley te concede (sección 4).</p>` },
-      { id: "summary", en: '992c77399ca2', h2: "1. Resumen", html: `
+      { id: "summary", en: '4523f822bac2', h2: "1. Resumen", html: `
       <ul class="list">
         <li><strong>Cargo duplicado o cargo por error:</strong> Reembolso íntegro del importe adicional o erróneo (sección 2)</li>
         <li><strong>No pudimos suministrar el plan que pagaste, o cancelamos tu pedido:</strong> Reembolso íntegro (sección 2)</li>
         <li><strong>Fallo técnico confirmado que nuestro soporte no puede resolver:</strong> Una sustitución, o un reembolso íntegro o parcial (sección 3)</li>
         <li><strong>Tus derechos legales, incluido el derecho de desistimiento cuando la ley lo concede:</strong> Siempre se respetan (sección 4)</li>
-        <li><strong>Cualquier otro motivo (elegiste un plan equivocado, tu dispositivo no es compatible, tu viaje cambió, no usaste la eSIM):</strong> No hay reembolso como derecho. Puedes solicitarlo dentro de los 14 días posteriores a tu compra, y decidimos de forma individual; el reembolso no está garantizado (sección 5)</li>
+        <li><strong>Cualquier otro motivo (elegiste un plan equivocado, tu dispositivo no es compatible, tu viaje cambió, no usaste la eSIM):</strong> No hay reembolso voluntario. Esto no afecta a los reembolsos conforme a las secciones 2 y 3 ni a tus derechos legales conforme a la sección 4.</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. Errores y falta de entrega: siempre se reembolsan", html: `
       <p>Reembolsamos el importe íntegro pagado:</p>
@@ -332,7 +332,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>si <strong>entregamos un plan distinto</strong> del que pagaste y no quieres recibir en su lugar el plan correcto;</li>
         <li>si <strong>cancelamos</strong> tu pedido (Términos del servicio, sección 13).</li>
       </ul>` },
-      { id: "technical-faults", en: '15880949437d', h2: "3. Fallos técnicos", html: `
+      { id: "technical-faults", en: 'a053723df35b', h2: "3. Fallos técnicos", html: `
       <p>3.1. <strong>Cuándo se aplica esta sección.</strong> Se aplica cuando se cumplen todas estas condiciones:</p>
       <ul class="list">
         <li>la eSIM no se puede instalar, no se conecta o no proporciona datos según lo descrito en su ficha de producto;</li>
@@ -392,7 +392,7 @@ export const LEGAL_I18N = Object.freeze({
           <li>la ley exige un reembolso.</li>
           </ul>
         </li>
-        <li>Por cualquier otro motivo, un plan cuya validez no ha empezado no se reembolsa como derecho (sección 5).</li>
+        <li>Un plan cuya validez no ha empezado no puede optar a un reembolso voluntario solo porque siga sin usarse. Las secciones 2 a 4 siguen aplicándose.</li>
       </ul>
       <p>(e) <strong>La eSIM nunca funcionó.</strong></p>
       <ul class="list">
@@ -509,15 +509,8 @@ export const LEGAL_I18N = Object.freeze({
       <p>También tienes derecho a ser compensado por cualquier otra pérdida o daño razonablemente previsible. Si el fallo no constituye un fallo grave, tienes derecho a que los problemas del servicio se corrijan en un plazo razonable y, si no se hace, a cancelar tu contrato y obtener un reembolso de la parte no utilizada del contrato.</p>
       <p>Los beneficios que te concedemos conforme a la sección 3 se suman a los demás derechos y remedios que tengas conforme a una ley en relación con nuestros servicios.</p>
       <p><strong>Nueva Zelanda.</strong> Nada de lo dispuesto en nuestros Términos del servicio ni en esta política limita tus derechos conforme a la Consumer Guarantees Act 1993 o la Fair Trading Act 1986, incluidos tus derechos si un plan no se suministra con un cuidado y una pericia razonables o no es apto para un fin que nos hayas dado a conocer.</p>` },
-      { id: "discretionary-refunds-and-exclusions", en: 'dbd852ff9f86', h2: "5. Reembolsos a nuestra discreción y lo que no reembolsamos", html: `
-      <p>5.1. <strong>Reembolsos a nuestra discreción dentro de los 14 días.</strong></p>
-      <ul class="list">
-        <li>Si solicitas un reembolso dentro de los <strong>14 días posteriores a tu compra</strong> por un motivo que las secciones 2 a 4 no cubren, podemos, a nuestra discreción, reembolsarte de forma íntegra o parcial, o rechazar la solicitud.</li>
-        <li>Examinamos cada solicitud de forma individual. Tenemos en cuenta, por ejemplo, el plan, el motivo de tu solicitud y si se ha usado la eSIM y en qué medida.</li>
-        <li><strong>Esto no es una garantía ni un derecho.</strong> Solicitarlo dentro de los 14 días no significa que vayas a recibir un reembolso, y un reembolso que aceptemos no nos obliga a aceptar otras solicitudes, incluidas las similares.</li>
-        <li>No concedemos un reembolso cuando haya pruebas de fraude, abuso de los reembolsos u otra manipulación.</li>
-      </ul>
-      <p>5.2. <strong>Lo que no reembolsamos.</strong> Aparte de las secciones 2 a 4, y de cualquier reembolso que aceptemos conforme a la sección 5.1, no reembolsamos cuando:</p>
+      { id: "when-voluntary-refunds-are-not-available", en: 'b568245df25f', h2: "5. Cuándo no se ofrecen reembolsos voluntarios", html: `
+      <p>Salvo los reembolsos y remedios conforme a las secciones 2 a 4, no ofrecemos reembolsos voluntarios en las siguientes circunstancias:</p>
       <ul class="list">
         <li>elegiste un <strong>país, región o plan equivocado</strong>;</li>
         <li>tu <strong>dispositivo no admite eSIM</strong>, está <strong>bloqueado por el operador</strong> o no es compatible con la red del plan;</li>
@@ -619,7 +612,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>Estos valores solo sirven para que el sitio web se muestre como pediste; no se nos envían. Si alguna vez añadimos una herramienta de analítica o similar, primero actualizaremos esta política y te pediremos tu consentimiento cuando la ley lo exija.</p>
       <h3>Do Not Track</h3>
       <p>No te hacemos seguimiento a lo largo del tiempo ni a través de otros sitios web o servicios en línea, y no permitimos que otras empresas recopilen datos personales sobre tus actividades en línea a lo largo del tiempo y en distintos sitios web cuando usas nuestro sitio web. Por este motivo, no respondemos de forma distinta a las señales «Do Not Track» o Global Privacy Control: tanto si tu navegador envía una como si no, no se produce ningún seguimiento de este tipo.</p>` },
-      { id: "providers", en: 'd1e5f9ee7560', h2: "4. Proveedores de servicios que tratan datos por nuestra cuenta", html: `
+      { id: "providers", en: 'fafc78189849', h2: "4. Proveedores de servicios que tratan datos por nuestra cuenta", html: `
       <p>Para gestionar el sitio web y nuestro soporte, usamos los siguientes proveedores de servicios. Cada uno trata los datos solo para prestar su servicio.</p>
       <h3>GitHub, Inc. (Estados Unidos), con su proveedor de red Fastly, Inc.</h3>
       <p>Aloja las páginas del sitio web. GitHub también registra las direcciones IP de los visitantes para sus propios fines de seguridad, conforme a su propia declaración de privacidad. <em>Datos:</em> la dirección IP y los datos técnicos de tu visita.</p>
@@ -629,8 +622,8 @@ export const LEGAL_I18N = Object.freeze({
       <p>Aloja la base de datos de nuestro servidor. Para el sitio web internacional, contiene los registros de precios descritos en la sección 2, que no contienen datos personales.</p>
       <h3>ImprovMX Incorporated (Estados Unidos)</h3>
       <p>Recibe los correos enviados a support@magicesim.store y los reenvía a nuestro buzón. Conserva los registros de entrega durante 7 días y guarda el contenido del mensaje solo hasta que se entrega. <em>Datos:</em> tu dirección de correo electrónico, los encabezados del mensaje y el contenido del mensaje en tránsito.</p>
-      <h3>Nuestros proveedores de servicios de correo electrónico</h3>
-      <p>Nuestro buzón de soporte está alojado en un proveedor de servicios de correo electrónico, y nuestras respuestas se envían a través de Proton AG, Suiza. <em>Datos:</em> tu dirección de correo electrónico y los mensajes intercambiados con nosotros.</p>
+      <h3>Proton AG (Suiza)</h3>
+      <p>Aloja nuestro buzón de soporte y envía nuestras respuestas. <em>Datos tratados:</em> tu dirección de correo electrónico, los encabezados de los mensajes, el contenido de los mensajes y cualquier archivo adjunto. Usamos este servicio para recibir, almacenar y responder a las consultas de soporte.</p>
       <p>También podemos comunicar datos cuando la ley lo exija, o cuando sea necesario para formular o defender reclamaciones legales.</p>` },
       { id: "international", en: '32cf48f5d480', h2: "5. Tratamiento internacional de datos", html: `
       <p>Estamos establecidos en Georgia, pero nuestros proveedores de servicios son empresas internacionales. Por ello, tus datos pueden tratarse fuera de Georgia, principalmente en Estados Unidos, el Espacio Económico Europeo y Suiza, y en otros países donde operan estos proveedores o sus propios proveedores.</p>
