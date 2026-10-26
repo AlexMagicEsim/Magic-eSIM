@@ -1,7 +1,8 @@
 // The English Privacy Policy of the international website — PRE-LAUNCH version (LEGAL-1; 0.9.2 = LEGAL-4: name and
 // address optional, the checkout section names the consent boxes and says what stays in the browser; 0.9.3 = the
 // geography of processing simplified: no server locations, the transfer destinations once in section 5, only the
-// safeguards confirmed from the providers' own publications).
+// safeguards confirmed from the providers' own publications; 0.9.4 = LEGAL-5, 2026-10-26: the database host named, and a
+// separate section on what will change only when online purchases open — kept apart from what happens today).
 //
 // ONE source for /en/privacy/ (built by seo/build-locale-pages.mjs for English only). The text is the owner-approved
 // LEGAL-0 final edition «01 Privacy Policy — pre-launch (EN)», with the support-mail route stated only as far as public
@@ -12,9 +13,9 @@
 // Written for the page: plain HTML fragments, English typography (curly quotes, en dashes), no tables — every
 // list reads on a 320 px phone without horizontal scrolling.
 
-export const PRIVACY_VERSION = '0.9.3 (pre-launch)';
-export const PRIVACY_EFFECTIVE = '24 October 2026';
-export const PRIVACY_EFFECTIVE_ISO = '2026-10-24';
+export const PRIVACY_VERSION = '0.9.4 (pre-launch)';
+export const PRIVACY_EFFECTIVE = '26 October 2026';
+export const PRIVACY_EFFECTIVE_ISO = '2026-10-26';
 
 export const PRIVACY = Object.freeze({
   title: 'Privacy Policy — Magic eSIM',
@@ -88,6 +89,8 @@ export const PRIVACY = Object.freeze({
       <p>Hosts the website’s pages. GitHub also logs visitors’ IP addresses for its own security purposes, under its own privacy statement. <em>Data:</em> IP address and technical data of your visit.</p>
       <h3>Render Services, Inc. (United States), with its network provider Cloudflare, Inc.</h3>
       <p>Runs the server that supplies plan lists and prices to the website. <em>Data:</em> IP address, technical data, and the plan and number of days you ask a price for.</p>
+      <h3>Supabase, Inc. (United States)</h3>
+      <p>Hosts the database of our server. For the international website it holds the price records described in section 2, which contain no personal data.</p>
       <h3>ImprovMX Incorporated (United States)</h3>
       <p>Receives emails sent to support@magicesim.store and forwards them to our mailbox. It keeps delivery logs for 7 days and holds the message content only until it is delivered. <em>Data:</em> your email address, the message headers and the message content in transit.</p>
       <h3>Our email service providers</h3>
@@ -145,10 +148,22 @@ export const PRIVACY = Object.freeze({
     },
     {
       id: 'changes', h2: '10. Changes to this policy', html: `
-      <p>When we change this policy, we publish the new version on this page with its effective date. Before online purchases open on the international website, we will publish a new version that covers orders and payments.</p>`,
+      <p>When we change this policy, we publish the new version on this page with its effective date. Every version is also kept unchanged at its own permanent address, linked at the top of this page. Before online purchases open on the international website, we will publish a new version that covers orders and payments (section 11).</p>`,
     },
     {
-      id: 'contact', h2: '11. Contact', html: `
+      id: 'when-purchases-open', h2: '11. When online purchases open', html: `
+      <p>This section describes processing that does <strong>not</strong> take place today. It will begin only when online purchases open on the international website, and only after we publish the new version of this policy that describes it in full.</p>
+      <ul class="list">
+        <li><strong>Your order:</strong> your email address, the plan, the price and the language of the page, to deliver the eSIM and to answer questions about the order.</li>
+        <li><strong>Your checkout statements:</strong> the versions of the Terms of Service and the Refund Policy you accepted, the statements you made at checkout and the time we received them.</li>
+        <li><strong>Payment:</strong> a payment service will process your payment. We will name it, and say what it receives, before it is used. We will not receive or store your full card number or security code.</li>
+        <li><strong>Delivery:</strong> the eSIM is sent to your email address through an email delivery service, which we will name.</li>
+        <li><strong>eSIM service providers:</strong> to issue your eSIM we will send our eSIM service provider our order reference and the plan, not your name or email address.</li>
+      </ul>
+      <p>Retention periods for order records will be stated in that version.</p>`,
+    },
+    {
+      id: 'contact', h2: '12. Contact', html: `
       <p>Individual Entrepreneur ALEKSANDR KHARIN (Magic eSIM), Georgia<br>
       <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>`,
     },

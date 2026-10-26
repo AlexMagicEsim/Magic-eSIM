@@ -36,20 +36,23 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>« <strong>Nous</strong> », « <strong>notre</strong> » et « <strong>nos</strong> » désignent le vendeur nommé ci-dessus. « <strong>Vous</strong> » désigne la personne qui utilise le Site ou achète un forfait.</p>
       <p>Si nous commençons à vendre via un intermédiaire de paiement agissant en qualité de vendeur en titre, les présentes Conditions seront mises à jour avant le début de ces ventes et nommeront cet intermédiaire.</p>` },
-      { id: "what-we-sell", en: '8292830e4b77', h2: "2. Ce que nous vendons", html: `
+      { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Ce que nous vendons", html: `
       <p>2.1. <strong>Forfaits de données eSIM prépayés pour les voyages.</strong></p>
       <ul class="list">
-        <li>Nous vendons des forfaits de données mobiles prépayés destinés à être utilisés à l’étranger, fournis sous la forme d’un profil eSIM — une carte SIM numérique que vous installez sur un téléphone ou une tablette compatible.</li>
+        <li>Nous vendons des packs de données mobiles prépayés destinés à être utilisés à l’étranger, fournis sous la forme d’un profil eSIM — une carte SIM numérique que vous installez sur un téléphone ou une tablette compatible.</li>
+        <li>Chaque achat correspond à un <strong>paiement unique pour un seul pack</strong>. Il ne s’agit pas d’un abonnement et il ne se renouvelle pas automatiquement. Nous ne vous facturons de nouveau que si vous passez une nouvelle commande.</li>
         <li>Avant votre achat, la fiche produit de chaque forfait indique :
           <ul class="list">
           <li>les destinations couvertes ;</li>
           <li>le volume de données, ou le volume quotidien pour les forfaits journaliers ;</li>
           <li>la durée de validité, ou le nombre de jours que vous choisissez ;</li>
-          <li>la génération de réseau ;</li>
+          <li>la génération de réseau, lorsque notre fournisseur de services eSIM l’indique ;</li>
           <li>le prix en USD ;</li>
-          <li>lorsque notre fournisseur de services eSIM les indique, le moment où commence la durée de validité et toute limite d’utilisation raisonnable ou de débit.</li>
+          <li>pour les forfaits journaliers, le débit une fois le volume à haut débit du jour épuisé, lorsque notre fournisseur de services eSIM l’indique ;</li>
+          <li>le moment où commence la durée de validité, lorsque notre fournisseur de services eSIM l’indique.</li>
           </ul>
         </li>
+        <li>Avant que vous ne payiez, la page de commande rappelle les principales conditions du forfait, y compris le moment où commence la durée de validité ou le fait que notre fournisseur de services eSIM ne l’indique pas, ainsi que le délai d’activation de l’eSIM (section 8.4).</li>
       </ul>
       <p>2.2. <strong>Données uniquement.</strong> Les forfaits fournissent des données mobiles. Ils n’incluent ni numéro de téléphone, ni appels vocaux, ni SMS, sauf si la fiche produit l’indique. <strong>Un forfait ne peut pas être utilisé pour appeler les services d’urgence.</strong></p>
       <p>2.3. <strong>Nous sommes un revendeur, et non un opérateur de réseau mobile.</strong></p>
@@ -95,7 +98,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Nos guides expliquent comment le vérifier.</p>
       <p>4.2. Veuillez vérifier la compatibilité avant d’acheter ; vous la confirmez lors de la commande. En cas de doute, contactez-nous d’abord. Si l’appareil n’est pas compatible, le forfait ne peut pas fonctionner. La Politique de remboursement explique ce qui se passe alors.</p>` },
-      { id: "how-to-order", en: '80e28d0df4f0', h2: "5. Comment commander", html: `
+      { id: "how-to-order", en: '7545360f2162', h2: "5. Comment commander", html: `
       <p>5.1. <strong>Étapes de la commande :</strong></p>
       <ol class="list">
         <li>Choisissez un forfait et, pour les forfaits journaliers, le nombre de jours.</li>
@@ -128,7 +131,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>l’eSIM ;</li>
         <li>les principales conditions du forfait ;</li>
         <li>les déclarations que vous avez faites lors de la commande ;</li>
-        <li>des liens vers les versions des présentes Conditions, de la Politique de remboursement et de la Politique de confidentialité en vigueur le jour de votre commande.</li>
+        <li>des liens vers les copies permanentes des versions des présentes Conditions, de la Politique de remboursement et de la Politique de confidentialité en vigueur le jour de votre commande (section 15).</li>
       </ul>
       <p>5.6. <strong>Langue.</strong></p>
       <ul class="list">
@@ -136,10 +139,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>Nous publions également les présentes Conditions, la Politique de remboursement et la Politique de confidentialité en espagnol, en allemand, en français, en chinois simplifié et en coréen pour votre commodité. En cas de divergence entre une traduction et la version anglaise, la version anglaise prévaut, sauf si la loi impérative qui vous est applicable en dispose autrement.</li>
         <li>Cela ne limite pas vos droits légaux de consommateur, y compris toute règle de cette loi selon laquelle une clause peu claire est interprétée en votre faveur.</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'f9d57bb65346', h2: "6. Prix et paiement", html: `
+      { id: "prices-and-payment", en: 'db75c6116e50', h2: "6. Prix et paiement", html: `
       <p>6.1. <strong>Prix.</strong></p>
       <ul class="list">
         <li>Les prix des forfaits sont indiqués en dollars américains. Ils incluent l’ensemble de nos frais ; nous n’ajoutons aucuns frais qui nous soient propres.</li>
+        <li>Vous payez une seule fois pour chaque commande. Il n’y a ni abonnement, ni prélèvement récurrent, ni renouvellement automatique.</li>
         <li>Les paiements internationaux sont actuellement indisponibles. Lorsque la commande internationale sera disponible, les taxes applicables pourront être calculées et ajoutées lors de la commande. Le montant total à payer, taxes applicables comprises, sera affiché avant que vous ne confirmiez le paiement.</li>
       </ul>
       <p>6.2. <strong>Paiement.</strong></p>
@@ -168,22 +172,24 @@ export const LEGAL_I18N = Object.freeze({
         <li>Sur demande, nous renvoyons l’eSIM à l’adresse utilisée pour la commande.</li>
       </ul>
       <p>7.4. <strong>Gardez l’eSIM confidentielle.</strong> Le code QR et les informations d’installation donnent accès à votre forfait. Ne les partagez pas.</p>` },
-      { id: "installation-activation-and-validity", en: '1b799091663f', h2: "8. Installation, activation et validité", html: `
+      { id: "installation-activation-and-validity", en: '4af61855eb4a', h2: "8. Installation, activation et validité", html: `
       <p>8.1. Installez l’eSIM en suivant les instructions. Vous avez besoin d’une connexion Internet, par exemple en Wi-Fi.</p>
       <p>8.2. <strong>Un seul appareil ; ne la supprimez pas.</strong></p>
       <ul class="list">
         <li>Une eSIM ne peut normalement être installée qu’une seule fois et sur un seul appareil. Elle ne peut pas être transférée sur un autre appareil.</li>
         <li><strong>Ne supprimez pas une eSIM installée.</strong> Une eSIM supprimée ne peut généralement pas être restaurée.</li>
       </ul>
-      <p>8.3. <strong>Début de la validité.</strong></p>
+      <p>8.3. <strong>Début de la validité et décompte des jours.</strong></p>
       <ul class="list">
-        <li>La durée de validité commence au moment indiqué sur la fiche produit. Selon le forfait, il s’agit de l’installation, de la première connexion à un réseau dans votre destination ou de l’achat.</li>
-        <li>Si la fiche ne l’indique pas, posez-nous la question avant l’installation.</li>
+        <li>Le moment où commence la durée de validité est fixé par notre fournisseur de services eSIM pour chaque forfait. Selon le forfait, il s’agit de l’installation de l’eSIM, de sa première connexion à un réseau, de sa première utilisation de données ou de l’achat.</li>
+        <li>Lorsque notre fournisseur de services eSIM l’indique, la fiche produit le mentionne. Dans le cas contraire, la page de commande le signale avant que vous ne payiez ; veuillez nous poser la question avant d’installer l’eSIM.</li>
+        <li>Pour les forfaits journaliers, l’opérateur de réseau ou notre fournisseur de services eSIM détermine la manière dont une journée est décomptée : selon le forfait, il s’agit soit de 24 heures à compter de la première connexion, soit d’une journée calendaire qui se termine à minuit dans le fuseau horaire de l’opérateur. Nous ne pouvons pas toujours vous indiquer à l’avance laquelle de ces règles s’applique ; le volume quotidien peut donc se renouveler à une autre heure de la journée que celle de votre première connexion.</li>
       </ul>
       <p>8.4. <strong>Délai d’activation.</strong></p>
       <ul class="list">
-        <li>Un forfait qui n’est jamais activé expire à la fin du délai d’activation fixé par notre fournisseur de services eSIM.</li>
-        <li>La fiche produit ou notre service d’assistance vous indique le délai applicable à votre forfait.</li>
+        <li>Notre fournisseur de services eSIM fixe un délai dans lequel une eSIM doit être installée ou activée. Une eSIM qui n’est pas activée dans ce délai expire sans avoir été utilisée.</li>
+        <li>Ce délai varie selon les forfaits et peut être court — pour certains forfaits, environ un mois après l’achat. Nos fiches produit ne l’indiquent pas actuellement, et la page de commande le signale avant que vous ne payiez.</li>
+        <li>Si vous n’avez pas l’intention d’installer l’eSIM peu après l’avoir achetée, demandez-nous le délai applicable à votre forfait avant de payer.</li>
       </ul>
       <p>8.5. <strong>Fin du forfait.</strong></p>
       <ul class="list">
@@ -265,11 +271,12 @@ export const LEGAL_I18N = Object.freeze({
       <p>Nous vous en indiquons la raison, sauf si la loi l’interdit.</p>` },
       { id: "intellectual-property", en: '2a80c620ec4d', h2: "14. Propriété intellectuelle", html: `
       <p>Le Site, son contenu ainsi que le nom et le logo Magic eSIM nous appartiennent ou appartiennent à nos concédants de licence. Vous ne pouvez utiliser le Site que pour vous informer sur les forfaits et en acheter pour vous-même.</p>` },
-      { id: "changes-to-these-terms", en: '702eec3fd802', h2: "15. Modifications des présentes Conditions", html: `
+      { id: "changes-to-these-terms", en: '55245997e8f9', h2: "15. Modifications des présentes Conditions", html: `
       <ul class="list">
         <li>Nous pouvons modifier les présentes Conditions pour les commandes futures.</li>
         <li><strong>Votre commande est régie par la version que vous avez acceptée lors de la commande.</strong></li>
-        <li>La version en vigueur et sa date d’entrée en vigueur figurent toujours sur cette page. Les versions antérieures sont disponibles sur demande.</li>
+        <li>La version en vigueur et sa date d’entrée en vigueur figurent toujours sur cette page.</li>
+        <li>Chaque version des présentes Conditions, de la Politique de remboursement et de la Politique de confidentialité est conservée sans modification à sa propre adresse permanente, accessible par un lien en haut de chaque document — par exemple, magicesim.store/en/terms/v0.9.2/ — afin que vous puissiez enregistrer ou imprimer la version que vous avez acceptée. La liste de toutes les versions se trouve à l’adresse magicesim.store/en/legal-versions.json. Vous pouvez également nous en demander une copie.</li>
       </ul>` },
       { id: "governing-law-and-disputes", en: '0c6eb224ed4e', h2: "16. Droit applicable et litiges", html: `
       <p>16.1. <strong>Droit applicable.</strong></p>
@@ -326,7 +333,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>si nous avons <strong>livré un forfait différent</strong> de celui que vous avez payé et que vous ne souhaitez pas recevoir le bon forfait à la place ;</li>
         <li>si <strong>nous annulons</strong> votre commande (Conditions d’utilisation, section 13).</li>
       </ul>` },
-      { id: "technical-faults", en: '34d579c0c772', h2: "3. Défauts techniques", html: `
+      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Défauts techniques", html: `
       <p>3.1. <strong>Quand cette section s’applique.</strong> Elle s’applique lorsque toutes les conditions suivantes sont réunies :</p>
       <ul class="list">
         <li>l’eSIM ne peut pas être installée, ne se connecte pas ou ne fournit pas de données comme décrit sur sa fiche produit ;</li>
@@ -369,13 +376,14 @@ export const LEGAL_I18N = Object.freeze({
           </ul>
         </li>
       </ul>
-      <p>(c) <strong>Forfaits illimités pour une durée déterminée.</strong></p>
+      <p>(c) <strong>Forfaits illimités pour une durée déterminée</strong> — forfaits sans volume de données, ni total ni quotidien. Un forfait comportant un volume quotidien à haut débit est un forfait journalier, et le point (b) s’y applique.</p>
       <blockquote>
         <p><strong>Remboursement = Montant payé × (Validité restante ÷ Validité totale)</strong></p>
       </blockquote>
       <ul class="list">
-        <li>La validité restante correspond à la période allant de votre signalement à la fin du forfait.</li>
-        <li>Elle est comptée en jours entiers. Un jour commencé compte comme utilisé.</li>
+        <li>La validité restante correspond au temps compris entre votre signalement et la fin de la durée de validité du forfait.</li>
+        <li>Elle est comptée en heures, et une heure commencée compte comme restante. Un jour commencé n’est pas compté comme utilisé : seul le temps effectivement écoulé l’est.</li>
+        <li>La fin de la durée de validité est déterminée d’après le relevé de notre fournisseur de services eSIM pour votre eSIM. Si le relevé ne l’indique pas, nous la calculons à partir du début de la validité et de la durée de validité indiquée sur la fiche produit.</li>
       </ul>
       <p>(d) <strong>La validité n’a pas commencé.</strong></p>
       <ul class="list">
@@ -400,6 +408,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>L’absence de relevé n’est pas considérée comme la preuve qu’aucune donnée n’a été utilisée.</li>
         <li>Si l’utilisation ne peut toujours pas être établie, nous décidons au cas par cas et respectons toujours vos droits légaux.</li>
       </ul>
+      <p>(g) <strong>Ce que montrent les relevés.</strong></p>
+      <ul class="list">
+        <li>Nos fournisseurs de services eSIM communiquent le total des données utilisées sur une eSIM et, lorsqu’ils les communiquent, le moment où le forfait a été installé ou activé et celui où il prend fin. Ils ne communiquent pas les données utilisées chaque jour.</li>
+        <li>Leurs relevés de consommation ne sont pas mis à jour en temps réel et peuvent avoir quelques heures de retard.</li>
+        <li>Lorsqu’un calcul prévu par cette section dépend de l’utilisation au cours d’un jour donné, nous nous fondons sur ces relevés, sur les informations que vous nous envoyez et sur les démarches prévues à la section 3.3 ; si cette utilisation ne peut toujours pas être établie, le point (f) s’applique.</li>
+      </ul>
       <p><strong>Moyen de paiement et droits légaux.</strong></p>
       <ul class="list">
         <li>Les remboursements au titre de cette section sont versés uniquement sur le moyen de paiement d’origine (section 6).</li>
@@ -419,7 +433,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Pour les autres données utilisées après votre signalement, nous déduisons : pour les forfaits à volume de données fixe, les données utilisées ; pour les forfaits journaliers, la part utilisée du volume de chaque jour supplémentaire ; pour les forfaits illimités, chaque jour supplémentaire au cours duquel des données ont été utilisées.</li>
         <li>Le remboursement final correspond au montant calculé conformément à la section 3.4, diminué de toute déduction de ce type.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '323fc40c6552', h2: "4. Vos droits légaux", html: `
+      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Vos droits légaux", html: `
       <p>4.1. <strong>Les droits légaux s’appliquent.</strong></p>
       <ul class="list">
         <li>Selon votre lieu de résidence et le droit applicable à votre achat, vous pouvez disposer de droits qui s’ajoutent à ceux des sections 2 et 3. C’est le cas, par exemple, du droit de la Géorgie, d’un pays de l’Union européenne ou du Royaume-Uni, de l’Australian Consumer Law et du Consumer Guarantees Act 1993 de Nouvelle-Zélande.</li>
@@ -443,7 +457,7 @@ export const LEGAL_I18N = Object.freeze({
           <ul class="list">
           <li>forfaits à volume de données fixe — au prorata des données utilisées ;</li>
           <li>forfaits journaliers — au prorata des jours utilisés, le jour de votre notification étant compté selon la part du volume de ce jour que vous avez utilisée ;</li>
-          <li>forfaits illimités — au prorata de la durée de validité écoulée ;</li>
+          <li>forfaits illimités — au prorata du temps de validité écoulé jusqu’à votre notification, compté en heures comme à la section 3.4(c), de sorte qu’un jour commencé n’est pas compté comme entièrement fourni ;</li>
           </ul>
         </li>
         <li>lorsque la loi exige un remboursement intégral, par exemple parce que nous ne vous avons pas correctement informé, nous remboursons intégralement ;</li>
@@ -594,12 +608,14 @@ export const LEGAL_I18N = Object.freeze({
       <p>Ces valeurs servent uniquement à afficher le site comme vous l’avez demandé ; elles ne nous sont pas envoyées. Si nous ajoutons un jour un outil d’analyse ou un outil similaire, nous mettrons d’abord à jour cette politique et vous demanderons votre consentement lorsque la loi l’exige.</p>
       <h3>Do Not Track</h3>
       <p>Nous ne vous suivons pas dans le temps ni sur d’autres sites web ou services en ligne, et nous ne permettons pas à d’autres entreprises de collecter des données personnelles sur vos activités en ligne dans le temps et sur différents sites web lorsque vous utilisez notre site. C’est pourquoi nous ne réagissons pas différemment aux signaux « Do Not Track » ou Global Privacy Control : que votre navigateur en envoie un ou non, aucun suivi de ce type n’a lieu.</p>` },
-      { id: "providers", en: 'd2f467ca84f4', h2: "4. Prestataires de services qui traitent des données pour notre compte", html: `
+      { id: "providers", en: 'd1e5f9ee7560', h2: "4. Prestataires de services qui traitent des données pour notre compte", html: `
       <p>Pour faire fonctionner le site et notre assistance, nous faisons appel aux prestataires de services suivants. Chacun traite les données uniquement pour fournir son service.</p>
       <h3>GitHub, Inc. (États-Unis), avec son fournisseur de réseau Fastly, Inc.</h3>
       <p>Héberge les pages du site. GitHub enregistre également les adresses IP des visiteurs à ses propres fins de sécurité, conformément à sa propre déclaration de confidentialité. <em>Données :</em> adresse IP et données techniques de votre visite.</p>
       <h3>Render Services, Inc. (États-Unis), avec son fournisseur de réseau Cloudflare, Inc.</h3>
       <p>Exploite le serveur qui fournit au site les listes de forfaits et les prix. <em>Données :</em> adresse IP, données techniques, ainsi que le forfait et le nombre de jours pour lesquels vous demandez un prix.</p>
+      <h3>Supabase, Inc. (États-Unis)</h3>
+      <p>Héberge la base de données de notre serveur. Pour le site international, elle conserve les enregistrements de prix décrits à la section 2, qui ne contiennent aucune donnée personnelle.</p>
       <h3>ImprovMX Incorporated (États-Unis)</h3>
       <p>Reçoit les e-mails envoyés à support@magicesim.store et les transfère vers notre boîte aux lettres. Il conserve les journaux de distribution pendant 7 jours et ne conserve le contenu des messages que jusqu’à leur distribution. <em>Données :</em> votre adresse e-mail, les en-têtes du message et le contenu du message en transit.</p>
       <h3>Nos fournisseurs de messagerie électronique</h3>
@@ -644,9 +660,19 @@ export const LEGAL_I18N = Object.freeze({
       <p>Nous utilisons des connexions chiffrées (HTTPS), limitons l’accès aux personnes qui en ont besoin et ne collectons pas de données de paiement. Aucune méthode de transmission ou de stockage n’est totalement sûre.</p>` },
       { id: "children", en: '6cfc85bd8d20', h2: "9. Enfants", html: `
       <p>Le site international n’est pas destiné aux personnes de moins de 18 ans. Nous ne collectons pas sciemment de données personnelles auprès d’enfants ; si nous apprenons que cela s’est produit, nous les supprimons.</p>` },
-      { id: "changes", en: '472d6f00e6c9', h2: "10. Modifications de cette politique", html: `
-      <p>Lorsque nous modifions cette politique, nous publions la nouvelle version sur cette page avec sa date d’entrée en vigueur. Avant l’ouverture des achats en ligne sur le site international, nous publierons une nouvelle version couvrant les commandes et les paiements.</p>` },
-      { id: "contact", en: '785290db303c', h2: "11. Contact", html: `
+      { id: "changes", en: 'bd9370a2c4be', h2: "10. Modifications de cette politique", html: `
+      <p>Lorsque nous modifions cette politique, nous publions la nouvelle version sur cette page avec sa date d’entrée en vigueur. Chaque version est également conservée sans modification à sa propre adresse permanente, accessible par un lien en haut de cette page. Avant l’ouverture des achats en ligne sur le site international, nous publierons une nouvelle version couvrant les commandes et les paiements (section 11).</p>` },
+      { id: "when-purchases-open", en: '5d8f8d657816', h2: "11. À l’ouverture des achats en ligne", html: `
+      <p>Cette section décrit des traitements qui <strong>n’ont pas</strong> lieu aujourd’hui. Ils ne commenceront qu’à l’ouverture des achats en ligne sur le site international, et seulement après que nous aurons publié la nouvelle version de cette politique qui les décrit intégralement.</p>
+      <ul class="list">
+        <li><strong>Votre commande :</strong> votre adresse e-mail, le forfait, le prix et la langue de la page, afin de livrer l’eSIM et de répondre aux questions concernant la commande.</li>
+        <li><strong>Vos déclarations lors de la commande :</strong> les versions des Conditions d’utilisation et de la Politique de remboursement que vous avez acceptées, les déclarations que vous avez faites lors de la commande et le moment où nous les avons reçues.</li>
+        <li><strong>Paiement :</strong> un service de paiement traitera votre paiement. Nous le nommerons, et préciserons ce qu’il reçoit, avant qu’il ne soit utilisé. Nous ne recevrons ni ne conserverons le numéro complet de votre carte ni son code de sécurité.</li>
+        <li><strong>Livraison :</strong> l’eSIM est envoyée à votre adresse e-mail par l’intermédiaire d’un service d’envoi d’e-mails, que nous nommerons.</li>
+        <li><strong>Fournisseurs de services eSIM :</strong> pour émettre votre eSIM, nous transmettrons à notre fournisseur de services eSIM notre référence de commande et le forfait, et non votre nom ni votre adresse e-mail.</li>
+      </ul>
+      <p>Les durées de conservation des données de commande seront indiquées dans cette version.</p>` },
+      { id: "contact", en: '41f0a683dbb8', h2: "12. Contact", html: `
       <p>Entrepreneur individuel ALEKSANDR KHARIN (Magic eSIM), Géorgie<br>
       <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],

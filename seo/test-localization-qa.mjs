@@ -26,12 +26,12 @@ const { merge, markdown, CATEGORIES, SEVERITIES } = await imp('scripts/merge.mjs
 
 const ES = await extract('es');
 
-test('extract: 524 Spanish strings beside their English source — unique ids, none missing, every group', () => {
-  assert.equal(ES.items.length, 524); // − 1 country (ZW withdrawn by the provider, 2026-10-26); + 8 words of LEGAL-3 (the consents, footer.refund); + 1 country (VI, 2026-10-25)
+test('extract: 533 Spanish strings beside their English source — unique ids, none missing, every group', () => {
+  assert.equal(ES.items.length, 533); // − 1 country (ZW withdrawn by the provider, 2026-10-26); + 8 words of LEGAL-3 (the consents, footer.refund); + 1 country (VI, 2026-10-25); + 9 words of LEGAL-5 (start of validity, activation deadline)
   assert.equal(new Set(ES.items.map((i) => i.id)).size, ES.items.length);
   assert.deepEqual(ES.items.filter((i) => i.target == null || i.target === ''), []);
   const by = {}; for (const i of ES.items) by[i.group] = (by[i.group] || 0) + 1;
-  assert.deepEqual(by, { ui: 141, page: 54, daily: 20, 'guide-iphone': 24, 'guide-android': 20, 'guide-compatibility': 20,
+  assert.deepEqual(by, { ui: 150, page: 54, daily: 20, 'guide-iphone': 24, 'guide-android': 20, 'guide-compatibility': 20,
     'guide-activation': 22, 'guide-troubleshooting': 20, 404: 5, countries: 198 });
   const nav = ES.items.find((i) => i.id === 'ui:nav.destinations');
   assert.equal(nav.en, 'Destinations'); assert.equal(nav.target, 'Destinos');
@@ -92,7 +92,7 @@ test('batch: groups packed up to --max (split when larger), the country names al
     assert.equal(b.reduce((n, x) => n + x.items.length, 0), ES.items.length);
     assert.equal(new Set(b.flatMap((x) => x.items.map((i) => i.id))).size, ES.items.length);
   }
-  assert.equal(plan(ES.items, 110).length, 4, 'four batches a stage at --max 110');
+  assert.equal(plan(ES.items, 110).length, 5, 'five batches a stage at --max 110 (the ui group, 150 strings since LEGAL-5, splits in two)');
 });
 
 test('merge: the arbiter\'s decisions become a change log — EN, old, new, reason, every stage\'s evidence, landed or not', () => {

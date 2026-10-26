@@ -70,13 +70,19 @@ test('it names the seller, the privacy contact and an effective date', () => {
 });
 
 test('it describes only what runs today: purchases are not available; no order, payment or eSIM delivery flow', () => {
-  const t = text(main);
+  // LEGAL-5: section 11 describes, apart and marked as such, what will change only when purchases open; everything else
+  // describes today. The «today» checks below read the policy WITHOUT that section.
+  const later = main.slice(main.indexOf('id="when-purchases-open"'), main.indexOf('id="contact"'));
+  assert.ok(later.length > 0, 'section 11 exists');
+  assert.match(text(later), /This section describes processing that does not take place today\. It will begin only when online purchases open/);
+  assert.doesNotMatch(text(later), /\b([A-Z][A-Za-z]+),?\s(?:Inc\.|Incorporated|AG|Ltd|LLC|Pte\.)/, 'section 11 names no future provider');
+  const t = text(main.replace(later, ''));
   assert.match(t, /Online purchases are not yet available on the international website\./);
   // No payment provider, no order database, no email delivery service and no eSIM service provider is described as in use.
   // The only companies the pre-launch policy may name are the ones that process data today (a closed allowlist):
   // a new name — of any provider — fails here until the policy is deliberately extended.
   const named = new Set([...t.matchAll(/\b([A-Z][A-Za-z]+(?:\s[A-Z][A-Za-z]+)?),?\s(?:Inc\.|Incorporated|AG|Ltd|LLC|Pte\.)/g)].map((m) => m[1]));
-  assert.deepEqual([...named].sort(), ['Cloudflare', 'Fastly', 'GitHub', 'ImprovMX', 'Proton', 'Render Services'].sort());
+  assert.deepEqual([...named].sort(), ['Cloudflare', 'Fastly', 'GitHub', 'ImprovMX', 'Proton', 'Render Services', 'Supabase'].sort());
   assert.doesNotMatch(t, /eSIM (service )?providers?|wholesale|connectivity partner/i, 'the pre-launch policy describes no eSIM supply');
   assert.doesNotMatch(t, /your order (is|was|has been)|we (deliver|send) (your|the) eSIM/i);
   assert.doesNotMatch(t, /\bcookies? (we|are) (set|use)/i);

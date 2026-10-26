@@ -36,20 +36,23 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>«<strong>Nosotros</strong>», «<strong>nos</strong>» y «<strong>nuestro</strong>» se refieren al vendedor indicado arriba. «<strong>Tú</strong>» se refiere a la persona que usa el Sitio web o compra un plan.</p>
       <p>Si empezamos a vender a través de un intermediario de pagos que actúe como vendedor a efectos legales (seller of record), estos Términos se actualizarán antes de que comiencen esas ventas e indicarán el nombre de ese intermediario.</p>` },
-      { id: "what-we-sell", en: '8292830e4b77', h2: "2. Qué vendemos", html: `
+      { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Qué vendemos", html: `
       <p>2.1. <strong>Planes de datos eSIM prepago para viajes.</strong></p>
       <ul class="list">
-        <li>Vendemos planes de datos móviles prepago para usar en el extranjero, que se entregan como un perfil eSIM: una SIM digital que instalas en un teléfono o una tableta compatibles.</li>
+        <li>Vendemos paquetes de datos móviles prepago para usar en el extranjero, que se entregan como un perfil eSIM: una SIM digital que instalas en un teléfono o una tableta compatibles.</li>
+        <li>Cada compra es un <strong>pago único por un paquete</strong>. No es una suscripción y no se renueva automáticamente. Solo volvemos a cobrarte si haces un nuevo pedido.</li>
         <li>Antes de comprar, la ficha de producto de cada plan muestra:
           <ul class="list">
           <li>los destinos cubiertos;</li>
           <li>el volumen de datos o, en los planes diarios, el volumen diario;</li>
           <li>el período de validez o el número de días que elijas;</li>
-          <li>la generación de red;</li>
+          <li>la generación de red, cuando nuestro proveedor de servicios eSIM la indica;</li>
           <li>el precio en USD;</li>
-          <li>cuando nuestro proveedor de servicios eSIM los indica, el momento en que empieza el período de validez y cualquier límite de uso razonable o de velocidad.</li>
+          <li>en los planes diarios, la velocidad una vez agotado el volumen diario a alta velocidad, cuando nuestro proveedor de servicios eSIM la indica;</li>
+          <li>el momento en que empieza el período de validez, cuando nuestro proveedor de servicios eSIM lo indica.</li>
           </ul>
         </li>
+        <li>Antes de pagar, el proceso de pago vuelve a mostrar las condiciones principales del plan, incluido el momento en que empieza el período de validez o el hecho de que nuestro proveedor de servicios eSIM no lo indica, y el período para activar la eSIM (sección 8.4).</li>
       </ul>
       <p>2.2. <strong>Solo datos.</strong> Los planes ofrecen datos móviles. No incluyen número de teléfono, llamadas de voz ni SMS, salvo que la ficha de producto lo indique. <strong>Un plan no se puede usar para llamar a los servicios de emergencia.</strong></p>
       <p>2.3. <strong>Somos un revendedor, no un operador de red móvil.</strong></p>
@@ -95,7 +98,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Nuestras guías explican cómo comprobarlo.</p>
       <p>4.2. Comprueba la compatibilidad antes de comprar; la confirmas en el proceso de pago. Si no estás seguro, contáctanos antes. Si el dispositivo no es compatible, el plan no puede funcionar. La Política de reembolso explica qué ocurre en ese caso.</p>` },
-      { id: "how-to-order", en: '80e28d0df4f0', h2: "5. Cómo hacer un pedido", html: `
+      { id: "how-to-order", en: '7545360f2162', h2: "5. Cómo hacer un pedido", html: `
       <p>5.1. <strong>Pasos del pedido:</strong></p>
       <ol class="list">
         <li>Elige un plan y, en los planes diarios, el número de días.</li>
@@ -128,7 +131,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>la eSIM;</li>
         <li>las condiciones principales del plan;</li>
         <li>las declaraciones que hiciste en el proceso de pago;</li>
-        <li>enlaces a las versiones de estos Términos, de la Política de reembolso y de la Política de privacidad vigentes el día de tu pedido.</li>
+        <li>enlaces a las copias permanentes de las versiones de estos Términos, de la Política de reembolso y de la Política de privacidad vigentes el día de tu pedido (sección 15).</li>
       </ul>
       <p>5.6. <strong>Idioma.</strong></p>
       <ul class="list">
@@ -136,10 +139,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>Para tu comodidad, también publicamos estos Términos, la Política de reembolso y la Política de privacidad en español, alemán, francés, chino simplificado y coreano. Si una traducción y la versión en inglés difieren, se aplica la versión en inglés, salvo que la ley imperativa que te sea aplicable disponga otra cosa.</li>
         <li>Esto no limita tus derechos legales como consumidor, incluida cualquier norma de esa ley según la cual una cláusula poco clara se interpreta a tu favor.</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'f9d57bb65346', h2: "6. Precios y pago", html: `
+      { id: "prices-and-payment", en: 'db75c6116e50', h2: "6. Precios y pago", html: `
       <p>6.1. <strong>Precio.</strong></p>
       <ul class="list">
         <li>Los precios de los planes se muestran en dólares estadounidenses. Incluyen todos nuestros cargos; no añadimos comisiones propias.</li>
+        <li>Pagas una sola vez por cada pedido. No hay suscripción, cargo recurrente ni renovación automática.</li>
         <li>Los pagos internacionales no están disponibles por ahora. Cuando el pago internacional esté disponible, los impuestos aplicables podrán calcularse y añadirse en el proceso de pago. El importe total a pagar, incluidos los impuestos aplicables, se mostrará antes de que confirmes el pago.</li>
       </ul>
       <p>6.2. <strong>Pago.</strong></p>
@@ -168,22 +172,24 @@ export const LEGAL_I18N = Object.freeze({
         <li>Si lo solicitas, volvemos a enviar la eSIM a la dirección utilizada en el pedido.</li>
       </ul>
       <p>7.4. <strong>Mantén la eSIM en privado.</strong> El código QR y los datos de instalación dan acceso a tu plan. No los compartas.</p>` },
-      { id: "installation-activation-and-validity", en: '1b799091663f', h2: "8. Instalación, activación y validez", html: `
+      { id: "installation-activation-and-validity", en: '4af61855eb4a', h2: "8. Instalación, activación y validez", html: `
       <p>8.1. Instala la eSIM siguiendo las instrucciones. Necesitas una conexión a internet, por ejemplo Wi-Fi.</p>
       <p>8.2. <strong>Un solo dispositivo; no la elimines.</strong></p>
       <ul class="list">
         <li>Normalmente, una eSIM solo puede instalarse una vez y en un único dispositivo. No puede transferirse a otro dispositivo.</li>
         <li><strong>No elimines una eSIM instalada.</strong> Una eSIM eliminada normalmente no puede recuperarse.</li>
       </ul>
-      <p>8.3. <strong>Inicio de la validez.</strong></p>
+      <p>8.3. <strong>Inicio de la validez y cómo se cuentan los días.</strong></p>
       <ul class="list">
-        <li>El período de validez empieza en el momento indicado en la ficha de producto. Según el plan, ese momento es la instalación, la primera conexión a una red en tu destino o la compra.</li>
-        <li>Si la ficha no lo indica, pregúntanos antes de instalar.</li>
+        <li>El momento en que empieza el período de validez lo fija nuestro proveedor de servicios eSIM para cada plan. Según el plan, es la instalación de la eSIM, su primera conexión a una red, su primer uso de datos o la compra.</li>
+        <li>Cuando nuestro proveedor de servicios eSIM lo indica, la ficha de producto lo muestra. Cuando no lo indica, el proceso de pago lo advierte antes de que pagues; en ese caso, pregúntanos antes de instalar la eSIM.</li>
+        <li>En los planes diarios, el operador de red o nuestro proveedor de servicios eSIM fija cómo se cuenta un día: según el plan, son 24 horas desde la primera conexión o un día natural que termina a medianoche en la zona horaria del operador. No siempre podemos indicarte de antemano cuál se aplica, por lo que el volumen diario puede renovarse a una hora del día distinta de la de tu primera conexión.</li>
       </ul>
-      <p>8.4. <strong>Plazo de activación.</strong></p>
+      <p>8.4. <strong>Período de activación.</strong></p>
       <ul class="list">
-        <li>Un plan que nunca se activa caduca al final del período de activación fijado por nuestro proveedor de servicios eSIM.</li>
-        <li>La ficha de producto o nuestro equipo de soporte te indican el período de tu plan.</li>
+        <li>Nuestro proveedor de servicios eSIM fija un período dentro del cual una eSIM debe instalarse o activarse. Una eSIM que no se activa dentro de ese período caduca sin usarse.</li>
+        <li>El período varía de un plan a otro y puede ser corto: en algunos planes, aproximadamente un mes después de la compra. Por ahora nuestras fichas de producto no lo muestran, y el proceso de pago lo advierte antes de que pagues.</li>
+        <li>Si no piensas instalar la eSIM poco después de comprarla, pregúntanos el período de tu plan antes de pagar.</li>
       </ul>
       <p>8.5. <strong>Fin del plan.</strong></p>
       <ul class="list">
@@ -265,11 +271,12 @@ export const LEGAL_I18N = Object.freeze({
       <p>Te indicamos el motivo, salvo que la ley lo impida.</p>` },
       { id: "intellectual-property", en: '2a80c620ec4d', h2: "14. Propiedad intelectual", html: `
       <p>El Sitio web, su contenido y el nombre y el logotipo de Magic eSIM nos pertenecen a nosotros o a nuestros licenciantes. Solo puedes usar el Sitio web para informarte sobre los planes y comprarlos para ti.</p>` },
-      { id: "changes-to-these-terms", en: '702eec3fd802', h2: "15. Cambios en estos Términos", html: `
+      { id: "changes-to-these-terms", en: '55245997e8f9', h2: "15. Cambios en estos Términos", html: `
       <ul class="list">
         <li>Podemos modificar estos Términos para pedidos futuros.</li>
         <li><strong>Tu pedido se rige por la versión que aceptaste en el proceso de pago.</strong></li>
-        <li>La versión vigente y su fecha de entrada en vigor están siempre en esta página. Las versiones anteriores están disponibles si las solicitas.</li>
+        <li>La versión vigente y su fecha de entrada en vigor están siempre en esta página.</li>
+        <li>Cada versión de estos Términos, de la Política de reembolso y de la Política de privacidad se conserva sin cambios en su propia dirección permanente, enlazada en la parte superior de cada documento (por ejemplo, magicesim.store/en/terms/v0.9.2/), para que puedas guardar o imprimir la versión que aceptaste. La lista de todas las versiones está en magicesim.store/en/legal-versions.json. También puedes pedirnos una copia.</li>
       </ul>` },
       { id: "governing-law-and-disputes", en: '0c6eb224ed4e', h2: "16. Ley aplicable y controversias", html: `
       <p>16.1. <strong>Ley aplicable.</strong></p>
@@ -326,7 +333,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>si <strong>entregamos un plan distinto</strong> del que pagaste y no quieres recibir en su lugar el plan correcto;</li>
         <li>si <strong>cancelamos</strong> tu pedido (Términos del servicio, sección 13).</li>
       </ul>` },
-      { id: "technical-faults", en: '34d579c0c772', h2: "3. Fallos técnicos", html: `
+      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Fallos técnicos", html: `
       <p>3.1. <strong>Cuándo se aplica esta sección.</strong> Se aplica cuando se cumplen todas estas condiciones:</p>
       <ul class="list">
         <li>la eSIM no se puede instalar, no se conecta o no proporciona datos según lo descrito en su ficha de producto;</li>
@@ -369,13 +376,14 @@ export const LEGAL_I18N = Object.freeze({
           </ul>
         </li>
       </ul>
-      <p>(c) <strong>Planes ilimitados por un período determinado.</strong></p>
+      <p>(c) <strong>Planes ilimitados por un período determinado</strong>: planes sin volumen de datos, ni total ni diario. Un plan con un volumen diario a alta velocidad es un plan diario, y se le aplica el apartado (b).</p>
       <blockquote>
         <p><strong>Reembolso = Importe pagado × (Validez restante ÷ Validez total)</strong></p>
       </blockquote>
       <ul class="list">
-        <li>La validez restante es el período que va desde tu aviso hasta el final del plan.</li>
-        <li>Se cuenta en días completos. Un día que ya ha empezado cuenta como utilizado.</li>
+        <li>La validez restante es el tiempo que va desde tu aviso hasta el final del período de validez del plan.</li>
+        <li>Se cuenta en horas, y una hora que ya ha empezado cuenta como restante. Un día que ya ha empezado no cuenta como utilizado: solo cuenta el tiempo que realmente ha transcurrido.</li>
+        <li>El final del período de validez se toma del registro de nuestro proveedor de servicios eSIM para tu eSIM. Si el registro no lo muestra, lo calculamos a partir del inicio de la validez y del período de validez que figura en la ficha de producto.</li>
       </ul>
       <p>(d) <strong>La validez no ha empezado.</strong></p>
       <ul class="list">
@@ -400,6 +408,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>La falta de un registro no se considera prueba de que no se usaron datos.</li>
         <li>Si aun así no se puede determinar el uso, decidimos de forma individual y siempre respetamos tus derechos legales.</li>
       </ul>
+      <p>(g) <strong>Qué muestran los registros.</strong></p>
+      <ul class="list">
+        <li>Nuestros proveedores de servicios eSIM informan del total de datos usados en una eSIM y, cuando los informan, de cuándo se instaló o activó el plan y de cuándo termina. No informan de los datos usados cada día.</li>
+        <li>Sus registros de uso no se actualizan en tiempo real y pueden llevar unas horas de retraso.</li>
+        <li>Cuando un cálculo de esta sección depende del uso de un día concreto, usamos estos registros, la información que nos envíes y los pasos de la sección 3.3; si aun así no se puede determinar ese uso, se aplica el apartado (f).</li>
+      </ul>
       <p><strong>Método de pago y derechos legales.</strong></p>
       <ul class="list">
         <li>Los reembolsos conforme a esta sección se abonan únicamente al método de pago original (sección 6).</li>
@@ -419,7 +433,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Por otros datos usados después de tu aviso, descontamos: en los planes con un volumen de datos fijo, los datos usados; en los planes diarios, la parte usada del volumen de cada día adicional; en los planes ilimitados, cada día adicional en el que se usaron datos.</li>
         <li>El reembolso final es el importe calculado conforme a la sección 3.4, menos cualquier descuento de este tipo.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '323fc40c6552', h2: "4. Tus derechos legales", html: `
+      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Tus derechos legales", html: `
       <p>4.1. <strong>Se aplican los derechos legales.</strong></p>
       <ul class="list">
         <li>Según dónde vivas y qué ley se aplique a tu compra, puedes tener derechos además de los de las secciones 2 y 3. Algunos ejemplos son la ley de Georgia, la de un país de la Unión Europea o la del Reino Unido, la Australian Consumer Law y la Consumer Guarantees Act 1993 de Nueva Zelanda.</li>
@@ -443,7 +457,7 @@ export const LEGAL_I18N = Object.freeze({
           <ul class="list">
           <li>planes con un volumen de datos fijo: en proporción a los datos usados;</li>
           <li>planes diarios: en proporción a los días usados, contando el día de tu comunicación por la parte del volumen de ese día que usaste;</li>
-          <li>planes ilimitados: en proporción al período de validez transcurrido;</li>
+          <li>planes ilimitados: en proporción al tiempo de validez transcurrido hasta tu aviso, contado en horas como en la sección 3.4(c), de modo que un día que ya ha empezado no se considera prestado en su totalidad;</li>
           </ul>
         </li>
         <li>cuando la ley exija un reembolso íntegro, por ejemplo porque no te informamos debidamente, reembolsamos el importe íntegro;</li>
@@ -594,12 +608,14 @@ export const LEGAL_I18N = Object.freeze({
       <p>Estos valores solo sirven para que el sitio web se muestre como pediste; no se nos envían. Si alguna vez añadimos una herramienta de analítica o similar, primero actualizaremos esta política y te pediremos tu consentimiento cuando la ley lo exija.</p>
       <h3>Do Not Track</h3>
       <p>No te hacemos seguimiento a lo largo del tiempo ni a través de otros sitios web o servicios en línea, y no permitimos que otras empresas recopilen datos personales sobre tus actividades en línea a lo largo del tiempo y en distintos sitios web cuando usas nuestro sitio web. Por este motivo, no respondemos de forma distinta a las señales «Do Not Track» o Global Privacy Control: tanto si tu navegador envía una como si no, no se produce ningún seguimiento de este tipo.</p>` },
-      { id: "providers", en: 'd2f467ca84f4', h2: "4. Proveedores de servicios que tratan datos por nuestra cuenta", html: `
+      { id: "providers", en: 'd1e5f9ee7560', h2: "4. Proveedores de servicios que tratan datos por nuestra cuenta", html: `
       <p>Para gestionar el sitio web y nuestro soporte, usamos los siguientes proveedores de servicios. Cada uno trata los datos solo para prestar su servicio.</p>
       <h3>GitHub, Inc. (Estados Unidos), con su proveedor de red Fastly, Inc.</h3>
       <p>Aloja las páginas del sitio web. GitHub también registra las direcciones IP de los visitantes para sus propios fines de seguridad, conforme a su propia declaración de privacidad. <em>Datos:</em> la dirección IP y los datos técnicos de tu visita.</p>
       <h3>Render Services, Inc. (Estados Unidos), con su proveedor de red Cloudflare, Inc.</h3>
       <p>Ejecuta el servidor que proporciona al sitio web las listas de planes y los precios. <em>Datos:</em> la dirección IP, los datos técnicos, y el plan y el número de días cuyo precio pides.</p>
+      <h3>Supabase, Inc. (Estados Unidos)</h3>
+      <p>Aloja la base de datos de nuestro servidor. Para el sitio web internacional, contiene los registros de precios descritos en la sección 2, que no contienen datos personales.</p>
       <h3>ImprovMX Incorporated (Estados Unidos)</h3>
       <p>Recibe los correos enviados a support@magicesim.store y los reenvía a nuestro buzón. Conserva los registros de entrega durante 7 días y guarda el contenido del mensaje solo hasta que se entrega. <em>Datos:</em> tu dirección de correo electrónico, los encabezados del mensaje y el contenido del mensaje en tránsito.</p>
       <h3>Nuestros proveedores de servicios de correo electrónico</h3>
@@ -644,9 +660,19 @@ export const LEGAL_I18N = Object.freeze({
       <p>Usamos conexiones cifradas (HTTPS), limitamos el acceso a las personas que lo necesitan y no recopilamos datos de pago. Ningún método de transmisión o almacenamiento es completamente seguro.</p>` },
       { id: "children", en: '6cfc85bd8d20', h2: "9. Menores", html: `
       <p>El sitio web internacional no está dirigido a menores de 18 años. No recopilamos a sabiendas datos personales de menores; si descubrimos que lo hemos hecho, los eliminamos.</p>` },
-      { id: "changes", en: '472d6f00e6c9', h2: "10. Cambios en esta política", html: `
-      <p>Cuando modificamos esta política, publicamos la nueva versión en esta página con su fecha de entrada en vigor. Antes de que se abran las compras en línea en el sitio web internacional, publicaremos una nueva versión que cubra los pedidos y los pagos.</p>` },
-      { id: "contact", en: '785290db303c', h2: "11. Contacto", html: `
+      { id: "changes", en: 'bd9370a2c4be', h2: "10. Cambios en esta política", html: `
+      <p>Cuando modificamos esta política, publicamos la nueva versión en esta página con su fecha de entrada en vigor. Cada versión se conserva además sin cambios en su propia dirección permanente, enlazada en la parte superior de esta página. Antes de que se abran las compras en línea en el sitio web internacional, publicaremos una nueva versión que cubra los pedidos y los pagos (sección 11).</p>` },
+      { id: "when-purchases-open", en: '5d8f8d657816', h2: "11. Cuando se abran las compras en línea", html: `
+      <p>Esta sección describe un tratamiento que <strong>no</strong> se realiza hoy. Solo empezará cuando se abran las compras en línea en el sitio web internacional, y solo después de que publiquemos la nueva versión de esta política que lo describa por completo.</p>
+      <ul class="list">
+        <li><strong>Tu pedido:</strong> tu dirección de correo electrónico, el plan, el precio y el idioma de la página, para entregarte la eSIM y responder a preguntas sobre el pedido.</li>
+        <li><strong>Tus declaraciones en el proceso de pago:</strong> las versiones de los Términos del servicio y de la Política de reembolso que aceptaste, las declaraciones que hiciste en el proceso de pago y el momento en que las recibimos.</li>
+        <li><strong>Pago:</strong> un servicio de pago procesará tu pago. Indicaremos su nombre, y qué datos recibe, antes de usarlo. No recibiremos ni guardaremos el número completo de tu tarjeta ni su código de seguridad.</li>
+        <li><strong>Entrega:</strong> la eSIM se envía a tu dirección de correo electrónico a través de un servicio de envío de correo electrónico, cuyo nombre indicaremos.</li>
+        <li><strong>Proveedores de servicios eSIM:</strong> para emitir tu eSIM, enviaremos a nuestro proveedor de servicios eSIM nuestra referencia de pedido y el plan, no tu nombre ni tu dirección de correo electrónico.</li>
+      </ul>
+      <p>Los plazos de conservación de los registros de pedidos se indicarán en esa versión.</p>` },
+      { id: "contact", en: '41f0a683dbb8', h2: "12. Contacto", html: `
       <p>Empresario individual ALEKSANDR KHARIN (Magic eSIM), Georgia<br>
       <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],

@@ -44,7 +44,7 @@ for (const w of [null, 1366]) {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.locator('h1')).toHaveText('Privacy Policy');
     await expect(page).toHaveTitle('Privacy Policy — Magic eSIM');
-    await expect(page.locator('.lg-meta')).toContainText('Effective date:');
+    await expect(page.locator('.lg-meta').first()).toContainText('Effective date:');
     await expect(page.locator('main')).toContainText('Individual Entrepreneur ALEKSANDR KHARIN');
     await expect(page.locator('main')).toContainText('Online purchases are not yet available on the international website.');
     expect(await page.locator('main .g-sec').count()).toBeGreaterThanOrEqual(12);
