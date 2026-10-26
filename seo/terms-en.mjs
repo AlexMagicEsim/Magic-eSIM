@@ -6,10 +6,13 @@
 // layout only: tables become lists so every block reads on a 320 px phone. The Refund Policy (seo/refund-en.mjs) is part of these Terms.
 // seo/test-en-legal-docs.mjs pins what it states and what it must never state. A wording change is the owner's decision.
 // 0.9.1 (LEGAL-4, owner's word 2026-10-23): §6.1 no longer says «our Merchant of Record» — taxes «may be calculated and added at checkout».
+// 0.9.2 (LEGAL-5, owner's task 2026-10-26): §2.1 a one-off purchase of a prepaid package, no subscription, no renewal, and
+// what the card and the checkout really show; §8.3–8.4 the start of validity, the counting of days and the activation
+// period only as far as the providers state them; §5.5 and §15 the permanent copy of every version (seo/legal-archive.mjs).
 
-export const TERMS_VERSION = '0.9.1 (pre-launch)';
-export const TERMS_EFFECTIVE = '23 October 2026';
-export const TERMS_EFFECTIVE_ISO = '2026-10-23';
+export const TERMS_VERSION = '0.9.2 (pre-launch)';
+export const TERMS_EFFECTIVE = '26 October 2026';
+export const TERMS_EFFECTIVE_ISO = '2026-10-26';
 
 export const TERMS = Object.freeze({
   title: "Terms of Service — Magic eSIM",
@@ -47,17 +50,20 @@ export const TERMS = Object.freeze({
       id: 'what-we-sell', h2: "2. What we sell", html: `
       <p>2.1. <strong>Prepaid eSIM data plans for travel.</strong></p>
       <ul class="list">
-        <li>We sell prepaid mobile data plans for use abroad, delivered as an eSIM profile — a digital SIM that you install on a compatible phone or tablet.</li>
+        <li>We sell prepaid mobile data packages for use abroad, delivered as an eSIM profile — a digital SIM that you install on a compatible phone or tablet.</li>
+        <li>Each purchase is a <strong>one-off payment for one package</strong>. It is not a subscription and does not renew automatically. We charge you again only if you place a new order.</li>
         <li>Before you buy, each plan’s product card shows:
           <ul class="list">
           <li>the destinations covered;</li>
           <li>the data allowance, or the daily allowance for daily plans;</li>
           <li>the validity period, or the number of days you choose;</li>
-          <li>the network generation;</li>
+          <li>the network generation, where our eSIM service provider states it;</li>
           <li>the price in USD;</li>
-          <li>where our eSIM service provider states them, when the validity period starts and any fair-usage or speed limit.</li>
+          <li>for daily plans, the speed after the day’s high-speed allowance is used, where our eSIM service provider states it;</li>
+          <li>when the validity period starts, where our eSIM service provider states it.</li>
           </ul>
         </li>
+        <li>Before you pay, the checkout shows the plan’s main terms again, including when the validity period starts or that our eSIM service provider does not state it, and the period for activating the eSIM (section 8.4).</li>
       </ul>
       <p>2.2. <strong>Data only.</strong> Plans provide mobile data. They do not include a phone number, voice calls or SMS unless the product card says so. <strong>A plan cannot be used to call emergency services.</strong></p>
       <p>2.3. <strong>We are a reseller, not a mobile network operator.</strong></p>
@@ -142,7 +148,7 @@ export const TERMS = Object.freeze({
         <li>the eSIM;</li>
         <li>the main terms of the plan;</li>
         <li>the statements you made at checkout;</li>
-        <li>links to the versions of these Terms, the Refund Policy and the Privacy Policy in force on the day of your order.</li>
+        <li>links to the permanent copies of the versions of these Terms, the Refund Policy and the Privacy Policy in force on the day of your order (section 15).</li>
       </ul>
       <p>5.6. <strong>Language.</strong></p>
       <ul class="list">
@@ -156,6 +162,7 @@ export const TERMS = Object.freeze({
       <p>6.1. <strong>Price.</strong></p>
       <ul class="list">
         <li>Plan prices are shown in US dollars. They include all our charges; we add no fees of our own.</li>
+        <li>You pay once for each order. There is no subscription, recurring charge or automatic renewal.</li>
         <li>International payments are currently unavailable. When international checkout becomes available, applicable taxes may be calculated and added at checkout. The total amount payable, including any applicable taxes, will be displayed before you confirm the payment.</li>
       </ul>
       <p>6.2. <strong>Payment.</strong></p>
@@ -195,15 +202,17 @@ export const TERMS = Object.freeze({
         <li>An eSIM can normally be installed only once and only on one device. It cannot be moved to another device.</li>
         <li><strong>Do not delete an installed eSIM.</strong> A deleted eSIM usually cannot be restored.</li>
       </ul>
-      <p>8.3. <strong>Start of validity.</strong></p>
+      <p>8.3. <strong>Start of validity and how days are counted.</strong></p>
       <ul class="list">
-        <li>The validity period starts at the moment stated on the product card. Depending on the plan, this is installation, first connection to a network at your destination, or purchase.</li>
-        <li>If the card does not state it, ask us before installing.</li>
+        <li>When the validity period starts is set by our eSIM service provider for each plan. Depending on the plan, it is the installation of the eSIM, its first connection to a network, its first use of data, or the purchase.</li>
+        <li>Where our eSIM service provider states it, the product card shows it. Where it does not, the checkout says so before you pay; please ask us before installing the eSIM.</li>
+        <li>For daily plans, the network operator or our eSIM service provider sets how a day is counted: depending on the plan, either 24 hours from the first connection or a calendar day that ends at midnight in the operator’s time zone. We cannot always tell you in advance which applies, so the daily allowance may renew at a different time of day from your first connection.</li>
       </ul>
-      <p>8.4. <strong>Activation window.</strong></p>
+      <p>8.4. <strong>Activation period.</strong></p>
       <ul class="list">
-        <li>A plan that is never activated expires at the end of the activation period set by our eSIM service provider.</li>
-        <li>The product card or our support tells you the period for your plan.</li>
+        <li>Our eSIM service provider sets a period within which an eSIM must be installed or activated. An eSIM that is not activated within it expires unused.</li>
+        <li>The period differs between plans and can be short — for some plans about one month after purchase. Our product cards do not show it at present, and the checkout says so before you pay.</li>
+        <li>If you do not intend to install the eSIM soon after buying it, ask us for the period of your plan before you pay.</li>
       </ul>
       <p>8.5. <strong>End of the plan.</strong></p>
       <ul class="list">
@@ -303,7 +312,8 @@ export const TERMS = Object.freeze({
       <ul class="list">
         <li>We may change these Terms for future orders.</li>
         <li><strong>Your order is governed by the version you accepted at checkout.</strong></li>
-        <li>The current version and its effective date are always on this page. Earlier versions are available on request.</li>
+        <li>The current version and its effective date are always on this page.</li>
+        <li>Every version of these Terms, the Refund Policy and the Privacy Policy is kept unchanged at its own permanent address, linked at the top of each document — for example, magicesim.store/en/terms/v0.9.2/ — so that you can save or print the version you accepted. The list of all versions is at magicesim.store/en/legal-versions.json. You can also ask us for a copy.</li>
       </ul>`,
     },
     {

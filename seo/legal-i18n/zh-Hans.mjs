@@ -2,7 +2,7 @@
 // The English (seo/terms-en.mjs, seo/refund-en.mjs, seo/privacy-en.mjs) is the master; see seo/legal-i18n.mjs.
 export const LEGAL_I18N = Object.freeze({
   code: "zh-Hans",
-  labels: { version: '版本', effective: '生效日期', preLaunch: '上线前版本' },
+  labels: { version: '版本', effective: '生效日期', preLaunch: '上线前版本', permanent: '此版本的永久副本（英文）' },
   notice: {
     body: '本文为英文版本的译文，仅为方便您阅读而提供。如译文与英文版本存在差异，以英文版本为准，但适用于您的强制性法律另有规定的除外。这不限制您的法定权利。',
     english: '阅读英文版本',
@@ -36,20 +36,23 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>“<strong>我们</strong>”、“<strong>我方</strong>”和“<strong>我们的</strong>”指上述卖方。“<strong>您</strong>”指使用本网站或购买套餐的人。</p>
       <p>如果我们开始通过作为登记卖方（seller of record）的支付中介进行销售，我们将在此类销售开始之前更新本条款，并在其中写明该中介。</p>` },
-      { id: "what-we-sell", en: '8292830e4b77', h2: "2. 我们销售什么", html: `
+      { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. 我们销售什么", html: `
       <p>2.1. <strong>旅行用预付费 eSIM 流量套餐。</strong></p>
       <ul class="list">
-        <li>我们销售在境外使用的预付费移动数据套餐，以 eSIM 配置文件的形式交付——eSIM 是一种数字 SIM 卡，您可将其安装在兼容的手机或平板电脑上。</li>
+        <li>我们销售在境外使用的预付费移动数据流量包，以 eSIM 配置文件的形式交付——eSIM 是一种数字 SIM 卡，您可将其安装在兼容的手机或平板电脑上。</li>
+        <li>每次购买均为<strong>针对一个流量包的一次性付款</strong>。它不是订阅，也不会自动续订。只有在您下新订单时，我们才会再次向您收费。</li>
         <li>在您购买之前，每个套餐的产品卡片会显示：
           <ul class="list">
           <li>覆盖的目的地；</li>
           <li>流量额度，或每日套餐的每日额度；</li>
           <li>有效期，或您选择的天数；</li>
-          <li>网络制式；</li>
+          <li>网络制式（在我们的 eSIM 服务提供商作出说明的情况下）；</li>
           <li>以美元计的价格；</li>
-          <li>在我们的 eSIM 服务提供商作出说明的情况下，有效期何时开始以及任何合理使用限制或速度限制。</li>
+          <li>对于每日套餐，当天高速额度用完后的速度（在我们的 eSIM 服务提供商作出说明的情况下）；</li>
+          <li>有效期何时开始（在我们的 eSIM 服务提供商作出说明的情况下）。</li>
           </ul>
         </li>
+        <li>在您付款之前，结账页面会再次显示套餐的主要条款，包括有效期何时开始或我们的 eSIM 服务提供商未对此作出说明，以及激活 eSIM 的期限（第 8.4 节）。</li>
       </ul>
       <p>2.2. <strong>仅限数据。</strong>套餐提供移动数据。除非产品卡片另有说明，套餐不包含电话号码、语音通话或短信。<strong>套餐不能用于拨打紧急服务电话。</strong></p>
       <p>2.3. <strong>我们是转售商，而不是移动网络运营商。</strong></p>
@@ -95,7 +98,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>我们的指南说明了如何检查这些事项。</p>
       <p>4.2. 请在购买前检查兼容性；您需要在结账时确认。如果您不确定，请先联系我们。如果设备不兼容，套餐将无法使用。退款政策说明了这种情况下的处理方式。</p>` },
-      { id: "how-to-order", en: '80e28d0df4f0', h2: "5. 如何下单", html: `
+      { id: "how-to-order", en: '7545360f2162', h2: "5. 如何下单", html: `
       <p>5.1. <strong>下单步骤：</strong></p>
       <ol class="list">
         <li>选择套餐；如为每日套餐，还需选择天数。</li>
@@ -128,7 +131,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>eSIM；</li>
         <li>套餐的主要条款；</li>
         <li>您在结账时作出的声明；</li>
-        <li>指向您下单当日有效的本条款、退款政策和隐私政策版本的链接。</li>
+        <li>指向您下单当日有效的本条款、退款政策和隐私政策各版本的永久副本的链接（第 15 节）。</li>
       </ul>
       <p>5.6. <strong>语言。</strong></p>
       <ul class="list">
@@ -136,10 +139,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>为方便您阅读，我们还以西班牙文、德文、法文、简体中文和韩文发布本条款、退款政策和隐私政策。如译文与英文版本存在差异，以英文版本为准，但适用于您的强制性法律另有规定的除外。</li>
         <li>这不限制您作为消费者的法定权利，包括该法律中关于不明确的条款应作有利于您的解释的任何规则。</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'f9d57bb65346', h2: "6. 价格和付款", html: `
+      { id: "prices-and-payment", en: 'db75c6116e50', h2: "6. 价格和付款", html: `
       <p>6.1. <strong>价格。</strong></p>
       <ul class="list">
         <li>套餐价格以美元显示。价格已包含我们的所有费用；我们不额外收取任何我们自己的费用。</li>
+        <li>每笔订单您只需付款一次。没有订阅、定期扣款或自动续订。</li>
         <li>目前暂不支持国际支付。国际结账功能开通后，适用的税费可能会在结账时计算并加收。包括任何适用税费在内的应付总额将在您确认付款之前显示。</li>
       </ul>
       <p>6.2. <strong>付款。</strong></p>
@@ -168,22 +172,24 @@ export const LEGAL_I18N = Object.freeze({
         <li>应您的要求，我们会将 eSIM 重新发送至下单时使用的地址。</li>
       </ul>
       <p>7.4. <strong>请对 eSIM 保密。</strong>二维码和安装信息可用于访问您的套餐。请勿分享。</p>` },
-      { id: "installation-activation-and-validity", en: '1b799091663f', h2: "8. 安装、激活和有效期", html: `
+      { id: "installation-activation-and-validity", en: '4af61855eb4a', h2: "8. 安装、激活和有效期", html: `
       <p>8.1. 请按照说明安装 eSIM。您需要连接互联网，例如 Wi-Fi。</p>
       <p>8.2. <strong>仅限一台设备；请勿删除。</strong></p>
       <ul class="list">
         <li>eSIM 通常只能安装一次，且只能安装在一台设备上。它无法转移到另一台设备。</li>
         <li><strong>请勿删除已安装的 eSIM。</strong>已删除的 eSIM 通常无法恢复。</li>
       </ul>
-      <p>8.3. <strong>有效期的开始。</strong></p>
+      <p>8.3. <strong>有效期的开始以及天数的计算方式。</strong></p>
       <ul class="list">
-        <li>有效期从产品卡片上注明的时间点开始。视套餐而定，这一时间点为安装时、在目的地首次连接网络时或购买时。</li>
-        <li>如果卡片上未注明，请在安装之前询问我们。</li>
+        <li>有效期何时开始由我们的 eSIM 服务提供商针对每个套餐设定。视套餐而定，这一时间点为安装 eSIM 时、其首次连接网络时、其首次使用流量时或购买时。</li>
+        <li>在我们的 eSIM 服务提供商作出说明的情况下，产品卡片会予以显示。如果未作说明，结账页面会在您付款之前告知这一点；请在安装 eSIM 之前询问我们。</li>
+        <li>对于每日套餐，一天如何计算由网络运营商或我们的 eSIM 服务提供商设定：视套餐而定，可能是自首次连接起的 24 小时，也可能是在运营商所在时区午夜结束的自然日。我们无法总是事先告知您适用哪一种方式，因此每日额度的重置时间可能与您首次连接的时间不同。</li>
       </ul>
-      <p>8.4. <strong>激活期限。</strong></p>
+      <p>8.4. <strong>激活期。</strong></p>
       <ul class="list">
-        <li>从未激活的套餐将在我们的 eSIM 服务提供商设定的激活期结束时失效。</li>
-        <li>产品卡片或我们的客服会告知您所购套餐的激活期。</li>
+        <li>我们的 eSIM 服务提供商设定了一个必须在其内安装或激活 eSIM 的期限。未在该期限内激活的 eSIM 将在未使用的情况下失效。</li>
+        <li>该期限因套餐而异，且可能较短——部分套餐约为购买后一个月。我们的产品卡片目前不显示该期限，结账页面会在您付款之前告知这一点。</li>
+        <li>如果您不打算在购买后不久安装 eSIM，请在付款之前向我们询问您所购套餐的激活期。</li>
       </ul>
       <p>8.5. <strong>套餐的结束。</strong></p>
       <ul class="list">
@@ -265,11 +271,12 @@ export const LEGAL_I18N = Object.freeze({
       <p>除非法律禁止，我们会告知您原因。</p>` },
       { id: "intellectual-property", en: '2a80c620ec4d', h2: "14. 知识产权", html: `
       <p>本网站、其内容以及 Magic eSIM 名称和标志归我们或我们的许可方所有。您只能为了解套餐并为自己购买套餐而使用本网站。</p>` },
-      { id: "changes-to-these-terms", en: '702eec3fd802', h2: "15. 本条款的变更", html: `
+      { id: "changes-to-these-terms", en: '55245997e8f9', h2: "15. 本条款的变更", html: `
       <ul class="list">
         <li>我们可能针对今后的订单变更本条款。</li>
         <li><strong>您的订单受您在结账时接受的版本约束。</strong></li>
-        <li>当前版本及其生效日期始终公布在本页面上。早期版本可应要求提供。</li>
+        <li>当前版本及其生效日期始终公布在本页面上。</li>
+        <li>本条款、退款政策和隐私政策的每一个版本都以不变的形式保存在其各自的永久地址上，并在每份文件的顶部提供链接——例如 magicesim.store/en/terms/v0.9.2/——以便您保存或打印您所接受的版本。所有版本的列表位于 magicesim.store/en/legal-versions.json。您也可以向我们索取副本。</li>
       </ul>` },
       { id: "governing-law-and-disputes", en: '0c6eb224ed4e', h2: "16. 适用法律和争议", html: `
       <p>16.1. <strong>适用法律。</strong></p>
@@ -326,7 +333,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>如果我们<strong>交付的套餐与您所付款的套餐不同</strong>，且您不希望改为接收正确的套餐；</li>
         <li>如果<strong>我们取消</strong>您的订单（服务条款第 13 节）。</li>
       </ul>` },
-      { id: "technical-faults", en: '34d579c0c772', h2: "3. 技术故障", html: `
+      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. 技术故障", html: `
       <p>3.1. <strong>本节何时适用。</strong>本节在以下各项均成立时适用：</p>
       <ul class="list">
         <li>eSIM 无法安装、无法连接，或未按其产品卡片的描述提供数据；</li>
@@ -369,13 +376,14 @@ export const LEGAL_I18N = Object.freeze({
           </ul>
         </li>
       </ul>
-      <p>(c) <strong>固定期限的无限流量套餐。</strong></p>
+      <p>(c) <strong>固定期限的无限流量套餐</strong>——没有任何流量额度（无论是总额度还是每日额度）的套餐。设有每日高速额度的套餐属于每日套餐，适用 (b)。</p>
       <blockquote>
         <p><strong>退款金额 = 已付金额 ×（剩余有效期 ÷ 总有效期）</strong></p>
       </blockquote>
       <ul class="list">
-        <li>剩余有效期是指从您报告之时起至套餐结束的期间。</li>
-        <li>按整天计算。已开始的一天计为已使用。</li>
+        <li>剩余有效期是指从您报告之时起至套餐有效期结束的时间。</li>
+        <li>按小时计算，已开始的一小时计为剩余。已开始的一天不计为已使用：只计算实际已经过去的时间。</li>
+        <li>有效期的结束时间以我们的 eSIM 服务提供商对您的 eSIM 的记录为准。如果记录中未显示，我们将根据有效期的开始时间和产品卡片上显示的有效期进行计算。</li>
       </ul>
       <p>(d) <strong>有效期尚未开始。</strong></p>
       <ul class="list">
@@ -400,6 +408,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>缺少记录不被视为未使用任何流量的证明。</li>
         <li>如果仍无法确定用量，我们将个案决定，并始终尊重您的法定权利。</li>
       </ul>
+      <p>(g) <strong>记录显示的内容。</strong></p>
+      <ul class="list">
+        <li>我们的 eSIM 服务提供商会报告一个 eSIM 上已使用的总流量，以及（在其报告的情况下）套餐的安装或激活时间和结束时间。它们不报告每天使用的流量。</li>
+        <li>其用量记录并非实时更新，可能会滞后几个小时。</li>
+        <li>如果本节中的计算取决于某一特定日期的使用情况，我们将使用这些记录、您发送给我们的信息以及根据第 3.3 节采取的步骤；如果仍无法确定当天的使用情况，则适用 (f)。</li>
+      </ul>
       <p><strong>支付方式和法定权利。</strong></p>
       <ul class="list">
         <li>根据本节作出的退款仅退回原支付方式（第 6 节）。</li>
@@ -419,7 +433,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>对于报告之后使用的其他流量，我们扣除：固定流量额度的套餐，扣除已使用的流量；每日套餐，扣除此后每一天已使用的额度份额；无限流量套餐，扣除此后每一个使用了流量的天数。</li>
         <li>最终退款金额为根据第 3.4 节计算的金额减去上述扣除额。</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '323fc40c6552', h2: "4. 您的法定权利", html: `
+      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. 您的法定权利", html: `
       <p>4.1. <strong>法定权利适用。</strong></p>
       <ul class="list">
         <li>视您的居住地以及适用于您的购买的法律而定，除第 2 节和第 3 节外，您可能还享有其他权利。例如格鲁吉亚法律、欧洲联盟某一国家或英国的法律、Australian Consumer Law（澳大利亚消费者法）以及新西兰的 Consumer Guarantees Act 1993（消费者保障法）。</li>
@@ -443,7 +457,7 @@ export const LEGAL_I18N = Object.freeze({
           <ul class="list">
           <li>固定流量额度的套餐——按已使用流量的比例；</li>
           <li>每日套餐——按已使用天数的比例，您发出通知的当天按您已使用的当天额度份额计算；</li>
-          <li>无限流量套餐——按已经过的有效期的比例；</li>
+          <li>无限流量套餐——按截至您发出通知时已经过的有效期时间的比例，按第 3.4(c) 节的方式以小时计算，因此已开始的一天不计为已全部提供；</li>
           </ul>
         </li>
         <li>如果法律要求全额退款，例如因为我们未向您作出适当告知，我们将全额退款；</li>
@@ -594,12 +608,14 @@ export const LEGAL_I18N = Object.freeze({
       <p>这些值仅用于让网站按您的要求显示；它们不会发送给我们。如果我们今后添加分析或类似工具，我们将先更新本政策，并在法律要求时征得您的同意。</p>
       <h3>Do Not Track（请勿跟踪）</h3>
       <p>我们不会长期跟踪您，也不会跨其他网站或在线服务跟踪您；当您使用我们的网站时，我们也不允许其他公司长期、跨不同网站收集有关您在线活动的个人数据。因此，我们不会对“Do Not Track”或 Global Privacy Control 信号作出不同的响应：无论您的浏览器是否发送此类信号，都不会发生此类跟踪。</p>` },
-      { id: "providers", en: 'd2f467ca84f4', h2: "4. 为我们处理数据的服务提供商", html: `
+      { id: "providers", en: 'd1e5f9ee7560', h2: "4. 为我们处理数据的服务提供商", html: `
       <p>为运营网站和客服，我们使用以下服务提供商。每家服务提供商仅为提供其服务而处理数据。</p>
       <h3>GitHub, Inc.（美国）及其网络服务提供商 Fastly, Inc.</h3>
       <p>托管网站的页面。GitHub 还会根据其自己的隐私声明，出于其自身的安全目的记录访客的 IP 地址。<em>数据：</em>您访问时的 IP 地址和技术数据。</p>
       <h3>Render Services, Inc.（美国）及其网络服务提供商 Cloudflare, Inc.</h3>
       <p>运行向网站提供套餐列表和价格的服务器。<em>数据：</em>IP 地址、技术数据，以及您查询价格的套餐和天数。</p>
+      <h3>Supabase, Inc.（美国）</h3>
+      <p>托管我们服务器的数据库。对于国际网站，它保存第 2 节所述的价格记录，这些记录不包含任何个人数据。</p>
       <h3>ImprovMX Incorporated（美国）</h3>
       <p>接收发送至 support@magicesim.store 的电子邮件，并将其转发到我们的邮箱。它将投递日志保存 7 天，且仅在邮件投递完成之前保存邮件内容。<em>数据：</em>您的电子邮箱地址、邮件头以及传输中的邮件内容。</p>
       <h3>我们的电子邮件服务提供商</h3>
@@ -644,9 +660,19 @@ export const LEGAL_I18N = Object.freeze({
       <p>我们使用加密连接（HTTPS），将访问权限限制在需要的人员范围内，并且不收集支付数据。任何传输或存储方法都不是完全安全的。</p>` },
       { id: "children", en: '6cfc85bd8d20', h2: "9. 儿童", html: `
       <p>国际网站并非面向 18 岁以下的人士。我们不会故意收集儿童的个人数据；如果我们得知收集了此类数据，我们会将其删除。</p>` },
-      { id: "changes", en: '472d6f00e6c9', h2: "10. 本政策的变更", html: `
-      <p>当我们变更本政策时，我们会在本页面上发布新版本及其生效日期。在国际网站开放在线购买之前，我们将发布涵盖订单和付款的新版本。</p>` },
-      { id: "contact", en: '785290db303c', h2: "11. 联系方式", html: `
+      { id: "changes", en: 'bd9370a2c4be', h2: "10. 本政策的变更", html: `
+      <p>当我们变更本政策时，我们会在本页面上发布新版本及其生效日期。每个版本还以不变的形式保存在其各自的永久地址上，并在本页面顶部提供链接。在国际网站开放在线购买之前，我们将发布涵盖订单和付款的新版本（第 11 节）。</p>` },
+      { id: "when-purchases-open", en: '5d8f8d657816', h2: "11. 在线购买开放后", html: `
+      <p>本节描述的处理目前<strong>并未</strong>进行。它只会在国际网站开放在线购买之后开始，并且只会在我们发布完整描述该处理的本政策新版本之后开始。</p>
+      <ul class="list">
+        <li><strong>您的订单：</strong>您的电子邮箱地址、套餐、价格和页面语言，用于交付 eSIM 以及答复有关订单的问题。</li>
+        <li><strong>您在结账时的声明：</strong>您接受的服务条款和退款政策的版本、您在结账时作出的声明以及我们收到这些声明的时间。</li>
+        <li><strong>付款：</strong>将由一家支付服务处理您的付款。在使用该服务之前，我们会公布其名称，并说明其接收哪些数据。我们不会接收或存储您的完整卡号或安全码。</li>
+        <li><strong>交付：</strong>eSIM 将通过一家电子邮件投递服务发送至您的电子邮箱地址，我们会公布该服务的名称。</li>
+        <li><strong>eSIM 服务提供商：</strong>为签发您的 eSIM，我们将向我们的 eSIM 服务提供商发送我们的订单编号和套餐，而不会发送您的姓名或电子邮箱地址。</li>
+      </ul>
+      <p>订单记录的保存期限将在该版本中说明。</p>` },
+      { id: "contact", en: '41f0a683dbb8', h2: "12. 联系方式", html: `
       <p>个体企业家 ALEKSANDR KHARIN (Magic eSIM), Georgia<br>
       <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],

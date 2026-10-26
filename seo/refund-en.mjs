@@ -5,10 +5,12 @@
 // are unavailable, no payment provider or Merchant of Record is named, no telephone number. Typography only: curly quotes;
 // layout only: tables become lists so every block reads on a 320 px phone. It is part of the Terms of Service (seo/terms-en.mjs).
 // seo/test-en-legal-docs.mjs pins what it states and what it must never state. A wording change is the owner's decision.
+// 0.9.1 (LEGAL-5, owner's task 2026-10-26): §3.4(c) and §4.3 — the period of an unlimited plan is counted in hours, so a
+// day that has started is no longer counted as fully used; §3.4(g) says what the providers' records can and cannot show.
 
-export const REFUND_VERSION = '0.9 (pre-launch)';
-export const REFUND_EFFECTIVE = '23 October 2026';
-export const REFUND_EFFECTIVE_ISO = '2026-10-23';
+export const REFUND_VERSION = '0.9.1 (pre-launch)';
+export const REFUND_EFFECTIVE = '26 October 2026';
+export const REFUND_EFFECTIVE_ISO = '2026-10-26';
 
 export const REFUND = Object.freeze({
   title: "Refund Policy — Magic eSIM",
@@ -90,13 +92,14 @@ export const REFUND = Object.freeze({
           </ul>
         </li>
       </ul>
-      <p>(c) <strong>Unlimited plans for a set period.</strong></p>
+      <p>(c) <strong>Unlimited plans for a set period</strong> — plans with no data allowance, total or daily. A plan with a daily high-speed allowance is a daily plan, and (b) applies to it.</p>
       <blockquote>
         <p><strong>Refund = Amount paid × (Remaining validity ÷ Total validity)</strong></p>
       </blockquote>
       <ul class="list">
-        <li>Remaining validity is the period from your report to the end of the plan.</li>
-        <li>It is counted in whole days. A day that has started counts as used.</li>
+        <li>Remaining validity is the time from your report to the end of the plan’s validity period.</li>
+        <li>It is counted in hours, and an hour that has started counts as remaining. A day that has started is not counted as used: only the time that has actually passed is.</li>
+        <li>The end of the validity period is taken from our eSIM service provider’s record for your eSIM. If the record does not show it, we count it from the start of validity and the validity period shown on the product card.</li>
       </ul>
       <p>(d) <strong>Validity has not started.</strong></p>
       <ul class="list">
@@ -120,6 +123,12 @@ export const REFUND = Object.freeze({
         <li>If our eSIM service provider does not give us a usage record, we check the other technical data available, for example the eSIM’s status, its connection history and the information you send us.</li>
         <li>A missing record is not treated as proof that no data was used.</li>
         <li>If usage still cannot be established, we decide individually and always respect your statutory rights.</li>
+      </ul>
+      <p>(g) <strong>What the records show.</strong></p>
+      <ul class="list">
+        <li>Our eSIM service providers report the total data used on an eSIM and, where they report them, when the plan was installed or activated and when it ends. They do not report the data used on each day.</li>
+        <li>Their usage records are not updated in real time and may be a few hours behind.</li>
+        <li>Where a calculation in this section depends on use on a particular day, we use these records, the information you send us and the steps under section 3.3; where that use still cannot be established, (f) applies.</li>
       </ul>
       <p><strong>Payment method and statutory rights.</strong></p>
       <ul class="list">
@@ -166,7 +175,7 @@ export const REFUND = Object.freeze({
           <ul class="list">
           <li>plans with a fixed data allowance — in proportion to the data used;</li>
           <li>daily plans — in proportion to the days used, counting the day of your notice by the share of that day’s allowance you used;</li>
-          <li>unlimited plans — in proportion to the period of validity that has passed;</li>
+          <li>unlimited plans — in proportion to the time of validity that has passed up to your notice, counted in hours as in section 3.4(c), so a day that has started is not counted as fully provided;</li>
           </ul>
         </li>
         <li>where the law requires a full refund, for example because we did not inform you properly, we refund in full;</li>

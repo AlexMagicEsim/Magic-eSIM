@@ -2,7 +2,7 @@
 // The English (seo/terms-en.mjs, seo/refund-en.mjs, seo/privacy-en.mjs) is the master; see seo/legal-i18n.mjs.
 export const LEGAL_I18N = Object.freeze({
   code: "de",
-  labels: { version: 'Version', effective: 'Gültig ab', preLaunch: 'Vorabversion' },
+  labels: { version: 'Version', effective: 'Gültig ab', preLaunch: 'Vorabversion', permanent: 'Dauerhafte Kopie dieser Version (auf Englisch)' },
   notice: {
     body: 'Dies ist eine Übersetzung der englischen Fassung, die wir dir zu deiner Erleichterung bereitstellen. Weichen die Übersetzung und die englische Fassung voneinander ab, gilt die englische Fassung, sofern das zwingende Recht, das für dich gilt, nichts anderes vorschreibt. Deine gesetzlichen Rechte werden dadurch nicht eingeschränkt.',
     english: 'Englische Fassung lesen',
@@ -36,20 +36,23 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>„<strong>Wir</strong>“, „<strong>uns</strong>“ und „<strong>unser</strong>“ bezeichnen den oben genannten Verkäufer. „<strong>Du</strong>“ bezeichnet die Person, die die Website nutzt oder einen Tarif kauft.</p>
       <p>Falls wir beginnen, über einen Zahlungsvermittler zu verkaufen, der als offizieller Verkäufer (Seller of Record) auftritt, werden diese Nutzungsbedingungen vor Beginn solcher Verkäufe aktualisiert und nennen diesen Vermittler.</p>` },
-      { id: "what-we-sell", en: '8292830e4b77', h2: "2. Was wir verkaufen", html: `
+      { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Was wir verkaufen", html: `
       <p>2.1. <strong>Prepaid-eSIM-Datentarife für Reisen.</strong></p>
       <ul class="list">
-        <li>Wir verkaufen Prepaid-Tarife für mobile Daten zur Nutzung im Ausland, die als eSIM-Profil geliefert werden – eine digitale SIM, die du auf einem kompatiblen Smartphone oder Tablet installierst.</li>
+        <li>Wir verkaufen Prepaid-Pakete für mobile Daten zur Nutzung im Ausland, die als eSIM-Profil geliefert werden – eine digitale SIM, die du auf einem kompatiblen Smartphone oder Tablet installierst.</li>
+        <li>Jeder Kauf ist eine <strong>einmalige Zahlung für ein Paket</strong>. Es handelt sich nicht um ein Abonnement, und es verlängert sich nicht automatisch. Wir belasten dich nur dann erneut, wenn du eine neue Bestellung aufgibst.</li>
         <li>Vor dem Kauf zeigt die Produktkarte jedes Tarifs:
           <ul class="list">
           <li>die abgedeckten Reiseziele;</li>
           <li>das Datenvolumen bzw. bei Tagestarifen das tägliche Datenvolumen;</li>
           <li>die Gültigkeitsdauer bzw. die von dir gewählte Anzahl von Tagen;</li>
-          <li>die Netzgeneration;</li>
+          <li>die Netzgeneration, sofern unser eSIM-Dienstleister sie angibt;</li>
           <li>den Preis in USD;</li>
-          <li>sofern unser eSIM-Dienstleister sie angibt, den Beginn der Gültigkeitsdauer sowie etwaige Fair-Use- oder Geschwindigkeitsbegrenzungen.</li>
+          <li>bei Tagestarifen die Geschwindigkeit, nachdem das Hochgeschwindigkeitsvolumen des Tages aufgebraucht ist, sofern unser eSIM-Dienstleister sie angibt;</li>
+          <li>den Beginn der Gültigkeitsdauer, sofern unser eSIM-Dienstleister ihn angibt.</li>
           </ul>
         </li>
+        <li>Vor dem Bezahlen zeigt der Bestellvorgang die wesentlichen Bedingungen des Tarifs erneut an, einschließlich des Beginns der Gültigkeitsdauer oder des Hinweises, dass unser eSIM-Dienstleister ihn nicht angibt, sowie des Zeitraums für die Aktivierung der eSIM (Abschnitt 8.4).</li>
       </ul>
       <p>2.2. <strong>Nur Daten.</strong> Die Tarife bieten mobile Daten. Sie umfassen keine Telefonnummer, keine Sprachanrufe und keine SMS, sofern die Produktkarte nichts anderes angibt. <strong>Mit einem Tarif können keine Notrufdienste angerufen werden.</strong></p>
       <p>2.3. <strong>Wir sind Wiederverkäufer, kein Mobilfunknetzbetreiber.</strong></p>
@@ -95,7 +98,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Unsere Anleitungen erklären, wie du das prüfst.</p>
       <p>4.2. Bitte prüfe die Kompatibilität vor dem Kauf; du bestätigst sie im Bestellvorgang. Wenn du unsicher bist, kontaktiere uns vorher. Wenn das Gerät nicht kompatibel ist, kann der Tarif nicht funktionieren. Die Erstattungsrichtlinie erklärt, was dann geschieht.</p>` },
-      { id: "how-to-order", en: '80e28d0df4f0', h2: "5. So bestellst du", html: `
+      { id: "how-to-order", en: '7545360f2162', h2: "5. So bestellst du", html: `
       <p>5.1. <strong>Bestellschritte:</strong></p>
       <ol class="list">
         <li>Wähle einen Tarif und bei Tagestarifen die Anzahl der Tage.</li>
@@ -128,7 +131,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>die eSIM;</li>
         <li>die wesentlichen Bedingungen des Tarifs;</li>
         <li>die Erklärungen, die du im Bestellvorgang abgegeben hast;</li>
-        <li>Links zu den am Tag deiner Bestellung geltenden Fassungen dieser Nutzungsbedingungen, der Erstattungsrichtlinie und der Datenschutzerklärung.</li>
+        <li>Links zu den dauerhaften Kopien der am Tag deiner Bestellung geltenden Fassungen dieser Nutzungsbedingungen, der Erstattungsrichtlinie und der Datenschutzerklärung (Abschnitt 15).</li>
       </ul>
       <p>5.6. <strong>Sprache.</strong></p>
       <ul class="list">
@@ -136,10 +139,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>Zu deiner Erleichterung veröffentlichen wir diese Nutzungsbedingungen, die Erstattungsrichtlinie und die Datenschutzerklärung außerdem auf Spanisch, Deutsch, Französisch, vereinfachtem Chinesisch und Koreanisch. Weichen eine Übersetzung und die englische Fassung voneinander ab, gilt die englische Fassung, sofern das zwingende Recht, das für dich gilt, nichts anderes vorschreibt.</li>
         <li>Dies schränkt deine gesetzlichen Rechte als Verbraucher nicht ein, einschließlich einer Regel dieses Rechts, nach der eine unklare Bestimmung zu deinen Gunsten ausgelegt wird.</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'f9d57bb65346', h2: "6. Preise und Zahlung", html: `
+      { id: "prices-and-payment", en: 'db75c6116e50', h2: "6. Preise und Zahlung", html: `
       <p>6.1. <strong>Preis.</strong></p>
       <ul class="list">
         <li>Die Tarifpreise werden in US-Dollar angezeigt. Sie enthalten alle unsere Entgelte; wir erheben keine eigenen Gebühren.</li>
+        <li>Du zahlst für jede Bestellung einmal. Es gibt kein Abonnement, keine wiederkehrende Belastung und keine automatische Verlängerung.</li>
         <li>Internationale Zahlungen sind derzeit nicht verfügbar. Sobald der internationale Bestellvorgang verfügbar ist, können anfallende Steuern im Bestellvorgang berechnet und hinzugefügt werden. Der zu zahlende Gesamtbetrag einschließlich etwaiger anfallender Steuern wird angezeigt, bevor du die Zahlung bestätigst.</li>
       </ul>
       <p>6.2. <strong>Zahlung.</strong></p>
@@ -168,22 +172,24 @@ export const LEGAL_I18N = Object.freeze({
         <li>Auf Anfrage senden wir die eSIM erneut an die für die Bestellung verwendete Adresse.</li>
       </ul>
       <p>7.4. <strong>Halte die eSIM geheim.</strong> Der QR-Code und die Installationsangaben gewähren Zugang zu deinem Tarif. Gib sie nicht weiter.</p>` },
-      { id: "installation-activation-and-validity", en: '1b799091663f', h2: "8. Installation, Aktivierung und Gültigkeit", html: `
+      { id: "installation-activation-and-validity", en: '4af61855eb4a', h2: "8. Installation, Aktivierung und Gültigkeit", html: `
       <p>8.1. Installiere die eSIM gemäß der Anleitung. Du benötigst eine Internetverbindung, zum Beispiel WLAN.</p>
       <p>8.2. <strong>Ein Gerät; nicht löschen.</strong></p>
       <ul class="list">
         <li>Eine eSIM kann normalerweise nur einmal und nur auf einem Gerät installiert werden. Sie kann nicht auf ein anderes Gerät übertragen werden.</li>
         <li><strong>Lösche eine installierte eSIM nicht.</strong> Eine gelöschte eSIM kann in der Regel nicht wiederhergestellt werden.</li>
       </ul>
-      <p>8.3. <strong>Beginn der Gültigkeit.</strong></p>
+      <p>8.3. <strong>Beginn der Gültigkeit und Zählung der Tage.</strong></p>
       <ul class="list">
-        <li>Die Gültigkeitsdauer beginnt zu dem auf der Produktkarte angegebenen Zeitpunkt. Je nach Tarif ist dies die Installation, die erste Verbindung mit einem Netz an deinem Reiseziel oder der Kauf.</li>
-        <li>Ist dies auf der Karte nicht angegeben, frag uns vor der Installation.</li>
+        <li>Wann die Gültigkeitsdauer beginnt, legt unser eSIM-Dienstleister für jeden Tarif fest. Je nach Tarif ist dies die Installation der eSIM, ihre erste Verbindung mit einem Netz, ihre erste Datennutzung oder der Kauf.</li>
+        <li>Sofern unser eSIM-Dienstleister den Beginn angibt, zeigt ihn die Produktkarte. Gibt er ihn nicht an, weist der Bestellvorgang vor dem Bezahlen darauf hin; frag uns bitte vor der Installation der eSIM.</li>
+        <li>Bei Tagestarifen legt der Netzbetreiber oder unser eSIM-Dienstleister fest, wie ein Tag gezählt wird: je nach Tarif entweder als 24 Stunden ab der ersten Verbindung oder als Kalendertag, der um Mitternacht in der Zeitzone des Betreibers endet. Wir können dir nicht immer im Voraus sagen, was gilt; daher kann sich das tägliche Datenvolumen zu einer anderen Tageszeit erneuern als zum Zeitpunkt deiner ersten Verbindung.</li>
       </ul>
       <p>8.4. <strong>Aktivierungszeitraum.</strong></p>
       <ul class="list">
-        <li>Ein Tarif, der nie aktiviert wird, verfällt am Ende des von unserem eSIM-Dienstleister festgelegten Aktivierungszeitraums.</li>
-        <li>Die Produktkarte oder unser Support nennt dir den Zeitraum für deinen Tarif.</li>
+        <li>Unser eSIM-Dienstleister legt einen Zeitraum fest, innerhalb dessen eine eSIM installiert oder aktiviert werden muss. Eine eSIM, die nicht innerhalb dieses Zeitraums aktiviert wird, verfällt ungenutzt.</li>
+        <li>Der Zeitraum ist je nach Tarif unterschiedlich und kann kurz sein – bei manchen Tarifen etwa ein Monat nach dem Kauf. Unsere Produktkarten zeigen ihn derzeit nicht an, und der Bestellvorgang weist vor dem Bezahlen darauf hin.</li>
+        <li>Wenn du die eSIM nicht bald nach dem Kauf installieren möchtest, frag uns vor dem Bezahlen nach dem Zeitraum für deinen Tarif.</li>
       </ul>
       <p>8.5. <strong>Ende des Tarifs.</strong></p>
       <ul class="list">
@@ -265,11 +271,12 @@ export const LEGAL_I18N = Object.freeze({
       <p>Wir teilen dir den Grund mit, sofern das Gesetz dies nicht verbietet.</p>` },
       { id: "intellectual-property", en: '2a80c620ec4d', h2: "14. Geistiges Eigentum", html: `
       <p>Die Website, ihre Inhalte sowie der Name und das Logo von Magic eSIM gehören uns oder unseren Lizenzgebern. Du darfst die Website nur nutzen, um dich über Tarife zu informieren und Tarife für dich selbst zu kaufen.</p>` },
-      { id: "changes-to-these-terms", en: '702eec3fd802', h2: "15. Änderungen dieser Nutzungsbedingungen", html: `
+      { id: "changes-to-these-terms", en: '55245997e8f9', h2: "15. Änderungen dieser Nutzungsbedingungen", html: `
       <ul class="list">
         <li>Wir können diese Nutzungsbedingungen für künftige Bestellungen ändern.</li>
         <li><strong>Für deine Bestellung gilt die Fassung, die du im Bestellvorgang akzeptiert hast.</strong></li>
-        <li>Die aktuelle Fassung und das Datum, ab dem sie gilt, stehen immer auf dieser Seite. Frühere Fassungen sind auf Anfrage erhältlich.</li>
+        <li>Die aktuelle Fassung und das Datum, ab dem sie gilt, stehen immer auf dieser Seite.</li>
+        <li>Jede Fassung dieser Nutzungsbedingungen, der Erstattungsrichtlinie und der Datenschutzerklärung wird unverändert unter einer eigenen dauerhaften Adresse aufbewahrt, die oben in jedem Dokument verlinkt ist – zum Beispiel magicesim.store/en/terms/v0.9.2/ –, damit du die von dir akzeptierte Fassung speichern oder ausdrucken kannst. Die Liste aller Fassungen findest du unter magicesim.store/en/legal-versions.json. Du kannst uns auch um eine Kopie bitten.</li>
       </ul>` },
       { id: "governing-law-and-disputes", en: '0c6eb224ed4e', h2: "16. Anwendbares Recht und Streitigkeiten", html: `
       <p>16.1. <strong>Anwendbares Recht.</strong></p>
@@ -326,7 +333,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>wenn wir <strong>einen anderen Tarif geliefert haben</strong> als den, für den du bezahlt hast, und du stattdessen nicht den richtigen Tarif möchtest;</li>
         <li>wenn <strong>wir deine Bestellung stornieren</strong> (Nutzungsbedingungen, Abschnitt 13).</li>
       </ul>` },
-      { id: "technical-faults", en: '34d579c0c772', h2: "3. Technische Fehler", html: `
+      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Technische Fehler", html: `
       <p>3.1. <strong>Wann dieser Abschnitt gilt.</strong> Er gilt, wenn alle folgenden Bedingungen erfüllt sind:</p>
       <ul class="list">
         <li>die eSIM lässt sich nicht installieren, stellt keine Verbindung her oder liefert keine Daten wie auf ihrer Produktkarte beschrieben;</li>
@@ -369,13 +376,14 @@ export const LEGAL_I18N = Object.freeze({
           </ul>
         </li>
       </ul>
-      <p>(c) <strong>Unbegrenzte Tarife für einen festgelegten Zeitraum.</strong></p>
+      <p>(c) <strong>Unbegrenzte Tarife für einen festgelegten Zeitraum</strong> — Tarife ohne Datenvolumen, weder insgesamt noch täglich. Ein Tarif mit einem täglichen Hochgeschwindigkeitsvolumen ist ein Tagestarif, und für ihn gilt (b).</p>
       <blockquote>
         <p><strong>Erstattung = gezahlter Betrag × (verbleibende Gültigkeit ÷ gesamte Gültigkeit)</strong></p>
       </blockquote>
       <ul class="list">
-        <li>Die verbleibende Gültigkeit ist der Zeitraum von deiner Meldung bis zum Ende des Tarifs.</li>
-        <li>Sie wird in ganzen Tagen gezählt. Ein angebrochener Tag gilt als genutzt.</li>
+        <li>Die verbleibende Gültigkeit ist die Zeit von deiner Meldung bis zum Ende der Gültigkeitsdauer des Tarifs.</li>
+        <li>Sie wird in Stunden gezählt, und eine angebrochene Stunde gilt als verbleibend. Ein angebrochener Tag gilt nicht als genutzt: Gezählt wird nur die tatsächlich verstrichene Zeit.</li>
+        <li>Das Ende der Gültigkeitsdauer wird dem Datensatz unseres eSIM-Dienstleisters für deine eSIM entnommen. Geht es daraus nicht hervor, berechnen wir es aus dem Beginn der Gültigkeit und der auf der Produktkarte angegebenen Gültigkeitsdauer.</li>
       </ul>
       <p>(d) <strong>Die Gültigkeit hat noch nicht begonnen.</strong></p>
       <ul class="list">
@@ -400,6 +408,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Ein fehlender Datensatz wird nicht als Nachweis dafür gewertet, dass keine Daten genutzt wurden.</li>
         <li>Lässt sich die Nutzung dennoch nicht feststellen, entscheiden wir im Einzelfall und wahren dabei stets deine gesetzlichen Rechte.</li>
       </ul>
+      <p>(g) <strong>Was die Datensätze zeigen.</strong></p>
+      <ul class="list">
+        <li>Unsere eSIM-Dienstleister melden die insgesamt auf einer eSIM genutzten Daten und, sofern sie dies melden, wann der Tarif installiert oder aktiviert wurde und wann er endet. Die an jedem einzelnen Tag genutzten Daten melden sie nicht.</li>
+        <li>Ihre Nutzungsdatensätze werden nicht in Echtzeit aktualisiert und können einige Stunden zurückliegen.</li>
+        <li>Hängt eine Berechnung in diesem Abschnitt von der Nutzung an einem bestimmten Tag ab, verwenden wir diese Datensätze, die Informationen, die du uns sendest, und die Schritte nach Abschnitt 3.3; lässt sich diese Nutzung dennoch nicht feststellen, gilt (f).</li>
+      </ul>
       <p><strong>Zahlungsmethode und gesetzliche Rechte.</strong></p>
       <ul class="list">
         <li>Erstattungen nach diesem Abschnitt werden ausschließlich auf die ursprüngliche Zahlungsmethode gezahlt (Abschnitt 6).</li>
@@ -419,7 +433,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Für andere nach deiner Meldung genutzte Daten ziehen wir ab: bei Tarifen mit festem Datenvolumen die genutzten Daten; bei Tagestarifen den genutzten Anteil des Datenvolumens jedes weiteren Tages; bei unbegrenzten Tarifen jeden weiteren Tag, an dem Daten genutzt wurden.</li>
         <li>Die endgültige Erstattung ist der nach Abschnitt 3.4 berechnete Betrag abzüglich eines solchen Abzugs.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '323fc40c6552', h2: "4. Deine gesetzlichen Rechte", html: `
+      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Deine gesetzlichen Rechte", html: `
       <p>4.1. <strong>Gesetzliche Rechte gelten.</strong></p>
       <ul class="list">
         <li>Je nachdem, wo du lebst und welches Recht auf deinen Kauf anwendbar ist, kannst du zusätzlich zu den Abschnitten 2 und 3 weitere Rechte haben. Beispiele sind das Recht Georgiens, eines Landes der Europäischen Union oder des Vereinigten Königreichs, das Australian Consumer Law und der neuseeländische Consumer Guarantees Act 1993.</li>
@@ -443,7 +457,7 @@ export const LEGAL_I18N = Object.freeze({
           <ul class="list">
           <li>Tarife mit festem Datenvolumen — im Verhältnis zu den genutzten Daten;</li>
           <li>Tagestarife — im Verhältnis zu den genutzten Tagen, wobei der Tag deiner Mitteilung mit dem Anteil des Datenvolumens dieses Tages gezählt wird, den du genutzt hast;</li>
-          <li>unbegrenzte Tarife — im Verhältnis zu dem bereits verstrichenen Teil der Gültigkeitsdauer;</li>
+          <li>unbegrenzte Tarife — im Verhältnis zu der bis zu deiner Mitteilung verstrichenen Gültigkeitszeit, gezählt in Stunden wie in Abschnitt 3.4(c), sodass ein angebrochener Tag nicht als vollständig bereitgestellt gilt;</li>
           </ul>
         </li>
         <li>wenn das Gesetz eine vollständige Erstattung vorschreibt, zum Beispiel weil wir dich nicht ordnungsgemäß informiert haben, erstatten wir den vollen Betrag;</li>
@@ -594,12 +608,14 @@ export const LEGAL_I18N = Object.freeze({
       <p>Diese Werte sorgen nur dafür, dass die Website so angezeigt wird, wie du es gewählt hast; sie werden nicht an uns gesendet. Falls wir jemals ein Analyse- oder ähnliches Tool hinzufügen, aktualisieren wir zuerst diese Erklärung und bitten um deine Einwilligung, soweit das Gesetz dies verlangt.</p>
       <h3>Do Not Track</h3>
       <p>Wir verfolgen dich nicht über einen längeren Zeitraum oder über andere Websites oder Online-Dienste hinweg, und wir erlauben anderen Unternehmen nicht, personenbezogene Daten über deine Online-Aktivitäten über einen längeren Zeitraum und über verschiedene Websites hinweg zu erheben, wenn du unsere Website nutzt. Deshalb reagieren wir auf „Do Not Track“- oder Global-Privacy-Control-Signale nicht anders: Ob dein Browser ein solches Signal sendet oder nicht, ein solches Tracking findet nicht statt.</p>` },
-      { id: "providers", en: 'd2f467ca84f4', h2: "4. Dienstleister, die Daten für uns verarbeiten", html: `
+      { id: "providers", en: 'd1e5f9ee7560', h2: "4. Dienstleister, die Daten für uns verarbeiten", html: `
       <p>Für den Betrieb der Website und unseres Supports nutzen wir die folgenden Dienstleister. Jeder verarbeitet Daten nur, um seinen Dienst zu erbringen.</p>
       <h3>GitHub, Inc. (Vereinigte Staaten), mit seinem Netzwerkanbieter Fastly, Inc.</h3>
       <p>Hostet die Seiten der Website. GitHub protokolliert außerdem die IP-Adressen der Besucher für eigene Sicherheitszwecke, gemäß seiner eigenen Datenschutzerklärung. <em>Daten:</em> IP-Adresse und technische Daten deines Besuchs.</p>
       <h3>Render Services, Inc. (Vereinigte Staaten), mit seinem Netzwerkanbieter Cloudflare, Inc.</h3>
       <p>Betreibt den Server, der der Website Tariflisten und Preise liefert. <em>Daten:</em> IP-Adresse, technische Daten sowie der Tarif und die Anzahl der Tage, für die du einen Preis abrufst.</p>
+      <h3>Supabase, Inc. (Vereinigte Staaten)</h3>
+      <p>Hostet die Datenbank unseres Servers. Für die internationale Website enthält sie die in Abschnitt 2 beschriebenen Preisdatensätze, die keine personenbezogenen Daten enthalten.</p>
       <h3>ImprovMX Incorporated (Vereinigte Staaten)</h3>
       <p>Empfängt E-Mails an support@magicesim.store und leitet sie an unser Postfach weiter. ImprovMX speichert Zustellprotokolle 7 Tage lang und hält den Nachrichteninhalt nur bis zur Zustellung vor. <em>Daten:</em> deine E-Mail-Adresse, die Kopfzeilen der Nachricht und der Nachrichteninhalt während der Übermittlung.</p>
       <h3>Unsere E-Mail-Dienstleister</h3>
@@ -644,9 +660,19 @@ export const LEGAL_I18N = Object.freeze({
       <p>Wir verwenden verschlüsselte Verbindungen (HTTPS), beschränken den Zugriff auf die Personen, die ihn benötigen, und erheben keine Zahlungsdaten. Keine Übertragungs- oder Speichermethode ist vollkommen sicher.</p>` },
       { id: "children", en: '6cfc85bd8d20', h2: "9. Kinder", html: `
       <p>Die internationale Website richtet sich nicht an Personen unter 18 Jahren. Wir erheben nicht wissentlich personenbezogene Daten von Kindern; wenn wir erfahren, dass dies geschehen ist, löschen wir sie.</p>` },
-      { id: "changes", en: '472d6f00e6c9', h2: "10. Änderungen dieser Erklärung", html: `
-      <p>Wenn wir diese Erklärung ändern, veröffentlichen wir die neue Fassung mit dem Datum, ab dem sie gilt, auf dieser Seite. Bevor Online-Käufe auf der internationalen Website möglich werden, veröffentlichen wir eine neue Fassung, die Bestellungen und Zahlungen abdeckt.</p>` },
-      { id: "contact", en: '785290db303c', h2: "11. Kontakt", html: `
+      { id: "changes", en: 'bd9370a2c4be', h2: "10. Änderungen dieser Erklärung", html: `
+      <p>Wenn wir diese Erklärung ändern, veröffentlichen wir die neue Fassung mit dem Datum, ab dem sie gilt, auf dieser Seite. Jede Fassung wird außerdem unverändert unter einer eigenen dauerhaften Adresse aufbewahrt, die oben auf dieser Seite verlinkt ist. Bevor Online-Käufe auf der internationalen Website möglich werden, veröffentlichen wir eine neue Fassung, die Bestellungen und Zahlungen abdeckt (Abschnitt 11).</p>` },
+      { id: "when-purchases-open", en: '5d8f8d657816', h2: "11. Wenn Online-Käufe möglich werden", html: `
+      <p>Dieser Abschnitt beschreibt eine Verarbeitung, die heute <strong>nicht</strong> stattfindet. Sie beginnt erst, wenn Online-Käufe auf der internationalen Website möglich werden, und erst nachdem wir die neue Fassung dieser Erklärung veröffentlicht haben, die sie vollständig beschreibt.</p>
+      <ul class="list">
+        <li><strong>Deine Bestellung:</strong> deine E-Mail-Adresse, der Tarif, der Preis und die Sprache der Seite, um die eSIM zu liefern und Fragen zur Bestellung zu beantworten.</li>
+        <li><strong>Deine Erklärungen im Bestellvorgang:</strong> die Fassungen der Nutzungsbedingungen und der Erstattungsrichtlinie, die du akzeptiert hast, die Erklärungen, die du im Bestellvorgang abgegeben hast, und der Zeitpunkt, zu dem wir sie erhalten haben.</li>
+        <li><strong>Zahlung:</strong> Ein Zahlungsdienst wird deine Zahlung abwickeln. Wir werden ihn benennen und angeben, was er erhält, bevor er eingesetzt wird. Wir werden deine vollständige Kartennummer oder deinen Sicherheitscode weder erhalten noch speichern.</li>
+        <li><strong>Lieferung:</strong> Die eSIM wird über einen E-Mail-Zustelldienst, den wir benennen werden, an deine E-Mail-Adresse gesendet.</li>
+        <li><strong>eSIM-Dienstleister:</strong> Um deine eSIM auszustellen, senden wir unserem eSIM-Dienstleister unsere Bestellnummer und den Tarif, nicht deinen Namen oder deine E-Mail-Adresse.</li>
+      </ul>
+      <p>Die Speicherfristen für Bestelldaten werden in dieser Fassung angegeben.</p>` },
+      { id: "contact", en: '41f0a683dbb8', h2: "12. Kontakt", html: `
       <p>Einzelunternehmer ALEKSANDR KHARIN (Magic eSIM), Georgien<br>
       <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>` },
     ],

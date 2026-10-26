@@ -58,6 +58,7 @@ import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
+import { snapshots as legalSnapshots, archivePath, versionNumber, versionsJson, VERSIONS_JSON } from './legal-archive.mjs';
 import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
 import { TERMS, TERMS_VERSION, TERMS_EFFECTIVE, TERMS_EFFECTIVE_ISO } from './terms-en.mjs';
 import { REFUND, REFUND_VERSION, REFUND_EFFECTIVE, REFUND_EFFECTIVE_ISO } from './refund-en.mjs';
@@ -544,6 +545,8 @@ const modal = (c) => `<div class="overlay" id="checkout" hidden>
         <div><span data-i18n="checkout.coverage">${t('checkout.coverage')}</span><b id="rvCoverage">—</b></div>
         <div><span data-i18n="checkout.data">${t('checkout.data')}</span><b id="rvData">—</b></div>
         <div><span data-i18n="checkout.term">${t('checkout.term')}</span><b id="rvTerm">—</b></div>
+        <div><span data-i18n="checkout.starts">${t('checkout.starts')}</span><b id="rvStart">—</b></div>
+        <div><span data-i18n="checkout.deadline">${t('checkout.deadline')}</span><b id="rvDeadline" data-i18n="checkout.deadlineUnknown">${t('checkout.deadlineUnknown')}</b></div>
         <div><span data-i18n="checkout.emailShort">${t('checkout.emailShort')}</span><b id="rvEmail">—</b></div>
         <div class="total"><span data-i18n="checkout.price">${t('checkout.price')}</span><b id="rvTotal">—</b></div>
       </div>
@@ -974,14 +977,21 @@ const cjkSpaced = (v) => v.replace(/(\d)(\p{Script=Han})/gu, '$1 $2').replace(/(
 const META_COLON = Object.freeze({ fr: '\u00a0:', 'zh-Hans': '：' });
 const PRIVACY_NOINDEX = '<meta name="robots" content="noindex, follow">';
 function privacyPage() { return legalPage('privacy'); }
-function legalPage(kind) {
-  const doc = LEGAL_DOCS[kind];
-  if (!doc) throw new Error(`legalPage: no legal document «${kind}»`);
+// LEGAL-5: `archived` = one frozen version from seo/legal-archive/ (English only), rendered at its permanent address
+// /en/<kind>/v<number>/ in the same frame, with a notice that it is kept unchanged and a link to the current version.
+function legalPage(kind, archived = null) {
+  const cur = LEGAL_DOCS[kind];
+  if (!cur) throw new Error(`legalPage: no legal document «${kind}»`);
+  if (archived && L.code !== 'en') throw new Error('legalPage: an archived version is English only (the master text)');
+  const doc = archived
+    ? { path: archivePath(kind, archived.version), D: archived, version: archived.version, effective: archived.effective, effectiveIso: archived.effectiveIso }
+    : cur;
   // LEGAL-4: outside English the page is the translation (seo/legal-i18n/<code>.mjs) of the same English document — the
   // same section ids, the English version and date, and a notice that the English version applies where they differ.
   const T = L.code === 'en' ? null : LEGAL_T;
   if (L.code !== 'en' && !T) throw new Error(`legalPage: no ${L.code} translation of the ${kind} document (seo/legal-i18n.mjs)`);
   const path = T ? `${P}/${kind}/` : doc.path;
+  const permanent = archivePath(kind, cur.version);
   const url = `${SITE}${path}`;
   const D = T ? T[kind] : doc.D;
   if (T && D.sections.map((x) => x.id).join('|') !== doc.D.sections.map((x) => x.id).join('|')) throw new Error(`legalPage(${kind}): the ${L.code} sections are not the English sections`);
@@ -995,6 +1005,10 @@ function legalPage(kind) {
   // The version line follows each language's typography: French « : », Chinese full-width （）and ：.
   const metaVersion = L.code === 'zh-Hans' ? version.replace(' (', '（').replace(/\)$/, '）') : version;
   const notice = T ? `\n      <p class="lg-meta lg-translation">${esc(T.notice.body)} <a href="${doc.path}" hreflang="${EN_HTML_LANG}" lang="${EN_HTML_LANG}">${esc(T.notice.english)}</a></p>` : '';
+  // The permanent copy of the version shown (LEGAL-5); on an archived page, the way back to the current version.
+  const keep = archived
+    ? `\n      <p class="lg-meta lg-archived"><strong>Permanent copy.</strong> This is version ${esc(versionNumber(doc.version))} of our ${esc(cur.D.h1)}, kept unchanged at this address. The current version is always at <a href="${cur.path}">magicesim.store${cur.path}</a>.</p>`
+    : `\n      <p class="lg-meta lg-permanent"><a href="${permanent}"${T ? ` hreflang="${EN_HTML_LANG}"` : ''}>${esc(T ? T.labels.permanent : 'Permanent copy of this version')}</a></p>`;
   const ids = D.sections.map((x) => x.id);
   if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z0-9-]+$/.test(id))) throw new Error(`legalPage(${kind}): section ids must be unique ASCII`);
   const toc = D.sections.map((x) => `        <li><a href="#${x.id}">${esc(x.h2)}</a></li>`).join('\n');
@@ -1009,7 +1023,7 @@ ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(D.title)}</title>
+<title>${esc(archived ? `${D.h1}, version ${versionNumber(doc.version)} — Magic eSIM` : D.title)}</title>
 <meta name="description" content="${esc(D.description)}">
 <link rel="canonical" href="${url}">
 ${PRIVACY_NOINDEX}
@@ -1036,7 +1050,7 @@ ${PAYBAR}
       <p class="crumbs"><a href="${P}/">Magic eSIM</a> › ${esc(D.crumb)}</p>
       <h1>${esc(D.h1)}</h1>
       <p class="lead">${esc(D.lead)}</p>
-      <p class="lg-meta">${esc(vLabel)} ${esc(metaVersion)} · ${esc(eLabel)}${META_COLON[L.code] || ':'} <time datetime="${doc.effectiveIso}">${esc(effective)}</time></p>${notice}
+      <p class="lg-meta">${esc(vLabel)} ${esc(metaVersion)} · ${esc(eLabel)}${META_COLON[L.code] || ':'} <time datetime="${doc.effectiveIso}">${esc(effective)}</time></p>${notice}${keep}
     </div>
   </section>
 
@@ -1130,6 +1144,15 @@ function homePage(list = countries()) {
     for (const [kind, doc] of Object.entries(L.code === 'en' || LEGAL_T ? LEGAL_DOCS : {})) {
       if (INTL_LEGAL[kind] !== doc.path) continue;
       write(`${base}/${kind}/index.html`, stampHtml(legalPage(kind), join(ROOT, base, kind)));
+    }
+    // LEGAL-5: every frozen version at its permanent address, and the public list of versions (English only).
+    if (L.code === 'en') {
+      for (const snap of legalSnapshots()) {
+        if (INTL_LEGAL[snap.kind] !== LEGAL_DOCS[snap.kind].path) continue;
+        const rel = archivePath(snap.kind, snap.version).slice(1);
+        write(`${rel}index.html`, stampHtml(legalPage(snap.kind, snap), join(ROOT, rel)));
+      }
+      write(VERSIONS_JSON, versionsJson());
     }
     return { countries: list.length, guides: GUIDES.length };
   }

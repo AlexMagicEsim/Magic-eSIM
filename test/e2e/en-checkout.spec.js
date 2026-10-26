@@ -41,7 +41,7 @@ const PACKAGES = [
   vol(ID.ae5, 'United Arab Emirates 5GB 30Days', ['AE'], 5, 30, 19.99),
   perDay(ID.aeDaily, 'United Arab Emirates 500MB/Day', ['AE'], 0.49, 2.99, [[3, 8.99], [7, 19.99]]),
   vol(ID.best, 'Best World 3 GB', ['AL', 'AE', 'PF', 'TH'], 3, 30, 35.99),
-  vol(ID.th3, 'Thailand 3GB 15Days', ['TH'], 3, 15, 4.99),
+  { ...vol(ID.th3, 'Thailand 3GB 15Days', ['TH'], 3, 15, 4.99), activation_policy: 'first_data_usage' },
   perDay(ID.thDaily, 'Singapore & Malaysia & Thailand 500MB/Day', ['SG', 'MY', 'TH'], 0.49, 1.99,
     [[3, 4.99], [5, 7.99], [7, 10.99], [10, 14.99]]),
   vol(ID.pf10, 'French Polynesia 10GB 30Days', ['PF'], 10, 30, 214.99),
@@ -153,7 +153,11 @@ test('UAE 3 GB: plan → server price $9.99 → email → review → payment not
   await expect(page.locator('#rvTotal')).toHaveText('$9.99');
   // Each fact once: no «eSIM plan» row repeating the data line.
   await expect(page.locator('#checkout .rows span', { hasText: 'eSIM plan' })).toHaveCount(0);
-  expect(await page.locator('#coStep3 .rows > div > span').allInnerTexts()).toEqual(['Coverage', 'Data', 'Validity', 'Email', 'Price']);
+  expect(await page.locator('#coStep3 .rows > div > span').allInnerTexts()).toEqual(['Coverage', 'Data', 'Validity', 'Validity starts', 'Activation deadline', 'Email', 'Price']);
+  // Terms §8.3–8.4 (LEGAL-5): the provider states neither for this plan — the review says so instead of guessing.
+  await expect(page.locator('#rvStart')).toHaveText('not stated by our eSIM provider — ask us before installing');
+  await expect(page.locator('#rvDeadline')).toHaveText(/^Set by our eSIM provider and not stated for this plan\./);
+  await expect(page.locator('#localGrid .card', { hasText: '3 GB' }).first().locator('.m-start')).toHaveCount(0);
   await expect(page.locator('#coFinal')).toContainText('Online payment is not available yet');
   await expect(page.locator('#coFinal')).toContainText('nothing has been charged, no order has been created and no eSIM will be sent');
   await expect(page.locator('#coFinal')).toContainText('Your email has not been sent or saved');
@@ -349,3 +353,23 @@ for (const [name, quote, message] of [
     assertClean(calls);
   });
 }
+
+/* ================================================================== *
+ * LEGAL-5: the start of validity, only as the provider states it
+ * ================================================================== */
+
+test('Thailand 3 GB: the card and the review state «at first data use», which the provider states; nothing is guessed', async ({ page }) => {
+  const { calls } = await open(page, '/en/esim/thailand/');
+  const card = page.locator('#localGrid .card', { hasText: '3 GB' }).first();
+  await expect(card.locator('.m-start')).toHaveText('Validity starts at first data use');
+  // A plan whose provider does not state it carries no such line.
+  await expect(page.locator('#dailyGrid .card').first().locator('.m-start')).toHaveCount(0);
+  await card.getByRole('button').click();
+  await page.locator('#coQuote').click();
+  await page.locator('#coEmail').fill('traveller@example.com');
+  await page.locator('#coDevice').check();
+  await page.locator('#coReview').click();
+  await expect(page.locator('#rvStart')).toHaveText('at first data use');
+  await expect(page.locator('#rvDeadline')).toHaveText(/not stated for this plan/);
+  assertClean(calls, 'traveller@example.com');
+});

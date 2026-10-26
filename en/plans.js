@@ -123,6 +123,26 @@
       return hasDaily ? DAILY.formatAllowance(gb, LANG) : I18N.t('plan.gb', { n: gb });
     }
 
+    /**
+     * When the plan's validity starts, as the PROVIDER states it (`activation_policy`), or null. Only a value the
+     * catalogue names is printed; `unknown` (most plans) prints nothing on the card, and the checkout's review says
+     * that it is not stated — never a guess (Terms §8.3).
+     */
+    var STARTS = {
+      first_data_usage: 'start.first_data_usage',
+      network_connection: 'start.network_connection',
+      installation: 'start.installation',
+      purchase: 'start.purchase',
+    };
+    function startKey(p) {
+      var k = String((p && p.activation_policy) || '').trim().toLowerCase();
+      return Object.prototype.hasOwnProperty.call(STARTS, k) ? k : null;
+    }
+    function startText(p) {
+      var k = startKey(p);
+      return k ? I18N.t(STARTS[k]) : '';
+    }
+
     /** «7 days»: the number and its word, in the language's own order. */
     function daysText(n) {
       return I18N.plural('plan.dayCount', n, { n: n });
@@ -387,6 +407,8 @@
       var also = coverageCodes(p).length > 1 ? alsoCovers(p, o.focus, 3) : '';
       if (also) meta.appendChild(span('m-also', also));
       extra.forEach(function (txt) { meta.appendChild(span('m-extra', txt)); });
+      var starts = startText(p);
+      if (starts) meta.appendChild(span('m-start', I18N.t('plan.starts', { when: starts })));
       if (meta.childNodes.length) el.appendChild(meta);
 
       // --- per-day: the number of days, picked here
@@ -461,7 +483,7 @@
     return {
       ISO2: ISO2, priceOf: priceOf, money: money, priceText: priceText, dataText: dataText, termText: termText,
       coverageCodes: coverageCodes, coverageText: coverageText, isRestricted: isRestricted, isWorldwide: isWorldwide,
-      card: card, distinguishers: distinguishers,
+      card: card, distinguishers: distinguishers, startKey: startKey, startText: startText,
       ladder: ladder, alsoCovers: alsoCovers, networkLabel: networkLabel, ipLabel: ipLabel,
     };
   }
