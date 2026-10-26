@@ -2,7 +2,7 @@
 // The English (seo/terms-en.mjs, seo/refund-en.mjs, seo/privacy-en.mjs) is the master; see seo/legal-i18n.mjs.
 export const LEGAL_I18N = Object.freeze({
   code: "zh-Hans",
-  labels: { version: '版本', effective: '生效日期', preLaunch: '上线前版本', permanent: '此版本的永久副本（英文）' },
+  labels: { version: '版本', effective: '生效日期', preLaunch: '上线前版本', permanent: '此版本的永久副本（英文）', permanentOwn: '此版本的永久副本', archivedTitle: '永久副本。', archivedBody: '这是本文件的 {v} 版本，在此地址保持不变。现行版本始终位于 {link}。' },
   notice: {
     body: '本文为英文版本的译文，仅为方便您阅读而提供。如译文与英文版本存在差异，以英文版本为准，但适用于您的强制性法律另有规定的除外。这不限制您的法定权利。',
     english: '阅读英文版本',
