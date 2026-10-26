@@ -7,11 +7,13 @@
 // seo/test-en-legal-docs.mjs pins what it states and what it must never state. A wording change is the owner's decision.
 // 0.9.1 (LEGAL-5, owner's task 2026-10-26): §3.4(c) and §4.3 — the period of an unlimited plan is counted in hours, so a
 // day that has started is no longer counted as fully used; §3.4(g) says what the providers' records can and cannot show.
-// 0.9.2 (LEGAL-6, owner's task 2026-10-26, against Paddle's published Refund Policy / Buyer Terms of 31 March 2026, its
-// Terms of 6 October 2026 and its Seller Handbook): §4.2 states the withdrawal right for a SERVICE — installing the eSIM
-// does not end it; other countries' periods are honoured; §3.3 full or partial refund; §3.6 the use after a report of an
-// unlimited plan counted in hours, never a whole day; new §9 — only IF sales are made through Paddle as Merchant of
-// Record: Paddle decides and pays refunds and may refund at its discretion; nothing says Paddle sells our plans today.
+// 0.9.2 (LEGAL-6, owner's task 2026-10-26): our own policy, adapted in substance (not in words) from the refund rules that
+// a reseller of digital products publishes for its buyers, to prepaid eSIM plans: paid purchases are not refundable except
+// as the law or this policy provides; statutory withdrawal for a SERVICE (installing the eSIM does not end it; other
+// countries' periods honoured); §5.1 a discretionary refund within 14 days — case by case, never a guarantee; no refund
+// for fraud or refund abuse; a refund ends the plan; approved refunds sent within 14 days; §3.6 use after a report of an
+// unlimited plan counted in hours. NO third-party company, payment system, supplier or future integration is named
+// (owner): seo/test-en-legal-docs.mjs.
 
 export const REFUND_VERSION = '0.9.2 (pre-launch)';
 export const REFUND_EFFECTIVE = '26 October 2026';
@@ -28,21 +30,17 @@ export const REFUND = Object.freeze({
       id: 'about-this-policy', h2: "About this policy", html: `
       <p>This policy explains when you can get money back for an eSIM plan bought in US dollars on the Magic eSIM international website. The seller is Individual Entrepreneur ALEKSANDR KHARIN (Georgia). This policy is part of our Terms of Service.</p>
       <p><strong>International payments are currently unavailable</strong>, so no plan can be bought on the international website yet. This policy applies to plans bought once international checkout becomes available.</p>
-      <p><strong>Your statutory rights come first.</strong> This policy describes what we offer voluntarily. It does not remove or reduce any right you have under mandatory consumer law. Where the law gives you more, you receive what the law gives you (section 4).</p>
-      <p><strong>Our general rule:</strong> we do not give a voluntary refund for an eSIM plan that was delivered and works as described. We correct billing errors, refund what we could not deliver, and deal with technical faults as set out below.</p>`,
+      <p><strong>Our general rule.</strong> Paid purchases are not refundable or exchangeable, except as the law that applies to your purchase requires or as this policy provides. In particular, we refund billing errors and plans we could not provide (section 2), deal with technical faults (section 3), and may refund other requests at our discretion within 14 days (section 5.1).</p>
+      <p><strong>Your statutory rights come first.</strong> This policy does not remove or reduce any right you have under mandatory consumer law. Where the law gives you more, you receive what the law gives you (section 4).</p>`,
     },
     {
       id: 'summary', h2: "1. Summary", html: `
       <ul class="list">
         <li><strong>Duplicate charge or charge in error:</strong> Full refund of the extra or wrong amount (section 2)</li>
-        <li><strong>We could not deliver your eSIM:</strong> Full refund (section 2)</li>
-        <li><strong>We cancelled your order:</strong> Full refund (section 2)</li>
-        <li><strong>Technical fault that our support cannot fix:</strong> We offer a replacement or a refund of the unused part (section 3). If the eSIM never worked, or no data was used on a plan with a fixed data allowance, we refund 100 %</li>
-        <li><strong>You chose the wrong country or plan:</strong> Not covered by our voluntary refunds. Your statutory rights remain (sections 4 and 5)</li>
-        <li><strong>Your device does not support eSIM or is locked:</strong> Not covered by our voluntary refunds. Your statutory rights remain (sections 4 and 5)</li>
-        <li><strong>You changed your mind, or your trip changed:</strong> Not covered by our voluntary refunds. Your statutory rights remain (sections 4 and 5)</li>
-        <li><strong>You did not use the eSIM:</strong> Not using it does not by itself give you a refund. Your statutory rights remain (sections 4 and 5)</li>
-        <li><strong>A purchase made through Paddle as Merchant of Record</strong> (not available yet): refunds are decided and paid by Paddle (section 8)</li>
+        <li><strong>We could not provide the plan you paid for, or we cancelled your order:</strong> Full refund (section 2)</li>
+        <li><strong>Confirmed technical fault that our support cannot fix:</strong> A replacement, or a full or partial refund (section 3)</li>
+        <li><strong>Your statutory rights, including the right of withdrawal where the law gives it:</strong> Always honoured (section 4)</li>
+        <li><strong>Any other reason — you chose the wrong plan, your device is not compatible, your trip changed, you did not use the eSIM:</strong> No refund as of right. You may ask within 14 days after your purchase, and we decide individually; a refund is not guaranteed (section 5)</li>
       </ul>`,
     },
     {
@@ -116,7 +114,7 @@ export const REFUND = Object.freeze({
           <li>the law requires a refund.</li>
           </ul>
         </li>
-        <li>A plan whose validity has not started is not refunded for any other reason (section 5).</li>
+        <li>For any other reason, a plan whose validity has not started is not refunded as of right (section 5).</li>
       </ul>
       <p>(e) <strong>eSIM never worked.</strong></p>
       <ul class="list">
@@ -175,7 +173,7 @@ export const REFUND = Object.freeze({
       </blockquote>
       <ul class="list">
         <li><strong>Installing the eSIM, or connecting it to a network, does not by itself end your right of withdrawal.</strong> You lose it only once the plan has been fully provided — its data is used up or its validity has ended. Until then you may withdraw and pay only for the part provided (section 4.3).</li>
-        <li>The law of other countries may give you a right to cancel for a different period (for example, 7 days) or with different exceptions, or no such right. Where such a law applies to your purchase, we honour it.</li>
+        <li>The laws of some other countries give consumers a different period to cancel certain online purchases (for example, 5 or 7 days), with their own conditions and exceptions. Where such a law applies to your purchase, we honour it.</li>
         <li>We repeat this text, with the date and time you ticked the box, in your order confirmation email.</li>
       </ul>
       <p>4.3. <strong>What we refund if you withdraw.</strong> If you validly withdraw:</p>
@@ -237,8 +235,15 @@ export const REFUND = Object.freeze({
       <p><strong>New Zealand.</strong> Nothing in our Terms of Service or in this policy limits your rights under the Consumer Guarantees Act 1993 or the Fair Trading Act 1986, including your rights if a plan is not supplied with reasonable care and skill or is not fit for a purpose you made known to us.</p>`,
     },
     {
-      id: 'what-our-voluntary-refunds-do-not-cover', h2: "5. What our voluntary refunds do not cover", html: `
-      <p>Unless section 2 or 3 applies, or the law gives you a right (section 4), we do not refund when:</p>
+      id: 'discretionary-refunds-and-exclusions', h2: "5. Refunds at our discretion, and what we do not refund", html: `
+      <p>5.1. <strong>Refunds at our discretion within 14 days.</strong></p>
+      <ul class="list">
+        <li>If you ask for a refund within <strong>14 days after your purchase</strong> for a reason that sections 2 to 4 do not cover, we may, at our discretion, refund you in full or in part, or decline.</li>
+        <li>We look at each request individually. We consider, for example, the plan, the reason for your request, and whether and how much the eSIM has been used.</li>
+        <li><strong>This is not a guarantee and not a right.</strong> Asking within 14 days does not mean that you will receive a refund, and a refund we agree to does not oblige us to agree to other requests, including similar ones.</li>
+        <li>We do not give a refund where there is evidence of fraud, abuse of refunds or other manipulation.</li>
+      </ul>
+      <p>5.2. <strong>What we do not refund.</strong> Apart from sections 2 to 4, and any refund we agree to under section 5.1, we do not refund when:</p>
       <ul class="list">
         <li>you chose the <strong>wrong country, region or plan</strong>;</li>
         <li>your <strong>device does not support eSIM</strong>, is <strong>carrier-locked</strong>, or is not compatible with the plan’s network;</li>
@@ -257,13 +262,13 @@ export const REFUND = Object.freeze({
       <ul class="list">
         <li>Write to <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Include your order reference, the email address used for the order, and the reason for your request.</li>
         <li>You can email us at any time. We reply on business days and aim to send a first reply within <strong>1–2 business days</strong>, usually sooner.</li>
-        <li>For an order made through Paddle as Merchant of Record (not available yet), section 8 applies.</li>
       </ul>
       <p>6.2. <strong>How you are refunded.</strong></p>
       <ul class="list">
         <li>Approved refunds are made to the <strong>original payment method</strong>; we do not send refunds to another card, account or person.</li>
         <li>If a refund to the original payment method cannot be completed — for example, because the card account has been closed — we will contact you and agree, at no cost to you, how to return the money to you.</li>
-        <li>After approval, the money usually arrives within <strong>5–10 banking days</strong>, depending on the payment provider and your bank.</li>
+        <li>We send an approved refund within <strong>14 days</strong> after approval. The money usually arrives within <strong>5–10 banking days</strong> after that, depending on the payment provider and your bank.</li>
+        <li>Unless we agree otherwise, a refund ends the plan, and we may deactivate the eSIM.</li>
         <li>For a statutory withdrawal, we send the refund no later than <strong>14 days</strong> after receiving your notice.</li>
       </ul>
       <p>6.3. <strong>Amount and currency.</strong></p>
@@ -278,23 +283,12 @@ export const REFUND = Object.freeze({
         <li>You can contact your bank or card issuer at any time. This policy does not limit that right.</li>
         <li>We encourage you to contact us first, because we can usually solve a problem faster.</li>
         <li>If you open a dispute, we will give the payment provider the information about your order.</li>
+        <li>While a dispute is open, we may temporarily suspend the eSIM.</li>
         <li>If you receive a refund from us and also through a dispute for the same payment, we may ask you to return the duplicate amount.</li>
       </ul>`,
     },
     {
-      id: 'merchant-of-record', h2: "8. Purchases through Paddle (not available yet)", html: `
-      <p><strong>This section does not apply today.</strong> International payments are currently unavailable, and no payment provider or reseller sells our plans. It will apply only if we start selling through Paddle.com acting as online reseller and Merchant of Record, and only to the orders that Paddle processes. Before that happens, we will update this policy and our Terms of Service, and the checkout will show who the seller is.</p>
-      <p>For such an order:</p>
-      <ul class="list">
-        <li><strong>Paddle decides and pays refunds.</strong> Paddle is the seller of record. Refunds are decided by Paddle under Paddle’s Refund Policy (<a href="https://www.paddle.com/legal/refund-policy" rel="noopener">paddle.com/legal/refund-policy</a>) and the law that applies to your purchase, and are paid by Paddle to your original payment method.</li>
-        <li><strong>Paddle may refund at its discretion.</strong> Paddle may approve a refund, in full or in part, in cases where this policy gives no voluntary refund. That is Paddle’s decision under its own policy.</li>
-        <li><strong>We do not pay refunds for these orders ourselves.</strong> Where sections 2 and 3 say that you get a refund, we ask Paddle to refund you, and the refund is made by Paddle.</li>
-        <li><strong>Your statutory rights</strong> (section 4) apply in the same way. You can exercise them with Paddle — through the link in Paddle’s receipt or at paddle.net — or by writing to us; we pass your request on to Paddle.</li>
-        <li><strong>We stay responsible for the eSIM.</strong> We provide the eSIM and technical support, and the steps in section 3 still apply.</li>
-      </ul>`,
-    },
-    {
-      id: 'contact', h2: "9. Contact", html: `
+      id: 'contact', h2: "8. Contact", html: `
       <p>Individual Entrepreneur ALEKSANDR KHARIN (Magic eSIM), Bakhtrioni str. N22, Apt. 75, Saburtalo district, Tbilisi, Georgia<br>
       Email: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>`,
     },

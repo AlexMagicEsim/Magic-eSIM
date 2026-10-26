@@ -9,8 +9,8 @@
 // 0.9.2 (LEGAL-5, owner's task 2026-10-26): §2.1 a one-off purchase of a prepaid package, no subscription, no renewal, and
 // what the card and the checkout really show; §8.3–8.4 the start of validity, the counting of days and the activation
 // period only as far as the providers state them; §5.5 and §15 the permanent copy of every version (seo/legal-archive.mjs).
-// 0.9.3 (LEGAL-6, owner's task 2026-10-26): §1 separates the sales model of today (no sales; we would be the seller) from a
-// possible later one through Paddle as Merchant of Record — conditional, never presented as running; §10.2 points to it.
+// 0.9.3 (LEGAL-6, owner's task 2026-10-26): no future payment intermediary is mentioned any more (§1); §6.1 states the
+// refund rule of the Refund Policy 0.9.2 (refunds only as that policy or the law provides).
 
 export const TERMS_VERSION = '0.9.3 (pre-launch)';
 export const TERMS_EFFECTIVE = '26 October 2026';
@@ -46,12 +46,7 @@ export const TERMS = Object.freeze({
         <li><strong>Email:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>“<strong>We</strong>”, “<strong>us</strong>” and “<strong>our</strong>” mean the seller named above. “<strong>You</strong>” means the person who uses the Website or buys a plan.</p>
-      <p><strong>How plans are sold — today and possibly later.</strong></p>
-      <ul class="list">
-        <li><strong>Today:</strong> no plan can be bought on the Website. No payment provider and no reseller sells our plans.</li>
-        <li><strong>Later, if we sell directly:</strong> we are the seller, as these Terms describe.</li>
-        <li><strong>Later, if we sell through Paddle:</strong> we may sell through Paddle.com acting as online reseller and Merchant of Record. This is not the case today. If it happens, these Terms will be updated before such sales begin. For an order that Paddle processes, Paddle is the seller of record and handles payment and billing; Paddle’s own buyer terms also apply; refunds are decided and paid by Paddle (Refund Policy, section 8); and we remain responsible for providing the eSIM and technical support.</li>
-      </ul>`,
+`,
     },
     {
       id: 'what-we-sell', h2: "2. What we sell", html: `
@@ -170,6 +165,7 @@ export const TERMS = Object.freeze({
       <ul class="list">
         <li>Plan prices are shown in US dollars. They include all our charges; we add no fees of our own.</li>
         <li>You pay once for each order. There is no subscription, recurring charge or automatic renewal.</li>
+        <li>A paid order is refunded only as the Refund Policy or the law provides. The Refund Policy also describes when we may refund at our discretion; such a refund is never guaranteed.</li>
         <li>International payments are currently unavailable. When international checkout becomes available, applicable taxes may be calculated and added at checkout. The total amount payable, including any applicable taxes, will be displayed before you confirm the payment.</li>
       </ul>
       <p>6.2. <strong>Payment.</strong></p>
@@ -269,7 +265,7 @@ export const TERMS = Object.freeze({
       <p>10.2. <strong>What we do.</strong></p>
       <ul class="list">
         <li>We try to fix the problem, for example by guiding you through settings, reissuing installation details or providing a replacement eSIM.</li>
-        <li>If we cannot make the plan work as described, the Refund Policy applies. For an order made through Paddle as Merchant of Record (not available yet), refunds are made by Paddle (Refund Policy, section 8).</li>
+        <li>If we cannot make the plan work as described, the Refund Policy applies.</li>
       </ul>
       <p>10.3. <strong>Your legal rights.</strong> These steps do not limit the remedies the law gives you if a plan does not conform to the contract.</p>`,
     },
