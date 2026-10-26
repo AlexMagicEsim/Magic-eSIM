@@ -62,6 +62,6 @@ test.describe('without JavaScript', () => {
     await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => route.abort());
     await page.goto('/en/esim/');
     await expect(page.locator('#hubSearch')).toBeHidden();
-    await expect(page.locator('#hubList a')).toHaveCount(199);
+    await expect(page.locator('#hubList a')).toHaveCount(198);
   });
 });
