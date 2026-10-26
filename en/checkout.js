@@ -338,6 +338,8 @@
       $('rvCoverage').textContent = PLANS.coverageText(st.plan, st.focus);
       $('rvData').textContent = PLANS.dataText(st.plan);
       $('rvTerm').textContent = termText();
+      // Terms §8.3–8.4: the start of validity only as the provider states it; otherwise say that it is not stated.
+      $('rvStart').textContent = PLANS.startText(st.plan) || I18N.t('start.unknown');
       $('rvEmail').textContent = email;
       $('rvTotal').textContent = PLANS.money(st.quote.amount);
       st.step = 3;

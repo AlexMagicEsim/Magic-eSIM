@@ -545,6 +545,8 @@ const modal = (c) => `<div class="overlay" id="checkout" hidden>
         <div><span data-i18n="checkout.coverage">${t('checkout.coverage')}</span><b id="rvCoverage">—</b></div>
         <div><span data-i18n="checkout.data">${t('checkout.data')}</span><b id="rvData">—</b></div>
         <div><span data-i18n="checkout.term">${t('checkout.term')}</span><b id="rvTerm">—</b></div>
+        <div><span data-i18n="checkout.starts">${t('checkout.starts')}</span><b id="rvStart">—</b></div>
+        <div><span data-i18n="checkout.deadline">${t('checkout.deadline')}</span><b id="rvDeadline" data-i18n="checkout.deadlineUnknown">${t('checkout.deadlineUnknown')}</b></div>
         <div><span data-i18n="checkout.emailShort">${t('checkout.emailShort')}</span><b id="rvEmail">—</b></div>
         <div class="total"><span data-i18n="checkout.price">${t('checkout.price')}</span><b id="rvTotal">—</b></div>
       </div>

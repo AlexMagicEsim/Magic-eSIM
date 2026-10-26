@@ -53,7 +53,7 @@ test('206 Spanish pages: the home, the list, 198 countries, the guides list and 
   assert.equal(ES_SITE_PAGES.length, 206);
   assert.equal(ES_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
   assert.equal(ES_PAGES.filter((p) => /^es\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
-  assert.equal(htmlUnder('en').length, ES_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4)');
+  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, ES_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 
 test('every source has every key English has, and no other', () => {

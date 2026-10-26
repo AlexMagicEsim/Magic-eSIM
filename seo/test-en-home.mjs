@@ -17,6 +17,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { header, twin, PAYBAR, FOOTER, LOGO, POPULAR, FONT_PRELOAD } from './build-en-pages.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
+import { snapshots as legalVersions } from './legal-archive.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -47,7 +48,8 @@ test('the home carries the generator\'s header, payment bar and footer, verbatim
 
 test('every English page has the same header shape, the same footer, and the payment bar', () => {
   // 206 storefront pages + the Privacy Policy (LEGAL-1), which carries the same chrome.
-  assert.equal(PAGES.length, 209); // + the legal documents: Privacy (LEGAL-1), Terms and Refund (LEGAL-3)
+  // + the legal documents: Privacy (LEGAL-1), Terms and Refund (LEGAL-3); + the permanent copy of each of their versions (LEGAL-5)
+  assert.equal(PAGES.length, 209 + legalVersions().length);
   for (const p of PAGES) {
     const h = read(p);
     assert.ok(h.includes(FOOTER), `${p}: footer`);
