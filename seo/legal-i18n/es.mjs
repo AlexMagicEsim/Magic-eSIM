@@ -24,7 +24,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>El sitio web en ruso magicesim.store, las compras en rublos rusos y la Mini App de Telegram de Magic eSIM se rigen por condiciones independientes publicadas allí.</p>
       <p><strong>Los pagos internacionales no están disponibles por ahora.</strong> Puedes consultar los planes y obtener un precio exacto en el Sitio web, pero no puedes hacer un pedido ni pagar, y no se celebra ningún contrato. Estos Términos describen cómo funcionarán el pedido y el pago cuando el pago internacional esté disponible.</p>
       <p>Lee estos Términos, nuestra <strong>Política de reembolso</strong> y nuestra <strong>Política de privacidad</strong> antes de pagar. La Política de reembolso forma parte de estos Términos. Aceptas estos Términos al marcar la casilla de aceptación en el proceso de pago y confirmar tu pago.</p>` },
-      { id: "who-we-are", en: '7505886e5084', h2: "1. Quiénes somos", html: `
+      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. Quiénes somos", html: `
       <p>Todos los planes del Sitio web los vende:</p>
       <ul class="list">
         <li><strong>Vendedor:</strong> Empresario individual ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), registrado en Georgia</li>
@@ -35,7 +35,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>Correo electrónico:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>«<strong>Nosotros</strong>», «<strong>nos</strong>» y «<strong>nuestro</strong>» se refieren al vendedor indicado arriba. «<strong>Tú</strong>» se refiere a la persona que usa el Sitio web o compra un plan.</p>
-      <p>Si empezamos a vender a través de un intermediario de pagos que actúe como vendedor a efectos legales (seller of record), estos Términos se actualizarán antes de que comiencen esas ventas e indicarán el nombre de ese intermediario.</p>` },
+` },
       { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Qué vendemos", html: `
       <p>2.1. <strong>Planes de datos eSIM prepago para viajes.</strong></p>
       <ul class="list">
@@ -139,11 +139,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Para tu comodidad, también publicamos estos Términos, la Política de reembolso y la Política de privacidad en español, alemán, francés, chino simplificado y coreano. Si una traducción y la versión en inglés difieren, se aplica la versión en inglés, salvo que la ley imperativa que te sea aplicable disponga otra cosa.</li>
         <li>Esto no limita tus derechos legales como consumidor, incluida cualquier norma de esa ley según la cual una cláusula poco clara se interpreta a tu favor.</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'db75c6116e50', h2: "6. Precios y pago", html: `
+      { id: "prices-and-payment", en: 'ea3a4710d6e5', h2: "6. Precios y pago", html: `
       <p>6.1. <strong>Precio.</strong></p>
       <ul class="list">
         <li>Los precios de los planes se muestran en dólares estadounidenses. Incluyen todos nuestros cargos; no añadimos comisiones propias.</li>
         <li>Pagas una sola vez por cada pedido. No hay suscripción, cargo recurrente ni renovación automática.</li>
+        <li>Un pedido pagado solo se reembolsa según lo previsto en la Política de reembolso o en la ley. La Política de reembolso también describe cuándo podemos reembolsar a nuestra discreción; ese reembolso nunca está garantizado.</li>
         <li>Los pagos internacionales no están disponibles por ahora. Cuando el pago internacional esté disponible, los impuestos aplicables podrán calcularse y añadirse en el proceso de pago. El importe total a pagar, incluidos los impuestos aplicables, se mostrará antes de que confirmes el pago.</li>
       </ul>
       <p>6.2. <strong>Pago.</strong></p>
@@ -310,20 +311,18 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Cuándo puedes recuperar tu dinero por un plan eSIM comprado en dólares estadounidenses en el sitio web internacional de Magic eSIM.",
     crumb: "Política de reembolso",
     sections: [
-      { id: "about-this-policy", en: 'ab6df6f6bb4a', h2: "Acerca de esta política", html: `
+      { id: "about-this-policy", en: 'b13c22569ab6', h2: "Acerca de esta política", html: `
       <p>Esta política explica cuándo puedes recuperar tu dinero por un plan eSIM comprado en dólares estadounidenses en el sitio web internacional de Magic eSIM. El vendedor es el Empresario individual ALEKSANDR KHARIN (Georgia). Esta política forma parte de nuestros Términos del servicio.</p>
       <p><strong>Los pagos internacionales no están disponibles por ahora</strong>, por lo que todavía no se puede comprar ningún plan en el sitio web internacional. Esta política se aplica a los planes comprados una vez que el pago internacional esté disponible.</p>
-      <p><strong>Tus derechos legales están primero.</strong> Esta política describe lo que ofrecemos de forma voluntaria. No elimina ni reduce ningún derecho que tengas conforme a la ley imperativa de protección del consumidor. Cuando la ley te concede más, recibes lo que la ley te concede (sección 4).</p>` },
-      { id: "summary", en: 'a81f5b7359f5', h2: "1. Resumen", html: `
+      <p><strong>Nuestra regla general.</strong> Las compras pagadas no son reembolsables ni canjeables, salvo lo que exija la ley aplicable a tu compra o lo que disponga esta política. En particular, reembolsamos los errores de cobro y los planes que no pudimos suministrar (sección 2), tratamos los fallos técnicos (sección 3) y podemos reembolsar otras solicitudes a nuestra discreción dentro de los 14 días (sección 5.1).</p>
+      <p><strong>Tus derechos legales están primero.</strong> Esta política no elimina ni reduce ningún derecho que tengas conforme a la ley imperativa de protección del consumidor. Cuando la ley te concede más, recibes lo que la ley te concede (sección 4).</p>` },
+      { id: "summary", en: '992c77399ca2', h2: "1. Resumen", html: `
       <ul class="list">
         <li><strong>Cargo duplicado o cargo por error:</strong> Reembolso íntegro del importe adicional o erróneo (sección 2)</li>
-        <li><strong>No pudimos entregar tu eSIM:</strong> Reembolso íntegro (sección 2)</li>
-        <li><strong>Cancelamos tu pedido:</strong> Reembolso íntegro (sección 2)</li>
-        <li><strong>Fallo técnico que nuestro soporte no puede resolver:</strong> Te ofrecemos una sustitución o el reembolso de la parte no utilizada (sección 3). Si la eSIM nunca funcionó, o no se usaron datos en un plan con un volumen de datos fijo, reembolsamos el 100 %</li>
-        <li><strong>Elegiste un país o un plan equivocado:</strong> No está cubierto por nuestros reembolsos voluntarios. Tus derechos legales se mantienen (secciones 4 y 5)</li>
-        <li><strong>Tu dispositivo no admite eSIM o está bloqueado:</strong> No está cubierto por nuestros reembolsos voluntarios. Tus derechos legales se mantienen (secciones 4 y 5)</li>
-        <li><strong>Cambiaste de opinión o tu viaje cambió:</strong> No está cubierto por nuestros reembolsos voluntarios. Tus derechos legales se mantienen (secciones 4 y 5)</li>
-        <li><strong>No usaste la eSIM:</strong> No usarla no te da derecho, por sí solo, a un reembolso. Tus derechos legales se mantienen (secciones 4 y 5)</li>
+        <li><strong>No pudimos suministrar el plan que pagaste, o cancelamos tu pedido:</strong> Reembolso íntegro (sección 2)</li>
+        <li><strong>Fallo técnico confirmado que nuestro soporte no puede resolver:</strong> Una sustitución, o un reembolso íntegro o parcial (sección 3)</li>
+        <li><strong>Tus derechos legales, incluido el derecho de desistimiento cuando la ley lo concede:</strong> Siempre se respetan (sección 4)</li>
+        <li><strong>Cualquier otro motivo (elegiste un plan equivocado, tu dispositivo no es compatible, tu viaje cambió, no usaste la eSIM):</strong> No hay reembolso como derecho. Puedes solicitarlo dentro de los 14 días posteriores a tu compra, y decidimos de forma individual; el reembolso no está garantizado (sección 5)</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. Errores y falta de entrega: siempre se reembolsan", html: `
       <p>Reembolsamos el importe íntegro pagado:</p>
@@ -333,7 +332,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>si <strong>entregamos un plan distinto</strong> del que pagaste y no quieres recibir en su lugar el plan correcto;</li>
         <li>si <strong>cancelamos</strong> tu pedido (Términos del servicio, sección 13).</li>
       </ul>` },
-      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Fallos técnicos", html: `
+      { id: "technical-faults", en: '15880949437d', h2: "3. Fallos técnicos", html: `
       <p>3.1. <strong>Cuándo se aplica esta sección.</strong> Se aplica cuando se cumplen todas estas condiciones:</p>
       <ul class="list">
         <li>la eSIM no se puede instalar, no se conecta o no proporciona datos según lo descrito en su ficha de producto;</li>
@@ -349,7 +348,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>3.3. <strong>Qué hacemos.</strong></p>
       <ol class="list">
         <li>Primero intentamos resolver el problema contigo.</li>
-        <li>Si no puede resolverse en un plazo razonable, te ofrecemos una eSIM de <strong>sustitución</strong> para el mismo destino y plan, o un <strong>reembolso</strong>.</li>
+        <li>Si no puede resolverse en un plazo razonable, te ofrecemos una eSIM de <strong>sustitución</strong> para el mismo destino y plan, o un <strong>reembolso íntegro o parcial</strong> conforme a la sección 3.4, según lo que exijan las circunstancias y la ley aplicable a tu compra.</li>
         <li>Si la sustitución tampoco funciona, te reembolsamos conforme a la sección 3.4, sumando los datos y los días usados en la eSIM original y en la de sustitución.</li>
       </ol>
       <p>3.4. <strong>Cuánto reembolsamos.</strong> Reembolsamos el precio de la parte del plan que no pudiste usar. Todas las mediciones se hacen <strong>en el momento en que nos comunicaste el fallo por primera vez</strong>, de modo que el tiempo que tarda nuestro soporte no reduce tu reembolso. El uso del plan después de tu aviso se trata en la sección 3.6. Los importes se redondean al centavo <strong>a tu favor</strong>.</p>
@@ -393,7 +392,7 @@ export const LEGAL_I18N = Object.freeze({
           <li>la ley exige un reembolso.</li>
           </ul>
         </li>
-        <li>Un plan cuya validez no ha empezado no se reembolsa por ningún otro motivo (sección 5).</li>
+        <li>Por cualquier otro motivo, un plan cuya validez no ha empezado no se reembolsa como derecho (sección 5).</li>
       </ul>
       <p>(e) <strong>La eSIM nunca funcionó.</strong></p>
       <ul class="list">
@@ -430,10 +429,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>Un reembolso conforme a esta sección pone fin al plan. Podemos desactivar la eSIM una vez aprobado el reembolso.</li>
         <li>Deja de usar la eSIM después de tu aviso (desactiva los datos móviles de la línea de Magic eSIM) mientras investigamos el fallo.</li>
         <li>El uso que nuestro soporte te pida hacer para probar la eSIM, y el uso de una eSIM de sustitución que te proporcionemos, no se descuentan conforme a esta sección; se cuentan una sola vez, conforme a la sección 3.3.</li>
-        <li>Por otros datos usados después de tu aviso, descontamos: en los planes con un volumen de datos fijo, los datos usados; en los planes diarios, la parte usada del volumen de cada día adicional; en los planes ilimitados, cada día adicional en el que se usaron datos.</li>
+        <li>Por otros datos usados después de tu aviso, descontamos: en los planes con un volumen de datos fijo, los datos usados; en los planes diarios, la parte usada del volumen de cada día adicional; en los planes ilimitados, el tiempo transcurrido desde tu aviso hasta el último uso de la eSIM, según los registros de nuestro proveedor de servicios eSIM, contado en horas como en la sección 3.4(c), y nunca un día entero solo porque haya empezado un nuevo día. Cuando los registros no puedan mostrarlo, se aplica la sección 3.4(f).</li>
         <li>El reembolso final es el importe calculado conforme a la sección 3.4, menos cualquier descuento de este tipo.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Tus derechos legales", html: `
+      { id: "your-statutory-rights", en: 'b87f609825f3', h2: "4. Tus derechos legales", html: `
       <p>4.1. <strong>Se aplican los derechos legales.</strong></p>
       <ul class="list">
         <li>Según dónde vivas y qué ley se aplique a tu compra, puedes tener derechos además de los de las secciones 2 y 3. Algunos ejemplos son la ley de Georgia, la de un país de la Unión Europea o la del Reino Unido, la Australian Consumer Law y la Consumer Guarantees Act 1993 de Nueva Zelanda.</li>
@@ -441,13 +440,16 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>4.2. <strong>Derecho de desistimiento (en el Reino Unido: derecho de cancelación).</strong></p>
       <ul class="list">
-        <li>Si la ley te concede este derecho (por ejemplo, si vives en la Unión Europea o en el Reino Unido), puedes desistir de tu compra dentro de los <strong>14 días posteriores al día en que haces tu pedido</strong>, sin necesidad de indicar el motivo.</li>
+        <li>Si la ley te concede este derecho (por ejemplo, si eres consumidor en la Unión Europea, el Espacio Económico Europeo o el Reino Unido), puedes desistir de tu compra dentro de los <strong>14 días posteriores al día en que haces tu pedido</strong>, sin necesidad de indicar el motivo.</li>
+        <li>Nuestros planes son un servicio: conectividad de datos móviles. La ley solo nos permite empezar a prestar un servicio durante el plazo de desistimiento si nos lo solicitas expresamente.</li>
         <li>Para que tu plan pueda empezar de inmediato, en el proceso de pago te pedimos que marques una casilla aparte. Nunca está marcada de antemano. La casilla dice:</li>
       </ul>
       <blockquote>
         <p>«Solicito a Magic eSIM que empiece a prestar mi plan eSIM ahora, dentro del plazo de desistimiento de 14 días. Entiendo que pierdo mi derecho de desistimiento una vez que el plan se haya prestado por completo (sus datos se hayan agotado o su validez haya terminado) y que, si desisto antes, pagaré la parte del plan prestada hasta el momento en que lo comunique.»</p>
       </blockquote>
       <ul class="list">
+        <li><strong>Instalar la eSIM, o conectarla a una red, no pone fin por sí solo a tu derecho de desistimiento.</strong> Solo lo pierdes una vez que el plan se haya prestado por completo: sus datos se han agotado o su validez ha terminado. Hasta entonces puedes desistir y pagar solo la parte prestada (sección 4.3).</li>
+        <li>Las leyes de algunos otros países conceden a los consumidores un plazo distinto para cancelar determinadas compras en línea (por ejemplo, 5 o 7 días), con sus propias condiciones y excepciones. Cuando una ley de este tipo se aplique a tu compra, la respetamos.</li>
         <li>Repetimos este texto, con la fecha y la hora en que marcaste la casilla, en el correo de confirmación de tu pedido.</li>
       </ul>
       <p>4.3. <strong>Qué reembolsamos si desistes.</strong> Si desistes válidamente:</p>
@@ -507,8 +509,15 @@ export const LEGAL_I18N = Object.freeze({
       <p>También tienes derecho a ser compensado por cualquier otra pérdida o daño razonablemente previsible. Si el fallo no constituye un fallo grave, tienes derecho a que los problemas del servicio se corrijan en un plazo razonable y, si no se hace, a cancelar tu contrato y obtener un reembolso de la parte no utilizada del contrato.</p>
       <p>Los beneficios que te concedemos conforme a la sección 3 se suman a los demás derechos y remedios que tengas conforme a una ley en relación con nuestros servicios.</p>
       <p><strong>Nueva Zelanda.</strong> Nada de lo dispuesto en nuestros Términos del servicio ni en esta política limita tus derechos conforme a la Consumer Guarantees Act 1993 o la Fair Trading Act 1986, incluidos tus derechos si un plan no se suministra con un cuidado y una pericia razonables o no es apto para un fin que nos hayas dado a conocer.</p>` },
-      { id: "what-our-voluntary-refunds-do-not-cover", en: 'b55a3f0f2eb6', h2: "5. Qué no cubren nuestros reembolsos voluntarios", html: `
-      <p>Salvo que se aplique la sección 2 o 3, o que la ley te conceda un derecho (sección 4), no reembolsamos cuando:</p>
+      { id: "discretionary-refunds-and-exclusions", en: 'dbd852ff9f86', h2: "5. Reembolsos a nuestra discreción y lo que no reembolsamos", html: `
+      <p>5.1. <strong>Reembolsos a nuestra discreción dentro de los 14 días.</strong></p>
+      <ul class="list">
+        <li>Si solicitas un reembolso dentro de los <strong>14 días posteriores a tu compra</strong> por un motivo que las secciones 2 a 4 no cubren, podemos, a nuestra discreción, reembolsarte de forma íntegra o parcial, o rechazar la solicitud.</li>
+        <li>Examinamos cada solicitud de forma individual. Tenemos en cuenta, por ejemplo, el plan, el motivo de tu solicitud y si se ha usado la eSIM y en qué medida.</li>
+        <li><strong>Esto no es una garantía ni un derecho.</strong> Solicitarlo dentro de los 14 días no significa que vayas a recibir un reembolso, y un reembolso que aceptemos no nos obliga a aceptar otras solicitudes, incluidas las similares.</li>
+        <li>No concedemos un reembolso cuando haya pruebas de fraude, abuso de los reembolsos u otra manipulación.</li>
+      </ul>
+      <p>5.2. <strong>Lo que no reembolsamos.</strong> Aparte de las secciones 2 a 4, y de cualquier reembolso que aceptemos conforme a la sección 5.1, no reembolsamos cuando:</p>
       <ul class="list">
         <li>elegiste un <strong>país, región o plan equivocado</strong>;</li>
         <li>tu <strong>dispositivo no admite eSIM</strong>, está <strong>bloqueado por el operador</strong> o no es compatible con la red del plan;</li>
@@ -520,7 +529,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>el plan se restringió por un incumplimiento de nuestras <strong>normas de uso aceptable</strong>.</li>
       </ul>
       <p>Comprueba tu dispositivo y el plan antes de comprar, y contáctanos si no estás seguro.</p>` },
-      { id: "how-to-ask-for-a-refund", en: 'cae236767f73', h2: "6. Cómo solicitar un reembolso", html: `
+      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. Cómo solicitar un reembolso", html: `
       <p>6.1. <strong>Cómo solicitarlo.</strong></p>
       <ul class="list">
         <li>Escribe a <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Indica la referencia de tu pedido, la dirección de correo electrónico utilizada en el pedido y el motivo de tu solicitud.</li>
@@ -530,7 +539,8 @@ export const LEGAL_I18N = Object.freeze({
       <ul class="list">
         <li>Los reembolsos aprobados se abonan al <strong>método de pago original</strong>; no enviamos reembolsos a otra tarjeta, cuenta o persona.</li>
         <li>Si no se puede completar un reembolso al método de pago original (por ejemplo, porque se ha cerrado la cuenta de la tarjeta), nos pondremos en contacto contigo y acordaremos, sin coste para ti, cómo devolverte el dinero.</li>
-        <li>Tras la aprobación, el dinero suele llegar en un plazo de <strong>5–10 días bancarios</strong>, según el proveedor de pagos y tu banco.</li>
+        <li>Enviamos un reembolso aprobado dentro de los <strong>14 días</strong> posteriores a la aprobación. Después, el dinero suele llegar en un plazo de <strong>5–10 días bancarios</strong>, según el proveedor de pagos y tu banco.</li>
+        <li>Salvo que acordemos otra cosa, un reembolso pone fin al plan, y podemos desactivar la eSIM.</li>
         <li>En caso de desistimiento legal, enviamos el reembolso a más tardar <strong>14 días</strong> después de recibir tu comunicación.</li>
       </ul>
       <p>6.3. <strong>Importe y moneda.</strong></p>
@@ -538,11 +548,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Reembolsamos el importe que realmente pagaste, en dólares estadounidenses, sin comisión por reembolso.</li>
         <li>Si la cuenta de tu tarjeta está en otra moneda, se aplican el tipo de cambio y las comisiones de tu banco.</li>
       </ul>` },
-      { id: "payment-disputes", en: '5f21c06ef9b1', h2: "7. Disputas de pago", html: `
+      { id: "payment-disputes", en: 'a585ce82a9ff', h2: "7. Disputas de pago", html: `
       <ul class="list">
         <li>Puedes dirigirte a tu banco o al emisor de tu tarjeta en cualquier momento. Esta política no limita ese derecho.</li>
         <li>Te animamos a que nos contactes primero, porque normalmente podemos resolver un problema más rápido.</li>
         <li>Si abres una disputa, facilitaremos al proveedor de pagos la información sobre tu pedido.</li>
+        <li>Mientras una disputa esté abierta, podemos suspender temporalmente la eSIM.</li>
         <li>Si recibes un reembolso nuestro y también a través de una disputa por el mismo pago, podemos pedirte que devuelvas el importe duplicado.</li>
       </ul>` },
       { id: "contact", en: 'ccd168858210', h2: "8. Contacto", html: `

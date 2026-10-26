@@ -24,7 +24,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>俄语网站 magicesim.store、以俄罗斯卢布进行的购买以及 Magic eSIM Telegram Mini App 受在其上公布的单独条款约束。</p>
       <p><strong>目前暂不支持国际支付。</strong>您可以在本网站上浏览套餐并获取准确价格，但无法下单或付款，也不会订立任何合同。本条款描述的是国际结账功能开通后下单和付款的方式。</p>
       <p>请在付款前阅读本条款、我们的<strong>退款政策</strong>和<strong>隐私政策</strong>。退款政策是本条款的组成部分。您在结账时勾选接受框并确认付款，即表示接受本条款。</p>` },
-      { id: "who-we-are", en: '7505886e5084', h2: "1. 我们是谁", html: `
+      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. 我们是谁", html: `
       <p>本网站上的每一份套餐均由以下卖方销售：</p>
       <ul class="list">
         <li><strong>卖方：</strong>个体企业家 ALEKSANDR KHARIN（ინდივიდუალური მეწარმე），在格鲁吉亚注册</li>
@@ -35,7 +35,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>电子邮箱：</strong><a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>“<strong>我们</strong>”、“<strong>我方</strong>”和“<strong>我们的</strong>”指上述卖方。“<strong>您</strong>”指使用本网站或购买套餐的人。</p>
-      <p>如果我们开始通过作为登记卖方（seller of record）的支付中介进行销售，我们将在此类销售开始之前更新本条款，并在其中写明该中介。</p>` },
+` },
       { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. 我们销售什么", html: `
       <p>2.1. <strong>旅行用预付费 eSIM 流量套餐。</strong></p>
       <ul class="list">
@@ -139,11 +139,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>为方便您阅读，我们还以西班牙文、德文、法文、简体中文和韩文发布本条款、退款政策和隐私政策。如译文与英文版本存在差异，以英文版本为准，但适用于您的强制性法律另有规定的除外。</li>
         <li>这不限制您作为消费者的法定权利，包括该法律中关于不明确的条款应作有利于您的解释的任何规则。</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'db75c6116e50', h2: "6. 价格和付款", html: `
+      { id: "prices-and-payment", en: 'ea3a4710d6e5', h2: "6. 价格和付款", html: `
       <p>6.1. <strong>价格。</strong></p>
       <ul class="list">
         <li>套餐价格以美元显示。价格已包含我们的所有费用；我们不额外收取任何我们自己的费用。</li>
         <li>每笔订单您只需付款一次。没有订阅、定期扣款或自动续订。</li>
+        <li>已付款的订单仅按退款政策或法律的规定退款。退款政策还说明了我们在何种情况下可以自行决定退款；此类退款从不予以保证。</li>
         <li>目前暂不支持国际支付。国际结账功能开通后，适用的税费可能会在结账时计算并加收。包括任何适用税费在内的应付总额将在您确认付款之前显示。</li>
       </ul>
       <p>6.2. <strong>付款。</strong></p>
@@ -310,20 +311,18 @@ export const LEGAL_I18N = Object.freeze({
     lead: "在 Magic eSIM 国际网站上以美元购买的 eSIM 套餐在何种情况下可以退款。",
     crumb: "退款政策",
     sections: [
-      { id: "about-this-policy", en: 'ab6df6f6bb4a', h2: "关于本政策", html: `
+      { id: "about-this-policy", en: 'b13c22569ab6', h2: "关于本政策", html: `
       <p>本政策说明在 Magic eSIM 国际网站上以美元购买的 eSIM 套餐在何种情况下可以退款。卖方为个体企业家 ALEKSANDR KHARIN（格鲁吉亚）。本政策是我们服务条款的组成部分。</p>
       <p><strong>目前暂不支持国际支付</strong>，因此目前还无法在国际网站上购买任何套餐。本政策适用于国际结账功能开通后购买的套餐。</p>
-      <p><strong>您的法定权利优先。</strong>本政策描述的是我们自愿提供的内容。它不取消或减少您根据强制性消费者法律享有的任何权利。如果法律给予您更多，您将获得法律给予您的内容（第 4 节）。</p>` },
-      { id: "summary", en: 'a81f5b7359f5', h2: "1. 概要", html: `
+      <p><strong>我们的一般规则。</strong>已付款的购买不可退款或换货，但适用于您的购买的法律所要求的或本政策所规定的除外。特别是，我们对账单错误和我们无法提供的套餐予以退款（第 2 节），处理技术故障（第 3 节），并可在 14 天内自行决定对其他申请予以退款（第 5.1 节）。</p>
+      <p><strong>您的法定权利优先。</strong>本政策不取消或减少您根据强制性消费者法律享有的任何权利。如果法律给予您更多，您将获得法律给予您的内容（第 4 节）。</p>` },
+      { id: "summary", en: '992c77399ca2', h2: "1. 概要", html: `
       <ul class="list">
         <li><strong>重复扣款或错误扣款：</strong>全额退还多扣或错扣的金额（第 2 节）</li>
-        <li><strong>我们无法交付您的 eSIM：</strong>全额退款（第 2 节）</li>
-        <li><strong>我们取消了您的订单：</strong>全额退款（第 2 节）</li>
-        <li><strong>我们的客服无法解决的技术故障：</strong>我们提供替换或退还未使用部分的款项（第 3 节）。如果 eSIM 从未正常工作，或固定流量额度的套餐未使用任何流量，我们退还 100%</li>
-        <li><strong>您选错了国家或套餐：</strong>不在我们自愿退款的范围内。您的法定权利不受影响（第 4 节和第 5 节）</li>
-        <li><strong>您的设备不支持 eSIM 或已被锁定：</strong>不在我们自愿退款的范围内。您的法定权利不受影响（第 4 节和第 5 节）</li>
-        <li><strong>您改变了主意，或您的行程发生变化：</strong>不在我们自愿退款的范围内。您的法定权利不受影响（第 4 节和第 5 节）</li>
-        <li><strong>您未使用 eSIM：</strong>未使用本身并不使您有权获得退款。您的法定权利不受影响（第 4 节和第 5 节）</li>
+        <li><strong>我们无法提供您已付款的套餐，或我们取消了您的订单：</strong>全额退款（第 2 节）</li>
+        <li><strong>经确认且我们的客服无法解决的技术故障：</strong>替换，或全额或部分退款（第 3 节）</li>
+        <li><strong>您的法定权利，包括法律赋予的撤回权：</strong>始终予以尊重（第 4 节）</li>
+        <li><strong>任何其他原因——您选错了套餐、您的设备不兼容、您的行程发生变化、您未使用 eSIM：</strong>您不享有退款权。您可以在购买后 14 天内提出申请，我们将个案决定；退款不予保证（第 5 节）</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. 错误和未交付——始终退款", html: `
       <p>在以下情况下，我们全额退还已支付的金额：</p>
@@ -333,7 +332,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>如果我们<strong>交付的套餐与您所付款的套餐不同</strong>，且您不希望改为接收正确的套餐；</li>
         <li>如果<strong>我们取消</strong>您的订单（服务条款第 13 节）。</li>
       </ul>` },
-      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. 技术故障", html: `
+      { id: "technical-faults", en: '15880949437d', h2: "3. 技术故障", html: `
       <p>3.1. <strong>本节何时适用。</strong>本节在以下各项均成立时适用：</p>
       <ul class="list">
         <li>eSIM 无法安装、无法连接，或未按其产品卡片的描述提供数据；</li>
@@ -349,7 +348,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>3.3. <strong>我们会做什么。</strong></p>
       <ol class="list">
         <li>我们首先与您一起尝试解决问题。</li>
-        <li>如果问题无法在合理时间内解决，我们会为您提供同一目的地和套餐的<strong>替换</strong> eSIM，或提供<strong>退款</strong>。</li>
+        <li>如果问题无法在合理时间内解决，我们会为您提供同一目的地和套餐的<strong>替换</strong> eSIM，或根据第 3.4 节，视具体情况和适用于您的购买的法律的要求，提供<strong>全额或部分退款</strong>。</li>
         <li>如果替换 eSIM 也无法使用，我们将根据第 3.4 节向您退款，原 eSIM 和替换 eSIM 上已使用的流量和天数合并计算。</li>
       </ol>
       <p>3.4. <strong>退款金额。</strong>我们退还您无法使用的套餐部分的价格。所有测算均以<strong>您首次向我们报告故障的时间</strong>为准，因此我们客服所花费的时间不会减少您的退款。报告之后对套餐的使用按第 3.6 节处理。金额以<strong>有利于您</strong>的方式取整至美分。</p>
@@ -393,7 +392,7 @@ export const LEGAL_I18N = Object.freeze({
           <li>法律要求退款。</li>
           </ul>
         </li>
-        <li>有效期尚未开始的套餐不会因任何其他原因退款（第 5 节）。</li>
+        <li>对于有效期尚未开始的套餐，您不能因任何其他原因主张退款权（第 5 节）。</li>
       </ul>
       <p>(e) <strong>eSIM 从未正常工作。</strong></p>
       <ul class="list">
@@ -430,10 +429,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>根据本节作出的退款将终止该套餐。退款获批后，我们可以停用该 eSIM。</li>
         <li>在我们调查故障期间，请在报告后停止使用该 eSIM——关闭 Magic eSIM 线路的移动数据。</li>
         <li>我们的客服要求您为测试 eSIM 而进行的使用，以及对我们提供的替换 eSIM 的使用，不在本节下扣除；这些使用只按第 3.3 节计算一次。</li>
-        <li>对于报告之后使用的其他流量，我们扣除：固定流量额度的套餐，扣除已使用的流量；每日套餐，扣除此后每一天已使用的额度份额；无限流量套餐，扣除此后每一个使用了流量的天数。</li>
+        <li>对于报告之后使用的其他流量，我们扣除：固定流量额度的套餐，扣除已使用的流量；每日套餐，扣除此后每一天已使用的额度份额；无限流量套餐，扣除从您报告之时起至该 eSIM 最后一次被使用之时的时间（以我们的 eSIM 服务提供商的记录为准），按第 3.4(c) 节的方式以小时计算——绝不会仅因新的一天已经开始而扣除一整天。如果记录无法显示这一点，则适用第 3.4(f) 节。</li>
         <li>最终退款金额为根据第 3.4 节计算的金额减去上述扣除额。</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. 您的法定权利", html: `
+      { id: "your-statutory-rights", en: 'b87f609825f3', h2: "4. 您的法定权利", html: `
       <p>4.1. <strong>法定权利适用。</strong></p>
       <ul class="list">
         <li>视您的居住地以及适用于您的购买的法律而定，除第 2 节和第 3 节外，您可能还享有其他权利。例如格鲁吉亚法律、欧洲联盟某一国家或英国的法律、Australian Consumer Law（澳大利亚消费者法）以及新西兰的 Consumer Guarantees Act 1993（消费者保障法）。</li>
@@ -441,13 +440,16 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>4.2. <strong>撤回权（在英国称为取消权）。</strong></p>
       <ul class="list">
-        <li>如果法律赋予您这项权利——例如您居住在欧洲联盟或英国——您可以在<strong>您下单之日后 14 天内</strong>撤回您的购买，且无需说明理由。</li>
+        <li>如果法律赋予您这项权利——例如您是欧洲联盟、欧洲经济区或英国的消费者——您可以在<strong>您下单之日后 14 天内</strong>撤回您的购买，且无需说明理由。</li>
+        <li>我们的套餐是一项服务：移动数据连接。法律仅在您明确要求的情况下，才允许我们在撤回期内开始提供服务。</li>
         <li>为使您的套餐能够立即开始，我们会在结账时请您勾选一个单独的复选框。该复选框从不预先勾选。复选框的文字如下：</li>
       </ul>
       <blockquote>
         <p>“我要求 Magic eSIM 在 14 天撤回期内立即开始提供我的 eSIM 套餐。我理解，套餐一经全部提供（流量用完或有效期结束），我即丧失撤回权；如果我在此之前撤回，需要支付截至我通知时已提供部分的费用。”</p>
       </blockquote>
       <ul class="list">
+        <li><strong>安装 eSIM 或将其连接到网络，本身并不会终止您的撤回权。</strong>只有在套餐全部提供后——即流量用完或有效期结束——您才会丧失该权利。在此之前，您可以撤回，并且只需支付已提供部分的费用（第 4.3 节）。</li>
+        <li>其他一些国家的法律就某些在线购买给予消费者不同的取消期限（例如 5 天或 7 天），并有其各自的条件和例外。如果此类法律适用于您的购买，我们将予以尊重。</li>
         <li>我们会在您的订单确认邮件中重复这段文字，并附上您勾选该复选框的日期和时间。</li>
       </ul>
       <p>4.3. <strong>您撤回时我们退还的金额。</strong>如果您有效地撤回：</p>
@@ -507,8 +509,15 @@ export const LEGAL_I18N = Object.freeze({
       <p>您还有权就任何其他可合理预见的损失或损害获得补偿。如果故障不构成重大故障，您有权要求在合理时间内纠正服务中的问题；如果未能做到，您有权解除合同并就合同的未使用部分获得退款。</p>
       <p>我们根据第 3 节给予您的利益，是对您根据法律就我们的服务享有的其他权利和救济的补充。</p>
       <p><strong>新西兰。</strong>我们的服务条款或本政策中的任何内容均不限制您根据 Consumer Guarantees Act 1993（消费者保障法）或 Fair Trading Act 1986（公平交易法）享有的权利，包括在套餐未以合理的谨慎和技能提供，或不适合您已告知我们的用途时您享有的权利。</p>` },
-      { id: "what-our-voluntary-refunds-do-not-cover", en: 'b55a3f0f2eb6', h2: "5. 我们的自愿退款不涵盖的情形", html: `
-      <p>除非适用第 2 节或第 3 节，或法律赋予您权利（第 4 节），在以下情况下我们不予退款：</p>
+      { id: "discretionary-refunds-and-exclusions", en: 'dbd852ff9f86', h2: "5. 由我们自行决定的退款，以及我们不予退款的情形", html: `
+      <p>5.1. <strong>14 天内由我们自行决定的退款。</strong></p>
+      <ul class="list">
+        <li>如果您在<strong>购买后 14 天内</strong>因第 2 至 4 节未涵盖的原因申请退款，我们可以自行决定向您全额或部分退款，或予以拒绝。</li>
+        <li>我们逐一审视每项申请。例如，我们会考虑套餐、您申请的理由，以及 eSIM 是否已被使用、使用了多少。</li>
+        <li><strong>这不是一项保证，也不是一项权利。</strong>在 14 天内提出申请并不意味着您将获得退款；我们同意的退款也不使我们有义务同意其他申请，包括类似的申请。</li>
+        <li>如有欺诈、滥用退款或其他操纵行为的证据，我们不予退款。</li>
+      </ul>
+      <p>5.2. <strong>我们不予退款的情形。</strong>除第 2 至 4 节以及我们根据第 5.1 节同意的任何退款外，在以下情况下我们不予退款：</p>
       <ul class="list">
         <li>您选择了<strong>错误的国家、地区或套餐</strong>；</li>
         <li>您的<strong>设备不支持 eSIM</strong>、<strong>被运营商锁定</strong>，或与套餐的网络不兼容；</li>
@@ -520,7 +529,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>套餐因违反我们的<strong>可接受使用规则</strong>而受到限制。</li>
       </ul>
       <p>请在购买之前检查您的设备和套餐，如有疑问请联系我们。</p>` },
-      { id: "how-to-ask-for-a-refund", en: 'cae236767f73', h2: "6. 如何申请退款", html: `
+      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. 如何申请退款", html: `
       <p>6.1. <strong>如何申请。</strong></p>
       <ul class="list">
         <li>请写信至 <a href="mailto:support@magicesim.store">support@magicesim.store</a>。请注明您的订单编号、下单时使用的电子邮箱地址以及申请理由。</li>
@@ -530,7 +539,8 @@ export const LEGAL_I18N = Object.freeze({
       <ul class="list">
         <li>获批的退款将退回<strong>原支付方式</strong>；我们不会将退款发送至其他银行卡、账户或个人。</li>
         <li>如果无法完成向原支付方式的退款——例如因为该银行卡账户已关闭——我们会与您联系，并在不向您收取任何费用的情况下与您商定如何将款项退还给您。</li>
-        <li>获批后，款项通常会在 <strong>5–10 个银行工作日</strong>内到账，具体取决于支付服务商和您的银行。</li>
+        <li>我们在批准后 <strong>14 天</strong>内发出获批的退款。此后款项通常会在 <strong>5–10 个银行工作日</strong>内到账，具体取决于支付服务商和您的银行。</li>
+        <li>除非我们另有约定，退款将终止该套餐，且我们可以停用该 eSIM。</li>
         <li>对于法定撤回，我们最迟在收到您的通知后 <strong>14 天</strong>内发出退款。</li>
       </ul>
       <p>6.3. <strong>金额和币种。</strong></p>
@@ -538,11 +548,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>我们以美元退还您实际支付的金额，不收取退款手续费。</li>
         <li>如果您的银行卡账户使用其他币种，则适用您银行的汇率和费用。</li>
       </ul>` },
-      { id: "payment-disputes", en: '5f21c06ef9b1', h2: "7. 支付争议", html: `
+      { id: "payment-disputes", en: 'a585ce82a9ff', h2: "7. 支付争议", html: `
       <ul class="list">
         <li>您可以随时联系您的银行或发卡机构。本政策不限制这项权利。</li>
         <li>我们建议您先联系我们，因为我们通常能更快地解决问题。</li>
         <li>如果您发起争议，我们会向支付服务商提供有关您订单的信息。</li>
+        <li>在争议处理期间，我们可以暂时暂停该 eSIM。</li>
         <li>如果您就同一笔付款既从我们这里获得了退款，又通过争议获得了退款，我们可能会请您退还重复的金额。</li>
       </ul>` },
       { id: "contact", en: 'ccd168858210', h2: "8. 联系方式", html: `

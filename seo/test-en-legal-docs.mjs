@@ -85,6 +85,8 @@ for (const [slug, D, version] of DOCS) {
     assert.doesNotMatch(t, /our payment provider is|is our Merchant of Record|Merchant of Record is [A-Z]/i, 'no claim that a payment flow runs');
     // LEGAL-4: no possessive MoR either («added by our Merchant of Record» read as if one were connected).
     assert.doesNotMatch(t, /\bour (Merchant of Record|payment provider|payment intermediary)\b/i, 'no MoR or payment provider presented as ours');
+    // LEGAL-6 (owner, 2026-10-26): our own policy — no Merchant of Record, seller of record or future payment intermediary at all.
+    assert.doesNotMatch(t, /Merchant of Record|seller of record|payment intermediary|reseller of record/i, 'no MoR / intermediary');
   });
 }
 

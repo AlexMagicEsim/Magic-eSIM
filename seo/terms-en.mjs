@@ -9,8 +9,10 @@
 // 0.9.2 (LEGAL-5, owner's task 2026-10-26): §2.1 a one-off purchase of a prepaid package, no subscription, no renewal, and
 // what the card and the checkout really show; §8.3–8.4 the start of validity, the counting of days and the activation
 // period only as far as the providers state them; §5.5 and §15 the permanent copy of every version (seo/legal-archive.mjs).
+// 0.9.3 (LEGAL-6, owner's task 2026-10-26): no future payment intermediary is mentioned any more (§1); §6.1 states the
+// refund rule of the Refund Policy 0.9.2 (refunds only as that policy or the law provides).
 
-export const TERMS_VERSION = '0.9.2 (pre-launch)';
+export const TERMS_VERSION = '0.9.3 (pre-launch)';
 export const TERMS_EFFECTIVE = '26 October 2026';
 export const TERMS_EFFECTIVE_ISO = '2026-10-26';
 
@@ -44,7 +46,7 @@ export const TERMS = Object.freeze({
         <li><strong>Email:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>“<strong>We</strong>”, “<strong>us</strong>” and “<strong>our</strong>” mean the seller named above. “<strong>You</strong>” means the person who uses the Website or buys a plan.</p>
-      <p>If we start selling through a payment intermediary that acts as the seller of record, these Terms will be updated before such sales begin and will name that intermediary.</p>`,
+`,
     },
     {
       id: 'what-we-sell', h2: "2. What we sell", html: `
@@ -163,6 +165,7 @@ export const TERMS = Object.freeze({
       <ul class="list">
         <li>Plan prices are shown in US dollars. They include all our charges; we add no fees of our own.</li>
         <li>You pay once for each order. There is no subscription, recurring charge or automatic renewal.</li>
+        <li>A paid order is refunded only as the Refund Policy or the law provides. The Refund Policy also describes when we may refund at our discretion; such a refund is never guaranteed.</li>
         <li>International payments are currently unavailable. When international checkout becomes available, applicable taxes may be calculated and added at checkout. The total amount payable, including any applicable taxes, will be displayed before you confirm the payment.</li>
       </ul>
       <p>6.2. <strong>Payment.</strong></p>

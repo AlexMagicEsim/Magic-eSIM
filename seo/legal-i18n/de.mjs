@@ -24,7 +24,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>Für die russischsprachige Website magicesim.store, Käufe in russischen Rubel und die Telegram-Mini-App von Magic eSIM gelten gesonderte Bedingungen, die dort veröffentlicht sind.</p>
       <p><strong>Internationale Zahlungen sind derzeit nicht verfügbar.</strong> Du kannst auf der Website Tarife ansehen und einen genauen Preis abrufen, aber du kannst keine Bestellung aufgeben und nicht bezahlen, und es kommt kein Vertrag zustande. Diese Nutzungsbedingungen beschreiben, wie Bestellung und Zahlung funktionieren, sobald der internationale Bestellvorgang verfügbar ist.</p>
       <p>Bitte lies diese Nutzungsbedingungen, unsere <strong>Erstattungsrichtlinie</strong> und unsere <strong>Datenschutzerklärung</strong>, bevor du bezahlst. Die Erstattungsrichtlinie ist Bestandteil dieser Nutzungsbedingungen. Du akzeptierst diese Nutzungsbedingungen, indem du im Bestellvorgang das Kästchen zur Zustimmung ankreuzt und deine Zahlung bestätigst.</p>` },
-      { id: "who-we-are", en: '7505886e5084', h2: "1. Wer wir sind", html: `
+      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. Wer wir sind", html: `
       <p>Jeder Tarif auf der Website wird verkauft von:</p>
       <ul class="list">
         <li><strong>Verkäufer:</strong> Einzelunternehmer ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), eingetragen in Georgien</li>
@@ -34,8 +34,7 @@ export const LEGAL_I18N = Object.freeze({
         <li><strong>Website:</strong> <a href="/en/">https://magicesim.store/en/</a></li>
         <li><strong>E-Mail:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
-      <p>„<strong>Wir</strong>“, „<strong>uns</strong>“ und „<strong>unser</strong>“ bezeichnen den oben genannten Verkäufer. „<strong>Du</strong>“ bezeichnet die Person, die die Website nutzt oder einen Tarif kauft.</p>
-      <p>Falls wir beginnen, über einen Zahlungsvermittler zu verkaufen, der als offizieller Verkäufer (Seller of Record) auftritt, werden diese Nutzungsbedingungen vor Beginn solcher Verkäufe aktualisiert und nennen diesen Vermittler.</p>` },
+      <p>„<strong>Wir</strong>“, „<strong>uns</strong>“ und „<strong>unser</strong>“ bezeichnen den oben genannten Verkäufer. „<strong>Du</strong>“ bezeichnet die Person, die die Website nutzt oder einen Tarif kauft.</p>` },
       { id: "what-we-sell", en: '8bb2b1881a7a', h2: "2. Was wir verkaufen", html: `
       <p>2.1. <strong>Prepaid-eSIM-Datentarife für Reisen.</strong></p>
       <ul class="list">
@@ -139,11 +138,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Zu deiner Erleichterung veröffentlichen wir diese Nutzungsbedingungen, die Erstattungsrichtlinie und die Datenschutzerklärung außerdem auf Spanisch, Deutsch, Französisch, vereinfachtem Chinesisch und Koreanisch. Weichen eine Übersetzung und die englische Fassung voneinander ab, gilt die englische Fassung, sofern das zwingende Recht, das für dich gilt, nichts anderes vorschreibt.</li>
         <li>Dies schränkt deine gesetzlichen Rechte als Verbraucher nicht ein, einschließlich einer Regel dieses Rechts, nach der eine unklare Bestimmung zu deinen Gunsten ausgelegt wird.</li>
       </ul>` },
-      { id: "prices-and-payment", en: 'db75c6116e50', h2: "6. Preise und Zahlung", html: `
+      { id: "prices-and-payment", en: 'ea3a4710d6e5', h2: "6. Preise und Zahlung", html: `
       <p>6.1. <strong>Preis.</strong></p>
       <ul class="list">
         <li>Die Tarifpreise werden in US-Dollar angezeigt. Sie enthalten alle unsere Entgelte; wir erheben keine eigenen Gebühren.</li>
         <li>Du zahlst für jede Bestellung einmal. Es gibt kein Abonnement, keine wiederkehrende Belastung und keine automatische Verlängerung.</li>
+        <li>Eine bezahlte Bestellung wird nur erstattet, soweit die Erstattungsrichtlinie oder das Gesetz dies vorsieht. Die Erstattungsrichtlinie beschreibt auch, wann wir nach unserem Ermessen erstatten können; eine solche Erstattung ist niemals garantiert.</li>
         <li>Internationale Zahlungen sind derzeit nicht verfügbar. Sobald der internationale Bestellvorgang verfügbar ist, können anfallende Steuern im Bestellvorgang berechnet und hinzugefügt werden. Der zu zahlende Gesamtbetrag einschließlich etwaiger anfallender Steuern wird angezeigt, bevor du die Zahlung bestätigst.</li>
       </ul>
       <p>6.2. <strong>Zahlung.</strong></p>
@@ -310,20 +310,18 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Wann du für einen auf der internationalen Website von Magic eSIM in US-Dollar gekauften eSIM-Tarif Geld zurückbekommen kannst.",
     crumb: "Erstattungsrichtlinie",
     sections: [
-      { id: "about-this-policy", en: 'ab6df6f6bb4a', h2: "Über diese Richtlinie", html: `
+      { id: "about-this-policy", en: 'b13c22569ab6', h2: "Über diese Richtlinie", html: `
       <p>Diese Richtlinie erklärt, wann du für einen auf der internationalen Website von Magic eSIM in US-Dollar gekauften eSIM-Tarif Geld zurückbekommen kannst. Verkäufer ist Einzelunternehmer ALEKSANDR KHARIN (Georgien). Diese Richtlinie ist Bestandteil unserer Nutzungsbedingungen.</p>
       <p><strong>Internationale Zahlungen sind derzeit nicht verfügbar</strong>, daher kann auf der internationalen Website noch kein Tarif gekauft werden. Diese Richtlinie gilt für Tarife, die gekauft werden, sobald der internationale Bestellvorgang verfügbar ist.</p>
-      <p><strong>Deine gesetzlichen Rechte haben Vorrang.</strong> Diese Richtlinie beschreibt, was wir freiwillig anbieten. Sie beseitigt oder schmälert kein Recht, das du nach zwingendem Verbraucherrecht hast. Wenn dir das Gesetz mehr gewährt, erhältst du das, was das Gesetz dir gewährt (Abschnitt 4).</p>` },
-      { id: "summary", en: 'a81f5b7359f5', h2: "1. Zusammenfassung", html: `
+      <p><strong>Unsere allgemeine Regel.</strong> Bezahlte Käufe sind von Erstattung und Umtausch ausgeschlossen, außer soweit das Gesetz, das für deinen Kauf gilt, dies vorschreibt oder diese Richtlinie es vorsieht. Insbesondere erstatten wir Abrechnungsfehler und Tarife, die wir nicht bereitstellen konnten (Abschnitt 2), behandeln technische Fehler (Abschnitt 3) und können andere Anträge innerhalb von 14 Tagen nach unserem Ermessen erstatten (Abschnitt 5.1).</p>
+      <p><strong>Deine gesetzlichen Rechte haben Vorrang.</strong> Diese Richtlinie beseitigt oder schmälert kein Recht, das du nach zwingendem Verbraucherrecht hast. Wenn dir das Gesetz mehr gewährt, erhältst du das, was das Gesetz dir gewährt (Abschnitt 4).</p>` },
+      { id: "summary", en: '992c77399ca2', h2: "1. Zusammenfassung", html: `
       <ul class="list">
         <li><strong>Doppelte oder irrtümliche Abbuchung:</strong> Vollständige Erstattung des zusätzlichen oder falschen Betrags (Abschnitt 2)</li>
-        <li><strong>Wir konnten deine eSIM nicht liefern:</strong> Vollständige Erstattung (Abschnitt 2)</li>
-        <li><strong>Wir haben deine Bestellung storniert:</strong> Vollständige Erstattung (Abschnitt 2)</li>
-        <li><strong>Technischer Fehler, den unser Support nicht beheben kann:</strong> Wir bieten einen Ersatz oder eine Erstattung des nicht genutzten Teils an (Abschnitt 3). Hat die eSIM nie funktioniert oder wurden bei einem Tarif mit festem Datenvolumen keine Daten genutzt, erstatten wir 100 %</li>
-        <li><strong>Du hast das falsche Land oder den falschen Tarif gewählt:</strong> Nicht von unseren freiwilligen Erstattungen abgedeckt. Deine gesetzlichen Rechte bleiben bestehen (Abschnitte 4 und 5)</li>
-        <li><strong>Dein Gerät unterstützt keine eSIM oder ist gesperrt:</strong> Nicht von unseren freiwilligen Erstattungen abgedeckt. Deine gesetzlichen Rechte bleiben bestehen (Abschnitte 4 und 5)</li>
-        <li><strong>Du hast es dir anders überlegt, oder deine Reise hat sich geändert:</strong> Nicht von unseren freiwilligen Erstattungen abgedeckt. Deine gesetzlichen Rechte bleiben bestehen (Abschnitte 4 und 5)</li>
-        <li><strong>Du hast die eSIM nicht genutzt:</strong> Die Nichtnutzung allein begründet keine Erstattung. Deine gesetzlichen Rechte bleiben bestehen (Abschnitte 4 und 5)</li>
+        <li><strong>Wir konnten den Tarif, für den du bezahlt hast, nicht bereitstellen, oder wir haben deine Bestellung storniert:</strong> Vollständige Erstattung (Abschnitt 2)</li>
+        <li><strong>Bestätigter technischer Fehler, den unser Support nicht beheben kann:</strong> Ein Ersatz oder eine vollständige oder teilweise Erstattung (Abschnitt 3)</li>
+        <li><strong>Deine gesetzlichen Rechte, einschließlich des Widerrufsrechts, wo das Gesetz es gewährt:</strong> Werden stets beachtet (Abschnitt 4)</li>
+        <li><strong>Jeder andere Grund — du hast den falschen Tarif gewählt, dein Gerät ist nicht kompatibel, deine Reise hat sich geändert, du hast die eSIM nicht genutzt:</strong> Kein Anspruch auf Erstattung. Du kannst innerhalb von 14 Tagen nach deinem Kauf einen Antrag stellen, und wir entscheiden im Einzelfall; eine Erstattung ist nicht garantiert (Abschnitt 5)</li>
       </ul>` },
       { id: "errors-and-non-delivery-always-refunded", en: '5fa240a298bf', h2: "2. Fehler und Nichtlieferung — immer erstattet", html: `
       <p>Wir erstatten den vollen gezahlten Betrag:</p>
@@ -333,7 +331,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>wenn wir <strong>einen anderen Tarif geliefert haben</strong> als den, für den du bezahlt hast, und du stattdessen nicht den richtigen Tarif möchtest;</li>
         <li>wenn <strong>wir deine Bestellung stornieren</strong> (Nutzungsbedingungen, Abschnitt 13).</li>
       </ul>` },
-      { id: "technical-faults", en: 'cf225a0b3766', h2: "3. Technische Fehler", html: `
+      { id: "technical-faults", en: '15880949437d', h2: "3. Technische Fehler", html: `
       <p>3.1. <strong>Wann dieser Abschnitt gilt.</strong> Er gilt, wenn alle folgenden Bedingungen erfüllt sind:</p>
       <ul class="list">
         <li>die eSIM lässt sich nicht installieren, stellt keine Verbindung her oder liefert keine Daten wie auf ihrer Produktkarte beschrieben;</li>
@@ -349,7 +347,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>3.3. <strong>Was wir tun.</strong></p>
       <ol class="list">
         <li>Wir versuchen zunächst, das Problem gemeinsam mit dir zu beheben.</li>
-        <li>Lässt es sich nicht innerhalb einer angemessenen Frist beheben, bieten wir dir entweder eine <strong>Ersatz</strong>-eSIM für dasselbe Reiseziel und denselben Tarif oder eine <strong>Erstattung</strong> an.</li>
+        <li>Lässt es sich nicht innerhalb einer angemessenen Frist beheben, bieten wir dir entweder eine <strong>Ersatz</strong>-eSIM für dasselbe Reiseziel und denselben Tarif oder eine <strong>vollständige oder teilweise Erstattung</strong> nach Abschnitt 3.4 an, wie es die Umstände und das Gesetz, das für deinen Kauf gilt, erfordern.</li>
         <li>Funktioniert auch der Ersatz nicht, erstatten wir dir den Betrag nach Abschnitt 3.4, wobei die auf der ursprünglichen eSIM und auf dem Ersatz genutzten Daten und Tage zusammengerechnet werden.</li>
       </ol>
       <p>3.4. <strong>Wie viel wir erstatten.</strong> Wir erstatten den Preis des Teils des Tarifs, den du nicht nutzen konntest. Alle Messungen erfolgen <strong>zu dem Zeitpunkt, zu dem du uns den Fehler erstmals gemeldet hast</strong>, sodass die Bearbeitungszeit unseres Supports deine Erstattung nicht verringert. Die Nutzung des Tarifs nach deiner Meldung wird in Abschnitt 3.6 geregelt. Beträge werden <strong>zu deinen Gunsten</strong> auf den Cent gerundet.</p>
@@ -393,7 +391,7 @@ export const LEGAL_I18N = Object.freeze({
           <li>das Gesetz eine Erstattung vorschreibt.</li>
           </ul>
         </li>
-        <li>Ein Tarif, dessen Gültigkeit noch nicht begonnen hat, wird aus keinem anderen Grund erstattet (Abschnitt 5).</li>
+        <li>Aus jedem anderen Grund besteht für einen Tarif, dessen Gültigkeit noch nicht begonnen hat, kein Anspruch auf Erstattung (Abschnitt 5).</li>
       </ul>
       <p>(e) <strong>Die eSIM hat nie funktioniert.</strong></p>
       <ul class="list">
@@ -430,10 +428,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>Eine Erstattung nach diesem Abschnitt beendet den Tarif. Wir können die eSIM deaktivieren, sobald die Erstattung genehmigt ist.</li>
         <li>Bitte nutze die eSIM nach deiner Meldung nicht mehr — schalte die mobilen Daten für die Magic-eSIM-Leitung aus —, während wir den Fehler untersuchen.</li>
         <li>Nutzung, um die unser Support dich zum Testen der eSIM bittet, und die Nutzung einer von uns bereitgestellten Ersatz-eSIM werden nach diesem Abschnitt nicht abgezogen; sie werden nur einmal berücksichtigt, und zwar nach Abschnitt 3.3.</li>
-        <li>Für andere nach deiner Meldung genutzte Daten ziehen wir ab: bei Tarifen mit festem Datenvolumen die genutzten Daten; bei Tagestarifen den genutzten Anteil des Datenvolumens jedes weiteren Tages; bei unbegrenzten Tarifen jeden weiteren Tag, an dem Daten genutzt wurden.</li>
+        <li>Für andere nach deiner Meldung genutzte Daten ziehen wir ab: bei Tarifen mit festem Datenvolumen die genutzten Daten; bei Tagestarifen den genutzten Anteil des Datenvolumens jedes weiteren Tages; bei unbegrenzten Tarifen die Zeit von deiner Meldung bis zur letzten Nutzung der eSIM, wie sie aus den Datensätzen unseres eSIM-Dienstleisters hervorgeht, gezählt in Stunden wie in Abschnitt 3.4(c) — niemals einen ganzen Tag nur deshalb, weil ein neuer Tag begonnen hat. Geht sie aus den Datensätzen nicht hervor, gilt Abschnitt 3.4(f).</li>
         <li>Die endgültige Erstattung ist der nach Abschnitt 3.4 berechnete Betrag abzüglich eines solchen Abzugs.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: '491ff4d9d481', h2: "4. Deine gesetzlichen Rechte", html: `
+      { id: "your-statutory-rights", en: 'b87f609825f3', h2: "4. Deine gesetzlichen Rechte", html: `
       <p>4.1. <strong>Gesetzliche Rechte gelten.</strong></p>
       <ul class="list">
         <li>Je nachdem, wo du lebst und welches Recht auf deinen Kauf anwendbar ist, kannst du zusätzlich zu den Abschnitten 2 und 3 weitere Rechte haben. Beispiele sind das Recht Georgiens, eines Landes der Europäischen Union oder des Vereinigten Königreichs, das Australian Consumer Law und der neuseeländische Consumer Guarantees Act 1993.</li>
@@ -441,13 +439,16 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>4.2. <strong>Widerrufsrecht (im Vereinigten Königreich: Recht zur Vertragsauflösung, „right to cancel“).</strong></p>
       <ul class="list">
-        <li>Wenn dir das Gesetz dieses Recht gewährt — zum Beispiel, wenn du in der Europäischen Union oder im Vereinigten Königreich lebst —, kannst du deinen Kauf innerhalb von <strong>14 Tagen nach dem Tag deiner Bestellung</strong> ohne Angabe von Gründen widerrufen.</li>
+        <li>Wenn dir das Gesetz dieses Recht gewährt — zum Beispiel, wenn du Verbraucher in der Europäischen Union, im Europäischen Wirtschaftsraum oder im Vereinigten Königreich bist —, kannst du deinen Kauf innerhalb von <strong>14 Tagen nach dem Tag deiner Bestellung</strong> ohne Angabe von Gründen widerrufen.</li>
+        <li>Unsere Tarife sind eine Dienstleistung: mobile Datenverbindung. Das Gesetz erlaubt uns, mit der Erbringung einer Dienstleistung während der Widerrufsfrist nur dann zu beginnen, wenn du uns ausdrücklich darum bittest.</li>
         <li>Damit dein Tarif sofort starten kann, bitten wir dich im Bestellvorgang, ein gesondertes Kästchen anzukreuzen. Es ist niemals vorab angekreuzt. Der Text des Kästchens lautet:</li>
       </ul>
       <blockquote>
         <p>„Ich verlange, dass Magic eSIM schon jetzt, innerhalb der 14-tägigen Widerrufsfrist, mit der Bereitstellung meines eSIM-Tarifs beginnt. Mir ist bekannt, dass ich mein Widerrufsrecht verliere, sobald der Tarif vollständig erbracht ist (das Datenvolumen ist aufgebraucht oder die Gültigkeit ist abgelaufen), und dass ich bei einem früheren Widerruf für den bis zu meiner Mitteilung erbrachten Teil des Tarifs bezahle.“</p>
       </blockquote>
       <ul class="list">
+        <li><strong>Die Installation der eSIM oder ihre Verbindung mit einem Netz beendet dein Widerrufsrecht nicht für sich allein.</strong> Du verlierst es erst, wenn der Tarif vollständig erbracht ist — sein Datenvolumen ist aufgebraucht oder seine Gültigkeit ist abgelaufen. Bis dahin kannst du widerrufen und zahlst nur für den erbrachten Teil (Abschnitt 4.3).</li>
+        <li>Die Gesetze einiger anderer Länder gewähren Verbrauchern für bestimmte Online-Käufe eine andere Frist zur Vertragsauflösung (zum Beispiel 5 oder 7 Tage), mit eigenen Bedingungen und Ausnahmen. Wo ein solches Gesetz auf deinen Kauf anwendbar ist, beachten wir es.</li>
         <li>Wir wiederholen diesen Text zusammen mit Datum und Uhrzeit, zu der du das Kästchen angekreuzt hast, in deiner Bestellbestätigungs-E-Mail.</li>
       </ul>
       <p>4.3. <strong>Was wir bei einem Widerruf erstatten.</strong> Wenn du wirksam widerrufst:</p>
@@ -507,8 +508,15 @@ export const LEGAL_I18N = Object.freeze({
       <p>Du hast außerdem Anspruch auf Entschädigung für jeden anderen vernünftigerweise vorhersehbaren Verlust oder Schaden. Stellt der Mangel keinen schwerwiegenden Mangel dar, hast du Anspruch darauf, dass Probleme mit der Leistung innerhalb einer angemessenen Frist behoben werden, und, falls dies nicht geschieht, deinen Vertrag zu kündigen und eine Erstattung für den nicht genutzten Teil des Vertrags zu erhalten.</p>
       <p>Die Vorteile, die wir dir nach Abschnitt 3 gewähren, gelten zusätzlich zu anderen Rechten und Rechtsbehelfen, die dir nach einem Gesetz in Bezug auf unsere Leistungen zustehen.</p>
       <p><strong>Neuseeland.</strong> Nichts in unseren Nutzungsbedingungen oder in dieser Richtlinie schränkt deine Rechte nach dem Consumer Guarantees Act 1993 oder dem Fair Trading Act 1986 ein, einschließlich deiner Rechte, wenn ein Tarif nicht mit angemessener Sorgfalt und Sachkunde erbracht wird oder für einen Zweck, den du uns mitgeteilt hast, nicht geeignet ist.</p>` },
-      { id: "what-our-voluntary-refunds-do-not-cover", en: 'b55a3f0f2eb6', h2: "5. Was unsere freiwilligen Erstattungen nicht abdecken", html: `
-      <p>Sofern nicht Abschnitt 2 oder 3 gilt oder dir das Gesetz ein Recht gewährt (Abschnitt 4), erstatten wir nicht, wenn:</p>
+      { id: "discretionary-refunds-and-exclusions", en: 'dbd852ff9f86', h2: "5. Erstattungen nach unserem Ermessen und was wir nicht erstatten", html: `
+      <p>5.1. <strong>Erstattungen nach unserem Ermessen innerhalb von 14 Tagen.</strong></p>
+      <ul class="list">
+        <li>Wenn du innerhalb von <strong>14 Tagen nach deinem Kauf</strong> aus einem Grund, den die Abschnitte 2 bis 4 nicht abdecken, eine Erstattung beantragst, können wir dir nach unserem Ermessen ganz oder teilweise erstatten oder den Antrag ablehnen.</li>
+        <li>Wir prüfen jeden Antrag im Einzelfall. Dabei berücksichtigen wir zum Beispiel den Tarif, den Grund deines Antrags und ob und wie viel die eSIM genutzt wurde.</li>
+        <li><strong>Dies ist keine Garantie und kein Anspruch.</strong> Ein Antrag innerhalb von 14 Tagen bedeutet nicht, dass du eine Erstattung erhältst, und eine Erstattung, der wir zustimmen, verpflichtet uns nicht, anderen Anträgen zuzustimmen, auch nicht ähnlichen.</li>
+        <li>Wir gewähren keine Erstattung, wenn Belege für Betrug, Missbrauch von Erstattungen oder eine andere Manipulation vorliegen.</li>
+      </ul>
+      <p>5.2. <strong>Was wir nicht erstatten.</strong> Abgesehen von den Abschnitten 2 bis 4 und einer Erstattung, der wir nach Abschnitt 5.1 zustimmen, erstatten wir nicht, wenn:</p>
       <ul class="list">
         <li>du das <strong>falsche Land, die falsche Region oder den falschen Tarif</strong> gewählt hast;</li>
         <li>dein <strong>Gerät keine eSIM unterstützt</strong>, <strong>an einen Netzbetreiber gebunden</strong> ist oder nicht mit dem Netz des Tarifs kompatibel ist;</li>
@@ -520,7 +528,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>der Tarif wegen eines Verstoßes gegen unsere <strong>Regeln zur zulässigen Nutzung</strong> eingeschränkt wurde.</li>
       </ul>
       <p>Bitte prüfe dein Gerät und den Tarif vor dem Kauf und kontaktiere uns, wenn du unsicher bist.</p>` },
-      { id: "how-to-ask-for-a-refund", en: 'cae236767f73', h2: "6. So beantragst du eine Erstattung", html: `
+      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. So beantragst du eine Erstattung", html: `
       <p>6.1. <strong>So stellst du deinen Antrag.</strong></p>
       <ul class="list">
         <li>Schreib an <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Gib deine Bestellnummer, die für die Bestellung verwendete E-Mail-Adresse und den Grund deines Antrags an.</li>
@@ -530,7 +538,8 @@ export const LEGAL_I18N = Object.freeze({
       <ul class="list">
         <li>Genehmigte Erstattungen erfolgen auf die <strong>ursprüngliche Zahlungsmethode</strong>; wir überweisen Erstattungen nicht auf eine andere Karte, ein anderes Konto oder an eine andere Person.</li>
         <li>Kann eine Erstattung auf die ursprüngliche Zahlungsmethode nicht durchgeführt werden — zum Beispiel, weil das Kartenkonto geschlossen wurde —, kontaktieren wir dich und vereinbaren mit dir, ohne Kosten für dich, wie wir dir das Geld zurückzahlen.</li>
-        <li>Nach der Genehmigung kommt das Geld in der Regel innerhalb von <strong>5–10 Bankarbeitstagen</strong> an, abhängig vom Zahlungsdienstleister und deiner Bank.</li>
+        <li>Eine genehmigte Erstattung veranlassen wir innerhalb von <strong>14 Tagen</strong> nach der Genehmigung. Das Geld kommt danach in der Regel innerhalb von <strong>5–10 Bankarbeitstagen</strong> an, abhängig vom Zahlungsdienstleister und deiner Bank.</li>
+        <li>Sofern wir nichts anderes vereinbaren, beendet eine Erstattung den Tarif, und wir können die eSIM deaktivieren.</li>
         <li>Bei einem gesetzlichen Widerruf veranlassen wir die Erstattung spätestens <strong>14 Tage</strong> nach Eingang deiner Mitteilung.</li>
       </ul>
       <p>6.3. <strong>Betrag und Währung.</strong></p>
@@ -538,11 +547,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Wir erstatten den tatsächlich gezahlten Betrag in US-Dollar, ohne Erstattungsgebühr.</li>
         <li>Wird dein Kartenkonto in einer anderen Währung geführt, gelten der Wechselkurs und die Gebühren deiner Bank.</li>
       </ul>` },
-      { id: "payment-disputes", en: '5f21c06ef9b1', h2: "7. Zahlungsreklamationen", html: `
+      { id: "payment-disputes", en: 'a585ce82a9ff', h2: "7. Zahlungsreklamationen", html: `
       <ul class="list">
         <li>Du kannst dich jederzeit an deine Bank oder deinen Kartenaussteller wenden. Diese Richtlinie schränkt dieses Recht nicht ein.</li>
         <li>Wir empfehlen dir, dich zuerst an uns zu wenden, weil wir ein Problem meist schneller lösen können.</li>
         <li>Wenn du eine Zahlungsreklamation einleitest, stellen wir dem Zahlungsdienstleister die Informationen zu deiner Bestellung zur Verfügung.</li>
+        <li>Solange eine Reklamation offen ist, können wir die eSIM vorübergehend sperren.</li>
         <li>Erhältst du für dieselbe Zahlung sowohl von uns als auch über eine Reklamation eine Erstattung, können wir dich bitten, den doppelt erhaltenen Betrag zurückzuzahlen.</li>
       </ul>` },
       { id: "contact", en: 'ccd168858210', h2: "8. Kontakt", html: `
