@@ -2,7 +2,7 @@
  *
  *   1. Every source has every key English has; the guides mirror the English ones; the generator's output is the tree.
  *   2. The same design: every page kind's markup skeleton equals the English one; the list by initial consonant (ㄱ…ㅎ).
- *   3. Korean only: no English-only word, no Russian, no Chinese characters on the 207 pages; the claim rules hold.
+ *   3. Korean only: no English-only word, no Russian, no Chinese characters on the 206 pages; the claim rules hold.
  *   4. Prices «US$12.99» (D2); data «1.5GB», days «3일» (D6); one plural form.
  *   5. Titles fit 60 display units; Korean typography (D6); PARTICLES (D15): after a {name}/{names} only particles that
  *      do not depend on the last syllable — read on three real names (vowel-final, consonant-final, long); and the right
@@ -53,7 +53,7 @@ function htmlUnder(dir) {
 const KO_PAGES = htmlUnder('ko');
 // LEGAL-4: the three translated legal documents (/ko/terms|refund|privacy/) are pages of this language too; their
 // fidelity to the English — which keeps proper names, the seller's Latin address and foreign law titles in English —
-// is held by seo/test-legal-i18n.mjs, so the «Korean only» word scan reads the 207 site pages without them.
+// is held by seo/test-legal-i18n.mjs, so the «Korean only» word scan reads the 206 site pages without them.
 const KO_LEGAL = /^ko\/(terms|refund|privacy)\/index\.html$/;
 const KO_SITE_PAGES = KO_PAGES.filter((rel) => !KO_LEGAL.test(rel));
 const head = (html) => html.slice(0, html.indexOf('</head>'));
@@ -72,10 +72,10 @@ function readable(html) {
 
 /* ------------------------------------------------------------------ 1. complete */
 
-test('207 Korean pages: the home, the list, 199 countries, the guides list and five guides', () => {
-  assert.equal(KO_SITE_PAGES.length, 207);
-  assert.equal(KO_PAGES.length, 210, '+ the three legal documents (LEGAL-4)');
-  assert.equal(KO_PAGES.filter((p) => /^ko\/esim\/[^/]+\/index\.html$/.test(p)).length, 199);
+test('206 Korean pages: the home, the list, 198 countries, the guides list and five guides', () => {
+  assert.equal(KO_SITE_PAGES.length, 206);
+  assert.equal(KO_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
+  assert.equal(KO_PAGES.filter((p) => /^ko\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
   assert.equal(htmlUnder('en').length, KO_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4)');
 });
 
@@ -106,7 +106,7 @@ test('the Korean guides mirror the English ones: slugs, sections, questions, rel
 test('Korean built through the locale generator equals the committed pages, byte for byte', () => {
   const G = localeGenerator('ko');
   const list = G.countries();
-  assert.equal(list.length, 199);
+  assert.equal(list.length, 198);
   const drift = [];
   const same = (html, rel) => stampHtml(html, join(ROOT, dirname(rel))) === read(rel);
   if (!same(G.homePage(list), 'ko/index.html')) drift.push('ko/');
@@ -153,11 +153,11 @@ test('the same design: every page kind has the English markup skeleton; the same
   assert.match(read('ko/esim/thailand/index.html'), /data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]+"/, 'Expressive on a country page');
 });
 
-test('the Korean destination list: 199 destinations under their initial consonant (ㄱ…ㅎ), every jump letter lands', () => {
+test('the Korean destination list: 198 destinations under their initial consonant (ㄱ…ㅎ), every jump letter lands', () => {
   const html = read('ko/esim/index.html');
   const sections = [...html.matchAll(/<section class="az-group" id="az-([a-z0-9-]+)"[\s\S]*?<h2 id="azh-\1">([^<]+)<\/h2>([\s\S]*?)<\/section>/g)];
   const names = sections.flatMap((m) => [...m[3].matchAll(/<span>([^<]+)<\/span>/g)].map((x) => [m[2], decode(x[1])]));
-  assert.equal(names.length, 199);
+  assert.equal(names.length, 198);
   const jumps = [...html.matchAll(/<a href="#az-([a-z0-9-]+)" data-letter="[^"]+">/g)].map((m) => m[1]);
   assert.deepEqual(jumps, sections.map((m) => m[1]));
   const at = (n) => names.find(([, x]) => x === n)?.[0];
@@ -172,7 +172,7 @@ const KEEP = new Set(['magic', 'esim', 'sim', 'iphone', 'ios', 'android', 'googl
   'support', 'magicesim', 'store', 'javascript', 'wi', 'fi']);
 const latin = (s) => (String(s).toLowerCase().match(/[a-z]+/g) || []);
 
-test('Korean only: no English word (beyond brands, products and units), no Russian, no Chinese character on the 207 pages', () => {
+test('Korean only: no English word (beyond brands, products and units), no Russian, no Chinese character on the 206 pages', () => {
   const hits = new Set();
   for (const rel of KO_SITE_PAGES) for (const run of readable(read(rel))) {
     if (/[А-Яа-яЁё]/.test(run)) hits.add(`${rel}: Russian «${run.slice(0, 60)}»`);

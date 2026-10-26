@@ -49,10 +49,10 @@ test('the generator publishes English, Spanish, German, French, Chinese and Kore
   assert.deepEqual(Object.keys(GUIDES_BY_LOCALE), ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
 });
 
-test('Spanish built through the locale generator equals the committed pages, byte for byte — home, list, 199 countries, guides', () => {
+test('Spanish built through the locale generator equals the committed pages, byte for byte — home, list, 198 countries, guides', () => {
   const G = localeGenerator('es');
   const list = G.countries();
-  assert.equal(list.length, 199);
+  assert.equal(list.length, 198);
   const drift = [];
   const same = (html, rel) => stampHtml(html, join(ROOT, dirname(rel))) === read(rel);
   if (!same(G.homePage(list), 'es/index.html')) drift.push('es/');
@@ -69,7 +69,7 @@ test('English built through the locale generator equals the committed pages, byt
   // assets), so the comparison is the whole file, stamps included.
   const G = localeGenerator('en');
   const list = G.countries();
-  assert.equal(list.length, 199);
+  assert.equal(list.length, 198);
   const drift = [];
   const same = (html, rel) => stampHtml(html, join(ROOT, dirname(rel))) === read(rel);
   for (const c of list) {

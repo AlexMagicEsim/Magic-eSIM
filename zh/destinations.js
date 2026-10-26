@@ -89,7 +89,6 @@ window.MagicZhDestinations = [
   { iso: "GA", slug: "gabon", name: "加蓬" },
   { iso: "KH", slug: "cambodia", name: "柬埔寨" },
   { iso: "CZ", slug: "czechia", name: "捷克" },
-  { iso: "ZW", slug: "zimbabwe", name: "津巴布韦" },
   { iso: "CM", slug: "cameroon", name: "喀麦隆" },
   { iso: "QA", slug: "qatar", name: "卡塔尔" },
   { iso: "KY", slug: "cayman-islands", name: "开曼群岛" },

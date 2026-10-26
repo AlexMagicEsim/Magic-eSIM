@@ -1928,32 +1928,6 @@
       "renders_nothing": false
     },
     {
-      "iso": "ZW",
-      "slug": "zimbabwe",
-      "nameRu": "Зимбабве",
-      "flagEmoji": "🇿🇼",
-      "local_count": 4,
-      "regional_count": 0,
-      "daily_count": 5,
-      "total_count": 9,
-      "min_price_rub": 1100,
-      "volumes": [
-        3,
-        5,
-        10,
-        20
-      ],
-      "daily_gb": [
-        1,
-        2,
-        3,
-        5,
-        10
-      ],
-      "strategy": "LOCAL",
-      "renders_nothing": false
-    },
-    {
       "iso": "IL",
       "slug": "israel",
       "nameRu": "Израиль",
@@ -6001,6 +5975,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-10-25T13:27:03.185Z",
+  "fetched_at": "2026-10-26T03:44:51.023Z",
   "source": "assets/catalog.json"
 }

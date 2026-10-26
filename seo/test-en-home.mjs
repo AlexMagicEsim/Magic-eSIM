@@ -47,7 +47,7 @@ test('the home carries the generator\'s header, payment bar and footer, verbatim
 
 test('every English page has the same header shape, the same footer, and the payment bar', () => {
   // 206 storefront pages + the Privacy Policy (LEGAL-1), which carries the same chrome.
-  assert.equal(PAGES.length, 210); // + the legal documents: Privacy (LEGAL-1), Terms and Refund (LEGAL-3)
+  assert.equal(PAGES.length, 209); // + the legal documents: Privacy (LEGAL-1), Terms and Refund (LEGAL-3)
   for (const p of PAGES) {
     const h = read(p);
     assert.ok(h.includes(FOOTER), `${p}: footer`);
@@ -165,7 +165,7 @@ test('no stylesheet reaches outside the site (the CSP allows only self)', () => 
 });
 
 test('every destination has its flag, and the flags are licensed', () => {
-  assert.equal(DESTINATIONS.length, 199);
+  assert.equal(DESTINATIONS.length, 198);
   const missing = DESTINATIONS.filter((d) => !existsSync(join(ROOT, `assets/flags/${d.iso.toLowerCase()}.svg`)));
   assert.deepEqual(missing, []);
   for (const f of readdirSync(join(ROOT, 'assets/flags')).filter((x) => x.endsWith('.svg'))) {
