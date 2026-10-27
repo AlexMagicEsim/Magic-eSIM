@@ -224,20 +224,6 @@
             "data_gb": 1
           }
         },
-        "l2": {
-          "package": "997882a9-91c6-4e91-8a66-41d6dfa12548",
-          "block": "local",
-          "attrs": {
-            "data_gb": 2,
-            "validity_days": 14
-          }
-        },
-        "r2": {
-          "min_of": "regional",
-          "where": {
-            "data_gb": 2
-          }
-        },
         "l3": {
           "package": "20b2c368-e4af-4cb9-80c2-db409fd40bc5",
           "block": "local",
@@ -316,11 +302,6 @@
           "right": "r1"
         },
         {
-          "left": "l2",
-          "op": "<",
-          "right": "r2"
-        },
-        {
           "left": "l3",
           "op": "<",
           "right": "r3"
@@ -346,7 +327,7 @@
           "right": "r50"
         }
       ],
-      "note": "2026-10-25: «дороже местных тарифов того же объёма» — every local volume is below the cheapest regional package of that volume (replaces «при равном дневном лимите»)."
+      "note": "2026-10-25: «дороже местных тарифов того же объёма» — every local volume is below the cheapest regional package of that volume (replaces «при равном дневном лимите»). 2026-10-27: the 2 GB pair left the claim — the local «Saudi Arabia 2 GB» (14 days) is hidden by R5 (a bigger plan with a longer term is not dearer)."
     }
   ],
   "price_refs": {

@@ -39,7 +39,7 @@
     },
     {
       "q": "Сколько трафика брать на пару дней в Сингапуре",
-      "a": "На два-три дня хватает нижних ступеней, но обратите внимание на пару в середине линейки: 7 ГБ и 10 ГБ стоят одинаково — по {{price:g10}}, — при этом у десятигигабайтного срок вдвое длиннее. Брать семигигабайтный при равной цене незачем."
+      "a": "На два-три дня хватает нижних ступеней линейки; для поездки на неделю и дольше смотрите на тарифы со сроком 30 дней."
     },
     {
       "q": "Работает ли интернет в сингапурском метро",
@@ -84,57 +84,13 @@
       "min_countries": 2
     }
   ],
-  "price_claims": [
-    {
-      "id": "seven-and-ten-same-price",
-      "anchors": [
-        {
-          "field": "faq[1].a",
-          "text": "На два-три дня хватает нижних ступеней, но обратите внимание на пару в середине линейки: 7 ГБ и 10 ГБ стоят одинаково — по {{price:g10}}, — при этом у десятигигабайтного срок вдвое длиннее."
-        }
-      ],
-      "terms": {
-        "g7": {
-          "package": "f0bc1331-f0e6-403b-ac7a-b3b5ebeef8e8",
-          "block": "local",
-          "attrs": {
-            "data_gb": 7,
-            "validity_days": 15
-          }
-        },
-        "g10": {
-          "package": "6cdc776f-19cb-4611-95ab-dfc260e0cdc6",
-          "block": "local",
-          "attrs": {
-            "data_gb": 10,
-            "validity_days": 30
-          }
-        }
-      },
-      "assert": [
-        {
-          "left": "g7",
-          "op": "=",
-          "right": "g10"
-        }
-      ],
-      "note": "Added in stage B (2026-10-18). «стоят одинаково» — an equality has a shelf life: when the two prices part, this goes red in the SEO-refresh PR and the sentence is rewritten."
-    }
-  ],
+  "price_claims": [],
   "price_refs": {
     "volume_floor": {
       "min_of": "volume"
     },
     "daily_floor": {
       "min_of": "daily"
-    },
-    "g10": {
-      "package": "6cdc776f-19cb-4611-95ab-dfc260e0cdc6",
-      "block": "local",
-      "attrs": {
-        "data_gb": 10,
-        "validity_days": 30
-      }
     }
   }
 }
