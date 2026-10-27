@@ -112,13 +112,22 @@ jobs:
       # Commit only when the catalogue actually changed. The generator leaves the
       # file byte-identical (generated_at included) when nothing moved, so an
       # unchanged run produces no commit and no Pages deploy.
+      # The international pages' plan facts (volumes, terms, the destinations regional plans also cover — no price),
+      # from the USD catalogue on the Render origin. Never worse: a fetch or validation failure keeps the committed file
+      # and only warns, so a GLOBAL hiccup cannot stop the Russian catalogue above from being committed — and the SEO
+      # refresh, which follows this workflow, rebuilds the prefixed-language pages from whatever is committed.
+      - name: Refresh global plan facts
+        run: |
+          node scripts/update-global-plan-facts.mjs
+          node scripts/update-global-plan-facts.mjs --check
+
       - name: Commit if changed
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
-          if git diff --quiet -- assets/catalog.json; then
+          if git diff --quiet -- assets/catalog.json seo/global-plan-facts.json; then
             echo "каталог не изменился — коммит не нужен"
             exit 0
           fi
@@ -131,7 +140,7 @@ jobs:
 
           # Explicitly this one path — never `git add .`, so an unrelated stray
           # file in the runner cannot ride along.
-          git add assets/catalog.json
+          git add assets/catalog.json seo/global-plan-facts.json
           git commit -m "chore: refresh static catalog cache ($count packages)"
           # The credential exists for this one command and is not left in
           # .git/config. Same ref the old bare `git push` updated: the branch the

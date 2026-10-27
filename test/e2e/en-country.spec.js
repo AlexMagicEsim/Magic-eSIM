@@ -202,7 +202,7 @@ test('nothing for this country: says so, and offers the destination list', async
 
 test('«Before you buy» leads to the device check, the guides and support', async ({ page }) => {
   await open(page); await ready(page);
-  const help = page.locator('.cp-help');
+  const help = page.locator('section[aria-labelledby="cpHelpTitle"]');   // «Before you buy», not the «at a glance» cards
   await expect(help.locator('a')).toHaveText([/How to check your phone/, /iPhone setup/, /Android setup/,
     /When to install and turn on your eSIM/, /eSIM not working/, /Guides/, /support@magicesim\.store/]);
 });
