@@ -116,6 +116,9 @@ jobs:
       # from the USD catalogue on the Render origin. Never worse: a fetch or validation failure keeps the committed file
       # and only warns, so a GLOBAL hiccup cannot stop the Russian catalogue above from being committed — and the SEO
       # refresh, which follows this workflow, rebuilds the prefixed-language pages from whatever is committed.
+      # Before writing, the script checks every authored text (seo/content-<prefix>/*.json plan_claims) against the NEW
+      # facts (seo/content-facts-guard.mjs): a contradiction keeps the previous facts file, writes the conflict to the
+      # job summary + a ::warning:: on every run until a person rewrites the sentence, and still exits 0.
       - name: Refresh global plan facts
         run: |
           node scripts/update-global-plan-facts.mjs

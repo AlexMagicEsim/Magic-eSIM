@@ -18,7 +18,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
-import { factsFor, buildFacts, validateFacts, runUpdate, LEFT_OUT, ALSO_KEPT } from '../scripts/update-global-plan-facts.mjs';
+import { factsFor, buildFacts, validateFacts, runUpdate as runUpdateReal, LEFT_OUT, ALSO_KEPT } from '../scripts/update-global-plan-facts.mjs';
 import { LOCALES } from './locales.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { INDEXED_COUNTRIES } from './indexing.mjs';
@@ -84,6 +84,9 @@ test('never worse: a failed fetch, a bad answer or an identical one leaves the f
   const codes = []; for (let a = 0; codes.length < 120; a += 1) { const c = String.fromCharCode(65 + Math.floor(a / 26)) + String.fromCharCode(65 + (a % 26)); if (!['RU', 'UA', 'BY'].includes(c)) codes.push(c); }
   big.assortment.countries = Object.fromEntries(codes.map((c) => [c, ANSWER.assortment.countries.TH]));
   const ok = async () => ({ status: 200, text: async () => JSON.stringify(big) });
+  // This test is about the fetch and the shape. The fixture's facts would falsify the real authored sentences, so the
+  // content guard is switched off here (validators: []); it is proved on its own in seo/test-content-facts-guard.mjs.
+  const runUpdate = (o) => runUpdateReal({ validators: [], summaryFile: null, ...o });
   try {
     assert.equal(await runUpdate({ fetchImpl: ok, today: '2026-01-01', file }), 0);
     const first = readFileSync(file, 'utf8');

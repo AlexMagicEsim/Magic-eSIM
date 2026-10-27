@@ -21,11 +21,19 @@
  * hiccup must not stop the Russian catalogue from refreshing. A content-identical result keeps the old file — and
  * its `updated` date — so nothing is committed.
  *
+ * NEVER AGAINST A PUBLISHED SENTENCE (2026-10-27). Authored country texts (seo/content-<prefix>/*.json) pin their
+ * sentences about the plan blocks to this snapshot (`plan_claims`), and the page build throws on a contradiction. A
+ * new snapshot is therefore checked against every authored text BEFORE it is written (seo/content-facts-guard.mjs).
+ * A contradiction keeps the previous file — the pages keep facts their sentences agree with — writes the conflict to
+ * the job summary and a `::warning::`, and still exits 0, so the Russian catalogue commit goes ahead. The previous
+ * file differs from the live catalogue, so every later run re-checks and repeats the report until a person rewrites
+ * the sentence; the report names the kept snapshot's date and age, so «stale» is never silent.
+ *
  *   node scripts/update-global-plan-facts.mjs           refresh from the live API
  *   node scripts/update-global-plan-facts.mjs --check   validate what is on disk
  */
 
-import { readFileSync, writeFileSync, renameSync, existsSync, unlinkSync } from 'node:fs';
+import { readFileSync, writeFileSync, renameSync, existsSync, unlinkSync, appendFileSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -153,7 +161,13 @@ const keep = (why) => {
   return 0;
 };
 
-export async function runUpdate({ fetchImpl = globalThis.fetch, today = new Date().toISOString().slice(0, 10), file = OUT } = {}) {
+const summarise = (summaryFile, text) => {
+  if (!summaryFile) return;
+  try { appendFileSync(summaryFile, text); } catch { /* the annotation still carries it */ }
+};
+
+export async function runUpdate({ fetchImpl = globalThis.fetch, today = new Date().toISOString().slice(0, 10), file = OUT,
+  validators = undefined, summaryFile = process.env.GITHUB_STEP_SUMMARY } = {}) {
   const previous = readExisting(file);
   const previousCountries = previous && previous.countries ? Object.keys(previous.countries).length : null;
   let doc;
@@ -165,6 +179,21 @@ export async function runUpdate({ fetchImpl = globalThis.fetch, today = new Date
   doc = { schema_version: doc.schema_version, updated: today, source: doc.source, countries: doc.countries };
   const errors = validateFacts(doc, { previousCountries });
   if (errors.length) return keep(`новые факты не прошли проверку: ${errors.slice(0, 5).join('; ')}`);
+  // The authored content must still hold against the new facts — or the new facts are not published.
+  let guard;
+  let conflicts;
+  try {
+    guard = await import('../seo/content-facts-guard.mjs');
+    conflicts = await guard.checkFactsAgainstContent(previous, doc, { validators });
+  } catch (e) {
+    summarise(summaryFile, `## ⚠️ global-plan-facts: the authored-content check could not run — snapshot NOT published\n\n\`${e.message}\`\n`);
+    return keep(`проверка авторских текстов не выполнилась (${e.message})`);
+  }
+  if (conflicts.length) {
+    summarise(summaryFile, guard.conflictReport(conflicts, { previous, next: doc, today }));
+    for (const c of conflicts) for (const p of c.problems) console.log(`  ✗ ${c.file}: ${p.problem}${p.quote ? ` — «${p.quote}»` : ''}`);
+    return keep(guard.conflictAnnotation(conflicts, { previous }));
+  }
   const tmp = file === OUT ? TMP : `${file}.tmp`;
   writeFileSync(tmp, `${JSON.stringify(doc, null, 1)}\n`, 'utf8');
   const back = JSON.parse(readFileSync(tmp, 'utf8'));
