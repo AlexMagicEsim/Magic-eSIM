@@ -302,6 +302,21 @@ function makeGenerator(code, source, canWrite, registry = LOCALES) {
   const a = (key) => escapeAttr(source.word(key));
   const POPULAR = C.popular;
 
+  /* Share and breadcrumb metadata (international SEO audit, 2026-10-27). The share block repeats the page's own title
+   * and description — it claims nothing new — and names the one share image the home already uses. The breadcrumb is
+   * the page's visible «crumbs» line as BreadcrumbList: the same names and the same links, nothing else (no Product,
+   * Offer or rating — these pages print no price in the HTML). Both arguments of shareMeta are already escaped. */
+  const SHARE_IMAGE = 'https://magicesim.store/assets/magic-esim-logo.png';
+  const shareMeta = (title, description) => `<meta property="og:description" content="${description}">
+<meta property="og:image" content="${SHARE_IMAGE}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${description}">`;
+  const breadcrumbLd = (items) => `<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: `${SITE}${path}` })),
+  }).replace(/</g, '\\u003c')}</script>`;
+
   /** The pages, as data: the countries the Russian site has a page for, named in this language
    *  (seo/country-names-i18n.mjs countryName — ru/en from seo/country-names.mjs, the rest CLDR). */
   function countries() {
@@ -627,6 +642,8 @@ ${cspMeta(primaryApiOrigin())}
 <meta property="og:locale" content="${L.ogLocale}">
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${title}">
+${shareMeta(title, C.countryDescription(name))}
+${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.destinations'), `${P}/esim/`], [c.name, `${P}/esim/${c.slug}/`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT_MOTION}
@@ -744,6 +761,12 @@ ${cs.map(item).join('\n')}
 <link rel="canonical" href="${url}">
 ${indexingHead(L.code, { kind: 'hub' })}
 ${cspMeta("'none'")}
+<meta property="og:type" content="website">
+<meta property="og:locale" content="${L.ogLocale}">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${C.hubTitle}">
+${shareMeta(C.hubTitle, C.hubDescription)}
+${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.destinations'), `${P}/esim/`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
@@ -850,6 +873,7 @@ ${cspMeta("'none'")}
 <meta property="og:locale" content="${L.ogLocale}">
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${esc(g.title)}">
+${shareMeta(esc(g.title), esc(g.description))}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
@@ -922,6 +946,11 @@ function guidesHub(all = GUIDES) {
 <link rel="canonical" href="${url}">
 ${indexingHead(L.code, { kind: 'guides' })}
 ${cspMeta("'none'")}
+<meta property="og:type" content="website">
+<meta property="og:locale" content="${L.ogLocale}">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${C.guidesTitle}">
+${shareMeta(C.guidesTitle, C.guidesDescription)}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}

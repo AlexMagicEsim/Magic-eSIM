@@ -87,7 +87,50 @@ test('every English country page: indexed only in the I18N-09 stage (with its cl
     assert.ok(html.includes(`<link rel="canonical" href="${url}">`), `${url}: canonical is itself`);
     // hreflang pairs a page with an INDEXABLE twin: a noindex page carries none; an indexed one its whole cluster.
     assert.equal((html.match(/<link[^>]*hreflang/g) || []).length, on ? cluster(page).length : 0, `${url}: hreflang alternates`);
-    assert.equal(/application\/ld\+json/.test(html), false, `${url}: no structured data on a template`);
+    checkBreadcrumb(html, url);
+  }
+});
+
+/* Structured data: ONE BreadcrumbList that is the visible «crumbs» line, and nothing else — no Product, Offer or rating
+ * on a page that prints no price in its HTML (international SEO audit, 2026-10-27; before it these pages had none). */
+function checkBreadcrumb(html, url) {
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+  assert.equal(blocks.length, 1, `${url}: one structured-data block`);
+  const [ld] = blocks;
+  assert.deepEqual(Object.keys(ld).sort(), ['@context', '@type', 'itemListElement'], `${url}: a bare BreadcrumbList`);
+  assert.equal(ld['@type'], 'BreadcrumbList', url);
+  assert.equal(JSON.stringify(ld.itemListElement).includes('"offers"'), false, `${url}: no offer inside the breadcrumb`);
+  const crumbs = html.match(/<p class="crumbs">([\s\S]*?)<\/p>/)[1];
+  const visible = crumbs.split('›').map((s) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim());
+  assert.deepEqual(ld.itemListElement.map((i) => i.name), visible, `${url}: the breadcrumb names are the visible ones`);
+  assert.deepEqual(ld.itemListElement.map((i) => Object.keys(i).sort().join()), visible.map(() => '@type,item,name,position'), `${url}: list items carry nothing else`);
+  assert.equal(ld.itemListElement.at(-1).item, url, `${url}: the last crumb is the page itself`);
+  for (const [i, href] of [...crumbs.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).entries()) {
+    assert.equal(ld.itemListElement[i].item, `https://magicesim.store${href}`, `${url}: crumb ${i + 1} links where the visible one does`);
+  }
+}
+
+test('the breadcrumb rule can fire', () => {
+  const c = LIST[0];
+  const url = `https://magicesim.store/en/esim/${c.slug}/`;
+  const html = countryPage(c);
+  checkBreadcrumb(html, url);
+  const swap = (f) => html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/, (_, b) => `<script type="application/ld+json">${JSON.stringify(f(JSON.parse(b)))}</script>`);
+  assert.throws(() => checkBreadcrumb(swap((ld) => ({ ...ld, offers: { '@type': 'Offer', price: '1' } })), url), /bare BreadcrumbList/);
+  assert.throws(() => checkBreadcrumb(swap((ld) => ({ ...ld, itemListElement: ld.itemListElement.map((i, n) => (n === 2 ? { ...i, name: 'Elsewhere' } : i)) })), url), /visible ones/);
+  assert.throws(() => checkBreadcrumb(`${html}<script type="application/ld+json">{"@type":"Product"}</script>`, url), /one structured-data block/);
+});
+
+test('every English country page, the list and the guides carry a share description, image and card', () => {
+  const files = pages().map(({ c, html }) => [c.slug || 'list', html])
+    .concat(['', 'iphone/', 'android/', 'compatibility/', 'activation/', 'troubleshooting/']
+      .map((g) => [`guides/${g}`, read(`en/guides/${g}index.html`)]));
+  for (const [name, html] of files) {
+    const desc = html.match(/<meta name="description" content="([^"]*)">/)[1];
+    assert.ok(html.includes(`<meta property="og:description" content="${desc}">`), `${name}: og:description = the description`);
+    assert.ok(html.includes(`<meta name="twitter:description" content="${desc}">`), `${name}: twitter:description = the description`);
+    assert.ok(html.includes('<meta property="og:image" content="https://magicesim.store/assets/magic-esim-logo.png">'), `${name}: og:image`);
+    assert.ok(html.includes('<meta name="twitter:card" content="summary">'), `${name}: twitter:card`);
   }
 });
 
