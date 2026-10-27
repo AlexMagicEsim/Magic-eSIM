@@ -22,11 +22,16 @@ function watch(page) {
   return st;
 }
 
-// Every main-frame document request (a move by lang-route.js is one): landed() waits until none has started for a while.
-const docRequests = new WeakMap();
+// Every main-frame document request (a move by lang-route.js is one), with what became of it: landed() reads the log
+// to know that the page ASKED for the expected address, and whether the engine answered it.
+const navLog = new WeakMap();    // page → [{ url, state: 'pending' | 'response' | 'failed: <text>' }]
+const marks = new WeakMap();     // page → index in navLog where the current visit() began
 async function prep(page) {
-  docRequests.set(page, 0);
-  page.on('request', (r) => { if (r.isNavigationRequest() && r.frame() === page.mainFrame()) docRequests.set(page, docRequests.get(page) + 1); });
+  navLog.set(page, []);
+  const mine = (r) => r.isNavigationRequest() && r.frame() === page.mainFrame();
+  page.on('request', (r) => { if (mine(r)) navLog.get(page).push({ url: r.url(), req: r, state: 'pending' }); });
+  page.on('response', (res) => { const n = navLog.get(page).find((x) => x.req === res.request()); if (n) n.state = 'response'; });
+  page.on('requestfailed', (r) => { const n = navLog.get(page).find((x) => x.req === r); if (n) n.state = `failed: ${(r.failure() || {}).errorText || ''}`; });
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (r) => r.abort());
   await page.route(/\/api\//, (r) => r.fulfill({ status: 503, body: '{}' }));
 }
@@ -36,28 +41,69 @@ const settle = (page) => page.waitForLoadState('domcontentloaded');
 // A visit typed / opened from outside: no referrer (WebKit would otherwise hand the previous page over as one).
 // goto() waits only for `commit` — the response arrived and the document started. NEVER for `load` (the default) or
 // `domcontentloaded`: when lang-route.js moves the visit, location.replace runs from <head> and «/» is superseded before
-// its own `load`, and WebKit now and then never settles goto()'s wait on that superseded navigation — goto() hung for the
-// whole 30-s test timeout (CI 2026-10-27, two runs, «navigating to "/", waiting until "load"»; a different test of this
-// file each time). Where a visit ENDS is landed()'s question, never goto()'s: every visit() below is followed by one.
-async function visit(page, url, opts) { await page.goto('about:blank'); await page.goto(url, { waitUntil: 'commit', ...opts }); }
-// Where a visit ENDS. lang-route.js moves with location.replace from <head>; WebKit parses the Russian page to the end
-// before it starts that navigation, and now and then «/» fires `load` first — goto() returns on «/» while the move is
-// still pending, and the next goto() cancels it (measured 2026-10-24: 2 of 40 visits; the move itself completed in 300 of
-// 300 visits without a test in the way). So never read the address right after goto():
-//   - wait until the address IS `want` (a move that never comes, or goes elsewhere, fails here);
-//   - then let the page load and require QUIET_MS with no new document request, and the address to be STILL `want` — a
-//     move scheduled late (WebKit starts it right after `load`) or a second move fails here, also when `want` is «/» and
-//     nothing may move at all. (Not `networkidle`: in Chromium it sometimes never came — 10 timeouts in 1 500 runs.)
+// its own `load` — goto() would wait on a document that is gone. Where a visit ENDS is landed()'s question, never
+// goto()'s: every visit() below is followed by one.
+async function visit(page, url, opts) {
+  await page.goto('about:blank');
+  marks.set(page, navLog.get(page).length);
+  await page.goto(url, { waitUntil: 'commit', ...opts });
+}
+// Where a visit ENDS, in three steps:
+//   1. the page ASKED for `want` — a main-frame document request for exactly that address (hash aside: a request has
+//      none) since the visit began, or the page never left it. A move that never comes, or goes elsewhere, fails here,
+//      in every browser.
+//   2. the address IS `want` (commit). In Chromium always. In WebKit the engine itself sometimes drops that correct
+//      request: CI 2026-10-26/27, 18 failures in ~1 500 redirecting visits, every one traced — lang-route.js ran, the
+//      replace() request for the right target left 17–38 ms later, the old page's loads were cancelled, and the target
+//      request then failed with «WebKit encountered an internal error» (4 of 5 traces) or got no response at all (1)
+//      from a local static server that answers in milliseconds; no JS error, no crash; never in Chromium, never on a
+//      visit that does not redirect; not reproducible on macOS WebKit or locally in the CI image (0 in ~1 500). The
+//      same symptom is open upstream as WebKit bug 327297 («location.replace() navigation sometimes never commits»,
+//      Playwright WebKit WPE/GTK). That case — and only that: WebKit, OUR request issued for the right address, and the
+//      engine's own failure on it — is recorded as an annotation `webkit-navigation-stall` (visible in the report,
+//      counted, never silent), and the test opens `want` itself so the next steps run on the page the product chose.
+//      STALL_MS is not a tolerance for slowness: the server is local and static; ten seconds without an answer to a
+//      document request is the stall, and it leaves the test room to go on.
+//   3. QUIET_MS with no new document request after `load`, and the address STILL `want` — a late or a second move
+//      (a loop) fails here, also when `want` is «/» and nothing may move at all. (Not `networkidle`: in Chromium it
+//      sometimes never came — 10 timeouts in 1 500 runs.)
 const QUIET_MS = 500;
+const STALL_MS = 10_000;
 const pathOf = (u) => u.pathname + u.search + u.hash;
-async function landed(page, want, msg) {
-  if (!docRequests.has(page)) throw new Error('landed() needs prep(page) first: it counts the document requests');
-  await page.waitForURL((u) => pathOf(u) === want, { waitUntil: 'commit' });
+const reqPath = (url) => { const u = new URL(url); return u.pathname + u.search; };
+async function landed(page, want, msg, { stallMs = STALL_MS } = {}) {
+  if (!navLog.has(page)) throw new Error('landed() needs prep(page) first: it logs the document requests');
+  const target = want.replace(/#.*$/, '');
+  const since = () => navLog.get(page).slice(marks.get(page) || 0);
+  const asked = () => since().filter((n) => reqPath(n.url) === target).at(-1);
+  await expect.poll(() => path(page) === want || !!asked(), { timeout: stallMs, message: `${msg || want}: the page never asked for ${target}` }).toBe(true);
+
+  const committed = path(page) === want
+    || await page.waitForURL((u) => pathOf(u) === want, { waitUntil: 'commit', timeout: stallMs }).then(() => true, (e) => e);
+  if (committed !== true) {
+    const n = asked();
+    // What became of OUR request, from Playwright's own record — never from the event log alone: a request that was
+    // just failed may not have delivered its `requestfailed` yet and would read as «no answer» (a local stress run
+    // caught exactly that). response() settles on an answer or a failure; one second lets it settle.
+    let outcome = 'pending';
+    if (n) {
+      const settled = await Promise.race([n.req.response().then((r) => (r ? 'response' : 'failed'), () => 'failed'),
+        page.waitForTimeout(1000).then(() => 'pending')]);
+      const f = n.req.failure();
+      outcome = f ? `failed: ${f.errorText}` : settled;
+    }
+    const engineDropped = page.context().browser().browserType().name() === 'webkit' && n
+      && (outcome === 'pending' || /WebKit encountered an internal error/.test(outcome));
+    if (!engineDropped) throw committed;
+    test.info().annotations.push({ type: 'webkit-navigation-stall',
+      description: `${target}: requested correctly by lang-route.js, then ${outcome === 'pending' ? 'no response' : outcome} (WebKit bug 327297 family)` });
+    await page.goto(want, { waitUntil: 'commit' });
+  }
   for (;;) {
     await page.waitForLoadState('load');
-    const seen = docRequests.get(page);
+    const seen = navLog.get(page).length;
     await page.waitForTimeout(QUIET_MS);
-    if (docRequests.get(page) === seen) break;
+    if (navLog.get(page).length === seen) break;
   }
   expect(path(page), msg).toBe(want);
 }
@@ -209,3 +255,48 @@ for (const locale of ['en-US', 'ru-RU']) {
     });
   });
 }
+
+/* landed() itself: each way the product or the engine can go wrong is told apart, and only the engine's own drop of a
+ * correct request is tolerated — in WebKit, annotated. Short stallMs so a control does not wait ten seconds. */
+test.describe('landed() cannot pass a wrong visit', () => {
+  test.use({ locale: 'en-US' });
+  const short = { stallMs: 2000 };
+
+  test('no move where one is expected fails, in every browser', async ({ page }) => {
+    await prep(page);
+    await page.addInitScript(() => { try { localStorage.setItem('mesim.site.lang', 'ru'); } catch (e) { /* about:blank */ } });
+    await visit(page, '/');
+    await expect(landed(page, '/en/', 'control', short)).rejects.toThrow(/never asked for \/en\//);
+  });
+
+  test('a move to another address fails, in every browser', async ({ page }) => {
+    await prep(page);
+    await page.addInitScript(() => { try { localStorage.setItem('mesim.site.lang', 'ko'); } catch (e) { /* about:blank */ } });
+    await visit(page, '/');
+    await expect(landed(page, '/en/', 'control', short)).rejects.toThrow(/never asked for \/en\//);
+  });
+
+  test('a target request failed by something other than the engine fails, in every browser', async ({ page }) => {
+    await prep(page);
+    await page.route(/\/en\/$/, (r) => r.abort('failed'), { times: 1 });
+    await visit(page, '/');
+    await expect(landed(page, '/en/', 'control', short)).rejects.toThrow();
+    expect(test.info().annotations.filter((a) => a.type === 'webkit-navigation-stall')).toEqual([]);
+  });
+
+  test('a target request that is never answered fails in Chromium; in WebKit it is annotated and the visit goes on', async ({ page, browserName }) => {
+    await prep(page);
+    let hold;
+    await page.route(/\/en\/$/, () => new Promise((r) => { hold = r; }), { times: 1 });
+    await visit(page, '/');
+    if (browserName === 'webkit') {
+      await landed(page, '/en/', 'stall', short);
+      expect(test.info().annotations.map((a) => a.type)).toContain('webkit-navigation-stall');
+      expect(path(page)).toBe('/en/');
+    } else {
+      await expect(landed(page, '/en/', 'control', short)).rejects.toThrow();
+    }
+    if (hold) hold();   // release the held route so the context closes cleanly
+    test.info().annotations.splice(0);   // the control's own annotation is not a CI event
+  });
+});
