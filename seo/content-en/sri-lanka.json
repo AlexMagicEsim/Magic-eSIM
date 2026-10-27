@@ -10,7 +10,7 @@
       "h2": "The ETA before you fly",
       "paragraphs": [
         "All foreign nationals need an Electronic Travel Authorization, or ETA, before arriving in Sri Lanka. You apply for it online at eta.gov.lk, the official site of the Department of Immigration and Emigration, and UK government travel advice also tells travellers to do this before they set off.",
-        "Since 25 May 2026, nationals of 40 listed countries can get a free 30-day tourist ETA; a longer stay requires paying the applicable visa fee. The list of nationalities and the terms can change, so check eta.gov.lk for your own passport rather than relying on a summary. UK advice adds that visa extensions are handled through the official immigration e-services portal."
+        "Since 25 May 2026, nationals of 40 listed countries have been able to get a free 30-day tourist ETA; a longer stay requires paying the applicable visa fee. The list of nationalities and the terms can change, so check eta.gov.lk for your own passport rather than relying on a summary. UK advice adds that visa extensions are handled through the official immigration e-services portal."
       ]
     },
     {
@@ -33,7 +33,7 @@
   "faq": [
     {
       "q": "Do I need an ETA for Sri Lanka, and is it free?",
-      "a": "Every foreign national needs an ETA, applied for online at eta.gov.lk before arrival. Since 25 May 2026 nationals of 40 listed countries get a free tourist ETA, but the list can change, so check the official site for your passport."
+      "a": "Every foreign national needs an ETA, applied for online at eta.gov.lk before arrival. Since 25 May 2026 nationals of 40 listed countries have been able to get a free tourist ETA, but the list can change, so check the official site for your passport."
     },
     {
       "q": "How do I book train tickets in Sri Lanka online?",
@@ -117,7 +117,7 @@
       "checked": "2026-10-27",
       "supports": "all foreign nationals need an ETA, applied for online; from 25 May 2026 nationals of 40 listed countries get a free 30-day tourist ETA (90 days for Maldivian nationals); extensions carry the visa fee",
       "sentences": [
-        "Since 25 May 2026, nationals of 40 listed countries can get a free 30-day tourist ETA; a longer stay requires paying the applicable visa fee."
+        "Since 25 May 2026, nationals of 40 listed countries have been able to get a free 30-day tourist ETA; a longer stay requires paying the applicable visa fee."
       ]
     },
     {
@@ -148,7 +148,7 @@
   "reviewed": {
     "research": "researcher-B",
     "copy": "copywriter-1",
-    "language": "",
+    "language": "AI language review (Claude), 2026-10-27: 2 objective fixes",
     "facts": "factcheck-1"
   }
 }
