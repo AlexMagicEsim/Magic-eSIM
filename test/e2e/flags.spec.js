@@ -136,6 +136,11 @@ async function flagsOn(page) {
 }
 
 for (const url of SURFACES) {
+  // «/» is the RUSSIAN home only for a Russian browser: with the default en-US locale assets/lang-route.js moves the
+  // visit to /en/ from <head> — this test then measured /en/, and WebKit now and then never settled goto()'s «load» on
+  // the superseded «/» (CI 2026-10-27, 30-s timeout). The Russian home is tested as a Russian browser sees it.
+  test.describe(url === '/' ? 'the Russian home' : url, () => {
+  if (url === '/') test.use({ locale: 'ru-RU' });
   for (const width of [null, 1366]) {
     test(`${url}${width ? ' at 1366 px' : ''}: every flag loads and keeps 4:3`, async ({ page }) => {
       await offline(page);
@@ -148,8 +153,10 @@ for (const url of SURFACES) {
       expect(r.missing).toEqual([]);
       expect(r.notLoaded).toEqual([]);
       expect(r.notFourThree).toEqual([]);
+      if (url === '/') expect(new URL(page.url()).pathname, 'measured the Russian home itself').toBe('/');
     });
   }
+  });
 }
 
 test.describe('the Russian home (a Russian browser: assets/lang-route.js sends any other on)', () => {
