@@ -115,3 +115,40 @@ test('logo-once.js saves a switch click and an arrival from a Russian page, neve
   assert.match(s, /mesim\.lang\.auto/);
   assert.match(s, /'mesim\.site\.lang'/);
 });
+
+// 6. The browser tests of «/» run in WebKit's `webkit-lang-route` project, ONE at a time, and intercept NOTHING: every
+//    intermittent WebKit failure in CI (2026-10-23 … 10-27, 23 of 23) was a moving visit to «/» run with page.route on,
+//    in a worker that shared the runner with another WebKit worker moving a visit at the same moment. landed() tolerates
+//    nothing: no engine-drop annotation, no recovery navigation (a dead tab never recovered anyway).
+export function langRouteSpecProblems(spec, config) {
+  const out = [];
+  if (/\b(?:page|context)\.(?:route|routeFromHAR|routeWebSocket)\(/.test(spec)) out.push('the spec intercepts requests');
+  if (/webkit-navigation-stall|engineDropped|browserType\(\)\.name\(\)/.test(spec)) out.push('landed() tolerates an engine drop');
+  if (!/proxy: \{ server: 'http:\/\/127\.0\.0\.1:9', bypass: '127\.0\.0\.1,localhost' \}/.test(spec)) out.push('off-site requests are not kept off the network');
+  const block = config.match(/name: 'webkit-lang-route',[\s\S]*?\n {4}\},/);
+  if (!block) out.push('no webkit-lang-route project');
+  else {
+    if (!/testMatch: \/\(\?:\^\|\[\\\\\/\]\)lang-route\\\.spec\\\.js\$\//.test(block[0])) out.push('webkit-lang-route does not run lang-route.spec.js');
+    if (!/\n {6}workers: 1,\n/.test(block[0])) out.push('webkit-lang-route is not one worker');
+    if (!/devices\['Desktop Safari'\]/.test(block[0])) out.push('webkit-lang-route is not WebKit');
+  }
+  const flags = config.match(/name: 'webkit-flags',[\s\S]*?\n {4}\},/);
+  if (flags && /lang-route/.test(flags[0].replace(/^\s*\/\/.*$/gm, ''))) out.push('lang-route.spec.js also runs in webkit-flags');
+  return out;
+}
+
+test('lang-route browser tests: own WebKit project, one worker, no interception, no tolerance', () => {
+  assert.deepEqual(langRouteSpecProblems(read('test/e2e/lang-route.spec.js'), read('playwright.config.js')), []);
+});
+
+test('negative controls: interception, a tolerance, a shared or parallel WebKit project are caught', () => {
+  const spec = read('test/e2e/lang-route.spec.js'), config = read('playwright.config.js');
+  const bad = (s, c) => assert.notDeepEqual(langRouteSpecProblems(s, c), []);
+  bad(spec + "\nawait page.route(/x/, (r) => r.abort());\n", config);
+  bad(spec + "\nawait context.route('**', (r) => r.continue());\n", config);
+  bad(spec + "\ntest.info().annotations.push({ type: 'webkit-navigation-stall' });\n", config);
+  bad(spec.replace("server: 'http://127.0.0.1:9'", "server: 'http://proxy:3128'"), config);
+  bad(spec, config.replace(/(name: 'webkit-lang-route',[\s\S]*?)\n {6}workers: 1,\n/, '$1\n'));
+  bad(spec, config.replace("name: 'webkit-lang-route'", "name: 'webkit-other'"));
+  bad(spec, config.replace('miniapp-catalogue-races|no-horizontal-scroll', 'miniapp-catalogue-races|lang-route|no-horizontal-scroll'));
+});
