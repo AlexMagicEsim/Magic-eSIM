@@ -17,7 +17,7 @@
  * exist because of a touch-handling bug that only WKWebView had — and they are
  * left alone.)
  *
- * ONE EXCEPTION: `webkit-flags`. The country flags are drawn by the engine, and
+ * TWO EXCEPTIONS: `webkit-flags`, and `webkit-lang-route` (see its entry). The country flags are drawn by the engine, and
  * the minified copies broke differently in WebKit (Curaçao: fragments) than in
  * Chromium (nothing at all), so the flag tests — and only they — also run in
  * WebKit, the engine of Safari on macOS and iOS and of Telegram on iOS.
@@ -67,9 +67,24 @@ module.exports = defineConfig({
       // The flag tests in WebKit (see above). Nothing else runs here.
       name: 'webkit-flags',
       // …and the Spanish (I18N ES-1) and German (DE-1) and French (FR-1) sites: every page kind in Safari's engine as well,
-      // and the English Privacy Policy (LEGAL-1), and the Korean site (KO-1), and the first-visit language of «/» (lang-route),
+      // and the English Privacy Policy (LEGAL-1), and the Korean site (KO-1),
       // and the Mini App plan card and layout (miniapp-ux-parity) — Telegram on iOS is WebKit.
-      testMatch: /(?:^|[\\/])(?:flags|miniapp-flags|es-site|de-site|fr-site|zh-site|en-privacy|ko-site|legal-consents|legal-i18n|miniapp-markets|miniapp-catalogue-races|lang-route|no-horizontal-scroll|coverage-target|miniapp-ux-parity)\.spec\.js$/,
+      testMatch: /(?:^|[\\/])(?:flags|miniapp-flags|es-site|de-site|fr-site|zh-site|en-privacy|ko-site|legal-consents|legal-i18n|miniapp-markets|miniapp-catalogue-races|no-horizontal-scroll|coverage-target|miniapp-ux-parity)\.spec\.js$/,
+      use: { ...devices['Desktop Safari'], viewport: { width: 390, height: 844 } },
+    },
+    {
+      // The first-visit language of «/» (assets/lang-route.js) in WebKit, in a project of its own. Every intermittent
+      // WebKit failure of this suite (CI 2026-10-23 … 10-27: 23 of 23) was a visit to «/» that lang-route.js moves on:
+      // the location.replace() request for the right target failed inside WebKit («internal error» / «cancelled» /
+      // never answered) and the tab was dead after it — a fresh goto() in the same tab hung too. Every one of those
+      // visits ran with request interception on (page.route), and in every traced case the OTHER WebKit worker was
+      // running a moving visit at the same moment (once both failed in the same second). So these tests run here: in
+      // WebKit workers of their own (never in a browser that has run the rest of the suite), ONE at a time (never two
+      // WebKit processes redirecting at once), and the spec intercepts nothing (no page.route: off-site requests fail
+      // at a dead proxy instead). The assertions are the same in both engines — no tolerance, no recovery.
+      name: 'webkit-lang-route',
+      testMatch: /(?:^|[\\/])lang-route\.spec\.js$/,
+      workers: 1,
       use: { ...devices['Desktop Safari'], viewport: { width: 390, height: 844 } },
     },
   ],
