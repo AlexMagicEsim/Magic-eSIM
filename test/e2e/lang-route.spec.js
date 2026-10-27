@@ -34,7 +34,12 @@ async function prep(page) {
 const path = (page) => { const u = new URL(page.url()); return u.pathname + u.search + u.hash; };
 const settle = (page) => page.waitForLoadState('domcontentloaded');
 // A visit typed / opened from outside: no referrer (WebKit would otherwise hand the previous page over as one).
-async function visit(page, url, opts) { await page.goto('about:blank'); await page.goto(url, opts); await settle(page); }
+// goto() waits only for `commit` — the response arrived and the document started. NEVER for `load` (the default) or
+// `domcontentloaded`: when lang-route.js moves the visit, location.replace runs from <head> and «/» is superseded before
+// its own `load`, and WebKit now and then never settles goto()'s wait on that superseded navigation — goto() hung for the
+// whole 30-s test timeout (CI 2026-10-27, two runs, «navigating to "/", waiting until "load"»; a different test of this
+// file each time). Where a visit ENDS is landed()'s question, never goto()'s: every visit() below is followed by one.
+async function visit(page, url, opts) { await page.goto('about:blank'); await page.goto(url, { waitUntil: 'commit', ...opts }); }
 // Where a visit ENDS. lang-route.js moves with location.replace from <head>; WebKit parses the Russian page to the end
 // before it starts that navigation, and now and then «/» fires `load` first — goto() returns on «/» while the move is
 // still pending, and the next goto() cancels it (measured 2026-10-24: 2 of 40 visits; the move itself completed in 300 of
@@ -121,7 +126,7 @@ test.describe('English browser', () => {
 
   test('/?country=XX is an old link to one Russian country page: not moved by language', async ({ page }) => {
     await prep(page);
-    await page.goto('/?country=TR');
+    await page.goto('/?country=TR', { waitUntil: 'commit' });   // moved by a script too (assets/ru-home.js): see visit()
     await page.waitForURL(/\/esim\/turkey\/$/);
     expect(new URL(page.url()).pathname).toBe('/esim/turkey/');
   });
@@ -166,6 +171,7 @@ test.describe('Russian browser', () => {
   test('«English» on a Russian page is saved: later visits to / open /en/', async ({ page }) => {
     await prep(page);
     await visit(page, '/esim/turkey/');
+    await landed(page, '/esim/turkey/');
     await tap(page, 'a.langsw[lang="en"]');
     await page.waitForURL((u) => u.pathname === '/en/');
     await settle(page);
@@ -177,6 +183,7 @@ test.describe('Russian browser', () => {
   test('a language picked in an international switch is saved', async ({ page }) => {
     await prep(page);
     await visit(page, '/en/');
+    await landed(page, '/en/');
     await tap(page, 'details.langmenu a[hreflang="fr"]');
     await page.waitForURL((u) => u.pathname === '/fr/');
     expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('fr');

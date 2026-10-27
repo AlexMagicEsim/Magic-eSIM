@@ -26,6 +26,7 @@ import { parsePorcelain, unexpectedPaths, allowedPaths, FIXED_ALLOWED } from './
 import { classify, riskOf, renderMarkdown, CLAIM_FIELDS } from './refresh-summary.mjs';
 import { pushDecision } from './refresh-noop.mjs';
 import { classifyFailure, KIND, DATA_INPUT } from './refresh-classify.mjs';
+import { jobText } from './test-ci-browser-shards.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WF = readFileSync(join(ROOT, '.github/workflows/seo-refresh-pr.yml'), 'utf8');
@@ -142,7 +143,11 @@ function parseSteps(yaml) {
  */
 const code = (run) => String(run || '').split('\n').filter((l) => !/^\s*#/.test(l)).join('\n');
 
-const STEPS = parseSteps(WF);
+// The steps of the «refresh» job only. Since 2026-10-27 the file has three jobs (pin, browser shards, refresh) and the
+// shards' steps sit at the same indentation — read across the whole file they would join this job's step list, its
+// triage table and its no-expression rule, none of which is about them. The shards have their own tests (section S).
+const REFRESH = jobText(WF, 'refresh');
+const STEPS = parseSteps(REFRESH);
 const named = STEPS.filter((s) => s.name).map((s) => s.name);
 const stepByName = (n) => STEPS.find((s) => s.name === n);
 
@@ -502,9 +507,11 @@ test('I/J: an open PR is edited, never duplicated', () => {
 test('J/I: every run rebuilds from main, and leaves no credential behind', () => {
   const checkout = STEPS.find((x) => (x.uses || '').startsWith('actions/checkout'));
   assert.ok(checkout, 'нет шага checkout');
-  const at = WF.indexOf(checkout.uses);
-  const block = WF.slice(at, at + 260);
-  assert.match(block, /ref: main/);
+  const at = REFRESH.indexOf(`uses: ${checkout.uses}`);
+  const block = REFRESH.slice(at, at + 260);
+  // main as «pin» read it — the commit the browser shards tested — and «pin» reads main itself.
+  assert.match(block, /ref: \$\{\{ needs\.pin\.outputs\.sha \}\}/);
+  assert.match(jobText(WF, 'pin'), /\n {10}ref: main\n/);
   assert.match(block, /fetch-depth: 0/);
   // Otherwise checkout leaves a push-capable credential in .git/config for every
   // later step — including `npm ci`, which runs dependency lifecycle scripts.
@@ -551,7 +558,6 @@ test('M1: the step list is exactly this, in this order', () => {
     'Есть ли что публиковать',
     'Воспроизводимость',
     'Проверки — гейты витрины',
-    'Проверки — установка браузера',
     'Проверки — браузер',
     'Сводка изменений',
     'Ветка',
@@ -688,12 +694,19 @@ test('no Actions expression is expanded inside a shell command', () => {
 });
 
 test('M3: the success guard is on the job\'s if:, not in a comment', () => {
-  // Asserted against WF (comments included), the guard could be demoted to a
-  // comment and `if: always()` put in its place with the test still green.
-  const line = WF_CODE.split('\n').find((l) => /^\s{4}if:/.test(l));
-  assert.ok(line, 'у job нет if:');
-  assert.match(line, /github\.event\.workflow_run\.conclusion == 'success'/);
-  assert.doesNotMatch(line, /always\(\)/);
+  // Asserted against code (comments removed), the guard could otherwise be demoted to a comment and `if: always()` put
+  // in its place with the test still green. Since 2026-10-27 the guard sits on «pin», the job everything else needs.
+  const ifOf = (id) => (jobText(WF, id) || '').split('\n').filter((l) => !/^\s*#/.test(l)).find((l) => /^\s{4}if:/.test(l));
+  const pin = ifOf('pin');
+  assert.ok(pin, 'у job pin нет if:');
+  assert.match(pin, /github\.event\.workflow_run\.conclusion == 'success'/);
+  assert.doesNotMatch(pin, /always\(\)/);
+  // «refresh» runs after a red shard (to report it), but never when «pin» did not succeed.
+  const refresh = ifOf('refresh');
+  assert.ok(refresh, 'у job refresh нет if:');
+  assert.match(refresh, /needs\.pin\.result == 'success'/);
+  assert.match(jobText(WF, 'refresh'), /\n {4}needs: \[pin, browser\]\n/);
+  assert.match(jobText(WF, 'browser'), /\n {4}needs: pin\n/);
 });
 
 test('actions are pinned by commit, not by a movable tag', () => {
@@ -1088,3 +1101,78 @@ test('O: сводка показывает САМО падение, даже к�
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+/* ================================================================== *
+ * S. The browser tier runs in shards, in the Playwright image (2026-10-27)
+ *
+ * Five refreshes in a row hit the 25-minute limit with no failing test: a `playwright install --with-deps` that
+ * stalled 21–22 min on the runner's mirror, or the whole suite in one process (21–23 min). The suite moved into two
+ * shards in tests.yml's image; these hold that shape — and that «refresh» cannot publish an untested tree.
+ * ================================================================== */
+
+const BROWSER = jobText(WF, 'browser');
+const TESTS_YML = readFileSync(join(ROOT, '.github/workflows/tests.yml'), 'utf8');
+
+/** Problems with the shard job and the verdict «refresh» draws from it; [] when right. */
+function refreshShardProblems(text) {
+  const out = [];
+  const job = jobText(text, 'browser');
+  const refresh = jobText(text, 'refresh');
+  if (!job || !refresh) return ['no browser or refresh job'];
+  const strip = (t) => t.split('\n').filter((l) => !/^\s*#/.test(l)).join('\n');
+  const jc = strip(job);
+  const m = jc.match(/\n {8}shard: \[([^\]]*)\]/);
+  const shards = m ? m[1].split(',').map((x) => Number(x.trim())) : [];
+  if (shards.length < 2 || shards.some((n, i) => n !== i + 1)) out.push('matrix.shard is not 1..N');
+  if (!/\n {6}fail-fast: false\n/.test(jc)) out.push('fail-fast is not off');
+  const runs = [...jc.matchAll(/npx playwright test\b([^\n]*)/g)].map((x) => x[1]);
+  if (runs.length !== 1 || runs[0].trim() !== '--shard=${{ matrix.shard }}/${{ strategy.job-total }}') out.push(`the shard run is not exactly the matrix shard: ${runs.join(' | ')}`);
+  if (/npx playwright install\b/.test(jc)) out.push('the shard downloads browsers');
+  const img = (t) => (t.match(/\n {6}image: (mcr\.microsoft\.com\/playwright:v[0-9.]+-noble@sha256:[0-9a-f]{64})\n/) || [])[1];
+  if (!img(jc) || img(jc) !== img(TESTS_YML)) out.push(`the shard image is not tests.yml's: ${img(jc)}`);
+  if (!/\n {4}permissions:\n {6}contents: read\n/.test(jc) || /write/.test(jc.slice(jc.indexOf('permissions:'), jc.indexOf('container:')))) out.push('the shard is not read-only');
+  if (/GH_TOKEN|github\.token|secrets\./.test(jc)) out.push('a credential reaches the shard');
+  if (!/ref: \$\{\{ needs\.pin\.outputs\.sha \}\}/.test(jc)) out.push('the shard does not build the pinned commit');
+  if (!/node seo\/build-all\.mjs/.test(jc)) out.push('the shard does not rebuild');
+  if (/continue-on-error/.test(jc)) out.push('continue-on-error');
+  // «refresh»'s verdict: every shard green, the same commit, and a changed tree actually tested.
+  const verdict = strip(refresh.slice(refresh.indexOf('- name: Проверки — браузер'), refresh.indexOf('- name: Сводка изменений')));
+  if (!/RESULT: \$\{\{ needs\.browser\.result \}\}/.test(verdict)) out.push('refresh does not read needs.browser.result');
+  if (!/\n {10}test "\$RESULT" = "success"\n/.test(verdict)) out.push('refresh does not demand «success»');
+  if (!/\n {10}test "\$TESTED" = "true"\n/.test(verdict)) out.push('refresh does not demand a tested tree');
+  if (!/\n {10}test "\$\(git rev-parse HEAD\)" = "\$PINNED"\n/.test(verdict)) out.push('refresh does not check the commit');
+  if (!/tested: \$\{\{ steps\.shard_changed\.outputs\.changed \}\}/.test(jc)) out.push('the shard does not report whether it tested');
+  return out;
+}
+
+test('S: the browser tier runs in shards 1..N of tests.yml\'s Playwright image, read-only, on the pinned commit', () => {
+  assert.deepEqual(refreshShardProblems(WF), []);
+});
+
+test('S: negative controls — each way to skip, filter, download or vouch for an untested tree is caught', () => {
+  const mut = (from, to) => { assert.ok(WF.includes(from), `fixture: ${from}`); return refreshShardProblems(WF.replace(from, to)); };
+  assert.notDeepEqual(mut('        shard: [1, 2]', '        shard: [1]'), []);
+  assert.notDeepEqual(mut('      fail-fast: false', '      fail-fast: true'), []);
+  assert.notDeepEqual(mut('npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}', 'npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }} --project=chromium-390'), []);
+  assert.notDeepEqual(mut('        run: npm ci\n', '        run: npm ci && npx playwright install --with-deps\n'), []);
+  assert.notDeepEqual(mut('playwright:v1.62.1-noble@sha256:dcc5531e', 'playwright:v1.62.1-noble@sha256:0cc5531e'), []);
+  assert.notDeepEqual(mut('    permissions:\n      contents: read\n    container:', '    permissions:\n      contents: write\n    container:'), []);
+  assert.notDeepEqual(mut('          test "$RESULT" = "success"\n', '          test "$RESULT" != "failure"\n'), []);
+  assert.notDeepEqual(mut('          test "$TESTED" = "true"\n', ''), []);
+  assert.notDeepEqual(mut('          test "$(git rev-parse HEAD)" = "$PINNED"\n', ''), []);
+});
+
+test('S: the shards hash the same generated tree «Воспроизводимость» does', () => {
+  const tree = (t) => (t.match(/tree\(\) \{ find ([^|]+)\|/) || [])[1];
+  assert.ok(tree(BROWSER), 'нет tree() в шарде');
+  assert.equal(tree(BROWSER), tree(stepByName('Воспроизводимость').run));
+});
+
+test('S: a shard that died installing is named as the environment, not as a page or the code', () => {
+  const triage = code(stepByName('Разбор падения').run);
+  assert.match(triage, /"Шард — установка тест-раннера"/);
+  assert.match(triage, /step="Проверки — установка браузера"/);
+  assert.match(BROWSER, /- name: Шард — установка тест-раннера\n/);
+  assert.equal(classifyFailure({ failedStep: 'Проверки — установка браузера', inputsChanged: [DATA_INPUT] }).kind, KIND.AUTOMATION);
+});
+

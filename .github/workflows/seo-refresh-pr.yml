@@ -65,9 +65,17 @@ concurrency:
 jobs:
   refresh:
     name: rebuild SEO pages and open a PR
-    # A failed catalogue run may have left assets/catalog.json untouched or
-    # half-validated; there is nothing to follow it with.
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    # THE BROWSER TIER RUNS IN THE «browser» JOBS BELOW, BEFORE THIS ONE (2026-10-27). Until then it ran here, in one
+    # process after a `playwright install --with-deps` from the runner's Ubuntu mirror, and five refreshes in a row
+    # (2026-10-26 13:13 … 10-27 00:35) hit the 25-minute limit with no failing test: the install stalled for 21–22 min
+    # on three of them, the suite itself took 21–23 min on the other two. tests.yml had fixed both on 2026-10-22 (#129:
+    # Microsoft's Playwright image, two shards); this file had not followed. The limit is unchanged — the work moved.
+    #
+    # `!cancelled()` so that a red shard still reaches «Проверки — браузер» (which turns it into this job's failure) and
+    # «Разбор падения» (which explains it); `needs.pin.result` keeps the old rule that a failed catalogue run is not
+    # followed — «pin» carries that condition.
+    needs: [pin, browser]
+    if: ${{ !cancelled() && needs.pin.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
 
@@ -96,9 +104,13 @@ jobs:
       # access. Since R3-12 every workflow here pins by commit (tests.yml too, so
       # that «require SHA pinning» can be switched on for the repository);
       # seo/test-workflow-hardening.mjs enforces it.
+      #
+      # `ref` is main AS «pin» READ IT, not «main» again: the browser shards built and tested exactly that commit, and
+      # the catalogue bot can move main while they run. The build is a pure function of the commit (proved below by
+      # «Воспроизводимость»), so the tree here is the tree they tested — and «Проверки — браузер» checks the commit.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: main
+          ref: ${{ needs.pin.outputs.sha }}
           fetch-depth: 0
           persist-credentials: false
 
@@ -187,18 +199,23 @@ jobs:
           npm test 2>&1 | tee /tmp/seo-gates.log
           exit "${PIPESTATUS[0]}"
 
-      - name: Проверки — установка браузера
-        id: browser_install
-        if: steps.diff.outputs.changed == 'true'
-        run: |
-          npm ci
-          # every engine playwright.config.js uses (the webkit-flags project since #101) — as tests.yml
-          npx playwright install --with-deps chromium webkit
-
+      # The browser tier ran in the «browser» shards (below in this file, before this job in time), on THIS commit. This
+      # step is their verdict here: green only when every shard succeeded AND both actually tested a changed tree. A
+      # shard that saw no change skips the suite — if this job sees a change the shards did not, the build was not the
+      # same and nothing was tested, so it stops rather than vouching for an untested tree.
       - name: Проверки — браузер
         id: browser
         if: steps.diff.outputs.changed == 'true'
-        run: npx playwright test
+        env:
+          RESULT: ${{ needs.browser.result }}
+          TESTED: ${{ needs.browser.outputs.tested }}
+          PINNED: ${{ needs.pin.outputs.sha }}
+        run: |
+          set -euo pipefail
+          echo "браузерные шарды: $RESULT, проверили изменённое дерево: ${TESTED:-нет}"
+          test "$(git rev-parse HEAD)" = "$PINNED"
+          test "$RESULT" = "success"
+          test "$TESTED" = "true"
 
       - name: Сводка изменений
         id: summary
@@ -438,7 +455,6 @@ jobs:
           O_DIFF: ${{ steps.diff.outcome }}
           O_REPRO: ${{ steps.repro.outcome }}
           O_GATES: ${{ steps.gates.outcome }}
-          O_BROWSER_INSTALL: ${{ steps.browser_install.outcome }}
           O_BROWSER: ${{ steps.browser.outcome }}
           O_SUMMARY: ${{ steps.summary.outcome }}
           O_BRANCH: ${{ steps.branch.outcome }}
@@ -465,12 +481,20 @@ jobs:
             "Есть ли что публиковать|$O_DIFF" \
             "Воспроизводимость|$O_REPRO" \
             "Проверки — гейты витрины|$O_GATES" \
-            "Проверки — установка браузера|$O_BROWSER_INSTALL" \
             "Проверки — браузер|$O_BROWSER" \
             "Сводка изменений|$O_SUMMARY" \
             "Ветка|$O_BRANCH" \
             "Pull request|$O_PR" \
             | awk -F'|' '$2 == "failure" { print $1; exit }')
+
+          # The browser tier runs in the shard jobs, so a shard that died installing (npm ci, the image) shows up here
+          # only as «Проверки — браузер». That is the environment, not the catalogue or the code: name it as such, by
+          # reading the shards' own steps (read-only, `actions: read`).
+          if [ "$step" = "Проверки — браузер" ]; then
+            install=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/jobs" \
+                        --jq '.jobs[].steps[] | select(.name == "Шард — установка тест-раннера") | .conclusion' 2>/dev/null)
+            if printf '%s\n' "${install:-}" | grep -qx failure; then step="Проверки — установка браузера"; fi
+          fi
 
           # ОПОРА — ПОСЛЕДНИЙ ПРОГОН, В КОТОРОМ ГЕЙТЫ ДЕЙСТВИТЕЛЬНО ПРОШЛИ,
           # а не просто последний зелёный. Всё после «Есть ли что публиковать»
@@ -526,3 +550,94 @@ jobs:
           echo "no generated SEO changes" | tee -a "$GITHUB_STEP_SUMMARY"
           echo "Каталог мог измениться, но ни одна страница, ни карта сайта и ни один лист фактов" >> "$GITHUB_STEP_SUMMARY"
           echo "от этого не поменялись. PR не создаётся." >> "$GITHUB_STEP_SUMMARY"
+
+  # The commit every job of this run builds. Read once, here, so the shards and «refresh» cannot build two different
+  # mains. It also carries the old entry rule: a failed catalogue run is not followed.
+  pin:
+    name: pin main
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      sha: ${{ steps.sha.outputs.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: SHA main
+        id: sha
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "этот прогон собирает main = $sha"
+
+  # THE BROWSER TIER, in two shards — the same shape and the same image as tests.yml (#129). The browsers and their
+  # system libraries come preinstalled in Microsoft's Playwright image (the lockfile's version, pinned by digest —
+  # seo/test-seo-refresh.mjs holds it equal to tests.yml's), so nothing is downloaded from the runner's mirror.
+  # READ-ONLY: no token, `contents: read`; `npm ci` runs dependency lifecycle scripts, and none of them can push.
+  # Each shard rebuilds the pages itself from the pinned commit (seconds) and runs its half of the suite only when the
+  # rebuild changed a generated file — a catalogue run that moves no page costs two short jobs, not two suites.
+  browser:
+    name: SEO refresh browser tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})
+    needs: pin
+    runs-on: ubuntu-24.04
+    # A limit is for a hang, not for the suite: one shard runs ~10–15 min.
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    outputs:
+      tested: ${{ steps.shard_changed.outputs.changed }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.pin.outputs.sha }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # The same generated tree «refresh» hashes in «Воспроизводимость»; a page that changes moves the hash.
+      - name: Шард — пересборка
+        id: shard_changed
+        run: |
+          set -euo pipefail
+          tree() { find esim en/esim en/destinations.js es/esim es/destinations.js de/esim de/destinations.js fr/esim fr/destinations.js zh/esim zh/destinations.js ko/esim ko/destinations.js seo sitemap.xml -type f \( -name '*.html' -o -name '*.json' -o -name '*.xml' -o -name '*.js' \) \
+                   | sort | xargs sha256sum | sha256sum | cut -d' ' -f1; }
+          before="$(tree)"
+          node seo/build-all.mjs > /dev/null
+          after="$(tree)"
+          echo "хеш дерева: $before → $after"
+          if [ "$before" = "$after" ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; echo "страницы не изменились — браузерный ярус не нужен"
+          else echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Шард — установка тест-раннера
+        id: shard_install
+        if: steps.shard_changed.outputs.changed == 'true'
+        run: npm ci
+
+      - name: Шард — браузер
+        id: shard_browser
+        if: steps.shard_changed.outputs.changed == 'true'
+        run: npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+
+      - name: Шард — отчёт при падении
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: seo-refresh-playwright-report-shard-${{ matrix.shard }}
+          path: playwright-report/
+          retention-days: 7
