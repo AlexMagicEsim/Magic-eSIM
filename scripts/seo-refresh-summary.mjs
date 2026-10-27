@@ -107,6 +107,8 @@ const meta = {
   base_commit: (git('rev-parse', 'HEAD') || '').trim() || null,
   validation: (arg('--validation', '') || '').split('|').filter(Boolean),
   changed_files: changed,
+  // the USD facts countries «Refresh static catalog cache» holds (scripts/update-global-plan-facts.mjs), shown in the body
+  facts_held: (() => { try { return readJson(join(ROOT, 'seo/global-plan-facts.json'))?.held || null; } catch { return null; } })(),
 };
 
 mkdirSync(OUT, { recursive: true });

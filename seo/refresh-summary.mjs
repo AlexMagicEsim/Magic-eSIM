@@ -358,6 +358,18 @@ export function renderMarkdown(summary, meta = {}) {
   for (const w of r.why) L.push(`- ${w}`);
   L.push('');
 
+  // USD plan facts HELD by «Refresh static catalog cache» (scripts/update-global-plan-facts.mjs): an authored sentence
+  // contradicts the live catalogue, so those countries keep their previous facts. A green bot job's ::warning:: reaches
+  // nobody; this body is where a person looks. Read-only, bounded, never a reason to fail.
+  const held = meta.facts_held && typeof meta.facts_held === 'object' && !Array.isArray(meta.facts_held)
+    ? Object.entries(meta.facts_held).filter(([iso]) => /^[A-Z]{2}$/.test(iso)) : [];
+  if (held.length) {
+    const list = held.slice(0, 40).map(([iso, h]) => `${iso} с ${/^\d{4}-\d{2}-\d{2}$/.test(String(h && h.since)) ? h.since : '?'}`).join(', ');
+    L.push(`> ⚠️ **Факты USD удержаны** (\`seo/global-plan-facts.json\` → \`held\`): ${list}${held.length > 40 ? ' …' : ''}.`,
+      '> Авторский текст этих стран противоречит новому каталогу; их страницы показывают прежние факты, пока предложение',
+      '> не переписано так, чтобы оно было верно и при старых, и при новых фактах. Подробности — сводка задания «Refresh static catalog cache».', '');
+  }
+
   if (t.plans_added === null) {
     L.push('> Снимок каталога, из которого собраны текущие артефакты, определить не удалось,',
       '> поэтому добавленные и снятые тарифы НЕ посчитаны — это «не определено», а не ноль.', '');

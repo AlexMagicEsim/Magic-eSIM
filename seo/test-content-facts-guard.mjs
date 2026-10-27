@@ -4,8 +4,10 @@
  * on that push. Authored country texts pin their plan-block sentences to the snapshot (`plan_claims`), and the page
  * build throws on a contradiction. These tests hold that scripts/update-global-plan-facts.mjs:
  *   1. checks every authored text against the NEW snapshot before writing it (seo/content-facts-guard.mjs);
- *   2. on a contradiction keeps the previous file, exits 0, warns, and writes a report naming the file, the sentence,
- *      the claim, what moved and the kept snapshot's date and age — again on every run while the conflict lasts;
+ *   2. on a contradiction HOLDS that country at its previous entry (`held`, no churn), publishes the rest, exits 0,
+ *      warns, and writes a report naming the file, the sentence, the claim, what moved and how long the hold lasts —
+ *      again on every run while the conflict lasts; the SEO refresh PR body names the held countries;
+ *   2b. never exits non-zero on the way (malformed previous entries, odd validator output, a guard that throws);
  *   3. writes a snapshot that contradicts nothing exactly as before;
  *   4. finds a content validator per language (not only English);
  * and that the workflow still commits the Russian catalogue whatever the facts step decides.
@@ -18,8 +20,9 @@ import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
-import { buildFacts, runUpdate } from '../scripts/update-global-plan-facts.mjs';
-import { contentValidators, checkFactsAgainstContent, factsDiff } from './content-facts-guard.mjs';
+import { buildFacts, runUpdate, runCheck, validateFacts } from '../scripts/update-global-plan-facts.mjs';
+import { contentValidators, checkFactsAgainstContent, factsDiff, conflictReport, missingRequired } from './content-facts-guard.mjs';
+import { classify, renderMarkdown } from './refresh-summary.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -83,20 +86,29 @@ test('the committed content holds against the committed facts, and English is di
   assert.deepEqual(await checkFactsAgainstContent(FACTS, FACTS), []);
 });
 
-test('a snapshot that falsifies a published sentence is NOT written; the report names the file, sentence, claim and move', async () => {
+test('per country: the contradicted country is HELD at its previous entry, every other country publishes', async () => {
   const s = sandbox();
   try {
-    const { result, out } = await capture(() => runUpdate({ fetchImpl: serve(falsified()), today: '2026-10-28', file: s.file, summaryFile: s.summary }));
+    const next = falsified();
+    next.countries.JP.local.gb = [...new Set([...next.countries.JP.local.gb, 777])].sort((x, y) => x - y); // a harmless move elsewhere
+    const { result, out } = await capture(() => runUpdate({ fetchImpl: serve(next), today: '2026-10-28', file: s.file, summaryFile: s.summary }));
     assert.equal(result, 0, 'never blocks the Russian refresh');
-    assert.equal(readFileSync(s.file, 'utf8'), s.before, 'the previous snapshot stays, byte for byte');
-    assert.match(out, /::warning::.*contradict authored plan_claims.*NOT published.*kept snapshot dated 2026-10-01.*seo\/content-en\/thailand\.json/);
+    const written = JSON.parse(readFileSync(s.file, 'utf8'));
+    assert.deepEqual(written.countries.TH, FACTS.countries.TH, 'TH keeps its previous entry (Malaysia still listed)');
+    assert.ok(written.countries.JP.local.gb.includes(777), 'JP publishes its new facts');
+    assert.deepEqual(written.held, { TH: { since: '2026-10-28' } });
+    assert.equal(written.updated, '2026-10-28');
+    assert.deepEqual(validateFacts(written), [], 'the merged file is a valid snapshot');
+    assert.deepEqual(await checkFactsAgainstContent(FACTS, written), [], 'and no authored sentence contradicts it');
+    assert.match(out, /::warning::.*contradict authored plan_claims.*HELD for TH since 2026-10-28.*seo\/content-en\/thailand\.json/);
     const report = readFileSync(s.summary, 'utf8');
     assert.ok(report.includes('`seo/content-en/thailand.json`'), 'the file');
     assert.ok(report.includes(`«${TH_CLAIM.quote}»`), 'the sentence');
     assert.match(report, /plan_claims\[\d+\]: MY is not among the destinations TH's regional plans also cover/, 'the claim');
     assert.match(report, /TH `also`: dropped MY; added —/, 'old fact vs new fact');
-    assert.match(report, /Countries whose facts moved in this snapshot \(1\): TH\./);
-    assert.match(report, /dated \*\*2026-10-01\*\*, \*\*27 day\(s\) old\*\*/, 'the kept snapshot\'s age');
+    assert.match(report, /Facts held at their previous entry for: \*\*TH\*\* since 2026-10-28 \(0 day\(s\)\)/);
+    assert.match(report, /Countries whose facts moved in this snapshot \(2\): JP, TH\./);
+    assert.match(report, /must hold under BOTH the old facts .* and the new ones/, 'the fix advice');
   } finally { s.done(); }
 });
 
@@ -107,22 +119,116 @@ test('negative control: without the guard (the old behaviour) the same snapshot 
     const written = JSON.parse(readFileSync(s.file, 'utf8'));
     assert.equal(written.updated, '2026-10-28');
     assert.equal(written.countries.TH.also.includes('MY'), false, 'the falsifying fact would have been published');
-    assert.equal(existsSync(s.summary), false);
+    assert.doesNotMatch(existsSync(s.summary) ? readFileSync(s.summary, 'utf8') : '', /contradict/);
   } finally { s.done(); }
 });
 
-test('a kept-old snapshot is flagged on EVERY run while the conflict lasts, with its growing age', async () => {
+test('a held country is flagged on EVERY run while the conflict lasts — and the file changes only when the held set does', async () => {
   const s = sandbox();
   try {
+    let afterFirst = null;
     for (const today of ['2026-10-28', '2026-10-29', '2026-11-05']) {
       const { out } = await capture(() => runUpdate({ fetchImpl: serve(falsified()), today, file: s.file, summaryFile: s.summary }));
-      assert.match(out, /::warning::.*kept snapshot dated 2026-10-01/, `${today}: the annotation repeats`);
+      assert.match(out, /::warning::.*HELD for TH since 2026-10-28/, `${today}: the annotation repeats`);
+      if (!afterFirst) afterFirst = readFileSync(s.file, 'utf8');
+      else assert.equal(readFileSync(s.file, 'utf8'), afterFirst, `${today}: no churn while the same set is held`);
     }
     const report = readFileSync(s.summary, 'utf8');
-    assert.equal(report.match(/NOT published/g).length, 3, 'one report per run');
-    for (const age of [27, 28, 35]) assert.ok(report.includes(`**${age} day(s) old**`), `age ${age}`);
-    assert.equal(readFileSync(s.file, 'utf8'), s.before);
+    assert.equal(report.match(/those countries HELD/g).length, 3, 'one report per run');
+    for (const age of [0, 1, 8]) assert.ok(report.includes(`since 2026-10-28 (${age} day(s))`), `age ${age}`);
+    // --check (run right after the update on every bot run) repeats the held list, and never fails on it
+    const { result: checked, out: checkOut } = await capture(() => runCheck(s.file));
+    assert.equal(checked, 0);
+    assert.match(checkOut, /::warning::global-plan-facts: facts held for TH since 2026-10-28/);
+    // the provider moves back: the hold ends by itself, the file loses `held`
+    await capture(() => runUpdate({ fetchImpl: serve(FACTS), today: '2026-11-06', file: s.file, summaryFile: s.summary }));
+    const back = JSON.parse(readFileSync(s.file, 'utf8'));
+    assert.equal('held' in back, false);
+    assert.deepEqual(back.countries, FACTS.countries);
   } finally { s.done(); }
+});
+
+test('validateFacts: a well-formed `held` passes, a malformed one is refused', () => {
+  const ok = { ...clone(FACTS), held: { TH: { since: '2026-10-28' } } };
+  assert.deepEqual(validateFacts(ok), []);
+  for (const held of [[], { TH: {} }, { TH: { since: 'yesterday' } }, { RU: { since: '2026-10-28' } }, { TH: { since: '2026-10-28', price: 1 } }]) {
+    assert.notDeepEqual(validateFacts({ ...clone(FACTS), held }), [], JSON.stringify(held));
+  }
+});
+
+test('holding the conflicting country is not enough → the whole previous file is kept', async () => {
+  const s = sandbox();
+  try {
+    // a (fake) TH page whose claim breaks when JP moves: holding TH cannot cure it
+    const v = [{ lang: 'xx', folder: 'seo/content-xx', dir: '/nowhere', mod: {
+      contentSlugs: () => ['a'], loadContent: () => ({ iso: 'TH', plan_claims: [{ quote: 'Q' }] }),
+      validateContent: (doc, { facts }) => (facts.countries.JP.local.gb.includes(777) ? ['plan_claims[0]: JP moved'] : []),
+    } }];
+    const next = clone(FACTS);
+    next.countries.JP.local.gb = [...next.countries.JP.local.gb, 777].sort((x, y) => x - y);
+    const { result, out } = await capture(() => runUpdate({ fetchImpl: serve(next), today: '2026-10-28', file: s.file, summaryFile: s.summary, validators: v }));
+    assert.equal(result, 0);
+    assert.equal(readFileSync(s.file, 'utf8'), s.before);
+    assert.match(out, /snapshot NOT published \(kept snapshot dated 2026-10-01\)/);
+    assert.match(readFileSync(s.summary, 'utf8'), /NOT published[\s\S]*\*\*27 day\(s\) old\*\*/);
+  } finally { s.done(); }
+});
+
+test('throw paths never exit non-zero: a malformed previous entry, non-string problems, a throwing problem', async () => {
+  // (a) a malformed previous entry (factsDiff once read f.local.gb of undefined while building the report)
+  const s = sandbox();
+  try {
+    const prev = { ...clone(FACTS), updated: '2026-10-01' };
+    prev.countries.DE = {};
+    writeFileSync(s.file, `${JSON.stringify(prev, null, 1)}\n`);
+    const { result } = await capture(() => runUpdate({ fetchImpl: serve(falsified()), today: '2026-10-28', file: s.file, summaryFile: s.summary }));
+    assert.equal(result, 0);
+    const written = JSON.parse(readFileSync(s.file, 'utf8'));
+    assert.deepEqual(written.countries.DE, FACTS.countries.DE, 'the new (valid) DE replaces the malformed one');
+    assert.deepEqual(written.held, { TH: { since: '2026-10-28' } });
+    assert.deepEqual(factsDiff({ countries: { DE: {}, XX: null } }, FACTS).DE.also.added.length > 0, true);
+  } finally { s.done(); }
+  // (b) a validator returning a number and an object whose toString throws, on a country that cannot be held cleanly
+  for (const weird of [42, { toString() { throw new Error('nope'); } }, null]) {
+    const t = sandbox();
+    try {
+      const v = [{ lang: 'xx', folder: 'seo/content-xx', dir: '/nowhere', mod: {
+        contentSlugs: () => ['a'], loadContent: () => ({ iso: 'TH', plan_claims: [] }),
+        validateContent: (doc, { facts }) => (facts.countries.TH.also.includes('MY') ? [] : [weird]),
+      } }];
+      const { result, out } = await capture(() => runUpdate({ fetchImpl: serve(falsified()), today: '2026-10-28', file: t.file, summaryFile: t.summary, validators: v }));
+      assert.equal(result, 0, String(typeof weird));
+      assert.match(out, /::warning::/);
+      assert.deepEqual(JSON.parse(readFileSync(t.file, 'utf8')).countries.TH, FACTS.countries.TH, 'TH is not published with the contradicting fact');
+    } finally { t.done(); }
+  }
+  // (c) the report builder itself is defensive
+  assert.doesNotThrow(() => conflictReport([{ file: 'f', lang: 'xx', iso: 'TH', problems: [{ problem: 7, quote: null }, { problem: { toString() { throw new Error('x'); } } }] }],
+    { previous: { countries: { TH: { local: null } } }, next: { countries: null }, today: '2026-10-28' }));
+});
+
+test('a missing English validator is reported loudly (the facts still publish — there is nothing it would protect)', async () => {
+  const s = sandbox();
+  try {
+    const next = clone(FACTS);
+    next.countries.JP.local.gb = [...next.countries.JP.local.gb, 777].sort((x, y) => x - y);
+    const { result, out } = await capture(() => runUpdate({ fetchImpl: serve(next), today: '2026-10-28', file: s.file, summaryFile: s.summary, validators: [] }));
+    assert.equal(result, 0);
+    assert.match(out, /::warning::global-plan-facts: no authored-content validator found for en/);
+    assert.match(readFileSync(s.summary, 'utf8'), /no content validator for en/);
+    assert.deepEqual(missingRequired([{ lang: 'en' }]), []);
+  } finally { s.done(); }
+});
+
+test('the SEO refresh PR body names the held countries (read-only, from the committed facts file)', () => {
+  const s = classify({ cacheBefore: { countries: [] }, cacheAfter: { countries: [] }, sheetsBefore: { sheets: {} }, sheetsAfter: { sheets: {} },
+    catalogueBefore: [], catalogueAfter: [], urlsBefore: [], urlsAfter: [], lastmodBefore: null, lastmodAfter: null });
+  const md = renderMarkdown(s, { facts_held: { TH: { since: '2026-10-28' }, '<x>': { since: 'bad' } } });
+  assert.match(md, /Факты USD удержаны.*TH с 2026-10-28\./);
+  assert.doesNotMatch(md, /<x>/, 'only ISO codes reach the body');
+  assert.doesNotMatch(renderMarkdown(s, {}), /удержаны/);
+  assert.ok(md.indexOf('удержаны') < md.indexOf('### Страны'), 'near the top, with the risk block');
+  assert.match(read('scripts/seo-refresh-summary.mjs'), /facts_held: \(\(\) => \{ try \{ return readJson\(join\(ROOT, 'seo\/global-plan-facts\.json'\)\)\?\.held \|\| null; \} catch \{ return null; \} \}\)\(\)/);
 });
 
 test('a snapshot that contradicts nothing is written as before', async () => {

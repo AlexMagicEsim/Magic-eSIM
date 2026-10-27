@@ -24,10 +24,11 @@
  * NEVER AGAINST A PUBLISHED SENTENCE (2026-10-27). Authored country texts (seo/content-<prefix>/*.json) pin their
  * sentences about the plan blocks to this snapshot (`plan_claims`), and the page build throws on a contradiction. A
  * new snapshot is therefore checked against every authored text BEFORE it is written (seo/content-facts-guard.mjs).
- * A contradiction keeps the previous file — the pages keep facts their sentences agree with — writes the conflict to
- * the job summary and a `::warning::`, and still exits 0, so the Russian catalogue commit goes ahead. The previous
- * file differs from the live catalogue, so every later run re-checks and repeats the report until a person rewrites
- * the sentence; the report names the kept snapshot's date and age, so «stale» is never silent.
+ * A country whose page a new fact contradicts is HELD: it keeps its previous entry and is listed in `held`
+ * ({ ISO: { since } }, `since` carried over, so the file changes only when the held set does); every other country
+ * publishes. The conflict goes to the job summary and a `::warning::`; `--check` repeats the held list on every run;
+ * the SEO refresh PR body lists it. Whatever happens — a conflict, a guard that throws — the script exits 0, so the
+ * Russian catalogue commit goes ahead; if holding is not enough, the whole previous file is kept.
  *
  *   node scripts/update-global-plan-facts.mjs           refresh from the live API
  *   node scripts/update-global-plan-facts.mjs --check   validate what is on disk
@@ -121,11 +122,19 @@ export function validateFacts(doc, { previousCountries = null } = {}) {
     if (!f || !f.daily || !nums(f.daily.gb_per_day) || !nums(f.daily.days, true)) out.push(`${iso}: daily`);
     if (!f || !Array.isArray(f.also) || f.also.length > ALSO_KEPT || f.also.some((c) => !ISO.test(c) || c === iso || LEFT_OUT.includes(c))) out.push(`${iso}: also`);
   }
+  if (doc && doc.held != null) {
+    if (typeof doc.held !== 'object' || Array.isArray(doc.held)) out.push('held is not an object');
+    else for (const [iso, h] of Object.entries(doc.held)) {
+      if (!ISO.test(iso) || LEFT_OUT.includes(iso) || !h || typeof h !== 'object' || Object.keys(h).join() !== 'since'
+        || !/^\d{4}-\d{2}-\d{2}$/.test(h.since)) out.push(`held.${iso}: { since: YYYY-MM-DD }`);
+    }
+  }
   return out;
 }
 
-/** Everything but the date: two runs a day apart compare equal when the catalogue did not move. */
-const fingerprint = (doc) => JSON.stringify({ schema_version: doc.schema_version, source: doc.source, countries: doc.countries });
+/** Everything but the date: two runs a day apart compare equal when the catalogue did not move (and the held set,
+ *  with its `since` dates, did not change either). */
+const fingerprint = (doc) => JSON.stringify({ schema_version: doc.schema_version, source: doc.source, countries: doc.countries, held: doc.held || null });
 
 export function readExisting(file = OUT) {
   if (!existsSync(file)) return null;
@@ -179,20 +188,39 @@ export async function runUpdate({ fetchImpl = globalThis.fetch, today = new Date
   doc = { schema_version: doc.schema_version, updated: today, source: doc.source, countries: doc.countries };
   const errors = validateFacts(doc, { previousCountries });
   if (errors.length) return keep(`новые факты не прошли проверку: ${errors.slice(0, 5).join('; ')}`);
-  // The authored content must still hold against the new facts — or the new facts are not published.
-  let guard;
-  let conflicts;
+  // The authored content must still hold against the new facts. A country whose page a new fact contradicts keeps its
+  // previous entry (held); every other country publishes. Everything below runs inside one guard: whatever throws,
+  // the committed file stays and the script still exits 0 (the RU commit after this step must run).
   try {
-    guard = await import('../seo/content-facts-guard.mjs');
-    conflicts = await guard.checkFactsAgainstContent(previous, doc, { validators });
+    const guard = await import('../seo/content-facts-guard.mjs');
+    const found = validators || await guard.contentValidators();
+    const missing = guard.missingRequired(found);
+    if (missing.length) {
+      console.log(`::warning::global-plan-facts: no authored-content validator found for ${missing.join(', ')} — its plan_claims are NOT checked against the new facts`);
+      summarise(summaryFile, `## ⚠️ global-plan-facts: no content validator for ${missing.join(', ')}\n\nExpected seo/content-<prefix>.mjs + seo/content-<prefix>/ — its sentences are not protected.\n`);
+    }
+    const conflicts = await guard.checkFactsAgainstContent(previous, doc, { validators: found });
+    if (conflicts.length) {
+      for (const c of conflicts) for (const p of c.problems) console.log(`  ✗ ${c.file}: ${p.problem}${p.quote ? ` — «${p.quote}»` : ''}`);
+      const { doc: merged } = guard.holdConflicting(previous, doc, conflicts, today);
+      const still = await guard.checkFactsAgainstContent(previous, merged, { validators: found });
+      const mergedErrors = validateFacts(merged, { previousCountries });
+      if (still.length || mergedErrors.length) {
+        // Holding the conflicting countries was not enough (or broke the shape): keep the whole previous file.
+        summarise(summaryFile, guard.conflictReport(conflicts, { previous, next: doc, today }));
+        return keep(`${guard.conflictAnnotation(conflicts, { previous })}${mergedErrors.length ? ` (held merge invalid: ${mergedErrors[0]})` : ''}`);
+      }
+      summarise(summaryFile, guard.conflictReport(conflicts, { previous, next: doc, today, held: merged.held }));
+      console.log(`::warning::global-plan-facts: ${guard.conflictAnnotation(conflicts, { previous, held: merged.held })}`);
+      if (previous && fingerprint(previous) === fingerprint(merged)) {
+        console.log('  кроме удержанных стран факты не изменились — файл оставлен как есть');
+        return 0;
+      }
+      doc = merged;
+    }
   } catch (e) {
-    summarise(summaryFile, `## ⚠️ global-plan-facts: the authored-content check could not run — snapshot NOT published\n\n\`${e.message}\`\n`);
-    return keep(`проверка авторских текстов не выполнилась (${e.message})`);
-  }
-  if (conflicts.length) {
-    summarise(summaryFile, guard.conflictReport(conflicts, { previous, next: doc, today }));
-    for (const c of conflicts) for (const p of c.problems) console.log(`  ✗ ${c.file}: ${p.problem}${p.quote ? ` — «${p.quote}»` : ''}`);
-    return keep(guard.conflictAnnotation(conflicts, { previous }));
+    summarise(summaryFile, `## ⚠️ global-plan-facts: the authored-content check could not run — snapshot NOT published\n\n\`${String(e && e.message)}\`\n`);
+    return keep(`проверка авторских текстов не выполнилась (${String(e && e.message)})`);
   }
   const tmp = file === OUT ? TMP : `${file}.tmp`;
   writeFileSync(tmp, `${JSON.stringify(doc, null, 1)}\n`, 'utf8');
@@ -200,16 +228,18 @@ export async function runUpdate({ fetchImpl = globalThis.fetch, today = new Date
   const backErrors = validateFacts(back, { previousCountries });
   if (backErrors.length) return keep(`временный файл не прошёл проверку: ${backErrors[0]}`);
   renameSync(tmp, file);
-  console.log(`✓ global-plan-facts: ${Object.keys(doc.countries).length} стран, обновлено ${today}`);
+  console.log(`✓ global-plan-facts: ${Object.keys(doc.countries).length} стран, обновлено ${today}${doc.held ? `, удержаны: ${Object.keys(doc.held).join(', ')}` : ''}`);
   return 0;
 }
 
-function runCheck() {
-  const doc = readExisting();
+export function runCheck(file = OUT) {
+  const doc = readExisting(file);
   if (!doc) { console.error('✗ seo/global-plan-facts.json отсутствует или не JSON'); return 1; }
   const errors = validateFacts(doc);
   if (errors.length) { console.error(`✗ невалиден: ${errors.slice(0, 10).join('; ')}`); return 1; }
   console.log(`✓ global-plan-facts: ${Object.keys(doc.countries).length} стран, обновлено ${doc.updated}`);
+  // A held country is visible on every run (the SEO refresh PR body says it too — scripts/seo-refresh-summary.mjs).
+  for (const [iso, h] of Object.entries(doc.held || {})) console.log(`::warning::global-plan-facts: facts held for ${iso} since ${h.since} — an authored sentence contradicts the live catalogue`);
   return 0;
 }
 
