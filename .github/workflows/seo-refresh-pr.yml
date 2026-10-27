@@ -599,6 +599,11 @@ jobs:
         shard: [1, 2]
     outputs:
       tested: ${{ steps.shard_changed.outputs.changed }}
+    # Inside a container `run:` defaults to `sh -e` (dash), which has no `pipefail`: the first dispatch of this job
+    # (2026-10-27, run 40458841455) died on «set: Illegal option -o pipefail» before building anything.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:

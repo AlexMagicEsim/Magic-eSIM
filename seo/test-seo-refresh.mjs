@@ -1135,6 +1135,8 @@ function refreshShardProblems(text) {
   if (!/ref: \$\{\{ needs\.pin\.outputs\.sha \}\}/.test(jc)) out.push('the shard does not build the pinned commit');
   if (!/node seo\/build-all\.mjs/.test(jc)) out.push('the shard does not rebuild');
   if (/continue-on-error/.test(jc)) out.push('continue-on-error');
+  // A container's default shell is dash: `set -o pipefail` there kills the shard before it builds anything.
+  if (/pipefail/.test(jc) && !/\n {4}defaults:\n {6}run:\n {8}shell: bash\n/.test(jc)) out.push('the shard uses pipefail without shell: bash');
   // «refresh»'s verdict: every shard green, the same commit, and a changed tree actually tested.
   const verdict = strip(refresh.slice(refresh.indexOf('- name: Проверки — браузер'), refresh.indexOf('- name: Сводка изменений')));
   if (!/RESULT: \$\{\{ needs\.browser\.result \}\}/.test(verdict)) out.push('refresh does not read needs.browser.result');
@@ -1160,6 +1162,7 @@ test('S: negative controls — each way to skip, filter, download or vouch for a
   assert.notDeepEqual(mut('          test "$RESULT" = "success"\n', '          test "$RESULT" != "failure"\n'), []);
   assert.notDeepEqual(mut('          test "$TESTED" = "true"\n', ''), []);
   assert.notDeepEqual(mut('          test "$(git rev-parse HEAD)" = "$PINNED"\n', ''), []);
+  assert.notDeepEqual(mut('    defaults:\n      run:\n        shell: bash\n', ''), []);
 });
 
 test('S: the shards hash the same generated tree «Воспроизводимость» does', () => {
