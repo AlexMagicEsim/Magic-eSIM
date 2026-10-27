@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-27T05:15:55.840Z",
+  "generated_at": "2026-10-27T12:20:50.925Z",
   "source": "production-public-api",
   "package_count": 2307,
   "packages": [
@@ -1920,7 +1920,7 @@
       "package_id": "04262a42-912e-42df-a29e-46c97d9fa708",
       "name": "Best World 10 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -1973,6 +1973,7 @@
         "GF",
         "PF",
         "GA",
+        "GM",
         "GE",
         "DE",
         "GH",
@@ -2096,7 +2097,7 @@
         "VE",
         "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 10,
       "validity_days": 30,
       "price": 5600,
@@ -3177,9 +3178,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -5612,7 +5611,7 @@
       "price": 1200,
       "networks": [
         {
-          "operator": "FLOW",
+          "operator": "Digicel",
           "type": "4G"
         }
       ],
@@ -5626,7 +5625,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -6525,7 +6526,7 @@
       "price": 2850,
       "networks": [
         {
-          "operator": "FLOW",
+          "operator": "Digicel",
           "type": "4G"
         }
       ],
@@ -6539,7 +6540,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -9009,9 +9012,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
@@ -14564,7 +14565,7 @@
       "price": 450,
       "networks": [
         {
-          "operator": "movistar",
+          "operator": "Claro",
           "type": "4G"
         }
       ],
@@ -14579,7 +14580,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -22700,9 +22701,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -23388,9 +23387,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -25753,7 +25750,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -25939,7 +25936,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -27082,17 +27081,15 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -30325,9 +30322,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -30983,7 +30978,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -31612,9 +31607,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -32375,7 +32368,7 @@
       "networks": [
         {
           "operator": "FLOW",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -32389,7 +32382,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -34601,9 +34596,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -36955,9 +36948,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -38402,9 +38393,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -38545,9 +38534,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -39810,9 +39797,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -45513,7 +45498,7 @@
       "package_id": "599d62d8-67f9-4f24-8dd3-e0a966b1a106",
       "name": "Best World 3 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -45566,6 +45551,7 @@
         "GF",
         "PF",
         "GA",
+        "GM",
         "GE",
         "DE",
         "GH",
@@ -45689,7 +45675,7 @@
         "VE",
         "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 3,
       "validity_days": 30,
       "price": 2650,
@@ -46470,9 +46456,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
@@ -46956,7 +46940,7 @@
       "networks": [
         {
           "operator": "FLOW",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -46970,7 +46954,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -47214,9 +47200,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -48145,9 +48129,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -49509,7 +49491,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "3G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -49523,7 +49505,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -49857,7 +49839,7 @@
       "price": 6500,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -49872,9 +49854,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -50806,9 +50786,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -51309,7 +51287,7 @@
       "price": 3050,
       "networks": [
         {
-          "operator": "FLOW",
+          "operator": "Digicel",
           "type": "4G"
         }
       ],
@@ -51323,7 +51301,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -53037,7 +53017,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -53512,7 +53494,11 @@
       "price": 2750,
       "networks": [
         {
-          "operator": "Chippie",
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
+          "operator": "Setel N.V.",
           "type": "4G"
         }
       ],
@@ -53526,7 +53512,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -54725,7 +54713,7 @@
       "price": 1350,
       "networks": [
         {
-          "operator": "movistar",
+          "operator": "Claro",
           "type": "4G"
         }
       ],
@@ -54740,7 +54728,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -56659,7 +56647,7 @@
       "price": 5700,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -56670,17 +56658,15 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "384 Kbps",
+      "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 5,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_label": "512 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -56933,9 +56919,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -59075,7 +59059,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -61376,8 +61360,8 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "338050",
-          "type": "5G"
+          "operator": "One",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -61392,7 +61376,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -70633,9 +70617,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -70823,9 +70805,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -74057,9 +74037,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -74273,8 +74251,8 @@
       "price": 2650,
       "networks": [
         {
-          "operator": "338050",
-          "type": "5G"
+          "operator": "One",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -74289,7 +74267,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -76367,9 +76345,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -76626,9 +76602,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -78339,7 +78313,7 @@
       "price": 11800,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -78354,9 +78328,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -79356,17 +79328,15 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -82449,7 +82419,11 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Chippie",
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
+          "operator": "Setel N.V.",
           "type": "4G"
         }
       ],
@@ -82463,7 +82437,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -84610,9 +84586,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -85799,7 +85773,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -86796,17 +86772,15 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -87275,9 +87249,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -87680,7 +87652,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -88921,7 +88895,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "3G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -88935,7 +88909,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -92393,7 +92367,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -94658,17 +94634,15 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -99071,7 +99045,7 @@
       "price": 3100,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -99086,9 +99060,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
@@ -101418,9 +101390,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -103384,17 +103354,15 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -104190,7 +104158,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -107896,9 +107866,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -108124,7 +108092,11 @@
       "price": 2450,
       "networks": [
         {
-          "operator": "Chippie",
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
+          "operator": "Setel N.V.",
           "type": "4G"
         }
       ],
@@ -108138,7 +108110,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -109295,9 +109269,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -109611,7 +109583,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -111103,7 +111077,7 @@
       "price": 4400,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -111118,9 +111092,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 3,
       "daily_term_mode": "PER_DAY",
@@ -115580,7 +115552,7 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "FLOW",
+          "operator": "Digicel",
           "type": "4G"
         }
       ],
@@ -115594,7 +115566,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "US"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -116651,17 +116625,15 @@
       ],
       "speed": "3G/4G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -119122,7 +119094,7 @@
       "networks": [
         {
           "operator": "FLOW",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -119136,7 +119108,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -120330,7 +120304,7 @@
       "price": 1850,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -120345,9 +120319,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -120417,7 +120389,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -121494,7 +121468,7 @@
       "networks": [
         {
           "operator": "Claro",
-          "type": "3G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -121508,7 +121482,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "US"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -121611,12 +121585,8 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "movistar",
-          "type": "3G"
-        },
-        {
-          "operator": "CLARO CL",
-          "type": "3G"
+          "operator": "WOM",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -121631,7 +121601,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -123411,9 +123381,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -123970,12 +123938,8 @@
       "price": 400,
       "networks": [
         {
-          "operator": "movistar",
-          "type": "3G"
-        },
-        {
-          "operator": "CLARO CL",
-          "type": "3G"
+          "operator": "WOM",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -123990,7 +123954,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -126135,9 +126099,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -128089,7 +128051,7 @@
       "price": 24250,
       "networks": [
         {
-          "operator": "Digicel",
+          "operator": "SETAR",
           "type": "4G"
         }
       ],
@@ -128104,9 +128066,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -128143,9 +128103,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "DAILY",
       "daily_gb": 1,
       "daily_term_mode": "PER_DAY",
@@ -132090,7 +132048,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -139891,8 +139851,8 @@
         ],
         "regional": [
           "b9c738e5-62ff-4172-a3dc-cd9c6deb4ac6",
-          "dadf1804-e8be-4e4b-9dcb-9b973888a6df",
-          "4e57dbbf-8f03-4fb7-8717-88e02afbebf3"
+          "599d62d8-67f9-4f24-8dd3-e0a966b1a106",
+          "04262a42-912e-42df-a29e-46c97d9fa708"
         ],
         "daily": [
           "cc874a3e-5dc6-435e-ae6d-34355a8f0fb8",
