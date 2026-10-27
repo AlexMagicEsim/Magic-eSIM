@@ -129,6 +129,8 @@ function skeleton(html) {
     .replace(/<svg[\s\S]*?<\/svg>/g, '<svg>')
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/<ul class="langmenu-list">[\s\S]*?<\/ul>/g, '<ul class="langmenu-list">')
+    // the authored English text (seo/content-en/, 2026-10-27) exists on the English page only, by design — content, not design
+    .replace(/<div class="cp-about">[\s\S]*?<\/section>\s*<\/div>/g, '')
     .replace(/(<nav class="hub-az"[^>]*>)[\s\S]*?<\/nav>/g, '$1</nav>')
     .replace(/(<div class="hub-list" id="hubList">)[\s\S]*?(<div class="hub-empty")/g, '$1</div>$2')
     // D8: the Chinese footer has no legal line until the English documents are published
@@ -144,7 +146,7 @@ test('the same design: every page kind has the English markup skeleton (tags and
     'esim/peru/index.html', 'esim/turkey/index.html', 'guides/index.html',
     ...EN_GUIDES.filter((g) => g.slug !== 'compatibility').map((g) => `guides/${g.slug}/index.html`)];
   for (const k of kinds) assert.equal(skeleton(read(`zh/${k}`)), skeleton(read(`en/${k}`)), k);
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|zh)\/destinations\.js$/, 'DEST').replace(/country-names-(en|zh)\.js$/, 'NAMES').replace(/site-i18n-(en|zh)\.js$/, 'WORDS'));
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|zh)\/destinations\.js$/, 'DEST').replace(/country-names-(en|zh)\.js$/, 'NAMES').replace(/site-i18n-(en|zh)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
     assert.deepEqual(assets(read(`zh/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
   }

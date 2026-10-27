@@ -155,7 +155,7 @@ test('no route directory of an unpublished language exists', () => {
 test('the generator carries no route of one language — only the shared intl assets under /en/', () => {
   const src = read('seo/build-locale-pages.mjs').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   const routes = [...src.matchAll(/["'`(]\/en\/[^"'`)\s]*/g)].map((m) => m[0].slice(1))
-    .filter((p) => !/^\/en\/(en\.css|checkout\.css|noscript\.css|plans\.js|checkout\.js|country\.js|hub\.js)$/.test(p))
+    .filter((p) => !/^\/en\/(en\.css|checkout\.css|noscript\.css|content\.css|plans\.js|checkout\.js|country\.js|hub\.js)$/.test(p))
     .filter((p) => p !== '/en/esim/<slug>/')
     .filter((p) => !/^\/en\/(privacy|terms|refund)\/$/.test(p)); // the English-only legal documents (LEGAL-1, LEGAL-3), built for English only
   assert.deepEqual(routes, []);

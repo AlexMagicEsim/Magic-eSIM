@@ -1,0 +1,154 @@
+{
+  "slug": "sri-lanka",
+  "iso": "LK",
+  "title": "Sri Lanka eSIM: ETA, train tickets and hotline | Magic eSIM",
+  "description": "Sri Lanka by phone: the online ETA, train seat bookings with e-tickets, taxi apps and the 1912 tourist hotline. Online payment is not available yet.",
+  "lead": "Sri Lanka asks for an online travel authorisation before you arrive and takes train seat bookings online, so a good part of the trip runs through your phone. Regional plans on this page also cover India, Thailand, Malaysia and Singapore.",
+  "sections": [
+    {
+      "id": "before-you-arrive",
+      "h2": "The ETA before you fly",
+      "paragraphs": [
+        "All foreign nationals need an Electronic Travel Authorization, or ETA, before arriving in Sri Lanka. You apply for it online at eta.gov.lk, the official site of the Department of Immigration and Emigration, and UK government travel advice also tells travellers to do this before they set off.",
+        "Since 25 May 2026, nationals of 40 listed countries can get a free 30-day tourist ETA; a longer stay requires paying the applicable visa fee. The list of nationalities and the terms can change, so check eta.gov.lk for your own passport rather than relying on a summary. UK advice adds that visa extensions are handled through the official immigration e-services portal."
+      ]
+    },
+    {
+      "id": "trains-and-taxis",
+      "h2": "Train tickets, taxi apps and the tourist hotline",
+      "paragraphs": [
+        "Sri Lanka Railways takes seat reservations through its official portal, seatreservation.railway.gov.lk, and its app. If you book online, the e-ticket is emailed to you, and collecting a ticket at the station requires your passport and the booking reference.",
+        "That makes data or Wi-Fi useful when you book and when you need the reference on the day. We make no promise of a connection along any stretch of line, so keep the booking reference and an offline map on your phone before the journey starts.",
+        "UK advice says taxis can be booked through local and international taxi apps, with fewer available outside tourist areas. For tourism information, Sri Lanka Tourism runs the 1912 hotline, which can be dialled from any public, private or mobile phone network in the country and can put you through to the Tourism Police."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Sri Lanka alone or part of a longer Asia trip",
+      "paragraphs": [
+        "Local plans cover Sri Lanka and suit a trip that stays on the island, from the coast to the hill country. Regional plans on this page also cover India, Thailand, Malaysia, Singapore and Vietnam, which suits a route that carries on across South or Southeast Asia. Daily plans set an allowance for each day, a good match for days spent on trains and in taxis, booking and finding your way as you go."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Do I need an ETA for Sri Lanka, and is it free?",
+      "a": "Every foreign national needs an ETA, applied for online at eta.gov.lk before arrival. Since 25 May 2026 nationals of 40 listed countries get a free tourist ETA, but the list can change, so check the official site for your passport."
+    },
+    {
+      "q": "How do I book train tickets in Sri Lanka online?",
+      "a": "Through the Sri Lanka Railways seat reservation portal or its app. The e-ticket is emailed to you, and to collect a ticket at the station you show your passport and the booking reference."
+    },
+    {
+      "q": "Can I use taxi apps in Sri Lanka?",
+      "a": "UK government travel advice says taxis can be booked through local and international apps, though fewer are available outside tourist areas. Booking a car in an app, and following it to your pickup point, needs a connection."
+    },
+    {
+      "q": "Is there a tourist helpline in Sri Lanka?",
+      "a": "Yes. Sri Lanka Tourism's 1912 hotline gives tourism information, can be dialled from any public, private or mobile phone network in the country, and can connect you to the Tourism Police."
+    },
+    {
+      "q": "Can one plan cover Sri Lanka and India?",
+      "a": "Regional plans on this page also cover India, as well as Thailand and Singapore."
+    },
+    {
+      "q": "Will I have data on the train to the hill country?",
+      "a": "We cannot promise a connection on any part of the line. Keep your booking reference and an offline map on your phone before you board."
+    }
+  ],
+  "related": [
+    "india",
+    "thailand",
+    "malaysia",
+    "singapore",
+    "maldives"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Regional plans on this page also cover India, Thailand, Malaysia and Singapore.",
+      "kind": "regional_also",
+      "codes": [
+        "IN",
+        "TH",
+        "MY",
+        "SG"
+      ]
+    },
+    {
+      "quote": "Local plans cover Sri Lanka and suit a trip that stays on the island, from the coast to the hill country.",
+      "kind": "local"
+    },
+    {
+      "quote": "Regional plans on this page also cover India, Thailand, Malaysia, Singapore and Vietnam, which suits a route that carries on across South or Southeast Asia.",
+      "kind": "regional_also",
+      "codes": [
+        "IN",
+        "TH",
+        "MY",
+        "SG",
+        "VN"
+      ]
+    },
+    {
+      "quote": "Daily plans set an allowance for each day, a good match for days spent on trains and in taxis, booking and finding your way as you go.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Can one plan cover Sri Lanka and India?",
+      "kind": "regional_also",
+      "codes": [
+        "IN"
+      ]
+    },
+    {
+      "quote": "Regional plans on this page also cover India, as well as Thailand and Singapore.",
+      "kind": "regional_also",
+      "codes": [
+        "IN",
+        "TH",
+        "SG"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.eta.gov.lk/slvisa/",
+      "title": "Sri Lanka ETA (Department of Immigration and Emigration)",
+      "checked": "2026-10-27",
+      "supports": "all foreign nationals need an ETA, applied for online; from 25 May 2026 nationals of 40 listed countries get a free 30-day tourist ETA (90 days for Maldivian nationals); extensions carry the visa fee",
+      "sentences": [
+        "Since 25 May 2026, nationals of 40 listed countries can get a free 30-day tourist ETA; a longer stay requires paying the applicable visa fee."
+      ]
+    },
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/sri-lanka/entry-requirements",
+      "title": "Sri Lanka travel advice: Entry requirements (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "UK government travel advice: apply for the ETA online before travelling; extensions through the immigration e-services portal"
+    },
+    {
+      "url": "https://seatreservation.railway.gov.lk/",
+      "title": "Welcome to Sri Lanka Railways (official seat reservation portal)",
+      "checked": "2026-10-27",
+      "supports": "online seat reservations by portal and app; e-ticket by email; collection at the station with passport or NIC and the booking reference"
+    },
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/sri-lanka/safety-and-security",
+      "title": "Sri Lanka travel advice: Safety and security (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "UK government travel advice: taxis bookable through local and international apps, less available outside tourist areas"
+    },
+    {
+      "url": "https://sltda.gov.lk/en/dial-1912",
+      "title": "SLTDA | Sri Lanka Tourism Development Authority (Dial 1912)",
+      "checked": "2026-10-27",
+      "supports": "the 1912 tourism hotline, dialled from any network in the country, connects to the Tourism Police Division"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-B",
+    "copy": "copywriter-1",
+    "language": "",
+    "facts": "factcheck-1"
+  }
+}

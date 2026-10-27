@@ -1,0 +1,133 @@
+{
+  "slug": "maldives",
+  "iso": "MV",
+  "title": "Maldives eSIM: data for transfers and islands | Magic eSIM",
+  "description": "Maldives: the IMUGA declaration, speedboat and seaplane transfers, resort or local islands, and the plans that suit each. Online payment is not available yet.",
+  "lead": "A Maldives trip starts with a declaration before you fly and often continues by speedboat, seaplane or domestic flight after you land. Here is what to arrange first, and which plans fit a resort stay or a trip between local islands.",
+  "sections": [
+    {
+      "id": "before-you-fly",
+      "h2": "The traveller declaration and visa on arrival",
+      "paragraphs": [
+        "Velana International Airport asks all travellers entering or leaving the Maldives, visitors included, to submit a Traveller Declaration on IMUGA, the official immigration portal, within 96 hours of their flight. UK government travel advice puts it as within 96 hours before your flight arrives. The portal explains that a .gov.mv address belongs to an official Maldivian government organisation, so go to it directly rather than through a search result.",
+        "The airport's guide says tourist visas are granted on arrival for all nationalities, with no pre-approval, and lists what you need: a passport with at least one month's validity, confirmed return tickets, and either a hotel booking or proof of sufficient funds. UK advice says British citizens entering as tourists get a 30-day visa on arrival."
+      ]
+    },
+    {
+      "id": "transfer-day",
+      "h2": "Getting from the airport to your island",
+      "paragraphs": [
+        "According to Visit Maldives, the official tourism board, resorts near the airport are reached by speedboat and those further afield by seaplane. Domestic flights serve the country's twelve domestic and international airports, and scheduled ferries run from Malé to most atolls.",
+        "That makes the transfer the part of the trip where you are most likely to need a message from your resort or transfer desk. We make no promise of a connection on a boat, a seaplane or any particular island, so keep a copy of your booking, transfer details and resort contacts on your phone before you leave home.",
+        "Visit Maldives also says that prepaid SIM cards from two mobile networks are on sale at the airport, for local and international calls and data. An eSIM is the alternative you set up in advance; the [compatibility guide](/en/guides/compatibility/) shows whether your phone supports one."
+      ]
+    },
+    {
+      "id": "resort-or-local",
+      "h2": "Resort islands and local islands",
+      "paragraphs": [
+        "The Maldives offers two quite different kinds of stay. Visit Maldives asks visitors to dress modestly on inhabited islands and notes that alcohol is served at resorts but may not be brought into the country by individuals. Guests at guesthouses on local islands also pay a lower green tax than resort guests.",
+        "If you are staying on local islands and moving between them by ferry, timetables, guesthouse messages and maps are the things you will want on your phone. Whichever kind of stay you choose, ask your resort or guesthouse in advance how guests usually get online."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Which plans fit a Maldives trip",
+      "paragraphs": [
+        "Local plans cover the Maldives and suit a stay at one resort or a hop between a few islands. Daily plans give you an allowance for each day, which suits a holiday where you send roughly the same number of messages and photos each day. No plan on this page covers another country as well, so a stopover on the way needs a plan of its own."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "When do I fill in the IMUGA traveller declaration?",
+      "a": "Within 96 hours of your flight, on the official IMUGA portal of Maldives Immigration. Velana International Airport asks for it from travellers leaving the Maldives as well as those arriving, and UK government travel advice says it is due within 96 hours before your flight arrives."
+    },
+    {
+      "q": "Do I need a visa for the Maldives as a tourist?",
+      "a": "Velana International Airport says tourist visas are granted on arrival for all nationalities, without pre-approval, and lists a passport with at least one month's validity, confirmed return tickets, and either a hotel booking or proof of funds among the requirements. UK government travel advice says British citizens entering as tourists get a 30-day visa on arrival."
+    },
+    {
+      "q": "Will my phone have data at my resort or on the seaplane?",
+      "a": "We cannot promise a connection at a particular resort, on a seaplane or on a boat. Ask your resort how guests usually connect on the island, and keep your transfer details on your phone in case you are offline on the way."
+    },
+    {
+      "q": "Can I buy a SIM card at Velana International Airport?",
+      "a": "Visit Maldives says prepaid SIM cards from two mobile networks are sold at the airport, for calls and data. An eSIM is an alternative you can set up before leaving home."
+    },
+    {
+      "q": "Is there one plan for the Maldives and the country of my stopover?",
+      "a": "Not on this page. No plan here covers the Maldives together with another country, so the place where you stop over needs a plan of its own."
+    }
+  ],
+  "related": [
+    "sri-lanka",
+    "india",
+    "uae",
+    "qatar"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Local plans cover the Maldives and suit a stay at one resort or a hop between a few islands.",
+      "kind": "local"
+    },
+    {
+      "quote": "Daily plans give you an allowance for each day, which suits a holiday where you send roughly the same number of messages and photos each day.",
+      "kind": "daily"
+    },
+    {
+      "quote": "No plan on this page covers another country as well, so a stopover on the way needs a plan of its own.",
+      "kind": "no_regional"
+    },
+    {
+      "quote": "No plan here covers the Maldives together with another country, so the place where you stop over needs a plan of its own.",
+      "kind": "no_regional"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/maldives/entry-requirements",
+      "title": "Maldives travel advice: Entry requirements (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "UK government travel advice (British citizen passport): Traveller Declaration (IMUGA) within 96 hours before your flight arrives; a 30-day visa on arrival when entering as a tourist",
+      "sentences": [
+        "UK advice says British citizens entering as tourists get a 30-day visa on arrival.",
+        "UK government travel advice says British citizens entering as tourists get a 30-day visa on arrival."
+      ]
+    },
+    {
+      "url": "https://imuga.immigration.gov.mv/",
+      "title": "Imuga | Maldives Immigration",
+      "checked": "2026-10-27",
+      "supports": "mandatory declaration form within 96 hours of arrival or departure; a .gov.mv domain belongs to an official Maldivian government organisation"
+    },
+    {
+      "url": "https://velana.macl.aero/guide/arrival",
+      "title": "Arriving at VIA (Velana International Airport)",
+      "checked": "2026-10-27",
+      "supports": "all travellers entering or leaving the Maldives submit the Traveller Declaration via IMUGA within 96 hours of their flight; tourist visas on arrival for all nationalities, no pre-approval; passport with at least 1 month validity, confirmed return tickets and hotel booking or proof of sufficient funds",
+      "sentences": [
+        "The airport's guide says tourist visas are granted on arrival for all nationalities, with no pre-approval, and lists what you need: a passport with at least one month's validity, confirmed return tickets, and either a hotel booking or proof of sufficient funds.",
+        "Velana International Airport says tourist visas are granted on arrival for all nationalities, without pre-approval, and lists a passport with at least one month's validity, confirmed return tickets, and either a hotel booking or proof of funds among the requirements."
+      ]
+    },
+    {
+      "url": "https://visitmaldives.com/en/maldives/connectivity",
+      "title": "Visit Maldives – Discover Maldives > Connectivity",
+      "checked": "2026-10-27",
+      "supports": "speedboat to nearby resorts, seaplane further out, twelve domestic and international airports, scheduled ferries from Malé to most atolls"
+    },
+    {
+      "url": "https://visitmaldives.com/en/maldives/travel-information",
+      "title": "Visit Maldives – Travel Information",
+      "checked": "2026-10-27",
+      "supports": "prepaid SIM cards from two mobile service companies at the airport; modest dress on inhabited islands; alcohol at resorts, no personal import; lower green tax for guesthouse guests"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-B",
+    "copy": "copywriter-1",
+    "language": "",
+    "facts": "factcheck-1"
+  }
+}

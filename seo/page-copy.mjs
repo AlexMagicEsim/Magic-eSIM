@@ -254,6 +254,15 @@ export const FR_POUR = freeze({
 });
 const pour = (name) => (Object.prototype.hasOwnProperty.call(FR_POUR, name) ? FR_POUR[name] : name);
 
+/* English names that take «the» after a preposition («eSIM for the United Kingdom», «Plans for the Maldives») — an
+ * objective error the language review of 2026-10-27 found in every EN country template. A list, never a rule (Czechia
+ * and Vatican City take none); seo/test-page-copy-en-the.mjs holds each entry to a real English country name. */
+export const EN_THE = freeze(['Åland Islands', 'Bahamas', 'British Virgin Islands', 'Caribbean Netherlands', 'Cayman Islands',
+  'Central African Republic', 'Dominican Republic', 'Faroe Islands', 'Gambia', 'Maldives', 'Netherlands',
+  'Northern Mariana Islands', 'Philippines', 'Republic of the Congo', 'Seychelles', 'Turks and Caicos Islands',
+  'U.S. Virgin Islands', 'United Arab Emirates', 'United Kingdom', 'United States']);
+const the = (name) => (EN_THE.includes(name) ? `the ${name}` : name);
+
 export const PAGE_COPY = freeze({
   en: freeze({
     skipLink: 'Skip to main content',
@@ -292,23 +301,23 @@ export const PAGE_COPY = freeze({
     ]),
     // checkout window
     yourPlan: 'Your plan',
-    esimFor: (name) => `eSIM for ${name}`,
+    esimFor: (name) => `eSIM for ${the(name)}`,
     steps: freeze(['Plan', 'Details', 'Review']),
     // «Before you buy»
     beforeYouBuy: 'Before you buy',
     // a country page
-    countryTitle: (name) => fitTitle(`eSIM for ${name} — data plans in US dollars | Magic eSIM`, `eSIM for ${name} | Magic eSIM`),
-    countryDescription: (name) => `eSIM data plans that cover ${name}, with prices in US dollars. Online payment is not available yet.`,
-    countryLead: (name) => `Data plans that work in ${name}, with prices in US dollars.`,
+    countryTitle: (name) => fitTitle(`eSIM for ${the(name)} — data plans in US dollars | Magic eSIM`, `eSIM for ${the(name)} | Magic eSIM`),
+    countryDescription: (name) => `eSIM data plans that cover ${the(name)}, with prices in US dollars. Online payment is not available yet.`,
+    countryLead: (name) => `Data plans that work in ${the(name)}, with prices in US dollars.`,
     chooseAnother: 'Choose another destination',
     planTypes: 'Plan types',
     jumpRegional: 'Regional',
     jumpDaily: 'Data every day',
     noscript: 'Plans and prices on this page need JavaScript. Nothing can be bought here yet.',
-    localTitle: (name) => `Plans for ${name}`,
-    localNote: (name) => `Plans that cover ${name} only.`,
-    regionalTitle: (name) => `Regional plans that include ${name}`,
-    regionalNote: (name) => `Plans that cover ${name} together with other countries.`,
+    localTitle: (name) => `Plans for ${the(name)}`,
+    localNote: (name) => `Plans that cover ${the(name)} only.`,
+    regionalTitle: (name) => `Regional plans that include ${the(name)}`,
+    regionalNote: (name) => `Plans that cover ${the(name)} together with other countries.`,
     dailyTitle: 'Data every day',
     dailyNote: 'A data allowance for each day of the trip.',
     // «At a glance» (international SEO audit, 2026-10-27): the plan facts printed in the HTML from

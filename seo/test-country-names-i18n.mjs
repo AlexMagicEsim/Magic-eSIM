@@ -154,6 +154,8 @@ test('only the generators read the table — no page or shipped script imports i
   const ALLOWED = new Set(['seo/country-names-i18n.mjs', 'seo/test-country-names-i18n.mjs',
     'seo/build-country-dictionary-locale.mjs', 'seo/build-locale-pages.mjs', 'seo/test-locale-rehearsal.mjs',
     'seo/test-daily-copy-langs.mjs',
+    // the authored English content validator names the other countries a sentence mentions — build time, never shipped
+    'seo/content-en.mjs', 'seo/test-page-copy-en-the.mjs',
     // the German site test checks DE_FUER's keys are German names the generator prints — a test, never shipped
     'seo/test-de-site.mjs', 'seo/test-fr-site.mjs', 'seo/test-zh-site.mjs', 'seo/test-ko-site.mjs',
     // localization QA (.claude/skills/localization-qa) compares the published names with CLDR — review tooling, no page loads it

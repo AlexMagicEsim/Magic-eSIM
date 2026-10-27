@@ -1,0 +1,145 @@
+{
+  "slug": "vietnam",
+  "iso": "VN",
+  "title": "Vietnam eSIM: e-visa, arrival and travel data | Magic eSIM",
+  "description": "Data for Vietnam: the e-visa open to all nationalities, free Wi-Fi at its international airports and 220 V sockets. Online payment is not available yet.",
+  "lead": "What to sort out for Vietnam before you land: the e-visa, the first hour at the airport, and data for Vietnam alone or for a route that crosses into Cambodia.",
+  "sections": [
+    {
+      "id": "e-visa",
+      "h2": "The e-visa comes first",
+      "paragraphs": [
+        "Since 15 August 2023, citizens of every country and territory can apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism. Apply through the official e-visa website of the Immigration Department and keep the approval where you can open it at the border."
+      ]
+    },
+    {
+      "id": "on-arrival",
+      "h2": "Wi-Fi, SIM counters and an eSIM",
+      "paragraphs": [
+        "Vietnam's tourism board says all international airports in the country have free Wi-Fi, and that free public internet access is available in several tourist hubs as well as major airports. It publishes no sign-in details or time limits, so treat it as a way to send a first message rather than a plan for the transfer into town.",
+        "Prepaid local SIM cards are sold at the major airports and in shops, and the tourism board says you need to show your passport to register one. An eSIM is the other route: a profile you add to your phone, which needs a phone that supports eSIM and is not locked to your home network. The [compatibility guide](/en/guides/compatibility/) explains how to check both.",
+        "Power is 220 V, and most sockets take plugs with two round prongs, so look at your charger's plug before you pack."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Vietnam only, or the wider region",
+      "paragraphs": [
+        "Local plans cover Vietnam on its own and fit a trip that starts and ends in the country.",
+        "If your route crosses into Cambodia by bus or boat, regional plans that include Vietnam also cover Cambodia, Thailand, Malaysia, Singapore, the Philippines and Indonesia. Daily plans give you a fixed allowance per day, a fit for travellers who prefer to know what each day of the trip includes.",
+        "Check “Plans at a glance” above for how much data each plan offers and for how long; the [activation guide](/en/guides/activation/) covers what to check before you install a plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I get an e-visa for Vietnam?",
+      "a": "The Vietnam National Authority of Tourism says citizens of all countries and territories have been able to apply since 15 August 2023, for an e-visa valid for 90 days with multiple entries. Use the official e-visa website of the Immigration Department."
+    },
+    {
+      "q": "Do I need a passport to buy a SIM card in Vietnam?",
+      "a": "For a local prepaid SIM card bought in Vietnam, yes: the tourism board says you need to show your passport to register it. Those cards are sold at the major airports and in shops."
+    },
+    {
+      "q": "Is there free Wi-Fi at airports in Vietnam?",
+      "a": "According to the tourism board, all international airports in Vietnam have free Wi-Fi. It does not publish time limits or sign-in steps."
+    },
+    {
+      "q": "Will one plan cover Vietnam and Cambodia?",
+      "a": "Regional plans that include Vietnam also cover Cambodia, as well as Thailand and the Philippines."
+    },
+    {
+      "q": "Will I need a plug adapter in Vietnam?",
+      "a": "It depends on your plug. The supply is 220 V at 50 Hz and plug types A, B, C and F are in use; the tourism board says most sockets take two round prongs."
+    }
+  ],
+  "related": [
+    "cambodia",
+    "thailand",
+    "malaysia",
+    "singapore",
+    "philippines",
+    "south-korea"
+  ],
+  "plan_claims": [
+    {
+      "quote": "What to sort out for Vietnam before you land: the e-visa, the first hour at the airport, and data for Vietnam alone or for a route that crosses into Cambodia.",
+      "kind": "regional_also",
+      "codes": [
+        "KH"
+      ]
+    },
+    {
+      "quote": "Local plans cover Vietnam on its own and fit a trip that starts and ends in the country.",
+      "kind": "local"
+    },
+    {
+      "quote": "If your route crosses into Cambodia by bus or boat, regional plans that include Vietnam also cover Cambodia, Thailand, Malaysia, Singapore, the Philippines and Indonesia.",
+      "kind": "regional_also",
+      "codes": [
+        "KH",
+        "TH",
+        "MY",
+        "SG",
+        "PH",
+        "ID"
+      ]
+    },
+    {
+      "quote": "Daily plans give you a fixed allowance per day, a fit for travellers who prefer to know what each day of the trip includes.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Will one plan cover Vietnam and Cambodia?",
+      "kind": "regional_also",
+      "codes": [
+        "KH"
+      ]
+    },
+    {
+      "quote": "Regional plans that include Vietnam also cover Cambodia, as well as Thailand and the Philippines.",
+      "kind": "regional_also",
+      "codes": [
+        "KH",
+        "TH",
+        "PH"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.vietnam.travel/plan-your-trip/official-vietnam-evisa-application",
+      "title": "An official guide to e-visas in Vietnam — Vietnam National Authority of Tourism",
+      "checked": "2026-10-27",
+      "supports": "e-visa for citizens of all countries and territories since 15 August 2023, valid 90 days, multiple entries",
+      "sentences": [
+        "Since 15 August 2023, citizens of every country and territory can apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism.",
+        "The Vietnam National Authority of Tourism says citizens of all countries and territories have been able to apply since 15 August 2023, for an e-visa valid for 90 days with multiple entries."
+      ]
+    },
+    {
+      "url": "https://vietnam.travel/node/26",
+      "title": "Plan your trip — Vietnam Tourism",
+      "checked": "2026-10-27",
+      "supports": "local SIM registered with a passport; prepaid SIMs at major airports and shops; free public internet in tourist hubs and major airports; 220 V, two round prongs"
+    },
+    {
+      "url": "https://vietnam.travel/things-to-do/travellers-guide-vietnams-airports/",
+      "title": "A traveller's guide to Vietnam's airports — Vietnam Tourism",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi at all international airports in Vietnam"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Vietnam 220 V, 50 Hz, plug types A, B, C and F"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-A",
+    "copy": "copywriter-3",
+    "language": "",
+    "facts": "factcheck-2"
+  }
+}

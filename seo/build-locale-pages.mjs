@@ -53,6 +53,7 @@ import { namesFile, globalSuffix } from './build-country-dictionary-locale.mjs';
 import { LOCALES, locale, homeUrl, X_DEFAULT_CURRENT } from './locales.mjs';
 import { homePage as renderHome } from './home-page.mjs';
 import { missingGuards } from './claim-guards.mjs';
+import { loadContent, validateContent, CONTENT_COPY } from './content-en.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
@@ -374,6 +375,64 @@ ${cards.join('\n')}
 `;
   }
 
+  /* AUTHORED TEXT (English only, seo/content-en/<slug>.json; seo/content-en.mjs is its schema and its rules). A country
+   * with a file gets its title, description and lead from it, and — here, after «Plans at a glance», before «Before you
+   * buy» — its sections, its questions (plain <details>, NO FAQPage markup: Google shows FAQ results only for government
+   * and health sites since 2023, and the visible text is indexed as text) and its related destinations, styled by
+   * /en/content.css, which only such a page links (so no other page, in any language, changes by a byte). A file that
+   * breaks a rule stops the build. A country without one keeps the template, byte for byte; no other language reads it. */
+  const LINK = /\[([^\]\n]+)\]\(([^)\s]+)\)/g;
+  const inline = (s) => {
+    let out = '';
+    let last = 0;
+    for (const m of String(s).matchAll(LINK)) {
+      out += esc(s.slice(last, m.index)) + `<a href="${esc(m[2])}">${esc(m[1])}</a>`;
+      last = m.index + m[0].length;
+    }
+    return out + esc(String(s).slice(last));
+  };
+  let pagesBySlug = null;
+  const pageBySlug = (slug) => (pagesBySlug ||= new Map(countries().map((x) => [x.slug, x]))).get(slug);
+  function authoredContent(c, content) {
+    if (L.code !== 'en' || !content) return null;
+    const problems = validateContent(content, { file: c.slug });
+    if (problems.length) throw new Error(`seo/content-en/${c.slug}.json:\n  - ${problems.join('\n  - ')}\n(node seo/content-en.mjs --check ${c.slug})`);
+    return content;
+  }
+  function authored(c, doc) {
+    if (!doc) return '';
+    const secs = doc.sections.map((s) => `  <section class="cp-about-sec" id="${esc(s.id)}" aria-labelledby="${esc(s.id)}-h">
+    <h2 id="${esc(s.id)}-h">${esc(s.h2)}</h2>
+${s.paragraphs.map((p) => `    <p>${inline(p)}</p>`).join('\n')}${s.list ? `
+    <ul>
+${s.list.map((x) => `      <li>${inline(x)}</li>`).join('\n')}
+    </ul>` : ''}
+  </section>`);
+    const faq = `  <section class="cp-about-sec cp-faq" id="faq" aria-labelledby="cpFaqTitle">
+    <h2 id="cpFaqTitle">${esc(CONTENT_COPY.faqTitle(c.name))}</h2>
+${doc.faq.map((f) => `    <details>
+      <summary>${esc(f.q)}</summary>
+      <p>${inline(f.a)}</p>
+    </details>`).join('\n')}
+  </section>`;
+    const related = `  <section class="cp-about-sec cp-related" aria-labelledby="cpRelatedTitle">
+    <h2 id="cpRelatedTitle">${esc(CONTENT_COPY.relatedTitle)}</h2>
+    <ul>
+${doc.related.map((slug) => {
+    const r = pageBySlug(slug);
+    if (!r) throw new Error(`seo/content-en/${c.slug}.json: related «${slug}» has no page`);
+    return `      <li><a href="${P}/esim/${r.slug}/">${esc(r.name)}</a></li>`;
+  }).join('\n')}
+    </ul>
+  </section>`;
+    return `  <div class="cp-about">
+${secs.join('\n')}
+${faq}
+${related}
+  </div>
+`;
+  }
+
   /** The pages, as data: the countries the Russian site has a page for, named in this language
    *  (seo/country-names-i18n.mjs countryName — ru/en from seo/country-names.mjs, the rest CLDR). */
   function countries() {
@@ -681,17 +740,32 @@ ${GUIDES.filter((g) => g.slug === 'activation' || g.slug === 'troubleshooting').
     </div>
   </section>`;
 
-function countryPage(c) {
+function countryPage(c, content = L.code === 'en' ? loadContent(c.slug) : null) {
   const name = esc(c.name);
   const url = `${SITE}${P}/esim/${c.slug}/`;
-  const title = C.countryTitle(name);
+  const doc = authoredContent(c, content);
+  const title = doc ? esc(doc.title) : C.countryTitle(name);
+  const description = doc ? esc(doc.description) : C.countryDescription(name);
+  const lead = doc ? inline(doc.lead) : C.countryLead(name);
+  const about = authored(c, doc);
+  const contentCss = doc ? '\n<link rel="stylesheet" href="/en/content.css">' : '';
+  const html = countryHtml(c, { name, url, title, description, lead, about, contentCss });
+  if (doc) {
+    const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
+    const twice = ids.filter((x, i) => ids.indexOf(x) !== i);
+    if (twice.length) throw new Error(`seo/content-en/${c.slug}.json: the id ${twice[0]} is already on the page`);
+  }
+  return html;
+}
+
+function countryHtml(c, { name, url, title, description, lead, about, contentCss }) {
   return `<!doctype html>
 <html lang="${L.htmlLang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title}</title>
-<meta name="description" content="${C.countryDescription(name)}">
+<meta name="description" content="${description}">
 <link rel="canonical" href="${url}">
 ${indexingHead(L.code, { kind: 'country', slug: c.slug })}
 ${cspMeta(primaryApiOrigin())}
@@ -699,7 +773,7 @@ ${cspMeta(primaryApiOrigin())}
 <meta property="og:locale" content="${L.ogLocale}">
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${title}">
-${shareMeta(title, C.countryDescription(name))}
+${shareMeta(title, description)}
 ${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.destinations'), `${P}/esim/`], [c.name, `${P}/esim/${c.slug}/`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
@@ -707,7 +781,7 @@ ${LOGO_ONCE_SCRIPT_MOTION}
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/en/en.css">
 <link rel="stylesheet" href="/assets/page-country.css">
-<link rel="stylesheet" href="/en/checkout.css">
+<link rel="stylesheet" href="/en/checkout.css">${contentCss}
 </head>
 <body data-iso="${c.iso}">
 
@@ -722,7 +796,7 @@ ${PAYBAR}
         <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
         <div>
           <h1>${C.esimFor(name)}</h1>
-          <p class="lead">${C.countryLead(name)}</p>
+          <p class="lead">${lead}</p>
         </div>
       </div>
       <div class="cp-hero-foot">
@@ -764,7 +838,7 @@ ${block('daily', C.dailyTitle, C.dailyNote)}
 
   <p class="note" id="currencyNote" data-i18n="price.currencyNote" hidden>${t('price.currencyNote')}</p>
 
-${glance(c)}${HELP}
+${glance(c)}${about}${HELP}
   </div>
 </main>
 

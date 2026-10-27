@@ -1,0 +1,17 @@
+/* Authored English country text (seo/content-en/<slug>.json, rendered by seo/build-locale-pages.mjs). Linked ONLY by
+ * an English country page that has such a file, so no other page in any language changes when this one does.
+ * Between «Plans at a glance» and «Before you buy»: the same rule above it as .cp-help (assets/page-country.css),
+ * prose at a reading width, questions as the site's own <details> (assets/site.css), related destinations as a
+ * wrapping row of links. No animation, no transform, nothing below the body size. */
+.cp-about{margin:56px 0 0;padding-top:36px;border-top:1px solid var(--border)}
+.cp-about-sec+.cp-about-sec{margin-top:36px}
+.cp-about-sec>h2{margin:0 0 14px}
+.cp-about-sec p,.cp-about-sec li{max-width:70ch;overflow-wrap:break-word}
+.cp-about-sec p{margin:0 0 12px}
+.cp-about-sec>ul{margin:0 0 12px;padding-left:20px}
+.cp-about-sec li{margin:6px 0}
+.cp-about-sec a{color:var(--accent);font-weight:650;text-underline-offset:3px}
+.cp-faq details{max-width:70ch}
+.cp-faq details p{margin:10px 0 0;color:var(--muted)}
+.cp-related>ul{display:flex;flex-wrap:wrap;gap:8px 20px;margin:0;padding:0;list-style:none}
+.cp-related li{margin:0}

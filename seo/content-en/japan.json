@@ -1,0 +1,164 @@
+{
+  "slug": "japan",
+  "iso": "JP",
+  "title": "Japan eSIM: data, Wi-Fi and Visit Japan Web | Magic eSIM",
+  "description": "Japan's free Wi-Fi programme, Visit Japan Web at the airport, 100 V sockets and shinkansen outlets, plus data plans. Online payment is not available yet.",
+  "lead": "Getting online in Japan: the national free Wi-Fi programme, the Visit Japan Web code at the airport, charging on the shinkansen, and plans for Japan alone or together with South Korea and China.",
+  "sections": [
+    {
+      "id": "free-wifi",
+      "h2": "Free Wi-Fi in Japan, and when you want your own data",
+      "paragraphs": [
+        "The Japan Tourism Agency runs a free Wi-Fi programme for foreign visitors: after a simple registration you can use Wi-Fi at places that show the public wireless LAN mark. The Japan National Tourism Organization (JNTO) adds that the major international airports provide free Wi-Fi in their terminals.",
+        "That Wi-Fi depends on finding the mark and signing in. Between those places, on the walk from a station exit to a ryokan or while you work out a transfer, maps and timetables need data of your own.",
+        "JNTO also reminds visitors that a phone must be unlocked to use a SIM card. Check your phone before you fly with the [compatibility guide](/en/guides/compatibility/)."
+      ]
+    },
+    {
+      "id": "visit-japan-web",
+      "h2": "Visit Japan Web on your phone",
+      "paragraphs": [
+        "Visit Japan Web, provided by Japan's Digital Agency, is free of charge. Japan Customs warns about fake websites that imitate it and says no fee is charged for arrival declarations.",
+        "Since 25 January 2024 the immigration and customs codes in Visit Japan Web have been combined into a single 2D code. At the airport you hold that code and your IC (chip) passport over the electronic declaration terminal, so arrive with the phone charged and the code ready to open."
+      ]
+    },
+    {
+      "id": "power",
+      "h2": "Charging: 100 V and shinkansen outlets",
+      "paragraphs": [
+        "Japan uses 100 V everywhere, at 50 Hz in the east and 60 Hz in the west (including Nagoya, Kyoto and Osaka), and sockets take plug types A and B. Check that the input range on your charger's label includes 100 V.",
+        "JNTO notes that new shinkansen models have outlets next to the window seats, which helps on a long rail day of maps and tickets."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Japan alone, or a longer trip",
+      "paragraphs": [
+        "Local plans cover Japan by itself, which is all a trip needs if it begins and ends in Japan.",
+        "A trip that goes on to Seoul or Shanghai can use a regional plan: those that include Japan also cover South Korea and China. Daily plans divide the data into a fixed amount per day, for travellers who think in a daily budget rather than one balance.",
+        "For how much data each plan includes and for how long, see “Plans at a glance” above; the [activation guide](/en/guides/activation/) explains what to look for before you install a plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Is there free Wi-Fi for tourists in Japan?",
+      "a": "Yes. Under the Japan Tourism Agency's programme, visitors who register can use Wi-Fi at places showing the public wireless LAN mark, and JNTO says the major international airports provide free Wi-Fi in their terminals."
+    },
+    {
+      "q": "Is Visit Japan Web free?",
+      "a": "Yes. It is provided by Japan's Digital Agency free of charge, and Japan Customs warns about fake websites that imitate it, adding that no fee is charged for arrival declarations."
+    },
+    {
+      "q": "Can I charge my phone on the shinkansen?",
+      "a": "On new shinkansen models, yes: JNTO says they have outlets next to the window seats, and you can ask for such a seat when you buy your ticket."
+    },
+    {
+      "q": "Will my phone charger work in Japan?",
+      "a": "Japan's supply is 100 V, with type A and B sockets. Look for 100 V in the input range on the charger's label, and bring an adapter if your plug does not have two flat pins."
+    },
+    {
+      "q": "Does a Japan plan also work in South Korea?",
+      "a": "Local plans are for Japan only. Regional plans that include Japan also cover South Korea and China."
+    },
+    {
+      "q": "Do I need an unlocked phone in Japan?",
+      "a": "JNTO states that your phone must be unlocked to use a SIM card. The [compatibility guide](/en/guides/compatibility/) explains how to check your phone before the trip."
+    }
+  ],
+  "related": [
+    "south-korea",
+    "china",
+    "taiwan",
+    "hong-kong"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Getting online in Japan: the national free Wi-Fi programme, the Visit Japan Web code at the airport, charging on the shinkansen, and plans for Japan alone or together with South Korea and China.",
+      "kind": "regional_also",
+      "codes": [
+        "KR",
+        "CN"
+      ]
+    },
+    {
+      "quote": "Local plans cover Japan by itself, which is all a trip needs if it begins and ends in Japan.",
+      "kind": "local"
+    },
+    {
+      "quote": "A trip that goes on to Seoul or Shanghai can use a regional plan: those that include Japan also cover South Korea and China.",
+      "kind": "regional_also",
+      "codes": [
+        "KR",
+        "CN"
+      ]
+    },
+    {
+      "quote": "Daily plans divide the data into a fixed amount per day, for travellers who think in a daily budget rather than one balance.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Does a Japan plan also work in South Korea?",
+      "kind": "regional_also",
+      "codes": [
+        "KR"
+      ]
+    },
+    {
+      "quote": "Local plans are for Japan only.",
+      "kind": "local"
+    },
+    {
+      "quote": "Regional plans that include Japan also cover South Korea and China.",
+      "kind": "regional_also",
+      "codes": [
+        "KR",
+        "CN"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://japanfreewifi.jnto.go.jp/eng/wifi-guide.php",
+      "title": "Japan. Free Wi-Fi Guide — Japan Tourism Agency",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi programme for foreign tourists: register, then use Wi-Fi at places showing the public wireless LAN mark"
+    },
+    {
+      "url": "https://www.japan.travel/en/plan/wifi-and-connectivity/",
+      "title": "Wi-Fi in Japan — Japan National Tourism Organization",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi in the terminals of major international airports; a phone must be unlocked to use a SIM card"
+    },
+    {
+      "url": "https://www.customs.go.jp/english/news/20260528e.html",
+      "title": "Beware of Fake Websites Related to Customs Procedures — Japan Customs",
+      "checked": "2026-10-27",
+      "supports": "Visit Japan Web is free, provided by the Digital Agency; fake websites imitate it; Customs charges no fee for arrival declarations"
+    },
+    {
+      "url": "https://www.customs.go.jp/english/passenger/declaration/declaration_app.html",
+      "title": "Declaration of Accompanied Articles and Unaccompanied Articles — Japan Customs",
+      "checked": "2026-10-27",
+      "supports": "since 25 January 2024 one 2D code for immigration and customs in Visit Japan Web; held with the IC passport over the electronic declaration terminal"
+    },
+    {
+      "url": "https://www.japan.travel/en/plan/plug-and-electricity/",
+      "title": "Japan Electrical Outlet — Japan National Tourism Organization",
+      "checked": "2026-10-27",
+      "supports": "100 V everywhere; 50 Hz east, 60 Hz west including Nagoya, Kyoto, Osaka; outlets by the window seats on new shinkansen models, ask staff for such a seat when buying the ticket"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Japan plug types A and B"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-A",
+    "copy": "copywriter-3",
+    "language": "",
+    "facts": "factcheck-2"
+  }
+}
