@@ -254,7 +254,10 @@ for (const [name, c] of [
   test(`catalogue ${name}: plain English, «Try again» recovers, one request per click`, async ({ page }) => {
     const st = await open(page, { catalogue: async (n) => (n === 1 ? c : { status: 200, body: BODY }) });
     await expect(page.locator('#status')).toHaveText('Prices are temporarily unavailable. Please check back soon — nothing can be ordered here yet.');
-    expect(await page.locator('main').innerText()).not.toMatch(TECH);
+    // What the SCRIPT shows on a failure — the static «at a glance» facts are HTML from the build (their «500 MB»
+    // is a volume, not a status) and do not depend on the answer: read apart, and they must still be there.
+    expect(await page.locator('main').evaluate((m) => { const c = m.cloneNode(true); c.querySelectorAll('.cp-glance').forEach((g) => g.remove()); return c.innerText ?? c.textContent; })).not.toMatch(TECH);
+    await expect(page.locator('.cp-glance')).toHaveCount(1);
     await expect(page.locator('.card')).toHaveCount(0);
     // Two activations in the same task (a double click / double tap): the
     // second must find the button already disabled. Clicked in the page, not

@@ -317,6 +317,63 @@ function makeGenerator(code, source, canWrite, registry = LOCALES) {
     itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: `${SITE}${path}` })),
   }).replace(/</g, '\\u003c')}</script>`;
 
+  /* «At a glance» (international SEO audit, 2026-10-27). Until then a country page carried no plan fact in its HTML:
+   * the three blocks are filled by a script from the live GLOBAL catalogue, and a crawler that runs none read the same
+   * ~600 words on every page (Thailand and Japan 98 % alike). This prints, from seo/global-plan-facts.json (the USD
+   * catalogue's layout, refreshed by the catalogue bot — scripts/update-global-plan-facts.mjs), the volumes and terms
+   * of the local plans, the destinations the regional plans also cover (linked: the page-to-page links a country had
+   * none of) and the daily allowances and terms. NO PRICE AND NO COUNT (seo/test-en-pages.mjs); every amount goes
+   * through the cards' own formatter, so the HTML and the live cards spell a volume the same way. The cards it uses
+   * are «Before you buy»'s — no new design. */
+  const FACTS = JSON.parse(readFileSync(join(ROOT, 'seo/global-plan-facts.json'), 'utf8'));
+  const AMOUNT = createRequire(import.meta.url)('../assets/daily-plan-copy.js').formatAllowance;
+  const GLANCE_ALSO = 8;
+  const PLURAL = new Intl.PluralRules(L.htmlLang);
+  const dayCount = (n) => source.word(PLURAL.select(n) === 'one' ? 'plan.dayCount.one' : 'plan.dayCount.other').replace('{n}', String(n));
+  let pagesByIso = null;
+  const pageOf = (iso) => (pagesByIso ||= new Map(countries().map((x) => [x.iso, x]))).get(iso);
+  const factLine = (label, values) => `        <p><strong>${esc(label)}</strong><br>${esc(values.join(C.glanceSep))}</p>`;
+
+  function glance(c) {
+    const f = FACTS.countries[c.iso];
+    if (!f) return '';
+    const name = esc(c.name);
+    const cards = [];
+    if (f.local.gb.length && f.local.days.length) {
+      cards.push(`      <div class="help-card">
+        <h3>${C.localTitle(name)}</h3>
+${factLine(C.glanceData, f.local.gb.map((gb) => AMOUNT(gb, L.code)))}
+${factLine(C.glanceValidity, f.local.days.map(dayCount))}
+      </div>`);
+    }
+    const also = f.also.map(pageOf).filter((x) => x && x.iso !== c.iso).slice(0, GLANCE_ALSO);
+    if (also.length) {
+      cards.push(`      <div class="help-card">
+        <h3>${C.regionalTitle(name)}</h3>
+        <p>${esc(C.glanceAlso)}</p>
+        <ul>
+${also.map((x) => `          <li><a href="${P}/esim/${x.slug}/">${esc(x.name)}</a></li>`).join('\n')}
+        </ul>
+      </div>`);
+    }
+    if (f.daily.gb_per_day.length && f.daily.days.length) {
+      cards.push(`      <div class="help-card">
+        <h3>${C.dailyTitle}</h3>
+${factLine(C.glanceDailyAmount, f.daily.gb_per_day.map((gb) => AMOUNT(gb, L.code)))}
+${factLine(C.glanceDailyDays, f.daily.days.map(dayCount))}
+      </div>`);
+    }
+    if (!cards.length) return '';
+    return `  <section class="cp-help cp-glance" aria-labelledby="cpGlanceTitle">
+    <h2 id="cpGlanceTitle">${esc(C.glanceTitle)}</h2>
+    <div class="help-grid">
+${cards.join('\n')}
+    </div>
+    <p class="note">${C.glanceUpdated(`<time datetime="${FACTS.updated}">${FACTS.updated}</time>`)}</p>
+  </section>
+`;
+  }
+
   /** The pages, as data: the countries the Russian site has a page for, named in this language
    *  (seo/country-names-i18n.mjs countryName — ru/en from seo/country-names.mjs, the rest CLDR). */
   function countries() {
@@ -707,7 +764,7 @@ ${block('daily', C.dailyTitle, C.dailyNote)}
 
   <p class="note" id="currencyNote" data-i18n="price.currencyNote" hidden>${t('price.currencyNote')}</p>
 
-${HELP}
+${glance(c)}${HELP}
   </div>
 </main>
 

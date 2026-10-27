@@ -106,10 +106,17 @@ const FIXED = ['© Magic eSIM', 'Magic eSIM', 'support@magicesim.store', 'eSIM']
 // AFTER the country names, so «Deutsch» does not cut «Deutschland» into «land».
 const ENDONYMS = LOCALES.map((l) => l.endonym);
 
+// …and the data units of the language's own card table (assets/daily-plan-copy.js formatAllowance) — the «at a glance»
+// facts print volumes through it (2026-10-27), as the live cards do; Korean writes them attached («1GB»). Derived from
+// the table, never typed: a unit the table does not give is still a leak.
+const AMOUNT = require('../assets/daily-plan-copy.js').formatAllowance;
+const unitsOf = (code) => [AMOUNT(1, code), AMOUNT(0.5, code)].map((x) => x.replace(/[\d\s.,]/g, '')).filter(Boolean);
+
 /** What is left of a run once every mark, country name and fixed token is taken out. */
-function leftover(run, names) {
+function leftover(run, names, code) {
   let s = run.replace(/⟦[^⟧]*⟧(\([^)]*\))?/g, ' ');
   for (const f of FIXED) s = s.split(f).join(' ');
+  for (const u of code ? unitsOf(code) : []) s = s.replace(new RegExp(`(\\d)${u}\\b`, 'g'), '$1 ');
   for (const n of names) if (n) s = s.split(n).join(' ');
   for (const e of ENDONYMS) s = s.split(e).join(' ');
   // Punctuation, digits, arrows and single letters (the A–Z jump letters of the list).
@@ -159,7 +166,7 @@ for (const L of PLANNED) {
     const leaks = [];
     for (const [where, html] of pages) {
       for (const run of readable(html)) {
-        const left = leftover(run, names);
+        const left = leftover(run, names, L.code);
         if (left.length) leaks.push(`${where}: ${JSON.stringify(run).slice(0, 120)} → ${left.join(' ')}`);
       }
     }
@@ -296,6 +303,10 @@ test('the leak check can fire: an English word in a template is caught', () => {
   assert.deepEqual(leftover('Tailandia · ⟦es:countryLead⟧(Tailandia)', names), []);
   assert.deepEqual(leftover('Plans for Tailandia', names), ['Plans', 'for']);
   assert.deepEqual(leftover('Тарифы ⟦es:x⟧', names), ['Тарифы']);
+  // a data unit counts only right after its number, and only the language's own: «Data» beside it still leaks
+  assert.deepEqual(leftover('1GB⟦ko:glanceSep⟧500MB', names, 'ko'), []);
+  assert.deepEqual(leftover('1GB Data', names, 'ko'), ['Data']);
+  assert.deepEqual(leftover('GB', names, 'ko'), ['GB']);
   const G = rehearse('ko');
   const html = G.countryPage(G.countries()[0]).replace('<main', '<p>Show all plans</p><main');
   assert.ok(readable(html).some((r) => leftover(r, []).includes('Show')));
