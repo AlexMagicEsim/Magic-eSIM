@@ -83,7 +83,10 @@ test('the payment bar, then the hero, then the plans — nothing purchasable bef
 test('the hero: flag, name, a plain line, and a way back to the destinations', () => {
   assert.match(JP, /<img class="cp-flag" src="\/assets\/flags\/jp\.svg" alt="" width="72" height="54">/);
   assert.match(JP, /<h1>eSIM for Japan<\/h1>/);
-  assert.match(JP, /<p class="lead">Data plans that work in Japan, with prices in US dollars\.<\/p>/);
+  // Japan has authored text (seo/content-en/japan.json): its lead is the file's; the template lead is a page without one
+  const escHtml = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  assert.ok(JP.includes(`<p class="lead">${escHtml(JSON.parse(read('seo/content-en/japan.json')).lead)}</p>`), 'Japan: its authored lead');
+  assert.match(read('en/esim/italy/index.html'), /<p class="lead">Data plans that work in Italy, with prices in US dollars\.<\/p>/);
   assert.match(JP, /<a class="cp-change" href="\/en\/esim\/">Choose another destination<\/a>/);
   for (const p of PAGES) {
     const iso = (read(p).match(/<body data-iso="([A-Z]{2})">/) || [])[1];

@@ -1,0 +1,165 @@
+{
+  "slug": "united-kingdom",
+  "iso": "GB",
+  "title": "UK eSIM: EU roaming, Tube Wi-Fi and travel data | Magic eSIM",
+  "description": "Why EU roaming stops at the UK border, how Wi-Fi works at Tube stations, and plans that also cover Ireland. Online payment is not available yet.",
+  "lead": "Mobile data for the United Kingdom, from a plan for the UK alone to regional plans that also cover Ireland and the Netherlands.",
+  "sections": [
+    {
+      "id": "eu-roaming-uk",
+      "h2": "Visiting from the EU: roaming rules end at the UK border",
+      "paragraphs": [
+        "Since the United Kingdom left the European Union, the EU's roam like at home rules no longer apply to travel here. The European Commission notes that some mobile companies have chosen to keep home prices for the UK, but nothing obliges them to, so a SIM from elsewhere in Europe may be charged roaming rates in London that it would not pay in Amsterdam or Madrid.",
+        "Read your home plan's terms for the UK before you travel rather than assuming they match the rest of your European trip. Wherever your SIM comes from, it is your home plan's roaming terms that decide what data costs here."
+      ]
+    },
+    {
+      "id": "london-transport",
+      "h2": "Getting around London with your phone",
+      "paragraphs": [
+        "Transport for London says Wi-Fi is available at all Tube stations, most London Overground stations, all Elizabeth line stations under central London and Victoria Coach Station. It is provided through UK mobile networks' own Wi-Fi services, so check whether your phone can use it before you count on it, and load your route before you go down to the platform. If you have not connected before you board, TfL advises waiting until you get off rather than trying to connect on the train between stations.",
+        "Pay as you go on TfL services works by touching in with a contactless card, a phone or an Oyster card, and on the Tube and trains touching out again at the end. TfL asks you to use the same card or device at both ends to be charged the right fare, so if your phone is your ticket, keep it charged until you leave the station. Many contactless cards issued outside the UK work too, though overseas charges may apply, and TfL warns that a phone payment linked to a non-UK card may not work.",
+        "On arrival, Heathrow offers free Wi-Fi throughout its terminals on the Heathrow Wi-Fi network once you register. VisitBritain adds that Wi-Fi is often available in libraries, pubs and museums, and on some longer train journeys."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "A plan for the UK alone, or for Ireland too",
+      "paragraphs": [
+        "Local plans cover the United Kingdom alone, which suits a London city break or a rail trip around Britain. Daily plans give you an allowance for each day of the trip, handy when your days are mostly route planning, tickets and messages. Regional plans that include the UK also cover Ireland, the Netherlands, Belgium and Spain, among other destinations, for a journey that continues by ferry or a short flight.",
+        "Your phone must support eSIM and must not be locked to one network; the [compatibility guide](/en/guides/compatibility/) shows how to check. For when a plan's term begins, read the [activation guide](/en/guides/activation/)."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I roam like at home in the UK on an EU SIM?",
+      "a": "Not by right. The EU rules do not apply to travel to the United Kingdom; some home mobile companies keep home prices there, but they are not required to."
+    },
+    {
+      "q": "Is there Wi-Fi on the London Underground?",
+      "a": "At stations, yes: TfL lists Wi-Fi at all Tube stations, provided through UK mobile networks' own Wi-Fi services. If you have not connected before you board, TfL advises waiting until you get off the train."
+    },
+    {
+      "q": "Does a plan for the UK also work in Ireland?",
+      "a": "A local plan covers the United Kingdom only. Regional plans that include the UK also cover Ireland."
+    },
+    {
+      "q": "Can I use my phone as a ticket on the Tube?",
+      "a": "Yes, with pay as you go: touch in and out with the same phone, contactless card or Oyster card for the whole journey so that TfL charges the right fare."
+    },
+    {
+      "q": "What number do I call in an emergency in the UK?",
+      "a": "Call 999 for the police, fire service or an ambulance, and on the coast for the coastguard. VisitBritain lists 111 for advice on minor injuries and illnesses that are not life-threatening and 101 for police matters that are not urgent."
+    },
+    {
+      "q": "Will I need a plug adapter in the UK?",
+      "a": "Probably. VisitBritain says the UK uses type G plugs at 220/240 V and 50 Hz, so bring an adapter for your phone charger."
+    }
+  ],
+  "related": [
+    "ireland",
+    "netherlands",
+    "belgium",
+    "spain",
+    "iceland"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Why EU roaming stops at the UK border, how Wi-Fi works at Tube stations, and plans that also cover Ireland.",
+      "kind": "regional_also",
+      "codes": [
+        "IE"
+      ]
+    },
+    {
+      "quote": "Mobile data for the United Kingdom, from a plan for the UK alone to regional plans that also cover Ireland and the Netherlands.",
+      "kind": "regional_also",
+      "codes": [
+        "IE",
+        "NL"
+      ]
+    },
+    {
+      "quote": "Local plans cover the United Kingdom alone, which suits a London city break or a rail trip around Britain.",
+      "kind": "local"
+    },
+    {
+      "quote": "Daily plans give you an allowance for each day of the trip, handy when your days are mostly route planning, tickets and messages.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Regional plans that include the UK also cover Ireland, the Netherlands, Belgium and Spain, among other destinations, for a journey that continues by ferry or a short flight.",
+      "kind": "regional_also",
+      "codes": [
+        "IE",
+        "NL",
+        "BE",
+        "ES"
+      ]
+    },
+    {
+      "quote": "Does a plan for the UK also work in Ireland?",
+      "kind": "regional_also",
+      "codes": [
+        "IE"
+      ]
+    },
+    {
+      "quote": "A local plan covers the United Kingdom only.",
+      "kind": "local"
+    },
+    {
+      "quote": "A plan for the UK alone, or for Ireland too",
+      "kind": "regional_also",
+      "codes": [
+        "IE"
+      ]
+    },
+    {
+      "quote": "Regional plans that include the UK also cover Ireland.",
+      "kind": "regional_also",
+      "codes": [
+        "IE"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://digital-strategy.ec.europa.eu/en/faqs/roaming-questions-answers",
+      "title": "Roaming: Questions & Answers – European Commission",
+      "checked": "2026-10-27",
+      "supports": "roam like at home does not apply to travel to the United Kingdom since it left the EU; some companies extend it, which is not an obligation; it covers EU/EEA subscriptions only"
+    },
+    {
+      "url": "https://tfl.gov.uk/modes/tube/station-wifi",
+      "title": "Mobile phones and Wi-Fi underground – Transport for London",
+      "checked": "2026-10-27",
+      "supports": "Wi-Fi at all Tube stations, most London Overground stations, all Elizabeth line stations under central London and Victoria Coach Station, through the service provided by your mobile network; if not connected before boarding, do not try to connect on the train, wait until you get off"
+    },
+    {
+      "url": "https://tfl.gov.uk/fares/ways-to-pay/pay-as-you-go",
+      "title": "Pay as you go – Transport for London",
+      "checked": "2026-10-27",
+      "supports": "touch in and out with contactless (card or device) or Oyster, only touch in on buses and trams; use the same device or card to pay the right fare; many contactless cards issued outside the UK work, overseas charges may apply; mobile payment with a non-UK card may not work"
+    },
+    {
+      "url": "https://www.heathrow.com/at-the-airport/airport-services/internet-and-wifi",
+      "title": "Internet and Wi-Fi – Heathrow",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi throughout Heathrow's terminals on the Heathrow Wi-Fi network after registering"
+    },
+    {
+      "url": "https://www.visitbritain.com/en/plan-your-trip/useful-information",
+      "title": "UK Travel Advice & Useful Information – VisitBritain",
+      "checked": "2026-10-27",
+      "supports": "999 for police, fire, ambulance and, on the coast, the coastguard; 111 advice on minor injuries and illnesses that are not life-threatening; 101 non-urgent police; type G plugs, 220/240 V, 50 Hz, adaptor needed; Wi-Fi often in libraries, pubs, museums and some longer train journeys"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-C",
+    "copy": "copywriter-2",
+    "language": "",
+    "facts": "factcheck-2"
+  }
+}

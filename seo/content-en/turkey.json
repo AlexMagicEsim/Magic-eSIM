@@ -1,0 +1,166 @@
+{
+  "slug": "turkey",
+  "iso": "TR",
+  "title": "Turkey eSIM: install and check before you fly | Magic eSIM",
+  "description": "Turkey: what UK advice says about eSIM services, who the phone registration rule is for, and Wi-Fi at Istanbul Airport. Online payment is not available yet.",
+  "lead": "UK government travel advice for Turkey (Türkiye) has its own note on eSIMs, which is a good reason to install a plan and check it while you are still at home. Regional plans on this page also cover Greece, Bulgaria and Cyprus for a trip that carries on into Europe.",
+  "sections": [
+    {
+      "id": "esim-advice",
+      "h2": "What UK travel advice says about eSIMs in Turkey",
+      "paragraphs": [
+        "UK government travel advice for Turkey includes a short section headed “E-sims”. It says that access to some eSIM services is restricted in Turkey, and it advises travellers to check with the company behind their eSIM before travelling. It does not say which services are affected or why.",
+        "We cannot tell you that any plan on this page falls outside that restriction, and we do not claim it does. What you can do is install the plan at home, on your own Wi-Fi, and check that it shows up on your phone before you leave. The [activation guide](/en/guides/activation/) explains what to look for and when a plan's term begins, and the [troubleshooting guide](/en/guides/troubleshooting/) covers a profile that will not install."
+      ]
+    },
+    {
+      "id": "phone-registration",
+      "h2": "Who Turkey's phone registration rule is for",
+      "paragraphs": [
+        "Turkey's device-registration regulation, enforced by the telecoms regulator BTK, covers phones used with Turkish SIM cards. A phone brought in from abroad and used on a Turkish line can work unregistered for a 120-day period, and its owner has 365 days from entry to apply for registration. Since July 2026, applications go through e-Devlet, the government's online gateway.",
+        "The same regulation also covers foreign SIMs used on Turkish networks, without voice calls, on more than 90 days in total within any 120 consecutive days, which it calls permanent roaming, and phones found doing that are cut off. It describes no registration step for a visitor on a short stay with a foreign SIM or eSIM. If you are moving to Turkey or staying for months, read the current rules rather than a summary."
+      ]
+    },
+    {
+      "id": "arrival",
+      "h2": "Arriving in Istanbul and getting around",
+      "paragraphs": [
+        "Istanbul Airport offers free Wi-Fi to passengers on the iGA WiFi network. Besides logging in with a mobile line, you can scan your passport or ID at a kiosk in the terminal to get an access code. That is Istanbul Airport's own service; if you fly into another airport, check what it offers.",
+        "UK advice notes that app-based and pre-booked taxis are widely available in Turkey, and a ride app needs data to book and follow a car. If your nationality needs an e-Visa, apply on the official site, evisa.gov.tr."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Turkey alone, or Turkey and Europe",
+      "paragraphs": [
+        "Local plans cover Turkey and suit a trip that stays in the country, whether that is Istanbul, Cappadocia or the coast. Regional plans on this page also cover Greece, Bulgaria and Cyprus, as well as Germany, Italy and the United Kingdom, which suits a route that crosses a land border or continues by air. Daily plans give a fixed allowance for each day, useful when every day of the trip means maps, ride apps and messages."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Do I need to register my phone in Turkey as a tourist?",
+      "a": "Turkey's device-registration regulation is aimed at phones used with Turkish SIM cards and at foreign SIMs used on Turkish networks without voice calls for long periods. It describes no registration step for a short visit on a foreign SIM or eSIM. If you plan a long stay or a Turkish SIM, check the current rules before you go."
+    },
+    {
+      "q": "Will an eSIM work for me in Turkey?",
+      "a": "We cannot promise that. UK government travel advice says access to some eSIM services is restricted in Turkey. Install the plan before you travel and check that it appears on your phone; the [compatibility guide](/en/guides/compatibility/) shows whether your phone supports eSIM at all."
+    },
+    {
+      "q": "Can I install the eSIM after I land in Turkey?",
+      "a": "We cannot say how that will go for you, given what UK advice says about restricted eSIM services. Installing at home on your own Wi-Fi means you find out before you travel whether the plan installs; the [activation guide](/en/guides/activation/) walks through the steps."
+    },
+    {
+      "q": "Is there free Wi-Fi at Istanbul Airport?",
+      "a": "Yes. Istanbul Airport offers free Wi-Fi on the iGA WiFi network, and a kiosk in the terminal gives you an access code when you scan your passport or ID."
+    },
+    {
+      "q": "Can one plan cover Turkey and Greece?",
+      "a": "Regional plans on this page also cover Greece and Bulgaria. Germany, Italy and the United Kingdom are among the others."
+    }
+  ],
+  "related": [
+    "greece",
+    "bulgaria",
+    "cyprus",
+    "germany",
+    "united-kingdom"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Regional plans on this page also cover Greece, Bulgaria and Cyprus for a trip that carries on into Europe.",
+      "kind": "regional_also",
+      "codes": [
+        "GR",
+        "BG",
+        "CY"
+      ]
+    },
+    {
+      "quote": "Local plans cover Turkey and suit a trip that stays in the country, whether that is Istanbul, Cappadocia or the coast.",
+      "kind": "local"
+    },
+    {
+      "quote": "Regional plans on this page also cover Greece, Bulgaria and Cyprus, as well as Germany, Italy and the United Kingdom, which suits a route that crosses a land border or continues by air.",
+      "kind": "regional_also",
+      "codes": [
+        "GR",
+        "BG",
+        "CY",
+        "DE",
+        "IT",
+        "GB"
+      ]
+    },
+    {
+      "quote": "Daily plans give a fixed allowance for each day, useful when every day of the trip means maps, ride apps and messages.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Can one plan cover Turkey and Greece?",
+      "kind": "regional_also",
+      "codes": [
+        "GR"
+      ]
+    },
+    {
+      "quote": "Regional plans on this page also cover Greece and Bulgaria.",
+      "kind": "regional_also",
+      "codes": [
+        "GR",
+        "BG"
+      ]
+    },
+    {
+      "quote": "Germany, Italy and the United Kingdom are among the others.",
+      "kind": "regional_also",
+      "codes": [
+        "DE",
+        "IT",
+        "GB"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/turkey/safety-and-security",
+      "title": "Turkey travel advice: Safety and security (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "UK government travel advice: section «E-sims» (access to some e-sim services is restricted in Turkey; check before travelling); app-based and pre-booked taxis widely available"
+    },
+    {
+      "url": "https://www.mevzuat.gov.tr/anasayfa/MevzuatFihristDetayIframe?MevzuatTur=7&MevzuatNo=19873&MevzuatTertip=5",
+      "title": "Elektronik Kimlik Bilgisini Haiz Cihazların Kayıt Altına Alınmasına Dair Yönetmelik (mevzuat.gov.tr)",
+      "checked": "2026-10-27",
+      "supports": "art. 2 scope: devices on Turkish operators' own IMSIs and devices on international permanent data roaming without voice calls (art. 4(1)(ö): non-286 IMSI, more than 90 days cumulative within 120 consecutive days); art. 10(2): unregistered devices cut off within the 120-day usage period, permanent-roaming devices within 30 days; art. 14(4): application within 365 days of entry, 120-day use period unchanged; art. 7: temporary service goes on a grey list",
+      "sentences": [
+        "A phone brought in from abroad and used on a Turkish line can work unregistered for a 120-day period, and its owner has 365 days from entry to apply for registration.",
+        "The same regulation also covers foreign SIMs used on Turkish networks, without voice calls, on more than 90 days in total within any 120 consecutive days, which it calls permanent roaming, and phones found doing that are cut off."
+      ]
+    },
+    {
+      "url": "https://www.resmigazete.gov.tr/eskiler/2026/07/20260702-6.htm",
+      "title": "Resmî Gazete, 2 July 2026 (no. 33298): amending regulation on device registration",
+      "checked": "2026-10-27",
+      "supports": "the 2 July 2026 amendment defines the application authority (başvuru merci) as the e-Devlet gateway"
+    },
+    {
+      "url": "https://www.istairport.com/en/services/experience/general-facilities/wi-fi/?locale=en",
+      "title": "Wi-Fi (Istanbul Airport official site)",
+      "checked": "2026-10-27",
+      "supports": "free iGA WiFi for passengers; access code from a terminal kiosk by scanning a passport or ID"
+    },
+    {
+      "url": "https://www.evisa.gov.tr/en/",
+      "title": "e-Vize – Türkiye Cumhuriyeti Elektronik Vize Başvuru Sistemi",
+      "checked": "2026-10-27",
+      "supports": "the official e-Visa application site"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-B",
+    "copy": "copywriter-1",
+    "language": "",
+    "facts": "factcheck-1"
+  }
+}

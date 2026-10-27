@@ -1,0 +1,168 @@
+{
+  "slug": "thailand",
+  "iso": "TH",
+  "title": "Thailand eSIM: TDAC, airport Wi-Fi and data | Magic eSIM",
+  "description": "Data for Thailand: the online TDAC arrival card, free Wi-Fi at six airports including Suvarnabhumi, and 230 V sockets. Online payment is not available yet.",
+  "lead": "A trip to Thailand starts online, with an arrival card you submit before you fly. Here is what to sort out first, where the airports offer free Wi-Fi, and which plans fit a stay in Thailand or a longer route through the region.",
+  "sections": [
+    {
+      "id": "tdac",
+      "h2": "Before you fly: the Thailand Digital Arrival Card",
+      "paragraphs": [
+        "Every non-Thai visitor has to submit the Thailand Digital Arrival Card, known as the TDAC, online before arrival, whatever the means of transport and including visa-exempt travellers. The form opens 3 days before your travel date and submission is free, according to the Royal Thai Consulate-General in Dubai.",
+        "It is a web form rather than a desk at the airport, so the calm way to do it is at home, a day or two before you leave, instead of in a transit lounge."
+      ]
+    },
+    {
+      "id": "airport-wifi",
+      "h2": "Free Wi-Fi at Thai airports",
+      "paragraphs": [
+        "Airports of Thailand offers free Wi-Fi at its six airports: Suvarnabhumi, Don Mueang, Chiang Mai, Mae Fah Luang Chiang Rai, Phuket and Hat Yai. What signing in asks for depends on the network you pick: some ask for your name, a passport or ID number and a mobile number; another asks for a passport number and an email address.",
+        "At Suvarnabhumi you select the airport's free network, enter an email address and accept the terms, which gives you 60 minutes online. That covers a message to whoever is meeting you; for the ride into the city and the days after, you need data of your own."
+      ]
+    },
+    {
+      "id": "power-and-help",
+      "h2": "Charging and the tourist police line",
+      "paragraphs": [
+        "Thailand's supply is 230 V at 50 Hz, and sockets take plug types A, B, C and O. Check that your charger's label covers 230 V and pack an adapter that fits.",
+        "The Tourism Authority of Thailand points visitors to the Tourist Police hotline, 1155, which runs 24 hours and offers help in several languages."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Thailand alone or a longer route?",
+      "paragraphs": [
+        "Local plans are for Thailand only, the simple choice if you fly in and out of Bangkok without crossing a border.",
+        "If the route continues overland or by a short flight, regional plans that include Thailand also cover Malaysia, Cambodia, Vietnam, Singapore and Indonesia. Daily plans give a set allowance for each day, which suits travellers who would rather have the same amount every day than one balance for the whole trip.",
+        "Each plan’s data and duration are listed in “Plans at a glance” above. Before you install anything, the [activation guide](/en/guides/activation/) explains what to look for on a plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Do I have to fill in the TDAC before flying to Thailand?",
+      "a": "Yes. The Royal Thai Consulate-General in Dubai says every non-Thai visitor must submit the Thailand Digital Arrival Card online before arrival, visa-exempt travellers included, and that submission is free."
+    },
+    {
+      "q": "How early can I submit the TDAC?",
+      "a": "The consulate's page says the card opens 3 days before your travel date."
+    },
+    {
+      "q": "Is there free Wi-Fi at Bangkok's airports?",
+      "a": "Airports of Thailand lists free Wi-Fi at both Suvarnabhumi and Don Mueang. At Suvarnabhumi the free network gives you 60 minutes after you enter an email address and accept the terms."
+    },
+    {
+      "q": "Can one plan cover Thailand and Malaysia?",
+      "a": "Regional plans that include Thailand also cover Malaysia, along with Singapore, Vietnam, Cambodia and Sri Lanka."
+    },
+    {
+      "q": "What plugs are used in Thailand?",
+      "a": "Types A, B, C and O, on a 230 V, 50 Hz supply. A phone charger is fine as long as its label lists 230 V; the adapter only has to fit the socket."
+    },
+    {
+      "q": "Is there free Wi-Fi at Thai airports outside Bangkok?",
+      "a": "Yes. Airports of Thailand lists free Wi-Fi at Chiang Mai, Mae Fah Luang Chiang Rai, Phuket and Hat Yai as well as Suvarnabhumi and Don Mueang. Depending on the network, signing in asks for your name with a passport or ID number, a phone number or an email address."
+    }
+  ],
+  "related": [
+    "vietnam",
+    "malaysia",
+    "cambodia",
+    "singapore",
+    "indonesia",
+    "sri-lanka"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Here is what to sort out first, where the airports offer free Wi-Fi, and which plans fit a stay in Thailand or a longer route through the region.",
+      "kind": "local"
+    },
+    {
+      "quote": "Local plans are for Thailand only, the simple choice if you fly in and out of Bangkok without crossing a border.",
+      "kind": "local"
+    },
+    {
+      "quote": "If the route continues overland or by a short flight, regional plans that include Thailand also cover Malaysia, Cambodia, Vietnam, Singapore and Indonesia.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "KH",
+        "VN",
+        "SG",
+        "ID"
+      ]
+    },
+    {
+      "quote": "Daily plans give a set allowance for each day, which suits travellers who would rather have the same amount every day than one balance for the whole trip.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Can one plan cover Thailand and Malaysia?",
+      "kind": "regional_also",
+      "codes": [
+        "MY"
+      ]
+    },
+    {
+      "quote": "Regional plans that include Thailand also cover Malaysia, along with Singapore, Vietnam, Cambodia and Sri Lanka.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "SG",
+        "VN",
+        "KH",
+        "LK"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://dubai.thaiembassy.org/en/content/thailand-digital-arrival-card-tdac",
+      "title": "Thailand Digital Arrival Card (TDAC) — Royal Thai Consulate-General, Dubai",
+      "checked": "2026-10-27",
+      "supports": "TDAC mandatory for all non-Thai visitors whatever the mode of transport, opens 3 days before travel, free",
+      "sentences": [
+        "The form opens 3 days before your travel date and submission is free, according to the Royal Thai Consulate-General in Dubai.",
+        "The consulate's page says the card opens 3 days before your travel date."
+      ]
+    },
+    {
+      "url": "https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/2024_Update_Suvarnabhumi_Airport_Free_Wi-Fi_Access",
+      "title": "2024 Update: Suvarnabhumi Airport Free Wi-Fi Access — Airports of Thailand",
+      "checked": "2026-10-27",
+      "supports": "Suvarnabhumi free Wi-Fi: select the free network, enter an email, accept the terms, 60 minutes",
+      "sentences": [
+        "At Suvarnabhumi you select the airport's free network, enter an email address and accept the terms, which gives you 60 minutes online.",
+        "At Suvarnabhumi the free network gives you 60 minutes after you enter an email address and accept the terms."
+      ]
+    },
+    {
+      "url": "https://www.airportthai.co.th/en/aot-free-wifi/",
+      "title": "Free WiFi at AOT's 6 airports — Airports of Thailand",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi at Suvarnabhumi, Don Mueang, Chiang Mai, Mae Fah Luang Chiang Rai, Phuket and Hat Yai; sign-in details by network (name, passport/ID number and mobile number on some; passport number and email on another)"
+    },
+    {
+      "url": "https://www.tatnews.org/2024/11/tourist-police-thailand-your-first-friend-for-safe-and-secure-travels/",
+      "title": "Tourist Police Thailand: Your First Friend for Safe and Secure Travels — TAT Newsroom",
+      "checked": "2026-10-27",
+      "supports": "Tourist Police hotline 1155, 24 hours, help in various languages",
+      "sentences": [
+        "The Tourism Authority of Thailand points visitors to the Tourist Police hotline, 1155, which runs 24 hours and offers help in several languages."
+      ]
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Thailand 230 V, 50 Hz, plug types A, B, C and O"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-A",
+    "copy": "copywriter-3",
+    "language": "",
+    "facts": "factcheck-2"
+  }
+}

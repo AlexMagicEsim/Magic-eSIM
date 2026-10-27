@@ -1,0 +1,152 @@
+{
+  "slug": "china",
+  "iso": "CN",
+  "title": "China eSIM: data for paying, maps and arrival | Magic eSIM",
+  "description": "Data for China, where you mostly pay by phone: the arrival card, Beijing airport Wi-Fi and UK advice on blocked sites. Online payment is not available yet.",
+  "lead": "In China your phone is how you pay, call a car and find your way, so data matters from the moment you land. Regional plans on this page also cover Hong Kong, Macao, Japan and South Korea.",
+  "sections": [
+    {
+      "id": "phone-as-wallet",
+      "h2": "Why data matters for paying in China",
+      "paragraphs": [
+        "UK government travel advice describes cashless payment through smartphone apps such as WeChat or Alipay as almost universal in China. It adds that outside major cities cards are not always accepted and ATMs are limited.",
+        "An official guide for overseas visitors, published by a Chinese provincial government, says foreign users can link international cards, including Visa and Mastercard, to these payment platforms. In practice the app on your phone, not the card in your wallet, is what you show at the till, which is why mobile data in China is about paying as much as browsing.",
+        "Beijing's municipal guide for new arrivals calls Alipay the “king of apps” for foreign visitors, with a built-in translator and mini programs such as DiDi, Trip, Meituan and Ele.me, and describes WeChat as the main way people in China communicate. It also notes that most Chinese map apps have no English interface, so decide before you travel how you will find your way."
+      ]
+    },
+    {
+      "id": "before-you-land",
+      "h2": "Arrival card, airport Wi-Fi and SIM cards",
+      "paragraphs": [
+        "According to the Chinese Embassy in the United States, foreign nationals have been able to fill in China's arrival card online before they travel since 20 November 2025, through the National Immigration Administration website, the NIA 12367 app, or mini programs in WeChat and Alipay. If you have not done it in advance, you can still complete it at the border by QR code, on a device there or on a paper card.",
+        "If you land in Beijing, the city's guide says both airports have free Wi-Fi throughout. You scan your passport at a Wi-Fi dispenser, which prints a username and password, and each login lasts five hours.",
+        "Both airports sell SIM cards from vending machines and counters, and the same guide points out that these are physical SIM cards, which may not be compatible with your phone. An eSIM, by contrast, is a profile added to the phone itself: check in the [compatibility guide](/en/guides/compatibility/) that yours supports it and is not locked to your home network, and see the [activation guide](/en/guides/activation/) for when a plan's term begins."
+      ]
+    },
+    {
+      "id": "restrictions",
+      "h2": "What UK advice says about internet restrictions",
+      "paragraphs": [
+        "UK government travel advice says the Chinese authorities control internet access and that some services are permanently blocked, including Google, Facebook, YouTube and X, with other websites sometimes blocked as well. The same advice says China's cybersecurity laws require online products and services such as VPNs to be licensed, and asks travellers to follow Chinese law.",
+        "We make no promise that any app or website will be available on a plan from this page, so work out before you leave how you will message, navigate and pay."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Plans for China alone or a longer route",
+      "paragraphs": [
+        "Local plans cover China and suit a trip that stays on the mainland. Regional plans on this page also cover Hong Kong and Macao, for a trip that crosses the border, and Japan and South Korea, for a route that continues by air or sea. Daily plans give you a set allowance for each day, which fits a trip where most of your data goes on payments, maps and messages."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "How do visitors pay for things in China?",
+      "a": "Mostly by phone. UK government travel advice says cashless payment through apps such as WeChat or Alipay is almost universal, and an official guide for overseas visitors says you can link an international card, such as Visa or Mastercard, to these apps. Outside major cities cards are not always accepted and ATMs are limited."
+    },
+    {
+      "q": "Can I fill in China's arrival card before I fly?",
+      "a": "Yes. Since 20 November 2025 foreign nationals can complete it online through the National Immigration Administration website, the NIA 12367 app or the WeChat and Alipay mini programs. You can also fill it in at the border."
+    },
+    {
+      "q": "Will Google Maps or WhatsApp work in China on this eSIM?",
+      "a": "We cannot promise that any app or website will be available. UK government travel advice lists Google among the services that are permanently blocked there, and the Beijing government's guide notes that most Chinese map apps have no English interface. Plan how you will navigate and message before you travel."
+    },
+    {
+      "q": "Is there free Wi-Fi at Beijing's airports for visitors?",
+      "a": "Beijing's municipal guide says both airports have free Wi-Fi in all areas. You scan your passport at a Wi-Fi dispenser to print a login, and each login lasts five hours. This applies to the Beijing airports; the guide does not cover other cities."
+    },
+    {
+      "q": "Does a plan for China also work in Hong Kong and Macao?",
+      "a": "Regional plans on this page also cover Hong Kong and Macao. Both have pages of their own as well."
+    },
+    {
+      "q": "Should I buy a SIM card at the airport in Beijing instead?",
+      "a": "That is your choice. Beijing's guide says SIM cards are sold at both airports and notes that these are physical SIM cards, which may not be compatible with your phone. An eSIM is set up on your phone before you leave; the [compatibility guide](/en/guides/compatibility/) shows whether yours supports one."
+    }
+  ],
+  "related": [
+    "hong-kong",
+    "macau",
+    "japan",
+    "south-korea"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Regional plans on this page also cover Hong Kong, Macao, Japan and South Korea.",
+      "kind": "regional_also",
+      "codes": [
+        "HK",
+        "MO",
+        "JP",
+        "KR"
+      ]
+    },
+    {
+      "quote": "Local plans cover China and suit a trip that stays on the mainland.",
+      "kind": "local"
+    },
+    {
+      "quote": "Regional plans on this page also cover Hong Kong and Macao, for a trip that crosses the border, and Japan and South Korea, for a route that continues by air or sea.",
+      "kind": "regional_also",
+      "codes": [
+        "HK",
+        "MO",
+        "JP",
+        "KR"
+      ]
+    },
+    {
+      "quote": "Daily plans give you a set allowance for each day, which fits a trip where most of your data goes on payments, maps and messages.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Does a plan for China also work in Hong Kong and Macao?",
+      "kind": "regional_also",
+      "codes": [
+        "HK",
+        "MO"
+      ]
+    },
+    {
+      "quote": "Regional plans on this page also cover Hong Kong and Macao.",
+      "kind": "regional_also",
+      "codes": [
+        "HK",
+        "MO"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/china/safety-and-security",
+      "title": "China travel advice: Safety and security (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "UK government travel advice: blocked services (Google, Facebook, YouTube, X), VPN licensing, cashless payment by WeChat or Alipay, credit cards and ATMs outside major cities"
+    },
+    {
+      "url": "https://english.henan.gov.cn/2024/04-11/2977432.html",
+      "title": "Payment service guide for overseas visitors to China (Henan provincial government / Xinhua, 11 Apr 2024)",
+      "checked": "2026-10-27",
+      "supports": "foreign users can link international cards such as Visa and Mastercard to the payment platforms"
+    },
+    {
+      "url": "https://us.china-embassy.gov.cn/eng/lsfw/zj/qz2021/202512/t20251203_11765346.htm",
+      "title": "China Launches Online Arrival Card for International Travelers (Chinese Embassy in the United States, 2025-12-03)",
+      "checked": "2026-10-27",
+      "supports": "online arrival card for foreign nationals since 20 November 2025 via the NIA website, the NIA 12367 app and WeChat or Alipay mini programs; at the border: QR code, on-site smart devices or a paper card (Chinese Embassy in the United States)"
+    },
+    {
+      "url": "https://english.beijing.gov.cn/latest/specials/essentialtipsfornewarrivals/getconnected/202408/t20240830_3785643.html",
+      "title": "Get Connected & Essential Apps (Beijing municipal government, 2024-08-30)",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi in all areas of both Beijing airports; passport-scanning Wi-Fi dispenser prints a five-hour login; SIM vending machines and counters at both airports, China uses physical SIM cards; Alipay 'king of apps' with translator and DiDi, Trip, Meituan, Ele.me mini programs; WeChat the primary communication tool; most Chinese map apps lack English"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-B",
+    "copy": "copywriter-1",
+    "language": "",
+    "facts": "factcheck-1"
+  }
+}

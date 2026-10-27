@@ -1,0 +1,177 @@
+{
+  "slug": "france",
+  "iso": "FR",
+  "title": "France eSIM: data for Paris, the TGV and beyond | Magic eSIM",
+  "description": "Who EU roaming covers in France, Wi-Fi at CDG and on the TGV, and plans that also cover the UK, Spain or Italy. Online payment is not available yet.",
+  "lead": "Mobile data for a trip to France, from a plan for France alone to regional plans that also cover the United Kingdom, Spain and Italy.",
+  "sections": [
+    {
+      "id": "roaming-in-france",
+      "h2": "Does your home plan roam in France at home prices?",
+      "paragraphs": [
+        "Inside the European Union, “roam like at home” lets someone with a mobile subscription from an EU or EEA country use it in France at the prices they pay at home. The European Commission says it applies in every EU country plus Iceland, Liechtenstein and Norway, and since 1 January 2026 in Ukraine and Moldova as well.",
+        "The rule follows where your subscription comes from, not where you are standing. If your SIM was issued outside the EU, the EEA, Ukraine and Moldova, the rule gives you nothing in France: your home plan's own roaming terms decide what data costs.",
+        "It also stops at the Channel. Since the United Kingdom left the EU, roam like at home no longer applies to travel there, so a day in London by Eurostar can be billed differently from the rest of your trip, even on an EU SIM. Switzerland is not among the countries the rule names either, which matters for a day trip to Geneva."
+      ]
+    },
+    {
+      "id": "wifi-on-the-way",
+      "h2": "Wi-Fi at Charles de Gaulle, on the TGV and in Paris",
+      "paragraphs": [
+        "At Paris-Charles de Gaulle, Paris Aéroport offers free Wi-Fi in all terminals, boarding areas and baggage claim: choose the WIFI-AIRPORT network and its welcome page opens on your phone. It covers the first messages after landing; once you leave the terminal, you are back on mobile data.",
+        "On TGV INOUI trains equipped with it, free Wi-Fi is available on board through the _SNCF_WIFI_INOUI network or the wifi.sncf page. SNCF explains that the equipment on board relays the mobile network along the line, so availability depends on mobile coverage, and it asks passengers to download films and large files before boarding.",
+        "In Paris itself, the City runs a free network, Paris Wi-Fi, in many parks and gardens, district town halls, libraries and city museums. You fill in a short form to connect, and each session lasts two hours before you reconnect."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "A plan for France alone or for a wider European route",
+      "paragraphs": [
+        "Local plans cover France alone, which fits a stay in Paris or a rail loop through the regions. Daily plans give you a set allowance for each day, useful when sightseeing mostly means maps, tickets and messages. If the trip carries on across borders, regional plans that include France also cover the United Kingdom, Spain, Italy, Belgium and Germany, among other destinations.",
+        "If your route leaves the European Union, open the coverage list on a plan's card before you rely on it. Your phone also needs to support eSIM and be unlocked; the [compatibility guide](/en/guides/compatibility/) shows how to check, and the [activation guide](/en/guides/activation/) explains when a plan's term begins."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Does roam like at home cover my phone in France?",
+      "a": "Only if your mobile subscription comes from an EU or EEA country, or from Ukraine or Moldova. A SIM from anywhere else roams in France on your home plan's own terms."
+    },
+    {
+      "q": "Will my EU SIM keep home prices on a day trip to London?",
+      "a": "Not by right. The EU rule does not apply to travel to the United Kingdom; some home mobile companies extend it, but they are not obliged to. Regional plans that include France also cover the United Kingdom."
+    },
+    {
+      "q": "Is there internet on the TGV?",
+      "a": "TGV INOUI trains equipped with Wi-Fi offer it free on board. SNCF says it depends on mobile coverage along the line and suggests downloading films before you board."
+    },
+    {
+      "q": "Is there free Wi-Fi at Charles de Gaulle airport?",
+      "a": "Yes. Paris Aéroport offers free Wi-Fi throughout the terminals, boarding areas and baggage claim at Charles de Gaulle on the WIFI-AIRPORT network."
+    },
+    {
+      "q": "Can a plan for France be used in Spain or Italy too?",
+      "a": "A local plan covers France only. Regional plans that include France also cover Spain and Italy, so pick one of those for a route across the border."
+    }
+  ],
+  "related": [
+    "united-kingdom",
+    "spain",
+    "italy",
+    "belgium",
+    "germany"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Who EU roaming covers in France, Wi-Fi at CDG and on the TGV, and plans that also cover the UK, Spain or Italy.",
+      "kind": "regional_also",
+      "codes": [
+        "GB",
+        "ES",
+        "IT"
+      ]
+    },
+    {
+      "quote": "Mobile data for a trip to France, from a plan for France alone to regional plans that also cover the United Kingdom, Spain and Italy.",
+      "kind": "regional_also",
+      "codes": [
+        "GB",
+        "ES",
+        "IT"
+      ]
+    },
+    {
+      "quote": "Local plans cover France alone, which fits a stay in Paris or a rail loop through the regions.",
+      "kind": "local"
+    },
+    {
+      "quote": "Daily plans give you a set allowance for each day, useful when sightseeing mostly means maps, tickets and messages.",
+      "kind": "daily"
+    },
+    {
+      "quote": "If the trip carries on across borders, regional plans that include France also cover the United Kingdom, Spain, Italy, Belgium and Germany, among other destinations.",
+      "kind": "regional_also",
+      "codes": [
+        "GB",
+        "ES",
+        "IT",
+        "BE",
+        "DE"
+      ]
+    },
+    {
+      "quote": "Regional plans that include France also cover the United Kingdom.",
+      "kind": "regional_also",
+      "codes": [
+        "GB"
+      ]
+    },
+    {
+      "quote": "A local plan covers France only.",
+      "kind": "local"
+    },
+    {
+      "quote": "Can a plan for France be used in Spain or Italy too?",
+      "kind": "regional_also",
+      "codes": [
+        "ES",
+        "IT"
+      ]
+    },
+    {
+      "quote": "Regional plans that include France also cover Spain and Italy, so pick one of those for a route across the border.",
+      "kind": "regional_also",
+      "codes": [
+        "ES",
+        "IT"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm",
+      "title": "Roaming: what you pay to use your smartphone in another EU country – Your Europe",
+      "checked": "2026-10-27",
+      "supports": "roam like at home applies when you travel from your home country to another EU country, and in Iceland, Liechtenstein and Norway, Moldova and Ukraine; other countries are not covered by this regime",
+      "sentences": [
+        "Switzerland is not among the countries the rule names either, which matters for a day trip to Geneva."
+      ]
+    },
+    {
+      "url": "https://digital-strategy.ec.europa.eu/en/faqs/roaming-questions-answers",
+      "title": "Roaming: Questions & Answers – European Commission",
+      "checked": "2026-10-27",
+      "supports": "RLAH area extended to Ukraine and Moldova as of 1 January 2026; EEA countries Iceland, Liechtenstein, Norway; roam like at home does not apply to travel to the United Kingdom, and extending it is not an obligation; countries outside the EU/EEA are not covered"
+    },
+    {
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/roaming",
+      "title": "Roaming: connected anywhere in the EU at no extra charge – European Commission",
+      "checked": "2026-10-27",
+      "supports": "since 1 January 2026 roam like at home extended to Ukraine and Moldova: EU citizens travelling there pay domestic prices, and the same applies to Ukrainian and Moldovan citizens roaming in EU Member States; it does not apply in the United Kingdom, where some operators keep the benefits"
+    },
+    {
+      "url": "https://www.parisaeroport.fr/en/passengers/at-the-airport/services/wifi/cdg",
+      "title": "WiFi Access at Paris Charles de Gaulle – Paris Aéroport",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi WIFI-AIRPORT in all CDG terminals, boarding areas and baggage claim, with a welcome portal"
+    },
+    {
+      "url": "https://www.sncf-voyageurs.com/en/travel-with-us/in-france/tgv-inoui/your-on-board-services/on-board-connection/",
+      "title": "On-board connection – SNCF Voyageurs",
+      "checked": "2026-10-27",
+      "supports": "free on-board Wi-Fi on TGV INOUI trains equipped with it (_SNCF_WIFI_INOUI or wifi.sncf); on-board boxes turn the mobile signal into Wi-Fi and availability depends on operator coverage; download films and large files before boarding"
+    },
+    {
+      "url": "https://www.paris.fr/pages/paris-wi-fi-152",
+      "title": "Paris Wi-Fi – Ville de Paris",
+      "checked": "2026-10-27",
+      "supports": "the City of Paris runs free Wi-Fi in parks and gardens, district town halls, libraries and city museums; short form; two-hour sessions"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-C",
+    "copy": "copywriter-2",
+    "language": "",
+    "facts": "factcheck-1"
+  }
+}

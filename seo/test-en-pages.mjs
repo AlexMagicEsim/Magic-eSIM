@@ -186,7 +186,7 @@ test('a country name cannot become markup', () => {
   assert.equal(html.includes('<img src=x'), false);
   assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt; &amp; &quot;q&quot;'));
   // A real non-ASCII name is written as itself, not mangled by the escape.
-  assert.match(read('en/esim/aland-islands/index.html'), /<h1>eSIM for Åland Islands<\/h1>/);
+  assert.match(read('en/esim/aland-islands/index.html'), /<h1>eSIM for the Åland Islands<\/h1>/);
 });
 
 test('every page loads the GLOBAL client and never the Russian catalogue', () => {

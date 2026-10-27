@@ -1,0 +1,161 @@
+{
+  "slug": "south-korea",
+  "iso": "KR",
+  "title": "South Korea eSIM: e-Arrival, apps and helpline | Magic eSIM",
+  "description": "The e-Arrival card, the apps Korea's tourism board recommends, the 1330 helpline's online call and data plans for Korea. Online payment is not available yet.",
+  "lead": "The apps Korea's tourism board recommends to visitors, from Naver Maps to the Korail train app, need an internet connection, and so does the 1330 helpline's online call. Here is what to set up before you land.",
+  "sections": [
+    {
+      "id": "travel-apps",
+      "h2": "The apps you will use in Korea",
+      "paragraphs": [
+        "The Korea Tourism Organization recommends Naver Maps for walking, cycling, driving and public transport routes; Papago for translation; k.ride, a mobility service exclusive to international visitors; and the official Korail website or the Korail+ app for train tickets.",
+        "Each of them needs a connection while you are out, so a phone that only goes online on Wi-Fi leaves you without directions or a translator on the street. That is the practical case for having data from the moment you land.",
+        "VISITKOREA, the Korea Tourism Organization's official site, describes an eSIM as a digital SIM you set up by scanning a QR code after buying it online, and says the roaming centres at Incheon, Gimpo, Gimhae and Jeju airports offer roaming, SIM cards and rental of phones or portable Wi-Fi devices, known locally as Wi-Fi eggs."
+      ]
+    },
+    {
+      "id": "e-arrival",
+      "h2": "The e-Arrival card",
+      "paragraphs": [
+        "Korea's e-Arrival card is submitted online at e-arrivalcard.go.kr, from 72 hours before arrival up to entry inspection, and Incheon Airport lists no fee for it. According to the Ministry of Justice, a submission can be used only once, within 72 hours of submitting it.",
+        "Incheon Airport says holders of a valid K-ETA do not need to submit the card."
+      ]
+    },
+    {
+      "id": "wifi-and-help",
+      "h2": "Free Wi-Fi, the 1330 helpline and power",
+      "paragraphs": [
+        "VISITKOREA says free public Wi-Fi is available in most public places such as airports and subway stations, and points visitors to wififree.kr.",
+        "The 1330 Korea Travel Helpline, on +82-2-1330, gives travel help in several languages. Besides the voice line it offers a free online call and a chat, which run over your connection, so data charges may apply.",
+        "The supply is 220 V at 60 Hz, and outlets have two round holes, which take plug types C and F."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Korea alone, or part of a longer route",
+      "paragraphs": [
+        "Local plans cover South Korea only and fit a visit that stays in the country from arrival to departure.",
+        "Regional plans that include South Korea also cover Japan and China, and further south Vietnam, Thailand, Singapore, Malaysia and Indonesia. Daily plans hand you the same allowance on each day of the trip.",
+        "Plans at a glance above lists the volumes and terms of each block; the [activation guide](/en/guides/activation/) explains what to check before installing one."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Do I need to fill in Korea's e-Arrival card, and is it free?",
+      "a": "Incheon Airport lists no fee for it, and you submit it online from 72 hours before arrival until entry inspection. Holders of a valid K-ETA do not need to submit it, according to the airport."
+    },
+    {
+      "q": "Which map app does Korea's tourism board recommend?",
+      "a": "Naver Maps, which the Korea Tourism Organization lists for walking, cycling, driving and public transport routes. It needs data while you are moving around."
+    },
+    {
+      "q": "Is there free Wi-Fi in the Seoul subway?",
+      "a": "VISITKOREA says free public Wi-Fi is available in most public places, naming airports and subway stations as examples."
+    },
+    {
+      "q": "Is there a travel helpline for visitors in Korea?",
+      "a": "Yes, the 1330 Korea Travel Helpline, which helps in several languages. Its free online call and chat use your data connection, so data charges may apply."
+    },
+    {
+      "q": "What plugs does South Korea use?",
+      "a": "The tourism board lists 220 V at 60 Hz and outlets with two round holes, which take plug types C and F."
+    },
+    {
+      "q": "Can one plan cover South Korea and Japan?",
+      "a": "Regional plans that include South Korea also cover Japan, as well as China and Vietnam."
+    }
+  ],
+  "related": [
+    "japan",
+    "china",
+    "vietnam",
+    "thailand",
+    "singapore"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Local plans cover South Korea only and fit a visit that stays in the country from arrival to departure.",
+      "kind": "local"
+    },
+    {
+      "quote": "Regional plans that include South Korea also cover Japan and China, and further south Vietnam, Thailand, Singapore, Malaysia and Indonesia.",
+      "kind": "regional_also",
+      "codes": [
+        "JP",
+        "CN",
+        "VN",
+        "TH",
+        "SG",
+        "MY",
+        "ID"
+      ]
+    },
+    {
+      "quote": "Daily plans hand you the same allowance on each day of the trip.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Can one plan cover South Korea and Japan?",
+      "kind": "regional_also",
+      "codes": [
+        "JP"
+      ]
+    },
+    {
+      "quote": "Regional plans that include South Korea also cover Japan, as well as China and Vietnam.",
+      "kind": "regional_also",
+      "codes": [
+        "JP",
+        "CN",
+        "VN"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.moj.go.kr/bbs/moj/189/593161/artclView.do",
+      "title": "Want to Learn More? e-Arrival card Q&A Part 2 — Ministry of Justice, Republic of Korea",
+      "checked": "2026-10-27",
+      "supports": "e-Arrival card online at www.e-arrivalcard.go.kr from three days before arrival until entry inspection; usable once, within 72 hours of submission",
+      "sentences": [
+        "According to the Ministry of Justice, a submission can be used only once, within 72 hours of submitting it."
+      ]
+    },
+    {
+      "url": "https://www.airport.kr/ap_en/1448/subview.do",
+      "title": "Manned Immigration — Incheon International Airport",
+      "checked": "2026-10-27",
+      "supports": "e-Arrival card from 72 hours before arrival; fee: none; holders of a valid K-ETA not required to submit",
+      "sentences": [
+        "Korea's e-Arrival card is submitted online at e-arrivalcard.go.kr, from 72 hours before arrival up to entry inspection, and Incheon Airport lists no fee for it.",
+        "Incheon Airport lists no fee for it, and you submit it online from 72 hours before arrival until entry inspection."
+      ]
+    },
+    {
+      "url": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=140041",
+      "title": "Electricity & Communications — VISITKOREA",
+      "checked": "2026-10-27",
+      "supports": "220 V, 60 Hz, two round holes; free public Wi-Fi at airports and subway stations, wififree.kr; eSIM set up by QR code; roaming centres at Incheon, Gimpo, Gimhae, Jeju"
+    },
+    {
+      "url": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=198570",
+      "title": "Helpful Apps & Resources — VISITKOREA",
+      "checked": "2026-10-27",
+      "supports": "Naver Maps, Papago, k.ride, Korail website and Korail+ app; 1330 Korea Travel Helpline with free online call and chat, data charges may apply"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "South Korea plug types C and F"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-A",
+    "copy": "copywriter-3",
+    "language": "",
+    "facts": "factcheck-2"
+  }
+}

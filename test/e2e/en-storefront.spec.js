@@ -171,14 +171,14 @@ test('the destination list links every country, and is indexed (I18N-09)', async
 
 test('UAE: local, regional and daily plans, each in its own block, cheapest first, in dollars', async ({ page }) => {
   const calls = await open(page, '/en/esim/uae/');
-  await expect(page.locator('h1')).toHaveText('eSIM for United Arab Emirates');
+  await expect(page.locator('h1')).toHaveText('eSIM for the United Arab Emirates')   // «the» (seo/page-copy.mjs EN_THE);
   await expect(page.locator('#status')).toBeHidden();
 
   expect(await prices(page, 'local')).toEqual(['$9.99', '$19.99', '$148.99']);
   expect(await prices(page, 'daily')).toEqual(['$8.99', '$13.99']);
   expect(await prices(page, 'regional')).toEqual(['$35.99', '$69.99']);
-  await expect(page.locator('#localBlock h2')).toContainText('Plans for United Arab Emirates');
-  await expect(page.locator('#regionalBlock h2')).toContainText('Regional plans that include United Arab Emirates');
+  await expect(page.locator('#localBlock h2')).toContainText('Plans for the United Arab Emirates');
+  await expect(page.locator('#regionalBlock h2')).toContainText('Regional plans that include the United Arab Emirates');
   await expect(page.locator('#localCount')).toHaveText('3');
   // A regional card names THIS country, not the package's first code (Albania).
   await expect(cards(page, 'regional').first()).toContainText('170 countries, incl. United Arab Emirates');

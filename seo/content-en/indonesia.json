@@ -1,0 +1,138 @@
+{
+  "slug": "indonesia",
+  "iso": "ID",
+  "title": "Indonesia and Bali eSIM: IMEI and arrival rules | Magic eSIM",
+  "description": "What Indonesia's IMEI rule covers, the All Indonesia arrival form, the Bali tourist levy and data plans for your trip. Online payment is not available yet.",
+  "lead": "Mobile data for a trip to Indonesia and Bali, and the paperwork that comes before it: what the IMEI rule covers, the All Indonesia arrival form and Bali's tourist levy.",
+  "sections": [
+    {
+      "id": "imei",
+      "h2": "What Indonesia's IMEI registration covers",
+      "paragraphs": [
+        "Under Indonesian regulation, communication devices from abroad that will be used with a local Indonesian SIM card must have their IMEI, a phone's identity number, registered. That is how the Ministry of Foreign Affairs describes the rule in its handbook of policies and guidelines for foreign missions.",
+        "In the same handbook, which is addressed to foreign missions, the Ministry does not recommend IMEI registration for short visits and suggests international roaming packages instead. The handbook does not mention eSIMs. If you plan a long stay or want a local SIM card, check the current rules with the Indonesian authorities before you go."
+      ]
+    },
+    {
+      "id": "arrival-and-bali",
+      "h2": "All Indonesia and the Bali levy",
+      "paragraphs": [
+        "All Indonesia, at allindonesia.imigrasi.go.id, is an official website and app for reporting your arrival, including customs requirements. The Ministry of Tourism says travellers can complete it up to 3 days before they arrive.",
+        "Bali adds a step of its own. The provincial government charges international tourists a levy, paid online through the Love Bali website or app with your name, passport number and arrival date, and the voucher comes by email. It is a Bali rule under a provincial regulation, not an Indonesia-wide one.",
+        "Both are online steps, so keep the arrival record and the levy email on your phone rather than hunting for Wi-Fi in the arrival hall. For charging, sockets are types C and F, on 230 V at 50 Hz."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Plans for Indonesia and the stopovers around it",
+      "paragraphs": [
+        "Local plans cover Indonesia only, for a holiday that does not leave the country.",
+        "If your trip includes a stopover on the way to Bali, regional plans that include Indonesia also cover Singapore and Malaysia, as well as Thailand, Vietnam and the Philippines. Daily plans set an allowance for every day of the trip instead of one balance for the whole stay.",
+        "The “Plans at a glance” section above shows how much data each plan includes and for how long; the [activation guide](/en/guides/activation/) explains what to check before you install one."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Do I need to register my phone's IMEI in Indonesia?",
+      "a": "The Ministry of Foreign Affairs handbook for foreign missions says IMEI registration applies to phones from abroad that will be used with a local Indonesian SIM card, and for short visits it recommends international roaming packages instead of registration. It does not mention eSIMs, so if your case differs, check with the Indonesian authorities."
+    },
+    {
+      "q": "What is All Indonesia and when do I fill it in?",
+      "a": "It is an official arrival-reporting website and app, customs requirements included. The Ministry of Tourism says travellers can complete it up to 3 days before arrival."
+    },
+    {
+      "q": "How do I pay the Bali tourist levy?",
+      "a": "Online, through the Love Bali website or app of the Bali Provincial Government. You enter your name, passport number and arrival date, and the voucher is sent by email."
+    },
+    {
+      "q": "Does one plan cover Bali and a stopover in Singapore?",
+      "a": "Regional plans that include Indonesia also cover Singapore, Malaysia and Thailand."
+    },
+    {
+      "q": "What plugs are used in Bali?",
+      "a": "Indonesia, Bali included, uses plug types C and F on a 230 V, 50 Hz supply."
+    }
+  ],
+  "related": [
+    "singapore",
+    "malaysia",
+    "thailand",
+    "philippines",
+    "vietnam",
+    "cambodia"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Local plans cover Indonesia only, for a holiday that does not leave the country.",
+      "kind": "local"
+    },
+    {
+      "quote": "If your trip includes a stopover on the way to Bali, regional plans that include Indonesia also cover Singapore and Malaysia, as well as Thailand, Vietnam and the Philippines.",
+      "kind": "regional_also",
+      "codes": [
+        "SG",
+        "MY",
+        "TH",
+        "VN",
+        "PH"
+      ]
+    },
+    {
+      "quote": "Daily plans set an allowance for every day of the trip instead of one balance for the whole stay.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Does one plan cover Bali and a stopover in Singapore?",
+      "kind": "regional_also",
+      "codes": [
+        "SG"
+      ]
+    },
+    {
+      "quote": "Regional plans that include Indonesia also cover Singapore, Malaysia and Thailand.",
+      "kind": "regional_also",
+      "codes": [
+        "SG",
+        "MY",
+        "TH"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://kemlu.go.id/files/submenu/additional_file/17680783996962bc3fed4f1_20240615_HANDBOOK_OF_POLICIES_AND_GUIDELINES_FOR_FOREIGN_MISSIONS_IN_INDONESIA.pdf",
+      "title": "Handbook of Policies and Guidelines for Foreign Missions in Indonesia (15 June 2024), §X IMEI Registration — Ministry of Foreign Affairs of Indonesia",
+      "checked": "2026-10-27",
+      "supports": "devices from abroad used with a local SIM card are subject to IMEI registration; IMEI registration not recommended for short visits, the Ministry recommends international roaming packages (handbook addressed to foreign missions)"
+    },
+    {
+      "url": "https://www.indonesia.travel/gb/en/general-information/all-indonesia-app",
+      "title": "All Indonesia App Guide for Travelers Entering Indonesia — Ministry of Tourism (Wonderful Indonesia)",
+      "checked": "2026-10-27",
+      "supports": "All Indonesia is the official arrival-reporting app and website including customs; complete up to 3 days before arrival; allindonesia.imigrasi.go.id",
+      "sentences": [
+        "The Ministry of Tourism says travellers can complete it up to 3 days before they arrive.",
+        "The Ministry of Tourism says travellers can complete it up to 3 days before arrival."
+      ]
+    },
+    {
+      "url": "https://lovebali.baliprov.go.id/",
+      "title": "Love Bali — Bali Provincial Government",
+      "checked": "2026-10-27",
+      "supports": "Bali levy for international tourists, paid online via the Love Bali website or app with name, passport number and arrival date; voucher by email; Bali Provincial Regulation No. 2 of 2025"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Indonesia plug types C and F, 230 V, 50 Hz"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-A",
+    "copy": "copywriter-3",
+    "language": "",
+    "facts": "factcheck-2"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "slug": "greece",
+  "iso": "GR",
+  "title": "Greece eSIM: data for island hopping and Athens | Magic eSIM",
+  "description": "Data for Greece and its islands: what EU roaming means on a ferry, calling 112 without a SIM, and Wi-Fi at Athens airport. Online payment is not available yet.",
+  "lead": "Mobile data for mainland Greece and island routes, with a plan for Greece alone or regional plans that also cover Cyprus, Italy and Bulgaria.",
+  "sections": [
+    {
+      "id": "islands-and-ferries",
+      "h2": "Island hopping and your phone at sea",
+      "paragraphs": [
+        "Greece has about 6,000 islands and islets, 227 of them inhabited, spread across groups such as the Cyclades, the Dodecanese, the Ionian Islands, the Sporades and Crete. Many trips here are a chain of ferry crossings, so it helps to know what happens to your phone between ports.",
+        "Under EU rules, a subscription from an EU or EEA country is charged at home prices on a ship only while it is connected to a land-based mobile network, for example in a harbour. Once the phone picks up a satellite-based service on board, EU rules no longer apply and there is no price cap. The EU's Your Europe portal advises switching roaming off or using flight mode while you sail.",
+        "If your SIM was issued outside the EU, the EEA, Ukraine and Moldova, roam like at home does not apply to you in Greece at all, on land or at sea; your home plan's own roaming terms set the price."
+      ]
+    },
+    {
+      "id": "calling-112",
+      "h2": "Calling 112 and receiving public warnings",
+      "paragraphs": [
+        "In Greece, 112 can be called free of charge from a mobile phone at any time, even without a SIM card, and calls are answered in Greek, English and French. The civil protection ministry adds that when you are out of range of your own network, 112 calls are carried by other mobile networks covering the area.",
+        "The 112 service also warns people about wildfires, heavy rain or earthquakes, sending Cell Broadcast messages with a distinctive alarm sound to smartphones in the area. The same warnings are posted on its official Facebook and X accounts, which are worth following during a summer trip when you are on a foreign SIM."
+      ]
+    },
+    {
+      "id": "which-plan",
+      "h2": "Arriving in Athens and choosing a plan",
+      "paragraphs": [
+        "Athens International Airport has free Wi-Fi in the terminal, ATH Free Wifi: choose Internet Access for a session of 120 minutes, then reconnect at no charge if you need longer.",
+        "Local plans cover Greece alone, which suits a mainland stay or an island route that never leaves the country. Daily plans give you an allowance for each day, a good match for island days spent on maps, ferry times and messages. If the journey goes on to Cyprus, Italy or Bulgaria, regional plans that include Greece also cover those destinations, along with Croatia and Malta.",
+        "Your phone has to support eSIM and be unlocked, which the [compatibility guide](/en/guides/compatibility/) helps you confirm, and the [activation guide](/en/guides/activation/) explains what decides when a plan's term begins."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Will a plan for Greece work on the islands and on ferries?",
+      "a": "The plans on this page are listed for Greece, but we do not promise a connection at sea or on any particular island. As for your home SIM, a ship's satellite-based service falls outside EU rules, so switch roaming off on that SIM while you are on board."
+    },
+    {
+      "q": "Should I take a plan for Greece or one for several European countries?",
+      "a": "If you stay in Greece, a local plan is enough. If you also fly to Cyprus or take a ferry to Italy, regional plans that include Greece also cover Cyprus and Italy."
+    },
+    {
+      "q": "Can I call 112 in Greece without a local SIM?",
+      "a": "Yes. Greece's civil protection ministry says 112 can be called free from a mobile phone even without a SIM card, with answers in Greek, English and French."
+    },
+    {
+      "q": "Is there free Wi-Fi at Athens airport?",
+      "a": "Yes, ATH Free Wifi in the terminal. Each session lasts 120 minutes, and you can reconnect without charge."
+    },
+    {
+      "q": "Does EU roaming cover my home SIM in Greece?",
+      "a": "Only when the subscription is from an EU or EEA country, or from Ukraine or Moldova. Visitors with a SIM from elsewhere roam in Greece on their home plan's terms."
+    }
+  ],
+  "related": [
+    "cyprus",
+    "italy",
+    "bulgaria",
+    "croatia",
+    "malta"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Mobile data for mainland Greece and island routes, with a plan for Greece alone or regional plans that also cover Cyprus, Italy and Bulgaria.",
+      "kind": "regional_also",
+      "codes": [
+        "CY",
+        "IT",
+        "BG"
+      ]
+    },
+    {
+      "quote": "Local plans cover Greece alone, which suits a mainland stay or an island route that never leaves the country.",
+      "kind": "local"
+    },
+    {
+      "quote": "Daily plans give you an allowance for each day, a good match for island days spent on maps, ferry times and messages.",
+      "kind": "daily"
+    },
+    {
+      "quote": "If the journey goes on to Cyprus, Italy or Bulgaria, regional plans that include Greece also cover those destinations, along with Croatia and Malta.",
+      "kind": "regional_also",
+      "codes": [
+        "CY",
+        "IT",
+        "BG",
+        "HR",
+        "MT"
+      ]
+    },
+    {
+      "quote": "If you stay in Greece, a local plan is enough.",
+      "kind": "local"
+    },
+    {
+      "quote": "If you also fly to Cyprus or take a ferry to Italy, regional plans that include Greece also cover Cyprus and Italy.",
+      "kind": "regional_also",
+      "codes": [
+        "CY",
+        "IT"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm",
+      "title": "Roaming: what you pay to use your smartphone in another EU country – Your Europe",
+      "checked": "2026-10-27",
+      "supports": "on ships, EU subscribers pay home prices only on a land-based network; satellite service on board is outside EU rules with no price cap; switch roaming off or use flight mode on board"
+    },
+    {
+      "url": "https://digital-strategy.ec.europa.eu/en/faqs/roaming-questions-answers",
+      "title": "Roaming: Questions & Answers – European Commission",
+      "checked": "2026-10-27",
+      "supports": "RLAH area extended to Ukraine and Moldova as of 1 January 2026; EEA countries Iceland, Liechtenstein, Norway; countries outside the EU/EEA are not covered"
+    },
+    {
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/roaming",
+      "title": "Roaming: connected anywhere in the EU at no extra charge – European Commission",
+      "checked": "2026-10-27",
+      "supports": "since 1 January 2026 roam like at home extended to Ukraine and Moldova: EU citizens travelling there pay domestic prices, and the same applies to Ukrainian and Moldovan citizens roaming in EU Member States; it does not apply in the United Kingdom, where some operators keep the benefits"
+    },
+    {
+      "url": "https://www.visitgreece.gr/en/islands",
+      "title": "Visit Greece – Islands (Greek National Tourism Organisation)",
+      "checked": "2026-10-27",
+      "supports": "6,000 islands and islets, of which only 227 are inhabited; island groups including the Cyclades, Dodecanese, Ionian Islands, Sporades and Crete"
+    },
+    {
+      "url": "https://civilprotection.gov.gr/en/112/faq-frequently-asked-questions",
+      "title": "112 FAQ – Ministry of Climate Crisis and Civil Protection",
+      "checked": "2026-10-27",
+      "supports": "112 is free from a mobile phone even without a SIM card, 24 hours a day, answered in Greek, English and French; other networks carry 112 calls when out of range; alerts for dangers such as a forest fire, heavy rain or storm, earthquake, by Cell Broadcast with a characteristic alarm sound, and all alerts posted on 112's official Facebook and X accounts"
+    },
+    {
+      "url": "https://www.aia.gr/en/traveller/services-facilities-airport/wifi-and-internet-kiosks",
+      "title": "Wifi, Internet Kiosks & Mobile Services – Athens International Airport",
+      "checked": "2026-10-27",
+      "supports": "free ATH Free Wifi in the terminal; Internet Access gives 120-minute sessions, reconnect at no charge"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-C",
+    "copy": "copywriter-2",
+    "language": "",
+    "facts": "factcheck-1"
+  }
+}

@@ -101,7 +101,7 @@ test('indexed EN/ES pages: title ≤ 60, description ≤ 160, one H1, the page l
   for (const { code, page, loc } of indexedPrefixedPages(GUIDES)) {
     const html = read(fileOf(loc.slice(SITE.length)));
     const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1].replace(/&amp;/g, '&');
-    const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1].replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+    const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1].replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
     assert.ok([...title].length <= TITLE_MAX, `${loc}: title ${[...title].length} «${title}»`);
     assert.ok([...desc].length <= 160 && [...desc].length >= 70, `${loc}: description ${[...desc].length}`);
     assert.equal((html.match(/<h1\b/g) || []).length, 1, `${loc}: H1`);

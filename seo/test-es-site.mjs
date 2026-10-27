@@ -94,6 +94,8 @@ function skeleton(html) {
     // the language list marks the page's own language, which sits at a different place in each language — its entries
     // are checked by seo/test-language-switch.mjs
     .replace(/<ul class="langmenu-list">[\s\S]*?<\/ul>/g, '<ul class="langmenu-list">')
+    // the authored English text (seo/content-en/, 2026-10-27) exists on the English page only, by design — content, not design
+    .replace(/<div class="cp-about">[\s\S]*?<\/section>\s*<\/div>/g, '')
     // the destination list's letters and groups come from the names in each language (Spanish has 22 initials,
     // English 23) — data, not design; the Spanish list is checked on its own below
     .replace(/(<nav class="hub-az"[^>]*>)[\s\S]*?<\/nav>/g, '$1</nav>')
@@ -110,7 +112,7 @@ test('the same design: every page kind has the English markup skeleton (tags and
     'esim/peru/index.html', 'guides/index.html', ...EN_GUIDES.map((g) => `guides/${g.slug}/index.html`)];
   for (const k of kinds) assert.equal(skeleton(read(`es/${k}`)), skeleton(read(`en/${k}`)), k);
   // …and the head loads the same stylesheets and scripts (Expressive included), the language's own data aside.
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|es)\/destinations\.js$/, 'DEST').replace(/country-names-(en|es)\.js$/, 'NAMES').replace(/site-i18n-(en|es)\.js$/, 'WORDS'));
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|es)\/destinations\.js$/, 'DEST').replace(/country-names-(en|es)\.js$/, 'NAMES').replace(/site-i18n-(en|es)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
     assert.deepEqual(assets(read(`es/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
   }
