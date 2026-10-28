@@ -80,7 +80,12 @@ async function checkFirstTab(page, label, width) {
 
   await page.keyboard.press('Tab');
   await expect(skip, `${label}: the first Tab stop`).toBeFocused();
-  await page.waitForTimeout(250);   // the reveal transition
+  // The reveal is a .15 s transform transition (assets/site.css .skip). A fixed 250 ms wait failed under CI load on
+  // the EN home, where the logo animation runs at the same time: the transition had not started yet (top −56 px;
+  // runs 40640475632, 40674593682, 40702216838). Wait for the link to actually arrive — bounded at 2 s, so a link
+  // that never shows still fails — then measure everything below exactly as before.
+  await expect.poll(async () => (await box(page)).top, { message: `${label}: the link never slid into view`, timeout: 2000 })
+    .toBeGreaterThanOrEqual(0);
   const shown = await box(page);
   expect(shown.top, `${label}: visible`).toBeGreaterThanOrEqual(0);
   expect(shown.bottom).toBeLessThanOrEqual(shown.vh);
