@@ -11,14 +11,17 @@ import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { primaryApiOrigin } from './build-en-pages.mjs';
+import { REGION_SLUGS } from './regions.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const require = createRequire(import.meta.url);
 
+// The region pages (seo/regions.mjs) live beside the countries but are static: they belong with the other pages.
 const COUNTRY_PAGES = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true })
-  .filter((d) => d.isDirectory()).map((d) => `en/esim/${d.name}/index.html`);
+  .filter((d) => d.isDirectory() && !REGION_SLUGS.includes(d.name)).map((d) => `en/esim/${d.name}/index.html`);
 const OTHER_PAGES = ['en/index.html', 'en/esim/index.html', 'en/guides/index.html',
+  ...REGION_SLUGS.map((slug) => `en/esim/${slug}/index.html`),
   ...readdirSync(join(ROOT, 'en/guides'), { withFileTypes: true }).filter((d) => d.isDirectory())
     .map((d) => `en/guides/${d.name}/index.html`)];
 

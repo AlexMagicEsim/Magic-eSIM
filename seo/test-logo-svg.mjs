@@ -12,6 +12,7 @@ import { LOGO, LOGO_ANIMATED, LOGO_ANIMATED_SVG, MINI_APP_LOGO, HEADER_MOTION_SC
 import { ruHeader } from './ru-chrome.mjs';
 import { FROZEN_PAGES } from './frozen-pages.mjs';
 import { contentHash, stripAnimatedLogo } from './build-sitemap.mjs';
+import { REGION_SLUGS } from './regions.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -150,7 +151,8 @@ test('every English page: the same SVG logo in the header, started from <head> b
     assert.ok(h.includes(`<a class="brand" href="/en/">${LOGO_ANIMATED_EN}</a>`), `${p}: header logo`);
     // assets/motion.js only where it has something to do: the home (reveal, parallax) and the country pages (reveal, the
     // jump bar's spy) — never on the guides, the guide list or the destinations hub (owner, 2026-10-21).
-    const wantsMotion = p === 'en/index.html' || /^en\/esim\/[^/]+\/index\.html$/.test(p);
+    // The region pages (seo/regions.mjs) are static lists like the hub: no motion.
+    const wantsMotion = p === 'en/index.html' || (/^en\/esim\/[^/]+\/index\.html$/.test(p) && !REGION_SLUGS.some((r) => p === `en/esim/${r}/index.html`));
     const tag = wantsMotion ? LOGO_ONCE_SCRIPT_MOTION : LOGO_ONCE_SCRIPT;
     assert.equal(h.split(tag).length - 1, 1, `${p}: one logo-once.js${wantsMotion ? ' naming motion.js' : ' without motion.js'}`);
     assert.equal(h.includes('data-motion-src'), wantsMotion, `${p}: motion.js ${wantsMotion ? 'named' : 'not named'}`);

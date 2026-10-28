@@ -65,7 +65,11 @@ test('every destination link opens a real country page (198, all 200)', async ({
     const r = await request.get(h);
     expect(r.status(), h).toBe(200);
   }
-  const pop = await page.locator('.hub-tile').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+  const pop = await page.locator('#hubPopular .hub-tile').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+  // The region pages (seo/regions.mjs) have their own row of tiles, after the list.
+  const regions = await page.locator('#hubRegions .hub-tile').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+  expect(regions).toEqual(['/en/esim/europe/', '/en/esim/asia/', '/en/esim/global/']);
+  for (const h of regions) expect((await request.get(h)).status(), h).toBe(200);
   expect(pop).toEqual(['/en/esim/thailand/', '/en/esim/turkey/', '/en/esim/uae/', '/en/esim/japan/',
     '/en/esim/usa/', '/en/esim/italy/', '/en/esim/spain/', '/en/esim/united-kingdom/']);
   for (const h of pop) expect(hrefs).toContain(h);

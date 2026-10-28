@@ -171,6 +171,9 @@ test('the route check can fire', () => {
  * 3. The automation reads the registry
  * ===================================================================== */
 
+/* The region pages every refresh may rewrite (seo/regions.mjs), typed here on purpose: widening the allowlist is a decision. */
+const REGION_PATHS = ['en/esim/europe/index.html', 'en/esim/asia/index.html', 'en/esim/global/index.html', 'es/esim/europe/index.html', 'es/esim/asia/index.html', 'es/esim/global/index.html', 'de/esim/europe/index.html', 'de/esim/asia/index.html', 'de/esim/global/index.html', 'fr/esim/europe/index.html', 'fr/esim/asia/index.html', 'fr/esim/global/index.html', 'zh/esim/europe/index.html', 'zh/esim/asia/index.html', 'zh/esim/global/index.html', 'ko/esim/europe/index.html', 'ko/esim/asia/index.html', 'ko/esim/global/index.html'];
+
 test('the refresh allowlist is what it was — derived now, not typed', () => {
   assert.deepEqual([...FIXED_ALLOWED], [
     'esim/index.html', 'sitemap.xml', 'seo/catalogue-countries.json', 'seo/fact-sheets.json',
@@ -179,7 +182,7 @@ test('the refresh allowlist is what it was — derived now, not typed', () => {
     'assets/ru-destinations.js',
   ]);
   assert.deepEqual([...allowedPaths(['thailand'])].sort(),
-    [...FIXED_ALLOWED, 'esim/thailand/index.html', 'en/esim/thailand/index.html', 'es/esim/thailand/index.html', 'de/esim/thailand/index.html', 'fr/esim/thailand/index.html', 'zh/esim/thailand/index.html', 'ko/esim/thailand/index.html'].sort());
+    [...FIXED_ALLOWED, 'esim/thailand/index.html', 'en/esim/thailand/index.html', 'es/esim/thailand/index.html', 'de/esim/thailand/index.html', 'fr/esim/thailand/index.html', 'zh/esim/thailand/index.html', 'ko/esim/thailand/index.html', ...REGION_PATHS].sort());
 });
 
 test('the sitemap lists the indexed prefixed pages (I18N-09) — English and Spanish, no planned language', () => {
@@ -221,6 +224,9 @@ test('REHEARSAL: enabling a language is the registry flip — Korean «as if pla
     fixed: ['en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js', 'de/esim/index.html', 'de/destinations.js',
       'fr/esim/index.html', 'fr/destinations.js', 'zh/esim/index.html', 'zh/destinations.js', 'ko/esim/index.html', 'ko/destinations.js'],
     perCountry: ['en/esim/peru/index.html', 'es/esim/peru/index.html', 'de/esim/peru/index.html', 'fr/esim/peru/index.html', 'zh/esim/peru/index.html', 'ko/esim/peru/index.html'],
+    // The region pages (seo/regions.mjs, stage 4, 2026-10-27): they print seo/global-plan-facts.json, so a refresh may
+    // rewrite them — accepted deliberately, three per published language, never a country slug.
+    perRegion: REGION_PATHS,
   });
   // Opening Korean to search engines is a separate flip, rehearsed only: an indexable Korean home would join EN and ES.
   assert.deepEqual(indexablePrefixedHomes(), ['en', 'es'], 'Korean is published under noindex (owner D11)');

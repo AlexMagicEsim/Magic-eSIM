@@ -12,6 +12,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isFrozenPage } from './frozen-pages.mjs';
+import { REGION_SLUGS } from './regions.mjs'; // static region pages (seo/regions.mjs) request nothing
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -21,7 +22,7 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const countryPages = (dir) => readdirSync(join(ROOT, dir))
   .filter((s) => existsSync(join(ROOT, dir, s, 'index.html')))
   .map((s) => ({ slug: s, html: read(`${dir}/${s}/index.html`) }))
-  .filter((p) => /data-country-page=/.test(p.html) || dir === 'en/esim');
+  .filter((p) => /data-country-page=/.test(p.html) || (dir === 'en/esim' && !REGION_SLUGS.includes(p.slug)));
 
 test('RU outside the experiment: MagicNet then the early request in <head>, before the stylesheets; MagicNet loaded once', () => {
   let n = 0;

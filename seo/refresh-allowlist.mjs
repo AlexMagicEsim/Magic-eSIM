@@ -55,8 +55,10 @@ export function allowedPaths(countrySlugs) {
     if (typeof slug !== 'string' || !slug) continue;
     out.add(`esim/${slug}/index.html`);
   }
-  // Each published language's twin of every country page, from build-locale-pages.mjs.
-  for (const p of catalogueLocalePaths(countrySlugs).perCountry) out.add(p);
+  // Each published language's twin of every country page, and its region pages, from build-locale-pages.mjs.
+  const { perCountry, perRegion } = catalogueLocalePaths(countrySlugs);
+  for (const p of perCountry) out.add(p);
+  for (const p of perRegion) out.add(p);
   return out;
 }
 

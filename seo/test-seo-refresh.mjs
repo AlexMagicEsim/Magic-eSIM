@@ -23,6 +23,7 @@ import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parsePorcelain, unexpectedPaths, allowedPaths, FIXED_ALLOWED } from './refresh-allowlist.mjs';
+import { catalogueLocalePaths } from './locales.mjs';
 import { classify, riskOf, renderMarkdown, CLAIM_FIELDS } from './refresh-summary.mjs';
 import { pushDecision } from './refresh-noop.mjs';
 import { classifyFailure, KIND, DATA_INPUT } from './refresh-classify.mjs';
@@ -468,7 +469,10 @@ test('H: the allowlist is derived from the built snapshot, not from a kept list'
   // A country the provider starts selling must not fail the run closed.
   assert.ok(allowedPaths(['newland']).has('esim/newland/index.html'));
   assert.ok(!allowedPaths([]).has('esim/newland/index.html'));
-  assert.equal(allowedPaths([]).size, FIXED_ALLOWED.length);
+  // With no country: the fixed files and the region pages (seo/regions.mjs) — the facts they print move with the catalogue.
+  assert.equal(allowedPaths([]).size, FIXED_ALLOWED.length + catalogueLocalePaths([]).perRegion.length);
+  assert.ok(allowedPaths([]).has('en/esim/europe/index.html'));
+  assert.ok(!allowedPaths([]).has('en/esim/africa/index.html'), 'a region-like path that is not a region page stays refused');
 });
 
 test('H: git status is parsed for the path that exists on disk', () => {

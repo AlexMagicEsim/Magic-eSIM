@@ -56,6 +56,7 @@ import { missingGuards } from './claim-guards.mjs';
 import { loadContent, validateContent, contentDir, CONTENT_LANGS } from './content-en.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { GUIDE_RU, INDEXED_COUNTRIES, alternateLinks, robotsFor } from './indexing.mjs';
+import { REGION_SLUGS } from './regions.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
@@ -978,6 +979,7 @@ ${sections}
       <button type="button" class="btn btn-ghost" id="hubReset">${C.hubShowAll}</button>
     </div>
 
+${hubRegions()}
 ${HELP}
   </div>
 </main>
@@ -988,6 +990,167 @@ ${FOOTER}
 <script src="/en/hub.js" defer></script>
 </body>
 </html>
+`;
+}
+
+/* THE REGION PAGES (seo/regions.mjs; international SEO stage 4, 2026-10-27): /<prefix>/esim/{europe,asia,global}/.
+ * Static, complete without JavaScript, no live plan and no request (CSP connect-src 'none'): the page chooses no plan —
+ * it prints the coverage sets of seo/global-plan-facts.json `regions` (the regional plans the USD layout itself shows on
+ * country pages, grouped by their ISO codes, assigned to a region by a rule over the codes) and links to the country
+ * pages where those plans are offered. Per set: a neutral letter (never a provider's name or a count from one), the
+ * volumes and terms of its plans, and pages that offer it; then «which set covers which destination», A–Z, every
+ * destination with a page of its own. A destination without a page is not named (RU, UA and BY never reach the facts).
+ * NOINDEX for now (seo/indexing.mjs INDEXED_REGIONS is empty): no hreflang, not in the sitemap. The language switch
+ * leads Russian to its destination list (the Russian site has no region page). The design is the destination list's
+ * (assets/page-hub.css): hero, cards, A–Z groups — nothing new. */
+const REGION_NAME = (slug) => {
+  const key = { europe: 'regionEurope', asia: 'regionAsia', global: 'regionGlobal' }[slug];
+  if (!key) throw new Error(`region page: unknown region ${String(slug)}`);
+  return C[key];
+};
+const REGION_ABOUT = (slug) => C[{ europe: 'regionAboutEurope', asia: 'regionAboutAsia', global: 'regionAboutGlobal' }[slug]];
+const REGION_SHOWN_MAX = 8;
+const setLetter = (i) => {
+  if (i >= 26) throw new Error('region page: more than 26 coverage sets in one region — the letters run out');
+  return String.fromCharCode(65 + i);
+};
+function regionSlugsChecked() {
+  for (const slug of REGION_SLUGS) if (pageBySlug(slug)) throw new Error(`region page «${slug}» would overwrite the country page of the same slug`);
+  return REGION_SLUGS;
+}
+function regionSets(slug) {
+  const r = FACTS.regions && FACTS.regions[slug];
+  if (!r || !Array.isArray(r.sets)) throw new Error(`seo/global-plan-facts.json has no region «${slug}» — run scripts/update-global-plan-facts.mjs`);
+  return r.sets.map((s, i) => ({ ...s, letter: setLetter(i) }));
+}
+const byName = (list) => list.slice().sort((x, y) => listIndex(code).compare(x.name, y.name));
+
+function regionPage(slug) {
+  regionSlugsChecked();
+  const name = REGION_NAME(slug);
+  const path = `${P}/esim/${slug}/`;
+  const url = `${SITE}${path}`;
+  const title = esc(C.regionTitle(name));
+  const description = esc(C.regionDescription(name));
+  const sets = regionSets(slug);
+  const cards = sets.map((s) => {
+    const shown = byName(s.shown_on.map(pageOf).filter(Boolean)).slice(0, REGION_SHOWN_MAX);
+    return `      <div class="help-card" id="set-${s.letter.toLowerCase()}">
+        <h3>${esc(C.regionSet(s.letter))}</h3>
+${s.gb.length ? factLine(C.glanceData, s.gb.map((gb) => AMOUNT(gb, L.code))) + '\n' : ''}${s.days.length ? factLine(C.glanceValidity, s.days.map(dayCount)) + '\n' : ''}${shown.length ? `        <p>${esc(C.regionShownOn)}</p>
+        <ul>
+${shown.map((x) => `          <li><a href="${P}/esim/${x.slug}/">${esc(x.name)}</a></li>`).join('\n')}
+        </ul>
+` : ''}      </div>`;
+  });
+  // Destination × set: every destination with a page that at least one set covers, and the sets that cover it — split
+  // into the sets offered on THAT destination's own page (its `shown_on`) and the sets that also cover it but are
+  // offered on other pages (named on each set's card). A row never implies a set can be chosen on a page that does not
+  // offer it (seo/test-region-pages.mjs). Each letter links to its set's card.
+  const coveredBy = new Map();
+  for (const s of sets) for (const iso of s.codes) {
+    if (!pageOf(iso)) continue;
+    if (!coveredBy.has(iso)) coveredBy.set(iso, { here: [], also: [] });
+    coveredBy.get(iso)[s.shown_on.includes(iso) ? 'here' : 'also'].push(s.letter);
+  }
+  const index = listIndex(code);
+  const rows = byName([...coveredBy.keys()].map(pageOf));
+  const groups = new Map(index.labels.map((l) => [l, []]));
+  for (const c of rows) groups.get(index.labelOf(c.name)).push(c);
+  for (const [l, cs] of groups) if (!cs.length) groups.delete(l);
+  const letters = (ls) => ls.map((x) => `<a href="#set-${x.toLowerCase()}" aria-label="${esc(C.regionSet(x))}">${x}</a>`).join(esc(C.glanceSep));
+  const item = (c) => {
+    const { here, also } = coveredBy.get(c.iso);
+    const lines = [here.length ? `<small class="sets-here">${C.regionOfferedHere(letters(here))}</small>` : '',
+      also.length ? `<small class="sets-also">${C.regionAlsoCovers(letters(also))}</small>` : ''].filter(Boolean);
+    return `        <li data-iso="${c.iso}"><a href="${P}/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"> ${esc(c.name)}</a><br>${lines.join('<br>')}</li>`;
+  };
+  const matrix = [...groups.entries()].map(([l, cs]) => `    <section class="az-group" id="az-${index.id(l)}" aria-labelledby="azh-${index.id(l)}">
+      <h2 id="azh-${index.id(l)}">${l}</h2>
+      <ul class="region-rows">
+${cs.map(item).join('\n')}
+      </ul>
+    </section>`).join('\n');
+  const body = sets.length ? `    <section class="cp-help region-sets" aria-labelledby="regionSetsTitle">
+      <h2 id="regionSetsTitle">${esc(C.regionSetsTitle)}</h2>
+      <p class="note">${esc(C.regionSetsNote)}</p>
+      <div class="help-grid">
+${cards.join('\n')}
+      </div>
+      <p class="note">${C.regionUpdated(`<time datetime="${FACTS.updated}">${FACTS.updated}</time>`)}</p>
+    </section>
+
+    <section class="cp-help region-matrix" aria-labelledby="regionMatrixTitle">
+      <h2 id="regionMatrixTitle">${esc(C.regionMatrixTitle)}</h2>
+      <p class="note">${esc(C.regionMatrixNote)}</p>
+      <div class="hub-list">
+${matrix}
+      </div>
+    </section>
+` : `    <p class="note">${esc(C.regionNone)}</p>
+`;
+  return `<!doctype html>
+<html lang="${L.htmlLang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${title}</title>
+<meta name="description" content="${description}">
+<link rel="canonical" href="${url}">
+${indexingHead(L.code, { kind: 'region', slug })}
+${cspMeta("'none'")}
+<meta property="og:type" content="website">
+<meta property="og:locale" content="${L.ogLocale}">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${title}">
+${shareMeta(title, description)}
+${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.destinations'), `${P}/esim/`], [name, path]])}
+${HEAD_ICONS}
+${FONT_PRELOAD}
+${LOGO_ONCE_SCRIPT}
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/en/en.css">
+<link rel="stylesheet" href="/assets/page-hub.css">
+</head>
+<body data-region="${slug}">
+
+${header(twin('/esim/', `/esim/${slug}/`))}
+${PAYBAR}
+
+<main class="hub region" id="main" tabindex="-1">
+  <section class="hub-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › <a href="${P}/esim/" data-i18n="nav.destinations">${t('nav.destinations')}</a> › ${esc(name)}</p>
+      <h1>${esc(C.regionH1(name))}</h1>
+      <p class="lead">${esc(C.regionLead)}</p>
+      <p class="lead">${esc(REGION_ABOUT(slug))}</p>
+    </div>
+  </section>
+
+  <div class="wrap hub-body">
+${body}
+${HELP}
+  </div>
+</main>
+
+${FOOTER}
+
+<script src="${I18N_BUNDLE.src}" defer></script>
+</body>
+</html>
+`;
+}
+
+/* The destination list's row of region pages: the one way in to them (they are noindex; a page nothing links to is an
+ * orphan). After the A–Z list, so en/hub.js's search, which hides the popular row while searching, needs no change. */
+function hubRegions() {
+  const globe = ICON_GLOBE.replace('<svg ', '<svg class="flag" width="40" height="30" ');
+  return `    <section class="hub-pop hub-regions" id="hubRegions" aria-labelledby="hubRegionsTitle">
+      <h2 id="hubRegionsTitle">${esc(C.regionsTitle)}</h2>
+      <div class="hub-tiles">
+${regionSlugsChecked().map((slug) => `      <a class="hub-tile" href="${P}/esim/${slug}/">${globe}<span>${esc(REGION_NAME(slug))}</span></a>`).join('\n')}
+      </div>
+    </section>
 `;
 }
 
@@ -1336,6 +1499,7 @@ function homePage(list = countries()) {
     write(`${base}/index.html`, stampHtml(homePage(list), join(ROOT, base)));
     for (const c of list) write(`${base}/esim/${c.slug}/index.html`, stampHtml(countryPage(c), join(ROOT, base, 'esim', c.slug)));
     write(`${base}/esim/index.html`, stampHtml(hubPage(list), join(ROOT, base, 'esim')));
+    for (const slug of regionSlugsChecked()) write(`${base}/esim/${slug}/index.html`, stampHtml(regionPage(slug), join(ROOT, base, 'esim', slug)));
     for (const g of GUIDES) write(`${base}/guides/${g.slug}/index.html`, stampHtml(guidePage(g), join(ROOT, base, 'guides', g.slug)));
     write(`${base}/guides/index.html`, stampHtml(guidesHub(), join(ROOT, base, 'guides')));
     // An English legal page is written only while seo/legal-links.mjs publishes it at this very path.
@@ -1359,12 +1523,12 @@ function homePage(list = countries()) {
         write(`${rel}index.html`, stampHtml(legalPage(t.kind, t), join(ROOT, rel)));
       }
     }
-    return { countries: list.length, guides: GUIDES.length };
+    return { countries: list.length, regions: REGION_SLUGS.length, guides: GUIDES.length };
   }
 
   return Object.freeze({
     locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER, FOOTER_DESTINATIONS,
-    countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin, privacyPage, legalPage,
+    countryPage, hubPage, regionPage, guidePage, guidesHub, homePage, destinationsJs, twin, privacyPage, legalPage,
     ...(canWrite ? { build } : {}),
   });
 }
@@ -1377,6 +1541,6 @@ export function publishedLocales() {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   for (const code of publishedLocales()) {
     const n = localeGenerator(code).build();
-    console.log(`${code}: ${n.countries} country pages + the list, destinations.js; ${n.guides} guides + the list (indexing: seo/indexing.mjs)`);
+    console.log(`${code}: ${n.countries} country pages + the list, ${n.regions} region pages, destinations.js; ${n.guides} guides + the list (indexing: seo/indexing.mjs)`);
   }
 }

@@ -59,9 +59,9 @@ const head = (html) => html.slice(0, html.indexOf('</head>'));
 /* ------------------------------------------------------------------ 1. complete */
 
 test('206 French pages: the home, the list, 198 countries, the guides list and five guides', () => {
-  assert.equal(FR_SITE_PAGES.length, 206);
-  assert.equal(FR_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
-  assert.equal(FR_PAGES.filter((p) => /^fr\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
+  assert.equal(FR_SITE_PAGES.length, 209, '206 + the three region pages (seo/regions.mjs)');
+  assert.equal(FR_PAGES.length, 212, '+ the three legal documents (LEGAL-4)');
+  assert.equal(FR_PAGES.filter((p) => /^fr\/esim\/[^/]+\/index\.html$/.test(p)).length, 201, "198 countries + 3 region pages");
   assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, FR_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 

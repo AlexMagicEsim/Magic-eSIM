@@ -31,6 +31,9 @@
 // in that language defaults to; price, package, provider and payment are
 // decided by the market (backend `lib/markets.js`), never by the language.
 
+import { REGION_SLUGS } from './regions.mjs';
+
+
 const L = (o) => Object.freeze({ ...o, site: Object.freeze(o.site), app: Object.freeze(o.app) });
 
 /**
@@ -134,17 +137,21 @@ export function indexablePrefixedHomes(list = LOCALES) {
   return prefixedSiteLocales(list).filter((l) => l.site.indexableHome).map((l) => l.code);
 }
 
-/** The files a catalogue rebuild writes for one prefixed language: its list, its search data, one page per country. */
+/** The files a catalogue rebuild writes for one prefixed language: its list, its search data, one page per country,
+ *  and its region pages (seo/regions.mjs — they print seo/global-plan-facts.json, which the catalogue bot refreshes;
+ *  the slugs come from that one list, never typed here, and a region slug is never a country slug). */
 export function catalogueLocalePaths(slugs, list = LOCALES) {
   const fixed = [];
   const perCountry = [];
+  const perRegion = [];
   for (const l of prefixedSiteLocales(list)) {
     fixed.push(`${l.prefix}/esim/index.html`, `${l.prefix}/destinations.js`);
     for (const slug of slugs || []) {
       if (typeof slug === 'string' && slug) perCountry.push(`${l.prefix}/esim/${slug}/index.html`);
     }
+    for (const slug of REGION_SLUGS) perRegion.push(`${l.prefix}/esim/${slug}/index.html`);
   }
-  return { fixed, perCountry };
+  return { fixed, perCountry, perRegion };
 }
 
 /** The pathspecs the refresh workflow stages (`git add --`), in the workflow's order. */
