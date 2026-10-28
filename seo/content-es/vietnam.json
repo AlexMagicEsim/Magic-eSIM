@@ -7,17 +7,21 @@
   "sections": [
     {
       "id": "e-visa",
-      "h2": "Primero, la visa electrónica",
+      "h2": "Sin visa o con visa electrónica",
       "paragraphs": [
-        "Desde el 15 de agosto de 2023, los ciudadanos de cualquier país o territorio pueden solicitar la visa electrónica de Vietnam, válida por 90 días y con entradas múltiples, según la Autoridad Nacional de Turismo de Vietnam. Haz el trámite en el sitio oficial de visas electrónicas del Departamento de Inmigración y guarda la aprobación donde puedas abrirla en la frontera."
+        "No todos necesitan visa. El Gobierno exime de visa, para estancias de hasta 45 días, a los ciudadanos de los países de su lista, entre ellos el Reino Unido, Alemania, Francia, Japón, Corea del Sur, Países Bajos y Suiza, si tienen pasaje de regreso o de salida a otro país. Según la oficina de turismo, quien vuela directo a Phu Quoc desde el extranjero puede pasar hasta 30 días en la isla sin visa, pero seguir al resto del país exige visa o visa electrónica.",
+        "Desde el 15 de agosto de 2023, los ciudadanos de cualquier país o territorio pueden solicitar la visa electrónica, según la Autoridad Nacional de Turismo de Vietnam. El Departamento de Inmigración la emite por hasta 90 días, con una o varias entradas.",
+        "Desde el 11 de noviembre de 2024, el portal de visas electrónicas funciona en dos direcciones, evisa.gov.vn y thithucdientu.gov.vn; la oficina de turismo advierte contra agencias no autorizadas que cobran tarifas infladas. El pasaporte debe tener vigencia de al menos seis meses desde tu llegada y dos páginas en blanco.",
+        "La aprobación indica tu puesto de entrada, así que hazlo coincidir con tu vuelo o cruce y llévala a mano en la frontera. En la frontera con Camboya, los pasos terrestres de Moc Bai, Xa Mat y Ha Tien están entre los puestos abiertos a quienes tienen visa electrónica."
       ]
     },
     {
       "id": "al-llegar",
-      "h2": "Wi-Fi, SIM en el aeropuerto y la eSIM",
+      "h2": "Wi-Fi, SIM, efectivo y la eSIM",
       "paragraphs": [
-        "La oficina de turismo de Vietnam indica que todos los aeropuertos internacionales del país tienen Wi-Fi gratis y que hay acceso público gratuito a internet en varios polos turísticos y en los principales aeropuertos. No publica cómo se inicia sesión ni límites de tiempo, así que tómalo como una forma de enviar un primer mensaje, no como tu conexión para el trayecto a la ciudad.",
+        "La oficina de turismo indica que todos los aeropuertos internacionales del país tienen Wi-Fi gratis y que hay acceso público gratuito a internet en varios polos turísticos y en los principales aeropuertos. No publica cómo iniciar sesión ni límites de tiempo: tómalo como una forma de enviar un primer mensaje, no como tu conexión para el trayecto a la ciudad.",
         "En los principales aeropuertos y en tiendas se venden tarjetas SIM locales de prepago, y la oficina de turismo indica que hay que mostrar el pasaporte para registrarlas. La eSIM es la otra opción: un perfil que agregas al teléfono, que debe ser compatible con eSIM y no estar bloqueado a la red de tu compañía. La [guía de compatibilidad](/es/guides/compatibility/) explica cómo comprobar ambas cosas.",
+        "Según la oficina de turismo, en todos los grandes aeropuertos hay cajeros para tarjetas internacionales justo al salir de llegadas, y casas de cambio antes de la salida. El đồng solo circula en billetes, sin monedas; el efectivo sirve para compras pequeñas y puestos callejeros; hoteles, restaurantes y tiendas suelen aceptar tarjetas.",
         "La corriente es de 220 V y la mayoría de los tomacorrientes admiten enchufes de dos patas redondas, así que revisa el enchufe de tu cargador antes de hacer la maleta."
       ]
     },
@@ -34,7 +38,11 @@
   "faq": [
     {
       "q": "¿Puedo tramitar una visa electrónica para Vietnam?",
-      "a": "La Autoridad Nacional de Turismo de Vietnam indica que, desde el 15 de agosto de 2023, los ciudadanos de todos los países y territorios pueden solicitarla, y que es válida por 90 días con entradas múltiples. Usa el sitio oficial de visas electrónicas del Departamento de Inmigración."
+      "a": "La Autoridad Nacional de Turismo de Vietnam indica que, desde el 15 de agosto de 2023, los ciudadanos de todos los países y territorios pueden solicitarla. El portal del Departamento de Inmigración está en evisa.gov.vn y thithucdientu.gov.vn, y la visa electrónica es válida por hasta 90 días, con una sola entrada o con entradas múltiples. Los ciudadanos de los países de la lista de exención del Gobierno, como el Reino Unido, Alemania o Japón, pueden en cambio quedarse hasta 45 días sin visa si tienen pasaje de regreso o de salida a otro país."
+    },
+    {
+      "q": "¿Puedo entrar a Vietnam por tierra desde Camboya con visa electrónica?",
+      "a": "Sí, por un puesto abierto a quienes tienen visa electrónica. La oficina de turismo menciona Moc Bai, Xa Mat y Ha Tien entre los pasos de la frontera con Camboya, e indica que la aprobación señala tu puesto de entrada, así que solicítala con el cruce que de verdad piensas usar."
     },
     {
       "q": "¿Necesito el pasaporte para comprar una SIM en Vietnam?",
@@ -111,11 +119,52 @@
       "url": "https://www.vietnam.travel/plan-your-trip/official-vietnam-evisa-application",
       "title": "An official guide to e-visas in Vietnam — Autoridad Nacional de Turismo de Vietnam",
       "checked": "2026-10-27",
-      "supports": "visa electrónica para ciudadanos de todos los países y territorios desde el 15 de agosto de 2023, válida 90 días, entradas múltiples; solicitud en el sitio oficial del Departamento de Inmigración",
+      "review_by": "2027-04-27",
+      "supports": "visa electrónica para ciudadanos de todos los países y territorios desde el 15 de agosto de 2023; puestos abiertos a quienes tienen visa electrónica, entre ellos los pasos terrestres de Moc Bai, Xa Mat y Ha Tien; solicitud en el sitio oficial del Departamento de Inmigración",
       "sentences": [
-        "Desde el 15 de agosto de 2023, los ciudadanos de cualquier país o territorio pueden solicitar la visa electrónica de Vietnam, válida por 90 días y con entradas múltiples, según la Autoridad Nacional de Turismo de Vietnam.",
-        "La Autoridad Nacional de Turismo de Vietnam indica que, desde el 15 de agosto de 2023, los ciudadanos de todos los países y territorios pueden solicitarla, y que es válida por 90 días con entradas múltiples."
+        "Desde el 15 de agosto de 2023, los ciudadanos de cualquier país o territorio pueden solicitar la visa electrónica, según la Autoridad Nacional de Turismo de Vietnam.",
+        "La Autoridad Nacional de Turismo de Vietnam indica que, desde el 15 de agosto de 2023, los ciudadanos de todos los países y territorios pueden solicitarla."
       ]
+    },
+    {
+      "url": "https://evisa.xuatnhapcanh.gov.vn/web/guest/trang-chu-ttdt",
+      "title": "Vietnam evisa — National portal on Immigration, Departamento de Inmigración de Vietnam",
+      "checked": "2026-10-28",
+      "review_by": "2027-04-28",
+      "supports": "aviso: desde las 08:00 del 11 de noviembre de 2024 (GMT+7) el portal de visas electrónicas funciona en thithucdientu.gov.vn y evisa.gov.vn; la visa electrónica vale como máximo 90 días, con una o varias entradas",
+      "sentences": [
+        "El Departamento de Inmigración la emite por hasta 90 días, con una o varias entradas.",
+        "El portal del Departamento de Inmigración está en evisa.gov.vn y thithucdientu.gov.vn, y la visa electrónica es válida por hasta 90 días, con una sola entrada o con entradas múltiples."
+      ]
+    },
+    {
+      "url": "https://www.vietnam.travel/plan-your-trip/visa-requirements",
+      "title": "Vietnam Visa Requirements (actualizada en 2026) — Autoridad Nacional de Turismo de Vietnam",
+      "checked": "2026-10-28",
+      "review_by": "2027-04-28",
+      "supports": "pasaporte válido al menos seis meses desde la entrada y con dos páginas en blanco; exención de visa de 45 días, entre otros para el Reino Unido, Alemania, Francia, Japón, Corea del Sur, Países Bajos y Suiza; 30 días sin visa en Phu Quoc para llegadas internacionales directas, con visa o visa electrónica para el resto de Vietnam; la aprobación de la visa electrónica indica el puesto de entrada; pasos terrestres de la frontera con Camboya, entre ellos Moc Bai, Xa Mat y Ha Tien; evitar agencias no autorizadas con tarifas infladas; portal oficial evisa.gov.vn",
+      "sentences": [
+        "Según la oficina de turismo, quien vuela directo a Phu Quoc desde el extranjero puede pasar hasta 30 días en la isla sin visa, pero seguir al resto del país exige visa o visa electrónica.",
+        "El Gobierno exime de visa, para estancias de hasta 45 días, a los ciudadanos de los países de su lista, entre ellos el Reino Unido, Alemania, Francia, Japón, Corea del Sur, Países Bajos y Suiza, si tienen pasaje de regreso o de salida a otro país.",
+        "Los ciudadanos de los países de la lista de exención del Gobierno, como el Reino Unido, Alemania o Japón, pueden en cambio quedarse hasta 45 días sin visa si tienen pasaje de regreso o de salida a otro país."
+      ]
+    },
+    {
+      "url": "https://en.baochinhphu.vn/print/viet-nam-waives-visas-for-citizens-of-24-countries-from-mid-august-111250815144715035.htm",
+      "title": "Viet Nam waives visas for citizens of 24 countries from mid-August — Portal del Gobierno de Vietnam (VGP), 15 de agosto de 2025",
+      "checked": "2026-10-28",
+      "review_by": "2027-04-28",
+      "supports": "Resolución 229: exención de visa de hasta 45 días para Bélgica, Bulgaria, Croacia, Chequia, Hungría, Luxemburgo, Países Bajos, Polonia, Rumanía, Eslovaquia, Eslovenia y Suiza, si cumplen los requisitos de entrada; Resolución 44: Alemania, Francia, Italia, España, el Reino Unido, Rusia, Japón, Corea del Sur, Dinamarca, Suecia, Noruega y Finlandia",
+      "sentences": [
+        "El Gobierno exime de visa, para estancias de hasta 45 días, a los ciudadanos de los países de su lista, entre ellos el Reino Unido, Alemania, Francia, Japón, Corea del Sur, Países Bajos y Suiza, si tienen pasaje de regreso o de salida a otro país.",
+        "Los ciudadanos de los países de la lista de exención del Gobierno, como el Reino Unido, Alemania o Japón, pueden en cambio quedarse hasta 45 días sin visa si tienen pasaje de regreso o de salida a otro país."
+      ]
+    },
+    {
+      "url": "https://www.vietnam.travel/things-to-do/currency-and-payments-vietnam/",
+      "title": "Currency and payments in Vietnam — Autoridad Nacional de Turismo de Vietnam",
+      "checked": "2026-10-28",
+      "supports": "el đồng solo en billetes, sin monedas; cajeros que aceptan tarjetas internacionales justo a la salida de las puertas de llegada de todos los grandes aeropuertos; casas de cambio dentro de los aeropuertos internacionales antes de la salida; efectivo para compras pequeñas y vendedores callejeros; hoteles, restaurantes y tiendas suelen aceptar tarjetas internacionales"
     },
     {
       "url": "https://vietnam.travel/node/26",
@@ -137,9 +186,9 @@
     }
   ],
   "reviewed": {
-    "research": "es-writer-A",
-    "copy": "es-writer-A",
-    "language": "es-qa-1, es-qa-2",
-    "facts": "es-qa-2"
+    "research": "es-writer-A; ampliación etapa 8 (2026-10-28): Claude, fuentes primarias releídas",
+    "copy": "es-writer-A; ampliación etapa 8: Claude",
+    "language": "es-qa-1, es-qa-2; etapa 8: solo autorrevisión",
+    "facts": "es-qa-2; etapa 8: dos autorrevisiones adversariales del autor (sin revisor independiente todavía)"
   }
 }

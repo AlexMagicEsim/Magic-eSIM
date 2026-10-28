@@ -26,8 +26,8 @@ const { merge, markdown, CATEGORIES, SEVERITIES } = await imp('scripts/merge.mjs
 
 const ES = await extract('es');
 
-test('extract: 950 Spanish strings beside their English source — unique ids, none missing, every group', () => {
-  assert.equal(ES.items.length, 950); // + 55 authored country strings (malaysia 27, singapore 28; seo/content-es/, 2026-10-28); + 21 page words of the region pages (international SEO stage 4, 2026-10-27); + 333 authored country strings (13 files, seo/content-es/) and the 2 headings they add (2026-10-27); + 8 page words of «at a glance» (international SEO, 2026-10-27); − 1 country (ZW withdrawn by the provider, 2026-10-26); + 8 words of LEGAL-3 (the consents, footer.refund); + 1 country (VI, 2026-10-25); + 9 words of LEGAL-5 (start of validity, activation deadline)
+test('extract: 956 Spanish strings beside their English source — unique ids, none missing, every group', () => {
+  assert.equal(ES.items.length, 956); // + 6 authored Vietnam strings (stage 8 expansion: visa-free entry, e-visa portal and entry gates, cash on arrival; seo/content-es/, 2026-10-28); + 55 authored country strings (malaysia 27, singapore 28; seo/content-es/, 2026-10-28); + 21 page words of the region pages (international SEO stage 4, 2026-10-27); + 333 authored country strings (13 files, seo/content-es/) and the 2 headings they add (2026-10-27); + 8 page words of «at a glance» (international SEO, 2026-10-27); − 1 country (ZW withdrawn by the provider, 2026-10-26); + 8 words of LEGAL-3 (the consents, footer.refund); + 1 country (VI, 2026-10-25); + 9 words of LEGAL-5 (start of validity, activation deadline)
   assert.equal(new Set(ES.items.map((i) => i.id)).size, ES.items.length);
   assert.deepEqual(ES.items.filter((i) => i.target == null || i.target === ''), []);
   const by = {}; for (const i of ES.items) by[i.group] = (by[i.group] || 0) + 1;
@@ -35,7 +35,7 @@ test('extract: 950 Spanish strings beside their English source — unique ids, n
     'guide-activation': 22, 'guide-troubleshooting': 20, 404: 5, countries: 198, content: 2,
     'content-china': 28, 'content-france': 24, 'content-greece': 24, 'content-indonesia': 24, 'content-japan': 29,
     'content-malaysia': 27, 'content-maldives': 25, 'content-mexico': 23, 'content-singapore': 28, 'content-south-korea': 30, 'content-sri-lanka': 24, 'content-thailand': 28,
-    'content-turkey': 24, 'content-united-kingdom': 25, 'content-vietnam': 23 });
+    'content-turkey': 24, 'content-united-kingdom': 25, 'content-vietnam': 29 });
   // every authored string sits beside its English source
   assert.deepEqual(ES.items.filter((i) => i.group.startsWith('content') && !i.en), []);
   assert.equal(ES.items.find((i) => i.id === 'content:faqTitle').target, 'Preguntas frecuentes: Japón');

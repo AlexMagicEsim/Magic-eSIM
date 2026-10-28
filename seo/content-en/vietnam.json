@@ -7,17 +7,21 @@
   "sections": [
     {
       "id": "e-visa",
-      "h2": "The e-visa comes first",
+      "h2": "Visa-free entry or the e-visa",
       "paragraphs": [
-        "Since 15 August 2023, citizens of every country and territory have been able to apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism. Apply through the official e-visa website of the Immigration Department and keep the approval where you can open it at the border."
+        "Not everyone needs a visa. The government waives it for stays of up to 45 days for citizens of listed countries, including the United Kingdom, Germany, France, Japan, South Korea, the Netherlands and Switzerland, if they hold a return or onward ticket. The tourism board adds that flying straight into Phu Quoc from abroad allows up to 30 days on that island without a visa, but continuing to the rest of Vietnam needs a visa or an e-visa.",
+        "Since 15 August 2023, citizens of every country and territory have been able to apply for a Vietnamese e-visa, according to the Vietnam National Authority of Tourism. The Immigration Department issues it for up to 90 days, with a single entry or multiple entries.",
+        "Since 11 November 2024, the department's e-visa portal has run on two addresses, evisa.gov.vn and thithucdientu.gov.vn; the tourism board warns against unauthorised agencies that charge inflated fees. Your passport should be valid for at least six months after you arrive and have two blank pages.",
+        "The approval names the checkpoint you may enter through, so match it to your flight or crossing and keep it where you can open it at the border. On the Cambodian border, the land gates at Moc Bai, Xa Mat and Ha Tien are among the checkpoints open to e-visa holders."
       ]
     },
     {
       "id": "on-arrival",
-      "h2": "Wi-Fi, SIM counters and an eSIM",
+      "h2": "Wi-Fi, SIM counters, cash and an eSIM",
       "paragraphs": [
         "Vietnam's tourism board says all international airports in the country have free Wi-Fi, and that free public internet access is available in several tourist hubs as well as major airports. It publishes no sign-in details or time limits, so treat it as a way to send a first message rather than a plan for the transfer into town.",
         "Prepaid local SIM cards are sold at the major airports and in shops, and the tourism board says you need to show your passport to register one. An eSIM is the other route: a profile you add to your phone, which needs a phone that supports eSIM and is not locked to your home network. The [compatibility guide](/en/guides/compatibility/) explains how to check both.",
+        "The tourism board says ATMs that take international cards stand just outside the arrival gates at all major airports, with exchange counters inside before the exit. The đồng is used in notes only, and coins are not in use; cash covers small purchases and street vendors, while hotels, restaurants and shops generally take cards.",
         "Power is 220 V, and most sockets take plugs with two round prongs, so look at your charger's plug before you pack."
       ]
     },
@@ -34,7 +38,11 @@
   "faq": [
     {
       "q": "Can I get an e-visa for Vietnam?",
-      "a": "The Vietnam National Authority of Tourism says citizens of all countries and territories have been able to apply since 15 August 2023, for an e-visa valid for 90 days with multiple entries. Use the official e-visa website of the Immigration Department."
+      "a": "The Vietnam National Authority of Tourism says citizens of all countries and territories have been able to apply since 15 August 2023. The Immigration Department's portal is at evisa.gov.vn and thithucdientu.gov.vn, and the e-visa runs for up to 90 days with a single entry or multiple entries. Citizens of countries on the government's waiver list, such as the United Kingdom, Germany and Japan, can instead stay up to 45 days without a visa if they hold a return or onward ticket."
+    },
+    {
+      "q": "Can I enter Vietnam overland from Cambodia on an e-visa?",
+      "a": "Yes, at a checkpoint open to e-visa holders. The tourism board lists Moc Bai, Xa Mat and Ha Tien among the gates on the Cambodian border, and says the approval names your port of entry, so apply with the crossing you actually plan to use."
     },
     {
       "q": "Do I need a passport to buy a SIM card in Vietnam?",
@@ -111,11 +119,52 @@
       "url": "https://www.vietnam.travel/plan-your-trip/official-vietnam-evisa-application",
       "title": "An official guide to e-visas in Vietnam — Vietnam National Authority of Tourism",
       "checked": "2026-10-27",
-      "supports": "e-visa for citizens of all countries and territories since 15 August 2023, valid 90 days, multiple entries",
+      "review_by": "2027-04-27",
+      "supports": "e-visa for citizens of all countries and territories since 15 August 2023; ports open to e-visa holders, including the land gates Moc Bai, Xa Mat and Ha Tien",
       "sentences": [
-        "Since 15 August 2023, citizens of every country and territory have been able to apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism.",
-        "The Vietnam National Authority of Tourism says citizens of all countries and territories have been able to apply since 15 August 2023, for an e-visa valid for 90 days with multiple entries."
+        "Since 15 August 2023, citizens of every country and territory have been able to apply for a Vietnamese e-visa, according to the Vietnam National Authority of Tourism.",
+        "The Vietnam National Authority of Tourism says citizens of all countries and territories have been able to apply since 15 August 2023."
       ]
+    },
+    {
+      "url": "https://evisa.xuatnhapcanh.gov.vn/web/guest/trang-chu-ttdt",
+      "title": "Vietnam evisa — National portal on Immigration, Vietnam Immigration Department",
+      "checked": "2026-10-28",
+      "review_by": "2027-04-28",
+      "supports": "notice: from 08:00 on 11 November 2024 (GMT+7) the Vietnam Electronic Visa Portal operates on thithucdientu.gov.vn and evisa.gov.vn; an e-visa is valid for a maximum of 90 days, single or multiple entry",
+      "sentences": [
+        "The Immigration Department issues it for up to 90 days, with a single entry or multiple entries.",
+        "The Immigration Department's portal is at evisa.gov.vn and thithucdientu.gov.vn, and the e-visa runs for up to 90 days with a single entry or multiple entries."
+      ]
+    },
+    {
+      "url": "https://www.vietnam.travel/plan-your-trip/visa-requirements",
+      "title": "Vietnam Visa Requirements (last updated 2026) — Vietnam National Authority of Tourism",
+      "checked": "2026-10-28",
+      "review_by": "2027-04-28",
+      "supports": "passport valid for at least six months beyond entry with two blank pages; 45-day visa exemptions including the United Kingdom, Germany, France, Japan, South Korea, the Netherlands and Switzerland; 30 days visa-free on Phu Quoc for direct international arrivals, a visa or e-visa needed to visit other parts of Vietnam; the e-visa approval specifies the approved port of entry; land gates on the Vietnam – Cambodia border include Moc Bai, Xa Mat and Ha Tien; avoid unauthorised third-party agencies charging inflated fees; official portal evisa.gov.vn",
+      "sentences": [
+        "The tourism board adds that flying straight into Phu Quoc from abroad allows up to 30 days on that island without a visa, but continuing to the rest of Vietnam needs a visa or an e-visa.",
+        "The government waives it for stays of up to 45 days for citizens of listed countries, including the United Kingdom, Germany, France, Japan, South Korea, the Netherlands and Switzerland, if they hold a return or onward ticket.",
+        "Citizens of countries on the government's waiver list, such as the United Kingdom, Germany and Japan, can instead stay up to 45 days without a visa if they hold a return or onward ticket."
+      ]
+    },
+    {
+      "url": "https://en.baochinhphu.vn/print/viet-nam-waives-visas-for-citizens-of-24-countries-from-mid-august-111250815144715035.htm",
+      "title": "Viet Nam waives visas for citizens of 24 countries from mid-August — Government News (VGP), 15 August 2025",
+      "checked": "2026-10-28",
+      "review_by": "2027-04-28",
+      "supports": "Resolution 229: visa exemption of up to 45 days for citizens of Belgium, Bulgaria, Croatia, the Czech Republic, Hungary, Luxembourg, the Netherlands, Poland, Romania, Slovakia, Slovenia and Switzerland, provided they meet the entry requirements; Resolution 44: Germany, France, Italy, Spain, the UK, Russia, Japan, the Republic of Korea, Denmark, Sweden, Norway and Finland",
+      "sentences": [
+        "The government waives it for stays of up to 45 days for citizens of listed countries, including the United Kingdom, Germany, France, Japan, South Korea, the Netherlands and Switzerland, if they hold a return or onward ticket.",
+        "Citizens of countries on the government's waiver list, such as the United Kingdom, Germany and Japan, can instead stay up to 45 days without a visa if they hold a return or onward ticket."
+      ]
+    },
+    {
+      "url": "https://www.vietnam.travel/things-to-do/currency-and-payments-vietnam/",
+      "title": "Currency and payments in Vietnam — Vietnam National Authority of Tourism",
+      "checked": "2026-10-28",
+      "supports": "đồng notes only, no coins; ATMs accepting international cards just outside the arrival gates at all major airports; currency exchange inside the international airports just before the exit gates; cash for small purchases and street vendors; hotels, restaurants, shops generally accept international cards"
     },
     {
       "url": "https://vietnam.travel/node/26",
@@ -137,9 +186,9 @@
     }
   ],
   "reviewed": {
-    "research": "researcher-A",
-    "copy": "copywriter-3",
-    "language": "AI language review (Claude), 2026-10-27: 1 objective fix",
-    "facts": "factcheck-2"
+    "research": "researcher-A; stage 8 expansion (2026-10-28): Claude, primary sources re-read",
+    "copy": "copywriter-3; stage 8 expansion: Claude",
+    "language": "AI language review (Claude), 2026-10-27: 1 objective fix; stage 8: self-check only",
+    "facts": "factcheck-2; stage 8: two adversarial self-checks by the author (no independent reviewer yet)"
   }
 }
