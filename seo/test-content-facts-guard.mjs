@@ -238,7 +238,11 @@ test('a snapshot that contradicts nothing is written as before', async () => {
     next.countries.TH.local.gb = [...new Set([...next.countries.TH.local.gb, 777])].sort((a, b) => a - b); // a new volume: no sentence names one
     const { result, out } = await capture(() => runUpdate({ fetchImpl: serve(next), today: '2026-10-28', file: s.file, summaryFile: s.summary }));
     assert.equal(result, 0);
-    assert.doesNotMatch(out, /::warning::/);
+    // No annotation of the guard or of keep() (all `global-plan-facts:`) and no conflict line. The region pages'
+    // informational `global-plan-facts regions:` warnings (#171) are a separate channel: this fake catalogue builds
+    // region sets of its own.
+    assert.doesNotMatch(out, /::warning::global-plan-facts:/);
+    assert.doesNotMatch(out, /✗/);
     const written = JSON.parse(readFileSync(s.file, 'utf8'));
     assert.equal(written.updated, '2026-10-28');
     assert.ok(written.countries.TH.local.gb.includes(777));
