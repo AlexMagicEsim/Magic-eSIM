@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-27T15:23:58.314Z",
+  "fetched_at": "2026-10-28T13:04:56.715Z",
   "source": "assets/catalog.json",
   "countries": 200,
   "sheets": {
@@ -2841,6 +2841,7 @@
       ],
       "networks": [
         "Antel",
+        "CLARO CL",
         "Claro",
         "Digicel",
         "Movistar",
@@ -9502,6 +9503,7 @@
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
+        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -12279,6 +12281,7 @@
       "rows_total": 22,
       "fup_policies": [
         "1 Mbps",
+        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -12569,6 +12572,7 @@
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
+        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -12729,6 +12733,7 @@
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
+        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -12870,13 +12875,13 @@
         "3G/4G"
       ],
       "networks": [
-        "Digicel",
-        "Setel N.V."
+        "Chippie"
       ],
       "networks_rows": 10,
       "rows_total": 19,
       "fup_policies": [
         "1 Mbps",
+        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -31395,8 +31400,6 @@
       "networks_rows": 11,
       "rows_total": 32,
       "fup_policies": [
-        "384 Kbps",
-        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -34263,6 +34266,7 @@
       "networks_rows": 9,
       "rows_total": 15,
       "fup_policies": [
+        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
