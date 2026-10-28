@@ -70,7 +70,23 @@ test('out of scope: no other country page references the seller @id (pilot only,
     checked++;
   }
   assert.ok(checked >= 190, `only ${checked} pages checked`);
-  assert.ok(!read('en/index.html').includes(SELLER_ID), 'the English home is out of scope');
+});
+
+// Owner-gated widening (SEO stage 7, 2026-10-28 — DRAFT until the owner approves): the six prefixed homes reference
+// the one seller by @id instead of a second «Organization #org». Name, url and logo only — never the Russian
+// description, email or contact block of the full node, and never a second full declaration.
+test('the prefixed homes reference the one seller by @id, with no second identity and no full node', () => {
+  for (const p of ['en', 'es', 'de', 'fr', 'zh', 'ko']) {
+    const h = read(`${p}/index.html`);
+    const nodes = ldNodes(h);
+    const sellers = nodes.filter((n) => [].concat(n['@type']).some((t) => /Organization|OnlineStore/.test(t)));
+    assert.equal(sellers.length, 1, `${p}: one seller node`);
+    assert.equal(sellers[0]['@id'], SELLER_ID, `${p}: the seller is the one entity`);
+    assert.deepEqual(Object.keys(sellers[0]).sort(), ['@id', '@type', 'logo', 'name', 'url'], `${p}: a reference, not the full node`);
+    assert.ok(!h.includes('"https://magicesim.store/#org"'), `${p}: the old second identity is gone`);
+    const site = nodes.find((n) => n['@type'] === 'WebSite');
+    assert.equal(site.publisher['@id'], SELLER_ID, `${p}: WebSite.publisher is the one seller`);
+  }
 });
 
 test('every JSON-LD block on the home, all country pages and the English home parses', () => {

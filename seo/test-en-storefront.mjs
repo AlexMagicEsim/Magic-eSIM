@@ -547,7 +547,9 @@ test('the English page HAS structured data, and it is in English', () => {
     assert.match(text, /"inLanguage":"en"/, 'the language must be declared, not inferred');
     for (const node of (json['@graph'] || [json])) types.push(node['@type']);
   }
-  assert.ok(types.includes('Organization'), 'Organization missing');
+  // The seller may be the schema.org subtype OnlineStore — the site's one entity (seo/seller-entity.mjs), referenced
+  // by @id since SEO stage 7 (2026-10-28, owner-gated); Organization or OnlineStore, never neither.
+  assert.ok(types.includes('Organization') || types.includes('OnlineStore'), 'Organization missing');
   assert.ok(types.includes('WebSite'), 'WebSite missing');
 });
 
