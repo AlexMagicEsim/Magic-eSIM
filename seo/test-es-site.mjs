@@ -208,6 +208,12 @@ export const OFFICIAL_NAMES = Object.freeze([
   'ATH Free Wifi', '#AICM_FREE_WIFI', 'WIFI-AIRPORT',
   // Transport for London (it writes some of its names in lower case)
   'Transport for London', 'Elizabeth line', 'pay as you go',
+  // Singapore's arrival card, its two official routes and Changi's Wi-Fi login button, as ICA and the airport write them
+  // (2026-10-28, seo/content-es/singapore.json)
+  'SG Arrival Card', 'SGAC e-Service', 'MyICA Mobile', 'CONNECT NOW',
+  // Malaysia's arrival card, its official web address and a border document on the exemption list (2026-10-28,
+  // seo/content-es/malaysia.json)
+  'Malaysia Digital Arrival Card', 'imigresen-online.imi.gov.my', 'Thailand Border Pass',
 ]);
 const withoutOfficialNames = (run) => [...OFFICIAL_NAMES].sort((a, b) => b.length - a.length).reduce((t, n) => t.split(n).join(' '), run);
 

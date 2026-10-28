@@ -1,0 +1,163 @@
+{
+  "slug": "singapore",
+  "iso": "SG",
+  "title": "eSIM para Singapur: SG Arrival Card y Wi-Fi | Magic eSIM",
+  "description": "Singapur: la SG Arrival Card gratuita de la ICA, el Wi-Fi de Changi sin registro y los enchufes tipo G a 230 V. El pago en línea aún no está disponible.",
+  "lead": "Casi todo viajero que llega a Singapur debe enviar antes una tarjeta de llegada en línea, y en Changi el Wi-Fi gratuito no pide registro. Te contamos cómo funcionan, cómo pagar el transporte y cargar el teléfono, y qué planes encajan con una escala, unos días en la ciudad o una escapada a Johor.",
+  "sections": [
+    {
+      "id": "sg-arrival-card",
+      "h2": "La SG Arrival Card, antes de aterrizar",
+      "paragraphs": [
+        "La Autoridad de Inmigración y Puestos de Control de Singapur (ICA) pide a todos los viajeros que envíen antes de llegar la SG Arrival Card, que incluye una declaración electrónica de salud. El plazo es de 3 días y cuenta el propio día de llegada: si aterrizas un viernes, puedes enviarla desde el miércoles.",
+        "Hay dos vías oficiales: el SGAC e-Service en la web de la ICA o la aplicación MyICA Mobile, que puede guardar tu perfil y volver a rellenarlo en viajes posteriores. El envío es gratuito, y la ICA ha advertido de sitios web comerciales que cobran por presentar la tarjeta por ti y aclara que esos servicios no tienen relación con la ICA.",
+        "Hay pocas exenciones: no la presentan los pasajeros en tránsito o en conexión que no pasan por el control de inmigración, y en los pasos terrestres de Woodlands y Tuas la exención de la ICA solo menciona a los residentes: ciudadanos singapurenses, residentes permanentes y titulares de pases de larga duración."
+      ]
+    },
+    {
+      "id": "changi-wifi",
+      "h2": "#WiFi@Changi nada más bajar del avión",
+      "paragraphs": [
+        "La red gratuita del aeropuerto de Changi, #WiFi@Changi, llega a las zonas públicas y de tránsito de todas las terminales, y el aeropuerto indica que no hace falta registrarse, pagar ni dar datos personales. Elige #WiFi@Changi en los ajustes, abre el navegador y escribe cualquier dirección web; en la página de acceso que aparece, toca CONNECT NOW.",
+        "Como es del aeropuerto, se queda atrás al salir hacia el tren o la parada de taxis; desde ahí, el mapa para llegar a la ciudad y los primeros mensajes a casa dependen de tus propios datos."
+      ]
+    },
+    {
+      "id": "fares-and-sockets",
+      "h2": "Pagar el autobús y el tren, y cargar el teléfono",
+      "paragraphs": [
+        "SimplyGo, el sistema de pago del transporte público de Singapur, acepta tarjetas sin contacto American Express, Mastercard y Visa emitidas en el extranjero, también desde una billetera móvil, sin abrir una cuenta de SimplyGo. Activa el uso internacional de la tarjeta antes de viajar. Las tarjetas de débito Maestro y Cirrus no se aceptan, los días en que pagas con una Mastercard o Visa extranjera se suma un cargo administrativo diario, y el lector debe detectar una sola tarjeta, así que saca las demás de la funda del teléfono.",
+        "Los enchufes son del tipo G, de tres clavijas, con corriente de 230 V. Los hoteles suelen tener tomas universales que admiten otras clavijas, pero la Oficina de Seguridad de Productos de Consumo de Singapur advierte que secadores de pelo, planchas de viaje y hervidores pensados para 100–120 V no funcionan de forma segura a 230 V: revisa la etiqueta antes de enchufar."
+      ]
+    },
+    {
+      "id": "sg-plans",
+      "h2": "Una escala, unos días en la ciudad o rumbo a Johor",
+      "paragraphs": [
+        "Si no vas a salir de la isla, los planes locales son solo para Singapur. Si cruzas a Johor Bahru o sigues hacia el norte, algunos planes regionales que incluyen Singapur también cubren Malasia y Tailandia, y otros suman Indonesia y Vietnam. Para una estancia corta, fíjate en los planes diarios: cada uno indica cuántos datos tienes en cada jornada y no un total para todo el viaje, y esa cantidad aparece en el propio plan.",
+        "Tu teléfono debe admitir eSIM y estar liberado; la [guía de compatibilidad](/es/guides/compatibility/) explica cómo comprobarlo, y la [guía de activación](/es/guides/activation/) cuenta cuándo empieza a correr un plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Cuesta algo la SG Arrival Card?",
+      "a": "No. Según la ICA, el envío es gratuito y debe hacerse solo por su SGAC e-Service o por la aplicación MyICA Mobile; los servicios que cobran por presentarla no están vinculados a la ICA."
+    },
+    {
+      "q": "¿Cuándo es lo más pronto que puedo enviar la SG Arrival Card?",
+      "a": "Dos días antes de aterrizar. El plazo de 3 días de la ICA incluye el día de llegada, así que, si llegas el día 30, puedes enviarla desde el 28."
+    },
+    {
+      "q": "¿Tengo que presentar la tarjeta si solo cambio de avión en Changi?",
+      "a": "No, mientras no salgas de la zona de tránsito. La ICA exime a quienes transitan o hacen conexión en Singapur sin pasar por el control de inmigración; si cruzas inmigración para conocer la ciudad, esa exención ya no se aplica a tu viaje."
+    },
+    {
+      "q": "¿Qué pasa si llego sin haberla enviado?",
+      "a": "Un comunicado de la ICA de diciembre de 2022 indica que a esos viajeros se les pide enviar la tarjeta y volver a la fila del control de inmigración. La página actual de la ICA se limita a decir que enviarla antes evita demoras innecesarias en el control."
+    },
+    {
+      "q": "¿Hay que registrarse para usar el Wi-Fi gratis de Changi?",
+      "a": "No. #WiFi@Changi no pide registro, pago ni datos personales: elige la red, abre cualquier página web y toca CONNECT NOW en la pantalla de acceso."
+    },
+    {
+      "q": "¿Hay un solo plan para Singapur y una escapada a Malasia?",
+      "a": "Algunos planes regionales que incluyen Singapur también cubren Malasia, y varios de ellos suman Tailandia. Abre la lista de cobertura del plan para ver exactamente dónde se puede usar."
+    }
+  ],
+  "related": [
+    "malaysia",
+    "thailand",
+    "indonesia",
+    "vietnam"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Si no vas a salir de la isla, los planes locales son solo para Singapur.",
+      "kind": "local"
+    },
+    {
+      "quote": "Si cruzas a Johor Bahru o sigues hacia el norte, algunos planes regionales que incluyen Singapur también cubren Malasia y Tailandia, y otros suman Indonesia y Vietnam.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "TH",
+        "ID",
+        "VN"
+      ]
+    },
+    {
+      "quote": "Para una estancia corta, fíjate en los planes diarios: cada uno indica cuántos datos tienes en cada jornada y no un total para todo el viaje, y esa cantidad aparece en el propio plan.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Hay un solo plan para Singapur y una escapada a Malasia?",
+      "kind": "regional_also",
+      "codes": [
+        "MY"
+      ]
+    },
+    {
+      "quote": "Algunos planes regionales que incluyen Singapur también cubren Malasia, y varios de ellos suman Tailandia.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "TH"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card",
+      "title": "SG Arrival Card (SGAC) with Electronic Health Declaration — Immigration & Checkpoints Authority",
+      "checked": "2026-10-27",
+      "supports": "todos los viajeros envían la SGAC con declaración electrónica de salud antes de llegar, dentro de 3 días que incluyen el día de llegada; gratuita; SGAC e-Service o aplicación MyICA Mobile (el perfil se rellena solo en viajes posteriores); exentos: tránsito o conexión sin pasar por inmigración, y residentes (ciudadanos singapurenses, residentes permanentes, titulares de pases de larga duración) en los controles de Woodlands y Tuas; enviarla antes evita demoras innecesarias en el control",
+      "sentences": [
+        "El plazo es de 3 días y cuenta el propio día de llegada: si aterrizas un viernes, puedes enviarla desde el miércoles.",
+        "El plazo de 3 días de la ICA incluye el día de llegada, así que, si llegas el día 30, puedes enviarla desde el 28."
+      ]
+    },
+    {
+      "url": "https://www.ica.gov.sg/public-education/public-advisory-on-the-submission-of-sg-arrival-card-(sgac)",
+      "title": "Public Advisory on the Submission of SG Arrival Card (SGAC) — ICA",
+      "checked": "2026-10-27",
+      "supports": "sitios web comerciales cobran por enviar la SGAC; el envío es gratuito y solo por el SGAC e-Service de la ICA o la aplicación MyICA Mobile; esos servicios de pago no tienen relación con la ICA"
+    },
+    {
+      "url": "https://www.ica.gov.sg/news-and-publications/newsroom/media-release/reminder-to-all-travellers-including-singapore-residents-to-submit-sg-arrival-card-prior-to-arrival-in-singapore",
+      "title": "Reminder To All Travellers, Including Singapore Residents, To Submit SG Arrival Card Prior To Arrival in Singapore — comunicado de la ICA, diciembre de 2022",
+      "checked": "2026-10-27",
+      "supports": "a los viajeros que no envían la tarjeta antes de llegar se les pide hacerlo y volver a la fila del control de inmigración"
+    },
+    {
+      "url": "https://www.changiairport.com/en/at-changi/facilities-and-services-directory/internet-connection.html",
+      "title": "Free WiFi & Internet Connection — Changi Airport",
+      "checked": "2026-10-27",
+      "supports": "#WiFi@Changi gratuito en las zonas públicas y de tránsito de todas las terminales; sin registro, pago ni datos personales; elegir la red, escribir una dirección web para llegar a la página de acceso, pulsar CONNECT NOW"
+    },
+    {
+      "url": "https://simplygo.com.sg/faqs/cards-and-charms/simplygo/contactless-bank-cards/",
+      "title": "FAQs for Contactless Bank Cards — SimplyGo",
+      "checked": "2026-10-27",
+      "supports": "tarjetas sin contacto American Express, Mastercard y Visa emitidas en el extranjero (y billeteras móviles) aceptadas en el transporte público, con el uso internacional activado, sin cuenta de SimplyGo; débito Maestro/Cirrus no aceptado; un cargo administrativo por día de uso con tarjeta extranjera; acercar una sola tarjeta"
+    },
+    {
+      "url": "https://www.consumerproductsafety.gov.sg/consumers/product-safety-tips/home-appliances-furniture-and-indoor-product-safety/types-of-mains-plugs-suitable-for-use-in-singapore/",
+      "title": "Type of Mains Plugs Suitable for use in Singapore — Consumer Product Safety Office",
+      "checked": "2026-10-27",
+      "supports": "el enchufe de tres clavijas de 13 A con fusible (tipo G) sirve para la mayoría de los aparatos en Singapur"
+    },
+    {
+      "url": "https://www.consumerproductsafety.gov.sg/consumers/product-safety-tips/home-appliances-furniture-and-indoor-product-safety/safety-tips-on-universal-socket-outlets/",
+      "title": "Safety Tips on Universal Socket Outlets — Consumer Product Safety Office",
+      "checked": "2026-10-27",
+      "supports": "las tomas universales son habituales en los hoteles; los aparatos de 100–120 V, como secadores de pelo, planchas de viaje y hervidores, no funcionan de forma segura a 230 V"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-sg-stage4 (fuentes del texto inglés)",
+    "copy": "es-writer-sgmy",
+    "language": "es-qa-sgmy (2026-10-28): independent review, 4 objective fixes applied",
+    "facts": "es-factcheck-sgmy (2026-10-28)"
+  }
+}
