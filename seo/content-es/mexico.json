@@ -1,0 +1,152 @@
+{
+  "slug": "mexico",
+  "iso": "MX",
+  "title": "eSIM para viajar a México: registro de líneas | Magic eSIM",
+  "description": "Qué piden las nuevas reglas para líneas en México y planes que también cubren Estados Unidos y Canadá. El pago en línea aún no está disponible.",
+  "lead": "Datos para tu viaje a México, con lo que de verdad dicen las nuevas reglas sobre líneas telefónicas y planes regionales que también cubren Estados Unidos y Canadá.",
+  "sections": [
+    {
+      "id": "registro-de-lineas",
+      "h2": "Identificación de líneas telefónicas en México: a quién se aplica",
+      "paragraphs": [
+        "Los Lineamientos de la Comisión Reguladora de Telecomunicaciones (CRT), publicados en el Diario Oficial de la Federación y vigentes desde el 9 de diciembre de 2025, fijan una regla para los concesionarios y comercializadoras que prestan el servicio de telefonía móvil: «Toda Línea Telefónica Móvil deberá estar vinculada a un Titular». Con una modificación de junio de 2026, las líneas que siguen sin vincular se deshabilitan de forma escalonada entre agosto y diciembre de 2026, según el último dígito del número. Una línea deshabilitada todavía puede llamar a los números de emergencia y de atención ciudadana, y al sistema de atención de su propia compañía.",
+        "Si compras una SIM o una eSIM mexicana durante tu estancia, te identificas con tu pasaporte, con una CURP para extranjeros (la Clave Única de Registro de Población) o con una tarjeta de visitante o residente del Instituto Nacional de Migración que contenga CURP. Según el texto vigente, las compañías «únicamente registrarán» tu nombre, país de origen, número de pasaporte o CURP, además del número telefónico y el resultado de la validación de identidad.",
+        "Los teléfonos que llegan con roaming internacional son otro caso. El artículo noveno transitorio deja a la CRT definir, después de la Copa Mundial de 2026, los mecanismos para vincular las líneas que usan roaming internacional en territorio nacional. Esta página no afirma nada sobre cómo tratarán esos mecanismos a un teléfono o a un plan del extranjero."
+      ]
+    },
+    {
+      "id": "llegada-cdmx",
+      "h2": "Al llegar a la Ciudad de México",
+      "paragraphs": [
+        "El Aeropuerto Internacional de la Ciudad de México (AICM) ofrece Wi-Fi gratuito, la red #AICM_FREE_WIFI, en sus dos terminales, «desde las áreas públicas de los ambulatorios y hasta las salas de última espera». Te conectas con un solo clic y, pasadas dos horas, vuelves a aceptar las condiciones de uso para seguir conectado.",
+        "En México, el 911 es el Número Único de Llamadas de Emergencias. Conviene anotarlo junto con la dirección de tu hotel antes de aterrizar."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Solo México, o también Estados Unidos y Canadá",
+      "paragraphs": [
+        "Los planes locales cubren solo México y sirven para un viaje que no sale del país. Los planes diarios te dan una cantidad fija de datos cada día, ideal para un viaje largo por carretera en el que todos los días se parecen. Si tu ruta sigue hacia Estados Unidos o Canadá, los planes regionales que incluyen México también cubren ambos países.",
+        "Antes de elegir, revisa en la [guía de compatibilidad](/es/guides/compatibility/) que tu teléfono admita eSIM y no esté bloqueado a la red de tu compañía, y consulta en la [guía de activación](/es/guides/activation/) qué determina cuándo empieza a contar la validez de un plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Tengo que registrar mi teléfono en México si voy como turista?",
+      "a": "Las reglas de identificación se aplican a las líneas de compañías mexicanas: si compras una SIM o eSIM mexicana, la vinculas a tu nombre, por ejemplo con tu pasaporte. Para las líneas con roaming internacional, los lineamientos dejan que el regulador defina los mecanismos después del Mundial de 2026, y esta página no afirma nada sobre ellos."
+    },
+    {
+      "q": "¿Puedo comprar una SIM mexicana con pasaporte?",
+      "a": "Sí. Las reglas aceptan el pasaporte, la CURP para extranjeros o una tarjeta de visitante o residente que contenga CURP."
+    },
+    {
+      "q": "¿Hay algún plan que cubra México, Estados Unidos y Canadá?",
+      "a": "Sí: los planes regionales que incluyen México también cubren Estados Unidos y Canadá."
+    },
+    {
+      "q": "¿Hay Wi-Fi gratis en el aeropuerto de la Ciudad de México?",
+      "a": "Sí. El AICM ofrece la red #AICM_FREE_WIFI en sus dos terminales; cada conexión dura hasta dos horas y después vuelves a aceptar las condiciones de uso."
+    },
+    {
+      "q": "¿Cuál es el número de emergencias en México?",
+      "a": "El 911 es el número único para llamadas de emergencia en México."
+    }
+  ],
+  "related": [
+    "usa",
+    "canada",
+    "guatemala",
+    "belize"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Qué piden las nuevas reglas para líneas en México y planes que también cubren Estados Unidos y Canadá.",
+      "kind": "regional_also",
+      "codes": [
+        "US",
+        "CA"
+      ]
+    },
+    {
+      "quote": "Datos para tu viaje a México, con lo que de verdad dicen las nuevas reglas sobre líneas telefónicas y planes regionales que también cubren Estados Unidos y Canadá.",
+      "kind": "regional_also",
+      "codes": [
+        "US",
+        "CA"
+      ]
+    },
+    {
+      "quote": "Los planes locales cubren solo México y sirven para un viaje que no sale del país.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes diarios te dan una cantidad fija de datos cada día, ideal para un viaje largo por carretera en el que todos los días se parecen.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Si tu ruta sigue hacia Estados Unidos o Canadá, los planes regionales que incluyen México también cubren ambos países.",
+      "kind": "regional_also",
+      "codes": [
+        "US",
+        "CA"
+      ]
+    },
+    {
+      "quote": "Solo México, o también Estados Unidos y Canadá",
+      "kind": "regional_also",
+      "codes": [
+        "US",
+        "CA"
+      ]
+    },
+    {
+      "quote": "¿Hay algún plan que cubra México, Estados Unidos y Canadá?",
+      "kind": "regional_also",
+      "codes": [
+        "US",
+        "CA"
+      ]
+    },
+    {
+      "quote": "Sí: los planes regionales que incluyen México también cubren Estados Unidos y Canadá.",
+      "kind": "regional_also",
+      "codes": [
+        "US",
+        "CA"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://dof.gob.mx/nota_detalle.php?codigo=5775677&fecha=09/12/2025",
+      "title": "DOF – Lineamientos para la identificación de líneas telefónicas móviles (9 de diciembre de 2025)",
+      "checked": "2026-10-27",
+      "supports": "entran en vigor el día de su publicación (9 de diciembre de 2025); obligan a los concesionarios y comercializadoras que prestan el servicio de telefonía móvil; art. 13: «Toda Línea Telefónica Móvil deberá estar vinculada a un Titular»; transitorio sexto: una línea deshabilitada solo puede llamar a los Números de Emergencia y de Atención Ciudadana y al Sistema de Atención de su compañía; art. 20: las personas extranjeras se identifican con pasaporte; transitorio noveno: después de la Copa Mundial 2026 la Comisión definirá los mecanismos para vincular las líneas que usen roaming internacional en territorio nacional"
+    },
+    {
+      "url": "https://dof.gob.mx/nota_detalle_popup.php?codigo=5792297",
+      "title": "DOF – Modificación a los Lineamientos para la identificación de líneas telefónicas móviles (30 de junio de 2026)",
+      "checked": "2026-10-27",
+      "supports": "aprobada por el Pleno de la CRT el 25 de junio de 2026; art. 20: «CURP para extranjeros» y «Tarjetas de visitante o residente que contengan CURP, expedidas por el Instituto Nacional de Migración»; las compañías «únicamente registrarán nombre, país de origen, número de pasaporte o, en su caso, CURP para extranjeros», el número telefónico y el resultado de la Validación de Identidad; transitorio segundo: las líneas no vinculadas se deshabilitan según el último dígito, del 15 de agosto al 31 de diciembre de 2026; no modifica el transitorio de roaming"
+    },
+    {
+      "url": "https://www.aicm.com.mx/aicm-ofrece-internet-wi-fi-7-gratuito-en-sus-dos-terminales/15-07-2026",
+      "title": "AICM ofrece internet Wi-Fi 7 gratuito en sus dos terminales – Aeropuerto Internacional de la Ciudad de México",
+      "checked": "2026-10-27",
+      "supports": "red #AICM_FREE_WIFI gratuita en las dos terminales, «desde las áreas públicas de los ambulatorios y hasta las salas de última espera»; conexión con un solo clic; hasta dos horas sin interrupciones, después hay que aceptar de nuevo las condiciones de uso"
+    },
+    {
+      "url": "https://www.gob.mx/911/articulos/numero-unico-de-emergencias-9-1-1",
+      "title": "Número Único de Emergencias 9-1-1 – Gobierno de México",
+      "checked": "2026-10-27",
+      "supports": "«9-1-1 es el Número Único de Llamadas de Emergencias»"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-C",
+    "copy": "es-writer-C",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

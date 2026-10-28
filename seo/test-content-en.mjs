@@ -11,6 +11,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   validateContent, crossProblems, checkAll, contentSlugs, loadContent, namedCountries, sentences, GUARD_IDS, LIMITS,
+  CONTENT_LANGS,
 } from './content-en.mjs';
 import { CLAIM_GUARDS } from './claim-guards.mjs';
 import { countryPage, enCountries } from './build-en-pages.mjs';
@@ -399,17 +400,22 @@ test('a file that breaks a rule stops the build; text is escaped', () => {
   assert.ok(h.includes('Trains &amp; buses in Japan run to the minute, so &quot;on time&quot; means it.'));
 });
 
-test('a page without a file is the template, byte for byte; other languages never read a file', () => {
+test('a page without a file is the template, byte for byte; other languages never read the English file', () => {
   for (const c of enCountries().filter((x) => !contentSlugs().includes(x.slug)).slice(0, 25)) {
     const h = countryPage(c);
     assert.equal(h, countryPage(c, null), c.slug);
     assert.equal(/cp-about|content\.css/.test(h), false, c.slug);
   }
-  for (const code of ['es', 'de', 'fr', 'zh-Hans', 'ko']) {
+  for (const code of ['de', 'fr', 'zh-Hans', 'ko']) {
+    assert.equal(CONTENT_LANGS[code], undefined, `${code}: no authored-content rules`);
     const g = localeGenerator(code);
     const c = g.countries().find((x) => x.slug === 'japan');
     assert.equal(g.countryPage(c, FIXTURE), g.countryPage(c), `${code}: the English file changes nothing`);
   }
+  // Spanish has its own folder (seo/content-es/, seo/test-content-es.mjs): an English file handed to a Spanish page is
+  // held to the Spanish rules, and refused.
+  const es = localeGenerator('es');
+  assert.throws(() => es.countryPage(es.countries().find((x) => x.slug === 'japan'), FIXTURE), /seo\/content-es\/japan\.json:[\s\S]*El pago en línea/);
 });
 
 test('committed English pages: a file renders, no file renders nothing; no FAQPage on any English country page', () => {
@@ -431,7 +437,8 @@ test('en/content.css: linked only by pages with a file; no motion, no transform,
   const css = read('en/content.css');
   assert.equal(/animation|transition|transform|@keyframes/.test(css.replace(/\/\*[\s\S]*?\*\//g, '')), false);
   for (const m of css.matchAll(/font-size:\s*([\d.]+)px/g)) assert.ok(Number(m[1]) >= 13, m[0]);
-  for (const dir of ['es', 'de', 'fr', 'zh', 'ko', 'esim']) {
+  // Spanish pages link it exactly when seo/content-es/<slug>.json exists (seo/test-content-es.mjs); every other language never.
+  for (const dir of ['de', 'fr', 'zh', 'ko', 'esim']) {
     for (const slug of readdirSync(join(ROOT, dir, dir === 'esim' ? '' : 'esim'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name).slice(0, 40)) {
       const f = join(ROOT, dir, dir === 'esim' ? '' : 'esim', slug, 'index.html');
       if (existsSync(f)) assert.equal(readFileSync(f, 'utf8').includes('content.css'), false, f);

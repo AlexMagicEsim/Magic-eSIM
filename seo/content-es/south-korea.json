@@ -1,0 +1,154 @@
+{
+  "slug": "south-korea",
+  "iso": "KR",
+  "title": "eSIM Corea del Sur: e-Arrival, apps y el 1330 | Magic eSIM",
+  "description": "La tarjeta e-Arrival, las apps que recomienda el turismo coreano, la línea de ayuda 1330 y datos para Corea. El pago en línea aún no está disponible.",
+  "lead": "Las apps que la Organización de Turismo de Corea recomienda a los visitantes, de Naver Maps a la app de Korail, necesitan conexión, igual que la llamada en línea de la línea 1330. Esto es lo que conviene preparar antes de aterrizar.",
+  "sections": [
+    {
+      "id": "apps-de-viaje",
+      "h2": "Las apps que usarás en Corea",
+      "paragraphs": [
+        "La Organización de Turismo de Corea recomienda Naver Maps para rutas a pie, en bicicleta, en auto y en transporte público; Papago para traducir; k.ride, un servicio de movilidad exclusivo para visitantes internacionales; y el sitio oficial de Korail o la app Korail+ para los boletos de tren.",
+        "Todas necesitan conexión mientras estás en la calle, así que un teléfono que solo se conecta por Wi-Fi te deja sin indicaciones ni traductor en plena acera. Por eso tiene sentido contar con datos desde el aterrizaje.",
+        "VISITKOREA, el sitio oficial de la Organización de Turismo de Corea, describe la eSIM como una SIM digital que se configura escaneando un código QR después de comprarla en línea, e indica que los centros de roaming de los aeropuertos de Incheon, Gimpo, Gimhae y Jeju ofrecen roaming, tarjetas SIM y alquiler de teléfonos o de los dispositivos Wi-Fi portátiles que allí llaman «Wi-Fi egg»."
+      ]
+    },
+    {
+      "id": "e-arrival",
+      "h2": "La tarjeta e-Arrival",
+      "paragraphs": [
+        "La tarjeta e-Arrival de Corea se presenta en línea en e-arrivalcard.go.kr, desde 72 horas antes de la llegada hasta el control de entrada, y el aeropuerto de Incheon no indica ninguna tarifa. Según el Ministerio de Justicia, cada envío se puede usar una sola vez y dentro de las 72 horas siguientes a su presentación.",
+        "El aeropuerto de Incheon aclara que quienes tienen una K-ETA vigente no necesitan presentarla."
+      ]
+    },
+    {
+      "id": "wifi-y-ayuda",
+      "h2": "Wi-Fi gratis, la línea 1330 y la electricidad",
+      "paragraphs": [
+        "VISITKOREA indica que hay Wi-Fi público gratis en la mayoría de los lugares públicos, como aeropuertos y estaciones de metro, y remite a wififree.kr.",
+        "La 1330 Korea Travel Helpline, en el +82-2-1330, ofrece ayuda turística en varios idiomas. Además de la línea telefónica tiene una llamada en línea gratuita y un chat, que funcionan con tu conexión, así que pueden aplicarse cargos por datos.",
+        "La corriente es de 220 V a 60 Hz y los tomacorrientes tienen dos orificios redondos, para enchufes de tipo C y F."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Solo Corea o parte de una ruta más larga",
+      "paragraphs": [
+        "Los planes locales cubren solo Corea del Sur y encajan con una visita que no sale del país entre la llegada y la salida.",
+        "Los planes regionales que incluyen Corea del Sur también cubren Japón y China y, más al sur, Vietnam, Tailandia, Singapur, Malasia e Indonesia. Los planes diarios te dan la misma cantidad de datos cada día del viaje.",
+        "El «Resumen de planes» de arriba muestra los volúmenes y la duración de cada bloque; la [guía de activación](/es/guides/activation/) explica qué revisar antes de instalar uno."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Tengo que completar la tarjeta e-Arrival de Corea y cuesta algo?",
+      "a": "El aeropuerto de Incheon no indica ninguna tarifa, y se presenta en línea desde 72 horas antes de la llegada hasta el control de entrada. Según el aeropuerto, quienes tienen una K-ETA vigente no necesitan presentarla."
+    },
+    {
+      "q": "¿Qué app de mapas recomienda el turismo coreano?",
+      "a": "Naver Maps, que la Organización de Turismo de Corea propone para rutas a pie, en bicicleta, en auto y en transporte público. Necesita datos mientras te desplazas."
+    },
+    {
+      "q": "¿Hay Wi-Fi gratis en el metro de Seúl?",
+      "a": "VISITKOREA dice que hay Wi-Fi público gratis en la mayoría de los lugares públicos y pone como ejemplos los aeropuertos y las estaciones de metro."
+    },
+    {
+      "q": "¿Hay una línea de ayuda para turistas en Corea?",
+      "a": "Sí, la 1330 Korea Travel Helpline, que atiende en varios idiomas. Su llamada en línea gratuita y su chat usan tu conexión de datos, así que pueden aplicarse cargos por datos."
+    },
+    {
+      "q": "¿Qué enchufes se usan en Corea del Sur?",
+      "a": "Según la oficina de turismo, la corriente es de 220 V a 60 Hz y los tomacorrientes tienen dos orificios redondos, para enchufes de tipo C y F."
+    },
+    {
+      "q": "¿Un solo plan puede cubrir Corea del Sur y Japón?",
+      "a": "Los planes regionales que incluyen Corea del Sur también cubren Japón, además de China y Vietnam."
+    }
+  ],
+  "related": [
+    "japan",
+    "china",
+    "vietnam",
+    "thailand",
+    "singapore"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Los planes locales cubren solo Corea del Sur y encajan con una visita que no sale del país entre la llegada y la salida.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes regionales que incluyen Corea del Sur también cubren Japón y China y, más al sur, Vietnam, Tailandia, Singapur, Malasia e Indonesia.",
+      "kind": "regional_also",
+      "codes": [
+        "JP",
+        "CN",
+        "VN",
+        "TH",
+        "SG",
+        "MY",
+        "ID"
+      ]
+    },
+    {
+      "quote": "Los planes diarios te dan la misma cantidad de datos cada día del viaje.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Un solo plan puede cubrir Corea del Sur y Japón?",
+      "kind": "regional_also",
+      "codes": [
+        "JP"
+      ]
+    },
+    {
+      "quote": "Los planes regionales que incluyen Corea del Sur también cubren Japón, además de China y Vietnam.",
+      "kind": "regional_also",
+      "codes": [
+        "JP",
+        "CN",
+        "VN"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.moj.go.kr/bbs/moj/189/593161/artclView.do",
+      "title": "Want to Learn More? e-Arrival card Q&A Part 2 — Ministerio de Justicia de la República de Corea",
+      "checked": "2026-10-27",
+      "supports": "tarjeta e-Arrival en línea en www.e-arrivalcard.go.kr hasta el control de entrada; se usa una sola vez, dentro de las 72 horas siguientes a su presentación"
+    },
+    {
+      "url": "https://www.airport.kr/ap_en/1448/subview.do",
+      "title": "Manned Immigration — Aeropuerto Internacional de Incheon",
+      "checked": "2026-10-27",
+      "supports": "tarjeta e-Arrival desde 72 horas antes de la llegada; tarifa: ninguna; quienes tienen una K-ETA vigente no necesitan presentarla"
+    },
+    {
+      "url": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=140041",
+      "title": "Electricity & Communications — VISITKOREA",
+      "checked": "2026-10-27",
+      "supports": "220 V, 60 Hz, tomacorrientes con dos orificios redondos; Wi-Fi público gratis en aeropuertos y estaciones de metro, wififree.kr; eSIM comprada en línea y configurada con un código QR; centros de roaming en Incheon, Gimpo, Gimhae y Jeju con roaming, tarjetas SIM y alquiler de Wi-Fi egg y teléfonos"
+    },
+    {
+      "url": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=198570",
+      "title": "Helpful Apps & Resources — VISITKOREA",
+      "checked": "2026-10-27",
+      "supports": "Naver Maps, Papago, k.ride, sitio de Korail y app Korail+; 1330 Korea Travel Helpline (+82-2-1330) en varios idiomas, con llamada en línea gratuita y chat; pueden aplicarse cargos por datos"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Corea del Sur: enchufes de tipo C y F"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-A",
+    "copy": "es-writer-A",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

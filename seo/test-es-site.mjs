@@ -11,7 +11,7 @@
  *
  * Run: node --test seo/test-es-site.mjs
  */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -94,7 +94,7 @@ function skeleton(html) {
     // the language list marks the page's own language, which sits at a different place in each language — its entries
     // are checked by seo/test-language-switch.mjs
     .replace(/<ul class="langmenu-list">[\s\S]*?<\/ul>/g, '<ul class="langmenu-list">')
-    // the authored English text (seo/content-en/, 2026-10-27) exists on the English page only, by design — content, not design
+    // the authored text (seo/content-en/, seo/content-es/, 2026-10-27) exists only where a file does — content, not design
     .replace(/<div class="cp-about">[\s\S]*?<\/section>\s*<\/div>/g, '')
     // the destination list's letters and groups come from the names in each language (Spanish has 22 initials,
     // English 23) — data, not design; the Spanish list is checked on its own below
@@ -112,7 +112,7 @@ test('the same design: every page kind has the English markup skeleton (tags and
     'esim/peru/index.html', 'guides/index.html', ...EN_GUIDES.map((g) => `guides/${g.slug}/index.html`)];
   for (const k of kinds) assert.equal(skeleton(read(`es/${k}`)), skeleton(read(`en/${k}`)), k);
   // …and the head loads the same stylesheets and scripts (Expressive included), the language's own data aside.
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|es)\/destinations\.js$/, 'DEST').replace(/country-names-(en|es)\.js$/, 'NAMES').replace(/site-i18n-(en|es)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|es)\/destinations\.js$/, 'DEST').replace(/country-names-(en|es)\.js$/, 'NAMES').replace(/site-i18n-(en|es)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
     assert.deepEqual(assets(read(`es/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
   }
@@ -181,13 +181,67 @@ test('Spanish only: no English-only word and no Russian on any of the 206 pages'
   assert.ok(EN_ONLY.size > 300 && EN_ONLY.has('plans') && EN_ONLY.has('destinations'), 'the English word list is real');
   const esNames = new Set(Object.keys(COUNTRY_NAMES).flatMap((iso) => words(readFileSync(join(ROOT, 'assets/country-names-es.js'), 'utf8').match(new RegExp(`"${iso}": "([^"]+)"`))?.[1] || '')));
   const hits = new Set();
-  for (const rel of ES_SITE_PAGES) {
-    for (const run of readable(read(rel))) {
+  const check = (rel, runs) => {
+    for (const run of runs) {
       if (/[А-Яа-яЁё]/.test(run)) hits.add(`${rel}: Russian «${run.slice(0, 60)}»`);
       for (const w of words(run)) if (EN_ONLY.has(w) && !esNames.has(w)) hits.add(`${rel}: «${w}» in «${run.slice(0, 60)}»`);
     }
+  };
+  for (const rel of ES_SITE_PAGES) {
+    const { rest, authored } = splitAuthored(rel, read(rel));
+    check(rel, readable(rest));
+    check(rel, authored.map(withoutOfficialNames));
   }
   assert.deepEqual([...hits].slice(0, 20), []);
+});
+
+/* The authored Spanish text (seo/content-es/<slug>.json, 2026-10-27) names official programmes, places, networks and
+ * services as their owners spell them. Only there — the `.cp-about` block and the head fields the file supplies (title,
+ * description, lead) — and only the names LISTED here are taken out before the check; every other English word, lower or
+ * upper case, still fires. A new official name is added here by hand, after a reviewer has checked it is a name. */
+export const OFFICIAL_NAMES = Object.freeze([
+  // forms, services and programmes (Indonesia, Thailand, Sri Lanka, South Korea) and Türkiye, the country's own name
+  'All Indonesia', 'Thailand Digital Arrival Card', 'Electronic Travel Authorization', 'Korea Travel Helpline', 'Türkiye',
+  // apps the Beijing city guide names, written as the guide lists them
+  'DiDi, Trip, Meituan',
+  // airport Wi-Fi networks (Athens, Mexico City, Paris-CDG)
+  'ATH Free Wifi', '#AICM_FREE_WIFI', 'WIFI-AIRPORT',
+  // Transport for London (it writes some of its names in lower case)
+  'Transport for London', 'Elizabeth line', 'pay as you go',
+]);
+const withoutOfficialNames = (run) => [...OFFICIAL_NAMES].sort((a, b) => b.length - a.length).reduce((t, n) => t.split(n).join(' '), run);
+
+/** A Spanish country page split into what its content file wrote (the `.cp-about` block's runs, the <title>, the meta
+ *  description and the lead — only when seo/content-es/<slug>.json exists) and the rest of the page (the template). */
+function splitAuthored(rel, html) {
+  const m = rel.match(/^es\/esim\/([a-z0-9-]+)\/index\.html$/);
+  const file = m && join(ROOT, 'seo/content-es', `${m[1]}.json`);
+  if (!file || !existsSync(file)) return { rest: html, authored: [] };
+  const doc = JSON.parse(readFileSync(file, 'utf8'));
+  const block = (html.match(/<div class="cp-about">[\s\S]*?\n {2}<\/div>\n/) || [''])[0];
+  const plainMd = (x) => String(x).replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, '$1');
+  const authored = [...readable(`<body>${block}</body>`), doc.title, doc.description, plainMd(doc.lead)];
+  // the same three head strings, escaped as the page prints them, leave the template part
+  const escHtml = (x) => String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  let rest = html.replace(block, '');
+  for (const x of [doc.title, doc.description]) rest = rest.split(escHtml(x)).join('');
+  rest = rest.replace(/<p class="lead">[\s\S]*?<\/p>/, '<p class="lead"></p>');
+  return { rest, authored };
+}
+
+test('the official-name allowance is a list, applied to the authored text only: any other English word still fires', () => {
+  const EN_ONLY = englishOnlyWords();
+  const left = (s) => words(withoutOfficialNames(s)).filter((w) => EN_ONLY.has(w));
+  assert.deepEqual(left('Transport for London indica que hay Wi-Fi en la Elizabeth line.'), []);
+  assert.deepEqual(left('La red #AICM_FREE_WIFI y el formulario All Indonesia.'), []);
+  assert.ok(left('Elige tus plans antes del viaje.').includes('plans'), 'a lower-case English word inside Spanish prose');
+  assert.ok(left('Plans para tu viaje.').includes('plans'), 'a capitalised English word is not a name unless listed');
+  assert.ok(left('Show All Plans').includes('plans'), 'a Title Case English phrase still fires');
+  // outside the authored block nothing is taken out: the template's own runs are checked as they are
+  const html = read('es/esim/japan/index.html');
+  const { rest, authored } = splitAuthored('es/esim/japan/index.html', html);
+  assert.ok(authored.length > 10 && !rest.includes('cp-about'), 'the block is split off');
+  assert.equal(splitAuthored('es/esim/peru/index.html', 'x').authored.length, 0, 'a page without a file has no authored part');
 });
 
 test('the Spanish-only check can fire', () => {

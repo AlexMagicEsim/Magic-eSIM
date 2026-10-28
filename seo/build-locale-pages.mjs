@@ -53,7 +53,7 @@ import { namesFile, globalSuffix } from './build-country-dictionary-locale.mjs';
 import { LOCALES, locale, homeUrl, X_DEFAULT_CURRENT } from './locales.mjs';
 import { homePage as renderHome } from './home-page.mjs';
 import { missingGuards } from './claim-guards.mjs';
-import { loadContent, validateContent, CONTENT_COPY } from './content-en.mjs';
+import { loadContent, validateContent, contentDir, CONTENT_LANGS } from './content-en.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { GUIDE_RU, INDEXED_COUNTRIES, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
@@ -382,12 +382,16 @@ ${cards.join('\n')}
 `;
   }
 
-  /* AUTHORED TEXT (English only, seo/content-en/<slug>.json; seo/content-en.mjs is its schema and its rules). A country
+  /* AUTHORED TEXT (seo/content-<code>/<slug>.json for a language in CONTENT_LANGS — English and Spanish; seo/content-en.mjs
+   * is the schema and the rules of every such language). A country
    * with a file gets its title, description and lead from it, and — here, after «Plans at a glance», before «Before you
    * buy» — its sections, its questions (plain <details>, NO FAQPage markup: Google shows FAQ results only for government
    * and health sites since 2023, and the visible text is indexed as text) and its related destinations, styled by
    * /en/content.css, which only such a page links (so no other page, in any language, changes by a byte). A file that
-   * breaks a rule stops the build. A country without one keeps the template, byte for byte; no other language reads it. */
+   * breaks a rule stops the build. A country without one keeps the template, byte for byte; a language reads only its
+   * own folder, and a language without one (DE, FR, ZH, KO) reads none. */
+  const CL = CONTENT_LANGS[L.code] || null;
+  const contentFile = (slug) => `seo/content-${L.code}/${slug}.json`;
   const LINK = /\[([^\]\n]+)\]\(([^)\s]+)\)/g;
   const inline = (s) => {
     let out = '';
@@ -401,9 +405,9 @@ ${cards.join('\n')}
   let pagesBySlug = null;
   const pageBySlug = (slug) => (pagesBySlug ||= new Map(countries().map((x) => [x.slug, x]))).get(slug);
   function authoredContent(c, content) {
-    if (L.code !== 'en' || !content) return null;
-    const problems = validateContent(content, { file: c.slug });
-    if (problems.length) throw new Error(`seo/content-en/${c.slug}.json:\n  - ${problems.join('\n  - ')}\n(node seo/content-en.mjs --check ${c.slug})`);
+    if (!CL || !content) return null;
+    const problems = validateContent(content, { file: c.slug, lang: L.code });
+    if (problems.length) throw new Error(`${contentFile(c.slug)}:\n  - ${problems.join('\n  - ')}\n(node seo/content-en.mjs --check${L.code === 'en' ? '' : ` --lang ${L.code}`} ${c.slug})`);
     return content;
   }
   function authored(c, doc) {
@@ -416,18 +420,18 @@ ${s.list.map((x) => `      <li>${inline(x)}</li>`).join('\n')}
     </ul>` : ''}
   </section>`);
     const faq = `  <section class="cp-about-sec cp-faq" id="faq" aria-labelledby="cpFaqTitle">
-    <h2 id="cpFaqTitle">${esc(CONTENT_COPY.faqTitle(c.name))}</h2>
+    <h2 id="cpFaqTitle">${esc(CL.copy.faqTitle(c.name))}</h2>
 ${doc.faq.map((f) => `    <details>
       <summary>${esc(f.q)}</summary>
       <p>${inline(f.a)}</p>
     </details>`).join('\n')}
   </section>`;
     const related = `  <section class="cp-about-sec cp-related" aria-labelledby="cpRelatedTitle">
-    <h2 id="cpRelatedTitle">${esc(CONTENT_COPY.relatedTitle)}</h2>
+    <h2 id="cpRelatedTitle">${esc(CL.copy.relatedTitle)}</h2>
     <ul>
 ${doc.related.map((slug) => {
     const r = pageBySlug(slug);
-    if (!r) throw new Error(`seo/content-en/${c.slug}.json: related «${slug}» has no page`);
+    if (!r) throw new Error(`${contentFile(c.slug)}: related «${slug}» has no page`);
     return `      <li><a href="${P}/esim/${r.slug}/">${esc(r.name)}</a></li>`;
   }).join('\n')}
     </ul>
@@ -766,7 +770,7 @@ ${GUIDES.filter((g) => g.slug === 'activation' || g.slug === 'troubleshooting').
     </div>
   </section>`;
 
-function countryPage(c, content = L.code === 'en' ? loadContent(c.slug) : null) {
+function countryPage(c, content = CL ? loadContent(c.slug, contentDir(L.code)) : null) {
   const name = esc(c.name);
   const url = `${SITE}${P}/esim/${c.slug}/`;
   const doc = authoredContent(c, content);
@@ -779,7 +783,7 @@ function countryPage(c, content = L.code === 'en' ? loadContent(c.slug) : null) 
   if (doc) {
     const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
     const twice = ids.filter((x, i) => ids.indexOf(x) !== i);
-    if (twice.length) throw new Error(`seo/content-en/${c.slug}.json: the id ${twice[0]} is already on the page`);
+    if (twice.length) throw new Error(`${contentFile(c.slug)}: the id ${twice[0]} is already on the page`);
   }
   return html;
 }

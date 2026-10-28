@@ -1,0 +1,145 @@
+{
+  "slug": "vietnam",
+  "iso": "VN",
+  "title": "eSIM Vietnam: visa electrónica, llegada y datos | Magic eSIM",
+  "description": "Vietnam: visa electrónica para toda nacionalidad, Wi-Fi gratis en los aeropuertos internacionales y enchufes de 220 V. El pago en línea aún no está disponible.",
+  "lead": "Lo que conviene resolver antes de aterrizar en Vietnam: la visa electrónica, la primera hora en el aeropuerto y los datos solo para Vietnam o para una ruta que cruza a Camboya.",
+  "sections": [
+    {
+      "id": "e-visa",
+      "h2": "Primero, la visa electrónica",
+      "paragraphs": [
+        "Desde el 15 de agosto de 2023, los ciudadanos de cualquier país o territorio pueden solicitar la visa electrónica de Vietnam, válida por 90 días y con entradas múltiples, según la Autoridad Nacional de Turismo de Vietnam. Haz el trámite en el sitio oficial de visas electrónicas del Departamento de Inmigración y guarda la aprobación donde puedas abrirla en la frontera."
+      ]
+    },
+    {
+      "id": "al-llegar",
+      "h2": "Wi-Fi, SIM en el aeropuerto y la eSIM",
+      "paragraphs": [
+        "La oficina de turismo de Vietnam indica que todos los aeropuertos internacionales del país tienen Wi-Fi gratis y que hay acceso público gratuito a internet en varios polos turísticos y en los principales aeropuertos. No publica cómo se inicia sesión ni límites de tiempo, así que tómalo como una forma de enviar un primer mensaje, no como tu conexión para el trayecto a la ciudad.",
+        "En los principales aeropuertos y en tiendas se venden tarjetas SIM locales de prepago, y la oficina de turismo indica que hay que mostrar el pasaporte para registrarlas. La eSIM es la otra opción: un perfil que agregas al teléfono, que debe ser compatible con eSIM y no estar bloqueado a la red de tu compañía. La [guía de compatibilidad](/es/guides/compatibility/) explica cómo comprobar ambas cosas.",
+        "La corriente es de 220 V y la mayoría de los tomacorrientes admiten enchufes de dos patas redondas, así que revisa el enchufe de tu cargador antes de hacer la maleta."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Solo Vietnam o toda la región",
+      "paragraphs": [
+        "Los planes locales cubren solo Vietnam y sirven para un viaje que empieza y termina en el país.",
+        "Si tu ruta cruza a Camboya en autobús o en barco, los planes regionales que incluyen Vietnam también cubren Camboya, Tailandia, Malasia, Singapur, Filipinas e Indonesia. Los planes diarios te dan una cantidad fija de datos por día, ideal para quien quiere saber qué incluye cada jornada del viaje.",
+        "Consulta el «Resumen de planes» de arriba para ver cuántos datos ofrece cada plan y durante cuánto tiempo; la [guía de activación](/es/guides/activation/) cuenta qué revisar antes de instalar un plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Puedo tramitar una visa electrónica para Vietnam?",
+      "a": "La Autoridad Nacional de Turismo de Vietnam indica que, desde el 15 de agosto de 2023, los ciudadanos de todos los países y territorios pueden solicitarla, y que es válida por 90 días con entradas múltiples. Usa el sitio oficial de visas electrónicas del Departamento de Inmigración."
+    },
+    {
+      "q": "¿Necesito el pasaporte para comprar una SIM en Vietnam?",
+      "a": "Para una SIM local de prepago comprada en Vietnam, sí: la oficina de turismo indica que hay que mostrar el pasaporte para registrarla. Esas tarjetas se venden en los principales aeropuertos y en tiendas."
+    },
+    {
+      "q": "¿Hay Wi-Fi gratis en los aeropuertos de Vietnam?",
+      "a": "Según la oficina de turismo, todos los aeropuertos internacionales de Vietnam tienen Wi-Fi gratis. No publica límites de tiempo ni pasos para iniciar sesión."
+    },
+    {
+      "q": "¿Un solo plan cubre Vietnam y Camboya?",
+      "a": "Los planes regionales que incluyen Vietnam también cubren Camboya, además de Tailandia y Filipinas."
+    },
+    {
+      "q": "¿Necesitaré un adaptador de enchufe en Vietnam?",
+      "a": "Depende de tu enchufe. La corriente es de 220 V a 50 Hz y se usan enchufes de tipo A, B, C y F; la oficina de turismo indica que la mayoría de los tomacorrientes admiten dos patas redondas."
+    }
+  ],
+  "related": [
+    "cambodia",
+    "thailand",
+    "malaysia",
+    "singapore",
+    "philippines",
+    "south-korea"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Lo que conviene resolver antes de aterrizar en Vietnam: la visa electrónica, la primera hora en el aeropuerto y los datos solo para Vietnam o para una ruta que cruza a Camboya.",
+      "kind": "regional_also",
+      "codes": [
+        "KH"
+      ]
+    },
+    {
+      "quote": "Los planes locales cubren solo Vietnam y sirven para un viaje que empieza y termina en el país.",
+      "kind": "local"
+    },
+    {
+      "quote": "Si tu ruta cruza a Camboya en autobús o en barco, los planes regionales que incluyen Vietnam también cubren Camboya, Tailandia, Malasia, Singapur, Filipinas e Indonesia.",
+      "kind": "regional_also",
+      "codes": [
+        "KH",
+        "TH",
+        "MY",
+        "SG",
+        "PH",
+        "ID"
+      ]
+    },
+    {
+      "quote": "Los planes diarios te dan una cantidad fija de datos por día, ideal para quien quiere saber qué incluye cada jornada del viaje.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Un solo plan cubre Vietnam y Camboya?",
+      "kind": "regional_also",
+      "codes": [
+        "KH"
+      ]
+    },
+    {
+      "quote": "Los planes regionales que incluyen Vietnam también cubren Camboya, además de Tailandia y Filipinas.",
+      "kind": "regional_also",
+      "codes": [
+        "KH",
+        "TH",
+        "PH"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.vietnam.travel/plan-your-trip/official-vietnam-evisa-application",
+      "title": "An official guide to e-visas in Vietnam — Autoridad Nacional de Turismo de Vietnam",
+      "checked": "2026-10-27",
+      "supports": "visa electrónica para ciudadanos de todos los países y territorios desde el 15 de agosto de 2023, válida 90 días, entradas múltiples; solicitud en el sitio oficial del Departamento de Inmigración",
+      "sentences": [
+        "Desde el 15 de agosto de 2023, los ciudadanos de cualquier país o territorio pueden solicitar la visa electrónica de Vietnam, válida por 90 días y con entradas múltiples, según la Autoridad Nacional de Turismo de Vietnam.",
+        "La Autoridad Nacional de Turismo de Vietnam indica que, desde el 15 de agosto de 2023, los ciudadanos de todos los países y territorios pueden solicitarla, y que es válida por 90 días con entradas múltiples."
+      ]
+    },
+    {
+      "url": "https://vietnam.travel/node/26",
+      "title": "Plan your trip — Vietnam Tourism",
+      "checked": "2026-10-27",
+      "supports": "SIM local registrada con el pasaporte; SIM de prepago en los principales aeropuertos y en tiendas; internet público gratis en polos turísticos y grandes aeropuertos; 220 V, la mayoría de los enchufes con dos patas redondas"
+    },
+    {
+      "url": "https://vietnam.travel/things-to-do/travellers-guide-vietnams-airports/",
+      "title": "A traveller's guide to Vietnam's airports — Vietnam Tourism",
+      "checked": "2026-10-27",
+      "supports": "Wi-Fi gratis en todos los aeropuertos internacionales de Vietnam"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Vietnam: 220 V, 50 Hz, enchufes de tipo A, B, C y F"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-A",
+    "copy": "es-writer-A",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

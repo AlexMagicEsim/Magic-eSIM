@@ -1,0 +1,161 @@
+{
+  "slug": "thailand",
+  "iso": "TH",
+  "title": "eSIM para Tailandia: TDAC, Wi-Fi y enchufes | Magic eSIM",
+  "description": "Viaje a Tailandia: la tarjeta TDAC en línea, Wi-Fi gratis en seis aeropuertos como Suvarnabhumi y enchufes de 230 V. El pago en línea aún no está disponible.",
+  "lead": "Un viaje a Tailandia empieza en internet, con una tarjeta de llegada que se envía antes de volar. Aquí tienes qué resolver primero, en qué aeropuertos hay Wi-Fi gratis y qué planes encajan con una estancia en Tailandia o con una ruta más larga por la región.",
+  "sections": [
+    {
+      "id": "tdac",
+      "h2": "Antes de volar: la tarjeta digital de llegada TDAC",
+      "paragraphs": [
+        "Todo visitante que no sea tailandés debe enviar en línea, antes de llegar, la Thailand Digital Arrival Card, conocida como TDAC, sin importar el medio de transporte y aunque esté exento de visa. Según el Real Consulado General de Tailandia en Dubái, el formulario se abre 3 días antes de la fecha de viaje y enviarlo no cuesta nada.",
+        "No es un mostrador en el aeropuerto sino un formulario web, así que lo más tranquilo es completarlo en casa uno o dos días antes de salir, y no con prisas en una sala de tránsito."
+      ]
+    },
+    {
+      "id": "wifi-aeropuertos",
+      "h2": "Wi-Fi gratis en los aeropuertos tailandeses",
+      "paragraphs": [
+        "Airports of Thailand ofrece Wi-Fi gratis en sus seis aeropuertos: Suvarnabhumi, Don Mueang, Chiang Mai, Mae Fah Luang Chiang Rai, Phuket y Hat Yai. Los datos que piden para entrar dependen de la red que elijas: algunas solicitan tu nombre, un número de pasaporte o de documento de identidad y un número de teléfono; otra pide el número de pasaporte y una dirección de correo electrónico.",
+        "En Suvarnabhumi eliges la red gratuita del aeropuerto, escribes una dirección de correo electrónico y aceptas las condiciones, y con eso tienes 60 minutos de conexión. Alcanza para avisar a quien te espera; para el trayecto hasta la ciudad y los días siguientes necesitas datos propios."
+      ]
+    },
+    {
+      "id": "enchufes-y-ayuda",
+      "h2": "Enchufes y la línea de la policía turística",
+      "paragraphs": [
+        "En Tailandia la corriente es de 230 V y 50 Hz, y los enchufes son de los tipos A, B, C y O. Revisa que la etiqueta de tu cargador incluya 230 V y lleva un adaptador que encaje.",
+        "La Autoridad de Turismo de Tailandia remite a los visitantes a la línea de la Policía Turística, el 1155, que atiende las 24 horas y ofrece ayuda en varios idiomas."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "¿Solo Tailandia o una ruta más larga?",
+      "paragraphs": [
+        "Los planes locales son solo para Tailandia: la opción sencilla si entras y sales por Bangkok sin cruzar ninguna frontera.",
+        "Si el recorrido sigue por tierra o con un vuelo corto, los planes regionales que incluyen Tailandia también cubren Malasia, Camboya, Vietnam, Singapur e Indonesia. Los planes diarios dan una cantidad fija para cada jornada, pensada para quien prefiere tener lo mismo todos los días en lugar de un saldo único para todo el viaje.",
+        "Los datos y la duración de cada plan aparecen en el «Resumen de planes» de arriba. Antes de instalar nada, la [guía de activación](/es/guides/activation/) explica qué revisar en un plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Tengo que completar la TDAC antes de volar a Tailandia?",
+      "a": "Sí. El Real Consulado General de Tailandia en Dubái indica que todo visitante no tailandés debe enviar la Thailand Digital Arrival Card en línea antes de llegar, también quienes están exentos de visa, y que el trámite es gratuito."
+    },
+    {
+      "q": "¿Con cuánta antelación puedo enviar la TDAC?",
+      "a": "La página del consulado indica que la tarjeta se abre 3 días antes de la fecha de viaje."
+    },
+    {
+      "q": "¿Hay Wi-Fi gratis en los aeropuertos de Bangkok?",
+      "a": "Airports of Thailand ofrece Wi-Fi gratis tanto en Suvarnabhumi como en Don Mueang. En Suvarnabhumi, la red gratuita te da 60 minutos después de escribir un correo electrónico y aceptar las condiciones."
+    },
+    {
+      "q": "¿Un mismo plan puede cubrir Tailandia y Malasia?",
+      "a": "Los planes regionales que incluyen Tailandia también cubren Malasia, junto con Singapur, Vietnam, Camboya y Sri Lanka."
+    },
+    {
+      "q": "¿Qué tipo de enchufe necesito en Tailandia?",
+      "a": "Los tipos A, B, C y O, con corriente de 230 V y 50 Hz. Un cargador de teléfono sirve si su etiqueta indica 230 V; el adaptador solo tiene que encajar en la toma."
+    },
+    {
+      "q": "¿Hay Wi-Fi gratis en los aeropuertos tailandeses fuera de Bangkok?",
+      "a": "Sí. Airports of Thailand ofrece Wi-Fi gratis en Chiang Mai, Mae Fah Luang Chiang Rai, Phuket y Hat Yai, además de Suvarnabhumi y Don Mueang. Según la red, para conectarte te piden tu nombre con un número de pasaporte o de documento, un número de teléfono o un correo electrónico."
+    }
+  ],
+  "related": [
+    "vietnam",
+    "malaysia",
+    "cambodia",
+    "singapore",
+    "indonesia",
+    "sri-lanka"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Aquí tienes qué resolver primero, en qué aeropuertos hay Wi-Fi gratis y qué planes encajan con una estancia en Tailandia o con una ruta más larga por la región.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes locales son solo para Tailandia: la opción sencilla si entras y sales por Bangkok sin cruzar ninguna frontera.",
+      "kind": "local"
+    },
+    {
+      "quote": "Si el recorrido sigue por tierra o con un vuelo corto, los planes regionales que incluyen Tailandia también cubren Malasia, Camboya, Vietnam, Singapur e Indonesia.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "KH",
+        "VN",
+        "SG",
+        "ID"
+      ]
+    },
+    {
+      "quote": "Los planes diarios dan una cantidad fija para cada jornada, pensada para quien prefiere tener lo mismo todos los días en lugar de un saldo único para todo el viaje.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Un mismo plan puede cubrir Tailandia y Malasia?",
+      "kind": "regional_also",
+      "codes": [
+        "MY"
+      ]
+    },
+    {
+      "quote": "Los planes regionales que incluyen Tailandia también cubren Malasia, junto con Singapur, Vietnam, Camboya y Sri Lanka.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "SG",
+        "VN",
+        "KH",
+        "LK"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://dubai.thaiembassy.org/en/content/thailand-digital-arrival-card-tdac",
+      "title": "Thailand Digital Arrival Card (TDAC) — Real Consulado General de Tailandia en Dubái",
+      "checked": "2026-10-27",
+      "supports": "la TDAC es obligatoria para todo visitante no tailandés, sea cual sea el medio de transporte e incluidos los exentos de visa; se envía en línea antes de llegar; se abre 3 días antes del viaje; es gratuita",
+      "sentences": [
+        "Según el Real Consulado General de Tailandia en Dubái, el formulario se abre 3 días antes de la fecha de viaje y enviarlo no cuesta nada.",
+        "La página del consulado indica que la tarjeta se abre 3 días antes de la fecha de viaje."
+      ]
+    },
+    {
+      "url": "https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/2024_Update_Suvarnabhumi_Airport_Free_Wi-Fi_Access",
+      "title": "2024 Update: Suvarnabhumi Airport Free Wi-Fi Access — Airports of Thailand",
+      "checked": "2026-10-27",
+      "supports": "Wi-Fi gratis en Suvarnabhumi: elegir la red gratuita, escribir un correo electrónico, aceptar las condiciones; 60 minutos de uso"
+    },
+    {
+      "url": "https://www.airportthai.co.th/en/aot-free-wifi/",
+      "title": "Free WiFi at AOT's 6 airports — Airports of Thailand",
+      "checked": "2026-10-27",
+      "supports": "Wi-Fi gratis en Suvarnabhumi, Don Mueang, Chiang Mai, Mae Fah Luang Chiang Rai, Phuket y Hat Yai; datos de registro según la red (nombre, número de pasaporte o documento y número de teléfono en algunas; número de pasaporte y correo electrónico en otra)"
+    },
+    {
+      "url": "https://www.tatnews.org/2024/11/tourist-police-thailand-your-first-friend-for-safe-and-secure-travels/",
+      "title": "Tourist Police Thailand: Your First Friend for Safe and Secure Travels — TAT Newsroom",
+      "checked": "2026-10-27",
+      "supports": "línea de la Policía Turística 1155, las 24 horas, ayuda en varios idiomas"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Tailandia: 230 V, 50 Hz, enchufes de los tipos A, B, C y O"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-B",
+    "copy": "es-writer-B",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

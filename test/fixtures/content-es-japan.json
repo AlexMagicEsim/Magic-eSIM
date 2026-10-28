@@ -1,0 +1,164 @@
+{
+  "slug": "japan",
+  "iso": "JP",
+  "title": "eSIM Japón: Wi-Fi, Visit Japan Web y datos | Magic eSIM",
+  "description": "Wi-Fi gratis para turistas, Visit Japan Web en el aeropuerto, enchufes de 100 V y carga en el shinkansen. El pago en línea aún no está disponible.",
+  "lead": "Conectarse en Japón: el programa nacional de Wi-Fi gratis, el código de Visit Japan Web en el aeropuerto, la carga en el shinkansen y planes solo para Japón o junto con Corea del Sur y China.",
+  "sections": [
+    {
+      "id": "wifi-gratis",
+      "h2": "Wi-Fi gratis en Japón y cuándo conviene tener datos propios",
+      "paragraphs": [
+        "La Agencia de Turismo de Japón tiene un programa de Wi-Fi gratis para visitantes extranjeros: con un registro sencillo puedes usar el Wi-Fi en los lugares que muestran el distintivo de red LAN inalámbrica pública. La Organización Nacional de Turismo de Japón (JNTO) añade que los principales aeropuertos internacionales ofrecen Wi-Fi gratis en sus terminales.",
+        "Ese Wi-Fi depende de encontrar el distintivo e iniciar sesión. Entre un punto y otro, por ejemplo en el camino desde la salida de la estación hasta el ryokan o mientras resuelves un transbordo, los mapas y los horarios necesitan datos propios.",
+        "La JNTO también recuerda que el teléfono tiene que estar liberado para usar una tarjeta SIM. Revisa el tuyo antes de volar con la [guía de compatibilidad](/es/guides/compatibility/)."
+      ]
+    },
+    {
+      "id": "visit-japan-web",
+      "h2": "Visit Japan Web en tu teléfono",
+      "paragraphs": [
+        "Visit Japan Web es un servicio gratuito de la Agencia Digital de Japón. La Aduana de Japón advierte de sitios web falsos que lo imitan y aclara que la declaración a la llegada no tiene ningún costo.",
+        "Desde el 25 de enero de 2024, los códigos de inmigración y de aduanas de Visit Japan Web están unificados en un solo código 2D. En el aeropuerto acercas ese código y tu pasaporte con chip IC al lector del terminal de declaración electrónica, así que llega con el teléfono cargado y el código listo para abrir."
+      ]
+    },
+    {
+      "id": "electricidad",
+      "h2": "Carga: 100 V y enchufes en el shinkansen",
+      "paragraphs": [
+        "En todo Japón la tensión es de 100 V, con 50 Hz en el este y 60 Hz en el oeste (incluidas Nagoya, Kioto y Osaka), y los enchufes son de tipo A y B. Comprueba que el rango de entrada que figura en la etiqueta de tu cargador incluya 100 V.",
+        "Según la JNTO, los modelos nuevos de shinkansen tienen enchufes junto a los asientos de ventanilla, algo útil en un día largo de tren con mapas y boletos en el teléfono."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Solo Japón o un viaje más largo",
+      "paragraphs": [
+        "Los planes locales cubren únicamente Japón, y es todo lo que necesita un viaje que empieza y termina en el país.",
+        "Si el viaje sigue hacia Seúl o Shanghái, sirve un plan regional: los que incluyen Japón también cubren Corea del Sur y China. Los planes diarios reparten los datos en una cantidad fija por día, pensada para quien prefiere un presupuesto diario en lugar de un único saldo.",
+        "Para saber cuántos datos incluye cada plan y por cuánto tiempo, consulta el «Resumen de planes» de arriba; la [guía de activación](/es/guides/activation/) explica qué revisar antes de instalar un plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Hay Wi-Fi gratis para turistas en Japón?",
+      "a": "Sí. Con el programa de la Agencia de Turismo de Japón, quien se registra puede usar el Wi-Fi en los lugares con el distintivo de red LAN inalámbrica pública, y la JNTO indica que los principales aeropuertos internacionales tienen Wi-Fi gratis en sus terminales."
+    },
+    {
+      "q": "¿Visit Japan Web es gratis?",
+      "a": "Sí. Lo ofrece gratis la Agencia Digital de Japón, y la Aduana de Japón advierte de sitios falsos que lo imitan; además, aclara que la declaración a la llegada no tiene ningún costo."
+    },
+    {
+      "q": "¿Puedo cargar el teléfono en el shinkansen?",
+      "a": "En los modelos nuevos de shinkansen, sí: la JNTO dice que tienen enchufes junto a los asientos de ventanilla, y puedes pedir uno de esos asientos al comprar el boleto."
+    },
+    {
+      "q": "¿Funcionará mi cargador en Japón?",
+      "a": "La red eléctrica japonesa es de 100 V, con enchufes de tipo A y B. Busca 100 V en el rango de entrada de la etiqueta del cargador y lleva un adaptador si tu enchufe no tiene dos patas planas."
+    },
+    {
+      "q": "¿Un plan para Japón también funciona en Corea del Sur?",
+      "a": "Los planes locales son solo para Japón. Los planes regionales que incluyen Japón también cubren Corea del Sur y China."
+    },
+    {
+      "q": "¿Necesito un teléfono liberado en Japón?",
+      "a": "La JNTO indica que el teléfono tiene que estar liberado para usar una tarjeta SIM. La [guía de compatibilidad](/es/guides/compatibility/) explica cómo revisarlo antes del viaje."
+    }
+  ],
+  "related": [
+    "south-korea",
+    "china",
+    "taiwan",
+    "hong-kong"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Conectarse en Japón: el programa nacional de Wi-Fi gratis, el código de Visit Japan Web en el aeropuerto, la carga en el shinkansen y planes solo para Japón o junto con Corea del Sur y China.",
+      "kind": "regional_also",
+      "codes": [
+        "KR",
+        "CN"
+      ]
+    },
+    {
+      "quote": "Los planes locales cubren únicamente Japón, y es todo lo que necesita un viaje que empieza y termina en el país.",
+      "kind": "local"
+    },
+    {
+      "quote": "Si el viaje sigue hacia Seúl o Shanghái, sirve un plan regional: los que incluyen Japón también cubren Corea del Sur y China.",
+      "kind": "regional_also",
+      "codes": [
+        "KR",
+        "CN"
+      ]
+    },
+    {
+      "quote": "Los planes diarios reparten los datos en una cantidad fija por día, pensada para quien prefiere un presupuesto diario en lugar de un único saldo.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Un plan para Japón también funciona en Corea del Sur?",
+      "kind": "regional_also",
+      "codes": [
+        "KR"
+      ]
+    },
+    {
+      "quote": "Los planes locales son solo para Japón.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes regionales que incluyen Japón también cubren Corea del Sur y China.",
+      "kind": "regional_also",
+      "codes": [
+        "KR",
+        "CN"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://japanfreewifi.jnto.go.jp/eng/wifi-guide.php",
+      "title": "Japan. Free Wi-Fi Guide — Agencia de Turismo de Japón",
+      "checked": "2026-10-27",
+      "supports": "programa de Wi-Fi gratis para turistas extranjeros: tras un registro sencillo, Wi-Fi en los lugares con el distintivo de red LAN inalámbrica pública"
+    },
+    {
+      "url": "https://www.japan.travel/es/plan/wifi-and-connectivity/",
+      "title": "Wifi y conectividad en Japón — Organización Nacional de Turismo de Japón (JNTO)",
+      "checked": "2026-10-27",
+      "supports": "los principales aeropuertos internacionales de Japón ofrecen wifi gratuito en sus terminales; el teléfono tiene que estar liberado para poder usar una tarjeta SIM"
+    },
+    {
+      "url": "https://www.customs.go.jp/english/news/20260528e.html",
+      "title": "Beware of Fake Websites Related to Customs Procedures — Aduana de Japón",
+      "checked": "2026-10-27",
+      "supports": "Visit Japan Web es gratuito y lo ofrece la Agencia Digital; hay sitios falsos que lo imitan; la Aduana no cobra tarifa por la declaración electrónica a la llegada"
+    },
+    {
+      "url": "https://www.customs.go.jp/english/passenger/declaration/declaration_app.html",
+      "title": "Declaration of Accompanied Articles and Unaccompanied Articles — Aduana de Japón",
+      "checked": "2026-10-27",
+      "supports": "desde el 25 de enero de 2024, un solo código 2D para inmigración y aduanas en Visit Japan Web; se acerca junto con el pasaporte IC al lector del terminal de declaración electrónica"
+    },
+    {
+      "url": "https://www.japan.travel/es/plan/plug-and-electricity/",
+      "title": "Enchufes y electricidad en Japón — Organización Nacional de Turismo de Japón (JNTO)",
+      "checked": "2026-10-27",
+      "supports": "100 voltios en todo Japón; 50 Hz en el este y 60 Hz en el oeste (Nagoya, Kioto y Osaka incluidas); enchufes junto a los asientos de ventanilla en los modelos nuevos de shinkansen, se pide al comprar el boleto"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Japón: enchufes de tipo A y B"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-A",
+    "copy": "es-writer-A",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

@@ -6,12 +6,14 @@
 // Reads the storefront's own sources (never the built HTML, never the network): the browser dictionary
 // (assets/i18n/<code>.js, read through assets/site-i18n.js), the build-time page words (seo/page-copy.mjs), the daily-plan card table
 // (assets/daily-plan-copy.js), the guides (seo/build-locale-pages.mjs GUIDES_BY_LOCALE), the 404 table (404.html) and the
-// generated destination list (<prefix>/destinations.js). The language must be published (seo/locales.mjs). Read-only.
+// generated destination list (<prefix>/destinations.js) and the authored country content (seo/content-<code>/<slug>.json
+// beside seo/content-en/<slug>.json, with the two headings the page adds from seo/content-en.mjs CONTENT_LANGS) — a
+// language without a content folder adds none. The language must be published (seo/locales.mjs). Read-only.
 //
 // Item shape: { id, group, kind, key, where, url, en, target, note }
 //   kind — what the string is, for the rubric: ui | seo-title | seo-description | heading | body | daily | guide-step |
 //          faq-q | faq-a | country-name | technical
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
@@ -107,6 +109,43 @@ export async function extract(lang, root = ROOT) {
   const list = (rel) => [...readFileSync(join(root, rel), 'utf8').matchAll(/iso: "([A-Z]{2})", slug: "([a-z0-9-]+)", name: "([^"]+)"/g)].map((m) => ({ iso: m[1], slug: m[2], name: m[3] }));
   const enN = Object.fromEntries(list('en/destinations.js').map((c) => [c.iso, c.name]));
   for (const c of list(`${L.prefix}/destinations.js`)) add({ group: 'countries', kind: 'country-name', key: c.iso, where: 'country name (list, page title, H1, plan cards)', url: `${LIVE}${P}/esim/${c.slug}/`, en: enN[c.iso], target: c.name });
+
+  // 7. Authored country content (title, description, lead, sections, questions) beside the English file it adapts.
+  //    Markup kept as written: [text](/<prefix>/…/) is a link; the English links /en/…/.
+  const cdir = join(root, `seo/content-${lang}`);
+  if (existsSync(cdir)) {
+    const { CONTENT_LANGS } = await imp('seo/content-en.mjs');
+    const CL = CONTENT_LANGS[lang];
+    if (CL) {
+      add({ group: 'content', kind: 'heading', key: 'faqTitle', where: 'authored country page, questions heading (sample: Japan)', url: `${LIVE}${P}/esim/japan/#faq`,
+        en: CONTENT_LANGS.en.copy.faqTitle('Japan'), target: CL.copy.faqTitle(countryName ? countryName('JP', lang) : 'Japan') });
+      add({ group: 'content', kind: 'heading', key: 'relatedTitle', where: 'authored country page, related destinations heading', url: `${LIVE}${P}/esim/japan/`,
+        en: CONTENT_LANGS.en.copy.relatedTitle, target: CL.copy.relatedTitle });
+    }
+    const note = 'Authored page text adapted from the English file (facts identical, wording native). [text](/path/) is a link.';
+    for (const f of readdirSync(cdir).filter((x) => x.endsWith('.json')).sort()) {
+      const slug = f.slice(0, -5);
+      const T = JSON.parse(readFileSync(join(cdir, f), 'utf8'));
+      const enFile = join(root, 'seo/content-en', f);
+      const E = existsSync(enFile) ? JSON.parse(readFileSync(enFile, 'utf8')) : {};
+      const group = `content-${slug}`; const url = `${LIVE}${P}/esim/${slug}/`; const where = `authored text, /esim/${slug}/`;
+      const one = (kind, key, en, target, at = '') => add({ group, kind, key, where: `${where}${at}`, url, en: en ?? null, target: target ?? null, note });
+      one('seo-title', 'title', E.title, T.title);
+      one('seo-description', 'description', E.description, T.description);
+      one('body', 'lead', E.lead, T.lead, ', lead under the H1');
+      (T.sections || []).forEach((s, j) => {
+        const es = (E.sections || [])[j] || {};
+        one('heading', `s${j + 1}.h2`, es.h2, s.h2, `, section ${j + 1} heading (H2)`);
+        (s.paragraphs || []).forEach((x, k) => one('body', `s${j + 1}.p${k + 1}`, (es.paragraphs || [])[k], x, `, section ${j + 1}`));
+        (s.list || []).forEach((x, k) => one('body', `s${j + 1}.li${k + 1}`, (es.list || [])[k], x, `, section ${j + 1} list`));
+      });
+      (T.faq || []).forEach((q, j) => {
+        const eq = (E.faq || [])[j] || {};
+        one('faq-q', `faq${j + 1}.q`, eq.q, q.q, `, question ${j + 1}`);
+        one('faq-a', `faq${j + 1}.a`, eq.a, q.a, `, answer ${j + 1}`);
+      });
+    }
+  }
 
   return { lang, prefix: L.prefix, htmlLang: L.htmlLang, items };
 }
