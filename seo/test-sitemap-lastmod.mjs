@@ -40,7 +40,8 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from '
 import { execFileSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { resolveLastmod, renderSitemap, fileFor, contentHash, sitemapUrls } from './build-sitemap.mjs';
+import { resolveLastmod, renderSitemap, fileFor, contentHash, sitemapUrls, stripAssetStamps, stripSiteChrome, rehashKeepDates,
+  stripAnimatedLogo, stripLanguageSwitch, stripSiteI18nBundle } from './build-sitemap.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITEMAP = join(ROOT, 'sitemap.xml');
@@ -333,10 +334,12 @@ test('the language switch is not content: a language added to both menus leaves 
   assert.notEqual(edited, real);
   assert.notEqual(contentHash(edited), contentHash(real), 'an edited heading is an edit');
   assert.notEqual(contentHash(more.replace(/<h1>([^<]+)<\/h1>/, '<h1>$1 — edited</h1>')), contentHash(real), 'a menu change does not hide an edit');
-  assert.notEqual(contentHash(real.replace('data-i18n="nav.how">How it works', 'data-i18n="nav.how">How it all works')), contentHash(real), 'the navigation itself is content');
+  // 2026-10-28 (SEO stage 6, R4): the header and footer are site-wide chrome, so a navigation label no longer moves a
+  // date (it was content here before). What the page itself says still does — see «an edit inside <main>» below.
+  assert.equal(contentHash(real.replace('data-i18n="nav.how">How it works', 'data-i18n="nav.how">How it all works')), contentHash(real), 'the header navigation is chrome');
 });
 
-test('only the switch is stripped: an hreflang link inside the page, or a changed menu label, is still content', () => {
+test('only the switch is stripped: an hreflang link inside the page is still content (a header label is chrome since 2026-10-28)', () => {
   const real = readFileSync(join(ROOT, 'en/guides/iphone/index.html'), 'utf8');
   const withLink = real.replace('</main>', '<p><a href="/es/guides/iphone/" hreflang="es" lang="es">Español</a></p></main>');
   assert.notEqual(withLink, real);
@@ -347,7 +350,9 @@ test('only the switch is stripped: an hreflang link inside the page, or a change
   const ruMore = ru.replace(/(<nav class="mnav-panel"[\s\S]*?<hr>\s*<a href="\/en\/" hreflang="en" lang="en">English<\/a>)/, '$1\n          <a href="/xx/" hreflang="xx" lang="xx">Xxxxx</a>');
   assert.notEqual(ruMore, ru);
   assert.equal(contentHash(ruMore), contentHash(ru));
-  assert.notEqual(contentHash(ru.replace('Как это работает</a>', 'Как всё работает</a>')), contentHash(ru));
+  assert.equal(contentHash(ru.replace('Как это работает</a>', 'Как всё работает</a>')), contentHash(ru), 'the header navigation is chrome (2026-10-28)');
+  assert.notEqual(contentHash(ru.replace('<h2 id="howTitle">Как это работает</h2>', '<h2 id="howTitle">Как всё работает</h2>')), contentHash(ru),
+    'the same words as a heading of the home are content');
 });
 
 test('KO-1 on the real tree: every page now lists 한국어 in its menus, and no indexed page moved its date for it', () => {
@@ -364,4 +369,198 @@ test('KO-1 on the real tree: every page now lists 한국어 in its menus, and no
     assert.notEqual(without, html);
     assert.equal(contentHash(without), contentHash(html), `${rel}: 한국어 in the menus is not content`);
   }
+});
+
+// ── 2026-10-28 (SEO stage 6, GSC audit risk R4): template-only changes move no date ───────────────────────────────
+// #169 changed only the footer's «Destinations» list and re-dated all 42 indexed EN/ES URLs. The strips below are
+// each proven to FIRE on a real built page first, then shown not to hide an edit to what the page says.
+
+test('R4 strip 1: an asset stamp on any asset type is stripped — first proven on a real page', () => {
+  const real = readFileSync(join(ROOT, 'en/esim/france/index.html'), 'utf8');
+  // the shapes on the page today, beyond .css/.js: the logo symbol, the icons
+  for (const re of [/\/assets\/site\.css\?v=[0-9a-f]+"/, /\/favicon\.svg\?v=[0-9a-f]+"/, /\/apple-touch-icon\.png\?v=[0-9a-f]+"/]) {
+    assert.match(real, re, `the page carries ${re}`);
+  }
+  const stripped = stripAssetStamps(real);
+  assert.notEqual(stripped, real, 'the strip fires on the real page');
+  assert.doesNotMatch(stripped, /\.(?:css|js|svg|png|ico)\?v=[0-9a-f]+/, 'no asset stamp survives');
+  const snippet = '<use href="/assets/brand/logo.svg?v=72aa4ec9#me-symbol"/><link rel="preload" href="/assets/fonts/x.woff2?v=abc123" as="font"><img srcset="/a.webp?v=0f 2x">';
+  assert.equal(stripAssetStamps(snippet), '<use href="/assets/brand/logo.svg#me-symbol"/><link rel="preload" href="/assets/fonts/x.woff2" as="font"><img srcset="/a.webp 2x">');
+  assert.equal(contentHash(real.replace(/\?v=[0-9a-f]+/g, '?v=00000000')), contentHash(real), 'restamping everything is not an edit');
+  // still anchored: prose and non-asset URLs keep their ?v=
+  assert.equal(stripAssetStamps('<a href="https://youtu.be/watch?v=deadbeef">x</a>'), '<a href="https://youtu.be/watch?v=deadbeef">x</a>');
+  assert.equal(stripAssetStamps('<a href="/page.html?v=abc">x</a>'), '<a href="/page.html?v=abc">x</a>');
+});
+
+test('R4 strip 2–4: the site header, the site footer and the CSP meta are chrome — first proven on a real page', () => {
+  const real = readFileSync(join(ROOT, 'en/esim/france/index.html'), 'utf8');
+  assert.match(real, /<footer class="site-footer">[\s\S]*?<a href="\/en\/esim\/china\/">China<\/a>[\s\S]*?<\/footer>/, 'the footer lists destinations');
+  assert.match(real, /<header class="site-header">[\s\S]*?data-i18n="nav.guides"[\s\S]*?<\/header>/, 'the header carries the navigation');
+  assert.match(real, /<meta http-equiv="Content-Security-Policy"/, 'the page carries a CSP meta');
+  const stripped = stripSiteChrome(real);
+  assert.notEqual(stripped, real, 'the strip fires on the real page');
+  assert.match(stripped, /<header class="site-header"><\/header>/);
+  assert.match(stripped, /<footer class="site-footer"><\/footer>/);
+  assert.doesNotMatch(stripped, /Content-Security-Policy/);
+  assert.doesNotMatch(stripped, /<a href="\/en\/esim\/china\/">China<\/a>/, 'the footer list is gone');
+  // what stays: the substance
+  for (const kept of ['<title>', '<meta name="description"', '<link rel="canonical"', '<meta name="robots"', 'application/ld+json', '<main', '<h1', 'id="previewNotice"']) {
+    assert.ok(stripped.includes(kept), `${kept} is still hashed`);
+  }
+  // a destination added to the footer list, a CSP host, a header label: no change
+  const footer = real.replace('<li><a href="/en/esim/china/">China</a></li>', '<li><a href="/en/esim/brazil/">Brazil</a></li>\n          <li><a href="/en/esim/china/">China</a></li>');
+  assert.notEqual(footer, real);
+  assert.equal(contentHash(footer), contentHash(real), 'the footer list is chrome');
+  const csp = real.replace('connect-src https://', 'connect-src https://example.org https://');
+  assert.notEqual(csp, real);
+  assert.equal(contentHash(csp), contentHash(real), 'the CSP is chrome');
+});
+
+test('R4 negative: an edit inside <main>, to the title, description, canonical, robots or JSON-LD still moves the hash', () => {
+  const real = readFileSync(join(ROOT, 'en/esim/france/index.html'), 'utf8');
+  const h = contentHash(real);
+  const main = real.match(/<main[\s\S]*?<\/main>/)[0];
+  const sentence = main.match(/<p>[^<]{40,}/)[0];
+  const edits = {
+    'a sentence in <main>': real.replace(sentence, `${sentence} Edited.`),
+    '<h1>': real.replace(/<h1>/, '<h1>Edited '),
+    '<title>': real.replace('<title>', '<title>Edited '),
+    'meta description': real.replace('<meta name="description" content="', '<meta name="description" content="Edited '),
+    'canonical': real.replace('<link rel="canonical" href="https://magicesim.store/en/esim/france/">', '<link rel="canonical" href="https://magicesim.store/en/esim/spain/">'),
+    'robots': real.replace('content="index, follow"', 'content="noindex, follow"'),
+    'JSON-LD': real.replace('"@type":"BreadcrumbList"', '"@type":"BreadcrumbList","name":"x"'),
+    'the payment notice': real.replace('Online payment isn\'t available yet', 'Online payment is available'),
+  };
+  for (const [what, edited] of Object.entries(edits)) {
+    assert.notEqual(edited, real, `${what}: the edit applied`);
+    assert.notEqual(contentHash(edited), h, `${what} is content`);
+  }
+  // and chrome changes do not hide a content edit made in the same build
+  const both = edits['a sentence in <main>'].replace('<li><a href="/en/esim/china/">China</a></li>', '');
+  assert.notEqual(contentHash(both), h);
+});
+
+test('R4 migration: --rehash-keep-dates keeps every date, takes the new hash, refuses an unknown page', () => {
+  const urls = [{ loc: 'https://magicesim.store/a/' }, { loc: 'https://magicesim.store/b/' }];
+  const prev = { 'https://magicesim.store/a/': { hash: 'old-a', lastmod: '2026-01-01' }, 'https://magicesim.store/b/': { hash: 'old-b', lastmod: '2026-02-02' } };
+  const { state, moved } = rehashKeepDates({ urls, hashOf: (l) => `new-${l.slice(-2, -1)}`, prev });
+  assert.deepEqual(moved, []);
+  assert.deepEqual(state, { 'https://magicesim.store/a/': { hash: 'new-a', lastmod: '2026-01-01' }, 'https://magicesim.store/b/': { hash: 'new-b', lastmod: '2026-02-02' } });
+  assert.throws(() => rehashKeepDates({ urls: [...urls, { loc: 'https://magicesim.store/c/' }], hashOf: () => 'x', prev }), /нет в состоянии/);
+  // the CLI refuses the two modes together
+  let failed = false;
+  try { execFileSync('node', ['seo/build-sitemap.mjs', '--seed', '--rehash-keep-dates'], { cwd: ROOT, stdio: 'pipe' }); }
+  catch (e) { failed = true; assert.match(String(e.stderr), /взаимоисключающие/); }
+  assert.ok(failed);
+});
+
+// The three properties on the REAL tree, through the real CLI (snapshot + restore as the tests above).
+function buildOut() {
+  return execFileSync('node', ['seo/build-sitemap.mjs'], { cwd: ROOT, encoding: 'utf8', env: { ...process.env, SITEMAP_DATE: '2027-01-01' } });
+}
+const SITEMAP_FILES = () => sitemapUrls(COUNTRIES()).map((u) => join(ROOT, fileFor(u.loc)));
+
+test('R4 (a) on the real tree: a new stamp of a shared asset on every page moves no date', () => {
+  const snap = snapshot();
+  try {
+    let touched = 0;
+    for (const f of SITEMAP_FILES()) {
+      const body = snap.files.get(f);
+      const next = body.replace(/\/assets\/site\.css\?v=[0-9a-f]+/g, '/assets/site.css?v=0123abcd').replace(/\/favicon\.svg\?v=[0-9a-f]+/g, '/favicon.svg?v=0123abcd');
+      if (next !== body) { writeFileSync(f, next); touched++; }
+    }
+    assert.equal(touched, URL_COUNT, 'every sitemap page was restamped');
+    const out = buildOut();
+    assert.match(out, /lastmod сдвинут у 0/, out.trim());
+    assert.equal(readFileSync(SITEMAP, 'utf8'), snap.sitemap);
+  } finally { restore(snap); }
+});
+
+test('R4 (b) on the real tree: a destination added to the footer of every page moves no date', () => {
+  const snap = snapshot();
+  try {
+    let touched = 0;
+    for (const f of SITEMAP_FILES()) {
+      const body = snap.files.get(f);
+      const next = body.replace(/(<footer class="site-footer">[\s\S]*?<ul>)/, '$1\n          <li><a href="/en/esim/brazil/">Brazil</a></li>');
+      if (next !== body) { writeFileSync(f, next); touched++; }
+    }
+    assert.equal(touched, URL_COUNT, 'every sitemap page has a footer list');
+    const out = buildOut();
+    assert.match(out, /lastmod сдвинут у 0/, out.trim());
+    assert.equal(readFileSync(SITEMAP, 'utf8'), snap.sitemap);
+  } finally { restore(snap); }
+});
+
+test('R4 (c) on the real tree: one sentence changed inside one page\'s <main> moves exactly that date', () => {
+  const snap = snapshot();
+  const page = join(ROOT, 'en/esim/france/index.html');
+  try {
+    const body = snap.files.get(page);
+    const main = body.match(/<main[\s\S]*?<\/main>/)[0];
+    const sentence = main.match(/<p>[^<]{40,}/)[0];
+    writeFileSync(page, body.replace(sentence, `${sentence} Edited.`));
+    const out = buildOut();
+    assert.match(out, /lastmod сдвинут у 1/, out.trim());
+    const xml = readFileSync(SITEMAP, 'utf8');
+    assert.equal((xml.match(/<lastmod>2027-01-01<\/lastmod>/g) || []).length, 1);
+    assert.match(xml.split('<url>').find((b) => b.includes('<loc>https://magicesim.store/en/esim/france/</loc>')), /2027-01-01/);
+  } finally { restore(snap); }
+});
+
+// THE PREMISE the header / footer strip rests on: that chrome is the SAME on every page of a language and holds nothing
+// page-specific. Pinned here, so a page-specific line moved into a header or footer fails a gate instead of silently
+// leaving the hash.
+const SITE_HEADER = /<header class="site-header">[\s\S]*?<\/header>/g;
+const SITE_FOOTER = /<footer class="site-footer">[\s\S]*?<\/footer>/g;
+const CHROME_FORBIDDEN = ['application/ld+json', '<main', '<h1', 'crumbs', 'previewNotice'];
+function chromeProblems(pages) {           // pages: [{ file, html }]
+  const problems = [];
+  const variants = {};                     // lang → { header: Map, footer: Map }
+  for (const { file, html } of pages) {
+    const norm = stripAssetStamps(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(html))));
+    const lang = (norm.match(/<html lang="([^"]+)"/) || [])[1] || '?';
+    const headers = norm.match(SITE_HEADER) || [];
+    const footers = norm.match(SITE_FOOTER) || [];
+    if (headers.length !== 1) problems.push(`${file}: ${headers.length} site headers`);
+    if (footers.length !== 1) problems.push(`${file}: ${footers.length} site footers`);
+    const v = variants[lang] ||= { header: new Map(), footer: new Map() };
+    for (const [kind, blocks] of [['header', headers], ['footer', footers]]) {
+      for (const b of blocks) {
+        if (!v[kind].has(b)) v[kind].set(b, file);
+        for (const bad of CHROME_FORBIDDEN) if (b.includes(bad)) problems.push(`${file}: ${kind} holds «${bad}»`);
+      }
+    }
+  }
+  for (const [lang, v] of Object.entries(variants)) {
+    const maxHeaders = lang === 'ru' ? 2 : 1;   // the Russian home has its own header
+    if (v.header.size > maxHeaders) problems.push(`${lang}: ${v.header.size} header variants (${[...v.header.values()].join(', ')})`);
+    if (v.footer.size > 1) problems.push(`${lang}: ${v.footer.size} footer variants (${[...v.footer.values()].join(', ')})`);
+  }
+  return problems;
+}
+
+test('R4 premise: the stripped header and footer are one site-wide block per language, with nothing page-specific', () => {
+  const pages = sitemapUrls(COUNTRIES()).map((u) => ({ file: fileFor(u.loc), html: readFileSync(join(ROOT, fileFor(u.loc)), 'utf8') }));
+  // FIRST: the check fires — one footer with a page-specific line on one page
+  const i = pages.findIndex((p) => p.file === 'en/esim/france/index.html');
+  assert.ok(i >= 0);
+  const altered = pages.map((p, k) => (k === i ? { ...p, html: p.html.replace('<footer class="site-footer">', '<footer class="site-footer"><p>Only France: 5 plans.</p>') } : p));
+  assert.notEqual(altered[i].html, pages[i].html);
+  assert.ok(chromeProblems(altered).some((m) => /^en: 2 footer variants/.test(m)), 'a page-specific footer is caught');
+  const ld = pages.map((p, k) => (k === i ? { ...p, html: p.html.replace('</header>', '<script type="application/ld+json">{}</script></header>') } : p));
+  assert.ok(chromeProblems(ld).some((m) => m.includes('header holds «application/ld+json»')), 'content inside the chrome is caught');
+  const two = pages.map((p, k) => (k === i ? { ...p, html: p.html.replace('</body>', '<footer class="site-footer"></footer></body>') } : p));
+  assert.ok(chromeProblems(two).some((m) => m.includes('2 site footers')), 'a second footer is caught');
+  // …and the real tree has none of it
+  assert.deepEqual(chromeProblems(pages), []);
+  assert.deepEqual([...new Set(pages.map((p) => (p.html.match(/<html lang="([^"]+)"/) || [])[1]))].sort(), ['en', 'es', 'ru'], 'all three sitemap languages were read');
+});
+
+test('6 (again, last). the R4 tests too leave the working tree exactly as they found it', () => {
+  const changed = [];
+  for (const [f, body] of BASELINE.files) if (readFileSync(f, 'utf8') !== body) changed.push(f.slice(ROOT.length + 1));
+  assert.deepEqual(changed, [], `тесты оставили изменённые страницы:\n${changed.join('\n')}`);
+  assert.equal(readFileSync(SITEMAP, 'utf8'), BASELINE.sitemap, 'sitemap.xml restored');
+  assert.equal(readFileSync(STATE, 'utf8'), BASELINE.state, 'the state restored');
 });
