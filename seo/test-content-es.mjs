@@ -2,8 +2,8 @@
  *
  *   1. the Spanish rules, each with a negative control that proves it fires on a sentence written to break it (the
  *      schema and the language-neutral rules are proved once, in seo/test-content-en.mjs);
- *   2. every committed Spanish file passes, adapts an English file of the same country, and the 13 stage countries
- *      have one; the cross-file check runs among the Spanish files only;
+ *   2. every committed Spanish file passes, adapts an English file of the same country, and every indexed country (the
+ *      13 of stage 1, + malaysia and singapore since 2026-10-28) has one; the cross-file check runs among the Spanish files only;
  *   3. rendering, proved on a FIXTURE (test/fixtures/content-es-japan.json): head, lead, sections, questions and related
  *      destinations in the static HTML after «Resumen de planes» and before «Antes de comprar»; everything else is the
  *      template; no FAQPage; a page without a file is the template byte for byte;
@@ -39,6 +39,8 @@ const BY_SLUG = new Map(COUNTRIES.map((c) => [c.slug, c]));
 const JAPAN = BY_SLUG.get('japan');
 /* The 13 countries of the first indexing stage (2026-10-27) — each has a Spanish file. */
 const STAGE_13 = ['china', 'france', 'greece', 'indonesia', 'japan', 'maldives', 'mexico', 'south-korea', 'sri-lanka', 'thailand', 'turkey', 'united-kingdom', 'vietnam'];
+/* + malaysia and singapore (indexed in stage 2, 2026-10-27; Spanish text 2026-10-28) — every indexed country has a Spanish file. */
+const AUTHORED = [...STAGE_13, 'malaysia', 'singapore'].sort();
 
 function fires(mutate, re, opts = {}) {
   const doc = fx();
@@ -137,7 +139,8 @@ test('every committed seo/content-es/*.json passes (node seo/content-en.mjs --ch
   const res = checkAll(slugs, { lang: 'es' });
   const bad = Object.entries(res).filter(([, p]) => p.length).map(([s, p]) => `${s}:\n  ${p.join('\n  ')}`);
   assert.deepEqual(bad, []);
-  for (const s of STAGE_13) assert.ok(slugs.includes(s), `${s}: no seo/content-es/${s}.json`);
+  for (const s of AUTHORED) assert.ok(slugs.includes(s), `${s}: no seo/content-es/${s}.json`);
+  assert.deepEqual(AUTHORED, [...INDEXED_COUNTRIES].sort(), 'every indexed country has a Spanish file');
   for (const s of slugs) {
     const es = loadContent(s, ES_DIR);
     const en = loadContent(s);
@@ -254,18 +257,20 @@ function lcsRatio(a, b) {
   return (2 * prev[b.length]) / (a.length + b.length);
 }
 /* Measured 2026-10-27 on the 13 Spanish authored blocks (78 pairs): mean 0.203, max 0.277 (france / united-kingdom);
+ * re-measured 2026-10-28 on 15 (+ malaysia, singapore; 105 pairs): mean 0.199, max 0.278 (france / united-kingdom);
+ * the two new blocks at most 0.212 (singapore / thailand), malaysia / singapore 0.208.
  * English on the same day: 0.174 / 0.254 — Spanish function words (de, la, el, que, en) raise the floor a little.
  * Threshold = measured max + 0.10, rounded up (as for English, seo/test-content-en-quality.mjs). A name-swapped copy
  * scores ≈ 1. */
 export const SIMILARITY_MAX_ES = 0.38;
 
-test('the 13 Spanish authored blocks are pairwise below SIMILARITY_MAX_ES (LCS word ratio); a name swap is caught', () => {
-  const w = Object.fromEntries(STAGE_13.map((s) => [s, words(aboutOf(page(s)))]));
+test('the 15 Spanish authored blocks are pairwise below SIMILARITY_MAX_ES (LCS word ratio); a name swap is caught', () => {
+  const w = Object.fromEntries(AUTHORED.map((s) => [s, words(aboutOf(page(s)))]));
   const over = [];
-  for (let i = 0; i < STAGE_13.length; i += 1) {
-    for (let j = i + 1; j < STAGE_13.length; j += 1) {
-      const r = lcsRatio(w[STAGE_13[i]], w[STAGE_13[j]]);
-      if (r >= SIMILARITY_MAX_ES) over.push(`${STAGE_13[i]} / ${STAGE_13[j]}: ${r.toFixed(3)}`);
+  for (let i = 0; i < AUTHORED.length; i += 1) {
+    for (let j = i + 1; j < AUTHORED.length; j += 1) {
+      const r = lcsRatio(w[AUTHORED[i]], w[AUTHORED[j]]);
+      if (r >= SIMILARITY_MAX_ES) over.push(`${AUTHORED[i]} / ${AUTHORED[j]}: ${r.toFixed(3)}`);
     }
   }
   assert.deepEqual(over, []);
@@ -281,7 +286,7 @@ const FIGURES = [
   ['a plan or place count', /(?<![\p{L}])(?:\d+|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|doce|quince|veinte|treinta|cien|decenas|cientos)\s+(?:planes|paquetes|opciones|destinos|países)(?![\p{L}])/iu],
 ];
 test('no plan figure (volume, speed, currency, count) anywhere in a rendered Spanish block', () => {
-  for (const s of STAGE_13) {
+  for (const s of AUTHORED) {
     const t = textOf(aboutOf(page(s)));
     assert.deepEqual(FIGURES.filter(([, re]) => re.test(t)).map(([w]) => w), [], s);
   }
@@ -297,9 +302,9 @@ test('own <title> and description on all 198 Spanish country pages; the authored
   assert.deepEqual(dupes(titles), []);
   assert.deepEqual(dupes(descs), []);
   const generic = (s, slug) => s.split(BY_SLUG.get(slug).name).join('·').toLowerCase();
-  assert.deepEqual(dupes(STAGE_13.map((s) => generic(titleOf(page(s)), s))), [], 'titles that are one with the name swapped');
-  assert.deepEqual(dupes(STAGE_13.map((s) => generic(descOf(page(s)), s))), [], 'descriptions that are one with the name swapped');
-  for (const s of STAGE_13) assert.ok(titleOf(page(s)).length <= 60, s);
+  assert.deepEqual(dupes(AUTHORED.map((s) => generic(titleOf(page(s)), s))), [], 'titles that are one with the name swapped');
+  assert.deepEqual(dupes(AUTHORED.map((s) => generic(descOf(page(s)), s))), [], 'descriptions that are one with the name swapped');
+  for (const s of AUTHORED) assert.ok(titleOf(page(s)).length <= 60, s);
 });
 
 test('CONTENT_LANGS: English is what the module always did; Spanish words are its own', () => {
