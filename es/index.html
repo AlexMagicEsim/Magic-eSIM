@@ -36,17 +36,16 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=b31b3b27" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=b637ca13" />
 <link rel="manifest" href="/site.webmanifest" />
-<!-- Organization, WebSite and WebPage in this page's language. `inLanguage` sits on
-     WebSite and WebPage (CreativeWork properties); schema.org has no `inLanguage` on
-     Organization, so the Organization node carries none (Stage 6 audit, 2026-10-28).
-     Its @id stays `#org`: pointing the prefixed homes at the one seller entity
-     (seo/seller-entity.mjs SELLER_ID) is outside the owner's 2026-10-14 scope. -->
+<!-- The seller, WebSite and WebPage. The seller is the site's ONE entity (seo/seller-entity.mjs SELLER_ID,
+     declared in full on the Russian home with its Russian description): here it is referenced by the same @id with
+     name, url and logo only — no second identity, no description in another language. `inLanguage` sits on
+     WebSite and WebPage (CreativeWork); schema.org has none on an organisation. -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"Organization","@id":"https://magicesim.store/#org","name":"Magic eSIM",
+ {"@type":"OnlineStore","@id":"https://magicesim.store/#organization","name":"Magic eSIM",
   "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"},
  {"@type":"WebSite","@id":"https://magicesim.store/es/#website","url":"https://magicesim.store/es/",
-  "name":"Magic eSIM","inLanguage":"es","publisher":{"@id":"https://magicesim.store/#org"}},
+  "name":"Magic eSIM","inLanguage":"es","publisher":{"@id":"https://magicesim.store/#organization"}},
  {"@type":"WebPage","@id":"https://magicesim.store/es/#webpage","url":"https://magicesim.store/es/",
   "name":"Magic eSIM — datos móviles en el extranjero sin roaming","inLanguage":"es",
   "isPartOf":{"@id":"https://magicesim.store/es/#website"}}

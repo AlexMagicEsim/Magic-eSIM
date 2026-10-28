@@ -12,6 +12,7 @@
  * alternate. The HTML comments below are for maintainers and stay English in every language. */
 
 import { siteI18nBundle } from './site-i18n-bundle.mjs';
+import { SELLER_ID } from './seller-entity.mjs';
 
 export function homePage({ L, P, SITE, C, t, a, esc, json, header, twins, PAYBAR, FOOTER, POPULAR, QUICK, GUIDES,
   HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing }) {
@@ -35,17 +36,16 @@ ${indexing.robots}
      cspMeta): this page reads no API, so connect-src is 'none'. -->
 ${cspMeta("'none'")}
 ${HEAD_ICONS}
-<!-- Organization, WebSite and WebPage in this page's language. \`inLanguage\` sits on
-     WebSite and WebPage (CreativeWork properties); schema.org has no \`inLanguage\` on
-     Organization, so the Organization node carries none (Stage 6 audit, 2026-10-28).
-     Its @id stays \`#org\`: pointing the prefixed homes at the one seller entity
-     (seo/seller-entity.mjs SELLER_ID) is outside the owner's 2026-10-14 scope. -->
+<!-- The seller, WebSite and WebPage. The seller is the site's ONE entity (seo/seller-entity.mjs SELLER_ID,
+     declared in full on the Russian home with its Russian description): here it is referenced by the same @id with
+     name, url and logo only — no second identity, no description in another language. \`inLanguage\` sits on
+     WebSite and WebPage (CreativeWork); schema.org has none on an organisation. -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"Organization","@id":"https://magicesim.store/#org","name":"Magic eSIM",
+ {"@type":"OnlineStore","@id":"${SELLER_ID}","name":"Magic eSIM",
   "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"},
  {"@type":"WebSite","@id":"${SITE}${P}/#website","url":"${SITE}${P}/",
-  "name":"Magic eSIM","inLanguage":"${L.htmlLang}","publisher":{"@id":"https://magicesim.store/#org"}},
+  "name":"Magic eSIM","inLanguage":"${L.htmlLang}","publisher":{"@id":"${SELLER_ID}"}},
  {"@type":"WebPage","@id":"${SITE}${P}/#webpage","url":"${SITE}${P}/",
   "name":${json(C.homeTitle)},"inLanguage":"${L.htmlLang}",
   "isPartOf":{"@id":"${SITE}${P}/#website"}}
