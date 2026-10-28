@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-27T12:20:50.925Z",
+  "fetched_at": "2026-10-27T15:23:58.314Z",
   "source": "assets/catalog.json",
   "countries": 200,
   "sheets": {
@@ -225,8 +225,8 @@
       "name_ru": "Исландия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 47,
-      "total_count": 59,
+      "regional_count": 46,
+      "total_count": 58,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -234,7 +234,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -263,12 +262,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -359,7 +352,6 @@
         550,
         600,
         700,
-        750,
         800,
         900,
         950,
@@ -522,7 +514,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 59,
+      "rows_total": 58,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -537,7 +529,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -1431,8 +1423,8 @@
       "name_ru": "Хорватия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -1440,7 +1432,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -1469,12 +1460,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -1566,7 +1551,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -1723,7 +1707,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -1740,7 +1724,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -5514,8 +5498,8 @@
       "name_ru": "Латвия",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 50,
-      "total_count": 61,
+      "regional_count": 49,
+      "total_count": 60,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -5523,7 +5507,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -5552,12 +5535,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -5649,7 +5626,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -5808,7 +5784,7 @@
         "Ålcom"
       ],
       "networks_rows": 32,
-      "rows_total": 61,
+      "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -5825,7 +5801,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -6141,8 +6117,8 @@
       "name_ru": "Дания",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -6150,7 +6126,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -6179,12 +6154,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -6276,7 +6245,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -6436,7 +6404,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -6453,7 +6421,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -7318,8 +7286,8 @@
       "name_ru": "Ирландия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 51,
-      "total_count": 63,
+      "regional_count": 50,
+      "total_count": 62,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -7327,7 +7295,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -7356,12 +7323,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -7453,7 +7414,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -7610,7 +7570,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 63,
+      "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -7627,7 +7587,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 57,
+      "topup_yes": 56,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -9095,8 +9055,8 @@
       "name_ru": "Нидерланды",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 50,
-      "total_count": 63,
+      "regional_count": 49,
+      "total_count": 62,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -9104,7 +9064,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -9133,12 +9092,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -9230,7 +9183,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1000,
@@ -9388,7 +9340,7 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 63,
+      "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -9405,7 +9357,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 57,
+      "topup_yes": 56,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -9744,8 +9696,8 @@
       "name_ru": "Лихтенштейн",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 47,
-      "total_count": 58,
+      "regional_count": 46,
+      "total_count": 57,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -9753,7 +9705,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -9782,12 +9733,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -9879,7 +9824,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -10040,7 +9984,7 @@
         "Ålcom"
       ],
       "networks_rows": 32,
-      "rows_total": 58,
+      "rows_total": 57,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -10055,7 +9999,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 55,
+      "topup_yes": 54,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -10472,9 +10416,9 @@
       "iso": "PK",
       "name_ru": "Пакистан",
       "strategy": "LOCAL",
-      "local_count": 11,
+      "local_count": 10,
       "regional_count": 24,
-      "total_count": 35,
+      "total_count": 34,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -10549,7 +10493,6 @@
         500,
         550,
         600,
-        650,
         700,
         750,
         850,
@@ -10658,7 +10601,7 @@
         "csl"
       ],
       "networks_rows": 26,
-      "rows_total": 35,
+      "rows_total": 34,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -10672,7 +10615,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 33,
+      "topup_yes": 32,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -11544,8 +11487,8 @@
       "name_ru": "Норвегия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 47,
-      "total_count": 59,
+      "regional_count": 46,
+      "total_count": 58,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -11553,7 +11496,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -11582,12 +11524,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -11679,7 +11615,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -11837,7 +11772,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 59,
+      "rows_total": 58,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -11853,7 +11788,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 55,
+      "topup_yes": 54,
       "topup_no": 4,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -15361,8 +15296,8 @@
       "name_ru": "Чехия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -15370,7 +15305,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -15399,12 +15333,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -15496,7 +15424,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -15653,7 +15580,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -15670,7 +15597,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -15924,8 +15851,8 @@
       "name_ru": "Кения",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 8,
-      "total_count": 19,
+      "regional_count": 7,
+      "total_count": 18,
       "min_price_rub": 400,
       "max_price_rub": 7050,
       "validity_days_min": 0,
@@ -15933,7 +15860,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -15953,12 +15879,6 @@
           "price_rub": 400,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 3050,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -16002,7 +15922,6 @@
         2800,
         2850,
         2950,
-        3050,
         3700,
         3800,
         3900,
@@ -16069,7 +15988,7 @@
         "Vodafone"
       ],
       "networks_rows": 14,
-      "rows_total": 19,
+      "rows_total": 18,
       "fup_policies": [
         "512 Kbps"
       ],
@@ -16081,7 +16000,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 13,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -16094,8 +16013,8 @@
       "name_ru": "Венгрия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -16103,7 +16022,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -16132,12 +16050,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -16229,7 +16141,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -16387,7 +16298,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -16404,7 +16315,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -16417,8 +16328,8 @@
       "name_ru": "Австрия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 51,
-      "total_count": 63,
+      "regional_count": 50,
+      "total_count": 62,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -16426,7 +16337,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -16455,12 +16365,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -16552,7 +16456,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -16712,7 +16615,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 63,
+      "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -16729,7 +16632,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 57,
+      "topup_yes": 56,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -16742,8 +16645,8 @@
       "name_ru": "Бельгия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -16751,7 +16654,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -16780,12 +16682,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -16877,7 +16773,6 @@
         600,
         650,
         700,
-        750,
         800,
         850,
         950,
@@ -17037,7 +16932,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -17054,7 +16949,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -17067,8 +16962,8 @@
       "name_ru": "Болгария",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 50,
-      "total_count": 63,
+      "regional_count": 49,
+      "total_count": 62,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -17076,7 +16971,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -17106,12 +17000,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -17209,7 +17097,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -17367,7 +17254,7 @@
         "Ålcom"
       ],
       "networks_rows": 32,
-      "rows_total": 63,
+      "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -17384,7 +17271,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 55,
+      "topup_yes": 54,
       "topup_no": 8,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -17397,8 +17284,8 @@
       "name_ru": "Кипр",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 51,
-      "total_count": 63,
+      "regional_count": 50,
+      "total_count": 62,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -17406,7 +17293,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -17435,12 +17321,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -17532,7 +17412,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -17689,7 +17568,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 63,
+      "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -17705,7 +17584,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 57,
+      "topup_yes": 56,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -17718,8 +17597,8 @@
       "name_ru": "Эстония",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -17727,7 +17606,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -17756,12 +17634,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -17853,7 +17725,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -18011,7 +17882,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -18028,7 +17899,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -18041,8 +17912,8 @@
       "name_ru": "Финляндия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -18050,7 +17921,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -18079,12 +17949,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -18176,7 +18040,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -18334,7 +18197,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -18351,7 +18214,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -18364,8 +18227,8 @@
       "name_ru": "Франция",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 49,
-      "total_count": 61,
+      "regional_count": 48,
+      "total_count": 60,
       "min_price_rub": 200,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -18406,7 +18269,7 @@
         },
         {
           "data_gb": 2,
-          "price_rub": 750,
+          "price_rub": 1200,
           "validity_days": 15,
           "kind": "regional"
         },
@@ -18653,7 +18516,7 @@
         "Ålcom"
       ],
       "networks_rows": 27,
-      "rows_total": 61,
+      "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -18669,7 +18532,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -18682,8 +18545,8 @@
       "name_ru": "Германия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 51,
-      "total_count": 64,
+      "regional_count": 50,
+      "total_count": 63,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -18691,7 +18554,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -18720,12 +18582,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -18817,7 +18673,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -18831,6 +18686,322 @@
         1450,
         1550,
         1650,
+        1700,
+        1750,
+        1800,
+        1850,
+        1900,
+        2000,
+        2150,
+        2300,
+        2350,
+        2400,
+        2450,
+        2500,
+        2550,
+        2600,
+        2650,
+        2700,
+        2750,
+        2850,
+        3000,
+        3200,
+        3300,
+        3350,
+        3400,
+        3450,
+        3700,
+        3850,
+        3900,
+        3950,
+        4350,
+        4450,
+        4550,
+        4600,
+        4650,
+        4800,
+        5050,
+        5200,
+        5350,
+        5450,
+        5650,
+        5750,
+        5900,
+        6100,
+        6200,
+        6350,
+        7000,
+        7350,
+        7550,
+        8200,
+        8800,
+        9050,
+        9550,
+        10800,
+        11300,
+        12250,
+        12850,
+        17550,
+        20850
+      ],
+      "term_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "daily_gb": [
+        0.49,
+        1,
+        2,
+        3,
+        5,
+        10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "networks": [
+        "3",
+        "7acht",
+        "A1",
+        "A1.net",
+        "BITĖ",
+        "Base",
+        "Bite",
+        "Bouygues",
+        "DNA",
+        "Digi.Mobil",
+        "EE",
+        "Eir",
+        "Elisa",
+        "Epic",
+        "FL1",
+        "Free Mobile",
+        "GO",
+        "GibTel",
+        "Iliad",
+        "JT",
+        "KPN",
+        "Kyivstar",
+        "LMT",
+        "MEO",
+        "Melita",
+        "Mobitel",
+        "Movistar",
+        "NOS",
+        "Nova",
+        "O2",
+        "Orange",
+        "Orange Morocco",
+        "POST",
+        "Play",
+        "Plus",
+        "PrimeTel",
+        "Pronto GSM",
+        "Proximus",
+        "SFR",
+        "Salt",
+        "Sunrise",
+        "Swisscom",
+        "Síminn",
+        "TDC",
+        "TIM",
+        "TIM maritime",
+        "Tango",
+        "Tele2",
+        "Telekom.mk",
+        "Telemach",
+        "Telenor",
+        "Telenor Hungary",
+        "Telfort",
+        "Telia",
+        "Telia / DNA",
+        "Turkcell",
+        "VIP",
+        "Vivacom",
+        "Vodafone",
+        "Wind",
+        "Yoigo",
+        "bob",
+        "lifecell",
+        "mts",
+        "vip",
+        "Ålcom"
+      ],
+      "networks_rows": 34,
+      "rows_total": 63,
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+        "500 Kbps",
+        "512 Kbps"
+      ],
+      "activation_policies": [
+        "first_data_usage",
+        "network_connection",
+        "unknown"
+      ],
+      "activation_labels": [
+        "с первого использования интернета",
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 57,
+      "topup_no": 6,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": true,
+      "daily_throttle_continues": false,
+      "min_volume_price_rub": 150,
+      "min_daily_price_rub": 250
+    },
+    "greece": {
+      "iso": "GR",
+      "name_ru": "Греция",
+      "strategy": "LOCAL",
+      "local_count": 14,
+      "regional_count": 50,
+      "total_count": 64,
+      "min_price_rub": 150,
+      "max_price_rub": 12250,
+      "validity_days_min": 0,
+      "validity_days_max": 365,
+      "volumes_gb": [
+        0,
+        1,
+        3,
+        5,
+        10,
+        12,
+        15,
+        18,
+        20,
+        25,
+        30,
+        40,
+        50,
+        60,
+        120
+      ],
+      "has_unlimited": true,
+      "regional_reach_max": 78,
+      "offers": [
+        {
+          "data_gb": 0,
+          "price_rub": 250,
+          "validity_days": 0,
+          "kind": "local"
+        },
+        {
+          "data_gb": 1,
+          "price_rub": 150,
+          "validity_days": 7,
+          "kind": "local"
+        },
+        {
+          "data_gb": 3,
+          "price_rub": 350,
+          "validity_days": 15,
+          "kind": "local"
+        },
+        {
+          "data_gb": 5,
+          "price_rub": 550,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 10,
+          "price_rub": 950,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 12,
+          "price_rub": 2000,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 15,
+          "price_rub": 2300,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 18,
+          "price_rub": 2700,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 20,
+          "price_rub": 1900,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 25,
+          "price_rub": 3350,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 30,
+          "price_rub": 3450,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 40,
+          "price_rub": 9050,
+          "validity_days": 365,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 50,
+          "price_rub": 3700,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 60,
+          "price_rub": 5750,
+          "validity_days": 30,
+          "kind": "regional"
+        },
+        {
+          "data_gb": 120,
+          "price_rub": 7350,
+          "validity_days": 30,
+          "kind": "regional"
+        }
+      ],
+      "all_purchasable_prices": [
+        150,
+        250,
+        350,
+        400,
+        450,
+        500,
+        550,
+        600,
+        650,
+        700,
+        800,
+        900,
+        950,
+        1050,
+        1100,
+        1150,
+        1200,
+        1250,
+        1300,
+        1400,
+        1450,
+        1550,
         1700,
         1750,
         1800,
@@ -19002,337 +19173,13 @@
       "min_volume_price_rub": 150,
       "min_daily_price_rub": 250
     },
-    "greece": {
-      "iso": "GR",
-      "name_ru": "Греция",
-      "strategy": "LOCAL",
-      "local_count": 14,
-      "regional_count": 51,
-      "total_count": 65,
-      "min_price_rub": 150,
-      "max_price_rub": 12250,
-      "validity_days_min": 0,
-      "validity_days_max": 365,
-      "volumes_gb": [
-        0,
-        1,
-        2,
-        3,
-        5,
-        10,
-        12,
-        15,
-        18,
-        20,
-        25,
-        30,
-        40,
-        50,
-        60,
-        120
-      ],
-      "has_unlimited": true,
-      "regional_reach_max": 78,
-      "offers": [
-        {
-          "data_gb": 0,
-          "price_rub": 250,
-          "validity_days": 0,
-          "kind": "local"
-        },
-        {
-          "data_gb": 1,
-          "price_rub": 150,
-          "validity_days": 7,
-          "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 3,
-          "price_rub": 350,
-          "validity_days": 15,
-          "kind": "local"
-        },
-        {
-          "data_gb": 5,
-          "price_rub": 550,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 10,
-          "price_rub": 950,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 12,
-          "price_rub": 2000,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 15,
-          "price_rub": 2300,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 18,
-          "price_rub": 2700,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 20,
-          "price_rub": 1900,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 25,
-          "price_rub": 3350,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 30,
-          "price_rub": 3450,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 40,
-          "price_rub": 9050,
-          "validity_days": 365,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 50,
-          "price_rub": 3700,
-          "validity_days": 30,
-          "kind": "local"
-        },
-        {
-          "data_gb": 60,
-          "price_rub": 5750,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 120,
-          "price_rub": 7350,
-          "validity_days": 30,
-          "kind": "regional"
-        }
-      ],
-      "all_purchasable_prices": [
-        150,
-        250,
-        350,
-        400,
-        450,
-        500,
-        550,
-        600,
-        650,
-        700,
-        750,
-        800,
-        900,
-        950,
-        1050,
-        1100,
-        1150,
-        1200,
-        1250,
-        1300,
-        1400,
-        1450,
-        1550,
-        1700,
-        1750,
-        1800,
-        1850,
-        1900,
-        2000,
-        2150,
-        2300,
-        2350,
-        2400,
-        2450,
-        2500,
-        2550,
-        2600,
-        2650,
-        2700,
-        2750,
-        2850,
-        3000,
-        3200,
-        3300,
-        3350,
-        3400,
-        3450,
-        3700,
-        3850,
-        3900,
-        3950,
-        4350,
-        4450,
-        4550,
-        4600,
-        4650,
-        4800,
-        5050,
-        5200,
-        5350,
-        5450,
-        5650,
-        5750,
-        5900,
-        6100,
-        6200,
-        6350,
-        7000,
-        7350,
-        7550,
-        8200,
-        8800,
-        9050,
-        9550,
-        10800,
-        11300,
-        12250,
-        12850,
-        17550,
-        20850
-      ],
-      "term_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "daily_gb": [
-        0.49,
-        1,
-        2,
-        3,
-        5,
-        10
-      ],
-      "speeds": [
-        "3G/4G/5G"
-      ],
-      "networks": [
-        "3",
-        "7acht",
-        "A1",
-        "A1.net",
-        "BITĖ",
-        "Base",
-        "Bite",
-        "Bouygues",
-        "DNA",
-        "Digi.Mobil",
-        "EE",
-        "Eir",
-        "Elisa",
-        "Epic",
-        "FL1",
-        "Free Mobile",
-        "GO",
-        "GibTel",
-        "Iliad",
-        "JT",
-        "KPN",
-        "Kyivstar",
-        "LMT",
-        "MEO",
-        "Melita",
-        "Mobitel",
-        "Movistar",
-        "NOS",
-        "Nova",
-        "O2",
-        "Orange",
-        "Orange Morocco",
-        "POST",
-        "Play",
-        "Plus",
-        "PrimeTel",
-        "Pronto GSM",
-        "Proximus",
-        "SFR",
-        "Salt",
-        "Sunrise",
-        "Swisscom",
-        "Síminn",
-        "TDC",
-        "TIM",
-        "TIM maritime",
-        "Tango",
-        "Tele2",
-        "Telekom.mk",
-        "Telemach",
-        "Telenor",
-        "Telenor Hungary",
-        "Telfort",
-        "Telia",
-        "Telia / DNA",
-        "Turkcell",
-        "VIP",
-        "Vivacom",
-        "Vodafone",
-        "Wind",
-        "Yoigo",
-        "bob",
-        "lifecell",
-        "mts",
-        "vip",
-        "Ålcom"
-      ],
-      "networks_rows": 34,
-      "rows_total": 65,
-      "fup_policies": [
-        "1 Mbps",
-        "384 Kbps",
-        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-        "500 Kbps",
-        "512 Kbps"
-      ],
-      "activation_policies": [
-        "first_data_usage",
-        "network_connection",
-        "unknown"
-      ],
-      "activation_labels": [
-        "с первого использования интернета",
-        "с первого подключения к сети"
-      ],
-      "topup_yes": 59,
-      "topup_no": 6,
-      "daily_reset_confirmed": false,
-      "daily_reset_partial": true,
-      "daily_throttle_continues": false,
-      "min_volume_price_rub": 150,
-      "min_daily_price_rub": 250
-    },
     "italy": {
       "iso": "IT",
       "name_ru": "Италия",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 50,
-      "total_count": 63,
+      "regional_count": 49,
+      "total_count": 62,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -19340,7 +19187,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -19369,12 +19215,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -19466,7 +19306,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -19624,7 +19463,7 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 63,
+      "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -19641,7 +19480,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 57,
+      "topup_yes": 56,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -19654,8 +19493,8 @@
       "name_ru": "Литва",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -19663,7 +19502,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -19692,12 +19530,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -19789,7 +19621,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -19946,7 +19777,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -19963,7 +19794,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -19976,8 +19807,8 @@
       "name_ru": "Люксембург",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -19985,7 +19816,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -20014,12 +19844,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -20111,7 +19935,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -20268,7 +20091,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -20285,7 +20108,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -20298,8 +20121,8 @@
       "name_ru": "Мальта",
       "strategy": "LOCAL",
       "local_count": 10,
-      "regional_count": 50,
-      "total_count": 60,
+      "regional_count": 49,
+      "total_count": 59,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -20307,7 +20130,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -20336,12 +20158,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -20433,7 +20249,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -20591,7 +20406,7 @@
         "Ålcom"
       ],
       "networks_rows": 31,
-      "rows_total": 60,
+      "rows_total": 59,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -20607,7 +20422,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 55,
+      "topup_yes": 54,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -20620,8 +20435,8 @@
       "name_ru": "Польша",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -20629,7 +20444,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -20658,12 +20472,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -20755,7 +20563,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -20914,7 +20721,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -20931,7 +20738,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -20944,8 +20751,8 @@
       "name_ru": "Португалия",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 51,
-      "total_count": 63,
+      "regional_count": 50,
+      "total_count": 62,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -20953,7 +20760,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -20982,12 +20788,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -21079,7 +20879,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -21240,7 +21039,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 63,
+      "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -21257,7 +21056,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 57,
+      "topup_yes": 56,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -21270,8 +21069,8 @@
       "name_ru": "Румыния",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -21279,7 +21078,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -21308,12 +21106,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -21405,7 +21197,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1000,
@@ -21563,7 +21354,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -21580,7 +21371,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -21593,8 +21384,8 @@
       "name_ru": "Словакия",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 50,
-      "total_count": 61,
+      "regional_count": 49,
+      "total_count": 60,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -21602,7 +21393,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -21631,12 +21421,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -21728,7 +21512,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -21887,7 +21670,7 @@
         "Ålcom"
       ],
       "networks_rows": 32,
-      "rows_total": 61,
+      "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -21903,7 +21686,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -21916,8 +21699,8 @@
       "name_ru": "Словения",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -21925,7 +21708,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -21954,12 +21736,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -22051,7 +21827,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -22208,7 +21983,7 @@
         "Ålcom"
       ],
       "networks_rows": 33,
-      "rows_total": 62,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -22225,7 +22000,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -22238,8 +22013,8 @@
       "name_ru": "Испания",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 55,
-      "total_count": 68,
+      "regional_count": 54,
+      "total_count": 67,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -22279,7 +22054,7 @@
         },
         {
           "data_gb": 2,
-          "price_rub": 750,
+          "price_rub": 1200,
           "validity_days": 15,
           "kind": "regional"
         },
@@ -22373,7 +22148,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1000,
@@ -22531,7 +22305,7 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 68,
+      "rows_total": 67,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -22548,7 +22322,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 62,
+      "topup_yes": 61,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -22561,8 +22335,8 @@
       "name_ru": "Швеция",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 50,
-      "total_count": 61,
+      "regional_count": 49,
+      "total_count": 60,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -22570,7 +22344,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -22599,12 +22372,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -22696,7 +22463,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -22853,7 +22619,7 @@
         "Ålcom"
       ],
       "networks_rows": 32,
-      "rows_total": 61,
+      "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -22870,7 +22636,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 55,
+      "topup_yes": 54,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -22883,8 +22649,8 @@
       "name_ru": "Швейцария",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 47,
-      "total_count": 60,
+      "regional_count": 46,
+      "total_count": 59,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -22892,7 +22658,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -22921,12 +22686,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -23018,7 +22777,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -23178,7 +22936,7 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 60,
+      "rows_total": 59,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -23194,7 +22952,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 4,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -23207,8 +22965,8 @@
       "name_ru": "Турция",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 47,
-      "total_count": 61,
+      "regional_count": 46,
+      "total_count": 60,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -23247,7 +23005,7 @@
         },
         {
           "data_gb": 2,
-          "price_rub": 750,
+          "price_rub": 1100,
           "validity_days": 15,
           "kind": "regional"
         },
@@ -23472,7 +23230,7 @@
         "Ålcom"
       ],
       "networks_rows": 27,
-      "rows_total": 61,
+      "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -23486,7 +23244,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 59,
+      "topup_yes": 58,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -23498,9 +23256,9 @@
       "iso": "GB",
       "name_ru": "Великобритания",
       "strategy": "LOCAL",
-      "local_count": 15,
-      "regional_count": 52,
-      "total_count": 67,
+      "local_count": 14,
+      "regional_count": 51,
+      "total_count": 65,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -23508,7 +23266,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -23539,12 +23296,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -23648,7 +23399,6 @@
         600,
         650,
         700,
-        750,
         800,
         950,
         1050,
@@ -23809,7 +23559,7 @@
         "Ålcom"
       ],
       "networks_rows": 34,
-      "rows_total": 67,
+      "rows_total": 65,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -23828,7 +23578,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 61,
+      "topup_yes": 59,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -23841,8 +23591,8 @@
       "name_ru": "Ватикан",
       "strategy": "LOCAL",
       "local_count": 10,
-      "regional_count": 19,
-      "total_count": 29,
+      "regional_count": 18,
+      "total_count": 28,
       "min_price_rub": 150,
       "max_price_rub": 7350,
       "validity_days_min": 0,
@@ -23850,7 +23600,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -23877,12 +23626,6 @@
           "price_rub": 150,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -23960,7 +23703,6 @@
         600,
         650,
         700,
-        750,
         800,
         900,
         950,
@@ -24059,7 +23801,7 @@
         "lifecell"
       ],
       "networks_rows": 15,
-      "rows_total": 29,
+      "rows_total": 28,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -24073,7 +23815,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 27,
+      "topup_yes": 26,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -24086,15 +23828,14 @@
       "name_ru": "Северный Кипр",
       "strategy": "REGIONAL",
       "local_count": 0,
-      "regional_count": 27,
-      "total_count": 27,
+      "regional_count": 26,
+      "total_count": 26,
       "min_price_rub": 450,
       "max_price_rub": 9050,
       "validity_days_min": 14,
       "validity_days_max": 365,
       "volumes_gb": [
         1,
-        2,
         3,
         5,
         7,
@@ -24114,12 +23855,6 @@
           "data_gb": 1,
           "price_rub": 450,
           "validity_days": 14,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 750,
-          "validity_days": 15,
           "kind": "regional"
         },
         {
@@ -24193,7 +23928,6 @@
         450,
         500,
         700,
-        750,
         800,
         1100,
         1300,
@@ -24220,7 +23954,7 @@
       "speeds": [],
       "networks": [],
       "networks_rows": 0,
-      "rows_total": 27,
+      "rows_total": 26,
       "fup_policies": [],
       "activation_policies": [
         "first_data_usage"
@@ -24228,7 +23962,7 @@
       "activation_labels": [
         "с первого использования интернета"
       ],
-      "topup_yes": 27,
+      "topup_yes": 26,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -24240,9 +23974,9 @@
       "iso": "GE",
       "name_ru": "Грузия",
       "strategy": "LOCAL",
-      "local_count": 12,
+      "local_count": 11,
       "regional_count": 7,
-      "total_count": 19,
+      "total_count": 18,
       "min_price_rub": 200,
       "max_price_rub": 9050,
       "validity_days_min": 0,
@@ -24363,7 +24097,7 @@
         "Magti"
       ],
       "networks_rows": 11,
-      "rows_total": 19,
+      "rows_total": 18,
       "fup_policies": [
         "1 Mbps",
         "384Kbps",
@@ -24377,7 +24111,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 18,
+      "topup_yes": 17,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -24891,9 +24625,9 @@
       "iso": "SG",
       "name_ru": "Сингапур",
       "strategy": "LOCAL",
-      "local_count": 19,
+      "local_count": 18,
       "regional_count": 38,
-      "total_count": 57,
+      "total_count": 56,
       "min_price_rub": 150,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -24945,9 +24679,9 @@
         },
         {
           "data_gb": 7,
-          "price_rub": 1050,
-          "validity_days": 15,
-          "kind": "local"
+          "price_rub": 2200,
+          "validity_days": 30,
+          "kind": "regional"
         },
         {
           "data_gb": 10,
@@ -25157,7 +24891,7 @@
         "csl"
       ],
       "networks_rows": 30,
-      "rows_total": 57,
+      "rows_total": 56,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -25175,7 +24909,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 45,
+      "topup_yes": 44,
       "topup_no": 12,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -26774,16 +26508,15 @@
       "iso": "MC",
       "name_ru": "Монако",
       "strategy": "LOCAL",
-      "local_count": 9,
+      "local_count": 8,
       "regional_count": 0,
-      "total_count": 9,
+      "total_count": 8,
       "min_price_rub": 1050,
       "max_price_rub": 14200,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
         0,
-        1,
         3,
         5,
         10
@@ -26795,12 +26528,6 @@
           "data_gb": 0,
           "price_rub": 1450,
           "validity_days": 3,
-          "kind": "local"
-        },
-        {
-          "data_gb": 1,
-          "price_rub": 2800,
-          "validity_days": 7,
           "kind": "local"
         },
         {
@@ -26827,7 +26554,6 @@
         1450,
         2050,
         2200,
-        2800,
         4550,
         7300,
         7550,
@@ -26862,14 +26588,13 @@
         3
       ],
       "speeds": [
-        "3G/4G",
-        "3G/4G/5G"
+        "3G/4G"
       ],
       "networks": [
         "Monaco Telecom"
       ],
-      "networks_rows": 4,
-      "rows_total": 9,
+      "networks_rows": 3,
+      "rows_total": 8,
       "fup_policies": [
         "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
@@ -26882,7 +26607,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 6,
+      "topup_yes": 5,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -27669,8 +27394,8 @@
       "name_ru": "Нигерия",
       "strategy": "LOCAL",
       "local_count": 10,
-      "regional_count": 11,
-      "total_count": 21,
+      "regional_count": 10,
+      "total_count": 20,
       "min_price_rub": 650,
       "max_price_rub": 7750,
       "validity_days_min": 0,
@@ -27678,7 +27403,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -27698,12 +27422,6 @@
           "price_rub": 650,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 3050,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -27747,7 +27465,6 @@
         2850,
         2900,
         2950,
-        3050,
         3600,
         3700,
         3900,
@@ -27805,7 +27522,7 @@
         "Vodafone"
       ],
       "networks_rows": 13,
-      "rows_total": 21,
+      "rows_total": 20,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -27818,7 +27535,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 15,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -29500,9 +29217,9 @@
       "iso": "NZ",
       "name_ru": "Новая Зеландия",
       "strategy": "LOCAL",
-      "local_count": 13,
+      "local_count": 12,
       "regional_count": 27,
-      "total_count": 40,
+      "total_count": 39,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -29717,7 +29434,7 @@
         "csl"
       ],
       "networks_rows": 21,
-      "rows_total": 40,
+      "rows_total": 39,
       "fup_policies": [
         "384 Kbps",
         "512 Kbps"
@@ -29732,7 +29449,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 39,
+      "topup_yes": 38,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -31297,9 +31014,9 @@
       "iso": "SA",
       "name_ru": "Саудовская Аравия",
       "strategy": "LOCAL",
-      "local_count": 13,
+      "local_count": 12,
       "regional_count": 16,
-      "total_count": 29,
+      "total_count": 28,
       "min_price_rub": 400,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -31331,9 +31048,9 @@
         },
         {
           "data_gb": 2,
-          "price_rub": 1000,
-          "validity_days": 14,
-          "kind": "local"
+          "price_rub": 1100,
+          "validity_days": 15,
+          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -31479,7 +31196,7 @@
         "ooredoo"
       ],
       "networks_rows": 20,
-      "rows_total": 29,
+      "rows_total": 28,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -31495,7 +31212,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 28,
+      "topup_yes": 27,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -31508,8 +31225,8 @@
       "name_ru": "Египет",
       "strategy": "LOCAL",
       "local_count": 16,
-      "regional_count": 17,
-      "total_count": 33,
+      "regional_count": 16,
+      "total_count": 32,
       "min_price_rub": 300,
       "max_price_rub": 5400,
       "validity_days_min": 0,
@@ -31616,7 +31333,6 @@
         2850,
         2950,
         3000,
-        3050,
         3150,
         3300,
         3350,
@@ -31677,7 +31393,7 @@
         "Vodafone"
       ],
       "networks_rows": 11,
-      "rows_total": 33,
+      "rows_total": 32,
       "fup_policies": [
         "384 Kbps",
         "500 Kbps",
@@ -31691,7 +31407,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 28,
+      "topup_yes": 27,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -31704,8 +31420,8 @@
       "name_ru": "Уганда",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 13,
-      "total_count": 24,
+      "regional_count": 12,
+      "total_count": 23,
       "min_price_rub": 850,
       "max_price_rub": 11550,
       "validity_days_min": 0,
@@ -31713,7 +31429,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -31733,12 +31448,6 @@
           "price_rub": 850,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 3050,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -31781,7 +31490,6 @@
         2850,
         2950,
         3000,
-        3050,
         3200,
         3550,
         3700,
@@ -31852,7 +31560,7 @@
         "Vodafone"
       ],
       "networks_rows": 14,
-      "rows_total": 24,
+      "rows_total": 23,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -31868,7 +31576,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 17,
+      "topup_yes": 16,
       "topup_no": 7,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -31881,8 +31589,8 @@
       "name_ru": "Танзания",
       "strategy": "LOCAL",
       "local_count": 9,
-      "regional_count": 10,
-      "total_count": 19,
+      "regional_count": 9,
+      "total_count": 18,
       "min_price_rub": 750,
       "max_price_rub": 9750,
       "validity_days_min": 0,
@@ -31890,7 +31598,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -31910,12 +31617,6 @@
           "price_rub": 750,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 3050,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -31958,7 +31659,6 @@
         2900,
         2950,
         3000,
-        3050,
         3500,
         3600,
         3700,
@@ -32018,7 +31718,7 @@
         "Vodafone"
       ],
       "networks_rows": 9,
-      "rows_total": 19,
+      "rows_total": 18,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -32033,7 +31733,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 12,
+      "topup_yes": 11,
       "topup_no": 7,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -32395,8 +32095,8 @@
       "name_ru": "Тунис",
       "strategy": "LOCAL",
       "local_count": 10,
-      "regional_count": 22,
-      "total_count": 32,
+      "regional_count": 21,
+      "total_count": 31,
       "min_price_rub": 250,
       "max_price_rub": 5200,
       "validity_days_min": 0,
@@ -32543,7 +32243,7 @@
         "Vodafone"
       ],
       "networks_rows": 13,
-      "rows_total": 32,
+      "rows_total": 31,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -32557,7 +32257,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 27,
+      "topup_yes": 26,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -35264,8 +34964,8 @@
       "name_ru": "ЮАР",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 7,
-      "total_count": 18,
+      "regional_count": 6,
+      "total_count": 17,
       "min_price_rub": 250,
       "max_price_rub": 6550,
       "validity_days_min": 0,
@@ -35273,7 +34973,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -35294,12 +34993,6 @@
           "price_rub": 250,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 3050,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -35409,7 +35102,7 @@
         "Vodafone"
       ],
       "networks_rows": 13,
-      "rows_total": 18,
+      "rows_total": 17,
       "fup_policies": [
         "512 Kbps"
       ],
@@ -35421,7 +35114,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 17,
+      "topup_yes": 16,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -36673,8 +36366,8 @@
       "name_ru": "Маврикий",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 10,
-      "total_count": 21,
+      "regional_count": 9,
+      "total_count": 20,
       "min_price_rub": 400,
       "max_price_rub": 8150,
       "validity_days_min": 0,
@@ -36682,7 +36375,6 @@
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -36702,12 +36394,6 @@
           "price_rub": 400,
           "validity_days": 7,
           "kind": "local"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 3050,
-          "validity_days": 15,
-          "kind": "regional"
         },
         {
           "data_gb": 3,
@@ -36751,7 +36437,6 @@
         2700,
         2950,
         3000,
-        3050,
         3250,
         3300,
         3400,
@@ -36809,7 +36494,7 @@
         "my.t"
       ],
       "networks_rows": 11,
-      "rows_total": 21,
+      "rows_total": 20,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -36825,7 +36510,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 13,
       "topup_no": 7,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -37791,15 +37476,14 @@
       "name_ru": "Мадагаскар",
       "strategy": "LOCAL",
       "local_count": 4,
-      "regional_count": 11,
-      "total_count": 15,
+      "regional_count": 10,
+      "total_count": 14,
       "min_price_rub": 1050,
       "max_price_rub": 5050,
       "validity_days_min": 7,
       "validity_days_max": 30,
       "volumes_gb": [
         1,
-        2,
         3,
         5,
         10
@@ -37811,12 +37495,6 @@
           "data_gb": 1,
           "price_rub": 1050,
           "validity_days": 7,
-          "kind": "regional"
-        },
-        {
-          "data_gb": 2,
-          "price_rub": 3050,
-          "validity_days": 15,
           "kind": "regional"
         },
         {
@@ -37848,7 +37526,6 @@
         2800,
         2850,
         2950,
-        3050,
         3700,
         4200,
         4900,
@@ -37879,7 +37556,7 @@
         "Vodafone"
       ],
       "networks_rows": 4,
-      "rows_total": 15,
+      "rows_total": 14,
       "fup_policies": [],
       "activation_policies": [
         "first_data_usage",
@@ -37889,7 +37566,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 11,
+      "topup_yes": 10,
       "topup_no": 4,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -37901,9 +37578,9 @@
       "iso": "MA",
       "name_ru": "Марокко",
       "strategy": "LOCAL",
-      "local_count": 13,
-      "regional_count": 22,
-      "total_count": 35,
+      "local_count": 12,
+      "regional_count": 21,
+      "total_count": 33,
       "min_price_rub": 300,
       "max_price_rub": 5450,
       "validity_days_min": 0,
@@ -37998,7 +37675,6 @@
         2850,
         2950,
         3000,
-        3050,
         3150,
         3700,
         3900,
@@ -38108,7 +37784,7 @@
         "Ålcom"
       ],
       "networks_rows": 20,
-      "rows_total": 35,
+      "rows_total": 33,
       "fup_policies": [
         "500 Kbps",
         "512 Kbps"
@@ -38121,7 +37797,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 30,
+      "topup_yes": 28,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
