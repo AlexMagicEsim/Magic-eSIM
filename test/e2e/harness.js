@@ -254,7 +254,9 @@ async function installMiniApp(page, options = {}) {
       if (at.endsWith('/api/v1/tma/events')) {
         try { event = JSON.parse(request.postData() || '{}'); } catch (_) { event = { event: '<unparseable>' }; }
       }
-      state.calls.push({ path: at, method: request.method(), event });
+      // `auth`: which session a call rode on (the harness's own `test-session` bearer, never a real credential), so a
+      // test can tell «the same session» from «a new one» without the app exposing its token.
+      state.calls.push({ path: at, method: request.method(), event, auth: request.headers().authorization || null });
 
       if (at.endsWith('/api/v1/tma/session')) {
         if (sessionDelayMs) await new Promise((r) => setTimeout(r, sessionDelayMs));

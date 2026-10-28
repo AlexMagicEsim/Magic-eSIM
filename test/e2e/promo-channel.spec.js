@@ -14,7 +14,18 @@ const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layo
 // The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
 // the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
 test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
-const { installMiniApp, openApp, callsTo, overflowingInside, PACKAGE } = require('./harness');
+const { installMiniApp, openApp, callsTo, eventsSent, overflowingInside, PACKAGE } = require('./harness');
+
+/**
+ * The home screen shows BEFORE the session exists (app/ui.js boot: the public catalogue first, `authenticate()`
+ * beside it), so `openApp()` can return while `POST /tma/session` has not left the page yet. A baseline read then
+ * counts 0 sessions and no `miniapp_open`, and the app's OWN first session later reads as «the tap made one»
+ * (CI 2026-10-27, run 40539644198: «Expected: 0, Received: 1»). Every baseline here is taken after this.
+ */
+async function sessionOpened(state) {
+  await expect.poll(() => callsTo(state, '/api/v1/tma/session')).toBe(1);
+  await expect.poll(() => eventsSent(state).includes('miniapp_open')).toBe(true);
+}
 
 const CHANNEL = 'https://t.me/magicesim';
 const CODE = 'WELCOME10';
@@ -224,6 +235,7 @@ test.describe('the tap and its telemetry', () => {
   test('channel_click once per tap, and the verified event only on a yes', async ({ page }) => {
     const state = await installMiniApp(page, { channelSubscription: 'no' });
     await openApp(page);
+    await sessionOpened(state);
 
     const before = callsTo(state, '/api/v1/tma/events');
     await page.locator('#promo-channel').click();
@@ -241,16 +253,22 @@ test.describe('the tap and its telemetry', () => {
   test('does not touch the session or its acquisition', async ({ page }) => {
     const state = await installMiniApp(page, { channelSubscription: 'yes' });
     await openApp(page);
+    await sessionOpened(state);
 
-    const sessions = callsTo(state, '/api/v1/tma/session');
-    const token = await page.evaluate(() => window.MagicCore && window.MagicCore.__testToken);
+    const sessions = callsTo(state, '/api/v1/tma/session');   // exactly 1: the launch's own
+    const tapStart = state.calls.length;
 
     await page.locator('#promo-channel').click();
     await page.locator('#promo-verify').click();
     await expect(page.locator('#promo-reward')).toBeVisible();
 
     expect(callsTo(state, '/api/v1/tma/session')).toBe(sessions);
-    expect(await page.evaluate(() => window.MagicCore && window.MagicCore.__testToken)).toBe(token);
+    // The same session, not a new one: every authenticated call the tap made rides the launch's bearer. (This used
+    // to read `window.MagicCore.__testToken`, which the app never defined — undefined === undefined, a check of
+    // nothing.)
+    const tapCalls = state.calls.slice(tapStart).filter((c) => c.auth);
+    expect(tapCalls.length).toBeGreaterThan(0);
+    expect([...new Set(tapCalls.map((c) => c.auth))]).toEqual(['Bearer test-session']);
   });
 });
 
