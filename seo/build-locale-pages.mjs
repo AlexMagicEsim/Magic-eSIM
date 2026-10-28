@@ -55,7 +55,7 @@ import { homePage as renderHome } from './home-page.mjs';
 import { missingGuards } from './claim-guards.mjs';
 import { loadContent, validateContent, CONTENT_COPY } from './content-en.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
-import { GUIDE_RU, alternateLinks, robotsFor } from './indexing.mjs';
+import { GUIDE_RU, INDEXED_COUNTRIES, alternateLinks, robotsFor } from './indexing.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
@@ -196,6 +196,13 @@ export function listIndex(code) {
   };
 }
 
+
+/* The footer's non-indexed destinations (owner, 2026-10-27: never take a commercially important destination out of the
+ * navigation). The UAE, the United States, Italy and Spain are among the biggest travel destinations and stay linked
+ * from every prefixed page although their pages are not indexed yet; when one joins INDEXED_COUNTRIES it is simply
+ * listed once. FOOTER_MAX: the column's cap (seo/test-internal-links-intl.mjs). */
+export const COMMERCIAL_FOOTER = Object.freeze(['uae', 'usa', 'italy', 'spain']);
+export const FOOTER_MAX = 20;
 
 /* The Russian twin of each guide — the language switch and the hreflang clusters (seo/indexing.mjs holds it). */
 export { GUIDE_RU };
@@ -542,6 +549,25 @@ const LEGAL = legalLinks(code).map((l) => (LEGAL_T && l.hreflang === 'en' ? { ..
 const LEGAL_LINE = LEGAL.length
   ? `      <p>${LEGAL.map((l) => `<a href="${l.href}" hreflang="${l.hreflang}" data-i18n="${l.key}">${t(l.key)}</a>`).join(' · ')}</p>\n`
   : '';
+/* The footer's destinations: ONE A–Z list in this language's order (listIndex), then «All destinations». It holds
+ *   - the countries of the indexing stage (seo/indexing.mjs INDEXED_COUNTRIES) — the pages with their own written
+ *     content that are offered to search engines; widening the stage widens this list by itself;
+ *   - COMMERCIAL_FOOTER (next to listIndex) — the big destinations that are not indexed yet but that travellers look for first.
+ * Until 2026-10-27 it was the first six of the home's popular list: 197 links from the country pages to three indexed
+ * pages and three noindex ones, and one or two to France, the Maldives and Mexico (TECH.md T1). FOOTER_MAX caps the
+ * column so that a wide stage cannot turn it into a link dump — past it the build stops and a person decides. Every
+ * slug must have a page in this language, or the build stops. */
+const FOOTER_DESTINATIONS = (() => {
+  const bySlug = new Map(countries().map((c) => [c.slug, c]));
+  const index = listIndex(code);
+  const slugs = [...new Set([...INDEXED_COUNTRIES, ...COMMERCIAL_FOOTER])];
+  if (slugs.length > FOOTER_MAX) throw new Error(`footer: ${slugs.length} destinations, more than ${FOOTER_MAX} — choose, do not dump`);
+  return slugs.map((slug) => {
+    const c = bySlug.get(slug);
+    if (!c) throw new Error(`footer: destination ${slug} has no ${L.code} page`);
+    return c;
+  }).sort((x, y) => index.compare(x.name, y.name));
+})();
 const FOOTER = `<footer class="site-footer">
   <div class="wrap">
     <div class="ft-grid">
@@ -552,7 +578,7 @@ const FOOTER = `<footer class="site-footer">
       <div class="ft-col">
         <h2 data-i18n="nav.destinations">${t('nav.destinations')}</h2>
         <ul>
-${ftLinks(POPULAR.slice(0, 6).map((c) => ({ href: `${P}/esim/${c.slug}/`, label: c.name })))}
+${ftLinks(FOOTER_DESTINATIONS.map((c) => ({ href: `${P}/esim/${c.slug}/`, label: c.name })))}
           <li><a href="${P}/esim/" data-i18n="site.allDestinations">${t('site.allDestinations')}</a></li>
         </ul>
       </div>
@@ -1333,7 +1359,7 @@ function homePage(list = countries()) {
   }
 
   return Object.freeze({
-    locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER,
+    locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER, FOOTER_DESTINATIONS,
     countryPage, hubPage, guidePage, guidesHub, homePage, destinationsJs, twin, privacyPage, legalPage,
     ...(canWrite ? { build } : {}),
   });

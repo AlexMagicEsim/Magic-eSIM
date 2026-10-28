@@ -287,8 +287,9 @@ export const PAGE_COPY = freeze({
     homeArtInstall: 'Install by<br>QR code',
     /* The six quick links under the home's search, by ISO code — named and linked from this language's own pages. */
     quick: freeze(['TH', 'TR', 'JP', 'US', 'VN', 'FR']),
-    /* The destinations the footer and the hub feature, in this language's own
-     * order and names. Every slug must have a page; seo/test-en-home.mjs checks it. */
+    /* The destinations the home's tiles and the hub feature, in this language's own
+     * order and names. Every slug must have a page; seo/test-en-home.mjs checks it.
+     * (The footer has its own list since 2026-10-27: build-locale-pages.mjs FOOTER_DESTINATIONS.) */
     popular: freeze([
       freeze({ iso: 'TH', slug: 'thailand', name: 'Thailand' }),
       freeze({ iso: 'TR', slug: 'turkey', name: 'Türkiye' }),
