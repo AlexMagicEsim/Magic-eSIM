@@ -16,6 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('@playwright/test');
 const { installMiniApp, openApp } = require('./harness.js');
+const { globalAnswer } = require('../helpers/assortment-layout.cjs');
 
 const FIX = (m) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'fixtures', `assortment-parity-${m}.json`), 'utf8'));
 const RUB = FIX('rub');
@@ -81,13 +82,21 @@ for (const c of COUNTRIES) {
   });
 
   test(`USD · ${c.iso}: the international page and the international Mini App draw the same layout`, async ({ page, context }) => {
-    await context.route('**/api/v1/retail/packages*', (r) => (new URL(r.request().url()).searchParams.get('market') === 'global'
-      ? r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(USD) })
-      : r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(RUB) })));
+    // The site asks for its own country (?market=global&country=XX) and gets the backend's narrowed answer
+    // (globalAnswer: one layout entry, the whole answer's objects for its ids, in its order); the Mini App reads the
+    // whole catalogue. Both must draw the backend's layout.
+    const asked = [];
+    await context.route('**/api/v1/retail/packages*', (r) => {
+      const url = r.request().url();
+      if (new URL(url).searchParams.get('market') !== 'global') return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(RUB) });
+      asked.push(new URL(url).search);
+      return r.fulfill(globalAnswer(url, USD));
+    });
     await page.goto(`/en/esim/${c.slug}/`);
     await page.waitForFunction(() => !document.querySelector('#status') || document.querySelector('#status').hidden);
     const site = await siteBlocks(page, 'en');
     expect(site).toEqual(expected(USD, c.iso));
+    expect(asked).toEqual([`?market=global&country=${c.iso}`]);
 
     const app = await context.newPage();
     await installMiniApp(app, { languageCode: 'en', catalogue: RUB, globalCatalogue: USD });
@@ -95,5 +104,22 @@ for (const c of COUNTRIES) {
     await openApp(app);
     await openInApp(app, c.en);
     expect(await appBlocks(app)).toEqual(site);
+  });
+}
+
+for (const [name, first] of [['the whole fixture to the country URL (a backend without the parameter)', 'whole'], ['404 COUNTRY_NOT_FOUND, then the whole catalogue', '404']]) {
+  test(`USD · TH fallback — ${name}: the same layout`, async ({ page, context }) => {
+    const asked = [];
+    await context.route('**/api/v1/retail/packages*', (r) => {
+      const u = new URL(r.request().url());
+      if (u.searchParams.get('market') !== 'global') return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(RUB) });
+      asked.push(u.search);
+      if (u.searchParams.get('country') && first === '404') return r.fulfill({ status: 404, contentType: 'application/json', body: JSON.stringify({ status: 'error', error: 'COUNTRY_NOT_FOUND' }) });
+      return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(USD) });
+    });
+    await page.goto('/en/esim/thailand/');
+    await page.waitForFunction(() => !document.querySelector('#status') || document.querySelector('#status').hidden);
+    expect(await siteBlocks(page, 'en')).toEqual(expected(USD, 'TH'));
+    expect(asked).toEqual(first === '404' ? ['?market=global&country=TH', '?market=global'] : ['?market=global&country=TH']);
   });
 }

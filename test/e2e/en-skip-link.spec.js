@@ -54,7 +54,7 @@ async function prepare(page) {
   page.on('pageerror', (e) => problems.push(String(e)));
   await page.route('**/*', (route) => {
     const url = route.request().url();
-    if (url.startsWith(PRIMARY) && /\/api\/v1\/retail\/packages\?market=global$/.test(url)) {
+    if (url.startsWith(PRIMARY) && /\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/.test(url)) {
       return route.fulfill({ status: 200, contentType: 'application/json', body: CATALOGUE });
     }
     if (url.startsWith(PRIMARY)) return route.fulfill({ status: 500, body: 'unexpected' });

@@ -27,14 +27,27 @@
  * primary API origin. MagicNet.request is NOT used for this read, because it
  * would carry a failed read to the fallback gateway.
  *
- * Exposes window.MagicGlobalCatalog = { PATH, load(), validate() }.
+ * ONE COUNTRY, NOT THE WHOLE CATALOGUE (2026-10-27): a country page passes its
+ * ISO code, `load({ country: 'TH' })`, and asks for
+ * `?market=global&country=TH` — the backend's SAME objects for exactly the ids
+ * of that country's layout entry, plus the entry (~2.5 KB on the wire instead
+ * of ~237 KB; esim-backend lib/globalCatalogueCountry.js). Nothing is chosen
+ * here: the answer goes through the same validate() and the same layout
+ * reader. When the backend does not know the country (400 INVALID_COUNTRY,
+ * 404 COUNTRY_NOT_FOUND), or its answer is empty or has no entry for it, the
+ * page asks ONCE for the whole catalogue, from the same primary origin — so
+ * «no plans here» is decided exactly as before, and a backend without the
+ * parameter still works. A refusal (429, 503), an error or no answer is NOT
+ * retried: the page says prices are unavailable, as before.
+ *
+ * Exposes window.MagicGlobalCatalog = { PATH, countryPath(), load(), validate() }.
  */
 (function (root) {
   'use strict';
 
   var PATH = '/api/v1/retail/packages?market=global';
-  // The answer is ~1.5 MB of JSON (about 130 KB on the wire); a phone on a slow
-  // network needs longer than MagicNet's 6 s read budget.
+  // The whole answer is ~2.3 MB of JSON (about 237 KB on the wire, 2026-10-27);
+  // a phone on a slow network needs longer than MagicNet's 6 s read budget.
   var TIMEOUT_MS = 15000;
 
   function positive(n) { var v = Number(n); return isFinite(v) && v > 0; }
@@ -50,6 +63,9 @@
       return { ok: false, reason: body && body.error === 'GLOBAL_PRICING_DISABLED' ? 'disabled' : 'unavailable' };
     }
     if (status === 429) return { ok: false, reason: 'busy' };
+    // The one-country read only (countryPath): the backend does not know that country.
+    if ((status === 400 && body && body.error === 'INVALID_COUNTRY')
+      || (status === 404 && body && body.error === 'COUNTRY_NOT_FOUND')) return { ok: false, reason: 'unknown_country' };
     if (status !== 200 || !body || typeof body !== 'object') return { ok: false, reason: 'unavailable' };
     if (body.market !== 'global' || body.currency !== 'USD' || !Array.isArray(body.data)) {
       return { ok: false, reason: 'bad_shape' };
@@ -75,17 +91,45 @@
     return { ok: true, packages: out, assortment: layout };
   }
 
-  function load() {
+  var ISO2 = /^[A-Z]{2}$/;
+
+  /** The one-country read for an ISO code, or null for anything that is not one. */
+  function countryPath(iso) {
+    return typeof iso === 'string' && ISO2.test(iso) ? PATH + '&country=' + iso : null;
+  }
+
+  /** Is a one-country answer drawable as it is? Otherwise the whole catalogue is asked once. */
+  function narrowedFits(r, iso) {
+    var c = r.assortment && r.assortment.countries;
+    return !!(c && Object.prototype.hasOwnProperty.call(c, iso));
+  }
+
+  /**
+   * @param {{country?: string}} [opts]  a country page passes its ISO code
+   */
+  function load(opts) {
     var net = root.MagicNet;
     var base = net && net.primaryBase;
     if (typeof base !== 'string' || !/^https:\/\//.test(base) || typeof root.fetch !== 'function') {
       return Promise.resolve({ ok: false, reason: 'unavailable' });
     }
+    var iso = opts && opts.country;
+    var one = countryPath(iso);
+    if (!one) return get(base, PATH);
+    return get(base, one).then(function (r) {
+      if (r.ok && narrowedFits(r, iso)) return r;
+      if (r.ok || r.reason === 'unknown_country' || r.reason === 'empty') return get(base, PATH);
+      return r;
+    });
+  }
+
+  /** ONE GET of the primary origin — the only request this file makes. */
+  function get(base, path) {
     var ac = typeof AbortController !== 'undefined' ? new AbortController() : null;
     var timer = ac ? setTimeout(function () { ac.abort(); }, TIMEOUT_MS) : null;
     var init = { method: 'GET', headers: { Accept: 'application/json' }, credentials: 'omit' };
     if (ac) init.signal = ac.signal;
-    return root.fetch(base + PATH, init).then(function (res) {
+    return root.fetch(base + path, init).then(function (res) {
       return res.text().then(function (raw) {
         var body = null;
         try { body = raw ? JSON.parse(raw) : null; } catch (e) { /* not json */ }
@@ -100,7 +144,7 @@
     });
   }
 
-  var api = { PATH: PATH, TIMEOUT_MS: TIMEOUT_MS, load: load, validate: validate };
+  var api = { PATH: PATH, TIMEOUT_MS: TIMEOUT_MS, countryPath: countryPath, load: load, validate: validate };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.MagicGlobalCatalog = api;
 })(typeof window !== 'undefined' ? window : globalThis);

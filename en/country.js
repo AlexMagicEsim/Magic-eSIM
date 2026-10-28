@@ -4,7 +4,7 @@
  * The page itself is static and carries NO price: seo/build-en-pages.mjs
  * writes the country's name, its ISO code (`<body data-iso>`) and empty
  * blocks. The plans arrive here, in the browser, from the GLOBAL catalogue —
- * one GET of `?market=global` through assets/global-catalog.js, in US
+ * one GET of `?market=global&country=XX` through assets/global-catalog.js, in US
  * dollars. So no English page can ever carry a stale price, and the country
  * pages and the catalogue cannot drift: there is only one catalogue.
  *
@@ -166,7 +166,7 @@
       $('status').textContent = I18N.t('site.pricesUnavailable');
       $('status').hidden = false;
       // A visitor may ask again — never the page on its own: every load is a
-      // 1.5 MB read counted against the 20/min/IP budget.
+      // read counted against the 20/min/IP budget.
       $('retry').hidden = false;
       $('retry').disabled = false;
       settle();
@@ -178,7 +178,9 @@
       skeleton(true);
       $('status').textContent = I18N.t('site.loading');
       $('status').hidden = false;
-      return window.MagicGlobalCatalog.load().then(render, failed);
+      // This country's plans only (?market=global&country=XX) — the whole
+      // catalogue only when the backend does not know the country.
+      return window.MagicGlobalCatalog.load({ country: iso }).then(render, failed);
     };
 
     var render = function (res) {

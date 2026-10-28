@@ -21,7 +21,7 @@
  * order. The two API hosts are named because the app's own CSP names them; the
  * requests are answered in-process and never leave the machine.
  */
-const { withLayout } = require('../helpers/assortment-layout.cjs');
+const { withLayout, narrowToCountry } = require('../helpers/assortment-layout.cjs');
 
 const API_HOSTS = [
   'https://esim-backend-3wmu.onrender.com',
@@ -284,8 +284,16 @@ async function installMiniApp(page, options = {}) {
         if (options.globalStatus) return json(route, { error: 'GLOBAL_PRICING_DISABLED' }, options.globalStatus);
         // The backend sends the layout of every country page with the rows (assets/assortment-view.js);
         // a test fixture gets the one the backend gives an unfiltered list (test/helpers/assortment-layout.cjs).
-        if (options.globalCatalogue) return json(route, options.globalCatalogue);   // a whole answer, its own layout included
-        return json(route, withLayout({ status: 'success', market: 'global', currency: 'USD', data: options.globalPackages || [] }));
+        const whole = options.globalCatalogue   // a whole answer, its own layout included
+          || withLayout({ status: 'success', market: 'global', currency: 'USD', data: options.globalPackages || [] });
+        // `&country=XX` (the international country pages; the Mini App never sends it): the backend's one-country
+        // answer, or its 404 when the layout has no entry for the country.
+        const iso = url.searchParams.get('country');
+        if (iso) {
+          const one = narrowToCountry(whole, iso);
+          return one ? json(route, one) : json(route, { status: 'error', error: 'COUNTRY_NOT_FOUND' }, 404);
+        }
+        return json(route, whole);
       }
       if (at.endsWith('/api/v1/retail/packages')) {
         if (options.catalogue) return json(route, options.catalogue);   // a whole answer, its own layout included

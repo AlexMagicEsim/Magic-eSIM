@@ -30,7 +30,7 @@ async function open(page, path) {
   await page.route('**/assets/catalog.json*', (route) => route.fulfill({ status: 500, body: 'must not be asked' }));
   await page.route('**/api/**', async (route) => {
     const req = route.request();
-    if (req.method() === 'GET' && /\/api\/v1\/retail\/packages\?market=global$/.test(req.url())) {
+    if (req.method() === 'GET' && /\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/.test(req.url())) {
       return route.fulfill({ status: 200, contentType: 'application/json',
         body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: PACKAGES })) });
     }
