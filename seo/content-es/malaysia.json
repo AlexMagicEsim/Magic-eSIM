@@ -26,7 +26,7 @@
       "id": "local-sim-registration",
       "h2": "Comprar una SIM prepago en Malasia",
       "paragraphs": [
-        "La MCMC, el regulador de comunicaciones de Malasia, exige que se registre todo abonado de prepago, y sus preguntas frecuentes mencionan expresamente a los turistas. El registro se hace en el centro de atención del vendedor, con un agente autorizado o en un distribuidor, donde comprueban tu pasaporte original, y debe completarse antes de activar y usar la línea."
+        "La MCMC, el regulador de comunicaciones de Malasia, exige que se registre todo abonado de prepago, y sus preguntas frecuentes mencionan expresamente a los turistas. El registro se hace en el centro de atención del vendedor, con un agente autorizado o en un distribuidor, donde comprueban tu pasaporte original, y debe completarse antes de activar y usar la línea. México exige una identificación del mismo tipo al comprar una SIM o una eSIM mexicana, como contamos en [nuestra página sobre el registro de líneas en México](/es/esim/mexico/)."
       ]
     },
     {
@@ -170,6 +170,15 @@
       "title": "Where and when must I register? — MCMC",
       "checked": "2026-10-27",
       "supports": "registro en el centro de atención, con un agente autorizado o en un distribuidor, con los documentos originales; el registro es obligatorio antes de activar y usar la línea; leído en la copia del Internet Archive del 2026-10-21 porque el sitio rechaza a los lectores automáticos"
+    },
+    {
+      "url": "https://dof.gob.mx/nota_detalle.php?codigo=5775677&fecha=09/12/2025",
+      "title": "DOF – Lineamientos para la identificación de líneas telefónicas móviles (9 de diciembre de 2025)",
+      "checked": "2026-10-27",
+      "supports": "entran en vigor el día de su publicación (9 de diciembre de 2025); obligan a los concesionarios y comercializadoras que prestan el servicio de telefonía móvil; art. 13: «Toda Línea Telefónica Móvil deberá estar vinculada a un Titular»; transitorio sexto: una línea deshabilitada solo puede llamar a los Números de Emergencia y de Atención Ciudadana y al Sistema de Atención de su compañía; art. 20: las personas extranjeras se identifican con pasaporte; transitorio noveno: después de la Copa Mundial 2026 la Comisión definirá los mecanismos para vincular las líneas que usen roaming internacional en territorio nacional",
+      "sentences": [
+        "México exige una identificación del mismo tipo al comprar una SIM o una eSIM mexicana, como contamos en nuestra página sobre el registro de líneas en México."
+      ]
     },
     {
       "url": "https://www.mfa.gov.sg/travelling-overseas/travel-advisories-notices-and-visa-information/malaysia/",

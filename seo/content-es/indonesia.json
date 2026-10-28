@@ -10,7 +10,7 @@
       "h2": "Qué cubre el registro del IMEI en Indonesia",
       "paragraphs": [
         "Según la normativa indonesia, los dispositivos de comunicación traídos del extranjero que vayan a usarse con una tarjeta SIM local indonesia deben tener registrado su IMEI, el número que identifica a cada teléfono. Así describe la norma el Ministerio de Asuntos Exteriores en su manual de políticas y directrices para las misiones extranjeras.",
-        "En ese mismo manual, dirigido a las misiones extranjeras, el Ministerio no recomienda registrar el IMEI en visitas cortas y sugiere en su lugar paquetes de roaming internacional. El manual no menciona las eSIM. Si planeas una estancia larga o quieres una tarjeta SIM local, consulta las normas vigentes con las autoridades indonesias antes de viajar."
+        "En ese mismo manual, dirigido a las misiones extranjeras, el Ministerio no recomienda registrar el IMEI en visitas cortas y sugiere en su lugar paquetes de roaming internacional. El manual no menciona las eSIM. Si planeas una estancia larga o quieres una tarjeta SIM local, consulta las normas vigentes con las autoridades indonesias antes de viajar. Turquía tiene un reglamento propio de registro de dispositivos, y en [nuestra página sobre Turquía](/es/esim/turkey/) explicamos a quién se aplica."
       ]
     },
     {
@@ -105,6 +105,15 @@
       "title": "Handbook of Policies and Guidelines for Foreign Missions in Indonesia (15 de junio de 2024), §X IMEI Registration — Ministerio de Asuntos Exteriores de Indonesia",
       "checked": "2026-10-27",
       "supports": "los dispositivos del extranjero que se usen con una tarjeta SIM local deben registrar el IMEI; no se recomienda el registro en visitas cortas, el Ministerio recomienda paquetes de roaming internacional (manual dirigido a las misiones extranjeras); no menciona las eSIM"
+    },
+    {
+      "url": "https://www.mevzuat.gov.tr/anasayfa/MevzuatFihristDetayIframe?MevzuatTur=7&MevzuatNo=19873&MevzuatTertip=5",
+      "title": "Elektronik Kimlik Bilgisini Haiz Cihazların Kayıt Altına Alınmasına Dair Yönetmelik (mevzuat.gov.tr)",
+      "checked": "2026-10-27",
+      "supports": "art. 2: abarca los dispositivos en las IMSI propias de las compañías turcas y los dispositivos en roaming internacional permanente de datos sin llamadas de voz (art. 4(1)(ö): IMSI extranjera, más de noventa días acumulados en ciento veinte días consecutivos); art. 10(2): los no registrados se cortan dentro del periodo de uso de ciento veinte días, los de roaming permanente en treinta días; art. 14(4): solicitud dentro de trescientos sesenta y cinco días desde la entrada, sin cambiar el periodo de uso de ciento veinte días",
+      "sentences": [
+        "Turquía tiene un reglamento propio de registro de dispositivos, y en nuestra página sobre Turquía explicamos a quién se aplica."
+      ]
     },
     {
       "url": "https://www.indonesia.travel/gb/en/general-information/all-indonesia-app",

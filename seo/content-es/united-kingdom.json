@@ -10,7 +10,7 @@
       "h2": "Si vienes de la UE: el roaming europeo termina en la frontera británica",
       "paragraphs": [
         "Desde que el Reino Unido salió de la Unión Europea, las normas de «roaming como en casa» de la UE ya no se aplican a los viajes a este país. La Comisión Europea indica que algunas compañías han decidido mantener los precios nacionales para el Reino Unido, pero nada las obliga, así que una SIM de otro país europeo puede pagar en Londres tarifas de roaming que no pagaría en Ámsterdam o Madrid.",
-        "Lee las condiciones de tu plan para el Reino Unido antes de viajar en lugar de suponer que coinciden con el resto de tu recorrido por Europa. Venga de donde venga tu SIM, son las condiciones de roaming de tu plan las que deciden cuánto cuestan los datos aquí."
+        "Lee las condiciones de tu plan para el Reino Unido antes de viajar en lugar de suponer que coinciden con el resto de tu recorrido por Europa. Venga de donde venga tu SIM, son las condiciones de roaming de tu plan las que deciden cuánto cuestan los datos aquí. Si Londres es solo una etapa de un viaje que también pasa por Francia, te explicamos [cómo funciona el roaming como en casa en Francia](/es/esim/france/), del lado de la UE del canal de la Mancha."
       ]
     },
     {
@@ -130,7 +130,10 @@
       "url": "https://digital-strategy.ec.europa.eu/en/faqs/roaming-questions-answers",
       "title": "Roaming: Questions & Answers – Comisión Europea",
       "checked": "2026-10-27",
-      "supports": "el «roaming como en casa» no se aplica a los viajes al Reino Unido desde que salió de la UE; algunas compañías lo extienden, lo que no es una obligación; los países fuera de la UE/EEE no están cubiertos"
+      "supports": "el «roaming como en casa» no se aplica a los viajes al Reino Unido desde que salió de la UE; algunas compañías lo extienden, lo que no es una obligación; los países fuera de la UE/EEE no están cubiertos",
+      "sentences": [
+        "Si Londres es solo una etapa de un viaje que también pasa por Francia, te explicamos cómo funciona el roaming como en casa en Francia, del lado de la UE del canal de la Mancha."
+      ]
     },
     {
       "url": "https://tfl.gov.uk/modes/tube/station-wifi",
