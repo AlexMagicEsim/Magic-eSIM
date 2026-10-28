@@ -18,7 +18,7 @@
       "h2": "Who Turkey's phone registration rule is for",
       "paragraphs": [
         "Turkey's device-registration regulation, enforced by the telecoms regulator BTK, covers phones used with Turkish SIM cards. A phone brought in from abroad and used on a Turkish line can work unregistered for a 120-day period, and its owner has 365 days from entry to apply for registration. Since July 2026, applications have gone through e-Devlet, the government's online gateway.",
-        "The same regulation also covers foreign SIMs used on Turkish networks, without voice calls, on more than 90 days in total within any 120 consecutive days, which it calls permanent roaming, and phones found doing that are cut off. It describes no registration step for a visitor on a short stay with a foreign SIM or eSIM. If you are moving to Turkey or staying for months, read the current rules rather than a summary."
+        "The same regulation also covers foreign SIMs used on Turkish networks, without voice calls, on more than 90 days in total within any 120 consecutive days, which it calls permanent roaming, and phones found doing that are cut off. It describes no registration step for a visitor on a short stay with a foreign SIM or eSIM. If you are moving to Turkey or staying for months, read the current rules rather than a summary. Rules like this differ from country to country: Mexico's, for example, apply to lines provided by Mexican companies, as our [Mexico page](/en/esim/mexico/) explains."
       ]
     },
     {
@@ -143,6 +143,15 @@
       "title": "Resmî Gazete, 2 July 2026 (no. 33298): amending regulation on device registration",
       "checked": "2026-10-27",
       "supports": "the 2 July 2026 amendment defines the application authority (başvuru merci) as the e-Devlet gateway"
+    },
+    {
+      "url": "https://dof.gob.mx/nota_detalle.php?codigo=5775677&fecha=09/12/2025",
+      "title": "DOF – Lineamientos para la identificación de líneas telefónicas móviles (9 December 2025)",
+      "checked": "2026-10-27",
+      "supports": "in force 9 December 2025; binds Mexican licensed mobile companies and resellers; every line must be linked to a holder; a switched-off line can still call emergency and citizen-service numbers and its provider's customer service; foreigners identify with a passport; data recorded; ninth transitional article: lines using international roaming to be defined after the 2026 World Cup",
+      "sentences": [
+        "Rules like this differ from country to country: Mexico's, for example, apply to lines provided by Mexican companies, as our Mexico page explains."
+      ]
     },
     {
       "url": "https://www.istairport.com/en/services/experience/general-facilities/wi-fi/?locale=en",

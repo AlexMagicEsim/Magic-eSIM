@@ -10,7 +10,7 @@
       "h2": "Island hopping and your phone at sea",
       "paragraphs": [
         "Greece has about 6,000 islands and islets, 227 of them inhabited, spread across groups such as the Cyclades, the Dodecanese, the Ionian Islands, the Sporades and Crete. Many trips here are a chain of ferry crossings, so it helps to know what happens to your phone between ports.",
-        "Under EU rules, a subscription from an EU or EEA country is charged at home prices on a ship only while it is connected to a land-based mobile network, for example in a harbour. Once the phone picks up a satellite-based service on board, EU rules no longer apply and there is no price cap. The EU's Your Europe portal advises switching roaming off or using flight mode while you sail.",
+        "Under EU rules, a subscription from an EU or EEA country is charged at home prices on a ship only while it is connected to a land-based mobile network, for example in a harbour. Once the phone picks up a satellite-based service on board, EU rules no longer apply and there is no price cap. The EU's Your Europe portal advises switching roaming off or using flight mode while you sail. Our [France page](/en/esim/france/) explains where the same rules stop on land, for example once you travel on to the United Kingdom.",
         "If your SIM was issued outside the EU, the EEA, Ukraine and Moldova, roam like at home does not apply to you in Greece at all, on land or at sea; your home plan's own roaming terms set the price."
       ]
     },
@@ -120,7 +120,10 @@
       "url": "https://digital-strategy.ec.europa.eu/en/policies/roaming",
       "title": "Roaming: connected anywhere in the EU at no extra charge – European Commission",
       "checked": "2026-10-27",
-      "supports": "since 1 January 2026 roam like at home extended to Ukraine and Moldova: EU citizens travelling there pay domestic prices, and the same applies to Ukrainian and Moldovan citizens roaming in EU Member States; it does not apply in the United Kingdom, where some operators keep the benefits"
+      "supports": "since 1 January 2026 roam like at home extended to Ukraine and Moldova: EU citizens travelling there pay domestic prices, and the same applies to Ukrainian and Moldovan citizens roaming in EU Member States; it does not apply in the United Kingdom, where some operators keep the benefits",
+      "sentences": [
+        "Our France page explains where the same rules stop on land, for example once you travel on to the United Kingdom."
+      ]
     },
     {
       "url": "https://www.visitgreece.gr/en/islands",

@@ -10,7 +10,7 @@
       "h2": "What Indonesia's IMEI registration covers",
       "paragraphs": [
         "Under Indonesian regulation, communication devices from abroad that will be used with a local Indonesian SIM card must have their IMEI, a phone's identity number, registered. That is how the Ministry of Foreign Affairs describes the rule in its handbook of policies and guidelines for foreign missions.",
-        "In the same handbook, which is addressed to foreign missions, the Ministry does not recommend IMEI registration for short visits and suggests international roaming packages instead. The handbook does not mention eSIMs. If you plan a long stay or want a local SIM card, check the current rules with the Indonesian authorities before you go."
+        "In the same handbook, which is addressed to foreign missions, the Ministry does not recommend IMEI registration for short visits and suggests international roaming packages instead. The handbook does not mention eSIMs. If you plan a long stay or want a local SIM card, check the current rules with the Indonesian authorities before you go. Turkey has a device-registration rule of its own, and our [Turkey page](/en/esim/turkey/) describes whom it covers."
       ]
     },
     {
@@ -105,6 +105,15 @@
       "title": "Handbook of Policies and Guidelines for Foreign Missions in Indonesia (15 June 2024), §X IMEI Registration — Ministry of Foreign Affairs of Indonesia",
       "checked": "2026-10-27",
       "supports": "devices from abroad used with a local SIM card are subject to IMEI registration; IMEI registration not recommended for short visits, the Ministry recommends international roaming packages (handbook addressed to foreign missions)"
+    },
+    {
+      "url": "https://www.mevzuat.gov.tr/anasayfa/MevzuatFihristDetayIframe?MevzuatTur=7&MevzuatNo=19873&MevzuatTertip=5",
+      "title": "Elektronik Kimlik Bilgisini Haiz Cihazların Kayıt Altına Alınmasına Dair Yönetmelik (mevzuat.gov.tr)",
+      "checked": "2026-10-27",
+      "supports": "art. 2 scope: devices on Turkish operators' own IMSIs and devices on international permanent data roaming without voice calls (art. 4(1)(ö): non-286 IMSI, more than 90 days cumulative within 120 consecutive days); art. 10(2): unregistered devices cut off within the 120-day usage period, permanent-roaming devices within 30 days; art. 14(4): application within 365 days of entry, 120-day use period unchanged; art. 7: temporary service goes on a grey list",
+      "sentences": [
+        "Turkey has a device-registration rule of its own, and our Turkey page describes whom it covers."
+      ]
     },
     {
       "url": "https://www.indonesia.travel/gb/en/general-information/all-indonesia-app",
