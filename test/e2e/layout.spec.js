@@ -90,6 +90,39 @@ test.describe('Mini App layout', () => {
       expect(box.h).toBeGreaterThanOrEqual(44);
     }
   });
+
+  // The catalogue's error notice, FORCED (both API hosts answer 503, the snapshot is empty): «Повторить» is a `.btn`,
+  // and `.btn` is `width: 100%`. Beside the text in the notice it was as wide as the whole notice and pushed the home
+  // screen sideways (CI run 40640475632: a click scrolled the page by 33 px). Measured here, not left to a flaky load.
+  for (const languageCode of ['ru', 'uk']) {
+    test(`the catalogue error notice and its retry fit the screen (${languageCode})`, async ({ page }) => {
+      await installMiniApp(page, { languageCode });
+      await page.route('**/api/v1/retail/packages*', (route) => route.fulfill({
+        status: 503, contentType: 'application/json', body: '{"error":"unavailable"}',
+      }));
+      await openApp(page);
+
+      const notice = page.locator('#home-countries .notice--bad');
+      await expect(notice).toBeVisible();
+      const retry = notice.locator('button');
+      await expect(retry).toBeVisible();
+
+      const sideways = await page.evaluate(() => {
+        const d = document.documentElement;
+
+        return d.scrollWidth > d.clientWidth + 1;
+      });
+      expect(sideways, 'the page scrolls sideways').toBe(false);
+      expect(await overflowingInside(page, '#home-countries')).toEqual([]);
+
+      const n = await notice.boundingBox();
+      const b = await retry.boundingBox();
+      expect(b.x).toBeGreaterThanOrEqual(n.x);
+      expect(b.x + b.width).toBeLessThanOrEqual(n.x + n.width + 0.5);
+      // The message keeps most of the row: the button takes its own width, not the notice's.
+      expect(b.width).toBeLessThan(n.width / 2);
+    });
+  }
 });
 
 /**

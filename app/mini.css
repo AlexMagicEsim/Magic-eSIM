@@ -477,6 +477,10 @@ button.card:active { transform: scale(.995); }
 
 .notice--bad { background: color-mix(in srgb, var(--bad) 12%, transparent); }
 .notice button { margin-left: auto; flex: none; }
+/* `.btn` is `width: 100%` (a full-row button); in a notice it sits BESIDE the text, so it takes its own width. With
+   the 100% and `flex: none` the retry button was as wide as the whole notice and pushed the page sideways (by 44 px at 320 px)
+   whenever «Не удалось загрузить тарифы» or the stale notice showed (test/e2e/layout.spec.js). */
+.notice .btn { width: auto; }
 
 /* --------------------------------------------------------------------------
  * Installation
