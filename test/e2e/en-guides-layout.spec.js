@@ -42,8 +42,10 @@ test('every guide and the list: payment bar, hero, no script, nothing off the si
       const h1 = await page.locator('h1').boundingBox();
       expect(bar.y + bar.height, path).toBeLessThanOrEqual(h1.y);
       await expect(page.locator('#previewNotice summary')).toContainText("Online payment isn't available yet");
-      // No script but the header logo's start (owner, 2026-10-20).
-      expect(await page.locator('script:not([src^="/assets/logo-once.js"])').count(), path).toBe(0);
+      // No script but the header logo's start (owner, 2026-10-20) — and the BreadcrumbList (SEO stage 6 O1,
+      // 2026-10-28), a JSON-LD data block the browser never runs.
+      expect(await page.locator('script:not([src^="/assets/logo-once.js"]):not([type="application/ld+json"])').count(), path).toBe(0);
+      expect(await page.locator('head > script[type="application/ld+json"]').count(), path).toBe(1);
       expect(await page.locator('head > script[src^="/assets/logo-once.js"]').count(), path).toBe(1);
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
       expect(await noOverflow(page), path).toBe(true);

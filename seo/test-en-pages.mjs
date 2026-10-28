@@ -19,6 +19,8 @@ import { stampHtml } from './asset-version.mjs';
 import { allowedPaths } from './refresh-allowlist.mjs';
 import { isIndexed, cluster } from './indexing.mjs';
 import { REGION_SLUGS } from './regions.mjs';
+import { prefixedSiteLocales } from './locales.mjs';
+import { GUIDES_BY_LOCALE } from './build-locale-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -103,9 +105,19 @@ function checkBreadcrumb(html, url) {
   assert.equal(ld['@type'], 'BreadcrumbList', url);
   assert.equal(JSON.stringify(ld.itemListElement).includes('"offers"'), false, `${url}: no offer inside the breadcrumb`);
   const crumbs = html.match(/<p class="crumbs">([\s\S]*?)<\/p>/)[1];
-  const visible = crumbs.split('›').map((s) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim());
+  const visible = crumbs.split('›').map((s) => s.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&amp;/g, '&').trim());
   assert.deepEqual(ld.itemListElement.map((i) => i.name), visible, `${url}: the breadcrumb names are the visible ones`);
   assert.deepEqual(ld.itemListElement.map((i) => Object.keys(i).sort().join()), visible.map(() => '@type,item,name,position'), `${url}: list items carry nothing else`);
+  // Google's required properties (developers.google.com/search/docs/appearance/structured-data/breadcrumb): an
+  // itemListElement of ≥ 2 ListItems, each with position (1..n in order), name and item (a URL).
+  assert.equal(ld['@context'], 'https://schema.org', `${url}: schema.org context`);
+  assert.ok(ld.itemListElement.length >= 2, `${url}: at least two crumbs`);
+  assert.deepEqual(ld.itemListElement.map((i) => i.position), ld.itemListElement.map((_, n) => n + 1), `${url}: positions 1..n`);
+  for (const i of ld.itemListElement) {
+    assert.equal(i['@type'], 'ListItem', `${url}: a ListItem`);
+    assert.ok(typeof i.name === 'string' && i.name.trim(), `${url}: a name`);
+    assert.match(i.item, /^https:\/\/magicesim\.store\/[^\s]*\/$/, `${url}: an absolute item URL`);
+  }
   assert.equal(ld.itemListElement.at(-1).item, url, `${url}: the last crumb is the page itself`);
   for (const [i, href] of [...crumbs.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).entries()) {
     assert.equal(ld.itemListElement[i].item, `https://magicesim.store${href}`, `${url}: crumb ${i + 1} links where the visible one does`);
@@ -121,6 +133,45 @@ test('the breadcrumb rule can fire', () => {
   assert.throws(() => checkBreadcrumb(swap((ld) => ({ ...ld, offers: { '@type': 'Offer', price: '1' } })), url), /bare BreadcrumbList/);
   assert.throws(() => checkBreadcrumb(swap((ld) => ({ ...ld, itemListElement: ld.itemListElement.map((i, n) => (n === 2 ? { ...i, name: 'Elsewhere' } : i)) })), url), /visible ones/);
   assert.throws(() => checkBreadcrumb(`${html}<script type="application/ld+json">{"@type":"Product"}</script>`, url), /one structured-data block/);
+});
+
+/* The guides and the guide list of every prefixed language (SEO stage 6 audit O1, 2026-10-28): they printed a visible
+ * crumbs line and no BreadcrumbList. Each now carries exactly one, equal to that line, and every crumb's item is a
+ * built page of the SAME language whose own canonical is that URL. */
+const guideFiles = () => prefixedSiteLocales().flatMap((l) => ['', ...GUIDES_BY_LOCALE[l.code].map((g) => `${g.slug}/`)]
+  .map((g) => ({ l, rel: `${l.prefix}/guides/${g}index.html`, url: `https://magicesim.store/${l.prefix}/guides/${g}` })));
+function checkGuideCrumbs(html, url, prefix) {
+  checkBreadcrumb(html, url);
+  const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(ld.itemListElement[0].item, `https://magicesim.store/${prefix}/`, `${url}: Home is the language's home`);
+  for (const { item } of ld.itemListElement) {
+    const path = item.slice('https://magicesim.store'.length);
+    assert.ok(path.startsWith(`/${prefix}/`), `${url}: ${item} is in the same language`);
+    const file = join(ROOT, path.slice(1), 'index.html');
+    assert.ok(existsSync(file), `${url}: ${item} is a built page`);
+    assert.ok(readFileSync(file, 'utf8').includes(`<link rel="canonical" href="${item}">`), `${url}: ${item} is that page's canonical`);
+  }
+}
+
+test('every guide and guide list of every prefixed language: one BreadcrumbList = its visible crumbs', () => {
+  const files = guideFiles();
+  assert.equal(files.length, prefixedSiteLocales().length * 6, 'six guide pages per language');
+  for (const { l, rel, url } of files) checkGuideCrumbs(read(rel), url, l.prefix);
+});
+
+test('the guide breadcrumb rule can fire', () => {
+  const html = read('en/guides/iphone/index.html');
+  const url = 'https://magicesim.store/en/guides/iphone/';
+  const LD = /<script type="application\/ld\+json">[\s\S]*?<\/script>\n/;
+  // A guide without the markup (as on main before this change) fails.
+  assert.throws(() => checkGuideCrumbs(html.replace(LD, ''), url, 'en'), /one structured-data block/);
+  const swap = (f) => html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/, (_, b) => `<script type="application/ld+json">${JSON.stringify(f(JSON.parse(b)))}</script>`);
+  const items = (f) => swap((ld) => ({ ...ld, itemListElement: ld.itemListElement.map(f) }));
+  assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 1 ? { ...i, position: 3 } : i)), url, 'en'), /positions 1\.\.n/);
+  assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 2 ? { ...i, item: 'https://magicesim.store/en/guides/' } : i)), url, 'en'), /page itself/);
+  assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 0 ? { ...i, item: 'https://magicesim.store/es/' } : i)), url, 'en'), /links where the visible one does/);
+  assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 1 ? { ...i, name: 'Guías' } : i)), url, 'en'), /visible ones/);
+  assert.throws(() => checkGuideCrumbs(html, url, 'es'), /language's home/);
 });
 
 test('every English country page, the list and the guides carry a share description, image and card', () => {
