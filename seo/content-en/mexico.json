@@ -11,7 +11,7 @@
       "paragraphs": [
         "Guidelines from Mexico's telecoms regulator, the CRT, in force since 9 December 2025, require every mobile line provided by a Mexican licensed company or reseller to be linked to an identified holder. Under a June 2026 amendment, lines that are still not linked are switched off in stages between August and December 2026, according to the last digit of the number; a line that has been switched off can still call emergency and citizen-service numbers and its own company's customer service.",
         "If you buy a Mexican SIM or a Mexican eSIM during your stay, you identify yourself with your passport, with a CURP (Mexico's population registry code) issued to foreigners, or with a visitor or resident card from the National Migration Institute that carries a CURP. Under the rules, the company records only your name, country of origin, passport number or CURP, the phone number and the result of the check.",
-        "Phones visiting on international roaming are a separate case. The guidelines leave it to the CRT to define, once the 2026 World Cup is over, how lines that use international roaming in Mexico are to be linked. This page makes no claim about how such arrangements treat a phone or plan from abroad. Turkey, by contrast, already has a written rule for foreign SIMs used on its networks over long periods, which our [Turkey page](/en/esim/turkey/) describes."
+        "Phones visiting on international roaming are a separate case. The guidelines leave it to the CRT to define, once the 2026 World Cup is over, how lines that use international roaming in Mexico are to be linked. This page makes no claim about how such arrangements treat a phone or plan from abroad. Turkey, by contrast, already has a written rule for foreign SIMs used on its networks over long periods; see [Turkey's rules for foreign SIMs and phones](/en/esim/turkey/)."
       ]
     },
     {
@@ -136,7 +136,7 @@
       "checked": "2026-10-27",
       "supports": "art. 2 scope: devices on Turkish operators' own IMSIs and devices on international permanent data roaming without voice calls (art. 4(1)(ö): non-286 IMSI, more than 90 days cumulative within 120 consecutive days); art. 10(2): unregistered devices cut off within the 120-day usage period, permanent-roaming devices within 30 days; art. 14(4): application within 365 days of entry, 120-day use period unchanged; art. 7: temporary service goes on a grey list",
       "sentences": [
-        "Turkey, by contrast, already has a written rule for foreign SIMs used on its networks over long periods, which our Turkey page describes."
+        "Turkey, by contrast, already has a written rule for foreign SIMs used on its networks over long periods; see Turkey's rules for foreign SIMs and phones."
       ]
     },
     {
