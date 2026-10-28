@@ -2,7 +2,7 @@
   "slug": "south-korea",
   "iso": "KR",
   "title": "South Korea eSIM: e-Arrival, apps and helpline | Magic eSIM",
-  "description": "The e-Arrival card, the apps Korea's tourism board recommends, the 1330 helpline's online call and data plans for Korea. Online payment is not available yet.",
+  "description": "The e-Arrival card, the apps Korea's tourism board recommends, the 1330 helpline's online call, and data plans for Korea. Online payment is not available yet.",
   "lead": "The apps Korea's tourism board recommends to visitors, from Naver Maps to the Korail train app, need an internet connection, and so does the 1330 helpline's online call. Here is what to set up before you land.",
   "sections": [
     {
@@ -37,7 +37,7 @@
       "paragraphs": [
         "Local plans cover South Korea only and fit a visit that stays in the country from arrival to departure.",
         "Regional plans that include South Korea also cover Japan and China, and further south Vietnam, Thailand, Singapore, Malaysia and Indonesia. Daily plans hand you the same allowance on each day of the trip.",
-        "Plans at a glance above lists the volumes and terms of each block; the [activation guide](/en/guides/activation/) explains what to check before installing one."
+        "“Plans at a glance” above lists the volumes and terms of each block; the [activation guide](/en/guides/activation/) explains what to check before installing one."
       ]
     }
   ],
@@ -155,7 +155,7 @@
   "reviewed": {
     "research": "researcher-A",
     "copy": "copywriter-3",
-    "language": "",
+    "language": "AI language review (Claude), 2026-10-27: 2 objective fixes",
     "facts": "factcheck-2"
   }
 }

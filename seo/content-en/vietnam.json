@@ -9,7 +9,7 @@
       "id": "e-visa",
       "h2": "The e-visa comes first",
       "paragraphs": [
-        "Since 15 August 2023, citizens of every country and territory can apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism. Apply through the official e-visa website of the Immigration Department and keep the approval where you can open it at the border."
+        "Since 15 August 2023, citizens of every country and territory have been able to apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism. Apply through the official e-visa website of the Immigration Department and keep the approval where you can open it at the border."
       ]
     },
     {
@@ -113,7 +113,7 @@
       "checked": "2026-10-27",
       "supports": "e-visa for citizens of all countries and territories since 15 August 2023, valid 90 days, multiple entries",
       "sentences": [
-        "Since 15 August 2023, citizens of every country and territory can apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism.",
+        "Since 15 August 2023, citizens of every country and territory have been able to apply for a Vietnamese e-visa, valid for 90 days with multiple entries, according to the Vietnam National Authority of Tourism.",
         "The Vietnam National Authority of Tourism says citizens of all countries and territories have been able to apply since 15 August 2023, for an e-visa valid for 90 days with multiple entries."
       ]
     },
@@ -139,7 +139,7 @@
   "reviewed": {
     "research": "researcher-A",
     "copy": "copywriter-3",
-    "language": "",
+    "language": "AI language review (Claude), 2026-10-27: 1 objective fix",
     "facts": "factcheck-2"
   }
 }

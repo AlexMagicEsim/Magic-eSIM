@@ -35,7 +35,7 @@
       "paragraphs": [
         "Local plans are for Thailand only, the simple choice if you fly in and out of Bangkok without crossing a border.",
         "If the route continues overland or by a short flight, regional plans that include Thailand also cover Malaysia, Cambodia, Vietnam, Singapore and Indonesia. Daily plans give a set allowance for each day, which suits travellers who would rather have the same amount every day than one balance for the whole trip.",
-        "Each plan’s data and duration are listed in “Plans at a glance” above. Before you install anything, the [activation guide](/en/guides/activation/) explains what to look for on a plan."
+        "Each plan's data and duration are listed in “Plans at a glance” above. Before you install anything, the [activation guide](/en/guides/activation/) explains what to look for on a plan."
       ]
     }
   ],
@@ -62,7 +62,7 @@
     },
     {
       "q": "Is there free Wi-Fi at Thai airports outside Bangkok?",
-      "a": "Yes. Airports of Thailand lists free Wi-Fi at Chiang Mai, Mae Fah Luang Chiang Rai, Phuket and Hat Yai as well as Suvarnabhumi and Don Mueang. Depending on the network, signing in asks for your name with a passport or ID number, a phone number or an email address."
+      "a": "Yes. Airports of Thailand lists free Wi-Fi at Chiang Mai, Mae Fah Luang Chiang Rai, Phuket and Hat Yai as well as Suvarnabhumi and Don Mueang. Depending on the network, signing in asks for your name, a passport or ID number and a phone number, or for a passport number and an email address."
     }
   ],
   "related": [
@@ -162,7 +162,7 @@
   "reviewed": {
     "research": "researcher-A",
     "copy": "copywriter-3",
-    "language": "",
+    "language": "AI language review (Claude), 2026-10-27: 2 objective fixes",
     "facts": "factcheck-2"
   }
 }
