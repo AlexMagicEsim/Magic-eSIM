@@ -15,6 +15,7 @@
 //     x-default → the English twin (owner 2026-10-13). A page outside every cluster carries no alternate at all.
 //   - Russian pages are indexed as before; they gain only the <link rel="alternate"> block of their cluster.
 import { LOCALES, SITE } from './locales.mjs';
+import { REGION_SLUGS } from './regions.mjs';
 
 /* Stage 1 (2026-10-21): the popular destinations of the three home pages (RU_POPULAR_ALL, PAGE_COPY.en/es.popular)
  * minus the frozen ten. Widening the stage = adding slugs here (a page for it must exist in every indexed language). */
@@ -24,6 +25,12 @@ export const INDEXED_COUNTRIES = Object.freeze([
   'china', 'france', 'greece', 'indonesia', 'japan', 'malaysia', 'maldives', 'mexico', 'singapore', 'south-korea',
   'sri-lanka', 'thailand', 'turkey', 'united-kingdom', 'vietnam',
 ]);
+
+/* The region pages (seo/regions.mjs: Europe, Asia, Global; prefixed languages only — the Russian site has none) are
+ * indexed in their own stage, EMPTY on purpose (owner, 2026-10-27): every region page is `noindex, follow`, out of the
+ * sitemap, without hreflang. Global stays out until the «Best World» (RU/BY coverage) question is decided; Europe and
+ * Asia until each has reviewed content. Opening one = adding its slug here. */
+export const INDEXED_REGIONS = Object.freeze([]);
 
 /* The Russian twin of each guide (the Russian site has its own structure: no /guides/). */
 export const GUIDE_RU = Object.freeze({
@@ -37,7 +44,7 @@ export const GUIDE_RU = Object.freeze({
 /* The languages that take part in clusters: published and indexable. Registry order (ru, en, es, …). */
 export const indexedLocales = (list = LOCALES) => list.filter((l) => l.site.enabled && l.site.indexableHome);
 
-/* A page, described once: { kind: 'home' | 'hub' | 'guides' | 'guide' | 'country', slug? }. Its path in one language,
+/* A page, described once: { kind: 'home' | 'hub' | 'guides' | 'guide' | 'country' | 'region', slug? }. Its path in one language,
  * or null when that language has no such page. */
 export function pathIn(l, page) {
   const P = l.prefix ? `/${l.prefix}` : '';
@@ -47,6 +54,7 @@ export function pathIn(l, page) {
     case 'guides': return l.prefix ? `${P}/guides/` : null;
     case 'guide': return l.prefix ? `${P}/guides/${page.slug}/` : (GUIDE_RU[page.slug] || null);
     case 'country': return `${P}/esim/${page.slug}/`;
+    case 'region': return l.prefix ? `${P}/esim/${page.slug}/` : null;
     default: throw new Error(`indexing: unknown page kind ${page.kind}`);
   }
 }
@@ -55,6 +63,7 @@ export function pathIn(l, page) {
 export function isIndexed(code, page, list = LOCALES) {
   const l = indexedLocales(list).find((x) => x.code === code);
   if (!l || pathIn(l, page) === null) return false;
+  if (page.kind === 'region') return INDEXED_REGIONS.includes(page.slug);
   if (page.kind !== 'country') return true;
   return INDEXED_COUNTRIES.includes(page.slug);
 }
@@ -77,10 +86,11 @@ export const alternateLinks = (page, { indent = '', close = '>' } = {}) =>
 /* The robots meta of a prefixed-language page. */
 export const robotsFor = (code, page) => (isIndexed(code, page) ? 'index, follow' : 'noindex, follow');
 
-/* Every indexed page of the prefixed languages, for the sitemap: home, list, guide list, guides, the stage's countries. */
+/* Every indexed page of the prefixed languages, for the sitemap: home, list, guide list, guides, the stage's countries
+ * and regions. */
 export function indexedPrefixedPages(guideSlugs, list = LOCALES) {
   const pages = [{ kind: 'home' }, { kind: 'hub' }, { kind: 'guides' }, ...guideSlugs.map((slug) => ({ kind: 'guide', slug })),
-    ...INDEXED_COUNTRIES.map((slug) => ({ kind: 'country', slug }))];
+    ...INDEXED_COUNTRIES.map((slug) => ({ kind: 'country', slug })), ...INDEXED_REGIONS.map((slug) => ({ kind: 'region', slug }))];
   const out = [];
   for (const l of indexedLocales(list).filter((x) => x.prefix)) {
     for (const p of pages) if (isIndexed(l.code, p, list)) out.push({ code: l.code, page: p, loc: SITE + pathIn(l, p) });
@@ -96,7 +106,9 @@ export function ruPage(urlOrPath) {
   const guide = Object.keys(GUIDE_RU).find((k) => GUIDE_RU[k] === path);
   if (guide) return { kind: 'guide', slug: guide };
   const m = path.match(/^\/esim\/([a-z0-9-]+)\/$/);
-  return m ? { kind: 'country', slug: m[1] } : null;
+  if (!m) return null;
+  // A region slug is never a Russian country: the Russian site has no region page, so such a path has no twin.
+  return REGION_SLUGS.includes(m[1]) ? { kind: 'region', slug: m[1] } : { kind: 'country', slug: m[1] };
 }
 
 /* The block a Russian page's <head> carries right after its canonical: its cluster in the Russian files' formatting

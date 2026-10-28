@@ -73,8 +73,12 @@ test('the jump letters: a link for every group, a muted letter where there is no
 });
 
 test('popular is the home\'s own list under the home\'s own label — no price, count or claim', () => {
-  const tiles = [...HUB.matchAll(/<a class="hub-tile" href="\/en\/esim\/([a-z0-9-]+)\/">/g)].map((m) => m[1]);
+  const pop = HUB.slice(HUB.indexOf('id="hubPopular"'), HUB.indexOf('</section>', HUB.indexOf('id="hubPopular"')));
+  const tiles = [...pop.matchAll(/<a class="hub-tile" href="\/en\/esim\/([a-z0-9-]+)\/">/g)].map((m) => m[1]);
   assert.deepEqual(tiles, POPULAR.map((c) => c.slug));
+  // The region pages (seo/regions.mjs) have their own row, after the A–Z list — the only other tiles.
+  const all = [...HUB.matchAll(/<a class="hub-tile" href="\/en\/esim\/([a-z0-9-]+)\/">/g)].map((m) => m[1]);
+  assert.deepEqual(all, [...POPULAR.map((c) => c.slug), 'europe', 'asia', 'global']);
   assert.match(HUB, /<h2 id="hubPopTitle" data-i18n="home\.popularTitle">Popular destinations<\/h2>/);
   const text = HUB.slice(HUB.indexOf('<main'), HUB.indexOf('</main>')).replace(/<[^>]+>/g, ' ');
   assert.doesNotMatch(text, /\$\s?\d|\bfrom \$|\bplans? from\b|\d+\s+plans\b|best|cheapest|top-rated|rating|review|discount|% off|best seller|bestseller|24\/7|instant/i);

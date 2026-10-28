@@ -12,6 +12,7 @@ import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { countryPage } from './build-en-pages.mjs';
+import { REGION_SLUGS } from './regions.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -25,7 +26,7 @@ const PLANS = require(join(ROOT, 'en/plans.js')).create({
 });
 const CHECKOUT = require(join(ROOT, 'en/checkout.js'));
 
-const PAGES = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true }).filter((d) => d.isDirectory())
+const PAGES = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true }).filter((d) => d.isDirectory() && !REGION_SLUGS.includes(d.name))
   .map((d) => `en/esim/${d.name}/index.html`);
 const JP = read('en/esim/japan/index.html');
 

@@ -18,6 +18,7 @@ import { enCountries, countryPage, hubPage, destinationsJs } from './build-en-pa
 import { stampHtml } from './asset-version.mjs';
 import { allowedPaths } from './refresh-allowlist.mjs';
 import { isIndexed, cluster } from './indexing.mjs';
+import { REGION_SLUGS } from './regions.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -53,7 +54,8 @@ test('one English page per Russian country page — no more, no fewer', () => {
   // what notices if it is not.
   const orphans = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true })
     .filter((d) => d.isDirectory()).map((d) => d.name)
-    .filter((slug) => !LIST.some((c) => c.slug === slug));
+    .filter((slug) => !LIST.some((c) => c.slug === slug))
+    .filter((slug) => !REGION_SLUGS.includes(slug)); // the region pages (seo/regions.mjs), never a country slug
   assert.deepEqual(orphans, [], 'English pages for countries the catalogue no longer has');
 });
 
@@ -234,7 +236,7 @@ test('running the generator touches nothing outside en/ — proven in a sandbox'
     const touched = [...after.keys()].filter((k) => before.get(k) !== after.get(k));
     const outside = touched.filter((k) => !k.startsWith('en/esim/') && k !== 'en/destinations.js');
     assert.deepEqual(outside, []);
-    assert.equal(touched.length, LIST.length + 2, 'every page, the list and the search file');
+    assert.equal(touched.length, LIST.length + 2 + REGION_SLUGS.length, 'every page, the list, the search file and the region pages');
     // …and every file it wrote is one the refresh automation may commit.
     const allowed = allowedPaths(LIST.map((c) => c.slug));
     assert.deepEqual(touched.filter((k) => !allowed.has(k)), [], 'outside seo/refresh-allowlist.mjs');

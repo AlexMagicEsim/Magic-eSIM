@@ -37,6 +37,7 @@
 import { readFileSync, writeFileSync, renameSync, existsSync, unlinkSync, appendFileSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { REGION_SLUGS, regionOf, nearLine } from '../seo/regions.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const OUT = join(ROOT, 'seo', 'global-plan-facts.json');
@@ -46,7 +47,8 @@ const FETCH_TIMEOUT_MS = 30_000;
 const ATTEMPTS = 3;
 const BACKOFF_MS = [1000, 3000];
 
-export const SCHEMA_VERSION = 1;
+/* 2 (2026-10-27): `regions` — the coverage sets of the regional plans, per region page (seo/regions.mjs). */
+export const SCHEMA_VERSION = 2;
 export const MIN_COUNTRIES = 100;
 export const MIN_RATIO_OF_PREVIOUS = 0.7;
 /** The places no page names as covered (coverageCodes on server and storefront leave them out). */
@@ -89,6 +91,61 @@ export function factsFor(iso, layout, byId) {
   };
 }
 
+/**
+ * The region pages' facts (seo/regions.mjs): every regional plan the layout SHOWS on some country page (the union of
+ * assortment.countries[*].regional — the backend's choice, not ours), grouped by its coverage (its ISO codes, RU/UA/BY dropped
+ * first), each group assigned to a region by regionOf() over those codes. Per set: its codes (RU/UA/BY dropped, as everywhere), the
+ * data volumes and terms of its plans, and the countries whose page shows it (where it can be bought). Sets that end
+ * up with the same codes once the left-out three are dropped are one set. Deterministic: sets by size, then codes.
+ */
+export function regionsFor(countriesLayout, byId) {
+  const groups = new Map();
+  for (const iso of Object.keys(countriesLayout).sort()) {
+    const ids = (countriesLayout[iso] && countriesLayout[iso].regional) || [];
+    for (const id of Array.isArray(ids) ? ids : []) {
+      const p = byId.get(id);
+      if (!p) continue;
+      const codes = [...new Set((p.coverage_country_codes || []).filter((c) => ISO.test(c) && !LEFT_OUT.includes(c)))].sort();
+      const region = regionOf(codes);
+      if (!region) continue;
+      const key = `${region}|${codes.join(',')}`;
+      if (!groups.has(key)) groups.set(key, { region, codes, gb: [], days: [], shown: new Set() });
+      const g = groups.get(key);
+      if ((num(p.data_gb) || 0) > 0 && (num(p.validity_days) || 0) > 0) { g.gb.push(p.data_gb); g.days.push(p.validity_days); }
+      if (ISO.test(iso) && !LEFT_OUT.includes(iso)) g.shown.add(iso);
+    }
+  }
+  const out = {};
+  for (const slug of REGION_SLUGS) {
+    const sets = [...groups.values()].filter((g) => g.region === slug)
+      .sort((a, b) => b.codes.length - a.codes.length || a.codes.join(',').localeCompare(b.codes.join(',')))
+      .map((g) => ({ codes: g.codes, gb: uniqSorted(g.gb), days: uniqSorted(g.days), shown_on: [...g.shown].sort() }));
+    out[slug] = { sets };
+  }
+  return out;
+}
+
+/**
+ * Warnings for the bot's log (never a failure: the facts are true either way): a set that sits close to a region line
+ * (seo/regions.mjs nearLine), and a set of the previous snapshot whose codes no longer appear in its region — a set that
+ * crossed a line, or a plan the layout stopped showing, leaves its page without a person deciding it.
+ */
+export function regionWarnings(next, previous = null) {
+  const out = [];
+  for (const slug of REGION_SLUGS) {
+    const sets = (next && next[slug] && next[slug].sets) || [];
+    for (const s of sets) {
+      const why = nearLine(s.codes);
+      if (why) out.push(`${slug}: a set of ${s.codes.length} codes is close to a line (${why})`);
+    }
+    const now = new Set(sets.map((s) => s.codes.join()));
+    for (const s of (previous && previous[slug] && previous[slug].sets) || []) {
+      if (!now.has(s.codes.join())) out.push(`${slug}: a set of ${s.codes.length} codes (${s.codes.slice(0, 6).join(' ')} …) left the page`);
+    }
+  }
+  return out;
+}
+
 /** The whole document from one catalogue answer ({ data: [...], assortment: { countries } }). */
 export function buildFacts(answer) {
   if (!answer || !Array.isArray(answer.data) || !answer.assortment || typeof answer.assortment.countries !== 'object') {
@@ -101,7 +158,7 @@ export function buildFacts(answer) {
     if (!ISO.test(iso) || LEFT_OUT.includes(iso)) continue;
     countries[iso] = factsFor(iso, answer.assortment.countries[iso] || {}, byId);
   }
-  return { schema_version: SCHEMA_VERSION, source: 'production-public-api?market=global', countries };
+  return { schema_version: SCHEMA_VERSION, source: 'production-public-api?market=global', countries, regions: regionsFor(answer.assortment.countries, byId) };
 }
 
 /** Problems with a document; [] when valid. Shape only — and no field may look like money or an identifier. */
@@ -129,12 +186,36 @@ export function validateFacts(doc, { previousCountries = null } = {}) {
         || !/^\d{4}-\d{2}-\d{2}$/.test(h.since)) out.push(`held.${iso}: { since: YYYY-MM-DD }`);
     }
   }
+  // The region pages' sets: every region present; each set ISO codes (sorted, none left out), the region's own rule
+  // holding for them, facts as numbers, shown on at least one country — and the same codes never twice in a region.
+  const regions = doc && doc.regions;
+  if (!regions || typeof regions !== 'object' || Object.keys(regions).sort().join() !== [...REGION_SLUGS].sort().join()) out.push('regions: not exactly the region pages');
+  else {
+    for (const slug of REGION_SLUGS) {
+      const sets = regions[slug] && regions[slug].sets;
+      if (!Array.isArray(sets)) { out.push(`regions.${slug}: no sets`); continue; }
+      const seen = new Set();
+      sets.forEach((s, i) => {
+        const at = `regions.${slug}[${i}]`;
+        const codes = s && s.codes;
+        if (!Array.isArray(codes) || !codes.length || codes.some((c) => !ISO.test(c) || LEFT_OUT.includes(c))
+          || codes.some((c, j) => j > 0 && codes[j - 1] >= c)) { out.push(`${at}: codes`); return; }
+        if (regionOf(codes) !== slug) out.push(`${at}: its codes are not ${slug} by the rule (seo/regions.mjs)`);
+        if (seen.has(codes.join())) out.push(`${at}: the same codes twice`);
+        seen.add(codes.join());
+        if (!nums(s.gb) || !nums(s.days, true)) out.push(`${at}: gb/days`);
+        if (!Array.isArray(s.shown_on) || !s.shown_on.length || s.shown_on.some((c) => !ISO.test(c) || LEFT_OUT.includes(c))) out.push(`${at}: shown_on`);
+        const extra = Object.keys(s).filter((k) => !['codes', 'gb', 'days', 'shown_on'].includes(k));
+        if (extra.length) out.push(`${at}: unexpected field ${extra[0]}`);
+      });
+    }
+  }
   return out;
 }
 
-/** Everything but the date: two runs a day apart compare equal when the catalogue did not move (and the held set,
- *  with its `since` dates, did not change either). */
-const fingerprint = (doc) => JSON.stringify({ schema_version: doc.schema_version, source: doc.source, countries: doc.countries, held: doc.held || null });
+/** Everything but the date: two runs a day apart compare equal when the catalogue did not move (and neither the
+ *  region sets nor the held set, with its `since` dates, changed). */
+const fingerprint = (doc) => JSON.stringify({ schema_version: doc.schema_version, source: doc.source, countries: doc.countries, regions: doc.regions, held: doc.held || null });
 
 export function readExisting(file = OUT) {
   if (!existsSync(file)) return null;
@@ -181,11 +262,12 @@ export async function runUpdate({ fetchImpl = globalThis.fetch, today = new Date
   const previousCountries = previous && previous.countries ? Object.keys(previous.countries).length : null;
   let doc;
   try { doc = buildFacts(await fetchAnswer({ fetchImpl })); } catch (e) { return keep(e.message); }
+  for (const w of regionWarnings(doc.regions, previous && previous.regions)) console.log(`::warning::global-plan-facts regions: ${w}`);
   if (previous && fingerprint(previous) === fingerprint(doc)) {
     console.log('  факты не изменились — файл оставлен как есть');
     return 0;
   }
-  doc = { schema_version: doc.schema_version, updated: today, source: doc.source, countries: doc.countries };
+  doc = { schema_version: doc.schema_version, updated: today, source: doc.source, countries: doc.countries, regions: doc.regions };
   const errors = validateFacts(doc, { previousCountries });
   if (errors.length) return keep(`новые факты не прошли проверку: ${errors.slice(0, 5).join('; ')}`);
   // The authored content must still hold against the new facts. A country whose page a new fact contradicts keeps its

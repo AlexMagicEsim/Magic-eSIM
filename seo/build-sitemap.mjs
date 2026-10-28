@@ -57,8 +57,14 @@ import { EN_GUIDES } from './guides-en.mjs';
 
 const PREFIXED_WEIGHT = {
   home: { prio: '0.9', freq: 'weekly' }, hub: { prio: '0.8', freq: 'weekly' }, country: { prio: '0.8', freq: 'weekly' },
-  guides: { prio: '0.6', freq: 'monthly' }, guide: { prio: '0.7', freq: 'monthly' },
+  guides: { prio: '0.6', freq: 'monthly' }, guide: { prio: '0.7', freq: 'monthly' }, region: { prio: '0.7', freq: 'weekly' },
 };
+/* A page kind with no weight would enter the sitemap with no priority and no frequency (the spread of `undefined`). */
+const weightOf = (kind) => {
+  if (!PREFIXED_WEIGHT[kind]) throw new Error(`build-sitemap: no sitemap weight for the page kind «${kind}»`);
+  return PREFIXED_WEIGHT[kind];
+};
+export { PREFIXED_WEIGHT };
 import { LOGO as STATIC_LOGO } from './site-chrome.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -75,7 +81,7 @@ export function sitemapUrls(countries) {
     // country pages of the current stage. Every other prefixed page is noindex and
     // stays out: listing URLs nobody may index is how a sitemap starts reporting
     // errors instead of pages.
-    ...indexedPrefixedPages(EN_GUIDES.map((g) => g.slug)).map(({ page, loc }) => ({ loc, ...PREFIXED_WEIGHT[page.kind] })),
+    ...indexedPrefixedPages(EN_GUIDES.map((g) => g.slug)).map(({ page, loc }) => ({ loc, ...weightOf(page.kind) })),
     { loc: `${SITE}/esim/`, prio: '0.8', freq: 'weekly' },
     ...countries.map((c) => ({ loc: `${SITE}/esim/${c.slug}/`, prio: '0.9', freq: 'weekly' })),
     { loc: `${SITE}/esim/compatibility/`, prio: '0.7', freq: 'monthly' },

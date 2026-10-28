@@ -51,9 +51,9 @@ const ES_SITE_PAGES = ES_PAGES.filter((rel) => !ES_LEGAL.test(rel));
 /* ------------------------------------------------------------------ 1. complete */
 
 test('206 Spanish pages: the home, the list, 198 countries, the guides list and five guides', () => {
-  assert.equal(ES_SITE_PAGES.length, 206);
-  assert.equal(ES_PAGES.length, 209, '+ the three legal documents (LEGAL-4)');
-  assert.equal(ES_PAGES.filter((p) => /^es\/esim\/[^/]+\/index\.html$/.test(p)).length, 198);
+  assert.equal(ES_SITE_PAGES.length, 209, '206 + the three region pages (seo/regions.mjs)');
+  assert.equal(ES_PAGES.length, 212, '+ the three legal documents (LEGAL-4)');
+  assert.equal(ES_PAGES.filter((p) => /^es\/esim\/[^/]+\/index\.html$/.test(p)).length, 201, "198 countries + 3 region pages");
   assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, ES_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 

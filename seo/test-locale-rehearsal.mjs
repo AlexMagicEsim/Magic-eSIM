@@ -38,6 +38,7 @@ import { COUNTRY_NAMES } from './country-names.mjs';
 import { countryName } from './country-names-i18n.mjs';
 import { renderNames, namesFile, publishedNameLocales } from './build-country-dictionary-locale.mjs';
 import { DICT } from './site-dictionary.mjs';
+import { REGION_SLUGS } from './regions.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -159,6 +160,7 @@ for (const L of PLANNED) {
     const pages = [
       ...list.map((c) => [`${L.prefix}/esim/${c.slug}/`, G.countryPage(c)]),
       [`${L.prefix}/esim/`, G.hubPage(list)],
+      ...REGION_SLUGS.map((slug) => [`${L.prefix}/esim/${slug}/`, G.regionPage(slug)]),
       [`${L.prefix}/`, G.homePage(list)],
       ...markedGuides(L.code).map((g) => [`${L.prefix}/guides/${g.slug}/`, G.guidePage(g)]),
       [`${L.prefix}/guides/`, G.guidesHub()],
@@ -185,7 +187,7 @@ for (const L of PLANNED) {
     assert.doesNotMatch(page, /<link rel="alternate"/, 'a language under review has no hreflang cluster');
     assert.ok(page.includes(`<script src="${namesFile(L.code).src}" defer></script>`));
     assert.ok(th.name === countryName('TH', L.code));
-    for (const [where, html] of [['country', page], ['list', G.hubPage(list)], ['guides', G.guidesHub()],
+    for (const [where, html] of [['country', page], ['list', G.hubPage(list)], ['region', G.regionPage('europe')], ['guides', G.guidesHub()],
       ['guide', G.guidePage(markedGuides(L.code)[0])]]) {
       // The language switch links each language to its twin of this page — by design; every other route stays home.
       const routes = [...html.replace(/<a href="[^"]*" hreflang="[^"]*"[^>]*>/g, '').matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
