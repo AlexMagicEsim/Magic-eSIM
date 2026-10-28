@@ -1768,9 +1768,13 @@ test('the write routes forward the session bearer and a JSON body', async () => 
 
 test('the session bearer never reaches a log line on a write route', async () => {
   reset();
+  // The eSIM-id canary must be a string no other log content can contain. It was `abc` — three hex letters, so a
+  // random request id or UUID in the log (hex) carried it about 0.56 % of the time and the test failed with nothing
+  // leaked. Upper-case and non-hex letters (Q, Z, W …) cannot occur in a lowercase hex id, and the string is long.
+  const ESIM_ID = 'ESIM-CANARY-QZW7-ID';
   const logs = await capturingLogs(() => call({
     httpMethod: 'POST',
-    path: '/api/v1/tma/esims/abc/activation',
+    path: `/api/v1/tma/esims/${ESIM_ID}/activation`,
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer SESSION-BEARER-XYZ' },
     body: '{}',
     queryStringParameters: {},
@@ -1778,7 +1782,8 @@ test('the session bearer never reaches a log line on a write route', async () =>
 
   assert.ok(logs.raw.length > 0, 'nothing was logged, so this proves nothing');
   assert.ok(!logs.raw.includes('SESSION-BEARER-XYZ'), 'the bearer reached a log line');
-  assert.ok(!logs.raw.includes('abc'), 'the eSIM id reached a log line');
+  assert.ok(!logs.raw.includes(ESIM_ID), 'the eSIM id reached a log line');
+  assert.ok(logs.raw.includes('/api/v1/tma/esims/'), 'the write route was never logged, so the masking was never exercised');
 });
 
 test('a write route body is not retried after the upstream has seen it', () => {
