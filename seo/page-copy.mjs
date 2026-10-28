@@ -333,7 +333,7 @@ export const PAGE_COPY = freeze({
     glanceSep: ', ',
     // the destination list
     hubTitle: 'eSIM destinations — Magic eSIM',
-    hubDescription: 'Every destination Magic eSIM has data plans for, with prices in US dollars. Online payment is not available yet.',
+    hubDescription: 'Every destination Magic eSIM has data plans for, with prices in US dollars: find yours and see its eSIM mobile data plans for your trip.',
     hubH1: 'eSIM destinations',
     hubLead: 'Pick a country to see its data plans, with prices in US dollars.',
     hubSearchPlaceholder: 'Search a country',
@@ -435,7 +435,7 @@ export const PAGE_COPY = freeze({
     glanceUpdated: (date) => `Lista de planes actualizada el ${date}. Los planes de arriba se cargan en directo y son los que puedes elegir.`,
     glanceSep: ', ',
     hubTitle: 'Destinos eSIM — Magic eSIM',
-    hubDescription: 'Todos los destinos para los que Magic eSIM tiene planes de datos, con precios en dólares estadounidenses. El pago en línea aún no está disponible.',
+    hubDescription: 'Todos los destinos para los que Magic eSIM tiene planes de datos, con precios en dólares estadounidenses: busca el tuyo y mira sus planes eSIM.',
     hubH1: 'Destinos eSIM',
     hubLead: 'Elige un país para ver sus planes de datos, con precios en dólares estadounidenses.',
     hubSearchPlaceholder: 'Buscar un país',
