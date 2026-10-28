@@ -216,14 +216,68 @@ export function stripAssortmentView(html) {
   return String(html).replace(/[ \t]*<script src="\/assets\/assortment-view\.js(?:\?v=[0-9a-f]+)?" defer><\/script>\n?/g, '');
 }
 
+// ASSET STAMPS ON EVERY ASSET TYPE, AND THE SITE-WIDE CHROME, added 2026-10-28 (SEO stage 6, GSC audit risk R4).
+//
+//   The rule, stated once. lastmod moves when what the page SAYS moves: its <title>, meta description, canonical,
+//   robots, every JSON-LD block, its <h1> and everything else between <body> and </body> that is not listed below —
+//   authored text, plan facts, the payment notice, the checkout window. It does NOT move for the parts of a page that
+//   are byte-identical on every page of a language and say nothing about this one:
+//
+//     1. ASSET VERSION STAMPS on any asset URL — `?v=<hex>` right after a .css / .js / .mjs / .svg / .png / .jpg /
+//        .jpeg / .webp / .avif / .gif / .ico / .woff / .woff2 / .json / .webmanifest file name, in a <script>, a
+//        <link> (stylesheet, preload, icon), an <img> or an SVG <use href>. Still anchored to a file extension and
+//        to the end of the URL (a quote, `#`, `&`, `)`, `,` or white space), so `watch?v=…` in prose stays content.
+//     2. THE SITE HEADER — `<header class="site-header">…</header>`, reduced to an empty element: logo, main
+//        navigation, language switch, «Find a plan» and the phone menu. Measured 2026-10-28 on origin/main a2d94079:
+//        identical on all 208 Russian inner pages (the Russian home has its own), on all 23 English and on all 23
+//        Spanish sitemap pages.
+//     3. THE SITE FOOTER — `<footer class="site-footer">…</footer>`, reduced to an empty element: the «Destinations»
+//        list, the guides list, help and legal links, ©. Identical on all 209 Russian, 23 English and 23 Spanish
+//        sitemap pages. #169 changed only this list and re-dated all 42 indexed EN/ES URLs; #173 changed it again.
+//     4. THE CONTENT-SECURITY-POLICY <meta> — which hosts the page may talk to, not what it says.
+//
+//   A link list in the footer is navigation, not this page's text: the page it points AT is re-dated when that page
+//   changes. Nothing inside <main>, no JSON-LD, no <title>/<meta name="description">/<link rel="canonical">/robots
+//   is stripped. A page with no such header or footer (none today) is hashed whole. seo/test-sitemap-lastmod.mjs
+//   proves each strip fires on a real built page and that an edit inside <main> still moves the hash.
+//
+//   State migration, deliberately not `--seed`: the stored hashes were recomputed from the pages as they were at
+//   a2d94079 with `node seo/build-sitemap.mjs --rehash-keep-dates`, after a plain build on that tree had moved 0
+//   dates under the previous rule — so every page kept the date it already had.
+const ASSET_STAMP = /(\.(?:css|m?js|svg|png|jpe?g|webp|avif|gif|ico|woff2?|json|webmanifest))\?v=[0-9a-f]+(?=["'#&),\s])/g;
+export function stripAssetStamps(html) {
+  return String(html).replace(ASSET_STAMP, '$1');
+}
+
+export function stripSiteChrome(html) {
+  return String(html)
+    .replace(/<header class="site-header">[\s\S]*?<\/header>/g, '<header class="site-header"></header>')
+    .replace(/<footer class="site-footer">[\s\S]*?<\/footer>/g, '<footer class="site-footer"></footer>')
+    .replace(/[ \t]*<meta http-equiv="Content-Security-Policy"[^>]*>\n?/gi, '');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(html))))))
-      .replace(/\.(css|js)\?v=[0-9a-f]+/g, '.$1')
+    .update(stripSiteChrome(stripAssetStamps(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(html))))))))
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang=)[^>]*>\n?/gi, ''))
     .digest('hex').slice(0, 16);
+}
+
+/**
+ * Pure: a ONE-OFF state migration for a change of the hash RULE (not of any page). Every URL keeps the date it
+ * already has and takes its hash under the new rule. It refuses a URL the state does not know (that page would need
+ * a real date, which only an ordinary build gives) — run an ordinary build under the OLD rule first, check it moved
+ * 0 dates, then change the rule and run `--rehash-keep-dates` once. Never a substitute for an ordinary build: a page
+ * edited in the same step would keep its old date.
+ */
+export function rehashKeepDates({ urls, hashOf, prev }) {
+  const unknown = urls.filter((u) => !prev[u.loc]).map((u) => u.loc);
+  if (unknown.length) throw new Error(`rehash-keep-dates: ${unknown.length} URL нет в состоянии (${unknown.slice(0, 3).join(', ')}) — сначала обычная сборка`);
+  const next = {};
+  for (const u of urls) next[u.loc] = { hash: hashOf(u.loc), lastmod: prev[u.loc].lastmod };
+  return { state: next, moved: [] };
 }
 
 /**
@@ -259,6 +313,11 @@ function main() {
   const { countries } = loadCached();
   const urls = sitemapUrls(countries);
   const seeding = process.argv.includes('--seed');
+  const rehashing = process.argv.includes('--rehash-keep-dates');
+  if (seeding && rehashing) {
+    console.error('sitemap: --seed и --rehash-keep-dates взаимоисключающие');
+    process.exit(1);
+  }
 
   const override = process.env.SITEMAP_DATE;
   if (override && !/^\d{4}-\d{2}-\d{2}$/.test(override)) {
@@ -279,7 +338,7 @@ function main() {
       process.exit(1);
     }
     prev = raw.pages;
-  } else if (!seeding) {
+  } else if (!seeding) {  // --rehash-keep-dates without a state file also lands here: there are no dates to keep
     console.error('sitemap: seo/sitemap-lastmod.json отсутствует. Это состояние, а не кэш: без него все даты станут сегодняшними. Восстанови файл из git или пересоздай осознанно: node seo/build-sitemap.mjs --seed');
     process.exit(1);
   }
@@ -291,7 +350,14 @@ function main() {
     return contentHash(readFileSync(file, 'utf8'));
   };
 
-  const { state, moved } = resolveLastmod({ urls, hashOf, prev, today });
+  let result;
+  try {
+    result = rehashing ? rehashKeepDates({ urls, hashOf, prev }) : resolveLastmod({ urls, hashOf, prev, today });
+  } catch (e) {
+    console.error(`sitemap: ${e.message}`);
+    process.exit(1);
+  }
+  const { state, moved } = result;
 
   // A sitemap entry with no page behind it is a 404 offered to a crawler. The
   // generators never delete (see handoff §22.3), so this is the shape a removed
@@ -306,7 +372,7 @@ function main() {
   // sitemap that claims the whole site changed today, which is the defect this
   // file exists to remove.
   if (!seeding && Object.keys(prev).length && moved.length === urls.length) {
-    console.error(`sitemap: сдвинулись ВСЕ ${urls.length} дат. Так не бывает при обычной сборке — вероятно, изменилось определение хеша или потеряно состояние. Если это осознанно: node seo/build-sitemap.mjs --seed`);
+    console.error(`sitemap: сдвинулись ВСЕ ${urls.length} дат. Так не бывает при обычной сборке — вероятно, изменилось определение хеша или потеряно состояние. Если изменилось ПРАВИЛО хеша, а страницы нет: node seo/build-sitemap.mjs --rehash-keep-dates (даты сохраняются). Если осознанно нужна новая дата всем: --seed`);
     process.exit(1);
   }
 
@@ -314,6 +380,7 @@ function main() {
   // Sorted so the file is a stable diff rather than a reshuffle on every run.
   const ordered = Object.fromEntries(Object.keys(state).sort().map((k) => [k, state[k]]));
   writeFileSync(STATE, `${JSON.stringify({ pages: ordered }, null, 2)}\n`);
+  if (rehashing) console.log(`sitemap: --rehash-keep-dates — хеши пересчитаны по текущему правилу, ни одна дата не сдвинута`);
   console.log(`sitemap.xml: ${urls.length} URLs, lastmod сдвинут у ${moved.length}`);
   if (moved.length && moved.length <= 15) for (const m of moved) console.log(`  → ${m.slice(SITE.length)}`);
 }
