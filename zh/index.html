@@ -27,15 +27,15 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=b31b3b27" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=b637ca13" />
 <link rel="manifest" href="/site.webmanifest" />
-<!-- Organization and WebSite, in English. The Russian home carries the same two;
-     without them the English page is the only surface describing this business
-     that says nothing machine-readable about it. `inLanguage` is what keeps a
-     crawler from treating this as a duplicate of the Russian description. -->
+<!-- Organization, WebSite and WebPage in this page's language. `inLanguage` sits on
+     WebSite and WebPage (CreativeWork properties); schema.org has no `inLanguage` on
+     Organization, so the Organization node carries none (Stage 6 audit, 2026-10-28).
+     Its @id stays `#org`: pointing the prefixed homes at the one seller entity
+     (seo/seller-entity.mjs SELLER_ID) is outside the owner's 2026-10-14 scope. -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://magicesim.store/#org","name":"Magic eSIM",
-  "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png",
-  "inLanguage":"zh-Hans"},
+  "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"},
  {"@type":"WebSite","@id":"https://magicesim.store/zh/#website","url":"https://magicesim.store/zh/",
   "name":"Magic eSIM","inLanguage":"zh-Hans","publisher":{"@id":"https://magicesim.store/#org"}},
  {"@type":"WebPage","@id":"https://magicesim.store/zh/#webpage","url":"https://magicesim.store/zh/",
