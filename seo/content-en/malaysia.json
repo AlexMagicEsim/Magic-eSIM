@@ -1,0 +1,181 @@
+{
+  "slug": "malaysia",
+  "iso": "MY",
+  "title": "Malaysia eSIM: MDAC, local SIM rules and data | Magic eSIM",
+  "description": "Data for Malaysia: the MDAC arrival card on the official site or MyNIISe app, and the passport check for a local SIM. Online payment is not available yet.",
+  "lead": "Most foreign visitors to Malaysia complete a digital arrival card before the trip, whether they fly into KLIA or come over the Johor checkpoints. This page explains that form, the paperwork behind a Malaysian prepaid SIM, and which plans fit Malaysia or a wider loop.",
+  "sections": [
+    {
+      "id": "mdac",
+      "h2": "The Malaysia Digital Arrival Card (MDAC)",
+      "paragraphs": [
+        "Since 1 January 2024, Malaysia's Immigration Department has required foreign citizens to complete the Malaysia Digital Arrival Card before arriving. There are two steps: submit the form online, then show the registration with your passport at the immigration counter.",
+        "The official form is on the department's site, imigresen-online.imi.gov.my, and the department's MyNIISe app now takes MDAC entries as well. Timing is tight: the form notes that your trip must fall within three days, the date of submission included, and its calendar only offers arrival dates from today to two days ahead. Expect to give your passport details, an email address, a mobile number and your flight or vessel number.",
+        "The department has also published a notice about fake MDAC portals that ask for payment, so start from the address above rather than from a search result."
+      ]
+    },
+    {
+      "id": "who-is-exempt",
+      "h2": "Exemptions, automated gates and the Johor crossings",
+      "paragraphs": [
+        "The exemption list is short: citizens of Singapore, holders of diplomatic and official passports, Malaysian permanent residents and long-term pass holders, and holders of certain border documents, among them the Thailand Border Pass and Indonesia's cross-border travel document (PLB).",
+        "Read it together with the MDAC portal, which asks travellers who use Malaysia's automated gates for foreigners to submit an MDAC and lists visitors from Singapore among those gate users; its autogate guidance for the Johor Bahru land checkpoints (the Bangunan Sultan Iskandar and Sultan Abu Bakar complexes and Johor Bahru Sentral) says to submit one for every visit. Singapore's Ministry of Foreign Affairs describes Singapore passport holders as exempt at all entry points and asks those who want to enrol for the e-gates to submit the MDAC beforehand."
+      ]
+    },
+    {
+      "id": "local-sim-registration",
+      "h2": "Buying a prepaid SIM card in Malaysia",
+      "paragraphs": [
+        "Malaysia's communications regulator, MCMC, requires every prepaid subscriber to register, and its FAQ names tourists among them. Registration is done at the seller's service centre, an authorised agent or a dealer, where your original passport is checked, and it has to happen before the line is activated and used."
+      ]
+    },
+    {
+      "id": "my-plans",
+      "h2": "Malaysia by itself or with its neighbours",
+      "paragraphs": [
+        "The local plans cover Malaysia by itself, a fit for a trip that never crosses a border. Crossing into Singapore, or taking the train north towards Thailand? Several regional plans on this page take in both countries as well as Malaysia, and a few reach Indonesia and Vietnam too. Daily plans share the data out one day at a time, which makes a long, slow trip easier to budget.",
+        "The [activation guide](/en/guides/activation/) is worth a read before you install anything."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "How far ahead of my arrival can I fill in the MDAC?",
+      "a": "The Immigration Department asks for it within three days before arrival. The form counts the day you submit as one of those days, so on any given day it offers arrival dates up to two days later."
+    },
+    {
+      "q": "Is there an app for the MDAC?",
+      "a": "Yes. The Immigration Department says the MDAC can now be filled in directly through its MyNIISe app, besides the web form; you then present the registration at the immigration counter during the passport check."
+    },
+    {
+      "q": "Do Singapore citizens need an MDAC?",
+      "a": "Citizens of Singapore are on the Immigration Department's exemption list, and Singapore's Ministry of Foreign Affairs says Singapore passport holders are exempt at all entry points. The automated gates are the case to watch: the MDAC portal asks visitors from Singapore who use them to submit an MDAC, and the ministry asks Singaporeans who want to enrol for the e-gates to submit one. Check the portal for your crossing before you set off."
+    },
+    {
+      "q": "A website asked me to pay for my MDAC. Is it genuine?",
+      "a": "Malaysia's Immigration Department has warned about fake MDAC portals that take payment. Its own form is at imigresen-online.imi.gov.my, and the department's MyNIISe app is the other official route."
+    },
+    {
+      "q": "Can I register a Malaysian prepaid SIM with a photo of my passport?",
+      "a": "MCMC's FAQ says the seller verifies the original identification document, which for a foreigner is the passport, so bring the passport itself."
+    },
+    {
+      "q": "Which plans include Singapore as well as Malaysia?",
+      "a": "Several of the regional plans on this page list Singapore and Thailand next to Malaysia in their coverage."
+    }
+  ],
+  "related": [
+    "singapore",
+    "thailand",
+    "indonesia",
+    "vietnam",
+    "philippines"
+  ],
+  "plan_claims": [
+    {
+      "quote": "This page explains that form, the paperwork behind a Malaysian prepaid SIM, and which plans fit Malaysia or a wider loop.",
+      "kind": "local"
+    },
+    {
+      "quote": "The local plans cover Malaysia by itself, a fit for a trip that never crosses a border.",
+      "kind": "local"
+    },
+    {
+      "quote": "Crossing into Singapore, or taking the train north towards Thailand? Several regional plans on this page take in both countries as well as Malaysia, and a few reach Indonesia and Vietnam too.",
+      "kind": "regional_also",
+      "codes": [
+        "SG",
+        "TH",
+        "ID",
+        "VN"
+      ]
+    },
+    {
+      "quote": "Daily plans share the data out one day at a time, which makes a long, slow trip easier to budget.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Which plans include Singapore as well as Malaysia?",
+      "kind": "regional_also",
+      "codes": [
+        "SG"
+      ]
+    },
+    {
+      "quote": "Several of the regional plans on this page list Singapore and Thailand next to Malaysia in their coverage.",
+      "kind": "regional_also",
+      "codes": [
+        "SG",
+        "TH"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.imi.gov.my/index.php/pengumuman/malaysia-digital-arrival-card-mdac-for-foreign-visitors/",
+      "title": "Malaysia Digital Arrival Card (MDAC) For Foreign Visitors — Jabatan Imigresen Malaysia",
+      "checked": "2026-10-27",
+      "supports": "read from the page's poster images: MDAC mandatory for foreign citizens from 1 January 2024; exempt: citizens of Singapore, diplomatic and official passport holders, Malaysian permanent residents and long-term pass holders, Thailand Border Pass holders, Indonesia Cross-Border Travel Document (PLB) holders and two Brunei document categories; step 1 submit online before arrival, step 2 show the registration and verify the passport at the immigration counter"
+    },
+    {
+      "url": "https://www.kln.gov.my/web/aus_canberra/post/malaysia-digital-arrival-card-mdac--1",
+      "title": "Malaysia Digital Arrival Card (MDAC) — High Commission of Malaysia, Canberra",
+      "checked": "2026-10-27",
+      "supports": "from 1 January 2024 all foreign citizens complete the MDAC three days before arrival, with the same exemption list (citizens of Singapore, Thailand Border Pass, Indonesia PLB …); official link imigresen-online.imi.gov.my/mdac/main"
+    },
+    {
+      "url": "https://imigresen-online.imi.gov.my/mdac/main?registerMain",
+      "title": "Malaysia Digital Arrival Card — MDAC registration form, Immigration Department of Malaysia",
+      "checked": "2026-10-27",
+      "supports": "the form's note that the trip must be within three days including the date of submission; arrival-date picker from today to two days ahead; fields include name, passport details, email address, mobile number, flight/vessel number"
+    },
+    {
+      "url": "https://www.imi.gov.my/index.php/pengumuman/mdac-kini-boleh-diisi-terus-melalui-aplikasi-myniise/",
+      "title": "MDAC kini boleh diisi terus melalui aplikasi MyNIISe — Jabatan Imigresen Malaysia",
+      "checked": "2026-10-27",
+      "supports": "read from the notice's image: the MDAC can now be filled in directly through the official MyNIISe app, within three days before arrival; present the registration at the immigration counter during passport verification"
+    },
+    {
+      "url": "https://imigresen-online.imi.gov.my/mdac/main",
+      "title": "Malaysia Digital Arrival Card — MDAC portal, Immigration Department of Malaysia",
+      "checked": "2026-10-27",
+      "supports": "MDAC required for users of Malaysia's autogate facilities for foreigners, visitors from Singapore among them (MACS 2.0 infographic: submit for every visit); separate infographics for KLIA/KLIA2 and for the Johor Bahru checkpoints Bangunan Sultan Iskandar ICQS, Sultan Abu Bakar ICQS and Johor Bahru Sentral"
+    },
+    {
+      "url": "https://www.imi.gov.my/index.php/pengumuman/makluman-portal-palsu-malaysia-digital-arrival-card-mdac/",
+      "title": "Makluman portal palsu Malaysia Digital Arrival Card (MDAC) — Jabatan Imigresen Malaysia",
+      "checked": "2026-10-27",
+      "supports": "the department's notice (screenshots) about fake MDAC portals that ask for payment"
+    },
+    {
+      "url": "https://mcmc.gov.my/en/faqs/prepaid-registration/who-needs-to-register",
+      "title": "Who needs to register? — Malaysian Communications and Multimedia Commission (MCMC)",
+      "checked": "2026-10-27",
+      "supports": "all subscribers of Malaysian prepaid services must register, tourists included; read via the Internet Archive copy of 2026-06-08 because the live site refuses automated readers"
+    },
+    {
+      "url": "https://mcmc.gov.my/en/faqs/prepaid-registration/what-type-of-documents-can-be-used-for-the-registr",
+      "title": "What are the documents required for Prepaid SIM card registration? — MCMC",
+      "checked": "2026-10-27",
+      "supports": "verification against the original identification document, for foreigners the passport; bring the original; read via the Internet Archive copy of 2026-06-09 because the live site refuses automated readers"
+    },
+    {
+      "url": "https://www.mcmc.gov.my/en/faqs/prepaid-registration/where-and-when-must-i-register",
+      "title": "Where and when must I register? — MCMC",
+      "checked": "2026-10-27",
+      "supports": "register at the service centre, authorised agent or dealer with original documents; registration is required before activation and use; read via the Internet Archive copy of 2026-10-21 because the live site refuses automated readers"
+    },
+    {
+      "url": "https://www.mfa.gov.sg/travelling-overseas/travel-advisories-notices-and-visa-information/malaysia/",
+      "title": "Malaysia — travel page, Ministry of Foreign Affairs Singapore",
+      "checked": "2026-10-27",
+      "supports": "Singapore passport holders are exempt from the MDAC at all entry points; Singaporeans who intend to enrol for the e-gates should submit the MDAC before arrival"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-my-stage4",
+    "copy": "copywriter-stage4",
+    "language": "language-reviewer-stage4",
+    "facts": "factcheck-A-stage4, factcheck-B-stage4"
+  }
+}

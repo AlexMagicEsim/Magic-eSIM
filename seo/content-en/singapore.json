@@ -1,0 +1,159 @@
+{
+  "slug": "singapore",
+  "iso": "SG",
+  "title": "Singapore eSIM: SG Arrival Card, Changi Wi-Fi | Magic eSIM",
+  "description": "Data for Singapore: the free SG Arrival Card via ICA or MyICA, #WiFi@Changi with no sign-up, and Type G sockets. Online payment is not available yet.",
+  "lead": "Singapore expects nearly every visitor to file an arrival card online, while Changi offers free Wi-Fi that asks for no registration at all. Below: how both work, how fares and sockets behave, and which plans suit a stopover, a city stay or a trip across the Causeway.",
+  "sections": [
+    {
+      "id": "sg-arrival-card",
+      "h2": "The SG Arrival Card, filed before you land",
+      "paragraphs": [
+        "Singapore's Immigration & Checkpoints Authority (ICA) asks all travellers to submit the SG Arrival Card, which carries an electronic health declaration, before they arrive. The window is three days and counts the arrival day itself, so someone landing on a Friday can file from the Wednesday.",
+        "ICA offers two official routes: its SGAC e-Service on the web, or the MyICA Mobile app, which can keep your profile and fill it in again on later trips. Submission costs nothing. ICA has warned that commercial websites charge people to file the card for them and says those services have no link with it.",
+        "The exemptions are narrow. Passengers who transit or transfer through Singapore without seeking immigration clearance do not file, and at the Woodlands and Tuas land checkpoints ICA's exemption names residents only: Singapore citizens, permanent residents and long-term pass holders."
+      ]
+    },
+    {
+      "id": "changi-wifi",
+      "h2": "#WiFi@Changi when you step off the plane",
+      "paragraphs": [
+        "Changi Airport's free network, #WiFi@Changi, reaches both the public and the transit areas of every terminal, and the airport says you need not register, pay or hand over personal details. Pick #WiFi@Changi in your settings, open a browser and type any web address to bring up the login page, then press CONNECT NOW.",
+        "It belongs to the airport, so it stays behind once you head for the train or the taxi rank; directions into town and the first messages home then run on your own data."
+      ]
+    },
+    {
+      "id": "fares-and-sockets",
+      "h2": "Tapping in on buses and trains, and charging up",
+      "paragraphs": [
+        "SimplyGo, the fare system for Singapore's public transport, accepts foreign-issued contactless American Express, Mastercard and Visa cards, also inside a mobile wallet, with no SimplyGo account needed. Switch on overseas use for the card before you travel. Maestro and Cirrus debit cards are refused, a daily admin fee is added on days you pay fares with a foreign-issued Mastercard or Visa card, and the reader should see only one card, so take any others out of the phone case.",
+        "Sockets take the three-pin Type G plug on a 230 V supply. Hotels often fit universal sockets that accept other plugs too, yet Singapore's Consumer Product Safety Office warns that hair dryers, travel irons and kettles rated for 100–120 V will not run safely at 230 V, so read the label before plugging in."
+      ]
+    },
+    {
+      "id": "sg-plans",
+      "h2": "A stopover, a city stay, or on to Johor",
+      "paragraphs": [
+        "For a visit that never leaves the island, the local plans are for Singapore only. If you cross the Causeway to Johor Bahru or carry on north, some regional plans that include Singapore also cover Malaysia and Thailand, and others add Indonesia and Vietnam. For a stay of a few days, look at the daily plans: each is described by an amount for each day rather than by one balance for the whole trip, and its card shows that amount.",
+        "Your phone must accept an eSIM and be unlocked; the [compatibility guide](/en/guides/compatibility/) shows how to check, and the [activation guide](/en/guides/activation/) covers when a plan starts counting."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Does the SG Arrival Card cost anything?",
+      "a": "No. ICA says submission is free and should go only through its SGAC e-Service or the MyICA Mobile app; paid filing services are not affiliated with ICA."
+    },
+    {
+      "q": "What is the earliest day I can file the SG Arrival Card?",
+      "a": "Two days before you land. ICA's three-day window includes the day of arrival, so for an arrival on the 30th you can file from the 28th."
+    },
+    {
+      "q": "Do I file an arrival card if I am only changing planes at Changi?",
+      "a": "Not if you stay airside. ICA exempts travellers who transit or transfer through Singapore without seeking immigration clearance; once you go through immigration to see the city, that exemption no longer fits your trip."
+    },
+    {
+      "q": "What happens if I land without having filed it?",
+      "a": "A December 2022 ICA release says such travellers are asked to submit the card and then re-join the queue for immigration clearance. ICA's current page simply says filing beforehand avoids unnecessary delays at clearance."
+    },
+    {
+      "q": "Do I have to sign up for the free Wi-Fi at Changi?",
+      "a": "No. #WiFi@Changi needs no registration, payment or personal information: choose the network, open any web page and press CONNECT NOW on the login screen."
+    },
+    {
+      "q": "Is there one plan for Singapore and a trip into Malaysia?",
+      "a": "Some regional plans that include Singapore also cover Malaysia, and several of those add Thailand. Open the coverage list on a plan's card to see exactly where it applies."
+    }
+  ],
+  "related": [
+    "malaysia",
+    "thailand",
+    "indonesia",
+    "vietnam"
+  ],
+  "plan_claims": [
+    {
+      "quote": "For a visit that never leaves the island, the local plans are for Singapore only.",
+      "kind": "local"
+    },
+    {
+      "quote": "If you cross the Causeway to Johor Bahru or carry on north, some regional plans that include Singapore also cover Malaysia and Thailand, and others add Indonesia and Vietnam.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "TH",
+        "ID",
+        "VN"
+      ]
+    },
+    {
+      "quote": "For a stay of a few days, look at the daily plans: each is described by an amount for each day rather than by one balance for the whole trip, and its card shows that amount.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Is there one plan for Singapore and a trip into Malaysia?",
+      "kind": "regional_also",
+      "codes": [
+        "MY"
+      ]
+    },
+    {
+      "quote": "Some regional plans that include Singapore also cover Malaysia, and several of those add Thailand.",
+      "kind": "regional_also",
+      "codes": [
+        "MY",
+        "TH"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card",
+      "title": "SG Arrival Card (SGAC) with Electronic Health Declaration — Immigration & Checkpoints Authority",
+      "checked": "2026-10-27",
+      "supports": "all travellers submit the SGAC with electronic health declaration before arrival, within three days including the day of arrival; free; SGAC e-Service or MyICA Mobile app (profile auto-populates for later trips); exempt: transit/transfer without immigration clearance, and residents (Singapore citizens, permanent residents, long-term pass holders) at Woodlands and Tuas checkpoints; filing ahead avoids unnecessary delays at clearance"
+    },
+    {
+      "url": "https://www.ica.gov.sg/public-education/public-advisory-on-the-submission-of-sg-arrival-card-(sgac)",
+      "title": "Public Advisory on the Submission of SG Arrival Card (SGAC) — ICA",
+      "checked": "2026-10-27",
+      "supports": "commercial websites charge for SGAC submission; submission is free and only via ICA's SGAC e-Service or MyICA Mobile app; such paid services are not related to ICA"
+    },
+    {
+      "url": "https://www.ica.gov.sg/news-and-publications/newsroom/media-release/reminder-to-all-travellers-including-singapore-residents-to-submit-sg-arrival-card-prior-to-arrival-in-singapore",
+      "title": "Reminder To All Travellers, Including Singapore Residents, To Submit SG Arrival Card Prior To Arrival in Singapore — ICA media release, December 2022",
+      "checked": "2026-10-27",
+      "supports": "travellers who do not submit the card before arrival are asked to do so and to re-join the queue for immigration clearance"
+    },
+    {
+      "url": "https://www.changiairport.com/en/at-changi/facilities-and-services-directory/internet-connection.html",
+      "title": "Free WiFi & Internet Connection — Changi Airport",
+      "checked": "2026-10-27",
+      "supports": "#WiFi@Changi free in public and transit areas of all terminals; no registration, payment or personal information; select the network, enter a website address to reach the login page, click CONNECT NOW"
+    },
+    {
+      "url": "https://simplygo.com.sg/faqs/cards-and-charms/simplygo/contactless-bank-cards/",
+      "title": "FAQs for Contactless Bank Cards — SimplyGo",
+      "checked": "2026-10-27",
+      "supports": "foreign-issued American Express, Mastercard and Visa contactless cards (and mobile wallets) accepted on public transport, enabled for overseas use, no SimplyGo account needed; Maestro/Cirrus debit not accepted; a foreign card admin fee per day of use; tap only one card"
+    },
+    {
+      "url": "https://www.consumerproductsafety.gov.sg/consumers/product-safety-tips/home-appliances-furniture-and-indoor-product-safety/types-of-mains-plugs-suitable-for-use-in-singapore/",
+      "title": "Type of Mains Plugs Suitable for use in Singapore — Consumer Product Safety Office",
+      "checked": "2026-10-27",
+      "supports": "the 13 A three-pin fused plug (Type G) suits most appliances in Singapore"
+    },
+    {
+      "url": "https://www.consumerproductsafety.gov.sg/consumers/product-safety-tips/home-appliances-furniture-and-indoor-product-safety/safety-tips-on-universal-socket-outlets/",
+      "title": "Safety Tips on Universal Socket Outlets — Consumer Product Safety Office",
+      "checked": "2026-10-27",
+      "supports": "universal sockets are common in hotels; equipment rated 100–120 V such as hair dryers, travel irons and kettles will not operate safely at 230 V"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-sg-stage4",
+    "copy": "copywriter-stage4",
+    "language": "language-reviewer-stage4",
+    "facts": "factcheck-A-stage4, factcheck-B-stage4"
+  }
+}

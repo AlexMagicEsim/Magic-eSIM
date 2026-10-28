@@ -18,9 +18,11 @@ import { LOCALES, SITE } from './locales.mjs';
 
 /* Stage 1 (2026-10-21): the popular destinations of the three home pages (RU_POPULAR_ALL, PAGE_COPY.en/es.popular)
  * minus the frozen ten. Widening the stage = adding slugs here (a page for it must exist in every indexed language). */
+/* Stage 2 (2026-10-27, owner): + malaysia and singapore, each with its authored English text (seo/content-en/).
+ * UAE stays out — a former experiment page; its English text is written but its indexing is the owner's separate word. */
 export const INDEXED_COUNTRIES = Object.freeze([
-  'china', 'france', 'greece', 'indonesia', 'japan', 'maldives', 'mexico', 'south-korea', 'sri-lanka', 'thailand',
-  'turkey', 'united-kingdom', 'vietnam',
+  'china', 'france', 'greece', 'indonesia', 'japan', 'malaysia', 'maldives', 'mexico', 'singapore', 'south-korea',
+  'sri-lanka', 'thailand', 'turkey', 'united-kingdom', 'vietnam',
 ]);
 
 /* The Russian twin of each guide (the Russian site has its own structure: no /guides/). */

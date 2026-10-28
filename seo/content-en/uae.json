@@ -1,0 +1,185 @@
+{
+  "slug": "uae",
+  "iso": "AE",
+  "title": "Dubai and UAE eSIM: calling apps, Wi-Fi, data | Magic eSIM",
+  "description": "Data for Dubai and Abu Dhabi: TDRA's rule on calling apps, free Wi-Fi at RTA stations, on intercity buses and Hala Wi-Fi. Online payment is not available yet.",
+  "lead": "Whether you land in Dubai or Abu Dhabi, a few things are worth knowing before you rely on your phone in the UAE: how the regulator treats calls made through apps, where public Wi-Fi is free, and which plans fit the Emirates alone or a wider Gulf trip.",
+  "sections": [
+    {
+      "id": "calling-apps",
+      "h2": "Voice and video calls through apps: TDRA's rule",
+      "paragraphs": [
+        "The UAE's telecoms regulator, TDRA, treats voice and video calls made over the internet as Voice over Internet Protocol (VoIP) services, a regulated activity in the country. Its Internet Guidelines say such services are to be offered by the licensed telecoms companies or in collaboration with them, and that TDRA may approve individual calling apps.",
+        "The same guidelines say the licensed companies are obliged to block traffic from calling apps that do not comply, and TDRA publishes a list of the apps currently allowed. The VoIP regulatory policy published on TDRA's site, issued in 2009 by its predecessor, the TRA, likewise entitles a licensee to block a VoIP service offered by someone without a licence.",
+        "A data plan does not change any of this: whether a calling app may be used in the UAE is a matter of TDRA's rules, so look at TDRA's current list before the trip instead of going by what worked last time."
+      ]
+    },
+    {
+      "id": "free-wifi",
+      "h2": "Where public Wi-Fi is free in Dubai and Abu Dhabi",
+      "paragraphs": [
+        "Dubai's Roads and Transport Authority (RTA) has rolled out free Wi-Fi at its public bus stations and marine transport stations, and on all of its intercity buses, which link Dubai with Sharjah, Abu Dhabi, Ajman and Fujairah. In Abu Dhabi, the Department of Municipalities and Transport provides free public Wi-Fi, branded Hala Wi-Fi, on buses, at beaches and in public parks.",
+        "The UAE government portal adds that most hotels give guests free Wi-Fi, as do most malls and many other public places. Between those places, plan on your own data."
+      ]
+    },
+    {
+      "id": "sim-and-sockets",
+      "h2": "Local SIM paperwork and power sockets",
+      "paragraphs": [
+        "If you would rather buy a SIM card after landing, the UAE government portal says visitors need to provide a copy of their passport and UAE visa to obtain a local SIM.",
+        "Abu Dhabi's tourism board gives the electricity supply as 220/240 volts at 50 Hz, with square three-pin sockets as standard. It suggests packing a plug adapter, although most hotels can supply one and they are also sold locally."
+      ]
+    },
+    {
+      "id": "uae-plans",
+      "h2": "Staying in the Emirates or driving on around the Gulf",
+      "paragraphs": [
+        "Local plans are sold for the UAE as one country rather than for a single emirate, so a drive from Dubai to Abu Dhabi does not call for a second plan. Some regional plans that include the UAE also cover Oman, which suits a road trip out of Dubai or Al Ain. Others take in Saudi Arabia, Qatar, Bahrain and Kuwait, for a business trip or a stopover elsewhere in the Gulf. Daily plans release a fixed amount each day, which suits a few days in Dubai on the way to somewhere else.",
+        "To check your phone first, use the [compatibility guide](/en/guides/compatibility/); the [activation guide](/en/guides/activation/) explains when a plan's clock starts."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Can I make voice or video calls through apps in Dubai?",
+      "a": "TDRA's rules decide which calling apps are allowed in the UAE, and buying a data plan does not change them. TDRA treats internet calls as a regulated service, keeps a list of the calling apps currently allowed in the UAE and says licensed companies must block calling apps that do not comply. Check that list before you travel."
+    },
+    {
+      "q": "Is there free Wi-Fi on the bus from Dubai to Abu Dhabi?",
+      "a": "RTA said in July 2025 that all of its intercity buses have free Wi-Fi on board, including the routes between Dubai and Abu Dhabi, Sharjah, Ajman and Fujairah."
+    },
+    {
+      "q": "Do I need a new plan when I travel from Dubai to Abu Dhabi?",
+      "a": "No. Local plans are for the UAE as one country, not for a single emirate."
+    },
+    {
+      "q": "Can I use the same plan in the UAE and Oman?",
+      "a": "Some regional plans that include the UAE also cover Oman. Check the coverage list on a plan's card before you cross the border."
+    },
+    {
+      "q": "What do I need to buy a SIM card in the UAE?",
+      "a": "For a local SIM, the UAE government portal says visitors provide a copy of their passport and their UAE visa."
+    },
+    {
+      "q": "What plug adapter do I need for Dubai and Abu Dhabi?",
+      "a": "One for square three-pin sockets, which Abu Dhabi's tourism board describes as standard, on a 220/240 V, 50 Hz supply. Most hotels can supply adapters for other plugs, and they are sold locally."
+    }
+  ],
+  "related": [
+    "oman",
+    "saudi-arabia",
+    "qatar",
+    "bahrain",
+    "kuwait"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Local plans are sold for the UAE as one country rather than for a single emirate, so a drive from Dubai to Abu Dhabi does not call for a second plan.",
+      "kind": "local"
+    },
+    {
+      "quote": "Some regional plans that include the UAE also cover Oman, which suits a road trip out of Dubai or Al Ain.",
+      "kind": "regional_also",
+      "codes": [
+        "OM"
+      ]
+    },
+    {
+      "quote": "Others take in Saudi Arabia, Qatar, Bahrain and Kuwait, for a business trip or a stopover elsewhere in the Gulf.",
+      "kind": "regional_also",
+      "codes": [
+        "SA",
+        "QA",
+        "BH",
+        "KW"
+      ]
+    },
+    {
+      "quote": "Daily plans release a fixed amount each day, which suits a few days in Dubai on the way to somewhere else.",
+      "kind": "daily"
+    },
+    {
+      "quote": "No. Local plans are for the UAE as one country, not for a single emirate.",
+      "kind": "local"
+    },
+    {
+      "quote": "Can I use the same plan in the UAE and Oman?",
+      "kind": "regional_also",
+      "codes": [
+        "OM"
+      ]
+    },
+    {
+      "quote": "Some regional plans that include the UAE also cover Oman.",
+      "kind": "regional_also",
+      "codes": [
+        "OM"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://tdra.gov.ae/-/media/About/regulations-and-ruling/EN/Voice-over-internet-protocol-Regulatory-policy-pdf.ashx",
+      "title": "Regulatory Policy — Voice over Internet Protocol, Version 2.0 (30 December 2009) — TDRA",
+      "checked": "2026-10-27",
+      "review_by": "2027-04-01",
+      "supports": "VoIP services that require a regulated activity need a licence; a licensee is entitled to block a VoIP service provided by an unlicensed person over its network (§3.1–§3.2); read live from tdra.gov.ae"
+    },
+    {
+      "url": "https://tdra.gov.ae/en/About/tdra-sectors/information-and-digital-government/departments/policy-and-programs-department/internet-guidelines",
+      "title": "Internet Guidelines (VoIP) — TDRA",
+      "checked": "2026-10-27",
+      "review_by": "2027-04-01",
+      "supports": "voice and video calls are VoIP services, a regulated activity in the UAE, provided by licensed companies or in collaboration with them; licensees obliged to block non-compliant VoIP apps; TDRA may approve VoIP apps and lists those currently allowed; read from the Internet Archive copy of 2026-10-12, live page truncated"
+    },
+    {
+      "url": "https://tdra.gov.ae/en/FAQs",
+      "title": "FAQs (VoIP) — TDRA",
+      "checked": "2026-10-27",
+      "review_by": "2027-04-01",
+      "supports": "VoIP offered to subscribers is a regulated activity governed by the VoIP Regulatory Policy ver. 2.0 of 30 December 2009; licensees must block unlicensed VoIP services; read from the Internet Archive copy of 2026-03-03, live page truncated"
+    },
+    {
+      "url": "https://www.rta.ae/wps/portal/rta/ae/home/news-and-media/all-news/NewsDetails/offering-free-wi-fi-across-all-43-bus-and-marine-transport-stations",
+      "title": "Offering Free Wi-Fi Across All 43 Bus and Marine Transport Stations — RTA, 17 June 2025",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi at Dubai's public bus stations and marine transport stations"
+    },
+    {
+      "url": "https://www.rta.ae/wps/portal/rta/ae/home/news-and-media/all-news/NewsDetails/providing-free-wi-fi-on-all-intercity-buses",
+      "title": "Providing Free Wi-Fi on All Intercity Buses — RTA, 23 July 2025",
+      "checked": "2026-10-27",
+      "supports": "free Wi-Fi on all RTA intercity buses between Dubai and Sharjah, Abu Dhabi, Ajman and Fujairah"
+    },
+    {
+      "url": "https://www.dmt.gov.ae/en/Media-Centre/News/Green-Spaces-and-Public-Transport-Bolster-Abu-Dhabi",
+      "title": "Green Spaces and Public Transport Bolster Abu Dhabi's 2025 IMD Smart City Index Ranking — Department of Municipalities and Transport, 23 April 2025",
+      "checked": "2026-10-27",
+      "supports": "DMT provides free public Wi-Fi (Hala Wi-Fi) on buses, at beaches and in public parks"
+    },
+    {
+      "url": "https://www.mediaoffice.abudhabi/en/infrastructure/department-of-municipalities-and-transport-launches-hala-wi-fi-to-provide-free-public-internet-across-abu-dhabi/",
+      "title": "Department of Municipalities and Transport launches Hala Wi-Fi to provide free public internet across Abu Dhabi — Abu Dhabi Media Office, 15 December 2023",
+      "checked": "2026-10-27",
+      "supports": "launch of Hala Wi-Fi, free public Wi-Fi including buses, beaches and public parks"
+    },
+    {
+      "url": "https://u.ae/en/information-and-services/visiting-and-exploring-the-uae/Arrival-and-accommodation/mobile-and-internet-services",
+      "title": "Mobile and internet services — The Official Portal of the UAE Government",
+      "checked": "2026-10-27",
+      "supports": "visitors provide a copy of passport and UAE visa to obtain a local SIM; most hotels offer free Wi-Fi to guests; most malls and many other public places provide free Wi-Fi"
+    },
+    {
+      "url": "https://visitabudhabi.ae/en/faqs",
+      "title": "Abu Dhabi FAQs — Experience Abu Dhabi (Department of Culture and Tourism)",
+      "checked": "2026-10-27",
+      "supports": "electricity 220/240 V at 50 Hz; square three-pin sockets standard; bring an adapter, though most hotels can supply adapters and they can be bought locally"
+    }
+  ],
+  "reviewed": {
+    "research": "researcher-ae-stage4",
+    "copy": "copywriter-stage4",
+    "language": "language-reviewer-stage4",
+    "facts": "factcheck-A-stage4, factcheck-B-stage4"
+  }
+}

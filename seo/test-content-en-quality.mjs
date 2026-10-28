@@ -2,7 +2,7 @@
  * independently of the validator (seo/content-en.mjs): what a reader and a crawler actually get. Every guard has a
  * negative control that proves it fires.
  *
- *   a. each of the 13 indexed countries (seo/indexing.mjs INDEXED_COUNTRIES) has a content file, and its sections,
+ *   a. each of the 15 indexed countries (seo/indexing.mjs INDEXED_COUNTRIES) has a content file, and its sections,
  *      questions and related links are in the static HTML — not hidden, not in <template>/<noscript>, no script needed;
  *   b. the authored blocks are not one template: pairwise similarity of the `div.cp-about` text stays below
  *      SIMILARITY_MAX. The measure is the LCS ratio over lower-cased word sequences, 2·LCS(a,b) / (|a|+|b|) — the
@@ -10,14 +10,15 @@
  *      sequences (difflib finds matching blocks greedily, LCS finds the optimum), so it is the stricter of the two;
  *   c. no plan figure (GB/MB, speed, currency, plan/destination count) in the rendered authored text, and every
  *      country a rendered sentence names as covered is in that country's `also` list (seo/global-plan-facts.json);
- *   d. unique <title> and meta description on every English country page; the 13 authored titles and descriptions
+ *   d. unique <title> and meta description on every English country page; the 15 indexed authored titles and descriptions
  *      also differ once the country's name is taken out;
  *   e. the checkout window and the page's scripts on an authored page are those of a page without a file (the
  *      country's name and flag normalised), and the authored block holds no script;
  *   f. no FAQPage JSON-LD on any English page, one BreadcrumbList on each English country page, and the Russian pages
- *      carry nothing of the English content. Byte-for-byte against a base ref (default origin/main) runs only when
- *      CONTENT_EN_QA_BASE is set (e.g. CONTENT_EN_QA_BASE=origin/main) — a catalogue-refresh branch legitimately
- *      changes the Russian pages, so an unconditional diff against main would fail every refresh.
+ *      carry nothing of the English content. Byte-for-byte against a base ref runs only when CONTENT_EN_QA_BASE is set
+ *      (e.g. CONTENT_EN_QA_BASE=origin/main) — a catalogue-refresh branch legitimately changes the Russian pages, so an
+ *      unconditional diff against main would fail every refresh. The one difference it allows is the hreflang block the
+ *      Russian twin of a slug NEWLY added to INDEXED_COUNTRIES gains (ruTwinChange; its negative controls always run).
  *
  * Run: node --test seo/test-content-en-quality.mjs
  */
@@ -27,7 +28,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { INDEXED_COUNTRIES } from './indexing.mjs';
+import { INDEXED_COUNTRIES, ruAlternates } from './indexing.mjs';
 import { enCountries } from './build-en-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -84,8 +85,8 @@ function staticProblems(html, doc) {
   return p;
 }
 
-test('a: each of the 13 indexed countries has a content file and renders it in the static HTML', () => {
-  assert.equal(INDEXED_COUNTRIES.length, 13);
+test('a: each of the 15 indexed countries has a content file and renders it in the static HTML', () => {
+  assert.equal(INDEXED_COUNTRIES.length, 15);
   for (const slug of INDEXED_COUNTRIES) {
     const doc = contentOf(slug);
     assert.ok(doc, `${slug}: no seo/content-en/${slug}.json`);
@@ -127,10 +128,13 @@ export function lcsRatio(a, b) {
 }
 /* Measured 2026-10-27 on the 13 authored blocks (78 pairs): mean 0.177, max 0.271 (france / united-kingdom) — the floor
  * two unrelated English texts share through function words. Threshold = measured max + 0.10, rounded up; well below
- * the 0.5 cap. A name-swapped copy scores ≈ 1, a page that reuses half of another's block ≈ 0.6 (controls below). */
+ * the 0.5 cap. A name-swapped copy scores ≈ 1, a page that reuses half of another's block ≈ 0.6 (controls below).
+ * Re-measured 2026-10-27 on the 15 indexed blocks (+ malaysia, singapore; 105 pairs): mean 0.170, max 0.254 (france /
+ * united-kingdom); malaysia / singapore 0.167; uae (written, not indexed) ≤ 0.178 against any of them. Below the
+ * threshold, so it stays — it is never raised to let a page through. */
 export const SIMILARITY_MAX = 0.38;
 
-test('b: authored blocks of the 13 pages are pairwise below SIMILARITY_MAX (LCS word ratio)', () => {
+test('b: authored blocks of the 15 indexed pages are pairwise below SIMILARITY_MAX (LCS word ratio)', () => {
   const w = Object.fromEntries(INDEXED_COUNTRIES.map((s) => [s, words(aboutOf(page(s)))]));
   const over = [];
   for (let i = 0; i < INDEXED_COUNTRIES.length; i += 1) {
@@ -374,13 +378,50 @@ test('f: the Russian pages carry nothing of the English authored content', () =>
   assert.equal(ruLeak(page('japan')), true, 'negative control: an authored English page is seen');
 });
 
+/** The ONE Russian change a wider indexing stage may bring (2026-10-27): the twin of a slug NEWLY added to
+ *  INDEXED_COUNTRIES gains exactly its hreflang block — ruAlternates(), right where the generator puts it — and
+ *  nothing else. Strip exactly that block once and the file must be the base's byte for byte. Problems ([] = allowed). */
+export function ruTwinChange(file, now, old, newly) {
+  const m = String(file).match(/^esim\/([a-z0-9-]+)\/index\.html$/);
+  if (!m || !newly.includes(m[1])) return [`${file}: a Russian file differs, and it is not the twin of a newly indexed slug`];
+  const block = ruAlternates(`/esim/${m[1]}/`);
+  if (!block) return [`${file}: ${m[1]} has no cluster, so no hreflang block may appear`];
+  if (/hreflang=/.test(old)) return [`${file}: the base already carried alternates`];
+  const i = now.indexOf(block);
+  if (i < 0 || now.indexOf(block, i + 1) >= 0) return [`${file}: the hreflang block is not there exactly once`];
+  return now.slice(0, i) + now.slice(i + block.length) === old ? [] : [`${file}: differs beyond the added hreflang block`];
+}
+
+test('f: the one allowed Russian change — negative controls (run always)', () => {
+  const slug = INDEXED_COUNTRIES.find((s) => existsSync(join(ROOT, 'esim', s, 'index.html')) && ruAlternates(`/esim/${s}/`));
+  const f = `esim/${slug}/index.html`;
+  const now = read(f);
+  const block = ruAlternates(`/esim/${slug}/`);
+  const old = now.replace(block, '');
+  assert.deepEqual(ruTwinChange(f, now, old, [slug]), [], 'the block added to a newly indexed twin is allowed');
+  assert.ok(ruTwinChange(f, now, old, []).length, 'the same change on a slug that was already indexed fails');
+  assert.ok(ruTwinChange(f, now.replace('<title>', '<title>x'), old, [slug]).some((x) => /beyond the added hreflang/.test(x)), 'any other byte fails');
+  assert.ok(ruTwinChange(f, now.replace(block, block + block), old, [slug]).some((x) => /exactly once/.test(x)), 'a doubled block fails');
+  assert.ok(ruTwinChange(f, now.replace(block, block.replace('hreflang="es"', 'hreflang="de"')), old, [slug]).length, 'a different block fails');
+  assert.ok(ruTwinChange(f, now, now, [slug]).some((x) => /already carried/.test(x)), 'a base that already had alternates fails');
+  assert.ok(ruTwinChange('index.html', now, old, [slug]).length, 'a non-country Russian file never qualifies');
+  assert.ok(ruTwinChange('seo/content-profiles/japan.json', now, old, [slug]).length, 'a profile never qualifies');
+});
+
 const BASE = process.env.CONTENT_EN_QA_BASE;
-test('f: the Russian pages are byte-identical to CONTENT_EN_QA_BASE (only when that variable is set)', { skip: BASE ? false : 'set CONTENT_EN_QA_BASE=origin/main to run' }, () => {
+test('f: the Russian pages are byte-identical to CONTENT_EN_QA_BASE, but for the hreflang block of newly indexed twins (only when that variable is set)', { skip: BASE ? false : 'set CONTENT_EN_QA_BASE=origin/main to run' }, () => {
   const git = (...a) => execFileSync('git', ['-C', ROOT, ...a], { encoding: 'utf8', maxBuffer: 64 << 20 });
   git('rev-parse', '--verify', `${BASE}^{commit}`);
   const changed = (paths) => git('diff', '--name-only', BASE, '--', ...paths).split('\n').filter(Boolean);
   const untracked = git('ls-files', '--others', '--exclude-standard', '--', 'esim', 'index.html').split('\n').filter(Boolean);
-  assert.deepEqual([...changed(['esim', 'index.html', 'seo/content-profiles']), ...untracked], [], `Russian files differ from ${BASE}`);
+  const baseStage = (git('show', `${BASE}:seo/indexing.mjs`).match(/INDEXED_COUNTRIES = Object\.freeze\(\[([\s\S]*?)\]\)/) || [])[1];
+  assert.ok(baseStage !== undefined, `${BASE}: INDEXED_COUNTRIES not found`);
+  const before = [...baseStage.matchAll(/'([a-z0-9-]+)'/g)].map((m) => m[1]);
+  const newly = INDEXED_COUNTRIES.filter((s) => !before.includes(s));
+  assert.deepEqual(untracked, [], `untracked Russian files against ${BASE}`);
+  const bad = changed(['esim', 'index.html', 'seo/content-profiles'])
+    .flatMap((f) => ruTwinChange(f, read(f), git('show', `${BASE}:${f}`), newly));
+  assert.deepEqual(bad, [], `Russian files differ from ${BASE}`);
   // Byte-for-byte on a sample through git show, as a second route to the same answer; and a negative control.
   for (const f of ['index.html', 'esim/index.html', 'esim/japan/index.html', 'esim/thailand/index.html']) {
     assert.equal(read(f), git('show', `${BASE}:${f}`), f);
