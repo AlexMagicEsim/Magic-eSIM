@@ -11,7 +11,7 @@
       "paragraphs": [
         "Dentro de la Unión Europea, el «roaming como en casa» permite que quien tiene una suscripción móvil de un país de la UE o del EEE la use en Francia a los mismos precios que paga en casa. La Comisión Europea indica que se aplica en todos los países de la UE, además de Islandia, Liechtenstein y Noruega, y desde el 1 de enero de 2026 también en Ucrania y Moldavia.",
         "La regla depende de dónde es tu suscripción, no de dónde estás. Si tu SIM se emitió fuera de la UE, del EEE, de Ucrania y de Moldavia, la regla no te da nada en Francia: lo que cuestan los datos lo deciden las condiciones de roaming de tu propio plan.",
-        "Además, se detiene en el canal de la Mancha. Desde que el Reino Unido salió de la UE, el roaming como en casa ya no se aplica a los viajes allí, así que un día en Londres con el Eurostar puede facturarse distinto del resto del viaje, incluso con una SIM de la UE. Suiza tampoco figura entre los países que nombra la regla, algo que importa para una excursión de un día a Ginebra."
+        "Además, se detiene en el canal de la Mancha. Desde que el Reino Unido salió de la UE, el roaming como en casa ya no se aplica a los viajes allí, así que un día en Londres con el Eurostar puede facturarse distinto del resto del viaje, incluso con una SIM de la UE. Suiza tampoco figura entre los países que nombra la regla, algo que importa para una excursión de un día a Ginebra. Incluso dentro de la UE, el servicio por satélite a bordo de un barco queda fuera de la regla, como explica nuestra [página de Grecia](/es/esim/greece/) para los trayectos en ferri."
       ]
     },
     {
@@ -132,9 +132,10 @@
       "url": "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_es.htm",
       "title": "Roaming en la UE: lo que pagas – Tu Europa",
       "checked": "2026-10-27",
-      "supports": "el «roaming como en casa» se aplica al viajar a otro país de la UE y también en Islandia, Liechtenstein y Noruega, Moldavia y Ucrania; «El resto de países no están cubiertos por este régimen» (Suiza no figura en la lista)",
+      "supports": "el «roaming como en casa» se aplica al viajar a otro país de la UE y también en Islandia, Liechtenstein y Noruega, Moldavia y Ucrania; «El resto de países no están cubiertos por este régimen» (Suiza no figura en la lista); en un barco, el precio nacional solo se aplica en una red móvil terrestre, y un servicio por satélite a bordo queda fuera de las normas de la UE",
       "sentences": [
-        "Suiza tampoco figura entre los países que nombra la regla, algo que importa para una excursión de un día a Ginebra."
+        "Suiza tampoco figura entre los países que nombra la regla, algo que importa para una excursión de un día a Ginebra.",
+        "Incluso dentro de la UE, el servicio por satélite a bordo de un barco queda fuera de la regla, como explica nuestra página de Grecia para los trayectos en ferri."
       ]
     },
     {
