@@ -1,0 +1,137 @@
+{
+  "slug": "maldives",
+  "iso": "MV",
+  "title": "eSIM Maldivas: traslados, islas y datos móviles | Magic eSIM",
+  "description": "Maldivas: la declaración IMUGA, los traslados en lancha o hidroavión, resorts o islas locales y qué plan elegir. El pago en línea aún no está disponible.",
+  "lead": "Un viaje a Maldivas empieza con una declaración antes de volar y suele seguir en lancha, hidroavión o vuelo interno al aterrizar. Esto es lo que conviene resolver primero y qué planes encajan con una estancia en un resort o con un recorrido entre islas locales.",
+  "sections": [
+    {
+      "id": "antes-de-volar",
+      "h2": "La declaración del viajero y la visa a la llegada",
+      "paragraphs": [
+        "El Aeropuerto Internacional Velana pide a todos los viajeros que entran o salen de Maldivas, visitantes incluidos, que envíen una Traveller Declaration (declaración del viajero) en IMUGA, el portal oficial de inmigración, dentro de las 96 horas de su vuelo. Los consejos de viaje del gobierno del Reino Unido lo expresan como dentro de las 96 horas previas a la llegada de tu vuelo. El propio portal aclara que una dirección .gov.mv pertenece a un organismo oficial del gobierno maldivo, así que entra directamente y no a través de un resultado de búsqueda.",
+        "La guía del aeropuerto indica que la visa de turista se concede a la llegada a todas las nacionalidades, sin aprobación previa, y enumera lo necesario: un pasaporte con al menos un mes de validez, boletos de regreso confirmados y una reserva de hotel o prueba de fondos suficientes. Según los consejos del Reino Unido, los ciudadanos británicos que entran como turistas reciben una visa de 30 días a la llegada."
+      ]
+    },
+    {
+      "id": "dia-del-traslado",
+      "h2": "Del aeropuerto a tu isla",
+      "paragraphs": [
+        "Según Visit Maldives, el organismo oficial de turismo, a los resorts cercanos al aeropuerto se llega en lancha y a los más lejanos en hidroavión. Los vuelos internos conectan los doce aeropuertos nacionales e internacionales del país, y hay ferris regulares desde Malé hasta la mayoría de los atolones.",
+        "Por eso el traslado es el tramo del viaje en el que más probablemente necesites un mensaje de tu resort o del mostrador de traslados. No prometemos conexión en una lancha, en un hidroavión ni en ninguna isla concreta, así que guarda en el teléfono una copia de tu reserva, los datos del traslado y los contactos del resort antes de salir de casa.",
+        "Visit Maldives también señala que en el aeropuerto se venden tarjetas SIM prepago de dos compañías de telefonía móvil, para llamadas locales e internacionales y datos. La eSIM es la alternativa que dejas lista con antelación; la [guía de compatibilidad](/es/guides/compatibility/) te dice si tu teléfono la admite."
+      ]
+    },
+    {
+      "id": "resort-o-isla-local",
+      "h2": "Islas resort e islas locales",
+      "paragraphs": [
+        "Maldivas ofrece dos tipos de estancia muy distintos. Visit Maldives pide a los visitantes vestir con recato en las islas habitadas y recuerda que en los resorts se sirve alcohol, pero que los particulares no pueden entrar con alcohol al país. Además, en las casas de huéspedes y hoteles pequeños de las islas locales el impuesto verde es más bajo que en los resorts.",
+        "Si te quedas en islas locales y te mueves entre ellas en ferri, los horarios, los mensajes de la casa de huéspedes y los mapas son lo que más vas a querer tener en el teléfono. Elijas la estancia que elijas, pregunta con tiempo a tu resort o casa de huéspedes cómo suelen conectarse sus huéspedes."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Qué planes encajan con un viaje a Maldivas",
+      "paragraphs": [
+        "Los planes locales cubren Maldivas y sirven para una estancia en un solo resort o para saltar entre unas pocas islas. Los planes diarios te dan una cantidad para cada día, ideal para unas vacaciones en las que envías más o menos los mismos mensajes y fotos a diario. Ningún plan de esta página cubre además otro país, así que una escala en el camino necesita su propio plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Cuándo se completa la declaración del viajero en IMUGA?",
+      "a": "Dentro de las 96 horas de tu vuelo, en el portal oficial IMUGA de Inmigración de Maldivas. El Aeropuerto Internacional Velana la pide tanto a quienes salen de Maldivas como a quienes llegan, y los consejos de viaje del gobierno del Reino Unido indican que debe enviarse dentro de las 96 horas previas a la llegada del vuelo."
+    },
+    {
+      "q": "¿Necesito visa para viajar a Maldivas como turista?",
+      "a": "El Aeropuerto Internacional Velana indica que la visa de turista se concede a la llegada a todas las nacionalidades, sin aprobación previa, y entre los requisitos menciona un pasaporte con al menos un mes de validez, boletos de regreso confirmados y una reserva de hotel o prueba de fondos. Los consejos de viaje del gobierno del Reino Unido señalan que los ciudadanos británicos que entran como turistas reciben una visa de 30 días a la llegada."
+    },
+    {
+      "q": "¿Tendré datos en mi resort o en el hidroavión?",
+      "a": "No podemos prometer conexión en un resort concreto, en un hidroavión ni en una lancha. Pregunta a tu resort cómo suelen conectarse los huéspedes en la isla y guarda los datos del traslado en el teléfono por si te quedas sin conexión en el camino."
+    },
+    {
+      "q": "¿Puedo comprar una tarjeta SIM en el Aeropuerto Internacional Velana?",
+      "a": "Visit Maldives indica que en el aeropuerto se venden tarjetas SIM prepago de dos compañías de telefonía móvil, para llamadas y datos. La eSIM es una alternativa que puedes configurar antes de salir de casa."
+    },
+    {
+      "q": "¿Hay un plan que cubra Maldivas y el país de mi escala?",
+      "a": "En esta página, no. Ningún plan de aquí cubre Maldivas junto con otro país, así que el lugar de tu escala necesita un plan propio."
+    }
+  ],
+  "related": [
+    "sri-lanka",
+    "india",
+    "uae",
+    "qatar"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Esto es lo que conviene resolver primero y qué planes encajan con una estancia en un resort o con un recorrido entre islas locales.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes locales cubren Maldivas y sirven para una estancia en un solo resort o para saltar entre unas pocas islas.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes diarios te dan una cantidad para cada día, ideal para unas vacaciones en las que envías más o menos los mismos mensajes y fotos a diario.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Ningún plan de esta página cubre además otro país, así que una escala en el camino necesita su propio plan.",
+      "kind": "no_regional"
+    },
+    {
+      "quote": "¿Hay un plan que cubra Maldivas y el país de mi escala?",
+      "kind": "no_regional"
+    },
+    {
+      "quote": "Ningún plan de aquí cubre Maldivas junto con otro país, así que el lugar de tu escala necesita un plan propio.",
+      "kind": "no_regional"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/maldives/entry-requirements",
+      "title": "Maldives travel advice: Entry requirements (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "consejos de viaje del gobierno del Reino Unido (pasaporte británico): Traveller Declaration (IMUGA) dentro de las 96 horas previas a la llegada del vuelo; visa de 30 días a la llegada al entrar como turista",
+      "sentences": [
+        "Según los consejos del Reino Unido, los ciudadanos británicos que entran como turistas reciben una visa de 30 días a la llegada.",
+        "Los consejos de viaje del gobierno del Reino Unido señalan que los ciudadanos británicos que entran como turistas reciben una visa de 30 días a la llegada."
+      ]
+    },
+    {
+      "url": "https://imuga.immigration.gov.mv/",
+      "title": "Imuga | Maldives Immigration",
+      "checked": "2026-10-27",
+      "supports": "formulario de declaración obligatorio dentro de las 96 horas de la llegada o la salida; un dominio .gov.mv pertenece a un organismo oficial del gobierno de Maldivas"
+    },
+    {
+      "url": "https://velana.macl.aero/guide/arrival",
+      "title": "Arriving at VIA (Velana International Airport)",
+      "checked": "2026-10-27",
+      "supports": "todos los viajeros que entran o salen de Maldivas envían la Traveller Declaration en IMUGA (dentro de las 96 horas del vuelo); visa de turista a la llegada para todas las nacionalidades, sin aprobación previa; pasaporte con al menos 1 mes de validez, boletos de regreso confirmados y reserva de hotel o prueba de fondos suficientes"
+    },
+    {
+      "url": "https://visitmaldives.com/en/maldives/connectivity",
+      "title": "Visit Maldives – Discover Maldives > Connectivity",
+      "checked": "2026-10-27",
+      "supports": "lancha a los resorts cercanos, hidroavión a los lejanos, doce aeropuertos nacionales e internacionales, ferris regulares desde Malé a la mayoría de los atolones"
+    },
+    {
+      "url": "https://visitmaldives.com/en/maldives/travel-information",
+      "title": "Visit Maldives – Travel Information",
+      "checked": "2026-10-27",
+      "supports": "tarjetas SIM prepago de dos compañías de telefonía móvil en el aeropuerto; vestir con recato en las islas habitadas; alcohol en los resorts, sin importación personal; impuesto verde más bajo en las casas de huéspedes y hoteles pequeños (hasta 50 habitaciones) de las islas locales que en los resorts, hoteles resort, establecimientos turísticos y alojamientos de islas locales con más de 50 habitaciones"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-B",
+    "copy": "es-writer-B",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

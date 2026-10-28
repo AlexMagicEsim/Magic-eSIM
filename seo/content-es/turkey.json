@@ -1,0 +1,166 @@
+{
+  "slug": "turkey",
+  "iso": "TR",
+  "title": "eSIM para Turquía: instálala y pruébala en casa | Magic eSIM",
+  "description": "Turquía: el aviso británico sobre eSIM, quién debe registrar su teléfono y el Wi-Fi del aeropuerto de Estambul. El pago en línea aún no está disponible.",
+  "lead": "Los consejos de viaje del gobierno del Reino Unido para Turquía (Türkiye) traen una nota propia sobre las eSIM: buena razón para instalar el plan y comprobarlo antes de salir de casa. Los planes regionales de esta página también cubren Grecia, Bulgaria y Chipre, para un viaje que sigue hacia Europa.",
+  "sections": [
+    {
+      "id": "aviso-esim",
+      "h2": "Qué dice el aviso británico sobre las eSIM en Turquía",
+      "paragraphs": [
+        "Los consejos de viaje del gobierno del Reino Unido para Turquía tienen un apartado breve titulado «E-sims». Dice que el acceso a algunos servicios de eSIM está restringido en Turquía y recomienda consultarlo con la compañía de tu eSIM antes de viajar. No dice qué servicios están afectados ni por qué.",
+        "No podemos decirte que algún plan de esta página quede fuera de esa restricción, y no lo afirmamos. Lo que sí puedes hacer es instalar el plan en casa, con tu propio Wi-Fi, y comprobar que aparece en tu teléfono antes de salir. La [guía de activación](/es/guides/activation/) explica qué revisar y cuándo empieza a contar la validez de un plan, y la [guía de solución de problemas](/es/guides/troubleshooting/) cubre el caso de un perfil que no se instala."
+      ]
+    },
+    {
+      "id": "registro-de-telefonos",
+      "h2": "A quién se dirige la regla turca de registro de teléfonos",
+      "paragraphs": [
+        "El reglamento turco de registro de dispositivos, que aplica el regulador de telecomunicaciones BTK, abarca los teléfonos que se usan con tarjetas SIM turcas. Un teléfono traído del extranjero y usado con una línea turca puede funcionar sin registrar durante un periodo de 120 días, y su dueño tiene 365 días desde su entrada al país para solicitar el registro. Desde julio de 2026, las solicitudes se hacen a través de e-Devlet, el portal en línea del Gobierno turco.",
+        "El mismo reglamento abarca también las SIM extranjeras que se usan en redes turcas sin llamadas de voz durante más de 90 días en total dentro de cualquier periodo de 120 días consecutivos, lo que llama roaming permanente, y corta la conexión de los teléfonos que lo hacen. No describe ningún paso de registro para quien visita el país por poco tiempo con una SIM o eSIM extranjera. Si te mudas a Turquía o vas a quedarte varios meses, lee las reglas vigentes y no un resumen."
+      ]
+    },
+    {
+      "id": "llegada-estambul",
+      "h2": "Llegar a Estambul y moverte por el país",
+      "paragraphs": [
+        "El aeropuerto de Estambul ofrece Wi-Fi gratuito a los pasajeros en la red iGA WiFi. Además de iniciar sesión con una línea móvil, puedes escanear tu pasaporte o tu documento de identidad en un quiosco de la terminal para obtener un código de acceso. Es un servicio propio del aeropuerto de Estambul; si llegas a otro aeropuerto, revisa qué ofrece.",
+        "Los consejos británicos indican que en Turquía abundan los taxis por aplicación y los reservados con antelación, y una app de transporte necesita conexión para pedir un auto y seguirlo en el mapa. Si tu nacionalidad requiere visa electrónica, solicítala en el sitio oficial, evisa.gov.tr."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Solo Turquía, o Turquía y Europa",
+      "paragraphs": [
+        "Los planes locales cubren Turquía y sirven para un viaje que no sale del país, ya sea a Estambul, Capadocia o la costa. Los planes regionales de esta página también cubren Grecia, Bulgaria y Chipre, además de Alemania, Italia y el Reino Unido, lo que encaja con una ruta que cruza una frontera terrestre o continúa en avión. Los planes diarios dan una cantidad fija para cada día, útil cuando cada jornada del viaje significa mapas, apps de transporte y mensajes."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Debo registrar mi teléfono en Turquía para un viaje corto?",
+      "a": "El reglamento turco de registro de dispositivos se dirige a los teléfonos que usan tarjetas SIM turcas y a las SIM extranjeras que pasan largos periodos en redes turcas sin llamadas de voz. No describe ningún paso de registro para una visita corta con una SIM o eSIM extranjera. Si planeas una estancia larga o una SIM turca, revisa las reglas vigentes antes de ir."
+    },
+    {
+      "q": "¿Me funcionará una eSIM en Turquía?",
+      "a": "No podemos prometerlo. Los consejos de viaje del Gobierno británico dicen que el acceso a algunos servicios de eSIM está restringido en Turquía. Instala el plan antes de viajar y comprueba que aparece en tu teléfono; la [guía de compatibilidad](/es/guides/compatibility/) muestra si tu teléfono admite eSIM."
+    },
+    {
+      "q": "¿Puedo instalar la eSIM después de aterrizar en Turquía?",
+      "a": "No sabemos cómo te irá, dado lo que dicen los consejos británicos sobre los servicios de eSIM restringidos. Si la instalas en casa con tu propio Wi-Fi, sabrás antes de viajar si el plan se instala; la [guía de activación](/es/guides/activation/) explica los pasos."
+    },
+    {
+      "q": "¿El aeropuerto de Estambul tiene Wi-Fi gratuito?",
+      "a": "Sí. Ofrece Wi-Fi gratuito en la red iGA WiFi, y un quiosco de la terminal te da un código de acceso al escanear tu pasaporte o documento de identidad."
+    },
+    {
+      "q": "¿Un mismo plan puede cubrir Turquía y Grecia?",
+      "a": "Los planes regionales de esta página también cubren Grecia y Bulgaria. Alemania, Italia y el Reino Unido están entre los demás destinos."
+    }
+  ],
+  "related": [
+    "greece",
+    "bulgaria",
+    "cyprus",
+    "germany",
+    "united-kingdom"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Los planes regionales de esta página también cubren Grecia, Bulgaria y Chipre, para un viaje que sigue hacia Europa.",
+      "kind": "regional_also",
+      "codes": [
+        "GR",
+        "BG",
+        "CY"
+      ]
+    },
+    {
+      "quote": "Los planes locales cubren Turquía y sirven para un viaje que no sale del país, ya sea a Estambul, Capadocia o la costa.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes regionales de esta página también cubren Grecia, Bulgaria y Chipre, además de Alemania, Italia y el Reino Unido, lo que encaja con una ruta que cruza una frontera terrestre o continúa en avión.",
+      "kind": "regional_also",
+      "codes": [
+        "GR",
+        "BG",
+        "CY",
+        "DE",
+        "IT",
+        "GB"
+      ]
+    },
+    {
+      "quote": "Los planes diarios dan una cantidad fija para cada día, útil cuando cada jornada del viaje significa mapas, apps de transporte y mensajes.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Un mismo plan puede cubrir Turquía y Grecia?",
+      "kind": "regional_also",
+      "codes": [
+        "GR"
+      ]
+    },
+    {
+      "quote": "Los planes regionales de esta página también cubren Grecia y Bulgaria.",
+      "kind": "regional_also",
+      "codes": [
+        "GR",
+        "BG"
+      ]
+    },
+    {
+      "quote": "Alemania, Italia y el Reino Unido están entre los demás destinos.",
+      "kind": "regional_also",
+      "codes": [
+        "DE",
+        "IT",
+        "GB"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/turkey/safety-and-security",
+      "title": "Turkey travel advice: Safety and security (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "consejos de viaje del gobierno del Reino Unido para Turquía: apartado «E-sims» («Access to some e-sim services is restricted in Turkey. Check with your provider before travelling.»); los taxis por aplicación y los reservados con antelación están muy disponibles"
+    },
+    {
+      "url": "https://www.mevzuat.gov.tr/anasayfa/MevzuatFihristDetayIframe?MevzuatTur=7&MevzuatNo=19873&MevzuatTertip=5",
+      "title": "Elektronik Kimlik Bilgisini Haiz Cihazların Kayıt Altına Alınmasına Dair Yönetmelik (mevzuat.gov.tr)",
+      "checked": "2026-10-27",
+      "supports": "art. 2: abarca los dispositivos en las IMSI propias de las compañías turcas y los dispositivos en roaming internacional permanente de datos sin llamadas de voz (art. 4(1)(ö): IMSI extranjera, más de noventa días acumulados en ciento veinte días consecutivos); art. 10(2): los no registrados se cortan dentro del periodo de uso de ciento veinte días, los de roaming permanente en treinta días; art. 14(4): solicitud dentro de trescientos sesenta y cinco días desde la entrada, sin cambiar el periodo de uso de ciento veinte días",
+      "sentences": [
+        "Un teléfono traído del extranjero y usado con una línea turca puede funcionar sin registrar durante un periodo de 120 días, y su dueño tiene 365 días desde su entrada al país para solicitar el registro.",
+        "El mismo reglamento abarca también las SIM extranjeras que se usan en redes turcas sin llamadas de voz durante más de 90 días en total dentro de cualquier periodo de 120 días consecutivos, lo que llama roaming permanente, y corta la conexión de los teléfonos que lo hacen."
+      ]
+    },
+    {
+      "url": "https://www.resmigazete.gov.tr/eskiler/2026/07/20260702-6.htm",
+      "title": "Resmî Gazete, 2 de julio de 2026 (n.º 33298): reglamento que modifica el registro de dispositivos",
+      "checked": "2026-10-27",
+      "supports": "la modificación del 2 de julio de 2026 define la autoridad de solicitud («Başvuru merci: e-Devlet kapısını») como el portal e-Devlet"
+    },
+    {
+      "url": "https://www.istairport.com/en/services/experience/general-facilities/wi-fi/?locale=en",
+      "title": "Wi-Fi (sitio oficial del aeropuerto de Estambul)",
+      "checked": "2026-10-27",
+      "supports": "Wi-Fi gratuito para pasajeros en la red iGA WiFi; código de acceso obtenido en un quiosco de la terminal al escanear el pasaporte o el documento de identidad"
+    },
+    {
+      "url": "https://www.evisa.gov.tr/en/",
+      "title": "e-Vize – Türkiye Cumhuriyeti Elektronik Vize Başvuru Sistemi",
+      "checked": "2026-10-27",
+      "supports": "el sistema oficial de solicitud de visado electrónico de la República de Türkiye"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-C",
+    "copy": "es-writer-C",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

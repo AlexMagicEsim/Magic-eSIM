@@ -1,0 +1,138 @@
+{
+  "slug": "indonesia",
+  "iso": "ID",
+  "title": "eSIM Indonesia y Bali: IMEI, llegada y tasa | Magic eSIM",
+  "description": "Indonesia y Bali: la norma del IMEI, el formulario All Indonesia, la tasa turística de Bali y los datos móviles. El pago en línea aún no está disponible.",
+  "lead": "Datos móviles para viajar a Indonesia y Bali, y los trámites que vienen antes: qué cubre la norma del IMEI, el formulario de llegada All Indonesia y la tasa turística de Bali.",
+  "sections": [
+    {
+      "id": "imei",
+      "h2": "Qué cubre el registro del IMEI en Indonesia",
+      "paragraphs": [
+        "Según la normativa indonesia, los dispositivos de comunicación traídos del extranjero que vayan a usarse con una tarjeta SIM local indonesia deben tener registrado su IMEI, el número que identifica a cada teléfono. Así describe la norma el Ministerio de Asuntos Exteriores en su manual de políticas y directrices para las misiones extranjeras.",
+        "En ese mismo manual, dirigido a las misiones extranjeras, el Ministerio no recomienda registrar el IMEI en visitas cortas y sugiere en su lugar paquetes de roaming internacional. El manual no menciona las eSIM. Si planeas una estancia larga o quieres una tarjeta SIM local, consulta las normas vigentes con las autoridades indonesias antes de viajar."
+      ]
+    },
+    {
+      "id": "llegada-y-bali",
+      "h2": "All Indonesia y la tasa de Bali",
+      "paragraphs": [
+        "All Indonesia, en allindonesia.imigrasi.go.id, es el sitio web y la aplicación oficiales para declarar tu llegada, incluidos los requisitos de aduana. El Ministerio de Turismo indica que los viajeros pueden completarlo hasta 3 días antes de llegar.",
+        "Bali suma un paso propio. El gobierno provincial cobra una tasa a los turistas internacionales, que se abona en línea en el sitio web o la aplicación Love Bali con tu nombre, número de pasaporte y fecha de llegada; el comprobante llega por correo electrónico. Es una norma de Bali, establecida por un reglamento provincial, no de toda Indonesia.",
+        "Los dos trámites se hacen en línea, así que guarda en el teléfono el registro de llegada y el correo de la tasa en vez de buscar Wi-Fi en la sala de llegadas. Para cargar el teléfono, los enchufes son de los tipos C y F, con 230 V y 50 Hz."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Planes para Indonesia y las escalas cercanas",
+      "paragraphs": [
+        "Los planes locales cubren solo Indonesia, para unas vacaciones sin salir del país.",
+        "Si tu viaje incluye una escala camino de Bali, los planes regionales que incluyen Indonesia también cubren Singapur y Malasia, además de Tailandia, Vietnam y Filipinas. Los planes diarios fijan una cantidad para cada día del viaje en lugar de un saldo único para toda la estancia.",
+        "El «Resumen de planes» de arriba muestra cuántos datos incluye cada plan y por cuánto tiempo; la [guía de activación](/es/guides/activation/) explica qué comprobar antes de instalar uno."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Tengo que registrar el IMEI de mi teléfono en Indonesia?",
+      "a": "El manual del Ministerio de Asuntos Exteriores para las misiones extranjeras dice que el registro del IMEI se aplica a los teléfonos traídos del extranjero que vayan a usarse con una tarjeta SIM local indonesia, y para visitas cortas recomienda paquetes de roaming internacional en lugar del registro. No menciona las eSIM, así que, si tu caso es distinto, consulta con las autoridades indonesias."
+    },
+    {
+      "q": "¿Qué es All Indonesia y cuándo se completa?",
+      "a": "Es el sitio web y la aplicación oficiales para declarar la llegada, con los requisitos de aduana incluidos. El Ministerio de Turismo indica que los viajeros pueden completarlo hasta 3 días antes de su llegada."
+    },
+    {
+      "q": "¿Cómo se abona la tasa turística de Bali?",
+      "a": "En línea, en el sitio web o la aplicación Love Bali del Gobierno Provincial de Bali. Escribes tu nombre, tu número de pasaporte y la fecha de llegada, y el comprobante se envía por correo electrónico."
+    },
+    {
+      "q": "¿Un solo plan sirve para Bali y una escala en Singapur?",
+      "a": "Los planes regionales que incluyen Indonesia también cubren Singapur, Malasia y Tailandia."
+    },
+    {
+      "q": "¿Qué enchufes se usan en Bali?",
+      "a": "Indonesia, Bali incluida, usa enchufes de los tipos C y F con corriente de 230 V y 50 Hz."
+    }
+  ],
+  "related": [
+    "singapore",
+    "malaysia",
+    "thailand",
+    "philippines",
+    "vietnam",
+    "cambodia"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Los planes locales cubren solo Indonesia, para unas vacaciones sin salir del país.",
+      "kind": "local"
+    },
+    {
+      "quote": "Si tu viaje incluye una escala camino de Bali, los planes regionales que incluyen Indonesia también cubren Singapur y Malasia, además de Tailandia, Vietnam y Filipinas.",
+      "kind": "regional_also",
+      "codes": [
+        "SG",
+        "MY",
+        "TH",
+        "VN",
+        "PH"
+      ]
+    },
+    {
+      "quote": "Los planes diarios fijan una cantidad para cada día del viaje en lugar de un saldo único para toda la estancia.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Un solo plan sirve para Bali y una escala en Singapur?",
+      "kind": "regional_also",
+      "codes": [
+        "SG"
+      ]
+    },
+    {
+      "quote": "Los planes regionales que incluyen Indonesia también cubren Singapur, Malasia y Tailandia.",
+      "kind": "regional_also",
+      "codes": [
+        "SG",
+        "MY",
+        "TH"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://kemlu.go.id/files/submenu/additional_file/17680783996962bc3fed4f1_20240615_HANDBOOK_OF_POLICIES_AND_GUIDELINES_FOR_FOREIGN_MISSIONS_IN_INDONESIA.pdf",
+      "title": "Handbook of Policies and Guidelines for Foreign Missions in Indonesia (15 de junio de 2024), §X IMEI Registration — Ministerio de Asuntos Exteriores de Indonesia",
+      "checked": "2026-10-27",
+      "supports": "los dispositivos del extranjero que se usen con una tarjeta SIM local deben registrar el IMEI; no se recomienda el registro en visitas cortas, el Ministerio recomienda paquetes de roaming internacional (manual dirigido a las misiones extranjeras); no menciona las eSIM"
+    },
+    {
+      "url": "https://www.indonesia.travel/gb/en/general-information/all-indonesia-app",
+      "title": "All Indonesia App Guide for Travelers Entering Indonesia — Ministerio de Turismo (Wonderful Indonesia)",
+      "checked": "2026-10-27",
+      "supports": "All Indonesia es la aplicación y el sitio web oficiales para declarar la llegada, aduana incluida; se completa hasta 3 días antes de llegar; allindonesia.imigrasi.go.id",
+      "sentences": [
+        "El Ministerio de Turismo indica que los viajeros pueden completarlo hasta 3 días antes de llegar.",
+        "El Ministerio de Turismo indica que los viajeros pueden completarlo hasta 3 días antes de su llegada."
+      ]
+    },
+    {
+      "url": "https://lovebali.baliprov.go.id/",
+      "title": "Love Bali — Gobierno Provincial de Bali",
+      "checked": "2026-10-27",
+      "supports": "tasa de Bali para turistas internacionales, abonada en línea en el sitio web o la aplicación Love Bali con nombre, número de pasaporte y fecha de llegada; comprobante por correo electrónico; Reglamento Provincial de Bali n.º 2 de 2025"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
+      "title": "Mains electricity by country — Wikipedia",
+      "checked": "2026-10-27",
+      "supports": "Indonesia: enchufes de los tipos C y F, 230 V, 50 Hz"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-B",
+    "copy": "es-writer-B",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

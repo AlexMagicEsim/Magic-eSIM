@@ -1,0 +1,150 @@
+{
+  "slug": "greece",
+  "iso": "GR",
+  "title": "eSIM para Grecia: islas, ferris y Atenas | Magic eSIM",
+  "description": "Grecia y sus islas: el roaming de la UE en un ferri, llamar al 112 sin SIM y el Wi-Fi del aeropuerto de Atenas. El pago en línea aún no está disponible.",
+  "lead": "Datos móviles para la Grecia continental y las rutas por las islas, con un plan solo para Grecia o planes regionales que también cubren Chipre, Italia y Bulgaria.",
+  "sections": [
+    {
+      "id": "islas-y-ferris",
+      "h2": "Saltar de isla en isla y tu teléfono en el mar",
+      "paragraphs": [
+        "Grecia cuenta con unas 6000 islas e islotes, de los cuales 227 están habitados, repartidos en grupos como las Cícladas, el Dodecaneso, las islas Jónicas, las Espóradas y Creta. Muchos viajes aquí son una cadena de trayectos en ferri, así que conviene saber qué pasa con tu teléfono entre un puerto y otro.",
+        "Según las normas de la UE, una suscripción de un país de la UE o del EEE se cobra a precio nacional en un barco solo mientras está conectada a una red móvil terrestre, por ejemplo en un puerto. Cuando el teléfono se engancha a un servicio por satélite a bordo, las normas de la UE dejan de aplicarse y no hay tope de precio. El portal Tu Europa recomienda desactivar el roaming o activar el modo avión mientras navegas.",
+        "Si tu SIM se emitió fuera de la UE, del EEE, de Ucrania y de Moldavia, el «roaming como en casa» no te cubre en Grecia, ni en tierra ni en el mar: el precio lo fijan las condiciones de roaming de tu propio plan."
+      ]
+    },
+    {
+      "id": "llamar-al-112",
+      "h2": "Llamar al 112 y recibir alertas públicas",
+      "paragraphs": [
+        "En Grecia se puede llamar gratis al 112 desde un teléfono a cualquier hora, incluso sin tarjeta SIM, y las llamadas se atienden en griego, inglés y francés. El ministerio de Protección Civil añade que, si estás fuera del alcance de tu red, las llamadas al 112 pasan por otras redes móviles que cubren la zona.",
+        "El servicio 112 también avisa de incendios forestales, lluvias intensas o terremotos con mensajes Cell Broadcast que llegan a los teléfonos inteligentes de la zona con un sonido de alarma característico. Las mismas alertas se publican en sus cuentas oficiales de Facebook y X, que vale la pena seguir en un viaje de verano con una SIM extranjera."
+      ]
+    },
+    {
+      "id": "llegada-y-plan",
+      "h2": "Llegar a Atenas y elegir un plan",
+      "paragraphs": [
+        "El Aeropuerto Internacional de Atenas tiene Wi-Fi gratuito en la terminal, ATH Free Wifi: elige Internet Access para una sesión de 120 minutos y vuelve a conectarte sin costo si necesitas más tiempo.",
+        "Los planes locales cubren solo Grecia, lo que sirve para una estancia en el continente o una ruta por islas que nunca sale del país. Los planes diarios te dan una cantidad para cada día, a la medida de jornadas de islas con mapas, horarios de ferri y mensajes. Si el viaje continúa hacia Chipre, Italia o Bulgaria, los planes regionales que incluyen Grecia también cubren esos destinos, además de Croacia y Malta.",
+        "Tu teléfono tiene que admitir eSIM y estar liberado, algo que la [guía de compatibilidad](/es/guides/compatibility/) te ayuda a confirmar, y la [guía de activación](/es/guides/activation/) explica qué determina cuándo empieza la validez de un plan."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Un plan para Grecia funciona en las islas y en los ferris?",
+      "a": "Los planes de esta página figuran para Grecia, pero no prometemos conexión en el mar ni en ninguna isla concreta. En cuanto a tu SIM de casa, el servicio por satélite de un barco queda fuera de las normas de la UE, así que desactiva el roaming en esa SIM mientras estés a bordo."
+    },
+    {
+      "q": "¿Me conviene un plan para Grecia o uno para varios países europeos?",
+      "a": "Si te quedas en Grecia, te basta con un plan local. Si además vuelas a Chipre o tomas un ferri a Italia, los planes regionales que incluyen Grecia también cubren Chipre e Italia."
+    },
+    {
+      "q": "¿Puedo llamar al 112 en Grecia sin una SIM local?",
+      "a": "Sí. El ministerio de Protección Civil de Grecia indica que se puede llamar gratis al 112 desde un teléfono incluso sin tarjeta SIM, con atención en griego, inglés y francés."
+    },
+    {
+      "q": "¿Hay Wi-Fi gratis en el aeropuerto de Atenas?",
+      "a": "Sí, ATH Free Wifi en la terminal. Cada sesión dura 120 minutos y puedes volver a conectarte sin costo."
+    },
+    {
+      "q": "¿El roaming de la UE cubre mi SIM de casa en Grecia?",
+      "a": "Solo si la suscripción es de un país de la UE o del EEE, o de Ucrania o Moldavia. Quien viaja con una SIM de otro lugar usa en Grecia las condiciones de roaming de su propio plan."
+    }
+  ],
+  "related": [
+    "cyprus",
+    "italy",
+    "bulgaria",
+    "croatia",
+    "malta"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Datos móviles para la Grecia continental y las rutas por las islas, con un plan solo para Grecia o planes regionales que también cubren Chipre, Italia y Bulgaria.",
+      "kind": "regional_also",
+      "codes": [
+        "CY",
+        "IT",
+        "BG"
+      ]
+    },
+    {
+      "quote": "Los planes locales cubren solo Grecia, lo que sirve para una estancia en el continente o una ruta por islas que nunca sale del país.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes diarios te dan una cantidad para cada día, a la medida de jornadas de islas con mapas, horarios de ferri y mensajes.",
+      "kind": "daily"
+    },
+    {
+      "quote": "Si el viaje continúa hacia Chipre, Italia o Bulgaria, los planes regionales que incluyen Grecia también cubren esos destinos, además de Croacia y Malta.",
+      "kind": "regional_also",
+      "codes": [
+        "CY",
+        "IT",
+        "BG",
+        "HR",
+        "MT"
+      ]
+    },
+    {
+      "quote": "Si te quedas en Grecia, te basta con un plan local.",
+      "kind": "local"
+    },
+    {
+      "quote": "Si además vuelas a Chipre o tomas un ferri a Italia, los planes regionales que incluyen Grecia también cubren Chipre e Italia.",
+      "kind": "regional_also",
+      "codes": [
+        "CY",
+        "IT"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_es.htm",
+      "title": "Roaming en la UE: lo que pagas – Tu Europa",
+      "checked": "2026-10-27",
+      "supports": "en barcos, sin recargo solo «siempre que te conectes a una red móvil terrestre» (por ejemplo en un puerto); con servicios por satélite las normas de la UE dejan de aplicarse y se paga roaming no regulado «sin límites de precios»; «desactiva la itinerancia en tu dispositivo o activa el modo avión mientras te encuentras a bordo»; el régimen cubre la UE, Islandia, Liechtenstein, Noruega, Moldavia y Ucrania, y no el resto de países"
+    },
+    {
+      "url": "https://digital-strategy.ec.europa.eu/en/faqs/roaming-questions-answers",
+      "title": "Roaming: Questions & Answers – Comisión Europea",
+      "checked": "2026-10-27",
+      "supports": "desde el 1 de enero de 2026 la zona de «roaming como en casa» se amplió a Ucrania y Moldavia; países del EEE: Islandia, Liechtenstein y Noruega; los países fuera de la UE/EEE no están cubiertos"
+    },
+    {
+      "url": "https://digital-strategy.ec.europa.eu/es/policies/roaming",
+      "title": "Itinerancia (roaming) – Comisión Europea, Estrategia Digital",
+      "checked": "2026-10-27",
+      "supports": "desde el 1 de enero de 2026 la iniciativa «Roam Like at Home» se amplió a Ucrania y Moldavia: los ciudadanos de la UE pagan precios nacionales allí, y lo mismo vale para los ciudadanos ucranianos y moldavos en la UE"
+    },
+    {
+      "url": "https://www.visitgreece.gr/es/islands",
+      "title": "Islas – Visit Greece (Organización Nacional de Turismo de Grecia)",
+      "checked": "2026-10-27",
+      "supports": "«Grecia cuenta con 6.000 islas e islotes dispersos por los mares griegos, de los cuales solo 227 están habitados»; grupos: Cícladas, Creta, Dodecaneso, Espóradas, Islas Jónicas"
+    },
+    {
+      "url": "https://civilprotection.gov.gr/en/112/faq-frequently-asked-questions",
+      "title": "112 FAQ – Ministerio de Crisis Climática y Protección Civil de Grecia",
+      "checked": "2026-10-27",
+      "supports": "el 112 se llama gratis desde un teléfono móvil, incluso sin tarjeta SIM, las 24 horas; se atiende en griego, inglés y francés; fuera de alcance, otras redes móviles de la zona cursan la llamada; alertas por peligros como incendio forestal, lluvia intensa o tormenta, terremoto, por Cell Broadcast con un sonido de alarma característico; todas las alertas se publican en las cuentas oficiales del 112 en Facebook y X"
+    },
+    {
+      "url": "https://www.aia.gr/en/traveller/services-facilities-airport/wifi-and-internet-kiosks",
+      "title": "Wifi, Internet Kiosks & Mobile Services – Aeropuerto Internacional de Atenas",
+      "checked": "2026-10-27",
+      "supports": "servicio gratuito «ATH Free Wifi» dentro de la terminal; con el botón «Internet Access» se obtienen sesiones de 120 minutos y se puede volver a conectar sin cargo adicional"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-C",
+    "copy": "es-writer-C",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}

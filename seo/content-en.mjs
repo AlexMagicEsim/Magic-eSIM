@@ -29,17 +29,29 @@
  *   markup       plain text; the only markup is a link [text](/en/…/) to a page that exists;
  *   across files (checkAll) no shared title or description, no question, answer or paragraph that is another
  *                country's with the name swapped.
+ *
+ * PER LANGUAGE (2026-10-27, ES): the same schema and the same rules hold for every language in CONTENT_LANGS — a
+ * language's files live in seo/content-<code>/<slug>.json (English stays in seo/content-en/) and are read only by
+ * that language's pages. What differs is written once per language in its RULES entry: the head's suffix, the words
+ * the page adds (faq / related headings), the block words of plan_claims, the plan-figure and day-figure patterns, the
+ * names and aliases of countries (seo/country-names-i18n.mjs in that language), the claim guards (seo/claim-guards.mjs
+ * table of that language), the link prefix (/<prefix>/…/) and the China words. English is the default everywhere, so
+ * every English call and result is what it was. The cross-file check runs WITHIN one language: a Spanish file is the
+ * English one's translation by design.
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { CLAIM_GUARDS } from './claim-guards.mjs';
 import { countryName } from './country-names-i18n.mjs';
+import { locale } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-export const CONTENT_DIR = join(ROOT, 'seo/content-en');
+/** The folder of a language's content files: seo/content-<code>/. */
+export const contentDir = (lang = 'en') => join(ROOT, `seo/content-${lang}`);
+export const CONTENT_DIR = contentDir('en');
 
-/* The English words the authored part of a page adds (English-only feature: no other language renders it). */
+/* The English words the authored part of a page adds. */
 export const CONTENT_COPY = Object.freeze({
   faqTitle: (name) => `Questions about ${name}`,
   relatedTitle: 'Related destinations',
@@ -90,18 +102,74 @@ const ALIASES = Object.freeze({
   MO: ['Macao', 'Macau'], NL: ['Holland'],
 });
 
+/* ---------- the languages ---------- */
+
+/* Spanish (neutral, «tú»; seo/claim-guards.mjs es). Spanish says the figure before the noun («tres planes locales»),
+ * writes prices «USD 12.99» on the site (banned in prose like every price), and marks a question with «¿ … ?». */
+const ES_SPELLED = 'dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|quince|veinte|treinta|cuarenta|cincuenta|decenas de|cientos de|docenas de';
+const ES_NOUNS = '(planes|opciones|países|destinos|eSIMs?|paquetes)';
+const ES_KIND = '(\\s+(locales|regionales|diarios|de datos))?';
+const ES_NUMBER_RULES = Object.freeze([
+  ['un volumen de datos o una velocidad', /\d[\d.,]*\s*(GB|MB|GiB|MiB|TB|gigas?|gigabytes?|megas?|megabytes?|Gbps|Mbps|Kbps)(?![\p{L}])/iu],
+  ['un signo de moneda', /[$€£¥₩₽฿₫₹]|US\$/u],
+  ['un importe en dólares', /(?<![\p{L}])USD\s?\d|\d\s?USD(?![\p{L}])|\d[\d.,]*\s*(dólares?|centavos?|euros?)(?![\p{L}])/iu],
+  ['«desde» un precio', /(?<![\p{L}])desde\s+(USD|US\$|\$|\d[\d.,]*\s*(dólares?|USD))/iu],
+  ['un número de planes o destinos', new RegExp(`\\d+\\s+${ES_NOUNS}${ES_KIND}(?![\\p{L}])|(?<![\\p{L}])(${ES_SPELLED})\\s+${ES_NOUNS}${ES_KIND}(?![\\p{L}])`, 'iu')],
+]);
+
+/** What differs between the languages of the authored content. `en` is what the module always did. */
+export const CONTENT_LANGS = Object.freeze({
+  en: Object.freeze({
+    copy: CONTENT_COPY,
+    descriptionSuffix: LIMITS.descriptionSuffix,
+    numberRules: NUMBER_RULES,
+    dayFigure: DAY_FIGURE,
+    blockMention: BLOCK_MENTION,
+    aliases: ALIASES,
+    chinaPromise: CHINA_PROMISE,
+    // a sentence starts after . ? ! and a space, at a capital or a digit (an opening quote or bracket allowed)
+    sentenceSplit: /(?<=[.?!])\s+(?=["“«(]?[A-Z0-9])/u,
+    questionStart: null,
+  }),
+  es: Object.freeze({
+    copy: Object.freeze({
+      faqTitle: (name) => `Preguntas frecuentes: ${name}`,
+      relatedTitle: 'Destinos relacionados',
+    }),
+    descriptionSuffix: ' El pago en línea aún no está disponible.',
+    numberRules: ES_NUMBER_RULES,
+    dayFigure: /\d+\s*(-|\s)?\s*(días?|noches?|semanas?|mes(es)?)(?![\p{L}])/iu,
+    blockMention: /(?<![\p{L}])(planes?|opciones?|eSIMs?|datos|bloques?)\s+(de datos\s+)?(locales?|regionales?|diarios?|multipaís|de varios países|de un solo país|solo para)(?![\p{L}])|(?<![\p{L}])planes?\s+(que|los que|las que)\s+(también\s+)?(cubren?|incluyen?)(?![\p{L}])|(?<![\p{L}])(planes?|datos)\s+(de datos\s+)?(cada día|al día|por día)(?![\p{L}])/iu,
+    aliases: Object.freeze({
+      TR: ['Türkiye', 'Turquia'], GB: ['Gran Bretaña', 'Inglaterra', 'Escocia', 'Gales', 'Irlanda del Norte'],
+      US: ['EE. UU.', 'EE.UU.', 'EUA'], KR: ['Corea'], AE: ['EAU', 'Emiratos'], CZ: ['República Checa'],
+      MO: ['Macau'], NL: ['Holanda'],
+    }),
+    chinaPromise: /bypass|unblock|VPN-free|(?<![\p{L}])(eludir|evadir|saltarse|sortear|esquivar)(?![\p{L}])|desbloque|sin (necesidad de )?VPN|(acceder|acceso|entrar) a (Google|WhatsApp|Facebook|Instagram|YouTube)/iu,
+    sentenceSplit: /(?<=[.?!])\s+(?=["“«(¿¡]?[\p{Lu}0-9])/u,
+    questionStart: '¿',
+  }),
+});
+
+/** The rules of one language (throws on a language with no authored content). */
+export function contentLang(lang = 'en') {
+  const R = CONTENT_LANGS[lang];
+  if (!R) throw new Error(`content: no authored-content rules for «${lang}»`);
+  return R;
+}
+
 const RESERVED_IDS = new Set(['main', 'checkout', 'status', 'retry', 'skeleton', 'faq', 'related', 'a-mark', 'a-word', 'me-lw-fade', 'me-lw-fadeg', 'me-lw-wave']);
 const TOP_KEYS = ['slug', 'iso', 'title', 'description', 'lead', 'sections', 'faq', 'related', 'plan_claims', 'sources', 'reviewed'];
 const REVIEW_KEYS = ['research', 'copy', 'language', 'facts'];
 
-let cache = null;
-function defaults() {
-  if (cache) return cache;
+const cache = new Map();
+function defaults(lang = 'en') {
+  if (cache.has(lang)) return cache.get(lang);
   const facts = JSON.parse(readFileSync(join(ROOT, 'seo/global-plan-facts.json'), 'utf8'));
   const countries = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8')).countries
-    .map((c) => ({ iso: c.iso, slug: c.slug, name: countryName(c.iso, 'en') }));
-  cache = { facts, countries };
-  return cache;
+    .map((c) => ({ iso: c.iso, slug: c.slug, name: countryName(c.iso, lang) }));
+  cache.set(lang, { facts, countries });
+  return cache.get(lang);
 }
 
 /** The content file of a slug, parsed — or null when the country has none. */
@@ -127,8 +195,8 @@ const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const isStr = (v) => typeof v === 'string' && v.trim() !== '' && v === v.trim();
 
 /** Sentences of a prose string (plain text). */
-export function sentences(text) {
-  return plain(text).split(/(?<=[.?!])\s+(?=["“«(]?[A-Z0-9])/u).map((s) => s.trim()).filter(Boolean);
+export function sentences(text, lang = 'en') {
+  return plain(text).split(contentLang(lang).sentenceSplit).map((s) => s.trim()).filter(Boolean);
 }
 
 /** Every prose field of a document, as [where, raw text]. */
@@ -148,9 +216,10 @@ export function proseFields(doc) {
 
 /** The catalogue countries a text names, other than `ownIso`: [iso, the name as written]. Longest names first, so
  *  «Papua New Guinea» is not also «Guinea» and «Northern Ireland» not also «Ireland». */
-export function namedCountries(text, ownIso, countries = defaults().countries) {
+export function namedCountries(text, ownIso, countries = defaults().countries, lang = 'en') {
+  const aliases = contentLang(lang).aliases;
   const names = [];
-  for (const c of countries) for (const n of [c.name, ...(ALIASES[c.iso] || [])]) if (n) names.push([c.iso, n]);
+  for (const c of countries) for (const n of [c.name, ...(aliases[c.iso] || [])]) if (n) names.push([c.iso, n]);
   names.sort((a, b) => b[1].length - a[1].length);
   let t = String(text).replace(/[’']/g, "'");
   const found = [];
@@ -169,9 +238,13 @@ export function namedCountries(text, ownIso, countries = defaults().countries) {
  * Every problem of one content document, as strings ([] = it passes).
  * `facts` = seo/global-plan-facts.json, `countries` = [{ iso, slug, name }]; both default to the committed files.
  * `today` (YYYY-MM-DD) bounds a source's `checked` date; `exists(path)` says whether an /en/ link target exists.
+ * `lang` (default 'en') picks the language's rules (CONTENT_LANGS); `countries` then carry that language's names.
  */
 export function validateContent(doc, opts = {}) {
-  const d = defaults();
+  const lang = opts.lang || 'en';
+  const R = contentLang(lang);
+  const prefix = locale(lang).prefix;
+  const d = defaults(lang);
   const facts = opts.facts || d.facts;
   const countries = opts.countries || d.countries;
   const today = opts.today || new Date().toISOString().slice(0, 10);
@@ -203,12 +276,12 @@ export function validateContent(doc, opts = {}) {
   else {
     const n = doc.description.length;
     if (n < LIMITS.descriptionMin || n > LIMITS.descriptionMax) bad(`description: ${n} characters, must be ${LIMITS.descriptionMin}–${LIMITS.descriptionMax}`);
-    if (!doc.description.endsWith(LIMITS.descriptionSuffix)) bad(`description: must end with «${LIMITS.descriptionSuffix.trim()}»`);
+    if (!doc.description.endsWith(R.descriptionSuffix)) bad(`description: must end with «${R.descriptionSuffix.trim()}»`);
   }
   if (!isStr(doc.lead)) bad('schema: lead must be a non-empty trimmed string');
   else {
     if (doc.lead.length > LIMITS.leadMax) bad(`lead: ${doc.lead.length} characters, at most ${LIMITS.leadMax}`);
-    if (sentences(doc.lead).length > 2) bad('lead: one or two sentences');
+    if (sentences(doc.lead, lang).length > 2) bad('lead: one or two sentences');
   }
   for (const k of ['title', 'description']) if (isStr(doc[k]) && /\[[^\]]*\]\(/.test(doc[k])) bad(`${k}: no link markup in the head`);
 
@@ -253,6 +326,7 @@ export function validateContent(doc, opts = {}) {
       if (!isStr(f.q)) bad(`schema: faq[${i}].q must be a non-empty trimmed string`);
       else {
         if (!f.q.endsWith('?')) bad(`faq[${i}].q: a question ends with «?»`);
+        if (R.questionStart && !f.q.startsWith(R.questionStart)) bad(`faq[${i}].q: a question starts with «${R.questionStart}»`);
         if (qs.has(f.q)) bad(`faq[${i}].q: asked twice`);
         qs.add(f.q);
       }
@@ -339,31 +413,31 @@ export function validateContent(doc, opts = {}) {
     if (/[<>]/.test(raw)) bad(`${where}: no HTML — plain text only`);
     for (const m of String(raw).matchAll(LINK)) {
       const href = m[2];
-      if (!/^\/en\/([a-z0-9-]+\/)*$/.test(href)) bad(`${where}: a link goes only to an /en/ page path ending in «/» («${href}»)`);
+      if (!new RegExp(`^/${prefix}/([a-z0-9-]+/)*$`).test(href)) bad(`${where}: a link goes only to an /${prefix}/ page path ending in «/» («${href}»)`);
       else if (!exists(href.slice(1))) bad(`${where}: the link target ${href} does not exist`);
     }
-    if (/[[\]]/.test(String(raw).replace(LINK, ''))) bad(`${where}: broken link markup (a link is [text](/en/…/))`);
+    if (/[[\]]/.test(String(raw).replace(LINK, ''))) bad(`${where}: broken link markup (a link is [text](/${prefix}/…/))`);
     // Guards.
     for (const id of GUARD_IDS) {
-      const re = CLAIM_GUARDS.en[id].re;
+      const re = CLAIM_GUARDS[lang][id].re;
       const m = text.match(re);
       if (m) bad(`${where}: guard «${id}» refuses «${m[0]}»`);
     }
     const tm = text.match(TECH);
     if (tm) bad(`${where}: guard «tech» refuses «${tm[0]}» (the page's error check would read it as a leaked message)`);
-    if (iso === 'CN') { const m = text.match(CHINA_PROMISE); if (m) bad(`${where}: China — never promise a way past the restrictions («${m[0]}»)`); }
+    if (iso === 'CN') { const m = text.match(R.chinaPromise); if (m) bad(`${where}: China — never promise a way past the restrictions («${m[0]}»)`); }
     // Numbers.
-    for (const [what, re] of NUMBER_RULES) { const m = text.match(re); if (m) bad(`${where}: no plan figures in prose — ${what} («${m[0]}»)`); }
-    for (const s of sentences(text)) {
-      const m = s.match(DAY_FIGURE);
+    for (const [what, re] of R.numberRules) { const m = text.match(re); if (m) bad(`${where}: no plan figures in prose — ${what} («${m[0]}»)`); }
+    for (const s of sentences(text, lang)) {
+      const m = s.match(R.dayFigure);
       if (m && !backed(s)) bad(`${where}: «${m[0]}» — a day/week/month figure only in a sentence a source lists in its \`sentences\` («${s}»)`);
       // Plan blocks.
-      if (BLOCK_MENTION.test(s) && !inQuote(s)) bad(`${where}: a sentence about the plan blocks must be a plan_claims quote («${s}»)`);
+      if (R.blockMention.test(s) && !inQuote(s)) bad(`${where}: a sentence about the plan blocks must be a plan_claims quote («${s}»)`);
       // Other countries.
-      for (const [oIso, n] of namedCountries(s, iso, countries)) {
+      for (const [oIso, n] of namedCountries(s, iso, countries, lang)) {
         if (inQuote(s)) continue;
         const sup = countries.find((c) => c.iso === oIso);
-        const supNamed = [sup?.name, ...(ALIASES[oIso] || [])].filter(Boolean).some((x) => supportText.includes(x));
+        const supNamed = [sup?.name, ...(R.aliases[oIso] || [])].filter(Boolean).some((x) => supportText.includes(x));
         if (!backed(s) && !supNamed) bad(`${where}: names ${n} (${oIso}) — only in a plan_claims quote or a sentence a source backs («${s}»)`);
       }
     }
@@ -387,7 +461,7 @@ export function validateContent(doc, opts = {}) {
       if (!codes.length) bad(`${at}: regional_also lists the codes it names`);
       for (const code of codes) if (!f.also.includes(code)) bad(`${at}: ${code} is not among the destinations ${iso}'s regional plans also cover`);
     }
-    for (const [oIso, n] of namedCountries(c.quote, iso, countries)) {
+    for (const [oIso, n] of namedCountries(c.quote, iso, countries, lang)) {
       if (c.kind !== 'regional_also') bad(`${at}: a ${c.kind} claim names ${n} — only regional_also may name another destination`);
       else if (!codes.includes(oIso)) bad(`${at}: names ${n} but its codes do not list ${oIso}`);
     }
@@ -400,13 +474,15 @@ export function validateContent(doc, opts = {}) {
 
 /** Problems between documents: a shared title / description, or a question, answer or paragraph that is another
  *  country's with the name swapped. `docs` = [{ slug, doc }]. */
-export function crossProblems(docs, countries = defaults().countries) {
+export function crossProblems(docs, countries, lang = 'en') {
+  countries = countries || defaults(lang).countries;
+  const aliases = contentLang(lang).aliases;
   const P = [];
   const seen = new Map();
   const key = (doc, s) => {
     const page = countries.find((c) => c.slug === doc.slug);
     let t = plain(s).toLowerCase();
-    for (const n of [page?.name, ...(ALIASES[page?.iso] || [])].filter(Boolean)) t = t.split(n.toLowerCase()).join('«x»');
+    for (const n of [page?.name, ...(aliases[page?.iso] || [])].filter(Boolean)) t = t.split(n.toLowerCase()).join('«x»');
     return t.replace(/\s+/g, ' ').trim();
   };
   const once = (id, slug, msg) => {
@@ -434,31 +510,36 @@ export function crossProblems(docs, countries = defaults().countries) {
 }
 
 /** Validate committed files: { slug: problems[] } plus `_cross`. */
-export function checkAll(slugs = contentSlugs(), opts = {}) {
-  const dir = opts.dir || CONTENT_DIR;
+export function checkAll(slugs, opts = {}) {
+  const lang = opts.lang || 'en';
+  const dir = opts.dir || contentDir(lang);
+  slugs = slugs || contentSlugs(dir);
   const out = {};
   const docs = [];
   for (const slug of slugs) {
     let doc;
     try { doc = loadContent(slug, dir); } catch (e) { out[slug] = [`file: ${e.message}`]; continue; }
-    if (!doc) { out[slug] = [`file: seo/content-en/${slug}.json does not exist`]; continue; }
-    out[slug] = validateContent(doc, { ...opts, file: slug });
+    if (!doc) { out[slug] = [`file: seo/content-${lang}/${slug}.json does not exist`]; continue; }
+    out[slug] = validateContent(doc, { ...opts, lang, file: slug });
     docs.push({ slug, doc });
   }
   const all = slugs.length === contentSlugs(dir).length ? docs
     : contentSlugs(dir).map((slug) => ({ slug, doc: (() => { try { return loadContent(slug, dir); } catch { return null; } })() }));
-  out._cross = crossProblems(all).filter((p) => slugs.some((s) => p.startsWith(`${s}:`)));
+  out._cross = crossProblems(all, opts.countries, lang).filter((p) => slugs.some((s) => p.startsWith(`${s}:`)));
   return out;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const args = process.argv.slice(2);
-  if (args[0] !== '--check') {
-    console.error('usage: node seo/content-en.mjs --check [slug…]');
+  let args = process.argv.slice(2);
+  let lang = 'en';
+  const li = args.indexOf('--lang');
+  if (li >= 0) { lang = args[li + 1]; args = args.filter((_, i) => i !== li && i !== li + 1); }
+  if (args[0] !== '--check' || !CONTENT_LANGS[lang]) {
+    console.error(`usage: node seo/content-en.mjs --check [--lang ${Object.keys(CONTENT_LANGS).join('|')}] [slug…]`);
     process.exit(2);
   }
-  const slugs = args.slice(1).length ? args.slice(1) : contentSlugs();
-  const res = checkAll(slugs);
+  const slugs = args.slice(1).length ? args.slice(1) : contentSlugs(contentDir(lang));
+  const res = checkAll(slugs, { lang });
   let n = 0;
   for (const [slug, problems] of Object.entries(res)) {
     if (!problems.length) { if (slug !== '_cross') console.log(`ok   ${slug}`); continue; }
@@ -466,6 +547,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     console.log(`FAIL ${slug === '_cross' ? 'across files' : slug}`);
     for (const p of problems) console.log(`     - ${p}`);
   }
-  if (!slugs.length) console.log('no content files (seo/content-en/*.json)');
+  if (!slugs.length) console.log(`no content files (seo/content-${lang}/*.json)`);
   process.exit(n ? 1 : 0);
 }

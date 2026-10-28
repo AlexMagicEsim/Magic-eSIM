@@ -1,0 +1,154 @@
+{
+  "slug": "sri-lanka",
+  "iso": "LK",
+  "title": "eSIM para Sri Lanka: ETA, trenes y línea 1912 | Magic eSIM",
+  "description": "Sri Lanka desde el teléfono: la ETA en línea, boletos de tren electrónicos, apps de taxi y la línea turística 1912. El pago en línea aún no está disponible.",
+  "lead": "Sri Lanka pide una autorización de viaje en línea antes de llegar y acepta reservas de asientos de tren por internet, así que buena parte del viaje pasa por tu teléfono. Los planes regionales de esta página también cubren India, Tailandia, Malasia y Singapur.",
+  "sections": [
+    {
+      "id": "antes-de-llegar",
+      "h2": "La ETA antes de volar",
+      "paragraphs": [
+        "Todos los extranjeros necesitan una Electronic Travel Authorization (autorización electrónica de viaje), o ETA, antes de llegar a Sri Lanka. Se solicita en línea en eta.gov.lk, el sitio oficial del Departamento de Inmigración y Emigración, y los consejos de viaje del gobierno del Reino Unido también indican hacerlo antes de salir.",
+        "Desde el 25 de mayo de 2026, los ciudadanos de 40 nacionalidades incluidas en una lista oficial pueden obtener una ETA de turista gratuita por 30 días; para quedarse más tiempo hay que pagar la tarifa de visa correspondiente. La lista de nacionalidades y las condiciones pueden cambiar, así que revisa eta.gov.lk para tu propio pasaporte en lugar de fiarte de un resumen. Los consejos británicos añaden que las prórrogas se tramitan en el portal oficial de servicios electrónicos de inmigración."
+      ]
+    },
+    {
+      "id": "trenes-y-taxis",
+      "h2": "Boletos de tren, apps de taxi y la línea turística",
+      "paragraphs": [
+        "Sri Lanka Railways acepta reservas de asientos en su portal oficial, seatreservation.railway.gov.lk, y en su aplicación. Si reservas en línea, el boleto electrónico se envía por correo electrónico, y para retirar un boleto en la estación hay que presentar el pasaporte y el código de reserva.",
+        "Por eso conviene tener datos o Wi-Fi al reservar y el día del viaje, cuando necesitas el código. No prometemos conexión en ningún tramo de la vía, así que guarda el código de reserva y un mapa sin conexión en el teléfono antes de empezar el trayecto.",
+        "Según los consejos británicos, los taxis se pueden pedir con aplicaciones locales e internacionales, aunque hay menos disponibles fuera de las zonas turísticas. Para información turística, Sri Lanka Tourism atiende la línea 1912, a la que se puede llamar desde cualquier red de telefonía pública, privada o móvil del país y que puede comunicarte con la Policía de Turismo."
+      ]
+    },
+    {
+      "id": "que-plan",
+      "h2": "Solo Sri Lanka o parte de un viaje más largo por Asia",
+      "paragraphs": [
+        "Los planes locales cubren Sri Lanka y sirven para un viaje que no sale de la isla, de la costa a las tierras altas. Los planes regionales de esta página también cubren India, Tailandia, Malasia, Singapur y Vietnam, útiles para una ruta que continúa por el sur o el sudeste de Asia. Los planes diarios fijan una cantidad para cada día, a la medida de jornadas en tren y en taxi, reservando y orientándote sobre la marcha."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Necesito una ETA para Sri Lanka y es gratuita?",
+      "a": "Todo extranjero necesita una ETA, que se solicita en línea en eta.gov.lk antes de llegar. Desde el 25 de mayo de 2026, los ciudadanos de 40 nacionalidades de una lista oficial obtienen una ETA de turista gratuita, pero la lista puede cambiar, así que revisa el sitio oficial para tu pasaporte."
+    },
+    {
+      "q": "¿Cómo reservo boletos de tren en Sri Lanka por internet?",
+      "a": "En el portal de reserva de asientos de Sri Lanka Railways o en su aplicación. El boleto electrónico se envía por correo electrónico, y para retirar un boleto en la estación muestras tu pasaporte y el código de reserva."
+    },
+    {
+      "q": "¿Puedo usar apps de taxi en Sri Lanka?",
+      "a": "Los consejos de viaje del gobierno del Reino Unido indican que los taxis se pueden pedir con aplicaciones locales e internacionales, aunque fuera de las zonas turísticas hay menos. Para pedir un auto en una app y seguirlo hasta el punto de recogida necesitas conexión."
+    },
+    {
+      "q": "¿Qué número marco en Sri Lanka si necesito ayuda como turista?",
+      "a": "La línea 1912 de Sri Lanka Tourism da información turística, se puede marcar desde cualquier red de telefonía pública, privada o móvil del país y puede comunicarte con la Policía de Turismo."
+    },
+    {
+      "q": "¿Un mismo plan puede cubrir Sri Lanka e India?",
+      "a": "Los planes regionales de esta página también cubren India, además de Tailandia y Singapur."
+    },
+    {
+      "q": "¿Tendré datos en el tren a las tierras altas?",
+      "a": "No podemos prometer conexión en ningún tramo de la línea. Guarda el código de reserva y un mapa sin conexión en el teléfono antes de subir."
+    }
+  ],
+  "related": [
+    "india",
+    "thailand",
+    "malaysia",
+    "singapore",
+    "maldives"
+  ],
+  "plan_claims": [
+    {
+      "quote": "Los planes regionales de esta página también cubren India, Tailandia, Malasia y Singapur.",
+      "kind": "regional_also",
+      "codes": [
+        "IN",
+        "TH",
+        "MY",
+        "SG"
+      ]
+    },
+    {
+      "quote": "Los planes locales cubren Sri Lanka y sirven para un viaje que no sale de la isla, de la costa a las tierras altas.",
+      "kind": "local"
+    },
+    {
+      "quote": "Los planes regionales de esta página también cubren India, Tailandia, Malasia, Singapur y Vietnam, útiles para una ruta que continúa por el sur o el sudeste de Asia.",
+      "kind": "regional_also",
+      "codes": [
+        "IN",
+        "TH",
+        "MY",
+        "SG",
+        "VN"
+      ]
+    },
+    {
+      "quote": "Los planes diarios fijan una cantidad para cada día, a la medida de jornadas en tren y en taxi, reservando y orientándote sobre la marcha.",
+      "kind": "daily"
+    },
+    {
+      "quote": "¿Un mismo plan puede cubrir Sri Lanka e India?",
+      "kind": "regional_also",
+      "codes": [
+        "IN"
+      ]
+    },
+    {
+      "quote": "Los planes regionales de esta página también cubren India, además de Tailandia y Singapur.",
+      "kind": "regional_also",
+      "codes": [
+        "IN",
+        "TH",
+        "SG"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.eta.gov.lk/slvisa/",
+      "title": "Sri Lanka ETA (Departamento de Inmigración y Emigración)",
+      "checked": "2026-10-27",
+      "supports": "todos los extranjeros necesitan una ETA, que se solicita en línea; desde el 25 de mayo de 2026, los ciudadanos de 40 nacionalidades de la lista obtienen una ETA de turista gratuita por 30 días (90 días para los ciudadanos de Maldivas); las prórrogas pagan la tarifa de visa",
+      "sentences": [
+        "Desde el 25 de mayo de 2026, los ciudadanos de 40 nacionalidades incluidas en una lista oficial pueden obtener una ETA de turista gratuita por 30 días; para quedarse más tiempo hay que pagar la tarifa de visa correspondiente."
+      ]
+    },
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/sri-lanka/entry-requirements",
+      "title": "Sri Lanka travel advice: Entry requirements (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "consejos de viaje del gobierno del Reino Unido: solicitar la ETA en línea antes de viajar; prórrogas en el portal de servicios electrónicos de inmigración"
+    },
+    {
+      "url": "https://seatreservation.railway.gov.lk/",
+      "title": "Welcome to Sri Lanka Railways (portal oficial de reserva de asientos)",
+      "checked": "2026-10-27",
+      "supports": "reservas de asientos en línea por portal y aplicación; boleto electrónico por correo electrónico; retiro en la estación con pasaporte o NIC y el código de reserva"
+    },
+    {
+      "url": "https://www.gov.uk/foreign-travel-advice/sri-lanka/safety-and-security",
+      "title": "Sri Lanka travel advice: Safety and security (GOV.UK, FCDO)",
+      "checked": "2026-10-27",
+      "supports": "consejos de viaje del gobierno del Reino Unido: taxis con aplicaciones locales e internacionales, menos disponibles fuera de las zonas turísticas"
+    },
+    {
+      "url": "https://sltda.gov.lk/en/dial-1912",
+      "title": "SLTDA | Sri Lanka Tourism Development Authority (Dial 1912)",
+      "checked": "2026-10-27",
+      "supports": "la línea turística 1912, marcable desde cualquier red del país, comunica con la División de Policía de Turismo"
+    }
+  ],
+  "reviewed": {
+    "research": "es-writer-B",
+    "copy": "es-writer-B",
+    "language": "es-qa-1, es-qa-2",
+    "facts": "es-qa-2"
+  }
+}
