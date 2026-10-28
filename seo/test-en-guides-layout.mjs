@@ -85,7 +85,8 @@ test('the payment bar on all six pages is the home\'s, and still no script anywh
   for (const h of [HUB, ...EN_GUIDES.map((g) => page(g.slug))]) {
     assert.ok(h.includes(PAYBAR));
     assert.ok(h.indexOf('id="previewNotice"') < h.indexOf('<main'));
-    assert.doesNotMatch(h.replace(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/, ''), /<script/i);   // but the logo's start
+    // but the logo's start and the BreadcrumbList (data, not a script that runs — seo/test-en-pages.mjs checks it)
+    assert.doesNotMatch(h.replace(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/, '').replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, ''), /<script/i);
     assert.match(h, /<link rel="stylesheet" href="\/assets\/page-guides\.css\?v=[0-9a-f]{8}">/);
   }
 });

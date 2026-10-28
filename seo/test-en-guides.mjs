@@ -48,7 +48,7 @@ test('build-all renders the guides (the Russian builder is the one build-all for
  * 2. How a crawler is told to treat them
  * ===================================================================== */
 
-test('every guide is indexed with its cluster (I18N-09), self-canonical, with no structured data and no script', () => {
+test('every guide is indexed with its cluster (I18N-09), self-canonical, with only a BreadcrumbList and no script', () => {
   const sitemap = read('sitemap.xml');
   for (const { g, rel } of PAGES) {
     const h = html(rel);
@@ -59,10 +59,13 @@ test('every guide is indexed with its cluster (I18N-09), self-canonical, with no
     assert.equal((h.match(/<meta name="robots"/g) || []).length, 1, rel);
     assert.ok(h.includes(`<link rel="canonical" href="${url}">`), `${rel}: canonical is itself`);
     assert.equal((h.match(/<link[^>]*hreflang/g) || []).length, cluster(page).length, `${rel}: its hreflang cluster`);
-    assert.equal(/application\/ld\+json/.test(h), false, `${rel}: no structured data`);
+    // Structured data: the BreadcrumbList of the visible crumbs only (SEO stage 6 O1, 2026-10-28; its content is checked
+    // in seo/test-en-pages.mjs) — never FAQPage, HowTo or anything else. A JSON-LD block is data, not a script that runs.
+    const ld = [...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1])['@type']);
+    assert.deepEqual(ld, ['BreadcrumbList'], `${rel}: one BreadcrumbList, no other structured data`);
     // A guide runs no script — no network, no analytics. The one exception (owner, 2026-10-20) is the header logo's
     // start, assets/logo-once.js: one sessionStorage flag, no network (seo/test-logo-svg.mjs pins what it may do).
-    assert.equal(/<script/i.test(h.replace(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/, '')), false, `${rel}: a guide runs no script but the logo's start — no network, no analytics`);
+    assert.equal(/<script/i.test(h.replace(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"><\/script>/, '').replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, '')), false, `${rel}: a guide runs no script but the logo's start — no network, no analytics`);
     assert.equal(sitemap.includes(`<loc>${url}</loc>`), isIndexed('en', page), `${rel}: in the sitemap exactly when indexed`);
   }
 });

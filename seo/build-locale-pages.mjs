@@ -1198,6 +1198,7 @@ ${cspMeta("'none'")}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${esc(g.title)}">
 ${shareMeta(esc(g.title), esc(g.description))}
+${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.guides'), `${P}/guides/`], [g.nav, `${P}/guides/${g.slug}/`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
@@ -1275,6 +1276,7 @@ ${cspMeta("'none'")}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${C.guidesTitle}">
 ${shareMeta(C.guidesTitle, C.guidesDescription)}
+${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.guides'), `${P}/guides/`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
