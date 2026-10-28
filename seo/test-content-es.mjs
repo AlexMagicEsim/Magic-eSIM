@@ -56,12 +56,23 @@ const addParagraph = (text) => (d) => { d.sections[0].paragraphs.push(text); };
 
 test('the fixture passes every Spanish rule — and fails the English ones', () => {
   assert.deepEqual(problems(fx()), []);
-  assert.ok(validateContent(fx(), { file: 'japan', today: '2026-10-27' }).some((x) => /Online payment is not available yet/.test(x)), 'an English check refuses it');
+  // 2026-10-28 (owner-gated D3): it used to fail on the English description suffix, which is gone; it fails on its /es/ links.
+  assert.ok(validateContent(fx(), { file: 'japan', today: '2026-10-27' }).some((x) => /a link goes only to an \/en\/ page path/.test(x)), 'an English check refuses it');
   assert.throws(() => validateContent(fx(), { ...OPTS, lang: 'de' }), /no authored-content rules for «de»/);
 });
 
-test('head: the Spanish description suffix; questions open with «¿»', () => {
-  fires((d) => { d.description = d.description.replace(' El pago en línea aún no está disponible.', ' Online payment is not available yet.'); }, /must end with «El pago en línea aún no está disponible\.»/);
+/* 2026-10-28 (SEO stage 7, owner-gated D3): the Spanish description no longer ends with «El pago en línea aún no está
+ * disponible.» — the payment state stays on the page, not in a search snippet; that sentence is now refused. */
+test('head: the Spanish description names the country and «eSIM» and says nothing about payment; questions open with «¿»', () => {
+  const pay = /no statement about payment/;
+  fires((d) => { d.description = `${d.description.slice(0, 110)} El pago en línea aún no está disponible.`; }, pay);
+  for (const s of ['Cómprala ya.', 'Pago en línea disponible.', 'El pago ya está disponible.', 'Actívala al instante.', 'Entrega instantánea.']) {
+    fires((d) => { d.description = `${d.description.slice(0, 125)} ${s}`.slice(0, 155); }, pay);
+  }
+  fires((d) => { d.description = d.description.replace('Japón', 'el país'); }, /description: must name Japón/);
+  fires((d) => { d.description = d.description.replace('eSIM ', 'Plan '); }, /description: must say «eSIM»/);
+  const doc = fx(); doc.description = 'eSIM para Japón con datos móviles: casi todo se paga desde el teléfono, Visit Japan Web, enchufes de 100 V y carga en el shinkansen.';
+  assert.deepEqual(problems(doc).filter((x) => /payment/.test(x)), [], 'paying IN the country is not a statement about the site');
   fires((d) => { d.faq[0].q = d.faq[0].q.replace(/^¿/, ''); }, /a question starts with «¿»/);
 });
 
@@ -310,6 +321,8 @@ test('own <title> and description on all 198 Spanish country pages; the authored
 test('CONTENT_LANGS: English is what the module always did; Spanish words are its own', () => {
   assert.equal(CONTENT_LANGS.en.copy.faqTitle('Japan'), 'Questions about Japan');
   assert.equal(CONTENT_LANGS.es.copy.faqTitle('Japón'), 'Preguntas frecuentes: Japón');
-  assert.equal(CONTENT_LANGS.es.descriptionSuffix, ' El pago en línea aún no está disponible.');
+  // 2026-10-28: the Spanish suffix is gone (owner-gated D3); the old sentence is what the payment guard refuses first.
+  assert.ok(CONTENT_LANGS.es.paymentStatement.test('El pago en línea aún no está disponible.'));
+  assert.ok(!('descriptionSuffix' in CONTENT_LANGS.es));
   assert.ok(existsSync(ES_DIR));
 });

@@ -68,10 +68,22 @@ test('title: at most 60 characters, ends « | Magic eSIM»', () => {
   assert.equal(LIMITS.titleMax, 60);
 });
 
-test('description: 120–160 characters, ends «Online payment is not available yet.»', () => {
-  fires((d) => { d.description = 'Short. Online payment is not available yet.'; }, /description: \d+ characters, must be 120–160/);
-  fires((d) => { d.description = `${'Japan data plans and travel notes. '.repeat(5)}Online payment is not available yet.`; }, /description: \d+ characters/);
-  fires((d) => { d.description = d.description.replace(' Online payment is not available yet.', ' Prices are shown in US dollars on this page.'); }, /must end with «Online payment is not available yet.»/);
+/* 2026-10-28 (SEO stage 7, owner-gated D3 of SEO_STAGE6_GSC_AUDIT): the description used to have to END with «Online
+ * payment is not available yet.». That pin is turned round on purpose: the payment state stays on the page (#previewNotice,
+ * the payment bar, the disabled #coPay), never in a search snippet — and the old suffix is now the first sentence refused. */
+test('description: 120–155 characters, names the country and «eSIM», says nothing about payment', () => {
+  fires((d) => { d.description = 'Short Japan eSIM note.'; }, /description: \d+ characters, must be 120–155/);
+  fires((d) => { d.description = `${'Japan eSIM data plans and travel notes. '.repeat(4)}`.trim(); }, /description: \d+ characters/);
+  fires((d) => { d.description = d.description.replace('eSIM ', ''); }, /description: must say «eSIM»/);
+  fires((d) => { d.description = d.description.replace('Japan', 'the country'); }, /description: must name Japan/);
+  const pay = /no statement about payment/;
+  fires((d) => { d.description = `${d.description.slice(0, 110)} Online payment is not available yet.`; }, pay);
+  for (const s of ['Payment is available now.', 'Buy now in two taps.', 'Get it instantly.', 'Payments are open.', 'Order online today.']) {
+    fires((d) => { d.description = `${d.description.slice(0, 120)} ${s}`.slice(0, 155); }, pay);
+  }
+  // the guard reads payment ABOUT THE SITE, not a sentence about paying in the country (China: «where you mostly pay by phone»)
+  const doc = fx(); doc.description = 'Japan eSIM for mobile data where you mostly pay by phone: Visit Japan Web, 100 V sockets and charging on the shinkansen.';
+  assert.deepEqual(problems(doc).filter((x) => /payment/.test(x)), []);
 });
 
 test('lead: one or two sentences, not too long', () => {
@@ -415,7 +427,8 @@ test('a page without a file is the template, byte for byte; other languages neve
   // Spanish has its own folder (seo/content-es/, seo/test-content-es.mjs): an English file handed to a Spanish page is
   // held to the Spanish rules, and refused.
   const es = localeGenerator('es');
-  assert.throws(() => es.countryPage(es.countries().find((x) => x.slug === 'japan'), FIXTURE), /seo\/content-es\/japan\.json:[\s\S]*El pago en línea/);
+  // 2026-10-28 (owner-gated D3): the Spanish suffix it used to miss is gone; it now misses the Spanish country name.
+  assert.throws(() => es.countryPage(es.countries().find((x) => x.slug === 'japan'), FIXTURE), /seo\/content-es\/japan\.json:[\s\S]*description: must name Japón/);
 });
 
 test('committed English pages: a file renders, no file renders nothing; no FAQPage on any English country page', () => {

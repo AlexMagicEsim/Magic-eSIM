@@ -23,7 +23,10 @@ test('the head for search engines: indexed (I18N-09) with its cluster, self cano
   assert.match(HUB, /<title>eSIM destinations — Magic eSIM<\/title>/);
   assert.match(HUB, /<meta name="robots" content="index, follow">/);
   assert.match(HUB, /<link rel="canonical" href="https:\/\/magicesim\.store\/en\/esim\/">/);
-  assert.match(HUB, /<meta name="description" content="Every destination Magic eSIM has data plans for, with prices in US dollars\. Online payment is not available yet\.">/);
+  // 2026-10-28 (SEO stage 7, owner-gated D3): «Online payment is not available yet.» left the description; the payment
+  // bar on the page still says it.
+  assert.match(HUB, /<meta name="description" content="Every destination Magic eSIM has data plans for, with prices in US dollars: find yours and see its eSIM mobile data plans for your trip\.">/);
+  assert.doesNotMatch(HUB, /<meta name="description" content="[^"]*not available yet/);
   assert.match(HUB, /<link rel="alternate" hreflang="ru" href="https:\/\/magicesim\.store\/esim\/">/);
   assert.match(HUB, /<link rel="alternate" hreflang="x-default" href="https:\/\/magicesim\.store\/en\/esim\/">/);
   assert.match(HUB, /connect-src 'none'/);

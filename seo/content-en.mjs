@@ -10,7 +10,8 @@
  * `node seo/content-en.mjs --check [slug…]` prints them and exits 1. The rules (seo/test-content-en.mjs proves each
  * one fires on a sentence written to break it):
  *   schema       the shape below, no unknown key, the slug = the file = a catalogue page, the ISO = that page's;
- *   title        ≤ 60 characters, ends « | Magic eSIM»;   description 120–160, ends « Online payment is not available yet.»;
+ *   title        ≤ 60 characters, ends « | Magic eSIM»;   description 120–155, names the country and «eSIM», and says
+ *                nothing about payment being open or closed (2026-10-28, owner-gated, see LIMITS);
  *   counts       2–4 sections (200–550 words of section prose), 4–6 questions, 3–6 related pages (existing, not itself);
  *   numbers      no plan figure in prose: a volume (GB, MB), a speed, a currency sign or a US-dollar amount, «from $»,
  *                «N plans / countries / destinations»; a day / week / month figure only in a sentence a source backs;
@@ -59,7 +60,14 @@ export const CONTENT_COPY = Object.freeze({
 
 export const LIMITS = Object.freeze({
   titleMax: 60, titleSuffix: ' | Magic eSIM',
-  descriptionMin: 120, descriptionMax: 160, descriptionSuffix: ' Online payment is not available yet.',
+  /* 2026-10-28 (SEO stage 7, D3 of SEO_STAGE6_GSC_AUDIT — OWNER-GATED, draft PR): the description no longer ends with
+   * « Online payment is not available yet.». That sentence cost 36–48 of 143–160 characters, pushed the snippet past
+   * ~155 characters (truncated in results) and is a payment-availability statement in search results, which goes stale
+   * the day payments open. The statement stays where it is true and visible: the page's #previewNotice, the payment
+   * bar and the checkout (#coPay disabled, PAYMENTS_OPEN = false) — none of which this file touches. Instead the
+   * description is at most 155 characters, names the country and «eSIM», and may not say anything about payment being
+   * open or closed (`paymentStatement`, per language) — a payment promise and a «not yet» are refused alike. */
+  descriptionMin: 120, descriptionMax: 155, descriptionNeeds: /(?<![\p{L}])eSIM(?![\p{L}])/u,
   leadMax: 300,
   sections: [2, 4], sectionWords: [200, 550], paragraphs: [1, 5], list: [1, 8],
   faq: [4, 6], related: [3, 6], sources: 1,
@@ -121,7 +129,8 @@ const ES_NUMBER_RULES = Object.freeze([
 export const CONTENT_LANGS = Object.freeze({
   en: Object.freeze({
     copy: CONTENT_COPY,
-    descriptionSuffix: LIMITS.descriptionSuffix,
+    // payment open / closed / instant — never in a search snippet (2026-10-28; the old suffix is the first case)
+    paymentStatement: /\bonline payments?\b|\bpayments?\s+(is|are)\s+(not\s+)?(yet\s+)?(available|open|live|enabled|possible)\b|\bnot available yet\b|\b(buy|order|purchase|pay)\s+(now|online|today|instantly|in seconds)\b|\binstant(ly)?\b/i,
     numberRules: NUMBER_RULES,
     dayFigure: DAY_FIGURE,
     blockMention: BLOCK_MENTION,
@@ -136,7 +145,8 @@ export const CONTENT_LANGS = Object.freeze({
       faqTitle: (name) => `Preguntas frecuentes: ${name}`,
       relatedTitle: 'Destinos relacionados',
     }),
-    descriptionSuffix: ' El pago en línea aún no está disponible.',
+    // the old suffix « El pago en línea aún no está disponible.» is the first case (2026-10-28)
+    paymentStatement: /(?<![\p{L}])pagos?\s+en\s+línea(?![\p{L}])|(?<![\p{L}])pagos?\s+((ya|aún|todavía)\s+)?(no\s+)?(está|están)\s+(disponibles?|abiertos?|activos?)|aún no está disponible|(?<![\p{L}])(compra|cómprala|cómpralo|paga|pide)\s+(ya|ahora|hoy|al instante|en línea)(?![\p{L}])|al instante|instantáne/iu,
     numberRules: ES_NUMBER_RULES,
     dayFigure: /\d+\s*(-|\s)?\s*(días?|noches?|semanas?|mes(es)?)(?![\p{L}])/iu,
     blockMention: /(?<![\p{L}])(planes?|opciones?|eSIMs?|datos|bloques?)\s+(de datos\s+)?(locales?|regionales?|diarios?|multipaís|de varios países|de un solo país|solo para)(?![\p{L}])|(?<![\p{L}])planes?\s+(que|los que|las que)\s+(también\s+)?(cubren?|incluyen?)(?![\p{L}])|(?<![\p{L}])(planes?|datos)\s+(de datos\s+)?(cada día|al día|por día)(?![\p{L}])/iu,
@@ -232,6 +242,12 @@ export function namedCountries(text, ownIso, countries = defaults().countries, l
   return found;
 }
 
+/* Does a text name its own country — the dictionary name or one of the language's aliases (whole words)? */
+function namesOwnCountry(text, iso, name, R) {
+  const t = String(text).replace(/[’']/g, "'");
+  return [name, ...((R.aliases || {})[iso] || [])].some((n) => new RegExp(`(?<![\\p{L}\\p{N}])${escRe(n.replace(/[’']/g, "'"))}(?![\\p{L}\\p{N}])`, 'u').test(t));
+}
+
 /* ---------- the validator ---------- */
 
 /**
@@ -283,7 +299,9 @@ export function validateContent(doc, opts = {}) {
   else {
     const n = doc.description.length;
     if (n < LIMITS.descriptionMin || n > LIMITS.descriptionMax) bad(`description: ${n} characters, must be ${LIMITS.descriptionMin}–${LIMITS.descriptionMax}`);
-    if (!doc.description.endsWith(R.descriptionSuffix)) bad(`description: must end with «${R.descriptionSuffix.trim()}»`);
+    if (!LIMITS.descriptionNeeds.test(doc.description)) bad('description: must say «eSIM»');
+    if (name && !namesOwnCountry(doc.description, iso, name, R)) bad(`description: must name ${name}`);
+    if (R.paymentStatement.test(doc.description)) bad('description: no statement about payment (open, not available yet, instant) in a search snippet');
   }
   if (!isStr(doc.lead)) bad('schema: lead must be a non-empty trimmed string');
   else {

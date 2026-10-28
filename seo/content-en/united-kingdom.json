@@ -2,7 +2,7 @@
   "slug": "united-kingdom",
   "iso": "GB",
   "title": "UK eSIM: EU roaming, Tube Wi-Fi and travel data | Magic eSIM",
-  "description": "Why EU roaming stops at the UK border, how Wi-Fi works at Tube stations, and plans that also cover Ireland. Online payment is not available yet.",
+  "description": "UK travel eSIM for mobile data: why EU roaming stops at the UK border, how Wi-Fi works at Tube stations, and plans that also cover Ireland.",
   "lead": "Mobile data for the United Kingdom, from a plan for the UK alone to regional plans that also cover Ireland and the Netherlands.",
   "sections": [
     {
@@ -67,7 +67,7 @@
   ],
   "plan_claims": [
     {
-      "quote": "Why EU roaming stops at the UK border, how Wi-Fi works at Tube stations, and plans that also cover Ireland.",
+      "quote": "UK travel eSIM for mobile data: why EU roaming stops at the UK border, how Wi-Fi works at Tube stations, and plans that also cover Ireland.",
       "kind": "regional_also",
       "codes": [
         "IE"
