@@ -20,7 +20,7 @@ const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layo
 test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 const ROWS = require('../fixtures/en-plans-catalogue.json').packages;
 
-const CATALOGUE = /\/api\/v1\/retail\/packages\?market=global$/;
+const CATALOGUE = /\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/;
 const ok = (packages) => ({ status: 200, contentType: 'application/json', body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: packages })) });
 
 async function open(page, answer, { delayMs = 0 } = {}) {

@@ -36,7 +36,7 @@ async function open(page, url, { reduce = false } = {}) {
   });
   // the LAST registered route wins: the refusal first, the catalogues after it
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => (route.request().method() !== 'GET' ? route.abort() : route.fulfill({ status: 204, body: '' })));
-  await page.route(/\/api\/v1\/retail\/packages\?market=global$/, (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: EN })) }));
+  await page.route(/\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/, (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: EN })) }));
   await page.route(/\/api\/v1\/retail\/packages(\?(?!market=global)|$)/, (route) => route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', data: RU })) }));
   await page.goto(url);
 }

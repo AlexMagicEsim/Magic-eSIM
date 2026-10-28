@@ -91,7 +91,31 @@ function withLayout(body) {
   return { ...body, assortment: layoutOf(rows) };
 }
 
-module.exports = { layoutOf, withLayout, coverageCodes, restricted, worldwide };
+/**
+ * The backend's one-country answer (esim-backend lib/globalCatalogueCountry.js + assortmentService.present):
+ * the layout entry of `iso` only, `data` = the whole answer's objects for exactly its ids, in the whole answer's
+ * order, `count` to match. null when the layout has no entry for it — the backend answers that 404
+ * COUNTRY_NOT_FOUND. The body must already carry its layout (withLayout).
+ */
+function narrowToCountry(body, iso) {
+  const entry = body && body.assortment && body.assortment.countries && body.assortment.countries[iso];
+  if (!entry || !Array.isArray(body.data)) return null;
+  const ids = new Set([...entry.local, ...entry.regional, ...entry.daily].map(String));
+  const data = body.data.filter((p) => ids.has(String(p.package_id)));
+  return { ...body, count: data.length, data, assortment: { ...body.assortment, countries: { [iso]: entry } } };
+}
+
+/** Playwright route answer for a GLOBAL catalogue request: narrowed when the URL names a country (as the backend). */
+function globalAnswer(url, body, { narrow = true, status = 200 } = {}) {
+  const iso = new URL(url).searchParams.get('country');
+  if (!iso || !narrow || status !== 200) return { status, contentType: 'application/json', body: JSON.stringify(body) };
+  const one = narrowToCountry(body, iso);
+  return one
+    ? { status: 200, contentType: 'application/json', body: JSON.stringify(one) }
+    : { status: 404, contentType: 'application/json', body: JSON.stringify({ status: 'error', error: 'COUNTRY_NOT_FOUND' }) };
+}
+
+module.exports = { layoutOf, withLayout, coverageCodes, restricted, worldwide, narrowToCountry, globalAnswer };
 
 /**
  * Playwright: serve the committed snapshot WITH its layout by default. Registered first (beforeEach), so a spec's own

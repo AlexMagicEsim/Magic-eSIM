@@ -56,9 +56,9 @@ test('no English page script has a network primitive of its own', () => {
     for (const [name, re] of FORBIDDEN) assert.equal(re.test(code(text)), false, `${name} must not appear in ${file}`);
     assert.equal(/\bMagicCatalog\b/.test(code(text)), false, `the Russian rouble loader must not be used in ${file}`);
   }
-  // The country page reads the catalogue through MagicGlobalCatalog (one GET of
-  // the GLOBAL lane) — the one and only way an English page talks to anything.
-  assert.match(code(COUNTRY_JS), /MagicGlobalCatalog\.load\(\)/);
+  // The country page reads the catalogue through MagicGlobalCatalog (a GET of
+  // the GLOBAL lane, for its own country) — the one and only way an English page talks to anything.
+  assert.match(code(COUNTRY_JS), /MagicGlobalCatalog\.load\(\{ country: iso \}\)/);
   // The home reads nothing at all: its destination list is static.
   assert.equal(/MagicGlobalCatalog/.test(code(EN_JS)), false, 'the home must not load the catalogue');
   assert.equal(/MagicGlobalCatalog/.test(code(PLANS_JS)), false, 'plans.js renders, it never loads');
@@ -251,14 +251,20 @@ test('prices on /en/ are the GLOBAL lane\'s US dollars — never roubles, never 
 const GLOBAL_JS = read('assets/global-catalog.js');
 const GLOBAL = require(join(ROOT, 'assets/global-catalog.js'));
 
-test('the GLOBAL client reads exactly one URL, with GET, from the PRIMARY origin only — never the gateway', () => {
+test('the GLOBAL client reads one path, with GET, from the PRIMARY origin only — never the gateway', () => {
   // Owner's decision D1 (2026-10-04): GLOBAL never rides the Yandex Cloud
   // fallback gateway. MagicNet.request would carry a failed read there, so the
-  // client does ONE fetch of MagicNet.primaryBase + PATH and nothing else.
+  // client fetches MagicNet.primaryBase + PATH (or its one-country form,
+  // PATH + '&country=XX', 2026-10-27) and nothing else.
   const code = GLOBAL_JS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   assert.equal(GLOBAL.PATH, '/api/v1/retail/packages?market=global');
+  assert.equal(GLOBAL.countryPath('TH'), '/api/v1/retail/packages?market=global&country=TH');
+  for (const bad of ['th', 'THA', '', 'T1', 'TH&x=1', undefined, null, ['TH']]) assert.equal(GLOBAL.countryPath(bad), null, String(bad));
   assert.match(code, /var base = net && net\.primaryBase;/);
-  assert.match(code, /root\.fetch\(base \+ PATH, init\)/);
+  assert.match(code, /root\.fetch\(base \+ path, init\)/);
+  // The only two paths ever handed to it.
+  assert.deepEqual([...code.matchAll(/(?<!function )\bget\(base, ([A-Za-z]+)\)/g)].map((m) => m[1]).sort(), ['PATH', 'PATH', 'one']);
+  assert.match(code, /var one = countryPath\(iso\);/);
   assert.match(code, /method: 'GET'/);
   assert.equal((code.match(/\bfetch\s*\(/g) || []).length, 1, 'one request site');
   for (const [name, re] of [
@@ -317,6 +323,57 @@ test('the GLOBAL client asks the primary origin once, and a failure there is «u
     assert.deepEqual(await GLOBAL.load(), { ok: false, reason: 'unavailable' });
     assert.deepEqual(calls, []);
     assert.equal(calls.includes('MagicNet.request'), false);
+  } finally {
+    if (saved.net) globalThis.MagicNet = saved.net; else delete globalThis.MagicNet;
+    globalThis.fetch = saved.fetch;
+  }
+});
+
+test('one country: its own read first; the whole catalogue once only when the backend does not know it', async () => {
+  const saved = { net: globalThis.MagicNet, fetch: globalThis.fetch };
+  const calls = [];
+  const P = 'https://primary.example/api/v1/retail/packages?market=global';
+  const fixed = { package_id: 'a', price: 9.99, currency: 'USD' };
+  const body = (countries) => JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: [fixed],
+    assortment: { mode: 'on', regional_cap: 8, countries } });
+  const TH = { TH: { local: ['a'], regional: [], daily: [], best: null } };
+  const answer = (byUrl) => async (url, init) => {
+    calls.push(`${init.method} ${url}`);
+    const [status, text] = byUrl[url];
+    if (status === 'throw') throw new Error('offline');
+    return { status, text: async () => text };
+  };
+  const run = async (byUrl) => { calls.length = 0; globalThis.fetch = answer(byUrl); return GLOBAL.load({ country: 'TH' }); };
+  try {
+    globalThis.MagicNet = { primaryBase: 'https://primary.example', fallbackBase: 'https://gateway.example' };
+    // The backend narrows: one request, the country's plans and its layout entry.
+    let r = await run({ [`${P}&country=TH`]: [200, body(TH)] });
+    assert.equal(r.ok, true);
+    assert.deepEqual(Object.keys(r.assortment.countries), ['TH']);
+    assert.deepEqual(calls, [`GET ${P}&country=TH`]);
+    // The backend does not know the country (404 / 400), or answers nothing for it (an older backend: 200, empty;
+    // or no entry): the whole catalogue, once, from the same origin — «no plans» is decided as before.
+    for (const first of [[404, JSON.stringify({ status: 'error', error: 'COUNTRY_NOT_FOUND' })],
+      [400, JSON.stringify({ status: 'error', error: 'INVALID_COUNTRY' })],
+      [200, JSON.stringify({ status: 'success', market: 'global', currency: 'USD', data: [], assortment: { countries: {} } })],
+      [200, body({ JP: { local: ['a'], regional: [], daily: [], best: null } })]]) {
+      r = await run({ [`${P}&country=TH`]: first, [P]: [200, body(TH)] });
+      assert.equal(r.ok, true, first[1]);
+      assert.deepEqual(calls, [`GET ${P}&country=TH`, `GET ${P}`], first[1]);
+    }
+    // A refusal, an outage or no answer is NOT retried — not on the whole catalogue, never on the gateway.
+    for (const [first, reason] of [[[429, '{}'], 'busy'], [[503, JSON.stringify({ status: 'error', error: 'GLOBAL_PRICING_DISABLED' })], 'disabled'],
+      [[500, '{}'], 'unavailable'], [['throw', ''], 'unavailable'], [[404, '<html>'], 'unavailable'], [[200, '<html>'], 'unavailable']]) {
+      r = await run({ [`${P}&country=TH`]: first });
+      assert.deepEqual(r, { ok: false, reason }, String(first[0]));
+      assert.deepEqual(calls, [`GET ${P}&country=TH`], String(first[0]));
+    }
+    // No country (or not an ISO code): the whole catalogue, as before.
+    calls.length = 0;
+    globalThis.fetch = answer({ [P]: [200, body(TH)] });
+    assert.equal((await GLOBAL.load()).ok, true);
+    assert.equal((await GLOBAL.load({ country: 'th' })).ok, true);
+    assert.deepEqual(calls, [`GET ${P}`, `GET ${P}`]);
   } finally {
     if (saved.net) globalThis.MagicNet = saved.net; else delete globalThis.MagicNet;
     globalThis.fetch = saved.fetch;

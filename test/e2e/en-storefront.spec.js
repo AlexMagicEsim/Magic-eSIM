@@ -18,7 +18,7 @@
  */
 
 const { test, expect } = require('@playwright/test');
-const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layout.cjs');
+const { withLayout, defaultSnapshotRoute, globalAnswer } = require('../helpers/assortment-layout.cjs');
 // The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
 // the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
 test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
@@ -80,7 +80,9 @@ const GLOBAL_BODY = { status: 'success', market: 'global', count: PACKAGES.lengt
  * `calls` instead of travelling — with visibly wrong rouble data, and the tests
  * assert they are never asked.
  */
-async function open(page, path, { globalStatus = 200, globalBody = GLOBAL_BODY } = {}) {
+// `narrow` (default): a `&country=XX` request gets the backend's one-country answer (globalAnswer); false serves the
+// whole fixture to it, as a backend without the parameter would.
+async function open(page, path, { globalStatus = 200, globalBody = GLOBAL_BODY, narrow = true } = {}) {
   const calls = [];
   page.on('request', (r) => calls.push({ method: r.method(), url: r.url() }));
   await page.route('**/assets/catalog.json*', (route) => route.fulfill({
@@ -88,8 +90,8 @@ async function open(page, path, { globalStatus = 200, globalBody = GLOBAL_BODY }
     body: JSON.stringify(withLayout({ schema_version: 1, packages: [{ package_id: 'rub', country_code: 'AE', price: 500, currency: 'RUB' }] })),
   }));
   await page.route('**/api/**', (route) => {
-    if (/\/api\/v1\/retail\/packages\?market=global$/.test(route.request().url())) {
-      return route.fulfill({ status: globalStatus, contentType: 'application/json', body: JSON.stringify(withLayout(globalBody)) });
+    if (/\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/.test(route.request().url())) {
+      return route.fulfill(globalAnswer(route.request().url(), withLayout(globalBody), { narrow, status: globalStatus }));
     }
     return route.fulfill({ status: 200, contentType: 'application/json',
       body: JSON.stringify(withLayout({ status: 'success', currency: 'RUB', data: [{ package_id: 'rub', country_code: 'AE', price: 500 }] })) });
@@ -100,7 +102,7 @@ async function open(page, path, { globalStatus = 200, globalBody = GLOBAL_BODY }
 
 const apiCalls = (calls) => calls.filter((c) => /\/api\//.test(c.url));
 const roubleSources = (calls) => calls.filter((c) => /\/assets\/catalog\.json/.test(c.url)
-  || (/\/api\//.test(c.url) && !/\/api\/v1\/retail\/packages\?market=global$/.test(c.url)));
+  || (/\/api\//.test(c.url) && !/\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/.test(c.url)));
 const writes = (calls) => calls.filter((c) => !['GET', 'HEAD'].includes(c.method));
 const checkoutCalls = (calls) => calls.filter((c) => /retail-orders|\/pay|platega|quotes|orders/i.test(c.url));
 
@@ -189,7 +191,7 @@ test('UAE: local, regional and daily plans, each in its own block, cheapest firs
   expect(await page.locator('body').innerText()).not.toMatch(/₽|rouble|\bRUB\b/i);
 
   expect(apiCalls(calls).map((c) => `${c.method} ${new URL(c.url).pathname}${new URL(c.url).search}`))
-    .toEqual(['GET /api/v1/retail/packages?market=global']);
+    .toEqual(['GET /api/v1/retail/packages?market=global&country=AE']);
   expect(roubleSources(calls)).toEqual([]);
 });
 
@@ -225,9 +227,35 @@ test('a per-day plan is priced from the ladder, never from the rate', async ({ p
 });
 
 test('a country the catalogue has nothing for says so, with no empty blocks', async ({ page }) => {
-  await open(page, '/en/esim/japan/');
+  // The backend answers the one-country read 404 COUNTRY_NOT_FOUND; the page reads the whole catalogue ONCE and
+  // decides «no plans» from it, exactly as before.
+  const calls = await open(page, '/en/esim/japan/');
   await expect(page.locator('#status')).toHaveText('No plans for this destination yet.');
   for (const b of ['daily', 'local', 'regional']) await expect(page.locator(`#${b}Block`)).toBeHidden();
+  expect(apiCalls(calls).map((c) => `${c.method} ${new URL(c.url).pathname}${new URL(c.url).search}`))
+    .toEqual(['GET /api/v1/retail/packages?market=global&country=JP', 'GET /api/v1/retail/packages?market=global']);
+});
+
+test('one country: the page draws the backend\'s narrowed answer — and the whole one the same way', async ({ page, browser }) => {
+  // Narrowed (default route): the answer the page got holds exactly the UAE's plans and one layout entry.
+  const answers = [];
+  page.on('response', async (r) => { if (/market=global/.test(r.url())) answers.push(await r.json()); });
+  await open(page, '/en/esim/uae/');
+  await expect(page.locator('#status')).toBeHidden();
+  expect(answers).toHaveLength(1);
+  expect(Object.keys(answers[0].assortment.countries)).toEqual(['AE']);
+  const entry = answers[0].assortment.countries.AE;
+  expect(answers[0].data.map((p) => p.package_id)).toEqual(
+    withLayout(GLOBAL_BODY).data.map((p) => p.package_id).filter((id) => [...entry.local, ...entry.regional, ...entry.daily].includes(id)));
+  const narrowed = { local: await prices(page, 'local'), regional: await prices(page, 'regional'), daily: await prices(page, 'daily') };
+  // A backend without the parameter answers the whole catalogue to the same URL: the same cards, one request.
+  const other = await browser.newPage();
+  try {
+    const calls = await open(other, '/en/esim/uae/', { narrow: false });
+    await expect(other.locator('#status')).toBeHidden();
+    expect({ local: await prices(other, 'local'), regional: await prices(other, 'regional'), daily: await prices(other, 'daily') }).toEqual(narrowed);
+    expect(apiCalls(calls)).toHaveLength(1);
+  } finally { await other.close(); }
 });
 
 /* ================================================================== *

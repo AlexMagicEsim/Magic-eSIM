@@ -44,7 +44,7 @@ async function open(page, { catalogue = () => ({ status: 200, body: BODY }) } = 
     const req = route.request();
     const url = req.url();
     if (url.includes(GATEWAY)) return route.fulfill({ status: 200, contentType: 'application/json', body: BODY });
-    if (url.startsWith(PRIMARY) && /\/api\/v1\/retail\/packages\?market=global$/.test(url)) {
+    if (url.startsWith(PRIMARY) && /\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/.test(url)) {
       n += 1;
       const r = catalogue(n);
       if (r === 'abort') return route.abort();

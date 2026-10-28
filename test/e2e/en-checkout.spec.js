@@ -76,7 +76,7 @@ async function open(page, path, { quote, amountFor, beforeGoto } = {}) {
   await page.route('**/api/**', async (route) => {
     const req = route.request();
     const url = req.url();
-    if (req.method() === 'GET' && /\/api\/v1\/retail\/packages\?market=global$/.test(url)) {
+    if (req.method() === 'GET' && /\/api\/v1\/retail\/packages\?market=global(?:&country=[A-Z]{2})?$/.test(url)) {
       return route.fulfill({ status: 200, contentType: 'application/json',
         body: JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: PACKAGES })) });
     }
