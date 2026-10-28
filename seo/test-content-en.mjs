@@ -243,6 +243,45 @@ test('sources: at least one; https; a title; a real past date; what it backs; no
   fires((d) => { d.sources[0].sentences = ['A sentence that is not on the page.']; }, /backed sentence .* is not in the prose/);
 });
 
+test('sources: an optional review_by is a dated tripwire — after checked, at most six months on, refused once passed', () => {
+  const ok = fx(); ok.sources[0].checked = '2026-10-01'; ok.sources[0].review_by = '2027-04-01';
+  assert.deepEqual(problems(ok), [], 'a review date in the window passes');
+  assert.equal(problems(ok, { today: '2027-04-01' }).some((x) => /review_by/.test(x)), false, 'the review day itself still passes');
+  assert.ok(problems(ok, { today: '2027-04-02' }).some((x) => /review_by: 2027-04-01 has passed/.test(x)), 'the day after it is refused');
+  fires((d) => { d.sources[0].checked = '2026-10-01'; d.sources[0].review_by = '2027-04-02'; }, /at most six months after checked/);
+  fires((d) => { d.sources[0].review_by = d.sources[0].checked; }, /is not after checked/);
+  fires((d) => { d.sources[0].review_by = '1.4.2027'; }, /review_by: a date YYYY-MM-DD/);
+  fires((d) => { d.sources[0].review_by = '2027-02-30'; }, /review_by: a date YYYY-MM-DD/);
+});
+
+/* The UAE calling-app rule rests on TDRA pages that change (the Internet Guidelines moved in 2026); the dated tripwire
+ * must not be dropped quietly. Every source on tdra.gov.ae, and every UAE source backing the VoIP / calling-app section,
+ * carries review_by — and the UAE text keeps at least one TDRA source. */
+export function tdraTripwireProblems(doc) {
+  const p = [];
+  const isTdra = (u) => { try { const h = new URL(u).hostname; return h === 'tdra.gov.ae' || h.endsWith('.tdra.gov.ae'); } catch { return false; } };
+  const voip = (s) => doc.slug === 'uae' && /VoIP|voice over internet|calling app|internet call/i.test(`${s.title} ${s.supports}`);
+  const srcs = Array.isArray(doc.sources) ? doc.sources : [];
+  if (doc.slug === 'uae' && !srcs.some((s) => isTdra(s.url))) p.push('uae: the calling-app section has no TDRA source');
+  for (const s of srcs) if ((isTdra(s.url) || voip(s)) && !s.review_by) p.push(`${doc.slug}: ${s.url} backs a TDRA rule without review_by`);
+  return p;
+}
+
+test('the UAE calling-app rule keeps its dated tripwire: every TDRA / VoIP source carries review_by', () => {
+  for (const slug of contentSlugs()) assert.deepEqual(tdraTripwireProblems(loadContent(slug)), [], slug);
+  const uae = loadContent('uae');
+  assert.ok(uae, 'seo/content-en/uae.json exists');
+  const cut = structuredClone(uae);
+  delete cut.sources.find((x) => /tdra\.gov\.ae/.test(x.url)).review_by;
+  assert.ok(tdraTripwireProblems(cut).some((x) => /without review_by/.test(x)), 'a TDRA source without review_by fails');
+  const moved = structuredClone(uae);
+  moved.sources = moved.sources.filter((x) => !/tdra\.gov\.ae/.test(x.url));
+  assert.ok(tdraTripwireProblems(moved).some((x) => /no TDRA source/.test(x)), 'a UAE text without its TDRA source fails');
+  const mirror = structuredClone(uae);
+  mirror.sources.push({ url: 'https://u.ae/en/voip', title: 'VoIP in the UAE', checked: '2026-10-27', supports: 'calling apps allowed in the UAE' });
+  assert.ok(tdraTripwireProblems(mirror).some((x) => /u\.ae\/en\/voip/.test(x)), 'a non-TDRA source backing the VoIP rule needs review_by too');
+});
+
 test('markup: plain text; links only to existing /en/ pages; none in the head', () => {
   fires(addParagraph('Japan is <b>busy</b>.'), /no HTML/);
   fires(addParagraph('See [the tourist board](https://www.japan.travel/).'), /a link goes only to an \/en\/ page/);

@@ -375,8 +375,8 @@ test('noindex until the owner opens French (D11): every page noindex, self-canon
 });
 
 test('no RU / EN / ES / DE page lists French as an hreflang alternate; the stage is unchanged', () => {
-  assert.deepEqual([...INDEXED_COUNTRIES], ['china', 'france', 'greece', 'indonesia', 'japan', 'maldives', 'mexico', 'south-korea',
-    'sri-lanka', 'thailand', 'turkey', 'united-kingdom', 'vietnam']);
+  assert.deepEqual([...INDEXED_COUNTRIES], ['china', 'france', 'greece', 'indonesia', 'japan', 'malaysia', 'maldives', 'mexico',
+    'singapore', 'south-korea', 'sri-lanka', 'thailand', 'turkey', 'united-kingdom', 'vietnam']);
   for (const rel of ['index.html', 'esim/thailand/index.html', 'en/index.html', 'en/esim/thailand/index.html', 'es/index.html',
     'es/esim/japan/index.html', 'de/index.html', 'en/guides/iphone/index.html', 'iphone.html']) {
     assert.doesNotMatch(head(read(rel)), /hreflang="fr"/, rel);

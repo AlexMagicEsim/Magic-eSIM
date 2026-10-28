@@ -22,6 +22,9 @@
  *   countries    a sentence naming ANOTHER catalogue country is inside a plan_claims quote (which then lists its code)
  *                or is backed by a source (its `sentences`, or `supports` naming that country);
  *   sources      ≥ 1, https, a title, `checked` a real date not in the future, `supports`; no forum, no competitor;
+ *                an optional `review_by` (a rule that changes — a regulator's, a rollout's): after `checked`, at most six
+ *                months later, and once it has passed the file is refused until someone re-opens the source and moves
+ *                both dates (the dated tripwire the Russian `network_facts` carry, seo/content-review.mjs);
  *   china        on CN, no promise to get past the restrictions (bypass, unblock, VPN-free, access Google / …);
  *   markup       plain text; the only markup is a link [text](/en/…/) to a page that exists;
  *   across files (checkAll) no shared title or description, no question, answer or paragraph that is another
@@ -283,7 +286,7 @@ export function validateContent(doc, opts = {}) {
   sources.forEach((s, i) => {
     const at = `sources[${i}]`;
     if (!s || typeof s !== 'object' || Array.isArray(s)) { bad(`schema: ${at} must be an object`); return; }
-    for (const k of Object.keys(s)) if (!['url', 'title', 'checked', 'supports', 'sentences'].includes(k)) bad(`schema: ${at} unknown key «${k}»`);
+    for (const k of Object.keys(s)) if (!['url', 'title', 'checked', 'supports', 'sentences', 'review_by'].includes(k)) bad(`schema: ${at} unknown key «${k}»`);
     let host = '';
     try {
       const u = new URL(s.url);
@@ -296,6 +299,16 @@ export function validateContent(doc, opts = {}) {
     const date = typeof s.checked === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.checked) ? new Date(`${s.checked}T00:00:00Z`) : null;
     if (!date || Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== s.checked) bad(`${at}.checked: a date YYYY-MM-DD`);
     else if (s.checked > today) bad(`${at}.checked: ${s.checked} is in the future`);
+    if ('review_by' in s) {
+      const r = typeof s.review_by === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.review_by) ? new Date(`${s.review_by}T00:00:00Z`) : null;
+      if (!r || Number.isNaN(r.getTime()) || r.toISOString().slice(0, 10) !== s.review_by) bad(`${at}.review_by: a date YYYY-MM-DD`);
+      else if (date && !Number.isNaN(date.getTime())) {
+        const limit = new Date(date); limit.setUTCMonth(limit.getUTCMonth() + 6);
+        if (s.review_by <= s.checked) bad(`${at}.review_by: ${s.review_by} is not after checked ${s.checked}`);
+        else if (s.review_by > limit.toISOString().slice(0, 10)) bad(`${at}.review_by: at most six months after checked (${limit.toISOString().slice(0, 10)})`);
+        if (s.review_by < today) bad(`${at}.review_by: ${s.review_by} has passed — re-open ${s.url}, re-check every sentence it backs, then move checked and review_by`);
+      }
+    }
     if ('sentences' in s && (!Array.isArray(s.sentences) || !s.sentences.every(isStr))) bad(`schema: ${at}.sentences must be strings`);
   });
 
