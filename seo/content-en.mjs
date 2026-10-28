@@ -248,7 +248,14 @@ export function validateContent(doc, opts = {}) {
   const facts = opts.facts || d.facts;
   const countries = opts.countries || d.countries;
   const today = opts.today || new Date().toISOString().slice(0, 10);
-  const exists = opts.exists || ((path) => existsSync(join(ROOT, path, 'index.html')));
+  /* A link to a country page of this language is to a page the same build writes (a catalogue page), so it counts as
+   * existing even in a clean build that has not written it yet; every other target must be on disk. */
+  const countryPath = new RegExp(`^${prefix}/esim/([a-z0-9-]+)/$`);
+  const exists = opts.exists || ((path) => {
+    const m = path.match(countryPath);
+    if (m && countries.some((c) => c.slug === m[1])) return true;
+    return existsSync(join(ROOT, path, 'index.html'));
+  });
   const P = [];
   const bad = (msg) => P.push(msg);
 

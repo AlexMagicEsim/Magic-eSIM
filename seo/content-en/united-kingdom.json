@@ -10,7 +10,7 @@
       "h2": "Visiting from the EU: roaming rules end at the UK border",
       "paragraphs": [
         "Since the United Kingdom left the European Union, the EU's roam like at home rules no longer apply to travel here. The European Commission notes that some mobile companies have chosen to keep home prices for the UK, but nothing obliges them to, so a SIM from elsewhere in Europe may be charged roaming rates in London that it would not pay in Amsterdam or Madrid.",
-        "Read your home plan's terms for the UK before you travel rather than assuming they match the rest of your European trip. Wherever your SIM comes from, it is your home plan's roaming terms that decide what data costs here."
+        "Read your home plan's terms for the UK before you travel rather than assuming they match the rest of your European trip. Wherever your SIM comes from, it is your home plan's roaming terms that decide what data costs here. If London is one stop on a trip that also takes in France, our [France page](/en/esim/france/) explains how roam like at home works on the EU side of the Channel."
       ]
     },
     {
@@ -129,7 +129,10 @@
       "url": "https://digital-strategy.ec.europa.eu/en/faqs/roaming-questions-answers",
       "title": "Roaming: Questions & Answers – European Commission",
       "checked": "2026-10-27",
-      "supports": "roam like at home does not apply to travel to the United Kingdom since it left the EU; some companies extend it, which is not an obligation; it covers EU/EEA subscriptions only"
+      "supports": "roam like at home does not apply to travel to the United Kingdom since it left the EU; some companies extend it, which is not an obligation; it covers EU/EEA subscriptions only",
+      "sentences": [
+        "If London is one stop on a trip that also takes in France, our France page explains how roam like at home works on the EU side of the Channel."
+      ]
     },
     {
       "url": "https://tfl.gov.uk/modes/tube/station-wifi",

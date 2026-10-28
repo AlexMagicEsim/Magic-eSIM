@@ -11,7 +11,7 @@
       "paragraphs": [
         "Inside the European Union, “roam like at home” lets someone with a mobile subscription from an EU or EEA country use it in France at the prices they pay at home. The European Commission says it applies in every EU country plus Iceland, Liechtenstein and Norway, and it has also applied in Ukraine and Moldova since 1 January 2026.",
         "The rule follows where your subscription comes from, not where you are standing. If your SIM was issued outside the EU, the EEA, Ukraine and Moldova, the rule gives you nothing in France: your home plan's own roaming terms decide what data costs.",
-        "It also stops at the Channel. Since the United Kingdom left the EU, roam like at home no longer applies to travel there, so a day in London by Eurostar can be billed differently from the rest of your trip, even on an EU SIM. Switzerland is not among the countries the rule names either, which matters for a day trip to Geneva."
+        "It also stops at the Channel. Since the United Kingdom left the EU, roam like at home no longer applies to travel there, so a day in London by Eurostar can be billed differently from the rest of your trip, even on an EU SIM. Switzerland is not among the countries the rule names either, which matters for a day trip to Geneva. Even inside the EU, a ship's satellite-based service on board falls outside the rule, as our [Greece page](/en/esim/greece/) explains for ferry crossings."
       ]
     },
     {
@@ -132,9 +132,10 @@
       "url": "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm",
       "title": "Roaming: what you pay to use your smartphone in another EU country – Your Europe",
       "checked": "2026-10-27",
-      "supports": "roam like at home applies when you travel from your home country to another EU country, and in Iceland, Liechtenstein and Norway, Moldova and Ukraine; other countries are not covered by this regime",
+      "supports": "roam like at home applies when you travel from your home country to another EU country, and in Iceland, Liechtenstein and Norway, Moldova and Ukraine; other countries are not covered by this regime; on ships, home prices apply only on a land-based network, and a satellite-based service on board is outside EU rules",
       "sentences": [
-        "Switzerland is not among the countries the rule names either, which matters for a day trip to Geneva."
+        "Switzerland is not among the countries the rule names either, which matters for a day trip to Geneva.",
+        "Even inside the EU, a ship's satellite-based service on board falls outside the rule, as our Greece page explains for ferry crossings."
       ]
     },
     {
