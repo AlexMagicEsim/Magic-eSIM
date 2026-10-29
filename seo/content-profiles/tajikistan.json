@@ -273,5 +273,24 @@
         "validity_days": 30
       }
     }
-  }
+  },
+  "network_claims": [
+    {
+      "id": "local-zet-megafon",
+      "anchors": [
+        {
+          "field": "intro[1]",
+          "text": "По данным каталога местные тарифы — на сетях ZET и MegaFon."
+        }
+      ],
+      "block": "local",
+      "operators": [
+        "ZET",
+        "MegaFon"
+      ],
+      "every": true,
+      "only": true,
+      "all_listed": true
+    }
+  ]
 }

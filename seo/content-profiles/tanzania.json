@@ -246,5 +246,24 @@
         "validity_days": 7
       }
     }
-  }
+  },
+  "network_claims": [
+    {
+      "id": "g3-line-airtel",
+      "anchors": [
+        {
+          "field": "intro[0]",
+          "text": "Линейка с подписью 3G — это 1 ГБ на 7 дней за {{price:g3_1}} и 20 ГБ на 30 дней за {{price:g3_20}}; по данным каталога в их карточках указан Airtel."
+        }
+      ],
+      "block": "local",
+      "packages": [
+        "f6c02358-d397-488c-b59e-bb6ada767204",
+        "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9"
+      ],
+      "operators": [
+        "Airtel"
+      ]
+    }
+  ]
 }

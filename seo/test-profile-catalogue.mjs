@@ -125,6 +125,7 @@ test('every catalogue rule is wired into catalogueProblems', () => {
     safety: 'Профиль лучше установить дома заранее.',
     topup: 'Пополнить объём нельзя.',
     networks: 'Здесь работают три сети.',
+    operators: 'Местные тарифы — на сети WOM.',
   };
   for (const [rule, text] of Object.entries(cases)) {
     const got = catalogueProblems(faqProfile(text), 'fixture', { sheetsBySlug: SHEETS, families: FAMILIES });

@@ -425,5 +425,43 @@
         "validity_days": 30
       }
     }
-  }
+  },
+  "network_claims": [
+    {
+      "id": "local-all-lao-telecom",
+      "anchors": [
+        {
+          "field": "intro[1]",
+          "text": "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога все местные — на сети Lao Telecom."
+        },
+        {
+          "field": "faq[2].a",
+          "text": "По данным каталога все местные тарифы Лаоса — и объёмные, и посуточные — на сети Lao Telecom."
+        }
+      ],
+      "block": "local",
+      "operators": [
+        "Lao Telecom"
+      ],
+      "every": true,
+      "only": true,
+      "all_listed": true
+    },
+    {
+      "id": "daily-all-lao-telecom",
+      "anchors": [
+        {
+          "field": "faq[2].a",
+          "text": "По данным каталога все местные тарифы Лаоса — и объёмные, и посуточные — на сети Lao Telecom."
+        }
+      ],
+      "block": "daily",
+      "operators": [
+        "Lao Telecom"
+      ],
+      "every": true,
+      "only": true,
+      "all_listed": true
+    }
+  ]
 }

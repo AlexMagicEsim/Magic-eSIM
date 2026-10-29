@@ -31,6 +31,7 @@ import { PROFILE_DIR, EDITORIAL_KEYS } from './content-profile.mjs';
 import { loadSheets, activationLabel } from './fact-sheet.mjs';
 import { loadCatalogue, coverageCodes, purchasablePrice, isRussia, isRestricted, isGlobal } from './catalogue-facts.mjs';
 import { scoreProfile, corpusEntry, BANNED_PHRASES } from './content-quality.mjs';
+import { checkNetworkClaims, networksByBlock, loadCatalogDoc as loadNetworkDoc } from './network-claims.mjs';
 import { readdirSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
@@ -319,7 +320,7 @@ export function checkNamedFamilies(profile, iso, families = familyLabels()) {
  * Structure, quality score and banned phrases do not move when a price does,
  * so they stay in the CLI and out of the refresh job's gate.
  */
-export function catalogueProblems(profile, slug, { sheetsBySlug = sheets, families } = {}) {
+export function catalogueProblems(profile, slug, { sheetsBySlug = sheets, families, networkDoc } = {}) {
   const sheet = sheetsBySlug[slug];
   if (!sheet) return ['нет фактшита — страна не в каталоге'];
   return [
@@ -329,7 +330,7 @@ export function catalogueProblems(profile, slug, { sheetsBySlug = sheets, famili
     ...checkNamedFamilies(profile, sheet.iso, families),
     ...checkActivationSafety(profile, sheet),
     ...checkTopup(profile, sheet),
-    ...checkNetworks(profile, sheet),
+    ...checkNetworks(profile, sheet, { slug, doc: networkDoc }),
   ];
 }
 
@@ -517,17 +518,32 @@ export function checkCoverageClaims(profile, { slug = null, today } = {}) {
   return [...new Set(problems)];
 }
 
-// Operator names, checked against the field and against what the card prints.
-export function checkNetworks(profile, sheet) {
-  const known = new Set(sheet.networks || []);
-  if (!known.size) return [];
+// Operator names. Two rules:
+//   * «три сети» — a count of networks no card prints (kept from 2026-09);
+//   * every operator NAME is anchored to the block its sentence is about and
+//     checked against THAT block of the page (seo/network-claims.mjs). Until
+//     2026-10-29 the only operator fact was one set merged over every package of
+//     the country, and no rule even read it: «местные тарифы Чили — на WOM» would
+//     have passed after the local plans moved to movistar / CLARO CL.
+// `doc` is injectable for fixtures; by default the snapshot every gate reads.
+export function checkNetworks(profile, sheet, { slug = null, doc } = {}) {
   const problems = [];
   for (const text of proseOf(profile)) {
     // NOT \b — ASCII-only, and there is no word boundary before a Cyrillic «т».
     // Fifth time in this session. The rule is in CLAUDE.md; it keeps being
     // written from muscle memory anyway.
     for (const m of String(text).matchAll(/(?:^|[\s(«,—-])(?:три|трёх|четыре)\s+сет[иейь]/gi)) {
-      problems.push(`«${m[0]}» — карточка печатает не больше двух операторов (packageNetworkText)`);
+      problems.push(`«${m[0]}» — карточка не печатает список операторов, а «N сетей» — только у пакетов-двойников`);
+    }
+  }
+  const d = doc || loadNetworkDoc();
+  problems.push(...checkNetworkClaims(profile, slug, { doc: d }));
+  // The sheet's per-block operators are the writer's reference; they must be the
+  // ones this check reads, or a writer reads one catalogue and the gate another.
+  if (sheet && sheet.iso && sheet.networks_by_block !== undefined) {
+    const now = networksByBlock(d, sheet.iso);
+    if (JSON.stringify(now) !== JSON.stringify(sheet.networks_by_block)) {
+      problems.push('seo/fact-sheets.json: networks_by_block не совпадает с assets/catalog.json — пересоберите: node seo/fact-sheet.mjs');
     }
   }
   return [...new Set(problems)];
@@ -596,7 +612,7 @@ for (const slug of scope) {
       'related_topics', 'faq_candidates', 'sources', 'reviewed_by', 'reviewed_at',
       'last_reviewed', 'next_review', 'editor_notes', 'notes', 'research_method',
       'locked', 'locked_by', 'locked_reason', 'ab_test',
-      'coverage_claims', 'coverage_claims_waived', 'network_facts',
+      'coverage_claims', 'coverage_claims_waived', 'network_facts', 'network_claims', 'network_claims_waived',
       'price_claims', 'price_claims_waived'].includes(k));
   if (unknown.length) problems.push(`неизвестные поля: ${unknown.join(', ')}`);
 

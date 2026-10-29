@@ -305,5 +305,13 @@
       }
     }
   },
-  "price_claims": []
+  "price_claims": [],
+  "network_claims_waived": [
+    {
+      "field": "faq[3].a",
+      "text": "По данным регулятора ANACOM, сети 5G в Португалии развернули четыре оператора: MEO, NOS, Vodafone и DIGI.",
+      "reason": "факт регулятора о 5G-сетях операторов страны, а не о том, на каких сетях работают тарифы страницы",
+      "source": "https://www.anacom.pt/render.jsp?contentId=1828211"
+    }
+  ]
 }

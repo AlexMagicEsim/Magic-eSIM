@@ -198,6 +198,71 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "JT"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "Orange Morocco",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ],
+        "daily": [
+          "JT"
+        ]
+      },
       "networks_rows": 21,
       "rows_total": 29,
       "fup_policies": [
@@ -513,6 +578,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Nova",
+          "Síminn"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Nova",
+          "Síminn"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 58,
       "fup_policies": [
@@ -807,6 +925,22 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "LG Uplus",
+          "SKTelecom"
+        ],
+        "regional": [
+          "KDDI/au",
+          "LG Uplus",
+          "SKTelecom",
+          "SoftBank"
+        ],
+        "daily": [
+          "LG Uplus",
+          "SKTelecom"
+        ]
+      },
       "networks_rows": 26,
       "rows_total": 56,
       "fup_policies": [
@@ -983,6 +1117,15 @@
       "networks": [
         "Omantel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Omantel"
+        ],
+        "regional": [],
+        "daily": [
+          "Omantel"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 29,
       "fup_policies": [
@@ -1122,6 +1265,14 @@
         "SETAR",
         "UTS Wireless Curacao"
       ],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": [
+          "SETAR",
+          "UTS Wireless Curacao"
+        ]
+      },
       "networks_rows": 4,
       "rows_total": 14,
       "fup_policies": [
@@ -1392,6 +1543,23 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "China Mobile"
+        ],
+        "regional": [
+          "CTM",
+          "China Telecom",
+          "China Unicom",
+          "SmarTone",
+          "csl"
+        ],
+        "daily": [
+          "China Mobile",
+          "China Telecom",
+          "China Unicom"
+        ]
+      },
       "networks_rows": 30,
       "rows_total": 55,
       "fup_policies": [
@@ -1706,6 +1874,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "A1",
+          "Tele2"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "A1",
+          "Tele2"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -1840,6 +2061,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -1991,6 +2221,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 16,
       "fup_policies": [
@@ -2219,6 +2474,20 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "Movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "WOM"
+        ]
+      },
       "networks_rows": 19,
       "rows_total": 42,
       "fup_policies": [
@@ -2400,6 +2669,30 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "VIVA"
+        ],
+        "regional": [],
+        "daily": [
+          "Antel",
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "Tigo",
+          "VIVA",
+          "Vivo",
+          "WOM",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 24,
       "fup_policies": [
@@ -2636,6 +2929,19 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "TIM",
+          "Vivo"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro",
+          "TIM",
+          "Vivo"
+        ]
+      },
       "networks_rows": 21,
       "rows_total": 44,
       "fup_policies": [
@@ -2852,6 +3158,21 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "CLARO CL",
+          "movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "CLARO CL",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "WOM",
+          "movistar"
+        ]
+      },
       "networks_rows": 16,
       "rows_total": 39,
       "fup_policies": [
@@ -3070,6 +3391,24 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "Antel",
+          "Claro",
+          "Digicel",
+          "Movistar",
+          "TIM",
+          "Tigo",
+          "Vivo",
+          "WOM",
+          "movistar"
+        ]
+      },
       "networks_rows": 16,
       "rows_total": 41,
       "fup_policies": [
@@ -3274,6 +3613,23 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro"
+        ],
+        "regional": [],
+        "daily": [
+          "Antel",
+          "Claro",
+          "Digicel",
+          "Movistar",
+          "TIM",
+          "Tigo",
+          "Vivo",
+          "WOM",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 40,
       "fup_policies": [
@@ -3492,6 +3848,17 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "Movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro",
+          "Movistar"
+        ]
+      },
       "networks_rows": 17,
       "rows_total": 40,
       "fup_policies": [
@@ -3685,6 +4052,24 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "Antel",
+          "Claro",
+          "Digicel",
+          "Movistar",
+          "TIM",
+          "Tigo",
+          "Vivo",
+          "WOM",
+          "movistar"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 37,
       "fup_policies": [
@@ -3878,6 +4263,17 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro",
+          "movistar"
+        ]
+      },
       "networks_rows": 17,
       "rows_total": 28,
       "fup_policies": [
@@ -4057,6 +4453,15 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 26,
       "fup_policies": [
@@ -4254,6 +4659,25 @@
         "Telcel",
         "Verizon"
       ],
+      "networks_by_block": {
+        "local": [
+          "AT&T",
+          "Telcel"
+        ],
+        "regional": [
+          "AT&T",
+          "Movistar",
+          "Rogers Wireless",
+          "Verizon"
+        ],
+        "daily": [
+          "AT&T",
+          "Movistar",
+          "Rogers Wireless",
+          "Telcel",
+          "Verizon"
+        ]
+      },
       "networks_rows": 19,
       "rows_total": 40,
       "fup_policies": [
@@ -4440,6 +4864,15 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 26,
       "fup_policies": [
@@ -4642,6 +5075,15 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "movistar"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 30,
       "fup_policies": [
@@ -4862,6 +5304,15 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro"
+        ]
+      },
       "networks_rows": 18,
       "rows_total": 34,
       "fup_policies": [
@@ -5099,6 +5550,17 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "Movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro",
+          "Movistar"
+        ]
+      },
       "networks_rows": 21,
       "rows_total": 45,
       "fup_policies": [
@@ -5335,6 +5797,20 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Claro",
+          "Movistar"
+        ],
+        "regional": [],
+        "daily": [
+          "Claro",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "WOM"
+        ]
+      },
       "networks_rows": 20,
       "rows_total": 43,
       "fup_policies": [
@@ -5472,6 +5948,13 @@
       "networks": [
         "Digitel"
       ],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": [
+          "Digitel"
+        ]
+      },
       "networks_rows": 4,
       "rows_total": 13,
       "fup_policies": [
@@ -5784,6 +6267,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "LMT",
+          "Tele2"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "LMT",
+          "Tele2"
+        ]
+      },
       "networks_rows": 32,
       "rows_total": 60,
       "fup_policies": [
@@ -5964,6 +6500,31 @@
         "STC",
         "ooredoo"
       ],
+      "networks_by_block": {
+        "local": [
+          "STC"
+        ],
+        "regional": [
+          "Asia Cell",
+          "Du",
+          "Etisalat",
+          "Korek",
+          "Mobily",
+          "Ooredoo",
+          "STC",
+          "ooredoo"
+        ],
+        "daily": [
+          "Asia Cell",
+          "Du",
+          "Etisalat",
+          "Korek",
+          "Mobily",
+          "Ooredoo",
+          "STC",
+          "ooredoo"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 27,
       "fup_policies": [
@@ -6092,6 +6653,15 @@
       "networks": [
         "Orange"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 7,
       "rows_total": 12,
       "fup_policies": [
@@ -6404,6 +6974,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "3",
+          "TDC"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "3",
+          "TDC"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -6566,6 +7189,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vodafone"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Vodafone"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 21,
       "fup_policies": [
@@ -6696,6 +7344,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -6860,6 +7517,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Free"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Free"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 18,
       "fup_policies": [
@@ -7002,6 +7684,15 @@
       "networks": [
         "Celtiis"
       ],
+      "networks_by_block": {
+        "local": [
+          "Celtiis"
+        ],
+        "regional": [],
+        "daily": [
+          "Celtiis"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 14,
       "fup_policies": [
@@ -7121,6 +7812,15 @@
       "networks": [
         "UNITEL"
       ],
+      "networks_by_block": {
+        "local": [
+          "UNITEL"
+        ],
+        "regional": [],
+        "daily": [
+          "UNITEL"
+        ]
+      },
       "networks_rows": 8,
       "rows_total": 8,
       "fup_policies": [
@@ -7260,6 +7960,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 14,
       "fup_policies": [
@@ -7570,6 +8279,57 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Eir"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Eir"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 62,
       "fup_policies": [
@@ -7761,6 +8521,15 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 27,
       "fup_policies": [
@@ -7951,6 +8720,24 @@
         "STC",
         "ooredoo"
       ],
+      "networks_by_block": {
+        "local": [
+          "Du"
+        ],
+        "regional": [
+          "Asia Cell",
+          "Du",
+          "Etisalat",
+          "Korek",
+          "Mobily",
+          "Ooredoo",
+          "STC",
+          "ooredoo"
+        ],
+        "daily": [
+          "Du"
+        ]
+      },
       "networks_rows": 16,
       "rows_total": 25,
       "fup_policies": [
@@ -8086,6 +8873,15 @@
       "networks": [
         "Orange"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -8340,6 +9136,23 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "3",
+          "CTM"
+        ],
+        "regional": [
+          "CTM",
+          "China Telecom",
+          "China Unicom",
+          "SmarTone",
+          "csl"
+        ],
+        "daily": [
+          "3",
+          "CTM"
+        ]
+      },
       "networks_rows": 31,
       "rows_total": 46,
       "fup_policies": [
@@ -8613,6 +9426,23 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "SmarTone",
+          "csl"
+        ],
+        "regional": [
+          "CTM",
+          "China Telecom",
+          "China Unicom",
+          "SmarTone",
+          "csl"
+        ],
+        "daily": [
+          "SmarTone",
+          "csl"
+        ]
+      },
       "networks_rows": 30,
       "rows_total": 54,
       "fup_policies": [
@@ -8782,6 +9612,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 19,
       "fup_policies": [
@@ -9026,6 +9881,31 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "Globe",
+          "SMART"
+        ],
+        "regional": [
+          "CelcomDigi",
+          "DTAC",
+          "Globe",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "SingTel",
+          "Telkomsel",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile"
+        ],
+        "daily": [
+          "Globe",
+          "SMART"
+        ]
+      },
       "networks_rows": 23,
       "rows_total": 41,
       "fup_policies": [
@@ -9340,6 +10220,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "KPN",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "KPN",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 34,
       "rows_total": 62,
       "fup_policies": [
@@ -9500,6 +10433,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -9670,6 +10623,15 @@
       "networks": [
         "GTA Wireless"
       ],
+      "networks_by_block": {
+        "local": [
+          "GTA Wireless"
+        ],
+        "regional": [],
+        "daily": [
+          "GTA Wireless"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 15,
       "fup_policies": [
@@ -9985,6 +10947,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "7acht",
+          "FL1"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "7acht",
+          "FL1"
+        ]
+      },
       "networks_rows": 32,
       "rows_total": 57,
       "fup_policies": [
@@ -10204,6 +11219,71 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Pronto GSM"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "Orange Morocco",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ],
+        "daily": [
+          "Pronto GSM"
+        ]
+      },
       "networks_rows": 22,
       "rows_total": 30,
       "fup_policies": [
@@ -10391,6 +11471,23 @@
         "Mobitel",
         "ZET"
       ],
+      "networks_by_block": {
+        "local": [
+          "Beeline"
+        ],
+        "regional": [
+          "Beeline",
+          "Jazz",
+          "MegaFon",
+          "Mobitel",
+          "ZET"
+        ],
+        "daily": [
+          "Beeline",
+          "Jazz",
+          "Mobitel"
+        ]
+      },
       "networks_rows": 25,
       "rows_total": 37,
       "fup_policies": [
@@ -10602,6 +11699,51 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "Jazz"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "Beeline",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jazz",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Mobitel",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "Beeline",
+          "Jazz",
+          "Mobitel"
+        ]
+      },
       "networks_rows": 26,
       "rows_total": 34,
       "fup_policies": [
@@ -10790,6 +11932,23 @@
         "Mobitel",
         "ZET"
       ],
+      "networks_by_block": {
+        "local": [
+          "Beeline"
+        ],
+        "regional": [
+          "Beeline",
+          "Jazz",
+          "MegaFon",
+          "Mobitel",
+          "ZET"
+        ],
+        "daily": [
+          "Beeline",
+          "Jazz",
+          "Mobitel"
+        ]
+      },
       "networks_rows": 26,
       "rows_total": 38,
       "fup_policies": [
@@ -10978,6 +12137,23 @@
         "Mobitel",
         "ZET"
       ],
+      "networks_by_block": {
+        "local": [
+          "Beeline"
+        ],
+        "regional": [
+          "Beeline",
+          "Jazz",
+          "MegaFon",
+          "Mobitel",
+          "ZET"
+        ],
+        "daily": [
+          "Beeline",
+          "Jazz",
+          "Mobitel"
+        ]
+      },
       "networks_rows": 26,
       "rows_total": 38,
       "fup_policies": [
@@ -11211,6 +12387,52 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "Hutch"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "Beeline",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jazz",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Mobitel",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "Beeline",
+          "Hutch",
+          "Jazz",
+          "Mobitel"
+        ]
+      },
       "networks_rows": 23,
       "rows_total": 37,
       "fup_policies": [
@@ -11461,6 +12683,19 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "Cellcom",
+          "Hot Mobile",
+          "Pelephone"
+        ],
+        "regional": [],
+        "daily": [
+          "Cellcom",
+          "Hot Mobile",
+          "Pelephone"
+        ]
+      },
       "networks_rows": 18,
       "rows_total": 43,
       "fup_policies": [
@@ -11773,6 +13008,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Telenor",
+          "Telia"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Telenor",
+          "Telia"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 58,
       "fup_policies": [
@@ -11942,6 +13230,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -12109,6 +13417,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 22,
       "fup_policies": [
@@ -12277,6 +13605,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 22,
       "fup_policies": [
@@ -12414,6 +13762,15 @@
       "networks": [
         "One"
       ],
+      "networks_by_block": {
+        "local": [
+          "One"
+        ],
+        "regional": [],
+        "daily": [
+          "One"
+        ]
+      },
       "networks_rows": 8,
       "rows_total": 12,
       "fup_policies": [
@@ -12569,6 +13926,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -12730,6 +14107,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -12877,6 +14274,15 @@
       "networks": [
         "Chippie"
       ],
+      "networks_by_block": {
+        "local": [
+          "Chippie"
+        ],
+        "regional": [],
+        "daily": [
+          "Chippie"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 19,
       "fup_policies": [
@@ -13037,6 +14443,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -13206,6 +14632,27 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Altice"
+        ],
+        "regional": [],
+        "daily": [
+          "Altice",
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -13351,6 +14798,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 14,
       "fup_policies": [
@@ -13498,6 +14954,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 5,
       "rows_total": 19,
       "fup_policies": [
@@ -13676,6 +15152,25 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Antel",
+          "Claro",
+          "Digicel",
+          "Movistar",
+          "TIM",
+          "Tigo",
+          "Vivo",
+          "WOM",
+          "movistar"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 20,
       "fup_policies": [
@@ -13835,6 +15330,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 20,
       "fup_policies": [
@@ -14016,6 +15531,25 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Antel",
+          "Claro",
+          "Digicel",
+          "Movistar",
+          "TIM",
+          "Tigo",
+          "Vivo",
+          "WOM",
+          "movistar"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 20,
       "fup_policies": [
@@ -14173,6 +15707,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -14329,6 +15883,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -14510,6 +16084,25 @@
         "WOM",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Antel",
+          "Claro",
+          "Digicel",
+          "Movistar",
+          "TIM",
+          "Tigo",
+          "Vivo",
+          "WOM",
+          "movistar"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 20,
       "fup_policies": [
@@ -14666,6 +16259,26 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 20,
       "fup_policies": [
@@ -14815,6 +16428,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 15,
       "fup_policies": [
@@ -14952,6 +16574,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 13,
       "fup_policies": [
@@ -15114,6 +16745,15 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "FLOW"
+        ],
+        "regional": [],
+        "daily": [
+          "FLOW"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 22,
       "fup_policies": [
@@ -15273,6 +16913,17 @@
         "Azercell",
         "Bakcell"
       ],
+      "networks_by_block": {
+        "local": [
+          "Azercell",
+          "Bakcell"
+        ],
+        "regional": [],
+        "daily": [
+          "Azercell",
+          "Bakcell"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 20,
       "fup_policies": [
@@ -15584,6 +17235,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "O2",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "O2",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -15828,6 +17532,70 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "vip"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ],
+        "daily": [
+          "vip"
+        ]
+      },
       "networks_rows": 25,
       "rows_total": 37,
       "fup_policies": [
@@ -15992,6 +17760,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Safaricom"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Safaricom"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 18,
       "fup_policies": [
@@ -16302,6 +18095,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Telenor Hungary",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Telenor Hungary",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -16619,6 +18465,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "3",
+          "A1.net"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "3",
+          "A1.net"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 62,
       "fup_policies": [
@@ -16936,6 +18835,61 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Base",
+          "Orange",
+          "Proximus"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Base",
+          "Orange",
+          "Proximus"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -17258,6 +19212,61 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "A1",
+          "Telenor",
+          "Vivacom"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "A1",
+          "Telenor",
+          "Vivacom"
+        ]
+      },
       "networks_rows": 32,
       "rows_total": 62,
       "fup_policies": [
@@ -17572,6 +19581,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Epic",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Epic",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 62,
       "fup_policies": [
@@ -17886,6 +19948,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Tele2",
+          "Telia"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Tele2",
+          "Telia"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -18201,6 +20316,57 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "DNA"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "DNA"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -18520,6 +20686,61 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 27,
       "rows_total": 60,
       "fup_policies": [
@@ -18836,6 +21057,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "O2",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "O2",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 34,
       "rows_total": 63,
       "fup_policies": [
@@ -19152,6 +21426,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vodafone",
+          "Wind"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Vodafone",
+          "Wind"
+        ]
+      },
       "networks_rows": 34,
       "rows_total": 64,
       "fup_policies": [
@@ -19467,6 +21794,61 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Iliad",
+          "TIM",
+          "Wind"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Iliad",
+          "TIM",
+          "Wind"
+        ]
+      },
       "networks_rows": 34,
       "rows_total": 62,
       "fup_policies": [
@@ -19781,6 +22163,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Tele2",
+          "Telia"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Tele2",
+          "Telia"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -20095,6 +22530,61 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange",
+          "POST",
+          "Tango"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Orange",
+          "POST",
+          "Tango"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -20410,6 +22900,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "GO",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "GO",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 31,
       "rows_total": 59,
       "fup_policies": [
@@ -20725,6 +23268,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange",
+          "Play"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Orange",
+          "Play"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -21043,6 +23639,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "NOS",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "NOS",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 62,
       "fup_policies": [
@@ -21358,6 +24007,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange",
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Orange",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -21674,6 +24376,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "O2",
+          "Orange"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "O2",
+          "Orange"
+        ]
+      },
       "networks_rows": 32,
       "rows_total": 60,
       "fup_policies": [
@@ -21987,6 +24742,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Mobitel",
+          "Telemach"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Mobitel",
+          "Telemach"
+        ]
+      },
       "networks_rows": 33,
       "rows_total": 61,
       "fup_policies": [
@@ -22309,6 +25117,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Movistar",
+          "Orange"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Movistar",
+          "Orange"
+        ]
+      },
       "networks_rows": 34,
       "rows_total": 67,
       "fup_policies": [
@@ -22623,6 +25484,61 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "3",
+          "Telenor",
+          "Telia"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "3",
+          "Telenor",
+          "Telia"
+        ]
+      },
       "networks_rows": 32,
       "rows_total": 60,
       "fup_policies": [
@@ -22940,6 +25856,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Salt",
+          "Sunrise"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Salt",
+          "Sunrise"
+        ]
+      },
       "networks_rows": 34,
       "rows_total": 59,
       "fup_policies": [
@@ -23234,6 +26203,61 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vodafone"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell"
+        ],
+        "daily": [
+          "Vodafone"
+        ]
+      },
       "networks_rows": 27,
       "rows_total": 60,
       "fup_policies": [
@@ -23563,6 +26587,59 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "3",
+          "EE"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "3",
+          "EE"
+        ]
+      },
       "networks_rows": 34,
       "rows_total": 65,
       "fup_policies": [
@@ -23805,6 +26882,63 @@
         "Wind",
         "lifecell"
       ],
+      "networks_by_block": {
+        "local": [
+          "Iliad",
+          "TIM",
+          "TIM maritime",
+          "Wind"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Iliad",
+          "TIM",
+          "TIM maritime",
+          "Wind"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 28,
       "fup_policies": [
@@ -23958,6 +27092,11 @@
       "daily_gb": [],
       "speeds": [],
       "networks": [],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": []
+      },
       "networks_rows": 0,
       "rows_total": 26,
       "fup_policies": [],
@@ -24101,6 +27240,19 @@
         "Geocell",
         "Magti"
       ],
+      "networks_by_block": {
+        "local": [
+          "Beeline",
+          "Geocell",
+          "Magti"
+        ],
+        "regional": [],
+        "daily": [
+          "Beeline",
+          "Geocell",
+          "Magti"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 18,
       "fup_policies": [
@@ -24314,6 +27466,49 @@
         "Viettel Mobile",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [],
+        "regional": [
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "Chunghwa",
+          "DTAC",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "SKTelecom",
+          "SingTel",
+          "Telkomsel",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "csl"
+        ],
+        "daily": [
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "Chunghwa",
+          "DTAC",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "SKTelecom",
+          "SingTel",
+          "Telkomsel",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "csl"
+        ]
+      },
       "networks_rows": 5,
       "rows_total": 29,
       "fup_policies": [
@@ -24600,6 +27795,50 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "DTAC",
+          "True Move",
+          "TrueMove H"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "AIS",
+          "DTAC",
+          "TrueMove H"
+        ]
+      },
       "networks_rows": 30,
       "rows_total": 55,
       "fup_policies": [
@@ -24895,6 +28134,49 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "M1",
+          "SingTel"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "M1",
+          "SingTel",
+          "Starhub"
+        ]
+      },
       "networks_rows": 30,
       "rows_total": 56,
       "fup_policies": [
@@ -25190,6 +28472,26 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "KDDI/au",
+          "NTT docomo",
+          "Rakuten Mobile",
+          "SoftBank"
+        ],
+        "regional": [
+          "KDDI/au",
+          "LG Uplus",
+          "SKTelecom",
+          "SoftBank"
+        ],
+        "daily": [
+          "KDDI/au",
+          "NTT docomo",
+          "Rakuten Mobile",
+          "SoftBank"
+        ]
+      },
       "networks_rows": 28,
       "rows_total": 56,
       "fup_policies": [
@@ -25466,6 +28768,33 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "MobiFone",
+          "Viettel Mobile",
+          "Vinaphone"
+        ],
+        "regional": [
+          "CelcomDigi",
+          "DTAC",
+          "Globe",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "SingTel",
+          "Telkomsel",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile"
+        ],
+        "daily": [
+          "MobiFone",
+          "Viettel Mobile",
+          "Vinaphone"
+        ]
+      },
       "networks_rows": 27,
       "rows_total": 54,
       "fup_policies": [
@@ -25747,6 +29076,33 @@
         "XL",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "Indosat",
+          "Telkomsel",
+          "XL"
+        ],
+        "regional": [
+          "CelcomDigi",
+          "DTAC",
+          "Globe",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "SingTel",
+          "Telkomsel",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile"
+        ],
+        "daily": [
+          "Indosat",
+          "Telkomsel",
+          "XL"
+        ]
+      },
       "networks_rows": 27,
       "rows_total": 56,
       "fup_policies": [
@@ -26032,6 +29388,51 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "CelcomDigi",
+          "Maxis"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "CelcomDigi",
+          "M1",
+          "Maxis",
+          "SingTel",
+          "U Mobile"
+        ]
+      },
       "networks_rows": 27,
       "rows_total": 59,
       "fup_policies": [
@@ -26288,6 +29689,43 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "Cellcard",
+          "Metfone"
+        ],
+        "regional": [
+          "CelcomDigi",
+          "DTAC",
+          "Globe",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "SingTel",
+          "Telkomsel",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile"
+        ],
+        "daily": [
+          "CelcomDigi",
+          "Cellcard",
+          "DTAC",
+          "Globe",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "SingTel",
+          "Telkomsel",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile"
+        ]
+      },
       "networks_rows": 23,
       "rows_total": 43,
       "fup_policies": [
@@ -26486,6 +29924,17 @@
         "T-Mobile",
         "m:tel CG"
       ],
+      "networks_by_block": {
+        "local": [
+          "T-Mobile",
+          "m:tel CG"
+        ],
+        "regional": [],
+        "daily": [
+          "T-Mobile",
+          "m:tel CG"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 34,
       "fup_policies": [
@@ -26598,6 +30047,13 @@
       "networks": [
         "Monaco Telecom"
       ],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": [
+          "Monaco Telecom"
+        ]
+      },
       "networks_rows": 3,
       "rows_total": 8,
       "fup_policies": [
@@ -26818,6 +30274,48 @@
         "csl",
         "ooredoo"
       ],
+      "networks_by_block": {
+        "local": [
+          "Ooredoo",
+          "STC"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "Ooredoo",
+          "STC"
+        ]
+      },
       "networks_rows": 21,
       "rows_total": 35,
       "fup_policies": [
@@ -26953,6 +30451,15 @@
       "networks": [
         "DS"
       ],
+      "networks_by_block": {
+        "local": [
+          "DS"
+        ],
+        "regional": [],
+        "daily": [
+          "DS"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 12,
       "fup_policies": [
@@ -27113,6 +30620,15 @@
       "networks": [
         "HT-ERONET"
       ],
+      "networks_by_block": {
+        "local": [
+          "HT-ERONET"
+        ],
+        "regional": [],
+        "daily": [
+          "HT-ERONET"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 24,
       "fup_policies": [
@@ -27368,6 +30884,18 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "Optus"
+        ],
+        "regional": [
+          "Optus",
+          "Spark"
+        ],
+        "daily": [
+          "Optus"
+        ]
+      },
       "networks_rows": 23,
       "rows_total": 46,
       "fup_policies": [
@@ -27526,6 +31054,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Glo"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Glo"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 20,
       "fup_policies": [
@@ -27694,6 +31247,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 19,
       "fup_policies": [
@@ -27857,6 +31435,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 18,
       "fup_policies": [
@@ -28061,6 +31664,17 @@
         "One Albania",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "One Albania",
+          "Vodafone"
+        ],
+        "regional": [],
+        "daily": [
+          "One Albania",
+          "Vodafone"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 35,
       "fup_policies": [
@@ -28300,6 +31914,57 @@
         "Wind",
         "lifecell"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 16,
       "rows_total": 36,
       "fup_policies": [
@@ -28569,6 +32234,15 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "VIP"
+        ],
+        "regional": [],
+        "daily": [
+          "VIP"
+        ]
+      },
       "networks_rows": 24,
       "rows_total": 44,
       "fup_policies": [
@@ -28757,6 +32431,15 @@
       "networks": [
         "Banglalink"
       ],
+      "networks_by_block": {
+        "local": [
+          "Banglalink"
+        ],
+        "regional": [],
+        "daily": [
+          "Banglalink"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 28,
       "fup_policies": [
@@ -28992,6 +32675,46 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "AirTel"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "AirTel"
+        ]
+      },
       "networks_rows": 19,
       "rows_total": 37,
       "fup_policies": [
@@ -29194,6 +32917,15 @@
       "networks": [
         "Lao Telecom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Lao Telecom"
+        ],
+        "regional": [],
+        "daily": [
+          "Lao Telecom"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 29,
       "fup_policies": [
@@ -29438,6 +33170,18 @@
         "Vodafone",
         "csl"
       ],
+      "networks_by_block": {
+        "local": [
+          "One NZ"
+        ],
+        "regional": [
+          "Optus",
+          "Spark"
+        ],
+        "daily": [
+          "One NZ"
+        ]
+      },
       "networks_rows": 21,
       "rows_total": 39,
       "fup_policies": [
@@ -29517,6 +33261,11 @@
       "daily_gb": [],
       "speeds": [],
       "networks": [],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": []
+      },
       "networks_rows": 0,
       "rows_total": 4,
       "fup_policies": [],
@@ -29678,6 +33427,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 19,
       "fup_policies": [
@@ -29840,6 +33614,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Swazi MTN"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Swazi MTN"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 17,
       "fup_policies": [
@@ -30032,6 +33831,30 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "AT&T"
+        ],
+        "regional": [],
+        "daily": [
+          "Antel",
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "Tigo",
+          "VIVA",
+          "Vivo",
+          "WOM",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 24,
       "fup_policies": [
@@ -30278,6 +34101,21 @@
         "T-Mobile",
         "Verizon"
       ],
+      "networks_by_block": {
+        "local": [
+          "AT&T",
+          "Verizon"
+        ],
+        "regional": [
+          "Rogers Wireless",
+          "T-Mobile",
+          "Verizon"
+        ],
+        "daily": [
+          "AT&T",
+          "Verizon"
+        ]
+      },
       "networks_rows": 26,
       "rows_total": 58,
       "fup_policies": [
@@ -30393,6 +34231,11 @@
       "daily_gb": [],
       "speeds": [],
       "networks": [],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": []
+      },
       "networks_rows": 0,
       "rows_total": 12,
       "fup_policies": [],
@@ -30563,6 +34406,22 @@
         "MegaFon",
         "ZET"
       ],
+      "networks_by_block": {
+        "local": [
+          "MegaFon",
+          "ZET"
+        ],
+        "regional": [
+          "Beeline",
+          "MegaFon",
+          "ZET"
+        ],
+        "daily": [
+          "Beeline",
+          "MegaFon",
+          "ZET"
+        ]
+      },
       "networks_rows": 17,
       "rows_total": 24,
       "fup_policies": [
@@ -30690,6 +34549,15 @@
       "networks": [
         "Vini"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vini"
+        ],
+        "regional": [],
+        "daily": [
+          "Vini"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -30861,6 +34729,15 @@
       "networks": [
         "Mobiland"
       ],
+      "networks_by_block": {
+        "local": [
+          "Mobiland"
+        ],
+        "regional": [],
+        "daily": [
+          "Mobiland"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 24,
       "fup_policies": [
@@ -30995,6 +34872,15 @@
       "networks": [
         "CVMOVEL"
       ],
+      "networks_by_block": {
+        "local": [
+          "CVMOVEL"
+        ],
+        "regional": [],
+        "daily": [
+          "CVMOVEL"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 10,
       "fup_policies": [
@@ -31200,6 +35086,46 @@
         "csl",
         "ooredoo"
       ],
+      "networks_by_block": {
+        "local": [
+          "STC"
+        ],
+        "regional": [
+          "3",
+          "AirTel",
+          "CTM",
+          "CelcomDigi",
+          "China Unicom",
+          "DTAC",
+          "Globe",
+          "IDEA",
+          "Jio",
+          "KDDI/au",
+          "M1",
+          "Maxis",
+          "Metfone",
+          "MobiFone",
+          "Mobily",
+          "Optus",
+          "Pelephone",
+          "SKTelecom",
+          "STC",
+          "SingTel",
+          "Spark",
+          "Telenor",
+          "Telkomsel",
+          "Telstra",
+          "TrueMove H",
+          "U Mobile",
+          "Vietnamobile",
+          "Viettel Mobile",
+          "Vodafone",
+          "csl"
+        ],
+        "daily": [
+          "STC"
+        ]
+      },
       "networks_rows": 20,
       "rows_total": 28,
       "fup_policies": [
@@ -31397,6 +35323,15 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 32,
       "fup_policies": [
@@ -31562,6 +35497,15 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 23,
       "fup_policies": [
@@ -31720,6 +35664,15 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 18,
       "fup_policies": [
@@ -31915,6 +35868,24 @@
         "T-Mobile",
         "Verizon"
       ],
+      "networks_by_block": {
+        "local": [
+          "Rogers Wireless"
+        ],
+        "regional": [
+          "AT&T",
+          "Movistar",
+          "Rogers Wireless",
+          "T-Mobile",
+          "Verizon"
+        ],
+        "daily": [
+          "AT&T",
+          "Movistar",
+          "Rogers Wireless",
+          "Verizon"
+        ]
+      },
       "networks_rows": 24,
       "rows_total": 28,
       "fup_policies": [
@@ -32070,6 +36041,17 @@
         "Mobilis",
         "Ooredoo"
       ],
+      "networks_by_block": {
+        "local": [
+          "Mobilis",
+          "Ooredoo"
+        ],
+        "regional": [],
+        "daily": [
+          "Mobilis",
+          "Ooredoo"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 24,
       "fup_policies": [
@@ -32245,6 +36227,15 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "OOREDOO TN"
+        ],
+        "regional": [],
+        "daily": [
+          "OOREDOO TN"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 31,
       "fup_policies": [
@@ -32377,6 +36368,15 @@
       "networks": [
         "Vala"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vala"
+        ],
+        "regional": [],
+        "daily": [
+          "Vala"
+        ]
+      },
       "networks_rows": 8,
       "rows_total": 9,
       "fup_policies": [
@@ -32519,6 +36519,15 @@
       "networks": [
         "Roshan"
       ],
+      "networks_by_block": {
+        "local": [
+          "Roshan"
+        ],
+        "regional": [],
+        "daily": [
+          "Roshan"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 17,
       "fup_policies": [
@@ -32651,6 +36660,15 @@
       "networks": [
         "TashiCell"
       ],
+      "networks_by_block": {
+        "local": [
+          "TashiCell"
+        ],
+        "regional": [],
+        "daily": [
+          "TashiCell"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 10,
       "fup_policies": [
@@ -32751,6 +36769,29 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": []
+      },
       "networks_rows": 7,
       "rows_total": 10,
       "fup_policies": [],
@@ -32891,6 +36932,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 11,
       "fup_policies": [
@@ -33109,6 +37159,63 @@
         "Wind",
         "lifecell"
       ],
+      "networks_by_block": {
+        "local": [
+          "Iliad",
+          "TIM",
+          "TIM maritime",
+          "Wind"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "A1.net",
+          "Base",
+          "DNA",
+          "EE",
+          "Eir",
+          "Epic",
+          "FL1",
+          "GO",
+          "Iliad",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "PrimeTel",
+          "Proximus",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "TDC",
+          "TIM",
+          "TIM maritime",
+          "Tango",
+          "Tele2",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "lifecell"
+        ],
+        "daily": [
+          "Iliad",
+          "TIM",
+          "TIM maritime",
+          "Wind"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 24,
       "fup_policies": [
@@ -33335,6 +37442,106 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "GibTel"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "Orange Morocco",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ],
+        "daily": [
+          "3",
+          "A1",
+          "A1.net",
+          "Base",
+          "Digi.Mobil",
+          "Elisa",
+          "Epic",
+          "FL1",
+          "GO",
+          "GibTel",
+          "Iliad",
+          "KPN",
+          "LMT",
+          "MEO",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Síminn",
+          "Tango",
+          "Tele2",
+          "Telenor",
+          "Telenor Hungary",
+          "Telfort",
+          "Telia",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "bob"
+        ]
+      },
       "networks_rows": 23,
       "rows_total": 23,
       "fup_policies": [
@@ -33470,6 +37677,15 @@
       "networks": [
         "Orange"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 13,
       "fup_policies": [
@@ -33617,6 +37833,15 @@
       "networks": [
         "Safaricom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Safaricom"
+        ],
+        "regional": [],
+        "daily": [
+          "Safaricom"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 12,
       "fup_policies": [
@@ -33811,6 +38036,32 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Antel",
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "Tigo",
+          "VIVA",
+          "Vivo",
+          "WOM",
+          "free",
+          "movistar"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 18,
       "rows_total": 20,
       "fup_policies": [
@@ -33952,6 +38203,17 @@
         "NT Mobile",
         "Ncell"
       ],
+      "networks_by_block": {
+        "local": [
+          "NT Mobile",
+          "Ncell"
+        ],
+        "regional": [],
+        "daily": [
+          "NT Mobile",
+          "Ncell"
+        ]
+      },
       "networks_rows": 8,
       "rows_total": 10,
       "fup_policies": [
@@ -34126,6 +38388,31 @@
         "STC",
         "ooredoo"
       ],
+      "networks_by_block": {
+        "local": [
+          "Asia Cell"
+        ],
+        "regional": [
+          "Asia Cell",
+          "Du",
+          "Etisalat",
+          "Korek",
+          "Mobily",
+          "Ooredoo",
+          "STC",
+          "ooredoo"
+        ],
+        "daily": [
+          "Asia Cell",
+          "Du",
+          "Etisalat",
+          "Korek",
+          "Mobily",
+          "Ooredoo",
+          "STC",
+          "ooredoo"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 26,
       "fup_policies": [
@@ -34263,6 +38550,15 @@
       "networks": [
         "BTC"
       ],
+      "networks_by_block": {
+        "local": [
+          "BTC"
+        ],
+        "regional": [],
+        "daily": [
+          "BTC"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 15,
       "fup_policies": [
@@ -34348,6 +38644,11 @@
       "daily_gb": [],
       "speeds": [],
       "networks": [],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": []
+      },
       "networks_rows": 0,
       "rows_total": 5,
       "fup_policies": [],
@@ -34511,6 +38812,15 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 21,
       "fup_policies": [
@@ -34672,6 +38982,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 21,
       "fup_policies": [
@@ -34790,6 +39125,15 @@
       "networks": [
         "TELE Greenland"
       ],
+      "networks_by_block": {
+        "local": [
+          "TELE Greenland"
+        ],
+        "regional": [],
+        "daily": [
+          "TELE Greenland"
+        ]
+      },
       "networks_rows": 6,
       "rows_total": 7,
       "fup_policies": [
@@ -34941,6 +39285,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 15,
       "fup_policies": [
@@ -35105,6 +39474,37 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Cell C",
+          "MTN",
+          "Telkom",
+          "Vodacom"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Cell C",
+          "MTN",
+          "Telkom",
+          "Vodacom"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 17,
       "fup_policies": [
@@ -35306,6 +39706,123 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Sure"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ],
+        "daily": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 20,
       "fup_policies": [
@@ -35517,6 +40034,71 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Ålcom"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "Orange Morocco",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ],
+        "daily": [
+          "Ålcom"
+        ]
+      },
       "networks_rows": 22,
       "rows_total": 22,
       "fup_policies": [
@@ -35655,6 +40237,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 13,
       "fup_policies": [
@@ -35820,6 +40427,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 19,
       "fup_policies": [
@@ -35977,6 +40609,15 @@
       "networks": [
         "Faroese Telecom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Faroese Telecom"
+        ],
+        "regional": [],
+        "daily": [
+          "Faroese Telecom"
+        ]
+      },
       "networks_rows": 12,
       "rows_total": 19,
       "fup_policies": [
@@ -36067,6 +40708,13 @@
       "networks": [
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vodafone"
+        ],
+        "regional": [],
+        "daily": []
+      },
       "networks_rows": 6,
       "rows_total": 6,
       "fup_policies": [],
@@ -36214,6 +40862,15 @@
       "networks": [
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vodafone"
+        ],
+        "regional": [],
+        "daily": [
+          "Vodafone"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 18,
       "fup_policies": [
@@ -36345,6 +41002,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -36497,6 +41163,17 @@
         "Emtel",
         "my.t"
       ],
+      "networks_by_block": {
+        "local": [
+          "Emtel",
+          "my.t"
+        ],
+        "regional": [],
+        "daily": [
+          "Emtel",
+          "my.t"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 20,
       "fup_policies": [
@@ -36597,6 +41274,37 @@
         "free",
         "movistar"
       ],
+      "networks_by_block": {
+        "local": [],
+        "regional": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ],
+        "daily": [
+          "C&W",
+          "Chippie",
+          "Claro",
+          "Digicel",
+          "FLOW",
+          "Liberty",
+          "Movistar",
+          "Personal",
+          "TIM",
+          "VIVA",
+          "free",
+          "movistar"
+        ]
+      },
       "networks_rows": 3,
       "rows_total": 3,
       "fup_policies": [
@@ -36717,6 +41425,15 @@
       "networks": [
         "Mattel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Mattel"
+        ],
+        "regional": [],
+        "daily": [
+          "Mattel"
+        ]
+      },
       "networks_rows": 8,
       "rows_total": 8,
       "fup_policies": [
@@ -36841,6 +41558,15 @@
       "networks": [
         "Madar"
       ],
+      "networks_by_block": {
+        "local": [
+          "Madar"
+        ],
+        "regional": [],
+        "daily": [
+          "Madar"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -36986,6 +41712,15 @@
       "networks": [
         "Vivacell"
       ],
+      "networks_by_block": {
+        "local": [
+          "Vivacell"
+        ],
+        "regional": [],
+        "daily": [
+          "Vivacell"
+        ]
+      },
       "networks_rows": 10,
       "rows_total": 19,
       "fup_policies": [
@@ -37163,6 +41898,24 @@
         "STC",
         "ooredoo"
       ],
+      "networks_by_block": {
+        "local": [
+          "ooredoo"
+        ],
+        "regional": [
+          "Asia Cell",
+          "Du",
+          "Etisalat",
+          "Korek",
+          "Mobily",
+          "Ooredoo",
+          "STC",
+          "ooredoo"
+        ],
+        "daily": [
+          "ooredoo"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 27,
       "fup_policies": [
@@ -37330,6 +42083,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 15,
       "rows_total": 19,
       "fup_policies": [
@@ -37456,6 +42234,15 @@
       "networks": [
         "DigiCell"
       ],
+      "networks_by_block": {
+        "local": [
+          "DigiCell"
+        ],
+        "regional": [],
+        "daily": [
+          "DigiCell"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -37559,6 +42346,29 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Telma"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": []
+      },
       "networks_rows": 4,
       "rows_total": 14,
       "fup_policies": [],
@@ -37787,6 +42597,71 @@
         "vip",
         "Ålcom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange Morocco"
+        ],
+        "regional": [
+          "3",
+          "7acht",
+          "A1",
+          "BITĖ",
+          "Base",
+          "Bite",
+          "Bouygues",
+          "Digi.Mobil",
+          "Elisa",
+          "FL1",
+          "Free Mobile",
+          "GO",
+          "GibTel",
+          "JT",
+          "KPN",
+          "Kyivstar",
+          "LMT",
+          "MEO",
+          "Melita",
+          "Mobitel",
+          "Movistar",
+          "NOS",
+          "Nova",
+          "O2",
+          "Orange",
+          "Orange Morocco",
+          "POST",
+          "Play",
+          "Plus",
+          "PrimeTel",
+          "Pronto GSM",
+          "Proximus",
+          "SFR",
+          "Salt",
+          "Sunrise",
+          "Swisscom",
+          "TDC",
+          "Tango",
+          "Tele2",
+          "Telekom.mk",
+          "Telemach",
+          "Telenor",
+          "Telenor Hungary",
+          "Telia",
+          "Telia / DNA",
+          "Turkcell",
+          "VIP",
+          "Vivacom",
+          "Vodafone",
+          "Wind",
+          "Yoigo",
+          "lifecell",
+          "mts",
+          "vip",
+          "Ålcom"
+        ],
+        "daily": [
+          "Orange Morocco"
+        ]
+      },
       "networks_rows": 20,
       "rows_total": 33,
       "fup_policies": [
@@ -37942,6 +42817,15 @@
       "networks": [
         "Airtel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Airtel"
+        ],
+        "regional": [],
+        "daily": [
+          "Airtel"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 21,
       "fup_policies": [
@@ -38106,6 +42990,33 @@
         "Vodafone",
         "beMobile"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange",
+          "beMobile"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Orange",
+          "beMobile"
+        ]
+      },
       "networks_rows": 14,
       "rows_total": 17,
       "fup_policies": [
@@ -38237,6 +43148,15 @@
       "networks": [
         "Digicel"
       ],
+      "networks_by_block": {
+        "local": [
+          "Digicel"
+        ],
+        "regional": [],
+        "daily": [
+          "Digicel"
+        ]
+      },
       "networks_rows": 9,
       "rows_total": 9,
       "fup_policies": [
@@ -38353,6 +43273,15 @@
       "networks": [
         "Orange"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 8,
       "rows_total": 8,
       "fup_policies": [
@@ -38477,6 +43406,15 @@
       "networks": [
         "Dhiraagu"
       ],
+      "networks_by_block": {
+        "local": [
+          "Dhiraagu"
+        ],
+        "regional": [],
+        "daily": [
+          "Dhiraagu"
+        ]
+      },
       "networks_rows": 7,
       "rows_total": 9,
       "fup_policies": [
@@ -38627,6 +43565,31 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": [
+          "Orange"
+        ]
+      },
       "networks_rows": 13,
       "rows_total": 13,
       "fup_policies": [
@@ -38725,6 +43688,30 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Malitel",
+          "Orange"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": []
+      },
       "networks_rows": 5,
       "rows_total": 8,
       "fup_policies": [],
@@ -38846,6 +43833,15 @@
       "networks": [
         "SETAR"
       ],
+      "networks_by_block": {
+        "local": [
+          "SETAR"
+        ],
+        "regional": [],
+        "daily": [
+          "SETAR"
+        ]
+      },
       "networks_rows": 8,
       "rows_total": 8,
       "fup_policies": [
@@ -38993,6 +43989,15 @@
       "networks": [
         "Zain"
       ],
+      "networks_by_block": {
+        "local": [
+          "Zain"
+        ],
+        "regional": [],
+        "daily": [
+          "Zain"
+        ]
+      },
       "networks_rows": 6,
       "rows_total": 17,
       "fup_policies": [
@@ -39085,6 +44090,29 @@
         "Vodacom",
         "Vodafone"
       ],
+      "networks_by_block": {
+        "local": [
+          "Orange"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": []
+      },
       "networks_rows": 6,
       "rows_total": 6,
       "fup_policies": [],
@@ -39219,6 +44247,15 @@
       "networks": [
         "Mobicom"
       ],
+      "networks_by_block": {
+        "local": [
+          "Mobicom"
+        ],
+        "regional": [],
+        "daily": [
+          "Mobicom"
+        ]
+      },
       "networks_rows": 11,
       "rows_total": 11,
       "fup_policies": [
@@ -39310,6 +44347,29 @@
         "Vodafone",
         "Zain"
       ],
+      "networks_by_block": {
+        "local": [
+          "Zain"
+        ],
+        "regional": [
+          "Airtel",
+          "AirtelTigo",
+          "Cell C",
+          "Etisalat",
+          "Lonestar Cell MTN",
+          "MTN",
+          "MTN Areeba",
+          "Mascom",
+          "Orange",
+          "Orange Morocco",
+          "Swazi MTN",
+          "Swazi Mobile",
+          "Telkom",
+          "Vodacom",
+          "Vodafone"
+        ],
+        "daily": []
+      },
       "networks_rows": 6,
       "rows_total": 6,
       "fup_policies": [],
@@ -39430,6 +44490,15 @@
       "networks": [
         "Comium"
       ],
+      "networks_by_block": {
+        "local": [
+          "Comium"
+        ],
+        "regional": [],
+        "daily": [
+          "Comium"
+        ]
+      },
       "networks_rows": 7,
       "rows_total": 8,
       "fup_policies": [
@@ -39490,6 +44559,11 @@
       "daily_gb": [],
       "speeds": [],
       "networks": [],
+      "networks_by_block": {
+        "local": [],
+        "regional": [],
+        "daily": []
+      },
       "networks_rows": 0,
       "rows_total": 2,
       "fup_policies": [],

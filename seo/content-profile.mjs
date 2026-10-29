@@ -91,6 +91,8 @@ const META_KEYS = Object.freeze([
   // Sentences about the network in a place that a PRIMARY source supports
   // (operator, regulator, transport authority) — url + checked date each.
   'network_facts',
+  // Operator names → the block each sentence is about (seo/network-claims.mjs). Never rendered.
+  'network_claims', 'network_claims_waived',
 ]);
 
 // Anything resembling a catalogue fact. A profile containing one of these is

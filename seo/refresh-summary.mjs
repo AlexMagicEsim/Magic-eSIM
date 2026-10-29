@@ -62,6 +62,7 @@ export const CLAIM_FIELDS = Object.freeze([
   'fup_policies',
   'has_unlimited',
   'networks',
+  'networks_by_block',
 ]);
 
 /** Counts a page prints in its hero and repeats in its FAQ. */
