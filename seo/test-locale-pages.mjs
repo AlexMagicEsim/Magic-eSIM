@@ -29,6 +29,7 @@ import { PAGE_COPY } from './page-copy.mjs';
 import { FIXED_ALLOWED, allowedPaths } from './refresh-allowlist.mjs';
 import { sitemapUrls } from './build-sitemap.mjs';
 import { stampHtml } from './asset-version.mjs';
+import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -49,10 +50,10 @@ test('the generator publishes English, Spanish, German, French, Chinese and Kore
   assert.deepEqual(Object.keys(GUIDES_BY_LOCALE), ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
 });
 
-test('Spanish built through the locale generator equals the committed pages, byte for byte — home, list, 198 countries, guides', () => {
+test('Spanish built through the locale generator equals the committed pages, byte for byte — home, list, every catalogue country, guides', () => {
   const G = localeGenerator('es');
   const list = G.countries();
-  assert.equal(list.length, 198);
+  assert.equal(list.length, COUNTRY_PAGES);
   const drift = [];
   const same = (html, rel) => stampHtml(html, join(ROOT, dirname(rel))) === read(rel);
   if (!same(G.homePage(list), 'es/index.html')) drift.push('es/');
@@ -69,7 +70,7 @@ test('English built through the locale generator equals the committed pages, byt
   // assets), so the comparison is the whole file, stamps included.
   const G = localeGenerator('en');
   const list = G.countries();
-  assert.equal(list.length, 198);
+  assert.equal(list.length, COUNTRY_PAGES);
   const drift = [];
   const same = (html, rel) => stampHtml(html, join(ROOT, dirname(rel))) === read(rel);
   for (const c of list) {

@@ -153,6 +153,7 @@ window.MagicKoDestinations = [
   { iso: "CN", slug: "china", name: "중국" },
   { iso: "CF", slug: "central-african-republic", name: "중앙아프리카공화국" },
   { iso: "GI", slug: "gibraltar", name: "지브롤터" },
+  { iso: "ZW", slug: "zimbabwe", name: "짐바브웨" },
   { iso: "TD", slug: "chad", name: "차드" },
   { iso: "CZ", slug: "czechia", name: "체코" },
   { iso: "CL", slug: "chile", name: "칠레" },

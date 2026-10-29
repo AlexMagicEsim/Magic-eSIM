@@ -18,6 +18,7 @@ import assert from 'node:assert/strict';
 import { header, twin, PAYBAR, FOOTER, LOGO, POPULAR, FONT_PRELOAD } from './build-en-pages.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { snapshots as legalVersions } from './legal-archive.mjs';
+import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -47,9 +48,9 @@ test('the home carries the generator\'s header, payment bar and footer, verbatim
 });
 
 test('every English page has the same header shape, the same footer, and the payment bar', () => {
-  // 206 storefront pages + the Privacy Policy (LEGAL-1), which carries the same chrome.
+  // The storefront pages (home, list, one per catalogue country, three region pages, guides list, five guides)
   // + the legal documents: Privacy (LEGAL-1), Terms and Refund (LEGAL-3); + the permanent copy of each of their versions (LEGAL-5)
-  assert.equal(PAGES.length, 212 + legalVersions().length); // 209 + the three region pages (seo/regions.mjs)
+  assert.equal(PAGES.length, COUNTRY_PAGES + 14 + legalVersions().length); // + the three region pages (seo/regions.mjs)
   for (const p of PAGES) {
     const h = read(p);
     assert.ok(h.includes(FOOTER), `${p}: footer`);
@@ -167,7 +168,7 @@ test('no stylesheet reaches outside the site (the CSP allows only self)', () => 
 });
 
 test('every destination has its flag, and the flags are licensed', () => {
-  assert.equal(DESTINATIONS.length, 198);
+  assert.equal(DESTINATIONS.length, COUNTRY_PAGES);
   const missing = DESTINATIONS.filter((d) => !existsSync(join(ROOT, `assets/flags/${d.iso.toLowerCase()}.svg`)));
   assert.deepEqual(missing, []);
   for (const f of readdirSync(join(ROOT, 'assets/flags')).filter((x) => x.endsWith('.svg'))) {

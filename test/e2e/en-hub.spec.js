@@ -18,6 +18,10 @@ const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layo
 // The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
 // the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
 test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
+// One page per country the committed catalogue sells (seo/catalogue-countries.json — what the generators built the list
+// from); never a typed count, which stopped the SEO refresh each time a provider withdrew or returned a country.
+const CATALOGUE_SLUGS = require('../../seo/catalogue-countries.json').countries.map((c) => c.slug);
+const COUNTRY_PAGES = CATALOGUE_SLUGS.length;
 const fs = require('fs');
 
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -56,11 +60,12 @@ test('first screen: payment bar, then the hero and a large search; no overflow, 
   }
 });
 
-test('every destination link opens a real country page (198, all 200)', async ({ page, request }) => {
+test('every destination link opens a real country page (one per catalogue country, all 200)', async ({ page, request }) => {
   await open(page);
   const hrefs = await page.locator('#hubList a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
-  expect(hrefs.length).toBe(198);
-  expect(new Set(hrefs).size).toBe(198);
+  expect(hrefs.length).toBe(COUNTRY_PAGES);
+  expect(new Set(hrefs).size).toBe(COUNTRY_PAGES);
+  expect([...hrefs].sort()).toEqual(CATALOGUE_SLUGS.map((s) => `/en/esim/${s}/`).sort());
   for (const h of hrefs) {
     const r = await request.get(h);
     expect(r.status(), h).toBe(200);
@@ -114,18 +119,18 @@ test('search with no result: says so, offers the whole list, and gives it back',
   await page.locator('#hubReset').click();
   await expect(page.locator('#hq')).toBeFocused();
   await expect(page.locator('#hq')).toHaveValue('');
-  await expect(visibleLinks(page)).toHaveCount(198);
+  await expect(visibleLinks(page)).toHaveCount(COUNTRY_PAGES);
   await expect(page.locator('#hubEmpty')).toBeHidden();
   await expect(page.locator('#hubPopular')).toBeVisible();
   await expect(page.locator('#hubAz')).toBeVisible();
 
   await page.locator('#hq').fill('zzzz');
   await page.locator('#hubClear').click();
-  await expect(visibleLinks(page)).toHaveCount(198);
+  await expect(visibleLinks(page)).toHaveCount(COUNTRY_PAGES);
   await page.locator('#hq').fill('zzzz');
   await page.locator('#hq').press('Escape');
   await expect(page.locator('#hq')).toHaveValue('');
-  await expect(visibleLinks(page)).toHaveCount(198);
+  await expect(visibleLinks(page)).toHaveCount(COUNTRY_PAGES);
 });
 
 test('keyboard: Tab from the search reaches the popular tiles, the letters, then the list; a letter jumps', async ({ page }) => {
@@ -177,7 +182,7 @@ test.describe('without JavaScript', () => {
   test('no search box, the full list and the letters', async ({ page }) => {
     await open(page);
     await expect(page.locator('#hubSearch')).toBeHidden();
-    await expect(page.locator('#hubList a')).toHaveCount(198);
+    await expect(page.locator('#hubList a')).toHaveCount(COUNTRY_PAGES);
     await expect(page.locator('#hubAz a').first()).toBeVisible();
     await expect(page.locator('#hubEmpty')).toBeHidden();
     await expect(page.locator('#previewNotice')).toBeVisible();
