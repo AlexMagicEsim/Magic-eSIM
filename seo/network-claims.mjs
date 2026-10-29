@@ -142,7 +142,7 @@ export const EXTRA_OPERATORS = Object.freeze([
   'Kyivstar', 'Beeline', 'Kcell', 'Activ', 'Altel', 'Ucell', 'Ucom', 'Vivacell', 'Magti', 'Geocell', 'Silknet', 'Azercell',
   'Bakcell', 'MegaFon', 'Megafon', 'Tele2', 'Inwi', 'Maroc Telecom', 'Djezzy', 'Mobilis', 'Tunisie Telecom', 'Safaricom',
   'Vodacom', 'MTN', 'Telstra', 'Optus', 'Chippie', 'FLOW', 'Flow', 'Liberty', 'Cable & Wireless', 'Three', 'DIGI',
-  'Билайн', 'МТС', 'МегаФон', 'Мегафон', 'Теле2', 'Водафон', 'Этисалат', 'Магти', 'Билайн', 'Кселл', 'Актив', 'Алтел',
+  'Билайн', 'МТС', 'МегаФон', 'Мегафон', 'Теле2', 'Водафон', 'Этисалат', 'Магти', 'Кселл', 'Актив', 'Алтел',
 ]);
 
 // Names that are also ordinary words («Free Wi-Fi», «Brunei Plus», «One for…»),
@@ -158,7 +158,18 @@ const AMBIGUOUS = new Set([
 // The same, compared without case: «IDEA» / «Idea», «SMART» / «Smart», «free».
 const AMBIGUOUS_LOWER = new Set([...AMBIGUOUS].map((n) => n.toLowerCase()).concat(['free', 'bob', 'vip', 'my.t']));
 const NEVER = new Set(['3']);
-const CUE = /(?<![\p{L}])(?:оператор\p{L}*|сет(?:ь|и|ей|ях|ям|ью)|operators?|carriers?|networks?|operador(?:es)?|red(?:es)?)(?![\p{L}])/iu;
+// A sentence that talks about networks, operators or our plans. Ambiguous names
+// count only in one. Plan words are here too: «у местных тарифов ОАЭ указан Du»
+// has no «сеть» and is exactly the sentence this file exists for (review of #190).
+// Cyrillic-safe edges (\p{L}), never \b.
+const CUE = /(?<![\p{L}])(?:оператор\p{L}*|сет(?:ь|и|ей|ях|ям|ью|ями)|тариф\p{L}*|пакет\p{L}*|каталог\p{L}*|указан\p{L}*|связ\p{L}*|мобильн\p{L}*|operators?|carriers?|networks?|plans?|operador(?:es)?|red(?:es)?)(?![\p{L}])/iu;
+// A quoted package title («Brunei Plus», «Best World») is a name of OUR product,
+// not an operator: for ambiguous names a «…» span is ignored unless it is the
+// operator name alone («на сети «Plus»» still counts).
+const QUOTED = /«([^«»]*)»/g;
+
+// The URLs a `sources` entry names, exactly as written (an entry is «url — note» or «url1 — …; url2 — …»).
+const urlsOf = (entry) => [...String(entry).matchAll(/https?:\/\/[^\s;,»)]+/g)].map((m) => m[0]);
 
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -189,11 +200,15 @@ export function operatorLexicon(packages) {
 
 /** The operator names one sentence contains (as written), ambiguous ones only beside a network word. */
 export function operatorMentions(sentence, lexicon) {
-  const s = String(sentence);
+  const s = String(sentence).replace(/[\u00a0\u202f\u2007\u2009]/g, ' ').replace(/\s+/g, ' ');
   const out = [];
   const push = (n) => { if (!out.some((x) => x.toLowerCase() === n.toLowerCase())) out.push(n); };
   for (const m of s.matchAll(lexicon.plain)) push(m[0]);
-  if (lexicon.ambiguous && CUE.test(s)) for (const m of s.matchAll(lexicon.ambiguous)) push(m[0]);
+  if (lexicon.ambiguous && CUE.test(s)) {
+    const exact = new RegExp(`^(?:${lexicon.ambiguous.source})$`, 'u');
+    const bare = s.replace(QUOTED, (all, inner) => (exact.test(inner.trim()) ? all : ' '));
+    for (const m of bare.matchAll(lexicon.ambiguous)) push(m[0]);
+  }
   return out;
 }
 
@@ -302,7 +317,7 @@ export function checkNetworkClaims(profile, slug, { doc = loadCatalogDoc(), lexi
     let url = null;
     try { url = new URL(String(w.source)); } catch { /* reported below */ }
     if (!url || url.protocol !== 'https:') bad.push('source — https-ссылка на первоисточник');
-    else if (!sources.some((s) => s.startsWith(w.source) || s.includes(` ${w.source}`) || s.includes(`; ${w.source}`))) bad.push(`source ${w.source} не указан в sources профиля`);
+    else if (!sources.some((s) => urlsOf(s).includes(w.source))) bad.push(`source ${w.source} не указан в sources профиля (нужен тот же URL целиком)`);
     const t = fieldText(profile, w.field);
     if (t === undefined) bad.push(`поля ${w.field} нет`);
     else if (!isWholeSentence(t, w.text)) bad.push(`«${norm(w.text).slice(0, 80)}» — не целое предложение ${w.field} (или текст изменился)`);

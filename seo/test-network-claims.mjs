@@ -6,10 +6,12 @@
 // from WOM to movistar / CLARO CL; WOM survived only on a multi-country daily
 // plan — and «местные тарифы Чили — на сети WOM» would have stayed green.
 //
-// The first tests run against the REAL snapshot on exactly that case (and the
-// Curaçao Digicel → Chippie one). The rule tests after them use small synthetic
-// layouts, so a provider move cannot turn them red; the corpus tests at the end
-// read every authored text source the site has.
+// The first tests run on exactly that case (and Curaçao Digicel → Chippie, UAE
+// Etisalat) with REAL catalogue data — frozen 2026-10-29 into
+// test/fixtures/network-claims-2026-10-29.json, so an ordinary provider move
+// cannot turn the SEO refresh red with no page at stake. The rule tests use
+// small synthetic layouts. Only the corpus test at the end reads the live
+// snapshot: it is the one that must go red when a real move falsifies a page.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -23,9 +25,11 @@ import { catalogueProblems } from './content-review.mjs';
 import { sentencesOf } from './coverage-claims.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const DOC = loadCatalogDoc();
-const LEX = operatorLexicon(DOC.packages);
-const run = (profile, slug, doc = DOC) => checkNetworkClaims(profile, slug, { doc });
+const DOC = loadCatalogDoc();                    // live — corpus and sheet consistency only
+const FIX = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/network-claims-2026-10-29.json'), 'utf8'));
+const LEX = operatorLexicon(FIX.packages);
+const LIVE_LEX = operatorLexicon(DOC.packages);
+const run = (profile, slug, doc = FIX) => checkNetworkClaims(profile, slug, { doc, lexicon: operatorLexicon(doc.packages) });
 const one = (text, claims, extra = {}) => ({ faq: [{ q: 'Вопрос?', a: text }], ...(claims ? { network_claims: claims } : {}), ...extra });
 const claim = (text, block, operators, more = {}) => ({ id: 'c', anchors: [{ field: 'faq[0].a', text }], block, operators, ...more });
 
@@ -33,11 +37,11 @@ const claim = (text, block, operators, more = {}) => ({ id: 'c', anchors: [{ fie
 
 const CHILE_LOCAL_WOM = 'По данным каталога местные тарифы Чили — на сети WOM.';
 
-test('FIRST: a Chile sentence putting WOM on the LOCAL plans fails on the real snapshot', () => {
+test('FIRST: a Chile sentence putting WOM on the LOCAL plans fails (real data, frozen 2026-10-29)', () => {
   // Precondition, so this test cannot pass for a reason it does not name: in the
   // snapshot WOM is listed on Chile's page, but not by a local plan.
-  const nb = networksByBlock(DOC, 'CL');
-  assert.ok(nb, 'в снимке нет раскладки для CL');
+  const nb = networksByBlock(FIX, 'CL');
+  assert.ok(nb, 'в фикстуре нет раскладки для CL');
   assert.ok(!nb.local.includes('WOM'), `предпосылка: у местных тарифов CL WOM быть не должно (${nb.local.join(', ')})`);
   assert.ok(Object.values(nb).some((l) => l.includes('WOM')), 'предпосылка: WOM указан в каком-то блоке страницы CL');
 
@@ -67,7 +71,7 @@ test('the same sentence attributed to the REGIONAL block passes when that block 
   assert.ok(run(one(t, [claim(t, 'local', ['WOM'])]), 'chile', doc).length, 'тот же WOM в local должен падать');
 });
 
-test('real snapshot: WOM in Chile is a DAILY-block fact, not a regional one', () => {
+test('real data: WOM in Chile is a DAILY-block fact, not a regional one', () => {
   const t = 'WOM указан у многостранового пакета в блоке «Трафик на каждый день».';
   assert.deepEqual(run(one(t, [claim(t, 'daily', ['WOM'])]), 'chile'), []);
   const p = run(one(t, [claim(t, 'regional', ['WOM'])]), 'chile');
@@ -80,7 +84,7 @@ test('movistar and CLARO CL for the Chilean local plans pass', () => {
 });
 
 test('Curaçao: «Digicel» fails in every block (none lists it), «Chippie» passes', () => {
-  const nb = networksByBlock(DOC, 'CW');
+  const nb = networksByBlock(FIX, 'CW');
   assert.ok(nb && !Object.values(nb).some((l) => l.includes('Digicel')), 'предпосылка: Digicel на странице CW не указан');
   const bad = 'По данным каталога местные тарифы Кюрасао — на сети Digicel.';
   for (const block of ['local', 'regional', 'daily']) {
@@ -154,9 +158,31 @@ test('a waiver needs a reason and a source the profile lists, and expires with t
   const w = { field: 'faq[0].a', text: t, reason: 'факт регулятора о сетях страны, не о тарифах', source: src };
   assert.deepEqual(syn(one(t, null, { network_claims_waived: [w], sources: [`${src} — 5G; проверено 2026-10-29`] })), []);
   assert.ok(syn(one(t, null, { network_claims_waived: [w], sources: [] })).some((x) => /не указан в sources/.test(x)));
+  // The same URL, not a prefix of a longer one (review of #190, O4).
+  assert.ok(syn(one(t, null, { network_claims_waived: [{ ...w, source: 'https://regulator.example/' }], sources: [`${src} — 5G`] })).some((x) => /не указан в sources/.test(x)));
+  assert.deepEqual(syn(one(t, null, { network_claims_waived: [{ ...w, source: 'https://other.example/a' }], sources: [`https://x.example/b — …; https://other.example/a — 5G`] })), []);
   assert.ok(syn(one(t, null, { network_claims_waived: [{ ...w, reason: 'так надо' }], sources: [src] })).some((x) => /reason/.test(x)));
   const plain = 'Сети 5G в стране есть.';
   assert.ok(syn(one(plain, null, { network_claims_waived: [{ ...w, text: plain }], sources: [src] })).some((x) => /исключение устарело/.test(x)));
+});
+
+test('FIRST for the cue: an ambiguous name beside a PLAN word, with no «сеть» or «оператор», is detected', () => {
+  // The review of #190 found these passing with no claim at all.
+  for (const t of [
+    'По данным каталога у местных тарифов ОАЭ указан Du.',
+    'Тарифы работают с сетями Du.',
+    'Местные пакеты работают через MEO и NOS.',
+    'По данным каталога местные тарифы — у Salt.',
+    'Местные тарифы\u00a0—\u00a0у  Salt.',
+  ]) {
+    assert.ok(operatorMentions(t, LEX).length, `не распознано: «${t}»`);
+    const p = run(one(t), 'uae');
+    assert.ok(p.some((x) => /без network_claims/.test(x)), `«${t}» прошло без утверждения`);
+  }
+  // A quoted package title is ours, not an operator — even beside «пакеты».
+  assert.deepEqual(operatorMentions('Бруней вместе с Малайзией покрывают пакеты «Brunei Plus» из блока «Региональные тарифы».', LEX), []);
+  // …but an operator quoted alone still counts.
+  assert.deepEqual(operatorMentions('Местные тарифы — на сети «Salt».', LEX), ['Salt']);
 });
 
 test('ordinary words that are also operator names count only beside a network word', () => {
@@ -189,10 +215,8 @@ test('the fact sheet keeps operators per block, the same ones the gate reads', (
     n++;
   }
   assert.ok(n >= 190, `проверено ${n} фактшитов`);
-  // The case the union could not tell apart.
-  assert.ok(sheets.chile.networks.includes('WOM') && !sheets.chile.networks_by_block.local.includes('WOM'));
   // A stale sheet is refused by the gate itself.
-  const stale = { ...sheets.chile, networks_by_block: { ...sheets.chile.networks_by_block, local: ['WOM'] } };
+  const stale = { ...sheets.chile, networks_by_block: { ...sheets.chile.networks_by_block, local: ['__stale__'] } };
   assert.ok(catalogueProblems({}, 'chile', { sheetsBySlug: { chile: stale } }).some((x) => /networks_by_block не совпадает/.test(x)));
 });
 
@@ -211,7 +235,7 @@ test('every RU profile: each operator name is anchored to its block and true of 
   let named = 0;
   for (const f of files) {
     const profile = JSON.parse(readFileSync(join(dir, f), 'utf8'));
-    const p = run(profile, f.slice(0, -5));
+    const p = checkNetworkClaims(profile, f.slice(0, -5), { doc: DOC });
     if (p.length) failures.push(`${f}:\n    ${p.join('\n    ')}`);
     if ((profile.network_claims || []).length || (profile.network_claims_waived || []).length) named++;
   }
@@ -228,7 +252,7 @@ const visible = (html) => html
 test('the six legacy pages and the EN/ES authored content name no operator (no claim format there)', () => {
   const found = [];
   for (const slug of ['malaysia', 'maldives', 'mexico', 'brazil', 'greece', 'cyprus']) {
-    for (const m of bareMentions([visible(readFileSync(join(ROOT, `esim/${slug}/index.html`), 'utf8'))], LEX)) found.push(`legacy ${slug}: ${m.name} — «${m.sentence.slice(0, 120)}»`);
+    for (const m of bareMentions([visible(readFileSync(join(ROOT, `esim/${slug}/index.html`), 'utf8'))], LIVE_LEX)) found.push(`legacy ${slug}: ${m.name} — «${m.sentence.slice(0, 120)}»`);
   }
   const strings = (v, out = []) => {
     if (typeof v === 'string') out.push(v);
@@ -240,14 +264,14 @@ test('the six legacy pages and the EN/ES authored content name no operator (no c
   for (const d of ['seo/content-en', 'seo/content-es']) {
     for (const f of readdirSync(join(ROOT, d)).filter((x) => x.endsWith('.json'))) {
       n++;
-      for (const m of bareMentions(strings(JSON.parse(readFileSync(join(ROOT, d, f), 'utf8'))), LEX)) found.push(`${d}/${f}: ${m.name} — «${m.sentence.slice(0, 120)}»`);
+      for (const m of bareMentions(strings(JSON.parse(readFileSync(join(ROOT, d, f), 'utf8'))), LIVE_LEX)) found.push(`${d}/${f}: ${m.name} — «${m.sentence.slice(0, 120)}»`);
     }
   }
   assert.ok(n >= 31, `проверено ${n} файлов EN/ES`);
   assert.deepEqual(found, [], `оператор в тексте без формата утверждений — уберите имя или заведите формат:\n${found.join('\n')}`);
 });
 
-test('the corpus negative control: the old UAE sentence fails on the current snapshot', () => {
+test('negative control: the old UAE sentence fails (real data, frozen 2026-10-29)', () => {
   const old = 'Там, где поставщик вообще указывает сеть, у локальных тарифов ОАЭ это Du, а у тарифа на 1 ГБ на 7 дней — Etisalat; Etisalat указан и у части многострановых пакетов.';
   assert.equal(sentencesOf(old).length, 1);
   const p = run(one(old, [claim(old, 'local', ['Du', 'Etisalat'])]), 'uae');

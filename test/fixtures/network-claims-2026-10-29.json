@@ -1,0 +1,2004 @@
+{
+  "_comment": "Frozen 2026-10-29 from assets/catalog.json (generated_at 2026-10-28T13:04:56.715Z): the CL, CW, AE and CH page layouts and the operator field of their packages. seo/test-network-claims.mjs runs the real cases (Chile WOM, Curaçao Digicel, UAE Etisalat) on this file so an ordinary provider move cannot redden the SEO refresh; only the corpus test there reads the live snapshot. Never regenerate it to make a test pass.",
+  "generated_at": "2026-10-28T13:04:56.715Z",
+  "packages": [
+    {
+      "package_id": "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
+      "name": "Latin America 10 GB",
+      "networks": []
+    },
+    {
+      "package_id": "02c2aaf4-f95e-432b-aa2d-687a5dd9e2ab",
+      "name": "LatAm 50 GB",
+      "networks": []
+    },
+    {
+      "package_id": "02e8e6e3-8b47-445d-bf67-ba7e9f8a8ca4",
+      "name": "United Arab Emirates 20GB 30Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "04262a42-912e-42df-a29e-46c97d9fa708",
+      "name": "Best World 10 GB",
+      "networks": []
+    },
+    {
+      "package_id": "06121835-e264-47cb-97de-1f5067a66486",
+      "name": "LATAM 7 GB",
+      "networks": []
+    },
+    {
+      "package_id": "08cf43a3-34ab-4c3c-9ce1-131b5322b79a",
+      "name": "United Arab Emirates 500MB/Day",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "096d1bf0-282f-4e55-97da-d9ccccc57694",
+      "name": "United Arab Emirates 3GB 15Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "0aa74a8b-a2d4-4724-b6ac-3af2a3fe6f30",
+      "name": "Curaçao 1GB/Day",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "0d504f79-eab1-40dc-891a-c1f60cf11f06",
+      "name": "United Arab Emirates 3GB 30Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "181b1661-acd9-426a-a571-3a8c9c53474a",
+      "name": "Americas 5 GB",
+      "networks": []
+    },
+    {
+      "package_id": "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
+      "name": "LATAM 2 GB",
+      "networks": []
+    },
+    {
+      "package_id": "393583bd-f375-4a5b-977f-32c7d0928504",
+      "name": "Americas 2 GB",
+      "networks": []
+    },
+    {
+      "package_id": "3b3e5545-262d-468b-861b-ecfa9e93f5e3",
+      "name": "Europe (35 areas) 5GB 30Days",
+      "networks": [
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "A1.net"
+        },
+        {
+          "operator": "Proximus"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Base"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "Vivacom"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "PrimeTel"
+        },
+        {
+          "operator": "Epic"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "TDC"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "DNA"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telenor Hungary"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Nova"
+        },
+        {
+          "operator": "Síminn"
+        },
+        {
+          "operator": "Eir"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "LMT"
+        },
+        {
+          "operator": "7acht"
+        },
+        {
+          "operator": "FL1"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Tango"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "POST"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "GO"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "KPN"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Play"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "NOS"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Telemach"
+        },
+        {
+          "operator": "Mobitel"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Movistar"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Kyivstar"
+        },
+        {
+          "operator": "lifecell"
+        },
+        {
+          "operator": "EE"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        }
+      ]
+    },
+    {
+      "package_id": "3d313e9c-e504-4051-a206-3b49d42a8609",
+      "name": "Chile 500MB/Day",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "408aa792-ded5-4a3d-8fb8-f6e8e92a578f",
+      "name": "United Arab Emirates 5GB/Day",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "4207e8fa-d7a0-4ed9-a6aa-681214189243",
+      "name": "Saudi and UAE 3 GB 90 days",
+      "networks": []
+    },
+    {
+      "package_id": "42383de5-1e65-4843-9a58-7c22d9cf5a41",
+      "name": "Curaçao 2GB/Day",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "455bf85d-c9ca-41c3-b2a0-9a287fb50a5d",
+      "name": "United Arab Emirates 5GB 30Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "46837a37-eeb3-47c7-8b2b-a342a6a1e2c5",
+      "name": "MENA 3 GB",
+      "networks": []
+    },
+    {
+      "package_id": "4a3bb69a-2271-4425-831b-6068205e2e4c",
+      "name": "Curaçao 500MB/Day",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "4c999610-ed78-4846-9cc8-77a1d087816c",
+      "name": "MENA 2 GB",
+      "networks": []
+    },
+    {
+      "package_id": "506a4542-6c61-478f-9ecc-26d6930e7a19",
+      "name": "Chile 1GB/Day",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "547ac082-cbfb-4f01-8f88-2c273a5c0af8",
+      "name": "Dubai 100 GB",
+      "networks": []
+    },
+    {
+      "package_id": "6067cb8b-e930-479b-b8b6-536e54ee2093",
+      "name": "MENA 5 GB",
+      "networks": []
+    },
+    {
+      "package_id": "6572bf97-ad24-45f8-9f13-47ea92ae5f6a",
+      "name": "Curaçao 20GB 30Days",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "697c022e-b664-4a90-9943-258d972ad1ee",
+      "name": "Europe (35 areas) 10GB 30Days",
+      "networks": [
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "A1.net"
+        },
+        {
+          "operator": "Proximus"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Base"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "Vivacom"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "PrimeTel"
+        },
+        {
+          "operator": "Epic"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "TDC"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "DNA"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telenor Hungary"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Nova"
+        },
+        {
+          "operator": "Síminn"
+        },
+        {
+          "operator": "Eir"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "LMT"
+        },
+        {
+          "operator": "7acht"
+        },
+        {
+          "operator": "FL1"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Tango"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "POST"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "GO"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "KPN"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Play"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "NOS"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Telemach"
+        },
+        {
+          "operator": "Mobitel"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Movistar"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Kyivstar"
+        },
+        {
+          "operator": "lifecell"
+        },
+        {
+          "operator": "EE"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        }
+      ]
+    },
+    {
+      "package_id": "69f11548-ee06-4c2b-a1b4-e7194168f702",
+      "name": "Curaçao 3GB 30Days",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "6ef545ff-c6d5-4caf-a7c8-a941eb3053db",
+      "name": "United Arab Emirates 2GB/Day",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "7ad00376-ca2e-4d40-a056-e2ee7a1b305d",
+      "name": "Switzerland 1GB/Day",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "7b69f85c-4b7f-4fad-924f-ff5f882d7f23",
+      "name": "MENA 20 GB",
+      "networks": []
+    },
+    {
+      "package_id": "828cbf63-6b4b-4a28-a160-13eeb37d6f98",
+      "name": "Europe and USA 12 GB",
+      "networks": []
+    },
+    {
+      "package_id": "849f41fb-3ab7-4b1a-b7ca-1f655b098ff7",
+      "name": "Switzerland 1GB 7Days",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "853ce5e3-a7fe-454d-8487-7c4059795546",
+      "name": "Curaçao 5GB 30Days",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "85a3c7d9-92a9-4cf4-99a5-6e0ed03521e7",
+      "name": "United Arab Emirates 1GB 7Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "85e5219f-b35a-4184-9a09-6ff388e6a1a8",
+      "name": "Switzerland 500MB/Day",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "85e74caa-bf21-4bab-b90e-273fb3b7cd18",
+      "name": "Europe (35 areas) 1GB 7Days",
+      "networks": [
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "A1.net"
+        },
+        {
+          "operator": "Proximus"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Base"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "Vivacom"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "PrimeTel"
+        },
+        {
+          "operator": "Epic"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "TDC"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "DNA"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telenor Hungary"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Nova"
+        },
+        {
+          "operator": "Síminn"
+        },
+        {
+          "operator": "Eir"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "LMT"
+        },
+        {
+          "operator": "7acht"
+        },
+        {
+          "operator": "FL1"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Tango"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "POST"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "GO"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "KPN"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Play"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "NOS"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Telemach"
+        },
+        {
+          "operator": "Mobitel"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Movistar"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Kyivstar"
+        },
+        {
+          "operator": "lifecell"
+        },
+        {
+          "operator": "EE"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        }
+      ]
+    },
+    {
+      "package_id": "89e8d664-aff5-4505-a60c-b0e748356444",
+      "name": "LATAM 3 GB",
+      "networks": []
+    },
+    {
+      "package_id": "8a03fb8c-47f4-49df-b0a4-2e4c032d38ec",
+      "name": "South America (6 areas) 5GB/Day",
+      "networks": [
+        {
+          "operator": "Personal"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "WOM"
+        },
+        {
+          "operator": "Movistar"
+        },
+        {
+          "operator": "Movistar"
+        },
+        {
+          "operator": "Movistar"
+        }
+      ]
+    },
+    {
+      "package_id": "932ff010-cf18-4972-9b95-67f33b640619",
+      "name": "Americas 3 GB",
+      "networks": []
+    },
+    {
+      "package_id": "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+      "name": "LATAM 5 GB",
+      "networks": []
+    },
+    {
+      "package_id": "9c74ce0f-484a-4572-89a7-62af7989af84",
+      "name": "Curaçao 1GB 7Days",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "9cbb7645-244e-4618-b423-b8cdae7feb9f",
+      "name": "LatAm Unlimited 5 Days",
+      "networks": []
+    },
+    {
+      "package_id": "9cd571d9-e719-4277-b4e9-4a2cf496f02f",
+      "name": "Chile 5GB 30Days",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "a12eab2d-6815-443b-9f83-fcf10c918358",
+      "name": "Switzerland 3GB 15Days",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "a8047dee-ab76-485b-aa4f-d77bcffd76c8",
+      "name": "Switzerland 10GB 30Days",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "a9f69fd3-afb2-4357-a8ca-8f2d4b80a16d",
+      "name": "Switzerland 50GB 30Days",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "ace0cdb2-f491-4555-8e9a-d35e0e07d4eb",
+      "name": "United Arab Emirates 10GB/Day",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "aeda7194-a9fb-473d-a7dc-a3ec0e875352",
+      "name": "LatAm Unlimited 3 Days",
+      "networks": []
+    },
+    {
+      "package_id": "b1146220-faf6-4d1c-a6c2-8372526d60bd",
+      "name": "Curaçao 3GB/Day FUP1Mbps",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "b3462c75-74df-4ea9-8307-21724ddbd96f",
+      "name": "United Arab Emirates 10GB 60Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "b6c977d5-a126-485f-b361-f50769ab27eb",
+      "name": "Curaçao 10GB 30Days",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "b7e31ca5-f8f8-4be7-8e3d-4e58b20ee628",
+      "name": "LatAm Unlimited 1 Day",
+      "networks": []
+    },
+    {
+      "package_id": "b8a5fb4b-d239-4e15-a28c-aa230e66a26f",
+      "name": "Chile 10GB/Day",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "b9c4528c-550e-43b8-aa15-f95926f4957e",
+      "name": "Americas 1 GB",
+      "networks": []
+    },
+    {
+      "package_id": "b9c738e5-62ff-4172-a3dc-cd9c6deb4ac6",
+      "name": "World 1 GB",
+      "networks": []
+    },
+    {
+      "package_id": "bded5dd0-7fa3-4740-bd41-c8de6e7fc7ce",
+      "name": "MENA 10 GB",
+      "networks": []
+    },
+    {
+      "package_id": "be37e184-f684-42f6-a6f2-e8782bc000a2",
+      "name": "Switzerland 3GB/Day",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "c07d66eb-905f-4ee2-b533-5822c05be5ca",
+      "name": "Dubai 50 GB",
+      "networks": []
+    },
+    {
+      "package_id": "c1de3be7-7fee-45b7-8d58-06c01e99da02",
+      "name": "Chile 20GB 30Days",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "c39ec677-bf89-4622-9e01-1693e37e9dbd",
+      "name": "Switzerland 50GB 180Days",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a",
+      "name": "Europe and USA 25 GB",
+      "networks": []
+    },
+    {
+      "package_id": "c8ce0d92-7adc-4ace-a5a9-a9ae3bac3d50",
+      "name": "Switzerland 20GB 30Days",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "cd9e2d1c-7ed0-49ad-891b-fa724d3a0f06",
+      "name": "Curaçao 3GB 15Days",
+      "networks": [
+        {
+          "operator": "Chippie"
+        }
+      ]
+    },
+    {
+      "package_id": "cfaa4dd8-4fc4-4560-b349-5bbcb2f46a59",
+      "name": "United Arab Emirates 50GB 180Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "d16179e0-aacd-4e9d-aa10-f173fee983c7",
+      "name": "Europe (35 areas) 3GB 15Days",
+      "networks": [
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "A1.net"
+        },
+        {
+          "operator": "Proximus"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Base"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "Vivacom"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "PrimeTel"
+        },
+        {
+          "operator": "Epic"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "TDC"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "DNA"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telenor Hungary"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Nova"
+        },
+        {
+          "operator": "Síminn"
+        },
+        {
+          "operator": "Eir"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "LMT"
+        },
+        {
+          "operator": "7acht"
+        },
+        {
+          "operator": "FL1"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Tango"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "POST"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "GO"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "KPN"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Play"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "NOS"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Telemach"
+        },
+        {
+          "operator": "Mobitel"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Movistar"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Kyivstar"
+        },
+        {
+          "operator": "lifecell"
+        },
+        {
+          "operator": "EE"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        }
+      ]
+    },
+    {
+      "package_id": "d3b45c23-09ae-4fa0-8faf-d956dffb5eed",
+      "name": "Chile 10GB 30Days",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "d6b2ae20-9100-4eb3-be7d-ea5897b59351",
+      "name": "Switzerland 5GB/Day",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "d8ba7ec9-a665-4a38-af19-7b804ec35a69",
+      "name": "Chile 2GB/Day",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "de28a7e6-5b5d-48d1-b0e9-b5bfe3c1909a",
+      "name": "Europe and USA 30 GB",
+      "networks": []
+    },
+    {
+      "package_id": "e0fa7b09-b6e1-47ae-baba-2faccb51fd2b",
+      "name": "Gulf Region 1GB 7Days",
+      "networks": [
+        {
+          "operator": "STC"
+        },
+        {
+          "operator": "Korek"
+        },
+        {
+          "operator": "Asia Cell"
+        },
+        {
+          "operator": "Ooredoo"
+        },
+        {
+          "operator": "STC"
+        },
+        {
+          "operator": "ooredoo"
+        },
+        {
+          "operator": "Mobily"
+        },
+        {
+          "operator": "Etisalat"
+        },
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "e0fac636-4169-41a1-9c6e-01a2cdd3e7fc",
+      "name": "Chile 3GB/Day FUP1Mbps",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "e25592b2-e1d9-4423-b6d3-b416821e4fde",
+      "name": "Chile 3GB 30Days",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "e77a979a-6578-4ebb-ba0b-c2619bfb9a48",
+      "name": "Chile 1GB 7Days",
+      "networks": [
+        {
+          "operator": "movistar"
+        },
+        {
+          "operator": "CLARO CL"
+        }
+      ]
+    },
+    {
+      "package_id": "e90fccc2-af24-4bdf-bc15-6720a6c49716",
+      "name": "United Arab Emirates 3GB/Day",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "ec03cdf6-7042-4304-b73e-68de5b00d09e",
+      "name": "LATAM 1 GB",
+      "networks": []
+    },
+    {
+      "package_id": "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
+      "name": "Latin America 20 GB",
+      "networks": []
+    },
+    {
+      "package_id": "efbf9e86-eb6e-4151-874f-49d3514d2ce3",
+      "name": "Europe (35 areas) 20GB 30Days",
+      "networks": [
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "A1.net"
+        },
+        {
+          "operator": "Proximus"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Base"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "Vivacom"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "A1"
+        },
+        {
+          "operator": "PrimeTel"
+        },
+        {
+          "operator": "Epic"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "TDC"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "DNA"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telenor Hungary"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Nova"
+        },
+        {
+          "operator": "Síminn"
+        },
+        {
+          "operator": "Eir"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "LMT"
+        },
+        {
+          "operator": "7acht"
+        },
+        {
+          "operator": "FL1"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Tele2"
+        },
+        {
+          "operator": "Tango"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "POST"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "GO"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "KPN"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Play"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "NOS"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "O2"
+        },
+        {
+          "operator": "Telemach"
+        },
+        {
+          "operator": "Mobitel"
+        },
+        {
+          "operator": "Orange"
+        },
+        {
+          "operator": "Movistar"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "Telia"
+        },
+        {
+          "operator": "Telenor"
+        },
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        },
+        {
+          "operator": "Vodafone"
+        },
+        {
+          "operator": "Kyivstar"
+        },
+        {
+          "operator": "lifecell"
+        },
+        {
+          "operator": "EE"
+        },
+        {
+          "operator": "3"
+        },
+        {
+          "operator": "TIM"
+        },
+        {
+          "operator": "Wind"
+        },
+        {
+          "operator": "TIM maritime"
+        },
+        {
+          "operator": "Iliad"
+        }
+      ]
+    },
+    {
+      "package_id": "f2abf07d-a5c6-4d76-be19-97fd25bc94f9",
+      "name": "Switzerland 5GB 30Days",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "f3f9f094-a8e7-4f36-819a-539aa6f8405c",
+      "name": "United Arab Emirates 10GB 30Days",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    },
+    {
+      "package_id": "f7ba0566-254a-4dad-9797-e214f1dc9fd2",
+      "name": "Switzerland 2GB/Day",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "f94920d6-b11c-49ef-ab0f-f3c574ea55fc",
+      "name": "Caribbean 20 GB",
+      "networks": []
+    },
+    {
+      "package_id": "ffa4a828-e007-4c69-af2e-9aaf2b24a7f2",
+      "name": "Switzerland 10GB/Day",
+      "networks": [
+        {
+          "operator": "Sunrise"
+        },
+        {
+          "operator": "Salt"
+        }
+      ]
+    },
+    {
+      "package_id": "fffe7bf3-f9f2-41fe-bad5-4c039dfa79f8",
+      "name": "United Arab Emirates 1GB/Day FUP1Mbps",
+      "networks": [
+        {
+          "operator": "Du"
+        }
+      ]
+    }
+  ],
+  "assortment": {
+    "countries": {
+      "CL": {
+        "local": [
+          "e77a979a-6578-4ebb-ba0b-c2619bfb9a48",
+          "e25592b2-e1d9-4423-b6d3-b416821e4fde",
+          "9cd571d9-e719-4277-b4e9-4a2cf496f02f",
+          "d3b45c23-09ae-4fa0-8faf-d956dffb5eed",
+          "c1de3be7-7fee-45b7-8d58-06c01e99da02"
+        ],
+        "regional": [
+          "ec03cdf6-7042-4304-b73e-68de5b00d09e",
+          "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
+          "89e8d664-aff5-4505-a60c-b0e748356444",
+          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+          "06121835-e264-47cb-97de-1f5067a66486",
+          "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
+          "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
+          "02c2aaf4-f95e-432b-aa2d-687a5dd9e2ab"
+        ],
+        "daily": [
+          "3d313e9c-e504-4051-a206-3b49d42a8609",
+          "506a4542-6c61-478f-9ecc-26d6930e7a19",
+          "d8ba7ec9-a665-4a38-af19-7b804ec35a69",
+          "e0fac636-4169-41a1-9c6e-01a2cdd3e7fc",
+          "8a03fb8c-47f4-49df-b0a4-2e4c032d38ec",
+          "b8a5fb4b-d239-4e15-a28c-aa230e66a26f",
+          "b7e31ca5-f8f8-4be7-8e3d-4e58b20ee628",
+          "aeda7194-a9fb-473d-a7dc-a3ec0e875352",
+          "9cbb7645-244e-4618-b423-b8cdae7feb9f"
+        ]
+      },
+      "CW": {
+        "local": [
+          "9c74ce0f-484a-4572-89a7-62af7989af84",
+          "cd9e2d1c-7ed0-49ad-891b-fa724d3a0f06",
+          "69f11548-ee06-4c2b-a1b4-e7194168f702",
+          "853ce5e3-a7fe-454d-8487-7c4059795546",
+          "b6c977d5-a126-485f-b361-f50769ab27eb",
+          "6572bf97-ad24-45f8-9f13-47ea92ae5f6a"
+        ],
+        "regional": [
+          "b9c4528c-550e-43b8-aa15-f95926f4957e",
+          "b9c738e5-62ff-4172-a3dc-cd9c6deb4ac6",
+          "393583bd-f375-4a5b-977f-32c7d0928504",
+          "932ff010-cf18-4972-9b95-67f33b640619",
+          "181b1661-acd9-426a-a571-3a8c9c53474a",
+          "04262a42-912e-42df-a29e-46c97d9fa708",
+          "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
+        ],
+        "daily": [
+          "4a3bb69a-2271-4425-831b-6068205e2e4c",
+          "0aa74a8b-a2d4-4724-b6ac-3af2a3fe6f30",
+          "42383de5-1e65-4843-9a58-7c22d9cf5a41",
+          "b1146220-faf6-4d1c-a6c2-8372526d60bd"
+        ]
+      },
+      "AE": {
+        "local": [
+          "85a3c7d9-92a9-4cf4-99a5-6e0ed03521e7",
+          "096d1bf0-282f-4e55-97da-d9ccccc57694",
+          "0d504f79-eab1-40dc-891a-c1f60cf11f06",
+          "455bf85d-c9ca-41c3-b2a0-9a287fb50a5d",
+          "f3f9f094-a8e7-4f36-819a-539aa6f8405c",
+          "b3462c75-74df-4ea9-8307-21724ddbd96f",
+          "02e8e6e3-8b47-445d-bf67-ba7e9f8a8ca4",
+          "c07d66eb-905f-4ee2-b533-5822c05be5ca",
+          "cfaa4dd8-4fc4-4560-b349-5bbcb2f46a59",
+          "547ac082-cbfb-4f01-8f88-2c273a5c0af8"
+        ],
+        "regional": [
+          "e0fa7b09-b6e1-47ae-baba-2faccb51fd2b",
+          "4c999610-ed78-4846-9cc8-77a1d087816c",
+          "46837a37-eeb3-47c7-8b2b-a342a6a1e2c5",
+          "4207e8fa-d7a0-4ed9-a6aa-681214189243",
+          "6067cb8b-e930-479b-b8b6-536e54ee2093",
+          "bded5dd0-7fa3-4740-bd41-c8de6e7fc7ce",
+          "7b69f85c-4b7f-4fad-924f-ff5f882d7f23"
+        ],
+        "daily": [
+          "08cf43a3-34ab-4c3c-9ce1-131b5322b79a",
+          "fffe7bf3-f9f2-41fe-bad5-4c039dfa79f8",
+          "6ef545ff-c6d5-4caf-a7c8-a941eb3053db",
+          "e90fccc2-af24-4bdf-bc15-6720a6c49716",
+          "408aa792-ded5-4a3d-8fb8-f6e8e92a578f",
+          "ace0cdb2-f491-4555-8e9a-d35e0e07d4eb"
+        ]
+      },
+      "CH": {
+        "local": [
+          "849f41fb-3ab7-4b1a-b7ca-1f655b098ff7",
+          "a12eab2d-6815-443b-9f83-fcf10c918358",
+          "f2abf07d-a5c6-4d76-be19-97fd25bc94f9",
+          "a8047dee-ab76-485b-aa4f-d77bcffd76c8",
+          "c8ce0d92-7adc-4ace-a5a9-a9ae3bac3d50",
+          "a9f69fd3-afb2-4357-a8ca-8f2d4b80a16d",
+          "c39ec677-bf89-4622-9e01-1693e37e9dbd"
+        ],
+        "regional": [
+          "85e74caa-bf21-4bab-b90e-273fb3b7cd18",
+          "d16179e0-aacd-4e9d-aa10-f173fee983c7",
+          "3b3e5545-262d-468b-861b-ecfa9e93f5e3",
+          "697c022e-b664-4a90-9943-258d972ad1ee",
+          "828cbf63-6b4b-4a28-a160-13eeb37d6f98",
+          "efbf9e86-eb6e-4151-874f-49d3514d2ce3",
+          "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a",
+          "de28a7e6-5b5d-48d1-b0e9-b5bfe3c1909a"
+        ],
+        "daily": [
+          "85e5219f-b35a-4184-9a09-6ff388e6a1a8",
+          "7ad00376-ca2e-4d40-a056-e2ee7a1b305d",
+          "f7ba0566-254a-4dad-9797-e214f1dc9fd2",
+          "be37e184-f684-42f6-a6f2-e8782bc000a2",
+          "d6b2ae20-9100-4eb3-be7d-ea5897b59351",
+          "ffa4a828-e007-4c69-af2e-9aaf2b24a7f2"
+        ]
+      }
+    }
+  }
+}
