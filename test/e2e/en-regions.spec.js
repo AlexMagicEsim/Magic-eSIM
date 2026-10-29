@@ -82,6 +82,8 @@ test('the destination list leads to each region, and each region row to a real c
   }
   await page.locator('#hubRegions a[href="/en/esim/europe/"]').click();
   await expect(page).toHaveURL(/\/en\/esim\/europe\/$/);
+  // The URL commits before the new document is parsed; evaluateAll does not wait (CI 2026-10-29 read 0 rows).
+  await expect(page.locator('.region-matrix li[data-iso] > a').first()).toBeVisible();
   const hrefs = await page.locator('.region-matrix li[data-iso] > a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
   expect(hrefs.length).toBeGreaterThan(10);
   for (const href of hrefs.slice(0, 12)) expect((await request.get(href)).status(), href).toBe(200);
