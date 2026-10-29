@@ -518,5 +518,19 @@
     "local_floor": {
       "min_of": "local"
     }
-  }
+  },
+  "network_claims_waived": [
+    {
+      "field": "intro[1]",
+      "text": "В строке «Сеть» у местных тарифов указано 3G/4G/5G, но у двух из трёх операторов страны, Swisscom и Sunrise, 3G уже отключён, так что телефону нужна поддержка 4G.",
+      "reason": "факт операторов страны об отключении 3G, а не о том, на каких сетях работают тарифы страницы",
+      "source": "https://www.swisscom.ch/en/about/network/5g/abloesung-3g.html"
+    },
+    {
+      "field": "faq[2].a",
+      "text": "Частоты для 5G регулятор BAKOM распределил между Salt, Sunrise и Swisscom ещё в 2019 году, а 3G у двух из трёх операторов, Swisscom и Sunrise, уже отключён.",
+      "reason": "факт регулятора о частотах 5G и операторов об отключении 3G, а не о сетях тарифов страницы",
+      "source": "https://www.bakom.admin.ch/en/mobile-radio-frequencies-for-5g-awarded-in-switzerland"
+    }
+  ]
 }

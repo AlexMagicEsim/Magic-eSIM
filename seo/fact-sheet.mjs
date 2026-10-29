@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { purchasablePrice, isRussia, isRestricted, isGlobal, isDaily, RESTRICTED_COUNTRY_CODES, loadCatalogue } from './catalogue-facts.mjs';
 import { isUncounted } from './coverage-only-territories.mjs';
+import { networksByBlock } from './network-claims.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const SHEET = join(ROOT, 'seo/fact-sheets.json');
@@ -54,6 +55,8 @@ export async function buildFactSheets() {
   const packages = process.env.CATALOG_API
     ? ((await (await fetch(API, { signal: AbortSignal.timeout(120000) })).json()).data || [])
     : loadCatalogue();
+  // The page's own layout (assortment.countries) — what each block draws.
+  const layoutDoc = process.env.CATALOG_API ? null : JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8'));
 
   const byCountry = new Map();
   for (const p of packages) {
@@ -184,7 +187,17 @@ export async function buildFactSheets() {
         // Operator names a page may print. `networks` is filled on a minority of
         // rows, and country-tariffs.js prints at most TWO of them — so «три сети»
         // was unprintable even where three exist. The Israel page said it anyway.
+        // NOTE: the RU card does not print this list (the «Сеть» row prints
+        // generations; an operator shows only as a chip telling look-alike
+        // siblings apart) — packageNetworkText in country-tariffs.js is unused.
         networks: [...new Set(all.flatMap((t) => t.networks))].sort(),
+        // …and the same PER BLOCK of the page, from the layout the page draws
+        // (assortment.countries: local / regional / daily). The union above
+        // cannot tell «the local plans run on WOM» from «a multi-country daily
+        // plan lists WOM»; seo/network-claims.mjs checks a sentence against the
+        // block it names, and refuses a sheet whose blocks disagree with it.
+        // null: the snapshot has no layout for this country (nothing to check).
+        networks_by_block: layoutDoc ? networksByBlock(layoutDoc, iso) : null,
         networks_rows: all.filter((t) => t.networks.length).length,
         rows_total: all.length,
         fup_policies: [...new Set(all.map((t) => t.fup).filter(Boolean))].sort(),
