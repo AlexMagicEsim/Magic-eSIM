@@ -17,7 +17,8 @@
 //      every `git push` in it carries the token explicitly — the credential lives
 //      in one command, not in the job;
 //   4. the token is never put in the environment of a whole job or workflow;
-//   5. a workflow that runs the browser suite installs every engine playwright.config.js uses.
+//   5. a workflow that runs the browser suite installs every engine playwright.config.js uses;
+//   6. every setup-node step names the same Node version (SITE_NODE).
 //
 // Each rule's FIRST test proves it fires, on the pre-R3-12 text of the bot.
 
@@ -231,4 +232,41 @@ test('every workflow that runs the browser suite installs every engine of playwr
     assert.deepEqual(gaps, [], `${f} runs \`npx playwright test\` without installing ${gaps.join(', ')}`);
   }
   assert.ok(seen >= 2, 'tests.yml and seo-refresh-pr.yml both run the suite');
+});
+
+// 6. One Node for the site's scripts (2026-10-29). The Pages artifact build and the catalogue bot ran on Node 20 while
+// the gates that check what they produce (tests.yml, seo-refresh-pr.yml) ran on 22, so a script was proved on one
+// runtime and shipped by another. Every `actions/setup-node` step names an explicit version, and it is the same major
+// in every workflow. Moving to the next LTS is a deliberate edit of SITE_NODE plus every workflow, proved on a branch.
+const SITE_NODE = '22';
+export function setupNodeVersions(text) {
+  const lines = code(text);
+  const out = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    if (!/^\s*(?:-\s+)?uses:\s*actions\/setup-node@/.test(lines[i])) continue;
+    let version = null;
+    for (let j = i + 1; j < lines.length && !/^\s*-\s/.test(lines[j]) && !/^\s{0,4}\S/.test(lines[j]); j += 1) {
+      const m = /^\s*node-version:\s*['"]?([^'"\s#]+)['"]?/.exec(lines[j]);
+      if (m) { version = m[1]; break; }
+    }
+    out.push(version);
+  }
+  return out;
+}
+
+test('negative control: a setup-node on another major, or with no version, is caught', () => {
+  assert.deepEqual(setupNodeVersions(OLD_BOT), ['20']);
+  const noVersion = '      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4\n      - name: next\n        with:\n          node-version: "22"\n';
+  assert.deepEqual(setupNodeVersions(noVersion), [null], 'a version in a LATER step is not this step\'s');
+  assert.deepEqual(setupNodeVersions("      - uses: actions/setup-node@x # v4\n        with:\n          node-version: '22'\n"), ['22']);
+});
+
+test(`every workflow sets up the same Node for the site's scripts: ${SITE_NODE}`, () => {
+  let seen = 0;
+  for (const w of workflows) {
+    const versions = setupNodeVersions(w.text);
+    seen += versions.length;
+    assert.deepEqual(versions.filter((v) => v !== SITE_NODE), [], `${w.name}: setup-node must name node-version ${SITE_NODE}`);
+  }
+  assert.ok(seen >= 4, `setup-node steps found: ${seen}`);
 });
