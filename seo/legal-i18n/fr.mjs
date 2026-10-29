@@ -601,14 +601,15 @@ export const LEGAL_I18N = Object.freeze({
       <p>Notre hébergeur conserve des journaux techniques des requêtes adressées à notre serveur pendant une durée limitée (voir la section 6). Ces journaux peuvent contenir des adresses IP et, occasionnellement, des parties de requêtes que notre serveur n’a pas pu traiter.</p>
       <h3>Ce que nous ne faisons pas</h3>
       <p>Nous ne vendons pas de données personnelles, nous ne les utilisons pas à des fins de publicité ou de profilage, et nous n’envoyons pas d’e-mails marketing. Nous ne vendons ni ne partageons de données personnelles au sens des termes « sell » et « share » tels que définis par le droit californien, et vous pouvez exercer les droits prévus à la section 7 où que vous résidiez, y compris aux États-Unis.</p>` },
-      { id: "cookies", en: '7ad3d8d1a8f2', h2: "3. Cookies et stockage local", html: `
+      { id: "cookies", en: 'bc6917fe75df', h2: "3. Cookies et stockage local", html: `
       <p>Le site international n’utilise <strong>aucun cookie</strong> ni <strong>aucun outil d’analyse, de publicité ou de suivi</strong>.</p>
-      <p>Il ne stocke que deux petites valeurs dans votre navigateur :</p>
+      <p>Il ne stocke que les petites valeurs suivantes dans votre navigateur :</p>
       <ul class="list">
-        <li><code>mesim.site.lang</code> (stockage local) mémorise la langue que vous avez choisie, jusqu’à ce que vous l’effaciez.</li>
-        <li><code>me-logo</code> (stockage de session) permet de lire l’animation du logo une seule fois par visite, jusqu’à ce que vous fermiez l’onglet.</li>
+        <li><code>mesim.site.lang</code> (stockage local) mémorise la langue que vous avez choisie (dans le menu des langues, ou en ouvrant une version linguistique depuis la version russe du site) afin que magicesim.store s’ouvre dans cette langue la prochaine fois. Il ne contient qu’un code de langue, par exemple « en », et reste enregistré jusqu’à ce que vous effaciez les données de ce site dans votre navigateur.</li>
+        <li><code>me-logo</code> (stockage de session) permet de lire l’animation du logo une seule fois par visite. Il ne contient que la valeur « 1 » et est supprimé lorsque vous fermez l’onglet.</li>
+        <li><code>mesim.lang.auto</code> (stockage de session) n’est enregistré que lorsque vous ouvrez magicesim.store et que le site vous redirige automatiquement vers la version dans la langue de votre navigateur. Il indique à la page d’arrivée que cette langue n’a pas été choisie par vous, afin qu’elle ne soit pas mémorisée comme votre choix. Il ne contient que la valeur « 1 », et cette page le supprime dès qu’elle s’ouvre.</li>
       </ul>
-      <p>Ces valeurs servent uniquement à afficher le site comme vous l’avez demandé ; elles ne nous sont pas envoyées. Si nous ajoutons un jour un outil d’analyse ou un outil similaire, nous mettrons d’abord à jour cette politique et vous demanderons votre consentement lorsque la loi l’exige.</p>
+      <p>Ces valeurs servent uniquement à afficher le site comme vous l’avez demandé ; elles ne sont envoyées ni à nous ni à qui que ce soit d’autre. Si votre navigateur ne les autorise pas, le site fonctionne quand même : votre langue n’est pas mémorisée et l’animation du logo n’est pas lue. Si nous ajoutons un jour un outil d’analyse ou un outil similaire, nous mettrons d’abord à jour cette politique et vous demanderons votre consentement lorsque la loi l’exige.</p>
       <h3>Do Not Track</h3>
       <p>Nous ne vous suivons pas dans le temps ni sur d’autres sites web ou services en ligne, et nous ne permettons pas à d’autres entreprises de collecter des données personnelles sur vos activités en ligne dans le temps et sur différents sites web lorsque vous utilisez notre site. C’est pourquoi nous ne réagissons pas différemment aux signaux « Do Not Track » ou Global Privacy Control : que votre navigateur en envoie un ou non, aucun suivi de ce type n’a lieu.</p>` },
       { id: "providers", en: 'fafc78189849', h2: "4. Prestataires de services qui traitent des données pour notre compte", html: `

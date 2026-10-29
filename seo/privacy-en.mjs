@@ -4,7 +4,9 @@
 // safeguards confirmed from the providers' own publications; 0.9.4 = LEGAL-5, 2026-10-26: the database host named, and a
 // separate section on what will change only when online purchases open — kept apart from what happens today; 0.9.5 =
 // LEGAL-7, 2026-10-26: the support mailbox is held by Proton — confirmed by the owner from the ImprovMX alias settings;
-// ImprovMX receives and forwards, Proton stores and sends replies).
+// ImprovMX receives and forwards, Proton stores and sends replies; 0.9.6 = 2026-10-29: section 3 lists every value the
+// international pages keep in the browser — the third one, `mesim.lang.auto`, was missing — with what each holds and how
+// long it stays; seo/test-intl-browser-storage.mjs holds the list equal to the keys the shipped scripts use).
 //
 // ONE source for /en/privacy/ (built by seo/build-locale-pages.mjs for English only). The text is the owner-approved
 // LEGAL-0 final edition «01 Privacy Policy — pre-launch (EN)», with the support-mail route stated only as far as public
@@ -15,9 +17,9 @@
 // Written for the page: plain HTML fragments, English typography (curly quotes, en dashes), no tables — every
 // list reads on a 320 px phone without horizontal scrolling.
 
-export const PRIVACY_VERSION = '0.9.5 (pre-launch)';
-export const PRIVACY_EFFECTIVE = '26 October 2026';
-export const PRIVACY_EFFECTIVE_ISO = '2026-10-26';
+export const PRIVACY_VERSION = '0.9.6 (pre-launch)';
+export const PRIVACY_EFFECTIVE = '29 October 2026';
+export const PRIVACY_EFFECTIVE_ISO = '2026-10-29';
 
 export const PRIVACY = Object.freeze({
   title: 'Privacy Policy — Magic eSIM',
@@ -75,12 +77,13 @@ export const PRIVACY = Object.freeze({
     {
       id: 'cookies', h2: '3. Cookies and local storage', html: `
       <p>The international website uses <strong>no cookies</strong> and <strong>no analytics, advertising or tracking tools</strong>.</p>
-      <p>It stores only two small values in your browser:</p>
+      <p>It stores only the following small values in your browser:</p>
       <ul class="list">
-        <li><code>mesim.site.lang</code> (local storage) remembers the language you chose, until you clear it.</li>
-        <li><code>me-logo</code> (session storage) plays the logo animation once per visit, until you close the tab.</li>
+        <li><code>mesim.site.lang</code> (local storage) remembers the language you chose — in the language menu, or by opening a language version from the Russian version of the website — so that magicesim.store opens in that language next time. It holds only a language code, such as “en”, and stays until you clear your browser’s data for this website.</li>
+        <li><code>me-logo</code> (session storage) plays the logo animation once per visit. It holds only the value “1” and is deleted when you close the tab.</li>
+        <li><code>mesim.lang.auto</code> (session storage) is set only when you open magicesim.store and are taken automatically to the version in your browser’s language. It tells the page you arrive on that this language was not your choice, so that it is not remembered as one. It holds only the value “1”, and that page deletes it as soon as it opens.</li>
       </ul>
-      <p>These values only make the website display as you asked; they are not sent to us. If we ever add an analytics or similar tool, we will first update this policy and ask for your consent where the law requires it.</p>
+      <p>These values only make the website display as you asked; they are not sent to us or to anyone else. If your browser does not allow them, the website still works: your language is not remembered and the logo animation does not play. If we ever add an analytics or similar tool, we will first update this policy and ask for your consent where the law requires it.</p>
       <h3>Do Not Track</h3>
       <p>We do not track you over time or across other websites or online services, and we do not allow other companies to collect personal data about your online activities over time and across different websites when you use our website. For this reason we do not respond differently to “Do Not Track” or Global Privacy Control signals: whether your browser sends one or not, no such tracking takes place.</p>`,
     },
