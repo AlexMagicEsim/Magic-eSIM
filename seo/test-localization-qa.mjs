@@ -26,12 +26,12 @@ const { merge, markdown, CATEGORIES, SEVERITIES } = await imp('scripts/merge.mjs
 
 const ES = await extract('es');
 
-test('extract: 956 Spanish strings beside their English source — unique ids, none missing, every group', () => {
-  assert.equal(ES.items.length, 956); // + 6 authored Vietnam strings (stage 8 expansion: visa-free entry, e-visa portal and entry gates, cash on arrival; seo/content-es/, 2026-10-28); + 55 authored country strings (malaysia 27, singapore 28; seo/content-es/, 2026-10-28); + 21 page words of the region pages (international SEO stage 4, 2026-10-27); + 333 authored country strings (13 files, seo/content-es/) and the 2 headings they add (2026-10-27); + 8 page words of «at a glance» (international SEO, 2026-10-27); − 1 country (ZW withdrawn by the provider, 2026-10-26); + 8 words of LEGAL-3 (the consents, footer.refund); + 1 country (VI, 2026-10-25); + 9 words of LEGAL-5 (start of validity, activation deadline)
+test('extract: 959 Spanish strings beside their English source — unique ids, none missing, every group', () => {
+  assert.equal(ES.items.length, 959); // + 3 page words (the footer's seller line, the plan statement, the delivery line under «How it works»; 2026-10-29); + 6 authored Vietnam strings (stage 8 expansion: visa-free entry, e-visa portal and entry gates, cash on arrival; seo/content-es/, 2026-10-28); + 55 authored country strings (malaysia 27, singapore 28; seo/content-es/, 2026-10-28); + 21 page words of the region pages (international SEO stage 4, 2026-10-27); + 333 authored country strings (13 files, seo/content-es/) and the 2 headings they add (2026-10-27); + 8 page words of «at a glance» (international SEO, 2026-10-27); − 1 country (ZW withdrawn by the provider, 2026-10-26); + 8 words of LEGAL-3 (the consents, footer.refund); + 1 country (VI, 2026-10-25); + 9 words of LEGAL-5 (start of validity, activation deadline)
   assert.equal(new Set(ES.items.map((i) => i.id)).size, ES.items.length);
   assert.deepEqual(ES.items.filter((i) => i.target == null || i.target === ''), []);
   const by = {}; for (const i of ES.items) by[i.group] = (by[i.group] || 0) + 1;
-  assert.deepEqual(by, { ui: 150, page: 83, daily: 20, 'guide-iphone': 24, 'guide-android': 20, 'guide-compatibility': 20,
+  assert.deepEqual(by, { ui: 150, page: 86, daily: 20, 'guide-iphone': 24, 'guide-android': 20, 'guide-compatibility': 20,
     'guide-activation': 22, 'guide-troubleshooting': 20, 404: 5, countries: 198, content: 2,
     'content-china': 28, 'content-france': 24, 'content-greece': 24, 'content-indonesia': 24, 'content-japan': 29,
     'content-malaysia': 27, 'content-maldives': 25, 'content-mexico': 23, 'content-singapore': 28, 'content-south-korea': 30, 'content-sri-lanka': 24, 'content-thailand': 28,
@@ -98,7 +98,7 @@ test('batch: groups packed up to --max (split when larger), the country names al
     assert.equal(b.reduce((n, x) => n + x.items.length, 0), ES.items.length);
     assert.equal(new Set(b.flatMap((x) => x.items.map((i) => i.id))).size, ES.items.length);
   }
-  assert.equal(plan(ES.items, 110).length, 9, 'nine batches a stage at --max 110 (the ui group, 150 strings since LEGAL-5, splits in two; the authored country text, 333 strings since 2026-10-27 and 388 since 2026-10-28, adds four)');
+  assert.equal(plan(ES.items, 110).length, 10, 'ten batches a stage at --max 110 (the ui group, 150 strings since LEGAL-5, splits in two; the authored country text, 333 strings since 2026-10-27 and 388 since 2026-10-28, adds four; the page words, 86 since 2026-10-29, no longer share a batch with the daily words, so the guides take two)');
 });
 
 test('merge: the arbiter\'s decisions become a change log — EN, old, new, reason, every stage\'s evidence, landed or not', () => {

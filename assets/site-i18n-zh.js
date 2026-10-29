@@ -162,7 +162,7 @@
     'start.network_connection': '自首次连接网络',
     'start.installation': '自安装 eSIM',
     'start.purchase': '自购买',
-    'start.unknown': 'eSIM 供应商未注明——付款前请联系我们',
+    'start.unknown': 'eSIM 供应商未注明——付款前请发邮件至 support@magicesim.store 联系我们',
     'plan.daysLegend': '天数',
     'plan.gb': '{n} GB',
     'plan.dayCount.one': '{n} 天',

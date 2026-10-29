@@ -172,7 +172,9 @@ test('the Korean destination list: 198 destinations under their initial consonan
 
 const KEEP = new Set(['magic', 'esim', 'sim', 'iphone', 'ios', 'android', 'google', 'pixel', 'samsung', 'galaxy', 'apple',
   'one', 'ui', 'qr', 'apn', 'eid', 'embedded', 'identity', 'document', 'usd', 'us', 'gb', 'mb', 'kbps', 'mbps', 'gbps', 'ip',
-  'support', 'magicesim', 'store', 'javascript', 'wi', 'fi']);
+  'support', 'magicesim', 'store', 'javascript', 'wi', 'fi',
+  // the seller's own name in the footer, as the Korean Terms §1 print it (a person's legal name is never translated)
+  'aleksandr', 'kharin']);
 const latin = (s) => (String(s).toLowerCase().match(/[a-z]+/g) || []);
 
 test('Korean only: no English word (beyond brands, products and units), no Russian, no Chinese character on the 206 pages', () => {

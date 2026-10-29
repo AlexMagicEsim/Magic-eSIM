@@ -168,6 +168,7 @@ ${POPULAR.map((c) => `        <a class="dest-tile" href="${P}/esim/${c.slug}/"><
       <div class="section-head">
         <span class="kicker" data-i18n="home.howKicker">${t('home.howKicker')}</span>
         <h2 id="howTitle" data-i18n="how.title">${t('how.title')}</h2>
+        <p>${C.howDelivery}</p>
       </div>
       <ol class="steps-grid">
         <li class="step"><span class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span><span class="step-n">01</span><p data-i18n="how.step1">${t('how.step1')}</p></li>
@@ -184,6 +185,7 @@ ${POPULAR.map((c) => `        <a class="dest-tile" href="${P}/esim/${c.slug}/"><
         <span class="kicker" data-i18n="home.typesKicker">${t('home.typesKicker')}</span>
         <h2 id="typesTitle" data-i18n="home.typesTitle">${t('home.typesTitle')}</h2>
         <p data-i18n="home.typesLead">${t('home.typesLead')}</p>
+        <p>${C.productNote}</p>
       </div>
       <div class="types">
         <div class="type">

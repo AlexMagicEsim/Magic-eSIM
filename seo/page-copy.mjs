@@ -271,6 +271,12 @@ export const PAGE_COPY = freeze({
     // the language switch's label once it is a list (two or more other languages)
     langMenu: 'Language',
     support: 'Support:',
+    // the footer's seller line: the identity of Terms §1 (name, country, ID — never the street address)
+    seller: 'Magic eSIM is a trading name of Individual Entrepreneur Aleksandr Kharin, Georgia (ID 305887261).',
+    // what a plan is, next to the plans: Terms §2.1, §2.2 and §6.1, nothing more
+    productNote: 'Prepaid eSIM with mobile data only — no phone number, calls or SMS. You pay once per plan: no subscription and no automatic renewal.',
+    // how the eSIM arrives, under «How it works»: Terms §7.1–§7.2, the timing in the Terms' own words
+    howDelivery: 'After payment, we send your eSIM — a QR code and the installation details — by email. It is usually delivered within a few minutes after the payment is confirmed.',
     // the home (seo/home-page.mjs)
     homeTitle: 'Magic eSIM — travel data abroad without roaming',
     homeDescription: 'Pick a destination, install an eSIM and land connected. Magic eSIM covers 190+ destinations with no plastic SIM and no airport queue.',
@@ -385,6 +391,12 @@ export const PAGE_COPY = freeze({
     menuLabel: 'Menú',
     langMenu: 'Idioma',
     support: 'Soporte:',
+    // the footer's seller line: the identity of Terms §1 (name, country, ID — never the street address)
+    seller: 'Magic eSIM es el nombre comercial del empresario individual Aleksandr Kharin, Georgia (n.º de identificación 305887261).',
+    // what a plan is, next to the plans: Terms §2.1, §2.2 and §6.1, nothing more
+    productNote: 'eSIM prepago solo con datos móviles: sin número de teléfono, llamadas ni SMS. Pagas una sola vez por cada plan: sin suscripción ni renovación automática.',
+    // how the eSIM arrives, under «How it works»: Terms §7.1–§7.2, the timing in the Terms' own words
+    howDelivery: 'Después del pago, te enviamos la eSIM por correo electrónico: un código QR y los datos de instalación. La eSIM se entrega normalmente pocos minutos después de que se confirme el pago.',
     homeTitle: 'Magic eSIM — datos móviles en el extranjero sin roaming',
     homeDescription: 'Elige un destino, instala una eSIM y conéctate al aterrizar. Magic eSIM cubre más de 190 destinos, sin SIM física ni esperas en el aeropuerto.',
     homeOgDescription: 'Elige un destino, instala una eSIM y conéctate al aterrizar.',
@@ -484,6 +496,12 @@ export const PAGE_COPY = freeze({
     menuLabel: 'Menü',
     langMenu: 'Sprache',
     support: 'Support:',
+    // the footer's seller line: the identity of Terms §1 (name, country, ID — never the street address)
+    seller: 'Magic eSIM ist der Handelsname des Einzelunternehmers Aleksandr Kharin, Georgien (Identifikationsnummer 305887261).',
+    // what a plan is, next to the plans: Terms §2.1, §2.2 and §6.1, nothing more
+    productNote: 'Prepaid-eSIM nur mit mobilen Daten – ohne Telefonnummer, Anrufe oder SMS. Du zahlst für jeden Tarif einmal: kein Abonnement und keine automatische Verlängerung.',
+    // how the eSIM arrives, under «How it works»: Terms §7.1–§7.2, the timing in the Terms' own words
+    howDelivery: 'Nach der Zahlung schicken wir dir die eSIM per E-Mail – einen QR-Code und die Angaben zur Installation. Die eSIM wird in der Regel innerhalb weniger Minuten nach Bestätigung der Zahlung geliefert.',
     homeTitle: 'Magic eSIM – mobile Daten im Ausland ohne Roaming',
     homeDescription: 'Wähle ein Reiseziel, installiere eine eSIM und sei nach der Landung online. Magic eSIM: über 190 Reiseziele, ohne Plastik-SIM und ohne Schlange am Flughafen.',
     homeOgDescription: 'Wähle ein Reiseziel, installiere eine eSIM und sei nach der Landung online.',
@@ -582,6 +600,12 @@ export const PAGE_COPY = freeze({
     menuLabel: 'Menu',
     langMenu: 'Langue',
     support: 'Assistance :',
+    // the footer's seller line: the identity of Terms §1 (name, country, ID — never the street address)
+    seller: 'Magic eSIM est le nom commercial de l’entrepreneur individuel Aleksandr Kharin, Géorgie (numéro d’identification 305887261).',
+    // what a plan is, next to the plans: Terms §2.1, §2.2 and §6.1, nothing more
+    productNote: 'eSIM prépayée avec données mobiles uniquement — sans numéro de téléphone, ni appels, ni SMS. Vous payez une seule fois par forfait : ni abonnement, ni renouvellement automatique.',
+    // how the eSIM arrives, under «How it works»: Terms §7.1–§7.2, the timing in the Terms' own words
+    howDelivery: 'Après le paiement, nous vous envoyons l’eSIM par e-mail — un code QR et les informations d’installation. L’eSIM est généralement livrée dans les quelques minutes qui suivent la confirmation du paiement.',
     homeTitle: 'Magic eSIM – des données à l’étranger sans itinérance',
     homeDescription: 'Choisissez une destination, installez une eSIM, soyez connecté à l’arrivée. Magic eSIM couvre plus de 190 destinations, sans SIM physique ni file à l’aéroport.',
     homeOgDescription: 'Choisissez une destination, installez une eSIM et soyez connecté dès l’atterrissage.',
@@ -681,6 +705,12 @@ export const PAGE_COPY = freeze({
     menuLabel: '菜单',
     langMenu: '语言',
     support: '客服：',
+    // the footer's seller line: the identity of Terms §1 (name, country, ID — never the street address)
+    seller: 'Magic eSIM 是格鲁吉亚个体企业家 Aleksandr Kharin（识别号 305887261）的经营名称。',
+    // what a plan is, next to the plans: Terms §2.1, §2.2 and §6.1, nothing more
+    productNote: '预付费 eSIM，仅提供移动数据，不含电话号码、语音通话或短信。每个套餐只需付款一次：不是订阅，也不会自动续订。',
+    // how the eSIM arrives, under «How it works»: Terms §7.1–§7.2, the timing in the Terms' own words
+    howDelivery: '付款后，我们会通过电子邮件向您发送 eSIM：二维码和安装信息。eSIM 通常在付款确认后几分钟内交付。',
     homeTitle: 'Magic eSIM — 出境上网，无需漫游',
     homeDescription: '选择目的地，安装 eSIM，落地即可上网。Magic eSIM 覆盖 190 多个目的地，无需实体 SIM 卡，也不用在机场排队。',
     homeOgDescription: '选择目的地，安装 eSIM，落地即可上网。',
@@ -781,6 +811,12 @@ export const PAGE_COPY = freeze({
     menuLabel: '메뉴',
     langMenu: '언어',
     support: '고객지원:',
+    // the footer's seller line: the identity of Terms §1 (name, country, ID — never the street address)
+    seller: '판매자: 조지아 개인사업자 Aleksandr Kharin(식별번호 305887261), 상호 Magic eSIM.',
+    // what a plan is, next to the plans: Terms §2.1, §2.2 and §6.1, nothing more
+    productNote: '모바일 데이터 전용 선불 eSIM입니다. 전화번호, 음성 통화, 문자 메시지는 포함되지 않습니다. 요금제마다 한 번만 결제하며, 구독이나 자동 갱신은 없습니다.',
+    // how the eSIM arrives, under «How it works»: Terms §7.1–§7.2, the timing in the Terms' own words
+    howDelivery: '결제 후 eSIM의 QR 코드와 설치 정보를 이메일로 보내 드립니다. eSIM은 보통 결제가 확인된 후 몇 분 이내에 전달됩니다.',
     homeTitle: 'Magic eSIM — 로밍 없이 해외 데이터',
     homeDescription: '여행지를 고르고 eSIM을 설치하면 도착하자마자 연결됩니다. Magic eSIM은 190개 이상의 여행지를 지원하며 실물 SIM도, 공항 대기 줄도 필요 없습니다.',
     homeOgDescription: '여행지를 고르고 eSIM을 설치하면 도착하자마자 연결됩니다.',

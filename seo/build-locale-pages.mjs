@@ -603,7 +603,7 @@ ${ftLinks(GUIDES.map((g) => ({ href: `${P}/guides/${g.slug}/`, label: g.h1 })))}
       </div>
     </div>
     <div class="ft-bottom">
-      <p>© Magic eSIM</p>
+      <p>© Magic eSIM · ${C.seller}</p>
 ${LEGAL_LINE}    </div>
   </div>
 </footer>`;
@@ -868,6 +868,7 @@ ${block('regional', C.regionalTitle(name), C.regionalNote(name))}
 ${block('daily', C.dailyTitle, C.dailyNote)}
 
   <p class="note" id="currencyNote" data-i18n="price.currencyNote" hidden>${t('price.currencyNote')}</p>
+  <p class="note">${C.productNote}</p>
 
 ${glance(c)}${about}${HELP}
   </div>
