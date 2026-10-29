@@ -66,7 +66,12 @@ test('negative control: the reference check reports a file the artifact lacks', 
   unlinkSync(join(copy, 'assets', 'site.css'));
   unlinkSync(join(copy, 'app', 'ui.js'));
   rmSync(join(copy, 'es', 'esim', 'france'), { recursive: true });
+  // a relative path literal in a script (the Mini App writes '../assets/…') is checked too
+  writeFileSync(join(copy, 'app', 'core.js'), readFileSync(join(copy, 'app', 'core.js'), 'utf8') + "\nconst probe = '../assets/no-such-probe.json';\n");
+  writeFileSync(join(copy, 'en', 'plans.js'), readFileSync(join(copy, 'en', 'plans.js'), 'utf8') + "\nconst probe2 = './assets/x.webp';\n");
   const missing = missingReferences(copy);
+  assert.ok(missing.some((m) => m.need === 'assets/no-such-probe.json' && m.from === 'app/core.js'), 'a relative ../ literal in a script');
+  assert.ok(missing.some((m) => m.need === 'en/assets/x.webp' && m.from === 'en/plans.js'), 'a relative ./ literal in a script');
   assert.ok(missing.some((m) => m.need === 'assets/site.css' && m.from === 'index.html'), 'a stylesheet of the RU home');
   assert.ok(missing.some((m) => m.need === 'app/ui.js' && m.from === 'app/index.html'), 'a relative Mini App script');
   assert.ok(missing.some((m) => m.need === 'es/esim/france/index.html' && m.from === 'sitemap.xml'), 'a sitemap URL');
@@ -243,10 +248,13 @@ test('negative control: allowRule admits only what a rule names', () => {
 });
 
 test('every top-level entry of the repository is either published or a known non-site entry', () => {
-  const tops = [...new Set(trackedFiles().map((f) => f.split('/')[0]))];
   const publishedTops = new Set(plan.publish.map((f) => f.split('/')[0]));
+  const undecidedOf = (list) => list.filter((t) => !publishedTops.has(t) && !KNOWN_UNPUBLISHED_TOP.has(t));
+  // negative control: a synthetic new root file and a new directory are caught; a published and a known entry are not
+  assert.deepEqual(undecidedOf(['about.html', 'newdir', 'index.html', 'seo']), ['about.html', 'newdir']);
+  const tops = [...new Set(trackedFiles().map((f) => f.split('/')[0]))];
   assert.ok(KNOWN_UNPUBLISHED_TOP.size > 10 && publishedTops.size > 20);
-  const undecided = tops.filter((t) => !publishedTops.has(t) && !KNOWN_UNPUBLISHED_TOP.has(t));
+  const undecided = undecidedOf(tops);
   assert.deepEqual(undecided, [], 'a new top-level entry: publish it (scripts/build-pages-artifact.mjs) or list it here');
   // and the known list holds no entry that is published after all
   assert.deepEqual([...KNOWN_UNPUBLISHED_TOP].filter((t) => publishedTops.has(t)), []);
@@ -298,6 +306,12 @@ test('the deploy workflow builds with this script, deploys only behind the owner
   assert.match(deploy, /if: \$\{\{ vars\.PAGES_ARTIFACT_DEPLOY == 'true' && github\.ref == 'refs\/heads\/main' \}\}/);
   assert.match(deploy, /permissions:\n\s+pages: write\n\s+id-token: write\n/);
   assert.match(WF, /\npermissions:\n {2}contents: read\n/);
-  assert.match(WF, /concurrency:\n {2}group: pages\n {2}cancel-in-progress: false/);
+  // a no-op workflow_run run (bot committed nothing / not main) queues in its own group, never in «pages», so it cannot
+  // cancel a pending real deploy; the condition is the exact negation of the build job's `if:`
+  const group = /\nconcurrency:\n {2}group: \$\{\{ (.+) \}\}\n {2}cancel-in-progress: false\n/.exec(WF);
+  assert.ok(group, 'workflow-level concurrency with an expression group');
+  assert.equal(group[1], "(github.event_name == 'workflow_run' && (github.event.workflow_run.head_branch != 'main' || github.event.workflow_run.head_sha == github.sha)) && format('pages-noop-{0}', github.run_id) || 'pages'");
+  const buildIf = /\n  build:\n[\s\S]*?if: >-\n\s+(.+)\n\s+(.+)\n/.exec(WF);
+  assert.equal(`${buildIf[1]} ${buildIf[2]}`, "github.event_name != 'workflow_run' || (github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_sha != github.sha)");
   assert.doesNotMatch(WF, /contents: write|git push/);
 });

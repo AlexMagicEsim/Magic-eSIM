@@ -198,7 +198,10 @@ export function buildArtifact(root = REPO, out = join(REPO, '_site'), opts = {})
 const ATTR_RE = /\s(?:src|href|content|poster|data-src|action)\s*=\s*("([^"]*)"|'([^']*)')/gi;
 const SRCSET_RE = /\ssrcset\s*=\s*("([^"]*)"|'([^']*)')/gi;
 const CSS_URL_RE = /url\(\s*(?:"([^"]*)"|'([^']*)'|([^)'"\s]+))\s*\)/gi;
-const JS_LIT_RE = /(["'`])(\/(?:assets|app|esim|en|es|de|fr|zh|ko)\/[^"'`\s$<>{}]*\.(?:js|css|json|svg|png|jpg|webp|woff2|html|ico))\1/g;
+// A path literal in a script: absolute ('/assets/…') or relative ('./…', '../assets/…', as the Mini App writes them). A
+// relative one is resolved against the directory of the file that holds it (the Mini App's scripts sit beside the page
+// that loads them, so that is also where the browser resolves it).
+const JS_LIT_RE = /(["'`])((?:\/|(?:\.\.?\/)+)(?:assets|app|esim|en|es|de|fr|zh|ko)\/[^"'`\s$<>{}]*\.(?:js|css|json|svg|png|jpg|webp|gif|woff2|html|ico))\1/g;
 
 /**
  * Turns a URL found in `fromRel` into the artifact path it needs, or null when it is not a local file reference
