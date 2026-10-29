@@ -237,6 +237,7 @@ export const FR_POUR = freeze({
   'Venezuela': 'le Venezuela',
   'Viêt Nam': 'le Viêt Nam',
   'Zambie': 'la Zambie',
+  'Zimbabwe': 'le Zimbabwe',
   'Égypte': 'l’Égypte',
   'Émirats arabes unis': 'les Émirats arabes unis',
   'Équateur': 'l’Équateur',

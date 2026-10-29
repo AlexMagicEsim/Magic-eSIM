@@ -1,7 +1,7 @@
 {
-  "fetched_at": "2026-10-28T13:04:56.715Z",
+  "fetched_at": "2026-10-29T13:11:29.901Z",
   "source": "assets/catalog.json",
-  "countries": 200,
+  "countries": 201,
   "sheets": {
     "jersey": {
       "iso": "JE",
@@ -6498,11 +6498,14 @@
         "Mobily",
         "Ooredoo",
         "STC",
+        "Vodafone",
+        "Zain",
         "ooredoo"
       ],
       "networks_by_block": {
         "local": [
-          "STC"
+          "STC",
+          "Zain"
         ],
         "regional": [
           "Asia Cell",
@@ -6512,6 +6515,8 @@
           "Mobily",
           "Ooredoo",
           "STC",
+          "Vodafone",
+          "Zain",
           "ooredoo"
         ],
         "daily": [
@@ -6522,6 +6527,8 @@
           "Mobily",
           "Ooredoo",
           "STC",
+          "Vodafone",
+          "Zain",
           "ooredoo"
         ]
       },
@@ -8718,6 +8725,8 @@
         "Mobily",
         "Ooredoo",
         "STC",
+        "Vodafone",
+        "Zain",
         "ooredoo"
       ],
       "networks_by_block": {
@@ -8732,6 +8741,8 @@
           "Mobily",
           "Ooredoo",
           "STC",
+          "Vodafone",
+          "Zain",
           "ooredoo"
         ],
         "daily": [
@@ -30271,13 +30282,15 @@
         "Vietnamobile",
         "Viettel Mobile",
         "Vodafone",
+        "Zain",
         "csl",
         "ooredoo"
       ],
       "networks_by_block": {
         "local": [
           "Ooredoo",
-          "STC"
+          "STC",
+          "Zain"
         ],
         "regional": [
           "3",
@@ -30313,7 +30326,8 @@
         ],
         "daily": [
           "Ooredoo",
-          "STC"
+          "STC",
+          "Zain"
         ]
       },
       "networks_rows": 21,
@@ -35083,6 +35097,7 @@
         "Vietnamobile",
         "Viettel Mobile",
         "Vodafone",
+        "Zain",
         "csl",
         "ooredoo"
       ],
@@ -38386,6 +38401,8 @@
         "Mobily",
         "Ooredoo",
         "STC",
+        "Vodafone",
+        "Zain",
         "ooredoo"
       ],
       "networks_by_block": {
@@ -38400,6 +38417,8 @@
           "Mobily",
           "Ooredoo",
           "STC",
+          "Vodafone",
+          "Zain",
           "ooredoo"
         ],
         "daily": [
@@ -38410,6 +38429,8 @@
           "Mobily",
           "Ooredoo",
           "STC",
+          "Vodafone",
+          "Zain",
           "ooredoo"
         ]
       },
@@ -41454,6 +41475,143 @@
       "min_volume_price_rub": 3650,
       "min_daily_price_rub": 4400
     },
+    "zimbabwe": {
+      "iso": "ZW",
+      "name_ru": "Зимбабве",
+      "strategy": "LOCAL",
+      "local_count": 9,
+      "regional_count": 0,
+      "total_count": 9,
+      "min_price_rub": 1100,
+      "max_price_rub": 7550,
+      "validity_days_min": 0,
+      "validity_days_max": 30,
+      "volumes_gb": [
+        0,
+        3,
+        5,
+        10,
+        20
+      ],
+      "has_unlimited": false,
+      "regional_reach_max": 0,
+      "offers": [
+        {
+          "data_gb": 0,
+          "price_rub": 1350,
+          "validity_days": 0,
+          "kind": "local"
+        },
+        {
+          "data_gb": 3,
+          "price_rub": 1100,
+          "validity_days": 15,
+          "kind": "local"
+        },
+        {
+          "data_gb": 5,
+          "price_rub": 1850,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 10,
+          "price_rub": 2950,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 20,
+          "price_rub": 6050,
+          "validity_days": 30,
+          "kind": "local"
+        }
+      ],
+      "all_purchasable_prices": [
+        1100,
+        1350,
+        1850,
+        2100,
+        2500,
+        2950,
+        3150,
+        3550,
+        3600,
+        4050,
+        4950,
+        5000,
+        5400,
+        6050,
+        6500,
+        6800,
+        7000,
+        7550,
+        9100,
+        9650,
+        9900,
+        10200,
+        12050,
+        12550,
+        14500,
+        16850,
+        18750,
+        18800,
+        23250,
+        26700,
+        34600,
+        34850,
+        64250
+      ],
+      "term_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "daily_gb": [
+        1,
+        2,
+        3,
+        5,
+        10
+      ],
+      "speeds": [
+        "3G/4G/5G"
+      ],
+      "networks": [
+        "Econet"
+      ],
+      "networks_by_block": {
+        "local": [
+          "Econet"
+        ],
+        "regional": [],
+        "daily": [
+          "Econet"
+        ]
+      },
+      "networks_rows": 9,
+      "rows_total": 9,
+      "fup_policies": [
+        "1 Mbps",
+        "384 Kbps"
+      ],
+      "activation_policies": [
+        "unknown"
+      ],
+      "activation_labels": [
+        "с первого подключения к сети"
+      ],
+      "topup_yes": 9,
+      "topup_no": 0,
+      "daily_reset_confirmed": false,
+      "daily_reset_partial": false,
+      "daily_throttle_continues": false,
+      "min_volume_price_rub": 1100,
+      "min_daily_price_rub": 1350
+    },
     "libya": {
       "iso": "LY",
       "name_ru": "Ливия",
@@ -41896,6 +42054,8 @@
         "Mobily",
         "Ooredoo",
         "STC",
+        "Vodafone",
+        "Zain",
         "ooredoo"
       ],
       "networks_by_block": {
@@ -41910,6 +42070,8 @@
           "Mobily",
           "Ooredoo",
           "STC",
+          "Vodafone",
+          "Zain",
           "ooredoo"
         ],
         "daily": [

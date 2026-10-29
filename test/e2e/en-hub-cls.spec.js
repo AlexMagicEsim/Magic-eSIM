@@ -17,6 +17,9 @@ const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layo
 // The backend sends the layout of every country page with each catalogue (assets/assortment-view.js); fixtures get
 // the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
 test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
+// One page per country the committed catalogue sells (seo/catalogue-countries.json — what the generators built the list
+// from); never a typed count, which stopped the SEO refresh each time a provider withdrew or returned a country.
+const COUNTRY_PAGES = require('../../seo/catalogue-countries.json').countries.length;
 
 async function open(page, { holdHubJs = 0 } = {}) {
   const external = [];
@@ -62,6 +65,6 @@ test.describe('without JavaScript', () => {
     await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => route.abort());
     await page.goto('/en/esim/');
     await expect(page.locator('#hubSearch')).toBeHidden();
-    await expect(page.locator('#hubList a')).toHaveCount(198);
+    await expect(page.locator('#hubList a')).toHaveCount(COUNTRY_PAGES);
   });
 });

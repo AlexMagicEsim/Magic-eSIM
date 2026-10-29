@@ -200,4 +200,5 @@ window.MagicEsDestinations = [
   { iso: "VE", slug: "venezuela", name: "Venezuela" },
   { iso: "VN", slug: "vietnam", name: "Vietnam" },
   { iso: "ZM", slug: "zambia", name: "Zambia" },
+  { iso: "ZW", slug: "zimbabwe", name: "Zimbabue" },
 ];
