@@ -28,6 +28,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 import { INDEXED_COUNTRIES, ruAlternates } from './indexing.mjs';
 import { enCountries } from './build-en-pages.mjs';
 
@@ -277,7 +278,7 @@ function generic(s, slug) {
 test('d: every English country page has its own <title> and meta description', () => {
   const titles = COUNTRIES.map((c) => titleOf(page(c.slug)));
   const descs = COUNTRIES.map((c) => descOf(page(c.slug)));
-  assert.equal(titles.length, 198);
+  assert.equal(titles.length, COUNTRY_PAGES);
   assert.deepEqual(dupes(titles), []);
   assert.deepEqual(dupes(descs), []);
   for (const slug of WITH_FILE) {

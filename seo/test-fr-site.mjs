@@ -3,7 +3,7 @@
  *   1. Every source has every key English has (+ the `.many` plural forms French needs); the guides mirror the English
  *      ones section for section, question for question, link for link. The generator's output is the committed tree.
  *   2. The same design: every page kind's markup skeleton (tags and classes, in order) equals the English one.
- *   3. French only: no English-only word, no Russian, no German or Spanish word on the 206 pages; the claim rules hold.
+ *   3. French only: no English-only word, no Russian, no German or Spanish word on every site page; the claim rules hold.
  *   4. Prices and numbers the owner's way (D2): «12,99 USD»; data in Go/Mo with a decimal comma; French plurals.
  *   5. Country names in sentences: after «pour» the noun phrase FR_POUR gives — every destination has one (D5).
  *   6. French typography (D7): a no-break space before «: ; ? !», inside « », the apostrophe ’.
@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 
 import { PAGE_COPY, FR_POUR, TITLE_MAX } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
@@ -51,17 +52,17 @@ function htmlUnder(dir) {
 const FR_PAGES = htmlUnder('fr').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/fr/terms|refund|privacy/) are pages of this language too; their
 // fidelity to the English — which keeps proper names, the seller's Latin address and foreign law titles in English —
-// is held by seo/test-legal-i18n.mjs, so the «French only» word scan reads the 206 site pages without them.
+// is held by seo/test-legal-i18n.mjs, so the «French only» word scan reads the site pages without them.
 const FR_LEGAL = /^fr\/(terms|refund|privacy)\/index\.html$/;
 const FR_SITE_PAGES = FR_PAGES.filter((rel) => !FR_LEGAL.test(rel));
 const head = (html) => html.slice(0, html.indexOf('</head>'));
 
 /* ------------------------------------------------------------------ 1. complete */
 
-test('206 French pages: the home, the list, 198 countries, the guides list and five guides', () => {
-  assert.equal(FR_SITE_PAGES.length, 209, '206 + the three region pages (seo/regions.mjs)');
-  assert.equal(FR_PAGES.length, 212, '+ the three legal documents (LEGAL-4)');
-  assert.equal(FR_PAGES.filter((p) => /^fr\/esim\/[^/]+\/index\.html$/.test(p)).length, 201, "198 countries + 3 region pages");
+test('every French page: the home, the list, one page per catalogue country, the guides list and five guides', () => {
+  assert.equal(FR_SITE_PAGES.length, COUNTRY_PAGES + 11, 'the home, the list, the countries, the guides list, five guides + the three region pages (seo/regions.mjs)');
+  assert.equal(FR_PAGES.length, COUNTRY_PAGES + 14, '+ the three legal documents (LEGAL-4)');
+  assert.equal(FR_PAGES.filter((p) => /^fr\/esim\/[^/]+\/index\.html$/.test(p)).length, COUNTRY_PAGES + 3, "the catalogue countries + 3 region pages");
   assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, FR_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 
@@ -94,7 +95,7 @@ test('the French guides mirror the English ones: slugs, sections, questions, rel
 test('French built through the locale generator equals the committed pages, byte for byte', () => {
   const G = localeGenerator('fr');
   const list = G.countries();
-  assert.equal(list.length, 198);
+  assert.equal(list.length, COUNTRY_PAGES);
   const drift = [];
   const same = (html, rel) => stampHtml(html, join(ROOT, dirname(rel))) === read(rel);
   if (!same(G.homePage(list), 'fr/index.html')) drift.push('fr/');
@@ -144,11 +145,11 @@ test('the same design: every page kind has the English markup skeleton (tags and
   }
 });
 
-test('the French destination list: 198 destinations, each under its initial (É → E, Î → I, Å → A), every jump letter lands', () => {
+test('the French destination list: every catalogue destination, each under its initial (É → E, Î → I, Å → A), every jump letter lands', () => {
   const html = read('fr/esim/index.html');
   const sections = [...html.matchAll(/<section class="az-group" id="az-([a-z]+)"[\s\S]*?<h2 id="azh-\1">([^<]+)<\/h2>([\s\S]*?)<\/section>/g)];
   const names = sections.flatMap((m) => [...m[3].matchAll(/<span>([^<]+)<\/span>/g)].map((x) => [m[2], decode(x[1])]));
-  assert.equal(names.length, 198);
+  assert.equal(names.length, COUNTRY_PAGES);
   for (const [letter, name] of names) assert.equal(name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase(), letter, name);
   const jumps = [...html.matchAll(/<a href="#az-([a-z]+)" data-letter="([A-Z])">/g)].map((m) => m[1]);
   assert.deepEqual(jumps, sections.map((m) => m[1]));
@@ -205,7 +206,7 @@ function englishOnlyWords() {
   return new Set([...en].filter((w) => w.length >= 3 && !de.has(w) && !KEEP.has(w)));
 }
 
-test('French only: no English-only word and no Russian on any of the 206 pages', () => {
+test('French only: no English-only word and no Russian on any site page', () => {
   const EN_ONLY = englishOnlyWords();
   assert.ok(EN_ONLY.size > 300 && EN_ONLY.has('plans') && EN_ONLY.has('choose'), 'the English word list is real');
   const namesSrc = read('assets/country-names-fr.js');

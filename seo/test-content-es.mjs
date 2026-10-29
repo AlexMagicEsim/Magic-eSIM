@@ -18,6 +18,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 import {
   validateContent, crossProblems, checkAll, contentSlugs, contentDir, loadContent, namedCountries, sentences, GUARD_IDS,
   CONTENT_LANGS,
@@ -305,11 +306,11 @@ test('no plan figure (volume, speed, currency, count) anywhere in a rendered Spa
   for (const s of ['La red funciona a 230 V.', 'Desde el 25 de enero de 2024.']) assert.equal(FIGURES.some(([, re]) => re.test(s)), false, s);
 });
 
-test('own <title> and description on all 198 Spanish country pages; the authored ones differ beyond the name', () => {
+test('own <title> and description on every Spanish country page; the authored ones differ beyond the name', () => {
   const titles = COUNTRIES.map((c) => titleOf(page(c.slug)));
   const descs = COUNTRIES.map((c) => descOf(page(c.slug)));
   const dupes = (l) => l.filter((x, i) => l.indexOf(x) !== i);
-  assert.equal(titles.length, 198);
+  assert.equal(titles.length, COUNTRY_PAGES);
   assert.deepEqual(dupes(titles), []);
   assert.deepEqual(dupes(descs), []);
   const generic = (s, slug) => s.split(BY_SLUG.get(slug).name).join('·').toLowerCase();

@@ -160,6 +160,7 @@ window.MagicDeDestinations = [
   { iso: "RS", slug: "serbia", name: "Serbien" },
   { iso: "SC", slug: "seychelles", name: "Seychellen" },
   { iso: "SL", slug: "sierra-leone", name: "Sierra Leone" },
+  { iso: "ZW", slug: "zimbabwe", name: "Simbabwe" },
   { iso: "SG", slug: "singapore", name: "Singapur" },
   { iso: "SX", slug: "sint-maarten", name: "Sint Maarten" },
   { iso: "SK", slug: "slovakia", name: "Slowakei" },

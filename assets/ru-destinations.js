@@ -70,6 +70,7 @@ window.MagicRuDestinations = [
   { iso: "CD", slug: "dr-congo", name: "ДР Конго", en: "DR Congo" },
   { iso: "EG", slug: "egypt", name: "Египет", en: "Egypt", aliases: ["хургада","шарм-эль-шейх","шарм","каир","марса-алам","дахаб","эль-гуна"] },
   { iso: "ZM", slug: "zambia", name: "Замбия", en: "Zambia" },
+  { iso: "ZW", slug: "zimbabwe", name: "Зимбабве", en: "Zimbabwe" },
   { iso: "IL", slug: "israel", name: "Израиль", en: "Israel", aliases: ["тель-авив","эйлат"] },
   { iso: "IN", slug: "india", name: "Индия", en: "India", aliases: ["гоа","дели","мумбаи","бомбей"] },
   { iso: "ID", slug: "indonesia", name: "Индонезия", en: "Indonesia", aliases: ["бали","джакарта","ломбок","убуд","чангу"] },
