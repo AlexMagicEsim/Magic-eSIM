@@ -35,6 +35,7 @@ import { contentHash, stripSiteI18nBundle } from './build-sitemap.mjs';
 import { rehearsalGenerator } from './build-locale-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
+import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -187,7 +188,7 @@ test('every page loads only its own language’s words: one bundle, deferred; Ru
     assert.match(html, new RegExp(`${siteI18nBundle(code).src.replace(/[.]/g, '\\.')}\\?v=[0-9a-f]{8}"`), `${rel}: stamped`);
     withWords += 1;
   }
-  assert.equal(withWords, PUBLISHED.length * 203, 'home + list + 198 country pages + 3 region pages per published language');
+  assert.equal(withWords, PUBLISHED.length * (COUNTRY_PAGES + 5), 'home + list + one page per catalogue country + 3 region pages per published language');
 });
 
 /* ------------------------------------------------------------------ 6. the bundle in a browser */

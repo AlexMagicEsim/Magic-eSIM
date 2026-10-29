@@ -15,6 +15,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { EN_GUIDES } from './guides-en.mjs';
 import { snapshots as legalVersions } from './legal-archive.mjs';
+import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -40,8 +41,8 @@ test('the rule can fire: a footer without the line, or with another address, is 
   assert.deepEqual('<p>Email: support@magicesim.com</p>'.match(EMAILS), ['support@magicesim.com']);
 });
 
-test('all 212 English pages carry the support line in the footer, exactly once', () => {
-  assert.equal(PAGES.length, 212 + legalVersions().length, '198 countries + 3 region pages + destination list + home + guide list + 5 guides + the Privacy Policy (LEGAL-1) + Terms and Refund (LEGAL-3) + the permanent copy of each of their versions (LEGAL-5)');
+test('every English page carries the support line in the footer, exactly once', () => {
+  assert.equal(PAGES.length, COUNTRY_PAGES + 14 + legalVersions().length, 'the catalogue countries + 3 region pages + destination list + home + guide list + 5 guides + the Privacy Policy (LEGAL-1) + Terms and Refund (LEGAL-3) + the permanent copy of each of their versions (LEGAL-5)');
   const missing = PAGES.filter((p) => !footerOf(read(p)).includes(FOOTER_LINE));
   assert.deepEqual(missing, []);
   const twice = PAGES.filter((p) => read(p).split(FOOTER_LINE).length !== 2);

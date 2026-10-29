@@ -9,13 +9,14 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SEO_PILOT_PAGES, SEO_CONTROL_PAGES, FROZEN_PAGES, CARDS_B1_SINCE, EXPERIMENT_ENDED } from './frozen-pages.mjs';
+import { COUNTRY_SLUGS } from './catalogue-page-count.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (slug) => readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf8');
 const countries = readdirSync(join(ROOT, 'esim')).filter((s) => existsSync(join(ROOT, 'esim', s, 'index.html')) && read(s).includes('data-country-page='));
 
 test('every RU country page renders the B1 card — the ten experiment pages included', () => {
-  assert.equal(countries.length, 198);
+  assert.deepEqual([...countries].sort(), [...COUNTRY_SLUGS].sort(), 'a B1 country page for exactly the catalogue countries');
   const missing = countries.filter((s) => !/<section class="packages" id="tariffs" data-country-page="[A-Z]{2}" data-cards="compact">/.test(read(s)));
   assert.deepEqual(missing, []);
 });
