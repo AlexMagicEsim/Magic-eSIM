@@ -155,7 +155,7 @@ test('UAE 3 GB: plan → server price $9.99 → email → review → payment not
   await expect(page.locator('#checkout .rows span', { hasText: 'eSIM plan' })).toHaveCount(0);
   expect(await page.locator('#coStep3 .rows > div > span').allInnerTexts()).toEqual(['Coverage', 'Data', 'Validity', 'Validity starts', 'Activation deadline', 'Email', 'Price']);
   // Terms §8.3–8.4 (LEGAL-5): the provider states neither for this plan — the review says so instead of guessing.
-  await expect(page.locator('#rvStart')).toHaveText('not stated by our eSIM provider — contact us before paying');
+  await expect(page.locator('#rvStart')).toHaveText('not stated by our eSIM provider — contact us at support@magicesim.store before paying');
   await expect(page.locator('#rvDeadline')).toHaveText(/^Set by our eSIM provider and not stated for this plan\./);
   await expect(page.locator('#localGrid .card', { hasText: '3 GB' }).first().locator('.m-start')).toHaveCount(0);
   await expect(page.locator('#coFinal')).toContainText('Online payment is not available yet');

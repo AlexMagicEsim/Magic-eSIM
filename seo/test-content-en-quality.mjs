@@ -428,9 +428,14 @@ test('f: the Russian pages are byte-identical to CONTENT_EN_QA_BASE, but for the
   }
   assert.notEqual(read('esim/japan/index.html') + ' ', git('show', `${BASE}:esim/japan/index.html`));
   // The authored English pages against the base: the same scripts, the same checkout window.
+  // The words bundle's content stamp is the one version left out: its content IS the dictionary, pinned word for word by
+  // test/fixtures/site-i18n-words-golden.json (re-recorded only on purpose) — the same reason the sitemap hash strips it
+  // (stripSiteI18nBundle). Every other script keeps its stamp, so a changed script is still seen.
+  const scriptSet = (html, slug) => scriptsOf(html, slug).filter((s) => !s.includes('ld+json'))
+    .map((s) => s.replace(/(\/assets\/site-i18n-[a-z]+\.js)\?v=[0-9a-f]+/, '$1'));
   for (const slug of WITH_FILE) {
     const old = git('show', `${BASE}:en/esim/${slug}/index.html`);
     assert.equal(checkoutOf(page(slug), slug), checkoutOf(old, slug), `${slug}: checkout vs ${BASE}`);
-    assert.deepEqual(scriptsOf(page(slug), slug).filter((s) => !s.includes('ld+json')), scriptsOf(old, slug).filter((s) => !s.includes('ld+json')), `${slug}: scripts vs ${BASE}`);
+    assert.deepEqual(scriptSet(page(slug), slug), scriptSet(old, slug), `${slug}: scripts vs ${BASE}`);
   }
 });

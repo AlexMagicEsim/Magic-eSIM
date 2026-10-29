@@ -176,7 +176,9 @@ test('the Chinese destination list: 198 destinations under their pinyin initial,
 
 const KEEP = new Set(['magic', 'esim', 'sim', 'iphone', 'ios', 'android', 'google', 'pixel', 'samsung', 'galaxy', 'apple', 'app',
   'one', 'ui', 'qr', 'apn', 'eid', 'usd', 'us', 'gb', 'mb', 'kbps', 'mbps', 'gbps', 'ip', 'support', 'magicesim', 'store',
-  'javascript', 'pro', 'max', 'duo', 'air', 'wi', 'fi']);
+  'javascript', 'pro', 'max', 'duo', 'air', 'wi', 'fi',
+  // the seller's own name in the footer, as the Chinese Terms §1 print it (a person's legal name is never translated)
+  'aleksandr', 'kharin']);
 // single letters are the list's pinyin initials (A–Z)
 const latin = (s) => (String(s).toLowerCase().match(/[a-z]+/g) || []);
 
