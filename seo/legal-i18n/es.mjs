@@ -602,14 +602,15 @@ export const LEGAL_I18N = Object.freeze({
       <p>Nuestro proveedor de alojamiento conserva registros técnicos de las solicitudes a nuestro servidor durante un período limitado (consulta la sección 6). Estos registros pueden incluir direcciones IP y, ocasionalmente, partes de solicitudes que nuestro servidor no pudo procesar.</p>
       <h3>Lo que no hacemos</h3>
       <p>No vendemos datos personales, no los usamos para publicidad ni para elaborar perfiles, y no enviamos correos de marketing. No vendemos ni compartimos datos personales en el sentido en que la ley de California define «vender» («sell») y «compartir» («share»), y puedes ejercer los derechos de la sección 7 vivas donde vivas, incluso en los Estados Unidos.</p>` },
-      { id: "cookies", en: '7ad3d8d1a8f2', h2: "3. Cookies y almacenamiento local", html: `
+      { id: "cookies", en: 'bc6917fe75df', h2: "3. Cookies y almacenamiento local", html: `
       <p>El sitio web internacional no usa <strong>ninguna cookie</strong> ni <strong>ninguna herramienta de analítica, publicidad o seguimiento</strong>.</p>
-      <p>Solo guarda dos pequeños valores en tu navegador:</p>
+      <p>Solo guarda en tu navegador los siguientes pequeños valores:</p>
       <ul class="list">
-        <li><code>mesim.site.lang</code> (almacenamiento local) recuerda el idioma que elegiste, hasta que lo borres.</li>
-        <li><code>me-logo</code> (almacenamiento de sesión) reproduce la animación del logotipo una vez por visita, hasta que cierres la pestaña.</li>
+        <li><code>mesim.site.lang</code> (almacenamiento local) recuerda el idioma que elegiste (en el menú de idiomas o al abrir una versión en otro idioma desde la versión en ruso del sitio web) para que magicesim.store se abra en ese idioma la próxima vez. Solo contiene un código de idioma, como «en», y se conserva hasta que borres los datos de este sitio web en tu navegador.</li>
+        <li><code>me-logo</code> (almacenamiento de sesión) reproduce la animación del logotipo una vez por visita. Solo contiene el valor «1» y se elimina cuando cierras la pestaña.</li>
+        <li><code>mesim.lang.auto</code> (almacenamiento de sesión) solo se guarda cuando abres magicesim.store y se te lleva automáticamente a la versión en el idioma de tu navegador. Indica a la página a la que llegas que ese idioma no lo elegiste tú, para que no se recuerde como tu elección. Solo contiene el valor «1», y esa página lo elimina en cuanto se abre.</li>
       </ul>
-      <p>Estos valores solo sirven para que el sitio web se muestre como pediste; no se nos envían. Si alguna vez añadimos una herramienta de analítica o similar, primero actualizaremos esta política y te pediremos tu consentimiento cuando la ley lo exija.</p>
+      <p>Estos valores solo sirven para que el sitio web se muestre como pediste; no se envían ni a nosotros ni a nadie más. Si tu navegador no los permite, el sitio web sigue funcionando: tu idioma no se recuerda y la animación del logotipo no se reproduce. Si alguna vez añadimos una herramienta de analítica o similar, primero actualizaremos esta política y te pediremos tu consentimiento cuando la ley lo exija.</p>
       <h3>Do Not Track</h3>
       <p>No te hacemos seguimiento a lo largo del tiempo ni a través de otros sitios web o servicios en línea, y no permitimos que otras empresas recopilen datos personales sobre tus actividades en línea a lo largo del tiempo y en distintos sitios web cuando usas nuestro sitio web. Por este motivo, no respondemos de forma distinta a las señales «Do Not Track» o Global Privacy Control: tanto si tu navegador envía una como si no, no se produce ningún seguimiento de este tipo.</p>` },
       { id: "providers", en: 'fafc78189849', h2: "4. Proveedores de servicios que tratan datos por nuestra cuenta", html: `

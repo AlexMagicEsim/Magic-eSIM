@@ -110,13 +110,28 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/privacy/v0.9.5/",
       "sha256": "5e51b25aa4d6999cd03bdfec2b532f2c57a2be69bbb1b45582a40dc6ff6f6980",
-      "current": true,
+      "current": false,
       "translations": {
         "es": "https://magicesim.store/es/privacy/v0.9.5/",
         "de": "https://magicesim.store/de/privacy/v0.9.5/",
         "fr": "https://magicesim.store/fr/privacy/v0.9.5/",
         "zh-Hans": "https://magicesim.store/zh/privacy/v0.9.5/",
         "ko": "https://magicesim.store/ko/privacy/v0.9.5/"
+      }
+    },
+    {
+      "document": "privacy",
+      "version": "0.9.6 (pre-launch)",
+      "effective_date": "2026-10-29",
+      "url": "https://magicesim.store/en/privacy/v0.9.6/",
+      "sha256": "58b8e527fd85f28376a59cd42662857a51e93876f5dfa6f88f5b899db4520ce5",
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/privacy/v0.9.6/",
+        "de": "https://magicesim.store/de/privacy/v0.9.6/",
+        "fr": "https://magicesim.store/fr/privacy/v0.9.6/",
+        "zh-Hans": "https://magicesim.store/zh/privacy/v0.9.6/",
+        "ko": "https://magicesim.store/ko/privacy/v0.9.6/"
       }
     }
   ]
