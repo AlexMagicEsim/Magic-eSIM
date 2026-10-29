@@ -51,6 +51,8 @@ node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
+# The Pages artifact (scripts/build-pages-artifact.mjs) — a build output, never committed.
+/_site/
 .playwright-mcp/
 
 # ---------------------------------------------------------------------------

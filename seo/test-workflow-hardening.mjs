@@ -137,7 +137,10 @@ test('every workflow declares its own top-level permissions', () => {
 
 test('a workflow that can write never persists credentials and pushes only with an explicit, step-scoped token', () => {
   const writers = workflows.filter((w) => canWrite(w.text)).map((w) => w.name).sort();
-  assert.deepEqual(writers, ['refresh-catalog-cache.yml', 'seo-refresh-pr.yml']);
+  // deploy-pages.yml writes only to Pages (pages + id-token, in its deploy job) — never to the repository
+  assert.deepEqual(writers, ['deploy-pages.yml', 'refresh-catalog-cache.yml', 'seo-refresh-pr.yml']);
+  const pages = workflows.find((w) => w.name === 'deploy-pages.yml').text;
+  assert.equal(code(pages).some((l) => /^\s*(contents|pull-requests|actions):\s*write\b/.test(l)), false, 'deploy-pages.yml cannot write the repository');
   for (const w of workflows.filter((x) => canWrite(x.text))) {
     assert.deepEqual(persistingCheckouts(w.text), [], `${w.name}: checkout persists credentials`);
     assert.deepEqual(implicitPushes(w.text), [], `${w.name}: git push without an explicit credential`);

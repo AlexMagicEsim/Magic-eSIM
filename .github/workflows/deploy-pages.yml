@@ -1,0 +1,102 @@
+name: Deploy Pages
+
+# Publishes magicesim.store from an ALLOWLISTED copy of the site (scripts/build-pages-artifact.mjs → _site/), instead
+# of the whole repository. Until this workflow, Pages deployed from the branch, and `.nojekyll` switched off even
+# Jekyll's default exclusions: .claude/, test/, seo/*.mjs, scripts/, infra/, package.json, playwright.config.js,
+# .env.example, the RepairBase posters and app/canary.html were all public URLs.
+#
+# NOTHING DEPLOYS UNTIL THE OWNER SWITCHES. The `deploy` job runs only when the repository variable
+# PAGES_ARTIFACT_DEPLOY is 'true', which the owner sets together with Settings → Pages → Source: «GitHub Actions».
+# Until then Pages keeps deploying from the branch exactly as before, and this workflow only BUILDS and verifies the
+# artifact on every change (the build fails on a deny conflict or on a page that references a file the allowlist
+# does not publish). Rollback = Source back to «Deploy from a branch» (and the variable to anything but 'true').
+#
+# THE CATALOGUE BOT'S COMMITS MUST DEPLOY TOO. «Refresh static catalog cache» pushes assets/catalog.json and
+# seo/global-plan-facts.json to main with GITHUB_TOKEN, and a push made with GITHUB_TOKEN starts NO workflow
+# (measured: none of the bot's commits ever triggered tests.yml). A `push` trigger alone would therefore never publish
+# a catalogue refresh. `workflow_run` is driven by the COMPLETION of the named workflow, not by its push, so it fires
+# (seo-refresh-pr.yml has relied on exactly this since 2026-09-15). In a workflow_run run, github.sha is the newest
+# commit on the default branch — the bot's commit, when it made one (measured 2026-10-28: bot run 40693177933 started
+# on a2d94079, pushed b493e787; the workflow_run run 40693250750 that followed ran on b493e787). So: deploy when the
+# bot run was on main AND main has moved past the commit it started from; when nothing was committed the two are
+# equal and the run does nothing. The SEO refresh never pushes to main (it opens a PR, merged by a person — a human
+# push, which the `push` trigger covers).
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Refresh static catalog cache"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deployment at a time and never a cancelled one half-way (actions/deploy-pages). A newer queued run replaces an
+# older queued one; every run builds the commit it was started for, and a newer commit contains the older ones.
+# A NO-OP run — a workflow_run after a bot run that committed nothing, or one not on main — gets a group of its own:
+# workflow-level concurrency applies when a run is queued, before any job's `if:`, so in the shared group a run that
+# will skip every job would still replace (cancel) a pending real deploy, an owner's manual dispatch included. The
+# condition is the exact negation of the build job's `if:`. Not moved to the deploy job: there an older run's slow build
+# could deploy after a newer one.
+concurrency:
+  group: ${{ (github.event_name == 'workflow_run' && (github.event.workflow_run.head_branch != 'main' || github.event.workflow_run.head_sha == github.sha)) && format('pages-noop-{0}', github.run_id) || 'pages' }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build the allowlisted site
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_sha != github.sha)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "20"
+
+      # Copies ONLY the allowlist into _site/, refuses a deny conflict, then checks that every local reference of
+      # every published page, stylesheet, script, the manifest and the sitemap resolves inside _site/.
+      - name: Build the Pages artifact (allowlist)
+        run: node scripts/build-pages-artifact.mjs --out _site
+
+      # The composition rules, against the same tree (no dependencies needed).
+      - name: Artifact composition tests
+        run: node --test seo/test-pages-artifact.mjs
+
+      - name: Summary
+        run: |
+          {
+            echo "### Pages artifact"
+            echo "commit \`${GITHUB_SHA}\` (${{ github.event_name }}), $(find _site -type f | wc -l) files"
+            echo "deploy: ${{ vars.PAGES_ARTIFACT_DEPLOY == 'true' && 'ON (PAGES_ARTIFACT_DEPLOY=true)' || 'off — Pages still deploys from the branch' }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+  deploy:
+    name: deploy to GitHub Pages
+    needs: build
+    # Gated until the owner switches the Pages source to «GitHub Actions» (see the header); only main is published.
+    if: ${{ vars.PAGES_ARTIFACT_DEPLOY == 'true' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
