@@ -59,6 +59,10 @@ export function stripComments(src) {
 
 const FORBIDDEN = [
   [/\bdocument\s*\.\s*cookie\b/, 'document.cookie'],
+  [/\.\s*cookie\b/, 'a .cookie property (document.cookie through an alias)'],
+  [/\[\s*['"`]cookie['"`]\s*\]/, "['cookie'] by bracket"],
+  [/\[\s*['"`](localStorage|sessionStorage)['"`]\s*\]/, "['localStorage'] / ['sessionStorage'] by bracket"],
+  [/\bStorage\s*\.\s*prototype\b/, 'Storage.prototype'],
   [/\bcookieStore\b/, 'cookieStore'],
   [/\bindexedDB\b/, 'indexedDB'],
   [/\bcaches\s*\.\s*(open|keys|match|delete|has)\b/, 'Cache Storage'],
@@ -93,7 +97,10 @@ export function scanScript(src, label = 'script') {
     const vals = new Set([...code.matchAll(new RegExp(`(?:^|[^\\w$.])${a.replace(/[$]/g, '\\$')}\\s*=\\s*(['"])([^'"]+)\\1`, 'g'))].map((x) => x[2]));
     return vals.size === 1 ? [...vals][0] : null;
   };
+  const tokens = (code.match(/\b(getItem|setItem|removeItem)\b/g) || []).length;
+  let matched = 0;
   for (const m of code.matchAll(/([\w$.]+)\s*\.\s*(getItem|setItem|removeItem)\s*\(\s*([^,)]*)/g)) {
+    matched += 1;
     const [, recv, op, arg] = m;
     const store = storeOf(recv);
     const key = keyOf(arg);
@@ -101,6 +108,7 @@ export function scanScript(src, label = 'script') {
     if (!key) problems.push(`${label}: ${recv}.${op}(${arg}) — the key is not a literal or a constant of this file`);
     if (store && key) keys.push({ key, store, op });
   }
+  if (tokens > matched) problems.push(`${label}: ${tokens} getItem/setItem/removeItem tokens but only ${matched} resolvable calls`);
   return { keys, problems };
 }
 
@@ -199,6 +207,15 @@ test('the check fires: the frozen v0.9.5 policy (every language) misses mesim.la
     const t = JSON.parse(read(`seo/legal-archive/${code}/privacy-0.9.5.json`));
     assert.deepEqual(drift(CODE_MAP, policyKeys(t, code)), ['missing from the policy: mesim.lang.auto (session storage)'], code);
   }
+});
+
+test('the scanner fires on cookie and storage access through an alias, brackets or Storage.prototype', () => {
+  assert.match(scanScript("var d = document; d.cookie = 'a=1';").problems.join(), /\.cookie property/);
+  assert.match(scanScript("document['cookie'] = 'a=1';").problems.join(), /\['cookie'\] by bracket/);
+  assert.match(scanScript("window['localStorage'].setItem('k', '1');").problems.join(), /by bracket/);
+  assert.match(scanScript("window[\"sessionStorage\"].getItem('k');").problems.join(), /by bracket/);
+  assert.match(scanScript("Storage.prototype.setItem.call(localStorage, 'k', '1');").problems.join(), /Storage\.prototype/);
+  assert.match(scanScript("var f = 'setItem'; localStorage[f]('k', '1'); x.setItem;").problems.join(), /tokens but only/);
 });
 
 test('the scanner fires on a new key, a dynamic key, an unknown store, a cookie and another browser store', () => {
