@@ -601,14 +601,15 @@ export const LEGAL_I18N = Object.freeze({
       <p>Unser Hosting-Anbieter speichert für einen begrenzten Zeitraum technische Protokolle der Anfragen an unseren Server (siehe Abschnitt 6). Diese Protokolle können IP-Adressen und gelegentlich Teile von Anfragen enthalten, die unser Server nicht verarbeiten konnte.</p>
       <h3>Was wir nicht tun</h3>
       <p>Wir verkaufen keine personenbezogenen Daten, wir verwenden sie nicht für Werbung oder Profiling, und wir versenden keine Marketing-E-Mails. Wir verkaufen oder teilen keine personenbezogenen Daten im Sinne der Begriffe „sell“ und „share“ des kalifornischen Rechts, und du kannst die Rechte in Abschnitt 7 unabhängig von deinem Wohnort nutzen, auch in den Vereinigten Staaten.</p>` },
-      { id: "cookies", en: '7ad3d8d1a8f2', h2: "3. Cookies und lokaler Speicher", html: `
+      { id: "cookies", en: 'bc6917fe75df', h2: "3. Cookies und lokaler Speicher", html: `
       <p>Die internationale Website verwendet <strong>keine Cookies</strong> und <strong>keine Analyse-, Werbe- oder Tracking-Tools</strong>.</p>
-      <p>Sie speichert nur zwei kleine Werte in deinem Browser:</p>
+      <p>Sie speichert nur die folgenden kleinen Werte in deinem Browser:</p>
       <ul class="list">
-        <li><code>mesim.site.lang</code> (lokaler Speicher) merkt sich die von dir gewählte Sprache, bis du den Wert löschst.</li>
-        <li><code>me-logo</code> (Sitzungsspeicher) sorgt dafür, dass die Logo-Animation einmal pro Besuch abgespielt wird, bis du den Tab schließt.</li>
+        <li><code>mesim.site.lang</code> (lokaler Speicher) merkt sich die von dir gewählte Sprache – im Sprachmenü oder indem du von der russischen Version der Website aus eine Sprachversion öffnest –, damit sich magicesim.store beim nächsten Mal in dieser Sprache öffnet. Der Wert enthält nur einen Sprachcode wie „en“ und bleibt gespeichert, bis du die Daten dieser Website in deinem Browser löschst.</li>
+        <li><code>me-logo</code> (Sitzungsspeicher) sorgt dafür, dass die Logo-Animation einmal pro Besuch abgespielt wird. Der Wert enthält nur „1“ und wird gelöscht, wenn du den Tab schließt.</li>
+        <li><code>mesim.lang.auto</code> (Sitzungsspeicher) wird nur gesetzt, wenn du magicesim.store öffnest und automatisch zur Version in der Sprache deines Browsers weitergeleitet wirst. Der Wert teilt der Seite, auf der du ankommst, mit, dass diese Sprache nicht deine Wahl war, damit sie nicht als deine Wahl gespeichert wird. Er enthält nur „1“, und diese Seite löscht ihn, sobald sie sich öffnet.</li>
       </ul>
-      <p>Diese Werte sorgen nur dafür, dass die Website so angezeigt wird, wie du es gewählt hast; sie werden nicht an uns gesendet. Falls wir jemals ein Analyse- oder ähnliches Tool hinzufügen, aktualisieren wir zuerst diese Erklärung und bitten um deine Einwilligung, soweit das Gesetz dies verlangt.</p>
+      <p>Diese Werte sorgen nur dafür, dass die Website so angezeigt wird, wie du es gewählt hast; sie werden weder an uns noch an andere gesendet. Wenn dein Browser sie nicht zulässt, funktioniert die Website trotzdem: Deine Sprache wird nicht gespeichert, und die Logo-Animation wird nicht abgespielt. Falls wir jemals ein Analyse- oder ähnliches Tool hinzufügen, aktualisieren wir zuerst diese Erklärung und bitten um deine Einwilligung, soweit das Gesetz dies verlangt.</p>
       <h3>Do Not Track</h3>
       <p>Wir verfolgen dich nicht über einen längeren Zeitraum oder über andere Websites oder Online-Dienste hinweg, und wir erlauben anderen Unternehmen nicht, personenbezogene Daten über deine Online-Aktivitäten über einen längeren Zeitraum und über verschiedene Websites hinweg zu erheben, wenn du unsere Website nutzt. Deshalb reagieren wir auf „Do Not Track“- oder Global-Privacy-Control-Signale nicht anders: Ob dein Browser ein solches Signal sendet oder nicht, ein solches Tracking findet nicht statt.</p>` },
       { id: "providers", en: 'fafc78189849', h2: "4. Dienstleister, die Daten für uns verarbeiten", html: `
