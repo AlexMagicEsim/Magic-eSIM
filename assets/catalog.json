@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-28T13:04:56.715Z",
+  "generated_at": "2026-10-29T13:11:29.901Z",
   "source": "production-public-api",
-  "package_count": 2297,
+  "package_count": 2306,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -747,6 +747,10 @@
       "networks": [
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -3917,6 +3921,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -4183,6 +4191,10 @@
         },
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -8697,6 +8709,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -9569,6 +9585,10 @@
         },
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -19014,6 +19034,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -20790,6 +20814,79 @@
         {
           "days": 30,
           "price": 2450
+        }
+      ]
+    },
+    {
+      "package_id": "24d398a7-1029-41c5-80ad-0f46c708b9b1",
+      "name": "Zimbabwe 3GB/Day FUP1Mbps",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1250,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 3150
+        },
+        {
+          "days": 5,
+          "price": 5000
+        },
+        {
+          "days": 7,
+          "price": 7000
+        },
+        {
+          "days": 10,
+          "price": 9650
+        },
+        {
+          "days": 15,
+          "price": 14500
+        },
+        {
+          "days": 30,
+          "price": 26700
         }
       ]
     },
@@ -28360,6 +28457,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -29526,6 +29627,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -30659,6 +30764,79 @@
         {
           "days": 30,
           "price": 10650
+        }
+      ]
+    },
+    {
+      "package_id": "3bb8a093-cc89-457e-90e9-99f4999d16f0",
+      "name": "Zimbabwe 5GB/Day",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1600,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 5,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 4050
+        },
+        {
+          "days": 5,
+          "price": 6500
+        },
+        {
+          "days": 7,
+          "price": 9100
+        },
+        {
+          "days": 10,
+          "price": 12550
+        },
+        {
+          "days": 15,
+          "price": 18800
+        },
+        {
+          "days": 30,
+          "price": 34600
         }
       ]
     },
@@ -32569,6 +32747,46 @@
       "sellable_days": []
     },
     {
+      "package_id": "3f3efad3-b2b6-4760-91f6-5cfca46f79a3",
+      "name": "Zimbabwe 10GB 30Days",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 2950,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "3f62af09-0501-4112-844b-a168f8d55e32",
       "name": "Guinea-Bissau 3GB 30Days",
       "country_code": "GW",
@@ -32761,6 +32979,79 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "3fb32727-a5e9-42d7-8468-4b88d55a2324",
+      "name": "Zimbabwe 1GB/Day FUP1Mbps",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2100
+        },
+        {
+          "days": 7,
+          "price": 2950
+        },
+        {
+          "days": 10,
+          "price": 3600
+        },
+        {
+          "days": 15,
+          "price": 5400
+        },
+        {
+          "days": 30,
+          "price": 9900
+        }
+      ]
     },
     {
       "package_id": "3fb341b1-16a0-40b4-b955-3122908ae1ba",
@@ -38811,6 +39102,46 @@
       ]
     },
     {
+      "package_id": "4c302c66-3bef-4717-ac31-1e8f6e6ccc7f",
+      "name": "Zimbabwe 20GB 30Days",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 6050,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "4c420d93-f3c9-4e52-8da0-fcf4142ec3f2",
       "name": "Singapore 3GB 15Days",
       "country_code": "SG",
@@ -41990,6 +42321,10 @@
       "networks": [
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -53644,6 +53979,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -55313,6 +55652,79 @@
         {
           "days": 30,
           "price": 46100
+        }
+      ]
+    },
+    {
+      "package_id": "6d33b047-0c56-4f71-b218-b1856d351407",
+      "name": "Zimbabwe 10GB/Day",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 2950,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 10,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 7550
+        },
+        {
+          "days": 5,
+          "price": 12050
+        },
+        {
+          "days": 7,
+          "price": 16850
+        },
+        {
+          "days": 10,
+          "price": 23250
+        },
+        {
+          "days": 15,
+          "price": 34850
+        },
+        {
+          "days": 30,
+          "price": 64250
         }
       ]
     },
@@ -70388,6 +70800,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -76081,6 +76497,10 @@
           "type": "5G"
         },
         {
+          "operator": "Zain",
+          "type": "5G"
+        },
+        {
           "operator": "Korek",
           "type": "4G"
         },
@@ -76097,7 +76517,15 @@
           "type": "5G"
         },
         {
+          "operator": "Zain",
+          "type": "5G"
+        },
+        {
           "operator": "ooredoo",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -88200,6 +88628,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -88556,6 +88988,10 @@
         },
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -90470,6 +90906,46 @@
           "price": 41550
         }
       ]
+    },
+    {
+      "package_id": "acea3a63-e321-4498-9f16-7b92e51a28d7",
+      "name": "Zimbabwe 5GB 30Days",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 1850,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "acfba003-0cae-4baf-8dca-303cbda8a066",
@@ -112065,6 +112541,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -118717,6 +119197,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -120303,6 +120787,10 @@
           "type": "5G"
         },
         {
+          "operator": "Zain",
+          "type": "5G"
+        },
+        {
           "operator": "Korek",
           "type": "4G"
         },
@@ -120319,7 +120807,15 @@
           "type": "5G"
         },
         {
+          "operator": "Zain",
+          "type": "5G"
+        },
+        {
           "operator": "ooredoo",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -122697,6 +123193,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -122720,6 +123220,79 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "e5d706eb-a304-467b-897b-65a703dbd06c",
+      "name": "Zimbabwe 2GB/Day FUP1Mbps",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1000,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2500
+        },
+        {
+          "days": 5,
+          "price": 3550
+        },
+        {
+          "days": 7,
+          "price": 4950
+        },
+        {
+          "days": 10,
+          "price": 6800
+        },
+        {
+          "days": 15,
+          "price": 10200
+        },
+        {
+          "days": 30,
+          "price": 18750
+        }
+      ]
     },
     {
       "package_id": "e5e21c0e-d081-4278-b314-6e36be65c37e",
@@ -124304,6 +124877,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -125803,6 +126380,10 @@
       "networks": [
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -129890,6 +130471,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -132008,6 +132593,46 @@
       ]
     },
     {
+      "package_id": "f47c70ff-3573-4e2f-bc5b-7af1cca8fb33",
+      "name": "Zimbabwe 3GB 15Days",
+      "country_code": "ZW",
+      "region": "ZW",
+      "coverage_country_codes": [
+        "ZW"
+      ],
+      "coverage_flags": "🇿🇼",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 1100,
+      "networks": [
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "f4829061-35c2-4aa1-bd57-74124de8c7e6",
       "name": "Macao 5GB/Day (nonhkip)",
       "country_code": "MO",
@@ -132322,6 +132947,10 @@
         },
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -134643,6 +135272,10 @@
         {
           "operator": "STC",
           "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -135788,6 +136421,10 @@
         },
         {
           "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -142709,6 +143346,23 @@
           "dc857918-678e-4996-82f5-4c1da95087ce"
         ],
         "best": "8a8a3b4d-4476-4f90-b0cb-cd763c5949b8"
+      },
+      "ZW": {
+        "local": [
+          "f47c70ff-3573-4e2f-bc5b-7af1cca8fb33",
+          "acea3a63-e321-4498-9f16-7b92e51a28d7",
+          "3f3efad3-b2b6-4760-91f6-5cfca46f79a3",
+          "4c302c66-3bef-4717-ac31-1e8f6e6ccc7f"
+        ],
+        "regional": [],
+        "daily": [
+          "3fb32727-a5e9-42d7-8468-4b88d55a2324",
+          "e5d706eb-a304-467b-897b-65a703dbd06c",
+          "24d398a7-1029-41c5-80ad-0f46c708b9b1",
+          "3bb8a093-cc89-457e-90e9-99f4999d16f0",
+          "6d33b047-0c56-4f71-b218-b1856d351407"
+        ],
+        "best": "3f3efad3-b2b6-4760-91f6-5cfca46f79a3"
       }
     }
   }
