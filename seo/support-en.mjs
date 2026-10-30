@@ -46,7 +46,7 @@ export const SUPPORT = Object.freeze({
         <li>Delivery is electronic, by email to the address you entered. The eSIM is usually delivered within a few minutes after the payment is confirmed.</li>
         <li>If you have not received it within 1 hour, check your spam folder and write to us.</li>
         <li>We resend the eSIM to the address used for the order on request.</li>
-        <li>A duplicate payment, or any amount charged in error, is refunded in full (<a href="/en/refund/">Refund Policy</a>, section 2).</li>
+        <li>A duplicate payment, or any amount charged in error, is refunded in full (<a href="/en/refund/#errors-and-non-delivery-always-refunded">Refund Policy, section 2</a>).</li>
       </ul>`,
     },
     {
@@ -96,7 +96,7 @@ ${GUIDE_LIST}
     },
     {
       // Terms §10.1 (order reference, device model, screenshots); §7.3 (the address used for the order);
-      // Refund Policy §3.2 (a description of the problem); §6.2 and §7.4 (card details; keep the eSIM private).
+      // Refund Policy §3.2 (a description of the problem); Terms §6.2 and §7.4 (card details; keep the eSIM private).
       id: 'information-needed-for-support', h2: 'Information Needed for Support', html: `
       <p>To help us find your order and look into the problem, please include in your message:</p>
       <ul class="list">

@@ -170,6 +170,12 @@ const QUOTED = [
   [REFUND, 'This policy applies to plans bought once international checkout becomes available.', 'It applies to plans bought once international checkout becomes available.'],
   [REFUND, 'you chose the wrong plan, your device is not compatible, your trip changed, you did not use the eSIM'],
   [REFUND, 'No voluntary refund.', 'there is no voluntary refund.'],
+  [REFUND, 'if we could not deliver the eSIM you paid for', 'If we could not deliver the eSIM you paid for, or we cancel your order, we refund the full amount paid.'],
+  [REFUND, 'if we cancel your order', 'or we cancel your order'],
+  [REFUND, 'A replacement, or a full or partial refund', 'we offer a replacement eSIM or a full or partial refund.'],
+  [REFUND, 'our support has confirmed the fault', 'For a technical fault that our support has confirmed and cannot fix'],
+  [REFUND, 'Always honoured', 'are always honoured.'],
+  [REFUND, 'This policy is part of our Terms of Service.', 'Our Refund Policy is part of our Terms of Service.'],
   [PRIVACY, 'when you contact our support team', 'How we handle the information you send us is described in our Privacy Policy.'],
 ];
 
@@ -206,11 +212,14 @@ test('nothing the guide claim rules forbid, and no 24/7 / instant / guarantee wo
 test('every English page links /en/support/ in its footer, exactly once, after the legal links', () => {
   const pages = htmlUnder('en');
   assert.ok(pages.length > 200);
-  const missing = pages.filter((p) => footerOf(read(p)).split(SUPPORT_FOOTER_LINK).length !== 2);
+  const lacks = (html) => footerOf(html).split(SUPPORT_FOOTER_LINK).length !== 2;
+  const missing = pages.filter((p) => lacks(read(p)));
   assert.deepEqual(missing, []);
   assert.match(footerOf(HTML), /Privacy Policy<\/a> · <a href="\/en\/support\/">Support<\/a><\/p>/);
   // The rule can fire.
-  assert.equal(footerOf(read('en/index.html').replace(SUPPORT_FOOTER_LINK, '')).includes(SUPPORT_FOOTER_LINK), false);
+  const home = read('en/index.html');
+  assert.equal(lacks(home.replace(SUPPORT_FOOTER_LINK, '')), true, 'a footer without the link is caught');
+  assert.equal(lacks(home.replace(SUPPORT_FOOTER_LINK, SUPPORT_FOOTER_LINK + SUPPORT_FOOTER_LINK)), true, 'a footer with it twice is caught');
 });
 
 test('no page in another language, and no Russian page, links /en/support/', () => {
