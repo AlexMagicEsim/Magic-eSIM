@@ -4,7 +4,9 @@
  * the address the GLOBAL delivery email and the Russian terms already use — in
  * its footer, and the troubleshooting guide ends with it. Nothing else: no
  * legal or Contacts page, no seller details, no other address (the expired
- * magicesim.com domain least of all).
+ * magicesim.com domain least of all). Since 2026-10-30 the footer also links
+ * /en/support/, which restates the Terms' own contact and help sections
+ * (seo/support-en.mjs, pinned by seo/test-en-support-page.mjs).
  *
  * Run: node --test seo/test-en-support-contact.mjs
  */
@@ -42,7 +44,7 @@ test('the rule can fire: a footer without the line, or with another address, is 
 });
 
 test('every English page carries the support line in the footer, exactly once', () => {
-  assert.equal(PAGES.length, COUNTRY_PAGES + 14 + legalVersions().length, 'the catalogue countries + 3 region pages + destination list + home + guide list + 5 guides + the Privacy Policy (LEGAL-1) + Terms and Refund (LEGAL-3) + the permanent copy of each of their versions (LEGAL-5)');
+  assert.equal(PAGES.length, COUNTRY_PAGES + 15 + legalVersions().length, 'the catalogue countries + 3 region pages + destination list + home + guide list + 5 guides + the Privacy Policy (LEGAL-1) + Terms and Refund (LEGAL-3) + the permanent copy of each of their versions (LEGAL-5) + the support page (seo/support-en.mjs)');
   const missing = PAGES.filter((p) => !footerOf(read(p)).includes(FOOTER_LINE));
   assert.deepEqual(missing, []);
   const twice = PAGES.filter((p) => read(p).split(FOOTER_LINE).length !== 2);
