@@ -64,6 +64,7 @@ import { snapshots as legalSnapshots, archivePath, versionNumber, versionsJson, 
 import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
 import { TERMS, TERMS_VERSION, TERMS_EFFECTIVE, TERMS_EFFECTIVE_ISO } from './terms-en.mjs';
 import { REFUND, REFUND_VERSION, REFUND_EFFECTIVE, REFUND_EFFECTIVE_ISO } from './refund-en.mjs';
+import { SUPPORT, SUPPORT_PATH, SUPPORT_FOOTER_LINK } from './support-en.mjs';
 
 export { FONT_PRELOAD, LOGO };
 
@@ -551,8 +552,11 @@ const LEGAL_T = code === 'en' ? null : (LEGAL_TRANSLATIONS[code] || null);
 const EN_ROOT = `/${locale('en').prefix}/`;
 const localLegal = (href) => (LEGAL_T && href.startsWith(EN_ROOT) ? `${P}/${href.slice(EN_ROOT.length)}` : href);
 const LEGAL = legalLinks(code).map((l) => (LEGAL_T && l.hreflang === 'en' ? { ...l, href: localLegal(l.href), hreflang: L.htmlLang } : l));
+// The support page (/en/support/, seo/support-en.mjs) exists in English only, so only the English footer links it, after
+// the legal links. Static English like the support line above it: no i18n key, no other language.
+const SUPPORT_LINK = code === 'en' ? SUPPORT_FOOTER_LINK : '';
 const LEGAL_LINE = LEGAL.length
-  ? `      <p>${LEGAL.map((l) => `<a href="${l.href}" hreflang="${l.hreflang}" data-i18n="${l.key}">${t(l.key)}</a>`).join(' · ')}</p>\n`
+  ? `      <p>${LEGAL.map((l) => `<a href="${l.href}" hreflang="${l.hreflang}" data-i18n="${l.key}">${t(l.key)}</a>`).join(' · ')}${SUPPORT_LINK}</p>\n`
   : '';
 /* The footer's destinations: ONE A–Z list in this language's order (listIndex), then «All destinations». It holds
  *   - the countries of the indexing stage (seo/indexing.mjs INDEXED_COUNTRIES) — the pages with their own written
@@ -1437,6 +1441,78 @@ ${FOOTER}
 `;
 }
 
+/* THE SUPPORT PAGE — /en/support/, English only (seo/support-en.mjs: every sentence restates the Terms, the Refund Policy or
+ * the Privacy Policy). The frame of the legal pages: hero with visible crumbs, «On this page», one card per section; no
+ * script beyond the logo's (CSP connect-src 'none'), no counter. noindex, follow like the legal pages, own canonical, no
+ * hreflang and out of the sitemap — it has no twin in any other language. The language switch therefore leads every
+ * other language to its own home (Russian: /), as the legal pages do for a language without the document. */
+function supportPage() {
+  if (L.code !== 'en') throw new Error(`supportPage: the support page is English only, not ${L.code}`);
+  const D = SUPPORT;
+  const url = `${SITE}${SUPPORT_PATH}`;
+  const ids = D.sections.map((x) => x.id);
+  if (new Set(ids).size !== ids.length || ids.some((id) => !/^[a-z0-9-]+$/.test(id))) throw new Error('supportPage: section ids must be unique ASCII');
+  const toc = D.sections.map((x) => `        <li><a href="#${x.id}">${esc(x.h2)}</a></li>`).join('\n');
+  const sections = D.sections.map((x) => `    <section class="g-sec prose" id="${x.id}" aria-labelledby="${x.id}-h">
+      <h2 id="${x.id}-h">${esc(x.h2)}</h2>
+${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
+    </section>`).join('\n\n');
+  const switchTwin = (l) => (l.code === 'en' ? SUPPORT_PATH : (l.prefix ? `/${l.prefix}/` : '/'));
+  return `<!doctype html>
+<html lang="${L.htmlLang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(D.title)}</title>
+<meta name="description" content="${esc(D.description)}">
+<link rel="canonical" href="${url}">
+${PRIVACY_NOINDEX}
+${cspMeta("'none'")}
+<meta property="og:type" content="website">
+<meta property="og:locale" content="${L.ogLocale}">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${esc(D.title)}">
+${HEAD_ICONS}
+${FONT_PRELOAD}
+${LOGO_ONCE_SCRIPT}
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/en/en.css">
+<link rel="stylesheet" href="/assets/page-guides.css">
+</head>
+<body>
+
+${header(switchTwin)}
+${PAYBAR}
+
+<main class="guide support" id="main" tabindex="-1">
+  <section class="g-hero">
+    <div class="wrap">
+      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › ${esc(D.crumb)}</p>
+      <h1>${esc(D.h1)}</h1>
+      <p class="lead">${esc(D.lead)}</p>
+    </div>
+  </section>
+
+  <div class="wrap g-layout">
+    <nav class="g-toc" aria-label="${C.onThisPage}">
+      <p class="g-toc-title">${C.onThisPage}</p>
+      <ol>
+${toc}
+      </ol>
+    </nav>
+
+    <article class="g-article">
+${sections}
+    </article>
+  </div>
+</main>
+
+${FOOTER}
+</body>
+</html>
+`;
+}
+
 function destinationsJs(list) {
   const rows = list.slice().sort((a, b) => a.name.localeCompare(b.name, L.code))
     .map((c) => `  { iso: ${JSON.stringify(c.iso)}, slug: ${JSON.stringify(c.slug)}, name: ${JSON.stringify(c.name)} },`)
@@ -1517,6 +1593,7 @@ function homePage(list = countries()) {
         write(`${rel}index.html`, stampHtml(legalPage(snap.kind, snap), join(ROOT, rel)));
       }
       write(VERSIONS_JSON, versionsJson());
+      write(`${SUPPORT_PATH.slice(1)}index.html`, stampHtml(supportPage(), join(ROOT, SUPPORT_PATH.slice(1))));
     } else if (LEGAL_T) {
       // LEGAL-8: every frozen translation of this language at its permanent address.
       for (const t of translationSnapshots().filter((x) => x.code === L.code)) {
@@ -1531,6 +1608,7 @@ function homePage(list = countries()) {
   return Object.freeze({
     locale: L, countries, POPULAR, SKIP_LINK, header, PAYBAR, FOOTER, FOOTER_DESTINATIONS,
     countryPage, hubPage, regionPage, guidePage, guidesHub, homePage, destinationsJs, twin, privacyPage, legalPage,
+    ...(code === 'en' ? { supportPage } : {}),
     ...(canWrite ? { build } : {}),
   });
 }

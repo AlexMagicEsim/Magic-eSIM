@@ -34,6 +34,7 @@ import { stampHtml } from './asset-version.mjs';
 import { locale } from './locales.mjs';
 import { INDEXED_COUNTRIES } from './indexing.mjs';
 import { rulesFor } from './claim-guards.mjs';
+import { SUPPORT_FOOTER_LINK } from './support-en.mjs'; // the English-only footer link to /en/support/
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -67,7 +68,7 @@ test('every German page: the home, the list, one page per catalogue country, the
   assert.equal(DE_SITE_PAGES.length, COUNTRY_PAGES + 11, 'the home, the list, the countries, the guides list, five guides + the three region pages (seo/regions.mjs)');
   assert.equal(DE_PAGES.length, COUNTRY_PAGES + 14, '+ the three legal documents (LEGAL-4)');
   assert.equal(DE_PAGES.filter((p) => /^de\/esim\/[^/]+\/index\.html$/.test(p)).length, COUNTRY_PAGES + 3, "the catalogue countries + 3 region pages");
-  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, DE_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
+  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p) && !p.startsWith('en/support/')).length, DE_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions and the support page are English only (LEGAL-5; seo/support-en.mjs)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}', () => {
@@ -132,7 +133,7 @@ function skeleton(html) {
 test('the same design: every page kind has the English markup skeleton (tags and classes, in order)', () => {
   const kinds = ['index.html', 'esim/index.html', 'esim/thailand/index.html', 'esim/japan/index.html', 'esim/uae/index.html',
     'esim/peru/index.html', 'esim/turkey/index.html', 'guides/index.html', ...EN_GUIDES.map((g) => `guides/${g.slug}/index.html`)];
-  for (const k of kinds) assert.equal(skeleton(read(`de/${k}`)), skeleton(read(`en/${k}`)), k);
+  for (const k of kinds) assert.equal(skeleton(read(`de/${k}`)), skeleton(read(`en/${k}`).replace(SUPPORT_FOOTER_LINK, '')), k);
   // …and the same stylesheets and scripts (Expressive and the logo included), the language's own data aside.
   const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|de)\/destinations\.js$/, 'DEST').replace(/country-names-(en|de)\.js$/, 'NAMES').replace(/site-i18n-(en|de)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {

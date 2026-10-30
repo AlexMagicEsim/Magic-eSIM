@@ -50,7 +50,8 @@ test('the home carries the generator\'s header, payment bar and footer, verbatim
 test('every English page has the same header shape, the same footer, and the payment bar', () => {
   // The storefront pages (home, list, one per catalogue country, three region pages, guides list, five guides)
   // + the legal documents: Privacy (LEGAL-1), Terms and Refund (LEGAL-3); + the permanent copy of each of their versions (LEGAL-5)
-  assert.equal(PAGES.length, COUNTRY_PAGES + 14 + legalVersions().length); // + the three region pages (seo/regions.mjs)
+  // + the support page (seo/support-en.mjs)
+  assert.equal(PAGES.length, COUNTRY_PAGES + 15 + legalVersions().length); // + the three region pages (seo/regions.mjs)
   for (const p of PAGES) {
     const h = read(p);
     assert.ok(h.includes(FOOTER), `${p}: footer`);

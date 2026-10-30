@@ -31,6 +31,7 @@ import { stampHtml } from './asset-version.mjs';
 import { locale } from './locales.mjs';
 import { rulesFor, withoutSourced } from './claim-guards.mjs';
 import { legalLinks, INTL_LEGAL, LEGAL_SCHEME } from './legal-links.mjs';
+import { SUPPORT_FOOTER_LINK } from './support-en.mjs'; // the English-only footer link to /en/support/
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -78,7 +79,7 @@ test('every Chinese page: the home, the list, one page per catalogue country, th
   assert.equal(ZH_SITE_PAGES.length, COUNTRY_PAGES + 11, 'the home, the list, the countries, the guides list, five guides + the three region pages (seo/regions.mjs)');
   assert.equal(ZH_PAGES.length, COUNTRY_PAGES + 14, '+ the three legal documents (LEGAL-4)');
   assert.equal(ZH_PAGES.filter((p) => /^zh\/esim\/[^/]+\/index\.html$/.test(p)).length, COUNTRY_PAGES + 3, "the catalogue countries + 3 region pages");
-  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, ZH_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
+  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p) && !p.startsWith('en/support/')).length, ZH_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions and the support page are English only (LEGAL-5; seo/support-en.mjs)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}; one plural form', () => {
@@ -146,7 +147,7 @@ test('the same design: every page kind has the English markup skeleton (tags and
   const kinds = ['index.html', 'esim/index.html', 'esim/thailand/index.html', 'esim/japan/index.html', 'esim/uae/index.html',
     'esim/peru/index.html', 'esim/turkey/index.html', 'guides/index.html',
     ...EN_GUIDES.filter((g) => g.slug !== 'compatibility').map((g) => `guides/${g.slug}/index.html`)];
-  for (const k of kinds) assert.equal(skeleton(read(`zh/${k}`)), skeleton(read(`en/${k}`)), k);
+  for (const k of kinds) assert.equal(skeleton(read(`zh/${k}`)), skeleton(read(`en/${k}`).replace(SUPPORT_FOOTER_LINK, '')), k);
   const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|zh)\/destinations\.js$/, 'DEST').replace(/country-names-(en|zh)\.js$/, 'NAMES').replace(/site-i18n-(en|zh)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
     assert.deepEqual(assets(read(`zh/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
