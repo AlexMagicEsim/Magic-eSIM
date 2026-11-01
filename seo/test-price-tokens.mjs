@@ -149,6 +149,7 @@ test('unit: a fallback is printed only when the card is gone — and only where 
   const r = renderPriceTokens(text('{{price:a}}'), { a: ref }, 'australia', gone);
   assert.deepEqual([r.problems, r.unresolved, r.profile.description], [[], {}, money(4850)]);
   assert.match(renderPriceTokens(text('{{price:a}}'), { a: { ...LOCAL3, fallback: { ...LOCAL3, fallback: { min_of: 'local' } } } }, 'australia', gone).problems.join('\n'), /без своего запасного/);
+  assert.match(renderPriceTokens(text('{{price:a}}'), { a: { ...LOCAL3, fallback: { package: 'x', block: 'local' } } }, 'australia', gone).problems.join('\n'), /id поставщика не допускается/);
 });
 
 test('unit: no {{price:…}} survives renderAuthored — the sentence of an unresolved one is out of the page', () => {

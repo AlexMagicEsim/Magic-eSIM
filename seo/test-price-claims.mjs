@@ -150,7 +150,7 @@ test('the shape fails closed', () => {
   bad((c) => { c.terms.fifty.attrs = { data_gb: 50, daily_gb: 1, validity_days: 30 }; }, /ровно один объём/);
   bad((c) => { c.terms.daily30.attrs = { data_gb: 1 }; }, /в блоке daily объём — daily_gb/);
   bad((c) => { c.terms.fifty.family = '('; }, /family — не регулярное выражение/);
-  bad((c) => { c.terms.fifty.fallback = { package: 'x', block: 'local' }; }, /id поставщика не допускается/);
+  bad((c) => { c.terms.fifty.fallback = { min_of: 'local' }; }, /запасной вариант только у price_refs/);
   bad((c) => { c.terms.fifty.block = 'europe'; }, /block обязателен/);
   bad((c) => { c.terms.fifty.attrs = { name: 1 }; }, /attrs\.name/);
   bad((c) => { c.terms.x = { min_of: 'world' }; }, /min_of/);

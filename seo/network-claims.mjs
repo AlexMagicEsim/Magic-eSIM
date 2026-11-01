@@ -179,8 +179,8 @@ const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
  * Unambiguous names match in any case («movistar» / «Movistar» are both catalogue
  * spellings); ambiguous ones match only as written and only beside a network word.
  */
-export function operatorLexicon(packages) {
-  const names = new Set(EXTRA_OPERATORS);
+export function operatorLexicon(packages, extra = []) {
+  const names = new Set([...EXTRA_OPERATORS, ...extra]);
   for (const p of packages || []) for (const n of operatorsOf(p)) names.add(n);
   const ambiguous = [];
   const plain = [];
@@ -258,7 +258,10 @@ export function checkNetworkClaims(profile, slug, opts = {}) {
  * generator leaves the claim's sentences out of the page (seo/page-claims.mjs).
  */
 export function evaluateNetworkClaims(profile, slug, { doc = loadCatalogDoc(), lexicon } = {}) {
-  const lex = lexicon || operatorLexicon(doc.packages);
+  // Every operator a claim names is a known name, catalogue or not: an operator the provider stops listing is the
+  // catalogue's move (the claim fails as «catalogue» below), never «the name is not in the sentence» (authoring).
+  const claimed = (Array.isArray(profile && profile.network_claims) ? profile.network_claims : []).flatMap((c) => (c && Array.isArray(c.operators) ? c.operators : []));
+  const lex = lexicon || operatorLexicon(doc.packages, claimed);
   const out = [];
   let current = null;
   const authoring = (msg) => out.push({ claim: current, msg, kind: 'authoring' });

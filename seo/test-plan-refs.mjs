@@ -106,7 +106,8 @@ test('6. several look-alikes in one block: the first in the PUBLISHED order wins
 test('7. local and regional never stand in for each other — the block is part of the card', () => {
   const blocks = publishedBlocks(layoutByCoverage(WORLD()), 'DO');
   assert.equal(selectPlan(blocks, G20).plan.package_id, 'ea-do-20');
-  assert.equal(selectPlan(blocks, { ...G20, block: 'regional' }).plan.package_id, 'mm-car-20', 'the only regional 20 GB / 30 days is the Caribbean pack');
+  assert.equal(selectPlan(blocks, { ...G20, block: 'regional', family: 'caribbean' }).plan.package_id, 'mm-car-20', 'the regional 20 GB / 30 days is the Caribbean pack');
+  assert.equal(selectPlan(blocks, { ...G20, block: 'regional' }).plan, null, 'a regional card is named by its family — without one nothing matches (and the shape refuses it)');
   assert.equal(selectPlan(blocks, { ...CAR20, family: 'europe' }).plan, null, 'and a family narrows it — «пакет на Карибы» is not any regional pack');
   const noLocal = render(WORLD().filter((p) => p.package_id !== 'ea-do-20'));
   assert.ok(noLocal.suppressed.some((x) => x.id === 'g20'), 'the Caribbean 20 GB never stands in for the local 20 GB');
@@ -148,6 +149,30 @@ test('9. daily cards: a ladder rung by days, a fixed term by validity; daily and
   assert.equal(r.profile.faq[1].a, `Три дня по 1 ГБ — ${money(950)}.`);
 });
 
+test('9b. a selector with no family never takes a multi-country card — even one first in the published order', () => {
+  const world = [pk({ package_id: 'mm-latam-day', name: 'LatAm 1GB/Day', plan_type: 'DAILY', daily_gb: 1, daily_term_mode: 'PER_DAY', validity_days: null, price: 900,
+    coverage_country_codes: ['DO', 'MX', 'CO'], term_prices: [{ days: 3, price: 2750 }] }), ...WORLD()];
+  const blocks = publishedBlocks(layoutByCoverage(world), 'DO');
+  assert.equal(blocks.daily[0].package_id, 'mm-latam-day', 'the multi-country card comes first');
+  assert.equal(selectPlan(blocks, { block: 'daily', attrs: { daily_gb: 1 }, days: 3 }).plan.package_id, 'ea-do-day');
+  assert.equal(selectPlan(blocks, { block: 'daily', attrs: { daily_gb: 1 }, days: 3, family: 'latam' }).plan.package_id, 'mm-latam-day');
+  const r = render(world.filter((p) => p.package_id !== 'ea-do-day'));
+  assert.ok(r.suppressed.some((x) => x.id === 'day3'), 'with the country\'s own card gone the sentence goes — the LatAm price is never printed for it');
+  assert.ok(validateSelector('x', { block: 'regional', attrs: { data_gb: 3, validity_days: 30 } }).some((m) => /в блоке regional нужен family/.test(m)));
+});
+
+test('9c. an operator the provider stops listing is the catalogue\'s move: the sentence is left out, the build never stops (UAE Du → Etisalat, #190)', () => {
+  const live = loadPublishedCatalogue();
+  const raw = readRawProfile('uae');
+  const du = (raw.network_claims || []).find((c) => c.operators.includes('Du'));
+  assert.ok(du, 'premise: the UAE page has a claim on Du');
+  const doc = clone(live);
+  for (const p of doc.packages) if (Array.isArray(p.networks)) p.networks = p.networks.map((n) => (n && n.operator === 'Du' ? { ...n, operator: 'Etisalat' } : n));
+  const r = renderAuthored('uae', { text: loadProfile('uae').profile, raw, doc });
+  assert.deepEqual(r.problems, [], 'no authoring error — the build goes on');
+  assert.ok(r.suppressed.some((x) => x.source === 'network_claims' && x.id === du.id), `${du.id} is left out`);
+});
+
 test('10. a plan in the catalogue but NOT in this page\'s published layout is never used', () => {
   const doc = layoutByCoverage(WORLD());
   doc.assortment.countries.DO.local = doc.assortment.countries.DO.local.filter((id) => id !== 'ea-do-20'); // the backend hides it here
@@ -166,6 +191,15 @@ test('11. an incomplete catalogue is refused, not read as «every card is gone»
   assert.throws(() => loadPublishedCatalogue(null, { doc: broken }), /ссылается на тарифы, которых в снимке нет/);
   const shrunk = { ...clone(live), packages: live.packages.slice(0, 10), package_count: 10 };
   assert.throws(() => loadPublishedCatalogue(null, { doc: shrunk }), /каталог/);
+  // A layout that is there but empty, collapsed or missing a page's country is just as incomplete.
+  const none = clone(live); none.assortment.countries = {};
+  assert.throws(() => loadPublishedCatalogue(null, { doc: none }), /без карточек для \d+ стран со страницами/);
+  const collapsed = clone(live);
+  for (const e of Object.values(collapsed.assortment.countries)) { e.local = []; e.regional = []; e.daily = []; }
+  assert.throws(() => loadPublishedCatalogue(null, { doc: collapsed }), /без карточек/);
+  const partial = clone(live); delete partial.assortment.countries.IT; delete partial.assortment.countries.TH;
+  assert.throws(() => loadPublishedCatalogue(null, { doc: partial }), /без карточек для 2 стран со страницами \(IT, TH\)|без карточек для 2 стран со страницами \(TH, IT\)/);
+  assert.ok(loadPublishedCatalogue(), 'the live snapshot is complete');
 });
 
 test('12. the same data renders the same result, every time', () => {
@@ -181,6 +215,12 @@ test('12. the same data renders the same result, every time', () => {
 });
 
 // ------------------------------------------------------------------ the parts that are left out
+
+test('a fallback is for a printed amount only — a price claim compares the card its sentence names', () => {
+  const claim = { ...RAW.price_claims[0], terms: { local: { ...G20, fallback: { min_of: 'local' } }, car: CAR20 } };
+  const r = render(WORLD(), { ...RAW, price_claims: [claim] });
+  assert.ok(r.problems.some((m) => /fallback — запасной вариант только у price_refs/.test(m)), r.problems.join('\n'));
+});
 
 test('unitOf / withoutUnits: the smallest rendered piece goes whole — a FAQ question with its answer, one paragraph, one card', () => {
   assert.deepEqual(['faq[2].a', 'faq[2].q', 'why[0].h', 'intro[3]', 'lead', 'dual_sim_note.text', 'title'].map(unitOf),

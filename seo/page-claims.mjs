@@ -49,7 +49,7 @@ import { renderPriceTokens, RENDER_KEYS, TOKEN_RE } from './price-tokens.mjs';
 import { evaluateProfile as priceClaimProblems } from './price-claims.mjs';
 import { evaluateProfile as coverageClaimProblems, loadCatalogDoc, PROFILE_DIR, CATALOG_FILE } from './coverage-claims.mjs';
 import { evaluateNetworkClaims } from './network-claims.mjs';
-import { unresolvedLayoutIds } from './plan-ref.mjs';
+import { unresolvedLayoutIds, BLOCKS } from './plan-ref.mjs';
 
 /**
  * The snapshot a page may be built from: trusted (scripts/update-catalog-cache.mjs
@@ -58,12 +58,24 @@ import { unresolvedLayoutIds } from './plan-ref.mjs';
  * sentence «because no card is there» would gut the site over a broken answer,
  * so the build refuses it and the pages stay as they are.
  */
-export function loadPublishedCatalogue(file = CATALOG_FILE, { doc } = {}) {
+export function loadPublishedCatalogue(file = CATALOG_FILE, { doc, pages = pageCountries() } = {}) {
   const d = loadCatalogDoc(file, { doc });
   const bad = unresolvedLayoutIds(d);
   if (bad === null) throw new Error('в снимке каталога нет раскладки assortment.countries — каталог неполный, страницы из него не собираются');
   if (bad.length) throw new Error(`раскладка каталога ссылается на тарифы, которых в снимке нет (${bad.length}): ${bad.slice(0, 3).join('; ')} — каталог неполный`);
+  // Every country with a page must be laid out with at least one card: the backend never empties a country that
+  // sells plans, so an empty, partial or collapsed layout is a broken answer — never «these cards are gone».
+  const countries = d.assortment.countries;
+  const empty = pages.filter((iso) => !countries[iso] || !BLOCKS.some((b) => (countries[iso][b] || []).length));
+  if (empty.length) throw new Error(`раскладка каталога без карточек для ${empty.length} стран со страницами (${empty.slice(0, 5).join(', ')}${empty.length > 5 ? ', …' : ''}) — каталог неполный`);
   return d;
+}
+
+/** ISO codes of the RU country pages — seo/catalogue-countries.json, rebuilt from the same snapshot first. */
+export function pageCountries(file = join(PROFILE_DIR, '..', 'catalogue-countries.json')) {
+  if (!existsSync(file)) return [];
+  const j = JSON.parse(readFileSync(file, 'utf8'));
+  return (Array.isArray(j.countries) ? j.countries : []).map((c) => c && c.iso).filter((x) => typeof x === 'string');
 }
 
 /** The piece of the page a field path belongs to: «faq[2].a» → «faq[2]», «why[0].h» → «why[0]». */
@@ -147,7 +159,7 @@ export function renderAuthored(slug, { text, raw, doc }) {
   const fromClaims = (source, list) => {
     const byClaim = new Map();
     for (const x of list) {
-      if (x.kind === 'authoring') { problems.push(`${slug}: ${source}${x.claim ? `/${x.claim}` : ''}: ${x.msg || x.message}`); continue; }
+      if (x.kind === 'authoring') { const m = x.msg || x.message; problems.push(m.startsWith(`${source}`) ? `${slug}: ${m}` : `${slug}: ${source}${x.claim ? `/${x.claim}` : ''}: ${m}`); continue; }
       if (x.kind !== 'catalogue') continue;
       if (!byClaim.has(x.claim)) byClaim.set(x.claim, []);
       byClaim.get(x.claim).push(x.msg || x.message);

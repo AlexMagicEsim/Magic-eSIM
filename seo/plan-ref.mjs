@@ -31,14 +31,16 @@
 //   { block: local|regional|daily,
 //     attrs: { data_gb | daily_gb, validity_days? },   // the card's volume (+ its fixed term)
 //     days?: N,                                       // a ladder rung (PER_DAY), or a fixed term
-//     family?: "<regex on the plan name>" }           // what a sentence names: «пакет на Африку»
+//     family?: "<regex on the plan name>" }           // what a sentence names: «пакет на Африку»;
+//                                                     // required in regional; without it only a
+//                                                     // single-country card matches
 //
 //   It matches a plan of THAT block with the same volume and term (and family).
 //   Several matches → the first in the published order (the backend's R1 leaves
 //   one per volume and term in a block, so today there is never a second). None
 //   → { plan: null }: the caller drops the sentence, never picks a look-alike.
 
-import { isDaily } from './catalogue-facts.mjs';
+import { isDaily, isMultiCountry } from './catalogue-facts.mjs';
 
 export const BLOCKS = Object.freeze(['local', 'regional', 'daily']);
 const ATTR_KEYS = new Set(['data_gb', 'daily_gb', 'validity_days']);
@@ -102,6 +104,7 @@ export function validateSelector(name, t, where = 'terms') {
     if (!('validity_days' in attrs) && t.days === undefined) p.push(`${at}: нужен срок — attrs.validity_days или days`);
   }
   if (t.days !== undefined && !(Number.isInteger(t.days) && t.days > 0)) p.push(`${at}.days — целое число дней`);
+  if (t.block === 'regional' && t.family === undefined) p.push(`${at}: в блоке regional нужен family — какой пакет фраза называет («пакет на Африку»)`);
   if (t.family !== undefined) {
     if (typeof t.family !== 'string' || !t.family) p.push(`${at}.family — регулярное выражение по названию`);
     else { try { new RegExp(t.family, 'i'); } catch (e) { p.push(`${at}.family — не регулярное выражение: ${e.message}`); } }
@@ -112,6 +115,9 @@ export function validateSelector(name, t, where = 'terms') {
 /** True when `p` is the card the selector describes (block membership is the caller's). */
 export function matches(p, t) {
   const attrs = t.attrs || {};
+  // No family named → the page's own country only: a daily «1 ГБ в день» sentence is never the price of a
+  // multi-country card that happens to share the volume and term.
+  if (!t.family && isMultiCountry(p)) return false;
   if (('daily_gb' in attrs) !== isDaily(p)) return false;
   for (const [k, v] of Object.entries(attrs)) {
     if (k === 'validity_days') continue;

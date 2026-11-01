@@ -153,7 +153,8 @@ export function validateTermShape(name, t, where = 'terms') {
   if (t.days !== undefined && !(Number.isInteger(t.days) && t.days > 0)) p.push(`${where}.${name}.days — целое число дней`);
   if ('block' in t) {
     p.push(...validateSelector(name, t, where).filter((m) => !/\.days — целое/.test(m)));
-    if (t.fallback !== undefined) {
+    if (t.fallback !== undefined && where !== 'price_refs') p.push(`${where}.${name}.fallback — запасной вариант только у price_refs: утверждение сравнивает ту карточку, о которой фраза`);
+    else if (t.fallback !== undefined) {
       if (t.fallback && typeof t.fallback === 'object' && 'fallback' in t.fallback) p.push(`${where}.${name}.fallback: запасной вариант без своего запасного`);
       else p.push(...validateTermShape(`${name}.fallback`, t.fallback, where));
     }
