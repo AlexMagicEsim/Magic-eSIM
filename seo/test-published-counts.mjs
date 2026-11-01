@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { loadCatalogueDoc, countryFacts, countryOffers, shownBlocks, hasCountryPage, purchasablePrice } from './catalogue-facts.mjs';
 import { loadPublishedCatalogue } from './page-claims.mjs';
 import { layoutByCoverage, republish } from './fixture-layout.mjs';
+import { COVERAGE_ONLY_CODES } from './coverage-only-territories.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DOC = loadCatalogueDoc();
@@ -238,4 +239,33 @@ test('no generator counts by coverage: the old filter chain is gone from every g
     const src = readFileSync(join(ROOT, 'seo', f), 'utf8');
     assert.doesNotMatch(src, /coverageCodes\(p\)\.includes\(iso\)\s*&&\s*!isGlobal\(p\)/, `${f}: a page view rebuilt from coverage codes`);
   }
+});
+
+test('the fact sheet counts the page\'s own blocks — daily apart — and only for countries with a page', async () => {
+  const sheets = JSON.parse(readFileSync(join(ROOT, 'seo', 'fact-sheets.json'), 'utf8')).sheets;
+  const bad = [];
+  for (const { slug, iso } of PAGES) {
+    const s = sheets[slug]; const f = countryFacts(DOC, iso);
+    if (!s) { bad.push(`${slug}: no sheet`); continue; }
+    if (s.local_count !== f.local_count || s.regional_count !== f.regional_count || s.daily_count !== f.daily_count || s.total_count !== f.total_shown) {
+      bad.push(`${slug}: sheet ${s.local_count}/${s.regional_count}/${s.daily_count}/${s.total_count}, page ${f.local_count}/${f.regional_count}/${f.daily_count}/${f.total_shown}`);
+    }
+  }
+  assert.deepEqual(bad, []);
+  // A sheet for every page, for the coverage-only territories (AN, KT — named in coverage lists, no page), and for no
+  // other country: LS, NC, TG are laid out by the backend but have no page.
+  const pageIsos = new Set(PAGES.map((p) => p.iso));
+  const extra = Object.values(sheets).map((s) => s.iso).filter((iso) => !pageIsos.has(iso));
+  assert.deepEqual(extra.filter((iso) => !COVERAGE_ONLY_CODES.has(iso)), [], 'no sheet for a country without a page');
+  const { checkFacts } = await import('./content-review.mjs');
+  const andorra = sheets.andorra; const fa = countryFacts(DOC, 'AD');
+  const say = (t) => checkFacts({ faq: [{ q: 'Вопрос?', a: t }] }, andorra);
+  assert.deepEqual(say(`Здесь ${fa.daily_count} тарифов с оплатой за день.`), [], 'a true count of the daily block is accepted');
+  assert.ok(say(`Здесь ${fa.local_count + fa.daily_count + 100} тарифов.`).length > 0, 'an invented count is not');
+});
+
+test('an API answer without a complete layout is refused before anything is written', async () => {
+  const src = readFileSync(join(ROOT, 'seo', 'catalogue-source.mjs'), 'utf8');
+  assert.match(src, /return checkedCountries\(doc, \{ source: API/, 'the --api path goes through the same checks');
+  assert.match(readFileSync(join(ROOT, 'seo', 'fact-sheet.mjs'), 'utf8'), /loadPublishedCatalogue\(null, \{ doc: layoutDoc, pages: \[\] \}\)/, 'the fact sheet refuses an incomplete snapshot');
 });

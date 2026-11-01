@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES, flagEmoji } from './country-names.mjs';
 import { countryFacts, hasCountryPage } from './catalogue-facts.mjs';
 import { loadPublishedCatalogue } from './page-claims.mjs';
+import { unresolvedLayoutIds } from './plan-ref.mjs';
 import { COVERAGE_ONLY_CODES } from './coverage-only-territories.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -76,12 +77,15 @@ export function localCatalogueCountries(file = join(ROOT, 'assets/catalog.json')
   const d = JSON.parse(readFileSync(file, 'utf8'));
   const packages = Array.isArray(d.packages) ? d.packages : [];
   if (packages.length === 0) throw new Error(`${file} не содержит пакетов`);
-  // Trusted, laid out, every id resolved, no card repeated — or nothing is written (seo/page-claims.mjs).
-  loadPublishedCatalogue(file, { doc: d, pages: [] });
-  const out = catalogueCountries(d, {
-    source: 'assets/catalog.json',
-    fetched_at: d.generated_at || null,
-  });
+  return checkedCountries(d, { source: 'assets/catalog.json', fetched_at: d.generated_at || null });
+}
+
+/** catalogueCountries over a snapshot that is trusted, laid out and complete — or a thrown error, nothing written. */
+function checkedCountries(d, provenance) {
+  // Trusted, laid out, every id resolved, no card repeated (seo/page-claims.mjs).
+  if (provenance.source === 'assets/catalog.json') loadPublishedCatalogue(null, { doc: d, pages: [] });
+  else { const bad = unresolvedLayoutIds(d); if (!bad || bad.length) throw new Error('ответ API без полной раскладки assortment.countries — каталог неполный'); }
+  const out = catalogueCountries(d, provenance);
   // Every page the snapshot calls for must show a card: the backend never empties a country that sells plans.
   const empty = out.countries.filter((c) => c.total_count === 0).map((c) => c.iso);
   if (empty.length) throw new Error(`раскладка каталога без карточек для ${empty.length} стран со страницами (${empty.slice(0, 5).join(', ')}) — каталог неполный`);
@@ -93,7 +97,8 @@ export async function fetchCatalogueCountries() {
   if (!res.ok) throw new Error(`catalogue API ${res.status}`);
   const body = await res.json();
   const packages = Array.isArray(body.data) ? body.data : [];
-  return catalogueCountries({ packages, assortment: body.assortment || null }, { source: API, fetched_at: new Date().toISOString() });
+  const doc = { packages, assortment: body.assortment || null };
+  return checkedCountries(doc, { source: API, fetched_at: new Date().toISOString() });
 }
 
 /**

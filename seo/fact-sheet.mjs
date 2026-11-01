@@ -18,7 +18,8 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
-import { purchasablePrice, isDaily, isMultiCountry, RESTRICTED_COUNTRY_CODES, loadCatalogueDoc, shownBlocks } from './catalogue-facts.mjs';
+import { purchasablePrice, isDaily, isMultiCountry, RESTRICTED_COUNTRY_CODES, loadCatalogueDoc, shownBlocks, hasCountryPage } from './catalogue-facts.mjs';
+import { loadPublishedCatalogue } from './page-claims.mjs';
 import { isUncounted } from './coverage-only-territories.mjs';
 import { networksByBlock } from './network-claims.mjs';
 
@@ -57,10 +58,16 @@ export async function buildFactSheets() {
   // below is of the cards a page SHOWS (2026-11-01): the coverage view this sheet was
   // built from blessed figures of plans no page showed (Seychelles «9 регионалных»).
   const layoutDoc = api ? { packages: api.data || [], assortment: api.assortment || null } : loadCatalogueDoc();
+  // Trusted, laid out, every id resolved, no card repeated — or no sheet is written.
+  loadPublishedCatalogue(null, { doc: layoutDoc, pages: [] });
 
   const byCountry = new Map();
-  for (const iso of Object.keys((layoutDoc.assortment && layoutDoc.assortment.countries) || {})) {
+  const blockCounts = new Map();
+  for (const iso of Object.keys(layoutDoc.assortment.countries)) {
+    // Only countries that have a page: a sheet is what an authored page is checked against.
+    if (!hasCountryPage(layoutDoc.packages, iso)) continue;
     const b = shownBlocks(layoutDoc, iso);
+    blockCounts.set(iso, { local: b.local.length, regional: b.regional.length, daily: b.daily.length });
     for (const p of [...b.local, ...b.regional, ...b.daily]) {
     const cov = coverage(p);
     // The PURCHASABLE price, not the raw field. For a PER_DAY plan
@@ -134,8 +141,10 @@ export async function buildFactSheets() {
       iso,
       name_ru: meta.ru,
       strategy: e.local.length ? 'LOCAL' : 'REGIONAL',
-      local_count: e.local.length,
-      regional_count: e.regional.length,
+      // The page's own blocks: daily cards are counted apart, never inside local / regional.
+      local_count: blockCounts.get(iso).local,
+      regional_count: blockCounts.get(iso).regional,
+      daily_count: blockCounts.get(iso).daily,
       total_count: all.length,
       min_price_rub: Math.min(...prices),
       max_price_rub: Math.max(...prices),

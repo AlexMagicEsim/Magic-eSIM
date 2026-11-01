@@ -29,7 +29,7 @@ import { readFileSync, existsSync, realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { PROFILE_DIR, EDITORIAL_KEYS } from './content-profile.mjs';
 import { loadSheets, activationLabel } from './fact-sheet.mjs';
-import { loadCatalogue, coverageCodes, purchasablePrice, isRussia, isRestricted, isGlobal } from './catalogue-facts.mjs';
+import { loadCatalogue, loadCatalogueDoc, shownBlocks, coverageCodes, purchasablePrice, isRussia, isRestricted, isGlobal } from './catalogue-facts.mjs';
 import { scoreProfile, corpusEntry, BANNED_PHRASES } from './content-quality.mjs';
 import { checkNetworkClaims, networksByBlock, loadCatalogDoc as loadNetworkDoc } from './network-claims.mjs';
 import { readdirSync } from 'node:fs';
@@ -94,7 +94,8 @@ function allowedValues(sheet) {
   for (const d of sheet.term_days || []) days.add(d);
   if (sheet.validity_days_min !== null) { days.add(sheet.validity_days_min); days.add(sheet.validity_days_max); }
   const countries = new Set([sheet.regional_reach_max]);
-  const counts = new Set([sheet.local_count, sheet.regional_count, sheet.total_count]);
+  // The page's own block counts (and the total): «6 локальных», «5 посуточных», «17 тарифов».
+  const counts = new Set([sheet.local_count, sheet.regional_count, sheet.daily_count, sheet.total_count].filter((n) => Number.isFinite(n)));
   return { 'ГБ': gb, '₽': rub, 'дней': days, 'стран': countries, 'тарифов': counts };
 }
 
@@ -267,17 +268,17 @@ let familyLabelsCache = null;
 function familyLabels() {
   if (familyLabelsCache) return familyLabelsCache;
   const out = new Map();
-  const loaded = loadCatalogue();
-  const packages = Array.isArray(loaded) ? loaded : loaded.packages;
-  for (const p of packages) {
-    if (isRussia(p) || isRestricted(p) || isGlobal(p)) continue;
-    const price = purchasablePrice(p);
-    if (price === null || price <= 0) continue;
-    const name = String(p.name || '').toLowerCase();
-    const fam = FAMILY_TITLES.find((f) => f.match(name));
-    if (!fam) continue;
-    if (!out.has(fam.title)) out.set(fam.title, new Map());
-    for (const iso of coverageCodes(p)) {
+  // The cards each page SHOWS (the published layout, seo/catalogue-facts.mjs shownBlocks) — a sentence
+  // about a family on /esim/<iso>/ is about the cards of that family the page draws.
+  const doc = loadCatalogueDoc();
+  for (const iso of Object.keys((doc.assortment && doc.assortment.countries) || {})) {
+    const b = shownBlocks(doc, iso);
+    for (const p of [...b.local, ...b.regional, ...b.daily]) {
+      const price = purchasablePrice(p);
+      if (price === null || price <= 0) continue;
+      const fam = FAMILY_TITLES.find((f) => f.match(String(p.name || '').toLowerCase()));
+      if (!fam) continue;
+      if (!out.has(fam.title)) out.set(fam.title, new Map());
       const byIso = out.get(fam.title);
       if (!byIso.has(iso)) byIso.set(iso, new Set());
       byIso.get(iso).add(activationLabel(p.activation_policy));
