@@ -599,10 +599,8 @@ test('review over-strict: harmless catalogue moves keep the corpus green', () =>
   // 2026-10-25: was «a second 5 GB pack with Zambia must stay green» — true of
   // the old «только пакет на 5 ГБ», but the page now says «Замбию — только
   // пакеты на 29 стран», so a four-country pack with Zambia falsifies it: red.
-  // 2026-11-01: «zm-only-29» rests on «Africa 1GB 7Days», a card the South Africa page does not show — the
-  // live snapshot already leaves its sentences out (seo/suppressed-claims.json), so no mutation can turn it red.
-  assert.ok(evaluateProfile(PROFILES['south-africa'], 'south-africa', LIVE).some((x) => x.claim === 'zm-only-29' && x.kind === 'catalogue'),
-    'zm-only-29 is left out on the live snapshot');
+  c = clone(LIVE.packages); newPkg(c, 'Africa 5GB 30Days', { coverage_country_codes: ['ZA', 'ZM', 'SZ', 'BW'] });
+  redBy('south-africa', c, 'zm-only-29', 'a four-country Africa pack with Zambia — «Замбию — только пакет на 5 ГБ на 29 стран» is false');
   // The harmless move for the new sentence: another Africa pack WITHOUT Zambia,
   // on the coverage of the 23-country «Africa 3 GB» (30 days, top-up) — Eswatini
   // and Botswana in, 7 GB within «от 1 до 10 ГБ», top-up marked.
