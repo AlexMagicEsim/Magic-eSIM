@@ -15,21 +15,23 @@ import { fileURLToPath } from 'node:url';
 import { countryPages } from './generated-prices.mjs';
 import { isFrozenPage } from './frozen-pages.mjs';
 import { buildDictionaryGen } from './build-country-dictionary.mjs';
-import { renderPriceTokens, readRefs } from './price-tokens.mjs';
-import { loadCatalogue } from './catalogue-facts.mjs';
+import { renderAuthored, readRawProfile, loadPublishedCatalogue } from './page-claims.mjs';
+import { loadProfile } from './content-profile.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PAGES = countryPages();
 const GEN = buildDictionaryGen();
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-const PK = loadCatalogue();
-// The profile as the generator prints it: {{price:…}} already the catalogue amount.
+const DOC = loadPublishedCatalogue();
+// The profile as the generator prints it: {{price:…}} already the catalogue amount, the
+// sentences the catalogue no longer bears out left out (seo/page-claims.mjs).
 const profile = (slug) => {
   const p = join(ROOT, 'seo', 'content-profiles', `${slug}.json`);
   if (!existsSync(p)) return {};
-  const { profile: out, problems } = renderPriceTokens(JSON.parse(readFileSync(p, 'utf8')), readRefs(slug), slug, PK);
+  const { profile: text } = loadProfile(slug);
+  const { profile: out, problems } = renderAuthored(slug, { text, raw: readRawProfile(slug), doc: DOC });
   assert.deepEqual(problems, [], slug);
-  return out;
+  return out || {};
 };
 const at = (html, s) => { const i = html.indexOf(s); assert.notEqual(i, -1, `missing: ${s.slice(0, 60)}`); return i; };
 

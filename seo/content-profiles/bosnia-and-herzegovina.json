@@ -419,12 +419,11 @@
       ],
       "terms": {
         "d": {
-          "package": "b1bce217-8ce2-4232-976e-812d492937e3",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "floor": {
           "min_of": "daily"
@@ -433,7 +432,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "ef175613-18f6-485c-8898-798bbe3f2d81",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -458,7 +456,6 @@
   ],
   "price_refs": {
     "g1": {
-      "package": "ef175613-18f6-485c-8898-798bbe3f2d81",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -466,7 +463,6 @@
       }
     },
     "g50": {
-      "package": "8e766ac0-aab5-43ef-9f37-3309278944f4",
       "block": "local",
       "attrs": {
         "data_gb": 50,
@@ -474,8 +470,10 @@
       }
     },
     "d500_3d": {
-      "package": "b1bce217-8ce2-4232-976e-812d492937e3",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 0.49
+      },
       "days": 3
     }
   }

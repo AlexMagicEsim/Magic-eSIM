@@ -92,9 +92,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "411719e1-4b72-4f44-adf1-667ac68f344a",
-        "6b7439db-1b60-4869-afdc-4c4ccc40887f"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 25,
+            "validity_days": 30
+          },
+          "family": "china.*korea.*japan"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 12,
+            "validity_days": 30
+          },
+          "family": "china.*korea.*japan"
+        }
       ],
       "must_cover": [
         "JP",
@@ -137,9 +151,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "77dae9c6-3052-4bb3-8b20-da423baf3621",
-        "61a5f3d9-3753-4e73-b25f-8af10443bed6"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "south.*korea.*and.*japan"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "japan.*&.*south.*korea"
+        }
       ],
       "covers_exactly": [
         "JP",
@@ -216,12 +244,12 @@
           }
         },
         "ckj12": {
-          "package": "6b7439db-1b60-4869-afdc-4c4ccc40887f",
           "block": "regional",
           "attrs": {
             "data_gb": 12,
             "validity_days": 30
-          }
+          },
+          "family": "china.*korea.*japan"
         }
       },
       "assert": [
@@ -269,20 +297,20 @@
       }
     },
     "ckj_12gb": {
-      "package": "6b7439db-1b60-4869-afdc-4c4ccc40887f",
       "block": "regional",
       "attrs": {
         "data_gb": 12,
         "validity_days": 30
-      }
+      },
+      "family": "china.*korea.*japan"
     },
     "ckj_25gb": {
-      "package": "411719e1-4b72-4f44-adf1-667ac68f344a",
       "block": "regional",
       "attrs": {
         "data_gb": 25,
         "validity_days": 30
-      }
+      },
+      "family": "china.*korea.*japan"
     }
   }
 }

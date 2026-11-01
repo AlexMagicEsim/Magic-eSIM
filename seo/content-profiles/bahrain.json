@@ -269,7 +269,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "eb663cca-b1ea-4761-962b-185662ae3eb2",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -306,7 +305,6 @@
           }
         },
         "g1": {
-          "package": "eb663cca-b1ea-4761-962b-185662ae3eb2",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -314,7 +312,6 @@
           }
         },
         "g20": {
-          "package": "2b162f71-247b-4914-b517-b834b1bde370",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -339,7 +336,6 @@
   ],
   "price_refs": {
     "g1": {
-      "package": "eb663cca-b1ea-4761-962b-185662ae3eb2",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -347,7 +343,6 @@
       }
     },
     "g5": {
-      "package": "5352bafa-4981-40e1-aeb5-5906c330fb30",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -355,7 +350,6 @@
       }
     },
     "g10": {
-      "package": "e8c23e80-5f9b-438a-a28c-684557d33781",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -363,7 +357,6 @@
       }
     },
     "g20": {
-      "package": "2b162f71-247b-4914-b517-b834b1bde370",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -371,12 +364,12 @@
       }
     },
     "gulf5_3d": {
-      "package": "9308b55e-044f-4423-ac69-cf44f892ad05",
       "block": "daily",
-      "days": 3,
       "attrs": {
         "daily_gb": 5
-      }
+      },
+      "days": 3,
+      "family": "gulf.*region"
     }
   }
 }

@@ -87,10 +87,31 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-        "fd269fbf-3e23-4210-b9ff-1354149f4722",
-        "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 15
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "TZ"
@@ -117,9 +138,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-        "b395d9eb-57f4-43bd-a79f-a60350e9155c"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "TZ"
@@ -146,7 +181,6 @@
           "min_of": "volume"
         },
         "t1": {
-          "package": "f6c02358-d397-488c-b59e-bb6ada767204",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -173,12 +207,11 @@
       ],
       "terms": {
         "d": {
-          "package": "60aebda1-d846-4e25-ae44-65e5b55838d6",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "floor": {
           "min_of": "daily",
@@ -202,7 +235,6 @@
       "min_of": "volume"
     },
     "g3_20": {
-      "package": "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -210,36 +242,34 @@
       }
     },
     "g4_3": {
-      "package": "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
       "block": "local",
       "attrs": {
-        "data_gb": 3
+        "data_gb": 3,
+        "validity_days": 30
       }
     },
     "g4_5": {
-      "package": "f0e3ce16-03a9-4666-a8c5-6a9eac2f3098",
       "block": "local",
       "attrs": {
-        "data_gb": 5
+        "data_gb": 5,
+        "validity_days": 30
       }
     },
     "g4_10": {
-      "package": "0e66d913-0091-40f3-aaab-6828caca2daa",
       "block": "local",
       "attrs": {
-        "data_gb": 10
+        "data_gb": 10,
+        "validity_days": 30
       }
     },
     "daily_500mb_3d": {
-      "package": "60aebda1-d846-4e25-ae44-65e5b55838d6",
       "block": "daily",
-      "days": 3,
       "attrs": {
         "daily_gb": 0.49
-      }
+      },
+      "days": 3
     },
     "g3_1": {
-      "package": "f6c02358-d397-488c-b59e-bb6ada767204",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -257,9 +287,21 @@
         }
       ],
       "block": "local",
-      "packages": [
-        "f6c02358-d397-488c-b59e-bb6ada767204",
-        "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 20,
+            "validity_days": 30
+          }
+        }
       ],
       "operators": [
         "Airtel"

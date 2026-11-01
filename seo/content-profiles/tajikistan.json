@@ -86,9 +86,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "a7176a22-6a3b-41b2-870c-d27cebdc45a1",
-        "eeea9167-f9df-4193-ad50-089772170421"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 20,
+            "validity_days": 30
+          },
+          "family": "central.*asia"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "central.*asia"
+        }
       ],
       "coverage_count": 4,
       "must_cover": [
@@ -116,9 +130,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "a7176a22-6a3b-41b2-870c-d27cebdc45a1",
-        "eeea9167-f9df-4193-ad50-089772170421"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 20,
+            "validity_days": 30
+          },
+          "family": "central.*asia"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "central.*asia"
+        }
       ],
       "covers_exactly": [
         "TJ",
@@ -170,7 +198,6 @@
       ],
       "terms": {
         "local3": {
-          "package": "b8809fb1-bb7f-4057-bb5b-8f4b105c5220",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -178,15 +205,14 @@
           }
         },
         "reg3": {
-          "package": "eeea9167-f9df-4193-ad50-089772170421",
           "block": "regional",
           "attrs": {
             "data_gb": 3,
             "validity_days": 15
-          }
+          },
+          "family": "central.*asia"
         },
         "local20": {
-          "package": "d86db58f-e59b-45d3-9139-52717da978f6",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -194,12 +220,12 @@
           }
         },
         "reg20": {
-          "package": "a7176a22-6a3b-41b2-870c-d27cebdc45a1",
           "block": "regional",
           "attrs": {
             "data_gb": 20,
             "validity_days": 30
-          }
+          },
+          "family": "central.*asia"
         }
       },
       "assert": [
@@ -226,7 +252,6 @@
   ],
   "price_refs": {
     "local_3gb": {
-      "package": "b8809fb1-bb7f-4057-bb5b-8f4b105c5220",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -234,15 +259,14 @@
       }
     },
     "reg_3gb": {
-      "package": "eeea9167-f9df-4193-ad50-089772170421",
       "block": "regional",
       "attrs": {
         "data_gb": 3,
         "validity_days": 15
-      }
+      },
+      "family": "central.*asia"
     },
     "local_20gb": {
-      "package": "d86db58f-e59b-45d3-9139-52717da978f6",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -250,15 +274,14 @@
       }
     },
     "reg_20gb": {
-      "package": "a7176a22-6a3b-41b2-870c-d27cebdc45a1",
       "block": "regional",
       "attrs": {
         "data_gb": 20,
         "validity_days": 30
-      }
+      },
+      "family": "central.*asia"
     },
     "local_5gb": {
-      "package": "0db492f2-b2e1-44c4-b3da-b67b0449c2c3",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -266,7 +289,6 @@
       }
     },
     "local_10gb": {
-      "package": "b3661f3f-08ce-435a-b71f-4a6d57e3aa54",
       "block": "local",
       "attrs": {
         "data_gb": 10,

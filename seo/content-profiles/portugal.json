@@ -115,8 +115,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 25,
+            "validity_days": 30
+          },
+          "family": "europe.*and.*usa"
+        }
       ],
       "must_cover": [
         "PT",
@@ -184,9 +191,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "46ce558c-ce63-45b7-849d-5aaef5c17bf1",
-        "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 30,
+            "validity_days": 30
+          },
+          "family": "spain.*and.*portugal"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 25,
+            "validity_days": 30
+          },
+          "family": "europe.*and.*usa"
+        }
       ],
       "must_cover": [
         "PT",
@@ -215,8 +236,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "46ce558c-ce63-45b7-849d-5aaef5c17bf1"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 30,
+            "validity_days": 30
+          },
+          "family": "spain.*and.*portugal"
+        }
       ],
       "covers_exactly": [
         "ES",
@@ -289,20 +317,20 @@
   ],
   "price_refs": {
     "espt30": {
-      "package": "46ce558c-ce63-45b7-849d-5aaef5c17bf1",
       "block": "regional",
       "attrs": {
         "data_gb": 30,
         "validity_days": 30
-      }
+      },
+      "family": "spain.*and.*portugal"
     },
     "euus25": {
-      "package": "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a",
       "block": "regional",
       "attrs": {
         "data_gb": 25,
         "validity_days": 30
-      }
+      },
+      "family": "europe.*and.*usa"
     }
   },
   "price_claims": [],

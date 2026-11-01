@@ -215,8 +215,15 @@
       ],
       "scope": "regional",
       "page": "france",
-      "packages": [
-        "2e8aaa17-bde8-48c5-bf0b-d0c8e0e0d4ed"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "euconnect"
+        }
       ],
       "must_not_cover": [
         "CH"
@@ -384,8 +391,14 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "849f41fb-3ab7-4b1a-b7ca-1f655b098ff7"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          }
+        }
       ],
       "basis_attrs": {
         "data_gb": 1,
@@ -401,8 +414,14 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "c39ec677-bf89-4622-9e01-1693e37e9dbd"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 50,
+            "validity_days": 180
+          }
+        }
       ],
       "basis_attrs": {
         "data_gb": 50,
@@ -496,7 +515,6 @@
           "min_of": "local"
         },
         "l1": {
-          "package": "849f41fb-3ab7-4b1a-b7ca-1f655b098ff7",
           "block": "local",
           "attrs": {
             "data_gb": 1,

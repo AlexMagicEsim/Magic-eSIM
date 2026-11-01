@@ -104,7 +104,6 @@
       "min_of": "daily"
     },
     "g10": {
-      "package": "3a625917-2e7a-439a-8c9e-f410a5bd448f",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -112,7 +111,6 @@
       }
     },
     "g20": {
-      "package": "9b820c0e-a3e6-4c3a-a738-9e31f3b93c05",
       "block": "local",
       "attrs": {
         "data_gb": 20,

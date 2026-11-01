@@ -149,7 +149,6 @@
           "min_of": "page"
         },
         "g1": {
-          "package": "f420b94f-702e-45d8-9d71-7b95e4dd2980",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -179,7 +178,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "f420b94f-702e-45d8-9d71-7b95e4dd2980",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -187,7 +185,6 @@
           }
         },
         "g3": {
-          "package": "6829df7a-08fa-48f6-9f8b-d1dff2c7b88a",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -195,7 +192,6 @@
           }
         },
         "g5": {
-          "package": "7c94965e-183f-4f48-9732-b5f2e2d4f431",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -248,26 +244,23 @@
       ],
       "terms": {
         "d1": {
-          "package": "3d7dedcf-852c-496a-a4b2-e830e74ef198",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 1
-          }
+          },
+          "days": 3
         },
         "dmin": {
           "min_of": "daily"
         },
         "d1w": {
-          "package": "3d7dedcf-852c-496a-a4b2-e830e74ef198",
           "block": "daily",
-          "days": 7,
           "attrs": {
             "daily_gb": 1
-          }
+          },
+          "days": 7
         },
         "g3": {
-          "package": "6829df7a-08fa-48f6-9f8b-d1dff2c7b88a",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -275,7 +268,6 @@
           }
         },
         "g5": {
-          "package": "7c94965e-183f-4f48-9732-b5f2e2d4f431",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -320,17 +312,20 @@
       "min_of": "page"
     },
     "d1_3d": {
-      "package": "3d7dedcf-852c-496a-a4b2-e830e74ef198",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 1
+      },
       "days": 3
     },
     "d1_7d": {
-      "package": "3d7dedcf-852c-496a-a4b2-e830e74ef198",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 1
+      },
       "days": 7
     },
     "g1": {
-      "package": "f420b94f-702e-45d8-9d71-7b95e4dd2980",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -338,7 +333,6 @@
       }
     },
     "g3": {
-      "package": "6829df7a-08fa-48f6-9f8b-d1dff2c7b88a",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -346,7 +340,6 @@
       }
     },
     "g5": {
-      "package": "7c94965e-183f-4f48-9732-b5f2e2d4f431",
       "block": "local",
       "attrs": {
         "data_gb": 5,

@@ -181,20 +181,18 @@
       ],
       "terms": {
         "d2": {
-          "package": "d91fdd39-f61a-420b-a8d6-eaae920ad831",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 2
-          }
+          },
+          "days": 3
         },
         "d3": {
-          "package": "f98b0286-a7ec-4855-b0e4-dc97f684cd08",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 3
-          }
+          },
+          "days": 3
         }
       },
       "assert": [
@@ -220,52 +218,46 @@
       ],
       "terms": {
         "a3": {
-          "package": "d91fdd39-f61a-420b-a8d6-eaae920ad831",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 2
-          }
+          },
+          "days": 3
         },
         "b3": {
-          "package": "f98b0286-a7ec-4855-b0e4-dc97f684cd08",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 3
-          }
+          },
+          "days": 3
         },
         "a5": {
-          "package": "d91fdd39-f61a-420b-a8d6-eaae920ad831",
           "block": "daily",
-          "days": 5,
           "attrs": {
             "daily_gb": 2
-          }
+          },
+          "days": 5
         },
         "b5": {
-          "package": "f98b0286-a7ec-4855-b0e4-dc97f684cd08",
           "block": "daily",
-          "days": 5,
           "attrs": {
             "daily_gb": 3
-          }
+          },
+          "days": 5
         },
         "a10": {
-          "package": "d91fdd39-f61a-420b-a8d6-eaae920ad831",
           "block": "daily",
-          "days": 10,
           "attrs": {
             "daily_gb": 2
-          }
+          },
+          "days": 10
         },
         "b10": {
-          "package": "f98b0286-a7ec-4855-b0e4-dc97f684cd08",
           "block": "daily",
-          "days": 10,
           "attrs": {
             "daily_gb": 3
-          }
+          },
+          "days": 10
         }
       },
       "assert": [
@@ -300,7 +292,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "61861678-8907-41a6-ae00-fe0df4bd9a3e",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -326,7 +317,6 @@
       ],
       "terms": {
         "g15": {
-          "package": "5755deda-c1f1-4b4b-9889-656cde791b88",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -334,7 +324,6 @@
           }
         },
         "g30": {
-          "package": "0641c520-db57-4b08-bc9c-e120bad5b4b6",
           "block": "local",
           "attrs": {
             "data_gb": 3,

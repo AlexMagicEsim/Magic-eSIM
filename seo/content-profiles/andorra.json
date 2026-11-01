@@ -232,9 +232,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "b82cf2d4-b612-4b56-ae49-284a6c84aa17",
-        "cdaa6079-f2b1-4f14-ae56-b39366532771"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 60,
+            "validity_days": 30
+          },
+          "family": "eu.*calls"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 120,
+            "validity_days": 30
+          },
+          "family": "eu.*calls"
+        }
       ],
       "must_cover": [
         "AD"
@@ -313,8 +327,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "b82cf2d4-b612-4b56-ae49-284a6c84aa17"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 60,
+            "validity_days": 30
+          },
+          "family": "eu.*calls"
+        }
       ],
       "must_cover": [
         "AD",
@@ -347,7 +368,6 @@
   ],
   "price_refs": {
     "g1": {
-      "package": "d02825b7-f97b-46b0-af09-8eac5c8b5d43",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -355,7 +375,6 @@
       }
     },
     "g5": {
-      "package": "43a1a0e7-a5d8-4387-90e7-6e3e54e09106",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -363,7 +382,6 @@
       }
     },
     "g10": {
-      "package": "e152e7ed-c586-48da-ae73-6437c5fa9016",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -371,7 +389,6 @@
       }
     },
     "g20": {
-      "package": "f9242d68-a40f-485c-bb9a-38112897fe2f",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -379,8 +396,10 @@
       }
     },
     "d500_3d": {
-      "package": "5459c6b7-d67f-4747-8894-3cb18f3a3be0",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 0.49
+      },
       "days": 3
     }
   }

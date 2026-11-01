@@ -83,8 +83,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "89e8d664-aff5-4505-a60c-b0e748356444"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 30
+          },
+          "family": "latam"
+        }
       ],
       "coverage_count": 10,
       "must_cover": [
@@ -144,9 +151,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "89e8d664-aff5-4505-a60c-b0e748356444",
-        "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 30
+          },
+          "family": "latam"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "latin.*america"
+        }
       ],
       "must_cover": [
         "BR"
@@ -206,12 +227,12 @@
           }
         },
         "latam3": {
-          "package": "89e8d664-aff5-4505-a60c-b0e748356444",
           "block": "regional",
           "attrs": {
             "data_gb": 3,
             "validity_days": 30
-          }
+          },
+          "family": "latam"
         }
       },
       "assert": [
@@ -246,7 +267,6 @@
           }
         },
         "g5": {
-          "package": "9005d70f-21d4-4277-959f-255ecae5cf44",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -254,7 +274,6 @@
           }
         },
         "g10": {
-          "package": "635e0feb-cf67-4a8b-96a4-9eecba2f765a",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -289,7 +308,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "9c67c75a-1762-400e-9002-2af3ab20a736",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -309,7 +327,6 @@
   ],
   "price_refs": {
     "local_3gb_15d": {
-      "package": "41905c13-5374-4638-aee4-bfe06e9b7ad5",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -323,7 +340,6 @@
       }
     },
     "local_5gb": {
-      "package": "9005d70f-21d4-4277-959f-255ecae5cf44",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -331,7 +347,6 @@
       }
     },
     "local_10gb": {
-      "package": "635e0feb-cf67-4a8b-96a4-9eecba2f765a",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -339,7 +354,6 @@
       }
     },
     "local_20gb": {
-      "package": "eaa5ecc8-8fc2-4287-989e-c2c5d7052305",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -347,7 +361,6 @@
       }
     },
     "local_50gb": {
-      "package": "b088d064-713b-4c13-9a07-aa4add0d0fae",
       "block": "local",
       "attrs": {
         "data_gb": 50,
@@ -355,12 +368,12 @@
       }
     },
     "latam_3gb": {
-      "package": "89e8d664-aff5-4505-a60c-b0e748356444",
       "block": "regional",
       "attrs": {
         "data_gb": 3,
         "validity_days": 30
-      }
+      },
+      "family": "latam"
     },
     "daily_floor": {
       "min_of": "daily",

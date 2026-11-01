@@ -371,6 +371,18 @@ export function renderMarkdown(summary, meta = {}) {
       '> не переписано так, чтобы оно было верно и при старых, и при новых фактах. Подробности — сводка задания «Refresh static catalog cache».', '');
   }
 
+  // Authored sentences the generator left out because the catalogue no longer bears them out (seo/page-claims.mjs,
+  // seo/suppressed-claims.json). Nothing false is published; a person rewrites them. Bounded, never a reason to fail.
+  const left = Array.isArray(meta.suppressed) ? meta.suppressed.filter((x) => x && typeof x.slug === 'string') : [];
+  if (left.length) {
+    const pages = [...new Set(left.map((x) => x.slug))];
+    L.push(`> ⚠️ **Не опубликовано авторских фрагментов: ${left.length}** на ${pages.length} ${pages.length === 1 ? 'странице' : 'страницах'} (\`seo/suppressed-claims.json\`) —`,
+      '> каталог больше не подтверждает фразу (карточки нет, другое покрытие или цена). Вместо фрагмента страница показывает',
+      '> собственный текст шаблона; перепишите фразу в профиле, и она вернётся.',
+      ...left.slice(0, 25).map((x) => `> - \`/esim/${x.slug}/\` ${x.unit} · ${x.source}/${x.id}`),
+      ...(left.length > 25 ? [`> - … ещё ${left.length - 25}`] : []), '');
+  }
+
   if (t.plans_added === null) {
     L.push('> Снимок каталога, из которого собраны текущие артефакты, определить не удалось,',
       '> поэтому добавленные и снятые тарифы НЕ посчитаны — это «не определено», а не ноль.', '');

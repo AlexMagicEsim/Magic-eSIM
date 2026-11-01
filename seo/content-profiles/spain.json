@@ -125,7 +125,6 @@
       }
     },
     "g5": {
-      "package": "badeb849-4773-49ae-b06a-fb25eda5fd6c",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -133,7 +132,6 @@
       }
     },
     "g10": {
-      "package": "562a1b41-c39f-4eff-9f22-67245ef29d93",
       "block": "local",
       "attrs": {
         "data_gb": 10,

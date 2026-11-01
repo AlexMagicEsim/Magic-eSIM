@@ -19,7 +19,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  checkNetworkClaims, operatorLexicon, operatorMentions, networksByBlock, blockRows, bareMentions, loadCatalogDoc,
+  checkNetworkClaims, evaluateNetworkClaims, operatorLexicon, operatorMentions, networksByBlock, blockRows, bareMentions, loadCatalogDoc,
 } from './network-claims.mjs';
 import { catalogueProblems } from './content-review.mjs';
 import { sentencesOf } from './coverage-claims.mjs';
@@ -106,11 +106,11 @@ test('a name the catalogue no longer lists anywhere is still detected (EXTRA_OPE
 
 const SYN = {
   packages: [
-    { package_id: 'a', name: 'X 1GB', networks: [{ operator: 'Alpha' }, { operator: 'Beta' }] },
-    { package_id: 'b', name: 'X 3GB', networks: [{ operator: 'Alpha' }] },
-    { package_id: 'c', name: 'X 10GB', networks: [] },
-    { package_id: 'r', name: 'Region 5GB', networks: [{ operator: 'Gamma' }, { operator: 'Alpha' }] },
-    { package_id: 'd', name: 'X 1GB/Day', networks: [{ operator: 'Alpha' }] },
+    { package_id: 'a', name: 'X 1GB', data_gb: 1, validity_days: 30, networks: [{ operator: 'Alpha' }, { operator: 'Beta' }] },
+    { package_id: 'b', name: 'X 3GB', data_gb: 3, validity_days: 30, networks: [{ operator: 'Alpha' }] },
+    { package_id: 'c', name: 'X 10GB', data_gb: 10, validity_days: 30, networks: [] },
+    { package_id: 'r', name: 'Region 5GB', data_gb: 5, validity_days: 30, networks: [{ operator: 'Gamma' }, { operator: 'Alpha' }] },
+    { package_id: 'd', name: 'X 1GB/Day', plan_type: 'DAILY', daily_gb: 1, validity_days: 30, networks: [{ operator: 'Alpha' }] },
   ],
   assortment: { countries: { CL: { local: ['a', 'b', 'c'], regional: ['r'], daily: ['d'] } } },
 };
@@ -125,9 +125,17 @@ test('every / only / all_listed / packages / exclusive each fire on their own ca
   assert.ok(syn(one(t, [claim(t, 'local', ['Alpha'], { all_listed: true })])).some((x) => /all_listed — у c/.test(x)));
   assert.ok(syn(one(t, [claim(t, 'local', ['Alpha'], { exclusive: true })])).some((x) => /exclusive — «Alpha» указан и в/.test(x)));
   const tb = 'У пакета на 1 ГБ — Alpha и Beta.';
-  assert.deepEqual(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { packages: ['a'], every: true, only: true })])), []);
-  assert.ok(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { packages: ['b'] })])).some((x) => /у продукта b .* «Beta» не указан/.test(x)));
-  assert.ok(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { packages: ['r'] })])).some((x) => /продукт r не стоит в блок местных тарифов.*regional/.test(x)));
+  const card = (gb) => ({ block: 'local', attrs: { data_gb: gb, validity_days: 30 } });
+  assert.deepEqual(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { basis: [card(1)], every: true, only: true })])), []);
+  assert.ok(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { basis: [card(3)] })])).some((x) => /у продукта b .* «Beta» не указан/.test(x)));
+  assert.ok(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { basis: [card(5)] })])).some((x) => /нет карточки local 5 ГБ \/ 30 дн\./.test(x)), 'the 5 GB card is regional');
+  assert.ok(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { packages: ['a'] })])).some((x) => /id поставщика не допускается/.test(x)));
+  assert.ok(syn(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { basis: [{ ...card(5), block: 'regional' }] })])).some((x) => /не блок утверждения «local»/.test(x)));
+  // What the cards no longer say is the catalogue's word (the sentence is left out); a wrong claim is the author's.
+  const kinds = evaluateNetworkClaims(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { basis: [card(3)] })]), 'chile', { doc: SYN, lexicon: SYN_LEX });
+  assert.deepEqual([...new Set(kinds.map((x) => x.kind))], ['catalogue']);
+  const wrong = evaluateNetworkClaims(one(tb, [claim(tb, 'local', ['Alpha', 'Beta'], { packages: ['a'] })]), 'chile', { doc: SYN, lexicon: SYN_LEX });
+  assert.ok(wrong.some((x) => x.kind === 'authoring'));
   const tg = 'Gamma указан только у региональных тарифов.';
   assert.deepEqual(syn(one(tg, [claim(tg, 'regional', ['Gamma'], { exclusive: true })])), []);
 });

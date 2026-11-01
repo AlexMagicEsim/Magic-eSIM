@@ -304,8 +304,14 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "b4cbe62c-e89e-435b-84b1-accff33e4c24"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          }
+        }
       ],
       "basis_attrs": {
         "data_gb": 3,
@@ -322,7 +328,6 @@
       "days": 3
     },
     "local_50gb": {
-      "package": "d6cb7a19-107b-4643-a217-193f426025e9",
       "block": "local",
       "attrs": {
         "data_gb": 50,
@@ -334,15 +339,14 @@
       "days": 3
     },
     "africa_3gb": {
-      "package": "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
       "block": "regional",
       "attrs": {
         "data_gb": 3,
         "validity_days": 15
-      }
+      },
+      "family": "africa"
     },
     "local_10gb": {
-      "package": "ea92cef3-1f42-4164-b68f-eb50443db5bf",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -350,7 +354,6 @@
       }
     },
     "local_1gb": {
-      "package": "78adb1f9-29ba-4c6b-89cd-aac6dd3ec7a9",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -358,7 +361,6 @@
       }
     },
     "local_3gb": {
-      "package": "b4cbe62c-e89e-435b-84b1-accff33e4c24",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -381,12 +383,11 @@
       ],
       "terms": {
         "d": {
-          "package": "cdbdbb5b-4615-4c19-a070-c2909c0a5dfe",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "dfloor": {
           "min_of": "daily",
@@ -403,7 +404,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "78adb1f9-29ba-4c6b-89cd-aac6dd3ec7a9",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -441,7 +441,6 @@
           }
         },
         "g3": {
-          "package": "b4cbe62c-e89e-435b-84b1-accff33e4c24",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -449,7 +448,6 @@
           }
         },
         "g5": {
-          "package": "ce6177b2-794f-49c1-a03c-e59ed7468313",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -457,7 +455,6 @@
           }
         },
         "g10": {
-          "package": "ea92cef3-1f42-4164-b68f-eb50443db5bf",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -465,7 +462,6 @@
           }
         },
         "g20": {
-          "package": "b77d7e2e-5a9c-420f-a821-953424bce30b",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -527,7 +523,6 @@
       ],
       "terms": {
         "g3": {
-          "package": "b4cbe62c-e89e-435b-84b1-accff33e4c24",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -535,12 +530,12 @@
           }
         },
         "africa3": {
-          "package": "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "block": "regional",
           "attrs": {
             "data_gb": 3,
             "validity_days": 15
-          }
+          },
+          "family": "africa"
         }
       },
       "assert": [

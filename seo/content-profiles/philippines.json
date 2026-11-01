@@ -64,7 +64,6 @@
   },
   "price_refs": {
     "a10": {
-      "package": "2676dd55-33b4-45cd-bcbe-ea41a389c54b",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -72,7 +71,6 @@
       }
     },
     "a20": {
-      "package": "b41358b4-2670-4c93-8fc5-8f60c21c3542",
       "block": "local",
       "attrs": {
         "data_gb": 20,

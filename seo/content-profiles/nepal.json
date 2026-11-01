@@ -105,12 +105,11 @@
       ],
       "terms": {
         "b3": {
-          "package": "158c31a3-b78d-4261-a9a4-21267413a8ee",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 1
-          }
+          },
+          "days": 3
         },
         "daily": {
           "min_of": "daily"
@@ -176,7 +175,6 @@
           "min_of": "daily"
         },
         "g1": {
-          "package": "bd1e2350-da88-41e2-b28f-7cf51334fdea",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -184,7 +182,6 @@
           }
         },
         "g3": {
-          "package": "bdf4bab1-113f-452e-9a3b-aceef64032e0",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -192,12 +189,11 @@
           }
         },
         "b3": {
-          "package": "158c31a3-b78d-4261-a9a4-21267413a8ee",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 1
-          }
+          },
+          "days": 3
         }
       },
       "assert": [
@@ -227,12 +223,13 @@
   ],
   "price_refs": {
     "b3": {
-      "package": "158c31a3-b78d-4261-a9a4-21267413a8ee",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 1
+      },
       "days": 3
     },
     "g3": {
-      "package": "bdf4bab1-113f-452e-9a3b-aceef64032e0",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -240,7 +237,6 @@
       }
     },
     "g1": {
-      "package": "bd1e2350-da88-41e2-b28f-7cf51334fdea",
       "block": "local",
       "attrs": {
         "data_gb": 1,

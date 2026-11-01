@@ -119,8 +119,14 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "942fef15-2d15-446d-a396-eb8645baf33f"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          }
+        }
       ],
       "basis_attrs": {
         "data_gb": 1,
@@ -140,8 +146,14 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "444a610f-374b-4912-aba2-5264794edf15"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 50,
+            "validity_days": 180
+          }
+        }
       ],
       "basis_attrs": {
         "data_gb": 50,
@@ -157,8 +169,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "04960f8d-2dc6-4f7a-8adc-0dd010f825f2"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          },
+          "family": "central.*asia"
+        }
       ],
       "must_cover": [
         "LK"
@@ -247,7 +266,6 @@
       ],
       "terms": {
         "d30": {
-          "package": "c87d7889-be37-4975-bc61-81b1acc1d1eb",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -255,7 +273,6 @@
           }
         },
         "g14": {
-          "package": "dd8587fb-1b56-4cad-a05b-fdee450ca95c",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -275,7 +292,6 @@
   ],
   "price_refs": {
     "local_3gb": {
-      "package": "c87d7889-be37-4975-bc61-81b1acc1d1eb",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -283,7 +299,6 @@
       }
     },
     "local_5gb": {
-      "package": "7d2cfd76-6a8c-43d6-9a6d-04c310767a12",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -291,7 +306,6 @@
       }
     },
     "local_10gb": {
-      "package": "c2c5ad69-e221-484d-b1e2-00bd2d24ad2f",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -299,7 +313,6 @@
       }
     },
     "local_1gb_7d": {
-      "package": "942fef15-2d15-446d-a396-eb8645baf33f",
       "block": "local",
       "attrs": {
         "data_gb": 1,

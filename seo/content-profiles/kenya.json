@@ -131,8 +131,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 15
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "TZ"
@@ -151,10 +158,31 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-        "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-        "fd269fbf-3e23-4210-b9ff-1354149f4722"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 15
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "KE",
@@ -174,8 +202,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "86f338f3-e03e-46ca-a12d-1f57c7ac6494"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "KE",
@@ -227,7 +262,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "ecd63077-8475-486e-8af7-54e8c34c2bcb",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -258,12 +292,11 @@
       ],
       "terms": {
         "d": {
-          "package": "3f7a2cfe-2664-47c6-80f5-6fad760d6e3e",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "floor": {
           "min_of": "daily"
@@ -292,7 +325,6 @@
       ],
       "terms": {
         "local10": {
-          "package": "05dc4a19-3a62-47b7-b376-307ddaca4403",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -300,12 +332,12 @@
           }
         },
         "reg10": {
-          "package": "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
           "block": "regional",
           "attrs": {
             "data_gb": 10,
             "validity_days": 15
-          }
+          },
+          "family": "africa"
         }
       },
       "assert": [
@@ -323,7 +355,6 @@
       "min_of": "local"
     },
     "local_1gb": {
-      "package": "ecd63077-8475-486e-8af7-54e8c34c2bcb",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -331,7 +362,6 @@
       }
     },
     "local_5gb": {
-      "package": "efe9d1c2-9842-4bb8-a484-2511627deec6",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -339,7 +369,6 @@
       }
     },
     "local_10gb": {
-      "package": "05dc4a19-3a62-47b7-b376-307ddaca4403",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -347,7 +376,6 @@
       }
     },
     "local_20gb": {
-      "package": "a13b3e1b-6e34-4e53-b655-e83476b79b77",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -355,48 +383,47 @@
       }
     },
     "africa_3gb_15d": {
-      "package": "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
       "block": "regional",
       "attrs": {
         "data_gb": 3,
         "validity_days": 15
-      }
+      },
+      "family": "africa"
     },
     "africa_5gb_15d": {
-      "package": "fd269fbf-3e23-4210-b9ff-1354149f4722",
       "block": "regional",
       "attrs": {
         "data_gb": 5,
         "validity_days": 15
-      }
+      },
+      "family": "africa"
     },
     "africa_10gb_15d": {
-      "package": "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
       "block": "regional",
       "attrs": {
         "data_gb": 10,
         "validity_days": 15
-      }
+      },
+      "family": "africa"
     },
     "africa_5gb_30d": {
-      "package": "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
       "block": "regional",
       "attrs": {
         "data_gb": 5,
         "validity_days": 30
-      }
+      },
+      "family": "africa"
     },
     "daily_floor_3d": {
       "min_of": "daily",
       "days": 3
     },
     "daily_500mb_3d": {
-      "package": "3f7a2cfe-2664-47c6-80f5-6fad760d6e3e",
       "block": "daily",
-      "days": 3,
       "attrs": {
         "daily_gb": 0.49
-      }
+      },
+      "days": 3
     }
   }
 }

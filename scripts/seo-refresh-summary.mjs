@@ -109,6 +109,8 @@ const meta = {
   changed_files: changed,
   // the USD facts countries «Refresh static catalog cache» holds (scripts/update-global-plan-facts.mjs), shown in the body
   facts_held: (() => { try { return readJson(join(ROOT, 'seo/global-plan-facts.json'))?.held || null; } catch { return null; } })(),
+  // the authored sentences the generator left out (seo/page-claims.mjs), shown in the body
+  suppressed: (() => { try { return readJson(join(ROOT, 'seo/suppressed-claims.json'))?.entries || null; } catch { return null; } })(),
 };
 
 mkdirSync(OUT, { recursive: true });

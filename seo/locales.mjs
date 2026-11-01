@@ -158,7 +158,7 @@ export function catalogueLocalePaths(slugs, list = LOCALES) {
 export function refreshStagePaths(list = LOCALES) {
   return ['esim',
     ...prefixedSiteLocales(list).flatMap((l) => [`${l.prefix}/esim`, `${l.prefix}/destinations.js`]),
-    'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'sitemap.xml'];
+    'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'sitemap.xml'];
 }
 
 /** The paths the workflow's reproducibility hash covers (`find …`), in its order. */

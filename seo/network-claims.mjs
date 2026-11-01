@@ -37,8 +37,8 @@
 //   { id, anchors: [{ field, text }],          // whole sentences, as everywhere
 //     block: "local" | "regional" | "daily",   // the block the sentence is about
 //     operators: ["Lao Telecom"],              // every one is listed in that block
-//     packages?: ["<package_id>", …],          // narrower basis: each is IN the
-//                                              //   block and lists every operator
+//     basis?: [<selector>, …],                 // narrower basis (seo/plan-ref.mjs): the
+//                                              //   cards of the block it names — each lists every operator
 //     every?: true,     // every package of the basis/block that names a network names all of them
 //     only?: true,      // no package of the basis/block names an operator outside the list
 //     all_listed?: true // every package of the basis/block names some network («все местные…»)
@@ -72,6 +72,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { proseFields, sentencesOf, isWholeSentence, fieldText, isoOfSlug } from './coverage-claims.mjs';
+import { publishedBlocks, selectPlan, validateSelector, describeSelector } from './plan-ref.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const CATALOG_FILE = join(ROOT, 'assets', 'catalog.json');
@@ -82,7 +83,7 @@ export const BLOCK_TITLE = Object.freeze({
   regional: 'блок «Региональные тарифы»',
   daily: 'блок «Трафик на каждый день»',
 });
-const ALLOWED_KEYS = new Set(['id', 'anchors', 'block', 'operators', 'packages', 'every', 'only', 'all_listed', 'exclusive', 'note']);
+const ALLOWED_KEYS = new Set(['id', 'anchors', 'block', 'operators', 'basis', 'every', 'only', 'all_listed', 'exclusive', 'note']);
 const WAIVER_KEYS = new Set(['field', 'text', 'reason', 'source']);
 
 const norm = (s) => String(s ?? '').replace(/[  ]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -223,7 +224,15 @@ function shapeProblems(c) {
   else c.anchors.forEach((a, i) => { if (!a || typeof a.field !== 'string' || typeof a.text !== 'string') p.push(`anchors[${i}] — нужны field и text`); });
   if (!BLOCKS.includes(c.block)) p.push(`block «${c.block}» — допустимо: ${BLOCKS.join(', ')}`);
   if (!Array.isArray(c.operators) || !c.operators.length || c.operators.some((x) => typeof x !== 'string' || !norm(x))) p.push('operators — непустой список имён');
-  if (c.packages !== undefined && (!Array.isArray(c.packages) || !c.packages.length || c.packages.some((x) => typeof x !== 'string' || !x))) p.push('packages — список package_id');
+  if (c.packages !== undefined) p.push('packages: id поставщика не допускается — backend сам выбирает поставщика карточки (#124); опишите карточки в basis: [{ block, attrs, days?, family? }]');
+  if (c.basis !== undefined) {
+    if (!Array.isArray(c.basis) || !c.basis.length) p.push('basis — непустой список селекторов');
+    else c.basis.forEach((sel, i) => {
+      p.push(...validateSelector(`[${i}]`, sel, 'basis'));
+      if (sel && sel.fallback !== undefined) p.push(`basis[${i}].fallback — у basis запасного варианта нет`);
+      if (sel && sel.block !== c.block) p.push(`basis[${i}].block «${sel.block}» — не блок утверждения «${c.block}»`);
+    });
+  }
   for (const k of ['every', 'only', 'all_listed', 'exclusive']) if (c[k] !== undefined && c[k] !== true) p.push(`${k} — только true (или ключа нет)`);
   return p;
 }
@@ -238,80 +247,91 @@ const where = (rows, name) => BLOCKS.filter((b) => rows[b].some((r) => r.operato
  * @param opts.lexicon  operatorLexicon(...) — default from the same snapshot
  * @returns {string[]} problems, Russian, one line each
  */
-export function checkNetworkClaims(profile, slug, { doc = loadCatalogDoc(), lexicon } = {}) {
+export function checkNetworkClaims(profile, slug, opts = {}) {
+  return evaluateNetworkClaims(profile, slug, opts).map((x) => x.msg);
+}
+
+/**
+ * The same check as objects: { claim, msg, kind }. kind «authoring» — the claim
+ * or the prose is wrong (fails); «catalogue» — the card or block the claim is
+ * about no longer says it (a basis card gone, an operator no longer listed): the
+ * generator leaves the claim's sentences out of the page (seo/page-claims.mjs).
+ */
+export function evaluateNetworkClaims(profile, slug, { doc = loadCatalogDoc(), lexicon } = {}) {
   const lex = lexicon || operatorLexicon(doc.packages);
-  const problems = [];
+  const out = [];
+  let current = null;
+  const authoring = (msg) => out.push({ claim: current, msg, kind: 'authoring' });
+  const catalogue = (msg) => out.push({ claim: current, msg, kind: 'catalogue' });
   const iso = isoOfSlug(slug);
   const rows = iso ? blockRows(doc, iso) : null;
   const claims = profile.network_claims === undefined ? [] : profile.network_claims;
   const waivers = profile.network_claims_waived === undefined ? [] : profile.network_claims_waived;
-  if (!Array.isArray(claims)) return ['network_claims должен быть списком'];
-  if (!Array.isArray(waivers)) return ['network_claims_waived должен быть списком'];
+  if (!Array.isArray(claims)) return [{ claim: null, msg: 'network_claims должен быть списком', kind: 'authoring' }];
+  if (!Array.isArray(waivers)) return [{ claim: null, msg: 'network_claims_waived должен быть списком', kind: 'authoring' }];
 
   // Which names each anchored sentence is vouched for.
   const vouched = new Map();      // `${field}|${sentence}` → Set(lower-case names)
   const waived = new Set();
   const seen = new Set();
   for (const c of claims) {
+    current = c && c.id;
     const shape = shapeProblems(c);
-    if (shape.length) { problems.push(`network_claims/${c && c.id}: ${shape.join('; ')}`); continue; }
-    if (seen.has(c.id)) { problems.push(`network_claims: повтор id «${c.id}»`); continue; }
+    if (shape.length) { authoring(`network_claims/${c && c.id}: ${shape.join('; ')}`); continue; }
+    if (seen.has(c.id)) { authoring(`network_claims: повтор id «${c.id}»`); continue; }
     seen.add(c.id);
     for (const a of c.anchors) {
       const t = fieldText(profile, a.field);
-      if (t === undefined) { problems.push(`network_claims/${c.id}: поля ${a.field} нет — утверждение осиротело`); continue; }
-      if (!isWholeSentence(t, a.text)) { problems.push(`network_claims/${c.id}: «${norm(a.text).slice(0, 80)}» — не целое предложение ${a.field} (или текст изменился)`); continue; }
+      if (t === undefined) { authoring(`network_claims/${c.id}: поля ${a.field} нет — утверждение осиротело`); continue; }
+      if (!isWholeSentence(t, a.text)) { authoring(`network_claims/${c.id}: «${norm(a.text).slice(0, 80)}» — не целое предложение ${a.field} (или текст изменился)`); continue; }
       const k = `${a.field}|${norm(a.text)}`;
       if (!vouched.has(k)) vouched.set(k, new Set());
       for (const o of c.operators) vouched.get(k).add(key(o));
       const named = operatorMentions(a.text, lex).map(key);
-      for (const o of c.operators) if (!named.includes(key(o))) problems.push(`network_claims/${c.id}: оператора «${o}» нет в цитате ${a.field} — утверждение не о той фразе`);
+      for (const o of c.operators) if (!named.includes(key(o))) authoring(`network_claims/${c.id}: оператора «${o}» нет в цитате ${a.field} — утверждение не о той фразе`);
     }
-    if (!rows) { problems.push(`network_claims/${c.id}: в снимке нет раскладки страницы ${slug} — блок «${c.block}» проверить нельзя`); continue; }
+    if (!rows) { catalogue(`network_claims/${c.id}: в снимке нет раскладки страницы ${slug} — блок «${c.block}» проверить нельзя`); continue; }
     const block = rows[c.block];
     let scope = block;
-    if (c.packages) {
-      scope = [];
-      for (const id of c.packages) {
-        const r = block.find((x) => x.id === id);
-        if (!r) {
-          const elsewhere = BLOCKS.filter((b) => rows[b].some((x) => x.id === id));
-          problems.push(`network_claims/${c.id}: продукт ${id} не стоит в ${BLOCK_TITLE[c.block]}${elsewhere.length ? ` (сейчас: ${elsewhere.join(', ')})` : ' — страница его не показывает'}`);
-        } else scope.push(r);
-      }
+    if (c.basis) {
+      const plans = basisPlans(c, doc, iso);
+      if (!plans) { catalogue(`network_claims/${c.id}: в ${BLOCK_TITLE[c.block]} нет карточки ${c.basis.map(describeSelector).join('; ')}`); continue; }
+      scope = plans.map((p) => block.find((x) => x.id === p.package_id)).filter(Boolean);
     }
+    // From here on a problem is what the cards say NOW — a catalogue problem.
     for (const o of c.operators) {
       if (!block.some((r) => r.operators.some((x) => key(x) === key(o)))) {
         const other = where(rows, o);
-        problems.push(`network_claims/${c.id}: «${o}» не указан ни у одного тарифа в ${BLOCK_TITLE[c.block]} страницы ${slug}`
+        catalogue(`network_claims/${c.id}: «${o}» не указан ни у одного тарифа в ${BLOCK_TITLE[c.block]} страницы ${slug}`
           + (other.length ? ` — он есть только в: ${other.map((b) => BLOCK_TITLE[b]).join(', ')}` : ' — ни в одном блоке страницы')
           + `; операторы по блокам — ${listing(rows)}`);
       }
-      for (const r of c.packages ? scope : []) {
-        if (!r.operators.some((x) => key(x) === key(o))) problems.push(`network_claims/${c.id}: у продукта ${r.id} «${r.name}» оператор «${o}» не указан (сейчас: ${r.operators.join(', ') || '—'})`);
+      for (const r of c.basis ? scope : []) {
+        if (!r.operators.some((x) => key(x) === key(o))) catalogue(`network_claims/${c.id}: у продукта ${r.id} «${r.name}» оператор «${o}» не указан (сейчас: ${r.operators.join(', ') || '—'})`);
       }
     }
     if (c.every) for (const r of scope) {
-      if (r.operators.length && c.operators.some((o) => !r.operators.some((x) => key(x) === key(o)))) problems.push(`network_claims/${c.id}: every — у ${r.id} «${r.name}» указаны ${r.operators.join(', ')}`);
+      if (r.operators.length && c.operators.some((o) => !r.operators.some((x) => key(x) === key(o)))) catalogue(`network_claims/${c.id}: every — у ${r.id} «${r.name}» указаны ${r.operators.join(', ')}`);
     }
     if (c.only) for (const r of scope) {
       const extra = r.operators.filter((x) => !c.operators.some((o) => key(o) === key(x)));
-      if (extra.length) problems.push(`network_claims/${c.id}: only — у ${r.id} «${r.name}» указан ещё ${extra.join(', ')}`);
+      if (extra.length) catalogue(`network_claims/${c.id}: only — у ${r.id} «${r.name}» указан ещё ${extra.join(', ')}`);
     }
     if (c.all_listed) for (const r of scope) {
-      if (!r.operators.length) problems.push(`network_claims/${c.id}: all_listed — у ${r.id} «${r.name}» оператор не указан вовсе`);
+      if (!r.operators.length) catalogue(`network_claims/${c.id}: all_listed — у ${r.id} «${r.name}» оператор не указан вовсе`);
     }
     if (c.exclusive) for (const o of c.operators) {
       const other = where(rows, o).filter((b) => b !== c.block);
-      if (other.length) problems.push(`network_claims/${c.id}: exclusive — «${o}» указан и в: ${other.map((b) => BLOCK_TITLE[b]).join(', ')}`);
+      if (other.length) catalogue(`network_claims/${c.id}: exclusive — «${o}» указан и в: ${other.map((b) => BLOCK_TITLE[b]).join(', ')}`);
     }
-    if ((c.every || c.only || c.all_listed) && !scope.length) problems.push(`network_claims/${c.id}: ${BLOCK_TITLE[c.block]} пуст — «все/только» подтвердить нечем`);
+    if ((c.every || c.only || c.all_listed) && !scope.length) catalogue(`network_claims/${c.id}: ${BLOCK_TITLE[c.block]} пуст — «все/только» подтвердить нечем`);
   }
+  current = null;
 
   const sources = (profile.sources || []).map((s) => String(s));
   for (const [i, w] of waivers.entries()) {
     const bad = [];
-    if (!w || typeof w !== 'object') { problems.push(`network_claims_waived[${i}]: не объект`); continue; }
+    if (!w || typeof w !== 'object') { authoring(`network_claims_waived[${i}]: не объект`); continue; }
     for (const k of Object.keys(w)) if (!WAIVER_KEYS.has(k)) bad.push(`неизвестный ключ «${k}»`);
     if (typeof w.reason !== 'string' || norm(w.reason).length < 20) bad.push('reason — зачем фраза не о тарифах (≥ 20 символов)');
     let url = null;
@@ -322,7 +342,7 @@ export function checkNetworkClaims(profile, slug, { doc = loadCatalogDoc(), lexi
     if (t === undefined) bad.push(`поля ${w.field} нет`);
     else if (!isWholeSentence(t, w.text)) bad.push(`«${norm(w.text).slice(0, 80)}» — не целое предложение ${w.field} (или текст изменился)`);
     else if (!operatorMentions(w.text, lex).length) bad.push('во фразе нет имени оператора — исключение устарело, удалите его');
-    if (bad.length) problems.push(`network_claims_waived[${i}]: ${bad.join('; ')}`);
+    if (bad.length) authoring(`network_claims_waived[${i}]: ${bad.join('; ')}`);
     else waived.add(`${w.field}|${norm(w.text)}`);
   }
 
@@ -337,12 +357,20 @@ export function checkNetworkClaims(profile, slug, { doc = loadCatalogDoc(), lexi
       const missing = names.filter((n) => !ok.has(key(n)));
       if (missing.length) {
         const hint = rows ? missing.map((n) => `${n}: ${where(rows, n).join(', ') || 'ни в одном блоке'}`).join('; ') : 'раскладки нет';
-        problems.push(`оператор ${missing.map((n) => `«${n}»`).join(', ')} в ${field} без network_claims — о каком блоке фраза (local / regional / daily)? `
+        authoring(`оператор ${missing.map((n) => `«${n}»`).join(', ')} в ${field} без network_claims — о каком блоке фраза (local / regional / daily)? `
           + `Сейчас указан в блоках — ${hint}. Фраза: «${sentence.slice(0, 160)}»`);
       }
     }
   }
-  return [...new Set(problems)];
+  const once = new Set();
+  return out.filter((x) => { const k = `${x.kind}|${x.msg}`; if (once.has(k)) return false; once.add(k); return true; });
+}
+
+/** The cards a claim's basis names in its published block, or null when one is not there. */
+function basisPlans(c, doc, iso) {
+  const blocks = publishedBlocks(doc, iso);
+  const plans = (c.basis || []).map((sel) => selectPlan(blocks, sel).plan);
+  return plans.every(Boolean) ? plans : null;
 }
 
 /** Plain text (legacy HTML, EN/ES content): any operator name is a failure — there is no claim format there. */

@@ -113,12 +113,11 @@
       ],
       "terms": {
         "d": {
-          "package": "0c314fe6-cc64-424a-b149-620fb15911d7",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "daily": {
           "min_of": "daily"
@@ -127,7 +126,6 @@
           "min_of": "page"
         },
         "g1": {
-          "package": "fe089143-ec43-40a9-90df-1ed826ed0bc5",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -167,7 +165,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "fe089143-ec43-40a9-90df-1ed826ed0bc5",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -175,7 +172,6 @@
           }
         },
         "g50": {
-          "package": "689e1e92-91a6-4725-9472-b96018422ce4",
           "block": "local",
           "attrs": {
             "data_gb": 50,
@@ -211,7 +207,6 @@
       ],
       "terms": {
         "l1": {
-          "package": "fe089143-ec43-40a9-90df-1ed826ed0bc5",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -225,7 +220,6 @@
           }
         },
         "l3": {
-          "package": "20b2c368-e4af-4cb9-80c2-db409fd40bc5",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -239,7 +233,6 @@
           }
         },
         "l5": {
-          "package": "bf885327-2119-49f6-a323-e77d6bc634ff",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -253,7 +246,6 @@
           }
         },
         "l10": {
-          "package": "1979f22f-8be6-4304-adcd-82c7bcc315e6",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -267,7 +259,6 @@
           }
         },
         "l20": {
-          "package": "ef0fd0c3-c0ad-41bd-8d07-1c8bb6a1ee96",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -281,7 +272,6 @@
           }
         },
         "l50": {
-          "package": "689e1e92-91a6-4725-9472-b96018422ce4",
           "block": "local",
           "attrs": {
             "data_gb": 50,
@@ -332,7 +322,6 @@
   ],
   "price_refs": {
     "g1": {
-      "package": "fe089143-ec43-40a9-90df-1ed826ed0bc5",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -340,8 +329,10 @@
       }
     },
     "d500_3d": {
-      "package": "0c314fe6-cc64-424a-b149-620fb15911d7",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 0.49
+      },
       "days": 3
     }
   }

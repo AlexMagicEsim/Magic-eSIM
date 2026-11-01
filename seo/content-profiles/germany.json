@@ -128,15 +128,13 @@
       ],
       "terms": {
         "d": {
-          "package": "12c422ff-be7e-435c-a210-47c143667be7",
           "block": "daily",
-          "days": 30,
           "attrs": {
             "daily_gb": 3
-          }
+          },
+          "days": 30
         },
         "v": {
-          "package": "59e1f580-013b-4f6f-94c4-c9c9d65bf0b7",
           "block": "local",
           "attrs": {
             "data_gb": 50,
@@ -162,12 +160,13 @@
       "min_of": "daily"
     },
     "d3_30d": {
-      "package": "12c422ff-be7e-435c-a210-47c143667be7",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 3
+      },
       "days": 30
     },
     "g50": {
-      "package": "59e1f580-013b-4f6f-94c4-c9c9d65bf0b7",
       "block": "local",
       "attrs": {
         "data_gb": 50,
@@ -175,7 +174,6 @@
       }
     },
     "g20": {
-      "package": "c4848e14-c66d-4166-9ed5-0a32ab6281a2",
       "block": "local",
       "attrs": {
         "data_gb": 20,

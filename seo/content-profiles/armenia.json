@@ -131,7 +131,6 @@
       ],
       "terms": {
         "a": {
-          "package": "fdbde2aa-11a1-4dae-9e09-ffed31b14f1e",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -139,7 +138,6 @@
           }
         },
         "b": {
-          "package": "83d865a2-05a2-4a41-9edf-63a2c258467e",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -172,12 +170,11 @@
       ],
       "terms": {
         "d": {
-          "package": "36cc3e30-fe00-46b1-97b7-0badfd08efc2",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "floor": {
           "min_of": "daily"
@@ -195,7 +192,6 @@
   ],
   "price_refs": {
     "t20a": {
-      "package": "de947083-0bd1-44f8-82c4-2b27d28acaea",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -203,7 +199,6 @@
       }
     },
     "g3_30": {
-      "package": "83d865a2-05a2-4a41-9edf-63a2c258467e",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -211,12 +206,13 @@
       }
     },
     "d500_3d": {
-      "package": "36cc3e30-fe00-46b1-97b7-0badfd08efc2",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 0.49
+      },
       "days": 3
     },
     "g3": {
-      "package": "fdbde2aa-11a1-4dae-9e09-ffed31b14f1e",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -224,7 +220,6 @@
       }
     },
     "g5": {
-      "package": "945f6e0f-f487-44a2-ba0e-899c10621475",
       "block": "local",
       "attrs": {
         "data_gb": 5,

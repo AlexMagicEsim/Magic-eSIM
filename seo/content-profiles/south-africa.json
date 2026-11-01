@@ -210,10 +210,31 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "c6fa4298-298c-4b9b-a448-c4b746f23bfd",
-        "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
-        "d3555cd5-969c-4a7b-a129-e4a118fadd8b"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "ZM"
@@ -329,8 +350,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "86f338f3-e03e-46ca-a12d-1f57c7ac6494"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "ZA",
@@ -398,7 +426,6 @@
       ],
       "terms": {
         "l3": {
-          "package": "71fe6ede-5053-4fd1-bcdc-0023533bfd58",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -406,7 +433,6 @@
           }
         },
         "l5": {
-          "package": "70fa0fff-f707-45aa-8f92-28b609fd8710",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -414,7 +440,6 @@
           }
         },
         "l10": {
-          "package": "f2e636c9-782c-441c-9126-68f0936d1185",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -422,28 +447,28 @@
           }
         },
         "a3": {
-          "package": "3e49b06c-2dc0-4c90-9f0e-31be42d23049",
           "block": "regional",
           "attrs": {
             "data_gb": 3,
             "validity_days": 30
-          }
+          },
+          "family": "africa"
         },
         "a5": {
-          "package": "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
           "block": "regional",
           "attrs": {
             "data_gb": 5,
             "validity_days": 30
-          }
+          },
+          "family": "africa"
         },
         "a10": {
-          "package": "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
           "block": "regional",
           "attrs": {
             "data_gb": 10,
             "validity_days": 30
-          }
+          },
+          "family": "africa"
         }
       },
       "assert": [
@@ -468,7 +493,6 @@
   ],
   "price_refs": {
     "local_3gb": {
-      "package": "71fe6ede-5053-4fd1-bcdc-0023533bfd58",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -476,7 +500,6 @@
       }
     },
     "local_5gb": {
-      "package": "70fa0fff-f707-45aa-8f92-28b609fd8710",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -484,7 +507,6 @@
       }
     },
     "local_10gb": {
-      "package": "f2e636c9-782c-441c-9126-68f0936d1185",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -492,7 +514,6 @@
       }
     },
     "local_20gb": {
-      "package": "1a64fb4b-6a8e-4606-8e0a-28cc57bbbb0a",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -500,28 +521,28 @@
       }
     },
     "africa_3gb": {
-      "package": "3e49b06c-2dc0-4c90-9f0e-31be42d23049",
       "block": "regional",
       "attrs": {
         "data_gb": 3,
         "validity_days": 30
-      }
+      },
+      "family": "africa"
     },
     "africa_5gb": {
-      "package": "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
       "block": "regional",
       "attrs": {
         "data_gb": 5,
         "validity_days": 30
-      }
+      },
+      "family": "africa"
     },
     "africa_10gb": {
-      "package": "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
       "block": "regional",
       "attrs": {
         "data_gb": 10,
         "validity_days": 30
-      }
+      },
+      "family": "africa"
     }
   }
 }

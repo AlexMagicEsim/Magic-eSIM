@@ -175,9 +175,21 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "ddf40189-8b35-4e8e-8556-1a2787a59042",
-        "363eae5c-2533-41bc-b115-b8f6f87093a0"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 30
+          }
+        }
       ],
       "basis_attrs": {
         "data_gb": 3
@@ -223,7 +235,6 @@
       "min_of": "daily"
     },
     "local_5gb": {
-      "package": "d7baa841-63cd-4d18-93d5-af44f85c4b17",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -231,7 +242,6 @@
       }
     },
     "local_30gb": {
-      "package": "2596d6fa-5b7b-4e0b-9527-ed3d187be62c",
       "block": "local",
       "attrs": {
         "data_gb": 30,
@@ -239,7 +249,6 @@
       }
     },
     "local_1gb": {
-      "package": "7bc4f00d-4885-432b-8ba1-728dc0570a5d",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -247,12 +256,11 @@
       }
     },
     "daily_3d": {
-      "package": "587fb27e-1e0c-4ffd-9fc0-d6fb33668527",
       "block": "daily",
-      "days": 3,
       "attrs": {
         "daily_gb": 0.49
-      }
+      },
+      "days": 3
     }
   },
   "price_claims": [
@@ -272,7 +280,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "7bc4f00d-4885-432b-8ba1-728dc0570a5d",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -280,12 +287,11 @@
           }
         },
         "d": {
-          "package": "587fb27e-1e0c-4ffd-9fc0-d6fb33668527",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         }
       },
       "assert": [
@@ -320,7 +326,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "7bc4f00d-4885-432b-8ba1-728dc0570a5d",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -328,7 +333,6 @@
           }
         },
         "g3": {
-          "package": "ddf40189-8b35-4e8e-8556-1a2787a59042",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -336,7 +340,6 @@
           }
         },
         "g5": {
-          "package": "d7baa841-63cd-4d18-93d5-af44f85c4b17",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -344,7 +347,6 @@
           }
         },
         "g10": {
-          "package": "d519ad26-5ae1-42de-875e-3042f528b8b9",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -352,7 +354,6 @@
           }
         },
         "g20": {
-          "package": "fe55696f-54bf-44bf-b714-ea9cbf502a7e",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -360,7 +361,6 @@
           }
         },
         "g30": {
-          "package": "2596d6fa-5b7b-4e0b-9527-ed3d187be62c",
           "block": "local",
           "attrs": {
             "data_gb": 30,
@@ -368,7 +368,6 @@
           }
         },
         "g50": {
-          "package": "9e4b25e4-37ee-4881-9278-9cd57f62754a",
           "block": "local",
           "attrs": {
             "data_gb": 50,
@@ -425,12 +424,11 @@
       ],
       "terms": {
         "d": {
-          "package": "587fb27e-1e0c-4ffd-9fc0-d6fb33668527",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "dmin": {
           "min_of": "daily",
@@ -455,7 +453,6 @@
       ],
       "terms": {
         "g1": {
-          "package": "7bc4f00d-4885-432b-8ba1-728dc0570a5d",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -463,7 +460,6 @@
           }
         },
         "g3": {
-          "package": "ddf40189-8b35-4e8e-8556-1a2787a59042",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -471,7 +467,6 @@
           }
         },
         "g5": {
-          "package": "d7baa841-63cd-4d18-93d5-af44f85c4b17",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -479,7 +474,6 @@
           }
         },
         "g10": {
-          "package": "d519ad26-5ae1-42de-875e-3042f528b8b9",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -487,36 +481,36 @@
           }
         },
         "n1": {
-          "package": "b4850dbb-1531-4032-9336-ca6647c33611",
           "block": "regional",
           "attrs": {
             "data_gb": 1,
             "validity_days": 7
-          }
+          },
+          "family": "north.*america"
         },
         "n3": {
-          "package": "e58e8796-6cbe-415f-89ca-0f1642a7aacd",
           "block": "regional",
           "attrs": {
             "data_gb": 3,
             "validity_days": 15
-          }
+          },
+          "family": "north.*america"
         },
         "n5": {
-          "package": "1fc7b1f1-b4d6-4bd2-a9fc-9c1ddf412b7c",
           "block": "regional",
           "attrs": {
             "data_gb": 5,
             "validity_days": 30
-          }
+          },
+          "family": "north.*america"
         },
         "n10": {
-          "package": "433ce83a-2878-4185-9453-47697e052d7a",
           "block": "regional",
           "attrs": {
             "data_gb": 10,
             "validity_days": 30
-          }
+          },
+          "family": "north.*america"
         }
       },
       "assert": [

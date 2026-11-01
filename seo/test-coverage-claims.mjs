@@ -7,9 +7,14 @@
 //   ни один тариф». Prices were already gated against the catalogue; coverage
 //   was not. If a provider changes the countries of a product, the sentence goes
 //   stale on the live site with every gate green. Each profile now carries
-//   `coverage_claims` — explicit assertions over package ids and page blocks —
-//   and this file checks them against assets/catalog.json, the snapshot every
+//   `coverage_claims` — explicit assertions over the cards of a page's PUBLISHED
+//   blocks (seo/plan-ref.mjs: block, volume, term, family — never a provider id)
+//   — and this file checks them against assets/catalog.json, the snapshot every
 //   other SEO gate reads. No network, no provider code, no prices.
+//
+//   A synthetic world is laid out by seo/fixture-layout.mjs layoutByCoverage
+//   (every visible plan on every page it covers); a mutation of the live
+//   catalogue is re-laid by republish() the way the backend would show it.
 //
 //   Layout: (1) the RULES, on a synthetic catalogue — no live data, so a price
 //   or coverage move can never make a rule test red; (2) MUTATIONS of the live
@@ -29,6 +34,7 @@ import {
   loadCatalogDoc, formatProblem, unanchoredCoverageSentences, fieldText, isWholeSentence,
 } from './coverage-claims.mjs';
 import { coverageCodes, isRussia, isRestricted, isGlobal, isMultiCountry, isDaily } from './catalogue-facts.mjs';
+import { layoutByCoverage, republish } from './fixture-layout.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const LIVE = JSON.parse(readFileSync(join(ROOT, 'assets', 'catalog.json'), 'utf8'));
@@ -63,11 +69,14 @@ const profile = (claims, prose = {}) => ({
   coverage_claims: claims,
 });
 const run = (claims, catalogue = FIX(), prose) =>
-  evaluateProfile(profile(claims, prose), 'south-africa', catalogue.packages);
+  evaluateProfile(profile(claims, prose), 'south-africa', layoutByCoverage(catalogue.packages));
 
+// The cards the sentences are about — what the buyer sees, not which row we buy.
+const AF5 = { block: 'regional', attrs: { data_gb: 5, validity_days: 30 }, family: 'africa' };
+const AF3 = { block: 'regional', attrs: { data_gb: 3, validity_days: 15 }, family: 'africa' };
 const zambiaOnly = {
   id: 'zambia-only', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }],
-  scope: 'regional', packages: ['af5'], must_cover: ['ZM'], only: true,
+  scope: 'regional', basis: [AF5], must_cover: ['ZM'], only: true,
 };
 
 // ---------------------------------------------------------------- 1. RULES
@@ -92,13 +101,14 @@ test('must_not_cover / none_in_scope: a country the text says is absent appears'
   assert.match(p.message, /CU/); assert.match(p.message, /za3/);
 });
 
-test('the basis product disappears from the snapshot', () => {
+test('the basis card disappears from the published block: a CATALOGUE problem — the sentence is left out, nothing blocks', () => {
   const c = FIX(); c.packages = c.packages.filter((p) => p.package_id !== 'af5');
   const [p] = run([zambiaOnly], c);
-  assert.match(p.message, /исчез|нет в каталоге/);
+  assert.equal(p.kind, 'catalogue');
+  assert.match(p.message, /нет карточки regional 5 ГБ \/ 30 дн\. \/africa\//);
 });
 
-test('the basis product stops being visible: zero price, a Russia region, restricted country code', () => {
+test('the basis card stops being shown: zero price, a Russia region, restricted country code — gone from the page', () => {
   for (const mutate of [
     (p) => { p.price = 0; },
     (p) => { p.region += ', RU'; p.coverage_country_codes.push('RU'); },
@@ -106,20 +116,24 @@ test('the basis product stops being visible: zero price, a Russia region, restri
   ]) {
     const c = FIX(); mutate(c.packages[0]);
     const problems = run([zambiaOnly], c);
-    assert.ok(problems.some((x) => /не показывается|не виден/.test(x.message)), JSON.stringify(problems));
+    assert.ok(problems.some((x) => x.kind === 'catalogue' && /нет карточки/.test(x.message)), JSON.stringify(problems));
   }
 });
 
-test('the basis product moves to another block (volume → daily)', () => {
+test('the basis card moves to another block (volume → daily): no such card in the regional block', () => {
   const c = FIX(); Object.assign(c.packages[0], { plan_type: 'DAILY', daily_gb: 1, daily_term_mode: 'PER_DAY', data_gb: null });
   const [p] = run([zambiaOnly], c);
-  assert.match(p.message, /блок/);
+  assert.equal(p.kind, 'catalogue');
+  assert.match(p.message, /нет карточки/);
 });
 
-test('re-issued under a new id with identical coverage: still red, with the successor named', () => {
-  const c = FIX(); c.packages[0].package_id = 'af5-new';
+test('re-issued under a new id — another provider, the same card: the claim follows the card and stays green', () => {
+  const c = FIX(); c.packages[0].package_id = 'af5-other-provider';
+  assert.deepEqual(run([zambiaOnly], c), []);
+  c.packages[0].coverage_country_codes = ['ZA', 'BW']; c.packages[0].region = 'ZA, BW';
   const [p] = run([zambiaOnly], c);
-  assert.match(p.message, /af5-new/, 'the diagnostic must name the likely successor');
+  assert.equal(p.kind, 'content', 'the successor is checked like the card it replaced');
+  assert.match(p.message, /af5-other-provider.*больше не покрывает ZM/);
 });
 
 test('only: a NEW product covering the country breaks «только» — the claim cannot pass on a look-alike', () => {
@@ -128,16 +142,19 @@ test('only: a NEW product covering the country breaks «только» — the c
   assert.match(p.message, /af10/);
 });
 
-test('a claim cannot silently pass on another product: two identical products, one disappears', () => {
+test('two identical cards in one block: the basis is the first in the published order; a twin that differs is still caught by «only»', () => {
   const two = FIX(); two.packages.push(pkg({ id: 'af5b', name: 'Africa 5GB 30Days', cov: ['ZA', 'ZM', 'BW'], gb: 5 }));
-  const claim = { ...zambiaOnly, packages: ['af5', 'af5b'] };
+  const claim = { ...zambiaOnly, only: undefined, covers_exactly: ['ZA', 'ZM', 'BW'] };
+  delete claim.only;
   assert.deepEqual(run([claim], two), []);
-  two.packages = two.packages.filter((p) => p.package_id !== 'af5b');
-  assert.equal(run([claim], two).length, 1);
+  two.packages = two.packages.filter((p) => p.package_id !== 'af5');
+  assert.deepEqual(run([claim], two), [], 'the twin takes the slot');
+  assert.equal(run([zambiaOnly], (() => { const t = FIX(); t.packages.push(pkg({ id: 'af5b', name: 'Africa 5GB 30Days', cov: ['ZA', 'ZM', 'BW'], gb: 5 })); return t; })()).length, 1,
+    '«только этот пакет» is false when a second card covers Zambia');
 });
 
 test('covers_exactly and coverage_count catch a product that GAINS a country', () => {
-  const claim = { id: 'exact', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', packages: ['af5'], covers_exactly: ['ZA', 'ZM', 'BW'], coverage_count: 3 };
+  const claim = { id: 'exact', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', basis: [AF5], covers_exactly: ['ZA', 'ZM', 'BW'], coverage_count: 3 };
   assert.deepEqual(run([claim]), []);
   const c = FIX(); c.packages[0].coverage_country_codes.push('NA'); c.packages[0].region += ', NA';
   assert.equal(run([claim], c).length, 2);
@@ -171,14 +188,14 @@ test('expect_empty, and an empty scope never satisfies all/none vacuously', () =
 });
 
 test('scope_is: the block consists of exactly these products', () => {
-  const claim = { id: 's', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', packages: ['af5', 'af3'], scope_is: true };
+  const claim = { id: 's', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', basis: [AF5, AF3], scope_is: true };
   assert.deepEqual(run([claim]), []);
   const c = FIX(); c.packages.push(pkg({ id: 'eu', name: 'Europe 3 GB', cov: ['ZA', 'FR'] }));
   assert.match(run([claim], c)[0].message, /eu/);
 });
 
 test('distinct_coverage: look-alike cards must keep different country sets', () => {
-  const claim = { id: 'd', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', packages: ['af5', 'af3'], distinct_coverage: true };
+  const claim = { id: 'd', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', basis: [AF5, AF3], distinct_coverage: true };
   assert.deepEqual(run([claim]), []);
   const c = FIX(); c.packages[1].coverage_country_codes = ['ZA', 'ZM', 'BW']; c.packages[1].region = 'ZA, ZM, BW';
   assert.equal(run([claim], c).length, 1);
@@ -248,8 +265,11 @@ test('fail closed on malformed claims', () => {
     { id: 'z', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', all_in_scope: ['QQ'] },    // unknown ISO
     { id: 'w', anchors: [], scope: 'regional', all_in_scope: ['ZM'] },                                       // no anchor
     { id: 'v', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', all_in_scope: ['ZM'], mystery: 1 }, // unknown key
-    { id: 'u', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', only: true, packages: ['af5'] }, // only without must_cover
-    { id: 't', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', packages: ['af5'], basis_attrs: {} }, // empty basis_attrs checks nothing
+    { id: 'u', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', only: true, basis: [AF5] }, // only without must_cover
+    { id: 't', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', basis: [AF5], basis_attrs: {} }, // empty basis_attrs checks nothing
+    { id: 'q', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', packages: ['af5'], must_cover: ['ZM'] }, // a provider id
+    { id: 'p', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', basis: [{ block: 'regional', attrs: { data_gb: 5 } }], must_cover: ['ZM'] }, // a card without a term
+    { id: 'o', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', basis: [{ ...AF5, block: 'local' }], must_cover: ['ZM'] }, // a basis outside the claim's block
     { id: 's', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', family: '(', all_in_scope: ['ZM'] }, // family does not compile
     { id: 'r', anchors: [{ field: 'lead', text: 'Замбию на этой странице покрывает только пакет на Африку на 5 ГБ.' }], scope: 'regional', only_attrs: { data_gb: 5 } }, // only_attrs without countries
   ];
@@ -281,7 +301,15 @@ test('the diagnostic names page, claim, quote, expected product and what the cat
 const PROFILES = Object.fromEntries(readdirSync(join(ROOT, 'seo', 'content-profiles'))
   .filter((f) => f.endsWith('.json'))
   .map((f) => [f.slice(0, -5), JSON.parse(readFileSync(join(ROOT, 'seo', 'content-profiles', f), 'utf8'))]));
-const liveRun = (slug, packages) => evaluateProfile(PROFILES[slug], slug, packages);
+// What a mutation ADDS to the page's problems: the live snapshot already leaves a
+// few sentences out (cards those pages do not show — seo/suppressed-claims.json),
+// and a mutation test is about what the change itself breaks.
+const keyOf = (x) => `${x.claim}|${x.kind}|${x.message}`;
+const BASE = new Map();
+const liveRun = (slug, packages) => {
+  if (!BASE.has(slug)) BASE.set(slug, new Set(evaluateProfile(PROFILES[slug], slug, LIVE).map(keyOf)));
+  return evaluateProfile(PROFILES[slug], slug, republish(LIVE, packages)).filter((x) => !BASE.get(slug).has(keyOf(x)));
+};
 const byName = (packages, re) => packages.filter((p) => re.test(p.name));
 
 test('mutation: Zambia removed from «Africa 5GB 30Days» turns South Africa red', () => {
@@ -315,9 +343,12 @@ test('mutation: New Zealand removed from «Australia and NZ» turns Australia re
 test('mutation: Canada removed from ONE daily card the text names («Северная Америка», 5 GB/day) is caught — the text names a product, the claim pins it', () => {
   const c = clone(LIVE.packages);
   assert.deepEqual(liveRun('usa', c), [], 'baseline must be green');
-  const [d] = byName(c, /^North America 5GB\/Day$/);
-  d.coverage_country_codes = d.coverage_country_codes.filter((x) => x !== 'CA'); d.region = d.coverage_country_codes.join(', ');
-  assert.ok(liveRun('usa', c).some((p) => p.message.includes(d.package_id)));
+  // 2026-11-01: the claim pins the CARD («Северная Америка», 5 ГБ в день), not a row — while one card of
+  // that name on the Canada page still covers Canada the sentence is true, so Canada leaves every one of them.
+  const cards = byName(c, /^North America 5GB\/Day$/);
+  assert.ok(cards.length >= 1);
+  for (const d of cards) { d.coverage_country_codes = d.coverage_country_codes.filter((x) => x !== 'CA'); d.region = d.coverage_country_codes.join(', '); }
+  assert.ok(liveRun('usa', c).some((p) => p.claim === 'north-america-daily'), 'no «Северная Америка» card with Canada left on the Canada page');
   const c2 = clone(LIVE.packages);
   const [au] = byName(c2, /^Australia 500MB\/Day$/);
   au.coverage_country_codes = ['AU', 'NZ']; au.region = 'AU, NZ';
@@ -356,12 +387,11 @@ test('mutation: Paraguay added to «LatAm 50 GB» turns Argentina red', () => {
   assert.ok(liveRun('argentina', c).some((p) => /PY/.test(p.message)));
 });
 
-test('mutation: a look-alike re-issue (new id, same name and coverage) is not accepted silently', () => {
+test('mutation: the backend swaps the row behind a card (new id, another provider, same card) — every page stays as it was', () => {
   const c = clone(LIVE.packages);
   const [af5] = byName(c, /^Africa 5GB 30Days$/);
-  const old = af5.package_id; af5.package_id = '00000000-0000-4000-8000-000000000000';
-  const problems = liveRun('south-africa', c);
-  assert.ok(problems.some((p) => p.message.includes(old) && p.message.includes(af5.package_id)));
+  af5.package_id = '00000000-0000-4000-8000-000000000000';
+  for (const slug of ['south-africa', 'kenya', 'mauritius']) green(slug, c, 'the same card from another provider');
 });
 
 // The independent review found these with the first version of the claims: a
@@ -549,7 +579,8 @@ test('review M3: a prose edit that inverts a sentence orphans its claim', () => 
   if (field[2] !== undefined && field[3]) p[field[1]][Number(field[2])][field[3]] = flip(p[field[1]][Number(field[2])][field[3]]);
   else if (field[2] !== undefined) p[field[1]][Number(field[2])] = flip(p[field[1]][Number(field[2])]);
   else p[field[1]] = flip(p[field[1]]);
-  assert.ok(evaluateProfile(p, 'laos', LIVE.packages).length > 0);
+  const before = new Set(evaluateProfile(PROFILES.laos, 'laos', LIVE).map(keyOf));
+  assert.ok(evaluateProfile(p, 'laos', LIVE).some((x) => x.kind === 'authoring' && !before.has(keyOf(x))), 'the inverted sentence orphans its claim');
 });
 
 test('review over-strict: harmless catalogue moves keep the corpus green', () => {
@@ -568,8 +599,10 @@ test('review over-strict: harmless catalogue moves keep the corpus green', () =>
   // 2026-10-25: was «a second 5 GB pack with Zambia must stay green» — true of
   // the old «только пакет на 5 ГБ», but the page now says «Замбию — только
   // пакеты на 29 стран», so a four-country pack with Zambia falsifies it: red.
-  c = clone(LIVE.packages); newPkg(c, 'Africa 5GB 30Days', { coverage_country_codes: ['ZA', 'ZM', 'SZ', 'BW'] });
-  redBy('south-africa', c, 'zm-only-29', 'a four-country Africa pack with Zambia — «Замбию — только пакеты на 29 стран» is false');
+  // 2026-11-01: «zm-only-29» rests on «Africa 1GB 7Days», a card the South Africa page does not show — the
+  // live snapshot already leaves its sentences out (seo/suppressed-claims.json), so no mutation can turn it red.
+  assert.ok(evaluateProfile(PROFILES['south-africa'], 'south-africa', LIVE).some((x) => x.claim === 'zm-only-29' && x.kind === 'catalogue'),
+    'zm-only-29 is left out on the live snapshot');
   // The harmless move for the new sentence: another Africa pack WITHOUT Zambia,
   // on the coverage of the 23-country «Africa 3 GB» (30 days, top-up) — Eswatini
   // and Botswana in, 7 GB within «от 1 до 10 ГБ», top-up marked.
@@ -586,10 +619,15 @@ test('review over-strict: harmless catalogue moves keep the corpus green', () =>
 
 // ---------------------------------------------------------------- 3. CORPUS
 
-test('every authored page agrees with the current catalogue on coverage', () => {
+test('every authored page agrees with the current catalogue on coverage; a sentence about a card that is gone is left out of its page', () => {
   const { problems, stats } = checkCorpus();
   assert.ok(stats.claims >= 150, `only ${stats.claims} claims — corpus not loaded?`);
-  assert.deepEqual(problems.map(formatProblem), []);
+  assert.deepEqual(problems.filter((x) => x.kind === 'authoring').map(formatProblem), []);
+  const recorded = JSON.parse(readFileSync(join(ROOT, 'seo', 'suppressed-claims.json'), 'utf8')).entries
+    .filter((x) => x.source === 'coverage_claims').map((x) => `${x.slug}/${x.id}`);
+  for (const x of problems.filter((y) => y.kind !== 'authoring')) {
+    assert.ok(recorded.includes(`${x.slug}/${x.claim}`), `${x.slug}/${x.claim} is not in seo/suppressed-claims.json — the page would print it`);
+  }
 });
 
 test('no coverage sentence ships without a claim or an explicit waiver', () => {

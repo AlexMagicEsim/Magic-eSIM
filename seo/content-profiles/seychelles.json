@@ -104,10 +104,31 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-        "fd269fbf-3e23-4210-b9ff-1354149f4722",
-        "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 15
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "SC",
@@ -127,9 +148,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-        "63f2970f-dfd9-41d0-818e-58a8f69257f7"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "distinct_coverage": true
     },
@@ -160,9 +195,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-        "b395d9eb-57f4-43bd-a79f-a60350e9155c"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "SC",
@@ -215,20 +264,18 @@
       ],
       "terms": {
         "d15": {
-          "package": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
           "block": "local",
-          "days": 15,
           "attrs": {
             "data_gb": 3
-          }
+          },
+          "days": 15
         },
         "d30": {
-          "package": "67ac6675-87be-45ee-a15d-4920970ed0b1",
           "block": "local",
-          "days": 30,
           "attrs": {
             "data_gb": 3
-          }
+          },
+          "days": 30
         }
       },
       "assert": [
@@ -263,7 +310,6 @@
           }
         },
         "v": {
-          "package": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -304,7 +350,6 @@
           }
         },
         "v5": {
-          "package": "e33863c2-f452-4378-a337-8081e82f5f00",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -324,7 +369,6 @@
   ],
   "price_refs": {
     "g3_15": {
-      "package": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -332,7 +376,6 @@
       }
     },
     "g3_30": {
-      "package": "67ac6675-87be-45ee-a15d-4920970ed0b1",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -340,7 +383,6 @@
       }
     },
     "g5": {
-      "package": "e33863c2-f452-4378-a337-8081e82f5f00",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -348,7 +390,6 @@
       }
     },
     "g10": {
-      "package": "b4fa60f9-dd49-43c4-8bda-035d87bc8577",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -356,7 +397,6 @@
       }
     },
     "g20": {
-      "package": "bf14a2ae-d906-4fa3-b9b6-3c24e7ab3174",
       "block": "local",
       "attrs": {
         "data_gb": 20,

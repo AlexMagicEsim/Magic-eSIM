@@ -14,6 +14,7 @@
 // fixture that disappears (a claim renamed, a package withdrawn for real) fails
 // loudly with the name to re-point.
 
+import { republish } from './fixture-layout.mjs';
 import { cpSync, mkdtempSync, readFileSync, writeFileSync, rmSync, lstatSync, existsSync, readdirSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -81,8 +82,13 @@ export async function runScenario(mutate, { keep = false, inspect = null } = {})
   try {
     const file = join(dir, 'assets', 'catalog.json');
     const doc = readJson(file);
+    const before = readJson(file);
     const ctx = { dir, profile: (slug) => readJson(join(dir, 'seo', 'content-profiles', `${slug}.json`)) };
     const info = mutate(doc, ctx) || {};
+    // The provider moved; the backend lays the pages out again (a withdrawn plan
+    // leaves them, a new one appears where it covers) — the snapshot carries that
+    // layout, and every authored claim is read through it (seo/plan-ref.mjs).
+    if (!info.keepLayout) doc.assortment = republish(before, doc.packages).assortment;
     // The bot writes the count with the packages; a snapshot whose count does
     // not match is refused by every gate (coverage-claims validateCatalog).
     doc.package_count = doc.packages.length;
@@ -92,7 +98,9 @@ export async function runScenario(mutate, { keep = false, inspect = null } = {})
     const tests = parseTap(gates.stdout);
     const pageOf = (slug) => { const f = join(dir, 'esim', slug, 'index.html'); return existsSync(f) ? readFileSync(f, 'utf8') : null; };
     const inspected = inspect ? inspect({ dir, pageOf, doc, info }) : null;
-    return { build: { code: build.code, stderr: build.stderr.slice(-2000) }, tests, failing: tests.filter((t) => !t.ok).map((t) => t.name).sort(), info, inspected, gatesRan: tests.length };
+    const suppressedFile = join(dir, 'seo', 'suppressed-claims.json');
+    const suppressed = existsSync(suppressedFile) ? readJson(suppressedFile).entries : [];
+    return { build: { code: build.code, stderr: build.stderr.slice(-2000) }, tests, failing: tests.filter((t) => !t.ok).map((t) => t.name).sort(), info, inspected, gatesRan: tests.length, suppressed };
   } finally {
     if (!keep) rmSync(dir, { recursive: true, force: true });
   }
