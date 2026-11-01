@@ -33,7 +33,7 @@ import { BLOCK_ICON } from './site-chrome.mjs';
 import { RU_CHECKOUT_MODAL } from './ru-checkout-markup.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { createRequire } from 'node:module';
-import { loadCatalogue, coverageCodes, isRussia, isRestricted, isGlobal, isDaily, countryOffers } from './catalogue-facts.mjs';
+import { isDaily, countryOffers, shownBlocks } from './catalogue-facts.mjs';
 import { EXPERIMENT_ENDED } from './frozen-pages.mjs'; // the experiment's ten have the common structure since that date // live catalogue numbers (stage C) skip the SEO pilot / control
 import { renderAuthored, readRawProfile, loadPublishedCatalogue } from './page-claims.mjs';
 import { buildDictionaryGen } from './build-country-dictionary.mjs';
@@ -148,13 +148,14 @@ function localBlockWhere(c) {
  * the packages the page actually shows. seo/test-faq-template-claims.mjs holds
  * every page to it.
  */
-const PACKAGES = loadCatalogue();
 // The published layout every authored reference is resolved on (seo/plan-ref.mjs).
 let CATALOGUE_DOC;
 try { CATALOGUE_DOC = loadPublishedCatalogue(); } catch (e) { console.error(`ОШИБКА: ${e.message}`); process.exit(1); }
+// The cards the page shows — the published layout (seo/catalogue-facts.mjs shownBlocks), the one view every
+// generated number on a country page is computed from.
 function shownOn(iso) {
-  return PACKAGES.filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0
-    && coverageCodes(p).includes(iso) && !isGlobal(p));
+  const b = shownBlocks(CATALOGUE_DOC, iso);
+  return [...b.local, ...b.regional, ...b.daily];
 }
 function dailyTerms(iso) {
   const daily = shownOn(iso).filter(isDaily);
@@ -280,7 +281,7 @@ function seoPilot(c, p) {
     if (/\d[\d\s ]*₽/.test(sp[k])) throw new Error(`${c.slug}: seo_pilot.${k} содержит цену — цены считает генератор`);
   }
   if (p.title || p.description) throw new Error(`${c.slug}: при seo_pilot title и description собирает генератор — уберите их из профиля`);
-  const o = countryOffers(PACKAGES, c.iso);
+  const o = countryOffers(CATALOGUE_DOC, c.iso);
   if (o.local.length !== c.local_count || o.regional.count !== c.regional_count || o.daily.count !== c.daily_count
     || o.all.count !== c.total_count || o.all.min !== c.min_price_rub) {
     throw new Error(`${c.slug}: countryOffers разошёлся с countryFacts — статический блок описал бы другой набор тарифов`);

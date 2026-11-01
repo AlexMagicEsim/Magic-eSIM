@@ -15,7 +15,9 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES, flagEmoji } from './country-names.mjs';
-import { countryFacts } from './catalogue-facts.mjs';
+import { countryFacts, hasCountryPage } from './catalogue-facts.mjs';
+import { loadPublishedCatalogue } from './page-claims.mjs';
+import { unresolvedLayoutIds } from './plan-ref.mjs';
 import { COVERAGE_ONLY_CODES } from './coverage-only-territories.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -75,10 +77,19 @@ export function localCatalogueCountries(file = join(ROOT, 'assets/catalog.json')
   const d = JSON.parse(readFileSync(file, 'utf8'));
   const packages = Array.isArray(d.packages) ? d.packages : [];
   if (packages.length === 0) throw new Error(`${file} не содержит пакетов`);
-  return catalogueCountries(packages, {
-    source: 'assets/catalog.json',
-    fetched_at: d.generated_at || null,
-  });
+  return checkedCountries(d, { source: 'assets/catalog.json', fetched_at: d.generated_at || null });
+}
+
+/** catalogueCountries over a snapshot that is trusted, laid out and complete — or a thrown error, nothing written. */
+function checkedCountries(d, provenance) {
+  // Trusted, laid out, every id resolved, no card repeated (seo/page-claims.mjs).
+  if (provenance.source === 'assets/catalog.json') loadPublishedCatalogue(null, { doc: d, pages: [] });
+  else { const bad = unresolvedLayoutIds(d); if (!bad || bad.length) throw new Error('ответ API без полной раскладки assortment.countries — каталог неполный'); }
+  const out = catalogueCountries(d, provenance);
+  // Every page the snapshot calls for must show a card: the backend never empties a country that sells plans.
+  const empty = out.countries.filter((c) => c.total_count === 0).map((c) => c.iso);
+  if (empty.length) throw new Error(`раскладка каталога без карточек для ${empty.length} стран со страницами (${empty.slice(0, 5).join(', ')}) — каталог неполный`);
+  return out;
 }
 
 export async function fetchCatalogueCountries() {
@@ -86,10 +97,17 @@ export async function fetchCatalogueCountries() {
   if (!res.ok) throw new Error(`catalogue API ${res.status}`);
   const body = await res.json();
   const packages = Array.isArray(body.data) ? body.data : [];
-  return catalogueCountries(packages, { source: API, fetched_at: new Date().toISOString() });
+  const doc = { packages, assortment: body.assortment || null };
+  return checkedCountries(doc, { source: API, fetched_at: new Date().toISOString() });
 }
 
-export function catalogueCountries(packages, provenance) {
+/**
+ * @param doc  the catalogue snapshot: packages + the published layout. WHICH countries
+ *             get a page is hasCountryPage() (the storefront's rule, unchanged); every
+ *             NUMBER of a page comes from countryFacts() — the cards the layout shows.
+ */
+export function catalogueCountries(doc, provenance) {
+  const packages = Array.isArray(doc && doc.packages) ? doc.packages : [];
   const byCountry = new Map();
   for (const p of packages) {
     const cov = coverage(p);
@@ -136,7 +154,6 @@ export function catalogueCountries(packages, provenance) {
     if (NO_PAGE.has(iso)) continue;
     const meta = COUNTRY_NAMES[iso];
     if (!meta) { unnamed.push(iso); continue; }
-    const f = countryFacts(packages, iso);
     // A page for a country whose grid renders NOTHING is a soft 404 with a
     // commercial title. Four existed: RU, BY, UA and VI — each 200, indexable,
     // in the sitemap, in the hub, linked from five neighbours, and never once in
@@ -157,7 +174,10 @@ export function catalogueCountries(packages, provenance) {
     // becomes sellable reappears on the next build, but a build is a hand-run
     // command. seo/test-catalogue-sync.mjs asserts the mapping in BOTH
     // directions so a returning country is a red build rather than a silent 404.
-    if (f.renders_nothing) continue;
+    // (2026-11-01: whether a page EXISTS is still this rule, hasCountryPage; what it
+    // COUNTS is the cards the backend's layout shows, countryFacts.)
+    if (!hasCountryPage(packages, iso)) continue;
+    const f = countryFacts(doc, iso);
     countries.push({
       iso,
       slug: meta.slug,

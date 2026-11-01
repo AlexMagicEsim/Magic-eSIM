@@ -3,19 +3,20 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { loadCatalogue, countryFacts } from './catalogue-facts.mjs';
+import { loadCatalogueDoc, countryFacts } from './catalogue-facts.mjs';
 import { countryPages, generatedPriceProblems } from './generated-prices.mjs';
 
-const PK = loadCatalogue();
+const DOC = loadCatalogueDoc(); // packages + the published layout: the floor of the cards a page shows
+const PK = DOC.packages;
 const PAGES = countryPages();
 
 test('every generated «от N ₽» (meta, og/twitter, JSON-LD, template FAQ, FAQPage) is the catalogue floor', () => {
-  const { problems } = generatedPriceProblems(PAGES, PK);
+  const { problems } = generatedPriceProblems(PAGES, DOC);
   assert.deepEqual(problems, [], problems.join('\n'));
 });
 
 test('the check is not vacuous: the patterns are found on most pages', () => {
-  const { seen } = generatedPriceProblems(PAGES, PK);
+  const { seen } = generatedPriceProblems(PAGES, DOC);
   assert.ok(PAGES.length >= 190, `country pages: ${PAGES.length}`);
   // Authored pages (66) carry their own description and FAQ; the template is on
   // the rest — 132 pages on 2026-10-18.
@@ -25,13 +26,13 @@ test('the check is not vacuous: the patterns are found on most pages', () => {
 test('MUTATION: a page whose meta copy kept an old floor is caught, in every place', () => {
   const page = PAGES.find((p) => /Оплата рублями, QR-код на почту\./.test(p.html) && /Цены начинаются от/.test(p.html));
   assert.ok(page, 'a template page exists');
-  const min = countryFacts(PK, page.iso).min_price_rub;
+  const min = countryFacts(DOC, page.iso).min_price_rub;
   const stale = min + 50;
   const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   const html = page.html.split(`от ${fmt(min)} ₽. Оплата рублями`).join(`от ${fmt(stale)} ₽. Оплата рублями`)
     .split(`Цены начинаются от ${fmt(min)} ₽.`).join(`Цены начинаются от ${fmt(stale)} ₽.`)
     .split(`Цены начинаются от <span data-cat="floor">${fmt(min)} ₽</span>.`).join(`Цены начинаются от <span data-cat="floor">${fmt(stale)} ₽</span>.`);
-  const { problems } = generatedPriceProblems([{ ...page, html }], PK);
+  const { problems } = generatedPriceProblems([{ ...page, html }], DOC);
   for (const where of ['meta description', 'JSON-LD description', 'FAQ', 'FAQPage JSON-LD']) {
     assert.ok(problems.some((p) => p.includes(`${page.slug}: ${where} says «от ${stale} ₽»`)), `${where}: ${problems.join(' | ')}`);
   }
@@ -39,7 +40,7 @@ test('MUTATION: a page whose meta copy kept an old floor is caught, in every pla
 
 test('MUTATION: a catalogue move without a rebuild is caught (the page keeps the old floor)', () => {
   const page = PAGES.find((p) => /Цены начинаются от/.test(p.html));
-  const f = countryFacts(PK, page.iso);
+  const f = countryFacts(DOC, page.iso);
   // Make every package of this country 10 % cheaper: the floor moves, the HTML does not.
   const moved = PK.map((p) => {
     const codes = Array.isArray(p.coverage_country_codes) ? p.coverage_country_codes : [];
@@ -48,8 +49,9 @@ test('MUTATION: a catalogue move without a rebuild is caught (the page keeps the
     if (Array.isArray(p.term_prices)) q.term_prices = p.term_prices.map((t) => ({ ...t, price: Math.round(t.price * 0.9) }));
     return q;
   });
-  const after = countryFacts(moved, page.iso).min_price_rub;
+  const movedDoc = { ...DOC, packages: moved };
+  const after = countryFacts(movedDoc, page.iso).min_price_rub;
   assert.notEqual(after, f.min_price_rub, 'the floor moved');
-  const { problems } = generatedPriceProblems([page], moved);
+  const { problems } = generatedPriceProblems([page], movedDoc);
   assert.ok(problems.some((p) => p.includes(`catalogue floor is ${after} ₽`)), problems.join(' | '));
 });

@@ -29,10 +29,14 @@ import { readFileSync, readdirSync, existsSync, mkdtempSync, writeFileSync, mkdi
 import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { loadCatalogue, countryFacts, purchasablePrice, isDaily, isMultiCountry, isGlobal, isRestricted } from './catalogue-facts.mjs';
+import { loadCatalogueDoc, countryFacts, hasCountryPage, purchasablePrice, isDaily, isMultiCountry, isGlobal, isRestricted } from './catalogue-facts.mjs';
+import { republish } from './fixture-layout.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PK = loadCatalogue();
+// The snapshot with the backend's published layout: every count and floor is of the cards a page SHOWS
+// (seo/catalogue-facts.mjs shownBlocks). A mutation is re-laid the way the backend would (seo/fixture-layout.mjs).
+const DOC = loadCatalogueDoc();
+const PK = DOC.packages;
 
 // ru-RU separates thousands with U+00A0, not a space. A regex with a plain space
 // silently misses every four-digit price — which is most of them.
@@ -79,7 +83,7 @@ test('C1: no page quotes a price that appears in no package', () => {
     const m = html.match(MONEY);
     if (!m) continue;
     const claimed = toNum(m[1]);
-    const f = countryFacts(PK, iso);
+    const f = countryFacts(DOC, iso);
     if (!f.all_prices.has(claimed)) bad.push(`${slug}: ${claimed} ₽ exists in no package covering ${iso}`);
   }
   assert.deepEqual(bad, [], bad.join('\n'));
@@ -95,7 +99,7 @@ test('C2: no page promises a price cheaper than anything buyable', () => {
   for (const { slug, iso, html } of PAGES) {
     const m = html.match(MONEY);
     if (!m) continue;
-    const f = countryFacts(PK, iso);
+    const f = countryFacts(DOC, iso);
     if (f.min_price_rub === null) continue;
     const claimed = toNum(m[1]);
     if (claimed < f.min_price_rub) bait.push(`${slug}: claims ${claimed} ₽, cheapest purchasable is ${f.min_price_rub} ₽`);
@@ -111,7 +115,7 @@ test('C2: the generated facts block quotes exactly the minimum purchasable price
   for (const { slug, iso, html } of PAGES) {
     const m = html.match(FACTS);
     if (!m || !m[4]) continue;
-    const f = countryFacts(PK, iso);
+    const f = countryFacts(DOC, iso);
     if (f.min_price_rub === null) continue;
     if (toNum(m[4]) !== f.min_price_rub) off.push(`${slug}: facts say ${toNum(m[4])} ₽, catalogue minimum is ${f.min_price_rub} ₽`);
     checked += 1;
@@ -120,7 +124,7 @@ test('C2: the generated facts block quotes exactly the minimum purchasable price
   // A markup change once made FACTS match nothing and this test pass by
   // skipping every page (found in stage C, 2026-10-18): the floor must have
   // been READ on every page that sells something.
-  const selling = PAGES.filter(({ iso }) => countryFacts(PK, iso).min_price_rub !== null).length;
+  const selling = PAGES.filter(({ iso }) => countryFacts(DOC, iso).min_price_rub !== null).length;
   assert.equal(checked, selling, `facts floor read on ${checked} of ${selling} selling pages`);
 });
 
@@ -132,7 +136,7 @@ test('C3: no page advertises tariffs it no longer has', () => {
   for (const { slug, iso, html } of PAGES) {
     const m = html.match(FACTS);
     if (!m) continue;
-    const f = countryFacts(PK, iso);
+    const f = countryFacts(DOC, iso);
     const claimedLocal = m[1] ? Number(m[1]) : 0;
     const claimedReg = m[2] ? Number(m[2]) : 0;
     const claimedDaily = m[3] ? Number(m[3]) : 0;
@@ -157,7 +161,7 @@ test('C4b: no page exists for a country whose grid would render nothing', () => 
   // offered «eSIM для поездки» for a destination with nothing to sell.
   const bad = [];
   for (const { slug, iso } of PAGES) {
-    if (countryFacts(PK, iso).renders_nothing) bad.push(`${slug} (${iso}): page exists but its grid would be empty`);
+    if (countryFacts(DOC, iso).renders_nothing) bad.push(`${slug} (${iso}): page exists but its grid would be empty`);
   }
   assert.deepEqual(bad, [], bad.join('\n'));
 });
@@ -178,7 +182,7 @@ test('C4b mirror: every sellable country HAS a page, and no other country does',
   for (const p of PK) {
     for (const iso of (p.coverage_country_codes || [])) {
       if (!/^[A-Z]{2}$/.test(String(iso))) continue;
-      if (!countryFacts(PK, iso).renders_nothing) sellable.add(String(iso).toUpperCase());
+      if (hasCountryPage(PK, iso)) sellable.add(String(iso).toUpperCase());
     }
   }
   const have = new Set(PAGES.map((x) => x.iso));
@@ -386,11 +390,11 @@ function scratch(mutate) {
   const dir = mkdtempSync(join(tmpdir(), 'cat-sync-'));
   const pk = JSON.parse(JSON.stringify(PK));
   mutate(pk);
-  return { dir, pk, clean: () => rmSync(dir, { recursive: true, force: true }) };
+  return { dir, pk, doc: republish(DOC, pk), clean: () => rmSync(dir, { recursive: true, force: true }) };
 }
 
 test('MUTATION: C1 fires on an invented price', () => {
-  const f = countryFacts(PK, 'RS');
+  const f = countryFacts(DOC, 'RS');
   assert.ok(!f.all_prices.has(1), 'precondition: 1 ₽ is not a real Serbian price');
   assert.ok(f.all_prices.has(f.min_price_rub), 'a real price must be recognised');
 });
@@ -402,7 +406,7 @@ test('MUTATION: C2 catches what C1 cannot — a real number that is not purchasa
   //
   // Kenya 500MB/Day: rate 250 ₽, cheapest real term 750 ₽ — and 750 happens to
   // be the country's floor, so quoting 250 would undercut everything on the page.
-  const f = countryFacts(PK, 'KE');
+  const f = countryFacts(DOC, 'KE');
   const shown = PK.filter((p) => !isRestricted(p) && !isGlobal(p) && Number(p.price) > 0)
     .filter((p) => (p.coverage_country_codes || []).includes('KE'));
   const baits = shown.filter((p) => Number(p.price) < f.min_price_rub);
@@ -431,13 +435,13 @@ test('MUTATION: dropping term_prices changes the verdict', () => {
   //
   // A majority cannot be moved by one reprice. The floor is deliberately far
   // below today's number so a normal catalogue week never touches it.
-  const { pk, clean } = scratch((a) => a.forEach((p) => { delete p.term_prices; }));
+  const { doc, clean } = scratch((a) => a.forEach((p) => { delete p.term_prices; }));
   try {
-    const isos = [...new Set(PK.flatMap((p) => p.coverage_country_codes || []))];
+    const isos = Object.keys(DOC.assortment.countries);
     let moved = 0;
     for (const iso of isos) {
-      const before = countryFacts(PK, iso).min_price_rub;
-      const after = countryFacts(pk, iso).min_price_rub;
+      const before = countryFacts(DOC, iso).min_price_rub;
+      const after = countryFacts(doc, iso).min_price_rub;
       if (before !== after) moved += 1;
     }
     assert.ok(moved > isos.length * 0.75,
@@ -449,35 +453,35 @@ test('MUTATION: dropping term_prices changes the verdict', () => {
 });
 
 test('MUTATION: C3 fires when the catalogue loses a tariff', () => {
-  const { pk, clean } = scratch((a) => {
+  const { doc, clean } = scratch((a) => {
     const i = a.findIndex((p) => (p.coverage_country_codes || []).length === 1
       && p.coverage_country_codes[0] === 'RS' && !isDaily(p));
     a.splice(i, 1);
   });
-  assert.equal(countryFacts(pk, 'RS').local_count, countryFacts(PK, 'RS').local_count - 1);
+  assert.equal(countryFacts(doc, 'RS').local_count, countryFacts(DOC, 'RS').local_count - 1);
   clean();
 });
 
 test('MUTATION: the runtime filters are actually applied', () => {
   const iso = 'RS';
-  const base = countryFacts(PK, iso);
+  const base = countryFacts(DOC, iso);
 
   // A global package must be excluded entirely.
   const g = scratch((a) => a.push({ package_id: 'x1', name: 'Global (120+ areas) 3GB', country_code: 'GL-EU',
     coverage_country_codes: [iso], price: 1, plan_type: 'FIXED_VOLUME', data_gb: 3 }));
-  assert.equal(countryFacts(g.pk, iso).total_shown, base.total_shown, 'a GL- package must not be counted');
+  assert.equal(countryFacts(g.doc, iso).total_shown, base.total_shown, 'a GL- package must not be counted');
   g.clean();
 
   // A Russia-named package must be excluded.
   const r = scratch((a) => a.push({ package_id: 'x2', name: 'Russia 5GB', country_code: 'XX',
     coverage_country_codes: [iso], price: 1, plan_type: 'FIXED_VOLUME', data_gb: 5 }));
-  assert.equal(countryFacts(r.pk, iso).total_shown, base.total_shown, 'a Russia package must not be counted');
+  assert.equal(countryFacts(r.doc, iso).total_shown, base.total_shown, 'a Russia package must not be counted');
   r.clean();
 
   // Single-country coverage but a regional NAME lands in regional, not local.
   const e = scratch((a) => a.push({ package_id: 'x3', name: 'Europe 7GB', country_code: 'XX',
     coverage_country_codes: [iso], price: 999, plan_type: 'FIXED_VOLUME', data_gb: 7 }));
-  const ef = countryFacts(e.pk, iso);
+  const ef = countryFacts(e.doc, iso);
   assert.equal(ef.local_count, base.local_count, 'name-based regional must not become local');
   assert.equal(ef.regional_count, base.regional_count + 1, 'it must land in regional');
   e.clean();
@@ -485,11 +489,11 @@ test('MUTATION: the runtime filters are actually applied', () => {
 
 test('MUTATION: a daily plan never lands in the volume counts', () => {
   const iso = 'RS';
-  const base = countryFacts(PK, iso);
+  const base = countryFacts(DOC, iso);
   const d = scratch((a) => a.push({ package_id: 'x4', name: 'Serbia 1GB/Day', country_code: 'RS',
     coverage_country_codes: [iso], price: 100, plan_type: 'DAILY', daily_term_mode: 'PER_DAY',
     daily_gb: 1, data_gb: 0, term_prices: [{ days: 3, price: 300 }] }));
-  const f = countryFacts(d.pk, iso);
+  const f = countryFacts(d.doc, iso);
   assert.equal(f.local_count, base.local_count, 'daily must not inflate local');
   assert.equal(f.regional_count, base.regional_count, 'daily must not inflate regional');
   assert.equal(f.daily_count, base.daily_count + 1, 'daily must be counted as daily');
@@ -499,7 +503,7 @@ test('MUTATION: a daily plan never lands in the volume counts', () => {
 
 test('MUTATION: volumes never carry a daily plan zero', () => {
   for (const { iso } of PAGES) {
-    const f = countryFacts(PK, iso);
+    const f = countryFacts(DOC, iso);
     assert.ok(!f.volumes.includes(0), `${iso}: 0 ГБ leaked into the volume list`);
   }
 });

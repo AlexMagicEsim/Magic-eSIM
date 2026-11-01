@@ -18,7 +18,8 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
-import { purchasablePrice, isRussia, isRestricted, isGlobal, isDaily, RESTRICTED_COUNTRY_CODES, loadCatalogue } from './catalogue-facts.mjs';
+import { purchasablePrice, isDaily, isMultiCountry, RESTRICTED_COUNTRY_CODES, loadCatalogueDoc, shownBlocks, hasCountryPage } from './catalogue-facts.mjs';
+import { loadPublishedCatalogue } from './page-claims.mjs';
 import { isUncounted } from './coverage-only-territories.mjs';
 import { networksByBlock } from './network-claims.mjs';
 
@@ -52,14 +53,22 @@ export async function buildFactSheets() {
   //   A gate has to describe the catalogue the pages describe. Same file, same
   //   loader, no third opinion. CATALOG_API is kept only so a deliberate
   //   experiment can still point elsewhere.
-  const packages = process.env.CATALOG_API
-    ? ((await (await fetch(API, { signal: AbortSignal.timeout(120000) })).json()).data || [])
-    : loadCatalogue();
-  // The page's own layout (assortment.countries) — what each block draws.
-  const layoutDoc = process.env.CATALOG_API ? null : JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8'));
+  const api = process.env.CATALOG_API ? await (await fetch(API, { signal: AbortSignal.timeout(120000) })).json() : null;
+  // The page's own layout (assortment.countries) — what each block draws. Every fact
+  // below is of the cards a page SHOWS (2026-11-01): the coverage view this sheet was
+  // built from blessed figures of plans no page showed (Seychelles «9 регионалных»).
+  const layoutDoc = api ? { packages: api.data || [], assortment: api.assortment || null } : loadCatalogueDoc();
+  // Trusted, laid out, every id resolved, no card repeated — or no sheet is written.
+  loadPublishedCatalogue(null, { doc: layoutDoc, pages: [] });
 
   const byCountry = new Map();
-  for (const p of packages) {
+  const blockCounts = new Map();
+  for (const iso of Object.keys(layoutDoc.assortment.countries)) {
+    // Only countries that have a page: a sheet is what an authored page is checked against.
+    if (!hasCountryPage(layoutDoc.packages, iso)) continue;
+    const b = shownBlocks(layoutDoc, iso);
+    blockCounts.set(iso, { local: b.local.length, regional: b.regional.length, daily: b.daily.length });
+    for (const p of [...b.local, ...b.regional, ...b.daily]) {
     const cov = coverage(p);
     // The PURCHASABLE price, not the raw field. For a PER_DAY plan
     // retail_price_rub is a per-day RATE and one day is not sold — the cheapest
@@ -69,10 +78,8 @@ export async function buildFactSheets() {
     // rates. Same bug catalogue-source.mjs carried until 497f3de, same fix, same
     // shared helper — so the checker and the page now agree by construction.
     const retail = purchasablePrice(p);
-    // And the same visibility rules the grid renders by, so the sheet cannot
-    // bless a number no customer will ever be shown.
-    if (isRussia(p) || isRestricted(p) || isGlobal(p)) continue;
-    if (!cov.length || retail === null || retail <= 0) continue;
+    // The layout IS the visibility rule: a card it lists is one a customer is shown.
+    if (retail === null || retail <= 0) continue;
     // Every rung of a term ladder is a real purchase, and the sheet has to know
     // all of them. `offers` deliberately keeps ONE price per volume — the
     // cheapest — which is right for "what does 5 ГБ cost here". But a DAILY plan
@@ -103,9 +110,8 @@ export async function buildFactSheets() {
       unlimited: p.unlimited === true || /unlimited|безлим/i.test(p.name || ''),
       countries_covered: cov.filter((c) => !isUncounted(c)).length,
     };
-    for (const c of cov) {
-      if (!byCountry.has(c)) byCountry.set(c, { local: [], regional: [] });
-      byCountry.get(c)[cov.length === 1 ? 'local' : 'regional'].push(t);
+    if (!byCountry.has(iso)) byCountry.set(iso, { local: [], regional: [] });
+    byCountry.get(iso)[isMultiCountry(p) ? 'regional' : 'local'].push(t);
     }
   }
 
@@ -135,8 +141,10 @@ export async function buildFactSheets() {
       iso,
       name_ru: meta.ru,
       strategy: e.local.length ? 'LOCAL' : 'REGIONAL',
-      local_count: e.local.length,
-      regional_count: e.regional.length,
+      // The page's own blocks: daily cards are counted apart, never inside local / regional.
+      local_count: blockCounts.get(iso).local,
+      regional_count: blockCounts.get(iso).regional,
+      daily_count: blockCounts.get(iso).daily,
       total_count: all.length,
       min_price_rub: Math.min(...prices),
       max_price_rub: Math.max(...prices),

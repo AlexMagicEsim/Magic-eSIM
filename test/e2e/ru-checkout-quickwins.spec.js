@@ -39,7 +39,7 @@ async function open(page, url = '/esim/turkey/', opts = {}) {
     const req = route.request(); const u = new URL(req.url());
     if (u.pathname === '/api/v1/retail/packages') {
       if (opts.liveDelayMs) await new Promise((r) => setTimeout(r, opts.liveDelayMs));
-      return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', data: CATALOG.packages })) });
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', data: CATALOG.packages, assortment: CATALOG.assortment })) });
     }
     if (req.method() === 'POST' && u.pathname === '/api/v1/retail/promo/quote') {
       const b = JSON.parse(req.postData() || '{}'); st.quotes.push(b);

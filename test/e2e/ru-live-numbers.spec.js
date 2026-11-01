@@ -21,9 +21,10 @@ const SLUG = 'afghanistan';
 const ISO = 'AF';
 const money = (v) => Math.round(Number(v)).toLocaleString('ru-RU');
 
+// The numbers of the cards the page shows: the snapshot's published layout with these packages (prices only move here).
 async function facts(pk) {
   const { countryFacts } = await import(path.join(ROOT, 'seo', 'catalogue-facts.mjs'));
-  return countryFacts(pk, ISO);
+  return countryFacts({ ...SNAPSHOT, packages: pk }, ISO);
 }
 
 // The country's own plans 20 % cheaper — the floor moves; no other page involved.

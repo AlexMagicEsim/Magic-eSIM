@@ -26,7 +26,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { coverageCodes, isRussia, isRestricted, isGlobal, isDaily } from './catalogue-facts.mjs';
+import { coverageCodes, isRussia, isRestricted, isGlobal, isDaily, loadCatalogueDoc, shownBlocks } from './catalogue-facts.mjs';
 import { startRuleProblems, proseOf } from './start-of-term-rules.mjs';
 import * as CR from './content-review.mjs';
 
@@ -37,8 +37,9 @@ const PACKAGES = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf
 const { countries: COUNTRIES } = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8'));
 const read = (f) => readFileSync(join(ROOT, f), 'utf8');
 
-const shownOn = (iso) => PACKAGES.filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0
-  && coverageCodes(p).includes(iso) && !isGlobal(p));
+// The cards the page shows — the published layout, the generator's own view (seo/catalogue-facts.mjs shownBlocks).
+const DOC = loadCatalogueDoc();
+const shownOn = (iso) => { const b = shownBlocks(DOC, iso); return [...b.local, ...b.regional, ...b.daily]; };
 const INSTALL = ['installation', 'upon_installation'];
 const policy = (p) => String(p.activation_policy || '').trim().toLowerCase();
 

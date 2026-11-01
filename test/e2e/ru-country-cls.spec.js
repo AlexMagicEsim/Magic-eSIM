@@ -34,7 +34,7 @@ async function cls(page, url) {
     const u = new URL(route.request().url());
     if (u.pathname === '/api/v1/retail/packages') {
       await new Promise((r) => setTimeout(r, 1500));
-      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(withLayout({ status: 'success', data: CATALOG.packages })) });
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(withLayout({ status: 'success', data: CATALOG.packages, assortment: CATALOG.assortment })) });
     }
     if (route.request().method() !== 'GET') return route.abort();
     return route.fulfill({ status: 204, body: '' });
@@ -64,7 +64,7 @@ test('while loading, the empty plan headings are not on the page; after, they ar
     const u = new URL(route.request().url());
     if (u.pathname === '/api/v1/retail/packages') {
       await gate;
-      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(withLayout({ status: 'success', data: CATALOG.packages })) });
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(withLayout({ status: 'success', data: CATALOG.packages, assortment: CATALOG.assortment })) });
     }
     if (route.request().method() !== 'GET') return route.abort();
     return route.fulfill({ status: 204, body: '' });

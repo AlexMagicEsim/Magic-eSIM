@@ -10,7 +10,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { loadCatalogue, countryFacts, purchasablePrice } from './catalogue-facts.mjs';
+import { loadCatalogueDoc, countryFacts, purchasablePrice } from './catalogue-facts.mjs';
 import { countryPages } from './generated-prices.mjs';
 import { SEO_PILOT_PAGES, SEO_CONTROL_PAGES, isFrozenPage } from './frozen-pages.mjs';
 import { stripLiveCatalogueMarkup } from './build-sitemap.mjs';
@@ -18,7 +18,8 @@ import { stripLiveCatalogueMarkup } from './build-sitemap.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
 const NUMBERS = require('../assets/catalog-numbers.js');
-const PK = loadCatalogue();
+const DOC = loadCatalogueDoc();
+const PK = DOC.packages;
 const PAGES = countryPages();
 const money = (v) => Math.round(Number(v)).toLocaleString('ru-RU');
 
@@ -41,7 +42,7 @@ test('the ten former SEO-experiment pages carry the live markup and load assets/
 test('every other selling page marks its facts line, its template FAQ floor, and loads the script', () => {
   let faq = 0;
   for (const { slug, iso, html } of PAGES) {
-    const f = countryFacts(PK, iso);
+    const f = countryFacts(DOC, iso);
     if (f.min_price_rub === null) continue;
     assert.match(html, /<script src="\/assets\/catalog-numbers\.js\?v=[0-9a-f]+" defer><\/script>\s*<script src="\.\.\/\.\.\/assets\/country-tariffs\.js/, `${slug}: script before country-tariffs.js`);
     assert.ok(html.includes(`<span data-cat-floor>Цены от <b data-cat="floor">${money(f.min_price_rub)} ₽</b>.</span>`), `${slug}: facts floor`);
