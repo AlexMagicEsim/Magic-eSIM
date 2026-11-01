@@ -334,7 +334,7 @@
           }
         },
         "local20": {
-          "package": "127bea68-f065-4e9a-a1fe-fff223d6d573",
+          "package": "d17617c4-585b-4853-aefe-e01ec4a32085",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -372,7 +372,7 @@
           "factor": 2
         }
       ],
-      "note": "Stage B: amounts are substitutions; the claim keeps «local is at least twice cheaper» on 3/5/10 GB and anchors faq[0].a too. 2026-10-25: Caribbean 10 GB left the assortment; faq[0].a now compares 20 GB / 30 days (Dominican Republic 20 GB vs Caribbean 20 GB). 2026-10-25 (later): Caribbean 5 GB is not among the backend's 8 regional cards — the lead's example moved to 3 GB / 15 days (both shown); Dominican Republic 20 GB re-pinned to its successor 127bea68 (same 20 GB / 30 days). 2026-10-25 (R4: same volume, a longer term for less hides the shorter): local and Caribbean 3 GB / 15 days are hidden; the 3 GB example is now local 30 days vs «Americas 3 GB» 30 days (still ≥ 2×)."
+      "note": "Stage B: amounts are substitutions; the claim keeps «local is at least twice cheaper» on 3/5/10 GB and anchors faq[0].a too. 2026-10-25: Caribbean 10 GB left the assortment; faq[0].a now compares 20 GB / 30 days (Dominican Republic 20 GB vs Caribbean 20 GB). 2026-10-25 (later): Caribbean 5 GB is not among the backend's 8 regional cards — the lead's example moved to 3 GB / 15 days (both shown); Dominican Republic 20 GB re-pinned to its successor 127bea68 (same 20 GB / 30 days). 2026-11-01 (backend #124: at an equal retail price the cheaper purchase is shown): the local 20 GB / 30 days slot is now MobiMatter d17617c4 «Dominican Republic 20 GB» (4900 ₽, top-up marked, as 127bea68 was); g20 and local20 re-pinned. 2026-10-25 (R4: same volume, a longer term for less hides the shorter): local and Caribbean 3 GB / 15 days are hidden; the 3 GB example is now local 30 days vs «Americas 3 GB» 30 days (still ≥ 2×)."
     }
   ],
   "price_refs": {
@@ -404,7 +404,7 @@
       }
     },
     "g20": {
-      "package": "127bea68-f065-4e9a-a1fe-fff223d6d573",
+      "package": "d17617c4-585b-4853-aefe-e01ec4a32085",
       "block": "local",
       "attrs": {
         "data_gb": 20,
