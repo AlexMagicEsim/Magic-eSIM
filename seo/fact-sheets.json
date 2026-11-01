@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-29T13:11:29.901Z",
+  "fetched_at": "2026-10-31T05:55:31.430Z",
   "source": "assets/catalog.json",
   "countries": 201,
   "sheets": {
@@ -8,8 +8,8 @@
       "name_ru": "Джерси",
       "strategy": "LOCAL",
       "local_count": 8,
-      "regional_count": 21,
-      "total_count": 29,
+      "regional_count": 20,
+      "total_count": 28,
       "min_price_rub": 200,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -263,8 +263,8 @@
           "JT"
         ]
       },
-      "networks_rows": 21,
-      "rows_total": 29,
+      "networks_rows": 20,
+      "rows_total": 28,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps"
@@ -277,7 +277,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 28,
+      "topup_yes": 27,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -631,7 +631,7 @@
           "Síminn"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 58,
       "fup_policies": [
         "1 Mbps",
@@ -660,8 +660,8 @@
       "name_ru": "Южная Корея",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 42,
-      "total_count": 56,
+      "regional_count": 43,
+      "total_count": 57,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -942,7 +942,7 @@
         ]
       },
       "networks_rows": 26,
-      "rows_total": 56,
+      "rows_total": 57,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -959,7 +959,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 39,
+      "topup_yes": 40,
       "topup_no": 17,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -1300,8 +1300,8 @@
       "name_ru": "Китай",
       "strategy": "LOCAL",
       "local_count": 19,
-      "regional_count": 36,
-      "total_count": 55,
+      "regional_count": 37,
+      "total_count": 56,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -1561,7 +1561,7 @@
         ]
       },
       "networks_rows": 30,
-      "rows_total": 55,
+      "rows_total": 56,
       "fup_policies": [
         "128 Kbps",
         "384 Kbps",
@@ -1579,7 +1579,7 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 34,
-      "topup_no": 21,
+      "topup_no": 22,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
       "daily_throttle_continues": false,
@@ -1927,7 +1927,7 @@
           "Tele2"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -6320,7 +6320,7 @@
           "Tele2"
         ]
       },
-      "networks_rows": 32,
+      "networks_rows": 31,
       "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
@@ -7034,7 +7034,7 @@
           "TDC"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -8337,7 +8337,7 @@
           "Eir"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
@@ -8918,8 +8918,8 @@
       "name_ru": "Макао",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 33,
-      "total_count": 46,
+      "regional_count": 34,
+      "total_count": 47,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -9165,7 +9165,7 @@
         ]
       },
       "networks_rows": 31,
-      "rows_total": 46,
+      "rows_total": 47,
       "fup_policies": [
         "128 Kbps",
         "384 Kbps",
@@ -9182,7 +9182,7 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 35,
-      "topup_no": 11,
+      "topup_no": 12,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -9194,8 +9194,8 @@
       "name_ru": "Гонконг",
       "strategy": "LOCAL",
       "local_count": 13,
-      "regional_count": 41,
-      "total_count": 54,
+      "regional_count": 42,
+      "total_count": 55,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -9455,7 +9455,7 @@
         ]
       },
       "networks_rows": 30,
-      "rows_total": 54,
+      "rows_total": 55,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -9472,7 +9472,7 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 43,
-      "topup_no": 11,
+      "topup_no": 12,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -10284,7 +10284,7 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 34,
+      "networks_rows": 33,
       "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
@@ -11011,7 +11011,7 @@
           "FL1"
         ]
       },
-      "networks_rows": 32,
+      "networks_rows": 31,
       "rows_total": 57,
       "fup_policies": [
         "1 Mbps",
@@ -11040,8 +11040,8 @@
       "name_ru": "Остров Мэн",
       "strategy": "LOCAL",
       "local_count": 9,
-      "regional_count": 21,
-      "total_count": 30,
+      "regional_count": 20,
+      "total_count": 29,
       "min_price_rub": 250,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -11295,8 +11295,8 @@
           "Pronto GSM"
         ]
       },
-      "networks_rows": 22,
-      "rows_total": 30,
+      "networks_rows": 21,
+      "rows_total": 29,
       "fup_policies": [
         "384 Kbps"
       ],
@@ -11308,7 +11308,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 28,
+      "topup_yes": 27,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -13072,7 +13072,7 @@
           "Telia"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 58,
       "fup_policies": [
         "1 Mbps",
@@ -14664,7 +14664,7 @@
           "movistar"
         ]
       },
-      "networks_rows": 11,
+      "networks_rows": 10,
       "rows_total": 21,
       "fup_policies": [
         "1 Mbps",
@@ -17299,7 +17299,7 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -17330,8 +17330,8 @@
       "name_ru": "Северная Македония",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 25,
-      "total_count": 37,
+      "regional_count": 24,
+      "total_count": 36,
       "min_price_rub": 300,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -17607,8 +17607,8 @@
           "vip"
         ]
       },
-      "networks_rows": 25,
-      "rows_total": 37,
+      "networks_rows": 24,
+      "rows_total": 36,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -17622,7 +17622,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 35,
+      "topup_yes": 34,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -18159,7 +18159,7 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -18529,7 +18529,7 @@
           "A1.net"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
@@ -18901,7 +18901,7 @@
           "Proximus"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -19278,7 +19278,7 @@
           "Vivacom"
         ]
       },
-      "networks_rows": 32,
+      "networks_rows": 31,
       "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
@@ -19309,8 +19309,8 @@
       "name_ru": "Кипр",
       "strategy": "LOCAL",
       "local_count": 12,
-      "regional_count": 50,
-      "total_count": 62,
+      "regional_count": 49,
+      "total_count": 61,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -19645,8 +19645,8 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 33,
-      "rows_total": 62,
+      "networks_rows": 32,
+      "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -19662,7 +19662,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 56,
+      "topup_yes": 55,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -20012,7 +20012,7 @@
           "Telia"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -20378,7 +20378,7 @@
           "DNA"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -20752,7 +20752,7 @@
           "Orange"
         ]
       },
-      "networks_rows": 27,
+      "networks_rows": 26,
       "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
@@ -21121,7 +21121,7 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 34,
+      "networks_rows": 33,
       "rows_total": 63,
       "fup_policies": [
         "1 Mbps",
@@ -21152,8 +21152,8 @@
       "name_ru": "Греция",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 50,
-      "total_count": 64,
+      "regional_count": 49,
+      "total_count": 63,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -21490,8 +21490,8 @@
           "Wind"
         ]
       },
-      "networks_rows": 34,
-      "rows_total": 64,
+      "networks_rows": 33,
+      "rows_total": 63,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -21508,7 +21508,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 58,
+      "topup_yes": 57,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -21860,7 +21860,7 @@
           "Wind"
         ]
       },
-      "networks_rows": 34,
+      "networks_rows": 33,
       "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
@@ -22227,7 +22227,7 @@
           "Telia"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -22596,7 +22596,7 @@
           "Tango"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -22964,7 +22964,7 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 31,
+      "networks_rows": 30,
       "rows_total": 59,
       "fup_policies": [
         "1 Mbps",
@@ -23123,7 +23123,7 @@
         650,
         700,
         800,
-        900,
+        850,
         950,
         1050,
         1100,
@@ -23134,6 +23134,7 @@
         1400,
         1450,
         1550,
+        1600,
         1650,
         1700,
         1750,
@@ -23152,6 +23153,7 @@
         2700,
         2750,
         2850,
+        2900,
         3000,
         3200,
         3300,
@@ -23332,7 +23334,7 @@
           "Play"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -23703,7 +23705,7 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 62,
       "fup_policies": [
         "1 Mbps",
@@ -24071,7 +24073,7 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -24440,7 +24442,7 @@
           "Orange"
         ]
       },
-      "networks_rows": 32,
+      "networks_rows": 31,
       "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
@@ -24806,7 +24808,7 @@
           "Telemach"
         ]
       },
-      "networks_rows": 33,
+      "networks_rows": 32,
       "rows_total": 61,
       "fup_policies": [
         "1 Mbps",
@@ -25181,7 +25183,7 @@
           "Orange"
         ]
       },
-      "networks_rows": 34,
+      "networks_rows": 33,
       "rows_total": 67,
       "fup_policies": [
         "1 Mbps",
@@ -25550,7 +25552,7 @@
           "Telia"
         ]
       },
-      "networks_rows": 32,
+      "networks_rows": 31,
       "rows_total": 60,
       "fup_policies": [
         "1 Mbps",
@@ -25920,7 +25922,7 @@
           "Sunrise"
         ]
       },
-      "networks_rows": 34,
+      "networks_rows": 33,
       "rows_total": 59,
       "fup_policies": [
         "1 Mbps",
@@ -25950,8 +25952,8 @@
       "name_ru": "Турция",
       "strategy": "LOCAL",
       "local_count": 14,
-      "regional_count": 46,
-      "total_count": 60,
+      "regional_count": 45,
+      "total_count": 59,
       "min_price_rub": 150,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -26269,8 +26271,8 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 27,
-      "rows_total": 60,
+      "networks_rows": 26,
+      "rows_total": 59,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -26284,7 +26286,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 58,
+      "topup_yes": 57,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -26651,7 +26653,7 @@
           "EE"
         ]
       },
-      "networks_rows": 34,
+      "networks_rows": 33,
       "rows_total": 65,
       "fup_policies": [
         "1 Mbps",
@@ -26684,8 +26686,8 @@
       "name_ru": "Ватикан",
       "strategy": "LOCAL",
       "local_count": 10,
-      "regional_count": 18,
-      "total_count": 28,
+      "regional_count": 19,
+      "total_count": 29,
       "min_price_rub": 150,
       "max_price_rub": 7350,
       "validity_days_min": 0,
@@ -26951,7 +26953,7 @@
         ]
       },
       "networks_rows": 15,
-      "rows_total": 28,
+      "rows_total": 29,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -26965,7 +26967,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 26,
+      "topup_yes": 27,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -27292,8 +27294,8 @@
       "name_ru": "Тайвань",
       "strategy": "LOCAL",
       "local_count": 4,
-      "regional_count": 25,
-      "total_count": 29,
+      "regional_count": 26,
+      "total_count": 30,
       "min_price_rub": 550,
       "max_price_rub": 10450,
       "validity_days_min": 0,
@@ -27417,6 +27419,7 @@
         2350,
         2650,
         2700,
+        2750,
         3000,
         3100,
         3250,
@@ -27521,7 +27524,7 @@
         ]
       },
       "networks_rows": 5,
-      "rows_total": 29,
+      "rows_total": 30,
       "fup_policies": [
         "128 Kbps",
         "384 Kbps"
@@ -27537,7 +27540,7 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 19,
-      "topup_no": 10,
+      "topup_no": 11,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -28220,8 +28223,8 @@
       "name_ru": "Япония",
       "strategy": "LOCAL",
       "local_count": 20,
-      "regional_count": 36,
-      "total_count": 56,
+      "regional_count": 37,
+      "total_count": 57,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -28504,7 +28507,7 @@
         ]
       },
       "networks_rows": 28,
-      "rows_total": 56,
+      "rows_total": 57,
       "fup_policies": [
         "1 Mbps",
         "128 Kbps",
@@ -28523,7 +28526,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 39,
+      "topup_yes": 40,
       "topup_no": 17,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -30295,19 +30298,24 @@
         "regional": [
           "3",
           "AirTel",
+          "Asia Cell",
           "CTM",
           "CelcomDigi",
           "China Unicom",
           "DTAC",
+          "Du",
+          "Etisalat",
           "Globe",
           "IDEA",
           "Jio",
           "KDDI/au",
+          "Korek",
           "M1",
           "Maxis",
           "Metfone",
           "MobiFone",
           "Mobily",
+          "Ooredoo",
           "Optus",
           "Pelephone",
           "SKTelecom",
@@ -30322,7 +30330,9 @@
           "Vietnamobile",
           "Viettel Mobile",
           "Vodafone",
-          "csl"
+          "Zain",
+          "csl",
+          "ooredoo"
         ],
         "daily": [
           "Ooredoo",
@@ -32007,8 +32017,8 @@
       "name_ru": "Сербия",
       "strategy": "LOCAL",
       "local_count": 11,
-      "regional_count": 33,
-      "total_count": 44,
+      "regional_count": 32,
+      "total_count": 43,
       "min_price_rub": 200,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -32257,8 +32267,8 @@
           "VIP"
         ]
       },
-      "networks_rows": 24,
-      "rows_total": 44,
+      "networks_rows": 23,
+      "rows_total": 43,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -32272,7 +32282,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 42,
+      "topup_yes": 41,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -35108,19 +35118,24 @@
         "regional": [
           "3",
           "AirTel",
+          "Asia Cell",
           "CTM",
           "CelcomDigi",
           "China Unicom",
           "DTAC",
+          "Du",
+          "Etisalat",
           "Globe",
           "IDEA",
           "Jio",
           "KDDI/au",
+          "Korek",
           "M1",
           "Maxis",
           "Metfone",
           "MobiFone",
           "Mobily",
+          "Ooredoo",
           "Optus",
           "Pelephone",
           "SKTelecom",
@@ -35135,7 +35150,9 @@
           "Vietnamobile",
           "Viettel Mobile",
           "Vodafone",
-          "csl"
+          "Zain",
+          "csl",
+          "ooredoo"
         ],
         "daily": [
           "STC"
@@ -36982,8 +36999,8 @@
       "name_ru": "Сан-Марино",
       "strategy": "LOCAL",
       "local_count": 10,
-      "regional_count": 14,
-      "total_count": 24,
+      "regional_count": 15,
+      "total_count": 25,
       "min_price_rub": 150,
       "max_price_rub": 3700,
       "validity_days_min": 0,
@@ -37232,7 +37249,7 @@
         ]
       },
       "networks_rows": 15,
-      "rows_total": 24,
+      "rows_total": 25,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -37245,7 +37262,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 24,
+      "topup_yes": 25,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -37258,8 +37275,8 @@
       "name_ru": "Гибралтар",
       "strategy": "LOCAL",
       "local_count": 8,
-      "regional_count": 15,
-      "total_count": 23,
+      "regional_count": 14,
+      "total_count": 22,
       "min_price_rub": 200,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -37557,8 +37574,8 @@
           "bob"
         ]
       },
-      "networks_rows": 23,
-      "rows_total": 23,
+      "networks_rows": 22,
+      "rows_total": 22,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -37570,7 +37587,7 @@
       "activation_labels": [
         "с первого подключения к сети"
       ],
-      "topup_yes": 22,
+      "topup_yes": 21,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -39552,8 +39569,8 @@
       "name_ru": "Гернси",
       "strategy": "LOCAL",
       "local_count": 4,
-      "regional_count": 16,
-      "total_count": 20,
+      "regional_count": 15,
+      "total_count": 19,
       "min_price_rub": 600,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -39844,8 +39861,8 @@
           "Ålcom"
         ]
       },
-      "networks_rows": 12,
-      "rows_total": 20,
+      "networks_rows": 11,
+      "rows_total": 19,
       "fup_policies": [
         "384 Kbps"
       ],
@@ -39857,7 +39874,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 19,
+      "topup_yes": 18,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -39870,8 +39887,8 @@
       "name_ru": "Аландские острова",
       "strategy": "LOCAL",
       "local_count": 9,
-      "regional_count": 13,
-      "total_count": 22,
+      "regional_count": 12,
+      "total_count": 21,
       "min_price_rub": 300,
       "max_price_rub": 12250,
       "validity_days_min": 0,
@@ -40120,8 +40137,8 @@
           "Ålcom"
         ]
       },
-      "networks_rows": 22,
-      "rows_total": 22,
+      "networks_rows": 21,
+      "rows_total": 21,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -40134,7 +40151,7 @@
       "activation_labels": [
         "с первого подключения к сети"
       ],
-      "topup_yes": 20,
+      "topup_yes": 19,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
