@@ -35,6 +35,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isUncounted } from './coverage-only-territories.mjs';
+import { publishedBlocks } from './plan-ref.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -136,25 +137,57 @@ export function loadCatalogue(file = join(ROOT, 'assets/catalog.json')) {
   return Array.isArray(d.packages) ? d.packages : [];
 }
 
-/**
- * What /esim/<slug>/ may claim, derived the way the browser derives it.
- *
- * The order matters and mirrors renderCountrySplit(): drop the packages the page
- * will never show, THEN lift the dailies out, THEN split what is left into local
- * and regional. Counting before the lift is how the old numbers came to describe
- * a grid nobody renders.
- */
-export function countryFacts(packages, iso) {
-  const code = String(iso || '').trim().toUpperCase();
-  const shown = packages
-    .filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0)
-    .filter((p) => coverageCodes(p).includes(code))
-    .filter((p) => !isGlobal(p));
+/** The whole snapshot — packages AND the backend's published layout — for countryFacts / countryOffers. */
+export function loadCatalogueDoc(file = join(ROOT, 'assets/catalog.json')) {
+  return JSON.parse(readFileSync(file, 'utf8'));
+}
 
-  const daily = shown.filter(isDaily);
-  const volume = shown.filter((p) => !isDaily(p));
-  const local = volume.filter((p) => !isMultiCountry(p));
-  const regional = volume.filter((p) => isMultiCountry(p));
+/**
+ * The cards /esim/<iso>/ shows, by block — the backend's PUBLISHED layout
+ * (assets/catalog.json `assortment.countries`, seo/plan-ref.mjs), exactly what
+ * assets/country-tariffs.js draws (through assets/assortment-view.js).
+ *
+ * WHY (2026-11-01). countryFacts used to rebuild the page from coverage codes:
+ * every visible package whose coverage named the country. Since the backend
+ * decides the assortment (R1–R5, the regional cap of 8, the cheaper purchase
+ * among look-alikes) that view is not the page: on 175 of 199 pages a generated
+ * number disagreed with the grid — Seychelles' FAQ said «региональных … 9»
+ * above five regional cards, Italy's description 42 regional plans above eight.
+ * The numbers a page prints now count the cards it shows, and nothing else.
+ *
+ * A package list (no layout) is refused: there is no second way to say what a
+ * page shows.
+ */
+export function shownBlocks(doc, iso) {
+  if (!doc || Array.isArray(doc) || !doc.assortment) throw new Error('countryFacts / countryOffers: нужен снимок каталога с раскладкой assortment.countries (assets/catalog.json), а не список пакетов');
+  return publishedBlocks(doc, String(iso || '').trim().toUpperCase()) || { local: [], regional: [], daily: [] };
+}
+
+/**
+ * Whether /esim/<iso>/ exists at all — the storefront's page rule, NOT a count:
+ * a country with a visible package that names it (Russia rows, RU/UA/BY and
+ * worldwide plans dropped). Kept as it was, so the set of URLs does not move;
+ * five countries the layout fills only with worldwide cards (AN, KT, LS, NC, TG
+ * on 2026-11-01) have no page — an owner decision, not this file's.
+ */
+export function hasCountryPage(packages, iso) {
+  const code = String(iso || '').trim().toUpperCase();
+  return packages.some((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0 && coverageCodes(p).includes(code) && !isGlobal(p));
+}
+
+/**
+ * What /esim/<slug>/ may claim about its assortment: counts, floor, volumes and
+ * per-day allowances — of the cards the page shows (shownBlocks), block by block.
+ * Daily cards are their own block, never folded into local / regional.
+ */
+export function countryFacts(doc, iso) {
+  const code = String(iso || '').trim().toUpperCase();
+  const b = shownBlocks(doc, code);
+  const daily = b.daily;
+  const local = b.local;
+  const regional = b.regional;
+  const volume = [...local, ...regional];
+  const shown = [...local, ...regional, ...daily];
 
   const prices = shown.map(purchasablePrice).filter((n) => Number.isFinite(n) && n > 0);
 
@@ -167,14 +200,10 @@ export function countryFacts(packages, iso) {
   );
 
   // Volume plans only. A daily plan's data_gb is 0 — its real allowance lives in
-  // daily_gb and is a per-day figure, a different unit. Letting 0 into this list
-  // is what a naive refresh would do, and 194 pages would have offered «тарифы
-  // на 0 ГБ».
+  // daily_gb and is a per-day figure, a different unit.
   const volumes = [...new Set(volume.map((p) => Number(p.data_gb)).filter((n) => Number.isFinite(n) && n > 0))]
     .sort((a, b) => a - b);
-
-  // Per-day allowances, the daily block's own unit. Kept separate for the same
-  // reason the renderer keeps the blocks separate.
+  // Per-day allowances, the daily block's own unit.
   const dailyGb = [...new Set(daily.map((p) => Number(p.daily_gb)).filter((n) => Number.isFinite(n) && n > 0))]
     .sort((a, b) => a - b);
 
@@ -188,11 +217,8 @@ export function countryFacts(packages, iso) {
     volumes,
     daily_gb: dailyGb,
     all_prices: allPrices,
-    // REGIONAL when nothing single-country is on offer; the page says so in as
-    // many words rather than rendering an empty block.
+    // REGIONAL when nothing single-country is on offer.
     strategy: local.length > 0 ? 'LOCAL' : 'REGIONAL',
-    // Nothing at all would render. Four pages are in this state today and each
-    // is live, indexable and in the sitemap.
     renders_nothing: shown.length === 0,
   };
 }
@@ -201,25 +227,21 @@ export function countryFacts(packages, iso) {
  * The offers a country page shows, as rows — for the static price block of the
  * SEO-pilot pages (seo/build-catalogue-pages.mjs) and its Product/AggregateOffer.
  *
- * SAME CHAIN as countryFacts(), on purpose: drop what the page never shows, lift
- * the dailies out, split the rest into local and regional. The counts this returns
+ * SAME BLOCKS as countryFacts(), on purpose: the cards the page shows
+ * (shownBlocks — the published layout). The counts this returns
  * are asserted equal to countryFacts() by the caller, so the static block can
  * never describe a different set than the hero and the live grid do.
  *
  * Every price is purchasablePrice() — the lowest amount the customer can actually
  * pay for that package — never a per-day rate. No second source: the rows come
- * from assets/catalog.json, the same snapshot every other number on the page uses.
+ * from assets/catalog.json's layout, the same cards every other number on the page counts.
  */
-export function countryOffers(packages, iso) {
-  const code = String(iso || '').trim().toUpperCase();
-  const shown = packages
-    .filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0)
-    .filter((p) => coverageCodes(p).includes(code))
-    .filter((p) => !isGlobal(p));
-  const daily = shown.filter(isDaily);
-  const volume = shown.filter((p) => !isDaily(p));
-  const local = volume.filter((p) => !isMultiCountry(p));
-  const regional = volume.filter((p) => isMultiCountry(p));
+export function countryOffers(doc, iso) {
+  const b = shownBlocks(doc, iso);
+  const daily = b.daily;
+  const local = b.local;
+  const regional = b.regional;
+  const shown = [...local, ...regional, ...daily];
   const range = (list) => {
     const v = list.map(purchasablePrice).filter((n) => Number.isFinite(n) && n > 0);
     return { count: list.length, min: v.length ? Math.min(...v) : null, max: v.length ? Math.max(...v) : null };

@@ -18,14 +18,15 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadCatalogue, countryFacts, countryOffers, coverageCodes, purchasablePrice, isDaily } from './catalogue-facts.mjs';
+import { loadCatalogueDoc, countryFacts, countryOffers, coverageCodes, purchasablePrice, isDaily } from './catalogue-facts.mjs';
 import { EDITORIAL_KEYS } from './content-profile.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PILOT = ['uae', 'egypt', 'georgia', 'uzbekistan', 'italy'];
 const CONTROL = ['cyprus', 'spain', 'usa', 'albania', 'kyrgyzstan'];
-const PACKAGES = loadCatalogue();
+const DOC = loadCatalogueDoc(); // packages + the published layout
+const PACKAGES = DOC.packages;
 const ISO = Object.fromEntries(Object.entries(COUNTRY_NAMES).map(([iso, e]) => [e.slug, iso]));
 
 const html = (slug) => readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf8');
@@ -64,7 +65,7 @@ test('no other country page has a price block or a Product — the control group
 
 for (const slug of PILOT) {
   test(`${slug}: title, H1, canonical, description — commercial intent, catalogue floor`, () => {
-    const h = html(slug); const p = profile(slug); const f = countryFacts(PACKAGES, ISO[slug]);
+    const h = html(slug); const p = profile(slug); const f = countryFacts(DOC, ISO[slug]);
     const title = h.match(/<title>([^<]*)<\/title>/)[1];
     assert.equal(title, `${p.seo_pilot.name} — тарифы и цены от ${money(f.min_price_rub)} ₽ | Magic eSIM`);
     assert.ok(title.length <= 70, `title ${title.length} chars`);
@@ -80,7 +81,7 @@ for (const slug of PILOT) {
   });
 
   test(`${slug}: the static price block lists exactly the catalogue's local tariffs and ranges`, () => {
-    const h = html(slug); const o = countryOffers(PACKAGES, ISO[slug]);
+    const h = html(slug); const o = countryOffers(DOC, ISO[slug]);
     const block = h.match(/<section class="cp-sec prices" id="prices"[\s\S]*?<\/section>/)[0];
     const rows = [...block.matchAll(/<li>([^<]*) — <b>([^<]*) ₽<\/b><\/li>/g)].map((m) => `${m[1]}=${m[2]}`);
     assert.equal(rows.length, o.local.length);
@@ -90,7 +91,7 @@ for (const slug of PILOT) {
   });
 
   test(`${slug}: Product/AggregateOffer says exactly what the block shows`, () => {
-    const g = graph(html(slug)); const o = countryOffers(PACKAGES, ISO[slug]);
+    const g = graph(html(slug)); const o = countryOffers(DOC, ISO[slug]);
     const prod = g.filter((x) => x['@type'] === 'Product');
     assert.equal(prod.length, 1);
     assert.deepEqual(
@@ -101,7 +102,7 @@ for (const slug of PILOT) {
   });
 
   test(`${slug}: the price question is in the visible FAQ and in FAQPage, with catalogue numbers`, () => {
-    const h = html(slug); const p = profile(slug); const o = countryOffers(PACKAGES, ISO[slug]);
+    const h = html(slug); const p = profile(slug); const o = countryOffers(DOC, ISO[slug]);
     const faq = graph(h).find((x) => x['@type'] === 'FAQPage').mainEntity;
     const q = faq.find((x) => x.name === p.seo_pilot.price_question);
     assert.ok(q, 'in FAQPage');

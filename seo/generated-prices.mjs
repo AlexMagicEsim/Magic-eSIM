@@ -55,6 +55,7 @@ function parts(html) {
  * @returns {{ problems: string[], seen: { meta: number, ldMeta: number, faq: number, ldFaq: number } }}
  */
 export function generatedPriceProblems(pages, packages) {
+  // `packages` is the snapshot (packages + layout): the floor is that of the cards the page shows.
   const problems = [];
   const seen = { meta: 0, ldMeta: 0, faq: 0, ldFaq: 0 };
   for (const { slug, iso, html } of pages) {

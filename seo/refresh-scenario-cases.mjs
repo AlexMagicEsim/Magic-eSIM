@@ -5,7 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { ROOT, readJson, countryPageSlugs } from './refresh-scenarios.mjs';
-import { countryFacts } from './catalogue-facts.mjs';
+import { countryFacts, purchasablePrice } from './catalogue-facts.mjs';
 import { isoOfSlug } from './coverage-claims.mjs';
 import { publishedBlocks, selectPlan } from './plan-ref.mjs';
 
@@ -45,15 +45,16 @@ const termPrice = (p, days) => (Array.isArray(p.term_prices) ? (p.term_prices.fi
  * country alone — so moving that country's own plans moves the floor and
  * touches no other page. The first such slug, alphabetically.
  */
-export function templateFixture(packages = CATALOG().packages) {
+export function templateFixture(doc = CATALOG()) {
+  const packages = doc.packages;
   for (const slug of countryPageSlugs().sort()) {
     if (existsSync(profilePath(slug))) continue;
     const iso = isoOfPage(slug);
     if (!iso) continue;
     const own = packages.filter((p) => only(p, iso));
     if (own.length < 3) continue;
-    const f = countryFacts(packages, iso);
-    const ownMin = countryFacts(own, iso).min_price_rub;
+    const f = countryFacts(doc, iso);
+    const ownMin = Math.min(...own.map(purchasablePrice).filter((n) => n > 0));
     if (f.min_price_rub !== null && ownMin === f.min_price_rub) return { slug, iso, floor: f.min_price_rub, count: own.length };
   }
   throw new Error('no template fixture: no page without a profile whose floor is a single-country plan');
@@ -96,12 +97,12 @@ export function cases() {
     {
       name: 'prices DOWN on a template page (no authored text quotes them)',
       mutate: (doc) => { for (const p of doc.packages) if (only(p, tpl.iso)) scale(p, 0.8); return { tpl }; },
-      inspect: ({ pageOf, doc }) => ({ floor: countryFacts(doc.packages, tpl.iso).min_price_rub, html: pageOf(tpl.slug) }),
+      inspect: ({ pageOf, doc }) => ({ floor: countryFacts(doc, tpl.iso).min_price_rub, html: pageOf(tpl.slug) }),
     },
     {
       name: 'prices UP on a template page',
       mutate: (doc) => { for (const p of doc.packages) if (only(p, tpl.iso)) scale(p, 1.3); return { tpl }; },
-      inspect: ({ pageOf, doc }) => ({ floor: countryFacts(doc.packages, tpl.iso).min_price_rub, html: pageOf(tpl.slug) }),
+      inspect: ({ pageOf, doc }) => ({ floor: countryFacts(doc, tpl.iso).min_price_rub, html: pageOf(tpl.slug) }),
     },
     {
       name: 'a NEW offer below the floor on a template page',
@@ -112,7 +113,7 @@ export function cases() {
         doc.packages.push(n);
         return { tpl, price: n.price };
       },
-      inspect: ({ pageOf, doc }) => ({ floor: countryFacts(doc.packages, tpl.iso).min_price_rub, html: pageOf(tpl.slug) }),
+      inspect: ({ pageOf, doc }) => ({ floor: countryFacts(doc, tpl.iso).min_price_rub, html: pageOf(tpl.slug) }),
     },
     {
       // Stage B: australia prints this amount through {{price:au_daily_500mb_3d}}.

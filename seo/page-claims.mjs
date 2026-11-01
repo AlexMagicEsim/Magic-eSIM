@@ -66,6 +66,10 @@ export function loadPublishedCatalogue(file = CATALOG_FILE, { doc, pages = pageC
   // Every country with a page must be laid out with at least one card: the backend never empties a country that
   // sells plans, so an empty, partial or collapsed layout is a broken answer — never «these cards are gone».
   const countries = d.assortment.countries;
+  // A card listed twice on one page is a broken answer: the backend deduplicates look-alikes before it lays a page
+  // out, and the browser would draw the repeat as a second card — never count it, never publish from it.
+  const repeated = Object.entries(countries).filter(([, e]) => { const ids = BLOCKS.flatMap((b) => (e && e[b]) || []); return new Set(ids).size !== ids.length; }).map(([iso]) => iso);
+  if (repeated.length) throw new Error(`раскладка каталога повторяет карточку на странице (${repeated.slice(0, 5).join(', ')}) — каталог повреждён`);
   const empty = pages.filter((iso) => !countries[iso] || !BLOCKS.some((b) => (countries[iso][b] || []).length));
   if (empty.length) throw new Error(`раскладка каталога без карточек для ${empty.length} стран со страницами (${empty.slice(0, 5).join(', ')}${empty.length > 5 ? ', …' : ''}) — каталог неполный`);
   return d;

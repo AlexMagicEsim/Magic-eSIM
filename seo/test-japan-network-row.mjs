@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadCatalogue, coverageCodes, countryFacts, isRussia, isRestricted, isGlobal, isDaily } from './catalogue-facts.mjs';
+import { loadCatalogueDoc, shownBlocks, coverageCodes, countryFacts, isDaily } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOCK_RE = /\/\* --- TARIFF DISPLAY MAPPERS[\s\S]*?END TARIFF DISPLAY MAPPERS -+ \*\//;
@@ -22,16 +22,16 @@ const { tariffNetworkLabel } = new Function(
 
 const SENTENCE = 'В строке «Сеть» карточки указаны поддерживаемые поколения: у всех тарифов только для Японии в ней есть 4G, у большинства — ещё и 5G.';
 
-const catalogue = loadCatalogue();
-const packages = catalogue.packages || catalogue;
-const shown = packages.filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0
-  && coverageCodes(p).includes('JP') && !isGlobal(p));
+// The cards the Japan page shows — the published layout (seo/catalogue-facts.mjs shownBlocks).
+const catalogue = loadCatalogueDoc();
+const shownJp = shownBlocks(catalogue, 'JP');
+const shown = [...shownJp.local, ...shownJp.regional, ...shownJp.daily];
 const onlyJapan = (p) => { const c = new Set(coverageCodes(p)); return c.size === 1 && c.has('JP'); };
 const label = (p) => tariffNetworkLabel(p);
 const parts = (p) => label(p).split('/').filter(Boolean);
 
 test('the set checked here is the set the Japan page shows', () => {
-  const f = countryFacts(packages, 'JP');
+  const f = countryFacts(catalogue, 'JP');
   assert.equal(shown.length, f.local_count + f.regional_count + f.daily_count);
   assert.ok(shown.length > 0);
 });

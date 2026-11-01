@@ -24,19 +24,18 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { coverageCodes, isRussia, isRestricted, isGlobal } from './catalogue-facts.mjs';
+import { loadCatalogueDoc, shownBlocks } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const D = createRequire(import.meta.url)('../assets/daily-plan-copy.js');
-const PACKAGES = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8')).packages;
+const DOC = loadCatalogueDoc();
 const { countries: COUNTRIES } = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8'));
 const QUESTION = '— есть ли локальные тарифы?';
 
 /** Does this country's page render a «Трафик на каждый день» block? The renderer's rule, not a copy. */
 function rendersDailyBlock(iso) {
-  return PACKAGES
-    .filter((p) => !isRussia(p) && !isRestricted(p) && Number(p.price) > 0)
-    .filter((p) => coverageCodes(p).includes(iso) && !isGlobal(p))
+  // The daily cards the page shows — the published layout (seo/catalogue-facts.mjs shownBlocks).
+  return shownBlocks(DOC, iso).daily
     .filter(D.isDaily)
     .some((p) => D.lines(p).length > 0);
 }

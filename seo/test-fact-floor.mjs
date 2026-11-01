@@ -30,11 +30,18 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadCatalogue, countryFacts, coverageCodes, purchasablePrice, isDaily } from './catalogue-facts.mjs';
+import { loadCatalogueDoc, shownBlocks, coverageCodes, purchasablePrice, isDaily } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SHEETS = JSON.parse(readFileSync(join(ROOT, 'seo/fact-sheets.json'), 'utf8')).sheets;
-const PK = loadCatalogue();
+const DOC = loadCatalogueDoc();
+const PK = DOC.packages;
+// A card the page of `iso` shows — the published layout the sheet is built from.
+const SHOWN = new Map();
+const onPage = (p, iso) => {
+  if (!SHOWN.has(iso)) { const b = shownBlocks(DOC, iso); SHOWN.set(iso, new Set([...b.local, ...b.regional, ...b.daily].map((x) => x.package_id))); }
+  return SHOWN.get(iso).has(p.package_id);
+};
 
 // The rule, mirrored. Kept here rather than imported so that a change to the
 // reviewer that quietly drops the rule fails this file instead of passing it.
@@ -84,24 +91,28 @@ test('the sheet knows every purchasable price, ladder rungs included', () => {
 // a MULTI-COUNTRY PER_DAY package on a country page whose cheapest rung is
 // absent from that sheet's offers — «Asia (12 areas) 1GB/Day» on Cambodia.
 test('a daily ladder rung is blessed — the whole point of the widening', () => {
-  const sheet = SHEETS['cambodia'];
-  const asia = PK.find((p) => String(p.name || '') === 'Asia (12 areas) 1GB/Day');
-  assert.ok(asia, 'ожидался азиатский посуточный пакет на несколько стран');
-  assert.equal(asia.daily_term_mode, 'PER_DAY');
-  assert.ok(coverageCodes(asia).length > 1 && coverageCodes(asia).includes(sheet.iso),
-    'пакет обязан быть на несколько стран и покрывать Камбоджу');
-  const rung = Math.min(...asia.term_prices.map((t) => Number(t.price)));
-  assert.ok(sheet.all_purchasable_prices.includes(rung),
-    `ступень ${rung} ₽ обязана быть в фактшите Камбоджи`);
-  assert.ok(!sheet.offers.some((o) => o.price_rub === rung),
-    'и её заведомо нет в offers — иначе тест ничего не доказывает');
+  // 2026-11-01: was «Asia (12 areas) 1GB/Day» on Cambodia — the page no longer shows it, and the sheet
+  // describes only cards a page shows. The premise is found, not pinned: a MULTI-COUNTRY PER_DAY card on
+  // some country page whose cheapest rung is absent from that sheet's offers.
+  let found = null;
+  for (const [slug, sheet] of Object.entries(SHEETS)) {
+    for (const p of PK) {
+      if (p.daily_term_mode !== 'PER_DAY' || coverageCodes(p).length < 2 || !onPage(p, sheet.iso)) continue;
+      const rung = Math.min(...p.term_prices.map((t) => Number(t.price)));
+      if (!sheet.offers.some((o) => o.price_rub === rung)) { found = { slug, sheet, p, rung }; break; }
+    }
+    if (found) break;
+  }
+  assert.ok(found, 'ожидался посуточный пакет на несколько стран, показанный на странице страны');
+  assert.ok(found.sheet.all_purchasable_prices.includes(found.rung),
+    `${found.slug}: ступень ${found.rung} ₽ пакета «${found.p.name}» обязана быть в фактшите`);
 });
 
 test('every price in the sheet is one a customer can actually pay', () => {
   for (const [slug, sheet] of Object.entries(SHEETS)) {
     const real = new Set();
     for (const p of PK) {
-      if (countryFacts([p], sheet.iso).total_shown !== 1) continue;
+      if (!onPage(p, sheet.iso)) continue;
       const terms = Array.isArray(p.term_prices) ? p.term_prices : [];
       if (terms.length) terms.forEach((t) => real.add(Number(t.price)));
       else real.add(purchasablePrice(p));
@@ -116,7 +127,7 @@ test('the three floors are the real floors', () => {
   for (const [slug, sheet] of Object.entries(SHEETS)) {
     const vol = [], day = [];
     for (const p of PK) {
-      if (countryFacts([p], sheet.iso).total_shown !== 1) continue;
+      if (!onPage(p, sheet.iso)) continue;
       const terms = Array.isArray(p.term_prices) ? p.term_prices : [];
       const vs = terms.length ? terms.map((t) => Number(t.price)) : [purchasablePrice(p)];
       (isDaily(p) ? day : vol).push(...vs.filter((n) => Number.isFinite(n) && n > 0));
@@ -166,7 +177,7 @@ test('the reset flag means ALL daily plans, not merely one', () => {
   // каждые сутки» about six PER_DAY packages on the strength of four FIXED_TERM
   // ones. A blanket claim needs blanket evidence.
   for (const [slug, sheet] of Object.entries(SHEETS)) {
-    const dailies = PK.filter((p) => countryFacts([p], sheet.iso).total_shown === 1 && isDaily(p));
+    const dailies = PK.filter((p) => onPage(p, sheet.iso) && isDaily(p));
     const every = dailies.length > 0 && dailies.every((p) => p.daily_reset_confirmed === true);
     const partial = dailies.some((p) => p.daily_reset_confirmed === true) && !every;
     assert.equal(sheet.daily_reset_confirmed, every, `${slug}: флаг сброса разошёлся с каталогом`);
@@ -249,7 +260,7 @@ test('the attribution rule can fail — 5G where the catalogue has none', () => 
 
 test('the three fields are the catalogue\'s, not a guess', () => {
   for (const [slug, sheet] of Object.entries(SHEETS)) {
-    const pkgs = PK.filter((p) => countryFacts([p], sheet.iso).total_shown === 1);
+    const pkgs = PK.filter((p) => onPage(p, sheet.iso));
     const speeds = [...new Set(pkgs.map((p) => String(p.speed || '').trim()).filter(Boolean))].sort();
     assert.deepEqual(sheet.speeds, speeds, `${slug}: список сетей разошёлся с каталогом`);
     const acts = [...new Set(pkgs.map((p) => String(p.activation_policy || '').trim().toLowerCase()).filter(Boolean))].sort();
