@@ -159,7 +159,6 @@
       "min_of": "daily"
     },
     "g5": {
-      "package": "1dd571f3-47f8-4f8b-9463-d6e8c2be478a",
       "block": "local",
       "attrs": {
         "data_gb": 5,

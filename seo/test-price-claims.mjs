@@ -16,6 +16,7 @@ import {
   checkCorpus, PRICE_SENTENCE_RE, formatProblem,
 } from './price-claims.mjs';
 import { loadProfile } from './content-profile.mjs';
+import { layoutByCoverage } from './fixture-layout.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -43,12 +44,14 @@ const CLAIM = {
   id: 'fifty-cheaper-than-daily-month',
   anchors: [{ field: 'description', text: 'eSIM для Саудовской Аравии: на месяц объёмный тариф на 50 ГБ выходит дешевле посуточного.' },
     { field: 'intro[0]', text: 'Объёмный тариф на 50 ГБ на 30 дней стоит 8100 ₽.' }],
-  terms: { fifty: { package: 'sa-50', block: 'local', attrs: { data_gb: 50, validity_days: 30 } },
-    daily30: { package: 'sa-daily-1', block: 'daily', days: 30, attrs: { daily_gb: 1 } } },
+  terms: { fifty: { block: 'local', attrs: { data_gb: 50, validity_days: 30 } },
+    daily30: { block: 'daily', days: 30, attrs: { daily_gb: 1 } } },
   assert: [{ left: 'fifty', op: '<', right: 'daily30' }, { left: 'fifty', op: '=', right: 8100 }],
 };
 const profile = (claims, extra = {}) => ({ ...STALE, price_claims: claims, ...extra });
-const run = (claims, cat = CATALOGUE(), extra) => evaluateProfile(profile(claims, extra), 'saudi-arabia', cat).map((x) => x.msg);
+// The fixture's published layout: every visible plan on every page it covers (seo/fixture-layout.mjs).
+const evaluate = (claims, cat = CATALOGUE(), extra) => evaluateProfile(profile(claims, extra), 'saudi-arabia', layoutByCoverage(cat));
+const run = (claims, cat, extra) => evaluate(claims, cat, extra).map((x) => x.msg);
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
 test('the Saudi Arabia move of 2026-10-14 is refused, and the message names the sentence', () => {
@@ -65,24 +68,27 @@ test('a relation that holds both ways passes a price move — the check is not a
   assert.deepEqual(run([c], CATALOGUE(8500)), []);
 });
 
-test('a withdrawn package is a failure that lists the likely successors in the same block', () => {
+test('the row behind a card changes (another provider, a new id), the card does not: the claim follows the card', () => {
   const cat = CATALOGUE().filter((p) => p.package_id !== 'sa-50');
-  cat.push(pkg({ package_id: 'sa-50-new', name: 'Saudi Arabia 50 GB', data_gb: 50, validity_days: 30, price: 8100 }));
-  const got = run([CLAIM], cat);
-  assert.equal(got.length, 1, got.join('\n'));
-  assert.match(got[0], /продукта sa-50 нет в каталоге.*sa-50-new/);
+  cat.push(pkg({ package_id: 'sa-50-other-provider', name: 'Saudi Arabia 50 GB', data_gb: 50, validity_days: 30, price: 8100 }));
+  assert.deepEqual(run([CLAIM], cat), []);
+  cat.at(-1).price = 8500; // the same switch, at a new retail price: «8100» is false, «дешевле посуточного» still true
+  assert.deepEqual(run([CLAIM], cat), ['assert[1] fifty = 8100 ложно: sa-50-other-provider «Saudi Arabia 50 GB» = 8500 ₽, 8100 = 8100 ₽ — перепишите фразу (а не утверждение), см. «eSIM для Саудовской Аравии: на месяц объёмный тариф на 50 ГБ выходит дешевле посуточного.»']);
 });
 
-test('a package that left its block (or the page) is refused — attribution is the claim', () => {
-  const moved = CATALOGUE().map((p) => (p.package_id === 'sa-50' ? { ...p, coverage_country_codes: ['SA', 'AE'] } : p));
-  assert.match(run([CLAIM], moved).join('\n'), /sa-50.* не в блоке «local».*сейчас в «regional»/);
-  const gone = CATALOGUE().map((p) => (p.package_id === 'sa-50' ? { ...p, coverage_country_codes: ['AE'], country_code: 'AE' } : p));
-  assert.match(run([CLAIM], gone).join('\n'), /страница его не показывает/);
-});
-
-test('attrs pin what the sentence says about the package', () => {
-  const cat = CATALOGUE().map((p) => (p.package_id === 'sa-50' ? { ...p, validity_days: 15 } : p));
-  assert.match(run([CLAIM], cat).join('\n'), /validity_days сейчас 15, в утверждении 30/);
+test('a card that is gone, left its block or the page, or changed its term: a CATALOGUE problem — the sentence is left out, never re-pointed', () => {
+  const NO_CARD = /нет карточки local 50 ГБ \/ 30 дн\./;
+  for (const [why, cat] of [
+    ['withdrawn', CATALOGUE().filter((p) => p.package_id !== 'sa-50')],
+    ['now regional', CATALOGUE().map((p) => (p.package_id === 'sa-50' ? { ...p, coverage_country_codes: ['SA', 'AE'] } : p))],
+    ['another page', CATALOGUE().map((p) => (p.package_id === 'sa-50' ? { ...p, coverage_country_codes: ['AE'], country_code: 'AE' } : p))],
+    ['15 days now', CATALOGUE().map((p) => (p.package_id === 'sa-50' ? { ...p, validity_days: 15 } : p))],
+  ]) {
+    const got = evaluate([CLAIM], cat);
+    assert.equal(got.length, 1, `${why}: ${got.map((x) => x.msg).join('\n')}`);
+    assert.equal(got[0].kind, 'catalogue', why);
+    assert.match(got[0].msg, NO_CARD, why);
+  }
 });
 
 test('a PER_DAY price is a rung of the ladder: days are required, and a missing rung is refused', () => {
@@ -114,7 +120,7 @@ test('min_of: the cheapest amount in a block, the page, or the volume blocks —
 
 test('factor: left × K op right, compared in whole kopecks', () => {
   const claim = (factor, op) => ({ id: 'times', anchors: CLAIM.anchors.slice(0, 1),
-    terms: { local: { package: 'sa-3', block: 'local' }, gulf: { package: 'gulf-5', block: 'regional' } },
+    terms: { local: { block: 'local', attrs: { data_gb: 3, validity_days: 30 } }, gulf: { block: 'regional', attrs: { data_gb: 5, validity_days: 30 }, family: 'gulf' } },
     assert: [{ left: 'gulf', op, right: 'local', factor }] });
   assert.deepEqual(run([claim(1.4, '<')]), []); // 910 < 950
   assert.match(run([claim(1.5, '<')]).join('\n'), /gulf × 1\.5 < local ложно/); // 975
@@ -137,12 +143,19 @@ test('the shape fails closed', () => {
     assert.ok(got.some((m) => re.test(m)), `ожидалось ${re}, получено:\n${got.join('\n')}`);
   };
   bad((c) => { c.price = 1; }, /неизвестный ключ «price»/);
-  bad((c) => { delete c.terms.fifty.block; }, /block обязателен/);
+  bad((c) => { delete c.terms.fifty.block; }, /нужен селектор \(block \+ attrs\) или min_of/);
+  bad((c) => { c.terms.fifty.package = 'sa-50'; }, /id поставщика не допускается/);
+  bad((c) => { c.terms.fifty = { package: 'sa-50', block: 'local' }; }, /id поставщика не допускается/);
+  bad((c) => { delete c.terms.fifty.attrs.validity_days; }, /нужен срок/);
+  bad((c) => { c.terms.fifty.attrs = { data_gb: 50, daily_gb: 1, validity_days: 30 }; }, /ровно один объём/);
+  bad((c) => { c.terms.daily30.attrs = { data_gb: 1 }; }, /в блоке daily объём — daily_gb/);
+  bad((c) => { c.terms.fifty.family = '('; }, /family — не регулярное выражение/);
+  bad((c) => { c.terms.fifty.fallback = { min_of: 'local' }; }, /запасной вариант только у price_refs/);
   bad((c) => { c.terms.fifty.block = 'europe'; }, /block обязателен/);
   bad((c) => { c.terms.fifty.attrs = { name: 1 }; }, /attrs\.name/);
   bad((c) => { c.terms.x = { min_of: 'world' }; }, /min_of/);
   bad((c) => { c.terms.x = { min_of: 'page', where: { multi_country: 'yes' } }; }, /where\.multi_country — неверный тип/);
-  bad((c) => { c.terms.x = { name: 'Saudi' }; }, /нужен package или min_of/);
+  bad((c) => { c.terms.x = { name: 'Saudi' }; }, /нужен селектор \(block \+ attrs\) или min_of/);
   bad((c) => { c.assert = []; }, /assert обязателен/);
   bad((c) => { c.assert = [{ left: 'fifty', op: '≈', right: 1 }]; }, /op/);
   bad((c) => { c.assert = [{ left: 'nobody', op: '<', right: 1 }]; }, /left: имя из terms/);
@@ -153,6 +166,7 @@ test('the shape fails closed', () => {
   bad((c) => { c.terms.fifty.days = 1.5; }, /days — целое/);
   assert.deepEqual(validateClaimShape(CLAIM), []);
   const dup = run([CLAIM, CLAIM]);
+  assert.ok(evaluate([CLAIM, CLAIM]).filter((x) => /повторяется/.test(x.msg)).every((x) => x.kind === 'authoring'));
   assert.ok(dup.some((m) => /повторяется/.test(m)), dup.join('\n'));
 });
 
@@ -207,10 +221,13 @@ test('the guard is NOT part of the catalogue cache refresh — a price move must
 
 // ------------------------------------------------------------------ the corpus, on the live snapshot
 
-test('every price claim holds on assets/catalog.json and every headline price sentence is anchored or waived', () => {
+test('every price claim is well formed and every headline price sentence is anchored or waived; one the catalogue no longer bears out is left out of its page', () => {
   const { problems, claims } = checkCorpus();
   assert.ok(claims >= 39, `price_claims: ${claims}`);
-  assert.deepEqual(problems.map(formatProblem), []);
+  assert.deepEqual(problems.filter((x) => x.kind !== 'catalogue').map(formatProblem), []);
+  const recorded = JSON.parse(readFileSync(join(ROOT, 'seo/suppressed-claims.json'), 'utf8')).entries
+    .filter((x) => x.source === 'price_claims').map((x) => `${x.slug}/${x.id}`);
+  for (const x of problems.filter((y) => y.kind === 'catalogue')) assert.ok(recorded.includes(`${x.slug}/${x.claim}`), `${formatProblem(x)} — not left out of the page`);
 });
 
 test('the pages whose premise is a price relation carry a claim on it', () => {

@@ -71,7 +71,6 @@
   },
   "price_refs": {
     "g3_15": {
-      "package": "8afcd86a-2719-4b95-af68-83200d7ea41d",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -79,7 +78,6 @@
       }
     },
     "g5": {
-      "package": "37880ed1-cba8-4b97-b0f8-dc6a55ee28c2",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -87,7 +85,6 @@
       }
     },
     "g1": {
-      "package": "44312a70-79c6-4930-bd92-bb2f03ef8fd9",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -117,7 +114,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "44312a70-79c6-4930-bd92-bb2f03ef8fd9",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -125,7 +121,6 @@
           }
         },
         "g3_15": {
-          "package": "8afcd86a-2719-4b95-af68-83200d7ea41d",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -133,7 +128,6 @@
           }
         },
         "g5": {
-          "package": "37880ed1-cba8-4b97-b0f8-dc6a55ee28c2",
           "block": "local",
           "attrs": {
             "data_gb": 5,

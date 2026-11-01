@@ -38,6 +38,7 @@ export const FIXED_ALLOWED = Object.freeze([
   'seo/catalogue-countries.json', // the snapshot every page generator reads
   'seo/fact-sheets.json',         // what the editorial gates check a claim against
   'seo/sitemap-lastmod.json',     // per-page content hashes behind <lastmod>
+  'seo/suppressed-claims.json',   // authored sentences the catalogue no longer bears out, from build-catalogue-pages.mjs
   ...catalogueLocalePaths([]).fixed, // each published language's list and search data, from build-locale-pages.mjs
   'assets/ru-destinations.js',    // the Russian home's search list, from build-catalogue-pages.mjs
 ]);

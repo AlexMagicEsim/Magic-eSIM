@@ -35,7 +35,7 @@
     {
       "icon": "🌍",
       "h": "Пакеты на Африку",
-      "p": "В блоке «Региональные тарифы» есть и пакеты на страны Африки: 3, 5 и 10 ГБ на 15 дней и 5 и 10 ГБ на 30 дней на пять стран."
+      "p": "В блоке «Региональные тарифы» есть и пакеты на страны Африки: 1 ГБ на 7 дней и 3 ГБ на 15 дней — на двадцать стран, 5 и 10 ГБ на 30 дней — на пять стран."
     }
   ],
   "faq": [
@@ -53,7 +53,7 @@
     },
     {
       "q": "Можно ли пополнить тариф в Танзании?",
-      "a": "У местных объёмных тарифов пополнение отмечено в карточке. У пакетов на Африку на 3, 5 и 10 ГБ на 15 дней и на 5 и 10 ГБ на пять стран его нет. Проверьте отметку до оплаты."
+      "a": "У местных объёмных тарифов пополнение отмечено в карточке. У пакетов на Африку — на 1 ГБ на 7 дней, на 3 ГБ на 15 дней и на 5 и 10 ГБ на 30 дней — его нет. Проверьте отметку до оплаты."
     },
     {
       "q": "Можно ли в Танзании платить за каждый день?",
@@ -75,41 +75,15 @@
   "last_reviewed": "2026-09-30",
   "coverage_claims": [
     {
-      "id": "regional-africa-15d",
-      "anchors": [
-        {
-          "field": "why[3].p",
-          "text": "В блоке «Региональные тарифы» есть и пакеты на страны Африки: 3, 5 и 10 ГБ на 15 дней и 5 и 10 ГБ на 30 дней на пять стран."
-        },
-        {
-          "field": "faq[3].a",
-          "text": "У пакетов на Африку на 3, 5 и 10 ГБ на 15 дней и на 5 и 10 ГБ на пять стран его нет."
-        }
-      ],
-      "scope": "regional",
-      "packages": [
-        "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-        "fd269fbf-3e23-4210-b9ff-1354149f4722",
-        "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
-      ],
-      "must_cover": [
-        "TZ"
-      ],
-      "basis_attrs": {
-        "validity_days": 15,
-        "topup_available": false
-      }
-    },
-    {
       "id": "regional-africa-6",
       "anchors": [
         {
           "field": "why[3].p",
-          "text": "В блоке «Региональные тарифы» есть и пакеты на страны Африки: 3, 5 и 10 ГБ на 15 дней и 5 и 10 ГБ на 30 дней на пять стран."
+          "text": "В блоке «Региональные тарифы» есть и пакеты на страны Африки: 1 ГБ на 7 дней и 3 ГБ на 15 дней — на двадцать стран, 5 и 10 ГБ на 30 дней — на пять стран."
         },
         {
           "field": "faq[3].a",
-          "text": "У пакетов на Африку на 3, 5 и 10 ГБ на 15 дней и на 5 и 10 ГБ на пять стран его нет."
+          "text": "У пакетов на Африку — на 1 ГБ на 7 дней, на 3 ГБ на 15 дней и на 5 и 10 ГБ на 30 дней — его нет."
         },
         {
           "field": "faq[2].a",
@@ -117,9 +91,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-        "b395d9eb-57f4-43bd-a79f-a60350e9155c"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "TZ"
@@ -130,6 +118,86 @@
         "topup_available": false
       },
       "note": "2026-10-25 11:40: the provider dropped KE from these two Africa cards — six countries became five (MU, RW, SC, TZ, UG)."
+    },
+    {
+      "id": "africa-20",
+      "anchors": [
+        {
+          "field": "why[3].p",
+          "text": "В блоке «Региональные тарифы» есть и пакеты на страны Африки: 1 ГБ на 7 дней и 3 ГБ на 15 дней — на двадцать стран, 5 и 10 ГБ на 30 дней — на пять стран."
+        },
+        {
+          "field": "faq[3].a",
+          "text": "У пакетов на Африку — на 1 ГБ на 7 дней, на 3 ГБ на 15 дней и на 5 и 10 ГБ на 30 дней — его нет."
+        }
+      ],
+      "scope": "regional",
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "africa"
+        }
+      ],
+      "must_cover": [
+        "TZ"
+      ],
+      "coverage_count": 20,
+      "basis_attrs": {
+        "topup_available": false
+      },
+      "note": "2026-11-01: rewritten on the published layout (storefront #199)."
+    },
+    {
+      "id": "africa-5",
+      "anchors": [
+        {
+          "field": "why[3].p",
+          "text": "В блоке «Региональные тарифы» есть и пакеты на страны Африки: 1 ГБ на 7 дней и 3 ГБ на 15 дней — на двадцать стран, 5 и 10 ГБ на 30 дней — на пять стран."
+        },
+        {
+          "field": "faq[3].a",
+          "text": "У пакетов на Африку — на 1 ГБ на 7 дней, на 3 ГБ на 15 дней и на 5 и 10 ГБ на 30 дней — его нет."
+        }
+      ],
+      "scope": "regional",
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
+      ],
+      "must_cover": [
+        "TZ"
+      ],
+      "coverage_count": 5,
+      "basis_attrs": {
+        "topup_available": false
+      },
+      "note": "2026-11-01: rewritten on the published layout (storefront #199)."
     }
   ],
   "price_claims": [
@@ -146,7 +214,6 @@
           "min_of": "volume"
         },
         "t1": {
-          "package": "f6c02358-d397-488c-b59e-bb6ada767204",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -173,12 +240,11 @@
       ],
       "terms": {
         "d": {
-          "package": "60aebda1-d846-4e25-ae44-65e5b55838d6",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "floor": {
           "min_of": "daily",
@@ -202,7 +268,6 @@
       "min_of": "volume"
     },
     "g3_20": {
-      "package": "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -210,36 +275,34 @@
       }
     },
     "g4_3": {
-      "package": "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
       "block": "local",
       "attrs": {
-        "data_gb": 3
+        "data_gb": 3,
+        "validity_days": 30
       }
     },
     "g4_5": {
-      "package": "f0e3ce16-03a9-4666-a8c5-6a9eac2f3098",
       "block": "local",
       "attrs": {
-        "data_gb": 5
+        "data_gb": 5,
+        "validity_days": 30
       }
     },
     "g4_10": {
-      "package": "0e66d913-0091-40f3-aaab-6828caca2daa",
       "block": "local",
       "attrs": {
-        "data_gb": 10
+        "data_gb": 10,
+        "validity_days": 30
       }
     },
     "daily_500mb_3d": {
-      "package": "60aebda1-d846-4e25-ae44-65e5b55838d6",
       "block": "daily",
-      "days": 3,
       "attrs": {
         "daily_gb": 0.49
-      }
+      },
+      "days": 3
     },
     "g3_1": {
-      "package": "f6c02358-d397-488c-b59e-bb6ada767204",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -257,9 +320,21 @@
         }
       ],
       "block": "local",
-      "packages": [
-        "f6c02358-d397-488c-b59e-bb6ada767204",
-        "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 20,
+            "validity_days": 30
+          }
+        }
       ],
       "operators": [
         "Airtel"

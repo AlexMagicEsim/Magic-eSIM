@@ -87,7 +87,6 @@
   ],
   "price_refs": {
     "g20": {
-      "package": "cd1b82eb-5ed7-4a3e-956a-51e83c5c89e7",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -95,7 +94,6 @@
       }
     },
     "g30": {
-      "package": "8d7e49da-5571-42ea-bb08-1465a2be4eef",
       "block": "local",
       "attrs": {
         "data_gb": 30,
@@ -103,15 +101,14 @@
       }
     },
     "r30": {
-      "package": "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
       "block": "regional",
       "attrs": {
         "data_gb": 30,
         "validity_days": 30
-      }
+      },
+      "family": "singapore.*malaysia.*thailand"
     },
     "g10": {
-      "package": "87d71a11-bd8a-47a8-9e1d-14448e441f71",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -134,7 +131,6 @@
       ],
       "terms": {
         "g20": {
-          "package": "cd1b82eb-5ed7-4a3e-956a-51e83c5c89e7",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -142,7 +138,6 @@
           }
         },
         "g30": {
-          "package": "8d7e49da-5571-42ea-bb08-1465a2be4eef",
           "block": "local",
           "attrs": {
             "data_gb": 30,
@@ -150,7 +145,13 @@
           }
         }
       },
-      "assert": [{"left": "g20", "op": "<", "right": "g30"}],
+      "assert": [
+        {
+          "left": "g20",
+          "op": "<",
+          "right": "g30"
+        }
+      ],
       "note": "Added in stage B (2026-10-18) as «почти по цене двадцати» / «доплата меньше пятой части» (g20 × 1.2 > g30). The catalogue bot's a755c69c (2026-10-20) moved 30 GB 2000 → 2250 ₽ against 1700 ₽ for 20 GB and made that false; the sentence and the heading were rewritten to the STRUCTURE (a surcharge for half the volume on top) — what the words now claim is only g20 < g30. A closeness or a ratio in words dies with the next price move."
     },
     {
@@ -163,15 +164,14 @@
       ],
       "terms": {
         "r30": {
-          "package": "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
           "block": "regional",
           "attrs": {
             "data_gb": 30,
             "validity_days": 30
-          }
+          },
+          "family": "singapore.*malaysia.*thailand"
         },
         "g30": {
-          "package": "8d7e49da-5571-42ea-bb08-1465a2be4eef",
           "block": "local",
           "attrs": {
             "data_gb": 30,

@@ -30,7 +30,7 @@
     {
       "icon": "🌍",
       "h": "С Маврикием — пакет на Африку",
-      "p": "Сейшелы и Маврикий вместе покрывают пакеты на Африку на 3, 5 и 10 ГБ на 15 дней из блока региональных тарифов."
+      "p": "Все пакеты на Африку из блока региональных тарифов — от 1 до 10 ГБ — покрывают и Сейшелы, и Маврикий."
     },
     {
       "icon": "🔄",
@@ -45,7 +45,7 @@
     },
     {
       "q": "Можно ли одним пакетом закрыть Сейшелы и Маврикий?",
-      "a": "Да: в блоке региональных тарифов Сейшелы и Маврикий вместе покрывают пакеты на Африку на 3, 5 и 10 ГБ на 15 дней, без пополнения. Перед покупкой сверьте строку «Покрытие» в карточке: список стран у пакетов на Африку разный."
+      "a": "Да: в блоке региональных тарифов и Сейшелы, и Маврикий входят во все пакеты на Африку — на 1 ГБ на 7 дней, 3 ГБ на 15 дней, 5 и 10 ГБ на 30 дней; пополнение у них не отмечено. Перед покупкой сверьте строку «Покрытие» в карточке: список стран у пакетов на Африку разный."
     },
     {
       "q": "А если после Сейшел — сафари в Кении или Танзании?",
@@ -88,15 +88,15 @@
       ]
     },
     {
-      "id": "mu-15-days",
+      "id": "mu-all-africa",
       "anchors": [
         {
           "field": "why[2].p",
-          "text": "Сейшелы и Маврикий вместе покрывают пакеты на Африку на 3, 5 и 10 ГБ на 15 дней из блока региональных тарифов."
+          "text": "Все пакеты на Африку из блока региональных тарифов — от 1 до 10 ГБ — покрывают и Сейшелы, и Маврикий."
         },
         {
           "field": "faq[1].a",
-          "text": "Да: в блоке региональных тарифов Сейшелы и Маврикий вместе покрывают пакеты на Африку на 3, 5 и 10 ГБ на 15 дней, без пополнения."
+          "text": "Да: в блоке региональных тарифов и Сейшелы, и Маврикий входят во все пакеты на Африку — на 1 ГБ на 7 дней, 3 ГБ на 15 дней, 5 и 10 ГБ на 30 дней; пополнение у них не отмечено."
         },
         {
           "field": "faq[1].q",
@@ -104,19 +104,18 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-        "fd269fbf-3e23-4210-b9ff-1354149f4722",
-        "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
-      ],
-      "must_cover": [
+      "family": "^Africa",
+      "all_in_scope": [
         "SC",
         "MU"
       ],
-      "basis_attrs": {
-        "validity_days": 15,
-        "topup_available": false
-      }
+      "attr_bounds": {
+        "data_gb": [
+          1,
+          10
+        ]
+      },
+      "note": "2026-11-01: rewritten on the published layout (storefront #199)."
     },
     {
       "id": "africa-lists-differ",
@@ -127,9 +126,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-        "63f2970f-dfd9-41d0-818e-58a8f69257f7"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "distinct_coverage": true
     },
@@ -160,9 +173,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-        "b395d9eb-57f4-43bd-a79f-a60350e9155c"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
       ],
       "must_cover": [
         "SC",
@@ -194,6 +221,74 @@
       "all_in_scope": [
         "SC"
       ]
+    },
+    {
+      "id": "africa-no-topup-sc",
+      "anchors": [
+        {
+          "field": "faq[1].a",
+          "text": "Да: в блоке региональных тарифов и Сейшелы, и Маврикий входят во все пакеты на Африку — на 1 ГБ на 7 дней, 3 ГБ на 15 дней, 5 и 10 ГБ на 30 дней; пополнение у них не отмечено."
+        }
+      ],
+      "scope": "regional",
+      "family": "^Africa",
+      "some_in_scope": [
+        "SC",
+        "MU"
+      ],
+      "only_attrs": {
+        "topup_available": false
+      },
+      "note": "2026-11-01: rewritten on the published layout (storefront #199)."
+    },
+    {
+      "id": "africa-terms-sc",
+      "anchors": [
+        {
+          "field": "faq[1].a",
+          "text": "Да: в блоке региональных тарифов и Сейшелы, и Маврикий входят во все пакеты на Африку — на 1 ГБ на 7 дней, 3 ГБ на 15 дней, 5 и 10 ГБ на 30 дней; пополнение у них не отмечено."
+        }
+      ],
+      "scope": "regional",
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          },
+          "family": "africa"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "africa"
+        }
+      ],
+      "must_cover": [
+        "SC",
+        "MU"
+      ],
+      "note": "2026-11-01: rewritten on the published layout (storefront #199)."
     }
   ],
   "price_claims": [
@@ -215,20 +310,18 @@
       ],
       "terms": {
         "d15": {
-          "package": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
           "block": "local",
-          "days": 15,
           "attrs": {
             "data_gb": 3
-          }
+          },
+          "days": 15
         },
         "d30": {
-          "package": "67ac6675-87be-45ee-a15d-4920970ed0b1",
           "block": "local",
-          "days": 30,
           "attrs": {
             "data_gb": 3
-          }
+          },
+          "days": 30
         }
       },
       "assert": [
@@ -263,7 +356,6 @@
           }
         },
         "v": {
-          "package": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -304,7 +396,6 @@
           }
         },
         "v5": {
-          "package": "e33863c2-f452-4378-a337-8081e82f5f00",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -324,7 +415,6 @@
   ],
   "price_refs": {
     "g3_15": {
-      "package": "fb44e741-4359-481b-bd13-6e522c5b3bbf",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -332,7 +422,6 @@
       }
     },
     "g3_30": {
-      "package": "67ac6675-87be-45ee-a15d-4920970ed0b1",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -340,7 +429,6 @@
       }
     },
     "g5": {
-      "package": "e33863c2-f452-4378-a337-8081e82f5f00",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -348,7 +436,6 @@
       }
     },
     "g10": {
-      "package": "b4fa60f9-dd49-43c4-8bda-035d87bc8577",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -356,7 +443,6 @@
       }
     },
     "g20": {
-      "package": "bf14a2ae-d906-4fa3-b9b6-3c24e7ab3174",
       "block": "local",
       "attrs": {
         "data_gb": 20,

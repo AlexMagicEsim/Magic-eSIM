@@ -2,16 +2,19 @@
 // (seo/refresh-scenarios.mjs: temp copy → catalogue change → build-all → the
 // corpus gates). The outcome of every scenario is pinned: a move that only
 // touches generated numbers must rebuild green with the new numbers; a move
-// that falsifies authored text, withdraws a named package or empties a country
-// must stop the refresh with a message that says what to do.
+// that withdraws a card an authored sentence is about, or makes it false, must
+// rebuild green WITHOUT that sentence and record it in seo/suppressed-claims.json
+// (seo/page-claims.mjs, 2026-11-01); a move that switches the provider behind a
+// card must rebuild green with the card's new amount; a move that empties a
+// country must stop the refresh with a message that says what to do.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runScenario, runAll } from './refresh-scenarios.mjs';
 import { cases, templateFixture } from './refresh-scenario-cases.mjs';
 
-const PRICE = 'every price claim holds on assets/catalog.json and every headline price sentence is anchored or waived';
-const COVERAGE = 'every authored page agrees with the current catalogue on coverage';
+const PRICE = 'every price claim is well formed and every headline price sentence is anchored or waived; one the catalogue no longer bears out is left out of its page';
+const COVERAGE = 'every authored page agrees with the current catalogue on coverage; a sentence about a card that is gone is left out of its page';
 const FACTS = 'every authored page agrees with the current catalogue';
 const GENERATED = 'every generated «от N ₽» (meta, og/twitter, JSON-LD, template FAQ, FAQPage) is the catalogue floor';
 
@@ -26,6 +29,17 @@ const metaFloor = (html) => Number(((html || '').match(/от ([\d  ]+) ₽\. О�
 const baseline = (r) => {
   assert.equal(r.build.code, 0, `build-all failed: ${r.build.stderr}`);
   assert.ok(r.gatesRan >= 18, `gates ran: ${r.gatesRan}`);
+};
+// What the scenario added to seo/suppressed-claims.json (the live snapshot already leaves some sentences out).
+const CONTROL = 'control: the catalogue does not move';
+const added = async (r) => {
+  const base = new Set((await get(CONTROL)).suppressed.map((x) => `${x.slug}|${x.unit}|${x.source}|${x.id}`));
+  return r.suppressed.filter((x) => !base.has(`${x.slug}|${x.unit}|${x.source}|${x.id}`));
+};
+const leftOut = async (r, slug, source, id) => {
+  const got = (await added(r)).filter((x) => x.slug === slug && x.source === source && x.id === id);
+  assert.ok(got.length, `${slug} · ${source}/${id} is left out — added: ${JSON.stringify(await added(r))}`);
+  return got;
 };
 
 test('control: an unchanged catalogue rebuilds green', async () => {
@@ -63,42 +77,55 @@ test('stage B: a package a {{price}} token prints moves — GREEN, and the rebui
 
 // (the hand-typed-amount scenario was retired 2026-10-24 — no hand-typed amount is left; seo/refresh-scenario-cases.mjs)
 
-test('stage B: a package a {{price}} token names is withdrawn — the BUILD stops, naming the reference and successor candidates', async () => {
-  const r = await get('a package a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)');
-  assert.notEqual(r.build.code, 0, 'build-all refuses the page');
-  assert.match(r.build.stderr, /подстановки цен на \/esim\/australia\//);
-  assert.match(r.build.stderr, /price_refs\.aunz_5gb: продукта .* нет в каталоге — исчез или снят с витрины; кандидаты в блоке «regional»/);
-  assert.match(r.build.stderr, /перепривяжите её к тарифу-преемнику/);
+test('stage B: the card a {{price}} token names is withdrawn — GREEN, the sentence is left out and recorded, nothing raw or stale is printed', async () => {
+  const r = await get('a card a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)');
+  baseline(r);
+  assert.deepEqual(r.failing, []);
+  const [x] = await leftOut(r, 'australia', 'price_refs', 'aunz_5gb');
+  assert.match(x.reason, /нет карточки regional 5 ГБ/);
+  assert.doesNotMatch(r.inspected.html, /\{\{price:/);
 });
 
-test('a stated relation flips: red on the relation itself (montenegro prints its amounts through tokens, so only the relation fails)', async () => {
+test('backend #124: the provider behind a {{price}} card switches (new id, same card, new price) — GREEN, the page prints the new amount, nothing is left out', async () => {
+  const r = await get('the backend SWITCHES the provider behind a {{price}} card (australia · au_daily_500mb_3d: new id, same card, new price)');
+  baseline(r);
+  assert.deepEqual(r.failing, []);
+  assert.deepEqual(await added(r), []);
+  const amount = `${Math.round(r.inspected.price).toLocaleString('ru-RU')} ₽`;
+  assert.ok(r.inspected.html.includes(`500 МБ в день на три дня — ${amount}.`), `australia prints ${amount}`);
+});
+
+test('a stated relation flips: GREEN, the relation\'s sentences are left out (montenegro prints its amounts through tokens, so only the relation goes)', async () => {
   const r = await get('a stated relation FLIPS (montenegro · local-20gb-below-regional-18gb: the local plan becomes dearer)');
   baseline(r);
-  assert.deepEqual(r.failing, [PRICE]);
-  assert.match(detail(r, PRICE), /local-20gb-below-regional-18gb: assert\[0\] local < regional ложно/);
+  assert.deepEqual(r.failing, []);
+  const got = await leftOut(r, 'montenegro', 'price_claims', 'local-20gb-below-regional-18gb');
+  assert.match(got[0].reason, /assert\[0\] local < regional ложно/);
 });
 
-test('a package a price claim names is withdrawn: red, with successor candidates in the same block', async () => {
-  const r = await get('a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-dearer-than-1gb-14 · g14)');
+test('the card a price claim names is withdrawn: GREEN, the claim\'s sentences are left out', async () => {
+  const r = await get('a card a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-dearer-than-1gb-14 · g14)');
   baseline(r);
-  assert.deepEqual(r.failing, [PRICE]);
-  assert.match(detail(r, PRICE), /нет в каталоге — исчез или снят с витрины; кандидаты в блоке «local»/);
+  assert.deepEqual(r.failing, []);
+  const got = await leftOut(r, 'sri-lanka', 'price_claims', 'faq-3gb-30-dearer-than-1gb-14');
+  assert.match(got[0].reason, /нет карточки local 1 ГБ \/ 14 дн\./);
 });
 
 // 2026-10-25: until the assortment the withdrawn package was also a price-claim term and the case expected [COVERAGE, PRICE];
 // no such package is left (seo/refresh-scenario-cases.mjs) — the price half is the sri-lanka withdrawal case above.
-test('a package a coverage claim names is withdrawn: red on coverage', async () => {
-  const r = await get('a package a COVERAGE claim names is WITHDRAWN (usa · north-america-daily)');
+test('the card a coverage claim names is withdrawn: GREEN, the claim\'s sentence is left out', async () => {
+  const r = await get('a card a COVERAGE claim names is WITHDRAWN (usa · north-america-daily)');
   baseline(r);
-  assert.deepEqual(r.failing, [COVERAGE]);
-  assert.match(detail(r, COVERAGE), /\/esim\/usa\/ · north-america-daily/);
+  assert.deepEqual(r.failing, []);
+  await leftOut(r, 'usa', 'coverage_claims', 'north-america-daily');
 });
 
-test('a new offer makes a «cheapest» sentence false: red on that claim', async () => {
+test('a new offer makes a «cheapest» sentence false: GREEN, that claim\'s sentence is left out', async () => {
   const r = await get('a new offer makes a «cheapest» sentence false (greece: a local plan below the 1 GB / 7 days entry)');
   baseline(r);
-  assert.deepEqual(r.failing, [PRICE]);
-  assert.match(detail(r, PRICE), /cheapest-entry-1gb: assert\[0\] local = g1 ложно/);
+  assert.deepEqual(r.failing, []);
+  const got = await leftOut(r, 'greece', 'price_claims', 'cheapest-entry-1gb');
+  assert.match(got[0].reason, /cheapest-entry-1gb|assert\[0\] local = g1 ложно/);
 });
 
 test('a country loses every plan: the generators keep the page, and the gates demand its explicit removal', async () => {
@@ -129,6 +156,7 @@ test('the provider adds an UNKNOWN code: the refresh guard stops it and names th
   assert.equal(r.build.code, 0, r.build.stderr);
   assert.equal(r.inspected.guard.code, 1, r.inspected.guard.out);
   assert.match(r.inspected.guard.out, /XQ/);
-  // It also counts as one more country on the cards, so «до 41 страны» goes red.
-  assert.ok(r.failing.includes(COVERAGE), r.failing.join('\n'));
+  // It also counts as one more country on the cards, so «до 41 страны» is false: left out, not published.
+  assert.ok(!r.failing.includes(COVERAGE), r.failing.join('\n'));
+  assert.ok((await added(r)).some((x) => x.source === 'coverage_claims'), 'a coverage sentence the new code falsifies is left out');
 });

@@ -311,7 +311,7 @@ jobs:
 
           git checkout -B "$BRANCH"
           # Never `git add .`: only the paths the allowlist just vouched for.
-          git add -- esim en/esim en/destinations.js es/esim es/destinations.js de/esim de/destinations.js fr/esim fr/destinations.js zh/esim zh/destinations.js ko/esim ko/destinations.js seo/catalogue-countries.json seo/fact-sheets.json seo/sitemap-lastmod.json sitemap.xml
+          git add -- esim en/esim en/destinations.js es/esim es/destinations.js de/esim de/destinations.js fr/esim fr/destinations.js zh/esim zh/destinations.js ko/esim ko/destinations.js seo/catalogue-countries.json seo/fact-sheets.json seo/sitemap-lastmod.json seo/suppressed-claims.json sitemap.xml
 
           # WOULD THIS COMMIT SAY ANYTHING NEW?
           #

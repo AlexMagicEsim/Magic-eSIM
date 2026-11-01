@@ -88,8 +88,15 @@
         }
       ],
       "scope": "catalog",
-      "packages": [
-        "411719e1-4b72-4f44-adf1-667ac68f344a"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 25,
+            "validity_days": 30
+          },
+          "family": "china.*korea.*japan"
+        }
       ],
       "covers_exactly": [
         "CN",

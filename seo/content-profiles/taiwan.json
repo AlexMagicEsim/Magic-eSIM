@@ -124,11 +124,35 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "7f43e004-604d-48fc-af1b-45d51f9b4d0e",
-        "6fb7fbee-ec47-4776-ab7a-28cb4b2cac7f",
-        "9414e055-0c31-4e5e-9731-294525a960b5",
-        "215bf22c-3407-4fd5-a13e-d2150bd2dff6"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 14
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 30
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 15,
+            "validity_days": 30
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 30,
+            "validity_days": 30
+          }
+        }
       ],
       "scope_is": true,
       "must_cover": [
@@ -186,9 +210,23 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "26f08928-bb07-4373-951f-fe65eab296a5",
-        "6ec7fb45-c71f-4d93-86b4-ca875a44228b"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 15
+          },
+          "family": "greater.*china.*and.*taiwan"
+        },
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 30
+          },
+          "family": "greater.*china.*and.*taiwan"
+        }
       ],
       "covers_exactly": [
         "CN",
@@ -216,12 +254,12 @@
           "min_of": "page"
         },
         "wk": {
-          "package": "d3ccf377-2ac8-4fee-af20-9e3a85cb9d58",
           "block": "regional",
           "attrs": {
             "data_gb": 1,
             "validity_days": 7
-          }
+          },
+          "family": "asia"
         }
       },
       "assert": [
@@ -266,7 +304,6 @@
   ],
   "price_refs": {
     "g30": {
-      "package": "215bf22c-3407-4fd5-a13e-d2150bd2dff6",
       "block": "local",
       "attrs": {
         "data_gb": 30,

@@ -23,7 +23,9 @@
 //   { id, anchors: [{ field: "faq[1].a", text: "verbatim fragment" }],
 //     scope: "regional" | "daily" | "local" | "page" | "catalog",
 //     page?: "<other slug>",            // evaluate a block of another country page
-//     packages?: ["<package_id>", …],   // the basis: must exist, be shown, sit in scope
+//     basis?: [<selector>, …],          // the cards the sentence is about (seo/plan-ref.mjs):
+//                                       //   { block, attrs: { data_gb | daily_gb, validity_days? },
+//                                       //     days?, family? } — found in the PUBLISHED block
 //     …checks }
 //
 //   Basis checks (every basis package):  must_cover, must_not_cover,
@@ -52,16 +54,26 @@
 //   fragment let a prose edit outside it — «не покрывает» → «тоже покрывает» —
 //   pass unseen.
 //
-//   Ids, not names: a claim anchored by family title could pass on a look-alike
-//   («Africa 3 GB» exists twice, 21 countries apart) and hide the disappearance
-//   of the product the sentence was written about. An id that goes away is a red
-//   test that names the likely successor — a minute to re-pin, never a silent
-//   pass.
+//   Characteristics, not ids (2026-11-01): a basis is the card a page shows in a
+//   block with a volume and term (and, for a multi-country plan, its family) —
+//   the backend picks which provider's row stands behind it (backend #124), and
+//   the id changes while the card does not. Every check then runs on whatever
+//   card fills that slot, so a successor that covers other countries is caught
+//   by the same must_cover / covers_exactly as before. The blocks are the
+//   backend's PUBLISHED layout (assortment.countries) — what the page draws —
+//   never a view rebuilt from coverage codes (that view vouched for Africa
+//   packages Seychelles and Tanzania do not show).
 //
-// FAIL CLOSED. An untrusted catalogue, an unknown key, an unknown country, a
-// claim with nothing to check, an anchor no longer on the page, a basis product
-// that is missing, hidden or in another block, an empty block asked to vouch for
-// «all» or «none» — every one of these is a failure, never a pass.
+// THREE KINDS OF PROBLEM (`kind`). AUTHORING — an untrusted catalogue, an
+// unknown key, an id, an unknown country, a claim with nothing to check, an
+// anchor no longer on the page — fails the check and blocks the catalogue
+// refresh. CONTENT — the card in the slot, or the block, contradicts the
+// sentence (another country list, «all» on an empty block) — and CATALOGUE — no
+// card of that block, volume and term on the page any more — block nothing
+// since 2026-11-01: the generator leaves the sentences the claim anchors out of
+// the page (seo/page-claims.mjs) and records them in seo/suppressed-claims.json,
+// so nothing false is printed and the catalogue keeps moving. A person rewrites
+// the sentence; until then the page carries the template's factual text.
 //
 //   node seo/coverage-claims.mjs --check [--catalog <file>] [--previous <file>]
 //
@@ -74,6 +86,7 @@ import { coverageCodes, isRussia, isRestricted, isGlobal, isMultiCountry, isDail
 import { validateCatalog } from '../scripts/update-catalog-cache.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { isUncounted } from './coverage-only-territories.mjs';
+import { publishedBlocks, selectPlan, validateSelector, describeSelector, matches } from './plan-ref.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const CATALOG_FILE = join(ROOT, 'assets', 'catalog.json');
@@ -88,7 +101,7 @@ const LIST_KEYS = ['must_cover', 'must_not_cover', 'covers_exactly', 'all_in_sco
 const NUM_KEYS = ['coverage_count', 'max_countries', 'min_countries', 'max_coverage'];
 const BOOL_KEYS = ['only', 'scope_is', 'distinct_coverage', 'expect_empty'];
 const CHECK_KEYS = [...LIST_KEYS, ...NUM_KEYS, ...BOOL_KEYS, 'basis_attrs', 'family_is_scope', 'only_attrs', 'attr_bounds'];
-const ALLOWED_KEYS = new Set(['id', 'anchors', 'scope', 'page', 'packages', 'family', 'where', 'note', ...CHECK_KEYS]);
+const ALLOWED_KEYS = new Set(['id', 'anchors', 'scope', 'page', 'basis', 'family', 'where', 'note', ...CHECK_KEYS]);
 const WHERE_KEYS = new Set(['data_gb_min', 'data_gb_max']);
 const BASIS_ATTRS = new Set(['data_gb', 'validity_days', 'topup_available', 'plan_type', 'daily_gb']);
 const PROSE_FIELDS = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'dual_sim_note', 'seo_pilot'];
@@ -126,11 +139,6 @@ export function pageBlocks(packages, iso) {
   return out;
 }
 
-const blockOf = (p, iso) => {
-  if (!storefrontVisible(p) || !coverageCodes(p).includes(iso)) return null;
-  return isDaily(p) ? 'daily' : isMultiCountry(p) ? 'regional' : 'local';
-};
-
 /** «Покрытие: N стран» as the card prints it: daily cards count raw codes, volume cards strip RU/UA/BY. */
 // The card's «N стран» — an uncounted territory a list names (Northern Cyprus)
 // is left out (seo/coverage-only-territories.mjs; assets/country-tariffs.js
@@ -140,11 +148,22 @@ export function printedCount(p) {
   return [...new Set(coverageCodes(p))].filter((c) => !isUncounted(c)).length;
 }
 
-function scopeSet(scope, packages, iso) {
-  if (scope === 'catalog') return packages.filter(storefrontVisible);
-  const b = pageBlocks(packages, iso);
+// What a claim's scope holds: the PUBLISHED blocks of the page (catalog = every
+// card the storefront shows anywhere). null = the snapshot has no layout for it.
+function scopeSet(scope, doc, iso) {
+  if (scope === 'catalog') return doc.packages.filter(storefrontVisible);
+  const b = publishedBlocks(doc, iso);
+  if (!b) return null;
   if (scope === 'page') return [...b.daily, ...b.regional, ...b.local];
   return b[scope];
+}
+
+const kindOf = (p) => (isDaily(p) ? 'daily' : isMultiCountry(p) ? 'regional' : 'local');
+
+/** The card one basis selector names in the claim's scope, or null. */
+function basisPlan(sel, scope, doc, iso) {
+  if (scope === 'catalog') return doc.packages.find((p) => storefrontVisible(p) && kindOf(p) === sel.block && matches(p, sel)) || null;
+  return selectPlan(publishedBlocks(doc, iso), sel).plan;
 }
 
 // ------------------------------------------------------------------ prose
@@ -199,9 +218,15 @@ export function validateClaimShape(claim, slug) {
   if (!SCOPES.includes(claim.scope)) p.push(`scope «${claim.scope}» — допустимо: ${SCOPES.join(', ')}`);
   if (claim.page !== undefined && !isoOfSlug(claim.page)) p.push(`page «${claim.page}» — нет такой страны`);
   if (claim.page !== undefined && claim.scope === 'catalog') p.push('page не имеет смысла для scope «catalog»');
-  if (claim.packages !== undefined) {
-    if (!Array.isArray(claim.packages) || claim.packages.some((x) => typeof x !== 'string' || !x)) p.push('packages — список package_id');
-    else if (new Set(claim.packages).size !== claim.packages.length) p.push('packages — повторяющийся package_id');
+  if (claim.packages !== undefined) p.push('packages: id поставщика не допускается — backend сам выбирает поставщика карточки (#124); опишите карточки в basis: [{ block, attrs, days?, family? }]');
+  if (claim.basis !== undefined) {
+    if (!Array.isArray(claim.basis) || !claim.basis.length) p.push('basis — непустой список селекторов');
+    else claim.basis.forEach((sel, i) => {
+      p.push(...validateSelector(`[${i}]`, sel, 'basis').filter((m) => !/fallback/.test(m)));
+      if (sel && sel.fallback !== undefined) p.push(`basis[${i}].fallback — у basis запасного варианта нет`);
+      if (sel && ['local', 'regional', 'daily'].includes(claim.scope) && sel.block !== claim.scope) p.push(`basis[${i}].block «${sel && sel.block}» — не блок утверждения «${claim.scope}»`);
+    });
+    if (Array.isArray(claim.basis) && new Set(claim.basis.map((x) => JSON.stringify(x))).size !== claim.basis.length) p.push('basis — повторяющийся селектор');
   }
   for (const k of LIST_KEYS) if (claim[k] !== undefined) {
     if (!Array.isArray(claim[k]) || claim[k].length === 0) p.push(`${k} — непустой список ISO-кодов`);
@@ -230,11 +255,12 @@ export function validateClaimShape(claim, slug) {
   if (claim.only_attrs && !claim.some_in_scope) p.push('only_attrs требует some_in_scope — какие страны покрывают «только» такие продукты');
   if (!CHECK_KEYS.some((k) => claim[k] !== undefined)) p.push('утверждение ничего не проверяет');
   const needsBasis = ['must_not_cover', 'covers_exactly', 'coverage_count', 'basis_attrs', 'distinct_coverage', 'scope_is'];
-  if (claim.must_cover && !(Array.isArray(claim.packages) && claim.packages.length) && !claim.only) p.push('must_cover требует packages');
-  if (claim.only && !(Array.isArray(claim.packages) && claim.packages.length) && !claim.family) p.push('only требует packages или family');
-  for (const k of needsBasis) if (claim[k] !== undefined && !(Array.isArray(claim.packages) && claim.packages.length)) p.push(`${k} требует packages`);
+  const hasBasis = Array.isArray(claim.basis) && claim.basis.length;
+  if (claim.must_cover && !hasBasis && !claim.only) p.push('must_cover требует basis');
+  if (claim.only && !hasBasis && !claim.family) p.push('only требует basis или family');
+  for (const k of needsBasis) if (claim[k] !== undefined && !hasBasis) p.push(`${k} требует basis`);
   if (claim.only && !claim.must_cover) p.push('only требует must_cover — какую страну покрывают «только» эти продукты');
-  if (claim.distinct_coverage && !(Array.isArray(claim.packages) && claim.packages.length >= 2)) p.push('distinct_coverage требует хотя бы двух продуктов');
+  if (claim.distinct_coverage && !(Array.isArray(claim.basis) && claim.basis.length >= 2)) p.push('distinct_coverage требует хотя бы двух продуктов');
   return p.map((x) => `${slug}/${claim && claim.id}: ${x}`);
 }
 
@@ -248,39 +274,44 @@ const describe = (p) => {
 const sameSet = (a, b) => a.length === b.length && [...new Set(a)].every((x) => b.includes(x));
 
 /**
- * @returns {Array<{slug, claim, quote, expected, packages, message}>}
+ * @param doc  the catalogue snapshot: packages + the published layout
+ * @returns {Array<{slug, claim, quote, expected, packages, message, kind}>}
+ *   kind: «authoring» | «content» | «catalogue» (see the header)
  */
-export function evaluateProfile(profile, slug, packages, { previous = null } = {}) {
+export function evaluateProfile(profile, slug, doc, { previous = null } = {}) {
   const claims = profile && profile.coverage_claims;
   if (claims === undefined) return [];
   const problems = [];
   const iso = isoOfSlug(slug);
   const add = (claim, expected, message, extra = {}) => problems.push({
     slug, claim: claim.id, quote: (claim.anchors || []).map((a) => a.text).join(' … '),
-    scope: claim.scope, page: claim.page || slug, expected, message, ...extra,
+    scope: claim.scope, page: claim.page || slug, expected, message, kind: 'content', ...extra,
   });
-  if (!Array.isArray(claims)) return [{ slug, claim: '—', quote: '', expected: 'coverage_claims — список', message: 'coverage_claims должен быть списком' }];
-  if (!iso) return [{ slug, claim: '—', quote: '', expected: 'страница страны', message: `«${slug}» — нет такой страны в seo/country-names.mjs` }];
+  const authoring = { kind: 'authoring' };
+  if (!Array.isArray(claims)) return [{ slug, claim: '—', quote: '', expected: 'coverage_claims — список', message: 'coverage_claims должен быть списком', kind: 'authoring' }];
+  if (!iso) return [{ slug, claim: '—', quote: '', expected: 'страница страны', message: `«${slug}» — нет такой страны в seo/country-names.mjs`, kind: 'authoring' }];
 
+  const packages = doc.packages;
   const byId = new Map(packages.map((p) => [p.package_id, p]));
   const prevById = previous ? new Map(previous.map((p) => [p.package_id, p])) : null;
   const seen = new Set();
 
   for (const claim of claims) {
     const shape = validateClaimShape(claim, slug);
-    if (shape.length) { add(claim || {}, 'корректная схема', shape.join('; ')); continue; }
-    if (seen.has(claim.id)) { add(claim, 'уникальный id', `повтор id «${claim.id}» на странице`); continue; }
+    if (shape.length) { add(claim || {}, 'корректная схема', shape.join('; '), authoring); continue; }
+    if (seen.has(claim.id)) { add(claim, 'уникальный id', `повтор id «${claim.id}» на странице`, authoring); continue; }
     seen.add(claim.id);
 
     for (const a of claim.anchors) {
       const t = fieldText(profile, a.field);
-      if (t === undefined) add(claim, `текст в поле ${a.field}`, `поля ${a.field} в профиле нет — утверждение осиротело`);
-      else if (!norm(t).includes(norm(a.text))) add(claim, `«${a.text}» в ${a.field}`, `цитаты нет в ${a.field} — текст изменился, утверждение осиротело; поправьте anchors или удалите утверждение вместе с фразой`);
-      else if (!isWholeSentence(t, a.text)) add(claim, `целое предложение в ${a.field}`, `цитата «${a.text}» — не целое предложение ${a.field}: правка вне фрагмента могла бы изменить смысл незаметно`);
+      if (t === undefined) add(claim, `текст в поле ${a.field}`, `поля ${a.field} в профиле нет — утверждение осиротело`, authoring);
+      else if (!norm(t).includes(norm(a.text))) add(claim, `«${a.text}» в ${a.field}`, `цитаты нет в ${a.field} — текст изменился, утверждение осиротело; поправьте anchors или удалите утверждение вместе с фразой`, authoring);
+      else if (!isWholeSentence(t, a.text)) add(claim, `целое предложение в ${a.field}`, `цитата «${a.text}» — не целое предложение ${a.field}: правка вне фрагмента могла бы изменить смысл незаметно`, authoring);
     }
 
     const pageIso = claim.page ? isoOfSlug(claim.page) : iso;
-    const S0 = scopeSet(claim.scope, packages, pageIso);
+    const S0 = scopeSet(claim.scope, doc, pageIso);
+    if (!S0) { add(claim, 'опубликованный ассортимент страницы', `в снимке нет раскладки /esim/${claim.page || slug}/ — утверждение не с чем сверить`, { kind: 'catalogue' }); continue; }
     const fam = claim.family ? new RegExp(claim.family, 'i') : null;
     const w = claim.where || {};
     const inWhere = (p) => (w.data_gb_min === undefined || Number(p.data_gb) >= w.data_gb_min) && (w.data_gb_max === undefined || Number(p.data_gb) <= w.data_gb_max);
@@ -294,26 +325,20 @@ export function evaluateProfile(profile, slug, packages, { previous = null } = {
       if (!S0.length) add(claim, 'family_is_scope', `${where} пуст`);
     }
 
-    // ---- basis
+    // ---- basis: the cards the selectors name in the published block
     const basis = [];
-    for (const id of claim.packages || []) {
-      const p = byId.get(id);
+    let gone = false;
+    for (const sel of claim.basis || []) {
+      const p = basisPlan(sel, claim.scope, doc, pageIso);
       if (!p) {
-        const prev = prevById && prevById.get(id);
-        const ref = prev || null;
-        const successors = packages.filter((q) => storefrontVisible(q) && ref
-          && (q.name === ref.name || sameSet(coverageCodes(q), coverageCodes(ref))));
-        add(claim, `продукт ${id} в каталоге`, `продукта ${id}${ref ? ` «${ref.name}»` : ''} нет в каталоге — исчез, деактивирован или перестал быть публичным`
-          + (successors.length ? `; вероятный преемник: ${successors.map(describe).join('; ')}` : '')
-          + (!ref ? `; кандидаты в ${where}: ${S.filter((q) => (claim.must_cover || []).every((c) => coverageCodes(q).includes(c))).map(describe).join('; ') || 'нет'}` : ''),
-        { packages: [id] });
+        gone = true;
+        add(claim, `карточка ${describeSelector(sel)} в ${where}`, `в ${where} нет карточки ${describeSelector(sel)} — тариф исчез из опубликованного ассортимента; фраза не публикуется до правки текста`, { kind: 'catalogue' });
         continue;
       }
       basis.push(p);
-      const blk = blockOf(p, pageIso);
-      if (!storefrontVisible(p)) add(claim, `продукт показывается на витрине`, `продукт ${describe(p)} не показывается на витрине (нулевая цена, Россия, RU/UA/BY или глобальный)`, { packages: [id] });
-      else if (claim.scope !== 'catalog' && !sIds.includes(id)) add(claim, `продукт в ${where}`, `продукт ${describe(p)} не стоит в ${where}: ${blk ? `сейчас он в блоке «${blk}»` : 'страница его не показывает'}`, { packages: [id] });
     }
+    if (gone) continue; // the sentence is about a card that is not there — nothing else to check on it
+    const basisIds = basis.map((p) => p.package_id);
     const change = (p) => {
       const prev = prevById && prevById.get(p.package_id);
       if (!prev) return '';
@@ -345,10 +370,10 @@ export function evaluateProfile(profile, slug, packages, { previous = null } = {
     if (needNonEmpty.length && S.length === 0) {
       add(claim, needNonEmpty.join(', '), `${where} пуст — утверждение «про все/ни один» не может быть подтверждено на пустом блоке`);
     } else {
-      if (claim.only && claim.packages) {
+      if (claim.only && claim.basis) {
         const holders = S.filter((p) => covers(p, claim.must_cover)).map((p) => p.package_id);
-        const extra = holders.filter((x) => !claim.packages.includes(x));
-        if (extra.length) add(claim, `only: ${claim.must_cover.join(', ')} покрывают только ${claim.packages.join(', ')}`, `в ${where} ${claim.must_cover.join(', ')} покрывают ещё: ${extra.map((x) => describe(byId.get(x))).join('; ')}`);
+        const extra = holders.filter((x) => !basisIds.includes(x));
+        if (extra.length) add(claim, `only: ${claim.must_cover.join(', ')} покрывают только ${claim.basis.map(describeSelector).join(', ')}`, `в ${where} ${claim.must_cover.join(', ')} покрывают ещё: ${extra.map((x) => describe(byId.get(x))).join('; ')}`);
       } else if (claim.only && fam) {
         // «… покрывают только карточки семейства»: every package of the WHOLE
         // block that covers the countries must belong to the family, and one must.
@@ -358,7 +383,7 @@ export function evaluateProfile(profile, slug, packages, { previous = null } = {
         if (extra.length) add(claim, `only: ${claim.must_cover.join(', ')} покрывают только /${claim.family}/`, `в ${where} ${claim.must_cover.join(', ')} покрывают и продукты другого семейства: ${extra.map(describe).join('; ')}`);
       }
       if (claim.scope_is) {
-        const extra = sIds.filter((x) => !claim.packages.includes(x));
+        const extra = sIds.filter((x) => !basisIds.includes(x));
         if (extra.length) add(claim, 'scope_is: блок состоит ровно из basis', `в ${where} есть ещё: ${extra.map((x) => describe(byId.get(x))).join('; ')}`);
       }
       if (claim.all_in_scope) {
@@ -473,7 +498,7 @@ export function loadProfiles(dir = PROFILE_DIR) {
 export function checkCorpus({ catalogFile = CATALOG_FILE, previousFile = null, profileDir = PROFILE_DIR } = {}) {
   let doc;
   try { doc = loadCatalogDoc(catalogFile); } catch (e) {
-    return { problems: [{ slug: '—', claim: 'catalogue', quote: '', expected: 'доверенный снимок каталога', message: e.message }], stats: { pages: 0, claims: 0 } };
+    return { problems: [{ slug: '—', claim: 'catalogue', quote: '', expected: 'доверенный снимок каталога', message: e.message, kind: 'authoring' }], stats: { pages: 0, claims: 0 } };
   }
   let previous = null;
   if (previousFile && existsSync(previousFile)) {
@@ -483,7 +508,7 @@ export function checkCorpus({ catalogFile = CATALOG_FILE, previousFile = null, p
   for (const [slug, profile] of Object.entries(loadProfiles(profileDir))) {
     if (profile.status !== 'published' || profile.coverage_claims === undefined) continue;
     pages += 1; claims += Array.isArray(profile.coverage_claims) ? profile.coverage_claims.length : 0;
-    problems.push(...evaluateProfile(profile, slug, doc.packages, { previous }));
+    problems.push(...evaluateProfile(profile, slug, doc, { previous }));
   }
   return { problems, stats: { pages, claims, generated_at: doc.generated_at } };
 }
@@ -495,15 +520,21 @@ if (invoked) {
   const arg = (name) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : null; };
   const catalogFile = arg('--catalog') ? resolve(arg('--catalog')) : CATALOG_FILE;
   const previousFile = arg('--previous') ? resolve(arg('--previous')) : null;
-  const { problems, stats } = checkCorpus({ catalogFile, previousFile });
+  const { problems: all, stats } = checkCorpus({ catalogFile, previousFile });
+  // What the catalogue no longer bears out (a card gone, another country list)
+  // blocks nothing: the generator leaves its sentences out of the page
+  // (seo/page-claims.mjs). Only an AUTHORING error stops the refresh.
+  const left = all.filter((x) => x.kind !== 'authoring');
+  const problems = all.filter((x) => x.kind === 'authoring');
+  for (const x of left) console.warn(`⚠ /esim/${x.slug}/ · ${x.claim}: ${x.message}`);
+  if (process.env.GITHUB_ACTIONS) for (const x of left) console.log(`::warning title=SEO coverage sentence left out of the page::/esim/${x.slug}/ · ${x.claim}: ${x.message}`.replace(/\r?\n/g, ' '));
   if (!problems.length) {
-    console.log(`✓ coverage claims: ${stats.claims} утверждений на ${stats.pages} страницах верны (снимок ${stats.generated_at})`);
+    console.log(`✓ coverage claims: ${stats.claims} утверждений на ${stats.pages} страницах верны (снимок ${stats.generated_at})${left.length ? `; не публикуются — карточки нет: ${left.length}` : ''}`);
     process.exit(0);
   }
-  const head = 'ОБНОВЛЕНИЕ КАТАЛОГА ЗАБЛОКИРОВАНО: новый каталог опровергает SEO-утверждение о покрытии.\n'
-    + 'Это не сбой автоматизации — нужно ручное решение: поправить фразу на странице (и её coverage_claims) '
-    + 'или перепривязать утверждение к новому продукту. Пока это не сделано, витрина остаётся на прежнем снимке каталога, '
-    + 'и каждый запуск по расписанию будет падать с этим же сообщением.';
+  const head = 'ОБНОВЛЕНИЕ КАТАЛОГА ЗАБЛОКИРОВАНО: ошибка в разметке coverage_claims.\n'
+    + 'Это не сбой автоматизации и не движение каталога — схема утверждения или его цитата неверны; поправьте профиль. '
+    + 'Пока это не сделано, витрина остаётся на прежнем снимке каталога.';
   console.error(`\n${head}\n`);
   for (const x of problems) console.error(formatProblem(x) + '\n');
   console.error(`Итого: ${problems.length} ${problems.length === 1 ? 'проблема' : 'проблем(ы)'}; проверено ${stats.claims} утверждений на ${stats.pages} страницах.`);

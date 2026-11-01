@@ -291,7 +291,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "d1a09ffd-4929-4cbb-81e0-6f514e1e230e",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -326,7 +325,6 @@
       ],
       "terms": {
         "local3": {
-          "package": "1de0bc1c-00bb-4f52-a5cf-28a9c83eec10",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -334,7 +332,6 @@
           }
         },
         "local20": {
-          "package": "d17617c4-585b-4853-aefe-e01ec4a32085",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -342,20 +339,20 @@
           }
         },
         "carib20": {
-          "package": "f94920d6-b11c-49ef-ab0f-f3c574ea55fc",
           "block": "regional",
           "attrs": {
             "data_gb": 20,
             "validity_days": 30
-          }
+          },
+          "family": "caribbean"
         },
         "am3": {
-          "package": "932ff010-cf18-4972-9b95-67f33b640619",
           "block": "regional",
           "attrs": {
             "data_gb": 3,
             "validity_days": 30
-          }
+          },
+          "family": "americas"
         }
       },
       "assert": [
@@ -380,7 +377,6 @@
       "min_of": "local"
     },
     "g3": {
-      "package": "1de0bc1c-00bb-4f52-a5cf-28a9c83eec10",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -388,7 +384,6 @@
       }
     },
     "g5": {
-      "package": "2cc12a5f-cb32-43cd-85d7-6c1d8ee7d224",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -396,7 +391,6 @@
       }
     },
     "g10": {
-      "package": "d507ece4-c8bc-41c4-b9ad-cda4bc89e72f",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -404,7 +398,6 @@
       }
     },
     "g20": {
-      "package": "d17617c4-585b-4853-aefe-e01ec4a32085",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -412,15 +405,14 @@
       }
     },
     "carib20": {
-      "package": "f94920d6-b11c-49ef-ab0f-f3c574ea55fc",
       "block": "regional",
       "attrs": {
         "data_gb": 20,
         "validity_days": 30
-      }
+      },
+      "family": "caribbean"
     },
     "g1": {
-      "package": "d1a09ffd-4929-4cbb-81e0-6f514e1e230e",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -428,12 +420,12 @@
       }
     },
     "am3": {
-      "package": "932ff010-cf18-4972-9b95-67f33b640619",
       "block": "regional",
       "attrs": {
         "data_gb": 3,
         "validity_days": 30
-      }
+      },
+      "family": "americas"
     }
   }
 }

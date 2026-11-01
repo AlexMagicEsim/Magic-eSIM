@@ -270,8 +270,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "97a22e9e-36c9-4531-b28d-1a22bb75f4c5"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          },
+          "family": "australia.*&.*new.*zealand"
+        }
       ],
       "covers_exactly": [
         "AU",
@@ -309,7 +316,6 @@
   ],
   "price_refs": {
     "local_1gb": {
-      "package": "0777dcad-acad-4885-890a-07528f036649",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -317,7 +323,6 @@
       }
     },
     "local_3gb_15d": {
-      "package": "7b0ecf91-99ea-411a-8438-d436cd74ae29",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -325,7 +330,6 @@
       }
     },
     "local_10gb": {
-      "package": "ccbe0d31-d427-4a99-96dd-b342f3ffd183",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -333,7 +337,6 @@
       }
     },
     "local_20gb": {
-      "package": "194fa536-e733-459a-b632-e74862124974",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -341,7 +344,6 @@
       }
     },
     "local_50gb": {
-      "package": "d8cbfc28-b67f-4962-abe1-73de51c6ea4e",
       "block": "local",
       "attrs": {
         "data_gb": 50,
@@ -349,52 +351,51 @@
       }
     },
     "aunz_2gb": {
-      "package": "c27dffbd-1d85-4848-ac5e-249a32765f6e",
       "block": "regional",
       "attrs": {
         "data_gb": 2,
         "validity_days": 15
-      }
+      },
+      "family": "australia.*and.*nz"
     },
     "aunz_5gb": {
-      "package": "309701c1-0781-40a4-8024-2faede1295bf",
       "block": "regional",
       "attrs": {
         "data_gb": 5,
         "validity_days": 30
-      }
+      },
+      "family": "australia.*and.*nz"
     },
     "aunz_12gb": {
-      "package": "e7bea14b-0de2-44e4-b015-7341fcc66d0d",
       "block": "regional",
       "attrs": {
         "data_gb": 12,
         "validity_days": 30
-      }
+      },
+      "family": "australia.*and.*nz"
     },
     "aunz_20gb": {
-      "package": "d215c0cd-3e67-4b05-b20b-86268b97ca84",
       "block": "regional",
       "attrs": {
         "data_gb": 20,
         "validity_days": 30
-      }
+      },
+      "family": "australia.*and.*nz"
     },
     "anz_1gb": {
-      "package": "97a22e9e-36c9-4531-b28d-1a22bb75f4c5",
       "block": "regional",
       "attrs": {
         "data_gb": 1,
         "validity_days": 7
-      }
+      },
+      "family": "australia.*&.*new.*zealand"
     },
     "au_daily_500mb_3d": {
-      "package": "7ea1a53a-1258-4510-9387-c4ca726b53fb",
       "block": "daily",
-      "days": 3,
       "attrs": {
         "daily_gb": 0.49
-      }
+      },
+      "days": 3
     }
   },
   "price_claims": [
@@ -471,7 +472,6 @@
           "min_of": "local"
         },
         "g1": {
-          "package": "0777dcad-acad-4885-890a-07528f036649",
           "block": "local",
           "attrs": {
             "data_gb": 1,

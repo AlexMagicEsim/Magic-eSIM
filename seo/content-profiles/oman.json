@@ -68,19 +68,21 @@
   },
   "price_refs": {
     "d500_3d": {
-      "package": "e19dd57c-23a9-4441-92d8-140ac801d919",
       "block": "daily",
+      "attrs": {
+        "daily_gb": 0.49
+      },
       "days": 3
     },
     "unl3": {
-      "package": "7edaea15-f208-4c7b-9282-4752020b2fe5",
       "block": "daily",
       "attrs": {
+        "daily_gb": 3,
         "validity_days": 3
-      }
+      },
+      "family": "oman"
     },
     "g1": {
-      "package": "09990a8f-7290-48c0-9f56-4a246b75a122",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -106,7 +108,6 @@
           "min_of": "volume"
         },
         "g1": {
-          "package": "09990a8f-7290-48c0-9f56-4a246b75a122",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -114,8 +115,10 @@
           }
         },
         "d": {
-          "package": "e19dd57c-23a9-4441-92d8-140ac801d919",
           "block": "daily",
+          "attrs": {
+            "daily_gb": 0.49
+          },
           "days": 3
         }
       },
@@ -154,8 +157,10 @@
           "days": 3
         },
         "d": {
-          "package": "e19dd57c-23a9-4441-92d8-140ac801d919",
           "block": "daily",
+          "attrs": {
+            "daily_gb": 0.49
+          },
           "days": 3
         }
       },
@@ -183,22 +188,26 @@
       ],
       "terms": {
         "unl3": {
-          "package": "7edaea15-f208-4c7b-9282-4752020b2fe5",
           "block": "daily",
           "attrs": {
+            "daily_gb": 3,
             "validity_days": 3
-          }
+          },
+          "family": "oman"
         },
         "unl5": {
-          "package": "1af4297c-4b0e-45a7-85a8-6940b337cdcb",
           "block": "daily",
           "attrs": {
+            "daily_gb": 3,
             "validity_days": 5
-          }
+          },
+          "family": "oman"
         },
         "d": {
-          "package": "e19dd57c-23a9-4441-92d8-140ac801d919",
           "block": "daily",
+          "attrs": {
+            "daily_gb": 0.49
+          },
           "days": 3
         }
       },

@@ -178,7 +178,7 @@ const REGION_PATHS = ['en/esim/europe/index.html', 'en/esim/asia/index.html', 'e
 test('the refresh allowlist is what it was — derived now, not typed', () => {
   assert.deepEqual([...FIXED_ALLOWED], [
     'esim/index.html', 'sitemap.xml', 'seo/catalogue-countries.json', 'seo/fact-sheets.json',
-    'seo/sitemap-lastmod.json', 'en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js',
+    'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js',
     'de/esim/index.html', 'de/destinations.js', 'fr/esim/index.html', 'fr/destinations.js', 'zh/esim/index.html', 'zh/destinations.js', 'ko/esim/index.html', 'ko/destinations.js',
     'assets/ru-destinations.js',
   ]);
@@ -218,7 +218,7 @@ test('REHEARSAL: enabling a language is the registry flip — Korean «as if pla
   assert.deepEqual(prefixedSiteLocales().map((l) => l.code), ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
   assert.deepEqual(refreshStagePaths(), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
     'de/esim', 'de/destinations.js', 'fr/esim', 'fr/destinations.js', 'zh/esim', 'zh/destinations.js', 'ko/esim', 'ko/destinations.js',
-    'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'sitemap.xml']);
+    'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'sitemap.xml']);
   assert.deepEqual(refreshTreePaths(), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
     'de/esim', 'de/destinations.js', 'fr/esim', 'fr/destinations.js', 'zh/esim', 'zh/destinations.js', 'ko/esim', 'ko/destinations.js', 'seo', 'sitemap.xml']);
   assert.deepEqual(catalogueLocalePaths(['peru']), {

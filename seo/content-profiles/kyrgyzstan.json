@@ -123,15 +123,13 @@
       ],
       "terms": {
         "d": {
-          "package": "4defa723-d26f-4dde-994f-c51b79acdf28",
           "block": "daily",
-          "days": 7,
           "attrs": {
             "daily_gb": 1
-          }
+          },
+          "days": 7
         },
         "v": {
-          "package": "8a555829-6d70-4dff-86fe-c5ddedd5f14a",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -150,15 +148,13 @@
   ],
   "price_refs": {
     "d1_7d": {
-      "package": "4defa723-d26f-4dde-994f-c51b79acdf28",
       "block": "daily",
-      "days": 7,
       "attrs": {
         "daily_gb": 1
-      }
+      },
+      "days": 7
     },
     "g10": {
-      "package": "8a555829-6d70-4dff-86fe-c5ddedd5f14a",
       "block": "local",
       "attrs": {
         "data_gb": 10,

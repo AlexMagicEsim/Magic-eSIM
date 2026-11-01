@@ -134,7 +134,6 @@
       ],
       "terms": {
         "g10": {
-          "package": "6eac8522-62ea-4b7f-bd3c-d2da77ea86aa",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -142,7 +141,6 @@
           }
         },
         "g15": {
-          "package": "ee63d7a6-e0f5-482d-ba30-defd65f643e7",
           "block": "local",
           "attrs": {
             "data_gb": 15,
@@ -150,7 +148,6 @@
           }
         },
         "g20": {
-          "package": "9a55c994-f5a3-468d-bfd7-5a669b50e773",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -181,7 +178,6 @@
       "min_of": "daily"
     },
     "g15": {
-      "package": "ee63d7a6-e0f5-482d-ba30-defd65f643e7",
       "block": "local",
       "attrs": {
         "data_gb": 15,
@@ -189,7 +185,6 @@
       }
     },
     "g20": {
-      "package": "9a55c994-f5a3-468d-bfd7-5a669b50e773",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -197,7 +192,6 @@
       }
     },
     "g10": {
-      "package": "6eac8522-62ea-4b7f-bd3c-d2da77ea86aa",
       "block": "local",
       "attrs": {
         "data_gb": 10,

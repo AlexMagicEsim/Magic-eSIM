@@ -6,6 +6,8 @@ import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { ROOT, readJson, countryPageSlugs } from './refresh-scenarios.mjs';
 import { countryFacts } from './catalogue-facts.mjs';
+import { isoOfSlug } from './coverage-claims.mjs';
+import { publishedBlocks, selectPlan } from './plan-ref.mjs';
 
 const CATALOG = () => readJson(join(ROOT, 'assets', 'catalog.json'));
 const profilePath = (slug) => join(ROOT, 'seo', 'content-profiles', `${slug}.json`);
@@ -57,29 +59,32 @@ export function templateFixture(packages = CATALOG().packages) {
   throw new Error('no template fixture: no page without a profile whose floor is a single-country plan');
 }
 
-/** A named claim's term package id, or a loud error naming what to re-point. */
+/** A named claim's term (or coverage basis) — a selector — or a loud error naming what to re-point. */
 export function claimTerm(slug, kind, claimId, term) {
   const p = readJson(profilePath(slug));
   const list = kind === 'price' ? p.price_claims : p.coverage_claims;
   const c = (list || []).find((x) => x.id === claimId);
   if (!c) throw new Error(`fixture: ${slug} has no ${kind} claim «${claimId}» — re-point seo/refresh-scenario-cases.mjs`);
-  if (kind === 'coverage') return c.packages[0];
-  if (!c.terms[term] || !c.terms[term].package) throw new Error(`fixture: ${slug} · ${claimId} has no package term «${term}»`);
-  return c.terms[term].package;
+  if (kind === 'coverage') return { page: c.page || slug, sel: c.basis[0] };
+  if (!c.terms[term] || !c.terms[term].block) throw new Error(`fixture: ${slug} · ${claimId} has no card term «${term}»`);
+  return { page: slug, sel: c.terms[term] };
 }
 
-/** A {{price:<name>}} reference's package id, or a loud error naming what to re-point. */
+/** A {{price:<name>}} reference — a selector — or a loud error naming what to re-point. */
 export function tokenRef(slug, name) {
   const r = (readJson(profilePath(slug)).price_refs || {})[name];
-  if (!r || !r.package) throw new Error(`fixture: ${slug} has no price_refs.${name} with a package — re-point seo/refresh-scenario-cases.mjs`);
-  return r.package;
+  if (!r || !r.block) throw new Error(`fixture: ${slug} has no price_refs.${name} naming a card — re-point seo/refresh-scenario-cases.mjs`);
+  return { page: slug, sel: r };
 }
 
-const byId = (doc, id) => {
-  const p = doc.packages.find((x) => x.package_id === id);
-  if (!p) throw new Error(`fixture: package ${id} is not in the catalogue — re-point seo/refresh-scenario-cases.mjs`);
-  return p;
+/** Every package behind the card a selector names on its page (look-alike twins included), or a loud error. */
+const cardsOf = (doc, { page, sel }) => {
+  const { candidates } = selectPlan(publishedBlocks(doc, isoOfSlug(page)), sel);
+  if (!candidates.length) throw new Error(`fixture: /esim/${page}/ shows no card ${JSON.stringify(sel)} — re-point seo/refresh-scenario-cases.mjs`);
+  return candidates;
 };
+const cardOf = (doc, ref) => cardsOf(doc, ref)[0];
+const withdraw = (doc, ref) => { const ids = new Set(cardsOf(doc, ref).map((p) => p.package_id)); doc.packages = doc.packages.filter((p) => !ids.has(p.package_id)); return [...ids]; };
 
 export function cases() {
   const tpl = templateFixture();
@@ -113,7 +118,7 @@ export function cases() {
       // Stage B: australia prints this amount through {{price:au_daily_500mb_3d}}.
       name: 'a package a {{price}} TOKEN prints moves (australia · au_daily_500mb_3d)',
       mutate: (doc) => {
-        const p = byId(doc, tokenRef('australia', 'au_daily_500mb_3d'));
+        const p = cardOf(doc, tokenRef('australia', 'au_daily_500mb_3d'));
         p.term_prices = p.term_prices.map((t) => (t.days === 3 ? { ...t, price: t.price + 100 } : t));
         return { price: termPrice(p, 3) };
       },
@@ -123,20 +128,30 @@ export function cases() {
     // SEO control pages) became {{price:…}} tokens, MAX_UNANCHORED is 0 (seo/test-price-inventory.mjs) — a moved price is
     // the «{{price}} token prints moves — GREEN» case below.
     {
-      name: 'a package a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)',
+      name: 'a card a {{price}} TOKEN names is WITHDRAWN (australia · aunz_5gb)',
+      mutate: (doc) => ({ withdrawn: withdraw(doc, tokenRef('australia', 'aunz_5gb')) }),
+      inspect: ({ pageOf }) => ({ html: pageOf('australia') }),
+    },
+    {
+      // 2026-11-01 (backend #124): the backend now shows the card from the provider we buy cheaper — a NEW row (id,
+      // provider) behind the same card, here at a new retail price too.
+      name: 'the backend SWITCHES the provider behind a {{price}} card (australia · au_daily_500mb_3d: new id, same card, new price)',
       mutate: (doc) => {
-        const id = tokenRef('australia', 'aunz_5gb');
-        byId(doc, id);
-        doc.packages = doc.packages.filter((p) => p.package_id !== id);
+        const old = cardOf(doc, tokenRef('australia', 'au_daily_500mb_3d'));
+        const n = { ...JSON.parse(JSON.stringify(old)), package_id: '00000000-0000-4000-8000-0000000000cc', name: `${old.name} (other provider)` };
+        n.term_prices = n.term_prices.map((t) => (t.days === 3 ? { ...t, price: t.price + 50 } : t));
+        doc.packages = doc.packages.map((p) => (p.package_id === old.package_id ? n : p));
+        return { price: termPrice(n, 3), oldId: old.package_id };
       },
+      inspect: ({ pageOf, info }) => ({ html: pageOf('australia'), price: info.price }),
     },
     {
       // 2026-10-25: re-pointed from local-vs-balkans-daily (the Balkans daily plans left the assortment) to the claim that
       // replaced it. Both terms are fixed-volume plans printed through {{price:local_20gb}} / {{price:eu_usa_18gb}}.
       name: 'a stated relation FLIPS (montenegro · local-20gb-below-regional-18gb: the local plan becomes dearer)',
       mutate: (doc) => {
-        const local = byId(doc, claimTerm('montenegro', 'price', 'local-20gb-below-regional-18gb', 'local'));
-        const regional = byId(doc, claimTerm('montenegro', 'price', 'local-20gb-below-regional-18gb', 'regional'));
+        const local = cardOf(doc, claimTerm('montenegro', 'price', 'local-20gb-below-regional-18gb', 'local'));
+        const regional = cardOf(doc, claimTerm('montenegro', 'price', 'local-20gb-below-regional-18gb', 'regional'));
         local.price = Number(regional.price) + 100;
       },
     },
@@ -145,12 +160,8 @@ export function cases() {
       // Sri Lanka page is now a 1 GB / 7 days card). The withdrawn package is the local 1 GB / 14 days plan of
       // faq-3gb-30-dearer-than-1gb-14 — a claim term, not a {{price}} token (R4 hid the 3 GB / 15 days plan of the
       // earlier faq-3gb-30-not-dearer-than-15, 2026-10-25).
-      name: 'a package a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-dearer-than-1gb-14 · g14)',
-      mutate: (doc) => {
-        const id = claimTerm('sri-lanka', 'price', 'faq-3gb-30-dearer-than-1gb-14', 'g14');
-        byId(doc, id);
-        doc.packages = doc.packages.filter((p) => p.package_id !== id);
-      },
+      name: 'a card a PRICE claim names is WITHDRAWN (sri-lanka · faq-3gb-30-dearer-than-1gb-14 · g14)',
+      mutate: (doc) => ({ withdrawn: withdraw(doc, claimTerm('sri-lanka', 'price', 'faq-3gb-30-dearer-than-1gb-14', 'g14')) }),
     },
     {
       // 2026-10-25: re-pointed from australia · au-nz-daily-500mb (the AU+NZ daily family left the assortment). After the
@@ -159,12 +170,8 @@ export function cases() {
       // only plan — the «LOSES every plan» case). So this case is now coverage alone: North America 5GB/Day, named only by
       // usa's coverage claim (no authored «факт» rests on it, unlike LatAm 50 GB or EU 60 GB, whose withdrawal also turns
       // the facts gate red); withdrawing a package a price claim names is the sri-lanka case above.
-      name: 'a package a COVERAGE claim names is WITHDRAWN (usa · north-america-daily)',
-      mutate: (doc) => {
-        const id = claimTerm('usa', 'coverage', 'north-america-daily');
-        byId(doc, id);
-        doc.packages = doc.packages.filter((p) => p.package_id !== id);
-      },
+      name: 'a card a COVERAGE claim names is WITHDRAWN (usa · north-america-daily)',
+      mutate: (doc) => ({ withdrawn: withdraw(doc, claimTerm('usa', 'coverage', 'north-america-daily')) }),
     },
     {
       // 2026-10-25 (after the 590-plan activation): re-pointed from sri-lanka · cheapest-is-not-local (its sentence is
@@ -172,7 +179,7 @@ export function cases() {
       // below it makes that false.
       name: 'a new offer makes a «cheapest» sentence false (greece: a local plan below the 1 GB / 7 days entry)',
       mutate: (doc) => {
-        const g1 = byId(doc, claimTerm('greece', 'price', 'cheapest-entry-1gb', 'g1'));
+        const g1 = cardOf(doc, claimTerm('greece', 'price', 'cheapest-entry-1gb', 'g1'));
         const n = JSON.parse(JSON.stringify(g1));
         n.package_id = '00000000-0000-4000-8000-0000000000bb';
         n.name = `${g1.name} (scenario)`;

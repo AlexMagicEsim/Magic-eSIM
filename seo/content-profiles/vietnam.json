@@ -123,7 +123,6 @@
       ],
       "terms": {
         "g3_15": {
-          "package": "b4f4a4d1-a468-44bb-92ec-79db1b28f69f",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -131,7 +130,6 @@
           }
         },
         "g3_30": {
-          "package": "4550563a-3eef-4ff6-8af3-4004bdc36f4c",
           "block": "local",
           "attrs": {
             "data_gb": 3,
@@ -163,7 +161,6 @@
       "min_of": "daily"
     },
     "g1": {
-      "package": "703a4a9b-1fba-46d3-8490-a467692a899a",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -171,7 +168,6 @@
       }
     },
     "g3_15": {
-      "package": "b4f4a4d1-a468-44bb-92ec-79db1b28f69f",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -179,7 +175,6 @@
       }
     },
     "g3_30": {
-      "package": "4550563a-3eef-4ff6-8af3-4004bdc36f4c",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -187,7 +182,6 @@
       }
     },
     "g5": {
-      "package": "4268916f-3f0a-4e3f-8997-f0cce43145f0",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -195,7 +189,6 @@
       }
     },
     "g10": {
-      "package": "32ec73cf-88f0-4a82-b333-12a2856e67e6",
       "block": "local",
       "attrs": {
         "data_gb": 10,

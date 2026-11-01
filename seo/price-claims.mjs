@@ -23,9 +23,11 @@
 //
 //   { id, anchors: [{ field: "description", text: "<a whole sentence>" }],
 //     terms: {
-//       a:   { package: "<package_id>", block: "local"|"regional"|"daily",
-//              days?: N,                 // the term the sentence prices
-//              attrs?: { data_gb, daily_gb, validity_days } },
+//       a:   { block: "local"|"regional"|"daily",           // a SELECTOR (seo/plan-ref.mjs):
+//              attrs: { data_gb | daily_gb, validity_days? }, // the card's volume and term,
+//              days?: N,                 // the term the sentence prices (a ladder rung)
+//              family?: "<regex>",       // what the sentence names («пакет на Африку»)
+//              fallback?: <term> },      // only where the sentence stays true with it
 //       min: { min_of: "page"|"volume"|"local"|"regional"|"daily",   // volume = local + regional
 //              days?: N,                 // the price of that term only
 //              where?: { data_gb, daily_gb, validity_days, multi_country } } },
@@ -33,16 +35,19 @@
 //                 factor?: K } ],     // left × K op right — «в разы», «почти втрое»
 //     note? }
 //
-//   A package term is the amount the customer pays for that card on that term:
-//   a PER_DAY ladder's rung for `days` (required — the per-day rate is never a
-//   price), else the package price (and `days`, when given, must be its
-//   validity). It must still be on THIS page, in the named block — a sentence
-//   that compares «местный» with «региональный» names blocks, and attribution is
-//   what broke Malaysia, Brazil and Greece. A `min_of` term is the cheapest such
+//   A selector term is the amount the customer pays for the card the page shows
+//   in that block with that volume and term: a PER_DAY ladder's rung for `days`
+//   (required — the per-day rate is never a price), else the card's price. The
+//   blocks are the backend's PUBLISHED layout (assortment.countries — what the
+//   page draws), never a view rebuilt from coverage codes. A sentence that
+//   compares «местный» with «региональный» names blocks, and attribution is what
+//   broke Malaysia, Brazil and Greece. A `min_of` term is the cheapest such
 //   amount in the block (or on the whole page), optionally narrowed.
 //
-//   Ids, not descriptions: a vanished id is a red test that lists the likely
-//   successors (same block, same volume and term) — a minute to re-pin.
+//   Characteristics, not ids (2026-11-01): the backend picks the provider of a
+//   card (backend #124, the cheaper purchase), so the id under a card changes
+//   while the buyer sees the same card. A provider id here stopped every SEO
+//   refresh on 2026-10-31 (storefront #198); it is refused now.
 //
 // COMPLETENESS. Every sentence of the HEADLINE fields — title, description, h1,
 // lead — that names a rouble amount or a price relation must be the anchor of a
@@ -51,17 +56,22 @@
 // exactly those. The body is still covered by checkFacts only (a figure must
 // exist in the country); anchoring it is allowed, not yet required.
 //
-// FAIL CLOSED. An unknown key, a claim with nothing to check, an anchor no longer
-// on the page or not a whole sentence, a missing or moved package, a ladder with
-// no such term, an empty `min_of` — every one is a failure, never a pass.
+// TWO KINDS OF PROBLEM. An AUTHORING problem — an unknown key, an id, a claim
+// with nothing to check, an anchor no longer on the page or not a whole
+// sentence — is a failure, never a pass. A CATALOGUE problem — no card of that
+// block, volume and term on the page any more, a ladder without the term, an
+// empty `min_of`, an assertion the new prices make false — is not something a
+// person can refuse (the provider has moved, the backend already sells it): the
+// generator leaves every sentence the claim anchors OUT of the page and records
+// it in seo/suppressed-claims.json (seo/page-claims.mjs), so nothing false is
+// published and the refresh goes on. The sentence is rewritten later, by a
+// person — the record says which.
 //
-// WHERE IT RUNS. `npm test` (seo/test-price-claims.mjs): on `main`'s CI and
-// inside the SEO-refresh job, which rebuilds over the bot's new catalogue and
-// stops before opening a PR. NOT in the catalogue cache refresh: a price move is
-// not something a gate can refuse — the provider has already made it, the
-// backend already sells at it — and blocking the cache would freeze every price
-// on the site over one sentence. The job of this check is to fail LOUDLY in the
-// next refresh PR, naming the sentence.
+// WHERE IT RUNS. The generator (seo/build-catalogue-pages.mjs through
+// seo/page-claims.mjs) and `npm test` (seo/test-price-claims.mjs): on `main`'s CI
+// and inside the SEO-refresh job. NOT in the catalogue cache refresh: a price
+// move is not something a gate can refuse, and blocking the cache would freeze
+// every price on the site over one sentence.
 //
 //   node seo/price-claims.mjs --check [--catalog <file>]
 
@@ -69,7 +79,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isMultiCountry, purchasablePrice } from './catalogue-facts.mjs';
-import { pageBlocks, isoOfSlug, fieldText, isWholeSentence, sentencesOf, loadCatalogDoc } from './coverage-claims.mjs';
+import { isoOfSlug, fieldText, isWholeSentence, sentencesOf, loadCatalogDoc } from './coverage-claims.mjs';
+import { publishedBlocks, selectPlan, validateSelector, describeSelector } from './plan-ref.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const CATALOG_FILE = join(ROOT, 'assets', 'catalog.json');
@@ -80,7 +91,6 @@ const BLOCKS = ['local', 'regional', 'daily'];
 const MIN_SCOPES = ['page', 'volume', ...BLOCKS];
 const OPS = { '<': (a, b) => a < b, '<=': (a, b) => a <= b, '=': (a, b) => a === b, '>=': (a, b) => a >= b, '>': (a, b) => a > b };
 const CLAIM_KEYS = new Set(['id', 'anchors', 'terms', 'assert', 'note']);
-const PACKAGE_TERM_KEYS = new Set(['package', 'block', 'days', 'attrs']);
 const MIN_TERM_KEYS = new Set(['min_of', 'days', 'where']);
 const ATTR_KEYS = new Set(['data_gb', 'daily_gb', 'validity_days']);
 const WHERE_KEYS = new Set([...ATTR_KEYS, 'multi_country']);
@@ -133,14 +143,21 @@ const inWhere = (p, where = {}) => Object.entries(where).every(([k, v]) =>
  */
 export function validateTermShape(name, t, where = 'terms') {
   const p = [];
-  if (!/^[a-z][a-z0-9_]*$/.test(name)) p.push(`${where}.${name}: имя — латиница, цифры, _`);
+  if (!/^[a-z][a-z0-9_]*(?:\.fallback)?$/.test(name)) p.push(`${where}.${name}: имя — латиница, цифры, _`);
   if (!t || typeof t !== 'object') { p.push(`${where}.${name} не объект`); return p; }
-  if (t.days !== undefined && !(Number.isInteger(t.days) && t.days > 0)) p.push(`${where}.${name}.days — целое число дней`);
   if ('package' in t) {
-    for (const k of Object.keys(t)) if (!PACKAGE_TERM_KEYS.has(k)) p.push(`${where}.${name}: неизвестный ключ «${k}»`);
-    if (typeof t.package !== 'string' || !t.package) p.push(`${where}.${name}.package — id продукта`);
-    if (!BLOCKS.includes(t.block)) p.push(`${where}.${name}.block обязателен: ${BLOCKS.join(' | ')} — сравнение без блока и есть ошибка атрибуции`);
-    for (const [k, v] of Object.entries(t.attrs || {})) if (!ATTR_KEYS.has(k) || !isNum(v)) p.push(`${where}.${name}.attrs.${k} — неизвестно или не число`);
+    p.push(`${where}.${name}.package: id поставщика не допускается — backend сам выбирает поставщика карточки (#124), и id под ней меняется; `
+      + 'опишите тариф характеристиками: { block, attrs: { data_gb | daily_gb, validity_days }, days?, family? }');
+    return p;
+  }
+  if (t.days !== undefined && !(Number.isInteger(t.days) && t.days > 0)) p.push(`${where}.${name}.days — целое число дней`);
+  if ('block' in t) {
+    p.push(...validateSelector(name, t, where).filter((m) => !/\.days — целое/.test(m)));
+    if (t.fallback !== undefined && where !== 'price_refs') p.push(`${where}.${name}.fallback — запасной вариант только у price_refs: утверждение сравнивает ту карточку, о которой фраза`);
+    else if (t.fallback !== undefined) {
+      if (t.fallback && typeof t.fallback === 'object' && 'fallback' in t.fallback) p.push(`${where}.${name}.fallback: запасной вариант без своего запасного`);
+      else p.push(...validateTermShape(`${name}.fallback`, t.fallback, where));
+    }
   } else if ('min_of' in t) {
     for (const k of Object.keys(t)) if (!MIN_TERM_KEYS.has(k)) p.push(`${where}.${name}: неизвестный ключ «${k}»`);
     if (!MIN_SCOPES.includes(t.min_of)) p.push(`${where}.${name}.min_of: ${MIN_SCOPES.join(' | ')}`);
@@ -148,7 +165,7 @@ export function validateTermShape(name, t, where = 'terms') {
       if (!WHERE_KEYS.has(k)) p.push(`${where}.${name}.where.${k} — неизвестный ключ`);
       else if (k === 'multi_country' ? typeof v !== 'boolean' : !isNum(v)) p.push(`${where}.${name}.where.${k} — неверный тип`);
     }
-  } else p.push(`${where}.${name}: нужен package или min_of`);
+  } else p.push(`${where}.${name}: нужен селектор (block + attrs) или min_of`);
   return p;
 }
 
@@ -182,30 +199,28 @@ export function validateClaimShape(claim) {
 // ------------------------------------------------------------------ evaluation
 
 /**
- * The amount one term names on /esim/<slug>/ in this catalogue: { value: { price, what } | null, errors }.
+ * The amount one term names on /esim/<slug>/ in this catalogue: { value: { price, plan?, what } | null, errors }.
  * The ONE place a term becomes a price — price_claims assert on it and price_refs
  * (seo/price-tokens.mjs) print it, so a printed amount and a checked amount
- * cannot come from two rules. ctx = { blocks: pageBlocks(packages, iso), byId, slug }.
+ * cannot come from two rules. ctx = { blocks: publishedBlocks(doc, iso), slug }.
+ * Every error here is a CATALOGUE problem — the shape was validated before.
  */
-export function resolveTerm(name, t, { blocks, byId, slug }) {
+export function resolveTerm(name, t, { blocks, slug }) {
   const errors = [];
-  if ('package' in t) {
-    const p = byId.get(t.package);
-    if (!p) {
-      const twins = blocks[t.block].filter((q) => Object.entries(t.attrs || {}).every(([k, v]) => Number(q[k]) === v)
-        && (t.days === undefined || !termPrice(q, t.days).error));
-      errors.push(`${name}: продукта ${t.package} нет в каталоге — исчез или снят с витрины`
-        + `; кандидаты в блоке «${t.block}»: ${twins.map(describe).join('; ') || 'нет'}`);
+  if ('block' in t) {
+    const { plan } = selectPlan(blocks, t);
+    if (!plan) {
+      if (t.fallback) {
+        const fb = resolveTerm(name, t.fallback, { blocks, slug });
+        if (fb.value) return { value: { ...fb.value, what: `${fb.value.what} (запасной вариант)` }, errors };
+        errors.push(...fb.errors);
+      }
+      errors.push(`${name}: на /esim/${slug}/ нет карточки ${describeSelector(t)} — тариф исчез из опубликованного ассортимента или сменил объём / срок`);
       return { value: null, errors };
     }
-    const blk = blockOn(blocks, p);
-    if (blk !== t.block) { errors.push(`${name}: ${describe(p)} не в блоке «${t.block}» страницы /esim/${slug}/: ${blk ? `сейчас в «${blk}»` : 'страница его не показывает'}`); return { value: null, errors }; }
-    for (const [k, v] of Object.entries(t.attrs || {})) {
-      if (Number(p[k]) !== v) errors.push(`${name}: ${describe(p)} — ${k} сейчас ${p[k]}, в утверждении ${v}`);
-    }
-    const r = termPrice(p, t.days);
+    const r = termPrice(plan, t.days);
     if (r.error) { errors.push(`${name}: ${r.error}`); return { value: null, errors }; }
-    return { value: { price: r.price, what: `${describe(p)}${t.days ? ` на ${t.days} дн.` : ''}` }, errors };
+    return { value: { price: r.price, plan: plan.package_id, what: `${describe(plan)}${t.days ? ` на ${t.days} дн.` : ''}` }, errors };
   }
   const pool = (t.min_of === 'page' ? [...blocks.daily, ...blocks.regional, ...blocks.local]
     : t.min_of === 'volume' ? [...blocks.regional, ...blocks.local] : blocks[t.min_of])
@@ -220,17 +235,21 @@ export function resolveTerm(name, t, { blocks, byId, slug }) {
   return { value: { price: best.price, what: `минимум «${t.min_of}»${t.days ? ` на ${t.days} дн.` : ''} — ${describe(best.p)}` }, errors };
 }
 
-/** Problems of one profile's price claims against `packages` (one catalogue snapshot). */
-export function evaluateProfile(profile, slug, packages) {
+/**
+ * Problems of one profile's price claims against one catalogue snapshot (`doc`:
+ * packages + the published layout). Each problem carries `kind`: «authoring»
+ * (fails the build and the tests) or «catalogue» (the claim's sentences are
+ * left out of the page — seo/page-claims.mjs).
+ */
+export function evaluateProfile(profile, slug, doc) {
   const out = [];
-  const add = (claim, msg) => out.push({ slug, claim: claim && claim.id, msg });
+  const add = (claim, msg, kind = 'authoring') => out.push({ slug, claim: claim && claim.id, msg, kind });
   const claims = profile.price_claims;
   if (claims === undefined) return out;
   if (!Array.isArray(claims)) { add(null, 'price_claims — не массив'); return out; }
   const iso = isoOfSlug(slug);
   if (!iso) { add(null, `страна для /esim/${slug}/ неизвестна`); return out; }
-  const blocks = pageBlocks(packages, iso);
-  const byId = new Map(packages.map((p) => [p.package_id, p]));
+  const blocks = publishedBlocks(doc, iso);
   const ids = new Set();
 
   for (const claim of claims) {
@@ -245,11 +264,12 @@ export function evaluateProfile(profile, slug, packages) {
       else if (!norm(t).includes(norm(a.text))) add(claim, `цитаты «${a.text}» нет в ${a.field} — текст изменился; поправьте anchors или удалите утверждение вместе с фразой`);
       else if (!isWholeSentence(t, a.text)) add(claim, `«${a.text}» — не целое предложение ${a.field}`);
     }
+    if (!blocks) { add(claim, `в снимке нет опубликованного ассортимента для ${iso} — страницу не с чем сверить`, 'catalogue'); continue; }
 
     const value = {};
     for (const [name, t] of Object.entries(claim.terms)) {
-      const r = resolveTerm(name, t, { blocks, byId, slug });
-      for (const m of r.errors) add(claim, m);
+      const r = resolveTerm(name, t, { blocks, slug });
+      for (const m of r.errors) add(claim, m, 'catalogue');
       if (r.value) value[name] = r.value;
     }
 
@@ -259,7 +279,7 @@ export function evaluateProfile(profile, slug, packages) {
       if (!l || !r) return; // the missing term was already reported
       const k = a.factor ?? 1;
       if (!OPS[a.op](Math.round(l.price * k * 100), Math.round(r.price * 100))) {
-        add(claim, `assert[${i}] ${a.left}${k !== 1 ? ` × ${k}` : ''} ${a.op} ${a.right} ложно: ${l.what} = ${l.price} ₽, ${r.what} = ${r.price} ₽ — перепишите фразу (а не утверждение), см. «${claim.anchors[0].text}»`);
+        add(claim, `assert[${i}] ${a.left}${k !== 1 ? ` × ${k}` : ''} ${a.op} ${a.right} ложно: ${l.what} = ${l.price} ₽, ${r.what} = ${r.price} ₽ — перепишите фразу (а не утверждение), см. «${claim.anchors[0].text}»`, 'catalogue');
       }
     });
   }
@@ -311,15 +331,15 @@ export function loadProfiles(dir = PROFILE_DIR) {
 
 /** Every problem of every published profile against one catalogue. */
 export function checkCorpus({ catalogFile = CATALOG_FILE, profileDir = PROFILE_DIR, doc } = {}) {
-  const packages = loadCatalogDoc(catalogFile, { doc }).packages;
+  const snapshot = loadCatalogDoc(catalogFile, { doc });
   const problems = [];
   let claims = 0;
   for (const { slug, profile } of loadProfiles(profileDir)) {
     claims += Array.isArray(profile.price_claims) ? profile.price_claims.length : 0;
-    problems.push(...evaluateProfile(profile, slug, packages));
-    for (const m of waiverProblems(profile)) problems.push({ slug, claim: null, msg: m });
+    problems.push(...evaluateProfile(profile, slug, snapshot));
+    for (const m of waiverProblems(profile)) problems.push({ slug, claim: null, msg: m, kind: 'authoring' });
     for (const u of unanchoredHeadlineSentences(profile)) {
-      problems.push({ slug, claim: null, msg: `${u.field}: «${u.sentence}» — цена или ценовое сравнение в заголовочном поле без price_claims и без price_claims_waived` });
+      problems.push({ slug, claim: null, kind: 'authoring', msg: `${u.field}: «${u.sentence}» — цена или ценовое сравнение в заголовочном поле без price_claims и без price_claims_waived` });
     }
   }
   return { problems, claims };
@@ -335,10 +355,13 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const catalogFile = i >= 0 ? resolve(args[i + 1]) : CATALOG_FILE;
   if (!args.includes('--check')) { console.error('usage: node seo/price-claims.mjs --check [--catalog <file>]'); process.exit(2); }
   const { problems, claims } = checkCorpus({ catalogFile });
-  if (problems.length) {
-    console.error(`ЦЕНОВЫЕ УТВЕРЖДЕНИЯ РАСХОДЯТСЯ С КАТАЛОГОМ (${problems.length}):`);
-    for (const x of problems) console.error(`  ${formatProblem(x)}`);
+  const authoring = problems.filter((x) => x.kind === 'authoring');
+  const catalogue = problems.filter((x) => x.kind === 'catalogue');
+  for (const x of catalogue) console.warn(`  ⚠ ${formatProblem(x)} — фраза не публикуется до правки текста`);
+  if (authoring.length) {
+    console.error(`ОШИБКИ В ЦЕНОВЫХ УТВЕРЖДЕНИЯХ (${authoring.length}):`);
+    for (const x of authoring) console.error(`  ${formatProblem(x)}`);
     process.exit(1);
   }
-  console.log(`✓ ${claims} ценовых утверждений держатся на ${catalogFile}`);
+  console.log(`✓ ${claims} ценовых утверждений: ошибок разметки нет; не публикуются из-за каталога: ${catalogue.length}`);
 }

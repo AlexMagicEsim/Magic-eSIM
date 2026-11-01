@@ -127,7 +127,6 @@
       ],
       "terms": {
         "g20": {
-          "package": "cd6b01de-fa99-4267-8fc6-71d71afe1315",
           "block": "local",
           "attrs": {
             "data_gb": 20,
@@ -135,7 +134,6 @@
           }
         },
         "g50": {
-          "package": "1172c72c-c686-4798-b047-c73f16829eb1",
           "block": "local",
           "attrs": {
             "data_gb": 50,
@@ -161,7 +159,6 @@
       "min_of": "daily"
     },
     "g20": {
-      "package": "cd6b01de-fa99-4267-8fc6-71d71afe1315",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -169,7 +166,6 @@
       }
     },
     "g50_10": {
-      "package": "1172c72c-c686-4798-b047-c73f16829eb1",
       "block": "local",
       "attrs": {
         "data_gb": 50,

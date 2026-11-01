@@ -93,8 +93,15 @@
       ],
       "scope": "daily",
       "page": "canada",
-      "packages": [
-        "269c99c7-a182-4af2-8909-a79704ddd660"
+      "basis": [
+        {
+          "block": "daily",
+          "attrs": {
+            "daily_gb": 5
+          },
+          "days": 3,
+          "family": "north.*america"
+        }
       ],
       "covers_exactly": [
         "US",
@@ -193,7 +200,6 @@
       "days": 3
     },
     "g3_15": {
-      "package": "94dadd73-a429-43be-acfe-90593a76d2e0",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -201,7 +207,6 @@
       }
     },
     "g5": {
-      "package": "6bdbd66f-fe21-41b8-bad5-add7a70437a2",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -209,7 +214,6 @@
       }
     },
     "g10": {
-      "package": "24ac9288-95c1-4e9f-a97a-b71cead5df82",
       "block": "local",
       "attrs": {
         "data_gb": 10,

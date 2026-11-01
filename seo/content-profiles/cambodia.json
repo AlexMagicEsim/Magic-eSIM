@@ -83,8 +83,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          },
+          "family": "asia"
+        }
       ],
       "must_cover": [
         "KH",
@@ -105,8 +112,15 @@
         }
       ],
       "scope": "regional",
-      "packages": [
-        "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b"
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          },
+          "family": "asia"
+        }
       ],
       "coverage_count": 7,
       "must_cover": [
@@ -136,11 +150,35 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "da15f159-0bdc-4b09-8763-49278e3543ed",
-        "7d8162d3-f523-45c7-b0b4-074c4b310e1a",
-        "088ec25e-f54c-47fe-82c0-45bd88452790",
-        "d2bbbbb2-5365-44fd-a0b6-c84c0c241837"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 30
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          }
+        }
       ],
       "basis_attrs": {
         "topup_available": true
@@ -166,10 +204,28 @@
         }
       ],
       "scope": "local",
-      "packages": [
-        "0b51e9a4-5406-4296-b394-addaa23b9dbb",
-        "f648870b-a1b6-4cb8-ac4b-3f7fa3354ce5",
-        "be19f612-54f0-49a9-83f8-cea22da8e989"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 10,
+            "validity_days": 15
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 20,
+            "validity_days": 30
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 30,
+            "validity_days": 30
+          }
+        }
       ],
       "basis_attrs": {
         "topup_available": false
@@ -261,7 +317,6 @@
           "min_of": "local"
         },
         "ten": {
-          "package": "0b51e9a4-5406-4296-b394-addaa23b9dbb",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -269,7 +324,6 @@
           }
         },
         "five": {
-          "package": "d2bbbbb2-5365-44fd-a0b6-c84c0c241837",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -296,15 +350,13 @@
       ],
       "terms": {
         "d": {
-          "package": "fdf31495-4657-4caf-8de2-fc623a1de0bf",
           "block": "daily",
-          "days": 3,
           "attrs": {
             "daily_gb": 0.49
-          }
+          },
+          "days": 3
         },
         "w": {
-          "package": "da15f159-0bdc-4b09-8763-49278e3543ed",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -334,7 +386,6 @@
       ],
       "terms": {
         "w": {
-          "package": "da15f159-0bdc-4b09-8763-49278e3543ed",
           "block": "local",
           "attrs": {
             "data_gb": 1,
@@ -372,7 +423,6 @@
       ],
       "terms": {
         "five": {
-          "package": "d2bbbbb2-5365-44fd-a0b6-c84c0c241837",
           "block": "local",
           "attrs": {
             "data_gb": 5,
@@ -380,7 +430,6 @@
           }
         },
         "ten": {
-          "package": "0b51e9a4-5406-4296-b394-addaa23b9dbb",
           "block": "local",
           "attrs": {
             "data_gb": 10,
@@ -406,7 +455,6 @@
       "min_of": "page"
     },
     "local_1gb_7d": {
-      "package": "da15f159-0bdc-4b09-8763-49278e3543ed",
       "block": "local",
       "attrs": {
         "data_gb": 1,
@@ -414,7 +462,6 @@
       }
     },
     "local_3gb_15d": {
-      "package": "7d8162d3-f523-45c7-b0b4-074c4b310e1a",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -422,7 +469,6 @@
       }
     },
     "local_3gb_30d": {
-      "package": "088ec25e-f54c-47fe-82c0-45bd88452790",
       "block": "local",
       "attrs": {
         "data_gb": 3,
@@ -430,7 +476,6 @@
       }
     },
     "local_5gb_30d": {
-      "package": "d2bbbbb2-5365-44fd-a0b6-c84c0c241837",
       "block": "local",
       "attrs": {
         "data_gb": 5,
@@ -438,7 +483,6 @@
       }
     },
     "local_10gb_15d": {
-      "package": "0b51e9a4-5406-4296-b394-addaa23b9dbb",
       "block": "local",
       "attrs": {
         "data_gb": 10,
@@ -446,7 +490,6 @@
       }
     },
     "local_20gb_30d": {
-      "package": "f648870b-a1b6-4cb8-ac4b-3f7fa3354ce5",
       "block": "local",
       "attrs": {
         "data_gb": 20,
@@ -454,7 +497,6 @@
       }
     },
     "local_30gb_30d": {
-      "package": "be19f612-54f0-49a9-83f8-cea22da8e989",
       "block": "local",
       "attrs": {
         "data_gb": 30,
@@ -462,20 +504,19 @@
       }
     },
     "asia7_1gb_7d": {
-      "package": "5943f097-0ece-4845-ab4e-6d4e5a0c4f1b",
       "block": "regional",
       "attrs": {
         "data_gb": 1,
         "validity_days": 7
-      }
+      },
+      "family": "asia"
     },
     "daily_500mb_3d": {
-      "package": "fdf31495-4657-4caf-8de2-fc623a1de0bf",
       "block": "daily",
-      "days": 3,
       "attrs": {
         "daily_gb": 0.49
-      }
+      },
+      "days": 3
     }
   },
   "network_claims": [
@@ -488,11 +529,35 @@
         }
       ],
       "block": "local",
-      "packages": [
-        "da15f159-0bdc-4b09-8763-49278e3543ed",
-        "7d8162d3-f523-45c7-b0b4-074c4b310e1a",
-        "088ec25e-f54c-47fe-82c0-45bd88452790",
-        "d2bbbbb2-5365-44fd-a0b6-c84c0c241837"
+      "basis": [
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 1,
+            "validity_days": 7
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 15
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 3,
+            "validity_days": 30
+          }
+        },
+        {
+          "block": "local",
+          "attrs": {
+            "data_gb": 5,
+            "validity_days": 30
+          }
+        }
       ],
       "operators": [
         "Metfone",
