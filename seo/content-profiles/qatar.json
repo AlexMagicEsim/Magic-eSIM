@@ -226,13 +226,6 @@
             "validity_days": 7
           }
         },
-        "g1b": {
-          "block": "local",
-          "attrs": {
-            "data_gb": 1,
-            "validity_days": 14
-          }
-        },
         "g3": {
           "block": "local",
           "attrs": {
@@ -281,11 +274,6 @@
           "right": "g3"
         },
         {
-          "left": "g1b",
-          "op": "<",
-          "right": "g3"
-        },
-        {
           "left": "g3",
           "op": "<",
           "right": "g5"
@@ -306,7 +294,7 @@
           "right": "g20"
         }
       ],
-      "note": "2026-10-25: the local line now runs 1 → 20 GB (1 GB on 7 and 14 days, 3 GB on 15 and 30); «больше объём — выше цена» holds across volumes."
+      "note": "2026-11-02: rewritten true before and after the auto-import's first live run (storefront fix/seo-claims-auto-import)."
     },
     {
       "id": "regional-dearer-same-volume",

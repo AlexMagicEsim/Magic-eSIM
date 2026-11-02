@@ -514,7 +514,9 @@ test('control review N1–N16: the second round of stale-but-green cases is caug
     // on the claim «Уругвай, Бразилию и Чили покрывают все»; N2 moves to the
     // page's term bound «от 7 до 30 дней».
     ['argentina', 'Latin America 10 GB', { name: 'LATIN AMERICA 15 GB', data_gb: 15, coverage_country_codes: ['AR', 'BR', 'UY'] }, 'N1: case-insensitive family, no Chile', 'latam-uy-br-cl'],
-    ['argentina', 'Latin America 10 GB', { name: 'LatAm 15 GB', data_gb: 15, validity_days: 45 }, 'N2: «срок от 7 до 30 дней» — a 45-day pack', 'latam-terms-range'],
+    // 2026-11-02: N2 («срок от 7 до 30 дней» — a 45-day pack) retired with its
+    // sentence: the Argentina page no longer names a term range (the auto-import
+    // brings 15-day LATAM packs; the range moved, the sentence did not hold).
     // 2026-10-25: N3/N4/N5/N12/N13 were built on daily families the assortment
     // withdrew (Asia (20 areas), Balkans (5+ areas), Australia & New Zealand,
     // GCC 2GB). Each is rebuilt on the family the page's sentence now rests on.
@@ -596,11 +598,14 @@ test('review over-strict: harmless catalogue moves keep the corpus green', () =>
   red('bahrain', c, 'the only Gulf daily card withdrawn — «все они включают Саудовскую Аравию» has nothing to stand on');
   c = clone(LIVE.packages); newPkg(c, 'Africa 3 GB', { coverage_country_codes: ['MA', 'ZA', 'SZ', 'BW', 'TZ', 'KE', 'RE', 'SC'] });
   green('morocco', c, 'a new Africa pack under «Региональные тарифы» is still African');
-  // 2026-10-25: was «a second 5 GB pack with Zambia must stay green» — true of
-  // the old «только пакет на 5 ГБ», but the page now says «Замбию — только
-  // пакеты на 29 стран», so a four-country pack with Zambia falsifies it: red.
+  // 2026-11-02: the page now says «Замбию — только некоторые [пакеты на
+  // Африку]» (backend R2/R4 show a second 29-country pack with Zambia). A pack
+  // with Zambia more is harmless; every Africa pack covering Zambia falsifies
+  // «только некоторые»: red.
   c = clone(LIVE.packages); newPkg(c, 'Africa 5GB 30Days', { coverage_country_codes: ['ZA', 'ZM', 'SZ', 'BW'] });
-  redBy('south-africa', c, 'zm-only-29', 'a four-country Africa pack with Zambia — «Замбию — только пакет на 5 ГБ на 29 стран» is false');
+  green('south-africa', c, 'a four-country Africa pack with Zambia — still «только некоторые»');
+  c = clone(LIVE.packages); byName(c, /^Africa/i).forEach((p) => { if (!p.coverage_country_codes.includes('ZM')) p.coverage_country_codes = [...p.coverage_country_codes, 'ZM']; });
+  redBy('south-africa', c, 'zm-only-29', 'every Africa pack covers Zambia — «Замбию — только некоторые из них» is false');
   // The harmless move for the new sentence: another Africa pack WITHOUT Zambia,
   // on the coverage of the 23-country «Africa 3 GB» (30 days, top-up) — Eswatini
   // and Botswana in, 7 GB within «от 1 до 10 ГБ», top-up marked.
