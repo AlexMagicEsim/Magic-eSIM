@@ -448,7 +448,9 @@ test('review B1–B16: a NEW product that falsifies «все/ни один» is 
     // 2026-10-25: the Asia (20 areas) dailies were withdrawn; the Laos page now
     // says its dailies cover only Laos, so a new daily built on a Laos card that
     // reaches Cambodia falsifies the same «ни один» sentence.
-    ['laos', 'Laos 1GB/Day', { name: 'Asia (21 areas) 1GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] }, 'an Asia daily covering Cambodia'],
+    // 2026-11-02: «an Asia daily covering Cambodia» retired — the page now says
+    // «Вьетнам и Камбоджу — не все» (Asia daily packs are on it since the
+    // auto-import); the red case is «every daily covers them» below.
     ['australia', 'APAC 7 GB', { name: 'APAC 9 GB', data_gb: 9, coverage_country_codes: ['AU', 'SG'] }, 'an APAC pack without New Zealand'],
     // 2026-10-25: the «USA & Canada» dailies were withdrawn with the sentence
     // about them. The USA page's current «ни один» sentence is «Региональные
@@ -520,7 +522,7 @@ test('control review N1–N16: the second round of stale-but-green cases is caug
     // 2026-10-25: N3/N4/N5/N12/N13 were built on daily families the assortment
     // withdrew (Asia (20 areas), Balkans (5+ areas), Australia & New Zealand,
     // GCC 2GB). Each is rebuilt on the family the page's sentence now rests on.
-    ['laos', 'Laos 3GB/Day', { name: 'Asia (21 areas) 3GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] }, 'N3: an Asian daily covering Cambodia'],
+    // 2026-11-02: N3 («an Asian daily covering Cambodia») retired with «только Лаос»; see the «every daily» case.
     ['albania', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: [...EU_USA_15, 'XK'] }, 'N4: a «Европа и США» card with Kosovo'],
     ['montenegro', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: EU_USA_15.filter((x) => x !== 'GR') }, 'N5: a «Европа и США» card without Greece'],
     ['kenya', 'Africa 3 GB', { name: 'East Africa 3 GB', coverage_country_codes: ['KE', 'UG'] }, 'N8: a regional pack without Tanzania'],
@@ -546,6 +548,13 @@ test('control review N1–N16: the second round of stale-but-green cases is caug
     const c = clone(LIVE.packages); newPkg(c, tpl, over);
     if (claimId) redBy(slug, c, claimId, why); else red(slug, c, why);
   }
+  {
+    // Laos (2026-11-02): «Вьетнам и Камбоджу — не все [посуточные]» — an Asia daily is harmless, every daily covering them is red.
+    const g = clone(LIVE.packages); newPkg(g, 'Laos 1GB/Day', { name: 'Asia (21 areas) 1GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] });
+    green('laos', g, 'one more Asia daily covering Vietnam and Cambodia — still «не все»');
+    const r = clone(LIVE.packages); byName(r, /^Laos .*\/Day/i).forEach((p) => { p.coverage_country_codes = [...new Set([...p.coverage_country_codes, 'VN', 'KH'])]; });
+    redBy('laos', r, 'daily-laos-only', 'every daily covers Vietnam and Cambodia — «не все» is false');
+  }
   const c = clone(LIVE.packages); byName(c, /^Africa 10 GB$/).forEach((p) => { p.topup_available = false; });
   red('south-africa', c, 'N6: «у всех отмечено пополнение»');
 });
@@ -568,15 +577,17 @@ test('control review over-strict: withdrawing one family member freezes nothing'
   }
 });
 
+const flipText = (t) => t.replace('не покрывает', 'тоже покрывает').replace('Камбоджу он не покрывает', 'Камбоджу он покрывает')
+  .replace('покрывают только Лаос', 'покрывают Лаос и Камбоджу').replace('Не все посуточные', 'Все посуточные');
 test('review M3: a prose edit that inverts a sentence orphans its claim', () => {
   const p = clone(PROFILES.laos);
-  const claim = p.coverage_claims.find((c) => c.none_in_scope && c.none_in_scope.includes('KH'));
-  const a = claim.anchors[0];
+  const claim = p.coverage_claims.find((c) => c.not_all_in_scope && c.not_all_in_scope.includes('KH'));
+  // the first anchored sentence the flip below actually inverts (2026-11-02: the claim's first anchor is a heading)
+  const a = claim.anchors.find((x) => flipText(x.text) !== x.text) || claim.anchors[0];
   const field = a.field.match(/^([a-z_]+)(?:\[(\d+)\])?(?:\.([a-z]+))?$/);
-  // 2026-10-25: the Laos claim with KH in none_in_scope is now «Посуточные
-  // тарифы … покрывают только Лаос»; the inversion of that sentence is added.
-  const flip = (t) => t.replace('не покрывает', 'тоже покрывает').replace('Камбоджу он не покрывает', 'Камбоджу он покрывает')
-    .replace('покрывают только Лаос', 'покрывают Лаос и Камбоджу');
+  // 2026-11-02: the Laos claim with KH is now «Не все посуточные … покрывают
+  // Вьетнам и Камбоджу» (not_all_in_scope); its inversion is «Все посуточные».
+  const flip = flipText;
   assert.notEqual(flip(a.text), a.text, 'the flip must actually invert the anchored sentence');
   if (field[2] !== undefined && field[3]) p[field[1]][Number(field[2])][field[3]] = flip(p[field[1]][Number(field[2])][field[3]]);
   else if (field[2] !== undefined) p[field[1]][Number(field[2])] = flip(p[field[1]][Number(field[2])]);
