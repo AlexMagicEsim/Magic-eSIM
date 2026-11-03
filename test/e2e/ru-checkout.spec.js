@@ -44,7 +44,12 @@ async function open(page, opts = {}) {
     if (/platega\.io$/.test(url.host)) { st.platega.push(url.href); return route.fulfill({ status: 200, contentType: 'text/html', body: '<p>stub</p>' }); }
     if (url.pathname === '/api/v1/retail/packages') {
       if (!st.liveAllowed) return route.abort();
-      const data = opts.liveFails ? CATALOG.packages.map((p) => ({ ...p, price: p.price + 50 })) : CATALOG.packages;
+      // liveFails: the cards come from the cache, and the API that answers the
+      // confirmation has every price 50 ₽ up (term_prices too) — or, with
+      // `confirmSame`, exactly the cached prices.
+      const up = (p) => ({ ...p, price: p.price + 50,
+        ...(Array.isArray(p.term_prices) ? { term_prices: p.term_prices.map((t) => ({ ...t, price: t.price + 50 })) } : {}) });
+      const data = opts.liveFails && !opts.confirmSame ? CATALOG.packages.map(up) : CATALOG.packages;
       return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify(withLayout({ status: 'success', data })) });
     }
     if (req.method() === 'POST') {
@@ -188,6 +193,51 @@ test('a card from the cached catalogue is confirmed against the live API, and a 
   await expect(page.locator('#coPrice')).toHaveText(`${(cached + 50).toLocaleString('ru-RU')} ₽`);
   await expect(page.locator('#coError')).toContainText('Цена этого тарифа изменилась');
   expect(orders(st)).toEqual([]);
+});
+
+// A PER_DAY plan's card carries the price of the TERM the buyer picked (the
+// ladder), while the package's `price` is the rate of ONE day. The confirmation
+// of a cached card must compare the term with the term — never the term with the
+// day rate (2026-11-03: it did, so an unchanged price read as «changed» and the
+// checkout opened with the one-day rate as the amount for the whole term).
+async function openCachedDailyTerm(page, opts) {
+  test.setTimeout(60_000);
+  const st = await open(page, { liveFails: true, ...opts });
+  await page.waitForTimeout(9000);                             // every live retry fails: the cards come from the cache
+  await pickTurkey(page);
+  const card = page.locator('#dailyGrid .daily-card').filter({ has: page.locator('.js-daily-term:nth-child(3)') }).first();
+  const term = card.locator('.js-daily-term').nth(2);
+  await term.click();
+  const days = await term.getAttribute('data-days');
+  const buy = card.locator('.js-buy');
+  const id = await buy.getAttribute('data-package-id');
+  const pkg = CATALOG.packages.find((p) => p.package_id === id);
+  const termPrice = pkg.term_prices.find((t) => String(t.days) === days).price;
+  expect(pkg.daily_term_mode, 'a PER_DAY plan').toBe('PER_DAY');
+  expect(Number(await buy.getAttribute('data-price')), 'the card carries the term price').toBe(termPrice);
+  expect(termPrice, 'the term is not the day rate').not.toBe(pkg.price);
+  st.liveAllowed = true;                                       // the network is back for the confirmation
+  await buy.click();
+  await expect(page.locator('#checkoutModal')).toBeVisible();
+  return { st, days, termPrice, pkg };
+}
+
+test('a cached PER_DAY card whose price did not change opens with the term price and no «price changed»', async ({ page }) => {
+  const { st, days, termPrice } = await openCachedDailyTerm(page, { confirmSame: true });
+  await expect(page.locator('#coPrice')).toHaveText(`${termPrice.toLocaleString('ru-RU')} ₽`);
+  await expect(page.locator('#coDays')).toHaveText(`${days} дн.`);
+  await expect(page.locator('#coError')).toBeHidden();
+  await fill(page);
+  await page.locator('#coPay').click();
+  await expect.poll(() => st.platega.length).toBeGreaterThan(0);
+  expect(orders(st)[0].body.days).toBe(days);
+});
+
+test('a cached PER_DAY card whose term price moved shows the new TERM price, old against new', async ({ page }) => {
+  const { days, termPrice } = await openCachedDailyTerm(page, {});
+  await expect(page.locator('#coPrice')).toHaveText(`${(termPrice + 50).toLocaleString('ru-RU')} ₽`);
+  await expect(page.locator('#coDays')).toHaveText(`${days} дн.`);
+  await expect(page.locator('#coError')).toContainText(`было ${termPrice.toLocaleString('ru-RU')} ₽, актуальная — ${(termPrice + 50).toLocaleString('ru-RU')} ₽`);
 });
 
 /* ---- the window works at any depth ---------------------------------------- */

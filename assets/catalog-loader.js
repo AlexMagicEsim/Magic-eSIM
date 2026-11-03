@@ -404,7 +404,12 @@
    * Resolves with { ok: true, pkg, priceChanged, previousPrice } or
    * { ok: false, reason: 'gone' | 'unreachable' }.
    */
-  function revalidatePackage(packageId, cachedPrice) {
+  // `days`: the term the buyer picked on a PER_DAY card. Such a card's price is
+  // the TERM's (its ladder, term_prices); the package's `price` is the rate of
+  // ONE day. So the comparison and the amount returned are the term's — never
+  // the term against the day rate (2026-11-03: it did, and a cached 7-day card
+  // at 450 ₽ opened the checkout at 100 ₽ with «the price changed»).
+  function revalidatePackage(packageId, cachedPrice, days) {
     return loadLive().then(function (packages) {
       var pkg = null;
       for (var i = 0; i < packages.length; i++) {
@@ -413,8 +418,19 @@
       // Gone from the live catalogue means deactivated or withdrawn. The backend
       // would reject the order anyway; refusing here saves the user a dead end.
       if (!pkg) return { ok: false, reason: 'gone', packages: packages };
-      var changed = cachedPrice != null && Number(pkg.price) !== Number(cachedPrice);
-      return { ok: true, pkg: pkg, packages: packages, priceChanged: changed, previousPrice: changed ? Number(cachedPrice) : null };
+      var price = Number(pkg.price);
+      var ladder = Array.isArray(pkg.term_prices) ? pkg.term_prices : [];
+      if (days != null && days !== '' && ladder.length) {
+        var term = null;
+        for (var j = 0; j < ladder.length; j++) {
+          if (Number(ladder[j].days) === Number(days)) { term = ladder[j]; break; }
+        }
+        // The term is no longer sold: the same dead end as a withdrawn package.
+        if (!term) return { ok: false, reason: 'gone', packages: packages };
+        price = Number(term.price);
+      }
+      var changed = cachedPrice != null && price !== Number(cachedPrice);
+      return { ok: true, pkg: pkg, price: price, packages: packages, priceChanged: changed, previousPrice: changed ? Number(cachedPrice) : null };
     }).catch(function () {
       return { ok: false, reason: 'unreachable' };
     });
