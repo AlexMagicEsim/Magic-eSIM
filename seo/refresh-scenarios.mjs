@@ -8,11 +8,15 @@
 // slow self-mutation tests). seo/test-refresh-scenarios.mjs pins the outcome of
 // each: which gates stay green, which go red and with what message.
 //
-// The fixtures are chosen from the CURRENT catalogue and profiles (a template
-// country whose floor is a single-country plan; named price/coverage claims),
-// so the scenarios follow the catalogue instead of freezing a copy of it. A
-// fixture that disappears (a claim renamed, a package withdrawn for real) fails
-// loudly with the name to re-point.
+// The fixtures are chosen from the profiles and from WORLD — the frozen
+// catalogue test/fixtures/seo-test-catalogue.json, in which every authored claim
+// holds (pinned in seo/test-coverage-claims.mjs). Every scenario starts from it,
+// not from assets/catalog.json. 2026-11-03: the live snapshot moves every slot
+// since the auto-import went live, and one sentence it made false today (the
+// Philippines «180 дн») turned the control and with it every scenario red — the
+// sentence itself is the business of the corpus gates on the live snapshot
+// (`npm test`), which still catch it. A fixture that disappears (a claim
+// renamed) fails loudly with the name to re-point.
 
 import { republish } from './fixture-layout.mjs';
 import { cpSync, mkdtempSync, readFileSync, writeFileSync, rmSync, lstatSync, existsSync, readdirSync } from 'node:fs';
@@ -22,6 +26,8 @@ import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..');
+// The catalogue every scenario starts from (see the header).
+export const WORLD_FILE = join(ROOT, 'test', 'fixtures', 'seo-test-catalogue.json');
 
 export const GATE_FILES = Object.freeze([
   'seo/test-price-claims.mjs',
@@ -81,6 +87,7 @@ export async function runScenario(mutate, { keep = false, inspect = null } = {})
   const dir = copyRepo();
   try {
     const file = join(dir, 'assets', 'catalog.json');
+    writeFileSync(file, readFileSync(WORLD_FILE));
     const doc = readJson(file);
     const before = readJson(file);
     const ctx = { dir, profile: (slug) => readJson(join(dir, 'seo', 'content-profiles', `${slug}.json`)) };
