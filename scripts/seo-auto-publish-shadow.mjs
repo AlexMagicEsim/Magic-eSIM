@@ -55,10 +55,15 @@ export function maskNumbers(html) {
 // readings of «the same page», to measure how often a rebuild is only a longer or
 // shorter generated LIST — of volumes or terms («1, 3, 5 GB» → «1, 3, 5, 10 GB»)
 // or of related destinations (the «also for» links) — rather than new words.
+// A list separator is the comma — and in Chinese the enumeration comma 、
+// (and the full-width ，): «1 GB、3 GB、5 GB» is the same list as «1 GB, 3 GB».
+// Without it every longer Chinese list read as new wording (2026-11-03: 64
+// pages of SEO PR #210 counted as «words» instead of «lists»).
+const SEP = '[,、，]';
 export function maskLists(masked) {
   return String(masked)
-    .replace(/#(?:\s*,\s*#)*(?:\s*(?:и|and|y|und|et|e|和|및)\s*#)?/g, '#')
-    .replace(/#[\s\u00a0]*([^\s,<#]+)(?:\s*,\s*#[\s\u00a0]*[^\s,<#]+)+/g, '#list $1');
+    .replace(new RegExp(`#(?:\\s*${SEP}\\s*#)*(?:\\s*(?:и|and|y|und|et|e|和|및)\\s*#)?`, 'g'), '#')
+    .replace(new RegExp(`#[\\s\\u00a0]*([^\\s,、，<#]+)(?:\\s*${SEP}\\s*#[\\s\\u00a0]*[^\\s,、，<#]+)+`, 'g'), '#list $1');
 }
 export function maskRelated(masked) {
   return maskLists(masked)

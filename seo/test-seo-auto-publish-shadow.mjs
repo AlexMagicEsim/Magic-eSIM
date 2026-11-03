@@ -178,3 +178,30 @@ test('no later step decides anything on the shadow verdict', () => {
   assert.match(stepBlock('Разбор падения'), /O_SHADOW: \$\{\{ steps\.shadow\.outcome \}\}/);
   assert.doesNotMatch(WF, /seo-shadow\/shadow\.json/, 'the JSON verdict is written, never read by the workflow');
 });
+
+/* ------------------------------------------------------------ Chinese lists (2026-11-03) */
+
+test('Chinese lists: the enumeration comma 、 (and ，) separates a list like the comma does', () => {
+  const zh = (t) => maskLists(maskNumbers(t));
+  assert.equal(zh('1 GB、3 GB、5 GB'), zh('1 GB、3 GB、5 GB、10 GB'), 'a longer list of volumes');
+  assert.equal(zh('7 天、15 天'), zh('7 天、15 天、30 天'), 'a longer list of terms');
+  assert.equal(zh('1 GB，3 GB'), zh('1 GB，3 GB，20 GB'), 'the full-width comma');
+  assert.equal(zh('1 GB、3 GB、5 GB'), zh('1 GB, 3 GB, 5 GB'), 'the same list whatever the separator');
+  assert.notEqual(zh('<p>可用流量</p>1 GB、3 GB'), zh('<p>每日流量</p>1 GB、3 GB'), 'the words around a list are still words');
+});
+
+test('a real Chinese page: one more volume in its list is «lists», a new sentence is «words», and the verdict stays «review»', () => {
+  const html = read('zh/esim/turkey/index.html');
+  const m = /(\d+ ?GB(?:、\d+ ?GB)+)/.exec(html);
+  assert.ok(m, 'the page prints a list of volumes with 、');
+  const longer = html.replace(m[1], `${m[1]}、99 GB`);
+  const base = tree({ 'esim/brazil/index.html': html });
+  const r = run(base, tree({ 'esim/brazil/index.html': longer }), M('esim/brazil/index.html'));
+  assert.equal(r.pages.lists_only, 1, JSON.stringify(r.pages));
+  assert.equal(r.pages.words, 0);
+  assert.equal(r.verdict, 'review', 'a longer list is never «auto» — only numbers are');
+  const worded = html.replace('</h1>', '</h1><p>新的说明句子。</p>');
+  const w = run(base, tree({ 'esim/brazil/index.html': worded }), M('esim/brazil/index.html'));
+  assert.equal(w.pages.words, 1, 'a real wording change is still words');
+  assert.equal(w.verdict, 'review');
+});
