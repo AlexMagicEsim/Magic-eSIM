@@ -228,16 +228,19 @@ test('georgia: the equal-price daily pair, equal from three to ten days, the 3 G
   assert.ok(at('GE', 20, 30).length && at('GE', 5, 30).length && at('GE', 10, 30).length, '5, 10, 20 GB on 30 days');
 });
 
-test('uzbekistan: 1 GB lasts 7 days, 3 GB lasts 15, 5 and 10 GB last 30', () => {
+test('uzbekistan: 1 GB lasts 7 days, the steps between it and 5 GB last 15, 5 and 10 GB last 30', () => {
   // Until 2026-10-25 the FAQ said «Нижняя ступень на 3 ГБ действует 15 дней». The new assortment put 1 GB / 7 days into the
-  // Uzbekistan block, so the answer now reads «Нижняя ступень, 1 ГБ, действует 7 дней … Следующая, 3 ГБ, действует 15 дней …
-  // Ступень на 5 ГБ живёт 30 дней»; each part is pinned here, the old 3 GB / 15 days pin unchanged.
+  // Uzbekistan block, so the answer read «Нижняя ступень, 1 ГБ, действует 7 дней … Следующая, 3 ГБ, действует 15 дней …».
+  // 2026-11-03: the auto-import added 2 GB / 15 days, so «следующая — 3 ГБ» went false; the answer now reads «Ступени на 15
+  // дней по датам проходят, но запаса не оставляют» — pinned here: every step above the bottom and below 5 GB lasts 15 days,
+  // there is at least one, and nothing in that range lasts longer (or the «запаса не оставляют» advice would be wrong).
   const l = ladder('UZ');
   assert.equal(l[0][0], 1, '1 GB is the bottom step');
-  assert.equal(l[1][0], 3, '3 GB is the next step');
   const days = (gb) => vol('UZ').filter((p) => Number(p.data_gb) === gb).map((p) => Number(p.validity_days));
   assert.deepEqual(days(1), [7], '«Нижняя ступень, 1 ГБ, действует 7 дней»');
-  assert.deepEqual(days(3), [15], '«Следующая, 3 ГБ, действует 15 дней»');
+  const between = l.map(([gb]) => gb).filter((gb) => gb > 1 && gb < 5);
+  assert.ok(between.length >= 1, 'a step between the bottom and 5 GB exists');
+  for (const gb of between) assert.deepEqual(days(gb), [15], `«Ступени на 15 дней» — ${gb} GB lasts 15 days`);
   assert.ok(at('UZ', 5, 30).length && at('UZ', 10, 30).length, '5 GB and 10 GB on 30 days');
 });
 

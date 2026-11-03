@@ -41,8 +41,8 @@
       "a": "Десять дней укладываются в любую ступень по сроку — все местные объёмные живут 15 или 30 дней. Выбирать стоит по верхнему краю: 20 ГБ стоят {{price:g20}}, а 30 ГБ — {{price:g30}}, и если поездка активная, эта доплата закрывает вопрос целиком."
     },
     {
-      "q": "Почему региональный пакет на 30 ГБ дешевле местного?",
-      "a": "В блоке «Региональные тарифы» 30 ГБ на 30 дней стоят {{price:r30}}, а в блоке «Тарифы для Малайзии» тот же объём на тот же срок — {{price:g30}}: цены двух сеток назначаются независимо, и региональный пакет здесь не обязательно дороже. Прежде чем выбрать его, откройте в карточке «Покрытие и условия» — там видно, какие ещё страны в него входят."
+      "q": "Что выгоднее на 30 ГБ — региональный пакет или местный?",
+      "a": "В блоке «Региональные тарифы» 30 ГБ на 30 дней стоят {{price:r30}}, а в блоке «Тарифы для Малайзии» тот же объём на тот же срок — {{price:g30}}: цены близки, но две сетки назначают их независимо, поэтому сравните обе карточки. Прежде чем выбрать его, откройте в карточке «Покрытие и условия» — там видно, какие ещё страны в него входят."
     },
     {
       "q": "Когда ставить профиль — дома или по прилёте?",
@@ -155,11 +155,11 @@
       "note": "Added in stage B (2026-10-18) as «почти по цене двадцати» / «доплата меньше пятой части» (g20 × 1.2 > g30). The catalogue bot's a755c69c (2026-10-20) moved 30 GB 2000 → 2250 ₽ against 1700 ₽ for 20 GB and made that false; the sentence and the heading were rewritten to the STRUCTURE (a surcharge for half the volume on top) — what the words now claim is only g20 < g30. A closeness or a ratio in words dies with the next price move."
     },
     {
-      "id": "regional-thirty-cheaper-than-local-thirty",
+      "id": "regional-thirty-close-to-local-thirty",
       "anchors": [
         {
           "field": "faq[2].a",
-          "text": "В блоке «Региональные тарифы» 30 ГБ на 30 дней стоят {{price:r30}}, а в блоке «Тарифы для Малайзии» тот же объём на тот же срок — {{price:g30}}: цены двух сеток назначаются независимо, и региональный пакет здесь не обязательно дороже."
+          "text": "В блоке «Региональные тарифы» 30 ГБ на 30 дней стоят {{price:r30}}, а в блоке «Тарифы для Малайзии» тот же объём на тот же срок — {{price:g30}}: цены близки, но две сетки назначают их независимо, поэтому сравните обе карточки."
         }
       ],
       "terms": {
@@ -189,8 +189,15 @@
       "assert": [
         {
           "left": "r30",
-          "op": "<",
-          "right": "g30"
+          "op": ">",
+          "right": "g30",
+          "factor": 1.15
+        },
+        {
+          "left": "g30",
+          "op": ">",
+          "right": "r30",
+          "factor": 1.15
         },
         {
           "left": "minr30",
@@ -198,7 +205,7 @@
           "right": "r30"
         }
       ],
-      "note": "2026-10-25, after the backend assortment (R3) stopped showing the regional APAC 7 GB on this page: the old FAQ «10 ГБ дешевле 7 ГБ среди региональных» lost its 7 GB and was replaced by the relation the page shows now — the regional 30 GB / 30 days (cheapest of that volume and term in «Региональные тарифы») against the local 30 GB / 30 days, each named with its block. The heading «дешевле местного» rests on r30 < g30."
+      "note": "2026-11-03: «региональный не обязательно дороже» (regional < local) → «цены близки» (each within 15 % of the other): the 06:00 auto-import put the local 30 GB at 1900 ₽, under the regional 1950 ₽ (was 2150 ₽). 2026-10-25, after the backend assortment (R3) stopped showing the regional APAC 7 GB on this page: the old FAQ «10 ГБ дешевле 7 ГБ среди региональных» lost its 7 GB and was replaced by the relation the page shows now — the regional 30 GB / 30 days (cheapest of that volume and term in «Региональные тарифы») against the local 30 GB / 30 days, each named with its block. The heading «дешевле местного» rests on r30 < g30."
     }
   ]
 }

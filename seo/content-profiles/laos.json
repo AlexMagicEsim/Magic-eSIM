@@ -13,7 +13,7 @@
   "h1": "Лаос, Вьетнам и Камбоджа: один пакет на три страны есть, но не тот, что на ЮВА",
   "lead": "Маршрут через Лаос редко ограничивается одной страной, и под Вьетнам с Камбоджей удобно брать пакет на семь стран Юго-Восточной Азии. Лаоса в нём нет — но это не значит, что на три страны нужны три тарифа.",
   "intro": [
-    "Пакет на семь стран ЮВА включает Таиланд, Вьетнам, Камбоджу, Малайзию, Сингапур, Индонезию и Филиппины — поэтому в сетке Лаоса его нет. Все три страны маршрута покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы»: от 3 ГБ на 15 дней за {{price:a12_3gb}} до 30 ГБ на 30 дней за {{price:a12_30gb}}, пополнение у них не отмечено. Годовой пакет на 40 ГБ на 365 дней из того же блока тоже покрывает все три страны.",
+    "Пакет на семь стран ЮВА включает Таиланд, Вьетнам, Камбоджу, Малайзию, Сингапур, Индонезию и Филиппины — поэтому в сетке Лаоса его нет. Все три страны маршрута покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы», в том числе 30 ГБ на 30 дней за {{price:a12_30gb}}; пополнение у них не отмечено. Годовой пакет на 40 ГБ на 365 дней из того же блока тоже покрывает все три страны.",
     "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога все местные — на сети Lao Telecom."
   ],
   "why": [
@@ -41,7 +41,7 @@
   "faq": [
     {
       "q": "Еду во Вьетнам, Камбоджу и Лаос — хватит пакета на Юго-Восточную Азию?",
-      "a": "Пакета на семь стран ЮВА — нет, Лаоса в нём нет. Все три страны покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы» — от 3 до 30 ГБ. Пополнение у них не отмечено, поэтому объём берите с запасом."
+      "a": "Пакета на семь стран ЮВА — нет, Лаоса в нём нет. Все три страны покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы». Пополнение у них не отмечено, поэтому объём берите с запасом."
     },
     {
       "q": "Какой пакет покрывает Лаос вместе с соседями?",
@@ -164,7 +164,7 @@
         },
         {
           "field": "intro[0]",
-          "text": "Все три страны маршрута покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы»: от 3 ГБ на 15 дней за {{price:a12_3gb}} до 30 ГБ на 30 дней за {{price:a12_30gb}}, пополнение у них не отмечено."
+          "text": "Все три страны маршрута покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы», в том числе 30 ГБ на 30 дней за {{price:a12_30gb}}; пополнение у них не отмечено."
         },
         {
           "field": "why[0].p",
@@ -172,7 +172,7 @@
         },
         {
           "field": "faq[0].a",
-          "text": "Все три страны покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы» — от 3 до 30 ГБ."
+          "text": "Все три страны покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы»."
         },
         {
           "field": "faq[1].q",
@@ -186,20 +186,14 @@
         "VN",
         "KH"
       ],
-      "attr_bounds": {
-        "data_gb": [
-          3,
-          30
-        ]
-      },
-      "note": "2026-10-25: replaces the «Азия и Океания» 7 / 12 GB claims — those cards are no longer rendered on the page (assortment layout), «Asia 15 Countries» 3–30 GB is, in both views."
+      "note": "2026-11-03: the auto-import left only the 20 and 30 GB «Asia 15 Countries» cards on the page (3–10 GB went to «South East Asia (8 areas)» / «Asia (14 areas)»); the sentences no longer give the family a range — the 30 GB card is named through its price reference."
     },
     {
       "id": "asia15-no-topup",
       "anchors": [
         {
           "field": "intro[0]",
-          "text": "Все три страны маршрута покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы»: от 3 ГБ на 15 дней за {{price:a12_3gb}} до 30 ГБ на 30 дней за {{price:a12_30gb}}, пополнение у них не отмечено."
+          "text": "Все три страны маршрута покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы», в том числе 30 ГБ на 30 дней за {{price:a12_30gb}}; пополнение у них не отмечено."
         }
       ],
       "scope": "regional",
@@ -421,14 +415,6 @@
         "validity_days": 30
       }
     },
-    "a12_3gb": {
-      "block": "regional",
-      "attrs": {
-        "data_gb": 3,
-        "validity_days": 15
-      },
-      "family": "asia.*15.*countries"
-    },
     "a12_30gb": {
       "block": "regional",
       "attrs": {
@@ -482,25 +468,9 @@
           },
           "family": "^laos",
           "days": 7
-        },
-        {
-          "block": "daily",
-          "attrs": {
-            "daily_gb": 1
-          },
-          "family": "^laos",
-          "days": 7
-        },
-        {
-          "block": "daily",
-          "attrs": {
-            "daily_gb": 2
-          },
-          "family": "^laos",
-          "days": 7
         }
       ],
-      "note": "2026-11-02: rewritten after the auto-import's first live run (storefront fix/seo-after-live-import) — no card count, term or top-up the import keeps changing."
+      "note": "2026-11-02: rewritten after the auto-import's first live run (storefront fix/seo-after-live-import) — no card count, term or top-up the import keeps changing. 2026-11-03: the auto-import replaced the 1 and 2 GB/day Laos-only cards with «Asia (14 areas)» dailies; «Laos 500MB/Day» (Lao Telecom) remains, and «every» still holds for each Laos-only daily card."
     }
   ]
 }
