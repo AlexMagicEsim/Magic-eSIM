@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-02T23:06:54.735Z",
+  "generated_at": "2026-11-03T06:58:22.974Z",
   "source": "production-public-api",
-  "package_count": 2382,
+  "package_count": 2402,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -2129,6 +2129,37 @@
       "ip_export": [
         "SG"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "041e6851-1226-4497-aba5-1b5ab01ac818",
+      "name": "India 25 GB",
+      "country_code": "IN",
+      "region": "IN",
+      "coverage_country_codes": [
+        "IN"
+      ],
+      "coverage_flags": "🇮🇳",
+      "data_gb": 25,
+      "validity_days": 30,
+      "price": 3500,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -5752,6 +5783,38 @@
       "sellable_days": []
     },
     {
+      "package_id": "0866ca2c-9d28-4af7-8aff-342b6a8668af",
+      "name": "Malaysia 30 GB",
+      "country_code": "MY",
+      "region": "MY",
+      "coverage_country_codes": [
+        "MY"
+      ],
+      "coverage_flags": "🇲🇾",
+      "data_gb": 30,
+      "validity_days": 30,
+      "price": 1900,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "0868bd04-f942-4c94-b8bf-1e1df8741276",
       "name": "APAC 12 GB",
       "country_code": "AU",
@@ -6298,6 +6361,71 @@
       "ip_export": [
         "FR",
         "NL",
+        "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "0905aa34-f4f1-4a39-b1e1-6632938de8ea",
+      "name": "South America (6 areas) 3GB 15Days",
+      "country_code": "SA-6",
+      "region": "BR,AR,UY,PE,CL,EC",
+      "coverage_country_codes": [
+        "BR",
+        "AR",
+        "UY",
+        "PE",
+        "CL",
+        "EC"
+      ],
+      "coverage_flags": "🇧🇷 🇦🇷 🇺🇾 🇵🇪 🇨🇱 🇪🇨",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 1400,
+      "networks": [
+        {
+          "operator": "Personal",
+          "type": "5G"
+        },
+        {
+          "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "WOM",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "4G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "4G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
         "UK"
       ],
       "plan_type": "FIXED_VOLUME",
@@ -8392,8 +8520,12 @@
       "price": 250,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -8408,7 +8540,8 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -11921,6 +12054,46 @@
       ]
     },
     {
+      "package_id": "131ee69d-0262-483a-85bc-6ed11db7dc73",
+      "name": "Canada 75GB 30Days",
+      "country_code": "CA",
+      "region": "CA",
+      "coverage_country_codes": [
+        "CA"
+      ],
+      "coverage_flags": "🇨🇦",
+      "data_gb": 75,
+      "validity_days": 30,
+      "price": 5050,
+      "networks": [
+        {
+          "operator": "Telus",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "128 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "CA"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "1345e8a6-a553-44ad-a43e-ba6ae8438a58",
       "name": "Oceania (8 areas) 3GB 15Days",
       "country_code": "OCE-8",
@@ -12050,6 +12223,52 @@
       "networks": [
         {
           "operator": "Orange",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "FR",
+        "NL",
+        "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "135eaec1-7607-4afe-a2e6-3dd7dd01d584",
+      "name": "Switzerland 2GB 15Days",
+      "country_code": "CH",
+      "region": "CH",
+      "coverage_country_codes": [
+        "CH"
+      ],
+      "coverage_flags": "🇨🇭",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 250,
+      "networks": [
+        {
+          "operator": "Sunrise",
+          "type": "5G"
+        },
+        {
+          "operator": "Salt",
           "type": "5G"
         }
       ],
@@ -13337,8 +13556,12 @@
       "price": 350,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -13353,7 +13576,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -18523,6 +18747,52 @@
           "price": 36550
         }
       ]
+    },
+    {
+      "package_id": "1e0ece67-28f9-4279-bb9d-207f7dc34b79",
+      "name": "Denmark 2GB 15Days",
+      "country_code": "DK",
+      "region": "DK",
+      "coverage_country_codes": [
+        "DK"
+      ],
+      "coverage_flags": "🇩🇰",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 300,
+      "networks": [
+        {
+          "operator": "TDC",
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "FR",
+        "NL",
+        "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "1e1f2c9b-77ca-4081-bdb5-2bde46d9e73c",
@@ -26492,64 +26762,6 @@
       ]
     },
     {
-      "package_id": "2e8aaa17-bde8-48c5-bf0b-d0c8e0e0d4ed",
-      "name": "EUconnect 5 GB",
-      "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE, GB",
-      "coverage_country_codes": [
-        "AT",
-        "BE",
-        "BG",
-        "HR",
-        "CY",
-        "CZ",
-        "DK",
-        "EE",
-        "FI",
-        "FR",
-        "DE",
-        "GR",
-        "HU",
-        "IE",
-        "IT",
-        "LV",
-        "LT",
-        "LU",
-        "MT",
-        "NL",
-        "PL",
-        "PT",
-        "RO",
-        "SK",
-        "SI",
-        "ES",
-        "SE",
-        "GB"
-      ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇪 🇮🇹 🇱🇻 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇬🇧",
-      "data_gb": 5,
-      "validity_days": 30,
-      "price": 1100,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "2e9e2ff2-45f8-452f-b695-0b91d78ce5ed",
       "name": "San Marino 10GB/Day",
       "country_code": "SM",
@@ -26637,45 +26849,6 @@
       ]
     },
     {
-      "package_id": "2eb776bb-dcd2-42bc-89fb-47552825d08e",
-      "name": "Canada 50GB 30Days",
-      "country_code": "CA",
-      "region": "CA",
-      "coverage_country_codes": [
-        "CA"
-      ],
-      "coverage_flags": "🇨🇦",
-      "data_gb": 50,
-      "validity_days": 30,
-      "price": 11500,
-      "networks": [
-        {
-          "operator": "Rogers Wireless",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "2f29af5b-4fc2-4fee-a2a4-f23c26a12b4d",
       "name": "Uzbekistan 20GB 30Days",
       "country_code": "UZ",
@@ -26743,6 +26916,38 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "2f62b34a-ebd7-4638-b471-d2a1ed77630b",
+      "name": "Thailand 50 GB",
+      "country_code": "TH",
+      "region": "TH",
+      "coverage_country_codes": [
+        "TH"
+      ],
+      "coverage_flags": "🇹🇭",
+      "data_gb": 50,
+      "validity_days": 30,
+      "price": 3350,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -27340,50 +27545,6 @@
       ]
     },
     {
-      "package_id": "313e7371-dd41-432d-855b-0d78b5beb579",
-      "name": "Thailand 10GB 30Days",
-      "country_code": "TH",
-      "region": "TH",
-      "coverage_country_codes": [
-        "TH"
-      ],
-      "coverage_flags": "🇹🇭",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 1050,
-      "networks": [
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "315d5270-3971-4e25-b2ca-fac864305590",
       "name": "Honduras 3GB 30Days",
       "country_code": "HN",
@@ -27502,82 +27663,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "31bec9c1-1333-4291-85fb-956fce50b596",
-      "name": "Nepal 5GB/Day",
-      "country_code": "NP",
-      "region": "NP",
-      "coverage_country_codes": [
-        "NP"
-      ],
-      "coverage_flags": "🇳🇵",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1600,
-      "networks": [
-        {
-          "operator": "Ncell",
-          "type": "4G"
-        },
-        {
-          "operator": "NT Mobile",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 4100
-        },
-        {
-          "days": 5,
-          "price": 6550
-        },
-        {
-          "days": 7,
-          "price": 9200
-        },
-        {
-          "days": 10,
-          "price": 12700
-        },
-        {
-          "days": 15,
-          "price": 19000
-        },
-        {
-          "days": 30,
-          "price": 35000
-        }
-      ]
     },
     {
       "package_id": "31f2af1b-5ef7-41d1-92ba-58d4f16c580a",
@@ -27791,50 +27876,6 @@
           "price": 3300
         }
       ]
-    },
-    {
-      "package_id": "32a60c82-0b3a-4ec3-a72a-6ac84dd917b5",
-      "name": "Thailand 50GB 30Days",
-      "country_code": "TH",
-      "region": "TH",
-      "coverage_country_codes": [
-        "TH"
-      ],
-      "coverage_flags": "🇹🇭",
-      "data_gb": 50,
-      "validity_days": 30,
-      "price": 5350,
-      "networks": [
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "32b7fbea-7104-42e6-adad-ec205dbd4fdc",
@@ -35800,6 +35841,150 @@
       ]
     },
     {
+      "package_id": "40f3fab4-2bec-47ac-aa8b-977263398ea8",
+      "name": "Africa (21 areas) 5GB 30Days",
+      "country_code": "AF-21",
+      "region": "CD,GH,EG,RW,TZ,MU,MW,TD,SC,UG,ZM,RE,MA,DZ,NE,NG,GA,KE,TN,MG,ZW",
+      "coverage_country_codes": [
+        "CD",
+        "GH",
+        "EG",
+        "RW",
+        "TZ",
+        "MU",
+        "MW",
+        "TD",
+        "SC",
+        "UG",
+        "ZM",
+        "RE",
+        "MA",
+        "DZ",
+        "NE",
+        "NG",
+        "GA",
+        "KE",
+        "TN",
+        "MG",
+        "ZW"
+      ],
+      "coverage_flags": "🇨🇩 🇬🇭 🇪🇬 🇷🇼 🇹🇿 🇲🇺 🇲🇼 🇹🇩 🇸🇨 🇺🇬 🇿🇲 🇷🇪 🇲🇦 🇩🇿 🇳🇪 🇳🇬 🇬🇦 🇰🇪 🇹🇳 🇲🇬 🇿🇼",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 2850,
+      "networks": [
+        {
+          "operator": "Djezzy",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Emtel",
+          "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Tunicell",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "4109d2e0-6c32-4b04-92be-cada743526e1",
       "name": "Jersey 20GB 30Days",
       "country_code": "JE",
@@ -41511,6 +41696,49 @@
       ]
     },
     {
+      "package_id": "4beaf7f6-e432-4607-baee-867d0d9dd357",
+      "name": "Philippine 50GB 30Days",
+      "country_code": "PH",
+      "region": "PH",
+      "coverage_country_codes": [
+        "PH"
+      ],
+      "coverage_flags": "🇵🇭",
+      "data_gb": 50,
+      "validity_days": 30,
+      "price": 5200,
+      "networks": [
+        {
+          "operator": "SMART",
+          "type": "5G"
+        },
+        {
+          "operator": "Globe",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "4c302c66-3bef-4717-ac31-1e8f6e6ccc7f",
       "name": "Zimbabwe 20GB 30Days",
       "country_code": "ZW",
@@ -44220,6 +44448,71 @@
       "sellable_days": []
     },
     {
+      "package_id": "51dc6ace-a238-45c3-9bd8-651e7266e2ca",
+      "name": "South America (6 areas) 5GB 30Days",
+      "country_code": "SA-6",
+      "region": "BR,AR,UY,PE,CL,EC",
+      "coverage_country_codes": [
+        "BR",
+        "AR",
+        "UY",
+        "PE",
+        "CL",
+        "EC"
+      ],
+      "coverage_flags": "🇧🇷 🇦🇷 🇺🇾 🇵🇪 🇨🇱 🇪🇨",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 2300,
+      "networks": [
+        {
+          "operator": "Personal",
+          "type": "5G"
+        },
+        {
+          "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "WOM",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "4G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "4G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "51ff964b-05b1-4f18-8491-72518cec942a",
       "name": "El Salvador 5GB 30Days",
       "country_code": "SV",
@@ -44540,6 +44833,38 @@
       "ip_export": [
         "UK"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "52913ce9-758e-432b-9202-3e79d0447c65",
+      "name": "Guatemala 20 GB",
+      "country_code": "GT",
+      "region": "GT",
+      "coverage_country_codes": [
+        "GT"
+      ],
+      "coverage_flags": "🇬🇹",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 5250,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -45182,6 +45507,39 @@
       "sellable_days": []
     },
     {
+      "package_id": "53c1e074-5a05-4c89-8ecb-abde2a8dc59f",
+      "name": "France and Italy 30 GB",
+      "country_code": "FR",
+      "region": "FR, IT",
+      "coverage_country_codes": [
+        "FR",
+        "IT"
+      ],
+      "coverage_flags": "🇫🇷 🇮🇹",
+      "data_gb": 30,
+      "validity_days": 30,
+      "price": 3400,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "53dac50a-ef94-4ed4-ab81-5528a66f9f09",
       "name": "Austria 3GB/Day",
       "country_code": "AT",
@@ -45296,6 +45654,79 @@
       "ip_export": [
         "BE"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "5419fc7f-933f-4f51-967f-ea5e7cb7bc89",
+      "name": "Nigeria and Ghana 1 GB",
+      "country_code": "GH",
+      "region": "GH, NG",
+      "coverage_country_codes": [
+        "GH",
+        "NG"
+      ],
+      "coverage_flags": "🇬🇭 🇳🇬",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 550,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "54344c78-ea25-427a-991c-0586589808b6",
+      "name": "Bonaire 3GB 15Days",
+      "country_code": "BQ",
+      "region": "BQ",
+      "coverage_country_codes": [
+        "BQ"
+      ],
+      "coverage_flags": "🇧🇶",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 2700,
+      "networks": [
+        {
+          "operator": "SETAR",
+          "type": "4G"
+        },
+        {
+          "operator": "UTS Wireless Curacao",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -47773,6 +48204,366 @@
       ]
     },
     {
+      "package_id": "58b6a2f5-c28c-4279-bf39-55d764d4d67b",
+      "name": "Europe (33 areas) 5GB 30Days",
+      "country_code": "EU-33",
+      "region": "NO,DE,BE,FI,PT,BG,DK,LT,LU,LV,HR,FR,HU,SE,SI,SK,GB,IE,EE,GI,CH,MT,IS,IT,GR,ES,AT,CY,CZ,PL,RO,LI,NL",
+      "coverage_country_codes": [
+        "NO",
+        "DE",
+        "BE",
+        "FI",
+        "PT",
+        "BG",
+        "DK",
+        "LT",
+        "LU",
+        "LV",
+        "HR",
+        "FR",
+        "HU",
+        "SE",
+        "SI",
+        "SK",
+        "GB",
+        "IE",
+        "EE",
+        "GI",
+        "CH",
+        "MT",
+        "IS",
+        "IT",
+        "GR",
+        "ES",
+        "AT",
+        "CY",
+        "CZ",
+        "PL",
+        "RO",
+        "LI",
+        "NL"
+      ],
+      "coverage_flags": "🇳🇴 🇩🇪 🇧🇪 🇫🇮 🇵🇹 🇧🇬 🇩🇰 🇱🇹 🇱🇺 🇱🇻 🇭🇷 🇫🇷 🇭🇺 🇸🇪 🇸🇮 🇸🇰 🇬🇧 🇮🇪 🇪🇪 🇬🇮 🇨🇭 🇲🇹 🇮🇸 🇮🇹 🇬🇷 🇪🇸 🇦🇹 🇨🇾 🇨🇿 🇵🇱 🇷🇴 🇱🇮 🇳🇱",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 650,
+      "networks": [
+        {
+          "operator": "3",
+          "type": "5G"
+        },
+        {
+          "operator": "A1.net",
+          "type": "5G"
+        },
+        {
+          "operator": "bob",
+          "type": "5G"
+        },
+        {
+          "operator": "Proximus",
+          "type": "5G"
+        },
+        {
+          "operator": "Base",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivacom",
+          "type": "5G"
+        },
+        {
+          "operator": "A1",
+          "type": "5G"
+        },
+        {
+          "operator": "A1",
+          "type": "5G"
+        },
+        {
+          "operator": "Tele2",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Epic",
+          "type": "5G"
+        },
+        {
+          "operator": "O2",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
+          "operator": "Telia",
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
+        },
+        {
+          "operator": "Telenor",
+          "type": "5G"
+        },
+        {
+          "operator": "Telenor",
+          "type": "5G"
+        },
+        {
+          "operator": "Tele2",
+          "type": "5G"
+        },
+        {
+          "operator": "Telia",
+          "type": "5G"
+        },
+        {
+          "operator": "Telia",
+          "type": "4G"
+        },
+        {
+          "operator": "Elisa",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "O2",
+          "type": "5G"
+        },
+        {
+          "operator": "GibTel",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Telenor Hungary",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Síminn",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
+          "type": "5G"
+        },
+        {
+          "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Tele2",
+          "type": "5G"
+        },
+        {
+          "operator": "LMT",
+          "type": "5G"
+        },
+        {
+          "operator": "FL1",
+          "type": "5G"
+        },
+        {
+          "operator": "Telia",
+          "type": "5G"
+        },
+        {
+          "operator": "Tele2",
+          "type": "5G"
+        },
+        {
+          "operator": "POST",
+          "type": "5G"
+        },
+        {
+          "operator": "Tango",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "GO",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
+          "operator": "KPN",
+          "type": "5G"
+        },
+        {
+          "operator": "Telfort",
+          "type": "5G"
+        },
+        {
+          "operator": "Telia",
+          "type": "5G"
+        },
+        {
+          "operator": "Telenor",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Play",
+          "type": "5G"
+        },
+        {
+          "operator": "NOS",
+          "type": "4G"
+        },
+        {
+          "operator": "MEO",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Digi.Mobil",
+          "type": "5G"
+        },
+        {
+          "operator": "O2",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "A1",
+          "type": "5G"
+        },
+        {
+          "operator": "Mobitel",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
+        },
+        {
+          "operator": "Telia",
+          "type": "5G"
+        },
+        {
+          "operator": "Sunrise",
+          "type": "5G"
+        },
+        {
+          "operator": "Salt",
+          "type": "5G"
+        },
+        {
+          "operator": "O2",
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "58e621be-34c0-4996-9458-9e1f66cffa1a",
       "name": "Eswatini 3GB/Day FUP1Mbps",
       "country_code": "SZ",
@@ -49268,6 +50059,37 @@
       "ip_export": [
         "UK"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "5b8b528d-54a1-475b-9de0-21bab680bc6c",
+      "name": "Singapore 10 GB",
+      "country_code": "SG",
+      "region": "SG",
+      "coverage_country_codes": [
+        "SG"
+      ],
+      "coverage_flags": "🇸🇬",
+      "data_gb": 10,
+      "validity_days": 15,
+      "price": 900,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -52013,8 +52835,12 @@
       "price": 300,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -52029,7 +52855,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -53968,8 +54795,12 @@
       "price": 850,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -53984,7 +54815,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -69691,6 +70523,46 @@
       "sellable_days": []
     },
     {
+      "package_id": "7fe50c30-9d0d-4d1a-9f2a-ba697f7241de",
+      "name": "India 2GB 15Days",
+      "country_code": "IN",
+      "region": "IN",
+      "coverage_country_codes": [
+        "IN"
+      ],
+      "coverage_flags": "🇮🇳",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 600,
+      "networks": [
+        {
+          "operator": "AirTel",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "800137c5-e16f-460d-8f7b-209e7622cfb1",
       "name": "Egypt Premium 1 GB",
       "country_code": "EG",
@@ -70097,6 +70969,52 @@
       "hotspot_supported": true,
       "activation_policy": "first_data_usage",
       "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "80d6d727-403c-41e1-b004-51a39c545350",
+      "name": "Asia 15 Countries 5 GB",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, IN, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
+      "coverage_country_codes": [
+        "BD",
+        "KH",
+        "CN",
+        "HK",
+        "IN",
+        "ID",
+        "JP",
+        "LA",
+        "MO",
+        "MY",
+        "PH",
+        "KR",
+        "TW",
+        "TH",
+        "VN"
+      ],
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
+      "data_gb": 5,
+      "validity_days": 15,
+      "price": 1100,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -74701,8 +75619,12 @@
       "price": 950,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -74717,7 +75639,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -77511,38 +78434,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "8d7e49da-5571-42ea-bb08-1465a2be4eef",
-      "name": "Malaysia 30 GB",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 30,
-      "validity_days": 30,
-      "price": 2150,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "network_connection",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "8da1fd4f-910e-49eb-a003-9d03084f3ab1",
       "name": "Philippines 3GB 15Days",
       "country_code": "PH",
@@ -78286,6 +79177,38 @@
         "NL",
         "UK"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "8f5b3f11-0d17-47cf-abac-683a76193814",
+      "name": "Thailand 10 GB",
+      "country_code": "TH",
+      "region": "TH",
+      "coverage_country_codes": [
+        "TH"
+      ],
+      "coverage_flags": "🇹🇭",
+      "data_gb": 10,
+      "validity_days": 15,
+      "price": 1050,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -81058,6 +81981,40 @@
       "sellable_days": []
     },
     {
+      "package_id": "93c24ef5-5acb-433b-9379-07efe624cf69",
+      "name": "Japan Unlimited 7 Days",
+      "country_code": "JP",
+      "region": "JP",
+      "coverage_country_codes": [
+        "JP"
+      ],
+      "coverage_flags": "🇯🇵",
+      "data_gb": 0,
+      "validity_days": 7,
+      "price": 1600,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "5GB/day at unrestricted high speed. Up to 200 kbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "5GB/day at unrestricted high speed. Up to 200 kbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 5,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "200 Kbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        7
+      ]
+    },
+    {
       "package_id": "93f2f291-5f80-4798-87b1-38ad103cdd95",
       "name": "Fiji 3GB/Day FUP1Mbps",
       "country_code": "FJ",
@@ -81537,6 +82494,46 @@
         "4G"
       ],
       "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "947b7e15-5394-40a3-becd-7066a829e7a7",
+      "name": "Ethiopia 1GB 7Days",
+      "country_code": "ET",
+      "region": "ET",
+      "coverage_country_codes": [
+        "ET"
+      ],
+      "coverage_flags": "🇪🇹",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 850,
+      "networks": [
+        {
+          "operator": "Safaricom",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
       "speed_note": "",
       "fup_policy": "",
       "hotspot_supported": null,
@@ -85913,8 +86910,12 @@
       "price": 650,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -85924,17 +86925,18 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -89567,6 +90569,38 @@
       "sellable_days": []
     },
     {
+      "package_id": "a1a15ce7-e400-4309-a17c-ebe30a80b9fe",
+      "name": "Nigeria and Ghana 3 GB",
+      "country_code": "GH",
+      "region": "GH, NG",
+      "coverage_country_codes": [
+        "GH",
+        "NG"
+      ],
+      "coverage_flags": "🇬🇭 🇳🇬",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 1200,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "a1d2ba76-c457-4485-9a07-8641a575fee3",
       "name": "Colombia 5GB 30Days",
       "country_code": "CO",
@@ -89767,6 +90801,150 @@
       "topup_available": true,
       "ip_export": [
         "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "a251e820-1737-4424-b331-cd60994b6a92",
+      "name": "Africa (21 areas) 20GB 30Days",
+      "country_code": "AF-21",
+      "region": "CD,GH,EG,RW,TZ,MU,MW,TD,SC,UG,ZM,RE,MA,DZ,NE,NG,GA,KE,TN,MG,ZW",
+      "coverage_country_codes": [
+        "CD",
+        "GH",
+        "EG",
+        "RW",
+        "TZ",
+        "MU",
+        "MW",
+        "TD",
+        "SC",
+        "UG",
+        "ZM",
+        "RE",
+        "MA",
+        "DZ",
+        "NE",
+        "NG",
+        "GA",
+        "KE",
+        "TN",
+        "MG",
+        "ZW"
+      ],
+      "coverage_flags": "🇨🇩 🇬🇭 🇪🇬 🇷🇼 🇹🇿 🇲🇺 🇲🇼 🇹🇩 🇸🇨 🇺🇬 🇿🇲 🇷🇪 🇲🇦 🇩🇿 🇳🇪 🇳🇬 🇬🇦 🇰🇪 🇹🇳 🇲🇬 🇿🇼",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 10700,
+      "networks": [
+        {
+          "operator": "Djezzy",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Emtel",
+          "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Tunicell",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -91462,52 +92640,6 @@
           "price": 8250
         }
       ]
-    },
-    {
-      "package_id": "a64d7309-0814-4bdd-b9e9-f0124e78e45f",
-      "name": "Asia 15 Countries 3 GB",
-      "country_code": "BD",
-      "region": "BD, KH, CN, HK, IN, ID, JP, LA, MO, MY, PH, KR, TW, TH, VN",
-      "coverage_country_codes": [
-        "BD",
-        "KH",
-        "CN",
-        "HK",
-        "IN",
-        "ID",
-        "JP",
-        "LA",
-        "MO",
-        "MY",
-        "PH",
-        "KR",
-        "TW",
-        "TH",
-        "VN"
-      ],
-      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇳 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇭 🇰🇷 🇹🇼 🇹🇭 🇻🇳",
-      "data_gb": 3,
-      "validity_days": 15,
-      "price": 900,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "a650a07a-24b5-41a8-9f3d-1fc147c2301d",
@@ -93753,59 +94885,6 @@
         "FR",
         "NL",
         "UK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "aa73b635-bfdc-4f83-a92b-a49bb82b1e9f",
-      "name": "Japan & South Korea 1GB 7Days",
-      "country_code": "JPKR-2",
-      "region": "JP,KR",
-      "coverage_country_codes": [
-        "JP",
-        "KR"
-      ],
-      "coverage_flags": "🇯🇵 🇰🇷",
-      "data_gb": 1,
-      "validity_days": 7,
-      "price": 250,
-      "networks": [
-        {
-          "operator": "KDDI/au",
-          "type": "5G"
-        },
-        {
-          "operator": "SoftBank",
-          "type": "5G"
-        },
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -96632,6 +97711,171 @@
       "topup_available": true,
       "ip_export": [
         "US"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "af1e1299-764b-4511-ba3c-d389416d42d3",
+      "name": "Asia (14 areas) 3GB 15Days",
+      "country_code": "AS-14",
+      "region": "MO,BD,HK,TW,IN,JP,KR,MY,TH,LA,VN,PH,ID,KH",
+      "coverage_country_codes": [
+        "MO",
+        "BD",
+        "HK",
+        "TW",
+        "IN",
+        "JP",
+        "KR",
+        "MY",
+        "TH",
+        "LA",
+        "VN",
+        "PH",
+        "ID",
+        "KH"
+      ],
+      "coverage_flags": "🇲🇴 🇧🇩 🇭🇰 🇹🇼 🇮🇳 🇯🇵 🇰🇷 🇲🇾 🇹🇭 🇱🇦 🇻🇳 🇵🇭 🇮🇩 🇰🇭",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "Grameenphone",
+          "type": "4G"
+        },
+        {
+          "operator": "Banglalink",
+          "type": "4G"
+        },
+        {
+          "operator": "Robi",
+          "type": "4G"
+        },
+        {
+          "operator": "Metfone",
+          "type": "4G"
+        },
+        {
+          "operator": "Cellcard",
+          "type": "4G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
+          "type": "5G"
+        },
+        {
+          "operator": "AirTel",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        },
+        {
+          "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
+          "type": "5G"
+        },
+        {
+          "operator": "Lao Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "CTM",
+          "type": "5G"
+        },
+        {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
+          "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "SMART",
+          "type": "5G"
+        },
+        {
+          "operator": "Globe",
+          "type": "5G"
+        },
+        {
+          "operator": "SKTelecom",
+          "type": "5G"
+        },
+        {
+          "operator": "LG Uplus",
+          "type": "5G"
+        },
+        {
+          "operator": "Chunghwa",
+          "type": "5G"
+        },
+        {
+          "operator": "Taiwan Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "AIS",
+          "type": "5G"
+        },
+        {
+          "operator": "DTAC",
+          "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
+        },
+        {
+          "operator": "Viettel Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "Vinaphone",
+          "type": "5G"
+        },
+        {
+          "operator": "MobiFone",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -104367,6 +105611,150 @@
       ]
     },
     {
+      "package_id": "bb302b54-fad2-4faa-8604-6536a1b82f20",
+      "name": "Africa (21 areas) 3GB 15Days",
+      "country_code": "AF-21",
+      "region": "CD,GH,EG,RW,TZ,MU,MW,TD,SC,UG,ZM,RE,MA,DZ,NE,NG,GA,KE,TN,MG,ZW",
+      "coverage_country_codes": [
+        "CD",
+        "GH",
+        "EG",
+        "RW",
+        "TZ",
+        "MU",
+        "MW",
+        "TD",
+        "SC",
+        "UG",
+        "ZM",
+        "RE",
+        "MA",
+        "DZ",
+        "NE",
+        "NG",
+        "GA",
+        "KE",
+        "TN",
+        "MG",
+        "ZW"
+      ],
+      "coverage_flags": "🇨🇩 🇬🇭 🇪🇬 🇷🇼 🇹🇿 🇲🇺 🇲🇼 🇹🇩 🇸🇨 🇺🇬 🇿🇲 🇷🇪 🇲🇦 🇩🇿 🇳🇪 🇳🇬 🇬🇦 🇰🇪 🇹🇳 🇲🇬 🇿🇼",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 1950,
+      "networks": [
+        {
+          "operator": "Djezzy",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Emtel",
+          "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Tunicell",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "bb69aa24-17e7-4033-9fc9-08325411b97e",
       "name": "Czech Republic 5GB 30Days",
       "country_code": "CZ",
@@ -105615,8 +107003,12 @@
       "price": 2100,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -105631,7 +107023,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -108388,6 +109781,40 @@
       ]
     },
     {
+      "package_id": "c2c42b32-689c-4744-aaa1-6f377b89e54f",
+      "name": "Jersey Guernsey and IOM 10 GB",
+      "country_code": "GG",
+      "region": "GG, IM, JE",
+      "coverage_country_codes": [
+        "GG",
+        "IM",
+        "JE"
+      ],
+      "coverage_flags": "🇬🇬 🇮🇲 🇯🇪",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 2450,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "c2c5ad69-e221-484d-b1e2-00bd2d24ad2f",
       "name": "Sri Lanka 10GB 30Days",
       "country_code": "LK",
@@ -110141,8 +111568,12 @@
       "price": 1100,
       "networks": [
         {
+          "operator": "Vodafone",
+          "type": "4G"
+        },
+        {
           "operator": "Orange",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -110157,7 +111588,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "EU"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -117721,124 +119153,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "d3ccf377-2ac8-4fee-af20-9e3a85cb9d58",
-      "name": "Asia (12 areas) 1GB 7Days",
-      "country_code": "AS-12",
-      "region": "MO,HK,TW,TH,SG,JP,KR,VN,ID,CN,MY,KH",
-      "coverage_country_codes": [
-        "MO",
-        "HK",
-        "TW",
-        "TH",
-        "SG",
-        "JP",
-        "KR",
-        "VN",
-        "ID",
-        "CN",
-        "MY",
-        "KH"
-      ],
-      "coverage_flags": "🇲🇴 🇭🇰 🇹🇼 🇹🇭 🇸🇬 🇯🇵 🇰🇷 🇻🇳 🇮🇩 🇨🇳 🇲🇾 🇰🇭",
-      "data_gb": 1,
-      "validity_days": 7,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "Metfone",
-          "type": "4G"
-        },
-        {
-          "operator": "China Unicom",
-          "type": "5G"
-        },
-        {
-          "operator": "csl",
-          "type": "4G"
-        },
-        {
-          "operator": "Telkomsel",
-          "type": "5G"
-        },
-        {
-          "operator": "KDDI/au",
-          "type": "5G"
-        },
-        {
-          "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        },
-        {
-          "operator": "U Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
-          "type": "5G"
-        },
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "Chunghwa",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        },
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "4G"
-        },
-        {
-          "operator": "Viettel Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "Vietnamobile",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "d3d4e428-2dd8-4a5b-8dfe-ddbd4eb6c1db",
       "name": "Moldova 10GB/Day",
       "country_code": "MD",
@@ -118380,49 +119694,6 @@
           "price": 46400
         }
       ]
-    },
-    {
-      "package_id": "d453aadb-479e-4108-8f1e-2107d538e28e",
-      "name": "Guatemala 20GB 30Days",
-      "country_code": "GT",
-      "region": "GT",
-      "coverage_country_codes": [
-        "GT"
-      ],
-      "coverage_flags": "🇬🇹",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 6050,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "movistar",
-          "type": "3G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "d46e60b5-5dcd-437f-91e5-c3c463a843e6",
@@ -119813,6 +121084,116 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "d654797a-82d3-446e-a9bb-7a8bb77fb919",
+      "name": "South Asia (6 areas) 5GB/Day",
+      "country_code": "SAS-6",
+      "region": "NP,BT,BD,IN,PK,LK",
+      "coverage_country_codes": [
+        "NP",
+        "BT",
+        "BD",
+        "IN",
+        "PK",
+        "LK"
+      ],
+      "coverage_flags": "🇳🇵 🇧🇹 🇧🇩 🇮🇳 🇵🇰 🇱🇰",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1300,
+      "networks": [
+        {
+          "operator": "Grameenphone",
+          "type": "4G"
+        },
+        {
+          "operator": "Banglalink",
+          "type": "4G"
+        },
+        {
+          "operator": "Robi",
+          "type": "4G"
+        },
+        {
+          "operator": "TashiCell",
+          "type": "4G"
+        },
+        {
+          "operator": "AirTel",
+          "type": "5G"
+        },
+        {
+          "operator": "Ncell",
+          "type": "4G"
+        },
+        {
+          "operator": "NT Mobile",
+          "type": "4G"
+        },
+        {
+          "operator": "Zong",
+          "type": "4G"
+        },
+        {
+          "operator": "Mobitel",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 5,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 3250
+        },
+        {
+          "days": 5,
+          "price": 5150
+        },
+        {
+          "days": 7,
+          "price": 7250
+        },
+        {
+          "days": 10,
+          "price": 10000
+        },
+        {
+          "days": 15,
+          "price": 14950
+        },
+        {
+          "days": 30,
+          "price": 27550
+        }
+      ]
     },
     {
       "package_id": "d667ca46-ed47-4e94-9944-28822e61103c",
@@ -122444,45 +123825,6 @@
       ]
     },
     {
-      "package_id": "dac03f54-239a-4a8e-b0a3-f14a00700719",
-      "name": "Kosovo 10GB 30Days",
-      "country_code": "XK",
-      "region": "XK",
-      "coverage_country_codes": [
-        "XK"
-      ],
-      "coverage_flags": "🇽🇰",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 5100,
-      "networks": [
-        {
-          "operator": "Vala",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "dac7ca3d-b560-4121-8f67-60a65314e4c3",
       "name": "Saint Vincent and the Grenadines 1GB 7Days",
       "country_code": "VC",
@@ -124174,59 +125516,6 @@
       ]
     },
     {
-      "package_id": "dc3bcf42-343b-4ed2-b3fe-9707a2d9d419",
-      "name": "Japan & South Korea 3GB 15Days",
-      "country_code": "JPKR-2",
-      "region": "JP,KR",
-      "coverage_country_codes": [
-        "JP",
-        "KR"
-      ],
-      "coverage_flags": "🇯🇵 🇰🇷",
-      "data_gb": 3,
-      "validity_days": 15,
-      "price": 650,
-      "networks": [
-        {
-          "operator": "KDDI/au",
-          "type": "5G"
-        },
-        {
-          "operator": "SoftBank",
-          "type": "5G"
-        },
-        {
-          "operator": "SKTelecom",
-          "type": "5G"
-        },
-        {
-          "operator": "LG Uplus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "dc52f125-84b1-4d6e-9cde-89affa895226",
       "name": "Oceania (8 areas) 20GB 30Days",
       "country_code": "OCE-8",
@@ -124363,6 +125652,78 @@
       "topup_available": true,
       "ip_export": [
         "IL"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "dc7a2b29-e57c-43b3-85b6-830f493f7008",
+      "name": "Middle East (5 areas) 5GB 30Days",
+      "country_code": "ME-5",
+      "region": "QA,IL,IQ,KW,SA",
+      "coverage_country_codes": [
+        "QA",
+        "IL",
+        "IQ",
+        "KW",
+        "SA"
+      ],
+      "coverage_flags": "🇶🇦 🇮🇱 🇮🇶 🇰🇼 🇸🇦",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 1650,
+      "networks": [
+        {
+          "operator": "Asia Cell",
+          "type": "4G"
+        },
+        {
+          "operator": "Cellcom",
+          "type": "5G"
+        },
+        {
+          "operator": "Pelephone",
+          "type": "5G"
+        },
+        {
+          "operator": "Hot Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "Partner",
+          "type": "5G"
+        },
+        {
+          "operator": "Ooredoo",
+          "type": "4G"
+        },
+        {
+          "operator": "ooredoo",
+          "type": "5G"
+        },
+        {
+          "operator": "STC",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -125790,6 +127151,38 @@
       ]
     },
     {
+      "package_id": "de4d740f-2fbe-4fce-8755-9c63d4462173",
+      "name": "Kosovo 2 GB",
+      "country_code": "XK",
+      "region": "XK",
+      "coverage_country_codes": [
+        "XK"
+      ],
+      "coverage_flags": "🇽🇰",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 1600,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "de4e693a-2115-48e3-88b8-38d5ca29e46d",
       "name": "New Zealand 500MB/Day",
       "country_code": "NZ",
@@ -125860,6 +127253,37 @@
           "price": 2650
         }
       ]
+    },
+    {
+      "package_id": "de5a97e8-d73c-4edb-963b-ce43f5714281",
+      "name": "Venezuela 2 GB",
+      "country_code": "VE",
+      "region": "VE",
+      "coverage_country_codes": [
+        "VE"
+      ],
+      "coverage_flags": "🇻🇪",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 1300,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "de6c004d-6390-4721-9a22-e5b56a6c87af",
@@ -132408,6 +133832,40 @@
       "sellable_days": []
     },
     {
+      "package_id": "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
+      "name": "Singapore Malaysia Thailand 5 GB",
+      "country_code": "MY",
+      "region": "MY, SG, TH",
+      "coverage_country_codes": [
+        "MY",
+        "SG",
+        "TH"
+      ],
+      "coverage_flags": "🇲🇾 🇸🇬 🇹🇭",
+      "data_gb": 5,
+      "validity_days": 15,
+      "price": 900,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "eb663cca-b1ea-4761-962b-185662ae3eb2",
       "name": "Bahrain 1GB 7Days",
       "country_code": "BH",
@@ -133152,6 +134610,41 @@
           "price": 75500
         }
       ]
+    },
+    {
+      "package_id": "eca6ac6a-4f30-4aab-9245-59ef7f4c741c",
+      "name": "Africa 20 GB",
+      "country_code": "MU",
+      "region": "MU, RW, SC, TZ, UG",
+      "coverage_country_codes": [
+        "MU",
+        "RW",
+        "SC",
+        "TZ",
+        "UG"
+      ],
+      "coverage_flags": "🇲🇺 🇷🇼 🇸🇨 🇹🇿 🇺🇬",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 6150,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "installation",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "eca86b6c-23b5-4ae4-aafa-c821c8878bb0",
@@ -133970,6 +135463,171 @@
         },
         {
           "operator": "CelcomDigi",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+      "name": "Asia (14 areas) 1GB 7Days",
+      "country_code": "AS-14",
+      "region": "MO,BD,HK,TW,IN,JP,KR,MY,TH,LA,VN,PH,ID,KH",
+      "coverage_country_codes": [
+        "MO",
+        "BD",
+        "HK",
+        "TW",
+        "IN",
+        "JP",
+        "KR",
+        "MY",
+        "TH",
+        "LA",
+        "VN",
+        "PH",
+        "ID",
+        "KH"
+      ],
+      "coverage_flags": "🇲🇴 🇧🇩 🇭🇰 🇹🇼 🇮🇳 🇯🇵 🇰🇷 🇲🇾 🇹🇭 🇱🇦 🇻🇳 🇵🇭 🇮🇩 🇰🇭",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 250,
+      "networks": [
+        {
+          "operator": "Grameenphone",
+          "type": "4G"
+        },
+        {
+          "operator": "Banglalink",
+          "type": "4G"
+        },
+        {
+          "operator": "Robi",
+          "type": "4G"
+        },
+        {
+          "operator": "Metfone",
+          "type": "4G"
+        },
+        {
+          "operator": "Cellcard",
+          "type": "4G"
+        },
+        {
+          "operator": "csl",
+          "type": "5G"
+        },
+        {
+          "operator": "SmarTone",
+          "type": "5G"
+        },
+        {
+          "operator": "AirTel",
+          "type": "5G"
+        },
+        {
+          "operator": "Telkomsel",
+          "type": "5G"
+        },
+        {
+          "operator": "XL",
+          "type": "4G"
+        },
+        {
+          "operator": "Indosat",
+          "type": "5G"
+        },
+        {
+          "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
+          "type": "5G"
+        },
+        {
+          "operator": "Lao Telecom",
+          "type": "5G"
+        },
+        {
+          "operator": "CTM",
+          "type": "5G"
+        },
+        {
+          "operator": "Maxis",
+          "type": "5G"
+        },
+        {
+          "operator": "CelcomDigi",
+          "type": "5G"
+        },
+        {
+          "operator": "SMART",
+          "type": "5G"
+        },
+        {
+          "operator": "Globe",
+          "type": "5G"
+        },
+        {
+          "operator": "SKTelecom",
+          "type": "5G"
+        },
+        {
+          "operator": "LG Uplus",
+          "type": "5G"
+        },
+        {
+          "operator": "Chunghwa",
+          "type": "5G"
+        },
+        {
+          "operator": "Taiwan Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "AIS",
+          "type": "5G"
+        },
+        {
+          "operator": "DTAC",
+          "type": "5G"
+        },
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
+        },
+        {
+          "operator": "Viettel Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "Vinaphone",
+          "type": "5G"
+        },
+        {
+          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -138933,6 +140591,38 @@
       ]
     },
     {
+      "package_id": "f4f491cd-83e2-4560-8062-54b81ba5e396",
+      "name": "Kosovo 10 GB",
+      "country_code": "XK",
+      "region": "XK",
+      "coverage_country_codes": [
+        "XK"
+      ],
+      "coverage_flags": "🇽🇰",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 4600,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "f4f7e7f9-92ab-4965-8536-2c4767e2c88b",
       "name": "Nauru 5GB 30Days",
       "country_code": "NR",
@@ -139012,37 +140702,6 @@
       "ip_export": [
         "UK"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "f58f9ed1-3e15-4c32-b15d-eb270fa0b730",
-      "name": "Ethiopia 1 GB",
-      "country_code": "ET",
-      "region": "ET",
-      "coverage_country_codes": [
-        "ET"
-      ],
-      "coverage_flags": "🇪🇹",
-      "data_gb": 1,
-      "validity_days": 7,
-      "price": 1000,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -139654,37 +141313,6 @@
           "price": 109700
         }
       ]
-    },
-    {
-      "package_id": "f6af9be8-91c0-497d-b199-26491b6e59b4",
-      "name": "Venezuela 1 GB",
-      "country_code": "VE",
-      "region": "VE",
-      "coverage_country_codes": [
-        "VE"
-      ],
-      "coverage_flags": "🇻🇪",
-      "data_gb": 1,
-      "validity_days": 14,
-      "price": 1700,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "f6c02358-d397-488c-b59e-bb6ada767204",
@@ -140777,78 +142405,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "f96dd18a-58e9-47da-9c93-e67475fb608b",
-      "name": "Bhutan 5GB/Day",
-      "country_code": "BT",
-      "region": "BT",
-      "coverage_country_codes": [
-        "BT"
-      ],
-      "coverage_flags": "🇧🇹",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 2100,
-      "networks": [
-        {
-          "operator": "TashiCell",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 5300
-        },
-        {
-          "days": 5,
-          "price": 8450
-        },
-        {
-          "days": 7,
-          "price": 11800
-        },
-        {
-          "days": 10,
-          "price": 16300
-        },
-        {
-          "days": 15,
-          "price": 24400
-        },
-        {
-          "days": 30,
-          "price": 44950
-        }
-      ]
     },
     {
       "package_id": "f971ffec-a893-4401-888e-e6362e9e6a8e",
@@ -144003,6 +145559,46 @@
       "sellable_days": []
     },
     {
+      "package_id": "ff771488-13d0-4b6c-ab4e-58fbe75ae9b9",
+      "name": "Tonga 3GB 30Days",
+      "country_code": "TO",
+      "region": "TO",
+      "coverage_country_codes": [
+        "TO"
+      ],
+      "coverage_flags": "🇹🇴",
+      "data_gb": 3,
+      "validity_days": 30,
+      "price": 1550,
+      "networks": [
+        {
+          "operator": "Digicel",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "ff9411ef-1d41-481d-a69b-ce31f05c8e61",
       "name": "Maldives 2GB 15Days",
       "country_code": "MV",
@@ -144624,12 +146220,12 @@
         ],
         "regional": [
           "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
-          "89e8d664-aff5-4505-a60c-b0e748356444",
-          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
           "06121835-e264-47cb-97de-1f5067a66486",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
           "c79e2987-9a1a-4012-9e03-8db5e17efc88",
+          "0905aa34-f4f1-4a39-b1e1-6632938de8ea",
+          "51dc6ace-a238-45c3-9bd8-651e7266e2ca",
           "36cda6cd-0eca-4d96-83f8-b2fd886a01cf"
         ],
         "daily": [
@@ -144858,11 +146454,11 @@
           "f716024b-d055-44ee-84e9-d5abbb86c70c"
         ],
         "regional": [
-          "a64d7309-0814-4bdd-b9e9-f0124e78e45f",
+          "80d6d727-403c-41e1-b004-51a39c545350",
           "086e300f-e26a-44f4-9d3d-f9c2d50f9747",
           "6b4de516-1ac1-45f6-ab1a-dbf7bd2c128a",
-          "4eba40fd-6d4d-450f-bdce-b889c97a4d52",
-          "29bd761b-401a-44f8-bdca-315cd7a866bc",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "3a010082-2661-4ec9-8492-3efe7a2f47f9",
           "a0ebef6e-1fd7-4472-901a-6fe19625f473",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa"
@@ -145120,6 +146716,7 @@
       "BQ": {
         "local": [
           "9d5921bc-23fd-4bd0-b69e-6d9b432a42ed",
+          "54344c78-ea25-427a-991c-0586589808b6",
           "3539e386-5f1e-4932-961c-554ac32c81ed",
           "ffe65aae-156b-43f5-932a-fc3091682723",
           "4b3ba7d2-e531-41da-ab1a-35b2c65958d1",
@@ -145156,8 +146753,8 @@
         "regional": [
           "c79e2987-9a1a-4012-9e03-8db5e17efc88",
           "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
-          "89e8d664-aff5-4505-a60c-b0e748356444",
-          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+          "0905aa34-f4f1-4a39-b1e1-6632938de8ea",
+          "51dc6ace-a238-45c3-9bd8-651e7266e2ca",
           "06121835-e264-47cb-97de-1f5067a66486",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
@@ -145224,7 +146821,7 @@
           "6ea1ff3e-c412-48fc-9986-7bfbe270d4c1",
           "73fdb740-c00c-4b96-81cb-61a7d54460b9",
           "c77a419e-56d3-4330-91ff-05bc1ad56071",
-          "f96dd18a-58e9-47da-9c93-e67475fb608b",
+          "d654797a-82d3-446e-a9bb-7a8bb77fb919",
           "2ca37c6b-611d-410c-bc88-b958a6cd5ed3"
         ],
         "best": "3f187c8e-8ddd-4df4-bd27-ddae94136b1d"
@@ -145284,7 +146881,7 @@
           "1c9b1ae9-a7d8-4afb-a9da-23747f0b8ee6",
           "17bad8e4-ce0a-492d-bdd2-745e0b55c6bf",
           "e45f87c6-b1ad-4c28-a3fb-0d0600e82e99",
-          "2eb776bb-dcd2-42bc-89fb-47552825d08e"
+          "131ee69d-0262-483a-85bc-6ed11db7dc73"
         ],
         "regional": [
           "433ce83a-2878-4185-9453-47697e052d7a",
@@ -145320,10 +146917,10 @@
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "d5f73d66-74b0-43f2-9ba5-a89d31935084",
@@ -145375,6 +146972,7 @@
       "CH": {
         "local": [
           "849f41fb-3ab7-4b1a-b7ca-1f655b098ff7",
+          "135eaec1-7607-4afe-a2e6-3dd7dd01d584",
           "a12eab2d-6815-443b-9f83-fcf10c918358",
           "f2abf07d-a5c6-4d76-be19-97fd25bc94f9",
           "a8047dee-ab76-485b-aa4f-d77bcffd76c8",
@@ -145435,8 +147033,8 @@
         "regional": [
           "c79e2987-9a1a-4012-9e03-8db5e17efc88",
           "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
-          "89e8d664-aff5-4505-a60c-b0e748356444",
-          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+          "0905aa34-f4f1-4a39-b1e1-6632938de8ea",
+          "51dc6ace-a238-45c3-9bd8-651e7266e2ca",
           "06121835-e264-47cb-97de-1f5067a66486",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
@@ -145726,6 +147324,7 @@
       "DK": {
         "local": [
           "5a13ad4e-f212-4628-96e7-48d0a4ecc682",
+          "1e0ece67-28f9-4279-bb9d-207f7dc34b79",
           "53007042-9353-4b35-abd0-472c0c5b70cd",
           "68a4ad66-b6df-4eb1-b812-f0f13796a143",
           "a5867fad-fbfe-40af-95b8-e8470d61983d",
@@ -145846,8 +147445,8 @@
         "regional": [
           "c79e2987-9a1a-4012-9e03-8db5e17efc88",
           "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
-          "89e8d664-aff5-4505-a60c-b0e748356444",
-          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+          "0905aa34-f4f1-4a39-b1e1-6632938de8ea",
+          "51dc6ace-a238-45c3-9bd8-651e7266e2ca",
           "06121835-e264-47cb-97de-1f5067a66486",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
@@ -145963,7 +147562,7 @@
       },
       "ET": {
         "local": [
-          "f58f9ed1-3e15-4c32-b15d-eb270fa0b730",
+          "947b7e15-5394-40a3-becd-7066a829e7a7",
           "4db61765-845a-423c-91e6-5a41b91d5c1b",
           "26b22e5c-3f18-4bd3-90c4-db4a15aeaf70",
           "fd9177c2-345c-4cfa-a408-491f13924517",
@@ -146086,7 +147685,7 @@
         "regional": [
           "17f97502-2f36-4e8d-90fd-5aec822cbcc1",
           "7b741ffb-3748-406e-a7bc-1bff4541cfc7",
-          "2e8aaa17-bde8-48c5-bf0b-d0c8e0e0d4ed",
+          "58b6a2f5-c28c-4279-bf39-55d764d4d67b",
           "0950505b-16e5-471f-97e1-6d50b407eb61",
           "828cbf63-6b4b-4a28-a160-13eeb37d6f98",
           "912934fe-0451-44e8-a19f-43ffc2459d0b",
@@ -146116,10 +147715,10 @@
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "1d1193a2-9c91-4e42-8210-0fb94496ead5",
@@ -146256,10 +147855,10 @@
         ],
         "regional": [
           "cc703cec-919a-4888-9996-f66e9c1b81ca",
+          "c2c42b32-689c-4744-aaa1-6f377b89e54f",
           "5705a8ed-e60a-4f18-8061-e31a6e7a60c5",
           "29bd761b-401a-44f8-bdca-315cd7a866bc",
           "872ed548-a5c2-43aa-a15d-4324217bf587",
-          "cf55e734-838f-49ca-8022-77542e46f6c7",
           "84f6a7e7-ea6d-4b39-9512-97a88ac9a48f",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa",
           "ed5dcd69-d1d6-4699-b006-d6e0a4c1157d"
@@ -146281,14 +147880,14 @@
           "01b7088d-ea56-48e8-a4d2-b2c423170f03"
         ],
         "regional": [
+          "5419fc7f-933f-4f51-967f-ea5e7cb7bc89",
+          "a1a15ce7-e400-4309-a17c-ebe30a80b9fe",
           "53bf942b-3a88-41a8-b595-a4d2c8de29c9",
           "6ced9741-0494-4e2c-8cf5-53792789ab49",
           "e464beaf-60bc-45eb-abe1-9ed594f437d4",
-          "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8"
         ],
         "daily": [
           "07596da8-8ff9-413c-bbcb-099073970f98",
@@ -146309,6 +147908,7 @@
         ],
         "regional": [
           "7b741ffb-3748-406e-a7bc-1bff4541cfc7",
+          "58b6a2f5-c28c-4279-bf39-55d764d4d67b",
           "0950505b-16e5-471f-97e1-6d50b407eb61",
           "912934fe-0451-44e8-a19f-43ffc2459d0b",
           "b7874fe2-a4a5-4ca5-bef6-c92d59c82e1f",
@@ -146448,7 +148048,7 @@
           "ec1eb3b1-4691-4b75-9d3b-5c4b4b17f17a",
           "455beb7b-a870-4c9b-b3b6-5425199eaf78",
           "190cc6c8-846c-4d42-92c2-66780ff97a6a",
-          "d453aadb-479e-4108-8f1e-2107d538e28e"
+          "52913ce9-758e-432b-9202-3e79d0447c65"
         ],
         "regional": [
           "b9c4528c-550e-43b8-aa15-f95926f4957e",
@@ -146555,8 +148155,8 @@
           "78fbe7ec-8cb0-4f00-8717-dbcafee7c7f0"
         ],
         "regional": [
-          "d4236a4e-adeb-4a66-89cf-cf9924d5cf43",
-          "03447e5d-b411-4da0-a48a-2dbc96206296",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "2043b363-c84d-4255-a1aa-95beadb78a53",
           "f1ff74c7-1ec2-49a3-9203-f3aebc384c75",
           "12c2fc45-9aff-4ea6-a097-e8af041acde0",
@@ -146706,8 +148306,8 @@
           "b0539641-4b89-4dab-b7f8-e9faa4b13271",
           "3690f881-a78b-4900-91a5-f4994fad5985",
           "5f65aa4d-715e-4889-b516-0d905e170f50",
-          "bb159e78-915d-468d-89a1-282e31641ec8",
-          "04b431ee-a34b-4ff6-9ccc-7a7067ab951e",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "cdb77a7a-c514-420c-a925-19c3f05ea584"
         ],
         "daily": [
@@ -146798,7 +148398,7 @@
           "29bd761b-401a-44f8-bdca-315cd7a866bc",
           "cc703cec-919a-4888-9996-f66e9c1b81ca",
           "6ccbbe28-d20b-4e00-a5c5-7f61080b65d9",
-          "71205338-a839-469c-9973-e590594d4b15",
+          "c2c42b32-689c-4744-aaa1-6f377b89e54f",
           "9864099f-c37f-4b81-9b91-76426c56a30d",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa",
           "ed5dcd69-d1d6-4699-b006-d6e0a4c1157d"
@@ -146814,17 +148414,19 @@
         "local": [
           "23365a9e-7401-4933-b8b6-8a36712f8e5d",
           "9b451edc-5278-4d08-afc9-c874d5ae8472",
+          "7fe50c30-9d0d-4d1a-9f2a-ba697f7241de",
           "a04243aa-7a9a-4cbf-9f26-120a47e117ee",
           "f2e04bc4-2d1a-4616-8fa8-77384f9e6229",
           "dca58d25-08a1-48b3-bad8-5c19d1abfb78",
           "bf0103e6-aa3e-49c2-b3b6-101ccbe04ac2",
           "a7bc606d-48c8-4f28-8eff-d25655a0bf72",
+          "041e6851-1226-4497-aba5-1b5ab01ac818",
           "e5c07118-67a5-4e39-8b7f-5822bb5c411f",
           "bcbb5099-0cca-40b4-8d51-c05e9539f955"
         ],
         "regional": [
-          "4eba40fd-6d4d-450f-bdce-b889c97a4d52",
-          "a64d7309-0814-4bdd-b9e9-f0124e78e45f",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "3a010082-2661-4ec9-8492-3efe7a2f47f9",
           "a0ebef6e-1fd7-4472-901a-6fe19625f473",
           "086e300f-e26a-44f4-9d3d-f9c2d50f9747",
@@ -146856,7 +148458,7 @@
           "29bd761b-401a-44f8-bdca-315cd7a866bc",
           "4c999610-ed78-4846-9cc8-77a1d087816c",
           "46837a37-eeb3-47c7-8b2b-a342a6a1e2c5",
-          "6067cb8b-e930-479b-b8b6-536e54ee2093",
+          "dc7a2b29-e57c-43b3-85b6-830f493f7008",
           "bded5dd0-7fa3-4740-bd41-c8de6e7fc7ce",
           "97d47ad5-742d-44a7-b7e3-ecdf74052c22",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa"
@@ -146919,7 +148521,7 @@
           "828cbf63-6b4b-4a28-a160-13eeb37d6f98",
           "efbf9e86-eb6e-4151-874f-49d3514d2ce3",
           "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a",
-          "de28a7e6-5b5d-48d1-b0e9-b5bfe3c1909a"
+          "53c1e074-5a05-4c89-8ecb-abde2a8dc59f"
         ],
         "daily": [
           "d9a99f64-6984-430f-8c33-113ec2ad525c",
@@ -146946,7 +148548,7 @@
           "29bd761b-401a-44f8-bdca-315cd7a866bc",
           "cc703cec-919a-4888-9996-f66e9c1b81ca",
           "6ccbbe28-d20b-4e00-a5c5-7f61080b65d9",
-          "71205338-a839-469c-9973-e590594d4b15",
+          "c2c42b32-689c-4744-aaa1-6f377b89e54f",
           "9864099f-c37f-4b81-9b91-76426c56a30d",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa",
           "ed5dcd69-d1d6-4699-b006-d6e0a4c1157d"
@@ -147028,8 +148630,8 @@
         ],
         "regional": [
           "c8e0670c-d9fe-47a8-9100-ae4bdd689df2",
-          "aa73b635-bfdc-4f83-a92b-a49bb82b1e9f",
-          "dc3bcf42-343b-4ed2-b3fe-9707a2d9d419",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "f9368599-d20d-4fd8-9f1f-9935d61cfd7e",
           "3a010082-2661-4ec9-8492-3efe7a2f47f9",
           "a0ebef6e-1fd7-4472-901a-6fe19625f473",
@@ -147045,6 +148647,7 @@
           "91181f10-5df8-4522-b05b-3de809e126f3",
           "e2f2aee3-0194-4fd7-8048-22361db00b72",
           "360ff453-aa01-48cf-b8e9-bd57d6bf6fe3",
+          "93c24ef5-5acb-433b-9379-07efe624cf69",
           "89fce793-244a-46e1-8a47-ddbede84428e",
           "cc252e36-737c-4dae-9bec-eaca00e57ba5"
         ],
@@ -147062,10 +148665,10 @@
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "3f7a2cfe-2664-47c6-80f5-6fad760d6e3e",
@@ -147118,8 +148721,8 @@
           "be19f612-54f0-49a9-83f8-cea22da8e989"
         ],
         "regional": [
-          "bb159e78-915d-468d-89a1-282e31641ec8",
-          "04b431ee-a34b-4ff6-9ccc-7a7067ab951e",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "3a010082-2661-4ec9-8492-3efe7a2f47f9",
           "a0ebef6e-1fd7-4472-901a-6fe19625f473",
           "086e300f-e26a-44f4-9d3d-f9c2d50f9747",
@@ -147176,8 +148779,8 @@
           "21a9667f-44c6-4ce0-aace-ecb1074d187d"
         ],
         "regional": [
-          "aa73b635-bfdc-4f83-a92b-a49bb82b1e9f",
-          "dc3bcf42-343b-4ed2-b3fe-9707a2d9d419",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
           "62938247-97f2-45d5-a2bd-d59b63aa70a6",
           "6b7439db-1b60-4869-afdc-4c4ccc40887f",
@@ -147227,7 +148830,7 @@
           "764b758d-b3ba-4772-a0b3-45b52d4ca0b3",
           "4c999610-ed78-4846-9cc8-77a1d087816c",
           "efaa63e3-64fb-4b37-a1a0-82247e453f68",
-          "6067cb8b-e930-479b-b8b6-536e54ee2093",
+          "dc7a2b29-e57c-43b3-85b6-830f493f7008",
           "8d5d8800-2af0-490d-b7ed-420ebcdc1fe7",
           "f26ef0df-254c-4e78-885b-92fc2ea7fe35",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa",
@@ -147308,8 +148911,8 @@
           "9d7df8d2-3835-4f91-8d8a-02c2cc4830f3"
         ],
         "regional": [
-          "bb159e78-915d-468d-89a1-282e31641ec8",
-          "04b431ee-a34b-4ff6-9ccc-7a7067ab951e",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "39cbc32e-1e5c-499e-ac22-15278116d1b6",
           "3a010082-2661-4ec9-8492-3efe7a2f47f9",
           "a0ebef6e-1fd7-4472-901a-6fe19625f473",
@@ -147691,10 +149294,10 @@
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a"
+          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "1177e20c-036c-4258-8db3-863716d50974",
@@ -147779,8 +149382,8 @@
           "56b99edd-823a-4569-aefc-11afabcb1c72"
         ],
         "regional": [
-          "d4236a4e-adeb-4a66-89cf-cf9924d5cf43",
-          "03447e5d-b411-4da0-a48a-2dbc96206296",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "2043b363-c84d-4255-a1aa-95beadb78a53",
           "f1ff74c7-1ec2-49a3-9203-f3aebc384c75",
           "12c2fc45-9aff-4ea6-a097-e8af041acde0",
@@ -147916,6 +149519,7 @@
         ],
         "regional": [
           "63f2970f-dfd9-41d0-818e-58a8f69257f7",
+          "eca6ac6a-4f30-4aab-9245-59ef7f4c741c",
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
@@ -147963,10 +149567,10 @@
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "14e37748-a740-49e2-ad2e-f79ce9eefbaa",
@@ -148024,18 +149628,18 @@
           "349ad2cb-5a04-40a7-9a34-2968a1ddd2b9",
           "462addc2-33e4-4eff-89d1-d6409b6e9407",
           "268c320b-5b0c-4b54-a837-7adda145d502",
-          "8d7e49da-5571-42ea-bb08-1465a2be4eef",
+          "0866ca2c-9d28-4af7-8aff-342b6a8668af",
           "a5d96fcd-59b3-4f1e-b528-6d6f16bafe2b",
           "d4e61a34-0c4c-4507-9861-6b30c866b444",
           "fb916a98-ded1-4fd9-909a-428d97a1c3a4"
         ],
         "regional": [
           "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
+          "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
           "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
-          "bb159e78-915d-468d-89a1-282e31641ec8",
-          "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
           "7931a911-68cf-476e-bde3-081ec50bc203",
           "5f65aa4d-715e-4889-b516-0d905e170f50"
         ],
@@ -148090,10 +149694,10 @@
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "6757cc3c-0455-4f30-9a85-e55c30189a09",
@@ -148115,12 +149719,12 @@
           "dd185302-9069-4a26-b0c4-46f962c4b143"
         ],
         "regional": [
-          "ad3001e5-9412-450f-acc3-9cdd19f8d268",
+          "5419fc7f-933f-4f51-967f-ea5e7cb7bc89",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
+          "a1a15ce7-e400-4309-a17c-ebe30a80b9fe",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
           "53bf942b-3a88-41a8-b595-a4d2c8de29c9",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "6ced9741-0494-4e2c-8cf5-53792789ab49",
           "e464beaf-60bc-45eb-abe1-9ed594f437d4"
         ],
@@ -148242,7 +149846,7 @@
           "6ea1ff3e-c412-48fc-9986-7bfbe270d4c1",
           "73fdb740-c00c-4b96-81cb-61a7d54460b9",
           "c77a419e-56d3-4330-91ff-05bc1ad56071",
-          "31bec9c1-1333-4291-85fb-956fce50b596",
+          "d654797a-82d3-446e-a9bb-7a8bb77fb919",
           "2ca37c6b-611d-410c-bc88-b958a6cd5ed3"
         ],
         "best": "6e3498e2-c38e-4aca-a08c-5db4438e0758"
@@ -148379,8 +149983,8 @@
         "regional": [
           "c79e2987-9a1a-4012-9e03-8db5e17efc88",
           "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
-          "89e8d664-aff5-4505-a60c-b0e748356444",
-          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+          "0905aa34-f4f1-4a39-b1e1-6632938de8ea",
+          "51dc6ace-a238-45c3-9bd8-651e7266e2ca",
           "06121835-e264-47cb-97de-1f5067a66486",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
@@ -148454,11 +150058,12 @@
           "2676dd55-33b4-45cd-bcbe-ea41a389c54b",
           "b41358b4-2670-4c93-8fc5-8f60c21c3542",
           "71715daa-339e-4b1d-aed8-7693e545d7f1",
+          "4beaf7f6-e432-4607-baee-867d0d9dd357",
           "8d607af5-b8a7-4b50-bd0f-b3c0f9336be0"
         ],
         "regional": [
-          "bb159e78-915d-468d-89a1-282e31641ec8",
-          "04b431ee-a34b-4ff6-9ccc-7a7067ab951e",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "3a010082-2661-4ec9-8492-3efe7a2f47f9",
           "a0ebef6e-1fd7-4472-901a-6fe19625f473",
           "086e300f-e26a-44f4-9d3d-f9c2d50f9747",
@@ -148637,7 +150242,7 @@
           "29bd761b-401a-44f8-bdca-315cd7a866bc",
           "4c999610-ed78-4846-9cc8-77a1d087816c",
           "46837a37-eeb3-47c7-8b2b-a342a6a1e2c5",
-          "6067cb8b-e930-479b-b8b6-536e54ee2093",
+          "dc7a2b29-e57c-43b3-85b6-830f493f7008",
           "bded5dd0-7fa3-4740-bd41-c8de6e7fc7ce",
           "97d47ad5-742d-44a7-b7e3-ecdf74052c22",
           "93bcd54e-6d3f-41d1-bcbd-f7262f3849aa"
@@ -148665,10 +150270,10 @@
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a"
+          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "d54e9df2-235b-447c-82cb-dc1c4d1240b7",
@@ -148757,7 +150362,8 @@
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
           "fd269fbf-3e23-4210-b9ff-1354149f4722",
           "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "eca6ac6a-4f30-4aab-9245-59ef7f4c741c"
         ],
         "daily": [
           "9da78b29-a1dc-418c-8b95-101256f4ba1a",
@@ -148785,7 +150391,7 @@
           "6f414e44-58ee-4b6a-b77a-6e9b0fa2aabe",
           "4c999610-ed78-4846-9cc8-77a1d087816c",
           "efaa63e3-64fb-4b37-a1a0-82247e453f68",
-          "6067cb8b-e930-479b-b8b6-536e54ee2093",
+          "dc7a2b29-e57c-43b3-85b6-830f493f7008",
           "8d5d8800-2af0-490d-b7ed-420ebcdc1fe7",
           "f26ef0df-254c-4e78-885b-92fc2ea7fe35",
           "1eed65a7-e9ca-4427-8caa-82755f316a3e"
@@ -148816,7 +150422,8 @@
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
           "fd269fbf-3e23-4210-b9ff-1354149f4722",
           "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "eca6ac6a-4f30-4aab-9245-59ef7f4c741c"
         ],
         "daily": [
           "3c9811d0-e223-4d05-b7f4-38ba87a258b1",
@@ -148877,6 +150484,7 @@
           "bef1e378-6a83-4c13-a285-0940755e61de",
           "4c420d93-f3c9-4e52-8da0-fcf4142ec3f2",
           "9f452e8b-8f6f-48a5-a8aa-0e29689a9505",
+          "5b8b528d-54a1-475b-9de0-21bab680bc6c",
           "6cdc776f-19cb-4611-95ab-dfc260e0cdc6",
           "95efd4c0-4a46-4851-baa0-a09971431aac",
           "3683f5da-5bfb-4a21-836b-8da5f6e8754b",
@@ -148885,7 +150493,7 @@
         "regional": [
           "34aa461f-5adf-4b55-8ffd-53f7d8a7eade",
           "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
-          "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
+          "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
           "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "7931a911-68cf-476e-bde3-081ec50bc203",
@@ -148904,7 +150512,7 @@
           "ab37cc54-8a95-4c70-8b2b-456adc670ce8",
           "adb34048-0655-48ea-a03b-47c1ef872304"
         ],
-        "best": "6cdc776f-19cb-4611-95ab-dfc260e0cdc6"
+        "best": "5b8b528d-54a1-475b-9de0-21bab680bc6c"
       },
       "SI": {
         "local": [
@@ -149174,10 +150782,10 @@
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "cc1442c1-f934-4aa9-a491-7705353bab6b",
@@ -149205,17 +150813,17 @@
           "1ad828e5-9816-4336-816a-d65d8ff6342e",
           "854a3f9b-cb1b-4dbe-aafc-c8ceee4c6a5f",
           "361ddda4-9b49-437f-8f2a-83f62092fcf6",
-          "313e7371-dd41-432d-855b-0d78b5beb579",
+          "8f5b3f11-0d17-47cf-abac-683a76193814",
           "cd6b01de-fa99-4267-8fc6-71d71afe1315",
           "414120b5-fefe-48b2-a273-531a09584be1",
           "1172c72c-c686-4798-b047-c73f16829eb1",
-          "32a60c82-0b3a-4ec3-a72a-6ac84dd917b5",
+          "2f62b34a-ebd7-4638-b471-d2a1ed77630b",
           "efdf43a8-a10f-4cd6-9807-1702050f3ff2"
         ],
         "regional": [
-          "bb159e78-915d-468d-89a1-282e31641ec8",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
           "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
-          "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
+          "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
           "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "7931a911-68cf-476e-bde3-081ec50bc203",
@@ -149229,7 +150837,7 @@
           "b72889a4-6bb9-4b35-a48f-bf3643989168",
           "e1d2e035-3005-453a-8115-af6b35776979"
         ],
-        "best": "313e7371-dd41-432d-855b-0d78b5beb579"
+        "best": "8f5b3f11-0d17-47cf-abac-683a76193814"
       },
       "TJ": {
         "local": [
@@ -149311,6 +150919,7 @@
         "local": [
           "7aa4930d-929f-43d4-8ef2-2dac4ec69165",
           "3551ffce-6138-4f48-bbbe-609f617e81e6",
+          "ff771488-13d0-4b6c-ab4e-58fbe75ae9b9",
           "27642d8f-c621-49a0-911e-0bcdb64be16b",
           "239882d5-e8c0-44ce-ba02-199eef511bd8",
           "38013d9c-3dce-43af-86b9-1b9509d67f61"
@@ -149397,9 +151006,9 @@
           "215bf22c-3407-4fd5-a13e-d2150bd2dff6"
         ],
         "regional": [
-          "d3ccf377-2ac8-4fee-af20-9e3a85cb9d58",
-          "29bd761b-401a-44f8-bdca-315cd7a866bc",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
           "b099e33f-7826-43a7-a340-b27c6834ec1a",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "3a010082-2661-4ec9-8492-3efe7a2f47f9",
           "a0ebef6e-1fd7-4472-901a-6fe19625f473",
           "21f58aa0-56ad-4787-b217-e2756b8ec839",
@@ -149430,7 +151039,8 @@
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
           "fd269fbf-3e23-4210-b9ff-1354149f4722",
           "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "eca6ac6a-4f30-4aab-9245-59ef7f4c741c"
         ],
         "daily": [
           "60aebda1-d846-4e25-ae44-65e5b55838d6",
@@ -149458,7 +151068,8 @@
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
           "fd269fbf-3e23-4210-b9ff-1354149f4722",
           "63f2970f-dfd9-41d0-818e-58a8f69257f7",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b"
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "eca6ac6a-4f30-4aab-9245-59ef7f4c741c"
         ],
         "daily": [
           "0d9299a6-e845-4614-872f-7f9d4096959f",
@@ -149515,8 +151126,8 @@
         "regional": [
           "c79e2987-9a1a-4012-9e03-8db5e17efc88",
           "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
-          "89e8d664-aff5-4505-a60c-b0e748356444",
-          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+          "0905aa34-f4f1-4a39-b1e1-6632938de8ea",
+          "51dc6ace-a238-45c3-9bd8-651e7266e2ca",
           "06121835-e264-47cb-97de-1f5067a66486",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8",
@@ -149619,7 +151230,7 @@
       "VE": {
         "local": [
           "711d458c-6a49-4c1b-8179-2bf0dfd6ac56",
-          "f6af9be8-91c0-497d-b199-26491b6e59b4",
+          "de5a97e8-d73c-4edb-963b-ce43f5714281",
           "0183d727-a32a-4b1a-87fe-08fc442aba22",
           "893df364-66fd-4a73-b34c-96c003254b86"
         ],
@@ -149694,8 +151305,8 @@
           "dbeed0df-8a5c-42a1-87b1-f29a53463bce"
         ],
         "regional": [
-          "bb159e78-915d-468d-89a1-282e31641ec8",
-          "04b431ee-a34b-4ff6-9ccc-7a7067ab951e",
+          "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
+          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
           "62938247-97f2-45d5-a2bd-d59b63aa70a6",
           "b0539641-4b89-4dab-b7f8-e9faa4b13271",
@@ -149769,10 +151380,11 @@
       "XK": {
         "local": [
           "972c8413-ef92-47d8-83cf-0a974f2ba510",
+          "de4d740f-2fbe-4fce-8755-9c63d4462173",
           "f93c8f7e-1536-43d1-a755-5a6bd56dde91",
           "cea3cd0b-105b-4a00-8d2c-aab4915292c1",
           "e714841e-6566-4cb3-a499-850bd143d8c0",
-          "dac03f54-239a-4a8e-b0a3-f14a00700719",
+          "f4f491cd-83e2-4560-8062-54b81ba5e396",
           "706482f2-0412-4c66-bff2-2ca3e6eee295"
         ],
         "regional": [
@@ -149787,7 +151399,7 @@
           "0ff6fb48-a319-4e47-ac99-562494caed67",
           "c4ce510b-77a8-45ff-bd9a-f4ca59b27b9d"
         ],
-        "best": "dac03f54-239a-4a8e-b0a3-f14a00700719"
+        "best": "f4f491cd-83e2-4560-8062-54b81ba5e396"
       },
       "YT": {
         "local": [
@@ -149849,10 +151461,10 @@
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "86f338f3-e03e-46ca-a12d-1f57c7ac6494",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "558533a2-16e7-4708-88f2-398e9091222b",
@@ -149875,8 +151487,11 @@
         ],
         "regional": [
           "ad3001e5-9412-450f-acc3-9cdd19f8d268",
+          "bb302b54-fad2-4faa-8604-6536a1b82f20",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "b0ababae-ad4e-4dc1-8910-99d5e8de2630"
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
+          "b0ababae-ad4e-4dc1-8910-99d5e8de2630",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "3fb32727-a5e9-42d7-8468-4b88d55a2324",

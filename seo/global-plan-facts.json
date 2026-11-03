@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-02",
+ "updated": "2026-11-03",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -960,9 +960,9 @@
     ]
    },
    "also": [
-    "IN",
     "HK",
     "ID",
+    "IN",
     "JP",
     "KH",
     "KR",
@@ -974,8 +974,6 @@
     "VN",
     "MO",
     "CN",
-    "LK",
-    "PK",
     "AD",
     "AF",
     "AL",
@@ -983,7 +981,9 @@
     "AT",
     "AU",
     "AZ",
-    "BA"
+    "BA",
+    "BE",
+    "BG"
    ],
    "daily": {
     "gb_per_day": [
@@ -1551,6 +1551,7 @@
     ],
     "days": [
      7,
+     15,
      30
     ]
    },
@@ -1875,7 +1876,7 @@
      10,
      20,
      25,
-     50
+     75
     ],
     "days": [
      7,
@@ -1927,30 +1928,26 @@
     ]
    },
    "also": [
+    "DZ",
     "EG",
     "GA",
     "GH",
     "KE",
     "MA",
     "MG",
+    "MU",
     "MW",
     "NE",
     "NG",
     "RE",
+    "RW",
     "SC",
     "TD",
     "TN",
     "TZ",
     "UG",
     "ZM",
-    "DZ",
-    "MU",
-    "RW",
-    "ZW",
-    "BF",
-    "BW",
-    "CF",
-    "CG"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -2077,6 +2074,7 @@
    "local": {
     "gb": [
      1,
+     2,
      3,
      5,
      10,
@@ -3477,6 +3475,7 @@
     "NL",
     "AT",
     "BG",
+    "CH",
     "CY",
     "CZ",
     "DE",
@@ -3489,13 +3488,12 @@
     "HR",
     "HU",
     "IE",
+    "IS",
     "IT",
+    "LI",
     "LT",
     "LV",
-    "MT",
-    "PL",
-    "PT",
-    "RO"
+    "MT"
    ],
    "daily": {
     "gb_per_day": [
@@ -3532,29 +3530,25 @@
    },
    "also": [
     "CD",
+    "DZ",
     "EG",
     "GH",
     "KE",
     "MA",
     "MG",
+    "MU",
     "MW",
     "NE",
     "NG",
     "RE",
+    "RW",
     "SC",
     "TD",
     "TN",
     "TZ",
     "UG",
     "ZM",
-    "DZ",
-    "MU",
-    "RW",
-    "ZW",
-    "BF",
-    "BW",
-    "CF",
-    "CG"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -3907,11 +3901,11 @@
     "TD",
     "TZ",
     "ZM",
-    "ZW",
     "BJ",
     "BW",
     "CG",
-    "CI"
+    "CI",
+    "CM"
    ],
    "daily": {
     "gb_per_day": [
@@ -4534,9 +4528,20 @@
     ]
    },
    "also": [
-    "CN",
     "MO",
-    "TW"
+    "CN",
+    "TW",
+    "BD",
+    "ID",
+    "IN",
+    "JP",
+    "KH",
+    "KR",
+    "LA",
+    "MY",
+    "PH",
+    "TH",
+    "VN"
    ],
    "daily": {
     "gb_per_day": [
@@ -4821,12 +4826,17 @@
     "MY",
     "TH",
     "VN",
-    "SG",
     "KR",
+    "SG",
     "KH",
     "PH",
+    "BD",
+    "HK",
+    "IN",
+    "JP",
     "LA",
-    "TL"
+    "MO",
+    "TW"
    ],
    "daily": {
     "gb_per_day": [
@@ -5034,10 +5044,12 @@
    "local": {
     "gb": [
      1,
+     2,
      3,
      5,
      10,
      20,
+     25,
      30,
      50
     ],
@@ -5059,20 +5071,20 @@
     "TH",
     "VN",
     "BD",
-    "MO",
     "LA",
+    "MO",
     "TW",
     "CN",
-    "LK",
-    "PK",
     "AU",
     "IL",
     "KW",
+    "LK",
     "NZ",
+    "PK",
     "SG",
-    "SA",
     "AD",
-    "AF"
+    "AF",
+    "AL"
    ],
    "daily": {
     "gb_per_day": [
@@ -5116,12 +5128,8 @@
     "OM",
     "TR",
     "SA",
-    "AE",
-    "EG",
-    "JO",
-    "MA",
-    "TN",
     "AD",
+    "AE",
     "AF",
     "AL",
     "AM",
@@ -5132,7 +5140,11 @@
     "BD",
     "BE",
     "BG",
-    "CH"
+    "CH",
+    "CY",
+    "CZ",
+    "DE",
+    "DK"
    ],
    "daily": {
     "gb_per_day": [
@@ -5468,7 +5480,6 @@
    "also": [
     "KR",
     "BD",
-    "CN",
     "HK",
     "ID",
     "IN",
@@ -5479,7 +5490,8 @@
     "PH",
     "TH",
     "TW",
-    "VN"
+    "VN",
+    "CN"
    ],
    "daily": {
     "gb_per_day": [
@@ -5517,29 +5529,25 @@
    },
    "also": [
     "CD",
+    "DZ",
     "EG",
     "GA",
     "GH",
     "MA",
     "MG",
+    "MU",
     "MW",
     "NE",
     "NG",
     "RE",
+    "RW",
     "SC",
     "TD",
     "TN",
     "TZ",
     "UG",
     "ZM",
-    "DZ",
-    "MU",
-    "RW",
-    "ZW",
-    "BF",
-    "BW",
-    "CF",
-    "CG"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -5643,17 +5651,16 @@
     "PH",
     "TH",
     "VN",
-    "LA",
     "BD",
     "HK",
     "IN",
     "JP",
     "KR",
+    "LA",
     "TW",
     "MO",
     "CN",
     "SG",
-    "TL",
     "AD",
     "AF",
     "AL",
@@ -5661,7 +5668,8 @@
     "AT",
     "AU",
     "AZ",
-    "BA"
+    "BA",
+    "BE"
    ],
    "daily": {
     "gb_per_day": [
@@ -5761,11 +5769,19 @@
    "also": [
     "ID",
     "MY",
-    "SG",
     "TH",
     "VN",
     "JP",
-    "CN"
+    "SG",
+    "BD",
+    "CN",
+    "HK",
+    "IN",
+    "KH",
+    "LA",
+    "MO",
+    "PH",
+    "TW"
    ],
    "daily": {
     "gb_per_day": [
@@ -6034,7 +6050,6 @@
     "KR",
     "TW",
     "MO",
-    "TL",
     "CN",
     "AD",
     "AF",
@@ -6044,7 +6059,8 @@
     "AU",
     "AZ",
     "BA",
-    "BE"
+    "BE",
+    "BG"
    ],
    "daily": {
     "gb_per_day": [
@@ -6851,16 +6867,16 @@
     ]
    },
    "also": [
+    "DZ",
     "EG",
     "GH",
     "MA",
+    "MU",
     "NG",
     "RE",
+    "RW",
     "TN",
     "UG",
-    "DZ",
-    "MU",
-    "RW",
     "CD",
     "GA",
     "KE",
@@ -6870,11 +6886,11 @@
     "TD",
     "TZ",
     "ZM",
+    "ZW",
+    "BJ",
     "BW",
     "CG",
-    "CI",
-    "GW",
-    "LR"
+    "CI"
    ],
    "daily": {
     "gb_per_day": [
@@ -7048,9 +7064,20 @@
     ]
    },
    "also": [
-    "CN",
     "HK",
-    "TW"
+    "CN",
+    "TW",
+    "BD",
+    "ID",
+    "IN",
+    "JP",
+    "KH",
+    "KR",
+    "LA",
+    "MY",
+    "PH",
+    "TH",
+    "VN"
    ],
    "daily": {
     "gb_per_day": [
@@ -7328,6 +7355,8 @@
     ]
    },
    "also": [
+    "RW",
+    "UG",
     "DZ",
     "EG",
     "GH",
@@ -7335,17 +7364,15 @@
     "MG",
     "NG",
     "RE",
-    "RW",
+    "SC",
     "TN",
-    "UG",
+    "TZ",
     "CD",
     "GA",
     "KE",
     "MW",
     "NE",
-    "SC",
     "TD",
-    "TZ",
     "ZM",
     "ZW",
     "BJ",
@@ -7421,29 +7448,25 @@
    },
    "also": [
     "CD",
+    "DZ",
     "EG",
     "GA",
     "GH",
     "KE",
     "MA",
     "MG",
+    "MU",
     "NE",
     "NG",
     "RE",
+    "RW",
     "SC",
     "TD",
     "TN",
     "TZ",
     "UG",
     "ZM",
-    "DZ",
-    "MU",
-    "RW",
-    "ZW",
-    "BF",
-    "BW",
-    "CF",
-    "CG"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -7531,24 +7554,25 @@
     "TH",
     "SG",
     "ID",
-    "VN",
     "KR",
-    "KH",
-    "PH",
-    "AU",
-    "CN",
+    "VN",
     "HK",
-    "IL",
     "IN",
     "JP",
+    "KH",
+    "MO",
+    "PH",
+    "AU",
+    "BD",
+    "CN",
+    "IL",
     "KW",
     "LA",
     "LK",
-    "MO",
     "NZ",
     "PK",
     "SA",
-    "TL"
+    "TW"
    ],
    "daily": {
     "gb_per_day": [
@@ -7669,29 +7693,25 @@
    },
    "also": [
     "CD",
+    "DZ",
     "EG",
     "GA",
     "GH",
     "KE",
     "MA",
     "MG",
+    "MU",
     "MW",
     "NG",
     "RE",
+    "RW",
     "SC",
     "TD",
     "TN",
     "TZ",
     "UG",
     "ZM",
-    "DZ",
-    "MU",
-    "RW",
-    "ZW",
-    "BF",
-    "BW",
-    "CF",
-    "CG"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -7747,11 +7767,11 @@
     "TD",
     "TZ",
     "ZM",
-    "ZW",
     "BJ",
     "BW",
     "CG",
-    "CI"
+    "CI",
+    "CM"
    ],
    "daily": {
     "gb_per_day": [
@@ -8399,17 +8419,16 @@
     "MY",
     "TH",
     "VN",
-    "LA",
     "BD",
     "HK",
     "IN",
     "JP",
     "KR",
+    "LA",
     "TW",
     "MO",
     "CN",
     "SG",
-    "TL",
     "AD",
     "AF",
     "AL",
@@ -8417,7 +8436,8 @@
     "AT",
     "AU",
     "AZ",
-    "BA"
+    "BA",
+    "BE"
    ],
    "daily": {
     "gb_per_day": [
@@ -8733,12 +8753,8 @@
     "OM",
     "TR",
     "SA",
-    "AE",
-    "EG",
-    "JO",
-    "MA",
-    "TN",
     "AD",
+    "AE",
     "AF",
     "AL",
     "AM",
@@ -8749,7 +8765,11 @@
     "BD",
     "BE",
     "BG",
-    "CH"
+    "CH",
+    "CY",
+    "CZ",
+    "DE",
+    "DK"
    ],
    "daily": {
     "gb_per_day": [
@@ -8786,16 +8806,16 @@
     ]
    },
    "also": [
+    "DZ",
     "EG",
     "GH",
     "MA",
     "MG",
+    "MU",
     "NG",
+    "RW",
     "TN",
     "UG",
-    "DZ",
-    "MU",
-    "RW",
     "CD",
     "GA",
     "KE",
@@ -8805,11 +8825,11 @@
     "TD",
     "TZ",
     "ZM",
+    "ZW",
+    "BJ",
     "BW",
     "CG",
-    "CI",
-    "GW",
-    "LR"
+    "CI"
    ],
    "daily": {
     "gb_per_day": [
@@ -8969,24 +8989,24 @@
     ]
    },
    "also": [
+    "MU",
+    "UG",
     "DZ",
     "EG",
     "GH",
     "MA",
     "MG",
-    "MU",
     "NG",
     "RE",
+    "SC",
     "TN",
-    "UG",
+    "TZ",
     "CD",
     "GA",
     "KE",
     "MW",
     "NE",
-    "SC",
     "TD",
-    "TZ",
     "ZM",
     "ZW",
     "BJ",
@@ -9092,6 +9112,10 @@
     ]
    },
    "also": [
+    "MU",
+    "RW",
+    "TZ",
+    "UG",
     "CD",
     "DZ",
     "EG",
@@ -9100,16 +9124,12 @@
     "KE",
     "MA",
     "MG",
-    "MU",
     "MW",
     "NE",
     "NG",
     "RE",
-    "RW",
     "TD",
     "TN",
-    "TZ",
-    "UG",
     "ZM",
     "ZW"
    ],
@@ -9871,29 +9891,25 @@
    },
    "also": [
     "CD",
+    "DZ",
     "EG",
     "GA",
     "GH",
     "KE",
     "MA",
     "MG",
+    "MU",
     "MW",
     "NE",
     "NG",
     "RE",
+    "RW",
     "SC",
     "TN",
     "TZ",
     "UG",
     "ZM",
-    "DZ",
-    "MU",
-    "RW",
-    "ZW",
-    "BF",
-    "BW",
-    "CF",
-    "CG"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -9974,24 +9990,25 @@
     "MY",
     "SG",
     "ID",
-    "VN",
     "KR",
-    "KH",
-    "PH",
-    "AU",
-    "CN",
+    "VN",
     "HK",
-    "IL",
     "IN",
     "JP",
+    "KH",
+    "MO",
+    "PH",
+    "AU",
+    "BD",
+    "CN",
+    "IL",
     "KW",
     "LA",
     "LK",
-    "MO",
     "NZ",
     "PK",
     "SA",
-    "TL"
+    "TW"
    ],
    "daily": {
     "gb_per_day": [
@@ -10353,19 +10370,18 @@
    "also": [
     "HK",
     "MO",
+    "BD",
     "ID",
+    "IN",
     "JP",
     "KH",
     "KR",
+    "LA",
     "MY",
+    "PH",
     "TH",
     "VN",
-    "BD",
     "CN",
-    "IN",
-    "LA",
-    "PH",
-    "SG",
     "AD",
     "AF",
     "AL",
@@ -10374,7 +10390,8 @@
     "AU",
     "AZ",
     "BA",
-    "BE"
+    "BE",
+    "BG"
    ],
    "daily": {
     "gb_per_day": [
@@ -10411,6 +10428,10 @@
     ]
    },
    "also": [
+    "MU",
+    "RW",
+    "SC",
+    "UG",
     "CD",
     "DZ",
     "EG",
@@ -10419,16 +10440,12 @@
     "KE",
     "MA",
     "MG",
-    "MU",
     "MW",
     "NE",
     "NG",
     "RE",
-    "RW",
-    "SC",
     "TD",
     "TN",
-    "UG",
     "ZM",
     "ZW"
    ],
@@ -10467,24 +10484,24 @@
     ]
    },
    "also": [
+    "MU",
+    "RW",
     "DZ",
     "EG",
     "GH",
     "MA",
     "MG",
-    "MU",
     "NG",
     "RE",
-    "RW",
+    "SC",
     "TN",
+    "TZ",
     "CD",
     "GA",
     "KE",
     "MW",
     "NE",
-    "SC",
     "TD",
-    "TZ",
     "ZM",
     "ZW",
     "BJ",
@@ -10808,12 +10825,12 @@
    "local": {
     "gb": [
      1,
+     2,
      3,
      10
     ],
     "days": [
      7,
-     14,
      15,
      30
     ]
@@ -10947,12 +10964,17 @@
     "ID",
     "MY",
     "TH",
-    "SG",
     "KR",
+    "SG",
     "KH",
     "PH",
+    "BD",
+    "HK",
+    "IN",
+    "JP",
     "LA",
-    "TL"
+    "MO",
+    "TW"
    ],
    "daily": {
     "gb_per_day": [
@@ -11096,6 +11118,7 @@
    "local": {
     "gb": [
      1,
+     2,
      3,
      5,
      10,
@@ -11285,29 +11308,25 @@
    },
    "also": [
     "CD",
+    "DZ",
     "EG",
     "GA",
     "GH",
     "KE",
     "MA",
     "MG",
+    "MU",
     "MW",
     "NE",
     "NG",
     "RE",
+    "RW",
     "SC",
     "TD",
     "TN",
     "TZ",
     "UG",
-    "DZ",
-    "MU",
-    "RW",
-    "ZW",
-    "BF",
-    "BW",
-    "CF",
-    "CG"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -11949,6 +11968,7 @@
      ],
      "gb": [
       3,
+      5,
       10,
       20
      ],
@@ -12006,47 +12026,6 @@
      "shown_on": [
       "FR",
       "TR"
-     ]
-    },
-    {
-     "codes": [
-      "AT",
-      "BE",
-      "BG",
-      "CY",
-      "CZ",
-      "DE",
-      "DK",
-      "EE",
-      "ES",
-      "FI",
-      "FR",
-      "GB",
-      "GR",
-      "HR",
-      "HU",
-      "IE",
-      "IT",
-      "LT",
-      "LU",
-      "LV",
-      "MT",
-      "NL",
-      "PL",
-      "PT",
-      "RO",
-      "SE",
-      "SI",
-      "SK"
-     ],
-     "gb": [
-      5
-     ],
-     "days": [
-      30
-     ],
-     "shown_on": [
-      "FR"
      ]
     },
     {
@@ -12213,45 +12192,31 @@
       "VN"
      ],
      "gb": [
+      1,
+      3,
       5,
       10
      ],
      "days": [
+      7,
+      15,
       30
      ],
      "shown_on": [
       "BD",
+      "HK",
+      "ID",
       "IN",
       "JP",
       "KH",
-      "LA",
-      "PH",
-      "TW"
-     ]
-    },
-    {
-     "codes": [
-      "CN",
-      "HK",
-      "ID",
-      "JP",
-      "KH",
       "KR",
+      "LA",
       "MO",
       "MY",
-      "SG",
+      "PH",
       "TH",
       "TW",
       "VN"
-     ],
-     "gb": [
-      1
-     ],
-     "days": [
-      7
-     ],
-     "shown_on": [
-      "TW"
      ]
     },
     {
@@ -12278,14 +12243,8 @@
       30
      ],
      "shown_on": [
-      "ID",
-      "KH",
       "LA",
-      "MY",
-      "PH",
-      "TH",
-      "TL",
-      "VN"
+      "TL"
      ]
     },
     {
@@ -12333,9 +12292,7 @@
       30
      ],
      "shown_on": [
-      "BD",
       "BT",
-      "IN",
       "NP"
      ]
     },
@@ -12349,7 +12306,6 @@
       "VN"
      ],
      "gb": [
-      3,
       5,
       10,
       20,
@@ -12357,7 +12313,6 @@
       60
      ],
      "days": [
-      7,
       15,
       30,
       60
