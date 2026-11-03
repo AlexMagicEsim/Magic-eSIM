@@ -177,6 +177,13 @@ export async function buildFactSheets() {
         // Kept separate from volumes because it is a different unit, exactly as
         // catalogue-facts.mjs keeps them apart for the renderer.
         daily_gb: [...new Set(all.map((t) => t.daily_gb).filter((n) => Number.isFinite(n) && n > 0))].sort((a, b) => a - b),
+        // The validity of every volume card the page shows. `offers` keeps one
+        // card per volume — the cheapest — so a second card of the same volume
+        // and a longer term vanished from the sheet: on 2026-11-03 «Philippine
+        // 50GB 30Days» undercut «Philippines 50GB 180Days», both on the page, and
+        // «есть тариф на 180 дней» read as «факт вне каталога». A term no card on
+        // the page has is still refused.
+        validity_days_all: [...new Set(days)].sort((a, b) => a - b),
         // What a page is allowed to SAY about how a daily plan behaves. Of 1329
         // daily packages only 22 confirm a reset and 31 confirm the traffic
         // keeps flowing after the throttle — the provider simply does not

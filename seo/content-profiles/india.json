@@ -101,28 +101,13 @@
         }
       ],
       "scope": "regional",
-      "basis": [
-        {
-          "block": "regional",
-          "attrs": {
-            "data_gb": 1,
-            "validity_days": 7
-          },
-          "family": "asia-20"
-        },
-        {
-          "block": "regional",
-          "attrs": {
-            "data_gb": 50,
-            "validity_days": 180
-          },
-          "family": "asia-20"
-        }
-      ],
-      "must_cover": [
+      "note": "2026-11-03: was pinned to the «Asia-20» 1 GB / 7 days and 50 GB / 180 days cards; the auto-import replaced the 1 GB one with «South Asia (6 areas) 1GB 7Days». The sentence says «в часть региональных пакетов на этой странице» — that is what is checked now: some regional cards cover Sri Lanka, not all.",
+      "some_in_scope": [
         "LK"
       ],
-      "note": "2026-10-25 (R4: same volume, a longer term for less hides the shorter): the APAC cards left the page (the backend layout shows «Asia 15 Countries», which lacks LK); LK is in the «Asia-20» 1 GB / 7 days and 50 GB / 180 days cards."
+      "not_all_in_scope": [
+        "LK"
+      ]
     }
   ],
   "price_claims": [

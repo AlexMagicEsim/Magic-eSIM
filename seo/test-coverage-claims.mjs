@@ -451,7 +451,9 @@ test('review B1–B16: a NEW product that falsifies «все/ни один» is 
     // to the page (the inverse, every Africa pack gaining RE, is in B9/B11/B12
     // below). The new-product case is rebuilt on the page's «Самый большой
     // объём — местный»: a 20 GB regional pack with Mauritius falsifies it.
-    ['mauritius', 'Africa 5GB 30Days', { name: 'Africa 20 GB', data_gb: 20, coverage_country_codes: ['MU', 'RE', 'SC'] }, 'a 20 GB regional pack — the biggest volume is no longer local', 'biggest-is-local'],
+    // 2026-11-03: the page now says «Больше 20 ГБ среди объёмных тарифов страницы нет» (the auto-import brought a
+    // regional 20 GB, so «the biggest is local» went); a regional pack ABOVE 20 GB is what falsifies it.
+    ['mauritius', 'Africa 5GB 30Days', { name: 'Africa 25 GB', data_gb: 25, coverage_country_codes: ['MU', 'RE', 'SC'] }, 'a 25 GB regional pack — «больше 20 ГБ нет» is false', 'biggest-is-local'],
     ['seychelles', 'Africa 3 GB', { coverage_country_codes: ['SC', 'UG'] }, 'an Africa pack without Kenya/Tanzania'],
     // 2026-10-25: 'LATAM 10 GB' left the catalogue; the Argentina cases are
     // re-templated on its successor «Latin America 10 GB». «Bolivia in a volume
@@ -650,6 +652,9 @@ test('review over-strict: harmless catalogue moves keep the corpus green', () =>
   c = clone(WORLD.packages);
   newPkg(c, 'Africa 3 GB', { name: 'Africa 7 GB', data_gb: 7, validity_days: 30, topup_available: true, coverage_country_codes: [...af3x30.coverage_country_codes] });
   green('south-africa', c, 'a new Africa pack without Zambia — every sentence still holds');
+  // 2026-11-03: what the auto-import did to Mauritius — a regional 20 GB beside the local 20 GB — keeps «больше 20 ГБ нет» true.
+  c = clone(WORLD.packages); newPkg(c, 'Africa 5GB 30Days', { name: 'Africa 20 GB', data_gb: 20, coverage_country_codes: ['MU', 'RE', 'SC'] });
+  green('mauritius', c, 'a regional 20 GB pack — nothing above 20 GB, every sentence still holds');
   // 2026-10-25: the Bosnia sentence names no volume any more; a second card of
   // the same coverage at another size must not turn it red.
   c = clone(WORLD.packages); newPkg(c, 'Europe and USA 15 GB', { name: 'Europe and USA 40 GB', data_gb: 40 });

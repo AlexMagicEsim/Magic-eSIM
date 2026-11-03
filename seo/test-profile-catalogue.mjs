@@ -109,6 +109,17 @@ test('the family rule stays quiet where it has nothing to check', () => {
   quiet('У пакета «Китай, Корея и Япония» срок идёт с первого использования интернета, а у местных корейских — после установки eSIM.');
 });
 
+test('philippines shape: a term only a second card of the same volume carries is a real term; an invented one is still refused', () => {
+  // 2026-11-03: «Philippine 50GB 30Days» undercut «Philippines 50GB 180Days»; both are on the page, `offers` kept the
+  // cheaper, and «есть тариф на 180 дней» read as invented. `validity_days_all` lists every shown card's term.
+  const sheet = { ...SHEET, offers: [...SHEET.offers, { data_gb: 50, price_rub: 5200, validity_days: 30, kind: 'local' }], validity_days_all: [7, 30, 180] };
+  const text = 'В каталоге есть тариф на 180 дней — для долгой зимовки.';
+  assert.deepEqual(checkFacts(faqProfile(text), sheet), [], 'a term a shown card carries');
+  assert.ok(checkFacts(faqProfile(text.replace('180', '120')), sheet).some((x) => x.includes('120')), 'a term no card carries is refused');
+  const { validity_days_all, ...without } = sheet;
+  assert.ok(checkFacts(faqProfile(text), without).some((x) => x.includes('180')), 'without the field the old sheet refuses it — the test proves the field');
+});
+
 test('bare numbers are never catalogue facts', () => {
   const text = 'Поездка на 14 дней, установка за 5 минут, поддержка 24/7, 2 недели на море и 3 города по пути.';
   assert.deepEqual(checkFacts(faqProfile(text), SHEET), []);

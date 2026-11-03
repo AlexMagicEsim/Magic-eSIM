@@ -92,6 +92,8 @@ function allowedValues(sheet) {
   // Ladder terms are real purchase lengths — 3, 5, 7, 10, 15, 30 — and a page
   // must be able to name them. `offers` only carries a volume plan's validity.
   for (const d of sheet.term_days || []) days.add(d);
+  // And every volume card's own validity — `offers` keeps one card per volume.
+  for (const d of sheet.validity_days_all || []) days.add(d);
   if (sheet.validity_days_min !== null) { days.add(sheet.validity_days_min); days.add(sheet.validity_days_max); }
   const countries = new Set([sheet.regional_reach_max]);
   // The page's own block counts (and the total): «6 локальных», «5 посуточных», «17 тарифов».

@@ -155,7 +155,7 @@
         {
           "block": "regional",
           "attrs": {
-            "data_gb": 10,
+            "data_gb": 20,
             "validity_days": 30
           },
           "family": "south.*korea.*and.*japan"
@@ -163,8 +163,8 @@
         {
           "block": "regional",
           "attrs": {
-            "data_gb": 5,
-            "validity_days": 30
+            "data_gb": 1,
+            "validity_days": 7
           },
           "family": "japan.*&.*south.*korea"
         }
@@ -172,7 +172,8 @@
       "covers_exactly": [
         "JP",
         "KR"
-      ]
+      ],
+      "note": "2026-11-03: re-pinned — «South Korea and Japan 10 GB» and «Japan & South Korea 5GB 30Days» left the page with the auto-import; the 20 GB and the 1 GB / 7 days Japan + Korea cards stand in both snapshots."
     },
     {
       "id": "local-whole-country",

@@ -4,10 +4,10 @@
   "title": "eSIM для Непала — дешевле всего объёмный тариф",
   "description": "eSIM для Непала: самый дешёвый тариф здесь объёмный, а не посуточный. Что брать на треккинг и Катманду. Оплата российской картой или через СБП.",
   "h1": "В Непале самый дешёвый тариф — объёмный, а не посуточный",
-  "lead": "Короткую поездку привычно закрывают посуточным тарифом. В непальской сетке иначе: дешевле всего обходится объёмный пакет на 1 ГБ и 7 дней, а даже 3 ГБ на 15 дней стоят меньше самого короткого посуточного. Знать об этом стоит до покупки.",
+  "lead": "Короткую поездку привычно закрывают посуточным тарифом. В непальской сетке иначе: дешевле всего обходится объёмный пакет, а посуточные начинаются дороже. Знать об этом стоит до покупки.",
   "intro": [
     "Посуточные тарифы в Непале идут ступенями от 1 до 10 ГБ в день. Самый дешёвый из них — 1 ГБ в день на три дня — стоит {{price:b3}}, и для короткой остановки в Катманду это понятный вариант: платите только за дни поездки.",
-    "Самый дешёвый вход в страну здесь — не посуточный тариф, а объёмный: 1 ГБ на 7 дней за {{price:g1}}. Даже 3 ГБ на 15 дней за {{price:g3}} обходятся дешевле самого короткого посуточного пакета."
+    "Самый дешёвый вход в страну здесь — не посуточный тариф, а объёмный: от {{price:page_floor}}. Местный объёмный на 1 ГБ на 7 дней стоит {{price:g1}}."
   ],
   "why": [
     {
@@ -23,7 +23,7 @@
     {
       "icon": "🏙️",
       "h": "Катманду и Покхара",
-      "p": "Для городской части поездки — брони, такси, переписка — обычно хватает объёмного тарифа на 3 ГБ, который действует 15 дней и стоит дешевле любого посуточного пакета."
+      "p": "Для городской части поездки — брони, такси, переписка — обычно хватает объёмного тарифа на 3 ГБ на 15 дней."
     }
   ],
   "faq": [
@@ -37,11 +37,11 @@
     },
     {
       "q": "Какой тариф самый дешёвый в Непале?",
-      "a": "Объёмный на 1 ГБ за {{price:g1}} со сроком действия 7 дней. Посуточные начинаются дороже: даже трёхдневный пакет с лимитом 1 ГБ в день стоит больше, чем объёмный на 3 ГБ и 15 дней."
+      "a": "Объёмный — от {{price:page_floor}}. Посуточные начинаются дороже: самый доступный посуточный, 1 ГБ в день на три дня, стоит {{price:b3}}."
     },
     {
       "q": "Есть ли региональный тариф с Непалом?",
-      "a": "В блоке региональных тарифов есть пакеты «World» на 1, 3 и 10 ГБ на 30 дней — в их покрытии больше ста восьмидесяти стран, среди них Индия и Китай. Местные тарифы рассчитаны только на Непал. Если в поездке есть Индия или другая соседняя страна, сверьте её со списком стран в карточке тарифа или купите интернет для неё отдельно до вылета."
+      "a": "В блоке региональных тарифов есть пакеты, которые покрывают и Индию. Местные тарифы рассчитаны только на Непал. Если в поездке есть Индия или другая соседняя страна, сверьте её со списком стран в карточке тарифа или купите интернет для неё отдельно до вылета."
     },
     {
       "q": "Какие способы оплаты доступны?",
@@ -78,28 +78,15 @@
       "anchors": [
         {
           "field": "faq[3].a",
-          "text": "В блоке региональных тарифов есть пакеты «World» на 1, 3 и 10 ГБ на 30 дней — в их покрытии больше ста восьмидесяти стран, среди них Индия и Китай."
+          "text": "В блоке региональных тарифов есть пакеты, которые покрывают и Индию."
         }
       ],
       "scope": "regional",
-      "note": "2026-11-02: rewritten true before and after the auto-import's first live run (storefront fix/seo-claims-auto-import).",
-      "family": "^World",
-      "min_countries": 181,
-      "all_in_scope": [
+      "note": "2026-11-03: was «пакеты «World» на 1, 3 и 10 ГБ … Индия и Китай»; the auto-import replaced «World» with «South Asia (6 areas)» (India in, China out). What holds in both: regional cards that cover India too.",
+      "some_in_scope": [
         "NP",
-        "IN",
-        "CN"
-      ],
-      "attr_bounds": {
-        "data_gb": [
-          1,
-          10
-        ],
-        "validity_days": [
-          30,
-          30
-        ]
-      }
+        "IN"
+      ]
     }
   ],
   "price_claims": [
@@ -117,6 +104,10 @@
         {
           "field": "faq[0].a",
           "text": "Самый доступный — 1 ГБ в день: {{price:b3}} за три дня."
+        },
+        {
+          "field": "faq[2].a",
+          "text": "Посуточные начинаются дороже: самый доступный посуточный, 1 ГБ в день на три дня, стоит {{price:b3}}."
         }
       ],
       "terms": {
@@ -125,7 +116,8 @@
           "attrs": {
             "daily_gb": 1
           },
-          "days": 3
+          "days": 3,
+          "family": "^(nepal|south asia)"
         },
         "daily": {
           "min_of": "daily"
@@ -138,7 +130,7 @@
           "right": "b3"
         }
       ],
-      "note": "2026-10-25: «самый дешёвый / самый доступный посуточный» = the 1 GB/day × 3 days is the floor of «Трафик на каждый день». Replaces smaller-daily-costs-more and why-faq-same-term: the backend assortment (R3) no longer shows «Nepal 500MB/Day» (dearer than 1 GB/day on every term), so the inversion the page was built on is not on the page any more."
+      "note": "2026-10-25: «самый дешёвый / самый доступный посуточный» = the 1 GB/day × 3 days is the floor of «Трафик на каждый день». Replaces smaller-daily-costs-more and why-faq-same-term: the backend assortment (R3) no longer shows «Nepal 500MB/Day» (dearer than 1 GB/day on every term), so the inversion the page was built on is not on the page any more. 2026-11-03: the Nepal-only dailies left the page with the auto-import; the daily block is «South Asia (6 areas)» now, whose 1 GB/day × 3 days is still the floor. The selector names both families."
     },
     {
       "id": "entry-is-volume",
@@ -157,27 +149,19 @@
         },
         {
           "field": "lead",
-          "text": "В непальской сетке иначе: дешевле всего обходится объёмный пакет на 1 ГБ и 7 дней, а даже 3 ГБ на 15 дней стоят меньше самого короткого посуточного."
+          "text": "В непальской сетке иначе: дешевле всего обходится объёмный пакет, а посуточные начинаются дороже."
         },
         {
           "field": "intro[1]",
-          "text": "Самый дешёвый вход в страну здесь — не посуточный тариф, а объёмный: 1 ГБ на 7 дней за {{price:g1}}."
-        },
-        {
-          "field": "intro[1]",
-          "text": "Даже 3 ГБ на 15 дней за {{price:g3}} обходятся дешевле самого короткого посуточного пакета."
-        },
-        {
-          "field": "why[2].p",
-          "text": "Для городской части поездки — брони, такси, переписка — обычно хватает объёмного тарифа на 3 ГБ, который действует 15 дней и стоит дешевле любого посуточного пакета."
+          "text": "Самый дешёвый вход в страну здесь — не посуточный тариф, а объёмный: от {{price:page_floor}}."
         },
         {
           "field": "faq[2].a",
-          "text": "Объёмный на 1 ГБ за {{price:g1}} со сроком действия 7 дней."
+          "text": "Объёмный — от {{price:page_floor}}."
         },
         {
           "field": "faq[2].a",
-          "text": "Посуточные начинаются дороже: даже трёхдневный пакет с лимитом 1 ГБ в день стоит больше, чем объёмный на 3 ГБ и 15 дней."
+          "text": "Посуточные начинаются дороже: самый доступный посуточный, 1 ГБ в день на три дня, стоит {{price:b3}}."
         }
       ],
       "terms": {
@@ -189,52 +173,21 @@
         },
         "daily": {
           "min_of": "daily"
-        },
-        "g1": {
-          "block": "local",
-          "attrs": {
-            "data_gb": 1,
-            "validity_days": 7
-          }
-        },
-        "g3": {
-          "block": "local",
-          "attrs": {
-            "data_gb": 3,
-            "validity_days": 15
-          }
-        },
-        "b3": {
-          "block": "daily",
-          "attrs": {
-            "daily_gb": 1
-          },
-          "days": 3
         }
       },
       "assert": [
         {
           "left": "page",
           "op": "=",
-          "right": "g1"
+          "right": "volume"
         },
         {
           "left": "volume",
-          "op": "=",
-          "right": "g1"
-        },
-        {
-          "left": "g3",
           "op": "<",
-          "right": "daily"
-        },
-        {
-          "left": "b3",
-          "op": "=",
           "right": "daily"
         }
       ],
-      "note": "2026-10-25 (after the activation): the page floor is «Nepal 1GB 7Days»; the 3 GB / 15 days is still below every daily purchase (the cheapest is the 1 GB/day × 3). The rarity claim («редкий случай») is gone: the volume floor is below the daily floor in 189 of 190 countries now."
+      "note": "2026-10-25 (after the activation): the page floor is «Nepal 1GB 7Days»; the 3 GB / 15 days is still below every daily purchase (the cheapest is the 1 GB/day × 3). The rarity claim («редкий случай») is gone: the volume floor is below the daily floor in 189 of 190 countries now. 2026-11-03: the auto-import put «South Asia (6 areas)» onto the page — its 1 GB / 7 days regional card (400 ₽) is now the floor, below the local 1 GB / 7 days, and its 1 GB/day × 3 days (1050 ₽) costs exactly as much as the local 3 GB / 15 days. The sentences keep what holds in both: the cheapest plan is a volume one, and dailies start dearer; they no longer name which card is the floor or compare the 3 GB / 15 days."
     }
   ],
   "price_refs": {
@@ -243,14 +196,8 @@
       "attrs": {
         "daily_gb": 1
       },
-      "days": 3
-    },
-    "g3": {
-      "block": "local",
-      "attrs": {
-        "data_gb": 3,
-        "validity_days": 15
-      }
+      "days": 3,
+      "family": "^(nepal|south asia)"
     },
     "g1": {
       "block": "local",
@@ -258,6 +205,9 @@
         "data_gb": 1,
         "validity_days": 7
       }
+    },
+    "page_floor": {
+      "min_of": "page"
     }
   }
 }
