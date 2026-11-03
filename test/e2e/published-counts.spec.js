@@ -10,6 +10,12 @@
  * after every rule of the storefront (assets/assortment-view.js) — and compared
  * with the numbers in the page's own HTML as served (what a crawler reads) and
  * after the live update. Seychelles is the page that said «9» above five cards.
+ *
+ * And all three are the PUBLISHED layout's count for that page (shownBlocks,
+ * the reader every generated number uses). 2026-11-03: this used to pin
+ * Seychelles at exactly five regional cards — true of the snapshot on the day,
+ * false after the next auto-import (six), and the SEO refresh stopped on it.
+ * The layout is the number the page owes; a literal is only a date.
  */
 
 const fs = require('fs');
@@ -18,7 +24,13 @@ const { test, expect } = require('@playwright/test');
 
 const SNAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'catalog.json'), 'utf8'));
 const ANSWER = { status: 'success', count: SNAP.packages.length, currency: 'RUB', data: SNAP.packages, assortment: SNAP.assortment };
-const PAGES = ['seychelles', 'italy', 'usa', 'nepal', 'tanzania', 'south-africa', 'uae', 'thailand', 'morocco', 'switzerland'];
+const PAGES = { seychelles: 'SC', italy: 'IT', usa: 'US', nepal: 'NP', tanzania: 'TZ', 'south-africa': 'ZA', uae: 'AE', thailand: 'TH', morocco: 'MA', switzerland: 'CH' };
+
+let published;
+test.beforeAll(async () => {
+  const { shownBlocks } = await import('../../seo/catalogue-facts.mjs');
+  published = (iso) => { const b = shownBlocks(SNAP, iso); return { local: b.local.length, regional: b.regional.length, daily: b.daily.length }; };
+});
 
 const num = (s) => Number(String(s).replace(/[^\d]/g, ''));
 function servedNumbers(html) {
@@ -32,7 +44,7 @@ function servedNumbers(html) {
   };
 }
 
-for (const slug of PAGES) {
+for (const [slug, iso] of Object.entries(PAGES)) {
   test(`${slug}: the cards on screen = the numbers in the HTML a crawler reads = the numbers after the live update`, async ({ page, context, request }) => {
     const served = await (await request.get(`/esim/${slug}/`)).text();
     const printed = servedNumbers(served);
@@ -50,11 +62,13 @@ for (const slug of PAGES) {
       return { local: val('local'), regional: val('regional'), daily: val('daily') };
     });
 
+    const owed = published(iso);
+    expect(owed.local + owed.regional + owed.daily, `${slug}: the published layout shows cards on this page`).toBeGreaterThan(0);
     for (const k of ['local', 'regional', 'daily']) {
+      expect(drawn[k], `${slug} cards drawn in «${k}» = the published layout's`).toBe(owed[k]);
       expect(printed.facts[k] ?? 0, `${slug} facts line «${k}» as served`).toBe(drawn[k]);
       if (printed.faq[k] !== null) expect(printed.faq[k], `${slug} template FAQ «${k}» as served`).toBe(drawn[k]);
       expect(live[k], `${slug} facts line «${k}» after the live update`).toBe(drawn[k]);
     }
-    if (slug === 'seychelles') expect(drawn.regional).toBe(5);
   });
 }

@@ -220,42 +220,58 @@ test('the reset rule can fail — it fired on real drafts, so it must fire here'
 //
 //   So a page may now only name a value some package of that country carries.
 
+const SPEED = /\b(?:[2-5]G(?:\/[2-5]G)*)\b/g;
+const THROTTLE = /(\d+(?:[.,]\d+)?)\s*(Кбит\/с|Мбит\/с)/gi;
+const PROSE = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'seo_pilot'];
+// Every speed, throttle and activation phrase a profile names that no package of
+// its page carries (the sheet is built from the published layout).
+function attributionProblems(slug, profile, sheet) {
+  const out = [];
+  const prose = JSON.stringify(PROSE.map((k) => profile[k]));
+  const gens = new Set((sheet.speeds || []).flatMap((x) => x.split('/')));
+  for (const m of prose.matchAll(SPEED)) {
+    if (!(sheet.speeds || []).length) continue;
+    for (const g of m[0].split('/')) {
+      if (!gens.has(g)) out.push(`${slug}: названа сеть «${m[0]}», у тарифов страны только ${(sheet.speeds || []).join(', ')}`);
+    }
+  }
+  const fups = (sheet.fup_policies || []).map((x) => x.toLowerCase().replace(/\s+/g, ''));
+  for (const m of prose.matchAll(THROTTLE)) {
+    const want = `${String(m[1]).replace(',', '.')}${m[2].toLowerCase().startsWith('к') ? 'kbps' : 'mbps'}`;
+    if (fups.length && !fups.includes(want)) out.push(`${slug}: названо ограничение «${m[0]}», в каталоге ${(sheet.fup_policies || []).join(', ')}`);
+  }
+  if (prose.includes('после установки') && (sheet.activation_policies || []).length
+      && !(sheet.activation_policies || []).some((a) => a === 'installation' || a === 'upon_installation')) {
+    out.push(`${slug}: сказано «после установки», но таких тарифов у страны нет: ${sheet.activation_policies.join(', ')}`);
+  }
+  return out;
+}
+
 test('speeds, throttles and activation phrases are attributed, not invented', () => {
   const dir = join(ROOT, 'seo/content-profiles');
-  const SPEED = /\b(?:[2-5]G(?:\/[2-5]G)*)\b/g;
-  const THROTTLE = /(\d+(?:[.,]\d+)?)\s*(Кбит\/с|Мбит\/с)/gi;
-  const PROSE = ['title', 'description', 'h1', 'lead', 'intro', 'why', 'faq', 'seo_pilot'];
+  const problems = [];
   for (const f of readdirSync(dir).filter((x) => x.endsWith('.json'))) {
     const slug = f.replace(/\.json$/, '');
     const sheet = SHEETS[slug];
     if (!sheet) continue;
-    const prose = JSON.stringify(PROSE.map((k) => JSON.parse(readFileSync(join(dir, f), 'utf8'))[k]));
-    const gens = new Set((sheet.speeds || []).flatMap((x) => x.split('/')));
-    for (const m of prose.matchAll(SPEED)) {
-      if (!(sheet.speeds || []).length) continue;
-      for (const g of m[0].split('/')) {
-        assert.ok(gens.has(g), `${slug}: названа сеть «${m[0]}», у тарифов страны только ${(sheet.speeds || []).join(', ')}`);
-      }
-    }
-    const fups = (sheet.fup_policies || []).map((x) => x.toLowerCase().replace(/\s+/g, ''));
-    for (const m of prose.matchAll(THROTTLE)) {
-      const want = `${String(m[1]).replace(',', '.')}${m[2].toLowerCase().startsWith('к') ? 'kbps' : 'mbps'}`;
-      assert.ok(!fups.length || fups.includes(want), `${slug}: названо ограничение «${m[0]}», в каталоге ${(sheet.fup_policies || []).join(', ')}`);
-    }
-    if (prose.includes('после установки') && (sheet.activation_policies || []).length) {
-      assert.ok((sheet.activation_policies || []).some((a) => a === 'installation' || a === 'upon_installation'),
-        `${slug}: сказано «после установки», но таких тарифов у страны нет: ${sheet.activation_policies.join(', ')}`);
-    }
+    problems.push(...attributionProblems(slug, JSON.parse(readFileSync(join(dir, f), 'utf8')), sheet));
   }
+  assert.deepEqual(problems, []);
 });
 
 test('the attribution rule can fail — 5G where the catalogue has none', () => {
-  // 2026-10-25: Armenia gained 5G cards with the assortment activation; the premise moved to Nepal (4G, no 5G).
-  const nepal = SHEETS['nepal'];
-  assert.ok(nepal, 'ожидался фактшит Непала');
-  const gens = new Set((nepal.speeds || []).flatMap((x) => x.split('/')));
-  assert.ok(!gens.has('5G'), 'у Непала не должно быть 5G — иначе тест ничего не доказывает');
-  assert.ok(gens.has('4G'), 'а 4G должно быть');
+  // 2026-11-03: this used to check that Nepal's live fact sheet had no 5G (and
+  // before 2026-10-25, Armenia's) — a premise the catalogue bot moves. It now
+  // proves the rule itself, on a sheet it states, both ways.
+  const sheet = { speeds: ['3G/4G'], fup_policies: ['512kbps'], activation_policies: ['first_connection'] };
+  const says = (text) => attributionProblems('x', { lead: text }, sheet);
+  assert.equal(says('Тарифы работают в 5G.').length, 1, '5G where the sheet has 3G/4G must be refused');
+  assert.equal(says('Скорость — 4G/5G.').length, 1, 'a mixed «4G/5G» is refused for its 5G');
+  assert.deepEqual(says('Тарифы работают в 3G/4G.'), [], 'what the sheet carries passes');
+  assert.equal(says('После лимита — 1 Мбит/с.').length, 1, 'a throttle the sheet lacks is refused');
+  assert.deepEqual(says('После лимита — 512 Кбит/с.'), [], 'the sheet\'s throttle passes');
+  assert.equal(says('Срок идёт после установки.').length, 1, '«после установки» with no such plan is refused');
+  assert.deepEqual(attributionProblems('x', { lead: 'Тарифы работают в 5G.' }, { speeds: [] }), [], 'a sheet with no speeds names none — nothing to compare');
 });
 
 test('the three fields are the catalogue\'s, not a guess', () => {

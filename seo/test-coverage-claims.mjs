@@ -296,24 +296,49 @@ test('the diagnostic names page, claim, quote, expected product and what the cat
   }
 });
 
-// ---------------------------------------------------------------- 2. MUTATIONS of the live catalogue
+// ---------------------------------------------------------------- 2. MUTATIONS of a frozen catalogue
+//
+// 2026-11-03. These tests prove that a claim FIRES when a catalogue move makes
+// its sentence false, and stays quiet when the move is harmless. They used to
+// mutate assets/catalog.json — the live snapshot the catalogue bot rewrites
+// after every sync. Since the auto-import went live (2026-11-02) that snapshot
+// moves every slot, and a mutation test whose premise moved («LatAm 50 GB» no
+// longer on the Argentina page, «Laos 1GB/Day» gone) went red — or, worse,
+// green for nothing: a claim the snapshot already breaks hides the break the
+// mutation adds. The SEO refresh stopped on them four runs in a row.
+//
+// So they mutate WORLD: test/fixtures/seo-test-catalogue.json, a snapshot in
+// which EVERY authored claim holds (pinned by the first test below). Whether the
+// pages agree with TODAY's catalogue is section 3's job, on assets/catalog.json,
+// and stays there. Refresh WORLD only on purpose — after a text change, when
+// `node seo/build-all.mjs` leaves seo/suppressed-claims.json empty:
+//   node -e 'const fs=require("fs");fs.writeFileSync("test/fixtures/seo-test-catalogue.json",JSON.stringify(JSON.parse(fs.readFileSync("assets/catalog.json","utf8")))+"\n")'
+// then rebuild the cases whose premise moved, as the dated notes below did.
+
+const WORLD = JSON.parse(readFileSync(join(ROOT, 'test', 'fixtures', 'seo-test-catalogue.json'), 'utf8'));
 
 const PROFILES = Object.fromEntries(readdirSync(join(ROOT, 'seo', 'content-profiles'))
   .filter((f) => f.endsWith('.json'))
   .map((f) => [f.slice(0, -5), JSON.parse(readFileSync(join(ROOT, 'seo', 'content-profiles', f), 'utf8'))]));
-// What a mutation ADDS to the page's problems: the live snapshot already leaves a
-// few sentences out (cards those pages do not show — seo/suppressed-claims.json),
-// and a mutation test is about what the change itself breaks.
+// What a mutation ADDS to the page's problems — a mutation test is about what
+// the change itself breaks. In WORLD the baseline is empty (pinned below), so
+// this is a second safety, not a filter that can hide anything.
 const keyOf = (x) => `${x.claim}|${x.kind}|${x.message}`;
 const BASE = new Map();
 const liveRun = (slug, packages) => {
-  if (!BASE.has(slug)) BASE.set(slug, new Set(evaluateProfile(PROFILES[slug], slug, LIVE).map(keyOf)));
-  return evaluateProfile(PROFILES[slug], slug, republish(LIVE, packages)).filter((x) => !BASE.get(slug).has(keyOf(x)));
+  if (!BASE.has(slug)) BASE.set(slug, new Set(evaluateProfile(PROFILES[slug], slug, WORLD).map(keyOf)));
+  return evaluateProfile(PROFILES[slug], slug, republish(WORLD, packages)).filter((x) => !BASE.get(slug).has(keyOf(x)));
 };
 const byName = (packages, re) => packages.filter((p) => re.test(p.name));
 
+test('WORLD is a catalogue in which every authored claim holds — or a mutation proves nothing', () => {
+  const broken = Object.keys(PROFILES).flatMap((slug) => evaluateProfile(PROFILES[slug], slug, WORLD).map(formatProblem));
+  assert.ok(Object.keys(PROFILES).length >= 60, 'profiles not loaded');
+  assert.deepEqual(broken, [], 'test/fixtures/seo-test-catalogue.json must hold every claim; refresh it as the note above says');
+});
+
 test('mutation: Zambia removed from «Africa 5GB 30Days» turns South Africa red', () => {
-  const c = clone(LIVE.packages);
+  const c = clone(WORLD.packages);
   assert.deepEqual(liveRun('south-africa', c), [], 'baseline must be green');
   const [af5] = byName(c, /^Africa 5GB 30Days$/);
   af5.coverage_country_codes = af5.coverage_country_codes.filter((x) => x !== 'ZM');
@@ -324,7 +349,7 @@ test('mutation: Zambia removed from «Africa 5GB 30Days» turns South Africa red
 });
 
 test('mutation: New Zealand removed from «Australia and NZ» turns Australia red', () => {
-  const c = clone(LIVE.packages);
+  const c = clone(WORLD.packages);
   assert.deepEqual(liveRun('australia', c), []);
   for (const p of byName(c, /^Australia (and|&) (NZ|New Zealand)/)) {
     p.coverage_country_codes = p.coverage_country_codes.filter((x) => x !== 'NZ');
@@ -341,7 +366,7 @@ test('mutation: New Zealand removed from «Australia and NZ» turns Australia re
 // must be caught by that id. The Australia sentence that replaced the old one
 // («Новую Зеландию посуточные тарифы не покрывают») is proved the other way.
 test('mutation: Canada removed from ONE daily card the text names («Северная Америка», 5 GB/day) is caught — the text names a product, the claim pins it', () => {
-  const c = clone(LIVE.packages);
+  const c = clone(WORLD.packages);
   assert.deepEqual(liveRun('usa', c), [], 'baseline must be green');
   // 2026-11-01: the claim pins the CARD («Северная Америка», 5 ГБ в день), not a row — while one card of
   // that name on the Canada page still covers Canada the sentence is true, so Canada leaves every one of them.
@@ -349,7 +374,7 @@ test('mutation: Canada removed from ONE daily card the text names («Север�
   assert.ok(cards.length >= 1);
   for (const d of cards) { d.coverage_country_codes = d.coverage_country_codes.filter((x) => x !== 'CA'); d.region = d.coverage_country_codes.join(', '); }
   assert.ok(liveRun('usa', c).some((p) => p.claim === 'north-america-daily'), 'no «Северная Америка» card with Canada left on the Canada page');
-  const c2 = clone(LIVE.packages);
+  const c2 = clone(WORLD.packages);
   const [au] = byName(c2, /^Australia 500MB\/Day$/);
   au.coverage_country_codes = ['AU', 'NZ']; au.region = 'AU, NZ';
   assert.ok(liveRun('australia', c2).some((p) => /NZ/.test(p.message) && p.message.includes(au.package_id)),
@@ -357,7 +382,7 @@ test('mutation: Canada removed from ONE daily card the text names («Север�
 });
 
 test('mutation: Cuba added to a visible product turns the Dominican Republic red', () => {
-  const c = clone(LIVE.packages);
+  const c = clone(WORLD.packages);
   assert.deepEqual(liveRun('dominican-republic', c), []);
   const [car] = byName(c, /^Caribbean/);
   car.coverage_country_codes.push('CU'); car.region += ', CU';
@@ -365,7 +390,7 @@ test('mutation: Cuba added to a visible product turns the Dominican Republic red
 });
 
 test('mutation: Lesotho added anywhere visible turns South Africa red (the «no tariff» claim)', () => {
-  const c = clone(LIVE.packages);
+  const c = clone(WORLD.packages);
   const [x] = byName(c, /^Africa 3 GB$/);
   x.coverage_country_codes.push('LS'); x.region += ', LS';
   assert.ok(liveRun('south-africa', c).some((p) => /LS/.test(p.message)));
@@ -373,14 +398,14 @@ test('mutation: Lesotho added anywhere visible turns South Africa red (the «no 
 
 test('mutation: the product a story rests on is deleted, or its price zeroed', () => {
   for (const kill of [(c, id) => c.filter((p) => p.package_id !== id), (c, id) => c.map((p) => (p.package_id === id ? { ...p, price: 0 } : p))]) {
-    const c0 = clone(LIVE.packages);
+    const c0 = clone(WORLD.packages);
     const [af5] = byName(c0, /^Africa 5GB 30Days$/);
     assert.ok(liveRun('south-africa', kill(c0, af5.package_id)).length > 0);
   }
 });
 
 test('mutation: Paraguay added to «LatAm 50 GB» turns Argentina red', () => {
-  const c = clone(LIVE.packages);
+  const c = clone(WORLD.packages);
   assert.deepEqual(liveRun('argentina', c), []);
   const [p50] = byName(c, /^LatAm 50 GB$/);
   p50.coverage_country_codes.push('PY'); p50.region += ', PY';
@@ -388,7 +413,7 @@ test('mutation: Paraguay added to «LatAm 50 GB» turns Argentina red', () => {
 });
 
 test('mutation: the backend swaps the row behind a card (new id, another provider, same card) — every page stays as it was', () => {
-  const c = clone(LIVE.packages);
+  const c = clone(WORLD.packages);
   const [af5] = byName(c, /^Africa 5GB 30Days$/);
   af5.package_id = '00000000-0000-4000-8000-000000000000';
   for (const slug of ['south-africa', 'kenya', 'mauritius']) green(slug, c, 'the same card from another provider');
@@ -455,13 +480,13 @@ test('review B1–B16: a NEW product that falsifies «все/ни один» is 
     // 2026-10-25: the «USA & Canada» dailies were withdrawn with the sentence
     // about them. The USA page's current «ни один» sentence is «Региональные
     // «Европа и США» из сетки этой страницы Канаду не покрывают».
-    ['usa', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: [...LIVE.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes, 'CA'] }, 'a «Европа и США» card with Canada'],
+    ['usa', 'Europe and USA 15 GB', { name: 'Europe and USA 25 GB', data_gb: 25, coverage_country_codes: [...WORLD.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes, 'CA'] }, 'a «Европа и США» card with Canada'],
     // 2026-10-25: new — the Costa Rica page says every volume «Латинская
     // Америка» covers Costa Rica with Colombia and Peru.
     ['costa-rica', 'Latin America 10 GB', { name: 'Latin America 15 GB', data_gb: 15, coverage_country_codes: ['CR', 'PA', 'NI', 'PE'] }, 'a «Латинская Америка» pack without Colombia', 'latam-pa-ni-some'],
   ];
   for (const [slug, tpl, over, why, claimId] of cases) {
-    const c = clone(LIVE.packages); newPkg(c, tpl, over);
+    const c = clone(WORLD.packages); newPkg(c, tpl, over);
     if (claimId) redBy(slug, c, claimId, why); else red(slug, c, why);
   }
 });
@@ -478,36 +503,36 @@ test('review B9/B11/B12: same-id changes that falsify the sentence are caught', 
   // «одни не включают Парагвай и Боливию» — that sentence was removed. The
   // Argentina page now says Bolivia is in only SOME «Латинская Америка» plans:
   // every one of them gaining BO falsifies it.
-  let c = clone(LIVE.packages);
+  let c = clone(WORLD.packages);
   addCodes(c, /^lat(am|in america)/i, ['BO']);
   redBy('argentina', c, 'latam-not-all-bo', '«Боливию покрывают не все» — every «Латинская Америка» pack now has BO');
   // 2026-10-25: the inverses of the «only some» sentences that replaced
   // «all/none» sentences on Mauritius, the Dominican Republic and Costa Rica.
-  c = clone(LIVE.packages); addCodes(c, /^Africa/i, ['RE']);
+  c = clone(WORLD.packages); addCodes(c, /^Africa/i, ['RE']);
   redBy('mauritius', c, 'all', '«Реюньон есть только в части пакетов на Африку» — every Africa pack now has RE');
   // 2026-10-25 (R4): the Dominican sentence is now «Арубы в пакетах на Карибы нет»; a Caribbean pack gaining AW falsifies it.
-  c = clone(LIVE.packages); addCodes(c, /^caribbean/i, ['AW']);
+  c = clone(WORLD.packages); addCodes(c, /^caribbean/i, ['AW']);
   redBy('dominican-republic', c, 'caribbean-no-aw', '«Арубы в пакетах на Карибы нет» — every Caribbean pack now has AW');
-  c = clone(LIVE.packages); addCodes(c, /^(latam|latin america)\b/i, ['PA', 'NI']);
+  c = clone(WORLD.packages); addCodes(c, /^(latam|latin america)\b/i, ['PA', 'NI']);
   redBy('costa-rica', c, 'latam-pa-ni-some', '«Панаму и Никарагуа — только часть из них» — every «Латинская Америка» pack now has both');
   // 2026-10-25: new — the France page rests on «самые широкие региональные
   // тарифы … несколько десятков стран» (the «Europe and USA» family); its
   // withdrawal must not leave the sentence green.
-  c = clone(LIVE.packages).filter((p) => !/^europe and usa\b/i.test(p.name));
+  c = clone(WORLD.packages).filter((p) => !/^europe and usa\b/i.test(p.name));
   redBy('france', c, 'widest-regional-dozens', '«Europe and USA» withdrawn — nothing covers several dozen countries');
   // «Italy 25 GB» (IT/SM/VA) was withdrawn on 2026-10-16 and the Egypt sentence
   // re-pinned to the one multi-country 25 GB pack left: the same kind of change
   // to it must still be caught.
-  c = clone(LIVE.packages); const [cjk] = byName(c, /^China Korea Japan 25 GB$/); cjk.coverage_country_codes = ['CN', 'JP', 'KR', 'EG']; cjk.region += ', EG';
+  c = clone(WORLD.packages); const [cjk] = byName(c, /^China Korea Japan 25 GB$/); cjk.coverage_country_codes = ['CN', 'JP', 'KR', 'EG']; cjk.region += ', EG';
   red('egypt', c, 'the China Korea Japan 25 GB pack now covers Egypt');
-  c = clone(LIVE.packages); const [cjk2] = byName(c, /^China Korea Japan 25 GB$/); cjk2.coverage_country_codes = ['CN']; cjk2.region = 'CN';
+  c = clone(WORLD.packages); const [cjk2] = byName(c, /^China Korea Japan 25 GB$/); cjk2.coverage_country_codes = ['CN']; cjk2.region = 'CN';
   red('egypt', c, 'the China Korea Japan 25 GB pack is no longer multi-country');
-  c = clone(LIVE.packages); byName(c, /^Africa 5GB 30Days$/)[0].topup_available = false;
+  c = clone(WORLD.packages); byName(c, /^Africa 5GB 30Days$/)[0].topup_available = false;
   red('kenya', c, '«5 ГБ на 30 дней с пополнением» lost its top-up');
 });
 
 test('control review N1–N16: the second round of stale-but-green cases is caught', () => {
-  const EU_USA_15 = LIVE.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes;
+  const EU_USA_15 = WORLD.packages.find((p) => p.name === 'Europe and USA 15 GB').coverage_country_codes;
   assert.ok(EU_USA_15.includes('GR') && !EU_USA_15.includes('XK'), 'N4/N5 premise: Greece in, Kosovo out');
   const cases = [
     // 2026-10-25: N1 and N2 were «no Paraguay» on 'LATAM 10 GB' (withdrawn);
@@ -545,17 +570,17 @@ test('control review N1–N16: the second round of stale-but-green cases is caug
     ['dominican-republic', 'Caribbean 5 GB', { name: 'Antilles 5 GB', coverage_country_codes: ['DO', 'CU'] }, 'N16: Cuba in a regional pack of another name', 'all'],
   ];
   for (const [slug, tpl, over, why, claimId] of cases) {
-    const c = clone(LIVE.packages); newPkg(c, tpl, over);
+    const c = clone(WORLD.packages); newPkg(c, tpl, over);
     if (claimId) redBy(slug, c, claimId, why); else red(slug, c, why);
   }
   {
     // Laos (2026-11-02): «Вьетнам и Камбоджу — не все [посуточные]» — an Asia daily is harmless, every daily covering them is red.
-    const g = clone(LIVE.packages); newPkg(g, 'Laos 1GB/Day', { name: 'Asia (21 areas) 1GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] });
+    const g = clone(WORLD.packages); newPkg(g, 'Laos 1GB/Day', { name: 'Asia (21 areas) 1GB/Day', coverage_country_codes: ['LA', 'VN', 'TH', 'KH'] });
     green('laos', g, 'one more Asia daily covering Vietnam and Cambodia — still «не все»');
-    const r = clone(LIVE.packages); byName(r, /^Laos .*\/Day/i).forEach((p) => { p.coverage_country_codes = [...new Set([...p.coverage_country_codes, 'VN', 'KH'])]; });
+    const r = clone(WORLD.packages); byName(r, /^Laos .*\/Day/i).forEach((p) => { p.coverage_country_codes = [...new Set([...p.coverage_country_codes, 'VN', 'KH'])]; });
     redBy('laos', r, 'daily-laos-only', 'every daily covers Vietnam and Cambodia — «не все» is false');
   }
-  const c = clone(LIVE.packages); byName(c, /^Africa 10 GB$/).forEach((p) => { p.topup_available = false; });
+  const c = clone(WORLD.packages); byName(c, /^Africa 10 GB$/).forEach((p) => { p.topup_available = false; });
   red('south-africa', c, 'N6: «у всех отмечено пополнение»');
 });
 
@@ -571,8 +596,8 @@ test('control review over-strict: withdrawing one family member freezes nothing'
     ['Australia and NZ 5 GB', ['australia']],
     ['Central Asia (4 areas) 5GB/Day', ['kazakhstan', 'tajikistan']],
   ]) {
-    const c = clone(LIVE.packages).filter((p) => p.name !== name);
-    assert.ok(c.length < LIVE.packages.length, `${name} must exist, or withdrawing it proves nothing`);
+    const c = clone(WORLD.packages).filter((p) => p.name !== name);
+    assert.ok(c.length < WORLD.packages.length, `${name} must exist, or withdrawing it proves nothing`);
     for (const slug of slugs) green(slug, c, `${name} withdrawn`);
   }
 });
@@ -592,8 +617,8 @@ test('review M3: a prose edit that inverts a sentence orphans its claim', () => 
   if (field[2] !== undefined && field[3]) p[field[1]][Number(field[2])][field[3]] = flip(p[field[1]][Number(field[2])][field[3]]);
   else if (field[2] !== undefined) p[field[1]][Number(field[2])] = flip(p[field[1]][Number(field[2])]);
   else p[field[1]] = flip(p[field[1]]);
-  const before = new Set(evaluateProfile(PROFILES.laos, 'laos', LIVE).map(keyOf));
-  assert.ok(evaluateProfile(p, 'laos', LIVE).some((x) => x.kind === 'authoring' && !before.has(keyOf(x))), 'the inverted sentence orphans its claim');
+  const before = new Set(evaluateProfile(PROFILES.laos, 'laos', WORLD).map(keyOf));
+  assert.ok(evaluateProfile(p, 'laos', WORLD).some((x) => x.kind === 'authoring' && !before.has(keyOf(x))), 'the inverted sentence orphans its claim');
 });
 
 test('review over-strict: harmless catalogue moves keep the corpus green', () => {
@@ -602,32 +627,32 @@ test('review over-strict: harmless catalogue moves keep the corpus green', () =>
   // block every Gulf sentence rests on, and red is the right answer (pinned
   // below). The over-strict case is rebuilt on the harmless move that remains:
   // a second Gulf card with the same six countries and 5 GB a day.
-  let c = clone(LIVE.packages);
+  let c = clone(WORLD.packages);
   newPkg(c, 'Gulf Region 5GB/Day', {});
   green('bahrain', c, 'a second Gulf daily card, same six countries, 5 GB a day — every sentence still holds');
-  c = clone(LIVE.packages).filter((p) => p.name !== 'Gulf Region 5GB/Day');
+  c = clone(WORLD.packages).filter((p) => p.name !== 'Gulf Region 5GB/Day');
   red('bahrain', c, 'the only Gulf daily card withdrawn — «все они включают Саудовскую Аравию» has nothing to stand on');
-  c = clone(LIVE.packages); newPkg(c, 'Africa 3 GB', { coverage_country_codes: ['MA', 'ZA', 'SZ', 'BW', 'TZ', 'KE', 'RE', 'SC'] });
+  c = clone(WORLD.packages); newPkg(c, 'Africa 3 GB', { coverage_country_codes: ['MA', 'ZA', 'SZ', 'BW', 'TZ', 'KE', 'RE', 'SC'] });
   green('morocco', c, 'a new Africa pack under «Региональные тарифы» is still African');
   // 2026-11-02: the page now says «Замбию — только некоторые [пакеты на
   // Африку]» (backend R2/R4 show a second 29-country pack with Zambia). A pack
   // with Zambia more is harmless; every Africa pack covering Zambia falsifies
   // «только некоторые»: red.
-  c = clone(LIVE.packages); newPkg(c, 'Africa 5GB 30Days', { coverage_country_codes: ['ZA', 'ZM', 'SZ', 'BW'] });
+  c = clone(WORLD.packages); newPkg(c, 'Africa 5GB 30Days', { coverage_country_codes: ['ZA', 'ZM', 'SZ', 'BW'] });
   green('south-africa', c, 'a four-country Africa pack with Zambia — still «только некоторые»');
-  c = clone(LIVE.packages); byName(c, /^Africa/i).forEach((p) => { if (!p.coverage_country_codes.includes('ZM')) p.coverage_country_codes = [...p.coverage_country_codes, 'ZM']; });
+  c = clone(WORLD.packages); byName(c, /^Africa/i).forEach((p) => { if (!p.coverage_country_codes.includes('ZM')) p.coverage_country_codes = [...p.coverage_country_codes, 'ZM']; });
   redBy('south-africa', c, 'zm-only-29', 'every Africa pack covers Zambia — «Замбию — только некоторые из них» is false');
   // The harmless move for the new sentence: another Africa pack WITHOUT Zambia,
   // on the coverage of the 23-country «Africa 3 GB» (30 days, top-up) — Eswatini
   // and Botswana in, 7 GB within «от 1 до 10 ГБ», top-up marked.
-  const af3x30 = LIVE.packages.find((p) => p.name === 'Africa 3 GB' && p.validity_days === 30);
+  const af3x30 = WORLD.packages.find((p) => p.name === 'Africa 3 GB' && p.validity_days === 30);
   assert.ok(af3x30 && !af3x30.coverage_country_codes.includes('ZM'), 'premise: the 30-day «Africa 3 GB» has no Zambia');
-  c = clone(LIVE.packages);
+  c = clone(WORLD.packages);
   newPkg(c, 'Africa 3 GB', { name: 'Africa 7 GB', data_gb: 7, validity_days: 30, topup_available: true, coverage_country_codes: [...af3x30.coverage_country_codes] });
   green('south-africa', c, 'a new Africa pack without Zambia — every sentence still holds');
   // 2026-10-25: the Bosnia sentence names no volume any more; a second card of
   // the same coverage at another size must not turn it red.
-  c = clone(LIVE.packages); newPkg(c, 'Europe and USA 15 GB', { name: 'Europe and USA 40 GB', data_gb: 40 });
+  c = clone(WORLD.packages); newPkg(c, 'Europe and USA 15 GB', { name: 'Europe and USA 40 GB', data_gb: 40 });
   green('bosnia-and-herzegovina', c, 'a «Europe and USA» card of the same coverage at another volume');
 });
 
