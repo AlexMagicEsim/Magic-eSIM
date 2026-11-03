@@ -204,7 +204,7 @@
     const label=b.textContent;
     b.disabled=true;b.textContent='Проверяем цену…';
     try{
-      const check=await window.MagicCatalog.revalidatePackage(d.packageId,Number(d.price));
+      const check=await window.MagicCatalog.revalidatePackage(d.packageId,Number(d.price),d.planType==='DAILY'?d.days:null);
       if(!check.ok){
         showCheckoutBlocked(check.reason);
         return;
@@ -219,10 +219,11 @@
       renderCountryChips();
       renderPackages();
 
-      d.price=String(check.pkg.price);
+      // The amount of THIS purchase: the term's for a PER_DAY card (catalog-loader.js revalidatePackage).
+      d.price=String(check.price);
       d.name=check.pkg.name||d.name;
       openCheckout(d);
-      if(check.priceChanged)showPriceChanged(check.previousPrice,Number(check.pkg.price));
+      if(check.priceChanged)showPriceChanged(check.previousPrice,check.price);
     }finally{
       b.disabled=false;b.textContent=label;
     }

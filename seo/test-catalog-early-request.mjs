@@ -39,7 +39,11 @@ test('RU outside the experiment: MagicNet then the early request in <head>, befo
     // The address lives in MagicNet only (seo/test-api-domain.mjs): no host here.
     assert.doesNotMatch(snippet, /https?:\/\//, `${slug}: no host in the early request`);
     assert.match(snippet, /N\.ENDPOINTS\[0\]\.base/);
-    assert.match(snippet, /'\/api\/v1\/retail\/packages\?t='/);
+    // Since 2026-11-03: this page's country only, and the object says which (the loader checks it).
+    const iso = (html.match(/data-country-page="([A-Z]{2})"/) || [])[1];
+    assert.ok(iso, `${slug}: the page names its country`);
+    assert.ok(snippet.includes(`'/api/v1/retail/packages?country=${iso}&t='`), `${slug}: asks for ${iso} only`);
+    assert.ok(snippet.includes(`country:'${iso}'`), `${slug}: the early request says it is for ${iso}`);
     assert.match(snippet, /r\.catch\(function\(\)\{\}\)/, `${slug}: an early failure is observed`);
   }
   assert.ok(n >= 180, `pages checked: ${n}`);
@@ -92,24 +96,28 @@ const SNAP = [pkg({ name: 'Snapshot 1 GB' })];
 const okBody = (body, bodyDelay = 0) => ({ status: 200, text: () => sleep(bodyDelay).then(() => JSON.stringify(body)) });
 
 /** The real loader; `early` is what the page's <head> would have handed it. */
-function loaderWith({ early = null, live = () => Promise.resolve(okBody({ data: LIVE })) } = {}) {
+function loaderWith({ early = null, live = () => Promise.resolve(okBody({ data: LIVE })), country = null } = {}) {
   const src = read('assets/catalog-loader.js');
   const calls = [];
+  const urls = [];
   const win = { __magicCatalogEarly: early };
   const fakeFetch = (url) => {
     const u = String(url);
+    urls.push(u);
     calls.push(/catalog\.json/.test(u) ? 'snapshot' : (/onrender/.test(u) ? 'api-primary' : 'api-fallback'));
     if (/catalog\.json/.test(u)) return Promise.resolve(okBody(doc(SNAP)));
     return live(u);
   };
   class FakeAC { constructor() { this.signal = { aborted: false }; } abort() { this.signal.aborted = true; } }
-  new Function('window', 'fetch', 'AbortController', 'setTimeout', 'clearTimeout', 'Math', 'Date', src)(win, fakeFetch, FakeAC, setTimeout, clearTimeout, Math, Date);
-  return { api: win.MagicCatalog, calls, win };
+  // A country page: <section data-country-page="XX"> (seo/build-catalogue-pages.mjs).
+  const document = country ? { querySelector: (sel) => (sel === '[data-country-page]' ? { getAttribute: () => country } : null) } : undefined;
+  new Function('window', 'fetch', 'AbortController', 'setTimeout', 'clearTimeout', 'Math', 'Date', 'document', src)(win, fakeFetch, FakeAC, setTimeout, clearTimeout, Math, Date, document);
+  return { api: win.MagicCatalog, calls, urls, win };
 }
 /** An early request whose headers come at `headersAt` ms and body `bodyAfter` ms later. */
-function earlyReq({ headersAt = 0, bodyAfter = 0, fail = null, startedAgo = 0 } = {}) {
+function earlyReq({ headersAt = 0, bodyAfter = 0, fail = null, startedAgo = 0, country } = {}) {
   let reject;
-  const e = { startedAt: Date.now() - startedAgo, used: false, aborted: false };
+  const e = { startedAt: Date.now() - startedAgo, used: false, aborted: false, ...(country ? { country } : {}) };
   e.ac = { abort() { e.aborted = true; reject(Object.assign(new Error('aborted'), { name: 'AbortError' })); } };
   e.response = new Promise((res, rej) => {
     reject = rej;
@@ -186,4 +194,70 @@ test('after the early request, retry and the pre-checkout price check make their
   const check = await api.revalidatePackage(LIVE[0].package_id, 500);
   assert.equal(check.ok, true);
   assert.deepEqual(calls, ['api-primary', 'api-primary']);
+});
+
+/* ------------------------------------------- one country, not the whole catalogue (2026-11-03) */
+
+const path = (u) => u.replace(/^https?:\/\/[^/]+/, '').replace(/t=\d+/, 't=*');
+
+test('a country page asks for its country only; the snapshot stays the whole catalogue', async () => {
+  const { api, urls } = loaderWith({ country: 'TR', live: (u) => (/catalog\.json/.test(u) ? null : sleep(400).then(() => okBody({ data: LIVE }))) });
+  const r = await api.load({ deadlineMs: 50 });   // the snapshot wins the race, the live answer comes later
+  assert.equal(r.source, 'cache');
+  assert.deepEqual(urls.map(path), ['/api/v1/retail/packages?country=TR&t=*', '/assets/catalog.json?t=*']);
+  assert.equal(api.pageCountry(), 'TR');
+});
+
+test('the early request made for THIS country is taken; one made for another page is not', async () => {
+  const mine = earlyReq({ headersAt: 10, country: 'TR' });
+  const a = loaderWith({ country: 'TR', early: mine });
+  assert.equal((await a.api.load()).source, 'live');
+  assert.equal(mine.used, true);
+  assert.deepEqual(a.urls, [], 'no request of its own');
+
+  const other = earlyReq({ headersAt: 10, country: 'TH' });
+  const b = loaderWith({ country: 'TR', early: other });
+  await b.api.load({ deadlineMs: 60000 });
+  assert.equal(other.used, false, 'a request for another country is never shown here');
+  assert.deepEqual(b.urls.map(path), ['/api/v1/retail/packages?country=TR&t=*']);
+
+  const whole = earlyReq({ headersAt: 10 });           // the whole-catalogue request of a page built before the change
+  const c = loaderWith({ country: 'TR', early: whole });
+  await c.api.load({ deadlineMs: 60000 });
+  assert.equal(whole.used, false);
+  assert.deepEqual(c.urls.map(path), ['/api/v1/retail/packages?country=TR&t=*']);
+});
+
+test('an empty answer for the country (unknown or emptied) is not retried: the whole catalogue, as before', async () => {
+  const { api, urls } = loaderWith({ country: 'ZZ', live: (u) => Promise.resolve(okBody({ data: /country=/.test(u) ? [] : LIVE })) });
+  const list = await api.loadLive();
+  assert.equal(list[0].name, 'Live 1 GB');
+  assert.deepEqual(urls.map(path), ['/api/v1/retail/packages?country=ZZ&t=*', '/api/v1/retail/packages?t=*']);
+});
+
+test('an outage on the country request keeps the old roads: retry, the fallback endpoint — with the country', async () => {
+  const net = () => Promise.reject(Object.assign(new Error('Failed to fetch'), { name: 'TypeError' }));
+  const { api, urls, calls } = loaderWith({ country: 'TR', live: net });
+  await assert.rejects(api.loadLive());
+  assert.deepEqual(calls, ['api-primary', 'api-primary', 'api-fallback']);
+  assert.ok(urls.every((u) => /\?country=TR&t=/.test(u)), 'every road asks for the country');
+});
+
+test('the pre-checkout price check asks for the page\'s country too', async () => {
+  const p = pkg({ package_id: 'tr1', price: 700 });
+  const { api, urls } = loaderWith({ country: 'TR', live: () => Promise.resolve(okBody({ data: [p] })) });
+  const check = await api.revalidatePackage('tr1', 700);
+  assert.equal(check.ok, true);
+  assert.equal(check.priceChanged, false);
+  assert.deepEqual(urls.map(path), ['/api/v1/retail/packages?country=TR&t=*']);
+});
+
+test('the lastmod hash does not see the country of the early request (no page re-dated)', async () => {
+  const { contentHash } = await import('./build-sitemap.mjs');
+  const html = read('esim/turkey/index.html');
+  assert.match(html, /packages\?country=TR&t='/);
+  const before = html.replace(/(\/api\/v1\/retail\/packages\?)country=TR&/, '$1').replace("country:'TR',", '');
+  assert.notEqual(before, html);
+  assert.equal(contentHash(html), contentHash(before), 'the same hash as the page before the change');
+  assert.notEqual(contentHash(html), contentHash(html.replace('<h1', '<h1 data-x')), 'the hash still sees content');
 });
