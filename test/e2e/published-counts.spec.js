@@ -21,6 +21,10 @@
 const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('@playwright/test');
+const { isolateFromInternet } = require('../helpers/hermetic.cjs');
+
+// The local server only: Metrika's tag.js from the internet once held «load» for 30 s (test/helpers/hermetic.cjs).
+test.beforeEach(async ({ context }) => { await isolateFromInternet(context); });
 
 const SNAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'catalog.json'), 'utf8'));
 const ANSWER = { status: 'success', count: SNAP.packages.length, currency: 'RUB', data: SNAP.packages, assortment: SNAP.assortment };

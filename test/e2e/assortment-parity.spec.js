@@ -15,6 +15,10 @@
 const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('@playwright/test');
+const { isolateFromInternet } = require('../helpers/hermetic.cjs');
+
+// The local server only (test/helpers/hermetic.cjs): the RU pages load Metrika's tag.js, which must never hold a test.
+test.beforeEach(async ({ context }) => { await isolateFromInternet(context); });
 const { installMiniApp, openApp } = require('./harness.js');
 const { globalAnswer } = require('../helpers/assortment-layout.cjs');
 
