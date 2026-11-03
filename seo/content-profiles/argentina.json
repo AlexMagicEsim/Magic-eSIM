@@ -14,7 +14,7 @@
   "lead": "Из Буэнос-Айреса паромом ходят в Колонию-дель-Сакраменто и Монтевидео, водопады Игуасу находятся на границе с Бразилией, а на западе страна граничит с Чили. Если соседи есть в маршруте, смотрите блок региональных тарифов: пакеты «Латинская Америка» покрывают Уругвай, Бразилию и Чили.",
   "intro": [
     "В строке сети у этих пакетов 4G, пополнение отмечено. Боливию включают не все пакеты «Латинская Америка»: сверьте строку «Покрытие» в карточке до оплаты, а для самой Боливии есть своя страница.",
-    "Если вся поездка — по Аргентине, с региональным пакетом вы переплачиваете за соседей: местные 3, 10 и 20 ГБ на 30 дней стоят {{price:g3_30}}, {{price:g10}} и {{price:g20}}. В строке сети у местных тарифов 3G/4G, пополнение отмечено в каждой объёмной карточке."
+    "Если вся поездка — по Аргентине, с региональным пакетом вы переплачиваете за соседей: местные 10 и 20 ГБ на 30 дней стоят {{price:g10}} и {{price:g20}}, региональные того же объёма и срока — дороже. В строке сети у местных тарифов 3G/4G, пополнение отмечено в каждой объёмной карточке."
   ],
   "why": [
     {
@@ -358,17 +358,10 @@
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "Если вся поездка — по Аргентине, с региональным пакетом вы переплачиваете за соседей: местные 3, 10 и 20 ГБ на 30 дней стоят {{price:g3_30}}, {{price:g10}} и {{price:g20}}."
+          "text": "Если вся поездка — по Аргентине, с региональным пакетом вы переплачиваете за соседей: местные 10 и 20 ГБ на 30 дней стоят {{price:g10}} и {{price:g20}}, региональные того же объёма и срока — дороже."
         }
       ],
       "terms": {
-        "g3": {
-          "block": "local",
-          "attrs": {
-            "data_gb": 3,
-            "validity_days": 30
-          }
-        },
         "g10": {
           "block": "local",
           "attrs": {
@@ -382,14 +375,6 @@
             "data_gb": 20,
             "validity_days": 30
           }
-        },
-        "r3": {
-          "block": "regional",
-          "attrs": {
-            "data_gb": 3,
-            "validity_days": 30
-          },
-          "family": "latam"
         },
         "r10": {
           "block": "regional",
@@ -410,11 +395,6 @@
       },
       "assert": [
         {
-          "left": "g3",
-          "op": "<",
-          "right": "r3"
-        },
-        {
           "left": "g10",
           "op": "<",
           "right": "r10"
@@ -425,7 +405,7 @@
           "right": "r20"
         }
       ],
-      "note": "Added in stage B (2026-10-18). «переплачиваете за соседей» = at 3, 5, 10 and 20 GB for 30 days the local plan is cheaper than the LATAM one. 2026-10-25: r10/r20 re-pinned to «Latin America 10/20 GB» (card «Латинская Америка»), the 10/20 GB regional cards the backend layout shows after the old LATAM 10/20 GB ids left. 2026-10-25 (R4: same volume, a longer term for less hides the shorter): «Argentina 3GB 15Days» is hidden (3 GB / 30 days costs less), the sentence names the 30-day prices only. 2026-11-03: «LATAM 5 GB» (5 GB / 30 days) left the Argentina regional block with the auto-import; the sentence names 3, 10 and 20 GB, whose regional cards stand in the pages' snapshot and in the live one."
+      "note": "Added in stage B (2026-10-18). «переплачиваете за соседей» = at 3, 5, 10 and 20 GB for 30 days the local plan is cheaper than the LATAM one. 2026-10-25: r10/r20 re-pinned to «Latin America 10/20 GB» (card «Латинская Америка»), the 10/20 GB regional cards the backend layout shows after the old LATAM 10/20 GB ids left. 2026-10-25 (R4: same volume, a longer term for less hides the shorter): «Argentina 3GB 15Days» is hidden (3 GB / 30 days costs less), the sentence names the 30-day prices only. 2026-11-03: «LATAM 5 GB» (5 GB / 30 days) left the Argentina regional block with the auto-import; the sentence names 3, 10 and 20 GB, whose regional cards stand in the pages' snapshot and in the live one. 2026-11-03: the 3 GB pair left the sentence — «LATAM 3 GB» 30 days left the page with the 06:00 auto-import."
     }
   ],
   "price_refs": {
@@ -434,13 +414,6 @@
       "attrs": {
         "data_gb": 1,
         "validity_days": 7
-      }
-    },
-    "g3_30": {
-      "block": "local",
-      "attrs": {
-        "data_gb": 3,
-        "validity_days": 30
       }
     },
     "g10": {

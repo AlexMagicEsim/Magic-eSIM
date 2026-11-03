@@ -14,7 +14,7 @@
   "lead": "Макао редко бывает самостоятельной поездкой: чаще это день или два из Гонконга. Местный тариф Макао в Гонконге не работает, поэтому главный вопрос здесь — какой пакет покроет обе точки маршрута.",
   "intro": [
     "В блоке «Тарифы для Макао» — местные тарифы от 1 ГБ на 7 дней за {{price:local_floor}} до 50 ГБ — на 30 дней за {{price:local_50gb}} или на полгода; у всех в строке сети стоит 3G/4G/5G. В их покрытии только Макао.",
-    "На Макао вместе с Гонконгом рассчитаны региональные пакеты. В блоке «Региональные тарифы» — пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай, от 1 ГБ на 7 дней за {{price:cn3_1gb}} до 50 ГБ на 30 дней, и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
+    "На Макао вместе с Гонконгом рассчитаны региональные пакеты. В блоке «Региональные тарифы» есть пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай — например, 5 ГБ на 30 дней за {{price:cn3_5gb}} или 50 ГБ на 30 дней — и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
   ],
   "why": [
     {
@@ -24,8 +24,8 @@
     },
     {
       "icon": "🧭",
-      "h": "Неделя на две точки маршрута",
-      "p": "Пакет «China (mainland HK Macao)» на 1 ГБ действует 7 дней и стоит {{price:cn3_1gb}} — вариант для короткой поездки с переездами между Гонконгом и Макао."
+      "h": "Месяц на две точки маршрута",
+      "p": "Пакет «China (mainland HK Macao)» на 5 ГБ действует 30 дней и стоит {{price:cn3_5gb}} — вариант для поездки с переездами между Гонконгом и Макао."
     },
     {
       "icon": "⏱️",
@@ -140,11 +140,11 @@
         },
         {
           "field": "intro[1]",
-          "text": "В блоке «Региональные тарифы» — пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай, от 1 ГБ на 7 дней за {{price:cn3_1gb}} до 50 ГБ на 30 дней, и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
+          "text": "В блоке «Региональные тарифы» есть пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай — например, 5 ГБ на 30 дней за {{price:cn3_5gb}} или 50 ГБ на 30 дней — и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
         },
         {
           "field": "why[1].p",
-          "text": "Пакет «China (mainland HK Macao)» на 1 ГБ действует 7 дней и стоит {{price:cn3_1gb}} — вариант для короткой поездки с переездами между Гонконгом и Макао."
+          "text": "Пакет «China (mainland HK Macao)» на 5 ГБ действует 30 дней и стоит {{price:cn3_5gb}} — вариант для поездки с переездами между Гонконгом и Макао."
         },
         {
           "field": "description",
@@ -163,24 +163,18 @@
         "CN"
       ],
       "max_countries": 3,
-      "attr_bounds": {
-        "data_gb": [
-          1,
-          50
-        ]
-      },
-      "note": "2026-10-25: replaces the «Китай, Гонконг, Макао и Тайвань» 3 GB / 7 days basis (b099e33f) — that card is no longer rendered (assortment layout); «China (mainland HK Macao)» 1–50 GB is, in both views."
+      "note": "2026-11-03: «от 1 ГБ на 7 дней … до 50 ГБ» dropped — the family's 1 GB and 3 GB left the page with the 06:00 auto-import («Asia (14 areas)» took their places); the text names two cards of the family, pinned by cn-hk-mo-5gb-30d and cn-hk-mo-50gb-30d."
     },
     {
-      "id": "cn-hk-mo-1gb-7d",
+      "id": "cn-hk-mo-5gb-30d",
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "В блоке «Региональные тарифы» — пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай, от 1 ГБ на 7 дней за {{price:cn3_1gb}} до 50 ГБ на 30 дней, и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
+          "text": "В блоке «Региональные тарифы» есть пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай — например, 5 ГБ на 30 дней за {{price:cn3_5gb}} или 50 ГБ на 30 дней — и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
         },
         {
           "field": "why[1].p",
-          "text": "Пакет «China (mainland HK Macao)» на 1 ГБ действует 7 дней и стоит {{price:cn3_1gb}} — вариант для короткой поездки с переездами между Гонконгом и Макао."
+          "text": "Пакет «China (mainland HK Macao)» на 5 ГБ действует 30 дней и стоит {{price:cn3_5gb}} — вариант для поездки с переездами между Гонконгом и Макао."
         }
       ],
       "scope": "regional",
@@ -188,21 +182,22 @@
         {
           "block": "regional",
           "attrs": {
-            "data_gb": 1,
-            "validity_days": 7
+            "data_gb": 5,
+            "validity_days": 30
           },
           "family": "china"
         }
       ],
       "basis_attrs": {
-        "data_gb": 1,
-        "validity_days": 7
+        "data_gb": 5,
+        "validity_days": 30
       },
       "covers_exactly": [
         "MO",
         "HK",
         "CN"
-      ]
+      ],
+      "note": "2026-11-03: re-pinned from the 1 GB / 7 days card (gone with the 06:00 auto-import) to the 5 GB / 30 days card, in both snapshots."
     },
     {
       "id": "cn-hk-mo-topup",
@@ -226,7 +221,7 @@
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "В блоке «Региональные тарифы» — пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай, от 1 ГБ на 7 дней за {{price:cn3_1gb}} до 50 ГБ на 30 дней, и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
+          "text": "В блоке «Региональные тарифы» есть пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай — например, 5 ГБ на 30 дней за {{price:cn3_5gb}} или 50 ГБ на 30 дней — и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
         },
         {
           "field": "faq[0].a",
@@ -327,6 +322,36 @@
       },
       "all_in_scope": [
         "MO"
+      ]
+    },
+    {
+      "id": "cn-hk-mo-50gb-30d",
+      "scope": "regional",
+      "basis": [
+        {
+          "block": "regional",
+          "attrs": {
+            "data_gb": 50,
+            "validity_days": 30
+          },
+          "family": "^China \\(mainland HK Macao\\)"
+        }
+      ],
+      "basis_attrs": {
+        "data_gb": 50,
+        "validity_days": 30
+      },
+      "covers_exactly": [
+        "MO",
+        "HK",
+        "CN"
+      ],
+      "note": "2026-11-03: «или 50 ГБ на 30 дней» of the family.",
+      "anchors": [
+        {
+          "field": "intro[1]",
+          "text": "В блоке «Региональные тарифы» есть пакеты «China (mainland HK Macao)» на Макао, Гонконг и материковый Китай — например, 5 ГБ на 30 дней за {{price:cn3_5gb}} или 50 ГБ на 30 дней — и пакет «Китай, Гонконг, Макао и Тайвань» на 30 ГБ на 30 дней за {{price:gct_30gb}}."
+        }
       ]
     }
   ],
@@ -456,14 +481,6 @@
         "validity_days": 180
       }
     },
-    "cn3_1gb": {
-      "block": "regional",
-      "attrs": {
-        "data_gb": 1,
-        "validity_days": 7
-      },
-      "family": "china"
-    },
     "gct_30gb": {
       "block": "regional",
       "attrs": {
@@ -478,6 +495,14 @@
         "daily_gb": 1
       },
       "days": 3
+    },
+    "cn3_5gb": {
+      "block": "regional",
+      "attrs": {
+        "data_gb": 5,
+        "validity_days": 30
+      },
+      "family": "china"
     }
   }
 }
