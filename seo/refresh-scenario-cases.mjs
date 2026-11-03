@@ -1,15 +1,15 @@
 // The catalogue moves seo/test-refresh-scenarios.mjs runs (seo/refresh-scenarios.mjs).
-// Fixtures come from the current catalogue and profiles; see the header there.
+// Fixtures come from WORLD (the frozen catalogue every scenario starts from) and the profiles; see the header there.
 
 import { readFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
-import { ROOT, readJson, countryPageSlugs } from './refresh-scenarios.mjs';
+import { ROOT, WORLD_FILE, readJson, countryPageSlugs } from './refresh-scenarios.mjs';
 import { countryFacts, purchasablePrice } from './catalogue-facts.mjs';
 import { isoOfSlug } from './coverage-claims.mjs';
 import { publishedBlocks, selectPlan } from './plan-ref.mjs';
 
-const CATALOG = () => readJson(join(ROOT, 'assets', 'catalog.json'));
+const CATALOG = () => readJson(WORLD_FILE);
 const profilePath = (slug) => join(ROOT, 'seo', 'content-profiles', `${slug}.json`);
 const isoOfPage = (slug) => {
   const h = readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf8');
