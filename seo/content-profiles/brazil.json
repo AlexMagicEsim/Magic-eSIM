@@ -7,7 +7,7 @@
   "lead": "В Бразилии такси заказывают через приложение, а по городу ходят с навигатором. eSIM решает интернет заранее: установка до вылета, включение после посадки в Рио или Сан-Паулу.",
   "intro": [
     "Бразилия — дальнее направление: перелёт с пересадками, другой язык, огромные города. Uber здесь — стандартный способ передвижения для туриста, а маршруты, брони и переводчик с португальского требуют стабильного интернета.",
-    "Локальная линейка идёт ровно: 1 ГБ на 7 дней, 3 ГБ за {{price:local_3gb_15d}} на 15 дней, дальше 5, 10, 20 и 50 ГБ. Рядом в сетке стоят региональные пакеты на несколько стран сразу, но за тот же объём они дороже: 10 ГБ на 30 дней у них стоят {{price:latam_10gb}} против местных {{price:local_10gb}}."
+    "Локальная линейка идёт ровно: 1 ГБ на 7 дней, 3 ГБ за {{price:local_3gb_15d}} на 15 дней, дальше 5, 10, 20 и 50 ГБ. Рядом в сетке стоят региональные пакеты на несколько стран сразу, но за тот же объём они дороже: 20 ГБ на 30 дней у них стоят {{price:latam_20gb}} против местных {{price:local_20gb}}."
   ],
   "why": [
     {
@@ -42,7 +42,7 @@
     },
     {
       "q": "Чем региональный тариф отличается от бразильского?",
-      "a": "Покрытием и ценой за гигабайт. Местный рассчитан на одну страну: 10 ГБ на 30 дней стоят {{price:local_10gb}}. Региональный «Latin America» на том же объёме и сроке стоит {{price:latam_10gb}}, зато работает ещё в шестнадцати странах. Состав стран у региональных пакетов разный, поэтому конкретные страны маршрута сверьте кнопкой «Покрытие и условия» до оплаты."
+      "a": "Покрытием и ценой за гигабайт. Местный рассчитан на одну страну: 20 ГБ на 30 дней стоят {{price:local_20gb}}. Региональный «Latin America» на том же объёме и сроке стоит {{price:latam_20gb}}, зато работает ещё в шестнадцати странах. Состав стран у региональных пакетов разный, поэтому конкретные страны маршрута сверьте кнопкой «Покрытие и условия» до оплаты."
     },
     {
       "q": "Когда стоит взять пакет побольше?",
@@ -79,7 +79,7 @@
       "anchors": [
         {
           "field": "faq[2].a",
-          "text": "Региональный «Latin America» на том же объёме и сроке стоит {{price:latam_10gb}}, зато работает ещё в шестнадцати странах."
+          "text": "Региональный «Latin America» на том же объёме и сроке стоит {{price:latam_20gb}}, зато работает ещё в шестнадцати странах."
         }
       ],
       "scope": "regional",
@@ -87,7 +87,7 @@
         {
           "block": "regional",
           "attrs": {
-            "data_gb": 10,
+            "data_gb": 20,
             "validity_days": 30
           },
           "family": "latin.*america"
@@ -98,10 +98,10 @@
         "BR"
       ],
       "basis_attrs": {
-        "data_gb": 10,
+        "data_gb": 20,
         "validity_days": 30
       },
-      "note": "2026-11-03: re-pinned to «Latin America 10 GB» (17 countries) — «LATAM 3 GB» 30 days left the page with the 06:00 auto-import; the 10 GB card stands in both snapshots."
+      "note": "2026-11-03 (09:00 import): re-pinned to «Latin America 20 GB» (17 countries) — the 10 GB left the page at 09:00 as the LATAM 3 GB had at 06:00; the 20 GB stands in the pages' snapshot, 06:58 and 09:28."
     },
     {
       "id": "local-only",
@@ -133,7 +133,7 @@
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "Рядом в сетке стоят региональные пакеты на несколько стран сразу, но за тот же объём они дороже: 10 ГБ на 30 дней у них стоят {{price:latam_10gb}} против местных {{price:local_10gb}}."
+          "text": "Рядом в сетке стоят региональные пакеты на несколько стран сразу, но за тот же объём они дороже: 20 ГБ на 30 дней у них стоят {{price:latam_20gb}} против местных {{price:local_20gb}}."
         }
       ],
       "scope": "regional",
@@ -165,7 +165,7 @@
         {
           "block": "regional",
           "attrs": {
-            "data_gb": 10,
+            "data_gb": 20,
             "validity_days": 30
           },
           "family": "latin.*america"
@@ -214,29 +214,29 @@
       "note": "2026-10-25: after the activation the volume floor (1 GB / 7 days) is BELOW the 3-day daily floor; «Посуточный почти не дешевле» became «Посуточный не дешевле объёмного» = the volume floor < the 3-day daily floor."
     },
     {
-      "id": "latam-10gb-dearer",
+      "id": "latam-20gb-dearer",
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "Рядом в сетке стоят региональные пакеты на несколько стран сразу, но за тот же объём они дороже: 10 ГБ на 30 дней у них стоят {{price:latam_10gb}} против местных {{price:local_10gb}}."
+          "text": "Рядом в сетке стоят региональные пакеты на несколько стран сразу, но за тот же объём они дороже: 20 ГБ на 30 дней у них стоят {{price:latam_20gb}} против местных {{price:local_20gb}}."
         },
         {
           "field": "faq[2].a",
-          "text": "Региональный «Latin America» на том же объёме и сроке стоит {{price:latam_10gb}}, зато работает ещё в шестнадцати странах."
+          "text": "Региональный «Latin America» на том же объёме и сроке стоит {{price:latam_20gb}}, зато работает ещё в шестнадцати странах."
         }
       ],
       "terms": {
-        "local10": {
+        "local20": {
           "block": "local",
           "attrs": {
-            "data_gb": 10,
+            "data_gb": 20,
             "validity_days": 30
           }
         },
-        "latam10": {
+        "latam20": {
           "block": "regional",
           "attrs": {
-            "data_gb": 10,
+            "data_gb": 20,
             "validity_days": 30
           },
           "family": "latin.*america"
@@ -244,12 +244,12 @@
       },
       "assert": [
         {
-          "left": "local10",
+          "left": "local20",
           "op": "<",
-          "right": "latam10"
+          "right": "latam20"
         }
       ],
-      "note": "2026-11-03: «примерно вдвое: 3 ГБ» → «дороже: 10 ГБ на 30 дней» — «LATAM 3 GB» 30 days left the page; the regional 10 GB is dearer than the local 10 GB in both snapshots (3800 vs 2250 ₽ = 1.69×, so no «вдвое»)."
+      "note": "2026-11-03: the regional 20 GB / 30 days («Latin America», 5600 ₽) is dearer than the local 20 GB (3850 ₽) in every snapshot since 31.10; the 3 GB (06:00) and the 10 GB (09:00) pairs left the page with the auto-import."
     },
     {
       "id": "local-ladder-rises",
@@ -374,10 +374,10 @@
     "local_floor": {
       "min_of": "local"
     },
-    "latam_10gb": {
+    "latam_20gb": {
       "block": "regional",
       "attrs": {
-        "data_gb": 10,
+        "data_gb": 20,
         "validity_days": 30
       },
       "family": "latin.*america"

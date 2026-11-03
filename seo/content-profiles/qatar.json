@@ -41,7 +41,7 @@
     },
     {
       "q": "Есть ли тариф, покрывающий Катар и соседние страны Залива?",
-      "a": "Да: в блоке «Региональные тарифы» есть пакеты, которые покрывают Катар вместе с Саудовской Аравией и ОАЭ. Они дороже самого дешёвого местного тарифа того же объёма, поэтому имеют смысл только когда в маршруте действительно больше одной страны."
+      "a": "Да: в блоке «Региональные тарифы» есть пакеты, которые покрывают Катар вместе с Саудовской Аравией. Они дороже самого дешёвого местного тарифа того же объёма, поэтому имеют смысл только когда в маршруте действительно больше одной страны."
     },
     {
       "q": "Чем можно оплатить?",
@@ -63,7 +63,7 @@
       "anchors": [
         {
           "field": "faq[3].a",
-          "text": "Да: в блоке «Региональные тарифы» есть пакеты, которые покрывают Катар вместе с Саудовской Аравией и ОАЭ."
+          "text": "Да: в блоке «Региональные тарифы» есть пакеты, которые покрывают Катар вместе с Саудовской Аравией."
         },
         {
           "field": "faq[3].q",
@@ -73,10 +73,9 @@
       "scope": "regional",
       "some_in_scope": [
         "QA",
-        "SA",
-        "AE"
+        "SA"
       ],
-      "note": "2026-10-25: was scope daily («региональные посуточные пакеты»); the page's daily block is local-only now (the backend layout does not render «Gulf Region 5GB/Day»), the Gulf countries are covered from «Региональные тарифы» (Gulf Region, MENA)."
+      "note": "2026-10-25: was scope daily («региональные посуточные пакеты»); the page's daily block is local-only now (the backend layout does not render «Gulf Region 5GB/Day»), the Gulf countries are covered from «Региональные тарифы» (Gulf Region, MENA). 2026-11-03 (09:00 import): «и ОАЭ» dropped — at 09:28 no regional card of the page covers QA, SA and AE together («Middle East (5 areas)» covers QA and SA, not AE); QA + SA hold in every snapshot."
     }
   ],
   "price_claims": [

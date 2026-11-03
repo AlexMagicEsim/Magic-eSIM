@@ -92,10 +92,9 @@
       "scope": "regional",
       "some_in_scope": [
         "SA",
-        "AE",
         "QA"
       ],
-      "note": "2026-10-25: was scope daily («региональные посуточные пакеты»); the page's daily block is local-only now (the backend layout does not render «Gulf Region 5GB/Day»); the neighbours are covered from «Региональные тарифы» (MENA, Asia-20)."
+      "note": "2026-10-25: was scope daily («региональные посуточные пакеты»); the page's daily block is local-only now (the backend layout does not render «Gulf Region 5GB/Day»); the neighbours are covered from «Региональные тарифы» (MENA, Asia-20). 2026-11-03 (09:00 import): the text says «вместе с соседями по региону» — pinned to SA + QA (in every snapshot); SA + AE + QA together is gone at 09:28."
     }
   ],
   "price_claims": [
