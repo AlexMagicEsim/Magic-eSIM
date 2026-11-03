@@ -435,21 +435,30 @@ test('MUTATION: dropping term_prices changes the verdict', () => {
   //
   // A majority cannot be moved by one reprice. The floor is deliberately far
   // below today's number so a normal catalogue week never touches it.
-  const { doc, clean } = scratch((a) => a.forEach((p) => { delete p.term_prices; }));
-  try {
-    const isos = Object.keys(DOC.assortment.countries);
-    let moved = 0;
-    for (const iso of isos) {
-      const before = countryFacts(DOC, iso).min_price_rub;
-      const after = countryFacts(doc, iso).min_price_rub;
-      if (before !== after) moved += 1;
-    }
-    assert.ok(moved > isos.length * 0.75,
-      `removing term_prices moved the minimum for only ${moved} of ${isos.length} countries — ` +
-      'the ladder is barely being consulted');
-  } finally {
-    clean();
+  //
+  // 2026-11-03: but the live auto-import is not a normal week — every slot adds
+  // volume plans, and a volume floor under the daily ladder is a country this
+  // transform cannot move. On the catalogue of 09:28 that day 153 of 204 moved
+  // (75.0 %, red), on 06:58 154, on the pages' own snapshot 162 (79.4 %): the
+  // share measured the day's assortment, not the helper. So, like the coverage
+  // mutations (seo/test-coverage-claims.mjs), it mutates WORLD — the frozen
+  // snapshot test/fixtures/seo-test-catalogue.json — where 162 of 204 move.
+  // The helper is the same; only the catalogue it is proven on stopped moving.
+  const world = loadCatalogueDoc(join(ROOT, 'test', 'fixtures', 'seo-test-catalogue.json'));
+  const pk = JSON.parse(JSON.stringify(world.packages));
+  pk.forEach((p) => { delete p.term_prices; });
+  const doc = republish(world, pk);
+  const isos = Object.keys(world.assortment.countries);
+  let moved = 0;
+  for (const iso of isos) {
+    const before = countryFacts(world, iso).min_price_rub;
+    const after = countryFacts(doc, iso).min_price_rub;
+    if (before !== after) moved += 1;
   }
+  assert.ok(isos.length > 150, `WORLD is a full catalogue (${isos.length} countries)`);
+  assert.ok(moved > isos.length * 0.75,
+    `removing term_prices moved the minimum for only ${moved} of ${isos.length} countries — ` +
+    'the ladder is barely being consulted');
 });
 
 test('MUTATION: C3 fires when the catalogue loses a tariff', () => {

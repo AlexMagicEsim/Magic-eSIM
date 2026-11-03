@@ -377,20 +377,18 @@
           }
         },
         "r10": {
-          "block": "regional",
-          "attrs": {
+          "min_of": "regional",
+          "where": {
             "data_gb": 10,
             "validity_days": 30
-          },
-          "family": "latin.*america"
+          }
         },
         "r20": {
-          "block": "regional",
-          "attrs": {
+          "min_of": "regional",
+          "where": {
             "data_gb": 20,
             "validity_days": 30
-          },
-          "family": "latin.*america"
+          }
         }
       },
       "assert": [
@@ -405,7 +403,7 @@
           "right": "r20"
         }
       ],
-      "note": "Added in stage B (2026-10-18). «переплачиваете за соседей» = at 3, 5, 10 and 20 GB for 30 days the local plan is cheaper than the LATAM one. 2026-10-25: r10/r20 re-pinned to «Latin America 10/20 GB» (card «Латинская Америка»), the 10/20 GB regional cards the backend layout shows after the old LATAM 10/20 GB ids left. 2026-10-25 (R4: same volume, a longer term for less hides the shorter): «Argentina 3GB 15Days» is hidden (3 GB / 30 days costs less), the sentence names the 30-day prices only. 2026-11-03: «LATAM 5 GB» (5 GB / 30 days) left the Argentina regional block with the auto-import; the sentence names 3, 10 and 20 GB, whose regional cards stand in the pages' snapshot and in the live one. 2026-11-03: the 3 GB pair left the sentence — «LATAM 3 GB» 30 days left the page with the 06:00 auto-import."
+      "note": "Added in stage B (2026-10-18). «переплачиваете за соседей» = at 3, 5, 10 and 20 GB for 30 days the local plan is cheaper than the LATAM one. 2026-10-25: r10/r20 re-pinned to «Latin America 10/20 GB» (card «Латинская Америка»), the 10/20 GB regional cards the backend layout shows after the old LATAM 10/20 GB ids left. 2026-10-25 (R4: same volume, a longer term for less hides the shorter): «Argentina 3GB 15Days» is hidden (3 GB / 30 days costs less), the sentence names the 30-day prices only. 2026-11-03: «LATAM 5 GB» (5 GB / 30 days) left the Argentina regional block with the auto-import; the sentence names 3, 10 and 20 GB, whose regional cards stand in the pages' snapshot and in the live one. 2026-11-03: the 3 GB pair left the sentence — «LATAM 3 GB» 30 days left the page with the 06:00 auto-import. 2026-11-03 (09:00 import): «региональные того же объёма и срока» = the CHEAPEST regional of that volume and term (min_of), not one family — «Latin America 10 GB» left the page, «South America (6 areas) 10GB 30days» 3750 ₽ took its place."
     }
   ],
   "price_refs": {
