@@ -35,7 +35,7 @@ const PATH = '/esim/turkey/';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 async function open(page, opts = {}) {
-  const st = { posts: [], liveAllowed: !opts.liveFails, orderCalls: 0, platega: [], goals: [] };
+  const st = { posts: [], liveAllowed: !opts.liveFails, orderCalls: 0, platega: [], goals: [], catalogue: [] };
   await page.exposeBinding('__goal', (src, g) => st.goals.push(g));
   await page.addInitScript(() => { window.ym = function (id, kind, goal) { if (kind === 'reachGoal') window.__goal(goal); }; });
   await page.route(/^https?:\/\/(?!127\.0\.0\.1)/, (route) => {
@@ -43,6 +43,7 @@ async function open(page, opts = {}) {
     const cors = { 'access-control-allow-origin': '*' };
     if (/platega\.io$/.test(url.host)) { st.platega.push(url.href); return route.fulfill({ status: 200, contentType: 'text/html', body: '<p>stub</p>' }); }
     if (url.pathname === '/api/v1/retail/packages') {
+      st.catalogue.push(url.searchParams.get('country'));
       if (!st.liveAllowed) return route.abort();
       // liveFails: the cards come from the cache, and the API that answers the
       // confirmation has every price 50 ₽ up (term_prices too) — or, with
@@ -238,6 +239,20 @@ test('a cached PER_DAY card whose term price moved shows the new TERM price, old
   await expect(page.locator('#coPrice')).toHaveText(`${(termPrice + 50).toLocaleString('ru-RU')} ₽`);
   await expect(page.locator('#coDays')).toHaveText(`${days} дн.`);
   await expect(page.locator('#coError')).toContainText(`было ${termPrice.toLocaleString('ru-RU')} ₽, актуальная — ${(termPrice + 50).toLocaleString('ru-RU')} ₽`);
+});
+
+test('the country page asks the API for its own country — the view and the pre-checkout check alike', async ({ page }) => {
+  test.setTimeout(60_000);
+  const live = await open(page);
+  await pickTurkey(page);
+  expect(live.catalogue.length, 'one request for the view').toBeGreaterThan(0);
+  expect(new Set(live.catalogue)).toEqual(new Set(['TR']));
+  await page.close();
+});
+
+test('from a cached card the pre-checkout check asks for the page country too', async ({ page }) => {
+  const { st } = await openCachedDailyTerm(page, { confirmSame: true });
+  expect(st.catalogue.filter((c) => c !== 'TR'), 'no whole-catalogue request').toEqual([]);
 });
 
 /* ---- the window works at any depth ---------------------------------------- */

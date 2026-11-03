@@ -216,6 +216,17 @@ export function stripAssortmentView(html) {
   return String(html).replace(/[ \t]*<script src="\/assets\/assortment-view\.js(?:\?v=[0-9a-f]+)?" defer><\/script>\n?/g, '');
 }
 
+// THE EARLY PLANS REQUEST'S COUNTRY LIKEWISE, added 2026-11-03. The <head> request of a country page
+// (seo/build-catalogue-pages.mjs earlyCatalogueRequest) asks for that page's country only — `?country=XX&` in its URL
+// and `country:'XX',` in the object it leaves for assets/catalog-loader.js. That says how the page LOADS its plans, not
+// what it says. Put back to EXACTLY the form before it, so the stored hashes still match and no date moved (no state
+// migration); seo/test-catalog-early-request.mjs pins the round trip.
+export function stripEarlyRequestCountry(html) {
+  return String(html)
+    .replace(/(\/api\/v1\/retail\/packages\?)country=[A-Z]{2}&(t=')/g, '$1$2')
+    .replace(/(return\{ac:ac,)country:'[A-Z]{2}',(startedAt:t,)/g, '$1$2');
+}
+
 // ASSET STAMPS ON EVERY ASSET TYPE, AND THE SITE-WIDE CHROME, added 2026-10-28 (SEO stage 6, GSC audit risk R4).
 //
 //   The rule, stated once. lastmod moves when what the page SAYS moves: its <title>, meta description, canonical,
@@ -258,7 +269,7 @@ export function stripSiteChrome(html) {
 
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripSiteChrome(stripAssetStamps(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(html))))))))
+    .update(stripSiteChrome(stripAssetStamps(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(stripEarlyRequestCountry(html)))))))))
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang=)[^>]*>\n?/gi, ''))
