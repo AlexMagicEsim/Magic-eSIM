@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-03T14:25:21.562Z",
+  "generated_at": "2026-11-03T15:19:18.089Z",
   "source": "production-public-api",
   "package_count": 2404,
   "packages": [
@@ -149796,7 +149796,11 @@
           "4a46e222-b705-4d16-b1c0-23fa6a596bab",
           "244d5a04-b63b-406f-bc7a-6e9330fcc788"
         ],
-        "regional": [],
+        "regional": [
+          "b9c738e5-62ff-4172-a3dc-cd9c6deb4ac6",
+          "599d62d8-67f9-4f24-8dd3-e0a966b1a106",
+          "04262a42-912e-42df-a29e-46c97d9fa708"
+        ],
         "daily": [
           "40d8195e-a0b4-41ba-aaf2-7b976a93158f",
           "5c58c4c2-263d-4557-98c5-6c385729b263",
