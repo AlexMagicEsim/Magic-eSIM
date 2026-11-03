@@ -54,6 +54,8 @@ const BY_STEP = Object.freeze({
   'Ветка':                         { kind: KIND.AUTOMATION, why: 'ветка: чужой коммит, лиза или push' },
   'Pull request':                  { kind: KIND.AUTOMATION, why: 'создание или обновление pull request' },
   'Сводка изменений':              { kind: KIND.CODE,       why: 'сборка сводки' },
+  // Exits 0 on anything (shadow mode), so it is never the failed step; named so the table stays whole.
+  'Тень — автопубликация (только запись)': { kind: KIND.CODE, why: 'тень автопубликации (не публикует)' },
   'Снимок артефактов до пересборки': { kind: KIND.AUTOMATION, why: 'снимок артефактов до сборки' },
   'Есть ли что публиковать':       { kind: KIND.AUTOMATION, why: 'определение наличия изменений' },
 });
