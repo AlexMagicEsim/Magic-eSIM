@@ -79,6 +79,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # the history of assets/catalog.json, to find the pages' snapshot (blobs on demand)
+          fetch-depth: 0
+          filter: blob:none
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -91,6 +95,13 @@ jobs:
       # and darwin-only).
       - name: Install the test runner
         run: npm ci
+
+      # The committed pages and the catalogue they were built from, as one pair
+      # (scripts/ci-pages-catalogue.mjs): the catalogue bot commits
+      # assets/catalog.json to main after every sync, the pages follow only
+      # through the SEO refresh PR. Today's catalogue is that job's to check.
+      - name: The catalogue the pages were built from
+        run: node scripts/ci-pages-catalogue.mjs
 
       # Runs both viewport projects: 390x844 and 320x568, 27 cases each.
       #
@@ -136,10 +147,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # the history of assets/catalog.json, to find the pages' snapshot (blobs on demand)
+          fetch-depth: 0
+          filter: blob:none
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
+
+      # The committed pages and the catalogue they were built from, as one pair
+      # (scripts/ci-pages-catalogue.mjs): the catalogue bot commits
+      # assets/catalog.json to main after every sync, the pages follow only
+      # through the SEO refresh PR. Today's catalogue is that job's to check.
+      - name: The catalogue the pages were built from
+        run: node scripts/ci-pages-catalogue.mjs
 
       # No `npm ci`, deliberately: these are plain `node --test` files with no
       # dependency of any kind. They ran green in this repository long before a
