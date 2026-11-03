@@ -234,6 +234,31 @@ jobs:
             cat /tmp/seo-summary/summary.md
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # SHADOW MODE (2026-11-03, stage 2 of the catalogue-publication plan). Decides
+      # whether THIS rebuild could have been published without a person — only the
+      # numbers moved, the pages, URLs and left-out claims are the same, every gate
+      # green — and RECORDS it: the run summary, the PR body, one `SEO_SHADOW` log
+      # line. It publishes nothing, pushes nothing, never fails the job (exit 0 on
+      # anything), and no later step reads it: the branch and the PR below are
+      # decided exactly as before. Runs after a red gate too, to record that.
+      - name: Тень — автопубликация (только запись)
+        id: shadow
+        if: ${{ !cancelled() && steps.diff.outputs.changed == 'true' }}
+        env:
+          GATES: ${{ steps.gates.outcome }}
+          BROWSER: ${{ steps.browser.outcome }}
+        run: |
+          set +e
+          node scripts/seo-auto-publish-shadow.mjs --changed /tmp/seo-changed.txt \
+            --gates "$GATES" --browser "$BROWSER" --out /tmp/seo-shadow
+          if [ -f /tmp/seo-shadow/shadow.md ]; then
+            { echo; cat /tmp/seo-shadow/shadow.md; } >> "$GITHUB_STEP_SUMMARY"
+            if [ -f /tmp/seo-summary/summary.md ]; then
+              { echo; cat /tmp/seo-shadow/shadow.md; } >> /tmp/seo-summary/summary.md
+            fi
+          fi
+          exit 0
+
       # THE BRANCH. Rebuilt from current main every time rather than added to, so
       # the pull request always shows main → newest generated state and nothing
       # older. That means a force-push, and a force-push is exactly the thing that
@@ -457,6 +482,7 @@ jobs:
           O_GATES: ${{ steps.gates.outcome }}
           O_BROWSER: ${{ steps.browser.outcome }}
           O_SUMMARY: ${{ steps.summary.outcome }}
+          O_SHADOW: ${{ steps.shadow.outcome }}
           O_BRANCH: ${{ steps.branch.outcome }}
           O_PR: ${{ steps.pr.outcome }}
         # `set +e` ПЕРВОЙ СТРОКОЙ, и это не украшение. Actions запускает `run:`
@@ -483,6 +509,7 @@ jobs:
             "Проверки — гейты витрины|$O_GATES" \
             "Проверки — браузер|$O_BROWSER" \
             "Сводка изменений|$O_SUMMARY" \
+            "Тень — автопубликация (только запись)|$O_SHADOW" \
             "Ветка|$O_BRANCH" \
             "Pull request|$O_PR" \
             | awk -F'|' '$2 == "failure" { print $1; exit }')
