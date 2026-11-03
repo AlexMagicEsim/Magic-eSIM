@@ -30,6 +30,29 @@
   var API_BASE = BASES[0];
   var LIVE_PATH = '/api/v1/retail/packages';
   var LIVE_URL = API_BASE + LIVE_PATH;
+  // A country page asks for ITS country only (`?country=XX`): the backend's same
+  // objects and the same published layout, narrowed (lib/assortmentService.js
+  // present; measured identical on 25 countries, 2026-11-03) — ~2.4 KB instead of
+  // the whole ~250 KB catalogue on every view. A page without a country (none
+  // reads the catalogue today) asks for the whole one, as before. The static
+  // snapshot stays the WHOLE catalogue: the fallback is unchanged.
+  var ISO2 = /^[A-Z]{2}$/;
+  function pageCountry() {
+    try {
+      var el = typeof document !== 'undefined' && document.querySelector ? document.querySelector('[data-country-page]') : null;
+      var c = el ? String(el.getAttribute('data-country-page') || '').trim().toUpperCase() : '';
+      return ISO2.test(c) ? c : null;
+    } catch (_) { return null; }
+  }
+  function liveUrl(base, country) {
+    return (base || API_BASE) + LIVE_PATH + '?' + (country ? 'country=' + country + '&' : '') + 't=' + Date.now();
+  }
+  // The request started in <head> is ours only when it asked for this page's country.
+  function earlyFor(country) {
+    var e = window.__magicCatalogEarly;
+    if (!e || e.used) return null;
+    return (e.country || null) === (country || null) ? e : null;
+  }
   var CACHE_URL = '/assets/catalog.json';
 
   // 7s: long enough for a slow-but-working mobile connection, short enough that a
@@ -113,9 +136,9 @@
    * attempt (a retry, the fallback road, the pre-checkout price check, the
    * retry button) makes its own, exactly as before.
    */
-  function takeEarly(base) {
-    var e = window.__magicCatalogEarly;
-    if (!e || e.used || (base || API_BASE) !== BASES[0] || !e.response || typeof e.response.then !== 'function') return null;
+  function takeEarly(base, country) {
+    var e = earlyFor(country);
+    if (!e || (base || API_BASE) !== BASES[0] || !e.response || typeof e.response.then !== 'function') return null;
     e.used = true;
     return e;
   }
@@ -137,9 +160,9 @@
   }
 
   /** One live attempt against ONE endpoint. Resolves with the package array. */
-  function fetchLiveOnce(base, onHeaders) {
-    var early = takeEarly(base);
-    return (early ? earlyResponse(early) : fetchWithTimeout((base || API_BASE) + LIVE_PATH + '?t=' + Date.now(), LIVE_TIMEOUT_MS))
+  function fetchLiveOnce(base, onHeaders, country) {
+    var early = takeEarly(base, country);
+    return (early ? earlyResponse(early) : fetchWithTimeout(liveUrl(base, country), LIVE_TIMEOUT_MS))
       .then(function (res) {
         if (onHeaders) { try { onHeaders(); } catch (_) {} }
         if (res.status !== 200) {
@@ -187,20 +210,32 @@
    * roads are tried, not what happens when they all fail.
    */
   function fetchLive(onHeaders) {
-    var lastErr = null;
-    function onPrimary(n) {
-      return fetchLiveOnce(BASES[0], onHeaders).catch(function (err) {
-        lastErr = err;
-        if (n + 1 >= LIVE_ATTEMPTS) throw err;
-        return sleep(jitter(RETRY_BASE_MS)).then(function () { return onPrimary(n + 1); });
+    var country = pageCountry();
+    function roads(c) {
+      var lastErr = null;
+      function onPrimary(n) {
+        return fetchLiveOnce(BASES[0], onHeaders, c).catch(function (err) {
+          lastErr = err;
+          // An empty answer for a country is an answer, not an outage: no retry.
+          if (c && err && err.errorType === 'empty') throw err;
+          if (n + 1 >= LIVE_ATTEMPTS) throw err;
+          return sleep(jitter(RETRY_BASE_MS)).then(function () { return onPrimary(n + 1); });
+        });
+      }
+      return onPrimary(0).catch(function (err) {
+        if (BASES.length < 2 || !carriesToNextEndpoint(err)) throw err;
+        return fetchLiveOnce(BASES[1], onHeaders, c).catch(function (err2) {
+          // Report the PRIMARY's failure: it is the one that describes the outage.
+          throw lastErr || err2;
+        });
       });
     }
-    return onPrimary(0).catch(function (err) {
-      if (BASES.length < 2 || !carriesToNextEndpoint(err)) throw err;
-      return fetchLiveOnce(BASES[1], onHeaders).catch(function (err2) {
-        // Report the PRIMARY's failure: it is the one that describes the outage.
-        throw lastErr || err2;
-      });
+    // Nothing for this country (the backend answers an unknown or emptied
+    // country with an empty list): the whole catalogue, exactly as before —
+    // the page then says what it always said for a country without plans.
+    return roads(country).catch(function (err) {
+      if (country && err && err.errorType === 'empty') return roads(null);
+      throw err;
     });
   }
 
@@ -283,7 +318,7 @@
     opts = opts || {};
     // A page that started the request in <head> (outside the SEO experiment)
     // uses the headers rule; `opts.snapshotOnStall` exists for tests only.
-    var early = (window.__magicCatalogEarly && !window.__magicCatalogEarly.used) ? window.__magicCatalogEarly : null;
+    var early = earlyFor(pageCountry());
     var onStall = typeof opts.snapshotOnStall === 'boolean' ? opts.snapshotOnStall : !!early;
     var deadlineMs = typeof opts.deadlineMs === 'number' ? opts.deadlineMs : (onStall ? SNAPSHOT_DEADLINE_MS : RACE_DEADLINE_MS);
     var staleMaxMs = (typeof opts.staleMaxHours === 'number' ? opts.staleMaxHours : STALE_MAX_HOURS) * 3600000;
@@ -609,6 +644,7 @@
     distinguishers: distinguishers,
     CACHE_URL: CACHE_URL,
     LIVE_URL: LIVE_URL,
+    pageCountry: pageCountry,
     LIVE_TIMEOUT_MS: LIVE_TIMEOUT_MS,
     CACHE_TIMEOUT_MS: CACHE_TIMEOUT_MS,
     LIVE_ATTEMPTS: LIVE_ATTEMPTS,
