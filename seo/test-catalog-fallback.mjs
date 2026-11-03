@@ -228,6 +228,7 @@ test('C2 revalidatePackage returns the live price when it moved', async () => {
   assert.equal(r.priceChanged, true);
   assert.equal(r.previousPrice, 2500);
   assert.equal(r.pkg.price, 2800);
+  assert.equal(r.price, 2800, 'the amount of the purchase');
 });
 
 test('C3 revalidatePackage reports an unchanged price as unchanged', async () => {
@@ -235,6 +236,28 @@ test('C3 revalidatePackage reports an unchanged price as unchanged', async () =>
   const { api } = loadLoader((u) => (isLive(u) ? ok({ data: [p] }) : status(500)));
   const r = await api.revalidatePackage('x2', 900);
   assert.equal(r.priceChanged, false);
+});
+
+test('C3b a PER_DAY card compares its TERM with the live term, never with the one-day rate', async () => {
+  // The card carries the price of the term the buyer picked; `price` is one day.
+  const ladder = [{ days: 3, price: 200 }, { days: 7, price: 450 }];
+  const p = pkg({ package_id: 'd1', price: 100, plan_type: 'DAILY', daily_term_mode: 'PER_DAY', term_prices: ladder });
+  const { api } = loadLoader((u) => (isLive(u) ? ok({ data: [p] }) : status(500)));
+  const same = await api.revalidatePackage('d1', 450, '7');
+  assert.equal(same.ok, true);
+  assert.equal(same.priceChanged, false, 'an unchanged 7-day price is unchanged');
+  assert.equal(same.price, 450, 'the amount is the 7-day term, not the 100 ₽ day rate');
+  const moved = await api.revalidatePackage('d1', 400, 7);
+  assert.equal(moved.priceChanged, true);
+  assert.equal(moved.previousPrice, 400);
+  assert.equal(moved.price, 450);
+  const gone = await api.revalidatePackage('d1', 900, 15);
+  assert.equal(gone.ok, false, 'a term the live ladder no longer sells');
+  assert.equal(gone.reason, 'gone');
+  // Without a term (a volume plan, a FIXED_TERM daily) the package price is the amount.
+  const plain = await api.revalidatePackage('d1', 100);
+  assert.equal(plain.price, 100);
+  assert.equal(plain.priceChanged, false);
 });
 
 test('C4 package missing from the live catalogue -> gone', async () => {
@@ -295,7 +318,10 @@ test('D2 buying from a cached card revalidates first and can refuse to open', ()
 
 test('D3 a changed price is shown before payment', () => {
   const s = read(PAGE);
-  assert.match(s, /d\.price=String\(check\.pkg\.price\)/, 'checkout must use the live price');
+  // check.price is the live amount of THIS purchase — the term's for a PER_DAY
+  // card (C3b), the package's otherwise; never the day rate (2026-11-03).
+  assert.match(s, /d\.price=String\(check\.price\)/, 'checkout must use the live price of the chosen purchase');
+  assert.match(s, /revalidatePackage\(d\.packageId,Number\(d\.price\),d\.planType==='DAILY'\?d\.days:null\)/, 'a daily card sends its term');
   assert.match(s, /showPriceChanged/);
   assert.match(s, /Цена этого тарифа изменилась/);
 });
