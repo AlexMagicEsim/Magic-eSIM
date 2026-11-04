@@ -267,9 +267,19 @@ export function stripSiteChrome(html) {
     .replace(/[ \t]*<meta http-equiv="Content-Security-Policy"[^>]*>\n?/gi, '');
 }
 
+// THE INTERNATIONAL CHECKOUT WINDOW (P1-1/P1-4, 2026-11-04) — `<div class="overlay" id="checkout" hidden>…` up to the
+// site footer, reduced to an empty element: the checkout's steps, its consent boxes and the versions of the documents
+// and statements they name. It is the same window on every international country page, hidden until a plan is chosen
+// — an interface, not what the page says about its country. The third consent box and the new document versions moved
+// all 30 indexed EN/ES country URLs; with this rule they moved 0 (state migration: --rehash-keep-dates, after checking
+// that every sitemap URL hashes the same before and after the change under the new rule).
+export function stripCheckoutWindow(html) {
+  return String(html).replace(/<div class="overlay" id="checkout" hidden>[\s\S]*?(?=<footer class="site-footer">)/g, '<div class="overlay" id="checkout" hidden></div>\n');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripSiteChrome(stripAssetStamps(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(stripEarlyRequestCountry(html)))))))))
+    .update(stripCheckoutWindow(stripSiteChrome(stripAssetStamps(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(stripEarlyRequestCountry(html))))))))))
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang=)[^>]*>\n?/gi, ''))

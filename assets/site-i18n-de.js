@@ -86,6 +86,7 @@
     'consent.termsLink': 'Nutzungsbedingungen',
     'consent.refundLink': 'Erstattungsrichtlinie',
     'consent.delivery': 'Ich verlange, dass Magic eSIM schon jetzt, innerhalb der 14-tägigen Widerrufsfrist, mit der Bereitstellung meines eSIM-Tarifs beginnt. Mir ist bekannt, dass ich mein Widerrufsrecht verliere, sobald der Tarif vollständig erbracht ist (das Datenvolumen ist aufgebraucht oder die Gültigkeit ist abgelaufen), und dass ich bei einem früheren Widerruf für den bis zu meiner Mitteilung erbrachten Teil des Tarifs bezahle.',
+    'consent.age': 'Ich bin mindestens 18 Jahre alt.',
     'consent.privacy': 'Wie wir mit deinen Daten umgehen, erklärt unsere {privacy}.',
     'consent.privacyLink': 'Datenschutzerklärung',
     'checkout.review': 'Überprüfen',

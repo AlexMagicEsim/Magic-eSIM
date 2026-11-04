@@ -100,6 +100,7 @@
     'consent.termsLink': 'Terms of Service',
     'consent.refundLink': 'Refund Policy',
     'consent.delivery': 'I ask Magic eSIM to start providing my eSIM plan now, within the 14-day withdrawal period. I understand that I lose my right of withdrawal once the plan has been fully provided (its data is used up or its validity has ended), and that if I withdraw before then I will pay for the part of the plan provided up to the time I tell you.',
+    'consent.age': 'I am at least 18 years old.',
     'consent.privacy': 'Our {privacy} explains how we handle your data.',
     'consent.privacyLink': 'Privacy Policy',
     'checkout.review': 'Review',

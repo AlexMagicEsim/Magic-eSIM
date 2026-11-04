@@ -85,6 +85,7 @@
     'consent.termsLink': 'Términos del servicio',
     'consent.refundLink': 'Política de reembolso',
     'consent.delivery': 'Solicito a Magic eSIM que empiece a prestar mi plan eSIM ahora, dentro del plazo de desistimiento de 14 días. Entiendo que pierdo mi derecho de desistimiento una vez que el plan se haya prestado por completo (sus datos se hayan agotado o su validez haya terminado) y que, si desisto antes, pagaré la parte del plan prestada hasta el momento en que lo comunique.',
+    'consent.age': 'Tengo al menos 18 años.',
     'consent.privacy': 'Nuestra {privacy} explica cómo tratamos tus datos.',
     'consent.privacyLink': 'Política de privacidad',
     'checkout.review': 'Revisar',

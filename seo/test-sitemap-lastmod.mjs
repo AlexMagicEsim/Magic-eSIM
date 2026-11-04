@@ -40,7 +40,7 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from '
 import { execFileSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { resolveLastmod, renderSitemap, fileFor, contentHash, sitemapUrls, stripAssetStamps, stripSiteChrome, rehashKeepDates,
+import { resolveLastmod, renderSitemap, fileFor, contentHash, sitemapUrls, stripAssetStamps, stripSiteChrome, rehashKeepDates, stripCheckoutWindow,
   stripAnimatedLogo, stripLanguageSwitch, stripSiteI18nBundle } from './build-sitemap.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -563,4 +563,18 @@ test('6 (again, last). the R4 tests too leave the working tree exactly as they f
   assert.deepEqual(changed, [], `тесты оставили изменённые страницы:\n${changed.join('\n')}`);
   assert.equal(readFileSync(SITEMAP, 'utf8'), BASELINE.sitemap, 'sitemap.xml restored');
   assert.equal(readFileSync(STATE, 'utf8'), BASELINE.state, 'the state restored');
+});
+
+test('the international checkout window is not the page: a change inside it moves no date, a change in <main> still does (P1-1)', () => {
+  const html = readFileSync(new URL('../en/esim/japan/index.html', import.meta.url), 'utf8');
+  assert.ok(html.includes('<div class="overlay" id="checkout" hidden>'), 'a real page with the window');
+  const stripped = stripCheckoutWindow(html);
+  assert.ok(stripped.includes('<div class="overlay" id="checkout" hidden></div>\n<footer class="site-footer">'), 'the strip fires up to the footer');
+  assert.doesNotMatch(stripped, /coAgree|coConsents|data-statements-version/, 'nothing of the window is left');
+  const edited = html.replace('data-statements-version="1"', 'data-statements-version="2"').replace(/id="coAgreeAge"/, 'id="coAgreeAge" data-x="y"');
+  assert.notEqual(edited, html);
+  assert.equal(contentHash(edited), contentHash(html), 'a new box or version in the window moves nothing');
+  const inMain = html.replace('<main', '<main data-edit="1"');
+  assert.notEqual(contentHash(inMain), contentHash(html), 'an edit in <main> still moves the hash');
+  assert.match(readFileSync(new URL('../seo/build-sitemap.mjs', import.meta.url), 'utf8'), /\.update\(stripCheckoutWindow\(/);
 });

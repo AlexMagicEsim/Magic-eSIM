@@ -97,7 +97,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Unsere Anleitungen erklären, wie du das prüfst.</p>
       <p>4.2. Bitte prüfe die Kompatibilität vor dem Kauf; du bestätigst sie im Bestellvorgang. Wenn du unsicher bist, kontaktiere uns vorher. Wenn das Gerät nicht kompatibel ist, kann der Tarif nicht funktionieren. Die Erstattungsrichtlinie erklärt, was dann geschieht.</p>` },
-      { id: "how-to-order", en: '7545360f2162', h2: "5. So bestellst du", html: `
+      { id: "how-to-order", en: '576c522a80cc', h2: "5. So bestellst du", html: `
       <p>5.1. <strong>Bestellschritte:</strong></p>
       <ol class="list">
         <li>Wähle einen Tarif und bei Tagestarifen die Anzahl der Tage.</li>
@@ -116,9 +116,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>(a) diese Nutzungsbedingungen und die Erstattungsrichtlinie zu akzeptieren;</li>
         <li>(b) die Datenschutzerklärung zu lesen, die im Bestellvorgang verlinkt ist;</li>
         <li>(c) zu bestätigen, dass dein Gerät kompatibel ist;</li>
-        <li>(d) die sofortige Bereitstellung der eSIM zu verlangen und ihre Auswirkung auf dein Widerrufsrecht zur Kenntnis zu nehmen (Erstattungsrichtlinie, Abschnitt 4).</li>
+        <li>(d) die sofortige Bereitstellung der eSIM zu verlangen und ihre Auswirkung auf dein Widerrufsrecht zur Kenntnis zu nehmen (Erstattungsrichtlinie, Abschnitt 4);</li>
+        <li>(e) zu bestätigen, dass du mindestens 18 Jahre alt bist (Abschnitt 3.1).</li>
       </ul>
-      <p>Wir speichern einen Nachweis darüber, was du wann akzeptiert hast.</p>
+      <p>Wir speichern einen Nachweis darüber, was du akzeptiert hast, mit Datum und Uhrzeit, zu der unser Server ihn erfasst hat.</p>
       <p>5.4. <strong>Zustandekommen des Vertrags.</strong></p>
       <ul class="list">
         <li>Der Vertrag kommt zustande, wenn der Zahlungsdienstleister uns deine Zahlung bestätigt.</li>
@@ -431,7 +432,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Für andere nach deiner Meldung genutzte Daten ziehen wir ab: bei Tarifen mit festem Datenvolumen die genutzten Daten; bei Tagestarifen den genutzten Anteil des Datenvolumens jedes weiteren Tages; bei unbegrenzten Tarifen die Zeit von deiner Meldung bis zur letzten Nutzung der eSIM, wie sie aus den Datensätzen unseres eSIM-Dienstleisters hervorgeht, gezählt in Stunden wie in Abschnitt 3.4(c) — niemals einen ganzen Tag nur deshalb, weil ein neuer Tag begonnen hat. Geht sie aus den Datensätzen nicht hervor, gilt Abschnitt 3.4(f).</li>
         <li>Die endgültige Erstattung ist der nach Abschnitt 3.4 berechnete Betrag abzüglich eines solchen Abzugs.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: 'b87f609825f3', h2: "4. Deine gesetzlichen Rechte", html: `
+      { id: "your-statutory-rights", en: '9e18147669f4', h2: "4. Deine gesetzlichen Rechte", html: `
       <p>4.1. <strong>Gesetzliche Rechte gelten.</strong></p>
       <ul class="list">
         <li>Je nachdem, wo du lebst und welches Recht auf deinen Kauf anwendbar ist, kannst du zusätzlich zu den Abschnitten 2 und 3 weitere Rechte haben. Beispiele sind das Recht Georgiens, eines Landes der Europäischen Union oder des Vereinigten Königreichs, das Australian Consumer Law und der neuseeländische Consumer Guarantees Act 1993.</li>
@@ -449,7 +450,7 @@ export const LEGAL_I18N = Object.freeze({
       <ul class="list">
         <li><strong>Die Installation der eSIM oder ihre Verbindung mit einem Netz beendet dein Widerrufsrecht nicht für sich allein.</strong> Du verlierst es erst, wenn der Tarif vollständig erbracht ist — sein Datenvolumen ist aufgebraucht oder seine Gültigkeit ist abgelaufen. Bis dahin kannst du widerrufen und zahlst nur für den erbrachten Teil (Abschnitt 4.3).</li>
         <li>Die Gesetze einiger anderer Länder gewähren Verbrauchern für bestimmte Online-Käufe eine andere Frist zur Vertragsauflösung (zum Beispiel 5 oder 7 Tage), mit eigenen Bedingungen und Ausnahmen. Wo ein solches Gesetz auf deinen Kauf anwendbar ist, beachten wir es.</li>
-        <li>Wir wiederholen diesen Text zusammen mit Datum und Uhrzeit, zu der du das Kästchen angekreuzt hast, in deiner Bestellbestätigungs-E-Mail.</li>
+        <li>Wir wiederholen diesen Text in deiner Bestellbestätigungs-E-Mail, zusammen mit Datum und Uhrzeit, zu der unser Server deine Anfrage erfasst hat.</li>
       </ul>
       <p>4.3. <strong>Was wir bei einem Widerruf erstatten.</strong> Wenn du wirksam widerrufst:</p>
       <ul class="list">

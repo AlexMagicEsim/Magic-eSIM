@@ -35,13 +35,28 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/terms/v0.9.4/",
       "sha256": "7df1b45d685b822efaebb6120c15eda310df61fc62e16a9dc04b3ea39ade7a0b",
-      "current": true,
+      "current": false,
       "translations": {
         "es": "https://magicesim.store/es/terms/v0.9.4/",
         "de": "https://magicesim.store/de/terms/v0.9.4/",
         "fr": "https://magicesim.store/fr/terms/v0.9.4/",
         "zh-Hans": "https://magicesim.store/zh/terms/v0.9.4/",
         "ko": "https://magicesim.store/ko/terms/v0.9.4/"
+      }
+    },
+    {
+      "document": "terms",
+      "version": "0.9.5 (pre-launch)",
+      "effective_date": "2026-11-04",
+      "url": "https://magicesim.store/en/terms/v0.9.5/",
+      "sha256": "cdb27e5838ade1c2dc911219e0b92f6acb806d91cc39ec014b8071c41296fbec",
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/terms/v0.9.5/",
+        "de": "https://magicesim.store/de/terms/v0.9.5/",
+        "fr": "https://magicesim.store/fr/terms/v0.9.5/",
+        "zh-Hans": "https://magicesim.store/zh/terms/v0.9.5/",
+        "ko": "https://magicesim.store/ko/terms/v0.9.5/"
       }
     },
     {
@@ -77,13 +92,28 @@
       "effective_date": "2026-10-26",
       "url": "https://magicesim.store/en/refund/v0.9.3/",
       "sha256": "f4b99509b55389c3ba8141302e16582f442f4f62268ae2f84896da3bd54ba77c",
-      "current": true,
+      "current": false,
       "translations": {
         "es": "https://magicesim.store/es/refund/v0.9.3/",
         "de": "https://magicesim.store/de/refund/v0.9.3/",
         "fr": "https://magicesim.store/fr/refund/v0.9.3/",
         "zh-Hans": "https://magicesim.store/zh/refund/v0.9.3/",
         "ko": "https://magicesim.store/ko/refund/v0.9.3/"
+      }
+    },
+    {
+      "document": "refund",
+      "version": "0.9.4 (pre-launch)",
+      "effective_date": "2026-11-04",
+      "url": "https://magicesim.store/en/refund/v0.9.4/",
+      "sha256": "98837d50faead7551b3e0ad2224108a0b9d0aac9fe9f773c9bf99252a2bb6bfa",
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/refund/v0.9.4/",
+        "de": "https://magicesim.store/de/refund/v0.9.4/",
+        "fr": "https://magicesim.store/fr/refund/v0.9.4/",
+        "zh-Hans": "https://magicesim.store/zh/refund/v0.9.4/",
+        "ko": "https://magicesim.store/ko/refund/v0.9.4/"
       }
     },
     {
