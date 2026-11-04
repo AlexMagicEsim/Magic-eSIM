@@ -189,6 +189,15 @@ export function freezeTranslations() {
   return written;
 }
 
+// P1-3: the immutable PDF copies of a version (seo/legal-pdf.mjs writes the record; read here as data, not imported,
+// so the two modules do not import each other). { <code>: { url, sha256 } } — only versions that have them.
+function pdfEntries(kind, version) {
+  const f = join(ROOT, 'seo', 'legal-pdf.json');
+  if (!existsSync(f)) return null;
+  const rows = JSON.parse(readFileSync(f, 'utf8')).files.filter((r) => r.kind === kind && r.version === versionNumber(version));
+  return rows.length ? Object.fromEntries(rows.map((r) => [r.code, { url: `${SITE}/${r.path}`, sha256: r.sha256 }])) : null;
+}
+
 /** The public list of versions (written to /en/legal-versions.json by the English build). */
 export function versionsJson(list = snapshots()) {
   const rows = list.map((s) => ({
@@ -202,6 +211,8 @@ export function versionsJson(list = snapshots()) {
     translations: Object.fromEntries(translationSnapshots()
       .filter((t) => t.kind === s.kind && versionNumber(t.version) === versionNumber(s.version))
       .map((t) => [t.code, `${SITE}${archivePath(t.kind, t.version, t.code)}`])),
+    // P1-3: the immutable PDFs of this version (Terms and Refund, from the first version any order can be placed under)
+    ...(pdfEntries(s.kind, s.version) ? { pdf: pdfEntries(s.kind, s.version) } : {}),
   }));
   return `${JSON.stringify({ language: 'en', note: 'Each version of the Magic eSIM international legal documents, at its permanent address. The English text is the master version.', documents: rows }, null, 2)}\n`;
 }
