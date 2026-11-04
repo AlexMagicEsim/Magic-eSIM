@@ -155,7 +155,11 @@ const FORBIDDEN = [
   [/\.md$/i, '*.md'], [/RepairBase/i, 'RepairBase'], [/\.pptx$/i, '*.pptx'], [/\.pdf$/i, '*.pdf'], [/\.py$/, '*.py'],
   [/^Magic_eSIM_/, 'root posters'], [/canary/i, 'canary'], [/story-workspace/, 'story workspace'], [/brand\/source\//, 'logo master'],
 ];
-const forbiddenIn = (paths) => paths.flatMap((p) => FORBIDDEN.filter(([re]) => re.test(p)).map(([, why]) => `${p} (${why})`));
+// P1-3: the frozen legal PDFs are the one kind of PDF the site publishes — exactly the paths their record names
+// (seo/legal-pdf.json, read here on its own, not through the script under test); every other PDF stays forbidden.
+const LEGAL_PDFS = new Set(JSON.parse(readFileSync(join(ROOT, 'seo', 'legal-pdf.json'), 'utf8')).files.map((r) => r.path));
+const forbiddenIn = (paths) => paths.flatMap((p) => FORBIDDEN.filter(([re]) => re.test(p) && !(LEGAL_PDFS.has(p) && /\.pdf$/i.test(p)))
+  .map(([, why]) => `${p} (${why})`));
 
 test('negative control: the forbidden list catches every kind of file it exists for, and so does denyReason', () => {
   const samples = ['test/e2e/a.spec.js', 'app/core.test.js', '.claude/skills/x/SKILL.md', '.github/workflows/tests.yml',
@@ -189,7 +193,8 @@ test('the internal files that were public on the branch deployment are excluded 
     assert.ok(trackedFiles().includes(f), `${f} is tracked (the test checks something)`);
     assert.ok(!inArtifact(f), f);
   }
-  assert.deepEqual(artifactFiles.filter((f) => /RepairBase|\.pptx$|\.pdf$/i.test(f)), []);
+  assert.deepEqual(artifactFiles.filter((f) => /RepairBase|\.pptx$|\.pdf$/i.test(f) && !LEGAL_PDFS.has(f)), []);
+  assert.deepEqual(artifactFiles.filter((f) => /\.pdf$/i.test(f)).sort(), [...LEGAL_PDFS].sort(), 'exactly the frozen legal PDFs');
 });
 
 /* ------------------------------------------------------------------------ *

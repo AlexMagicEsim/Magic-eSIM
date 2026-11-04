@@ -61,6 +61,16 @@ export const ROOT_PATTERNS = Object.freeze([
  * Directories: the extensions published inside them, the exact extra files, and the sub-trees that never are.
  * The language directories come from seo/locales.mjs — a published language is published, an unpublished one is not.
  */
+/**
+ * P1-3: the immutable PDF copies of the legal documents (seo/legal-pdf.json — each printed once, SHA-256 recorded).
+ * They are the ONE kind of PDF this site publishes: admitted by exact path from the record, never by extension; any
+ * other .pdf stays denied («office / print file»).
+ */
+export function legalPdfPaths(root = REPO) {
+  const f = join(root, 'seo', 'legal-pdf.json');
+  return existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')).files.map((r) => r.path) : [];
+}
+
 export function directoryRules(locales = prefixedSiteLocales()) {
   const rules = [
     { dir: 'esim', ext: ['.html'] },
@@ -84,7 +94,8 @@ export function directoryRules(locales = prefixedSiteLocales()) {
       dir: l.prefix,
       ext: ['.html', '.js', '.css'],
       // the public list of legal document versions and the checkout statements (the backend copies both; LEGAL-5…8, P1-1)
-      files: l.prefix === 'en' ? ['en/legal-versions.json', 'en/checkout-statements.json'] : [],
+      files: [...(l.prefix === 'en' ? ['en/legal-versions.json', 'en/checkout-statements.json'] : []),
+        ...legalPdfPaths().filter((p) => p.startsWith(`${l.prefix}/`))],
     });
   }
   return rules;
@@ -116,6 +127,8 @@ export function denyReason(rel) {
   for (const p of parts.slice(0, -1)) if (DENY_SEGMENTS.includes(p) || p.startsWith('.')) return `inside ${p}/`;
   if (rel.startsWith('assets/brand/source/')) return 'logo master drawing';
   const name = parts[parts.length - 1];
+  // the frozen legal PDFs — by exact recorded path only (see legalPdfPaths)
+  if (/\.pdf$/i.test(name) && legalPdfPaths().includes(rel)) return null;
   for (const [re, why] of DENY_NAMES) if (re.test(name)) return why;
   return null;
 }

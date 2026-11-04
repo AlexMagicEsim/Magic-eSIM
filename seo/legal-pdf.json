@@ -1,0 +1,101 @@
+{
+  "note": "Immutable PDF copies of the Magic eSIM Terms of Service and Refund Policy, by version and language (seo/legal-pdf.mjs). Each file is printed once from its frozen version page and never replaced; sha256 is over the file bytes.",
+  "files": [
+    {
+      "kind": "refund",
+      "version": "0.9.4",
+      "code": "de",
+      "path": "de/refund/v0.9.4/magic-esim-refund-0.9.4-de.pdf",
+      "sha256": "af7fe8202eacf4cb3cf0813d6b035a20e05cb914698db1a9a40e2a7d3ad84410",
+      "bytes": 253598
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.6",
+      "code": "de",
+      "path": "de/terms/v0.9.6/magic-esim-terms-0.9.6-de.pdf",
+      "sha256": "29b62213f9b48a3a1b75749f5758abade83ed24160368c2cc54c979605fc8148",
+      "bytes": 281576
+    },
+    {
+      "kind": "refund",
+      "version": "0.9.4",
+      "code": "en",
+      "path": "en/refund/v0.9.4/magic-esim-refund-0.9.4-en.pdf",
+      "sha256": "130a26a13ace6a2876a21e5436f6ff705fa84fa17b9860e820d63f3cfb6545de",
+      "bytes": 239356
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.6",
+      "code": "en",
+      "path": "en/terms/v0.9.6/magic-esim-terms-0.9.6-en.pdf",
+      "sha256": "c25ed21ae8ff680f592a6cbb3391af2fa2adae5a668f84982c168cd3b31f8355",
+      "bytes": 259101
+    },
+    {
+      "kind": "refund",
+      "version": "0.9.4",
+      "code": "es",
+      "path": "es/refund/v0.9.4/magic-esim-refund-0.9.4-es.pdf",
+      "sha256": "5e629127129a2a25b87553f848817286137bbb44ebba1a5ad7e5e603aac09c9b",
+      "bytes": 246365
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.6",
+      "code": "es",
+      "path": "es/terms/v0.9.6/magic-esim-terms-0.9.6-es.pdf",
+      "sha256": "2561e238abfdd50d6e6ad6557c5c5eafbb1c4a4f9a0e60cc27aeab1d1dd0279a",
+      "bytes": 276924
+    },
+    {
+      "kind": "refund",
+      "version": "0.9.4",
+      "code": "fr",
+      "path": "fr/refund/v0.9.4/magic-esim-refund-0.9.4-fr.pdf",
+      "sha256": "698c34d97dcdff7906bef6a49a1016d1a4dcc94ae1942a010c257aa68cd91ef8",
+      "bytes": 256480
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.6",
+      "code": "fr",
+      "path": "fr/terms/v0.9.6/magic-esim-terms-0.9.6-fr.pdf",
+      "sha256": "d243c99f44c49dbfc9fe5eb6c312fa7cf5dfb35879fb38ed5cb8029b051bbe3d",
+      "bytes": 282234
+    },
+    {
+      "kind": "refund",
+      "version": "0.9.4",
+      "code": "ko",
+      "path": "ko/refund/v0.9.4/magic-esim-refund-0.9.4-ko.pdf",
+      "sha256": "8b12f6529fd8ef8b40347159cdbc5cdccdca987850bd619775bfcaaeb620d7c1",
+      "bytes": 501207
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.6",
+      "code": "ko",
+      "path": "ko/terms/v0.9.6/magic-esim-terms-0.9.6-ko.pdf",
+      "sha256": "e6313a81a18b86fee03113e92ae2eadbc86a6e3aefcfedfdbef94e0418e040a3",
+      "bytes": 535082
+    },
+    {
+      "kind": "refund",
+      "version": "0.9.4",
+      "code": "zh-Hans",
+      "path": "zh/refund/v0.9.4/magic-esim-refund-0.9.4-zh-Hans.pdf",
+      "sha256": "ae61ed9e23f896e07a0007d9e393841a290e1ac3b8430d97431522a3693afdb1",
+      "bytes": 724262
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.6",
+      "code": "zh-Hans",
+      "path": "zh/terms/v0.9.6/magic-esim-terms-0.9.6-zh-Hans.pdf",
+      "sha256": "7c56527e41b266415785bd9fe4cd8cc3cf419b258b10a7094775817a20aeae4b",
+      "bytes": 821648
+    }
+  ]
+}
