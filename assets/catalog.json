@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-03T15:19:18.089Z",
+  "generated_at": "2026-11-04T12:05:04.935Z",
   "source": "production-public-api",
-  "package_count": 2404,
+  "package_count": 2405,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -7795,6 +7795,38 @@
         "NL",
         "UK"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "0b5a3dae-5903-4b08-b6a5-59c0f497b5fa",
+      "name": "China Special 12 GB",
+      "country_code": "CN",
+      "region": "CN",
+      "coverage_country_codes": [
+        "CN"
+      ],
+      "coverage_flags": "🇨🇳",
+      "data_gb": 12,
+      "validity_days": 30,
+      "price": 1850,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -22167,7 +22199,8 @@
       "price": 3550,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -45718,7 +45751,7 @@
       "coverage_flags": "🇬🇭 🇳🇬",
       "data_gb": 5,
       "validity_days": 21,
-      "price": 1900,
+      "price": 1550,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -59461,7 +59494,7 @@
       "coverage_flags": "🇬🇭 🇳🇬",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3000,
+      "price": 2650,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -90683,7 +90716,7 @@
       "coverage_flags": "🇬🇭 🇳🇬",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1200,
+      "price": 1100,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -130356,7 +130389,7 @@
       "coverage_flags": "🇬🇭 🇳🇬",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 5350,
+      "price": 4100,
       "networks": [],
       "network_technologies": [
         "4G"
@@ -147431,6 +147464,7 @@
           "3de9b6ba-f557-4b25-886c-713fec8d46cc",
           "a2bcbf1c-5741-4c6d-8738-7debfe7850b1",
           "6eac8522-62ea-4b7f-bd3c-d2da77ea86aa",
+          "0b5a3dae-5903-4b08-b6a5-59c0f497b5fa",
           "ee63d7a6-e0f5-482d-ba30-defd65f643e7",
           "9a55c994-f5a3-468d-bfd7-5a669b50e773",
           "46cd72c2-a807-496c-9661-784ac7b72b22",
@@ -148236,8 +148270,7 @@
           "6ced9741-0494-4e2c-8cf5-53792789ab49",
           "e464beaf-60bc-45eb-abe1-9ed594f437d4",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
-          "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "40f3fab4-2bec-47ac-aa8b-977263398ea8"
+          "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d"
         ],
         "daily": [
           "07596da8-8ff9-413c-bbcb-099073970f98",
@@ -150079,7 +150112,6 @@
           "a1a15ce7-e400-4309-a17c-ebe30a80b9fe",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
           "53bf942b-3a88-41a8-b595-a4d2c8de29c9",
-          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
           "6ced9741-0494-4e2c-8cf5-53792789ab49",
           "e464beaf-60bc-45eb-abe1-9ed594f437d4"
         ],
