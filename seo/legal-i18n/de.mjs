@@ -79,8 +79,8 @@ export const LEGAL_I18N = Object.freeze({
         <li>Websites und Apps können daher eine IP-Adresse oder einen Standort außerhalb des Landes sehen, in dem du dich befindest. Einige zeigen möglicherweise Inhalte, Sprache oder Preise für ein anderes Land an oder schränken den Zugang ein.</li>
         <li>Wir sagen keinen Zugang zu einer bestimmten Website, App oder einem bestimmten Dienst zu. Deren Verfügbarkeit hängt vom Netz, vom Dienst selbst und vom örtlichen Recht ab.</li>
       </ul>` },
-      { id: "who-can-buy", en: 'ef3824aec7f3', h2: "3. Wer kaufen kann", html: `
-      <p>3.1. Du musst mindestens 18 Jahre alt und rechtlich in der Lage sein, einen Vertrag zu schließen.</p>
+      { id: "who-can-buy", en: '28d210a84a74', h2: "3. Wer kaufen kann", html: `
+      <p>3.1. Du musst mindestens 18 Jahre alt und rechtlich in der Lage sein, einen Vertrag zu schließen. Bist du nach dem Recht, das für deine Geschäftsfähigkeit gilt, minderjährig und kaufst du ohne Zustimmung deines gesetzlichen Vertreters, kannst du oder kann dein gesetzlicher Vertreter den Vertrag anfechten.</p>
       <p>3.2. <strong>Nur für den persönlichen Gebrauch.</strong> Du kaufst Tarife für deinen eigenen Gebrauch oder für Personen, mit denen du reist. Eine gewerbliche Nutzung oder ein Weiterverkauf erfordert unsere vorherige schriftliche Zustimmung.</p>
       <p>3.3. <strong>Reiseziele und Sanktionen.</strong></p>
       <ul class="list">

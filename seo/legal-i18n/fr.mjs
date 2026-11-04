@@ -79,8 +79,8 @@ export const LEGAL_I18N = Object.freeze({
         <li>Les sites web et les applications peuvent donc voir une adresse IP ou une localisation située hors du pays où vous vous trouvez. Certains peuvent afficher le contenu, la langue ou les prix d’un autre pays, ou limiter l’accès.</li>
         <li>Nous ne promettons l’accès à aucun site web, aucune application ni aucun service en particulier. Leur disponibilité dépend du réseau, du service lui-même et de la législation locale.</li>
       </ul>` },
-      { id: "who-can-buy", en: 'ef3824aec7f3', h2: "3. Qui peut acheter", html: `
-      <p>3.1. Vous devez avoir au moins 18 ans et être juridiquement capable de conclure un contrat.</p>
+      { id: "who-can-buy", en: '28d210a84a74', h2: "3. Qui peut acheter", html: `
+      <p>3.1. Vous devez avoir au moins 18 ans et être juridiquement capable de conclure un contrat. Si vous êtes mineur selon la loi qui régit votre capacité juridique et que vous achetez sans le consentement de votre représentant légal, vous-même ou votre représentant légal pouvez annuler le contrat.</p>
       <p>3.2. <strong>Usage personnel uniquement.</strong> Vous achetez des forfaits pour votre propre usage ou pour les personnes avec lesquelles vous voyagez. Toute utilisation commerciale ou revente nécessite notre accord écrit préalable.</p>
       <p>3.3. <strong>Destinations et sanctions.</strong></p>
       <ul class="list">

@@ -16,8 +16,11 @@
 // 0.9.5 (P1-1/P1-4, owner's decision 2026-11-04): §5.3(e) the buyer confirms at checkout that they are at least 18
 // (section 3.1, its own box); the record of what was accepted carries the date and time OUR SERVER recorded it — never
 // claimed to be the moment a box was ticked.
+// 0.9.6 (owner's task 2026-11-04): §3.1 says that a minor under the law that governs their capacity who buys without the
+// legal representative's consent, or that representative, may cancel the contract (the notice of the Korean Act on
+// Consumer Protection in Electronic Commerce, Art. 13(3)) — one general sentence, no country named, the 18+ rule unchanged.
 
-export const TERMS_VERSION = '0.9.5 (pre-launch)';
+export const TERMS_VERSION = '0.9.6 (pre-launch)';
 export const TERMS_EFFECTIVE = '4 November 2026';
 export const TERMS_EFFECTIVE_ISO = '2026-11-04';
 
@@ -101,7 +104,7 @@ export const TERMS = Object.freeze({
     },
     {
       id: 'who-can-buy', h2: "3. Who can buy", html: `
-      <p>3.1. You must be at least 18 years old and legally able to enter into a contract.</p>
+      <p>3.1. You must be at least 18 years old and legally able to enter into a contract. If you are a minor under the law that governs your legal capacity and you buy without your legal representative’s consent, you or your legal representative may cancel the contract.</p>
       <p>3.2. <strong>Personal use only.</strong> You buy plans for your own use or for people you travel with. Commercial use or resale requires our prior written agreement.</p>
       <p>3.3. <strong>Destinations and sanctions.</strong></p>
       <ul class="list">
