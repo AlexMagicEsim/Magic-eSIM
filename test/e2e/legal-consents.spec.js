@@ -1,13 +1,14 @@
 'use strict';
 
 /*
- * LEGAL-3 in a real browser (Chromium 390 / 320, WebKit): the three consents of the international checkout in all six
+ * LEGAL-3 in a real browser (Chromium 390 / 320, WebKit): the two consents of the international checkout in all six
  * languages, the three English legal pages and the footer links — with every API answered from a fixture and every
  * request recorded. Nothing real is touched; the only write the page may make is the GLOBAL quote.
  *
  * International payments are OFF: the payment button stays disabled whatever the boxes say, and the consent record
  * cannot be built. What the boxes do is still observable: #coConsents carries data-state (none / all / the ticked ones,
- * «terms,delivery,age») and data-ready (the one gate, payAllowed — false while payments are off). P1-4: the 18+ box.
+ * «terms», «delivery») and data-ready (the one gate, payAllowed — false while payments are off). Statements v2 (owner
+ * 2026-11-04): box 1 = 18+, the Terms and the Refund Policy accepted, the Privacy Policy read; box 2 = immediate supply.
  */
 
 const { test, expect } = require('@playwright/test');
@@ -66,43 +67,38 @@ function assertClean(calls) {
 const state = (page) => page.locator('#coConsents').getAttribute('data-state');
 const ready = (page) => page.locator('#coConsents').getAttribute('data-ready');
 
-test('English: the three boxes start unticked; each state is tracked; the payment button never enables; nothing is sent', async ({ page }) => {
+test('English: the two boxes start unticked; each state is tracked; the payment button never enables; nothing is sent', async ({ page }) => {
   const calls = await open(page, '/en/esim/uae/');
   await toReview(page);
   const terms = page.locator('#coAgreeTerms');
   const delivery = page.locator('#coAgreeDelivery');
-  const age = page.locator('#coAgreeAge');
   const pay = page.locator('#coPay');
 
-  // 1. all off
-  for (const b of [terms, delivery, age]) await expect(b).not.toBeChecked();
+  // 1. all off — and exactly two consent boxes (statements v2: 18+, Terms, Refund and Privacy in box 1)
+  await expect(page.locator('#coConsents input[type="checkbox"]')).toHaveCount(2);
+  await expect(page.locator('#coAgreeAge')).toHaveCount(0);
+  for (const b of [terms, delivery]) await expect(b).not.toBeChecked();
   expect(await state(page)).toBe('none');
   await expect(pay).toBeDisabled();
   // 2. one at a time
   await terms.check();
   expect(await state(page)).toBe('terms');
+  expect(await ready(page)).toBe('false');
   await terms.uncheck();
   await delivery.check();
   expect(await state(page)).toBe('delivery');
-  await delivery.uncheck();
-  await age.check();
-  expect(await state(page)).toBe('age');
-  await expect(pay).toBeDisabled();
-  // 3. two of three — still not all
-  await terms.check();
-  expect(await state(page)).toBe('terms,age');
   expect(await ready(page)).toBe('false');
-  // 4. all three — the gate still refuses: international payments are off
-  await delivery.check();
+  await expect(pay).toBeDisabled();
+  // 3. both — the gate still refuses: international payments are off
+  await terms.check();
   expect(await state(page)).toBe('all');
   expect(await ready(page)).toBe('false');
   await expect(pay).toBeDisabled();
   await expect(pay).toHaveAttribute('aria-disabled', 'true');
-  // 5. the 18+ box taken back
-  await age.uncheck();
-  expect(await state(page)).toBe('terms,delivery');
+  // 4. the immediate-supply request taken back
+  await delivery.uncheck();
+  expect(await state(page)).toBe('terms');
   await expect(pay).toBeDisabled();
-  await age.check();
 
   // No way around the boxes from the page's own script: the record refuses, a forced click does nothing.
   await delivery.check();
@@ -118,14 +114,12 @@ test('the boxes are never remembered: closing and opening the checkout again sta
   await toReview(page);
   await page.locator('#coAgreeTerms').check();
   await page.locator('#coAgreeDelivery').check();
-  await page.locator('#coAgreeAge').check();
   expect(await state(page)).toBe('all');
   await page.keyboard.press('Escape');
   await expect(page.locator('#checkout')).toBeHidden();
   await toReview(page);
   await expect(page.locator('#coAgreeTerms')).not.toBeChecked();
   await expect(page.locator('#coAgreeDelivery')).not.toBeChecked();
-  await expect(page.locator('#coAgreeAge')).not.toBeChecked();
   expect(await state(page)).toBe('none');
   // and a reload keeps nothing either
   await page.reload();
@@ -137,7 +131,7 @@ test('the boxes are never remembered: closing and opening the checkout again sta
 test('each document is its own link and opens in a new tab without ticking the box', async ({ page, context }) => {
   await open(page, '/en/esim/uae/');
   await toReview(page);
-  for (const [name, path] of [['Terms of Service', '/en/terms/'], ['Refund Policy', '/en/refund/']]) {
+  for (const [name, path] of [['Terms of Service', '/en/terms/'], ['Refund Policy', '/en/refund/'], ['Privacy Policy', '/en/privacy/']]) {
     const link = page.locator('#coConsents label a', { hasText: name });
     await expect(link).toHaveAttribute('href', path);
     await expect(link).toHaveAttribute('target', '_blank');
@@ -148,11 +142,10 @@ test('each document is its own link and opens in a new tab without ticking the b
     await tab.close();
     await expect(page.locator('#coAgreeTerms')).not.toBeChecked();
   }
-  await expect(page.locator('#coConsents .note a')).toHaveAttribute('href', '/en/privacy/');
 });
 
 for (const [code, prefix] of LANGS) {
-  test(`${code}: the three consents in the page's language, before the disabled payment button, on a phone without overflow`, async ({ page }) => {
+  test(`${code}: the two consents in the page's language, before the disabled payment button, on a phone without overflow`, async ({ page }) => {
     const W = SITE.DICT[code];
     const calls = await open(page, `/${prefix}/esim/uae/`);
     await toReview(page);
@@ -162,7 +155,10 @@ for (const [code, prefix] of LANGS) {
     await expect(page.locator(`#coConsents a[href="/${prefix}/refund/"]`)).toHaveText(W['consent.refundLink']);
     await expect(page.locator(`#coConsents a[href="/${prefix}/privacy/"]`)).toHaveText(W['consent.privacyLink']);
     await expect(page.locator('#coAgreeDelivery + span')).toHaveText(W['consent.delivery']);
-    await expect(page.locator('#coAgreeAge + span')).toHaveText(W['consent.age']);
+    // box 1 reads as the dictionary sentence with the three document names in place of their links
+    const box1 = W['consent.terms'].replace('{terms}', W['consent.termsLink']).replace('{refund}', W['consent.refundLink']).replace('{privacy}', W['consent.privacyLink']);
+    await expect(page.locator('#coAgreeTerms + span')).toHaveText(box1);
+    await expect(page.locator('#coAgreeAge')).toHaveCount(0);
     // Directly above the payment button: on a phone the action bar is pinned to the bottom of the sheet, so scroll the
     // sheet to its end — then the boxes sit right above the bar and the bar covers neither of them.
     await box.evaluate((el) => {
@@ -175,18 +171,17 @@ for (const [code, prefix] of LANGS) {
     const boxBottom = await box.evaluate((el) => el.getBoundingClientRect().bottom);
     const payTop = await page.locator('#coPay').evaluate((el) => el.getBoundingClientRect().top);
     expect(payTop).toBeGreaterThanOrEqual(boxBottom - 1);
-    for (const id of ['coAgreeTerms', 'coAgreeDelivery', 'coAgreeAge']) {
+    for (const id of ['coAgreeTerms', 'coAgreeDelivery']) {
       const hit = await page.evaluate((x) => { const r = document.getElementById(x).getBoundingClientRect();
         return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)?.id; }, id);
       expect(hit, `${id} is not covered`).toBe(id);
     }
     await page.locator('#coAgreeTerms').check();
     await page.locator('#coAgreeDelivery').check();
-    await page.locator('#coAgreeAge').check();
     expect(await state(page)).toBe('all');
     await expect(page.locator('#coPay')).toBeDisabled();
     // a finger can hit each box; nothing is wider than the screen
-    for (const id of ['#coAgreeTerms', '#coAgreeDelivery', '#coAgreeAge']) {
+    for (const id of ['#coAgreeTerms', '#coAgreeDelivery']) {
       const b = await page.locator(id).boundingBox();
       expect(Math.min(b.width, b.height)).toBeGreaterThanOrEqual(18);
     }

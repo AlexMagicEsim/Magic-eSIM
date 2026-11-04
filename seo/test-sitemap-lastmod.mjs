@@ -571,7 +571,7 @@ test('the international checkout window is not the page: a change inside it move
   const stripped = stripCheckoutWindow(html);
   assert.ok(stripped.includes('<div class="overlay" id="checkout" hidden></div>\n<footer class="site-footer">'), 'the strip fires up to the footer');
   assert.doesNotMatch(stripped, /coAgree|coConsents|data-statements-version/, 'nothing of the window is left');
-  const edited = html.replace('data-statements-version="1"', 'data-statements-version="2"').replace(/id="coAgreeAge"/, 'id="coAgreeAge" data-x="y"');
+  const edited = html.replace('data-statements-version="2"', 'data-statements-version="3"').replace(/id="coAgreeDelivery"/, 'id="coAgreeDelivery" data-x="y"');
   assert.notEqual(edited, html);
   assert.equal(contentHash(edited), contentHash(html), 'a new box or version in the window moves nothing');
   const inMain = html.replace('<main', '<main data-edit="1"');

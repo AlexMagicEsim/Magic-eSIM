@@ -1,5 +1,6 @@
 // P1-1 / P1-4 — the statements of the international checkout (seo/checkout-statements.mjs): frozen per version, the
-// same four statements in every international language, the public list the backend copies, and the words the
+// same statements in every international language (v2, owner 2026-11-04: two boxes — 18+ / Terms / Refund / Privacy read
+// in one, the immediate-supply request on its own — and the device box), the public list the backend copies, and the words the
 // documents promise (Terms §5.3(e) the 18+ confirmation; the record's time is the SERVER's, never «when you ticked»).
 //
 // Run: node --test seo/test-checkout-statements.mjs
@@ -9,7 +10,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  STATEMENTS_VERSION, STATEMENTS_JSON, STATEMENT_IDS, statementLanguages, currentSet, snapshots, problems, statementsJson,
+  STATEMENTS_VERSION, STATEMENTS_JSON, STATEMENT_IDS, STATEMENT_IDS_BY_VERSION, statementLanguages, currentSet, snapshots, problems, statementsJson,
 } from './checkout-statements.mjs';
 import { TERMS } from './terms-en.mjs';
 import { REFUND } from './refund-en.mjs';
@@ -22,7 +23,21 @@ const PREFIX = { en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'k
 
 test('the international languages are exactly en, es, de, fr, zh-Hans, ko — Russian has its own checkout', () => {
   assert.deepEqual(statementLanguages(), ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
-  assert.deepEqual(STATEMENT_IDS, ['terms_refund', 'immediate_supply', 'age_18', 'device_compatible']);
+  assert.equal(STATEMENTS_VERSION, '2');
+  assert.deepEqual(STATEMENT_IDS, ['terms_refund_privacy_age', 'immediate_supply', 'device_compatible']);
+  assert.deepEqual(STATEMENT_IDS_BY_VERSION[1], ['terms_refund', 'immediate_supply', 'age_18', 'device_compatible'], 'v1 stays as frozen');
+});
+
+test('every frozen version stays: v1 (three boxes) beside v2 (two boxes), each with its own ids, none rewritten', () => {
+  const list = snapshots();
+  assert.deepEqual(list.map((s) => s.version), ['1', '2']);
+  for (const s of list) {
+    for (const [code, items] of Object.entries(s.languages)) assert.deepEqual(items.map((x) => x.id), STATEMENT_IDS_BY_VERSION[s.version], `v${s.version} ${code}`);
+  }
+  // v1's 18+ statement is still the published one, word for word
+  assert.equal(list[0].languages.en.find((x) => x.id === 'age_18').text, 'I am at least 18 years old.');
+  const unknown = JSON.parse(JSON.stringify(list)); unknown[0].version = '9';
+  assert.match(problems(unknown).join('\n'), /v9: no statement ids for this version/);
 });
 
 test(`the current set v${STATEMENTS_VERSION} is frozen, intact, and what the pages say`, () => {
@@ -39,14 +54,14 @@ test('the check can fire: a changed word, a damaged text, a missing language, an
   const list = snapshots();
   const now = currentSet();
   const changed = JSON.parse(JSON.stringify(now));
-  changed.languages.de[2].text = `${changed.languages.de[2].text}!`;
-  assert.match(problems(list, changed).join('\n'), /v1 de age_18: the words changed since the set was frozen/);
+  changed.languages.de[0].text = `${changed.languages.de[0].text}!`;
+  assert.match(problems(list, changed).join('\n'), /v2 de terms_refund_privacy_age: the words changed since the set was frozen/);
   const damaged = JSON.parse(JSON.stringify(list));
   damaged[0].languages.ko[0].text += ' ';
   assert.match(problems(damaged, now).join('\n'), /v1 ko terms_refund: the text does not match its own sha256/);
   const missing = JSON.parse(JSON.stringify(list));
-  delete missing[0].languages.fr;
-  assert.match(problems(missing, now).join('\n'), /v1 fr: not in the frozen set/);
+  delete missing[1].languages.fr;
+  assert.match(problems(missing, now).join('\n'), /v2 fr: not in the frozen set/);
   assert.match(problems([], now).join('\n'), /not frozen/);
 });
 
@@ -58,7 +73,7 @@ test('the public list is generated, committed and published: every frozen versio
   assert.match(read('scripts/build-pages-artifact.mjs'), /'en\/checkout-statements\.json'/, 'in the Pages allow list');
 });
 
-test('every international page names the set it shows, and shows its words: the three boxes and the device box', () => {
+test('every international page names the set it shows, and shows its words: the two boxes and the device box', () => {
   const set = currentSet();
   for (const code of statementLanguages()) {
     const h = read(`${PREFIX[code]}/esim/japan/index.html`);
@@ -66,11 +81,25 @@ test('every international page names the set it shows, and shows its words: the 
     const t = Object.fromEntries(set.languages[code].map((x) => [x.id, x.text]));
     const text = plain(h);
     const bare = (x) => x.replace(/\s+/g, '');
-    for (const id of ['immediate_supply', 'age_18']) assert.ok(bare(text).includes(bare(t[id])), `${code} ${id}`);
-    assert.ok(bare(text).includes(bare(t.terms_refund)), `${code} terms_refund (link words as plain text)`);
+    assert.ok(bare(text).includes(bare(t.immediate_supply)), `${code} immediate_supply`);
+    assert.ok(bare(text).includes(bare(t.terms_refund_privacy_age)), `${code} terms_refund_privacy_age (link words as plain text)`);
+    assert.doesNotMatch(h, /coAgreeAge/, `${code}: no third box`);
+    assert.equal((h.match(/<input type="checkbox" id="coAgree/g) || []).length, 2, `${code}: exactly two consent boxes`);
     assert.ok(h.includes(`<span data-i18n="checkout.device">${t.device_compatible}</span>`), `${code} device_compatible`);
   }
   assert.doesNotMatch(read('esim/japan/index.html'), /data-statements-version|coAgreeAge/, 'the Russian page is untouched');
+});
+
+test('box 1 names the age, accepts the Terms and the Refund Policy, and only READS the Privacy Policy — in every language', () => {
+  const set = currentSet();
+  const PRIVACY_READ = { en: /I have read the Privacy Policy\.$/, es: /he leído la Política de privacidad\.$/,
+    de: /Die Datenschutzerklärung habe ich zur Kenntnis genommen\.$/, fr: /j’ai pris connaissance de la Politique de confidentialité\.$/,
+    'zh-Hans': /并已阅读隐私政策。$/, ko: /또한 개인정보 처리방침을 확인했습니다\.$/ };
+  for (const code of statementLanguages()) {
+    const t = set.languages[code][0].text;
+    assert.match(t, /18/, `${code}: the age`);
+    assert.match(t, PRIVACY_READ[code], `${code}: the Privacy Policy is read, not agreed to`);
+  }
 });
 
 test('Terms §5.3(e): the 18+ confirmation is asked at checkout — in English and in every translation', () => {

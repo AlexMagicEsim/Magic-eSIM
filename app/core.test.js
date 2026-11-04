@@ -2366,8 +2366,11 @@ test('the international checkout speaks the website\'s approved LEGAL-3 words, i
   const SITE = require('../assets/site-i18n.js');
   const L = require('./locales.js');
   const MAP = {
-    'gco.title': 'checkout.title', 'gco.legend': 'consent.legend', 'gco.terms': 'consent.terms', 'gco.termsLink': 'consent.termsLink',
-    'gco.refundLink': 'consent.refundLink', 'gco.delivery': 'consent.delivery', 'gco.privacy': 'consent.privacy',
+    // gco.terms / gco.privacy are NOT pinned to the website since statements v2 (owner 2026-11-04): the website folded the
+    // 18+ confirmation and the Privacy Policy into its box 1; the Mini App's GLOBAL checkout is dormant (no payment, no
+    // record sent) and keeps its earlier words until its own stage — then it takes the website's set, never its own.
+    'gco.title': 'checkout.title', 'gco.legend': 'consent.legend', 'gco.termsLink': 'consent.termsLink',
+    'gco.refundLink': 'consent.refundLink', 'gco.delivery': 'consent.delivery',
     'gco.privacyLink': 'consent.privacyLink', 'gco.pay': 'pay.disabled', 'gco.unavailable': 'pay.unavailableTitle', 'gco.continue': 'checkout.continue',
   };
   for (const lang of ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']) {
