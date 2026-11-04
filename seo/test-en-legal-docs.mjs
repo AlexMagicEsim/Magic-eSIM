@@ -128,15 +128,16 @@ test('every international footer links the three documents in its own language, 
 test('every language: both consent texts present, every link placeholder kept once, the document names translated', () => {
   for (const [code] of LANGS) {
     const W = SITE.DICT[code];
-    for (const k of ['consent.legend', 'consent.terms', 'consent.termsLink', 'consent.refundLink', 'consent.delivery', 'consent.privacy', 'consent.privacyLink', 'footer.refund']) {
+    for (const k of ['consent.legend', 'consent.terms', 'consent.termsLink', 'consent.refundLink', 'consent.delivery', 'consent.privacyLink', 'footer.refund']) {
       assert.ok(typeof W[k] === 'string' && W[k].trim(), `${code} ${k}`);
     }
-    for (const [k, names] of [['consent.terms', ['terms', 'refund']], ['consent.privacy', ['privacy']]]) {
+    for (const [k, names] of [['consent.terms', ['terms', 'refund', 'privacy']]]) {
       const found = [...W[k].matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
       assert.deepEqual(found, names.slice().sort(), `${code} ${k}: {${names.join('}, {')}} exactly once each`);
     }
+    for (const k of ['consent.age', 'consent.privacy']) assert.equal(W[k], undefined, `${code} ${k}: folded into box 1 (statements v2)`);
     if (code !== 'en') {
-      for (const k of ['consent.terms', 'consent.delivery', 'consent.termsLink', 'consent.refundLink']) assert.notEqual(W[k], SITE.DICT.en[k], `${code} ${k}: not translated`);
+      for (const k of ['consent.terms', 'consent.delivery', 'consent.termsLink', 'consent.refundLink', 'consent.privacyLink']) assert.notEqual(W[k], SITE.DICT.en[k], `${code} ${k}: not translated`);
     }
   }
 });
@@ -148,7 +149,7 @@ test('the second box says, in English, exactly what Refund Policy §4.2 quotes',
   assert.match(text(refund), /at checkout we ask you to tick a separate box\. It is never pre-ticked\./);
 });
 
-test('every checkout window: three separate boxes, unticked, before the disabled payment button; each document its own new-tab link', () => {
+test('every checkout window: two separate boxes, unticked, before the disabled payment button; each document its own new-tab link', () => {
   for (const [code, prefix] of LANGS) {
     const W = SITE.DICT[code];
     const h = read(`${prefix}/esim/uae/index.html`);
@@ -158,22 +159,19 @@ test('every checkout window: three separate boxes, unticked, before the disabled
     assert.ok(h.indexOf('id="coFinal"') < h.indexOf('id="coConsents"'), `${code}: after the status note`);
     assert.match(h, /<button type="button" class="btn" id="coPay" disabled aria-disabled="true"/, `${code}: the button is disabled in the markup`);
     const inputs = [...box.matchAll(/<input [^>]*>/g)].map((m) => m[0]);
-    assert.equal(inputs.length, 3, `${code}: exactly three boxes (P1-4: the 18+ box)`);
+    assert.equal(inputs.length, 2, `${code}: exactly two boxes (statements v2: the 18+ confirmation is in box 1)`);
     assert.ok(inputs.every((i) => /type="checkbox"/.test(i) && !/\bchecked\b/.test(i) && !/\brequired\b/.test(i) === true), `${code}: never pre-ticked`);
     assert.match(inputs[0], /id="coAgreeTerms" data-terms-version="[^"]+" data-refund-version="[^"]+"/);
     assert.match(inputs[1], /id="coAgreeDelivery"/);
-    assert.match(inputs[2], /id="coAgreeAge"/);
     assert.match(box, new RegExp(`<fieldset class="co-consents" id="coConsents" data-state="none" data-ready="false" data-privacy-version="${PRIVACY_VERSION.replace(/[()]/g, '\\$&')}" data-statements-version="${STATEMENTS_VERSION}">`), `${code}: the versions the record carries`);
     const labels = [...box.matchAll(/<label class="check">([\s\S]*?)<\/label>/g)].map((m) => m[1]);
-    assert.equal(labels.length, 3, `${code}: one label per box`);
-    assert.ok(labels[2].includes(`<span data-i18n="consent.age">${W['consent.age']}</span>`), `${code}: the 18+ box in the page's language`);
-    assert.doesNotMatch(labels[2], /<a /, `${code}: the 18+ box names no document`);
-    for (const [k, href] of [['termsLink', `/${prefix}/terms/`], ['refundLink', `/${prefix}/refund/`]]) {
+    assert.equal(labels.length, 2, `${code}: one label per box`);
+    assert.doesNotMatch(box, /coAgreeAge|<p class="note">/, `${code}: no third box, no separate Privacy note`);
+    for (const [k, href] of [['termsLink', `/${prefix}/terms/`], ['refundLink', `/${prefix}/refund/`], ['privacyLink', `/${prefix}/privacy/`]]) {
       assert.ok(labels[0].includes(`<a href="${href}" target="_blank" rel="noopener" data-i18n="consent.${k}">${W[`consent.${k}`]}</a>`), `${code}: ${k}`);
     }
     assert.ok(labels[1].includes(W['consent.delivery']), `${code}: the request text`);
     assert.doesNotMatch(labels[1], /<a /, `${code}: the request is its own box, no document in it`);
-    assert.ok(box.includes(`<a href="/${prefix}/privacy/" target="_blank" rel="noopener" data-i18n="consent.privacyLink">${W['consent.privacyLink']}</a>`), `${code}: Privacy linked`);
   }
 });
 
@@ -190,12 +188,12 @@ test('en/checkout.js: payments off by a constant; the gate needs every box, ever
   assert.match(SRC, /\n {2}var PAYMENTS_OPEN = false;\n/);
   assert.equal((SRC.match(/PAYMENTS_OPEN\s*=/g) || []).length, 1, 'assigned once, never switched at run time');
   const CO = require(join(ROOT, 'en/checkout.js'));
-  const base = { paymentsOpen: true, terms: true, delivery: true, age: true, device: true, termsVersion: TERMS_VERSION,
+  const base = { paymentsOpen: true, terms: true, delivery: true, device: true, termsVersion: TERMS_VERSION,
     refundVersion: REFUND_VERSION, privacyVersion: PRIVACY_VERSION, statementsVersion: STATEMENTS_VERSION, locale: 'de' };
   assert.equal(CO.payAllowed(base), true, 'the gate can open');
-  for (const [k, v] of [['paymentsOpen', false], ['terms', false], ['delivery', false], ['age', false], ['device', false],
+  for (const [k, v] of [['paymentsOpen', false], ['terms', false], ['delivery', false], ['device', false],
     ['termsVersion', ''], ['refundVersion', ''], ['privacyVersion', ''], ['statementsVersion', ''], ['locale', ''],
-    ['terms', 'yes'], ['age', 1], ['paymentsOpen', 'true'], ['statementsVersion', 1]]) {
+    ['terms', 'yes'], ['delivery', 1], ['paymentsOpen', 'true'], ['statementsVersion', 1]]) {
     assert.equal(CO.payAllowed({ ...base, [k]: v }), false, `${k}=${JSON.stringify(v)}`);
   }
   assert.equal(CO.payAllowed(null), false);
@@ -204,31 +202,31 @@ test('en/checkout.js: payments off by a constant; the gate needs every box, ever
 test('en/checkout.js: the consent record cannot be built around the gate; it reads the page\'s versions and language; the script never touches the payment button or a payment path', () => {
   const SRC = read('en/checkout.js');
   const CO = require(join(ROOT, 'en/checkout.js'));
-  const doc = (terms, delivery, age, device) => ({
+  const doc = (terms, delivery, device) => ({
     documentElement: { getAttribute: (a) => (a === 'lang' ? 'zh-Hans' : null) },
     getElementById: (id) => ({
       coAgreeTerms: { checked: terms, getAttribute: (a) => (a === 'data-terms-version' ? TERMS_VERSION : (a === 'data-refund-version' ? REFUND_VERSION : null)) },
       coAgreeDelivery: { checked: delivery, getAttribute: () => null },
-      coAgreeAge: { checked: age, getAttribute: () => null },
       coDevice: { checked: device, getAttribute: () => null },
       coConsents: { getAttribute: (a) => (a === 'data-privacy-version' ? PRIVACY_VERSION : (a === 'data-statements-version' ? STATEMENTS_VERSION : null)) },
     })[id] || null,
   });
-  for (let m = 0; m < 16; m += 1) {
-    const b = [1, 2, 4, 8].map((x) => (m & x) !== 0);
+  for (let m = 0; m < 8; m += 1) {
+    const b = [1, 2, 4].map((x) => (m & x) !== 0);
     assert.throws(() => CO.consentRecord(doc(...b)), /CONSENT_REQUIRED/, `${b}: payments are off`);
-    assert.deepEqual(CO.consentState(doc(...b)), { paymentsOpen: false, terms: b[0], delivery: b[1], age: b[2], device: b[3],
+    assert.deepEqual(CO.consentState(doc(...b)), { paymentsOpen: false, terms: b[0], delivery: b[1], device: b[2],
       termsVersion: TERMS_VERSION, refundVersion: REFUND_VERSION, privacyVersion: PRIVACY_VERSION, statementsVersion: STATEMENTS_VERSION, locale: 'zh-Hans' });
   }
   // the record's shape, once payments open (the backend's contract — lib/globalConsent.js there)
   const opened = new Function('module', 'globalThis', SRC.replace('var PAYMENTS_OPEN = false;', 'var PAYMENTS_OPEN = true;'));
   const m = { exports: {} }; opened(m, {});
-  assert.deepEqual(m.exports.consentRecord(doc(true, true, true, true)), {
+  assert.deepEqual(m.exports.consentRecord(doc(true, true, true)), {
     locale: 'zh-Hans', terms_version: TERMS_VERSION, refund_version: REFUND_VERSION, privacy_version: PRIVACY_VERSION,
     statements_version: STATEMENTS_VERSION,
-    statements: { terms_refund: true, immediate_supply: true, age_18: true, device_compatible: true },
+    statements: { terms_refund_privacy_age: true, immediate_supply: true, device_compatible: true },
   });
-  assert.throws(() => m.exports.consentRecord(doc(true, true, false, true)), /CONSENT_REQUIRED/, 'no 18+ box, no record');
+  assert.throws(() => m.exports.consentRecord(doc(false, true, true)), /CONSENT_REQUIRED/, 'no box 1 (18+, Terms, Refund, Privacy), no record');
+  assert.throws(() => m.exports.consentRecord(doc(true, false, true)), /CONSENT_REQUIRED/, 'no immediate-supply request, no record');
   assert.doesNotMatch(SRC, /coPay/, 'never touches the payment button');
   assert.doesNotMatch(SRC.replace(/\/\/.*$/gm, ''), /global\/orders|retail-orders|\/payments?\b|platega|flitt|checkout\.session/i, 'no order or payment path');
   assert.equal((SRC.match(/fetch\(|XMLHttpRequest|sendBeacon/g) || []).length <= 1, true, 'one network call: the quote');

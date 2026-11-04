@@ -6,28 +6,28 @@
       "sha256": "7a1bff959ca5ef4a8b8cdf9715a6e9280487e3768c96c8505ca77de48ea63101"
     },
     "en": {
-      "keys": 151,
-      "sha256": "f221c1abbd76143e743c514733baa0d9c897e54b8008b5f3fa655990d36ce540"
+      "keys": 149,
+      "sha256": "16c017115c6666a15a0c3e85c3e35e41cbce2996457f012641c4821180ddde5d"
     },
     "es": {
-      "keys": 151,
-      "sha256": "4f4389fd22a7c7dcd4a939ee97bc6d1eb8a040070562ba73209a703022fbe845"
+      "keys": 149,
+      "sha256": "bcdde488949e484ce668075d422ea2622e4c17f14124d9a92cde787e9e5e8d13"
     },
     "de": {
-      "keys": 151,
-      "sha256": "5d8ab78231f382ba130e8d378a93075e035ed8aab246ef3bcecfc7f30cf0e956"
+      "keys": 149,
+      "sha256": "75c513ced9e37bc63af7071b430596547ea7ea9c4880c21c18356b17a611739c"
     },
     "fr": {
-      "keys": 154,
-      "sha256": "c706ac7af1629aa5b3cc29fa2eeb243be541fa1ea8915aeb016596ef8cdb5444"
+      "keys": 152,
+      "sha256": "4bd06f6c5fcb6be3396ef0bafee2a52272a26c84e6352fc5ab42e58ba2b4be3b"
     },
     "zh-Hans": {
-      "keys": 151,
-      "sha256": "8df8169eae6762051bf1e0bfa0db9240e96fa85cf8f6c46e922472f2677c60dc"
+      "keys": 149,
+      "sha256": "0552cdc8502af7341debdebddfc4861e4bae213d7c470c9c1eea37ec54acee1d"
     },
     "ko": {
-      "keys": 151,
-      "sha256": "de48702f25d847b1c2788430775ac2dd88267e54006ccaee2f146172edc723c0"
+      "keys": 149,
+      "sha256": "b9c4d5ab8382a106592e772a63d3ef85592563fa2d04f413bd5576e505070276"
     }
   }
 }

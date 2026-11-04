@@ -138,12 +138,13 @@
   // of the consent record. Until then the payment button stays disabled whatever the boxes say.
   var PAYMENTS_OPEN = false;
 
-  // The three consents (Terms of Service + Refund Policy; the express request for immediate supply; 18 or older —
-  // Terms §5.3(a), (d), (e)) — each its own box — and the device confirmation of the details step (§5.3(c)).
+  // The two consents — box 1: 18 or older, the Terms of Service and the Refund Policy accepted, the Privacy Policy read
+  // (Terms §5.3(a), (b), (e)); box 2, on its own: the express request for immediate supply (§5.3(d), Refund §4.2) —
+  // and the device confirmation of the details step (§5.3(c)).
   // payAllowed is the ONE gate a payment may pass: every box ticked, every version known, payments open.
   var VERSION_KEYS = ['termsVersion', 'refundVersion', 'privacyVersion', 'statementsVersion'];
   function payAllowed(c) {
-    if (!(c && c.paymentsOpen === true && c.terms === true && c.delivery === true && c.age === true && c.device === true)) return false;
+    if (!(c && c.paymentsOpen === true && c.terms === true && c.delivery === true && c.device === true)) return false;
     for (var i = 0; i < VERSION_KEYS.length; i += 1) {
       if (typeof c[VERSION_KEYS[i]] !== 'string' || c[VERSION_KEYS[i]] === '') return false;
     }
@@ -152,7 +153,6 @@
   function consentState(doc) {
     var terms = doc.getElementById('coAgreeTerms');
     var delivery = doc.getElementById('coAgreeDelivery');
-    var age = doc.getElementById('coAgreeAge');
     var device = doc.getElementById('coDevice');
     var set = doc.getElementById('coConsents');
     var html = doc.documentElement;
@@ -161,7 +161,6 @@
       paymentsOpen: PAYMENTS_OPEN,
       terms: !!(terms && terms.checked),
       delivery: !!(delivery && delivery.checked),
-      age: !!(age && age.checked),
       device: !!(device && device.checked),
       termsVersion: a(terms, 'data-terms-version'),
       refundVersion: a(terms, 'data-refund-version'),
@@ -184,7 +183,7 @@
       refund_version: c.refundVersion,
       privacy_version: c.privacyVersion,
       statements_version: c.statementsVersion,
-      statements: { terms_refund: true, immediate_supply: true, age_18: true, device_compatible: true },
+      statements: { terms_refund_privacy_age: true, immediate_supply: true, device_compatible: true },
     };
   }
 
@@ -420,15 +419,15 @@
       var box2 = $('coConsents');
       if (!box2) return;
       var c = consentState(doc);
-      var on = ['terms', 'delivery', 'age'].filter(function (k) { return c[k]; });
-      box2.setAttribute('data-state', on.length === 3 ? 'all' : (on.length ? on.join(',') : 'none'));
+      var on = ['terms', 'delivery'].filter(function (k) { return c[k]; });
+      box2.setAttribute('data-state', on.length === 2 ? 'all' : (on.length ? on.join(',') : 'none'));
       box2.setAttribute('data-ready', payAllowed(c) ? 'true' : 'false');
     }
     function resetConsents() {
-      ['coAgreeTerms', 'coAgreeDelivery', 'coAgreeAge'].forEach(function (id) { var el = $(id); if (el) el.checked = false; });
+      ['coAgreeTerms', 'coAgreeDelivery'].forEach(function (id) { var el = $(id); if (el) el.checked = false; });
       syncConsents();
     }
-    ['coAgreeTerms', 'coAgreeDelivery', 'coAgreeAge'].forEach(function (id) { var el = $(id); if (el) el.addEventListener('change', syncConsents); });
+    ['coAgreeTerms', 'coAgreeDelivery'].forEach(function (id) { var el = $(id); if (el) el.addEventListener('change', syncConsents); });
 
     return function open(plan, focusIso) {
       stopTimer();

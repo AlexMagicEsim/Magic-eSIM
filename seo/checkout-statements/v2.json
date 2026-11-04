@@ -1,0 +1,107 @@
+{
+  "version": "2",
+  "languages": {
+    "en": [
+      {
+        "id": "terms_refund_privacy_age",
+        "text": "I am at least 18 years old. I have read and agree to the Terms of Service and Refund Policy, and I have read the Privacy Policy.",
+        "sha256": "ab890a7a711558543ada7971d52661cc20730e326f1fe03d734da8c594af96de"
+      },
+      {
+        "id": "immediate_supply",
+        "text": "I ask Magic eSIM to start providing my eSIM plan now, within the 14-day withdrawal period. I understand that I lose my right of withdrawal once the plan has been fully provided (its data is used up or its validity has ended), and that if I withdraw before then I will pay for the part of the plan provided up to the time I tell you.",
+        "sha256": "61fa0963f04f8a123c415bcddf880897fd9f8f7e14a917fe76d3b4dc925c8cdb"
+      },
+      {
+        "id": "device_compatible",
+        "text": "My phone supports eSIM and isn't carrier-locked",
+        "sha256": "dec4c242e607a12ec6d34db96814f6ced0a0fc19976db996730d1027b3df00e2"
+      }
+    ],
+    "es": [
+      {
+        "id": "terms_refund_privacy_age",
+        "text": "Tengo al menos 18 años. He leído y acepto los Términos del servicio y la Política de reembolso, y he leído la Política de privacidad.",
+        "sha256": "7144ab6a67db118c0d408d6ca44afa3abd6fefb774547cbf8dee35123481e5c1"
+      },
+      {
+        "id": "immediate_supply",
+        "text": "Solicito a Magic eSIM que empiece a prestar mi plan eSIM ahora, dentro del plazo de desistimiento de 14 días. Entiendo que pierdo mi derecho de desistimiento una vez que el plan se haya prestado por completo (sus datos se hayan agotado o su validez haya terminado) y que, si desisto antes, pagaré la parte del plan prestada hasta el momento en que lo comunique.",
+        "sha256": "75960e77cf6cdc8646174c09ff8e6006869f112b58623bff45e23cca83e0f72b"
+      },
+      {
+        "id": "device_compatible",
+        "text": "Mi teléfono admite eSIM y está liberado",
+        "sha256": "edab3a10e0414776184249804484de9b1fc1cdf96d4e284c8d20938d20c0afb3"
+      }
+    ],
+    "de": [
+      {
+        "id": "terms_refund_privacy_age",
+        "text": "Ich bin mindestens 18 Jahre alt. Ich habe die Nutzungsbedingungen und die Erstattungsrichtlinie gelesen und stimme ihnen zu. Die Datenschutzerklärung habe ich zur Kenntnis genommen.",
+        "sha256": "c426682e8510a258260f18c065c068dfd1e082906c170c1e015100572b6eccb2"
+      },
+      {
+        "id": "immediate_supply",
+        "text": "Ich verlange, dass Magic eSIM schon jetzt, innerhalb der 14-tägigen Widerrufsfrist, mit der Bereitstellung meines eSIM-Tarifs beginnt. Mir ist bekannt, dass ich mein Widerrufsrecht verliere, sobald der Tarif vollständig erbracht ist (das Datenvolumen ist aufgebraucht oder die Gültigkeit ist abgelaufen), und dass ich bei einem früheren Widerruf für den bis zu meiner Mitteilung erbrachten Teil des Tarifs bezahle.",
+        "sha256": "b447e39a787d531d889134569a1206a9814d26389187f516596563a7ec671906"
+      },
+      {
+        "id": "device_compatible",
+        "text": "Mein Smartphone unterstützt eSIM und hat keinen SIM-Lock",
+        "sha256": "fadd07a9d6172173399734fe3a45a5e9796d405c1f20130f379ca4acdf83f2ce"
+      }
+    ],
+    "fr": [
+      {
+        "id": "terms_refund_privacy_age",
+        "text": "J’ai au moins 18 ans. J’ai lu et j’accepte les Conditions d’utilisation et la Politique de remboursement, et j’ai pris connaissance de la Politique de confidentialité.",
+        "sha256": "af388901e9330ea256513526fe732ad5f8d87f8b1a05fa70384710b361156dd5"
+      },
+      {
+        "id": "immediate_supply",
+        "text": "Je demande à Magic eSIM de commencer dès maintenant la fourniture de mon forfait eSIM, pendant le délai de rétractation de 14 jours. Je comprends que je perds mon droit de rétractation dès que le forfait a été entièrement fourni (ses données sont épuisées ou sa validité a expiré) et que, si je me rétracte avant, je paierai la part du forfait fournie jusqu’au moment où je vous en informe.",
+        "sha256": "d71b0c6d52c0b19dd7bb65c00042b2e0d4470f4bf238c077fd8a5f968a3bdd89"
+      },
+      {
+        "id": "device_compatible",
+        "text": "Mon téléphone est compatible eSIM et n’est pas verrouillé par un opérateur",
+        "sha256": "5677ed1e098d54a3c18a24f2a5f8469a2b6cd296ba68d55bc065800f8281188e"
+      }
+    ],
+    "zh-Hans": [
+      {
+        "id": "terms_refund_privacy_age",
+        "text": "我已年满 18 周岁，已阅读并同意服务条款和退款政策，并已阅读隐私政策。",
+        "sha256": "a1b3873fd7b3259cd4ab32c8104b060b348a3c3a309b4051a695d4312e488f80"
+      },
+      {
+        "id": "immediate_supply",
+        "text": "我要求 Magic eSIM 在 14 天撤回期内立即开始提供我的 eSIM 套餐。我理解，套餐一经全部提供（流量用完或有效期结束），我即丧失撤回权；如果我在此之前撤回，需要支付截至我通知时已提供部分的费用。",
+        "sha256": "a74ff0e5801d7ed35bde0a36e415cffa9154425812d1289aa4a4421452b91aa9"
+      },
+      {
+        "id": "device_compatible",
+        "text": "我的手机支持 eSIM，且未被运营商锁定",
+        "sha256": "1ef33c9d8d3a005733203cbccb8750b7e3ad1da673e08cffbd5b21de25430e0b"
+      }
+    ],
+    "ko": [
+      {
+        "id": "terms_refund_privacy_age",
+        "text": "본인은 만 18세 이상이며, 이용약관 및 환불 정책을 읽고 이에 동의합니다. 또한 개인정보 처리방침을 확인했습니다.",
+        "sha256": "123403c6fa1bdedce3190af03ab2795276085c48223e6dba92b63697c3d7c299"
+      },
+      {
+        "id": "immediate_supply",
+        "text": "14일 청약철회 기간 중이지만 Magic eSIM이 지금 바로 eSIM 요금제 제공을 시작하도록 요청합니다. 요금제가 모두 제공되면(데이터를 모두 사용했거나 유효기간이 끝나면) 청약철회권이 소멸하며, 그 전에 철회하는 경우 철회 의사를 알린 시점까지 제공된 부분의 요금을 부담한다는 것을 이해합니다.",
+        "sha256": "c43dc6b5213c85b82d990b42e9aab4715cba8a86ad5744bba6d6ec0ba8447863"
+      },
+      {
+        "id": "device_compatible",
+        "text": "제 휴대전화는 eSIM을 지원하며 이동통신사 잠금이 없습니다",
+        "sha256": "ce8ba5dbd78125821f206269b5f4f13dafc2941cabc84835a3e03df9f6b2bd72"
+      }
+    ]
+  }
+}

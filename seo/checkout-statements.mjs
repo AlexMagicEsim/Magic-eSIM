@@ -9,12 +9,16 @@
 // /en/checkout-statements.json, compared by `npm run check:legal-versions` there) and the browser sends only the set's
 // VERSION and the page's language. The record then holds the server's text hash, never the client's.
 //
-// THE STATEMENTS (ids are a contract with the backend — never renamed):
-//   terms_refund        box 1 — «I have read and agree to the Terms of Service and Refund Policy.» (consent.terms, the
-//                       two link labels filled in as plain words)
-//   immediate_supply    box 2 — the Refund §4.2 quotation (consent.delivery; seo/test-legal-i18n.mjs holds it to §4.2)
-//   age_18              box 3 — «I am at least 18 years old.» (consent.age; Terms §3.1 and §5.3(e))
-//   device_compatible   the device box of the details step (checkout.device; Terms §4.2 and §5.3(c))
+// THE STATEMENTS, by version (ids are a contract with the backend — never renamed, never reused for other words):
+//   v1 (2026-11-04, three boxes): terms_refund · immediate_supply · age_18 · device_compatible
+//   v2 (owner 2026-11-04, two boxes):
+//     terms_refund_privacy_age  box 1 — 18 or older, the Terms of Service and the Refund Policy accepted, the Privacy
+//                               Policy read (consent.terms, the three link labels filled in as plain words; Terms §3.1,
+//                               §5.3(a), (b), (e)). The Privacy Policy is READ, never «agreed to»: it is not a consent.
+//     immediate_supply          box 2, on its own — the Refund §4.2 quotation (consent.delivery; seo/test-legal-i18n.mjs
+//                               holds it to §4.2). Kept apart: the express request that starts the plan inside the
+//                               withdrawal period is never folded into the acceptance of the terms.
+//     device_compatible         the device box of the details step (checkout.device; Terms §4.2 and §5.3(c))
 //
 // FROZEN, LIKE THE LEGAL ARCHIVE. seo/checkout-statements/v<n>.json (its own directory: seo/legal-archive/ holds only
 // documents) is written ONCE by `--freeze` and never
@@ -35,9 +39,14 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ARCHIVE_DIR = join(ROOT, 'seo', 'checkout-statements');
 
 /** The version of the set the pages show now. A wording change of any statement = the next number + `--freeze`. */
-export const STATEMENTS_VERSION = '1';
+export const STATEMENTS_VERSION = '2';
 export const STATEMENTS_JSON = 'en/checkout-statements.json';
-export const STATEMENT_IDS = Object.freeze(['terms_refund', 'immediate_supply', 'age_18', 'device_compatible']);
+export const STATEMENT_IDS_BY_VERSION = Object.freeze({
+  1: Object.freeze(['terms_refund', 'immediate_supply', 'age_18', 'device_compatible']),
+  2: Object.freeze(['terms_refund_privacy_age', 'immediate_supply', 'device_compatible']),
+});
+/** The statements of the current version. */
+export const STATEMENT_IDS = STATEMENT_IDS_BY_VERSION[STATEMENTS_VERSION];
 
 /** The languages of the international checkout: every published site language but Russian (its checkout is its own). */
 export function statementLanguages() {
@@ -53,9 +62,9 @@ export function currentTexts(code) {
     return links[name];
   });
   return {
-    terms_refund: fill('consent.terms', { terms: word(code, 'consent.termsLink'), refund: word(code, 'consent.refundLink') }),
+    terms_refund_privacy_age: fill('consent.terms', { terms: word(code, 'consent.termsLink'),
+      refund: word(code, 'consent.refundLink'), privacy: word(code, 'consent.privacyLink') }),
     immediate_supply: word(code, 'consent.delivery'),
-    age_18: word(code, 'consent.age'),
     device_compatible: word(code, 'checkout.device'),
   };
 }
@@ -85,7 +94,9 @@ export function problems(list = snapshots(), now = currentSet()) {
   const out = [];
   for (const s of list) {
     for (const [code, list] of Object.entries(s.languages || {})) {
-      if (list.map((x) => x.id).join() !== STATEMENT_IDS.join()) out.push(`v${s.version} ${code}: the statements are not [${STATEMENT_IDS}]`);
+      const ids = STATEMENT_IDS_BY_VERSION[s.version];
+      if (!ids) { out.push(`v${s.version}: no statement ids for this version in STATEMENT_IDS_BY_VERSION`); continue; }
+      if (list.map((x) => x.id).join() !== ids.join()) out.push(`v${s.version} ${code}: the statements are not [${ids}]`);
       for (const x of list) if (sha(x.text) !== x.sha256) out.push(`v${s.version} ${code} ${x.id}: the text does not match its own sha256`);
     }
   }

@@ -633,10 +633,8 @@ function fillTemplate(key, links) {
 // page shows; en/checkout.js puts them, with <html lang>, into the consent record the server checks and keeps.
 const CONSENTS = `      <fieldset class="co-consents" id="coConsents" data-state="none" data-ready="false" data-privacy-version="${PRIVACY_VERSION}" data-statements-version="${STATEMENTS_VERSION}">
         <legend class="sr-only" data-i18n="consent.legend">${t('consent.legend')}</legend>
-        <label class="check"><input type="checkbox" id="coAgreeTerms" data-terms-version="${TERMS_VERSION}" data-refund-version="${REFUND_VERSION}"> <span>${fillTemplate('consent.terms', { terms: legalLink('terms', 'consent.termsLink'), refund: legalLink('refund', 'consent.refundLink') })}</span></label>
+        <label class="check"><input type="checkbox" id="coAgreeTerms" data-terms-version="${TERMS_VERSION}" data-refund-version="${REFUND_VERSION}"> <span>${fillTemplate('consent.terms', { terms: legalLink('terms', 'consent.termsLink'), refund: legalLink('refund', 'consent.refundLink'), privacy: legalLink('privacy', 'consent.privacyLink') })}</span></label>
         <label class="check"><input type="checkbox" id="coAgreeDelivery"> <span data-i18n="consent.delivery">${t('consent.delivery')}</span></label>
-        <label class="check"><input type="checkbox" id="coAgreeAge"> <span data-i18n="consent.age">${t('consent.age')}</span></label>
-        <p class="note">${fillTemplate('consent.privacy', { privacy: legalLink('privacy', 'consent.privacyLink') })}</p>
       </fieldset>`;
 
 /* The checkout window: plan → price fixed by the server (a GLOBAL quote) →
