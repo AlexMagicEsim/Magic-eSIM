@@ -86,6 +86,7 @@
     'consent.termsLink': 'Conditions d’utilisation',
     'consent.refundLink': 'Politique de remboursement',
     'consent.delivery': 'Je demande à Magic eSIM de commencer dès maintenant la fourniture de mon forfait eSIM, pendant le délai de rétractation de 14 jours. Je comprends que je perds mon droit de rétractation dès que le forfait a été entièrement fourni (ses données sont épuisées ou sa validité a expiré) et que, si je me rétracte avant, je paierai la part du forfait fournie jusqu’au moment où je vous en informe.',
+    'consent.age': 'J’ai au moins 18 ans.',
     'consent.privacy': 'Notre {privacy} explique comment nous traitons vos données.',
     'consent.privacyLink': 'Politique de confidentialité',
     'checkout.review': 'Vérifier',

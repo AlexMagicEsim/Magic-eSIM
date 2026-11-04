@@ -13,10 +13,13 @@
 // refund rule of the Refund Policy 0.9.2 (refunds only as that policy or the law provides).
 // 0.9.4 (LEGAL-7, owner's exact wording 2026-10-26): §6.1 no discretionary refund; §2.1 and §8.3 — checkout names the
 // missing start of validity / activation deadline, «contact us before paying» (some plans may start on purchase).
+// 0.9.5 (P1-1/P1-4, owner's decision 2026-11-04): §5.3(e) the buyer confirms at checkout that they are at least 18
+// (section 3.1, its own box); the record of what was accepted carries the date and time OUR SERVER recorded it — never
+// claimed to be the moment a box was ticked.
 
-export const TERMS_VERSION = '0.9.4 (pre-launch)';
-export const TERMS_EFFECTIVE = '26 October 2026';
-export const TERMS_EFFECTIVE_ISO = '2026-10-26';
+export const TERMS_VERSION = '0.9.5 (pre-launch)';
+export const TERMS_EFFECTIVE = '4 November 2026';
+export const TERMS_EFFECTIVE_ISO = '2026-11-04';
 
 export const TERMS = Object.freeze({
   title: "Terms of Service — Magic eSIM",
@@ -138,9 +141,10 @@ export const TERMS = Object.freeze({
         <li>(a) accept these Terms and the Refund Policy;</li>
         <li>(b) read the Privacy Policy, which is linked at checkout;</li>
         <li>(c) confirm that your device is compatible;</li>
-        <li>(d) request immediate supply of the eSIM and acknowledge its effect on your right of withdrawal (Refund Policy, section 4).</li>
+        <li>(d) request immediate supply of the eSIM and acknowledge its effect on your right of withdrawal (Refund Policy, section 4);</li>
+        <li>(e) confirm that you are at least 18 years old (section 3.1).</li>
       </ul>
-      <p>We keep a record of what you accepted and when.</p>
+      <p>We keep a record of what you accepted, with the date and time our server recorded it.</p>
       <p>5.4. <strong>Formation of the contract.</strong></p>
       <ul class="list">
         <li>The contract is formed when the payment provider confirms your payment to us.</li>

@@ -138,30 +138,54 @@
   // of the consent record. Until then the payment button stays disabled whatever the boxes say.
   var PAYMENTS_OPEN = false;
 
-  // The two consents (Terms of Service + Refund Policy; the express request for immediate supply) — each its own box.
-  // payAllowed is the ONE gate a payment may pass: both boxes ticked, both document versions known, payments open.
+  // The three consents (Terms of Service + Refund Policy; the express request for immediate supply; 18 or older —
+  // Terms §5.3(a), (d), (e)) — each its own box — and the device confirmation of the details step (§5.3(c)).
+  // payAllowed is the ONE gate a payment may pass: every box ticked, every version known, payments open.
+  var VERSION_KEYS = ['termsVersion', 'refundVersion', 'privacyVersion', 'statementsVersion'];
   function payAllowed(c) {
-    return !!(c && c.paymentsOpen === true && c.terms === true && c.delivery === true
-      && typeof c.termsVersion === 'string' && c.termsVersion !== ''
-      && typeof c.refundVersion === 'string' && c.refundVersion !== '');
+    if (!(c && c.paymentsOpen === true && c.terms === true && c.delivery === true && c.age === true && c.device === true)) return false;
+    for (var i = 0; i < VERSION_KEYS.length; i += 1) {
+      if (typeof c[VERSION_KEYS[i]] !== 'string' || c[VERSION_KEYS[i]] === '') return false;
+    }
+    return typeof c.locale === 'string' && c.locale !== '';
   }
   function consentState(doc) {
     var terms = doc.getElementById('coAgreeTerms');
     var delivery = doc.getElementById('coAgreeDelivery');
+    var age = doc.getElementById('coAgreeAge');
+    var device = doc.getElementById('coDevice');
+    var set = doc.getElementById('coConsents');
+    var html = doc.documentElement;
+    var a = function (el, name) { return el ? el.getAttribute(name) || '' : ''; };
     return {
       paymentsOpen: PAYMENTS_OPEN,
       terms: !!(terms && terms.checked),
       delivery: !!(delivery && delivery.checked),
-      termsVersion: terms ? terms.getAttribute('data-terms-version') || '' : '',
-      refundVersion: terms ? terms.getAttribute('data-refund-version') || '' : '',
+      age: !!(age && age.checked),
+      device: !!(device && device.checked),
+      termsVersion: a(terms, 'data-terms-version'),
+      refundVersion: a(terms, 'data-refund-version'),
+      privacyVersion: a(set, 'data-privacy-version'),
+      statementsVersion: a(set, 'data-statements-version'),
+      // The page's language IS the language of the words the buyer was shown (<html lang>: en, es, de, fr, zh-Hans, ko).
+      locale: html ? html.getAttribute('lang') || '' : '',
     };
   }
-  // What a future payment request sends with the order — the server checks it again and records it with its own time.
+  // What a future payment request sends with the order (LEGAL-3: only once payments open, with the Privacy Policy that
+  // covers orders). The server checks every field again — the versions against its own, the words by version and
+  // language from its own copy of /en/checkout-statements.json — and records it with ITS time (Terms §5.3).
   // Throws unless every condition holds: a payment can never be started around the boxes.
   function consentRecord(doc) {
     var c = consentState(doc);
     if (!payAllowed(c)) throw new Error('CONSENT_REQUIRED');
-    return { terms_version: c.termsVersion, refund_version: c.refundVersion, accepted_terms: true, requested_immediate_supply: true };
+    return {
+      locale: c.locale,
+      terms_version: c.termsVersion,
+      refund_version: c.refundVersion,
+      privacy_version: c.privacyVersion,
+      statements_version: c.statementsVersion,
+      statements: { terms_refund: true, immediate_supply: true, age_18: true, device_compatible: true },
+    };
   }
 
   function bind(doc, deps) {
@@ -389,21 +413,22 @@
     // The payment button exists to say what is missing. It is disabled in the
     // markup and nothing here ever enables it or listens to it: international
     // payments are off (PAYMENTS_OPEN). The consent boxes report their state on the
-    // fieldset (data-state: none / terms / delivery / both) and data-ready says whether
+    // fieldset (data-state: none / all / the ticked ones, «terms,delivery,age» in that order) and data-ready says whether
     // the one gate, payAllowed, would let a payment through — it never does while
     // payments are off. The release that opens payments wires the button to that gate.
     function syncConsents() {
       var box2 = $('coConsents');
       if (!box2) return;
       var c = consentState(doc);
-      box2.setAttribute('data-state', c.terms && c.delivery ? 'both' : (c.terms ? 'terms' : (c.delivery ? 'delivery' : 'none')));
+      var on = ['terms', 'delivery', 'age'].filter(function (k) { return c[k]; });
+      box2.setAttribute('data-state', on.length === 3 ? 'all' : (on.length ? on.join(',') : 'none'));
       box2.setAttribute('data-ready', payAllowed(c) ? 'true' : 'false');
     }
     function resetConsents() {
-      ['coAgreeTerms', 'coAgreeDelivery'].forEach(function (id) { var el = $(id); if (el) el.checked = false; });
+      ['coAgreeTerms', 'coAgreeDelivery', 'coAgreeAge'].forEach(function (id) { var el = $(id); if (el) el.checked = false; });
       syncConsents();
     }
-    ['coAgreeTerms', 'coAgreeDelivery'].forEach(function (id) { var el = $(id); if (el) el.addEventListener('change', syncConsents); });
+    ['coAgreeTerms', 'coAgreeDelivery', 'coAgreeAge'].forEach(function (id) { var el = $(id); if (el) el.addEventListener('change', syncConsents); });
 
     return function open(plan, focusIso) {
       stopTimer();

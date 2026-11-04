@@ -98,7 +98,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Nuestras guías explican cómo comprobarlo.</p>
       <p>4.2. Comprueba la compatibilidad antes de comprar; la confirmas en el proceso de pago. Si no estás seguro, contáctanos antes. Si el dispositivo no es compatible, el plan no puede funcionar. La Política de reembolso explica qué ocurre en ese caso.</p>` },
-      { id: "how-to-order", en: '7545360f2162', h2: "5. Cómo hacer un pedido", html: `
+      { id: "how-to-order", en: '576c522a80cc', h2: "5. Cómo hacer un pedido", html: `
       <p>5.1. <strong>Pasos del pedido:</strong></p>
       <ol class="list">
         <li>Elige un plan y, en los planes diarios, el número de días.</li>
@@ -117,9 +117,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>(a) aceptes estos Términos y la Política de reembolso;</li>
         <li>(b) leas la Política de privacidad, que está enlazada en el proceso de pago;</li>
         <li>(c) confirmes que tu dispositivo es compatible;</li>
-        <li>(d) solicites el suministro inmediato de la eSIM y reconozcas su efecto sobre tu derecho de desistimiento (Política de reembolso, sección 4).</li>
+        <li>(d) solicites el suministro inmediato de la eSIM y reconozcas su efecto sobre tu derecho de desistimiento (Política de reembolso, sección 4);</li>
+        <li>(e) confirmes que tienes al menos 18 años (sección 3.1).</li>
       </ul>
-      <p>Guardamos un registro de lo que aceptaste y de cuándo lo hiciste.</p>
+      <p>Guardamos un registro de lo que aceptaste, con la fecha y la hora en que nuestro servidor lo registró.</p>
       <p>5.4. <strong>Celebración del contrato.</strong></p>
       <ul class="list">
         <li>El contrato se celebra cuando el proveedor de pagos nos confirma tu pago.</li>
@@ -432,7 +433,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Por otros datos usados después de tu aviso, descontamos: en los planes con un volumen de datos fijo, los datos usados; en los planes diarios, la parte usada del volumen de cada día adicional; en los planes ilimitados, el tiempo transcurrido desde tu aviso hasta el último uso de la eSIM, según los registros de nuestro proveedor de servicios eSIM, contado en horas como en la sección 3.4(c), y nunca un día entero solo porque haya empezado un nuevo día. Cuando los registros no puedan mostrarlo, se aplica la sección 3.4(f).</li>
         <li>El reembolso final es el importe calculado conforme a la sección 3.4, menos cualquier descuento de este tipo.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: 'b87f609825f3', h2: "4. Tus derechos legales", html: `
+      { id: "your-statutory-rights", en: '9e18147669f4', h2: "4. Tus derechos legales", html: `
       <p>4.1. <strong>Se aplican los derechos legales.</strong></p>
       <ul class="list">
         <li>Según dónde vivas y qué ley se aplique a tu compra, puedes tener derechos además de los de las secciones 2 y 3. Algunos ejemplos son la ley de Georgia, la de un país de la Unión Europea o la del Reino Unido, la Australian Consumer Law y la Consumer Guarantees Act 1993 de Nueva Zelanda.</li>
@@ -450,7 +451,7 @@ export const LEGAL_I18N = Object.freeze({
       <ul class="list">
         <li><strong>Instalar la eSIM, o conectarla a una red, no pone fin por sí solo a tu derecho de desistimiento.</strong> Solo lo pierdes una vez que el plan se haya prestado por completo: sus datos se han agotado o su validez ha terminado. Hasta entonces puedes desistir y pagar solo la parte prestada (sección 4.3).</li>
         <li>Las leyes de algunos otros países conceden a los consumidores un plazo distinto para cancelar determinadas compras en línea (por ejemplo, 5 o 7 días), con sus propias condiciones y excepciones. Cuando una ley de este tipo se aplique a tu compra, la respetamos.</li>
-        <li>Repetimos este texto, con la fecha y la hora en que marcaste la casilla, en el correo de confirmación de tu pedido.</li>
+        <li>Repetimos este texto en el correo de confirmación de tu pedido, con la fecha y la hora en que nuestro servidor registró tu solicitud.</li>
       </ul>
       <p>4.3. <strong>Qué reembolsamos si desistes.</strong> Si desistes válidamente:</p>
       <ul class="list">

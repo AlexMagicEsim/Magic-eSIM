@@ -96,6 +96,7 @@
     'consent.termsLink': '服务条款',
     'consent.refundLink': '退款政策',
     'consent.delivery': '我要求 Magic eSIM 在 14 天撤回期内立即开始提供我的 eSIM 套餐。我理解，套餐一经全部提供（流量用完或有效期结束），我即丧失撤回权；如果我在此之前撤回，需要支付截至我通知时已提供部分的费用。',
+    'consent.age': '我已年满 18 周岁。',
     'consent.privacy': '我们的{privacy}说明了我们如何处理您的数据。',
     'consent.privacyLink': '隐私政策',
     'checkout.review': '核对',

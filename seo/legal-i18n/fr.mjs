@@ -97,7 +97,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Nos guides expliquent comment le vérifier.</p>
       <p>4.2. Veuillez vérifier la compatibilité avant d’acheter ; vous la confirmez lors de la commande. En cas de doute, contactez-nous d’abord. Si l’appareil n’est pas compatible, le forfait ne peut pas fonctionner. La Politique de remboursement explique ce qui se passe alors.</p>` },
-      { id: "how-to-order", en: '7545360f2162', h2: "5. Comment commander", html: `
+      { id: "how-to-order", en: '576c522a80cc', h2: "5. Comment commander", html: `
       <p>5.1. <strong>Étapes de la commande :</strong></p>
       <ol class="list">
         <li>Choisissez un forfait et, pour les forfaits journaliers, le nombre de jours.</li>
@@ -116,9 +116,10 @@ export const LEGAL_I18N = Object.freeze({
         <li>(a) d’accepter les présentes Conditions et la Politique de remboursement ;</li>
         <li>(b) de lire la Politique de confidentialité, accessible par un lien lors de la commande ;</li>
         <li>(c) de confirmer que votre appareil est compatible ;</li>
-        <li>(d) de demander la fourniture immédiate de l’eSIM et de reconnaître son effet sur votre droit de rétractation (Politique de remboursement, section 4).</li>
+        <li>(d) de demander la fourniture immédiate de l’eSIM et de reconnaître son effet sur votre droit de rétractation (Politique de remboursement, section 4) ;</li>
+        <li>(e) de confirmer que vous avez au moins 18 ans (section 3.1).</li>
       </ul>
-      <p>Nous conservons une trace de ce que vous avez accepté et du moment où vous l’avez accepté.</p>
+      <p>Nous conservons une trace de ce que vous avez accepté, avec la date et l’heure auxquelles notre serveur l’a enregistré.</p>
       <p>5.4. <strong>Formation du contrat.</strong></p>
       <ul class="list">
         <li>Le contrat est formé lorsque le prestataire de paiement nous confirme votre paiement.</li>
@@ -431,7 +432,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>Pour les autres données utilisées après votre signalement, nous déduisons : pour les forfaits à volume de données fixe, les données utilisées ; pour les forfaits journaliers, la part utilisée du volume de chaque jour supplémentaire ; pour les forfaits illimités, le temps écoulé entre votre signalement et la dernière utilisation de l’eSIM, tel qu’il ressort des relevés de notre fournisseur de services eSIM, compté en heures comme à la section 3.4(c) — jamais un jour entier au seul motif qu’un nouveau jour a commencé. Lorsque les relevés ne permettent pas de l’établir, la section 3.4(f) s’applique.</li>
         <li>Le remboursement final correspond au montant calculé conformément à la section 3.4, diminué de toute déduction de ce type.</li>
       </ul>` },
-      { id: "your-statutory-rights", en: 'b87f609825f3', h2: "4. Vos droits légaux", html: `
+      { id: "your-statutory-rights", en: '9e18147669f4', h2: "4. Vos droits légaux", html: `
       <p>4.1. <strong>Les droits légaux s’appliquent.</strong></p>
       <ul class="list">
         <li>Selon votre lieu de résidence et le droit applicable à votre achat, vous pouvez disposer de droits qui s’ajoutent à ceux des sections 2 et 3. C’est le cas, par exemple, du droit de la Géorgie, d’un pays de l’Union européenne ou du Royaume-Uni, de l’Australian Consumer Law et du Consumer Guarantees Act 1993 de Nouvelle-Zélande.</li>
@@ -449,7 +450,7 @@ export const LEGAL_I18N = Object.freeze({
       <ul class="list">
         <li><strong>L’installation de l’eSIM, ou sa connexion à un réseau, ne met pas fin à elle seule à votre droit de rétractation.</strong> Vous ne le perdez qu’une fois le forfait entièrement fourni — ses données sont épuisées ou sa validité a expiré. D’ici là, vous pouvez vous rétracter et ne payer que la partie fournie (section 4.3).</li>
         <li>Les lois de certains autres pays accordent aux consommateurs un délai différent pour annuler certains achats en ligne (par exemple, 5 ou 7 jours), avec leurs propres conditions et exceptions. Lorsqu’une telle loi s’applique à votre achat, nous la respectons.</li>
-        <li>Nous reproduisons ce texte, avec la date et l’heure auxquelles vous avez coché la case, dans votre e-mail de confirmation de commande.</li>
+        <li>Nous reproduisons ce texte dans votre e-mail de confirmation de commande, avec la date et l’heure auxquelles notre serveur a enregistré votre demande.</li>
       </ul>
       <p>4.3. <strong>Ce que nous remboursons si vous vous rétractez.</strong> Si vous vous rétractez valablement :</p>
       <ul class="list">

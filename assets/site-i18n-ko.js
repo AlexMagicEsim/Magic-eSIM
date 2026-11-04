@@ -90,6 +90,7 @@
     'consent.termsLink': '이용약관',
     'consent.refundLink': '환불 정책',
     'consent.delivery': '14일 청약철회 기간 중이지만 Magic eSIM이 지금 바로 eSIM 요금제 제공을 시작하도록 요청합니다. 요금제가 모두 제공되면(데이터를 모두 사용했거나 유효기간이 끝나면) 청약철회권이 소멸하며, 그 전에 철회하는 경우 철회 의사를 알린 시점까지 제공된 부분의 요금을 부담한다는 것을 이해합니다.',
+    'consent.age': '본인은 만 18세 이상입니다.',
     'consent.privacy': '개인정보 처리 방식은 {privacy}에서 확인할 수 있습니다.',
     'consent.privacyLink': '개인정보 처리방침',
     'checkout.review': '확인',

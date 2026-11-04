@@ -13,9 +13,11 @@
 // 0.9.3 (LEGAL-7, owner's exact wording 2026-10-26): NO voluntary refund at all — the discretionary 14-day refund (§5.1)
 // is removed; the general rule, the summary row, §3.4(d) and §5 («When voluntary refunds are not available») say so.
 
-export const REFUND_VERSION = '0.9.3 (pre-launch)';
-export const REFUND_EFFECTIVE = '26 October 2026';
-export const REFUND_EFFECTIVE_ISO = '2026-10-26';
+// 0.9.4 (P1-1, owner's decision 2026-11-04): §4.2 the confirmation email repeats the request with the date and time
+// OUR SERVER recorded it — not «the date and time you ticked the box», which the server cannot know.
+export const REFUND_VERSION = '0.9.4 (pre-launch)';
+export const REFUND_EFFECTIVE = '4 November 2026';
+export const REFUND_EFFECTIVE_ISO = '2026-11-04';
 
 export const REFUND = Object.freeze({
   title: "Refund Policy — Magic eSIM",
@@ -172,7 +174,7 @@ export const REFUND = Object.freeze({
       <ul class="list">
         <li><strong>Installing the eSIM, or connecting it to a network, does not by itself end your right of withdrawal.</strong> You lose it only once the plan has been fully provided — its data is used up or its validity has ended. Until then you may withdraw and pay only for the part provided (section 4.3).</li>
         <li>The laws of some other countries give consumers a different period to cancel certain online purchases (for example, 5 or 7 days), with their own conditions and exceptions. Where such a law applies to your purchase, we honour it.</li>
-        <li>We repeat this text, with the date and time you ticked the box, in your order confirmation email.</li>
+        <li>We repeat this text in your order confirmation email, with the date and time our server recorded your request.</li>
       </ul>
       <p>4.3. <strong>What we refund if you withdraw.</strong> If you validly withdraw:</p>
       <ul class="list">

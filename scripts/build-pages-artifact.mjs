@@ -83,8 +83,8 @@ export function directoryRules(locales = prefixedSiteLocales()) {
     rules.push({
       dir: l.prefix,
       ext: ['.html', '.js', '.css'],
-      // the public list of legal document versions (the backend copies it; LEGAL-5…8)
-      files: l.prefix === 'en' ? ['en/legal-versions.json'] : [],
+      // the public list of legal document versions and the checkout statements (the backend copies both; LEGAL-5…8, P1-1)
+      files: l.prefix === 'en' ? ['en/legal-versions.json', 'en/checkout-statements.json'] : [],
     });
   }
   return rules;
