@@ -4823,19 +4823,19 @@
     ]
    },
    "also": [
+    "KR",
     "MY",
     "TH",
     "VN",
-    "KR",
     "SG",
-    "KH",
-    "PH",
     "BD",
     "HK",
     "IN",
     "JP",
+    "KH",
     "LA",
     "MO",
+    "PH",
     "TW"
    ],
    "daily": {
@@ -12215,7 +12215,6 @@
       180
      ],
      "shown_on": [
-      "ID",
       "KH",
       "PH",
       "VN"
