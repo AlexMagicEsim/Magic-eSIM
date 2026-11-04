@@ -80,8 +80,8 @@ export const LEGAL_I18N = Object.freeze({
         <li>Por ello, los sitios web y las aplicaciones pueden ver una dirección IP o una ubicación fuera del país en el que estás. Algunos pueden mostrar contenido, idioma o precios de otro país, o limitar el acceso.</li>
         <li>No prometemos el acceso a ningún sitio web, aplicación o servicio concreto. Su disponibilidad depende de la red, del propio servicio y de la legislación local.</li>
       </ul>` },
-      { id: "who-can-buy", en: 'ef3824aec7f3', h2: "3. Quién puede comprar", html: `
-      <p>3.1. Debes tener al menos 18 años y capacidad legal para celebrar un contrato.</p>
+      { id: "who-can-buy", en: '28d210a84a74', h2: "3. Quién puede comprar", html: `
+      <p>3.1. Debes tener al menos 18 años y capacidad legal para celebrar un contrato. Si eres menor de edad según la ley que rige tu capacidad jurídica y compras sin el consentimiento de tu representante legal, tanto tú como tu representante legal pueden anular el contrato.</p>
       <p>3.2. <strong>Solo para uso personal.</strong> Compras los planes para tu propio uso o para las personas con las que viajas. El uso comercial o la reventa requieren nuestro acuerdo previo por escrito.</p>
       <p>3.3. <strong>Destinos y sanciones.</strong></p>
       <ul class="list">

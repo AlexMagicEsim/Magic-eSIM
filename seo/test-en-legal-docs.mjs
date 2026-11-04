@@ -23,6 +23,7 @@ import { REFUND, REFUND_VERSION } from './refund-en.mjs';
 import { PRIVACY_VERSION } from './privacy-en.mjs';
 import { STATEMENTS_VERSION } from './checkout-statements.mjs';
 import { INTL_LEGAL, legalLinks } from './legal-links.mjs';
+import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -241,3 +242,28 @@ test('Terms §6.1: taxes may be added at checkout and the total is shown before 
   assert.doesNotMatch(t, /Merchant of Record during checkout/);
 });
 
+
+/* ------------------------------------------------------------------ Terms 0.9.6 §3.1: the minor's right to cancel */
+
+// Korea's Act on Consumer Protection in Electronic Commerce, Art. 13(3): a mail-order seller tells a minor that, without
+// the legal representative's consent, the minor or the representative may cancel the contract. ONE general sentence for
+// every buyer (no country named, nothing collected); the 18+ rule and the legal-capacity condition stay as they were.
+// «Cancel» here is the rescission for lack of capacity — never the word of the 14-day right of withdrawal.
+test('Terms §3.1: 18+ and legal capacity, and the minor\'s right to cancel — in English and every translation, apart from withdrawal', () => {
+  const sec = (D) => text(D.sections.find((s) => s.id === 'who-can-buy').html);
+  assert.match(sec(TERMS), /3\.1\. You must be at least 18 years old and legally able to enter into a contract\. If you are a minor under the law that governs your legal capacity and you buy without your legal representative’s consent, you or your legal representative may cancel the contract\./);
+  const RULE = {
+    es: [/al menos 18 años/, /tanto tú como tu representante legal pueden anular el contrato\./, /desistimiento/],
+    de: [/mindestens 18 Jahre/, /kannst du oder kann dein gesetzlicher Vertreter den Vertrag anfechten\./, /widerruf/i],
+    fr: [/au moins 18 ans/, /vous-même ou votre représentant légal pouvez annuler le contrat\./, /rétractation/],
+    'zh-Hans': [/年满 18 周岁/, /您或您的法定代理人可以撤销该合同。/, /撤回/],
+    ko: [/만 18세 이상/, /귀하 또는 법정대리인은 그 계약을 취소할 수 있습니다\./, /청약철회/],
+  };
+  for (const [code, [age, cancel, withdrawal]] of Object.entries(RULE)) {
+    const t = sec(LEGAL_TRANSLATIONS[code].terms);
+    assert.match(t, age, `${code}: 18+`);
+    assert.match(t, cancel, `${code}: the right to cancel`);
+    assert.doesNotMatch(t, withdrawal, `${code}: §3.1 does not use the withdrawal word`);
+  }
+  assert.doesNotMatch(sec(TERMS), /withdraw/, 'en: §3.1 does not use the withdrawal word');
+});
