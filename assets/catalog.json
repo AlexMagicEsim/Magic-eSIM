@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-04T15:04:26.516Z",
+  "generated_at": "2026-11-05T06:01:18.508Z",
   "source": "production-public-api",
-  "package_count": 2406,
+  "package_count": 2404,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -3028,7 +3028,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1400,
+      "price": 1250,
       "networks": [
         {
           "operator": "Claro",
@@ -3070,27 +3070,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3500
+          "price": 3200
         },
         {
           "days": 5,
-          "price": 5550
+          "price": 5100
         },
         {
           "days": 7,
-          "price": 7750
+          "price": 7150
         },
         {
           "days": 10,
-          "price": 10750
+          "price": 9850
         },
         {
           "days": 15,
-          "price": 16100
+          "price": 14800
         },
         {
           "days": 30,
-          "price": 29600
+          "price": 27200
         }
       ]
     },
@@ -6747,10 +6747,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         },
@@ -6783,23 +6779,15 @@
           "type": "5G"
         },
         {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
           "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
           "type": "5G"
         },
         {
           "operator": "Telenor Hungary",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -6816,10 +6804,6 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         },
         {
@@ -6935,15 +6919,11 @@
           "type": "5G"
         },
         {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
           "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
           "type": "5G"
         },
         {
@@ -8853,7 +8833,7 @@
       "coverage_flags": "🇭🇳",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1200,
+      "price": 1100,
       "networks": [
         {
           "operator": "Claro",
@@ -8890,27 +8870,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3050
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 4850
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 6750
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 9350
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 14000
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 25800
+          "price": 21000
         }
       ]
     },
@@ -9421,7 +9401,7 @@
       "coverage_flags": "🇭🇳",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1550,
+      "price": 1450,
       "networks": [
         {
           "operator": "Claro",
@@ -11513,10 +11493,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         },
@@ -11549,23 +11525,15 @@
           "type": "5G"
         },
         {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
           "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
           "type": "5G"
         },
         {
           "operator": "Telenor Hungary",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -11582,10 +11550,6 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         },
         {
@@ -11701,15 +11665,11 @@
           "type": "5G"
         },
         {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
           "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
           "type": "5G"
         },
         {
@@ -14167,7 +14127,7 @@
       "coverage_flags": "🇵🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1000,
+      "price": 950,
       "networks": [
         {
           "operator": "AT&T",
@@ -15885,7 +15845,7 @@
       "coverage_flags": "🇸🇻",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 450,
+      "price": 400,
       "networks": [
         {
           "operator": "movistar",
@@ -17835,7 +17795,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 500,
+      "price": 400,
       "networks": [
         {
           "operator": "Claro",
@@ -19845,7 +19805,7 @@
       "coverage_flags": "🇨🇴",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1000,
+      "price": 950,
       "networks": [
         {
           "operator": "movistar",
@@ -22039,7 +21999,7 @@
       "coverage_flags": "🇭🇳",
       "data_gb": 0,
       "validity_days": null,
-      "price": 700,
+      "price": 600,
       "networks": [
         {
           "operator": "Claro",
@@ -22076,27 +22036,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1750
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 2800
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 3450
+          "price": 2850
         },
         {
           "days": 10,
-          "price": 4800
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 7150
+          "price": 5950
         },
         {
           "days": 30,
-          "price": 13150
+          "price": 10900
         }
       ]
     },
@@ -22638,50 +22598,6 @@
           "price": 5100
         }
       ]
-    },
-    {
-      "package_id": "254c6221-b470-4cdb-a0ca-498fb304ed5f",
-      "name": "Peru 3GB 30Days",
-      "country_code": "PE",
-      "region": "PE",
-      "coverage_country_codes": [
-        "PE"
-      ],
-      "coverage_flags": "🇵🇪",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1050,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "25576a8b-1a7d-4f7c-ba34-12d91f8dc64e",
@@ -27642,45 +27558,6 @@
           "price": 7400
         }
       ]
-    },
-    {
-      "package_id": "315d5270-3971-4e25-b2ca-fac864305590",
-      "name": "Honduras 3GB 30Days",
-      "country_code": "HN",
-      "region": "HN",
-      "coverage_country_codes": [
-        "HN"
-      ],
-      "coverage_flags": "🇭🇳",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1050,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "31673b0c-4bc4-4984-b64f-bb367693d01d",
@@ -33478,7 +33355,7 @@
       "coverage_flags": "🇭🇳",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1000,
+      "price": 950,
       "networks": [
         {
           "operator": "Claro",
@@ -35625,7 +35502,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 0,
       "validity_days": null,
-      "price": 450,
+      "price": 350,
       "networks": [
         {
           "operator": "Claro",
@@ -35666,27 +35543,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1150
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1800
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2500
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 3050
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 4600
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 8400
+          "price": 6250
         }
       ]
     },
@@ -35773,7 +35650,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1000,
+      "price": 900,
       "networks": [
         {
           "operator": "Claro",
@@ -37313,7 +37190,7 @@
       "coverage_flags": "🇨🇴",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 5950,
+      "price": 4450,
       "networks": [
         {
           "operator": "movistar",
@@ -38005,7 +37882,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1000,
+      "price": 900,
       "networks": [
         {
           "operator": "Claro",
@@ -38313,7 +38190,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1850,
+      "price": 1250,
       "networks": [
         {
           "operator": "Claro",
@@ -38834,7 +38711,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2550,
+      "price": 2000,
       "networks": [
         {
           "operator": "Claro",
@@ -38876,27 +38753,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 6450
+          "price": 5050
         },
         {
           "days": 5,
-          "price": 10300
+          "price": 8000
         },
         {
           "days": 7,
-          "price": 14400
+          "price": 11200
         },
         {
           "days": 10,
-          "price": 19900
+          "price": 15500
         },
         {
           "days": 15,
-          "price": 29850
+          "price": 23200
         },
         {
           "days": 30,
-          "price": 54950
+          "price": 42750
         }
       ]
     },
@@ -39589,7 +39466,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1200,
+      "price": 1100,
       "networks": [
         {
           "operator": "Claro",
@@ -39631,27 +39508,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3050
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 4850
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 6750
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 9350
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 14000
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 25800
+          "price": 21000
         }
       ]
     },
@@ -42555,7 +42432,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1100,
+      "price": 900,
       "networks": [
         {
           "operator": "Claro",
@@ -43175,6 +43052,49 @@
         "FR",
         "NL",
         "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "4e23bcde-1e3f-4244-8fdd-c5151e7f5162",
+      "name": "Argentina 3GB 15Days",
+      "country_code": "AR",
+      "region": "AR",
+      "coverage_country_codes": [
+        "AR"
+      ],
+      "coverage_flags": "🇦🇷",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 950,
+      "networks": [
+        {
+          "operator": "Claro",
+          "type": "4G"
+        },
+        {
+          "operator": "Movistar",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -44144,7 +44064,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 0,
       "validity_days": null,
-      "price": 450,
+      "price": 350,
       "networks": [
         {
           "operator": "movistar",
@@ -44186,27 +44106,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1700
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2350
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 2850
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 4300
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 7900
+          "price": 6250
         }
       ]
     },
@@ -44255,7 +44175,7 @@
       "coverage_flags": "🇸🇻",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1600,
+      "price": 1100,
       "networks": [
         {
           "operator": "movistar",
@@ -44296,27 +44216,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4050
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 6500
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 9050
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 12500
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 18750
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 34550
+          "price": 21000
         }
       ]
     },
@@ -44788,7 +44708,7 @@
       "coverage_flags": "🇸🇻",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2400,
+      "price": 1250,
       "networks": [
         {
           "operator": "movistar",
@@ -45303,7 +45223,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 750,
+      "price": 600,
       "networks": [
         {
           "operator": "Claro",
@@ -45345,27 +45265,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1850
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 2650
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 3700
+          "price": 2850
         },
         {
           "days": 10,
-          "price": 5100
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 7600
+          "price": 5950
         },
         {
           "days": 30,
-          "price": 14000
+          "price": 10900
         }
       ]
     },
@@ -45472,7 +45392,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 400,
+      "price": 350,
       "networks": [
         {
           "operator": "Claro",
@@ -45513,27 +45433,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1100
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1550
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2150
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 2650
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 3950
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 7300
+          "price": 6250
         }
       ]
     },
@@ -45894,7 +45814,7 @@
       "coverage_flags": "🇨🇴",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 450,
+      "price": 400,
       "networks": [
         {
           "operator": "movistar",
@@ -46669,7 +46589,7 @@
       "coverage_flags": "🇳🇮",
       "data_gb": 0,
       "validity_days": null,
-      "price": 400,
+      "price": 350,
       "networks": [
         {
           "operator": "Claro",
@@ -46706,27 +46626,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1650
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2350
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 2850
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 4300
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 7850
+          "price": 6250
         }
       ]
     },
@@ -47727,231 +47647,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "5774ba2f-0c07-47b6-a9c1-fa67407ab648",
-      "name": "South America 1GB/Day FUP1Mbps",
-      "country_code": "SA-18",
-      "region": "PR,SV,MQ,UY,HN,CL,PY,GP,BL,CO,BO,GT,CR,BR,AR,PA,PE,MF,NI,EC",
-      "coverage_country_codes": [
-        "PR",
-        "SV",
-        "MQ",
-        "UY",
-        "HN",
-        "CL",
-        "PY",
-        "GP",
-        "BL",
-        "CO",
-        "BO",
-        "GT",
-        "CR",
-        "BR",
-        "AR",
-        "PA",
-        "PE",
-        "MF",
-        "NI",
-        "EC"
-      ],
-      "coverage_flags": "🇵🇷 🇸🇻 🇲🇶 🇺🇾 🇭🇳 🇨🇱 🇵🇾 🇬🇵 🇧🇱 🇨🇴 🇧🇴 🇬🇹 🇨🇷 🇧🇷 🇦🇷 🇵🇦 🇵🇪 🇲🇫 🇳🇮 🇪🇨",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1250,
-      "networks": [
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Tigo",
-          "type": "4G"
-        },
-        {
-          "operator": "TIM",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "Vivo",
-          "type": "5G"
-        },
-        {
-          "operator": "movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "WOM",
-          "type": "5G"
-        },
-        {
-          "operator": "movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Tigo",
-          "type": "5G"
-        },
-        {
-          "operator": "movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Tigo",
-          "type": "4G"
-        },
-        {
-          "operator": "movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "movistar",
-          "type": "3G"
-        },
-        {
-          "operator": "Tigo",
-          "type": "5G"
-        },
-        {
-          "operator": "Tigo",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
-        },
-        {
-          "operator": "movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Tigo",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "Antel",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "UK",
-        "NO"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 3100
-        },
-        {
-          "days": 5,
-          "price": 4950
-        },
-        {
-          "days": 7,
-          "price": 6900
-        },
-        {
-          "days": 10,
-          "price": 9550
-        },
-        {
-          "days": 15,
-          "price": 14300
-        },
-        {
-          "days": 30,
-          "price": 26350
-        }
-      ]
-    },
-    {
       "package_id": "57c1192c-175a-4625-9d53-836429a16638",
       "name": "Qatar 2GB/Day",
       "country_code": "QA",
@@ -48578,10 +48273,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         },
@@ -48614,23 +48305,15 @@
           "type": "5G"
         },
         {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
           "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
           "type": "5G"
         },
         {
           "operator": "Telenor Hungary",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -48647,10 +48330,6 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         },
         {
@@ -48766,15 +48445,11 @@
           "type": "5G"
         },
         {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
           "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
           "type": "5G"
         },
         {
@@ -51135,7 +50810,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2400,
+      "price": 2000,
       "networks": [
         {
           "operator": "Claro",
@@ -51176,27 +50851,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 6050
+          "price": 5050
         },
         {
           "days": 5,
-          "price": 9650
+          "price": 8000
         },
         {
           "days": 7,
-          "price": 13500
+          "price": 11200
         },
         {
           "days": 10,
-          "price": 18600
+          "price": 15500
         },
         {
           "days": 15,
-          "price": 27900
+          "price": 23200
         },
         {
           "days": 30,
-          "price": 51450
+          "price": 42750
         }
       ]
     },
@@ -51738,7 +51413,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1600,
+      "price": 1250,
       "networks": [
         {
           "operator": "Claro",
@@ -52530,7 +52205,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 700,
+      "price": 600,
       "networks": [
         {
           "operator": "Claro",
@@ -52571,27 +52246,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1800
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 2850
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 3500
+          "price": 2850
         },
         {
           "days": 10,
-          "price": 4850
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 7250
+          "price": 5950
         },
         {
           "days": 30,
-          "price": 13350
+          "price": 10900
         }
       ]
     },
@@ -54072,7 +53747,7 @@
       "coverage_flags": "🇭🇳",
       "data_gb": 0,
       "validity_days": null,
-      "price": 400,
+      "price": 350,
       "networks": [
         {
           "operator": "Claro",
@@ -54109,27 +53784,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1500
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2100
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 2850
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 3800
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 7000
+          "price": 6250
         }
       ]
     },
@@ -56126,7 +55801,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 0,
       "validity_days": null,
-      "price": 900,
+      "price": 600,
       "networks": [
         {
           "operator": "Claro",
@@ -56167,27 +55842,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2250
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 3200
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 4450
+          "price": 2850
         },
         {
           "days": 10,
-          "price": 6150
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 9200
+          "price": 5950
         },
         {
           "days": 30,
-          "price": 16900
+          "price": 10900
         }
       ]
     },
@@ -58777,7 +58452,7 @@
       "coverage_flags": "🇸🇻",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1350,
+      "price": 900,
       "networks": [
         {
           "operator": "movistar",
@@ -58892,7 +58567,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2800,
+      "price": 2600,
       "networks": [
         {
           "operator": "Claro",
@@ -61380,7 +61055,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1600,
+      "price": 1450,
       "networks": [
         {
           "operator": "Claro",
@@ -61664,7 +61339,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 0,
       "validity_days": null,
-      "price": 850,
+      "price": 600,
       "networks": [
         {
           "operator": "Claro",
@@ -61705,27 +61380,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2100
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 3000
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 4150
+          "price": 2850
         },
         {
           "days": 10,
-          "price": 5750
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 8600
+          "price": 5950
         },
         {
           "days": 30,
-          "price": 15800
+          "price": 10900
         }
       ]
     },
@@ -61818,7 +61493,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2650,
+      "price": 2300,
       "networks": [
         {
           "operator": "Claro",
@@ -64958,49 +64633,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "763b8f3d-b51c-49d0-826a-b397140dbd7c",
-      "name": "Ecuador 3GB 30Days",
-      "country_code": "EC",
-      "region": "EC",
-      "coverage_country_codes": [
-        "EC"
-      ],
-      "coverage_flags": "🇪🇨",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1050,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "3G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "764b758d-b3ba-4772-a0b3-45b52d4ca0b3",
       "name": "Middle East (5 areas) 1GB 7Days",
       "country_code": "ME-5",
@@ -66169,7 +65801,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4600,
+      "price": 3900,
       "networks": [
         {
           "operator": "Claro",
@@ -67740,10 +67372,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         },
@@ -67776,23 +67404,15 @@
           "type": "5G"
         },
         {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
           "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
           "type": "5G"
         },
         {
           "operator": "Telenor Hungary",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -67809,10 +67429,6 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         },
         {
@@ -67928,15 +67544,11 @@
           "type": "5G"
         },
         {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
           "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
           "type": "5G"
         },
         {
@@ -68431,83 +68043,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "7c26e167-7c95-4252-80d8-ada1b11c8d17",
-      "name": "Colombia 3GB/Day FUP1Mbps",
-      "country_code": "CO",
-      "region": "CO",
-      "coverage_country_codes": [
-        "CO"
-      ],
-      "coverage_flags": "🇨🇴",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1000,
-      "networks": [
-        {
-          "operator": "movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Claro",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2600
-        },
-        {
-          "days": 5,
-          "price": 3650
-        },
-        {
-          "days": 7,
-          "price": 5150
-        },
-        {
-          "days": 10,
-          "price": 7100
-        },
-        {
-          "days": 15,
-          "price": 10600
-        },
-        {
-          "days": 30,
-          "price": 19550
-        }
-      ]
     },
     {
       "package_id": "7c3c780e-0ba2-4cb7-a378-daac5c961311",
@@ -69512,7 +69047,7 @@
       "coverage_flags": "🇳🇮",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1150,
+      "price": 1100,
       "networks": [
         {
           "operator": "Claro",
@@ -69549,27 +69084,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2950
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 4700
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 6600
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 9100
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 13650
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 25100
+          "price": 21000
         }
       ]
     },
@@ -72718,7 +72253,7 @@
       "coverage_flags": "🇳🇮",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2750,
+      "price": 2000,
       "networks": [
         {
           "operator": "Claro",
@@ -72755,27 +72290,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 7050
+          "price": 5050
         },
         {
           "days": 5,
-          "price": 11250
+          "price": 8000
         },
         {
           "days": 7,
-          "price": 15700
+          "price": 11200
         },
         {
           "days": 10,
-          "price": 21700
+          "price": 15500
         },
         {
           "days": 15,
-          "price": 32550
+          "price": 23200
         },
         {
           "days": 30,
-          "price": 59950
+          "price": 42750
         }
       ]
     },
@@ -74811,7 +74346,7 @@
       "coverage_flags": "🇵🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1500,
+      "price": 1250,
       "networks": [
         {
           "operator": "AT&T",
@@ -75899,7 +75434,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2950,
+      "price": 2000,
       "networks": [
         {
           "operator": "Claro",
@@ -75940,27 +75475,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 7550
+          "price": 5050
         },
         {
           "days": 5,
-          "price": 12050
+          "price": 8000
         },
         {
           "days": 7,
-          "price": 16850
+          "price": 11200
         },
         {
           "days": 10,
-          "price": 23250
+          "price": 15500
         },
         {
           "days": 15,
-          "price": 34850
+          "price": 23200
         },
         {
           "days": 30,
-          "price": 64250
+          "price": 42750
         }
       ]
     },
@@ -80290,10 +79825,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         },
@@ -80326,23 +79857,15 @@
           "type": "5G"
         },
         {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
           "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
           "type": "5G"
         },
         {
           "operator": "Telenor Hungary",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -80359,10 +79882,6 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         },
         {
@@ -80478,15 +79997,11 @@
           "type": "5G"
         },
         {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
           "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
           "type": "5G"
         },
         {
@@ -83145,6 +82660,83 @@
         {
           "days": 30,
           "price": 11600
+        }
+      ]
+    },
+    {
+      "package_id": "95a47633-59b6-485d-8cac-38f14079516c",
+      "name": "Colombia 2GB/Day",
+      "country_code": "CO",
+      "region": "CO",
+      "coverage_country_codes": [
+        "CO"
+      ],
+      "coverage_flags": "🇨🇴",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 600,
+      "networks": [
+        {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Claro",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1450
+        },
+        {
+          "days": 5,
+          "price": 2300
+        },
+        {
+          "days": 7,
+          "price": 2850
+        },
+        {
+          "days": 10,
+          "price": 3950
+        },
+        {
+          "days": 15,
+          "price": 5950
+        },
+        {
+          "days": 30,
+          "price": 10900
         }
       ]
     },
@@ -86323,27 +85915,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2750
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 4350
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 6100
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 8400
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 12550
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 23150
+          "price": 21000
         }
       ]
     },
@@ -87939,7 +87531,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1450,
       "networks": [
         {
           "operator": "movistar",
@@ -90747,7 +90339,7 @@
       "coverage_flags": "🇨🇴",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2000,
+      "price": 1450,
       "networks": [
         {
           "operator": "movistar",
@@ -94054,7 +93646,7 @@
       "coverage_flags": "🇨🇴",
       "data_gb": 0,
       "validity_days": null,
-      "price": 600,
+      "price": 350,
       "networks": [
         {
           "operator": "movistar",
@@ -94096,27 +93688,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1500
+          "price": 950
         },
         {
           "days": 5,
-          "price": 2400
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 3000
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 4150
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 6200
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 11350
+          "price": 6250
         }
       ]
     },
@@ -94578,7 +94170,7 @@
       "coverage_flags": "🇳🇮",
       "data_gb": 0,
       "validity_days": null,
-      "price": 800,
+      "price": 600,
       "networks": [
         {
           "operator": "Claro",
@@ -94615,27 +94207,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1950
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 2800
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 3900
+          "price": 2850
         },
         {
           "days": 10,
-          "price": 5350
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 8050
+          "price": 5950
         },
         {
           "days": 30,
-          "price": 14800
+          "price": 10900
         }
       ]
     },
@@ -96724,7 +96316,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 450,
+      "price": 400,
       "networks": [
         {
           "operator": "Claro",
@@ -100048,7 +99640,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 13700,
+      "price": 11050,
       "networks": [
         {
           "operator": "Claro",
@@ -102945,6 +102537,50 @@
       "sellable_days": []
     },
     {
+      "package_id": "b71e02c4-21a3-47b0-a157-0c061043e31e",
+      "name": "Chile 3GB 15Days",
+      "country_code": "CL",
+      "region": "CL",
+      "coverage_country_codes": [
+        "CL"
+      ],
+      "coverage_flags": "🇨🇱",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 950,
+      "networks": [
+        {
+          "operator": "movistar",
+          "type": "3G"
+        },
+        {
+          "operator": "CLARO CL",
+          "type": "3G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "b72889a4-6bb9-4b35-a48f-bf3643989168",
       "name": "Asia (14 areas) 5GB/Day",
       "country_code": "AS-14",
@@ -104110,7 +103746,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2450,
+      "price": 2000,
       "networks": [
         {
           "operator": "movistar",
@@ -104152,27 +103788,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 6250
+          "price": 5050
         },
         {
           "days": 5,
-          "price": 9950
+          "price": 8000
         },
         {
           "days": 7,
-          "price": 13900
+          "price": 11200
         },
         {
           "days": 10,
-          "price": 19200
+          "price": 15500
         },
         {
           "days": 15,
-          "price": 28800
+          "price": 23200
         },
         {
           "days": 30,
-          "price": 53000
+          "price": 42750
         }
       ]
     },
@@ -109363,7 +108999,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4850,
+      "price": 4200,
       "networks": [
         {
           "operator": "movistar",
@@ -110190,6 +109826,83 @@
         {
           "days": 30,
           "price": 4750
+        }
+      ]
+    },
+    {
+      "package_id": "c2eca32c-211d-466b-bad1-ad75217f5109",
+      "name": "Colombia 3GB/Day",
+      "country_code": "CO",
+      "region": "CO",
+      "coverage_country_codes": [
+        "CO"
+      ],
+      "coverage_flags": "🇨🇴",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 900,
+      "networks": [
+        {
+          "operator": "movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Claro",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2350
+        },
+        {
+          "days": 5,
+          "price": 3300
+        },
+        {
+          "days": 7,
+          "price": 4600
+        },
+        {
+          "days": 10,
+          "price": 6350
+        },
+        {
+          "days": 15,
+          "price": 9500
+        },
+        {
+          "days": 30,
+          "price": 17500
         }
       ]
     },
@@ -114102,7 +113815,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 450,
+      "price": 350,
       "networks": [
         {
           "operator": "Claro",
@@ -114144,27 +113857,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1100
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1700
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2400
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 2900
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 4350
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 8050
+          "price": 6250
         }
       ]
     },
@@ -117142,7 +116855,7 @@
       "coverage_flags": "🇳🇮",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1550,
+      "price": 1250,
       "networks": [
         {
           "operator": "Claro",
@@ -119302,7 +119015,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2650,
+      "price": 2600,
       "networks": [
         {
           "operator": "movistar",
@@ -121384,10 +121097,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         },
@@ -121420,23 +121129,15 @@
           "type": "5G"
         },
         {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
           "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
           "type": "5G"
         },
         {
           "operator": "Telenor Hungary",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -121453,10 +121154,6 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         },
         {
@@ -121572,15 +121269,11 @@
           "type": "5G"
         },
         {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
           "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
           "type": "5G"
         },
         {
@@ -123309,7 +123002,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 0,
       "validity_days": null,
-      "price": 700,
+      "price": 600,
       "networks": [
         {
           "operator": "movistar",
@@ -123351,27 +123044,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1850
+          "price": 1450
         },
         {
           "days": 5,
-          "price": 2900
+          "price": 2300
         },
         {
           "days": 7,
-          "price": 3600
+          "price": 2850
         },
         {
           "days": 10,
-          "price": 5000
+          "price": 3950
         },
         {
           "days": 15,
-          "price": 7500
+          "price": 5950
         },
         {
           "days": 30,
-          "price": 13750
+          "price": 10900
         }
       ]
     },
@@ -126992,7 +126685,7 @@
       "coverage_flags": "🇳🇮",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1000,
+      "price": 900,
       "networks": [
         {
           "operator": "Claro",
@@ -128683,7 +128376,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1300,
+      "price": 1100,
       "networks": [
         {
           "operator": "movistar",
@@ -128725,27 +128418,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3250
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 5150
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 7200
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 9950
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 14900
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 27400
+          "price": 21000
         }
       ]
     },
@@ -129561,7 +129254,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1550,
+      "price": 1100,
       "networks": [
         {
           "operator": "Claro",
@@ -129602,27 +129295,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3850
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 6150
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 8650
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 11900
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 17850
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 32900
+          "price": 21000
         }
       ]
     },
@@ -129854,7 +129547,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1000,
+      "price": 1050,
       "networks": [
         {
           "operator": "Claro",
@@ -133897,10 +133590,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         },
@@ -133933,23 +133622,15 @@
           "type": "5G"
         },
         {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
-          "operator": "Wind",
-          "type": "5G"
-        },
-        {
           "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Wind",
           "type": "5G"
         },
         {
           "operator": "Telenor Hungary",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         },
         {
@@ -133966,10 +133647,6 @@
         },
         {
           "operator": "Vodafone",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
           "type": "5G"
         },
         {
@@ -134085,15 +133762,11 @@
           "type": "5G"
         },
         {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "5G"
-        },
-        {
           "operator": "Orange",
+          "type": "5G"
+        },
+        {
+          "operator": "Movistar",
           "type": "5G"
         },
         {
@@ -134947,49 +134620,6 @@
       "activation_policy": "first_data_usage",
       "topup_available": true,
       "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "ec1eb3b1-4691-4b75-9d3b-5c4b4b17f17a",
-      "name": "Guatemala 3GB 30Days",
-      "country_code": "GT",
-      "region": "GT",
-      "coverage_country_codes": [
-        "GT"
-      ],
-      "coverage_flags": "🇬🇹",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1200,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "4G"
-        },
-        {
-          "operator": "movistar",
-          "type": "3G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -136873,7 +136503,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1600,
+      "price": 1250,
       "networks": [
         {
           "operator": "Claro",
@@ -136915,27 +136545,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4050
+          "price": 3200
         },
         {
           "days": 5,
-          "price": 6500
+          "price": 5100
         },
         {
           "days": 7,
-          "price": 9100
+          "price": 7150
         },
         {
           "days": 10,
-          "price": 12550
+          "price": 9850
         },
         {
           "days": 15,
-          "price": 18800
+          "price": 14800
         },
         {
           "days": 30,
-          "price": 34600
+          "price": 27200
         }
       ]
     },
@@ -138059,7 +137689,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 0,
       "validity_days": null,
-      "price": 500,
+      "price": 350,
       "networks": [
         {
           "operator": "Claro",
@@ -138100,27 +137730,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1200
+          "price": 950
         },
         {
           "days": 5,
-          "price": 1900
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 2650
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 3300
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 4900
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 9000
+          "price": 6250
         }
       ]
     },
@@ -144930,7 +144560,7 @@
       "coverage_flags": "🇭🇳",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2450,
+      "price": 2000,
       "networks": [
         {
           "operator": "Claro",
@@ -144967,27 +144597,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 6300
+          "price": 5050
         },
         {
           "days": 5,
-          "price": 10000
+          "price": 8000
         },
         {
           "days": 7,
-          "price": 14000
+          "price": 11200
         },
         {
           "days": 10,
-          "price": 19350
+          "price": 15500
         },
         {
           "days": 15,
-          "price": 29000
+          "price": 23200
         },
         {
           "days": 30,
-          "price": 53450
+          "price": 42750
         }
       ]
     },
@@ -146629,6 +146259,7 @@
         "local": [
           "4dc2e009-82c6-4dd2-b39b-3aaa8b1cbe90",
           "609dc935-1dc6-404c-bd76-58b66bcdc1e7",
+          "4e23bcde-1e3f-4244-8fdd-c5151e7f5162",
           "e3300129-8957-473d-a840-879f6faa8014",
           "702f6df2-26c4-4074-8612-351a1449bcd2",
           "6c6ca855-d89f-435a-83d8-8de12199da46",
@@ -146649,7 +146280,6 @@
           "532c663f-cede-4ed2-bd4e-4504312aaed3",
           "60a95711-f8bb-45bc-a946-125866005345",
           "9a0ca99d-f4ef-49cd-af9c-e0b2b77b604d",
-          "8a03fb8c-47f4-49df-b0a4-2e4c032d38ec",
           "5db2e54a-f442-459b-9424-d3dce3ab99ae",
           "b7e31ca5-f8f8-4be7-8e3d-4e58b20ee628",
           "aeda7194-a9fb-473d-a7dc-a3ec0e875352",
@@ -147441,6 +147071,7 @@
         "local": [
           "e77a979a-6578-4ebb-ba0b-c2619bfb9a48",
           "3042308a-ed46-4745-9db6-ba2240f4f779",
+          "b71e02c4-21a3-47b0-a157-0c061043e31e",
           "e25592b2-e1d9-4423-b6d3-b416821e4fde",
           "9cd571d9-e719-4277-b4e9-4a2cf496f02f",
           "d3b45c23-09ae-4fa0-8faf-d956dffb5eed",
@@ -147461,7 +147092,6 @@
           "506a4542-6c61-478f-9ecc-26d6930e7a19",
           "d8ba7ec9-a665-4a38-af19-7b804ec35a69",
           "e0fac636-4169-41a1-9c6e-01a2cdd3e7fc",
-          "8a03fb8c-47f4-49df-b0a4-2e4c032d38ec",
           "b8a5fb4b-d239-4e15-a28c-aa230e66a26f",
           "b7e31ca5-f8f8-4be7-8e3d-4e58b20ee628",
           "aeda7194-a9fb-473d-a7dc-a3ec0e875352",
@@ -147550,7 +147180,8 @@
         "daily": [
           "8ced18a9-a555-41f0-979d-ca2354a5feb5",
           "a80d82ae-62f3-47b2-88df-34ee8ab69220",
-          "7c26e167-7c95-4252-80d8-ada1b11c8d17",
+          "95a47633-59b6-485d-8cac-38f14079516c",
+          "c2eca32c-211d-466b-bad1-ad75217f5109",
           "21219500-1675-4191-ae01-e759db8ae5f6",
           "82449815-a1c1-47a6-af42-6fc2c179bb75",
           "b7e31ca5-f8f8-4be7-8e3d-4e58b20ee628",
@@ -147854,7 +147485,6 @@
         "local": [
           "ac9c0d16-996f-40b0-bcf7-a7ee5fe6da5d",
           "44cb86ce-22ce-4877-9973-b28b93af273b",
-          "763b8f3d-b51c-49d0-826a-b397140dbd7c",
           "c77ed164-b133-4f7b-9f8b-3de79098d94f",
           "c06d0354-5861-4e1e-b115-d8474b13fbf8",
           "d5458372-acfc-408e-b56b-0496ce3eae33"
@@ -148462,7 +148092,6 @@
         "local": [
           "1cc8da28-a890-4ecc-bd56-947e275cebf1",
           "4cff5173-dcf7-4d0d-ab05-5e212875e220",
-          "ec1eb3b1-4691-4b75-9d3b-5c4b4b17f17a",
           "455beb7b-a870-4c9b-b3b6-5425199eaf78",
           "190cc6c8-846c-4d42-92c2-66780ff97a6a",
           "52913ce9-758e-432b-9202-3e79d0447c65"
@@ -148594,7 +148223,6 @@
         "local": [
           "729abd8d-0aa4-4774-b779-a26fd9e5ecf2",
           "3bfbf632-0aa4-4a96-b2f8-1103792a7ebc",
-          "315d5270-3971-4e25-b2ca-fac864305590",
           "0f3e4596-f50c-46e4-8003-a712db1da5e1",
           "6cbc0fad-1be5-4fc9-8c6a-775f95201b1c",
           "a7182082-b9e2-4363-9d27-ec9489ea1bec"
@@ -150394,7 +150022,6 @@
         "local": [
           "894ed4fe-5712-4e12-9008-d952fff47f7e",
           "406d9413-c2c2-4680-9024-c3aafbb01144",
-          "254c6221-b470-4cdb-a0ca-498fb304ed5f",
           "5ed6cb4c-6e4a-4045-8928-cf2fd491434f",
           "706e135b-be4e-4214-9f54-7c6c95b1a0b0",
           "d6fd522d-820d-4fad-8141-7d61f6c76faf",
@@ -151114,7 +150741,6 @@
           "02c2aaf4-f95e-432b-aa2d-687a5dd9e2ab"
         ],
         "daily": [
-          "5774ba2f-0c07-47b6-a9c1-fa67407ab648",
           "5153b00c-6fdb-4d32-98e3-ce93407e5973",
           "21219500-1675-4191-ae01-e759db8ae5f6",
           "82449815-a1c1-47a6-af42-6fc2c179bb75",
