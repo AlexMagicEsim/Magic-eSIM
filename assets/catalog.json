@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-05T09:05:12.279Z",
+  "generated_at": "2026-11-05T12:05:12.902Z",
   "source": "production-public-api",
-  "package_count": 2404,
+  "package_count": 2403,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -38486,46 +38486,6 @@
       "topup_available": true,
       "ip_export": [
         "US"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "462addc2-33e4-4eff-89d1-d6409b6e9407",
-      "name": "Malaysia 20GB 15Days (MYIP)",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 20,
-      "validity_days": 15,
-      "price": 1400,
-      "networks": [
-        {
-          "operator": "Tune Talk",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "MY"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -149686,7 +149646,6 @@
           "73b962a8-cd92-4cef-9aa0-5a5933dd564c",
           "066237c4-2dca-433e-ba19-13748825dd85",
           "349ad2cb-5a04-40a7-9a34-2968a1ddd2b9",
-          "462addc2-33e4-4eff-89d1-d6409b6e9407",
           "268c320b-5b0c-4b54-a837-7adda145d502",
           "0866ca2c-9d28-4af7-8aff-342b6a8668af",
           "a5d96fcd-59b3-4f1e-b528-6d6f16bafe2b",
