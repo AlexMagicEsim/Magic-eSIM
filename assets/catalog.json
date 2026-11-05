@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-05T06:01:18.508Z",
+  "generated_at": "2026-11-05T09:05:12.279Z",
   "source": "production-public-api",
   "package_count": 2404,
   "packages": [
@@ -15296,7 +15296,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2950,
+      "price": 2600,
       "networks": [
         {
           "operator": "Claro",
@@ -17683,7 +17683,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1000,
+      "price": 350,
       "networks": [
         {
           "operator": "Claro",
@@ -17720,27 +17720,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2550
+          "price": 950
         },
         {
           "days": 5,
-          "price": 3650
+          "price": 1350
         },
         {
           "days": 7,
-          "price": 5050
+          "price": 1850
         },
         {
           "days": 10,
-          "price": 7000
+          "price": 2550
         },
         {
           "days": 15,
-          "price": 10500
+          "price": 3400
         },
         {
           "days": 30,
-          "price": 19300
+          "price": 6250
         }
       ]
     },
@@ -20196,7 +20196,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 5150,
+      "price": 4450,
       "networks": [
         {
           "operator": "Claro",
@@ -31326,7 +31326,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2900,
+      "price": 2600,
       "networks": [
         {
           "operator": "Claro",
@@ -45027,38 +45027,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "52913ce9-758e-432b-9202-3e79d0447c65",
-      "name": "Guatemala 20 GB",
-      "country_code": "GT",
-      "region": "GT",
-      "coverage_country_codes": [
-        "GT"
-      ],
-      "coverage_flags": "🇬🇹",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 5250,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "52b936b5-ca32-42c0-9e1a-3f79918b1bca",
       "name": "Central Asia 5 GB",
       "country_code": "KZ",
@@ -51071,78 +51039,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "5e4b0deb-2583-44d5-a0cb-6d8b53193efb",
-      "name": "Paraguay 500MB/Day",
-      "country_code": "PY",
-      "region": "PY",
-      "coverage_country_codes": [
-        "PY"
-      ],
-      "coverage_flags": "🇵🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "3G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "BE"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1450
-        },
-        {
-          "days": 5,
-          "price": 2300
-        },
-        {
-          "days": 7,
-          "price": 2850
-        },
-        {
-          "days": 10,
-          "price": 3900
-        },
-        {
-          "days": 15,
-          "price": 5850
-        },
-        {
-          "days": 30,
-          "price": 10750
-        }
-      ]
-    },
-    {
       "package_id": "5e7149a9-1e4d-44a4-b5a1-76c9641d2582",
       "name": "Mozambique 3GB 30Days",
       "country_code": "MZ",
@@ -52924,7 +52820,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 450,
+      "price": 400,
       "networks": [
         {
           "operator": "Claro",
@@ -76052,7 +75948,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2850,
+      "price": 2000,
       "networks": [
         {
           "operator": "Claro",
@@ -76089,27 +75985,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 7300
+          "price": 5050
         },
         {
           "days": 5,
-          "price": 11650
+          "price": 8000
         },
         {
           "days": 7,
-          "price": 16300
+          "price": 11200
         },
         {
           "days": 10,
-          "price": 22550
+          "price": 15500
         },
         {
           "days": 15,
-          "price": 33800
+          "price": 23200
         },
         {
           "days": 30,
-          "price": 62200
+          "price": 42750
         }
       ]
     },
@@ -94604,7 +94500,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1050,
+      "price": 950,
       "networks": [
         {
           "operator": "Claro",
@@ -100656,7 +100552,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1250,
+      "price": 1100,
       "networks": [
         {
           "operator": "Claro",
@@ -100693,27 +100589,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3200
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 5100
+          "price": 3950
         },
         {
           "days": 7,
-          "price": 7150
+          "price": 5500
         },
         {
           "days": 10,
-          "price": 9850
+          "price": 7600
         },
         {
           "days": 15,
-          "price": 14800
+          "price": 11400
         },
         {
           "days": 30,
-          "price": 27250
+          "price": 21000
         }
       ]
     },
@@ -108621,7 +108517,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2950,
+      "price": 2600,
       "networks": [
         {
           "operator": "Claro",
@@ -110575,6 +110471,78 @@
       "sellable_days": []
     },
     {
+      "package_id": "c4a35f2e-028c-49d3-9ce6-612ccb3e8561",
+      "name": "Paraguay 2GB/Day",
+      "country_code": "PY",
+      "region": "PY",
+      "coverage_country_codes": [
+        "PY"
+      ],
+      "coverage_flags": "🇵🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 600,
+      "networks": [
+        {
+          "operator": "Claro",
+          "type": "3G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1450
+        },
+        {
+          "days": 5,
+          "price": 2300
+        },
+        {
+          "days": 7,
+          "price": 2850
+        },
+        {
+          "days": 10,
+          "price": 3950
+        },
+        {
+          "days": 15,
+          "price": 5950
+        },
+        {
+          "days": 30,
+          "price": 10900
+        }
+      ]
+    },
+    {
       "package_id": "c4a70824-f7e0-4bdd-a066-4320aacd727e",
       "name": "Slovakia 1GB 7Days",
       "country_code": "SK",
@@ -112276,7 +112244,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1800,
+      "price": 1450,
       "networks": [
         {
           "operator": "Claro",
@@ -119638,6 +119606,49 @@
       ]
     },
     {
+      "package_id": "d453aadb-479e-4108-8f1e-2107d538e28e",
+      "name": "Guatemala 20GB 30Days",
+      "country_code": "GT",
+      "region": "GT",
+      "coverage_country_codes": [
+        "GT"
+      ],
+      "coverage_flags": "🇬🇹",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 4450,
+      "networks": [
+        {
+          "operator": "Claro",
+          "type": "4G"
+        },
+        {
+          "operator": "movistar",
+          "type": "3G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "d46e60b5-5dcd-437f-91e5-c3c463a843e6",
       "name": "Lithuania 1GB/Day",
       "country_code": "LT",
@@ -120320,7 +120331,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 5100,
+      "price": 4450,
       "networks": [
         {
           "operator": "Claro",
@@ -129021,7 +129032,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1150,
+      "price": 1050,
       "networks": [
         {
           "operator": "Claro",
@@ -134639,7 +134650,7 @@
       "coverage_flags": "🇵🇾",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1450,
       "networks": [
         {
           "operator": "Claro",
@@ -148094,7 +148105,7 @@
           "4cff5173-dcf7-4d0d-ab05-5e212875e220",
           "455beb7b-a870-4c9b-b3b6-5425199eaf78",
           "190cc6c8-846c-4d42-92c2-66780ff97a6a",
-          "52913ce9-758e-432b-9202-3e79d0447c65"
+          "d453aadb-479e-4108-8f1e-2107d538e28e"
         ],
         "regional": [
           "b9c4528c-550e-43b8-aa15-f95926f4957e",
@@ -150268,8 +150279,8 @@
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8"
         ],
         "daily": [
-          "5e4b0deb-2583-44d5-a0cb-6d8b53193efb",
           "1c8d53cb-3d4d-40a2-893b-e5e48ba529f8",
+          "c4a35f2e-028c-49d3-9ce6-612ccb3e8561",
           "b2f3efba-5a6e-46e1-8cc2-00a66faabf6a",
           "89cd9f28-c1b5-494c-b8d0-4c38e59dc813"
         ],
