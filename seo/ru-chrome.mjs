@@ -103,8 +103,8 @@ export const RU_POPULAR = Object.freeze(RU_POPULAR_ALL.slice(0, 8));
  * MAGIC_ESIM_YANDEX_WORDSTAT_SEO_2026-11-05.md, «esim/есим X» a month: Turkey 26 110, China 16 595, Egypt 5 909, Vietnam
  * 4 573, Thailand 3 371), then the six that were already here, kept so no page loses the links it had: the Maldives and
  * Sri Lanka (395 and 198 — low demand, but taking them out dropped each from 211 linking pages to ~10).
- * Seven, one more line than before: at 1366 px the column is then exactly as tall as «Инструкции» (two of its six labels
- * wrap), on a phone it is one 31 px line longer. An eighth line would make it the longest column, so Kazakhstan (3 381)
+ * Seven, one more line than before: at 1366 px the column is one line taller than «Инструкции» (two of its six labels
+ * wrap there), on a phone it is one ~31 px line longer. An eighth line would stretch it further, so Kazakhstan (3 381)
  * waits for a contextual link instead. The UAE (2 592) and Georgia (2 723) are NOT here on purpose: both are SEO-pilot
  * pages (seo/frozen-pages.mjs), and the footer would multiply their inbound links during the pilot; Egypt (a pilot page
  * too) was already in the footer, so its links do not move. seo/test-ru-footer-destinations.mjs holds the list. */
