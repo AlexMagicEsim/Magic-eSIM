@@ -143,19 +143,21 @@ test('internalLinks: <a href> inside the site, resolved, without the fragment; s
 test('a site-wide footer link change: every RU page carrying it is sent once (lastmod untouched), no international page, nothing else', () => {
   // the footer is chrome: its change moves no lastmod (seo/test-sitemap-lastmod.mjs R4) — so base and head states are equal
   const ruLocs = sitemapLocs(SITEMAP).filter(isRuSiteUrl);
-  const addLink = (h) => h.replace(/(<footer class="site-footer">[\s\S]*?<h2>Направления<\/h2>\s*<ul>)/, '$1\n          <li><a href="/esim/kazakhstan/">Казахстан</a></li>');
-  const carriers = ruLocs.filter((u) => { const h = read(repoPath(u)); return h && addLink(h) !== h && !internalLinks(h, u).includes('/esim/kazakhstan/'); });
+  // a link no page carries yet (the real footer changes over time — Kazakhstan joined it in #219), so the rule is tested
+  // on a change that is a change on every page
+  const PROBE = '/esim/indexnow-footer-probe/';
+  const addLink = (h) => h.replace(/(<footer class="site-footer">[\s\S]*?<h2>Направления<\/h2>\s*<ul>)/, `$1\n          <li><a href="${PROBE}">Проба</a></li>`);
+  const carriers = ruLocs.filter((u) => { const h = read(repoPath(u)); return h && addLink(h) !== h && !internalLinks(h, u).includes(PROBE); });
   assert.ok(carriers.length > 150, `RU pages carrying the footer: ${carriers.length}`);
   const r = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS,
     readBase: read, read: (rel) => { const h = read(rel); return h && !rel.match(/^(en|es|de|fr|zh|ko)\//) ? addLink(h) : h; } });
   assert.deepEqual(r.send, [...carriers].sort());
   assert.ok(r.send.every((u) => r.reason[u] === 'links'));
   assert.ok(r.send.every(isRuSiteUrl), 'no international URL');
-  assert.ok(!r.send.includes(`${ORIGIN}/esim/kazakhstan/`) || carriers.includes(`${ORIGIN}/esim/kazakhstan/`));
   assert.ok(r.send.length <= MAX_URLS, 'a site-wide link change fits under the cap');
   // the SAME change in the international footer only sends nothing: those URLs are never RU
   const intl = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: read,
-    read: (rel) => { const h = read(rel); return h && rel.startsWith('en/') ? h.replace('<footer class="site-footer">', '<footer class="site-footer"><a href="/en/esim/kazakhstan/">KZ</a>') : h; } });
+    read: (rel) => { const h = read(rel); return h && rel.startsWith('en/') ? h.replace('<footer class="site-footer">', `<footer class="site-footer"><a href="/en${PROBE}">probe</a>`) : h; } });
   assert.deepEqual(intl.send, []);
   // the next deployment compares with THIS one: nothing left to send — no repeats
   const again = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: (rel) => { const h = read(rel); return h && !rel.match(/^(en|es|de|fr|zh|ko)\//) ? addLink(h) : h; }, read: (rel) => { const h = read(rel); return h && !rel.match(/^(en|es|de|fr|zh|ko)\//) ? addLink(h) : h; } });
