@@ -1,7 +1,7 @@
 // The Russian footer's «Направления» is the one link to a country that every Russian page carries — 211 pages. Until
 // 2026-11-06 it was the first six of RU_POPULAR, so China (seventh there; 16 595 «esim/есим китай» a month in Yandex
 // Wordstat, second only to Turkey) was linked from 12 pages against 211 for each of the six. It is its own list now
-// (seo/ru-chrome.mjs RU_FOOTER_DESTINATIONS); this holds it to pages that exist, are indexable, and to plain links.
+// (seo/ru-chrome.mjs RU_FOOTER_DESTINATIONS), with Kazakhstan (3 381) added on the owner's word; this holds it to pages that exist, are indexable, and to plain links.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -31,8 +31,8 @@ function footerProblems(footer) {
   return problems;
 }
 
-test('the footer destinations: China first, then the six that were there before (no page loses a link), each slug once', () => {
-  assert.deepEqual(RU_FOOTER_DESTINATIONS.map((d) => d.slug), ['china', 'turkey', 'thailand', 'vietnam', 'egypt', 'maldives', 'sri-lanka']);
+test('the footer destinations: China first, Kazakhstan added, and the six that were there before (no page loses a link), each slug once', () => {
+  assert.deepEqual(RU_FOOTER_DESTINATIONS.map((d) => d.slug), ['china', 'turkey', 'thailand', 'vietnam', 'egypt', 'kazakhstan', 'maldives', 'sri-lanka']);
   assert.equal(new Set(RU_FOOTER_DESTINATIONS.map((d) => d.slug)).size, RU_FOOTER_DESTINATIONS.length);
   // the six of the footer before 2026-11-06 — none of them loses its site-wide link
   for (const s of ['turkey', 'thailand', 'vietnam', 'egypt', 'maldives', 'sri-lanka']) assert.ok(RU_FOOTER_DESTINATIONS.some((d) => d.slug === s), s);
