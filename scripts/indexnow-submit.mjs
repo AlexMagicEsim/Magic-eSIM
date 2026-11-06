@@ -8,8 +8,12 @@
  *   --dry-run        everything except the POST (the live checks still run unless --offline)
  *   --offline        no network at all: no live checks, no POST (implies --dry-run) — for local runs and tests
  *
- * Exit 0: sent, key pending, nothing to send, or gave up on 429/5xx/network (a warning — the next deployment sends its
- * own changes). Exit 1: our error — bad arguments, no/invalid key file, rejected 400/403/422, over MAX_URLS.
+ * The URLs go in batches of at most BATCH_SIZE, one after another; each batch's result is logged, written to the run
+ * summary and to one `INDEXNOW_RESULT {…}` line (URLs, HTTP status, outcome — never the key).
+ *
+ * Exit 0: every batch sent or key pending, nothing to send, or a batch gave up on 429/5xx/network (a warning — nothing
+ * is re-sent later; the next deployment sends its own changes). Exit 1: our error — bad arguments, no/invalid key
+ * file, a batch rejected 400/403/422 (after the other batches were still sent), over MAX_URLS.
  * The key is never printed.
  */
 
@@ -17,7 +21,7 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ORIGIN, MAX_URLS, readKey, selectUrls, liveCheck, submit } from '../seo/indexnow.mjs';
+import { ORIGIN, MAX_URLS, BATCH_SIZE, readKey, selectUrls, liveCheck, batches, submitBatches } from '../seo/indexnow.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SHA = /^[0-9a-f]{40}$/;
@@ -111,13 +115,22 @@ if (send.length === 0) {
 
 for (const u of send) console.log(`  send ${u} (${picked.reason[u]})`);
 if (dryRun) {
-  console.log(`IndexNow: dry run — ${send.length} URL(s) would be sent`);
-  summary(['### IndexNow (dry run)', ...send.map((u) => `- ${u}`)]);
+  const n = batches(send).length;
+  console.log(`IndexNow: dry run — ${send.length} URL(s) would be sent in ${n} batch(es) of at most ${BATCH_SIZE}`);
+  summary(['### IndexNow (dry run)', `${send.length} URL(s) in ${n} batch(es) of at most ${BATCH_SIZE}`, ...send.map((u) => `- ${u}`)]);
   process.exit(0);
 }
 
-const r = await submit(key, send);
-summary(['### IndexNow', `HTTP ${r.status ?? 'network error'} — ${r.outcome}, ${send.length} URL(s), ${r.attempts} attempt(s)`, ...send.map((u) => `- ${u}`)]);
-if (r.outcome === 'rejected') process.exit(1);
-if (r.outcome === 'gave_up') console.log('::warning::IndexNow: Yandex did not accept the submission after retries — not retried further');
-process.exit(0);
+const r = await submitBatches(key, send);
+const lines = ['### IndexNow', `${base.slice(0, 9)}..${head.slice(0, 9)}: ${send.length} URL(s) in ${r.batches.length} batch(es) — received ${r.sent}, failed ${r.failed}, not sent ${r.notSent}`, '', '| batch | URLs | HTTP | outcome | attempts |', '|---|---|---|---|---|'];
+for (const b of r.batches) lines.push(`| ${b.n} | ${b.urls.length} | ${b.status ?? '—'} | ${b.outcome} | ${b.attempts} |`);
+for (const b of r.batches) {
+  if (b.outcome === 'accepted' || b.outcome === 'pending_key') continue;
+  lines.push('', `Batch ${b.n} (${b.outcome}) — not received by Yandex:`, ...b.urls.map((u) => `- ${u}`));
+}
+summary(lines);
+console.log(`INDEXNOW_RESULT ${JSON.stringify({ base, head, total: send.length, sent: r.sent, failed: r.failed, not_sent: r.notSent, batches: r.batches.map((b) => ({ n: b.n, size: b.urls.length, status: b.status, outcome: b.outcome, attempts: b.attempts, urls: b.urls })) })}`);
+if (r.batches.some((b) => b.outcome === 'gave_up' || b.outcome === 'not_sent')) {
+  console.log('::warning::IndexNow: some batches were not received by Yandex (listed in the run summary) — not retried further');
+}
+process.exit(r.batches.some((b) => b.outcome === 'rejected') ? 1 : 0);

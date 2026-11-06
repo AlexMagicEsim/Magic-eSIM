@@ -5,9 +5,10 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync, spawnSync } from 'node:child_process';
 import {
-  ORIGIN, ENDPOINT, MAX_URLS, RETRY_DELAYS_MS, RETRY_AFTER_CAP_MS, FOREIGN_PREFIXES, KEY_FILE_RE,
+  ORIGIN, ENDPOINT, MAX_URLS, BATCH_SIZE, BATCH_PAUSE_MS, WAIT_BUDGET_MS, RETRY_DELAYS_MS, RETRY_AFTER_CAP_MS,
+  FOREIGN_PREFIXES, KEY_FILE_RE,
   readKey, sitemapLocs, isRuSiteUrl, changedPages, robotsRules, robotsAllows, pageFacts, repoPath,
-  selectUrls, liveCheck, buildBody, submit, internalLinks,
+  selectUrls, liveCheck, buildBody, batches, submit, submitBatches, internalLinks,
 } from './indexnow.mjs';
 import { allowRule, directoryRules } from '../scripts/build-pages-artifact.mjs';
 import { prefixedSiteLocales } from './locales.mjs';
@@ -211,7 +212,7 @@ function harness(answers) {
   return { calls, sleeps, logs, opts: { fetchImpl, sleep: async (ms) => { sleeps.push(ms); }, log: (m) => logs.push(m) } };
 }
 
-test('buildBody: our host, the root key location, validated RU URLs only, never empty, never over the cap', () => {
+test('buildBody: our host, the root key location, validated RU URLs only, never empty, never over one batch', () => {
   const b = buildBody(KEY, URLS);
   assert.deepEqual(Object.keys(b), ['host', 'key', 'keyLocation', 'urlList']);
   assert.equal(b.host, 'magicesim.store');
@@ -219,7 +220,7 @@ test('buildBody: our host, the root key location, validated RU URLs only, never 
   assert.throws(() => buildBody(KEY, [...URLS, `${ORIGIN}/en/esim/china/`]), /outside the RU segment/);
   assert.throws(() => buildBody(KEY, ['https://evil.example/']), /outside the RU segment/);
   assert.throws(() => buildBody(KEY, []), /nothing to send/);
-  assert.throws(() => buildBody(KEY, Array.from({ length: MAX_URLS + 1 }, () => URLS[0])), /MAX_URLS/);
+  assert.throws(() => buildBody(KEY, Array.from({ length: BATCH_SIZE + 1 }, () => URLS[0])), /BATCH_SIZE/);
 });
 
 test('submit: 200 accepted / 202 key pending in one POST to the fixed Yandex endpoint', async () => {
@@ -227,7 +228,7 @@ test('submit: 200 accepted / 202 key pending in one POST to the fixed Yandex end
   for (const [status, outcome] of [[200, 'accepted'], [202, 'pending_key']]) {
     const h = harness([{ status }]);
     const r = await submit(KEY, URLS, h.opts);
-    assert.deepEqual(r, { outcome, status, attempts: 1 });
+    assert.deepEqual(r, { outcome, status, attempts: 1, waitedMs: 0 });
     assert.equal(h.calls.length, 1);
     assert.equal(h.calls[0].url, ENDPOINT);
     assert.equal(h.calls[0].opts.method, 'POST');
@@ -239,14 +240,14 @@ test('submit: 200 accepted / 202 key pending in one POST to the fixed Yandex end
 test('submit: 400/403/422 are rejected at once, never retried', async () => {
   for (const status of [400, 403, 405, 422]) {
     const h = harness([{ status }, { status: 200 }]);
-    assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'rejected', status, attempts: 1 });
+    assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'rejected', status, attempts: 1, waitedMs: 0 });
     assert.equal(h.calls.length, 1);
   }
 });
 
 test('submit: 429 / 5xx / network errors are retried a bounded number of times, Retry-After honoured and capped', async () => {
   let h = harness([{ status: 429 }, { status: 200 }]);
-  assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'accepted', status: 200, attempts: 2 });
+  assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'accepted', status: 200, attempts: 2, waitedMs: RETRY_DELAYS_MS[0] });
   assert.deepEqual(h.sleeps, [RETRY_DELAYS_MS[0]]);
 
   h = harness([{ status: 429, headers: { 'retry-after': '90' } }, { status: 200 }]);
@@ -258,18 +259,93 @@ test('submit: 429 / 5xx / network errors are retried a bounded number of times, 
   assert.deepEqual(h.sleeps, [RETRY_AFTER_CAP_MS]);
 
   h = harness([{ status: 504 }]);
-  assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'gave_up', status: 504, attempts: RETRY_DELAYS_MS.length + 1 });
+  assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'gave_up', status: 504, attempts: RETRY_DELAYS_MS.length + 1, waitedMs: RETRY_DELAYS_MS.reduce((a, b) => a + b, 0) });
   assert.deepEqual(h.sleeps, [...RETRY_DELAYS_MS]);
   assert.equal(h.calls.length, RETRY_DELAYS_MS.length + 1, 'bounded — never an endless loop');
 
   h = harness([Object.assign(new Error('reset'), { code: 'ECONNRESET' })]);
-  assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'gave_up', status: null, attempts: RETRY_DELAYS_MS.length + 1 });
+  assert.deepEqual(await submit(KEY, URLS, h.opts), { outcome: 'gave_up', status: null, attempts: RETRY_DELAYS_MS.length + 1, waitedMs: RETRY_DELAYS_MS.reduce((a, b) => a + b, 0) });
+});
+
+/* ---------------------------------------------------------------- batches */
+
+const many = (n) => Array.from({ length: n }, (_, i) => `${ORIGIN}/esim/page-${String(i).padStart(3, '0')}/`);
+const bodies = (h) => h.calls.map((c) => JSON.parse(c.opts.body).urlList);
+
+test('batches: at most BATCH_SIZE (100) per POST, in order, nothing lost or repeated — 198, 250 and 300 URLs', () => {
+  assert.equal(BATCH_SIZE, 100);
+  for (const [n, sizes] of [[1, [1]], [100, [100]], [101, [100, 1]], [198, [100, 98]], [250, [100, 100, 50]], [300, [100, 100, 100]]]) {
+    const urls = many(n);
+    const parts = batches(urls);
+    assert.deepEqual(parts.map((p) => p.length), sizes, String(n));
+    assert.deepEqual(parts.flat(), urls, `${n}: order kept, nothing lost or repeated`);
+  }
+  assert.deepEqual(batches([]), []);
+  assert.ok(MAX_URLS >= 300 && MAX_URLS <= 10_000, 'a sanity ceiling well above the RU segment');
+  assert.throws(() => batches(many(MAX_URLS + 1)), /MAX_URLS/);
+});
+
+test('submitBatches: 198 / 250 / 300 URLs go as 2 / 3 / 3 sequential POSTs with a pause between them, every URL once', async () => {
+  for (const [n, posts] of [[198, 2], [250, 3], [300, 3]]) {
+    const urls = many(n);
+    const h = harness([{ status: 202 }]);
+    const r = await submitBatches(KEY, urls, h.opts);
+    assert.equal(h.calls.length, posts, `${n} URLs`);
+    assert.deepEqual(bodies(h).flat(), urls, `${n}: every URL once, in order`);
+    assert.ok(bodies(h).every((b) => b.length <= BATCH_SIZE));
+    assert.deepEqual(h.sleeps, Array(posts - 1).fill(BATCH_PAUSE_MS), 'one pause between batches, none before the first');
+    assert.deepEqual(r.batches.map((b) => [b.n, b.urls.length, b.status, b.outcome, b.attempts]),
+      bodies(h).map((b, i) => [i + 1, b.length, 202, 'pending_key', 1]));
+    assert.deepEqual([r.sent, r.failed, r.notSent], [n, 0, 0]);
+  }
+});
+
+test('submitBatches: a failed batch is recorded and the next batches are still sent (200, 202, 429, 5xx, 4xx, network)', async () => {
+  // batch 1: 503 three times → gave up; batch 2: 429 then 200; batch 3: 403 → rejected, not retried
+  const answers = [{ status: 503 }, { status: 503 }, { status: 503 }, { status: 429 }, { status: 200 }, { status: 403 }];
+  const h = harness(answers);
+  const r = await submitBatches(KEY, many(250), h.opts);
+  assert.deepEqual(r.batches.map((b) => [b.n, b.urls.length, b.status, b.outcome, b.attempts]),
+    [[1, 100, 503, 'gave_up', 3], [2, 100, 200, 'accepted', 2], [3, 50, 403, 'rejected', 1]]);
+  assert.equal(h.calls.length, answers.length, 'bounded: 3 + 2 + 1 POSTs');
+  assert.deepEqual([r.sent, r.failed, r.notSent], [100, 150, 0]);
+  assert.deepEqual(r.batches[0].urls, many(250).slice(0, 100), 'the URLs of the failed batch are kept in the result');
+  // a network error on one batch does not stop the next
+  const net = harness([Object.assign(new Error('reset'), { code: 'ECONNRESET' }), new Error('x'), new Error('x'), { status: 200 }]);
+  const r2 = await submitBatches(KEY, many(198), net.opts);
+  assert.deepEqual(r2.batches.map((b) => b.outcome), ['gave_up', 'accepted']);
+});
+
+test('submitBatches: the run\'s waiting is bounded — past WAIT_BUDGET_MS a retry is not taken and later batches are recorded as not sent', async () => {
+  // every POST 429 with Retry-After at the cap: the budget runs out; the total number of POSTs stays small
+  const h = harness([{ status: 429, headers: { 'retry-after': '99999' } }]);
+  const r = await submitBatches(KEY, many(300), h.opts);
+  const waited = h.sleeps.reduce((a, b) => a + b, 0);
+  assert.ok(waited <= WAIT_BUDGET_MS, `slept ${waited} ms`);
+  assert.ok(h.calls.length <= 3 * (RETRY_DELAYS_MS.length + 1), `${h.calls.length} POSTs`);
+  assert.ok(r.batches.every((b) => b.outcome === 'gave_up' || b.outcome === 'not_sent'));
+  assert.deepEqual(r.batches.flatMap((b) => b.urls), many(300), 'every URL is accounted for in a batch result');
+  assert.equal(r.sent, 0);
+  assert.equal(r.failed + r.notSent, 300);
+  // a tiny budget: the first batch is still tried once, the rest are not started
+  const t = harness([{ status: 503 }]);
+  const r3 = await submitBatches(KEY, many(300), { ...t.opts, waitBudgetMs: 1 });
+  assert.deepEqual(r3.batches.map((b) => [b.outcome, b.attempts]), [['gave_up', 1], ['not_sent', 0], ['not_sent', 0]]);
+  assert.equal(t.calls.length, 1);
+});
+
+test('submitBatches: over MAX_URLS nothing is sent at all; international URLs are refused before any POST', async () => {
+  const h = harness([{ status: 200 }]);
+  await assert.rejects(submitBatches(KEY, many(MAX_URLS + 1), h.opts), /MAX_URLS/);
+  await assert.rejects(submitBatches(KEY, [...many(150), `${ORIGIN}/en/esim/china/`], h.opts), /outside the RU segment/);
+  assert.equal(h.calls.length, 0, 'every batch is validated before the first POST');
 });
 
 test('the key never reaches a log line', async () => {
   for (const answers of [[{ status: 200 }], [{ status: 202 }], [{ status: 403 }], [{ status: 503 }], [new Error('x')]]) {
     const h = harness(answers);
     await submit(KEY, URLS, h.opts);
+    await submitBatches(KEY, many(250), h.opts);
     assert.ok(h.logs.length > 0);
     for (const l of h.logs) assert.ok(!l.includes(KEY), l);
   }
@@ -305,7 +381,9 @@ test('the IndexNow workflow: after Deploy Pages only, read-only, no secret, no U
   assert.match(code, /select\(\.name == "deploy to GitHub Pages"\)/, 'only a run whose deploy job succeeded');
   assert.match(code, /cancel-in-progress: false/);
   assert.match(code, /runs-on: ubuntu-24\.04/);
-  assert.match(code, /timeout-minutes: 20/);
+  // room for the 10-minute pause, the live checks and the run's whole wait budget
+  const timeout = Number(/timeout-minutes: (\d+)/.exec(code)[1]);
+  assert.ok(timeout * 60_000 >= 10 * 60_000 + WAIT_BUDGET_MS + 5 * 60_000 && timeout <= 60, `timeout-minutes ${timeout}`);
   assert.match(code, /::add-mask::/);
   assert.match(code, /persist-credentials: false/);
   assert.match(code, /node scripts\/indexnow-submit\.mjs --base "\$BASE" --head "\$HEAD_SHA"/);
