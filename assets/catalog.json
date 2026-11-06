@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-05T12:05:12.902Z",
+  "generated_at": "2026-11-06T19:28:57.565Z",
   "source": "production-public-api",
-  "package_count": 2403,
+  "package_count": 2405,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -23814,37 +23814,6 @@
           "price": 8800
         }
       ]
-    },
-    {
-      "package_id": "27dee7b8-a99b-40d8-bc5d-4fdd37018b27",
-      "name": "Jamaica 2 GB",
-      "country_code": "JM",
-      "region": "JM",
-      "coverage_country_codes": [
-        "JM"
-      ],
-      "coverage_flags": "🇯🇲",
-      "data_gb": 2,
-      "validity_days": 14,
-      "price": 2200,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "27e1ab97-7e46-4a8a-bfd2-0a2e39ddbddb",
@@ -64631,6 +64600,45 @@
           "price": 16600
         }
       ]
+    },
+    {
+      "package_id": "76637155-3d78-4e2f-b730-3c9960d7c862",
+      "name": "Ghana 2GB 15Days",
+      "country_code": "GH",
+      "region": "GH",
+      "coverage_country_codes": [
+        "GH"
+      ],
+      "coverage_flags": "🇬🇭",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "AT"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "767351eb-7ff2-47be-9e2b-153a1bf6e915",
@@ -135128,6 +135136,46 @@
       ]
     },
     {
+      "package_id": "ed2151b0-f1bd-472c-8031-9eb62482876c",
+      "name": "Nigeria 2GB 15Days",
+      "country_code": "NG",
+      "region": "NG",
+      "coverage_country_codes": [
+        "NG"
+      ],
+      "coverage_flags": "🇳🇬",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 1100,
+      "networks": [
+        {
+          "operator": "Glo",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "ed5dcd69-d1d6-4699-b006-d6e0a4c1157d",
       "name": "Europe 50GB 180Days",
       "country_code": "EU-42",
@@ -143785,6 +143833,43 @@
       "sellable_days": []
     },
     {
+      "package_id": "fbbbae9a-2ff9-43dc-851e-34f3a548272e",
+      "name": "Jamaica 2GB 15Days",
+      "country_code": "JM",
+      "region": "JM",
+      "coverage_country_codes": [
+        "JM"
+      ],
+      "coverage_flags": "🇯🇲",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 1900,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "fbff54e9-6e48-4980-aa58-1c3494c33fd2",
       "name": "Greater China and Taiwan Premium 30 GB",
       "country_code": "CN",
@@ -147891,6 +147976,7 @@
       "GH": {
         "local": [
           "9a0974e3-c04b-4a64-aedb-0f8b7c562821",
+          "76637155-3d78-4e2f-b730-3c9960d7c862",
           "354a5935-1c5e-46da-97be-c748faf365cc",
           "9d7a8f3b-91f2-4690-91c7-cdc06856dc7b",
           "dcca8857-e83f-44c0-ac00-168db5933705",
@@ -148579,7 +148665,7 @@
       "JM": {
         "local": [
           "d880b73f-8939-425f-83b1-83ea4e8d0aa0",
-          "27dee7b8-a99b-40d8-bc5d-4fdd37018b27",
+          "fbbbae9a-2ff9-43dc-851e-34f3a548272e",
           "c41366db-13f5-49fb-a81a-a7af68f0cab0",
           "297b050e-25f7-4a72-bfea-31298a472abb",
           "17916c14-9442-4f6e-83bc-c40787358af0",
@@ -149731,6 +149817,7 @@
       "NG": {
         "local": [
           "07eb8541-aec5-40e2-9fab-9f9310cbd2a3",
+          "ed2151b0-f1bd-472c-8031-9eb62482876c",
           "a236458f-8765-4183-a6a7-2100a82ad415",
           "da8b793b-ee2a-419a-a628-cfe497e2c86d",
           "bf48e4e6-d05e-4e15-b4d8-f1ad0e364be0",

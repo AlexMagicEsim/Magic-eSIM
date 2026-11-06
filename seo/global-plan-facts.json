@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-05",
+ "updated": "2026-11-06",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -3869,6 +3869,7 @@
    "local": {
     "gb": [
      1,
+     2,
      3,
      5,
      10,
@@ -5357,6 +5358,7 @@
     "days": [
      7,
      14,
+     15,
      30
     ]
    },
@@ -7760,6 +7762,7 @@
    "local": {
     "gb": [
      1,
+     2,
      3,
      5,
      10,
