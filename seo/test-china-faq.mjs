@@ -74,6 +74,18 @@ test('premise: every China card has a «Сеть» generation; some carry an IP 
   assert.ok(cards.some((p) => !ip(p).length), '«у других такой отметки нет»');
 });
 
+test('no amount, no price token and no named package in the authored FAQ — the cards carry those', () => {
+  for (const f of profile.faq) {
+    assert.doesNotMatch(f.a, /\{\{price:|₽|руб/i, f.q);
+    assert.doesNotMatch(f.a, /\d+(?:[.,]\d+)?\s*(?:ГБ|МБ|GB|дн)/i, f.q);
+  }
+  assert.equal(profile.price_claims, undefined, 'no price claim left to pin');
+});
+
+test('premise: China has plans paid by the day («посмотрите тарифы с оплатой за день»)', () => {
+  assert.ok(b.daily.length > 0);
+});
+
 test('nothing is promised about a named app, an operator or the network in a place', () => {
   const text = profile.faq.map((f) => `${f.q} ${f.a}`).join(' ');
   assert.doesNotMatch(text, /WhatsApp|Telegram|Телеграм|WeChat|Google|YouTube|Instagram|Ватсап/i);

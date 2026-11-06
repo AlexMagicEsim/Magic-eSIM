@@ -31,9 +31,11 @@ function footerProblems(footer) {
   return problems;
 }
 
-test('the footer destinations: China first, the owner\'s priority order, six, each slug once', () => {
-  assert.deepEqual(RU_FOOTER_DESTINATIONS.map((d) => d.slug), ['china', 'turkey', 'thailand', 'vietnam', 'egypt', 'kazakhstan']);
+test('the footer destinations: China first, then the six that were there before (no page loses a link), each slug once', () => {
+  assert.deepEqual(RU_FOOTER_DESTINATIONS.map((d) => d.slug), ['china', 'turkey', 'thailand', 'vietnam', 'egypt', 'maldives', 'sri-lanka']);
   assert.equal(new Set(RU_FOOTER_DESTINATIONS.map((d) => d.slug)).size, RU_FOOTER_DESTINATIONS.length);
+  // the six of the footer before 2026-11-06 — none of them loses its site-wide link
+  for (const s of ['turkey', 'thailand', 'vietnam', 'egypt', 'maldives', 'sri-lanka']) assert.ok(RU_FOOTER_DESTINATIONS.some((d) => d.slug === s), s);
 });
 
 test('every footer destination is a published, indexable RU page with a self canonical', () => {

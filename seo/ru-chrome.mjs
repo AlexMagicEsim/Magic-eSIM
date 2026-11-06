@@ -99,20 +99,23 @@ export const RU_POPULAR = Object.freeze(RU_POPULAR_ALL.slice(0, 8));
 
 /* The footer's «Направления» — its own list since 2026-11-06, no longer the first six of RU_POPULAR: the footer is on every
  * Russian page, so it IS the site-wide internal link to a country, and the old slice left China (seventh) out — 12 pages
- * linked it against 211 for each of the six. Ordered by real Yandex Wordstat demand (MAGIC_ESIM_YANDEX_WORDSTAT_SEO_2026-11-05.md,
- * «esim/есим X» a month): Turkey 26 110, China 16 595, Egypt 5 909, Vietnam 4 573, Kazakhstan 3 381, Thailand 3 371 (people
- * write «тайланд») — the owner's priority puts China first. Six, as before, so the column keeps its length.
- * The UAE (2 592) and Georgia (2 723) are NOT here on purpose: both are SEO-pilot pages (seo/frozen-pages.mjs), and the
- * footer would multiply their inbound links during the pilot; Egypt (a pilot page too) was already in the footer, so its
- * links do not move. The Maldives (395) and Sri Lanka (198) left for Kazakhstan and China; both stay on the home's tiles
- * and in the hub. seo/test-ru-footer-destinations.mjs holds the list to existing, indexable pages. */
+ * linked it against 211 for each of the six. China goes first (the owner's priority; real Yandex Wordstat demand,
+ * MAGIC_ESIM_YANDEX_WORDSTAT_SEO_2026-11-05.md, «esim/есим X» a month: Turkey 26 110, China 16 595, Egypt 5 909, Vietnam
+ * 4 573, Thailand 3 371), then the six that were already here, kept so no page loses the links it had: the Maldives and
+ * Sri Lanka (395 and 198 — low demand, but taking them out dropped each from 211 linking pages to ~10).
+ * Seven, one more line than before: at 1366 px the column is then exactly as tall as «Инструкции» (two of its six labels
+ * wrap), on a phone it is one 31 px line longer. An eighth line would make it the longest column, so Kazakhstan (3 381)
+ * waits for a contextual link instead. The UAE (2 592) and Georgia (2 723) are NOT here on purpose: both are SEO-pilot
+ * pages (seo/frozen-pages.mjs), and the footer would multiply their inbound links during the pilot; Egypt (a pilot page
+ * too) was already in the footer, so its links do not move. seo/test-ru-footer-destinations.mjs holds the list. */
 export const RU_FOOTER_DESTINATIONS = Object.freeze([
   { slug: 'china', iso: 'CN', name: 'Китай' },
   { slug: 'turkey', iso: 'TR', name: 'Турция' },
   { slug: 'thailand', iso: 'TH', name: 'Таиланд' },
   { slug: 'vietnam', iso: 'VN', name: 'Вьетнам' },
   { slug: 'egypt', iso: 'EG', name: 'Египет' },
-  { slug: 'kazakhstan', iso: 'KZ', name: 'Казахстан' },
+  { slug: 'maldives', iso: 'MV', name: 'Мальдивы' },
+  { slug: 'sri-lanka', iso: 'LK', name: 'Шри-Ланка' },
 ]);
 
 export const RU_FOOTER_GUIDES = Object.freeze([
