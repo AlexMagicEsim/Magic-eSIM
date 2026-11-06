@@ -7,7 +7,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import {
   ORIGIN, ENDPOINT, MAX_URLS, RETRY_DELAYS_MS, RETRY_AFTER_CAP_MS, FOREIGN_PREFIXES, KEY_FILE_RE,
   readKey, sitemapLocs, isRuSiteUrl, changedPages, robotsRules, robotsAllows, pageFacts, repoPath,
-  selectUrls, liveCheck, buildBody, submit,
+  selectUrls, liveCheck, buildBody, submit, internalLinks,
 } from './indexnow.mjs';
 import { allowRule, directoryRules } from '../scripts/build-pages-artifact.mjs';
 import { prefixedSiteLocales } from './locales.mjs';
@@ -126,6 +126,56 @@ test('a real-looking deployment: only the changed RU page is sent; its English t
   assert.deepEqual(hidden.skipped.find((s) => s.url === `${ORIGIN}/esim/china/`)?.why, 'noindex');
   // nothing moved → nothing sent
   assert.deepEqual(selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read }).send, []);
+});
+
+test('internalLinks: <a href> inside the site, resolved, without the fragment; scripts, assets and other hosts do not count', () => {
+  const html = `<a href="../china/">x</a><a href="/esim/turkey/#plans">y</a><a href="https://magicesim.store/iphone.html">z</a>
+    <a href="https://t.me/magicesim">t</a><a href="mailto:support@magicesim.store">m</a><link rel="stylesheet" href="/assets/site.css?v=1">
+    <script>var s='<a href="/esim/hidden/">';</script><a class="x" href="/esim/turkey/">again</a>`;
+  assert.deepEqual(internalLinks(html, `${ORIGIN}/esim/vietnam/`), ['/esim/china/', '/esim/turkey/', '/iphone.html']);
+  // an asset stamp or a stylesheet change is not a link change
+  const real = read('esim/turkey/index.html');
+  assert.deepEqual(internalLinks(real.replace(/\?v=[0-9a-f]{8}/g, '?v=00000000'), `${ORIGIN}/esim/turkey/`), internalLinks(real, `${ORIGIN}/esim/turkey/`));
+  assert.ok(internalLinks(real, `${ORIGIN}/esim/turkey/`).includes('/esim/'), 'the footer «Все направления» is seen');
+});
+
+test('a site-wide footer link change: every RU page carrying it is sent once (lastmod untouched), no international page, nothing else', () => {
+  // the footer is chrome: its change moves no lastmod (seo/test-sitemap-lastmod.mjs R4) — so base and head states are equal
+  const ruLocs = sitemapLocs(SITEMAP).filter(isRuSiteUrl);
+  const addLink = (h) => h.replace(/(<footer class="site-footer">[\s\S]*?<h2>Направления<\/h2>\s*<ul>)/, '$1\n          <li><a href="/esim/kazakhstan/">Казахстан</a></li>');
+  const carriers = ruLocs.filter((u) => { const h = read(repoPath(u)); return h && addLink(h) !== h && !internalLinks(h, u).includes('/esim/kazakhstan/'); });
+  assert.ok(carriers.length > 150, `RU pages carrying the footer: ${carriers.length}`);
+  const r = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS,
+    readBase: read, read: (rel) => { const h = read(rel); return h && !rel.match(/^(en|es|de|fr|zh|ko)\//) ? addLink(h) : h; } });
+  assert.deepEqual(r.send, [...carriers].sort());
+  assert.ok(r.send.every((u) => r.reason[u] === 'links'));
+  assert.ok(r.send.every(isRuSiteUrl), 'no international URL');
+  assert.ok(!r.send.includes(`${ORIGIN}/esim/kazakhstan/`) || carriers.includes(`${ORIGIN}/esim/kazakhstan/`));
+  assert.ok(r.send.length <= MAX_URLS, 'a site-wide link change fits under the cap');
+  // the SAME change in the international footer only sends nothing: those URLs are never RU
+  const intl = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: read,
+    read: (rel) => { const h = read(rel); return h && rel.startsWith('en/') ? h.replace('<footer class="site-footer">', '<footer class="site-footer"><a href="/en/esim/kazakhstan/">KZ</a>') : h; } });
+  assert.deepEqual(intl.send, []);
+  // the next deployment compares with THIS one: nothing left to send — no repeats
+  const again = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: (rel) => { const h = read(rel); return h && !rel.match(/^(en|es|de|fr|zh|ko)\//) ? addLink(h) : h; }, read: (rel) => { const h = read(rel); return h && !rel.match(/^(en|es|de|fr|zh|ko)\//) ? addLink(h) : h; } });
+  assert.deepEqual(again.send, []);
+});
+
+test('only HTML that is not a link moves: asset stamps on every page send nothing; a content change stays «content»', () => {
+  const stamp = (h) => (h ? h.replace(/\?v=[0-9a-f]{8}/g, '?v=ffffffff') : h);
+  const r = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: read, read: (rel) => stamp(read(rel)) });
+  assert.deepEqual(r.send, []);
+  const base = structuredClone(STATE);
+  base.pages[`${ORIGIN}/esim/china/`].hash = 'old';
+  const c = selectUrls({ baseState: base, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: read, read });
+  assert.deepEqual(c.send, [`${ORIGIN}/esim/china/`]);
+  assert.equal(c.reason[`${ORIGIN}/esim/china/`], 'content');
+});
+
+test('the CLI hands the previous deployed commit to the link rule', () => {
+  const cli = read('scripts/indexnow-submit.mjs');
+  assert.match(cli, /readBase: \(rel\) => show\(base, rel\)/);
+  assert.match(cli, /read: \(rel\) => show\(head, rel\)/);
 });
 
 /* ---------------------------------------------------------------- live check */

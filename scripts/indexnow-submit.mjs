@@ -70,12 +70,14 @@ try {
     sitemapXml: show(head, 'sitemap.xml') || '',
     robotsTxt: show(head, 'robots.txt') || '',
     read: (rel) => show(head, rel),
+    readBase: (rel) => show(base, rel),
   });
 } catch (e) {
   fail(e.message);
 }
 
-console.log(`IndexNow: ${base.slice(0, 9)}..${head.slice(0, 9)} — ${picked.send.length} candidate URL(s), ${picked.skipped.length} skipped`);
+const byReason = (r) => picked.send.filter((u) => picked.reason[u] === r).length;
+console.log(`IndexNow: ${base.slice(0, 9)}..${head.slice(0, 9)} — ${picked.send.length} candidate URL(s) (content ${byReason('content')}, links ${byReason('links')}, both ${byReason('content+links')}), ${picked.skipped.length} skipped`);
 for (const s of picked.skipped) console.log(`  skip ${s.url} — ${s.why}`);
 
 if (picked.send.length > MAX_URLS) fail(`IndexNow: ${picked.send.length} changed RU URLs is more than MAX_URLS (${MAX_URLS}) — nothing sent; check the base commit`);
@@ -107,7 +109,7 @@ if (send.length === 0) {
   process.exit(0);
 }
 
-for (const u of send) console.log(`  send ${u}`);
+for (const u of send) console.log(`  send ${u} (${picked.reason[u]})`);
 if (dryRun) {
   console.log(`IndexNow: dry run — ${send.length} URL(s) would be sent`);
   summary(['### IndexNow (dry run)', ...send.map((u) => `- ${u}`)]);

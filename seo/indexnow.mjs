@@ -10,11 +10,15 @@
  *     SUBSTANTIVE content moves (asset stamps, header/footer, CSP, i18n bundle are stripped from its hash). A URL is a
  *     candidate when its lastmod or hash differs between the previous deployment and this one, or it is new. Never the
  *     whole sitemap: a missing previous state sends NOTHING.
+ *     PLUS (2026-11-06) a page whose set of links inside the site (<a href>) differs between the two deployed commits:
+ *     the footer is chrome and moves no lastmod, but a new site-wide link is a real change of every page that carries
+ *     it. Asset stamps, CSS, scripts never count; lastmod is not touched by this rule.
  *   * WHICH URLs may be sent: only https://magicesim.store/… URLs that are <loc>s of sitemap.xml at this commit, outside
  *     every language prefix of seo/locales.mjs (the RU segment lives at the root), without query or fragment, allowed
  *     by robots.txt for Yandex, and — on the live site — answering 200 with a self canonical and no noindex. Nothing a
  *     caller passes in can add a URL: the list is derived, never supplied.
- *   * HOW MUCH: at most MAX_URLS per run; more means something is wrong (a lost base, a rename) and nothing is sent.
+ *   * HOW MUCH: at most MAX_URLS per run (the RU sitemap holds 210 URLs on 2026-11-06, so a site-wide link change fits);
+ *     more means something is wrong (a lost base, a rename) and nothing is sent.
  *   * RETRIES: 429 / 5xx / network errors are retried at most RETRY_DELAYS_MS.length times (Retry-After honoured up
  *     to RETRY_AFTER_CAP_MS); then the run gives up with a warning. 400/403/422 are our errors: no retry.
  *   * THE KEY is a public value by design (the key file is served at /<key>.txt), but it is never written to a log.
@@ -145,15 +149,51 @@ export function repoPath(u) {
 }
 
 /**
- * The URLs of this deployment to send. `read(relPath)` returns a file of the deployed commit (or null).
- * Returns { send, skipped: [{url, why}] }.
+ * A page's outgoing links inside the site: every <a href> (scripts left out), resolved against the page, without the
+ * fragment, unique and sorted. Asset stamps, CSS and the like are not links, so they never make a page «changed» here.
  */
-export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read }) {
-  const inSitemap = new Set(sitemapLocs(sitemapXml));
+export function internalLinks(html, pageUrl) {
+  const body = String(html).replace(/<script\b[\s\S]*?<\/script>/gi, '');
+  const out = new Set();
+  for (const m of body.matchAll(/<a\b[^>]*?\shref\s*=\s*"([^"]*)"/gi)) {
+    let url;
+    try { url = new URL(m[1].replace(/&amp;/g, '&'), pageUrl); } catch { continue; }
+    if (url.protocol !== 'https:' || url.host !== HOST) continue;
+    out.add(url.pathname + url.search);
+  }
+  return [...out].sort();
+}
+
+/**
+ * The URLs of this deployment to send. `read(relPath)` returns a file of the deployed commit (or null); `readBase` the same
+ * file of the previous deployed commit.
+ *
+ * A page is CHANGED when its seo/sitemap-lastmod.json entry moved (its content) OR — when `readBase` is given — when the set
+ * of its links inside the site differs between the two commits. The second rule is for site-wide link changes: the footer
+ * is chrome, stripped from the lastmod hash on purpose (a menu change must not re-date 200 pages), so a new footer link
+ * moves no lastmod, yet every page carrying it now links somewhere new and is worth one recrawl. Only `<a href>` counts —
+ * an asset stamp, a stylesheet or a script never sends a page. Each deployment is compared with the previous DEPLOYED
+ * commit, so a change is sent once and never again.
+ * Returns { send, skipped: [{url, why}], reason: {url: 'content' | 'links' | 'content+links'} }.
+ */
+export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read, readBase }) {
+  const locs = sitemapLocs(sitemapXml);
+  const inSitemap = new Set(locs);
   const rules = robotsRules(robotsTxt);
+  const reason = {};
+  for (const u of changedPages(baseState, headState)) reason[u] = 'content';
+  if (typeof readBase === 'function') {
+    for (const u of locs) {
+      if (!isRuSiteUrl(u)) continue;
+      const before = readBase(repoPath(u));
+      const after = read(repoPath(u));
+      if (before == null || after == null) continue; // a new or removed page is the lastmod rule's business
+      if (internalLinks(before, u).join('\n') !== internalLinks(after, u).join('\n')) reason[u] = reason[u] ? 'content+links' : 'links';
+    }
+  }
   const send = [];
   const skipped = [];
-  for (const u of changedPages(baseState, headState)) {
+  for (const u of Object.keys(reason).sort()) {
     let why = null;
     if (!isRuSiteUrl(u)) why = 'not a RU-segment URL of the site';
     else if (!inSitemap.has(u)) why = 'not in sitemap.xml';
@@ -169,7 +209,7 @@ export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read }
     }
     if (why) skipped.push({ url: u, why }); else send.push(u);
   }
-  return { send, skipped };
+  return { send, skipped, reason };
 }
 
 /** Live re-check of one URL on production: 200 without a redirect, self canonical, no noindex (meta or header). */
