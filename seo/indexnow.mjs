@@ -10,13 +10,22 @@
  *     SUBSTANTIVE content moves (asset stamps, header/footer, CSP, i18n bundle are stripped from its hash). A URL is a
  *     candidate when its lastmod or hash differs between the previous deployment and this one, or it is new. Never the
  *     whole sitemap: a missing previous state sends NOTHING.
+ *     PLUS (2026-11-06) a page whose set of links inside the site (<a href>) differs between the two deployed commits:
+ *     the footer is chrome and moves no lastmod, but a new site-wide link is a real change of every page that carries
+ *     it. Asset stamps, CSS, scripts never count; lastmod is not touched by this rule.
  *   * WHICH URLs may be sent: only https://magicesim.store/… URLs that are <loc>s of sitemap.xml at this commit, outside
  *     every language prefix of seo/locales.mjs (the RU segment lives at the root), without query or fragment, allowed
  *     by robots.txt for Yandex, and — on the live site — answering 200 with a self canonical and no noindex. Nothing a
  *     caller passes in can add a URL: the list is derived, never supplied.
- *   * HOW MUCH: at most MAX_URLS per run; more means something is wrong (a lost base, a rename) and nothing is sent.
- *   * RETRIES: 429 / 5xx / network errors are retried at most RETRY_DELAYS_MS.length times (Retry-After honoured up
- *     to RETRY_AFTER_CAP_MS); then the run gives up with a warning. 400/403/422 are our errors: no retry.
+ *   * HOW MUCH: the URLs go in batches of at most BATCH_SIZE, one POST per batch, one after another with BATCH_PAUSE_MS
+ *     between them (Yandex takes up to 10 000 URLs per POST but answers 429 to a stream of requests from one IP). At
+ *     most MAX_URLS per run (the RU sitemap holds 210 URLs on 2026-11-06): more means something is wrong (a lost base,
+ *     a rename) and nothing is sent.
+ *   * RETRIES: per batch, 429 / 5xx / network errors are retried at most RETRY_DELAYS_MS.length times (Retry-After
+ *     honoured up to RETRY_AFTER_CAP_MS); 400/403/422 are our errors: no retry. A batch that fails is recorded and the
+ *     next batch is still sent. All waiting of a run (retries and pauses) fits in WAIT_BUDGET_MS: a wait that would pass
+ *     it is not taken — the batch is recorded as given up and the batches not started as not sent. Nothing is ever
+ *     re-sent by a later run: the next deployment sends only its own changes.
  *   * THE KEY is a public value by design (the key file is served at /<key>.txt), but it is never written to a log.
  */
 
@@ -28,7 +37,13 @@ export const ORIGIN = 'https://magicesim.store';
 export const HOST = 'magicesim.store';
 /** Yandex's own endpoint (IndexNow shares submissions between participating engines). Fixed — not configurable. */
 export const ENDPOINT = 'https://yandex.com/indexnow';
-export const MAX_URLS = 250;
+/** One POST per batch. Yandex's own ceiling is 10 000 URLs per POST; 100 keeps a failed batch small. */
+export const BATCH_SIZE = 100;
+export const BATCH_PAUSE_MS = 10_000;
+/** A sanity ceiling, not a quota: the RU sitemap holds 210 URLs (2026-11-06); more means a lost base. */
+export const MAX_URLS = 1000;
+/** All sleeping of one run — retries plus pauses between batches. The workflow's timeout leaves room for it. */
+export const WAIT_BUDGET_MS = 15 * 60_000;
 export const RETRY_DELAYS_MS = Object.freeze([30_000, 120_000]);
 export const RETRY_AFTER_CAP_MS = 300_000;
 /** Yandex: «для одного URL рекомендуется пауза 10 минут между отправками». */
@@ -145,15 +160,51 @@ export function repoPath(u) {
 }
 
 /**
- * The URLs of this deployment to send. `read(relPath)` returns a file of the deployed commit (or null).
- * Returns { send, skipped: [{url, why}] }.
+ * A page's outgoing links inside the site: every <a href> (scripts left out), resolved against the page, without the
+ * fragment, unique and sorted. Asset stamps, CSS and the like are not links, so they never make a page «changed» here.
  */
-export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read }) {
-  const inSitemap = new Set(sitemapLocs(sitemapXml));
+export function internalLinks(html, pageUrl) {
+  const body = String(html).replace(/<script\b[\s\S]*?<\/script>/gi, '');
+  const out = new Set();
+  for (const m of body.matchAll(/<a\b[^>]*?\shref\s*=\s*"([^"]*)"/gi)) {
+    let url;
+    try { url = new URL(m[1].replace(/&amp;/g, '&'), pageUrl); } catch { continue; }
+    if (url.protocol !== 'https:' || url.host !== HOST) continue;
+    out.add(url.pathname + url.search);
+  }
+  return [...out].sort();
+}
+
+/**
+ * The URLs of this deployment to send. `read(relPath)` returns a file of the deployed commit (or null); `readBase` the same
+ * file of the previous deployed commit.
+ *
+ * A page is CHANGED when its seo/sitemap-lastmod.json entry moved (its content) OR — when `readBase` is given — when the set
+ * of its links inside the site differs between the two commits. The second rule is for site-wide link changes: the footer
+ * is chrome, stripped from the lastmod hash on purpose (a menu change must not re-date 200 pages), so a new footer link
+ * moves no lastmod, yet every page carrying it now links somewhere new and is worth one recrawl. Only `<a href>` counts —
+ * an asset stamp, a stylesheet or a script never sends a page. Each deployment is compared with the previous DEPLOYED
+ * commit, so a change is sent once and never again.
+ * Returns { send, skipped: [{url, why}], reason: {url: 'content' | 'links' | 'content+links'} }.
+ */
+export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read, readBase }) {
+  const locs = sitemapLocs(sitemapXml);
+  const inSitemap = new Set(locs);
   const rules = robotsRules(robotsTxt);
+  const reason = {};
+  for (const u of changedPages(baseState, headState)) reason[u] = 'content';
+  if (typeof readBase === 'function') {
+    for (const u of locs) {
+      if (!isRuSiteUrl(u)) continue;
+      const before = readBase(repoPath(u));
+      const after = read(repoPath(u));
+      if (before == null || after == null) continue; // a new or removed page is the lastmod rule's business
+      if (internalLinks(before, u).join('\n') !== internalLinks(after, u).join('\n')) reason[u] = reason[u] ? 'content+links' : 'links';
+    }
+  }
   const send = [];
   const skipped = [];
-  for (const u of changedPages(baseState, headState)) {
+  for (const u of Object.keys(reason).sort()) {
     let why = null;
     if (!isRuSiteUrl(u)) why = 'not a RU-segment URL of the site';
     else if (!inSitemap.has(u)) why = 'not in sitemap.xml';
@@ -169,7 +220,7 @@ export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read }
     }
     if (why) skipped.push({ url: u, why }); else send.push(u);
   }
-  return { send, skipped };
+  return { send, skipped, reason };
 }
 
 /** Live re-check of one URL on production: 200 without a redirect, self canonical, no noindex (meta or header). */
@@ -196,17 +247,26 @@ const TRANSIENT = (s) => s === 429 || (s >= 500 && s <= 599);
 export function buildBody(key, urls) {
   for (const u of urls) if (!isRuSiteUrl(u)) throw new Error(`IndexNow: refusing a URL outside the RU segment: ${u}`);
   if (urls.length === 0) throw new Error('IndexNow: nothing to send');
-  if (urls.length > MAX_URLS) throw new Error(`IndexNow: ${urls.length} URLs is more than MAX_URLS (${MAX_URLS}) — nothing sent`);
+  if (urls.length > BATCH_SIZE) throw new Error(`IndexNow: ${urls.length} URLs is more than BATCH_SIZE (${BATCH_SIZE}) in one POST`);
   return { host: HOST, key, keyLocation: `${ORIGIN}/${key}.txt`, urlList: urls };
 }
 
+/** Splits the run's URLs into batches of at most BATCH_SIZE, in order. */
+export function batches(urls, size = BATCH_SIZE) {
+  if (urls.length > MAX_URLS) throw new Error(`IndexNow: ${urls.length} URLs is more than MAX_URLS (${MAX_URLS}) — nothing sent`);
+  const out = [];
+  for (let i = 0; i < urls.length; i += size) out.push(urls.slice(i, i + size));
+  return out;
+}
+
 /**
- * POSTs once, retrying only 429/5xx/network errors. Resolves to
- *   { outcome: 'accepted' | 'pending_key' | 'rejected' | 'gave_up', status, attempts }.
+ * POSTs one batch, retrying only 429/5xx/network errors, never sleeping past `maxWaitMs`. Resolves to
+ *   { outcome: 'accepted' | 'pending_key' | 'rejected' | 'gave_up', status, attempts, waitedMs }.
  */
-export async function submit(key, urls, { fetchImpl = fetch, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), log = console.log } = {}) {
+export async function submit(key, urls, { fetchImpl = fetch, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), log = console.log, maxWaitMs = Infinity } = {}) {
   const body = JSON.stringify(buildBody(key, urls));
   let attempts = 0;
+  let waitedMs = 0;
   let last = null;
   for (;;) {
     attempts += 1;
@@ -220,21 +280,61 @@ export async function submit(key, urls, { fetchImpl = fetch, sleep = (ms) => new
       status = null;
       last = `network error (${e && e.code ? e.code : 'fetch failed'})`;
     }
-    if (status === 200) { log(`IndexNow: HTTP 200 — ${urls.length} URL(s) accepted (attempt ${attempts})`); return { outcome: 'accepted', status, attempts }; }
-    if (status === 202) { log(`IndexNow: HTTP 202 — accepted, the key is awaiting verification (attempt ${attempts})`); return { outcome: 'pending_key', status, attempts }; }
+    if (status === 200) { log(`IndexNow: HTTP 200 — ${urls.length} URL(s) accepted (attempt ${attempts})`); return { outcome: 'accepted', status, attempts, waitedMs }; }
+    if (status === 202) { log(`IndexNow: HTTP 202 — ${urls.length} URL(s) received, the key is awaiting verification (attempt ${attempts})`); return { outcome: 'pending_key', status, attempts, waitedMs }; }
     if (status !== null && !TRANSIENT(status)) {
       log(`IndexNow: HTTP ${status} — rejected, not retried (400 invalid body, 403 key not found or not matching, 422 URL/key invalid)`);
-      return { outcome: 'rejected', status, attempts };
+      return { outcome: 'rejected', status, attempts, waitedMs };
     }
     if (status !== null) last = `HTTP ${status}`;
     if (attempts > RETRY_DELAYS_MS.length) {
-      log(`IndexNow: ${last} after ${attempts} attempt(s) — gave up; the next deployment sends its own changes`);
-      return { outcome: 'gave_up', status, attempts };
+      log(`IndexNow: ${last} after ${attempts} attempt(s) — gave up on this batch`);
+      return { outcome: 'gave_up', status, attempts, waitedMs };
     }
     let wait = RETRY_DELAYS_MS[attempts - 1];
     const ra = Number(retryAfter);
     if (Number.isFinite(ra) && ra > 0) wait = Math.min(Math.max(wait, ra * 1000), RETRY_AFTER_CAP_MS);
+    if (waitedMs + wait > maxWaitMs) {
+      log(`IndexNow: ${last} — the run's wait budget is spent, gave up on this batch after ${attempts} attempt(s)`);
+      return { outcome: 'gave_up', status, attempts, waitedMs };
+    }
     log(`IndexNow: ${last} — retry ${attempts} of ${RETRY_DELAYS_MS.length} in ${Math.round(wait / 1000)} s`);
     await sleep(wait);
+    waitedMs += wait;
   }
+}
+
+/**
+ * Sends the run's URLs batch by batch, in order. A failed batch never stops the next one; every batch's result is kept.
+ * Resolves to { batches: [{ n, urls, outcome, status, attempts }], sent, failed, notSent } where `outcome` is a submit()
+ * outcome or 'not_sent' (the wait budget ran out before the batch started).
+ */
+export async function submitBatches(key, urls, { fetchImpl = fetch, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), log = console.log, waitBudgetMs = WAIT_BUDGET_MS, size = BATCH_SIZE } = {}) {
+  const parts = batches(urls, size);
+  for (const p of parts) buildBody(key, p); // every batch is valid before the first POST: nothing half-sent on our error
+  let left = waitBudgetMs;
+  const out = [];
+  for (let i = 0; i < parts.length; i += 1) {
+    const n = i + 1;
+    if (i > 0) {
+      if (BATCH_PAUSE_MS > left) {
+        for (let j = i; j < parts.length; j += 1) out.push({ n: j + 1, urls: parts[j], outcome: 'not_sent', status: null, attempts: 0 });
+        log(`IndexNow: the run's wait budget is spent — batches ${n}..${parts.length} not sent`);
+        break;
+      }
+      await sleep(BATCH_PAUSE_MS);
+      left -= BATCH_PAUSE_MS;
+    }
+    log(`IndexNow: batch ${n} of ${parts.length} — ${parts[i].length} URL(s)`);
+    const r = await submit(key, parts[i], { fetchImpl, sleep, log, maxWaitMs: left });
+    left -= r.waitedMs;
+    out.push({ n, urls: parts[i], outcome: r.outcome, status: r.status, attempts: r.attempts });
+  }
+  const count = (pred) => out.filter(pred).reduce((a, b) => a + b.urls.length, 0);
+  return {
+    batches: out,
+    sent: count((b) => b.outcome === 'accepted' || b.outcome === 'pending_key'),
+    failed: count((b) => b.outcome === 'rejected' || b.outcome === 'gave_up'),
+    notSent: count((b) => b.outcome === 'not_sent'),
+  };
 }

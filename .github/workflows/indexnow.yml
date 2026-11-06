@@ -13,7 +13,7 @@ name: IndexNow
 # manual dispatch takes a dry-run switch and, optionally, an older base commit — the URLs are still derived.
 #
 # workflow_run chains are at most three deep (refresh → deploy → this); the catalogue bot's deployments change no
-# seo/sitemap-lastmod.json, so they send nothing.
+# seo/sitemap-lastmod.json and no page HTML, so they send nothing.
 
 on:
   workflow_run:
@@ -48,7 +48,7 @@ jobs:
        github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event != 'pull_request') ||
       (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - name: Resolve the deployed range
         id: range
