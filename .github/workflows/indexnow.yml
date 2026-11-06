@@ -1,0 +1,144 @@
+name: IndexNow
+
+# Tells Yandex (IndexNow, https://yandex.com/indexnow) which RU pages CHANGED in a deployment, after «Deploy Pages»
+# has actually published it. Why a second channel: the Webmaster recrawl API answers 504 since the October 2026 Yandex
+# data-centre outage (MAGIC_ESIM_YANDEX_CRAWL_DIAGNOSIS_2026-11-06.md). Rules (what is sent, retries, limits): seo/indexnow.mjs.
+#
+# The range is DEPLOYED commit → DEPLOYED commit: this run's Deploy Pages head versus the previous Deploy Pages run whose
+# «deploy to GitHub Pages» job succeeded. A run whose deploy job did not succeed (build-only, no-op, failure) sends
+# nothing. No previous deployment found → nothing sent (never the whole sitemap).
+#
+# It cannot affect the deployment: it starts only after Deploy Pages COMPLETED, in its own workflow, with read-only
+# permissions and no secret but the job's own read token (used only to list runs). It takes no URL from anyone: the
+# manual dispatch takes a dry-run switch and, optionally, an older base commit — the URLs are still derived.
+#
+# workflow_run chains are at most three deep (refresh → deploy → this); the catalogue bot's deployments change no
+# seo/sitemap-lastmod.json, so they send nothing.
+
+on:
+  workflow_run:
+    workflows: ["Deploy Pages"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only list the URLs, do not send"
+        type: boolean
+        default: true
+      base_sha:
+        description: "Optional: an older DEPLOYED commit (full 40-hex) to compare the latest deployment with"
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  actions: read
+
+# One submission at a time, none cancelled half-way; a burst of deployments queues instead of racing.
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    name: notify IndexNow of changed RU pages
+    if: >-
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event != 'pull_request') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Resolve the deployed range
+        id: range
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          INPUT_BASE: ${{ inputs.base_sha }}
+        run: |
+          set -euo pipefail
+          deployed() { # prints the run's head sha when its «deploy to GitHub Pages» job succeeded
+            local c
+            c=$(gh api "repos/$REPO/actions/runs/$1/jobs" --jq '[.jobs[] | select(.name == "deploy to GitHub Pages") | .conclusion][0] // ""')
+            [ "$c" = "success" ] && gh api "repos/$REPO/actions/runs/$1" --jq .head_sha || true
+          }
+          runs=$(gh api "repos/$REPO/actions/workflows/deploy-pages.yml/runs?branch=main&status=success&per_page=30" --jq '.workflow_runs[] | "\(.id) \(.created_at)"')
+          if [ "$EVENT" = "workflow_run" ]; then
+            head=$(deployed "$RUN_ID")
+            if [ -z "$head" ]; then echo "This Deploy Pages run deployed nothing — nothing to send."; echo "skip=1" >> "$GITHUB_OUTPUT"; exit 0; fi
+            cur_created=$(gh api "repos/$REPO/actions/runs/$RUN_ID" --jq .created_at)
+          else
+            head=""; cur_created="9999"
+            while read -r id created; do
+              h=$(deployed "$id"); if [ -n "$h" ]; then head=$h; RUN_ID=$id; cur_created=$created; break; fi
+            done <<< "$runs"
+            if [ -z "$head" ]; then echo "No successful deployment found."; echo "skip=1" >> "$GITHUB_OUTPUT"; exit 0; fi
+          fi
+          base=""
+          if [ -n "$INPUT_BASE" ]; then
+            [[ "$INPUT_BASE" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::base_sha must be a full 40-hex commit id"; exit 1; }
+            base=$INPUT_BASE
+          else
+            while read -r id created; do
+              [ "$id" = "$RUN_ID" ] && continue
+              [[ "$created" < "$cur_created" ]] || continue
+              h=$(deployed "$id"); if [ -n "$h" ]; then base=$h; break; fi
+            done <<< "$runs"
+          fi
+          if [ -z "$base" ] || [ "$base" = "$head" ]; then echo "No earlier deployment to compare with (or the same commit) — nothing to send."; echo "skip=1" >> "$GITHUB_OUTPUT"; exit 0; fi
+          [[ "$head" =~ ^[0-9a-f]{40}$ && "$base" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::unexpected commit ids"; exit 1; }
+          echo "Deployed range ${base:0:9}..${head:0:9}"
+          { echo "skip=0"; echo "base=$base"; echo "head=$head"; } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: steps.range.outputs.skip == '0'
+        with:
+          ref: ${{ steps.range.outputs.head }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: steps.range.outputs.skip == '0'
+        with:
+          node-version: "22"
+
+      - name: Fetch the base commit
+        if: steps.range.outputs.skip == '0'
+        env:
+          BASE: ${{ steps.range.outputs.base }}
+        run: git fetch --no-tags --depth=1 origin "$BASE"
+
+      # The key is public by design (served at /<key>.txt) but is kept out of the log all the same.
+      - name: Mask the key
+        if: steps.range.outputs.skip == '0'
+        run: |
+          for f in *.txt; do
+            if [[ "$f" =~ ^([0-9a-f]{32})\.txt$ ]]; then echo "::add-mask::${BASH_REMATCH[1]}"; fi
+          done
+
+      # Yandex asks for a 10-minute pause between submissions of the same URL; two deployments minutes apart can touch
+      # the same page, so wait until the previous IndexNow run is 10 minutes old (bounded, never longer than 10 min).
+      - name: Keep 10 minutes between submissions
+        if: steps.range.outputs.skip == '0' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SELF: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          last=$(gh api "repos/$REPO/actions/workflows/indexnow.yml/runs?status=completed&per_page=5" --jq "[.workflow_runs[] | select(.id != $SELF and .conclusion == \"success\")][0].updated_at // \"\"")
+          if [ -n "$last" ]; then
+            age=$(( $(date -u +%s) - $(date -u -d "$last" +%s) ))
+            if [ "$age" -lt 600 ]; then echo "Previous submission ${age}s ago — waiting $((600 - age))s"; sleep $((600 - age)); fi
+          fi
+
+      - name: Send the changed RU pages
+        if: steps.range.outputs.skip == '0'
+        env:
+          BASE: ${{ steps.range.outputs.base }}
+          HEAD_SHA: ${{ steps.range.outputs.head }}
+          DRY: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
+        run: node scripts/indexnow-submit.mjs --base "$BASE" --head "$HEAD_SHA" $DRY

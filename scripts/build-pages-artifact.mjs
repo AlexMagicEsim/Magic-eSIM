@@ -51,10 +51,14 @@ export const ROOT_FILES = Object.freeze([
   'favicon.ico', 'favicon.svg', 'favicon-32.png', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png',
 ]);
 
-/** Root files published by pattern: search-engine ownership verification files (Yandex, Google). */
+/**
+ * Root files published by pattern: search-engine ownership verification files (Yandex, Google) and the IndexNow key
+ * file (<32 hex>.txt holding exactly its own name — seo/indexnow.mjs readKey; seo/test-indexnow.mjs pins the one file).
+ */
 export const ROOT_PATTERNS = Object.freeze([
   /^yandex_[0-9a-f]{16}\.html$/,
   /^google[0-9a-f]{16}\.html$/,
+  /^[0-9a-f]{32}\.txt$/,
 ]);
 
 /**
