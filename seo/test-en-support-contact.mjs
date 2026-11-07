@@ -16,6 +16,7 @@ import assert from 'node:assert/strict';
 import { EN_GUIDES } from './guides-en.mjs';
 import { snapshots as legalVersions } from './legal-archive.mjs';
 import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -29,7 +30,7 @@ function htmlUnder(dir, out = []) {
 }
 
 // EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
-const PAGES = ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
+const PAGES = ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')].filter((p) => !isLegacyRedirectFile(p));   // not the old addresses' redirect pages
 const ADDRESS = 'support@magicesim.store';
 const LINK = `<a href="mailto:${ADDRESS}">${ADDRESS}</a>`;
 const FOOTER_LINE = `<p class="support">Support: ${LINK}</p>`;

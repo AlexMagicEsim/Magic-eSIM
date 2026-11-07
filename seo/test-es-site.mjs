@@ -23,6 +23,7 @@ import { PAGE_COPY } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { ES_GUIDES } from './guides-es.mjs';
 import { COUNTRY_NAMES } from './country-names.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -45,7 +46,7 @@ function htmlUnder(dir) {
 // EN-root migration (2026-11-07): the English page of a kind relative to a language's home ('esim/x/index.html' is
 // /destinations/x/ in English), and every English page (the root home, /destinations/, /guides/, the legal pages in en/).
 const enFile = (k) => (k.startsWith('esim/') ? `destinations/${k.slice('esim/'.length)}` : k);
-const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
+const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')].filter((p) => !isLegacyRedirectFile(p));   // not the old addresses' redirect pages
 // LEGAL-8: the permanent copies of the legal documents (/es/<kind>/v<n>/) are held by seo/test-legal-archive.mjs.
 const ES_PAGES = htmlUnder('es').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/es/terms|refund|privacy/) are pages of this language too; their

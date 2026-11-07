@@ -33,6 +33,7 @@ import { readdirSync, statSync, lstatSync, mkdirSync, copyFileSync, rmSync, read
 import { join, dirname, resolve, extname, posix, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { prefixedSiteLocales, homePath, dirOf, RU_CODE } from '../seo/locales.mjs';
+import { isLegacyRedirectFile } from '../seo/build-legacy-redirects.mjs';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const SITE_ORIGIN = 'https://magicesim.store';
@@ -147,6 +148,9 @@ export function denyReason(rel) {
 
 /** The rule that admits a path (a string naming it), or null when nothing does. Deny rules are NOT consulted here. */
 export function allowRule(rel, rules = directoryRules()) {
+  // The old addresses' client-side redirect pages (seo/build-legacy-redirects.mjs), each by its exact file — admitted
+  // on purpose; a file under esim/ or at /iphone.html that is not one of them stays unpublished.
+  if (isLegacyRedirectFile(rel)) return 'legacy redirect page';
   if (!rel.includes('/')) {
     if (ROOT_FILES.includes(rel)) return 'root file';
     if (ROOT_PATTERNS.some((re) => re.test(rel))) return 'verification file';

@@ -15,6 +15,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SKIP_LINK } from './build-en-pages.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -29,7 +30,8 @@ function htmlFiles(dir) {
 }
 
 // EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
-const EN = [join(ROOT, 'index.html'), ...['destinations', 'guides', 'en'].flatMap((d) => htmlFiles(join(ROOT, d)))];
+const EN = [join(ROOT, 'index.html'), ...['destinations', 'guides', 'en'].flatMap((d) => htmlFiles(join(ROOT, d)))]
+  .filter((f) => !isLegacyRedirectFile(f.slice(ROOT.length + 1)));   // not the old addresses' redirect pages
 const CSS = readFileSync(join(ROOT, 'assets', 'site.css'), 'utf8');
 
 test('the skip link string is what the pages carry', () => {

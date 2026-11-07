@@ -247,7 +247,9 @@ test('negative control: allowRule admits only what a rule names', () => {
   const rules = directoryRules();
   assert.equal(allowRule('index.html', rules), 'root file');
   assert.equal(allowRule('ru/index.html', rules), 'ru/ *.html');
-  assert.equal(allowRule('iphone.html', rules), null, 'the Russian guides left the root');
+  assert.equal(allowRule('iphone.html', rules), 'legacy redirect page', 'the old address is a client-side redirect page now');
+  assert.equal(allowRule('esim/x/index.html', rules), null, 'only the frozen old addresses are redirect pages');
+  assert.equal(allowRule('esim/turkey/data.json', rules), null);
   assert.equal(allowRule('destinations/x/index.html', rules), 'destinations/ *.html');
   assert.equal(allowRule('esim/x/index.html', rules), null, 'the old Russian catalogue is not published');
   assert.equal(allowRule('yandex_1a8c23f28d1480df.html', rules), 'verification file');

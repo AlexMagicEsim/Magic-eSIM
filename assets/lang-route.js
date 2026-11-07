@@ -10,7 +10,9 @@
      1. the path is exactly «/» — never any other page: /ru/ and every language page never move anyone;
      2. the visit did not come from this site (document.referrer is not our origin): a click on our logo, on «English»
         in another language's switch, or a «Back» never bounces anyone — that is also what makes a loop impossible
-        (the target pages never run this script, and a return to «/» from them is same-origin);
+        (the target pages never run this script, and a return to «/» from them is same-origin). That also covers the old
+        English home: the client-side redirect page at /en/ sends its visitor to «/» from this origin, so a Russian
+        browser that followed an old /en/ link stays on the English page it asked for — no storage key, no marker;
      3. the language is not English. It is the visitor's SAVED choice (localStorage `mesim.site.lang`, written by a
         language switch — assets/logo-once.js on the English and prefixed pages), else the first language of
         navigator.languages / navigator.language we publish (ru en es fr de zh ko; any zh → /zh/), else English (stay).

@@ -154,3 +154,13 @@ test('every country page on disk was produced by the profile pipeline', () => {
   }
   assert.deepEqual(bad, [], `страницы собраны не тем генератором: ${bad.join(', ')}`);
 });
+
+// EN-root migration (owner, 2026-11-07): the old addresses' client-side redirect pages come from ONE generator too,
+// run by the normal build (seo/build-all.mjs), and the committed files are exactly its output — never hand-edited.
+test('the old addresses\' redirect pages are exactly what seo/build-legacy-redirects.mjs writes, and build-all runs it', async () => {
+  const { legacyRedirects } = await import('./build-legacy-redirects.mjs');
+  const all = legacyRedirects();
+  assert.ok(all.length > 400, `${all.length} redirect pages`);
+  for (const r of all) assert.equal(readFileSync(join(ROOT, r.file), 'utf8'), r.html, r.file);
+  assert.match(readFileSync(join(ROOT, 'seo/build-all.mjs'), 'utf8'), /run\('build-locale-pages\.mjs'\);[^\n]*\nrun\('build-legacy-redirects\.mjs'\);/);
+});

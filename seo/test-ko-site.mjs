@@ -31,6 +31,7 @@ import { stampHtml } from './asset-version.mjs';
 import { locale } from './locales.mjs';
 import { rulesFor } from './claim-guards.mjs';
 import { legalLinks, INTL_LEGAL, LEGAL_SCHEME } from './legal-links.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -55,7 +56,7 @@ function htmlUnder(dir) {
 // EN-root migration (2026-11-07): the English page of a kind relative to a language's home ('esim/x/index.html' is
 // /destinations/x/ in English), and every English page (the root home, /destinations/, /guides/, the legal pages in en/).
 const enFile = (k) => (k.startsWith('esim/') ? `destinations/${k.slice('esim/'.length)}` : k);
-const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
+const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')].filter((p) => !isLegacyRedirectFile(p));   // not the old addresses' redirect pages
 // LEGAL-8: the permanent copies of the legal documents (/ko/<kind>/v<n>/) are held by seo/test-legal-archive.mjs.
 const KO_PAGES = htmlUnder('ko').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/ko/terms|refund|privacy/) are pages of this language too; their

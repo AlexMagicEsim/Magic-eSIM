@@ -36,6 +36,7 @@ import { rehearsalGenerator } from './build-locale-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -176,7 +177,7 @@ test('every page loads only its own language’s words: one bundle, deferred; Ru
   const ownerOf = (rel) => INTL.find((l) => rel === `${l.paths.home.slice(1)}index.html` || rel.startsWith(`${l.prefix}/`)
     || rel.startsWith(l.paths.catalogue.slice(1)) || rel.startsWith(l.paths.guides.slice(1))) || null;
   let withWords = 0;
-  for (const rel of htmlFiles(ROOT)) {
+  for (const rel of htmlFiles(ROOT).filter((r) => !isLegacyRedirectFile(r))) {   // not the old addresses' redirect pages
     const html = read(rel);
     assert.doesNotMatch(html, /\/assets\/site-i18n\.js|\/assets\/i18n\//, `${rel}: loads the engine or a words file directly`);
     const tags = [...html.matchAll(/<script src="(\/assets\/site-i18n-[^"?]+\.js)(?:\?v=[0-9a-f]{8})?"([^>]*)><\/script>/g)];

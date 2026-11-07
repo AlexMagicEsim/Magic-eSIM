@@ -18,6 +18,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -62,7 +63,7 @@ function htmlUnder(dir, out = []) {
 
 test('every English page loads site.css and then its own en/en.css', () => {
   // EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
-  const pages = ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
+  const pages = ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')].filter((p) => !isLegacyRedirectFile(p));   // not the old addresses' redirect pages
   assert.ok(pages.length >= 205, `English pages: ${pages.length}`);
   const bad = pages.filter((p) => !/<link rel="stylesheet" href="\/assets\/site\.css\?v=[0-9a-f]{8}">\n<link rel="stylesheet" href="\/en\/en\.css\?v=[0-9a-f]{8}">/.test(read(p)));
   assert.deepEqual(bad, []);

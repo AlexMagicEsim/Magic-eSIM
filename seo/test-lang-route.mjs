@@ -46,7 +46,8 @@ test('only «/», never after an arrival from this site; ?country= always to the
     '/ru/iphone.html', '/pay/x', '/en/', '']) {
     assert.equal(R.decide(env({ pathname, languages: ['ru'] })), null, pathname);
   }
-  for (const referrer of [`${O}/`, `${O}/ru/`, `${O}/ru/esim/turkey/`, `${O}/es/`, O]) {
+  // `${O}/en/`: the old English home's client-side redirect page sends its visitor to «/» — never on to /ru/
+  for (const referrer of [`${O}/`, `${O}/ru/`, `${O}/ru/esim/turkey/`, `${O}/es/`, `${O}/en/`, `${O}/esim/turkey/`, O]) {
     assert.equal(R.decide(env({ referrer, languages: ['ru'] })), null, referrer);
   }
   for (const referrer of ['https://www.google.com/', 'https://yandex.ru/search/?text=esim', 'https://magicesim.store.evil.com/', 'android-app://org.telegram.messenger/']) {

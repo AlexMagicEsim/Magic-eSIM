@@ -9,7 +9,8 @@
 //      home: lang="ru", Metrika, no language suggestion.
 //   3. The Russian checkout (assets/ru-checkout.js, assets/country-tariffs.js) loads only on /ru/esim/<country>/, and no
 //      Russian page loads the international checkout (en/checkout.js) or prints a dollar price.
-//   (Every local reference resolving in the built tree is seo/test-pages-artifact.mjs; hreflang reciprocity in every
+//   (The redirect pages themselves are seo/test-legacy-redirects.mjs; every local reference resolving in the built tree is
+//   seo/test-pages-artifact.mjs; hreflang reciprocity in every
 //   language is seo/test-i18n-indexing.mjs; the lang-route matrix is seo/test-lang-route.mjs and lang-route.spec.js.)
 //
 // Each rule's first assertion proves it fires.
@@ -21,6 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { planArtifact, LEGAL_TEXT_OLD_LINK } from '../scripts/build-pages-artifact.mjs';
 import { newPath } from './url-migration.mjs';
 import { LOCALES, cataloguePath } from './locales.mjs';
+import { legacyRedirects, isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
@@ -68,17 +70,24 @@ test('no published page names an old (moved) address — links, assets, canonica
   assert.deepEqual(found.slice(0, 20), [], `${found.length} reference(s) to a redirected address`);
 });
 
-test('no old page file is left in the tree as a page: the moved pages live only at their new addresses', () => {
+test('every legacy path is a client-side redirect page, and nothing else is one', () => {
+  const isRedirect = (html) => /<meta http-equiv="refresh"/i.test(html);
+  assert.ok(isRedirect('<meta http-equiv="refresh" content="0; url=/ru/">'), 'the rule fires');
+  const expected = new Set(legacyRedirects().map((r) => r.file));
+  assert.ok(expected.size > 400, `the old addresses that moved (${expected.size})`);
   for (const rel of ['esim/index.html', 'esim/turkey/index.html', 'iphone.html', 'android.html', 'en/index.html', 'en/esim/index.html',
     'en/esim/turkey/index.html', 'en/guides/index.html', 'en/guides/iphone/index.html']) {
-    assert.equal(existsSync(join(ROOT, rel)), false, `${rel} must be gone (git rm)`);
+    assert.ok(expected.has(rel) && isRedirect(read(rel)), `${rel} is a redirect page`);
   }
+  const found = HTML.filter((rel) => isRedirect(read(rel)));
+  assert.deepEqual(found.filter((rel) => !expected.has(rel)), [], 'a redirect page outside the inventory');
+  assert.deepEqual([...expected].filter((rel) => !found.includes(rel)), [], 'an old address without its redirect page');
   for (const rel of ['index.html', 'ru/index.html', 'ru/esim/index.html', 'ru/esim/turkey/index.html', 'ru/iphone.html', 'ru/android.html',
     'destinations/index.html', 'destinations/turkey/index.html', 'guides/index.html', 'guides/iphone/index.html',
-    'en/terms/index.html', 'en/legal-versions.json', 'en/checkout-statements.json', 'terms.html', 'privacy.html',
-    'payment-success.html', 'payment-failed.html']) {
-    assert.ok(existsSync(join(ROOT, rel)), `${rel} exists`);
+    'en/terms/index.html', 'terms.html', 'privacy.html', 'payment-success.html', 'payment-failed.html']) {
+    assert.ok(existsSync(join(ROOT, rel)) && !isRedirect(read(rel)), `${rel} is a real page`);
   }
+  for (const rel of ['en/legal-versions.json', 'en/checkout-statements.json']) assert.ok(existsSync(join(ROOT, rel)), rel);
 });
 
 test('«/» is the English home with no counter; /ru/ is the Russian home with Metrika; only «/» suggests a language', () => {
@@ -122,10 +131,27 @@ test('the Russian checkout runs only on /ru/esim/<country>/; no Russian page loa
   assert.ok(HTML.includes('ru/esim/payment-rubles/index.html') && HTML.includes('ru/esim/index.html'));
 });
 
-test('every language publishes its catalogue where the registry says, and nowhere else', () => {
+test('every language publishes its catalogue where the registry says; the old catalogue directories hold redirect pages only', () => {
   for (const l of LOCALES.filter((x) => x.site.enabled)) {
     const dir = cataloguePath(l.code).slice(1);
-    assert.ok(HTML.filter((f) => f.startsWith(dir)).length >= 200, `${l.code}: ${dir}`);
+    assert.ok(HTML.filter((f) => f.startsWith(dir) && !isLegacyRedirectFile(f)).length >= 200, `${l.code}: ${dir}`);
   }
-  assert.equal(HTML.filter((f) => f.startsWith('esim/') || f.startsWith('en/esim/') || f.startsWith('en/guides/')).length, 0);
+  const old = HTML.filter((f) => f.startsWith('esim/') || f.startsWith('en/esim/') || f.startsWith('en/guides/'));
+  assert.ok(old.length > 400, 'the old directories are published — as redirect pages');
+  assert.deepEqual(old.filter((f) => !isLegacyRedirectFile(f)), [], 'nothing but redirect pages in the old directories');
+});
+
+test('the payment return pages stay where Platega returns, and every way back leads to a Russian page, never the English «/»', () => {
+  for (const rel of ['payment-success.html', 'payment-failed.html']) {
+    const html = read(rel);
+    const links = [...html.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<a\b[^>]*\shref="(\/[^"]*)"[^>]*>/g)].map((m) => ({ tag: m[0], href: m[1] }));
+    assert.ok(links.length > 10, `${rel}: links read`);
+    for (const { tag, href } of links) {
+      // the one link to «/» is the header's language switch «English», marked lang="en" — a choice, not a way back
+      if (href === '/') { assert.match(tag, /\slang="en"/, `${rel}: «/» only as the English switch (${tag})`); continue; }
+      assert.match(href, /^\/(ru\/|terms\.html|privacy\.html|assets\/)/, `${rel}: ${href} leads off the Russian site`);
+    }
+  }
+  assert.match(read('payment-failed.html'), /<a class="btn" id="pfBack" href="\/ru\/#plans">/, 'the static «Вернуться к тарифам»');
+  assert.match(read('payment-failed.html'), /a\.href='\/ru\/esim\/'\+d\.slug\+'\/#tariffs'/, 'the buyer\'s own country page, under /ru/');
 });

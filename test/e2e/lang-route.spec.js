@@ -21,12 +21,12 @@ const { test, expect } = require('@playwright/test');
 test.use({ proxy: { server: 'http://127.0.0.1:9', bypass: '127.0.0.1,localhost' } });
 
 function watch(page) {
-  const st = { off: [], errors: [], navs: [] };
+  const st = { off: [], errors: [], thrown: [], navs: [] };
   page.on('request', (r) => {
     const u = r.url();
     if (!u.startsWith('http://127.0.0.1') && !u.startsWith('http://localhost')) st.off.push(u);
   });
-  page.on('pageerror', (e) => st.errors.push(String(e)));
+  page.on('pageerror', (e) => { st.errors.push(String(e)); st.thrown.push(String(e)); });
   page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) st.errors.push(m.text()); });
   page.on('framenavigated', (f) => { if (f === page.mainFrame()) st.navs.push(new URL(f.url()).pathname); });
   return st;
@@ -244,6 +244,40 @@ for (const locale of ['en-US', 'ru-RU']) {
     });
   });
 }
+
+/* The old addresses' CLIENT-SIDE REDIRECT PAGES (seo/build-legacy-redirects.mjs; GitHub Pages sends no HTTP 301): each
+   lands on its new address in one hop, the query kept, in Chromium and in WebKit (this project), nothing intercepted. */
+test.describe('old addresses: their redirect pages', () => {
+  test.use({ locale: 'en-US' });
+  for (const [from, to] of [['/esim/turkey/?utm_source=x', '/ru/esim/turkey/?utm_source=x'], ['/en/esim/turkey/', '/destinations/turkey/'],
+    ['/iphone.html', '/ru/iphone.html'], ['/esim/?gclid=G#plans', '/ru/esim/?gclid=G#plans']]) {
+    test(`${from} → ${to}`, async ({ page }) => {
+      const st = watch(page);
+      prep(page);
+      await visit(page, from);
+      await landed(page, to);
+      // No script error on the way. (The Russian targets also try Metrika and the catalogue API, which this file's dead
+      // proxy refuses — WebKit logs those refused preconnects as console errors; they are the test's network, not a page fault.)
+      expect(st.thrown).toEqual([]);
+    });
+  }
+});
+
+test.describe('the old English home /en/ in a Russian browser', () => {
+  test.use({ locale: 'ru-RU' });
+  test('/en/ → «/», and it stays English: the redirect page\'s move is same-origin, lang-route.js never moves it on to /ru/', async ({ page }) => {
+    const st = watch(page);
+    prep(page);
+    await visit(page, '/en/');
+    await landed(page, '/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang')), 'nothing is saved: it was not a choice').toBeNull();
+    // the control: the same browser typing «/» itself is moved to /ru/
+    await visit(page, '/');
+    await landed(page, '/ru/');
+    expect(st.errors).toEqual([]);
+  });
+});
 
 /* landed() itself: a visit that goes wrong fails, in every browser. Short askMs so a control does not wait ten seconds. */
 test.describe('landed() cannot pass a wrong visit', () => {

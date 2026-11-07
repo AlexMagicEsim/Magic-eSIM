@@ -25,6 +25,7 @@ import { STATEMENTS_VERSION } from './checkout-statements.mjs';
 import { INTL_LEGAL, legalLinks } from './legal-links.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
 import { locale as localeOf } from './locales.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -114,7 +115,10 @@ test('every international footer links the three documents in its own language, 
   for (const [code, prefix] of LANGS) {
     assert.deepEqual(legalLinks(code).map((l) => l.href), ['/en/terms/', '/en/refund/', '/en/privacy/'], code);
     const W = SITE.DICT[code];
-    for (const rel of pagesUnder(prefix).filter((p) => !p.startsWith('en/') || prefix === 'en')) {
+    // English: the root home, /destinations/, /guides/ and its legal pages in en/ (EN-root migration) — never the old
+    // addresses' redirect pages
+    const pages = prefix === 'en' ? ['index.html', ...pagesUnder('destinations'), ...pagesUnder('guides'), ...pagesUnder('en')] : pagesUnder(prefix);
+    for (const rel of pages.filter((p) => (!p.startsWith('en/') || prefix === 'en') && !isLegacyRedirectFile(p))) {
       const h = read(rel);
       const foot = h.slice(h.indexOf('<footer'));
       for (const k of ['terms', 'refund', 'privacy']) {
