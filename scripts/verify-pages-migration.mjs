@@ -28,7 +28,8 @@ export function readRedirect(html) {
   return {
     refresh: (html.match(/<meta http-equiv="refresh" content="0; url=([^"]+)">/) || [])[1] || null,
     canonical: (html.match(/<link rel="canonical" href="([^"]+)">/) || [])[1] || null,
-    js: ((html.match(/<script>location\.replace\(("[^"]+")\+location\.search\+location\.hash\)<\/script>/) || [])[1] || 'null'),
+    // a Russian page first hands an external referrer over (seo/build-legacy-redirects.mjs), then redirects
+    js: ((html.match(/<script>(?:try\{[^<]*?sessionStorage\.setItem\('magic_legacy_ref'[^<]*?\}catch\(e\)\{\})?location\.replace\(("[^"]+")\+location\.search\+location\.hash\)<\/script>/) || [])[1] || 'null'),
   };
 }
 

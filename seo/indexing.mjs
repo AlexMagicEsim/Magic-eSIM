@@ -16,6 +16,7 @@
 //   - Russian pages are indexed as before; they gain only the <link rel="alternate"> block of their cluster.
 import { LOCALES, SITE, RU_CODE, isRussian, RU_GUIDE_PATHS } from './locales.mjs';
 import { REGION_SLUGS } from './regions.mjs';
+import { COUNTRY_SLUGS } from './catalogue-page-count.mjs';
 
 /* Stage 1 (2026-10-21): the popular destinations of the three home pages (RU_POPULAR_ALL, PAGE_COPY.en/es.popular)
  * minus the frozen ten. Widening the stage = adding slugs here (a page for it must exist in every indexed language). */
@@ -107,6 +108,20 @@ export function ruPage(urlOrPath) {
   if (!m) return null;
   // A region slug is never a Russian country: the Russian site has no region page, so such a path has no twin.
   return REGION_SLUGS.includes(m[1]) ? { kind: 'region', slug: m[1] } : { kind: 'country', slug: m[1] };
+}
+
+/* Where a Russian page's language switch («English») leads: the same page in English when English has it (a country,
+ * the destination list, a guide with an English twin), else the English home — the Russian site has pages English has
+ * not (/ru/esim/payment-rubles/, /ru/esim/dual-sim-sms/, the Russian legal and payment pages). The same mapping the
+ * hreflang clusters and every other language's switch use (pathIn); seo/test-ru-language-switch.mjs holds every built
+ * Russian page to it and proves each target is a real page. */
+export function enSwitchPath(urlOrPath, countries = COUNTRY_SLUGS) {
+  const EN = LOCALES.find((l) => l.code === 'en');
+  const page = ruPage(urlOrPath);
+  // ruPage reads any /ru/esim/<slug>/ as a country; the Russian guides that live there (payment-rubles, dual-sim-sms)
+  // are not one, and English has no page for them — only a slug with a catalogue page has an English country twin.
+  if (!page || page.kind === 'region' || (page.kind === 'country' && !countries.includes(page.slug))) return EN.paths.home;
+  return pathIn(EN, page) || EN.paths.home;
 }
 
 /* The block a Russian page's <head> carries right after its canonical: its cluster in the Russian files' formatting

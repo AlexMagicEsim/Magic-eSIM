@@ -121,7 +121,10 @@ test('every user-typed <input> / <textarea> on a counter page carries ym-hide-co
 
 // ── 4. no credential in browser storage on this origin ──
 
-const STORAGE_KEYS = new Set(['mesim.probe', 'mesim_attr', 'magic_attr', 'magic_pay_ctx', 'magic_fired_goals', 'mesim.site.lang']);
+// magic_legacy_ref (2026-11-07): an old Russian address's redirect page hands the EXTERNAL referrer (a search engine's
+// URL, capped at 500 characters; never our own) to its target page for one minute — seo/test-legacy-referrer.mjs. The
+// same kind of value magic_attr has always kept; no identifier, no credential.
+const STORAGE_KEYS = new Set(['mesim.probe', 'mesim_attr', 'magic_attr', 'magic_pay_ctx', 'magic_fired_goals', 'mesim.site.lang', 'magic_legacy_ref']);
 const CREDENTIAL_WORD = /token|bearer|secret|passw|credential|session|auth|jwt|api[_-]?key|init_?data/i;
 const SET_CALL = /(localStorage|sessionStorage)\.setItem\(\s*([^,]+?)\s*,\s*([^;\n]*)/g;
 

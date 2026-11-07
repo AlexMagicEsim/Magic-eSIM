@@ -13,7 +13,7 @@ import { stampUrl } from './asset-version.mjs';
 import { headIcons } from './head-icons.mjs';
 import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD } from './ru-chrome.mjs';
 import { GUIDE_ICON } from './site-chrome.mjs';
-import { ruAlternates } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
+import { ruAlternates, enSwitchPath } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
 
 // Each Russian guide's icon: the English guide's icon where the subject is the
 // same, two of its own for the Russian-only guides.
@@ -130,7 +130,7 @@ ${faqLd}
   </script>
 </head>
 <body>
-${ruHeader()}
+${ruHeader({ en: enSwitchPath(g.url) })}
 
 <main class="guide">
   <section class="g-hero">

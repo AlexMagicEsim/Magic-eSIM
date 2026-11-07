@@ -55,6 +55,7 @@
          (lib/acquisition.js) already used an exact host comparison; these two
          now agree. */
       var aown=(aref===location.origin||aref.indexOf(location.origin+'/')===0);
+      try{var alr=JSON.parse(sessionStorage.getItem('magic_legacy_ref')||'null');sessionStorage.removeItem('magic_legacy_ref');if(aown&&alr&&alr.to===location.pathname&&typeof alr.r==='string'&&Date.now()-Number(alr.ts)<60000){aref=alr.r;aown=(aref===location.origin||aref.indexOf(location.origin+'/')===0);}}catch(x){} /* an old address's redirect page handed the real referrer over (seo/build-legacy-redirects.mjs) */
       if(aref&&!aown){ar.referrer=String(aref).slice(0,500);aany=true;}
       ar.entry=String(location.pathname||'/').slice(0,128);
       ar._ts=Date.now();
