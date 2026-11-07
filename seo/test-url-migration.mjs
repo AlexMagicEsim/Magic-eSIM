@@ -77,6 +77,15 @@ test('/?country=XX reaches the Russian page of every country with a page', () =>
   assert.deepEqual(countryQueryTargets([{ iso: 'tr', slug: 'x' }, { iso: 'TR', slug: '../x' }]), {}, 'malformed rows are refused');
 });
 
+test('a page path without its slash lands on the final URL in one hop; files and extensionless guides too', () => {
+  assert.equal(newPath('/esim/turkey'), '/ru/esim/turkey/', 'the proof: no second directory 301');
+  assert.equal(newPath('/en/esim/turkey'), `${EN_CATALOGUE_BASE}turkey/`);
+  assert.equal(newPath('/en/guides/iphone'), '/guides/iphone/');
+  assert.equal(newPath('/esim/turkey/index.html'), '/ru/esim/turkey/index.html', 'a file keeps its name');
+  assert.equal(newPath('/iphone'), '/ru/iphone.html');
+  assert.equal(newPath('/android'), '/ru/android.html');
+});
+
 test('newPath refuses what is not a path', () => {
   assert.throws(() => newPath('esim/turkey/'));
   assert.throws(() => newPath(undefined));
