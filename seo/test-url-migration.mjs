@@ -21,7 +21,7 @@ test('each rule fires on the path it names', () => {
   assert.equal(newPath('/en/'), '/');
   assert.equal(newPath('/en/esim/turkey/'), `${EN_CATALOGUE_BASE}turkey/`);
   assert.equal(newPath('/en/guides/iphone/'), '/guides/iphone/');
-  assert.equal(newPath('/en/support/'), '/support/');
+  assert.equal(newPath('/en/support/'), null, '/en/support/ never existed on main (a draft): nothing moves from it');
   assert.equal(newPath('/esim/turkey/'), `${RU_BASE}esim/turkey/`);
   assert.equal(newPath('/esim/'), `${RU_BASE}esim/`);
   assert.equal(newPath('/iphone.html'), '/ru/iphone.html');
@@ -64,7 +64,7 @@ test('every sitemap URL has a defined fate, and the moved ones land on new, dist
   for (const [p, n] of moved) {
     assert.ok(!seen.has(n), `${p} and ${seen.get(n)} would share ${n}`);
     seen.set(n, p);
-    assert.ok(n.startsWith(RU_BASE) || n === '/' || n.startsWith(EN_CATALOGUE_BASE) || n.startsWith('/guides/') || n.startsWith('/support/'), n);
+    assert.ok(n.startsWith(RU_BASE) || n === '/' || n.startsWith(EN_CATALOGUE_BASE) || n.startsWith('/guides/'), n);
   }
 });
 
@@ -78,7 +78,7 @@ test('/?country=XX reaches the Russian page of every country with a page', () =>
 });
 
 test('a page path without its slash lands on the final URL in one hop; files and extensionless guides too', () => {
-  assert.equal(newPath('/esim/turkey'), '/ru/esim/turkey/', 'the proof: no second directory 301');
+  assert.equal(newPath('/esim/turkey'), '/ru/esim/turkey/', 'the proof: the target names the final page');
   assert.equal(newPath('/en/esim/turkey'), `${EN_CATALOGUE_BASE}turkey/`);
   assert.equal(newPath('/en/guides/iphone'), '/guides/iphone/');
   assert.equal(newPath('/esim/turkey/index.html'), '/ru/esim/turkey/index.html', 'a file keeps its name');

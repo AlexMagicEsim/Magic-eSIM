@@ -1,14 +1,17 @@
 // The EN-root migration: English moves to the site root, Russian moves under /ru/ (owner, 2026-11-07).
 //
-// THE ONE MAP of old public paths to new ones. The web server's 301 rules (infra/web/), the redirect tests and
-// the report are all generated from it — never type a redirect anywhere else.
+// THE ONE MAP of old public paths to new ones. The site stays on GitHub Pages (owner, 2026-11-07), which cannot send a
+// configurable HTTP 301: every old address gets a generated CLIENT-SIDE REDIRECT PAGE at its old file location (meta
+// refresh + a script that keeps the query and fragment, seo/build-legacy-redirects.mjs). Those pages, their tests and
+// the report are all generated from this map — never type a redirect anywhere else.
 //
-//   English   /en/            -> /                 /en/guides/... -> /guides/...      /en/support/ -> /support/
-//             /en/esim/...    -> /destinations/... (NOT /esim/: that path is the old Russian catalogue, and a 301
-//                                                   from it is only possible while nothing else lives there)
-//   Russian   /               -> no redirect: / becomes the English home (a URL cannot be both a page and a 301)
+//   English   /en/            -> /                 /en/guides/... -> /guides/...
+//             /en/esim/...    -> /destinations/... (NOT /esim/: that path is the old Russian catalogue, and a redirect
+//                                                   page can only live where no page does)
+//   Russian   /               -> no redirect: / becomes the English home (a URL cannot be both a page and a redirect)
 //             /esim/...       -> /ru/esim/...      /iphone.html -> /ru/iphone.html   /android.html -> /ru/android.html
-//             /?country=XX    -> /ru/esim/<slug>/  (the old home's deep link; a server rule on the query)
+//             /?country=XX    -> /ru/esim/<slug>/  (the old home's deep link: two client-side hops, assets/lang-route.js
+//                                                   -> /ru/?country=XX -> assets/ru-home.js)
 //
 // What does NOT move, on purpose:
 //   - legal documents at their permanent addresses: /en/terms|refund|privacy/ with every frozen version and PDF,
@@ -32,8 +35,6 @@ export const RULES = Object.freeze([
   { type: 'prefix', from: '/en/esim/', to: EN_CATALOGUE_BASE },
   { type: 'exact', from: '/en/guides', to: '/guides/' },
   { type: 'prefix', from: '/en/guides/', to: '/guides/' },
-  { type: 'exact', from: '/en/support', to: '/support/' },
-  { type: 'prefix', from: '/en/support/', to: '/support/' },
   { type: 'exact', from: '/esim', to: `${RU_BASE}esim/` },
   { type: 'prefix', from: '/esim/', to: `${RU_BASE}esim/` },
   { type: 'exact', from: '/iphone.html', to: `${RU_BASE}iphone.html` },
@@ -51,9 +52,10 @@ export const STAYS = Object.freeze([
 ]);
 
 /**
- * The rest of a path under a prefix rule, with the directory slash a page needs: `turkey` -> `turkey/`, so
- * `/esim/turkey` lands on `/ru/esim/turkey/` in ONE hop instead of a second directory 301. A last segment with a
- * dot (a file) or an empty rest is left alone.
+ * The rest of a path under a prefix rule, with the directory slash a page needs: `turkey` -> `turkey/`, so the target
+ * of `/esim/turkey` names the final page `/ru/esim/turkey/` directly (on GitHub Pages the request itself first gets
+ * Pages' own directory redirect to `/esim/turkey/`, whose redirect page then names the same target). A last segment
+ * with a dot (a file) or an empty rest is left alone.
  */
 export function withDirSlash(rest) {
   if (rest === '' || rest.endsWith('/')) return rest;
