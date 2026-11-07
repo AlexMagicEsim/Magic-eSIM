@@ -209,11 +209,13 @@ body{
     function showNotFound(){
       card.innerHTML = '<h1>Страница не найдена</h1>'
         + '<p class="desc">Проверьте адрес ссылки.</p>'
-        + '<p class="muted"><a class="home" href="/">На главную</a></p>';
+        + '<p class="muted"><a class="home" href="/ru/">На главную</a></p>';
     }
-    // The not-found screen of a language with its own prefix: any unknown path
-    // under /<prefix>/. One entry per PUBLISHED prefixed language of the
-    // registry (seo/locales.mjs; seo/test-404-en.mjs holds the keys equal to it).
+    // The not-found screen of an international language: any unknown path
+    // under /<prefix>/, and — since the EN-root migration (2026-11-07) — any
+    // unknown path at the root outside /ru/, which is English territory now.
+    // One entry per PUBLISHED language of the registry other than Russian
+    // (seo/locales.mjs; seo/test-404-en.mjs holds the keys equal to it).
     // These pages carry no analytics until the consent decision, so this branch
     // never loads the counter, and it links back into that language's site, not
     // to the Russian home. Static words only: nothing from the URL reaches the
@@ -268,9 +270,22 @@ body{
         all: '전체 여행지'
       }
     };
+    // Where each of those languages' home and destination list are (seo/locales.mjs paths; the test holds them).
+    var NOT_FOUND_PATHS = {
+      en: ['/', '/destinations/'], es: ['/es/', '/es/esim/'], de: ['/de/', '/de/esim/'], fr: ['/fr/', '/fr/esim/'],
+      zh: ['/zh/', '/zh/esim/'], ko: ['/ko/', '/ko/esim/']
+    };
     function prefixedLocale(path){
       var seg = (path.match(/^\/([^\/]+)(\/|$)/) || [])[1];
       return seg && Object.prototype.hasOwnProperty.call(NOT_FOUND, seg) ? seg : null;
+    }
+    // Whose not-found screen a path gets: its prefixed language; else, outside
+    // /ru/ (and /pay/, routed above), English — the root is the English site
+    // since the EN-root migration (2026-11-07); null = the Russian screen.
+    function notFoundLocale(path){
+      var p = prefixedLocale(path);
+      if (p) return p;
+      return /^\/(ru|pay)(\/|$)/.test(path) ? null : 'en';
     }
     function showNotFoundLocale(code){
       var w = NOT_FOUND[code];
@@ -278,7 +293,7 @@ body{
       document.title = w.title;
       card.innerHTML = '<h1>' + w.h1 + '</h1>'
         + '<p class="desc">' + w.desc + '</p>'
-        + '<p class="muted"><a class="home" href="/' + code + '/">' + w.home + '</a> · <a class="home" href="/' + code + '/esim/">' + w.all + '</a></p>';
+        + '<p class="muted"><a class="home" href="' + NOT_FOUND_PATHS[code][0] + '">' + w.home + '</a> · <a class="home" href="' + NOT_FOUND_PATHS[code][1] + '">' + w.all + '</a></p>';
     }
     function showError(msg){
       card.innerHTML = '<p class="eyebrow">Оплата</p><h1>Не удалось загрузить</h1>'
@@ -687,11 +702,14 @@ body{
       // The invariant is therefore the prefix, not the parse: NOTHING under
       // /pay/ loads the counter, valid or not.
       showNotFound();
-    } else if(prefixedLocale(path)){
-      // An unknown page of a prefixed language (/en/ today): that language's
-      // 404, and no counter.
-      showNotFoundLocale(prefixedLocale(path));
+    } else if(notFoundLocale(path)){
+      // An unknown page of an international language — under its prefix
+      // (/es/, /en/ …) or, for English, anywhere at the root outside /ru/:
+      // that language's 404, and no counter.
+      showNotFoundLocale(notFoundLocale(path));
     } else {
+      // An unknown Russian page (/ru/…): the Russian 404, counted like the
+      // Russian site.
       showNotFound();
       loadMetrika();
     }

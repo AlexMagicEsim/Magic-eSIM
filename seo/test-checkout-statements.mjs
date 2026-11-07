@@ -15,6 +15,7 @@ import {
 import { TERMS } from './terms-en.mjs';
 import { REFUND } from './refund-en.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
+import { locale as localeOf } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -76,7 +77,7 @@ test('the public list is generated, committed and published: every frozen versio
 test('every international page names the set it shows, and shows its words: the two boxes and the device box', () => {
   const set = currentSet();
   for (const code of statementLanguages()) {
-    const h = read(`${PREFIX[code]}/esim/japan/index.html`);
+    const h = read(`${localeOf(code).paths.catalogue.slice(1)}japan/index.html`);   // /destinations/ for English
     assert.match(h, new RegExp(`data-statements-version="${STATEMENTS_VERSION}"`), code);
     const t = Object.fromEntries(set.languages[code].map((x) => [x.id, x.text]));
     const text = plain(h);
@@ -87,7 +88,7 @@ test('every international page names the set it shows, and shows its words: the 
     assert.equal((h.match(/<input type="checkbox" id="coAgree/g) || []).length, 2, `${code}: exactly two consent boxes`);
     assert.ok(h.includes(`<span data-i18n="checkout.device">${t.device_compatible}</span>`), `${code} device_compatible`);
   }
-  assert.doesNotMatch(read('esim/japan/index.html'), /data-statements-version|coAgreeAge/, 'the Russian page is untouched');
+  assert.doesNotMatch(read('ru/esim/japan/index.html'), /data-statements-version|coAgreeAge/, 'the Russian page is untouched');
 });
 
 test('box 1 names the age, accepts the Terms and the Refund Policy, and only READS the Privacy Policy — in every language', () => {

@@ -35,13 +35,13 @@ const noOverflow = (page) => page.evaluate(() => document.documentElement.scroll
 const atRest = (page) => page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'), null, { timeout: 6000 });
 
 for (const slug of REGIONS) {
-  test(`/en/esim/${slug}/: payment bar first, noindex, the facts on the page; no API, no CSP message, no overflow`, async ({ page }) => {
+  test(`/destinations/${slug}/: payment bar first, noindex, the facts on the page; no API, no CSP message, no overflow`, async ({ page }) => {
     for (const w of [null, 1366]) {
       if (w) await page.setViewportSize({ width: w, height: 900 });
-      const st = await open(page, `/en/esim/${slug}/`);
+      const st = await open(page, `/destinations/${slug}/`);
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
       await expect(page.locator('link[rel="alternate"]')).toHaveCount(0);
-      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://magicesim.store/en/esim/${slug}/`);
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://magicesim.store/destinations/${slug}/`);
       await expect(page.locator('h1')).toHaveCount(1);
       const bar = await page.locator('#previewNotice').boundingBox();
       const h1 = await page.locator('h1').boundingBox();
@@ -63,7 +63,7 @@ test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
   test('every region page shows its sets and its matrix — the same rows as with JavaScript', async ({ page }) => {
     for (const slug of REGIONS) {
-      await page.goto(`/en/esim/${slug}/`);
+      await page.goto(`/destinations/${slug}/`);
       await expect(page.locator('#regionMatrixTitle')).toBeVisible();
       const rows = page.locator('.region-matrix li[data-iso]');
       expect(await rows.count()).toBeGreaterThan(0);
@@ -75,13 +75,13 @@ test.describe('without JavaScript', () => {
 });
 
 test('the destination list leads to each region, and each region row to a real country page', async ({ page, request }) => {
-  await open(page, '/en/esim/');
+  await open(page, '/destinations/');
   for (const slug of REGIONS) {
-    const tile = page.locator(`#hubRegions a[href="/en/esim/${slug}/"]`);
+    const tile = page.locator(`#hubRegions a[href="/destinations/${slug}/"]`);
     await expect(tile).toBeVisible();
   }
-  await page.locator('#hubRegions a[href="/en/esim/europe/"]').click();
-  await expect(page).toHaveURL(/\/en\/esim\/europe\/$/);
+  await page.locator('#hubRegions a[href="/destinations/europe/"]').click();
+  await expect(page).toHaveURL(/\/destinations\/europe\/$/);
   // The URL commits before the new document is parsed; evaluateAll does not wait (CI 2026-10-29 read 0 rows).
   await expect(page.locator('.region-matrix li[data-iso] > a').first()).toBeVisible();
   const hrefs = await page.locator('.region-matrix li[data-iso] > a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
@@ -111,7 +111,7 @@ test.describe('axe on the region pages', () => {
   test('every region, at the project width and at 1366', async ({ page }) => {
     for (const w of [null, 1366]) {
       if (w) await page.setViewportSize({ width: w, height: 900 });
-      for (const path of [...REGIONS.map((s) => `/en/esim/${s}/`), '/zh/esim/asia/', '/de/esim/europe/']) {
+      for (const path of [...REGIONS.map((s) => `/destinations/${s}/`), '/zh/esim/asia/', '/de/esim/europe/']) {
         await page.goto(path);
         await page.addScriptTag({ content: AXE });
         await atRest(page);

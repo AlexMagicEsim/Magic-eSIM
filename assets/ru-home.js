@@ -54,7 +54,7 @@
       if (code) {
         var d = /^[A-Za-z]{2}$/.test(code) ? byIso(code) : null;
         // The slug comes from the generated list, never from the URL.
-        if (d) { location.replace('/esim/' + d.slug + '/'); return; }
+        if (d) { location.replace('/ru/esim/' + d.slug + '/'); return; }
       }
       var MAP = { '#global-pricing': '#plans', '#solution': '#how', '#install-guides-section': '#guides' };
       var to = MAP[location.hash];
@@ -90,7 +90,7 @@
   function link(d, via) {
     var a = document.createElement('a');
     a.className = 'res';
-    a.href = '/esim/' + d.slug + '/';
+    a.href = '/ru/esim/' + d.slug + '/';
     a.setAttribute('data-country', d.iso);
     if (/^[A-Z]{2}$/.test(d.iso)) {
       var img = document.createElement('img');
@@ -149,7 +149,7 @@
     }
     var none = note('Такого направления нет. Посмотрите популярные или ');
     var all = document.createElement('a');
-    all.href = '/esim/';
+    all.href = '/ru/esim/';
     all.textContent = 'все направления';
     none.appendChild(all);
     none.appendChild(document.createTextNode('.'));

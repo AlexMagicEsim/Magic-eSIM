@@ -22,7 +22,7 @@ const DOC = loadPublishedCatalogue();
 const SLUGS = readdirSync(join(ROOT, 'seo', 'content-profiles')).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
 const WITH_REFS = SLUGS.filter((s) => readRefs(s) !== undefined);
 const raw = (s) => JSON.parse(readFileSync(join(ROOT, 'seo', 'content-profiles', `${s}.json`), 'utf8'));
-const pageText = (s) => readFileSync(join(ROOT, 'esim', s, 'index.html'), 'utf8');
+const pageText = (s) => readFileSync(join(ROOT, 'ru/esim', s, 'index.html'), 'utf8');
 
 const CONVERTED = {
   1: ['australia', 'kazakhstan', 'sri-lanka'],
@@ -76,8 +76,8 @@ test('each reference is printed on its page as the catalogue amount (unless its 
       assert.ok(html.includes(money(v)), `${s}: {{price:${name}}} = ${money(v)} is on the page`);
     }
   }
-  for (const d of readdirSync(join(ROOT, 'esim'))) {
-    const f = join(ROOT, 'esim', d, 'index.html');
+  for (const d of readdirSync(join(ROOT, 'ru/esim'))) {
+    const f = join(ROOT, 'ru/esim', d, 'index.html');
     if (existsSync(f)) assert.doesNotMatch(readFileSync(f, 'utf8'), /\{\{[^}]*\}\}/, `${d}: a raw {{…}} reached the page`);
   }
 });

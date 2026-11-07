@@ -30,6 +30,7 @@ import { stampHtml } from './asset-version.mjs';
 import { locale } from './locales.mjs';
 import { INDEXED_COUNTRIES } from './indexing.mjs';
 import { rulesFor } from './claim-guards.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -48,6 +49,11 @@ function htmlUnder(dir) {
   }(dir));
   return out.sort();
 }
+
+// EN-root migration (2026-11-07): the English page of a kind relative to a language's home ('esim/x/index.html' is
+// /destinations/x/ in English), and every English page (the root home, /destinations/, /guides/, the legal pages in en/).
+const enFile = (k) => (k.startsWith('esim/') ? `destinations/${k.slice('esim/'.length)}` : k);
+const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')].filter((p) => !isLegacyRedirectFile(p));   // not the old addresses' redirect pages
 // LEGAL-8: the permanent copies of the legal documents (/fr/<kind>/v<n>/) are held by seo/test-legal-archive.mjs.
 const FR_PAGES = htmlUnder('fr').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/fr/terms|refund|privacy/) are pages of this language too; their
@@ -63,7 +69,7 @@ test('every French page: the home, the list, one page per catalogue country, the
   assert.equal(FR_SITE_PAGES.length, COUNTRY_PAGES + 11, 'the home, the list, the countries, the guides list, five guides + the three region pages (seo/regions.mjs)');
   assert.equal(FR_PAGES.length, COUNTRY_PAGES + 14, '+ the three legal documents (LEGAL-4)');
   assert.equal(FR_PAGES.filter((p) => /^fr\/esim\/[^/]+\/index\.html$/.test(p)).length, COUNTRY_PAGES + 3, "the catalogue countries + 3 region pages");
-  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, FR_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
+  assert.equal(enPages().filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, FR_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 
 test('every source has every key English has (+ .many plurals), and no other; the same {placeholders}', () => {
@@ -78,7 +84,7 @@ test('every source has every key English has (+ .many plurals), and no other; th
 
 test('the French guides mirror the English ones: slugs, sections, questions, related, internal links', () => {
   assert.deepEqual(FR_GUIDES.map((g) => g.slug), EN_GUIDES.map((g) => g.slug));
-  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1].replace(/^\/(en|fr)\//, '/L/')));
+  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1].replace(/^\/destinations\//, '/L/esim/').replace(/^\/guides\//, '/L/guides/').replace(/^\/fr\//, '/L/')));
   for (const [i, fr] of FR_GUIDES.entries()) {
     const en = EN_GUIDES[i];
     assert.equal(fr.sections.length, en.sections.length, `${fr.slug}: sections`);
@@ -129,11 +135,11 @@ function skeleton(html) {
 test('the same design: every page kind has the English markup skeleton (tags and classes, in order)', () => {
   const kinds = ['index.html', 'esim/index.html', 'esim/thailand/index.html', 'esim/japan/index.html', 'esim/uae/index.html',
     'esim/peru/index.html', 'esim/turkey/index.html', 'guides/index.html', ...EN_GUIDES.map((g) => `guides/${g.slug}/index.html`)];
-  for (const k of kinds) assert.equal(skeleton(read(`fr/${k}`)), skeleton(read(`en/${k}`)), k);
+  for (const k of kinds) assert.equal(skeleton(read(`fr/${k}`)), skeleton(read(enFile(k))), k);
   // …and the same stylesheets and scripts (Expressive and the logo included), the language's own data aside.
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|fr)\/destinations\.js$/, 'DEST').replace(/country-names-(en|fr)\.js$/, 'NAMES').replace(/site-i18n-(en|fr)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|fr)\/destinations\.js$/, 'DEST').replace(/country-names-(en|fr)\.js$/, 'NAMES').replace(/site-i18n-(en|fr)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css' && a !== '/assets/lang-route.js');   // the authored English text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
-    assert.deepEqual(assets(read(`fr/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
+    assert.deepEqual(assets(read(`fr/${k}`)), assets(read(enFile(k))), `${k}: the same assets`);
   }
   assert.match(head(read('fr/index.html')), /<meta property="og:locale" content="fr_FR">/, 'the home names its locale');
   assert.match(read('fr/index.html'), /data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]+"/, 'Expressive on the home');
@@ -141,7 +147,7 @@ test('the same design: every page kind has the English markup skeleton (tags and
   for (const k of ['index.html', 'esim/thailand/index.html', 'guides/iphone/index.html']) {
     assert.match(read(`fr/${k}`), /<script src="\/assets\/logo-once\.js\?v=[0-9a-f]+"[^>]*><\/script>/, `${k}: the logo «Reveal + Wave»`);
     assert.equal(head(read(`fr/${k}`)).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1],
-      head(read(`en/${k}`)).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1], `${k}: the English CSP`);
+      head(read(enFile(k))).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1], `${k}: the English CSP`);
   }
 });
 
@@ -378,8 +384,8 @@ test('noindex until the owner opens French (D11): every page noindex, self-canon
 test('no RU / EN / ES / DE page lists French as an hreflang alternate; the stage is unchanged', () => {
   assert.deepEqual([...INDEXED_COUNTRIES], ['china', 'france', 'greece', 'indonesia', 'japan', 'malaysia', 'maldives', 'mexico',
     'singapore', 'south-korea', 'sri-lanka', 'thailand', 'turkey', 'united-kingdom', 'vietnam']);
-  for (const rel of ['index.html', 'esim/thailand/index.html', 'en/index.html', 'en/esim/thailand/index.html', 'es/index.html',
-    'es/esim/japan/index.html', 'de/index.html', 'en/guides/iphone/index.html', 'iphone.html']) {
+  for (const rel of ['ru/index.html', 'ru/esim/thailand/index.html', 'index.html', 'destinations/thailand/index.html', 'es/index.html',
+    'es/esim/japan/index.html', 'de/index.html', 'guides/iphone/index.html', 'ru/iphone.html']) {
     assert.doesNotMatch(head(read(rel)), /hreflang="fr"/, rel);
   }
 });

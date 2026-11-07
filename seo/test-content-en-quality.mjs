@@ -1,4 +1,4 @@
-/* Authored English country content — QA regression guards on the RENDERED pages (en/esim/<slug>/index.html), written
+/* Authored English country content — QA regression guards on the RENDERED pages (destinations/<slug>/index.html), written
  * independently of the validator (seo/content-en.mjs): what a reader and a crawler actually get. Every guard has a
  * negative control that proves it fires.
  *
@@ -34,7 +34,7 @@ import { enCountries } from './build-en-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const page = (slug) => read(`en/esim/${slug}/index.html`);
+const page = (slug) => read(`destinations/${slug}/index.html`);
 const contentOf = (slug) => {
   const f = join(ROOT, 'seo/content-en', `${slug}.json`);
   return existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : null;
@@ -81,8 +81,8 @@ function staticProblems(html, doc) {
   });
   if (qs.length !== doc.faq.length) p.push(`${qs.length} questions rendered, ${doc.faq.length} in the file`);
   const rel = (about.match(/<section class="cp-about-sec cp-related"[\s\S]*?<\/section>/) || [''])[0];
-  for (const slug of doc.related) if (!rel.includes(`<a href="/en/esim/${slug}/">`)) p.push(`related link /en/esim/${slug}/ missing`);
-  for (const slug of doc.related) if (!existsSync(join(ROOT, 'en/esim', slug, 'index.html'))) p.push(`related /en/esim/${slug}/ has no page`);
+  for (const slug of doc.related) if (!rel.includes(`<a href="/destinations/${slug}/">`)) p.push(`related link /en/esim/${slug}/ missing`);
+  for (const slug of doc.related) if (!existsSync(join(ROOT, 'destinations', slug, 'index.html'))) p.push(`related /en/esim/${slug}/ has no page`);
   return p;
 }
 
@@ -106,7 +106,7 @@ test('a: negative controls — a template page, a hidden block, a block in <temp
   assert.ok(staticProblems(html.replace('<section class="cp-about-sec"', '<section hidden class="cp-about-sec"'), doc).some((x) => /hidden/.test(x)));
   assert.ok(staticProblems(html.replace(/<details>[\s\S]*?<\/details>/, ''), doc).some((x) => /question 1/.test(x)));
   const about = aboutOf(html);
-  const noRel = html.replace(about, about.replace(`<a href="/en/esim/${doc.related[0]}/">`, '<a href="/en/">'));
+  const noRel = html.replace(about, about.replace(`<a href="/destinations/${doc.related[0]}/">`, '<a href="/">'));
   assert.ok(staticProblems(noRel, doc).some((x) => /related link/.test(x)));
   assert.ok(staticProblems(html.replace(`>${esc(doc.sections[0].h2)}</h2>`, '>Something else</h2>'), doc).some((x) => /h2 «/.test(x)));
 });
@@ -307,7 +307,7 @@ const CHECKOUT = /<div class="overlay" id="checkout"[\s\S]*?\n<\/div>\n(?=\n<foo
 function normalise(s, slug) {
   const c = BY_SLUG.get(slug);
   return s.split(`the ${esc(c.name)}`).join('{NAME}').split(`the ${c.name}`).join('{NAME}').split(esc(c.name)).join('{NAME}').split(c.name).join('{NAME}')
-    .split(`/assets/flags/${c.iso.toLowerCase()}.svg`).join('/assets/flags/{iso}.svg').split(`/en/esim/${slug}/`).join('/en/esim/{slug}/');
+    .split(`/assets/flags/${c.iso.toLowerCase()}.svg`).join('/assets/flags/{iso}.svg').split(`/destinations/${slug}/`).join('/destinations/{slug}/');
 }
 const checkoutOf = (html, slug) => { const m = html.match(CHECKOUT); return m ? normalise(m[0], slug) : null; };
 const scriptsOf = (html, slug) => [...html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>/g)].map((m) => normalise(m[0], slug));
@@ -353,13 +353,14 @@ const ldBlocks = (html) => [...html.matchAll(/<script type="application\/ld\+jso
 const hasFaqLd = (html) => ldBlocks(html).some((b) => JSON.stringify(b).includes('"FAQPage"')) || /"@type"\s*:\s*"(FAQPage|Question)"|acceptedAnswer|itemtype="[^"]*FAQPage/.test(html);
 
 test('f: no FAQPage on any English page; one BreadcrumbList, and only that, on every English country page', () => {
-  const files = htmlFiles('en');
+  // EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
+  const files = ['index.html', ...htmlFiles('destinations'), ...htmlFiles('guides'), ...htmlFiles('en')];
   assert.ok(files.length > 200);
   assert.deepEqual(files.filter((f) => hasFaqLd(read(f))), []);
   for (const c of COUNTRIES) {
     const b = ldBlocks(page(c.slug));
     assert.deepEqual(b.map((x) => x['@type']), ['BreadcrumbList'], c.slug);
-    assert.equal(b[0].itemListElement.at(-1).item, `https://magicesim.store/en/esim/${c.slug}/`, c.slug);
+    assert.equal(b[0].itemListElement.at(-1).item, `https://magicesim.store/destinations/${c.slug}/`, c.slug);
   }
   // Negative controls.
   assert.equal(hasFaqLd('<script type="application/ld+json">{"@type":"FAQPage","mainEntity":[]}</script>'), true);
@@ -367,8 +368,8 @@ test('f: no FAQPage on any English page; one BreadcrumbList, and only that, on e
   assert.equal(hasFaqLd(page('japan')), false);
 });
 
-const RU_FILES = () => [...readdirSync(join(ROOT, 'esim'), { withFileTypes: true }).filter((d) => d.isDirectory() && existsSync(join(ROOT, 'esim', d.name, 'index.html')))
-  .map((d) => `esim/${d.name}/index.html`), 'esim/index.html', 'index.html'];
+const RU_FILES = () => [...readdirSync(join(ROOT, 'ru/esim'), { withFileTypes: true }).filter((d) => d.isDirectory() && existsSync(join(ROOT, 'ru/esim', d.name, 'index.html')))
+  .map((d) => `ru/esim/${d.name}/index.html`), 'ru/esim/index.html', 'ru/index.html'];
 /** What of the English authored content a Russian page must never carry. */
 const ruLeak = (html) => /cp-about|\/en\/content\.css|cpFaqTitle|cpRelatedTitle/.test(html);
 
@@ -383,9 +384,9 @@ test('f: the Russian pages carry nothing of the English authored content', () =>
  *  INDEXED_COUNTRIES gains exactly its hreflang block — ruAlternates(), right where the generator puts it — and
  *  nothing else. Strip exactly that block once and the file must be the base's byte for byte. Problems ([] = allowed). */
 export function ruTwinChange(file, now, old, newly) {
-  const m = String(file).match(/^esim\/([a-z0-9-]+)\/index\.html$/);
+  const m = String(file).match(/^ru\/esim\/([a-z0-9-]+)\/index\.html$/);
   if (!m || !newly.includes(m[1])) return [`${file}: a Russian file differs, and it is not the twin of a newly indexed slug`];
-  const block = ruAlternates(`/esim/${m[1]}/`);
+  const block = ruAlternates(`/ru/esim/${m[1]}/`);
   if (!block) return [`${file}: ${m[1]} has no cluster, so no hreflang block may appear`];
   if (/hreflang=/.test(old)) return [`${file}: the base already carried alternates`];
   const i = now.indexOf(block);
@@ -394,10 +395,10 @@ export function ruTwinChange(file, now, old, newly) {
 }
 
 test('f: the one allowed Russian change — negative controls (run always)', () => {
-  const slug = INDEXED_COUNTRIES.find((s) => existsSync(join(ROOT, 'esim', s, 'index.html')) && ruAlternates(`/esim/${s}/`));
-  const f = `esim/${slug}/index.html`;
+  const slug = INDEXED_COUNTRIES.find((s) => existsSync(join(ROOT, 'ru/esim', s, 'index.html')) && ruAlternates(`/ru/esim/${s}/`));
+  const f = `ru/esim/${slug}/index.html`;
   const now = read(f);
-  const block = ruAlternates(`/esim/${slug}/`);
+  const block = ruAlternates(`/ru/esim/${slug}/`);
   const old = now.replace(block, '');
   assert.deepEqual(ruTwinChange(f, now, old, [slug]), [], 'the block added to a newly indexed twin is allowed');
   assert.ok(ruTwinChange(f, now, old, []).length, 'the same change on a slug that was already indexed fails');
@@ -405,7 +406,7 @@ test('f: the one allowed Russian change — negative controls (run always)', () 
   assert.ok(ruTwinChange(f, now.replace(block, block + block), old, [slug]).some((x) => /exactly once/.test(x)), 'a doubled block fails');
   assert.ok(ruTwinChange(f, now.replace(block, block.replace('hreflang="es"', 'hreflang="de"')), old, [slug]).length, 'a different block fails');
   assert.ok(ruTwinChange(f, now, now, [slug]).some((x) => /already carried/.test(x)), 'a base that already had alternates fails');
-  assert.ok(ruTwinChange('index.html', now, old, [slug]).length, 'a non-country Russian file never qualifies');
+  assert.ok(ruTwinChange('ru/index.html', now, old, [slug]).length, 'a non-country Russian file never qualifies');
   assert.ok(ruTwinChange('seo/content-profiles/japan.json', now, old, [slug]).length, 'a profile never qualifies');
 });
 
@@ -414,20 +415,20 @@ test('f: the Russian pages are byte-identical to CONTENT_EN_QA_BASE, but for the
   const git = (...a) => execFileSync('git', ['-C', ROOT, ...a], { encoding: 'utf8', maxBuffer: 64 << 20 });
   git('rev-parse', '--verify', `${BASE}^{commit}`);
   const changed = (paths) => git('diff', '--name-only', BASE, '--', ...paths).split('\n').filter(Boolean);
-  const untracked = git('ls-files', '--others', '--exclude-standard', '--', 'esim', 'index.html').split('\n').filter(Boolean);
+  const untracked = git('ls-files', '--others', '--exclude-standard', '--', 'ru/esim', 'ru/index.html').split('\n').filter(Boolean);
   const baseStage = (git('show', `${BASE}:seo/indexing.mjs`).match(/INDEXED_COUNTRIES = Object\.freeze\(\[([\s\S]*?)\]\)/) || [])[1];
   assert.ok(baseStage !== undefined, `${BASE}: INDEXED_COUNTRIES not found`);
   const before = [...baseStage.matchAll(/'([a-z0-9-]+)'/g)].map((m) => m[1]);
   const newly = INDEXED_COUNTRIES.filter((s) => !before.includes(s));
   assert.deepEqual(untracked, [], `untracked Russian files against ${BASE}`);
-  const bad = changed(['esim', 'index.html', 'seo/content-profiles'])
+  const bad = changed(['ru/esim', 'ru/index.html', 'seo/content-profiles'])
     .flatMap((f) => ruTwinChange(f, read(f), git('show', `${BASE}:${f}`), newly));
   assert.deepEqual(bad, [], `Russian files differ from ${BASE}`);
   // Byte-for-byte on a sample through git show, as a second route to the same answer; and a negative control.
-  for (const f of ['index.html', 'esim/index.html', 'esim/japan/index.html', 'esim/thailand/index.html']) {
+  for (const f of ['ru/index.html', 'ru/esim/index.html', 'ru/esim/japan/index.html', 'ru/esim/thailand/index.html']) {
     assert.equal(read(f), git('show', `${BASE}:${f}`), f);
   }
-  assert.notEqual(read('esim/japan/index.html') + ' ', git('show', `${BASE}:esim/japan/index.html`));
+  assert.notEqual(read('ru/esim/japan/index.html') + ' ', git('show', `${BASE}:ru/esim/japan/index.html`));
   // The authored English pages against the base: the same scripts, the same checkout window.
   for (const slug of WITH_FILE) {
     const old = git('show', `${BASE}:en/esim/${slug}/index.html`);

@@ -36,11 +36,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const readRaw = (f) => readFileSync(join(ROOT, f), 'utf8');
 const read = readRaw;
 
-const LANDING = read('index.html');
+const LANDING = read('ru/index.html');
 // The public checkout: since RU↔EN migration PR B/C it opens on the country
 // pages (the window in their markup, the code in assets/ru-checkout.js); the
 // home links to them and takes no money itself.
-const CHECKOUT = readRaw('esim/turkey/index.html') + '\n' + readRaw('assets/ru-checkout.js');
+const CHECKOUT = readRaw('ru/esim/turkey/index.html') + '\n' + readRaw('assets/ru-checkout.js');
 const TARIFFS = read('assets/country-tariffs.js');
 
 // The capture block, delimited by its own banner and the closing catch.
@@ -80,7 +80,7 @@ test('the dead keys are gone from the two files that capture, and stay gone', ()
   const touches = (src, key) =>
     new RegExp(`(?:get|set|remove)Item\\(\\s*['"]${key}['"]`).test(src);
 
-  for (const [name, src] of [['index.html', LANDING], ['country-tariffs.js', TARIFFS]]) {
+  for (const [name, src] of [['ru/index.html', LANDING], ['country-tariffs.js', TARIFFS]]) {
     for (const key of ['magic_utm', 'mesim_attr']) {
       assert.ok(!touches(src, key), `${name} reads or writes the dead key ${key}`);
     }
@@ -117,16 +117,16 @@ test('a tagged arrival records the campaign', () => {
 });
 
 test('an untagged arrival still records the entry page and the referrer', () => {
-  const rec = runCapture({ referrer: 'https://yandex.ru/search/?text=esim', pathname: '/esim/turkey/' });
+  const rec = runCapture({ referrer: 'https://yandex.ru/search/?text=esim', pathname: '/ru/esim/turkey/' });
   assert.equal(rec.referrer, 'https://yandex.ru/search/?text=esim');
-  assert.equal(rec.entry, '/esim/turkey/');
+  assert.equal(rec.entry, '/ru/esim/turkey/');
   assert.equal(rec.utm_source, undefined);
 });
 
 test('OUR OWN referrer is not recorded — this is the bug the whole design is for', () => {
   // The country page -> landing hop. If this were recorded, every real visitor
   // would be filed as a referral from ourselves and the actual source lost.
-  const rec = runCapture({ referrer: 'https://magicesim.store/esim/turkey/', pathname: '/' });
+  const rec = runCapture({ referrer: 'https://magicesim.store/ru/esim/turkey/', pathname: '/' });
   assert.equal(rec.referrer, undefined);
   assert.equal(rec.entry, '/');
 
@@ -145,12 +145,12 @@ test('FIRST touch wins: the internal hop cannot overwrite the campaign', () => {
   // The exact journey the audit measured: a tagged arrival on a country page,
   // then the buy button to the landing with no parameters at all.
   const store = {};
-  runCapture({ search: '?utm_source=ig', pathname: '/esim/turkey/', store });
-  runCapture({ search: '', referrer: 'https://magicesim.store/esim/turkey/', pathname: '/', store });
+  runCapture({ search: '?utm_source=ig', pathname: '/ru/esim/turkey/', store });
+  runCapture({ search: '', referrer: 'https://magicesim.store/ru/esim/turkey/', pathname: '/', store });
 
   const rec = JSON.parse(store.magic_attr);
   assert.equal(rec.utm_source, 'ig', 'the second page overwrote the first — first touch is not first');
-  assert.equal(rec.entry, '/esim/turkey/', 'the entry page must stay the page they actually entered on');
+  assert.equal(rec.entry, '/ru/esim/turkey/', 'the entry page must stay the page they actually entered on');
 });
 
 test('a second tagged arrival in the same session also does not overwrite', () => {
@@ -494,7 +494,7 @@ test('the Mini App beacon has the same timeout as every other request', () => {
 // ---------------------------------------------------------------------------
 
 const PAYING_SURFACES = [
-  ['public checkout', 'esim/turkey/index.html'],
+  ['public checkout', 'ru/esim/turkey/index.html'],
   ['public checkout code', 'assets/ru-checkout.js'],
   ['Mini App markup', 'app/index.html'],
   ['Mini App locales', 'app/locales.js'],

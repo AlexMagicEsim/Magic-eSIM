@@ -23,7 +23,7 @@ const path = require('path');
 const RU = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'catalog.json'), 'utf8')).packages;
 const EN = require('../fixtures/en-plans-catalogue.json').packages;
 const cors = { 'access-control-allow-origin': '*' };
-const PAIRS = { home: ['/', '/en/'], country: ['/esim/turkey/', '/en/esim/thailand/'], hub: ['/esim/', '/en/esim/'], guide: ['/esim/compatibility/', '/en/guides/compatibility/'] };
+const PAIRS = { home: ['/ru/', '/'], country: ['/ru/esim/turkey/', '/destinations/thailand/'], hub: ['/ru/esim/', '/destinations/'], guide: ['/ru/esim/compatibility/', '/guides/compatibility/'] };
 
 async function open(page, url, { reduce = false } = {}) {
   if (reduce) await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -70,17 +70,17 @@ for (const [kind, [ru, en]] of Object.entries(PAIRS)) {
 
 test('the same elements carry the same transitions on RU and EN', async ({ page }) => {
   const sels = ['.btn', '.nav a', '.dest-tile', '.guide-card', '.step', '.langsw svg', '.plan', '.cp-jump a'];
-  await open(page, '/'); const rh = await transitions(page, sels);
-  await open(page, '/en/'); const eh = await transitions(page, sels);
-  await open(page, '/esim/turkey/'); await expect(page.locator('#localGrid .plan').first()).toBeVisible(); const rc = await transitions(page, sels);
-  await open(page, '/en/esim/thailand/'); await expect(page.locator('#localGrid .plan').first()).toBeVisible(); const ec = await transitions(page, sels);
+  await open(page, '/ru/'); const rh = await transitions(page, sels);
+  await open(page, '/'); const eh = await transitions(page, sels);
+  await open(page, '/ru/esim/turkey/'); await expect(page.locator('#localGrid .plan').first()).toBeVisible(); const rc = await transitions(page, sels);
+  await open(page, '/destinations/thailand/'); await expect(page.locator('#localGrid .plan').first()).toBeVisible(); const ec = await transitions(page, sels);
   for (const s of ['.btn', '.nav a', '.dest-tile', '.guide-card', '.step', '.langsw svg']) { expect(rh[s], `home ${s}`).not.toBeNull(); expect(eh[s], `home ${s}`).toBe(rh[s]); }
   for (const s of ['.plan', '.cp-jump a', '.btn']) { expect(rc[s], `country ${s}`).not.toBeNull(); expect(ec[s], `country ${s}`).toBe(rc[s]); }
   expect(ec['.plan']).toMatch(/^transform/);   // Expressive's lift, not the base shadow-only transition
 });
 
 test('EN country page: the cards enter, the chosen day term settles, the jump bar follows the scroll', async ({ page }) => {
-  await open(page, '/en/esim/thailand/');
+  await open(page, '/destinations/thailand/');
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   await page.waitForTimeout(800);
   const s = await state(page);
@@ -101,9 +101,9 @@ test('EN country page: the cards enter, the chosen day term settles, the jump ba
 });
 
 test('EN home: the same blocks below the fold wait for the scroll as on RU, and reveal when reached', async ({ page }) => {
-  await open(page, '/'); await page.waitForTimeout(800);
+  await open(page, '/ru/'); await page.waitForTimeout(800);
   const ru = await state(page);
-  await open(page, '/en/'); await page.waitForTimeout(800);
+  await open(page, '/'); await page.waitForTimeout(800);
   const en = await state(page);
   expect(ru.pre).toBeGreaterThan(0);
   expect(en.pre).toBeGreaterThan(0);
@@ -132,16 +132,16 @@ test.describe('desktop', () => {
       out.nav = await nav.evaluate((e) => new DOMMatrixReadOnly(getComputedStyle(e, '::after').transform).a);
       return out;
     };
-    const ru = await measure('/esim/turkey/', '#localGrid .plan');
-    const en = await measure('/en/esim/thailand/', '#localGrid .plan');
+    const ru = await measure('/ru/esim/turkey/', '#localGrid .plan');
+    const en = await measure('/destinations/thailand/', '#localGrid .plan');
     expect(ru['#localGrid .plan']).toBe(-5);
     expect(en).toEqual(ru);
-    await open(page, '/en/'); await page.waitForTimeout(800);
+    await open(page, '/'); await page.waitForTimeout(800);
     await expect(page.locator('.hero-art')).toHaveClass(/m-par/);
   });
 });
 
-for (const url of ['/', '/en/', '/en/esim/thailand/']) {
+for (const url of ['/ru/', '/', '/destinations/thailand/']) {
   test(`prefers-reduced-motion: ${url} runs no animation and hides nothing`, async ({ page }) => {
     await open(page, url, { reduce: true });
     await page.waitForTimeout(1500);

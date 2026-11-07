@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { LOCALES, refreshStagePaths, refreshTreePaths, catalogueLocalePaths, indexablePrefixedHomes, prefixedSiteLocales, asPlanned } from './locales.mjs';
+import { LOCALES, refreshStagePaths, refreshTreePaths, catalogueLocalePaths, indexablePrefixedHomes, prefixedSiteLocales, asPlanned, homePath, cataloguePath, guidesPath } from './locales.mjs';
 import { localeGenerator, cannotBuild, publishedLocales, GUIDES_BY_LOCALE } from './build-locale-pages.mjs';
 import * as EN_ENTRY from './build-en-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
@@ -74,13 +74,13 @@ test('English built through the locale generator equals the committed pages, byt
   const drift = [];
   const same = (html, rel) => stampHtml(html, join(ROOT, dirname(rel))) === read(rel);
   for (const c of list) {
-    if (!same(G.countryPage(c), `en/esim/${c.slug}/index.html`)) drift.push(c.slug);
+    if (!same(G.countryPage(c), `destinations/${c.slug}/index.html`)) drift.push(c.slug);
   }
-  if (!same(G.hubPage(list), 'en/esim/index.html')) drift.push('en/esim/');
+  if (!same(G.hubPage(list), 'destinations/index.html')) drift.push('destinations/');
   for (const g of GUIDES_BY_LOCALE.en) {
-    if (!same(G.guidePage(g), `en/guides/${g.slug}/index.html`)) drift.push(`guide ${g.slug}`);
+    if (!same(G.guidePage(g), `guides/${g.slug}/index.html`)) drift.push(`guide ${g.slug}`);
   }
-  if (!same(G.guidesHub(), 'en/guides/index.html')) drift.push('en/guides/');
+  if (!same(G.guidesHub(), 'guides/index.html')) drift.push('guides/');
   if (G.destinationsJs(list) !== read('en/destinations.js')) drift.push('en/destinations.js');
   assert.deepEqual(drift, []);
 });
@@ -100,10 +100,10 @@ test('the English pages sit at /en/ and say so', () => {
   const G = localeGenerator('en');
   const page = G.countryPage(G.countries().find((x) => x.slug === 'japan'));
   assert.match(page, /<html lang="en">/);
-  assert.match(page, /<link rel="canonical" href="https:\/\/magicesim\.store\/en\/esim\/japan\/">/);
+  assert.match(page, /<link rel="canonical" href="https:\/\/magicesim\.store\/destinations\/japan\/">/);
   assert.match(page, /<meta property="og:locale" content="en_US">/);
   assert.match(page, /<meta name="robots" content="index, follow">/, 'japan is in the I18N-09 stage');
-  assert.match(page, /<link rel="alternate" hreflang="x-default" href="https:\/\/magicesim\.store\/en\/esim\/japan\/">/);
+  assert.match(page, /<link rel="alternate" hreflang="x-default" href="https:\/\/magicesim\.store\/destinations\/japan\/">/);
   const peru = G.countryPage(G.countries().find((x) => x.slug === 'peru'));
   assert.match(peru, /<meta name="robots" content="noindex, follow">/, 'a country outside the stage stays a noindex template');
   assert.doesNotMatch(peru, /<link rel="alternate"/, 'and has no hreflang cluster');
@@ -139,7 +139,7 @@ test('every language but English, Spanish, German, French, Chinese and Korean is
   assert.equal(cannotBuild('es'), null);
   assert.equal(cannotBuild('de'), null);
   assert.equal(cannotBuild('fr'), null);
-  assert.match(cannotBuild('ru'), /root language/);
+  assert.match(cannotBuild('ru'), /the Russian site; build-catalogue-pages\.mjs builds it/);
   for (const code of NEW) {
     assert.match(cannotBuild(code), /not enabled for the site/, code);
     assert.throws(() => localeGenerator(code), /refusing to publish/, code);
@@ -154,18 +154,21 @@ test('no route directory of an unpublished language exists', () => {
 });
 
 test('the generator carries no route of one language — only the shared intl assets under /en/', () => {
+  // EN-root migration: the English pages' own paths (/destinations/, /guides/, /ru/ for the Russian twin) come from the
+  // registry (seo/locales.mjs paths) too — never typed in the generator.
   const src = read('seo/build-locale-pages.mjs').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-  const routes = [...src.matchAll(/["'`(]\/en\/[^"'`)\s]*/g)].map((m) => m[0].slice(1))
+  const routes = [...src.matchAll(/["'`(]\/(?:en|destinations|guides|ru|support)\/[^"'`)\s]*/g)].map((m) => m[0].slice(1))
     .filter((p) => !/^\/en\/(en\.css|checkout\.css|noscript\.css|content\.css|plans\.js|checkout\.js|country\.js|hub\.js)$/.test(p))
-    .filter((p) => p !== '/en/esim/<slug>/')
+    .filter((p) => p !== '/destinations/<slug>/')
     .filter((p) => !/^\/en\/(privacy|terms|refund)\/$/.test(p)); // the English-only legal documents (LEGAL-1, LEGAL-3), built for English only
   assert.deepEqual(routes, []);
   assert.doesNotMatch(src, /lang="en"|content="en_US"|text\('en'|attr\('en'/);
 });
 
 test('the route check can fire', () => {
-  const bad = 'x href="/en/esim/" y';
-  assert.equal([...bad.matchAll(/["'`(]\/en\/[^"'`)\s]*/g)].length, 1);
+  for (const bad of ['x href="/en/esim/" y', 'x href="/destinations/" y', "x '/guides/iphone/' y", 'x `/ru/esim/` y']) {
+    assert.equal([...bad.matchAll(/["'`(]\/(?:en|destinations|guides|ru|support)\/[^"'`)\s]*/g)].length, 1, bad);
+  }
 });
 
 /* ===================================================================== *
@@ -173,24 +176,28 @@ test('the route check can fire', () => {
  * ===================================================================== */
 
 /* The region pages every refresh may rewrite (seo/regions.mjs), typed here on purpose: widening the allowlist is a decision. */
-const REGION_PATHS = ['en/esim/europe/index.html', 'en/esim/asia/index.html', 'en/esim/global/index.html', 'es/esim/europe/index.html', 'es/esim/asia/index.html', 'es/esim/global/index.html', 'de/esim/europe/index.html', 'de/esim/asia/index.html', 'de/esim/global/index.html', 'fr/esim/europe/index.html', 'fr/esim/asia/index.html', 'fr/esim/global/index.html', 'zh/esim/europe/index.html', 'zh/esim/asia/index.html', 'zh/esim/global/index.html', 'ko/esim/europe/index.html', 'ko/esim/asia/index.html', 'ko/esim/global/index.html'];
+const REGION_PATHS = ['destinations/europe/index.html', 'destinations/asia/index.html', 'destinations/global/index.html', 'es/esim/europe/index.html', 'es/esim/asia/index.html', 'es/esim/global/index.html', 'de/esim/europe/index.html', 'de/esim/asia/index.html', 'de/esim/global/index.html', 'fr/esim/europe/index.html', 'fr/esim/asia/index.html', 'fr/esim/global/index.html', 'zh/esim/europe/index.html', 'zh/esim/asia/index.html', 'zh/esim/global/index.html', 'ko/esim/europe/index.html', 'ko/esim/asia/index.html', 'ko/esim/global/index.html'];
 
 test('the refresh allowlist is what it was — derived now, not typed', () => {
   assert.deepEqual([...FIXED_ALLOWED], [
-    'esim/index.html', 'sitemap.xml', 'seo/catalogue-countries.json', 'seo/fact-sheets.json',
-    'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js',
+    'ru/esim/index.html', 'sitemap.xml', 'seo/catalogue-countries.json', 'seo/fact-sheets.json',
+    'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'destinations/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js',
     'de/esim/index.html', 'de/destinations.js', 'fr/esim/index.html', 'fr/destinations.js', 'zh/esim/index.html', 'zh/destinations.js', 'ko/esim/index.html', 'ko/destinations.js',
     'assets/ru-destinations.js',
   ]);
   assert.deepEqual([...allowedPaths(['thailand'])].sort(),
-    [...FIXED_ALLOWED, 'esim/thailand/index.html', 'en/esim/thailand/index.html', 'es/esim/thailand/index.html', 'de/esim/thailand/index.html', 'fr/esim/thailand/index.html', 'zh/esim/thailand/index.html', 'ko/esim/thailand/index.html', ...REGION_PATHS].sort());
+    [...FIXED_ALLOWED, 'ru/esim/thailand/index.html', 'destinations/thailand/index.html', 'es/esim/thailand/index.html', 'de/esim/thailand/index.html', 'fr/esim/thailand/index.html', 'zh/esim/thailand/index.html', 'ko/esim/thailand/index.html', ...REGION_PATHS].sort());
 });
 
 test('the sitemap lists the indexed prefixed pages (I18N-09) — English and Spanish, no planned language', () => {
   const locs = sitemapUrls([]).map((u) => u.loc);
   assert.deepEqual(indexablePrefixedHomes(), ['en', 'es']);
-  for (const p of ['en', 'es']) for (const path of ['/', '/esim/', '/guides/', '/guides/iphone/', '/esim/japan/']) assert.ok(locs.includes(`https://magicesim.store/${p}${path}`), `${p}${path}`);
-  assert.ok(!locs.includes('https://magicesim.store/en/esim/peru/'), 'a country outside the stage');
+  for (const code of ['en', 'es']) {
+    for (const path of [homePath(code), cataloguePath(code), guidesPath(code), guidesPath(code, 'iphone'), cataloguePath(code, 'japan')]) {
+      assert.ok(locs.includes(`https://magicesim.store${path}`), `${code} ${path}`);
+    }
+  }
+  assert.ok(!locs.includes('https://magicesim.store/destinations/peru/'), 'a country outside the stage');
   assert.equal(locs.filter((l) => /magicesim\.store\/(de|fr|zh|ko)\//.test(l)).length, 0);
 });
 
@@ -216,15 +223,15 @@ test('REHEARSAL: enabling a language is the registry flip — Korean «as if pla
   assert.equal(catalogueLocalePaths(['peru'], before).perCountry.includes('ko/esim/peru/index.html'), false);
   // …and the live registry, with Korean published, carries its paths
   assert.deepEqual(prefixedSiteLocales().map((l) => l.code), ['en', 'es', 'de', 'fr', 'zh-Hans', 'ko']);
-  assert.deepEqual(refreshStagePaths(), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
+  assert.deepEqual(refreshStagePaths(), ['ru/esim', 'destinations', 'en/destinations.js', 'es/esim', 'es/destinations.js',
     'de/esim', 'de/destinations.js', 'fr/esim', 'fr/destinations.js', 'zh/esim', 'zh/destinations.js', 'ko/esim', 'ko/destinations.js',
     'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'sitemap.xml']);
-  assert.deepEqual(refreshTreePaths(), ['esim', 'en/esim', 'en/destinations.js', 'es/esim', 'es/destinations.js',
+  assert.deepEqual(refreshTreePaths(), ['ru/esim', 'destinations', 'en/destinations.js', 'es/esim', 'es/destinations.js',
     'de/esim', 'de/destinations.js', 'fr/esim', 'fr/destinations.js', 'zh/esim', 'zh/destinations.js', 'ko/esim', 'ko/destinations.js', 'seo', 'sitemap.xml']);
   assert.deepEqual(catalogueLocalePaths(['peru']), {
-    fixed: ['en/esim/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js', 'de/esim/index.html', 'de/destinations.js',
+    fixed: ['destinations/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js', 'de/esim/index.html', 'de/destinations.js',
       'fr/esim/index.html', 'fr/destinations.js', 'zh/esim/index.html', 'zh/destinations.js', 'ko/esim/index.html', 'ko/destinations.js'],
-    perCountry: ['en/esim/peru/index.html', 'es/esim/peru/index.html', 'de/esim/peru/index.html', 'fr/esim/peru/index.html', 'zh/esim/peru/index.html', 'ko/esim/peru/index.html'],
+    perCountry: ['destinations/peru/index.html', 'es/esim/peru/index.html', 'de/esim/peru/index.html', 'fr/esim/peru/index.html', 'zh/esim/peru/index.html', 'ko/esim/peru/index.html'],
     // The region pages (seo/regions.mjs, stage 4, 2026-10-27): they print seo/global-plan-facts.json, so a refresh may
     // rewrite them — accepted deliberately, three per published language, never a country slug.
     perRegion: REGION_PATHS,

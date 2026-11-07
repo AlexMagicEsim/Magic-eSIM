@@ -27,7 +27,7 @@ function footerProblems(footer) {
     if (seen.has(h)) problems.push(`duplicate link ${h}`);
     seen.add(h);
   }
-  if (hrefs.at(-1) !== '/esim/') problems.push('«Все направления» is not last');
+  if (hrefs.at(-1) !== '/ru/esim/') problems.push('«Все направления» is not last');
   return problems;
 }
 
@@ -41,11 +41,11 @@ test('the footer destinations: China first, Kazakhstan added, and the six that w
 test('every footer destination is a published, indexable RU page with a self canonical', () => {
   for (const { slug, name } of RU_FOOTER_DESTINATIONS) {
     assert.ok(COUNTRY_SLUGS.includes(slug), `${slug}: not a country page of the catalogue`);
-    const file = `esim/${slug}/index.html`;
+    const file = `ru/esim/${slug}/index.html`;
     assert.ok(existsSync(join(ROOT, file)), `${file} missing`);
     const h = read(file);
     assert.match(h, /<meta name="robots" content="index, follow" \/>/, `${slug}: not indexable`);
-    assert.ok(h.includes(`<link rel="canonical" href="https://magicesim.store/esim/${slug}/" />`), `${slug}: canonical`);
+    assert.ok(h.includes(`<link rel="canonical" href="https://magicesim.store/ru/esim/${slug}/" />`), `${slug}: canonical`);
     assert.ok(h.includes(`data-country-name="${name}"`), `${slug}: the label «${name}» is not the page's country`);
   }
 });
@@ -58,15 +58,15 @@ test('the footer adds no SEO-pilot or control page: their inbound links stay as 
 
 test('the footer column is plain links without duplicates — and the check fires', () => {
   assert.deepEqual(footerProblems(RU_FOOTER), []);
-  const dup = RU_FOOTER.replace('<li><a href="/esim/turkey/">Турция</a></li>', '<li><a href="/esim/china/">Китай</a></li>');
+  const dup = RU_FOOTER.replace('<li><a href="/ru/esim/turkey/">Турция</a></li>', '<li><a href="/ru/esim/china/">Китай</a></li>');
   assert.notEqual(dup, RU_FOOTER);
-  assert.ok(footerProblems(dup).some((p) => p.includes('duplicate link /esim/china/')));
-  const js = RU_FOOTER.replace('<li><a href="/esim/turkey/">Турция</a></li>', '<li><button data-href="/esim/turkey/">Турция</button></li>');
+  assert.ok(footerProblems(dup).some((p) => p.includes('duplicate link /ru/esim/china/')));
+  const js = RU_FOOTER.replace('<li><a href="/ru/esim/turkey/">Турция</a></li>', '<li><button data-href="/ru/esim/turkey/">Турция</button></li>');
   assert.ok(footerProblems(js).some((p) => p.includes('not a plain <a href>')));
 });
 
 test('the RU pages carry this footer in their HTML, without JavaScript', () => {
-  for (const p of ['index.html', 'esim/index.html', 'esim/turkey/index.html', 'esim/china/index.html', 'esim/egypt/index.html', 'esim/compatibility/index.html', 'terms.html']) {
+  for (const p of ['ru/index.html', 'ru/esim/index.html', 'ru/esim/turkey/index.html', 'ru/esim/china/index.html', 'ru/esim/egypt/index.html', 'ru/esim/compatibility/index.html', 'terms.html']) {
     assert.ok(read(p).includes(RU_FOOTER), `${p}: footer drifted`);
   }
 });

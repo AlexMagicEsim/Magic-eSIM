@@ -58,7 +58,7 @@ const addParagraph = (text) => (d) => { d.sections[0].paragraphs.push(text); };
 test('the fixture passes every Spanish rule — and fails the English ones', () => {
   assert.deepEqual(problems(fx()), []);
   // 2026-10-28 (owner-gated D3): it used to fail on the English description suffix, which is gone; it fails on its /es/ links.
-  assert.ok(validateContent(fx(), { file: 'japan', today: '2026-10-27' }).some((x) => /a link goes only to an \/en\/ page path/.test(x)), 'an English check refuses it');
+  assert.ok(validateContent(fx(), { file: 'japan', today: '2026-10-27' }).some((x) => /a link goes only to an \/destinations\/ or \/guides\/ page path/.test(x)), 'an English check refuses it');
   assert.throws(() => validateContent(fx(), { ...OPTS, lang: 'de' }), /no authored-content rules for «de»/);
 });
 
@@ -127,7 +127,7 @@ test('countries: Spanish names and aliases; another country only in a claim or a
 });
 
 test('links: only /es/ pages that exist', () => {
-  fires(addParagraph('Lee la [guía](/en/guides/compatibility/).'), /a link goes only to an \/es\/ page/);
+  fires(addParagraph('Lee la [guía](/guides/compatibility/).'), /a link goes only to an \/es\/esim\/ or \/es\/guides\/ page/);
   fires(addParagraph('Lee la [guía](/es/guides/nope/).'), /does not exist/);
   const doc = fx(); addParagraph('Lee la [guía de compatibilidad](/es/guides/compatibility/).')(doc);
   assert.deepEqual(problems(doc).filter((x) => /link/.test(x)), []);

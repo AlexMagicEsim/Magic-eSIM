@@ -107,7 +107,7 @@ for (const [code, box, cls, min, max] of FEATURES) {
   });
 }
 
-const SURFACES = ['/', '/esim/', '/esim/china/', '/en/', '/en/esim/', '/en/esim/china/'];
+const SURFACES = ['/ru/', '/ru/esim/', '/ru/esim/china/', '/', '/destinations/', '/destinations/china/'];
 
 async function flagsOn(page) {
   return page.evaluate(async () => {
@@ -139,8 +139,8 @@ for (const url of SURFACES) {
   // «/» is the RUSSIAN home only for a Russian browser: with the default en-US locale assets/lang-route.js moves the
   // visit to /en/ from <head> — this test then measured /en/, and WebKit now and then never settled goto()'s «load» on
   // the superseded «/» (CI 2026-10-27, 30-s timeout). The Russian home is tested as a Russian browser sees it.
-  test.describe(url === '/' ? 'the Russian home' : url, () => {
-  if (url === '/') test.use({ locale: 'ru-RU' });
+  test.describe(url === '/ru/' ? 'the Russian home' : url, () => {
+  if (url === '/ru/') test.use({ locale: 'ru-RU' });
   for (const width of [null, 1366]) {
     test(`${url}${width ? ' at 1366 px' : ''}: every flag loads and keeps 4:3`, async ({ page }) => {
       await offline(page);
@@ -153,7 +153,7 @@ for (const url of SURFACES) {
       expect(r.missing).toEqual([]);
       expect(r.notLoaded).toEqual([]);
       expect(r.notFourThree).toEqual([]);
-      if (url === '/') expect(new URL(page.url()).pathname, 'measured the Russian home itself').toBe('/');
+      if (url === '/ru/') expect(new URL(page.url()).pathname, 'measured the Russian home itself').toBe('/ru/');
     });
   }
   });
@@ -163,7 +163,7 @@ test.describe('the Russian home (a Russian browser: assets/lang-route.js sends a
   test.use({ locale: 'ru-RU' });
   test('the home search shows China with the repaired flag', async ({ page }) => {
     await offline(page);
-    await page.goto('/');
+    await page.goto('/ru/');
     await page.fill('#q', 'Китай');
     const img = page.locator('#results a.res img').first();
     await expect(img).toHaveAttribute('src', '/assets/flags/cn.svg');

@@ -19,8 +19,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const GUIDES = new Set(['payment-rubles', 'dual-sim-sms', 'compatibility', 'activation-before-travel', 'not-working']);
-const countries = readdirSync(join(ROOT, 'esim'))
-  .filter((d) => !GUIDES.has(d) && existsSync(join(ROOT, 'esim', d, 'index.html')));
+const countries = readdirSync(join(ROOT, 'ru/esim'))
+  .filter((d) => !GUIDES.has(d) && existsSync(join(ROOT, 'ru/esim', d, 'index.html')));
 const authored = readdirSync(join(ROOT, 'seo/content-profiles'))
   .filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5))
   .filter((s) => JSON.parse(readFileSync(join(ROOT, 'seo/content-profiles', `${s}.json`), 'utf8')).status === 'published');
@@ -28,8 +28,8 @@ const authored = readdirSync(join(ROOT, 'seo/content-profiles'))
 function inboundFromCountries() {
   const inbound = new Map(countries.map((c) => [c, new Set()]));
   for (const from of countries) {
-    const html = readFileSync(join(ROOT, 'esim', from, 'index.html'), 'utf8');
-    for (const [, to] of html.matchAll(/href="(?:\.\.\/|\/esim\/)([a-z-]+)\/"/g)) {
+    const html = readFileSync(join(ROOT, 'ru/esim', from, 'index.html'), 'utf8');
+    for (const [, to] of html.matchAll(/href="(?:\.\.\/|\/ru\/esim\/)([a-z-]+)\/"/g)) {
       if (to !== from && inbound.has(to)) inbound.get(to).add(from);
     }
   }
@@ -55,11 +55,11 @@ test('the home page links the popular destinations statically', () => {
   // The home reads no catalogue (RU↔EN migration PR C), so its static links are
   // its only paths to a country page: the eight «Популярные направления» tiles,
   // the hero's «Популярно:» row, «Все направления» and the footer.
-  const home = readFileSync(join(ROOT, 'index.html'), 'utf8');
+  const home = readFileSync(join(ROOT, 'ru/index.html'), 'utf8');
   const block = home.match(/<section class="section" id="popular"[\s\S]*?<\/section>/);
   assert.ok(block, 'блок популярных направлений исчез с главной');
-  const links = [...block[0].matchAll(/href="\/esim\/([a-z-]+)\/"/g)].map((m) => m[1]);
+  const links = [...block[0].matchAll(/href="\/ru\/esim\/([a-z-]+)\/"/g)].map((m) => m[1]);
   assert.equal(links.length, 8, `плиток ${links.length} — на главной восемь, как на /en/`);
   for (const s of links) assert.ok(countries.includes(s), `нет страницы /esim/${s}/`);
-  assert.match(block[0], /href="\/esim\/"/, 'и ссылка на все направления');
+  assert.match(block[0], /href="\/ru\/esim\/"/, 'и ссылка на все направления');
 });

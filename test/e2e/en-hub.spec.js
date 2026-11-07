@@ -26,7 +26,7 @@ const fs = require('fs');
 
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 
-async function open(page, path = '/en/esim/') {
+async function open(page, path = '/destinations/') {
   const st = { calls: [], csp: [], errors: [] };
   page.on('request', (r) => st.calls.push({ method: r.method(), url: r.url() }));
   page.on('console', (m) => {
@@ -65,7 +65,7 @@ test('every destination link opens a real country page (one per catalogue countr
   const hrefs = await page.locator('#hubList a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
   expect(hrefs.length).toBe(COUNTRY_PAGES);
   expect(new Set(hrefs).size).toBe(COUNTRY_PAGES);
-  expect([...hrefs].sort()).toEqual(CATALOGUE_SLUGS.map((s) => `/en/esim/${s}/`).sort());
+  expect([...hrefs].sort()).toEqual(CATALOGUE_SLUGS.map((s) => `/destinations/${s}/`).sort());
   for (const h of hrefs) {
     const r = await request.get(h);
     expect(r.status(), h).toBe(200);
@@ -73,10 +73,10 @@ test('every destination link opens a real country page (one per catalogue countr
   const pop = await page.locator('#hubPopular .hub-tile').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
   // The region pages (seo/regions.mjs) have their own row of tiles, after the list.
   const regions = await page.locator('#hubRegions .hub-tile').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
-  expect(regions).toEqual(['/en/esim/europe/', '/en/esim/asia/', '/en/esim/global/']);
+  expect(regions).toEqual(['/destinations/europe/', '/destinations/asia/', '/destinations/global/']);
   for (const h of regions) expect((await request.get(h)).status(), h).toBe(200);
-  expect(pop).toEqual(['/en/esim/thailand/', '/en/esim/turkey/', '/en/esim/uae/', '/en/esim/japan/',
-    '/en/esim/usa/', '/en/esim/italy/', '/en/esim/spain/', '/en/esim/united-kingdom/']);
+  expect(pop).toEqual(['/destinations/thailand/', '/destinations/turkey/', '/destinations/uae/', '/destinations/japan/',
+    '/destinations/usa/', '/destinations/italy/', '/destinations/spain/', '/destinations/united-kingdom/']);
   for (const h of pop) expect(hrefs).toContain(h);
 });
 
@@ -84,7 +84,7 @@ test('search: a country is found by name, without accents, and by its code; Ente
   await open(page);
   await page.locator('#hq').fill('japan');
   await expect(visibleLinks(page)).toHaveCount(1);
-  await expect(visibleLinks(page).first()).toHaveAttribute('href', '/en/esim/japan/');
+  await expect(visibleLinks(page).first()).toHaveAttribute('href', '/destinations/japan/');
   await expect(page.locator('#hubCount')).toHaveText('1 destination match');
   await expect(page.locator('#hubPopular')).toBeHidden();
   await expect(page.locator('#hubEmpty')).toBeHidden();
@@ -104,7 +104,7 @@ test('search: a country is found by name, without accents, and by its code; Ente
 
   await page.locator('#hq').fill('thai');
   await page.locator('#hq').press('Enter');
-  await expect(page).toHaveURL(/\/en\/esim\/thailand\/$/);
+  await expect(page).toHaveURL(/\/destinations\/thailand\/$/);
 });
 
 test('search with no result: says so, offers the whole list, and gives it back', async ({ page }) => {
@@ -115,7 +115,7 @@ test('search with no result: says so, offers the whole list, and gives it back',
   await expect(page.locator('#hubEmpty')).toContainText('No destination matches that name.');
   await expect(page.locator('#hubCount')).toHaveText('No matches');
   await page.locator('#hq').press('Enter');
-  await expect(page).toHaveURL(/\/en\/esim\/$/);
+  await expect(page).toHaveURL(/\/destinations\/$/);
   await page.locator('#hubReset').click();
   await expect(page.locator('#hq')).toBeFocused();
   await expect(page.locator('#hq')).toHaveValue('');

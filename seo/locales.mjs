@@ -34,13 +34,21 @@
 import { REGION_SLUGS } from './regions.mjs';
 
 
-const L = (o) => Object.freeze({ ...o, site: Object.freeze(o.site), app: Object.freeze(o.app) });
+const pathsOf = (o) => Object.freeze(o.paths || { home: `/${o.prefix}/`, catalogue: `/${o.prefix}/esim/`, guides: `/${o.prefix}/guides/` });
+const L = (o) => Object.freeze({ ...o, paths: pathsOf(o), site: Object.freeze(o.site), app: Object.freeze(o.app) });
 
 /**
  * Every language the architecture is built for, in display order.
  *
  * code        internal id, BCP 47; also the dictionary key and the backend value
- * prefix      URL path segment; '' = the site root (Russian stays at /)
+ * prefix      the language's own path segment and file id: /<prefix>/ holds its legal documents, assets/site-i18n-
+ *             <prefix>.js its words, seo/content-<prefix>/ its texts. Since the EN-root migration (owner, 2026-11-07)
+ *             no language has an empty prefix: Russian is `ru`, English keeps `en` (its legal documents, scripts and
+ *             styles stay under /en/) while its PAGES live at the root — see `paths`.
+ * paths       where the language's pages are, as URL paths (seo/url-migration.mjs is the map from the old ones):
+ *             home, catalogue (the destination list; a country is catalogue + slug + '/'), guides (null: Russian
+ *             guides live inside its catalogue and at /ru/iphone.html, /ru/android.html). Read through homePath(),
+ *             cataloguePath(), guidesPath() — never typed again.
  * htmlLang    <html lang>
  * hreflang    <link rel="alternate" hreflang>
  * ogLocale    og:locale
@@ -55,9 +63,9 @@ const L = (o) => Object.freeze({ ...o, site: Object.freeze(o.site), app: Object.
  * app         enabled: the Mini App offers it
  */
 export const LOCALES = Object.freeze([
-  L({ code: 'ru', prefix: '', htmlLang: 'ru', hreflang: 'ru', ogLocale: 'ru_RU', script: 'Cyrl', endonym: 'Русский', defaultMarket: 'ru',
+  L({ code: 'ru', prefix: 'ru', paths: { home: '/ru/', catalogue: '/ru/esim/', guides: null }, htmlLang: 'ru', hreflang: 'ru', ogLocale: 'ru_RU', script: 'Cyrl', endonym: 'Русский', defaultMarket: 'ru',
     site: { enabled: true, indexableHome: true, analytics: 'metrika' }, app: { enabled: true } }),
-  L({ code: 'en', prefix: 'en', htmlLang: 'en', hreflang: 'en', ogLocale: 'en_US', script: 'Latn', endonym: 'English', defaultMarket: 'global',
+  L({ code: 'en', prefix: 'en', paths: { home: '/', catalogue: '/destinations/', guides: '/guides/' }, htmlLang: 'en', hreflang: 'en', ogLocale: 'en_US', script: 'Latn', endonym: 'English', defaultMarket: 'global',
     site: { enabled: true, indexableHome: true, analytics: 'none' }, app: { enabled: true } }),
   // ES-1 (2026-10-21) published it under noindex for review; ES-1r reviewed it (AI-only, owner); I18N-09 makes it
   // indexable: home, list, guides and the country stage of seo/indexing.mjs. The Mini App does not offer it (no Mini App
@@ -95,7 +103,7 @@ export function locale(code) {
 /** The registry as it was while `code` was still planned — a copy with that language unpublished. For the rehearsal
  *  tests only (KO-1: every registry language is published, so they rehearse one «as if planned»). Never used to build. */
 export function asPlanned(code, list = LOCALES) {
-  if (!list.some((l) => l.code === code && l.prefix)) throw new Error(`asPlanned: no prefixed locale ${String(code)}`);
+  if (!list.some((l) => l.code === code && !isRussian(l))) throw new Error(`asPlanned: no prefixed locale ${String(code)}`);
   return Object.freeze(list.map((l) => (l.code === code ? Object.freeze({ ...l, site: Object.freeze({ ...l.site, enabled: false, indexableHome: false }) }) : l)));
 }
 
@@ -109,11 +117,42 @@ export function appLocales() {
   return LOCALES.filter((l) => l.app.enabled).map((l) => l.code);
 }
 
+/** The Russian site: its own generators (build-catalogue-pages, build-hub, build-guides), its own checkout, its counter. */
+export const RU_CODE = 'ru';
+export const isRussian = (l) => Boolean(l) && l.code === RU_CODE;
+
+const asLocale = (x, list = LOCALES) => {
+  const l = typeof x === 'string' ? list.find((y) => y.code === x) : x;
+  if (!l || !l.paths) throw new Error(`unknown locale ${String(x && x.code ? x.code : x)}`);
+  return l;
+};
+
+/** A language's home, as a path: '/' (English), '/ru/', '/es/' … */
+export const homePath = (x) => asLocale(x).paths.home;
+/** A language's destination list, or one destination page when `slug` is given: '/destinations/turkey/', '/ru/esim/turkey/'. */
+export const cataloguePath = (x, slug) => asLocale(x).paths.catalogue + (slug ? `${slug}/` : '');
+/** A language's guide list, or one guide: '/guides/iphone/', '/es/guides/iphone/'; null for Russian (no guide list). */
+export const guidesPath = (x, slug) => {
+  const g = asLocale(x).paths.guides;
+  return g === null ? null : g + (slug ? `${slug}/` : '');
+};
+/** The file a page path is written to, relative to the repository: '/' -> 'index.html', '/ru/esim/' -> 'ru/esim/index.html'. */
+export const fileOf = (path) => `${String(path).replace(/^\//, '')}index.html`;
+/** The directory of a path ending in '/', relative to the repository, without the trailing slash ('' for the root). */
+export const dirOf = (path) => String(path).replace(/^\//, '').replace(/\/$/, '');
+
+/** The Russian guides that are the twins of the international ones (seo/indexing.mjs GUIDE_RU). */
+export const RU_GUIDE_PATHS = Object.freeze({
+  iphone: '/ru/iphone.html',
+  android: '/ru/android.html',
+  compatibility: '/ru/esim/compatibility/',
+  activation: '/ru/esim/activation-before-travel/',
+  troubleshooting: '/ru/esim/not-working/',
+});
+
 /** The absolute URL of a language's home. */
 export function homeUrl(code) {
-  const l = locale(code);
-  if (!l) throw new Error(`unknown locale ${code}`);
-  return l.prefix ? `${SITE}/${l.prefix}/` : `${SITE}/`;
+  return `${SITE}${homePath(code)}`;
 }
 
 /* ------------------------------------------------------------------------ *
@@ -127,9 +166,11 @@ export function homeUrl(code) {
  * without enabling one; the default is the live registry.
  * ------------------------------------------------------------------------ */
 
-/** The published languages that live under their own prefix (not the root). */
+/** The published languages built by the locale generator (seo/build-locale-pages.mjs): every one but Russian. The name
+ *  predates the EN-root migration — English now has its pages at the root, but its legal documents and scripts keep the
+ *  /en/ prefix, and it is still built by the same generator as the prefixed languages. */
 export function prefixedSiteLocales(list = LOCALES) {
-  return list.filter((l) => l.prefix && l.site.enabled);
+  return list.filter((l) => !isRussian(l) && l.site.enabled);
 }
 
 /** The non-root homes that go into the sitemap: published AND indexable. */
@@ -145,25 +186,25 @@ export function catalogueLocalePaths(slugs, list = LOCALES) {
   const perCountry = [];
   const perRegion = [];
   for (const l of prefixedSiteLocales(list)) {
-    fixed.push(`${l.prefix}/esim/index.html`, `${l.prefix}/destinations.js`);
+    fixed.push(fileOf(l.paths.catalogue), `${l.prefix}/destinations.js`);
     for (const slug of slugs || []) {
-      if (typeof slug === 'string' && slug) perCountry.push(`${l.prefix}/esim/${slug}/index.html`);
+      if (typeof slug === 'string' && slug) perCountry.push(fileOf(l.paths.catalogue + `${slug}/`));
     }
-    for (const slug of REGION_SLUGS) perRegion.push(`${l.prefix}/esim/${slug}/index.html`);
+    for (const slug of REGION_SLUGS) perRegion.push(fileOf(l.paths.catalogue + `${slug}/`));
   }
   return { fixed, perCountry, perRegion };
 }
 
 /** The pathspecs the refresh workflow stages (`git add --`), in the workflow's order. */
 export function refreshStagePaths(list = LOCALES) {
-  return ['esim',
-    ...prefixedSiteLocales(list).flatMap((l) => [`${l.prefix}/esim`, `${l.prefix}/destinations.js`]),
+  return [dirOf(asLocale(RU_CODE, list).paths.catalogue),
+    ...prefixedSiteLocales(list).flatMap((l) => [dirOf(l.paths.catalogue), `${l.prefix}/destinations.js`]),
     'seo/catalogue-countries.json', 'seo/fact-sheets.json', 'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'sitemap.xml'];
 }
 
 /** The paths the workflow's reproducibility hash covers (`find …`), in its order. */
 export function refreshTreePaths(list = LOCALES) {
-  return ['esim',
-    ...prefixedSiteLocales(list).flatMap((l) => [`${l.prefix}/esim`, `${l.prefix}/destinations.js`]),
+  return [dirOf(asLocale(RU_CODE, list).paths.catalogue),
+    ...prefixedSiteLocales(list).flatMap((l) => [dirOf(l.paths.catalogue), `${l.prefix}/destinations.js`]),
     'seo', 'sitemap.xml'];
 }

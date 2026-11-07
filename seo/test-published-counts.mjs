@@ -25,8 +25,8 @@ const DOC = loadCatalogueDoc();
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const num = (s) => Number(String(s).replace(/[^\d]/g, ''));
 const plain = (h) => h.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
-const PAGES = readdirSync(join(ROOT, 'esim')).map((slug) => {
-  const f = join(ROOT, 'esim', slug, 'index.html');
+const PAGES = readdirSync(join(ROOT, 'ru/esim')).map((slug) => {
+  const f = join(ROOT, 'ru/esim', slug, 'index.html');
   if (!existsSync(f)) return null;
   const html = readFileSync(f, 'utf8');
   const iso = (html.match(/data-country-page="([A-Z]{2})"/) || [])[1];
@@ -104,7 +104,7 @@ test('the template description (pages without an authored one) counts the shown 
 });
 
 test('the hub: «N тарифов · от X ₽» on every destination is the page\'s own shown cards and floor', () => {
-  const hub = readFileSync(join(ROOT, 'esim', 'index.html'), 'utf8');
+  const hub = readFileSync(join(ROOT, 'ru/esim', 'index.html'), 'utf8');
   const rows = [...hub.matchAll(/data-iso="([A-Z]{2})" data-count="(\d+)" data-price="(\d*)"[\s\S]*?<small class="dest-meta">(\d+) тариф[а-я]* · от ([\d\u00a0\u202f\u2009 ]+) ₽/g)];
   assert.ok(rows.length >= 190, `${rows.length} hub rows`);
   const bad = [];
@@ -118,7 +118,7 @@ test('the hub: «N тарифов · от X ₽» on every destination is the pa
 
 test('the prefixed (USD) pages print no count or price of plans at all — their facts come from the USD layout only', () => {
   for (const lang of ['en', 'es']) {
-    const html = readFileSync(join(ROOT, lang, 'esim', 'seychelles', 'index.html'), 'utf8');
+    const html = readFileSync(join(ROOT, lang === 'en' ? 'destinations' : `${lang}/esim`, 'seychelles', 'index.html'), 'utf8');
     assert.doesNotMatch(plain(html), /\b\d+ (regional|local|daily) plans?\b|\$\s?\d|USD \d|\d+ ₽/i, `${lang}: no static count or price`);
   }
   const src = readFileSync(join(ROOT, 'seo', 'build-locale-pages.mjs'), 'utf8');

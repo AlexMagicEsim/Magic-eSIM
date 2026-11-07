@@ -28,9 +28,13 @@ export async function extract(lang, root = ROOT) {
   const imp = (rel) => import(pathToFileURL(join(root, rel)).href);
   const { locale } = await imp('seo/locales.mjs');
   const L = locale(lang);
-  if (!L || !L.prefix) throw new Error(`extract: ${lang} is not a prefixed site language`);
+  if (!L || L.code === 'ru') throw new Error(`extract: ${lang} is not a prefixed site language`);
   if (!L.site.enabled) throw new Error(`extract: ${lang} is not published — nothing to review`);
   const P = `/${L.prefix}`;
+  // A page of this language at the registry's paths (seo/locales.mjs; EN-root migration): '/esim/x/' is the catalogue,
+  // '/guides/x/' the guides, anything else under the home.
+  const at = (path) => LIVE + (path.startsWith('/esim/') ? L.paths.catalogue + path.slice('/esim/'.length)
+    : path.startsWith('/guides/') ? L.paths.guides + path.slice('/guides/'.length) : L.paths.home + path.slice(1));
   const SITE = require(join(root, 'assets/site-i18n.js'));
   const { PAGE_COPY } = await imp('seo/page-copy.mjs');
   const { GUIDES_BY_LOCALE } = await imp('seo/build-locale-pages.mjs');
@@ -44,7 +48,7 @@ export async function extract(lang, root = ROOT) {
     [/^lang\./, 'language switch', '/'], [/^fmt\./, 'number format (technical)', '/esim/thailand/'], [/^site\./, 'several pages', '/']];
   for (const [k, en] of Object.entries(SITE.DICT.en)) {
     const [, where, path] = WHERE.find(([re]) => re.test(k)) || [null, 'several pages', '/'];
-    add({ group: 'ui', kind: k.startsWith('fmt.') || k.startsWith('lang.') ? 'technical' : 'ui', key: k, where, url: LIVE + P + path,
+    add({ group: 'ui', kind: k.startsWith('fmt.') || k.startsWith('lang.') ? 'technical' : 'ui', key: k, where, url: at(path),
       en: String(en), target: SITE.DICT[lang] && k in SITE.DICT[lang] ? String(SITE.DICT[lang][k]) : null,
       note: k.startsWith('fmt.') ? 'Locale tag, not prose.' : k.startsWith('lang.') ? 'A language\'s own name: never translated.' : '' });
   }
@@ -56,12 +60,12 @@ export async function extract(lang, root = ROOT) {
   const targetSample = countryName ? countryName('TH', lang) : 'Thailand';
   for (const [k, v] of Object.entries(PAGE_COPY.en)) {
     const t = PAGE_COPY[lang] ? PAGE_COPY[lang][k] : undefined;
-    if (k === 'popular') { add({ group: 'page', kind: 'technical', key: k, where: 'popular destinations (home, list, footer)', url: LIVE + P + '/', en: v.map((p) => p.name).join(', '), target: t ? t.map((p) => p.name).join(', ') : null, note: 'A selection for this audience; names are CLDR.' }); continue; }
-    if (k === 'quick') { add({ group: 'page', kind: 'technical', key: k, where: 'quick links under the home search', url: LIVE + P + '/', en: v.join(', '), target: t ? t.join(', ') : null, note: 'ISO codes.' }); continue; }
+    if (k === 'popular') { add({ group: 'page', kind: 'technical', key: k, where: 'popular destinations (home, list, footer)', url: at('/'), en: v.map((p) => p.name).join(', '), target: t ? t.map((p) => p.name).join(', ') : null, note: 'A selection for this audience; names are CLDR.' }); continue; }
+    if (k === 'quick') { add({ group: 'page', kind: 'technical', key: k, where: 'quick links under the home search', url: at('/'), en: v.join(', '), target: t ? t.join(', ') : null, note: 'ISO codes.' }); continue; }
     const kind = /Title$|^countryTitle$|^homeTitle$/.test(k) ? 'seo-title' : /Description$/.test(k) && k !== 'homeOgDescription' ? 'seo-description' : /H1$|^h1$/.test(k) ? 'heading' : 'ui';
     const where = /^home/.test(k) ? 'home' : /^hub/.test(k) ? 'destination list' : /^guides|^questions|^onThisPage|^related|^chooseDestination/.test(k) ? 'guides' : /^(country|local|regional|daily|jump|planTypes|chooseAnother|noscript|beforeYouBuy)/.test(k) ? 'country page (sample: Thailand)' : /^(yourPlan|esimFor|steps)$/.test(k) ? 'checkout window' : 'header / accessibility';
     const path = where.startsWith('country') || where.startsWith('checkout') ? '/esim/thailand/' : where === 'destination list' ? '/esim/' : where === 'guides' ? '/guides/' : '/';
-    add({ group: 'page', kind, key: k, where, url: LIVE + P + path, en: show(v, sampleName.en), target: t === undefined ? null : show(t, targetSample) });
+    add({ group: 'page', kind, key: k, where, url: at(path), en: show(v, sampleName.en), target: t === undefined ? null : show(t, targetSample) });
   }
 
   // 3. Daily-plan cards
@@ -70,19 +74,19 @@ export async function extract(lang, root = ROOT) {
   const C = ctx.__COPY;
   if (C[lang]) {
     for (const k of ['blockTitle', 'allowance', 'throttle', 'reset', 'term', 'perDay']) {
-      add({ group: 'daily', kind: 'daily', key: k, where: 'daily plan card', url: LIVE + P + '/esim/thailand/#dailyBlock', en: C.en[k], target: C[lang][k], note: '{a} amount (1 GB), {s} speed, {n} number, {days} day/days.' });
+      add({ group: 'daily', kind: 'daily', key: k, where: 'daily plan card', url: at('/esim/thailand/#dailyBlock'), en: C.en[k], target: C[lang][k], note: '{a} amount (1 GB), {s} speed, {n} number, {days} day/days.' });
     }
-    for (const [ru, en] of Object.entries(C.en.places)) add({ group: 'daily', kind: 'daily', key: `place:${en}`, where: 'daily plan card title («Region — 1 GB a day»)', url: LIVE + P + '/esim/thailand/#dailyBlock', en, target: C[lang].places[ru] });
+    for (const [ru, en] of Object.entries(C.en.places)) add({ group: 'daily', kind: 'daily', key: `place:${en}`, where: 'daily plan card title («Region — 1 GB a day»)', url: at('/esim/thailand/#dailyBlock'), en, target: C[lang].places[ru] });
     const D = ctx.MagicDailyPlan;
     const sample = { plan_type: 'DAILY', daily_gb: 1.5, daily_throttle_label: '512 Kbps', daily_reset_confirmed: true, daily_term_mode: 'FIXED_TERM', validity_days: 3 };
-    add({ group: 'daily', kind: 'daily', key: 'sample-card', where: 'a whole daily card, as rendered', url: LIVE + P + '/esim/thailand/#dailyBlock', en: D.lines(sample, 'en').map((l) => l.text).join(' | '), target: D.lines(sample, lang).map((l) => l.text).join(' | ') });
+    add({ group: 'daily', kind: 'daily', key: 'sample-card', where: 'a whole daily card, as rendered', url: at('/esim/thailand/#dailyBlock'), en: D.lines(sample, 'en').map((l) => l.text).join(' | '), target: D.lines(sample, lang).map((l) => l.text).join(' | ') });
   }
 
   // 4. Guides
   const plain = (h) => String(h).replace(/<li>/g, '\n• ').replace(/<strong>([^<]*)<\/strong>/g, '**$1**').replace(/<a [^>]*>([^<]*)<\/a>/g, '$1').replace(/<[^>]+>/g, '').replace(/[ \t]+/g, ' ').replace(/\n\s+/g, '\n').trim();
   const EN = GUIDES_BY_LOCALE.en; const T = GUIDES_BY_LOCALE[lang] || [];
   for (const [i, en] of EN.entries()) {
-    const t = T.find((g) => g.slug === en.slug); const url = `${LIVE}${P}/guides/${en.slug}/`; const group = `guide-${en.slug}`;
+    const t = T.find((g) => g.slug === en.slug); const url = at(`/guides/${en.slug}/`); const group = `guide-${en.slug}`;
     for (const k of ['title', 'description', 'h1', 'blurb', 'lead', 'nav']) {
       add({ group, kind: k === 'title' ? 'seo-title' : k === 'description' ? 'seo-description' : k === 'h1' ? 'heading' : 'body', key: k, where: `guide «${en.h1}»`, url, en: en[k], target: t ? t[k] : null });
     }
@@ -103,12 +107,12 @@ export async function extract(lang, root = ROOT) {
   const nf = readFileSync(join(root, '404.html'), 'utf8');
   const block = (code) => { const at = nf.indexOf(`      ${code}: {`); return at < 0 ? {} : Object.fromEntries([...nf.slice(at).split('}')[0].matchAll(/(\w+): '([^']*)'/g)].map((m) => [m[1], m[2]])); };
   const e4 = block('en'), t4 = block(L.prefix);
-  for (const k of ['title', 'h1', 'desc', 'home', 'all']) add({ group: '404', kind: k === 'title' ? 'seo-title' : k === 'h1' ? 'heading' : 'ui', key: k, where: 'page not found', url: `${LIVE}${P}/nope/`, en: e4[k], target: t4[k] ?? null });
+  for (const k of ['title', 'h1', 'desc', 'home', 'all']) add({ group: '404', kind: k === 'title' ? 'seo-title' : k === 'h1' ? 'heading' : 'ui', key: k, where: 'page not found', url: at(`/nope/`), en: e4[k], target: t4[k] ?? null });
 
   // 6. Country names (the destinations with a page)
   const list = (rel) => [...readFileSync(join(root, rel), 'utf8').matchAll(/iso: "([A-Z]{2})", slug: "([a-z0-9-]+)", name: "([^"]+)"/g)].map((m) => ({ iso: m[1], slug: m[2], name: m[3] }));
   const enN = Object.fromEntries(list('en/destinations.js').map((c) => [c.iso, c.name]));
-  for (const c of list(`${L.prefix}/destinations.js`)) add({ group: 'countries', kind: 'country-name', key: c.iso, where: 'country name (list, page title, H1, plan cards)', url: `${LIVE}${P}/esim/${c.slug}/`, en: enN[c.iso], target: c.name });
+  for (const c of list(`${L.prefix}/destinations.js`)) add({ group: 'countries', kind: 'country-name', key: c.iso, where: 'country name (list, page title, H1, plan cards)', url: at(`/esim/${c.slug}/`), en: enN[c.iso], target: c.name });
 
   // 7. Authored country content (title, description, lead, sections, questions) beside the English file it adapts.
   //    Markup kept as written: [text](/<prefix>/…/) is a link; the English links /en/…/.
@@ -117,9 +121,9 @@ export async function extract(lang, root = ROOT) {
     const { CONTENT_LANGS } = await imp('seo/content-en.mjs');
     const CL = CONTENT_LANGS[lang];
     if (CL) {
-      add({ group: 'content', kind: 'heading', key: 'faqTitle', where: 'authored country page, questions heading (sample: Japan)', url: `${LIVE}${P}/esim/japan/#faq`,
+      add({ group: 'content', kind: 'heading', key: 'faqTitle', where: 'authored country page, questions heading (sample: Japan)', url: at(`/esim/japan/#faq`),
         en: CONTENT_LANGS.en.copy.faqTitle('Japan'), target: CL.copy.faqTitle(countryName ? countryName('JP', lang) : 'Japan') });
-      add({ group: 'content', kind: 'heading', key: 'relatedTitle', where: 'authored country page, related destinations heading', url: `${LIVE}${P}/esim/japan/`,
+      add({ group: 'content', kind: 'heading', key: 'relatedTitle', where: 'authored country page, related destinations heading', url: at(`/esim/japan/`),
         en: CONTENT_LANGS.en.copy.relatedTitle, target: CL.copy.relatedTitle });
     }
     const note = 'Authored page text adapted from the English file (facts identical, wording native). [text](/path/) is a link.';
@@ -128,7 +132,7 @@ export async function extract(lang, root = ROOT) {
       const T = JSON.parse(readFileSync(join(cdir, f), 'utf8'));
       const enFile = join(root, 'seo/content-en', f);
       const E = existsSync(enFile) ? JSON.parse(readFileSync(enFile, 'utf8')) : {};
-      const group = `content-${slug}`; const url = `${LIVE}${P}/esim/${slug}/`; const where = `authored text, /esim/${slug}/`;
+      const group = `content-${slug}`; const url = at(`/esim/${slug}/`); const where = `authored text, /esim/${slug}/`;
       const one = (kind, key, en, target, at = '') => add({ group, kind, key, where: `${where}${at}`, url, en: en ?? null, target: target ?? null, note });
       one('seo-title', 'title', E.title, T.title);
       one('seo-description', 'description', E.description, T.description);

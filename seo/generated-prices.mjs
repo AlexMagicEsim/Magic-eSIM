@@ -30,8 +30,8 @@ const FAQ_FLOOR = new RegExp(`Цены начинаются от (${NB}+?) ₽\\
 /** Country pages: { slug, iso, html }. */
 export function countryPages(root = ROOT) {
   const out = [];
-  for (const d of readdirSync(join(root, 'esim'))) {
-    const f = join(root, 'esim', d, 'index.html');
+  for (const d of readdirSync(join(root, 'ru/esim'))) {
+    const f = join(root, 'ru/esim', d, 'index.html');
     if (!existsSync(f)) continue;
     const html = readFileSync(f, 'utf8');
     const iso = (html.match(/data-country-page="([A-Z]{2})"/) || [])[1];

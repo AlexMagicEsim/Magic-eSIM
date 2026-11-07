@@ -24,7 +24,7 @@ const SUPPORT = 'magic_esim_support_bot';
 const code = (s) => s.replace(/<!--[\s\S]*?-->/g, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/^\s*\/\/[^\n]*/gm, ' ');
 
 test('every Mini App entry point on the site opens the MAIN bot', () => {
-  const index = code(read('index.html'));
+  const index = code(read('ru/index.html'));
   const links = [...index.matchAll(/https:\/\/t\.me\/([A-Za-z0-9_]+)\?startapp[^"']*/g)];
   assert.ok(links.length >= 2, 'the nav and hero entry points both exist');
   for (const [full, who] of links) {
@@ -53,7 +53,7 @@ test('no ?startapp anywhere still names the support bot', () => {
   // carrying a `t.me/…?startapp` link would otherwise escape this guard
   // entirely, and the guard is the thing that keeps the support bot from being
   // used as a Mini App entry point.
-  for (const f of ['index.html', 'payment-success.html', 'payment-failed.html', '404.html', 'app/ui.js', 'app/core.js', 'app/locales.js']) {
+  for (const f of ['ru/index.html', 'payment-success.html', 'payment-failed.html', '404.html', 'app/ui.js', 'app/core.js', 'app/locales.js']) {
     let src;
     try { src = code(read(f)); } catch { continue; }
     assert.ok(
@@ -64,7 +64,7 @@ test('no ?startapp anywhere still names the support bot', () => {
 });
 
 test('the CHANNEL is a channel — never used as a Mini App entry point', () => {
-  const index = code(read('index.html'));
+  const index = code(read('ru/index.html'));
   assert.match(index, /https:\/\/t\.me\/magicesim"/, 'the channel link exists');
   // t.me/magicesim (channel) must never carry ?startapp — it has no Mini App.
   assert.ok(!/t\.me\/magicesim\?startapp/.test(index), 'the channel cannot launch an app');
@@ -73,7 +73,7 @@ test('the CHANNEL is a channel — never used as a Mini App entry point', () => 
 });
 
 test('the three bots are never conflated', () => {
-  const index = code(read('index.html'));
+  const index = code(read('ru/index.html'));
   // The ADMIN alert bot must appear nowhere on a customer-facing page.
   assert.ok(!/t\.me\/magic_esim_bot/.test(index), 'the admin bot is not a customer surface');
 });
@@ -83,7 +83,7 @@ test('the home has no separate channel banner; the channel stays in the footer',
   // «Подписывайтесь на наш Telegram» banner is gone. The channel is still one
   // click away from every Russian page — the footer link — and it is still a
   // CHANNEL link (t.me/magicesim), never a Mini App launch.
-  const s = read('index.html');
+  const s = read('ru/index.html');
   assert.ok(!s.includes('class="section tg-cta"'), 'the banner is back');
   assert.ok(!/Подписывайтесь на наш Telegram/.test(s), 'the banner text is back');
   const footer = s.slice(s.indexOf('<footer'));
@@ -93,7 +93,7 @@ test('the home has no separate channel banner; the channel stays in the footer',
 test('the Mini App entry stays in the hero, where it already was', () => {
   // Kept on purpose (owner's decision for PR C): the one Russian-only element
   // of the hero, after the search — the search stays the primary action.
-  const s = read('index.html');
+  const s = read('ru/index.html');
   const hero = s.indexOf('class="hero-tg"');
   const search = s.indexOf('id="plans"');
   const heroEnd = s.indexOf('</section>', s.indexOf('<section class="hero"'));

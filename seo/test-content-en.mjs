@@ -297,9 +297,9 @@ test('the UAE calling-app rule keeps its dated tripwire: every TDRA / VoIP sourc
 
 test('markup: plain text; links only to existing /en/ pages; none in the head', () => {
   fires(addParagraph('Japan is <b>busy</b>.'), /no HTML/);
-  fires(addParagraph('See [the tourist board](https://www.japan.travel/).'), /a link goes only to an \/en\/ page/);
-  fires(addParagraph('See [nothing](/en/guides/nowhere/).'), /does not exist/);
-  fires(addParagraph('See [broken(/en/guides/).'), /broken link markup/);
+  fires(addParagraph('See [the tourist board](https://www.japan.travel/).'), /a link goes only to an \/destinations\/ or \/guides\/ page/);
+  fires(addParagraph('See [nothing](/guides/nowhere/).'), /does not exist/);
+  fires(addParagraph('See [broken(/guides/).'), /broken link markup/);
   fires((d) => { d.title = '[Japan](/en/) eSIM | Magic eSIM'; }, /no link markup in the head/);
 });
 
@@ -382,9 +382,9 @@ test('a page with a file: sections, questions and related destinations sit after
   // Related: one link each, English name, /en/esim/<slug>/.
   const rel = about.match(/<section class="cp-about-sec cp-related"[\s\S]*?<\/section>/)[0];
   const names = new Map(enCountries().map((c) => [c.slug, c.name]));
-  assert.deepEqual([...rel.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => [m[1], m[2]]), FIXTURE.related.map((s) => [`/en/esim/${s}/`, names.get(s)]));
+  assert.deepEqual([...rel.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => [m[1], m[2]]), FIXTURE.related.map((s) => [`/destinations/${s}/`, names.get(s)]));
   // Links in prose: exactly the /en/ targets written.
-  assert.ok(about.includes('<a href="/en/guides/compatibility/">compatibility guide</a>'));
+  assert.ok(about.includes('<a href="/guides/compatibility/">compatibility guide</a>'));
 });
 
 test('a page with a file: no FAQPage markup — the one structured-data block stays the BreadcrumbList', () => {
@@ -434,7 +434,7 @@ test('a page without a file is the template, byte for byte; other languages neve
 test('committed English pages: a file renders, no file renders nothing; no FAQPage on any English country page', () => {
   const withFile = new Set(contentSlugs());
   for (const c of enCountries()) {
-    const h = read(`en/esim/${c.slug}/index.html`);
+    const h = read(`destinations/${c.slug}/index.html`);
     assert.equal(/FAQPage|acceptedAnswer/.test(h), false, `${c.slug}: no FAQPage`);
     assert.equal(h.includes('<div class="cp-about">'), withFile.has(c.slug), `${c.slug}: authored block exactly when a file exists`);
     assert.equal(/\/en\/content\.css/.test(h), withFile.has(c.slug), `${c.slug}: content.css exactly when a file exists`);
@@ -451,9 +451,9 @@ test('en/content.css: linked only by pages with a file; no motion, no transform,
   assert.equal(/animation|transition|transform|@keyframes/.test(css.replace(/\/\*[\s\S]*?\*\//g, '')), false);
   for (const m of css.matchAll(/font-size:\s*([\d.]+)px/g)) assert.ok(Number(m[1]) >= 13, m[0]);
   // Spanish pages link it exactly when seo/content-es/<slug>.json exists (seo/test-content-es.mjs); every other language never.
-  for (const dir of ['de', 'fr', 'zh', 'ko', 'esim']) {
-    for (const slug of readdirSync(join(ROOT, dir, dir === 'esim' ? '' : 'esim'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name).slice(0, 40)) {
-      const f = join(ROOT, dir, dir === 'esim' ? '' : 'esim', slug, 'index.html');
+  for (const dir of ['de/esim', 'fr/esim', 'zh/esim', 'ko/esim', 'ru/esim']) {
+    for (const slug of readdirSync(join(ROOT, dir), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name).slice(0, 40)) {
+      const f = join(ROOT, dir, slug, 'index.html');
       if (existsSync(f)) assert.equal(readFileSync(f, 'utf8').includes('content.css'), false, f);
     }
   }

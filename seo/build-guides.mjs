@@ -18,13 +18,13 @@ import { ruAlternates } from './indexing.mjs'; // I18N-09: the hreflang cluster 
 // Each Russian guide's icon: the English guide's icon where the subject is the
 // same, two of its own for the Russian-only guides.
 const GUIDE_ICON_OF = Object.freeze({
-  'iphone.html': 'iphone',
-  'android.html': 'android',
-  'esim/compatibility/index.html': 'compatibility',
-  'esim/activation-before-travel/index.html': 'activation',
-  'esim/not-working/index.html': 'troubleshooting',
-  'esim/dual-sim-sms/index.html': 'sim',
-  'esim/payment-rubles/index.html': 'payment',
+  'ru/iphone.html': 'iphone',
+  'ru/android.html': 'android',
+  'ru/esim/compatibility/index.html': 'compatibility',
+  'ru/esim/activation-before-travel/index.html': 'activation',
+  'ru/esim/not-working/index.html': 'troubleshooting',
+  'ru/esim/dual-sim-sms/index.html': 'sim',
+  'ru/esim/payment-rubles/index.html': 'payment',
 });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -32,12 +32,12 @@ const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').re
 const jstr = (s) => JSON.stringify(String(s));
 const bySlug = Object.fromEntries(ALL.map((c) => [c.slug, c]));
 
-const METRIKA = readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8')
+const METRIKA = readFileSync(join(ROOT, 'ru/esim/thailand/index.html'), 'utf8')
   .match(/<!-- Yandex\.Metrika counter -->[\s\S]*?<!-- \/Yandex\.Metrika counter -->/)[0];
 
 function breadcrumbLd(g) {
-  const items = [{ name: 'Главная', item: `${SITE}/` }];
-  if (g.out.startsWith('esim/')) items.push({ name: 'eSIM', item: `${SITE}/esim/` });
+  const items = [{ name: 'Главная', item: `${SITE}/ru/` }];
+  if (g.out.startsWith('ru/esim/')) items.push({ name: 'eSIM', item: `${SITE}/ru/esim/` });
   items.push({ name: g.crumb, item: g.url });
   return `{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[${items
     .map((it, i) => `{"@type":"ListItem","position":${i + 1},"name":${jstr(it.name)},"item":"${it.item}"}`).join(',')}]}`;
@@ -46,7 +46,7 @@ function breadcrumbLd(g) {
 function page(g) {
   const P = g.prefix;
   const ogTitle = g.title.replace(' | Magic eSIM', '');
-  const crumbsHtml = g.out.startsWith('esim/')
+  const crumbsHtml = g.out.startsWith('ru/esim/')
     ? `<a href="${P}">Главная</a> › 
         <a href="${P}esim/">eSIM</a> › 
         <span aria-current="page">${esc(g.crumb)}</span>`
@@ -67,7 +67,7 @@ ${s.html.replaceAll('{P}', P).trim().replace(/^/gm, '      ')}
     `        <a class="ru-tile ru-tile-guide" href="${P}${r.href}"><span>${esc(r.label)}</span></a>`).join('\n');
   const ctaCountries = g.ctaCountries.map((slug) => {
     const c = bySlug[slug];
-    return `        <a class="ru-tile" href="/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>eSIM для ${esc(c.nameGen)}</span></a>`;
+    return `        <a class="ru-tile" href="/ru/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="36" height="27"><span>eSIM для ${esc(c.nameGen)}</span></a>`;
   }).join('\n');
 
   return `<!DOCTYPE html>
@@ -115,7 +115,7 @@ ${RU_FONT_PRELOAD.replace(/^/gm, '  ')}
     "url":"${g.url}",
     "description":${jstr(g.description)},
     "inLanguage":"ru",
-    "isPartOf":{"@type":"WebSite","name":"Magic eSIM","url":"${SITE}/"},
+    "isPartOf":{"@type":"WebSite","name":"Magic eSIM","url":"${SITE}/ru/"},
     "publisher":{"@type":"Organization","name":"Magic eSIM","url":"${SITE}/","logo":"${SITE}/assets/magic-esim-logo.png"}
   }
   </script>
@@ -173,7 +173,7 @@ ${g.faq.map((f) => `        <div class="faq-item"><p class="faq-q">${esc(f.q)}</
 ${related}
 ${ctaCountries}
       </div>
-      <p class="ru-more"><a class="btn btn-ghost btn-sm" href="/esim/">Все направления</a></p>
+      <p class="ru-more"><a class="btn btn-ghost btn-sm" href="/ru/esim/">Все направления</a></p>
     </section>
 
     <section class="ru-cta">
@@ -181,7 +181,7 @@ ${ctaCountries}
         <h2>Готовы к поездке?</h2>
         <p>Выберите страну и тариф, оплатите российской картой или через СБП — QR-код придёт на почту.</p>
       </div>
-      <a class="btn" href="/esim/">Выбрать направление</a>
+      <a class="btn" href="/ru/esim/">Выбрать направление</a>
     </section>
   </div>
 </main>

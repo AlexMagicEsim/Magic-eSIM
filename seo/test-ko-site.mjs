@@ -31,6 +31,7 @@ import { stampHtml } from './asset-version.mjs';
 import { locale } from './locales.mjs';
 import { rulesFor } from './claim-guards.mjs';
 import { legalLinks, INTL_LEGAL, LEGAL_SCHEME } from './legal-links.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -51,6 +52,11 @@ function htmlUnder(dir) {
   }(dir));
   return out.sort();
 }
+
+// EN-root migration (2026-11-07): the English page of a kind relative to a language's home ('esim/x/index.html' is
+// /destinations/x/ in English), and every English page (the root home, /destinations/, /guides/, the legal pages in en/).
+const enFile = (k) => (k.startsWith('esim/') ? `destinations/${k.slice('esim/'.length)}` : k);
+const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')].filter((p) => !isLegacyRedirectFile(p));   // not the old addresses' redirect pages
 // LEGAL-8: the permanent copies of the legal documents (/ko/<kind>/v<n>/) are held by seo/test-legal-archive.mjs.
 const KO_PAGES = htmlUnder('ko').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/ko/terms|refund|privacy/) are pages of this language too; their
@@ -78,7 +84,7 @@ test('every Korean page: the home, the list, one page per catalogue country, the
   assert.equal(KO_SITE_PAGES.length, COUNTRY_PAGES + 11, 'the home, the list, the countries, the guides list, five guides + the three region pages (seo/regions.mjs)');
   assert.equal(KO_PAGES.length, COUNTRY_PAGES + 14, '+ the three legal documents (LEGAL-4)');
   assert.equal(KO_PAGES.filter((p) => /^ko\/esim\/[^/]+\/index\.html$/.test(p)).length, COUNTRY_PAGES + 3, "the catalogue countries + 3 region pages");
-  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, KO_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
+  assert.equal(enPages().filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, KO_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}; one plural form', () => {
@@ -94,7 +100,7 @@ test('every source has every key English has, and no other; the same {placeholde
 
 test('the Korean guides mirror the English ones: slugs, sections, questions, related, internal links, ASCII anchors', () => {
   assert.deepEqual(KO_GUIDES.map((g) => g.slug), EN_GUIDES.map((g) => g.slug));
-  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="(\/[^"]+)"/g)].map((m) => m[1].replace(/^\/(en|ko)\//, '/L/')));
+  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="(\/[^"]+)"/g)].map((m) => m[1].replace(/^\/destinations\//, '/L/esim/').replace(/^\/guides\//, '/L/guides/').replace(/^\/ko\//, '/L/')));
   for (const [i, ko] of KO_GUIDES.entries()) {
     const en = EN_GUIDES[i];
     assert.equal(ko.sections.length, en.sections.length, `${ko.slug}: sections`);
@@ -142,17 +148,17 @@ function skeleton(html) {
 test('the same design: every page kind has the English markup skeleton; the same assets, CSP, logo and motion', () => {
   const kinds = ['index.html', 'esim/index.html', 'esim/thailand/index.html', 'esim/japan/index.html', 'esim/uae/index.html',
     'esim/peru/index.html', 'esim/turkey/index.html', 'guides/index.html', ...EN_GUIDES.map((g) => `guides/${g.slug}/index.html`)];
-  for (const k of kinds) assert.equal(skeleton(read(`ko/${k}`)), skeleton(read(`en/${k}`)), k);
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|ko)\/destinations\.js$/, 'DEST').replace(/country-names-(en|ko)\.js$/, 'NAMES').replace(/site-i18n-(en|ko)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
+  for (const k of kinds) assert.equal(skeleton(read(`ko/${k}`)), skeleton(read(enFile(k))), k);
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|ko)\/destinations\.js$/, 'DEST').replace(/country-names-(en|ko)\.js$/, 'NAMES').replace(/site-i18n-(en|ko)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css' && a !== '/assets/lang-route.js');   // the authored English text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
-    assert.deepEqual(assets(read(`ko/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
+    assert.deepEqual(assets(read(`ko/${k}`)), assets(read(enFile(k))), `${k}: the same assets`);
   }
   assert.match(head(read('ko/index.html')), /<meta property="og:locale" content="ko_KR">/, 'the home names its locale (D10)');
   for (const k of ['index.html', 'esim/thailand/index.html', 'guides/iphone/index.html']) {
     assert.match(read(`ko/${k}`), /<html lang="ko"/, k);
     assert.match(read(`ko/${k}`), /<script src="\/assets\/logo-once\.js\?v=[0-9a-f]+"[^>]*><\/script>/, `${k}: the logo «Reveal + Wave»`);
     assert.equal(head(read(`ko/${k}`)).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1],
-      head(read(`en/${k}`)).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1], `${k}: the English CSP`);
+      head(read(enFile(k))).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1], `${k}: the English CSP`);
   }
   assert.match(read('ko/esim/thailand/index.html'), /data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]+"/, 'Expressive on a country page');
 });
@@ -314,7 +320,7 @@ test('noindex until the owner opens Korean (D11): every page noindex, self-canon
     assert.ok(h.includes(`<link rel="canonical" href="${url}">`), `${rel}: canonical`);
     assert.doesNotMatch(h, /rel="alternate"[^>]*hreflang/, `${rel}: an hreflang alternate`);
   }
-  for (const rel of ['index.html', 'esim/thailand/index.html', 'en/index.html', 'en/esim/thailand/index.html', 'es/index.html', 'zh/index.html', 'iphone.html']) {
+  for (const rel of ['ru/index.html', 'ru/esim/thailand/index.html', 'index.html', 'destinations/thailand/index.html', 'es/index.html', 'zh/index.html', 'ru/iphone.html']) {
     assert.doesNotMatch(head(read(rel)), /hreflang="ko"/, `${rel}: no Korean alternate`);
   }
   assert.doesNotMatch(read('robots.txt'), /^Disallow:\s*\/ko\//m);

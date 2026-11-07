@@ -1,5 +1,5 @@
 // The Russian checkout lives in ONE module, assets/ru-checkout.js, and opens on
-// the country pages (/esim/<slug>/). History: PR A moved it verbatim out of
+// the country pages (/ru/esim/<slug>/). History: PR A moved it verbatim out of
 // index.html; PR B loaded it on the country pages; PR C (RU↔EN migration) took
 // the catalogue — and with it the checkout — off the home, which is now a way
 // in, as /en/ is. What this pins:
@@ -20,8 +20,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const HOME = read('index.html');
-const PAGE = read('esim/turkey/index.html');
+const HOME = read('ru/index.html');
+const PAGE = read('ru/esim/turkey/index.html');
 const MOD = read('assets/ru-checkout.js');
 
 test('the home loads no checkout and carries no checkout window', () => {
@@ -59,7 +59,7 @@ const goalsOf = (html) => {
 
 test('a country page carries the checkout window, MagicNet, and the checkout after its renderer', async () => {
   const { RU_CHECKOUT_MODAL } = await import('./ru-checkout-markup.mjs');
-  for (const p of ['esim/turkey/index.html', 'esim/thailand/index.html', 'esim/japan/index.html']) {
+  for (const p of ['ru/esim/turkey/index.html', 'ru/esim/thailand/index.html', 'ru/esim/japan/index.html']) {
     const h = read(p);
     assert.ok(h.includes(RU_CHECKOUT_MODAL), `${p}: the checkout window drifted from seo/ru-checkout-markup.mjs`);
     const net = h.indexOf('<script src="/assets/magic-net.js?v=');
@@ -84,7 +84,7 @@ test('every goal the checkout fires is allowed on every page that opens it', () 
   // the first argument, including a ternary between two goal names
   const fired = [...new Set([...MOD.matchAll(/magicMetrikaGoal\(([^,]+),/g)].flatMap((m) => [...m[1].matchAll(/'([a-z_]+)'/g)].map((x) => x[1])).filter((g) => !/^(sbp|card)$/.test(g)))];
   assert.ok(fired.length >= 9, `goals found: ${fired.length}`);
-  for (const p of ['esim/turkey/index.html', 'esim/japan/index.html']) {
+  for (const p of ['ru/esim/turkey/index.html', 'ru/esim/japan/index.html']) {
     const allowed = goalsOf(read(p));
     const dropped = fired.filter((g) => !allowed.has(g));
     assert.deepEqual(dropped, [], `${p} would silently drop these checkout goals`);

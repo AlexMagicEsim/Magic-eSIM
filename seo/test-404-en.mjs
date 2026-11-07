@@ -25,17 +25,17 @@ import { prefixedSiteLocales } from './locales.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const S = readFileSync(join(ROOT, '404.html'), 'utf8');
 const ROUTING = S.slice(S.indexOf('// --- routing'));
-const BRANCH = '} else if(prefixedLocale(path)){';
+const BRANCH = '} else if(notFoundLocale(path)){';
 const bodyOf = (fn) => { const at = S.indexOf(`function ${fn}(`); const rest = S.slice(at + 1); return rest.slice(0, rest.indexOf('\n    function ')); };
 
 /** The table and its two functions, run on their own with a stub page. */
 function screen(path) {
   const from = S.indexOf('    var NOT_FOUND = {');
-  const to = S.indexOf('\n    function ', S.indexOf('function showNotFoundLocale(') + 1);
+  const to = S.indexOf('\n    function ', S.indexOf('function showNotFoundLocale(') + 1);  // NOT_FOUND … notFoundLocale, showNotFoundLocale
   const page = { documentElement: { lang: 'ru' }, title: 'Оплата' };
   const card = { innerHTML: '' };
   const ctx = vm.createContext({ document: page, card, path });
-  vm.runInContext(`${S.slice(from, to)}\nvar code = prefixedLocale(path); if (code) showNotFoundLocale(code);`, ctx);
+  vm.runInContext(`${S.slice(from, to)}\nvar code = notFoundLocale(path); if (code) showNotFoundLocale(code);`, ctx);
   return { code: ctx.code, lang: page.documentElement.lang, title: page.title, html: card.innerHTML };
 }
 
@@ -51,10 +51,11 @@ test('there is ONE prefixed-language branch, after the /pay/ guard and before th
 test('the branch shows that language\'s screen and never loads the counter', () => {
   const at = ROUTING.indexOf(BRANCH);
   const branch = ROUTING.slice(at, ROUTING.indexOf('} else {', at));
-  assert.match(branch, /showNotFoundLocale\(prefixedLocale\(path\)\);/);
+  assert.match(branch, /showNotFoundLocale\(notFoundLocale\(path\)\);/);
   assert.doesNotMatch(branch, /loadMetrika|showNotFound\(\)/);
   assert.doesNotMatch(bodyOf('showNotFoundLocale'), /loadMetrika|ym\(/);
   assert.doesNotMatch(bodyOf('prefixedLocale'), /loadMetrika|ym\(/);
+  assert.doesNotMatch(bodyOf('notFoundLocale'), /loadMetrika|ym\(/);
   // Still exactly one counter call, on the Russian not-found branch.
   assert.equal((S.match(/loadMetrika\(\);/g) || []).length, 1);
 });
@@ -65,6 +66,10 @@ test('the table holds exactly the registry\'s published prefixed languages', () 
   vm.runInContext(S.slice(from, S.indexOf('};', from) + 2), ctx);
   const published = prefixedSiteLocales();
   assert.deepEqual(Object.keys(ctx.NOT_FOUND), published.map((l) => l.prefix));
+  // the home and destination list of each language's screen are the registry's paths (EN-root migration)
+  const from2 = S.indexOf('    var NOT_FOUND_PATHS = {');
+  vm.runInContext(S.slice(from2, S.indexOf('};', from2) + 2), ctx);
+  assert.deepEqual(JSON.parse(JSON.stringify(ctx.NOT_FOUND_PATHS)), Object.fromEntries(published.map((l) => [l.prefix, [l.paths.home, l.paths.catalogue]])));
   for (const l of published) {
     const w = ctx.NOT_FOUND[l.prefix];
     assert.equal(w.lang, l.htmlLang, l.code);
@@ -75,25 +80,26 @@ test('the table holds exactly the registry\'s published prefixed languages', () 
 });
 
 test('the English screen is English, word for word, and links into the English site only', () => {
-  const s = screen('/en/esim/atlantis/');
+  const s = screen('/destinations/atlantis/');
   assert.equal(s.code, 'en');
   assert.equal(s.lang, 'en');
   assert.equal(s.title, 'Page not found — Magic eSIM');
   assert.equal(s.html, '<h1>Page not found</h1>'
     + '<p class="desc">Check the address, or start again from one of these pages.</p>'
-    + '<p class="muted"><a class="home" href="/en/">Magic eSIM home</a> · <a class="home" href="/en/esim/">All destinations</a></p>');
+    + '<p class="muted"><a class="home" href="/">Magic eSIM home</a> · <a class="home" href="/destinations/">All destinations</a></p>');
   assert.doesNotMatch(s.html, /[А-Яа-яЁё]/);
 });
 
-test('the branch matches each published prefix (/en, /es …), and nothing that merely starts with one or names an unpublished language', () => {
-  for (const p of ['/en', '/en/', '/en/esim/atlantis/', '/en/guides/nope/']) assert.equal(screen(p).code, 'en', p);
+test('the branch matches each published prefix (/en, /es …); everything at the root outside /ru/ is English; /ru/ and /pay/ are Russian', () => {
+  // EN-root migration (2026-11-07): the root is the English site, so an unknown root path gets the English screen.
+  for (const p of ['/en', '/en/esim/x/', '/', '/destinations/atlantis/', '/guides/nope/', '/nope/', '/enter', '/english/', '/esim/old/',
+    '/iphone', '/rux/', '/kor/x', '/deutsch/', '/zh-hans/', '/__proto__/', '/constructor/', '/hasOwnProperty/', '/EN/', '//en/']) {
+    assert.equal(screen(p).code, 'en', p);
+  }
   for (const p of ['/es', '/es/', '/es/esim/atlantis/', '/es/guides/nope/']) assert.equal(screen(p).code, 'es', p);
   for (const p of ['/de', '/de/', '/de/esim/atlantis/', '/de/guides/nope/']) assert.equal(screen(p).code, 'de', p);
   for (const p of ['/fr', '/fr/', '/fr/esim/atlantis/', '/fr/guides/nope/']) assert.equal(screen(p).code, 'fr', p);
   for (const p of ['/zh', '/zh/', '/zh/esim/atlantis/', '/zh/guides/nope/']) assert.equal(screen(p).code, 'zh', p);
   for (const p of ['/ko', '/ko/', '/ko/esim/atlantis/', '/ko/guides/nope/']) assert.equal(screen(p).code, 'ko', p);
-  for (const p of ['/enter', '/english/', '/espana/', '/esim/en/', '/pay/en/x', '/', '/nope/', '/kor/x', '/deutsch/', '/francais/', '/zhongwen/', '/zh-hans/', '/korean/esim/',
-    '/__proto__/', '/constructor/', '/hasOwnProperty/', '/EN/', '//en/']) {
-    assert.equal(screen(p).code, null, p);
-  }
+  for (const p of ['/ru', '/ru/', '/ru/esim/en/', '/ru/nope.html', '/pay/en/x', '/pay']) assert.equal(screen(p).code, null, p);
 });

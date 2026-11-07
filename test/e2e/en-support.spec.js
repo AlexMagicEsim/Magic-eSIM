@@ -20,14 +20,14 @@ const BODY = JSON.stringify(withLayout({ status: 'success', market: 'global', cu
   { package_id: '0d504f79-eab1-40dc-891a-c1f60cf11f06', name: 'Thailand 3GB', country_code: 'TH', coverage_country_codes: ['TH'],
     data_gb: 3, validity_days: 15, price: 4.99, currency: 'USD', plan_type: 'FIXED_VOLUME' }] }));
 
-const PAGES = ['/en/', '/en/esim/', '/en/esim/thailand/', '/en/guides/', '/en/guides/troubleshooting/'];
+const PAGES = ['/', '/destinations/', '/destinations/thailand/', '/guides/', '/guides/troubleshooting/'];
 
 async function visit(page, path) {
   const calls = [];
   page.on('request', (r) => { if (r.method() !== 'GET') calls.push(`${r.method()} ${r.url()}`); });
   await page.route('**/api/**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: BODY }));
   await page.goto(path);
-  if (path === '/en/esim/thailand/') await expect(page.locator('#localGrid .card')).toHaveCount(1);
+  if (path === '/destinations/thailand/') await expect(page.locator('#localGrid .card')).toHaveCount(1);
   return calls;
 }
 
@@ -56,14 +56,14 @@ for (const path of PAGES) {
 
 test('desktop width: the footer contact is visible on the home and a country page', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
-  for (const path of ['/en/', '/en/esim/thailand/']) {
+  for (const path of ['/', '/destinations/thailand/']) {
     await visit(page, path);
     await checkFooter(page);
   }
 });
 
 test('troubleshooting ends with «Still not working?» and the address, before the questions', async ({ page }) => {
-  await visit(page, '/en/guides/troubleshooting/');
+  await visit(page, '/guides/troubleshooting/');
   const h = page.locator('main h2', { hasText: 'Still not working?' });
   await expect(h).toHaveCount(1);
   const link = page.locator(`main a[href="mailto:${ADDRESS}"]`);
@@ -74,7 +74,7 @@ test('troubleshooting ends with «Still not working?» and the address, before t
 
 test.describe('axe with the contact in place', () => {
   test.use({ bypassCSP: true });   // only so axe can be injected; the pages are unchanged
-  for (const path of ['/en/', '/en/esim/thailand/', '/en/guides/troubleshooting/']) {
+  for (const path of ['/', '/destinations/thailand/', '/guides/troubleshooting/']) {
     test(`${path}: no WCAG A/AA violation`, async ({ page }) => {
       await visit(page, path);
       await page.addScriptTag({ content: AXE });

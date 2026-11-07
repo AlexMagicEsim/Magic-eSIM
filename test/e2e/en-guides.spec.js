@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * The English guides (/en/guides/), in a real browser at 390 and 320: they
+ * The English guides (/guides/), in a real browser at 390 and 320: they
  * render, they fit, they are reachable from the English pages, and they make
  * no request beyond their own stylesheet and icons — a guide runs no script.
  */
@@ -13,11 +13,11 @@ const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layo
 test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 
 const GUIDES = [
-  ['iphone', 'How to install an eSIM on iPhone', '/iphone.html'],
-  ['android', 'How to install an eSIM on Android', '/android.html'],
-  ['compatibility', 'Does your phone support eSIM?', '/esim/compatibility/'],
-  ['activation', 'When to install and turn on your eSIM', '/esim/activation-before-travel/'],
-  ['troubleshooting', 'eSIM not working — what to check', '/esim/not-working/'],
+  ['iphone', 'How to install an eSIM on iPhone', '/ru/iphone.html'],
+  ['android', 'How to install an eSIM on Android', '/ru/android.html'],
+  ['compatibility', 'Does your phone support eSIM?', '/ru/esim/compatibility/'],
+  ['activation', 'When to install and turn on your eSIM', '/ru/esim/activation-before-travel/'],
+  ['troubleshooting', 'eSIM not working — what to check', '/ru/esim/not-working/'],
 ];
 
 async function visit(page, path) {
@@ -30,7 +30,7 @@ async function visit(page, path) {
 
 for (const [slug, h1, ru] of GUIDES) {
   test(`guide «${slug}» renders in English, fits the screen and calls nothing`, async ({ page }) => {
-    const calls = await visit(page, `/en/guides/${slug}/`);
+    const calls = await visit(page, `/guides/${slug}/`);
     await expect(page.locator('h1')).toHaveText(h1);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     // Styled by en/en.css: the design system's page colour (--bg #f7f9fc).
@@ -39,7 +39,7 @@ for (const [slug, h1, ru] of GUIDES) {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
     // the language list (since ES-1): this guide's twin in Russian (the Russian guide) and in Spanish
     await expect(page.locator('.langmenu-list a[hreflang="ru"]')).toHaveAttribute('href', ru);
-    await expect(page.locator('.langmenu-list a[hreflang="es"]')).toHaveAttribute('href', new URL(page.url()).pathname.replace('/en/', '/es/'));
+    await expect(page.locator('.langmenu-list a[hreflang="es"]')).toHaveAttribute('href', new URL(page.url()).pathname.replace('/', '/es/'));
     // No script, fetch or XHR — but the header logo's start, assets/logo-once.js (owner, 2026-10-20: one sessionStorage
     // flag, no network; seo/test-logo-svg.mjs pins what it may do).
     expect(calls.filter((c) => (c.type === 'script' || c.type === 'fetch' || c.type === 'xhr') && new URL(c.url).pathname !== '/assets/logo-once.js')).toEqual([]);
@@ -54,16 +54,16 @@ for (const [slug, h1, ru] of GUIDES) {
 }
 
 test('the guide list links all five, and is reachable from the home and a country page', async ({ page }) => {
-  await visit(page, '/en/guides/');
+  await visit(page, '/guides/');
   await expect(page.locator('.guides a')).toHaveCount(5);
-  await page.goto('/en/index.html');
-  await expect(page.locator('header nav.nav a', { hasText: 'Guides' })).toHaveAttribute('href', '/en/guides/');
-  await expect(page.locator('#compat a[href="/en/guides/iphone/"]')).toHaveCount(1);
-  await page.goto('/en/esim/uae/');
+  await page.goto('/index.html');
+  await expect(page.locator('header nav.nav a', { hasText: 'Guides' })).toHaveAttribute('href', '/guides/');
+  await expect(page.locator('#compat a[href="/guides/iphone/"]')).toHaveCount(1);
+  await page.goto('/destinations/uae/');
   // Below 900 px the header links live in the «Menu» disclosure.
   if (await page.locator('.mnav summary').isVisible()) await page.locator('.mnav summary').click();
   await page.locator('header nav a:visible', { hasText: 'Guides' }).click();
-  await expect(page).toHaveURL(/\/en\/guides\/$/);
+  await expect(page).toHaveURL(/\/guides\/$/);
   await page.locator('.guides a', { hasText: 'iPhone' }).click();
   await expect(page.locator('h1')).toHaveText('How to install an eSIM on iPhone');
 });

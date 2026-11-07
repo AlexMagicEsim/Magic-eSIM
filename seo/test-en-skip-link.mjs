@@ -15,6 +15,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SKIP_LINK } from './build-en-pages.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -28,7 +29,9 @@ function htmlFiles(dir) {
   return out;
 }
 
-const EN = htmlFiles(join(ROOT, 'en'));
+// EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
+const EN = [join(ROOT, 'index.html'), ...['destinations', 'guides', 'en'].flatMap((d) => htmlFiles(join(ROOT, d)))]
+  .filter((f) => !isLegacyRedirectFile(f.slice(ROOT.length + 1)));   // not the old addresses' redirect pages
 const CSS = readFileSync(join(ROOT, 'assets', 'site.css'), 'utf8');
 
 test('the skip link string is what the pages carry', () => {
@@ -77,7 +80,7 @@ test('site.css: hidden until focused, shown on focus, above the sticky header, n
 });
 
 test('the Russian site and the shared 404 page are untouched', () => {
-  for (const f of ['index.html', '404.html', join('esim', 'index.html'), join('esim', 'japan', 'index.html')]) {
+  for (const f of ['ru/index.html', '404.html', join('ru', 'esim', 'index.html'), join('ru', 'esim', 'japan', 'index.html')]) {
     const html = readFileSync(join(ROOT, f), 'utf8');
     assert.equal(html.includes('class="skip"'), false, f);
   }

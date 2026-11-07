@@ -5,7 +5,7 @@
  *
  *   1. the STATIC text of every keyed element on every English page — what a
  *      crawler and a visitor without JavaScript read — equals the dictionary,
- *      the hand-written `en/index.html` included, so the runtime re-fill never
+ *      the hand-written `index.html` included, so the runtime re-fill never
  *      changes a word on screen;
  *   2. the English generator no longer types a keyed word a second time;
  *   3. the Russian header's dictionary words come from the dictionary;
@@ -55,7 +55,8 @@ function drift(pages, dict) {
   return bad;
 }
 
-const EN_PAGES = pagesUnder('en').map((f) => [f, read(f)]);
+// EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
+const EN_PAGES = ['index.html', ...pagesUnder('destinations'), ...pagesUnder('guides'), ...pagesUnder('en')].map((f) => [f, read(f)]);
 
 /* ===================================================================== */
 
@@ -67,8 +68,8 @@ test('every keyed word on every English page is the dictionary word', () => {
 });
 
 test('the hand-written English home is held to the same dictionary', () => {
-  const home = EN_PAGES.find(([f]) => f === join('en', 'index.html'));
-  assert.ok(home, 'en/index.html');
+  const home = EN_PAGES.find(([f]) => f === 'index.html');
+  assert.ok(home, 'index.html');
   assert.ok((home[1].match(/data-i18n="/g) || []).length >= 40);
   assert.deepEqual(drift([home], DICT.en), []);
 });
@@ -102,7 +103,7 @@ test('the Russian header reads its dictionary words from the dictionary', () => 
     assert.ok(ruHeader().includes(`>${DICT.ru[key]}<`), key);
   }
   // …and the home, which carries a byte copy of the header, shows the same words.
-  const home = read('index.html');
+  const home = read('ru/index.html');
   for (const key of ['nav.destinations', 'nav.how', 'nav.guides']) assert.ok(home.includes(`>${DICT.ru[key]}</a>`), key);
 });
 

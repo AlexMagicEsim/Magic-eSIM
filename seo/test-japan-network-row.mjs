@@ -39,7 +39,7 @@ test('the set checked here is the set the Japan page shows', () => {
 test('Japan intro[0] carries the sentence this test checks — and not the old misattribution', () => {
   const p = JSON.parse(readFileSync(join(ROOT, 'seo/content-profiles/japan.json'), 'utf8'));
   assert.ok(p.intro[0].includes(SENTENCE), 'if the sentence is rewritten, rewrite this test with it');
-  const html = readFileSync(join(ROOT, 'esim/japan/index.html'), 'utf8');
+  const html = readFileSync(join(ROOT, 'ru/esim/japan/index.html'), 'utf8');
   assert.ok(!/у части 3G\/4G, у части 3G\/4G\/5G/.test(JSON.stringify(p) + html));
 });
 

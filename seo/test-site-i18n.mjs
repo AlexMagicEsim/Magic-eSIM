@@ -23,13 +23,13 @@ const require = createRequire(import.meta.url);
 const I18N = require(join(ROOT, 'assets/site-i18n.js'));
 // The Russian storefront's words: the home plus a country page, where the
 // checkout opens since RU↔EN migration PR B/C (its window moved off the home).
-const LANDING = readFileSync(join(ROOT, 'index.html'), 'utf8')
-  + readFileSync(join(ROOT, 'esim/turkey/index.html'), 'utf8');
+const LANDING = readFileSync(join(ROOT, 'ru/index.html'), 'utf8')
+  + readFileSync(join(ROOT, 'ru/esim/turkey/index.html'), 'utf8');
 // «nav.benefits» and «nav.cta» were removed in the cleanup (migration PR D):
 // no page, script or data-i18n read them after the old home went. If a key is
 // ever retired again, delete it from the dictionary rather than excusing it here.
 const RETIRED = new Set();
-const EN_PAGE = readFileSync(join(ROOT, 'en/index.html'), 'utf8');
+const EN_PAGE = readFileSync(join(ROOT, 'index.html'), 'utf8');
 
 /* ===================================================================== */
 
@@ -119,7 +119,7 @@ test('every key used on the English page has an ENGLISH entry', () => {
   // this is what keeps it that way.
   // Every English page and script: the home, the destination list, a country
   // page (all 198 are one generator's output), and the scripts they run.
-  const PAGES = EN_PAGE + ['en/esim/index.html', 'en/esim/uae/index.html']
+  const PAGES = EN_PAGE + ['destinations/index.html', 'destinations/uae/index.html']
     .map((p) => readFileSync(join(ROOT, p), 'utf8')).join('\n');
   const html = [...PAGES.matchAll(/data-i18n="([^"]+)"/g)].map((m) => m[1]);
   const attrs = [...PAGES.matchAll(/data-i18n-attr="[^":]+:([^"]+)"/g)].map((m) => m[1]);

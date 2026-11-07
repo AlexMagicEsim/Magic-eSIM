@@ -48,7 +48,7 @@ async function axeViolations(page) {
 
 for (const slug of PILOT) {
   test(`pilot /esim/${slug}/: static prices + live grid, no overflow, axe 0, nothing sent`, async ({ page }) => {
-    const st = await open(page, `/esim/${slug}/`);
+    const st = await open(page, `/ru/esim/${slug}/`);
     await expect(page.locator('.plan').first()).toBeVisible();
     await expect(page.locator('#prices')).toBeAttached();
     await page.locator('#prices').scrollIntoViewIfNeeded();
@@ -64,7 +64,7 @@ for (const slug of PILOT) {
 }
 
 test('pilot /esim/uae/: «Купить» still opens the checkout window, which passes axe', async ({ page }) => {
-  const st = await open(page, '/esim/uae/');
+  const st = await open(page, '/ru/esim/uae/');
   await page.locator('#localGrid .plan .js-buy').first().click();
   await expect(page.locator('#checkoutModal')).toBeVisible();
   expect(await axeViolations(page)).toEqual([]);
@@ -76,7 +76,7 @@ test.describe('desktop width', () => {
   test.use({ viewport: { width: 1366, height: 900 } });
   for (const slug of PILOT) {
     test(`pilot /esim/${slug}/ at 1366: no overflow, axe clean`, async ({ page }) => {
-      await open(page, `/esim/${slug}/`);
+      await open(page, `/ru/esim/${slug}/`);
       await expect(page.locator('.plan').first()).toBeVisible();
       expect(await noOverflow(page)).toBe(true);
       expect(await axeViolations(page)).toEqual([]);

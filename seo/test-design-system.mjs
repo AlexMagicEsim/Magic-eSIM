@@ -18,6 +18,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -61,7 +62,8 @@ function htmlUnder(dir, out = []) {
 }
 
 test('every English page loads site.css and then its own en/en.css', () => {
-  const pages = htmlUnder('en');
+  // EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
+  const pages = ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')].filter((p) => !isLegacyRedirectFile(p));   // not the old addresses' redirect pages
   assert.ok(pages.length >= 205, `English pages: ${pages.length}`);
   const bad = pages.filter((p) => !/<link rel="stylesheet" href="\/assets\/site\.css\?v=[0-9a-f]{8}">\n<link rel="stylesheet" href="\/en\/en\.css\?v=[0-9a-f]{8}">/.test(read(p)));
   assert.deepEqual(bad, []);
@@ -75,9 +77,9 @@ test('the shared files live in /assets only', () => {
 // ---- the Russian pages on the shared design system (RU↔EN parity, PR 2) ----
 
 const RU_GENERATED = () => {
-  const out = ['esim/index.html', 'iphone.html', 'android.html'];
-  for (const d of readdirSync(join(ROOT, 'esim'))) {
-    if (existsSync(join(ROOT, 'esim', d, 'index.html'))) out.push(`esim/${d}/index.html`);
+  const out = ['ru/esim/index.html', 'ru/iphone.html', 'ru/android.html'];
+  for (const d of readdirSync(join(ROOT, 'ru/esim'))) {
+    if (existsSync(join(ROOT, 'ru/esim', d, 'index.html'))) out.push(`ru/esim/${d}/index.html`);
   }
   return out;
 };
@@ -97,11 +99,11 @@ test('every generated Russian page loads site.css, its page sheet and ru.css —
 });
 
 test('the Russian header and footer are the shared chrome, with the Russian market only', () => {
-  for (const p of ['esim/turkey/index.html', 'esim/index.html', 'iphone.html']) {
+  for (const p of ['ru/esim/turkey/index.html', 'ru/esim/index.html', 'ru/iphone.html']) {
     const h = read(p);
     assert.match(h, /<header class="site-header">/, `${p}: header`);
     assert.match(h, /<footer class="site-footer">/, `${p}: footer`);
-    assert.match(h, /<a class="langsw" href="\/en\/" lang="en">/, `${p}: English is /en/, never a noindex template`);
+    assert.match(h, /<a class="langsw" href="\/" lang="en">/, `${p}: English is /en/, never a noindex template`);
     assert.doesNotMatch(h, /class="paybar"|previewNotice/, `${p}: no GLOBAL payment bar on the Russian site`);
     assert.doesNotMatch(h, /\bUSD\b|\$\d/, `${p}: no dollars`);
     assert.doesNotMatch(h, /href="\/en\/(esim|guides)\//, `${p}: no link to an English template page`);
@@ -119,7 +121,7 @@ test('the measured catalogue size still supports «190+ направлений»
 // ---- the Russian home on the shared design system (RU↔EN parity, PR 3) ----
 
 test('the home is styled only by the shared sheets, in order, with no inline <style>', () => {
-  const h = read('index.html');
+  const h = read('ru/index.html');
   assert.doesNotMatch(h, /<style\b/, 'an inline stylesheet is a second design system');
   const at = (f) => h.indexOf(`href="/assets/${f}?v=`);
   // page-country.css left with the catalogue (RU↔EN migration PR C): the home
@@ -133,7 +135,7 @@ test('the home is styled only by the shared sheets, in order, with no inline <st
 
 test('the home header and footer are the ONE Russian chrome, byte for byte', async () => {
   const { ruHeader, RU_FOOTER } = await import('./ru-chrome.mjs');
-  const h = read('index.html');
+  const h = read('ru/index.html');
   assert.ok(h.includes(ruHeader({ hreflang: true })), 'index.html header drifted from seo/ru-chrome.mjs');
   assert.ok(h.includes(RU_FOOTER), 'index.html footer drifted from seo/ru-chrome.mjs');
   // the rule can fire
@@ -143,14 +145,14 @@ test('the home header and footer are the ONE Russian chrome, byte for byte', asy
 test('the home keeps the Russian market: roubles, Metrika, no GLOBAL bar — the checkout is on the country pages', () => {
   // Since RU↔EN migration PR C the home is a way in, as /en/ is: the Platega
   // checkout opens on the country pages (seo/test-ru-checkout-module.mjs).
-  const h = read('index.html');
-  for (const s of ['Оплата в рублях', 'ym(110393848', 'href="/esim/"', 'id="plans"']) {
+  const h = read('ru/index.html');
+  for (const s of ['Оплата в рублях', 'ym(110393848', 'href="/ru/esim/"', 'id="plans"']) {
     assert.ok(h.includes(s), s);
   }
   for (const s of ['id="checkoutModal"', 'id="coPay"', 'ru-checkout.js']) {
     assert.ok(!h.includes(s), `the home must not carry ${s}`);
   }
-  const page = read('esim/turkey/index.html');
+  const page = read('ru/esim/turkey/index.html');
   for (const s of ['Оформление заказа', 'Российская карта', 'Оплата через Platega', 'id="coPay"', 'id="checkoutModal"']) {
     assert.ok(page.includes(s), `country page: ${s}`);
   }

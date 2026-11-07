@@ -61,10 +61,10 @@ test('the RU header carries the animated logo on every page (the former experime
   assert.ok(ruHeader().includes(LOGO_ANIMATED));
   assert.ok(ruHeader({ animatedLogo: false }).includes(LOGO) && !ruHeader({ animatedLogo: false }).includes('brand-logo'));
   for (const slug of FROZEN_PAGES) {
-    const h = read(`esim/${slug}/index.html`);
+    const h = read(`ru/esim/${slug}/index.html`);
     assert.ok(h.includes(LOGO_ANIMATED), `${slug}: the animated logo`);
   }
-  const turkey = read('esim/turkey/index.html');
+  const turkey = read('ru/esim/turkey/index.html');
   assert.ok(turkey.includes(LOGO_ANIMATED), 'a live country page plays it');
   assert.equal(turkey.split('brand-logo').length - 1, 1, 'one animated logo per page (the footer keeps the image)');
 });
@@ -118,15 +118,15 @@ test('motion CSS: inside prefers-reduced-motion, transform/opacity only, no infi
 });
 
 test('the sitemap hash does not see the animated logo (no date moves)', () => {
-  const page = read('esim/turkey/index.html');
+  const page = read('ru/esim/turkey/index.html');
   assert.ok(!stripAnimatedLogo(page).includes('brand-logo'));
-  assert.ok(stripAnimatedLogo(page).includes(`<a class="brand" href="/">${LOGO}</a>`));
+  assert.ok(stripAnimatedLogo(page).includes(`<a class="brand" href="/ru/">${LOGO}</a>`));
   assert.equal(contentHash(page), contentHash(page.split(LOGO_ANIMATED).join(LOGO)));
 });
 
 test('every RU page with the shared header has the animated logo (no exception since 2026-10-24)', () => {
-  const pages = ['index.html', 'payment-success.html', 'payment-failed.html', 'privacy.html', 'terms.html', 'iphone.html', 'android.html', 'esim/index.html'];
-  for (const d of readdirSync(join(ROOT, 'esim'))) if (existsSync(join(ROOT, 'esim', d, 'index.html'))) pages.push(`esim/${d}/index.html`);
+  const pages = ['ru/index.html', 'payment-success.html', 'payment-failed.html', 'privacy.html', 'terms.html', 'ru/iphone.html', 'ru/android.html', 'ru/esim/index.html'];
+  for (const d of readdirSync(join(ROOT, 'ru/esim'))) if (existsSync(join(ROOT, 'ru/esim', d, 'index.html'))) pages.push(`ru/esim/${d}/index.html`);
   for (const p of pages) {
     const h = read(p); if (!h.includes('class="site-header"')) continue;
     assert.ok(h.includes(LOGO_ANIMATED), `${p}: header logo`);
@@ -135,9 +135,9 @@ test('every RU page with the shared header has the animated logo (no exception s
 
 // ---- the English pages (2026-10-20): the same logo and the same once-per-session start, without inline script ----
 const EN_PAGES = () => {
-  const out = ['en/index.html', 'en/esim/index.html', 'en/guides/index.html'];
-  for (const d of readdirSync(join(ROOT, 'en/esim'))) if (existsSync(join(ROOT, 'en/esim', d, 'index.html'))) out.push(`en/esim/${d}/index.html`);
-  for (const d of readdirSync(join(ROOT, 'en/guides'))) if (existsSync(join(ROOT, 'en/guides', d, 'index.html'))) out.push(`en/guides/${d}/index.html`);
+  const out = ['index.html', 'destinations/index.html', 'guides/index.html'];
+  for (const d of readdirSync(join(ROOT, 'destinations'))) if (existsSync(join(ROOT, 'destinations', d, 'index.html'))) out.push(`destinations/${d}/index.html`);
+  for (const d of readdirSync(join(ROOT, 'guides'))) if (existsSync(join(ROOT, 'guides', d, 'index.html'))) out.push(`guides/${d}/index.html`);
   return out;
 };
 
@@ -148,11 +148,11 @@ test('every English page: the same SVG logo in the header, started from <head> b
   for (const p of pages) {
     const h = read(p);
     if (!h.includes('class="site-header"')) continue;
-    assert.ok(h.includes(`<a class="brand" href="/en/">${LOGO_ANIMATED_EN}</a>`), `${p}: header logo`);
+    assert.ok(h.includes(`<a class="brand" href="/">${LOGO_ANIMATED_EN}</a>`), `${p}: header logo`);
     // assets/motion.js only where it has something to do: the home (reveal, parallax) and the country pages (reveal, the
     // jump bar's spy) — never on the guides, the guide list or the destinations hub (owner, 2026-10-21).
     // The region pages (seo/regions.mjs) are static lists like the hub: no motion.
-    const wantsMotion = p === 'en/index.html' || (/^en\/esim\/[^/]+\/index\.html$/.test(p) && !REGION_SLUGS.some((r) => p === `en/esim/${r}/index.html`));
+    const wantsMotion = p === 'index.html' || (/^destinations\/[^/]+\/index\.html$/.test(p) && !REGION_SLUGS.some((r) => p === `destinations/${r}/index.html`));
     const tag = wantsMotion ? LOGO_ONCE_SCRIPT_MOTION : LOGO_ONCE_SCRIPT;
     assert.equal(h.split(tag).length - 1, 1, `${p}: one logo-once.js${wantsMotion ? ' naming motion.js' : ' without motion.js'}`);
     assert.equal(h.includes('data-motion-src'), wantsMotion, `${p}: motion.js ${wantsMotion ? 'named' : 'not named'}`);
@@ -189,7 +189,7 @@ test('assets/logo-once.js: data-motion, its sessionStorage flags, the logo class
 });
 
 test('the English CSP is unchanged: script-src \'self\' only', () => {
-  for (const p of ['en/index.html', 'en/esim/thailand/index.html', 'en/esim/index.html', 'en/guides/iphone/index.html']) {
+  for (const p of ['index.html', 'destinations/thailand/index.html', 'destinations/index.html', 'guides/iphone/index.html']) {
     const csp = (read(p).match(/Content-Security-Policy" content="([^"]+)"/) || [])[1];
     assert.ok(csp, `${p}: CSP`);
     assert.match(csp, /(?:^|; )script-src 'self'(?:;|$)/, p);

@@ -42,7 +42,7 @@ async function open(page, url) {
 
 test('turkey: KT is named in the coverage lists, never bare; Turkey Premium stays a Turkish plan', async ({ page }) => {
   expect(WITH_KT.filter((p) => (p.coverage_country_codes || []).includes('KT')).length).toBeGreaterThanOrEqual(3);
-  const st = await open(page, '/esim/turkey/');
+  const st = await open(page, '/ru/esim/turkey/');
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   const lists = await page.locator('.js-coverage').evaluateAll((els) => els.map((e) => e.getAttribute('data-countries') || ''));
   const withKt = lists.filter((t) => t.includes('Северный Кипр'));
@@ -63,6 +63,6 @@ test('turkey: KT is named in the coverage lists, never bare; Turkey Premium stay
 });
 
 test('KT has no destination page', async ({ page }) => {
-  const r = await page.goto('/esim/northern-cyprus/');
+  const r = await page.goto('/ru/esim/northern-cyprus/');
   expect(r.status()).toBe(404);
 });

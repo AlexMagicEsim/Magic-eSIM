@@ -27,6 +27,7 @@ import assert from 'node:assert/strict';
 import {
   LOCALES, X_DEFAULT_CURRENT, X_DEFAULT_DECIDED, SITE,
   locale, siteLocales, appLocales, homeUrl,
+  homePath,
 } from './locales.mjs';
 import { allowedPaths } from './refresh-allowlist.mjs';
 
@@ -89,11 +90,17 @@ test('codes, prefixes, hreflangs and og:locales are unique', () => {
   }
 });
 
-test('Russian stays at the root and English at /en/ — existing URLs never move', () => {
-  assert.equal(locale('ru').prefix, '');
-  assert.equal(locale('en').prefix, 'en');
-  assert.equal(homeUrl('ru'), `${SITE}/`);
-  assert.equal(homeUrl('en'), `${SITE}/en/`);
+test('EN-root migration (owner, 2026-11-07): English pages at the root, Russian under /ru/, the others where they were', () => {
+  assert.equal(locale('ru').prefix, 'ru');
+  assert.equal(locale('en').prefix, 'en', 'English keeps its segment for its legal documents, scripts and words');
+  assert.equal(homeUrl('ru'), `${SITE}/ru/`);
+  assert.equal(homeUrl('en'), `${SITE}/`);
+  assert.deepEqual({ ...locale('ru').paths }, { home: '/ru/', catalogue: '/ru/esim/', guides: null });
+  assert.deepEqual({ ...locale('en').paths }, { home: '/', catalogue: '/destinations/', guides: '/guides/' });
+  for (const l of LOCALES.filter((x) => !['ru', 'en'].includes(x.code))) {
+    assert.deepEqual({ ...l.paths }, { home: `/${l.prefix}/`, catalogue: `/${l.prefix}/esim/`, guides: `/${l.prefix}/guides/` }, l.code);
+  }
+  assert.equal(LOCALES.filter((l) => l.paths.home === '/').length, 1, 'exactly one language owns the root');
 });
 
 test('Simplified Chinese is /zh/ with the SCRIPT subtag zh-Hans, never a region (owner, 2026-10-13)', () => {
@@ -191,7 +198,7 @@ test('no switcher offers a disabled language by its name', () => {
 test('each enabled home exists, declares its language and is in the sitemap', () => {
   const sitemap = read('sitemap.xml');
   for (const l of ENABLED) {
-    const file = l.prefix ? `${l.prefix}/index.html` : 'index.html';
+    const file = `${homePath(l.code).slice(1)}index.html`;
     assert.match(read(file), new RegExp(`<html lang="${l.htmlLang}"`), file);
     if (l.site.indexableHome) assert.ok(sitemap.includes(`<loc>${homeUrl(l.code)}</loc>`), homeUrl(l.code));
   }
@@ -204,7 +211,7 @@ test('the home hreflang cluster is exactly the indexable homes plus x-default', 
     .concat(`x-default ${homeUrl(X_DEFAULT_CURRENT)}`)
     .sort();
   for (const l of LOCALES.filter((x) => x.site.indexableHome)) {
-    const file = l.prefix ? `${l.prefix}/index.html` : 'index.html';
+    const file = `${homePath(l.code).slice(1)}index.html`;
     const got = [...read(file).matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)]
       .map((m) => `${m[1]} ${m[2]}`).sort();
     assert.deepEqual(got, want, file);
@@ -242,6 +249,7 @@ test('the site dictionary puts each language where the registry does (I18N-08b)'
   assert.deepEqual({ ...I18N.PREFIX }, Object.fromEntries(enabled.map((l) => [l.code, l.prefix])));
   for (const l of enabled) {
     assert.equal(I18N.pathPrefix(l.code), l.prefix ? `/${l.prefix}` : '', l.code);
+    assert.equal(I18N.cataloguePath(l.code), l.paths.catalogue, `${l.code}: assets/site-i18n.js CATALOGUE = the registry`);
     // pageLang() reads <html lang>: it must BE the dictionary's code.
     assert.equal(l.htmlLang, l.code, `${l.code}: <html lang> differs from the dictionary code`);
   }
@@ -294,9 +302,9 @@ test('no test uses a planned language as the example of an unknown one', () => {
 test('analytics is an explicit decision per language, and it matches what the pages load (I18N ES-0)', () => {
   for (const l of LOCALES) assert.ok(['metrika', 'none'].includes(l.site.analytics), `${l.code}: analytics «${l.site.analytics}»`);
   assert.equal(locale('ru').site.analytics, 'metrika');
-  assert.match(read('index.html'), /mc\.yandex\.ru\/metrika\/tag\.js/, 'the Russian site loads Metrika');
-  for (const l of LOCALES.filter((x) => x.prefix)) assert.equal(l.site.analytics, 'none', `${l.code}: no counter decided`);
-  for (const rel of ['en/index.html', 'en/esim/index.html', 'en/esim/thailand/index.html', 'en/guides/index.html']) {
+  assert.match(read('ru/index.html'), /mc\.yandex\.ru\/metrika\/tag\.js/, 'the Russian site loads Metrika');
+  for (const l of LOCALES.filter((x) => x.code !== 'ru')) assert.equal(l.site.analytics, 'none', `${l.code}: no counter decided`);
+  for (const rel of ['index.html', 'destinations/index.html', 'destinations/thailand/index.html', 'guides/index.html']) {
     assert.doesNotMatch(read(rel), /mc\.yandex|metrika|googletagmanager|gtag\(/i, `${rel}: no counter`);
   }
   // A prefixed language with a counter is refused until the owner decides one (its CSP, consent and data rules).

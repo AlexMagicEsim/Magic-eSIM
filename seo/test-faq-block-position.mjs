@@ -99,7 +99,7 @@ test('every country page says where its local tariffs actually are — visible F
   let withDaily = 0;
   let last = 0;
   for (const c of COUNTRIES) {
-    const html = readFileSync(join(ROOT, 'esim', c.slug, 'index.html'), 'utf8');
+    const html = readFileSync(join(ROOT, 'ru/esim', c.slug, 'index.html'), 'utf8');
     const hasDaily = rendersDailyBlock(c.iso);
     if (hasDaily) withDaily++;
     // The generator decides from the counted daily plans; the renderer from the
@@ -118,6 +118,6 @@ test('every country page says where its local tariffs actually are — visible F
 });
 
 test('the hub does not tell readers the local block comes first', () => {
-  const hub = readFileSync(join(ROOT, 'esim/index.html'), 'utf8');
+  const hub = readFileSync(join(ROOT, 'ru/esim/index.html'), 'utf8');
   assert.doesNotMatch(hub, /первым блоком/);
 });

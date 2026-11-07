@@ -7,6 +7,7 @@ run('fetch-catalogue.mjs');   // the single source of truth
 run('build-catalogue-pages.mjs');
 run('build-hub.mjs');
 run('build-locale-pages.mjs');   // every published prefixed language (en/, es/ …) — never esim/
+run('build-legacy-redirects.mjs');   // the old addresses' client-side redirect pages (after every target exists)
 run('build-sitemap.mjs');
 // fact-sheets.json is what the editorial gates check an authored claim against,
 // and it was NOT in this list. So «rebuild everything» left the sheet describing

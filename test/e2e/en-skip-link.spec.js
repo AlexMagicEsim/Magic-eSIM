@@ -29,15 +29,15 @@ const SHOTS = process.env.SKIP_SHOTS || '';
 
 const PRIMARY = 'https://esim-backend-3wmu.onrender.com';
 const PAGES = [
-  ['home', '/en/'],
-  ['destinations', '/en/esim/'],
-  ['country', '/en/esim/japan/'],
-  ['guides', '/en/guides/'],
-  ['guide-iphone', '/en/guides/iphone/'],
-  ['guide-android', '/en/guides/android/'],
-  ['guide-compatibility', '/en/guides/compatibility/'],
-  ['guide-activation', '/en/guides/activation/'],
-  ['guide-troubleshooting', '/en/guides/troubleshooting/'],
+  ['home', '/'],
+  ['destinations', '/destinations/'],
+  ['country', '/destinations/japan/'],
+  ['guides', '/guides/'],
+  ['guide-iphone', '/guides/iphone/'],
+  ['guide-android', '/guides/android/'],
+  ['guide-compatibility', '/guides/compatibility/'],
+  ['guide-activation', '/guides/activation/'],
+  ['guide-troubleshooting', '/guides/troubleshooting/'],
 ];
 
 const base = { coverage_country_codes: ['JP'], country_code: 'JP', region: 'JP', currency: 'USD', plan_type: 'FIXED_VOLUME' };
@@ -146,7 +146,7 @@ test('no JavaScript: the skip link still appears on the first Tab and moves focu
 
 test('checkout: while the dialog is open Tab stays inside it — the skip link is not reachable', async ({ page }) => {
   const problems = await prepare(page);
-  await page.goto('/en/esim/japan/');
+  await page.goto('/destinations/japan/');
   const opener = page.locator('#localGrid .card').first().getByRole('button');
   await opener.focus();
   await opener.press('Enter');

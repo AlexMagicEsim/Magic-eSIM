@@ -31,7 +31,7 @@ const quoteFor = (b, amount) => ({ quote_id: '3fbced54-1111-4222-8333-4444555566
 const priceOf = (b) => (b.days === 7 ? 10.99 : b.days === 3 ? 4.99 : 4.99);
 
 /** Route the API; `onQuote(body, n)` may return a promise to delay. Records every request. */
-async function open(page, { catalogue, onQuote, path = '/en/esim/thailand/' } = {}) {
+async function open(page, { catalogue, onQuote, path = '/destinations/thailand/' } = {}) {
   const st = { cat: 0, quotes: [], calls: [], csp: [] };
   page.on('request', (r) => st.calls.push(`${r.method()} ${r.url()}`));
   page.on('console', (m) => { if (/Content Security Policy/i.test(m.text())) st.csp.push(m.text()); });
@@ -273,7 +273,7 @@ for (const [name, c] of [
 test('offline, then online again: the page says so, and «Try again» recovers once the network is back', async ({ page, context }) => {
   await context.setOffline(true);
   await page.route('**/api/**', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: BODY }));
-  await page.goto('/en/esim/thailand/').catch(() => {});
+  await page.goto('/destinations/thailand/').catch(() => {});
   // The page itself is served by the test server; only the API is unreachable offline.
   await context.setOffline(false);
   await page.unroute('**/api/**');
@@ -371,7 +371,7 @@ test('a script that fails to load: no endless «Loading», no plan, nothing to b
 test('without JavaScript: no «Loading» promise, an honest note, the notice, and nothing to buy', async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false });
   const page = await ctx.newPage();
-  await page.goto('/en/esim/thailand/');
+  await page.goto('/destinations/thailand/');
   await expect(page.locator('#status')).toBeHidden();
   // Playwright's text engine does not look inside <noscript>; the element is.
   await expect(page.locator('noscript p')).toBeVisible();

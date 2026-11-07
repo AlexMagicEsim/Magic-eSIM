@@ -14,19 +14,26 @@
 import { siteI18nBundle } from './site-i18n-bundle.mjs';
 import { SELLER_ID } from './seller-entity.mjs';
 
-export function homePage({ L, P, SITE, C, t, a, esc, json, header, twins, PAYBAR, FOOTER, POPULAR, QUICK, GUIDES,
+/* The site root «/» is the English home since the EN-root migration (owner, 2026-11-07), and only it carries
+ * assets/lang-route.js, first in <head>: a first visit in another published browser language is sent to that
+ * language's home (Russian → /ru/). No other page — /ru/ included — moves anyone. */
+const LANG_ROUTE = `<!-- Before everything else: the first look at «/» in the visitor's language — assets/lang-route.js -->
+<script src="/assets/lang-route.js"></script>
+`;
+
+export function homePage({ L, P, HOME, CAT, GB, SITE, C, t, a, esc, json, header, twins, PAYBAR, FOOTER, POPULAR, QUICK, GUIDES,
   HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing }) {
   return `<!doctype html>
 <html lang="${L.htmlLang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${C.homeTitle}</title>
+${HOME === '/' ? LANG_ROUTE : ''}<title>${C.homeTitle}</title>
 <meta name="description" content="${C.homeDescription}">
-<link rel="canonical" href="${SITE}${P}/">
+<link rel="canonical" href="${SITE}${HOME}">
 ${indexing.alternates}<meta property="og:type" content="website">
 <meta property="og:locale" content="${L.ogLocale}">
-${indexing.ogAlternates}<meta property="og:url" content="${SITE}${P}/">
+${indexing.ogAlternates}<meta property="og:url" content="${SITE}${HOME}">
 <meta property="og:title" content="${C.homeTitle}">
 <meta property="og:description" content="${C.homeOgDescription}">
 <meta property="og:image" content="https://magicesim.store/assets/magic-esim-logo.png">
@@ -44,11 +51,11 @@ ${HEAD_ICONS}
 {"@context":"https://schema.org","@graph":[
  {"@type":"OnlineStore","@id":"${SELLER_ID}","name":"Magic eSIM",
   "url":"https://magicesim.store/","logo":"https://magicesim.store/assets/magic-esim-logo.png"},
- {"@type":"WebSite","@id":"${SITE}${P}/#website","url":"${SITE}${P}/",
+ {"@type":"WebSite","@id":"${SITE}${HOME}#website","url":"${SITE}${HOME}",
   "name":"Magic eSIM","inLanguage":"${L.htmlLang}","publisher":{"@id":"${SELLER_ID}"}},
- {"@type":"WebPage","@id":"${SITE}${P}/#webpage","url":"${SITE}${P}/",
+ {"@type":"WebPage","@id":"${SITE}${HOME}#webpage","url":"${SITE}${HOME}",
   "name":${json(C.homeTitle)},"inLanguage":"${L.htmlLang}",
-  "isPartOf":{"@id":"${SITE}${P}/#website"}}
+  "isPartOf":{"@id":"${SITE}${HOME}#website"}}
 ]}
 </script>
 ${FONT_PRELOAD}
@@ -70,7 +77,7 @@ ${PAYBAR}
         <p class="lead" data-i18n="site.lead">${t('site.lead')}</p>
 
         <!-- The search is the page's main call to action. Results are plain
-             links to /en/esim/<slug>/, where the plans are. The home reads no
+             links to /destinations/<slug>/, where the plans are. The home reads no
              catalogue: the destination list is static. -->
         <div class="search-card" id="plans" role="search">
           <label for="q" data-i18n="site.chooseCountry">${t('site.chooseCountry')}</label>
@@ -83,12 +90,12 @@ ${PAYBAR}
             <button type="button" class="btn" id="qGo" data-i18n="home.find">${t('home.find')}</button>
           </div>
           <div class="results" id="results" hidden></div>
-          <noscript><p class="note nojs-search">${C.homeNojsSearch} <a href="${P}/esim/">${C.homeNojsBrowse}</a></p></noscript>
+          <noscript><p class="note nojs-search">${C.homeNojsSearch} <a href="${CAT}">${C.homeNojsBrowse}</a></p></noscript>
         </div>
 
         <div class="quick">
           <span data-i18n="home.popularShort">${t('home.popularShort')}</span>
-${QUICK.map((c) => `          <a href="${P}/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="22" height="16">${esc(c.name)}</a>`).join('\n')}
+${QUICK.map((c) => `          <a href="${CAT}${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="22" height="16">${esc(c.name)}</a>`).join('\n')}
         </div>
 
         <ul class="facts">
@@ -157,9 +164,9 @@ ${QUICK.map((c) => `          <a href="${P}/esim/${c.slug}/"><img class="flag" s
         <p data-i18n="home.popularLead">${t('home.popularLead')}</p>
       </div>
       <div class="dest-grid">
-${POPULAR.map((c) => `        <a class="dest-tile" href="${P}/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="44" height="33"><span><b>${esc(c.name)}</b><span data-i18n="home.viewPlans">${t('home.viewPlans')}</span></span><span class="arrow" aria-hidden="true">→</span></a>`).join('\n')}
+${POPULAR.map((c) => `        <a class="dest-tile" href="${CAT}${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="44" height="33"><span><b>${esc(c.name)}</b><span data-i18n="home.viewPlans">${t('home.viewPlans')}</span></span><span class="arrow" aria-hidden="true">→</span></a>`).join('\n')}
       </div>
-      <div class="dest-more"><a class="btn btn-ghost" href="${P}/esim/" data-i18n="site.allDestinations">${t('site.allDestinations')}</a></div>
+      <div class="dest-more"><a class="btn btn-ghost" href="${CAT}" data-i18n="site.allDestinations">${t('site.allDestinations')}</a></div>
     </div>
   </section>
 
@@ -214,9 +221,9 @@ ${POPULAR.map((c) => `        <a class="dest-tile" href="${P}/esim/${c.slug}/"><
           <p data-i18n="site.compatBody">${t('site.compatBody')}</p>
         </div>
         <ul class="compat-list">
-          <li><a href="${P}/guides/compatibility/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M9.5 10l2 2 3.5-3.5"/></svg><span data-i18n="site.compatGuide">${t('site.compatGuide')}</span></a></li>
-          <li><a href="${P}/guides/iphone/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span data-i18n="site.compatCheck">${t('site.compatCheck')}</span></a></li>
-          <li><a href="${P}/guides/android/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M6.5 6h11M6.5 18h11"/></svg><span data-i18n="site.compatAndroid">${t('site.compatAndroid')}</span></a></li>
+          <li><a href="${GB}compatibility/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M9.5 10l2 2 3.5-3.5"/></svg><span data-i18n="site.compatGuide">${t('site.compatGuide')}</span></a></li>
+          <li><a href="${GB}iphone/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span data-i18n="site.compatCheck">${t('site.compatCheck')}</span></a></li>
+          <li><a href="${GB}android/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M6.5 6h11M6.5 18h11"/></svg><span data-i18n="site.compatAndroid">${t('site.compatAndroid')}</span></a></li>
         </ul>
       </div>
     </div>
@@ -230,7 +237,7 @@ ${POPULAR.map((c) => `        <a class="dest-tile" href="${P}/esim/${c.slug}/"><
         <p data-i18n="home.guidesLead">${t('home.guidesLead')}</p>
       </div>
       <div class="guide-grid">
-${GUIDES.map((g) => `        <a class="guide-card" href="${P}/guides/${g.slug}/"><b>${esc(g.h1)}</b><span>${esc(g.blurb)}</span><span class="more" aria-hidden="true">${C.homeReadGuide}</span></a>`).join('\n')}
+${GUIDES.map((g) => `        <a class="guide-card" href="${GB}${g.slug}/"><b>${esc(g.h1)}</b><span>${esc(g.blurb)}</span><span class="more" aria-hidden="true">${C.homeReadGuide}</span></a>`).join('\n')}
       </div>
     </div>
   </section>

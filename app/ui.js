@@ -2299,11 +2299,11 @@
     box.appendChild(el('div', { class: 'row row--wrap' }, [
       el('button', {
         class: 'btn btn--quiet', text: t('help.iphone'),
-        onclick: () => openExternal('https://magicesim.store/iphone.html'),
+        onclick: () => openExternal('https://magicesim.store/ru/iphone.html'),
       }),
       el('button', {
         class: 'btn btn--quiet', text: t('tariff.androidGuide'),
-        onclick: () => openExternal('https://magicesim.store/android.html'),
+        onclick: () => openExternal('https://magicesim.store/ru/android.html'),
       }),
     ]));
 
@@ -2595,11 +2595,11 @@
       el('div', { class: 'row row--wrap' }, [
         el('button', {
           class: 'btn btn--quiet', text: t('tariff.iphoneGuide'),
-          onclick: () => openExternal('https://magicesim.store/iphone.html'),
+          onclick: () => openExternal('https://magicesim.store/ru/iphone.html'),
         }),
         el('button', {
           class: 'btn btn--quiet', text: t('tariff.androidGuide'),
-          onclick: () => openExternal('https://magicesim.store/android.html'),
+          onclick: () => openExternal('https://magicesim.store/ru/android.html'),
         }),
       ]),
     ]);

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* The English pages — /en/esim/<slug>/, /en/esim/, /en/guides/…, en/destinations.js.
+/* The English pages — /destinations/<slug>/, /destinations/, /guides/… (the site root since the EN-root migration), en/destinations.js.
  *
  * Since I18N-08 the templates live in seo/build-locale-pages.mjs, one generator
  * for every site language of seo/locales.mjs; this file is English's entry
@@ -19,5 +19,5 @@ export const enCountries = () => EN.countries();
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const n = EN.build();
-  console.log(`en/esim: ${n.countries} country pages + the list (all noindex), en/destinations.js; en/guides: ${n.guides} guides + the list (noindex)`);
+  console.log(`destinations: ${n.countries} country pages + the list, en/destinations.js; guides: ${n.guides} guides + the list (noindex)`);
 }

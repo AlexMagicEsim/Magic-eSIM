@@ -37,7 +37,7 @@ async function open(page, url, width) {
 }
 
 // [page, its card, the link's visible height, enlarged to 44 px?]
-const CASES = [['/esim/turkey/', 'compact B1 card', 28, true], ['/esim/japan/', 'compact B1 card', 28, true], ['/esim/uae/', 'B1, SEO pilot page', 28, true], ['/esim/cyprus/', 'B1, SEO control page', 28, true]];
+const CASES = [['/ru/esim/turkey/', 'compact B1 card', 28, true], ['/ru/esim/japan/', 'compact B1 card', 28, true], ['/ru/esim/uae/', 'B1, SEO pilot page', 28, true], ['/ru/esim/cyprus/', 'B1, SEO control page', 28, true]];
 
 for (const [url, kind, visible, enlarged] of CASES) {
   for (const width of [320, 390, 1366]) {

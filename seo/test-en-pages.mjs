@@ -1,4 +1,4 @@
-/* The English country pages (/en/esim/<slug>/): what the generator writes,
+/* The English country pages (/destinations/<slug>/): what the generator writes,
  * where it may write, how a search engine is told to treat them, and how a
  * country's plans are sorted into blocks.
  *
@@ -19,7 +19,7 @@ import { stampHtml } from './asset-version.mjs';
 import { allowedPaths } from './refresh-allowlist.mjs';
 import { isIndexed, cluster } from './indexing.mjs';
 import { REGION_SLUGS } from './regions.mjs';
-import { prefixedSiteLocales } from './locales.mjs';
+import { prefixedSiteLocales, locale } from './locales.mjs';
 import { GUIDES_BY_LOCALE } from './build-locale-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -35,11 +35,11 @@ const CATALOGUE = JSON.parse(read('seo/catalogue-countries.json')).countries;
 test('every committed English page is exactly what the generator produces', () => {
   const stale = [];
   for (const c of LIST) {
-    const rel = `en/esim/${c.slug}/index.html`;
-    const want = stampHtml(countryPage(c), join(ROOT, 'en/esim', c.slug));
+    const rel = `destinations/${c.slug}/index.html`;
+    const want = stampHtml(countryPage(c), join(ROOT, 'destinations', c.slug));
     if (!existsSync(join(ROOT, rel)) || read(rel) !== want) stale.push(rel);
   }
-  if (read('en/esim/index.html') !== stampHtml(hubPage(LIST), join(ROOT, 'en/esim'))) stale.push('en/esim/index.html');
+  if (read('destinations/index.html') !== stampHtml(hubPage(LIST), join(ROOT, 'destinations'))) stale.push('destinations/index.html');
   if (read('en/destinations.js') !== destinationsJs(LIST)) stale.push('en/destinations.js');
   assert.deepEqual(stale, [], 'run node seo/build-en-pages.mjs (or build-all.mjs) — never edit these by hand');
 });
@@ -48,13 +48,13 @@ test('one English page per Russian country page — no more, no fewer', () => {
   assert.equal(LIST.length, CATALOGUE.length);
   assert.ok(LIST.length >= 190, `only ${LIST.length} countries — is the snapshot loaded?`);
   for (const c of CATALOGUE) {
-    assert.ok(existsSync(join(ROOT, 'esim', c.slug, 'index.html')), `the Russian twin of ${c.slug} exists`);
-    assert.ok(existsSync(join(ROOT, 'en/esim', c.slug, 'index.html')), `en/esim/${c.slug}/`);
+    assert.ok(existsSync(join(ROOT, 'ru/esim', c.slug, 'index.html')), `the Russian twin of ${c.slug} exists`);
+    assert.ok(existsSync(join(ROOT, 'destinations', c.slug, 'index.html')), `destinations/${c.slug}/`);
   }
   // The generator never deletes (the Russian rule too): a country that leaves
   // the catalogue must be removed with `git rm` in the same commit. This is
   // what notices if it is not.
-  const orphans = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true })
+  const orphans = readdirSync(join(ROOT, 'destinations'), { withFileTypes: true })
     .filter((d) => d.isDirectory()).map((d) => d.name)
     .filter((slug) => !LIST.some((c) => c.slug === slug))
     .filter((slug) => !REGION_SLUGS.includes(slug)); // the region pages (seo/regions.mjs), never a country slug
@@ -67,7 +67,7 @@ test('the home searches exactly the countries that have an English page', () => 
   const list = ctx.MagicEnDestinations;
   assert.equal(list.length, LIST.length);
   for (const d of list) {
-    assert.ok(existsSync(join(ROOT, 'en/esim', d.slug, 'index.html')), d.slug);
+    assert.ok(existsSync(join(ROOT, 'destinations', d.slug, 'index.html')), d.slug);
     assert.match(d.iso, /^[A-Z]{2}$/);
   }
   assert.ok(list.some((d) => d.slug === 'uae' && d.name === 'United Arab Emirates'));
@@ -77,12 +77,12 @@ test('the home searches exactly the countries that have an English page', () => 
  * 2. How a search engine is told to treat them
  * ===================================================================== */
 
-const pages = () => LIST.map((c) => ({ c, html: read(`en/esim/${c.slug}/index.html`) }))
-  .concat([{ c: { slug: '' }, html: read('en/esim/index.html') }]);
+const pages = () => LIST.map((c) => ({ c, html: read(`destinations/${c.slug}/index.html`) }))
+  .concat([{ c: { slug: '' }, html: read('destinations/index.html') }]);
 
 test('every English country page: indexed only in the I18N-09 stage (with its cluster), else a noindex template; self canonical', () => {
   for (const { c, html } of pages()) {
-    const url = `https://magicesim.store/en/esim/${c.slug ? `${c.slug}/` : ''}`;
+    const url = `https://magicesim.store/destinations/${c.slug ? `${c.slug}/` : ''}`;
     const page = c.slug ? { kind: 'country', slug: c.slug } : { kind: 'hub' };
     const on = isIndexed('en', page);
     assert.match(html, /<html lang="en">/, url);
@@ -116,7 +116,7 @@ function checkBreadcrumb(html, url) {
   for (const i of ld.itemListElement) {
     assert.equal(i['@type'], 'ListItem', `${url}: a ListItem`);
     assert.ok(typeof i.name === 'string' && i.name.trim(), `${url}: a name`);
-    assert.match(i.item, /^https:\/\/magicesim\.store\/[^\s]*\/$/, `${url}: an absolute item URL`);
+    assert.match(i.item, /^https:\/\/magicesim\.store\/(?:[^\s]*\/)?$/, `${url}: an absolute item URL`);
   }
   assert.equal(ld.itemListElement.at(-1).item, url, `${url}: the last crumb is the page itself`);
   for (const [i, href] of [...crumbs.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).entries()) {
@@ -126,7 +126,7 @@ function checkBreadcrumb(html, url) {
 
 test('the breadcrumb rule can fire', () => {
   const c = LIST[0];
-  const url = `https://magicesim.store/en/esim/${c.slug}/`;
+  const url = `https://magicesim.store/destinations/${c.slug}/`;
   const html = countryPage(c);
   checkBreadcrumb(html, url);
   const swap = (f) => html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/, (_, b) => `<script type="application/ld+json">${JSON.stringify(f(JSON.parse(b)))}</script>`);
@@ -138,15 +138,17 @@ test('the breadcrumb rule can fire', () => {
 /* The guides and the guide list of every prefixed language (SEO stage 6 audit O1, 2026-10-28): they printed a visible
  * crumbs line and no BreadcrumbList. Each now carries exactly one, equal to that line, and every crumb's item is a
  * built page of the SAME language whose own canonical is that URL. */
+// The guide pages of every international language, at its registry paths (EN-root migration: English /guides/).
 const guideFiles = () => prefixedSiteLocales().flatMap((l) => ['', ...GUIDES_BY_LOCALE[l.code].map((g) => `${g.slug}/`)]
-  .map((g) => ({ l, rel: `${l.prefix}/guides/${g}index.html`, url: `https://magicesim.store/${l.prefix}/guides/${g}` })));
-function checkGuideCrumbs(html, url, prefix) {
+  .map((g) => ({ l, rel: `${l.paths.guides.slice(1)}${g}index.html`, url: `https://magicesim.store${l.paths.guides}${g}` })));
+function checkGuideCrumbs(html, url, code) {
   checkBreadcrumb(html, url);
+  const { home, guides } = locale(code).paths;
   const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
-  assert.equal(ld.itemListElement[0].item, `https://magicesim.store/${prefix}/`, `${url}: Home is the language's home`);
-  for (const { item } of ld.itemListElement) {
+  assert.equal(ld.itemListElement[0].item, `https://magicesim.store${home}`, `${url}: Home is the language's home`);
+  for (const [i, { item }] of ld.itemListElement.entries()) {
     const path = item.slice('https://magicesim.store'.length);
-    assert.ok(path.startsWith(`/${prefix}/`), `${url}: ${item} is in the same language`);
+    assert.ok(i === 0 ? path === home : path.startsWith(guides), `${url}: ${item} is in the same language`);
     const file = join(ROOT, path.slice(1), 'index.html');
     assert.ok(existsSync(file), `${url}: ${item} is a built page`);
     assert.ok(readFileSync(file, 'utf8').includes(`<link rel="canonical" href="${item}">`), `${url}: ${item} is that page's canonical`);
@@ -156,19 +158,19 @@ function checkGuideCrumbs(html, url, prefix) {
 test('every guide and guide list of every prefixed language: one BreadcrumbList = its visible crumbs', () => {
   const files = guideFiles();
   assert.equal(files.length, prefixedSiteLocales().length * 6, 'six guide pages per language');
-  for (const { l, rel, url } of files) checkGuideCrumbs(read(rel), url, l.prefix);
+  for (const { l, rel, url } of files) checkGuideCrumbs(read(rel), url, l.code);
 });
 
 test('the guide breadcrumb rule can fire', () => {
-  const html = read('en/guides/iphone/index.html');
-  const url = 'https://magicesim.store/en/guides/iphone/';
+  const html = read('guides/iphone/index.html');
+  const url = 'https://magicesim.store/guides/iphone/';
   const LD = /<script type="application\/ld\+json">[\s\S]*?<\/script>\n/;
   // A guide without the markup (as on main before this change) fails.
   assert.throws(() => checkGuideCrumbs(html.replace(LD, ''), url, 'en'), /one structured-data block/);
   const swap = (f) => html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/, (_, b) => `<script type="application/ld+json">${JSON.stringify(f(JSON.parse(b)))}</script>`);
   const items = (f) => swap((ld) => ({ ...ld, itemListElement: ld.itemListElement.map(f) }));
   assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 1 ? { ...i, position: 3 } : i)), url, 'en'), /positions 1\.\.n/);
-  assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 2 ? { ...i, item: 'https://magicesim.store/en/guides/' } : i)), url, 'en'), /page itself/);
+  assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 2 ? { ...i, item: 'https://magicesim.store/guides/' } : i)), url, 'en'), /page itself/);
   assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 0 ? { ...i, item: 'https://magicesim.store/es/' } : i)), url, 'en'), /links where the visible one does/);
   assert.throws(() => checkGuideCrumbs(items((i, n) => (n === 1 ? { ...i, name: 'Guías' } : i)), url, 'en'), /visible ones/);
   assert.throws(() => checkGuideCrumbs(html, url, 'es'), /language's home/);
@@ -177,7 +179,7 @@ test('the guide breadcrumb rule can fire', () => {
 test('every English country page, the list and the guides carry a share description, image and card', () => {
   const files = pages().map(({ c, html }) => [c.slug || 'list', html])
     .concat(['', 'iphone/', 'android/', 'compatibility/', 'activation/', 'troubleshooting/']
-      .map((g) => [`guides/${g}`, read(`en/guides/${g}index.html`)]));
+      .map((g) => [`guides/${g}`, read(`guides/${g}index.html`)]));
   for (const [name, html] of files) {
     const desc = html.match(/<meta name="description" content="([^"]*)">/)[1];
     assert.ok(html.includes(`<meta property="og:description" content="${desc}">`), `${name}: og:description = the description`);
@@ -197,8 +199,8 @@ test('an English country page is in the sitemap, and its Russian twin points at 
   const sitemap = read('sitemap.xml');
   for (const c of CATALOGUE) {
     const on = isIndexed('en', { kind: 'country', slug: c.slug });
-    assert.equal(sitemap.includes(`<loc>https://magicesim.store/en/esim/${c.slug}/</loc>`), on, `${c.slug}: sitemap`);
-    assert.equal(read(`esim/${c.slug}/index.html`).includes(`hreflang="en" href="https://magicesim.store/en/esim/${c.slug}/"`), on, `${c.slug}: the Russian twin's alternate`);
+    assert.equal(sitemap.includes(`<loc>https://magicesim.store/destinations/${c.slug}/</loc>`), on, `${c.slug}: sitemap`);
+    assert.equal(read(`ru/esim/${c.slug}/index.html`).includes(`hreflang="en" href="https://magicesim.store/destinations/${c.slug}/"`), on, `${c.slug}: the Russian twin's alternate`);
   }
 });
 
@@ -239,18 +241,18 @@ test('a country name cannot become markup', () => {
   assert.equal(html.includes('<img src=x'), false);
   assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt; &amp; &quot;q&quot;'));
   // A real non-ASCII name is written as itself, not mangled by the escape.
-  assert.match(read('en/esim/aland-islands/index.html'), /<h1>eSIM for the Åland Islands<\/h1>/);
+  assert.match(read('destinations/aland-islands/index.html'), /<h1>eSIM for the Åland Islands<\/h1>/);
 });
 
 test('every page loads the GLOBAL client and never the Russian catalogue', () => {
   for (const c of LIST.slice(0, 5).concat(LIST.filter((x) => ['uae', 'thailand', 'french-polynesia'].includes(x.slug)))) {
-    const html = read(`en/esim/${c.slug}/index.html`);
+    const html = read(`destinations/${c.slug}/index.html`);
     // defer (speed audit 2026-10-19): the scripts download in parallel, run in order.
     assert.match(html, /<script src="\/assets\/global-catalog\.js\?v=[0-9a-f]{8}" defer><\/script>/);
     assert.match(html, /<script src="\/en\/country\.js\?v=[0-9a-f]{8}" defer><\/script>/);
     assert.match(html, new RegExp(`<body data-iso="${c.iso}">`));
     assert.equal(/catalog-loader|country-tariffs|catalog\.json|metrika|mc\.yandex/i.test(html), false, c.slug);
-    assert.ok(html.includes(`<li><a href="/esim/${c.slug}/" hreflang="ru" lang="ru">`), 'the switch goes to the Russian twin');
+    assert.ok(html.includes(`<li><a href="/ru/esim/${c.slug}/" hreflang="ru" lang="ru">`), 'the switch goes to the Russian twin');
     assert.ok(html.includes(`<li><a href="/es/esim/${c.slug}/" hreflang="es" lang="es">`), 'and to the Spanish twin');
   }
 });
@@ -278,14 +280,14 @@ test('running the generator touches nothing outside en/ — proven in a sandbox'
         copyFileSync(join(ROOT, rel), join(dir, rel));
       });
     // Wipe the English output, so the run has to write every file.
-    rmSync(join(dir, 'en/esim'), { recursive: true, force: true });
+    rmSync(join(dir, 'destinations'), { recursive: true, force: true });
     rmSync(join(dir, 'en/destinations.js'), { force: true });
     execFileSync('git', ['init', '-q'], { cwd: dir });
     const before = snapshotTree(dir);
     execFileSync('node', ['seo/build-en-pages.mjs'], { cwd: dir, stdio: 'pipe' });
     const after = snapshotTree(dir);
     const touched = [...after.keys()].filter((k) => before.get(k) !== after.get(k));
-    const outside = touched.filter((k) => !k.startsWith('en/esim/') && k !== 'en/destinations.js');
+    const outside = touched.filter((k) => !k.startsWith('destinations/') && k !== 'en/destinations.js');
     assert.deepEqual(outside, []);
     assert.equal(touched.length, LIST.length + 2 + REGION_SLUGS.length, 'every page, the list, the search file and the region pages');
     // …and every file it wrote is one the refresh automation may commit.

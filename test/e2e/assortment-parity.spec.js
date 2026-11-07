@@ -73,7 +73,7 @@ for (const c of COUNTRIES) {
     await context.route('**/api/v1/retail/packages*', (r) => (new URL(r.request().url()).searchParams.get('market') === 'global'
       ? r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(USD) })
       : r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(RUB) })));
-    await page.goto(`/esim/${c.slug}/`);
+    await page.goto(`/ru/esim/${c.slug}/`);
     await page.waitForFunction(() => document.querySelector('#tariffs') && document.querySelector('#tariffs').getAttribute('data-loading') === 'false');
     const site = await siteBlocks(page, 'ru');
     expect(site).toEqual(expected(RUB, c.iso));
@@ -96,7 +96,7 @@ for (const c of COUNTRIES) {
       asked.push(new URL(url).search);
       return r.fulfill(globalAnswer(url, USD));
     });
-    await page.goto(`/en/esim/${c.slug}/`);
+    await page.goto(`/destinations/${c.slug}/`);
     await page.waitForFunction(() => !document.querySelector('#status') || document.querySelector('#status').hidden);
     const site = await siteBlocks(page, 'en');
     expect(site).toEqual(expected(USD, c.iso));
@@ -121,7 +121,7 @@ for (const [name, first] of [['the whole fixture to the country URL (a backend w
       if (u.searchParams.get('country') && first === '404') return r.fulfill({ status: 404, contentType: 'application/json', body: JSON.stringify({ status: 'error', error: 'COUNTRY_NOT_FOUND' }) });
       return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(USD) });
     });
-    await page.goto('/en/esim/thailand/');
+    await page.goto('/destinations/thailand/');
     await page.waitForFunction(() => !document.querySelector('#status') || document.querySelector('#status').hidden);
     expect(await siteBlocks(page, 'en')).toEqual(expected(USD, 'TH'));
     expect(asked).toEqual(first === '404' ? ['?market=global&country=TH', '?market=global'] : ['?market=global&country=TH']);

@@ -19,7 +19,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { locale, LOCALES } from './locales.mjs';
+import { locale, LOCALES, isRussian } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -29,7 +29,7 @@ export const wordsFile = (code) => `assets/i18n/${code}.js`;
 /** The bundle a page of this language loads: its repository path and its URL. */
 export function siteI18nBundle(code) {
   const L = locale(code);
-  if (!L || !L.prefix) throw new Error(`site-i18n-bundle: ${String(code)} has no prefix — the root language loads no bundle`);
+  if (!L || isRussian(L)) throw new Error(`site-i18n-bundle: ${String(code)} is not an international language — the Russian pages load no bundle`);
   const path = `assets/site-i18n-${L.prefix}.js`;
   return { path, src: `/${path}` };
 }
@@ -45,7 +45,7 @@ export function bundleSource(code) {
 }
 
 /** The languages that get a bundle: published (site.enabled) and prefixed. */
-export const bundledLocales = (list = LOCALES) => list.filter((l) => l.prefix && l.site.enabled).map((l) => l.code);
+export const bundledLocales = (list = LOCALES) => list.filter((l) => !isRussian(l) && l.site.enabled).map((l) => l.code);
 
 /** Write one language's bundle (before its pages: the pages stamp asset versions from file contents). */
 export function writeSiteI18nBundle(code) {

@@ -16,7 +16,7 @@ import { GUIDES } from './guides.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
-const HUB = readFileSync(join(ROOT, 'esim/index.html'), 'utf8');
+const HUB = readFileSync(join(ROOT, 'ru/esim/index.html'), 'utf8');
 const SITEMAP = readFileSync(join(ROOT, 'sitemap.xml'), 'utf8');
 
 function materials() {
@@ -47,7 +47,7 @@ test('every blurb is one short line, and payment uses the mandated wording', () 
   for (const { href, blurb } of materials()) {
     assert.ok(blurb.length >= 20 && blurb.length <= 80, `${href}: «${blurb}» — ${blurb.length} символов`);
   }
-  const pay = materials().find((i) => i.href === '/esim/payment-rubles/');
+  const pay = materials().find((i) => i.href === '/ru/esim/payment-rubles/');
   assert.match(pay.blurb, /Российской банковской картой или через СБП/);
   assert.doesNotMatch(materials().map((i) => i.blurb).join(' '), /любой карт|any card/i);
 });

@@ -9,8 +9,8 @@
 export const GUIDES = [
   // ------------------------------------------------------------------ iPhone
   {
-    out: 'iphone.html', prefix: '', crumb: 'iPhone',
-    url: 'https://magicesim.store/iphone.html',
+    out: 'ru/iphone.html', prefix: '', crumb: 'iPhone',
+    url: 'https://magicesim.store/ru/iphone.html',
     title: 'Как установить eSIM на iPhone — пошаговая инструкция | Magic eSIM',
     description: 'Установка eSIM на iPhone по QR-коду или вручную: проверка поддержки, настройка до поездки, включение линии и роуминга данных после прилёта, частые проблемы.',
     h1: 'Как установить eSIM на iPhone',
@@ -86,8 +86,8 @@ export const GUIDES = [
 
   // ----------------------------------------------------------------- Android
   {
-    out: 'android.html', prefix: '', crumb: 'Android',
-    url: 'https://magicesim.store/android.html',
+    out: 'ru/android.html', prefix: '', crumb: 'Android',
+    url: 'https://magicesim.store/ru/android.html',
     title: 'Как установить eSIM на Android: Samsung, Pixel и другие | Magic eSIM',
     description: 'Установка eSIM на Android по QR-коду или вручную: пути настроек для Samsung Galaxy и Google Pixel, включение мобильных данных и роуминга, решение частых проблем.',
     h1: 'Как установить eSIM на Android',
@@ -162,8 +162,8 @@ export const GUIDES = [
 
   // ----------------------------------------------------------- compatibility
   {
-    out: 'esim/compatibility/index.html', prefix: '../../', crumb: 'Совместимость',
-    url: 'https://magicesim.store/esim/compatibility/',
+    out: 'ru/esim/compatibility/index.html', prefix: '../../', crumb: 'Совместимость',
+    url: 'https://magicesim.store/ru/esim/compatibility/',
     title: 'Поддерживает ли телефон eSIM — как проверить | Magic eSIM',
     description: 'Как проверить поддержку eSIM перед покупкой тарифа: проверка в настройках iPhone и Android, код *#06#, блокировка под оператора и региональные версии устройств.',
     h1: 'Поддерживает ли ваш телефон eSIM',
@@ -218,8 +218,8 @@ export const GUIDES = [
 
   // -------------------------------------------------- activation-before-travel
   {
-    out: 'esim/activation-before-travel/index.html', prefix: '../../', crumb: 'Активация до поездки',
-    url: 'https://magicesim.store/esim/activation-before-travel/',
+    out: 'ru/esim/activation-before-travel/index.html', prefix: '../../', crumb: 'Активация до поездки',
+    url: 'https://magicesim.store/ru/esim/activation-before-travel/',
     title: 'Когда устанавливать и включать eSIM перед поездкой | Magic eSIM',
     description: 'Установка eSIM и начало действия тарифа — не одно и то же. Когда ставить профиль, когда включать линию и роуминг данных, чек-лист до вылета и первые шаги после посадки.',
     h1: 'Когда устанавливать и включать eSIM',
@@ -281,8 +281,8 @@ export const GUIDES = [
 
   // ------------------------------------------------------------- not-working
   {
-    out: 'esim/not-working/index.html', prefix: '../../', crumb: 'eSIM не работает',
-    url: 'https://magicesim.store/esim/not-working/',
+    out: 'ru/esim/not-working/index.html', prefix: '../../', crumb: 'eSIM не работает',
+    url: 'https://magicesim.store/ru/esim/not-working/',
     title: 'eSIM не работает — что делать: пошаговая диагностика | Magic eSIM',
     description: 'Не устанавливается eSIM, нет сети или не работает интернет в поездке: пошаговая проверка настроек, типовые причины и что подготовить для обращения в поддержку.',
     h1: 'eSIM не работает — что проверить',
@@ -368,8 +368,8 @@ export const GUIDES = [
   },
   // ------------------------------------------------------------ dual-sim-sms
   {
-    out: 'esim/dual-sim-sms/index.html', prefix: '../../', crumb: 'Основной номер и eSIM',
-    url: 'https://magicesim.store/esim/dual-sim-sms/',
+    out: 'ru/esim/dual-sim-sms/index.html', prefix: '../../', crumb: 'Основной номер и eSIM',
+    url: 'https://magicesim.store/ru/esim/dual-sim-sms/',
     title: 'SMS и звонки на основной номер при использовании eSIM в поездке | Magic eSIM',
     description: 'Как ездить с travel eSIM, сохранив основную SIM для номера и SMS: две линии, банковские коды, когда подходит eSIM, а когда роуминг, что проверить до поездки.',
     h1: 'Основной номер и travel eSIM: SMS, звонки и две SIM',
@@ -488,8 +488,8 @@ export const GUIDES = [
   // one claim here a gate cannot hold: re-read those lines before touching the
   // «Как приходит eSIM» section.
   {
-    out: 'esim/payment-rubles/index.html', prefix: '../../', crumb: 'Оплата рублями',
-    url: 'https://magicesim.store/esim/payment-rubles/',
+    out: 'ru/esim/payment-rubles/index.html', prefix: '../../', crumb: 'Оплата рублями',
+    url: 'https://magicesim.store/ru/esim/payment-rubles/',
     title: 'Как оплатить eSIM рублями — СБП и российская карта | Magic eSIM',
     description: 'Оплата travel-eSIM в рублях: через СБП или российской банковской картой. QR-код приходит на почту, профиль ставится до вылета. Иностранные карты не принимаются.',
     h1: 'Оплата eSIM рублями: СБП и российская карта',

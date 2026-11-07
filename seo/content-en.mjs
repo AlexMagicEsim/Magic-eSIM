@@ -260,13 +260,17 @@ export function validateContent(doc, opts = {}) {
   const lang = opts.lang || 'en';
   const R = contentLang(lang);
   const prefix = locale(lang).prefix;
+  // Where this language's pages are (seo/locales.mjs paths): English /destinations/ and /guides/, others /<prefix>/esim/ …
+  const { catalogue: CAT, guides: GB } = locale(lang).paths;
+  const reEsc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pageLink = new RegExp(`^(?:${reEsc(CAT)}|${reEsc(GB)})([a-z0-9-]+/)*$`);
   const d = defaults(lang);
   const facts = opts.facts || d.facts;
   const countries = opts.countries || d.countries;
   const today = opts.today || new Date().toISOString().slice(0, 10);
   /* A link to a country page of this language is to a page the same build writes (a catalogue page), so it counts as
    * existing even in a clean build that has not written it yet; every other target must be on disk. */
-  const countryPath = new RegExp(`^${prefix}/esim/([a-z0-9-]+)/$`);
+  const countryPath = new RegExp(`^${reEsc(CAT.slice(1))}([a-z0-9-]+)/$`);
   const exists = opts.exists || ((path) => {
     const m = path.match(countryPath);
     if (m && countries.some((c) => c.slug === m[1])) return true;
@@ -438,10 +442,10 @@ export function validateContent(doc, opts = {}) {
     if (/[<>]/.test(raw)) bad(`${where}: no HTML — plain text only`);
     for (const m of String(raw).matchAll(LINK)) {
       const href = m[2];
-      if (!new RegExp(`^/${prefix}/([a-z0-9-]+/)*$`).test(href)) bad(`${where}: a link goes only to an /${prefix}/ page path ending in «/» («${href}»)`);
+      if (!pageLink.test(href)) bad(`${where}: a link goes only to an ${CAT} or ${GB} page path ending in «/» («${href}»)`);
       else if (!exists(href.slice(1))) bad(`${where}: the link target ${href} does not exist`);
     }
-    if (/[[\]]/.test(String(raw).replace(LINK, ''))) bad(`${where}: broken link markup (a link is [text](/${prefix}/…/))`);
+    if (/[[\]]/.test(String(raw).replace(LINK, ''))) bad(`${where}: broken link markup (a link is [text](${GB}…/))`);
     // Guards.
     for (const id of GUARD_IDS) {
       const re = CLAIM_GUARDS[lang][id].re;

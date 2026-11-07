@@ -36,7 +36,7 @@ const COUNTER_PAGES = SERVED.filter((f) => f.endsWith('.html') && read(f).includ
 
 test('the counter pages are the expected set (a walk that finds nothing must not pass)', () => {
   assert.ok(COUNTER_PAGES.length >= 200, `counter pages: ${COUNTER_PAGES.length}`);
-  for (const f of ['payment-success.html', 'payment-failed.html', 'index.html', '404.html']) assert.ok(COUNTER_PAGES.includes(f), f);
+  for (const f of ['payment-success.html', 'payment-failed.html', 'ru/index.html', '404.html']) assert.ok(COUNTER_PAGES.includes(f), f);
   assert.ok(!COUNTER_PAGES.some((f) => f.startsWith('en/') || f.startsWith('app/')), 'no counter on /en/ or the Mini App');
 });
 

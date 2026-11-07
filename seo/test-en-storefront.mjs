@@ -15,16 +15,16 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const require = createRequire(import.meta.url);
 
-const EN = read('en/index.html');
+const EN = read('index.html');
 const EN_JS = read('en/app.js');
 // The English country pages — UAE stands for all 198 (seo/test-en-pages.mjs
 // proves every page is the generator's output, so one is every one).
-const PAGE = read('en/esim/uae/index.html');
-const HUB = read('en/esim/index.html');
+const PAGE = read('destinations/uae/index.html');
+const HUB = read('destinations/index.html');
 const COUNTRY_JS = read('en/country.js');
 const PLANS_JS = read('en/plans.js');
 const code = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-const RU = read('index.html');
+const RU = read('ru/index.html');
 const ROBOTS = read('robots.txt');
 const SITEMAP = read('sitemap.xml');
 
@@ -390,8 +390,8 @@ test('no rouble anywhere on /en/: markup, script, stylesheet and every English s
   // Code without its comments (they explain WHY the rouble snapshot is gone);
   // markup, stylesheet and the visible strings in full.
   const markup = (h) => h.replace(/<!--[\s\S]*?-->/g, '');
-  for (const [name, text] of [['en/index.html', markup(EN)], ['en/esim/uae/index.html', markup(PAGE)],
-    ['en/esim/index.html', markup(HUB)], ['en/destinations.js', read('en/destinations.js')],
+  for (const [name, text] of [['index.html', markup(EN)], ['destinations/uae/index.html', markup(PAGE)],
+    ['destinations/index.html', markup(HUB)], ['en/destinations.js', read('en/destinations.js')],
     ['en/app.js', code(EN_JS)], ['en/country.js', code(COUNTRY_JS)], ['en/plans.js', code(PLANS_JS)],
     ['en/en.css', code(css)], ['assets/site.css', code(read('assets/site.css'))], ['strings', strings], ['assets/global-catalog.js', code(GLOBAL_JS)]]) {
     // The header's «Перейти на русскую версию» is a language switch, not a price.
@@ -410,8 +410,8 @@ test('RU is untouched by the GLOBAL client: the Russian landing loads neither it
     assert.doesNotMatch(html, /catalog-loader\.js|country-tariffs\.js/, `${name}: no Russian catalogue script on an English page`);
   }
   // No Russian country page loads anything English.
-  const bad = readdirSync(join(ROOT, 'esim')).filter((d) => existsSync(join(ROOT, 'esim', d, 'index.html')))
-    .filter((d) => /global-catalog\.js|\/en\/(en\.css|plans\.js|country\.js)/.test(read(`esim/${d}/index.html`)));
+  const bad = readdirSync(join(ROOT, 'ru/esim')).filter((d) => existsSync(join(ROOT, 'ru/esim', d, 'index.html')))
+    .filter((d) => /global-catalog\.js|\/en\/(en\.css|plans\.js|country\.js)/.test(read(`ru/esim/${d}/index.html`)));
   assert.deepEqual(bad, []);
 });
 
@@ -421,22 +421,22 @@ test('RU is untouched by the GLOBAL client: the Russian landing loads neither it
  * ===================================================================== */
 
 test('no Russian URL was moved, renamed or removed', () => {
-  for (const p of ['index.html', 'esim/index.html', 'iphone.html', 'android.html',
-    'terms.html', 'privacy.html', 'esim/italy/index.html', 'esim/payment-rubles/index.html']) {
+  for (const p of ['ru/index.html', 'ru/esim/index.html', 'ru/iphone.html', 'ru/android.html',
+    'terms.html', 'privacy.html', 'ru/esim/italy/index.html', 'ru/esim/payment-rubles/index.html']) {
     assert.ok(existsSync(join(ROOT, p)), p);
   }
   // The country pages are all still there.
-  const countries = readdirSync(join(ROOT, 'esim')).filter((d) =>
-    existsSync(join(ROOT, 'esim', d, 'index.html')));
+  const countries = readdirSync(join(ROOT, 'ru/esim')).filter((d) =>
+    existsSync(join(ROOT, 'ru/esim', d, 'index.html')));
   assert.ok(countries.length >= 200, `only ${countries.length} pages under /esim/`);
 });
 
 test('the Russian landing gained a head and lost nothing else', () => {
   assert.match(RU, /<html lang="ru">/);
-  assert.match(RU, /rel="canonical" href="https:\/\/magicesim\.store\/"/);
+  assert.match(RU, /rel="canonical" href="https:\/\/magicesim\.store\/ru\/"/);
   // The checkout is still Russian and still Platega's — on the country pages,
   // where it opens since RU↔EN migration PR B/C.
-  const ruPage = read('esim/turkey/index.html');
+  const ruPage = read('ru/esim/turkey/index.html');
   assert.match(ruPage, /Оформление заказа/);
   assert.match(ruPage, /Российская карта/);
   assert.match(ruPage, /Оплата через Platega/);
@@ -464,18 +464,18 @@ test('the language is declared on the page itself', () => {
 });
 
 test('canonical is self-referencing on both pages', () => {
-  assert.match(EN, /<link rel="canonical" href="https:\/\/magicesim\.store\/en\/">/);
-  assert.match(RU, /<link rel="canonical" href="https:\/\/magicesim\.store\/" \/>/);
+  assert.match(EN, /<link rel="canonical" href="https:\/\/magicesim\.store\/">/);
+  assert.match(RU, /<link rel="canonical" href="https:\/\/magicesim\.store\/ru\/" \/>/);
 });
 
 test('the hreflang cluster is reciprocal and complete', () => {
   // A one-sided cluster is ignored. Each page must name ITSELF and the other.
   // I18N-09: three homes, x-default → English (owner 2026-10-13).
   for (const [name, html] of [['en', EN], ['ru', RU], ['es', read('es/index.html')]]) {
-    assert.match(html, /hreflang="ru" href="https:\/\/magicesim\.store\/"/, name);
-    assert.match(html, /hreflang="en" href="https:\/\/magicesim\.store\/en\/"/, name);
+    assert.match(html, /hreflang="ru" href="https:\/\/magicesim\.store\/ru\/"/, name);
+    assert.match(html, /hreflang="en" href="https:\/\/magicesim\.store\/"/, name);
     assert.match(html, /hreflang="es" href="https:\/\/magicesim\.store\/es\/"/, name);
-    assert.match(html, /hreflang="x-default" href="https:\/\/magicesim\.store\/en\/"/, name);
+    assert.match(html, /hreflang="x-default" href="https:\/\/magicesim\.store\/"/, name);
   }
 });
 
@@ -494,9 +494,9 @@ test('the Russian country pages carry NO alternate, because they have no twin', 
   // /en/esim/italy/ exists now, but it is a noindex template: hreflang pairs
   // a page with an INDEXABLE twin, so the Russian page still carries none.
   // When a reviewed English page becomes indexable (PR 8), this test changes.
-  const italy = read('esim/italy/index.html');
+  const italy = read('ru/esim/italy/index.html');
   assert.equal(/hreflang/.test(italy), false);
-  assert.match(italy, /rel="canonical" href="https:\/\/magicesim\.store\/esim\/italy\/"/);
+  assert.match(italy, /rel="canonical" href="https:\/\/magicesim\.store\/ru\/esim\/italy\/"/);
 });
 
 test('robots does not block the English page, and still blocks what it blocked', () => {
@@ -508,11 +508,12 @@ test('robots does not block the English page, and still blocks what it blocked',
 
 test('the sitemap lists the English page exactly once, beside the Russian one', () => {
   const locs = [...SITEMAP.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  assert.equal(locs.filter((l) => l === 'https://magicesim.store/en/').length, 1);
   assert.equal(locs.filter((l) => l === 'https://magicesim.store/').length, 1);
+  assert.equal(locs.filter((l) => l === 'https://magicesim.store/ru/').length, 1);
   assert.ok(locs.length >= 209, `sitemap shrank to ${locs.length} — a Russian page was lost`);
   // Only the English pages seo/indexing.mjs indexes are listed (I18N-09): the home, list, guides and the stage.
-  assert.deepEqual(locs.filter((x) => x.includes('/en/')).sort(),
+  // English pages since the EN-root migration: the root home, /destinations/…, /guides/….
+  assert.deepEqual(locs.filter((x) => /^https:\/\/magicesim\.store\/(destinations\/|guides\/|$)/.test(x)).sort(),
     indexedPrefixedPages(EN_GUIDES_FOR_SITEMAP.map((g) => g.slug)).filter((p) => p.code === 'en').map((p) => p.loc).sort());
 });
 
@@ -561,10 +562,10 @@ test('the English link is reachable on a phone, not only on a desktop', () => {
   // mobile menu must carry the same link.
   const header = RU.match(/<header class="site-header">[\s\S]*?<\/header>/);
   assert.ok(header, 'the header moved — this test needs rewriting, not deleting');
-  assert.match(header[0], /<a class="langsw" href="\/en\/"/, 'the desktop link');
+  assert.match(header[0], /<a class="langsw" href="\/"/, 'the desktop link');
   const menu = header[0].match(/<nav class="mnav-panel"[\s\S]*?<\/nav>/);
   assert.ok(menu, 'the mobile menu moved');
-  assert.match(menu[0], /href="\/en\/"/, 'the phone link, inside the menu');
+  assert.match(menu[0], /href="\/"/, 'the phone link, inside the menu');
   assert.match(read('assets/site.css'), /\.hdr-actions \.langsw\{display:none\}/, 'if this rule is gone, the menu link is a duplicate, not a necessity');
 });
 
@@ -572,14 +573,14 @@ test('the English version is reachable from the Russian site, not only declared'
   // An hreflang tag is a signal to a crawler; it is not a way in for a reader,
   // and it passes no internal link equity. Without a real link /en/ was an
   // orphan that nothing on the site pointed at.
-  assert.match(RU, /href="\/en\/"[^>]*hreflang="en"/);
+  assert.match(RU, /href="\/"[^>]*hreflang="en"/);
 });
 
 test('every link from /en/ that lands on a Russian page says so', () => {
   // An English label on a link into `<html lang="ru">` is a small betrayal that
   // costs a visitor a page load to discover.
   for (const html of [EN, PAGE, HUB]) {
-    const links = [...html.matchAll(/<a[^>]*href="(\/[a-z-]*\.html|\/|\/esim\/[a-z-]*\/?)"[^>]*>([^<]*)</g)];
+    const links = [...html.matchAll(/<a[^>]*href="(\/(?:ru\/)?[a-z-]*\.html|\/ru\/|\/ru\/esim\/[a-z-]*\/?)"[^>]*>([^<]*)</g)];
     assert.ok(links.length >= 2, 'the scan must find the Russian links');
     for (const [tag, href, label] of links) {
       assert.match(tag, /hreflang="ru"/, `${href} (${label.trim()}) must declare hreflang="ru"`);

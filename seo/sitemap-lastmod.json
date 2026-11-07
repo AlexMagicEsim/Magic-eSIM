@@ -1,107 +1,75 @@
 {
   "pages": {
     "https://magicesim.store/": {
-      "hash": "0cf616ca28656d6a",
-      "lastmod": "2026-10-21"
-    },
-    "https://magicesim.store/android.html": {
-      "hash": "3f1d8c26bb86e2a8",
-      "lastmod": "2026-10-10"
-    },
-    "https://magicesim.store/en/": {
-      "hash": "d07ac3f5fcf30ffa",
+      "hash": "15d28e80a17d99e4",
       "lastmod": "2026-10-28"
     },
-    "https://magicesim.store/en/esim/": {
-      "hash": "eaf68590875098f6",
+    "https://magicesim.store/destinations/": {
+      "hash": "f9d6adae3f1c3b22",
       "lastmod": "2026-10-29"
     },
-    "https://magicesim.store/en/esim/china/": {
-      "hash": "1beeb7079b6da826",
+    "https://magicesim.store/destinations/china/": {
+      "hash": "9bf6722478839b01",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/france/": {
-      "hash": "32386061053fa789",
+    "https://magicesim.store/destinations/france/": {
+      "hash": "0c5280379d618328",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/greece/": {
-      "hash": "da69c29ae9fc4e1d",
+    "https://magicesim.store/destinations/greece/": {
+      "hash": "9b5a0feb747bf38b",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/indonesia/": {
-      "hash": "85049668662b723e",
+    "https://magicesim.store/destinations/indonesia/": {
+      "hash": "883cfcbbcb634324",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/japan/": {
-      "hash": "fc332d35d6cc0e63",
+    "https://magicesim.store/destinations/japan/": {
+      "hash": "5890cadb8b322e77",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/malaysia/": {
-      "hash": "3e70f0f5ae9635c0",
+    "https://magicesim.store/destinations/malaysia/": {
+      "hash": "0472169b6bec346d",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/maldives/": {
-      "hash": "6eae7bdf202594ca",
+    "https://magicesim.store/destinations/maldives/": {
+      "hash": "7b960b7b8f8d084b",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/mexico/": {
-      "hash": "79af9fb24d462667",
+    "https://magicesim.store/destinations/mexico/": {
+      "hash": "6cf6586489ad6b0d",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/singapore/": {
-      "hash": "2975ae00836697ab",
+    "https://magicesim.store/destinations/singapore/": {
+      "hash": "45998c3301f0f800",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/south-korea/": {
-      "hash": "748f9d8d63f59e53",
+    "https://magicesim.store/destinations/south-korea/": {
+      "hash": "c98e104d9d88e4f9",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/sri-lanka/": {
-      "hash": "c0302ccbe01385fc",
+    "https://magicesim.store/destinations/sri-lanka/": {
+      "hash": "ecb1cab0a20fbb95",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/thailand/": {
-      "hash": "875fa51b66546386",
+    "https://magicesim.store/destinations/thailand/": {
+      "hash": "d802afd4d2e79217",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/turkey/": {
-      "hash": "3caa7b3f2543aad4",
+    "https://magicesim.store/destinations/turkey/": {
+      "hash": "c75e6c5bc5cc7a29",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/united-kingdom/": {
-      "hash": "2c24fcca1fb7de56",
+    "https://magicesim.store/destinations/united-kingdom/": {
+      "hash": "4aab1a983b05d012",
       "lastmod": "2026-11-03"
     },
-    "https://magicesim.store/en/esim/vietnam/": {
-      "hash": "9203f72a7ebf9764",
+    "https://magicesim.store/destinations/vietnam/": {
+      "hash": "6fb25454c01eff3d",
       "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/en/guides/": {
-      "hash": "c30467476edb6530",
-      "lastmod": "2026-10-28"
-    },
-    "https://magicesim.store/en/guides/activation/": {
-      "hash": "425ab7409d4d5d78",
-      "lastmod": "2026-10-28"
-    },
-    "https://magicesim.store/en/guides/android/": {
-      "hash": "542cc9254be40463",
-      "lastmod": "2026-10-28"
-    },
-    "https://magicesim.store/en/guides/compatibility/": {
-      "hash": "4d36994ef8ca7e3a",
-      "lastmod": "2026-10-28"
-    },
-    "https://magicesim.store/en/guides/iphone/": {
-      "hash": "5975729c8ca25877",
-      "lastmod": "2026-10-28"
-    },
-    "https://magicesim.store/en/guides/troubleshooting/": {
-      "hash": "68afbb815c067b15",
-      "lastmod": "2026-10-28"
     },
     "https://magicesim.store/es/": {
-      "hash": "09100fcf02fb67a7",
+      "hash": "c7f62a312ddbdc88",
       "lastmod": "2026-10-28"
     },
     "https://magicesim.store/es/esim/": {
@@ -192,836 +160,868 @@
       "hash": "57a6a49f9c65fb18",
       "lastmod": "2026-10-28"
     },
-    "https://magicesim.store/esim/": {
-      "hash": "d9a847289b97fbf9",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/activation-before-travel/": {
-      "hash": "308421a0a77cb171",
-      "lastmod": "2026-10-12"
-    },
-    "https://magicesim.store/esim/afghanistan/": {
-      "hash": "d7d6d44060d8f87c",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/aland-islands/": {
-      "hash": "fafbc9e1597c71c7",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/albania/": {
-      "hash": "e780f530eaede9de",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/algeria/": {
-      "hash": "37c9a4aaec30d5ea",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/andorra/": {
-      "hash": "b89ae545337b2c41",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/angola/": {
-      "hash": "770308f3b95eac96",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/anguilla/": {
-      "hash": "24a1f05c804f6ad9",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/antigua-and-barbuda/": {
-      "hash": "57b9ef17706fd707",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/argentina/": {
-      "hash": "148eba5b3714e0f6",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/armenia/": {
-      "hash": "4b1ed44819b784da",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/aruba/": {
-      "hash": "b499fb9d97d7cd9a",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/australia/": {
-      "hash": "b4dcf54be7643d7c",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/austria/": {
-      "hash": "f3937e7e4e9e7b61",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/azerbaijan/": {
-      "hash": "6cc15f33d495a4f2",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/bahamas/": {
-      "hash": "439d247787d0e145",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/bahrain/": {
-      "hash": "8fd6d9f6cd6f5377",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/bangladesh/": {
-      "hash": "d058bbb19b53f242",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/barbados/": {
-      "hash": "39c54b0fd6cf8423",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/belgium/": {
-      "hash": "0a06cc0385559d31",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/belize/": {
-      "hash": "5fd88f80fe3dc890",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/benin/": {
-      "hash": "4e3993230a792ec9",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/bermuda/": {
-      "hash": "2647867080e4cac1",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/bhutan/": {
-      "hash": "e864186e6f9b2e62",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/bolivia/": {
-      "hash": "7241569def62236b",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/bonaire/": {
-      "hash": "9f04c724d8a76d2c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/bosnia-and-herzegovina/": {
-      "hash": "862a4131755212bc",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/botswana/": {
-      "hash": "1d19824e33fd3d3d",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/brazil/": {
-      "hash": "6389a634ae3d68d2",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/british-virgin-islands/": {
-      "hash": "2e257735032ed4d4",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/brunei/": {
-      "hash": "a808c1ee559f86de",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/bulgaria/": {
-      "hash": "48885b92e515eaa1",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/burkina-faso/": {
-      "hash": "2b75d26130867d5a",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/cambodia/": {
-      "hash": "a3e57006b8cd4ac0",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/cameroon/": {
-      "hash": "9b686f4f0cba8729",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/canada/": {
-      "hash": "540db2d289fba4aa",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/cape-verde/": {
-      "hash": "2cb77ee84c764af2",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/cayman-islands/": {
-      "hash": "33dec1554821bd3f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/central-african-republic/": {
-      "hash": "064564c6599d79f9",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/chad/": {
-      "hash": "ec5c83ee862e6456",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/chile/": {
-      "hash": "d930eb6547212c37",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/china/": {
-      "hash": "8988796270c493cf",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/colombia/": {
-      "hash": "99319b1f6f85a782",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/compatibility/": {
-      "hash": "bb92616cf53a9200",
-      "lastmod": "2026-10-10"
-    },
-    "https://magicesim.store/esim/congo/": {
-      "hash": "c0f5e3ff1384886c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/costa-rica/": {
-      "hash": "7d6b5fe93661621f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/croatia/": {
-      "hash": "5d8cf98a6e4875f8",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/curacao/": {
-      "hash": "2b4ea02bc8e986d7",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/cyprus/": {
-      "hash": "68c92fe8ebdd08cc",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/czechia/": {
-      "hash": "e3c2efc6a909e84f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/denmark/": {
-      "hash": "cfe1fe7c4ea0a7cc",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/dominica/": {
-      "hash": "e2475752c56cb4ca",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/dominican-republic/": {
-      "hash": "ee0381db9d8f3895",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/dr-congo/": {
-      "hash": "915f066207509eb8",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/dual-sim-sms/": {
-      "hash": "3c3158fe3a51b1f1",
-      "lastmod": "2026-10-10"
-    },
-    "https://magicesim.store/esim/ecuador/": {
-      "hash": "baa14063db35b932",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/egypt/": {
-      "hash": "da11f7b48d47c7b8",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/el-salvador/": {
-      "hash": "691debe0015a79f3",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/estonia/": {
-      "hash": "818e168543236c64",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/eswatini/": {
-      "hash": "7d765430c41b9ec4",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/ethiopia/": {
-      "hash": "11c6435fbb300459",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/faroe-islands/": {
-      "hash": "0c767e1b1d7ba4da",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/fiji/": {
-      "hash": "c9bd55df15cbb0ae",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/finland/": {
-      "hash": "da6f721aa0124811",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/france/": {
-      "hash": "1c575c34e385aec5",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/french-guiana/": {
-      "hash": "3ff4ea39ce0e1f18",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/french-polynesia/": {
-      "hash": "2799eafb5738397e",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/gabon/": {
-      "hash": "e9aa170bf839597c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/gambia/": {
-      "hash": "f0acb490e05315b7",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/georgia/": {
-      "hash": "1cff94f6b2fae90f",
+    "https://magicesim.store/guides/": {
+      "hash": "de9b109bb43b57aa",
       "lastmod": "2026-10-28"
     },
-    "https://magicesim.store/esim/germany/": {
-      "hash": "6e0aa06c35fb5e7f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/ghana/": {
-      "hash": "7c66f7b84e84a39e",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/gibraltar/": {
-      "hash": "8bbd1eff7b6c6068",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/greece/": {
-      "hash": "f1a31fffba264e0e",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/greenland/": {
-      "hash": "7f053db0b6c7e7d4",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/grenada/": {
-      "hash": "794ab065c9e399c6",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/guadeloupe/": {
-      "hash": "a63084609f6abfc7",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/guam/": {
-      "hash": "2301071729deeb4f",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/guatemala/": {
-      "hash": "fed3427294078ca4",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/guernsey/": {
-      "hash": "c7afdccb36cdc4d5",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/guinea-bissau/": {
-      "hash": "298f348dcfad4460",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/guinea/": {
-      "hash": "731bb7736f1c179c",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/guyana/": {
-      "hash": "069a15b89c9e463b",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/haiti/": {
-      "hash": "6c5bef811fa7340f",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/honduras/": {
-      "hash": "f42209b75c4e04aa",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/hong-kong/": {
-      "hash": "cf62ff0409ab5bc8",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/hungary/": {
-      "hash": "8c3ce722c2e9d970",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/iceland/": {
-      "hash": "678e9ddecb453caa",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/india/": {
-      "hash": "38ef1d49caee0319",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/indonesia/": {
-      "hash": "b8f2b64538eeb1a5",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/iraq/": {
-      "hash": "a949e120d0ae5700",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/ireland/": {
-      "hash": "b63b7065ca747edb",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/isle-of-man/": {
-      "hash": "d1648573da61db9b",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/israel/": {
-      "hash": "fa782c042f6cb9b9",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/italy/": {
-      "hash": "c16642a6eb9bb6a6",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/ivory-coast/": {
-      "hash": "99412518e8e3cc5d",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/jamaica/": {
-      "hash": "593b1e51a8dcf22c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/japan/": {
-      "hash": "34a1809db4414a20",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/jersey/": {
-      "hash": "b8384f7e3e6c05b1",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/jordan/": {
-      "hash": "97961cf3d587ebd3",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/kazakhstan/": {
-      "hash": "bb4bf56f8adfc578",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/kenya/": {
-      "hash": "7d045ac50d66d434",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/kosovo/": {
-      "hash": "874e295fe074f3db",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/kuwait/": {
-      "hash": "5341d4b019b107bc",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/kyrgyzstan/": {
-      "hash": "d598b58242f485f0",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/laos/": {
-      "hash": "7298a331e6bfa560",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/latvia/": {
-      "hash": "8ac9947b8fc6c513",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/liberia/": {
-      "hash": "e68108e5721bbab6",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/libya/": {
-      "hash": "2091be15ae3ea493",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/liechtenstein/": {
-      "hash": "f2d5d9b85fdb9ac6",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/lithuania/": {
-      "hash": "d82eeac2a042ed00",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/luxembourg/": {
-      "hash": "894c2254c5118660",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/macau/": {
-      "hash": "51b5519c92206d5f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/madagascar/": {
-      "hash": "b850652d3ee14d05",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/malawi/": {
-      "hash": "c0ff821ef1f2473f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/malaysia/": {
-      "hash": "e71e1d3ae327e06c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/maldives/": {
-      "hash": "c38c5ad7f8536154",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/mali/": {
-      "hash": "6cd92a8a6ccc6eff",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/malta/": {
-      "hash": "0d1fb838d9261806",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/martinique/": {
-      "hash": "12196ed33bba32f1",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/mauritania/": {
-      "hash": "dc5ae6b44d038bd3",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/mauritius/": {
-      "hash": "61dbbb2f2a60713b",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/mayotte/": {
-      "hash": "d56136e1f402718f",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/mexico/": {
-      "hash": "029c9e88d5ab5f52",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/moldova/": {
-      "hash": "c9815aa0783e1b14",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/monaco/": {
-      "hash": "22f1845bf1d88165",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/mongolia/": {
-      "hash": "5385ffb0a049028d",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/montenegro/": {
-      "hash": "c381c4f6a15200b1",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/montserrat/": {
-      "hash": "973b4045c90a352e",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/morocco/": {
-      "hash": "c5a467cc0c2a1cf5",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/mozambique/": {
-      "hash": "9f3745db33a8c9da",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/nauru/": {
-      "hash": "fa0f5339ea597e57",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/nepal/": {
-      "hash": "47b349b7bf98cb7c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/netherlands/": {
-      "hash": "81a79a2b25b6e712",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/new-zealand/": {
-      "hash": "f6a6286f58523064",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/nicaragua/": {
-      "hash": "a5dd904a13e903ea",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/niger/": {
-      "hash": "1085c5dece6bc11c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/nigeria/": {
-      "hash": "f87d7c914401b2d6",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/north-macedonia/": {
-      "hash": "f0f6fc5d5989f830",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/northern-mariana-islands/": {
-      "hash": "a26c7d6307e9ac41",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/norway/": {
-      "hash": "1ed05e3862151bba",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/not-working/": {
-      "hash": "5b84636934eec165",
-      "lastmod": "2026-10-10"
-    },
-    "https://magicesim.store/esim/oman/": {
-      "hash": "9aef557aed106a6c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/pakistan/": {
-      "hash": "885412544cbc1d6c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/panama/": {
-      "hash": "35aad8847baa4cc0",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/papua-new-guinea/": {
-      "hash": "1d8bdcd3cc430b23",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/paraguay/": {
-      "hash": "fa024a0a78a6c43d",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/payment-rubles/": {
-      "hash": "c94c76cdd2335025",
-      "lastmod": "2026-10-12"
-    },
-    "https://magicesim.store/esim/peru/": {
-      "hash": "14dfca071877e075",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/philippines/": {
-      "hash": "739137cbc8b6b2b2",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/poland/": {
-      "hash": "72f0b30bca38cc34",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/portugal/": {
-      "hash": "66eec5b3460b092e",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/puerto-rico/": {
-      "hash": "38e17f0c4ea0b8c8",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/qatar/": {
-      "hash": "4bf89c3cea28eccf",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/reunion/": {
-      "hash": "979bcc36f98376a9",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/romania/": {
-      "hash": "606628d004543a02",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/rwanda/": {
-      "hash": "15257703db8a2fe0",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/saint-barthelemy/": {
-      "hash": "3c118d1567a981a0",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/saint-kitts-and-nevis/": {
-      "hash": "07860a245140f5f7",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/saint-lucia/": {
-      "hash": "94fec93523748377",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/saint-martin/": {
-      "hash": "29398fc59bffc338",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/saint-vincent-and-the-grenadines/": {
-      "hash": "18b010358de56266",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/samoa/": {
-      "hash": "449ebc144c80a68c",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/san-marino/": {
-      "hash": "211dd9b3d02a271c",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/saudi-arabia/": {
-      "hash": "df70e1eb62478dcb",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/senegal/": {
-      "hash": "06d476e6eb875e94",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/serbia/": {
-      "hash": "a960be8aace2cb51",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/seychelles/": {
-      "hash": "d34589ff083583b0",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/sierra-leone/": {
-      "hash": "5767bb4b925ad173",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/singapore/": {
-      "hash": "20f27d5b08b0dfb9",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/sint-maarten/": {
-      "hash": "62f717af940c2b9f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/slovakia/": {
-      "hash": "8ed9caf63b761203",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/slovenia/": {
-      "hash": "33d4d2fe7573091d",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/south-africa/": {
-      "hash": "42b596e05e76ef53",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/south-korea/": {
-      "hash": "fd0fc648f9ea5f92",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/spain/": {
-      "hash": "0a680c251586c790",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/sri-lanka/": {
-      "hash": "3176bf89781c0571",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/sudan/": {
-      "hash": "1c18f8b47b0b7a86",
-      "lastmod": "2026-10-25"
-    },
-    "https://magicesim.store/esim/suriname/": {
-      "hash": "6fab519c87f0e992",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/sweden/": {
-      "hash": "2dfeb6cc14f1e0f5",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/switzerland/": {
-      "hash": "7df2799911729543",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/taiwan/": {
-      "hash": "a3d17da91eb421e0",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/tajikistan/": {
-      "hash": "6a3fdbc866a7faa4",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/tanzania/": {
-      "hash": "21292df7df6a3727",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/thailand/": {
-      "hash": "2e037911b4afd185",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/timor-leste/": {
-      "hash": "e6c231743b6a5a51",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/tonga/": {
-      "hash": "b9c17043322d45b8",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/trinidad-and-tobago/": {
-      "hash": "b8ea447bb8a2d1be",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/tunisia/": {
-      "hash": "c22798d1fe382e7f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/turkey/": {
-      "hash": "3fa1bbe24096f19b",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/turks-and-caicos/": {
-      "hash": "0bcb07a8e914523f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/uae/": {
-      "hash": "237a82367d176efe",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/uganda/": {
-      "hash": "3820dd40250d579b",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/united-kingdom/": {
-      "hash": "cd0206253acb06cb",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/uruguay/": {
-      "hash": "fcfaae5683831025",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/us-virgin-islands/": {
-      "hash": "11f6dd0f9574231b",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/usa/": {
-      "hash": "faf03cdb93dfb0c0",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/uzbekistan/": {
-      "hash": "898681fd54c6dade",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/vanuatu/": {
-      "hash": "4f0341aed9129a1f",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/vatican/": {
-      "hash": "0c66bf83ac8c40da",
-      "lastmod": "2026-11-01"
-    },
-    "https://magicesim.store/esim/venezuela/": {
-      "hash": "77f7d1a603c60ff8",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/vietnam/": {
-      "hash": "5e55f9aae8e5bd27",
-      "lastmod": "2026-11-06"
-    },
-    "https://magicesim.store/esim/zambia/": {
-      "hash": "321dec9848f1d865",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/esim/zimbabwe/": {
-      "hash": "cec668bf8e544448",
-      "lastmod": "2026-11-03"
-    },
-    "https://magicesim.store/iphone.html": {
-      "hash": "4fce5899574decc0",
-      "lastmod": "2026-10-10"
+    "https://magicesim.store/guides/activation/": {
+      "hash": "e89ac36e38ee64e3",
+      "lastmod": "2026-10-28"
+    },
+    "https://magicesim.store/guides/android/": {
+      "hash": "7a60957810e6f803",
+      "lastmod": "2026-10-28"
+    },
+    "https://magicesim.store/guides/compatibility/": {
+      "hash": "cd6aa4a498ce2f33",
+      "lastmod": "2026-10-28"
+    },
+    "https://magicesim.store/guides/iphone/": {
+      "hash": "301a186885357a9a",
+      "lastmod": "2026-10-28"
+    },
+    "https://magicesim.store/guides/troubleshooting/": {
+      "hash": "be2ffd8646eef7bf",
+      "lastmod": "2026-10-28"
     },
     "https://magicesim.store/privacy.html": {
-      "hash": "c1b50a23d495c5f2",
+      "hash": "e377a422b4eba2c3",
       "lastmod": "2026-10-24"
     },
+    "https://magicesim.store/ru/": {
+      "hash": "31902cf4b907f110",
+      "lastmod": "2026-10-21"
+    },
+    "https://magicesim.store/ru/android.html": {
+      "hash": "1228eb8c6742e76e",
+      "lastmod": "2026-10-10"
+    },
+    "https://magicesim.store/ru/esim/": {
+      "hash": "ca6df812c2e272ba",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/activation-before-travel/": {
+      "hash": "f5bba482caea9b78",
+      "lastmod": "2026-10-12"
+    },
+    "https://magicesim.store/ru/esim/afghanistan/": {
+      "hash": "5792a616cf41dcbb",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/aland-islands/": {
+      "hash": "450fe7d61e3486d4",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/albania/": {
+      "hash": "3b4d88de38adfbd0",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/algeria/": {
+      "hash": "7207112841eb7042",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/andorra/": {
+      "hash": "0a8581621106272d",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/angola/": {
+      "hash": "e45151ac70060fd2",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/anguilla/": {
+      "hash": "63dd0f0439809af4",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/antigua-and-barbuda/": {
+      "hash": "e628fddc0de981f2",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/argentina/": {
+      "hash": "648c1ddefa531ec8",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/armenia/": {
+      "hash": "33768400bf5b9c58",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/aruba/": {
+      "hash": "88d892f2afd4479f",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/australia/": {
+      "hash": "f94a901dde83920c",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/austria/": {
+      "hash": "fe0ef1fc7e304876",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/azerbaijan/": {
+      "hash": "c88a730c2c54792e",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/bahamas/": {
+      "hash": "146eab42ae56fa63",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/bahrain/": {
+      "hash": "ef86e98718d54c0c",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/bangladesh/": {
+      "hash": "9032064a65256a26",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/barbados/": {
+      "hash": "498ec70427790bcb",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/belgium/": {
+      "hash": "0e4536bd48e5f839",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/belize/": {
+      "hash": "d960274466ac9edd",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/benin/": {
+      "hash": "1b6eb0f6001e42b9",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/bermuda/": {
+      "hash": "67833e962f40bee4",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/bhutan/": {
+      "hash": "081e4e9f0f11c12e",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/bolivia/": {
+      "hash": "6f63b1d27d24cd0b",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/bonaire/": {
+      "hash": "35ff22dbcd371a29",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/bosnia-and-herzegovina/": {
+      "hash": "b1d445a293dbb4d1",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/botswana/": {
+      "hash": "77a2b4053c24f5d7",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/brazil/": {
+      "hash": "0bcb88dccdd50414",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/british-virgin-islands/": {
+      "hash": "3b92550a76ad2983",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/brunei/": {
+      "hash": "715009e8587c99d1",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/bulgaria/": {
+      "hash": "09aa7486f5e706d9",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/burkina-faso/": {
+      "hash": "da443eeff52b68cb",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/cambodia/": {
+      "hash": "ff761ad110d9009d",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/cameroon/": {
+      "hash": "6dbe0cd081f4e884",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/canada/": {
+      "hash": "3330269f5dc97388",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/cape-verde/": {
+      "hash": "4030d5f8b9291e59",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/cayman-islands/": {
+      "hash": "d0f262b98aeaca4f",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/central-african-republic/": {
+      "hash": "0a24cf4cebe3b62b",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/chad/": {
+      "hash": "48ee528fab9dfc56",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/chile/": {
+      "hash": "cebefadfef0c90ed",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/china/": {
+      "hash": "965d5b346a81c630",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/colombia/": {
+      "hash": "1ac676210d5793fb",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/compatibility/": {
+      "hash": "1f331f546ef7fdd2",
+      "lastmod": "2026-10-10"
+    },
+    "https://magicesim.store/ru/esim/congo/": {
+      "hash": "1c87b117b36fd2b2",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/costa-rica/": {
+      "hash": "759f42299d90bdbd",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/croatia/": {
+      "hash": "9e02ddc89d0752ad",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/curacao/": {
+      "hash": "06fa33f53cc209c0",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/cyprus/": {
+      "hash": "f5545a12fd34a260",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/czechia/": {
+      "hash": "142cda958102f8c6",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/denmark/": {
+      "hash": "761bcc4335190d32",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/dominica/": {
+      "hash": "8067b29c29ce19ee",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/dominican-republic/": {
+      "hash": "c09e86e434b4125e",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/dr-congo/": {
+      "hash": "cf7e8c8aea1bf0dd",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/dual-sim-sms/": {
+      "hash": "3f45934c56c7abd7",
+      "lastmod": "2026-10-10"
+    },
+    "https://magicesim.store/ru/esim/ecuador/": {
+      "hash": "ce1969e478f94f39",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/egypt/": {
+      "hash": "9833b75096320d89",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/el-salvador/": {
+      "hash": "1f61055a3383bec6",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/estonia/": {
+      "hash": "bb2147fcfab69036",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/eswatini/": {
+      "hash": "0094855839e53514",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/ethiopia/": {
+      "hash": "abc87fea5688032c",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/faroe-islands/": {
+      "hash": "1c25dda8f2ad3850",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/fiji/": {
+      "hash": "5ee4a2d68101cfda",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/finland/": {
+      "hash": "1a22b661e12ac770",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/france/": {
+      "hash": "12f6bb7f0893fa3a",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/french-guiana/": {
+      "hash": "c750f32d8db6cccc",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/french-polynesia/": {
+      "hash": "c0e9b4ba4c135174",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/gabon/": {
+      "hash": "925e75de89a6feea",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/gambia/": {
+      "hash": "f3f0bb7d12aeaaea",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/georgia/": {
+      "hash": "d2091d2e55e0a65a",
+      "lastmod": "2026-10-28"
+    },
+    "https://magicesim.store/ru/esim/germany/": {
+      "hash": "227223f66fab23a4",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/ghana/": {
+      "hash": "2415eba41dd19f48",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/gibraltar/": {
+      "hash": "bf74d8625d0a46ba",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/greece/": {
+      "hash": "327093119fc1a2cb",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/greenland/": {
+      "hash": "fd9170e18d61af30",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/grenada/": {
+      "hash": "430759aaf5695edf",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/guadeloupe/": {
+      "hash": "c85e45a4c54c8423",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/guam/": {
+      "hash": "05df5ceed4837fff",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/guatemala/": {
+      "hash": "b8dd2cdf5f354988",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/guernsey/": {
+      "hash": "035a2dd716f011d2",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/guinea-bissau/": {
+      "hash": "9c8b70a98febe9c7",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/guinea/": {
+      "hash": "ca663d3588038ab6",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/guyana/": {
+      "hash": "5c66e3adc48fa79b",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/haiti/": {
+      "hash": "f917153d0ecc0442",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/honduras/": {
+      "hash": "8999755a6859a271",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/hong-kong/": {
+      "hash": "b1b1c2682351bbb2",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/hungary/": {
+      "hash": "58ed6afec3e6be4c",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/iceland/": {
+      "hash": "b2f42cb875af1d3d",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/india/": {
+      "hash": "bf9b7dc7e8ed8bb8",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/indonesia/": {
+      "hash": "cfb9628c505c6a37",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/iraq/": {
+      "hash": "7f2d27086d1938ac",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/ireland/": {
+      "hash": "858108f833e7cd8c",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/isle-of-man/": {
+      "hash": "14912145700146c0",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/israel/": {
+      "hash": "291b6ca083032752",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/italy/": {
+      "hash": "168c82dd59441a68",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/ivory-coast/": {
+      "hash": "a481e4a90dc6fa41",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/jamaica/": {
+      "hash": "8bb9a0971e95ef80",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/japan/": {
+      "hash": "c9a2d25d948ef8b2",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/jersey/": {
+      "hash": "9f26a8d656923c36",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/jordan/": {
+      "hash": "b84a486c5ccdf818",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/kazakhstan/": {
+      "hash": "3510d90439358cd5",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/kenya/": {
+      "hash": "0a3bca2b20a930ec",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/kosovo/": {
+      "hash": "56e3d231f32bd9d6",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/kuwait/": {
+      "hash": "57835fa6cb20caa6",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/kyrgyzstan/": {
+      "hash": "c1fd82c22c41efc9",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/laos/": {
+      "hash": "e5be3d57212f6637",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/latvia/": {
+      "hash": "ae506fd001f1a903",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/liberia/": {
+      "hash": "7bbf738d66036fa6",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/libya/": {
+      "hash": "662810fbbe00d12e",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/liechtenstein/": {
+      "hash": "79c55c2197c8231e",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/lithuania/": {
+      "hash": "cedb2200cde51ebe",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/luxembourg/": {
+      "hash": "48edbb43d1ca5ccf",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/macau/": {
+      "hash": "5fa161f877ec3cc7",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/madagascar/": {
+      "hash": "d906a653235d8cb7",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/malawi/": {
+      "hash": "a6c2121f5d34ec69",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/malaysia/": {
+      "hash": "0bd34611dc7b4cc0",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/maldives/": {
+      "hash": "dfb66df6f7e2d2e6",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/mali/": {
+      "hash": "ed47e3e442854683",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/malta/": {
+      "hash": "9c9cea3679b9e7ef",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/martinique/": {
+      "hash": "78d93b7aee456f65",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/mauritania/": {
+      "hash": "4f489aa4d444cecf",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/mauritius/": {
+      "hash": "52cd6bd53abb0697",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/mayotte/": {
+      "hash": "24bb739bad505a7b",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/mexico/": {
+      "hash": "c49b78aa87e85161",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/moldova/": {
+      "hash": "95986863ea9ba6fa",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/monaco/": {
+      "hash": "eb93bdd065e74973",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/mongolia/": {
+      "hash": "6ff818f07544b800",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/montenegro/": {
+      "hash": "c1b05cf0aca6a095",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/montserrat/": {
+      "hash": "542905e1cc9349d0",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/morocco/": {
+      "hash": "492b99efa094bd69",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/mozambique/": {
+      "hash": "37edd2a0805db2f4",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/nauru/": {
+      "hash": "a07f20be32bcab5e",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/nepal/": {
+      "hash": "31bbc8d258de38af",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/netherlands/": {
+      "hash": "40c3898249c44465",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/new-zealand/": {
+      "hash": "0921ada5947d2042",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/nicaragua/": {
+      "hash": "9c5bf5badb603734",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/niger/": {
+      "hash": "ce673336ff1fbab6",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/nigeria/": {
+      "hash": "360824f0e3fac860",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/north-macedonia/": {
+      "hash": "253ff8a29cfccede",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/northern-mariana-islands/": {
+      "hash": "5eda4d6971cba3cf",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/norway/": {
+      "hash": "85918126fee1ccc7",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/not-working/": {
+      "hash": "2926d68511894a95",
+      "lastmod": "2026-10-10"
+    },
+    "https://magicesim.store/ru/esim/oman/": {
+      "hash": "a5df19bb80860039",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/pakistan/": {
+      "hash": "357561dfcf68575f",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/panama/": {
+      "hash": "43c7e0119d204c1f",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/papua-new-guinea/": {
+      "hash": "ed04c365cea603dc",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/paraguay/": {
+      "hash": "d5952e892bf86ae9",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/payment-rubles/": {
+      "hash": "fd83ba547f51f452",
+      "lastmod": "2026-10-12"
+    },
+    "https://magicesim.store/ru/esim/peru/": {
+      "hash": "0fc2412c5f8476f4",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/philippines/": {
+      "hash": "0993cfb90f356736",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/poland/": {
+      "hash": "33594b5799d5575c",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/portugal/": {
+      "hash": "1d5328eae3183f7e",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/puerto-rico/": {
+      "hash": "32897be96910a585",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/qatar/": {
+      "hash": "81d51861663a951d",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/reunion/": {
+      "hash": "3cbd70b4a082fb12",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/romania/": {
+      "hash": "deaeb1df8a7280d3",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/rwanda/": {
+      "hash": "c11266454505d8c9",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/saint-barthelemy/": {
+      "hash": "cc7123582391ba03",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/saint-kitts-and-nevis/": {
+      "hash": "6db83e304badb9ce",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/saint-lucia/": {
+      "hash": "f65a5110d908031c",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/saint-martin/": {
+      "hash": "4d167914feaecbdd",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/saint-vincent-and-the-grenadines/": {
+      "hash": "5db5261f6bb8b2f6",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/samoa/": {
+      "hash": "3f380ae32cbf8a3a",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/san-marino/": {
+      "hash": "e6b8b25245849ecd",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/saudi-arabia/": {
+      "hash": "9d181302335f742b",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/senegal/": {
+      "hash": "c850e6f44042711e",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/serbia/": {
+      "hash": "315b311fe88f4fb5",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/seychelles/": {
+      "hash": "d19dd6e035b7b326",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/sierra-leone/": {
+      "hash": "5479bf882d446c0e",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/singapore/": {
+      "hash": "994e0b51d004fc6d",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/sint-maarten/": {
+      "hash": "2ee95b91b128fabc",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/slovakia/": {
+      "hash": "f12803b2b96eaf56",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/slovenia/": {
+      "hash": "df035ff7e7dcacde",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/south-africa/": {
+      "hash": "533fc6ac5a90bb64",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/south-korea/": {
+      "hash": "ca20df971576074f",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/spain/": {
+      "hash": "d7dfa806ca36dfcc",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/sri-lanka/": {
+      "hash": "0930f2a2555c7851",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/sudan/": {
+      "hash": "3a8b9b96565d8528",
+      "lastmod": "2026-10-25"
+    },
+    "https://magicesim.store/ru/esim/suriname/": {
+      "hash": "a053e4ed2f747489",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/sweden/": {
+      "hash": "4de63f44a2a6b152",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/switzerland/": {
+      "hash": "87ea6ab77efe88ea",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/taiwan/": {
+      "hash": "447a63f59c102540",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/tajikistan/": {
+      "hash": "39c0322d802debb7",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/tanzania/": {
+      "hash": "688e4c6dd0b5d7a1",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/thailand/": {
+      "hash": "25c9f2f6635ffb61",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/timor-leste/": {
+      "hash": "54c405ef2de9958f",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/tonga/": {
+      "hash": "874dba471d6a6e62",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/trinidad-and-tobago/": {
+      "hash": "6f210ff7b5ab4cde",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/tunisia/": {
+      "hash": "09e23c51064e483d",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/turkey/": {
+      "hash": "2c8d44414307030c",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/turks-and-caicos/": {
+      "hash": "8f02e8b03b1189c4",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/uae/": {
+      "hash": "c5957a6940e78687",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/uganda/": {
+      "hash": "a0e3f2aeed05e7f3",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/united-kingdom/": {
+      "hash": "f4c2e45c512c091e",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/uruguay/": {
+      "hash": "0b66bc3a187f5eec",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/us-virgin-islands/": {
+      "hash": "6943e79c219c81fe",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/usa/": {
+      "hash": "1279c4ff05a18867",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/uzbekistan/": {
+      "hash": "6fca3eab3eb166f3",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/vanuatu/": {
+      "hash": "07e0c6ddf0362a0a",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/vatican/": {
+      "hash": "a7596de87057ad13",
+      "lastmod": "2026-11-01"
+    },
+    "https://magicesim.store/ru/esim/venezuela/": {
+      "hash": "b90d95473ce81be5",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/vietnam/": {
+      "hash": "4bb505632ed2489d",
+      "lastmod": "2026-11-06"
+    },
+    "https://magicesim.store/ru/esim/zambia/": {
+      "hash": "612b60eab5ed5710",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/esim/zimbabwe/": {
+      "hash": "17fdd216e33c06cb",
+      "lastmod": "2026-11-03"
+    },
+    "https://magicesim.store/ru/iphone.html": {
+      "hash": "8837f5a4ed48f66d",
+      "lastmod": "2026-10-10"
+    },
     "https://magicesim.store/terms.html": {
-      "hash": "91a87cccd718463e",
+      "hash": "0e6fd869616e0df1",
       "lastmod": "2026-10-24"
     }
   }

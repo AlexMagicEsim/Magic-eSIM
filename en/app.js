@@ -76,7 +76,7 @@
       // The slug comes from the generated list, which takes it from the
       // country dictionary — never from what the visitor typed. So does the
       // flag: an ISO-2 code from the same list, checked before it is used.
-      a.href = PREFIX + '/esim/' + d.slug + '/';
+      a.href = window.MagicSiteI18n.cataloguePath(LANG, d.slug);
       if (/^[A-Z]{2}$/.test(d.iso)) {
         var img = document.createElement('img');
         img.className = 'flag';

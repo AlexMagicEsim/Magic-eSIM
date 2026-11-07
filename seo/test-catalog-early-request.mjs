@@ -22,11 +22,11 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const countryPages = (dir) => readdirSync(join(ROOT, dir))
   .filter((s) => existsSync(join(ROOT, dir, s, 'index.html')))
   .map((s) => ({ slug: s, html: read(`${dir}/${s}/index.html`) }))
-  .filter((p) => /data-country-page=/.test(p.html) || (dir === 'en/esim' && !REGION_SLUGS.includes(p.slug)));
+  .filter((p) => /data-country-page=/.test(p.html) || (dir === 'destinations' && !REGION_SLUGS.includes(p.slug)));
 
 test('RU outside the experiment: MagicNet then the early request in <head>, before the stylesheets; MagicNet loaded once', () => {
   let n = 0;
-  for (const { slug, html } of countryPages('esim')) {
+  for (const { slug, html } of countryPages('ru/esim')) {
     n += 1;
     const head = html.slice(0, html.indexOf('</head>'));
     const net = head.indexOf('<script src="/assets/magic-net.js?v=');
@@ -50,7 +50,7 @@ test('RU outside the experiment: MagicNet then the early request in <head>, befo
 });
 
 test('the ten former SEO-experiment pages make the early request too since 2026-10-24, MagicNet in <head>', () => {
-  const frozen = countryPages('esim').filter((p) => isFrozenPage(p.slug));
+  const frozen = countryPages('ru/esim').filter((p) => isFrozenPage(p.slug));
   assert.equal(frozen.length, 10);
   for (const { slug, html } of frozen) {
     assert.match(html, /__magicCatalogEarly/, slug);
@@ -63,7 +63,7 @@ test('EN country pages, the hub and the home load their scripts with defer, in t
   // assortment-view (2026-10-25): the one reader of the backend's country-page layout, before the catalogue client.
   const order = ['magic-net', 'assortment-view', 'global-catalog', 'daily-plan-copy', 'country-names-en', 'site-i18n-en', 'plans', 'checkout', 'country'];
   let n = 0;
-  for (const { slug, html } of countryPages('en/esim')) {
+  for (const { slug, html } of countryPages('destinations')) {
     // The ONE script without defer: assets/logo-once.js, in <head>, synchronous on purpose — it starts the logo's
     // «Reveal + Wave» before first paint (owner, 2026-10-20; a deferred start would flash the logo away and back).
     assert.equal((html.match(/<script src="\/assets\/logo-once\.js\?v=[0-9a-f]{8}"(?: data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]{8}")?><\/script>/g) || []).length, 1, `${slug}: logo-once (it may name assets/motion.js, nothing else)`);
@@ -75,9 +75,12 @@ test('EN country pages, the hub and the home load their scripts with defer, in t
     assert.deepEqual(tags.map((t) => t[1].replace(/^.*\/([a-z0-9-]+)\.js.*$/, '$1')), order, slug);
   }
   assert.ok(n >= 190, `EN pages checked: ${n}`);
-  for (const f of ['en/esim/index.html', 'en/index.html']) {
+  for (const f of ['destinations/index.html', 'index.html']) {
     for (const t of read(f).matchAll(/<script src="([^"]+)"([^>]*)><\/script>/g)) {
       if (t[1].startsWith('/assets/logo-once.js')) continue;   // the logo's start — see above
+      // the language suggestion of the English home «/» (assets/lang-route.js): synchronous, first in <head>, on that
+      // one page only (seo/test-lang-route.mjs) — it must decide before first paint
+      if (f === 'index.html' && t[1].startsWith('/assets/lang-route.js')) continue;
       assert.match(t[2], /\bdefer\b/, `${f}: ${t[1]}`);
     }
   }
@@ -254,7 +257,7 @@ test('the pre-checkout price check asks for the page\'s country too', async () =
 
 test('the lastmod hash does not see the country of the early request (no page re-dated)', async () => {
   const { contentHash } = await import('./build-sitemap.mjs');
-  const html = read('esim/turkey/index.html');
+  const html = read('ru/esim/turkey/index.html');
   assert.match(html, /packages\?country=TR&t='/);
   const before = html.replace(/(\/api\/v1\/retail\/packages\?)country=TR&/, '$1').replace("country:'TR',", '');
   assert.notEqual(before, html);

@@ -31,7 +31,7 @@ import { fileURLToPath } from 'node:url';
 import { sentences, startRuleProblems } from './start-of-term-rules.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const html = readFileSync(join(ROOT, 'esim/activation-before-travel/index.html'), 'utf8');
+const html = readFileSync(join(ROOT, 'ru/esim/activation-before-travel/index.html'), 'utf8');
 const TARIFFS_JS = readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8');
 const PACKAGES = JSON.parse(readFileSync(join(ROOT, 'assets/catalog.json'), 'utf8')).packages;
 
@@ -71,7 +71,7 @@ test('the guide never sends the reader to the email for the start rule — page 
 test('it points at the row the card actually has', () => {
   assert.match(text(html), /«Начало срока»/);
   // The coverage window lives on the country pages (the home has no plan cards since RU↔EN migration PR C).
-  assert.match(readFileSync(join(ROOT, 'esim/turkey/index.html'), 'utf8'), /<span class="k">Начало срока<\/span>/);
+  assert.match(readFileSync(join(ROOT, 'ru/esim/turkey/index.html'), 'utf8'), /<span class="k">Начало срока<\/span>/);
   assert.match(TARIFFS_JS, /setCovText\('covStart'/);
 });
 

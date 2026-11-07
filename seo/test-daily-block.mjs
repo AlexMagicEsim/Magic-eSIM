@@ -170,15 +170,15 @@ test('an ordinary package carries no term into the order', () => {
 // ---------------------------------------------------------------------------
 
 function countryPages() {
-  const dir = join(ROOT, 'esim');
+  const dir = join(ROOT, 'ru/esim');
   return readdirSync(dir)
     .filter((n) => statSync(join(dir, n)).isDirectory())
-    .map((n) => join('esim', n, 'index.html'))
+    .map((n) => join('ru/esim', n, 'index.html'))
     .filter((p) => { try { statSync(join(ROOT, p)); return true; } catch { return false; } });
 }
 
 test('every page that renders tariffs loads the shared copy module', () => {
-  const pages = ['index.html', ...countryPages()];
+  const pages = ['ru/index.html', ...countryPages()];
   assert.ok(pages.length > 100, 'expected the generated country pages to be present');
   const missing = pages.filter((p) => {
     const s = read(p);
@@ -393,7 +393,7 @@ test('the country pages carry the daily CSS, from the Russian layer', () => {
   // assets/ru.css, and the page that renders it must actually link it.
   assert.deepEqual([...new Set(Object.values(CSS_SURFACES))], ['assets/ru.css']);
   assert.ok(dailyCss('assets/ru.css').length > 200);
-  assert.match(read('esim/turkey/index.html'), /href="\/assets\/ru\.css\?v=/, 'a country page loads it');
+  assert.match(read('ru/esim/turkey/index.html'), /href="\/assets\/ru\.css\?v=/, 'a country page loads it');
 });
 
 test('THE DAILY CARD HAS NO LOOK OF ITS OWN', () => {
@@ -591,7 +591,7 @@ function renderer(file, distinctMap = {}) {
   const body = extractFns(file, ['dailyTermsHtml', 'dailyTagsHtml', 'dailyExtraInfoHtml',
     'dailyTermRangeLabel', 'dailyCoverageButtonHtml', 'distinctChipsHtml', 'renderDailyCard',
     'formatRub', 'planTechHtml', 'compactCards']);
-  const buyName = file === 'index.html' ? 'dailyBuyButtonHtml' : null;
+  const buyName = file === 'ru/index.html' ? 'dailyBuyButtonHtml' : null;
   const extra = buyName ? extractFns(file, ['dailyBuyButtonHtmlInner', 'dailyBuyButtonHtml']) : '';
   return new Function('window', '__distinct', `
     ${copy}

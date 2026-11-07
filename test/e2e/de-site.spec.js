@@ -149,7 +149,7 @@ test('the logo «Reveal + Wave» plays once per visit, as on the English pages (
   expect(await page.evaluate(() => [document.documentElement.classList.contains('lm-once'), sessionStorage.getItem('me-logo')])).toEqual([true, '1']);
   await page.goto('/de/esim/');
   expect(await page.evaluate(() => document.documentElement.classList.contains('lm-once')), 'not again in the same visit').toBe(false);
-  await page.goto('/en/');
+  await page.goto('/');
   expect(await page.evaluate(() => document.documentElement.classList.contains('lm-once')), 'nor on English').toBe(false);
 });
 
@@ -167,7 +167,7 @@ test('the phone menu lists the other languages, each to the same page', async ({
   await page.locator('.mnav summary').click();
   const langs = page.locator('.mnav-panel a[hreflang]');
   await expect(langs).toHaveText(['Русский', 'English', 'Español', 'Français', '简体中文', '한국어']);
-  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/android.html', '/en/guides/android/', '/es/guides/android/', '/fr/guides/android/', '/zh/guides/android/', '/ko/guides/android/']);
+  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/ru/android.html', '/guides/android/', '/es/guides/android/', '/fr/guides/android/', '/zh/guides/android/', '/ko/guides/android/']);
   expect(await noOverflow(page)).toBe(true);
 });
 
@@ -208,7 +208,7 @@ test('German is longer than English: no page overflows the width, no button or t
   }
   // hyphenation is on for German only
   expect(await page.evaluate(() => getComputedStyle(document.body).hyphens || getComputedStyle(document.body).webkitHyphens)).toBe('auto');
-  await page.goto('/en/guides/');
+  await page.goto('/guides/');
   expect(await page.evaluate(() => getComputedStyle(document.body).hyphens || getComputedStyle(document.body).webkitHyphens)).not.toBe('auto');
 });
 
@@ -235,7 +235,7 @@ test.describe('desktop', () => {
     const entries = await page.locator('.langmenu-list li').allTextContents();
     expect(entries.map((t) => t.trim())).toEqual(['Русский', 'English', 'Español', 'Deutsch', 'Français', '简体中文', '한국어']);
     expect(await page.locator('.langmenu-list a').evaluateAll((as) => as.map((a) => a.getAttribute('href'))))
-      .toEqual(['/esim/thailand/', '/en/esim/thailand/', '/es/esim/thailand/', '/fr/esim/thailand/', '/zh/esim/thailand/', '/ko/esim/thailand/']);
+      .toEqual(['/ru/esim/thailand/', '/destinations/thailand/', '/es/esim/thailand/', '/fr/esim/thailand/', '/zh/esim/thailand/', '/ko/esim/thailand/']);
     await expect(page.locator('#localGrid .card .price').first()).toHaveText(/^2,99\sUSD$/);
     expect(await noOverflow(page)).toBe(true);
   });

@@ -10,10 +10,11 @@
    No network but that one same-origin script. All of the motion sits inside prefers-reduced-motion:
    no-preference (the CSS; motion.js returns at once under reduce).
 
-   4. THE LANGUAGE CHOICE (owner, 2026-10-23; assets/lang-route.js reads it on «/»): a click on a language in the switch
-      (the desktop list, the single link, the phone menu) saves that language in localStorage `mesim.site.lang`; an
-      arrival from a Russian page of this site (its header's «English» is the only link that crosses — the Russian
-      pages have no script for it) saves this page's language. Not saved: an arrival that lang-route.js made itself
+   4. THE LANGUAGE CHOICE (owner, 2026-10-23; assets/lang-route.js reads it on «/», the English home since the EN-root
+      migration of 2026-11-07): a click on a language in the switch (the desktop list, the single link, the phone menu)
+      saves that language in localStorage `mesim.site.lang`; an arrival from a Russian page of this site (/ru/…, or
+      /terms.html, /privacy.html, /payment-success.html, /payment-failed.html — its header's «English» is the only link
+      that crosses; the Russian pages have no script for it) saves this page's language. Not saved: an arrival that lang-route.js made itself
       (sessionStorage `mesim.lang.auto`, consumed here). Storage refused → nothing saved, nothing thrown. */
 (function () {
   var d = document, r = d.documentElement, me = d.currentScript;
@@ -35,7 +36,8 @@
     var ss = window.sessionStorage, auto = ss && ss.getItem('mesim.lang.auto');
     if (auto) ss.removeItem('mesim.lang.auto');
     var ref = d.referrer || '', o = location.origin;
-    if (!auto && ref.indexOf(o + '/') === 0 && !/^\/(en|es|de|fr|zh|ko|app|pay)\//.test(ref.slice(o.length))) save(r.getAttribute('lang'));
+    // A Russian page of this site: everything under /ru/ and the four Russian documents that kept their root addresses.
+    if (!auto && ref.indexOf(o + '/') === 0 && /^\/(ru\/|(terms|privacy|payment-success|payment-failed)\.html)/.test(ref.slice(o.length))) save(r.getAttribute('lang'));
   } catch (e) { /* storage refused */ }
   d.addEventListener('click', function (ev) {
     var a = ev.target && ev.target.closest && ev.target.closest('a[hreflang]');

@@ -45,7 +45,7 @@ async function axeViolations(page) {
 }
 
 test('country page: local, regional, daily — the EN order (outside the SEO experiment), folded at six, with jump links', async ({ page }) => {
-  const st = await open(page, '/esim/turkey/');
+  const st = await open(page, '/ru/esim/turkey/');
   await expect(page.locator('#dailyGrid .plan').first()).toBeVisible();
   const order = await page.evaluate(() => [...document.querySelectorAll('.plan-block:not([hidden])')].map((s) => s.id));
   expect(order).toEqual(['localBlock', 'regionalBlock', 'dailyBlock']);
@@ -67,7 +67,7 @@ test('country page: local, regional, daily — the EN order (outside the SEO exp
 });
 
 test('a former SEO-experiment page has the EN order since 2026-10-24: local, regional, daily', async ({ page }) => {
-  const st = await open(page, '/esim/uae/');
+  const st = await open(page, '/ru/esim/uae/');
   await expect(page.locator('#dailyGrid .plan').first()).toBeVisible();
   const order = await page.evaluate(() => [...document.querySelectorAll('.plan-block:not([hidden])')].map((s) => s.id));
   expect(order[0]).toBe('localBlock');
@@ -76,7 +76,7 @@ test('a former SEO-experiment page has the EN order since 2026-10-24: local, reg
 });
 
 test('country page: choosing a term moves the price, the term chip and the buy button', async ({ page }) => {
-  await open(page, '/esim/turkey/');
+  await open(page, '/ru/esim/turkey/');
   const card = page.locator('#dailyGrid .daily-card').filter({ has: page.locator('.js-daily-term:nth-child(2)') }).first();
   const second = card.locator('.js-daily-term').nth(1);
   const days = await second.getAttribute('data-days');
@@ -93,7 +93,7 @@ test('country page: choosing a term moves the price, the term chip and the buy b
 });
 
 test('country page: «Покрытие и условия» opens the window and closes it', async ({ page }) => {
-  await open(page, '/esim/turkey/');
+  await open(page, '/ru/esim/turkey/');
   const btn = page.locator('#localGrid .plan .js-coverage').first();
   await btn.click();
   await expect(page.locator('#coverageModal')).toBeVisible();
@@ -103,15 +103,15 @@ test('country page: «Покрытие и условия» opens the window and 
 });
 
 test('country page: one primary button per card, the rest is quiet', async ({ page }) => {
-  await open(page, '/esim/thailand/');
+  await open(page, '/ru/esim/thailand/');
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   const counts = await page.evaluate(() => [...document.querySelectorAll('.plan')].slice(0, 20)
     .map((c) => c.querySelectorAll('.btn:not(.btn-ghost)').length));
   expect(counts.every((n) => n === 1)).toBe(true);
 });
 
-test('/esim/: search filters the list in place, and an empty result says so', async ({ page }) => {
-  const st = await open(page, '/esim/');
+test('/ru/esim/: search filters the list in place, and an empty result says so', async ({ page }) => {
+  const st = await open(page, '/ru/esim/');
   const input = page.locator('#hubSearch');
   await expect(input).toBeVisible();
   await expect(input).toHaveClass(/ym-hide-content/);
@@ -130,7 +130,7 @@ test('/esim/: search filters the list in place, and an empty result says so', as
 });
 
 test('guides: «На этой странице» anchors every section, nothing overflows', async ({ page }) => {
-  for (const url of ['/iphone.html', '/esim/payment-rubles/']) {
+  for (const url of ['/ru/iphone.html', '/ru/esim/payment-rubles/']) {
     const st = await open(page, url);
     const ids = await page.evaluate(() => [...document.querySelectorAll('.g-toc a')].map((a) => a.getAttribute('href').slice(1)));
     expect(ids.length).toBeGreaterThan(2);
@@ -141,7 +141,7 @@ test('guides: «На этой странице» anchors every section, nothing 
 });
 
 test('the mobile menu opens and carries the same links as the desktop bar', async ({ page }) => {
-  await open(page, '/esim/turkey/');
+  await open(page, '/ru/esim/turkey/');
   const w = page.viewportSize().width;
   if (w >= 900) return;
   await page.locator('.mnav > summary').click();
@@ -151,10 +151,10 @@ test('the mobile menu opens and carries the same links as the desktop bar', asyn
 });
 
 test.describe('axe on the Russian pages', () => {
-  for (const url of ['/esim/turkey/', '/esim/', '/iphone.html', '/esim/payment-rubles/']) {
+  for (const url of ['/ru/esim/turkey/', '/ru/esim/', '/ru/iphone.html', '/ru/esim/payment-rubles/']) {
     test(`axe: ${url}`, async ({ page }) => {
       await open(page, url);
-      if (url === '/esim/turkey/') await expect(page.locator('#localGrid .plan').first()).toBeVisible();
+      if (url === '/ru/esim/turkey/') await expect(page.locator('#localGrid .plan').first()).toBeVisible();
       expect(await axeViolations(page)).toEqual([]);
     });
   }
@@ -163,7 +163,7 @@ test.describe('axe on the Russian pages', () => {
 test.describe('desktop width', () => {
   test.use({ viewport: { width: 1366, height: 900 } });
   test('country page and list at 1366: three columns of plans, no overflow, axe clean', async ({ page }) => {
-    await open(page, '/esim/turkey/');
+    await open(page, '/ru/esim/turkey/');
     await expect(page.locator('#localGrid .plan').first()).toBeVisible();
     const cols = await page.evaluate(() => getComputedStyle(document.getElementById('localGrid')).gridTemplateColumns.split(' ').length);
     expect(cols).toBe(3);
@@ -187,7 +187,7 @@ test.describe('the service pages', () => {
 });
 
 test('country page: the checkout window opened from a card passes axe and fits the screen', async ({ page }) => {
-  const st = await open(page, '/esim/turkey/');
+  const st = await open(page, '/ru/esim/turkey/');
   await page.locator('#localGrid .plan .js-buy').first().click();
   await expect(page.locator('#checkoutModal')).toBeVisible();
   expect(await noOverflow(page)).toBe(true);

@@ -244,12 +244,17 @@
   }
 
   /**
-   * Where each language's pages live. Russian is the root; every other
-   * language sits under its own prefix — the registry's (seo/locales.mjs),
-   * held equal to it by seo/test-locales.mjs.
+   * Each language's own segment — the registry's `prefix` (seo/locales.mjs),
+   * held equal to it by seo/test-locales.mjs. Since the EN-root migration
+   * (2026-11-07) it names a language's files (/en/ legal pages, the
+   * MagicCountryNames<Prefix> global), not where its pages are: English pages
+   * live at the root. Where the pages are is CATALOGUE (the registry's
+   * `paths.catalogue`, held equal to it the same way).
    */
-  var PREFIX = { ru: '', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'ko' };
+  var PREFIX = { ru: 'ru', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'ko' };
   Object.freeze(PREFIX);
+  var CATALOGUE = { ru: '/ru/esim/', en: '/destinations/', es: '/es/esim/', de: '/de/esim/', fr: '/fr/esim/', 'zh-Hans': '/zh/esim/', ko: '/ko/esim/' };
+  Object.freeze(CATALOGUE);
   Object.freeze(DICT);
 
   function isLang(v) {
@@ -379,16 +384,24 @@
     return isLang(v) ? v : DEFAULT_LANG;
   }
 
-  /** «/en» for English, «» for Russian: the start of every path in a language. */
+  /** «/en» for English, «/ru» for Russian: a language's own segment (its files; not where its pages are). */
   function pathPrefix(lang) {
     return isLang(lang) && PREFIX[lang] ? '/' + PREFIX[lang] : '';
+  }
+
+  /** A language's destination page («/destinations/italy/», «/es/esim/italy/»), or its list without a slug; '' unknown. */
+  function cataloguePath(lang, slug) {
+    if (!isLang(lang)) return '';
+    return CATALOGUE[lang] + (slug ? slug + '/' : '');
   }
 
   var api = {
     createI18n: createI18n,
     pageLang: pageLang,
     pathPrefix: pathPrefix,
+    cataloguePath: cataloguePath,
     PREFIX: PREFIX,
+    CATALOGUE: CATALOGUE,
     DICT: DICT,
     LANGS: LANGS.slice(),
     DEFAULT_LANG: DEFAULT_LANG,

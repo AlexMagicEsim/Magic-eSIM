@@ -1,7 +1,7 @@
 {
   "name": "Magic eSIM",
   "short_name": "Magic eSIM",
-  "start_url": "/",
+  "start_url": "/ru/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",

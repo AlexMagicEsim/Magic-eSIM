@@ -50,12 +50,12 @@ import { FONT_PRELOAD, LOGO, LOGO_ANIMATED_EN, LOGO_ONCE_SCRIPT, LOGO_ONCE_SCRIP
 import { word, escapeText, escapeAttr } from './site-dictionary.mjs';
 import { countryName } from './country-names-i18n.mjs';
 import { namesFile, globalSuffix } from './build-country-dictionary-locale.mjs';
-import { LOCALES, locale, homeUrl, X_DEFAULT_CURRENT } from './locales.mjs';
+import { LOCALES, locale, homeUrl, X_DEFAULT_CURRENT, isRussian, homePath, cataloguePath, fileOf, dirOf } from './locales.mjs';
 import { homePage as renderHome } from './home-page.mjs';
 import { missingGuards } from './claim-guards.mjs';
 import { loadContent, validateContent, contentDir, CONTENT_LANGS } from './content-en.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
-import { GUIDE_RU, INDEXED_COUNTRIES, alternateLinks, robotsFor } from './indexing.mjs';
+import { GUIDE_RU, INDEXED_COUNTRIES, alternateLinks, robotsFor, pathIn } from './indexing.mjs';
 import { REGION_SLUGS } from './regions.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
@@ -249,7 +249,7 @@ export const GUIDES_BY_LOCALE = Object.freeze({ en: EN_GUIDES, es: ES_GUIDES, de
 export function cannotBuild(code) {
   const L = locale(code);
   if (!L) return `unknown locale ${String(code)}`;
-  if (!L.prefix) return `${code} is the root language; build-catalogue-pages.mjs builds it`;
+  if (isRussian(L)) return `${code} is the Russian site; build-catalogue-pages.mjs builds it`;
   if (!L.site.enabled) return `${code} is not enabled for the site (seo/locales.mjs) — refusing to publish it`;
   if (!PAGE_COPY[code]) return `${code} has no page copy (seo/page-copy.mjs)`;
   if (!GUIDES_BY_LOCALE[code]) return `${code} has no guides`;
@@ -284,7 +284,7 @@ export function rehearsalGenerator(code, { copy, guides, words, registry = LOCAL
   // `registry`: a copy of the language list in which `code` is not published yet (seo/locales.mjs asPlanned). Since
   // KO-1 every registry language is published; the tests rehearse one «as if planned» to keep this machinery proved.
   const L = registry.find((l) => l.code === code) || null;
-  if (!L || !L.prefix) throw new Error(`build-locale-pages: no prefixed locale ${String(code)} to rehearse`);
+  if (!L || isRussian(L)) throw new Error(`build-locale-pages: no prefixed locale ${String(code)} to rehearse`);
   if (L.site.enabled) throw new Error(`build-locale-pages: ${code} is published — rehearse only a planned language`);
   if (!copy || !Array.isArray(guides) || !words) throw new Error('build-locale-pages: a rehearsal needs copy, guides and words');
   return makeGenerator(code, {
@@ -301,7 +301,12 @@ function makeGenerator(code, source, canWrite, registry = LOCALES) {
   const L = registry.find((l) => l.code === code);
   const C = source.copy;
   const GUIDES = source.guides;
+  // P: the language's own segment (/en, /es …) — its legal documents and its destination script live there.
+  // HOME, CAT, GB: where its pages are (seo/locales.mjs paths): '/', '/destinations/', '/guides/' for English.
   const P = `/${L.prefix}`;
+  const HOME = L.paths.home;
+  const CAT = L.paths.catalogue;
+  const GB = L.paths.guides;
   const NAMES_FILE = namesFile(code);
   const I18N_BUNDLE = siteI18nBundle(code);
 
@@ -362,7 +367,7 @@ ${factLine(C.glanceValidity, f.local.days.map(dayCount))}
         <h3>${C.regionalTitle(name)}</h3>
         <p>${esc(C.glanceAlso)}</p>
         <ul>
-${also.map((x) => `          <li><a href="${P}/esim/${x.slug}/">${esc(x.name)}</a></li>`).join('\n')}
+${also.map((x) => `          <li><a href="${CAT}${x.slug}/">${esc(x.name)}</a></li>`).join('\n')}
         </ul>
       </div>`);
     }
@@ -434,7 +439,7 @@ ${doc.faq.map((f) => `    <details>
 ${doc.related.map((slug) => {
     const r = pageBySlug(slug);
     if (!r) throw new Error(`${contentFile(c.slug)}: related «${slug}» has no page`);
-    return `      <li><a href="${P}/esim/${r.slug}/">${esc(r.name)}</a></li>`;
+    return `      <li><a href="${CAT}${r.slug}/">${esc(r.name)}</a></li>`;
   }).join('\n')}
     </ul>
   </section>`;
@@ -460,15 +465,16 @@ ${related}
     }).sort((x, y) => (x.slug < y.slug ? -1 : x.slug > y.slug ? 1 : 0));
   }
 
-  const NAV_LINKS = `<a href="${P}/esim/" data-i18n="nav.destinations">${t('nav.destinations')}</a>
-      <a href="${P}/#how" data-i18n="nav.how">${t('nav.how')}</a>
-      <a href="${P}/#compat" data-i18n="nav.compat">${t('nav.compat')}</a>
-      <a href="${P}/guides/" data-i18n="nav.guides">${t('nav.guides')}</a>`;
+  const NAV_LINKS = `<a href="${CAT}" data-i18n="nav.destinations">${t('nav.destinations')}</a>
+      <a href="${HOME}#how" data-i18n="nav.how">${t('nav.how')}</a>
+      <a href="${HOME}#compat" data-i18n="nav.compat">${t('nav.compat')}</a>
+      <a href="${GB}" data-i18n="nav.guides">${t('nav.guides')}</a>`;
 
-/* THE SAME PAGE IN ANOTHER LANGUAGE (I18N ES-0). `twin(ruPath, path)` describes one page in every language: on the
- * Russian site it is `ruPath` (its own structure: no /guides/, so a guide's twin is the Russian guide), on a prefixed
- * one `/<prefix>` + `path`. The language switch links each language to the page the reader is on, not to a home. */
-const twin = (ruPath, path) => (l) => (l.prefix ? `/${l.prefix}${path}` : ruPath);
+/* THE SAME PAGE IN ANOTHER LANGUAGE (I18N ES-0). `twin(page)` describes one page in every language (seo/indexing.mjs
+ * pathIn, which reads the registry's paths): a language without that page (the Russian site has no guide list and no
+ * region page) gets its destination list. The language switch links each language to the page the reader is on, not
+ * to a home. */
+const twin = (page) => (l) => pathIn(l, page) || cataloguePath(l);
 
 /* The languages the switch offers: every published one, plus the page's own (a rehearsal builds a language that is
  * not published yet). Registry order. */
@@ -507,13 +513,13 @@ ${SWITCH_LANGS.map((l) => (l.code === L.code
   return `${SKIP_LINK}
 <header class="site-header">
   <div class="wrap hdr">
-    <a class="brand" href="${P}/">${LOGO_ANIMATED_EN}</a>
+    <a class="brand" href="${HOME}">${LOGO_ANIMATED_EN}</a>
     <nav class="nav" aria-label="${C.navLabel}">
       ${NAV_LINKS}
     </nav>
     <div class="hdr-actions">
       ${switchDesktop}
-      <a class="btn btn-sm hdr-cta" href="${P}/#plans" data-i18n="nav.findPlan">${t('nav.findPlan')}</a>
+      <a class="btn btn-sm hdr-cta" href="${HOME}#plans" data-i18n="nav.findPlan">${t('nav.findPlan')}</a>
       <details class="mnav">
         <summary aria-label="${C.menuLabel}">${ICON_MENU}</summary>
         <nav class="mnav-panel" aria-label="${C.menuLabel}">
@@ -578,28 +584,28 @@ const FOOTER = `<footer class="site-footer">
   <div class="wrap">
     <div class="ft-grid">
       <div class="ft-brand">
-        <a href="${P}/">${LOGO}</a>
+        <a href="${HOME}">${LOGO}</a>
         <p data-i18n="footer.about">${t('footer.about')}</p>
       </div>
       <div class="ft-col">
         <h2 data-i18n="nav.destinations">${t('nav.destinations')}</h2>
         <ul>
-${ftLinks(FOOTER_DESTINATIONS.map((c) => ({ href: `${P}/esim/${c.slug}/`, label: c.name })))}
-          <li><a href="${P}/esim/" data-i18n="site.allDestinations">${t('site.allDestinations')}</a></li>
+${ftLinks(FOOTER_DESTINATIONS.map((c) => ({ href: `${CAT}${c.slug}/`, label: c.name })))}
+          <li><a href="${CAT}" data-i18n="site.allDestinations">${t('site.allDestinations')}</a></li>
         </ul>
       </div>
       <div class="ft-col">
         <h2 data-i18n="nav.guides">${t('nav.guides')}</h2>
         <ul>
-${ftLinks(GUIDES.map((g) => ({ href: `${P}/guides/${g.slug}/`, label: g.h1 })))}
+${ftLinks(GUIDES.map((g) => ({ href: `${GB}${g.slug}/`, label: g.h1 })))}
         </ul>
       </div>
       <div class="ft-col">
         <h2 data-i18n="footer.help">${t('footer.help')}</h2>
         <p class="support">${C.support} <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
         <ul>
-          <li><a href="${P}/#how" data-i18n="nav.how">${t('nav.how')}</a></li>
-          <li><a href="${P}/#compat" data-i18n="nav.compat">${t('nav.compat')}</a></li>
+          <li><a href="${HOME}#how" data-i18n="nav.how">${t('nav.how')}</a></li>
+          <li><a href="${HOME}#compat" data-i18n="nav.compat">${t('nav.compat')}</a></li>
         </ul>
       </div>
     </div>
@@ -750,17 +756,17 @@ const HELP = `  <section class="cp-help" aria-labelledby="cpHelpTitle">
         <h3 data-i18n="site.compatTitle">${t('site.compatTitle')}</h3>
         <p data-i18n="site.compatBody">${t('site.compatBody')}</p>
         <ul>
-          <li><a href="${P}/guides/compatibility/" data-i18n="site.compatGuide">${t('site.compatGuide')}</a></li>
-          <li><a href="${P}/guides/iphone/" data-i18n="site.compatCheck">${t('site.compatCheck')}</a></li>
-          <li><a href="${P}/guides/android/" data-i18n="site.compatAndroid">${t('site.compatAndroid')}</a></li>
+          <li><a href="${GB}compatibility/" data-i18n="site.compatGuide">${t('site.compatGuide')}</a></li>
+          <li><a href="${GB}iphone/" data-i18n="site.compatCheck">${t('site.compatCheck')}</a></li>
+          <li><a href="${GB}android/" data-i18n="site.compatAndroid">${t('site.compatAndroid')}</a></li>
         </ul>
       </div>
       <div class="help-card">
         <h3 data-i18n="home.guidesTitle">${t('home.guidesTitle')}</h3>
         <p data-i18n="home.guidesLead">${t('home.guidesLead')}</p>
         <ul>
-${GUIDES.filter((g) => g.slug === 'activation' || g.slug === 'troubleshooting').map((g) => `          <li><a href="${P}/guides/${g.slug}/">${esc(g.h1)}</a></li>`).join('\n')}
-          <li><a href="${P}/guides/" data-i18n="nav.guides">${t('nav.guides')}</a></li>
+${GUIDES.filter((g) => g.slug === 'activation' || g.slug === 'troubleshooting').map((g) => `          <li><a href="${GB}${g.slug}/">${esc(g.h1)}</a></li>`).join('\n')}
+          <li><a href="${GB}" data-i18n="nav.guides">${t('nav.guides')}</a></li>
         </ul>
       </div>
       <div class="help-card">
@@ -775,7 +781,7 @@ ${GUIDES.filter((g) => g.slug === 'activation' || g.slug === 'troubleshooting').
 
 function countryPage(c, content = CL ? loadContent(c.slug, contentDir(L.code)) : null) {
   const name = esc(c.name);
-  const url = `${SITE}${P}/esim/${c.slug}/`;
+  const url = `${SITE}${CAT}${c.slug}/`;
   const doc = authoredContent(c, content);
   const title = doc ? esc(doc.title) : C.countryTitle(name);
   const description = doc ? esc(doc.description) : C.countryDescription(name);
@@ -807,7 +813,7 @@ ${cspMeta(primaryApiOrigin())}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${title}">
 ${shareMeta(title, description)}
-${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.destinations'), `${P}/esim/`], [c.name, `${P}/esim/${c.slug}/`]])}
+${breadcrumbLd([['Magic eSIM', `${HOME}`], [source.word('nav.destinations'), `${CAT}`], [c.name, `${CAT}${c.slug}/`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT_MOTION}
@@ -818,13 +824,13 @@ ${LOGO_ONCE_SCRIPT_MOTION}
 </head>
 <body data-iso="${c.iso}">
 
-${header(twin(`/esim/${c.slug}/`, `/esim/${c.slug}/`))}
+${header(twin({ kind: 'country', slug: c.slug }))}
 ${PAYBAR}
 
 <main class="cp" id="main" tabindex="-1">
   <section class="cp-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › <a href="${P}/esim/" data-i18n="nav.destinations">${t('nav.destinations')}</a> › ${name}</p>
+      <p class="crumbs"><a href="${HOME}">Magic eSIM</a> › <a href="${CAT}" data-i18n="nav.destinations">${t('nav.destinations')}</a> › ${name}</p>
       <div class="cp-title">
         <img class="cp-flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="72" height="54">
         <div>
@@ -837,7 +843,7 @@ ${PAYBAR}
           <li data-i18n="home.fact1">${t('home.fact1')}</li>
           <li data-i18n="home.fact2">${t('home.fact2')}</li>
         </ul>
-        <a class="cp-change" href="${P}/esim/">${C.chooseAnother}</a>
+        <a class="cp-change" href="${CAT}">${C.chooseAnother}</a>
       </div>
     </div>
   </section>
@@ -856,7 +862,7 @@ ${PAYBAR}
     <p class="note">${C.noscript}</p>
   </noscript>
   <button type="button" class="btn btn-ghost" id="retry" data-i18n="site.retry" hidden>${t('site.retry')}</button>
-  <a class="btn btn-ghost" id="emptyLink" href="${P}/esim/" data-i18n="site.allDestinations" hidden>${t('site.allDestinations')}</a>
+  <a class="btn btn-ghost" id="emptyLink" href="${CAT}" data-i18n="site.allDestinations" hidden>${t('site.allDestinations')}</a>
   </div>
 
   <div class="cp-skeleton" id="skeleton" aria-hidden="true">
@@ -898,7 +904,7 @@ ${FOOTER}
  * reads nothing over the network (connect-src 'none'). The popular row is the
  * home's own POPULAR list, under the home's own label — no new claim. */
 function hubPage(list) {
-  const url = `${SITE}${P}/esim/`;
+  const url = `${SITE}${CAT}`;
   const index = listIndex(code);
   const sorted = list.slice().sort((a, b) => index.compare(a.name, b.name));
   const groups = new Map(index.labels.map((l) => [l, []]));
@@ -907,14 +913,14 @@ function hubPage(list) {
   const jump = index.labels.map((l) => (groups.has(l)
     ? `<a href="#az-${index.id(l)}" data-letter="${l}">${l}</a>`
     : `<span aria-hidden="true">${l}</span>`)).join('');
-  const item = (c) => `        <li data-name="${esc(c.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())}" data-iso="${c.iso}"><a href="${P}/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"><span>${esc(c.name)}</span></a></li>`;
+  const item = (c) => `        <li data-name="${esc(c.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())}" data-iso="${c.iso}"><a href="${CAT}${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"><span>${esc(c.name)}</span></a></li>`;
   const sections = [...groups.entries()].map(([l, cs]) => `    <section class="az-group" id="az-${index.id(l)}" aria-labelledby="azh-${index.id(l)}">
       <h2 id="azh-${index.id(l)}">${l}</h2>
       <ul class="dest">
 ${cs.map(item).join('\n')}
       </ul>
     </section>`).join('\n');
-  const popular = POPULAR.map((c) => `      <a class="hub-tile" href="${P}/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="40" height="30"><span>${esc(c.name)}</span></a>`).join('\n');
+  const popular = POPULAR.map((c) => `      <a class="hub-tile" href="${CAT}${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="40" height="30"><span>${esc(c.name)}</span></a>`).join('\n');
   return `<!doctype html>
 <html lang="${L.htmlLang}">
 <head>
@@ -930,7 +936,7 @@ ${cspMeta("'none'")}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${C.hubTitle}">
 ${shareMeta(C.hubTitle, C.hubDescription)}
-${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.destinations'), `${P}/esim/`]])}
+${breadcrumbLd([['Magic eSIM', `${HOME}`], [source.word('nav.destinations'), `${CAT}`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
@@ -941,13 +947,13 @@ ${LOGO_ONCE_SCRIPT}
 </head>
 <body>
 
-${header(twin('/esim/', '/esim/'))}
+${header(twin({ kind: 'hub' }))}
 ${PAYBAR}
 
 <main class="hub" id="main" tabindex="-1">
   <section class="hub-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › <span data-i18n="nav.destinations">${t('nav.destinations')}</span></p>
+      <p class="crumbs"><a href="${HOME}">Magic eSIM</a> › <span data-i18n="nav.destinations">${t('nav.destinations')}</span></p>
       <h1>${C.hubH1}</h1>
       <p class="lead">${C.hubLead}</p>
       <!-- In the layout from the first paint: shown by the markup, not by en/hub.js (defer), which used to unhide it after the
@@ -1030,7 +1036,7 @@ const byName = (list) => list.slice().sort((x, y) => listIndex(code).compare(x.n
 function regionPage(slug) {
   regionSlugsChecked();
   const name = REGION_NAME(slug);
-  const path = `${P}/esim/${slug}/`;
+  const path = `${CAT}${slug}/`;
   const url = `${SITE}${path}`;
   const title = esc(C.regionTitle(name));
   const description = esc(C.regionDescription(name));
@@ -1041,7 +1047,7 @@ function regionPage(slug) {
         <h3>${esc(C.regionSet(s.letter))}</h3>
 ${s.gb.length ? factLine(C.glanceData, s.gb.map((gb) => AMOUNT(gb, L.code))) + '\n' : ''}${s.days.length ? factLine(C.glanceValidity, s.days.map(dayCount)) + '\n' : ''}${shown.length ? `        <p>${esc(C.regionShownOn)}</p>
         <ul>
-${shown.map((x) => `          <li><a href="${P}/esim/${x.slug}/">${esc(x.name)}</a></li>`).join('\n')}
+${shown.map((x) => `          <li><a href="${CAT}${x.slug}/">${esc(x.name)}</a></li>`).join('\n')}
         </ul>
 ` : ''}      </div>`;
   });
@@ -1065,7 +1071,7 @@ ${shown.map((x) => `          <li><a href="${P}/esim/${x.slug}/">${esc(x.name)}<
     const { here, also } = coveredBy.get(c.iso);
     const lines = [here.length ? `<small class="sets-here">${C.regionOfferedHere(letters(here))}</small>` : '',
       also.length ? `<small class="sets-also">${C.regionAlsoCovers(letters(also))}</small>` : ''].filter(Boolean);
-    return `        <li data-iso="${c.iso}"><a href="${P}/esim/${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"> ${esc(c.name)}</a><br>${lines.join('<br>')}</li>`;
+    return `        <li data-iso="${c.iso}"><a href="${CAT}${c.slug}/"><img class="flag" src="/assets/flags/${c.iso.toLowerCase()}.svg" alt="" width="28" height="21" loading="lazy"> ${esc(c.name)}</a><br>${lines.join('<br>')}</li>`;
   };
   const matrix = [...groups.entries()].map(([l, cs]) => `    <section class="az-group" id="az-${index.id(l)}" aria-labelledby="azh-${index.id(l)}">
       <h2 id="azh-${index.id(l)}">${l}</h2>
@@ -1106,7 +1112,7 @@ ${cspMeta("'none'")}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${title}">
 ${shareMeta(title, description)}
-${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.destinations'), `${P}/esim/`], [name, path]])}
+${breadcrumbLd([['Magic eSIM', `${HOME}`], [source.word('nav.destinations'), `${CAT}`], [name, path]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
@@ -1116,13 +1122,13 @@ ${LOGO_ONCE_SCRIPT}
 </head>
 <body data-region="${slug}">
 
-${header(twin('/esim/', `/esim/${slug}/`))}
+${header(twin({ kind: 'region', slug }))}
 ${PAYBAR}
 
 <main class="hub region" id="main" tabindex="-1">
   <section class="hub-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › <a href="${P}/esim/" data-i18n="nav.destinations">${t('nav.destinations')}</a> › ${esc(name)}</p>
+      <p class="crumbs"><a href="${HOME}">Magic eSIM</a> › <a href="${CAT}" data-i18n="nav.destinations">${t('nav.destinations')}</a> › ${esc(name)}</p>
       <h1>${esc(C.regionH1(name))}</h1>
       <p class="lead">${esc(C.regionLead)}</p>
       <p class="lead">${esc(REGION_ABOUT(slug))}</p>
@@ -1150,14 +1156,14 @@ function hubRegions() {
   return `    <section class="hub-pop hub-regions" id="hubRegions" aria-labelledby="hubRegionsTitle">
       <h2 id="hubRegionsTitle">${esc(C.regionsTitle)}</h2>
       <div class="hub-tiles">
-${regionSlugsChecked().map((slug) => `      <a class="hub-tile" href="${P}/esim/${slug}/">${globe}<span>${esc(REGION_NAME(slug))}</span></a>`).join('\n')}
+${regionSlugsChecked().map((slug) => `      <a class="hub-tile" href="${CAT}${slug}/">${globe}<span>${esc(REGION_NAME(slug))}</span></a>`).join('\n')}
       </div>
     </section>
 `;
 }
 
 /* A guide card — the guide list and «Related guides» use the same one. */
-const guideCard = (r, tag = 'h2') => `      <a class="g-card" href="${P}/guides/${r.slug}/">
+const guideCard = (r, tag = 'h2') => `      <a class="g-card" href="${GB}${r.slug}/">
         <span class="g-ico">${guideIcon(r.slug)}</span>
         <span class="g-card-body"><${tag} class="g-card-title">${esc(r.h1)}</${tag}><span class="g-card-blurb">${esc(r.blurb)}</span></span>
       </a>`;
@@ -1165,7 +1171,7 @@ const guideCard = (r, tag = 'h2') => `      <a class="g-card" href="${P}/guides/
 /* A guide: the text is seo/guides-en.mjs, word for word; only the frame is
  * this function's. No script — the «On this page» list is plain anchors. */
 function guidePage(g, all = GUIDES) {
-  const url = `${SITE}${P}/guides/${g.slug}/`;
+  const url = `${SITE}${GB}${g.slug}/`;
   const ru = GUIDE_RU[g.slug];
   if (!ru) throw new Error(`guide ${g.slug} has no Russian twin for the language switch`);
   const ids = g.sections.map((x) => guideSectionId(x, g.slug));
@@ -1200,7 +1206,7 @@ ${cspMeta("'none'")}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${esc(g.title)}">
 ${shareMeta(esc(g.title), esc(g.description))}
-${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.guides'), `${P}/guides/`], [g.nav, `${P}/guides/${g.slug}/`]])}
+${breadcrumbLd([['Magic eSIM', `${HOME}`], [source.word('nav.guides'), `${GB}`], [g.nav, `${GB}${g.slug}/`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
@@ -1210,13 +1216,13 @@ ${LOGO_ONCE_SCRIPT}
 </head>
 <body>
 
-${header(twin(ru, `/guides/${g.slug}/`))}
+${header(twin({ kind: 'guide', slug: g.slug }))}
 ${PAYBAR}
 
 <main class="guide" id="main" tabindex="-1">
   <section class="g-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › <a href="${P}/guides/" data-i18n="nav.guides">${t('nav.guides')}</a> › ${esc(g.nav)}</p>
+      <p class="crumbs"><a href="${HOME}">Magic eSIM</a> › <a href="${GB}" data-i18n="nav.guides">${t('nav.guides')}</a> › ${esc(g.nav)}</p>
       <div class="g-hero-row">
         <span class="g-ico g-ico-lg">${guideIcon(g.slug)}</span>
         <h1>${esc(g.h1)}</h1>
@@ -1249,7 +1255,7 @@ ${faq}
       <div class="g-cards">
 ${related}
       </div>
-      <p class="g-cta"><a class="btn" href="${P}/esim/">${C.chooseDestination}</a></p>
+      <p class="g-cta"><a class="btn" href="${CAT}">${C.chooseDestination}</a></p>
     </section>
   </div>
 </main>
@@ -1261,7 +1267,7 @@ ${FOOTER}
 }
 
 function guidesHub(all = GUIDES) {
-  const url = `${SITE}${P}/guides/`;
+  const url = `${SITE}${GB}`;
   const items = all.map((g) => guideCard(g)).join('\n');
   return `<!doctype html>
 <html lang="${L.htmlLang}">
@@ -1278,7 +1284,7 @@ ${cspMeta("'none'")}
 <meta property="og:url" content="${url}">
 <meta property="og:title" content="${C.guidesTitle}">
 ${shareMeta(C.guidesTitle, C.guidesDescription)}
-${breadcrumbLd([['Magic eSIM', `${P}/`], [source.word('nav.guides'), `${P}/guides/`]])}
+${breadcrumbLd([['Magic eSIM', `${HOME}`], [source.word('nav.guides'), `${GB}`]])}
 ${HEAD_ICONS}
 ${FONT_PRELOAD}
 ${LOGO_ONCE_SCRIPT}
@@ -1288,13 +1294,13 @@ ${LOGO_ONCE_SCRIPT}
 </head>
 <body>
 
-${header(twin('/esim/', '/guides/'))}
+${header(twin({ kind: 'guides' }))}
 ${PAYBAR}
 
 <main class="guide" id="main" tabindex="-1">
   <section class="g-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › <span data-i18n="nav.guides">${t('nav.guides')}</span></p>
+      <p class="crumbs"><a href="${HOME}">Magic eSIM</a> › <span data-i18n="nav.guides">${t('nav.guides')}</span></p>
       <h1>${C.guidesH1}</h1>
       <p class="lead">${C.guidesLead}</p>
     </div>
@@ -1382,7 +1388,7 @@ function legalPage(kind, archived = null) {
 ${x.html.replace(/^\n/, '').replace(/\s+$/, '')}
     </section>`).join('\n\n');
   // The switch leads every language that has this document to its own version of it; Russian to its home.
-  const switchTwin = (l) => (l.code === 'en' ? doc.path : (LEGAL_TRANSLATIONS[l.code] && l.prefix ? `/${l.prefix}/${kind}/` : (l.prefix ? `/${l.prefix}/` : '/')));
+  const switchTwin = (l) => (l.code === 'en' ? doc.path : (LEGAL_TRANSLATIONS[l.code] && !isRussian(l) ? `/${l.prefix}/${kind}/` : homePath(l)));
   return `<!doctype html>
 <html lang="${L.htmlLang}">
 <head>
@@ -1412,7 +1418,7 @@ ${PAYBAR}
 <main class="guide legal" id="main" tabindex="-1">
   <section class="g-hero">
     <div class="wrap">
-      <p class="crumbs"><a href="${P}/">Magic eSIM</a> › ${esc(D.crumb)}</p>
+      <p class="crumbs"><a href="${HOME}">Magic eSIM</a> › ${esc(D.crumb)}</p>
       <h1>${esc(D.h1)}</h1>
       <p class="lead">${esc(D.lead)}</p>
       <p class="lg-meta">${esc(vLabel)} ${esc(metaVersion)} · ${esc(eLabel)}${META_COLON[L.code] || ':'} <time datetime="${doc.effectiveIso}">${esc(effective)}</time></p>${notice}${keep}
@@ -1447,7 +1453,7 @@ function destinationsJs(list) {
   const own = `seo/build-${L.prefix}-pages.mjs`;
   const entry = existsSync(join(ROOT, own)) ? own : 'seo/build-locale-pages.mjs';
   return `/* GENERATED by ${entry} — do not edit by hand.
- * The destinations that have ${/^[AEIOU]/.test(languageName) ? 'an' : 'a'} ${languageName} page (${P}/esim/<slug>/), for the
+ * The destinations that have ${/^[AEIOU]/.test(languageName) ? 'an' : 'a'} ${languageName} page (${CAT}<slug>/), for the
  * home's search. Static on purpose: the home reads no catalogue. */
 window.Magic${globalSuffix(L.prefix)}Destinations = [
 ${rows}
@@ -1489,7 +1495,7 @@ function homePage(list = countries()) {
     if (!c) throw new Error(`home: quick link ${iso} has no ${L.code} page`);
     return c;
   });
-  return renderHome({ L, P, SITE, C, t, a, esc, json: (v) => JSON.stringify(String(v)), header, twins: twin('/', '/'),
+  return renderHome({ L, P, SITE, C, t, a, esc, json: (v) => JSON.stringify(String(v)), header, twins: twin({ kind: 'home' }), HOME, CAT, GB,
     PAYBAR, FOOTER, POPULAR, QUICK, GUIDES, HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing: homeIndexing() });
 }
 
@@ -1498,14 +1504,16 @@ function homePage(list = countries()) {
     if (!canWrite) throw new Error('build-locale-pages: a rehearsal never writes');
     const list = countries();
     const base = L.prefix;
+    // A page at its path: the file and the directory its relative asset stamps resolve from (seo/locales.mjs paths).
+    const page = (path, html) => write(fileOf(path), stampHtml(html, join(ROOT, dirOf(path))));
     writeSiteI18nBundle(code);
     write(`${base}/destinations.js`, destinationsJs(list));
-    write(`${base}/index.html`, stampHtml(homePage(list), join(ROOT, base)));
-    for (const c of list) write(`${base}/esim/${c.slug}/index.html`, stampHtml(countryPage(c), join(ROOT, base, 'esim', c.slug)));
-    write(`${base}/esim/index.html`, stampHtml(hubPage(list), join(ROOT, base, 'esim')));
-    for (const slug of regionSlugsChecked()) write(`${base}/esim/${slug}/index.html`, stampHtml(regionPage(slug), join(ROOT, base, 'esim', slug)));
-    for (const g of GUIDES) write(`${base}/guides/${g.slug}/index.html`, stampHtml(guidePage(g), join(ROOT, base, 'guides', g.slug)));
-    write(`${base}/guides/index.html`, stampHtml(guidesHub(), join(ROOT, base, 'guides')));
+    page(HOME, homePage(list));
+    for (const c of list) page(`${CAT}${c.slug}/`, countryPage(c));
+    page(CAT, hubPage(list));
+    for (const slug of regionSlugsChecked()) page(`${CAT}${slug}/`, regionPage(slug));
+    for (const g of GUIDES) page(`${GB}${g.slug}/`, guidePage(g));
+    page(GB, guidesHub());
     // An English legal page is written only while seo/legal-links.mjs publishes it at this very path.
     for (const [kind, doc] of Object.entries(L.code === 'en' || LEGAL_T ? LEGAL_DOCS : {})) {
       if (INTL_LEGAL[kind] !== doc.path) continue;
@@ -1541,7 +1549,7 @@ function homePage(list = countries()) {
 
 /** Every language this generator publishes: the enabled site languages with a prefix. */
 export function publishedLocales() {
-  return LOCALES.filter((l) => l.prefix && l.site.enabled).map((l) => l.code);
+  return LOCALES.filter((l) => !isRussian(l) && l.site.enabled).map((l) => l.code);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

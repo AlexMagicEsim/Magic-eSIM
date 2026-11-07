@@ -68,7 +68,7 @@ const KT_PACKAGES = CATALOG.packages.filter((p) => (p.coverage_country_codes || 
 
 function loadSiteScript() {
   // country-tariffs.js is a browser script; its pure helpers are read in a sandbox.
-  const ctx = { window: {}, document: { addEventListener() {}, querySelector() { return null; }, querySelectorAll() { return []; }, getElementById() { return null; } }, console, URLSearchParams, location: { search: '', pathname: '/esim/turkey/' }, navigator: {}, setTimeout, clearTimeout };
+  const ctx = { window: {}, document: { addEventListener() {}, querySelector() { return null; }, querySelectorAll() { return []; }, getElementById() { return null; } }, console, URLSearchParams, location: { search: '', pathname: '/ru/esim/turkey/' }, navigator: {}, setTimeout, clearTimeout };
   ctx.globalThis = ctx; ctx.self = ctx;
   vm.createContext(ctx);
   vm.runInContext(read('assets/country-tariffs.js') + '\n;globalThis.__t={countryName,coverageCountriesText,compactCoverageLabel,packageCoverageCodes,isMultiCountryPackage,publicPackageName};', ctx);
@@ -132,11 +132,11 @@ test('no page, hub card, sitemap URL or destination-search entry for a coverage-
   const snap = JSON.parse(read('seo/catalogue-countries.json'));
   for (const code of COVERAGE_ONLY_CODES) {
     const slug = COUNTRY_NAMES[code].slug;
-    assert.ok(!existsSync(join(ROOT, 'esim', slug)), `/esim/${slug}/`);
-    assert.ok(!existsSync(join(ROOT, 'en', 'esim', slug)), `/en/esim/${slug}/`);
+    assert.ok(!existsSync(join(ROOT, 'ru/esim', slug)), `/ru/esim/${slug}/`);
+    assert.ok(!existsSync(join(ROOT, 'en', 'esim', slug)), `/destinations/${slug}/`);
     assert.ok(!snap.countries.some((c) => c.iso === code), `${code} in catalogue-countries.json`);
-    for (const f of ['sitemap.xml', 'esim/index.html', 'en/esim/index.html', 'assets/ru-destinations.js']) {
-      assert.ok(!read(f).includes(`/esim/${slug}/`) && !read(f).includes(`'${slug}'`) && !read(f).includes(`"${slug}"`), `${code} in ${f}`);
+    for (const f of ['sitemap.xml', 'ru/esim/index.html', 'destinations/index.html', 'assets/ru-destinations.js']) {
+      assert.ok(!read(f).includes(`/ru/esim/${slug}/`) && !read(f).includes(`'${slug}'`) && !read(f).includes(`"${slug}"`), `${code} in ${f}`);
     }
   }
 });

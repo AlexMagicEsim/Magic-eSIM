@@ -55,13 +55,13 @@ const EXPECT_FULL = canonical([...ICON_LINKS, MANIFEST_LINK]);
 
 /** Every tracked HTML page, including the ~200 generated country pages. */
 function allPages() {
-  const pages = ['index.html', 'iphone.html', 'android.html', '404.html',
+  const pages = ['ru/index.html', 'ru/iphone.html', 'ru/android.html', '404.html',
                  'payment-success.html', 'payment-failed.html', 'privacy.html',
-                 'terms.html', 'en/index.html', 'app/index.html',
-                 'app/canary.html', 'esim/index.html'];
-  for (const d of readdirSync(join(ROOT, 'esim'), { withFileTypes: true })) {
-    if (d.isDirectory() && existsSync(join(ROOT, 'esim', d.name, 'index.html'))) {
-      pages.push(`esim/${d.name}/index.html`);
+                 'terms.html', 'index.html', 'app/index.html',
+                 'app/canary.html', 'ru/esim/index.html'];
+  for (const d of readdirSync(join(ROOT, 'ru/esim'), { withFileTypes: true })) {
+    if (d.isDirectory() && existsSync(join(ROOT, 'ru/esim', d.name, 'index.html'))) {
+      pages.push(`ru/esim/${d.name}/index.html`);
     }
   }
   return pages.filter((p) => !NOT_A_PAGE.has(p));
@@ -70,7 +70,7 @@ function allPages() {
 // --- 0. the mutations: prove every rule below can actually fail --------------
 
 test('0 — the rules fire on the defects they were written for', () => {
-  const good = read('index.html');
+  const good = read('ru/index.html');
 
   // The /en/ defect: a picture used as a favicon.
   // (the page's hrefs carry a ?v= version since 2026-10-19 — matched with or without it)
@@ -175,7 +175,8 @@ test('5 — icons stay small enough to be icons', () => {
 test('6 — the manifest parses and agrees with the files it names', () => {
   const m = JSON.parse(read('site.webmanifest'));
   assert.equal(m.name, 'Magic eSIM');
-  assert.equal(m.start_url, '/');
+  // An installed shortcut keeps opening the Russian site, as it did before the EN-root migration (2026-11-07).
+  assert.equal(m.start_url, '/ru/');
   assert.ok(Array.isArray(m.icons) && m.icons.length >= 2);
   for (const icon of m.icons) {
     const file = join(ROOT, icon.src.slice(1));

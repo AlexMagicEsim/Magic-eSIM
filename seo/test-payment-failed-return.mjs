@@ -1,5 +1,5 @@
 // «Вернуться к тарифам» on /payment-failed.html returns the buyer to their OWN
-// country page (/esim/<slug>/#tariffs), where the checkout has lived since
+// country page (/ru/esim/<slug>/#tariffs), where the checkout has lived since
 // 2026-10-10, instead of the home search. The country comes from magic_pay_ctx;
 // the page from the generated assets/ru-destinations.js. Anything else → /#plans.
 import { test } from 'node:test';
@@ -29,7 +29,7 @@ function storage(seed = {}) {
 const ctx = (over = {}) => JSON.stringify({ payment_type: 'card', country_code: 'TH', package_id: 'pkg-1', order_ref: 'AbC123', _ts: Date.now(), ...over });
 
 function run({ session = {}, list = DEST, withLink = true, thenGoal = false } = {}) {
-  const link = { href: '/#plans' };
+  const link = { href: '/ru/#plans' };
   const document = { getElementById: (id) => (withLink && id === 'pfBack' ? link : null) };
   const window = { MagicRuDestinations: list, magicMetrikaGoal: (n, p) => goals.push({ n, p }) };
   const goals = [];
@@ -49,19 +49,19 @@ test('the scripts are where they must be: list → return link → goal (which c
   assert.doesNotMatch(RETURN[0], /removeItem|setItem/, 'the return link only reads the context');
 });
 
-test('without JavaScript (and as the static default) the button still goes to /#plans', () => {
+test('without JavaScript (and as the static default) the button still goes to /ru/#plans', () => {
   const btn = PAGE.match(/<a class="btn" id="pfBack" href="([^"]+)">Вернуться к тарифам<\/a>/);
   assert.ok(btn, 'the button keeps its label and gains only an id');
-  assert.equal(btn[1], '/#plans');
+  assert.equal(btn[1], '/ru/#plans');   // the Russian home since the EN-root migration (its own address does not move)
 });
 
 test('a fresh payment context returns to that country page, both payment methods', () => {
-  assert.equal(run({ session: { magic_pay_ctx: ctx() } }).href, '/esim/thailand/#tariffs');
-  assert.equal(run({ session: { magic_pay_ctx: ctx({ payment_type: 'sbp', country_code: 'TR' }) } }).href, '/esim/turkey/#tariffs');
-  assert.equal(run({ session: { magic_pay_ctx: ctx({ country_code: 'AE' }) } }).href, '/esim/uae/#tariffs');
+  assert.equal(run({ session: { magic_pay_ctx: ctx() } }).href, '/ru/esim/thailand/#tariffs');
+  assert.equal(run({ session: { magic_pay_ctx: ctx({ payment_type: 'sbp', country_code: 'TR' }) } }).href, '/ru/esim/turkey/#tariffs');
+  assert.equal(run({ session: { magic_pay_ctx: ctx({ country_code: 'AE' }) } }).href, '/ru/esim/uae/#tariffs');
 });
 
-test('anything not a fresh context of ours falls back to /#plans', () => {
+test('anything not a fresh context of ours falls back to /ru/#plans', () => {
   const cases = {
     'no context': {},
     'not json': { magic_pay_ctx: 'not json' },
@@ -75,13 +75,13 @@ test('anything not a fresh context of ours falls back to /#plans', () => {
     'code without a RU page (RU)': { magic_pay_ctx: ctx({ country_code: 'RU' }) },
     'injection attempt': { magic_pay_ctx: ctx({ country_code: 'TH/../../evil' }) },
   };
-  for (const [name, session] of Object.entries(cases)) assert.equal(run({ session }).href, '/#plans', name);
+  for (const [name, session] of Object.entries(cases)) assert.equal(run({ session }).href, '/ru/#plans', name);
 });
 
-test('a missing or tampered destinations list falls back to /#plans', () => {
-  assert.equal(run({ session: { magic_pay_ctx: ctx() }, list: null }).href, '/#plans');
-  assert.equal(run({ session: { magic_pay_ctx: ctx() }, list: [{ iso: 'TH', slug: '//evil.example' }] }).href, '/#plans');
-  assert.equal(run({ session: { magic_pay_ctx: ctx() }, list: [{ iso: 'TH', slug: 'javascript:alert(1)' }] }).href, '/#plans');
+test('a missing or tampered destinations list falls back to /ru/#plans', () => {
+  assert.equal(run({ session: { magic_pay_ctx: ctx() }, list: null }).href, '/ru/#plans');
+  assert.equal(run({ session: { magic_pay_ctx: ctx() }, list: [{ iso: 'TH', slug: '//evil.example' }] }).href, '/ru/#plans');
+  assert.equal(run({ session: { magic_pay_ctx: ctx() }, list: [{ iso: 'TH', slug: 'javascript:alert(1)' }] }).href, '/ru/#plans');
 });
 
 test('no button on the page: nothing happens, nothing throws', () => {
@@ -90,12 +90,12 @@ test('no button on the page: nothing happens, nothing throws', () => {
 
 test('the goal still fires exactly once after the return link read the context, and a refresh falls back', () => {
   const first = run({ session: { magic_pay_ctx: ctx() }, thenGoal: true });
-  assert.equal(first.href, '/esim/thailand/#tariffs');
+  assert.equal(first.href, '/ru/esim/thailand/#tariffs');
   assert.equal(first.goals.length, 1);
   assert.equal(first.goals[0].n, 'payment_failed');
   assert.equal(first.ss.getItem('magic_pay_ctx'), null, 'the goal script still clears it');
   const refresh = run({ session: Object.fromEntries(first.ss._map), thenGoal: true });
-  assert.equal(refresh.href, '/#plans');
+  assert.equal(refresh.href, '/ru/#plans');
   assert.equal(refresh.goals.length, 0);
 });
 
@@ -106,7 +106,7 @@ test('every destination resolves to a real country page with a #tariffs section'
     assert.match(d.iso, /^[A-Z]{2}$/);
     assert.match(d.slug, /^[a-z0-9-]+$/);
     assert.ok(!isos.has(d.iso), `duplicate ${d.iso}`); isos.add(d.iso);
-    const f = join(ROOT, 'esim', d.slug, 'index.html');
+    const f = join(ROOT, 'ru/esim', d.slug, 'index.html');
     assert.ok(existsSync(f), `no page for ${d.iso} → ${d.slug}`);
     assert.match(readFileSync(f, 'utf8'), /id="tariffs"/, `${d.slug} has no #tariffs`);
   }

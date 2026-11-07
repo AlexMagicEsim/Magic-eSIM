@@ -26,9 +26,9 @@ const PLANS = require(join(ROOT, 'en/plans.js')).create({
 });
 const CHECKOUT = require(join(ROOT, 'en/checkout.js'));
 
-const PAGES = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true }).filter((d) => d.isDirectory() && !REGION_SLUGS.includes(d.name))
-  .map((d) => `en/esim/${d.name}/index.html`);
-const JP = read('en/esim/japan/index.html');
+const PAGES = readdirSync(join(ROOT, 'destinations'), { withFileTypes: true }).filter((d) => d.isDirectory() && !REGION_SLUGS.includes(d.name))
+  .map((d) => `destinations/${d.name}/index.html`);
+const JP = read('destinations/japan/index.html');
 
 /* ------------------------------------------------------------ the per-day picker shows the checkout's own ladder */
 
@@ -87,8 +87,8 @@ test('the hero: flag, name, a plain line, and a way back to the destinations', (
   // Japan has authored text (seo/content-en/japan.json): its lead is the file's; the template lead is a page without one
   const escHtml = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   assert.ok(JP.includes(`<p class="lead">${escHtml(JSON.parse(read('seo/content-en/japan.json')).lead)}</p>`), 'Japan: its authored lead');
-  assert.match(read('en/esim/italy/index.html'), /<p class="lead">Data plans that work in Italy, with prices in US dollars\.<\/p>/);
-  assert.match(JP, /<a class="cp-change" href="\/en\/esim\/">Choose another destination<\/a>/);
+  assert.match(read('destinations/italy/index.html'), /<p class="lead">Data plans that work in Italy, with prices in US dollars\.<\/p>/);
+  assert.match(JP, /<a class="cp-change" href="\/destinations\/">Choose another destination<\/a>/);
   for (const p of PAGES) {
     const iso = (read(p).match(/<body data-iso="([A-Z]{2})">/) || [])[1];
     assert.ok(existsSync(join(ROOT, `assets/flags/${iso.toLowerCase()}.svg`)), `${p}: flag`);

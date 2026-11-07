@@ -127,7 +127,9 @@ function pagesUnder(dir) {
 /** The code the international pages run: { files: Map<label, source>, pages }. */
 function intlCode() {
   const files = new Map();
-  const pages = [...INTL_DIRS.flatMap(pagesUnder), '404.html'];
+  // EN-root migration (2026-11-07): the English pages are the root home (with assets/lang-route.js), /destinations/ and
+  // /guides/; en/ keeps its legal pages.
+  const pages = [...INTL_DIRS.flatMap(pagesUnder), 'index.html', ...pagesUnder('destinations'), ...pagesUnder('guides'), '404.html'];
   for (const rel of pages) {
     const h = read(rel);
     for (const m of h.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)) {

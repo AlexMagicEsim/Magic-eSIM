@@ -1,5 +1,5 @@
 // Conversion stage 2, PR A — the Russian country page follows the EN country
-// page's structure (en/esim/<slug>/) outside the SEO experiment:
+// page's structure (destinations/<slug>/) outside the SEO experiment:
 //   short H1 «eSIM для <genitive>» + one line (the facts line, live numbers)
 //   → jump bar → plans: local → regional → daily (EN order) → the authored
 //   text, WHOLE, under the plans (the old H1 as its H2, the lead, every intro)

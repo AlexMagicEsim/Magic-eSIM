@@ -57,8 +57,8 @@ const toNum = (s) => Number(String(s).replace(/[^\d]/g, ''));
 
 function pages() {
   const out = [];
-  for (const d of readdirSync(join(ROOT, 'esim'))) {
-    const f = join(ROOT, 'esim', d, 'index.html');
+  for (const d of readdirSync(join(ROOT, 'ru/esim'))) {
+    const f = join(ROOT, 'ru/esim', d, 'index.html');
     if (!existsSync(f)) continue;
     const h = readFileSync(f, 'utf8');
     const iso = (h.match(/data-country-page="([A-Z]{2})"/) || [])[1];
@@ -208,8 +208,8 @@ test('C5: no orphaned country directory survives a removal', () => {
   const snap = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8'));
   const known = new Set(snap.countries.map((c) => c.slug));
   const guides = new Set(['compatibility', 'activation-before-travel', 'not-working', 'dual-sim-sms', 'payment-rubles']);
-  const orphans = readdirSync(join(ROOT, 'esim'))
-    .filter((d) => existsSync(join(ROOT, 'esim', d, 'index.html')))
+  const orphans = readdirSync(join(ROOT, 'ru/esim'))
+    .filter((d) => existsSync(join(ROOT, 'ru/esim', d, 'index.html')))
     .filter((d) => !known.has(d) && !guides.has(d));
   assert.deepEqual(orphans, [], `orphaned page directories: ${orphans.join(', ')}`);
 });

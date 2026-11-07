@@ -61,7 +61,7 @@ test('ASCII \\b is the trap word() exists for: «única» is invisible to \\b, c
 });
 
 test('a published prefixed language must have its table — the generator refuses one without', () => {
-  for (const l of LOCALES.filter((x) => x.prefix && x.site.enabled)) assert.equal(missingGuards(l.code), null, l.code);
+  for (const l of LOCALES.filter((x) => x.code !== 'ru' && x.site.enabled)) assert.equal(missingGuards(l.code), null, l.code);
   assert.match(missingGuards('pl'), /pl has no claim guards/);
   assert.match(read('seo/build-locale-pages.mjs'), /const guards = missingGuards\(code\);\n\s+if \(guards\) return guards;/);
   assert.equal(cannotBuild('en'), null);
@@ -80,17 +80,17 @@ const prose = (html) => html
   .replace(/<[^>]+>/g, ' ')
   .replace(/&[a-z#0-9]+;/g, ' ');
 
-for (const l of LOCALES.filter((x) => x.prefix && x.site.enabled)) {
+for (const l of LOCALES.filter((x) => x.code !== 'ru' && x.site.enabled)) {
   test(`${l.code}: the published guides, home and country template say nothing the rules forbid`, () => {
-    const P = l.prefix;
+    const G = l.paths.guides.slice(1);   // the guides directory: guides/ for English, <prefix>/guides/ for the others
     const hits = [];
-    for (const slug of readdirSync(join(ROOT, P, 'guides'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)) {
+    for (const slug of readdirSync(join(ROOT, G), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)) {
       // a sentence the owner allowed whole, with its source (SOURCED, ZH-1 D12), is taken out before the rules run
-      const text = withoutSourced(l.code, `${P}/guides/${slug}/`, prose(read(`${P}/guides/${slug}/index.html`)));
-      for (const [id, re] of rulesFor(l.code, 'guide')) if (re.test(text)) hits.push(`${P}/guides/${slug}/: ${id} «${text.match(re)[0]}»`);
+      const text = withoutSourced(l.code, `${G}${slug}/`, prose(read(`${G}${slug}/index.html`)));
+      for (const [id, re] of rulesFor(l.code, 'guide')) if (re.test(text)) hits.push(`${G}${slug}/: ${id} «${text.match(re)[0]}»`);
     }
-    const home = prose(read(`${P}/index.html`).replace(/^[\s\S]*?<main/, '<main'));
-    for (const [id, re] of rulesFor(l.code, 'home')) if (re.test(home)) hits.push(`${P}/: ${id} «${home.match(re)[0]}»`);
+    const home = prose(read(`${l.paths.home.slice(1)}index.html`).replace(/^[\s\S]*?<main/, '<main'));
+    for (const [id, re] of rulesFor(l.code, 'home')) if (re.test(home)) hits.push(`${l.paths.home}: ${id} «${home.match(re)[0]}»`);
     const country = prose(localeGenerator(l.code).countryPage({ iso: 'XX', slug: 'x', name: 'Placeholder' }));
     for (const [id, re] of rulesFor(l.code, 'country')) if (re.test(country)) hits.push(`country template: ${id} «${country.match(re)[0]}»`);
     assert.deepEqual(hits, []);

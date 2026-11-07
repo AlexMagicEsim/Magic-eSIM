@@ -232,7 +232,7 @@ const CHECKS = `(() => {
 // --- run -------------------------------------------------------------------
 const argv = process.argv.slice(2);
 const slugs = argv.includes('--all')
-  ? (await readdir(join(ROOT, 'esim'), { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name)
+  ? (await readdir(join(ROOT, 'ru/esim'), { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name)
   : argv;
 if (!slugs.length) { console.error('укажи страны или --all'); process.exit(2); }
 

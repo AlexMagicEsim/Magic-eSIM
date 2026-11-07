@@ -62,16 +62,16 @@ function sandbox() {
     });
   return dir;
 }
-const countryPages = (root) => readdirSync(join(root, 'esim'), { withFileTypes: true })
+const countryPages = (root) => readdirSync(join(root, 'ru/esim'), { withFileTypes: true })
   .filter((d) => d.isDirectory())
-  .map((d) => join(root, 'esim', d.name, 'index.html'))
+  .map((d) => join(root, 'ru/esim', d.name, 'index.html'))
   .filter((f) => existsSync(f) && /id="localGrid"/.test(readFileSync(f, 'utf8')));
 
 test('exactly one generator writes country pages — proven by running them', () => {
   // The first version of this test matched SOURCE TEXT for `join(…, 'esim', …)`
   // plus `writeFileSync`, in files named build-*.mjs, in seo/ only. A review
   // walked past it four ways out of five — including the template-literal style
-  // `join(ROOT, \`esim/${slug}/index.html\`)` that build-guides.mjs and
+  // `join(ROOT, \`ru/esim/${slug}/index.html\`)` that build-guides.mjs and
   // build-hub.mjs already use. A regex over source was never going to hold.
   const dir = sandbox();
   try {
@@ -141,11 +141,11 @@ test('every country page on disk was produced by the profile pipeline', () => {
   // <summary> FAQ and a single @graph JSON-LD. The legacy generator emitted
   // faq-q spans and three separate JSON-LD blocks, so a page built the old way
   // is recognisable without keeping a list of slugs.
-  const dirs = readdirSync(join(ROOT, 'esim'), { withFileTypes: true })
+  const dirs = readdirSync(join(ROOT, 'ru/esim'), { withFileTypes: true })
     .filter((d) => d.isDirectory()).map((d) => d.name);
   const bad = [];
   for (const slug of dirs) {
-    const file = join(ROOT, 'esim', slug, 'index.html');
+    const file = join(ROOT, 'ru/esim', slug, 'index.html');
     if (!existsSync(file)) continue;
     const html = readFileSync(file, 'utf8');
     if (!/id="localGrid"/.test(html)) continue;          // не страновая страница
@@ -153,4 +153,14 @@ test('every country page on disk was produced by the profile pipeline', () => {
     if (/class="faq-q"/.test(html) || ld > 1) bad.push(`${slug} (ld+json ×${ld})`);
   }
   assert.deepEqual(bad, [], `страницы собраны не тем генератором: ${bad.join(', ')}`);
+});
+
+// EN-root migration (owner, 2026-11-07): the old addresses' client-side redirect pages come from ONE generator too,
+// run by the normal build (seo/build-all.mjs), and the committed files are exactly its output — never hand-edited.
+test('the old addresses\' redirect pages are exactly what seo/build-legacy-redirects.mjs writes, and build-all runs it', async () => {
+  const { legacyRedirects } = await import('./build-legacy-redirects.mjs');
+  const all = legacyRedirects();
+  assert.ok(all.length > 400, `${all.length} redirect pages`);
+  for (const r of all) assert.equal(readFileSync(join(ROOT, r.file), 'utf8'), r.html, r.file);
+  assert.match(readFileSync(join(ROOT, 'seo/build-all.mjs'), 'utf8'), /run\('build-locale-pages\.mjs'\);[^\n]*\nrun\('build-legacy-redirects\.mjs'\);/);
 });

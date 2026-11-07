@@ -158,12 +158,12 @@ for (const L of PLANNED) {
     assert.equal(list.length, JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8')).countries.length);
     const names = Object.keys(COUNTRY_NAMES).map((iso) => countryName(iso, L.code)).sort((a, b) => b.length - a.length);
     const pages = [
-      ...list.map((c) => [`${L.prefix}/esim/${c.slug}/`, G.countryPage(c)]),
-      [`${L.prefix}/esim/`, G.hubPage(list)],
-      ...REGION_SLUGS.map((slug) => [`${L.prefix}/esim/${slug}/`, G.regionPage(slug)]),
+      ...list.map((c) => [`${L.paths.catalogue.slice(1)}${c.slug}/`, G.countryPage(c)]),
+      [`${L.paths.catalogue.slice(1)}`, G.hubPage(list)],
+      ...REGION_SLUGS.map((slug) => [`${L.paths.catalogue.slice(1)}${slug}/`, G.regionPage(slug)]),
       [`${L.prefix}/`, G.homePage(list)],
-      ...markedGuides(L.code).map((g) => [`${L.prefix}/guides/${g.slug}/`, G.guidePage(g)]),
-      [`${L.prefix}/guides/`, G.guidesHub()],
+      ...markedGuides(L.code).map((g) => [`${L.paths.guides.slice(1)}${g.slug}/`, G.guidePage(g)]),
+      [`${L.paths.guides.slice(1)}`, G.guidesHub()],
     ];
     const leaks = [];
     for (const [where, html] of pages) {
@@ -181,7 +181,7 @@ for (const L of PLANNED) {
     const th = list.find((c) => c.slug === 'thailand');
     const page = G.countryPage(th);
     assert.match(page, new RegExp(`<html lang="${L.htmlLang}">`));
-    assert.match(page, new RegExp(`<link rel="canonical" href="https://magicesim\\.store/${L.prefix}/esim/thailand/">`));
+    assert.match(page, new RegExp(`<link rel="canonical" href="https://magicesim\\.store${L.paths.catalogue}thailand/">`));
     assert.match(page, new RegExp(`<meta property="og:locale" content="${L.ogLocale}">`));
     assert.match(page, /<meta name="robots" content="noindex, follow">/);
     assert.doesNotMatch(page, /<link rel="alternate"/, 'a language under review has no hreflang cluster');
@@ -201,7 +201,7 @@ for (const L of PLANNED) {
     vm.runInNewContext(dest, ctx);
     const global = `Magic${L.prefix.charAt(0).toUpperCase()}${L.prefix.slice(1)}Destinations`;
     assert.equal(ctx[global].length, list.length, global);
-    assert.match(dest, new RegExp(`\\(/${L.prefix}/esim/<slug>/\\)`));
+    assert.match(dest, new RegExp(`\\(${L.paths.catalogue}<slug>/\\)`));
   });
 
   test(`${L.code}: its country-names file renders whole, under its own global, in its own names — and is not written`, () => {

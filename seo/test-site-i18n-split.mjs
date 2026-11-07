@@ -36,6 +36,7 @@ import { rehearsalGenerator } from './build-locale-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
+import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -135,7 +136,7 @@ test('the engine carries no word; each words file is one language, and every lan
 /* ------------------------------------------------------------------ 4. bundles */
 
 test('every committed bundle is exactly its words + the engine; only published prefixed languages have one', () => {
-  assert.deepEqual(PUBLISHED, LOCALES.filter((l) => l.prefix && l.site.enabled).map((l) => l.code));
+  assert.deepEqual(PUBLISHED, LOCALES.filter((l) => l.code !== 'ru' && l.site.enabled).map((l) => l.code));
   for (const code of PUBLISHED) {
     const { path } = siteI18nBundle(code);
     assert.equal(read(path), bundleSource(code), `${path} is stale — run node seo/build-locale-pages.mjs`);
@@ -143,7 +144,7 @@ test('every committed bundle is exactly its words + the engine; only published p
   }
   const bundles = readdirSync(join(ROOT, 'assets')).filter((n) => /^site-i18n-.+\.js$/.test(n)).sort();
   assert.deepEqual(bundles, PUBLISHED.map((c) => siteI18nBundle(c).path.slice('assets/'.length)).sort(), 'no bundle of an unpublished language');
-  assert.throws(() => siteI18nBundle('ru'), /root language/);
+  assert.throws(() => siteI18nBundle('ru'), /the Russian pages load no bundle/);
 });
 
 test('a bundle holds one language: smaller than the old shared file, and no other language’s words file inside', () => {
@@ -170,15 +171,19 @@ function htmlFiles(dir, out = []) {
 }
 
 test('every page loads only its own language’s words: one bundle, deferred; Russian pages and guides none', () => {
-  const PREFIXED = new Map(LOCALES.filter((l) => l.prefix).map((l) => [l.prefix, l.code]));
+  // Which international language a file belongs to (EN-root migration: English pages are the root home, /destinations/
+  // and /guides/; its legal pages stay in en/), and where its guides are — or null for a Russian / shared file.
+  const INTL = LOCALES.filter((l) => l.code !== 'ru');
+  const ownerOf = (rel) => INTL.find((l) => rel === `${l.paths.home.slice(1)}index.html` || rel.startsWith(`${l.prefix}/`)
+    || rel.startsWith(l.paths.catalogue.slice(1)) || rel.startsWith(l.paths.guides.slice(1))) || null;
   let withWords = 0;
-  for (const rel of htmlFiles(ROOT)) {
+  for (const rel of htmlFiles(ROOT).filter((r) => !isLegacyRedirectFile(r))) {   // not the old addresses' redirect pages
     const html = read(rel);
     assert.doesNotMatch(html, /\/assets\/site-i18n\.js|\/assets\/i18n\//, `${rel}: loads the engine or a words file directly`);
     const tags = [...html.matchAll(/<script src="(\/assets\/site-i18n-[^"?]+\.js)(?:\?v=[0-9a-f]{8})?"([^>]*)><\/script>/g)];
-    const top = rel.split('/')[0];
-    const code = PREFIXED.get(top);
-    if (!code || rel.startsWith(`${top}/guides/`) || /^[a-z]+\/(privacy|terms|refund)\/(v\d[\d.]*\/)?index\.html$/.test(rel)) { // the legal documents (every language, LEGAL-4) have no script but the logo's, as the guides
+    const owner = ownerOf(rel);
+    const code = owner && owner.code;
+    if (!code || rel.startsWith(owner.paths.guides.slice(1)) || /^[a-z]+\/(privacy|terms|refund)\/(v\d[\d.]*\/)?index\.html$/.test(rel)) { // the legal documents (every language, LEGAL-4) have no script but the logo's, as the guides
       assert.equal(tags.length, 0, `${rel}: loads a words bundle`);
       continue;
     }
@@ -245,7 +250,7 @@ test('Node reads every language through the engine (generators, tests, the local
 /* ------------------------------------------------------------------ 7. sitemap */
 
 test('the sitemap hash reads the bundle URL as the old shared URL — no lastmod moved', () => {
-  for (const rel of ['en/index.html', 'es/esim/japan/index.html', 'en/esim/index.html']) {
+  for (const rel of ['index.html', 'es/esim/japan/index.html', 'destinations/index.html']) {
     const html = read(rel);
     const old = html.replace(/\/assets\/site-i18n-[a-z]+\.js/, '/assets/site-i18n.js');
     assert.notEqual(old, html, rel);

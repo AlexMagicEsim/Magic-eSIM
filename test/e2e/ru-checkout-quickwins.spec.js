@@ -31,7 +31,7 @@ const ROOT = path.join(__dirname, '..', '..');
 const CATALOG = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets', 'catalog.json'), 'utf8'));
 const cors = { 'access-control-allow-origin': '*' };
 
-async function open(page, url = '/esim/turkey/', opts = {}) {
+async function open(page, url = '/ru/esim/turkey/', opts = {}) {
   const st = { goals: [], quotes: [] };
   await page.exposeBinding('__goal', (src, name, params) => st.goals.push({ name, params }));
   await page.addInitScript(() => { window.ym = function (id, kind, goal, params) { if (kind === 'reachGoal') window.__goal(goal, params || null); }; });
@@ -140,7 +140,7 @@ test('on a short screen the pay button is in view when the window opens', async 
 });
 
 test('the plans do not move when the jump bar appears', async ({ page }) => {
-  await open(page, '/esim/peru/', { liveDelayMs: 1500 });
+  await open(page, '/ru/esim/peru/', { liveDelayMs: 1500 });
   const before = await page.locator('#tariffs').evaluate((e) => e.getBoundingClientRect().top + scrollY);
   await expect(page.locator('.cp-jump')).toBeVisible();
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
@@ -152,10 +152,10 @@ test('«Найти тариф» on a country page scrolls to its plans and keeps
   await open(page);
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   const cta = page.locator('.hdr-cta');
-  await expect(cta).toHaveAttribute('href', '/#plans');
+  await expect(cta).toHaveAttribute('href', '/ru/#plans');
   test.skip(!(await cta.isVisible()), 'the header hides this button on the narrowest screens');
   await cta.click();
-  await expect(page).toHaveURL(/\/esim\/turkey\/(\?|$)/);
+  await expect(page).toHaveURL(/\/ru\/esim\/turkey\/(\?|$)/);
   // The first plan block's heading ends up in view, below the sticky jump bar.
   await expect.poll(() => page.evaluate(() => {
     const h = document.querySelector('#tariffs .plan-block:not([hidden]) h2').getBoundingClientRect();

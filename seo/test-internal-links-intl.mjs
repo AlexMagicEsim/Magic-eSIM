@@ -18,6 +18,7 @@ import assert from 'node:assert/strict';
 import { INDEXED_COUNTRIES, isIndexed } from './indexing.mjs';
 import { localeGenerator, publishedLocales, listIndex, COMMERCIAL_FOOTER, FOOTER_MAX } from './build-locale-pages.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
+import { locale } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -31,7 +32,8 @@ const destinationColumn = (footer) => {
   assert.ok(m, 'the destinations column');
   return m[1];
 };
-const countrySlugs = (html, prefix) => [...html.matchAll(new RegExp(`href="/${prefix}/esim/([a-z0-9-]+)/"`, 'g'))].map((m) => m[1]);
+// A language's country links, at its catalogue path (seo/locales.mjs; EN-root migration: English /destinations/).
+const countrySlugs = (html, code) => [...html.matchAll(new RegExp(`href="${locale(code).paths.catalogue}([a-z0-9-]+)/"`, 'g'))].map((m) => m[1]);
 
 test('the footer lists the indexed and the commercial destinations, one A–Z list per language, then «All destinations»', () => {
   const expected = [...new Set([...INDEXED_COUNTRIES, ...COMMERCIAL_FOOTER])].sort();
@@ -40,10 +42,10 @@ test('the footer lists the indexed and the commercial destinations, one A–Z li
   assert.deepEqual([...COMMERCIAL_FOOTER], ['uae', 'usa', 'italy', 'spain'], 'the owner\'s four');
   for (const code of publishedLocales()) {
     const G = localeGenerator(code);
-    const P = G.locale.prefix;
+    const CAT = G.locale.paths.catalogue;
     const pages = new Map(G.countries().map((c) => [c.slug, c]));
     const col = destinationColumn(G.FOOTER);
-    const slugs = countrySlugs(col, P);
+    const slugs = countrySlugs(col, code);
     assert.equal(slugs.length, new Set(slugs).size, `${code}: no destination twice`);
     assert.deepEqual([...slugs].sort(), expected, `${code}: INDEXED_COUNTRIES ∪ COMMERCIAL_FOOTER, nothing else`);
     assert.ok(slugs.length <= FOOTER_MAX, `${code}: at most ${FOOTER_MAX}`);
@@ -52,30 +54,30 @@ test('the footer lists the indexed and the commercial destinations, one A–Z li
     assert.deepEqual(names, [...names].sort(listIndex(code).compare), `${code}: A–Z in the language's own order`);
     assert.deepEqual(G.FOOTER_DESTINATIONS.map((c) => c.slug), slugs, `${code}: the markup follows that order`);
     for (const c of G.FOOTER_DESTINATIONS) assert.equal(c.name, pages.get(c.slug).name, `${code}: ${c.slug} named as its page`);
-    assert.match(col, new RegExp(`<li><a href="/${P}/esim/" data-i18n="site\\.allDestinations">[^<]+</a></li>\\s*$`), `${code}: «All destinations» last`);
+    assert.match(col, new RegExp(`<li><a href="${CAT}" data-i18n="site\\.allDestinations">[^<]+</a></li>\\s*$`), `${code}: «All destinations» last`);
   }
 });
 
 test('the built pages carry that footer: every indexed English country page is linked from every other English country page', () => {
-  const dirs = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
+  const dirs = readdirSync(join(ROOT, 'destinations'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
   assert.ok(dirs.length >= 190, `${dirs.length} English country pages`);
   const inbound = Object.fromEntries(INDEXED_COUNTRIES.map((s) => [s, 0]));
   for (const d of dirs) {
-    const linked = new Set(countrySlugs(read(`en/esim/${d}/index.html`), 'en'));
+    const linked = new Set(countrySlugs(read(`destinations/${d}/index.html`), 'en'));
     for (const s of INDEXED_COUNTRIES) if (s !== d && linked.has(s)) inbound[s] += 1;
   }
   for (const s of INDEXED_COUNTRIES) assert.equal(inbound[s], dirs.length - 1, `${s}: linked from ${inbound[s]} of ${dirs.length - 1}`);
 });
 
 test('every built English page carries that footer: the commercial four are linked from every other country page too', () => {
-  const dirs = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
+  const dirs = readdirSync(join(ROOT, 'destinations'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
   for (const s of COMMERCIAL_FOOTER) {
     let n = 0;
-    for (const d of dirs) if (d !== s && read(`en/esim/${d}/index.html`).includes(`href="/en/esim/${s}/"`)) n += 1;
+    for (const d of dirs) if (d !== s && read(`destinations/${d}/index.html`).includes(`href="/destinations/${s}/"`)) n += 1;
     assert.equal(n, dirs.length - 1, s);
   }
   // every home link to a country is a real page
-  const home = read('en/index.html');
+  const home = read('index.html');
   const pages = new Set(localeGenerator('en').countries().map((c) => c.slug));
   for (const s of new Set(countrySlugs(home, 'en'))) assert.ok(pages.has(s), `home links ${s}, which has a page`);
   assert.equal(PAGE_COPY.en.popular.length, 8, 'eight home tiles');

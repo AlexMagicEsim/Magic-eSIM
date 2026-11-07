@@ -37,10 +37,10 @@ export const RU_TG_CHANNEL = 'https://t.me/magicesim';
 /* Words that already live in the one site dictionary (assets/site-i18n.js) are
  * read from it rather than typed again (I18N-02). «Проверка устройства» has no
  * Russian entry there yet: adding one would change that shipped file's bytes. */
-const NAV_LINKS = `<a href="/esim/">${text('ru', 'nav.destinations')}</a>
-      <a href="/#how">${text('ru', 'nav.how')}</a>
-      <a href="/#compat">Проверка устройства</a>
-      <a href="/#guides">${text('ru', 'nav.guides')}</a>`;
+const NAV_LINKS = `<a href="/ru/esim/">${text('ru', 'nav.destinations')}</a>
+      <a href="/ru/#how">${text('ru', 'nav.how')}</a>
+      <a href="/ru/#compat">Проверка устройства</a>
+      <a href="/ru/#guides">${text('ru', 'nav.guides')}</a>`;
 
 /** The header. The logo is the animated vector one (site-chrome LOGO_ANIMATED) except where `animatedLogo: false`
  * — the ten SEO-experiment pages, which keep their markup byte for byte. `hreflang` marks the English link's language — on the home
@@ -48,19 +48,19 @@ const NAV_LINKS = `<a href="/esim/">${text('ru', 'nav.destinations')}</a>
  * country pages carry no hreflang at all (they have no indexable twin). */
 export const ruHeader = ({ hreflang = false, animatedLogo = true } = {}) => `<header class="site-header">
   <div class="wrap hdr">
-    <a class="brand" href="/">${animatedLogo ? LOGO_ANIMATED : LOGO}</a>
+    <a class="brand" href="/ru/">${animatedLogo ? LOGO_ANIMATED : LOGO}</a>
     <nav class="nav" aria-label="Основное меню">
       ${NAV_LINKS}
     </nav>
     <div class="hdr-actions">
-      <a class="langsw" href="/en/"${hreflang ? ' hreflang="en"' : ''} lang="en">${ICON_GLOBE}<span>English</span></a>
-      <a class="btn btn-sm hdr-cta" href="/#plans">Найти тариф</a>
+      <a class="langsw" href="/"${hreflang ? ' hreflang="en"' : ''} lang="en">${ICON_GLOBE}<span>English</span></a>
+      <a class="btn btn-sm hdr-cta" href="/ru/#plans">Найти тариф</a>
       <details class="mnav">
         <summary aria-label="Меню">${ICON_MENU}</summary>
         <nav class="mnav-panel" aria-label="Меню">
       ${NAV_LINKS}
           <hr>
-          <a href="/en/"${hreflang ? ' hreflang="en"' : ''} lang="en">English</a>
+          <a href="/"${hreflang ? ' hreflang="en"' : ''} lang="en">English</a>
         </nav>
       </details>
     </div>
@@ -120,12 +120,12 @@ export const RU_FOOTER_DESTINATIONS = Object.freeze([
 ]);
 
 export const RU_FOOTER_GUIDES = Object.freeze([
-  { href: '/iphone.html', label: 'Как установить eSIM на iPhone' },
-  { href: '/android.html', label: 'Как установить eSIM на Android' },
-  { href: '/esim/compatibility/', label: 'Поддерживает ли телефон eSIM' },
-  { href: '/esim/activation-before-travel/', label: 'Когда устанавливать eSIM' },
-  { href: '/esim/not-working/', label: 'eSIM не работает — что проверить' },
-  { href: '/esim/payment-rubles/', label: 'Оплата российской картой или СБП' },
+  { href: '/ru/iphone.html', label: 'Как установить eSIM на iPhone' },
+  { href: '/ru/android.html', label: 'Как установить eSIM на Android' },
+  { href: '/ru/esim/compatibility/', label: 'Поддерживает ли телефон eSIM' },
+  { href: '/ru/esim/activation-before-travel/', label: 'Когда устанавливать eSIM' },
+  { href: '/ru/esim/not-working/', label: 'eSIM не работает — что проверить' },
+  { href: '/ru/esim/payment-rubles/', label: 'Оплата российской картой или СБП' },
 ]);
 
 const li = (href, label, extra = '') => `          <li><a href="${href}"${extra}>${label}</a></li>`;
@@ -134,14 +134,14 @@ export const RU_FOOTER = `<footer class="site-footer">
   <div class="wrap">
     <div class="ft-grid">
       <div class="ft-brand">
-        <a href="/">${LOGO}</a>
+        <a href="/ru/">${LOGO}</a>
         <p>Мобильный интернет в поездке: eSIM для ${RU_DESTINATIONS}, оплата в рублях российской картой или через СБП.</p>
       </div>
       <div class="ft-col">
         <h2>Направления</h2>
         <ul>
-${RU_FOOTER_DESTINATIONS.map((d) => li(`/esim/${d.slug}/`, d.name)).join('\n')}
-${li('/esim/', 'Все направления')}
+${RU_FOOTER_DESTINATIONS.map((d) => li(`/ru/esim/${d.slug}/`, d.name)).join('\n')}
+${li('/ru/esim/', 'Все направления')}
         </ul>
       </div>
       <div class="ft-col">
@@ -154,8 +154,8 @@ ${RU_FOOTER_GUIDES.map((g) => li(g.href, g.label)).join('\n')}
         <h2>Помощь</h2>
         <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
         <ul>
-${li('/#how', 'Как это работает')}
-${li('/#compat', 'Проверка устройства')}
+${li('/ru/#how', 'Как это работает')}
+${li('/ru/#compat', 'Проверка устройства')}
 ${li(RU_TG_CHANNEL, 'Наш Telegram-канал', ' target="_blank" rel="noopener noreferrer"')}
 ${li(RU_TG_APP, 'Magic eSIM в Telegram', ' target="_blank" rel="noopener noreferrer"')}
         </ul>

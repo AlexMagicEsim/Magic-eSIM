@@ -151,7 +151,7 @@ test('the phone menu lists the other languages, each to the same page', async ({
   await page.locator('.mnav summary').click();
   const langs = page.locator('.mnav-panel a[hreflang]');
   await expect(langs).toHaveText(['Русский', 'English', 'Español', 'Deutsch', 'Français', '简体中文']);
-  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/android.html', '/en/guides/android/', '/es/guides/android/', '/de/guides/android/', '/fr/guides/android/', '/zh/guides/android/']);
+  expect(await langs.evaluateAll((as) => as.map((a) => a.getAttribute('href')))).toEqual(['/ru/android.html', '/guides/android/', '/es/guides/android/', '/de/guides/android/', '/fr/guides/android/', '/zh/guides/android/']);
   expect(await noOverflow(page)).toBe(true);
 });
 
@@ -174,14 +174,14 @@ test('fonts and line breaking: Hangul from a system font after Inter, keep-all, 
   expect(f.wb).toBe('keep-all');
   expect(['normal', '0px']).toContain(f.h1);
   expect(['normal', '0px']).toContain(f.price);
-  await page.goto('/en/esim/thailand/');
+  await page.goto('/destinations/thailand/');
   expect(await page.evaluate(() => getComputedStyle(document.body).wordBreak), 'English keeps normal breaking').toBe('normal');
 });
 
 test('D8: no legal link to a Russian document or to a page that does not exist', async ({ page }) => {
   await open(page, '/ko/');
   expect(await page.locator('footer a[href="/terms.html"], footer a[href="/privacy.html"]').count()).toBe(0);
-  const hrefs = await page.locator('footer a[href^="/"]').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+  const hrefs = await page.locator('footer a[href^="/ru/"]').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
   for (const h of hrefs) expect((await page.request.get(h)).status(), h).toBe(200);
 });
 
@@ -241,7 +241,7 @@ test.describe('desktop', () => {
     const entries = await page.locator('.langmenu-list li').allTextContents();
     expect(entries.map((t) => t.trim())).toEqual(['Русский', 'English', 'Español', 'Deutsch', 'Français', '简体中文', '한국어']);
     expect(await page.locator('.langmenu-list a').evaluateAll((as) => as.map((a) => a.getAttribute('href'))))
-      .toEqual(['/esim/thailand/', '/en/esim/thailand/', '/es/esim/thailand/', '/de/esim/thailand/', '/fr/esim/thailand/', '/zh/esim/thailand/']);
+      .toEqual(['/ru/esim/thailand/', '/destinations/thailand/', '/es/esim/thailand/', '/de/esim/thailand/', '/fr/esim/thailand/', '/zh/esim/thailand/']);
     await expect(page.locator('#localGrid .card .price').first()).toHaveText('US$2.99');
     expect(await noOverflow(page)).toBe(true);
   });

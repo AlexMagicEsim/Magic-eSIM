@@ -19,7 +19,7 @@ const { withLayout, defaultSnapshotRoute } = require('../helpers/assortment-layo
 // the one it gives an unfiltered list, and the committed snapshot is served with it (test/helpers/assortment-layout.cjs).
 test.beforeEach(async ({ context }) => { await defaultSnapshotRoute(context); });
 
-const PAGES = ['/', '/en/', '/esim/', '/esim/turkey/', '/en/esim/turkey/', '/esim/uae/', '/payment-failed.html'];
+const PAGES = ['/ru/', '/', '/ru/esim/', '/ru/esim/turkey/', '/destinations/turkey/', '/ru/esim/uae/', '/payment-failed.html'];
 
 async function offline(page) {
   await page.addInitScript(() => { window.ym = function () {}; });
@@ -51,7 +51,7 @@ for (const url of PAGES) {
 
 test('favicon.svg draws the reduced mark at 16, 32, 48 and 64 px', async ({ page }) => {
   await offline(page);
-  await page.goto('/');
+  await page.goto('/ru/');
   const href = await page.locator('link[rel="icon"][type="image/svg+xml"]').getAttribute('href');
   const res = await page.evaluate(async (href) => {
     const out = {};
@@ -79,7 +79,7 @@ test('favicon.svg draws the reduced mark at 16, 32, 48 and 64 px', async ({ page
 
 test('the old unversioned favicon URL is not what any page asks for', async ({ page }) => {
   await offline(page);
-  for (const url of ['/', '/en/', '/esim/uae/']) {
+  for (const url of ['/ru/', '/', '/ru/esim/uae/']) {
     await page.goto(url, { waitUntil: 'domcontentloaded' });
     const hrefs = await page.locator('link[rel="icon"]').evaluateAll((ls) => ls.map((l) => l.getAttribute('href')));
     expect(hrefs.filter((h) => /^\/favicon\.(ico|svg)$/.test(h)), url).toEqual([]);

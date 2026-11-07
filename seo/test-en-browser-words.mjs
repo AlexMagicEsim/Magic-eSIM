@@ -7,7 +7,7 @@
  *      (test/fixtures/en-plans-golden.json, basis 17f18445), and the words the
  *      DOM-only scripts build are pinned to their former literals.
  *   2. NO WORD IS TYPED INTO A SCRIPT AGAIN. en/{plans,country,hub,checkout,app}.js
- *      carry no interface phrase, no `'en'`, `'en-US'` or `/en/` literal; the
+ *      carry no interface phrase, no `'en'`, `'en-US'` or `/` literal; the
  *      language is the page's own `<html lang>`.
  *   3. THE DICTIONARY'S NEW HELPERS are safe: placeholders from own properties
  *      only, plurals by the language's rules, the page language and prefix.
@@ -147,7 +147,7 @@ test('no script names its language, its number locale or its route', () => {
 });
 
 test('every English page that runs a word-using script loads the dictionary before it', () => {
-  const pages = ['en/index.html', 'en/esim/index.html', 'en/esim/thailand/index.html', 'en/esim/japan/index.html'];
+  const pages = ['index.html', 'destinations/index.html', 'destinations/thailand/index.html', 'destinations/japan/index.html'];
   for (const p of pages) {
     const html = read(p);
     const dict = html.indexOf('/assets/site-i18n-en.js?v='); // I18N-10: the English bundle (words + engine)
@@ -192,7 +192,14 @@ test('pageLang reads <html lang>; pathPrefix gives each language its start of pa
   assert.equal(SITE.pageLang(doc('ko')), 'ko');
   for (const v of ['pl', 'EN', '', null, 'en-US', '__proto__']) assert.equal(SITE.pageLang(doc(v)), 'ru', String(v));
   assert.equal(SITE.pathPrefix('en'), '/en');
-  assert.equal(SITE.pathPrefix('ru'), '');
+  assert.equal(SITE.pathPrefix('ru'), '/ru');   // EN-root migration: no language has an empty segment
+  // Where the pages are (the registry's paths.catalogue): English at /destinations/, Russian under /ru/.
+  assert.equal(SITE.cataloguePath('en', 'italy'), '/destinations/italy/');
+  assert.equal(SITE.cataloguePath('en'), '/destinations/');
+  assert.equal(SITE.cataloguePath('ru', 'italy'), '/ru/esim/italy/');
+  assert.equal(SITE.cataloguePath('es', 'italy'), '/es/esim/italy/');
+  assert.equal(SITE.cataloguePath('pl', 'italy'), '');
+  assert.ok(Object.isFrozen(SITE.CATALOGUE));
   assert.equal(SITE.pathPrefix('es'), '/es');
   assert.equal(SITE.pathPrefix('de'), '/de');
   assert.equal(SITE.pathPrefix('fr'), '/fr');

@@ -23,7 +23,7 @@ const fs = require('fs');
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const WIDTHS = [[1366, 900], [390, 844], [320, 640]];
 
-async function open(page, path = '/en/') {
+async function open(page, path = '/') {
   const st = { calls: [], csp: [], errors: [] };
   page.on('request', (r) => st.calls.push({ method: r.method(), url: r.url(), type: r.resourceType() }));
   page.on('console', (m) => {
@@ -80,17 +80,17 @@ test('search by keyboard: type, arrow into the results, Enter opens the country'
   await page.keyboard.press('ArrowUp');
   await expect(page.locator('#q')).toBeFocused();
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/\/en\/esim\/japan\/$/);
+  await expect(page).toHaveURL(/\/destinations\/japan\/$/);
 });
 
 test('«Find plans»: with a name it opens the best match, with nothing typed it puts the caret in the search', async ({ page }) => {
   await open(page);
   await page.locator('#qGo').click();
   await expect(page.locator('#q')).toBeFocused();
-  await expect(page).toHaveURL(/\/en\/$/);
+  await expect(page).toHaveURL(/127\.0\.0\.1:\d+\/$/);
   await page.locator('#q').fill('thai');
   await page.locator('#qGo').click();
-  await expect(page).toHaveURL(/\/en\/esim\/thailand\/$/);
+  await expect(page).toHaveURL(/\/destinations\/thailand\/$/);
 });
 
 test('an unknown name says so, and Enter goes nowhere', async ({ page }) => {
@@ -98,7 +98,7 @@ test('an unknown name says so, and Enter goes nowhere', async ({ page }) => {
   await page.locator('#q').fill('zzzz');
   await expect(page.locator('#results')).toContainText('No destination matches that name.');
   await page.locator('#q').press('Enter');
-  await expect(page).toHaveURL(/\/en\/$/);
+  await expect(page).toHaveURL(/127\.0\.0\.1:\d+\/$/);
   await expect(page.locator('#q')).toBeFocused();
 });
 
@@ -114,14 +114,14 @@ test('keyboard order: skip nothing, trap nothing — skip link, logo, menu, sear
     }));
   }
   expect(seen[0]).toBe('#main');   // «Skip to main content» (test/e2e/en-skip-link.spec.js)
-  expect(seen[1]).toBe('/en/');
+  expect(seen[1]).toBe('/');
   const q = seen.indexOf('q');
   expect(q).toBeGreaterThan(0);
   expect(seen[q + 1]).toBe('qGo');
-  expect(seen.slice(q + 2)).toContain('/en/esim/thailand/');
+  expect(seen.slice(q + 2)).toContain('/destinations/thailand/');
   expect(seen.indexOf('summary:previewNotice')).toBeLessThan(q);
   if (isMobile(page)) expect(seen).toContain('summary:mnav');
-  else expect(seen).toEqual(expect.arrayContaining(['/en/esim/', '/en/#how', '/en/#compat', '/en/guides/']));
+  else expect(seen).toEqual(expect.arrayContaining(['/destinations/', '/#how', '/#compat', '/guides/']));
 });
 
 test('the mobile menu opens from the keyboard and leads to every section', async ({ page }) => {
@@ -139,7 +139,7 @@ test('the mobile menu opens from the keyboard and leads to every section', async
   expect(box.x).toBeGreaterThanOrEqual(0);
   expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize().width);
   await panel.locator('a', { hasText: 'Guides' }).click();
-  await expect(page).toHaveURL(/\/en\/guides\/$/);
+  await expect(page).toHaveURL(/\/guides\/$/);
 });
 
 test('desktop: four header links, the language switch and «Find a plan» in one row', async ({ page }) => {
@@ -153,7 +153,7 @@ test('desktop: four header links, the language switch and «Find a plan» in one
   await expect(sw.locator('summary')).toContainText('English');
   await sw.locator('summary').click();
   expect(await sw.locator('a').evaluateAll((as) => as.map((a) => [a.getAttribute('href'), a.hreflang])))
-    .toEqual([['/', 'ru'], ['/es/', 'es'], ['/de/', 'de'], ['/fr/', 'fr'], ['/zh/', 'zh-Hans'], ['/ko/', 'ko']]);
+    .toEqual([['/ru/', 'ru'], ['/es/', 'es'], ['/de/', 'de'], ['/fr/', 'fr'], ['/zh/', 'zh-Hans'], ['/ko/', 'ko']]);
   await sw.locator('summary').click();
   const tops = await page.locator('header .hdr > *').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
   expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(20);
@@ -199,7 +199,7 @@ test('popular destinations: eight real pages with their flags drawn', async ({ p
   const drawn = await page.locator('.dest-tile img.flag').evaluateAll((imgs) => Promise.all(imgs.map((i) => (i.complete ? i : new Promise((r) => { i.onload = i.onerror = () => r(i); })))).then((all) => all.map((i) => i.naturalWidth > 0)));
   expect(drawn).toEqual(Array(8).fill(true));
   await tiles.filter({ hasText: 'Japan' }).click();
-  await expect(page).toHaveURL(/\/en\/esim\/japan\/$/);
+  await expect(page).toHaveURL(/\/destinations\/japan\/$/);
 });
 
 test('the sections a visitor scrolls to are all there', async ({ page }) => {
@@ -236,9 +236,9 @@ for (const [w, h] of WIDTHS) {
 test('without JavaScript: the bar, the popular destinations and a way to every country', async ({ browser }) => {
   const ctx = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 640 } });
   const page = await ctx.newPage();
-  await page.goto('/en/');
+  await page.goto('/');
   await expect(page.locator('#previewNotice summary')).toContainText("Online payment isn't available yet");
-  await expect(page.locator('.nojs-search a[href="/en/esim/"]')).toBeVisible();
+  await expect(page.locator('.nojs-search a[href="/destinations/"]')).toBeVisible();
   await expect(page.locator('.dest-tile')).toHaveCount(8);
   await page.locator('.mnav summary').click();
   await expect(page.locator('.mnav-panel')).toBeVisible();

@@ -114,7 +114,7 @@ const prices = (page, block) => cards(page, block).locator('.price').allInnerTex
  * ================================================================== */
 
 test('the home is in English, styled, and says it sells nothing before the search', async ({ page }) => {
-  const calls = await open(page, '/en/index.html');
+  const calls = await open(page, '/index.html');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('h1')).toContainText('without roaming');
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(247, 249, 252)');
@@ -135,23 +135,23 @@ test('the home is in English, styled, and says it sells nothing before the searc
 });
 
 test('search finds a country by any word of its English name and links to its page', async ({ page }) => {
-  const calls = await open(page, '/en/index.html');
+  const calls = await open(page, '/index.html');
   await page.locator('#q').fill('emirates');
   const hit = page.locator('#results a.res', { hasText: 'United Arab Emirates' });
-  await expect(hit).toHaveAttribute('href', '/en/esim/uae/');
+  await expect(hit).toHaveAttribute('href', '/destinations/uae/');
   await page.locator('#q').fill('polyn');
   await expect(page.locator('#results a.res').first()).toHaveText('French Polynesia');
   await page.locator('#q').fill('zzzz');
   await expect(page.locator('#results')).toContainText('No destination matches that name.');
   await page.locator('#q').fill('Thai');
   await page.locator('#results a.res', { hasText: 'Thailand' }).click();
-  await expect(page).toHaveURL(/\/en\/esim\/thailand\/$/);
+  await expect(page).toHaveURL(/\/destinations\/thailand\/$/);
   await expect(page.locator('h1')).toHaveText('eSIM for Thailand');
   expect(writes(calls)).toEqual([]);
 });
 
 test('a regional pseudo-code is never offered as a destination', async ({ page }) => {
-  await open(page, '/en/index.html');
+  await open(page, '/index.html');
   for (const q of ['EU', 'Europe', 'GL']) {
     await page.locator('#q').fill(q);
     await expect(page.locator('#results a.res', { hasText: /EU-\d|GL-\d/ })).toHaveCount(0);
@@ -159,10 +159,10 @@ test('a regional pseudo-code is never offered as a destination', async ({ page }
 });
 
 test('the destination list links every country, and is indexed (I18N-09)', async ({ page }) => {
-  const calls = await open(page, '/en/esim/');
+  const calls = await open(page, '/destinations/');
   await expect(page.locator('h1')).toHaveText('eSIM destinations');
   expect(await page.locator('.dest a').count()).toBeGreaterThan(190);
-  await expect(page.locator('.dest a', { hasText: 'United Arab Emirates' })).toHaveAttribute('href', '/en/esim/uae/');
+  await expect(page.locator('.dest a', { hasText: 'United Arab Emirates' })).toHaveAttribute('href', '/destinations/uae/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
   expect(apiCalls(calls)).toEqual([]);
 });
@@ -172,7 +172,7 @@ test('the destination list links every country, and is indexed (I18N-09)', async
  * ================================================================== */
 
 test('UAE: local, regional and daily plans, each in its own block, cheapest first, in dollars', async ({ page }) => {
-  const calls = await open(page, '/en/esim/uae/');
+  const calls = await open(page, '/destinations/uae/');
   await expect(page.locator('h1')).toHaveText('eSIM for the United Arab Emirates')   // «the» (seo/page-copy.mjs EN_THE);
   await expect(page.locator('#status')).toBeHidden();
 
@@ -196,7 +196,7 @@ test('UAE: local, regional and daily plans, each in its own block, cheapest firs
 });
 
 test('Thailand: daily, local and an SE-Asia regional plan', async ({ page }) => {
-  await open(page, '/en/esim/thailand/');
+  await open(page, '/destinations/thailand/');
   expect(await prices(page, 'daily')).toEqual(['$3.99']);
   expect(await prices(page, 'local')).toEqual(['$4.99', '$6.99']);
   // The backend's order (lib/assortmentLayout.js, via the fixture port): a plan filed under the country first, then volume.
@@ -205,7 +205,7 @@ test('Thailand: daily, local and an SE-Asia regional plan', async ({ page }) => 
 });
 
 test('French Polynesia: local and regional, and no empty daily block', async ({ page }) => {
-  await open(page, '/en/esim/french-polynesia/');
+  await open(page, '/destinations/french-polynesia/');
   expect(await prices(page, 'local')).toEqual(['$73.99', '$119.99', '$214.99']);
   expect(await prices(page, 'regional')).toEqual(['$35.99', '$69.99']);
   await expect(page.locator('#dailyBlock')).toBeHidden();
@@ -213,7 +213,7 @@ test('French Polynesia: local and regional, and no empty daily block', async ({ 
 });
 
 test('a per-day plan is priced from the ladder, never from the rate', async ({ page }) => {
-  await open(page, '/en/esim/vietnam/');
+  await open(page, '/destinations/vietnam/');
   const daily = cards(page, 'daily');
   await expect(daily).toHaveCount(2);
   const perDayCard = daily.filter({ hasText: '1 GB a day' });
@@ -229,7 +229,7 @@ test('a per-day plan is priced from the ladder, never from the rate', async ({ p
 test('a country the catalogue has nothing for says so, with no empty blocks', async ({ page }) => {
   // The backend answers the one-country read 404 COUNTRY_NOT_FOUND; the page reads the whole catalogue ONCE and
   // decides «no plans» from it, exactly as before.
-  const calls = await open(page, '/en/esim/japan/');
+  const calls = await open(page, '/destinations/japan/');
   await expect(page.locator('#status')).toHaveText('No plans for this destination yet.');
   for (const b of ['daily', 'local', 'regional']) await expect(page.locator(`#${b}Block`)).toBeHidden();
   expect(apiCalls(calls).map((c) => `${c.method} ${new URL(c.url).pathname}${new URL(c.url).search}`))
@@ -240,7 +240,7 @@ test('one country: the page draws the backend\'s narrowed answer — and the who
   // Narrowed (default route): the answer the page got holds exactly the UAE's plans and one layout entry.
   const answers = [];
   page.on('response', async (r) => { if (/market=global/.test(r.url())) answers.push(await r.json()); });
-  await open(page, '/en/esim/uae/');
+  await open(page, '/destinations/uae/');
   await expect(page.locator('#status')).toBeHidden();
   expect(answers).toHaveLength(1);
   expect(Object.keys(answers[0].assortment.countries)).toEqual(['AE']);
@@ -251,7 +251,7 @@ test('one country: the page draws the backend\'s narrowed answer — and the who
   // A backend without the parameter answers the whole catalogue to the same URL: the same cards, one request.
   const other = await browser.newPage();
   try {
-    const calls = await open(other, '/en/esim/uae/', { narrow: false });
+    const calls = await open(other, '/destinations/uae/', { narrow: false });
     await expect(other.locator('#status')).toBeHidden();
     expect({ local: await prices(other, 'local'), regional: await prices(other, 'regional'), daily: await prices(other, 'daily') }).toEqual(narrowed);
     expect(apiCalls(calls)).toHaveLength(1);
@@ -265,7 +265,7 @@ test('one country: the page draws the backend\'s narrowed answer — and the who
 test('a plan opens the checkout: the refusal at once, and opening or closing it sends nothing', async ({ page }) => {
   // The quote — the one write on these pages — is a button press away, never
   // a side effect of looking. Its own flow is in en-checkout.spec.js.
-  const calls = await open(page, '/en/esim/uae/');
+  const calls = await open(page, '/destinations/uae/');
   const cta = cards(page, 'local').first().getByRole('button');
   await expect(cta).toHaveText('View details');
   await cta.click();
@@ -300,7 +300,7 @@ test('a plan opens the checkout: the refusal at once, and opening or closing it 
  * ================================================================== */
 
 test('a GLOBAL lane switched off says prices are unavailable — and shows no roubles', async ({ page }) => {
-  const calls = await open(page, '/en/esim/uae/', { globalStatus: 503, globalBody: { status: 'error', error: 'GLOBAL_PRICING_DISABLED' } });
+  const calls = await open(page, '/destinations/uae/', { globalStatus: 503, globalBody: { status: 'error', error: 'GLOBAL_PRICING_DISABLED' } });
   await expect(page.locator('#status')).toContainText('Prices are temporarily unavailable');
   await expect(page.locator('.card')).toHaveCount(0);
   for (const b of ['daily', 'local', 'regional']) await expect(page.locator(`#${b}Block`)).toBeHidden();
@@ -310,13 +310,13 @@ test('a GLOBAL lane switched off says prices are unavailable — and shows no ro
 });
 
 test('a busy GLOBAL lane (429) is unavailable too', async ({ page }) => {
-  await open(page, '/en/esim/thailand/', { globalStatus: 429, globalBody: { status: 'error' } });
+  await open(page, '/destinations/thailand/', { globalStatus: 429, globalBody: { status: 'error' } });
   await expect(page.locator('#status')).toContainText('Prices are temporarily unavailable');
   await expect(page.locator('.card')).toHaveCount(0);
 });
 
 test('a 200 that is not a GLOBAL USD answer is refused, not rendered', async ({ page }) => {
-  await open(page, '/en/esim/uae/', { globalBody: { status: 'success', currency: 'RUB', data: PACKAGES } });
+  await open(page, '/destinations/uae/', { globalBody: { status: 'success', currency: 'RUB', data: PACKAGES } });
   await expect(page.locator('#status')).toContainText('Prices are temporarily unavailable');
   await expect(page.locator('.card')).toHaveCount(0);
 });
@@ -324,7 +324,7 @@ test('a 200 that is not a GLOBAL USD answer is refused, not rendered', async ({ 
 test('a catalogue that cannot be reached says so instead of looking empty', async ({ page }) => {
   await page.route('**/assets/catalog.json*', (route) => route.abort());
   await page.route('**/api/**', (route) => route.abort());
-  await page.goto('/en/esim/french-polynesia/');
+  await page.goto('/destinations/french-polynesia/');
   await expect(page.locator('#status')).toContainText('Prices are temporarily unavailable');
 });
 
@@ -333,21 +333,21 @@ test('a catalogue that cannot be reached says so instead of looking empty', asyn
  * ================================================================== */
 
 test('the language switch goes to the same page in Russian and Spanish, and nothing redirects by itself', async ({ page }) => {
-  await open(page, '/en/esim/uae/');
-  await expect(page.locator('.langmenu-list a[hreflang="ru"]')).toHaveAttribute('href', '/esim/uae/');
+  await open(page, '/destinations/uae/');
+  await expect(page.locator('.langmenu-list a[hreflang="ru"]')).toHaveAttribute('href', '/ru/esim/uae/');
   await expect(page.locator('.langmenu-list a[hreflang="es"]')).toHaveAttribute('href', '/es/esim/uae/');
-  expect(page.url()).toContain('/en/esim/uae/');
+  expect(page.url()).toContain('/destinations/uae/');
 });
 
 test('a country page outside the I18N-09 stage is a noindex template with a self canonical and no hreflang', async ({ page }) => {
-  await open(page, '/en/esim/french-polynesia/');
+  await open(page, '/destinations/french-polynesia/');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://magicesim.store/en/esim/french-polynesia/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://magicesim.store/destinations/french-polynesia/');
   await expect(page.locator('link[hreflang]')).toHaveCount(0);
 });
 
 test('nothing on a country page overflows a narrow phone', async ({ page }) => {
-  await open(page, '/en/esim/uae/');
+  await open(page, '/destinations/uae/');
   await expect(cards(page, 'local').first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

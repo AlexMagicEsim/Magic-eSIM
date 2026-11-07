@@ -275,7 +275,7 @@ test('seo/suppressed-claims.json is exactly what the generator leaves out on ass
     const piece = m ? raw[m[1]][Number(m[2])] : raw[x.unit];
     const text = typeof piece === 'string' ? piece : piece && (piece.a || piece.p || piece.text);
     const probe = String(text).replace(/\{\{price:[a-z0-9_]+\}\}/g, '\u0000').split('\u0000').map((s) => s.trim()).sort((a, b) => b.length - a.length)[0].slice(0, 60);
-    const html = readFileSync(join(ROOT, 'esim', x.slug, 'index.html'), 'utf8');
+    const html = readFileSync(join(ROOT, 'ru/esim', x.slug, 'index.html'), 'utf8');
     assert.ok(probe.length >= 20, `${x.slug} ${x.unit}: probe too short`);
     assert.ok(!html.includes(probe.replaceAll('&', '&amp;').replaceAll('"', '&quot;')) && !html.includes(probe), `${x.slug} ${x.unit} is still on the page: «${probe}»`);
   }
@@ -285,7 +285,7 @@ test('a left-out headline falls back to the template\'s own factual text, never 
   const doc = loadPublishedCatalogue();
   for (const x of JSON.parse(readFileSync(join(ROOT, 'seo', 'suppressed-claims.json'), 'utf8')).entries) {
     if (!['title', 'description', 'h1', 'lead'].includes(x.unit)) continue;
-    const html = readFileSync(join(ROOT, 'esim', x.slug, 'index.html'), 'utf8');
+    const html = readFileSync(join(ROOT, 'ru/esim', x.slug, 'index.html'), 'utf8');
     if (x.unit === 'description') assert.match(html, /<meta name="description" content="[^"]{40,}"/, x.slug);
     if (x.unit === 'title') assert.match(html, /<title>[^<]{10,}<\/title>/, x.slug);
     if (x.unit === 'h1') assert.match(html, /<h2 id="aboutTitle">[^<]+— eSIM для поездки<\/h2>/, x.slug);
@@ -309,7 +309,7 @@ test('the SEO refresh PR body lists what is left out, near the top — the perso
     catalogueBefore: [], catalogueAfter: [], urlsBefore: [], urlsAfter: [], lastmodBefore: null, lastmodAfter: null });
   const md = renderMarkdown(s, { suppressed: [{ slug: 'morocco', unit: 'faq[1]', source: 'price_refs', id: 'africa_3gb' }, { slug: 'nepal', unit: 'faq[3]', source: 'coverage_claims', id: 'x' }] });
   assert.match(md, /Не опубликовано авторских фрагментов: 2\*\* на 2 страницах/);
-  assert.match(md, /`\/esim\/morocco\/` faq\[1\] · price_refs\/africa_3gb/);
+  assert.match(md, /`\/ru\/esim\/morocco\/` faq\[1\] · price_refs\/africa_3gb/);
   assert.ok(md.indexOf('Не опубликовано') < md.indexOf('### Страны'));
   assert.doesNotMatch(renderMarkdown(s, {}), /Не опубликовано/);
   assert.match(readFileSync(join(ROOT, 'scripts', 'seo-refresh-summary.mjs'), 'utf8'), /suppressed: \(\(\) => \{ try \{ return readJson\(join\(ROOT, 'seo\/suppressed-claims\.json'\)\)\?\.entries/);

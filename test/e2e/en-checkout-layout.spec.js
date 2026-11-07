@@ -34,7 +34,7 @@ async function open(page) {
     return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ quote_id: '3fbced54-1111-4222-8333-444455556666',
       package_id: b.package_id, days: b.days, currency: 'USD', amount: 4.99, expires_at: new Date(Date.now() + 1800000).toISOString() }) });
   });
-  await page.goto('/en/esim/thailand/');
+  await page.goto('/destinations/thailand/');
   await page.locator('#localGrid .card').first().getByRole('button').click();
   await expect(page.locator('#checkout')).toBeVisible();
   return st;

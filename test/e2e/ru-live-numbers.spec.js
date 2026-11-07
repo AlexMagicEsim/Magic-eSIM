@@ -73,7 +73,7 @@ test('live catalogue moved since the build: the printed floor and counts follow 
   const before = await facts(SNAPSHOT.packages);
   const after = await facts(live);
   expect(after.min_price_rub).toBeLessThan(before.min_price_rub);
-  const st = await open(page, `/esim/${SLUG}/`, { live });
+  const st = await open(page, `/ru/esim/${SLUG}/`, { live });
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   await expect.poll(() => floorTexts(page)).toEqual([`${money(after.min_price_rub)} ₽`, `${money(after.min_price_rub)} ₽`]);
   expect(await visibleFloors(page)).toBe(2);
@@ -88,7 +88,7 @@ test('live catalogue moved since the build: the printed floor and counts follow 
 test('API down, snapshot fresh: the numbers are the snapshot\'s and stay visible', async ({ page }) => {
   const fresh = { ...SNAPSHOT, generated_at: new Date().toISOString() };
   const f = await facts(SNAPSHOT.packages);
-  const st = await open(page, `/esim/${SLUG}/`, { live: 502, snapshot: fresh });
+  const st = await open(page, `/ru/esim/${SLUG}/`, { live: 502, snapshot: fresh });
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   await expect.poll(() => floorTexts(page)).toEqual([`${money(f.min_price_rub)} ₽`, `${money(f.min_price_rub)} ₽`]);
   expect(await visibleFloors(page)).toBe(2);
@@ -98,7 +98,7 @@ test('API down, snapshot fresh: the numbers are the snapshot\'s and stay visible
 
 test('API down, snapshot older than 48 h: the floor phrases hide, the grid says the data is saved', async ({ page }) => {
   const old = { ...SNAPSHOT, generated_at: new Date(Date.now() - 5 * 24 * 3600 * 1000).toISOString() };
-  const st = await open(page, `/esim/${SLUG}/`, { live: 502, snapshot: old });
+  const st = await open(page, `/ru/esim/${SLUG}/`, { live: 502, snapshot: old });
   await expect(page.locator('#catalogNotice')).toBeVisible();
   await expect(page.locator('#catalogNotice')).toContainText('Показаны ранее сохранённые тарифы');
   await expect.poll(() => visibleFloors(page)).toBe(0);
@@ -113,14 +113,14 @@ test('API down, snapshot older than 48 h: the floor phrases hide, the grid says 
 });
 
 test('nothing loads at all: the floor phrases hide (an unverifiable price is not shown as current)', async ({ page }) => {
-  const st = await open(page, `/esim/${SLUG}/`, { live: 502, snapshot: 404 });
+  const st = await open(page, `/ru/esim/${SLUG}/`, { live: 502, snapshot: 404 });
   await expect(page.locator('#catalogNotice')).toBeVisible();
   await expect.poll(() => visibleFloors(page)).toBe(0);
   expect(st.nonGet).toBe(0);
 });
 
 test('a former SEO pilot page carries the live numbers too since 2026-10-24 (the experiment ended)', async ({ page }) => {
-  const st = await open(page, '/esim/uae/', { live: cheaper(SNAPSHOT.packages) });
+  const st = await open(page, '/ru/esim/uae/', { live: cheaper(SNAPSHOT.packages) });
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   expect(await page.locator('[data-cat], [data-cat-floor], [data-cat-seg]').count()).toBeGreaterThan(0);
   expect(await page.evaluate(() => typeof window.MagicCatalogNumbers)).not.toBe('undefined');

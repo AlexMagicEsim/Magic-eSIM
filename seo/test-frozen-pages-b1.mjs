@@ -12,8 +12,8 @@ import { SEO_PILOT_PAGES, SEO_CONTROL_PAGES, FROZEN_PAGES, CARDS_B1_SINCE, EXPER
 import { COUNTRY_SLUGS } from './catalogue-page-count.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const read = (slug) => readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf8');
-const countries = readdirSync(join(ROOT, 'esim')).filter((s) => existsSync(join(ROOT, 'esim', s, 'index.html')) && read(s).includes('data-country-page='));
+const read = (slug) => readFileSync(join(ROOT, 'ru/esim', slug, 'index.html'), 'utf8');
+const countries = readdirSync(join(ROOT, 'ru/esim')).filter((s) => existsSync(join(ROOT, 'ru/esim', s, 'index.html')) && read(s).includes('data-country-page='));
 
 test('every RU country page renders the B1 card — the ten experiment pages included', () => {
   assert.deepEqual([...countries].sort(), [...COUNTRY_SLUGS].sort(), 'a B1 country page for exactly the catalogue countries');
