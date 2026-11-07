@@ -38,7 +38,7 @@ import { EXPERIMENT_ENDED } from './frozen-pages.mjs'; // the experiment's ten h
 import { renderAuthored, readRawProfile, loadPublishedCatalogue } from './page-claims.mjs';
 import { buildDictionaryGen } from './build-country-dictionary.mjs';
 import { ALIASES, REGIONS } from './destination-aliases.mjs';
-import { ruAlternates } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
+import { ruAlternates, enSwitchPath } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -573,7 +573,7 @@ ${METRIKA}
   <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 </head>
 <body data-country-iso="${c.iso}" data-country-name="${esc(c.nameRu)}">
-${ruHeader({ animatedLogo: live })}
+${ruHeader({ animatedLogo: live, en: enSwitchPath(url) })}
 
 <main class="cp">
   <section class="cp-hero">

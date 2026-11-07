@@ -193,11 +193,15 @@ export function stripSiteI18nBundle(html) {
 // <hr> of the phone menu. A link with hreflang anywhere ELSE (a guide pointing at another language) is still content.
 // State migration, as for the icons and hreflang: the stored hashes were recomputed from the pages as they were at
 // 8e2bd308 under this rule, so no date moved. seo/test-sitemap-lastmod.mjs pins both directions.
+// Since 2026-11-07 (post-migration audit P2) the RUSSIAN pages' single «English» link leads to the same page in
+// English too (seo/indexing.mjs enSwitchPath) — without an hreflang attribute on the inner pages, so the link and its
+// phone-menu twin are matched with hreflang optional. The header is stripped whole before hashing anyway
+// (stripSiteChrome), so this moves no hash; it lets the chrome premise below see one Russian header again.
 export function stripLanguageSwitch(html) {
   return String(html)
     .replace(/<details class="langsw langmenu">[\s\S]*?<\/details>/g, '<details class="langsw langmenu"></details>')
-    .replace(/<a class="langsw" href="[^"]*" hreflang="[^"]*" lang="[^"]*">[\s\S]*?<\/a>/g, '<a class="langsw"></a>')
-    .replace(/(<nav class="mnav-panel"[^>]*>[\s\S]*?<hr>)((?:\s*<a href="[^"]*" hreflang="[^"]*" lang="[^"]*"[^>]*>[^<]*<\/a>)+)/g, '$1');
+    .replace(/<a class="langsw" href="[^"]*"(?: hreflang="[^"]*")? lang="[^"]*">[\s\S]*?<\/a>/g, '<a class="langsw"></a>')
+    .replace(/(<nav class="mnav-panel"[^>]*>[\s\S]*?<hr>)((?:\s*<a href="[^"]*"(?: hreflang="[^"]*")? lang="[^"]*"[^>]*>[^<]*<\/a>)+)/g, '$1');
 }
 
 // THE FIRST-VISIT LANGUAGE ROUTE LIKEWISE, added 2026-10-23 (owner). The two <head> lines of index.html that load
@@ -279,9 +283,20 @@ export function stripCheckoutWindow(html) {
   return String(html).replace(/<div class="overlay" id="checkout" hidden>[\s\S]*?(?=<footer class="site-footer">)/g, '<div class="overlay" id="checkout" hidden></div>\n');
 }
 
+// THE REFERRER HAND-OFF LIKEWISE, added 2026-11-07 (post-migration audit P2). The one line of the attribution capture
+// and of the Metrika snippet that takes over the external referrer an old address's redirect page left
+// (sessionStorage magic_legacy_ref, seo/build-legacy-redirects.mjs) says how a visit is attributed, not what the page
+// says. Put back to EXACTLY the form before it, so the stored hashes still match and no date moved (no state
+// migration); seo/test-sitemap-lastmod.mjs pins the round trip.
+export function stripLegacyReferrer(html) {
+  return String(html)
+    .replace(/^[^\n]*magic_legacy_ref[^\n]*\n/gm, '')
+    .replace(/ym\((\d+),"init",Object\.assign\((\{[^{}]*\}),MAGIC_YM_REF\)\);/g, 'ym($1,"init",$2);');
+}
+
 export function contentHash(html) {
   return createHash('sha256')
-    .update(stripCheckoutWindow(stripSiteChrome(stripAssetStamps(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(stripEarlyRequestCountry(html))))))))))
+    .update(stripCheckoutWindow(stripSiteChrome(stripAssetStamps(stripLiveCatalogueMarkup(stripAnimatedLogo(stripSiteI18nBundle(stripLanguageSwitch(stripLangRoute(stripAssortmentView(stripEarlyRequestCountry(stripLegacyReferrer(html)))))))))))
       .replace(/[ \t]*<link\b(?=[^>]*\brel="(?:icon|shortcut icon|apple-touch-icon|mask-icon|manifest)")[^>]*>\n?/gi, '')
       .replace(/[ \t]*<meta\s+(?:property|name)="(?:og:image|twitter:image)(?::[a-z]+)?"[^>]*>\n?/gi, '')
       .replace(/[ \t]*<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang=)[^>]*>\n?/gi, ''))

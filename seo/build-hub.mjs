@@ -20,7 +20,7 @@ import { headIcons } from './head-icons.mjs';
 import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD, RU_POPULAR } from './ru-chrome.mjs';
 import { SEARCH_ICON } from './site-chrome.mjs';
 import { GUIDES } from './guides.mjs';
-import { ruAlternates } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
+import { ruAlternates, enSwitchPath } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
@@ -136,7 +136,7 @@ ${METRIKA}
   <script type="application/ld+json">${JSON.stringify(jsonld)}</script>
 </head>
 <body>
-${ruHeader()}
+${ruHeader({ en: enSwitchPath('/ru/esim/') })}
 
 <main class="hub">
   <section class="hub-hero">

@@ -19,6 +19,7 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
+import { enSwitchPath } from './indexing.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -103,7 +104,9 @@ test('the Russian header and footer are the shared chrome, with the Russian mark
     const h = read(p);
     assert.match(h, /<header class="site-header">/, `${p}: header`);
     assert.match(h, /<footer class="site-footer">/, `${p}: footer`);
-    assert.match(h, /<a class="langsw" href="\/" lang="en">/, `${p}: English is /en/, never a noindex template`);
+    // Owner 2026-11-07 (post-migration audit P2): «English» opens the same page in English — seo/test-ru-language-switch.mjs
+    // holds every Russian page to seo/indexing.mjs enSwitchPath. (Before, it was always the English home.)
+    assert.match(h, new RegExp(`<a class="langsw" href="${enSwitchPath(`/${p.replace(/index\.html$/, '')}`).replace(/[.]/g, '\\.')}" lang="en">`), `${p}: English is its English twin`);
     assert.doesNotMatch(h, /class="paybar"|previewNotice/, `${p}: no GLOBAL payment bar on the Russian site`);
     assert.doesNotMatch(h, /\bUSD\b|\$\d/, `${p}: no dollars`);
     assert.doesNotMatch(h, /href="\/en\/(esim|guides)\//, `${p}: no link to an English template page`);

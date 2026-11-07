@@ -30,9 +30,10 @@ export function readRedirect(html) {
   const refresh = (html.match(/<meta http-equiv="refresh" content="0; url=([^"]+)">/) || [])[1] || null;
   const canonical = (html.match(/<link rel="canonical" href="([^"]+)">/) || [])[1] || null;
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
-  const js = scripts.length === 1 ? (scripts[0].match(/^location\.replace\(("[^"]+")\+location\.search\+location\.hash\)$/) || [])[1] : null;
+  // A Russian page's script first hands an external referrer over (seo/test-legacy-referrer.mjs), then redirects.
+  const m = scripts.length === 1 ? scripts[0].match(/^((?:try\{[^\n]*?sessionStorage\.setItem\('magic_legacy_ref'[^\n]*?\}catch\(e\)\{\})?)location\.replace\(("[^"]+")\+location\.search\+location\.hash\)$/) : null;
   const csp = (html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/) || [])[1] || '';
-  return { refresh, canonical, js: js ? JSON.parse(js) : null, scripts, csp };
+  return { refresh, canonical, js: m ? JSON.parse(m[2]) : null, handOff: Boolean(m && m[1]), scripts, csp };
 }
 
 test('the frozen inventory: the old tree\'s pages, noindex ones included; «/» stays a page; --freeze never overwrites', () => {
@@ -73,6 +74,7 @@ test('every moved legacy path has its redirect page; refresh, canonical and scri
     assert.equal(x.refresh, r.target, `${r.file}: refresh`);
     assert.equal(x.canonical, SITE + r.target, `${r.file}: canonical`);
     assert.equal(x.js, r.target, `${r.file}: script target`);
+    assert.equal(x.handOff, !r.path.startsWith('/en/'), `${r.file}: the referrer hand-off on the Russian pages only`);
     assert.match(html, new RegExp(`<a href="${r.target.replace(/[.]/g, '\\.')}">`), `${r.file}: a visible link`);
     assert.match(html, new RegExp(`<html lang="${r.path.startsWith('/en/') ? 'en' : 'ru'}">`), `${r.file}: the old page's language`);
   }

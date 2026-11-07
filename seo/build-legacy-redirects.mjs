@@ -8,6 +8,14 @@
 //     fragment survive; the page's meta CSP allows exactly that script by its sha256 and nothing else;
 //   - <meta http-equiv="refresh" content="0; url=NEW"> for a browser without JavaScript (it cannot carry the query);
 //   - <link rel="canonical"> to NEW, and a visible link to NEW in the old page's language.
+// THE REFERRER HAND-OFF (post-migration audit P2, 2026-11-07). A visitor who reaches an old RUSSIAN address from a
+// search engine or another site would arrive on the new page with our own old address as document.referrer — the
+// real source lost to the attribution capture (assets/country-tariffs.js, ru/index.html) and to Metrika. So the
+// Russian redirect pages first leave the external referrer in sessionStorage['magic_legacy_ref'] as
+// { r: referrer, to: the target path, ts }: the target page's capture and counter take it only on that very path and
+// within a minute, and the capture removes it (LEGACY_REF_MAX_AGE_MS). Our own referrer is never handed over. The
+// English redirect pages hand nothing over: no counter and no attribution capture run on the English site, and the
+// international Privacy Policy lists every browser-storage key there.
 // No noindex (it would contradict the redirect signals), no Metrika, no hreflang; never in the sitemap and no lastmod
 // (seo/build-sitemap.mjs lists its URLs explicitly; nothing that walks the tree for pages may count these — they are
 // recognised by isLegacyRedirectFile()). This is a CLIENT-SIDE REDIRECT PAGE, never an HTTP 301.
@@ -46,11 +54,17 @@ const WORDS = {
 
 const sha256 = (s) => createHash('sha256').update(s, 'utf8').digest('base64');
 
+/** The sessionStorage key a Russian redirect page hands the external referrer over in, and how long it is good for. */
+export const LEGACY_REF_KEY = 'magic_legacy_ref';
+export const LEGACY_REF_MAX_AGE_MS = 60_000;
+/** The hand-off statement of a Russian redirect page (empty for an English one). Never throws: storage can be blocked. */
+const referrerHandOff = (path, target) => (langOf(path) !== 'ru' ? '' : `try{var r=document.referrer||'';if(r&&r!==location.origin&&r.indexOf(location.origin+'/')!==0)sessionStorage.setItem('${LEGACY_REF_KEY}',JSON.stringify({r:r.slice(0,500),to:${JSON.stringify(target)},ts:Date.now()}))}catch(e){}`);
+
 /** The redirect page of one old address that moved to `target`. Pure. */
 export function redirectPage(path, target) {
   if (!/^\/[a-z0-9./-]*$/.test(target) || target.includes('..')) throw new Error(`legacy redirect: unsafe target ${target}`);
   const w = WORDS[langOf(path)];
-  const script = `location.replace(${JSON.stringify(target)}+location.search+location.hash)`;
+  const script = `${referrerHandOff(path, target)}location.replace(${JSON.stringify(target)}+location.search+location.hash)`;
   return `<!doctype html>
 <html lang="${langOf(path)}">
 <head>

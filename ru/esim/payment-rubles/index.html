@@ -38,7 +38,8 @@
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-    ym(110393848,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+    var MAGIC_YM_REF=(function(){try{var x=JSON.parse(sessionStorage.getItem('magic_legacy_ref')||'null');if(x&&x.to===location.pathname&&typeof x.r==='string'&&Date.now()-Number(x.ts)<60000)return{referrer:x.r};}catch(e){}return{};})(); /* the external referrer an old address's redirect page handed over */
+    ym(110393848,"init",Object.assign({clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true},MAGIC_YM_REF));
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/110393848" style="position:absolute;left:-9999px;" alt=""></div></noscript>
   <!-- /Yandex.Metrika counter -->
