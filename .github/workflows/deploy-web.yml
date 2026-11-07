@@ -1,0 +1,112 @@
+name: Deploy web (nginx host)
+
+# Publishes the SAME allowlisted artifact as «Deploy Pages» (scripts/build-pages-artifact.mjs → _site/) to the nginx
+# host that serves real 301s (infra/web/README.md), together with the nginx config of that commit (site.conf + the
+# files generated from seo/url-migration.mjs). Every release is its own directory; the switch is one atomic symlink,
+# checked by `nginx -t` before the reload and switched back when it fails (infra/web/deploy/activate.sh).
+#
+# NOTHING RUNS UNTIL THE OWNER SWITCHES. Every job is gated on the repository variable WEB_DEPLOY == 'true', which does
+# not exist today, so every run skips every job. It is set only together with the DNS switch (README «The switch»).
+# Secrets it then needs (names only, none exists today): WEB_SSH_KEY (a deploy-only private key), WEB_HOST
+# (user@host of the server), WEB_KNOWN_HOSTS (the server's pinned host key line(s) — never StrictHostKeyChecking=no).
+#
+# Triggers mirror deploy-pages.yml, for the same reason: the catalogue bot pushes with GITHUB_TOKEN, which starts no
+# workflow, so its commits arrive through `workflow_run` of «Refresh static catalog cache» (when it moved main).
+# Manual dispatch can also ROLL BACK to the previous release on the host.
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Refresh static catalog cache"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "deploy this commit, or roll the host back to its previous release"
+        type: choice
+        options: [deploy, rollback]
+        default: deploy
+
+permissions:
+  contents: read
+
+# One deployment at a time, never cancelled half-way; a no-op workflow_run gets its own group (as in deploy-pages.yml).
+concurrency:
+  group: ${{ (github.event_name == 'workflow_run' && (github.event.workflow_run.head_branch != 'main' || github.event.workflow_run.head_sha == github.sha)) && format('web-noop-{0}', github.run_id) || 'web-deploy' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: build, verify and deploy to the nginx host
+    if: >-
+      vars.WEB_DEPLOY == 'true' && github.ref == 'refs/heads/main' &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_sha != github.sha))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+
+      - name: Build the artifact and check the generated config
+        if: github.event_name != 'workflow_dispatch' || inputs.action == 'deploy'
+        run: |
+          node scripts/build-web-server-config.mjs --check
+          node scripts/build-pages-artifact.mjs --out _site
+          node --test seo/test-pages-artifact.mjs
+
+      # The same proof as web-server.yml, on this commit, before anything leaves the runner — STRICT: every moved path's
+      # target must answer 200 in this artifact, so the map can never send the live site's pages to a 404.
+      - name: nginx -t and the redirect verifier (local container, strict)
+        if: github.event_name != 'workflow_dispatch' || inputs.action == 'deploy'
+        env:
+          WEB_TEST_STRICT: "1"
+        run: infra/web/test/run.sh
+
+      - name: SSH identity (pinned host key)
+        env:
+          WEB_SSH_KEY: ${{ secrets.WEB_SSH_KEY }}
+          WEB_KNOWN_HOSTS: ${{ secrets.WEB_KNOWN_HOSTS }}
+        run: |
+          test -n "$WEB_SSH_KEY" && test -n "$WEB_KNOWN_HOSTS" || { echo "WEB_SSH_KEY / WEB_KNOWN_HOSTS not set"; exit 1; }
+          install -d -m 700 ~/.ssh
+          (umask 077; printf '%s\n' "$WEB_SSH_KEY" > ~/.ssh/web_deploy; printf '%s\n' "$WEB_KNOWN_HOSTS" > ~/.ssh/web_known_hosts)
+          printf 'Host web\n  IdentityFile ~/.ssh/web_deploy\n  IdentitiesOnly yes\n  UserKnownHostsFile ~/.ssh/web_known_hosts\n  StrictHostKeyChecking yes\n  BatchMode yes\n' > ~/.ssh/config
+          chmod 600 ~/.ssh/config
+
+      - name: Upload the release and switch
+        if: github.event_name != 'workflow_dispatch' || inputs.action == 'deploy'
+        env:
+          WEB_HOST: ${{ secrets.WEB_HOST }}
+        run: |
+          test -n "$WEB_HOST" || { echo "WEB_HOST not set"; exit 1; }
+          release="$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_SHA}"
+          ssh -o HostName="${WEB_HOST#*@}" -o User="${WEB_HOST%@*}" web "mkdir -p /srv/magicesim/releases/$release/site /srv/magicesim/releases/$release/nginx"
+          rsync -a --delete -e "ssh -o HostName=${WEB_HOST#*@} -o User=${WEB_HOST%@*}" _site/ "web:/srv/magicesim/releases/$release/site/"
+          rsync -a -e "ssh -o HostName=${WEB_HOST#*@} -o User=${WEB_HOST%@*}" infra/web/nginx/site.conf infra/web/nginx/redirects.conf infra/web/nginx/country-map.conf "web:/srv/magicesim/releases/$release/nginx/"
+          ssh -o HostName="${WEB_HOST#*@}" -o User="${WEB_HOST%@*}" web 'bash -s' -- "$release" < infra/web/deploy/activate.sh
+          echo "### Web deploy: releases/$release" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Roll back to the previous release
+        if: github.event_name == 'workflow_dispatch' && inputs.action == 'rollback'
+        env:
+          WEB_HOST: ${{ secrets.WEB_HOST }}
+        run: ssh -o HostName="${WEB_HOST#*@}" -o User="${WEB_HOST%@*}" web 'bash -s' -- --rollback < infra/web/deploy/activate.sh
+
+      # A few GETs against the live host (no redirects followed): the home is a page, a moved path is one 301.
+      - name: Smoke
+        run: |
+          code() { curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$1"; }
+          test "$(code https://magicesim.store/)" = 200
+          test "$(code https://magicesim.store/404-probe-$GITHUB_RUN_ID)" = 404
+          test "$(code 'https://magicesim.store/?country=TR')" = 301
+
+      - name: Forget the key
+        if: always()
+        run: rm -f ~/.ssh/web_deploy ~/.ssh/web_known_hosts ~/.ssh/config

@@ -1,0 +1,62 @@
+name: Web server (nginx 301s)
+
+# Proves the nginx host configuration (infra/web/) before it ever serves magicesim.store: the generated redirect files
+# match the one URL map (seo/url-migration.mjs), `nginx -t` accepts site.conf in the pinned nginx image, and
+# scripts/verify-web-redirects.mjs finds exactly ONE 301 for every moved path of the sitemap and of the artifact (query
+# kept), 200 for everything that stays, 404 + 404.html for /pay/..., no chain, no loop. Credential-free: this
+# repository is public, and nothing here talks to production (the verifier asks a container on 127.0.0.1).
+#
+# Only on a pull request that touches what decides the answers; one job, no matrix (Actions minutes are a paid pool).
+
+on:
+  pull_request:
+    paths:
+      - "infra/web/**"
+      - "seo/url-migration.mjs"
+      - "scripts/*web*"
+      - "seo/catalogue-countries.json"
+      - ".github/workflows/web-server.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-server-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  nginx:
+    name: nginx -t + redirect verifier
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+
+      # The generator refuses a map nginx would answer differently from newPath(); --check fails on a stale file.
+      - name: Generated config is current
+        run: node scripts/build-web-server-config.mjs --check
+
+      # Artifact + self-signed certificate + the pinned nginx (compose.yml) + nginx -t + the verifier.
+      - name: nginx -t and the redirect verifier
+        run: infra/web/test/run.sh --report web-redirects.json
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ -f web-redirects.json ]; then
+            node -e 'const r=require("./web-redirects.json").summary; console.log("### Web server redirects\n\n| | |\n|---|---|\n"+Object.entries(r).filter(([k])=>k!=="statuses").map(([k,v])=>`| ${k} | ${v} |`).join("\n"))' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: web-redirects-report
+          path: web-redirects.json
+          if-no-files-found: ignore
+          retention-days: 14

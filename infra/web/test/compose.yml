@@ -1,0 +1,15 @@
+# Local / CI proof of infra/web/nginx/site.conf — run through infra/web/test/run.sh, never on its own.
+# nginx stable (1.30.x, alpine), pinned by the multi-arch index digest so the test and CI run the same build.
+name: magicesim-web-test
+services:
+  nginx:
+    image: nginx:stable-alpine@sha256:583b7f2fce1cdb8da5ad5c39ebd3c33b98b87d493190e548bdee1fa8c619c311
+    ports:
+      - "127.0.0.1:${WEB_TEST_HTTP_PORT:-18080}:80"
+      - "127.0.0.1:${WEB_TEST_HTTPS_PORT:-18443}:443"
+    volumes:
+      # the same layout as the host: /srv/magicesim/current/{site,nginx}
+      - ${WEB_TEST_ROOT:?set by run.sh}/current:/srv/magicesim/current:ro
+      # a self-signed certificate made by run.sh, at the path certbot would write
+      - ${WEB_TEST_ROOT:?set by run.sh}/certs:/etc/letsencrypt/live/magicesim.store:ro
+      - ./conf.d:/etc/nginx/conf.d:ro
