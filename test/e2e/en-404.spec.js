@@ -51,6 +51,21 @@ test('the Russian 404 is unchanged: Russian, the home link, and the counter', as
   expect(metrika.length).toBeGreaterThan(0);
 });
 
+test('an unknown OLD Russian address gets the Russian 404, its link to /ru/, and the counter (post-migration audit P3-3)', async ({ page }) => {
+  // The known old addresses are redirect pages (seo/build-legacy-redirects.mjs) and never reach 404.html; an unknown
+  // one — a withdrawn country, a mistyped link from before the move — was a Russian page, so it stays Russian.
+  for (const url of ['/esim/atlantis/', '/esim/atlantis/index.html', '/android']) {
+    const metrika = await openMissing(page, url);
+    await expect(page.locator('h1'), url).toHaveText('Страница не найдена');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
+    await expect(page.locator('#card a')).toHaveAttribute('href', '/ru/');
+    expect(metrika.length, url).toBeGreaterThan(0);
+  }
+  // …and a root path that only looks like one stays English
+  await openMissing(page, '/esimx/');
+  await expect(page.locator('h1')).toHaveText('Page not found');
+});
+
 test('a /pay/ path still never reaches the counter', async ({ page }) => {
   const metrika = await openMissing(page, '/pay/not–a–token');
   await expect(page.locator('h1')).toHaveText('Страница не найдена');

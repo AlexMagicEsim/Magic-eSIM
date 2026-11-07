@@ -90,10 +90,10 @@ test('the English screen is English, word for word, and links into the English s
   assert.doesNotMatch(s.html, /[А-Яа-яЁё]/);
 });
 
-test('the branch matches each published prefix (/en, /es …); everything at the root outside /ru/ is English; /ru/ and /pay/ are Russian', () => {
-  // EN-root migration (2026-11-07): the root is the English site, so an unknown root path gets the English screen.
-  for (const p of ['/en', '/en/esim/x/', '/', '/destinations/atlantis/', '/guides/nope/', '/nope/', '/enter', '/english/', '/esim/old/',
-    '/iphone', '/rux/', '/kor/x', '/deutsch/', '/zh-hans/', '/__proto__/', '/constructor/', '/hasOwnProperty/', '/EN/', '//en/']) {
+test('the branch matches each published prefix (/en, /es …); everything at the root outside /ru/ is English; /ru/, /pay/ and the old Russian addresses are Russian', () => {
+  // EN-root migration (2026-11-07): the root is the English site, so an unknown root path gets the English screen…
+  for (const p of ['/en', '/en/esim/x/', '/', '/destinations/atlantis/', '/guides/nope/', '/nope/', '/enter', '/english/', '/esimx/', '/esim-old/',
+    '/iphones', '/iphone/x', '/android.htm', '/rux/', '/kor/x', '/deutsch/', '/zh-hans/', '/__proto__/', '/constructor/', '/hasOwnProperty/', '/EN/', '//en/']) {
     assert.equal(screen(p).code, 'en', p);
   }
   for (const p of ['/es', '/es/', '/es/esim/atlantis/', '/es/guides/nope/']) assert.equal(screen(p).code, 'es', p);
@@ -102,4 +102,9 @@ test('the branch matches each published prefix (/en, /es …); everything at the
   for (const p of ['/zh', '/zh/', '/zh/esim/atlantis/', '/zh/guides/nope/']) assert.equal(screen(p).code, 'zh', p);
   for (const p of ['/ko', '/ko/', '/ko/esim/atlantis/', '/ko/guides/nope/']) assert.equal(screen(p).code, 'ko', p);
   for (const p of ['/ru', '/ru/', '/ru/esim/en/', '/ru/nope.html', '/pay/en/x', '/pay']) assert.equal(screen(p).code, null, p);
+  // …except the OLD Russian addresses (post-migration audit P3-3): an unknown /esim/… or /iphone, /android was a Russian
+  // page, and its reader gets the Russian screen (the known ones are redirect pages and never reach 404.html).
+  for (const p of ['/esim/old/', '/esim', '/esim/', '/esim/atlantis/index.html', '/iphone', '/iphone.html', '/iphone/', '/android', '/android.html']) {
+    assert.equal(screen(p).code, null, p);
+  }
 });

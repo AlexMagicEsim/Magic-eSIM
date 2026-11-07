@@ -100,6 +100,11 @@
         try{magicMetrikaGoal('promo_apply_success',{country_code:(typeof activeCountry!=='undefined'?activeCountry:''),package_id:(overlay&&overlay.dataset?overlay.dataset.packageId:undefined),promo_code:appliedPromo?appliedPromo.code:undefined,discount_amount:(appliedPromo&&isFinite(Number(appliedPromo.discount)))?Number(appliedPromo.discount):undefined});}catch(e){}
       }else if(data&&data.error==='PROMO_CODES_DISABLED'){
         promoDisabled=true;const w=byId('coPromoWrap');if(w)w.hidden=true;resetPromo();
+      }else if(resp.transportFailure){
+        /* Neither road reached a verdict (assets/magic-net.js: network error or 502/503/504 on both). The code was not
+           checked — saying it «could not be applied» would read as a refusal. Same wording as a thrown request below. */
+        appliedPromo=null;renderPrice();
+        promoMsg('Не удалось проверить промокод. Попробуйте позже.','co-err');
       }else{
         appliedPromo=null;renderPrice();
         promoMsg((data&&(PROMO_MSG[data.error]||data.message))||'Не удалось применить промокод.','co-err');
@@ -130,6 +135,9 @@
         promoMsg('',null);renderPrice();
       }else if(data&&data.error==='PROMO_CODES_DISABLED'){
         promoDisabled=true;const w=byId('coPromoWrap');if(w)w.hidden=true;resetPromo();
+      }else if(resp.transportFailure){
+        /* No verdict reached either road: keep the applied promo, as the comment above promises for a network error —
+           MagicNet reports it as a response, not a throw, so the catch below never saw it. The backend re-validates at payment. */
       }else{
         // Ineligible for this email (per-email limit / first-purchase): drop the
         // discount + show why. The code stays in the field, so the pay guard blocks

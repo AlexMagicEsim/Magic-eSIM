@@ -176,6 +176,19 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      # WHAT THIS PR WOULD ANNOUNCE TO YANDEX (post-migration audit, 2026-11-07). After every deploy indexnow.yml sends
+      # the RU pages whose lastmod moved OR whose set of internal links changed (#220) — PR #227 changed one link in
+      # the Russian header and its deploy sent 205 URLs nobody had counted. The same selection is run here, OFFLINE:
+      # no network, no key used, nothing sent; the candidates go to the job summary. Informational — a preview that
+      # cannot run is a warning, never a red PR.
+      - name: IndexNow preview (offline — nothing is sent)
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          node scripts/indexnow-submit.mjs --base "$BASE_SHA" --head "$(git rev-parse HEAD)" --offline \
+            || echo "::warning::IndexNow preview could not run (exit $?) — not a test failure"
+
   # The Mini App's own browser scripts, test/mini-app/*.e2e.js: WebKit (as iOS Telegram's WKWebView) and Chromium, both
   # themes, every API faked at the network edge — nothing real is touched, same as `browser`. Until 2026-10-20 nothing
   # ran them in CI: two had been red unseen, one since 2026-09-03. The runner reads the DIRECTORY, so a new script is
