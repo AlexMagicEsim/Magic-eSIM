@@ -23,6 +23,9 @@
  * --expect-pages   the LIVE GitHub Pages site, read-only, to RECORD today's statuses (nothing moves there yet): HEAD for
  *                  the bulk, GET for the few body checks, at --rate requests per second (default 2). Never fails.
  * --docroot        the artifact to compare with; without it the artifact is built into a temp dir from this checkout.
+ * --ask-from       an artifact of the OLD tree (today's main): its sitemap and pages are asked too, so every address in
+ *                  use today is proved to land — with --docroot = the new tree and no --allow-missing-targets this is
+ *                  the switch proof. A page of the new tree that a rule would redirect is a failure (`shadowed`).
  *
  * Exit codes: 0 every check passed (or --expect-pages); 1 a failure; 2 bad arguments.
  */
@@ -166,10 +169,18 @@ export async function verify(opts) {
     return add({ kind, path, method, status: r.status || r.error, location: loc, expect, result: pages ? 'recorded' : (ok ? 'pass' : 'fail'), match: ok, note });
   }
 
-  for (const path of pathsToAsk(docroot)) {
+  const own = new Set(pathsToAsk(docroot));
+  const old = opts.askFrom ? pathsToAsk(opts.askFrom) : [];
+  for (const path of [...new Set([...own, ...old])].sort()) {
     const to = newPath(path.replace(/\?.*$/, ''));
+    if (!pages && to !== null && own.has(path) && servedBy(docroot, path)) {
+      add({ kind: 'shadowed', path, method: '-', status: '-', location: to, expect: { status: 200 }, result: 'fail',
+        note: `a page of the tree that the rule ${path} -> ${to} would hide` });
+    }
     if (pages || to === null) {
-      await check(to === null ? 'stays' : 'moves-later', path, expectStay(path));
+      const lost = !pages && opts.askFrom && servedBy(opts.askFrom, path) && !servedBy(docroot, path);
+      await check(to === null ? 'stays' : 'moves-later', path, lost ? { status: 200 } : expectStay(path),
+        lost ? { note: 'served today, no rule moves it, gone from the new tree' } : {});
       continue;
     }
     for (const q of ['', '?utm_source=x']) {
@@ -327,6 +338,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     expectPages: flag('--expect-pages'),
     rate: Number(val('--rate') ?? (flag('--expect-pages') ? 2 : 0)),
     docroot: val('--docroot'),
+    askFrom: val('--ask-from'),
   };
   if (!opts.base) { console.error('usage: --base <url> [--host h] [--http-base url] [--insecure] [--docroot dir] [--allow-missing-targets] [--expect-pages] [--rate n] [--report file]'); process.exit(2); }
   if (opts.expectPages && (!(opts.rate > 0) || opts.rate > 2)) { console.error('--expect-pages asks production: --rate must be > 0 and ≤ 2'); process.exit(2); }

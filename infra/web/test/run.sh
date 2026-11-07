@@ -24,6 +24,8 @@ trap cleanup EXIT
 
 node "$repo/scripts/build-web-server-config.mjs" --check
 node "$repo/scripts/build-pages-artifact.mjs" --out "$WEB_TEST_ROOT/current/site" >/dev/null
+# WEB_TEST_OLD_TREE=<dir>: an artifact of today's main, asked as well (the switch proof; see verify-web-redirects.mjs --ask-from)
+old="${WEB_TEST_OLD_TREE:-}"
 mkdir -p "$WEB_TEST_ROOT/current/nginx" "$WEB_TEST_ROOT/certs"
 cp "$repo"/infra/web/nginx/*.conf "$WEB_TEST_ROOT/current/nginx/"
 openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj "/CN=magicesim.store" \
@@ -41,5 +43,5 @@ done
 node "$repo/scripts/verify-web-redirects.mjs" \
   --base "https://127.0.0.1:$WEB_TEST_HTTPS_PORT" --host magicesim.store --insecure \
   --http-base "http://127.0.0.1:$WEB_TEST_HTTP_PORT" \
-  --docroot "$WEB_TEST_ROOT/current/site" ${allow:+$allow} ${report:+--report "$report"} \
+  --docroot "$WEB_TEST_ROOT/current/site" ${old:+--ask-from "$old"} ${allow:+$allow} ${report:+--report "$report"} \
   || { "${compose[@]}" logs --tail 20 nginx; exit 1; }
