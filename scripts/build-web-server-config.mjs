@@ -22,7 +22,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RULES, STAYS, newPath, countryQueryTargets } from '../seo/url-migration.mjs';
+import { RULES, STAYS, newPath, countryQueryTargets, withDirSlash } from '../seo/url-migration.mjs';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const OUT_DIR = join(REPO, 'infra', 'web', 'nginx');
@@ -46,7 +46,7 @@ export function nginxNewPath(path, rules = RULES) {
   if (exact) return exact.to;
   let best = null;
   for (const r of rules) if (r.type === 'prefix' && path.startsWith(r.from) && (!best || r.from.length > best.from.length)) best = r;
-  return best ? best.to + path.slice(best.from.length) : null;
+  return best ? best.to + withDirSlash(path.slice(best.from.length)) : null;
 }
 
 export function sitemapPaths(root = REPO) {
@@ -59,7 +59,7 @@ export function probePaths(rules = RULES, extra = []) {
   const out = new Set(['/', ...STAYS, ...extra]);
   for (const r of rules) {
     out.add(r.from);
-    if (r.from.endsWith('/')) { out.add(`${r.from}x/`); out.add(`${r.from}a/b.html`); out.add(r.from.slice(0, -1)); }
+    if (r.from.endsWith('/')) { out.add(`${r.from}x/`); out.add(`${r.from}x`); out.add(`${r.from}a/b`); out.add(`${r.from}a/b.html`); out.add(r.from.slice(0, -1)); }
     else { out.add(`${r.from}/`); out.add(`${r.from}x`); }
     out.add(r.to);
   }
@@ -96,7 +96,13 @@ export function redirectsConf(rules = RULES, sitemap = sitemapPaths()) {
   lines.push('# `=` keeps the query with $is_args$args; a `rewrite ... permanent` appends the original query itself.', '');
   for (const r of rules) {
     if (r.type === 'exact') lines.push(`location = ${r.from} { return 301 ${r.to}$is_args$args; }`);
-    else lines.push(`location ^~ ${r.from} { rewrite ^${reEscape(r.from)}(.*)$ ${r.to}$1 permanent; }`);
+    else {
+      // A last segment without a dot and without its slash gets the slash here (withDirSlash), in the same 301.
+      lines.push(`location ^~ ${r.from} {`,
+        `    rewrite ^${reEscape(r.from)}((?:[^/]*/)*[^/.]+)$ ${r.to}$1/ permanent;`,
+        `    rewrite ^${reEscape(r.from)}(.*)$ ${r.to}$1 permanent;`,
+        '}');
+    }
   }
   return `${lines.join('\n')}\n`;
 }
@@ -109,10 +115,10 @@ export function countryMapConf(countries) {
   lines.push(
     '# Codes exactly as seo/catalogue-countries.json; anything else maps to "" and location = / serves the page with',
     '# 200. The value is a plain path from the generated list, never from the URL. nginx compares map STRINGS',
-    '# case-insensitively, so a case-sensitive regex gate admits only two upper-case letters first (?country=tr -> 200).',
+    '# case-insensitively, so ?country=tr reaches the same page as ?country=TR, like the old home\'s script.',
     'map $arg_country $country_code {',
     '    default "";',
-    '    "~^[A-Z]{2}$" $arg_country;',
+    '    "~*^[A-Z]{2}$" $arg_country;',
     '}',
     'map $country_code $country_redirect {',
     '    default "";',

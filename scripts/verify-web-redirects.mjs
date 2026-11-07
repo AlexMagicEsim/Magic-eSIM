@@ -9,7 +9,7 @@
  *
  * WHAT IS ASKED (never following a redirect): every <loc> of the artifact's sitemap.xml and every page of the artifact
  * (x/index.html -> /x/, y.html -> /y.html), each once plain and — when it moves — once with `?utm_source=x`; then fixed
- * probes: /, /?country=TR (+ UTM in front and behind), /?country=ZZ, /?country=../x, /?country=tr, /en, /esim, /es,
+ * probes: /, /?country=TR (+ UTM in front and behind), /?country=ZZ, /?country=../x, /?country=tr (-> the page), /esim/turkey (no slash, one hop), /en, /esim, /es,
  * /iphone, /pay/<token>, /pay/s/<secret>, an unknown page, content types, cache and gzip headers, and the host blocks
  * (www, http) when --http-base is given.
  *
@@ -200,13 +200,18 @@ export async function verify(opts) {
     await check('probe', '/?country=TR&utm_source=x', { status: 301, location: `${tr}?utm_source=x` }, { method: 'GET' });
     await check('probe', '/?utm_source=x&country=TR&utm_medium=y', { status: 301, location: `${tr}?utm_source=x&utm_medium=y` }, { method: 'GET' });
   }
-  for (const q of ['/?country=ZZ', '/?country=../x', '/?country=tr', '/?country=', '/?xcountry=TR']) {
+  if (!pages) {
+    await check('probe', '/?country=tr', P.trq, { method: 'GET', note: 'lower case, like the old home script' });
+    await check('probe', '/esim/turkey', { status: 301, location: newPath('/esim/turkey') }, { method: 'GET', note: 'no slash: still one hop' });
+    await check('probe', '/en/esim/turkey', { status: 301, location: newPath('/en/esim/turkey') }, { method: 'GET', note: 'no slash: still one hop' });
+  }
+  for (const q of ['/?country=ZZ', '/?country=../x', '/?country=', '/?xcountry=TR']) {
     await check('probe', q, { status: 200 }, { method: 'GET', note: 'unknown / malformed code: the page, no redirect' });
   }
   await check('probe', '/en', P.en, { method: 'GET', note: 'no 2-hop chain via /en/' });
   await check('probe', '/esim', P.esim, { method: 'GET', note: 'no 2-hop chain via /esim/' });
   await check('probe', '/es', { status: 301, location: '/es/' }, { method: 'GET', note: 'directory without slash: one 301 (Pages)' });
-  await check('probe', '/iphone', expectStay('/iphone'), { method: 'GET', note: 'extensionless .html (Pages serves it)' });
+  await check('probe', '/iphone', pages ? expectStay('/iphone') : { status: 301, location: newPath('/iphone') }, { method: 'GET', note: 'extensionless .html moves too' });
   for (const p of ['/pay/abc', '/pay/s/0123456789abcdef', '/no-such-page/']) {
     await check('probe', p, { status: 404, body404: true }, { method: 'GET', note: '404.html with status 404 (the /pay/ router)' });
   }

@@ -3,7 +3,7 @@
 // Pinned: the committed generated files equal a fresh generation (a map change without regeneration fails here);
 // nginx's precedence (`=` first, then the LONGEST `^~` prefix) gives the same answer as newPath() (first rule wins)
 // for every rule, every path under every prefix and every sitemap URL — and the generator REFUSES a map where it
-// would not; the /?country= map holds exactly the countries with a page, behind a case-sensitive gate; site.conf types
+// would not; the /?country= map holds exactly the countries with a page, behind a two-letter gate; site.conf types
 // no path redirect of its own, keeps Pages' headers (no HSTS / X-Frame-Options / header CSP), answers 404 with
 // 404.html; the two workflows are pinned, credential-free (web-server.yml) and gated off (deploy-web.yml).
 // Each rule's FIRST assertion proves it fires. The live behaviour is proven by infra/web/test/run.sh (Docker).
@@ -43,7 +43,12 @@ test('one nginx location per rule, in the shape the map names, the query kept', 
   assert.equal(locs.length, RULES.length, 'the proof: every rule has its line');
   RULES.forEach((r, i) => {
     if (r.type === 'exact') assert.equal(locs[i], `location = ${r.from} { return 301 ${r.to}$is_args$args; }`);
-    else assert.equal(locs[i], `location ^~ ${r.from} { rewrite ^${r.from.replace(/[.]/g, '\\.')}(.*)$ ${r.to}$1 permanent; }`);
+    else {
+      assert.equal(locs[i], `location ^~ ${r.from} {`);
+      const esc = r.from.replace(/[.]/g, '\\.');
+      assert.ok(conf.includes(`location ^~ ${r.from} {\n    rewrite ^${esc}((?:[^/]*/)*[^/.]+)$ ${r.to}$1/ permanent;\n    rewrite ^${esc}(.*)$ ${r.to}$1 permanent;\n}`),
+        `${r.from}: the slash-less page rewrite first, then the plain one`);
+    }
   });
   assert.doesNotMatch(conf, /\bredirect;|\breturn 302\b|\bif\s*\(/, 'nothing but permanent redirects, no if');
 });
@@ -73,14 +78,14 @@ test('the generator refuses a map nginx cannot express', () => {
   assert.doesNotThrow(() => redirectsConf(RULES, sitemapPaths()));
 });
 
-test('/?country=XX maps exactly the countries with a page, behind a case-sensitive gate', () => {
+test('/?country=XX maps exactly the countries with a page, behind a two-letter gate (either case)', () => {
   const cc = JSON.parse(read('seo', 'catalogue-countries.json')).countries;
   const conf = code(read('infra', 'web', 'nginx', COUNTRY_MAP_FILE));
   const tr = cc.find((c) => c.iso === 'TR');
   assert.match(conf, new RegExp(`^\\s+TR /ru/esim/${tr.slug}/;$`, 'm'), 'the proof: Turkey');
   const entries = [...conf.matchAll(/^\s+([A-Z]{2}) (\/ru\/esim\/[a-z0-9-]+\/);$/gm)];
   assert.equal(entries.length, cc.length);
-  assert.match(conf, /map \$arg_country \$country_code \{\s+default "";\s+"~\^\[A-Z\]\{2\}\$" \$arg_country;\s+\}/, 'upper-case gate first');
+  assert.match(conf, /map \$arg_country \$country_code \{\s+default "";\s+"~\*\^\[A-Z\]\{2\}\$" \$arg_country;\s+\}/, 'two-letter gate first (~* = either case, as the old home script)');
   assert.match(conf, /map \$country_code \$country_redirect \{\s+default "";/);
   assert.throws(() => countryMapConf([{ iso: 'tr', slug: 'x' }]), /empty map/);
 });
