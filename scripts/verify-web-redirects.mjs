@@ -173,7 +173,7 @@ export async function verify(opts) {
   const old = opts.askFrom ? pathsToAsk(opts.askFrom) : [];
   for (const path of [...new Set([...own, ...old])].sort()) {
     const to = newPath(path.replace(/\?.*$/, ''));
-    if (!pages && to !== null && own.has(path) && servedBy(docroot, path)) {
+    if (!pages && opts.askFrom && to !== null && own.has(path) && servedBy(docroot, path)) {
       add({ kind: 'shadowed', path, method: '-', status: '-', location: to, expect: { status: 200 }, result: 'fail',
         note: `a page of the tree that the rule ${path} -> ${to} would hide` });
     }
