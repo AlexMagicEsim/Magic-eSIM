@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-06T19:28:57.565Z",
+  "generated_at": "2026-11-07T17:45:52.661Z",
   "source": "production-public-api",
-  "package_count": 2405,
+  "package_count": 2406,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -2831,27 +2831,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 550
+          "price": 450
         },
         {
           "days": 5,
-          "price": 900
+          "price": 750
         },
         {
           "days": 7,
-          "price": 1100
+          "price": 1000
         },
         {
           "days": 10,
-          "price": 1500
+          "price": 1250
         },
         {
           "days": 15,
-          "price": 2250
+          "price": 1900
         },
         {
           "days": 30,
-          "price": 3650
+          "price": 3050
         }
       ]
     },
@@ -9382,6 +9382,54 @@
       "activation_policy": "first_data_usage",
       "topup_available": true,
       "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "0e6ff95a-75a9-46a3-b82f-dcdc242dd7f6",
+      "name": "Israel 20GB 30Days",
+      "country_code": "IL",
+      "region": "IL",
+      "coverage_country_codes": [
+        "IL"
+      ],
+      "coverage_flags": "🇮🇱",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 2200,
+      "networks": [
+        {
+          "operator": "Hot Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "Cellcom",
+          "type": "5G"
+        },
+        {
+          "operator": "Pelephone",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "IL"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -18978,7 +19026,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1150,
+      "price": 1050,
       "networks": [
         {
           "operator": "Claro",
@@ -19024,27 +19072,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2900
+          "price": 2650
         },
         {
           "days": 5,
-          "price": 4600
+          "price": 4200
         },
         {
           "days": 7,
-          "price": 6450
+          "price": 5850
         },
         {
           "days": 10,
-          "price": 8900
+          "price": 8100
         },
         {
           "days": 15,
-          "price": 13350
+          "price": 12150
         },
         {
           "days": 30,
-          "price": 24600
+          "price": 22350
         }
       ]
     },
@@ -31652,7 +31700,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 950,
+      "price": 900,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -38882,27 +38930,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1700
+          "price": 1600
         },
         {
           "days": 5,
-          "price": 2650
+          "price": 2550
         },
         {
           "days": 7,
-          "price": 3300
+          "price": 3150
         },
         {
           "days": 10,
-          "price": 4550
+          "price": 4350
         },
         {
           "days": 15,
-          "price": 6850
+          "price": 6500
         },
         {
           "days": 30,
-          "price": 12550
+          "price": 11900
         }
       ]
     },
@@ -51597,37 +51645,6 @@
       "ip_export": [
         "US"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "5fadfbfa-bf10-452d-a77e-115043330cfe",
-      "name": "Madagascar 1 GB",
-      "country_code": "MG",
-      "region": "MG",
-      "coverage_country_codes": [
-        "MG"
-      ],
-      "coverage_flags": "🇲🇬",
-      "data_gb": 1,
-      "validity_days": 7,
-      "price": 1050,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -67877,38 +67894,6 @@
       ]
     },
     {
-      "package_id": "7c211819-f529-4cd0-8b2d-5e73bfdaa3d1",
-      "name": "Israel 20 GB",
-      "country_code": "IL",
-      "region": "IL",
-      "coverage_country_codes": [
-        "IL"
-      ],
-      "coverage_flags": "🇮🇱",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 2350,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "7c3c780e-0ba2-4cb7-a378-daac5c961311",
       "name": "Japan 3GB/Day (IIJ)",
       "country_code": "JP",
@@ -69421,7 +69406,7 @@
       "coverage_flags": "🇿🇲",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 10450,
+      "price": 8450,
       "networks": [
         {
           "operator": "Airtel",
@@ -76516,7 +76501,7 @@
       "coverage_flags": "🇿🇲",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5600,
+      "price": 5050,
       "networks": [
         {
           "operator": "Airtel",
@@ -85574,7 +85559,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 600,
+      "price": 550,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -98918,7 +98903,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 9050,
+      "price": 8400,
       "networks": [
         {
           "operator": "Claro",
@@ -108652,6 +108637,45 @@
           "price": 23200
         }
       ]
+    },
+    {
+      "package_id": "c0fe578f-afaa-4894-8838-b4405718627e",
+      "name": "Madagascar 1GB 7Days",
+      "country_code": "MG",
+      "region": "MG",
+      "coverage_country_codes": [
+        "MG"
+      ],
+      "coverage_flags": "🇲🇬",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 600,
+      "networks": [
+        {
+          "operator": "Telma",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "NL"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "c10b7ded-f3e1-4ae6-a791-301e88742180",
@@ -122938,7 +122962,7 @@
       "coverage_flags": "🇺🇾",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 6400,
+      "price": 5050,
       "networks": [
         {
           "operator": "Movistar",
@@ -128657,7 +128681,7 @@
       "coverage_flags": "🇦🇩",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3000,
+      "price": 2750,
       "networks": [
         {
           "operator": "Mobiland",
@@ -131583,7 +131607,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 0,
       "validity_days": null,
-      "price": 350,
+      "price": 300,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -131629,27 +131653,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 900
+          "price": 800
         },
         {
           "days": 5,
-          "price": 1300
+          "price": 1100
         },
         {
           "days": 7,
-          "price": 1850
+          "price": 1550
         },
         {
           "days": 10,
-          "price": 2500
+          "price": 2100
         },
         {
           "days": 15,
-          "price": 3350
+          "price": 2800
         },
         {
           "days": 30,
-          "price": 6150
+          "price": 5150
         }
       ]
     },
@@ -140432,6 +140456,45 @@
       ]
     },
     {
+      "package_id": "f48b6752-49f7-49e5-b507-b455b6fab59c",
+      "name": "Madagascar 3GB 15Days",
+      "country_code": "MG",
+      "region": "MG",
+      "coverage_country_codes": [
+        "MG"
+      ],
+      "coverage_flags": "🇲🇬",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 1400,
+      "networks": [
+        {
+          "operator": "Telma",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "NL"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "f4c29e6f-3261-4385-93e2-4886f19f4734",
       "name": "kosovo 1GB/Day FUP1Mbps",
       "country_code": "XK",
@@ -148461,7 +148524,7 @@
           "99be98f0-a671-4f96-9e35-5fdcfc54e068",
           "38d5742b-1aa3-4451-b874-a43e7c23b6b1",
           "8a82b2d8-6191-42a6-bd8e-e696bb646f7f",
-          "7c211819-f529-4cd0-8b2d-5e73bfdaa3d1",
+          "0e6ff95a-75a9-46a3-b82f-dcdc242dd7f6",
           "0e2d31c3-a150-4816-a3ca-4c91436e2a50",
           "284d717c-9a86-461d-8762-b5f6a2e9d1e4",
           "7a34d9bd-1a8b-46eb-a06e-5e8057e7c868",
@@ -149386,7 +149449,8 @@
       },
       "MG": {
         "local": [
-          "5fadfbfa-bf10-452d-a77e-115043330cfe",
+          "c0fe578f-afaa-4894-8838-b4405718627e",
+          "f48b6752-49f7-49e5-b507-b455b6fab59c",
           "8781442d-902e-48d3-a13e-e638c5ba7816",
           "92c6f48a-e58e-44d4-a0ce-ad122610b2cc",
           "bab8ff54-57f9-4dbf-bdcb-b9d0c4e9f89c"

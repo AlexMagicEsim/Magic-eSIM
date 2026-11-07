@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-06",
+ "updated": "2026-11-07",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -6864,6 +6864,7 @@
     ],
     "days": [
      7,
+     15,
      30
     ]
    },
