@@ -311,12 +311,12 @@ export function evaluateProfile(profile, slug, doc, { previous = null } = {}) {
 
     const pageIso = claim.page ? isoOfSlug(claim.page) : iso;
     const S0 = scopeSet(claim.scope, doc, pageIso);
-    if (!S0) { add(claim, 'опубликованный ассортимент страницы', `в снимке нет раскладки /esim/${claim.page || slug}/ — утверждение не с чем сверить`, { kind: 'catalogue' }); continue; }
+    if (!S0) { add(claim, 'опубликованный ассортимент страницы', `в снимке нет раскладки /ru/esim/${claim.page || slug}/ — утверждение не с чем сверить`, { kind: 'catalogue' }); continue; }
     const fam = claim.family ? new RegExp(claim.family, 'i') : null;
     const w = claim.where || {};
     const inWhere = (p) => (w.data_gb_min === undefined || Number(p.data_gb) >= w.data_gb_min) && (w.data_gb_max === undefined || Number(p.data_gb) <= w.data_gb_max);
     const S = S0.filter((p) => (!fam || fam.test(p.name)) && inWhere(p));
-    const where = (claim.scope === 'catalog' ? SCOPE_TITLE.catalog : `${SCOPE_TITLE[claim.scope]} страницы /esim/${claim.page || slug}/`)
+    const where = (claim.scope === 'catalog' ? SCOPE_TITLE.catalog : `${SCOPE_TITLE[claim.scope]} страницы /ru/esim/${claim.page || slug}/`)
       + (fam ? `, семейство /${claim.family}/` : '') + (claim.where ? `, ${JSON.stringify(claim.where)}` : '');
     const sIds = S0.map((p) => p.package_id);
     if (claim.family_is_scope) {
@@ -434,7 +434,7 @@ export function evaluateProfile(profile, slug, doc, { previous = null } = {}) {
 /** One human-readable block per problem — what CI prints. */
 export function formatProblem(x) {
   return [
-    `[coverage] /esim/${x.slug}/ · ${x.claim}`,
+    `[coverage] /ru/esim/${x.slug}/ · ${x.claim}`,
     `  текст: «${x.quote}»`,
     `  ожидалось: ${x.expected}${x.scope ? ` (scope: ${x.scope}${x.page && x.page !== x.slug ? `, страница ${x.page}` : ''})` : ''}`,
     `  в каталоге сейчас: ${x.message}`,
@@ -526,8 +526,8 @@ if (invoked) {
   // (seo/page-claims.mjs). Only an AUTHORING error stops the refresh.
   const left = all.filter((x) => x.kind !== 'authoring');
   const problems = all.filter((x) => x.kind === 'authoring');
-  for (const x of left) console.warn(`⚠ /esim/${x.slug}/ · ${x.claim}: ${x.message}`);
-  if (process.env.GITHUB_ACTIONS) for (const x of left) console.log(`::warning title=SEO coverage sentence left out of the page::/esim/${x.slug}/ · ${x.claim}: ${x.message}`.replace(/\r?\n/g, ' '));
+  for (const x of left) console.warn(`⚠ /ru/esim/${x.slug}/ · ${x.claim}: ${x.message}`);
+  if (process.env.GITHUB_ACTIONS) for (const x of left) console.log(`::warning title=SEO coverage sentence left out of the page::/ru/esim/${x.slug}/ · ${x.claim}: ${x.message}`.replace(/\r?\n/g, ' '));
   if (!problems.length) {
     console.log(`✓ coverage claims: ${stats.claims} утверждений на ${stats.pages} страницах верны (снимок ${stats.generated_at})${left.length ? `; не публикуются — карточки нет: ${left.length}` : ''}`);
     process.exit(0);
@@ -540,7 +540,7 @@ if (invoked) {
   console.error(`Итого: ${problems.length} ${problems.length === 1 ? 'проблема' : 'проблем(ы)'}; проверено ${stats.claims} утверждений на ${stats.pages} страницах.`);
   if (process.env.GITHUB_ACTIONS) {
     for (const x of problems) {
-      const msg = `/esim/${x.slug}/ · ${x.claim}: ${x.message}`.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+      const msg = `/ru/esim/${x.slug}/ · ${x.claim}: ${x.message}`.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
       console.log(`::error title=SEO coverage fact is stale — catalogue refresh blocked::${msg}`);
     }
     if (process.env.GITHUB_STEP_SUMMARY) {

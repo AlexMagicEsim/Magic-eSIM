@@ -23,6 +23,9 @@ const PACKAGES = [{
   package_id: AE3, name: 'United Arab Emirates 3GB 30Days', country_code: 'AE', region: 'AE', coverage_country_codes: ['AE'],
   data_gb: 3, validity_days: 30, price: 9.99, plan_type: 'FIXED_VOLUME', currency: 'USD',
 }];
+// EN-root migration (2026-11-07): English pages live at the root and /destinations/; its legal pages stay under /en/.
+const homeOf = (prefix) => (prefix === 'en' ? '/' : `/${prefix}/`);
+const catalogueOf = (prefix) => (prefix === 'en' ? '/destinations/' : `/${prefix}/esim/`);
 const LANGS = [['en', 'en'], ['es', 'es'], ['de', 'de'], ['fr', 'fr'], ['zh-Hans', 'zh'], ['ko', 'ko']];
 
 async function open(page, path) {
@@ -68,7 +71,7 @@ const state = (page) => page.locator('#coConsents').getAttribute('data-state');
 const ready = (page) => page.locator('#coConsents').getAttribute('data-ready');
 
 test('English: the two boxes start unticked; each state is tracked; the payment button never enables; nothing is sent', async ({ page }) => {
-  const calls = await open(page, '/en/esim/uae/');
+  const calls = await open(page, '/destinations/uae/');
   await toReview(page);
   const terms = page.locator('#coAgreeTerms');
   const delivery = page.locator('#coAgreeDelivery');
@@ -110,7 +113,7 @@ test('English: the two boxes start unticked; each state is tracked; the payment 
 });
 
 test('the boxes are never remembered: closing and opening the checkout again starts unticked', async ({ page }) => {
-  await open(page, '/en/esim/uae/');
+  await open(page, '/destinations/uae/');
   await toReview(page);
   await page.locator('#coAgreeTerms').check();
   await page.locator('#coAgreeDelivery').check();
@@ -129,7 +132,7 @@ test('the boxes are never remembered: closing and opening the checkout again sta
 });
 
 test('each document is its own link and opens in a new tab without ticking the box', async ({ page, context }) => {
-  await open(page, '/en/esim/uae/');
+  await open(page, '/destinations/uae/');
   await toReview(page);
   for (const [name, path] of [['Terms of Service', '/en/terms/'], ['Refund Policy', '/en/refund/'], ['Privacy Policy', '/en/privacy/']]) {
     const link = page.locator('#coConsents label a', { hasText: name });
@@ -147,7 +150,7 @@ test('each document is its own link and opens in a new tab without ticking the b
 for (const [code, prefix] of LANGS) {
   test(`${code}: the two consents in the page's language, before the disabled payment button, on a phone without overflow`, async ({ page }) => {
     const W = SITE.DICT[code];
-    const calls = await open(page, `/${prefix}/esim/uae/`);
+    const calls = await open(page, `${catalogueOf(prefix)}uae/`);
     await toReview(page);
     const box = page.locator('#coConsents');
     await expect(box).toBeVisible();
@@ -191,7 +194,7 @@ for (const [code, prefix] of LANGS) {
 
   test(`${code}: the footer links the Terms, the Refund Policy and the Privacy Policy`, async ({ page }) => {
     await page.route('**/api/**', (route) => route.fulfill({ status: 500, body: 'not needed' }));
-    await page.goto(`/${prefix}/`);
+    await page.goto(homeOf(prefix));
     for (const k of ['terms', 'refund', 'privacy']) {
       // LEGAL-4: each language links its own translation of the document
       await expect(page.locator(`.site-footer a[href="/${prefix}/${k}/"]`)).toHaveText(SITE.DICT[code][`footer.${k}`]);
@@ -218,7 +221,7 @@ for (const [slug, h1] of [['terms', 'Terms of Service'], ['refund', 'Refund Poli
 
 test('the Russian checkout is untouched: no international consents, its own consent and Platega button as before', async ({ page }) => {
   await page.route('**/mc.yandex.ru/**', (route) => route.abort());
-  await page.goto('/esim/turkey/');
+  await page.goto('/ru/esim/turkey/');
   await expect(page.locator('#coConsents, #coAgreeTerms, #coAgreeDelivery')).toHaveCount(0);
   await expect(page.locator('#checkoutModal #coConsent')).toHaveCount(1);
   await expect(page.locator('#checkoutModal a[href="/terms.html"]')).toHaveCount(1);

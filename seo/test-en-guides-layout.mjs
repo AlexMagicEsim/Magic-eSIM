@@ -18,8 +18,8 @@ import { PAYBAR, sectionId } from './build-en-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const page = (slug) => read(`en/guides/${slug}/index.html`);
-const HUB = read('en/guides/index.html');
+const page = (slug) => read(`guides/${slug}/index.html`);
+const HUB = read('guides/index.html');
 const CSS = read('assets/page-guides.css');
 const mainOf = (h) => h.slice(h.indexOf('<main'), h.indexOf('</main>'));
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -56,15 +56,15 @@ test('«On this page» lists every section and the questions, in order, and ever
 test('a guide links only where it linked before, plus its own anchors', () => {
   for (const g of EN_GUIDES) {
     const h = mainOf(page(g.slug));
-    const allowed = new Set(['/en/', '/en/guides/', '/en/esim/', 'mailto:support@magicesim.store',
-      ...g.related.map((s) => `/en/guides/${s}/`),
+    const allowed = new Set(['/', '/guides/', '/destinations/', 'mailto:support@magicesim.store',
+      ...g.related.map((s) => `/guides/${s}/`),
       ...g.sections.flatMap((s) => [...s.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]))]);
     for (const [, href] of h.matchAll(/href="([^"]+)"/g)) {
       if (href.startsWith('#')) continue;
       assert.ok(allowed.has(href), `${g.slug}: ${href} is not a link the guide had`);
     }
-    for (const s of g.related) assert.ok(h.includes(`<a class="g-card" href="/en/guides/${s}/">`), `${g.slug} → ${s}`);
-    assert.ok(h.includes('<a class="btn" href="/en/esim/">Choose a destination</a>'));
+    for (const s of g.related) assert.ok(h.includes(`<a class="g-card" href="/guides/${s}/">`), `${g.slug} → ${s}`);
+    assert.ok(h.includes('<a class="btn" href="/destinations/">Choose a destination</a>'));
   }
 });
 
@@ -92,7 +92,7 @@ test('the payment bar on all six pages is the home\'s, and still no script anywh
 });
 
 test('the list: all five guides as cards, in order, each with its own title and blurb', () => {
-  const cards = [...HUB.matchAll(/<a class="g-card" href="\/en\/guides\/([a-z]+)\/">[\s\S]*?<h2 class="g-card-title">([^<]+)<\/h2><span class="g-card-blurb">([^<]+)<\/span>/g)];
+  const cards = [...HUB.matchAll(/<a class="g-card" href="\/guides\/([a-z]+)\/">[\s\S]*?<h2 class="g-card-title">([^<]+)<\/h2><span class="g-card-blurb">([^<]+)<\/span>/g)];
   assert.deepEqual(cards.map((m) => m[1]), EN_GUIDES.map((g) => g.slug));
   cards.forEach((m, i) => { assert.equal(m[2], esc(EN_GUIDES[i].h1)); assert.equal(m[3], esc(EN_GUIDES[i].blurb)); });
 });

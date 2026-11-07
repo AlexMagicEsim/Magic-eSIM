@@ -95,15 +95,15 @@ const ctx = (over = {}) => JSON.stringify({
 
 /* ---------- allowlist is one canonical list ------------------------------ */
 
-const PAGES = ['index.html', 'payment-success.html', 'payment-failed.html',
-  'esim/thailand/index.html', 'esim/turkey/index.html', 'esim/china/index.html',
-  'esim/uae/index.html', 'esim/vietnam/index.html', 'esim/france/index.html',
-  'esim/japan/index.html'];
+const PAGES = ['ru/index.html', 'payment-success.html', 'payment-failed.html',
+  'ru/esim/thailand/index.html', 'ru/esim/turkey/index.html', 'ru/esim/china/index.html',
+  'ru/esim/uae/index.html', 'ru/esim/vietnam/index.html', 'ru/esim/france/index.html',
+  'ru/esim/japan/index.html'];
 
 // The landing and (since RU↔EN migration PR B) every country page open the
 // checkout, so both fire checkout goals; every page except the landing ships
 // the one generated wrapper.
-const SHARED_PAGES = PAGES.filter((p) => p !== 'index.html');
+const SHARED_PAGES = PAGES.filter((p) => p !== 'ru/index.html');
 
 test('every page but the landing ships the identical allowlist', () => {
   // 198 country pages + the hub + the two result pages get their wrapper from
@@ -133,7 +133,7 @@ test('the landing may extend the allowlist, but only with goals only it fires', 
    * landing-only goal until the country pages got the checkout, PR B; it is
    * shared now, because they fire it too.)
    */
-  const landing = new Set(Object.keys(wrapperOf('index.html').GOALS));
+  const landing = new Set(Object.keys(wrapperOf('ru/index.html').GOALS));
   const shared = new Set(Object.keys(wrapperOf(SHARED_PAGES[0]).GOALS));
 
   for (const g of shared) {
@@ -152,9 +152,9 @@ test('the landing may extend the allowlist, but only with goals only it fires', 
 // The bug this whole file exists to prevent: three promo goals were called for
 // months and dropped by the wrapper because nobody added them to the allowlist.
 test('every goal called anywhere in the code is allowlisted', () => {
-  const allow = new Set(Object.keys(wrapperOf('index.html').GOALS));
+  const allow = new Set(Object.keys(wrapperOf('ru/index.html').GOALS));
   const called = new Set();
-  for (const f of ['index.html', 'assets/country-tariffs.js', 'payment-success.html', 'payment-failed.html']) {
+  for (const f of ['ru/index.html', 'assets/country-tariffs.js', 'payment-success.html', 'payment-failed.html']) {
     const s = read(f);
     for (const m of s.matchAll(/magicMetrikaGoal\(\s*['"]([\w]+)['"]/g)) called.add(m[1]);
     // A ternary counts only when it IS the first argument — anchored right after
@@ -170,7 +170,7 @@ test('every goal called anywhere in the code is allowlisted', () => {
 });
 
 test('a goal outside the allowlist is dropped, not forwarded', () => {
-  const w = wrapperOf('index.html');
+  const w = wrapperOf('ru/index.html');
   w.fire('definitely_not_a_goal', { country_code: 'TH' });
   assert.equal(w.sent.length, 0);
 });
@@ -367,7 +367,7 @@ test('coverage_modal_open fires from a click on the country pages (the only plan
 });
 
 test('coverage_modal_open passes validation with real values', () => {
-  const w = wrapperOf('index.html');
+  const w = wrapperOf('ru/index.html');
   w.fire('coverage_modal_open', { country_code: 'th', package_id: 'abc-123' });
   assert.equal(w.sent.length, 1);
   assert.deepEqual(w.sent[0].params, { country_code: 'TH', package_id: 'abc-123' });
@@ -383,7 +383,7 @@ test('country pages raise country_tariff_click, never tariff_buy_click', () => {
 test('tariff_buy_click is fired by the checkout and keeps its params', () => {
   const s = CHECKOUT_JS;
   assert.match(s, /magicMetrikaGoal\('tariff_buy_click'/);
-  const w = wrapperOf('index.html');
+  const w = wrapperOf('ru/index.html');
   w.fire('tariff_buy_click', { country_code: 'TH', package_id: 'p1', price_rub: 500, data_gb: 3, validity_days: 15, tariff_type: 'local' });
   assert.equal(w.sent.length, 1);
   assert.equal(w.sent[0].params.tariff_type, 'local');
@@ -391,7 +391,7 @@ test('tariff_buy_click is fired by the checkout and keeps its params', () => {
 });
 
 test('promo goals reach Metrika and carry their context', () => {
-  const w = wrapperOf('index.html');
+  const w = wrapperOf('ru/index.html');
   w.fire('promo_apply_success', { country_code: 'TH', package_id: 'p1', promo_code: 'summer10', discount_amount: 100 });
   w.fire('promo_apply_error', { country_code: 'TH', package_id: 'p1' });
   w.fire('promo_removed', { country_code: 'TH', package_id: 'p1' });
@@ -412,7 +412,7 @@ const PII_KEYS = ['email', 'e_mail', 'mail', 'phone', 'tel', 'name', 'contact', 
   'activation', 'activation_code', 'qr', 'qr_code', 'lpa', 'token', 'public_order_token'];
 
 test('no allowlisted param can carry personal data', () => {
-  const { GOALS } = wrapperOf('index.html');
+  const { GOALS } = wrapperOf('ru/index.html');
   const params = new Set(Object.values(GOALS).flat());
   for (const k of params) {
     assert.ok(!PII_KEYS.includes(k), `param "${k}" is personal data`);
@@ -525,16 +525,16 @@ test('a MALFORMED /pay/ path is a 404 that still never reaches the counter', () 
 // упоминание России или рублей, обязана уронить тест, а не тихо снять основание.
 
 test('страница оплаты рублями существует и канонична сама на себя', () => {
-  const p = join(ROOT, 'esim/payment-rubles/index.html');
-  assert.ok(existsSync(p), 'esim/payment-rubles/index.html должен быть собран');
+  const p = join(ROOT, 'ru/esim/payment-rubles/index.html');
+  assert.ok(existsSync(p), 'ru/esim/payment-rubles/index.html должен быть собран');
   const h = readFileSync(p, 'utf8');
-  assert.match(h, /<link rel="canonical" href="https:\/\/magicesim\.store\/esim\/payment-rubles\/"/);
+  assert.match(h, /<link rel="canonical" href="https:\/\/magicesim\.store\/ru\/esim\/payment-rubles\/"/);
   assert.match(h, /<h1[^>]*>Оплата eSIM рублями/);
   assert.ok(!/noindex/.test(h), 'страница обязана быть индексируемой');
 });
 
 test('видимый текст называет Россию, рубли и СБП', () => {
-  const h = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
+  const h = readFileSync(join(ROOT, 'ru/esim/payment-rubles/index.html'), 'utf8');
   const visible = h
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
@@ -547,9 +547,9 @@ test('видимый текст называет Россию, рубли и С�
 
 test('страница в sitemap и в блоке «Перед покупкой» на хабе', () => {
   assert.match(readFileSync(join(ROOT, 'sitemap.xml'), 'utf8'),
-    /<loc>https:\/\/magicesim\.store\/esim\/payment-rubles\/<\/loc>/);
-  assert.match(readFileSync(join(ROOT, 'esim/index.html'), 'utf8'),
-    /href="\/esim\/payment-rubles\/"/);
+    /<loc>https:\/\/magicesim\.store\/ru\/esim\/payment-rubles\/<\/loc>/);
+  assert.match(readFileSync(join(ROOT, 'ru/esim/index.html'), 'utf8'),
+    /href="\/ru\/esim\/payment-rubles\/"/);
 });
 
 // ---------------------------------------------------------------------------
@@ -644,7 +644,7 @@ test('правило теста срабатывает на формулиров
 });
 
 test('ни одно место страницы не называет карту без квалификатора', () => {
-  const h = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
+  const h = readFileSync(join(ROOT, 'ru/esim/payment-rubles/index.html'), 'utf8');
 
   const bad = unqualifiedCardSentences(pageProse(h));
   assert.deepEqual(bad, [], `текст называет карту без квалификатора: ${JSON.stringify(bad)}`);
@@ -667,7 +667,7 @@ test('ни одно место страницы не называет карту
 });
 
 test('страница прямо говорит, что иностранные карты не принимаются', () => {
-  const h = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
+  const h = readFileSync(join(ROOT, 'ru/esim/payment-rubles/index.html'), 'utf8');
   const visible = sentences(pageProse(h)).join(' ') + ' ' +
     visibleFaq(h).map((f) => f.q + ' ' + f.a).join(' ');
   const schema = schemaFaq(h).map((f) => f.q + ' ' + f.a).join(' ');
@@ -699,15 +699,15 @@ test('шаги называют только те кнопки, которые �
   // лендинге, поэтому одна лишь проверка существования этот дефект не ловила бы
   // и не ловит. Проверок две: существование (ловит выдуманную подпись) и
   // маршрут (ловит подпись с другого экрана).
-  const h = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
+  const h = readFileSync(join(ROOT, 'ru/esim/payment-rubles/index.html'), 'utf8');
   const steps = h.match(/<ol class="ol-steps">[\s\S]*?<\/ol>/);
   assert.ok(steps, 'блок шагов не найден');
 
-  const ui = read('index.html') + CHECKOUT_JS   // the home, and the checkout the country pages open
+  const ui = read('ru/index.html') + CHECKOUT_JS   // the home, and the checkout the country pages open
     + readFileSync(join(ROOT, 'assets/country-tariffs.js'), 'utf8')
     + readFileSync(join(ROOT, 'assets/daily-plan-copy.js'), 'utf8')
     // Окно «Покрытие и условия» на стране — разметка страницы, а не скрипта.
-    + readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8');
+    + readFileSync(join(ROOT, 'ru/esim/thailand/index.html'), 'utf8');
 
   // Проверяется ВСЯ страница, а не только шаги: «Покрытие и условия», «Начало
   // срока» и «Трафик на каждый день» названы в прозе, и ошибиться в них ровно
@@ -746,7 +746,7 @@ test('видимый FAQ и FAQPage совпадают дословно на в�
   const guides = ['compatibility', 'activation-before-travel', 'not-working',
     'dual-sim-sms', 'payment-rubles'];
   for (const slug of guides) {
-    const h = readFileSync(join(ROOT, `esim/${slug}/index.html`), 'utf8');
+    const h = readFileSync(join(ROOT, `ru/esim/${slug}/index.html`), 'utf8');
     const seen = visibleFaq(h);
     const ld = schemaFaq(h);
     assert.ok(seen.length > 0, `${slug}: видимый FAQ пуст`);

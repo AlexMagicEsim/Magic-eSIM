@@ -17,9 +17,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
 
 function pages() {
-  const out = [join(ROOT, 'index.html'), join(ROOT, 'en/index.html'), join(ROOT, 'esim/index.html')];
-  for (const d of readdirSync(join(ROOT, 'esim'))) {
-    const f = join(ROOT, 'esim', d, 'index.html');
+  const out = [join(ROOT, 'ru/index.html'), join(ROOT, 'index.html'), join(ROOT, 'ru/esim/index.html')];
+  for (const d of readdirSync(join(ROOT, 'ru/esim'))) {
+    const f = join(ROOT, 'ru/esim', d, 'index.html');
     if (existsSync(f)) out.push(f);
   }
   return out;
@@ -46,6 +46,6 @@ test('every og:image and twitter:image resolves to a file in the repository', ()
 });
 
 test('every country page names a share image', () => {
-  const missing = pages().filter((f) => f.includes('/esim/') && !/property="og:image"/.test(readFileSync(f, 'utf8')));
+  const missing = pages().filter((f) => f.includes('/ru/esim/') && !/property="og:image"/.test(readFileSync(f, 'utf8')));
   assert.deepEqual(missing.map((f) => f.slice(ROOT.length)), []);
 });

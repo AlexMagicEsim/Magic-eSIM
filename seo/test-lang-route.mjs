@@ -1,8 +1,11 @@
-// The first-visit language of «/» (assets/lang-route.js; owner, 2026-10-23) and the saved choice (assets/logo-once.js).
-//   1. decide(): only «/», never after a same-origin arrival, never with ?country=, the saved choice before the browser,
-//      the first published browser language, else English; the whole query kept, a hash only where the target has it;
-//   2. its tables = the site's: PREFIX = assets/site-i18n.js PREFIX; every kept hash is a section of all six homes;
-//   3. only index.html loads it, FIRST in <head>, before any other script (the counter included);
+// The first-visit language of «/» — the English home since the EN-root migration (owner, 2026-11-07; before it «/» was
+// the Russian home) — (assets/lang-route.js) and the saved choice (assets/logo-once.js).
+//   1. decide(): only «/», never after a same-origin arrival, the saved choice before the browser, the first published
+//      browser language, else English (stay); a Russian browser goes to /ru/; ?country= always to /ru/?country=…;
+//      the whole query kept, a hash only where the target has it;
+//   2. its tables = the site's: PREFIX = assets/site-i18n.js PREFIX, HOME = seo/locales.mjs homes; every kept hash is a
+//      section of every home;
+//   3. only the English home index.html loads it, FIRST in <head>, before any other script;
 //   4. no URL / canonical / hreflang / sitemap change: «/» hashes the same with and without the route lines;
 //   5. no robot detection: no User-Agent, no bot names, no IP / geo lookup in either file.
 import test from 'node:test';
@@ -21,59 +24,73 @@ const SITE = require(join(ROOT, 'assets/site-i18n.js'));
 const O = 'https://magicesim.store';
 const env = (o) => ({ pathname: '/', search: '', hash: '', referrer: '', origin: O, languages: ['en-US'], stored: null, ...o });
 
-test('browser languages → the home of the first language we publish, else English', () => {
+test('browser languages → the home of the first language we publish; English (and anything unknown) stays on «/»', () => {
   const cases = [
-    [['ru-RU'], null], [['ru'], null], [['en-US'], '/en/'], [['es-419'], '/es/'], [['fr-CA'], '/fr/'], [['de-AT'], '/de/'],
-    [['zh-CN'], '/zh/'], [['zh-TW'], '/zh/'], [['zh-Hant-HK'], '/zh/'], [['ko-KR'], '/ko/'], [['ja-JP'], '/en/'],
-    [['uk-UA'], '/en/'], [['pt-BR', 'ru'], null], [['ja', 'de-CH'], '/de/'], [['en_GB'], '/en/'], [[], '/en/'],
-    [[undefined], '/en/'], [['EN-us'], '/en/'],
+    [['ru-RU'], '/ru/'], [['ru'], '/ru/'], [['en-US'], null], [['es-419'], '/es/'], [['fr-CA'], '/fr/'], [['de-AT'], '/de/'],
+    [['zh-CN'], '/zh/'], [['zh-TW'], '/zh/'], [['zh-Hant-HK'], '/zh/'], [['ko-KR'], '/ko/'], [['ja-JP'], null],
+    [['uk-UA'], null], [['pl-PL'], null], [['xx'], null], [['pt-BR', 'ru'], '/ru/'], [['ja', 'de-CH'], '/de/'], [['en_GB'], null],
+    [[], null], [[undefined], null], [['EN-us'], null], [['RU-ru'], '/ru/'],
   ];
   for (const [languages, want] of cases) assert.equal(R.decide(env({ languages })), want, JSON.stringify(languages));
 });
 
-test('the saved choice wins; a saved Russian stays', () => {
+test('the saved choice wins; a saved English stays, a saved Russian moves', () => {
   assert.equal(R.decide(env({ stored: 'ko', languages: ['ru'] })), '/ko/');
   assert.equal(R.decide(env({ stored: 'zh-Hans' })), '/zh/');
-  assert.equal(R.decide(env({ stored: 'ru', languages: ['en-US'] })), null);
+  assert.equal(R.decide(env({ stored: 'en', languages: ['ru-RU'] })), null);
+  assert.equal(R.decide(env({ stored: 'ru', languages: ['en-US'] })), '/ru/');
 });
 
-test('only «/», never after an arrival from this site, never with ?country=', () => {
-  for (const pathname of ['/index.html', '/esim/', '/esim/turkey/', '/en/', '/es/esim/japan/', '/iphone.html', '/pay/x', '']) {
-    assert.equal(R.decide(env({ pathname })), null, pathname);
+test('only «/», never after an arrival from this site; ?country= always to the Russian home that resolves it', () => {
+  for (const pathname of ['/index.html', '/ru/', '/ru/esim/', '/ru/esim/turkey/', '/destinations/turkey/', '/es/', '/es/esim/japan/',
+    '/ru/iphone.html', '/pay/x', '/en/', '']) {
+    assert.equal(R.decide(env({ pathname, languages: ['ru'] })), null, pathname);
   }
-  for (const referrer of [`${O}/`, `${O}/en/`, `${O}/esim/turkey/`, O]) assert.equal(R.decide(env({ referrer })), null, referrer);
+  for (const referrer of [`${O}/`, `${O}/ru/`, `${O}/ru/esim/turkey/`, `${O}/es/`, O]) {
+    assert.equal(R.decide(env({ referrer, languages: ['ru'] })), null, referrer);
+  }
   for (const referrer of ['https://www.google.com/', 'https://yandex.ru/search/?text=esim', 'https://magicesim.store.evil.com/', 'android-app://org.telegram.messenger/']) {
-    assert.equal(R.decide(env({ referrer })), '/en/', referrer);
+    assert.equal(R.decide(env({ referrer, languages: ['ru'] })), '/ru/', referrer);
   }
-  for (const search of ['?country=TR', '?utm_source=a&country=TR']) assert.equal(R.decide(env({ search })), null, search);
-  assert.equal(R.decide(env({ search: '?mycountry=TR' })), '/en/?mycountry=TR');
+  for (const search of ['?country=TR', '?utm_source=a&country=TR']) {
+    for (const o of [{}, { languages: ['ru'] }, { stored: 'en' }, { referrer: `${O}/` }]) {
+      assert.equal(R.decide(env({ search, ...o })), `/ru/${search}`, `${search} ${JSON.stringify(o)}`);
+    }
+  }
+  assert.equal(R.decide(env({ search: '?mycountry=TR' })), null);
+  assert.equal(R.decide(env({ search: '?mycountry=TR', languages: ['ru'] })), '/ru/?mycountry=TR');
 });
 
 test('the whole query is kept (utm, click ids, partner marks); a hash only where the target has that section', () => {
   const q = '?utm_source=tg&utm_medium=post&utm_campaign=c1&utm_content=a%20b&gclid=G&yclid=Y&fbclid=F&ref=p7&promo=X';
-  assert.equal(R.decide(env({ search: q, hash: '#plans' })), `/en/${q}#plans`);
-  assert.equal(R.decide(env({ hash: '#global-pricing' })), '/en/#plans');
-  assert.equal(R.decide(env({ hash: '#solution' })), '/en/#how');
-  assert.equal(R.decide(env({ hash: '#install-guides-section' })), '/en/#guides');
-  for (const hash of ['#faq', '#top', '#x', '#']) assert.equal(R.decide(env({ hash })), '/en/', hash);
+  const ru = { languages: ['ru-RU'] };
+  assert.equal(R.decide(env({ ...ru, search: q, hash: '#plans' })), `/ru/${q}#plans`);
+  assert.equal(R.decide(env({ ...ru, hash: '#global-pricing' })), '/ru/#plans');
+  assert.equal(R.decide(env({ ...ru, hash: '#solution' })), '/ru/#how');
+  assert.equal(R.decide(env({ ...ru, hash: '#install-guides-section' })), '/ru/#guides');
+  assert.equal(R.decide(env({ languages: ['es'], hash: '#compat' })), '/es/#compat');
+  for (const hash of ['#faq', '#top', '#x', '#']) assert.equal(R.decide(env({ ...ru, hash })), '/ru/', hash);
 });
 
-test('the tables are the site\'s: PREFIX = assets/site-i18n.js; every kept hash is a section of every prefixed home', () => {
+test('the tables are the site\'s: PREFIX = assets/site-i18n.js, HOME = the registry; every kept hash is a section of every home', async () => {
+  const { LOCALES, homePath } = await import('./locales.mjs');
   assert.deepEqual(R.PREFIX, SITE.PREFIX);
+  assert.deepEqual({ ...R.HOME }, Object.fromEntries(LOCALES.filter((l) => l.site.enabled).map((l) => [l.code, homePath(l.code)])));
   assert.equal(R.KEY, 'mesim.site.lang');
   assert.match(read('assets/site-i18n.js'), /var STORAGE_KEY = 'mesim\.site\.lang';/);
-  for (const p of Object.values(SITE.PREFIX).filter(Boolean)) {
-    const h = read(`${p}/index.html`);
-    for (const target of new Set(Object.values(R.HASHES))) assert.ok(h.includes(` id="${target.slice(1)}"`), `/${p}/ has ${target}`);
+  for (const home of Object.values(R.HOME)) {
+    const h = read(`${home.slice(1)}index.html`);
+    for (const target of new Set(Object.values(R.HASHES))) assert.ok(h.includes(` id="${target.slice(1)}"`), `${home} has ${target}`);
   }
 });
 
-test('only index.html loads it, first in <head>, before any other script — the counter included', () => {
+test('only the English home index.html loads it, first in <head>, before any other script', () => {
   const h = read('index.html');
   const head = h.slice(0, h.indexOf('</head>'));
   const first = head.search(/<script\b/);
   assert.match(head.slice(first), /^<script src="\/assets\/lang-route\.js\?v=[0-9a-f]{8}"><\/script>/);
-  assert.ok(head.indexOf('mc.yandex') > first, 'the counter comes after');
+  assert.ok(first < head.indexOf('<title>'), 'before the title, so nothing of the English page paints first');
+  assert.ok(!head.includes('mc.yandex'), 'the English home loads no counter');
   const all = [];
   (function walk(dir) {
     for (const n of readdirSync(dir)) {
@@ -95,10 +112,15 @@ test('«/» hashes the same with and without the route lines: no sitemap date mo
   assert.ok(!/lang-route/.test(sm));
 });
 
-test('canonical and hreflang of «/» are untouched', () => {
+test('canonical and hreflang of «/» (the English home) and /ru/ are their own, x-default = «/»', () => {
   const h = read('index.html');
-  assert.ok(h.includes('<link rel="canonical" href="https://magicesim.store/" />'));
-  assert.ok(h.includes('<link rel="alternate" hreflang="x-default" href="https://magicesim.store/en/" />'));
+  assert.ok(h.includes('<link rel="canonical" href="https://magicesim.store/">'));
+  assert.ok(h.includes('<link rel="alternate" hreflang="x-default" href="https://magicesim.store/">'));
+  assert.ok(h.includes('<link rel="alternate" hreflang="ru" href="https://magicesim.store/ru/">'));
+  const r = read('ru/index.html');
+  assert.ok(r.includes('<link rel="canonical" href="https://magicesim.store/ru/" />'));
+  assert.ok(r.includes('<link rel="alternate" hreflang="x-default" href="https://magicesim.store/" />'));
+  assert.ok(!r.includes('lang-route'), '/ru/ never moves anyone');
 });
 
 test('no robot detection, no User-Agent, no IP / geo in either file', () => {

@@ -1,4 +1,4 @@
-// The English guides: /en/guides/<slug>/. Data only; seo/build-en-pages.mjs
+// The English guides: /guides/<slug>/ (before the EN-root migration /en/guides/<slug>/). Data only; seo/build-en-pages.mjs
 // renders them (build-all runs it, so a rebuild never skips them — unlike the
 // Russian build-guides.mjs, which build-all does NOT run).
 //
@@ -57,7 +57,7 @@ export const EN_GUIDES = [
     sections: [
       { h2: 'Check that your iPhone supports eSIM', html: `
         <p>Open <strong>Settings → Cellular</strong> (called <strong>Mobile Data</strong> in some regions). If you see <strong>Add eSIM</strong> or <strong>Add Cellular Plan</strong>, your iPhone supports eSIM.</p>
-        <p>Your iPhone must also not be locked to one carrier. See <a href="/en/guides/compatibility/">how to check compatibility</a>.</p>` },
+        <p>Your iPhone must also not be locked to one carrier. See <a href="/guides/compatibility/">how to check compatibility</a>.</p>` },
       { h2: 'Option 1 — scan the QR code', html: `
         <ol class="steps">
           <li>Show your eSIM's QR code on another screen: a computer, a tablet or a second phone.</li>
@@ -85,7 +85,7 @@ export const EN_GUIDES = [
         </ol>
         <p class="note">Menu names can differ slightly between iOS versions.</p>` },
       { h2: 'If something goes wrong', html: `
-        <p>Check that the eSIM is the line chosen for cellular data and that data roaming is on for it, then restart the phone. The full checklist is in <a href="/en/guides/troubleshooting/">eSIM not working</a>.</p>
+        <p>Check that the eSIM is the line chosen for cellular data and that data roaming is on for it, then restart the phone. The full checklist is in <a href="/guides/troubleshooting/">eSIM not working</a>.</p>
         <p><strong>Do not delete the eSIM</strong> while troubleshooting: its QR code may be single-use, and you may not be able to install it again.</p>` },
     ],
     faq: [
@@ -114,7 +114,7 @@ export const EN_GUIDES = [
           <li><strong>Samsung Galaxy:</strong> Settings → Connections → SIM manager → <strong>Add eSIM</strong> (on older One UI versions: SIM card manager → <strong>Add mobile plan</strong>).</li>
           <li><strong>Other brands:</strong> look for «Mobile network», «SIM cards» or «Connections» in Settings.</li>
         </ul>
-        <p>If there is no option to add an eSIM anywhere, check <a href="/en/guides/compatibility/">whether your phone supports eSIM</a>.</p>` },
+        <p>If there is no option to add an eSIM anywhere, check <a href="/guides/compatibility/">whether your phone supports eSIM</a>.</p>` },
       { h2: 'Install the eSIM', html: `
         <ol class="steps">
           <li>Show your eSIM's QR code on another screen.</li>
@@ -132,7 +132,7 @@ export const EN_GUIDES = [
           <li>Give the phone a minute or two to register on a local network.</li>
         </ol>` },
       { h2: 'If something goes wrong', html: `
-        <p>Check the data SIM and roaming on the eSIM, toggle airplane mode, then restart. The full checklist is in <a href="/en/guides/troubleshooting/">eSIM not working</a>.</p>
+        <p>Check the data SIM and roaming on the eSIM, toggle airplane mode, then restart. The full checklist is in <a href="/guides/troubleshooting/">eSIM not working</a>.</p>
         <p><strong>Do not delete the eSIM</strong> while troubleshooting: its QR code may be single-use.</p>` },
     ],
     faq: [
@@ -163,7 +163,7 @@ export const EN_GUIDES = [
       { h2: 'Check 3 — the regional version', html: `
         <p>The same model can have eSIM in one country and not in another: support depends on the market a phone was made for, not only on its name. That is why we do not publish a list of «supported models» — what decides is your own phone's settings.</p>` },
       { h2: 'Your phone qualifies — what next', html: `
-        <p>Choose a destination in the <a href="/en/esim/">list of destinations</a>, then read how to install the eSIM on <a href="/en/guides/iphone/">iPhone</a> or <a href="/en/guides/android/">Android</a>.</p>` },
+        <p>Choose a destination in the <a href="/destinations/">list of destinations</a>, then read how to install the eSIM on <a href="/guides/iphone/">iPhone</a> or <a href="/guides/android/">Android</a>.</p>` },
     ],
     faq: [
       { q: 'My phone takes two SIM cards. Does that mean it has eSIM?', a: 'Not necessarily — some phones have two physical slots and no eSIM. Look for the option to add an eSIM in the SIM settings.' },
@@ -195,9 +195,9 @@ export const EN_GUIDES = [
         <p>Because of that, the advice that never costs you days is to <strong>install on the day you travel</strong> — at home before you leave or on airport Wi-Fi — and to switch the eSIM on for data once you land.</p>` },
       { h2: 'Checklist for the day you fly', html: `
         <ul class="list">
-          <li>Your phone supports eSIM and is not carrier-locked (<a href="/en/guides/compatibility/">check</a>).</li>
+          <li>Your phone supports eSIM and is not carrier-locked (<a href="/guides/compatibility/">check</a>).</li>
           <li>You have the eSIM's QR code, or its details for manual installation, at hand — saved somewhere you can open offline.</li>
-          <li>You install the eSIM over Wi-Fi (<a href="/en/guides/iphone/">iPhone</a>, <a href="/en/guides/android/">Android</a>).</li>
+          <li>You install the eSIM over Wi-Fi (<a href="/guides/iphone/">iPhone</a>, <a href="/guides/android/">Android</a>).</li>
           <li>You keep your main SIM for data until you land.</li>
         </ul>` },
       { h2: 'After you land', html: `
@@ -206,7 +206,7 @@ export const EN_GUIDES = [
           <li>Choose the eSIM for mobile data.</li>
           <li>Turn on data roaming for the eSIM.</li>
           <li>Wait one to three minutes. No network? Turn airplane mode on and off.</li>
-          <li>Still nothing? Go through <a href="/en/guides/troubleshooting/">eSIM not working</a>.</li>
+          <li>Still nothing? Go through <a href="/guides/troubleshooting/">eSIM not working</a>.</li>
         </ol>` },
       { h2: 'Landed without the eSIM installed and no Wi-Fi?', html: `
         <p>You need internet to download the profile. Options: the airport's free Wi-Fi, or internet shared from a travel companion's phone. Entering the details by hand still needs internet to download the profile.</p>` },

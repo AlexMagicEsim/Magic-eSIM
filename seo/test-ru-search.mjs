@@ -64,7 +64,7 @@ test('every alias leads to an existing page and is not another country\'s name',
   const names = new Map(LIST.map((d) => [S.norm(d.name), d.iso]));
   for (const [iso, aliases] of Object.entries(ALIASES)) {
     assert.ok(BY_ISO[iso], `${iso} has no page`);
-    assert.ok(existsSync(join(ROOT, 'esim', BY_ISO[iso].slug, 'index.html')), iso);
+    assert.ok(existsSync(join(ROOT, 'ru/esim', BY_ISO[iso].slug, 'index.html')), iso);
     for (const a of aliases) {
       assert.equal(a, a.toLowerCase(), a);
       const other = names.get(S.norm(a));
@@ -86,12 +86,12 @@ test('the popular list is the home\'s popular destinations, each with a page', (
 });
 
 test('search_no_result is allowlisted on the home and /esim/ only — never on a country page', () => {
-  assert.match(read('index.html'), /var GOALS=\{search_no_result:\[\],/);
-  assert.match(read('esim/index.html'), /var GOALS=\{search_no_result:\[\],/);
-  assert.match(read('esim/index.html'), /magicMetrikaGoal\('search_no_result'\)/);
+  assert.match(read('ru/index.html'), /var GOALS=\{search_no_result:\[\],/);
+  assert.match(read('ru/esim/index.html'), /var GOALS=\{search_no_result:\[\],/);
+  assert.match(read('ru/esim/index.html'), /magicMetrikaGoal\('search_no_result'\)/);
   let pages = 0;
-  for (const slug of readdirSync(join(ROOT, 'esim'))) {
-    const f = join(ROOT, 'esim', slug, 'index.html');
+  for (const slug of readdirSync(join(ROOT, 'ru/esim'))) {
+    const f = join(ROOT, 'ru/esim', slug, 'index.html');
     if (!existsSync(f) || !/data-country-page=/.test(readFileSync(f, 'utf8'))) continue;
     pages += 1;
     assert.doesNotMatch(readFileSync(f, 'utf8'), /search_no_result/, slug);

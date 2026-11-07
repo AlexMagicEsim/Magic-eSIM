@@ -18,12 +18,12 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const require = createRequire(import.meta.url);
 
 // The region pages (seo/regions.mjs) live beside the countries but are static: they belong with the other pages.
-const COUNTRY_PAGES = readdirSync(join(ROOT, 'en/esim'), { withFileTypes: true })
-  .filter((d) => d.isDirectory() && !REGION_SLUGS.includes(d.name)).map((d) => `en/esim/${d.name}/index.html`);
-const OTHER_PAGES = ['en/index.html', 'en/esim/index.html', 'en/guides/index.html',
-  ...REGION_SLUGS.map((slug) => `en/esim/${slug}/index.html`),
-  ...readdirSync(join(ROOT, 'en/guides'), { withFileTypes: true }).filter((d) => d.isDirectory())
-    .map((d) => `en/guides/${d.name}/index.html`)];
+const COUNTRY_PAGES = readdirSync(join(ROOT, 'destinations'), { withFileTypes: true })
+  .filter((d) => d.isDirectory() && !REGION_SLUGS.includes(d.name)).map((d) => `destinations/${d.name}/index.html`);
+const OTHER_PAGES = ['index.html', 'destinations/index.html', 'guides/index.html',
+  ...REGION_SLUGS.map((slug) => `destinations/${slug}/index.html`),
+  ...readdirSync(join(ROOT, 'guides'), { withFileTypes: true }).filter((d) => d.isDirectory())
+    .map((d) => `guides/${d.name}/index.html`)];
 
 const cspOf = (html) => {
   const all = [...html.matchAll(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/g)];
@@ -111,7 +111,7 @@ test('button text meets WCAG AA (4.5:1) and the button stands out from the page 
 });
 
 test('error and recovery markup: a silent countdown, one live region for events, an honest no-JS state', () => {
-  const page = read('en/esim/uae/index.html');
+  const page = read('destinations/uae/index.html');
   assert.match(page, /<p class="note" id="coExpiry" hidden><\/p>/, 'the countdown is not a live region');
   assert.match(page, /<p class="sr-only" id="coLive" role="status" aria-live="polite"><\/p>/);
   assert.match(page, /<b id="coTotal" tabindex="-1">/);
@@ -129,7 +129,7 @@ test('the hidden attribute wins over every display rule in en.css', () => {
 });
 
 test('the checkout dialog can take focus, the status is announced, the logo names the home link', () => {
-  const page = read('en/esim/uae/index.html');
+  const page = read('destinations/uae/index.html');
   assert.match(page, /<h3 id="coTitle" tabindex="-1"/);
   assert.match(page, /role="dialog" aria-modal="true" aria-labelledby="coTitle"/);
   assert.match(page, /<p class="note" id="status" role="status" aria-live="polite"/);
@@ -137,7 +137,7 @@ test('the checkout dialog can take focus, the status is announced, the logo name
   for (const p of [...COUNTRY_PAGES.slice(0, 5), ...OTHER_PAGES]) {
     // The logo is the brand artwork alone (it contains the name) — since 2026-10-20 the animated SVG (logo A, the
     // same as the Russian header), so it carries the name as role="img" + aria-label.
-    assert.match(read(p), /<a class="brand" href="\/en\/"><svg class="brand-logo" viewBox="336 208 574 432" width="59" height="44" role="img" aria-label="Magic eSIM">/, p);
+    assert.match(read(p), /<a class="brand" href="\/"><svg class="brand-logo" viewBox="336 208 574 432" width="59" height="44" role="img" aria-label="Magic eSIM">/, p);
   }
   const co = read('en/checkout.js');
   assert.match(co, /\$\('coTitle'\)\.focus\(\)/, 'focus moves into the dialog');

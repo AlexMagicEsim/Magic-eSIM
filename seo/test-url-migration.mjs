@@ -11,11 +11,16 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { RULES, STAYS, newPath, countryQueryTargets, RU_BASE, EN_CATALOGUE_BASE } from './url-migration.mjs';
+import { nowAt } from '../scripts/url-migration-switch.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
-const sitemapPaths = () => [...readFileSync(join(ROOT, 'sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)]
-  .map((m) => m[1].replace(SITE, ''));
+const locsOf = (xml) => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+// The sitemap BEFORE the move — recorded once in seo/url-migration-switch.json (scripts/url-migration-switch.mjs); the
+// committed sitemap.xml is the one AFTER it.
+const SWITCH = JSON.parse(readFileSync(join(ROOT, 'seo/url-migration-switch.json'), 'utf8'));
+const sitemapPaths = () => SWITCH.pairs.map(([old]) => old.replace(SITE, ''));
+const currentLocs = () => locsOf(readFileSync(join(ROOT, 'sitemap.xml'), 'utf8'));
 
 test('each rule fires on the path it names', () => {
   assert.equal(newPath('/en/'), '/');
@@ -89,4 +94,31 @@ test('a page path without its slash lands on the final URL in one hop; files and
 test('newPath refuses what is not a path', () => {
   assert.throws(() => newPath('esim/turkey/'));
   assert.throws(() => newPath(undefined));
+});
+
+test('the switch: every old sitemap URL lands on exactly one URL of the current sitemap, and the current one names no old path', () => {
+  const now = currentLocs();
+  assert.ok(now.length > 200, `the proof: the current sitemap was read (${now.length})`);
+  assert.equal(SWITCH.pairs.length, now.length, 'the same number of URLs before and after the move');
+  assert.deepEqual(SWITCH.pairs.map(([, n]) => n).sort(), [...now].sort(), 'one to one: nothing lost, nothing added');
+  for (const [old, n] of SWITCH.pairs) assert.equal(n, nowAt(old), `${old}: the record follows the map`);
+  for (const u of now) assert.equal(newPath(u.replace(SITE, '')), null, `${u} is a final URL, never a redirect source`);
+  assert.ok(now.includes(`${SITE}/`) && now.includes(`${SITE}/ru/`), 'both homes');
+  assert.equal(nowAt(`${SITE}/`), `${SITE}/ru/`, 'the old «/» was the Russian home');
+});
+
+test('the one-time IndexNow list: the new Russian URLs, the old Russian addresses and «/» — nothing English, nothing outside the site', () => {
+  const list = SWITCH.indexnow_once;
+  assert.ok(list.includes(`${SITE}/`) && list.includes(`${SITE}/ru/`) && list.includes(`${SITE}/ru/esim/turkey/`) && list.includes(`${SITE}/esim/turkey/`));
+  for (const u of list) {
+    assert.ok(u.startsWith(`${SITE}/`), u);
+    assert.ok(u === `${SITE}/` || nowAt(u).startsWith(`${SITE}/ru/`) || u.startsWith(`${SITE}/ru/`) || ['/terms.html', '/privacy.html'].includes(u.slice(SITE.length)), `${u}: Russian or «/»`);
+    assert.ok(!/\/(destinations|guides|en|es|de|fr|zh|ko)\//.test(u.slice(SITE.length)), `${u}: no international page`);
+  }
+  assert.equal(new Set(list).size, list.length);
+  // No automation reads it: it is the owner's list for the day of the switch.
+  for (const f of ['.github/workflows/indexnow.yml', 'seo/indexnow.mjs', 'scripts/indexnow-submit.mjs']) {
+    let src = ''; try { src = readFileSync(join(ROOT, f), 'utf8'); } catch { continue; }
+    assert.doesNotMatch(src, /url-migration-switch/, `${f} must not read the one-time list`);
+  }
 });

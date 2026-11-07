@@ -34,7 +34,7 @@ async function open(page, answer, { delayMs = 0 } = {}) {
     if (delayMs) await new Promise((r) => setTimeout(r, delayMs));
     return answer === 'abort' ? route.abort() : route.fulfill(answer);
   });
-  await page.goto('/en/esim/thailand/');
+  await page.goto('/destinations/thailand/');
 }
 const helpTop = (page) => page.evaluate(() => Math.round(document.querySelector('.cp-help').getBoundingClientRect().top + window.scrollY));
 const cls = (page) => page.evaluate(() => window.__cls);
@@ -64,7 +64,7 @@ test('«Try again» after a failure: the reserved place is given back when the p
   let fail = true;
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => route.abort());
   await page.route(CATALOGUE, (route) => (fail ? route.fulfill({ status: 500, body: '' }) : route.fulfill(ok(ROWS))));
-  await page.goto('/en/esim/thailand/');
+  await page.goto('/destinations/thailand/');
   await expect(page.locator('#retry')).toBeVisible();
   expect(await page.evaluate(() => document.querySelector('.cp-state').style.minHeight)).toMatch(/^\d+px$/);
   fail = false;

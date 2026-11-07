@@ -38,17 +38,27 @@ const fileOf = (path) => join(ROOT, path.endsWith('/') ? `${path}index.html` : p
 /* Since ES-1 three languages are published, so every prefixed page carries the list: the single-link form (Russian the
  * only other language — the English site from #116 to ES-1) no longer occurs on a published page. */
 
-test('every published prefixed page: the list of RU/EN/ES, current marked, each linking to the same page — and it exists', () => {
-  const sample = (P) => [[`${P}/index.html`, '/', '/'], [`${P}/esim/index.html`, '/esim/', '/esim/'],
-    [`${P}/esim/thailand/index.html`, '/esim/thailand/', '/esim/thailand/'], [`${P}/guides/index.html`, '/esim/', '/guides/'],
-    ...EN_GUIDES.map((g) => [`${P}/guides/${g.slug}/index.html`, GUIDE_RU[g.slug], `/guides/${g.slug}/`])];
-  for (const L of PUBLISHED.filter((l) => l.prefix)) {
-    for (const [rel, ru, path] of sample(L.prefix)) {
+/* Each page kind in one language, at the registry's paths (seo/locales.mjs; EN-root migration 2026-11-07). The Russian
+ * site has no guide list (its twin is its destination list) and its own guides (GUIDE_RU). */
+const KIND_PATH = {
+  home: (l) => l.paths.home,
+  list: (l) => l.paths.catalogue,
+  country: (l) => `${l.paths.catalogue}thailand/`,
+  guides: (l) => (l.code === 'ru' ? l.paths.catalogue : l.paths.guides),
+  guide: (l, slug) => (l.code === 'ru' ? GUIDE_RU[slug] : `${l.paths.guides}${slug}/`),
+};
+
+test('every published international page: the list of every language, current marked, each linking to the same page — and it exists', () => {
+  const sample = (L) => [[KIND_PATH.home(L), 'home'], [KIND_PATH.list(L), 'list'], [KIND_PATH.country(L), 'country'], [KIND_PATH.guides(L), 'guides'],
+    ...EN_GUIDES.map((g) => [KIND_PATH.guide(L, g.slug), 'guide', g.slug])];
+  for (const L of PUBLISHED.filter((l) => l.code !== 'ru')) {
+    for (const [path, kind, slug] of sample(L)) {
+      const rel = path.slice(1) + 'index.html';
       const page = read(rel);
       const menu = page.match(/<details class="langsw langmenu">([\s\S]*?)<\/details>/);
       assert.ok(menu, `${rel}: the list`);
       for (const l of PUBLISHED) {
-        const href = l.prefix ? `/${l.prefix}${path}` : ru;
+        const href = KIND_PATH[kind](l, slug);
         if (l.code === L.code) assert.ok(menu[1].includes(`<span aria-current="true" lang="${l.htmlLang}">${l.endonym}</span>`), `${rel}: ${l.code} marked`);
         else {
           assert.ok(menu[1].includes(`<a href="${href}" hreflang="${l.hreflang}" lang="${l.htmlLang}">${l.endonym}</a>`), `${rel}: ${l.code} → ${href}`);
@@ -66,11 +76,11 @@ for (const L of PLANNED) {
     const th = list.find((c) => c.slug === 'thailand');
     const g = EN_GUIDES[0];
     const kinds = [
-      ['home', G.homePage(list), (l) => (l.prefix ? `/${l.prefix}/` : '/')],
-      ['list', G.hubPage(list), (l) => (l.prefix ? `/${l.prefix}/esim/` : '/esim/')],
-      ['country', G.countryPage(th), (l) => (l.prefix ? `/${l.prefix}/esim/thailand/` : '/esim/thailand/')],
-      ['guides', G.guidesHub(), (l) => (l.prefix ? `/${l.prefix}/guides/` : '/esim/')],
-      ['guide', G.guidePage(g), (l) => (l.prefix ? `/${l.prefix}/guides/${g.slug}/` : GUIDE_RU[g.slug])],
+      ['home', G.homePage(list), (l) => KIND_PATH.home(l)],
+      ['list', G.hubPage(list), (l) => KIND_PATH.list(l)],
+      ['country', G.countryPage(th), (l) => KIND_PATH.country(l)],
+      ['guides', G.guidesHub(), (l) => KIND_PATH.guides(l)],
+      ['guide', G.guidePage(g), (l) => KIND_PATH.guide(l, g.slug)],
     ];
     const order = LOCALES.filter((l) => l.site.enabled || l.code === L.code);
     for (const [kind, html, want] of kinds) {
@@ -110,7 +120,7 @@ test('the switch never names a language the registry does not publish (besides t
 });
 
 test('the RU pages are not part of the switch work: their header still links to /en/ only', () => {
-  for (const rel of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'esim/uae/index.html']) {
+  for (const rel of ['ru/index.html', 'ru/esim/thailand/index.html', 'ru/esim/index.html', 'ru/esim/uae/index.html']) {
     const page = read(rel);
     assert.doesNotMatch(page, /langmenu|href="\/es\//, rel);
   }

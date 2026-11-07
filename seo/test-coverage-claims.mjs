@@ -291,7 +291,7 @@ test('printedCount follows the card: daily counts raw codes, volume strips RU/UA
 test('the diagnostic names page, claim, quote, expected product and what the catalogue holds now', () => {
   const c = FIX(); c.packages[0].coverage_country_codes = ['ZA', 'BW']; c.packages[0].region = 'ZA, BW';
   const text = formatProblem(run([zambiaOnly], c)[0]);
-  for (const part of ['/esim/south-africa/', 'zambia-only', 'покрывает только пакет на Африку на 5 ГБ', 'af5', 'Africa 5GB 30Days', 'must_cover', 'ZA, BW']) {
+  for (const part of ['/ru/esim/south-africa/', 'zambia-only', 'покрывает только пакет на Африку на 5 ГБ', 'af5', 'Africa 5GB 30Days', 'must_cover', 'ZA, BW']) {
     assert.ok(text.includes(part), `diagnostic lacks «${part}»:\n${text}`);
   }
 });

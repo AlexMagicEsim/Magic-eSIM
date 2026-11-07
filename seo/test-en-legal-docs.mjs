@@ -24,6 +24,7 @@ import { PRIVACY_VERSION } from './privacy-en.mjs';
 import { STATEMENTS_VERSION } from './checkout-statements.mjs';
 import { INTL_LEGAL, legalLinks } from './legal-links.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
+import { locale as localeOf } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -153,7 +154,7 @@ test('the second box says, in English, exactly what Refund Policy §4.2 quotes',
 test('every checkout window: two separate boxes, unticked, before the disabled payment button; each document its own new-tab link', () => {
   for (const [code, prefix] of LANGS) {
     const W = SITE.DICT[code];
-    const h = read(`${prefix}/esim/uae/index.html`);
+    const h = read(`${localeOf(code).paths.catalogue.slice(1)}uae/index.html`);   // /destinations/ for English
     const box = h.slice(h.indexOf('<fieldset class="co-consents"'), h.indexOf('</fieldset>') + 11);
     assert.ok(box.length > 100, `${code}: the consent block`);
     assert.ok(h.indexOf('id="coConsents"') < h.indexOf('id="coPay"'), `${code}: before the payment button`);
@@ -177,7 +178,7 @@ test('every checkout window: two separate boxes, unticked, before the disabled p
 });
 
 test('no Russian page carries the international consents', () => {
-  for (const rel of ['index.html', 'esim/uae/index.html', 'esim/turkey/index.html']) {
+  for (const rel of ['ru/index.html', 'ru/esim/uae/index.html', 'ru/esim/turkey/index.html']) {
     assert.doesNotMatch(read(rel), /coConsents|coAgreeTerms|coAgreeDelivery|coAgreeAge|consent\.(?:delivery|age)|data-statements-version/, rel);
   }
 });

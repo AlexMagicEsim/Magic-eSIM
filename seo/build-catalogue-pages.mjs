@@ -48,7 +48,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
-const METRIKA = readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8')
+const METRIKA = readFileSync(join(ROOT, 'ru/esim/thailand/index.html'), 'utf8')
   .match(/<!-- Yandex\.Metrika counter -->[\s\S]*?<\/script>\n(?=\n|  <!-- Structured data -->)/)[0];
 
 const { countries } = loadCached();
@@ -120,7 +120,7 @@ function dualSimNote(p) {
   // in a numbered sequence; this is a declarative aside, and numbering it «5.»
   // turned a remark into an instruction. Leading newline keeps pages without a
   // note byte-identical.
-  return `\n        <p class="howto-note">${esc(before)}<a href="/esim/dual-sim-sms/">${esc(note.anchor)}</a>${esc(after)}</p>`;
+  return `\n        <p class="howto-note">${esc(before)}<a href="/ru/esim/dual-sim-sms/">${esc(note.anchor)}</a>${esc(after)}</p>`;
 }
 
 /**
@@ -332,7 +332,7 @@ function seoPilot(c, p) {
     '@type': 'Product',
     name: sp.name,
     description: desc,
-    url: `${SITE}/esim/${c.slug}/`,
+    url: `${SITE}/ru/esim/${c.slug}/`,
     image: `${SITE}/assets/magic-esim-logo.png`,
     brand: { '@type': 'Brand', name: 'Magic eSIM' },
     // Exactly the numbers the price section prints: the count, the lowest and
@@ -344,7 +344,7 @@ function seoPilot(c, p) {
       highPrice: o.all.max,
       offerCount: o.all.count,
       availability: 'https://schema.org/InStock',
-      url: `${SITE}/esim/${c.slug}/#prices`,
+      url: `${SITE}/ru/esim/${c.slug}/#prices`,
       // Who sells it: the one seller entity (seo/seller-entity.mjs).
       seller: SELLER_REF,
     },
@@ -379,7 +379,7 @@ function factsLive(c) {
 }
 
 /* The first screen of a page OUTSIDE the SEO experiment: the EN country page's
- * structure (en/esim/<slug>/) — a short H1 and one line under it, then the plans.
+ * structure (/destinations/<slug>/) — a short H1 and one line under it, then the plans.
  * The line is the facts line (counts and «Цены от N ₽», live — stage C). The
  * authored headline, lead and intro move whole to «aboutBlock» under the plans. */
 function enHero(c) {
@@ -493,7 +493,7 @@ function page(c, all, profile) {
   // silently turned «Кипр → Греция, Турция, Египет» into «Кипр → Канада, Кения,
   // Киргизия», and «Бразилия → Мексика, США» into «Бонэйр, Ботсвана, Бруней».
   const links = relatedFor(p, all) || nearby(c, all);
-  const url = `${SITE}/esim/${c.slug}/`;
+  const url = `${SITE}/ru/esim/${c.slug}/`;
 
   const jsonld = {
     '@context': 'https://schema.org',
@@ -501,8 +501,8 @@ function page(c, all, profile) {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/` },
-          { '@type': 'ListItem', position: 2, name: 'Страны', item: `${SITE}/esim/` },
+          { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/ru/` },
+          { '@type': 'ListItem', position: 2, name: 'Страны', item: `${SITE}/ru/esim/` },
           // Matches the visible breadcrumb, which shows the country name
           // alone. A crumb that disagrees with the page is the one thing
           // structured data must never do.
@@ -515,7 +515,7 @@ function page(c, all, profile) {
         url,
         description: desc,
         inLanguage: 'ru',
-        isPartOf: { '@type': 'WebSite', name: 'Magic eSIM', url: `${SITE}/` },
+        isPartOf: { '@type': 'WebSite', name: 'Magic eSIM', url: `${SITE}/ru/` },
         // The pilot pages point at the one seller entity declared on the home
         // page (seo/seller-entity.mjs); every other page keeps its inline
         // Organization unchanged (owner, 2026-10-14: pilot only).
@@ -578,14 +578,14 @@ ${ruHeader({ animatedLogo: live })}
 <main class="cp">
   <section class="cp-hero">
     <div class="wrap">
-      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <a href="/esim/">Страны</a> › <span aria-current="page">${esc(c.nameRu)}</span></nav>
+      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/ru/">Главная</a> › <a href="/ru/esim/">Страны</a> › <span aria-current="page">${esc(c.nameRu)}</span></nav>
 ${live ? enHero(c) : frozenHero(c, p)}
       <div class="cp-hero-foot">
         <ul class="cp-facts">
           <li>Оплата в рублях</li>
           <li>Установка по QR-коду</li>
         </ul>
-        <a class="cp-change" href="/esim/">Выбрать другое направление</a>
+        <a class="cp-change" href="/ru/esim/">Выбрать другое направление</a>
       </div>
     </div>
   </section>
@@ -705,15 +705,15 @@ ${RU_CHECKOUT_MODAL}
       </div>
       <div class="help-card compat">
         <h3>Совместимость</h3>
-        <p>eSIM работает на телефонах с поддержкой eSIM, не заблокированных под оператора. Проверить свою модель: <a href="/esim/compatibility/">список совместимых устройств</a>, инструкции для <a href="/iphone.html">iPhone</a> и <a href="/android.html">Android</a>.</p>
+        <p>eSIM работает на телефонах с поддержкой eSIM, не заблокированных под оператора. Проверить свою модель: <a href="/ru/esim/compatibility/">список совместимых устройств</a>, инструкции для <a href="/ru/iphone.html">iPhone</a> и <a href="/ru/android.html">Android</a>.</p>
       </div>
       <div class="help-card howto">
         <h3>Как подключить</h3>
         <ol class="howto-list">
-          <li>Выберите тариф на этой странице и оплатите — <a href="/esim/payment-rubles/">российской банковской картой или через СБП</a>.</li>
+          <li>Выберите тариф на этой странице и оплатите — <a href="/ru/esim/payment-rubles/">российской банковской картой или через СБП</a>.</li>
           <li>QR-код придёт на почту сразу после оплаты.</li>
-          <li>Отсканируйте его дома по Wi-Fi: <a href="/esim/activation-before-travel/">как установить до вылета</a>.</li>
-          <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/esim/not-working/">что проверить</a>.</li>
+          <li>Отсканируйте его дома по Wi-Fi: <a href="/ru/esim/activation-before-travel/">как установить до вылета</a>.</li>
+          <li>По прилёте включите передачу данных на линии eSIM. Не заработало — <a href="/ru/esim/not-working/">что проверить</a>.</li>
         </ol>${dualSimNote(p)}
       </div>
     </div>
@@ -749,7 +749,7 @@ ${live ? `  <!-- Keeps the generated counts and «от N ₽» equal to the cata
        shows; hides the floor when that catalogue is stale (stage C). Before
        country-tariffs.js, so it listens before the first render. -->
   <script src="${stampUrl('/assets/catalog-numbers.js')}" defer></script>
-` : ''}  <script src="${stampUrl('../../assets/country-tariffs.js')}" defer></script>
+` : ''}  <script src="${stampUrl('/assets/country-tariffs.js')}" defer></script>
   <!-- After country-tariffs.js, which declares the names the checkout relies on;
        defer keeps document order. -->
   <script src="${stampUrl('/assets/ru-checkout.js')}" defer></script>
@@ -780,7 +780,7 @@ export function ruDestinationsJs(list) {
   const regions = REGIONS.map((r) => ({ key: r.key, label: r.label, names: r.names, countries: (r.countries.length ? r.countries : popular).filter((iso) => has.has(iso)) }))
     .map((r) => `  ${JSON.stringify(r)},`).join('\n');
   return `/* GENERATED by seo/build-catalogue-pages.mjs — do not edit by hand.
- * The destinations that have a Russian page (/esim/<slug>/), for the
+ * The destinations that have a Russian page (/ru/esim/<slug>/), for the
  * destination search on the home and on /esim/ (assets/ru-search.js). Static
  * on purpose: the search reads no catalogue. aliases / regions / popular come
  * from seo/destination-aliases.mjs and seo/ru-chrome.mjs. */
@@ -828,7 +828,7 @@ for (const c of countries) {
   }
   if (editorialSlugs.has(c.slug)) replaced++;
   if (profile) withProfile++;
-  const dir = join(ROOT, 'esim', c.slug);
+  const dir = join(ROOT, 'ru/esim', c.slug);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'index.html'), page(c, countries, profile));
   written++;

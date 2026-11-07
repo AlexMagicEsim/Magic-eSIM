@@ -223,7 +223,7 @@ test('the note is not a step in the numbered instructions', () => {
   // imperatives. It renders as a paragraph after the list now.
   const { readFileSync: rf } = { readFileSync };
   for (const slug of Object.keys(NOTES)) {
-    const html = rf(join(ROOT, `esim/${slug}/index.html`), 'utf8');
+    const html = rf(join(ROOT, `ru/esim/${slug}/index.html`), 'utf8');
     const ol = html.match(/<ol class="howto-list">([\s\S]*?)<\/ol>/);
     assert.ok(ol, `${slug}: список «Как подключить» не найден`);
     assert.ok(!ol[1].includes('dual-sim-sms'), `${slug}: ссылка снова внутри нумерованного списка`);

@@ -432,13 +432,13 @@ test('G1 every country page loads the shared loader; the home reads no catalogue
   // ?v=<content hash> is part of every asset URL now — see seo/asset-version.mjs.
   // The home (since RU↔EN migration PR C) is a way in, as /en/ is: it links to
   // the country pages and must not quietly start reading the catalogue again.
-  const home = readRaw('index.html');
+  const home = readRaw('ru/index.html');
   for (const a of ['catalog-loader', 'magic-net', 'country-tariffs', 'ru-checkout', 'daily-plan-copy']) {
     assert.ok(!new RegExp(`<script[^>]+src="[^"]*${a}\\.js`).test(home), `the home must not load ${a}.js`);
   }
   assert.ok(!/MagicCatalog|fetch\(|XMLHttpRequest/.test(home), 'the home must not read the catalogue');
   for (const slug of ['thailand', 'turkey', 'china', 'uae', 'vietnam', 'france', 'egypt', 'japan']) {
-    assert.match(read(`esim/${slug}/index.html`), /catalog-loader\.js/, `${slug} must load the loader`);
+    assert.match(read(`ru/esim/${slug}/index.html`), /catalog-loader\.js/, `${slug} must load the loader`);
   }
   // build-country-pages.mjs was deleted on 2026-09-01 with the legacy page
   // family it served; build-catalogue-pages.mjs is now the only generator.

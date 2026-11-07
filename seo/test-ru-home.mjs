@@ -22,8 +22,8 @@ import vm from 'node:vm';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const RU = read('index.html');
-const EN = read('en/index.html');
+const RU = read('ru/index.html');
+const EN = read('index.html');
 const JS = read('assets/ru-home.js');
 const LIST = read('assets/ru-destinations.js');
 
@@ -78,9 +78,9 @@ test('the home reads no catalogue and takes no money', () => {
   }
   assert.doesNotMatch(RU, /page-country\.css/);
   const scripts = [...RU.matchAll(/<script src="([^"?]+)\?v=[0-9a-f]{8}"><\/script>/g)].map((m) => m[1]);
-  // <head> loads the first-visit language route first (assets/lang-route.js, owner 2026-10-23; seo/test-lang-route.mjs) —
-  // it reads no catalogue and takes no money either; the body loads the list, the shared matcher, then the search.
-  assert.deepEqual(scripts, ['/assets/lang-route.js', '/assets/ru-destinations.js', '/assets/ru-search.js', '/assets/ru-home.js']);
+  // Since the EN-root migration (2026-11-07) /ru/ moves nobody: assets/lang-route.js lives on the English home «/»
+  // only (seo/test-lang-route.mjs); the Russian home loads its search and nothing else.
+  assert.deepEqual(scripts, ['/assets/ru-destinations.js', '/assets/ru-search.js', '/assets/ru-home.js']);
 });
 
 test('ru-home.js touches no network and builds links only from the generated list', () => {
@@ -95,7 +95,7 @@ test('ru-home.js touches no network and builds links only from the generated lis
   }
   // The only navigation: an old ?country=XX link → that country's page, slug from the list.
   const hops = code.match(/location\.(?:replace|assign|href\s*=)[^;]*/g) || [];
-  assert.deepEqual(hops, ["location.replace('/esim/' + d.slug + '/')"]);
+  assert.deepEqual(hops, ["location.replace('/ru/esim/' + d.slug + '/')"]);
   assert.match(code, /var d = \/\^\[A-Za-z\]\{2\}\$\/\.test\(code\) \? byIso\(code\) : null;/);
 });
 
@@ -124,8 +124,8 @@ function runHome({ search = '', hash = '' } = {}) {
 }
 
 test('an old /?country=XX link goes to that country\'s page, and only a listed one', () => {
-  assert.deepEqual(runHome({ search: '?country=TR' }).replace, ['/esim/turkey/']);
-  assert.deepEqual(runHome({ search: '?country=vn&utm_source=x' }).replace, ['/esim/vietnam/']);
+  assert.deepEqual(runHome({ search: '?country=TR' }).replace, ['/ru/esim/turkey/']);
+  assert.deepEqual(runHome({ search: '?country=vn&utm_source=x' }).replace, ['/ru/esim/vietnam/']);
   // Unknown, restricted (RU has no page), malformed or hostile: the home stays.
   for (const q of ['?country=RU', '?country=ZZ', '?country=TUR', '?country=../x', '?country=%2F%2Fevil.com', '?country=']) {
     assert.deepEqual(runHome({ search: q }).replace, [], q);
@@ -149,7 +149,7 @@ test('the generated list is the set of country pages, with Russian and English n
   const { countries } = JSON.parse(read('seo/catalogue-countries.json'));
   assert.equal(list.length, countries.length);
   for (const d of list) {
-    assert.ok(existsSync(join(ROOT, 'esim', d.slug, 'index.html')), `/esim/${d.slug}/ does not exist`);
+    assert.ok(existsSync(join(ROOT, 'ru/esim', d.slug, 'index.html')), `/ru/esim/${d.slug}/ does not exist`);
     assert.match(d.iso, /^[A-Z]{2}$/);
     assert.match(d.name, /[А-ЯЁа-яё]/, `${d.slug}: no Russian name`);
   }
@@ -172,8 +172,8 @@ test('every goal the home fires is allowlisted on the home, and nothing new was 
 test('the header CTA and the navigation lead to the home\'s sections, never to the old catalogue', async () => {
   const { ruHeader, RU_FOOTER } = await import('./ru-chrome.mjs');
   const h = ruHeader();
-  assert.match(h, /href="\/#plans">Найти тариф</);
-  for (const a of ['/#how', '/#compat', '/#guides', '/esim/']) assert.ok(h.includes(`href="${a}"`), a);
+  assert.match(h, /href="\/ru\/#plans">Найти тариф</);
+  for (const a of ['/ru/#how', '/ru/#compat', '/ru/#guides', '/ru/esim/']) assert.ok(h.includes(`href="${a}"`), a);
   assert.doesNotMatch(h + RU_FOOTER, /#global-pricing|#solution|#install-guides-section/);
   // Nav items: the English four.
   const nav = h.match(/<nav class="nav"[\s\S]*?<\/nav>/)[0];

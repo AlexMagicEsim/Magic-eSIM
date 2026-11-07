@@ -44,7 +44,7 @@ test('every other selling page marks its facts line, its template FAQ floor, and
   for (const { slug, iso, html } of PAGES) {
     const f = countryFacts(DOC, iso);
     if (f.min_price_rub === null) continue;
-    assert.match(html, /<script src="\/assets\/catalog-numbers\.js\?v=[0-9a-f]+" defer><\/script>\s*<script src="\.\.\/\.\.\/assets\/country-tariffs\.js/, `${slug}: script before country-tariffs.js`);
+    assert.match(html, /<script src="\/assets\/catalog-numbers\.js\?v=[0-9a-f]+" defer><\/script>\s*<script src="\/assets\/country-tariffs\.js/, `${slug}: script before country-tariffs.js`);
     assert.ok(html.includes(`<span data-cat-floor>Цены от <b data-cat="floor">${money(f.min_price_rub)} ₽</b>.</span>`), `${slug}: facts floor`);
     for (const [k, n] of [['local', f.local_count], ['regional', f.regional_count], ['daily', f.daily_count]]) {
       if (n > 0) assert.ok(html.includes(`<b data-cat="${k}">${n}</b>`), `${slug}: ${k} count`);

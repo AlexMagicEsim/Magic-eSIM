@@ -48,7 +48,7 @@ test('the check fires on the exact node the prefixed homes used to carry', () =>
 });
 
 test('no organisation node on any built page carries inLanguage', () => {
-  const dirs = ['index.html', 'esim', 'en', 'es', 'de', 'fr', 'zh', 'ko'].map((d) => join(ROOT, d));
+  const dirs = ['ru', 'index.html', 'destinations', 'guides', 'en', 'es', 'de', 'fr', 'zh', 'ko'].map((d) => join(ROOT, d));
   const files = dirs.flatMap((d) => (d.endsWith('.html') ? [d] : pages(d)));
   assert.ok(files.length > 1000, `expected the whole site, found ${files.length} pages`);
   const found = [];

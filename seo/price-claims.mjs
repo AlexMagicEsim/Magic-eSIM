@@ -215,7 +215,7 @@ export function resolveTerm(name, t, { blocks, slug }) {
         if (fb.value) return { value: { ...fb.value, what: `${fb.value.what} (запасной вариант)` }, errors };
         errors.push(...fb.errors);
       }
-      errors.push(`${name}: на /esim/${slug}/ нет карточки ${describeSelector(t)} — тариф исчез из опубликованного ассортимента или сменил объём / срок`);
+      errors.push(`${name}: на /ru/esim/${slug}/ нет карточки ${describeSelector(t)} — тариф исчез из опубликованного ассортимента или сменил объём / срок`);
       return { value: null, errors };
     }
     const r = termPrice(plan, t.days);
@@ -248,7 +248,7 @@ export function evaluateProfile(profile, slug, doc) {
   if (claims === undefined) return out;
   if (!Array.isArray(claims)) { add(null, 'price_claims — не массив'); return out; }
   const iso = isoOfSlug(slug);
-  if (!iso) { add(null, `страна для /esim/${slug}/ неизвестна`); return out; }
+  if (!iso) { add(null, `страна для /ru/esim/${slug}/ неизвестна`); return out; }
   const blocks = publishedBlocks(doc, iso);
   const ids = new Set();
 
@@ -345,7 +345,7 @@ export function checkCorpus({ catalogFile = CATALOG_FILE, profileDir = PROFILE_D
   return { problems, claims };
 }
 
-export const formatProblem = (x) => `/esim/${x.slug}/${x.claim ? ` · ${x.claim}` : ''}: ${x.msg}`;
+export const formatProblem = (x) => `/ru/esim/${x.slug}/${x.claim ? ` · ${x.claim}` : ''}: ${x.msg}`;
 
 // ------------------------------------------------------------------ CLI
 

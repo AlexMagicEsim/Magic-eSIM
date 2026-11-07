@@ -24,7 +24,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const HOME = readFileSync(join(ROOT, 'index.html'), 'utf8');
+const HOME = readFileSync(join(ROOT, 'ru/index.html'), 'utf8');
 const text = (s) => String(s).replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
 function section(id) {
@@ -62,7 +62,7 @@ test('FAQPage says exactly what the visitor sees, question for question', () => 
 test('every answer links to a guide that exists, and none is a copy of that guide', () => {
   const guideFaqs = [];
   for (const g of ['payment-rubles', 'activation-before-travel', 'compatibility', 'dual-sim-sms', 'not-working']) {
-    const h = readFileSync(join(ROOT, 'esim', g, 'index.html'), 'utf8');
+    const h = readFileSync(join(ROOT, 'ru/esim', g, 'index.html'), 'utf8');
     for (const [, raw] of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       const j = JSON.parse(raw);
       for (const node of j['@graph'] || [j]) {
@@ -74,7 +74,7 @@ test('every answer links to a guide that exists, and none is a copy of that guid
   const words = (s) => new Set(s.toLowerCase().match(/[a-zа-яё0-9]+/g) || []);
   const jaccard = (a, b) => { const A = words(a), B = words(b); const i = [...A].filter((w) => B.has(w)).length; return i / (A.size + B.size - i); };
   for (const { q, a, html } of visibleFaq()) {
-    const links = [...html.matchAll(/href="(\/esim\/[a-z-]+\/)"/g)].map((m) => m[1]);
+    const links = [...html.matchAll(/href="(\/ru\/esim\/[a-z-]+\/)"/g)].map((m) => m[1]);
     const mail = /href="mailto:support@magicesim\.store"/.test(html);
     assert.ok(links.length || mail, `«${q}» никуда не ведёт`);
     for (const l of links) assert.ok(existsSync(join(ROOT, l, 'index.html')), `${l} не существует`);

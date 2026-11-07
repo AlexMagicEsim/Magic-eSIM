@@ -1,4 +1,4 @@
-/* The English guides (/en/guides/<slug>/): what they may say, how a crawler
+/* The English guides (/guides/<slug>/): what they may say, how a crawler
  * is told to treat them, and that every link lands somewhere real.
  *
  * Run: node --test seo/test-en-guides.mjs
@@ -16,8 +16,8 @@ import { isIndexed, cluster } from './indexing.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const PAGES = EN_GUIDES.map((g) => ({ g, rel: `en/guides/${g.slug}/index.html` }))
-  .concat([{ g: null, rel: 'en/guides/index.html' }]);
+const PAGES = EN_GUIDES.map((g) => ({ g, rel: `guides/${g.slug}/index.html` }))
+  .concat([{ g: null, rel: 'guides/index.html' }]);
 const html = (rel) => read(rel);
 /** What a reader sees: no tags, no comments, no head. */
 const prose = (h) => h.replace(/<head>[\s\S]*?<\/head>/, '').replace(/<!--[\s\S]*?-->/g, '')
@@ -30,7 +30,7 @@ const prose = (h) => h.replace(/<head>[\s\S]*?<\/head>/, '').replace(/<!--[\s\S]
 test('the five planned guides exist, each from the generator', () => {
   assert.deepEqual(EN_GUIDES.map((g) => g.slug), ['iphone', 'android', 'compatibility', 'activation', 'troubleshooting']);
   for (const { g, rel } of PAGES) {
-    const want = g ? stampHtml(guidePage(g), join(ROOT, 'en/guides', g.slug)) : stampHtml(guidesHub(), join(ROOT, 'en/guides'));
+    const want = g ? stampHtml(guidePage(g), join(ROOT, 'guides', g.slug)) : stampHtml(guidesHub(), join(ROOT, 'guides'));
     assert.equal(html(rel), want, `${rel}: run node seo/build-en-pages.mjs — never edit by hand`);
   }
 });
@@ -40,7 +40,7 @@ test('build-all renders the guides (the Russian builder is the one build-all for
   // stays the English entry point, and builds English through the same generator, whose build() writes every guide.
   assert.match(read('seo/build-all.mjs'), /run\('build-locale-pages\.mjs'\)/);
   assert.match(read('seo/build-en-pages.mjs'), /EN\.build\(\)/);
-  assert.match(read('seo/build-locale-pages.mjs'), /for \(const g of GUIDES\) write\(`\$\{base\}\/guides\/\$\{g\.slug\}\/index\.html`/);
+  assert.match(read('seo/build-locale-pages.mjs'), /for \(const g of GUIDES\) page\(`\$\{GB\}\$\{g\.slug\}\/`, guidePage\(g\)\);/);
   assert.match(read('seo/build-locale-pages.mjs'), /export const GUIDES_BY_LOCALE = Object\.freeze\(\{ en: EN_GUIDES, es: ES_GUIDES, de: DE_GUIDES, fr: FR_GUIDES, 'zh-Hans': ZH_GUIDES, ko: KO_GUIDES \}\);/);
 });
 
@@ -52,7 +52,7 @@ test('every guide is indexed with its cluster (I18N-09), self-canonical, with on
   const sitemap = read('sitemap.xml');
   for (const { g, rel } of PAGES) {
     const h = html(rel);
-    const url = `https://magicesim.store/en/guides/${g ? `${g.slug}/` : ''}`;
+    const url = `https://magicesim.store/guides/${g ? `${g.slug}/` : ''}`;
     assert.match(h, /<html lang="en">/, rel);
     const page = g ? { kind: 'guide', slug: g.slug } : { kind: 'guides' };
     assert.match(h, /<meta name="robots" content="index, follow">/, rel);
@@ -75,7 +75,7 @@ test('the language switch goes to each guide\'s twin in every language, which ex
     const ru = GUIDE_RU[g.slug];
     const file = ru.endsWith('/') ? `${ru.slice(1)}index.html` : ru.slice(1);
     assert.ok(existsSync(join(ROOT, file)), `${g.slug} → ${ru}`);
-    const page = html(`en/guides/${g.slug}/index.html`);
+    const page = html(`guides/${g.slug}/index.html`);
     assert.ok(page.includes(`<li><a href="${ru}" hreflang="ru" lang="ru">`), `${g.slug}: the Russian twin`);
     assert.ok(page.includes(`<li><a href="/es/guides/${g.slug}/" hreflang="es" lang="es">`), `${g.slug}: the Spanish twin`);
     assert.ok(existsSync(join(ROOT, `es/guides/${g.slug}/index.html`)), `${g.slug}: es exists`);
@@ -95,16 +95,16 @@ test('every link on a guide lands on a page that exists, and one into another la
       else if (href.startsWith('/fr/')) assert.match(tag, /hreflang="fr"/, `${rel}: ${href} is French and must say so`);
       else if (href.startsWith('/zh/')) assert.match(tag, /hreflang="zh-Hans"/, `${rel}: ${href} is Chinese and must say so`);
       else if (href.startsWith('/ko/')) assert.match(tag, /hreflang="ko"/, `${rel}: ${href} is Korean and must say so`);
-      else if (!href.startsWith('/en/')) assert.match(tag, /hreflang="ru"/, `${rel}: ${href} is Russian and must say so`);
+      else if (!/^\/(destinations\/|guides\/|en\/|$)/.test(href)) assert.match(tag, /hreflang="ru"/, `${rel}: ${href} is Russian and must say so`);
     }
   }
 });
 
 test('the English pages point at the English guides, not the Russian ones', () => {
-  const home = read('en/index.html');
-  for (const slug of ['compatibility', 'iphone', 'android']) assert.ok(home.includes(`href="/en/guides/${slug}/"`), slug);
+  const home = read('index.html');
+  for (const slug of ['compatibility', 'iphone', 'android']) assert.ok(home.includes(`href="/guides/${slug}/"`), slug);
   assert.equal(/href="\/(iphone|android)\.html"/.test(home), false, 'the home no longer sends readers to a Russian guide');
-  assert.match(read('en/esim/uae/index.html'), /<a href="\/en\/guides\/">Guides<\/a>|data-i18n="nav.guides">Guides</);
+  assert.match(read('destinations/uae/index.html'), /<a href="\/guides\/">Guides<\/a>|data-i18n="nav.guides">Guides</);
 });
 
 /* ===================================================================== *
@@ -142,17 +142,17 @@ test('every banned-claim rule can fire', () => {
 });
 
 test('the start-of-term advice is the one that is safe for every plan', () => {
-  const act = prose(html('en/guides/activation/index.html'));
+  const act = prose(html('guides/activation/index.html'));
   assert.match(act, /install on the day you travel/i);
   assert.match(act, /Others start as soon as the eSIM is installed/);
   for (const slug of ['iphone', 'android']) {
-    assert.doesNotMatch(prose(html(`en/guides/${slug}/index.html`)), /before you (fly|leave)(?! home or on airport Wi-Fi)/i, slug);
+    assert.doesNotMatch(prose(html(`guides/${slug}/index.html`)), /before you (fly|leave)(?! home or on airport Wi-Fi)/i, slug);
   }
 });
 
 test('the guides tell the reader not to delete the eSIM, and why', () => {
   for (const slug of ['iphone', 'android', 'troubleshooting']) {
-    const t = prose(html(`en/guides/${slug}/index.html`));
+    const t = prose(html(`guides/${slug}/index.html`));
     assert.match(t, /Do not delete the eSIM/i, slug);
     assert.match(t, /may be single-use/, slug);
   }
@@ -160,6 +160,6 @@ test('the guides tell the reader not to delete the eSIM, and why', () => {
 
 test('every menu path is offered as typical, never as exact', () => {
   for (const slug of ['iphone', 'android']) {
-    assert.match(prose(html(`en/guides/${slug}/index.html`)), /names? (can )?(differ|vary)/i, slug);
+    assert.match(prose(html(`guides/${slug}/index.html`)), /names? (can )?(differ|vary)/i, slug);
   }
 });

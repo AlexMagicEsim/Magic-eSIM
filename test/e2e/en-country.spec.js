@@ -34,7 +34,7 @@ const LOCALS = [local(1, 1, 7, 2.99), local(2, 3, 15, 4.99), local(3, 5, 30, 6.9
   local(6, 50, 30, 29.99), local(7, 100, 30, 49.99), local(8, 30, 30, 24.99)];
 const BODY = JSON.stringify(withLayout({ status: 'success', market: 'global', currency: 'USD', data: [...LOCALS, PER_DAY, FIXED_DAILY, REGIONAL] }));
 
-async function open(page, { catalogue, path = '/en/esim/thailand/' } = {}) {
+async function open(page, { catalogue, path = '/destinations/thailand/' } = {}) {
   const st = { quotes: [], csp: [], errors: [], cat: 0 };
   page.on('console', (m) => {
     if (/Content Security Policy/i.test(m.text())) st.csp.push(m.text());
@@ -193,10 +193,10 @@ test('unavailable: the message and «Try again», no placeholders, no jump links
 });
 
 test('nothing for this country: says so, and offers the destination list', async ({ page }) => {
-  await open(page, { path: '/en/esim/japan/' });
+  await open(page, { path: '/destinations/japan/' });
   await expect(page.locator('#status')).toHaveText('No plans for this destination yet.');
   await expect(page.locator('#emptyLink')).toBeVisible();
-  await expect(page.locator('#emptyLink')).toHaveAttribute('href', '/en/esim/');
+  await expect(page.locator('#emptyLink')).toHaveAttribute('href', '/destinations/');
   await expect(page.locator('#skeleton')).toBeHidden();
 });
 

@@ -59,7 +59,7 @@ async function open(page, { catalogue = () => ({ status: 200, body: BODY }) } = 
     if (url.startsWith(PRIMARY)) return route.fulfill({ status: 500, body: 'unexpected' });
     return route.continue();
   });
-  await page.goto('/en/esim/japan/');
+  await page.goto('/destinations/japan/');
   return { calls, csp, count: () => n };
 }
 

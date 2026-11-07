@@ -41,7 +41,7 @@ async function stub(page, { gate, fail } = {}) {
 const minHeight = (page) => page.locator('#tariffs').evaluate((e) => getComputedStyle(e).minHeight);
 
 // Turkey: compact cards (skeleton + 60vh); UAE: a frozen SEO-experiment page (old cards, 80vh).
-for (const url of ['/esim/turkey/', '/esim/uae/']) {
+for (const url of ['/ru/esim/turkey/', '/ru/esim/uae/']) {
   test(`${url}: «true» while loading, «false» after — and the plans show`, async ({ page }) => {
     let release;
     await stub(page, { gate: new Promise((r) => { release = r; }) });
@@ -52,7 +52,7 @@ for (const url of ['/esim/turkey/', '/esim/uae/']) {
     await expect(page.locator('#localBlock')).toBeHidden();
     await expect(page.locator('#regionalBlock')).toBeHidden();
     expect(await minHeight(page)).not.toBe('0px');                       // the CLS reserve holds
-    if (url === '/esim/turkey/') await expect(page.locator('#tariffs > .cp-skeleton')).toBeVisible();
+    if (url === '/ru/esim/turkey/') await expect(page.locator('#tariffs > .cp-skeleton')).toBeVisible();
     release();
     await expect(tariffs).toHaveAttribute('data-loading', 'false');
     await expect(page.locator('#packagesStatus')).toBeEmpty();
@@ -65,7 +65,7 @@ for (const url of ['/esim/turkey/', '/esim/uae/']) {
 
 test('after the render, the status text no longer decides anything (the Safari 26.4 bug cannot hide the plans)', async ({ page }) => {
   await stub(page);
-  await page.goto('/esim/turkey/');
+  await page.goto('/ru/esim/turkey/');
   await expect(page.locator('#tariffs')).toHaveAttribute('data-loading', 'false');
   await expect(page.locator('#localBlock')).toBeVisible();
   // What Safari 26.4 effectively did: apply the rules as if the status still had text.
@@ -79,7 +79,7 @@ test('after the render, the status text no longer decides anything (the Safari 2
 test('before the script runs, the first paint still hides the empty plan headings (CLS)', async ({ page }) => {
   await stub(page);
   await page.route('**/assets/country-tariffs.js*', (route) => route.abort());
-  await page.goto('/esim/turkey/');
+  await page.goto('/ru/esim/turkey/');
   await expect(page.locator('#tariffs')).not.toHaveAttribute('data-loading', /.*/);
   await expect(page.locator('#packagesStatus')).toHaveText(/Загружаем/);
   await expect(page.locator('#localBlock')).toBeHidden();
@@ -90,7 +90,7 @@ test('before the script runs, the first paint still hides the empty plan heading
 
 test('a failed load ends the loading state too: no skeleton, no reserve, the retry notice', async ({ page }) => {
   await stub(page, { fail: true });
-  await page.goto('/esim/turkey/');
+  await page.goto('/ru/esim/turkey/');
   await expect(page.locator('#tariffs')).toHaveAttribute('data-loading', 'false', { timeout: 30_000 });
   await expect(page.locator('#catalogNotice')).toBeVisible();
   await expect(page.locator('#tariffs > .cp-skeleton')).toBeHidden();

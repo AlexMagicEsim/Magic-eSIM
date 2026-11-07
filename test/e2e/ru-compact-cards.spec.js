@@ -50,7 +50,7 @@ const BEFORE = { 320: { local: 300, daily: 468 }, 375: { local: 275, daily: 436 
 for (const width of [320, 375, 390]) {
   test.describe(`${width} px`, () => {
     test('what a card says: single-country lines dropped, multi-country kept, everything essential there', async ({ page }) => {
-      await open(page, '/esim/turkey/', width);
+      await open(page, '/ru/esim/turkey/', width);
       await expect(page.locator('#tariffs')).toHaveAttribute('data-cards', 'compact');
       const local = page.locator('#localGrid .plan').first();
       await expect(local.locator('.plan-data')).toHaveText(/\d+\s*GB/);
@@ -72,7 +72,7 @@ for (const width of [320, 375, 390]) {
     });
 
     test('the card spacing is the English reference card\'s (owner, 2026-10-24); not taller than before #100; the buy button ≥ 40 px', async ({ page }) => {
-      await open(page, '/esim/turkey/', width);
+      await open(page, '/ru/esim/turkey/', width);
       const local = await h(page.locator('#localGrid .plan').first());
       const daily = await h(page.locator('#dailyGrid .plan').nth(0));
       // en/en.css .cp .plan: padding 20 / 20 / 16 px, gap 12 px — the RU card is a language version of the EN card
@@ -94,7 +94,7 @@ for (const width of [320, 375, 390]) {
     });
 
     test('the daily terms: days only, one row (3 + 3 at 320), 40×40 targets; the pick reaches the card and the checkout', async ({ page }) => {
-      await open(page, '/esim/turkey/', width);
+      await open(page, '/ru/esim/turkey/', width);
       const card = page.locator('#dailyGrid .plan').first();
       await expect(card.locator('.daily-terms-block > .package-meta-label')).toHaveText('Срок, дней:');
       const cells = card.locator('.js-daily-term');
@@ -135,7 +135,7 @@ for (const width of [320, 375, 390]) {
 }
 
 test('axe: the compact cards, with a term selected', async ({ page }) => {
-  await open(page, '/esim/turkey/', 390);
+  await open(page, '/ru/esim/turkey/', 390);
   await page.locator('#dailyGrid .plan').first().locator('.js-daily-term').nth(1).click();
   await page.addScriptTag({ content: AXE });
   const v = await page.evaluate(async () => (await axe.run(document.getElementById('tariffs'), { runOnly: ['wcag2a', 'wcag2aa'] }))
@@ -144,7 +144,7 @@ test('axe: the compact cards, with a term selected', async ({ page }) => {
 });
 
 test('a former SEO-experiment page renders the same B1 card in the common structure (since 2026-10-24)', async ({ page }) => {
-  await open(page, '/esim/uae/', 390);
+  await open(page, '/ru/esim/uae/', 390);
   await expect(page.locator('#tariffs')).toHaveAttribute('data-cards', 'compact');
   const local = page.locator('#localGrid .plan').first();
   expect(await local.evaluate((card) => getComputedStyle(card).getPropertyValue('--pc-ink').trim())).toBe('#2e3441');

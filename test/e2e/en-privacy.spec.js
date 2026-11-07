@@ -80,7 +80,7 @@ test('«On this page» links land on their sections', async ({ page }) => {
 test('every international footer leads to the Privacy Policy in its own language; none links a Russian legal document', async ({ page }) => {
   // LEGAL-4: each language links its own translation (seo/legal-i18n.mjs); English links /en/privacy/.
   const LABELS = {
-    '/en/': ['/en/privacy/', 'en', 'Privacy Policy'],
+    '/': ['/en/privacy/', 'en', 'Privacy Policy'],
     '/es/': ['/es/privacy/', 'es', 'Política de privacidad'],
     '/de/': ['/de/privacy/', 'de', 'Datenschutzerklärung'],
     '/fr/': ['/fr/privacy/', 'fr', 'Politique de confidentialité'],

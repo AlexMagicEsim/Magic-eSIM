@@ -26,7 +26,7 @@
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { LOCALES } from './locales.mjs';
+import { LOCALES, isRussian } from './locales.mjs';
 
 const SEO = dirname(fileURLToPath(import.meta.url));
 
@@ -34,7 +34,7 @@ const SEO = dirname(fileURLToPath(import.meta.url));
 export async function contentValidators({ seoDir = SEO } = {}) {
   const out = [];
   for (const L of LOCALES) {
-    if (!L.prefix) continue; // RU pages have their own guards (coverage_claims, price_claims) — never this one
+    if (isRussian(L)) continue; // RU pages have their own guards (coverage_claims, price_claims) — never this one
     const modFile = join(seoDir, `content-${L.prefix}.mjs`);
     const folder = `seo/content-${L.prefix}`;
     if (!existsSync(modFile)) continue;

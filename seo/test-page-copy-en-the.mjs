@@ -28,9 +28,9 @@ test('the templates put «the» before those names and only those', () => {
 });
 
 test('the built pages carry it', () => {
-  const uk = readFileSync(join(ROOT, 'en/esim/united-kingdom/index.html'), 'utf8');
+  const uk = readFileSync(join(ROOT, 'destinations/united-kingdom/index.html'), 'utf8');
   assert.match(uk, /<h1>eSIM for the United Kingdom<\/h1>/);
-  const mv = readFileSync(join(ROOT, 'en/esim/maldives/index.html'), 'utf8');
+  const mv = readFileSync(join(ROOT, 'destinations/maldives/index.html'), 'utf8');
   assert.match(mv, /<h1>eSIM for the Maldives<\/h1>/);
   assert.doesNotMatch(mv, /Plans for Maldives\b/);
 });

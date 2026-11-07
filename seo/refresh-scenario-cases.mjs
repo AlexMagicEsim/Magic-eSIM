@@ -12,7 +12,7 @@ import { publishedBlocks, selectPlan } from './plan-ref.mjs';
 const CATALOG = () => readJson(WORLD_FILE);
 const profilePath = (slug) => join(ROOT, 'seo', 'content-profiles', `${slug}.json`);
 const isoOfPage = (slug) => {
-  const h = readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf8');
+  const h = readFileSync(join(ROOT, 'ru/esim', slug, 'index.html'), 'utf8');
   return (h.match(/data-country-page="([A-Z]{2})"/) || [])[1] || null;
 };
 const only = (p, iso) => Array.isArray(p.coverage_country_codes) && p.coverage_country_codes.length === 1 && p.coverage_country_codes[0] === iso;

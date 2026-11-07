@@ -1,9 +1,11 @@
 'use strict';
 
 /*
- * The first-visit language of «/» (assets/lang-route.js) and the saved choice (assets/logo-once.js), in a real browser
+ * The first-visit language of «/» — the English home since the EN-root migration (owner, 2026-11-07) —
+ * (assets/lang-route.js) and the saved choice (assets/logo-once.js), in a real browser
  * (Chromium 390/320 and WebKit — the `webkit-lang-route` project): browser languages → the right home, a saved choice
- * wins, a manual switch is saved and never bounced, direct links are never moved, the query (utm, partner marks) and an
+ * wins, a manual switch is saved and never bounced, direct links are never moved (/ru/ never moves anyone), ?country= goes
+ * to the Russian country page, the query (utm, partner marks) and an
  * applicable hash are kept, no loop, no JS error, no counter request on a moved visit, and storage that throws breaks
  * nothing.
  *
@@ -82,8 +84,8 @@ async function landed(page, want, msg, { askMs = ASK_MS } = {}) {
 const tap = (page, css) => page.locator(css).first().evaluate((a) => a.click());
 
 const CASES = [
-  ['ru-RU', '/'], ['en-US', '/en/'], ['es-ES', '/es/'], ['fr-FR', '/fr/'], ['de-DE', '/de/'],
-  ['zh-CN', '/zh/'], ['zh-TW', '/zh/'], ['ko-KR', '/ko/'], ['ja-JP', '/en/'], ['uk-UA', '/en/'], ['pt-BR', '/en/'],
+  ['ru-RU', '/ru/'], ['en-US', '/'], ['es-ES', '/es/'], ['fr-FR', '/fr/'], ['de-DE', '/de/'],
+  ['zh-CN', '/zh/'], ['zh-TW', '/zh/'], ['ko-KR', '/ko/'], ['ja-JP', '/'], ['uk-UA', '/'], ['pt-BR', '/'],
 ];
 
 for (const [locale, want] of CASES) {
@@ -98,14 +100,15 @@ for (const [locale, want] of CASES) {
       await landed(page, want);
       expect(st.navs.filter((p) => p === want).length).toBeLessThanOrEqual(2);
       expect(st.errors).toEqual([]);
-      if (want !== '/') expect(st.off.filter((u) => /mc\.yandex/.test(u)), 'no counter request on a moved visit').toEqual([]);
+      // «/» and every international home load no counter; /ru/ does (it is the Russian site), but never on «/» first.
+      if (want !== '/ru/') expect(st.off.filter((u) => /mc\.yandex/.test(u)), 'no counter request').toEqual([]);
     });
   });
 }
 
 test.describe('the first language of navigator.languages that we publish wins', () => {
   test.use({ locale: 'en-US' });
-  for (const [langs, want] of [[['pt-BR', 'ru-RU', 'en'], '/'], [['ja', 'de-CH', 'en'], '/de/'], [['en-GB', 'ru'], '/en/'], [[], '/en/']]) {
+  for (const [langs, want] of [[['pt-BR', 'ru-RU', 'en'], '/ru/'], [['ja', 'de-CH', 'en'], '/de/'], [['en-GB', 'ru'], '/'], [[], '/']]) {
     test(`${JSON.stringify(langs)} → ${want}`, async ({ page }) => {
       prep(page);
       await page.addInitScript((l) => {
@@ -118,51 +121,93 @@ test.describe('the first language of navigator.languages that we publish wins', 
   }
 });
 
-test.describe('English browser', () => {
-  test.use({ locale: 'en-US' });
+test.describe('Russian browser', () => {
+  test.use({ locale: 'ru-RU' });
 
   test('the query (utm, gclid, partner marks) is kept; a hash the target has is kept, another is dropped', async ({ page }) => {
     prep(page);
     await visit(page, '/?utm_source=tg&utm_medium=post&utm_campaign=c1&gclid=G&yclid=Y&ref=partner7#plans');
-    await landed(page, '/en/?utm_source=tg&utm_medium=post&utm_campaign=c1&gclid=G&yclid=Y&ref=partner7#plans');
+    await landed(page, '/ru/?utm_source=tg&utm_medium=post&utm_campaign=c1&gclid=G&yclid=Y&ref=partner7#plans');
     await visit(page, '/?utm_source=x#solution');
-    await landed(page, '/en/?utm_source=x#how');
+    await landed(page, '/ru/?utm_source=x#how');
     await visit(page, '/#faq');
-    await landed(page, '/en/');
+    await landed(page, '/ru/');
   });
 
-  test('an arrival from a search engine is moved too; direct links to language pages never are', async ({ page }) => {
+  test('an arrival from a search engine is moved too; direct links to language pages — /ru/ included — never are', async ({ page }) => {
     prep(page);
     await visit(page, '/', { referer: 'https://www.google.com/' });
-    await landed(page, '/en/');
-    for (const p of ['/esim/turkey/', '/esim/', '/esim/not-working/', '/iphone.html', '/es/', '/de/esim/japan/', '/ko/guides/']) {
+    await landed(page, '/ru/');
+    for (const p of ['/ru/', '/ru/esim/turkey/', '/ru/esim/', '/ru/esim/not-working/', '/ru/iphone.html', '/destinations/turkey/',
+      '/guides/iphone/', '/es/', '/de/esim/japan/', '/ko/guides/']) {
       await visit(page, p);
       await landed(page, p, p);
     }
   });
 
-  test('/?country=XX is an old link to one Russian country page: not moved by language', async ({ page }) => {
+  test('a saved English choice stays on «/»', async ({ page }) => {
     prep(page);
-    await page.goto('/?country=TR', { waitUntil: 'commit' });   // moved by a script too (assets/ru-home.js): see visit()
-    await page.waitForURL(/\/esim\/turkey\/$/);
-    expect(new URL(page.url()).pathname).toBe('/esim/turkey/');
+    await page.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('mesim.site.lang', 'en'); sessionStorage.setItem('seeded', '1'); } });
+    await visit(page, '/');
+    await landed(page, '/');
   });
 
-  test('«Русский» in the switch is saved and never bounced back; later visits to / stay Russian', async ({ page }) => {
+  test('«English» in a Russian header is saved: later visits to «/» stay English — no loop back to /ru/', async ({ page }) => {
     const st = watch(page);
     prep(page);
     await visit(page, '/');
-    await landed(page, '/en/');
+    await landed(page, '/ru/');
     expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang')), 'the automatic move is not a choice').toBeNull();
-    await page.locator('a.langsw, .langmenu a[hreflang="ru"]').first().evaluate((el) => {
-      const a = el.matches('a') ? el : el.querySelector('a[hreflang="ru"]');
-      a.click();
-    });
+    await tap(page, 'a.langsw[lang="en"]');
     await page.waitForURL((u) => u.pathname === '/');
     await landed(page, '/');
-    expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('ru');
+    expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('en');
     await visit(page, '/');
     await landed(page, '/');
+    expect(st.errors).toEqual([]);
+  });
+
+  test('our own links to «/» (the logo of an English page) never move the visitor', async ({ page }) => {
+    prep(page);
+    await page.goto('/destinations/turkey/');
+    await tap(page, 'a.brand');
+    await page.waitForURL((u) => u.pathname === '/');
+    await landed(page, '/');
+  });
+
+  test('a language picked in an international switch is saved', async ({ page }) => {
+    prep(page);
+    await visit(page, '/es/');
+    await landed(page, '/es/');
+    await tap(page, 'details.langmenu a[hreflang="fr"]');
+    await page.waitForURL((u) => u.pathname === '/fr/');
+    expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('fr');
+    await visit(page, '/');
+    await landed(page, '/fr/');
+  });
+});
+
+test.describe('English browser', () => {
+  test.use({ locale: 'en-US' });
+
+  test('/?country=XX is an old link to one Russian country page: it reaches it, whatever the language', async ({ page }) => {
+    prep(page);
+    await page.goto('/?country=TR', { waitUntil: 'commit' });   // two script moves (lang-route.js → /ru/, ru-home.js → the page)
+    await page.waitForURL(/\/ru\/esim\/turkey\/$/);
+    expect(new URL(page.url()).pathname).toBe('/ru/esim/turkey/');
+  });
+
+  test('«Русский» in the switch is saved and never bounced back; later visits to «/» go to /ru/', async ({ page }) => {
+    const st = watch(page);
+    prep(page);
+    await visit(page, '/');
+    await landed(page, '/');
+    await page.locator('details.langmenu a[hreflang="ru"], .mnav-panel a[hreflang="ru"]').first().evaluate((a) => a.click());
+    await page.waitForURL((u) => u.pathname === '/ru/');
+    await landed(page, '/ru/');
+    expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('ru');
+    await visit(page, '/');
+    await landed(page, '/ru/');
     expect(st.errors).toEqual([]);
   });
 
@@ -173,39 +218,12 @@ test.describe('English browser', () => {
     await landed(page, '/ko/');
   });
 
-  test('our own links to / (the logo of a Russian page) never move the visitor', async ({ page }) => {
+  test('our own links to the Russian home (the logo of a Russian page) never move the visitor', async ({ page }) => {
     prep(page);
-    await page.goto('/esim/turkey/');
+    await page.goto('/ru/esim/turkey/');
     await tap(page, 'a.brand');
-    await page.waitForURL((u) => u.pathname === '/');
-    await landed(page, '/');
-  });
-});
-
-test.describe('Russian browser', () => {
-  test.use({ locale: 'ru-RU' });
-
-  test('«English» on a Russian page is saved: later visits to / open /en/', async ({ page }) => {
-    prep(page);
-    await visit(page, '/esim/turkey/');
-    await landed(page, '/esim/turkey/');
-    await tap(page, 'a.langsw[lang="en"]');
-    await page.waitForURL((u) => u.pathname === '/en/');
-    await settle(page);
-    expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('en');
-    await visit(page, '/');
-    await landed(page, '/en/');
-  });
-
-  test('a language picked in an international switch is saved', async ({ page }) => {
-    prep(page);
-    await visit(page, '/en/');
-    await landed(page, '/en/');
-    await tap(page, 'details.langmenu a[hreflang="fr"]');
-    await page.waitForURL((u) => u.pathname === '/fr/');
-    expect(await page.evaluate(() => localStorage.getItem('mesim.site.lang'))).toBe('fr');
-    await visit(page, '/');
-    await landed(page, '/fr/');
+    await page.waitForURL((u) => u.pathname === '/ru/');
+    await landed(page, '/ru/');
   });
 });
 
@@ -221,7 +239,7 @@ for (const locale of ['en-US', 'ru-RU']) {
         }
       });
       await visit(page, '/');
-      await landed(page, locale === 'en-US' ? '/en/' : '/');
+      await landed(page, locale === 'en-US' ? '/' : '/ru/');
       expect(st.errors).toEqual([]);
     });
   });
@@ -229,29 +247,28 @@ for (const locale of ['en-US', 'ru-RU']) {
 
 /* landed() itself: a visit that goes wrong fails, in every browser. Short askMs so a control does not wait ten seconds. */
 test.describe('landed() cannot pass a wrong visit', () => {
-  test.use({ locale: 'en-US' });
+  test.use({ locale: 'ru-RU' });
   const short = { askMs: 2000 };
 
   test('no move where one is expected fails, in every browser', async ({ page }) => {
     prep(page);
-    await page.addInitScript(() => { try { localStorage.setItem('mesim.site.lang', 'ru'); } catch (e) { /* about:blank */ } });
+    await page.addInitScript(() => { try { localStorage.setItem('mesim.site.lang', 'en'); } catch (e) { /* about:blank */ } });
     await visit(page, '/');
-    await expect(landed(page, '/en/', 'control', short)).rejects.toThrow(/never asked for \/en\//);
+    await expect(landed(page, '/ru/', 'control', short)).rejects.toThrow(/never asked for \/ru\//);
   });
 
   test('a move to another address fails, in every browser', async ({ page }) => {
     prep(page);
     await page.addInitScript(() => { try { localStorage.setItem('mesim.site.lang', 'ko'); } catch (e) { /* about:blank */ } });
     await visit(page, '/');
-    await expect(landed(page, '/en/', 'control', short)).rejects.toThrow(/never asked for \/en\//);
+    await expect(landed(page, '/ru/', 'control', short)).rejects.toThrow(/never asked for \/ru\//);
   });
 
   test('a second move after the page landed fails, in every browser', async ({ page }) => {
     prep(page);
-    await visit(page, '/en/');
+    await visit(page, '/ru/');
     // the page moves on by itself 100 ms after load — what a loop or a late redirect would look like
     await page.evaluate(() => setTimeout(() => location.replace('/es/'), 100));
-    await expect(landed(page, '/en/', 'control')).rejects.toThrow();
+    await expect(landed(page, '/ru/', 'control')).rejects.toThrow();
   });
 });
-

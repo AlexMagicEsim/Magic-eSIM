@@ -103,7 +103,7 @@ export async function runScenario(mutate, { keep = false, inspect = null } = {})
     const build = await run(process.execPath, ['seo/build-all.mjs'], dir);
     const gates = await run(process.execPath, ['--test', '--test-concurrency=1', '--test-reporter=tap', `--test-name-pattern=${GATE_PATTERN}`, ...GATE_FILES], dir);
     const tests = parseTap(gates.stdout);
-    const pageOf = (slug) => { const f = join(dir, 'esim', slug, 'index.html'); return existsSync(f) ? readFileSync(f, 'utf8') : null; };
+    const pageOf = (slug) => { const f = join(dir, 'ru/esim', slug, 'index.html'); return existsSync(f) ? readFileSync(f, 'utf8') : null; };
     const inspected = inspect ? inspect({ dir, pageOf, doc, info }) : null;
     const suppressedFile = join(dir, 'seo', 'suppressed-claims.json');
     const suppressed = existsSync(suppressedFile) ? readJson(suppressedFile).entries : [];
@@ -122,4 +122,4 @@ export async function runAll(list, concurrency = 3) {
   return out;
 }
 
-export const countryPageSlugs = (root = ROOT) => readdirSync(join(root, 'esim')).filter((d) => existsSync(join(root, 'esim', d, 'index.html')));
+export const countryPageSlugs = (root = ROOT) => readdirSync(join(root, 'ru/esim')).filter((d) => existsSync(join(root, 'ru/esim', d, 'index.html')));

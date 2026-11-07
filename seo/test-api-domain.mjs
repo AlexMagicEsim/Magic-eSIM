@@ -55,15 +55,15 @@ const RENDER_RE = /[a-z0-9-]+\.onrender\.com/i;
 
 /** Everything the browser actually downloads. Backups and vendored copies excluded. */
 const ACTIVE_FRONTEND = [
-  'index.html',
+  'ru/index.html',
   'assets/catalog-loader.js',
   'assets/country-tariffs.js',
   'payment-success.html',
   'payment-failed.html',
   '404.html',
-  ...readdirSync(join(ROOT, 'esim'))
+  ...readdirSync(join(ROOT, 'ru/esim'))
     .filter((d) => !d.includes('.'))
-    .map((d) => `esim/${d}/index.html`),
+    .map((d) => `ru/esim/${d}/index.html`),
 ];
 
 /* ------------------------------------------------- no Render in the frontend */
@@ -160,7 +160,7 @@ test('no page declares an API base of its own', () => {
   // scattered API_BASE constants so long as they agreed; agreement between
   // copies is a thing that holds until it does not. There is now one definition
   // of where the API lives, and the pages go through it.
-  const declarers = ['index.html', 'assets/country-tariffs.js', 'payment-success.html', '404.html']
+  const declarers = ['ru/index.html', 'assets/country-tariffs.js', 'payment-success.html', '404.html']
     .filter((f) => /API_BASE\s*=\s*'/.test(read(f)));
 
   assert.deepEqual(declarers, [],

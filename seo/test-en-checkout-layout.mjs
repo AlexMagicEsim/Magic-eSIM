@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const JS = read('en/checkout.js');
-const PAGE = read('en/esim/thailand/index.html');
+const PAGE = read('destinations/thailand/index.html');
 const WIN = PAGE.slice(PAGE.indexOf('<div class="overlay" id="checkout"'), PAGE.indexOf('<footer'));
 const CSS = read('en/checkout.css');
 

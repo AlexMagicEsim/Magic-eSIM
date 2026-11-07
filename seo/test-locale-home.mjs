@@ -31,17 +31,18 @@ const registryFor = (code) => (LIVE_PLANNED.some((l) => l.code === code) ? LOCAL
 
 test('the English home is the generator\'s, byte for byte', () => {
   const G = localeGenerator('en');
-  assert.equal(stampHtml(G.homePage(), join(ROOT, 'en')), read('en/index.html'));
+  assert.equal(stampHtml(G.homePage(), ROOT), read('index.html'));   // the site root since the EN-root migration
 });
 
 test('build() writes the home of a published language; nothing else writes it', () => {
   const gen = read('seo/build-locale-pages.mjs');
-  assert.match(gen, /write\(`\$\{base\}\/index\.html`, stampHtml\(homePage\(list\), join\(ROOT, base\)\)\);/);
+  assert.match(gen, /page\(HOME, homePage\(list\)\);/);
+  assert.match(gen, /const page = \(path, html\) => write\(fileOf\(path\), stampHtml\(html, join\(ROOT, dirOf\(path\)\)\)\);/);
   assert.match(read('seo/build-en-pages.mjs'), /localeGenerator\('en'\)|localeGenerator\("en"\)/);
 });
 
 test('the English and Spanish homes carry the RU + EN + ES cluster, x-default → English (I18N-09), index', () => {
-  for (const rel of ['en/index.html', 'es/index.html']) {
+  for (const rel of ['index.html', 'es/index.html']) {
     const home = read(rel);
     const alts = [...home.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => [m[1], m[2]]);
     assert.deepEqual(alts, [['ru', homeUrl('ru')], ['en', homeUrl('en')], ['es', homeUrl('es')], ['x-default', homeUrl(X_DEFAULT_CURRENT)]], rel);

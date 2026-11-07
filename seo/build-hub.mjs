@@ -26,7 +26,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
-const METRIKA = readFileSync(join(ROOT, 'esim/thailand/index.html'), 'utf8')
+const METRIKA = readFileSync(join(ROOT, 'ru/esim/thailand/index.html'), 'utf8')
   .match(/<!-- Yandex\.Metrika counter -->[\s\S]*?<\/script>\n(?=\n|  <!-- Structured data -->)/)[0]
   // The hub's search reports a query that finds nothing (search_no_result, no
   // parameters — never the text). Added to THIS copy only: the country pages,
@@ -48,8 +48,8 @@ const jsonld = {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'Страны', item: `${SITE}/esim/` },
+        { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/ru/` },
+        { '@type': 'ListItem', position: 2, name: 'Страны', item: `${SITE}/ru/esim/` },
       ],
     },
     {
@@ -57,7 +57,7 @@ const jsonld = {
       numberOfItems: countries.length,
       itemListElement: countries.map((c, i) => ({
         '@type': 'ListItem', position: i + 1, name: `eSIM для ${c.nameRu}`,
-        url: `${SITE}/esim/${c.slug}/`,
+        url: `${SITE}/ru/esim/${c.slug}/`,
       })),
     },
   ],
@@ -109,10 +109,10 @@ const html = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}" />
-  <link rel="canonical" href="${SITE}/esim/" />
-${ruAlternates('/esim/')}  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${SITE}/ru/esim/" />
+${ruAlternates('/ru/esim/')}  <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="${SITE}/esim/" />
+  <meta property="og:url" content="${SITE}/ru/esim/" />
   <meta property="og:title" content="${esc(title)}" />
   <meta property="og:description" content="${esc(description)}" />
   <meta property="og:image" content="${SITE}/assets/magic-esim-logo.png" />
@@ -141,7 +141,7 @@ ${ruHeader()}
 <main class="hub">
   <section class="hub-hero">
     <div class="wrap">
-      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <span aria-current="page">Страны</span></nav>
+      <nav class="crumbs" aria-label="Хлебные крошки"><a href="/ru/">Главная</a> › <span aria-current="page">Страны</span></nav>
       <h1>eSIM по странам</h1>
       <p class="lead">${countries.length} ${countries.length % 10 === 1 && countries.length % 100 !== 11 ? 'направление' : 'направлений'} с реальными тарифами из каталога. У ${withLocal.length} есть локальные тарифы — на странице страны у них свой блок, отдельный от региональных.</p>
       <p class="lead"><a href="#materials">Инструкции и ответы перед поездкой</a> — установка, совместимость, оплата.</p>
@@ -243,5 +243,5 @@ ${RU_FOOTER}
 </html>
 `;
 
-writeFileSync(join(ROOT, 'esim/index.html'), html);
-console.log(`/esim/: ${countries.length} стран (LOCAL ${withLocal.length}), данные каталога от ${fetchedAt}`);
+writeFileSync(join(ROOT, 'ru/esim/index.html'), html);
+console.log(`/ru/esim/: ${countries.length} стран (LOCAL ${withLocal.length}), данные каталога от ${fetchedAt}`);

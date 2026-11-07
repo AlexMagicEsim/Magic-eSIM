@@ -30,13 +30,13 @@ async function openMissing(page, url) {
 test('an unknown English page: English, links into /en/, no counter, no overflow', async ({ page }) => {
   for (const w of [null, 1366]) {
     if (w) await page.setViewportSize({ width: w, height: 900 });
-    for (const url of ['/en/esim/atlantis/', '/en/guides/nope/', '/en/nope']) {
+    for (const url of ['/destinations/atlantis/', '/guides/nope/', '/en/nope']) {
       const metrika = await openMissing(page, url);
       await expect(page.locator('h1')).toHaveText('Page not found');
       await expect(page.locator('html')).toHaveAttribute('lang', 'en');
       await expect(page).toHaveTitle('Page not found — Magic eSIM');
       const hrefs = await page.locator('#card a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
-      expect(hrefs).toEqual(['/en/', '/en/esim/']);
+      expect(hrefs).toEqual(['/', '/destinations/']);
       expect(await page.locator('#card').innerText()).not.toMatch(/[А-Яа-яЁё]/);
       expect(metrika, url).toEqual([]);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -45,9 +45,9 @@ test('an unknown English page: English, links into /en/, no counter, no overflow
 });
 
 test('the Russian 404 is unchanged: Russian, the home link, and the counter', async ({ page }) => {
-  const metrika = await openMissing(page, '/esim/atlantis/');
+  const metrika = await openMissing(page, '/ru/esim/atlantis/');
   await expect(page.locator('h1')).toHaveText('Страница не найдена');
-  await expect(page.locator('#card a')).toHaveAttribute('href', '/');
+  await expect(page.locator('#card a')).toHaveAttribute('href', '/ru/');
   expect(metrika.length).toBeGreaterThan(0);
 });
 

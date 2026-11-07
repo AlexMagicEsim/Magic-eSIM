@@ -379,7 +379,7 @@ export function renderMarkdown(summary, meta = {}) {
     L.push(`> ⚠️ **Не опубликовано авторских фрагментов: ${left.length}** на ${pages.length} ${pages.length === 1 ? 'странице' : 'страницах'} (\`seo/suppressed-claims.json\`) —`,
       '> каталог больше не подтверждает фразу (карточки нет, другое покрытие или цена). Вместо фрагмента страница показывает',
       '> собственный текст шаблона; перепишите фразу в профиле, и она вернётся.',
-      ...left.slice(0, 25).map((x) => `> - \`/esim/${x.slug}/\` ${x.unit} · ${x.source}/${x.id}`),
+      ...left.slice(0, 25).map((x) => `> - \`/ru/esim/${x.slug}/\` ${x.unit} · ${x.source}/${x.id}`),
       ...(left.length > 25 ? [`> - … ещё ${left.length - 25}`] : []), '');
   }
 
@@ -400,7 +400,7 @@ export function renderMarkdown(summary, meta = {}) {
     // served, still advertising an assortment that no longer exists, and because
     // it is unchanged it appears in no diff and trips no gate.
     L.push(`- **${safeText(s)}** — исчезла из каталога. **Страница НЕ удаляется автоматически:**`
-      + ` \`esim/${safeText(s)}/index.html\` останется в выдаче и будет рекламировать то, чего нет.`
+      + ` \`ru/esim/${safeText(s)}/index.html\` останется в выдаче и будет рекламировать то, чего нет.`
       + ' Удалять вручную: `git rm -r esim/' + safeText(s) + '/`');
   }
   for (const s of summary.appeared) L.push(`- **${safeText(s)}** — появилась в каталоге, страница создаётся`);

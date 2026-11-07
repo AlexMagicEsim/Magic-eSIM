@@ -237,7 +237,7 @@ test.describe('payment pickers fit the buttons they are drawn in', () => {
 
   test('the public checkout picker holds its labels', async ({ page }) => {
     // The checkout opens on the country pages (RU↔EN migration PR B/C).
-    await page.goto('/esim/turkey/');
+    await page.goto('/ru/esim/turkey/');
 
     // The overlay is revealed by clearing `hidden`, not by walking a purchase.
     // Opening it for real needs the catalogue API, which these tests do not
@@ -288,7 +288,7 @@ test.describe('payment pickers fit the buttons they are drawn in', () => {
  * the page SAYS, this asserts that a reader can see all of it.
  */
 test.describe('the payment guide holds its layout after the wording change', () => {
-  const PAGE = '/esim/payment-rubles/index.html';
+  const PAGE = '/ru/esim/payment-rubles/index.html';
 
   test('the page never scrolls sideways, at this viewport or a desktop one', async ({ page }) => {
     await page.goto(PAGE);
@@ -316,7 +316,7 @@ test.describe('the payment guide holds its layout after the wording change', () 
     await page.goto(PAGE);
 
     expect(await page.getAttribute('link[rel=canonical]', 'href'))
-      .toBe('https://magicesim.store/esim/payment-rubles/');
+      .toBe('https://magicesim.store/ru/esim/payment-rubles/');
     expect(await page.title()).toContain('российская карта');
     expect((await page.textContent('h1')).trim()).toBe('Оплата eSIM рублями: СБП и российская карта');
 

@@ -260,7 +260,7 @@ const visible = (html) => html
 test('the six legacy pages and the EN/ES authored content name no operator (no claim format there)', () => {
   const found = [];
   for (const slug of ['malaysia', 'maldives', 'mexico', 'brazil', 'greece', 'cyprus']) {
-    for (const m of bareMentions([visible(readFileSync(join(ROOT, `esim/${slug}/index.html`), 'utf8'))], LIVE_LEX)) found.push(`legacy ${slug}: ${m.name} — «${m.sentence.slice(0, 120)}»`);
+    for (const m of bareMentions([visible(readFileSync(join(ROOT, `ru/esim/${slug}/index.html`), 'utf8'))], LIVE_LEX)) found.push(`legacy ${slug}: ${m.name} — «${m.sentence.slice(0, 120)}»`);
   }
   const strings = (v, out = []) => {
     if (typeof v === 'string') out.push(v);

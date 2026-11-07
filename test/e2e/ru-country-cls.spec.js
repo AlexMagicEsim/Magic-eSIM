@@ -21,7 +21,7 @@ const path = require('path');
 const CATALOG = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'catalog.json'), 'utf8'));
 // A template page with plans in the first screen, an authored one, and the
 // thinnest pages (1–3 plans: the reserved place must not make them jump UP).
-const PAGES = ['/esim/peru/', '/esim/turkey/', '/esim/timor-leste/', '/esim/sint-maarten/', '/esim/sudan/'];
+const PAGES = ['/ru/esim/peru/', '/ru/esim/turkey/', '/ru/esim/timor-leste/', '/ru/esim/sint-maarten/', '/ru/esim/sudan/'];
 
 async function cls(page, url) {
   await page.addInitScript(() => {
@@ -69,7 +69,7 @@ test('while loading, the empty plan headings are not on the page; after, they ar
     if (route.request().method() !== 'GET') return route.abort();
     return route.fulfill({ status: 204, body: '' });
   });
-  await page.goto('/esim/peru/');
+  await page.goto('/ru/esim/peru/');
   await expect(page.locator('#packagesStatus')).toHaveText(/Загружаем/);
   await expect(page.locator('#localBlock')).toBeHidden();
   await expect(page.locator('#regionalBlock')).toBeHidden();

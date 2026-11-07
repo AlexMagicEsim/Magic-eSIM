@@ -17,7 +17,7 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 /* ------------------------------------------------------------ the masks */
 
 test('a real page: a new price, floor or count masks to the same page; a new word does not', () => {
-  const html = read('esim/brazil/index.html');
+  const html = read('ru/esim/brazil/index.html');
   const prices = html.match(/\d[\d   ]* ?₽/g);
   assert.ok(prices && prices.length > 5, 'the page prints amounts');
   let moved = html.replace(/(\d) (\d{3}) ₽/g, (m, a, b) => `${Number(a) + 1} ${b} ₽`).replace(/Цены от <b data-cat="floor">\d+ ₽/, 'Цены от <b data-cat="floor">1 250 ₽');
@@ -57,11 +57,11 @@ const lastmod = (pages) => JSON.stringify({ pages });
 function tree(over = {}) {
   return {
     'seo/catalogue-countries.json': countries(['brazil', 'chile']),
-    'sitemap.xml': sitemap(['https://magicesim.store/esim/brazil/', 'https://magicesim.store/esim/chile/']),
+    'sitemap.xml': sitemap(['https://magicesim.store/ru/esim/brazil/', 'https://magicesim.store/ru/esim/chile/']),
     'seo/suppressed-claims.json': suppressed([]),
     'seo/sitemap-lastmod.json': lastmod({ a: { lastmod: '2026-11-01' } }),
-    'esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>23 тарифа · от 300 ₽</p><p>1 GB, 3 GB</p>',
-    'esim/chile/index.html': '<h1>eSIM для Чили</h1><ul><li><a href="/esim/peru/">Перу</a></li></ul>',
+    'ru/esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>23 тарифа · от 300 ₽</p><p>1 GB, 3 GB</p>',
+    'ru/esim/chile/index.html': '<h1>eSIM для Чили</h1><ul><li><a href="/ru/esim/peru/">Перу</a></li></ul>',
     ...over,
   };
 }
@@ -73,9 +73,9 @@ const run = (before, after, porcelain, gates = 'success', browser = 'success') =
 const M = (...paths) => paths.map((p) => ` M ${p}`).join('\n');
 
 test('only numbers moved, nothing else: «auto»', () => {
-  const after = tree({ 'esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>27 тарифов · от 250 ₽</p><p>1 GB, 3 GB</p>',
+  const after = tree({ 'ru/esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>27 тарифов · от 250 ₽</p><p>1 GB, 3 GB</p>',
     'seo/sitemap-lastmod.json': lastmod({ a: { lastmod: '2026-11-03' } }) });
-  const r = run(tree(), after, M('esim/brazil/index.html', 'seo/sitemap-lastmod.json'));
+  const r = run(tree(), after, M('ru/esim/brazil/index.html', 'seo/sitemap-lastmod.json'));
   assert.equal(r.verdict, 'auto', JSON.stringify(r.reasons));
   assert.deepEqual(r.pages, { changed: 1, numbers_only: 1, text_changed: 0, lists_only: 0, related_links_only: 0, words: 0 });
   assert.deepEqual(r.lastmod, { moved_now: 1, moved_if_number_blind: 0 });
@@ -83,15 +83,15 @@ test('only numbers moved, nothing else: «auto»', () => {
 
 test('a word, a longer list, other related links: «review», each counted in its own bucket', () => {
   const after = tree({
-    'esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>27 тарифов · от 250 ₽</p><p>1 GB, 3 GB, 5 GB</p>',
-    'esim/chile/index.html': '<h1>eSIM для Чили</h1><ul><li><a href="/esim/bolivia/">Боливия</a></li></ul>',
+    'ru/esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>27 тарифов · от 250 ₽</p><p>1 GB, 3 GB, 5 GB</p>',
+    'ru/esim/chile/index.html': '<h1>eSIM для Чили</h1><ul><li><a href="/ru/esim/bolivia/">Боливия</a></li></ul>',
   });
-  const r = run(tree(), after, M('esim/brazil/index.html', 'esim/chile/index.html'));
+  const r = run(tree(), after, M('ru/esim/brazil/index.html', 'ru/esim/chile/index.html'));
   assert.equal(r.verdict, 'review');
   assert.deepEqual(r.reasons.map((x) => x.code), ['text_changed']);
   assert.equal(r.pages.lists_only, 1);
   assert.equal(r.pages.related_links_only, 1);
-  const worded = run(tree(), tree({ 'esim/brazil/index.html': '<h1>eSIM для Бразилии и соседей</h1><p>23 тарифа · от 300 ₽</p><p>1 GB, 3 GB</p>' }), M('esim/brazil/index.html'));
+  const worded = run(tree(), tree({ 'ru/esim/brazil/index.html': '<h1>eSIM для Бразилии и соседей</h1><p>23 тарифа · от 300 ₽</p><p>1 GB, 3 GB</p>' }), M('ru/esim/brazil/index.html'));
   assert.equal(worded.pages.words, 1);
 });
 
@@ -107,8 +107,8 @@ test('a newly left-out sentence is «review», and so is one that came back', ()
 
 test('a page or URL that appears or disappears is «review»', () => {
   const after = tree({ 'seo/catalogue-countries.json': countries(['brazil', 'chile', 'peru']),
-    'sitemap.xml': sitemap(['https://magicesim.store/esim/brazil/', 'https://magicesim.store/esim/chile/', 'https://magicesim.store/esim/peru/']),
-    'esim/peru/index.html': '<h1>eSIM для Перу</h1>' });
+    'sitemap.xml': sitemap(['https://magicesim.store/ru/esim/brazil/', 'https://magicesim.store/ru/esim/chile/', 'https://magicesim.store/ru/esim/peru/']),
+    'ru/esim/peru/index.html': '<h1>eSIM для Перу</h1>' });
   const r = run(tree(), after, `${M('seo/catalogue-countries.json', 'sitemap.xml')}\n?? esim/peru/index.html`);
   const codes = r.reasons.map((x) => x.code);
   assert.equal(r.verdict, 'review');
@@ -116,22 +116,22 @@ test('a page or URL that appears or disappears is «review»', () => {
 });
 
 test('a red gate, a red browser tier, a path outside the allowlist, an unreadable file: «review»', () => {
-  const after = tree({ 'esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>27 тарифов · от 250 ₽</p><p>1 GB, 3 GB</p>' });
+  const after = tree({ 'ru/esim/brazil/index.html': '<h1>eSIM для Бразилии</h1><p>27 тарифов · от 250 ₽</p><p>1 GB, 3 GB</p>' });
   const codes = (r) => r.reasons.map((x) => x.code);
-  assert.deepEqual(codes(run(tree(), after, M('esim/brazil/index.html'), 'failure')), ['gates_not_green']);
-  assert.deepEqual(codes(run(tree(), after, M('esim/brazil/index.html'), 'success', 'skipped')), ['browser_not_green']);
-  assert.ok(codes(run(tree(), after, M('esim/brazil/index.html', 'assets/ru-checkout.js'))).includes('path_outside_allowlist'));
+  assert.deepEqual(codes(run(tree(), after, M('ru/esim/brazil/index.html'), 'failure')), ['gates_not_green']);
+  assert.deepEqual(codes(run(tree(), after, M('ru/esim/brazil/index.html'), 'success', 'skipped')), ['browser_not_green']);
+  assert.ok(codes(run(tree(), after, M('ru/esim/brazil/index.html', 'assets/ru-checkout.js'))).includes('path_outside_allowlist'));
   const broken = { ...after }; delete broken['sitemap.xml'];
-  assert.ok(codes(run(tree(), broken, M('esim/brazil/index.html'))).includes('unreadable'));
+  assert.ok(codes(run(tree(), broken, M('ru/esim/brazil/index.html'))).includes('unreadable'));
 });
 
 /* ------------------------------------------------------------ the report and the command */
 
 test('page text in the report cannot become a link, a mention or markup in the PR body', () => {
   const evil = '<h1>x</h1><p>@owner [click](https://evil.example) `code` </p>';
-  const r = run(tree(), tree({ 'esim/brazil/index.html': evil }), M('esim/brazil/index.html'));
+  const r = run(tree(), tree({ 'ru/esim/brazil/index.html': evil }), M('ru/esim/brazil/index.html'));
   const md = toMarkdown(r);
-  const line = md.split('\n').find((l) => l.includes('esim/brazil/index.html'));
+  const line = md.split('\n').find((l) => l.includes('ru/esim/brazil/index.html'));
   assert.ok(line, md);
   for (const piece of line.split(' → ')) {
     const spans = piece.match(/`[^`]*`/g) || [];
@@ -195,13 +195,13 @@ test('a real Chinese page: one more volume in its list is «lists», a new sente
   const m = /(\d+ ?GB(?:、\d+ ?GB)+)/.exec(html);
   assert.ok(m, 'the page prints a list of volumes with 、');
   const longer = html.replace(m[1], `${m[1]}、99 GB`);
-  const base = tree({ 'esim/brazil/index.html': html });
-  const r = run(base, tree({ 'esim/brazil/index.html': longer }), M('esim/brazil/index.html'));
+  const base = tree({ 'ru/esim/brazil/index.html': html });
+  const r = run(base, tree({ 'ru/esim/brazil/index.html': longer }), M('ru/esim/brazil/index.html'));
   assert.equal(r.pages.lists_only, 1, JSON.stringify(r.pages));
   assert.equal(r.pages.words, 0);
   assert.equal(r.verdict, 'review', 'a longer list is never «auto» — only numbers are');
   const worded = html.replace('</h1>', '</h1><p>新的说明句子。</p>');
-  const w = run(base, tree({ 'esim/brazil/index.html': worded }), M('esim/brazil/index.html'));
+  const w = run(base, tree({ 'ru/esim/brazil/index.html': worded }), M('ru/esim/brazil/index.html'));
   assert.equal(w.pages.words, 1, 'a real wording change is still words');
   assert.equal(w.verdict, 'review');
 });

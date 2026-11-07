@@ -24,6 +24,8 @@ const CATALOG = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets', 'catalog.js
 const cors = { 'access-control-allow-origin': '*' };
 const WIDTHS = [320, 375, 390, 430];
 const PREFIXES = ['', 'en', 'es', 'de', 'fr', 'zh', 'ko'];
+// Each language's catalogue directory (EN-root migration: Russian ru/esim/, English destinations/, the others <p>/esim/).
+const catalogueOf = (p) => (p === '' ? 'ru/esim' : p === 'en' ? 'destinations' : `${p}/esim`);
 const PER_LANGUAGE = 3;
 
 const text = (h) => h.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
@@ -32,26 +34,26 @@ const longestWord = (s) => Math.max(...s.split(/[\s \-–—]+/).map((w) => [..
 function pages() {
   const out = new Set();
   for (const p of PREFIXES) {
-    const dir = path.join(ROOT, p, 'esim');
+    const dir = path.join(ROOT, catalogueOf(p));
     const rows = fs.readdirSync(dir)
       .filter((slug) => fs.existsSync(path.join(dir, slug, 'index.html')))
       .map((slug) => {
         const h = fs.readFileSync(path.join(dir, slug, 'index.html'), 'utf8');
         const m = h.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
-        return { url: `/${p ? p + '/' : ''}esim/${slug}/`, len: m ? longestWord(text(m[1])) : 0, h1: m ? text(m[1]).length : 0 };
+        return { url: `/${catalogueOf(p)}/${slug}/`, len: m ? longestWord(text(m[1])) : 0, h1: m ? text(m[1]).length : 0 };
       })
       .filter((r) => r.len > 0);
     rows.sort((a, b) => b.len - a.len || b.h1 - a.h1);
     rows.slice(0, PER_LANGUAGE).forEach((r) => out.add(r.url));
-    out.add(`/${p ? p + '/' : ''}esim/central-african-republic/`);
+    out.add(`/${catalogueOf(p)}/central-african-republic/`);
   }
   return [...out];
 }
 
 test('the page list is real: every language contributes, the Central African Republic is in it', () => {
   const list = pages();
-  for (const p of PREFIXES) expect(list.filter((u) => u.startsWith(p ? `/${p}/esim/` : '/esim/')).length, p || 'ru').toBeGreaterThanOrEqual(PER_LANGUAGE);
-  expect(list).toContain('/esim/central-african-republic/');
+  for (const p of PREFIXES) expect(list.filter((u) => u.startsWith(`/${catalogueOf(p)}/`)).length, p || 'ru').toBeGreaterThanOrEqual(PER_LANGUAGE);
+  expect(list).toContain('/ru/esim/central-african-republic/');
 });
 
 for (const url of pages()) {

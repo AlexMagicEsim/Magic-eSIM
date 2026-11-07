@@ -113,7 +113,7 @@ function assertClean(calls, email) {
  * ================================================================== */
 
 test('UAE 3 GB: plan → server price $9.99 → email → review → payment not available, and only one quote is sent', async ({ page }) => {
-  const { calls, quoteBodies } = await open(page, '/en/esim/uae/');
+  const { calls, quoteBodies } = await open(page, '/destinations/uae/');
   await cardBtn(page, 'local', '3 GB').click();
 
   // Step 1 — the plan, the listed price, and nothing sent yet.
@@ -188,7 +188,7 @@ test('UAE 3 GB: plan → server price $9.99 → email → review → payment not
  * ================================================================== */
 
 test('Thailand per-day: the duration is chosen from the ladder and quoted for exactly those days', async ({ page }) => {
-  const { calls, quoteBodies } = await open(page, '/en/esim/thailand/');
+  const { calls, quoteBodies } = await open(page, '/destinations/thailand/');
   await cardBtn(page, 'daily', '500 MB a day').click();
   await expect(page.locator('#coTermPick')).toBeVisible();
   await expect(page.locator('#coDays option')).toHaveText(['3 days', '5 days', '7 days', '10 days']);
@@ -212,7 +212,7 @@ test('Thailand per-day: the duration is chosen from the ladder and quoted for ex
 });
 
 test('Thailand local 3 GB is quoted without days', async ({ page }) => {
-  const { quoteBodies } = await open(page, '/en/esim/thailand/');
+  const { quoteBodies } = await open(page, '/destinations/thailand/');
   await cardBtn(page, 'local', '3 GB').click();
   await page.locator('#coQuote').click();
   await expect(page.locator('#coTotal')).toHaveText('$4.99');
@@ -224,7 +224,7 @@ test('Thailand local 3 GB is quoted without days', async ({ page }) => {
  * ================================================================== */
 
 test('French Polynesia: the local 10 GB and the regional Best World each go through to review', async ({ page }) => {
-  const { calls, quoteBodies } = await open(page, '/en/esim/french-polynesia/');
+  const { calls, quoteBodies } = await open(page, '/destinations/french-polynesia/');
   await cardBtn(page, 'local', '10 GB').click();
   await page.locator('#coQuote').click();
   await expect(page.locator('#coTotal')).toHaveText('$214.99');
@@ -246,7 +246,7 @@ test('French Polynesia: the local 10 GB and the regional Best World each go thro
 test('a $73.99 quote goes through — floating point must not make a correct price «unavailable»', async ({ page }) => {
   // Production, 2026-10-05: 73.99 * 100 is 7398.999… and the old exact-cents
   // check refused this quote (632 of 1710 packages had such a price).
-  const { calls } = await open(page, '/en/esim/french-polynesia/', { amountFor: () => 73.99 });
+  const { calls } = await open(page, '/destinations/french-polynesia/', { amountFor: () => 73.99 });
   await cardBtn(page, 'local', '10 GB').click();
   await page.locator('#coQuote').click();
   await expect(page.locator('#coTotal')).toHaveText('$73.99');
@@ -264,7 +264,7 @@ test('a $73.99 quote goes through — floating point must not make a correct pri
  * ================================================================== */
 
 test('when the server quotes a different price, the server\'s price is the one shown — and it says so', async ({ page }) => {
-  await open(page, '/en/esim/uae/', { amountFor: () => 10.99 });
+  await open(page, '/destinations/uae/', { amountFor: () => 10.99 });
   await cardBtn(page, 'local', '3 GB').click();
   await expect(page.locator('#coListed')).toHaveText('$9.99');
   await page.locator('#coQuote').click();
@@ -287,7 +287,7 @@ test('an expired price stops the flow until the visitor asks for a new one — n
     r.body.expires_at = new Date(Date.now() + (n === 1 ? 30 : 120) * 60 * 1000).toISOString();
     return r;
   };
-  const { quoteBodies } = await open(page, '/en/esim/uae/', { quote, beforeGoto: () => page.clock.install() });
+  const { quoteBodies } = await open(page, '/destinations/uae/', { quote, beforeGoto: () => page.clock.install() });
   await cardBtn(page, 'local', '3 GB').click();
   await page.locator('#coQuote').click();
   await expect(page.locator('#coTotal')).toHaveText('$9.99');
@@ -313,7 +313,7 @@ test('an expired price stops the flow until the visitor asks for a new one — n
 });
 
 test('a double click sends one quote', async ({ page }) => {
-  const { quoteBodies } = await open(page, '/en/esim/uae/', {
+  const { quoteBodies } = await open(page, '/destinations/uae/', {
     quote: (b) => serverQuote(b),
   });
   await cardBtn(page, 'local', '3 GB').click();
@@ -340,7 +340,7 @@ for (const [name, quote, message] of [
   ['no connection', 'abort', 'Could not reach the server. Check your connection and try again.'],
 ]) {
   test(`no quote → no checkout: ${name}`, async ({ page }) => {
-    const { calls, quoteBodies } = await open(page, '/en/esim/uae/', { quote });
+    const { calls, quoteBodies } = await open(page, '/destinations/uae/', { quote });
     await cardBtn(page, 'local', '3 GB').click();
     await page.locator('#coQuote').click();
     await expect(page.locator('#coQuoteStatus')).toHaveText(message);
@@ -359,7 +359,7 @@ for (const [name, quote, message] of [
  * ================================================================== */
 
 test('Thailand 3 GB: the card and the review state «at first data use», which the provider states; nothing is guessed', async ({ page }) => {
-  const { calls } = await open(page, '/en/esim/thailand/');
+  const { calls } = await open(page, '/destinations/thailand/');
   const card = page.locator('#localGrid .card', { hasText: '3 GB' }).first();
   await expect(card.locator('.m-start')).toHaveText('Validity starts at first data use');
   // A plan whose provider does not state it carries no such line.

@@ -36,7 +36,7 @@ const noOverflow = (page) => page.evaluate(() => document.documentElement.scroll
 test('every guide and the list: payment bar, hero, no script, nothing off the site, no overflow', async ({ page }) => {
   for (const w of [null, 1366]) {
     if (w) await page.setViewportSize({ width: w, height: 900 });
-    for (const path of [...GUIDES.map((g) => `/en/guides/${g}/`), '/en/guides/']) {
+    for (const path of [...GUIDES.map((g) => `/guides/${g}/`), '/guides/']) {
       const st = await open(page, path);
       const bar = await page.locator('#previewNotice').boundingBox();
       const h1 = await page.locator('h1').boundingBox();
@@ -57,7 +57,7 @@ test('every guide and the list: payment bar, hero, no script, nothing off the si
 });
 
 test('«On this page»: above the article on a phone, sticky beside it on desktop; a link lands on its heading', async ({ page }) => {
-  await open(page, '/en/guides/iphone/');
+  await open(page, '/guides/iphone/');
   const toc = page.locator('nav.g-toc');
   const art = page.locator('article.g-article');
   let t = await toc.boundingBox(); let a = await art.boundingBox();
@@ -70,7 +70,7 @@ test('«On this page»: above the article on a phone, sticky beside it on deskto
   expect(hd.y).toBeLessThan(page.viewportSize().height / 2);
 
   await page.setViewportSize({ width: 1366, height: 900 });
-  await open(page, '/en/guides/iphone/');
+  await open(page, '/guides/iphone/');
   t = await toc.boundingBox(); a = await art.boundingBox();
   expect(t.x).toBeGreaterThan(a.x + a.width);
   await toc.locator('a[href="#faq"]').click();
@@ -82,7 +82,7 @@ test('«On this page»: above the article on a phone, sticky beside it on deskto
 });
 
 test('steps are numbered badges, a note keeps its words on one flow, questions open by keyboard', async ({ page }) => {
-  await open(page, '/en/guides/iphone/');
+  await open(page, '/guides/iphone/');
   const step = page.locator('#option-1-scan-the-qr-code .steps li').first();
   const badge = await step.evaluate((li) => { const s = getComputedStyle(li, '::before'); return [s.content, s.width]; });
   expect(badge).toEqual(['counter(step)', '28px']);
@@ -101,20 +101,20 @@ test('steps are numbered badges, a note keeps its words on one flow, questions o
 });
 
 test('related guides are cards to real guides, then one button to the destinations', async ({ page, request }) => {
-  await open(page, '/en/guides/activation/');
+  await open(page, '/guides/activation/');
   const hrefs = await page.locator('.g-related .g-card').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
   expect(hrefs.length).toBe(4);
   for (const h of hrefs) expect((await request.get(h)).status(), h).toBe(200);
-  await expect(page.locator('.g-related .btn')).toHaveAttribute('href', '/en/esim/');
+  await expect(page.locator('.g-related .btn')).toHaveAttribute('href', '/destinations/');
   await expect(page.locator('.g-related .btn')).toHaveText('Choose a destination');
 });
 
 test('the list: five cards, each opens its guide', async ({ page }) => {
-  await open(page, '/en/guides/');
+  await open(page, '/guides/');
   const cards = page.locator('.g-cards-hub .g-card');
   await expect(cards).toHaveCount(5);
   await cards.nth(4).click();
-  await expect(page).toHaveURL(/\/en\/guides\/troubleshooting\/$/);
+  await expect(page).toHaveURL(/\/guides\/troubleshooting\/$/);
   await expect(page.locator('h1')).toHaveText('eSIM not working — what to check');
 });
 
@@ -123,7 +123,7 @@ test.describe('axe on the guides', () => {
   test('every guide with a question open, and the list, at the project width and 1366', async ({ page }) => {
     for (const w of [null, 1366]) {
       if (w) await page.setViewportSize({ width: w, height: 900 });
-      for (const path of [...GUIDES.map((g) => `/en/guides/${g}/`), '/en/guides/']) {
+      for (const path of [...GUIDES.map((g) => `/guides/${g}/`), '/guides/']) {
         await page.goto(path);
         if (await page.locator('#faq summary').count()) await page.locator('#faq summary').first().click();
         await page.addScriptTag({ content: AXE });

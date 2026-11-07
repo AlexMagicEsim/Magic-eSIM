@@ -74,8 +74,8 @@ const state = (over = {}) => ({
   sheetsAfter: { sheets: { jersey: sheet() } },
   catalogueBefore: [pkg('a'), pkg('b')],
   catalogueAfter: [pkg('a'), pkg('b')],
-  urlsBefore: ['https://magicesim.store/esim/jersey/'],
-  urlsAfter: ['https://magicesim.store/esim/jersey/'],
+  urlsBefore: ['https://magicesim.store/ru/esim/jersey/'],
+  urlsAfter: ['https://magicesim.store/ru/esim/jersey/'],
   ...over,
 });
 
@@ -286,7 +286,7 @@ test('E: a removed URL is HIGH, and says which one', () => {
   const r = riskOf(s);
   assert.equal(r.level, 'HIGH');
   assert.ok(r.why.some((w) => w.includes('удалён адрес')), r.why.join(' / '));
-  assert.match(renderMarkdown(s, {}), /\*\*удалён:\*\* https:\/\/magicesim\.store\/esim\/jersey\//);
+  assert.match(renderMarkdown(s, {}), /\*\*удалён:\*\* https:\/\/magicesim\.store\/ru\/esim\/jersey\//);
 });
 
 test('E: a country leaving the catalogue is HIGH', () => {
@@ -449,17 +449,17 @@ test('F/G: build, allowlist and validation all precede the branch and the PR', (
 
 test('H: anything outside the generated set is refused, by name', () => {
   const slugs = ['jersey', 'france'];
-  assert.deepEqual(unexpectedPaths(['esim/jersey/index.html', 'esim/index.html', 'sitemap.xml'], slugs), []);
+  assert.deepEqual(unexpectedPaths(['ru/esim/jersey/index.html', 'ru/esim/index.html', 'sitemap.xml'], slugs), []);
 
   assert.deepEqual(
-    unexpectedPaths(['esim/jersey/index.html', 'assets/catalog.json', '.github/workflows/tests.yml'], slugs),
+    unexpectedPaths(['ru/esim/jersey/index.html', 'assets/catalog.json', '.github/workflows/tests.yml'], slugs),
     ['.github/workflows/tests.yml', 'assets/catalog.json'],
   );
 
   // A guide page is NOT a country page. build-all does not generate the guides,
   // so one changing here means something else happened — and a wildcard over
   // esim/*/index.html would have hidden exactly that.
-  assert.deepEqual(unexpectedPaths(['esim/payment-rubles/index.html'], slugs), ['esim/payment-rubles/index.html']);
+  assert.deepEqual(unexpectedPaths(['ru/esim/payment-rubles/index.html'], slugs), ['ru/esim/payment-rubles/index.html']);
 
   // The runtime the customer's browser executes is never generated output.
   assert.deepEqual(unexpectedPaths(['assets/country-tariffs.js'], slugs), ['assets/country-tariffs.js']);
@@ -467,27 +467,27 @@ test('H: anything outside the generated set is refused, by name', () => {
 
 test('H: the allowlist is derived from the built snapshot, not from a kept list', () => {
   // A country the provider starts selling must not fail the run closed.
-  assert.ok(allowedPaths(['newland']).has('esim/newland/index.html'));
-  assert.ok(!allowedPaths([]).has('esim/newland/index.html'));
+  assert.ok(allowedPaths(['newland']).has('ru/esim/newland/index.html'));
+  assert.ok(!allowedPaths([]).has('ru/esim/newland/index.html'));
   // With no country: the fixed files and the region pages (seo/regions.mjs) — the facts they print move with the catalogue.
   assert.equal(allowedPaths([]).size, FIXED_ALLOWED.length + catalogueLocalePaths([]).perRegion.length);
-  assert.ok(allowedPaths([]).has('en/esim/europe/index.html'));
-  assert.ok(!allowedPaths([]).has('en/esim/africa/index.html'), 'a region-like path that is not a region page stays refused');
+  assert.ok(allowedPaths([]).has('destinations/europe/index.html'));
+  assert.ok(!allowedPaths([]).has('destinations/africa/index.html'), 'a region-like path that is not a region page stays refused');
 });
 
 test('H: git status is parsed for the path that exists on disk', () => {
-  assert.deepEqual(parsePorcelain(' M esim/jersey/index.html'), ['esim/jersey/index.html']);
+  assert.deepEqual(parsePorcelain(' M ru/esim/jersey/index.html'), ['ru/esim/jersey/index.html']);
   assert.deepEqual(parsePorcelain('?? seo/new.json'), ['seo/new.json']);
   // A rename reports both; only the destination is a file the commit would add.
-  assert.deepEqual(parsePorcelain('R  esim/old/index.html -> esim/new/index.html'), ['esim/new/index.html']);
+  assert.deepEqual(parsePorcelain('R  ru/esim/old/index.html -> ru/esim/new/index.html'), ['ru/esim/new/index.html']);
   // A quoted path is left quoted, so it cannot match the allowlist and the run
   // stops. Guessing at an unprintable name is not better than stopping.
-  assert.deepEqual(parsePorcelain(' M "esim/\\320\\272/index.html"'), ['"esim/\\320\\272/index.html"']);
+  assert.deepEqual(parsePorcelain(' M "ru/esim/\\320\\272/index.html"'), ['"ru/esim/\\320\\272/index.html"']);
 });
 
 test('H: the workflow checks the paths before it looks at anything else', () => {
   assert.ok(WF.indexOf('- name: Только ожидаемые файлы') < WF.indexOf('- name: Есть ли что публиковать'));
-  assert.match(WF, /git add -- esim en\/esim en\/destinations\.js es\/esim es\/destinations\.js de\/esim de\/destinations\.js fr\/esim fr\/destinations\.js zh\/esim zh\/destinations\.js ko\/esim ko\/destinations\.js seo\/catalogue-countries\.json seo\/fact-sheets\.json seo\/sitemap-lastmod\.json seo\/suppressed-claims\.json sitemap\.xml/);
+  assert.match(WF, /git add -- ru\/esim destinations en\/destinations\.js es\/esim es\/destinations\.js de\/esim de\/destinations\.js fr\/esim fr\/destinations\.js zh\/esim zh\/destinations\.js ko\/esim ko\/destinations\.js seo\/catalogue-countries\.json seo\/fact-sheets\.json seo\/sitemap-lastmod\.json seo\/suppressed-claims\.json sitemap\.xml/);
   assert.doesNotMatch(WF_CODE, /git add \.|git add -A/);
 });
 

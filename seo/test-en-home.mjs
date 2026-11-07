@@ -1,6 +1,6 @@
 /* The GLOBAL storefront's design system and home (2026-10 redesign).
  *
- * The home (en/index.html) is hand-written; every other English page comes
+ * The home (index.html) is hand-written; every other English page comes
  * from seo/build-en-pages.mjs. These tests hold the two together — one header,
  * one payment-status bar, one footer — and pin what the home may and may not
  * carry: no price in the HTML, no catalogue read, no external resource, only
@@ -22,7 +22,7 @@ import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const HOME = read('en/index.html');
+const HOME = read('index.html');
 const I18N_EN = createRequire(import.meta.url)(join(ROOT, 'assets/site-i18n.js')).DICT.en;
 
 function htmlUnder(dir, out = []) {
@@ -32,14 +32,15 @@ function htmlUnder(dir, out = []) {
   }
   return out;
 }
-const PAGES = htmlUnder('en');
+// EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
+const PAGES = ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
 const DESTINATIONS = [...read('en/destinations.js').matchAll(/iso: "([A-Z]{2})", slug: "([a-z0-9-]+)"/g)]
   .map((m) => ({ iso: m[1], slug: m[2] }));
 
 /* ------------------------------------------------------------ one chrome */
 
 test('the home carries the generator\'s header, payment bar and footer, verbatim', () => {
-  assert.ok(HOME.includes(header(twin('/', '/'))), 'header (the language switch to every published language\'s home)');
+  assert.ok(HOME.includes(header(twin({ kind: 'home' }))), 'header (the language switch to every published language\'s home)');
   assert.ok(HOME.includes(PAYBAR), 'payment-status bar');
   assert.ok(HOME.includes(FOOTER), 'footer');
   assert.ok(HOME.includes(FONT_PRELOAD), 'font preload');
@@ -67,18 +68,18 @@ test('the mobile menu offers exactly the desktop links, plus the language switch
   const desk = [...HOME.slice(HOME.indexOf('<nav class="nav"'), HOME.indexOf('</nav>')).matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
   const panel = HOME.slice(HOME.indexOf('<nav class="mnav-panel"'), HOME.indexOf('</nav>', HOME.indexOf('<nav class="mnav-panel"')));
   const mob = [...panel.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(desk, ['/en/esim/', '/en/#how', '/en/#compat', '/en/guides/']);
-  assert.deepEqual(mob, [...desk, '/', '/es/', '/de/', '/fr/', '/zh/', '/ko/'], 'plus every other published language\'s home (RU, ES, DE, FR, ZH, KO)');
+  assert.deepEqual(desk, ['/destinations/', '/#how', '/#compat', '/guides/']);
+  assert.deepEqual(mob, [...desk, '/ru/', '/es/', '/de/', '/fr/', '/zh/', '/ko/'], 'plus every other published language\'s home (RU, ES, DE, FR, ZH, KO)');
 });
 
 /* ------------------------------------------------------------ what the home shows */
 
 test('popular destinations are real pages with real flags, in the declared order', () => {
-  const tiles = [...HOME.matchAll(/<a class="dest-tile" href="\/en\/esim\/([a-z0-9-]+)\/"><img class="flag" src="\/assets\/flags\/([a-z]{2})\.svg"[^>]*><span><b>([^<]+)<\/b>/g)]
+  const tiles = [...HOME.matchAll(/<a class="dest-tile" href="\/destinations\/([a-z0-9-]+)\/"><img class="flag" src="\/assets\/flags\/([a-z]{2})\.svg"[^>]*><span><b>([^<]+)<\/b>/g)]
     .map((m) => ({ slug: m[1], iso: m[2].toUpperCase(), name: m[3] }));
   assert.deepEqual(tiles, POPULAR.map((c) => ({ slug: c.slug, iso: c.iso, name: c.name })));
   for (const c of POPULAR) {
-    assert.ok(existsSync(join(ROOT, `en/esim/${c.slug}/index.html`)), `${c.slug} has an English page`);
+    assert.ok(existsSync(join(ROOT, `destinations/${c.slug}/index.html`)), `${c.slug} has an English page`);
     assert.ok(DESTINATIONS.some((d) => d.iso === c.iso && d.slug === c.slug), `${c.slug} is ${c.iso} in the destination list`);
   }
 });
@@ -96,7 +97,7 @@ test('every link on the home lands on a file that exists', () => {
 });
 
 test('the guide cards are the five guides, with their own titles and blurbs', () => {
-  const cards = [...HOME.matchAll(/<a class="guide-card" href="\/en\/guides\/([a-z]+)\/"><b>([^<]+)<\/b><span>([^<]+)<\/span>/g)]
+  const cards = [...HOME.matchAll(/<a class="guide-card" href="\/guides\/([a-z]+)\/"><b>([^<]+)<\/b><span>([^<]+)<\/span>/g)]
     .map((m) => [m[1], m[2], m[3]]);
   const esc = (s) => s.replace(/&/g, '&amp;');
   assert.deepEqual(cards, EN_GUIDES.map((g) => [g.slug, esc(g.h1), esc(g.blurb)]));
@@ -113,7 +114,7 @@ test('the search: one labelled field and one button, results as links, a no-JS w
   assert.match(HOME, /<label for="q" data-i18n="site\.chooseCountry">Where are you going\?<\/label>/);
   assert.match(HOME, /<input type="text" id="q"/);
   assert.match(HOME, /<button type="button" class="btn" id="qGo" data-i18n="home\.find">Find plans<\/button>/);
-  assert.match(HOME, /<noscript><p class="note nojs-search">[^<]*<a href="\/en\/esim\/">Browse all destinations<\/a>/);
+  assert.match(HOME, /<noscript><p class="note nojs-search">[^<]*<a href="\/destinations\/">Browse all destinations<\/a>/);
   const APP = read('en/app.js');
   assert.match(APP, /first\.click\(\)/, 'the best match is followed as a click, never by assigning a location');
   assert.match(APP, /\/\^\[A-Z\]\{2\}\$\/\.test\(d\.iso\)/, 'the flag path is built from a checked ISO code');
@@ -196,7 +197,7 @@ test('the design system keeps the brand palette and the contrast the tests pin',
 /* ------------------------------------------------------------ RU untouched */
 
 test('the Russian site loads nothing of the English design system', () => {
-  const RU = read('index.html');
+  const RU = read('ru/index.html');
   assert.doesNotMatch(RU, /\/en\/(en|home)\.css|\/en\/fonts\/|\/en\/flags\/|\/en\/img\//);
 });
 
@@ -222,7 +223,7 @@ test('the hero illustration is the Data Pass: decorative, the real logo, the bra
 });
 
 test('the old hero card is gone, with its CSS', () => {
-  for (const f of ['en/index.html', 'assets/page-home.css', 'en/en.css']) {
+  for (const f of ['index.html', 'assets/page-home.css', 'en/en.css']) {
     assert.doesNotMatch(read(f), /\bart-(glow|ring|card|top|logo|mark|chip|label|sub|bars|flag)\b/, f);
   }
   assert.doesNotMatch(ART, /favicon\.svg/, 'no drawn «M» mark');

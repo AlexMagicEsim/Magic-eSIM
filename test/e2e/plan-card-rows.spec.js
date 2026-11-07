@@ -33,6 +33,8 @@ const USD_BODY = JSON.stringify(withLayout({ status: 'success', market: 'global'
 const cors = { 'access-control-allow-origin': '*' };
 
 const LANGS = ['', 'en/', 'es/', 'de/', 'fr/', 'zh/', 'ko/'];
+// Each language's catalogue (EN-root migration: Russian /ru/esim/, English /destinations/, the others /<p>/esim/).
+const catalogueOf = (lang) => (lang === '' ? '/ru/esim/' : lang === 'en/' ? '/destinations/' : `/${lang}esim/`);
 const WIDTHS = [1366, 820, 600];
 const PAGES = ['turkey', 'japan'];
 
@@ -100,9 +102,9 @@ test.describe('plan cards: one row, one height, one line for the foot and the bu
       let multi = 0; let differing = 0;
       for (const width of WIDTHS) {
         for (const slug of PAGES) {
-          await open(page, `/${lang}esim/${slug}/`, width);
+          await open(page, `${catalogueOf(lang)}${slug}/`, width);
           const all = await page.evaluate(rows);
-          const where = `${lang || 'ru/'}esim/${slug}/ @ ${width}`;
+          const where = `${catalogueOf(lang)}${slug}/ @ ${width}`;
           for (const row of all) {
             expect(row.clipped, `${where} ${row.grid}: a card is clipped or given a height`).toBe(false);
             if (row.gapAbove != null) expect(Math.abs(row.gapAbove - 16), `${where} ${row.grid}: the gap between two rows (${row.gapAbove})`).toBeLessThanOrEqual(1);
@@ -122,7 +124,7 @@ test.describe('plan cards: one row, one height, one line for the foot and the bu
   }
 
   test('ru/: the «Оптимальный выбор» card and its neighbours keep one line for everything below the badge', async ({ page }) => {
-    await open(page, '/esim/thailand/', 1366);
+    await open(page, '/ru/esim/thailand/', 1366);
     const best = page.locator('#localGrid > .plan', { has: page.locator('.package-best') });
     await expect(best).toHaveCount(1);
     const row = await page.evaluate(() => {
@@ -139,7 +141,7 @@ test.describe('plan cards: one row, one height, one line for the foot and the bu
 
   test('one column (390 px): a card is exactly as tall as its own content — no space added under the button', async ({ page }) => {
     for (const lang of ['', 'de/', 'fr/']) {
-      await open(page, `/${lang}esim/turkey/`, 390);
+      await open(page, `${catalogueOf(lang)}turkey/`, 390);
       const gaps = await page.evaluate(() => [...document.querySelectorAll('.plan-grid > .plan')].filter((c) => c.getClientRects().length).map((c) => {
         const foot = c.querySelector('.plan-foot');
         const last = [...foot.querySelectorAll('.btn, .note, .plan-net, .plan-ip')].reduce((m, e) => Math.max(m, e.getBoundingClientRect().bottom), 0);

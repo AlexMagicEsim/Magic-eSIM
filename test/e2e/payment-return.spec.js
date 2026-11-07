@@ -134,7 +134,7 @@ test('payment-failed: «Вернуться к тарифам» goes back to the 
   await page.goto(`/payment-failed.html?token=${TOKEN}`);
   const back = page.locator('#pfBack');
   await expect(back).toHaveText('Вернуться к тарифам');
-  await expect(back).toHaveAttribute('href', '/esim/thailand/#tariffs');
+  await expect(back).toHaveAttribute('href', '/ru/esim/thailand/#tariffs');
   const goals = await page.evaluate(() => window.__ymSeen.filter((c) => c.args[1] === 'reachGoal').map((c) => c.args));
   expect(goals.length).toBe(1);                       // the payment_failed goal still fires once
   expect(await page.evaluate(() => sessionStorage.getItem('magic_pay_ctx'))).toBeNull();
@@ -143,9 +143,9 @@ test('payment-failed: «Вернуться к тарифам» goes back to the 
   await expect(page.locator('#tariffs')).toHaveCount(1);
 });
 
-test('payment-failed: with no payment context the button keeps /#plans', async ({ page }) => {
+test('payment-failed: with no payment context the button keeps /ru/#plans', async ({ page }) => {
   await harness(page, ['canceled']);
   await seedPayCtx(page, null);
   await page.goto('/payment-failed.html');
-  await expect(page.locator('#pfBack')).toHaveAttribute('href', '/#plans');
+  await expect(page.locator('#pfBack')).toHaveAttribute('href', '/ru/#plans');
 });

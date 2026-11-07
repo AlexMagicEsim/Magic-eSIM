@@ -107,7 +107,7 @@ test('a plan in the catalogue is on some page of BOTH surfaces, or on neither', 
 /* ---------------------------------------------------------------- 3. no page re-dated */
 
 test('the line that loads the reader re-dates no page: the sitemap hash ignores it, on every page kind', () => {
-  for (const f of ['esim/italy/index.html', 'en/esim/italy/index.html', 'es/esim/italy/index.html']) {
+  for (const f of ['ru/esim/italy/index.html', 'destinations/italy/index.html', 'es/esim/italy/index.html']) {
     const html = read(f);
     assert.match(html, /<script src="(?:\.\.\/\.\.)?\/assets\/assortment-view\.js(?:\?v=[0-9a-f]+)?" defer><\/script>/, `${f} loads the reader`);
     const without = html.replace(/[ \t]*<script src="\/assets\/assortment-view\.js(?:\?v=[0-9a-f]+)?" defer><\/script>\n?/, '');

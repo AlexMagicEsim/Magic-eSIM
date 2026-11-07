@@ -32,7 +32,7 @@
 import { readdirSync, statSync, lstatSync, mkdirSync, copyFileSync, rmSync, readFileSync, existsSync } from 'node:fs';
 import { join, dirname, resolve, extname, posix, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { prefixedSiteLocales } from '../seo/locales.mjs';
+import { prefixedSiteLocales, homePath, dirOf, RU_CODE } from '../seo/locales.mjs';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const SITE_ORIGIN = 'https://magicesim.store';
@@ -43,8 +43,9 @@ export const SITE_ORIGIN = 'https://magicesim.store';
 
 /** Files published from the repository root, by exact name. */
 export const ROOT_FILES = Object.freeze([
-  // RU pages that live in the root
-  'index.html', '404.html', 'android.html', 'iphone.html', 'privacy.html', 'terms.html',
+  // the English home (the site root since the EN-root migration, 2026-11-07), the site-wide 404 / payment router, and
+  // the Russian documents that kept their root addresses (seo/url-migration.mjs STAYS)
+  'index.html', '404.html', 'privacy.html', 'terms.html',
   'payment-success.html', 'payment-failed.html',
   // crawler / browser files
   'robots.txt', 'sitemap.xml', 'site.webmanifest', 'CNAME',
@@ -77,7 +78,8 @@ export function legalPdfPaths(root = REPO) {
 
 export function directoryRules(locales = prefixedSiteLocales()) {
   const rules = [
-    { dir: 'esim', ext: ['.html'] },
+    // The Russian site (seo/locales.mjs: ru paths) — its home, catalogue, guides and the two install guides.
+    { dir: dirOf(homePath(RU_CODE)), ext: ['.html'] },
     {
       dir: 'assets',
       ext: ['.js', '.css', '.png', '.svg', '.woff2'],
@@ -94,6 +96,12 @@ export function directoryRules(locales = prefixedSiteLocales()) {
     },
   ];
   for (const l of locales) {
+    // A language whose pages are not under its own segment (English: the root) publishes them from their own
+    // directories — its catalogue (/destinations/) and its guides (/guides/) — beside its segment's files.
+    for (const path of [l.paths && l.paths.catalogue, l.paths && l.paths.guides].filter(Boolean)) {
+      const d = dirOf(path);
+      if (d && d.split('/')[0] !== l.prefix) rules.push({ dir: d, ext: ['.html'] });
+    }
     rules.push({
       dir: l.prefix,
       ext: ['.html', '.js', '.css'],
@@ -218,7 +226,7 @@ const CSS_URL_RE = /url\(\s*(?:"([^"]*)"|'([^']*)'|([^)'"\s]+))\s*\)/gi;
 // A path literal in a script: absolute ('/assets/…') or relative ('./…', '../assets/…', as the Mini App writes them). A
 // relative one is resolved against the directory of the file that holds it (the Mini App's scripts sit beside the page
 // that loads them, so that is also where the browser resolves it).
-const JS_LIT_RE = /(["'`])((?:\/|(?:\.\.?\/)+)(?:assets|app|esim|en|es|de|fr|zh|ko)\/[^"'`\s$<>{}]*\.(?:js|css|json|svg|png|jpg|webp|gif|woff2|html|ico))\1/g;
+const JS_LIT_RE = /(["'`])((?:\/|(?:\.\.?\/)+)(?:assets|app|ru|esim|destinations|guides|en|es|de|fr|zh|ko)\/[^"'`\s$<>{}]*\.(?:js|css|json|svg|png|jpg|webp|gif|woff2|html|ico))\1/g;
 
 /**
  * Turns a URL found in `fromRel` into the artifact path it needs, or null when it is not a local file reference
@@ -257,6 +265,15 @@ function served(out, p) {
 /** Paths under /pay/ are answered by 404.html on purpose (the Private Pay router) — never a file. */
 const ROUTED_BY_404 = /^pay(\/|$)/;
 
+/**
+ * THE ONE OLD ADDRESS a published page may still name (EN-root migration, 2026-11-07): the owner-approved legal TEXT of the
+ * Terms of Service — English and every translation, current and frozen — states «Website: https://magicesim.store/en/»
+ * (seo/terms-en.mjs, seo/legal-i18n/*.mjs), and that text is never edited without the owner. /en/ is the old English
+ * home; here, and only from a Terms page, the link is accepted (the /en/ redirect page leads to «/»).
+ * Everything else that names a moved path is a broken link (seo/test-url-migration-links.mjs holds it).
+ */
+export const LEGAL_TEXT_OLD_LINK = Object.freeze({ url: '/en/', from: /^(?:en|es|de|fr|zh|ko)\/terms\/(?:v[0-9.]+\/)?index\.html$/ });
+
 /** Every reference of every published file that does not resolve inside `out`: [{ from, url, need }]. */
 export function missingReferences(out) {
   const files = walk(out).map((f) => f.rel);
@@ -264,6 +281,7 @@ export function missingReferences(out) {
   const need = (from, url) => {
     const t = localTarget(url, from);
     if (!t || ROUTED_BY_404.test(t)) return;
+    if (url === LEGAL_TEXT_OLD_LINK.url && LEGAL_TEXT_OLD_LINK.from.test(from)) return;
     if (t.startsWith('<outside>') || !served(out, t)) missing.push({ from, url, need: t });
   };
   for (const rel of files) {

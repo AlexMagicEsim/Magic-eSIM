@@ -31,7 +31,7 @@ const LEGACY = ['malaysia', 'maldives', 'mexico', 'brazil', 'greece', 'cyprus'];
 // Visible prose only: drop scripts, styles and tags, keep the text a reader sees
 // plus the FAQPage answers, which Google reads and which carried the same defect.
 function prose(slug) {
-  const html = readFileSync(join(ROOT, `esim/${slug}/index.html`), 'utf8');
+  const html = readFileSync(join(ROOT, `ru/esim/${slug}/index.html`), 'utf8');
   return html
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, (m) => (/ld\+json/i.test(m) ? m : ' '))
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
@@ -48,7 +48,7 @@ const TERM_START = new RegExp(
   `срок[^.!?]{0,90}(?:начн[её]тся|начина${CYR}*|идт[иё]|отсчитыва${CYR}*|отсчит${CYR}*)[^.!?]{0,70}(?:перв${CYR}*\\s+(?:подключени|использовани)${CYR}*|подключени${CYR}*\\s+к)`, 'i');
 
 test('legacy pages exist and are the six we think they are', () => {
-  for (const s of LEGACY) assert.ok(existsSync(join(ROOT, `esim/${s}/index.html`)), `${s} отсутствует`);
+  for (const s of LEGACY) assert.ok(existsSync(join(ROOT, `ru/esim/${s}/index.html`)), `${s} отсутствует`);
 });
 
 test('every ГБ figure a legacy page recommends exists in that country', () => {

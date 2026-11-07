@@ -51,13 +51,19 @@ test('readKey refuses a key file whose body differs from its name', async () => 
 
 /* ---------------------------------------------------------------- which URLs */
 
-test('a RU-segment URL is https://magicesim.store/… outside every language prefix, without query or fragment', () => {
+test('a RU-segment URL is https://magicesim.store/ru/… (or a Russian document at the root), without query or fragment', () => {
   for (const p of prefixedSiteLocales()) assert.ok(FOREIGN_PREFIXES.includes(p.prefix), p.prefix);
-  for (const u of [`${ORIGIN}/`, `${ORIGIN}/esim/china/`, `${ORIGIN}/iphone.html`, `${ORIGIN}/esim/`]) assert.equal(isRuSiteUrl(u), true, u);
-  for (const u of [`${ORIGIN}/en/`, `${ORIGIN}/en/esim/china/`, `${ORIGIN}/es/esim/turkey/`, `${ORIGIN}/zh/`, `${ORIGIN}/ko/esim/japan/`,
-    'http://magicesim.store/esim/china/', 'https://www.magicesim.store/esim/china/', 'https://magicesim.store.evil.example/esim/',
-    'https://evil.example/https://magicesim.store/', `${ORIGIN}/esim/china/?x=1`, `${ORIGIN}/esim/china/#plans`,
-    'https://user@magicesim.store/esim/', 'https://MAGICESIM.store/esim/', 'not a url', '']) assert.equal(isRuSiteUrl(u), false, u);
+  assert.ok(!FOREIGN_PREFIXES.includes('ru'));
+  for (const u of [`${ORIGIN}/ru/`, `${ORIGIN}/ru/esim/china/`, `${ORIGIN}/ru/iphone.html`, `${ORIGIN}/ru/esim/`, `${ORIGIN}/terms.html`, `${ORIGIN}/privacy.html`]) {
+    assert.equal(isRuSiteUrl(u), true, u);
+  }
+  // EN-root migration: «/» is the English home and is NEVER a RU URL; nor is anything else at the root or an old path.
+  for (const u of [`${ORIGIN}/`, `${ORIGIN}/destinations/china/`, `${ORIGIN}/guides/iphone/`, `${ORIGIN}/support/`, `${ORIGIN}/esim/china/`,
+    `${ORIGIN}/iphone.html`, `${ORIGIN}/index.html`, `${ORIGIN}/rux/`, `${ORIGIN}/payment-success.html`,
+    `${ORIGIN}/en/`, `${ORIGIN}/en/esim/china/`, `${ORIGIN}/es/esim/turkey/`, `${ORIGIN}/zh/`, `${ORIGIN}/ko/esim/japan/`,
+    'http://magicesim.store/ru/esim/china/', 'https://www.magicesim.store/ru/esim/china/', 'https://magicesim.store.evil.example/esim/',
+    'https://evil.example/https://magicesim.store/', `${ORIGIN}/ru/esim/china/?x=1`, `${ORIGIN}/ru/esim/china/#plans`,
+    'https://user@magicesim.store/ru/esim/', 'https://MAGICESIM.store/esim/', 'not a url', '']) assert.equal(isRuSiteUrl(u), false, u);
 });
 
 test('changedPages: a moved lastmod or hash, or a new URL — and nothing without a base', () => {
@@ -70,27 +76,27 @@ test('changedPages: a moved lastmod or hash, or a new URL — and nothing withou
 
 test('robots.txt: the site file allows the RU pages and blocks /app/ and the payment pages; Yandex group, longest match, * and $', () => {
   const rules = robotsRules(ROBOTS);
-  for (const u of [`${ORIGIN}/`, `${ORIGIN}/esim/china/`, `${ORIGIN}/iphone.html`]) assert.equal(robotsAllows(rules, u), true, u);
+  for (const u of [`${ORIGIN}/ru/`, `${ORIGIN}/ru/esim/china/`, `${ORIGIN}/ru/iphone.html`]) assert.equal(robotsAllows(rules, u), true, u);
   for (const u of [`${ORIGIN}/app/`, `${ORIGIN}/app/index.html`, `${ORIGIN}/payment-success.html`, `${ORIGIN}/payment-failed.html`]) assert.equal(robotsAllows(rules, u), false, u);
-  const t = 'User-agent: *\nDisallow: /\n\nUser-agent: Googlebot\nUser-agent: Yandex\nDisallow: /esim/\nAllow: /esim/china/\nDisallow: /*.pdf$\n';
+  const t = 'User-agent: *\nDisallow: /\n\nUser-agent: Googlebot\nUser-agent: Yandex\nDisallow: /ru/esim/\nAllow: /ru/esim/china/\nDisallow: /*.pdf$\n';
   const y = robotsRules(t);
   assert.equal(robotsAllows(y, `${ORIGIN}/`), true, 'Yandex has its own group, * does not apply');
-  assert.equal(robotsAllows(y, `${ORIGIN}/esim/turkey/`), false);
-  assert.equal(robotsAllows(y, `${ORIGIN}/esim/china/`), true, 'longer Allow wins');
+  assert.equal(robotsAllows(y, `${ORIGIN}/ru/esim/turkey/`), false);
+  assert.equal(robotsAllows(y, `${ORIGIN}/ru/esim/china/`), true, 'longer Allow wins');
   assert.equal(robotsAllows(y, `${ORIGIN}/a/b.pdf`), false);
   assert.equal(robotsAllows(y, `${ORIGIN}/a/b.pdfx`), true, '$ anchors');
-  assert.equal(robotsAllows(robotsRules('User-agent: *\nDisallow: /\n'), `${ORIGIN}/esim/`), false, 'falls back to *');
+  assert.equal(robotsAllows(robotsRules('User-agent: *\nDisallow: /\n'), `${ORIGIN}/ru/esim/`), false, 'falls back to *');
 });
 
 test('pageFacts and repoPath', () => {
-  assert.deepEqual(pageFacts('<link rel="canonical" href="https://magicesim.store/esim/china/" /><meta name="robots" content="index, follow" />'),
-    { canonical: 'https://magicesim.store/esim/china/', noindex: false });
+  assert.deepEqual(pageFacts('<link rel="canonical" href="https://magicesim.store/ru/esim/china/" /><meta name="robots" content="index, follow" />'),
+    { canonical: 'https://magicesim.store/ru/esim/china/', noindex: false });
   assert.equal(pageFacts('<meta name="robots" content="noindex, nofollow">').noindex, true);
   assert.equal(pageFacts('<meta name="yandex" content="none">').noindex, true);
   assert.equal(pageFacts('<p>no head</p>').canonical, null);
   assert.equal(repoPath(`${ORIGIN}/`), 'index.html');
-  assert.equal(repoPath(`${ORIGIN}/esim/china/`), 'esim/china/index.html');
-  assert.equal(repoPath(`${ORIGIN}/iphone.html`), 'iphone.html');
+  assert.equal(repoPath(`${ORIGIN}/ru/esim/china/`), 'ru/esim/china/index.html');
+  assert.equal(repoPath(`${ORIGIN}/ru/iphone.html`), 'ru/iphone.html');
 });
 
 test('every RU sitemap URL of this commit passes selection; no international, payment or app URL ever does', () => {
@@ -100,44 +106,46 @@ test('every RU sitemap URL of this commit passes selection; no international, pa
   assert.deepEqual(all.send, [...ruLocs].filter((u) => STATE.pages[u]).sort(), 'every RU page has a self canonical, no noindex, robots allows it');
   assert.ok(all.send.every(isRuSiteUrl));
   assert.ok(all.skipped.every((s) => !isRuSiteUrl(s.url) || !ruLocs.includes(s.url)), JSON.stringify(all.skipped.slice(0, 3)));
-  assert.ok(all.skipped.some((s) => s.url.startsWith(`${ORIGIN}/en/`)), 'the English pages are seen and skipped');
+  assert.ok(all.skipped.some((s) => s.url.startsWith(`${ORIGIN}/destinations/`)), 'the English pages are seen and skipped');
+  assert.ok(all.skipped.some((s) => s.url === `${ORIGIN}/`), 'the English home «/» is seen and skipped');
+  assert.ok(!all.send.includes(`${ORIGIN}/`), '«/» is never sent');
   assert.ok(all.send.length <= MAX_URLS, 'the whole RU segment fits under the cap');
 });
 
 test('a real-looking deployment: only the changed RU page is sent; its English twin, a stray and a noindex page are skipped', () => {
   const head = structuredClone(STATE);
   const base = structuredClone(STATE);
-  base.pages[`${ORIGIN}/esim/china/`].lastmod = '2000-01-01';
-  base.pages[`${ORIGIN}/en/esim/china/`].lastmod = '2000-01-01';
+  base.pages[`${ORIGIN}/ru/esim/china/`].lastmod = '2000-01-01';
+  base.pages[`${ORIGIN}/destinations/china/`].lastmod = '2000-01-01';
   head.pages[`${ORIGIN}/payment-success.html`] = { hash: 'x', lastmod: '2026-11-06' };
-  head.pages[`${ORIGIN}/esim/not-a-page/`] = { hash: 'x', lastmod: '2026-11-06' };
+  head.pages[`${ORIGIN}/ru/esim/not-a-page/`] = { hash: 'x', lastmod: '2026-11-06' };
   const r = selectUrls({ baseState: base, headState: head, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read });
-  assert.deepEqual(r.send, [`${ORIGIN}/esim/china/`]);
+  assert.deepEqual(r.send, [`${ORIGIN}/ru/esim/china/`]);
   const why = Object.fromEntries(r.skipped.map((s) => [s.url, s.why]));
-  assert.equal(why[`${ORIGIN}/en/esim/china/`], 'not a RU-segment URL of the site');
-  assert.equal(why[`${ORIGIN}/esim/not-a-page/`], 'not in sitemap.xml');
-  assert.equal(why[`${ORIGIN}/payment-success.html`], 'not in sitemap.xml');
+  assert.equal(why[`${ORIGIN}/destinations/china/`], 'not a RU-segment URL of the site');
+  assert.equal(why[`${ORIGIN}/ru/esim/not-a-page/`], 'not in sitemap.xml');
+  assert.equal(why[`${ORIGIN}/payment-success.html`], 'not a RU-segment URL of the site'); // a Russian root page outside RU_ROOT_DOCUMENTS
   // a page whose committed canonical points elsewhere, or that says noindex, is not sent
-  const html = read('esim/china/index.html');
+  const html = read('ru/esim/china/index.html');
   const moved = selectUrls({ baseState: base, headState: head, sitemapXml: SITEMAP, robotsTxt: ROBOTS,
-    read: (rel) => (rel === 'esim/china/index.html' ? html.replace(/rel="canonical" href="[^"]+"/, 'rel="canonical" href="https://magicesim.store/esim/"') : read(rel)) });
+    read: (rel) => (rel === 'ru/esim/china/index.html' ? html.replace(/rel="canonical" href="[^"]+"/, 'rel="canonical" href="https://magicesim.store/ru/esim/"') : read(rel)) });
   assert.deepEqual(moved.send, []);
   const hidden = selectUrls({ baseState: base, headState: head, sitemapXml: SITEMAP, robotsTxt: ROBOTS,
-    read: (rel) => (rel === 'esim/china/index.html' ? html.replace(/content="index, follow"/, 'content="noindex, follow"') : read(rel)) });
-  assert.deepEqual(hidden.skipped.find((s) => s.url === `${ORIGIN}/esim/china/`)?.why, 'noindex');
+    read: (rel) => (rel === 'ru/esim/china/index.html' ? html.replace(/content="index, follow"/, 'content="noindex, follow"') : read(rel)) });
+  assert.deepEqual(hidden.skipped.find((s) => s.url === `${ORIGIN}/ru/esim/china/`)?.why, 'noindex');
   // nothing moved → nothing sent
   assert.deepEqual(selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read }).send, []);
 });
 
 test('internalLinks: <a href> inside the site, resolved, without the fragment; scripts, assets and other hosts do not count', () => {
-  const html = `<a href="../china/">x</a><a href="/esim/turkey/#plans">y</a><a href="https://magicesim.store/iphone.html">z</a>
+  const html = `<a href="../china/">x</a><a href="/ru/esim/turkey/#plans">y</a><a href="https://magicesim.store/ru/iphone.html">z</a>
     <a href="https://t.me/magicesim">t</a><a href="mailto:support@magicesim.store">m</a><link rel="stylesheet" href="/assets/site.css?v=1">
-    <script>var s='<a href="/esim/hidden/">';</script><a class="x" href="/esim/turkey/">again</a>`;
-  assert.deepEqual(internalLinks(html, `${ORIGIN}/esim/vietnam/`), ['/esim/china/', '/esim/turkey/', '/iphone.html']);
+    <script>var s='<a href="/ru/esim/hidden/">';</script><a class="x" href="/ru/esim/turkey/">again</a>`;
+  assert.deepEqual(internalLinks(html, `${ORIGIN}/ru/esim/vietnam/`), ['/ru/esim/china/', '/ru/esim/turkey/', '/ru/iphone.html']);
   // an asset stamp or a stylesheet change is not a link change
-  const real = read('esim/turkey/index.html');
-  assert.deepEqual(internalLinks(real.replace(/\?v=[0-9a-f]{8}/g, '?v=00000000'), `${ORIGIN}/esim/turkey/`), internalLinks(real, `${ORIGIN}/esim/turkey/`));
-  assert.ok(internalLinks(real, `${ORIGIN}/esim/turkey/`).includes('/esim/'), 'the footer «Все направления» is seen');
+  const real = read('ru/esim/turkey/index.html');
+  assert.deepEqual(internalLinks(real.replace(/\?v=[0-9a-f]{8}/g, '?v=00000000'), `${ORIGIN}/ru/esim/turkey/`), internalLinks(real, `${ORIGIN}/ru/esim/turkey/`));
+  assert.ok(internalLinks(real, `${ORIGIN}/ru/esim/turkey/`).includes('/ru/esim/'), 'the footer «Все направления» is seen');
 });
 
 test('a site-wide footer link change: every RU page carrying it is sent once (lastmod untouched), no international page, nothing else', () => {
@@ -145,7 +153,7 @@ test('a site-wide footer link change: every RU page carrying it is sent once (la
   const ruLocs = sitemapLocs(SITEMAP).filter(isRuSiteUrl);
   // a link no page carries yet (the real footer changes over time — Kazakhstan joined it in #219), so the rule is tested
   // on a change that is a change on every page
-  const PROBE = '/esim/indexnow-footer-probe/';
+  const PROBE = '/ru/esim/indexnow-footer-probe/';
   const addLink = (h) => h.replace(/(<footer class="site-footer">[\s\S]*?<h2>Направления<\/h2>\s*<ul>)/, `$1\n          <li><a href="${PROBE}">Проба</a></li>`);
   const carriers = ruLocs.filter((u) => { const h = read(repoPath(u)); return h && addLink(h) !== h && !internalLinks(h, u).includes(PROBE); });
   assert.ok(carriers.length > 150, `RU pages carrying the footer: ${carriers.length}`);
@@ -169,10 +177,10 @@ test('only HTML that is not a link moves: asset stamps on every page send nothin
   const r = selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: read, read: (rel) => stamp(read(rel)) });
   assert.deepEqual(r.send, []);
   const base = structuredClone(STATE);
-  base.pages[`${ORIGIN}/esim/china/`].hash = 'old';
+  base.pages[`${ORIGIN}/ru/esim/china/`].hash = 'old';
   const c = selectUrls({ baseState: base, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, readBase: read, read });
-  assert.deepEqual(c.send, [`${ORIGIN}/esim/china/`]);
-  assert.equal(c.reason[`${ORIGIN}/esim/china/`], 'content');
+  assert.deepEqual(c.send, [`${ORIGIN}/ru/esim/china/`]);
+  assert.equal(c.reason[`${ORIGIN}/ru/esim/china/`], 'content');
 });
 
 test('the CLI hands the previous deployed commit to the link rule', () => {
@@ -186,12 +194,12 @@ test('the CLI hands the previous deployed commit to the link rule', () => {
 const res = (status, body = '', headers = {}) => ({ status, text: async () => body, headers: { get: (n) => headers[n.toLowerCase()] ?? null } });
 
 test('liveCheck: 200 + self canonical passes; a redirect, an error, another canonical, noindex (meta or header) do not', async () => {
-  const u = `${ORIGIN}/esim/china/`;
+  const u = `${ORIGIN}/ru/esim/china/`;
   const good = `<link rel="canonical" href="${u}" />`;
   assert.equal(await liveCheck(u, { fetchImpl: async (_, o) => { assert.equal(o.redirect, 'manual'); return res(200, good); } }), null);
   assert.equal(await liveCheck(u, { fetchImpl: async () => res(301) }), 'HTTP 301');
   assert.equal(await liveCheck(u, { fetchImpl: async () => res(404) }), 'HTTP 404');
-  assert.match(await liveCheck(u, { fetchImpl: async () => res(200, '<link rel="canonical" href="https://magicesim.store/esim/" />') }), /canonical is/);
+  assert.match(await liveCheck(u, { fetchImpl: async () => res(200, '<link rel="canonical" href="https://magicesim.store/ru/esim/" />') }), /canonical is/);
   assert.equal(await liveCheck(u, { fetchImpl: async () => res(200, good + '<meta name="robots" content="noindex">') }), 'noindex');
   assert.equal(await liveCheck(u, { fetchImpl: async () => res(200, good, { 'x-robots-tag': 'noindex' }) }), 'X-Robots-Tag noindex');
   assert.match(await liveCheck(u, { fetchImpl: async () => { throw Object.assign(new Error('x'), { code: 'ECONNRESET' }); } }), /network error \(ECONNRESET\)/);
@@ -199,7 +207,7 @@ test('liveCheck: 200 + self canonical passes; a redirect, an error, another cano
 
 /* ---------------------------------------------------------------- submission */
 
-const URLS = [`${ORIGIN}/esim/china/`, `${ORIGIN}/esim/turkey/`];
+const URLS = [`${ORIGIN}/ru/esim/china/`, `${ORIGIN}/ru/esim/turkey/`];
 
 function harness(answers) {
   const calls = [];
@@ -271,7 +279,7 @@ test('submit: 429 / 5xx / network errors are retried a bounded number of times, 
 
 /* ---------------------------------------------------------------- batches */
 
-const many = (n) => Array.from({ length: n }, (_, i) => `${ORIGIN}/esim/page-${String(i).padStart(3, '0')}/`);
+const many = (n) => Array.from({ length: n }, (_, i) => `${ORIGIN}/ru/esim/page-${String(i).padStart(3, '0')}/`);
 const bodies = (h) => h.calls.map((c) => JSON.parse(c.opts.body).urlList);
 
 test('batches: at most BATCH_SIZE (100) per POST, in order, nothing lost or repeated — 198, 250 and 300 URLs', () => {

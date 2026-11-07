@@ -14,7 +14,7 @@ import { POPULAR, azLetter, enCountries } from './build-en-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const HUB = read('en/esim/index.html');
+const HUB = read('destinations/index.html');
 const JS = read('en/hub.js');
 const CSS = read('assets/page-hub.css');
 const LIST = enCountries();
@@ -22,13 +22,13 @@ const LIST = enCountries();
 test('the head for search engines: indexed (I18N-09) with its cluster, self canonical, the same title and description', () => {
   assert.match(HUB, /<title>eSIM destinations — Magic eSIM<\/title>/);
   assert.match(HUB, /<meta name="robots" content="index, follow">/);
-  assert.match(HUB, /<link rel="canonical" href="https:\/\/magicesim\.store\/en\/esim\/">/);
+  assert.match(HUB, /<link rel="canonical" href="https:\/\/magicesim\.store\/destinations\/">/);
   // 2026-10-28 (SEO stage 7, owner-gated D3): «Online payment is not available yet.» left the description; the payment
   // bar on the page still says it.
   assert.match(HUB, /<meta name="description" content="Every destination Magic eSIM has data plans for, with prices in US dollars: find yours and see its eSIM mobile data plans for your trip\.">/);
   assert.doesNotMatch(HUB, /<meta name="description" content="[^"]*not available yet/);
-  assert.match(HUB, /<link rel="alternate" hreflang="ru" href="https:\/\/magicesim\.store\/esim\/">/);
-  assert.match(HUB, /<link rel="alternate" hreflang="x-default" href="https:\/\/magicesim\.store\/en\/esim\/">/);
+  assert.match(HUB, /<link rel="alternate" hreflang="ru" href="https:\/\/magicesim\.store\/ru\/esim\/">/);
+  assert.match(HUB, /<link rel="alternate" hreflang="x-default" href="https:\/\/magicesim\.store\/destinations\/">/);
   assert.match(HUB, /connect-src 'none'/);
 });
 
@@ -51,11 +51,11 @@ test('every destination is linked exactly once, under its own letter, A to Z, wi
   assert.ok(groups.length >= 20);
   const seen = [];
   for (const [block, l] of groups) {
-    for (const m of block.matchAll(/<li data-name="[^"]+" data-iso="([A-Z]{2})"><a href="\/en\/esim\/([a-z0-9-]+)\/"><img class="flag" src="\/assets\/flags\/([a-z]{2})\.svg"[^>]*><span>([^<]+)<\/span><\/a><\/li>/g)) {
+    for (const m of block.matchAll(/<li data-name="[^"]+" data-iso="([A-Z]{2})"><a href="\/destinations\/([a-z0-9-]+)\/"><img class="flag" src="\/assets\/flags\/([a-z]{2})\.svg"[^>]*><span>([^<]+)<\/span><\/a><\/li>/g)) {
       const [, iso, slug, flag, name] = m;
       assert.equal(azLetter(name.replace(/&amp;/g, '&')), l.toUpperCase(), `${name} under ${l}`);
       assert.equal(flag, iso.toLowerCase());
-      assert.ok(existsSync(join(ROOT, `en/esim/${slug}/index.html`)), slug);
+      assert.ok(existsSync(join(ROOT, `destinations/${slug}/index.html`)), slug);
       seen.push(slug);
     }
   }
@@ -77,10 +77,10 @@ test('the jump letters: a link for every group, a muted letter where there is no
 
 test('popular is the home\'s own list under the home\'s own label — no price, count or claim', () => {
   const pop = HUB.slice(HUB.indexOf('id="hubPopular"'), HUB.indexOf('</section>', HUB.indexOf('id="hubPopular"')));
-  const tiles = [...pop.matchAll(/<a class="hub-tile" href="\/en\/esim\/([a-z0-9-]+)\/">/g)].map((m) => m[1]);
+  const tiles = [...pop.matchAll(/<a class="hub-tile" href="\/destinations\/([a-z0-9-]+)\/">/g)].map((m) => m[1]);
   assert.deepEqual(tiles, POPULAR.map((c) => c.slug));
   // The region pages (seo/regions.mjs) have their own row, after the A–Z list — the only other tiles.
-  const all = [...HUB.matchAll(/<a class="hub-tile" href="\/en\/esim\/([a-z0-9-]+)\/">/g)].map((m) => m[1]);
+  const all = [...HUB.matchAll(/<a class="hub-tile" href="\/destinations\/([a-z0-9-]+)\/">/g)].map((m) => m[1]);
   assert.deepEqual(all, [...POPULAR.map((c) => c.slug), 'europe', 'asia', 'global']);
   assert.match(HUB, /<h2 id="hubPopTitle" data-i18n="home\.popularTitle">Popular destinations<\/h2>/);
   const text = HUB.slice(HUB.indexOf('<main'), HUB.indexOf('</main>')).replace(/<[^>]+>/g, ' ');

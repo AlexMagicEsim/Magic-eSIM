@@ -75,22 +75,24 @@ const STATE = join(ROOT, 'seo/sitemap-lastmod.json');
 // dropped keeps an entry pointing at a page that sells nothing.
 export function sitemapUrls(countries) {
   return [
-    { loc: `${SITE}/`, prio: '1.0', freq: 'weekly' },
+    // The Russian home: /ru/ since the EN-root migration (2026-11-07); «/» is the English home and comes with the
+    // other languages' pages below, at the English home's weight.
+    { loc: `${SITE}/ru/`, prio: '1.0', freq: 'weekly' },
     // The other languages' indexed pages (I18N-09): exactly what seo/indexing.mjs
     // offers to search engines — home, destination list, guide list, guides and the
     // country pages of the current stage. Every other prefixed page is noindex and
     // stays out: listing URLs nobody may index is how a sitemap starts reporting
     // errors instead of pages.
     ...indexedPrefixedPages(EN_GUIDES.map((g) => g.slug)).map(({ page, loc }) => ({ loc, ...weightOf(page.kind) })),
-    { loc: `${SITE}/esim/`, prio: '0.8', freq: 'weekly' },
-    ...countries.map((c) => ({ loc: `${SITE}/esim/${c.slug}/`, prio: '0.9', freq: 'weekly' })),
-    { loc: `${SITE}/esim/compatibility/`, prio: '0.7', freq: 'monthly' },
-    { loc: `${SITE}/esim/activation-before-travel/`, prio: '0.7', freq: 'monthly' },
-    { loc: `${SITE}/esim/not-working/`, prio: '0.7', freq: 'monthly' },
-    { loc: `${SITE}/esim/dual-sim-sms/`, prio: '0.7', freq: 'monthly' },
-    { loc: `${SITE}/esim/payment-rubles/`, prio: '0.7', freq: 'monthly' },
-    { loc: `${SITE}/iphone.html`, prio: '0.7', freq: 'monthly' },
-    { loc: `${SITE}/android.html`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/esim/`, prio: '0.8', freq: 'weekly' },
+    ...countries.map((c) => ({ loc: `${SITE}/ru/esim/${c.slug}/`, prio: '0.9', freq: 'weekly' })),
+    { loc: `${SITE}/ru/esim/compatibility/`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/esim/activation-before-travel/`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/esim/not-working/`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/esim/dual-sim-sms/`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/esim/payment-rubles/`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/iphone.html`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/android.html`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/terms.html`, prio: '0.3', freq: 'yearly' },
     { loc: `${SITE}/privacy.html`, prio: '0.3', freq: 'yearly' },
   ];
@@ -204,7 +206,7 @@ export function stripLanguageSwitch(html) {
 // seo/test-lang-route.mjs pins the round trip.
 export function stripLangRoute(html) {
   return String(html)
-    .replace(/[ \t]*<!-- Before everything else \(the counter included\): the first look at «\/» [^\n]*-->\n/g, '')
+    .replace(/[ \t]*<!-- Before everything else(?: \(the counter included\))?: the first look at «\/» [^\n]*-->\n/g, '')
     .replace(/[ \t]*<script src="\/assets\/lang-route\.js(?:\?v=[0-9a-f]+)?"><\/script>\n?/g, '');
 }
 

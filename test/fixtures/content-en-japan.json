@@ -10,11 +10,11 @@
       "h2": "What to sort out before you land in Japan",
       "paragraphs": [
         "Japan runs on QR codes, rail apps and maps, and much of a first day goes on finding the right train out of the airport. Having data working when you leave the plane means the route, the ticket machine instructions and your hotel address are already on your screen.",
-        "An eSIM is a profile you add to your phone rather than a card you collect at a counter. Your phone has to support eSIM and must not be locked to your home network; the [compatibility guide](/en/guides/compatibility/) shows how to check both."
+        "An eSIM is a profile you add to your phone rather than a card you collect at a counter. Your phone has to support eSIM and must not be locked to your home network; the [compatibility guide](/guides/compatibility/) shows how to check both."
       ],
       "list": [
         "Check that your phone supports eSIM before you travel.",
-        "Read the [activation guide](/en/guides/activation/) for when a plan's term begins.",
+        "Read the [activation guide](/guides/activation/) for when a plan's term begins.",
         "Keep your home SIM in the phone for calls if you need them."
       ]
     },
@@ -29,9 +29,9 @@
   ],
   "faq": [
     { "q": "Do I need a Japanese address to use an eSIM in Japan?", "a": "No address is asked for on this page; the plans shown are data plans for visitors." },
-    { "q": "Will my phone work with an eSIM in Japan?", "a": "Your phone must support eSIM and must not be locked to your home network. The [compatibility guide](/en/guides/compatibility/) explains how to check." },
+    { "q": "Will my phone work with an eSIM in Japan?", "a": "Your phone must support eSIM and must not be locked to your home network. The [compatibility guide](/guides/compatibility/) explains how to check." },
     { "q": "Can one plan cover Japan and South Korea?", "a": "Regional plans that include Japan also cover South Korea and China." },
-    { "q": "When does the plan's term begin?", "a": "That depends on the plan. The [activation guide](/en/guides/activation/) explains what to look for before you install it." },
+    { "q": "When does the plan's term begin?", "a": "That depends on the plan. The [activation guide](/guides/activation/) explains what to look for before you install it." },
     { "q": "Can I order a plan for Japan here today?", "a": "Not yet. Online payment is not available, so this page lets you compare plans only." }
   ],
   "related": ["south-korea", "china", "taiwan"],

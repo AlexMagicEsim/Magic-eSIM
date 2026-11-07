@@ -37,7 +37,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 const FACTS = JSON.parse(read('seo/global-plan-facts.json'));
 const CATALOGUE = JSON.parse(read('seo/catalogue-countries.json')).countries;
-const PREFIXED = LOCALES.filter((l) => l.prefix && l.site.enabled);
+const PREFIXED = LOCALES.filter((l) => l.code !== 'ru' && l.site.enabled);
 
 /* ------------------------------------------------------------------ 1. the rule */
 
@@ -174,13 +174,13 @@ test('indexing: a region is its own kind — noindex in every language, no hrefl
     assert.equal(pathIn(locale('ru'), page), null, 'the Russian site has no region page');
     for (const l of LOCALES) assert.equal(isIndexed(l.code, page), false, `${l.code} ${slug}`);
     assert.deepEqual(cluster(page), []);
-    assert.deepEqual(ruPage(`/esim/${slug}/`), page, 'a region path is never read as a Russian country');
-    assert.equal(ruAlternates(`/esim/${slug}/`), '');
+    assert.deepEqual(ruPage(`/ru/esim/${slug}/`), page, 'a region path is never read as a Russian country');
+    assert.equal(ruAlternates(`/ru/esim/${slug}/`), '');
   }
   assert.equal(indexedPrefixedPages(EN_GUIDES.map((g) => g.slug)).filter((p) => p.page.kind === 'region').length, 0);
   const locs = sitemapUrls(CATALOGUE).map((u) => u.loc);
-  assert.equal(locs.filter((u) => REGION_SLUGS.some((s) => u.endsWith(`/esim/${s}/`))).length, 0);
-  assert.equal(read('sitemap.xml').match(/\/esim\/(europe|asia|global)\//g), null);
+  assert.equal(locs.filter((u) => REGION_SLUGS.some((s) => u.endsWith(`/ru/esim/${s}/`))).length, 0);
+  assert.equal(read('sitemap.xml').match(/\/ru\/esim\/(europe|asia|global)\//g), null);
   assert.deepEqual(PREFIXED_WEIGHT.region, { prio: '0.7', freq: 'weekly' }, 'a region opened later gets a full sitemap entry');
 });
 
@@ -196,12 +196,12 @@ for (const l of PREFIXED) {
   const pageBySlug = new Map(G.countries().map((c) => [c.slug, c]));
   const pageByIso = new Map(G.countries().map((c) => [c.iso, c]));
   for (const slug of REGION_SLUGS) {
-    test(`${l.prefix}/esim/${slug}/: head, structure, no price, no provider name, the matrix = the snapshot`, () => {
-      const rel = `${l.prefix}/esim/${slug}/index.html`;
+    test(`${l.paths.catalogue.slice(1)}${slug}/: head, structure, no price, no provider name, the matrix = the snapshot`, () => {
+      const rel = `${l.paths.catalogue.slice(1)}${slug}/index.html`;
       assert.ok(existsSync(join(ROOT, rel)), rel);
       const html = read(rel);
       const h = head(html);
-      const url = `https://magicesim.store/${l.prefix}/esim/${slug}/`;
+      const url = `https://magicesim.store${l.paths.catalogue}${slug}/`;
       assert.match(h, new RegExp(`<html lang="${l.htmlLang}">|`));
       assert.ok(h.includes(`<link rel="canonical" href="${url}">`), 'self-canonical');
       assert.ok(h.includes('<meta name="robots" content="noindex, follow">'));
@@ -214,7 +214,7 @@ for (const l of PREFIXED) {
       // breadcrumb JSON-LD = the visible crumbs
       const ld = JSON.parse(h.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)[1]);
       assert.equal(ld['@type'], 'BreadcrumbList');
-      assert.deepEqual(ld.itemListElement.map((x) => x.item), [`https://magicesim.store/${l.prefix}/`, `https://magicesim.store/${l.prefix}/esim/`, url]);
+      assert.deepEqual(ld.itemListElement.map((x) => x.item), [`https://magicesim.store${l.paths.home}`, `https://magicesim.store${l.paths.catalogue}`, url]);
       const name = C[{ europe: 'regionEurope', asia: 'regionAsia', global: 'regionGlobal' }[slug]];
       assert.equal(ld.itemListElement[2].name, name);
       assert.ok(html.includes(`› ${name}</p>`), 'the visible crumbs end with the region');
@@ -256,7 +256,7 @@ for (const l of PREFIXED) {
         return ls.map((x) => x[2]);
       };
       for (const [row, iso, href] of rows) {
-        assert.equal(href, `/${l.prefix}/esim/${pageByIso.get(iso).slug}/`);
+        assert.equal(href, `${l.paths.catalogue}${pageByIso.get(iso).slug}/`);
         const h = lettersIn(row, 'sets-here');
         const o = lettersIn(row, 'sets-also');
         assert.deepEqual(h, here.get(iso), `${iso}: «offered on its page» = exactly the sets whose shown_on has ${iso}`);
@@ -266,7 +266,7 @@ for (const l of PREFIXED) {
       }
       assert.equal((html.match(/class="help-card" id="set-/g) || []).length, sets.length, 'one card per set');
       // every link on the page leads to a page that exists
-      for (const [, href] of html.matchAll(/href="(\/[a-z]{2}\/esim\/[^"#]+)"/g)) {
+      for (const [, href] of html.matchAll(/href="(\/[a-z]{2}\/ru\/esim\/[^"#]+)"/g)) {
         const s = href.split('/')[3];
         assert.ok(pageBySlug.has(s) || REGION_SLUGS.includes(s), href);
       }
@@ -274,8 +274,8 @@ for (const l of PREFIXED) {
   }
 
   test(`${l.prefix}: the destination list links its three region pages; the Russian site links none`, () => {
-    const hub = read(`${l.prefix}/esim/index.html`);
-    for (const slug of REGION_SLUGS) assert.ok(hub.includes(`<a class="hub-tile" href="/${l.prefix}/esim/${slug}/">`), slug);
+    const hub = read(`${l.paths.catalogue.slice(1)}index.html`);
+    for (const slug of REGION_SLUGS) assert.ok(hub.includes(`<a class="hub-tile" href="${l.paths.catalogue}${slug}/">`), slug);
   });
 }
 
@@ -295,18 +295,18 @@ test('no page links a region page that does not exist; the Russian pages link no
   };
   walk('');
   assert.deepEqual(bad, []);
-  for (const slug of REGION_SLUGS) assert.ok(!existsSync(join(ROOT, 'esim', slug)), `a Russian /esim/${slug}/ would read as a country`);
+  for (const slug of REGION_SLUGS) assert.ok(!existsSync(join(ROOT, 'ru/esim', slug)), `a Russian /esim/${slug}/ would read as a country`);
 });
 
 /* ------------------------------------------------------------------ 7. the refresh automation */
 
 test('refresh: a run that rewrites only region pages proceeds; a region-like path that is not one stops it', () => {
   const slugs = CATALOGUE.map((c) => c.slug);
-  const pages = publishedLocales().flatMap((code) => REGION_SLUGS.map((s) => `${locale(code).prefix}/esim/${s}/index.html`));
+  const pages = publishedLocales().flatMap((code) => REGION_SLUGS.map((s) => `${locale(code).paths.catalogue.slice(1)}${s}/index.html`));
   assert.equal(pages.length, PREFIXED.length * 3);
   assert.deepEqual(unexpectedPaths(pages, slugs), []);
-  assert.deepEqual(unexpectedPaths(['en/esim/africa/index.html', 'en/regions/europe/index.html', 'esim/europe/index.html'], slugs),
-    ['en/esim/africa/index.html', 'en/regions/europe/index.html', 'esim/europe/index.html']);
+  assert.deepEqual(unexpectedPaths(['destinations/africa/index.html', 'en/regions/europe/index.html', 'ru/esim/europe/index.html'], slugs),
+    ['destinations/africa/index.html', 'en/regions/europe/index.html', 'ru/esim/europe/index.html']);
 });
 
 test('no region slug is a country slug of the generator (it refuses to build one that is)', () => {

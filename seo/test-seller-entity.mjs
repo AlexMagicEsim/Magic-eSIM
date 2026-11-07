@@ -29,7 +29,7 @@ const FORBIDDEN = ['aggregateRating', 'review', 'address', 'foundingDate', 'lega
   'telephone', 'vatID', 'taxID', 'numberOfEmployees', 'founder'];
 
 test('the home page declares the seller exactly once, as OnlineStore with the stable @id and only published facts', () => {
-  const home = read('index.html');
+  const home = read('ru/index.html');
   const nodes = ldNodes(home);
   const sellers = nodes.filter((n) => n['@id'] === SELLER_ID);
   assert.equal(sellers.length, 1);
@@ -47,7 +47,7 @@ test('the home page declares the seller exactly once, as OnlineStore with the st
 
 for (const slug of PILOT) {
   test(`${slug}: publisher and Product offer point at the one seller; JSON-LD parses`, () => {
-    const nodes = ldNodes(read(`esim/${slug}/index.html`));
+    const nodes = ldNodes(read(`ru/esim/${slug}/index.html`));
     const page = nodes.find((n) => n['@type'] === 'WebPage');
     assert.deepEqual(page.publisher, JSON.parse(JSON.stringify(SELLER_REF)));
     const product = nodes.find((n) => n['@type'] === 'Product');
@@ -62,8 +62,8 @@ for (const slug of PILOT) {
 
 test('out of scope: no other country page references the seller @id (pilot only, owner 2026-10-14)', () => {
   let checked = 0;
-  for (const slug of readdirSync(join(ROOT, 'esim'))) {
-    const f = join(ROOT, 'esim', slug, 'index.html');
+  for (const slug of readdirSync(join(ROOT, 'ru/esim'))) {
+    const f = join(ROOT, 'ru/esim', slug, 'index.html');
     if (PILOT.includes(slug) || !existsSync(f)) continue;
     const h = readFileSync(f, 'utf8');
     assert.ok(!h.includes(SELLER_ID), `${slug} references the seller — the scope is the five pilot pages`);
@@ -77,7 +77,7 @@ test('out of scope: no other country page references the seller @id (pilot only,
 // description, email or contact block of the full node, and never a second full declaration.
 test('the prefixed homes reference the one seller by @id, with no second identity and no full node', () => {
   for (const p of ['en', 'es', 'de', 'fr', 'zh', 'ko']) {
-    const h = read(`${p}/index.html`);
+    const h = read(p === "en" ? "index.html" : `${p}/index.html`);   // the English home is the site root (EN-root migration)
     const nodes = ldNodes(h);
     const sellers = nodes.filter((n) => [].concat(n['@type']).some((t) => /Organization|OnlineStore/.test(t)));
     assert.equal(sellers.length, 1, `${p}: one seller node`);
@@ -90,8 +90,8 @@ test('the prefixed homes reference the one seller by @id, with no second identit
 });
 
 test('every JSON-LD block on the home, all country pages and the English home parses', () => {
-  const files = ['index.html', 'en/index.html', ...readdirSync(join(ROOT, 'esim'))
-    .map((s) => `esim/${s}/index.html`).filter((f) => existsSync(join(ROOT, f)))];
+  const files = ['ru/index.html', 'index.html', ...readdirSync(join(ROOT, 'ru/esim'))
+    .map((s) => `ru/esim/${s}/index.html`).filter((f) => existsSync(join(ROOT, f)))];
   for (const f of files) {
     const h = read(f);
     for (const [, b] of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {

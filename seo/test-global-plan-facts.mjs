@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { factsFor, buildFacts, validateFacts, runUpdate as runUpdateReal, LEFT_OUT, ALSO_KEPT } from '../scripts/update-global-plan-facts.mjs';
-import { LOCALES } from './locales.mjs';
+import { LOCALES, locale } from './locales.mjs';
 import { PAGE_COPY } from './page-copy.mjs';
 import { INDEXED_COUNTRIES } from './indexing.mjs';
 
@@ -28,7 +28,7 @@ const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const FACTS = JSON.parse(read('seo/global-plan-facts.json'));
 const COUNTRIES = JSON.parse(read('seo/catalogue-countries.json')).countries;
 const AMOUNT = createRequire(import.meta.url)('../assets/daily-plan-copy.js').formatAllowance;
-const PREFIXED = LOCALES.filter((l) => l.prefix && l.site.enabled);
+const PREFIXED = LOCALES.filter((l) => l.code !== 'ru' && l.site.enabled);
 const dict = (code) => createRequire(import.meta.url)(`../assets/i18n/${code}.js`);
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 const glanceOf = (html) => (html.match(/<section class="cp-help cp-glance"[\s\S]*?<\/section>/) || [null])[0];
@@ -115,7 +115,7 @@ for (const L of PREFIXED) {
     const day = (n) => words[plural.select(n) === 'one' ? 'plan.dayCount.one' : 'plan.dayCount.other'].replace('{n}', String(n));
     let withFacts = 0;
     for (const c of COUNTRIES) {
-      const html = read(`${L.prefix}/esim/${c.slug}/index.html`);
+      const html = read(`${L.paths.catalogue.slice(1)}${c.slug}/index.html`);
       const g = glanceOf(html);
       const f = FACTS.countries[c.iso];
       const any = f && ((f.local.gb.length && f.local.days.length) || f.also.length || (f.daily.gb_per_day.length && f.daily.days.length));
@@ -134,13 +134,13 @@ for (const L of PREFIXED) {
       const links = [...g.matchAll(/<a href="([^"]+)">/g)].map((m) => m[1]);
       assert.ok(links.length <= 8, `${L.code}/${c.slug}: at most eight destinations`);
       for (const href of links) {
-        assert.match(href, new RegExp(`^/${L.prefix}/esim/[a-z0-9-]+/$`), `${L.code}/${c.slug}: a link leaves the language`);
+        assert.match(href, new RegExp(`^${L.paths.catalogue}[a-z0-9-]+/$`), `${L.code}/${c.slug}: a link leaves the language`);
         assert.ok(existsSync(join(ROOT, href.slice(1), 'index.html')), `${L.code}/${c.slug}: ${href} does not exist`);
-        assert.notEqual(href, `/${L.prefix}/esim/${c.slug}/`, `${L.code}/${c.slug}: links to itself`);
+        assert.notEqual(href, `${L.paths.catalogue}${c.slug}/`, `${L.code}/${c.slug}: links to itself`);
       }
       // the linked destinations are the snapshot's ranking, in order — never a guess
       const slugOf = new Map(COUNTRIES.map((x) => [x.iso, x.slug]));
-      const want = f.also.map((iso) => slugOf.get(iso)).filter(Boolean).slice(0, 8).map((s) => `/${L.prefix}/esim/${s}/`);
+      const want = f.also.map((iso) => slugOf.get(iso)).filter(Boolean).slice(0, 8).map((s) => `${L.paths.catalogue}${s}/`);
       assert.deepEqual(links, want, `${L.code}/${c.slug}: the destinations`);
       assert.equal(/\$\s?\d|₽|\bUSD\s?\d|\d\s?(USD|RUB)\b|US\$/i.test(text), false, `${L.code}/${c.slug}: a price in the glance`);
       assert.ok(g.includes(`<time datetime="${FACTS.updated}">`), `${L.code}/${c.slug}: the list's date`);
@@ -158,7 +158,7 @@ test('no two indexed EN/ES country pages share their plan facts word for word', 
   for (const prefix of ['en', 'es']) {
     const seen = new Map();
     for (const slug of INDEXED_COUNTRIES) {
-      const g = glanceOf(read(`${prefix}/esim/${slug}/index.html`));
+      const g = glanceOf(read(`${locale(prefix).paths.catalogue.slice(1)}${slug}/index.html`));
       assert.ok(g, `${prefix}/${slug}: an indexed page without facts`);
       const key = [...words(g)].sort().join(' ');
       assert.ok(!seen.has(key), `${prefix}/${slug} prints the same facts as ${seen.get(key)}`);

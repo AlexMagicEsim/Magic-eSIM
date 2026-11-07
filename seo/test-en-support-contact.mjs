@@ -28,7 +28,8 @@ function htmlUnder(dir, out = []) {
   return out;
 }
 
-const PAGES = htmlUnder('en');
+// EN-root migration (2026-11-07): the English pages are the root home, /destinations/, /guides/ and the legal pages in en/.
+const PAGES = ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
 const ADDRESS = 'support@magicesim.store';
 const LINK = `<a href="mailto:${ADDRESS}">${ADDRESS}</a>`;
 const FOOTER_LINE = `<p class="support">Support: ${LINK}</p>`;
@@ -61,7 +62,7 @@ test('the troubleshooting guide ends its checklist with the address, in the page
   const last = g.sections[g.sections.length - 1];
   assert.equal(last.h2, 'Still not working?');
   assert.ok(last.html.includes(LINK));
-  const main = mainOf(read('en/guides/troubleshooting/index.html'));
+  const main = mainOf(read('guides/troubleshooting/index.html'));
   assert.ok(main.includes(LINK), 'rendered inside <main>');
   // No promise the site cannot keep: no reply time, no order or refund wording.
   assert.doesNotMatch(last.html, /\b(hour|day|minute|24\/7|reply|respond|refund|order)\w*/i);

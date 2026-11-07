@@ -33,7 +33,7 @@ function loadMappers(file) {
 
 test('the mapper block has one copy: the country pages\' renderer', () => {
   assert.ok(extractBlock(SOURCES['assets/country-tariffs.js']).length > 200);
-  assert.ok(!BLOCK_RE.test(readFileSync(join(ROOT, 'index.html'), 'utf8')), 'the home must not carry a second copy');
+  assert.ok(!BLOCK_RE.test(readFileSync(join(ROOT, 'ru/index.html'), 'utf8')), 'the home must not carry a second copy');
 });
 
 // The two unreachable renderers that used to carry these strings were deleted,
@@ -112,7 +112,7 @@ test('every provider string the live catalogues return has a Russian translation
 test('the deleted legacy renderers stay deleted', () => {
   // They generated fabricated speed/FUP/tethering values and were unreachable.
   // If a name reappears, the fabricated strings can come back with it.
-  const src = readFileSync(join(ROOT, 'index.html'), 'utf8') + readFileSync(SOURCES['assets/country-tariffs.js'], 'utf8');
+  const src = readFileSync(join(ROOT, 'ru/index.html'), 'utf8') + readFileSync(SOURCES['assets/country-tariffs.js'], 'utf8');
   for (const name of ['loadRussiaApiPackages', 'renderPackagesForCountry',
                       'isRussiaDailyApiPackage', 'isRussiaApiPackage']) {
     assert.equal(src.includes(name), false, `${name} must not come back`);

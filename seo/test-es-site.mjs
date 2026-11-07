@@ -41,6 +41,11 @@ function htmlUnder(dir) {
   }(dir));
   return out.sort();
 }
+
+// EN-root migration (2026-11-07): the English page of a kind relative to a language's home ('esim/x/index.html' is
+// /destinations/x/ in English), and every English page (the root home, /destinations/, /guides/, the legal pages in en/).
+const enFile = (k) => (k.startsWith('esim/') ? `destinations/${k.slice('esim/'.length)}` : k);
+const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
 // LEGAL-8: the permanent copies of the legal documents (/es/<kind>/v<n>/) are held by seo/test-legal-archive.mjs.
 const ES_PAGES = htmlUnder('es').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/es/terms|refund|privacy/) are pages of this language too; their
@@ -55,7 +60,7 @@ test('every Spanish page: the home, the list, one page per catalogue country, th
   assert.equal(ES_SITE_PAGES.length, COUNTRY_PAGES + 11, 'the home, the list, the countries, the guides list, five guides + the three region pages (seo/regions.mjs)');
   assert.equal(ES_PAGES.length, COUNTRY_PAGES + 14, '+ the three legal documents (LEGAL-4)');
   assert.equal(ES_PAGES.filter((p) => /^es\/esim\/[^/]+\/index\.html$/.test(p)).length, COUNTRY_PAGES + 3, "the catalogue countries + 3 region pages");
-  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, ES_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
+  assert.equal(enPages().filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, ES_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 
 test('every source has every key English has, and no other', () => {
@@ -70,7 +75,7 @@ test('every source has every key English has, and no other', () => {
 
 test('the Spanish guides mirror the English ones: slugs, sections, questions, related, internal links', () => {
   assert.deepEqual(ES_GUIDES.map((g) => g.slug), EN_GUIDES.map((g) => g.slug));
-  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1].replace(/^\/(en|es)\//, '/L/')));
+  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1].replace(/^\/destinations\//, '/L/esim/').replace(/^\/guides\//, '/L/guides/').replace(/^\/es\//, '/L/')));
   for (const [i, es] of ES_GUIDES.entries()) {
     const en = EN_GUIDES[i];
     assert.equal(es.sections.length, en.sections.length, `${es.slug}: sections`);
@@ -111,11 +116,11 @@ function skeleton(html) {
 test('the same design: every page kind has the English markup skeleton (tags and classes, in order)', () => {
   const kinds = ['index.html', 'esim/index.html', 'esim/thailand/index.html', 'esim/japan/index.html', 'esim/uae/index.html',
     'esim/peru/index.html', 'guides/index.html', ...EN_GUIDES.map((g) => `guides/${g.slug}/index.html`)];
-  for (const k of kinds) assert.equal(skeleton(read(`es/${k}`)), skeleton(read(`en/${k}`)), k);
+  for (const k of kinds) assert.equal(skeleton(read(`es/${k}`)), skeleton(read(enFile(k))), k);
   // …and the head loads the same stylesheets and scripts (Expressive included), the language's own data aside.
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|es)\/destinations\.js$/, 'DEST').replace(/country-names-(en|es)\.js$/, 'NAMES').replace(/site-i18n-(en|es)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored text's own sheet
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|es)\/destinations\.js$/, 'DEST').replace(/country-names-(en|es)\.js$/, 'NAMES').replace(/site-i18n-(en|es)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css' && a !== '/assets/lang-route.js');   // the authored text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
-    assert.deepEqual(assets(read(`es/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
+    assert.deepEqual(assets(read(`es/${k}`)), assets(read(enFile(k))), `${k}: the same assets`);
   }
   assert.match(read('es/index.html'), /data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]+"/, 'Expressive on the home');
   assert.match(read('es/esim/thailand/index.html'), /data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]+"/, 'Expressive on a country page');

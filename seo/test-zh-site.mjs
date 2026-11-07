@@ -51,6 +51,11 @@ function htmlUnder(dir) {
   }(dir));
   return out.sort();
 }
+
+// EN-root migration (2026-11-07): the English page of a kind relative to a language's home ('esim/x/index.html' is
+// /destinations/x/ in English), and every English page (the root home, /destinations/, /guides/, the legal pages in en/).
+const enFile = (k) => (k.startsWith('esim/') ? `destinations/${k.slice('esim/'.length)}` : k);
+const enPages = () => ['index.html', ...htmlUnder('destinations'), ...htmlUnder('guides'), ...htmlUnder('en')];
 // LEGAL-8: the permanent copies of the legal documents (/zh/<kind>/v<n>/) are held by seo/test-legal-archive.mjs.
 const ZH_PAGES = htmlUnder('zh').filter((rel) => !/\/v\d[\d.]*\/index\.html$/.test(rel));
 // LEGAL-4: the three translated legal documents (/zh/terms|refund|privacy/) are pages of this language too; their
@@ -78,7 +83,7 @@ test('every Chinese page: the home, the list, one page per catalogue country, th
   assert.equal(ZH_SITE_PAGES.length, COUNTRY_PAGES + 11, 'the home, the list, the countries, the guides list, five guides + the three region pages (seo/regions.mjs)');
   assert.equal(ZH_PAGES.length, COUNTRY_PAGES + 14, '+ the three legal documents (LEGAL-4)');
   assert.equal(ZH_PAGES.filter((p) => /^zh\/esim\/[^/]+\/index\.html$/.test(p)).length, COUNTRY_PAGES + 3, "the catalogue countries + 3 region pages");
-  assert.equal(htmlUnder('en').filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, ZH_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
+  assert.equal(enPages().filter((p) => !/\/v\d[\d.]*\/index\.html$/.test(p)).length, ZH_PAGES.length, 'the same pages as English, the three legal documents included (LEGAL-4); the permanent copies of their versions are English only (LEGAL-5)');
 });
 
 test('every source has every key English has, and no other; the same {placeholders}; one plural form', () => {
@@ -94,7 +99,7 @@ test('every source has every key English has, and no other; the same {placeholde
 
 test('the Chinese guides mirror the English ones: slugs, sections (+ the mainland section, D12), questions, related, links', () => {
   assert.deepEqual(ZH_GUIDES.map((g) => g.slug), EN_GUIDES.map((g) => g.slug));
-  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="(\/[^"]+)"/g)].map((m) => m[1].replace(/^\/(en|zh)\//, '/L/')));
+  const links = (g) => g.sections.flatMap((s) => [...s.html.matchAll(/href="(\/[^"]+)"/g)].map((m) => m[1].replace(/^\/destinations\//, '/L/esim/').replace(/^\/guides\//, '/L/guides/').replace(/^\/zh\//, '/L/')));
   for (const [i, zh] of ZH_GUIDES.entries()) {
     const en = EN_GUIDES[i];
     const sections = zh.sections.filter((s) => s.id !== 'mainland');
@@ -146,17 +151,17 @@ test('the same design: every page kind has the English markup skeleton (tags and
   const kinds = ['index.html', 'esim/index.html', 'esim/thailand/index.html', 'esim/japan/index.html', 'esim/uae/index.html',
     'esim/peru/index.html', 'esim/turkey/index.html', 'guides/index.html',
     ...EN_GUIDES.filter((g) => g.slug !== 'compatibility').map((g) => `guides/${g.slug}/index.html`)];
-  for (const k of kinds) assert.equal(skeleton(read(`zh/${k}`)), skeleton(read(`en/${k}`)), k);
-  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|zh)\/destinations\.js$/, 'DEST').replace(/country-names-(en|zh)\.js$/, 'NAMES').replace(/site-i18n-(en|zh)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css');   // the authored English text's own sheet
+  for (const k of kinds) assert.equal(skeleton(read(`zh/${k}`)), skeleton(read(enFile(k))), k);
+  const assets = (h) => [...h.matchAll(/(?:href|src)="(\/[^"?]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g)].map((m) => m[1].replace(/^\/(en|zh)\/destinations\.js$/, 'DEST').replace(/country-names-(en|zh)\.js$/, 'NAMES').replace(/site-i18n-(en|zh)\.js$/, 'WORDS')).filter((a) => a !== '/en/content.css' && a !== '/assets/lang-route.js');   // the authored English text's own sheet
   for (const k of ['index.html', 'esim/thailand/index.html', 'esim/index.html', 'guides/iphone/index.html']) {
-    assert.deepEqual(assets(read(`zh/${k}`)), assets(read(`en/${k}`)), `${k}: the same assets`);
+    assert.deepEqual(assets(read(`zh/${k}`)), assets(read(enFile(k))), `${k}: the same assets`);
   }
   assert.match(head(read('zh/index.html')), /<meta property="og:locale" content="zh_CN">/, 'the home names its locale (D10)');
   for (const k of ['index.html', 'esim/thailand/index.html', 'guides/iphone/index.html']) {
     assert.match(read(`zh/${k}`), /<html lang="zh-Hans"/, k);
     assert.match(read(`zh/${k}`), /<script src="\/assets\/logo-once\.js\?v=[0-9a-f]+"[^>]*><\/script>/, `${k}: the logo «Reveal + Wave»`);
     assert.equal(head(read(`zh/${k}`)).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1],
-      head(read(`en/${k}`)).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1], `${k}: the English CSP`);
+      head(read(enFile(k))).match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)[1], `${k}: the English CSP`);
   }
   assert.match(read('zh/esim/thailand/index.html'), /data-motion-src="\/assets\/motion\.js\?v=[0-9a-f]+"/, 'Expressive on a country page');
 });
@@ -289,7 +294,7 @@ test('noindex until the owner opens Chinese (D11): every page noindex, self-cano
     assert.ok(h.includes(`<link rel="canonical" href="${url}">`), `${rel}: canonical`);
     assert.doesNotMatch(h, /rel="alternate"[^>]*hreflang/, `${rel}: an hreflang alternate`);
   }
-  for (const rel of ['index.html', 'esim/thailand/index.html', 'en/index.html', 'en/esim/thailand/index.html', 'es/index.html', 'iphone.html']) {
+  for (const rel of ['ru/index.html', 'ru/esim/thailand/index.html', 'index.html', 'destinations/thailand/index.html', 'es/index.html', 'ru/iphone.html']) {
     assert.doesNotMatch(head(read(rel)), /hreflang="zh-Hans"/, `${rel}: no Chinese alternate`);
   }
   assert.doesNotMatch(read('robots.txt'), /^Disallow:\s*\/zh\//m);
@@ -307,7 +312,7 @@ test('D8 + LEGAL-1 + LEGAL-3 + LEGAL-4: no international page links a Russian do
     assert.doesNotMatch(h, /href="\/(terms|privacy)\.html"/, `${rel}: a Russian legal document`);
     for (const k of ['terms', 'refund', 'privacy']) assert.ok(h.includes(`<a href="/zh/${k}/" hreflang="zh-Hans" data-i18n="footer.${k}">${ZH[`footer.${k}`]}</a>`), `${rel}: the Chinese ${k} document`);
   }
-  const en = read('en/index.html');
+  const en = read('index.html');
   assert.ok(en.includes('<a href="/en/privacy/" hreflang="en" data-i18n="footer.privacy">Privacy Policy</a>'), 'English links its Privacy Policy');
   assert.doesNotMatch(en, /href="\/(terms|privacy)\.html"/, 'English no longer links the Russian documents');
 });

@@ -98,7 +98,7 @@ test('every country page: the daily-plans and install answers match its own cata
   const bad = [];
   let daily = 0; let install = 0; let fixed = 0;
   for (const c of COUNTRIES) {
-    const html = read(`esim/${c.slug}/index.html`);
+    const html = read(`ru/esim/${c.slug}/index.html`);
     const shown = shownOn(c.iso);
     const d = shown.filter(isDaily);
     const t = { perDay: d.filter((p) => p.daily_term_mode === 'PER_DAY').length, fixed: d.filter((p) => p.daily_term_mode !== 'PER_DAY').length };
@@ -169,8 +169,8 @@ test('content-review TERM_START now reads «идёт» (it matched «идти» 
 });
 
 test('no page — country, guide or landing — makes a start-of-term claim the catalogue does not support', () => {
-  const files = ['index.html', 'iphone.html', 'android.html',
-    ...readdirSync(join(ROOT, 'esim')).map((d) => `esim/${d}/index.html`).filter((f) => existsSync(join(ROOT, f)))];
+  const files = ['ru/index.html', 'ru/iphone.html', 'ru/android.html',
+    ...readdirSync(join(ROOT, 'ru/esim')).map((d) => `ru/esim/${d}/index.html`).filter((f) => existsSync(join(ROOT, f)))];
   const bad = [];
   for (const f of files) for (const block of proseOf(read(f))) for (const p of startRuleProblems(block)) bad.push(`${f}: ${p}`);
   assert.deepEqual([...new Set(bad)], []);
@@ -178,8 +178,8 @@ test('no page — country, guide or landing — makes a start-of-term claim the 
 });
 
 test('no guide sends the reader to the email for the start rule or claims a majority', () => {
-  for (const f of ['iphone.html', 'android.html', 'esim/payment-rubles/index.html', 'esim/compatibility/index.html',
-    'esim/not-working/index.html', 'esim/dual-sim-sms/index.html', 'esim/activation-before-travel/index.html']) {
+  for (const f of ['ru/iphone.html', 'ru/android.html', 'ru/esim/payment-rubles/index.html', 'ru/esim/compatibility/index.html',
+    'ru/esim/not-working/index.html', 'ru/esim/dual-sim-sms/index.html', 'ru/esim/activation-before-travel/index.html']) {
     const t = unhtml(read(f).replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' '));
     assert.deepEqual(startRuleProblems(t), [], f);
   }
@@ -196,7 +196,7 @@ test('advice to install at home is conditional on the «Начало срока�
     assert.deepEqual(bad, [], f);
   };
   assert.ok(early.test('Установите eSIM дома по Wi-Fi — в аэропорту это делать неудобно.') && !cond.test('Установите eSIM дома по Wi-Fi — в аэропорту это делать неудобно.'), 'the rule must fire on the old iPhone line');
-  for (const f of ['iphone.html', 'esim/payment-rubles/index.html']) assertCond(f);
+  for (const f of ['ru/iphone.html', 'ru/esim/payment-rubles/index.html']) assertCond(f);
 });
 
 test('the Mini App FAQ answer about the term makes no majority claim, in both languages', () => {

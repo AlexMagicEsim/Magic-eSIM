@@ -79,11 +79,12 @@ test('"esim" appears only inside the API hostname, never as words on the page', 
 
 test('nothing links back to the shop from a payment branch', () => {
   const s = payScript();
-  // The only href to "/" in this file belongs to the genuine not-found screen.
-  const homeLinks = [...s.matchAll(/href="\/"/g)];
+  // The only literal home link in this file belongs to the genuine (Russian) not-found screen — /ru/ since the EN-root
+  // migration; the international screens build theirs from NOT_FOUND_PATHS, never on a payment branch.
+  const homeLinks = [...s.matchAll(/href="\/(?:ru\/)?"/g)];
   assert.equal(homeLinks.length, 1, 'exactly one home link, and it is the 404 screen');
   const notFound = s.slice(s.indexOf('function showNotFound('));
-  assert.ok(notFound.slice(0, 400).includes('href="/"'), 'the home link lives on showNotFound');
+  assert.ok(notFound.slice(0, 400).includes('href="/ru/"'), 'the home link lives on showNotFound');
 
   // No payment renderer offers navigation back into the site.
   for (const fn of ['renderAmountForm', 'showCharge', 'renderPaid', 'renderClosed']) {

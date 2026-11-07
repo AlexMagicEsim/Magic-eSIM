@@ -1,19 +1,22 @@
-/* Magic eSIM — the language of the FIRST look at the Russian home «/» (owner, 2026-10-23; the SEO risk accepted in writing,
-   reports/ENGLISH_FIRST_AUDIT/MAGIC_ESIM_AUTO_LANGUAGE_PLAN_2026-10-23.md).
+/* Magic eSIM — the language of the FIRST look at the site root «/», the English home since the EN-root migration
+   (owner, 2026-11-07; before it «/» was the Russian home and this file sent other languages away from it — owner,
+   2026-10-23, reports/ENGLISH_FIRST_AUDIT/MAGIC_ESIM_AUTO_LANGUAGE_PLAN_2026-10-23.md).
 
-   Loaded synchronously, first in <head> of index.html ONLY — before the Metrika counter and before first paint — so a
-   visitor who is sent on is never counted on «/» and never sees the Russian page flash.
+   Loaded synchronously, first in <head> of the English home index.html ONLY (seo/home-page.mjs) — before first paint, so
+   a visitor who is sent on never sees the English page flash. It is a language SUGGESTION for a first visit, not an SEO
+   redirect: the old addresses have their own client-side redirect pages (seo/build-legacy-redirects.mjs).
 
    When it moves a visitor (all must hold, else it does nothing):
-     1. the path is exactly «/» — never any other page: a link to a language page is never redirected;
-     2. the visit did not come from this site (document.referrer is not our origin): a click on our logo, on «Русский»
+     1. the path is exactly «/» — never any other page: /ru/ and every language page never move anyone;
+     2. the visit did not come from this site (document.referrer is not our origin): a click on our logo, on «English»
         in another language's switch, or a «Back» never bounces anyone — that is also what makes a loop impossible
         (the target pages never run this script, and a return to «/» from them is same-origin);
-     3. no `country` in the query: /?country=XX is an old link to one Russian country page (assets/ru-home.js takes it);
-     4. the language is not Russian. It is the visitor's SAVED choice (localStorage `mesim.site.lang`, written by a
-        language switch — assets/logo-once.js on the international pages, and below for «Русский»), else the first
-        language of navigator.languages / navigator.language we publish (ru en es fr de zh ko; any zh → /zh/),
-        else English.
+     3. the language is not English. It is the visitor's SAVED choice (localStorage `mesim.site.lang`, written by a
+        language switch — assets/logo-once.js on the English and prefixed pages), else the first language of
+        navigator.languages / navigator.language we publish (ru en es fr de zh ko; any zh → /zh/), else English (stay).
+   /?country=XX is the OLD Russian home's deep link to one Russian country page: it always goes to /ru/?country=XX,
+   where assets/ru-home.js resolves it to /ru/esim/<slug>/ from the generated list: two client-side hops, the only way
+   on GitHub Pages (it cannot redirect on a query). No Cyrillic list is loaded on «/» for it.
    The move is location.replace (no history entry), keeps the WHOLE query string (utm_*, gclid, yclid, partner and
    campaign marks) and keeps the hash only when the target home has that section (HASHES).
    No IP, no User-Agent, no robot detection (owner). Storage refused (Safari private, blocked cookies) → the browser's
@@ -22,11 +25,13 @@
   'use strict';
 
   var KEY = 'mesim.site.lang';
-  // = assets/site-i18n.js LANGS / PREFIX (seo/test-lang-route.mjs holds them equal)
-  var PREFIX = { ru: '', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'ko' };
+  // = assets/site-i18n.js LANGS / PREFIX (seo/test-lang-route.mjs holds them equal): each language's own segment.
+  var PREFIX = { ru: 'ru', en: 'en', es: 'es', de: 'de', fr: 'fr', 'zh-Hans': 'zh', ko: 'ko' };
+  // Each language's home (seo/locales.mjs paths.home; the test holds them equal). English is «/» itself.
+  var HOME = { ru: '/ru/', en: '/', es: '/es/', de: '/de/', fr: '/fr/', 'zh-Hans': '/zh/', ko: '/ko/' };
   var BROWSER = { ru: 'ru', en: 'en', es: 'es', de: 'de', fr: 'fr', zh: 'zh-Hans', ko: 'ko' };
-  // Sections every prefixed home has (seo/home-page.mjs; the test reads all six) + the RU home's old anchors
-  // (assets/ru-home.js MAP) under their new names. Anything else (#faq, #top) is dropped: the target has no such place.
+  // Sections every home has (seo/home-page.mjs and ru/index.html; the test reads them) + the old Russian home's
+  // anchors (assets/ru-home.js MAP) under their new names. Anything else (#faq, #top) is dropped.
   var HASHES = { '#main': '#main', '#plans': '#plans', '#popular': '#popular', '#how': '#how', '#plan-types': '#plan-types',
     '#compat': '#compat', '#guides': '#guides', '#support': '#support',
     '#global-pricing': '#plans', '#solution': '#how', '#install-guides-section': '#guides' };
@@ -53,33 +58,26 @@
 
   /**
    * Where «/» should send this visit, or null to stay. Pure: everything it reads is passed in.
-   * env = { pathname, search, hash, referrer, origin, languages: [..], stored: 'en' | null }
+   * env = { pathname, search, hash, referrer, origin, languages: [..], stored: 'ru' | null }
    */
   function decide(env) {
     if (env.pathname !== '/') return null;
+    var search = env.search || '';
+    // The old Russian home's country link: Russian content whatever the language (a link, not a language choice).
+    if (/(?:^\?|&)country=/.test(search)) return HOME.ru + search;
     if (sameOrigin(env.referrer, env.origin)) return null;
-    if (/(?:^\?|&)country=/.test(env.search || '')) return null;
     var lang = env.stored || fromBrowser(env.languages);
-    if (!lang || PREFIX[lang] === '' || PREFIX[lang] === undefined) return null;
+    if (!lang || lang === 'en' || !Object.prototype.hasOwnProperty.call(HOME, lang)) return null;
     var hash = HASHES[env.hash] || '';
-    return '/' + PREFIX[lang] + '/' + (env.search || '') + hash;
+    return HOME[lang] + search + hash;
   }
 
-  var api = { decide: decide, fromBrowser: fromBrowser, PREFIX: PREFIX, HASHES: HASHES, KEY: KEY, AUTO: AUTO };
+  var api = { decide: decide, fromBrowser: fromBrowser, PREFIX: PREFIX, HOME: HOME, HASHES: HASHES, KEY: KEY, AUTO: AUTO };
   if (typeof module === 'object' && module.exports) { module.exports = api; return; }
 
   var d = root.document, l = root.location, n = root.navigator || {}, ls = null, ss = null;
   try { ls = root.localStorage; } catch (e) { ls = null; }
   try { ss = root.sessionStorage; } catch (e) { ss = null; }
-
-  // «Русский» chosen in another language's switch: remember it (the switch's own listener may not have run — a page
-  // without scripts, or storage refused there). A same-origin arrival from a prefixed page = that switch.
-  try {
-    var ref = d.referrer || '';
-    if (l.pathname === '/' && sameOrigin(ref, l.origin) && /^\/(en|es|de|fr|zh|ko)\//.test(ref.slice(l.origin.length)) && ls) {
-      ls.setItem(KEY, 'ru');
-    }
-  } catch (e) { /* storage refused */ }
 
   var to = null;
   try {
@@ -89,6 +87,8 @@
     });
   } catch (e) { to = null; }
   if (!to) return;
-  try { if (!stored(ls) && ss) ss.setItem(AUTO, '1'); } catch (e) { /* no storage: the target may take it as a choice */ }
+  // The mark is for the target's assets/logo-once.js (it consumes it). The Russian pages run no logo-once.js, so a mark
+  // left for /ru/ would linger and swallow the visitor's later «English» choice: none is left there.
+  try { if (!stored(ls) && ss && to.indexOf(HOME.ru) !== 0) ss.setItem(AUTO, '1'); } catch (e) { /* no storage: the target may take it as a choice */ }
   l.replace(to);
 })(typeof window !== 'undefined' ? window : this);

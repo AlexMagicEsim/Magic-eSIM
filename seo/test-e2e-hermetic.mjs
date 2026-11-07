@@ -21,7 +21,8 @@ const DIR = join(ROOT, 'test', 'e2e');
 const require = createRequire(import.meta.url);
 
 // A navigation to a Russian page: /esim/…, the Russian home, or a constant holding one.
-const OPENS_RU = /\.goto\(\s*(?:`\/esim\/|'\/esim\/|"\/esim\/|'\/'|`\/`|'\/\?|`\/\?)|=\s*'\/esim\/[^']*'/;
+// A Russian page: /ru/… since the EN-root migration (2026-11-07; «/» is the English home now, which loads no counter).
+const OPENS_RU = /\.goto\(\s*(?:`\/ru\/|'\/ru\/|"\/ru\/)|=\s*'\/ru\/[^']*'/;
 // What counts as «does not wait on the internet».
 const ISOLATED = /isolateFromInternet\(|route\(\s*\/\^https\?:\\\/\\\/\(\?!|mc\\?\.yandex/;
 
@@ -38,12 +39,12 @@ test('every browser spec that opens a Russian page blocks the internet (Metrika 
 });
 
 test('the rule fires: a spec opening a Russian page with no block is named', () => {
-  const bare = "const { test } = require('@playwright/test');\ntest('x', async ({ page }) => { await page.goto('/esim/turkey/'); });";
+  const bare = "const { test } = require('@playwright/test');\ntest('x', async ({ page }) => { await page.goto('/ru/esim/turkey/'); });";
   assert.deepEqual(unisolated([['bare.spec.js', bare]]), ['bare.spec.js']);
-  assert.deepEqual(unisolated([['const.spec.js', "const PAGE = '/esim/payment-rubles/index.html';\nawait page.goto(PAGE);"]]), ['const.spec.js']);
-  assert.deepEqual(unisolated([['en.spec.js', "await page.goto('/en/esim/turkey/');"]]), [], 'an English page carries no Metrika');
+  assert.deepEqual(unisolated([['const.spec.js', "const PAGE = '/ru/esim/payment-rubles/index.html';\nawait page.goto(PAGE);"]]), ['const.spec.js']);
+  assert.deepEqual(unisolated([['en.spec.js', "await page.goto('/destinations/turkey/');"]]), [], 'an English page carries no Metrika');
   for (const ok of ["await isolateFromInternet(context);", "await page.route(/^https?:\\/\\/(?!127\\.0\\.0\\.1)/, r);", "await page.route('**/mc.yandex.ru/**', r);"]) {
-    assert.deepEqual(unisolated([['ok.spec.js', `${ok}\nawait page.goto('/esim/turkey/');`]]), [], ok);
+    assert.deepEqual(unisolated([['ok.spec.js', `${ok}\nawait page.goto('/ru/esim/turkey/');`]]), [], ok);
   }
 });
 

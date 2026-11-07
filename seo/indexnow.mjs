@@ -14,7 +14,8 @@
  *     the footer is chrome and moves no lastmod, but a new site-wide link is a real change of every page that carries
  *     it. Asset stamps, CSS, scripts never count; lastmod is not touched by this rule.
  *   * WHICH URLs may be sent: only https://magicesim.store/… URLs that are <loc>s of sitemap.xml at this commit, outside
- *     every language prefix of seo/locales.mjs (the RU segment lives at the root), without query or fragment, allowed
+ *     under /ru/ or one of the two Russian documents at the root (RU_ROOT_DOCUMENTS; «/» is the English home since the
+ *     EN-root migration of 2026-11-07 and is never sent), without query or fragment, allowed
  *     by robots.txt for Yandex, and — on the live site — answering 200 with a self canonical and no noindex. Nothing a
  *     caller passes in can add a URL: the list is derived, never supplied.
  *   * HOW MUCH: the URLs go in batches of at most BATCH_SIZE, one POST per batch, one after another with BATCH_PAUSE_MS
@@ -31,7 +32,7 @@
 
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { LOCALES } from './locales.mjs';
+import { LOCALES, RU_CODE } from './locales.mjs';
 
 export const ORIGIN = 'https://magicesim.store';
 export const HOST = 'magicesim.store';
@@ -52,8 +53,14 @@ export const SAME_URL_PAUSE_MS = 10 * 60_000;
 /** The key file: <key>.txt in the site root, 32 lowercase hex characters, the file holding exactly its own name. */
 export const KEY_FILE_RE = /^([0-9a-f]{32})\.txt$/;
 
-/** Every language prefix the registry knows (published or not) — none of them is the RU segment. */
-export const FOREIGN_PREFIXES = Object.freeze([...new Set(LOCALES.map((l) => l.prefix).filter(Boolean))]);
+/** Every language prefix the registry knows (published or not) other than Russian's. */
+export const FOREIGN_PREFIXES = Object.freeze([...new Set(LOCALES.filter((l) => l.code !== RU_CODE).map((l) => l.prefix).filter(Boolean))]);
+
+/** The RU segment since the EN-root migration (2026-11-07): everything under the Russian home, named explicitly — the
+ *  site root «/» and every other root path is ENGLISH now and is never sent by this automation. */
+export const RU_HOME_PATH = LOCALES.find((l) => l.code === RU_CODE).paths.home;
+/** The Russian documents that kept their root addresses (seo/url-migration.mjs STAYS) and are in the sitemap. */
+export const RU_ROOT_DOCUMENTS = Object.freeze(['/terms.html', '/privacy.html']);
 
 /** Finds the single valid key file in `root`. Throws on none, on two, or on a file whose content is not its name. */
 export function readKey(root) {
@@ -71,15 +78,14 @@ export function sitemapLocs(xml) {
   return [...String(xml).matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map((m) => m[1]);
 }
 
-/** True for a URL of the RU segment of this site: https, our host, no query/fragment, not under a language prefix. */
+/** True for a URL of the RU segment of this site: https, our host, no query/fragment, and a path under /ru/ or one of
+ *  RU_ROOT_DOCUMENTS. «/» (the English home) and every other root path are not RU. */
 export function isRuSiteUrl(u) {
   let url;
   try { url = new URL(u); } catch { return false; }
   if (url.protocol !== 'https:' || url.host !== HOST || url.search || url.hash || url.username || url.password) return false;
   if (u !== url.href) return false; // no normalisation surprises: the sitemap form is the only accepted form
-  const first = url.pathname.split('/')[1] || '';
-  if (FOREIGN_PREFIXES.includes(first)) return false;
-  return true;
+  return url.pathname.startsWith(RU_HOME_PATH) || RU_ROOT_DOCUMENTS.includes(url.pathname);
 }
 
 /** URLs whose lastmod/hash moved between two seo/sitemap-lastmod.json states (or that are new). */
@@ -153,7 +159,7 @@ export function pageFacts(html) {
   return { canonical: canon ? attr(canon, 'href') : null, noindex: robots.some((c) => /\b(noindex|none)\b/.test(c)) };
 }
 
-/** Repository path of a RU page URL: `/` → index.html, `/esim/x/` → esim/x/index.html, `/iphone.html` → iphone.html. */
+/** Repository path of a RU page URL: `/ru/` → ru/index.html, `/ru/esim/x/` → ru/esim/x/index.html, `/terms.html` → terms.html. */
 export function repoPath(u) {
   const p = decodeURIComponent(new URL(u).pathname).replace(/^\//, '');
   return p === '' || p.endsWith('/') ? `${p}index.html` : p;

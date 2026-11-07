@@ -108,7 +108,8 @@ test('no link to a Russian legal document from the page itself', () => {
 const HL = { en: 'en', es: 'es', de: 'de', fr: 'fr', zh: 'zh-Hans', ko: 'ko' };
 test('EN, ES, DE, FR, ZH and KO: every page links the Privacy Policy in its own language and no Russian legal document', () => {
   for (const dir of ['en', 'es', 'de', 'fr', 'zh', 'ko']) {
-    const pages = pagesUnder(dir);
+    // English: the root home, /destinations/, /guides/ and en/ (EN-root migration); the others under their prefix.
+    const pages = dir === 'en' ? ['index.html', ...pagesUnder('destinations'), ...pagesUnder('guides'), ...pagesUnder('en')] : pagesUnder(dir);
     assert.ok(pages.length >= 206, `${dir}: ${pages.length} pages`);
     for (const rel of pages) {
       const h = read(rel);
@@ -123,8 +124,8 @@ test('EN, ES, DE, FR, ZH and KO: every page links the Privacy Policy in its own 
 
 test('the Russian site keeps its own legal links', () => {
   assert.match(RU_FOOTER, /<a href="\/terms\.html">Пользовательское соглашение<\/a> · <a href="\/privacy\.html">Политика конфиденциальности<\/a>/);
-  assert.match(read('index.html'), /href="\/privacy\.html"/);
-  assert.doesNotMatch(read('index.html'), /\/en\/privacy\//);
+  assert.match(read('ru/index.html'), /href="\/privacy\.html"/);
+  assert.doesNotMatch(read('ru/index.html'), /\/en\/privacy\//);
 });
 
 /* ------------------------------------------------------------------ LEGAL-4 (0.9.2): name/address, checkout consents */

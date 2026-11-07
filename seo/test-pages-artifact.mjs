@@ -72,15 +72,15 @@ test('negative control: the reference check reports a file the artifact lacks', 
   const missing = missingReferences(copy);
   assert.ok(missing.some((m) => m.need === 'assets/no-such-probe.json' && m.from === 'app/core.js'), 'a relative ../ literal in a script');
   assert.ok(missing.some((m) => m.need === 'en/assets/x.webp' && m.from === 'en/plans.js'), 'a relative ./ literal in a script');
-  assert.ok(missing.some((m) => m.need === 'assets/site.css' && m.from === 'index.html'), 'a stylesheet of the RU home');
+  assert.ok(missing.some((m) => m.need === 'assets/site.css' && m.from === 'ru/index.html'), 'a stylesheet of the RU home');
   assert.ok(missing.some((m) => m.need === 'app/ui.js' && m.from === 'app/index.html'), 'a relative Mini App script');
   assert.ok(missing.some((m) => m.need === 'es/esim/france/index.html' && m.from === 'sitemap.xml'), 'a sitemap URL');
-  assert.ok(missing.some((m) => m.need === 'es/esim/france/index.html' && m.from === 'en/esim/france/index.html'), 'an hreflang twin');
+  assert.ok(missing.some((m) => m.need === 'es/esim/france/index.html' && m.from === 'destinations/france/index.html'), 'an hreflang twin');
 });
 
 test('negative control: localTarget maps local URLs and ignores everything else', () => {
   assert.equal(localTarget('/assets/site.css?v=1', 'index.html'), 'assets/site.css');
-  assert.equal(localTarget('https://magicesim.store/en/', 'x.html'), 'en/index.html');
+  assert.equal(localTarget('https://magicesim.store/', 'x.html'), 'index.html');
   assert.equal(localTarget('../assets/a.png', 'app/index.html'), 'assets/a.png');
   assert.equal(localTarget('mini.css?v=2', 'app/index.html'), 'app/mini.css');
   for (const u of ['https://telegram.org/js/x.js', 'mailto:a@b', 'tel:1', 'tg://x', 'data:image/png;base64,AA', '#main',
@@ -102,16 +102,23 @@ test('every sitemap URL is a page of the artifact', () => {
 test('every page of /esim/ and of every published language is in the artifact', () => {
   const prefixes = prefixedSiteLocales().map((l) => l.prefix);
   assert.deepEqual(prefixes.sort(), ['de', 'en', 'es', 'fr', 'ko', 'zh']);
-  for (const dir of ['esim', ...prefixes]) {
+  // EN-root migration: the Russian catalogue is ru/esim/, the English one destinations/ (its guides guides/, its legal
+  // pages and scripts en/), the others <prefix>/.
+  for (const dir of ['ru/esim', 'destinations', ...prefixes]) {
     const pages = trackedFiles().filter((f) => f.startsWith(`${dir}/`) && f.endsWith('.html'));
-    assert.ok(pages.length >= 200, `${dir}: ${pages.length} pages in the repository`);
+    assert.ok(pages.length >= (dir === 'en' ? 10 : 200), `${dir}: ${pages.length} pages in the repository`);
     assert.deepEqual(pages.filter((p) => !published.has(p)), [], `${dir}: pages not published`);
   }
-  for (const p of prefixes) {
-    for (const page of ['index.html', 'esim/index.html', 'guides/index.html', 'terms/index.html', 'privacy/index.html', 'refund/index.html']) {
-      assert.ok(inArtifact(`${p}/${page}`), `${p}/${page}`);
+  for (const l of prefixedSiteLocales()) {
+    const { home, catalogue, guides } = l.paths;
+    for (const page of [`${home.slice(1)}index.html`, `${catalogue.slice(1)}index.html`, `${guides.slice(1)}index.html`,
+      ...['terms', 'privacy', 'refund'].map((k) => `${l.prefix}/${k}/index.html`)]) {
+      assert.ok(inArtifact(page), page);
     }
-    assert.ok(artifactFiles.filter((f) => f.startsWith(`${p}/esim/`) && f.endsWith('/index.html')).length >= 200, `${p}: country pages`);
+    assert.ok(artifactFiles.filter((f) => f.startsWith(catalogue.slice(1)) && f.endsWith('/index.html')).length >= 200, `${l.code}: country pages`);
+  }
+  for (const page of ['ru/index.html', 'ru/esim/index.html', 'ru/esim/turkey/index.html', 'ru/iphone.html', 'ru/android.html', 'guides/iphone/index.html']) {
+    assert.ok(inArtifact(page), page);
   }
   // the legal archive: every frozen version page
   const archive = trackedFiles().filter((f) => /^[a-z]{2}\/(terms|privacy|refund)\/v[0-9.]+\/index\.html$/.test(f));
@@ -121,7 +128,7 @@ test('every page of /esim/ and of every published language is in the artifact', 
 
 test('the root pages, crawler files, icons, catalogue, legal versions, verification files and the Mini App are published', () => {
   for (const f of ROOT_FILES) assert.ok(inArtifact(f), f);
-  for (const f of ['404.html', 'index.html', 'privacy.html', 'terms.html', 'iphone.html', 'android.html', 'payment-success.html',
+  for (const f of ['404.html', 'index.html', 'privacy.html', 'terms.html', 'ru/iphone.html', 'ru/android.html', 'payment-success.html',
     'payment-failed.html', 'robots.txt', 'sitemap.xml', 'CNAME', 'site.webmanifest', 'assets/catalog.json', 'en/legal-versions.json',
     'app/index.html']) assert.ok(inArtifact(f), f);
   assert.equal(readFileSync(join(OUT, 'CNAME'), 'utf8').trim(), 'magicesim.store');
@@ -131,7 +138,7 @@ test('the root pages, crawler files, icons, catalogue, legal versions, verificat
   // 404.html is the site-wide 404 AND the /pay/ router — it must keep the router
   assert.match(readFileSync(join(OUT, '404.html'), 'utf8'), /\/pay\//);
   // byte-identical copies, not rewrites
-  for (const f of ['index.html', '404.html', 'assets/catalog.json', 'app/core.js', 'en/legal-versions.json']) {
+  for (const f of ['ru/index.html', '404.html', 'assets/catalog.json', 'app/core.js', 'en/legal-versions.json']) {
     assert.ok(readFileSync(join(OUT, f)).equals(readFileSync(join(ROOT, f))), `${f} is copied byte for byte`);
   }
 });
@@ -173,8 +180,8 @@ test('negative control: the forbidden list catches every kind of file it exists 
     assert.equal(published.has(s), false, `${s} published`);
   }
   // and it does not fire on the site
-  assert.deepEqual(forbiddenIn(['index.html', 'esim/italy/index.html', 'assets/site.css', 'app/core.js', 'en/legal-versions.json']), []);
-  for (const s of ['index.html', 'assets/site.css', 'app/core.js', 'en/plans.js', 'assets/catalog.json']) assert.equal(denyReason(s), null, s);
+  assert.deepEqual(forbiddenIn(['ru/index.html', 'ru/esim/italy/index.html', 'assets/site.css', 'app/core.js', 'en/legal-versions.json']), []);
+  for (const s of ['ru/index.html', 'assets/site.css', 'app/core.js', 'en/plans.js', 'assets/catalog.json']) assert.equal(denyReason(s), null, s);
 });
 
 test('nothing forbidden is in the artifact', () => {
@@ -218,7 +225,7 @@ test('negative control + rule: an unknown file in a COPY of the repository is no
     cpSync(join(ROOT, ...f.split('/')), dst);
   }
   const probes = ['notes.txt', 'draft.html', 'secret.json', 'newdir/index.html', 'assets/notes.md', 'assets/tool.py',
-    'assets/data.csv', 'esim/italy/data.json', 'en/report.csv', 'app/debug.html', 'app/extra.js', 'es/x.mjs', 'xx/index.html'];
+    'assets/data.csv', 'ru/esim/italy/data.json', 'en/report.csv', 'app/debug.html', 'app/extra.js', 'es/x.mjs', 'xx/index.html'];
   for (const p of probes) {
     mkdirSync(dirname(join(copy, p)), { recursive: true });
     writeFileSync(join(copy, p), 'probe');
@@ -239,11 +246,15 @@ test('negative control + rule: an unknown file in a COPY of the repository is no
 test('negative control: allowRule admits only what a rule names', () => {
   const rules = directoryRules();
   assert.equal(allowRule('index.html', rules), 'root file');
+  assert.equal(allowRule('ru/index.html', rules), 'ru/ *.html');
+  assert.equal(allowRule('iphone.html', rules), null, 'the Russian guides left the root');
+  assert.equal(allowRule('destinations/x/index.html', rules), 'destinations/ *.html');
+  assert.equal(allowRule('esim/x/index.html', rules), null, 'the old Russian catalogue is not published');
   assert.equal(allowRule('yandex_1a8c23f28d1480df.html', rules), 'verification file');
   assert.equal(allowRule('yandex_x.html', rules), null);
   assert.equal(allowRule('about.html', rules), null);
-  assert.equal(allowRule('esim/x/index.html', rules), 'esim/ *.html');
-  assert.equal(allowRule('esim/x/data.js', rules), null);
+  assert.equal(allowRule('ru/esim/x/index.html', rules), 'ru/ *.html');
+  assert.equal(allowRule('ru/esim/x/data.js', rules), null);
   assert.equal(allowRule('assets/flags/SOURCE.json', rules), null);
   assert.equal(allowRule('app/canary.html', rules), null);
   assert.equal(allowRule('app/ui.js', rules), 'app/ exact file');

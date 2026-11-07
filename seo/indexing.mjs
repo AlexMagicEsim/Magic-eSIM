@@ -14,7 +14,7 @@
 //   - A cluster lists only pages that exist and are indexed, each pointing at all the others (reciprocal), plus
 //     x-default → the English twin (owner 2026-10-13). A page outside every cluster carries no alternate at all.
 //   - Russian pages are indexed as before; they gain only the <link rel="alternate"> block of their cluster.
-import { LOCALES, SITE } from './locales.mjs';
+import { LOCALES, SITE, RU_CODE, isRussian, RU_GUIDE_PATHS } from './locales.mjs';
 import { REGION_SLUGS } from './regions.mjs';
 
 /* Stage 1 (2026-10-21): the popular destinations of the three home pages (RU_POPULAR_ALL, PAGE_COPY.en/es.popular)
@@ -32,14 +32,8 @@ export const INDEXED_COUNTRIES = Object.freeze([
  * Asia until each has reviewed content. Opening one = adding its slug here. */
 export const INDEXED_REGIONS = Object.freeze([]);
 
-/* The Russian twin of each guide (the Russian site has its own structure: no /guides/). */
-export const GUIDE_RU = Object.freeze({
-  iphone: '/iphone.html',
-  android: '/android.html',
-  compatibility: '/esim/compatibility/',
-  activation: '/esim/activation-before-travel/',
-  troubleshooting: '/esim/not-working/',
-});
+/* The Russian twin of each guide (the Russian site has its own structure: no /guides/; seo/locales.mjs RU_GUIDE_PATHS). */
+export const GUIDE_RU = RU_GUIDE_PATHS;
 
 /* The languages that take part in clusters: published and indexable. Registry order (ru, en, es, …). */
 export const indexedLocales = (list = LOCALES) => list.filter((l) => l.site.enabled && l.site.indexableHome);
@@ -47,14 +41,15 @@ export const indexedLocales = (list = LOCALES) => list.filter((l) => l.site.enab
 /* A page, described once: { kind: 'home' | 'hub' | 'guides' | 'guide' | 'country' | 'region', slug? }. Its path in one language,
  * or null when that language has no such page. */
 export function pathIn(l, page) {
-  const P = l.prefix ? `/${l.prefix}` : '';
+  const { home, catalogue, guides } = l.paths;
+  const ru = isRussian(l);
   switch (page.kind) {
-    case 'home': return `${P}/`;
-    case 'hub': return `${P}/esim/`;
-    case 'guides': return l.prefix ? `${P}/guides/` : null;
-    case 'guide': return l.prefix ? `${P}/guides/${page.slug}/` : (GUIDE_RU[page.slug] || null);
-    case 'country': return `${P}/esim/${page.slug}/`;
-    case 'region': return l.prefix ? `${P}/esim/${page.slug}/` : null;
+    case 'home': return home;
+    case 'hub': return catalogue;
+    case 'guides': return ru ? null : guides;
+    case 'guide': return ru ? (GUIDE_RU[page.slug] || null) : `${guides}${page.slug}/`;
+    case 'country': return `${catalogue}${page.slug}/`;
+    case 'region': return ru ? null : `${catalogue}${page.slug}/`;
     default: throw new Error(`indexing: unknown page kind ${page.kind}`);
   }
 }
@@ -92,20 +87,23 @@ export function indexedPrefixedPages(guideSlugs, list = LOCALES) {
   const pages = [{ kind: 'home' }, { kind: 'hub' }, { kind: 'guides' }, ...guideSlugs.map((slug) => ({ kind: 'guide', slug })),
     ...INDEXED_COUNTRIES.map((slug) => ({ kind: 'country', slug })), ...INDEXED_REGIONS.map((slug) => ({ kind: 'region', slug }))];
   const out = [];
-  for (const l of indexedLocales(list).filter((x) => x.prefix)) {
+  for (const l of indexedLocales(list).filter((x) => !isRussian(x))) {
     for (const p of pages) if (isIndexed(l.code, p, list)) out.push({ code: l.code, page: p, loc: SITE + pathIn(l, p) });
   }
   return out;
 }
 
-/* A Russian page by its URL or path ('/', '/esim/', '/esim/<slug>/', a GUIDE_RU path), or null for a page with no twin. */
+/* A Russian page by its URL or path ('/ru/', '/ru/esim/', '/ru/esim/<slug>/', a GUIDE_RU path), or null for a page with
+ * no twin. */
 export function ruPage(urlOrPath) {
+  const RU = LOCALES.find((l) => l.code === RU_CODE).paths;
   const path = String(urlOrPath).replace(SITE, '') || '/';
-  if (path === '/') return { kind: 'home' };
-  if (path === '/esim/') return { kind: 'hub' };
+  if (path === RU.home) return { kind: 'home' };
+  if (path === RU.catalogue) return { kind: 'hub' };
   const guide = Object.keys(GUIDE_RU).find((k) => GUIDE_RU[k] === path);
   if (guide) return { kind: 'guide', slug: guide };
-  const m = path.match(/^\/esim\/([a-z0-9-]+)\/$/);
+  if (!path.startsWith(RU.catalogue)) return null;
+  const m = path.slice(RU.catalogue.length).match(/^([a-z0-9-]+)\/$/);
   if (!m) return null;
   // A region slug is never a Russian country: the Russian site has no region page, so such a path has no twin.
   return REGION_SLUGS.includes(m[1]) ? { kind: 'region', slug: m[1] } : { kind: 'country', slug: m[1] };
@@ -113,7 +111,7 @@ export function ruPage(urlOrPath) {
 
 /* The block a Russian page's <head> carries right after its canonical: its cluster in the Russian files' formatting
  * (two-space indent, ` />`), each line ending in a newline — or '' when the page is in no cluster. The Russian
- * generators and the hand-written pages (index.html, iphone.html, android.html) use exactly this text. */
+ * generators and the hand-written pages (ru/index.html, ru/iphone.html, ru/android.html) use exactly this text. */
 export function ruAlternates(urlOrPath) {
   const page = ruPage(urlOrPath);
   const links = page ? alternateLinks(page, { indent: '  ', close: '/>' }) : '';

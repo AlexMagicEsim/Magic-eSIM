@@ -43,7 +43,7 @@ const blockOrder = (page) => page.evaluate(() => [...document.querySelectorAll('
 for (const [w, h] of [[390, 844], [320, 568], [1366, 900]]) {
   test(`${w}x${h}: short H1, and the first plan with «Купить» in the first screen`, async ({ page }) => {
     await page.setViewportSize({ width: w, height: h });
-    await open(page, '/esim/thailand/');
+    await open(page, '/ru/esim/thailand/');
     await expect(page.locator('h1')).toHaveText('eSIM для Таиланда');
     const buy = page.locator('#localGrid .plan .js-buy').first();
     await expect(buy).toBeVisible();
@@ -55,7 +55,7 @@ for (const [w, h] of [[390, 844], [320, 568], [1366, 900]]) {
 }
 
 test('plans in the EN order, the jump bar too; the authored text under them', async ({ page }) => {
-  await open(page, '/esim/thailand/');
+  await open(page, '/ru/esim/thailand/');
   await expect(page.locator('#dailyGrid .plan').first()).toBeAttached();
   expect(await blockOrder(page)).toEqual(['localBlock', 'regionalBlock', 'dailyBlock']);
   const jumps = await page.locator('.cp-jump a:not([hidden])').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
@@ -69,7 +69,7 @@ test('plans in the EN order, the jump bar too; the authored text under them', as
 
 test('the EN skeleton stands in while the plans load, and goes when they come', async ({ page }) => {
   let release; const gate = new Promise((r) => { release = r; });
-  await open(page, '/esim/thailand/', { gate });
+  await open(page, '/ru/esim/thailand/', { gate });
   await expect(page.locator('#tariffs .cp-skeleton')).toBeVisible();
   await expect(page.locator('#localBlock')).toBeHidden();
   release();
@@ -79,7 +79,7 @@ test('the EN skeleton stands in while the plans load, and goes when they come', 
 
 test('the jump link to «На каждый день» lands on that block', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await open(page, '/esim/thailand/');
+  await open(page, '/ru/esim/thailand/');
   await expect(page.locator('#dailyGrid .plan').first()).toBeVisible();
   await page.locator('.cp-jump a[href="#dailyBlock"]').click();
   await expect.poll(() => page.locator('#dailyBlock h2').evaluate((e) => Math.round(e.getBoundingClientRect().top))).toBeLessThan(300);
@@ -89,7 +89,7 @@ test('the jump link to «На каждый день» lands on that block', asyn
 });
 
 test('a local card and a daily card with its chosen term open the checkout with that plan', async ({ page }) => {
-  await open(page, '/esim/thailand/');
+  await open(page, '/ru/esim/thailand/');
   const local = page.locator('#localGrid .plan').first();
   await local.locator('.js-buy').click();
   await expect(page.locator('#checkoutModal')).toBeVisible();
@@ -105,7 +105,7 @@ test('a local card and a daily card with its chosen term open the checkout with 
 });
 
 test('a former SEO-experiment page has the EN first screen and order since 2026-10-24; its headline stands under the plans', async ({ page }) => {
-  await open(page, '/esim/uae/');
+  await open(page, '/ru/esim/uae/');
   await expect(page.locator('#tariffs .plan').first()).toBeVisible();
   await expect(page.locator('h1')).toHaveText(/^eSIM для ОАЭ$/);
   expect(await page.locator('.cp-text').count()).toBe(0);

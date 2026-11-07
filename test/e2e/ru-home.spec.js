@@ -24,7 +24,7 @@ const path = require('path');
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const CATALOG = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'catalog.json'), 'utf8'));
 
-async function open(page, url = '/') {
+async function open(page, url = '/ru/') {
   const st = { nonGet: 0, errors: [], goals: [], apiReads: 0 };
   page.on('pageerror', (e) => st.errors.push(e.message));
   page.on('console', (m) => { if (m.type() === 'error') st.errors.push(m.text()); });
@@ -81,15 +81,15 @@ test('search finds a country in Russian, in Latin and by code, and Enter opens i
   await q.fill('turkey');
   await expect(page.locator('#results a.res').first()).toHaveText('Турция');
   await q.fill('ae');
-  await expect(page.locator('#results a.res').first()).toHaveAttribute('href', '/esim/uae/');
+  await expect(page.locator('#results a.res').first()).toHaveAttribute('href', '/ru/esim/uae/');
   await q.fill('корея');
   await expect(page.locator('#results a.res').first()).toHaveText('Южная Корея');
   await q.fill('атлантида');
   await expect(page.locator('#results .note')).toContainText('Такого направления нет');
-  await expect(page.locator('#results .note a')).toHaveAttribute('href', '/esim/');
+  await expect(page.locator('#results .note a')).toHaveAttribute('href', '/ru/esim/');
   await q.fill('Турция');
   await q.press('Enter');
-  await expect(page).toHaveURL(/\/esim\/turkey\/$/);
+  await expect(page).toHaveURL(/\/ru\/esim\/turkey\/$/);
   await expect(page.locator('#localGrid .plan .js-buy').first()).toBeVisible();
   expect(st.goals).toContain('country_search');
   expect(st.nonGet).toBe(0);
@@ -115,10 +115,10 @@ test('a popular tile opens that country\'s page; the existing goal fires', async
 
 test('old links keep working: /?country=XX and the old anchors', async ({ page }) => {
   await open(page, '/?country=TR&utm_source=old');
-  await expect(page).toHaveURL(/\/esim\/turkey\/$/);
+  await expect(page).toHaveURL(/\/ru\/esim\/turkey\/$/);
   // The visit's first touch was captured on the home, before the hop.
   const attr = await page.evaluate(() => JSON.parse(sessionStorage.getItem('magic_attr') || '{}'));
-  expect(attr).toMatchObject({ entry: '/', utm_source: 'old' });
+  expect(attr).toMatchObject({ entry: '/ru/', utm_source: 'old' });
 
   await page.goto('/?country=ZZ');
   await expect(page).toHaveURL(/\/\?country=ZZ$/);            // an unknown code leaves the home as it is
@@ -137,7 +137,7 @@ test('the mobile menu carries the English menu\'s four items, in Russian, and En
   await page.locator('.mnav > summary').click();
   expect(await page.locator('.mnav-panel a').allTextContents())
     .toEqual(['Направления', 'Как это работает', 'Проверка устройства', 'Инструкции', 'English']);
-  await expect(page.locator('.hdr-cta')).toHaveAttribute('href', '/#plans');
+  await expect(page.locator('.hdr-cta')).toHaveAttribute('href', '/ru/#plans');
 });
 
 test('the FAQ opens, and its question set is the FAQPage\'s', async ({ page }) => {
@@ -177,9 +177,9 @@ test.describe('desktop width', () => {
       return { hero: cols('.hero-grid'), tiles: cols('.dest-grid'), steps: cols('.steps-grid'), types: cols('.types'), guides: cols('.guide-grid'),
         search: box('.search-card'), heroArt: box('.hero-art'), support: box('.support-band') };
     });
-    await open(page, '/en/');
+    await open(page, '/');
     const en = await grid();
-    await page.goto('/');
+    await page.goto('/ru/');
     const ru = await grid();
     expect(ru).toEqual(en);
   });
@@ -189,7 +189,7 @@ test.describe('desktop width', () => {
 
 test.describe('the country page the home leads to', () => {
   test('«Купить» opens the Platega checkout with the card\'s plan and price; nothing is sent', async ({ page }) => {
-    const st = await open(page, '/esim/turkey/');
+    const st = await open(page, '/ru/esim/turkey/');
     const card = page.locator('#localGrid .plan').first();
     await expect(card).toBeVisible();
     const price = (await card.locator('.package-price').textContent()).replace(/\D/g, '');
@@ -213,7 +213,7 @@ test.describe('the country page the home leads to', () => {
   });
 
   test('«Покрытие и условия» opens its window', async ({ page }) => {
-    await open(page, '/esim/turkey/');
+    await open(page, '/ru/esim/turkey/');
     await page.locator('#localGrid .plan .js-coverage').first().click();
     await expect(page.locator('#coverageModal')).toBeVisible();
     await page.locator('#coverageClose').click();

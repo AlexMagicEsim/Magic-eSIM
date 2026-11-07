@@ -13,7 +13,7 @@ import { loadPublishedCatalogue } from './page-claims.mjs';
 import { shownBlocks } from './catalogue-facts.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const html = readFileSync(join(ROOT, 'esim/china/index.html'), 'utf8');
+const html = readFileSync(join(ROOT, 'ru/esim/china/index.html'), 'utf8');
 const profile = JSON.parse(readFileSync(join(ROOT, 'seo/content-profiles/china.json'), 'utf8'));
 const un = (s) => s.replace(/<[^>]+>/g, '').replace(/&laquo;/g, '«').replace(/&raquo;/g, '»').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
 const visible = [...html.matchAll(/<details class="faq-item"><summary>([\s\S]*?)<\/summary><p>([\s\S]*?)<\/p><\/details>/g)]

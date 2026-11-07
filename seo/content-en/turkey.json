@@ -10,7 +10,7 @@
       "h2": "What UK travel advice says about eSIMs in Turkey",
       "paragraphs": [
         "UK government travel advice for Turkey includes a short section headed “E-sims”. It says that access to some eSIM services is restricted in Turkey, and it advises travellers to check with the company behind their eSIM before travelling. It does not say which services are affected or why.",
-        "We cannot tell you that any plan on this page falls outside that restriction, and we do not claim it does. What you can do is install the plan at home, on your own Wi-Fi, and check that it shows up on your phone before you leave. The [activation guide](/en/guides/activation/) explains what to look for and when a plan's term begins, and the [troubleshooting guide](/en/guides/troubleshooting/) covers a profile that will not install."
+        "We cannot tell you that any plan on this page falls outside that restriction, and we do not claim it does. What you can do is install the plan at home, on your own Wi-Fi, and check that it shows up on your phone before you leave. The [activation guide](/guides/activation/) explains what to look for and when a plan's term begins, and the [troubleshooting guide](/guides/troubleshooting/) covers a profile that will not install."
       ]
     },
     {
@@ -18,7 +18,7 @@
       "h2": "Who Turkey's phone registration rule is for",
       "paragraphs": [
         "Turkey's device-registration regulation, enforced by the telecoms regulator BTK, covers phones used with Turkish SIM cards. A phone brought in from abroad and used on a Turkish line can work unregistered for a 120-day period, and its owner has 365 days from entry to apply for registration. Since July 2026, applications have gone through e-Devlet, the government's online gateway.",
-        "The same regulation also covers foreign SIMs used on Turkish networks, without voice calls, on more than 90 days in total within any 120 consecutive days, which it calls permanent roaming, and phones found doing that are cut off. It describes no registration step for a visitor on a short stay with a foreign SIM or eSIM. If you are moving to Turkey or staying for months, read the current rules rather than a summary. Rules like this differ from country to country: Mexico's, for example, apply to lines provided by Mexican companies; see [who Mexico's phone-line identification rules apply to](/en/esim/mexico/)."
+        "The same regulation also covers foreign SIMs used on Turkish networks, without voice calls, on more than 90 days in total within any 120 consecutive days, which it calls permanent roaming, and phones found doing that are cut off. It describes no registration step for a visitor on a short stay with a foreign SIM or eSIM. If you are moving to Turkey or staying for months, read the current rules rather than a summary. Rules like this differ from country to country: Mexico's, for example, apply to lines provided by Mexican companies; see [who Mexico's phone-line identification rules apply to](/destinations/mexico/)."
       ]
     },
     {
@@ -44,11 +44,11 @@
     },
     {
       "q": "Will an eSIM work for me in Turkey?",
-      "a": "We cannot promise that. UK government travel advice says access to some eSIM services is restricted in Turkey. Install the plan before you travel and check that it appears on your phone; the [compatibility guide](/en/guides/compatibility/) shows whether your phone supports eSIM at all."
+      "a": "We cannot promise that. UK government travel advice says access to some eSIM services is restricted in Turkey. Install the plan before you travel and check that it appears on your phone; the [compatibility guide](/guides/compatibility/) shows whether your phone supports eSIM at all."
     },
     {
       "q": "Can I install the eSIM after I land in Turkey?",
-      "a": "We cannot say how that will go for you, given what UK advice says about restricted eSIM services. Installing at home on your own Wi-Fi means you find out before you travel whether the plan installs; the [activation guide](/en/guides/activation/) walks through the steps."
+      "a": "We cannot say how that will go for you, given what UK advice says about restricted eSIM services. Installing at home on your own Wi-Fi means you find out before you travel whether the plan installs; the [activation guide](/guides/activation/) walks through the steps."
     },
     {
       "q": "Is there free Wi-Fi at Istanbul Airport?",

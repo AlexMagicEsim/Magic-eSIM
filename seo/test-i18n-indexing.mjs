@@ -7,7 +7,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { INDEXED_COUNTRIES, GUIDE_RU, cluster, isIndexed, ruAlternates, ruPage, indexedPrefixedPages, pathIn, indexedLocales } from './indexing.mjs';
 import { FROZEN_PAGES } from './frozen-pages.mjs';
-import { LOCALES, SITE, X_DEFAULT_CURRENT, X_DEFAULT_DECIDED, locale } from './locales.mjs';
+import { LOCALES, SITE, X_DEFAULT_CURRENT, X_DEFAULT_DECIDED, locale, cataloguePath } from './locales.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 import { TITLE_MAX } from './page-copy.mjs';
 
@@ -20,7 +20,8 @@ const robots = (html) => (head(html).match(/<meta name="robots" content="([^"]+)
 const canonical = (html) => (head(html).match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
 const sitemap = new Set([...read('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
 const GUIDES = EN_GUIDES.map((g) => g.slug);
-const slugsOf = (prefix) => readdirSync(join(ROOT, prefix, 'esim')).filter((d) => existsSync(join(ROOT, prefix, 'esim', d, 'index.html')));
+// The country directories of a language's catalogue (seo/locales.mjs paths: /ru/esim/, /destinations/, /es/esim/ …).
+const slugsOf = (code) => { const dir = cataloguePath(code).slice(1); return readdirSync(join(ROOT, dir)).filter((d) => existsSync(join(ROOT, dir, d, 'index.html'))); };
 
 test('the registry: ES indexable, x-default English, the stage without the ten former experiment pages (owner, not yet) and present in every language', () => {
   assert.deepEqual(indexedLocales().map((l) => l.code), ['ru', 'en', 'es']);
@@ -29,7 +30,7 @@ test('the registry: ES indexable, x-default English, the stage without the ten f
   for (const s of INDEXED_COUNTRIES) {
     // the experiment ended 2026-10-24; adding its ten pages to a stage is the owner's separate decision (deferred 2026-10-24)
     assert.ok(!FROZEN_PAGES.has(s), `${s}: a former experiment page — adding it to the stage needs the owner's word`);
-    for (const p of ['', 'en/', 'es/']) assert.ok(existsSync(join(ROOT, `${p}esim/${s}/index.html`)), `${p}esim/${s}/ is missing`);
+    for (const code of ['ru', 'en', 'es']) assert.ok(existsSync(join(ROOT, fileOf(cataloguePath(code, s)))), `${cataloguePath(code, s)} is missing`);
   }
   assert.equal(new Set(INDEXED_COUNTRIES).size, INDEXED_COUNTRIES.length);
   assert.deepEqual(Object.keys(GUIDE_RU).sort(), [...GUIDES].sort());
@@ -38,9 +39,8 @@ test('the registry: ES indexable, x-default English, the stage without the ten f
 test('every EN/ES page: indexed → index, self-canonical, its exact cluster, in the sitemap; else noindex, no alternate, out', () => {
   let indexed = 0;
   for (const code of ['en', 'es']) {
-    const P = `/${locale(code).prefix}`;
     const pages = [{ kind: 'home' }, { kind: 'hub' }, { kind: 'guides' }, ...GUIDES.map((slug) => ({ kind: 'guide', slug })),
-      ...slugsOf(P.slice(1)).map((slug) => ({ kind: 'country', slug }))];
+      ...slugsOf(code).map((slug) => ({ kind: 'country', slug }))];
     for (const page of pages) {
       const path = pathIn(locale(code), page); const html = read(fileOf(path)); const url = SITE + path;
       assert.equal(canonical(html), url, `${path}: canonical`);
@@ -60,7 +60,7 @@ test('every EN/ES page: indexed → index, self-canonical, its exact cluster, in
 });
 
 test('the Russian pages: twins carry exactly ruAlternates(); every other Russian page, the frozen ten included, none', () => {
-  const ruPaths = [...new Set(['/', '/esim/', ...Object.values(GUIDE_RU), ...slugsOf('').map((s) => `/esim/${s}/`)])];
+  const ruPaths = [...new Set(['/ru/', '/ru/esim/', ...Object.values(GUIDE_RU), ...slugsOf('ru').map((s) => `/ru/esim/${s}/`)])];
   let withCluster = 0;
   for (const path of ruPaths) {
     const html = read(fileOf(path));
@@ -68,7 +68,7 @@ test('the Russian pages: twins carry exactly ruAlternates(); every other Russian
     assert.deepEqual(alts(html), want, `${path}: cluster`);
     if (want.length) { withCluster++; assert.ok(head(html).includes(ruAlternates(path)), `${path}: not the exact ruAlternates() text`); }
   }
-  for (const s of FROZEN_PAGES) assert.deepEqual(alts(read(`esim/${s}/index.html`)), [], `${s}: not in the stage, so no hreflang`);
+  for (const s of FROZEN_PAGES) assert.deepEqual(alts(read(`ru/esim/${s}/index.html`)), [], `${s}: not in the stage, so no hreflang`);
   assert.equal(withCluster, 2 + GUIDES.length + INDEXED_COUNTRIES.length);
 });
 
@@ -93,7 +93,8 @@ test('the sitemap: every URL is a built, indexable page; the prefixed part is ex
     assert.doesNotMatch(robots(html) || '', /noindex/, `${u} is noindex`);
     assert.equal(canonical(html), u, `${u}: canonical`);
   }
-  const prefixed = [...sitemap].filter((u) => /^https:\/\/magicesim\.store\/(en|es)\//.test(u)).sort();
+  // EN-root migration: the English pages are «/», /destinations/…, /guides/…; the Spanish ones /es/….
+  const prefixed = [...sitemap].filter((u) => /^https:\/\/magicesim\.store\/(es\/|destinations\/|guides\/|$)/.test(u)).sort();
   assert.deepEqual(prefixed, indexedPrefixedPages(GUIDES).map((p) => p.loc).sort());
 });
 
@@ -111,7 +112,7 @@ test('indexed EN/ES pages: title ≤ 60, description ≤ 160, one H1, the page l
 
 test('every EN/ES country title fits the budget (the full template, else the short one)', () => {
   for (const p of ['en', 'es']) for (const s of slugsOf(p)) {
-    const title = read(`${p}/esim/${s}/index.html`).match(/<title>([^<]*)<\/title>/)[1].replace(/&amp;/g, '&');
+    const title = read(fileOf(cataloguePath(p, s))).match(/<title>([^<]*)<\/title>/)[1].replace(/&amp;/g, '&');
     assert.ok([...title].length <= TITLE_MAX, `${p}/${s}: ${[...title].length} «${title}»`);
   }
   assert.match(read('es/esim/dr-congo/index.html'), /<title>eSIM para República Democrática del Congo \| Magic eSIM<\/title>/);
@@ -119,6 +120,7 @@ test('every EN/ES country title fits the budget (the full template, else the sho
 
 test('robots.txt keeps the prefixed languages crawlable and names the sitemap', () => {
   const r = read('robots.txt');
-  assert.doesNotMatch(r, /^Disallow:\s*\/(en|es)\//m);
+  assert.doesNotMatch(r, /^Disallow:\s*\/(en|es|ru|destinations|guides)\//m);
+  assert.doesNotMatch(r, /^Disallow:\s*\/\s*$/m, 'the root (the English home) is crawlable');
   assert.match(r, /^Sitemap: https:\/\/magicesim\.store\/sitemap\.xml$/m);
 });

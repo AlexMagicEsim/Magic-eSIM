@@ -29,7 +29,7 @@ const DOC = loadCatalogueDoc(); // packages + the published layout
 const PACKAGES = DOC.packages;
 const ISO = Object.fromEntries(Object.entries(COUNTRY_NAMES).map(([iso, e]) => [e.slug, iso]));
 
-const html = (slug) => readFileSync(join(ROOT, 'esim', slug, 'index.html'), 'utf8');
+const html = (slug) => readFileSync(join(ROOT, 'ru/esim', slug, 'index.html'), 'utf8');
 const profile = (slug) => JSON.parse(readFileSync(join(ROOT, 'seo/content-profiles', `${slug}.json`), 'utf8'));
 const graph = (h) => JSON.parse(h.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
 const money = (v) => Math.round(Number(v)).toLocaleString('ru-RU');
@@ -53,14 +53,14 @@ test('no pilot string states a price, and no pilot profile keeps a hand-written 
 });
 
 test('no other country page has a price block or a Product — the control group above all', () => {
-  const pages = readdirSync(join(ROOT, 'esim'), { withFileTypes: true })
-    .filter((d) => d.isDirectory() && existsSync(join(ROOT, 'esim', d.name, 'index.html'))).map((d) => d.name);
+  const pages = readdirSync(join(ROOT, 'ru/esim'), { withFileTypes: true })
+    .filter((d) => d.isDirectory() && existsSync(join(ROOT, 'ru/esim', d.name, 'index.html'))).map((d) => d.name);
   for (const slug of pages.filter((s) => !PILOT.includes(s))) {
     const h = html(slug);
     assert.doesNotMatch(h, /id="prices"/, slug);
     assert.doesNotMatch(h, /"@type":"Product"/, slug);
   }
-  for (const slug of CONTROL) assert.ok(existsSync(join(ROOT, 'esim', slug, 'index.html')), `control ${slug} exists`);
+  for (const slug of CONTROL) assert.ok(existsSync(join(ROOT, 'ru/esim', slug, 'index.html')), `control ${slug} exists`);
 });
 
 for (const slug of PILOT) {
@@ -74,7 +74,7 @@ for (const slug of PILOT) {
     assert.match(text(h.match(/<h1>([\s\S]*?)<\/h1>/)[1]), /^eSIM для \S/);
     assert.equal(text(h.match(/<h2 id="aboutTitle">([\s\S]*?)<\/h2>/)[1]), p.h1);
     assert.match(p.h1, /^eSIM для /);
-    assert.match(h, new RegExp(`<link rel="canonical" href="https://magicesim\\.store/esim/${slug}/" />`));
+    assert.match(h, new RegExp(`<link rel="canonical" href="https://magicesim\\.store/ru/esim/${slug}/" />`));
     assert.match(h, /<meta name="robots" content="index, follow" \/>/);
     const desc = h.match(/<meta name="description" content="([^"]*)"/)[1];
     assert.ok(desc.startsWith(`${p.seo_pilot.name}: `) && desc.includes(`от ${money(f.min_price_rub)} ₽`), desc);
@@ -98,7 +98,7 @@ for (const slug of PILOT) {
       { cur: prod[0].offers.priceCurrency, low: prod[0].offers.lowPrice, high: prod[0].offers.highPrice, n: prod[0].offers.offerCount },
       { cur: 'RUB', low: o.all.min, high: o.all.max, n: o.all.count });
     assert.equal(prod[0].name, profile(slug).seo_pilot.name);
-    assert.equal(prod[0].offers.url, `https://magicesim.store/esim/${slug}/#prices`);
+    assert.equal(prod[0].offers.url, `https://magicesim.store/ru/esim/${slug}/#prices`);
   });
 
   test(`${slug}: the price question is in the visible FAQ and in FAQPage, with catalogue numbers`, () => {
@@ -251,9 +251,9 @@ test('italy: 10 GB over 5 GB costs less extra than the 5 GB itself', () => {
 });
 
 test('guides link the pilot pages: activation-before-travel → uae, egypt; payment-rubles → italy, georgia, uzbekistan', () => {
-  const a = readFileSync(join(ROOT, 'esim/activation-before-travel/index.html'), 'utf8');
-  const r = readFileSync(join(ROOT, 'esim/payment-rubles/index.html'), 'utf8');
-  for (const s of ['uae', 'egypt']) assert.ok(a.includes(`href="/esim/${s}/"`), s);
-  for (const s of ['italy', 'georgia', 'uzbekistan']) assert.ok(r.includes(`href="/esim/${s}/"`), s);
+  const a = readFileSync(join(ROOT, 'ru/esim/activation-before-travel/index.html'), 'utf8');
+  const r = readFileSync(join(ROOT, 'ru/esim/payment-rubles/index.html'), 'utf8');
+  for (const s of ['uae', 'egypt']) assert.ok(a.includes(`href="/ru/esim/${s}/"`), s);
+  for (const s of ['italy', 'georgia', 'uzbekistan']) assert.ok(r.includes(`href="/ru/esim/${s}/"`), s);
   assert.ok(r.includes('<span>eSIM для Узбекистана</span>'), 'genitive from seo/countries.mjs');
 });

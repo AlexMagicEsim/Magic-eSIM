@@ -31,7 +31,7 @@ const fs = require('fs');
 const path = require('path');
 
 const CATALOG = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'catalog.json'), 'utf8'));
-const PATH = '/esim/turkey/';
+const PATH = '/ru/esim/turkey/';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 async function open(page, opts = {}) {
@@ -266,10 +266,10 @@ test('the payment icons load on a country page (absolute paths)', async ({ page 
 });
 
 test('the home opens no checkout: it links to the country page, which does', async ({ page }) => {
-  const st = await open(page, { path: '/' });
+  const st = await open(page, { path: '/ru/' });
   await expect(page.locator('#checkoutModal')).toHaveCount(0);
   await page.locator('#popular a.dest-tile[data-country="TR"]').click();
-  await expect(page).toHaveURL(/\/esim\/turkey\/$/);
+  await expect(page).toHaveURL(/\/ru\/esim\/turkey\/$/);
   await expect(page.locator('#localGrid .plan .js-buy').first()).toBeVisible();
   expect(st.posts).toEqual([]);
 });

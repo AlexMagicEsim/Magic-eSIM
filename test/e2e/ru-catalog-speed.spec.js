@@ -50,7 +50,7 @@ async function open(page, url, api = {}) {
 }
 
 test('healthy API: one API request, started before the page\'s scripts, and no snapshot download', async ({ page }) => {
-  const st = await open(page, '/esim/turkey/', { delayMs: 300 });
+  const st = await open(page, '/ru/esim/turkey/', { delayMs: 300 });
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   await page.waitForTimeout(2500);                      // past the 2 s snapshot deadline
   expect(st.api.length).toBe(1);
@@ -64,7 +64,7 @@ test('the prices on the cards are the API\'s, and the checkout opens with the pl
   // The API answers one Turkey plan 50 ₽ dearer than the snapshot: the card must show the API's price.
   const target = CATALOG.packages.find((p) => (p.coverage_country_codes || []).join() === 'TR' && !Array.isArray(p.term_prices));
   const data = CATALOG.packages.map((p) => (p === target ? { ...p, price: p.price + 50 } : p));
-  const st = await open(page, '/esim/turkey/', { delayMs: 200, data });
+  const st = await open(page, '/ru/esim/turkey/', { delayMs: 200, data });
   const btn = page.locator(`#localGrid .js-buy[data-package-id="${target.package_id}"]`);
   await expect(btn).toHaveAttribute('data-price', String(target.price + 50));
   await page.evaluate((id) => { const b = document.querySelector(`#localGrid .js-buy[data-package-id="${id}"]`); const card = b.closest('.plan'); card.hidden = false; }, target.package_id);
@@ -76,7 +76,7 @@ test('the prices on the cards are the API\'s, and the checkout opens with the pl
 });
 
 test('a stalled API: the snapshot after ~2 s puts the plans on screen; still one API request', async ({ page }) => {
-  const st = await open(page, '/esim/turkey/', { delayMs: 9000 });
+  const st = await open(page, '/ru/esim/turkey/', { delayMs: 9000 });
   const t = Date.now();
   await expect(page.locator('#localGrid .plan').first()).toBeVisible({ timeout: 6000 });
   expect(Date.now() - t).toBeLessThan(5000);
@@ -87,7 +87,7 @@ test('a stalled API: the snapshot after ~2 s puts the plans on screen; still one
 });
 
 test('a failing API: the old retry and fallback road, then the snapshot; the plans are on screen', async ({ page }) => {
-  const st = await open(page, '/esim/turkey/', { status: 503 });
+  const st = await open(page, '/ru/esim/turkey/', { status: 503 });
   await expect(page.locator('#localGrid .plan').first()).toBeVisible({ timeout: 10000 });
   expect(st.snapshot).toBe(1);
   // the early request (attempt 1 on the primary), attempt 2 on the primary, one on the fallback
@@ -97,7 +97,7 @@ test('a failing API: the old retry and fallback road, then the snapshot; the pla
 });
 
 test('a former SEO-experiment page loads like every other since 2026-10-24: the early request, no snapshot when healthy', async ({ page }) => {
-  const st = await open(page, '/esim/uae/', { delayMs: 300 });
+  const st = await open(page, '/ru/esim/uae/', { delayMs: 300 });
   await expect(page.locator('#localGrid .plan').first()).toBeVisible();
   await page.waitForTimeout(2500);                      // past the 2 s snapshot deadline
   expect(st.api.length).toBe(1);

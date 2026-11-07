@@ -36,17 +36,17 @@ const noResultGoals = (st) => st.goals.filter((g) => g[0] === 'search_no_result'
 
 test.describe('home', () => {
   test('«Бали» → Индонезия, labelled with the place; Enter opens the country page', async ({ page }) => {
-    await open(page, '/');
+    await open(page, '/ru/');
     await page.fill('#q', 'Бали');
     const first = page.locator('#results a.res').first();
     await expect(first).toContainText('Индонезия');
     await expect(first.locator('.res-via')).toHaveText('Бали');
     await page.press('#q', 'Enter');
-    await expect(page).toHaveURL(/\/esim\/indonesia\/$/);
+    await expect(page).toHaveURL(/\/ru\/esim\/indonesia\/$/);
   });
 
   test('case forms and English: «в Турцию», «в Египте», «Thailand», «Шри Ланка»', async ({ page }) => {
-    await open(page, '/');
+    await open(page, '/ru/');
     for (const [q, name] of [['в Турцию', 'Турция'], ['в Египте', 'Египет'], ['Thailand', 'Таиланд'], ['Шри Ланка', 'Шри-Ланка'], ['Анталья', 'Турция'], ['Дубай', 'ОАЭ']]) {
       await page.fill('#q', q);
       await expect(page.locator('#results a.res').first(), q).toContainText(name);
@@ -54,7 +54,7 @@ test.describe('home', () => {
   });
 
   test('a region lists its countries without promising the region, and Enter stays put', async ({ page }) => {
-    await open(page, '/');
+    await open(page, '/ru/');
     await page.fill('#q', 'в Европу');
     await expect(page.locator('#results .note').first()).toHaveText(/^Европа — популярные направления\. Выберите первую страну поездки: на её странице есть и тарифы на несколько стран, если они её покрывают\.$/);
     await expect(page.locator('#results a.res')).toHaveCount(16);
@@ -69,7 +69,7 @@ test.describe('home', () => {
   });
 
   test('nothing found: the popular destinations, and search_no_result once, with no parameters', async ({ page }) => {
-    const st = await open(page, '/');
+    const st = await open(page, '/ru/');
     await page.fill('#q', 'xyzqw');
     await expect(page.locator('#results .note').first()).toContainText('Такого направления нет');
     await expect(page.locator('#results a.res')).toHaveCount(8);
@@ -86,16 +86,16 @@ test.describe('home', () => {
   });
 
   test('a short query that finds nothing is not reported while typing', async ({ page }) => {
-    const st = await open(page, '/');
+    const st = await open(page, '/ru/');
     await page.fill('#q', 'zz');
     await page.waitForTimeout(1800);
     expect(noResultGoals(st)).toEqual([]);
   });
 });
 
-test.describe('/esim/', () => {
+test.describe('/ru/esim/', () => {
   test('«Анталья» leaves Турция; «Thailand» works here too', async ({ page }) => {
-    await open(page, '/esim/');
+    await open(page, '/ru/esim/');
     await page.fill('#hubSearch', 'Анталья');
     await expect(page.locator('#hubList li:not([hidden])')).toHaveCount(1);
     await expect(page.locator('#hubList li:not([hidden])')).toContainText('Турция');
@@ -104,7 +104,7 @@ test.describe('/esim/', () => {
   });
 
   test('a region shows its countries and the same careful sentence', async ({ page }) => {
-    await open(page, '/esim/');
+    await open(page, '/ru/esim/');
     await page.fill('#hubSearch', 'Балканы');
     await expect(page.locator('#hubCount')).toHaveText('Балканы — популярные направления. Выберите первую страну поездки: на её странице есть и тарифы на несколько стран, если они её покрывают.');
     expect(await page.locator('#hubList li:not([hidden])').count()).toBeGreaterThanOrEqual(6);
@@ -112,7 +112,7 @@ test.describe('/esim/', () => {
   });
 
   test('nothing found: the popular destinations show, search_no_result once, no parameters', async ({ page }) => {
-    const st = await open(page, '/esim/');
+    const st = await open(page, '/ru/esim/');
     await page.fill('#hubSearch', 'xyzqw');
     await expect(page.locator('#hubEmpty')).toBeVisible();
     await expect(page.locator('#hubPopular')).toBeVisible();

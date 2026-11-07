@@ -27,7 +27,7 @@ import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COUNTRY_NAMES } from './country-names.mjs';
 import { countryName } from './country-names-i18n.mjs';
-import { LOCALES, locale } from './locales.mjs';
+import { LOCALES, locale, isRussian } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -37,7 +37,7 @@ export const globalSuffix = (prefix) => String(prefix).charAt(0).toUpperCase() +
 /** Where a language's names live and what they are called — for the generators and the tests. */
 export function namesFile(code) {
   const L = locale(code);
-  if (!L || !L.prefix) throw new Error(`country names: ${String(code)} has no prefixed site`);
+  if (!L || isRussian(L)) throw new Error(`country names: ${String(code)} has no prefixed site`);
   return Object.freeze({
     rel: `assets/country-names-${L.prefix}.js`,
     src: `/assets/country-names-${L.prefix}.js`,
@@ -97,7 +97,7 @@ ${entries}
 
 /** The languages that get a file: enabled for the site, with a prefix. */
 export function publishedNameLocales(list = LOCALES) {
-  return list.filter((l) => l.prefix && l.site.enabled).map((l) => l.code);
+  return list.filter((l) => !isRussian(l) && l.site.enabled).map((l) => l.code);
 }
 
 /** Write one published language's file. Refuses an unpublished one. */

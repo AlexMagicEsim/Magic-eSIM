@@ -31,7 +31,7 @@ async function open(page, { holdHubJs = 0 } = {}) {
   });
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => { external.push(route.request().url()); return route.abort(); });
   if (holdHubJs) await page.route(/\/en\/hub\.js/, async (route) => { await new Promise((r) => setTimeout(r, holdHubJs)); return route.continue(); });
-  await page.goto('/en/esim/');
+  await page.goto('/destinations/');
   return external;
 }
 
@@ -63,7 +63,7 @@ test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
   test('no search box that does nothing (noscript.css), the full list', async ({ page }) => {
     await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => route.abort());
-    await page.goto('/en/esim/');
+    await page.goto('/destinations/');
     await expect(page.locator('#hubSearch')).toBeHidden();
     await expect(page.locator('#hubList a')).toHaveCount(COUNTRY_PAGES);
   });

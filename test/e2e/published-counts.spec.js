@@ -50,11 +50,11 @@ function servedNumbers(html) {
 
 for (const [slug, iso] of Object.entries(PAGES)) {
   test(`${slug}: the cards on screen = the numbers in the HTML a crawler reads = the numbers after the live update`, async ({ page, context, request }) => {
-    const served = await (await request.get(`/esim/${slug}/`)).text();
+    const served = await (await request.get(`/ru/esim/${slug}/`)).text();
     const printed = servedNumbers(served);
 
     await context.route('**/api/v1/retail/packages*', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(ANSWER) }));
-    await page.goto(`/esim/${slug}/`);
+    await page.goto(`/ru/esim/${slug}/`);
     await page.waitForFunction(() => document.querySelector('#tariffs') && document.querySelector('#tariffs').getAttribute('data-loading') === 'false');
     const drawn = await page.evaluate(() => {
       const count = (sel) => document.querySelectorAll(sel).length;
