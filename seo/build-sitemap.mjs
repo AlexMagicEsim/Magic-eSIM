@@ -90,6 +90,7 @@ export function sitemapUrls(countries) {
     { loc: `${SITE}/ru/esim/activation-before-travel/`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/esim/not-working/`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/esim/dual-sim-sms/`, prio: '0.7', freq: 'monthly' },
+    { loc: `${SITE}/ru/esim/esim-or-roaming/`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/esim/payment-rubles/`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/iphone.html`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/android.html`, prio: '0.7', freq: 'monthly' },

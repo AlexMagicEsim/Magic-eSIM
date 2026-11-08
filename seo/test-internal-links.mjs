@@ -18,7 +18,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const GUIDES = new Set(['payment-rubles', 'dual-sim-sms', 'compatibility', 'activation-before-travel', 'not-working']);
+const GUIDES = new Set(['payment-rubles', 'dual-sim-sms', 'compatibility', 'activation-before-travel', 'not-working', 'esim-or-roaming']);
 const countries = readdirSync(join(ROOT, 'ru/esim'))
   .filter((d) => !GUIDES.has(d) && existsSync(join(ROOT, 'ru/esim', d, 'index.html')));
 const authored = readdirSync(join(ROOT, 'seo/content-profiles'))

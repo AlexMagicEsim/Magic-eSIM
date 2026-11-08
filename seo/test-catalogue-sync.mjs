@@ -207,7 +207,7 @@ test('C5: no orphaned country directory survives a removal', () => {
   // to be explicit, and this is what notices when it was not.
   const snap = JSON.parse(readFileSync(join(ROOT, 'seo/catalogue-countries.json'), 'utf8'));
   const known = new Set(snap.countries.map((c) => c.slug));
-  const guides = new Set(['compatibility', 'activation-before-travel', 'not-working', 'dual-sim-sms', 'payment-rubles']);
+  const guides = new Set(['compatibility', 'activation-before-travel', 'not-working', 'dual-sim-sms', 'payment-rubles', 'esim-or-roaming']);
   const orphans = readdirSync(join(ROOT, 'ru/esim'))
     .filter((d) => existsSync(join(ROOT, 'ru/esim', d, 'index.html')))
     .filter((d) => !known.has(d) && !guides.has(d));

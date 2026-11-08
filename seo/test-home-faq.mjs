@@ -61,7 +61,7 @@ test('FAQPage says exactly what the visitor sees, question for question', () => 
 
 test('every answer links to a guide that exists, and none is a copy of that guide', () => {
   const guideFaqs = [];
-  for (const g of ['payment-rubles', 'activation-before-travel', 'compatibility', 'dual-sim-sms', 'not-working']) {
+  for (const g of ['payment-rubles', 'activation-before-travel', 'compatibility', 'dual-sim-sms', 'not-working', 'esim-or-roaming']) {
     const h = readFileSync(join(ROOT, 'ru/esim', g, 'index.html'), 'utf8');
     for (const [, raw] of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       const j = JSON.parse(raw);

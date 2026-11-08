@@ -179,7 +179,7 @@ test('no page — country, guide or landing — makes a start-of-term claim the 
 
 test('no guide sends the reader to the email for the start rule or claims a majority', () => {
   for (const f of ['ru/iphone.html', 'ru/android.html', 'ru/esim/payment-rubles/index.html', 'ru/esim/compatibility/index.html',
-    'ru/esim/not-working/index.html', 'ru/esim/dual-sim-sms/index.html', 'ru/esim/activation-before-travel/index.html']) {
+    'ru/esim/not-working/index.html', 'ru/esim/dual-sim-sms/index.html', 'ru/esim/activation-before-travel/index.html', 'ru/esim/esim-or-roaming/index.html']) {
     const t = unhtml(read(f).replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' '));
     assert.deepEqual(startRuleProblems(t), [], f);
   }
