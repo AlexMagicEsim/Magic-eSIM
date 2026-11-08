@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-08T15:05:00.803Z",
+  "generated_at": "2026-11-08T17:57:45.959Z",
   "source": "production-public-api",
-  "package_count": 2405,
+  "package_count": 2418,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -1861,7 +1861,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2000,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -1896,27 +1896,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5050
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 8050
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 11250
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 15500
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 23250
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 42850
+          "price": 27700
         }
       ]
     },
@@ -3525,7 +3525,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -3560,27 +3560,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2850
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4500
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 6300
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 8700
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 13050
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 24000
+          "price": 15800
         }
       ]
     },
@@ -4375,6 +4375,76 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "06ee9346-ef32-461a-81d7-a6f576824f18",
+      "name": "Anguilla 500MB/Day",
+      "country_code": "AI",
+      "region": "AI",
+      "coverage_country_codes": [
+        "AI"
+      ],
+      "coverage_flags": "🇦🇮",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
+        }
+      ]
     },
     {
       "package_id": "06fa6a01-750a-4187-a2ff-9cfb1f2b189d",
@@ -6300,7 +6370,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1200,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -7314,7 +7384,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1050,
+      "price": 850,
       "networks": [
         {
           "operator": "Chippie",
@@ -7349,27 +7419,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2650
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 3750
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 5250
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 7250
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 10900
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 20050
+          "price": 15800
         }
       ]
     },
@@ -7707,7 +7777,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2850,
+      "price": 2200,
       "networks": [
         {
           "operator": "FLOW",
@@ -10121,7 +10191,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 0,
       "validity_days": null,
-      "price": 3200,
+      "price": 2450,
       "networks": [
         {
           "operator": "FLOW",
@@ -10156,27 +10226,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 9150
+          "price": 6250
         },
         {
           "days": 5,
-          "price": 14600
+          "price": 10000
         },
         {
           "days": 7,
-          "price": 20400
+          "price": 14000
         },
         {
           "days": 10,
-          "price": 28200
+          "price": 19300
         },
         {
           "days": 15,
-          "price": 42300
+          "price": 28950
         },
         {
           "days": 30,
-          "price": 77900
+          "price": 53350
         }
       ]
     },
@@ -11333,7 +11403,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 8700,
+      "price": 5900,
       "networks": [
         {
           "operator": "FLOW",
@@ -15883,6 +15953,76 @@
       ]
     },
     {
+      "package_id": "19d955ad-8366-45dc-87b8-db3bfd3ca162",
+      "name": "Dominica 500MB/Day",
+      "country_code": "DM",
+      "region": "DM",
+      "coverage_country_codes": [
+        "DM"
+      ],
+      "coverage_flags": "🇩🇲",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
+        }
+      ]
+    },
+    {
       "package_id": "19ecf167-3de2-41a4-aef3-f25b6943a2b5",
       "name": "El Salvador 1GB 7Days",
       "country_code": "SV",
@@ -17615,7 +17755,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 9800,
+      "price": 5900,
       "networks": [
         {
           "operator": "BTC",
@@ -19897,7 +20037,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2950,
+      "price": 2450,
       "networks": [
         {
           "operator": "FLOW",
@@ -19932,27 +20072,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 8500
+          "price": 6250
         },
         {
           "days": 5,
-          "price": 13600
+          "price": 10000
         },
         {
           "days": 7,
-          "price": 19000
+          "price": 14000
         },
         {
           "days": 10,
-          "price": 26250
+          "price": 19300
         },
         {
           "days": 15,
-          "price": 39400
+          "price": 28950
         },
         {
           "days": 30,
-          "price": 72600
+          "price": 53350
         }
       ]
     },
@@ -24393,7 +24533,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4000,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -25079,7 +25219,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3050,
+      "price": 2100,
       "networks": [
         {
           "operator": "FLOW",
@@ -27329,7 +27469,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -27364,27 +27504,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2850
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4500
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 6300
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 8700
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 13050
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 24000
+          "price": 15800
         }
       ]
     },
@@ -27699,7 +27839,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2650,
+      "price": 2000,
       "networks": [
         {
           "operator": "FLOW",
@@ -28971,7 +29111,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1850,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -29006,27 +29146,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4750
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 7550
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 10600
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 14650
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 21950
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 40400
+          "price": 27700
         }
       ]
     },
@@ -29152,7 +29292,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 900,
+      "price": 550,
       "networks": [
         {
           "operator": "BTC",
@@ -29187,27 +29327,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2300
+          "price": 1350
         },
         {
           "days": 5,
-          "price": 3250
+          "price": 2150
         },
         {
           "days": 7,
-          "price": 4550
+          "price": 2700
         },
         {
           "days": 10,
-          "price": 6300
+          "price": 3700
         },
         {
           "days": 15,
-          "price": 9450
+          "price": 5550
         },
         {
           "days": 30,
-          "price": 17350
+          "price": 10150
         }
       ]
     },
@@ -29222,7 +29362,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13100,
+      "price": 11250,
       "networks": [
         {
           "operator": "FLOW",
@@ -32644,7 +32784,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4750,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -33757,6 +33897,76 @@
       ]
     },
     {
+      "package_id": "3cc37b06-77ed-4289-9093-375320576906",
+      "name": "Antigua and Barbuda 500MB/Day",
+      "country_code": "AG",
+      "region": "AG",
+      "coverage_country_codes": [
+        "AG"
+      ],
+      "coverage_flags": "🇦🇬",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
+        }
+      ]
+    },
+    {
       "package_id": "3cd30090-4181-4d50-b81e-39c5d96fcdfd",
       "name": "Rwanda 3GB 30Days",
       "country_code": "RW",
@@ -34008,7 +34218,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4150,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -34637,7 +34847,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2000,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -34673,27 +34883,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5050
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 8050
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 11250
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 15500
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 23250
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 42850
+          "price": 27700
         }
       ]
     },
@@ -34708,7 +34918,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 3900,
+      "price": 3400,
       "networks": [
         {
           "operator": "SETAR",
@@ -34746,7 +34956,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2800,
+      "price": 2350,
       "networks": [
         {
           "operator": "FLOW",
@@ -35507,6 +35717,43 @@
           "price": 10200
         }
       ]
+    },
+    {
+      "package_id": "4029d22e-90e1-4fe3-8024-90e5bb091bc9",
+      "name": "Jamaica 3GB 15Days",
+      "country_code": "JM",
+      "region": "JM",
+      "coverage_country_codes": [
+        "JM"
+      ],
+      "coverage_flags": "🇯🇲",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 2200,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "40446e8a-9f6f-4e06-9dcd-edf7d3fea02d",
@@ -36709,7 +36956,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1750,
+      "price": 1300,
       "networks": [
         {
           "operator": "Chippie",
@@ -36744,27 +36991,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4450
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 7050
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 9900
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 13650
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 20450
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 37700
+          "price": 27700
         }
       ]
     },
@@ -36847,6 +37094,43 @@
       "ip_export": [
         "HK"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "4286dab4-b92f-4fba-9fdb-397c684b8104",
+      "name": "Montserrat 3GB 15Days",
+      "country_code": "MS",
+      "region": "MS",
+      "coverage_country_codes": [
+        "MS"
+      ],
+      "coverage_flags": "🇲🇸",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 2200,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -37160,6 +37444,76 @@
       ]
     },
     {
+      "package_id": "436a360e-ad47-447f-9928-6bb0e6f6c4fe",
+      "name": "Montserrat 500MB/Day",
+      "country_code": "MS",
+      "region": "MS",
+      "coverage_country_codes": [
+        "MS"
+      ],
+      "coverage_flags": "🇲🇸",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
+        }
+      ]
+    },
+    {
       "package_id": "43700a57-b49d-4463-8ab1-033af1c43aa9",
       "name": "Anguilla 20GB 30Days",
       "country_code": "AI",
@@ -37170,7 +37524,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13350,
+      "price": 10450,
       "networks": [
         {
           "operator": "FLOW",
@@ -38363,7 +38717,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3050,
+      "price": 2100,
       "networks": [
         {
           "operator": "FLOW",
@@ -39823,7 +40177,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 15900,
+      "price": 10450,
       "networks": [
         {
           "operator": "FLOW",
@@ -41190,7 +41544,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -41225,27 +41579,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2750
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4350
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 6050
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 8350
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 12550
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 23100
+          "price": 15800
         }
       ]
     },
@@ -41331,7 +41685,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7250,
+      "price": 5450,
       "networks": [
         {
           "operator": "FLOW",
@@ -43092,7 +43446,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -43127,27 +43481,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2850
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4500
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 6300
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 8700
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 13050
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 24000
+          "price": 15800
         }
       ]
     },
@@ -49664,7 +50018,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 0,
       "validity_days": null,
-      "price": 3200,
+      "price": 2450,
       "networks": [
         {
           "operator": "FLOW",
@@ -49699,27 +50053,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 9150
+          "price": 6250
         },
         {
           "days": 5,
-          "price": 14600
+          "price": 10000
         },
         {
           "days": 7,
-          "price": 20400
+          "price": 14000
         },
         {
           "days": 10,
-          "price": 28200
+          "price": 19300
         },
         {
           "days": 15,
-          "price": 42300
+          "price": 28950
         },
         {
           "days": 30,
-          "price": 77900
+          "price": 53350
         }
       ]
     },
@@ -50192,7 +50546,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1150,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -50437,7 +50791,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 15900,
+      "price": 10450,
       "networks": [
         {
           "operator": "FLOW",
@@ -51369,7 +51723,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -51404,27 +51758,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2750
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 3900
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 5450
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 7550
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 11300
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 20800
+          "price": 15800
         }
       ]
     },
@@ -51611,6 +51965,76 @@
         {
           "days": 30,
           "price": 33000
+        }
+      ]
+    },
+    {
+      "package_id": "5fa6c7ef-16ef-4880-89a8-5aed5bdd4583",
+      "name": "Saint Lucia 500MB/Day",
+      "country_code": "LC",
+      "region": "LC",
+      "coverage_country_codes": [
+        "LC"
+      ],
+      "coverage_flags": "🇱🇨",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
         }
       ]
     },
@@ -53163,7 +53587,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 6500,
+      "price": 5650,
       "networks": [
         {
           "operator": "SETAR",
@@ -53443,7 +53867,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1050,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -53479,27 +53903,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2700
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4300
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 6000
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 8300
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 12450
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 22900
+          "price": 15800
         }
       ]
     },
@@ -54061,7 +54485,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 8700,
+      "price": 5450,
       "networks": [
         {
           "operator": "FLOW",
@@ -54144,7 +54568,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 12050,
+      "price": 10000,
       "networks": [
         {
           "operator": "Chippie",
@@ -54533,7 +54957,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3050,
+      "price": 2350,
       "networks": [
         {
           "operator": "FLOW",
@@ -55567,7 +55991,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1150,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -56314,7 +56738,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3050,
+      "price": 2350,
       "networks": [
         {
           "operator": "FLOW",
@@ -56846,7 +57270,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2750,
+      "price": 2100,
       "networks": [
         {
           "operator": "Chippie",
@@ -58212,7 +58636,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 4150,
+      "price": 3600,
       "networks": [
         {
           "operator": "SETAR",
@@ -59810,7 +60234,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 14650,
+      "price": 11250,
       "networks": [
         {
           "operator": "FLOW",
@@ -59848,7 +60272,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 8700,
+      "price": 5900,
       "networks": [
         {
           "operator": "FLOW",
@@ -60519,7 +60943,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 5700,
+      "price": 5300,
       "networks": [
         {
           "operator": "SETAR",
@@ -60555,27 +60979,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 16300
+          "price": 15250
         },
         {
           "days": 5,
-          "price": 26050
+          "price": 24350
         },
         {
           "days": 7,
-          "price": 36450
+          "price": 34050
         },
         {
           "days": 10,
-          "price": 50350
+          "price": 47050
         },
         {
           "days": 15,
-          "price": 75500
+          "price": 70550
         },
         {
           "days": 30,
-          "price": 139150
+          "price": 130000
         }
       ]
     },
@@ -60705,7 +61129,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -60740,27 +61164,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2800
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 3950
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 5550
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 7650
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 11450
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 21100
+          "price": 15800
         }
       ]
     },
@@ -64040,7 +64464,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 5400,
+      "price": 3000,
       "networks": [
         {
           "operator": "BTC",
@@ -64821,7 +65245,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2700,
+      "price": 2000,
       "networks": [
         {
           "operator": "FLOW",
@@ -68968,7 +69392,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2650,
+      "price": 2200,
       "networks": [
         {
           "operator": "FLOW",
@@ -69046,7 +69470,7 @@
       "coverage_flags": "🇯🇲",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13400,
+      "price": 11250,
       "networks": [
         {
           "operator": "FLOW",
@@ -70778,7 +71202,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2800,
+      "price": 2350,
       "networks": [
         {
           "operator": "FLOW",
@@ -71178,6 +71602,77 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "8208dec1-72a6-4d6b-9cdc-84ca5a9e11bc",
+      "name": "Cayman Islands 500MB/Day",
+      "country_code": "KY",
+      "region": "KY",
+      "coverage_country_codes": [
+        "KY"
+      ],
+      "coverage_flags": "🇰🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
+        }
+      ]
     },
     {
       "package_id": "823c954b-76c6-4e11-a1b5-629932495df2",
@@ -73170,7 +73665,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3600,
+      "price": 3000,
       "networks": [
         {
           "operator": "Chippie",
@@ -74639,7 +75134,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1050,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -75013,7 +75508,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2850,
+      "price": 2000,
       "networks": [
         {
           "operator": "FLOW",
@@ -75173,7 +75668,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 15250,
+      "price": 10450,
       "networks": [
         {
           "operator": "FLOW",
@@ -76540,7 +77035,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2000,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -76575,27 +77070,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5050
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 8050
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 11250
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 15500
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 23250
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 42850
+          "price": 27700
         }
       ]
     },
@@ -78013,7 +78508,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7950,
+      "price": 5450,
       "networks": [
         {
           "operator": "FLOW",
@@ -80814,7 +81309,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1200,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -81194,7 +81689,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 8700,
+      "price": 5450,
       "networks": [
         {
           "operator": "FLOW",
@@ -81371,6 +81866,76 @@
         {
           "days": 30,
           "price": 24000
+        }
+      ]
+    },
+    {
+      "package_id": "937b5376-5646-42d2-af14-9bf0ef3ee7cb",
+      "name": "Saint Kitts and Nevis 500MB/Day",
+      "country_code": "KN",
+      "region": "KN",
+      "coverage_country_codes": [
+        "KN"
+      ],
+      "coverage_flags": "🇰🇳",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
         }
       ]
     },
@@ -83095,7 +83660,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 11800,
+      "price": 10250,
       "networks": [
         {
           "operator": "SETAR",
@@ -83440,7 +84005,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 15900,
+      "price": 11250,
       "networks": [
         {
           "operator": "FLOW",
@@ -84137,7 +84702,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1800,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -84172,27 +84737,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4500
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 7200
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 10050
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 13900
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 20850
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 38400
+          "price": 27700
         }
       ]
     },
@@ -85050,7 +85615,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1050,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -87191,7 +87756,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -87226,27 +87791,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2850
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4500
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 6300
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 8700
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 13050
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 24000
+          "price": 15800
         }
       ]
     },
@@ -87261,7 +87826,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1050,
+      "price": 950,
       "networks": [
         {
           "operator": "Chippie",
@@ -88048,7 +88613,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 15900,
+      "price": 11250,
       "networks": [
         {
           "operator": "FLOW",
@@ -89229,7 +89794,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1200,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -89373,6 +89938,37 @@
           "price": 2650
         }
       ]
+    },
+    {
+      "package_id": "a0bb5326-29d0-4288-8346-3d0a85351e32",
+      "name": "Jamaica 1 GB",
+      "country_code": "JM",
+      "region": "JM",
+      "coverage_country_codes": [
+        "JM"
+      ],
+      "coverage_flags": "🇯🇲",
+      "data_gb": 1,
+      "validity_days": 14,
+      "price": 1100,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "a0bc39ff-e2c5-4989-8ec6-14da70b2f428",
@@ -89661,7 +90257,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13500,
+      "price": 10450,
       "networks": [
         {
           "operator": "FLOW",
@@ -91279,7 +91875,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 3250,
+      "price": 2300,
       "networks": [
         {
           "operator": "BTC",
@@ -92398,7 +92994,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2000,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -92433,27 +93029,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5050
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 8050
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 11250
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 15500
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 23250
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 42850
+          "price": 27700
         }
       ]
     },
@@ -92798,7 +93394,7 @@
       "coverage_flags": "🇦🇬",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4400,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -93201,7 +93797,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1000,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -93572,7 +94168,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2150,
+      "price": 1300,
       "networks": [
         {
           "operator": "BTC",
@@ -93607,27 +94203,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5450
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 8650
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 12100
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 16750
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 25100
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 46200
+          "price": 27700
         }
       ]
     },
@@ -95823,6 +96419,76 @@
       "sellable_days": []
     },
     {
+      "package_id": "abf04277-6055-4fe3-8e7b-c7eb6d768e67",
+      "name": "Virgin Islands- British 500MB/Day",
+      "country_code": "VG",
+      "region": "VG",
+      "coverage_country_codes": [
+        "VG"
+      ],
+      "coverage_flags": "🇻🇬",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
+        }
+      ]
+    },
+    {
       "package_id": "ac00e50d-85b0-46a1-b4b3-21526259fcc4",
       "name": "Panama 20 GB",
       "country_code": "PA",
@@ -97610,7 +98276,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2900,
+      "price": 2350,
       "networks": [
         {
           "operator": "FLOW",
@@ -97921,7 +98587,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3450,
+      "price": 2350,
       "networks": [
         {
           "operator": "BTC",
@@ -98050,7 +98716,7 @@
       "coverage_flags": "🇻🇬",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4750,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -99209,7 +99875,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1800,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -99244,27 +99910,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4500
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 7200
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 10050
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 13900
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 20850
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 38400
+          "price": 27700
         }
       ]
     },
@@ -99331,7 +99997,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2900,
+      "price": 2450,
       "networks": [
         {
           "operator": "Chippie",
@@ -99366,27 +100032,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 8350
+          "price": 6250
         },
         {
           "days": 5,
-          "price": 13300
+          "price": 10000
         },
         {
           "days": 7,
-          "price": 18600
+          "price": 14000
         },
         {
           "days": 10,
-          "price": 25700
+          "price": 19300
         },
         {
           "days": 15,
-          "price": 38500
+          "price": 28950
         },
         {
           "days": 30,
-          "price": 70950
+          "price": 53350
         }
       ]
     },
@@ -100290,7 +100956,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1800,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -100325,27 +100991,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4600
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 7350
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 10250
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 14150
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 21250
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 39100
+          "price": 27700
         }
       ]
     },
@@ -102100,7 +102766,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6550,
+      "price": 5300,
       "networks": [
         {
           "operator": "Chippie",
@@ -102359,7 +103025,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2750,
+      "price": 2200,
       "networks": [
         {
           "operator": "FLOW",
@@ -104888,7 +105554,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 3100,
+      "price": 2750,
       "networks": [
         {
           "operator": "SETAR",
@@ -104924,27 +105590,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 8850
+          "price": 7850
         },
         {
           "days": 5,
-          "price": 14150
+          "price": 12550
         },
         {
           "days": 7,
-          "price": 19800
+          "price": 17550
         },
         {
           "days": 10,
-          "price": 27350
+          "price": 24200
         },
         {
           "days": 15,
-          "price": 41000
+          "price": 36300
         },
         {
           "days": 30,
-          "price": 75550
+          "price": 66900
         }
       ]
     },
@@ -105924,7 +106590,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7150,
+      "price": 5900,
       "networks": [
         {
           "operator": "FLOW",
@@ -107465,7 +108131,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7550,
+      "price": 5450,
       "networks": [
         {
           "operator": "FLOW",
@@ -109479,7 +110145,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1850,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -109514,27 +110180,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4650
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 7450
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 10400
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 14350
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 21550
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 39650
+          "price": 27700
         }
       ]
     },
@@ -110390,7 +111056,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2850,
+      "price": 2200,
       "networks": [
         {
           "operator": "FLOW",
@@ -113737,7 +114403,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1650,
+      "price": 1550,
       "networks": [
         {
           "operator": "SETAR",
@@ -115057,7 +115723,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 14500,
+      "price": 10450,
       "networks": [
         {
           "operator": "FLOW",
@@ -115265,7 +115931,7 @@
       "coverage_flags": "🇨🇼",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2450,
+      "price": 2000,
       "networks": [
         {
           "operator": "Chippie",
@@ -115668,7 +116334,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4750,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -116464,7 +117130,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4750,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -116778,7 +117444,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2800,
+      "price": 2100,
       "networks": [
         {
           "operator": "FLOW",
@@ -118435,7 +119101,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 4400,
+      "price": 4100,
       "networks": [
         {
           "operator": "SETAR",
@@ -118471,27 +119137,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 12600
+          "price": 11750
         },
         {
           "days": 5,
-          "price": 20100
+          "price": 18800
         },
         {
           "days": 7,
-          "price": 28100
+          "price": 26300
         },
         {
           "days": 10,
-          "price": 38850
+          "price": 36300
         },
         {
           "days": 15,
-          "price": 58250
+          "price": 54450
         },
         {
           "days": 30,
-          "price": 107350
+          "price": 100300
         }
       ]
     },
@@ -121867,7 +122533,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 8000,
+      "price": 5900,
       "networks": [
         {
           "operator": "FLOW",
@@ -122499,7 +123165,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 18800,
+      "price": 11250,
       "networks": [
         {
           "operator": "BTC",
@@ -122925,7 +123591,7 @@
       "coverage_flags": "🇯🇲",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1100,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -123399,6 +124065,43 @@
           "price": 17550
         }
       ]
+    },
+    {
+      "package_id": "d9add922-07f0-4b66-865d-57231ca22ee7",
+      "name": "Anguilla 3GB 30Days",
+      "country_code": "AI",
+      "region": "AI",
+      "coverage_country_codes": [
+        "AI"
+      ],
+      "coverage_flags": "🇦🇮",
+      "data_gb": 3,
+      "validity_days": 30,
+      "price": 2100,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "d9b290bf-56c9-4f40-be13-2a99a99a6464",
@@ -124050,7 +124753,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2000,
+      "price": 1300,
       "networks": [
         {
           "operator": "FLOW",
@@ -124085,27 +124788,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5050
+          "price": 3250
         },
         {
           "days": 5,
-          "price": 8050
+          "price": 5200
         },
         {
           "days": 7,
-          "price": 11250
+          "price": 7250
         },
         {
           "days": 10,
-          "price": 15500
+          "price": 10050
         },
         {
           "days": 15,
-          "price": 23250
+          "price": 15050
         },
         {
           "days": 30,
-          "price": 42850
+          "price": 27700
         }
       ]
     },
@@ -126571,7 +127274,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2650,
+      "price": 2200,
       "networks": [
         {
           "operator": "FLOW",
@@ -127847,7 +128550,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1850,
+      "price": 1650,
       "networks": [
         {
           "operator": "SETAR",
@@ -127883,27 +128586,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4700
+          "price": 4150
         },
         {
           "days": 5,
-          "price": 7450
+          "price": 6600
         },
         {
           "days": 7,
-          "price": 10450
+          "price": 9250
         },
         {
           "days": 10,
-          "price": 14400
+          "price": 12800
         },
         {
           "days": 15,
-          "price": 21600
+          "price": 19150
         },
         {
           "days": 30,
-          "price": 39800
+          "price": 35300
         }
       ]
     },
@@ -127918,7 +128621,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1400,
+      "price": 950,
       "networks": [
         {
           "operator": "BTC",
@@ -130203,7 +130906,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1050,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -131080,7 +131783,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7350,
+      "price": 5450,
       "networks": [
         {
           "operator": "FLOW",
@@ -131276,7 +131979,7 @@
       "coverage_flags": "🇰🇾",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4400,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -132586,6 +133289,76 @@
       "sellable_days": []
     },
     {
+      "package_id": "e8d4ca81-9b18-4893-abf2-f6b5bd825672",
+      "name": "Grenada 500MB/Day",
+      "country_code": "GD",
+      "region": "GD",
+      "coverage_country_codes": [
+        "GD"
+      ],
+      "coverage_flags": "🇬🇩",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "FLOW",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3700
+        },
+        {
+          "days": 15,
+          "price": 5550
+        },
+        {
+          "days": 30,
+          "price": 10150
+        }
+      ]
+    },
+    {
       "package_id": "e8e67bdd-304d-4740-9eba-e530e1d8278b",
       "name": "Ireland 3GB/Day FUP1Mbps",
       "country_code": "IE",
@@ -133000,7 +133773,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2850,
+      "price": 2000,
       "networks": [
         {
           "operator": "FLOW",
@@ -133939,7 +134712,7 @@
       "coverage_flags": "🇩🇲",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4050,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -135029,7 +135802,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3900,
+      "price": 3000,
       "networks": [
         {
           "operator": "FLOW",
@@ -135066,7 +135839,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1050,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -135101,27 +135874,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2700
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 3850
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 5350
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 7400
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 11100
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 20400
+          "price": 15800
         }
       ]
     },
@@ -136040,7 +136813,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 24250,
+      "price": 19650,
       "networks": [
         {
           "operator": "SETAR",
@@ -136078,7 +136851,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1050,
+      "price": 850,
       "networks": [
         {
           "operator": "FLOW",
@@ -136113,27 +136886,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2900
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4100
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 5750
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 7950
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 11900
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 21950
+          "price": 15800
         }
       ]
     },
@@ -139622,7 +140395,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2650,
+      "price": 2350,
       "networks": [
         {
           "operator": "FLOW",
@@ -139812,7 +140585,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1200,
+      "price": 950,
       "networks": [
         {
           "operator": "FLOW",
@@ -145113,7 +145886,7 @@
       "coverage_flags": "🇧🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1250,
+      "price": 850,
       "networks": [
         {
           "operator": "BTC",
@@ -145148,27 +145921,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3100
+          "price": 2100
         },
         {
           "days": 5,
-          "price": 4950
+          "price": 3000
         },
         {
           "days": 7,
-          "price": 6950
+          "price": 4150
         },
         {
           "days": 10,
-          "price": 9600
+          "price": 5750
         },
         {
           "days": 15,
-          "price": 14350
+          "price": 8600
         },
         {
           "days": 30,
-          "price": 26450
+          "price": 15800
         }
       ]
     },
@@ -146223,7 +146996,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "3cc37b06-77ed-4289-9093-375320576906",
           "4a9cd284-c021-4844-ac84-fb0d0dfcce99",
           "33c77268-1e72-46c7-90ed-3cd6a325c2e2",
           "5ab4a41a-91b4-4a83-83b1-84eb8b2256f5"
@@ -146234,6 +147007,7 @@
         "local": [
           "98d7742c-a0a5-499e-89a6-bd0d55468855",
           "776b3b13-473b-4a64-923b-cfe36ec3c7d9",
+          "d9add922-07f0-4b66-865d-57231ca22ee7",
           "29b2c785-e4c6-4e26-90e8-e37f6dc2785e",
           "4a9fe62c-467c-4500-a383-529697736c02",
           "43700a57-b49d-4463-8ab1-033af1c43aa9"
@@ -146249,7 +147023,7 @@
           "04262a42-912e-42df-a29e-46c97d9fa708"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "06ee9346-ef32-461a-81d7-a6f576824f18",
           "5f021362-1ddf-4c13-b85a-36bec3406ec2",
           "b291c805-d438-4b9b-9569-6b2e9a121127",
           "11170434-e506-4bee-8a73-8e63cc5ec5a1"
@@ -147506,7 +148280,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "19d955ad-8366-45dc-87b8-db3bfd3ca162",
           "700fe7ed-32b7-4f4f-845b-5924cbcf6f3d",
           "c28308a0-1bf6-4133-b225-973d78795e31"
         ],
@@ -147916,7 +148690,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "e8d4ca81-9b18-4893-abf2-f6b5bd825672",
           "3080cb38-49b7-49ca-8c30-558e69de9202",
           "03967bbb-0304-40aa-9e4e-072d5b8744e8"
         ],
@@ -148694,7 +149468,9 @@
       "JM": {
         "local": [
           "d880b73f-8939-425f-83b1-83ea4e8d0aa0",
+          "a0bb5326-29d0-4288-8346-3d0a85351e32",
           "fbbbae9a-2ff9-43dc-851e-34f3a548272e",
+          "4029d22e-90e1-4fe3-8024-90e5bb091bc9",
           "c41366db-13f5-49fb-a81a-a7af68f0cab0",
           "297b050e-25f7-4a72-bfea-31298a472abb",
           "17916c14-9442-4f6e-83bc-c40787358af0",
@@ -148891,7 +149667,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "937b5376-5646-42d2-af14-9bf0ef3ee7cb",
           "05e4f66f-53b0-45de-b544-804525f17d01",
           "a662efe9-494a-46b1-b4e2-68e1757c1908"
         ],
@@ -148997,7 +149773,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "8208dec1-72a6-4d6b-9cdc-84ca5a9e11bc",
           "63f6e1a4-19e5-466c-95fe-82a75e7de628",
           "3e4b5e6e-fe3a-4430-b0db-a4c5ed83b86d"
         ],
@@ -149081,7 +149857,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "5fa6c7ef-16ef-4880-89a8-5aed5bdd4583",
           "4e32e577-d4fc-45b1-b443-a9476f3ad7c7",
           "dabbd5dc-5eb7-473f-b67b-63ed3671e8a4"
         ],
@@ -149593,6 +150369,7 @@
       "MS": {
         "local": [
           "e4cbcac2-30db-4b6d-9c2d-a91f6e4fbca7",
+          "4286dab4-b92f-4fba-9fdb-397c684b8104",
           "f3b69886-860c-44b5-8840-4f46288b25db",
           "3d2bd078-cf8e-4ab5-9694-a781cdee6514",
           "be8632f6-b9c9-46a1-8cc9-f85831bf053c",
@@ -149609,7 +150386,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "436a360e-ad47-447f-9928-6bb0e6f6c4fe",
           "ee220c1a-94d6-4fef-9e12-1675a4236290",
           "97d3298e-0fe9-4840-bfe5-4bc81932ca71"
         ],
@@ -151404,7 +152181,7 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "abf04277-6055-4fe3-8e7b-c7eb6d768e67",
           "9c7331fb-66bc-4e42-80a5-baeecb62fb4c",
           "8ad23dcc-71a3-4af7-adde-3b5405dc1bc7"
         ],
