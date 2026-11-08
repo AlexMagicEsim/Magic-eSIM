@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-07",
+ "updated": "2026-11-08",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -7579,9 +7579,9 @@
    },
    "also": [
     "TH",
-    "SG",
     "ID",
     "KR",
+    "SG",
     "VN",
     "HK",
     "IN",
@@ -7589,17 +7589,17 @@
     "KH",
     "MO",
     "PH",
-    "AU",
     "BD",
+    "LA",
+    "TW",
+    "AU",
     "CN",
     "IL",
     "KW",
-    "LA",
     "LK",
     "NZ",
     "PK",
-    "SA",
-    "TW"
+    "SA"
    ],
    "daily": {
     "gb_per_day": [
@@ -9983,7 +9983,6 @@
      5,
      10,
      20,
-     30,
      50
     ],
     "days": [
@@ -9996,9 +9995,9 @@
    },
    "also": [
     "MY",
-    "SG",
     "ID",
     "KR",
+    "SG",
     "VN",
     "HK",
     "IN",
@@ -10006,17 +10005,17 @@
     "KH",
     "MO",
     "PH",
-    "AU",
     "BD",
+    "LA",
+    "TW",
+    "AU",
     "CN",
     "IL",
     "KW",
-    "LA",
     "LK",
     "NZ",
     "PK",
-    "SA",
-    "TW"
+    "SA"
    ],
    "daily": {
     "gb_per_day": [
@@ -12259,6 +12258,7 @@
       "VN"
      ],
      "gb": [
+      3,
       5,
       10,
       20,
@@ -12266,6 +12266,7 @@
       60
      ],
      "days": [
+      7,
       15,
       30,
       60
