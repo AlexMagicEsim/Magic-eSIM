@@ -284,8 +284,17 @@ export function stripSiteChrome(html) {
 // — an interface, not what the page says about its country. The third consent box and the new document versions moved
 // all 30 indexed EN/ES country URLs; with this rule they moved 0 (state migration: --rehash-keep-dates, after checking
 // that every sitemap URL hashes the same before and after the change under the new rule).
+//
+// THE RUSSIAN CHECKOUT WINDOW LIKEWISE (P1-3, owner 2026-11-08) — `<div id="checkoutModal" class="checkout-overlay"
+// hidden>` (seo/ru-checkout-markup.mjs, the same window on all 199 Russian country pages) reduced to an empty element.
+// Unlike the international window it does NOT run to the footer: the country's authored text follows it, so the strip
+// ends at the window's own close (its one </form>, then the two closing divs). The refund and support lines under the
+// pay button would have moved all 199 hashes; with this rule they move 0 (state migration: --rehash-keep-dates after a
+// plain build on the unchanged tree had moved 0).
 export function stripCheckoutWindow(html) {
-  return String(html).replace(/<div class="overlay" id="checkout" hidden>[\s\S]*?(?=<footer class="site-footer">)/g, '<div class="overlay" id="checkout" hidden></div>\n');
+  return String(html)
+    .replace(/<div class="overlay" id="checkout" hidden>[\s\S]*?(?=<footer class="site-footer">)/g, '<div class="overlay" id="checkout" hidden></div>\n')
+    .replace(/<div id="checkoutModal" class="checkout-overlay" hidden>[\s\S]*?<\/form>\n {4}<\/div>\n {2}<\/div>/g, '<div id="checkoutModal" class="checkout-overlay" hidden></div>');
 }
 
 // THE REFERRER HAND-OFF LIKEWISE, added 2026-11-07 (post-migration audit P2). The one line of the attribution capture
