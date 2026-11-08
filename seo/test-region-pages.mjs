@@ -178,9 +178,13 @@ test('indexing: a region is its own kind — noindex in every language, no hrefl
     assert.equal(ruAlternates(`/ru/esim/${slug}/`), '');
   }
   assert.equal(indexedPrefixedPages(EN_GUIDES.map((g) => g.slug)).filter((p) => p.page.kind === 'region').length, 0);
+  // The one Russian region page, /ru/esim/europe/ (P2-3, owner 2026-11-08), decides its own robots from the catalogue
+  // (seo/ru-regions.mjs) and is in the sitemap exactly while it is indexed. Asia and Global have no Russian page.
   const locs = sitemapUrls(CATALOGUE).map((u) => u.loc);
-  assert.equal(locs.filter((u) => REGION_SLUGS.some((s) => u.endsWith(`/ru/esim/${s}/`))).length, 0);
-  assert.equal(read('sitemap.xml').match(/\/ru\/esim\/(europe|asia|global)\//g), null);
+  const ruEuropeIndexed = /<meta name="robots" content="index, follow"/.test(read('ru/esim/europe/index.html'));
+  assert.equal(locs.filter((u) => REGION_SLUGS.filter((s) => s !== 'europe').some((s) => u.endsWith(`/ru/esim/${s}/`))).length, 0);
+  assert.equal(locs.includes('https://magicesim.store/ru/esim/europe/'), ruEuropeIndexed, 'europe in the sitemap exactly while indexed');
+  assert.equal(read('sitemap.xml').match(/\/ru\/esim\/(asia|global)\//g), null);
   assert.deepEqual(PREFIXED_WEIGHT.region, { prio: '0.7', freq: 'weekly' }, 'a region opened later gets a full sitemap entry');
 });
 
@@ -289,13 +293,15 @@ test('no page links a region page that does not exist; the Russian pages link no
       if (!n.name.endsWith('.html')) continue;
       const html = read(p);
       for (const [, href] of html.matchAll(/href="(\/(?:[a-z]{2}\/)?esim\/(europe|asia|global)\/)"/g)) {
+        // A Russian link may lead to /ru/esim/europe/ (P2-3) — and only while that page exists.
         if (!existsSync(join(ROOT, href, 'index.html')) || !/^\/[a-z]{2}\//.test(href)) bad.push(`${p} → ${href}`);
       }
     }
   };
   walk('');
   assert.deepEqual(bad, []);
-  for (const slug of REGION_SLUGS) assert.ok(!existsSync(join(ROOT, 'ru/esim', slug)), `a Russian /esim/${slug}/ would read as a country`);
+  for (const slug of REGION_SLUGS.filter((s) => s !== 'europe')) assert.ok(!existsSync(join(ROOT, 'ru/esim', slug)), `a Russian /esim/${slug}/ would read as a country`);
+  assert.ok(existsSync(join(ROOT, 'ru/esim/europe/index.html')), 'the Russian region page (P2-3) is built by build-catalogue-pages.mjs');
 });
 
 /* ------------------------------------------------------------------ 7. the refresh automation */
@@ -305,8 +311,9 @@ test('refresh: a run that rewrites only region pages proceeds; a region-like pat
   const pages = publishedLocales().flatMap((code) => REGION_SLUGS.map((s) => `${locale(code).paths.catalogue.slice(1)}${s}/index.html`));
   assert.equal(pages.length, PREFIXED.length * 3);
   assert.deepEqual(unexpectedPaths(pages, slugs), []);
-  assert.deepEqual(unexpectedPaths(['destinations/africa/index.html', 'en/regions/europe/index.html', 'ru/esim/europe/index.html'], slugs),
-    ['destinations/africa/index.html', 'en/regions/europe/index.html', 'ru/esim/europe/index.html']);
+  assert.deepEqual(unexpectedPaths(['ru/esim/europe/index.html'], slugs), [], 'the Russian region page (P2-3) is refreshed with the catalogue');
+  assert.deepEqual(unexpectedPaths(['destinations/africa/index.html', 'en/regions/europe/index.html', 'ru/esim/asia/index.html'], slugs),
+    ['destinations/africa/index.html', 'en/regions/europe/index.html', 'ru/esim/asia/index.html']);
 });
 
 test('no region slug is a country slug of the generator (it refuses to build one that is)', () => {

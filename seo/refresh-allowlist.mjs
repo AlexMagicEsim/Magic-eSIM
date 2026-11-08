@@ -42,6 +42,7 @@ export const FIXED_ALLOWED = Object.freeze([
   'seo/suppressed-claims.json',   // authored sentences the catalogue no longer bears out, from build-catalogue-pages.mjs
   ...catalogueLocalePaths([]).fixed, // each published language's list and search data, from build-locale-pages.mjs
   'assets/ru-destinations.js',    // the Russian home's search list, from build-catalogue-pages.mjs
+  'ru/esim/europe/index.html',    // the Russian region page (P2-3), from build-catalogue-pages.mjs
 ]);
 
 /**

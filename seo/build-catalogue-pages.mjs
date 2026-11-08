@@ -39,6 +39,8 @@ import { renderAuthored, readRawProfile, loadPublishedCatalogue } from './page-c
 import { buildDictionaryGen } from './build-country-dictionary.mjs';
 import { ALIASES, REGIONS } from './destination-aliases.mjs';
 import { ruAlternates, enSwitchPath } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
+import { ruRegionSets, ruRegionPage, indexable } from './ru-regions.mjs'; // P2-3: /ru/esim/europe/
+import { EUROPE_CODES } from './regions.mjs';
 
 // The daily block's own heading, from the module that renders it — so the FAQ
 // can name the block the reader actually sees instead of a copy that drifts.
@@ -151,6 +153,14 @@ function localBlockWhere(c) {
 // The published layout every authored reference is resolved on (seo/plan-ref.mjs).
 let CATALOGUE_DOC;
 try { CATALOGUE_DOC = loadPublishedCatalogue(); } catch (e) { console.error(`ОШИБКА: ${e.message}`); process.exit(1); }
+
+// P2-3: the coverage sets of /ru/esim/europe/ (seo/ru-regions.mjs), from the same published layout as the pages. The
+// European countries whose own page offers one of them link to it from their regional block — not the SEO pilot's
+// pages (their template is frozen), and not when the region page carries no plan (it is noindex then).
+const EUROPE_SETS = ruRegionSets(CATALOGUE_DOC, countries, 'europe');
+const EUROPE_LINKED = indexable(EUROPE_SETS)
+  ? new Set(EUROPE_SETS.flatMap((s) => s.shown_on).filter((iso) => EUROPE_CODES.includes(iso)))
+  : new Set();
 // The cards the page shows — the published layout (seo/catalogue-facts.mjs shownBlocks), the one view every
 // generated number on a country page is computed from.
 function shownOn(iso) {
@@ -636,7 +646,7 @@ ${live ? `    <div class="cp-skeleton" aria-hidden="true">
         <span class="blk-ico">${BLOCK_ICON.regional}</span>
         <div>
           <h2><span id="regionalHead">Региональные тарифы с покрытием этой страны</span> <span class="count" id="regionalCount"></span></h2>
-          <p class="note">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.</p>
+          <p class="note">Покрытие включает несколько стран — подходит, если поездка не ограничена одной.${EUROPE_LINKED.has(c.iso) && !(profile && profile.seo_pilot) ? ' <a href="/ru/esim/europe/">Региональные тарифы для поездки по Европе</a>.' : ''}</p>
         </div>
       </div>
       <div id="regionalGrid" class="grid plan-grid packages-grid"></div>
@@ -833,6 +843,18 @@ for (const c of countries) {
   writeFileSync(join(dir, 'index.html'), page(c, countries, profile));
   written++;
 }
+// P2-3: the Russian region page, from the sets computed above (seo/ru-regions.mjs).
+{
+  const dir = join(ROOT, 'ru/esim/europe');
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, 'index.html'), ruRegionPage('europe', { sets: EUROPE_SETS, pages: countries, chrome: {
+    site: SITE, header: ruHeader({ en: enSwitchPath('/ru/esim/europe/') }), footer: RU_FOOTER,
+    fontPreload: RU_FONT_PRELOAD.replace(/^/gm, '  '), headIcons: headIcons('  '), stamp: stampUrl, metrika: METRIKA,
+    updated: CATALOGUE_DOC.generated_at || loadCached().fetched_at,
+  } }));
+  console.log(`/ru/esim/europe/: ${EUROPE_SETS.length} вариантов покрытия, ${indexable(EUROPE_SETS) ? 'index' : 'noindex'}, ссылка со страниц стран: ${[...EUROPE_LINKED].length}`);
+}
+
 // What the catalogue left out of the authored pages — state, not a log: the
 // refresh PR shows it, a person rewrites each sentence (seo/page-claims.mjs).
 writeFileSync(join(ROOT, 'seo/suppressed-claims.json'), `${JSON.stringify({

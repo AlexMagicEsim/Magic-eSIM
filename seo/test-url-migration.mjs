@@ -100,6 +100,7 @@ test('newPath refuses what is not a path', () => {
 // purpose, so «nothing lost» still holds and an unexpected URL in the sitemap still fails.
 const ADDED_AFTER_SWITCH = Object.freeze([
   `${SITE}/ru/esim/esim-or-roaming/`,   // P2-2 of the SEO plan, 2026-11-08
+  `${SITE}/ru/esim/europe/`,            // P2-3 of the SEO plan, 2026-11-08 (listed while indexed)
 ]);
 
 test('the switch: every old sitemap URL lands on exactly one URL of the current sitemap, and the current one names no old path', () => {

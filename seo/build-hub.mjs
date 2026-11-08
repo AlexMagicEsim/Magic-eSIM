@@ -20,6 +20,7 @@ import { headIcons } from './head-icons.mjs';
 import { ruHeader, RU_FOOTER, RU_FONT_PRELOAD, RU_POPULAR } from './ru-chrome.mjs';
 import { SEARCH_ICON } from './site-chrome.mjs';
 import { GUIDES } from './guides.mjs';
+import { writtenPageIndexed } from './ru-regions.mjs';
 import { ruAlternates, enSwitchPath } from './indexing.mjs'; // I18N-09: the hreflang cluster of a Russian page with indexed twins
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -145,7 +146,7 @@ ${ruHeader({ en: enSwitchPath('/ru/esim/') })}
       <h1>eSIM по странам</h1>
       <p class="lead">${countries.length} ${countries.length % 10 === 1 && countries.length % 100 !== 11 ? 'направление' : 'направлений'} с реальными тарифами из каталога. У ${withLocal.length} есть локальные тарифы — на странице страны у них свой блок, отдельный от региональных.</p>
       <p class="lead"><a href="#materials">Инструкции и ответы перед поездкой</a> — установка, совместимость, оплата.</p>
-      <!-- Поиск показывает скрипт внизу страницы: без него не будет поля, которое ничего не делает. -->
+${writtenPageIndexed(ROOT, 'europe') ? `      <p class="lead"><a href="/ru/esim/europe/">Тарифы на несколько стран Европы</a> — варианты покрытия и где их купить.</p>\n` : ''}      <!-- Поиск показывает скрипт внизу страницы: без него не будет поля, которое ничего не делает. -->
       <div class="hub-search" id="hubFind" role="search" hidden>
         <label for="hubSearch" class="sr-only">Найти страну</label>
         <div class="hub-field">${SEARCH_ICON}<input type="text" class="ym-hide-content" id="hubSearch" autocomplete="off" spellcheck="false" enterkeyhint="go" aria-controls="hubList" aria-describedby="hubCount" placeholder="Найти страну…"><button type="button" class="hub-clear" id="hubClear" aria-label="Очистить поиск" hidden>×</button></div>
