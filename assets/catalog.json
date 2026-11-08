@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-08T12:05:06.405Z",
+  "generated_at": "2026-11-08T15:05:00.803Z",
   "source": "production-public-api",
-  "package_count": 2403,
+  "package_count": 2405,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -2172,7 +2172,7 @@
       "package_id": "04262a42-912e-42df-a29e-46c97d9fa708",
       "name": "Best World 10 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TN, TT, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VN, VE, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -2333,8 +2333,8 @@
         "TZ",
         "TH",
         "TO",
-        "TN",
         "TT",
+        "TN",
         "TR",
         "TC",
         "UG",
@@ -2347,10 +2347,10 @@
         "UZ",
         "VU",
         "VA",
-        "VN",
-        "VE"
+        "VE",
+        "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇳 🇹🇹 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇳 🇻🇪",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 10,
       "validity_days": 30,
       "price": 5600,
@@ -26958,6 +26958,38 @@
       "sellable_days": []
     },
     {
+      "package_id": "2f62b34a-ebd7-4638-b471-d2a1ed77630b",
+      "name": "Thailand 50 GB",
+      "country_code": "TH",
+      "region": "TH",
+      "coverage_country_codes": [
+        "TH"
+      ],
+      "coverage_flags": "🇹🇭",
+      "data_gb": 50,
+      "validity_days": 30,
+      "price": 3350,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "2f7e56eb-71af-40e2-8c95-9dccfeb0ad36",
       "name": "Macao 50GB 30Days",
       "country_code": "MO",
@@ -27545,50 +27577,6 @@
       ]
     },
     {
-      "package_id": "313e7371-dd41-432d-855b-0d78b5beb579",
-      "name": "Thailand 10GB 30Days",
-      "country_code": "TH",
-      "region": "TH",
-      "coverage_country_codes": [
-        "TH"
-      ],
-      "coverage_flags": "🇹🇭",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 1050,
-      "networks": [
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "31673b0c-4bc4-4984-b64f-bb367693d01d",
       "name": "Jersey 5GB 30Days",
       "country_code": "JE",
@@ -27881,50 +27869,6 @@
           "price": 3300
         }
       ]
-    },
-    {
-      "package_id": "32a60c82-0b3a-4ec3-a72a-6ac84dd917b5",
-      "name": "Thailand 50GB 30Days",
-      "country_code": "TH",
-      "region": "TH",
-      "coverage_country_codes": [
-        "TH"
-      ],
-      "coverage_flags": "🇹🇭",
-      "data_gb": 50,
-      "validity_days": 30,
-      "price": 5350,
-      "networks": [
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "32b7fbea-7104-42e6-adad-ec205dbd4fdc",
@@ -34168,6 +34112,40 @@
       ]
     },
     {
+      "package_id": "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
+      "name": "Singapore Malaysia Thailand 3 GB",
+      "country_code": "MY",
+      "region": "MY, SG, TH",
+      "coverage_country_codes": [
+        "MY",
+        "SG",
+        "TH"
+      ],
+      "coverage_flags": "🇲🇾 🇸🇬 🇹🇭",
+      "data_gb": 3,
+      "validity_days": 7,
+      "price": 550,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "3d7dedcf-852c-496a-a4b2-e830e74ef198",
       "name": "Maldives 1GB/Day",
       "country_code": "MV",
@@ -36298,6 +36276,38 @@
       "data_gb": 25,
       "validity_days": 30,
       "price": 2950,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "414120b5-fefe-48b2-a273-531a09584be1",
+      "name": "Thailand 30 GB",
+      "country_code": "TH",
+      "region": "TH",
+      "coverage_country_codes": [
+        "TH"
+      ],
+      "coverage_flags": "🇹🇭",
+      "data_gb": 30,
+      "validity_days": 30,
+      "price": 2350,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -43145,7 +43155,7 @@
       "package_id": "4e57dbbf-8f03-4fb7-8717-88e02afbebf3",
       "name": "World 10 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TN, TT, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VN, VE, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -43316,8 +43326,8 @@
         "TH",
         "TG",
         "TO",
-        "TN",
         "TT",
+        "TN",
         "TR",
         "TC",
         "UG",
@@ -43330,10 +43340,10 @@
         "UZ",
         "VU",
         "VA",
-        "VN",
-        "VE"
+        "VE",
+        "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇳 🇹🇹 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇳 🇻🇪",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 10,
       "validity_days": 30,
       "price": 9750,
@@ -48712,7 +48722,7 @@
       "package_id": "599d62d8-67f9-4f24-8dd3-e0a966b1a106",
       "name": "Best World 3 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TN, TT, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VN, VE, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BJ, BM, BQ, BO, BA, BW, BR, VG, BN, BG, KH, CM, CA, KY, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, NR, NL, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -48873,8 +48883,8 @@
         "TZ",
         "TH",
         "TO",
-        "TN",
         "TT",
+        "TN",
         "TR",
         "TC",
         "UG",
@@ -48887,10 +48897,10 @@
         "UZ",
         "VU",
         "VA",
-        "VN",
-        "VE"
+        "VE",
+        "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇳 🇹🇹 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇳 🇻🇪",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇯 🇧🇲 🇧🇶 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇰🇭 🇨🇲 🇨🇦 🇰🇾 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇳🇷 🇳🇱 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 3,
       "validity_days": 30,
       "price": 2650,
@@ -70119,6 +70129,40 @@
       "sellable_days": []
     },
     {
+      "package_id": "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
+      "name": "Singapore Malaysia Thailand 10 GB",
+      "country_code": "MY",
+      "region": "MY, SG, TH",
+      "coverage_country_codes": [
+        "MY",
+        "SG",
+        "TH"
+      ],
+      "coverage_flags": "🇲🇾 🇸🇬 🇹🇭",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 1300,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "7fe50c30-9d0d-4d1a-9f2a-ba697f7241de",
       "name": "India 2GB 15Days",
       "country_code": "IN",
@@ -78658,6 +78702,38 @@
         "NL",
         "UK"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "8f5b3f11-0d17-47cf-abac-683a76193814",
+      "name": "Thailand 10 GB",
+      "country_code": "TH",
+      "region": "TH",
+      "coverage_country_codes": [
+        "TH"
+      ],
+      "coverage_flags": "🇹🇭",
+      "data_gb": 10,
+      "validity_days": 15,
+      "price": 1050,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -103889,7 +103965,7 @@
       "package_id": "b9c738e5-62ff-4172-a3dc-cd9c6deb4ac6",
       "name": "World 1 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TN, TR, TT, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VN, VE, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -104060,9 +104136,9 @@
         "TH",
         "TG",
         "TO",
+        "TT",
         "TN",
         "TR",
-        "TT",
         "TC",
         "UG",
         "UA",
@@ -104074,10 +104150,10 @@
         "UZ",
         "VU",
         "VA",
-        "VN",
-        "VE"
+        "VE",
+        "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇳 🇹🇷 🇹🇹 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇳 🇻🇪",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 1,
       "validity_days": 30,
       "price": 2050,
@@ -124116,7 +124192,7 @@
       "package_id": "dadf1804-e8be-4e4b-9dcb-9b973888a6df",
       "name": "World 3 GB",
       "country_code": "AL",
-      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TN, TR, TT, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VN, VE, US-HI",
+      "region": "AL, DZ, AD, AI, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BB, BY, BE, BZ, BJ, BM, BQ, BA, BW, BR, VG, BN, BG, BF, KH, CM, CA, CV, KY, TD, CL, CN, CO, CR, HR, CW, CY, CZ, DK, DM, DO, EC, EG, SV, EE, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LS, LR, LI, LT, LU, MO, MK, MG, MY, ML, MT, MQ, MR, MU, YT, MX, MD, MC, ME, MS, MA, MZ, NR, NP, NL, NC, NZ, NI, NG, NO, OM, PK, PA, PY, PE, PH, PL, PT, PR, QA, CG, RO, RU, RW, RE, BL, KN, LC, MF, VC, WS, SM, SA, SN, RS, SC, SL, SG, SX, SK, SI, ZA, KR, ES, LK, SR, SZ, SE, CH, TW, TJ, TZ, TH, TG, TO, TT, TN, TR, TC, UG, UA, AE, GB, US, VI, UY, UZ, VU, VA, VE, VN, US-HI",
       "coverage_country_codes": [
         "AL",
         "DZ",
@@ -124287,9 +124363,9 @@
         "TH",
         "TG",
         "TO",
+        "TT",
         "TN",
         "TR",
-        "TT",
         "TC",
         "UG",
         "UA",
@@ -124301,10 +124377,10 @@
         "UZ",
         "VU",
         "VA",
-        "VN",
-        "VE"
+        "VE",
+        "VN"
       ],
-      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇳 🇹🇷 🇹🇹 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇳 🇻🇪",
+      "coverage_flags": "🇦🇱 🇩🇿 🇦🇩 🇦🇮 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇲 🇧🇶 🇧🇦 🇧🇼 🇧🇷 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇰🇭 🇨🇲 🇨🇦 🇨🇻 🇰🇾 🇹🇩 🇨🇱 🇨🇳 🇨🇴 🇨🇷 🇭🇷 🇨🇼 🇨🇾 🇨🇿 🇩🇰 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇪🇪 🇫🇴 🇫🇯 🇫🇮 🇫🇷 🇬🇫 🇵🇫 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇩 🇬🇵 🇬🇺 🇬🇹 🇬🇬 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇶 🇮🇪 🇮🇲 🇮🇱 🇮🇹 🇨🇮 🇯🇲 🇯🇵 🇯🇪 🇯🇴 🇰🇿 🇰🇪 🇽🇰 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇸 🇱🇷 🇱🇮 🇱🇹 🇱🇺 🇲🇴 🇲🇰 🇲🇬 🇲🇾 🇲🇱 🇲🇹 🇲🇶 🇲🇷 🇲🇺 🇾🇹 🇲🇽 🇲🇩 🇲🇨 🇲🇪 🇲🇸 🇲🇦 🇲🇿 🇳🇷 🇳🇵 🇳🇱 🇳🇨 🇳🇿 🇳🇮 🇳🇬 🇳🇴 🇴🇲 🇵🇰 🇵🇦 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇵🇷 🇶🇦 🇨🇬 🇷🇴 🇷🇺 🇷🇼 🇷🇪 🇧🇱 🇰🇳 🇱🇨 🇲🇫 🇻🇨 🇼🇸 🇸🇲 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇽 🇸🇰 🇸🇮 🇿🇦 🇰🇷 🇪🇸 🇱🇰 🇸🇷 🇸🇿 🇸🇪 🇨🇭 🇹🇼 🇹🇯 🇹🇿 🇹🇭 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇨 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇺🇸 🇻🇮 🇺🇾 🇺🇿 🇻🇺 🇻🇦 🇻🇪 🇻🇳",
       "data_gb": 3,
       "validity_days": 30,
       "price": 4500,
@@ -125426,72 +125502,6 @@
           "price": 6100
         }
       ]
-    },
-    {
-      "package_id": "dc0a625a-d4fd-4764-812f-09fa7a5afb09",
-      "name": "Singapore & Malaysia & Thailand 3GB 15Days",
-      "country_code": "SGMYTH-3",
-      "region": "TH,SG,MY",
-      "coverage_country_codes": [
-        "TH",
-        "SG",
-        "MY"
-      ],
-      "coverage_flags": "🇹🇭 🇸🇬 🇲🇾",
-      "data_gb": 3,
-      "validity_days": 15,
-      "price": 650,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        },
-        {
-          "operator": "U Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        },
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "dc17e4a9-9f1b-4f77-b795-4e6498ab7ba4",
@@ -149759,12 +149769,12 @@
           "fb916a98-ded1-4fd9-909a-428d97a1c3a4"
         ],
         "regional": [
+          "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
+          "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
           "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
-          "af1e1299-764b-4511-ba3c-d389416d42d3",
           "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
-          "62938247-97f2-45d5-a2bd-d59b63aa70a6",
           "7931a911-68cf-476e-bde3-081ec50bc203",
           "5f65aa4d-715e-4889-b516-0d905e170f50"
         ],
@@ -150617,9 +150627,9 @@
         ],
         "regional": [
           "34aa461f-5adf-4b55-8ffd-53f7d8a7eade",
-          "dc0a625a-d4fd-4764-812f-09fa7a5afb09",
+          "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
           "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
-          "62938247-97f2-45d5-a2bd-d59b63aa70a6",
+          "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "7931a911-68cf-476e-bde3-081ec50bc203",
           "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
@@ -150937,17 +150947,18 @@
           "1ad828e5-9816-4336-816a-d65d8ff6342e",
           "854a3f9b-cb1b-4dbe-aafc-c8ceee4c6a5f",
           "361ddda4-9b49-437f-8f2a-83f62092fcf6",
-          "313e7371-dd41-432d-855b-0d78b5beb579",
+          "8f5b3f11-0d17-47cf-abac-683a76193814",
           "cd6b01de-fa99-4267-8fc6-71d71afe1315",
+          "414120b5-fefe-48b2-a273-531a09584be1",
           "1172c72c-c686-4798-b047-c73f16829eb1",
-          "32a60c82-0b3a-4ec3-a72a-6ac84dd917b5",
+          "2f62b34a-ebd7-4638-b471-d2a1ed77630b",
           "efdf43a8-a10f-4cd6-9807-1702050f3ff2"
         ],
         "regional": [
           "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
-          "af1e1299-764b-4511-ba3c-d389416d42d3",
+          "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
           "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
-          "62938247-97f2-45d5-a2bd-d59b63aa70a6",
+          "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "7931a911-68cf-476e-bde3-081ec50bc203",
           "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
@@ -150960,7 +150971,7 @@
           "b72889a4-6bb9-4b35-a48f-bf3643989168",
           "e1d2e035-3005-453a-8115-af6b35776979"
         ],
-        "best": "313e7371-dd41-432d-855b-0d78b5beb579"
+        "best": "8f5b3f11-0d17-47cf-abac-683a76193814"
       },
       "TJ": {
         "local": [
