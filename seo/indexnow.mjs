@@ -193,12 +193,29 @@ export function internalLinks(html, pageUrl) {
  * commit, so a change is sent once and never again.
  * Returns { send, skipped: [{url, why}], reason: {url: 'content' | 'links' | 'content+links'} }.
  */
-export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read, readBase }) {
+//
+// A HASH-RULE MIGRATION IS NOT A CONTENT CHANGE (P1-3, 2026-11-08). `node seo/build-sitemap.mjs --rehash-keep-dates`
+// re-takes every hash under a new rule and keeps every date: the entry's hash moved, its lastmod did not, and the page
+// says what it said. Without this, the one-off migration that took the Russian checkout window out of the hash would
+// have sent all 199 country pages. `sameContent(before, after)` (the submit script passes contentHash of
+// seo/build-sitemap.mjs, i.e. the DEPLOYED rule) decides it per page: same date, both files present and equal under the
+// current rule → not sent, listed in `rehashed`. A same-day edit keeps its date too, but its files differ under the
+// rule, so it is still sent. Without `sameContent` or `readBase` nothing changes.
+export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read, readBase, sameContent }) {
   const locs = sitemapLocs(sitemapXml);
   const inSitemap = new Set(locs);
   const rules = robotsRules(robotsTxt);
   const reason = {};
-  for (const u of changedPages(baseState, headState)) reason[u] = 'content';
+  const rehashed = [];
+  for (const u of changedPages(baseState, headState)) {
+    const was = baseState.pages[u];
+    if (was && was.lastmod === headState.pages[u].lastmod && typeof sameContent === 'function' && typeof readBase === 'function') {
+      const before = readBase(repoPath(u));
+      const after = read(repoPath(u));
+      if (before != null && after != null && sameContent(before, after)) { rehashed.push(u); continue; }
+    }
+    reason[u] = 'content';
+  }
   if (typeof readBase === 'function') {
     for (const u of locs) {
       if (!isRuSiteUrl(u)) continue;
@@ -226,7 +243,7 @@ export function selectUrls({ baseState, headState, sitemapXml, robotsTxt, read, 
     }
     if (why) skipped.push({ url: u, why }); else send.push(u);
   }
-  return { send, skipped, reason };
+  return { send, skipped, reason, rehashed };
 }
 
 /** Live re-check of one URL on production: 200 without a redirect, self canonical, no noindex (meta or header). */

@@ -12,6 +12,7 @@ import {
 } from './indexnow.mjs';
 import { allowRule, directoryRules } from '../scripts/build-pages-artifact.mjs';
 import { prefixedSiteLocales } from './locales.mjs';
+import { contentHash } from './build-sitemap.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (rel) => (existsSync(join(ROOT, rel)) ? readFileSync(join(ROOT, rel), 'utf8') : null);
@@ -135,6 +136,33 @@ test('a real-looking deployment: only the changed RU page is sent; its English t
   assert.deepEqual(hidden.skipped.find((s) => s.url === `${ORIGIN}/ru/esim/china/`)?.why, 'noindex');
   // nothing moved → nothing sent
   assert.deepEqual(selectUrls({ baseState: STATE, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read }).send, []);
+});
+
+test('a hash-rule migration sends nothing; a same-day edit still goes (P1-3)', () => {
+  const U = `${ORIGIN}/ru/esim/turkey/`;
+  const REL = 'ru/esim/turkey/index.html';
+  const now = read(REL);
+  // The base commit: the same page before the two trust lines, its entry hashed under the OLD rule, same date.
+  const was = now.replace(/\n {8}<p class="checkout-note">Возврат:[^\n]*<\/p>\n {8}<p class="checkout-note">Вопросы до или после оплаты[^\n]*<\/p>/, '');
+  assert.notEqual(was, now, 'the base page differs only in the checkout window');
+  const base = structuredClone(STATE);
+  base.pages[U] = { ...base.pages[U], hash: 'old-rule-hash' };
+  const sameContent = (a, b) => contentHash(a) === contentHash(b);
+  const readBase = (rel) => (rel === REL ? was : read(rel));
+  const r = selectUrls({ baseState: base, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read, readBase, sameContent });
+  assert.deepEqual(r.send, [], 'the window is not the page: nothing to send');
+  assert.deepEqual(r.rehashed, [U]);
+  // The rule fires the other way too: an edit of the page's own text on the same day keeps the date, moves the hash — sent.
+  const edited = (rel) => (rel === REL ? now.replace('Связь в Турции', 'Связь в Турции (правка)') : read(rel));
+  const e = selectUrls({ baseState: base, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read: edited, readBase: read, sameContent });
+  assert.deepEqual(e.send, [U]);
+  assert.equal(e.reason[U], 'content');
+  // A moved date is always sent, whatever the content; and without sameContent the old behaviour stays.
+  const dated = structuredClone(base); dated.pages[U].lastmod = '2000-01-01';
+  assert.deepEqual(selectUrls({ baseState: dated, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read, readBase, sameContent }).send, [U]);
+  assert.deepEqual(selectUrls({ baseState: base, headState: STATE, sitemapXml: SITEMAP, robotsTxt: ROBOTS, read, readBase }).send, [U]);
+  // The submit script wires it to the deployed rule.
+  assert.match(read('scripts/indexnow-submit.mjs'), /sameContent: \(before, after\) => contentHash\(before\) === contentHash\(after\)/);
 });
 
 test('internalLinks: <a href> inside the site, resolved, without the fragment; scripts, assets and other hosts do not count', () => {

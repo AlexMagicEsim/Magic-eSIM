@@ -202,7 +202,13 @@ test.describe('the country page the home leads to', () => {
     await expect(page.locator('#coPayLabel')).not.toHaveText('Оплатить по СБП');
     await expect(page.locator('#coEmail')).toHaveClass(/ym-hide-content/);
     await expect(page.locator('#coPromoInput')).toHaveClass(/ym-hide-content/);
-    await expect(page.locator('.checkout-note')).toContainText('Оплата через Platega');
+    // Under the pay button: the Platega line, then the refund and support lines (P1-3) — in this order.
+    const notes = page.locator('#checkoutModal .checkout-note');
+    await expect(notes).toHaveCount(3);
+    await expect(notes.nth(0)).toContainText('Оплата через Platega');
+    await expect(notes.nth(1)).toContainText('Возврат: после выдачи данных для установки eSIM');
+    await expect(notes.nth(1).locator('a')).toHaveAttribute('href', '/terms.html#s6');
+    await expect(notes.nth(2).locator('a').first()).toHaveAttribute('href', 'https://t.me/magic_esim_support_bot');
     // «Российская карта» stays inside its button at every width (§30, 320 px).
     const inside = await page.evaluate(() => { const b = document.getElementById('coMethodCard').getBoundingClientRect();
       return [...document.querySelectorAll('#coMethodCard span, #coMethodCard img')].every((e) => { const r = e.getBoundingClientRect(); return r.left >= b.left - 1 && r.right <= b.right + 1; }); });

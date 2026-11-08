@@ -578,3 +578,21 @@ test('the international checkout window is not the page: a change inside it move
   assert.notEqual(contentHash(inMain), contentHash(html), 'an edit in <main> still moves the hash');
   assert.match(readFileSync(new URL('../seo/build-sitemap.mjs', import.meta.url), 'utf8'), /\.update\(stripCheckoutWindow\(/);
 });
+
+test('the Russian checkout window is not the page either — and the strip stops at the window, not at the footer (P1-3)', () => {
+  const html = readFileSync(new URL('../ru/esim/turkey/index.html', import.meta.url), 'utf8');
+  assert.ok(html.includes('<div id="checkoutModal" class="checkout-overlay" hidden>'), 'a real page with the window');
+  const stripped = stripCheckoutWindow(html);
+  assert.ok(stripped.includes('<div id="checkoutModal" class="checkout-overlay" hidden></div>'), 'the strip fires');
+  assert.doesNotMatch(stripped, /id="coPay"|id="coConsent"|class="checkout-note"/, 'nothing of the window is left');
+  // The country's authored text follows the window: it stays in the hash.
+  const after = html.slice(html.indexOf('</form>\n    </div>\n  </div>') + 30, html.indexOf('<footer class="site-footer">'));
+  assert.ok(after.replace(/<[^>]+>/g, '').trim().length > 200, 'authored content sits between the window and the footer');
+  assert.ok(stripped.includes(after), 'and the strip leaves every byte of it');
+  const edited = html.replace('Оплата через Platega:', 'Оплата через Platega (правка):').replace('id="coPay"', 'id="coPay" data-x="y"');
+  assert.notEqual(edited, html);
+  assert.equal(contentHash(edited), contentHash(html), 'a line in the window moves nothing');
+  const inAuthored = html.replace(after, after.replace('<p', '<p data-edit="1"'));
+  assert.notEqual(inAuthored, html);
+  assert.notEqual(contentHash(inAuthored), contentHash(html), 'an edit of the authored text after the window still moves the hash');
+});
