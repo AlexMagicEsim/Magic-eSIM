@@ -183,7 +183,7 @@ test('the refresh allowlist is what it was — derived now, not typed', () => {
     'ru/esim/index.html', 'sitemap.xml', 'seo/catalogue-countries.json', 'seo/fact-sheets.json',
     'seo/sitemap-lastmod.json', 'seo/suppressed-claims.json', 'destinations/index.html', 'en/destinations.js', 'es/esim/index.html', 'es/destinations.js',
     'de/esim/index.html', 'de/destinations.js', 'fr/esim/index.html', 'fr/destinations.js', 'zh/esim/index.html', 'zh/destinations.js', 'ko/esim/index.html', 'ko/destinations.js',
-    'assets/ru-destinations.js',
+    'assets/ru-destinations.js', 'ru/esim/europe/index.html',
   ]);
   assert.deepEqual([...allowedPaths(['thailand'])].sort(),
     [...FIXED_ALLOWED, 'ru/esim/thailand/index.html', 'destinations/thailand/index.html', 'es/esim/thailand/index.html', 'de/esim/thailand/index.html', 'fr/esim/thailand/index.html', 'zh/esim/thailand/index.html', 'ko/esim/thailand/index.html', ...REGION_PATHS].sort());

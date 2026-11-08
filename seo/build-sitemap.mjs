@@ -55,6 +55,8 @@ import { loadCached } from './catalogue-source.mjs';
 import { indexedPrefixedPages } from './indexing.mjs';
 import { EN_GUIDES } from './guides-en.mjs';
 
+import { writtenPageIndexed } from './ru-regions.mjs';
+
 const PREFIXED_WEIGHT = {
   home: { prio: '0.9', freq: 'weekly' }, hub: { prio: '0.8', freq: 'weekly' }, country: { prio: '0.8', freq: 'weekly' },
   guides: { prio: '0.6', freq: 'monthly' }, guide: { prio: '0.7', freq: 'monthly' }, region: { prio: '0.7', freq: 'weekly' },
@@ -91,6 +93,8 @@ export function sitemapUrls(countries) {
     { loc: `${SITE}/ru/esim/not-working/`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/esim/dual-sim-sms/`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/esim/esim-or-roaming/`, prio: '0.7', freq: 'monthly' },
+    // P2-3: the Russian region page — listed only while it is indexed (seo/ru-regions.mjs indexable(): it carries plans).
+    ...(writtenPageIndexed(ROOT, 'europe') ? [{ loc: `${SITE}/ru/esim/europe/`, prio: '0.8', freq: 'weekly' }] : []),
     { loc: `${SITE}/ru/esim/payment-rubles/`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/iphone.html`, prio: '0.7', freq: 'monthly' },
     { loc: `${SITE}/ru/android.html`, prio: '0.7', freq: 'monthly' },
