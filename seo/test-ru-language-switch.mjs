@@ -60,7 +60,7 @@ test('enSwitchPath: the same page in English, «/» only where English has none'
   assert.equal(enSwitchPath('/ru/esim/compatibility/'), '/guides/compatibility/');
   assert.equal(enSwitchPath('/ru/esim/activation-before-travel/'), '/guides/activation/');
   assert.equal(enSwitchPath('/ru/esim/not-working/'), '/guides/troubleshooting/');
-  for (const p of ['/ru/esim/payment-rubles/', '/ru/esim/dual-sim-sms/', '/terms.html', '/privacy.html', '/payment-success.html', '/ru/esim/europe/']) {
+  for (const p of ['/ru/esim/payment-rubles/', '/ru/esim/dual-sim-sms/', '/ru/esim/esim-or-roaming/', '/terms.html', '/privacy.html', '/payment-success.html', '/ru/esim/europe/']) {
     assert.equal(enSwitchPath(p), '/', `${p} has no English twin`);
   }
   assert.equal(enSwitchPath('/ru/esim/turkey/', ['italy']), '/', 'a slug without a catalogue page has no country twin');

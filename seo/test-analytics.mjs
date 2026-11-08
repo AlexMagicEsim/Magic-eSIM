@@ -744,7 +744,7 @@ test('видимый FAQ и FAQPage совпадают дословно на в�
   // существует, чтобы так и осталось: он упадёт в тот день, когда кто-нибудь
   // соберёт разметку из отдельного источника.
   const guides = ['compatibility', 'activation-before-travel', 'not-working',
-    'dual-sim-sms', 'payment-rubles'];
+    'dual-sim-sms', 'payment-rubles', 'esim-or-roaming'];
   for (const slug of guides) {
     const h = readFileSync(join(ROOT, `ru/esim/${slug}/index.html`), 'utf8');
     const seen = visibleFaq(h);

@@ -96,11 +96,19 @@ test('newPath refuses what is not a path', () => {
   assert.throws(() => newPath(undefined));
 });
 
+// Pages created AFTER the switch of 2026-11-07. The switch record stays frozen; a new page is declared here on
+// purpose, so «nothing lost» still holds and an unexpected URL in the sitemap still fails.
+const ADDED_AFTER_SWITCH = Object.freeze([
+  `${SITE}/ru/esim/esim-or-roaming/`,   // P2-2 of the SEO plan, 2026-11-08
+]);
+
 test('the switch: every old sitemap URL lands on exactly one URL of the current sitemap, and the current one names no old path', () => {
   const now = currentLocs();
   assert.ok(now.length > 200, `the proof: the current sitemap was read (${now.length})`);
-  assert.equal(SWITCH.pairs.length, now.length, 'the same number of URLs before and after the move');
-  assert.deepEqual(SWITCH.pairs.map(([, n]) => n).sort(), [...now].sort(), 'one to one: nothing lost, nothing added');
+  for (const u of ADDED_AFTER_SWITCH) assert.ok(now.includes(u), `${u}: declared as added, but not in the sitemap`);
+  const moved = now.filter((u) => !ADDED_AFTER_SWITCH.includes(u));
+  assert.equal(SWITCH.pairs.length, moved.length, 'the same number of URLs before and after the move (pages added since are declared)');
+  assert.deepEqual(SWITCH.pairs.map(([, n]) => n).sort(), [...moved].sort(), 'one to one: nothing lost, nothing added but the declared pages');
   for (const [old, n] of SWITCH.pairs) assert.equal(n, nowAt(old), `${old}: the record follows the map`);
   for (const u of now) assert.equal(newPath(u.replace(SITE, '')), null, `${u} is a final URL, never a redirect source`);
   assert.ok(now.includes(`${SITE}/`) && now.includes(`${SITE}/ru/`), 'both homes');

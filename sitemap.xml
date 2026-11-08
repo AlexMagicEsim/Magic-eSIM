@@ -284,7 +284,7 @@
   </url>
   <url>
     <loc>https://magicesim.store/ru/esim/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1490,7 +1490,7 @@
   </url>
   <url>
     <loc>https://magicesim.store/ru/esim/activation-before-travel/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1502,13 +1502,19 @@
   </url>
   <url>
     <loc>https://magicesim.store/ru/esim/dual-sim-sms/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-11-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://magicesim.store/ru/esim/esim-or-roaming/</loc>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://magicesim.store/ru/esim/payment-rubles/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -24,6 +24,7 @@ const GUIDE_ICON_OF = Object.freeze({
   'ru/esim/activation-before-travel/index.html': 'activation',
   'ru/esim/not-working/index.html': 'troubleshooting',
   'ru/esim/dual-sim-sms/index.html': 'sim',
+  'ru/esim/esim-or-roaming/index.html': 'sim',
   'ru/esim/payment-rubles/index.html': 'payment',
 });
 
