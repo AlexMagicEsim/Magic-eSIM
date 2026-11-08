@@ -22,6 +22,7 @@ import { appendFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ORIGIN, MAX_URLS, BATCH_SIZE, readKey, selectUrls, liveCheck, batches, submitBatches } from '../seo/indexnow.mjs';
+import { contentHash } from '../seo/build-sitemap.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SHA = /^[0-9a-f]{40}$/;
@@ -75,6 +76,8 @@ try {
     robotsTxt: show(head, 'robots.txt') || '',
     read: (rel) => show(head, rel),
     readBase: (rel) => show(base, rel),
+    // A hash-rule migration (--rehash-keep-dates) moves hashes, not pages: same date + same content under the deployed rule.
+    sameContent: (before, after) => contentHash(before) === contentHash(after),
   });
 } catch (e) {
   fail(e.message);
@@ -83,6 +86,7 @@ try {
 const byReason = (r) => picked.send.filter((u) => picked.reason[u] === r).length;
 console.log(`IndexNow: ${base.slice(0, 9)}..${head.slice(0, 9)} — ${picked.send.length} candidate URL(s) (content ${byReason('content')}, links ${byReason('links')}, both ${byReason('content+links')}), ${picked.skipped.length} skipped`);
 for (const s of picked.skipped) console.log(`  skip ${s.url} — ${s.why}`);
+if (picked.rehashed.length) console.log(`IndexNow: ${picked.rehashed.length} page(s) not sent — hash rule changed, date and content did not (--rehash-keep-dates)`);
 
 if (picked.send.length > MAX_URLS) fail(`IndexNow: ${picked.send.length} changed RU URLs is more than MAX_URLS (${MAX_URLS}) — nothing sent; check the base commit`);
 
