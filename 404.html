@@ -282,10 +282,15 @@ body{
     // Whose not-found screen a path gets: its prefixed language; else, outside
     // /ru/ (and /pay/, routed above), English — the root is the English site
     // since the EN-root migration (2026-11-07); null = the Russian screen.
+    // The OLD Russian addresses stay Russian (post-migration audit P3-3): an
+    // unknown /esim/… (a withdrawn country, a mistyped link from before the
+    // move) or /iphone, /android was a Russian page, so its reader gets the
+    // Russian screen with its link to /ru/ — every known one has a redirect page.
     function notFoundLocale(path){
       var p = prefixedLocale(path);
       if (p) return p;
-      return /^\/(ru|pay)(\/|$)/.test(path) ? null : 'en';
+      if (/^\/(ru|pay|esim)(\/|$)/.test(path) || /^\/(iphone|android)(\.html)?\/?$/.test(path)) return null;
+      return 'en';
     }
     function showNotFoundLocale(code){
       var w = NOT_FOUND[code];

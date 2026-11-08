@@ -43,6 +43,8 @@ async function open(page, url = '/ru/esim/turkey/', opts = {}) {
     }
     if (req.method() === 'POST' && u.pathname === '/api/v1/retail/promo/quote') {
       const b = JSON.parse(req.postData() || '{}'); st.quotes.push(b);
+      // st.down: the promo service answers 503 on BOTH roads (assets/magic-net.js → transportFailure)
+      if (st.down) return route.fulfill({ status: 503, contentType: 'text/html', headers: cors, body: '<h1>503</h1>' });
       if (b.promo_code === 'GOOD10') return route.fulfill({ status: 200, contentType: 'application/json', headers: cors, body: JSON.stringify({ valid: true, promo_code: 'GOOD10', original_amount_rub: 450, discount_amount_rub: 45, final_amount_rub: 405 }) });
       return route.fulfill({ status: 404, contentType: 'application/json', headers: cors, body: JSON.stringify({ valid: false, error: 'PROMO_CODE_NOT_FOUND' }) });
     }
@@ -101,6 +103,40 @@ test('promo: editing the field clears a stale message; changing the method still
   await page.fill('#coPromoInput', '');
   await expect(promoMsg(page)).toBeHidden();
   expect(st.quotes.length).toBe(2);
+});
+
+test('promo: a promo service that answers on neither road says «не удалось проверить», never «не удалось применить»', async ({ page }) => {
+  // Post-migration audit P3-6: a transport failure is a response (transportFailure), not a throw, so it used to fall
+  // into the refusal branch and read «Не удалось применить промокод.» — as if the code had been checked and refused.
+  const st = await open(page);
+  await openLocal(page);
+  st.down = true;
+  await page.fill('#coPromoInput', 'good10');
+  await page.click('#coPromoApply');
+  await expect(promoMsg(page)).toHaveText('Не удалось проверить промокод. Попробуйте позже.');
+  await expect(page.locator('#coPromoApplied')).toBeHidden();
+  expect(st.quotes.length).toBe(2);                              // both roads were asked, once each
+  st.down = false;                                               // the service is back: the same code applies
+  await page.click('#coPromoApply');
+  await expect(page.locator('#coPromoApplied')).toBeVisible();
+});
+
+test('promo: an applied code survives a re-check that reaches no verdict (email edited while the service is down)', async ({ page }) => {
+  // revalidatePromo() promised to keep the promo on a network error, but MagicNet reports one as a response: the
+  // discount was dropped with «Промокод недоступен для этого email». It is kept now; the backend re-checks at payment.
+  const st = await open(page);
+  await openLocal(page);
+  await page.fill('#coPromoInput', 'good10');
+  await page.click('#coPromoApply');
+  await expect(page.locator('#coPromoApplied')).toBeVisible();
+  const before = st.quotes.length;
+  st.down = true;
+  await page.fill('#coEmail', 'buyer@example.com');
+  await page.locator('#coEmail').blur();                         // change/blur schedules the re-check (350 ms)
+  await expect.poll(() => st.quotes.length).toBeGreaterThan(before);
+  await page.waitForTimeout(500);
+  await expect(page.locator('#coPromoApplied')).toBeVisible();
+  await expect(promoMsg(page)).not.toHaveText(/недоступен/);
 });
 
 test('a promo action never hides an error of another kind', async ({ page }) => {
