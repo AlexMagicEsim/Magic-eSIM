@@ -4,6 +4,7 @@
 // Pins, on the artifact the deploy builds today (scripts/build-pages-artifact.mjs with the registry's scope):
 //   (a) the repository still holds every page, translation and legal document of every language;
 //   (b) nothing of a hidden language is published but the owner's D3 list, which is byte-identical to the repository;
+//       the Russian legal documents are hidden (their sources stay); the Mini App's links to them are the known limitation;
 //   (c) no English page names a page of a hidden language — hreflang, switch, links — and every reference resolves;
 //   (d) the English legal documents' text is the repository's, byte for byte; the legal versions list is unchanged;
 //   (e) the sitemap is the repository's English entries; the manifest opens «/»; IndexNow reads the published sitemap;
@@ -22,7 +23,7 @@ import { buildArtifact, planArtifact, missingReferences, localTarget } from '../
 import { LOCALES, PUBLIC_SITE_LOCALES } from './locales.mjs';
 import {
   scopeOf, restoredScope, isHiddenFile, isHiddenLanguageUrl, scopeHtml, scopeSitemap, scope404, scopeManifest,
-  KEPT_UNDER_HIDDEN, UNLISTED_ROOT_RU,
+  KEPT_UNDER_HIDDEN, HIDDEN_ROOT_RU,
 } from './publication-scope.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -80,8 +81,34 @@ test('(b) nothing of a hidden language is published but the D3 list', () => {
   assert.ok(published.includes('en/esim/thailand/index.html'), 'an old English address still redirects');
 });
 
+test('(b) the Russian legal documents are not published; their sources stay in the repository', () => {
+  assert.deepEqual([...HIDDEN_ROOT_RU], ['terms.html', 'privacy.html']);
+  for (const f of HIDDEN_ROOT_RU) {
+    assert.ok(!published.includes(f), `${f} published`);
+    assert.ok(plan.hidden.includes(f), `${f} not listed as hidden`);
+    assert.match(repo(f).toString(), /^<!DOCTYPE html>\s*<html lang="ru"/, `${f}: the source is in the repository`);
+  }
+  // no legal document but the English ones is published anywhere
+  const legal = published.filter((f) => /(^|\/)(terms|privacy|refund)(\.html$|\/)/.test(f));
+  assert.ok(legal.length >= 18, `English legal files: ${legal.length}`);
+  assert.deepEqual(legal.filter((f) => !f.startsWith('en/')), []);
+});
+
+test('(b) KNOWN LIMITATION (owner, no workaround): the Mini App still links the hidden Russian documents', () => {
+  // The Mini App is unchanged on purpose. Its consent and help links name /terms.html and /privacy.html, which answer
+  // the 404 while Russian is hidden. The order does not depend on them: the backend checks only termsAccepted === true.
+  const links = [];
+  for (const f of published.filter((x) => x.startsWith('app/'))) {
+    for (const m of site(f).toString().matchAll(/https:\/\/magicesim\.store\/(terms|privacy)\.html/g)) links.push(`${f}: ${m[0]}`);
+  }
+  assert.ok(links.some((l) => l.startsWith('app/index.html') && l.endsWith('/terms.html')), 'checkout consent link');
+  assert.ok(links.some((l) => l.startsWith('app/ui.js') && l.endsWith('/terms.html')), 'top-up consent / help link');
+  assert.ok(links.some((l) => l.endsWith('/privacy.html')), 'privacy link');
+  for (const f of HIDDEN_ROOT_RU) assert.ok(!existsSync(join(OUT, f)), `${f} would answer 404`);
+});
+
 test('(b) the pages that stay although Russian, the Mini App and the data files are byte-identical to the repository', () => {
-  const same = [...KEPT_UNDER_HIDDEN, ...UNLISTED_ROOT_RU, 'payment-success.html', 'payment-failed.html', 'robots.txt',
+  const same = [...KEPT_UNDER_HIDDEN, 'payment-success.html', 'payment-failed.html', 'robots.txt',
     'assets/catalog.json', 'en/legal-versions.json', 'en/checkout-statements.json',
     ...published.filter((f) => f.startsWith('app/') || f.endsWith('.pdf'))];
   assert.ok(same.filter((f) => f.startsWith('app/')).length >= 7, 'the Mini App files');
@@ -106,7 +133,7 @@ test('(c) no English page names a page of a hidden language, and every reference
   assert.deepEqual(missingReferences(OUT, { scope: SCOPE, hiddenLinks }), []);
   // only the kept Russian pages link hidden pages (their own site's frame) — never an English one
   const from = [...new Set(hiddenLinks.map((h) => h.from))].sort();
-  assert.deepEqual(from, ['payment-failed.html', 'payment-success.html', 'privacy.html', 'ru/android.html', 'ru/iphone.html', 'terms.html']);
+  assert.deepEqual(from, ['app/index.html', 'payment-failed.html', 'payment-success.html', 'ru/android.html', 'ru/iphone.html']);
 });
 
 test('(c) every English page keeps its canonical; hreflang is English and x-default only', () => {
@@ -155,7 +182,7 @@ test('(f) a hidden language\'s path gets the English 404; /pay/ is routed before
   assert.ok(start > 0 && end > start);
   const ctx = {};
   vm.runInNewContext(`${html.slice(start, end)}; this.f = notFoundLocale;`, ctx);
-  for (const p of ['/ru/', '/ru/esim/thailand/', '/es/', '/de/terms/', '/zh/esim/japan/', '/ko/privacy/v0.9.5/', '/esim/turkey/', '/iphone', '/nope']) {
+  for (const p of ['/ru/', '/ru/esim/thailand/', '/es/', '/de/terms/', '/zh/esim/japan/', '/ko/privacy/v0.9.5/', '/esim/turkey/', '/iphone', '/terms.html', '/privacy.html', '/nope']) {
     assert.equal(ctx.f(p), 'en', p);
   }
   // negative control: the repository's own 404 gives these paths their own screens

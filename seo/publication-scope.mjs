@@ -16,18 +16,22 @@
 //     move of the English home (assets/lang-route.js — it would send a browser to a page that is not there);
 //   - the installed-site start page (site.webmanifest start_url /ru/ → «/»);
 //   - its own not-found screen: 404.html shows the English one for its paths.
-// What stays published although Russian (owner D3, 2026-11-09): /terms.html, /privacy.html (the documents existing RU
-// orders accepted), /payment-success.html and /payment-failed.html (Platega's return pages), /app/ (the Mini App),
-// /pay/ (Private Pay, routed by 404.html), /ru/iphone.html and /ru/android.html — unlisted: out of the sitemap, linked
-// from no English page.
+// The Russian legal documents /terms.html and /privacy.html are hidden too (owner, 2026-11-09, after D3: only English
+// legal documents on magicesim.store; the RU-contour move was cancelled). Their sources stay in the repository, byte for
+// byte. KNOWN LIMITATION, accepted by the owner — no workaround: the Mini App still links them (checkout consent, top-up
+// consent, «Помощь»), and those links answer the 404 while Russian is hidden; the order itself does not depend on them
+// (the backend checks only `termsAccepted === true`).
+// What stays published although Russian (owner D3, 2026-11-09): /payment-success.html and /payment-failed.html
+// (Platega's return pages), /app/ (the Mini App), /pay/ (Private Pay, routed by 404.html), /ru/iphone.html and
+// /ru/android.html — unlisted: out of the sitemap, linked from no English page.
 
 import { LOCALES, PUBLIC_SITE_LOCALES, isRussian } from './locales.mjs';
 
 /** Published although under a hidden prefix: the Mini App's install guides (app/ui.js links them). */
 export const KEPT_UNDER_HIDDEN = Object.freeze(['ru/iphone.html', 'ru/android.html']);
 
-/** Root files of a hidden Russian site that stay published but leave the sitemap (owner D3). */
-export const UNLISTED_ROOT_RU = Object.freeze(['terms.html', 'privacy.html']);
+/** Root files of the Russian site that are hidden with it — the Russian legal documents (owner, 2026-11-09). */
+export const HIDDEN_ROOT_RU = Object.freeze(['terms.html', 'privacy.html']);
 
 const SITE = 'https://magicesim.store';
 
@@ -54,7 +58,7 @@ export function scopeOf(opts = {}) {
     hreflangs: Object.freeze(hidden.map((l) => l.hreflang)),
     prefixes: Object.freeze(prefixes),
     kept: ruHidden ? KEPT_UNDER_HIDDEN : Object.freeze([]),
-    unlisted: ruHidden ? UNLISTED_ROOT_RU : Object.freeze([]),
+    rootFiles: ruHidden ? HIDDEN_ROOT_RU : Object.freeze([]),
   });
 }
 
@@ -62,6 +66,7 @@ export function scopeOf(opts = {}) {
 export function isHiddenFile(rel, scope = scopeOf()) {
   const r = String(rel).replace(/\\/g, '/').replace(/^\//, '');
   if (scope.kept.includes(r)) return false;
+  if (scope.rootFiles.includes(r)) return true;
   return scope.prefixes.some((p) => r === p || r.startsWith(`${p}/`));
 }
 
@@ -80,7 +85,7 @@ export function isHiddenUrl(url, scope = scopeOf()) {
 }
 
 /**
- * Is a URL a page OF a hidden language — published or not? The kept and unlisted pages count: the site's frame (hreflang,
+ * Is a URL a page OF a hidden language — published or not? The kept pages count: the site's frame (hreflang,
  * the language switch, the sitemap) never names them, even though a direct link still opens them.
  */
 export function isHiddenLanguageUrl(url, scope = scopeOf()) {
@@ -88,7 +93,7 @@ export function isHiddenLanguageUrl(url, scope = scopeOf()) {
   if (u.startsWith(SITE)) u = u.slice(SITE.length) || '/';
   if (!u.startsWith('/') || u.startsWith('//')) return false;
   const file = fileOfPath(u);
-  return scope.kept.includes(file) || scope.unlisted.includes(file) || isHiddenFile(file, scope);
+  return scope.kept.includes(file) || isHiddenFile(file, scope);
 }
 
 /** The target of an old-address redirect page (`<meta http-equiv="refresh" content="0; url=…">`), or null. */
@@ -132,7 +137,7 @@ export function scopeHtml(html, scope = scopeOf()) {
   return out;
 }
 
-/** sitemap.xml without the entries of hidden pages and of the unlisted Russian root documents. */
+/** sitemap.xml without the entries of hidden and kept pages of a hidden language. */
 export function scopeSitemap(xml, scope = scopeOf()) {
   if (!scope.active) return xml;
   return String(xml).replace(/[ \t]*<url>\s*<loc>([^<]+)<\/loc>[\s\S]*?<\/url>\n/g, (block, loc) => {
