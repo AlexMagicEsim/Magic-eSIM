@@ -14,6 +14,10 @@
 //   (d) the canonical and hreflang targets of every built page exist in it.
 //
 // Each rule's FIRST assertion proves it fires.
+//
+// THESE TESTS BUILD THE RESTORED ARTIFACT — every enabled language public (seo/publication-scope.mjs restoredScope): they
+// pin what the site publishes once the publication scope is lifted, so the restore stays a one-line change.
+// seo/test-publication-scope.mjs pins the artifact the scope publishes today (owner, 2026-11-09: English only).
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -26,11 +30,13 @@ import {
   buildArtifact, planArtifact, missingReferences, denyReason, allowRule, localTarget, directoryRules, ROOT_FILES,
 } from '../scripts/build-pages-artifact.mjs';
 import { prefixedSiteLocales } from './locales.mjs';
+import { restoredScope } from './publication-scope.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const TMP = mkdtempSync(join(tmpdir(), 'pages-artifact-'));
 const OUT = join(TMP, 'site');
-const plan = buildArtifact(ROOT, OUT);
+const FULL = restoredScope();
+const plan = buildArtifact(ROOT, OUT, { scope: FULL });
 const published = new Set(plan.publish);
 test.after(() => rmSync(TMP, { recursive: true, force: true }));
 
@@ -88,7 +94,7 @@ test('negative control: localTarget maps local URLs and ignores everything else'
 });
 
 test('every local reference of every published page, stylesheet, script, manifest and the sitemap resolves in the artifact', () => {
-  assert.deepEqual(missingReferences(OUT), []);
+  assert.deepEqual(missingReferences(OUT, { scope: FULL }), []);
 });
 
 test('every sitemap URL is a page of the artifact', () => {
@@ -230,7 +236,7 @@ test('negative control + rule: an unknown file in a COPY of the repository is no
     mkdirSync(dirname(join(copy, p)), { recursive: true });
     writeFileSync(join(copy, p), 'probe');
   }
-  const p = planArtifact(copy);
+  const p = planArtifact(copy, { scope: FULL });
   // the probes exist and the planner saw them
   for (const f of probes) assert.ok(p.excluded.includes(f), `${f} is seen and excluded`);
   assert.deepEqual(p.conflicts, []);
@@ -239,7 +245,7 @@ test('negative control + rule: an unknown file in a COPY of the repository is no
   writeFileSync(join(copy, 'assets', 'evil.test.js'), 'probe');
   writeFileSync(join(copy, 'en', 'notes.config.js'), 'probe');
   const out = join(TMP, 'never');
-  assert.throws(() => buildArtifact(copy, out), (e) => e.conflicts.length === 2 && e.conflicts.some((c) => c.startsWith('assets/evil.test.js')));
+  assert.throws(() => buildArtifact(copy, out, { scope: FULL }), (e) => e.conflicts.length === 2 && e.conflicts.some((c) => c.startsWith('assets/evil.test.js')));
   assert.equal(existsSync(out), false, 'nothing written');
 });
 

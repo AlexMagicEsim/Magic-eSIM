@@ -88,6 +88,17 @@ export const LOCALES = Object.freeze([
     site: { enabled: true, indexableHome: false, analytics: 'none' }, app: { enabled: true } }),
 ]);
 
+/**
+ * THE PUBLICATION SCOPE — which languages' pages GitHub Pages serves (owner, 2026-11-09: the Merchant of Record
+ * application; `MAGIC_ESIM_MOR_EN_ONLY_AUDIT_2026-11-09.md`). Only English is published for now. Every other language
+ * stays enabled above: its pages, documents and translations keep being built and refreshed in the repository — they
+ * are HIDDEN from the published copy, not deleted (seo/publication-scope.mjs decides what that copy holds).
+ *
+ * RESTORE = put the codes back here (all seven: `LOCALES.map((l) => l.code)` order), nothing else. A language listed
+ * here must be `site.enabled`.
+ */
+export const PUBLIC_SITE_LOCALES = Object.freeze(['en']);
+
 /** What the live pages declare as x-default: the English twin since I18N-09 (was `ru` = `/`). See the decisions above. */
 export const X_DEFAULT_CURRENT = 'en';
 

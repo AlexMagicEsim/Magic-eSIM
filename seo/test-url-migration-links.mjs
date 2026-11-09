@@ -20,6 +20,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { planArtifact, LEGAL_TEXT_OLD_LINK } from '../scripts/build-pages-artifact.mjs';
+import { restoredScope } from './publication-scope.mjs'; // the pages as published once the scope is lifted
 import { newPath } from './url-migration.mjs';
 import { LOCALES, cataloguePath } from './locales.mjs';
 import { legacyRedirects, isLegacyRedirectFile } from './build-legacy-redirects.mjs';
@@ -27,7 +28,7 @@ import { legacyRedirects, isLegacyRedirectFile } from './build-legacy-redirects.
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
-const HTML = planArtifact(ROOT).publish.filter((f) => f.endsWith('.html'));
+const HTML = planArtifact(ROOT, { scope: restoredScope() }).publish.filter((f) => f.endsWith('.html'));
 
 /** Every site-internal address a page names, absolute or root-relative: [{ where, url }]. Relative links are resolved. */
 export function namedAddresses(html, rel) {

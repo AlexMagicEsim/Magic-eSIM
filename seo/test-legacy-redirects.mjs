@@ -18,12 +18,13 @@ import { fileURLToPath } from 'node:url';
 import { legacyRedirects, legacyPaths, redirectPage, fileOfPath, isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 import { newPath } from './url-migration.mjs';
 import { planArtifact } from '../scripts/build-pages-artifact.mjs';
+import { restoredScope } from './publication-scope.mjs'; // the pages as published once the scope is lifted
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 const ALL = legacyRedirects();
-const PUBLISHED = new Set(planArtifact(ROOT).publish);
+const PUBLISHED = new Set(planArtifact(ROOT, { scope: restoredScope() }).publish);
 
 /** What a redirect page says, read from its markup. */
 export function readRedirect(html) {

@@ -23,6 +23,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ORIGIN, MAX_URLS, BATCH_SIZE, readKey, selectUrls, liveCheck, batches, submitBatches } from '../seo/indexnow.mjs';
 import { contentHash } from '../seo/build-sitemap.mjs';
+import { scopeSitemap } from '../seo/publication-scope.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SHA = /^[0-9a-f]{40}$/;
@@ -72,7 +73,8 @@ try {
   picked = selectUrls({
     baseState: JSON.parse(baseLastmod),
     headState: JSON.parse(headLastmod),
-    sitemapXml: show(head, 'sitemap.xml') || '',
+    // the PUBLISHED sitemap (seo/publication-scope.mjs): a page of a language that is not public is never sent
+    sitemapXml: scopeSitemap(show(head, 'sitemap.xml') || ''),
     robotsTxt: show(head, 'robots.txt') || '',
     read: (rel) => show(head, rel),
     readBase: (rel) => show(base, rel),

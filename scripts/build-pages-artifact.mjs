@@ -17,6 +17,14 @@
  * generator, a dotfile, a document, a poster…), the build FAILS instead of publishing it: that means an allow rule
  * became too wide, and a person must decide.
  *
+ * THE PUBLICATION SCOPE (owner, 2026-11-09). Languages that are not in seo/locales.mjs PUBLIC_SITE_LOCALES are HIDDEN
+ * from the copy, not deleted from the repository: their files, and the old-address redirect pages that lead to them, are
+ * not published (listed as «hidden» in the summary), and every published HTML page, sitemap.xml and site.webmanifest are
+ * written through
+ * seo/publication-scope.mjs, which removes the site-frame links into them (hreflang, language switch, sitemap entries,
+ * the English home's language move) and gives their paths the English 404. With every language public the copy is the
+ * repository's bytes again. `opts.scope` (scopeOf({ publicCodes })) builds another scope — tests build the restored one.
+ *
  * REFERENCES ARE CHECKED. After the copy, every local `src` / `href` / `srcset` / `content` URL of every published
  * HTML page, every `url(…)` of every published CSS file, every icon of site.webmanifest, every <loc> of sitemap.xml and
  * every static '/assets/…'-style string literal of every published script must resolve INSIDE the artifact — so a page
@@ -29,11 +37,12 @@
  * Exit codes: 0 built and verified; 1 a deny conflict or a missing reference (nothing usable was produced).
  */
 
-import { readdirSync, statSync, lstatSync, mkdirSync, copyFileSync, rmSync, readFileSync, existsSync } from 'node:fs';
+import { readdirSync, statSync, lstatSync, mkdirSync, copyFileSync, rmSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname, resolve, extname, posix, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { prefixedSiteLocales, homePath, dirOf, RU_CODE } from '../seo/locales.mjs';
 import { isLegacyRedirectFile } from '../seo/build-legacy-redirects.mjs';
+import { scopeOf, isHiddenFile, isHiddenRedirect, scopeHtml, scopeSitemap, scope404, scopeManifest } from '../seo/publication-scope.mjs';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const SITE_ORIGIN = 'https://magicesim.store';
@@ -188,9 +197,10 @@ function walk(root, rel = '', out = []) {
  * Sorts every file under `root` into published / excluded, and lists the conflicts (admitted AND denied) and the
  * symlinks an allow rule would admit (a symlink in the artifact could point anywhere on the runner).
  */
-export function planArtifact(root = REPO, { rules = directoryRules() } = {}) {
+export function planArtifact(root = REPO, { rules = directoryRules(), scope = scopeOf() } = {}) {
   const publish = [];
   const excluded = [];
+  const hidden = [];
   const conflicts = [];
   for (const f of walk(root)) {
     const allowed = allowRule(f.rel, rules);
@@ -198,9 +208,27 @@ export function planArtifact(root = REPO, { rules = directoryRules() } = {}) {
     const denied = denyReason(f.rel);
     if (denied) { conflicts.push(`${f.rel}: admitted by «${allowed}» but denied (${denied})`); continue; }
     if (f.symlink) { conflicts.push(`${f.rel}: admitted by «${allowed}» but is a symlink`); continue; }
+    // the publication scope runs AFTER both locks: a denied file or a symlink is a conflict even inside a hidden language
+    if (scope.active && (isHiddenFile(f.rel, scope)
+      || (allowed === 'legacy redirect page' && isHiddenRedirect(readFileSync(join(root, ...f.rel.split('/')), 'utf8'), scope)))) {
+      hidden.push(f.rel);
+      continue;
+    }
     publish.push(f.rel);
   }
-  return { publish, excluded, conflicts };
+  return { publish, excluded, hidden, conflicts, scope };
+}
+
+/** The bytes the copy publishes for one file: the repository's, or — for HTML and the sitemap — scoped. */
+export function publishedBytes(rel, bytes, scope = scopeOf()) {
+  if (!scope.active) return bytes;
+  if (rel === 'sitemap.xml') return Buffer.from(scopeSitemap(bytes.toString('utf8'), scope));
+  if (rel === 'site.webmanifest') return Buffer.from(scopeManifest(bytes.toString('utf8'), scope));
+  if (extname(rel).toLowerCase() !== '.html') return bytes;
+  let html = bytes.toString('utf8');
+  if (rel === '404.html') html = scope404(html, scope);
+  const out = scopeHtml(html, scope);
+  return out === bytes.toString('utf8') ? bytes : Buffer.from(out);
 }
 
 /** Copies the planned files into `out` (emptied first). Throws on any conflict, before writing anything. */
@@ -217,7 +245,10 @@ export function buildArtifact(root = REPO, out = join(REPO, '_site'), opts = {})
   for (const rel of plan.publish) {
     const dst = join(absOut, ...rel.split('/'));
     mkdirSync(dirname(dst), { recursive: true });
-    copyFileSync(join(root, ...rel.split('/')), dst);
+    const src = join(root, ...rel.split('/'));
+    if (plan.scope.active && (rel === 'sitemap.xml' || rel === 'site.webmanifest' || extname(rel).toLowerCase() === '.html')) {
+      writeFileSync(dst, publishedBytes(rel, readFileSync(src), plan.scope));
+    } else copyFileSync(src, dst);
   }
   return plan;
 }
@@ -279,19 +310,25 @@ const ROUTED_BY_404 = /^pay(\/|$)/;
 export const LEGAL_TEXT_OLD_LINK = Object.freeze({ url: '/en/', from: /^(?:en|es|de|fr|zh|ko)\/terms\/(?:v[0-9.]+\/)?index\.html$/ });
 
 /** Every reference of every published file that does not resolve inside `out`: [{ from, url, need }]. */
-export function missingReferences(out) {
+export function missingReferences(out, { scope = scopeOf(), hiddenLinks = [] } = {}) {
   const files = walk(out).map((f) => f.rel);
   const missing = [];
+  let fromRussian = false;
   const need = (from, url) => {
     const t = localTarget(url, from);
     if (!t || ROUTED_BY_404.test(t)) return;
     if (url === LEGAL_TEXT_OLD_LINK.url && LEGAL_TEXT_OLD_LINK.from.test(from)) return;
+    // A Russian page that stays published while Russian is hidden (seo/publication-scope.mjs: the documents, the payment
+    // pages, the Mini App's guides) keeps its own Russian links: they lead to the 404 on purpose and are listed, not
+    // failed. An English page may not link a hidden page at all.
+    if (fromRussian && scope.active && isHiddenFile(t, scope) && !served(out, t)) { hiddenLinks.push({ from, url, need: t }); return; }
     if (t.startsWith('<outside>') || !served(out, t)) missing.push({ from, url, need: t });
   };
   for (const rel of files) {
     const ext = extname(rel).toLowerCase();
     if (!['.html', '.css', '.js', '.webmanifest', '.xml'].includes(ext)) continue;
     const text = readFileSync(join(out, ...rel.split('/')), 'utf8');
+    fromRussian = ext === '.html' && /^<!doctype html>\s*<html lang="ru"/i.test(text);
     if (ext === '.html') {
       // inline scripts are code, not markup: their string literals are checked like a script's, never as attributes
       const scripts = [...text.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]);
@@ -334,7 +371,16 @@ function summary(plan) {
     byTop.set(top, (byTop.get(top) || 0) + 1);
   }
   const lines = [...byTop].sort(([a], [b]) => a.localeCompare(b)).map(([k, n]) => `  ${k}${n > 1 || k.endsWith('/') ? ` (${n})` : ''}`);
-  return `published ${plan.publish.length} files; not published ${plan.excluded.length}:\n${lines.join('\n')}`;
+  const byHidden = new Map();
+  for (const rel of plan.hidden || []) {
+    const top = rel.includes('/') ? `${rel.slice(0, rel.indexOf('/'))}/` : rel;
+    byHidden.set(top, (byHidden.get(top) || 0) + 1);
+  }
+  const hiddenLines = [...byHidden].sort(([a], [b]) => a.localeCompare(b)).map(([k, n]) => `  ${k} (${n})`);
+  const scopeLine = plan.scope && plan.scope.active
+    ? `\nhidden by the publication scope (not public: ${plan.scope.hidden.join(', ')}) ${(plan.hidden || []).length}:\n${hiddenLines.join('\n')}`
+    : '';
+  return `published ${plan.publish.length} files; not published ${plan.excluded.length}:\n${lines.join('\n')}${scopeLine}`;
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -343,8 +389,13 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const out = resolve(arg('--out') || join(REPO, '_site'));
   try {
     const plan = buildArtifact(root, out);
-    const missing = missingReferences(out);
+    const hiddenLinks = [];
+    const missing = missingReferences(out, { scope: plan.scope, hiddenLinks });
     console.log(summary(plan));
+    if (hiddenLinks.length) {
+      const pages = [...new Set(hiddenLinks.map((h) => h.from))];
+      console.log(`\n${hiddenLinks.length} link(s) of ${pages.length} kept Russian page(s) lead to hidden pages (their 404, on purpose): ${pages.join(', ')}`);
+    }
     if (missing.length) {
       console.error(`\n${missing.length} reference(s) do not resolve inside the artifact:`);
       for (const m of missing.slice(0, 100)) console.error(`  ${m.from}: ${m.url} → ${m.need}`);
