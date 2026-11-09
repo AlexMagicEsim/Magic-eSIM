@@ -16,6 +16,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { planArtifact } from '../scripts/build-pages-artifact.mjs';
+import { restoredScope } from './publication-scope.mjs'; // the pages as published once the scope is lifted
 import { enSwitchPath } from './indexing.mjs';
 import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
 import { COUNTRY_SLUGS } from './catalogue-page-count.mjs';
@@ -23,7 +24,7 @@ import { COUNTRY_SLUGS } from './catalogue-page-count.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://magicesim.store';
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
-const HTML = planArtifact(ROOT).publish.filter((f) => f.endsWith('.html'));
+const HTML = planArtifact(ROOT, { scope: restoredScope() }).publish.filter((f) => f.endsWith('.html'));
 const pathOf = (rel) => `/${rel.replace(/(^|\/)index\.html$/, '$1')}`;
 const fileOf = (path) => (path.endsWith('/') ? `${path.slice(1)}index.html` : path.slice(1));
 // The Russian SITE pages: lang="ru" with the site header (the Mini App at /app/ is Russian too, but has no site chrome).
