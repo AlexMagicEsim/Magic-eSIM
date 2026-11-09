@@ -21,7 +21,7 @@ export const LEGAL_I18N = Object.freeze({
         <li>deine Nutzung der internationalen Website von Magic eSIM unter magicesim.store – auf Englisch und in jeder anderen, nicht russischsprachigen Sprachversion, die wir veröffentlichen (die <strong>Website</strong>); und</li>
         <li>jeden eSIM-Datentarif, den du auf der Website in US-Dollar kaufst.</li>
       </ul>
-      <p>Für die russischsprachige Website von Magic eSIM, Käufe in russischen Rubel und die Telegram-Mini-App von Magic eSIM gelten gesonderte Bedingungen.</p>
+      <p>Für die russischsprachige Website von Magic eSIM, Käufe in russischen Rubeln und die Telegram-Mini-App von Magic eSIM gelten gesonderte Bedingungen.</p>
       <p><strong>Internationale Zahlungen sind derzeit nicht verfügbar.</strong> Du kannst auf der Website Tarife ansehen und einen genauen Preis abrufen, aber du kannst keine Bestellung aufgeben und nicht bezahlen, und es kommt kein Vertrag zustande. Diese Nutzungsbedingungen beschreiben, wie Bestellung und Zahlung funktionieren, sobald der internationale Bestellvorgang verfügbar ist.</p>
       <p>Bitte lies diese Nutzungsbedingungen, unsere <strong>Erstattungsrichtlinie</strong> und unsere <strong>Datenschutzerklärung</strong>, bevor du bezahlst. Die Erstattungsrichtlinie ist Bestandteil dieser Nutzungsbedingungen. Du akzeptierst diese Nutzungsbedingungen, indem du im Bestellvorgang das Kästchen zur Zustimmung ankreuzt und deine Zahlung bestätigst.</p>` },
       { id: "who-we-are", en: '84cedc91296f', h2: "1. Wer wir sind", html: `
