@@ -15,23 +15,23 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Las condiciones para usar el sitio web internacional de Magic eSIM y para los planes de datos eSIM que se compran en él en dólares estadounidenses.",
     crumb: "Términos del servicio",
     sections: [
-      { id: "about-these-terms", en: '10eee571d50b', h2: "Acerca de estos Términos", html: `
+      { id: "about-these-terms", en: 'a7451262de49', h2: "Acerca de estos Términos", html: `
       <p>Estos Términos rigen:</p>
       <ul class="list">
-        <li>tu uso del sitio web internacional de Magic eSIM en magicesim.store/en/ y sus demás versiones en idiomas distintos del ruso (el <strong>Sitio web</strong>); y</li>
+        <li>tu uso del sitio web internacional de Magic eSIM en magicesim.store, en inglés y en cualquier otra versión en un idioma distinto del ruso que publiquemos (el <strong>Sitio web</strong>); y</li>
         <li>cada plan de datos eSIM que compres en el Sitio web en dólares estadounidenses.</li>
       </ul>
-      <p>El sitio web en ruso magicesim.store, las compras en rublos rusos y la Mini App de Telegram de Magic eSIM se rigen por condiciones independientes publicadas allí.</p>
+      <p>El sitio web de Magic eSIM en ruso, las compras en rublos rusos y la Mini App de Telegram de Magic eSIM se rigen por condiciones independientes.</p>
       <p><strong>Los pagos internacionales no están disponibles por ahora.</strong> Puedes consultar los planes y obtener un precio exacto en el Sitio web, pero no puedes hacer un pedido ni pagar, y no se celebra ningún contrato. Estos Términos describen cómo funcionarán el pedido y el pago cuando el pago internacional esté disponible.</p>
       <p>Lee estos Términos, nuestra <strong>Política de reembolso</strong> y nuestra <strong>Política de privacidad</strong> antes de pagar. La Política de reembolso forma parte de estos Términos. Aceptas estos Términos al marcar la casilla de aceptación en el proceso de pago y confirmar tu pago.</p>` },
-      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. Quiénes somos", html: `
+      { id: "who-we-are", en: '84cedc91296f', h2: "1. Quiénes somos", html: `
       <p>Todos los planes del Sitio web los vende:</p>
       <ul class="list">
         <li><strong>Vendedor:</strong> Empresario individual ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), registrado en Georgia</li>
         <li><strong>Número de identificación en el Registro de Empresarios:</strong> 305887261</li>
         <li><strong>Domicilio registrado:</strong> Georgia, Tbilisi, Saburtalo district, Bakhtrioni str. N22, Apt. 75</li>
         <li><strong>Nombre comercial:</strong> Magic eSIM</li>
-        <li><strong>Sitio web:</strong> <a href="/en/">https://magicesim.store/en/</a></li>
+        <li><strong>Sitio web:</strong> <a href="/">https://magicesim.store/</a></li>
         <li><strong>Correo electrónico:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>«<strong>Nosotros</strong>», «<strong>nos</strong>» y «<strong>nuestro</strong>» se refieren al vendedor indicado arriba. «<strong>Tú</strong>» se refiere a la persona que usa el Sitio web o compra un plan.</p>
@@ -98,7 +98,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Nuestras guías explican cómo comprobarlo.</p>
       <p>4.2. Comprueba la compatibilidad antes de comprar; la confirmas en el proceso de pago. Si no estás seguro, contáctanos antes. Si el dispositivo no es compatible, el plan no puede funcionar. La Política de reembolso explica qué ocurre en ese caso.</p>` },
-      { id: "how-to-order", en: '576c522a80cc', h2: "5. Cómo hacer un pedido", html: `
+      { id: "how-to-order", en: '956b54a6f60e', h2: "5. Cómo hacer un pedido", html: `
       <p>5.1. <strong>Pasos del pedido:</strong></p>
       <ol class="list">
         <li>Elige un plan y, en los planes diarios, el número de días.</li>
@@ -137,7 +137,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>5.6. <strong>Idioma.</strong></p>
       <ul class="list">
         <li>El contrato se celebra en inglés.</li>
-        <li>Para tu comodidad, también publicamos estos Términos, la Política de reembolso y la Política de privacidad en español, alemán, francés, chino simplificado y coreano. Si una traducción y la versión en inglés difieren, se aplica la versión en inglés, salvo que la ley imperativa que te sea aplicable disponga otra cosa.</li>
+        <li>Para tu comodidad, también podemos publicar traducciones de estos Términos, de la Política de reembolso y de la Política de privacidad. Si una traducción y la versión en inglés difieren, se aplica la versión en inglés, salvo que la ley imperativa que te sea aplicable disponga otra cosa.</li>
         <li>Esto no limita tus derechos legales como consumidor, incluida cualquier norma de esa ley según la cual una cláusula poco clara se interpreta a tu favor.</li>
       </ul>` },
       { id: "prices-and-payment", en: 'be7268ad633a', h2: "6. Precios y pago", html: `
@@ -563,8 +563,8 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Cómo tratamos los datos personales cuando visitas el sitio web internacional de Magic eSIM o escribes a nuestro equipo de soporte.",
     crumb: "Política de privacidad",
     sections: [
-      { id: "scope", en: 'ad609daa9a8d', h2: "Acerca de esta política", html: `
-      <p>Esta Política de privacidad se aplica cuando visitas el sitio web internacional de Magic eSIM (magicesim.store/en/ y sus demás versiones en idiomas distintos del ruso) y cuando contactas con nuestro equipo de soporte.</p>
+      { id: "scope", en: '7ac7e6e39cd2', h2: "Acerca de esta política", html: `
+      <p>Esta Política de privacidad se aplica cuando visitas el sitio web internacional de Magic eSIM (magicesim.store, en inglés y en cualquier otra versión en un idioma distinto del ruso que publiquemos) y cuando contactas con nuestro equipo de soporte.</p>
       <p><strong>Las compras en línea aún no están disponibles en el sitio web internacional.</strong> Antes de que estén disponibles, publicaremos una Política de privacidad actualizada que cubra los pedidos, los pagos y la entrega de las eSIM.</p>
       <p>La versión en ruso del sitio web tiene su propia política de privacidad, que se aplica cuando usas esa versión.</p>` },
       { id: "who-we-are", en: 'ea75d4b78795', h2: "1. Quiénes somos", html: `

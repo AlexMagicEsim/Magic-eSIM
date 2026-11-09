@@ -15,23 +15,23 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Die Bedingungen für die Nutzung der internationalen Website von Magic eSIM und für die dort in US-Dollar gekauften eSIM-Datentarife.",
     crumb: "Nutzungsbedingungen",
     sections: [
-      { id: "about-these-terms", en: '10eee571d50b', h2: "Über diese Nutzungsbedingungen", html: `
+      { id: "about-these-terms", en: 'a7451262de49', h2: "Über diese Nutzungsbedingungen", html: `
       <p>Diese Nutzungsbedingungen regeln:</p>
       <ul class="list">
-        <li>deine Nutzung der internationalen Website von Magic eSIM unter magicesim.store/en/ und ihrer anderen, nicht russischsprachigen Sprachversionen (die <strong>Website</strong>); und</li>
+        <li>deine Nutzung der internationalen Website von Magic eSIM unter magicesim.store – auf Englisch und in jeder anderen, nicht russischsprachigen Sprachversion, die wir veröffentlichen (die <strong>Website</strong>); und</li>
         <li>jeden eSIM-Datentarif, den du auf der Website in US-Dollar kaufst.</li>
       </ul>
-      <p>Für die russischsprachige Website magicesim.store, Käufe in russischen Rubel und die Telegram-Mini-App von Magic eSIM gelten gesonderte Bedingungen, die dort veröffentlicht sind.</p>
+      <p>Für die russischsprachige Website von Magic eSIM, Käufe in russischen Rubel und die Telegram-Mini-App von Magic eSIM gelten gesonderte Bedingungen.</p>
       <p><strong>Internationale Zahlungen sind derzeit nicht verfügbar.</strong> Du kannst auf der Website Tarife ansehen und einen genauen Preis abrufen, aber du kannst keine Bestellung aufgeben und nicht bezahlen, und es kommt kein Vertrag zustande. Diese Nutzungsbedingungen beschreiben, wie Bestellung und Zahlung funktionieren, sobald der internationale Bestellvorgang verfügbar ist.</p>
       <p>Bitte lies diese Nutzungsbedingungen, unsere <strong>Erstattungsrichtlinie</strong> und unsere <strong>Datenschutzerklärung</strong>, bevor du bezahlst. Die Erstattungsrichtlinie ist Bestandteil dieser Nutzungsbedingungen. Du akzeptierst diese Nutzungsbedingungen, indem du im Bestellvorgang das Kästchen zur Zustimmung ankreuzt und deine Zahlung bestätigst.</p>` },
-      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. Wer wir sind", html: `
+      { id: "who-we-are", en: '84cedc91296f', h2: "1. Wer wir sind", html: `
       <p>Jeder Tarif auf der Website wird verkauft von:</p>
       <ul class="list">
         <li><strong>Verkäufer:</strong> Einzelunternehmer ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), eingetragen in Georgien</li>
         <li><strong>Identifikationsnummer im Unternehmerregister:</strong> 305887261</li>
         <li><strong>Eingetragene Anschrift:</strong> Georgia, Tbilisi, Saburtalo district, Bakhtrioni str. N22, Apt. 75</li>
         <li><strong>Handelsname:</strong> Magic eSIM</li>
-        <li><strong>Website:</strong> <a href="/en/">https://magicesim.store/en/</a></li>
+        <li><strong>Website:</strong> <a href="/">https://magicesim.store/</a></li>
         <li><strong>E-Mail:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>„<strong>Wir</strong>“, „<strong>uns</strong>“ und „<strong>unser</strong>“ bezeichnen den oben genannten Verkäufer. „<strong>Du</strong>“ bezeichnet die Person, die die Website nutzt oder einen Tarif kauft.</p>` },
@@ -97,7 +97,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Unsere Anleitungen erklären, wie du das prüfst.</p>
       <p>4.2. Bitte prüfe die Kompatibilität vor dem Kauf; du bestätigst sie im Bestellvorgang. Wenn du unsicher bist, kontaktiere uns vorher. Wenn das Gerät nicht kompatibel ist, kann der Tarif nicht funktionieren. Die Erstattungsrichtlinie erklärt, was dann geschieht.</p>` },
-      { id: "how-to-order", en: '576c522a80cc', h2: "5. So bestellst du", html: `
+      { id: "how-to-order", en: '956b54a6f60e', h2: "5. So bestellst du", html: `
       <p>5.1. <strong>Bestellschritte:</strong></p>
       <ol class="list">
         <li>Wähle einen Tarif und bei Tagestarifen die Anzahl der Tage.</li>
@@ -136,7 +136,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>5.6. <strong>Sprache.</strong></p>
       <ul class="list">
         <li>Der Vertrag wird in englischer Sprache geschlossen.</li>
-        <li>Zu deiner Erleichterung veröffentlichen wir diese Nutzungsbedingungen, die Erstattungsrichtlinie und die Datenschutzerklärung außerdem auf Spanisch, Deutsch, Französisch, vereinfachtem Chinesisch und Koreanisch. Weichen eine Übersetzung und die englische Fassung voneinander ab, gilt die englische Fassung, sofern das zwingende Recht, das für dich gilt, nichts anderes vorschreibt.</li>
+        <li>Zu deiner Erleichterung können wir außerdem Übersetzungen dieser Nutzungsbedingungen, der Erstattungsrichtlinie und der Datenschutzerklärung veröffentlichen. Weichen eine Übersetzung und die englische Fassung voneinander ab, gilt die englische Fassung, sofern das zwingende Recht, das für dich gilt, nichts anderes vorschreibt.</li>
         <li>Dies schränkt deine gesetzlichen Rechte als Verbraucher nicht ein, einschließlich einer Regel dieses Rechts, nach der eine unklare Bestimmung zu deinen Gunsten ausgelegt wird.</li>
       </ul>` },
       { id: "prices-and-payment", en: 'be7268ad633a', h2: "6. Preise und Zahlung", html: `
@@ -562,8 +562,8 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Wie wir personenbezogene Daten verarbeiten, wenn du die internationale Website von Magic eSIM besuchst oder unserem Support-Team schreibst.",
     crumb: "Datenschutzerklärung",
     sections: [
-      { id: "scope", en: 'ad609daa9a8d', h2: "Über diese Erklärung", html: `
-      <p>Diese Datenschutzerklärung gilt, wenn du die internationale Website von Magic eSIM besuchst — magicesim.store/en/ und ihre anderen, nicht russischsprachigen Sprachversionen — und wenn du unser Support-Team kontaktierst.</p>
+      { id: "scope", en: '7ac7e6e39cd2', h2: "Über diese Erklärung", html: `
+      <p>Diese Datenschutzerklärung gilt, wenn du die internationale Website von Magic eSIM besuchst — magicesim.store, auf Englisch und in jeder anderen, nicht russischsprachigen Sprachversion, die wir veröffentlichen — und wenn du unser Support-Team kontaktierst.</p>
       <p><strong>Online-Käufe sind auf der internationalen Website noch nicht möglich.</strong> Bevor sie möglich werden, veröffentlichen wir eine aktualisierte Datenschutzerklärung, die Bestellungen, Zahlungen und die Lieferung von eSIMs abdeckt.</p>
       <p>Die russischsprachige Version der Website hat eine eigene Datenschutzerklärung, die gilt, wenn du diese Version nutzt.</p>` },
       { id: "who-we-are", en: 'ea75d4b78795', h2: "1. Wer wir sind", html: `

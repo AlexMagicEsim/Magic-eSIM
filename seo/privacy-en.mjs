@@ -17,9 +17,11 @@
 // Written for the page: plain HTML fragments, English typography (curly quotes, en dashes), no tables — every
 // list reads on a 320 px phone without horizontal scrolling.
 
-export const PRIVACY_VERSION = '0.9.6 (pre-launch)';
-export const PRIVACY_EFFECTIVE = '29 October 2026';
-export const PRIVACY_EFFECTIVE_ISO = '2026-10-29';
+// 0.9.7 (owner's task 2026-11-09, EN-only publication): the scope names the Website at magicesim.store «in English and in any
+// other non-Russian language version of it that we publish» (was the old /en/ address). Nothing else changed.
+export const PRIVACY_VERSION = '0.9.7 (pre-launch)';
+export const PRIVACY_EFFECTIVE = '9 November 2026';
+export const PRIVACY_EFFECTIVE_ISO = '2026-11-09';
 
 export const PRIVACY = Object.freeze({
   title: 'Privacy Policy — Magic eSIM',
@@ -30,7 +32,7 @@ export const PRIVACY = Object.freeze({
   sections: [
     {
       id: 'scope', h2: 'About this policy', html: `
-      <p>This Privacy Policy applies when you visit the Magic eSIM international website — magicesim.store/en/ and its other non-Russian language versions — and when you contact our support team.</p>
+      <p>This Privacy Policy applies when you visit the Magic eSIM international website — magicesim.store, in English and in any other non-Russian language version of it that we publish — and when you contact our support team.</p>
       <p><strong>Online purchases are not yet available on the international website.</strong> Before they become available, we will publish an updated Privacy Policy that covers orders, payments and the delivery of eSIMs.</p>
       <p>The Russian-language version of the website has its own privacy policy, which applies when you use that version.</p>`,
     },

@@ -19,10 +19,15 @@
 // 0.9.6 (owner's task 2026-11-04): §3.1 says that a minor under the law that governs their capacity who buys without the
 // legal representative's consent, or that representative, may cancel the contract (the notice of the Korean Act on
 // Consumer Protection in Electronic Commerce, Art. 13(3)) — one general sentence, no country named, the 18+ rule unchanged.
+// 0.9.7 (owner's task 2026-11-09, EN-only publication for the Merchant of Record review): the scope names the Website
+// at magicesim.store «in English and in any other non-Russian language version of it that we publish» (was the old
+// /en/ address and «its other … versions»); the Russian terms «are governed by separate terms» (no longer «published
+// there»); §1 Website https://magicesim.store/; §5.6 «We may also publish translations» (was a promise of five). True
+// whether the other languages are published or hidden (seo/publication-scope.mjs). No right, refund or payment term moved.
 
-export const TERMS_VERSION = '0.9.6 (pre-launch)';
-export const TERMS_EFFECTIVE = '4 November 2026';
-export const TERMS_EFFECTIVE_ISO = '2026-11-04';
+export const TERMS_VERSION = '0.9.7 (pre-launch)';
+export const TERMS_EFFECTIVE = '9 November 2026';
+export const TERMS_EFFECTIVE_ISO = '2026-11-09';
 
 export const TERMS = Object.freeze({
   title: "Terms of Service — Magic eSIM",
@@ -35,10 +40,10 @@ export const TERMS = Object.freeze({
       id: 'about-these-terms', h2: "About these Terms", html: `
       <p>These Terms govern:</p>
       <ul class="list">
-        <li>your use of the Magic eSIM international website at magicesim.store/en/ and its other non-Russian language versions (the <strong>Website</strong>); and</li>
+        <li>your use of the Magic eSIM international website at magicesim.store, in English and in any other non-Russian language version of it that we publish (the <strong>Website</strong>); and</li>
         <li>every eSIM data plan you buy on the Website in US dollars.</li>
       </ul>
-      <p>The Russian-language website magicesim.store, purchases in Russian roubles and the Magic eSIM Telegram Mini App are governed by separate terms published there.</p>
+      <p>The Russian-language Magic eSIM website, purchases in Russian roubles and the Magic eSIM Telegram Mini App are governed by separate terms.</p>
       <p><strong>International payments are currently unavailable.</strong> You can browse plans and get an exact price on the Website, but you cannot place an order or pay, and no contract is formed. These Terms describe how ordering and payment work when international checkout becomes available.</p>
       <p>Please read these Terms, our <strong>Refund Policy</strong> and our <strong>Privacy Policy</strong> before you pay. The Refund Policy is part of these Terms. You accept these Terms by ticking the acceptance box at checkout and confirming your payment.</p>`,
     },
@@ -50,7 +55,7 @@ export const TERMS = Object.freeze({
         <li><strong>Identification number in the Registry of Entrepreneurs:</strong> 305887261</li>
         <li><strong>Registered address:</strong> Georgia, Tbilisi, Saburtalo district, Bakhtrioni str. N22, Apt. 75</li>
         <li><strong>Trading name:</strong> Magic eSIM</li>
-        <li><strong>Website:</strong> <a href="/en/">https://magicesim.store/en/</a></li>
+        <li><strong>Website:</strong> <a href="/">https://magicesim.store/</a></li>
         <li><strong>Email:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>“<strong>We</strong>”, “<strong>us</strong>” and “<strong>our</strong>” mean the seller named above. “<strong>You</strong>” means the person who uses the Website or buys a plan.</p>
@@ -164,7 +169,7 @@ export const TERMS = Object.freeze({
       <p>5.6. <strong>Language.</strong></p>
       <ul class="list">
         <li>The contract is concluded in English.</li>
-        <li>We also publish these Terms, the Refund Policy and the Privacy Policy in Spanish, German, French, Simplified Chinese and Korean for your convenience. If a translation and the English version differ, the English version applies, unless the mandatory law that applies to you requires otherwise.</li>
+        <li>We may also publish translations of these Terms, the Refund Policy and the Privacy Policy for your convenience. If a translation and the English version differ, the English version applies, unless the mandatory law that applies to you requires otherwise.</li>
         <li>This does not limit your statutory rights as a consumer, including any rule of that law that an unclear term is interpreted in your favour.</li>
       </ul>`,
     },

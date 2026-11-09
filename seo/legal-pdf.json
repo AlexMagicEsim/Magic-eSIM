@@ -18,6 +18,14 @@
       "bytes": 281576
     },
     {
+      "kind": "terms",
+      "version": "0.9.7",
+      "code": "de",
+      "path": "de/terms/v0.9.7/magic-esim-terms-0.9.7-de.pdf",
+      "sha256": "8decacf570e47f4ecac0a0c30b4072f2259f75122f5627fe0016572c7bd62e04",
+      "bytes": 281352
+    },
+    {
       "kind": "refund",
       "version": "0.9.4",
       "code": "en",
@@ -32,6 +40,14 @@
       "path": "en/terms/v0.9.6/magic-esim-terms-0.9.6-en.pdf",
       "sha256": "c25ed21ae8ff680f592a6cbb3391af2fa2adae5a668f84982c168cd3b31f8355",
       "bytes": 259101
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.7",
+      "code": "en",
+      "path": "en/terms/v0.9.7/magic-esim-terms-0.9.7-en.pdf",
+      "sha256": "1996ac3ddbbd82b9638be9ea4fe6b84388f74d9422e2ff2af82ab9e8a9cc1cd0",
+      "bytes": 260423
     },
     {
       "kind": "refund",
@@ -50,6 +66,14 @@
       "bytes": 276924
     },
     {
+      "kind": "terms",
+      "version": "0.9.7",
+      "code": "es",
+      "path": "es/terms/v0.9.7/magic-esim-terms-0.9.7-es.pdf",
+      "sha256": "722e9ecca14c4b323b7334d3140aa2641bdc6ad0269902172586659f03045be5",
+      "bytes": 276884
+    },
+    {
       "kind": "refund",
       "version": "0.9.4",
       "code": "fr",
@@ -64,6 +88,14 @@
       "path": "fr/terms/v0.9.6/magic-esim-terms-0.9.6-fr.pdf",
       "sha256": "d243c99f44c49dbfc9fe5eb6c312fa7cf5dfb35879fb38ed5cb8029b051bbe3d",
       "bytes": 282234
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.7",
+      "code": "fr",
+      "path": "fr/terms/v0.9.7/magic-esim-terms-0.9.7-fr.pdf",
+      "sha256": "256bc180781a6d81f932a98fbfc7a5b8cd9a39717d3761d3673fd4cf09fbdc53",
+      "bytes": 281583
     },
     {
       "kind": "refund",
@@ -82,6 +114,14 @@
       "bytes": 535082
     },
     {
+      "kind": "terms",
+      "version": "0.9.7",
+      "code": "ko",
+      "path": "ko/terms/v0.9.7/magic-esim-terms-0.9.7-ko.pdf",
+      "sha256": "5a6aedc34042a3bd088a191c4986c43267fb4d5955b344ca01ce883d0a0fc627",
+      "bytes": 534427
+    },
+    {
       "kind": "refund",
       "version": "0.9.4",
       "code": "zh-Hans",
@@ -96,6 +136,14 @@
       "path": "zh/terms/v0.9.6/magic-esim-terms-0.9.6-zh-Hans.pdf",
       "sha256": "7c56527e41b266415785bd9fe4cd8cc3cf419b258b10a7094775817a20aeae4b",
       "bytes": 821648
+    },
+    {
+      "kind": "terms",
+      "version": "0.9.7",
+      "code": "zh-Hans",
+      "path": "zh/terms/v0.9.7/magic-esim-terms-0.9.7-zh-Hans.pdf",
+      "sha256": "8a8491e8f9dff3e74f057bce55026cce50f0fa76b7bd993b83e5df5bb3d55880",
+      "bytes": 819179
     }
   ]
 }

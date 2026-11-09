@@ -15,23 +15,23 @@ export const LEGAL_I18N = Object.freeze({
     lead: "使用 Magic eSIM 国际网站以及在该网站上以美元购买 eSIM 流量套餐的条款。",
     crumb: "服务条款",
     sections: [
-      { id: "about-these-terms", en: '10eee571d50b', h2: "关于本条款", html: `
+      { id: "about-these-terms", en: 'a7451262de49', h2: "关于本条款", html: `
       <p>本条款适用于：</p>
       <ul class="list">
-        <li>您对 Magic eSIM 国际网站 magicesim.store/en/ 及其其他非俄语语言版本（“<strong>本网站</strong>”）的使用；以及</li>
+        <li>您对 Magic eSIM 国际网站 magicesim.store（包括英文版本以及我们发布的任何其他非俄语语言版本，“<strong>本网站</strong>”）的使用；以及</li>
         <li>您在本网站上以美元购买的每一份 eSIM 流量套餐。</li>
       </ul>
-      <p>俄语网站 magicesim.store、以俄罗斯卢布进行的购买以及 Magic eSIM Telegram Mini App 受在其上公布的单独条款约束。</p>
+      <p>Magic eSIM 俄语网站、以俄罗斯卢布进行的购买以及 Magic eSIM Telegram Mini App 受单独条款约束。</p>
       <p><strong>目前暂不支持国际支付。</strong>您可以在本网站上浏览套餐并获取准确价格，但无法下单或付款，也不会订立任何合同。本条款描述的是国际结账功能开通后下单和付款的方式。</p>
       <p>请在付款前阅读本条款、我们的<strong>退款政策</strong>和<strong>隐私政策</strong>。退款政策是本条款的组成部分。您在结账时勾选接受框并确认付款，即表示接受本条款。</p>` },
-      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. 我们是谁", html: `
+      { id: "who-we-are", en: '84cedc91296f', h2: "1. 我们是谁", html: `
       <p>本网站上的每一份套餐均由以下卖方销售：</p>
       <ul class="list">
         <li><strong>卖方：</strong>个体企业家 ALEKSANDR KHARIN（ინდივიდუალური მეწარმე），在格鲁吉亚注册</li>
         <li><strong>企业家登记册中的识别号：</strong>305887261</li>
         <li><strong>注册地址：</strong>Georgia, Tbilisi, Saburtalo district, Bakhtrioni str. N22, Apt. 75</li>
         <li><strong>经营名称：</strong>Magic eSIM</li>
-        <li><strong>网站：</strong><a href="/en/">https://magicesim.store/en/</a></li>
+        <li><strong>网站：</strong><a href="/">https://magicesim.store/</a></li>
         <li><strong>电子邮箱：</strong><a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>“<strong>我们</strong>”、“<strong>我方</strong>”和“<strong>我们的</strong>”指上述卖方。“<strong>您</strong>”指使用本网站或购买套餐的人。</p>
@@ -98,7 +98,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>我们的指南说明了如何检查这些事项。</p>
       <p>4.2. 请在购买前检查兼容性；您需要在结账时确认。如果您不确定，请先联系我们。如果设备不兼容，套餐将无法使用。退款政策说明了这种情况下的处理方式。</p>` },
-      { id: "how-to-order", en: '576c522a80cc', h2: "5. 如何下单", html: `
+      { id: "how-to-order", en: '956b54a6f60e', h2: "5. 如何下单", html: `
       <p>5.1. <strong>下单步骤：</strong></p>
       <ol class="list">
         <li>选择套餐；如为每日套餐，还需选择天数。</li>
@@ -137,7 +137,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>5.6. <strong>语言。</strong></p>
       <ul class="list">
         <li>合同以英文订立。</li>
-        <li>为方便您阅读，我们还以西班牙文、德文、法文、简体中文和韩文发布本条款、退款政策和隐私政策。如译文与英文版本存在差异，以英文版本为准，但适用于您的强制性法律另有规定的除外。</li>
+        <li>为方便您阅读，我们还可能发布本条款、退款政策和隐私政策的译文。如译文与英文版本存在差异，以英文版本为准，但适用于您的强制性法律另有规定的除外。</li>
         <li>这不限制您作为消费者的法定权利，包括该法律中关于不明确的条款应作有利于您的解释的任何规则。</li>
       </ul>` },
       { id: "prices-and-payment", en: 'be7268ad633a', h2: "6. 价格和付款", html: `
@@ -563,8 +563,8 @@ export const LEGAL_I18N = Object.freeze({
     lead: "当您访问 Magic eSIM 国际网站或写信给我们的客服团队时，我们如何处理个人数据。",
     crumb: "隐私政策",
     sections: [
-      { id: "scope", en: 'ad609daa9a8d', h2: "关于本政策", html: `
-      <p>本隐私政策适用于您访问 Magic eSIM 国际网站（magicesim.store/en/ 及其其他非俄语语言版本）以及您联系我们的客服团队的情形。</p>
+      { id: "scope", en: '7ac7e6e39cd2', h2: "关于本政策", html: `
+      <p>本隐私政策适用于您访问 Magic eSIM 国际网站（magicesim.store，包括英文版本以及我们发布的任何其他非俄语语言版本）以及您联系我们的客服团队的情形。</p>
       <p><strong>国际网站目前尚不提供在线购买。</strong>在开放在线购买之前，我们将发布更新的隐私政策，涵盖订单、付款和 eSIM 的交付。</p>
       <p>网站的俄语版本有其自己的隐私政策，适用于您使用该版本的情形。</p>` },
       { id: "who-we-are", en: 'ea75d4b78795', h2: "1. 我们是谁", html: `

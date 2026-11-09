@@ -15,23 +15,23 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Magic eSIM 국제 웹사이트의 이용과 이 웹사이트에서 미국 달러로 구매하는 eSIM 데이터 요금제에 적용되는 약관입니다.",
     crumb: "이용약관",
     sections: [
-      { id: "about-these-terms", en: '10eee571d50b', h2: "본 약관에 관하여", html: `
+      { id: "about-these-terms", en: 'a7451262de49', h2: "본 약관에 관하여", html: `
       <p>본 약관은 다음 사항에 적용됩니다.</p>
       <ul class="list">
-        <li>magicesim.store/en/ 및 러시아어 이외의 다른 언어 버전으로 제공되는 Magic eSIM 국제 웹사이트(이하 <strong>웹사이트</strong>)의 이용, 그리고</li>
+        <li>magicesim.store의 Magic eSIM 국제 웹사이트(영어 버전 및 당사가 게시하는 러시아어 이외의 다른 모든 언어 버전, 이하 <strong>웹사이트</strong>)의 이용, 그리고</li>
         <li>귀하가 웹사이트에서 미국 달러로 구매하는 모든 eSIM 데이터 요금제.</li>
       </ul>
-      <p>러시아어 웹사이트 magicesim.store, 러시아 루블로 이루어지는 구매 및 Magic eSIM 텔레그램 미니 앱(Telegram Mini App)에는 해당 서비스에 게시된 별도의 약관이 적용됩니다.</p>
+      <p>Magic eSIM 러시아어 웹사이트, 러시아 루블로 이루어지는 구매 및 Magic eSIM 텔레그램 미니 앱(Telegram Mini App)에는 별도의 약관이 적용됩니다.</p>
       <p><strong>현재 국제 결제는 이용할 수 없습니다.</strong> 웹사이트에서 요금제를 둘러보고 정확한 가격을 확인할 수는 있지만, 주문하거나 결제할 수는 없으며 어떠한 계약도 성립하지 않습니다. 본 약관은 국제 결제 절차가 제공될 때 주문과 결제가 어떻게 이루어지는지를 설명합니다.</p>
       <p>결제하기 전에 본 약관, 당사의 <strong>환불 정책</strong> 및 <strong>개인정보 처리방침</strong>을 읽어 주세요. 환불 정책은 본 약관의 일부입니다. 귀하는 결제 단계에서 동의 확인란에 체크하고 결제를 확인함으로써 본 약관에 동의합니다.</p>` },
-      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. 당사 소개", html: `
+      { id: "who-we-are", en: '84cedc91296f', h2: "1. 당사 소개", html: `
       <p>웹사이트의 모든 요금제는 다음 판매자가 판매합니다.</p>
       <ul class="list">
         <li><strong>판매자:</strong> 조지아에 등록된 개인사업자 ALEKSANDR KHARIN (ინდივიდუალური მეწარმე)</li>
         <li><strong>사업자 등록부(Registry of Entrepreneurs) 식별번호:</strong> 305887261</li>
         <li><strong>등록 주소:</strong> Georgia, Tbilisi, Saburtalo district, Bakhtrioni str. N22, Apt. 75</li>
         <li><strong>상호:</strong> Magic eSIM</li>
-        <li><strong>웹사이트:</strong> <a href="/en/">https://magicesim.store/en/</a></li>
+        <li><strong>웹사이트:</strong> <a href="/">https://magicesim.store/</a></li>
         <li><strong>이메일:</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>“<strong>당사</strong>”, “<strong>당사에게</strong>” 및 “<strong>당사의</strong>”는 위에 명시된 판매자를 의미합니다. “<strong>귀하</strong>”는 웹사이트를 이용하거나 요금제를 구매하는 사람을 의미합니다.</p>` },
@@ -97,7 +97,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>확인 방법은 당사 안내서에서 설명합니다.</p>
       <p>4.2. 구매하기 전에 호환성을 확인해 주세요. 귀하는 결제 단계에서 호환성을 확인합니다. 확실하지 않은 경우 먼저 당사에 문의하세요. 기기가 호환되지 않으면 요금제는 작동할 수 없습니다. 이 경우 어떻게 되는지는 환불 정책에서 설명합니다.</p>` },
-      { id: "how-to-order", en: '576c522a80cc', h2: "5. 주문 방법", html: `
+      { id: "how-to-order", en: '956b54a6f60e', h2: "5. 주문 방법", html: `
       <p>5.1. <strong>주문 단계:</strong></p>
       <ol class="list">
         <li>요금제를 선택하고, 일일 요금제의 경우 일수를 선택합니다.</li>
@@ -136,7 +136,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>5.6. <strong>언어.</strong></p>
       <ul class="list">
         <li>계약은 영어로 체결됩니다.</li>
-        <li>당사는 귀하의 편의를 위해 본 약관, 환불 정책 및 개인정보 처리방침을 스페인어, 독일어, 프랑스어, 중국어 간체 및 한국어로도 게시합니다. 번역본과 영어 버전의 내용이 다른 경우, 귀하에게 적용되는 강행법규가 달리 정하지 않는 한 영어 버전이 적용됩니다.</li>
+        <li>당사는 귀하의 편의를 위해 본 약관, 환불 정책 및 개인정보 처리방침의 번역본을 게시할 수도 있습니다. 번역본과 영어 버전의 내용이 다른 경우, 귀하에게 적용되는 강행법규가 달리 정하지 않는 한 영어 버전이 적용됩니다.</li>
         <li>이는 불분명한 조항은 귀하에게 유리하게 해석된다는 해당 법률의 규칙을 포함하여, 소비자로서 귀하가 가진 법적 권리를 제한하지 않습니다.</li>
       </ul>` },
       { id: "prices-and-payment", en: 'be7268ad633a', h2: "6. 가격 및 결제", html: `
@@ -562,8 +562,8 @@ export const LEGAL_I18N = Object.freeze({
     lead: "귀하가 Magic eSIM 국제 웹사이트를 방문하거나 당사 고객 지원팀에 연락할 때 당사가 개인정보를 처리하는 방식을 안내합니다.",
     crumb: "개인정보 처리방침",
     sections: [
-      { id: "scope", en: 'ad609daa9a8d', h2: "본 방침에 관하여", html: `
-      <p>본 개인정보 처리방침은 귀하가 Magic eSIM 국제 웹사이트(magicesim.store/en/ 및 러시아어 이외의 다른 언어 버전)를 방문할 때와 당사 고객 지원팀에 연락할 때 적용됩니다.</p>
+      { id: "scope", en: '7ac7e6e39cd2', h2: "본 방침에 관하여", html: `
+      <p>본 개인정보 처리방침은 귀하가 Magic eSIM 국제 웹사이트(magicesim.store — 영어 버전 및 당사가 게시하는 러시아어 이외의 다른 모든 언어 버전)를 방문할 때와 당사 고객 지원팀에 연락할 때 적용됩니다.</p>
       <p><strong>국제 웹사이트에서는 아직 온라인 구매를 이용할 수 없습니다.</strong> 온라인 구매가 가능해지기 전에 당사는 주문, 결제 및 eSIM 전달을 다루는 개정된 개인정보 처리방침을 게시합니다.</p>
       <p>러시아어 버전의 웹사이트에는 별도의 개인정보 처리방침이 있으며, 해당 버전을 이용할 때에는 그 방침이 적용됩니다.</p>` },
       { id: "who-we-are", en: 'ea75d4b78795', h2: "1. 당사 소개", html: `
