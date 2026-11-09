@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-08T17:57:45.959Z",
+  "generated_at": "2026-11-09T12:05:15.336Z",
   "source": "production-public-api",
-  "package_count": 2418,
+  "package_count": 2419,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -134904,6 +134904,40 @@
       "sellable_days": []
     },
     {
+      "package_id": "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
+      "name": "Singapore Malaysia Thailand 5 GB",
+      "country_code": "MY",
+      "region": "MY, SG, TH",
+      "coverage_country_codes": [
+        "MY",
+        "SG",
+        "TH"
+      ],
+      "coverage_flags": "🇲🇾 🇸🇬 🇹🇭",
+      "data_gb": 5,
+      "validity_days": 15,
+      "price": 900,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "eb663cca-b1ea-4761-962b-185662ae3eb2",
       "name": "Bahrain 1GB 7Days",
       "country_code": "BH",
@@ -150547,11 +150581,11 @@
         ],
         "regional": [
           "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
+          "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
           "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "8f6cb6d4-8511-4fff-ad18-f8aaa4a59570",
           "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
-          "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
           "7931a911-68cf-476e-bde3-081ec50bc203",
           "5f65aa4d-715e-4889-b516-0d905e170f50"
         ],
@@ -151405,7 +151439,7 @@
         "regional": [
           "34aa461f-5adf-4b55-8ffd-53f7d8a7eade",
           "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
-          "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
+          "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
           "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "7931a911-68cf-476e-bde3-081ec50bc203",
@@ -151734,7 +151768,7 @@
         "regional": [
           "eda6ef5b-f94c-42f8-9a4f-f3ab6d219531",
           "3d7775dc-78a4-4019-a87c-5b7dab97a8bb",
-          "f3d9eb5e-5aeb-47c3-bcb4-c27fc5cea2ad",
+          "eabef945-c1d7-4c2c-9cfd-249a8c14e139",
           "7fe05c79-d171-4cc5-8f76-e568bd03d7a1",
           "98dd8e2e-d70d-4877-a407-47a737378456",
           "7931a911-68cf-476e-bde3-081ec50bc203",
