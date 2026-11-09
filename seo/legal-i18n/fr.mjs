@@ -15,23 +15,23 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Les conditions d’utilisation du site international de Magic eSIM et des forfaits de données eSIM qui y sont achetés en dollars américains.",
     crumb: "Conditions d’utilisation",
     sections: [
-      { id: "about-these-terms", en: '10eee571d50b', h2: "À propos des présentes Conditions", html: `
+      { id: "about-these-terms", en: 'a7451262de49', h2: "À propos des présentes Conditions", html: `
       <p>Les présentes Conditions régissent :</p>
       <ul class="list">
-        <li>votre utilisation du site international de Magic eSIM, à l’adresse magicesim.store/en/, et de ses versions dans d’autres langues que le russe (le <strong>Site</strong>) ; et</li>
+        <li>votre utilisation du site international de Magic eSIM, à l’adresse magicesim.store, en anglais et dans toute autre version dans une langue autre que le russe que nous publions (le <strong>Site</strong>) ; et</li>
         <li>chaque forfait de données eSIM que vous achetez sur le Site en dollars américains.</li>
       </ul>
-      <p>Le site en langue russe magicesim.store, les achats en roubles russes et la Mini App Telegram de Magic eSIM sont régis par des conditions distinctes, qui y sont publiées.</p>
+      <p>Le site de Magic eSIM en langue russe, les achats en roubles russes et la Mini App Telegram de Magic eSIM sont régis par des conditions distinctes.</p>
       <p><strong>Les paiements internationaux sont actuellement indisponibles.</strong> Vous pouvez consulter les forfaits et obtenir un prix exact sur le Site, mais vous ne pouvez ni passer commande ni payer, et aucun contrat n’est formé. Les présentes Conditions décrivent le fonctionnement de la commande et du paiement lorsque la commande internationale sera disponible.</p>
       <p>Veuillez lire les présentes Conditions, notre <strong>Politique de remboursement</strong> et notre <strong>Politique de confidentialité</strong> avant de payer. La Politique de remboursement fait partie des présentes Conditions. Vous acceptez les présentes Conditions en cochant la case d’acceptation lors de la commande et en confirmant votre paiement.</p>` },
-      { id: "who-we-are", en: 'd333eb4642a8', h2: "1. Qui sommes-nous", html: `
+      { id: "who-we-are", en: '84cedc91296f', h2: "1. Qui sommes-nous", html: `
       <p>Chaque forfait proposé sur le Site est vendu par :</p>
       <ul class="list">
         <li><strong>Vendeur :</strong> entrepreneur individuel ALEKSANDR KHARIN (ინდივიდუალური მეწარმე), immatriculé en Géorgie</li>
         <li><strong>Numéro d’identification au Registre des entrepreneurs :</strong> 305887261</li>
         <li><strong>Adresse enregistrée :</strong> Georgia, Tbilisi, Saburtalo district, Bakhtrioni str. N22, Apt. 75</li>
         <li><strong>Nom commercial :</strong> Magic eSIM</li>
-        <li><strong>Site web :</strong> <a href="/en/">https://magicesim.store/en/</a></li>
+        <li><strong>Site web :</strong> <a href="/">https://magicesim.store/</a></li>
         <li><strong>E-mail :</strong> <a href="mailto:support@magicesim.store">support@magicesim.store</a></li>
       </ul>
       <p>« <strong>Nous</strong> », « <strong>notre</strong> » et « <strong>nos</strong> » désignent le vendeur nommé ci-dessus. « <strong>Vous</strong> » désigne la personne qui utilise le Site ou achète un forfait.</p>` },
@@ -97,7 +97,7 @@ export const LEGAL_I18N = Object.freeze({
       </ul>
       <p>Nos guides expliquent comment le vérifier.</p>
       <p>4.2. Veuillez vérifier la compatibilité avant d’acheter ; vous la confirmez lors de la commande. En cas de doute, contactez-nous d’abord. Si l’appareil n’est pas compatible, le forfait ne peut pas fonctionner. La Politique de remboursement explique ce qui se passe alors.</p>` },
-      { id: "how-to-order", en: '576c522a80cc', h2: "5. Comment commander", html: `
+      { id: "how-to-order", en: '956b54a6f60e', h2: "5. Comment commander", html: `
       <p>5.1. <strong>Étapes de la commande :</strong></p>
       <ol class="list">
         <li>Choisissez un forfait et, pour les forfaits journaliers, le nombre de jours.</li>
@@ -136,7 +136,7 @@ export const LEGAL_I18N = Object.freeze({
       <p>5.6. <strong>Langue.</strong></p>
       <ul class="list">
         <li>Le contrat est conclu en anglais.</li>
-        <li>Nous publions également les présentes Conditions, la Politique de remboursement et la Politique de confidentialité en espagnol, en allemand, en français, en chinois simplifié et en coréen pour votre commodité. En cas de divergence entre une traduction et la version anglaise, la version anglaise prévaut, sauf si la loi impérative qui vous est applicable en dispose autrement.</li>
+        <li>Nous pouvons également publier des traductions des présentes Conditions, de la Politique de remboursement et de la Politique de confidentialité pour votre commodité. En cas de divergence entre une traduction et la version anglaise, la version anglaise prévaut, sauf si la loi impérative qui vous est applicable en dispose autrement.</li>
         <li>Cela ne limite pas vos droits légaux de consommateur, y compris toute règle de cette loi selon laquelle une clause peu claire est interprétée en votre faveur.</li>
       </ul>` },
       { id: "prices-and-payment", en: 'be7268ad633a', h2: "6. Prix et paiement", html: `
@@ -562,8 +562,8 @@ export const LEGAL_I18N = Object.freeze({
     lead: "Comment nous traitons les données personnelles lorsque vous consultez le site international de Magic eSIM ou écrivez à notre équipe d’assistance.",
     crumb: "Politique de confidentialité",
     sections: [
-      { id: "scope", en: 'ad609daa9a8d', h2: "À propos de cette politique", html: `
-      <p>La présente Politique de confidentialité s’applique lorsque vous consultez le site international de Magic eSIM — magicesim.store/en/ et ses versions dans d’autres langues que le russe — et lorsque vous contactez notre équipe d’assistance.</p>
+      { id: "scope", en: '7ac7e6e39cd2', h2: "À propos de cette politique", html: `
+      <p>La présente Politique de confidentialité s’applique lorsque vous consultez le site international de Magic eSIM — magicesim.store, en anglais et dans toute autre version dans une langue autre que le russe que nous publions — et lorsque vous contactez notre équipe d’assistance.</p>
       <p><strong>Les achats en ligne ne sont pas encore disponibles sur le site international.</strong> Avant qu’ils ne le deviennent, nous publierons une Politique de confidentialité mise à jour couvrant les commandes, les paiements et la livraison des eSIM.</p>
       <p>La version en langue russe du site possède sa propre politique de confidentialité, qui s’applique lorsque vous utilisez cette version.</p>` },
       { id: "who-we-are", en: 'ea75d4b78795', h2: "1. Qui sommes-nous", html: `

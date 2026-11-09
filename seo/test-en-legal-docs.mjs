@@ -272,3 +272,38 @@ test('Terms §3.1: 18+ and legal capacity, and the minor\'s right to cancel — 
   }
   assert.doesNotMatch(sec(TERMS), /withdraw/, 'en: §3.1 does not use the withdrawal word');
 });
+
+test('Terms 0.9.7 and Privacy 0.9.7: true whether the other languages are published or hidden — no promise of them, no old /en/ home, no «published there»', async () => {
+  const { PRIVACY } = await import('./privacy-en.mjs');
+  const all = (D) => [D.lead, ...D.sections.map((s) => s.html)].join('\n');
+  const terms = all(TERMS);
+  const privacy = all(PRIVACY);
+  // negative control: the frozen 0.9.6 text still carries what 0.9.7 removed
+  const old = JSON.parse(readFileSync(join(ROOT, 'seo', 'legal-archive', 'terms-0.9.6.json'), 'utf8'));
+  const oldText = JSON.stringify(old);
+  assert.match(oldText, /in Spanish, German, French, Simplified Chinese and Korean/);
+  assert.match(oldText, /separate terms published there/);
+  // English masters
+  assert.doesNotMatch(terms, /in Spanish, German, French, Simplified Chinese and Korean/);
+  assert.match(terms, /We may also publish translations of these Terms, the Refund Policy and the Privacy Policy for your convenience\./);
+  assert.doesNotMatch(terms, /published there/);
+  assert.match(terms, /are governed by separate terms\.<\/p>/);
+  assert.doesNotMatch(terms, /href="\/en\/"/);
+  assert.match(terms, /<a href="\/">https:\/\/magicesim\.store\/<\/a>/);
+  for (const t of [terms, privacy]) {
+    assert.match(t, /magicesim\.store, in English and in any other non-Russian language version of it that we publish/);
+    assert.doesNotMatch(t, /magicesim\.store\/en\/ and its other non-Russian language versions/);
+  }
+  // every translation follows: the §1 link and no old /en/ home link in Terms or Privacy
+  for (const [code, T] of Object.entries(LEGAL_TRANSLATIONS)) {
+    for (const kind of ['terms', 'privacy']) {
+      const html = T[kind].sections.map((s) => s.html).join('\n');
+      assert.doesNotMatch(html, /href="\/en\/"/, `${code} ${kind}`);
+      assert.doesNotMatch(html, /magicesim\.store\/en\/ /, `${code} ${kind}: the old /en/ home as the Website`);
+    }
+    assert.match(T.terms.sections.map((s) => s.html).join('\n'), /<a href="\/">https:\/\/magicesim\.store\/<\/a>/, code);
+  }
+  assert.equal(TERMS_VERSION, '0.9.7 (pre-launch)');
+  assert.equal(PRIVACY_VERSION, '0.9.7 (pre-launch)');
+  assert.equal(REFUND_VERSION, '0.9.4 (pre-launch)', 'the Refund Policy is unchanged');
+});
