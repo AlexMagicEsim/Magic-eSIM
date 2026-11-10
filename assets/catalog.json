@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-10T09:05:18.188Z",
+  "generated_at": "2026-11-10T12:05:23.598Z",
   "source": "production-public-api",
-  "package_count": 2418,
+  "package_count": 2422,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -38569,6 +38569,39 @@
       "sellable_days": []
     },
     {
+      "package_id": "455e91f1-4cd2-4997-88f6-b3bc4aa59105",
+      "name": "Tunisia Unlimited 10 Days",
+      "country_code": "TN",
+      "region": "TN",
+      "coverage_country_codes": [
+        "TN"
+      ],
+      "coverage_flags": "🇹🇳",
+      "data_gb": 0,
+      "validity_days": 10,
+      "price": 3500,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        10
+      ]
+    },
+    {
       "package_id": "457c6418-2600-4338-b3e1-2f3815cdc66b",
       "name": "Martinique 10GB/Day",
       "country_code": "MQ",
@@ -42179,6 +42212,39 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "4c0bcba3-4fda-4e2d-b8c4-d796325abbd3",
+      "name": "Tunisia Unlimited 5 Days",
+      "country_code": "TN",
+      "region": "TN",
+      "coverage_country_codes": [
+        "TN"
+      ],
+      "coverage_flags": "🇹🇳",
+      "data_gb": 0,
+      "validity_days": 5,
+      "price": 2350,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        5
+      ]
     },
     {
       "package_id": "4c302c66-3bef-4717-ac31-1e8f6e6ccc7f",
@@ -110060,6 +110126,39 @@
       "sellable_days": []
     },
     {
+      "package_id": "c2764f08-1fe7-4a17-8ae9-bbeafed23eaa",
+      "name": "Tunisia Unlimited 3 Days",
+      "country_code": "TN",
+      "region": "TN",
+      "coverage_country_codes": [
+        "TN"
+      ],
+      "coverage_flags": "🇹🇳",
+      "data_gb": 0,
+      "validity_days": 3,
+      "price": 1750,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        3
+      ]
+    },
+    {
       "package_id": "c27b3e81-4060-40e8-bcc2-e2bb4589fd44",
       "name": "United Kingdom 1GB 7Days",
       "country_code": "GB",
@@ -110542,6 +110641,39 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "c39a8ea0-997a-40f6-b1f8-7578225ee241",
+      "name": "Tunisia Unlimited 7 Days",
+      "country_code": "TN",
+      "region": "TN",
+      "coverage_country_codes": [
+        "TN"
+      ],
+      "coverage_flags": "🇹🇳",
+      "data_gb": 0,
+      "validity_days": 7,
+      "price": 2800,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        7
+      ]
     },
     {
       "package_id": "c39ec677-bf89-4622-9e01-1693e37e9dbd",
@@ -151836,7 +151968,11 @@
           "e12a63c1-494c-484c-8161-271690fb336e",
           "f0bd906d-16a7-43c1-a90d-96b273c2d381",
           "7d41009f-46b6-49b8-8495-c00ae9a66c5c",
-          "4df6a3e9-1923-4ad1-a16a-dc43c6af7ad5"
+          "4df6a3e9-1923-4ad1-a16a-dc43c6af7ad5",
+          "c2764f08-1fe7-4a17-8ae9-bbeafed23eaa",
+          "4c0bcba3-4fda-4e2d-b8c4-d796325abbd3",
+          "c39a8ea0-997a-40f6-b1f8-7578225ee241",
+          "455e91f1-4cd2-4997-88f6-b3bc4aa59105"
         ],
         "best": "cd54a15a-6bad-437d-a576-83f011d5eb49"
       },
