@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-10T12:05:23.598Z",
+  "generated_at": "2026-11-10T14:58:43.697Z",
   "source": "production-public-api",
-  "package_count": 2422,
+  "package_count": 2427,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -9580,6 +9580,38 @@
       "sellable_days": []
     },
     {
+      "package_id": "0fc915d3-4144-489a-918b-4c764a4d04a9",
+      "name": "Tunisia and Algeria 10 GB",
+      "country_code": "DZ",
+      "region": "DZ, TN",
+      "coverage_country_codes": [
+        "DZ",
+        "TN"
+      ],
+      "coverage_flags": "🇩🇿 🇹🇳",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 2550,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "0fcd577a-f1ec-4149-8d4d-2390737b0eb9",
       "name": "Sierra Leone 2GB/Day",
       "country_code": "SL",
@@ -10108,6 +10140,38 @@
       "ip_export": [
         "JP"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "10da7f43-cf86-4b74-94f4-f4b521a5a079",
+      "name": "Tunisia and Algeria 5 GB",
+      "country_code": "DZ",
+      "region": "DZ, TN",
+      "coverage_country_codes": [
+        "DZ",
+        "TN"
+      ],
+      "coverage_flags": "🇩🇿 🇹🇳",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 1500,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -29739,6 +29803,38 @@
       ]
     },
     {
+      "package_id": "3499967e-1e79-4cc0-ad21-07ab01932c5f",
+      "name": "Tunisia and Algeria 3 GB",
+      "country_code": "DZ",
+      "region": "DZ, TN",
+      "coverage_country_codes": [
+        "DZ",
+        "TN"
+      ],
+      "coverage_flags": "🇩🇿 🇹🇳",
+      "data_gb": 3,
+      "validity_days": 30,
+      "price": 1100,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "349a12e8-e832-4be0-9113-2f0f925d0898",
       "name": "Algeria 50GB 30Days",
       "country_code": "DZ",
@@ -34669,6 +34765,37 @@
           "price": 17550
         }
       ]
+    },
+    {
+      "package_id": "3e40921a-53de-49c4-9d87-eb9d587834d1",
+      "name": "Cape Verde 1 GB",
+      "country_code": "CV",
+      "region": "CV",
+      "coverage_country_codes": [
+        "CV"
+      ],
+      "coverage_flags": "🇨🇻",
+      "data_gb": 1,
+      "validity_days": 7,
+      "price": 1450,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "3e40a475-6878-459e-89e6-0d27ee0f0e24",
@@ -88548,45 +88675,6 @@
       ]
     },
     {
-      "package_id": "9dc3a433-b606-4466-8558-b571637ada7d",
-      "name": "Cape Verde 1GB 7Days",
-      "country_code": "CV",
-      "region": "CV",
-      "coverage_country_codes": [
-        "CV"
-      ],
-      "coverage_flags": "🇨🇻",
-      "data_gb": 1,
-      "validity_days": 7,
-      "price": 1750,
-      "networks": [
-        {
-          "operator": "CVMOVEL",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "9dda58c4-09da-4ff1-acf1-85f90f5d93ad",
       "name": "Brunei Darussalam 20GB 30Days",
       "country_code": "BN",
@@ -93607,6 +93695,38 @@
       "ip_export": [
         "NL"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "a70c43fa-c888-40ce-9e3f-94e395010fa2",
+      "name": "Tunisia and Algeria 20 GB",
+      "country_code": "DZ",
+      "region": "DZ, TN",
+      "coverage_country_codes": [
+        "DZ",
+        "TN"
+      ],
+      "coverage_flags": "🇩🇿 🇹🇳",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 3750,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -114988,6 +115108,38 @@
       "ip_export": [
         "IL"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "cb85127d-4db6-44d4-880d-c3de19d3b48c",
+      "name": "Tunisia and Algeria 1 GB",
+      "country_code": "DZ",
+      "region": "DZ, TN",
+      "coverage_country_codes": [
+        "DZ",
+        "TN"
+      ],
+      "coverage_flags": "🇩🇿 🇹🇳",
+      "data_gb": 1,
+      "validity_days": 14,
+      "price": 500,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -148222,7 +148374,7 @@
       },
       "CV": {
         "local": [
-          "9dc3a433-b606-4466-8558-b571637ada7d",
+          "3e40921a-53de-49c4-9d87-eb9d587834d1",
           "2b31c20f-5908-43d1-9c27-0bba8571c902",
           "ec428749-5246-4f18-92c1-4d2052615d66",
           "0bf96dfe-622d-42ec-a039-9296f2acf0c6",
@@ -148462,14 +148614,12 @@
           "349a12e8-e832-4be0-9113-2f0f925d0898"
         ],
         "regional": [
-          "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
-          "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
-          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
-          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
-          "ad3001e5-9412-450f-acc3-9cdd19f8d268",
-          "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
-          "a251e820-1737-4424-b331-cd60994b6a92"
+          "cb85127d-4db6-44d4-880d-c3de19d3b48c",
+          "3499967e-1e79-4cc0-ad21-07ab01932c5f",
+          "10da7f43-cf86-4b74-94f4-f4b521a5a079",
+          "0fc915d3-4144-489a-918b-4c764a4d04a9",
+          "a70c43fa-c888-40ce-9e3f-94e395010fa2",
+          "ad3001e5-9412-450f-acc3-9cdd19f8d268"
         ],
         "daily": [
           "f47684dd-ca25-4ace-9e0c-a11b9bc9d6bf",
@@ -151955,13 +152105,11 @@
         ],
         "regional": [
           "de6c004d-6390-4721-9a22-e5b56a6c87af",
-          "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
-          "4c999610-ed78-4846-9cc8-77a1d087816c",
-          "46837a37-eeb3-47c7-8b2b-a342a6a1e2c5",
-          "fd269fbf-3e23-4210-b9ff-1354149f4722",
-          "6067cb8b-e930-479b-b8b6-536e54ee2093",
-          "bded5dd0-7fa3-4740-bd41-c8de6e7fc7ce",
-          "7b69f85c-4b7f-4fad-924f-ff5f882d7f23"
+          "cb85127d-4db6-44d4-880d-c3de19d3b48c",
+          "3499967e-1e79-4cc0-ad21-07ab01932c5f",
+          "10da7f43-cf86-4b74-94f4-f4b521a5a079",
+          "0fc915d3-4144-489a-918b-4c764a4d04a9",
+          "a70c43fa-c888-40ce-9e3f-94e395010fa2"
         ],
         "daily": [
           "ba591774-e370-4a59-aa77-9bf3899bac5d",

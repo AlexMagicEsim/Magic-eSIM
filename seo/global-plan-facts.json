@@ -2951,30 +2951,26 @@
     ]
    },
    "also": [
+    "TN",
+    "CD",
     "EG",
+    "GA",
     "GH",
+    "KE",
     "MA",
     "MG",
     "MU",
+    "MW",
+    "NE",
     "NG",
     "RE",
     "RW",
-    "TN",
-    "UG",
-    "CD",
-    "GA",
-    "KE",
-    "MW",
-    "NE",
     "SC",
     "TD",
     "TZ",
+    "UG",
     "ZM",
-    "ZW",
-    "BJ",
-    "BW",
-    "CG",
-    "CI"
+    "ZW"
    ],
    "daily": {
     "gb_per_day": [
@@ -10155,30 +10151,19 @@
     ]
    },
    "also": [
-    "EG",
-    "MA",
+    "DZ",
     "AE",
     "BH",
+    "EG",
     "IL",
     "IQ",
     "JO",
     "KW",
+    "MA",
     "OM",
     "QA",
     "SA",
-    "TR",
-    "DZ",
-    "GH",
-    "MG",
-    "MU",
-    "NG",
-    "RE",
-    "RW",
-    "UG",
-    "BJ",
-    "BW",
-    "CD",
-    "CG"
+    "TR"
    ],
    "daily": {
     "gb_per_day": [
