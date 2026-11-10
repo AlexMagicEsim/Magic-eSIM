@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-09T12:05:15.336Z",
+  "generated_at": "2026-11-10T09:05:18.188Z",
   "source": "production-public-api",
-  "package_count": 2419,
+  "package_count": 2418,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -9580,38 +9580,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "0fc915d3-4144-489a-918b-4c764a4d04a9",
-      "name": "Tunisia and Algeria 10 GB",
-      "country_code": "DZ",
-      "region": "DZ, TN",
-      "coverage_country_codes": [
-        "DZ",
-        "TN"
-      ],
-      "coverage_flags": "🇩🇿 🇹🇳",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 2550,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "0fcd577a-f1ec-4149-8d4d-2390737b0eb9",
       "name": "Sierra Leone 2GB/Day",
       "country_code": "SL",
@@ -10140,38 +10108,6 @@
       "ip_export": [
         "JP"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "10da7f43-cf86-4b74-94f4-f4b521a5a079",
-      "name": "Tunisia and Algeria 5 GB",
-      "country_code": "DZ",
-      "region": "DZ, TN",
-      "coverage_country_codes": [
-        "DZ",
-        "TN"
-      ],
-      "coverage_flags": "🇩🇿 🇹🇳",
-      "data_gb": 5,
-      "validity_days": 30,
-      "price": 1500,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -13475,6 +13411,10 @@
           "type": "4G"
         },
         {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
           "operator": "Claro",
           "type": "5G"
         },
@@ -13525,10 +13465,6 @@
         {
           "operator": "Claro",
           "type": "5G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
         },
         {
           "operator": "Digicel",
@@ -20548,6 +20484,10 @@
           "type": "4G"
         },
         {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
           "operator": "Claro",
           "type": "5G"
         },
@@ -20598,10 +20538,6 @@
         {
           "operator": "Claro",
           "type": "5G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
         },
         {
           "operator": "Digicel",
@@ -22714,7 +22650,7 @@
     },
     {
       "package_id": "253f3f68-06f9-403f-aae8-7c884c55e068",
-      "name": "Saint Martin 2GB/Day FUP1Mbps",
+      "name": "French Saint Martin 2GB/Day FUP1Mbps",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -27021,6 +26957,39 @@
       ]
     },
     {
+      "package_id": "2ecc0a11-7423-4c15-bd15-b0c6b45ec97f",
+      "name": "Algeria Unlimited 3 Days",
+      "country_code": "DZ",
+      "region": "DZ",
+      "coverage_country_codes": [
+        "DZ"
+      ],
+      "coverage_flags": "🇩🇿",
+      "data_gb": 0,
+      "validity_days": 3,
+      "price": 2350,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        3
+      ]
+    },
+    {
       "package_id": "2f29af5b-4fc2-4fee-a2a4-f23c26a12b4d",
       "name": "Uzbekistan 20GB 30Days",
       "country_code": "UZ",
@@ -29770,38 +29739,6 @@
       ]
     },
     {
-      "package_id": "3499967e-1e79-4cc0-ad21-07ab01932c5f",
-      "name": "Tunisia and Algeria 3 GB",
-      "country_code": "DZ",
-      "region": "DZ, TN",
-      "coverage_country_codes": [
-        "DZ",
-        "TN"
-      ],
-      "coverage_flags": "🇩🇿 🇹🇳",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1100,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "349a12e8-e832-4be0-9113-2f0f925d0898",
       "name": "Algeria 50GB 30Days",
       "country_code": "DZ",
@@ -31399,7 +31336,7 @@
     },
     {
       "package_id": "370a34b5-24a7-47dd-a5e4-c1a3c6af93c5",
-      "name": "Saint Martin 1GB/Day FUP1Mbps",
+      "name": "French Saint Martin 1GB/Day FUP1Mbps",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -41285,6 +41222,39 @@
       "sellable_days": []
     },
     {
+      "package_id": "4a602749-6f34-4d7a-a6c1-cf4ccbadd451",
+      "name": "Algeria Unlimited 7 Days",
+      "country_code": "DZ",
+      "region": "DZ",
+      "coverage_country_codes": [
+        "DZ"
+      ],
+      "coverage_flags": "🇩🇿",
+      "data_gb": 0,
+      "validity_days": 7,
+      "price": 4050,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        7
+      ]
+    },
+    {
       "package_id": "4a65ba08-b8cb-4cb0-a496-4f98cf9f58bd",
       "name": "Fiji 3GB 30Days",
       "country_code": "FJ",
@@ -46485,7 +46455,7 @@
     },
     {
       "package_id": "5546b9cb-ba82-4428-8816-52848e7da027",
-      "name": "Saint Martin 10GB 30Days",
+      "name": "French Saint Martin 10GB 30Days",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -48115,6 +48085,10 @@
           "type": "4G"
         },
         {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
           "operator": "Claro",
           "type": "5G"
         },
@@ -48165,10 +48139,6 @@
         {
           "operator": "Claro",
           "type": "5G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
         },
         {
           "operator": "Digicel",
@@ -53929,7 +53899,7 @@
     },
     {
       "package_id": "64289667-aa63-4113-9a62-fb49e927343c",
-      "name": "Saint Martin 10GB/Day",
+      "name": "French Saint Martin 10GB/Day",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -71230,7 +71200,7 @@
     },
     {
       "package_id": "8145448e-5944-41a4-a248-0dfd61b693f6",
-      "name": "Saint Martin 3GB/Day FUP1Mbps",
+      "name": "French Saint Martin 3GB/Day FUP1Mbps",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -71811,6 +71781,10 @@
           "type": "4G"
         },
         {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
           "operator": "Claro",
           "type": "5G"
         },
@@ -71861,10 +71835,6 @@
         {
           "operator": "Claro",
           "type": "5G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
         },
         {
           "operator": "Digicel",
@@ -75841,6 +75811,39 @@
           "days": 30,
           "price": 42750
         }
+      ]
+    },
+    {
+      "package_id": "88a8342d-2d01-4650-aa31-c6d50e4ac83f",
+      "name": "Algeria Unlimited 5 Days",
+      "country_code": "DZ",
+      "region": "DZ",
+      "coverage_country_codes": [
+        "DZ"
+      ],
+      "coverage_flags": "🇩🇿",
+      "data_gb": 0,
+      "validity_days": 5,
+      "price": 3250,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        5
       ]
     },
     {
@@ -87157,7 +87160,7 @@
     },
     {
       "package_id": "9b421d25-428f-4e70-9b8e-a545537bb592",
-      "name": "Saint Martin 1GB 7Days",
+      "name": "French Saint Martin 1GB 7Days",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -93538,38 +93541,6 @@
       "ip_export": [
         "NL"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "a70c43fa-c888-40ce-9e3f-94e395010fa2",
-      "name": "Tunisia and Algeria 20 GB",
-      "country_code": "DZ",
-      "region": "DZ, TN",
-      "coverage_country_codes": [
-        "DZ",
-        "TN"
-      ],
-      "coverage_flags": "🇩🇿 🇹🇳",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 3750,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -103946,7 +103917,7 @@
     },
     {
       "package_id": "b7a196d7-7801-4576-a2fc-d1ed4b824c5d",
-      "name": "Saint Martin 3GB 15Days",
+      "name": "French Saint Martin 3GB 15Days",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -105351,6 +105322,39 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "ba86ab5b-1263-470d-b0df-12be618743c0",
+      "name": "Algeria Unlimited 10 Days",
+      "country_code": "DZ",
+      "region": "DZ",
+      "coverage_country_codes": [
+        "DZ"
+      ],
+      "coverage_flags": "🇩🇿",
+      "data_gb": 0,
+      "validity_days": 10,
+      "price": 4900,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        10
+      ]
     },
     {
       "package_id": "ba9d3a95-962e-43da-9e6c-b12525402f59",
@@ -110682,6 +110686,10 @@
           "type": "4G"
         },
         {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
           "operator": "Claro",
           "type": "5G"
         },
@@ -110732,10 +110740,6 @@
         {
           "operator": "Claro",
           "type": "5G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
         },
         {
           "operator": "Digicel",
@@ -114861,38 +114865,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "cb85127d-4db6-44d4-880d-c3de19d3b48c",
-      "name": "Tunisia and Algeria 1 GB",
-      "country_code": "DZ",
-      "region": "DZ, TN",
-      "coverage_country_codes": [
-        "DZ",
-        "TN"
-      ],
-      "coverage_flags": "🇩🇿 🇹🇳",
-      "data_gb": 1,
-      "validity_days": 14,
-      "price": 500,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "cb8c10e4-cb6a-45c1-adf3-64c316fd293a",
       "name": "Germany 2GB 15Days",
       "country_code": "DE",
@@ -117717,6 +117689,10 @@
           "type": "4G"
         },
         {
+          "operator": "Digicel",
+          "type": "4G"
+        },
+        {
           "operator": "Claro",
           "type": "5G"
         },
@@ -117767,10 +117743,6 @@
         {
           "operator": "Claro",
           "type": "5G"
-        },
-        {
-          "operator": "Digicel",
-          "type": "4G"
         },
         {
           "operator": "Digicel",
@@ -124105,7 +124077,7 @@
     },
     {
       "package_id": "d9b290bf-56c9-4f40-be13-2a99a99a6464",
-      "name": "Saint Martin 20GB 30Days",
+      "name": "French Saint Martin 20GB 30Days",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -138943,7 +138915,7 @@
     },
     {
       "package_id": "f175d5e5-64e3-458c-91a5-02e4a70dba2f",
-      "name": "Saint Martin 5GB 30Days",
+      "name": "French Saint Martin 5GB 30Days",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -141950,7 +141922,7 @@
     },
     {
       "package_id": "f67b7710-f04e-4199-b79a-4a770439dfbb",
-      "name": "Saint Martin 5GB/Day",
+      "name": "French Saint Martin 5GB/Day",
       "country_code": "MF",
       "region": "MF",
       "coverage_country_codes": [
@@ -148358,19 +148330,25 @@
           "349a12e8-e832-4be0-9113-2f0f925d0898"
         ],
         "regional": [
-          "cb85127d-4db6-44d4-880d-c3de19d3b48c",
-          "3499967e-1e79-4cc0-ad21-07ab01932c5f",
-          "10da7f43-cf86-4b74-94f4-f4b521a5a079",
-          "0fc915d3-4144-489a-918b-4c764a4d04a9",
-          "a70c43fa-c888-40ce-9e3f-94e395010fa2",
-          "ad3001e5-9412-450f-acc3-9cdd19f8d268"
+          "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
+          "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
+          "ad3001e5-9412-450f-acc3-9cdd19f8d268",
+          "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "f47684dd-ca25-4ace-9e0c-a11b9bc9d6bf",
           "86136c72-93db-4347-a25d-4017fe620a5e",
           "934cce8b-adb1-4e98-afcf-611d4d7b6e90",
           "9538ebef-026a-48c9-9da2-5f29bdda8b0c",
-          "935f9da5-da92-4227-a4fb-61c6d55c36e7"
+          "935f9da5-da92-4227-a4fb-61c6d55c36e7",
+          "2ecc0a11-7423-4c15-bd15-b0c6b45ec97f",
+          "88a8342d-2d01-4650-aa31-c6d50e4ac83f",
+          "4a602749-6f34-4d7a-a6c1-cf4ccbadd451",
+          "ba86ab5b-1263-470d-b0df-12be618743c0"
         ],
         "best": "64d67b31-2bd5-47d5-b9b7-7cfddacdac9b"
       },
@@ -151845,11 +151823,13 @@
         ],
         "regional": [
           "de6c004d-6390-4721-9a22-e5b56a6c87af",
-          "cb85127d-4db6-44d4-880d-c3de19d3b48c",
-          "3499967e-1e79-4cc0-ad21-07ab01932c5f",
-          "10da7f43-cf86-4b74-94f4-f4b521a5a079",
-          "0fc915d3-4144-489a-918b-4c764a4d04a9",
-          "a70c43fa-c888-40ce-9e3f-94e395010fa2"
+          "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
+          "4c999610-ed78-4846-9cc8-77a1d087816c",
+          "46837a37-eeb3-47c7-8b2b-a342a6a1e2c5",
+          "fd269fbf-3e23-4210-b9ff-1354149f4722",
+          "6067cb8b-e930-479b-b8b6-536e54ee2093",
+          "bded5dd0-7fa3-4740-bd41-c8de6e7fc7ce",
+          "7b69f85c-4b7f-4fad-924f-ff5f882d7f23"
         ],
         "daily": [
           "ba591774-e370-4a59-aa77-9bf3899bac5d",
