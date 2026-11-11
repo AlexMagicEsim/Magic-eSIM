@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-11T09:04:29.000Z",
+  "generated_at": "2026-11-11T12:04:36.726Z",
   "source": "production-public-api",
   "package_count": 2427,
   "packages": [
@@ -7109,9 +7109,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -8994,9 +8992,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -30893,12 +30889,12 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Telcel",
           "type": "5G"
         },
         {
-          "operator": "Telcel",
-          "type": "4G"
+          "operator": "AT&T",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -30913,7 +30909,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -63030,7 +63026,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -63045,7 +63041,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -68157,12 +68153,12 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Telcel",
           "type": "5G"
         },
         {
-          "operator": "Telcel",
-          "type": "4G"
+          "operator": "AT&T",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -68177,7 +68173,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -74097,9 +74093,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -87824,7 +87818,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -87839,7 +87833,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -109525,7 +109519,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -125501,7 +125495,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -125516,7 +125510,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -128142,12 +128136,12 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Movistar",
+          "operator": "Telcel",
           "type": "5G"
         },
         {
-          "operator": "Telcel",
-          "type": "4G"
+          "operator": "AT&T",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -128162,7 +128156,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -141514,7 +141508,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -142486,8 +142480,8 @@
       "price": 750,
       "networks": [
         {
-          "operator": "tiGO",
-          "type": "4G"
+          "operator": "Airtel",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -142500,7 +142494,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
