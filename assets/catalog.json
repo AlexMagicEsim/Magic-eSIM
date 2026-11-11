@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-11T06:04:25.688Z",
+  "generated_at": "2026-11-11T09:04:29.000Z",
   "source": "production-public-api",
   "package_count": 2427,
   "packages": [
@@ -7092,7 +7092,12 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1050,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Du",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -8972,7 +8977,12 @@
       "data_gb": 3,
       "validity_days": 30,
       "price": 1100,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Du",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -30881,7 +30891,16 @@
       "data_gb": 3,
       "validity_days": 30,
       "price": 1050,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Telcel",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -63004,7 +63023,16 @@
       "data_gb": 1,
       "validity_days": 7,
       "price": 500,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Claro",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -68127,7 +68155,16 @@
       "data_gb": 1,
       "validity_days": 7,
       "price": 350,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Telcel",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -74043,7 +74080,12 @@
       "data_gb": 1,
       "validity_days": 7,
       "price": 400,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Du",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -87775,7 +87817,16 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1300,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Claro",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -109459,7 +109510,7 @@
       "price": 600,
       "networks": [
         {
-          "operator": "Airtel",
+          "operator": "Telma",
           "type": "4G"
         }
       ],
@@ -125443,7 +125494,16 @@
       "data_gb": 3,
       "validity_days": 30,
       "price": 1400,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Claro",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -128080,7 +128140,16 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 1000,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "Movistar",
+          "type": "5G"
+        },
+        {
+          "operator": "Telcel",
+          "type": "4G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -141430,7 +141499,7 @@
       "price": 1400,
       "networks": [
         {
-          "operator": "Airtel",
+          "operator": "Telma",
           "type": "4G"
         }
       ],
@@ -142417,8 +142486,8 @@
       "price": 750,
       "networks": [
         {
-          "operator": "Airtel",
-          "type": "5G"
+          "operator": "tiGO",
+          "type": "4G"
         }
       ],
       "network_technologies": [
