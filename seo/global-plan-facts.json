@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-10",
+ "updated": "2026-11-11",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -5807,7 +5807,9 @@
    "local": {
     "gb": [
      7,
-     30
+     30,
+     50,
+     100
     ],
     "days": [
      30
@@ -8707,21 +8709,29 @@
    },
    "also": [
     "AR",
+    "BO",
     "BR",
     "CL",
     "CO",
     "CR",
     "EC",
-    "PE",
-    "SV",
-    "UY",
-    "BO",
     "GT",
     "HN",
     "MX",
     "NI",
     "PA",
-    "VE"
+    "PE",
+    "SV",
+    "UY",
+    "VE",
+    "AG",
+    "AI",
+    "BB",
+    "BQ",
+    "BS",
+    "CW",
+    "DM",
+    "DO"
    ],
    "daily": {
     "gb_per_day": [
@@ -10234,7 +10244,8 @@
      10,
      20,
      25,
-     50
+     50,
+     100
     ],
     "days": [
      7,

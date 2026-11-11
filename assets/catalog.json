@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-11T12:04:36.726Z",
+  "generated_at": "2026-11-11T15:04:37.097Z",
   "source": "production-public-api",
-  "package_count": 2427,
+  "package_count": 2429,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -13601,6 +13601,39 @@
           "price": 50050
         }
       ]
+    },
+    {
+      "package_id": "15a4a5f7-546d-4efa-885a-9b42bfb25045",
+      "name": "Turkey 50 GB",
+      "country_code": "TR",
+      "region": "TR, KT",
+      "coverage_country_codes": [
+        "TR",
+        "KT"
+      ],
+      "coverage_flags": "🇹🇷 🇰🇹",
+      "data_gb": 50,
+      "validity_days": 30,
+      "price": 4100,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "15ac2508-1714-4491-88dc-1bc668046368",
@@ -62142,6 +62175,39 @@
           "price": 3450
         }
       ]
+    },
+    {
+      "package_id": "70e2f206-15bf-4b5b-85e4-9d0bc901b8ca",
+      "name": "Turkey 100 GB",
+      "country_code": "TR",
+      "region": "TR, KT",
+      "coverage_country_codes": [
+        "TR",
+        "KT"
+      ],
+      "coverage_flags": "🇹🇷 🇰🇹",
+      "data_gb": 100,
+      "validity_days": 30,
+      "price": 7000,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "70fa0fff-f707-45aa-8f92-28b609fd8710",
@@ -149997,7 +150063,9 @@
       "KT": {
         "local": [
           "695b3dc9-ae31-4d50-b59e-6cf0c55895bb",
-          "dd821f0d-1b3b-492c-ba6e-944689028de9"
+          "dd821f0d-1b3b-492c-ba6e-944689028de9",
+          "15a4a5f7-546d-4efa-885a-9b42bfb25045",
+          "70e2f206-15bf-4b5b-85e4-9d0bc901b8ca"
         ],
         "regional": [
           "81951656-a5f9-41ed-a31b-3b038271139f",
@@ -151412,11 +151480,10 @@
           "9223677f-ab74-4c46-ae28-d595d12c6945"
         ],
         "regional": [
-          "ec03cdf6-7042-4304-b73e-68de5b00d09e",
-          "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
-          "89e8d664-aff5-4505-a60c-b0e748356444",
-          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
-          "06121835-e264-47cb-97de-1f5067a66486",
+          "b9c4528c-550e-43b8-aa15-f95926f4957e",
+          "5381338a-04c2-4560-8411-5421af669887",
+          "faff2b8c-6ea9-4950-8ad3-13ed91f2f926",
+          "e4371bc9-35b7-4ab9-a41b-e76219941d0e",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8"
         ],
@@ -152155,7 +152222,8 @@
           "9b820c0e-a3e6-4c3a-a738-9e31f3b93c05",
           "c0883db8-037a-4abb-8460-63de7528b3f2",
           "a6fde672-f79b-4bbf-9c6d-86235f5e168e",
-          "1358b019-2903-4f56-a3af-3a67adae0d79"
+          "1358b019-2903-4f56-a3af-3a67adae0d79",
+          "70e2f206-15bf-4b5b-85e4-9d0bc901b8ca"
         ],
         "regional": [
           "17f97502-2f36-4e8d-90fd-5aec822cbcc1",
