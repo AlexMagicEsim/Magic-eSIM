@@ -621,11 +621,7 @@
     ]
    },
    "also": [
-    "NZ",
-    "CA",
-    "GB",
-    "HK",
-    "US"
+    "NZ"
    ],
    "daily": {
     "gb_per_day": [
@@ -8106,11 +8102,7 @@
     ]
    },
    "also": [
-    "AU",
-    "CA",
-    "GB",
-    "HK",
-    "US"
+    "AU"
    ],
    "daily": {
     "gb_per_day": [
