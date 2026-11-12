@@ -60,6 +60,7 @@ import { REGION_SLUGS } from './regions.mjs';
 import { siteI18nBundle, writeSiteI18nBundle, wordsFile } from './site-i18n-bundle.mjs';
 import { legalLinks, LEGAL_SCHEME, INTL_LEGAL } from './legal-links.mjs';
 import { LEGAL_TRANSLATIONS } from './legal-i18n.mjs';
+import { supportPhoneFor } from './support-phone.mjs';
 import { snapshots as legalSnapshots, archivePath, versionNumber, versionsJson, VERSIONS_JSON, translationSnapshots, translationSnapshot } from './legal-archive.mjs';
 import { PRIVACY, PRIVACY_VERSION, PRIVACY_EFFECTIVE, PRIVACY_EFFECTIVE_ISO } from './privacy-en.mjs';
 import { TERMS, TERMS_VERSION, TERMS_EFFECTIVE, TERMS_EFFECTIVE_ISO } from './terms-en.mjs';
@@ -580,6 +581,8 @@ const FOOTER_DESTINATIONS = (() => {
     return c;
   }).sort((x, y) => index.compare(x.name, y.name));
 })();
+// The support telephone: English pages only (seo/support-phone.mjs).
+const PHONE = supportPhoneFor(code);
 const FOOTER = `<footer class="site-footer">
   <div class="wrap">
     <div class="ft-grid">
@@ -603,7 +606,7 @@ ${ftLinks(GUIDES.map((g) => ({ href: `${GB}${g.slug}/`, label: g.h1 })))}
       <div class="ft-col">
         <h2 data-i18n="footer.help">${t('footer.help')}</h2>
         <p class="support">${C.support} <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
-        <ul>
+${PHONE ? `        <p class="support support-phone">${PHONE.label} <a href="${PHONE.href}">${PHONE.display}</a></p>\n` : ''}        <ul>
           <li><a href="${HOME}#how" data-i18n="nav.how">${t('nav.how')}</a></li>
           <li><a href="${HOME}#compat" data-i18n="nav.compat">${t('nav.compat')}</a></li>
         </ul>
@@ -1496,7 +1499,7 @@ function homePage(list = countries()) {
     return c;
   });
   return renderHome({ L, P, SITE, C, t, a, esc, json: (v) => JSON.stringify(String(v)), header, twins: twin({ kind: 'home' }), HOME, CAT, GB,
-    PAYBAR, FOOTER, POPULAR, QUICK, GUIDES, HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing: homeIndexing() });
+    PAYBAR, FOOTER, POPULAR, QUICK, GUIDES, HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing: homeIndexing(), PHONE });
 }
 
   /** Write every page of this language. The script first: the pages stamp asset versions from file contents. */

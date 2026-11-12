@@ -240,12 +240,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Si no podemos hacer que el plan funcione según lo descrito, se aplica la Política de reembolso.</li>
       </ul>
       <p>10.3. <strong>Tus derechos legales.</strong> Estos pasos no limitan los remedios que te concede la ley si un plan no es conforme con el contrato.</p>` },
-      { id: "support", en: 'ea83a942c1b4', h2: "11. Soporte", html: `
+      { id: "support", en: 'fc8388ca804f', h2: "11. Soporte", html: `
       <p>11.1. <strong>Cómo contactarnos.</strong></p>
       <ul class="list">
         <li>Correo electrónico: <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Puedes escribirnos en cualquier momento, las 24 horas del día, los 7 días de la semana.</li>
       </ul>
-      <p>11.2. <strong>Cuándo respondemos.</strong> Respondemos en días hábiles y procuramos enviar una primera respuesta en un plazo de 1–2 días hábiles, normalmente antes.</p>` },
+      <p>11.2. <strong>Cuándo respondemos.</strong> Respondemos en días hábiles y procuramos enviar una primera respuesta en un plazo de 24–48 horas, normalmente antes.</p>` },
       { id: "liability", en: 'ebf9f158361b', h2: "12. Responsabilidad", html: `
       <p>12.1. <strong>De qué somos responsables.</strong> Somos responsables de suministrar el plan que compraste tal como se describe en su ficha de producto y en estos Términos.</p>
       <p>12.2. <strong>De qué no somos responsables.</strong></p>

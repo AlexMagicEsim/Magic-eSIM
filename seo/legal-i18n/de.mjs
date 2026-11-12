@@ -239,12 +239,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Wenn wir den Tarif nicht so zum Funktionieren bringen können, wie er beschrieben ist, gilt die Erstattungsrichtlinie.</li>
       </ul>
       <p>10.3. <strong>Deine gesetzlichen Rechte.</strong> Diese Schritte schränken die Rechtsbehelfe nicht ein, die dir das Gesetz gewährt, wenn ein Tarif nicht vertragsgemäß ist.</p>` },
-      { id: "support", en: 'ea83a942c1b4', h2: "11. Support", html: `
+      { id: "support", en: 'fc8388ca804f', h2: "11. Support", html: `
       <p>11.1. <strong>So erreichst du uns.</strong></p>
       <ul class="list">
         <li>E-Mail: <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Du kannst uns jederzeit schreiben, 24 Stunden am Tag, 7 Tage die Woche.</li>
       </ul>
-      <p>11.2. <strong>Wann wir antworten.</strong> Wir antworten an Geschäftstagen und bemühen uns, innerhalb von 1–2 Geschäftstagen eine erste Antwort zu senden, meist schneller.</p>` },
+      <p>11.2. <strong>Wann wir antworten.</strong> Wir antworten an Geschäftstagen und bemühen uns, innerhalb von 24–48 Stunden eine erste Antwort zu senden, meist schneller.</p>` },
       { id: "liability", en: 'ebf9f158361b', h2: "12. Haftung", html: `
       <p>12.1. <strong>Wofür wir verantwortlich sind.</strong> Wir sind dafür verantwortlich, den von dir gekauften Tarif so bereitzustellen, wie er auf seiner Produktkarte und in diesen Nutzungsbedingungen beschrieben ist.</p>
       <p>12.2. <strong>Wofür wir nicht verantwortlich sind.</strong></p>

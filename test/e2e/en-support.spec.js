@@ -38,7 +38,7 @@ async function checkFooter(page) {
   await expect(link).toHaveText(ADDRESS);
   await link.scrollIntoViewIfNeeded();
   await expect(link).toBeVisible();
-  await expect(page.locator('footer .support')).toHaveText(`Support: ${ADDRESS}`);
+  await expect(page.locator('footer .support:not(.support-phone)')).toHaveText(`Support: ${ADDRESS}`);
   const box = await link.boundingBox();
   const width = page.viewportSize().width;
   expect(box.x).toBeGreaterThanOrEqual(0);
@@ -46,10 +46,28 @@ async function checkFooter(page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 }
 
+// The support telephone (2026-11-12, seo/support-phone.mjs): a tel: link under the email, visible and inside the screen.
+const PHONE = '+995 591 021 807';
+async function checkPhone(page, scope) {
+  const link = page.locator(`${scope} a[href="tel:+995591021807"]`);
+  await expect(link).toHaveCount(1);
+  await expect(link).toHaveText(PHONE);
+  await link.scrollIntoViewIfNeeded();
+  await expect(link).toBeVisible();
+  const box = await link.boundingBox();
+  const width = page.viewportSize().width;
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(width);
+  expect(box.height).toBeGreaterThan(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+}
+
 for (const path of PAGES) {
   test(`${path}: the footer names ${ADDRESS}, visible and inside the screen`, async ({ page }) => {
     const calls = await visit(page, path);
     await checkFooter(page);
+    await checkPhone(page, 'footer');
+    await expect(page.locator('footer .support-phone')).toHaveText(`Phone: ${PHONE}`);
     expect(calls).toEqual([]);
   });
 }
@@ -59,6 +77,31 @@ test('desktop width: the footer contact is visible on the home and a country pag
   for (const path of ['/', '/destinations/thailand/']) {
     await visit(page, path);
     await checkFooter(page);
+    await checkPhone(page, 'footer');
+  }
+});
+
+for (const width of [1280, 390, 320]) {
+  test(`${width}px: the home's support band offers the email and the telephone, both visible and tappable`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await visit(page, '/');
+    const band = '#support .support-band';
+    await expect(page.locator(`${band} a[href="mailto:${ADDRESS}"]`)).toBeVisible();
+    await checkPhone(page, band);
+    // a phone screen stacks the two buttons, each a full-width target of at least 44 px
+    if (width < 600) {
+      for (const sel of [`${band} a[href="mailto:${ADDRESS}"]`, `${band} a[href^="tel:"]`]) {
+        const b = await page.locator(sel).boundingBox();
+        expect(b.height).toBeGreaterThanOrEqual(44);
+      }
+    }
+  });
+}
+
+test('the hidden language versions do not show the telephone', async ({ page }) => {
+  for (const path of ['/es/', '/de/', '/fr/', '/zh/', '/ko/']) {
+    await page.goto(path);
+    await expect(page.locator('a[href^="tel:"]')).toHaveCount(0);
   }
 });
 

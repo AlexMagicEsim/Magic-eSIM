@@ -21,7 +21,7 @@ const LANG_ROUTE = `<!-- Before everything else: the first look at «/» in the 
 <script src="/assets/lang-route.js"></script>
 `;
 
-export function homePage({ L, P, HOME, CAT, GB, SITE, C, t, a, esc, json, header, twins, PAYBAR, FOOTER, POPULAR, QUICK, GUIDES,
+export function homePage({ L, P, HOME, CAT, GB, SITE, C, t, a, esc, json, header, twins, PAYBAR, FOOTER, POPULAR, QUICK, GUIDES, PHONE,
   HEAD_ICONS, FONT_PRELOAD, LOGO_ONCE_SCRIPT_MOTION, cspMeta, indexing }) {
   return `<!doctype html>
 <html lang="${L.htmlLang}">
@@ -249,7 +249,10 @@ ${GUIDES.map((g) => `        <a class="guide-card" href="${GB}${g.slug}/"><b>${e
           <h2 id="supportTitle" data-i18n="home.supportTitle">${t('home.supportTitle')}</h2>
           <p data-i18n="home.supportBody">${t('home.supportBody')}</p>
         </div>
-        <a class="btn" href="mailto:support@magicesim.store">support@magicesim.store</a>
+${PHONE ? `        <div class="support-actions">
+          <a class="btn" href="mailto:support@magicesim.store">support@magicesim.store</a>
+          <a class="btn" href="${PHONE.href}">${PHONE.display}</a>
+        </div>` : `        <a class="btn" href="mailto:support@magicesim.store">support@magicesim.store</a>`}
       </div>
     </div>
   </section>

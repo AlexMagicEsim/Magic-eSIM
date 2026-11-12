@@ -138,6 +138,9 @@ function skeleton(html) {
     .replace(/<ul class="langmenu-list">[\s\S]*?<\/ul>/g, '<ul class="langmenu-list">')
     // the authored English text (seo/content-en/, 2026-10-27) exists on the English page only, by design — content, not design
     .replace(/<div class="cp-about">[\s\S]*?<\/section>\s*<\/div>/g, '')
+    // the support telephone (2026-11-12) is on the English pages only, by design (seo/support-phone.mjs) — content, not design
+    .replace(/\s*<p class="support support-phone">[\s\S]*?<\/p>/g, '')
+    .replace(/<div class="support-actions">\s*(<a class="btn" href="mailto:[^"]*">[^<]*<\/a>)\s*<a class="btn" href="tel:[^"]*">[^<]*<\/a>\s*<\/div>/g, '$1')
     .replace(/(<nav class="hub-az"[^>]*>)[\s\S]*?<\/nav>/g, '$1</nav>')
     .replace(/(<div class="hub-list" id="hubList">)[\s\S]*?(<div class="hub-empty")/g, '$1</div>$2')
     // D8: the Chinese footer has no legal line until the English documents are published

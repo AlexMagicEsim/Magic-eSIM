@@ -239,12 +239,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>요금제가 설명대로 작동하도록 할 수 없는 경우 환불 정책이 적용됩니다.</li>
       </ul>
       <p>10.3. <strong>귀하의 법적 권리.</strong> 이러한 절차는 요금제가 계약에 부합하지 않는 경우 법률이 귀하에게 부여하는 구제수단을 제한하지 않습니다.</p>` },
-      { id: "support", en: 'ea83a942c1b4', h2: "11. 고객 지원", html: `
+      { id: "support", en: 'fc8388ca804f', h2: "11. 고객 지원", html: `
       <p>11.1. <strong>문의 방법.</strong></p>
       <ul class="list">
         <li>이메일: <a href="mailto:support@magicesim.store">support@magicesim.store</a>. 이메일은 주 7일, 하루 24시간 언제든지 보내실 수 있습니다.</li>
       </ul>
-      <p>11.2. <strong>답변 시점.</strong> 당사는 영업일에 답변하며, 1~2영업일 이내에 첫 답변을 보내는 것을 목표로 하고, 보통은 그보다 빨리 답변합니다.</p>` },
+      <p>11.2. <strong>답변 시점.</strong> 당사는 영업일에 답변하며, 24~48시간 이내에 첫 답변을 보내는 것을 목표로 하고, 보통은 그보다 빨리 답변합니다.</p>` },
       { id: "liability", en: 'ebf9f158361b', h2: "12. 책임", html: `
       <p>12.1. <strong>당사가 책임지는 사항.</strong> 당사는 귀하가 구매한 요금제를 상품 카드와 본 약관에 설명된 대로 제공할 책임이 있습니다.</p>
       <p>12.2. <strong>당사가 책임지지 않는 사항.</strong></p>

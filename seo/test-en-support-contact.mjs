@@ -1,10 +1,14 @@
 /* English storefront: a visible support contact (2026-10-04).
  *
- * Every English page names ONE way to reach a person — support@magicesim.store,
- * the address the GLOBAL delivery email and the Russian terms already use — in
- * its footer, and the troubleshooting guide ends with it. Nothing else: no
- * legal or Contacts page, no seller details, no other address (the expired
- * magicesim.com domain least of all).
+ * Every English page names support@magicesim.store — the address the GLOBAL
+ * delivery email and the Russian terms already use — in its footer, and the
+ * troubleshooting guide ends with it. No legal or Contacts page, no other
+ * address (the expired magicesim.com domain least of all).
+ *
+ * Since 2026-11-12 (owner, Payssion onboarding) the English pages also show the
+ * support telephone +995 591 021 807 (seo/support-phone.mjs): a tel: line under
+ * the email in the footer, and a second button in the home's support band. The
+ * hidden language versions and the Russian site never carry it.
  *
  * Run: node --test seo/test-en-support-contact.mjs
  */
@@ -17,6 +21,7 @@ import { EN_GUIDES } from './guides-en.mjs';
 import { snapshots as legalVersions } from './legal-archive.mjs';
 import { COUNTRY_PAGES } from './catalogue-page-count.mjs';
 import { isLegacyRedirectFile } from './build-legacy-redirects.mjs';
+import { SUPPORT_PHONE, supportPhoneFor } from './support-phone.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -79,5 +84,46 @@ test('the legal pages are the published Privacy Policy, Terms and Refund (LEGAL-
   for (const slug of ['privacy', 'terms', 'refund']) assert.ok(PAGES.includes(`en/${slug}/index.html`), `the pre-launch ${slug} page`);
   for (const slug of ['contact', 'contacts', 'delivery', 'legal']) {
     assert.ok(!PAGES.some((p) => p.startsWith(`en/${slug}/`)), slug);
+  }
+});
+
+/* ------------------------------------------------------------ the support telephone (2026-11-12) */
+
+const PHONE_LINE = '<p class="support support-phone">Phone: <a href="tel:+995591021807">+995 591 021 807</a></p>';
+const HIDDEN_DIRS = ['es', 'de', 'fr', 'zh', 'ko', 'ru'];
+
+test('the number and its tel: link are the owner\'s, and only English shows it', () => {
+  assert.deepEqual(SUPPORT_PHONE, { display: '+995 591 021 807', tel: '+995591021807' });
+  assert.deepEqual(supportPhoneFor('en'), { label: 'Phone:', display: '+995 591 021 807', href: 'tel:+995591021807' });
+  for (const code of ['es', 'de', 'fr', 'zh-Hans', 'ko', 'ru']) assert.equal(supportPhoneFor(code), null, code);
+});
+
+test('every English page carries the telephone line in the footer, exactly once, right after the email line', () => {
+  const missing = PAGES.filter((p) => !footerOf(read(p)).includes(`${FOOTER_LINE}\n        ${PHONE_LINE}`));
+  assert.deepEqual(missing, []);
+  const twice = PAGES.filter((p) => read(p).split(PHONE_LINE).length !== 2);
+  assert.deepEqual(twice, []);
+});
+
+test('the English home\'s support band offers the email and the telephone, both as links', () => {
+  const band = read('index.html').split('id="support"')[1].split('</section>')[0];
+  assert.match(band, /<a class="btn" href="mailto:support@magicesim\.store">support@magicesim\.store<\/a>/);
+  assert.match(band, /<a class="btn" href="tel:\+995591021807">\+995 591 021 807<\/a>/);
+});
+
+test('no hidden language version and no Russian page carries the telephone', () => {
+  // the rule can fire
+  assert.ok(/tel:\+995591021807|591 021 807/.test(PHONE_LINE));
+  const found = [];
+  for (const dir of HIDDEN_DIRS) {
+    for (const p of htmlUnder(dir)) { const h = read(p); if (/tel:\+995591021807|591 021 807/.test(h)) found.push(p); }
+  }
+  for (const p of ['terms.html', 'privacy.html']) { try { if (/591 021 807/.test(read(p))) found.push(p); } catch { /* absent */ } }
+  assert.deepEqual(found, []);
+});
+
+test('the legal documents do not carry the telephone (a phone in the Terms would be a new version)', () => {
+  for (const p of PAGES.filter((x) => /^en\/(terms|refund|privacy)\//.test(x))) {
+    assert.doesNotMatch(mainOf(read(p)), /591 021 807|tel:/, p);
   }
 });

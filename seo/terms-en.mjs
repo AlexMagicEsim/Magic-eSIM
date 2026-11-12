@@ -24,10 +24,13 @@
 // /en/ address and «its other … versions»); the Russian terms «are governed by separate terms» (no longer «published
 // there»); §1 Website https://magicesim.store/; §5.6 «We may also publish translations» (was a promise of five). True
 // whether the other languages are published or hidden (seo/publication-scope.mjs). No right, refund or payment term moved.
+// 0.9.8 (owner's task 2026-11-12, Payssion onboarding): §11.2 the first reply is aimed «within 24–48 hours» (was «within
+// 1–2 business days»). Only that period changed; every other word of every section is 0.9.7's. The Refund Policy 0.9.4
+// §8 still says «1–2 business days» — the owner did not ask to change it (a Refund change is its own version).
 
-export const TERMS_VERSION = '0.9.7 (pre-launch)';
-export const TERMS_EFFECTIVE = '9 November 2026';
-export const TERMS_EFFECTIVE_ISO = '2026-11-09';
+export const TERMS_VERSION = '0.9.8 (pre-launch)';
+export const TERMS_EFFECTIVE = '12 November 2026';
+export const TERMS_EFFECTIVE_ISO = '2026-11-12';
 
 export const TERMS = Object.freeze({
   title: "Terms of Service — Magic eSIM",
@@ -289,7 +292,7 @@ export const TERMS = Object.freeze({
       <ul class="list">
         <li>Email: <a href="mailto:support@magicesim.store">support@magicesim.store</a>. You can email us at any time, 24 hours a day, 7 days a week.</li>
       </ul>
-      <p>11.2. <strong>When we reply.</strong> We reply on business days and aim to send a first reply within 1–2 business days, usually sooner.</p>`,
+      <p>11.2. <strong>When we reply.</strong> We reply on business days and aim to send a first reply within 24–48 hours, usually sooner.</p>`,
     },
     {
       id: 'liability', h2: "12. Liability", html: `
