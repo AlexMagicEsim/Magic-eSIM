@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-12T12:04:30.578Z",
+  "generated_at": "2026-11-12T15:00:34.597Z",
   "source": "production-public-api",
-  "package_count": 2427,
+  "package_count": 2428,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -15559,6 +15559,40 @@
       "ip_export": [
         "SG"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "1953aab9-a338-4cff-84d2-b47e70e8067f",
+      "name": "North America 15 GB",
+      "country_code": "CA",
+      "region": "CA, MX, US, US-HI",
+      "coverage_country_codes": [
+        "CA",
+        "MX",
+        "US"
+      ],
+      "coverage_flags": "🇨🇦 🇲🇽 🇺🇸",
+      "data_gb": 15,
+      "validity_days": 15,
+      "price": 2800,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -37337,7 +37371,7 @@
       "coverage_flags": "🇨🇦 🇲🇽 🇺🇸",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2850,
+      "price": 2650,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -44435,6 +44469,40 @@
       "sellable_days": []
     },
     {
+      "package_id": "50304250-d97b-4655-9f2c-9d586cbd86ca",
+      "name": "North America 60 GB",
+      "country_code": "CA",
+      "region": "CA, MX, US, US-HI",
+      "coverage_country_codes": [
+        "CA",
+        "MX",
+        "US"
+      ],
+      "coverage_flags": "🇨🇦 🇲🇽 🇺🇸",
+      "data_gb": 60,
+      "validity_days": 15,
+      "price": 7700,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "5030b6ac-d1e4-4af2-b77d-eba2d2e2de4e",
       "name": "Macao 3GB/Day",
       "country_code": "MO",
@@ -44640,7 +44708,7 @@
       "coverage_flags": "🇨🇦 🇲🇽 🇺🇸",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4200,
+      "price": 4500,
       "networks": [],
       "network_technologies": [
         "4G",
@@ -54991,60 +55059,6 @@
           "price": 23750
         }
       ]
-    },
-    {
-      "package_id": "6658d453-0750-46ad-bd7f-b1db69335480",
-      "name": "North America 1GB 30Days",
-      "country_code": "NA-3",
-      "region": "MX,US,CA",
-      "coverage_country_codes": [
-        "MX",
-        "US",
-        "CA"
-      ],
-      "coverage_flags": "🇲🇽 🇺🇸 🇨🇦",
-      "data_gb": 1,
-      "validity_days": 30,
-      "price": 500,
-      "networks": [
-        {
-          "operator": "Rogers Wireless",
-          "type": "5G"
-        },
-        {
-          "operator": "Movistar",
-          "type": "4G"
-        },
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "BE"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "668c0413-4639-44f2-a1d7-55b388611714",
@@ -148057,13 +148071,13 @@
         ],
         "regional": [
           "433ce83a-2878-4185-9453-47697e052d7a",
+          "1953aab9-a338-4cff-84d2-b47e70e8067f",
           "50a0e3df-5e65-4894-a442-c8ba3503c6e8",
+          "50304250-d97b-4655-9f2c-9d586cbd86ca",
           "124cf59d-b2c8-4a89-9b1c-85d2eb1adb33",
-          "6658d453-0750-46ad-bd7f-b1db69335480",
           "4f7c9f36-7f76-4a26-a5f1-51f1d11c2a36",
           "26675658-aab5-4b37-84e6-30e5801907d4",
-          "760928e8-c4b6-4793-8ab3-2f41b3eec811",
-          "0e649551-3bf5-416a-bc0d-4afb4c3ddcb1"
+          "760928e8-c4b6-4793-8ab3-2f41b3eec811"
         ],
         "daily": [
           "6710f169-f64d-423f-8c2c-522ac61111ca",
@@ -150782,13 +150796,13 @@
         ],
         "regional": [
           "b4850dbb-1531-4032-9336-ca6647c33611",
-          "6658d453-0750-46ad-bd7f-b1db69335480",
           "e58e8796-6cbe-415f-89ca-0f1642a7aacd",
           "1fc7b1f1-b4d6-4bd2-a9fc-9c1ddf412b7c",
           "433ce83a-2878-4185-9453-47697e052d7a",
+          "1953aab9-a338-4cff-84d2-b47e70e8067f",
           "50a0e3df-5e65-4894-a442-c8ba3503c6e8",
-          "02c2aaf4-f95e-432b-aa2d-687a5dd9e2ab",
-          "0e649551-3bf5-416a-bc0d-4afb4c3ddcb1"
+          "0e649551-3bf5-416a-bc0d-4afb4c3ddcb1",
+          "50304250-d97b-4655-9f2c-9d586cbd86ca"
         ],
         "daily": [
           "587fb27e-1e0c-4ffd-9fc0-d6fb33668527",
