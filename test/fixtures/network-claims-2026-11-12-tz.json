@@ -1,0 +1,821 @@
+{
+  "_comment": "Frozen 2026-11-12 from assets/catalog.json of bot commit 16c10e9a0 (generated_at 2026-11-12T02:18:53.160Z): the TZ page layout and the operator field of its packages. The first catalogue in which «Tanzania 1GB 7Days» (f6c02358) moved from Airtel to tiGO — the move that kept the SEO refresh red from 2026-11-12 02:19 UTC. seo/test-network-claims.mjs proves on it that the old Tanzania sentence fails and the rewritten one holds. Never refresh this file: it is a record of that day.",
+  "generated_at": "2026-11-12T02:18:53.160Z",
+  "packages": [
+    {
+      "package_id": "03c513d8-9fc4-4c19-a57a-6b5932c8bcce",
+      "name": "Africa (21 areas) 5GB/Day",
+      "country_code": "AF-21",
+      "coverage_country_codes": [
+        "CD",
+        "GH",
+        "EG",
+        "RW",
+        "TZ",
+        "MU",
+        "MW",
+        "TD",
+        "SC",
+        "UG",
+        "ZM",
+        "RE",
+        "MA",
+        "DZ",
+        "NE",
+        "NG",
+        "GA",
+        "KE",
+        "TN",
+        "MG",
+        "ZW"
+      ],
+      "data_gb": 0,
+      "validity_days": null,
+      "daily_gb": 5,
+      "plan_type": "DAILY",
+      "networks": [
+        {
+          "operator": "Djezzy",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Emtel",
+          "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Tunicell",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ]
+    },
+    {
+      "package_id": "0df9e3fd-c5ae-43e2-aac9-6efe64fd0ccf",
+      "name": "Tanzania 1GB/Day",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 0,
+      "validity_days": null,
+      "daily_gb": 1,
+      "plan_type": "DAILY",
+      "networks": [
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        }
+      ]
+    },
+    {
+      "package_id": "0e66d913-0091-40f3-aaab-6828caca2daa",
+      "name": "Tanzania 10 GB",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 10,
+      "validity_days": 30,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    },
+    {
+      "package_id": "26c9b4ec-6439-43a2-bdf6-caac4aba0cd6",
+      "name": "Tanzania 3GB/Day FUP1Mbps",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 0,
+      "validity_days": null,
+      "daily_gb": 3,
+      "plan_type": "DAILY",
+      "networks": [
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        }
+      ]
+    },
+    {
+      "package_id": "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
+      "name": "Africa 3 GB",
+      "country_code": "DZ",
+      "coverage_country_codes": [
+        "DZ",
+        "TD",
+        "CD",
+        "EG",
+        "GA",
+        "GH",
+        "KE",
+        "MG",
+        "MW",
+        "MU",
+        "MA",
+        "NE",
+        "NG",
+        "RW",
+        "RE",
+        "SC",
+        "TZ",
+        "TN",
+        "UG",
+        "ZM"
+      ],
+      "data_gb": 3,
+      "validity_days": 15,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    },
+    {
+      "package_id": "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
+      "name": "Africa (21 areas) 3GB 30Days",
+      "country_code": "AF-21",
+      "coverage_country_codes": [
+        "CD",
+        "GH",
+        "EG",
+        "RW",
+        "TZ",
+        "MU",
+        "MW",
+        "TD",
+        "SC",
+        "UG",
+        "ZM",
+        "RE",
+        "MA",
+        "DZ",
+        "NE",
+        "NG",
+        "GA",
+        "KE",
+        "TN",
+        "MG",
+        "ZW"
+      ],
+      "data_gb": 3,
+      "validity_days": 30,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": [
+        {
+          "operator": "Djezzy",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Emtel",
+          "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Tunicell",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ]
+    },
+    {
+      "package_id": "31920fcd-17a1-468c-ab6a-498200a7086f",
+      "name": "Tanzania 2GB 15Days",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 2,
+      "validity_days": 15,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": [
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        }
+      ]
+    },
+    {
+      "package_id": "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
+      "name": "Tanzania 3 GB",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 3,
+      "validity_days": 30,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    },
+    {
+      "package_id": "60aebda1-d846-4e25-ae44-65e5b55838d6",
+      "name": "Tanzania 500MB/Day",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 0,
+      "validity_days": null,
+      "daily_gb": 0.49,
+      "plan_type": "DAILY",
+      "networks": [
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        }
+      ]
+    },
+    {
+      "package_id": "63f2970f-dfd9-41d0-818e-58a8f69257f7",
+      "name": "Africa 5 GB",
+      "country_code": "MU",
+      "coverage_country_codes": [
+        "MU",
+        "RW",
+        "SC",
+        "TZ",
+        "UG"
+      ],
+      "data_gb": 5,
+      "validity_days": 30,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    },
+    {
+      "package_id": "952fe23b-32bd-4298-96dc-1b5ba395bbde",
+      "name": "Africa (21 areas) 10GB/Day",
+      "country_code": "AF-21",
+      "coverage_country_codes": [
+        "CD",
+        "GH",
+        "EG",
+        "RW",
+        "TZ",
+        "MU",
+        "MW",
+        "TD",
+        "SC",
+        "UG",
+        "ZM",
+        "RE",
+        "MA",
+        "DZ",
+        "NE",
+        "NG",
+        "GA",
+        "KE",
+        "TN",
+        "MG",
+        "ZW"
+      ],
+      "data_gb": 0,
+      "validity_days": null,
+      "daily_gb": 10,
+      "plan_type": "DAILY",
+      "networks": [
+        {
+          "operator": "Djezzy",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Emtel",
+          "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Tunicell",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ]
+    },
+    {
+      "package_id": "ad3001e5-9412-450f-acc3-9cdd19f8d268",
+      "name": "Africa (21 areas) 1GB 7Days",
+      "country_code": "AF-21",
+      "coverage_country_codes": [
+        "CD",
+        "GH",
+        "EG",
+        "RW",
+        "TZ",
+        "MU",
+        "MW",
+        "TD",
+        "SC",
+        "UG",
+        "ZM",
+        "RE",
+        "MA",
+        "DZ",
+        "NE",
+        "NG",
+        "GA",
+        "KE",
+        "TN",
+        "MG",
+        "ZW"
+      ],
+      "data_gb": 1,
+      "validity_days": 7,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": [
+        {
+          "operator": "Djezzy",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Emtel",
+          "type": "5G"
+        },
+        {
+          "operator": "my.t",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "SFR",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Tunicell",
+          "type": "4G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        },
+        {
+          "operator": "Airtel",
+          "type": "4G"
+        },
+        {
+          "operator": "Econet",
+          "type": "4G"
+        }
+      ]
+    },
+    {
+      "package_id": "c06a1db7-4390-4d36-a145-e79730b3d6a1",
+      "name": "Tanzania 2GB/Day",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 0,
+      "validity_days": null,
+      "daily_gb": 2,
+      "plan_type": "DAILY",
+      "networks": [
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        }
+      ]
+    },
+    {
+      "package_id": "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+      "name": "Africa 10 GB",
+      "country_code": "DZ",
+      "coverage_country_codes": [
+        "DZ",
+        "TD",
+        "CD",
+        "EG",
+        "GA",
+        "GH",
+        "KE",
+        "MG",
+        "MW",
+        "MU",
+        "MA",
+        "NE",
+        "NG",
+        "RW",
+        "RE",
+        "SC",
+        "TZ",
+        "TN",
+        "UG",
+        "ZM"
+      ],
+      "data_gb": 10,
+      "validity_days": 15,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    },
+    {
+      "package_id": "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9",
+      "name": "Tanzania 20GB 30Days",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 20,
+      "validity_days": 30,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": [
+        {
+          "operator": "Airtel",
+          "type": "5G"
+        }
+      ]
+    },
+    {
+      "package_id": "eca6ac6a-4f30-4aab-9245-59ef7f4c741c",
+      "name": "Africa 20 GB",
+      "country_code": "MU",
+      "coverage_country_codes": [
+        "MU",
+        "RW",
+        "SC",
+        "TZ",
+        "UG"
+      ],
+      "data_gb": 20,
+      "validity_days": 30,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    },
+    {
+      "package_id": "f0e3ce16-03a9-4666-a8c5-6a9eac2f3098",
+      "name": "Tanzania 5 GB",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 5,
+      "validity_days": 30,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    },
+    {
+      "package_id": "f6c02358-d397-488c-b59e-bb6ada767204",
+      "name": "Tanzania 1GB 7Days",
+      "country_code": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "data_gb": 1,
+      "validity_days": 7,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": [
+        {
+          "operator": "tiGO",
+          "type": "4G"
+        }
+      ]
+    },
+    {
+      "package_id": "fd269fbf-3e23-4210-b9ff-1354149f4722",
+      "name": "Africa 5 GB",
+      "country_code": "DZ",
+      "coverage_country_codes": [
+        "DZ",
+        "TD",
+        "CD",
+        "EG",
+        "GA",
+        "GH",
+        "KE",
+        "MG",
+        "MW",
+        "MU",
+        "MA",
+        "NE",
+        "NG",
+        "RW",
+        "RE",
+        "SC",
+        "TZ",
+        "TN",
+        "UG",
+        "ZM"
+      ],
+      "data_gb": 5,
+      "validity_days": 15,
+      "daily_gb": null,
+      "plan_type": "FIXED_VOLUME",
+      "networks": []
+    }
+  ],
+  "assortment": {
+    "countries": {
+      "TZ": {
+        "local": [
+          "f6c02358-d397-488c-b59e-bb6ada767204",
+          "31920fcd-17a1-468c-ab6a-498200a7086f",
+          "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
+          "f0e3ce16-03a9-4666-a8c5-6a9eac2f3098",
+          "0e66d913-0091-40f3-aaab-6828caca2daa",
+          "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9"
+        ],
+        "regional": [
+          "ad3001e5-9412-450f-acc3-9cdd19f8d268",
+          "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
+          "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
+          "fd269fbf-3e23-4210-b9ff-1354149f4722",
+          "63f2970f-dfd9-41d0-818e-58a8f69257f7",
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "eca6ac6a-4f30-4aab-9245-59ef7f4c741c"
+        ],
+        "daily": [
+          "60aebda1-d846-4e25-ae44-65e5b55838d6",
+          "0df9e3fd-c5ae-43e2-aac9-6efe64fd0ccf",
+          "c06a1db7-4390-4d36-a145-e79730b3d6a1",
+          "26c9b4ec-6439-43a2-bdf6-caac4aba0cd6",
+          "03c513d8-9fc4-4c19-a57a-6b5932c8bcce",
+          "952fe23b-32bd-4298-96dc-1b5ba395bbde"
+        ],
+        "best": "0e66d913-0091-40f3-aaab-6828caca2daa"
+      }
+    }
+  }
+}

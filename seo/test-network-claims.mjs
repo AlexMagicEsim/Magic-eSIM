@@ -285,3 +285,23 @@ test('negative control: the old UAE sentence fails (real data, frozen 2026-10-29
   const p = run(one(old, [claim(old, 'local', ['Du', 'Etisalat'])]), 'uae');
   assert.ok(p.some((x) => /«Etisalat» не указан ни у одного тарифа в блок местных тарифов/.test(x)), p.join('\n'));
 });
+
+// Tanzania, 2026-11-12: catalogue 16c10e9a0 moved «Tanzania 1GB 7Days» from
+// Airtel to tiGO, and the corpus test above kept the SEO refresh red from 02:19
+// UTC until the sentence was rewritten. Frozen so the case stays provable.
+const TZ_FIX = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/network-claims-2026-11-12-tz.json'), 'utf8'));
+const TZ_OLD = 'Линейка с подписью 3G — это 1 ГБ на 7 дней за {{price:g3_1}} и 20 ГБ на 30 дней за {{price:g3_20}}; по данным каталога это сеть Airtel.';
+const tzBasis = (rows) => rows.map(([gb, days]) => ({ block: 'local', attrs: { data_gb: gb, validity_days: days } }));
+
+test('negative control: the old Tanzania sentence (Airtel on 1 GB / 7 days too) fails (real data, frozen 2026-11-12)', () => {
+  const p = run(one(TZ_OLD, [claim(TZ_OLD, 'local', ['Airtel'], { basis: tzBasis([[1, 7], [20, 30]]) })]), 'tanzania', TZ_FIX);
+  assert.ok(p.some((x) => /«Tanzania 1GB 7Days» оператор «Airtel» не указан \(сейчас: tiGO\)/.test(x)), p.join('\n'));
+});
+
+test('the rewritten Tanzania profile holds on the catalogue that moved 1 GB / 7 days to tiGO', () => {
+  const profile = JSON.parse(readFileSync(join(ROOT, 'seo/content-profiles/tanzania.json'), 'utf8'));
+  const c = profile.network_claims.find((x) => x.id === 'g3-line-airtel');
+  assert.deepEqual(c.basis.map((b) => [b.attrs.data_gb, b.attrs.validity_days]), [[20, 30]]);
+  assert.ok(!c.anchors[0].text.includes(TZ_OLD.slice(-40)), 'старая формулировка вернулась');
+  assert.deepEqual(checkNetworkClaims(profile, 'tanzania', { doc: TZ_FIX, lexicon: operatorLexicon(TZ_FIX.packages) }), []);
+});
