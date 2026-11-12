@@ -106,7 +106,7 @@
       "effective_date": "2026-11-09",
       "url": "https://magicesim.store/en/terms/v0.9.7/",
       "sha256": "f676ac81fb6260aed9202647271b0d030c0e4c85d41c30cc1c368357656a0987",
-      "current": true,
+      "current": false,
       "translations": {
         "es": "https://magicesim.store/es/terms/v0.9.7/",
         "de": "https://magicesim.store/de/terms/v0.9.7/",
@@ -138,6 +138,47 @@
         "zh-Hans": {
           "url": "https://magicesim.store/zh/terms/v0.9.7/magic-esim-terms-0.9.7-zh-Hans.pdf",
           "sha256": "8a8491e8f9dff3e74f057bce55026cce50f0fa76b7bd993b83e5df5bb3d55880"
+        }
+      }
+    },
+    {
+      "document": "terms",
+      "version": "0.9.8 (pre-launch)",
+      "effective_date": "2026-11-12",
+      "url": "https://magicesim.store/en/terms/v0.9.8/",
+      "sha256": "61ce2db493542f2f25a4c73456b677d17a75185d0099234d4e4904a1bc9b9a49",
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/terms/v0.9.8/",
+        "de": "https://magicesim.store/de/terms/v0.9.8/",
+        "fr": "https://magicesim.store/fr/terms/v0.9.8/",
+        "zh-Hans": "https://magicesim.store/zh/terms/v0.9.8/",
+        "ko": "https://magicesim.store/ko/terms/v0.9.8/"
+      },
+      "pdf": {
+        "de": {
+          "url": "https://magicesim.store/de/terms/v0.9.8/magic-esim-terms-0.9.8-de.pdf",
+          "sha256": "9ce2437809c2bce0c5347eac9527a7bfdc51ca4e41a334b96260636788b4dfd2"
+        },
+        "en": {
+          "url": "https://magicesim.store/en/terms/v0.9.8/magic-esim-terms-0.9.8-en.pdf",
+          "sha256": "84f0637d4b4a02204eec3a3bc285d7409f2ef0d97903381273662a95e2d64a1f"
+        },
+        "es": {
+          "url": "https://magicesim.store/es/terms/v0.9.8/magic-esim-terms-0.9.8-es.pdf",
+          "sha256": "bdcafd43a5a656904424cff37d303af55c25153eb2714532fa63f5232284ba98"
+        },
+        "fr": {
+          "url": "https://magicesim.store/fr/terms/v0.9.8/magic-esim-terms-0.9.8-fr.pdf",
+          "sha256": "3081a541a2f0cce2127bb080fed9d8ef684b0395925d9fa9f2c8c0e10e0ca0b6"
+        },
+        "ko": {
+          "url": "https://magicesim.store/ko/terms/v0.9.8/magic-esim-terms-0.9.8-ko.pdf",
+          "sha256": "64c5502a120a5d427d3d98d1eb0049f59ec01d944276ed8a7e7f2e6f55f8cb8f"
+        },
+        "zh-Hans": {
+          "url": "https://magicesim.store/zh/terms/v0.9.8/magic-esim-terms-0.9.8-zh-Hans.pdf",
+          "sha256": "ef11ad27df5ac942b9481d54a66372286ea7fb88eb24b33869bad93d988532ce"
         }
       }
     },

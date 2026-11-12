@@ -240,12 +240,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>如果我们无法使套餐按描述运行，则适用退款政策。</li>
       </ul>
       <p>10.3. <strong>您的法定权利。</strong>如果套餐不符合合同约定，上述步骤不限制法律赋予您的救济。</p>` },
-      { id: "support", en: 'ea83a942c1b4', h2: "11. 客户支持", html: `
+      { id: "support", en: 'fc8388ca804f', h2: "11. 客户支持", html: `
       <p>11.1. <strong>如何联系我们。</strong></p>
       <ul class="list">
         <li>电子邮箱：<a href="mailto:support@magicesim.store">support@magicesim.store</a>。您可以随时给我们发送电子邮件，每天 24 小时、每周 7 天。</li>
       </ul>
-      <p>11.2. <strong>我们何时回复。</strong>我们在工作日回复，力争在 1–2 个工作日内发出首次回复，通常会更快。</p>` },
+      <p>11.2. <strong>我们何时回复。</strong>我们在工作日回复，力争在 24–48 小时内发出首次回复，通常会更快。</p>` },
       { id: "liability", en: 'ebf9f158361b', h2: "12. 责任", html: `
       <p>12.1. <strong>我们负责的事项。</strong>我们负责按照产品卡片和本条款的描述提供您所购买的套餐。</p>
       <p>12.2. <strong>我们不负责的事项。</strong></p>

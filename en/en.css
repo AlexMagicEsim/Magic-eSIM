@@ -146,3 +146,7 @@ html:lang(ko) :is(h1, h2, h3, h4, .price) { letter-spacing: 0; }
 }
 /* the ≤359 px rule in page-country.css lifts every headline to 24 px — a daily sentence keeps its own size */
 @media (max-width: 359px) { .cp .plan.plan-daily .plan-data { font-size: 19px; } }
+
+/* ---------- home support band: email + telephone (English only, seo/support-phone.mjs) ---------- */
+.support-actions{display:flex;flex-wrap:wrap;gap:12px}
+@media (max-width:599px){.support-actions{width:100%}}

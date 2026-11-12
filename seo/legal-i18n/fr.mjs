@@ -239,12 +239,12 @@ export const LEGAL_I18N = Object.freeze({
         <li>Si nous ne parvenons pas à faire fonctionner le forfait comme décrit, la Politique de remboursement s’applique.</li>
       </ul>
       <p>10.3. <strong>Vos droits légaux.</strong> Ces démarches ne limitent pas les recours que la loi vous accorde si un forfait n’est pas conforme au contrat.</p>` },
-      { id: "support", en: 'ea83a942c1b4', h2: "11. Assistance", html: `
+      { id: "support", en: 'fc8388ca804f', h2: "11. Assistance", html: `
       <p>11.1. <strong>Comment nous contacter.</strong></p>
       <ul class="list">
         <li>E-mail : <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Vous pouvez nous écrire à tout moment, 24 heures par jour, 7 jours par semaine.</li>
       </ul>
-      <p>11.2. <strong>Délai de réponse.</strong> Nous répondons les jours ouvrés et nous efforçons d’envoyer une première réponse sous 1–2 jours ouvrés, généralement plus tôt.</p>` },
+      <p>11.2. <strong>Délai de réponse.</strong> Nous répondons les jours ouvrés et nous efforçons d’envoyer une première réponse sous 24–48 heures, généralement plus tôt.</p>` },
       { id: "liability", en: 'ebf9f158361b', h2: "12. Responsabilité", html: `
       <p>12.1. <strong>Ce dont nous sommes responsables.</strong> Nous sommes responsables de la fourniture du forfait que vous avez acheté, tel qu’il est décrit sur sa fiche produit et dans les présentes Conditions.</p>
       <p>12.2. <strong>Ce dont nous ne sommes pas responsables.</strong></p>

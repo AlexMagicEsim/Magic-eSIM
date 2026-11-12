@@ -103,6 +103,9 @@ function skeleton(html) {
     .replace(/<ul class="langmenu-list">[\s\S]*?<\/ul>/g, '<ul class="langmenu-list">')
     // the authored text (seo/content-en/, seo/content-es/, 2026-10-27) exists only where a file does — content, not design
     .replace(/<div class="cp-about">[\s\S]*?<\/section>\s*<\/div>/g, '')
+    // the support telephone (2026-11-12) is on the English pages only, by design (seo/support-phone.mjs) — content, not design
+    .replace(/\s*<p class="support support-phone">[\s\S]*?<\/p>/g, '')
+    .replace(/<div class="support-actions">\s*(<a class="btn" href="mailto:[^"]*">[^<]*<\/a>)\s*<a class="btn" href="tel:[^"]*">[^<]*<\/a>\s*<\/div>/g, '$1')
     // the destination list's letters and groups come from the names in each language (Spanish has 22 initials,
     // English 23) — data, not design; the Spanish list is checked on its own below
     .replace(/(<nav class="hub-az"[^>]*>)[\s\S]*?<\/nav>/g, '$1</nav>')

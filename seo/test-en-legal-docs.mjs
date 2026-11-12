@@ -101,7 +101,9 @@ test('the Terms and the Refund Policy say the same thing where they meet', () =>
   for (const t of [terms, refund]) assert.match(t, /International payments are currently unavailable/);
   assert.match(terms, /The Refund Policy is part of these Terms/);
   assert.match(refund, /This policy is part of our Terms of Service/);
-  assert.match(terms, /We reply on business days and aim to send a first reply within 1–2 business days/);
+  assert.match(terms, /We reply on business days and aim to send a first reply within 24–48 hours, usually sooner\./);   // Terms 0.9.8 §11.2
+  // Terms 0.9.8 (owner, 2026-11-12) moved only the Terms to 24–48 hours; the Refund Policy 0.9.4 §8 keeps 1–2 business
+  // days until the owner decides on a Refund version — the two now differ on this one period, on purpose.
   assert.match(refund, /We reply on business days and aim to send a first reply within 1–2 business days/);
 });
 
@@ -303,7 +305,38 @@ test('Terms 0.9.7 and Privacy 0.9.7: true whether the other languages are publis
     }
     assert.match(T.terms.sections.map((s) => s.html).join('\n'), /<a href="\/">https:\/\/magicesim\.store\/<\/a>/, code);
   }
-  assert.equal(TERMS_VERSION, '0.9.7 (pre-launch)');
+  assert.match(TERMS_VERSION, /^0\.9\.[78] \(pre-launch\)$/, 'what 0.9.7 changed stays true in 0.9.8');
   assert.equal(PRIVACY_VERSION, '0.9.7 (pre-launch)');
+  assert.equal(REFUND_VERSION, '0.9.4 (pre-launch)', 'the Refund Policy is unchanged');
+});
+
+test('Terms 0.9.8: §11.2 aims at a first reply within 24–48 hours — the only change from 0.9.7; the Refund Policy is unchanged', async () => {
+  const sec = (D, id) => D.sections.find((x) => x.id === id);
+  const old = JSON.parse(readFileSync(join(ROOT, 'seo', 'legal-archive', 'terms-0.9.7.json'), 'utf8'));
+  const oldText = JSON.stringify(old);
+  // negative control: the frozen 0.9.7 carries the old period
+  assert.match(oldText, /aim to send a first reply within 1–2 business days, usually sooner/);
+  assert.equal(TERMS_VERSION, '0.9.8 (pre-launch)');
+  const now = sec(TERMS, 'support').html;
+  assert.match(now, /<p>11\.2\. <strong>When we reply\.<\/strong> We reply on business days and aim to send a first reply within 24–48 hours, usually sooner\.<\/p>/);
+  assert.doesNotMatch(now, /1–2 business days/);
+  // every other section is word for word 0.9.7's
+  assert.deepEqual(TERMS.sections.map((s) => s.id), old.sections.map((s) => s.id));
+  for (const s of TERMS.sections) {
+    if (s.id === 'support') continue;
+    const o = old.sections.find((x) => x.id === s.id);
+    assert.equal(o.html, s.html, `section ${s.id} unchanged`);
+    assert.equal(o.h2, s.h2, `section ${s.id} heading unchanged`);
+  }
+  const before = old.sections.find((x) => x.id === 'support').html;
+  assert.equal(before.replace('within 1–2 business days', 'within 24–48 hours'), now, '§11 differs from 0.9.7 by the period only');
+  for (const k of ['title', 'description', 'h1', 'lead', 'crumb']) assert.equal(old[k], TERMS[k], k);
+  // the translations follow, with the same period
+  const want = { es: /en un plazo de 24–48 horas/, de: /innerhalb von 24–48 Stunden/, fr: /sous 24–48 heures/, 'zh-Hans': /在 24–48 小时内/, ko: /24~48시간 이내에/ };
+  for (const [code, T] of Object.entries(LEGAL_TRANSLATIONS)) {
+    const html = T.terms.sections.find((x) => x.id === 'support').html;
+    assert.match(html, want[code], code);
+    assert.doesNotMatch(html, /1–2|1~2/, code);
+  }
   assert.equal(REFUND_VERSION, '0.9.4 (pre-launch)', 'the Refund Policy is unchanged');
 });
